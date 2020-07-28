@@ -6,6 +6,7 @@ import { LabelsService } from "@services/labels.service";
 import { VehicleValuationService } from '../services/vehicle-valuation.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { ToasterService } from '@services/toaster.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: "app-vehicle-valuation",
@@ -46,7 +47,8 @@ export class VehicleValuationComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private aRoute: ActivatedRoute,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private sharedService: SharedService
   ) { }
 
   ngOnInit() {
@@ -236,6 +238,7 @@ export class VehicleValuationComponent implements OnInit {
 
   onNext() {
     this.router.navigate([`/pages/dde/${this.leadId}/tvr-details`]);
+    this.sharedService.getVehicleValuationNext(true);
   }
 
   onBack() {

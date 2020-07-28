@@ -359,16 +359,16 @@ export class FleetDetailsComponent implements OnInit {
       const fleetList:Array<any> = res.ProcessVariables.fleets;
       this.fleetArrayList.controls = [];
       fleetList.forEach(val =>
-        this.fleetArrayList.push(this.initRows(val)) );     
+        this.fleetArrayList.push(this.initRows(val)) );
 
       console.log("fletds", this.fleetArrayList);
       if (index != null && index != 'next') {
-        console.log(" in rtr function index", index)
+        console.log(" in rtr function index", index);
         // console.log("fletds", this.fleetIDs)
 
         this.fleetId = this.fleetIDs[index];
-        console.log("this fleet id", this.fleetId)
-        this.router.navigate(['pages/dde/' + this.leadId + '/track-vehicle/' + this.fleetId])
+        console.log("this fleet id", this.fleetId);
+        this.router.navigate(['pages/dde/' + this.leadId + '/track-vehicle/' + this.fleetId]);
 
       }
       else if (index == 'next') {
@@ -467,7 +467,7 @@ export class FleetDetailsComponent implements OnInit {
   }
 
   toCollaterals() {
-    this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list'])
+    this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
   }
   toExposure() {
 
@@ -486,12 +486,11 @@ export class FleetDetailsComponent implements OnInit {
       // console.log(this.fleetDetails)
       this.saveOrUpdateFleetDetails(index);
 
-    }
-    else {
+    } else {
       this.isDirty = true;
       // console.log('Error', this.fleetForm)
-      this.toasterService.showError("Please enter valid details!", '')
-      this.utilityService.validateAllFormFields(this.fleetForm)
+      this.toasterService.showError('Please enter valid details', '');
+      this.utilityService.validateAllFormFields(this.fleetForm);
 
     }
   }

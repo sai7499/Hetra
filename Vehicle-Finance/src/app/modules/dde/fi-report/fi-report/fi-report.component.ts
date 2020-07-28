@@ -3,11 +3,12 @@ import { CommomLovService } from '@services/commom-lov-service';
 import { LabelsService } from '@services/labels.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { FieldInvestigationService } from '@services/Fi/field-investigation.service';
+import { FieldInvestigationService } from '@services/fi/field-investigation.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { ToasterService } from '@services/toaster.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FieldInvestigation } from '@model/dde.model';
+
 @Component({
   selector: 'app-fi-report',
   templateUrl: './fi-report.component.html',
@@ -17,14 +18,13 @@ export class FiReportComponent implements OnInit {
 
   labels: any = {};
   LOV: any = [];
-  state: any = [];
   isDirty: boolean;
   leadId: number;
   userId: any;
   applicantId: number;
   fieldReportForm: FormGroup;
   fieldInvestigation: FieldInvestigation;
-  fiDetails: any;  
+  fiDetails: any = [];
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -135,13 +135,16 @@ export class FiReportComponent implements OnInit {
   setFormValue() { // patching the form values
 
     const fiModel = this.fiDetails || {};
+    console.log('in set form', fiModel);
     this.fieldReportForm.patchValue({
       externalAgencyName: fiModel.externalAgencyName || '',
       contactPointVerification: fiModel.contactPointVerification || '',
       referenceNo: fiModel.referenceNo || '',
-      cpvInitiatedDate: fiModel.cpvInitiatedDate || '',
+      cpvInitiatedDate: fiModel.cpvInitiatedDate ?
+        new Date(this.getDateFormat(fiModel.cpvInitiatedDate)) : '',
       cpvInitiatedTime: fiModel.cpvInitiatedTime || '',
-      reportSubmitDate: fiModel.reportSubmitDate || '',
+      reportSubmitDate: fiModel.reportSubmitDate ?
+        new Date(this.getDateFormat(fiModel.reportSubmitDate)) : '',
       reportSubmitTime: fiModel.reportSubmitTime || '',
       applicantName: fiModel.applicantName || '',
       addressLine1: fiModel.addressLine1 || '',
@@ -183,18 +186,49 @@ export class FiReportComponent implements OnInit {
       cpvAgencyStatus: fiModel.cpvAgencyStatus || '',
       verifiedBy: fiModel.verifiedBy || '',
       ratingbySO: fiModel.ratingbySO || '',
-      fiDate: fiModel.fiDate || '',
+      fiDate: fiModel.fiDate ?
+        new Date(this.getDateFormat(fiModel.fiDate)) : '',
       fiTime: fiModel.fiTime || '',
 
     });
   }
 
 
+  getDateFormat(date) {
+
+    // console.log('in getDateFormat', date);
+    const datePart = date.match(/\d+/g);
+    const month = datePart[1];
+    const day = datePart[0];
+    const year = datePart[2];
+    const dateFormat: Date = new Date(year + '/' + month + '/' + day);
+    // console.log('formated data', dateFormat);
+    return dateFormat;
+  }
+
+  sendDate(date) {
+    const dateFormat: Date = new Date(date);
+    const year = dateFormat.getFullYear();
+    const month = Number(dateFormat.getMonth()) + 1;
+    let day = dateFormat.getDate().toString();
+    const month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+
+    day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
+
+    const formattedDate = day + '/' + month1 + '/' + year;
+    return formattedDate;
+
+  }
+
+
+
+
+
 
   getFiReportDetails() {
     const data = {
-      // applicantId: this.applicantId,
-      applicantId: 1177,  // hardcoded as per backend
+      applicantId: this.applicantId,
+      // applicantId: 1177,  // hardcoded as per backend
       userId: this.userId
     };
     this.fieldInvestigationService.getFiReportDetails(data).subscribe((res: any) => {
@@ -204,6 +238,9 @@ export class FiReportComponent implements OnInit {
       if (processVariables.error.code === '0') {
         this.fiDetails = res.ProcessVariables.getFiReportDetails;
         console.log('in get fi details', this.fiDetails);
+        if (this.fiDetails) {
+          this.setFormValue();
+        }
 
       } else {
         this.toasterService.showError('', 'message');
@@ -216,8 +253,8 @@ export class FiReportComponent implements OnInit {
   saveOrUpdateFiReportDetails() {
 
     const data = {
-      // applicantId: this.applicantId,
-      applicantId: 1177, // hardcoded as per backend
+      applicantId: this.applicantId,
+      // applicantId: 1177, // hardcoded as per backend
       userId: this.userId
     };
     this.fieldInvestigationService.saveOrUpdateFiReportDetails(data).subscribe((res: any) => {
