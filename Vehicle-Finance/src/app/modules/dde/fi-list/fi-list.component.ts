@@ -113,12 +113,16 @@ export class FiListComponent implements OnInit {
     this.router.navigateByUrl(`pages/fi-list/${this.leadId}/${this.applicantId}/fi-report`);
   }
 
-  onBack() {
-    this.router.navigate(['pages/dde/' + this.leadId + '/tvr-details']);
+  onNavigate(action) { // fun for routing into next and back pages using argument ==> 'action'
+    // console.log('in on navigate', action);
 
-  }
+    if (action === 'back') {
+      this.router.navigate(['pages/dde/' + this.leadId + '/tvr-details']);
+    } else if (action === 'next') {
+      this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
 
-  onNext() {
-    this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+    }
+
+
   }
 }
