@@ -229,11 +229,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.dealorCodeValue = data.leadDetails.dealorCodeDesc;
 
     const priorityFromLead = data.leadDetails.priority;
-    if (data.leadId) {
-      this.leadId = data.leadId;
-    } else {
-      this.leadId = data.leadDetails.leadId;
-    }
+    this.leadId = (data.leadId) ? data.leadId : data.leadDetails.leadId;
 
     const sourchingType = this.leadData.leadDetails.sourcingType;
     this.sourchingTypeFromLead = sourchingType;
@@ -409,7 +405,9 @@ export class SourcingDetailsComponent implements OnInit {
   sourchingTypeChange(event) {
     const sourchingTypeId = event.target ? event.target.value : event;
     this.socuringTypeData = this.sourcingData.filter(data => data.sourcingTypeId === sourchingTypeId);
-    this.placeholder = this.utilityService.getValueFromJSON(this.socuringTypeData, 'sourcingCodeType', 'sourcingCode');
+    this.placeholder = this.utilityService.getValueFromJSON(this.socuringTypeData,
+      'sourcingCodeType',
+      'sourcingCode');
     console.log('placeholder', this.placeholder);
     this.sourcingDetailsForm.controls.sourcingCode.reset();
     this.sourcingCodePlaceholder = this.placeholder[0].value;
@@ -540,11 +538,11 @@ export class SourcingDetailsComponent implements OnInit {
           this.toasterService.showSuccess('Record Saved Successfully !', 'Lead Details');
           this.sharedService.changeLoanAmount(Number(saveAndUpdate.requestedAmount));
           this.sharedService.leadDataToHeader(this.productCategoryChanged);
-          let dataa = {
+          const dataa = {
             ...this.saveUpdate,
             sourcingCodeDesc: this.sourcingCodeValue,
             dealorCodeDesc: this.dealorCodeValue
-          }
+          };
           const data = {
             leadDetails: dataa
           };
@@ -562,6 +560,7 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   nextToApplicant() {
+    this.isDirty = true;
     if (this.sourcingDetailsForm.valid === true) {
       if (!this.isSaved) {
         this.saveAndUpdate();
