@@ -54,7 +54,7 @@ export class PdListComponent implements OnInit {
         error => {
           this.errorMsg = error;
         });
-    console.log('in pd report')
+    console.log('in pd report');
     this.getPdList();
 
 

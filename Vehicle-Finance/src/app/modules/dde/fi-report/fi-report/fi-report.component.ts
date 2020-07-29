@@ -3,11 +3,12 @@ import { CommomLovService } from '@services/commom-lov-service';
 import { LabelsService } from '@services/labels.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { FieldInvestigationService } from '@services/Fi/field-investigation.service';
+import { FieldInvestigationService } from '@services/fi/field-investigation.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { ToasterService } from '@services/toaster.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FieldInvestigation } from '@model/dde.model';
+
 @Component({
   selector: 'app-fi-report',
   templateUrl: './fi-report.component.html',
@@ -17,14 +18,14 @@ export class FiReportComponent implements OnInit {
 
   labels: any = {};
   LOV: any = [];
-  state: any = [];
   isDirty: boolean;
   leadId: number;
   userId: any;
   applicantId: number;
   fieldReportForm: FormGroup;
   fieldInvestigation: FieldInvestigation;
-  fiDetails: any;  
+  fiDetails: any = [];
+  fIReportList: any = {};
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -36,33 +37,42 @@ export class FiReportComponent implements OnInit {
     private toasterService: ToasterService, // service for accessing the toaster
 
   ) {
+    this.getLabels();
+    this.initForm();
     this.getLOV();
     this.isDirty = true;
-    this.leadId = this.activatedRoute.snapshot.params.leadId;
+    this.leadId = Number(this.activatedRoute.snapshot.params.leadId);
+    this.applicantId = Number(this.activatedRoute.snapshot.params.applicantId);
     console.log(this.leadId);
+    console.log(this.applicantId);
   }
 
   async ngOnInit() {
+
     // calling login store service to retrieve the user data
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     console.log('user id ==>', this.userId);
-
-    this.labelService.getLabelsData().subscribe(res => {
-      this.labels = res;
-      this.initForm();
-      this.activatedRoute.params.subscribe((value) => { // calling get lead section data function in line 174
-        if (!value && !value.applicantId) {
-          return;
-        }
-        this.applicantId = Number(value.applicantId);
-        console.log('Applicant Id In Fi Report Details Component', this.applicantId);
-
-      });
-
-    });
+    // this.leadId = (await this.getLeadId()) as number;
     this.getFiReportDetails();
+  }
+
+  getLeadId() {  // function to get the respective  lead id from the url
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+          console.log('in get lead ', value);
+        }
+        resolve(null);
+      });
+    });
+  }
+  getLabels() {
+    this.labelService.getLabelsData().subscribe((value) => {
+      this.labels = value;
+    });
   }
 
 
@@ -132,71 +142,101 @@ export class FiReportComponent implements OnInit {
     });
 
   }
-  setFormValue() { // patching the form values
+  setFormValue() { // patching the form values and setting the form values
 
-    const fiModel = this.fiDetails || {};
+    const fiModel = this.fiDetails || {}; // setting the response from ger fi details into fi model
+    // console.log('in set form', fiModel);
     this.fieldReportForm.patchValue({
-      externalAgencyName: fiModel.externalAgencyName || '',
-      contactPointVerification: fiModel.contactPointVerification || '',
-      referenceNo: fiModel.referenceNo || '',
-      cpvInitiatedDate: fiModel.cpvInitiatedDate || '',
-      cpvInitiatedTime: fiModel.cpvInitiatedTime || '',
-      reportSubmitDate: fiModel.reportSubmitDate || '',
-      reportSubmitTime: fiModel.reportSubmitTime || '',
-      applicantName: fiModel.applicantName || '',
-      addressLine1: fiModel.addressLine1 || '',
-      addressLine2: fiModel.addressLine2 || '',
-      addressLine3: fiModel.addressLine3 || '',
-      pincode: fiModel.pincode || '',
-      city: fiModel.city || '',
-      state: fiModel.state || '',
-      personMetName: fiModel.personMetName || '',
-      designation: fiModel.designation || '',
-      natureOfBusiness: fiModel.natureOfBusiness || '',
-      typeOfConcern: fiModel.typeOfConcern || '',
-      residenceApproach: fiModel.residenceApproach || '',
-      residenceDetails: fiModel.residenceDetails || '',
-      rentAmt: fiModel.rentAmt || '',
-      residenceName: fiModel.residenceName || '',
-      verifiedFrom: fiModel.verifiedFrom || '',
-      yrsOfStayInCity: fiModel.yrsOfStayInCity || '',
-      yrsOfStayInResi: fiModel.yrsOfStayInResi || '',
-      areaInSqFeet: fiModel.areaInSqFeet || '',
-      locality: fiModel.locality || '',
-      visibleAssets: fiModel.visibleAssets || '',
-      locatingResidence: fiModel.locatingResidence || '',
-      otherAssetsOwned: fiModel.otherAssetsOwned || '',
-      noOfFamilyMembers: fiModel.noOfFamilyMembers || '',
-      noOfEarningMembers: fiModel.noOfEarningMembers || '',
-      vehicleDetails: fiModel.vehicleDetails || '',
-      officeApproach: fiModel.officeApproach || '',
-      officePremises: fiModel.officePremises || '',
-      officeLocation: fiModel.officeLocation || '',
-      furnishings: fiModel.furnishings || '',
-      officeSize: fiModel.officeSize || '',
-      observations: fiModel.observations || '',
-      noOfWorkingEmployees: fiModel.noOfWorkingEmployees || '',
-      noOfVisibleEmployees: fiModel.noOfVisibleEmployees || '',
-      activityLevel: fiModel.activityLevel || '',
-      fiComments: fiModel.fiComments || '',
-      distanceInKms: fiModel.distanceInKms || '',
-      cpvAgencyStatus: fiModel.cpvAgencyStatus || '',
-      verifiedBy: fiModel.verifiedBy || '',
-      ratingbySO: fiModel.ratingbySO || '',
-      fiDate: fiModel.fiDate || '',
-      fiTime: fiModel.fiTime || '',
+      externalAgencyName: fiModel.externalAgencyName ? fiModel.externalAgencyName : null,
+      contactPointVerification: fiModel.contactPointVerification ? fiModel.contactPointVerification : null,
+      referenceNo: fiModel.referenceNo ? fiModel.referenceNo : null,
+      cpvInitiatedDate: fiModel.cpvInitiatedDate ?
+        new Date(this.getDateFormat(fiModel.cpvInitiatedDate)) : null,
+      cpvInitiatedTime: fiModel.cpvInitiatedTime ? fiModel.cpvInitiatedTime : null,
+      reportSubmitDate: fiModel.reportSubmitDate ?
+        new Date(this.getDateFormat(fiModel.reportSubmitDate)) : null,
+      reportSubmitTime: fiModel.reportSubmitTime ? fiModel.reportSubmitTime : null,
+      applicantName: fiModel.applicantName ? fiModel.applicantName : null,
+      addressLine1: fiModel.addressLine1 ? fiModel.addressLine1 : null,
+      addressLine2: fiModel.addressLine2 ? fiModel.addressLine2 : null,
+      addressLine3: fiModel.addressLine3 ? fiModel.addressLine3 : null,
+      pincode: fiModel.pincode ? fiModel.pincode : null,
+      city: fiModel.city ? fiModel.city : null,
+      state: fiModel.state ? fiModel.state : null,
+      personMetName: fiModel.personMetName ? fiModel.personMetName : null,
+      designation: fiModel.designation ? fiModel.designation : null,
+      natureOfBusiness: fiModel.natureOfBusiness ? fiModel.natureOfBusiness : null,
+      typeOfConcern: fiModel.typeOfConcern ? fiModel.typeOfConcern : null,
+      residenceApproach: fiModel.residenceApproach ? fiModel.residenceApproach : null,
+      residenceDetails: fiModel.residenceDetails ? fiModel.residenceDetails : null,
+      rentAmt: fiModel.rentAmt ? fiModel.rentAmt : null,
+      residenceName: fiModel.residenceName ? fiModel.residenceName : null,
+      verifiedFrom: fiModel.verifiedFrom ? fiModel.verifiedFrom : null,
+      yrsOfStayInCity: fiModel.yrsOfStayInCity ? fiModel.yrsOfStayInCity : null,
+      yrsOfStayInResi: fiModel.yrsOfStayInResi ? fiModel.yrsOfStayInResi : null,
+      areaInSqFeet: fiModel.areaInSqFeet ? fiModel.areaInSqFeet : null,
+      locality: fiModel.locality ? fiModel.locality : null,
+      visibleAssets: fiModel.visibleAssets ? fiModel.visibleAssets : null,
+      locatingResidence: fiModel.locatingResidence ? fiModel.locatingResidence : null,
+      otherAssetsOwned: fiModel.otherAssetsOwned ? fiModel.otherAssetsOwned : null,
+      noOfFamilyMembers: fiModel.noOfFamilyMembers ? fiModel.noOfFamilyMembers : null,
+      noOfEarningMembers: fiModel.noOfEarningMembers ? fiModel.noOfEarningMembers : null,
+      vehicleDetails: fiModel.vehicleDetails ? fiModel.vehicleDetails : null,
+      officeApproach: fiModel.officeApproach ? fiModel.officeApproach : null,
+      officePremises: fiModel.officePremises ? fiModel.officePremises : null,
+      officeLocation: fiModel.officeLocation ? fiModel.officeLocation : null,
+      furnishings: fiModel.furnishings ? fiModel.furnishings : null,
+      officeSize: fiModel.officeSize ? fiModel.officeSize : null,
+      observations: fiModel.observations ? fiModel.observations : null,
+      noOfWorkingEmployees: fiModel.noOfWorkingEmployees ? fiModel.noOfWorkingEmployees : null,
+      noOfVisibleEmployees: fiModel.noOfVisibleEmployees ? fiModel.noOfVisibleEmployees : null,
+      activityLevel: fiModel.activityLevel ? fiModel.activityLevel : null,
+      fiComments: fiModel.fiComments ? fiModel.fiComments : null,
+      distanceInKms: fiModel.distanceInKms ? fiModel.distanceInKms : null,
+      cpvAgencyStatus: fiModel.cpvAgencyStatus ? fiModel.cpvAgencyStatus : null,
+      verifiedBy: fiModel.verifiedBy ? fiModel.verifiedBy : null,
+      fiDate: fiModel.fiDate ?
+        new Date(this.getDateFormat(fiModel.fiDate)) : null,
+      fiTime: fiModel.fiTime ? fiModel.fiTime : null,
 
     });
   }
 
 
+  getDateFormat(date) { // fun for converting the response date to the valid form date 
 
-  getFiReportDetails() {
+    // console.log('in getDateFormat', date);
+    const datePart = date.match(/\d+/g);
+    const month = datePart[1];
+    const day = datePart[0];
+    const year = datePart[2];
+    const dateFormat: Date = new Date(year + '/' + month + '/' + day);
+    // console.log('formated data', dateFormat);
+    return dateFormat;
+  }
+
+  sendDate(date) { // fun for converting the form date format to respective response date format
+    const dateFormat: Date = new Date(date);
+    const year = dateFormat.getFullYear();
+    const month = Number(dateFormat.getMonth()) + 1;
+    let day = dateFormat.getDate().toString();
+    const month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+
+    day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
+
+    const formattedDate = day + '/' + month1 + '/' + year;
+    return formattedDate;
+
+  }
+
+
+  getFiReportDetails() { // fun to call get fi report details api field investigation service
     const data = {
-      // applicantId: this.applicantId,
-      applicantId: 1177,  // hardcoded as per backend
+      applicantId: this.applicantId,
+      // applicantId: 1177,  // hardcoded as per backend
       userId: this.userId
     };
+    console.log('in get fi report', this.applicantId);
     this.fieldInvestigationService.getFiReportDetails(data).subscribe((res: any) => {
       const processVariables = res.ProcessVariables;
       console.log('get fi report response', processVariables);
@@ -204,27 +244,93 @@ export class FiReportComponent implements OnInit {
       if (processVariables.error.code === '0') {
         this.fiDetails = res.ProcessVariables.getFiReportDetails;
         console.log('in get fi details', this.fiDetails);
+        this.setFormValue();
+        // if (this.fiDetails) {
+        //   this.setFormValue();
+        // }
 
       } else {
         this.toasterService.showError('', 'message');
 
       }
     });
-
   }
 
-  saveOrUpdateFiReportDetails() {
+  onFormSubmit() { // fun that submits all the pd data
+    const formModal = this.fieldReportForm.value;
+    const fieldReportModal = { ...formModal };
+    // console.log('Form Data', fieldReportForm);
+    // console.log('Status', this.applicantForm.get('physicallyChallenged').invalid);
+    this.isDirty = true;
+    // if (this.fieldReportForm.invalid) {
+    //   // this.toasterService.showError('', '');
+    //   return;
+    // }
+    this.fIReportList = {
 
-    const data = {
-      // applicantId: this.applicantId,
-      applicantId: 1177, // hardcoded as per backend
-      userId: this.userId
+      // applicantId: 1177, // hardcoded as per backend
+      applicantId: this.applicantId,
+      externalAgencyName: fieldReportModal.externalAgencyName,
+      contactPointVerification: fieldReportModal.contactPointVerification,
+      referenceNo: fieldReportModal.referenceNo,
+      cpvInitiatedDate: this.sendDate(fieldReportModal.cpvInitiatedDate),
+      cpvInitiatedTime: fieldReportModal.cpvInitiatedTime,
+      reportSubmitDate: this.sendDate(fieldReportModal.reportSubmitDate),
+      reportSubmitTime: fieldReportModal.reportSubmitTime,
+      applicantName: fieldReportModal.applicantName,
+      addressLine1: fieldReportModal.addressLine1,
+      addressLine2: fieldReportModal.addressLine2,
+      addressLine3: fieldReportModal.addressLine3,
+      pincode: fieldReportModal.pincode,
+      city: fieldReportModal.city,
+      state: fieldReportModal.state,
+      personMetName: fieldReportModal.personMetName,
+      designation: fieldReportModal.designation,
+      natureOfBusiness: fieldReportModal.natureOfBusiness,
+      typeOfConcern: fieldReportModal.typeOfConcern,
+      residenceApproach: fieldReportModal.residenceApproach,
+      residenceDetails: fieldReportModal.residenceDetails,
+      rentAmt: fieldReportModal.rentAmt,
+      residenceName: fieldReportModal.residenceName,
+      verifiedFrom: fieldReportModal.verifiedFrom,
+      yrsOfStayInCity: fieldReportModal.yrsOfStayInCity,
+      yrsOfStayInResi: fieldReportModal.yrsOfStayInResi,
+      areaInSqFeet: fieldReportModal.areaInSqFeet,
+      locality: fieldReportModal.locality,
+      visibleAssets: fieldReportModal.visibleAssets,
+      locatingResidence: fieldReportModal.locatingResidence,
+      otherAssetsOwned: fieldReportModal.otherAssetsOwned,
+      noOfFamilyMembers: fieldReportModal.noOfFamilyMembers,
+      noOfEarningMembers: fieldReportModal.noOfEarningMembers,
+      vehicleDetails: fieldReportModal.vehicleDetails,
+      officeApproach: fieldReportModal.officeApproach,
+      officePremises: fieldReportModal.officePremises,
+      officeLocation: fieldReportModal.officeLocation,
+      furnishings: fieldReportModal.furnishings,
+      officeSize: fieldReportModal.officeSize,
+      observations: fieldReportModal.observations,
+      noOfWorkingEmployees: fieldReportModal.noOfWorkingEmployees,
+      noOfVisibleEmployees: fieldReportModal.noOfVisibleEmployees,
+      activityLevel: fieldReportModal.activityLevel,
+      fiComments: fieldReportModal.fiComments,
+      distanceInKms: fieldReportModal.distanceInKms,
+      cpvAgencyStatus: fieldReportModal.cpvAgencyStatus,
+      verifiedBy: fieldReportModal.verifiedBy,
+      fiDate: this.sendDate(fieldReportModal.fiDate),
+      fiTime: fieldReportModal.fiTime,
     };
+    const data = {
+      userId: this.userId,
+      fIReportList: this.fIReportList
+    };
+    console.log('fi report list', this.fIReportList);
+
     this.fieldInvestigationService.saveOrUpdateFiReportDetails(data).subscribe((res: any) => {
       const processVariables = res.ProcessVariables;
-      console.log('get fi report response', processVariables);
+      console.log('save or update fi report response', processVariables);
       const message = processVariables.error.message;
       if (processVariables.error.code === '0') {
+        this.toasterService.showSuccess('Record Saved Successfully', '');
 
       } else {
         this.toasterService.showError('', 'message');
@@ -234,17 +340,16 @@ export class FiReportComponent implements OnInit {
 
   }
 
-  onBack() {
-    this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
 
+  onNavigate(action) {
+    // console.log('in on navigate', action);
+
+    if (action === 'back') {
+      this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
+    } else if (action === 'next') {
+      this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+
+    }
   }
 
-  onSave() {
-
-  }
-
-  onNext() {
-    this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
-
-  }
 }

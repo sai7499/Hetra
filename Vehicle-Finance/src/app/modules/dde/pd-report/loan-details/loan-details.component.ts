@@ -43,6 +43,7 @@ export class LoanDetailsComponent implements OnInit {
   currentYear = new Date().getFullYear();
   yearCheck = [];
   productCat: any;
+  toDayDate: Date = new Date();
 
   amountPattern = {
     rule: '^[1-9][0-9]*$',
@@ -74,10 +75,8 @@ export class LoanDetailsComponent implements OnInit {
 
 
   constructor(private labelsData: LabelsService,
-    private _fb: FormBuilder,
     private lovDataService: LovDataService,
     private router: Router,
-    private ddeStoreService: DdeStoreService,
     private commonLovService: CommomLovService,
     private loginStoreService: LoginStoreService,
     private activatedRoute: ActivatedRoute,
@@ -134,9 +133,8 @@ export class LoanDetailsComponent implements OnInit {
       this.loanDetailsLov = value ? value[0].loanDetail[0] : {};
 
     });
-
-
   }
+
   getLeadId() {
     // console.log("in getleadID")
     return new Promise((resolve, reject) => {
@@ -150,6 +148,7 @@ export class LoanDetailsComponent implements OnInit {
       });
     });
   }
+
   getLOV() {
     this.commonLovService.getLovData().subscribe((lov) => (this.LOV = lov));
     console.log('LOVs', this.LOV);
@@ -208,10 +207,10 @@ export class LoanDetailsComponent implements OnInit {
       usedVehicleLoanAmountReq: new FormControl(''),
       // sourceOfVehiclePurchase: new FormControl(''),
       sourceOfVehiclePurchase: new FormControl('', Validators.compose([Validators.maxLength(40),
-        Validators.pattern(/^[a-zA-Z ]*$/), Validators.required])),
+      Validators.pattern(/^[a-zA-Z ]*$/), Validators.required])),
       // marginMoneySource: new FormControl(''),
       marginMoneySource: new FormControl('', Validators.compose([Validators.maxLength(40),
-        Validators.pattern(/^[a-zA-Z ]*$/), Validators.required])),
+      Validators.pattern(/^[a-zA-Z ]*$/), Validators.required])),
       financierName: new FormControl(''),
       coAapplicantAwareMarginMoney: new FormControl(''),
       channelSourceName: new FormControl(''),
@@ -225,7 +224,7 @@ export class LoanDetailsComponent implements OnInit {
       fundsUsage: new FormControl(''),
       earlierVehicleApplication: new FormControl(''),
       othersRemarks: new FormControl('', Validators.compose([Validators.maxLength(200),
-         Validators.pattern(/^[a-zA-Z .-]*$/), Validators.required])),
+      Validators.pattern(/^[a-zA-Z .-]*$/), Validators.required])),
       // othersRemarks: new FormControl(''),
       drivingVehicleEarlier: new FormControl(''),
       vehicleAttachedPlying: new FormControl(''),
@@ -254,7 +253,7 @@ export class LoanDetailsComponent implements OnInit {
       selfDrivenOrDriver: new FormControl(''),
       // remarks: new FormControl('')
       remarks: new FormControl('', Validators.compose([Validators.maxLength(200),
-         Validators.pattern(/^[a-zA-Z ,-]*$/), Validators.required])),
+      Validators.pattern(/^[a-zA-Z ,-]*$/), Validators.required])),
     });
   }
 
@@ -417,33 +416,6 @@ export class LoanDetailsComponent implements OnInit {
       }
     });
   }
-  onNavigateToPdSummary() {
-
-
-    this.router.navigate([`/pages/dashboard/personal-discussion/my-pd-tasks`]);
-
-  }
-  onNavigateNext() {
-    if (this.version != 'undefined') {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/reference-check/${this.version}`]);
-
-    } else {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/reference-check`]);
-      // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
-
-    }
-  }
-
-  onNavigateBack() {
-    if (this.version !== 'undefined') {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile/${this.version}`]);
-
-    } else {
-
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile`]);
-
-    }
-  }
 
   setFormValue() {
     // const loanDetailsModal = this.ddeStoreService.getLoanDetails() || {};
@@ -583,12 +555,13 @@ export class LoanDetailsComponent implements OnInit {
 
   // }
 
-  onFormSubmit() {
+  onFormSubmit(action) {
     const formModal = this.loanDetailsForm.value;
     this.isDirty = true;
     console.log(this.loanDetailsForm.controls);
     // working fine now i think
     if (this.loanDetailsForm.invalid) {
+      this.toasterService.showWarning('please enter required details', '');
       console.log(this.loanDetailsForm);
       return;
     }
@@ -711,19 +684,64 @@ export class LoanDetailsComponent implements OnInit {
 
       this.personalDiscussion.savePdData(data).subscribe((value: any) => {
         const processVariables = value.ProcessVariables;
+        const message = processVariables.error.message;
         if (processVariables.error.code === '0') {
-          const message = processVariables.error.message;
           console.log('PD Status', message);
           console.log('response loan details', value.ProcessVariables);
           this.toasterService.showSuccess('Record Saved Successfully', '');
+          if (action === 'save') {
+
+          } else if (action === 'next') {
+
+            if (this.version !== 'undefined') {
+
+              this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/reference-check/${this.version}`]);
+
+            } else {
+
+              this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/reference-check`]);
+
+            }
+
+          }
+
         } else {
           console.log('error', processVariables.error.message);
-          this.toasterService.showError('invalid loan details', 'message');
+          this.toasterService.showError(message, 'message');
         }
       });
 
 
     }
   }
+
+  onNavigateToPdSummary() {
+
+
+    this.router.navigate([`/pages/dashboard/personal-discussion/my-pd-tasks`]);
+
+  }
+  // onNavigateNext() {
+  //   if (this.version !== 'undefined') {
+  //     this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/reference-check/${this.version}`]);
+
+  //   } else {
+  //     this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/reference-check`]);
+  //     // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
+
+  //   }
+  // }
+
+  onNavigateBack() {
+    if (this.version !== 'undefined') {
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile/${this.version}`]);
+
+    } else {
+
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile`]);
+
+    }
+  }
+
 
 }
