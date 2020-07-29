@@ -3,11 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { DocumentViewuploadComponent } from './document-viewupload.component';
 import { ApplicantDocumentComponent } from './applicant-document/applicant-document.component';
 import { CollateraldocumentComponent } from './collateraldocument/collateraldocument.component';
+import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 
 const routes: Routes = [
   {
     path: ':leadId',
     component: DocumentViewuploadComponent,
+    resolve: { leadData: LeadDataResolverService },
     children: [
       {
         path: '',

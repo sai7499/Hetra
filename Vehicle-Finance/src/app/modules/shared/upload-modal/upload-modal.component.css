@@ -29,3 +29,7 @@
   background-color: #1d1a4b;
   border-color: #161338;
 }
+
+.show-error {
+  color: red;
+}

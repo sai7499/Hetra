@@ -14,7 +14,7 @@ export class DraggableComponent implements OnInit {
   };
   @Input() set imageUrl(value) {
     if (!!value) {
-      this.src = value;
+      this.src = value.imageUrl;
       console.log('setCss', this.setCss);
       setTimeout(() => {
         console.log;
@@ -24,7 +24,12 @@ export class DraggableComponent implements OnInit {
   }
   constructor(private sanitizer: DomSanitizer) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.setCss = {
+      top: window.innerHeight / 2 + 'px',
+      left: '50%',
+    };
+  }
   private dragElement(elmnt) {
     let pos1 = 0;
     let pos2 = 0;

@@ -14,6 +14,7 @@ import { UploadService } from '@services/upload.service';
 import { UtilityService } from '@services/utility.service';
 import { DocRequest } from '@model/upload-model';
 import { DocumentDetails } from '@model/upload-model';
+import { Constant } from '@assets/constants/constant';
 
 @Component({
   selector: 'app-upload-modal',
@@ -25,6 +26,7 @@ export class UploadModalComponent {
   fileSize: string;
   fileName: string;
   fileType: string;
+  showError: string;
   @Input() showModal: boolean;
   @Input() docsDetails: DocRequest;
   @Output() close = new EventEmitter();
@@ -39,13 +41,48 @@ export class UploadModalComponent {
   ) {}
 
   async onFileSelect(event) {
+    this.showError = '';
     const files: File = event.target.files[0];
+    if (this.checkFileType(files.type)) {
+      this.showError = `Only files with following extensions are allowed: ${this.docsDetails.docsType}`;
+      return;
+    }
+    if (this.checkFileSize(files.size)) {
+      this.showError = `File is too large. Allowed maximum size is ${this.bytesToSize(
+        this.docsDetails.docSize
+      )}`;
+      return;
+    }
+
     const base64: any = await this.toBase64(files);
     console.log('base64', base64);
     this.imageUrl = base64;
     this.fileSize = this.bytesToSize(files.size);
     this.fileName = files.name;
     this.fileType = files.type;
+  }
+
+  checkFileSize(fileSize: number) {
+    if (fileSize > this.docsDetails.docSize) {
+      return true;
+    }
+    return false;
+  }
+
+  checkFileType(fileType: string = '') {
+    let isThere = false;
+    fileType.split('/').forEach((type) => {
+      if (this.docsDetails.docsType.includes(type.toLowerCase())) {
+        isThere = true;
+      }
+    });
+
+    return !isThere;
+
+    // if (!this.docsDetails.docsType.includes(fileType.toLowerCase())) {
+    //   return true;
+    // }
+    // return false;
   }
 
   toBase64(file) {
@@ -73,6 +110,7 @@ export class UploadModalComponent {
   }
 
   removeFile() {
+    this.showError = '';
     this.imageUrl = '';
     this.fileName = '';
     this.fileSize = '';
@@ -112,10 +150,6 @@ export class UploadModalComponent {
       )
       .subscribe(
         (value) => {
-          this.imageUrl = '';
-          this.fileName = '';
-          this.fileSize = '';
-          this.fileInput.nativeElement.value = '';
           const documentDetails: DocumentDetails = {
             documentId: this.docsDetails.documentId,
             documentType: String(this.docsDetails.docTypCd),
@@ -125,16 +159,28 @@ export class UploadModalComponent {
             categoryCode: String(this.docsDetails.docCtgryCd),
             issuedAt: 'check',
             subCategoryCode: String(this.docsDetails.docSbCtgryCd),
-            issueDate: this.utilityService.getDateFormat(
-              this.docsDetails.issueDate
-            ),
-            expiryDate: this.utilityService.getDateFormat(
-              this.docsDetails.expiryDate
-            ),
+            issueDate:
+              this.utilityService.getDateFormat(this.docsDetails.issueDate) ||
+              '',
+            expiryDate:
+              this.utilityService.getDateFormat(this.docsDetails.expiryDate) ||
+              '',
             associatedId: this.docsDetails.associatedId,
             associatedWith: this.docsDetails.associatedWith,
+            formArrayIndex: this.docsDetails.formArrayIndex,
           };
+          if (
+            this.docsDetails.docsTypeForString === 'profile' ||
+            this.docsDetails.docsTypeForString === 'signature'
+          ) {
+            documentDetails.imageUrl = this.imageUrl;
+            documentDetails.docsTypeForString = this.docsDetails.docsTypeForString;
+          }
           this.uploadSuccess.emit(documentDetails);
+          this.imageUrl = '';
+          this.fileName = '';
+          this.fileSize = '';
+          this.fileInput.nativeElement.value = '';
         },
         (error) => {
           console.log('error', error);
@@ -144,5 +190,6 @@ export class UploadModalComponent {
 
   onClose() {
     this.close.emit();
+    this.removeFile();
   }
 }

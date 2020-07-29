@@ -25,6 +25,7 @@ import { UploadModalComponent } from './upload-modal/upload-modal.component';
 import { CommonDocsUploadComponent } from './common-docs-upload/common-docs-upload.component';
 import { DocsUploadPipe } from './pipes/docs-upload.pipe';
 import { DraggableComponent } from './draggable-container/draggable-container.component';
+import { ApplicantDocsUploadComponent } from './applicant-docs-upload/applicant-docs-upload.component';
 
 import {
   BsDatepickerModule,
@@ -57,6 +58,7 @@ setTheme('bs4');
     CommonDocsUploadComponent,
     DocsUploadPipe,
     DraggableComponent,
+    ApplicantDocsUploadComponent,
   ],
   imports: [
     CommonModule,
@@ -87,6 +89,7 @@ setTheme('bs4');
     CommonDocsUploadComponent,
     DocsUploadPipe,
     DraggableComponent,
+    ApplicantDocsUploadComponent,
   ],
 })
 export class SharedModule {}

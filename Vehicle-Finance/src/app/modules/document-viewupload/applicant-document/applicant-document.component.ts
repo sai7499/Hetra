@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+
 import { LovDataService } from 'src/app/services/lov-data.service';
 import { LabelsService } from 'src/app/services/labels.service';
 import { ApplicantService } from '@services/applicant.service';
 import { ApplicantList } from '@model/applicant.model';
 import { map } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-applicant-document',
@@ -18,12 +18,9 @@ export class ApplicantDocumentComponent implements OnInit {
   leadId: number;
   applicantList: { key: number; value: string }[];
   selectedApplicant: number;
-  documentCategorySubs$: Subscription;
-  applicantCategory = {};
 
   constructor(
     private lovData: LovDataService,
-    private router: Router,
     private labelsData: LabelsService,
     private applicantService: ApplicantService,
     private activateRoute: ActivatedRoute
@@ -77,37 +74,12 @@ export class ApplicantDocumentComponent implements OnInit {
         if (this.applicantList.length === 0) {
           return;
         }
+        console.log('applicantList', this.applicantList);
         this.selectedApplicant = this.applicantList[0].key;
-        this.onApplicantChange(this.applicantList[0]);
       });
   }
 
   onApplicantChange(value) {
-    console.log('onApplicantChange', value);
-    this.getApplicantDocumentCategory(value.key);
-  }
-
-  getApplicantDocumentCategory(applicantId: number) {
-    if (this.applicantCategory[applicantId]) {
-      return;
-    }
-    const data = {
-      applicantId,
-      associatedWith: 2,
-    };
-    if (this.documentCategorySubs$) {
-      this.documentCategorySubs$.unsubscribe();
-    }
-    this.documentCategorySubs$ = this.applicantService
-      .getDocumentCategory(data)
-      .subscribe((value: any) => {
-        console.log('getDocumentCategory', value);
-        this.documentCategorySubs$.unsubscribe();
-        if (value.Error !== '0') {
-          return;
-        }
-        const processVariables = value.ProcessVariables;
-        this.applicantCategory[applicantId] = processVariables.categoryCodes;
-      });
+    this.selectedApplicant = value.key;
   }
 }

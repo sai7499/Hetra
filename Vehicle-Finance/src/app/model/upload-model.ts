@@ -39,6 +39,10 @@ export interface DocRequest {
   associatedWith?: string;
   documentNumber?: string;
   documentId?: number;
+  formArrayIndex?: number;
+  docSize?: number;
+  docsType?: string;
+  docsTypeForString?: string;
 }
 
 export interface DocumentDetails {
@@ -54,4 +58,7 @@ export interface DocumentDetails {
   expiryDate?: string | Date;
   associatedId?: string;
   associatedWith?: string;
+  formArrayIndex?: number;
+  imageUrl?: string;
+  docsTypeForString?: string;
 }
