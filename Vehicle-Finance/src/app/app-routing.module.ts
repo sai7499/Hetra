@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HeaderComponent } from './modules/header/header.component';
 import { LovResolverService } from './services/Lov-resolver.service';
 import { Authguard } from '@services/authguard';
+import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 
 const routes: Routes = [
   {
@@ -93,9 +94,9 @@ const routes: Routes = [
       {
         path: 'deviation-dashboard',
         loadChildren: () =>
-          import('./modules/dde/deviation-dashboard/deviation-dashoard.module').then(
-            (m) => m.DeviationDashoardModule
-          )
+          import(
+            './modules/dde/deviation-dashboard/deviation-dashoard.module'
+          ).then((m) => m.DeviationDashoardModule),
       },
       {
         path: 'pd-dashboard',
@@ -128,9 +129,9 @@ const routes: Routes = [
       {
         path: 'fi-list',
         loadChildren: () =>
-        import(
-          './modules/dde/fi-report/fi-report.module'
-          ).then((m) => m.FiReportModule),
+          import('./modules/dde/fi-report/fi-report.module').then(
+            (m) => m.FiReportModule
+          ),
       },
       {
         path: 'vehicle-valuation',
@@ -166,4 +167,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
