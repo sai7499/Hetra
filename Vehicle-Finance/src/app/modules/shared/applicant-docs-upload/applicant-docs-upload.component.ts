@@ -36,6 +36,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
     }
     this.applicantId = value;
     this.getApplicantDocumentCategory(value);
+    this.DEFAULT_PROFILE_IMAGE = '';
+    this.DEFAULT_SIGNATURE_IMAGE = '';
   }
   PROFILE_SIZE = Constant.PROFILE_IMAGE_SIZE;
   PROFILE_TYPE = Constant.PROFILE_ALLOWED_TYPES;
@@ -433,7 +435,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
       docRefId: [
         {
           idTp: 'LEDID',
-          id: 20059563,
+          id: this.leadId,
         },
         {
           idTp: 'BRNCH',
@@ -506,17 +508,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   onUploadSuccess(event: DocumentDetails) {
-    // this.setFileValueForFormArray(event);
     this.toasterService.showSuccess('Document uploaded successfully', '');
     this.showModal = false;
-    console.log('onUploadSuccess', event);
-    // if (!this.uploadedDocs[event.subCategoryCode]) {
-    //   this.uploadedDocs[event.subCategoryCode] = {
-    //     [event.documentType]: event,
-    //   };
-    //   return;
-    // }
-
     if (event.docsTypeForString === 'profile') {
       this.DEFAULT_PROFILE_IMAGE = 'data:image/jpeg;base64,' + event.imageUrl;
     } else if (event.docsTypeForString === 'signature') {
@@ -527,8 +520,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
       `${this.FORM_ARRAY_NAME}_${event.subCategoryCode}`
     ) as FormArray;
     formArray.at(this.selectedIndex).get('file').setValue(event.dmsDocumentId);
-    // this.uploadedDocs[event.subCategoryCode][event.documentType] = event;
-
     if (this.documentArr.length === 0) {
       this.documentArr.push(event);
     } else {
@@ -541,12 +532,42 @@ export class ApplicantDocsUploadComponent implements OnInit {
       });
       if (index === -1) {
         this.documentArr.push(event);
-        return;
+      } else {
+        this.documentArr[index] = event;
       }
-      this.documentArr[index] = event;
     }
 
     console.log('documentArr', this.documentArr);
+    this.individualImageUpload(event);
+  }
+
+  individualImageUpload(request: DocumentDetails) {
+    this.uploadService
+      .saveOrUpdateDocument([request])
+      .subscribe((value: any) => {
+        if (value.Error !== '0') {
+          return;
+        }
+        this.toasterService.showSuccess('Documents saved successfully', '');
+        console.log('saveOrUpdateDocument', value);
+        const processVariables = value.ProcessVariables;
+        const documentIds = processVariables.documentIds;
+        documentIds.forEach((id, index) => {
+          this.documentArr[index].documentId = id;
+        });
+        this.documentArr.forEach((docs, index) => {
+          const formArrayIndex = docs.formArrayIndex;
+          if (formArrayIndex !== undefined) {
+            const formArray = this.uploadForm.get(
+              `${this.FORM_ARRAY_NAME}_${docs.subCategoryCode}`
+            ) as FormArray;
+            formArray
+              .at(formArrayIndex)
+              .get('documentId')
+              .setValue(documentIds[index]);
+          }
+        });
+      });
   }
 
   setFileValueForFormArray(event) {
