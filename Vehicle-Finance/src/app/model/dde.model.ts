@@ -9,6 +9,7 @@ export interface Dde {
     fleetDetails?: FleetDetails;
     trackVehicle?: TrackVehicle;
     referenceCheck?: ReferenceCheck;
+    fieldInvestigation?: FieldInvestigation;
 }
 
 export interface VehicleValuation {
@@ -279,3 +280,51 @@ export interface ReferenceCheck {
     // routeMapId?: string,
     // stage?: string
 }
+export interface FieldInvestigation {
+    externalAgencyName?: string;
+    contactPointVerification?: string;
+    cpvInitiatedDate?: string;
+    cpvInitiatedTime?: string;
+    reportSubmitDate?: string;
+    reportSubmitTime?: string;
+    applicantName?: string;
+    addressLine1?: string;
+    addressLine2?: string;
+    addressLine3?: string;
+    city?: string;
+    state?: string;
+    personMetName?: string;
+    designation?: string;
+    natureOfBusiness?: string;
+    typeOfConcern?: string;
+    residenceApproach?: string;
+    residenceDetails?: string;
+    rentAmt?: string;
+    residenceName?: string;
+    verifiedFrom?: string;
+    yrsOfStayInCity?: string;
+    yrsOfStayInResi?: string;
+    areaInSqFeet?: string;
+    locality?: string;
+    visibleAssets?: string;
+    locatingResidence?: string;
+    otherAssetsOwned?: string;
+    noOfFamilyMembers?: string;
+    noOfEarningMembers?: string;
+    vehicleDetails?: string;
+    officeApproach?: string;
+    officePremises?: string;
+    officeLocation?: string;
+    furnishings?: string;
+    officeSize?: string;
+    observations?: string;
+    noOfWorkingEmployees?: string;
+    noOfVisibleEmployees?: string;
+    activityLevel?: string;
+    fiComments?: string;
+    distanceInKms?: string;
+    fiDate?: string;
+    fiTime?: string;
+
+}
+

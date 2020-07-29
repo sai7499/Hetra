@@ -15,7 +15,19 @@
             (change)="getProductCategory($event)"
           >
           </app-vf-custom-select>
-        </div>        
+        </div>  
+        
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="scheme_type">{{ labels.priority }}</label>
+          <app-vf-custom-select
+            [values]="[
+              { key: '1', value: 'Yes' },
+              { key: '0', value: 'No' }
+            ]"
+            formControlName="priority"
+          >
+          </app-vf-custom-select>
+        </div>      
       </div>
 
       <div class="row">
@@ -36,20 +48,19 @@
           <app-vf-custom-select 
             [values]="productCategorySelectedList" 
             formControlName="product"
+            (change)="productChange($event)"
             [isRequired]="'Product required'"
             [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
 
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="scheme_type">{{ labels.priority }}</label>
-          <app-vf-custom-select
-            [values]="[
-              { key: '1', value: 'Yes' },
-              { key: '0', value: 'No' }
-            ]"
-            formControlName="priority"
-          >
+          <label for="fundingProgram">{{ labels.fundingProgram }}</label>
+          <app-vf-custom-select 
+            [values]="fundingProgramData" 
+            formControlName="fundingProgram"
+            [isRequired]="'Funding Program required'"
+            [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
 
@@ -211,7 +222,7 @@
           <label for="spoken_code">{{ labels.requestedAmount }}</label>
           <sub class="star_red_col">*</sub>
           <app-custom-input
-              formControlName="requestedAmount"
+              formControlName="reqLoanAmt"
               [className]="'form-control mandatory'"
               [placeholder]="'Requested Amount'"
               [maxLength]="amountLength"

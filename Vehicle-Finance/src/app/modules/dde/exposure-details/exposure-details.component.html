@@ -86,9 +86,9 @@
                       formControlName="ltv"
                       [className]="'form-control mandatory'"
                       [placeholder]="'LTV'"
-                      [maxLength]="labels?.validationData.amountValue.maxLength"                      
+                      [maxLength]="labels?.validationData.percentage.maxLength"                      
                       [isRequired]="'Ltv mandatory'"                     
-                      [type]="labels?.validationData.amountValue.type"                     
+                      [type]="labels?.validationData.percentage.type"                     
                       [isDirty]="isDirty">
                     </app-custom-input>
                   </td>
@@ -97,9 +97,9 @@
                     formControlName="currentPos"
                     [className]="'form-control mandatory'"
                     [placeholder]="'Current Pos'"
-                    [maxLength]="labels?.validationData.tenurePaid.maxLength"                      
+                    [maxLength]="labels?.validationData.amountValue.maxLength"                      
                     [isRequired]="'Current Pos mandatory'"                     
-                    [type]="labels?.validationData.tenurePaid.type"                     
+                    [type]="labels?.validationData.amountValue.type"                     
                     [isDirty]="isDirty">
                   </app-custom-input>
                   </td>
