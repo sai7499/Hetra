@@ -151,8 +151,8 @@ export class CustomerProfileDetailsComponent implements OnInit {
       officePremises: new FormControl('', Validators.required),
       sizeofOffice: new FormControl('', Validators.required),
       customerProfileRatingSo: new FormControl('', Validators.required),
-      mismatchInAddress: new FormControl('', Validators.compose([Validators.maxLength(200), 
-                         Validators.required])),
+      mismatchInAddress: new FormControl('', Validators.compose([Validators.maxLength(200),
+      Validators.required])),
       customerHouseSelfie: new FormControl('', Validators.required),
       ownershipAvailable: new FormControl('', Validators.required),
       mandatoryCustMeeting: new FormControl('', Validators.required)
@@ -165,22 +165,18 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
     if (customerProfileModal) {
 
-      console.log("common variable ", customerProfileModal)
+      console.log("common variable ", customerProfileModal);
     }
     else {
       console.log("common variable is empty calling get api")
 
       // this.getPdDetails();
 
-
-
-
-
     }
   }
 
   getPdDetails() {
-    console.log("pd version", this.version)
+    console.log('pd version', this.version)
 
     const data = {
 
@@ -201,27 +197,6 @@ export class CustomerProfileDetailsComponent implements OnInit {
       }
     });
 
-  }
-
-  onNavigateNext() {
-    if (this.version != 'undefined') {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/loan-details/${this.version}`]);
-
-    } else {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/loan-details`]);
-      // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
-
-    }
-  }
-  onNavigateBack() {
-    if (this.version != 'undefined') {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/applicant-details/${this.version}`]);
-
-    } else {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/applicant-details`]);
-      // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
-
-    }
   }
 
   setFormValue() {
@@ -246,30 +221,27 @@ export class CustomerProfileDetailsComponent implements OnInit {
     console.log('patched form', this.customerProfileForm);
   }
 
-
-
-
-
-
-  onFormSubmit() {
+  onFormSubmit(action) {
     const formModal = this.customerProfileForm.value;
+    const customerProfileModel = { ...formModal };
     this.isDirty = true;
     if (this.customerProfileForm.invalid) {
+      this.toasterService.showWarning('please enter required details', '');
       return;
     }
-    const customerProfileModal = { ...formModal };
-    console.log('profile form', customerProfileModal);
+    const customerProfileFormModal = { ...formModal };
+    // console.log('profile form', customerProfileFormModal);
     this.custProfileDetails = {
-      offAddSameAsRecord: customerProfileModal.offAddSameAsRecord || '',
-      noOfEmployeesSeen: customerProfileModal.noOfEmployeesSeen || '',
-      nameBoardSeen: customerProfileModal.nameBoardSeen || '',
-      officePremises: customerProfileModal.officePremises || '',
-      sizeofOffice: customerProfileModal.sizeofOffice || '',
-      customerProfileRatingSo: customerProfileModal.customerProfileRatingSo || '',
-      mismatchInAddress: customerProfileModal.mismatchInAddress || '',
-      customerHouseSelfie: customerProfileModal.customerHouseSelfie || '',
-      ownershipAvailable: customerProfileModal.ownershipAvailable || '',
-      mandatoryCustMeeting: customerProfileModal.mandatoryCustMeeting || '',
+      offAddSameAsRecord: customerProfileFormModal.offAddSameAsRecord,
+      noOfEmployeesSeen: customerProfileFormModal.noOfEmployeesSeen,
+      nameBoardSeen: customerProfileFormModal.nameBoardSeen,
+      officePremises: customerProfileFormModal.officePremises,
+      sizeofOffice: customerProfileFormModal.sizeofOffice,
+      customerProfileRatingSo: customerProfileFormModal.customerProfileRatingSo,
+      mismatchInAddress: customerProfileFormModal.mismatchInAddress,
+      customerHouseSelfie: customerProfileFormModal.customerHouseSelfie,
+      ownershipAvailable: customerProfileFormModal.ownershipAvailable,
+      mandatoryCustMeeting: customerProfileFormModal.mandatoryCustMeeting,
     };
     const data = {
       leadId: this.leadId,
@@ -283,17 +255,52 @@ export class CustomerProfileDetailsComponent implements OnInit {
       console.log('save or update PD Response', res);
       if (res.ProcessVariables.error.code === '0') {
         this.toasterService.showSuccess('Record Saved Successfully', '');
+        if (action === 'save') {
+
+        } else if (action === 'next') {
+
+          if (this.version !== 'undefined') {
+
+            this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/loan-details/${this.version}`]);
+
+          } else {
+
+            this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/loan-details`]);
+
+          }
+
+        }
+
 
       } else {
         console.log('error', res.ProcessVariables.error.message);
-        this.toasterService.showError('ivalid save', 'message');
+        const message = res.processVariables.error.message;
+        this.toasterService.showError(message, 'message');
 
       }
     });
-    // this.router.navigate(['/pages/fl-and-pd-report/loan-details']);
-    // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/applicant-detail/${this.applicantId}/${this.version}`]);
 
+  }
 
+  // onNavigateNext() {
+  //   if (this.version !== 'undefined') {
+  //     this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/loan-details/${this.version}`]);
+
+  //   } else {
+  //     this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/loan-details`]);
+  //     // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
+
+  //   }
+  // }
+  onNavigateBack() {
+    if (this.version !== 'undefined') {
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/applicant-details/${this.version}`]);
+
+    } else {
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/applicant-details`]);
+      // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
+
+    }
   }
 
 }
