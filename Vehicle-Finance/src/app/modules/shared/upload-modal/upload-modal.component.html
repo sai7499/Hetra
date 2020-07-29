@@ -1,0 +1,94 @@
+<div
+  class="modal"
+  data-dismiss="modal"
+  id="myModal"
+  [ngClass]="{ 'dis-block': showModal }"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          (click)="onClose()"
+        >
+          ×
+        </button>
+        <h4 class="modal-title">Upload Document</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="preview-panel">
+            <i class="fa fa-picture-o" aria-hidden="true"></i> Preview Panel:
+          </div>
+
+          <br />
+
+          <div class="col-sm-6 col-md-3 col-lg-3">
+            <img
+              [src]="'data:image/jpeg;base64,' + imageUrl"
+              height="150px"
+              width="150px"
+            />
+            <button
+              class="upload-btn"
+              (click)="fileInput.click()"
+              *ngIf="!imageUrl"
+            >
+              Select Document
+            </button>
+            <button
+              class="upload-btn"
+              (click)="fileInput.click(); removeFile()"
+              *ngIf="imageUrl"
+            >
+              Change</button
+            >&nbsp;
+            <button
+              class="upload-btn remove-btn"
+              (click)="removeFile()"
+              *ngIf="imageUrl"
+            >
+              Remove
+            </button>
+          </div>
+          <div class="col-sm-6 col-md-3 col-lg-3">
+            <div>Name</div>
+            <div class="file-info">{{ fileName }}</div>
+          </div>
+          <div class="col-sm-6 col-md-3 col-lg-3">
+            <div>Size</div>
+            <div class="file-info">{{ fileSize }}</div>
+          </div>
+        </div>
+        <div *ngIf="showError" class="show-error">
+          {{ showError }}
+        </div>
+      </div>
+
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-info"
+          data-dismiss="modal"
+          id="reject_dlead"
+          (click)="uploadFile()"
+          [disabled]="!imageUrl"
+        >
+          Upload
+        </button>
+        <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">
+          Cancel
+        </button> -->
+      </div>
+    </div>
+  </div>
+  <input
+    #fileInput
+    type="file"
+    style="visibility: hidden;"
+    (input)="onFileSelect($event)"
+  />
+</div>
