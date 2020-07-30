@@ -55,6 +55,7 @@ export class LoginComponent implements OnInit {
   loginData: {
     email: string;
     password: string;
+    useADAuth: boolean;
   };
 
   lat: any;
@@ -306,10 +307,13 @@ export class LoginComponent implements OnInit {
     this.loginData = this.loginForm.value;      
     if (environment.hostingEnvironment === 'DEV') {
       this.loginData.email = `${this.loginData.email}@equitasbank.in`;
+      this.loginData.useADAuth = false;
     } else if(environment.hostingEnvironment === 'UAT'){
       this.loginData.email = `${this.loginData.email}@esfbuat.in`;
+      this.loginData.useADAuth = true;
     }else{
       this.loginData.email = `${this.loginData.email}@equitas.in`;
+      this.loginData.useADAuth = true;
     }
     this.loginService.getLogin(this.loginData).subscribe(
       (res: any) => {

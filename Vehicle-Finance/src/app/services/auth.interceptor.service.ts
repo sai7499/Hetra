@@ -105,7 +105,7 @@ export class AuthInterceptor implements HttpInterceptor {
             this.ngxUiLoaderService.stop();
             return event;
           } else {
-            this.ngxUiLoaderService.stop();
+            // this.ngxUiLoaderService.stop();
           }
         },
         (err: any) => {
