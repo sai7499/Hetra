@@ -1614,7 +1614,7 @@
                 <td class="bank_name">{{ labels?.ltv }}</td>
                 <td *ngFor="let existingExposure of existingExposure">
                     {{existingExposure?.ltv}}</td>
-                <td>{{camDetails?.totalLtvValue}}
+                <td>{{camDetails?.totalLtv}}
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.currentPos }}</td>
@@ -1651,11 +1651,6 @@
         <thead>
             <tr class="">
                 <th class="bank_name">{{ labels?.assetDetails }}</th>
-                <!-- <th class="bank_name">{{ labels?.icici }}</th>
-                <th class="bank_name">{{ labels?.kotak }}</th>
-                <th class="bank_name">{{ labels?.hdfc }}</th>
-                <th class="bank_name">{{ labels?.equitas }}</th>
-                <th class="bank_name">{{ labels?.axis }}</th> -->
                 <th *ngFor="let repaymentTrackRecord of repaymentTrackRecord">{{repaymentTrackRecord?.financier}}</th>
                 <th class="bank_name">{{ labels?.commentsOnRtrIfAny }}</th>
             </tr>
@@ -1707,8 +1702,6 @@
                     {{repaymentTrackRecord?.sourceOfValidation}}
                 </td>
             </tr>
-
-
         </tbody>
     </table>
     <!--repaymentTrackRecord-->
@@ -1848,8 +1841,7 @@
             <td>{{ camDetails?.avgAbb }}</td>
             <td class="bank_name">{{ labels?.abbEmi }}</td>
             <td>{{camDetails?.abbEmi}}</td>
-            <!-- <td class="bank_name">{{ labels?.abbEmi }}</td>
-            <td>{{ bankingTxnDetails?.noOfInwardBounce }}</td> -->
+          
         </tr>
     </table>
     <!--bankingHistory--->
@@ -1872,13 +1864,7 @@
                 <td width="500">{{ customerBackgroundSalesRecommendation?.recommendedBy }}</td>
                 <td width="100" class="bank_name">{{ labels?.nameWithECode }}</td>
                 <td width="200">{{ customerBackgroundSalesRecommendation?.nameWithEcode }}</td>
-                <!-- <td class="bank_name">{{
-        labels?.recommendedBySoSmBm
-      }}</td>
-                <td class="bank_name">{{
-        labels?.nameWithECode
-      }}</td> -->
-
+              
             </tr>
         </tbody>
     </table>
