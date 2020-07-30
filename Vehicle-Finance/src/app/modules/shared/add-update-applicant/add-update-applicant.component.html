@@ -14,7 +14,7 @@
           <div id="individual_section_leadco">
             <div formGroupName="dedupe">
               <div class="row">
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="Vechical Type"
                     >{{ labels?.entity
                     }}<sub class="star_red_col">*</sub></label
@@ -30,7 +30,7 @@
                   </app-vf-custom-select>
                 </div>
 
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="Vechical Type"
                     >{{ labels.relationshipwithloanapplicant
                     }}<sub class="star_red_col">*</sub></label
@@ -45,7 +45,7 @@
                   </app-vf-custom-select>
                 </div>
                 <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3"
+                  class="form-group col-sm-6 col-md-4 col-lg-4"
                   *ngIf="applicantType !== 'INDIVENTTYP'"
                 >
                   <label
@@ -63,7 +63,7 @@
                 </div>
 
                 <!-- <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3"
+                  class="form-group col-sm-6 col-md-4 col-lg-4"
                   *ngIf="applicantType == 'NONINDIVENTTYP'"
                 >
                   <label for="Vechical Type"
@@ -81,7 +81,7 @@
               </div>
 
               <div
-                class="form-group col-sm-6 col-md-3 col-lg-3"
+                class="form-group col-sm-6 col-md-4 col-lg-4"
                 *ngIf="applicantType == 'NONINDIVENTTYP'"
                 hidden
               >
@@ -97,7 +97,7 @@
               </div>
 
               <div class="row individual_section_leadco">
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="first_name" *ngIf="applicantType == 'INDIVENTTYP'"
                     >{{ labels?.firstName }}
                     <sub class="star_red_col">*</sub></label
@@ -124,7 +124,7 @@
                     "
                   ></app-custom-input>
                 </div>
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label
                     for="first_name"
                     *ngIf="applicantType == 'INDIVENTTYP'"
@@ -145,7 +145,7 @@
                     "
                   ></app-custom-input>
                 </div>
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="first_name" *ngIf="applicantType == 'INDIVENTTYP'"
                     >{{ labels?.lastName }}
                     <sub class="star_red_col">*</sub>
@@ -175,7 +175,7 @@
               </div>
               <div class="row">
                 <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3"
+                  class="form-group col-sm-6 col-md-4 col-lg-4"
                   *ngIf="applicantType == 'INDIVENTTYP'"
                 >
                   <label for="mobile"
@@ -194,7 +194,7 @@
                   </app-custom-input>
                 </div>
                 <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3"
+                  class="form-group col-sm-6 col-md-4 col-lg-4"
                   *ngIf="applicantType == 'NONINDIVENTTYP'"
                 >
                   <label for="mobile"
@@ -216,7 +216,7 @@
                 </div>
 
                 <div *ngIf="applicantType == 'INDIVENTTYP'">
-                  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                  <div class="form-group col-sm-6 col-md-4 col-lg-4">
                     <label for="date_of_birth"
                       >{{ labels?.dateOfBirth }}
                       <sub class="star_red_col">*</sub></label
@@ -248,7 +248,7 @@
                 </div>
 
                 <div *ngIf="applicantType == 'NONINDIVENTTYP'">
-                  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                  <div class="form-group col-sm-6 col-md-4 col-lg-4">
                     <label for="date_of_incorporation"
                       >{{ labels?.dateOfIncorporation }}
                       <sub class="star_red_col">*</sub></label
@@ -282,7 +282,7 @@
                   </div>
                 </div>
                 <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                  class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
                 >
                   <label for="customer_category"
                     >{{ labels?.customerCategory }}
@@ -298,7 +298,7 @@
               </div>
               <div class="row">
                 <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                  class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
                   *ngIf="applicantType == 'NONINDIVENTTYP'"
                 >
                   <label for="aadharnumber"
@@ -318,7 +318,7 @@
 
               <div class="row">
                 <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3"
+                  class="form-group col-sm-6 col-md-4 col-lg-4"
                   *ngIf="
                     productCategory == '1003' &&
                     (fundingProgram == '24' || fundingProgram == '25')
@@ -340,7 +340,7 @@
                 </div>
 
                 <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3"
+                  class="form-group col-sm-6 col-md-4 col-lg-4"
                   *ngIf="
                     productCategory == '1003' &&
                     (fundingProgram == '24' || fundingProgram == '25')
@@ -362,7 +362,7 @@
                 *ngIf="productCategory == '1003' && fundingProgram == '26'"
               >
                 <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3"
+                  class="form-group col-sm-6 col-md-4 col-lg-4"
                   id="align_this_checkbox"
                 >
                   <input
@@ -377,7 +377,7 @@
                     >{{ labels?.ownHouseProofAvail }}
                   </span>
                 </div>
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="Vechical Type"
                     >{{ labels?.houseOwnerProperty
                     }}<sub class="star_blue_col">*</sub></label
@@ -389,7 +389,7 @@
                   >
                   </app-vf-custom-select>
                 </div>
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="Vechical Type"
                     >{{ labels?.ownHouseAppRelationship
                     }}<sub class="star_blue_col">*</sub></label
@@ -406,7 +406,7 @@
                 class="row"
                 *ngIf="productCategory == '1003' && fundingProgram == '26'"
               >
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="aadharnumber"
                     >{{ labels?.averageBankBalance }}
                   </label>
@@ -423,7 +423,7 @@
                 class="row"
                 *ngIf="productCategory == '1003' && fundingProgram == '27'"
               >
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="Vechical Type"
                     >{{ labels?.rtrType
                     }}<sub class="star_red_col">*</sub></label
@@ -436,7 +436,7 @@
                   >
                   </app-vf-custom-select>
                 </div>
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="aadharnumber"
                     >{{ labels?.prevLoanAmount }}
                     <sub class="star_red_col">*</sub></label
@@ -450,7 +450,7 @@
                   >
                   </app-custom-input>
                 </div>
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="aadharnumber"
                     >{{ labels?.loanTenorServiced }}
                     <sub class="star_red_col">*</sub></label
@@ -470,7 +470,7 @@
                 class="row"
                 *ngIf="productCategory == '1003' && fundingProgram == '27'"
               >
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="aadharnumber"
                     >{{ labels?.currentEMILoan }}
                     <sub class="star_red_col">*</sub></label
@@ -490,7 +490,7 @@
                 class="row"
                 *ngIf="productCategory == '1003' && fundingProgram == '29'"
               >
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="aadharnumber"
                     >{{ labels?.agriNoOfAcres }}
                     <sub class="star_red_col">*</sub></label
@@ -504,7 +504,7 @@
                   >
                   </app-custom-input>
                 </div>
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="Vechical Type"
                     >{{ labels?.houseOwnerProperty
                     }}<sub class="star_red_col">*</sub></label
@@ -517,7 +517,7 @@
                   >
                   </app-vf-custom-select>
                 </div>
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="Vechical Type"
                     >{{ labels?.ownHouseAppRelationship }}
                     <sub class="star_red_col">*</sub></label
@@ -536,7 +536,7 @@
                 class="row"
                 *ngIf="productCategory == '1003' && fundingProgram == '30'"
               >
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label
                     >{{ labels?.grossReceipt }}
                     <sub class="star_red_col">*</sub></label
@@ -554,7 +554,7 @@
 
               <div class="row">
                 <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                  class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
                   *ngIf="applicantType == 'INDIVENTTYP'"
                 >
                   <label for="aadharnumber"
@@ -572,7 +572,7 @@
                   </app-custom-input>
                 </div>
                 <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                  class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
                   *ngIf="applicantType == 'NONINDIVENTTYP'"
                 >
                   <label for="aadharnumber">{{ labels?.udyogAdhar }} </label>
@@ -584,7 +584,7 @@
                   >
                   </app-custom-input>
                 </div>
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="identity_number"
                     >{{ labels?.panform }}
                     <sub class="star_red_col">*</sub></label
@@ -599,7 +599,7 @@
                   </app-vf-custom-select>
                 </div>
                 <!-- [patternCheck]="validationData?.panNumber?.patternCheck" -->
-                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="mobile"
                     >{{ labels?.pannumber }}
                     <sub class="star_blue_col">*</sub></label
@@ -619,7 +619,7 @@
               <!-- [patternCheck]="validationData?.drivingLicense?.patternCheck" -->
               <div class="row">
                 <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3"
+                  class="form-group col-sm-6 col-md-4 col-lg-4"
                   *ngIf="applicantType == 'INDIVENTTYP'"
                 >
                   <label for="mobile">{{ labels?.drivingLicenseNumber }}</label>
@@ -645,7 +645,7 @@
                 </div>
 
                 <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                  class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
                   *ngIf="applicantType == 'NONINDIVENTTYP'"
                 >
                   <label for="aadharnumber"
@@ -666,7 +666,7 @@
 
                 <!-- [patternCheck]="drivingLicensePattern"  -->
                 <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3"
+                  class="form-group col-sm-6 col-md-4 col-lg-4"
                   *ngIf="applicantType == 'INDIVENTTYP'"
                 >
                   <label for="mobile">{{
@@ -718,7 +718,7 @@
                   </div>
                 </div>
                 <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                  class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
                   *ngIf="applicantType == 'NONINDIVENTTYP'"
                 >
                   <label for="aadharnumber">{{ labels?.cstVatNumber }} </label>
@@ -733,7 +733,7 @@
                 </div>
 
                 <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3"
+                  class="form-group col-sm-6 col-md-4 col-lg-4"
                   *ngIf="applicantType == 'INDIVENTTYP'"
                 >
                   <label for="mobile">{{
@@ -787,7 +787,7 @@
                   </div> -->
                 </div>
                 <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                  class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
                   *ngIf="applicantType == 'NONINDIVENTTYP'"
                 >
                   <label for="aadharnumber">{{ labels?.gstNumber }} </label>
@@ -803,7 +803,7 @@
               </div>
               <div class="row">
                 <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3"
+                  class="form-group col-sm-6 col-md-4 col-lg-4"
                   *ngIf="applicantType == 'INDIVENTTYP'"
                 >
                   <label for="mobile">{{ labels?.passportNumber }}</label>
@@ -825,7 +825,7 @@
                   </app-custom-input>
                 </div>
                 <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3 individual_section_leadco"
+                  class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
                   *ngIf="applicantType == 'NONINDIVENTTYP'"
                 >
                   <label for="aadharnumber">{{ labels?.tanNumber }} </label>
@@ -840,7 +840,7 @@
                 </div>
 
                 <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3"
+                  class="form-group col-sm-6 col-md-4 col-lg-4"
                   *ngIf="applicantType == 'INDIVENTTYP'"
                 >
                   <label for="mobile">{{ labels?.passportIssueDate }}</label>
@@ -873,7 +873,7 @@
                 </div>
 
                 <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3"
+                  class="form-group col-sm-6 col-md-4 col-lg-4"
                   *ngIf="applicantType == 'INDIVENTTYP'"
                 >
                   <label for="mobile">{{ labels?.passportExpiryDate }}</label>
@@ -906,7 +906,7 @@
               </div>
               <div class="row">
                 <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3"
+                  class="form-group col-sm-6 col-md-4 col-lg-4"
                   *ngIf="applicantType == 'INDIVENTTYP'"
                 >
                   <label for="mobile">{{ labels?.voterIdNumber }}</label>
@@ -923,7 +923,7 @@
                 </div>
 
                 <div
-                  class="form-group col-sm-6 col-md-3 col-lg-3 margin-top-20"
+                  class="form-group col-sm-6 col-md-4 col-lg-4 margin-top-20"
                   *ngIf="
                     (applicantType == 'INDIVENTTYP' && isMobileChanged) ||
                     isName1Changed ||
@@ -1007,7 +1007,7 @@
               </div>
                 <div class="row container" formGroupName="permentAddress">
                   <div class="row">
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="address1"
                         >{{ labels?.addressline1 }}
                         <sub class="star_red_col">*</sub></label
@@ -1019,14 +1019,14 @@
                         [isDirty]="isDirty"
                       ></app-custom-input>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="address2">{{ labels?.addressline2 }}</label>
                       <app-custom-input
                         formControlName="addressLineTwo"
                         [maxLength]="validationData?.address?.maxLength"
                       ></app-custom-input>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="address3">{{ labels?.addressline3 }}</label>
                       <app-custom-input
                         formControlName="addressLineThree"
@@ -1035,7 +1035,7 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="pincode"
                         >{{ labels?.code }}
                         <sub class="star_red_col">*</sub></label
@@ -1051,7 +1051,7 @@
                         [type]="validationData?.pincode?.type"
                       ></app-custom-input>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="permanent_address_city"
                         >{{ labels?.city }}
                         <sub class="star_red_col">*</sub></label
@@ -1064,7 +1064,7 @@
                       >
                       </app-vf-custom-select>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="permanent_address_district"
                         >{{ labels?.district
                         }}<sub class="star_red_col">*</sub></label
@@ -1079,7 +1079,7 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="permanent_address_state"
                         >{{ labels?.state
                         }}<sub class="star_red_col">*</sub></label
@@ -1092,7 +1092,7 @@
                       >
                       </app-vf-custom-select>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="permanent_address_country"
                         >{{ labels.country
                         }}<sub class="star_red_col">*</sub></label
@@ -1105,7 +1105,7 @@
                       >
                       </app-vf-custom-select>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="landline">{{
                         labels?.permanentAddressLandline
                       }}</label>
@@ -1136,7 +1136,7 @@
                 </div>
                 <div class="row container" formGroupName="currentAddress">
                   <div class="row">
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="line1"
                         >{{ labels?.addressline1
                         }}<sub class="star_red_col">*</sub></label
@@ -1148,14 +1148,14 @@
                         [isDirty]="isDirty"
                       ></app-custom-input>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="line2">{{ labels?.addressline2 }}</label>
                       <app-custom-input
                         formControlName="addressLineTwo"
                         [maxLength]="validationData?.address?.maxLength"
                       ></app-custom-input>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="line3">{{ labels?.addressline3 }}</label>
                       <app-custom-input
                         formControlName="addressLineThree"
@@ -1164,7 +1164,7 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="current_pincode"
                         >{{ labels?.code
                         }}<sub class="star_red_col">*</sub></label
@@ -1181,7 +1181,7 @@
                       ></app-custom-input>
                     </div>
                     <div
-                      class="form-grmar-right8oup col-sm-6 col-md-3 col-lg-3"
+                      class="form-grmar-right8oup col-sm-6 col-md-4 col-lg-4"
                     >
                       <label for="current_address_city"
                         >{{ labels?.city
@@ -1195,7 +1195,7 @@
                       >
                       </app-vf-custom-select>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="current_address_district"
                         >{{ labels?.district
                         }}<sub class="star_red_col">*</sub></label
@@ -1210,7 +1210,7 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="current_address_state"
                         >{{ labels?.state
                         }}<sub class="star_red_col">*</sub></label
@@ -1223,7 +1223,7 @@
                       >
                       </app-vf-custom-select>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="current_address_country"
                         >{{ labels?.country
                         }}<sub class="star_red_col">*</sub></label
@@ -1237,7 +1237,7 @@
                       </app-vf-custom-select>
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="current_landline">{{
                         labels?.landlineNumber
                       }}</label>
@@ -1259,7 +1259,7 @@
                 <h3 class="title">Registered Address</h3>
                 <div class="row container" formGroupName="registeredAddress">
                   <div class="row">
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="registered_line1"
                         >{{ labels?.addressline1
                         }}<sub class="star_red_col">*</sub></label
@@ -1271,7 +1271,7 @@
                         [isDirty]="isDirty"
                       ></app-custom-input>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="registered_line2">{{
                         labels?.addressline2
                       }}</label>
@@ -1281,7 +1281,7 @@
                         [maxLength]="validationData?.address?.maxLength"
                       ></app-custom-input>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="registered_line3">{{
                         labels?.addressline3
                       }}</label>
@@ -1292,7 +1292,7 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="registered_pincode"
                         >{{ labels?.code
                         }}<sub class="star_red_col">*</sub></label
@@ -1308,7 +1308,7 @@
                         [type]="validationData?.pincode?.type"
                       ></app-custom-input>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="registered_address_city"
                         >{{ labels?.city
                         }}<sub class="star_red_col">*</sub></label
@@ -1321,7 +1321,7 @@
                       >
                       </app-vf-custom-select>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="current_address_district"
                         >{{ labels?.district
                         }}<sub class="star_red_col">*</sub></label
@@ -1336,7 +1336,7 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="current_address_state"
                         >{{ labels?.state
                         }}<sub class="star_red_col">*</sub></label
@@ -1349,7 +1349,7 @@
                       >
                       </app-vf-custom-select>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="current_address_country"
                         >{{ labels?.country
                         }}<sub class="star_red_col">*</sub></label
@@ -1362,7 +1362,7 @@
                       >
                       </app-vf-custom-select>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="reg_mobile">{{
                         labels?.landLineNumber
                       }}</label>
@@ -1393,7 +1393,7 @@
                 </div>
                 <div class="row container" formGroupName="communicationAddress">
                   <div class="row">
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="registered_line1"
                         >{{ labels?.addressline1
                         }}<sub class="star_red_col">*</sub></label
@@ -1405,7 +1405,7 @@
                         [isDirty]="isDirty"
                       ></app-custom-input>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="registered_line2">{{
                         labels?.addressline2
                       }}</label>
@@ -1415,7 +1415,7 @@
                         [maxLength]="validationData?.address?.maxLength"
                       ></app-custom-input>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="registered_line3">{{
                         labels?.addressline3
                       }}</label>
@@ -1426,7 +1426,7 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="registered_pincode"
                         >{{ labels?.code
                         }}<sub class="star_red_col">*</sub></label
@@ -1442,7 +1442,7 @@
                         [type]="validationData?.pincode?.type"
                       ></app-custom-input>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="registered_address_city"
                         >{{ labels?.city
                         }}<sub class="star_red_col">*</sub></label
@@ -1455,7 +1455,7 @@
                       >
                       </app-vf-custom-select>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="current_address_district"
                         >{{ labels?.district
                         }}<sub class="star_red_col">*</sub></label
@@ -1470,7 +1470,7 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="current_address_state"
                         >{{ labels?.state
                         }}<sub class="star_red_col">*</sub></label
@@ -1483,7 +1483,7 @@
                       >
                       </app-vf-custom-select>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="current_address_country"
                         >{{ labels?.country
                         }}<sub class="star_red_col">*</sub></label
@@ -1496,7 +1496,7 @@
                       >
                       </app-vf-custom-select>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="reg_mobile">{{
                         labels?.landLineNumber
                       }}</label>
