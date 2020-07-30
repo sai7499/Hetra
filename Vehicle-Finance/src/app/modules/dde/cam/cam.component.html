@@ -1835,7 +1835,7 @@
             <td>{{ camDetails?.totalBalanceAsOn20th }}</td>
             <td>{{ camDetails?.totalAbb }}</td>
             <td class="bank_name">{{ labels?.emi }}</td>
-            <td></td>
+            <td>{{camDetails?.emi}}</td>
         </tr>
         <tr>
             <td>{{labels?.average}}</td>
@@ -1847,7 +1847,7 @@
             <td>{{ camDetails?.avgBalanceAsOn20th }}</td>
             <td>{{ camDetails?.avgAbb }}</td>
             <td class="bank_name">{{ labels?.abbEmi }}</td>
-            <td></td>
+            <td>{{camDetails?.abbEmi}}</td>
             <!-- <td class="bank_name">{{ labels?.abbEmi }}</td>
             <td>{{ bankingTxnDetails?.noOfInwardBounce }}</td> -->
         </tr>
@@ -1863,16 +1863,21 @@
       }}
         </caption>
         <tbody>
+          
             <tr>
                 <td colspan="6" height="80"></td>
             </tr>
             <tr>
-                <td class="bank_name">{{
+                <td width="100" class="bank_name">{{ labels?.recommendedBy }}</td>
+                <td width="500">{{ customerBackgroundSalesRecommendation?.recommendedBy }}</td>
+                <td width="100" class="bank_name">{{ labels?.nameWithECode }}</td>
+                <td width="200">{{ customerBackgroundSalesRecommendation?.nameWithEcode }}</td>
+                <!-- <td class="bank_name">{{
         labels?.recommendedBySoSmBm
       }}</td>
                 <td class="bank_name">{{
         labels?.nameWithECode
-      }}</td>
+      }}</td> -->
 
             </tr>
         </tbody>
@@ -1921,9 +1926,9 @@
         <tbody>
             <tr>
                 <td class="bank_name">{{ labels?.routeOfOpertaionOutward }}</td>
-                <td>{{ decisionSheet?.pdDoneBy }}</td>
+                <td>{{ vehicleDeploymentDetails?.routeOfOperationInward }}</td>
                 <td class="bank_name">{{ labels?.routeOfOpertaionInward }}</td>
-                <td>{{ decisionSheet?.pdDate }}</td>
+                <td>{{ vehicleDeploymentDetails?.routeOfOperationOutward }}</td>
             </tr>
             <tr>
                 <td colspan="6" height="60"></td>
@@ -2164,12 +2169,12 @@
                 <td colspan="6" height="80"></td>
             </tr>
             <tr>
-                <td width="100" class="bank_name">{{ labels?.name }}</td>
-                <td width="500">{{ cmRecommendation?.name }}</td>
-                <td width="100" class="bank_name">{{ labels?.eCode }}</td>
-                <td width="200">{{ cmRecommendation?.eCode }}</td>
+                <td width="100" class="bank_name">{{ labels?.nameWithECode }}</td>
+                <td width="500">{{ coRecommendationTvrDetails?.nameWithEcode }}</td>
                 <td width="100" class="bank_name">{{ labels?.date }}</td>
-                <td width="200">{{ cmRecommendation?.date }}</td>
+                <td width="200">{{ coRecommendationTvrDetails?.date }}</td>
+                <!-- <td width="100" class="bank_name">{{ labels?.date }}</td>
+                <td width="200">{{ coRecommendationTvrDetails?.date }}</td> -->
             </tr>
         </tbody>
     </table>
@@ -2186,10 +2191,8 @@
                 <td colspan="6" height="80"></td>
             </tr>
             <tr>
-                <td width="100" class="bank_name">{{ labels?.name }}</td>
-                <td width="500">{{ cmRecommendation?.name }}</td>
-                <td width="100" class="bank_name">{{ labels?.eCode }}</td>
-                <td width="200">{{ cmRecommendation?.eCode }}</td>
+                <td width="100" class="bank_name">{{ labels?.nameWithECode }}</td>
+                <td width="500">{{ cmRecommendation?.nameWithEcode }}</td>
                 <td width="100" class="bank_name">{{ labels?.date }}</td>
                 <td width="200">{{ cmRecommendation?.date }}</td>
             </tr>
@@ -2206,10 +2209,8 @@
                 <td colspan="6" height="80"></td>
             </tr>
             <tr>
-                <td width="100" class="bank_name">{{ labels?.name }}</td>
-                <td width="500">{{ acmRecommendation?.name }}</td>
-                <td width="100" class="bank_name">{{ labels?.eCode }}</td>
-                <td width="200">{{ acmRecommendation?.eCode }}</td>
+                <td width="100" class="bank_name">{{ labels?.nameWithECode }}</td>
+                <td width="500">{{ acmRecommendation?.nameWithEcode }}</td>
                 <td width="100" class="bank_name">{{ labels?.date }}</td>
                 <td width="200">{{ acmRecommendation?.date }}</td>
             </tr>
@@ -2229,13 +2230,10 @@
                 <td colspan="6" height="80"></td>
             </tr>
             <tr>
-                <td width="100" class="bank_name">{{ labels?.name }}</td>
-                <td width="500">{{ ncmBhApprovalRecommendation?.name }}</td>
-                <td width="100" class="bank_name">{{ labels?.eCode }}</td>
-                <td width="200">{{ ncmBhApprovalRecommendation?.eCode }}</td>
+                <td width="100" class="bank_name">{{ labels?.nameWithECode }}</td>
+                <td width="500">{{ ncmBhRecommendation?.nameWithEcode }}</td>
                 <td width="100" class="bank_name">{{ labels?.date }}</td>
-                <td width="200">{{ ncmBhApprovalRecommendation?.date }}</td>
-            </tr>
+                <td width="200">{{ ncmBhRecommendation?.date }}</td>
         </tbody>
     </table>
     <!--ncmBhApprovalRecommendation-->

@@ -68,6 +68,10 @@ export class CamComponent implements OnInit {
   proposedVehiclesDetails: any;
   referenceCheck: any;
   repaymentTrackRecord: any;
+  coRecommendationTvrDetails: any;
+  customerBackgroundSalesRecommendation: any;
+  ncmBhRecommendation: any;
+  vehicleDeploymentDetails: any;
 
 
   constructor(private labelsData: LabelsService,
@@ -232,6 +236,13 @@ export class CamComponent implements OnInit {
       this.referenceCheck = res.ProcessVariables['referenceCheck']
       this.repaymentTrackRecord = res.ProcessVariables['repaymentTrackRecord']
       this.sourcingDetails = res.ProcessVariables['sourcingDetails']
+      this.acmRecommendation = res.ProcessVariables['acmRecommendation']
+      this.cmRecommendation = res.ProcessVariables['cmRecommendation']
+      this.coRecommendationTvrDetails = res.ProcessVariables['coRecommendationTvrDetails']
+      this.customerBackgroundSalesRecommendation = res.ProcessVariables['customerBackgroundSalesRecommendation']
+      this.ncmBhRecommendation = res.ProcessVariables['ncmBhRecommendation']
+      this.vehicleDeploymentDetails = res.ProcessVariables['vehicleDeploymentDetails']
+
      
     })
   }
