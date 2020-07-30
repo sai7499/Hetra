@@ -9,3 +9,12 @@
 h4 {
   cursor: pointer;
 }
+
+.dis-block {
+  display: block;
+}
+
+.panel-heading {
+  background-color: #1d1a4b;
+  color: #fff;
+}

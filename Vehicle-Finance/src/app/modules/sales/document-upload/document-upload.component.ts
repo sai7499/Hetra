@@ -8,43 +8,44 @@ import { ToasterService } from '@services/toaster.service';
   styleUrls: ['./document-upload.component.css'],
 })
 export class DocumentUploadComponent implements OnInit {
-
-  constructor(private aRoute: ActivatedRoute,
-              private router: Router,
-              private doucmentUploadService: DocumentUploadService,
-              private toStarService: ToasterService) {
-
-  }
+  constructor(
+    private aRoute: ActivatedRoute,
+    private router: Router,
+    private doucmentUploadService: DocumentUploadService,
+    private toStarService: ToasterService
+  ) {}
   leadId;
   isModelShow = false;
   errorMessage: string;
   ngOnInit() {
-    this.aRoute.parent.params.subscribe(val => this.leadId = val.leadId);
+    this.aRoute.parent.params.subscribe((val) => (this.leadId = val.leadId));
   }
 
   submitToCredit() {
     const data = {
       userId: localStorage.getItem('userId'),
-      leadId: Number(this.leadId)
+      leadId: Number(this.leadId),
     };
     console.log('submit call');
-    this.doucmentUploadService.submitToCredit(data).subscribe(
-      response => {
-        if (response['Error'] && response['Error'] == 0
-          && response['ProcessVariables'].error['code'] == 0) {
-          this.errorMessage = 'Lead is submitted to Credit sucessfully';
-          this.isModelShow = true;
-        } else{
-          this.toStarService.showError(response['ProcessVariables'].error['message'],"Submit To Credit")
-        }
+    this.doucmentUploadService.submitToCredit(data).subscribe((response) => {
+      if (
+        response['Error'] &&
+        response['Error'] == 0 &&
+        response['ProcessVariables'].error['code'] == 0
+      ) {
+        this.errorMessage = 'Lead is submitted to Credit sucessfully';
+        this.isModelShow = true;
+      } else {
+        this.toStarService.showError(
+          response['ProcessVariables'].error['message'],
+          'Submit To Credit'
+        );
       }
-    );
+    });
   }
 
   navigateToDashBoard() {
     this.isModelShow = false;
     this.router.navigateByUrl(`/pages/dashboard/leads-section/leads`);
-
   }
-
 }

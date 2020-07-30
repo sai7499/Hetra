@@ -1,0 +1,95 @@
+<div [formGroup]="documentForm">
+  <div
+    formArrayName="details"
+    *ngFor="
+      let detail of documentForm.get('details')['controls'];
+      let i = index
+    "
+  >
+    <div class="panel-body" id="show_1st_div" [formGroupName]="i">
+      <div class="form-group col-sm-3 col-md-2">
+        <label for="document">Document Name</label>
+        <app-vf-custom-select
+          formControlName="documentName"
+        ></app-vf-custom-select>
+      </div>
+      <div class="form-group col-sm-3 col-md-2">
+        <label for="documentnumber">Document Number</label>
+        <app-custom-input
+          formControlName="documentNumber"
+          [placeholder]="'Document Number'"
+        ></app-custom-input>
+      </div>
+
+      <div class="form-group col-sm-3 col-md-2">
+        <label for="idate">Issues Date</label>
+        <div class="input-group input-medium">
+          <kendo-datepicker
+            class="form-control mandatory"
+            formControlName="dob"
+            [format]="'dd/MM/yyyy'"
+            [max]="toDayDate"
+            [activeView]="'decade'"
+            placeholder="Issues Date"
+            formControlName="issueDate"
+          >
+          </kendo-datepicker>
+        </div>
+      </div>
+      <div class="form-group col-sm-3 col-md-2">
+        <label for="edate">Expiry Date</label>
+        <div class="input-group input-medium">
+          <kendo-datepicker
+            class="form-control mandatory"
+            formControlName="dob"
+            [format]="'dd/MM/yyyy'"
+            [activeView]="'decade'"
+            placeholder="Expiry Date"
+            formControlName="expiryDate"
+            [min]="documentForm.get('details').value | docsUpload: i"
+          >
+          </kendo-datepicker>
+        </div>
+      </div>
+      <div class="form-group col-sm-3 col-md-2">
+        <label>Attachment</label>
+        <input
+          type="file"
+          class="custom-file-input"
+          multiple=""
+          id="upload_files"
+          name="filename"
+        />
+      </div>
+      <div class="form-group col-sm-3 col-md-2">
+        <label>Actions </label>
+        <p>
+          <label (click)="onSubmit(); showModal = true"
+            ><i
+              class="fa fa-upload fa-3 custom-file-label"
+              aria-hidden="true"
+              id="add_more_documents_upload1"
+            ></i></label
+          >&nbsp;
+          <i
+            class="fa fa-plus fa-3"
+            aria-hidden="true"
+            id="add_more_documents1"
+            (click)="addDocumentFormControls()"
+          ></i>
+          &nbsp;
+          <i
+            class="fa fa-minus fa-3"
+            aria-hidden="true"
+            id="add_more_documents_remove1"
+            (click)="removeDocumentFormControls(i)"
+          ></i>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<app-upload-modal
+  [showModal]="showModal"
+  (close)="showModal = false"
+></app-upload-modal>

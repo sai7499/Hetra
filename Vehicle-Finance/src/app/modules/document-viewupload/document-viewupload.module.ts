@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ApplicantdocumentComponent } from './applicantdocument/applicantdocument.component';
+import { ApplicantDocumentComponent } from './applicant-document/applicant-document.component';
 import { CollateraldocumentComponent } from './collateraldocument/collateraldocument.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
@@ -9,16 +9,16 @@ import { DocumentViewUploadRouterModule } from './document-viewupload.router';
 
 @NgModule({
   declarations: [
-    ApplicantdocumentComponent,
+    ApplicantDocumentComponent,
     CollateraldocumentComponent,
-    DocumentViewuploadComponent],
+    DocumentViewuploadComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    DocumentViewUploadRouterModule
-  ]
+    DocumentViewUploadRouterModule,
+  ],
 })
-export class DocumentViewuploadModule { }
-
+export class DocumentViewuploadModule {}

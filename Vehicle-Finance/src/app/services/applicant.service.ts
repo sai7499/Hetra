@@ -45,6 +45,16 @@ export class ApplicantService {
     processId?: string;
     workflowId?: string;
   };
+  private addressDetails : {
+    projectId?: string;
+    processId?: string;
+    workflowId?: string;
+  }
+  private panValidation : {
+    projectId?: string;
+    processId?: string;
+    workflowId?: string;
+  }
   constructor(
     private httpService: HttpService,
     private apiService: ApiService,
@@ -59,6 +69,8 @@ export class ApplicantService {
     this.applicantDedupe = this.apiService.api.salesApplicantDedupe;
     this.applicantUcic = this.apiService.api.salesApplicantUcic;
     this.countryList = this.apiService.api.getCountryList;
+    this.addressDetails = this.apiService.api.getAddressDetails; 
+    this.panValidation = this.apiService.api.wrapperPanValidation;
   }
 
   getApplicantList(data) {
@@ -228,6 +240,58 @@ export class ApplicantService {
 
   applicantNegativeListWrapper(data) {
     const negativeListWrapper = this.apiService.api.negativeListWrapper;
+    const projectId = negativeListWrapper.projectId;
+    const processId = negativeListWrapper.processId;
+    const workflowId = negativeListWrapper.workflowId;
+    const body = {
+      processId,
+      workflowId,
+      projectId,
+      ProcessVariables: {
+        ...data,
+      },
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+  getAddressDetails(data){
+    const projectId = this.addressDetails.projectId;
+    const processId = this.addressDetails.processId;
+    const workflowId = this.addressDetails.workflowId;
+    const userId = localStorage.getItem('userId');
+    const body = {
+      processId,
+      workflowId,
+      projectId,
+      ProcessVariables: {
+        ...data,
+        userId
+      },
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+  wrapperPanValidaion(data){
+    const projectId = this.panValidation.projectId;
+    const processId = this.panValidation.processId;
+    const workflowId = this.panValidation.workflowId;
+    const body = {
+      processId,
+      workflowId,
+      projectId,
+      ProcessVariables: {
+        ...data,
+      },
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+
+  }
+  
+  getDocumentCategory(data) {
+    const negativeListWrapper = this.apiService.api.getDocumentCategory;
     const projectId = negativeListWrapper.projectId;
     const processId = negativeListWrapper.processId;
     const workflowId = negativeListWrapper.workflowId;
