@@ -106,16 +106,16 @@ export class ApplicantDetailComponent implements OnInit {
   roleType: any;
 
   constructor(private labelsData: LabelsService,
-              private lovDataService: LovDataService,
-              private router: Router,
-              private ddeStoreService: DdeStoreService,
-              private commomLovService: CommomLovService,
-              private loginStoreService: LoginStoreService,
-              private personaldiscussion: PersonalDiscussionService,
-              private activatedRoute: ActivatedRoute,
-              private pdDataService: PdDataService,
-              private toasterService: ToasterService,
-              private createLeadDataService: CreateLeadDataService) { }
+    private lovDataService: LovDataService,
+    private router: Router,
+    private ddeStoreService: DdeStoreService,
+    private commomLovService: CommomLovService,
+    private loginStoreService: LoginStoreService,
+    private personaldiscussion: PersonalDiscussionService,
+    private activatedRoute: ActivatedRoute,
+    private pdDataService: PdDataService,
+    private toasterService: ToasterService,
+    private createLeadDataService: CreateLeadDataService) { }
 
   async ngOnInit() {
 
@@ -174,6 +174,7 @@ export class ApplicantDetailComponent implements OnInit {
       // }
       this.getLeadSectionData(); // calling get lead section data function in line 179
       this.getPdDetails();
+      // console.log('applicant form', this.applicantForm);
       console.log('Applicant Id In applicant Details Component', this.applicantId);
       console.log('Version In applicant Details Component', this.version);
 
@@ -294,7 +295,7 @@ export class ApplicantDetailComponent implements OnInit {
     const applicantFormModal = { ...formModal };
     // console.log('Form Data', applicantFormModal);
     // console.log('Status', this.applicantForm.get('physicallyChallenged').invalid);
-    this.isDirty = true;
+    // this.isDirty = true;
     if (this.applicantForm.invalid) {
       this.toasterService.showWarning('please enter required details', '');
       return;
@@ -365,6 +366,8 @@ export class ApplicantDetailComponent implements OnInit {
     });
   }
   onNavigateNext() {
+
+
     if (this.version !== 'undefined') {
 
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile/${this.version}`]);
@@ -375,6 +378,7 @@ export class ApplicantDetailComponent implements OnInit {
 
     }
   }
+
 
   onNavigateBack() {
     console.log('in nav back', this.version);
