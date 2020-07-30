@@ -614,6 +614,13 @@
                     [maxLength]="validationData?.panNumber?.maxLength"
                     [type]="validationData?.panNumber?.type"
                   ></app-custom-input>
+
+                  <div class="ShowError" 
+                  *ngIf="panValidate &&
+                  coApplicantForm.get('dedupe').get('pan').value !==''">
+                    Invalid Pan Number
+                  </div>
+                  
                 </div>
               </div>
               <!-- [patternCheck]="validationData?.drivingLicense?.patternCheck" -->
