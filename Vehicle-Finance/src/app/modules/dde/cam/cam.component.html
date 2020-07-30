@@ -1306,11 +1306,11 @@
 
     <!---sourcing table starts here-->
     <table class="cam_table mt-3">
-        <caption class="caption">
+        <!-- <caption class="caption">
             {{
     labels?.sourceDetailsTitle
   }}
-        </caption>
+        </caption> -->
         <tr>
             <td>{{ labels?.customerType }}</td>
             <td>{{ sourcingDetails?.customerType }}</td>
@@ -1413,16 +1413,15 @@
 
     <!--key financial-->
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <!-- <caption class="caption">
             {{
     labels?.applicantDetailsTitle
   }}
-        </caption>
+        </caption> -->
         <thead>
             <tr>
                 <th>{{ labels?.terms }}</th>
-                <th>{{ labels?.borrower }}</th>
-                <th *ngFor="let applicantDetails of applicantDetails; let i = index">coBorrower {{i}}</th>
+                <th *ngFor="let applicantDetails of applicantDetails">{{applicantDetails?.applicantType}}</th>
             </tr>
         </thead>
         <tbody>
@@ -1947,13 +1946,15 @@
         </tbody>
     </table>
     <!--creditConditions-->
-    <!--creditConditions-->
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
         labels?.creditAppraisalSheet
       }}
         </caption>
+    </table>
+    <!--creditConditions-->
+    <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
         labels?.customerSelectionCriteriaTitle
@@ -2018,14 +2019,16 @@
             labels?.detailsOfCibilPdFiDedupe
           }}
         </caption>
-        <tbody>
+        <tbody *ngFor="let detailsOfCibilFiPD of detailsOfCibilFiPD">
             <tr>
-                <td>{{ labels?.applicant }}</td>
-                <td colspan="3">{{ decisionSheet?.pdDoneBy }}</td>
-                <td>{{ labels?.coApplicant }}</td>
+                
+
+                 <td>{{ detailsOfCibilFiPD?.applicantType }} </td>
+                <td colspan="3" >{{ detailsOfCibilFiPD?.pdExecutedBy }}</td> 
+                 <td>{{ labels?.coApplicant }}</td>
                 <td colspan="3">{{ decisionSheet?.pdDoneBy }}</td>
                 <td>{{ labels?.guarantor }}</td>
-                <td colspan="3">{{ decisionSheet?.pdDoneBy }}</td>
+                <td colspan="3">{{ decisionSheet?.pdDoneBy }}</td> 
 
             </tr>
             <tr>
@@ -2053,7 +2056,7 @@
 
             </tr>
             <tr>
-                < <td>{{ labels?.wizardDedupe }}</td>
+                <td>{{ labels?.wizardDedupe }}</td>
                     <td colspan="3">{{ decisionSheet?.pdDoneBy }}</td>
                     <td>{{ labels?.wizardDedupe }}</td>
                     <td colspan="3">{{ decisionSheet?.pdDoneBy }}</td>
