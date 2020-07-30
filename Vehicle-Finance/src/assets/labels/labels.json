@@ -478,14 +478,9 @@
     "businessIncomeOne": "Business Income-1",
     "businessIncomeTwo": "Business Income-2",
     "businessIncomeThree": "Business Income-3",
-<<<<<<< HEAD
     "loanEligibilityBasedOnIncome":"Loan Eligibility based on Income",
     "bankingDetails":"Banking details",
     "bankStatement":"Bank statement",
-=======
-    "loanEligibilityBasedOnIncome": "Loan Eligibility based on Income",
-    "bankingDetails": "Banking details",
->>>>>>> 821787a6522dfe2cea4e1f43dfb242ba1b93bafd
     "totalNoOfCredits": "Total No. of Credits",
     "totalValueOfCredits": "Total Value of Credits",
     "noOfInwardsChequeBounces": "No. of Inwards Cheque bounces",
@@ -1217,16 +1212,11 @@
     "loanTenorServiced": "Loan Tenor Service(in months)",
     "currentEMILoan": "EMI of the Current Loan",
     "agriNoOfAcres": "Agri(No of Acres)",
-<<<<<<< HEAD
     "grossReceipt" : "Gross Receipt",
 "externalFi":"External FI",
 
 
     "termSheetTag1" : "Equitas Small Finance Bank Limited",
-=======
-    "grossReceipt": "Gross Receipt",
-    "termSheetTag1": "Equitas Small Finance Bank Limited",
->>>>>>> 821787a6522dfe2cea4e1f43dfb242ba1b93bafd
     "termSheet": "TERM SHEET",
     "page": "Page",
     "proposalNo": "Proposal No",
