@@ -1576,7 +1576,7 @@
         <thead>
             <tr class="">
                 <th class="bank_name">{{ labels?.terms }}</th>
-                <th colspan="11" class="bank_name">{{ labels?.loanDetailsTitle }}
+                <th  class="bank_name">{{ labels?.loanDetailsTitle }}
                 </th>
                 <th class="bank_name">{{ labels?.total }}</th>
 
@@ -1587,42 +1587,55 @@
                 <td class="bank_name">{{ labels?.loanNo }}</td>
                 <td *ngFor="let existingExposure of existingExposure">{{existingExposure?.loanNo}}
                 </td>
+                <td></td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.asset }}</td>
                 <td *ngFor="let existingExposure of existingExposure">
                     {{existingExposure?.asset}}</td>
+                <td></td>
+
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.mfgYear }}</td>
                 <td *ngFor="let existingExposure of existingExposure">{{existingExposure?.manufacYear}}
                 </td>
+                <td></td>
+
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.gridValue }}</td>
                 <td *ngFor="let existingExposure of existingExposure">{{existingExposure?.gridValue}}
+                </td>
+                <td>{{camDetails?.totalGridValue}}
                 </td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.ltv }}</td>
                 <td *ngFor="let existingExposure of existingExposure">
                     {{existingExposure?.ltv}}</td>
+                    <td>{{camDetails?.totalLtvValue}}
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.currentPos }}</td>
                 <td *ngFor="let existingExposure of existingExposure">
                     {{existingExposure?.currentPos}}</td>
+                    <td>{{camDetails?.totalCurrentPos}}
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.tenure }}</td>
                 <td *ngFor="let existingExposure of existingExposure">
                     {{existingExposure?.tenure}}</td>
+                <td></td>
+
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.emiPaid }}</td>
                 <td *ngFor="let existingExposure of existingExposure">
                     {{existingExposure?.emiPaid}}
                 </td>
+                <td></td>
+
             </tr>
         </tbody>
     </table>
@@ -1652,7 +1665,7 @@
                 <td class="bank_name">{{ labels?.asset }}</td>
                 <td *ngFor="let repaymentTrackRecord of repaymentTrackRecord">
                     {{repaymentTrackRecord?.asset}}</td>
-                <td rowspan="8" class="bank_name">{{ labels?.grossMonthlyIncome }}</td>
+                <td rowspan="8"></td>
 
             </tr>
             <tr>
@@ -1722,11 +1735,7 @@
                 <th class="bank_name">{{ labels?.balance }}</th>
                 <th class="bank_name">{{ labels?.gridValue }}</th>
             </tr>
-            <tr>
-                <th colspan="11" class="bank_name">{{ labels?.IfMoreThanAboveToBeAttachSeparteExcel }}</th>
-                <th class="bank_name">{{ labels?.totalFleetValue }}</th>
-                <th>{{ fleetDetails?.borrowerName }}</th>
-            </tr>
+           
         </thead>
         <tbody>
             <tr *ngFor="let fleetDetails of fleetDetails">
@@ -1745,6 +1754,11 @@
                 <td>{{ fleetDetails?.gridValue }}</td>
 
             </tr>
+            <tr>
+                <td colspan="11" class="bank_name">{{ labels?.IfMoreThanAboveToBeAttachSeparteExcel }}</td>
+                <td class="bank_name">{{ labels?.totalFleetValue }}</td>
+                <td>{{ camDetails?.totalFleetValue }}</td>
+            </tr>
         </tbody>
     </table>
     <!--obligation details-->
@@ -1758,25 +1772,26 @@
         </caption>
         <tr>
             <td class="bank_name">{{ labels?.bankName  }}</td>
-            <td>{{ bankingSummary?.bankName }}</td>
-            <td class="bank_name">{{ labels?.noOfInwardBounces }}</td>
-            <td>{{ bankingSummary?.salariedFOIRPercentAsPerPolicy }}</td>
-            <td rowspan="2" colspan="4" class="bank_name">{{ labels?.commentsOnBankingIfAny }}</td>
+            <td colspan="2">{{ bankingSummary?.bankName }}</td>
+            <td class="bank_name" colspan="3">{{ labels?.noOfInwardBounces }}</td>
+            <td colspan="2">{{ bankingSummary?.noOfInwardBounce }}</td>
+            <td rowspan="2" colspan="2" class="bank_name">{{ labels?.commentsOnBankingIfAny }}</td>
 
         </tr>
         <tr>
             <td class="bank_name">{{ labels?.accountHolderName }}</td>
-            <td>{{ bankingSummary?.name }}</td>
-            <td class="bank_name">{{ labels?.abb }}</td>
-            <td>{{ bankingSummary?.totalSalariedFOIRPercent }}</td>
-
+            <td colspan="2">{{ bankingSummary?.name }}</td>
+            <td colspan="3" class="bank_name">{{ labels?.abb }}</td>
+            <td colspan="2">{{ bankingSummary?.averageAccountBalance }}</td>
         </tr>
         <tr>
             <td class="bank_name">{{ labels?.acNo }}</td>
-            <td>{{ bankingSummary?.accountNo }}</td>
+            <td colspan="3">{{ bankingSummary?.accountNo }}</td>
             <td class="bank_name">{{ labels?.fromDate }}</td>
             <td class="bank_name">{{ labels?.toDate }}</td>
-            <td class="bank_name">{{ labels?.periodInMonths }}</td>
+            <td colspan="2" class="bank_name">{{ labels?.periodInMonths }}</td>
+            <td colspan="2" rowspan="5" ></td>
+
         </tr>
 
         <tr>
@@ -1784,7 +1799,7 @@
             <td colspan="3">{{ bankingSummary?.accountType }}</td>
             <td>{{ bankingSummary?.from }}</td>
             <td>{{ bankingSummary?.to }}</td>
-            <td>{{ bankingSummary?.period }}</td>
+            <td colspan="2">{{ bankingSummary?.period }}</td>
 
 
         </tr>
@@ -1808,8 +1823,7 @@
             <td>{{ bankingTxnDetails?.balanceAsOn5th }}</td>
             <td>{{ bankingTxnDetails?.balanceAsOn15th }}</td>
             <td>{{ bankingTxnDetails?.balanceAsOn20th }}</td>
-            <td class="bank_name">{{labels?.emi}}</td>
-            <td></td>
+            <td>{{bankingTxnDetails?.averageAccountBalance}}</td>
         </tr>
         <tr>
             <td>{{labels?.total}}</td>
@@ -1820,8 +1834,8 @@
             <td>{{ camDetails?.totalBalanceAsOn15th }}</td>
             <td>{{ camDetails?.totalBalanceAsOn20th }}</td>
             <td>{{ camDetails?.totalAbb }}</td>
-            <td class="bank_name">{{ labels?.abbEmi }}</td>
-            <td >{{ bankingTxnDetails?.noOfInwardBounce }}</td>
+            <td class="bank_name">{{ labels?.emi }}</td>
+            <td></td>
         </tr>
         <tr>
             <td>{{labels?.average}}</td>
@@ -1833,7 +1847,9 @@
             <td>{{ camDetails?.avgBalanceAsOn20th }}</td>
             <td>{{ camDetails?.avgAbb }}</td>
             <td class="bank_name">{{ labels?.abbEmi }}</td>
-            <td>{{ bankingTxnDetails?.noOfInwardBounce }}</td>
+            <td></td>
+            <!-- <td class="bank_name">{{ labels?.abbEmi }}</td>
+            <td>{{ bankingTxnDetails?.noOfInwardBounce }}</td> -->
         </tr>
     </table>
     <!--loan eligibility based on income--->
@@ -2055,7 +2071,7 @@
                     <td colspan="3" *ngIf="detailsOfCibilFiPD?.applicantType == 'Applicant'" class="bank_name">{{ labels?.rbiDefaulterListStatusMatchFound }}</td>
                     <td *ngIf="detailsOfCibilFiPD?.applicantType == 'Applicant'">{{ detailsOfCibilFiPD?.rbiDefaulterListStatus }}</td>
                     <td colspan="3" *ngIf="detailsOfCibilFiPD?.applicantType == 'Guarantor'" class="bank_name">{{ labels?.rocSearchStatusForPvtLtdCompanies }}</td>
-                    <td *ngIf="detailsOfCibilFiPD?.applicantType == 'Guarantor'">{{ detailsOfCibilFiPD?.rocSearchStatus ?  detailsOfCibilFiPD?.rocSearchStatus : '' }}</td>
+                    <td *ngIf="detailsOfCibilFiPD?.applicantType == 'Guarantor'">{{ detailsOfCibilFiPD?.rocSearchStatus }}</td>
                 </tr>
                 <tr>
                     <td colspan="3" *ngIf="detailsOfCibilFiPD?.applicantType == 'Applicant'" class="bank_name">{{ labels?.strikeOffCompanyStatusMatchFound }}</td>
