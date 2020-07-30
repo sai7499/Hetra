@@ -52,7 +52,7 @@ export class BasicDetailsComponent implements OnInit {
   isDirty: boolean;
   mobilePhone: any;
   countryList = [];
-  submitButton= true;
+  
 
   //imMinor : boolean= true
   // designation = [
@@ -419,18 +419,8 @@ export class BasicDetailsComponent implements OnInit {
       agriAppRelationship: applicantDetails.agriAppRelationship || '',
       grossReceipt: applicantDetails.grossReceipt,
     });
-    setTimeout(() => {
-      this.enableButton();
-    });
     
     
-  }
-
-  enableButton(){
-    //console.log(this.basicForm)
-    this.basicForm.get('title').valueChanges.subscribe(()=>{
-      this.submitButton= false
-    })
     
   }
 
