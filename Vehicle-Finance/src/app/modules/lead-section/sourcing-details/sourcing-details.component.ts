@@ -80,7 +80,7 @@ export class SourcingDetailsComponent implements OnInit {
   isDirty: boolean;
   isSaved: boolean;
   amountTenureData: any;
-  isLoanAmountTenure: boolean;
+  leadSectionData: any;
 
 
   sourcingCodeObject: {
@@ -203,9 +203,15 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   async getLeadSectionData() {
-    const leadSectionData = this.createLeadDataService.getLeadSectionData();
-    console.log('leadSectionData Lead details', leadSectionData);
-    this.leadData = { ...leadSectionData };
+    // const leadDeatilsData = this.createLeadDataService.getLeadDetailsData();
+    // if (leadDeatilsData == {}) {
+    //   this.leadSectionData = { ...leadDeatilsData };
+    // } else {
+    //   this.leadSectionData = this.createLeadDataService.getLeadSectionData();
+    // }
+    this.leadSectionData = this.createLeadDataService.getLeadSectionData();
+    console.log('leadSectionData Lead details', this.leadSectionData);
+    this.leadData = { ...this.leadSectionData };
     const data = this.leadData;
 
     const currentUrl = this.location.path();
@@ -536,7 +542,7 @@ export class SourcingDetailsComponent implements OnInit {
 
         if (appiyoError === '0' && apiError === '0') {
           this.toasterService.showSuccess('Record Saved Successfully !', 'Lead Details');
-          this.sharedService.changeLoanAmount(Number(saveAndUpdate.requestedAmount));
+          this.sharedService.changeLoanAmount(Number(saveAndUpdate.reqLoanAmt));
           this.sharedService.leadDataToHeader(this.productCategoryChanged);
           const dataa = {
             ...this.saveUpdate,
@@ -546,7 +552,7 @@ export class SourcingDetailsComponent implements OnInit {
           const data = {
             leadDetails: dataa
           };
-          this.createLeadDataService.setLeadSectionData(data);
+          this.createLeadDataService.setLeadDetailsData(data);
           this.isSaved = true;
         }
       });
