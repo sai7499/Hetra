@@ -5,20 +5,10 @@
       data-animation="scaleIn"
       id="form-class"
     >
-      <!-- <h4 class="title">Basic Data</h4> -->
-      <!-- <div class="btn-sec clear-both row">
-                <div class="col-sm-5">
-                    <select id="select_main_button" class="dropdown_individual" (change)="onIndividualChange($event)">
-                        <option value="individual"> Individual </option>
-                    <option value="non-individual"> Non-Individual </option></select>
-                </div>
-            </div> -->
       <div class="btn-sec clear-both row">
         <div class="col-sm-4">
           <label for="entity">{{ labels?.entity }}</label>
-          <!-- <select id="select_main_button" class="form-control" (change)="onIndividualChange($event)">
-                        <option value="individual" > Individual </option>
-                    <option value="non-individual" > Non-Individual </option></select> -->
+          
           <app-vf-custom-select
             formControlName="entity"
             [values]="LOV?.LOVS?.entityType"
@@ -85,6 +75,25 @@
               'NONINDIVENTTYP'
             "
           ></app-vf-custom-select>
+        </div>
+        <div formArrayName="details">
+          <div [formGroupName]="0"
+          *ngIf="isIndividual">
+                
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="customer_category"
+              >{{ labels?.customerCategory }}
+              <sub class="star_red_col">*</sub></label
+            >
+            <app-vf-custom-select
+              formControlName="custSegment"
+              [values]="LOV?.LOVS?.customerSegment"
+              (change)="onCustCategoryChanged($event)"
+              [isRequired]="'Please select one'"
+              [isDirty]="isDirty"
+            ></app-vf-custom-select>
+          </div>
+          </div>
         </div>
       </div>
       <ng-container formArrayName="details">
@@ -683,6 +692,7 @@
               <app-vf-custom-select
                 formControlName="occupation"
                 [values]="LOV.LOVS.occupation"
+                (change)="onOccupationChange($event)"
                 [isRequired]="'Please select one'"
                 [isDirty]="isDirty"
               >
@@ -738,7 +748,7 @@
                 Select customer category
             </span> -->
             </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="customer_category"
                 >{{ labels?.customerCategory }}
                 <sub class="star_red_col">*</sub></label
@@ -746,10 +756,11 @@
               <app-vf-custom-select
                 formControlName="custSegment"
                 [values]="LOV?.LOVS?.customerSegment"
+                (change)="onCustCategoryChanged($event)"
                 [isRequired]="'Please select one'"
                 [isDirty]="isDirty"
               ></app-vf-custom-select>
-            </div>
+            </div> -->
 
             <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="customer_category"
@@ -791,7 +802,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="designation"
                 >{{ labels?.designation }}
-                <sub class="star_red_col">*</sub></label
+                <sub class="star_blue_col">*</sub></label
               >
               <!-- <select class="form-control" id="designation" name="designation">
                             <option value="Salaried">Salaried</option>
@@ -810,14 +821,14 @@
               <app-vf-custom-select
                 formControlName="designation"
                 [values]="LOV.LOVS.designation"
-                [isRequired]="'Please Select One'"
+                [isRequired]="designation"
                 [isDirty]="isDirty"
               ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="office_name"
                 >{{ labels?.officeName }}
-                <sub class="star_red_col">*</sub></label
+                <sub class="star_blue_col">*</sub></label
               >
               <!-- <input
                 formControlName="employerName"
@@ -830,7 +841,7 @@
               <app-custom-input
                 formControlName="employerName"
                 [maxLength]="validationData?.name?.maxLength"
-                [isRequired]="'Office Name Is Required'"
+                [isRequired]="employerName"
                 [isDirty]="isDirty"
               ></app-custom-input>
               <!-- [patternCheck]="nameSpacePattern" -->
@@ -838,7 +849,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="yr_curr_employment"
                 >{{ labels?.noOfyearsInCurrEmployment }}
-                <sub class="star_red_col">*</sub></label
+                <sub class="star_blue_col">*</sub></label
               >
               <!-- <input
                 formControlName="currentEmpYears"
@@ -851,7 +862,7 @@
               <app-custom-input
                 formControlName="currentEmpYears"
                 [maxLength]="validationData?.numberOfYears?.maxLength"
-                [isRequired]="'Employeement Year is required'"
+                [isRequired]="noOfEmpYears"
                 [isDirty]="isDirty"
                 [type]="validationData?.numberOfYears?.type"
               ></app-custom-input>
@@ -861,7 +872,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="employee_code"
                 >{{ labels?.employeeCode }}
-                <sub class="star_red_col">*</sub></label
+                <sub class="star_blue_col">*</sub></label
               >
               <!-- <input
                 formControlName="employeeCode"
@@ -873,7 +884,7 @@
               /> -->
               <app-custom-input
                 formControlName="employeeCode"
-                [isRequired]="'Employee Code is required'"
+                [isRequired]="employeeCode"
                 [isDirty]="isDirty"
                 [inputClass]="'text-uppercase'"
                 [maxLength]="validationData?.employeeCode?.maxLength"
@@ -883,7 +894,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="employee_type"
                 >{{ labels?.employeeType }}
-                <sub class="star_red_col">*</sub></label
+                <sub class="star_blue_col">*</sub></label
               >
               <!-- <select class="form-control" id="employee_type" name="employee_type">
                             <option value="">Select</option>
@@ -891,7 +902,7 @@
               <app-vf-custom-select
                 formControlName="employerType"
                 [values]="LOV.LOVS.applicantEmployerTpe"
-                [isRequired]="'Please Select One'"
+                [isRequired]="employerType"
                 [isDirty]="isDirty"
               ></app-vf-custom-select>
             </div>
@@ -1390,6 +1401,7 @@
               <app-vf-custom-select
                 formControlName="contactPersonDesignation"
                 [values]="LOV.LOVS.occupation"
+                
                 [isRequired]="'Please select one'"
                 [isDirty]="isDirty"
               >

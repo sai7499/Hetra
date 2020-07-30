@@ -542,5 +542,15 @@ export class ApiService {
       workflowId: '051db99495c711eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
+    getAddressDetails : {
+      processId: 'b95e7cfad0b311ea9f0400505695f93b',
+      workflowId: 'b93fc6e8d0b311eab67600505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    wrapperPanValidation : {
+      processId: '9bdd1c8eca8911eabb8100505695f93b',
+      workflowId: '9bb46abeca8911ea8b0000505695f93b',
+      projectId: environment.projectIds.wrapperPanValidation,
+    }
   };
 }

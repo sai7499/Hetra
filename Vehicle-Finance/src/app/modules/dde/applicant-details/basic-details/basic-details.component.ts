@@ -54,6 +54,15 @@ export class BasicDetailsComponent implements OnInit {
   isChecked: boolean;
   ownerPropertyRelation: any;
   checkedBoxHouse: boolean;
+  custCatValue: string;
+  occupationValue: string;
+  ageOfSeniorCitizen = 65;
+  employerType = 'Please Select One';
+  employeeCode = 'Employee Code is required';
+  employerName = 'Office Name Is Required';
+  designation = 'Please Select One';
+  noOfEmpYears = 'Employeement Year is required';
+
 
 
 
@@ -296,7 +305,7 @@ export class BasicDetailsComponent implements OnInit {
     this.checkingMinor = this.showAge < 18;
     details.get('isMinor').setValue(this.checkingMinor);
 
-    this.checkingSenior = this.showAge >= 70;
+    this.checkingSenior = this.showAge >= this.ageOfSeniorCitizen;
     details.get('isSeniorCitizen').setValue(this.checkingSenior);
 
     this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
@@ -305,7 +314,7 @@ export class BasicDetailsComponent implements OnInit {
     this.setGaurdianFieldMandatory();
   }
   checkSenior(event) {
-    if (event.target.checked && (this.showAge <= 70 )) {
+    if (event.target.checked && (this.showAge <= this.ageOfSeniorCitizen)) {
       event.target.checked = false;
     } else {
       event.target.checked = true;
@@ -348,6 +357,10 @@ export class BasicDetailsComponent implements OnInit {
         this.applicant.applicantDetails.applicantTypeKey || '',
       title: this.applicant.applicantDetails.title || '',
     });
+    const applicantDetails = this.applicant.applicantDetails;
+  
+    this.custCatValue = applicantDetails.custSegment;
+    this.ageOfSeniorCitizen= this.custCatValue !== "SEMCUSTSEG"? 60 : 65;
     if (this.isIndividual) {
       this.clearFormArray();
       this.addIndividualFormControls();
@@ -361,9 +374,14 @@ export class BasicDetailsComponent implements OnInit {
       // });
 
     }
-
-
-    const applicantDetails = this.applicant.applicantDetails;
+    const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails;
+    this.occupationValue = aboutIndivProspectDetails.occupation
+    this.custCatValue = applicantDetails.custSegment;
+    if (this.custCatValue === "SEMCUSTSEG" || this.occupationValue === "FAROCPTION") {
+      this.removeEmployeeValidators()
+    } else {
+      this.setEmployeeValidators()
+    }
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
 
@@ -406,6 +424,8 @@ export class BasicDetailsComponent implements OnInit {
     } else if (mobile && mobile.length === 10) {
       this.mobilePhone = mobile;
     }
+
+
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.patchValue({
@@ -551,7 +571,7 @@ export class BasicDetailsComponent implements OnInit {
       alternateMobileNumber: new FormControl(''),
       preferredLanguage: new FormControl('', Validators.required),
       politicallyExposedPerson: new FormControl(null, Validators.required),
-      designation: new FormControl(''),
+      designation: new FormControl('', Validators.required),
       employerName: new FormControl(null, Validators.required),
       currentEmpYears: new FormControl(null, Validators.required),
       employeeCode: new FormControl(null, Validators.required),
@@ -719,6 +739,89 @@ export class BasicDetailsComponent implements OnInit {
   //     : this.addNonIndividualFormControls();
   // }
 
+  onOccupationChange(event) {
+    this.occupationValue = event.target.value;
+    console.log('occValue', this.occupationValue)
+    if (this.occupationValue === "FAROCPTION") {
+      this.removeEmployeeValidators()
+    } else {
+      this.setEmployeeValidators()
+    }
+
+  }
+  onCustCategoryChanged(event) {
+    this.custCatValue = event.target.value;
+    //console.log('custCatValue', this.custCatValue)
+    if (this.custCatValue == 'SEMCUSTSEG') {
+      this.ageOfSeniorCitizen = 65;
+
+      this.checkingSenior = this.showAge >= this.ageOfSeniorCitizen;
+      const formArray = this.basicForm.get('details') as FormArray;
+      const details = formArray.at(0);
+      details.get('isSeniorCitizen').setValue(this.checkingSenior);
+
+      this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
+
+      this.removeEmployeeValidators();
+    } else {
+      this.ageOfSeniorCitizen = 60
+      this.checkingSenior = this.showAge >= this.ageOfSeniorCitizen;
+      const formArray = this.basicForm.get('details') as FormArray;
+      const details = formArray.at(0);
+      details.get('isSeniorCitizen').setValue(this.checkingSenior);
+
+      this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
+      this.setEmployeeValidators();
+    }
+  }
+
+  removeEmployeeValidators() {
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    details.get('employerType').clearValidators();
+    details.get('employerType').updateValueAndValidity();
+    details.get('designation').clearValidators();
+    details.get('designation').updateValueAndValidity();
+    details.get('employerName').clearValidators();
+    details.get('employerName').updateValueAndValidity();
+    details.get('currentEmpYears').clearValidators();
+    details.get('currentEmpYears').updateValueAndValidity();
+    details.get('employeeCode').clearValidators();
+    details.get('employeeCode').updateValueAndValidity();
+    //details.updateValueAndValidity();
+
+    this.employerType = '';
+    this.employeeCode = '';
+    this.employerName = '';
+    this.designation = '';
+    this.noOfEmpYears = '';
+
+
+    // console.log('details', details)
+  }
+
+  setEmployeeValidators() {
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    details.get('employerType').setValidators([Validators.required]);
+    details.get('employerType').updateValueAndValidity();
+    details.get('designation').setValidators([Validators.required]);
+    details.get('designation').updateValueAndValidity();
+    details.get('employerName').setValidators([Validators.required]);
+    details.get('employerName').updateValueAndValidity();
+    details.get('currentEmpYears').setValidators([Validators.required]);
+    details.get('currentEmpYears').updateValueAndValidity();
+    details.get('employeeCode').setValidators([Validators.required]);
+    details.get('employeeCode').updateValueAndValidity();
+
+    this.employerType = 'Please Select One';
+    this.employeeCode = 'Employee Code is required';
+    this.employerName = 'Office Name Is Required';
+    this.designation = 'Please Select One';
+    this.noOfEmpYears = 'Employeement Year is required';
+  }
+
+
   setValidation() {                    // set validators based upon product aanf funding program
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
@@ -758,13 +861,16 @@ export class BasicDetailsComponent implements OnInit {
   async onSubmit() {
     this.setValidation();
     const value = this.basicForm.getRawValue();
-    this.isDirty = true;
+
+
+
     if (this.basicForm.invalid) {
+      this.isDirty = true;
       this.toasterService.showError(
         'Please fill all mandatory fields.',
         'Applicant Details'
       );
-      console.log('details valid status', this.basicForm)
+
       return;
 
     }
@@ -796,6 +902,7 @@ export class BasicDetailsComponent implements OnInit {
       }
     });
   }
+
 
   getLeadId() {
     return new Promise((resolve, reject) => {

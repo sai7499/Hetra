@@ -79,6 +79,8 @@ export class BasicDetailsComponent implements OnInit {
   ownerPropertyRelation: any;
   checkedBoxHouse: boolean;
   validation: any;
+  custCatValue: string;
+  ageOfSeniorCitizen = 65;
 
 
   constructor(
@@ -304,7 +306,7 @@ export class BasicDetailsComponent implements OnInit {
     this.checkingMinor = this.showAge < 18;
     details.get('isMinor').setValue(this.checkingMinor);
 
-    this.checkingSenior = this.showAge >= 70;
+    this.checkingSenior = this.showAge >= this.ageOfSeniorCitizen;
     details.get('isSeniorCitizen').setValue(this.checkingSenior);
 
     this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
@@ -314,7 +316,7 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   checkSenior(event) {
-    if (event.target.checked && (this.showAge <= 70 )) {
+    if (event.target.checked && (this.showAge <= this.ageOfSeniorCitizen )) {
       event.target.checked = false;
     } else {
       event.target.checked = true;
@@ -332,6 +334,32 @@ export class BasicDetailsComponent implements OnInit {
     console.log();
   }
 
+  onCustCategoryChanged(event) {
+    this.custCatValue = event.target.value;
+    //console.log('custCatValue', this.custCatValue)
+    if (this.custCatValue == 'SEMCUSTSEG') {
+      this.ageOfSeniorCitizen = 65;
+
+      this.checkingSenior = this.showAge >= this.ageOfSeniorCitizen;
+      const formArray = this.basicForm.get('details') as FormArray;
+      const details = formArray.at(0);
+      details.get('isSeniorCitizen').setValue(this.checkingSenior);
+
+      this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
+
+      
+    } else {
+      this.ageOfSeniorCitizen = 60
+      this.checkingSenior = this.showAge >= this.ageOfSeniorCitizen;
+      const formArray = this.basicForm.get('details') as FormArray;
+      const details = formArray.at(0);
+      details.get('isSeniorCitizen').setValue(this.checkingSenior);
+
+      this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
+      
+    }
+  }
+
   setBasicData() {
     this.isIndividual =
       this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP';
@@ -346,6 +374,10 @@ export class BasicDetailsComponent implements OnInit {
       bussinessEntityType:
         this.applicant.applicantDetails.bussinessEntityType || '',
     });
+    const applicantDetails = this.applicant.applicantDetails;
+  
+    this.custCatValue = applicantDetails.custSegment;
+    this.ageOfSeniorCitizen= this.custCatValue !== "SEMCUSTSEG"? 60 : 65;
     if (this.isIndividual) {
       this.clearFormArray();
       this.addIndividualFormControls();
@@ -358,7 +390,6 @@ export class BasicDetailsComponent implements OnInit {
       this.setValuesForNonIndividual();
     }
 
-    const applicantDetails = this.applicant.applicantDetails;
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
 
