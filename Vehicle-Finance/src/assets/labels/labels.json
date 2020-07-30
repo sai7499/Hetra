@@ -865,6 +865,7 @@
     "typeOfAccommmodation": "Type of Accommodation",
     "periodOfCurrentStayInYears": "Period of Current Stay (in Years)",
     "alternateMobileNumber": "Alternate Mobile Number",
+    "nearestLandmark" : "Nearest Landmark",
     "officeAddress": "Office Address",
     "registeredAddress": "Registered Address",
     "documentUpload": "Document upload",

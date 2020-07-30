@@ -91,6 +91,8 @@ export class SalesExactMatchComponent implements OnInit {
       ignoreProbablematch: true,
       isIndividual: !(this.dedupeDetails.entityType !== 'INDIVENTTYP'),
       loanApplicationRelation: this.dedupeDetails.loanApplicationRelation,
+      custSegment : this.dedupeDetails.custSegment,
+      contactPerson : this.dedupeDetails.contactPerson
     };
     this.applicantService
       .checkSalesApplicantDedupe(data)
@@ -135,6 +137,8 @@ export class SalesExactMatchComponent implements OnInit {
       loanApplicationRelation: this.dedupeDetails.loanApplicationRelation,
       isIndividual: !(this.dedupeDetails.entityType !== 'INDIVENTTYP'),
       isMobileNumberChanged: this.dedupeDetails.isMobileNumberChanged,
+      custSegment : this.dedupeDetails.custSegment,
+      contactPerson : this.dedupeDetails.contactPerson
     };
 
     this.applicantService
