@@ -802,7 +802,6 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   setControlValues(controls : AbstractControl){
-    console.log('value controls', controls)
      controls.clearValidators();
      controls.updateValueAndValidity
      const value= controls.value;
