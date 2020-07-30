@@ -172,7 +172,7 @@ export class ApplicantDetailComponent implements OnInit {
       //   console.log('in undefined condition version', this.version);
 
       // }
-      this.getLeadSectionData(); // calling get lead section data function in line 179
+      this.getLeadSectionData(); // calling get lead section data function
       this.getPdDetails();
       // console.log('applicant form', this.applicantForm);
       console.log('Applicant Id In applicant Details Component', this.applicantId);
@@ -189,7 +189,7 @@ export class ApplicantDetailComponent implements OnInit {
     // console.log('leadSectionData Lead details', leadSectionData);
     this.leadData = { ...leadSectionData };
     const data = this.leadData;
-    // console.log('in get lead section data', data['applicantDetails']);
+    console.log('in get lead section data', data['applicantDetails']);
 
     // console.log('current app id', this.applicantId);
 

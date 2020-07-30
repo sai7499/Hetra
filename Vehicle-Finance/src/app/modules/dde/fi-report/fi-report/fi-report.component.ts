@@ -8,7 +8,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { ToasterService } from '@services/toaster.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FieldInvestigation } from '@model/dde.model';
-
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 @Component({
   selector: 'app-fi-report',
   templateUrl: './fi-report.component.html',
@@ -26,6 +26,8 @@ export class FiReportComponent implements OnInit {
   fieldInvestigation: FieldInvestigation;
   fiDetails: any = [];
   fIReportList: any = {};
+  leadData: {};
+  applicantFullName: any;
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -34,6 +36,7 @@ export class FiReportComponent implements OnInit {
     private router: Router,
     private fieldInvestigationService: FieldInvestigationService,
     private loginStoreService: LoginStoreService,
+    private createLeadDataService: CreateLeadDataService,
     private toasterService: ToasterService, // service for accessing the toaster
 
   ) {
@@ -55,7 +58,6 @@ export class FiReportComponent implements OnInit {
     this.userId = roleAndUserDetails.userDetails.userId;
     console.log('user id ==>', this.userId);
     // this.leadId = (await this.getLeadId()) as number;
-    this.getFiReportDetails();
   }
 
   getLeadId() {  // function to get the respective  lead id from the url
@@ -79,9 +81,32 @@ export class FiReportComponent implements OnInit {
   getLOV() {
     this.commonLovService.getLovData().subscribe((value) => {
       this.LOV = value;
+      this.getLeadSectionData(); // calling get lead section data function
+      this.getFiReportDetails();
+
     });
 
     console.log(this.LOV);
+  }
+  async getLeadSectionData() { // fun to get all data related to a particular lead from create lead service
+    const leadSectionData = this.createLeadDataService.getLeadSectionData();
+    // console.log('leadSectionData Lead details', leadSectionData);
+    this.leadData = { ...leadSectionData };
+    const data = this.leadData;
+    console.log('in get lead section data', data);
+    // console.log('current app id', this.applicantId);
+    for (const value of data['applicantDetails']) {  // for loop to get the respective applicant details form applicant details array
+      // console.log('in for loop app id', value['applicantId']);
+
+      if (value['applicantId'] === this.applicantId) {
+
+        const applicantDetailsFromLead = value;
+        this.applicantFullName = applicantDetailsFromLead['fullName'];
+        console.log('in gld', this.applicantFullName);
+      }
+    }
+
+
   }
 
 
@@ -97,7 +122,8 @@ export class FiReportComponent implements OnInit {
       cpvInitiatedTime: new FormControl('', Validators.required),
       reportSubmitDate: new FormControl('', Validators.required),
       reportSubmitTime: new FormControl('', Validators.required),
-      applicantName: new FormControl('', Validators.required),
+      // applicantName: new FormControl('', Validators.required),
+      applicantName: new FormControl({ value: '', disabled: true }),
       addressLine1: new FormControl('', Validators.required),
       addressLine2: new FormControl('', Validators.required),
       addressLine3: new FormControl('', Validators.required),
@@ -156,7 +182,7 @@ export class FiReportComponent implements OnInit {
       reportSubmitDate: fiModel.reportSubmitDate ?
         new Date(this.getDateFormat(fiModel.reportSubmitDate)) : null,
       reportSubmitTime: fiModel.reportSubmitTime ? fiModel.reportSubmitTime : null,
-      applicantName: fiModel.applicantName ? fiModel.applicantName : null,
+      applicantName: fiModel.applicantName || this.applicantFullName || null,
       addressLine1: fiModel.addressLine1 ? fiModel.addressLine1 : null,
       addressLine2: fiModel.addressLine2 ? fiModel.addressLine2 : null,
       addressLine3: fiModel.addressLine3 ? fiModel.addressLine3 : null,

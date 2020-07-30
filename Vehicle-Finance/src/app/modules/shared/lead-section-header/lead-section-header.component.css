@@ -34,3 +34,10 @@
     color: white;
   }
   
+  .view-button{
+    width:100%;
+    font-size:xx-small;
+    padding: 8px 8px!important;
+    margin-bottom: 12px;
+   
+  }

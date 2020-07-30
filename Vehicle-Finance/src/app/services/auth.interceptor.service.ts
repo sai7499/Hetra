@@ -34,17 +34,21 @@ export class AuthInterceptor implements HttpInterceptor {
     this.apiCount++;
     let httpMethod = req.method;
     console.log('Before Encryption', req.body);
+    console.log('req', req);
+
     if (httpMethod == 'POST') {
-      if (environment.encryptionType == true) {
-        const encryption = this.encrytionService.encrypt(
-          req.body,
-          environment.aesPublicKey
-        );
-        req = req.clone({
-          setHeaders: encryption.headers,
-          body: encryption.rawPayload,
-          responseType: 'text',
-        });
+      if (req.url.includes('appiyo')) {
+        if (environment.encryptionType == true) {
+          const encryption = this.encrytionService.encrypt(
+            req.body,
+            environment.aesPublicKey
+          );
+          req = req.clone({
+            setHeaders: encryption.headers,
+            body: encryption.rawPayload,
+            responseType: 'text',
+          });
+        }
       }
     } else {
       req = req.clone({
@@ -56,21 +60,30 @@ export class AuthInterceptor implements HttpInterceptor {
         },
       });
     }
-    const authReq = req.clone({
-      headers: req.headers.set(
-        'authentication-token',
-        localStorage.getItem('token') ? localStorage.getItem('token') : ''
-      ),
-      //     .set('X-AUTH-SESSIONID',
-      //      localStorage.getItem('X-AUTH-SESSIONID') ?
-      //      localStorage.getItem('X-AUTH-SESSIONID').trim() : '')
-    });
+
+    let authReq;
+    if (req.url.includes('appiyo')) {
+      authReq = req.clone({
+        headers: req.headers.set(
+          'authentication-token',
+          localStorage.getItem('token') ? localStorage.getItem('token') : ''
+        ),
+        //     .set('X-AUTH-SESSIONID',
+        //      localStorage.getItem('X-AUTH-SESSIONID') ?
+        //      localStorage.getItem('X-AUTH-SESSIONID').trim() : '')
+      });
+    } else {
+      authReq = req;
+    }
+
     return next.handle(authReq).pipe(
       map(
         (event: HttpEvent<any>) => {
           let res;
+          this.apiCount--;
           if (event instanceof HttpResponse) {
-            if (event.headers.get('content-type') == 'text/plain') {
+            
+            if (event.headers.get('content-type') == 'text/plain' ) {
               event = event.clone({
                 body: JSON.parse(this.encrytionService.decryptResponse(event)),
               });
@@ -91,16 +104,27 @@ export class AuthInterceptor implements HttpInterceptor {
             if (res && res['Error'] === '1') {
               alert(res['ErrorMessage']);
             }
-            this.ngxUiLoaderService.stop();
+            // this.ngxUiLoaderService.stop();
+            this.checkApiCount();
             return event;
           } else {
-            this.ngxUiLoaderService.stop();
+            // this.ngxUiLoaderService.stop();
           }
         },
         (err: any) => {
           console.log('err', err);
+          // this.checkApiCount();
         }
       )
     );
+
+    
+  }
+
+  checkApiCount(){
+    console.log("api count",this.apiCount)
+    if(this.apiCount <= 0){
+      this.ngxUiLoaderService.stop();
+    }
   }
 }

@@ -56,7 +56,7 @@
         <div id="vf_sheet_table_div">
             <div id="vf_sheet_first_table">
                 <p id="vf_sheet_tag32 " class="text-center"><strong>{{labels?.vehicleDetails}}</strong></p>
-                <table class="table table-bordered">
+                <table class="table table-responsive table-bordered">
                     <tbody>
                         <tr>
                             <td> {{labels?.vehicleMake}} </td>
@@ -72,16 +72,16 @@
                         </tr>
                         <tr>
                             <td> {{labels?.engineNo}} </td>
-                            <td>{{applicantList?.engineNo | uppercase}}</td>
+                            <td>{{vehicleDetails?.engineNo | uppercase}}</td>
                             <td> {{labels?.chasisNo}} </td>
-                            <td>{{applicantList?.chasisNo | uppercase}}</td>
+                            <td>{{vehicleDetails?.chasisNo | uppercase}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div id="vf_sheet_second_table">
                 <p id="vf_sheet_tag33" class="text-center"><strong> {{labels?.loanApprovedDetails}} </strong></p>
-                <table class="table table-bordered">
+                <table class="table table-responsive table-bordered">
                     <tbody>
                         <tr>
                             <td id="table_column_width15"> {{labels?.assetCostRs}} </td>
@@ -219,7 +219,7 @@
             <p id="vf_sheet_tag80"> {{labels?.vfSheetTag80}} </p>
             <p id="81"> {{labels?.vfSheetTag81}} </p>
             <p id="82"> {{labels?.vfSheetTag82}} {{sanctionDetailsObject.employeeName}}. ({{sanctionDetailsObject.employeeId}}){{labels?.vfSheetTag82A}} </p>
-            <table class="table table-bordered">
+            <table class="table table-responsive table-bordered">
                 <tbody>
                     <tr>
                         <td><strong> {{labels?.paymentType}} </strong></td>

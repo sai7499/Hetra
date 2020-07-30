@@ -444,6 +444,11 @@ export class ApiService {
       workflowId: '587a62d4b9c311ea8dd900505695f93b',
       projectId: environment.projectIds.salesProjectId,
     },
+    saveOrUpdateDocument: {
+      processId: '5f947022c67611eabcd500505695f93b',
+      workflowId: '5f5f525cc67611eaaf9400505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
     submitApproveReferDeclineCreditConditions: {
       processId: '0e709facc67311ea954700505695f93b',
       workflowId: '3ea13662c66611eaa13a00505695f93b',
@@ -452,7 +457,7 @@ export class ApiService {
     assignCDTaskFromSales: {
       processId: '90408c36cc9f11ea83c800505695f93b',
       workflowId: '3ea13662c66611eaa13a00505695f93b',
-      projectId: environment.projectIds.submitToCredit
+      projectId: environment.projectIds.submitToCredit,
     },
     getCountryList: {
       processId: '6c3f2eb0c1d611ea80d600505695f93b',
@@ -504,6 +509,11 @@ export class ApiService {
       workflowId: '5f726640c4cc11ea958b00505695f93b',
       projectId: environment.projectIds.salesProjectId,
     },
+    getCamNewCvDetails: {
+      processId: '95d6f6f8c5ab11eab03700505695f93b',
+      workflowId: '95d6f6f8c5ab11eab03700505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
     saveCamRemarks: {
       processId: 'b099b6aac71e11ea8c4800505695f93b',
       workflowId: 'b0689796c71e11ea8df900505695f93b',
@@ -540,6 +550,21 @@ export class ApiService {
     negativeListWrapper: {
       processId: 'e6e974d4ccb411eab67600505695f93b',
       workflowId: '051db99495c711eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    getAddressDetails : {
+      processId: 'b95e7cfad0b311ea9f0400505695f93b',
+      workflowId: 'b93fc6e8d0b311eab67600505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    wrapperPanValidation : {
+      processId: '9bdd1c8eca8911eabb8100505695f93b',
+      workflowId: '9bb46abeca8911ea8b0000505695f93b',
+      projectId: environment.projectIds.wrapperPanValidation,
+    },
+    getDocumentCategory: {
+      processId: 'cf9334f4cfdf11ea8a4900505695f93b',
+      workflowId: 'cf499204cfdf11eaad5000505695f93b',
       projectId: environment.projectIds.salesProjectId,
     },
   };

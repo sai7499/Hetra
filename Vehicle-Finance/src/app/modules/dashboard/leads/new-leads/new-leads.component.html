@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <table class="table">
+    <table>
         <thead>
             <tr class="table-head-bg">
                 <th *ngIf="roleType == '2'">{{labels?.action}}<i class="fa fa-sort"></i></th>
@@ -17,23 +17,23 @@
         </thead>
         <tbody>
             <tr *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
-                <td *ngIf="roleType == '2'">
+                <td [attr.data-label]="labels?.action" *ngIf="roleType == '2'">
                     <input type="button" class="btn btn-primary" (click)="onRelase(item.taskId); onClick()" value="Release" data-toggle="modal" data-target="#releaseModal">
                 </td>
-                <td class="text-underline" *ngIf="roleType == '1'" (click)="getLeadIdSales(item.leadId,item.stageCode,item.taskId)" style="cursor: pointer;">
+                <td [attr.data-label]="labels?.leadID" class="text-underline" *ngIf="roleType == '1'" (click)="getLeadIdSales(item.leadId,item.stageCode,item.taskId)" style="cursor: pointer;">
                     {{item.leadId}}</td>
-                <td class="text-underline" *ngIf="roleType == '2'"><a [routerLink]="['/pages/dde', item.leadId, 'lead-details']" (click)="getLeadId(item)">{{item.leadId}}</a></td>
-                <td>{{item.product ? item.product : '--'}}</td>
-                <td>{{item.loanAmt ? item.loanAmt : '--'}}</td>
-                <td>{{item.applicants ? item.applicants : '--'}}</td>
-                <td>{{item.createdOn ? item.createdOn : '--'}}</td>
-                <td>{{item.createdBy ? item.createdBy : '--'}}</td>
-                <td *ngIf="item.priority == '1'">Yes</td>
-                <td *ngIf="item.priority == '0' || item.priority == null">No</td>
-                <td>{{item.promoCode ? item.promoCode : '--'}}</td>
-                <td *ngIf="roleType == '1'">{{item.stage ? item.stage : '--'}}</td>
-                <td *ngIf="roleType == '2'">{{item.status ? item.status : '--'}}</td>
-                <td>
+                <td [attr.data-label]="labels?.leadID" class="text-underline" *ngIf="roleType == '2'"><a [routerLink]="['/pages/dde', item.leadId, 'lead-details']" (click)="getLeadId(item)">{{item.leadId}}</a></td>
+                <td [attr.data-label]="labels?.product" >{{item.product ? item.product : '--'}}</td>
+                <td [attr.data-label]="labels?.loanAmount">{{item.loanAmt ? item.loanAmt : '--'}}</td>
+                <td [attr.data-label]="labels?.applicant">{{item.applicants ? item.applicants : '--'}}</td>
+                <td [attr.data-label]="labels?.createdOn">{{item.createdOn ? item.createdOn : '--'}}</td>
+                <td [attr.data-label]="labels?.createdBy">{{item.createdBy ? item.createdBy : '--'}}</td>
+                <td [attr.data-label]="labels?.priority" *ngIf="item.priority == '1'">Yes</td>
+                <td [attr.data-label]="labels?.priority" *ngIf="item.priority == '0' || item.priority == null">No</td>
+                <td [attr.data-label]="labels?.promoCode" >{{item.promoCode ? item.promoCode : '--'}}</td>
+                <td [attr.data-label]="labels?.status" *ngIf="roleType == '1'">{{item.stage ? item.stage : '--'}}</td>
+                <td [attr.data-label]="labels?.status" *ngIf="roleType == '2'">{{item.status ? item.status : '--'}}</td>
+                <td [attr.data-label]="labels?.history">
                     <a data-toggle="tooltip" data-placement="bottom" title="Click to View Timeline Chart"> <i class="fa fa-history"></i></a>
                 </td>
             </tr>
