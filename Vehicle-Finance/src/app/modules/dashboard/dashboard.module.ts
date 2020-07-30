@@ -31,6 +31,8 @@ import { CheckerLeadsWithCpcComponent } from './cpc-checker/checker-leads-with-c
 import { MakerLeadsWithMeComponent } from './cpc-maker/maker-leads-with-me/maker-leads-with-me.component';
 import { MakerLeadsWithCpcComponent } from './cpc-maker/maker-leads-with-cpc/maker-leads-with-cpc.component';
 import { DdeBranchLeadsComponent } from './leads/dde-branch-leads/dde-branch-leads.component';
+import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
+
 
 @NgModule({
   // tslint:disable-next-line: max-line-length
@@ -39,7 +41,8 @@ import { DdeBranchLeadsComponent } from './leads/dde-branch-leads/dde-branch-lea
     CommonModule,
     DashboardRoutingModule,
     NgxPaginationModule,
-    FormsModule
+    FormsModule,
+    DatePickerModule
     ]
 })
 export class DashboardModule { }

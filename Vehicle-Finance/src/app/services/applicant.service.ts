@@ -287,5 +287,23 @@ export class ApplicantService {
     };
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
+
+  }
+  
+  getDocumentCategory(data) {
+    const negativeListWrapper = this.apiService.api.getDocumentCategory;
+    const projectId = negativeListWrapper.projectId;
+    const processId = negativeListWrapper.processId;
+    const workflowId = negativeListWrapper.workflowId;
+    const body = {
+      processId,
+      workflowId,
+      projectId,
+      ProcessVariables: {
+        ...data,
+      },
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
   }
 }

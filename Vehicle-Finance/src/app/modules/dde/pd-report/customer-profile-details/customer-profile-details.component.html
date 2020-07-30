@@ -171,7 +171,8 @@
 
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="mismatch_address"
-          >{{ labels.mismatchAddress }} <sub class="star_red_col">*</sub></label
+          >{{ labels.mismatchOfficeBusinsessAddress }}
+          <sub class="star_red_col">*</sub></label
         >
         <!-- <textarea class="form-control" rows="1" id="mismatch_address" formControlName="mismatchAddress"></textarea> -->
         <!-- <app-custom-input id="mismatch_address" formControlName="mismatchInAddress" placeholder="mismatch in address" [patternCheck]="labels?.validationData?.landMark?.pattern" [isRequired]="'Input is required'" [maxLength]="labels?.validationData?.landMark?.maxLength"
@@ -231,16 +232,23 @@
           >
             {{ labels.back }}</button
           >&nbsp;
-          <button class="btn btn-primary" (click)="onFormSubmit()">
+          <button class="btn btn-primary" (click)="onFormSubmit('save')">
             {{ labels.save }}
           </button>
           &nbsp;
           <!-- <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../loan-details',applicantId,version]"> {{labels.next}} </button>
                     <button class="btn btn-primary" type="button" *ngIf="roleName === 'Sales Officer'" [routerLink]="['../../loan-details',applicantId]"> {{labels.next}} </button> -->
-          <button
+          <!-- <button
             class="btn btn-primary"
             type="button"
             (click)="onNavigateNext()"
+          >
+            {{ labels.next }}
+          </button> -->
+          <button
+            class="btn btn-primary"
+            type="button"
+            (click)="onFormSubmit('next')"
           >
             {{ labels.next }}
           </button>

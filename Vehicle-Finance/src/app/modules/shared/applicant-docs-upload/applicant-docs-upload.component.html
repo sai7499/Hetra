@@ -1,0 +1,303 @@
+<div class="content" style="overflow: scroll;">
+  <form
+    class="multisteps-form__form"
+    style="height: 400px;"
+    [formGroup]="uploadForm"
+  >
+    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+      <h4 class="title">Document upload</h4>
+      <div class="panel-group" id="accordion">
+        <div
+          class="panel panel-default"
+          *ngFor="let subCat of subCategories; let i = index"
+        >
+          <div class="panel-heading" id="headingThree">
+            <h4 class="panel-title">
+              <a
+                class="collapsed"
+                data-toggle="collapse"
+                data-parent="#accordion"
+                href="#collapse{{ subCat.code }}"
+                aria-expanded="false"
+              >
+                <!-- <i class="fa fa-address-card"></i>&nbsp; -->
+                {{ subCat.displayName }}
+                <i class="fa fa-angle-down"></i>
+              </a>
+            </h4>
+          </div>
+          <div
+            id="collapse{{ subCat.code }}"
+            class="panel-collapse collapse"
+            aria-expanded="false"
+            style="height: 0px;"
+          >
+            <div
+              formArrayName="{{ FORM_ARRAY_NAME }}_{{ subCat.code }}"
+              *ngFor="
+                let detail of uploadForm.get(
+                  FORM_ARRAY_NAME + '_' + subCat.code
+                )['controls'];
+                let i = index
+              "
+            >
+              <ng-container *ngIf="subCat.code === 1">
+                <div class="panel-body" [formGroupName]="i">
+                  <div class="photo">
+                    <img
+                      [src]="
+                        DEFAULT_PROFILE_IMAGE ||
+                        '../../../../assets/images/user.jpg'
+                      "
+                      alt="[Image: Photo]"
+                      width="100"
+                    />
+                  </div>
+                  <div class="form-group" style="margin-top: 15px;">
+                    <!-- <label for="file">Upload photo</label>
+                      <input type="file" id="file" /> -->
+                    <button
+                      class="btn btn-primary"
+                      (click)="
+                        uploadDocument(
+                          FORM_ARRAY_NAME + '_' + subCat.code,
+                          i,
+                          subCat,
+                          PROFILE_SIZE,
+                          PROFILE_TYPE,
+                          'profile'
+                        )
+                      "
+                    >
+                      Upload photo
+                    </button>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="subCat.code === 2">
+                <div class="panel-body" [formGroupName]="i">
+                  <div class="photo">
+                    <img
+                      [src]="
+                        DEFAULT_SIGNATURE_IMAGE ||
+                        '../../../../assets/images/user.jpg'
+                      "
+                      alt="[Image: Photo]"
+                      width="100"
+                    />
+                  </div>
+                  <div class="form-group" style="margin-top: 15px;">
+                    <!-- <label for="file">Upload photo</label>
+                      <input type="file" id="file" /> -->
+                    <button
+                      class="btn btn-primary"
+                      (click)="
+                        uploadDocument(
+                          FORM_ARRAY_NAME + '_' + subCat.code,
+                          i,
+                          subCat,
+                          PROFILE_SIZE,
+                          PROFILE_TYPE,
+                          'signature'
+                        )
+                      "
+                    >
+                      Upload photo
+                    </button>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="subCat.code !== 1 && subCat.code !== 2">
+                <div class="panel-body" id="show_1st_diva" [formGroupName]="i">
+                  <div class="form-group col-sm-3 col-md-2">
+                    <label for="document">Document Name</label>
+                    <app-vf-custom-select
+                      formControlName="documentName"
+                      [values]="subCat.docList"
+                      [keyField]="'code'"
+                      [valueField]="'displayName'"
+                      (valueChange)="onDocumentSelect($event, subCat.code)"
+                    ></app-vf-custom-select>
+                  </div>
+                  <div
+                    class="form-group col-sm-3 col-md-2"
+                    *ngIf="subCat.code !== 3"
+                  >
+                    <label for="documentnumber">Document Number</label>
+                    <app-custom-input
+                      formControlName="documentNumber"
+                    ></app-custom-input>
+                  </div>
+
+                  <div
+                    class="form-group col-sm-3 col-md-2"
+                    *ngIf="subCat.code !== 3"
+                  >
+                    <label for="idate">Issues Date</label>
+                    <div class="input-group input-medium">
+                      <kendo-datepicker
+                        class="form-control mandatory"
+                        formControlName="issueDate"
+                        [format]="'dd/MM/yyyy'"
+                        [max]="toDayDate"
+                        [activeView]="'decade'"
+                        placeholder="Issues Date"
+                        formControlName="issueDate"
+                      >
+                      </kendo-datepicker>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group col-sm-3 col-md-2"
+                    *ngIf="subCat.code !== 3"
+                  >
+                    <label for="edate">Expiry Date</label>
+                    <div class="input-group input-medium">
+                      <kendo-datepicker
+                        class="form-control mandatory"
+                        formControlName="dob"
+                        [format]="'dd/MM/yyyy'"
+                        [activeView]="'decade'"
+                        placeholder="Expiry Date"
+                        formControlName="expiryDate"
+                        [min]="
+                          uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)
+                            .value | docsUpload: i
+                        "
+                      >
+                      </kendo-datepicker>
+                    </div>
+                  </div>
+                  <div class="form-group col-sm-3 col-md-2">
+                    <label>File</label>
+                    <input
+                      formControlName="file"
+                      name="input"
+                      type="text"
+                      class="form-control file-input"
+                      readonly
+                      (click)="
+                        downloadDocs(
+                          FORM_ARRAY_NAME + '_' + subCat.code,
+                          i,
+                          $event
+                        )
+                      "
+                    />
+                  </div>
+                  <div class="form-group col-sm-3 col-md-2">
+                    <label>Actions </label>
+                    <p>
+                      <label
+                        ><i
+                          class="fa fa-upload fa-3 custom-file-label"
+                          aria-hidden="true"
+                          id="add_more_documents_upload1a"
+                          (click)="
+                            uploadDocument(
+                              FORM_ARRAY_NAME + '_' + subCat.code,
+                              i,
+                              subCat,
+                              OTHER_DOCUMENTS_SIZE,
+                              OTHER_DOCS_TYPE
+                            )
+                          "
+                        ></i></label
+                      >&nbsp;
+                      <i
+                        class="fa fa-plus fa-3"
+                        aria-hidden="true"
+                        id="add_more_documents1a"
+                        (click)="addDocumentFormControls(subCat.code)"
+                        *ngIf="subCat.code !== 3"
+                      ></i>
+                      &nbsp;
+                      <i
+                        class="fa fa-minus fa-3"
+                        aria-hidden="true"
+                        id="add_more_documents_remove1a"
+                        (click)="
+                          removeDocumentFormControls(
+                            FORM_ARRAY_NAME + '_' + subCat.code,
+                            i
+                          )
+                        "
+                        *ngIf="subCat.code !== 3"
+                      ></i>
+                    </p>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="btn-sec clear-both row">
+  <div class="col-sm-5"></div>
+  <div class="col-sm-7 text-right">
+    <button
+      class="btn btn-primary js-btn-prev dash_href"
+      type="button"
+      (click)="onBack()"
+    >
+      Back
+    </button>
+    <button
+      class="btn btn-primary dash_href"
+      type="button"
+      id="submit"
+      (click)="onSubmit()"
+    >
+      Save
+    </button>
+    <br />
+    <br /><br />
+  </div>
+</div>
+
+<app-upload-modal
+  [showModal]="showModal"
+  (close)="showModal = false"
+  (uploadSuccess)="onUploadSuccess($event)"
+  [docsDetails]="selectedDocDetails"
+></app-upload-modal>
+
+<div class="modal" id="myModal" [ngClass]="{ 'dis-block': !!selectedDocsId }">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"></h4>
+        <!-- <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button> -->
+      </div>
+
+      <div class="modal-body">
+        Are you Sure Want to Delete?
+      </div>
+
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          (click)="deleteDocument()"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-dismiss="modal"
+          (click)="selectedDocsId = null"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,9 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
+import { FormGroup, FormControl, FormArray } from '@angular/forms';
 
 import { LabelsService } from 'src/app/services/labels.service';
 import { LeadStoreService } from '../../services/lead.store.service';
+import { CommomLovService } from '@services/commom-lov-service';
+import { UploadService } from '@services/upload.service';
+import { UtilityService } from '@services/utility.service';
+import {
+  Categories,
+  SubCategories,
+  DocRequest,
+  DocumentDetails,
+} from '@model/upload-model';
+import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 
 @Component({
   selector: 'app-document-upload',
@@ -11,55 +23,21 @@ import { LeadStoreService } from '../../services/lead.store.service';
   styleUrls: ['./document-upload.component.css'],
 })
 export class DocumentUploadComponent implements OnInit {
-  isHeight1: boolean = true;
-  isHeight2: boolean;
-  isHeight3: boolean;
-  isHeight4: boolean;
-  leadId: number;
-
-  labels: any = {};
-
+  applicantId;
+  leadId;
   constructor(
-    private labelsService: LabelsService,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
     private leadStoreService: LeadStoreService,
-    private location: Location
+    private lovService: CommomLovService
   ) {}
 
-  onBack() {
-    this.location.back();
-  }
-
-  navigateToApplicantList() {
-    this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
-  }
-
   ngOnInit() {
-    this.getLabelData();
     this.activatedRoute.params.subscribe((value) => {
-      this.leadId = value.leadId;
-      this.leadId = this.leadStoreService.getLeadId();
+      this.leadId = Number(value.leadId);
+      this.leadId = Number(this.leadStoreService.getLeadId());
+
+      this.applicantId = value.applicantId;
     });
-  }
-
-  getLabelData() {
-    this.labelsService.getLabelsData().subscribe((labelsData) => {
-      this.labels = labelsData;
-    });
-  }
-
-  showHide(e) {
-    const value = e;
-    this.isHeight1 = value === 'photo';
-    this.isHeight2 = value === 'signature';
-    this.isHeight3 = value === 'ID Proof';
-    this.isHeight4 = value === 'Additional Document';
-  }
-
-  onSubmit() {
-    this.router.navigateByUrl(
-      `/pages/lead-section/${this.leadId}/vehicle-details`
-    );
+    console.log('document category', this.lovService.getDocumentCategories());
   }
 }

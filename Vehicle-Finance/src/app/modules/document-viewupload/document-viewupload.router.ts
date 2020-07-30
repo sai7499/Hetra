@@ -1,35 +1,35 @@
-import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
-import {DocumentViewuploadComponent } from "./document-viewupload.component";
-import {ApplicantdocumentComponent } from "./applicantdocument/applicantdocument.component";
-import {CollateraldocumentComponent} from "./collateraldocument/collateraldocument.component"
-
-
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { DocumentViewuploadComponent } from './document-viewupload.component';
+import { ApplicantDocumentComponent } from './applicant-document/applicant-document.component';
+import { CollateraldocumentComponent } from './collateraldocument/collateraldocument.component';
+import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':leadId',
     component: DocumentViewuploadComponent,
+    resolve: { leadData: LeadDataResolverService },
     children: [
-
       {
-        path: "",
-        component: ApplicantdocumentComponent
+        path: '',
+        redirectTo: 'applicant-documents',
+        pathMatch: 'full',
       },
       {
-        path: "Applicant-documents",
-        component: ApplicantdocumentComponent
+        path: 'applicant-documents',
+        component: ApplicantDocumentComponent,
       },
       {
-        path: "collateral-documents",
-        component: CollateraldocumentComponent
+        path: 'collateral-documents',
+        component: CollateraldocumentComponent,
       },
-    ]
-  }
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class DocumentViewUploadRouterModule {}

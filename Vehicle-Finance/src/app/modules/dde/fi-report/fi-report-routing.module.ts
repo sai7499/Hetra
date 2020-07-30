@@ -5,7 +5,7 @@ import { LeadDataResolverService } from '@modules/lead-section/services/leadData
 
 const routes: Routes = [
   {
-    path: ':leadId/fi-report',
+    path: ':leadId/:applicantId/fi-report',
     component: FiReportComponent,
     resolve: { leadData: LeadDataResolverService },
   }
