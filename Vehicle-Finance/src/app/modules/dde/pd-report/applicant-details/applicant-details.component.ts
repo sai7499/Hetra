@@ -106,16 +106,16 @@ export class ApplicantDetailComponent implements OnInit {
   roleType: any;
 
   constructor(private labelsData: LabelsService,
-    private lovDataService: LovDataService,
-    private router: Router,
-    private ddeStoreService: DdeStoreService,
-    private commomLovService: CommomLovService,
-    private loginStoreService: LoginStoreService,
-    private personaldiscussion: PersonalDiscussionService,
-    private activatedRoute: ActivatedRoute,
-    private pdDataService: PdDataService,
-    private toasterService: ToasterService,
-    private createLeadDataService: CreateLeadDataService) { }
+              private lovDataService: LovDataService,
+              private router: Router,
+              private ddeStoreService: DdeStoreService,
+              private commomLovService: CommomLovService,
+              private loginStoreService: LoginStoreService,
+              private personaldiscussion: PersonalDiscussionService,
+              private activatedRoute: ActivatedRoute,
+              private pdDataService: PdDataService,
+              private toasterService: ToasterService,
+              private createLeadDataService: CreateLeadDataService) { }
 
   async ngOnInit() {
 
@@ -257,29 +257,6 @@ export class ApplicantDetailComponent implements OnInit {
       ratingbySO: applicantModal.ratingbySO || ''
     });
   }
-  onNavigateNext() {
-    if (this.version !== 'undefined') {
-
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile/${this.version}`]);
-
-    } else {
-
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile`]);
-
-    }
-  }
-
-  onNavigateBack() {
-    console.log('in nav back', this.version);
-    if (this.version !== 'undefined') {
-
-      this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
-    } else {
-      this.router.navigateByUrl(`/pages/pd-dashboard/${this.leadId}/pd-list`);
-
-
-    }
-  }
 
   getPdDetails() { // function to get the pd details with respect to applicant id
     console.log('pd version', this.version);
@@ -319,7 +296,7 @@ export class ApplicantDetailComponent implements OnInit {
     // console.log('Status', this.applicantForm.get('physicallyChallenged').invalid);
     this.isDirty = true;
     if (this.applicantForm.invalid) {
-      // this.toasterService.showError('', '');
+      this.toasterService.showWarning('please enter required details', '');
       return;
     }
 
@@ -361,7 +338,9 @@ export class ApplicantDetailComponent implements OnInit {
       const processVariables = value.ProcessVariables;
       // console.log(processVariables)
       if (processVariables.error.code === '0') {
+        const message = processVariables.error.message;
         this.toasterService.showSuccess('Record Saved Successfully', '');
+        // this.toasterService.showSuccess(message, '');
         if (action === 'save') {
 
         } else if (action === 'next') {
@@ -384,6 +363,29 @@ export class ApplicantDetailComponent implements OnInit {
 
       }
     });
+  }
+  onNavigateNext() {
+    if (this.version !== 'undefined') {
+
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile/${this.version}`]);
+
+    } else {
+
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile`]);
+
+    }
+  }
+
+  onNavigateBack() {
+    console.log('in nav back', this.version);
+    if (this.version !== 'undefined') {
+
+      this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
+    } else {
+      this.router.navigateByUrl(`/pages/pd-dashboard/${this.leadId}/pd-list`);
+
+
+    }
   }
 
 }

@@ -1,0 +1,35 @@
+.dis-block {
+  display: block;
+}
+
+.upload-btn {
+  border: 1px solid #dc1818;
+  background: none;
+  margin: 10px 0;
+  padding: 4px;
+  border-radius: 5px;
+}
+
+.remove-btn {
+  background: #dc1818;
+  color: #f6f6f6;
+}
+
+.file-info {
+  word-break: break-all;
+  padding: 5px 5px 5px 0;
+}
+
+.preview-panel {
+  padding-left: 15px;
+}
+
+.btn-info {
+  color: #fff;
+  background-color: #1d1a4b;
+  border-color: #161338;
+}
+
+.show-error {
+  color: red;
+}

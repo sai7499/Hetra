@@ -18,7 +18,7 @@
   outline: none !important;
   cursor: pointer;
 }
-@media (min-width: 500px) {
+@media (min-width: 200px) {
   .multisteps-form__progress-btn {
     text-indent: 0;
   }
@@ -394,3 +394,7 @@ select#select_main_button_match {
   margin-top: 10px;
 }
 
+
+@media 
+only screen and 
+    (max-width: 760px){}
