@@ -57,7 +57,22 @@ export class CamComponent implements OnInit {
   sourcingObj: any;
   manualDeviation: any;
   autoDeviation: any;
- 
+  newCvCam: boolean;
+  bankingTxnDetails: any;
+  cibilEnquiries: any;
+  cibilJustification: any;
+  detailsOfCibilFiPD: any;
+  existingExposure: any;
+  fleetDetails: any;
+  otherDeviations: any;
+  proposedVehiclesDetails: any;
+  referenceCheck: any;
+  repaymentTrackRecord: any;
+  coRecommendationTvrDetails: any;
+  customerBackgroundSalesRecommendation: any;
+  ncmBhRecommendation: any;
+  vehicleDeploymentDetails: any;
+
 
   constructor(private labelsData: LabelsService,
     private camService: CamService,
@@ -87,9 +102,12 @@ export class CamComponent implements OnInit {
     if (this.productCategoryName == "Used Commercial Vehicle") {
       this.usedCvCam = true;
       this.getCamUsedCvDetails();
-    }else if(this.productCategoryName == "Used Car"){
+    } else if (this.productCategoryName == "Used Car") {
       this.usedCarCam = true
       this.getCamUsedCarDetails();
+    }else if (this.productCategoryName == "New Commercial Vehicle") {
+      this.newCvCam = true
+      this.getCamNewCvDetails();
     }
 
     this.camDetailsForm = this.formBuilder.group({
@@ -128,7 +146,7 @@ export class CamComponent implements OnInit {
           /^[a-zA-Z0-9 ]*$/
         ),
       ]),
-      
+
 
     })
   }
@@ -154,31 +172,31 @@ export class CamComponent implements OnInit {
       this.cmRecommendation = res.ProcessVariables['cmRecommendationObj']
       this.acmRecommendation = res.ProcessVariables['acmRecommendationObj']
       this.ncmBhApprovalRecommendation = res.ProcessVariables['ncmBhApprovalRecommendationObj']
-      
+
       this.camDetailsForm.patchValue({
-        proposedVehicleRemarks:this.camDetails.proposedToAnyOtherRemarks? this.camDetails.proposedToAnyOtherRemarks : null,
+        proposedVehicleRemarks: this.camDetails.proposedToAnyOtherRemarks ? this.camDetails.proposedToAnyOtherRemarks : null,
       })
       this.camDetailsForm.patchValue({
-        cibilSynopsisRemarks:this.camDetails.cibilSynopsysToAnyOtherRemark? this.camDetails.cibilSynopsysToAnyOtherRemark : null,
+        cibilSynopsisRemarks: this.camDetails.cibilSynopsysToAnyOtherRemark ? this.camDetails.cibilSynopsysToAnyOtherRemark : null,
       })
       this.camDetailsForm.patchValue({
-        trackValidationRemarks:this.camDetails.trackValidationToAnyOtherRemarks? this.camDetails.trackValidationToAnyOtherRemarks : null,
+        trackValidationRemarks: this.camDetails.trackValidationToAnyOtherRemarks ? this.camDetails.trackValidationToAnyOtherRemarks : null,
       })
       this.camDetailsForm.patchValue({
-        fleetRemarks:this.camDetails.fleetSummaryToAnyOtherRemarks? this.camDetails.fleetSummaryToAnyOtherRemarks : null,
+        fleetRemarks: this.camDetails.fleetSummaryToAnyOtherRemarks ? this.camDetails.fleetSummaryToAnyOtherRemarks : null,
       })
       this.camDetailsForm.patchValue({
-        keyFinancialRemarks:this.camDetails.keyFinancialObjAnyOtherRemarks? this.camDetails.keyFinancialObjAnyOtherRemarks : null,
+        keyFinancialRemarks: this.camDetails.keyFinancialObjAnyOtherRemarks ? this.camDetails.keyFinancialObjAnyOtherRemarks : null,
       })
     })
   }
 
-  getCamUsedCarDetails(){
+  getCamUsedCarDetails() {
     const data = {
       leadId: this.leadId,
     };
     this.camService.getCamUsedCarDetails(data).subscribe((res: any) => {
-      console.log("used car cam",res)
+      console.log("used car cam", res)
       this.camDetails = res.ProcessVariables
       this.applicantDetails = res.ProcessVariables['applicantDetails'];
       this.bankingDetails = res.ProcessVariables['bankingDetails'];
@@ -191,17 +209,43 @@ export class CamComponent implements OnInit {
       this.obligationDetails = res.ProcessVariables['obligationDetails']
       this.otherIncomeDetails = res.ProcessVariables['otherIncomeDetails']
       this.sourcingObj = res.ProcessVariables['sourcingObj']
-this.autoDeviation =res.ProcessVariables['autoDeviation']
-this.manualDeviation =res.ProcessVariables['manualDeviation']
-
+      this.autoDeviation = res.ProcessVariables['autoDeviation']
+      this.manualDeviation = res.ProcessVariables['manualDeviation']
       this.vehicleDetails = res.ProcessVariables['vehicleDetails']
-   
-
-     
 
     })
   }
+  getCamNewCvDetails() {
+    const data = {
+      leadId: this.leadId,
+    };
+    this.camService.getCamNewCvDetails(data).subscribe((res: any) => {
+      console.log(res);
+      this.camDetails = res.ProcessVariables
+      this.applicantDetails = res.ProcessVariables['applicantDetails'];
+      this.bankingSummary = res.ProcessVariables['bankingSummary']
+      this.bankingTxnDetails = res.ProcessVariables['bankingTxnDetails']
+      this.cibilEnquiries = res.ProcessVariables['cibilEnquiries']
+      this.cibilJustification = res.ProcessVariables['cibilJustification']
+      this.customerSelectionCriteria = res.ProcessVariables['customerSelectionCriteria']
+      this.detailsOfCibilFiPD = res.ProcessVariables['detailsOfCibilFiPD']
+      this.existingExposure = res.ProcessVariables['existingExposure']
+      this.fleetDetails = res.ProcessVariables['fleetDetails']
+      this.otherDeviations = res.ProcessVariables['otherDeviations']
+      this.proposedVehiclesDetails = res.ProcessVariables['proposedVehiclesDetails']
+      this.referenceCheck = res.ProcessVariables['referenceCheck']
+      this.repaymentTrackRecord = res.ProcessVariables['repaymentTrackRecord']
+      this.sourcingDetails = res.ProcessVariables['sourcingDetails']
+      this.acmRecommendation = res.ProcessVariables['acmRecommendation']
+      this.cmRecommendation = res.ProcessVariables['cmRecommendation']
+      this.coRecommendationTvrDetails = res.ProcessVariables['coRecommendationTvrDetails']
+      this.customerBackgroundSalesRecommendation = res.ProcessVariables['customerBackgroundSalesRecommendation']
+      this.ncmBhRecommendation = res.ProcessVariables['ncmBhRecommendation']
+      this.vehicleDeploymentDetails = res.ProcessVariables['vehicleDeploymentDetails']
 
+     
+    })
+  }
   onSubmit() {
     console.log(this.camDetailsForm);
 
@@ -226,7 +270,7 @@ this.manualDeviation =res.ProcessVariables['manualDeviation']
             .cibilSynopsisRemarks.value,
           trackValidationRemarks: this.camDetailsForm.controls.trackValidationRemarks.value,
           fleetRemarks: this.camDetailsForm.controls.fleetRemarks.value,
-          keyFinancialRemarks:this.camDetailsForm.controls.keyFinancialRemarks.value
+          keyFinancialRemarks: this.camDetailsForm.controls.keyFinancialRemarks.value
         }
       };
 
