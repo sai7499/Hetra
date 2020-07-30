@@ -530,7 +530,7 @@ export class SourcingDetailsComponent implements OnInit {
         leadHandeledBy: Number(this.userId),
         leadCreatedBy: Number(this.branchId),
         leadCreatedOn: this.leadCreatedDateFromLead,
-        reqLoanAmt: Number(saveAndUpdate.reqLoanAmt),
+        reqLoanAmt: saveAndUpdate.reqLoanAmt,
         reqTenure: Number(saveAndUpdate.requestedTenor),
       };
       console.log('this.saveUpdate', this.saveUpdate);
@@ -554,6 +554,8 @@ export class SourcingDetailsComponent implements OnInit {
           };
           this.createLeadDataService.setLeadDetailsData(data);
           this.isSaved = true;
+        }else{
+          this.toasterService.showError(response.ProcessVariables.error.message, 'Lead Details');
         }
       });
     } else {
