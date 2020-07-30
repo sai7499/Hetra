@@ -34,17 +34,21 @@ export class AuthInterceptor implements HttpInterceptor {
     this.apiCount++;
     let httpMethod = req.method;
     console.log('Before Encryption', req.body);
+    console.log('req', req);
+
     if (httpMethod == 'POST') {
-      if (environment.encryptionType == true) {
-        const encryption = this.encrytionService.encrypt(
-          req.body,
-          environment.aesPublicKey
-        );
-        req = req.clone({
-          setHeaders: encryption.headers,
-          body: encryption.rawPayload,
-          responseType: 'text',
-        });
+      if (req.url.includes('appiyo')) {
+        if (environment.encryptionType == true) {
+          const encryption = this.encrytionService.encrypt(
+            req.body,
+            environment.aesPublicKey
+          );
+          req = req.clone({
+            setHeaders: encryption.headers,
+            body: encryption.rawPayload,
+            responseType: 'text',
+          });
+        }
       }
     } else {
       req = req.clone({
@@ -56,15 +60,22 @@ export class AuthInterceptor implements HttpInterceptor {
         },
       });
     }
-    const authReq = req.clone({
-      headers: req.headers.set(
-        'authentication-token',
-        localStorage.getItem('token') ? localStorage.getItem('token') : ''
-      ),
-      //     .set('X-AUTH-SESSIONID',
-      //      localStorage.getItem('X-AUTH-SESSIONID') ?
-      //      localStorage.getItem('X-AUTH-SESSIONID').trim() : '')
-    });
+
+    let authReq;
+    if (req.url.includes('appiyo')) {
+      authReq = req.clone({
+        headers: req.headers.set(
+          'authentication-token',
+          localStorage.getItem('token') ? localStorage.getItem('token') : ''
+        ),
+        //     .set('X-AUTH-SESSIONID',
+        //      localStorage.getItem('X-AUTH-SESSIONID') ?
+        //      localStorage.getItem('X-AUTH-SESSIONID').trim() : '')
+      });
+    } else {
+      authReq = req;
+    }
+
     return next.handle(authReq).pipe(
       map(
         (event: HttpEvent<any>) => {
