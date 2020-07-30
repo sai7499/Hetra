@@ -13,8 +13,10 @@
                 </div>
             </div>
             <div class="row">
-                <div class="table-responsive application" id="applicantTable">
-                    <table class="table">
+               
+                        <div id="applicantTable">  
+                            <table>
+                             
                         <thead>
                             <tr class="table-head-bg">
                                 <th>
@@ -47,19 +49,19 @@
                         <tbody>
 
                             <tr *ngFor="let item of pdList;let i = index">
-                                <td>{{ item.ucic ? item.ucic : '-' }}</td>
-                                <td>{{ item.applicantName ? item.applicantName : '-' }}</td>
-                                <td>{{ item.mobileNumber ? item.mobileNumber : '-' }}</td>
-                                <td>{{ item.applicantType ? item.applicantType : '-' }}</td>
-                                <td *ngIf="showStatus">
+                                <td [attr.data-label]="labels?.ucicId">{{ item.ucic ? item.ucic : '-' }}</td>
+                                <td [attr.data-label]="labels?.applicantName">{{ item.applicantName ? item.applicantName : '-' }}</td>
+                                <td [attr.data-label]="labels?.mobileNumber">{{ item.mobileNumber ? item.mobileNumber : '-' }}</td>
+                                <td [attr.data-label]="labels?.applicantType">{{ item.applicantType ? item.applicantType : '-' }}</td>
+                                <td [attr.data-label]="labels?.pdStatus" *ngIf="showStatus">
                                     <u>{{ item.pdStatusValue ? item.pdStatusValue : '-' }}</u></td>
-                                <td style="cursor:pointer" *ngIf="show && pdStatusValue !='Submitted' " (click)=" navigatePage(item.applicantId) ">
+                                <td [attr.data-label]="labels?.pdStatus" style="cursor:pointer" *ngIf="show && pdStatusValue !='Submitted' " (click)=" navigatePage(item.applicantId) ">
                                     <u>{{ item.pdStatusValue ? item.pdStatusValue : '-' }}</u></td>
-                                <td style="cursor:pointer " *ngIf="show && pdStatusValue==='Submitted' ">
+                                <td [attr.data-label]="labels?.pdStatus" style="cursor:pointer " *ngIf="show && pdStatusValue==='Submitted' ">
                                     <u>{{ item.pdStatusValue ? item.pdStatusValue : '-' }}</u></td>
                                 <!-- <ng-container *ngIf='item.pdReportValue'> -->
                                 <ng-container *ngIf="pdStatusValue==='Submitted' ">
-                                    <td>
+                                    <td [attr.data-label]="labels?.ucicId">
                                         <ng-container *ngFor=" let version of item.pdReportValue.split( ',') ">
                                             <u><a class="a_tag " style="cursor:pointer "
                                                     (click)="navigatePage(item.applicantId,version) ">Version
