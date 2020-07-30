@@ -4,8 +4,9 @@
         <button class="btn mar-right8 btn-primary" type="button"
             [routerLink]="roleType === 1 ? ['../add-vehicle'] : ['/pages/vehicle-details/' + leadId + '/basic-vehicle-details']">{{label.addVehicle}}</button>
     </div>
-    <div class="table-responsive">
-        <table class="table" id="add_vhd_table">
+    <div id="wrapper">  
+       
+        <table  id="add_vhd_table">
             <thead>
                 <tr class=" table-head-bg ">
                     <th>{{label.registrationNo}}</th>
@@ -18,22 +19,22 @@
             </thead>
             <tbody>
                 <tr id="add_vhd_tabletr" *ngFor="let item of vehicleArray; let i = index">
-                    <td data-title="Registration Number">
+                    <td [attr.data-label]="label?.registrationNo" data-title="Registration Number">
                         {{item.regNo | uppercase}}
                     </td>
-                    <td data-title="Make">
+                    <td [attr.data-label]="label?.make"data-title="Make">
                         {{item.make}}
                     </td>
-                    <td data-title="Model">
+                    <td [attr.data-label]="label?.model" data-title="Model">
                         {{item.model}}
                     </td>
-                    <td data-title="Variant">
+                    <td [attr.data-label]="label?.variant" data-title="Variant">
                         {{item.variant}}
                     </td>
-                    <td data-title="FinalAssetCost">
+                    <td [attr.data-label]="label?.finalAssetCost" data-title="FinalAssetCost">
                         {{item.finalAssetCost}}
                     </td>
-                    <td data-title="Action">
+                    <td [attr.data-label]="label?.action" data-title="Action">
 
                         <a
                             (click)="roleType === 1 ? editVehicle(item.collateralId) : onEditVehicleDetails(item.collateralId)" title="Edit collateral"><i

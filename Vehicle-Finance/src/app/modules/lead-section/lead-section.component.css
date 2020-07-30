@@ -394,3 +394,7 @@ select#select_main_button_match {
   margin-top: 10px;
 }
 
+
+@media 
+only screen and 
+    (max-width: 760px){}
