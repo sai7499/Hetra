@@ -200,7 +200,7 @@ export class CustomInputComponent
 
   onBlurMethod(event) {
     const newValue = event.target.value;
-
+   
     if (!newValue && this.isRequired) {
       this.displayError(this.isRequired);
       return;

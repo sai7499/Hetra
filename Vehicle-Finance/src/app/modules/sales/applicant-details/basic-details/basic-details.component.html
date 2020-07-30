@@ -63,6 +63,28 @@
             "
           ></app-vf-custom-select>
         </div>
+        <div formArrayName="details">
+          <div [formGroupName]="0"
+          *ngIf="isIndividual">
+                
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="customer_category"
+              >{{ labels?.customerCategory }}
+              <sub class="star_red_col">*</sub></label
+            >
+            <app-vf-custom-select
+              formControlName="custSegment"
+              [values]="applicantLov?.customerSegment"
+              (change)="onCustCategoryChanged($event)"
+              [isRequired]="'Please select one'"
+              [isDirty]="isDirty"
+            ></app-vf-custom-select>
+          </div>
+          </div>
+        </div>
+        
+        
+
       </div>
       <ng-container formArrayName="details">
         <div
@@ -70,6 +92,10 @@
           [formGroupName]="0"
           *ngIf="isIndividual"
         >
+        
+          
+          
+        
           <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="first_name"
@@ -649,7 +675,7 @@
                 Select customer category
             </span> -->
             </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-4">
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="customer_category"
                 >{{ labels?.customerCategory }}
                 <sub class="star_red_col">*</sub></label
@@ -660,7 +686,7 @@
                 [isRequired]="'Please select one'"
                 [isDirty]="isDirty"
               ></app-vf-custom-select>
-            </div>
+            </div> -->
 
             <!-- <div class="form-group col-sm-6 col-md-4 col-lg-4">
               <label for="customer_category"
@@ -1117,7 +1143,9 @@
       </button></a
     >
     <a id="save_vehicle_details"
-      ><button class="btn btn-primary" type="button" (click)="onSave()">
+      ><button class="btn btn-primary" type="button"
+      
+      (click)="onSave()">
         Save
       </button>
     </a>

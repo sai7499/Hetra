@@ -80,8 +80,10 @@ export class AuthInterceptor implements HttpInterceptor {
       map(
         (event: HttpEvent<any>) => {
           let res;
+          this.apiCount--;
           if (event instanceof HttpResponse) {
-            if (event.headers.get('content-type') == 'text/plain') {
+            
+            if (event.headers.get('content-type') == 'text/plain' ) {
               event = event.clone({
                 body: JSON.parse(this.encrytionService.decryptResponse(event)),
               });
@@ -102,16 +104,27 @@ export class AuthInterceptor implements HttpInterceptor {
             if (res && res['Error'] === '1') {
               alert(res['ErrorMessage']);
             }
-            this.ngxUiLoaderService.stop();
+            // this.ngxUiLoaderService.stop();
+            this.checkApiCount();
             return event;
           } else {
-            this.ngxUiLoaderService.stop();
+            // this.ngxUiLoaderService.stop();
           }
         },
         (err: any) => {
           console.log('err', err);
+          // this.checkApiCount();
         }
       )
     );
+
+    
+  }
+
+  checkApiCount(){
+    console.log("api count",this.apiCount)
+    if(this.apiCount <= 0){
+      this.ngxUiLoaderService.stop();
+    }
   }
 }
