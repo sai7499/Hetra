@@ -755,6 +755,7 @@
           [format]="'dd/MM/yyyy'"
           placeholder="dd/mm/yyyy"
           [activeView]="'decade'"
+          [min]="toDayDate"
         >
         </kendo-datepicker>
       </div>
@@ -777,6 +778,7 @@
           [format]="'dd/MM/yyyy'"
           placeholder="dd/mm/yyyy"
           [activeView]="'decade'"
+          [min]="toDayDate"
         >
         </kendo-datepicker>
       </div>
@@ -804,6 +806,8 @@
           [format]="'dd/MM/yyyy'"
           placeholder="dd/mm/yyyy"
           [activeView]="'decade'"
+          [min]="toDayDate"
+
         >
         </kendo-datepicker>
       </div>
@@ -843,6 +847,7 @@
           [format]="'dd/MM/yyyy'"
           placeholder="dd/mm/yyyy"
           [activeView]="'decade'"
+          [min]="toDayDate"
         >
         </kendo-datepicker>
       </div>
@@ -998,13 +1003,13 @@
           >
             {{ labels.back }}</button
           >&nbsp;
-          <button class="btn btn-primary" (click)="onFormSubmit()">
+          <button class="btn btn-primary" (click)="onFormSubmit('save')">
             {{ labels.save }}</button
           >&nbsp;
           <button
             class="btn btn-primary"
             type="button"
-            (click)="onNavigateNext()"
+            (click)="onFormSubmit('next')"
           >
             {{ labels.next }}
           </button>
