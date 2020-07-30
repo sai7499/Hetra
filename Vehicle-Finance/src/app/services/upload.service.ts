@@ -70,7 +70,7 @@ export class UploadService {
     return this.httpService.post(url, body);
   }
 
-  getDocumentDetails(id: string) {
+  getDocumentDetails(id: number) {
     const processId = '5ed3d854c78311eab03700505695f93b';
     const workflowId = '5eb62296c78311ea887700505695f93b';
     const projectId = '8bfa8dba945b11eabdcaf2fa9bec3d63';
@@ -116,7 +116,7 @@ export class UploadService {
           timestamp: '2020-07-02T10:46:19.934Z',
           authInfo: {
             brnchId: '1001',
-            usrId: '474',
+            usrId: localStorage.getItem('userId'),
           },
         },
         msgBdy: {

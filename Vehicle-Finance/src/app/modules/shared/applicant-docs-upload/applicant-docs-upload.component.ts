@@ -34,8 +34,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
     if (!value) {
       return;
     }
-    this.applicantId = value;
-    this.getApplicantDocumentCategory(value);
+    this.applicantId = Number(value);
+    this.getApplicantDocumentCategory(this.applicantId);
     this.DEFAULT_PROFILE_IMAGE = '';
     this.DEFAULT_SIGNATURE_IMAGE = '';
   }
@@ -66,7 +66,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
   subCategories: SubCategories[] = [];
   FORM_ARRAY_NAME = 'subCategory';
   docListObj = {};
-  applicantId: string;
+  applicantId: number;
   uploadedDocs = {};
   selectedDocsId: {
     formArrayName?: string;
@@ -420,7 +420,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
       docSize,
       issueDate,
       expiryDate,
-      associatedId: this.applicantId,
+      associatedId: String(this.applicantId),
       associatedWith: '1',
       documentNumber,
       documentId,
@@ -452,6 +452,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
     let el = event.srcElement;
     const formArray = this.uploadForm.get(formArrayName) as FormArray;
     const documentId = formArray.at(index).get('file').value;
+    if (!documentId) {
+      return;
+    }
     const bas64String = this.base64StorageService.getString(
       this.applicantId + documentId
     );

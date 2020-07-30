@@ -14,10 +14,9 @@ export class DraggableComponent implements OnInit {
   };
   @Input() set imageUrl(value) {
     if (!!value) {
-      this.src = value.imageUrl;
+      this.src = 'data:image/jpeg;base64,' + value.imageUrl;
       console.log('setCss', this.setCss);
       setTimeout(() => {
-        console.log;
         this.dragElement(document.getElementById('mydiv'));
       });
     }

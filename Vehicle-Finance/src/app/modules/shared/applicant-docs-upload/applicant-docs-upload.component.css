@@ -60,7 +60,13 @@ h4 {
   display: block;
 }
 
-.panel-heading {
+.file-input {
+  background-color: white;
+  border-radius: 0px;
+  border: 1px solid #69c3e8;
+}
+
+/* .panel-heading {
   background-color: #1d1a4b;
   color: #fff;
-}
+} */
