@@ -23,6 +23,7 @@ export class LoginService {
     let body = {
       email: data.email,
       password: data.password,
+      useADAuth : data.useADAuth
     };
     return this.httpService.post(url, body);
   }
