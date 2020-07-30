@@ -1266,7 +1266,7 @@
         </tbody>
     </table>
     <!--creditConditions-->
-
+    <!--decisionSheet-->
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
@@ -1300,7 +1300,7 @@
             </tr>
         </tbody>
     </table>
-
+    <!--decisionSheet-->
 </div>
 <div class="container overflow-hidden" *ngIf="newCvCam">
 
@@ -1411,7 +1411,7 @@
     </table>
     <!--sourcing table ends here--->
 
-    <!--key financial-->
+    <!--applicantDetails-->
     <table class="cam_table_proposed mt-3">
         <!-- <caption class="caption">
             {{
@@ -1509,9 +1509,9 @@
             </tr>
         </tbody>
     </table>
-    <!--key financial-->
+    <!--applicantDetails-->
 
-    <!---fleet summary-->
+    <!---proposedVehicleDetails-->
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
@@ -1564,9 +1564,9 @@
             </tr>
         </tbody>
     </table>
-    <!--fleet summary--->
+    <!--proposedVehicleDetails--->
 
-    <!---income Details--->
+    <!---existingExposure--->
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
@@ -1576,7 +1576,7 @@
         <thead>
             <tr class="">
                 <th class="bank_name">{{ labels?.terms }}</th>
-                <th  class="bank_name">{{ labels?.loanDetailsTitle }}
+                <th class="bank_name">{{ labels?.loanDetailsTitle }}
                 </th>
                 <th class="bank_name">{{ labels?.total }}</th>
 
@@ -1614,13 +1614,13 @@
                 <td class="bank_name">{{ labels?.ltv }}</td>
                 <td *ngFor="let existingExposure of existingExposure">
                     {{existingExposure?.ltv}}</td>
-                    <td>{{camDetails?.totalLtvValue}}
+                <td>{{camDetails?.totalLtvValue}}
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.currentPos }}</td>
                 <td *ngFor="let existingExposure of existingExposure">
                     {{existingExposure?.currentPos}}</td>
-                    <td>{{camDetails?.totalCurrentPos}}
+                <td>{{camDetails?.totalCurrentPos}}
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.tenure }}</td>
@@ -1639,9 +1639,9 @@
             </tr>
         </tbody>
     </table>
-    <!--income Details-->
+    <!--existingExposure-->
 
-    <!--other income details-->
+    <!--repaymentTrackRecord-->
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
@@ -1711,8 +1711,8 @@
 
         </tbody>
     </table>
-    <!--other income details-->
-    <!--obligation details-->
+    <!--repaymentTrackRecord-->
+    <!--fleetDetails-->
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
@@ -1735,7 +1735,7 @@
                 <th class="bank_name">{{ labels?.balance }}</th>
                 <th class="bank_name">{{ labels?.gridValue }}</th>
             </tr>
-           
+
         </thead>
         <tbody>
             <tr *ngFor="let fleetDetails of fleetDetails">
@@ -1761,9 +1761,9 @@
             </tr>
         </tbody>
     </table>
-    <!--obligation details-->
+    <!--fleetDetails-->
 
-    <!---loan eligibility based on income-->
+    <!---bankingHistory-->
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
@@ -1790,7 +1790,7 @@
             <td class="bank_name">{{ labels?.fromDate }}</td>
             <td class="bank_name">{{ labels?.toDate }}</td>
             <td colspan="2" class="bank_name">{{ labels?.periodInMonths }}</td>
-            <td colspan="2" rowspan="5" ></td>
+            <td colspan="2" rowspan="5"></td>
 
         </tr>
 
@@ -1852,10 +1852,10 @@
             <td>{{ bankingTxnDetails?.noOfInwardBounce }}</td> -->
         </tr>
     </table>
-    <!--loan eligibility based on income--->
+    <!--bankingHistory--->
 
 
-    <!--creditConditions-->
+    <!--customerBackgroundSalesRecommendation-->
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
@@ -1877,9 +1877,9 @@
             </tr>
         </tbody>
     </table>
-    <!--creditConditions-->
+    <!--customerBackgroundSalesRecommendation-->
 
-    <!--creditConditions-->
+    <!--CoApplicantBackground-->
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
@@ -1893,9 +1893,9 @@
 
         </tbody>
     </table>
-    <!--creditConditions-->
+    <!--CoApplicantBackground-->
 
-    <!--creditConditions-->
+    <!--guarantorDetails-->
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
@@ -1909,9 +1909,9 @@
 
         </tbody>
     </table>
-    <!--creditConditions-->
+    <!--guarantorDetails-->
 
-    <!--creditConditions-->
+    <!--vehicleDeploymentDetails-->
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
@@ -1931,7 +1931,8 @@
 
         </tbody>
     </table>
-    <!--creditConditions-->
+    <!--vehicleDeploymentDetails-->
+    <!--referenceCheck-->
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
@@ -1961,7 +1962,8 @@
 
         </tbody>
     </table>
-    <!--creditConditions-->
+    <!--referenceCheck-->
+    <!--creditAppraisalSheet-->
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
@@ -1969,7 +1971,9 @@
       }}
         </caption>
     </table>
-    <!--creditConditions-->
+    <!--creditAppraisalSheet-->
+    <!--customerSelectionCriteriaTitle-->
+
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
@@ -2000,8 +2004,8 @@
             </tr>
         </tbody>
     </table>
-    <!--creditConditions-->
-    <!--creditConditions-->
+    <!--customerSelectionCriteriaTitle-->
+    <!--otherDeviationIfAny-->
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
@@ -2027,8 +2031,8 @@
             </tr>
         </tbody>
     </table>
-    <!--creditConditions-->
-    <!--creditConditions-->
+    <!--otherDeviationIfAny-->
+    <!--detailsOfCibilPdFiDedupe-->
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
@@ -2058,28 +2062,38 @@
                     <td colspan="3">{{ detailsOfCibilFiPD?.wizardDedupe }}</td>
                 </tr>
                 <tr>
-                    <td colspan="3" *ngIf="detailsOfCibilFiPD?.applicantType == 'Applicant'" class="bank_name">{{ labels?.shellDeudupeStatusMatchFound }}</td>
+                    <td colspan="3" *ngIf="detailsOfCibilFiPD?.applicantType == 'Applicant'" class="bank_name">
+                        {{ labels?.shellDeudupeStatusMatchFound }}</td>
                     <td *ngIf="detailsOfCibilFiPD?.applicantType == 'Applicant'">
                         {{ detailsOfCibilFiPD?.shellDedupeStatus }}</td>
-                        <td colspan="4" height="62" *ngIf="detailsOfCibilFiPD?.applicantType == 'Co-Applicant'"></td>
-                        
-                    <td colspan="3"  *ngIf="detailsOfCibilFiPD?.applicantType == 'Guarantor'" class="bank_name">{{ labels?.internalDeudupeStatusMatchFound }}</td>
-                    <td  *ngIf="detailsOfCibilFiPD?.applicantType == 'Guarantor'">
+                    <td colspan="4" height="62" *ngIf="detailsOfCibilFiPD?.applicantType == 'Co-Applicant'"></td>
+
+                    <td colspan="3" *ngIf="detailsOfCibilFiPD?.applicantType == 'Guarantor'" class="bank_name">
+                        {{ labels?.internalDeudupeStatusMatchFound }}</td>
+                    <td *ngIf="detailsOfCibilFiPD?.applicantType == 'Guarantor'">
                         {{ detailsOfCibilFiPD?.internalDedupeStatus }}</td>
                 </tr>
                 <tr>
-                    <td colspan="3" *ngIf="detailsOfCibilFiPD?.applicantType == 'Applicant'" class="bank_name">{{ labels?.rbiDefaulterListStatusMatchFound }}</td>
-                    <td *ngIf="detailsOfCibilFiPD?.applicantType == 'Applicant'">{{ detailsOfCibilFiPD?.rbiDefaulterListStatus }}</td>
-                    <td colspan="3" *ngIf="detailsOfCibilFiPD?.applicantType == 'Guarantor'" class="bank_name">{{ labels?.rocSearchStatusForPvtLtdCompanies }}</td>
-                    <td *ngIf="detailsOfCibilFiPD?.applicantType == 'Guarantor'">{{ detailsOfCibilFiPD?.rocSearchStatus }}</td>
+                    <td colspan="3" *ngIf="detailsOfCibilFiPD?.applicantType == 'Applicant'" class="bank_name">
+                        {{ labels?.rbiDefaulterListStatusMatchFound }}</td>
+                    <td *ngIf="detailsOfCibilFiPD?.applicantType == 'Applicant'">
+                        {{ detailsOfCibilFiPD?.rbiDefaulterListStatus }}</td>
+                    <td colspan="3" *ngIf="detailsOfCibilFiPD?.applicantType == 'Guarantor'" class="bank_name">
+                        {{ labels?.rocSearchStatusForPvtLtdCompanies }}</td>
+                    <td *ngIf="detailsOfCibilFiPD?.applicantType == 'Guarantor'">
+                        {{ detailsOfCibilFiPD?.rocSearchStatus }}</td>
                 </tr>
                 <tr>
-                    <td colspan="3" *ngIf="detailsOfCibilFiPD?.applicantType == 'Applicant'" class="bank_name">{{ labels?.strikeOffCompanyStatusMatchFound }}</td>
-                    <td *ngIf="detailsOfCibilFiPD?.applicantType == 'Applicant'">{{ detailsOfCibilFiPD?.strikeOfCompanyStatus }}</td>
-                    <td colspan="3" *ngIf="detailsOfCibilFiPD?.applicantType == 'Guarantor'" class="bank_name">{{ labels?.directorsDinNumberForPvtLtdCompanies }}</td>
-                    <td *ngIf="detailsOfCibilFiPD?.applicantType == 'Guarantor'">{{ detailsOfCibilFiPD?.directorsDinNumber }}</td>
+                    <td colspan="3" *ngIf="detailsOfCibilFiPD?.applicantType == 'Applicant'" class="bank_name">
+                        {{ labels?.strikeOffCompanyStatusMatchFound }}</td>
+                    <td *ngIf="detailsOfCibilFiPD?.applicantType == 'Applicant'">
+                        {{ detailsOfCibilFiPD?.strikeOfCompanyStatus }}</td>
+                    <td colspan="3" *ngIf="detailsOfCibilFiPD?.applicantType == 'Guarantor'" class="bank_name">
+                        {{ labels?.directorsDinNumberForPvtLtdCompanies }}</td>
+                    <td *ngIf="detailsOfCibilFiPD?.applicantType == 'Guarantor'">
+                        {{ detailsOfCibilFiPD?.directorsDinNumber }}</td>
                 </tr>
-                
+
                 <tr>
                     <td colspan="2" class="bank_name">{{ labels?.pdExecutedBy }}</td>
                     <td colspan="2">{{ detailsOfCibilFiPD?.pdExecutedBy }}</td>
@@ -2089,8 +2103,8 @@
 
 
     </table>
-    <!--creditConditions-->
-    <!--creditConditions-->
+    <!--detailsOfCibilPdFiDedupe-->
+    <!--cibilJustificationIfAny-->
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
@@ -2111,8 +2125,8 @@
 
         </tbody>
     </table>
-    <!--creditConditions-->
-    <!--creditConditions-->
+    <!--cibilJustificationIfAny-->
+    <!--cibilEnquiries-->
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
@@ -2136,7 +2150,9 @@
 
         </tbody>
     </table>
-    <!--creditConditions-->
+    <!--cibilEnquiries-->
+    <!--coRecommendationAndTvrDetailsMandatory-->
+
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
@@ -2157,7 +2173,8 @@
             </tr>
         </tbody>
     </table>
-    <!--recommondation-->
+    <!--coRecommendationAndTvrDetailsMandatory-->
+    <!--cmRecommendation-->
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
@@ -2198,6 +2215,9 @@
             </tr>
         </tbody>
     </table>
+    <!--cmRecommendation-->
+    <!--ncmBhApprovalRecommendation-->
+
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
@@ -2218,6 +2238,8 @@
             </tr>
         </tbody>
     </table>
+    <!--ncmBhApprovalRecommendation-->
+
 </div>
 <div class="for_space"></div>
 
