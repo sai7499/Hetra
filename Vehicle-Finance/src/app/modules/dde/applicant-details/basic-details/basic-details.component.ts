@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormArray, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, Validators, FormBuilder, AbstractControl } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommomLovService } from '@services/commom-lov-service';
@@ -776,28 +776,38 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   removeEmployeeValidators() {
-    const formArray = this.basicForm.get('details') as FormArray;
-    const details = formArray.at(0);
-    details.get('employerType').clearValidators();
-    details.get('employerType').updateValueAndValidity();
-    details.get('designation').clearValidators();
-    details.get('designation').updateValueAndValidity();
-    details.get('employerName').clearValidators();
-    details.get('employerName').updateValueAndValidity();
-    details.get('currentEmpYears').clearValidators();
-    details.get('currentEmpYears').updateValueAndValidity();
-    details.get('employeeCode').clearValidators();
-    details.get('employeeCode').updateValueAndValidity();
-    //details.updateValueAndValidity();
-
     this.employerType = '';
     this.employeeCode = '';
     this.employerName = '';
     this.designation = '';
     this.noOfEmpYears = '';
 
+   setTimeout(() => {
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    
+    const employerType=details.get('employerType');
+    const designation=details.get('designation');
+    const employerName= details.get('employerName')
+    const employeeCode = details.get('employeeCode')
+    const currentEmpYears= details.get('currentEmpYears')
 
-    // console.log('details', details)
+    this.setControlValues(employerType);
+    this.setControlValues(designation);
+    this.setControlValues(employerName);
+    this.setControlValues(employeeCode);
+    this.setControlValues(currentEmpYears);
+   });
+     
+  }
+
+  setControlValues(controls : AbstractControl){
+    console.log('value controls', controls)
+     controls.clearValidators();
+     controls.updateValueAndValidity
+     const value= controls.value;
+     
+     controls.setValue(value || null)
   }
 
   setEmployeeValidators() {

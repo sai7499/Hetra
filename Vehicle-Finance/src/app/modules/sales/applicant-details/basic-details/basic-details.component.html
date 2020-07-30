@@ -1143,7 +1143,9 @@
       </button></a
     >
     <a id="save_vehicle_details"
-      ><button class="btn btn-primary" type="button" (click)="onSave()">
+      ><button class="btn btn-primary" type="button"
+      [disabled]="submitButton"
+      (click)="onSave()">
         Save
       </button>
     </a>

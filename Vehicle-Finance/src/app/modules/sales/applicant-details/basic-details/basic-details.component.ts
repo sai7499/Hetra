@@ -52,6 +52,7 @@ export class BasicDetailsComponent implements OnInit {
   isDirty: boolean;
   mobilePhone: any;
   countryList = [];
+  submitButton= true;
 
   //imMinor : boolean= true
   // designation = [
@@ -131,9 +132,10 @@ export class BasicDetailsComponent implements OnInit {
     console.log('data-->', leadData);
     this.productCategory = leadData['leadDetails'].productId;
     this.fundingProgram = leadData['leadDetails'].fundingProgram;
-
+    
 
   }
+  
 
   getCountryList() {
     this.applicantService.getCountryList().subscribe((res: any) => {
@@ -417,7 +419,22 @@ export class BasicDetailsComponent implements OnInit {
       agriAppRelationship: applicantDetails.agriAppRelationship || '',
       grossReceipt: applicantDetails.grossReceipt,
     });
+    setTimeout(() => {
+      this.enableButton();
+    });
+    
+    
   }
+
+  enableButton(){
+    //console.log(this.basicForm)
+    this.basicForm.get('title').valueChanges.subscribe(()=>{
+      this.submitButton= false
+    })
+    
+  }
+
+  
 
   setValuesForIndividual() {
     const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails
@@ -656,9 +673,9 @@ export class BasicDetailsComponent implements OnInit {
   // }
 
   async onSave() {
-    this.setDedupeValidators();
+    this.setFormsValidators();
     this.isDirty = true;
-    console.log('basicForm', this.basicForm.controls);
+    console.log('basicForm', this.basicForm);
     if (this.basicForm.invalid) {
       this.toasterService.showError(
         'Please fill all mandatory fields.',
@@ -715,7 +732,7 @@ export class BasicDetailsComponent implements OnInit {
       });
     });
   }
-  setDedupeValidators() {
+  setFormsValidators() {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     if (this.productCategory == '1003' && (this.fundingProgram == '25' || this.fundingProgram == '24')) {
