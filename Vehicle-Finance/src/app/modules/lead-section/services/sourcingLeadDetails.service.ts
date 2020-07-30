@@ -26,7 +26,7 @@ export class LeadDetails {
         // branchId: leadDetails.loanBranch,
         // productId: leadDetails.productId,
         // fundingProgram: leadDetails.fundingProgram,
-        // reqLoanAmt: leadDetails.requestedLoanAmount,
+        // reqLoanAmt: leadDetails.reqLoanAmt,
         // reqTenure: leadDetails.reqTenure,
         // leadHandledBy: leadDetails.leadHandeledBy,
         // leadCreatedBy: leadDetails.leadCreatedBy,
@@ -38,7 +38,7 @@ export class LeadDetails {
         // sourcingType: leadDetails.sourcingType,
         // bizDivision: leadDetails.bizDivision,
         // userId: leadDetails.userId,
-        leadDetails
+        ...leadDetails
       },
       workflowId: workflowId,
       projectId: projectId,
