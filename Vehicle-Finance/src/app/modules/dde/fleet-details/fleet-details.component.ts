@@ -53,7 +53,7 @@ export class FleetDetailsComponent implements OnInit {
   public assetModelType: any = [];
   public assetModelTypeLov : any = []
   public assetVariant: any = [];
-  public vehicleManufacturer : any = [];
+  public vehicleManufacturer : any = []; // make field lov
   public vehicleTypeLov : any = [];
   public assetBodyTypeLov : any= [];
   public regionLov : any = [];
@@ -291,6 +291,7 @@ export class FleetDetailsComponent implements OnInit {
       vehicleId : '',
     });
   }
+  // make field changes 
   onAssetMake(value, obj ,index) {
     let VehicleTypeArray = []
 
@@ -314,7 +315,8 @@ export class FleetDetailsComponent implements OnInit {
             this.vehicleTypeLov[index] = VehicleTypeArray;
             obj.patchValue({
               vehicleType: '',
-              assetBodyType: ''
+              assetBodyType: '',
+              yom: ''
             })
 
           } else {
@@ -333,6 +335,7 @@ export class FleetDetailsComponent implements OnInit {
     }
 
   }
+  //  vechile type change event
   onVehicleType(value, obj , index) {
 
     let assetBodyTypeData = []
@@ -361,7 +364,8 @@ export class FleetDetailsComponent implements OnInit {
             obj.patchValue({
               assetBodyType: '',
               assetModel: '',
-              assetVariant: ''
+              assetVariant: '',
+              yom: ''
             })
 
           } else {
@@ -379,30 +383,36 @@ export class FleetDetailsComponent implements OnInit {
       });
     }
   }
+  // asst body tye event
   onAssetBodyType(value: any, obj , index) {
     this.assetModelType = this.assetBodyType.filter((data) => data.uniqueSegmentCode === value)
     this.assetModelTypeLov[index] = this.utilityService.getValueFromJSON(this.assetModelType,
       "vehicleModelCode", "vehicleModel")
     obj.patchValue({
-      assetModel: ''
+      assetModel: '',
+      yom: ''
     })
   }
+  // get vechile Id
   onAssetModel(value: any, obj , index) {
     this.assetVariant = this.assetModelType.filter((data) => data.vehicleModelCode === value)
     const array = this.utilityService.getCommonUniqueValue(this.assetVariant, 'vehicleVariant')
     const formArray = (this.fleetForm.get('Rows') as FormArray);
     formArray.controls[index].patchValue({
-      vehicleId: array.length > 0 ? Number(array[0].vehicleCode) : 0
+      vehicleId: array.length > 0 ? Number(array[0].vehicleCode) : 0,
+      yom: ' '
+
     })
 
-    this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVariant,
-      0, "vehicleVariant")
+    // this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVariant,
+    //   0, "vehicleVariant")
 
-    obj.patchValue({
-      assetVariant: ''
-    })
+    // obj.patchValue({
+    //   yom : ''
+    // })
 
   }
+// region change event
   onVehicleRegion(value: any, obj , index) {
     const region = value ? value : '';
     let assetMakeArray = [];
@@ -426,7 +436,8 @@ export class FleetDetailsComponent implements OnInit {
             vehicleType: '',
             assetBodyType: '',
             assetModel: '',
-            assetVariant: ''
+            assetVariant: '',
+            yom: ''
           })
         } else {
           this.vehicleManufacturer = []
@@ -442,28 +453,20 @@ export class FleetDetailsComponent implements OnInit {
       this.uiLoader.stop();
     })
   }
+  // YOM changes 
   onGetDateValue(event ,index) {
     if (event.target.value > this.toDayDate) {
       this.customFutureDate = true;
     } else {
       this.customFutureDate = false;
       const formArray = (this.fleetForm.get('Rows') as FormArray);
-      // formArray.controls[0].patchValue({
-      //   ageOfAsset: Number(this.utilityService.ageFromAsset(event))
-      // })
-
-      // formArray.controls[0].patchValue({
-      //   ageAfterTenure: Number(this.loanTenor) + formArray.value[0].ageOfAsset
-      // })
-
-      // if (this.productCatoryCode === 'UCV') {
-        
-      // }
+     
       this.getVehicleGridValue(formArray , index)
     }
 
 
   }
+  // get grid value
   getVehicleGridValue(formArray: any , index) {
 
     if (formArray.value[index].vehicleId !== 0) {
