@@ -511,7 +511,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   onUploadSuccess(event: DocumentDetails) {
-    this.toasterService.showSuccess('Document uploaded successfully', '');
+    // this.toasterService.showSuccess('Document uploaded successfully', '');
     this.showModal = false;
     if (event.docsTypeForString === 'profile') {
       this.DEFAULT_PROFILE_IMAGE = 'data:image/jpeg;base64,' + event.imageUrl;

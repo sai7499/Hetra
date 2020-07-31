@@ -289,7 +289,7 @@ select#select_main_button_match {
     outline: none !important;
     cursor: pointer;
   }
-  @media (min-width: 500px) {
+  @media (min-width: 200px) {
     .multisteps-form__progress-btn {
       text-indent: 0;
     }

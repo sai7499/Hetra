@@ -176,7 +176,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   isVoterFirst = true;
   isPassportFirst = true;
   isDisabledCheckbox: boolean = false;
-  addDisabledCheckBox : boolean;
+  addDisabledCheckBox: boolean;
+  panValidate = false;
 
   constructor(
     private labelsData: LabelsService,
@@ -715,7 +716,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.isPermanantAddressSame = true;
         this.isDisabledCheckbox = true;
         this.isRegAddressSame = true;
-        this.addDisabledCheckBox= true;
+        this.addDisabledCheckBox = true;
 
         //if(processVariables.addressDetails){
         this.disablePermanentAddress();
@@ -890,6 +891,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         : {};
       if (indivIdentityInfoDetails.panType === '1PANTYPE') {
         //this.panPattern = this.panFormPattern;
+        this.isPanDisabled = true;
       }
       details.pan = indivIdentityInfoDetails.pan;
       details.aadhar = indivIdentityInfoDetails.aadhar;
@@ -924,6 +926,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       const corporateProspectDetails = this.applicant.corporateProspectDetails
         ? this.applicant.corporateProspectDetails
         : {};
+      if (corporateProspectDetails.panType === '1PANTYPE') {
+        //this.panPattern = this.panFormPattern;
+        this.isPanDisabled = true;
+      }
       details.tanNumber = corporateProspectDetails.tanNumber;
       details.gstNumber = corporateProspectDetails.gstNumber;
       details.cstVatNumber = corporateProspectDetails.cstVatNumber;
@@ -1247,7 +1253,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           if (this.leadAddressDetails !== null) {
             this.setLeadAddressDetails();
           }
-        }else{
+        } else {
           this.toasterService.showError(
             res['ProcessVariables'].error.message,
             'Dedupe'
@@ -1459,7 +1465,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       if (
         this.coApplicantForm.get('dedupe').invalid ||
         this.coApplicantForm.get('currentAddress').invalid ||
-        this.coApplicantForm.get('permentAddress').invalid
+        this.coApplicantForm.get('permentAddress').invalid ||
+        this.panValidate
+
       ) {
         this.isDirty = true;
         this.toasterService.showError(
@@ -1467,7 +1475,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           'Applicant Details'
         );
         return;
-      }
+      } 
+      // else if (this.panValidate) {
+      //   this.toasterService.showError(
+      //     'Invalid Pan Number.',
+      //     ''
+      //   );
+      //   return;
+      // }
 
       this.storeIndividualValueInService(coApplicantModel);
       this.applicantDataService.setCorporateProspectDetails(null);
@@ -1475,7 +1490,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       if (
         this.coApplicantForm.get('dedupe').invalid ||
         this.coApplicantForm.get('registeredAddress').invalid ||
-        this.coApplicantForm.get('communicationAddress').invalid
+        this.coApplicantForm.get('communicationAddress').invalid ||
+        this.panValidate
       ) {
         this.isDirty = true;
         this.toasterService.showError(
@@ -1483,7 +1499,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           'Applicant Details'
         );
         return;
-      }
+      } 
+      // else if (this.panValidate) {
+      //   this.toasterService.showError(
+      //     'Invalid Pan Number.',
+      //     ''
+      //   );
+      //   return;
+      // }
       this.storeNonIndividualValueInService(coApplicantModel);
       this.applicantDataService.setIndividualProspectDetails(null);
       this.applicantDataService.setIndivIdentityInfoDetails(null);
@@ -1865,7 +1888,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   onDedupeApiCall(data) {
-    console.log('datas', data);
     this.applicantService
       .checkSalesApplicantDedupe(data)
       .subscribe((value: any) => {
@@ -1908,20 +1930,25 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   navigateToSamePage() {
-    const data={
-      applicantId : this.applicantId
-    }
-    this.applicantService.wrapperPanValidaion(data).subscribe((responce)=>{
-      //console.log('responce Pan Validation', responce)
-      if(responce['ProcessVariables'].error=='0'){
-        this.toasterService.showSuccess('Pan Validate Successfully', '');
-      }else{
-        this.toasterService.showError(
-          responce['ProcessVariables'].error.message,
-          'Pan validation'
-        );
+
+    if (this.isPanDisabled) {
+      const data = {
+        applicantId: this.applicantId
       }
-    })
+      this.applicantService.wrapperPanValidaion(data).subscribe((responce) => {
+        //console.log('responce Pan Validation', responce)
+        if (responce['ProcessVariables'].error == '0') {
+          this.toasterService.showSuccess('Pan Validate Successfully', '');
+        } else {
+          this.panValidate = true;
+          this.toasterService.showError(
+            responce['ProcessVariables'].error.message,
+            'Pan validation'
+          );
+        }
+      })
+    }
+
     this.showDedupeModal = false;
     this.router.navigateByUrl(
       `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
@@ -1972,10 +1999,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         }
       });
       dedupe.get('pan').valueChanges.subscribe((value) => {
+        this.panValidate = false
         value = value || '';
         if (!dedupe.get('pan').invalid) {
           this.enableDedupeBasedOnChanges(value != this.pan);
           this.isPanChanged = value != this.pan;
+
         } else {
           this.isEnableDedupe = true;
         }
@@ -2039,6 +2068,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         }
       });
       dedupe.get('pan').valueChanges.subscribe((value) => {
+        this.panValidate = false;
         value = value || '';
         if (!dedupe.get('pan').invalid) {
           this.enableDedupeBasedOnChanges(value != this.pan);
