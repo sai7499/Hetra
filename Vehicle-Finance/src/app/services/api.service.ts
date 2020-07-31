@@ -571,6 +571,16 @@ export class ApiService {
       processId: '3d804624d26911eaa78100505695f93b',
       workflowId: '3d804624d26911eaa78100505695f93b',
       projectId: environment.projectIds.salesProjectId,
-    }
+    },
+    wrapperBiometriceKYC: {
+      processId: 'b95e7cfad0b311ea9f0400505695f93b',
+      workflowId: 'b93fc6e8d0b311eab67600505695f93b',
+      projectId: environment.projectIds.wrapperBiometriceKYC,
+    },
+    getApplicantDataImage: {
+      processId: 'af1e3b4ed0b411ea9da200505695f93b',
+      workflowId: 'aeed7234d0b411ea99c400505695f93b',
+      projectId: environment.projectIds.externalApi,
+    },
   };
 }
