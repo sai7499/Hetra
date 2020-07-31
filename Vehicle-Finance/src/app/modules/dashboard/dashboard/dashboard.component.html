@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="pull-right dropdown nav">
             <span class="visible-xs pull-left mar-right8">
-                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"> Add Field <i class="fa fa-angle-down"></i> </button>
+                        <!-- <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"> Add Field <i class="fa fa-angle-down"></i> </button> -->
                         <ul class="dropdown-menu">
                             <li> <div class="checkbox"><label><input type="checkbox">Product <span class="checkmark"></span></label>
         </div>
@@ -86,11 +86,13 @@
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="startDate">{{labels.leadCreatedOnStartDate}}</label>
-                        <kendo-datepicker class="form-control" [format]="'dd/MM/yyyy'" placeholder="Date of birth" [activeView]="'decade'"></kendo-datepicker>
+                        <kendo-datepicker class="form-control" 
+                            [format]="'dd/MM/yyyy'" placeholder="Start Date" [activeView]="'decade'"></kendo-datepicker>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="endDate">{{labels.leadCreatedOnEndDate}}</label>
-                        <kendo-datepicker class="form-control" [format]="'dd/MM/yyyy'" placeholder="Date of birth" [activeView]="'decade'"></kendo-datepicker>
+                        <kendo-datepicker class="form-control" 
+                        [format]="'dd/MM/yyyy'" placeholder="End Date" [activeView]="'decade'"></kendo-datepicker>
                     </div>
                 </div>
                 <div class="row">

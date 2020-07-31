@@ -689,17 +689,17 @@ h4.table-head-bg.m-0.p-02 {
 } */
 
 
-@media (min-width:400px) and (max-width:767px) {
+@media (min-width:300px) and (max-width:767px) {
     .search{    
       position: relative;
       display: inline-block;  
-      height: 150px;
+      height: 160px;
     }
 
     .search .search-icon-left {
         background: url(./assets/images/search.png) no-repeat center;
         left: 20px;
-        top: -98px;
+        top: calc(100% - 280px);
     }
     
     .search .microphone-icon {
@@ -713,6 +713,6 @@ h4.table-head-bg.m-0.p-02 {
            border-bottom-right-radius: 1.5em;
            background-color: transparent;
            font-weight: bold;
-           top: -100px;
+           top: calc(100% - 280px);
     }
   }
