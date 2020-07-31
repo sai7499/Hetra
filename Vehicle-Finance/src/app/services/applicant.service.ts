@@ -55,6 +55,11 @@ export class ApplicantService {
     processId?: string;
     workflowId?: string;
   }
+  private biometriceKYC : {
+    projectId?: string;
+    processId?: string;
+    workflowId?: string;
+  }
   constructor(
     private httpService: HttpService,
     private apiService: ApiService,
@@ -71,6 +76,7 @@ export class ApplicantService {
     this.countryList = this.apiService.api.getCountryList;
     this.addressDetails = this.apiService.api.getAddressDetails; 
     this.panValidation = this.apiService.api.wrapperPanValidation;
+    this.biometriceKYC= this.apiService.api.wrapperBiometriceKYC;
   }
 
   getApplicantList(data) {
@@ -301,6 +307,24 @@ export class ApplicantService {
       projectId,
       ProcessVariables: {
         ...data,
+      },
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+  wrapperBiometriceKYC(data){
+    const projectId = this.biometriceKYC.projectId;
+    const processId = this.biometriceKYC.processId;
+    const workflowId = this.biometriceKYC.workflowId;
+    const userId = localStorage.getItem('userId');
+    const body = {
+      processId,
+      workflowId,
+      projectId,
+      ProcessVariables: {
+        ...data,
+        userId
       },
     };
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
