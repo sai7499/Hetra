@@ -44,6 +44,32 @@ export class NewLeadsComponent implements OnInit {
     private toasterService: ToasterService
   ) { }
 
+  ngOnInit() {
+    this.labelsData.getLabelsData().subscribe(
+      data => {
+        this.labels = data;
+      }
+    );
+
+    this.dashboardService.isFilterData.subscribe((value: any) => {
+      console.log('filterDetails', value);
+      this.responseForSales(value);
+    });
+
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+      this.branchId = value.branchId;
+      this.roleId = value.roleId;
+      this.roleType = value.roleType;
+      console.log('role Type', this.roleType);
+    });
+    if (this.roleType == '2') {
+      this.getDDELeads(this.itemsPerPage);
+    } else {
+      this.getMyLeads(this.itemsPerPage);
+    }
+
+  }
+
   getMyLeads(perPageCount, pageNumber?) {
 
     const data = {
@@ -53,7 +79,10 @@ export class NewLeadsComponent implements OnInit {
       // tslint:disable-next-line: radix
       currentPage: parseInt(pageNumber)
     };
+    this.responseForSales(data);
+  }
 
+  responseForSales(data) {
     this.dashboardService.myLeads(data).subscribe((res: any) => {
       this.setPageData(res);
       if (res.ProcessVariables.loanLead != null) {
@@ -102,26 +131,7 @@ export class NewLeadsComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-    this.labelsData.getLabelsData().subscribe(
-      data => {
-        this.labels = data;
-      }
-    );
-
-    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
-      this.branchId = value.branchId;
-      this.roleId = value.roleId;
-      this.roleType = value.roleType;
-      console.log("role Type",this.roleType);
-    });
-    if (this.roleType == '2') {
-      this.getDDELeads(this.itemsPerPage);
-    } else {
-      this.getMyLeads(this.itemsPerPage);
-    }
-
-  }
+  
 
   onClick() {
     if (this.roleType == '2') {

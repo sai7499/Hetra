@@ -4,6 +4,7 @@ import { LoginService } from '../../../login/login/login.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-checker-leads-with-cpc',
@@ -23,13 +24,15 @@ export class CheckerLeadsWithCpcComponent implements OnInit {
   currentPage: any;
   totalItems: any;
   isLoadLead = true;
+  roleType: any;
 
   constructor(
     private labelsData: LabelsService,
     private loginService: LoginService,
     private loginStoreService: LoginStoreService,
     private personalDiscussion: PersonalDiscussionService,
-    private taskDashboard: TaskDashboard
+    private taskDashboard: TaskDashboard,
+    private toasterService: ToasterService
   ) {
   }
 
@@ -42,6 +45,7 @@ export class CheckerLeadsWithCpcComponent implements OnInit {
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
+      this.roleType = value.roleType;
     });
     this.getPdBrabchTask(this.itemsPerPage);
   }
@@ -79,6 +83,21 @@ export class CheckerLeadsWithCpcComponent implements OnInit {
 
   setPage(event) {
     this.getPdBrabchTask(this.itemsPerPage, event);
+  }
+
+  onAssign(id, leadId) {
+
+    this.taskDashboard.assignTask(id).subscribe((res: any) => {
+      console.log('assignResponse', res);
+      const response = JSON.parse(res);
+      console.log(response);
+      if (response.ErrorCode == 0 ) {
+        this.toasterService.showSuccess('Assigned Successfully', 'Assigned');
+        // this.router.navigate(['/pages/dde/' + leadId + '/lead-details']);
+      } else {
+        this.toasterService.showError(response.Error, '');
+      }
+    });
   }
 
 

@@ -4,6 +4,7 @@ import { LoginService } from '../../../login/login/login.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-maker-leads-with-me',
@@ -23,13 +24,15 @@ export class MakerLeadsWithMeComponent implements OnInit {
   currentPage: any;
   totalItems: any;
   isLoadLead = true;
+  roleType: any;
 
   constructor(
     private labelsData: LabelsService,
     private loginService: LoginService,
     private loginStoreService: LoginStoreService,
     private personalDiscussion: PersonalDiscussionService,
-    private taskDashboard: TaskDashboard
+    private taskDashboard: TaskDashboard,
+    private toasterService: ToasterService
     ) {
 
   }
@@ -45,6 +48,7 @@ export class MakerLeadsWithMeComponent implements OnInit {
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
+      this.roleType = value.roleType;
       console.log('values For User in My Task', value);
     });
     this.getPdMyTask(this.itemsPerPage);
@@ -83,6 +87,22 @@ export class MakerLeadsWithMeComponent implements OnInit {
 
   setPage(event) {
     this.getPdMyTask(this.itemsPerPage, event);
+  }
+
+  onClick() {
+    this.getPdMyTask(this.itemsPerPage);
+  }
+
+  onRelase(id) {
+    this.taskDashboard.releaseTask(id).subscribe((res: any) => {
+      console.log('release Task', res);
+      const response = res;
+      if (response.ErrorCode == 0) {
+        this.toasterService.showSuccess('Lead Released Successfully', 'Released');
+      } else {
+        this.toasterService.showError(response.Error, '');
+      }
+    });
   }
 
 }

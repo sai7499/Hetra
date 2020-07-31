@@ -17,7 +17,9 @@ export class DashboardService {
   dashboardLeadsAction: Subject<object> = new Subject<object>();
   isCreditShow: Observable<object> = this.dashboardLeadsAction.asObservable();
 
-  
+  responseData: Subject<any> = new Subject<any>();
+  isFilterData: Observable<any> = this.responseData.asObservable();
+
 
   constructor(
     private httpService: HttpService,
@@ -29,6 +31,10 @@ export class DashboardService {
     console.log(value);
     this.dashboardLeadsAction.next(value);
 
+  }
+
+  filterData(value: any) {
+    this.responseData.next(value);
   }
 
   

@@ -48,7 +48,7 @@ export class DashboardComponent implements OnInit {
      this.filterForm = this.fb.group({
       leadId: [''],
       product: [''],
-      status: [''],
+      leadStage: [''],
       fromDate: [''],
       toDate: [''],
       loanMinAmt: [''],
@@ -110,6 +110,7 @@ export class DashboardComponent implements OnInit {
     this.filterFormDetails.toDate = this.dateToFormate(this.filterFormDetails.toDate);
     console.log('filter form details', this.filterFormDetails);
     this.filteredData();
+    this.dashboardService.filterData(this.filterFormDetails);
   }
 
 }
