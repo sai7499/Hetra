@@ -18,7 +18,6 @@ export const environment = {
     submitToCredit: '403a8a12b79511ea8afff2fa9bec3d63',
     viabilityApi: '0d888054a7e811ea800bf2fa9bec3d63',
     wrapperPanValidation : 'db2732f4ab4811ea82f8f2fa9bec3d63'
-    
   },
   hostingEnvironment: 'DEV',
   // hostingEnvironment: 'UAT',

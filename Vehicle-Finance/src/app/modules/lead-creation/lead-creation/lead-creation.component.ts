@@ -189,6 +189,7 @@ export class LeadCreationComponent implements OnInit {
     if (!roleAndUserDetails) {
       return;
     }
+    console.log(roleAndUserDetails, 'Test')
     this.getBusinessDivision(roleAndUserDetails);
 
     this.branchId = roleAndUserDetails.userDetails.branchId;

@@ -174,6 +174,7 @@ export class LoginComponent implements OnInit {
             const response = res;
             if (response.Error === '0') {
               const roles = response.ProcessVariables.roles;
+              const userRoleActivityList = response.ProcessVariables.userRoleActivityList;
               const userDetails = response.ProcessVariables.userDetails;
               const businessDivisionList =
                 response.ProcessVariables.businessDivisionLIst;
@@ -184,7 +185,8 @@ export class LoginComponent implements OnInit {
                 roles,
                 userDetails,
                 businessDivisionList,
-                activityList
+                activityList,
+                userRoleActivityList
               );
               this.router.navigateByUrl('/activity-search');
               // const role = response.ProcessVariables.roles[0].name;

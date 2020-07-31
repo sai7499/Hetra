@@ -282,13 +282,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           userId: this.userId,
           category: VehicleDetail.category || ''
         })
-        // this.formDataOutput.emit(formArray.value);
         this.sharedService.getFormValidation(this.basicVehicleForm)
       } else if (this.roleType === 2) {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
         this.onPatchArrayValue(formArray, VehicleDetail)
         this.sharedService.getFormValidation(this.basicVehicleForm)
-        // this.formDataOutput.emit(formArray.value)
       }
       this.vehicleDataService.setIndividualVehicleDetails(VehicleDetail);
     })
