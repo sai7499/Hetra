@@ -40,18 +40,7 @@ display: inline;
 }
 
 @media (min-width:300px) and (max-width:767px) {
- .profile-style{
- /* float: right; */
-    /* width: 50%; */
-    /* background-color: white; */
-    /* z-index: -1; */
-    position: absolute;
-    right:1em;
-    background-color: white;
-
-
-} 
-
+ 
 
 /* .profile-header{
   width: 60%;
