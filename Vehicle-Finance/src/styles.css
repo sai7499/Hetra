@@ -719,7 +719,7 @@ h4.table-head-bg.m-0.p-02 {
      .search .search-icon-left {
         background: url(./assets/images/search.png) no-repeat center;
         left: 20px;
-        top: calc(100% - 260px); 
+        top: calc(100% - 255px); 
         /* top: -15vw; */
      } 
     
@@ -734,7 +734,7 @@ h4.table-head-bg.m-0.p-02 {
            border-bottom-right-radius: 1.5em;
            background-color: transparent;
            font-weight: bold;
-           top: calc(100% - 260px);
+           top: calc(100% - 255px);
     }
     .test{
         /* background: url(./assets/images/search.png) no-repeat center;
