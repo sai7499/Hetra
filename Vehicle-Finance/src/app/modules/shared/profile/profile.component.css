@@ -48,9 +48,14 @@ display: inline;
        background-color: white;
        width: 47%;
 } 
-
-
-
+.activity-style {
+  position: unset;
+    width: 50%;
+    /* margin: auto; */
+    margin-left: 20%;
+    margin-right: 20%;
+    background-color: #272264!important;
+}
 }
 
 .user_name{
