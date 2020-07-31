@@ -82,6 +82,11 @@ export class SourcingDetailsComponent implements OnInit {
   amountTenureData: any;
   leadSectionData: any;
 
+  tenureMonthlyValidation: {
+    rule?: any,
+    msg?: string
+  }[];
+
 
   sourcingCodeObject: {
     key: string;
@@ -158,6 +163,8 @@ export class SourcingDetailsComponent implements OnInit {
     this.getLabels();
     this.getLOV();
     this.getSourcingChannel();
+
+    this.tenureMonthlyValidation = this.loanTenureMonth();
   }
 
   getLabels() {
@@ -501,6 +508,24 @@ export class SourcingDetailsComponent implements OnInit {
       reqLoanAmt: new FormControl('', Validators.required),
       requestedTenor: new FormControl('', Validators.required),
     });
+  }
+
+  loanTenureMonth() {
+    const loanTenure = [
+      {
+        rule: month => {
+          return month < 12;
+        },
+        msg: 'Month should be greater than or equal to 12'
+      },
+      {
+        rule: month => {
+          return month > 72;
+        },
+        msg: 'Month should be lesser than or equal to 60'
+      }
+    ];
+    return loanTenure;
   }
 
   saveAndUpdate() {
