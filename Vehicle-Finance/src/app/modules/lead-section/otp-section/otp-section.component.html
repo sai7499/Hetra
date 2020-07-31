@@ -72,22 +72,18 @@
                 <hr>
                 <br>
                 <div class="row">
-                    <div class="col-lg-3">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-12">
                         <label>OTP Sent To {{mobileNo}}</label>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-12">
                         <input class="form-control text-center" type="password" maxlength="6" placeholder="Enter OTP" autofocus="" formControlName="otp" />
                         <div *ngIf="otpForm.get('otp').errors?.minlength || otpForm.get('otp').errors?.maxlength">
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-12">
                         <button class="btn  btn-primary otp-button " id="resendotp_button" (click)=sendOtp()> Resend OTP </button>
                     </div>
-                </div>&nbsp;
-
-                <div class="row">
-                    <div class="col-lg-3"></div>
-                    <div class=" col-lg-2" style="margin-left: 150px;">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-12" style="margin-left: 150px;">
                         <button class="btn btn-primary " id="validateOtp_button " (click)="validateOtp() ">
                             Verify
                             OTP</button>
@@ -96,9 +92,9 @@
                     <!-- <div class="col-lg-4">
                         <button class="btn  btn-primary" id="resendotp_button" (click)=sendOtp()> Resend OTP </button>
                     </div> -->
-                </div>
+              
             </div>
-
+            </div>
         </form>
     </div>
 </main>

@@ -14,7 +14,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="nameOfExternalAgency">{{
                 labels?.nameOfExternalAgency
-              }}</label>
+              }} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select
                 [values]=""
                 formControlName="externalAgencyName"
@@ -26,9 +26,9 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="contactPoint">{{
                 labels?.contactPointVerification
-              }}</label>
+              }} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select
-                [values]=""
+                [values]="(LOV?.LOVS)['contactPointVerification']"
                 formControlName="contactPointVerification"
                 [isRequired]="'Please select one'"
                 [isDirty]="isDirty"
@@ -36,7 +36,7 @@
               </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="referenceNo">{{ labels?.referenceNo }}</label>
+              <label for="referenceNo">{{ labels?.referenceNo }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="referenceNo"
                 [placeholder]="'Enter reference number'"
@@ -51,21 +51,21 @@
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="cpv_date">{{ labels?.cpvIntiatedDate }}</label>
+              <label for="cpv_date">{{ labels?.cpvIntiatedDate }} <sub class="star_red_col">*</sub></label>
               <kendo-datepicker
                 id="cpv_date"
                 class="form-control mandatory"
                 formControlName="cpvInitiatedDate"
                 [format]="'dd/MM/yyyy'"
-                placeholder="Enter Date"
+                [placeholder]="'Enter initiated date'"
                 [activeView]="'decade'"
               ></kendo-datepicker>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="cpv_time">{{ labels?.cpvIntiatedTime }}</label>
+              <label for="cpv_time">{{ labels?.cpvIntiatedTime }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="cpv_time"
-                [placeholder]="'Enter Time'"
+                [placeholder]="'Enter initiated time'"
                 [type]="labels?.validationData?.name?.type"
                 formControlName="cpvInitiatedTime"
                 [isRequired]="'Time is required'"
@@ -75,23 +75,23 @@
               </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="report_date">{{ labels?.reportSubmitDate }}</label>
+              <label for="report_date">{{ labels?.reportSubmitDate }} <sub class="star_red_col">*</sub></label>
               <kendo-datepicker
                 id="cpv_date"
                 class="form-control mandatory"
                 formControlName="reportSubmitDate"
                 [format]="'dd/MM/yyyy'"
-                placeholder="Enter Date"
+                placeholder="'Enter submit date'"
                 [activeView]="'decade'"
               ></kendo-datepicker>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="report_time">{{ labels?.reportSubmitTime }}</label>
+              <label for="report_time">{{ labels?.reportSubmitTime }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="report_time"
-                [placeholder]="'Enter report time'"
+                [placeholder]="'Enter submit time'"
                 [type]="labels?.validationData?.name?.type"
                 formControlName="reportSubmitTime"
                 [isRequired]="'Time is required'"
@@ -101,7 +101,7 @@
               </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="applicantsName">{{ labels?.applicantsName }}</label>
+              <label for="applicantsName">{{ labels?.applicantsName }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="applicantsName"
                 [placeholder]="'Enter applicant Name'"
@@ -116,7 +116,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="residenceAddressline1">{{
                 labels?.residenceAddressline1
-              }}</label>
+              }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="residenceAddressline1"
                 [placeholder]="'Enter address'"
@@ -133,7 +133,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="residenceAddressline2">{{
                 labels?.residenceAddressline2
-              }}</label>
+              }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="residenceAddressline2"
                 [placeholder]="'Enter address'"
@@ -148,7 +148,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="residenceAddressline3">{{
                 labels?.residenceAddressline3
-              }}</label>
+              }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="residenceAddressline3"
                 [placeholder]="'Enter address'"
@@ -161,7 +161,7 @@
               </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="pincode">{{ labels?.pincode }}</label>
+              <label for="pincode">{{ labels?.pincode }} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select
                 id="pincode"
                 [values]=""
@@ -174,7 +174,7 @@
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="city">{{ labels?.city }}</label>
+              <label for="city">{{ labels?.city }} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select
                 id="city"
                 [values]=""
@@ -185,7 +185,7 @@
               </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="state">{{ labels?.state }}</label>
+              <label for="state">{{ labels?.state }} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select
                 id="state"
                 [values]=""
@@ -196,7 +196,7 @@
               </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="personMetName">{{ labels?.personMetName }}</label>
+              <label for="personMetName">{{ labels?.personMetName }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="personMetName"
                 [placeholder]="'Enter person met name'"
@@ -212,7 +212,18 @@
           <!-- if Bussiness -->
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="designation">{{ labels?.designation }}</label>
+              <label for="typeofConcern">{{ labels?.typeOfConcern }} <sub class="star_red_col">*</sub></label>
+              <app-vf-custom-select
+                id="typeofConcern"
+                [values]="(LOV?.LOVS)['typeOfConcern']"
+                formControlName="typeOfConcern"
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty"
+              >
+              </app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="designation">{{ labels?.designation }} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select
                 id="designation"
                 [values]=""
@@ -225,7 +236,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="natureOfBusiness">{{
                 labels?.natureOfBusiness
-              }}</label>
+              }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="natureOfBusiness"
                 [placeholder]="'Enter business details'"
@@ -237,17 +248,6 @@
               >
               </app-custom-input>
             </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="typeofConcern">{{ labels?.typeofConcern }}</label>
-              <app-vf-custom-select
-                id="typeofConcern"
-                [values]=""
-                formControlName="typeOfConcern"
-                [isRequired]="'Please select one'"
-                [isDirty]="isDirty"
-              >
-              </app-vf-custom-select>
-            </div>
           </div>
         </div>
 
@@ -258,7 +258,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="residenceApproach">{{
                 labels?.residenceApproach
-              }}</label>
+              }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="residenceApproach"
                 [placeholder]="'Enter residence Approach'"
@@ -273,10 +273,10 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="detailsOfResidence">{{
                 labels?.detailsOfResidence
-              }}</label>
+              }} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select
                 id="detailsOfResidence"
-                [values]=""
+                [values]="(LOV?.LOVS)['fi/PdHouseOwnership']"
                 formControlName="residenceDetails"
                 [isRequired]="'Please select one'"
                 [isDirty]="isDirty"
@@ -284,7 +284,7 @@
               </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="rentAmount">{{ labels?.rentAmount }}</label>
+              <label for="rentAmount">{{ labels?.rentAmount }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="rentAmount"
                 [placeholder]="'Enter rent Amount'"
@@ -299,7 +299,7 @@
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="residenceName">{{ labels?.residenceName }}</label>
+              <label for="residenceName">{{ labels?.residenceName }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="residenceName"
                 [placeholder]="'Enter residence name'"
@@ -312,10 +312,10 @@
               </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="verifiedFrom">{{ labels?.verifiedFrom }}</label>
+              <label for="verifiedFrom">{{ labels?.verifiedFrom }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="verifiedFrom"
-                [placeholder]="'Enter rent Amount'"
+                [placeholder]="'Enter Verified from'"
                 [type]="labels?.validationData?.name?.type"
                 formControlName="verifiedFrom"
                 [isRequired]="'form is required'"
@@ -327,7 +327,7 @@
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="YearsStayinCity">{{ labels?.YearsStayinCity }}</label>
+              <label for="YearsStayinCity">{{ labels?.YearsStayinCity }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="YearsStayinCity"
                 [placeholder]="'Enter years of stay in city'"
@@ -340,7 +340,7 @@
               </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="YearsStayinResi">{{ labels?.YearsStayinResi }}</label>
+              <label for="YearsStayinResi">{{ labels?.YearsStayinResi }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="YearsStayinResi"
                 [placeholder]="'Enter years of stay in residence'"
@@ -355,7 +355,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="areainSquarefeet">{{
                 labels?.areainSquarefeet
-              }}</label>
+              }}<sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="areainSquarefeet"
                 [placeholder]="'Enter Area in Square feet'"
@@ -370,10 +370,10 @@
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="fi_locality">{{ labels?.fiLocality }}</label>
+              <label for="fi_locality">{{ labels?.fiLocality }} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select
                 id="fi_locality"
-                [values]=""
+                [values]="(LOV?.LOVS)['fi/PdResidentialLocality']"
                 formControlName="locality"
                 [isRequired]="'Please select one'"
                 [isDirty]="isDirty"
@@ -383,7 +383,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="assetsVisibleAtHome">{{
                 labels?.assetsVisibleAtHome
-              }}</label>
+              }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="assetsVisibleAtHome"
                 [placeholder]="'Enter assets visible at Home'"
@@ -398,7 +398,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="locatingResidence">{{
                 labels?.locatingResidence
-              }}</label>
+              }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="locatingResidence"
                 [placeholder]="'Enter locating residence'"
@@ -415,7 +415,7 @@
           <h3>Asset & family member details</h3>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="propertyOwned">{{ labels?.propertyOwned }}</label>
+              <label for="propertyOwned">{{ labels?.propertyOwned }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="propertyOwned"
                 [placeholder]="'Enter property owned details'"
@@ -430,7 +430,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="noOffamilyMembers">{{
                 labels?.noOffamilyMembers
-              }}</label>
+              }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="noOffamilyMembers"
                 [placeholder]="'Enter family members name'"
@@ -445,7 +445,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="noOfEarningMembers">{{
                 labels?.noOfEarningMembers
-              }}</label>
+              }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="noOfEarningMembers"
                 [placeholder]="'Enter earning members name'"
@@ -460,7 +460,7 @@
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="vehiclesDetails">{{ labels?.vehiclesDetails }}</label>
+              <label for="vehiclesDetails">{{ labels?.vehiclesDetails }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="vehiclesDetails"
                 [placeholder]="'Enter vehicle details'"
@@ -480,7 +480,7 @@
           <h3>Office Observation</h3>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="approachable">{{ labels?.approachable }}</label>
+              <label for="approachable">{{ labels?.approachable }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="approachable"
                 [placeholder]="'Enter office/bussiness approach'"
@@ -493,10 +493,10 @@
               </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="premises">{{ labels?.premises }}</label>
+              <label for="premises">{{ labels?.premises }} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select
                 id="premises"
-                [values]=""
+                [values]="(LOV?.LOVS)['fi/PdOfficePremisesType']"
                 formControlName="officePremises"
                 [isRequired]="'Please select one'"
                 [isDirty]="isDirty"
@@ -504,7 +504,7 @@
               </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="officeLocation">{{ labels?.officeLocation }}</label>
+              <label for="officeLocation">{{ labels?.officeLocation }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="officeLocation"
                 [placeholder]="'enter office location'"
@@ -519,7 +519,7 @@
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="furnishings">{{ labels?.furnishings }}</label>
+              <label for="furnishings">{{ labels?.furnishings }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="furnishings"
                 [placeholder]="'enter furnishings'"
@@ -532,7 +532,7 @@
               </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="sizeOfOffice">{{ labels?.sizeOfOffice }}</label>
+              <label for="sizeOfOffice">{{ labels?.sizeOfOffice }} <sub class="star_red_col">*</sub></label>
               <!-- <app-custom-input
                 id="sizeOfOffice"
                 [placeholder]="'Enter office location'"
@@ -544,15 +544,15 @@
               >
               </app-custom-input> -->
               <app-vf-custom-select
-          [values]="(LOV?.LOVS)['fi/PdOfficeSize']"
-          formControlName="officeSize"
-          [isRequired]="'Please select one'"
-          [isDirty]="isDirty"
-        >
-        </app-vf-custom-select>
+                [values]="(LOV?.LOVS)['fi/PdOfficeSize']"
+                formControlName="officeSize"
+                [isRequired]="'Please select one'"
+                [isDirty]="isDirty"
+              >
+              </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="observations">{{ labels?.observations }}</label>
+              <label for="observations">{{ labels?.observations }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="observations"
                 [placeholder]="'enter observations'"
@@ -569,7 +569,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="noofEmployeesWorking">{{
                 labels?.noofEmployeesWorking
-              }}</label>
+              }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="noofEmployeesWorking"
                 [placeholder]="'enter office location'"
@@ -584,7 +584,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="noofEmployeesVisible">{{
                 labels?.noofEmployeesVisible
-              }}</label>
+              }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="noofEmployeesVisible"
                 [placeholder]="'no of employees visible'"
@@ -597,7 +597,7 @@
               </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="activityLevel">{{ labels?.activityLevel }}</label>
+              <label for="activityLevel">{{ labels?.activityLevel }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="activityLevel"
                 [placeholder]="'activity level'"
@@ -619,7 +619,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="comments">{{
                 labels?.commentsAndRecommendations
-              }}</label>
+              }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="comments"
                 [placeholder]="'comments'"
@@ -632,7 +632,7 @@
               </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="distance">{{ labels?.distanceinKMs }}</label>
+              <label for="distance">{{ labels?.distanceinKMs }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="distance"
                 [placeholder]="'distance in KMs'"
@@ -645,10 +645,13 @@
               </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="cpvAgencyStatus">{{ labels?.cpvAgencyStatus }}</label>
+              <label for="cpvAgencyStatus">{{ labels?.cpvAgencyStatus }} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select
                 id="cpvAgencyStatus"
-                [values]=""
+                [values]="[
+                  { key: '0', value: 'Positive' },
+                  { key: '1', value: 'Negative' }
+                ]"
                 formControlName="cpvAgencyStatus"
                 [isRequired]="'Please select one'"
                 [isDirty]="isDirty"
@@ -658,7 +661,7 @@
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="verifiedBy">{{ labels?.verifiedBy }}</label>
+              <label for="verifiedBy">{{ labels?.verifiedBy }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 id="verifiedBy"
                 [placeholder]="'Enter details'"
@@ -671,7 +674,7 @@
               </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label>{{ labels.date }}</label>
+              <label>{{ labels.date }} <sub class="star_red_col">*</sub></label>
               <kendo-datepicker
                 class="form-control mandatory"
                 formControlName="fiDate"
@@ -681,7 +684,7 @@
               ></kendo-datepicker>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="">{{ labels?.time }}</label>
+              <label for="">{{ labels?.time }} <sub class="star_red_col">*</sub></label>
               <app-custom-input
                 [placeholder]="'Enter time'"
                 [type]="labels?.validationData?.name?.type"
@@ -698,7 +701,11 @@
         <div class="mar-bot25">
           <div class="col-sm-5"></div>
           <div class="col-sm-7 text-right">
-            <button class="btn btn-primary" type="button" (click)="onNavigate('back')">
+            <button
+              class="btn btn-primary"
+              type="button"
+              (click)="onNavigate('back')"
+            >
               {{ labels.back }}
             </button>
             &nbsp;
@@ -706,7 +713,11 @@
               {{ labels.save }}
             </button>
             &nbsp;
-            <button class="btn btn-primary" type="button" (click)="onNavigate('next')">
+            <button
+              class="btn btn-primary"
+              type="button"
+              (click)="onNavigate('next')"
+            >
               {{ labels.next }}
             </button>
           </div>

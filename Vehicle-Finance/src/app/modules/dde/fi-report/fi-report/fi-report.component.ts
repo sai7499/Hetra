@@ -40,12 +40,12 @@ export class FiReportComponent implements OnInit {
     private toasterService: ToasterService, // service for accessing the toaster
 
   ) {
+    this.leadId = Number(this.activatedRoute.snapshot.params.leadId);
+    this.applicantId = Number(this.activatedRoute.snapshot.params.applicantId);
     this.getLabels();
     this.initForm();
     this.getLOV();
     this.isDirty = true;
-    this.leadId = Number(this.activatedRoute.snapshot.params.leadId);
-    this.applicantId = Number(this.activatedRoute.snapshot.params.applicantId);
     console.log(this.leadId);
     console.log(this.applicantId);
   }
@@ -60,17 +60,6 @@ export class FiReportComponent implements OnInit {
     // this.leadId = (await this.getLeadId()) as number;
   }
 
-  getLeadId() {  // function to get the respective  lead id from the url
-    return new Promise((resolve, reject) => {
-      this.activatedRoute.parent.params.subscribe((value) => {
-        if (value && value.leadId) {
-          resolve(Number(value.leadId));
-          console.log('in get lead ', value);
-        }
-        resolve(null);
-      });
-    });
-  }
   getLabels() {
     this.labelService.getLabelsData().subscribe((value) => {
       this.labels = value;
@@ -81,32 +70,11 @@ export class FiReportComponent implements OnInit {
   getLOV() {
     this.commonLovService.getLovData().subscribe((value) => {
       this.LOV = value;
-      this.getLeadSectionData(); // calling get lead section data function
       this.getFiReportDetails();
 
     });
 
     console.log(this.LOV);
-  }
-  async getLeadSectionData() { // fun to get all data related to a particular lead from create lead service
-    const leadSectionData = this.createLeadDataService.getLeadSectionData();
-    // console.log('leadSectionData Lead details', leadSectionData);
-    this.leadData = { ...leadSectionData };
-    const data = this.leadData;
-    console.log('in get lead section data', data);
-    // console.log('current app id', this.applicantId);
-    for (const value of data['applicantDetails']) {  // for loop to get the respective applicant details form applicant details array
-      // console.log('in for loop app id', value['applicantId']);
-
-      if (value['applicantId'] === this.applicantId) {
-
-        const applicantDetailsFromLead = value;
-        this.applicantFullName = applicantDetailsFromLead['fullName'];
-        console.log('in gld', this.applicantFullName);
-      }
-    }
-
-
   }
 
 
@@ -268,6 +236,7 @@ export class FiReportComponent implements OnInit {
       console.log('get fi report response', processVariables);
       const message = processVariables.error.message;
       if (processVariables.error.code === '0') {
+        // this.applicantFullName = res.ProcessVariables.applicantName;
         this.fiDetails = res.ProcessVariables.getFiReportDetails;
         console.log('in get fi details', this.fiDetails);
         this.setFormValue();
@@ -286,7 +255,6 @@ export class FiReportComponent implements OnInit {
     const formModal = this.fieldReportForm.value;
     const fieldReportModal = { ...formModal };
     // console.log('Form Data', fieldReportForm);
-    // console.log('Status', this.applicantForm.get('physicallyChallenged').invalid);
     this.isDirty = true;
     // if (this.fieldReportForm.invalid) {
     //   // this.toasterService.showError('', '');
