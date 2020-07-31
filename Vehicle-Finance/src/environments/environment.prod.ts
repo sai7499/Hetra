@@ -20,8 +20,8 @@ export const environment = {
     wrapperPanValidation : 'db2732f4ab4811ea82f8f2fa9bec3d63'
     
   },
-  hostingEnvironment: 'DEV',
-  // hostingEnvironment: 'UAT',
+ // hostingEnvironment: 'DEV',
+   hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
 
   //host: '/appiyo/',
