@@ -48,6 +48,7 @@ public class MainActivity extends BridgeActivity {
 
     // Initializes the Bridge
     this.init(savedInstanceState, new ArrayList<Class<? extends Plugin>>() {{
+
       // Additional plugins you've installed go here
       // Ex: add(TotallyAwesomePlugin.class);
       final boolean shouldEnforceCopyPasteRestriction = true;
@@ -89,7 +90,6 @@ public class MainActivity extends BridgeActivity {
       }
 
     }});
-
 
   }
 
@@ -224,6 +224,8 @@ public class MainActivity extends BridgeActivity {
           MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
         }
       }
+    }else {
+      super.startActivities(intents);
     }
   }
 
@@ -261,6 +263,8 @@ public class MainActivity extends BridgeActivity {
         }
       }
 
+    }else {
+      super.startActivities(intents, options);
     }
   }
 
@@ -289,7 +293,8 @@ public class MainActivity extends BridgeActivity {
           MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
         }
       }
-
+    }else {
+      super.startActivity(intent);
     }
   }
 
@@ -317,6 +322,8 @@ public class MainActivity extends BridgeActivity {
           MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
         }
       }
+    }else {
+      super.startActivity(intent, options);
     }
   }
 
@@ -345,6 +352,8 @@ public class MainActivity extends BridgeActivity {
           MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
         }
       }
+    }else {
+      super.startActivityForResult(intent, requestCode);
     }
   }
 
@@ -372,6 +381,8 @@ public class MainActivity extends BridgeActivity {
           MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
         }
       }
+    }else {
+      super.startActivityForResult(intent, requestCode, options);
     }
   }
 
@@ -399,6 +410,8 @@ public class MainActivity extends BridgeActivity {
           MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
         }
       }
+    }else {
+      super.startActivityFromChild(child, intent, requestCode);
     }
   }
 
@@ -428,6 +441,8 @@ public class MainActivity extends BridgeActivity {
         }
       }
 
+    }else {
+      super.startActivityFromChild(child, intent, requestCode, options);
     }
   }
 
@@ -455,6 +470,8 @@ public class MainActivity extends BridgeActivity {
           MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
         }
       }
+    }else {
+      super.startActivityFromFragment(fragment, intent, requestCode);
     }
   }
 
@@ -482,6 +499,8 @@ public class MainActivity extends BridgeActivity {
           MaaS360DLPSDKUtils.handleNoAppFoundForIntent(this);
         }
       }
+    }else {
+      super.startActivityFromFragment(fragment, intent, requestCode, options);
     }
   }
 
@@ -511,7 +530,7 @@ public class MainActivity extends BridgeActivity {
         }
       }
     }else{
-      return false;
+      return super.startActivityIfNeeded(intent, requestCode);
     }
   }
 
@@ -540,7 +559,7 @@ public class MainActivity extends BridgeActivity {
         }
       }
     }else {
-      return false;
+      return super.startActivityIfNeeded(intent, requestCode, options);
     }
   }
 }

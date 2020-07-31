@@ -1,3 +1,4 @@
+import { BiometricService } from './../../../services/biometric.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { element } from 'protractor';
 import { LoginStoreService } from '../../../services/login-store.service';
@@ -64,8 +65,11 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
     private dashboardService: DashboardService,
     private route: Router,
     private camera: Camera,
-    private transfer: FileTransfer
+    private transfer: FileTransfer,
+    private biometricService: BiometricService
     ) {
+      this.isMobile = environment.isMobile;
+
   }
 
   ngOnInit() {
@@ -117,22 +121,10 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
 
 
   initIdenti5(){
-    // let dInfo = new device();
-    // console.log(dInfo.model);
-    var that = this;
-    this.pid = "";
-
-    identi5.getInfo(function(result){
-      console.log("Result&&&&"+ result);
-      that.pid = result["model"];
-      console.log("base64Data"+ that.pid);
-      alert(that.pid);
-      that.prepareKYCRequest(that.pid);
-    },function(error){
-      console.log("Result&&&&"+ error);
-      alert("error"+error);
+    let aadhar = "802172334890";
+    this.biometricService.initIdenti5(aadhar, function(result) {
+      console.log("KYC result&&&&@@@"+result);
     });
-  
   }
 
 //   <KycRequest>
@@ -158,49 +150,6 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
 //     </KycReqInfo>
 // </KycRequest>
 
-  prepareKYCRequest(pid) {
-   let stan =  Math.floor(100000 + Math.random() * 900000);
-   console.log(stan);
-
-   let now = moment().format("MMDDhhmmss");
-   let localDate = moment().format("MMDD");
-   let localTime = moment().format("hhmmss");
-
-
-   let pId = pid;
-
-   console.log("pId"+pId);
-
-   console.log("now"+now);
-   console.log("localDate"+localDate);
-
-
-
-      
-    let kycRequest =  "<KycRequest>"+
-                        "<TransactionInfo>"+
-                          "<UID type=\"U\">"+"802172334890"+"</UID>"+
-                          "<Transm_Date_time>"+now+"</Transm_Date_time>"+
-                          "<Local_Trans_Time>"+localTime+"</Local_Trans_Time>"+
-                          "<Local_date>"+localDate+"</Local_date>"+
-                          "<CA_TID>"+"11205764"+"</CA_TID>"+
-                          "<CA_ID>"+"EQT000000001441"+"</CA_ID>"+
-                          "<CA_TA>"+"Equitas Bank Chennai TNIN"+"</CA_TA>"+
-                          "<Stan>"+stan+"</Stan>"+
-                        "</TransactionInfo>"+
-                        pId+
-                      "</KycRequest>";
-
-    console.log("kycRequest"+kycRequest);
-
-    const data = {
-      ekycRequest: kycRequest,
-    };
-    this.dashboardService.getKycDetails(data).subscribe((res: any) => {
-      console.log("KYC result"+JSON.stringify(res));
-    });
-
-  }
 
   async takePicture() {
     const options: CameraOptions = {
