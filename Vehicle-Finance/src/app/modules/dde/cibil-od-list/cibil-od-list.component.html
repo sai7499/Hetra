@@ -1,15 +1,19 @@
 <div class="container row">
-  <div class="table-responsive application">
-    <table class="table" style="height: 30px;">
+  <div class="table-responsive application row">
+    <table class="table row" style="height: 30px;" >
       <tr>
         <td>{{ labels?.applicant }}</td>
         <td>{{odApplicantData?.applicantName}}</td>
         <td>{{ labels?.applicantType }}</td>
         <td>{{odApplicantData?.applicantType}}</td>
         <td>{{ labels?.bureauScore }}</td>
-        <td>{{odApplicantData?.bureauScore}}</td>
+        <td>{{odApplicantData?.bureauScore}}</td> 
+        <td colspan="1"> <button  class = "btn btn-primary" type="button" style="float: right; "><a (click)="getApplicantImage()" data-toggle="modal"
+          data-target="#myModalApplicantImage"  ><strong>View CB</strong></a></button></td>
       </tr>
+     
     </table>
+   
   </div>
 </div>
 <form class="multisteps-form__form" [formGroup]="odDetailsForm">
@@ -434,5 +438,26 @@
   </div>
 </div>
 
+<!-- modal popup for cibil response screen -->
+<div class="modal" id="myModalApplicantImage"   >
+  <div class="modal-dialog  modal-style">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">CIBIL Response For Applicant.</h4>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
 
+      <div class="modal-body" >
+        <!-- <img [src]="imageUrl" > -->
+        <div [innerHTML]="cibilImage"  ></div>     
+      <div class="modal-footer text-center">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="destroyImage()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
  
