@@ -23,6 +23,7 @@ export class MakerLeadsWithCpcComponent implements OnInit {
   currentPage: any;
   totalItems: any;
   isLoadLead = true;
+  roleType: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -42,6 +43,7 @@ export class MakerLeadsWithCpcComponent implements OnInit {
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
+      this.roleType = value.roleType;
     });
     this.getPdBrabchTask(this.itemsPerPage);
   }

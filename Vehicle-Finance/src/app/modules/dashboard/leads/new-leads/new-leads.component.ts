@@ -113,6 +113,7 @@ export class NewLeadsComponent implements OnInit {
       this.branchId = value.branchId;
       this.roleId = value.roleId;
       this.roleType = value.roleType;
+      console.log("role Type",this.roleType);
     });
     if (this.roleType == '2') {
       this.getDDELeads(this.itemsPerPage);

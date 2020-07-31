@@ -29,6 +29,7 @@ export class DdeBranchLeadsComponent implements OnInit {
   totalItems: any;
   taskId: any;
   isLoadLead = true;
+  roleType: any;
 
 
   constructor(
@@ -52,6 +53,7 @@ export class DdeBranchLeadsComponent implements OnInit {
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
+      this.roleType = value.roleType;
     });
     this.getDDEBranchLeads(this.itemsPerPage);
   }

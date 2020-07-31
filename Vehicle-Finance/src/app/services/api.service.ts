@@ -567,5 +567,10 @@ export class ApiService {
       workflowId: 'cf499204cfdf11eaad5000505695f93b',
       projectId: environment.projectIds.salesProjectId,
     },
+    getApplicantDataImage: {
+      processId: 'af1e3b4ed0b411ea9da200505695f93b',
+      workflowId: 'aeed7234d0b411ea99c400505695f93b',
+      projectId: environment.projectIds.externalApi,
+    },
   };
 }

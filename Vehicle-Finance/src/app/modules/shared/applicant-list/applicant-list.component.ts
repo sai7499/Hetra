@@ -6,6 +6,8 @@ import { LabelsService } from 'src/app/services/labels.service';
 import { ApplicantService } from '@services/applicant.service';
 import { ApplicantList } from '@model/applicant.model';
 import { LeadStoreService } from '../../sales/services/lead.store.service';
+import { ApplicantImageService } from '@services/applicant-image.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './applicant-list.component.html',
@@ -20,13 +22,19 @@ export class ApplicantListComponent implements OnInit {
   index: number;
   selectedApplicantId: number;
   leadId: number;
+  imageUrl: any;
+  showModal = false;
+  backupApplicantId: any;
+  cibilImage: any;
 
   constructor(
     private labelsData: LabelsService,
     private location: Location,
     private applicantService: ApplicantService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private applicantImageService: ApplicantImageService,
+    private domSanitizer: DomSanitizer
   ) {}
 
   async ngOnInit() {
@@ -67,10 +75,10 @@ export class ApplicantListComponent implements OnInit {
     });
   }
 
-  navigateAddapplicant(){
-    this.router.navigateByUrl(`/pages/sales-applicant-details/${this.leadId}/add-applicant`)
+  navigateAddapplicant() {
+    this.router.navigateByUrl(`/pages/sales-applicant-details/${this.leadId}/add-applicant`);
   }
-  
+
 
   navigatePage(applicantId: string) {
     console.log(
@@ -89,7 +97,7 @@ export class ApplicantListComponent implements OnInit {
     this.applicantService.getApplicantList(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       this.applicantList = processVariables.applicantListForLead;
-      console.log('getapplicants', this.applicantList)
+      console.log('getapplicants', this.applicantList);
     });
   }
 
@@ -120,5 +128,40 @@ export class ApplicantListComponent implements OnInit {
       console.log('res', this.selectedApplicantId);
       this.applicantList.splice(this.index, 1);
     });
+  }
+
+  getApplicantImage(applicantID: any) {
+
+   // tslint:disable-next-line: triple-equals
+   if ( this.backupApplicantId == applicantID) {
+      this.cibilImage = this.imageUrl;
+      return;
+   } else {
+    const body = {
+      applicantId: applicantID
+    };
+    this.backupApplicantId = applicantID;
+    this.applicantImageService.getApplicantImageDetails(body).subscribe((res: any) => {
+      // tslint:disable-next-line: triple-equals
+      if (res.ProcessVariables.error.code == '0') {
+        console.log(res);
+        const imageUrl = res.ProcessVariables.response;
+        console.log(imageUrl);
+        this.imageUrl = imageUrl;
+        this.imageUrl = atob(this.imageUrl); // decoding base64 string to get xml file
+        this.imageUrl = this.domSanitizer.bypassSecurityTrustHtml(this.imageUrl); // sanitizing xml doc for rendering with proper css
+        this.cibilImage = this.imageUrl;
+      } else {
+        this.imageUrl = res.ProcessVariables.error.message;
+        this.cibilImage = res.ProcessVariables.error.message;
+      }
+    });
+   }
+
+  }
+destroyImage() {
+    if (this.cibilImage) {
+     this.cibilImage = null;
+    }
   }
 }

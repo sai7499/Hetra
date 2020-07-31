@@ -9,6 +9,10 @@ import { ToasterService } from '@services/toaster.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FieldInvestigation } from '@model/dde.model';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { ApplicantService } from '@services/applicant.service';
+import { AddressDetails } from '@model/applicant.model';
+import { map } from 'rxjs/operators';
+import { element } from 'protractor';
 @Component({
   selector: 'app-fi-report',
   templateUrl: './fi-report.component.html',
@@ -28,6 +32,19 @@ export class FiReportComponent implements OnInit {
   fIReportList: any = {};
   leadData: {};
   applicantFullName: any;
+  pincodeResult: {
+    state?: any[];
+    country?: any[];
+    city?: any[];
+  };
+  applicantPincode: {
+    state?: any[],
+    city?: any[];
+  };
+  state = [];
+  city = [];
+
+  addressDetails: AddressDetails[];
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -38,6 +55,7 @@ export class FiReportComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private createLeadDataService: CreateLeadDataService,
     private toasterService: ToasterService, // service for accessing the toaster
+    private applicantService: ApplicantService,
 
   ) {
     this.leadId = Number(this.activatedRoute.snapshot.params.leadId);
@@ -76,6 +94,42 @@ export class FiReportComponent implements OnInit {
 
     console.log(this.LOV);
   }
+
+  getPincode(pincode) {
+    // const id = pincode.id;
+    const pincodeValue = pincode.value;
+    if (pincodeValue.length === 6) {
+      const pincodeNumber = Number(pincodeValue);
+      this.getPincodeResult(pincodeNumber);
+      console.log('in get pincode', pincodeNumber);
+    }
+  }
+  getPincodeResult(pincodeNumber: number) {
+    this.applicantService
+      .getGeoMasterValue({
+        pincode: pincodeNumber,
+      }).subscribe((value) => {
+        console.log('res', value);
+        const values = value['ProcessVariables'].GeoMasterView;
+        const state = {
+          key: values[0].stateId,
+          value: values[0].stateName
+        };
+        this.state.push(state);
+        values.map((element) => {
+          const city = {
+            key: element.cityId,
+            value: element.cityName
+          };
+          this.city.push(city);
+        });
+      });
+
+  }
+
+
+
+
 
 
   initForm() {
