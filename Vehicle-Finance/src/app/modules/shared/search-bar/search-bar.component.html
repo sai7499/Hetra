@@ -6,7 +6,7 @@
         [(ngModel)]="searchText" 
         (mouseover)="mouseEnter()" 
         (keyup)="getvalue($event.target.value)">
-    <div class="dropdown-content" *ngIf="dropDown">
+    <div class="dropdown-content " *ngIf="dropDown" [ngClass]="{'profile-compartment': activityClass }">
         <div *ngFor="let item of searchLead">
             <a (click)="getRoute(item.id, item.name)">{{item.name}}</a>
         </div>
