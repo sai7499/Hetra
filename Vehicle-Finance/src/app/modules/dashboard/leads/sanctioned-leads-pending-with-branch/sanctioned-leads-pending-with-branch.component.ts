@@ -25,6 +25,7 @@ export class SanctionedLeadsPendingWithBranchComponent implements OnInit {
   totalItems: any;
   taskId: any;
   isLoadLead = true;
+  roleType: string;
 
 
   constructor(
@@ -48,6 +49,7 @@ export class SanctionedLeadsPendingWithBranchComponent implements OnInit {
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
+      this.roleType = value.roleType;
     });
     this.getSanctionedLeads(this.itemsPerPage);
   }

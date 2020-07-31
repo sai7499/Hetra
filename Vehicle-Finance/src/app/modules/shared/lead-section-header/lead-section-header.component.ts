@@ -66,7 +66,7 @@ export class LeadSectionHeaderComponent implements OnInit {
                       // leadSectionData.leadDetails.reqLoanAmt : 0;
     const applicantDetails= leadSectionData.applicantDetails? leadSectionData.applicantDetails[0] : ''
     this.applicantName = applicantDetails.fullName;
-    this.loanAmount = leadSectionData['leadDetails']['reqLoanAmt'];
+    
     this.stageDescription = leadSectionData.leadDetails.stageDesc;
 
     this.sharedService.leadData$.subscribe(value => {
@@ -76,7 +76,10 @@ export class LeadSectionHeaderComponent implements OnInit {
       this.productId = leadSectionData['leadDetails']['productCatName'];
     }
     this.sharedService.loanAmount$.subscribe(value =>
-      this.loanAmount = value)
+      this.loanAmount = value);
+
+      this.loanAmount = leadSectionData['leadDetails']['reqLoanAmt']?
+          leadSectionData['leadDetails']['reqLoanAmt']:0;
   }
   getLeadId() {
     return new Promise((resolve, reject) => {
