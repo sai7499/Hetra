@@ -25,6 +25,7 @@ export class DeviationWithMeComponent implements OnInit {
   currentPage: any;
   totalItems: any;
   isLoadLead = true;
+  roleType: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -48,6 +49,7 @@ export class DeviationWithMeComponent implements OnInit {
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
+      this.roleType = value.roleType;
       console.log('values For User in My Task', value);
     });
     this.getMyDeviationLeads(this.itemsPerPage);

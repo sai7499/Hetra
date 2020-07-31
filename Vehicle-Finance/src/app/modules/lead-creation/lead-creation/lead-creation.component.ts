@@ -408,9 +408,9 @@ export class LeadCreationComponent implements OnInit {
     (this.applicantType === 'INDIVENTTYP') ? this.onIndividual() : this.onNonIndividual();
     setTimeout(() => {
       const nameOne = this.createLeadForm.controls['nameOne'].value;
-      this.createLeadForm.controls['nameOne'].setValue(nameOne || null);
+      this.createLeadForm.controls['nameOne'].setValue(nameOne || '');
       const nameThree = this.createLeadForm.controls['nameThree'].value;
-      this.createLeadForm.controls['nameThree'].setValue(nameThree || null);
+      this.createLeadForm.controls['nameThree'].setValue(nameThree || '');
     });
   }
 
