@@ -30,6 +30,7 @@
               <th>{{ labels?.dateOfBirth }} <i class="fa fa-sort"></i></th>
               <th>{{ labels?.applicantType }} <i class="fa fa-sort"></i></th>
               <th>{{ labels?.action }} <i class="fa fa-sort"></i></th>
+              <th>{{ labels?.cibil }} <i class="fa fa-sort"></i></th>
             </tr>
           </thead>
           <tbody>
@@ -64,6 +65,8 @@
                   title="Delete applicant"><i  class="fa fa-trash" aria-hidden="true"></i
                 ></a>
               </td>
+              <td><a (click)="getApplicantImage(item.applicantId)" data-toggle="modal"
+                data-target="#myModalApplicantImage"  > View</a></td>
             </tr>
             <!-- <tr>
                 <td>-</td>
@@ -153,6 +156,36 @@
           class="btn btn-success"
           data-dismiss="modal"
           (click)="callDeleteApplicant()"
+        >
+          Yes
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="myModalApplicantImage"  style="width:auto" >
+  <div class="modal-dialog  modal-style">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">CIBIL Response For Applicant.</h4>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- <img [src]="imageUrl" > -->
+        <div [innerHTML]="imageUrl" ></div>     
+
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+         
         >
           Yes
         </button>
