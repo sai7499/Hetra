@@ -102,5 +102,26 @@ getCamUsedCarDetails(data) {
   
   return this.httpService.post(url, requestEntity);
 }
+getCamNewCvDetails(data) {
+  const processData = data;
+  const processId = this.apiService.api.getCamNewCvDetails.processId;
+  const workflowId = this.apiService.api.getCamNewCvDetails.workflowId;
+  const projectId = this.apiService.api.getCamNewCvDetails.projectId;
 
+  const userId = localStorage.getItem('userId');
+  console.log('userid in service', userId);
+
+  const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables:  processData,
+      workflowId,
+      projectId
+  };
+  console.log(requestEntity, 'cam New Cv details');
+
+  
+  let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+  
+  return this.httpService.post(url, requestEntity);
+}
 }
