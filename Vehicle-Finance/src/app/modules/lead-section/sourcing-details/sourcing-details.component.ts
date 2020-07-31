@@ -82,6 +82,11 @@ export class SourcingDetailsComponent implements OnInit {
   amountTenureData: any;
   leadSectionData: any;
 
+  tenureMonthlyValidation: {
+    rule?: any,
+    msg?: string
+  }[];
+
 
   sourcingCodeObject: {
     key: string;
@@ -158,6 +163,8 @@ export class SourcingDetailsComponent implements OnInit {
     this.getLabels();
     this.getLOV();
     this.getSourcingChannel();
+
+    this.tenureMonthlyValidation = this.loanTenureMonth();
   }
 
   getLabels() {
@@ -503,6 +510,24 @@ export class SourcingDetailsComponent implements OnInit {
     });
   }
 
+  loanTenureMonth() {
+    const loanTenure = [
+      {
+        rule: month => {
+          return month < 12;
+        },
+        msg: 'Month should be greater than or equal to 12'
+      },
+      {
+        rule: month => {
+          return month > 72;
+        },
+        msg: 'Month should be lesser than or equal to 60'
+      }
+    ];
+    return loanTenure;
+  }
+
   saveAndUpdate() {
     const formValue = this.sourcingDetailsForm.getRawValue();
     console.log('this.sourcingDetailsForm.value', this.sourcingDetailsForm.valid);
@@ -530,7 +555,7 @@ export class SourcingDetailsComponent implements OnInit {
         leadHandeledBy: Number(this.userId),
         leadCreatedBy: Number(this.branchId),
         leadCreatedOn: this.leadCreatedDateFromLead,
-        reqLoanAmt: Number(saveAndUpdate.reqLoanAmt),
+        reqLoanAmt: saveAndUpdate.reqLoanAmt,
         reqTenure: Number(saveAndUpdate.requestedTenor),
       };
       console.log('this.saveUpdate', this.saveUpdate);
@@ -554,6 +579,8 @@ export class SourcingDetailsComponent implements OnInit {
           };
           this.createLeadDataService.setLeadDetailsData(data);
           this.isSaved = true;
+        }else{
+          this.toasterService.showError(response.ProcessVariables.error.message, 'Lead Details');
         }
       });
     } else {

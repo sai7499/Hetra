@@ -17,11 +17,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
   roles = [];
   activityClass = false;
 
-
   constructor(
     private loginStoreService: LoginStoreService,
     private utilityService: UtilityService,
-    private router : Router) { }
+    private router: Router) { }
 
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -37,17 +36,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
     document
       .querySelector('body')
       .addEventListener('click', this.bodyClickEvent);
-     
-      console.log(this.router.url);
-      if(this.router.url.includes('/activity-search')) {
-       
-        this.activityClass = true
-        // console.log(this.activityClass);'
-       
-      } else {
-        this.activityClass = false;
-        // console.log(this.activityClass);
-      }
+
+    console.log(this.router.url);
+    if (this.router.url.includes('/activity-search')) {
+
+      this.activityClass = true
+      // console.log(this.activityClass);'
+
+    } else {
+      this.activityClass = false;
+      // console.log(this.activityClass);
+    }
   }
 
   bodyClickEvent = event => {
@@ -57,7 +56,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       return;
     }
     if (event.target.id === 'profileDropDown') {
-      
+
       this.openProfile = true;
       return;
     }
@@ -72,6 +71,20 @@ export class ProfileComponent implements OnInit, OnDestroy {
     document
       .querySelector('body')
       .removeEventListener('click', this.bodyClickEvent);
+  }
+
+  onChangeRole(val) {
+
+    console.log('Val', val)
+
+    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    let userRoleActivityList = this.loginStoreService.getUserRoleActivityList();
+
+   let findRoleActivity = userRoleActivityList.find((role: any) => val === role.roleName)
+
+    console.log(findRoleActivity, 'findRoleActivity', userRoleActivityList)
+
+
   }
 
 }

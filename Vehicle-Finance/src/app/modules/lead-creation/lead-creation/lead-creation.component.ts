@@ -83,6 +83,7 @@ export class LeadCreationComponent implements OnInit {
   namePattern: string;
   nameLength: number;
   mobileLength: number;
+  fullName: string;
 
   loanLeadDetails: {
     bizDivision: string;
@@ -188,6 +189,7 @@ export class LeadCreationComponent implements OnInit {
     if (!roleAndUserDetails) {
       return;
     }
+    console.log(roleAndUserDetails, 'Test')
     this.getBusinessDivision(roleAndUserDetails);
 
     this.branchId = roleAndUserDetails.userDetails.branchId;

@@ -9,10 +9,15 @@ import { HttpService } from './http.service';
 import { ApiService } from '@services/api.service';
 import { IndivVehicleInfoDetails } from '@model/lead.model';
 
+import  mUrl  from '../../assets/vehicle-details-data/vehicle-details-label.json';
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class VehicleDetailService {
+  isMobile: any;
+
 
   private currentPage$ = new BehaviorSubject(0);
 
@@ -21,13 +26,20 @@ export class VehicleDetailService {
   public vehicleVariable: any;
 
   constructor(private http: HttpClient,
-    private httpService: HttpService, private apiService: ApiService) { }
+    private httpService: HttpService, private apiService: ApiService) { 
+      this.isMobile = environment.isMobile;
+    }
 
   getVehicleDetailLabels(): Observable<IndivVehicleInfoDetails[]> {
-    return this.http.get<IndivVehicleInfoDetails[]>(this.url)
-      .pipe(
+    // if(this.isMobile) {
+      return this.createObservableObj(mUrl).pipe(
         catchError(error => this.errorHandler)
       );
+    // }
+    // return this.http.get<IndivVehicleInfoDetails[]>(this.url)
+    //   .pipe(
+    //     catchError(error => this.errorHandler)
+    //   );
   }
   errorHandler(error: HttpErrorResponse) {
     // tslint:disable-next-line: deprecation
@@ -222,6 +234,14 @@ export class VehicleDetailService {
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
+  }
+
+  createObservableObj(labelsurl: IndivVehicleInfoDetails[]){
+    const obs = new Observable<IndivVehicleInfoDetails[]>(observer => {
+      observer.next(labelsurl);
+      observer.complete();
+    });
+    return obs;
   }
 
 

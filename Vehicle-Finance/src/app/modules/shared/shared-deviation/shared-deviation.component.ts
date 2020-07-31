@@ -187,17 +187,18 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         this.manualDeviationMaster = res.ProcessVariables.deviations ? res.ProcessVariables.deviations : [];
 
         if (res.ProcessVariables.creditRoles && res.ProcessVariables.creditRoles.length > 0) {
-          let creditRoleArray = []
+          let creditRoleArray = [];
+          let conditionalArray = [];
 
           this.creditRoles.map((data: any) => {
-            if (this.isSubmitToCredit) {
-              creditRoleArray.push({
-                key: data.id,
-                value: data.name,
-                hierarchy: data.hierarchy
-              })
-            } else if (data.id !== this.roleId) {
-              creditRoleArray.push({
+
+            creditRoleArray.push({
+              key: data.id,
+              value: data.name,
+              hierarchy: data.hierarchy
+            })
+            if (data.id !== this.roleId) {
+              conditionalArray.push({
                 key: data.id,
                 value: data.name,
                 hierarchy: data.hierarchy
@@ -205,9 +206,9 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             }
             return data
           })
-          this.deviationLov.approvalLevel = creditRoleArray;
+          this.deviationLov.approverRole = conditionalArray;
+          this.deviationLov.approvalLevel = this.isSubmitToCredit ? creditRoleArray : conditionalArray;
         }
-
         if (res.ProcessVariables.deviations && res.ProcessVariables.deviations.length > 0) {
 
           let deviationArray = [];

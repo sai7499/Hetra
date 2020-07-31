@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  version: '0.7',
-  buildDate: '25/07/2020',
+  version: '0.7.2',
+  buildDate: '30/07/2020',
   apiVersion: {
     login: 'v3/',
     api: 'v2/',
@@ -17,14 +17,14 @@ export const environment = {
     camProjectId: '74c36bec6da211eabdc2f2fa9bec3d63',
     submitToCredit: '403a8a12b79511ea8afff2fa9bec3d63',
     viabilityApi: '0d888054a7e811ea800bf2fa9bec3d63',
-    
+    wrapperPanValidation : 'db2732f4ab4811ea82f8f2fa9bec3d63'
   },
-  // hostingEnvironment: 'DEV',
-  hostingEnvironment: 'UAT',
+  hostingEnvironment: 'DEV',
+  // hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
 
-  host: '/appiyo/',
-  //  host: 'http://128.199.164.250/appiyo/',
+  //host: '/appiyo/',
+   host: 'http://128.199.164.250/appiyo/',
   // host: 'http://10.101.10.153/appiyo/',
 
   // tslint:disable-next-line: max-line-length
@@ -32,7 +32,8 @@ export const environment = {
     'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ+GJdSSEeaNFBLqyfM3DIOgQgWCwJ0INfeZZV7ITsLeuA7Yd02rrkYGIix1IWvoebWVmzhncUepYxHwK1ARCdUCAwEAAQ==',
   encryptionType: true, // Ecryption
   appiyoDrive: '/d/drive/upload/',
-  isMobile: false
+  isMobile: true,
+  isMaas360Enabled: false
 };
 
 /*

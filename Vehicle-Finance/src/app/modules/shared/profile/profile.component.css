@@ -36,22 +36,29 @@ border-radius:50px;
 }
 
 .open-profile>.dropdown-menu {
-display: block;
+display: inline;
 }
 
-@media (min-width:400px) and (max-width:767px) {
-.profile-style{
-  width: 50%; 
-  border-radius: 15px;
-  margin: 0px 150px 0px 150px;
-  background: #fff;
+@media (min-width:300px) and (max-width:767px) {
+ .profile-style{
+ /* float: right; */
+    /* width: 50%; */
+    /* background-color: white; */
+    /* z-index: -1; */
+    position: absolute;
+    right:1em;
+    background-color: white;
 
-}
 
-.profile-header{
+} 
+
+
+/* .profile-header{
   width: 60%;
   margin: 0px 20% 0px 20%;
-}
+} */
+
+
 
 }
 

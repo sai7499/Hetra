@@ -1,8 +1,11 @@
 <main class="mar-top90">
     <div class="container-fluid">
         <div class="pull-right dropdown nav">
-            <!-- <span class="visible-xs pull-left mar-right8">
-                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"> Add Field <i class="fa fa-angle-down"></i> </button>
+            <<<<<<< HEAD <!-- <span class="visible-xs pull-left mar-right8">
+                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"> Add Field <i class="fa fa-angle-down"></i> </button> =======
+                <span class="visible-xs pull-left mar-right8">
+                        <!-- <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"> Add Field <i class="fa fa-angle-down"></i> </button> -->
+>>>>>>> 07bd4f857476c304233c1c761076ca2d0e3bc656
                         <ul class="dropdown-menu">
                             <li> <div class="checkbox"><label><input type="checkbox">Product <span class="checkmark"></span></label>
         </div>
@@ -18,8 +21,8 @@
         </li>
         </ul>
         </span> -->
-            <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter </button>
-        </div>
+        <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter </button>
+    </div>
     </div>
     <div class="filter-block container-fluid mar-bottom" *ngIf="showFilter">
         <div>
@@ -90,11 +93,11 @@
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="startDate">{{labels.leadCreatedOnStartDate}}</label>
-                        <kendo-datepicker class="form-control" formControlName="fromDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"></kendo-datepicker>
+                        <kendo-datepicker class="form-control" formControlName="fromDate" [format]="'dd/MM/yyyy'" placeholder="Start Date" [activeView]="'decade'"></kendo-datepicker>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="endDate">{{labels.leadCreatedOnEndDate}}</label>
-                        <kendo-datepicker class="form-control" formControlName="toDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"></kendo-datepicker>
+                        <kendo-datepicker class="form-control" formControlName="toDate" [format]="'dd/MM/yyyy'" placeholder="End Date" [activeView]="'decade'"></kendo-datepicker>
                     </div>
                 </div>
                 <div class="row">

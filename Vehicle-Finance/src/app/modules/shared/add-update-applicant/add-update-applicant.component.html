@@ -22,7 +22,7 @@
                   <app-vf-custom-select
                     [values]="LOV?.LOVS?.entityType"
                     formControlName="entityType"
-                    (change)="selectApplicantType($event)"
+                    (change)="selectEntityType($event)"
                     [isRequired]="'Entity type is required'"
                     [isDirty]="isDirty"
                     [isDisabled]="applicantId"
@@ -38,6 +38,7 @@
                   <app-vf-custom-select
                     [values]="LOV?.LOVS?.applicantRelationshipWithLead"
                     formControlName="loanApplicationRelation"
+                    (change)="selectApplicantType($event)"
                     [isRequired]="'Please select one'"
                     [isDirty]="isDirty"
                   >
@@ -613,6 +614,13 @@
                     [maxLength]="validationData?.panNumber?.maxLength"
                     [type]="validationData?.panNumber?.type"
                   ></app-custom-input>
+
+                  <div class="ShowError" 
+                  *ngIf="panValidate &&
+                  coApplicantForm.get('dedupe').get('pan').value !==''">
+                    Invalid Pan Number
+                  </div>
+                  
                 </div>
               </div>
               <!-- [patternCheck]="validationData?.drivingLicense?.patternCheck" -->
@@ -985,7 +993,25 @@
                 class="individual_section_leadco"
                 *ngIf="applicantType == 'INDIVENTTYP'"
               >
-                <h3 class="title">Permanent Address</h3>
+              <div class="btn-sec clear-both row">
+                <div class="col-lg-3 col-sm-5">
+                  <h3 class="title">Permanent Address</h3>
+                </div>
+                <div class="col-lg-3 text-left" id="align_this_checkbox"
+                *ngIf="showApplicantAddCheckBox">
+                  <input
+                    type="checkbox"
+                    id="address_section_checkbox"
+                    (click)="onAddrSameAsApplicant($event)"
+                    [checked]="checkedAddressLead=='1'"
+                    [disabled]="addDisabledCheckBox"
+                    
+                  />
+                  <span id="address_section_checkbox_text"
+                    > Address From Main Applicant?
+                  </span>
+                </div>
+              </div>
                 <div class="row container" formGroupName="permentAddress">
                   <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">

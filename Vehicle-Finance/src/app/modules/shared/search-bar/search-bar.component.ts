@@ -15,6 +15,7 @@ export class SearchBarComponent implements OnInit {
   searchLead: any;
   searchText: string;
   routingId: string;
+  activityClass = false;
 
   constructor(
     private route: Router,
@@ -52,6 +53,7 @@ export class SearchBarComponent implements OnInit {
 
   navigateToModule() {
     commonRoutingUrl.map(element => {
+      console.log('URl', element)
       if (element.routeId === this.routingId) {
         this.route.navigateByUrl(element.routeUrl);
       }
