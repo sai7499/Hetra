@@ -891,7 +891,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         : {};
       if (indivIdentityInfoDetails.panType === '1PANTYPE') {
         //this.panPattern = this.panFormPattern;
-        this.isPanDisabled= true;
+        this.isPanDisabled = true;
       }
       details.pan = indivIdentityInfoDetails.pan;
       details.aadhar = indivIdentityInfoDetails.aadhar;
@@ -926,10 +926,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       const corporateProspectDetails = this.applicant.corporateProspectDetails
         ? this.applicant.corporateProspectDetails
         : {};
-        if (corporateProspectDetails.panType === '1PANTYPE') {
-          //this.panPattern = this.panFormPattern;
-          this.isPanDisabled= true;
-        }
+      if (corporateProspectDetails.panType === '1PANTYPE') {
+        //this.panPattern = this.panFormPattern;
+        this.isPanDisabled = true;
+      }
       details.tanNumber = corporateProspectDetails.tanNumber;
       details.gstNumber = corporateProspectDetails.gstNumber;
       details.cstVatNumber = corporateProspectDetails.cstVatNumber;
@@ -1465,7 +1465,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       if (
         this.coApplicantForm.get('dedupe').invalid ||
         this.coApplicantForm.get('currentAddress').invalid ||
-        this.coApplicantForm.get('permentAddress').invalid
+        this.coApplicantForm.get('permentAddress').invalid ||
+        this.panValidate
 
       ) {
         this.isDirty = true;
@@ -1474,13 +1475,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           'Applicant Details'
         );
         return;
-      } else if (this.panValidate) {
-        this.toasterService.showError(
-          'Invalid Pan Number.',
-          ''
-        );
-        return;
-      }
+      } 
+      // else if (this.panValidate) {
+      //   this.toasterService.showError(
+      //     'Invalid Pan Number.',
+      //     ''
+      //   );
+      //   return;
+      // }
 
       this.storeIndividualValueInService(coApplicantModel);
       this.applicantDataService.setCorporateProspectDetails(null);
@@ -1497,7 +1499,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           'Applicant Details'
         );
         return;
-      }
+      } 
+      // else if (this.panValidate) {
+      //   this.toasterService.showError(
+      //     'Invalid Pan Number.',
+      //     ''
+      //   );
+      //   return;
+      // }
       this.storeNonIndividualValueInService(coApplicantModel);
       this.applicantDataService.setIndividualProspectDetails(null);
       this.applicantDataService.setIndivIdentityInfoDetails(null);

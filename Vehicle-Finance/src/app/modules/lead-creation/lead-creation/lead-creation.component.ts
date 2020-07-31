@@ -83,6 +83,7 @@ export class LeadCreationComponent implements OnInit {
   namePattern: string;
   nameLength: number;
   mobileLength: number;
+  fullName: string;
 
   loanLeadDetails: {
     bizDivision: string;
