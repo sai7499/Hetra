@@ -1,28 +1,8 @@
 <main class="mar-top90">
     <div class="container-fluid">
         <div class="pull-right dropdown nav">
-            <<<<<<< HEAD <!-- <span class="visible-xs pull-left mar-right8">
-                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"> Add Field <i class="fa fa-angle-down"></i> </button> =======
-                <span class="visible-xs pull-left mar-right8">
-                        <!-- <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"> Add Field <i class="fa fa-angle-down"></i> </button> -->
->>>>>>> 07bd4f857476c304233c1c761076ca2d0e3bc656
-                        <ul class="dropdown-menu">
-                            <li> <div class="checkbox"><label><input type="checkbox">Product <span class="checkmark"></span></label>
+            <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter </button>
         </div>
-        </li>
-        <li>
-            <div class="checkbox"><label><input type="checkbox">Stage <span class="checkmark"></span> </label></div>
-        </li>
-        <li>
-            <div class="checkbox"><label><input type="checkbox">Loan Amount <span class="checkmark"></span> </label></div>
-        </li>
-        <li>
-            <div class="checkbox"><label><input type="checkbox">Assigned By <span class="checkmark"></span> </label></div>
-        </li>
-        </ul>
-        </span> -->
-        <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter </button>
-    </div>
     </div>
     <div class="filter-block container-fluid mar-bottom" *ngIf="showFilter">
         <div>
