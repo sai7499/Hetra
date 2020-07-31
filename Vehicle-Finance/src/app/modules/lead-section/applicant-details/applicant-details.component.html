@@ -139,7 +139,7 @@
                   <td [attr.data-label]="labels?.entity">{{ item.entity ? item.entity : '-' }}</td>
                   <td [attr.data-label]="labels?.name">{{ item.fullName ? item.fullName : '-' }}</td>
                   <ng-container *ngIf="item.entityTypeKey !== 'NONINDIVENTTYP'">
-                    <td [attr.data-label]="labels?.mobile">{{ item.mobile? item.mobile : '-' }}</td>
+                    <td [attr.data-label]="labels?.mobile">{{ item.mobileNumber? item.mobileNumber : '-' }}</td>
                     <td [attr.data-label]="labels?.dob">{{ item.dob ? item.dob : '-' }}</td>
                   </ng-container>
                   <ng-container *ngIf="item.entityTypeKey == 'NONINDIVENTTYP'">
