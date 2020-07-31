@@ -42,10 +42,12 @@ display: inline;
 @media (min-width:300px) and (max-width:767px) {
  
 
-/* .profile-header{
-  width: 60%;
-  margin: 0px 20% 0px 20%;
-} */
+.profile-style{
+  position: absolute;
+       right:1em;
+       background-color: white;
+       width: 47%;
+} 
 
 
 
