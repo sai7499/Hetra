@@ -35,8 +35,8 @@
   }
   
   .view-button{
-    width:auto;
-    font-size:xx-small;
+    width:100%;
+    font-size:12px;
     padding: 8px 8px!important;
     margin-bottom: 12px;
    

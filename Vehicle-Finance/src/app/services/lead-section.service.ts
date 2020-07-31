@@ -4,30 +4,51 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 
+import  mLabelURL  from '../../assets/jsonData/label.json';
+import  mLovURL  from '../../assets/jsonData/lov.json';
+import { environment } from './../../environments/environment';
+
+
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class LeadSectionService {
+  isMobile: any;
+
 
   private currentPage$ = new BehaviorSubject(0);
 
-  private labelURL: string = "assets/jsonData/label.json";
-  private lovURL: string = "assets/jsonData/lov.json";
+  // private labelURL: string = "assets/jsonData/label.json";
+  // private lovURL: string = "assets/jsonData/lov.json";
   
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    this.isMobile = environment.isMobile;
+  }
 
   getLabels(): Observable<any> {
-    return this.http.get<any>(this.labelURL)
-      .pipe(
+    // if(this.isMobile) {
+      return this.createObservableObj(mLabelURL).pipe(
         catchError(error => this.errorHandler)
-      );
+      );;
+    // }
+    // return this.http.get<any>(this.labelURL)
+    //   .pipe(
+    //     catchError(error => this.errorHandler)
+    //   );
   }
 
   getLovs(): Observable<any> {
-    return this.http.get<any>(this.lovURL)
-      .pipe(
+    // if(this.isMobile) {
+      return this.createObservableObj(mLovURL).pipe(
         catchError(error => this.errorHandler)
-      );
+      );;
+    // }
+    // return this.http.get<any>(this.lovURL)
+    //   .pipe(
+    //     catchError(error => this.errorHandler)
+    //   );
   }
 
   //Handling the Error Message
@@ -41,6 +62,14 @@ export class LeadSectionService {
 
   getCurrentPage() {
     return this.currentPage$;
+  }
+
+  createObservableObj(labelsurl:string){
+    const obs = new Observable(observer => {
+      observer.next(labelsurl);
+      observer.complete();
+    });
+    return obs;
   }
 
 }

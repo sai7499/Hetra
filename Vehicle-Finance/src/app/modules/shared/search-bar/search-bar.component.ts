@@ -15,6 +15,7 @@ export class SearchBarComponent implements OnInit {
   searchLead: any;
   searchText: string;
   routingId: string;
+  activityClass = false;
 
   constructor(
     private route: Router,
