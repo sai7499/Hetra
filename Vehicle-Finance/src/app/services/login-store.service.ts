@@ -16,13 +16,15 @@ export class LoginStoreService {
     emailId: string;
     roleName: string;
     roleId: any;
+    userRoleActivityList: any;
 
-    setRolesAndUserDetails(roles, userDetails, businessDivisionList, activityList) {
+    setRolesAndUserDetails(roles, userDetails, businessDivisionList, activityList, userRoleActivityList) {
         this.roleAndUserDetails = {
             roles,
             userDetails,
             businessDivisionList,
-            activityList
+            activityList,
+            userRoleActivityList
         }
         this.cds.changeCdsStatus(true);
         this.creditDashboardMethod({
@@ -31,8 +33,14 @@ export class LoginStoreService {
             roleType: roles[0].roleType,
             userName: userDetails.firstName
         });
+        this.userRoleActivityList = userRoleActivityList;
+        console.log(userRoleActivityList)
     }
 
+    getUserRoleActivityList() {
+        return this.userRoleActivityList;
+    }
+    
     getRolesAndUserDetails() {
         return this.roleAndUserDetails;
     }

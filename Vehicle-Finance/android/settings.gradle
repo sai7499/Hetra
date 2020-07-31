@@ -1,4 +1,4 @@
-include ':app'
+include ':app', ':maas360dlpsdk', ':maas360sdk', ':maas360logger', ':maas360utils', ':maas360ipclib', ':maas360clipboard'
 include ':capacitor-cordova-android-plugins'
 project(':capacitor-cordova-android-plugins').projectDir = new File('./capacitor-cordova-android-plugins/')
 

@@ -6,7 +6,7 @@ import { LoginStoreService } from '@services/login-store.service';
 @Component({
   selector: 'app-search-bar',
   templateUrl: './search-bar.component.html',
-  styleUrls: ['./search-bar.component.css']
+  styleUrls: ['./search-bar.component.css']  
 })
 export class SearchBarComponent implements OnInit {
 
@@ -53,6 +53,7 @@ export class SearchBarComponent implements OnInit {
 
   navigateToModule() {
     commonRoutingUrl.map(element => {
+      console.log('URl', element)
       if (element.routeId === this.routingId) {
         this.route.navigateByUrl(element.routeUrl);
       }

@@ -24,6 +24,7 @@ export class SanctionedLeadsPendingWithMeComponent implements OnInit {
   currentPage: any;
   totalItems: any;
   isLoadLead = true;
+  roleType: string;
 
   constructor(
     private labelsData: LabelsService,
@@ -47,6 +48,8 @@ export class SanctionedLeadsPendingWithMeComponent implements OnInit {
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
+      this.roleType = value.roleType;
+
       console.log('values For User in My Task', value);
     });
     this.getSanctionedLeads(this.itemsPerPage);

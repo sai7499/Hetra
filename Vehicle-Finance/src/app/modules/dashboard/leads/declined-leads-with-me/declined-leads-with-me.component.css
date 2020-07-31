@@ -226,8 +226,7 @@ h1{
     margin-bottom: 40px;
 }
 table { 
-    width: 100%; 
-    table-layout: fixed;
+    width: 100%;    
     border-collapse: collapse; 
     margin: 0 auto;
 }
@@ -252,6 +251,10 @@ td, th {
 @media 
 only screen and 
     (max-width: 760px){
+        table{
+            table-layout: fixed;
+        }
+        
     td, tr { 
         display: block; 
     }
