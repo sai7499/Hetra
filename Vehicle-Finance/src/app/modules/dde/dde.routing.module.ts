@@ -12,7 +12,6 @@ import { PslDataComponent } from './psl-data/psl-data.component';
 import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 import { CamComponent } from './cam/cam.component';
 import { ScoreCardComponent } from './score-card/score-card.component';
-import { CreditConditionsComponent } from './credit-conditions/credit-conditions.component';
 import { DeviationsComponent } from './deviations/deviations.component';
 import { TvrDetailsComponent } from './tvr-details/tvr-details.component';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
@@ -23,7 +22,6 @@ import { CibilOdComponent } from './cibil-od/cibil-od.component';
 import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
 import { PdListComponent } from './pd-list/pd-list.component';
 import { FiListComponent } from './fi-list/fi-list.component';
-import { CanActivateService } from '@services/can-activate.service';
 
 const routes: Routes = [
   {
@@ -100,11 +98,6 @@ const routes: Routes = [
         path: 'score-card',
         component: ScoreCardComponent,
       },
-      // {
-      //   path: 'credit-conditions',
-      //   component: CreditConditionsComponent,
-      // },
-
       {
         path: 'viability-list',
         component: ViabilityListComponent,

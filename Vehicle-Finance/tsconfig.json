@@ -19,7 +19,7 @@
       "@shared/*": ["src/app/modules/shared/*"],
       "@assets/*": ["src/assets/*"]
     },
-    "typeRoots": ["node_modules/@types"],
+    "typeRoots": ["node_modules/@types", "../src/typings.d.ts" ],
     "lib": ["es2018", "dom"],
     "types": [ "googlemaps"]
   }

@@ -151,16 +151,16 @@
         <!-- <source-file src="android/src/libs/jackson-mapper-asl.jar" target-dir="libs" /> -->
         <source-file src="android/src/libs/maas360appanalyticssdk.jar" target-dir="libs" />
         <source-file src="android/src/libs/maas360appanalyticssdkcommon.jar" target-dir="libs" />
-        <source-file src="android/src/libs/maas360clipboard.jar" target-dir="libs" />
-        <source-file src="android/src/libs/maas360dlpsdk.jar" target-dir="libs" />
+       <!-- <source-file src="android/src/libs/maas360clipboard.jar" target-dir="libs" />-->
+      <!--   <source-file src="android/src/libs/maas360dlpsdk.jar" target-dir="libs" />-->
         <source-file src="android/src/libs/maas360encryptionapi.jar" target-dir="libs" />
         <source-file src="android/src/libs/maas360gatewaysdk.jar" target-dir="libs" />
-        <source-file src="android/src/libs/maas360ipclib.jar" target-dir="libs" />
-        <source-file src="android/src/libs/maas360logger.jar" target-dir="libs" />
-        <source-file src="android/src/libs/maas360sdk.jar" target-dir="libs" />
+      <!--   <source-file src="android/src/libs/maas360ipclib.jar" target-dir="libs" /> -->
+      <!--   <source-file src="android/src/libs/maas360logger.jar" target-dir="libs" /> -->
+       <!--   <source-file src="android/src/libs/maas360sdk.jar" target-dir="libs" />-->
         <source-file src="android/src/libs/maaS360securehttpconnection.jar" target-dir="libs" />
         <source-file src="android/src/libs/maas360sqlcipher.jar" target-dir="libs" />
-        <source-file src="android/src/libs/maas360utils.jar" target-dir="libs" />
+       <!--  <source-file src="android/src/libs/maas360utils.jar" target-dir="libs" />-->
         <source-file src="android/src/libs/RootTools-4.2.jar" target-dir="libs" />
         <source-file src="android/src/libs/sqlcipher.jar" target-dir="libs" />
     </platform>

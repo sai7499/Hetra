@@ -53,6 +53,7 @@ export class SearchBarComponent implements OnInit {
 
   navigateToModule() {
     commonRoutingUrl.map(element => {
+      console.log('URl', element)
       if (element.routeId === this.routingId) {
         this.route.navigateByUrl(element.routeUrl);
       }
