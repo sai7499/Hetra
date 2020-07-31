@@ -552,5 +552,10 @@ export class ApiService {
       workflowId: 'cf499204cfdf11eaad5000505695f93b',
       projectId: environment.projectIds.salesProjectId,
     },
+    dashboardFilter: {
+      processId: '3d804624d26911eaa78100505695f93b',
+      workflowId: '3d804624d26911eaa78100505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    }
   };
 }

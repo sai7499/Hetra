@@ -67,6 +67,23 @@ export class DashboardService {
     return this.httpService.post(url, body);
   }
 
+  dashboardFilter(data) {
+    const processId = this.apiService.api.dashboardFilter.processId;
+    const workflowId = this.apiService.api.dashboardFilter.workflowId;
+    const projectId = this.apiService.api.dashboardFilter.projectId;
+
+
+    const body: RequestEntity = {
+      processId,
+      ProcessVariables: data,
+      workflowId,
+      projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+
+    return this.httpService.post(url, body);
+  }
+
 
   getKycDetails(data) {
     const processId = this.apiService.api.requestKYC.processId;
