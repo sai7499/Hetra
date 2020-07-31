@@ -4,8 +4,8 @@
     <div class="">
       <div class="container-fluid">
         <div class="row">
-          <div class="table-responsive application">
-            <table class="table">
+          <div id="wrapper">  
+            <table>
               <thead>
                 <tr class="table-head-bg">
                   <th>{{labels?.select}} <i class="fa fa-sort"></i></th>
@@ -24,7 +24,7 @@
               </thead>
               <tbody>
                 <tr *ngFor="let dedupe of (dedupeArray | paginate: { itemsPerPage: perPage, currentPage: p }); let i = index">    
-                      <td>
+                      <td [attr.data-label]="labels?.select">
                         <input 
                           [ngStyle]="{'cursor': 'pointer'}"
                           (click)="onLeadSelect($event, i)" 
@@ -34,17 +34,17 @@
                           [checked]="selectedIndex === i"
                           [disabled]="(dedupe.createdBy === userName) && (dedupe.stage === 'Lead Created') && (dedupe.status === 'Lead Created')? false : true"/>
                       </td>
-                  <td>{{ dedupe.leadID }}</td>
-                  <td>{{ dedupe.branch }}</td>
-                  <td>{{ dedupe.createdDate | date: 'dd/MM/yyyy' }}</td>
-                  <td>{{ dedupe.createdBy }}</td>
-                  <td>{{ dedupe.product }}</td>
-                  <td>{{ dedupe.loanAmount }}</td>
-                  <td>{{ dedupe.Applicant }}</td>
-                  <td>{{ dedupe.individualMobile }}</td>
-                  <td>{{ dedupe.stage }}</td>
-                  <td [ngClass]="{'reject_reason':dedupe.status === 'Rejected'}">{{ dedupe.status }}</td>
-                  <td>{{ dedupe.reasonForRejection }}</td>
+                  <td [attr.data-label]="labels?.leadID">{{ dedupe.leadID }}</td>
+                  <td [attr.data-label]="labels?.branch">{{ dedupe.branch }}</td>
+                  <td [attr.data-label]="labels?.loanCreatedDate">{{ dedupe.createdDate | date: 'dd/MM/yyyy' }}</td>
+                  <td [attr.data-label]="labels?.loanCreatedBy">{{ dedupe.createdBy }}</td>
+                  <td [attr.data-label]="labels?.product">{{ dedupe.product }}</td>
+                  <td [attr.data-label]="labels?.loanAmount">{{ dedupe.loanAmount }}</td>
+                  <td [attr.data-label]="labels?.applicantName">{{ dedupe.Applicant }}</td>
+                  <td [attr.data-label]="labels?.mobile">{{ dedupe.individualMobile }}</td>
+                  <td [attr.data-label]="labels?.stage">{{ dedupe.stage }}</td>
+                  <td [attr.data-label]="labels?.status" [ngClass]="{'reject_reason':dedupe.status === 'Rejected'}">{{ dedupe.status }}</td>
+                  <td [attr.data-label]="labels?.reasonForRejection">{{ dedupe.reasonForRejection }}</td>
                 </tr>
               </tbody>
             </table>

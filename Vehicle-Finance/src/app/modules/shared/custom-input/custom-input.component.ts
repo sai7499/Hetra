@@ -8,19 +8,19 @@ import {
   ViewChild,
   ElementRef,
   HostListener,
-} from "@angular/core";
+} from '@angular/core';
 import {
   NG_VALUE_ACCESSOR,
   ControlValueAccessor,
   Validator,
   FormControl,
   NG_VALIDATORS,
-} from "@angular/forms";
+} from '@angular/forms';
 
 @Component({
-  selector: "app-custom-input",
-  templateUrl: "./custom-input.component.html",
-  styleUrls: ["./custom-input.component.css"],
+  selector: 'app-custom-input',
+  templateUrl: './custom-input.component.html',
+  styleUrls: ['./custom-input.component.css'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -40,12 +40,12 @@ export class CustomInputComponent
     rule?: number;
     msg?: string;
   };
-  @Input() className = "form-control";
+  @Input() className = 'form-control';
   @Input() minLength: {
     rule?: number;
     msg?: string;
   };
-  @Input() type = "text";
+  @Input() type = 'text';
   @Input() labelName: string;
   @Input() id: string;
 
@@ -64,11 +64,11 @@ export class CustomInputComponent
 
   @Input() dynamicDataBinding: boolean;
 
-  @Input() placeholder = "";
+  @Input() placeholder = '';
 
   htmlInputElement: any;
 
-  @ViewChild("customInput", { static: false }) customInput: ElementRef;
+  @ViewChild('customInput', { static: false }) customInput: ElementRef;
 
   errorMsg: string;
   inputError = false;
@@ -83,7 +83,7 @@ export class CustomInputComponent
   }
   private checkIsFirst = true;
   private propagateChange = (event) => {
-    // this.change.emit(event); 
+    // this.change.emit(event);
   };
 
   constructor(private elementRef: ElementRef) {}
@@ -98,7 +98,7 @@ export class CustomInputComponent
     if (this.dynamicDataBinding) {
       // this.checkIsFirst = false;
     }
-    if (obj === "") {
+    if (obj === '') {
       return;
     }
     this.data = obj;
@@ -144,14 +144,14 @@ export class CustomInputComponent
       return;
     }
     if (!newValue && this.isRequired) {
-      this.displayError(this.checkIsFirst ? "" : this.isRequired);
+      this.displayError(this.checkIsFirst ? '' : this.isRequired);
       this.checkIsFirst = false;
       return;
     }
 
     if (this.patternCheck) {
       let toLower = String(newValue);
-      if (this.inputClass === "text-uppercase") {
+      if (this.inputClass === 'text-uppercase') {
         toLower = toLower.toUpperCase();
       }
       if (!RegExp(this.patternCheck.rule).test(toLower)) {
@@ -183,11 +183,11 @@ export class CustomInputComponent
         const customVal = this.custom[i].rule;
         if (customVal(newValue)) {
           console.log(
-            "this.custom[i].msg",
+            'this.custom[i].msg',
             this.custom[i].msg,
-            "i",
+            'i',
             i,
-            "custom",
+            'custom',
             this.custom
           );
           this.displayError(this.custom[i].msg);
@@ -200,7 +200,7 @@ export class CustomInputComponent
 
   onBlurMethod(event) {
     const newValue = event.target.value;
-
+   
     if (!newValue && this.isRequired) {
       this.displayError(this.isRequired);
       return;
@@ -216,46 +216,49 @@ export class CustomInputComponent
     this.isDisabled = disabled;
   }
 
-  @HostListener("input", ["$event"]) onInputChange(event) {
+  @HostListener('input', ['$event']) onInputChange(event) {
     switch (this.type) {
-      case "number":
+      case 'number':
         this.allowNumberOnly(event);
         break;
-      case "alpha-numeric":
+      case 'alpha-numeric':
         this.allowAlphaNumericOnly(event);
         break;
-      case "alpha":
+      case 'alpha':
         this.allowAlphaOnly(event);
         break;
-      case "special-alpha-numeric":
+      case 'special-alpha-numeric':
         this.allowSpecialAlphaNumericOnly(event);
       case 'alpha-numeric-nospace':
         this.allowAlphaNumericNoSpace(event);
         break;
     }
+    this.propagateChange(this.inputValue);
     this.checkValidation(this.inputValue);
   }
 
   allowNumberOnly(event) {
     const initialValue = event.target.value;
-    this.inputValue = initialValue.replace(/[^0-9]*/g, "");
+    this.inputValue = initialValue.replace(/[^0-9]*/g, '');
   }
 
   allowAlphaNumericOnly(event) {
     const initialValue = event.target.value;
-    this.inputValue = initialValue.replace(/[^a-zA-Z0-9 ]/g, "");
+    this.inputValue = initialValue.replace(/[^a-zA-Z0-9 ]/g, '');
   }
 
   allowAlphaOnly(event) {
     const initialValue = event.target.value;
-    this.inputValue = initialValue.replace(/[^a-zA-Z ]/g, "");
+    this.inputValue = initialValue.replace(/[^a-zA-Z ]/g, '');
   }
   allowSpecialAlphaNumericOnly(event) {
     const initialValue = event.target.value;
-    this.inputValue = initialValue.replace(/[^0-9a-zA-Z\s\r\n@!#\$\^%&*()+=\-\[\]\\\';,\.\/\{\}\|\":<>\?]+$/,""
+    this.inputValue = initialValue.replace(
+      /[^0-9a-zA-Z\s\r\n@!#\$\^%&*()+=\-\[\]\\\';,\.\/\{\}\|\":<>\?]+$/,
+      ''
     );
   }
-  allowAlphaNumericNoSpace(event){
+  allowAlphaNumericNoSpace(event) {
     const initialValue = event.target.value;
     this.inputValue = initialValue.replace(/[^a-zA-Z0-9]/g, '');
   }

@@ -11,7 +11,7 @@ export class LeadDetails {
   constructor(
     private apiService: ApiService,
     private httpService: HttpService
-  ) {}
+  ) { }
 
   saveAndUpdateLead(leadDetails) {
     const processId = this.apiService.api.saveAndUpdateLead.processId;
@@ -21,22 +21,24 @@ export class LeadDetails {
     const body: RequestEntity = {
       processId: processId,
       ProcessVariables: {
-        leadId: leadDetails.leadId,
-        sourcingCode: leadDetails.sourcingCode,
-        branchId: leadDetails.loanBranch,
-        productId: leadDetails.product,
-        reqLoanAmt: leadDetails.requestedLoanAmount,
-        reqTenure: leadDetails.requestedLoanTenor,
-        leadHandledBy: leadDetails.leadHandeledBy,
-        leadCreatedBy: leadDetails.leadCreatedBy,
-        leadCreatedOn: leadDetails.leadCreatedOn,
-        dealorCode: leadDetails.dealorCode,
-        priority: leadDetails.priority,
-        spokesId: leadDetails.spokeCode,
-        sourcingChannel: leadDetails.sourcingChannel,
-        sourcingType: leadDetails.sourcingType,
-        bizDivision: leadDetails.bizDivision,
-        userId: leadDetails.userId,
+        // leadId: leadDetails.leadId,
+        // sourcingCode: leadDetails.sourcingCode,
+        // branchId: leadDetails.loanBranch,
+        // productId: leadDetails.productId,
+        // fundingProgram: leadDetails.fundingProgram,
+        // reqLoanAmt: leadDetails.reqLoanAmt,
+        // reqTenure: leadDetails.reqTenure,
+        // leadHandledBy: leadDetails.leadHandeledBy,
+        // leadCreatedBy: leadDetails.leadCreatedBy,
+        // leadCreatedOn: leadDetails.leadCreatedOn,
+        // dealorCode: leadDetails.dealorCode,
+        // priority: leadDetails.priority,
+        // spokesId: leadDetails.spokeCode,
+        // sourcingChannel: leadDetails.sourcingChannel,
+        // sourcingType: leadDetails.sourcingType,
+        // bizDivision: leadDetails.bizDivision,
+        // userId: leadDetails.userId,
+        ...leadDetails
       },
       workflowId: workflowId,
       projectId: projectId,

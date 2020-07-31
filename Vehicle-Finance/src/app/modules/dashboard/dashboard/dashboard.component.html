@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="pull-right dropdown nav">
             <span class="visible-xs pull-left mar-right8">
-                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"> Add Field <i class="fa fa-angle-down"></i> </button>
+                        <!-- <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"> Add Field <i class="fa fa-angle-down"></i> </button> -->
                         <ul class="dropdown-menu">
                             <li> <div class="checkbox"><label><input type="checkbox">Product <span class="checkmark"></span></label>
         </div>
@@ -18,12 +18,12 @@
         </li>
         </ul>
         </span>
-        <!-- <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter </button> -->
+        <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter </button>
     </div>
     </div>
     <div class="filter-block container-fluid mar-bottom" *ngIf="showFilter">
         <div>
-            <div class="col-md-4">
+            <!-- <div class="col-md-4">
                 <form class="form-inline">
                     <div class="form-group">
                         <label for="filter">Add filter</label> &nbsp;
@@ -36,8 +36,8 @@
                         </select>
                     </div>
                 </form>
-            </div>
-            <div class="col-md-8">
+            </div> -->
+            <!-- <div class="col-md-8">
                 <div class="row" id="status-content">
                     <div class="form-group col-sm-4 col-md-3">
                         <div class="checkbox">
@@ -67,7 +67,46 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
+            <form>
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="leadId">{{labels.leadID}}</label>
+                        <input class="form-control" type="text" id="leadId">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="productCategory">{{labels.productCategory}}</label>
+                        <input class="form-control" type="text" id="productCategory">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
+                        <label for="status">{{labels.status}}</label>
+                        <input class="form-control" type="text" id="status">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="startDate">{{labels.leadCreatedOnStartDate}}</label>
+                        <kendo-datepicker class="form-control" 
+                            [format]="'dd/MM/yyyy'" placeholder="Start Date" [activeView]="'decade'"></kendo-datepicker>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="endDate">{{labels.leadCreatedOnEndDate}}</label>
+                        <kendo-datepicker class="form-control" 
+                        [format]="'dd/MM/yyyy'" placeholder="End Date" [activeView]="'decade'"></kendo-datepicker>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="minAmount">{{labels.loanMinAmount}}</label>
+                        <input class="form-control" type="text" id="minAmount">
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                        <label for="maxAmount">{{labels.loanMaxAmount}}</label>
+                        <input class="form-control" type="text" id="maxAmount">
+                    </div>
+                </div>
+            </form>
+
             <div class="btn-sec col-xs-12 text-right">
                 <button class="btn btn-default mar-right8" id="clearbtn"> Clear </button>
                 <button class="btn btn-primary"> Apply </button>

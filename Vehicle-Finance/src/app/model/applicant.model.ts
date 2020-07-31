@@ -53,8 +53,7 @@ export interface ApplicantDetails {
   agriOwnerProperty?: string;
   agriAppRelationship?: string;
   grossReceipt?: number;
-
-
+  isAddrSameAsApplicant? : string;
 }
 
 export interface ApplicantList {

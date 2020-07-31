@@ -34,10 +34,8 @@
 
             <br />
             <h3 class="title">{{labels?.creditBureauCIBIL}}</h3>
-            <div class="table-responsive">
-
-
-                <table class="table">
+            <div id="wrapper">  
+                <table>
                     <thead>
                         <tr class=" table-head-bg ">
                             <!--- <th>ID</th> --->
@@ -52,9 +50,9 @@
                         <tr *ngFor = " let applicant of applicantList">
                             <!---<td>Los-1112445</td> --->
                            
-                            <td>{{applicant.applicantName}}</td>
-                            <td>{{applicant.applicantType}}</td>
-                            <td>{{applicant.bureauScore}}</td>
+                            <td [attr.data-label]="labels?.applicant">{{applicant.applicantName}}</td>
+                            <td [attr.data-label]="labels?.applicantType">{{applicant.applicantType}}</td>
+                            <td [attr.data-label]="labels?.bureauScore">{{applicant.bureauScore}}</td>
 
                         </tr>
                         <!-- <tr>

@@ -7,15 +7,15 @@ declare var cordova:any;
 
 // declare var channel:any
 
+import { DraggableContainerService } from '@services/draggable.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 
-export class AppComponent implements OnInit{
-
+export class AppComponent implements OnInit {
   title = 'vehicle-finance';
   isMaas360Enabled:any;
 
@@ -181,6 +181,19 @@ export class AppComponent implements OnInit{
     }
   };
 
+
+   
+
+  showDraggableContainer: {
+    imageUrl: string;
+  };
+  setCss = {
+    top: '',
+    left: '',
+  };
+
+  constructor(private draggableContainerService: DraggableContainerService) {}
+
   ngOnInit() {
 
     let that = this;
@@ -189,11 +202,20 @@ export class AppComponent implements OnInit{
     if(this.isMaas360Enabled) {
         that.initMaaS360();
     }
-
+    
+    this.draggableContainerService
+      .getContainerValue()
+      .subscribe((value: any) => {
+        if (!value) {
+          return;
+        }
+        this.showDraggableContainer = value.image;
+        this.setCss = value.css;
+      });
     document.addEventListener('backbutton', () => {
       navigator['app'].exitApp();
     });
-  
+
     document.addEventListener(
       'offline',
       () => {
@@ -236,6 +258,4 @@ export class AppComponent implements OnInit{
       sdkHandler.registerObserver(eventHandler);
       sdkHandler.initWithAnalytics(developerKey, licenseKey, enableAnalytics);
   }
-
-  
 }

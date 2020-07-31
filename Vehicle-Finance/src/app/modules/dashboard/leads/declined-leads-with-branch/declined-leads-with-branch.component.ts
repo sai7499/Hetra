@@ -98,7 +98,7 @@ export class DeclinedLeadsWithBranchComponent implements OnInit {
       const response = JSON.parse(res);
       console.log(response);
       if (response.ErrorCode == 0 ) {
-        this.toasterService.showSuccess('Lead Assigned Successfully', 'Assigned');
+        this.toasterService.showSuccess('Assigned Successfully', 'Assigned');
         // this.router.navigate([])
       } else {
         this.toasterService.showError(response.Error, '');
