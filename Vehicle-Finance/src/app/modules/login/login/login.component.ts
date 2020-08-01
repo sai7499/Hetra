@@ -20,6 +20,7 @@ import { GpsService } from 'src/app/services/gps.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { environment } from 'src/environments/environment';
 import { DashboardService } from '@services/dashboard/dashboard.service';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { UtilityService } from '@services/utility.service';
 
 declare var identi5: any;
@@ -64,6 +65,14 @@ export class LoginComponent implements OnInit {
   appVersion;
   buildDate;
 
+  isModelShow: boolean;
+  errorMessage: string;
+  
+
+  
+
+
+
   constructor(
     private loginService: LoginService,
     private router: Router,
@@ -75,6 +84,7 @@ export class LoginComponent implements OnInit {
     private deviceService: DeviceDetectorService,
     private camera: Camera,
     private dashboardService: DashboardService,
+    private ngxUiLoaderService: NgxUiLoaderService,
     private utilityService: UtilityService
   ) {
     this.isMobile = environment.isMobile;
@@ -176,7 +186,10 @@ export class LoginComponent implements OnInit {
         }
       },
       (err) => {
-        alert('Invalid Login');
+        this.ngxUiLoaderService.stop();
+        this.isModelShow = true;
+        // alert('Invalid Login');
+        this.errorMessage = "Invalid Login"    
         this.loginForm.reset();
       }
     );
