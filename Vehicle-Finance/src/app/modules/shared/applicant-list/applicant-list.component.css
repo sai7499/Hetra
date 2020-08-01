@@ -20,13 +20,8 @@ td a {
   cursor: pointer;
 }
 
-<<<<<<< HEAD
-table { 
-  width: 100%; 
-=======
 table {
   width: 100%;
->>>>>>> a686999f6a9e3bf6c4d6d6cfaedb965b051a7754
   table-layout: fixed;
   border-collapse: collapse;
   margin: 0 auto;
@@ -110,12 +105,9 @@ th {
       content: attr(data-item-value);
       }
 } */
-<<<<<<< HEAD
 /* style for modal */
 
 .modal-style{
   width:85%;
   margin:auto;
 }
-=======
->>>>>>> a686999f6a9e3bf6c4d6d6cfaedb965b051a7754
