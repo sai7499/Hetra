@@ -630,7 +630,14 @@ export class FleetDetailsComponent implements OnInit {
           this.vehicleTypeLov[i] = this.allLovs.vehicleType;
           this.regionLov[i] = this.allLovs.assetRegion;
           this.vehicleManufacturer[i] =  this.allLovs.vehicleManufacturer;
-
+          this.assetBodyTypeLov[i] = [{
+            key: fleets[i].assetBodyType,
+            value: fleets[i].assetBodyTypeDesc
+          }];
+          this.assetModelTypeLov[i] = [{
+            key: fleets[i].assetModel,
+            value: fleets[i].assetModelDesc
+          }];
           if (i == 0) {
             this.formArr.push(this.initRows(fleets[i]))
           }
