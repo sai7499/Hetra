@@ -314,7 +314,7 @@ form .form-control {
 }
 
 .mar-right8 {
-    margin: 8px;
+    margin: 8px!important;
 }
 
 .panel-group .fa-angle-down {
@@ -730,7 +730,7 @@ h4.table-head-bg.m-0.p-02 {
     .search .search-icon-left {
         background: url(./assets/images/search.png) no-repeat center;
         left: 20px;
-        top: calc(100% - 270px);
+        top: calc(100% - 255px);
         /* top: -15vw; */
     }
     .search .microphone-icon {
@@ -744,7 +744,13 @@ h4.table-head-bg.m-0.p-02 {
         border-bottom-right-radius: 1.5em;
         background-color: transparent;
         font-weight: bold;
-        top: calc(100% - 270px);
+        top: calc(100% - 255px);
+    }
+    .test {
+        /* background: url(./assets/images/search.png) no-repeat center;
+        left: 20px; */
+        top: calc(100% - 275px)!important;
+        /* top: -15vw; */
     }
 }
 

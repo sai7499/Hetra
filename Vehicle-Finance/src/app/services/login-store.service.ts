@@ -4,9 +4,8 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 import { DashboardService } from './dashboard/dashboard.service';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class LoginStoreService {
 
     constructor(private cds: CommonDataService,
