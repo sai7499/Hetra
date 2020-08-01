@@ -40,26 +40,22 @@ display: inline;
 }
 
 @media (min-width:300px) and (max-width:767px) {
- .profile-style{
- /* float: right; */
-    /* width: 50%; */
-    /* background-color: white; */
-    /* z-index: -1; */
-    position: absolute;
-    right:1em;
+ 
+
+.profile-style{
+  position: absolute;
+    right: 1em;
     background-color: white;
-
-
+    width: 158px;
 } 
-
-
-/* .profile-header{
-  width: 60%;
-  margin: 0px 20% 0px 20%;
-} */
-
-
-
+.activity-style {
+  position: unset;
+    width: 50%;
+    /* margin: auto; */
+    margin-left: 20%;
+    margin-right: 20%;
+    background-color: #272264!important;
+}
 }
 
 .user_name{
