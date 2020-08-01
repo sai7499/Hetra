@@ -131,11 +131,6 @@ export class FiReportComponent implements OnInit {
 
   }
 
-
-
-
-
-
   initForm() {
 
     // fun that initilalizes the form group
@@ -294,7 +289,8 @@ export class FiReportComponent implements OnInit {
       console.log('get fi report response', processVariables);
       const message = processVariables.error.message;
       if (processVariables.error.code === '0') {
-        // this.applicantFullName = res.ProcessVariables.applicantName;
+        this.applicantFullName = res.ProcessVariables.applicantName;
+        console.log('in get fi applicant name', this.applicantFullName);
         this.fiDetails = res.ProcessVariables.getFiReportDetails;
         console.log('in get fi details', this.fiDetails);
         this.setFormValue();
