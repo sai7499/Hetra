@@ -176,6 +176,7 @@
               formControlName="sourcingCode"
               [placeHolder]="sourcingCodePlaceholder"
               [minQueryLength]="2"
+              [debounceTime]=1000000000
               [disabled]="isSourchingCode">      
                                          
             </ng-autocomplete>               
