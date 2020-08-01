@@ -709,9 +709,9 @@
           formControlName="engineNumber"
           placeholder="engine number"
           [inputClass]="'input-upper'"
-          [type]="labels?.validationData?.engineNo?.type"
+          [type]="labels?.validationData?.chasisEngineNo?.type"
           [isRequired]="'engine number is required'"
-          [maxLength]="labels?.validationData?.engineNo?.maxLength"
+          [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength"
           [isDirty]="isDirty"
         ></app-custom-input>
       </div>
@@ -728,9 +728,9 @@
           formControlName="chasisNumber"
           placeholder="chasis number"
           [inputClass]="'input-upper'"
-          [type]="labels?.validationData?.chasisNo?.type"
+          [type]="labels?.validationData?.chasisEngineNo?.type"
           [isRequired]="'chasis number is required'"
-          [maxLength]="labels?.validationData?.chasisNo?.maxLength"
+          [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength"
           [isDirty]="isDirty"
         ></app-custom-input>
       </div>
@@ -758,6 +758,29 @@
           [min]="toDayDate"
         >
         </kendo-datepicker>
+        <div
+          class="invalid-feedback"
+          *ngIf="
+            loanDetailsForm.controls['permitValidity'].touched &&
+            !loanDetailsForm.controls['permitValidity'].vaild
+          "
+        >
+          <div
+            *ngIf="
+              loanDetailsForm.controls['permitValidity'].hasError('required')
+            "
+          >
+            permit validity is required
+          </div>
+
+          <!-- <div
+            *ngIf="
+              loanDetailsForm.controls['othersRemarks'].hasError('pattern')
+            "
+          >
+            special characters are not allowed
+          </div> -->
+        </div>
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="fitness_date"
@@ -781,6 +804,21 @@
           [min]="toDayDate"
         >
         </kendo-datepicker>
+        <div
+          class="invalid-feedback"
+          *ngIf="
+            loanDetailsForm.controls['fitnessValidity'].touched &&
+            !loanDetailsForm.controls['fitnessValidity'].vaild
+          "
+        >
+          <div
+            *ngIf="
+              loanDetailsForm.controls['fitnessValidity'].hasError('required')
+            "
+          >
+            fitness validity is required
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -807,9 +845,21 @@
           placeholder="dd/mm/yyyy"
           [activeView]="'decade'"
           [min]="toDayDate"
-
         >
         </kendo-datepicker>
+        <div
+          class="invalid-feedback"
+          *ngIf="
+            loanDetailsForm.controls['taxValidity'].touched &&
+            !loanDetailsForm.controls['taxValidity'].vaild
+          "
+        >
+          <div
+            *ngIf="loanDetailsForm.controls['taxValidity'].hasError('required')"
+          >
+            tax Validity is required
+          </div>
+        </div>
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="insurance_copy"
@@ -850,6 +900,21 @@
           [min]="toDayDate"
         >
         </kendo-datepicker>
+        <div
+          class="invalid-feedback"
+          *ngIf="
+            loanDetailsForm.controls['insuranceValidity'].touched &&
+            !loanDetailsForm.controls['insuranceValidity'].vaild
+          "
+        >
+          <div
+            *ngIf="
+              loanDetailsForm.controls['insuranceValidity'].hasError('required')
+            "
+          >
+            insurance validity is required
+          </div>
+        </div>
       </div>
     </div>
     <div
