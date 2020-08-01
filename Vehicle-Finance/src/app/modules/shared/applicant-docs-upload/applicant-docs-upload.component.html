@@ -127,6 +127,7 @@
                     <label for="documentnumber">Document Number</label>
                     <app-custom-input
                       formControlName="documentNumber"
+                      [maxLength]="documentMaxLength"
                     ></app-custom-input>
                   </div>
 
@@ -134,7 +135,7 @@
                     class="form-group col-sm-3 col-md-2"
                     *ngIf="subCat.code !== 3"
                   >
-                    <label for="idate">Issues Date</label>
+                    <label for="idate">Issue Date</label>
                     <div class="input-group input-medium">
                       <kendo-datepicker
                         class="form-control mandatory"
@@ -200,7 +201,8 @@
                               i,
                               subCat,
                               OTHER_DOCUMENTS_SIZE,
-                              OTHER_DOCS_TYPE
+                              OTHER_DOCS_TYPE,
+                              subCat.code !== 3 ? '' : 'biometric'
                             )
                           "
                         ></i></label
@@ -237,7 +239,15 @@
   </form>
 </div>
 <div class="btn-sec clear-both row">
-  <div class="col-sm-5"></div>
+  <div class="col-sm-5">
+    <button
+      class="btn btn-primary js-btn-prev dash_href"
+      type="button"
+      [routerLink]="['/pages', 'lead-section', leadId]"
+    >
+      Back to lead details
+    </button>
+  </div>
   <div class="col-sm-7 text-right">
     <button
       class="btn btn-primary js-btn-prev dash_href"
