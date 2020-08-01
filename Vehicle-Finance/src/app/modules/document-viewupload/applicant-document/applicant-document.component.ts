@@ -17,7 +17,11 @@ export class ApplicantDocumentComponent implements OnInit {
   labels: any = {};
   leadId: number;
   applicantList: { key: number; value: string }[];
-  selectedApplicant: number;
+  applicantId;
+  selectedApplicant: {
+    id: number;
+    associatedWith;
+  };
 
   constructor(
     private lovData: LovDataService,
@@ -75,7 +79,11 @@ export class ApplicantDocumentComponent implements OnInit {
           return;
         }
         console.log('applicantList', this.applicantList);
-        this.selectedApplicant = this.applicantList[0].key;
+        this.applicantId = Number(this.applicantList[0].key);
+        this.selectedApplicant = {
+          id: this.applicantId,
+          associatedWith: 2,
+        };
       });
   }
 

@@ -1,93 +1,67 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
-import { Router } from '@angular/router';
-import { LovDataService } from 'src/app/services/lov-data.service';
-import { LabelsService } from 'src/app/services/labels.service';
+import { VehicleDetailService } from '@services/vehicle-detail.service';
+import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs/operators';
+
 @Component({
   selector: 'app-collateraldocument',
   templateUrl: './collateraldocument.component.html',
-  styleUrls: ['./collateraldocument.component.css']
+  styleUrls: ['./collateraldocument.component.css'],
 })
 export class CollateraldocumentComponent implements OnInit {
-
-  values: any = [];
-  public labels: any = {};
-  collateralDocumentForm: FormGroup;
-  vehicleName: any;
-
+  vehicleList;
+  selectedVehicle;
+  leadId: number;
+  selectedDetails: {
+    id: number;
+    associatedWith: number;
+  };
   constructor(
-    private lovData: LovDataService,
-    private router: Router,
-    private labelsData: LabelsService,
-    private fb: FormBuilder) { }
+    private vehicleDetailsService: VehicleDetailService,
+    private activateRoute: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    this.initForm();
-    this.lovData.getLovData().subscribe((res: any) => {
-      this.values = res[0].collateralDocument[0];
+    this.activateRoute.parent.params.subscribe((value) => {
+      this.leadId = Number(value.leadId);
+      this.getVehicleList(this.leadId);
     });
-
-    this.collateralDocumentForm = this.fb.group({
-      documents: this.fb.array([
-        this.getUnit()
-      ])
-    });
-
   }
-  initForm() {
 
-    this.collateralDocumentForm = new FormGroup({
-      documentName: new FormControl(''),
-      documentNumber: new FormControl(''),
-      issueDate: new FormControl(''),
-      documentExpiryDate: new FormControl(''),
-      mandatoryStage: new FormControl({ value: 'Sales', disabled: true }),
-      deferralDate: new FormControl({ value: '', disabled: true }),
-      uploadDocument: new FormControl(''),
-      status: new FormControl('')
-    })
+  onVehicleChange($event) {}
 
-    this.labelsData.getLabelsData().subscribe(
-      data => {
-        this.labels = data;
-      },
-      error => {
-        console.log(error);
+  getVehicleList(id) {
+    this.vehicleDetailsService
+      .getAllVehicleCollateralDetails(id)
+      .pipe(
+        map((value: any) => {
+          if (value.Error !== '0') {
+            return null;
+          }
+          const processVariables = value.ProcessVariables;
+          const vehicleList = processVariables.vehicleDetails || [];
+          return vehicleList.map((val) => {
+            return {
+              key: val.collateralId,
+              value: val.regNo,
+            };
+          });
+        })
+      )
+      .subscribe((res: any) => {
+        this.vehicleList = res;
+        if (this.vehicleList.lenth === 0) {
+          return;
+        }
+        this.selectedVehicle = Number(this.vehicleList[0].key);
+        // this.vehicleList = res.ProcessVariables.vehicleDetails
+        //   ? res.ProcessVariables.vehicleDetails
+        //   : [];
+        this.selectedDetails = {
+          id: this.selectedVehicle,
+          associatedWith: 1,
+        };
+        console.log('this.vehicleList', this.vehicleList);
       });
   }
-
-  selectChangeHandler(event: any) {
-    this.vehicleName = event.target.value;
-  }
-
-  getUnit() {
-    return this.fb.group({
-      documentName: [('')],
-      documentNumber: [],
-      issueDate: [],
-      documentExpiryDate: [],
-      mandatoryStage: [({ value: 'Sales', disabled: true })],
-      deferralDate: [({ value: '', disabled: true })],
-      uploadDocument: [],
-      status: [('')]
-    });
-  }
-
-  addUnit() {
-    const control = <FormArray>this.collateralDocumentForm.controls['documents'];
-    control.push(this.getUnit());
-  }
-
-  removeUnit(i: number) {
-    const control = <FormArray>this.collateralDocumentForm.controls['documents'];
-    control.removeAt(i);
-  }
-
-  onFormSubmit() {
-    this.router.navigate(['/pages/lead-section']);
-  }
-
-
 }
-
-
