@@ -6,9 +6,10 @@ android {
         applicationId "com.vehicle.finance"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        versionCode 2
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -40,7 +41,15 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
     implementation project(':capacitor-cordova-android-plugins')
-
+    implementation project(':maas360sdk')
+    implementation project(':maas360dlpsdk')
+    implementation project(':maas360logger')
+    implementation project(':maas360utils')
+    implementation project(':maas360ipclib')
+    implementation project(':maas360clipboard')
+//    implementation files('src/main/libs/maas360sdk.jar')
+//    implementation files('src/main/libs/maas360dlpsdk.jar')
+//    implementation files('src/main/libs/maas360logger.jar')
 }
 
 apply from: 'capacitor.build.gradle'

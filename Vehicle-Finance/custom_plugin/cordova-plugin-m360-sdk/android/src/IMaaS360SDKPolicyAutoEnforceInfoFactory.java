@@ -19,7 +19,7 @@ public class IMaaS360SDKPolicyAutoEnforceInfoFactory implements IMaaS360SDKPolic
     boolean shouldAutoEnforceRestrictPrint;
     boolean shouldAutoEnforceRestrictShare;
 
-    IMaaS360SDKPolicyAutoEnforceInfoFactory(boolean shouldEnforceCopyPasteRestriction,
+    public IMaaS360SDKPolicyAutoEnforceInfoFactory(boolean shouldEnforceCopyPasteRestriction,
         boolean shouldEnforceSSORestriction,
         boolean shouldEnforceScreenshotRestriction,
         boolean shouldEnforceWipeRestriction,

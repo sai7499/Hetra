@@ -1,7 +1,7 @@
 <div class="row top_bar">
   <div class="col-lg-10 col-md-10 col-sm-10">
     <div class="row">
-      <div class="col-lg-4 col-md-4 col-sm-12">
+      <div class="row col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
           <label class="col-form-label" for="lead_created_by"
             >{{ labels?.leadID }}
@@ -11,7 +11,7 @@
           }}</label>
         </div>
       </div>
-      <div class="col-lg-4 col-md-4 col-sm-12">
+      <div class="row col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
           <label class="col-form-label" for="lead_created_by">{{
             labels?.product
@@ -21,7 +21,7 @@
           }}</label>
         </div>
       </div>
-      <div class="col-lg-4 col-md-4 col-sm-12">
+      <div class="row col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
           <label class="col-form-label" for="customer_name_label">{{
             labels?.loanAmount
@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-4 col-md-4 col-sm-12">
+      <div class="row col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
           <label class="col-form-label" for="roi">{{
             labels?.applicant
@@ -43,7 +43,7 @@
           }}</label>
         </div>
       </div>
-      <div class="col-lg-4 col-md-4 col-sm-12">
+      <div class="row col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
           <label class="col-form-label" for="lead_handled_by"
             >{{ labels?.status }}
@@ -53,7 +53,7 @@
           }}</label>
         </div>
       </div>
-      <div class="col-lg-4 col-md-4 col-sm-12">
+      <div class="row col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
           <label class="col-form-label" for="lead_handled_by">{{
             labels?.queue
@@ -73,7 +73,7 @@
   </div>
   <div class="col-lg-2 col-md-2 col-sm-2" style="padding-top: 8px;">
     <button
-      class="btn btn-primary"
+      class="btn btn-primary view-button"
       [routerLink]="['/pages/document-viewupload', leadId]"
       type="button"
     >

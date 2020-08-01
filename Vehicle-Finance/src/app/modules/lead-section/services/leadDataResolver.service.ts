@@ -10,14 +10,16 @@ import { ApiService } from '@services/api.service';
 import { HttpService } from '@services/http.service';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 @Injectable()
 export class LeadDataResolverService implements Resolve<any> {
   leadId: any;
   constructor(
     private httpService: HttpService,
-    private apiService: ApiService
-  ) {}
+    private apiService: ApiService,
+    private createLeadDataService: CreateLeadDataService
+  ) { }
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     this.leadId = route.params.leadId;
@@ -37,6 +39,14 @@ export class LeadDataResolverService implements Resolve<any> {
     // this.commonLovService.getLovData().subscribe(lov => this.lovData = lov);
     // if (this.lovData) {
     //     return this.lovData;
+    // }
+
+    // const leadData = this.createLeadDataService.getLeadSectionData();
+    // if (leadData) {
+    //   return (leadData as any);
+    // } else {
+    //   const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    //   return this.httpService.post(url, body);
     // }
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
