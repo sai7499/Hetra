@@ -17,7 +17,9 @@ export class DashboardService {
   dashboardLeadsAction: Subject<object> = new Subject<object>();
   isCreditShow: Observable<object> = this.dashboardLeadsAction.asObservable();
 
-  
+  responseData: Subject<any> = new Subject<any>();
+  isFilterData: Observable<any> = this.responseData.asObservable();
+
 
   constructor(
     private httpService: HttpService,
@@ -29,6 +31,10 @@ export class DashboardService {
     console.log(value);
     this.dashboardLeadsAction.next(value);
 
+  }
+
+  filterData(value: any) {
+    this.responseData.next(value);
   }
 
   
@@ -54,6 +60,23 @@ export class DashboardService {
     const processId = this.apiService.api.creditDashboard.processId;
     const workflowId = this.apiService.api.creditDashboard.workflowId;
     const projectId = this.apiService.api.creditDashboard.projectId;
+
+
+    const body: RequestEntity = {
+      processId,
+      ProcessVariables: data,
+      workflowId,
+      projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+
+    return this.httpService.post(url, body);
+  }
+
+  dashboardFilter(data) {
+    const processId = this.apiService.api.dashboardFilter.processId;
+    const workflowId = this.apiService.api.dashboardFilter.workflowId;
+    const projectId = this.apiService.api.dashboardFilter.projectId;
 
 
     const body: RequestEntity = {
