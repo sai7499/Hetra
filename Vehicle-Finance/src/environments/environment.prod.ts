@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  version: '0.7.3',
-  buildDate: '31/07/2020',
+  version: '0.7.5',
+  buildDate: '01/08/2020',
   apiVersion: {
     login: 'v3/',
     api: 'v2/',
@@ -24,16 +24,16 @@ export const environment = {
   // hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
 
-  // host: '/appiyo/',
+  host: '/appiyo/',
   //  host: 'http://128.199.164.250/appiyo/',
-  host: 'http://10.101.10.153/appiyo/',
+  // host: 'http://10.101.10.153/appiyo/',
 
   // tslint:disable-next-line: max-line-length
   aesPublicKey:
     'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ+GJdSSEeaNFBLqyfM3DIOgQgWCwJ0INfeZZV7ITsLeuA7Yd02rrkYGIix1IWvoebWVmzhncUepYxHwK1ARCdUCAwEAAQ==',
   encryptionType: true, // Ecryption
   appiyoDrive: '/d/drive/upload/',
-  isMobile: true,
+  isMobile: false,
   isMaas360Enabled: false
 };
 
