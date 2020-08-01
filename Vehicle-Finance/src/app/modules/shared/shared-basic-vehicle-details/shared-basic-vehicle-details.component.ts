@@ -531,7 +531,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.assetVariant = this.assetModelType.filter((data) => data.vehicleModelCode === value)
     const array = this.utilityService.getCommonUniqueValue(this.assetVariant, 'vehicleVariant')
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-    formArray.controls[index].patchValue({
+    formArray.controls[0].patchValue({
       vehicleId: array.length > 0 ? Number(array[0].vehicleCode) : 0
     })
 
