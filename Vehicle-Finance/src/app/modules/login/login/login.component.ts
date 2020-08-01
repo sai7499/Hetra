@@ -23,6 +23,8 @@ import { GpsService } from 'src/app/services/gps.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { environment } from 'src/environments/environment';
 import { DashboardService } from '@services/dashboard/dashboard.service';
+import { ToasterService } from '@services/toaster.service';
+
 
 declare var identi5: any;
 
@@ -83,6 +85,7 @@ export class LoginComponent implements OnInit {
 
   licenseKey = "7669E-A669B-ACAJE-9EFJJ-JJJJJ-JFCC7";
   
+  
 
   
 
@@ -97,7 +100,8 @@ export class LoginComponent implements OnInit {
     private gpsService: GpsService,
     private deviceService: DeviceDetectorService,
     private camera: Camera,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private toasterService: ToasterService
   ) {
     this.isMobile = environment.isMobile;
   }
@@ -196,7 +200,7 @@ export class LoginComponent implements OnInit {
         }
       },
       (err) => {
-        alert('Invalid Login');
+        this.toasterService.showError('Invalid Login', "");
         this.loginForm.reset();
       }
     );

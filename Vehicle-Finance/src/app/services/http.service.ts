@@ -1,3 +1,4 @@
+import { ToasterService } from '@services/toaster.service';
 import { environment } from './../../environments/environment';
 import { ErrorListenerService } from '@services/error-listener.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
@@ -10,6 +11,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { Router } from '@angular/router';
 import { storage } from '../storage/localstorage';
+
 
 export declare class myOptions {
   method: any;
@@ -43,7 +45,8 @@ export class HttpService {
     private deviceService: DeviceDetectorService,
     private encrytionService: EncryptService,
     private errorListenerService: ErrorListenerService,
-    private router: Router
+    private router: Router,
+    private toasterService: ToasterService
   ) {
     this.isMobile = environment.isMobile;
   }
@@ -266,6 +269,8 @@ export class HttpService {
             console.log('decritedData', decritedData);
 
             data = JSON.parse(decritedData);
+            this.toasterService.showError(data["message"], '');
+
           }
 
           if (
