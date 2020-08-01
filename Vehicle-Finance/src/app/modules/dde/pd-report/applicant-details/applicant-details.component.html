@@ -33,7 +33,7 @@
           [placeholder]="'Enter Fathers Name'"
           [type]="labels?.validationData?.name?.type"
           formControlName="fatherName"
-          [patternCheck]="namePattern"
+          [patternCheck]="labels?.validationData?.name?.pattern"
           [isRequired]="'Name is required'"
           [maxLength]="labels?.validationData?.name?.maxLength"
           [isDirty]="isDirty"
@@ -173,10 +173,10 @@
           id="bank_name"
           [placeholder]="'Enter Bank Name'"
           formControlName="bankName"
-          [type]="labels?.validationData?.bankName?.type"
-          [patternCheck]="labels?.validationData?.bankName?.pattern"
+          [type]="labels?.validationData?.pdBankName?.type"
+          [patternCheck]="labels?.validationData?.pdBankName?.pattern"
           [isRequired]="'Bank Name is required'"
-          [maxLength]="labels?.validationData?.bankName?.maxLength"
+          [maxLength]="labels?.validationData?.pdBankName?.maxLength"
           [isDirty]="isDirty"
         >
         </app-custom-input>
@@ -190,9 +190,10 @@
           id="account_no"
           [placeholder]="'Enter Account Number'"
           formControlName="accountNumber"
-          [patternCheck]="labels?.validationData?.accountNumber?.pattern"
+          [type]="labels?.validationData?.pdAccountNumber?.type"
+          [patternCheck]="labels?.validationData?.pdAccountNumber?.pattern"
           [isRequired]="'Bank Account Number is required'"
-          [maxLength]="labels?.validationData?.loanNumber?.maxLength"
+          [maxLength]="labels?.validationData?.pdAccountNumber?.maxLength"
           [isDirty]="isDirty"
         >
         </app-custom-input>

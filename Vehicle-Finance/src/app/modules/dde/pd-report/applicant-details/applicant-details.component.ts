@@ -33,69 +33,7 @@ export class ApplicantDetailComponent implements OnInit {
   applicantFullName: any;
   mobileNo: any;
   standardOfLiving: any;
-
-
-  // namePattern = {
-  //   rule: '^[A-Za-z ]{0,99}$',
-  //   msg: 'Invalid Name',
-  // };
-
-
-  maxlength30 = {
-    rule: 30,
-    msg: '',
-  };
-
-  maxlength25 = {
-    rule: 25,
-    msg: '',
-  };
-
-  // landlinePattern = {
-  //   rule: '^[0-9]{6,15}',
-  //   msg: 'Invalid Landline Number',
-  // };
-
-  maxlength15 = {
-    rule: 15,
-    msg: '',
-  };
-
-  // mobileNumberPattern = {
-  //   rule: '^[6-9][0-9]*$',
-  //   msg: 'Invalid Mobile Number',
-  // };
-
-  maxlength10 = {
-    rule: 10,
-    msg: 'Max Required Length 10',
-  };
-
-  // bankAccountNumber = {
-  //   rule: '^[0-9A-Za-z]{9,15}$',
-  //   msg: 'Invalid Account Number',
-  // };
-
-  maxlength18 = {
-    rule: 18,
-    msg: '',
-  };
-
-  // landmarkPattern = {
-  //   rule: '^[0-9A-Za-z, _&*#/\\-@]{0,99}$',
-  //   msg: 'Invalid Landmark',
-  // };
-
-  maxlength40 = {
-    rule: 40,
-    msg: '',
-  };
   version: any;
-  // data: {
-  //   applicantId: number;
-  //   // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
-  //   pdVersion: any;
-  // };
   roleName: string;
   data: any;
   userId: number;
@@ -295,7 +233,7 @@ export class ApplicantDetailComponent implements OnInit {
     const applicantFormModal = { ...formModal };
     // console.log('Form Data', applicantFormModal);
     // console.log('Status', this.applicantForm.get('physicallyChallenged').invalid);
-    // this.isDirty = true;
+    this.isDirty = true;
     if (this.applicantForm.invalid) {
       this.toasterService.showWarning('please enter required details', '');
       return;
