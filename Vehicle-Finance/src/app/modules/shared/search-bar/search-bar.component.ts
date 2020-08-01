@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { commonRoutingUrl } from '@shared/routing.constant';
 import { Router } from '@angular/router';
 import { LoginStoreService } from '@services/login-store.service';
+import { SharedService } from '../shared-service/shared-service';
 
 @Component({
   selector: 'app-search-bar',
   templateUrl: './search-bar.component.html',
-  styleUrls: ['./search-bar.component.css']  
+  styleUrls: ['./search-bar.component.css']
 })
 export class SearchBarComponent implements OnInit {
 
@@ -18,6 +19,7 @@ export class SearchBarComponent implements OnInit {
   activityClass = false;
 
   constructor(
+    private sharedService: SharedService,
     private route: Router,
     private loginStoreService: LoginStoreService,
 
@@ -25,8 +27,17 @@ export class SearchBarComponent implements OnInit {
 
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
-    this.activityList = roleAndUserDetails.activityList;
-    this.searchLead = this.activityList;
+    console.log('Rolea', roleAndUserDetails)
+    // this.activityList = roleAndUserDetails.activityList;
+
+    this.sharedService.getSearchBarActivity().subscribe((val: any) => {
+      // if () {
+        this.activityList = val;
+        this.searchLead = this.activityList;
+        console.log('activityList', this.activityList)
+    })
+
+
   }
 
   getvalue(enteredValue: string) {
@@ -60,7 +71,7 @@ export class SearchBarComponent implements OnInit {
     });
   }
 
-  mouseEnter(){
+  mouseEnter() {
     this.dropDown = true;
     console.log('dropdown', this.dropDown);
   }

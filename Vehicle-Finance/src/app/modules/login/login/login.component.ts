@@ -1,35 +1,25 @@
-import { DeviceDetectorService } from 'ngx-device-detector';
 import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
   FormControl,
   Validators,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import { LoginService } from './login.service';
 import { Router } from '@angular/router';
 
 import { LabelsService } from 'src/app/services/labels.service';
 import { LoginStoreService } from '../../../services/login-store.service';
-import { storage } from '../../../storage/localstorage';
-import { CommonDataService } from '@services/common-data.service';
-
-
 
 import * as moment from 'moment';
 
-
 import { GpsService } from 'src/app/services/gps.service';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { environment } from 'src/environments/environment';
 import { DashboardService } from '@services/dashboard/dashboard.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 declare var identi5: any;
 
-declare var cordova:any;
-
-
-
+declare var cordova: any;
 
 @Component({
   selector: 'app-login',
@@ -78,25 +68,18 @@ export class LoginComponent implements OnInit {
 
   // licenseKey = "7669E-A668C-99CJ8-B9EJJ-JJJJJ-J3C42";
 
- //Test
+  //Test
   developerId = "0040035464";
 
   licenseKey = "7669E-A669B-ACAJE-9EFJJ-JJJJJ-JFCC7";
-  
-
-  
-
-
 
   constructor(
     private loginService: LoginService,
     private router: Router,
     private labelsData: LabelsService,
     private loginStoreService: LoginStoreService,
-    private cds: CommonDataService,
     private gpsService: GpsService,
-    private deviceService: DeviceDetectorService,
-    private camera: Camera,
+    private sharedService: SharedService,
     private dashboardService: DashboardService
   ) {
     this.isMobile = environment.isMobile;
@@ -108,7 +91,6 @@ export class LoginComponent implements OnInit {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
-        console.log(this.labels)
       },
       (error) => {
         console.log(error);
@@ -125,7 +107,6 @@ export class LoginComponent implements OnInit {
       this.gpsService.initLatLong().subscribe((res) => {
         if (res) {
           this.gpsService.getLatLong().subscribe((position) => {
-            console.log('login position', position);
           });
         } else {
           console.log(res);
@@ -133,13 +114,10 @@ export class LoginComponent implements OnInit {
       });
     } else {
       this.gpsService.getBrowserLatLong().subscribe((position) => {
-        //console.log('login position', position);
       });
     }
 
     this.getRouteMap();
-
-    // this.initMaaS360();
   }
 
   enter(event) {
@@ -149,14 +127,14 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.loginData = this.loginForm.value;      
+    this.loginData = this.loginForm.value;
     if (environment.hostingEnvironment === 'DEV') {
       this.loginData.email = `${this.loginData.email}@equitasbank.in`;
       this.loginData.useADAuth = false;
-    } else if(environment.hostingEnvironment === 'UAT'){
+    } else if (environment.hostingEnvironment === 'UAT') {
       this.loginData.email = `${this.loginData.email}@esfbuat.in`;
       this.loginData.useADAuth = true;
-    }else{
+    } else {
       this.loginData.email = `${this.loginData.email}@equitas.in`;
       this.loginData.useADAuth = true;
     }
@@ -189,10 +167,6 @@ export class LoginComponent implements OnInit {
                 userRoleActivityList
               );
               this.router.navigateByUrl('/activity-search');
-              // const role = response.ProcessVariables.roles[0].name;
-              // if (role === 'Sales Officer') {
-              //   this.router.navigateByUrl('/activity-search');
-              // }
             }
           });
         }
@@ -223,78 +197,78 @@ export class LoginComponent implements OnInit {
     window.open(dirUrl, '_blank', 'location=yes');
   }
 
-  
 
-  
 
-  initIdenti5(){
+
+
+  initIdenti5() {
     // let dInfo = new device();
     // console.log(dInfo.model);
     var that = this;
     this.pid = "";
 
-    identi5.getInfo(function(result){
-      console.log("Result&&&&"+ result);
+    identi5.getInfo(function (result) {
+      console.log("Result&&&&" + result);
       that.pid = result["model"];
-      console.log("base64Data"+ that.pid);
+      console.log("base64Data" + that.pid);
       alert(that.pid);
       that.prepareKYCRequest(that.pid);
-    },function(error){
-      console.log("Result&&&&"+ error);
-      alert("error"+error);
+    }, function (error) {
+      console.log("Result&&&&" + error);
+      alert("error" + error);
     });
-  
+
   }
 
 
   prepareKYCRequest(pid) {
-    let stan =  Math.floor(100000 + Math.random() * 900000);
+    let stan = Math.floor(100000 + Math.random() * 900000);
     console.log(stan);
- 
+
     let now = moment().format("MMDDhhmmss");
     let localDate = moment().format("MMDD");
     let localTime = moment().format("hhmmss");
- 
- 
+
+
     let pId = pid;
- 
-    console.log("pId"+pId);
- 
-    console.log("now"+now);
-    console.log("localDate"+localDate);
- 
- 
- 
-       
-     let kycRequest =  "<KycRequest>"+
-                         "<TransactionInfo>"+
-                           "<UID type=\"U\">"+"802172334890"+"</UID>"+
-                           "<Transm_Date_time>"+now+"</Transm_Date_time>"+
-                           "<Local_Trans_Time>"+localTime+"</Local_Trans_Time>"+
-                           "<Local_date>"+localDate+"</Local_date>"+
-                           "<CA_TID>"+"11205764"+"</CA_TID>"+
-                           "<CA_ID>"+"EQT000000001441"+"</CA_ID>"+
-                           "<CA_TA>"+"Equitas Bank Chennai TNIN"+"</CA_TA>"+
-                           "<Stan>"+stan+"</Stan>"+
-                         "</TransactionInfo>"+
-                         "<KycReqInfo ver=\"2.5\"  ra=\"O\" rc=\"Y\" pfr=\"N\" lr=\"Y\"  de=\"N\" >"+
-                           "<Auth  txn=\"UKC:"+stan+"\"  ver=\"2.5\">"+
-                             "<Uses pi=\"n\" pa=\"n\" pfa=\"n\"  bio=\"y\" otp=\"n\"/>"+
-                             "<Meta/>"+pId+
-                           "</Auth>"+
-                         "</KycReqInfo>"+
-                       "</KycRequest>";
- 
-     console.log("kycRequest"+kycRequest);
- 
-     const data = {
-       ekycRequest: kycRequest,
-     };
-     this.dashboardService.getKycDetails(data).subscribe((res: any) => {
-       console.log("KYC result"+JSON.stringify(res));
-     });
- 
-   }
+
+    console.log("pId" + pId);
+
+    console.log("now" + now);
+    console.log("localDate" + localDate);
+
+
+
+
+    let kycRequest = "<KycRequest>" +
+      "<TransactionInfo>" +
+      "<UID type=\"U\">" + "802172334890" + "</UID>" +
+      "<Transm_Date_time>" + now + "</Transm_Date_time>" +
+      "<Local_Trans_Time>" + localTime + "</Local_Trans_Time>" +
+      "<Local_date>" + localDate + "</Local_date>" +
+      "<CA_TID>" + "11205764" + "</CA_TID>" +
+      "<CA_ID>" + "EQT000000001441" + "</CA_ID>" +
+      "<CA_TA>" + "Equitas Bank Chennai TNIN" + "</CA_TA>" +
+      "<Stan>" + stan + "</Stan>" +
+      "</TransactionInfo>" +
+      "<KycReqInfo ver=\"2.5\"  ra=\"O\" rc=\"Y\" pfr=\"N\" lr=\"Y\"  de=\"N\" >" +
+      "<Auth  txn=\"UKC:" + stan + "\"  ver=\"2.5\">" +
+      "<Uses pi=\"n\" pa=\"n\" pfa=\"n\"  bio=\"y\" otp=\"n\"/>" +
+      "<Meta/>" + pId +
+      "</Auth>" +
+      "</KycReqInfo>" +
+      "</KycRequest>";
+
+    console.log("kycRequest" + kycRequest);
+
+    const data = {
+      ekycRequest: kycRequest,
+    };
+    this.dashboardService.getKycDetails(data).subscribe((res: any) => {
+      console.log("KYC result" + JSON.stringify(res));
+    });
+
+  }
 
 
   // initM360SDK(developerKey, licenseKey, eventHandler) {
@@ -324,11 +298,11 @@ export class LoginComponent implements OnInit {
   //     sdkHandler.initWithAnalytics(developerKey, licenseKey, enableAnalytics);
   // }
 
-  getRouteMap(){
+  getRouteMap() {
     var that = this;
-    this.loginService.getPolyLine(function(result){
+    this.loginService.getPolyLine(function (result) {
       that.base64Image = result;
-     // console.log("getPolyLine", that.base64Image);
+      // console.log("getPolyLine", that.base64Image);
     }, null, null);
   }
 

@@ -109,6 +109,9 @@ export class NewLeadsComponent implements OnInit {
       }
     );
 
+    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    console.log("user details", roleAndUserDetails)
+
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.branchId = value.branchId;
       this.roleId = value.roleId;
