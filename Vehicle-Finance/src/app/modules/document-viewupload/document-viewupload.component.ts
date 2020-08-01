@@ -24,16 +24,29 @@ export class DocumentViewuploadComponent implements OnInit {
       this.labels = data;
     });
 
-    this.location.onUrlChange((url, state) => {
-      if (url.includes('collateral-documents')) {
-        this.currentPage = 1;
-      } else {
-        this.currentPage = 0;
-      }
+    // this.location.onUrlChange((url, state) => {
+    //   if (url.includes('collateral-documents')) {
+    //     this.currentPage = 1;
+    //   } else {
+    //     this.currentPage = 0;
+    //   }
+    // });
+    const currentUrl = this.location.path();
+    this.currentPage = this.getLocationIndex(currentUrl);
+    this.location.onUrlChange((url: string) => {
+      this.currentPage = this.getLocationIndex(url);
     });
 
     this.activateRoute.data.subscribe((data) => {
       console.log('lead data', data);
     });
+  }
+
+  getLocationIndex(url: string) {
+    if (url.includes('collateral-documents')) {
+      return 1;
+    } else {
+      return 0;
+    }
   }
 }

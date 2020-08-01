@@ -43,7 +43,8 @@ export class UploadModalComponent {
   async onFileSelect(event) {
     this.showError = '';
     const files: File = event.target.files[0];
-    if (this.checkFileType(files.type)) {
+    this.fileType = this.getFileType(files.type);
+    if (this.checkFileType(this.fileType)) {
       this.showError = `Only files with following extensions are allowed: ${this.docsDetails.docsType}`;
       return;
     }
@@ -59,7 +60,7 @@ export class UploadModalComponent {
     this.imageUrl = base64;
     this.fileSize = this.bytesToSize(files.size);
     this.fileName = files.name;
-    this.fileType = files.type;
+    // this.fileType = files.type;
   }
 
   checkFileSize(fileSize: number) {
@@ -89,10 +90,27 @@ export class UploadModalComponent {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onloadend = () =>
-        resolve(
-          reader.result.toString().replace(/^data:image\/[a-z]+;base64,/, '')
-        );
+      reader.onloadend = () => {
+        let result = '';
+
+        if (this.fileType === 'jpeg' || this.fileType === 'png') {
+          result = reader.result
+            .toString()
+            .replace(/^data:image\/[a-z]+;base64,/, '');
+        } else if (this.fileType === 'pdf') {
+          result = reader.result
+            .toString()
+            .replace(/^data:application\/[a-z]+;base64,/, '');
+        } else if (this.fileType === 'xls') {
+          // data:image/jpeg;base64,data:application/vnd.ms-excel;base64,
+          result = reader.result.toString().split(',')[1];
+          // .replace(/^data:application\/[a-z]+;base64,/, '');
+        } else {
+          result = reader.result.toString();
+        }
+        resolve(result);
+      };
+
       reader.onerror = (error) => reject(error);
     });
   }
@@ -117,6 +135,21 @@ export class UploadModalComponent {
     this.fileInput.nativeElement.value = '';
   }
 
+  getFileType(type: string) {
+    const types = {
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+        'docx',
+      'application/vnd.ms-excel': 'xls',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+        'xlsx',
+      'image/tiff': 'tiff',
+      'application/pdf': 'pdf',
+      'image/png': 'png',
+      'image/jpeg': 'jpeg',
+    };
+    return types[type] || type;
+  }
+
   uploadFile() {
     this.docsDetails.bsPyld = this.imageUrl;
     let fileName = this.docsDetails.docSbCtgry.replace(' ', '_');
@@ -125,7 +158,7 @@ export class UploadModalComponent {
       new Date().getFullYear() +
       +new Date() +
       '.' +
-      'pdf';
+      this.fileType;
     this.docsDetails.docNm = fileName;
     const addDocReq = [
       {
