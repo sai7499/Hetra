@@ -574,6 +574,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
       // this.uploadPhotoOrSignature(data);
     }
 
+    event.imageUrl = '';
+
     const formArray = this.uploadForm.get(
       `${this.FORM_ARRAY_NAME}_${event.subCategoryCode}`
     ) as FormArray;

@@ -88,6 +88,9 @@ export class ApplicantDocumentComponent implements OnInit {
   }
 
   onApplicantChange(value) {
-    this.selectedApplicant = value.key;
+    this.selectedApplicant = {
+      id: value.key,
+      associatedWith: 1,
+    };
   }
 }
