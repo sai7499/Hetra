@@ -1,4 +1,3 @@
-import { ToasterService } from '@services/toaster.service';
 import { environment } from './../../environments/environment';
 import { ErrorListenerService } from '@services/error-listener.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
@@ -45,8 +44,7 @@ export class HttpService {
     private deviceService: DeviceDetectorService,
     private encrytionService: EncryptService,
     private errorListenerService: ErrorListenerService,
-    private router: Router,
-    private toasterService: ToasterService
+    private router: Router
   ) {
     this.isMobile = environment.isMobile;
   }
@@ -269,8 +267,6 @@ export class HttpService {
             console.log('decritedData', decritedData);
 
             data = JSON.parse(decritedData);
-            this.toasterService.showError(data["message"], '');
-
           }
 
           if (
