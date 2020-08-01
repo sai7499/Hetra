@@ -105,3 +105,9 @@ th {
       content: attr(data-item-value);
       }
 } */
+/* style for modal */
+
+.modal-style{
+  width:85%;
+  margin:auto;
+}
