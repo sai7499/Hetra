@@ -11,15 +11,17 @@
           class="panel panel-default"
           *ngFor="let subCat of subCategories; let i = index"
         >
-          <div class="panel-heading" id="headingThree">
+          <div
+            class="panel-heading"
+            id="headingThree"
+            class="panel-heading"
+            id="headingThree"
+            data-toggle="collapse"
+            data-parent="#accordion"
+            [attr.data-target]="'#collapse' + subCat.code"
+          >
             <h4 class="panel-title">
-              <a
-                class="collapsed"
-                data-toggle="collapse"
-                data-parent="#accordion"
-                href="#collapse{{ subCat.code }}"
-                aria-expanded="false"
-              >
+              <a class="collapsed" aria-expanded="false">
                 <!-- <i class="fa fa-address-card"></i>&nbsp; -->
                 {{ subCat.displayName }}
                 <i class="fa fa-angle-down"></i>
