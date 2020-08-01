@@ -759,7 +759,7 @@ h4.table-head-bg.m-0.p-02 {
     .test{
         /* background: url(./assets/images/search.png) no-repeat center;
         left: 20px; */
-        top: calc(100% - 275px)!important; 
+        top: calc(100% - 280px)!important; 
         /* top: -15vw; */
      } 
   }
@@ -767,9 +767,16 @@ h4.table-head-bg.m-0.p-02 {
   /* fa fa-icon */
 
   .fa-pencil {
-    padding-right: 35px!important;
+    padding-right: 35px;
   }
 
   .fa-trash {
-    padding-right: 35px!important;
+    padding-right: 35px;
   }
+
+  /* font size in table td*/
+  td, th {
+    
+    font-size: 12px;
+    }
+	
