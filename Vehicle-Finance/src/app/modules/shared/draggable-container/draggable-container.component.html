@@ -9,6 +9,16 @@
     <button type="button" class="close" (click)="onClose()">×</button>
   </div>
   <div class="image-content">
-    <img height="100%" width="100%" [src]="src" />
+    <img
+      height="100%"
+      width="100%"
+      [src]="src"
+      *ngIf="imageType === 'jpeg' || imageType === 'png'"
+    />
+    <iframe
+      [src]="src"
+      style="height: 100%; width: 100%;"
+      *ngIf="imageType === 'pdf'"
+    ></iframe>
   </div>
 </div>
