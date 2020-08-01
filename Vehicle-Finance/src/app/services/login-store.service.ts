@@ -7,55 +7,55 @@ import { DashboardService } from './dashboard/dashboard.service';
   providedIn: 'root',
 })
 export class LoginStoreService {
+  constructor(
+    private cds: CommonDataService,
+    private dashBoardService: DashboardService
+  ) {}
 
-    constructor(private cds: CommonDataService,
-        private dashBoardService: DashboardService) { }
+  roleAndUserDetails;
+  emailId: string;
+  roleName: string;
+  roleId: any;
 
-    roleAndUserDetails;
-    emailId: string;
-    roleName: string;
-    roleId: any;
-    userRoleActivityList: any;
+  setRolesAndUserDetails(
+    roles,
+    userDetails,
+    businessDivisionList,
+    activityList
+  ) {
+    this.roleAndUserDetails = {
+      roles,
+      userDetails,
+      businessDivisionList,
+      activityList,
+    };
+    this.cds.changeCdsStatus(true);
+    this.creditDashboardMethod({
+      branchId: userDetails['branchId'],
+      roleId: roles[0].roleId,
+      roleType: roles[0].roleType,
+      userName: userDetails.firstName,
+      businessDivision: businessDivisionList[0].bizDivId
+    });
+  }
 
-    setRolesAndUserDetails(roles, userDetails, businessDivisionList, activityList, userRoleActivityList) {
-        this.roleAndUserDetails = {
-            roles,
-            userDetails,
-            businessDivisionList,
-            activityList,
-            userRoleActivityList
-        }
-        this.cds.changeCdsStatus(true);
-        this.creditDashboardMethod({
-            branchId: userDetails["branchId"],
-            roleId: roles[0].roleId,
-            roleType: roles[0].roleType,
-            userName: userDetails.firstName,
-            businessDivision: businessDivisionList[0].bizDivId
-        });
-        this.userRoleActivityList = userRoleActivityList;
-        console.log(userRoleActivityList)
-    }
+  getRolesAndUserDetails() {
+    return this.roleAndUserDetails;
+  }
 
-    getUserRoleActivityList() {
-        return this.userRoleActivityList;
-    }
-    
-    getRolesAndUserDetails() {
-        return this.roleAndUserDetails;
-    }
+  setEmailId(email) {
+    this.emailId = email;
+  }
 
-    setEmailId(email) {
-        this.emailId = email;
-    }
+  getEmailId() {
+    return this.emailId;
+  }
 
-    getEmailId() {
-        return this.emailId;
-    }
-
-    public creditDashboard: BehaviorSubject<object> = new BehaviorSubject<object>({ branchId: '', roleId: '', roleType: '', userName: '', businessDivision: '' });
-    isCreditDashboard = this.creditDashboard.asObservable();
-    creditDashboardMethod(value: object) {
-        this.creditDashboard.next(value);
-    }
+  public creditDashboard: BehaviorSubject<object> = new BehaviorSubject<object>(
+    { branchId: '', roleId: '', roleType: '', userName: '', businessDivision: '' }
+  );
+  isCreditDashboard = this.creditDashboard.asObservable();
+  creditDashboardMethod(value: object) {
+    this.creditDashboard.next(value);
+  }
 }

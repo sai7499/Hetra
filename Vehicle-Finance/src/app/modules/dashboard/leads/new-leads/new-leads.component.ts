@@ -48,7 +48,6 @@ export class NewLeadsComponent implements OnInit {
     private toasterService: ToasterService
   ) {
     console.log('environment', environment);
-    console.log('isMobile', this.isMobile);
 
     // if (environment.isMobile === true) {
     //   this.itemsPerPage = '25';
