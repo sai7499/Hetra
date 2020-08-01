@@ -44,9 +44,9 @@ display: inline;
 
 .profile-style{
   position: absolute;
-       right:1em;
-       background-color: white;
-       width: 47%;
+    right: 1em;
+    background-color: white;
+    width: 158px;
 } 
 .activity-style {
   position: unset;

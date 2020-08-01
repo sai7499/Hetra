@@ -310,7 +310,7 @@ form .form-control {
 }
 
 .mar-right8 {
-    margin: 8px;
+    margin: 8px!important;
 }
 
 .panel-group .fa-angle-down {
