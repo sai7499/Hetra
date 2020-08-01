@@ -21,11 +21,12 @@ export const environment = {
     
   },
   hostingEnvironment: 'DEV',
-  // hostingEnvironment: 'UAT',
+  //hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
 
   //host: '/appiyo/',
-   host: 'http://128.199.164.250/appiyo/',
+  host:"https://hetrauat.equitasbank.com/appiyodev/",
+  //host: 'http://128.199.164.250/appiyo/',
   // host: 'http://10.101.10.153/appiyo/',
 
   // tslint:disable-next-line: max-line-length
