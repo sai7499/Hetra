@@ -29,8 +29,8 @@
                 <td [attr.data-label]="labels?.priority" *ngIf="item.priority == '1'">Yes</td>
                 <td [attr.data-label]="labels?.priority" *ngIf="item.priority == '0' || item.priority == null">No</td>
                 <td [attr.data-label]="labels?.promoCode">{{item.promoCode ? item.promoCode : '--'}}</td>
-                <td [attr.data-label]="labels?.status"*ngIf="roleType == '1'">{{item.stage ? item.stage : '--'}}</td>
-                <td [attr.data-label]="labels?.status"*ngIf="roleType == '2'">{{item.status ? item.status : '--'}}</td>
+                <td [attr.data-label]="labels?.status" *ngIf="roleType == '1'">{{item.stage ? item.stage : '--'}}</td>
+                <td [attr.data-label]="labels?.status" *ngIf="roleType == '2'">{{item.status ? item.status : '--'}}</td>
                 <td [attr.data-label]="labels?.history">
                     <a data-toggle="tooltip" data-placement="bottom" title="Click to View Timeline Chart"> <i class="fa fa-history"></i></a>
                 </td>
@@ -48,8 +48,8 @@
                 <select class="form-control  input-sm" (change)="setPage($event)" [(ngModel)]="itemsPerPage">
                     <option value="5">5</option>
                     <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
+                    <option class="disable" value="25">25</option>
+                    <option class="disable" value="50">50</option>
                 </select>
             </div>
 
