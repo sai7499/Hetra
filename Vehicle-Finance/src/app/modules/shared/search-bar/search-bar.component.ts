@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { commonRoutingUrl } from '@shared/routing.constant';
 import { Router } from '@angular/router';
 import { LoginStoreService } from '@services/login-store.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-search-bar',
   templateUrl: './search-bar.component.html',
-  styleUrls: ['./search-bar.component.css']  
+  styleUrls: ['./search-bar.component.css']
 })
 export class SearchBarComponent implements OnInit {
 
@@ -16,10 +17,12 @@ export class SearchBarComponent implements OnInit {
   searchText: string;
   routingId: string;
   activityClass = false;
+  isMobile: boolean;
 
   constructor(
     private route: Router,
     private loginStoreService: LoginStoreService,
+    private location: Location
 
   ) { }
 
@@ -27,6 +30,10 @@ export class SearchBarComponent implements OnInit {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.activityList = roleAndUserDetails.activityList;
     this.searchLead = this.activityList;
+    const currentUrl = this.location.path();
+    if (currentUrl.includes('activity-search')) {
+      this.isMobile = true;
+    }
   }
 
   getvalue(enteredValue: string) {
@@ -60,7 +67,7 @@ export class SearchBarComponent implements OnInit {
     });
   }
 
-  mouseEnter(){
+  mouseEnter() {
     this.dropDown = true;
     console.log('dropdown', this.dropDown);
   }

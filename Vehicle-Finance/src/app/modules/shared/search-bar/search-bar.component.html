@@ -6,11 +6,11 @@
         [(ngModel)]="searchText" 
         (mouseover)="mouseEnter()" 
         (keyup)="getvalue($event.target.value)">
-    <div class="dropdown-content " *ngIf="dropDown" [ngClass]="{'profile-compartment': activityClass }">
+    <div class="dropdown-content " *ngIf="dropDown" [ngClass]="{'profile-style': activityClass }" [ngClass]="{'profile-compartment': activityClass }">
         <div *ngFor="let item of searchLead">
             <a (click)="getRoute(item.id, item.name)">{{item.name}}</a>
         </div>
     </div>
-    <span class="search-icon-left"></span>
-    <button (click)="navigateToModule()" class="microphone-icon" title="Search by voice" >GO</button>
+    <span class="search-icon-left" [ngClass]="{'test': isMobile}"></span>
+    <button (click)="navigateToModule()" class="microphone-icon" title="Search by voice" [ngClass]="{'test': isMobile}" >GO</button>
 </div>

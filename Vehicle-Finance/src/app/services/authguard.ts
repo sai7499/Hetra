@@ -24,7 +24,6 @@ export class Authguard implements CanActivate {
     private loginStoreService: LoginStoreService,
     private utilityService: UtilityService,
     private cds: CommonDataService
-
   ) {
     this.cds.cdsStatus$.subscribe((value) => (this.cdsStatus = value));
   }
@@ -45,14 +44,12 @@ export class Authguard implements CanActivate {
               const businessDivisionList =
                 response.ProcessVariables.businessDivisionLIst;
               const activityList = response.ProcessVariables.activityList;
-              const userRoleActivityList = response.ProcessVariables.userRoleActivityList;
 
               this.loginStoreService.setRolesAndUserDetails(
                 roles,
                 userDetails,
                 businessDivisionList,
-                activityList,
-                userRoleActivityList
+                activityList
               );
               observer.next(true);
             }
