@@ -93,6 +93,7 @@ export class FiReportComponent implements OnInit {
     });
 
     console.log(this.LOV);
+    console.log('in on init', this.city);
   }
 
   getPincode(pincode) {
@@ -105,6 +106,8 @@ export class FiReportComponent implements OnInit {
     }
   }
   getPincodeResult(pincodeNumber: number) {
+    this.city = []; // clearing the array which contains previous city list
+    this.state = []; // clearing the array which contains previous state list
     this.applicantService
       .getGeoMasterValue({
         pincode: pincodeNumber,
@@ -122,6 +125,7 @@ export class FiReportComponent implements OnInit {
             value: element.cityName
           };
           this.city.push(city);
+          console.log('in geo', city);
         });
       });
 
@@ -285,7 +289,7 @@ export class FiReportComponent implements OnInit {
       userId: this.userId
     };
     console.log('in get fi report', this.applicantId);
-    this.fieldInvestigationService.getFiReportDetails(data).subscribe((res: any) => {
+    this.fieldInvestigationService.getFiReportDetails(data).subscribe(async (res: any) => {
       const processVariables = res.ProcessVariables;
       console.log('get fi report response', processVariables);
       const message = processVariables.error.message;
@@ -294,6 +298,8 @@ export class FiReportComponent implements OnInit {
         this.fiDetails = res.ProcessVariables.getFiReportDetails;
         console.log('in get fi details', this.fiDetails);
         this.setFormValue();
+        console.log('in get fi', this.fiDetails.pincode);
+        this.getPincodeResult(this.fiDetails.pincode);
         // if (this.fiDetails) {
         //   this.setFormValue();
         // }
@@ -329,27 +335,27 @@ export class FiReportComponent implements OnInit {
       addressLine1: fieldReportModal.addressLine1,
       addressLine2: fieldReportModal.addressLine2,
       addressLine3: fieldReportModal.addressLine3,
-      pincode: fieldReportModal.pincode,
-      city: fieldReportModal.city,
-      state: fieldReportModal.state,
+      pincode: Number(fieldReportModal.pincode),
+      city: Number(fieldReportModal.city),
+      state: Number(fieldReportModal.state),
       personMetName: fieldReportModal.personMetName,
       designation: fieldReportModal.designation,
       natureOfBusiness: fieldReportModal.natureOfBusiness,
       typeOfConcern: fieldReportModal.typeOfConcern,
       residenceApproach: fieldReportModal.residenceApproach,
       residenceDetails: fieldReportModal.residenceDetails,
-      rentAmt: fieldReportModal.rentAmt,
+      rentAmt: Number(fieldReportModal.rentAmt),
       residenceName: fieldReportModal.residenceName,
       verifiedFrom: fieldReportModal.verifiedFrom,
-      yrsOfStayInCity: fieldReportModal.yrsOfStayInCity,
-      yrsOfStayInResi: fieldReportModal.yrsOfStayInResi,
-      areaInSqFeet: fieldReportModal.areaInSqFeet,
+      yrsOfStayInCity: Number(fieldReportModal.yrsOfStayInCity),
+      yrsOfStayInResi: Number(fieldReportModal.yrsOfStayInResi),
+      areaInSqFeet: Number(fieldReportModal.areaInSqFeet),
       locality: fieldReportModal.locality,
       visibleAssets: fieldReportModal.visibleAssets,
       locatingResidence: fieldReportModal.locatingResidence,
       otherAssetsOwned: fieldReportModal.otherAssetsOwned,
-      noOfFamilyMembers: fieldReportModal.noOfFamilyMembers,
-      noOfEarningMembers: fieldReportModal.noOfEarningMembers,
+      noOfFamilyMembers: Number(fieldReportModal.noOfFamilyMembers),
+      noOfEarningMembers: Number(fieldReportModal.noOfEarningMembers),
       vehicleDetails: fieldReportModal.vehicleDetails,
       officeApproach: fieldReportModal.officeApproach,
       officePremises: fieldReportModal.officePremises,
@@ -357,11 +363,11 @@ export class FiReportComponent implements OnInit {
       furnishings: fieldReportModal.furnishings,
       officeSize: fieldReportModal.officeSize,
       observations: fieldReportModal.observations,
-      noOfWorkingEmployees: fieldReportModal.noOfWorkingEmployees,
-      noOfVisibleEmployees: fieldReportModal.noOfVisibleEmployees,
+      noOfWorkingEmployees: Number(fieldReportModal.noOfWorkingEmployees),
+      noOfVisibleEmployees: Number(fieldReportModal.noOfVisibleEmployees),
       activityLevel: fieldReportModal.activityLevel,
       fiComments: fieldReportModal.fiComments,
-      distanceInKms: fieldReportModal.distanceInKms,
+      distanceInKms: Number(fieldReportModal.distanceInKms),
       cpvAgencyStatus: fieldReportModal.cpvAgencyStatus,
       verifiedBy: fieldReportModal.verifiedBy,
       fiDate: this.sendDate(fieldReportModal.fiDate),

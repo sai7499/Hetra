@@ -77,10 +77,10 @@
               <app-custom-input
                 id="cpv_time"
                 [placeholder]="'Enter initiated time'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.cubicCapacity?.type"
                 formControlName="cpvInitiatedTime"
                 [isRequired]="'Time is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.cubicCapacity?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -109,10 +109,10 @@
               <app-custom-input
                 id="report_time"
                 [placeholder]="'Enter submit time'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.cubicCapacity?.type"
                 formControlName="reportSubmitTime"
                 [isRequired]="'Time is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.cubicCapacity?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -141,10 +141,10 @@
               <app-custom-input
                 id="residenceAddressline1"
                 [placeholder]="'Enter address'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.address?.type"
                 formControlName="addressLine1"
                 [isRequired]="'Address is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.address?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -159,10 +159,10 @@
               <app-custom-input
                 id="residenceAddressline2"
                 [placeholder]="'Enter address'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.address?.type"
                 formControlName="addressLine2"
                 [isRequired]="'Address is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.address?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -175,10 +175,10 @@
               <app-custom-input
                 id="residenceAddressline3"
                 [placeholder]="'Enter address'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.address?.type"
                 formControlName="addressLine3"
                 [isRequired]="'Address is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.address?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -334,10 +334,10 @@
               <app-custom-input
                 id="rentAmount"
                 [placeholder]="'Enter rent Amount'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.idv?.type"
                 formControlName="rentAmt"
                 [isRequired]="'Rent Ammount is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.idv?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -386,10 +386,10 @@
               <app-custom-input
                 id="YearsStayinCity"
                 [placeholder]="'Enter years of stay in city'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.percentage?.type"
                 formControlName="yrsOfStayInCity"
                 [isRequired]="'Staying years in city is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.percentage?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -402,10 +402,10 @@
               <app-custom-input
                 id="YearsStayinResi"
                 [placeholder]="'Enter years of stay in residence'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.percentage?.type"
                 formControlName="yrsOfStayInResi"
                 [isRequired]="'Staying years in residence is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.percentage?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -418,10 +418,10 @@
               <app-custom-input
                 id="areainSquarefeet"
                 [placeholder]="'Enter Area in Square feet'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.noOfEmployeesSeen?.type"
                 formControlName="areaInSqFeet"
                 [isRequired]="'Area is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.noOfEmployeesSeen?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -450,10 +450,10 @@
               <app-custom-input
                 id="assetsVisibleAtHome"
                 [placeholder]="'Enter assets visible at Home'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.assetsVisible?.type"
                 formControlName="visibleAssets"
                 [isRequired]="'Assets is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.assetsVisible?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -486,10 +486,10 @@
               <app-custom-input
                 id="propertyOwned"
                 [placeholder]="'Enter property owned details'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.assetsOwned?.type"
                 formControlName="otherAssetsOwned"
                 [isRequired]="'Owned property is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.assetsOwned?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -502,10 +502,10 @@
               <app-custom-input
                 id="noOffamilyMembers"
                 [placeholder]="'Enter family members name'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.percentage?.type"
                 formControlName="noOfFamilyMembers"
                 [isRequired]="'Family members is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.percentage?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -518,10 +518,10 @@
               <app-custom-input
                 id="noOfEarningMembers"
                 [placeholder]="'Enter earning members name'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.noOfVehicles?.type"
                 formControlName="noOfEarningMembers"
                 [isRequired]="'Earning members is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.noOfVehicles?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -536,10 +536,10 @@
               <app-custom-input
                 id="vehiclesDetails"
                 [placeholder]="'Enter vehicle details'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.assetsVisible?.type"
                 formControlName="vehicleDetails"
                 [isRequired]="'Vehicles Details is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.assetsVisible?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -559,10 +559,10 @@
               <app-custom-input
                 id="approachable"
                 [placeholder]="'Enter office/bussiness approach'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.offBusinessApproach?.type"
                 formControlName="officeApproach"
                 [isRequired]="'Approach type is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.offBusinessApproach?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -588,10 +588,10 @@
               <app-custom-input
                 id="officeLocation"
                 [placeholder]="'enter office location'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.offBusinessApproach?.type"
                 formControlName="officeLocation"
                 [isRequired]="'Location is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.offBusinessApproach?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -606,10 +606,10 @@
               <app-custom-input
                 id="furnishings"
                 [placeholder]="'enter furnishings'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.offBusinessApproach?.type"
                 formControlName="furnishings"
                 [isRequired]="'Furnishings is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.offBusinessApproach?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -645,10 +645,10 @@
               <app-custom-input
                 id="observations"
                 [placeholder]="'enter observations'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.assetsOwned?.type"
                 formControlName="observations"
                 [isRequired]="'Observations is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.assetsOwned?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -663,10 +663,10 @@
               <app-custom-input
                 id="noofEmployeesWorking"
                 [placeholder]="'enter office location'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.noOfVehicles?.type"
                 formControlName="noOfWorkingEmployees"
                 [isRequired]="'Working Employees is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.noOfVehicles?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -679,10 +679,10 @@
               <app-custom-input
                 id="noofEmployeesVisible"
                 [placeholder]="'no of employees visible'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.percentage?.type"
                 formControlName="noOfVisibleEmployees"
                 [isRequired]="'Visible Employees is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.percentage?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -718,10 +718,10 @@
               <app-custom-input
                 id="comments"
                 [placeholder]="'comments'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.assetsVisible?.type"
                 formControlName="fiComments"
                 [isRequired]="'Name is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.assetsVisible?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -734,10 +734,10 @@
               <app-custom-input
                 id="distance"
                 [placeholder]="'distance in KMs'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.noOfVehicles?.type"
                 formControlName="distanceInKms"
                 [isRequired]="'Name is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [maxLength]="labels?.validationData?.noOfVehicles?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
@@ -793,10 +793,10 @@
               >
               <app-custom-input
                 [placeholder]="'Enter time'"
-                [type]="labels?.validationData?.name?.type"
+                [type]="labels?.validationData?.cubicCapacity?.type"
                 formControlName="fiTime"
-                [isRequired]="'Name is required'"
-                [maxLength]="labels?.validationData?.name?.maxLength"
+                [isRequired]="'Time is required'"
+                [maxLength]="labels?.validationData?.cubicCapacity?.maxLength"
                 [isDirty]="isDirty"
               >
               </app-custom-input>
