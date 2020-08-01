@@ -104,6 +104,11 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  onClear() {
+    this.filterForm.reset();
+    this.dashboardService.filterData('');
+  }
+
   onApply() {
     this.filterFormDetails = this.filterForm.value;
     this.filterFormDetails.fromDate = this.dateToFormate(this.filterFormDetails.fromDate);

@@ -34,7 +34,11 @@ export class CheckerLeadsWithMeComponent implements OnInit {
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService
     ) {
-
+      if (window.screen.width > 768) {
+        this.itemsPerPage = '25';
+      } else if (window.screen.width <= 768) {
+        this.itemsPerPage = '5';
+      }
   }
 
 
