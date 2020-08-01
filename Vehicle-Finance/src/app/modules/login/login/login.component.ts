@@ -14,12 +14,7 @@ import { LoginStoreService } from '../../../services/login-store.service';
 import { storage } from '../../../storage/localstorage';
 import { CommonDataService } from '@services/common-data.service';
 
-
-
 import * as moment from 'moment';
-
-
-
 
 // import {GoogleMapsAPIWrapper} from '@agm/core';
 
@@ -35,10 +30,7 @@ import { DashboardService } from '@services/dashboard/dashboard.service';
 
 declare var identi5: any;
 
-declare var cordova:any;
-
-
-
+declare var cordova: any;
 
 @Component({
   selector: 'app-login',
@@ -76,25 +68,24 @@ export class LoginComponent implements OnInit {
 
   base64Image: any;
 
-
   appVersion;
   buildDate;
 
   // Equitas
 
-  developerId = "40026336";
+  developerId = '40026336';
 
-  licenseKey = "7669E-A668C-99CJ8-B9EJJ-JJJJJ-J3C42";
+  licenseKey = '7669E-A668C-99CJ8-B9EJJ-JJJJJ-J3C42';
 
- /*Test
+  /*Test
   developerId = "0040035464";
 
   licenseKey = "7669E-A669B-ACAJE-9EFJJ-JJJJJ-JFCC7";*/
 
   maas360sdkEventHandler = {
     // Called when app is activating with MaaS360
-    onActivatonInProgress: function() {
-      console.log("ActivatonInProgress");
+    onActivatonInProgress: function () {
+      console.log('ActivatonInProgress');
     },
 
     /* Called when activation status change
@@ -112,9 +103,9 @@ export class LoginComponent implements OnInit {
      * - domain          : user domain used during MaaS360 app activation
      * - activationType  : type of activation of MaaS360 app, can be {NON-MDM, MDM}
      */
-    onActivationStatusChange: function(activationInfoStr) {
-        // application initialization code goes here
-        console.log("activationInfoStr"+activationInfoStr);
+    onActivationStatusChange: function (activationInfoStr) {
+      // application initialization code goes here
+      console.log('activationInfoStr' + activationInfoStr);
     },
 
     /* Called when application configuration is available/changed
@@ -125,30 +116,30 @@ export class LoginComponent implements OnInit {
      * the JSON string is:
      * { appConfig: <UTF-8 encoded app configuration> }
      */
-    onAppConfigUpdate: function(configDataStr) {
-        // application code to handle change in application configuration goes here
-        console.log("configDataStr"+configDataStr);
+    onAppConfigUpdate: function (configDataStr) {
+      // application code to handle change in application configuration goes here
+      console.log('configDataStr' + configDataStr);
     },
 
     /* If passcode is enforced, this is called when the app is locked
      * and unlocked. isLocked is true, when container is locked and
      * false, otherwise
      */
-    onContainerLockUpdate: function(isLocked) {
-        // application code to handle container lock status goes here
-        console.log("onContainerLockUpdate"+isLocked);
+    onContainerLockUpdate: function (isLocked) {
+      // application code to handle container lock status goes here
+      console.log('onContainerLockUpdate' + isLocked);
     },
 
     /* Called when device identity attributes change.
      * Applicable only for android platform.
      */
-    onDeviceIdentityAttributesChange: function(deviceAttrInfoStr) {
-        // application code to handle device identity change goes here
-        console.log("onDeviceIdentityAttributesChange"+deviceAttrInfoStr);
+    onDeviceIdentityAttributesChange: function (deviceAttrInfoStr) {
+      // application code to handle device identity change goes here
+      console.log('onDeviceIdentityAttributesChange' + deviceAttrInfoStr);
     },
 
     /*
-     * Called when policy information changes. The callback function 
+     * Called when policy information changes. The callback function
      * is called with a parameter, policyInfo which is of JSON object
      * type. The JSON object has following keys:
      *
@@ -164,27 +155,27 @@ export class LoginComponent implements OnInit {
      * - screenshotAllowed          : true, if screenshot capture is allowed, otherwise false (only available in Android)
      * - maas360egEnabled           : true, if MaaS360 enterprise gateway is enabled, otherwise false (only available in Android)
      */
-    onPolicyInfoChange: function(policyInfo) {
-        // application code to handle policy change goes here
-        console.log("onPolicyInfoChange"+policyInfo);
+    onPolicyInfoChange: function (policyInfo) {
+      // application code to handle policy change goes here
+      console.log('onPolicyInfoChange' + policyInfo);
     },
 
     /*
      * Called when security and compliance information changes.
-     * The callback function is called with a JSON object which has 
+     * The callback function is called with a JSON object which has
      * following keys:
-     * 
+     *
      * - policyCompliant            : a boolean to suggest if the application is in compliance or not
      * - oocReasons                 : an array of reasons for out of compliance state
      * - rooted                     : true, if the device is rooted/jailbroken, otherwise false
-     * - passcodeComplianceStatus   : string to represent the passcode compliance status whose value 
+     * - passcodeComplianceStatus   : string to represent the passcode compliance status whose value
      *                                can be {NOT_APPLICABLE, COMPLIANT, NOT_COMPLIANT}
-     * - encryptionEnabled          : string to represent the encryption state whose value can be 
+     * - encryptionEnabled          : string to represent the encryption state whose value can be
      *                                one of {NOT_APPLICABLE, ENABLED, DISABLED}
      */
-    onSecurityInfoChange: function(securityInfo) {
-        // application code to handle compliance change goes here
-        console.log("onSecurityInfoChange"+securityInfo);
+    onSecurityInfoChange: function (securityInfo) {
+      // application code to handle compliance change goes here
+      console.log('onSecurityInfoChange' + securityInfo);
     },
 
     /*
@@ -197,9 +188,9 @@ export class LoginComponent implements OnInit {
      * - wipeStatus                 : selective wipe status, the value can be one of
      *                              : {NOT_APPLIED, PENDING, APPLIED, REVOKED}
      */
-    onSelectiveWipeStatusChange: function(wipeStatusString) {
-        // application code to handle selective wipe change goes here
-        console.log("onSelectiveWipeStatusChange"+wipeStatusString);
+    onSelectiveWipeStatusChange: function (wipeStatusString) {
+      // application code to handle selective wipe change goes here
+      console.log('onSelectiveWipeStatusChange' + wipeStatusString);
     },
 
     /*
@@ -209,12 +200,12 @@ export class LoginComponent implements OnInit {
      *
      * - username                   : user name
      * - userDN                     : user domain
-     * - groups                     : an array containing list of MaaS360 group identifiers 
+     * - groups                     : an array containing list of MaaS360 group identifiers
      *                                to which the user belongs
      */
-    onUserInfoChange: function(userInfo) {
-        // application code to handle change in user information goes here
-        console.log("onUserInfoChange"+userInfo);
+    onUserInfoChange: function (userInfo) {
+      // application code to handle change in user information goes here
+      console.log('onUserInfoChange' + userInfo);
     },
 
     /*
@@ -224,24 +215,24 @@ export class LoginComponent implements OnInit {
      * The connection status can be queried using 'gatewayConnectionStatus' key and
      * the value can be one of {'Not Connected', Connected}
      */
-    onGatewayConnectionStatusChange: function(result) {
-        switch (result.gatewayConnectionStatus) {
-            case 'Not Connected':
-                // application code when gateway is not connected
-                console.log("onGatewayConnectionStatusChange"+"Not Connected");
-                break;
-            case 'Connected':
-                // application code when gateway is connected
-                console.log("onGatewayConnectionStatusChange"+"Connected");
-                break;
-            default:
-                // application code to handle other scenarios
-                console.log("onGatewayConnectionStatusChange"+result.gatewayConnectionStatus);
-        }
-    }
+    onGatewayConnectionStatusChange: function (result) {
+      switch (result.gatewayConnectionStatus) {
+        case 'Not Connected':
+          // application code when gateway is not connected
+          console.log('onGatewayConnectionStatusChange' + 'Not Connected');
+          break;
+        case 'Connected':
+          // application code when gateway is connected
+          console.log('onGatewayConnectionStatusChange' + 'Connected');
+          break;
+        default:
+          // application code to handle other scenarios
+          console.log(
+            'onGatewayConnectionStatusChange' + result.gatewayConnectionStatus
+          );
+      }
+    },
   };
-
-
 
   constructor(
     private loginService: LoginService,
@@ -260,11 +251,11 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.appVersion = environment.version;
-    this.buildDate = environment.buildDate
+    this.buildDate = environment.buildDate;
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
-        console.log(this.labels)
+        console.log(this.labels);
       },
       (error) => {
         console.log(error);
@@ -303,12 +294,12 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.loginData = this.loginForm.value;      
+    this.loginData = this.loginForm.value;
     if (environment.hostingEnvironment === 'DEV') {
       this.loginData.email = `${this.loginData.email}@equitasbank.in`;
-    } else if(environment.hostingEnvironment === 'UAT'){
+    } else if (environment.hostingEnvironment === 'UAT') {
       this.loginData.email = `${this.loginData.email}@esfbuat.in`;
-    }else{
+    } else {
       this.loginData.email = `${this.loginData.email}@equitas.in`;
     }
     this.loginService.getLogin(this.loginData).subscribe(
@@ -331,6 +322,7 @@ export class LoginComponent implements OnInit {
               const activityList = response.ProcessVariables.activityList;
               const userId = response.ProcessVariables.userId;
               localStorage.setItem('userId', userId);
+              localStorage.setItem('branchId', userDetails.branchId);
               this.loginStoreService.setRolesAndUserDetails(
                 roles,
                 userDetails,
@@ -372,88 +364,106 @@ export class LoginComponent implements OnInit {
     window.open(dirUrl, '_blank', 'location=yes');
   }
 
-  
-
   initMaaS360() {
-    let value = this.initM360SDKWithAnalytics(this.developerId, this.licenseKey, true, this.maas360sdkEventHandler);
+    let value = this.initM360SDKWithAnalytics(
+      this.developerId,
+      this.licenseKey,
+      true,
+      this.maas360sdkEventHandler
+    );
 
-    console.log("Maas360 value"+ value);
+    console.log('Maas360 value' + value);
   }
 
-  initIdenti5(){
+  initIdenti5() {
     // let dInfo = new device();
     // console.log(dInfo.model);
     var that = this;
-    this.pid = "";
+    this.pid = '';
 
-    identi5.getInfo(function(result){
-      console.log("Result&&&&"+ result);
-      that.pid = result["model"];
-      console.log("base64Data"+ that.pid);
-      alert(that.pid);
-      that.prepareKYCRequest(that.pid);
-    },function(error){
-      console.log("Result&&&&"+ error);
-      alert("error"+error);
-    });
-  
+    identi5.getInfo(
+      function (result) {
+        console.log('Result&&&&' + result);
+        that.pid = result['model'];
+        console.log('base64Data' + that.pid);
+        alert(that.pid);
+        that.prepareKYCRequest(that.pid);
+      },
+      function (error) {
+        console.log('Result&&&&' + error);
+        alert('error' + error);
+      }
+    );
   }
 
-
   prepareKYCRequest(pid) {
-    let stan =  Math.floor(100000 + Math.random() * 900000);
+    let stan = Math.floor(100000 + Math.random() * 900000);
     console.log(stan);
- 
-    let now = moment().format("MMDDhhmmss");
-    let localDate = moment().format("MMDD");
-    let localTime = moment().format("hhmmss");
- 
- 
-    let pId = pid;
- 
-    console.log("pId"+pId);
- 
-    console.log("now"+now);
-    console.log("localDate"+localDate);
- 
- 
- 
-       
-     let kycRequest =  "<KycRequest>"+
-                         "<TransactionInfo>"+
-                           "<UID type=\"U\">"+"802172334890"+"</UID>"+
-                           "<Transm_Date_time>"+now+"</Transm_Date_time>"+
-                           "<Local_Trans_Time>"+localTime+"</Local_Trans_Time>"+
-                           "<Local_date>"+localDate+"</Local_date>"+
-                           "<CA_TID>"+"11205764"+"</CA_TID>"+
-                           "<CA_ID>"+"EQT000000001441"+"</CA_ID>"+
-                           "<CA_TA>"+"Equitas Bank Chennai TNIN"+"</CA_TA>"+
-                           "<Stan>"+stan+"</Stan>"+
-                         "</TransactionInfo>"+
-                         "<KycReqInfo ver=\"2.5\"  ra=\"O\" rc=\"Y\" pfr=\"N\" lr=\"Y\"  de=\"N\" >"+
-                           "<Auth  txn=\"UKC:"+stan+"\"  ver=\"2.5\">"+
-                             "<Uses pi=\"n\" pa=\"n\" pfa=\"n\"  bio=\"y\" otp=\"n\"/>"+
-                             "<Meta/>"+pId+
-                           "</Auth>"+
-                         "</KycReqInfo>"+
-                       "</KycRequest>";
- 
-     console.log("kycRequest"+kycRequest);
- 
-     const data = {
-       ekycRequest: kycRequest,
-     };
-     this.dashboardService.getKycDetails(data).subscribe((res: any) => {
-       console.log("KYC result"+JSON.stringify(res));
-     });
- 
-   }
 
+    let now = moment().format('MMDDhhmmss');
+    let localDate = moment().format('MMDD');
+    let localTime = moment().format('hhmmss');
+
+    let pId = pid;
+
+    console.log('pId' + pId);
+
+    console.log('now' + now);
+    console.log('localDate' + localDate);
+
+    let kycRequest =
+      '<KycRequest>' +
+      '<TransactionInfo>' +
+      '<UID type="U">' +
+      '802172334890' +
+      '</UID>' +
+      '<Transm_Date_time>' +
+      now +
+      '</Transm_Date_time>' +
+      '<Local_Trans_Time>' +
+      localTime +
+      '</Local_Trans_Time>' +
+      '<Local_date>' +
+      localDate +
+      '</Local_date>' +
+      '<CA_TID>' +
+      '11205764' +
+      '</CA_TID>' +
+      '<CA_ID>' +
+      'EQT000000001441' +
+      '</CA_ID>' +
+      '<CA_TA>' +
+      'Equitas Bank Chennai TNIN' +
+      '</CA_TA>' +
+      '<Stan>' +
+      stan +
+      '</Stan>' +
+      '</TransactionInfo>' +
+      '<KycReqInfo ver="2.5"  ra="O" rc="Y" pfr="N" lr="Y"  de="N" >' +
+      '<Auth  txn="UKC:' +
+      stan +
+      '"  ver="2.5">' +
+      '<Uses pi="n" pa="n" pfa="n"  bio="y" otp="n"/>' +
+      '<Meta/>' +
+      pId +
+      '</Auth>' +
+      '</KycReqInfo>' +
+      '</KycRequest>';
+
+    console.log('kycRequest' + kycRequest);
+
+    const data = {
+      ekycRequest: kycRequest,
+    };
+    this.dashboardService.getKycDetails(data).subscribe((res: any) => {
+      console.log('KYC result' + JSON.stringify(res));
+    });
+  }
 
   initM360SDK(developerKey, licenseKey, eventHandler) {
     var sdkHandler = cordova.require('cordova-plugin-m360-sdk.SDKHandler');
     if (!eventHandler) {
-        eventHandler = this.maas360sdkEventHandler;
+      eventHandler = this.maas360sdkEventHandler;
     }
 
     sdkHandler.registerObserver(eventHandler);
@@ -467,23 +477,30 @@ export class LoginComponent implements OnInit {
    * - licenseKey   : MaaS360 SDK license key
    * - enableAnalytics   : Enable enableAnalytics
    */
-  initM360SDKWithAnalytics(developerKey, licenseKey, enableAnalytics, eventHandler){
+  initM360SDKWithAnalytics(
+    developerKey,
+    licenseKey,
+    enableAnalytics,
+    eventHandler
+  ) {
     var sdkHandler = cordova.require('cordova-plugin-m360-sdk.SDKHandler');
 
-      if (!eventHandler) {
-          eventHandler = this.maas360sdkEventHandler;
-      }
-      sdkHandler.registerObserver(eventHandler);
-      sdkHandler.initWithAnalytics(developerKey, licenseKey, enableAnalytics);
+    if (!eventHandler) {
+      eventHandler = this.maas360sdkEventHandler;
+    }
+    sdkHandler.registerObserver(eventHandler);
+    sdkHandler.initWithAnalytics(developerKey, licenseKey, enableAnalytics);
   }
 
-  getRouteMap(){
+  getRouteMap() {
     var that = this;
-    this.loginService.getPolyLine(function(result){
-      that.base64Image = result;
-     // console.log("getPolyLine", that.base64Image);
-    }, null, null);
+    this.loginService.getPolyLine(
+      function (result) {
+        that.base64Image = result;
+        // console.log("getPolyLine", that.base64Image);
+      },
+      null,
+      null
+    );
   }
-
-
 }

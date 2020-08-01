@@ -259,4 +259,21 @@ export class ApplicantService {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
+
+  uploadPhotoOrSignature(data) {
+    const uploadPhotoOrSignature = this.apiService.api.uploadPhotoOrSignature;
+    const projectId = uploadPhotoOrSignature.projectId;
+    const processId = uploadPhotoOrSignature.processId;
+    const workflowId = uploadPhotoOrSignature.workflowId;
+    const body = {
+      processId,
+      workflowId,
+      projectId,
+      ProcessVariables: {
+        ...data,
+      },
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
 }

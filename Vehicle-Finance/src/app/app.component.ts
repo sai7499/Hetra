@@ -11,6 +11,7 @@ export class AppComponent implements OnInit {
   title = 'vehicle-finance';
   showDraggableContainer: {
     imageUrl: string;
+    imageType: string;
   };
   setCss = {
     top: '',
