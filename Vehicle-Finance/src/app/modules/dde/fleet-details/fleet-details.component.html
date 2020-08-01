@@ -13,8 +13,12 @@
                             <td role="columnheader">{{labels.regdNo }} </td>
                             <td role="columnheader">{{labels.regdOwner}}</td>
                             <td role="columnheader" style="min-width: 165px;">{{labels.relation}}</td>
+                            <td role="columnheader" style="min-width: 165px;"> {{ labels.vechicalRegion }}</td>
                             <td role="columnheader" style="min-width: 200px;">{{labels.make}} </td>
-                            <td role="columnheader">{{labels.yom}} </td>
+                            <td role="columnheader" style="min-width: 200px;">{{ labels.vechicalType }}</td>
+                           <td role="columnheader" style="min-width: 200px;"> {{ labels.assetSegement }}</td>  
+                           <td role="columnheader" style="min-width: 200px;">{{labels.assetModel}}</td>
+                           <td role="columnheader">{{labels.yom}} </td>
                             <td role="columnheader" style="min-width: 120px;">{{labels.financier}} </td>
                             <td role="columnheader">{{labels.loanNo}} </td>
                             <td role="columnheader">{{labels.purchaseDate}} </td>
@@ -87,8 +91,16 @@
                                     </div>
                                 </div>
                             </td>
+                            <td>
+                                <app-vf-custom-select [values]="regionLov[i]" [id]="'vechical_region'"
+                                    formControlName="region" [isRequired]="'Vehicle Region Required'"
+                                    (change)="onVehicleRegion($event.target.value, itemrow,i)" [isDirty]="isDirty">
+                                </app-vf-custom-select>
+    
+                            </td>
                             <td style="min-width: 200px;">
-                                <app-vf-custom-select [values]="fleetLov?.vehicleManufacturer" formControlName="make" (change)="makeChange($event)" [isRequired]="'Please select atleast one'">
+                                <app-vf-custom-select  (change)="onAssetMake($event.target.value, itemrow , i)"
+                                 [values]="vehicleManufacturer[i]" formControlName="make" (change)="makeChange($event)" [isRequired]="'Please select atleast one'">
                                 </app-vf-custom-select>
                                 <div class="cus-mandatory-field" *ngIf="itemrow.controls['relation'].touched && !itemrow.controls['relation'].vaild">
                                     <div class="cus-mandatory-field" *ngIf="itemrow.controls['relation'].hasError('required')">
@@ -96,6 +108,29 @@
                                     </div>
                                 </div>
                             </td>
+                            <td>
+                              
+                        <app-vf-custom-select [values]="vehicleTypeLov[i]" [id]="'vechical_type'"
+                            formControlName="vehicleType" [isRequired]="'Vehicle Type Required'"
+                            (change)="onVehicleType($event.target.value, itemrow, i)" [isDirty]="isDirty">
+                        </app-vf-custom-select>
+
+                            </td>
+ 
+                            <td>
+                                <app-vf-custom-select [values]="assetBodyTypeLov[i]" [id]="'asset_body_type'"
+                                formControlName="assetBodyType" [isRequired]="'Asset Body Type Required'"
+                                (change)="onAssetBodyType($event.target.value, itemrow , i)" [isDirty]="isDirty">
+                            </app-vf-custom-select>
+                            </td>
+                            <td>
+
+                                <app-vf-custom-select [values]="assetModelTypeLov[i]" formControlName="assetModel"
+                                    [id]="'asset_model'" [isRequired]="'Asset Model Required'"
+                                    (change)="onAssetModel($event.target.value, itemrow , i)" [isDirty]="isDirty">
+                                </app-vf-custom-select>
+                            </td>
+                       
                             <!-- <td><input type="text" class="input_value" value="TA" formControlName="make"></td> -->
                             <td>
                                 <div>
@@ -108,8 +143,17 @@
 
                                     </span> -->
                                     <div style="width: 90px;">
-                                        <app-custom-input formControlName="yom" [className]="'form-control mandatory'" [placeholder]="'YOM'" [maxLength]="formValidation?.validationData?.yom.maxLength" [isRequired]="'YOM mandatory'" [type]="formValidation?.validationData?.yom.type" [custom]="yearCheck"
-                                            [isDirty]="isDirty">
+                                        <app-custom-input
+                                         formControlName="yom"
+                                          [className]="'form-control mandatory'"
+                                           [placeholder]="'YOM'" 
+                                           [maxLength]="formValidation?.validationData?.yom.maxLength" 
+                                           [isRequired]="'YOM mandatory'"
+                                            [type]="formValidation?.validationData?.yom.type" 
+                                            [custom]="yearCheck"
+                                            [isDirty]="isDirty"
+                                            (change)="onGetDateValue($event ,i)"
+                                            >
                                         </app-custom-input>
                                     </div>
                                     <!-- <div class="cus-mandatory-field" *ngIf="itemrow.controls['yom'].touched && !itemrow.controls['yom'].vaild">

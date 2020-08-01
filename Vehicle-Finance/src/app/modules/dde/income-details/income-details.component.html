@@ -940,10 +940,10 @@
                     <app-custom-input
                       formControlName="emi"
                       [placeholder]="'EMI'"
-                      [type]="labels?.validationData?.tenurePaid?.type"
+                      [type]="labels?.validationData?.amountValue?.type"
                       [className]="'form-control mandatory'"
                       [maxLength]="
-                        labels?.validationData?.tenurePaid?.maxLength
+                        labels?.validationData?.amountValue?.maxLength
                       "
                       [isRequired]="'EMI mandatory'"
                       [isDirty]="isDirty"

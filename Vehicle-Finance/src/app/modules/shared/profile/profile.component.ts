@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   openProfile: boolean;
@@ -17,17 +17,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
   roles = [];
   activityClass = false;
 
-
   constructor(
     private loginStoreService: LoginStoreService,
     private utilityService: UtilityService,
-    private router : Router) { }
+    private router: Router
+  ) {}
 
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     // console.log("user details", roleAndUserDetails.roles[0].name)
     if (!roleAndUserDetails) {
-      return
+      return;
     }
     this.userName = roleAndUserDetails.userDetails.firstName;
     this.firstLetter = this.userName.slice(0, 1);
@@ -37,32 +37,29 @@ export class ProfileComponent implements OnInit, OnDestroy {
     document
       .querySelector('body')
       .addEventListener('click', this.bodyClickEvent);
-     
-      console.log(this.router.url);
-      if(this.router.url.includes('/activity-search')) {
-       
-        this.activityClass = true
-        // console.log(this.activityClass);'
-       
-      } else {
-        this.activityClass = false;
-        // console.log(this.activityClass);
-      }
+
+    console.log(this.router.url);
+    if (this.router.url.includes('/activity-search')) {
+      this.activityClass = true;
+      // console.log(this.activityClass);'
+    } else {
+      this.activityClass = false;
+      // console.log(this.activityClass);
+    }
   }
 
-  bodyClickEvent = event => {
+  bodyClickEvent = (event) => {
     const targetId = event.target.id;
     if (targetId === 'roles') {
       this.openProfile = true;
       return;
     }
     if (event.target.id === 'profileDropDown') {
-      
       this.openProfile = true;
       return;
     }
     this.openProfile = false;
-  }
+  };
 
   logOut() {
     this.utilityService.logOut();
@@ -73,5 +70,4 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .querySelector('body')
       .removeEventListener('click', this.bodyClickEvent);
   }
-
 }

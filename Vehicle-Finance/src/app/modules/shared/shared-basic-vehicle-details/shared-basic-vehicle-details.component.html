@@ -509,7 +509,8 @@
                                 </div>
                             </div>
 
-                            <div class="invalid-feedback" *ngIf="customFutureDate">
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['manuFacMonthYear'].touched && customFutureDate">
                                 Invalid Date
                             </div>
 
@@ -676,7 +677,8 @@
                                 placeholder="Proforma Invoice Date">
                             </kendo-datepicker>
 
-                            <div class="invalid-feedback" *ngIf="obj.controls['invoiceDate'].value > maxDate">
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['invoiceDate'].touched && obj.controls['invoiceDate'].value > maxDate">
                                 Invalid Date
                             </div>
 
@@ -888,7 +890,8 @@
                                 </div>
                             </div>
 
-                            <div class="invalid-feedback" *ngIf="customFutureDate">
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['manuFacMonthYear'].touched && customFutureDate">
                                 Invalid Date
                             </div>
 
@@ -1058,7 +1061,8 @@
                                 placeholder="Proforma Invoice Date">
                             </kendo-datepicker>
 
-                            <div class="invalid-feedback" *ngIf="obj.controls['invoiceDate'].value > maxDate">
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['invoiceDate'].touched && obj.controls['invoiceDate'].value > maxDate">
                                 Invalid Date
                             </div>
                         </div>
@@ -1271,7 +1275,8 @@
                                 </div>
                             </div>
 
-                            <div class="invalid-feedback" *ngIf="customFutureDate">
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['manuFacMonthYear'].touched && customFutureDate">
                                 Invalid Date
                             </div>
 
@@ -1391,7 +1396,8 @@
                                 placeholder="Fitness Date">
                             </kendo-datepicker>
 
-                            <div class="invalid-feedback" *ngIf="obj.controls['fitnessDate'].value < maxDate">
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['fitnessDate'].touched && obj.controls['fitnessDate'].value < maxDate">
                                 Invalid Date
                             </div>
 
@@ -1427,7 +1433,8 @@
                                 placeholder="Permit Expire Date">
                             </kendo-datepicker>
 
-                            <div class="invalid-feedback" *ngIf="obj.controls['permitExpiryDate'].value < maxDate">
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['permitExpiryDate'].touched && obj.controls['permitExpiryDate'].value < maxDate">
                                 Invalid Date
                             </div>
 
@@ -1500,7 +1507,8 @@
                                 placeholder="Vehicle Registration Date">
                             </kendo-datepicker>
 
-                            <div class="invalid-feedback" *ngIf="obj.controls['vehicleRegDate'].value > maxDate">
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['vehicleRegDate'].touched && obj.controls['vehicleRegDate'].value > maxDate">
                                 Invalid Date
                             </div>
 
@@ -1565,7 +1573,7 @@
                                 placeholder="insurance_validity">
                             </kendo-datepicker>
 
-                            <div class="invalid-feedback" *ngIf="obj.controls['insuranceValidity'].value < maxDate">
+                            <div class="invalid-feedback" *ngIf="obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < maxDate">
                                 Invalid Date
                             </div>
 
@@ -1765,7 +1773,7 @@
                                 </div>
                             </div>
 
-                            <div class="invalid-feedback" *ngIf="customFutureDate">
+                            <div class="invalid-feedback" *ngIf="obj.controls['manuFacMonthYear'].touched && customFutureDate">
                                 Invalid Date
                             </div>
 
@@ -1914,7 +1922,7 @@
                                 placeholder="Vehicle Registration Date">
                             </kendo-datepicker>
 
-                            <div class="invalid-feedback" *ngIf="obj.controls['vehicleRegDate'].value > maxDate">
+                            <div class="invalid-feedback" *ngIf="obj.controls['vehicleRegDate'].touched && obj.controls['vehicleRegDate'].value > maxDate">
                                 Invalid Date
                             </div>
 
@@ -1987,7 +1995,8 @@
                                 placeholder="insurance_validity">
                             </kendo-datepicker>
 
-                            <div class="invalid-feedback" *ngIf="obj.controls['insuranceValidity'].value < maxDate">
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < maxDate">
                                 Invalid Date
                             </div>
                         </div>
