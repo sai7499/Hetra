@@ -6,8 +6,8 @@ import { Injectable } from '@angular/core';
 export class Base64StorageService {
   private base64Obj = {};
 
-  storeString(key: string, base64String: string) {
-    this.base64Obj[key] = base64String;
+  storeString(key: string, value) {
+    this.base64Obj[key] = value;
   }
 
   getString(key) {
