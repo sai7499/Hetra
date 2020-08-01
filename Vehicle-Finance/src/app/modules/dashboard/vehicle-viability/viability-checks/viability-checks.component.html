@@ -1,6 +1,5 @@
-
-    <div class="container-fluid" id="wrapper">  
-        <table>
+<div class="container-fluid" id="wrapper">
+    <table>
         <thead>
             <tr class="table-head-bg">
                 <th>{{labels?.action}}<i class="fa fa-sort"></i></th>
@@ -49,8 +48,8 @@
                 <select class="form-control  input-sm" (change)="setPage($event)" [(ngModel)]="itemsPerPage">
                     <option value="5">5</option>
                     <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
+                    <option class="disable" value="25">25</option>
+                    <option class="disable" value="50">50</option>
                 </select>
             </div>
 
