@@ -8,7 +8,11 @@ import { LoginStoreService } from '@services/login-store.service';
 import { ToasterService } from '@services/toaster.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FieldInvestigation } from '@model/dde.model';
-
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { ApplicantService } from '@services/applicant.service';
+import { AddressDetails } from '@model/applicant.model';
+import { map } from 'rxjs/operators';
+import { element } from 'protractor';
 @Component({
   selector: 'app-fi-report',
   templateUrl: './fi-report.component.html',
@@ -26,6 +30,21 @@ export class FiReportComponent implements OnInit {
   fieldInvestigation: FieldInvestigation;
   fiDetails: any = [];
   fIReportList: any = {};
+  leadData: {};
+  applicantFullName: any;
+  pincodeResult: {
+    state?: any[];
+    country?: any[];
+    city?: any[];
+  };
+  applicantPincode: {
+    state?: any[],
+    city?: any[];
+  };
+  state = [];
+  city = [];
+
+  addressDetails: AddressDetails[];
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -34,15 +53,17 @@ export class FiReportComponent implements OnInit {
     private router: Router,
     private fieldInvestigationService: FieldInvestigationService,
     private loginStoreService: LoginStoreService,
+    private createLeadDataService: CreateLeadDataService,
     private toasterService: ToasterService, // service for accessing the toaster
+    private applicantService: ApplicantService,
 
   ) {
+    this.leadId = Number(this.activatedRoute.snapshot.params.leadId);
+    this.applicantId = Number(this.activatedRoute.snapshot.params.applicantId);
     this.getLabels();
     this.initForm();
     this.getLOV();
     this.isDirty = true;
-    this.leadId = Number(this.activatedRoute.snapshot.params.leadId);
-    this.applicantId = Number(this.activatedRoute.snapshot.params.applicantId);
     console.log(this.leadId);
     console.log(this.applicantId);
   }
@@ -55,20 +76,8 @@ export class FiReportComponent implements OnInit {
     this.userId = roleAndUserDetails.userDetails.userId;
     console.log('user id ==>', this.userId);
     // this.leadId = (await this.getLeadId()) as number;
-    this.getFiReportDetails();
   }
 
-  getLeadId() {  // function to get the respective  lead id from the url
-    return new Promise((resolve, reject) => {
-      this.activatedRoute.parent.params.subscribe((value) => {
-        if (value && value.leadId) {
-          resolve(Number(value.leadId));
-          console.log('in get lead ', value);
-        }
-        resolve(null);
-      });
-    });
-  }
   getLabels() {
     this.labelService.getLabelsData().subscribe((value) => {
       this.labels = value;
@@ -79,10 +88,48 @@ export class FiReportComponent implements OnInit {
   getLOV() {
     this.commonLovService.getLovData().subscribe((value) => {
       this.LOV = value;
+      this.getFiReportDetails();
+
     });
 
     console.log(this.LOV);
   }
+
+  getPincode(pincode) {
+    // const id = pincode.id;
+    const pincodeValue = pincode.value;
+    if (pincodeValue.length === 6) {
+      const pincodeNumber = Number(pincodeValue);
+      this.getPincodeResult(pincodeNumber);
+      console.log('in get pincode', pincodeNumber);
+    }
+  }
+  getPincodeResult(pincodeNumber: number) {
+    this.applicantService
+      .getGeoMasterValue({
+        pincode: pincodeNumber,
+      }).subscribe((value) => {
+        console.log('res', value);
+        const values = value['ProcessVariables'].GeoMasterView;
+        const state = {
+          key: values[0].stateId,
+          value: values[0].stateName
+        };
+        this.state.push(state);
+        values.map((element) => {
+          const city = {
+            key: element.cityId,
+            value: element.cityName
+          };
+          this.city.push(city);
+        });
+      });
+
+  }
+
+
+
+
 
 
   initForm() {
@@ -97,7 +144,8 @@ export class FiReportComponent implements OnInit {
       cpvInitiatedTime: new FormControl('', Validators.required),
       reportSubmitDate: new FormControl('', Validators.required),
       reportSubmitTime: new FormControl('', Validators.required),
-      applicantName: new FormControl('', Validators.required),
+      // applicantName: new FormControl('', Validators.required),
+      applicantName: new FormControl({ value: '', disabled: true }),
       addressLine1: new FormControl('', Validators.required),
       addressLine2: new FormControl('', Validators.required),
       addressLine3: new FormControl('', Validators.required),
@@ -156,7 +204,7 @@ export class FiReportComponent implements OnInit {
       reportSubmitDate: fiModel.reportSubmitDate ?
         new Date(this.getDateFormat(fiModel.reportSubmitDate)) : null,
       reportSubmitTime: fiModel.reportSubmitTime ? fiModel.reportSubmitTime : null,
-      applicantName: fiModel.applicantName ? fiModel.applicantName : null,
+      applicantName: fiModel.applicantName || this.applicantFullName || null,
       addressLine1: fiModel.addressLine1 ? fiModel.addressLine1 : null,
       addressLine2: fiModel.addressLine2 ? fiModel.addressLine2 : null,
       addressLine3: fiModel.addressLine3 ? fiModel.addressLine3 : null,
@@ -242,6 +290,7 @@ export class FiReportComponent implements OnInit {
       console.log('get fi report response', processVariables);
       const message = processVariables.error.message;
       if (processVariables.error.code === '0') {
+        // this.applicantFullName = res.ProcessVariables.applicantName;
         this.fiDetails = res.ProcessVariables.getFiReportDetails;
         console.log('in get fi details', this.fiDetails);
         this.setFormValue();
@@ -260,7 +309,6 @@ export class FiReportComponent implements OnInit {
     const formModal = this.fieldReportForm.value;
     const fieldReportModal = { ...formModal };
     // console.log('Form Data', fieldReportForm);
-    // console.log('Status', this.applicantForm.get('physicallyChallenged').invalid);
     this.isDirty = true;
     // if (this.fieldReportForm.invalid) {
     //   // this.toasterService.showError('', '');

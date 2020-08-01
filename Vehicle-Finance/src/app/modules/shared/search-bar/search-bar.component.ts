@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { commonRoutingUrl } from '@shared/routing.constant';
 import { Router } from '@angular/router';
 import { LoginStoreService } from '@services/login-store.service';
+import { Location } from '@angular/common';
 import { SharedService } from '../shared-service/shared-service';
 
 @Component({
@@ -17,26 +18,26 @@ export class SearchBarComponent implements OnInit {
   searchText: string;
   routingId: string;
   activityClass = false;
+  isMobile: boolean;
 
   constructor(
     private sharedService: SharedService,
     private route: Router,
     private loginStoreService: LoginStoreService,
-
-  ) { }
+    private location: Location) { }
 
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
-    console.log('Rolea', roleAndUserDetails)
     // this.activityList = roleAndUserDetails.activityList;
-
+    // this.searchLead = this.activityList;
+    const currentUrl = this.location.path();
+    if (currentUrl.includes('activity-search')) {
+      this.isMobile = true;
+    }
     this.sharedService.getSearchBarActivity().subscribe((val: any) => {
-      // if () {
-        this.activityList = val;
-        this.searchLead = this.activityList;
-        console.log('activityList', this.activityList)
+      this.activityList = val;
+      this.searchLead = this.activityList;
     })
-
 
   }
 

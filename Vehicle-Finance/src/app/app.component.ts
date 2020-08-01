@@ -186,6 +186,7 @@ export class AppComponent implements OnInit {
 
   showDraggableContainer: {
     imageUrl: string;
+    imageType: string;
   };
   setCss = {
     top: '',

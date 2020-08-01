@@ -4,9 +4,8 @@ import { BehaviorSubject } from 'rxjs';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
-
 export class LoginStoreService {
 
     constructor(private cds: CommonDataService,

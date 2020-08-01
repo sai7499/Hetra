@@ -1,12 +1,17 @@
-body{
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Old versions of Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently*/
+body {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Old versions of Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently*/
 }
-
 
 a:hover,
 a:focus {
@@ -168,17 +173,16 @@ h3 {
 }
 
 .search .microphone-icon {
-       /* background: url(../images/mic.png) no-repeat center; */
-       cursor: pointer;
-       -webkit-margin-end: 16px;
-       margin-inline-end: 16px;
-       padding: 4px 28px 0 7px;
-       right: 0;
-       border-top-right-radius: 1.5em;
-       border-bottom-right-radius: 1.5em;
-       background-color: transparent;
-       font-weight: bold;
-    
+    /* background: url(../images/mic.png) no-repeat center; */
+    cursor: pointer;
+    -webkit-margin-end: 16px;
+    margin-inline-end: 16px;
+    padding: 4px 28px 0 7px;
+    right: 0;
+    border-top-right-radius: 1.5em;
+    border-bottom-right-radius: 1.5em;
+    background-color: transparent;
+    font-weight: bold;
 }
 
 .search select {
@@ -310,7 +314,7 @@ form .form-control {
 }
 
 .mar-right8 {
-    margin: 8px;
+    margin: 8px!important;
 }
 
 .panel-group .fa-angle-down {
@@ -382,6 +386,7 @@ form .form-control {
 
 
 /**los style**/
+
 
 /* .container.overflow-hidden {
    
@@ -667,14 +672,23 @@ h4.table-head-bg.m-0.p-02 {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
     margin: 15px 0;
-  }
+}
+
 @media print {
-    app-root app-lead-section-header { display: none; }
-    .multisteps-form__progress1 {display: none;}
-    app-term-sheet { display: block; }
-    app-sanction-details { display: block; }
-  }
-  
+    app-root app-lead-section-header {
+        display: none;
+    }
+    .multisteps-form__progress1 {
+        display: none;
+    }
+    app-term-sheet {
+        display: block;
+    }
+    app-sanction-details {
+        display: block;
+    }
+}
+
 @media screen and (max-width: 800px) {
     .invalid-feedback {
         font-size: 3vw;
@@ -684,14 +698,12 @@ h4.table-head-bg.m-0.p-02 {
         padding-top: 0.5vw;
     }
     /* refer-applicant table */
-    
     /* td::before {
         content: attr(data-label);
         } */
-       
-       
-
 }
+
+
 /* @media (min-width:260px) and (max-width:560px){
     td::before {
         content: attr(data-item-value);
@@ -702,36 +714,48 @@ h4.table-head-bg.m-0.p-02 {
     /* background: url(./assets/images/search.png) no-repeat center;
     left: 20px; */
     /* top: calc(100% - 280px); */
-    top:0;
+    top: 0;
 }
-.top-padding{
+
+.top-padding {
     padding-top: 1vw
 }
-@media (min-width:300px) and (max-width:767px) {
-    .search{    
-      position: relative;
-      display: inline-block;  
-      height: 160px;
-    }
 
+@media (min-width:300px) and (max-width:767px) {
+    .search {
+        position: relative;
+        display: inline-block;
+        height: 160px;
+    }
     .search .search-icon-left {
         background: url(./assets/images/search.png) no-repeat center;
         left: 20px;
-        top: calc(100% - 270px);
+        top: calc(100% - 255px);
         /* top: -15vw; */
     }
-    
     .search .microphone-icon {
-           /* background: url(../images/mic.png) no-repeat center; */
-           cursor: pointer;
-           -webkit-margin-end: 16px;
-           margin-inline-end: 16px;
-           padding: 4px 28px 0 7px;
-           right: 0;
-           border-top-right-radius: 1.5em;
-           border-bottom-right-radius: 1.5em;
-           background-color: transparent;
-           font-weight: bold;
-           top: calc(100% - 270px);
+        /* background: url(../images/mic.png) no-repeat center; */
+        cursor: pointer;
+        -webkit-margin-end: 16px;
+        margin-inline-end: 16px;
+        padding: 4px 28px 0 7px;
+        right: 0;
+        border-top-right-radius: 1.5em;
+        border-bottom-right-radius: 1.5em;
+        background-color: transparent;
+        font-weight: bold;
+        top: calc(100% - 255px);
     }
-  }
+    .test {
+        /* background: url(./assets/images/search.png) no-repeat center;
+        left: 20px; */
+        top: calc(100% - 275px)!important;
+        /* top: -15vw; */
+    }
+}
+
+@media only screen and (max-width: 760px) {
+    .disable {
+        display: none;
+    }
+}

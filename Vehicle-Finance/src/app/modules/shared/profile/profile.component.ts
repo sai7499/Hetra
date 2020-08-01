@@ -7,7 +7,7 @@ import { SharedService } from '../shared-service/shared-service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   openProfile: boolean;
@@ -28,7 +28,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
 
     if (!roleAndUserDetails) {
-      return
+      return;
     }
     this.userName = roleAndUserDetails.userDetails.firstName;
     this.firstLetter = this.userName.slice(0, 1);
@@ -45,19 +45,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
 
-  bodyClickEvent = event => {
+  bodyClickEvent = (event) => {
     const targetId = event.target.id;
     if (targetId === 'roles') {
       this.openProfile = true;
       return;
     }
     if (event.target.id === 'profileDropDown') {
-
       this.openProfile = true;
       return;
     }
     this.openProfile = false;
-  }
+  };
 
   logOut() {
     this.utilityService.logOut();
