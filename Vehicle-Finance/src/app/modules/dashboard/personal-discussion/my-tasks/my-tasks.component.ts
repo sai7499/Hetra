@@ -102,7 +102,7 @@ export class MyTasksComponent implements OnInit {
       leadId: filterValue.leadId ? filterValue.leadId : '',
       fromDate: filterValue.fromDate ? filterValue.fromDate : '',
       toDate: filterValue.toDate ? filterValue.toDate : '',
-      product: filterValue.product ? filterValue.product : '',
+      productCategory: filterValue.product ? filterValue.product : '',
       loanMinAmt: filterValue.loanMinAmt ? filterValue.loanMinAmt : '',
       loanMaxAmt: filterValue.loanMaxAmt ? filterValue.loanMaxAmt : ''
     };
