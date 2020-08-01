@@ -31,8 +31,8 @@ export class UploadService {
           extRefId: dateFormat,
           timestamp: moment.utc().format(),
           authInfo: {
-            brnchId: 1001,
-            usrId: 474,
+            brnchId: Number(localStorage.getItem('branchId')),
+            usrId: Number(localStorage.getItem('userId')),
           },
         },
         msgBdy: {
@@ -115,7 +115,7 @@ export class UploadService {
           extRefId: 'WIZ2020621616194742655',
           timestamp: '2020-07-02T10:46:19.934Z',
           authInfo: {
-            brnchId: '1001',
+            brnchId: localStorage.getItem('branchId'),
             usrId: localStorage.getItem('userId'),
           },
         },

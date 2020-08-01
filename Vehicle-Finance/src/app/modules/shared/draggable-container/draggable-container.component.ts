@@ -7,14 +7,29 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./draggable-container.component.css'],
 })
 export class DraggableComponent implements OnInit {
-  src: string;
+  imageType: string;
+  src;
   @Input() setCss = {
     top: '50%',
     left: '50%',
   };
   @Input() set imageUrl(value) {
     if (!!value) {
-      this.src = 'data:image/jpeg;base64,' + value.imageUrl;
+      this.imageType = value.imageType;
+      if (this.imageType === 'jpeg' || this.imageType === 'png') {
+        this.src = this.sanitizer.bypassSecurityTrustResourceUrl(
+          'data:image/jpeg;base64,' + value.imageUrl
+        );
+      } else if (this.imageType === 'pdf') {
+        this.src = this.sanitizer.bypassSecurityTrustResourceUrl(
+          'data:application/pdf;base64,' + value.imageUrl
+        );
+      } else if (this.imageType === 'xls') {
+        this.src = this.sanitizer.bypassSecurityTrustResourceUrl(
+          'data:application/vnd.ms-excel;base64' + value.imageUrl
+        );
+        console.log('this.src', this.src);
+      }
       console.log('setCss', this.setCss);
       setTimeout(() => {
         this.dragElement(document.getElementById('mydiv'));
