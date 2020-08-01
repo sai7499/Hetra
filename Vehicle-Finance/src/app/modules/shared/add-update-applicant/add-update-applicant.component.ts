@@ -178,6 +178,162 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   isDisabledCheckbox: boolean = false;
   addDisabledCheckBox: boolean;
   panValidate = false;
+  biometricResponce = {
+    addressLineOne: "PLOT NO 968TH CROSS STREETKARU",
+    addressLineThree: "",
+    addressLineTwo: "MANDAPAM",
+    applicantId: 222,
+    careOfPerson: "S/O Johnpaul",
+    country: "India",
+    district: "Tiruchirappalli",
+    dobFromResponse: "22-12-1989",
+    // "error": {
+    //   "code": "0",
+    //   "message": "Success"
+    // },
+    firstName: "Christus",
+    landmark: "VASANTHA NAGAR, JAYA NAGAR EXTN",
+    lastName: "Johnpaul",
+    locality: "KARUMANDAPAM",
+    middleName: "Valerian",
+    nameFromResponse: "Christus Valerian Johnpaul",
+    pincode: "620001",
+    resultPincode:620001,
+    genderFromResponse: "M",
+    geoMasterData: [
+      {
+       cityCode: 125216,
+       cityId: 125216,
+       cityName: "BHEEMANAGAR S.O-TIRUCHY",
+        country: "INDIA",
+        countryId: 6,
+        districtId: 596,
+        districtName: "Tiruchirappalli",
+        geoMasterId: 124138,
+        pincode: 620001,
+        stateId: 40,
+        stateName: "TAMIL NADU",
+        threeAlphaCode: "IND"
+      },
+      {
+        cityCode: 125246,
+        cityId: 125246,
+        cityName: "PONNIAH SCHOOL BUILDINGS -TIRUCHY",
+        country: "INDIA",
+        countryId: 6,
+        districtId :596,
+        districtName: "Tiruchirappalli",
+        geoMasterId: 124168,
+        pincode: 620001,
+        stateId: 40,
+        stateName: "TAMIL NADU",
+        threeAlphaCode: "IND"
+      },
+      {
+        cityCode: 125250,
+        cityId: 125250,
+        cityName: "TIRUCHIRAPPALLI R.S. S.O-TIRUCHY",
+        country: "INDIA",
+        countryId: 6,
+        districtId: 596,
+        districtName: "Tiruchirappalli",
+        geoMasterId: 124172,
+        pincode: 620001,
+        stateId: 40,
+        stateName: "TAMIL NADU",
+        threeAlphaCode: "IND"
+      },
+      {
+        cityCode: 125406,
+        cityId: 125406,
+        cityName: "TIRUCHIRAPPALLICOLLECTORATE-TIRUCHY",
+        country: "INDIA",
+        countryId: 6,
+        districtId: 596,
+        districtName: "Tiruchirappalli",
+        geoMasterId: 124328,
+        pincode: 620001,
+        stateId: 40,
+        stateName: "TAMIL NADU",
+        threeAlphaCode: "IND"
+      },
+      {
+        cityCode: 125443,
+        cityId: 125443,
+        cityName: "PUSHPANAGAR S.O-TIRUCHY",
+        country: "INDIA",
+        countryId: 6,
+        districtId: 596,
+        districtName: "Tiruchirappalli",
+        geoMasterId: 124365,
+        pincode: 620001,
+        stateId: 40,
+        stateName: "TAMIL NADU",
+        threeAlphaCode: "IND"
+      },
+      {
+        cityCode: 125454,
+        cityId: 125454,
+        cityName: "TIRUCHIRAPPALLI CANTONMENT -TIRUCHY",
+        country: "INDIA",
+        countryId: 6,
+        districtId: 596,
+        districtName: "Tiruchirappalli",
+        geoMasterId: 124376,
+        pincode: 620001,
+        tateId: 40,
+        stateName: "TAMIL NADU",
+        threeAlphaCode: "IND"
+      },
+      {
+        cityCode: 125502,
+        cityId: 125502,
+        cityName: "TIRUCHIRAPPALLI H.O-TIRUCHY",
+        country: "INDIA",
+        countryId: 6,
+        districtId: 596,
+        districtName: "Tiruchirappalli",
+        geoMasterId: 124424,
+        pincode: 620001,
+        stateId: 40,
+        stateName: "TAMIL NADU",
+        threeAlphaCode: "IND"
+      },
+      {
+        cityCode: 125581,
+        cityId: 125581,
+        cityName: "PONNAGAR S.O-TIRUCHY",
+        country: "INDIA",
+        countryId: 6,
+        districtId: 596,
+        districtName: "Tiruchirappalli",
+        geoMasterId: 124503,
+        pincode: 620001,
+        stateId: 40,
+        stateName: "TAMIL NADU",
+        threeAlphaCode: "IND"
+      },      {
+        cityCode: 160391,
+        cityId: 160391,
+        cityName: "TIRUCHIRAPPALLI",
+        country: "INDIA",
+        countryId: 6,
+        districtId: 596,
+        districtName: "Tiruchirappalli",
+        eoMasterId: 252064,
+        pincode: 620001,
+        stateId: 40,
+        stateName: "TAMIL NADU",
+        threeAlphaCode: "IND",
+      }
+    ],
+    house: "PLOT NO 96",
+    state: "Tamil Nadu",
+    street: "8TH CROSS STREET",
+    villageTownOrCity: "Tiruchirappalli"
+
+
+  };
 
   constructor(
     private labelsData: LabelsService,
@@ -610,6 +766,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         if (id === 'permanentPincode') {
           this.permanentPincode = value;
           formGroupName = 'permentAddress';
+          console.log('this.permanentPincode',this.permanentPincode)
         }
         if (id === 'currentPincode') {
           this.currentPincode = value;
@@ -623,6 +780,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.communicationPincode = value;
           formGroupName = 'communicationAddress';
         }
+
         setTimeout(() => {
           // this.setDefaultValueForAddress(value, formGroupName);
         });
@@ -891,7 +1049,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         : {};
       if (indivIdentityInfoDetails.panType === '1PANTYPE') {
         //this.panPattern = this.panFormPattern;
-        this.isPanDisabled= true;
+        this.isPanDisabled = true;
       }
       details.pan = indivIdentityInfoDetails.pan;
       details.aadhar = indivIdentityInfoDetails.aadhar;
@@ -926,10 +1084,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       const corporateProspectDetails = this.applicant.corporateProspectDetails
         ? this.applicant.corporateProspectDetails
         : {};
-        if (corporateProspectDetails.panType === '1PANTYPE') {
-          //this.panPattern = this.panFormPattern;
-          this.isPanDisabled= true;
-        }
+      if (corporateProspectDetails.panType === '1PANTYPE') {
+        //this.panPattern = this.panFormPattern;
+        this.isPanDisabled = true;
+      }
       details.tanNumber = corporateProspectDetails.tanNumber;
       details.gstNumber = corporateProspectDetails.gstNumber;
       details.cstVatNumber = corporateProspectDetails.cstVatNumber;
@@ -1465,7 +1623,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       if (
         this.coApplicantForm.get('dedupe').invalid ||
         this.coApplicantForm.get('currentAddress').invalid ||
-        this.coApplicantForm.get('permentAddress').invalid
+        this.coApplicantForm.get('permentAddress').invalid ||
+        this.panValidate
 
       ) {
         this.isDirty = true;
@@ -1474,13 +1633,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           'Applicant Details'
         );
         return;
-      } else if (this.panValidate) {
-        this.toasterService.showError(
-          'Invalid Pan Number.',
-          ''
-        );
-        return;
-      }
+      } 
+      // else if (this.panValidate) {
+      //   this.toasterService.showError(
+      //     'Invalid Pan Number.',
+      //     ''
+      //   );
+      //   return;
+      // }
 
       this.storeIndividualValueInService(coApplicantModel);
       this.applicantDataService.setCorporateProspectDetails(null);
@@ -1497,7 +1657,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           'Applicant Details'
         );
         return;
-      }
+      } 
+      // else if (this.panValidate) {
+      //   this.toasterService.showError(
+      //     'Invalid Pan Number.',
+      //     ''
+      //   );
+      //   return;
+      // }
       this.storeNonIndividualValueInService(coApplicantModel);
       this.applicantDataService.setIndividualProspectDetails(null);
       this.applicantDataService.setIndivIdentityInfoDetails(null);
@@ -1928,13 +2095,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       }
       this.applicantService.wrapperPanValidaion(data).subscribe((responce) => {
         //console.log('responce Pan Validation', responce)
-        if (responce['ProcessVariables'].error == '0') {
-          this.toasterService.showSuccess('Pan Validate Successfully', '');
+        if (responce['ProcessVariables'].error.code == '0') {
+          this.toasterService.showSuccess(responce['ProcessVariables'].error.message,
+           'Pan Validate Successfully');
         } else {
           this.panValidate = true;
           this.toasterService.showError(
             responce['ProcessVariables'].error.message,
-            'Pan validation'
+            'Pan validation Error'
           );
         }
       })
@@ -1959,6 +2127,45 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.isGstNumberChanged = false;
     this.isTanNumberChanged = false;
   }
+
+  calleKYC(){
+    // const data ={
+    //   applicantId : this.applicantId,
+    //   ekycRequest : "test"
+    // }
+    // this.applicantService.wrapperBiometriceKYC(data).subscribe((response)=>{
+    //   console.log('responce eKYC', response)
+    // })
+    const value= this.biometricResponce;
+    this.setBiometricValues(value)
+  }
+
+  setBiometricValues(value){
+    console.log('value', value)
+    const dedupe = this.coApplicantForm.get('dedupe');
+    const dob=  value.dobFromResponse;
+    value.dobFromResponse= dob.split('-').join('/');
+    dedupe.patchValue({
+      name1: value.firstName,
+      name2: value.middleName,
+      name3: value.lastName,
+      dob: new Date(this.utilityService.getDateFromString(value.dobFromResponse))
+    })
+     const permanantAddress= this.coApplicantForm.get('permentAddress');
+     permanantAddress.patchValue({
+       addressLineOne : value.addressLineOne,
+       addressLineTwo : value.addressLineTwo,
+       addressLineThree : value.addressLineThree,
+       pincode : value.pincode
+
+     })
+
+     const id='permanentPincode'
+     const pincode = Number(value.pincode);
+     this.getPincodeResult(pincode, id);
+    
+        
+ }
 
   listenerForUnique() {
     const dedupe = this.coApplicantForm.get('dedupe');
@@ -2172,4 +2379,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     console.log('negativeListModalListener', event);
   }
+
+
+
+
+
+
 }

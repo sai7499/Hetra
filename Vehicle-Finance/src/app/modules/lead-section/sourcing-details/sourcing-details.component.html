@@ -67,7 +67,7 @@
       </div>
 
       <div class="row">
-        <div class="form-group col-lg-3 col-sm-6 col-md-6 col-xs-3">
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="lead_number">{{ labels?.leadNumber }}</label>
           <input
             formControlName="leadNumber"
@@ -245,6 +245,7 @@
               [patternCheck]="regexPattern.amount"
               [isDirty]="isDirty"
               [type]="'number'"
+              [custom]="tenureMonthlyValidation"
               >
             </app-custom-input>
         </div>
@@ -257,6 +258,6 @@
     </div>
     <div class="col-sm-7 text-right">
         <button (click)="saveAndUpdate()" class="btn btn-primary mar-right8" type="button">Save </button>&nbsp;
-        <button (click)="nextToApplicant()"  class="btn btn-primary js-btn-next" type="button"> Next </button>
+        <button (click)="nextToApplicant()"  class="btn btn-primary mar-right8 -btn-next" type="button"> Next </button>
     </div>
 </div>

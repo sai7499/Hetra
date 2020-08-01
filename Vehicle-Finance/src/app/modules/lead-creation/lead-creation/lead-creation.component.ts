@@ -83,6 +83,7 @@ export class LeadCreationComponent implements OnInit {
   namePattern: string;
   nameLength: number;
   mobileLength: number;
+  fullName: string;
 
   loanLeadDetails: {
     bizDivision: string;
@@ -188,6 +189,7 @@ export class LeadCreationComponent implements OnInit {
     if (!roleAndUserDetails) {
       return;
     }
+    console.log(roleAndUserDetails, 'Test')
     this.getBusinessDivision(roleAndUserDetails);
 
     this.branchId = roleAndUserDetails.userDetails.branchId;
@@ -407,9 +409,9 @@ export class LeadCreationComponent implements OnInit {
     (this.applicantType === 'INDIVENTTYP') ? this.onIndividual() : this.onNonIndividual();
     setTimeout(() => {
       const nameOne = this.createLeadForm.controls['nameOne'].value;
-      this.createLeadForm.controls['nameOne'].setValue(nameOne || null);
+      this.createLeadForm.controls['nameOne'].setValue(nameOne || '');
       const nameThree = this.createLeadForm.controls['nameThree'].value;
-      this.createLeadForm.controls['nameThree'].setValue(nameThree || null);
+      this.createLeadForm.controls['nameThree'].setValue(nameThree || '');
     });
   }
 
