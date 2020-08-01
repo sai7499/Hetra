@@ -15,6 +15,7 @@ import { BehaviorSubject } from 'rxjs';
 import { UtilityService } from '@services/utility.service';
 import { ToasterService } from '@services/toaster.service';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
+import { debounce } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sourcing-details',
@@ -432,6 +433,7 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   onSourcingCodeSearch(event) {
+   
     let inputString = event;
     let sourcingCode = [];
     console.log('inputString', event);
@@ -439,7 +441,8 @@ export class SourcingDetailsComponent implements OnInit {
     console.log('sourcingCode', sourcingCode);
     let sourcingCodeType: string = sourcingCode[0].sourcingCodeType;
     let sourcingSubCodeType: string = sourcingCode[0].sourcingSubCodeType;
-    this.createLeadService.sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString).subscribe((res: any) => {
+    this.createLeadService.sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString)
+      .subscribe((res: any) => {
       const response = res;
       const appiyoError = response.Error;
       const apiError = response.ProcessVariables.error.code;

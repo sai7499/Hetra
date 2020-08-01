@@ -3,15 +3,22 @@ import { HttpService } from './http.service';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Injectable()
 export class UtilityService {
-  constructor(private httpService: HttpService, private router: Router) { }
+  constructor(private httpService: HttpService, private router: Router,
+    private ngxUiLoaderService: NgxUiLoaderService) { }
 
   logOut() {
     this.httpService.logOut().subscribe(
-      (res) => { },
-      (error) => { }
+      (res) => { 
+        this.ngxUiLoaderService.stop();
+      },
+      (error) => { 
+        this.ngxUiLoaderService.stop();
+      }
+      
     );
     localStorage.removeItem('token');
     localStorage.removeItem('roles');

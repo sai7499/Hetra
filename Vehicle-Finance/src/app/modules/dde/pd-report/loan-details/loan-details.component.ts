@@ -240,7 +240,7 @@ export class LoanDetailsComponent implements OnInit {
       vehicleHpaNbfc: new FormControl(''),
       engineNumber: new FormControl(''),
       chasisNumber: new FormControl(''),
-      permitValidity: new FormControl('', Validators.compose([Validators.required])),
+      permitValidity: new FormControl('', Validators.required),
       fitnessValidity: new FormControl('', Validators.compose([Validators.required])),
       taxValidity: new FormControl('', Validators.compose([Validators.required])),
       insuranceCopyVerified: new FormControl(''),
