@@ -1,23 +1,25 @@
-import { Component, OnInit } from "@angular/core";
-import { LabelsService } from "@services/labels.service";
+import { Component, OnInit } from '@angular/core';
+import { LabelsService } from '@services/labels.service';
 import {
   FormGroup,
   FormBuilder,
   FormArray,
   Validators,
   FormControl,
-} from "@angular/forms";
-import { CommomLovService } from "@services/commom-lov-service";
-import { ToasterService } from "@services/toaster.service";
-import { OdDetailsService } from "@services/od-details.service";
-import { ActivatedRoute, Router } from "@angular/router";
-import { ApplicantDataStoreService } from "@services/applicant-data-store.service";
-import { UtilityService } from "@services/utility.service";
+} from '@angular/forms';
+import { CommomLovService } from '@services/commom-lov-service';
+import { ToasterService } from '@services/toaster.service';
+import { OdDetailsService } from '@services/od-details.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
+import { UtilityService } from '@services/utility.service';
+import { ApplicantImageService } from '@services/applicant-image.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
-  selector: "app-cibil-od-list",
-  templateUrl: "./cibil-od-list.component.html",
-  styleUrls: ["./cibil-od-list.component.css"],
+  selector: 'app-cibil-od-list',
+  templateUrl: './cibil-od-list.component.html',
+  styleUrls: ['./cibil-od-list.component.css'],
 })
 export class CibilOdListComponent implements OnInit {
   labels: any;
@@ -41,7 +43,7 @@ export class CibilOdListComponent implements OnInit {
   odDetails: any;
   applicantType: any;
   odApplicantData: any;
-  isDirty = false
+  isDirty = false;
   isODModelShow: boolean;
   rowIndex;
   errorMessage;
@@ -49,7 +51,9 @@ export class CibilOdListComponent implements OnInit {
   rowoIndex: any;
   isSixtyModelShow: boolean;
   selctedProof: any;
-  unamePattern = "^[a-z0-9_-]{8,15}$";
+  unamePattern = '^[a-z0-9_-]{8,15}$';
+  imageUrl: any;
+  cibilImage: any;
   constructor(
     private labelService: LabelsService,
     private formBuilder: FormBuilder,
@@ -60,6 +64,8 @@ export class CibilOdListComponent implements OnInit {
     private router: Router,
     private applicantDataService: ApplicantDataStoreService,
     private utilityService: UtilityService,
+    private applicantImageService: ApplicantImageService,
+    private domSanitizer: DomSanitizer
   ) {
     this.odAccountDetailsArray = this.formBuilder.array([]);
     this.AssetBureauEnquiryArray = this.formBuilder.array([]);
@@ -71,7 +77,7 @@ export class CibilOdListComponent implements OnInit {
       this.labels = res;
     });
     this.getLeadId();
-    this.userId = localStorage.getItem("userId");
+    this.userId = localStorage.getItem('userId');
 
     this.activatedRoute.params.subscribe((value) => {
       if (!value && !value.applicantId) {
@@ -86,28 +92,28 @@ export class CibilOdListComponent implements OnInit {
       AssetBureauEnquiry: this.AssetBureauEnquiryArray,
       AssetBureauEnquirySixtyDays: this.AssetBureauEnquirySixtyDaysArray,
       totalAmount: this.totalOdAmount,
-      highDpd6m: [""],
-      highDpd12m: [""],
-      writtenOffLoans: [""],
-      writtenOffLoansWithSuite: [""],
-      lossLoans: [""],
-      settledLoans: [""],
-      clearanceProofCollected: [""],
+      highDpd6m: [''],
+      highDpd12m: [''],
+      writtenOffLoans: [''],
+      writtenOffLoansWithSuite: [''],
+      lossLoans: [''],
+      settledLoans: [''],
+      clearanceProofCollected: [''],
       clearanceProof: [null],
-      justification: new FormControl(null,[
+      justification: new FormControl(null, [
         Validators.required,
         Validators.maxLength(200),
         Validators.pattern(
           /^[a-zA-Z0-9 ]*$/
               ),
     ])
-      
+
       });
     this.getLov();
     this.getOdDetails();
     this.getOdApplicant();
     console.log(this.odDetailsForm.value.clearanceProof);
-    
+
   }
 
   getLov() {
@@ -135,7 +141,7 @@ export class CibilOdListComponent implements OnInit {
   onSelectLoan(event, i) {
     this.selctedLoan[i] = event;
     console.log(this.selctedLoan);
-    this.selectedLoanType = this.selctedLoan[i]
+    this.selectedLoanType = this.selctedLoan[i];
   }
   onSelectProof(event) {
     this.selctedProof = null;
@@ -146,20 +152,20 @@ export class CibilOdListComponent implements OnInit {
   private getodListDetails(data?: any) {
     if (data === undefined) {
       return this.formBuilder.group({
-        odType: [""],
-        odAmount: [""],
-        typeOfLoan: [""],
-        otherTypeOfLoan: [""],
-        odDpd: [""],
+        odType: [''],
+        odAmount: [''],
+        typeOfLoan: [''],
+        otherTypeOfLoan: [''],
+        odDpd: [''],
       });
     } else {
       return this.formBuilder.group({
         id: [data.id ? data.id : null],
-        odType: [data.odType ? data.odType : ""],
-        odAmount: [data.odAmount ? data.odAmount : ""],
-        typeOfLoan: [data.typeOfLoan ? data.typeOfLoan : ""],
-        otherTypeOfLoan: [data.otherTypeOfLoan ? data.otherTypeOfLoan : ""],
-        odDpd: [data.odDpd ? data.odDpd : ""],
+        odType: [data.odType ? data.odType : ''],
+        odAmount: [data.odAmount ? data.odAmount : ''],
+        typeOfLoan: [data.typeOfLoan ? data.typeOfLoan : ''],
+        otherTypeOfLoan: [data.otherTypeOfLoan ? data.otherTypeOfLoan : ''],
+        odDpd: [data.odDpd ? data.odDpd : ''],
       });
     }
   }
@@ -181,13 +187,13 @@ export class CibilOdListComponent implements OnInit {
       if (id == undefined) {
 
         this.odAccountDetailsArray.removeAt(i);
-        this.toasterService.showInfo("Row is Removed", "OD Details")
+        this.toasterService.showInfo('Row is Removed', 'OD Details');
         this.isODModelShow = false;
         this.onOdAmount(null, i);
 
       } else {
         const body = {
-          id: id,
+          id,
           userId: this.userId,
         };
         this.odDetailsService
@@ -195,7 +201,7 @@ export class CibilOdListComponent implements OnInit {
           .subscribe((res: any) => {
             this.odAccountDetailsArray.removeAt(i);
             const message = res.ProcessVariables.error.message;
-            this.toasterService.showSuccess(message, "");
+            this.toasterService.showSuccess(message, '');
             this.isODModelShow = false;
             this.onOdAmount(null, i);
 
@@ -207,22 +213,22 @@ export class CibilOdListComponent implements OnInit {
   private getAssetBureauEnquiry(data?: any) {
     if (data === undefined) {
       return this.formBuilder.group({
-        memberType: [""],
-        enquiryDate: [""],
-        typeOfLoan: [""],
-        amount: [""],
+        memberType: [''],
+        enquiryDate: [''],
+        typeOfLoan: [''],
+        amount: [''],
       });
     } else {
       return this.formBuilder.group({
         id: [data.id ? data.id : null],
-        memberType: [data.memberType ? data.memberType : ""],
+        memberType: [data.memberType ? data.memberType : ''],
         enquiryDate: [
           data.enquiryDate
             ? this.utilityService.getDateFromString(data.enquiryDate)
-            : "",
+            : '',
         ],
-        typeOfLoan: [data.typeOfLoan ? data.typeOfLoan : ""],
-        amount: [data.amount ? data.amount : ""],
+        typeOfLoan: [data.typeOfLoan ? data.typeOfLoan : ''],
+        amount: [data.amount ? data.amount : ''],
       });
     }
   }
@@ -242,11 +248,11 @@ export class CibilOdListComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         this.AssetBureauEnquiryArray.removeAt(i);
-        this.toasterService.showInfo("Row is Removed", "Last Thirty Days Loan Details")
+        this.toasterService.showInfo('Row is Removed', 'Last Thirty Days Loan Details');
         this.isThirtyModelShow = false;
       } else {
         const body = {
-          id: id,
+          id,
           userId: this.userId,
         };
         this.odDetailsService
@@ -265,22 +271,22 @@ export class CibilOdListComponent implements OnInit {
   private getAssetBureauEnquirySixtyDays(data?: any) {
     if (data === undefined) {
       return this.formBuilder.group({
-        memberType: [""],
-        enquiryDate: [""],
-        typeOfLoan: [""],
-        amount: [""],
+        memberType: [''],
+        enquiryDate: [''],
+        typeOfLoan: [''],
+        amount: [''],
       });
     } else {
       return this.formBuilder.group({
         id: [data.id ? data.id : null],
-        memberType: [data.memberType ? data.memberType : ""],
+        memberType: [data.memberType ? data.memberType : ''],
         enquiryDate: [
           data.enquiryDate
             ? this.utilityService.getDateFromString(data.enquiryDate)
-            : "",
+            : '',
         ],
-        typeOfLoan: [data.typeOfLoan ? data.typeOfLoan : ""],
-        amount: [data.amount ? data.amount : ""],
+        typeOfLoan: [data.typeOfLoan ? data.typeOfLoan : ''],
+        amount: [data.amount ? data.amount : ''],
       });
     }
   }
@@ -304,11 +310,11 @@ export class CibilOdListComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         this.AssetBureauEnquirySixtyDaysArray.removeAt(i);
-        this.toasterService.showInfo("Row is Removed", "Last Thirty Days Loan Details")
+        this.toasterService.showInfo('Row is Removed', 'Last Thirty Days Loan Details');
         this.isSixtyModelShow = false;
       } else {
         const body = {
-          id: id,
+          id,
           userId: this.userId,
         };
         this.odDetailsService
@@ -336,7 +342,7 @@ export class CibilOdListComponent implements OnInit {
     this.odDetailsService.getOdDetails(body).subscribe((res: any) => {
       this.odDetails = res.ProcessVariables;
       console.log(this.odDetails);
-      
+
       this.addLastThirtyDaysLoan(res.ProcessVariables.bureauEnq30days);
       this.addLastSixtyDaysLoan(res.ProcessVariables.bureauEnq60days);
 
@@ -374,14 +380,14 @@ export class CibilOdListComponent implements OnInit {
         this.odDetailsForm.patchValue({
           clearanceProof: this.odDetails.assetAppOdDetails.clearanceProof,
         });
-       
-        
+
+
         this.odDetailsForm.patchValue({
           justification: this.odDetails.assetAppOdDetails.justification,
         });
       }
     });
-   
+
   }
   getOdApplicant() {
     const body = {
@@ -399,8 +405,8 @@ export class CibilOdListComponent implements OnInit {
     // stop here if form is invalid
     if (this.odDetailsForm.invalid) {
       this.toasterService.showError(
-        "Fields Missing Or Invalid Pattern Detected",
-        "OD Details"
+        'Fields Missing Or Invalid Pattern Detected',
+        'OD Details'
       );
       return;
     } else {
@@ -417,7 +423,7 @@ export class CibilOdListComponent implements OnInit {
         ele.memberType = ele.memberType.toString();
         ele.enquiryDate = this.utilityService.convertDateTimeTOUTC(
           ele.enquiryDate,
-          "DD/MM/YYYY"
+          'DD/MM/YYYY'
         );
         ele.typeOfLoan = ele.typeOfLoan.toString();
         ele.amount = ele.amount.toString();
@@ -427,7 +433,7 @@ export class CibilOdListComponent implements OnInit {
         ele.memberType = ele.memberType.toString();
         ele.enquiryDate = this.utilityService.convertDateTimeTOUTC(
           ele.enquiryDate,
-          "DD/MM/YYYY"
+          'DD/MM/YYYY'
         );
         ele.typeOfLoan = ele.typeOfLoan.toString();
         ele.amount = ele.amount.toString();
@@ -462,10 +468,10 @@ export class CibilOdListComponent implements OnInit {
 
       this.odDetailsService.saveParentOdDetails(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
-        if (res && res.ProcessVariables.error.code == "0") {
+        if (res && res.ProcessVariables.error.code == '0') {
           // tslint:disable-next-line: prefer-const
 
-          let odAccountDetailsControls = this.odDetailsForm.controls
+          const odAccountDetailsControls = this.odDetailsForm.controls
             .odAccountDetails as FormArray;
           odAccountDetailsControls.controls = [];
           const AssetBureauEnquiryControls = this.odDetailsForm.controls
@@ -475,11 +481,11 @@ export class CibilOdListComponent implements OnInit {
             .controls.AssetBureauEnquirySixtyDays as FormArray;
           AssetBureauEnquirySixtyDaysControls.controls = [];
           this.toasterService.showSuccess(
-            "Saved Successfully",
-            "OD Details"
+            'Saved Successfully',
+            'OD Details'
           );
           this.getOdDetails();
-          
+
         }
       });
     }
@@ -504,16 +510,50 @@ export class CibilOdListComponent implements OnInit {
   showOdModel(i) {
     this.rowIndex = i;
     this.isODModelShow = true;
-    this.errorMessage = "Are sure to remove row";
+    this.errorMessage = 'Are sure to remove row';
   }
   showThirtyModel(i) {
     this.rowoIndex = i;
     this.isThirtyModelShow = true;
-    this.errorMessage = "Are sure to remove row";
+    this.errorMessage = 'Are sure to remove row';
   }
   showSixtyModel(i) {
     this.rowIndex = i;
     this.isSixtyModelShow = true;
-    this.errorMessage = "Are sure to remove row";
+    this.errorMessage = 'Are sure to remove row';
   }
+  //  logic to get cibil response
+  getApplicantImage() {
+
+    // tslint:disable-next-line: triple-equals
+    if ( this.imageUrl != null) {
+       this.cibilImage = this.imageUrl;
+       return;
+    } else {
+     const body = {
+       applicantId: this.applicantId
+     };
+    //  this.backupApplicantId = applicantID;
+     this.applicantImageService.getApplicantImageDetails(body).subscribe((res: any) => {
+       // tslint:disable-next-line: triple-equals
+       if (res.ProcessVariables.error.code == '0') {
+         console.log(res);
+         const imageUrl = res.ProcessVariables.response;
+         console.log(imageUrl);
+         this.imageUrl = imageUrl;
+         this.imageUrl = atob(this.imageUrl); // decoding base64 string to get xml file
+         this.imageUrl = this.domSanitizer.bypassSecurityTrustHtml(this.imageUrl); // sanitizing xml doc for rendering with proper css
+         this.cibilImage = this.imageUrl;
+       } else {
+         this.imageUrl = res.ProcessVariables.error.message;
+         this.cibilImage = res.ProcessVariables.error.message;
+       }
+     });
+    }
+   }
+ destroyImage() {
+     if (this.cibilImage) {
+      this.cibilImage = null;
+     }
+   }
 }

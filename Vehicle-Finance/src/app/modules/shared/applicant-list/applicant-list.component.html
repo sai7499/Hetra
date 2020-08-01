@@ -62,8 +62,11 @@
                   data-target="#myModal"
                   (click)="softDeleteApplicant(i, item.applicantId)"
                   title="Delete applicant"><i  class="fa fa-trash" aria-hidden="true"></i
-                ></a>
+                ></a> &nbsp;&nbsp;
+                <a (click)="getApplicantImage(item.applicantId)" data-toggle="modal"
+                data-target="#myModalApplicantImage"  > <strong>CB</strong></a>
               </td>
+             
             </tr>
             <!-- <tr>
                 <td>-</td>
@@ -157,8 +160,29 @@
         >
           Yes
         </button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" >
           Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="myModalApplicantImage"   >
+  <div class="modal-dialog  modal-style">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">CIBIL Response For Applicant.</h4>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+
+      <div class="modal-body" >
+        <!-- <img [src]="imageUrl" > -->
+        <div [innerHTML]="cibilImage"  ></div>     
+      <div class="modal-footer text-center">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="destroyImage()">
+          Close
         </button>
       </div>
     </div>

@@ -20,6 +20,7 @@ td a{
   cursor: pointer;
 }
 
+<<<<<<< HEAD
 table { 
   width: 100%; 
   table-layout: fixed;
@@ -113,3 +114,11 @@ td:before {
       content: attr(data-item-value);
       }
 } */
+=======
+/* style for modal */
+
+.modal-style{
+  width:85%;
+  margin:auto;
+}
+>>>>>>> 6ea380bfd82899d127920e18228a5de579fd03bd
