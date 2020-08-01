@@ -206,7 +206,7 @@ export class ViabilityDetailsComponent implements OnInit {
           console.log(this.viabilityDataObj);
           if (this.viabilityDataObj === null || this.viabilityDataObj === undefined) {
              this.viabilityService.getViabilityList({leadId: this.leadId}).subscribe((res: any) => {
-              res.ProcessVariables.vehicleViabilityDashboardList.filter((dataRes: any) =>{
+              res.ProcessVariables.vehicleViabilityDashboardList.filter((dataRes: any) => {
               if ( dataRes.collateralId === value.collateralId) {
                 this.viabilityDataObj = dataRes;
                 console.log(this.viabilityDataObj);
@@ -238,6 +238,7 @@ export class ViabilityDetailsComponent implements OnInit {
       if ( res.ProcessVariables.error.code == '0') {
        this.toasterService.showSuccess('Record Saved Successfully', 'Viability');
        this.router.navigateByUrl(`pages/dashboard/vehicle-viability/viability-checks`);
+      // tslint:disable-next-line: triple-equals
       } else if (res.ProcessVariables.error.code == '1') {
         this.toasterService.showError(res.ProcessVariables.error.message, 'Viability');
       }
@@ -654,6 +655,9 @@ if (this.router.url.includes('/dde')) {
    passengerGroup.patchValue({
     monthlyRunningKm : this.monthlyRunningKm
   });
+   this.calculatePassengerB();
+  //  this.calculatePassengerC();
+  //  this.calculatePassengerD();
  }
  calculatePassengerB() {
   const passengerGroup = this.viabilityForm.controls.passanger as FormGroup ;
@@ -671,6 +675,10 @@ if (this.router.url.includes('/dde')) {
   passengerGroup.patchValue( {
     tyreCost : tyreCostPass
   });
+  // this.calculatePassenger();
+  // this.calculatePassengerB();
+  this.calculatePassengerC();
+  // this.calculatePassengerD();
  }
  calculatePassengerC() {
   const passengerGroup = this.viabilityForm.controls.passanger as FormGroup ;
@@ -698,6 +706,10 @@ if (this.router.url.includes('/dde')) {
   //   netCashFlow : this.monthlyIncome - expense
   // });
   this.netFlowCash = this.monthlyIncome - expense;
+  // this.calculatePassenger();
+  // this.calculatePassengerB();
+  // this.calculatePassengerC();
+  this.calculatePassengerD();
  }
  calculatePassengerD() {
   const passengerGroup = this.viabilityForm.controls.passanger as FormGroup ;
@@ -706,6 +718,10 @@ if (this.router.url.includes('/dde')) {
   const netFlow = this.monthlyIncome - totalExpenses;
   const emiCal = (netFlow / emi).toFixed(2);
   this.netCashFlowEmiPassenger = Number(emiCal);
+  // this.calculatePassenger();
+  // this.calculatePassengerB();
+  // this.calculatePassengerC();
+  // this.calculatePassengerD();
 }
  calculateStandOperator() {
   this.montlyStandOperatorIncome = 0;
@@ -714,6 +730,9 @@ if (this.router.url.includes('/dde')) {
   const businessEarningPerDay = Number(passengerStandGroup.value.businessEarningPerDay);
   const grossIncomePerDay = Number(passengerStandGroup.value.grossIncomePerDay);
   this.montlyStandOperatorIncome = businessEarningPerDay * grossIncomePerDay;
+  // this.calculateStandOperator();
+  this.calculateStandOperatorB();
+  // this.calculateStandOperatorC();
  }
  calculateStandOperatorB() {
   this.standoperatorExpense = 0;
@@ -731,6 +750,9 @@ if (this.router.url.includes('/dde')) {
   passengerStandGroup.patchValue({
     netCashFlow : ncf
   });
+  // this.calculateStandOperator();
+  // this.calculateStandOperatorB();
+  this.calculateStandOperatorC();
 }
 calculateStandOperatorC() {
   const passengerStandGroup = this.viabilityForm.controls.passangerStandOperator;
@@ -741,6 +763,9 @@ calculateStandOperatorC() {
   const emiCal = Number(calEMI.toFixed(2));
   console.log(calEMI);
   this.standOperatorEmi = (emiCal);
+  // this.calculateStandOperator();
+  // this.calculateStandOperatorB();
+  // this.calculateStandOperatorC();
 }
 calculateCaptive() {
   this.montlyCaptiveIncome = 0;
@@ -750,6 +775,9 @@ calculateCaptive() {
   const businessEarningPerDay = passengerStandGroup.value.businessEarningPerDay ? Number(passengerStandGroup.value.businessEarningPerDay) : 0;
   const grossIncomePerDay = (passengerStandGroup.value.businessIncomePerDay) ? Number(passengerStandGroup.value.businessIncomePerDay) : 0;
   this.montlyCaptiveIncome = businessEarningPerDay * grossIncomePerDay;
+  // this.calculateCaptive();
+  this.calculateCaptiveB();
+  // this.calculateCaptiveC();
  }
  calculateCaptiveB() {
   this.captiveExpense = 0;
@@ -768,6 +796,9 @@ calculateCaptive() {
   passengerStandGroup.patchValue({
     netCashFlowEmi : ncf
   });
+  // this.calculateCaptive();
+  // this.calculateCaptiveB();
+  this.calculateCaptiveC();
 }
 calculateCaptiveC() {
   this.captiveEmi = 0;
@@ -777,5 +808,8 @@ calculateCaptiveC() {
 
   const calEMi = ncf / emi;
   this.captiveEmi = Number(calEMi.toFixed(2));
+  // this.calculateCaptive();
+  // this.calculateCaptiveB();
+  // this.calculateCaptiveC();
 }
 }
