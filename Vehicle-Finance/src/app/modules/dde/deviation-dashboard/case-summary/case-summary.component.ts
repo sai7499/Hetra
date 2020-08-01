@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LabelsService } from '@services/labels.service';
 
 @Component({
   selector: 'app-case-summary',
@@ -7,9 +8,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CaseSummaryComponent implements OnInit {
 
-  constructor() { }
+  public labels: any = {};
+  basicDetails: any = {
+    leadCreatedBy: "Dhanapal",
+    leadCreatedDate: "12-02-2020",
+    product: "New Car"
+  };
+
+  constructor(private labelsData: LabelsService) { }
 
   ngOnInit() {
+
+    this.labelsData.getLabelsData().subscribe(data => {
+      this.labels = data;
+    }, error => {
+      console.log('error', error);
+    });
+
   }
 
 }

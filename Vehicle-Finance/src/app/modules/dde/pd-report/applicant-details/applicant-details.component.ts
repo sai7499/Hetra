@@ -33,69 +33,7 @@ export class ApplicantDetailComponent implements OnInit {
   applicantFullName: any;
   mobileNo: any;
   standardOfLiving: any;
-
-
-  // namePattern = {
-  //   rule: '^[A-Za-z ]{0,99}$',
-  //   msg: 'Invalid Name',
-  // };
-
-
-  maxlength30 = {
-    rule: 30,
-    msg: '',
-  };
-
-  maxlength25 = {
-    rule: 25,
-    msg: '',
-  };
-
-  // landlinePattern = {
-  //   rule: '^[0-9]{6,15}',
-  //   msg: 'Invalid Landline Number',
-  // };
-
-  maxlength15 = {
-    rule: 15,
-    msg: '',
-  };
-
-  // mobileNumberPattern = {
-  //   rule: '^[6-9][0-9]*$',
-  //   msg: 'Invalid Mobile Number',
-  // };
-
-  maxlength10 = {
-    rule: 10,
-    msg: 'Max Required Length 10',
-  };
-
-  // bankAccountNumber = {
-  //   rule: '^[0-9A-Za-z]{9,15}$',
-  //   msg: 'Invalid Account Number',
-  // };
-
-  maxlength18 = {
-    rule: 18,
-    msg: '',
-  };
-
-  // landmarkPattern = {
-  //   rule: '^[0-9A-Za-z, _&*#/\\-@]{0,99}$',
-  //   msg: 'Invalid Landmark',
-  // };
-
-  maxlength40 = {
-    rule: 40,
-    msg: '',
-  };
   version: any;
-  // data: {
-  //   applicantId: number;
-  //   // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
-  //   pdVersion: any;
-  // };
   roleName: string;
   data: any;
   userId: number;
@@ -106,16 +44,16 @@ export class ApplicantDetailComponent implements OnInit {
   roleType: any;
 
   constructor(private labelsData: LabelsService,
-              private lovDataService: LovDataService,
-              private router: Router,
-              private ddeStoreService: DdeStoreService,
-              private commomLovService: CommomLovService,
-              private loginStoreService: LoginStoreService,
-              private personaldiscussion: PersonalDiscussionService,
-              private activatedRoute: ActivatedRoute,
-              private pdDataService: PdDataService,
-              private toasterService: ToasterService,
-              private createLeadDataService: CreateLeadDataService) { }
+    private lovDataService: LovDataService,
+    private router: Router,
+    private ddeStoreService: DdeStoreService,
+    private commomLovService: CommomLovService,
+    private loginStoreService: LoginStoreService,
+    private personaldiscussion: PersonalDiscussionService,
+    private activatedRoute: ActivatedRoute,
+    private pdDataService: PdDataService,
+    private toasterService: ToasterService,
+    private createLeadDataService: CreateLeadDataService) { }
 
   async ngOnInit() {
 
@@ -172,8 +110,9 @@ export class ApplicantDetailComponent implements OnInit {
       //   console.log('in undefined condition version', this.version);
 
       // }
-      this.getLeadSectionData(); // calling get lead section data function in line 179
+      this.getLeadSectionData(); // calling get lead section data function
       this.getPdDetails();
+      // console.log('applicant form', this.applicantForm);
       console.log('Applicant Id In applicant Details Component', this.applicantId);
       console.log('Version In applicant Details Component', this.version);
 
@@ -188,7 +127,7 @@ export class ApplicantDetailComponent implements OnInit {
     // console.log('leadSectionData Lead details', leadSectionData);
     this.leadData = { ...leadSectionData };
     const data = this.leadData;
-    // console.log('in get lead section data', data['applicantDetails']);
+    console.log('in get lead section data', data['applicantDetails']);
 
     // console.log('current app id', this.applicantId);
 
@@ -365,6 +304,8 @@ export class ApplicantDetailComponent implements OnInit {
     });
   }
   onNavigateNext() {
+
+
     if (this.version !== 'undefined') {
 
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile/${this.version}`]);
@@ -375,6 +316,7 @@ export class ApplicantDetailComponent implements OnInit {
 
     }
   }
+
 
   onNavigateBack() {
     console.log('in nav back', this.version);

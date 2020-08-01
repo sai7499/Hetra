@@ -25,6 +25,7 @@ export class DeclinedLeadsWithBranchComponent implements OnInit {
   totalItems: any;
   taskId: any;
   isLoadLead = true;
+  roleType: any;
 
 
   constructor(
@@ -47,6 +48,7 @@ export class DeclinedLeadsWithBranchComponent implements OnInit {
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
+      this.roleType = value.roleType;
     });
     this.getDeclinedLeads(this.itemsPerPage);
   }

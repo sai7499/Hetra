@@ -28,7 +28,7 @@ export class PdDataService {
   setCustomerProfile(custProf: CustomerProfile) {
 
     this.customerProfile = custProf;
-    console.log("in set cust prof", this.customerProfile)
+    // console.log('in set cust prof', this.customerProfile);
   }
 
   getCustomerProfile() {

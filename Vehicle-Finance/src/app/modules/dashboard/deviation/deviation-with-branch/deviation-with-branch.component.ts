@@ -25,6 +25,7 @@ export class DeviationWithBranchComponent implements OnInit {
   currentPage: any;
   totalItems: any;
   isLoadLead = true;
+  roleType: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -46,6 +47,7 @@ export class DeviationWithBranchComponent implements OnInit {
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
+      this.roleType = value.roleType;
     });
     this.getBranchLeads(this.itemsPerPage);
   }
