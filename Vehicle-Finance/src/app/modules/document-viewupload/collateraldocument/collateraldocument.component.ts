@@ -28,9 +28,9 @@ export class CollateraldocumentComponent implements OnInit {
     });
   }
 
-  onVehicleChange(event) {
+  onVehicleChange(value) {
     this.selectedDetails = {
-      id: event.key,
+      id: value.key,
       associatedWith: 1,
     };
   }
