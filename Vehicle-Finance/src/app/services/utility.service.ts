@@ -12,13 +12,13 @@ export class UtilityService {
 
   logOut() {
     this.httpService.logOut().subscribe(
-      (res) => { 
+      (res) => {
         this.ngxUiLoaderService.stop();
       },
-      (error) => { 
+      (error) => {
         this.ngxUiLoaderService.stop();
       }
-      
+
     );
     localStorage.removeItem('token');
     localStorage.removeItem('roles');
@@ -116,15 +116,18 @@ export class UtilityService {
     console.log('JsonObj', JsonObj);
     console.log('key1', key1);
     console.log('value1', value1);
-    JsonObj.map((data: any) => {
-      if (data) {
-        const val = {
-          key: data[key1] ? data[key1] : 0,
-          value: data[value1],
-        };
-        arrayList.push(val);
-      }
-    });
+    if (JsonObj) {
+      JsonObj.map((data: any) => {
+        if (data) {
+          const val = {
+            key: data[key1] ? data[key1] : 0,
+            value: data[value1],
+          };
+          arrayList.push(val);
+        }
+      });
+    }
+
     return this.getUiquJson(arrayList, 'key');
   }
   getDateFromString(date) {
