@@ -175,8 +175,7 @@
               [notFoundTemplate]="notFoundTemplate"
               formControlName="sourcingCode"
               [placeHolder]="sourcingCodePlaceholder"
-              [minQueryLength]="2"
-              [debounceTime]=1000000000
+              [debounceTime]="400"
               [disabled]="isSourchingCode">      
                                          
             </ng-autocomplete>               
@@ -206,7 +205,7 @@
               [notFoundTemplate]="notFoundTemplate"
               formControlName="dealerCode"
               [placeHolder]="'Dealer Code'"
-              [minQueryLength]="2">                                 
+              [debounceTime]="400">                                 
             </ng-autocomplete>               
             <ng-template #dealerCodeTemplate let-item>
             <a [innerHTML]="item.dealorName"></a>
@@ -254,11 +253,11 @@
     </div>
   </form>
 </div>
-<div class="btn-sec clear-both row" id="clickButton">
+<div class="btn-sec clear-both row btn-mar-15" id="clickButton">
     <div class="col-sm-5">
     </div>
-    <div class="col-sm-7 text-right">
-        <button (click)="saveAndUpdate()" class="btn btn-primary mar-right8" type="button">Save </button>&nbsp;
-        <button (click)="nextToApplicant()"  class="btn btn-primary mar-right8 -btn-next" type="button"> Next </button>
+    <div class="col-sm-7 text-right p-0" style="padding-bottom: 2vw;">
+        <button (click)="saveAndUpdate()" class="btn btn-primary " type="button">Save </button>
+        <button (click)="nextToApplicant()"  class="btn btn-primary -btn-next" type="button"> Next </button>
     </div>
 </div>

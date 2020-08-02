@@ -349,9 +349,13 @@ select#select_main_button_leadco {
 }
 
 #clickButton {
-  margin-right: 2px;
-  margin-bottom: 40px;
+  /* margin-right: 2px;
+  margin-bottom: 40px; */
 }
 .fixed {
   position: fixed !important;
+}
+
+.btn-mar-15{
+  margin: 15px;
 }
