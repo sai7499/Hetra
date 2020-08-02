@@ -574,6 +574,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
       // this.uploadPhotoOrSignature(data);
     }
 
+    event.imageUrl = '';
+
     const formArray = this.uploadForm.get(
       `${this.FORM_ARRAY_NAME}_${event.subCategoryCode}`
     ) as FormArray;
@@ -607,6 +609,15 @@ export class ApplicantDocsUploadComponent implements OnInit {
     });
   }
 
+  checkDate(subCategoryCode, index, controlName) {
+    const issueDate = (this.uploadForm.get(
+      this.FORM_ARRAY_NAME + '_' + subCategoryCode
+    ) as FormArray)
+      .at(index)
+      .get(controlName);
+    return issueDate.value && issueDate.errors;
+  }
+
   individualImageUpload(request: DocumentDetails, index: number) {
     this.uploadService
       .saveOrUpdateDocument([request])
@@ -614,7 +625,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
         if (value.Error !== '0') {
           return;
         }
-        this.toasterService.showSuccess('Documents saved successfully', '');
+        this.toasterService.showSuccess('Document uploaded successfully', '');
         console.log('saveOrUpdateDocument', value);
         const processVariables = value.ProcessVariables;
         const documentId = processVariables.documentIds[0];
@@ -700,5 +711,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
           }
         });
       });
+  }
+
+  navigateBack() {
+    this.router.navigateByUrl(localStorage.getItem('currentUrl'));
   }
 }
