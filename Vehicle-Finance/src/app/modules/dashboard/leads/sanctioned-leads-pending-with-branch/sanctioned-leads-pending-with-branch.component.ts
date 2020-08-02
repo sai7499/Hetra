@@ -92,6 +92,7 @@ export class SanctionedLeadsPendingWithBranchComponent implements OnInit {
       fromDate: filterValue.fromDate ? filterValue.fromDate : '',
       toDate: filterValue.toDate ? filterValue.toDate : '',
       productCategory: filterValue.product ? filterValue.product : '',
+      leadStage: filterValue ? filterValue.leadStage : '',
       loanMinAmt: filterValue.loanMinAmt ? filterValue.loanMinAmt : '',
       loanMaxAmt: filterValue.loanMaxAmt ? filterValue.loanMaxAmt : ''
     };

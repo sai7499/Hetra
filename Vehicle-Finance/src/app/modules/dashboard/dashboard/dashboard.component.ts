@@ -55,7 +55,7 @@ export class DashboardComponent implements OnInit {
       loanMaxAmt: ['']
       });
 
-     this.dashboardfilter();
+     this.dashboardFilter();
   }
 
   dateToFormate(date) {
@@ -81,7 +81,8 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  dashboardfilter() {
+  // for getting productCatagory and leadStage
+  dashboardFilter() {
     const data = {
       bizDiv: this.businessDivision
     };
@@ -114,7 +115,7 @@ export class DashboardComponent implements OnInit {
     this.filterFormDetails.fromDate = this.dateToFormate(this.filterFormDetails.fromDate);
     this.filterFormDetails.toDate = this.dateToFormate(this.filterFormDetails.toDate);
     console.log('filter form details', this.filterFormDetails);
-    this.filteredData();
+    // this.filteredData();
     this.dashboardService.filterData(this.filterFormDetails);
   }
 

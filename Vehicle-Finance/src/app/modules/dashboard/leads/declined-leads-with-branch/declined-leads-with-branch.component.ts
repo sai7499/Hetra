@@ -87,12 +87,13 @@ export class DeclinedLeadsWithBranchComponent implements OnInit {
       // tslint:disable-next-line: radix
       perPage: parseInt(this.itemsPerPage),
       myLeads: false,
-      leadId: filterValue.leadId ? filterValue.leadId : '',
-      fromDate: filterValue.fromDate ? filterValue.fromDate : '',
-      toDate: filterValue.toDate ? filterValue.toDate : '',
-      productCategory: filterValue.product ? filterValue.product : '',
-      loanMinAmt: filterValue.loanMinAmt ? filterValue.loanMinAmt : '',
-      loanMaxAmt: filterValue.loanMaxAmt ? filterValue.loanMaxAmt : ''
+      leadId: filterValue ? filterValue.leadId : '',
+      fromDate: filterValue ? filterValue.fromDate : '',
+      toDate: filterValue ? filterValue.toDate : '',
+      productCategory: filterValue ? filterValue.product : '',
+      leadStage: filterValue ? filterValue.leadStage : '',
+      loanMinAmt: filterValue ? filterValue.loanMinAmt : '',
+      loanMaxAmt: filterValue ? filterValue.loanMaxAmt : ''
     };
     this.responseForCredit(data);
   }
