@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  version: '0.7.5',
+  version: '0.7.6',
   buildDate: '01/08/2020',
   apiVersion: {
     login: 'v3/',

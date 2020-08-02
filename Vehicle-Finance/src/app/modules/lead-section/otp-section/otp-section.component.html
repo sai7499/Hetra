@@ -80,6 +80,12 @@
                         <div *ngIf="otpForm.get('otp').errors?.minlength || otpForm.get('otp').errors?.maxlength">
                         </div>
                     </div>
+                   
+                    <!-- <div class="col-lg-4">
+                        <button class="btn  btn-primary" id="resendotp_button" (click)=sendOtp()> Resend OTP </button>
+                    </div> -->
+                </div>
+                <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-3 col-12">
                         <button class="btn  btn-primary otp-button " id="resendotp_button" (click)=sendOtp()> Resend OTP </button>
                     </div>
@@ -89,9 +95,6 @@
                             OTP</button>
                         <!-- <button class="btn btn-primary " id="otp_button " (click)=sendOtp()> Resend OTP </button> -->
                     </div>
-                    <!-- <div class="col-lg-4">
-                        <button class="btn  btn-primary" id="resendotp_button" (click)=sendOtp()> Resend OTP </button>
-                    </div> -->
                 </div>
             </div>
             <!-- </div> -->            
