@@ -568,8 +568,8 @@ export class ApiService {
       projectId: environment.projectIds.salesProjectId,
     },
     wrapperBiometriceKYC: {
-      processId: 'b95e7cfad0b311ea9f0400505695f93b',
-      workflowId: 'b93fc6e8d0b311eab67600505695f93b',
+      processId: 'b918564cd3b211ea93de00505695f93b',
+      workflowId: ' b90074dcd3b211eabfae00505695f93b',
       projectId: environment.projectIds.wrapperBiometriceKYC,
     },
     getApplicantDataImage: {

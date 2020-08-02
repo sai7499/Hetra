@@ -964,7 +964,8 @@
                     <a class="back_color">Back</a>
                   </button>
                 </div>
-                <!-- <div  class="form-group col-sm-6 col-md-4 col-lg-4 margin-top-20">
+                <div  class="form-group col-sm-6 col-md-4 col-lg-4 margin-top-20"
+                *ngIf="showEkycbutton && applicantType == 'INDIVENTTYP'">
                   <button
                     class="btn btn-primary mar-right8"
                     type="button"
@@ -972,7 +973,7 @@
                   >
                     <a class="back_color">eKYC Mobile</a>
                   </button>
-                </div> -->
+                </div>
               </div>
             </div>
             
@@ -995,8 +996,7 @@
                   !isCinNumberChanged &&
                   !isAadharChanged &&
                   !isPanChanged &&
-                  !isName1Changed)
-              "
+                  !isName1Changed)"
               
             >
               <div

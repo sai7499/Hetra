@@ -34,6 +34,7 @@
     "mobile": "Mobile",
     "dateOfBirth": "Date of Birth",
     "dateofIncorporation": "Date Of Incorporation",
+    
     "cancel": "Cancel",
     "createLead": "Create Lead",
     "leadDedupetitle": "Lead to Lead Dedupe Results",
@@ -973,7 +974,6 @@
     "typeOfAccommmodation": "Type of Accommodation",
     "periodOfCurrentStayInYears": "Period of Current Stay (in Years)",
     "alternateMobileNumber": "Alternate Mobile Number",
-    "nearestLandmark" : "Nearest Landmark",
     "officeAddress": "Office Address",
     "registeredAddress": "Registered Address",
     "documentUpload": "Document upload",
@@ -1412,7 +1412,7 @@
         },
         "landMark": {
             "maxLength": {
-                "rule": 40
+                "rule": 60
             },
             "pattern": {
                 "rule": "^[0-9A-Za-z, _&*#/\\-@]{0,99}$",

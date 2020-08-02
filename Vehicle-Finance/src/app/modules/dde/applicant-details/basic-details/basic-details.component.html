@@ -708,14 +708,18 @@
               <!-- <select class="form-control" id="nationality" name="nationality">
                                     <option>Select</option>
                                 </select> -->
-              <app-vf-custom-select
+              <!-- <app-vf-custom-select
                 formControlName="nationality"
                 [values]="LOV.LOVS.nationality"
                 [isRequired]="'Please select one'"
                 [isDirty]="isDirty"
               >
-                ></app-vf-custom-select
-              >
+                ></app-vf-custom-select> -->
+              <app-custom-input formControlName="nationality"
+                [type]="validationData?.name.type"
+                [isRequired]="'Nationality is Required'" 
+                [isDirty]="isDirty">
+              </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
               <label for="preffered_language"
