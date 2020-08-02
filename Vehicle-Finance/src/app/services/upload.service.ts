@@ -32,7 +32,7 @@ export class UploadService {
           timestamp: moment.utc().format(),
           authInfo: {
             brnchId: Number(localStorage.getItem('branchId')),
-            usrId: Number(localStorage.getItem('userId')),
+            usrId: localStorage.getItem('userId'),
           },
         },
         msgBdy: {

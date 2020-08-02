@@ -122,7 +122,8 @@
               </ng-template>
             </div>
           </div>
-        
+        </div>
+        <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_code">Dealer Code
               <sub class="star_blue_col">*</sub>
@@ -213,18 +214,6 @@
               [isDirty]="isDirty">
             </app-vf-custom-select>
           </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-8"  *ngIf="applicantType == 'INDIVENTTYP'">
-            <label for="entity">Full Name </label>
-            <!-- <label for="entity">{{createLeadForm.value.nameOne | json}} </label> -->
-            <input 
-              disabled 
-              type="text" 
-              class="form-control mandatory select2"
-              placeholder="Full Name"
-              [value]="createLeadForm.controls.nameOne.value +' '+ createLeadForm.controls.nameTwo.value+' '+ createLeadForm.controls.nameThree.value"/>
-              <!-- <div class="form-control">{{createLeadForm.controls.nameOne.value +' '+ createLeadForm.controls.nameTwo.value+' '+ createLeadForm.controls.nameThree.value}}
-                </div> -->
-          </div> 
         </div>
 
         <div class="row individual_section_leadco">
@@ -279,6 +268,17 @@
               [type]="namePattern">
             </app-custom-input>
           </div>
+
+          <div class="form-group col-sm-6 col-md-4 col-lg-3"  *ngIf="applicantType == 'INDIVENTTYP'">
+            <label for="entity">Full Name </label>
+            <!-- <label for="entity">{{createLeadForm.value.nameOne | json}} </label> -->
+            <input 
+              disabled 
+              type="text" 
+              class="form-control mandatory select2"
+              placeholder="Full Name"
+              [value]="createLeadForm.controls.nameOne.value +' '+ createLeadForm.controls.nameTwo.value+' '+ createLeadForm.controls.nameThree.value"/>
+          </div> 
         
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="mobile">{{ labels.mobile }} <sub class="star_red_col">*</sub></label>
