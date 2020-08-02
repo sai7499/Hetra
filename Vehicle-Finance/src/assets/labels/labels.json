@@ -27,7 +27,7 @@
     "guardianName": "Guardian Name",
     "guardianRelationship": "Guardian's Relationship with Minor",
     "politicallyExposedPerson": "Politically Exposed Person [PEP]",
-    "issuanceDate": "Issuance Date",
+    "issuanceDate": "Issurance Date",
     "companyName1": "Company Name 1",
     "companyName2": "Company Name 2",
     "companyName3": "Company Name 3",
@@ -291,7 +291,7 @@
     "needForProposedVehicle": "Need for proposed vehicle (In case of addition / expansion)",
     "routeOfOperation": "Route of operation - Onward and Return",
     "contractDetails": "Contract Details",
-    "contracts":"Contracts",
+    "contracts": "Contracts",
     "residence": "Residence",
     "otherVehicles": "Other Vehicles Owned",
     "phoneNo": "Phone No",
@@ -396,7 +396,7 @@
     "hcv": "HCV",
     "lcv": "LCV",
     "scv": "SCV",
-    "holidayPeriod":"Holiday Period",
+    "holidayPeriod": "Holiday Period",
     "addedInLastOneYr": "ADDED IN LAST 1 YR",
     "freeAsset": "FREE ASSET",
     "ffr": "FFR",
@@ -479,9 +479,9 @@
     "businessIncomeOne": "Business Income-1",
     "businessIncomeTwo": "Business Income-2",
     "businessIncomeThree": "Business Income-3",
-    "loanEligibilityBasedOnIncome":"Loan Eligibility based on Income",
-    "bankingDetails":"Banking details",
-    "bankStatement":"Bank statement",
+    "loanEligibilityBasedOnIncome": "Loan Eligibility based on Income",
+    "bankingDetails": "Banking details",
+    "bankStatement": "Bank statement",
     "totalNoOfCredits": "Total No. of Credits",
     "totalValueOfCredits": "Total Value of Credits",
     "noOfInwardsChequeBounces": "No. of Inwards Cheque bounces",
@@ -563,7 +563,7 @@
     "axis": "AXIS",
     "commentsOnRtrIfAny": "Comments on RTR if any",
     "sourceOfValidation": "Source of Validation",
-    "fleetDetails":"Fleet Details",
+    "fleetDetails": "Fleet Details",
     "regdNumber": "Regd Number",
     "relationWithHirer": "Relation with Hirer",
     "owningSince": "Owning Since",
@@ -576,7 +576,7 @@
     "commentsOnBankingIfAny": "Comments on banking  if any",
     "abbOfTheMonth": "ABB of the month",
     "abbEmi": "ABB/EMI",
-    "abb":"ABB",
+    "abb": "ABB",
     "customerBackgroundSalesRecommendation": "Customer Background/Sales Recommendation",
     "recommendedBySoSmBm": "Recommended By SO/SM/BM",
     "nameWithECode": "Name with E Code",
@@ -589,7 +589,6 @@
     "companyName": "Company Name",
     "officerName": "Officer Name",
     "telNo": "Tel No",
-
     "creditAppraisalSheet": "Credit Appraisal Sheet",
     "csc": "CSC",
     "catC": "CAT C",
@@ -612,8 +611,7 @@
     "withinSixtydays": "Within 60 days",
     "justificationOrReasonToFund": "Justification/Reason to Fund",
     "coRecommendationAndTvrDetailsMandatory": "CO Recommendation & TVR Details (Mandatory)",
-    "sourcingName":"Sourcing Name",
-
+    "sourcingName": "Sourcing Name",
     "incomeAndObligationDetailsTitle": "Income and Obligation Details",
     "businessIncomeDetailsTitle": "Business Income Details",
     "otherIncomeDetailsTitle": "Other Income Details",
@@ -729,7 +727,7 @@
     "fcCharges": "F.C charges",
     "tollTaxPaid": "Toll Tax Paid",
     "taxes": "Taxes",
-    "costOrVehicle":"Cost / vehicle",
+    "costOrVehicle": "Cost / vehicle",
     "maintenance": "Maintenance",
     "miscellaneous": "Miscellaneous",
     "insuranceExpenses": "Insurance Expenses",
@@ -897,7 +895,7 @@
     "yes": "Yes",
     "close": "Close",
     "fatherName": "Father Name",
-    "fatherNameHusbandName": "Father Name / Husband Name",
+    "fatherNameHusbandName": "Father/Husband Name",
     "gender": "Gender",
     "maritalStatus": "Marital Status",
     "physicallyChallenged": "Physically Challenged",
@@ -922,7 +920,7 @@
     "officePremisesType": "Office Premises Type",
     "sizeOfOffice": "Size of Office",
     "mismatchAddress": "Mis-Match in Address",
-    "mismatchOfficeBusinsessAddress":"Mismatch in Office/Businses Address",
+    "mismatchOfficeBusinsessAddress": "Mismatch in Office/Business Address",
     "selfieWithHouse": "Selfie with Customer House",
     "ownershipProof": "Proof of Ownership available",
     "metCustomer": "Have you met customer?",
@@ -966,7 +964,7 @@
     "vehicleRoute": "Vehicle Route",
     "noTrips": "No of Trips",
     "tripAmt": "Amount Received per trip",
-    "selfDriver": "Self Driven or Drive",
+    "selfDriver": "Self Driven or Driver",
     "remarks": "Remarks-Not in running condition",
     "permanentAddress": "Permanent Address",
     "currentAddress": "Current Address",
@@ -981,7 +979,7 @@
     "signature": "Signature",
     "uploadSignature": "Upload signature",
     "IDproof": "ID Proof",
-    "issuesDate": "Issues Date",
+    "issuesDate": "Issue Date",
     "expiryDate": "Expiry Date",
     "attachment": "Attachment",
     "additionalDocument": "Additional Document",
@@ -1122,7 +1120,7 @@
     "residenceApproach": "Residence Approach",
     "detailsOfResidence": "Details of residence",
     "rentAmount": "If Resi is rented , Specify rent Amount",
-    "residenceName": "Residence is in the name",
+    "residenceName": "Residence is in the name of",
     "verifiedFrom": "Verified from",
     "personMetName": "Person met name",
     "YearsStayinCity": "Years of Stay in City",
@@ -1138,9 +1136,9 @@
     "commentsAndRecommendations": "Comments & Recommendations (Space to capture corrections, remarks and recommendations of the FI officer",
     "distanceinKMs": "Distance in KMs",
     "verifiedBy": "Verified by",
-    "typeofConcern": "Type of Concern",
+    "typeOfConcern": "Type of Concern",
     "approachable": "Off / business is easily Approachable from",
-    "premises": "Office /Business premises",
+    "premises": "Office / Business premises Type",
     "officeLocation": "Location of office",
     "furnishings": "Furnishings",
     "observations": "Observations",
@@ -1213,11 +1211,9 @@
     "loanTenorServiced": "Loan Tenor Service(in months)",
     "currentEMILoan": "EMI of the Current Loan",
     "agriNoOfAcres": "Agri(No of Acres)",
-    "grossReceipt" : "Gross Receipt",
-"externalFi":"External FI",
-
-
-    "termSheetTag1" : "Equitas Small Finance Bank Limited",
+    "grossReceipt": "Gross Receipt",
+    "externalFi": "External FI",
+    "termSheetTag1": "Equitas Small Finance Bank Limited",
     "termSheet": "TERM SHEET",
     "page": "Page",
     "proposalNo": "Proposal No",
@@ -1396,7 +1392,27 @@
             },
             "pattern": {
                 "rule": "^[A-Za-z ]{0,99}$",
+                "msg": "Invalid Bank Name"
+            },
+            "type": "alpha"
+        },
+        "pdAccountNumber": {
+            "maxLength": {
+                "rule": 30
+            },
+            "type": "alpha-numeric-nospace",
+            "pattern": {
+                "rule": "^[0-9A-Za-z]{9,30}$",
                 "msg": "Invalid account Number"
+            }
+        },
+        "pdBankName": {
+            "maxLength": {
+                "rule": 30
+            },
+            "pattern": {
+                "rule": "^[A-Za-z ]{0,99}$",
+                "msg": "Invalid Bank Name"
             },
             "type": "alpha"
         },
@@ -1637,7 +1653,6 @@
                 "msg": "Invalid Pincode"
             }
         },
-
         "numberOfYears": {
             "maxLength": {
                 "rule": 2

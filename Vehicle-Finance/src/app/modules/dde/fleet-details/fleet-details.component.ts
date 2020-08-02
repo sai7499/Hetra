@@ -13,6 +13,8 @@ import { CommentStmt } from '@angular/compiler';
 import { UtilityService } from '@services/utility.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { TypeaheadOptions } from 'ngx-bootstrap/typeahead/public_api';
+import { VehicleDetailService } from '../../../services/vehicle-detail.service';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-fleet-details',
@@ -28,7 +30,8 @@ export class FleetDetailsComponent implements OnInit {
   leadId: number;
   userId: number;
   fleetDetails: any = [];
-  fleetLov: any = [];
+  customFutureDate: boolean;
+
   fleetArray = [];
   formValue: any;
   toDayDate: Date = new Date();
@@ -41,6 +44,22 @@ export class FleetDetailsComponent implements OnInit {
   fleetId: any;
   validationData: any;
   isDirty = false;
+  vehicleLov: any = [];
+  leadDetails :any;
+  productCatoryCode: any;
+  
+  // lov Data
+  public assetBodyType: any = [];
+  public assetModelType: any = [];
+  public assetModelTypeLov : any = []
+  public assetVariant: any = [];
+  public vehicleManufacturer : any = []; // make field lov
+  public vehicleTypeLov : any = [];
+  public assetBodyTypeLov : any= [];
+  public regionLov : any = [];
+  public allLovs : any;
+  fleetLov: any = [];
+
   regexPattern = {
     // tensure: {
     //   rule: "^[1-9][0-9]*$",
@@ -96,6 +115,8 @@ export class FleetDetailsComponent implements OnInit {
     private router: Router,
     private toasterService: ToasterService,
     private utilityService: UtilityService,
+    private uiLoader: NgxUiLoaderService,
+    private vehicleDetailService: VehicleDetailService,
     private sharedService: SharedService) {
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
     this.fleetArrayList = this.fb.array([]);
@@ -114,7 +135,11 @@ export class FleetDetailsComponent implements OnInit {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     const leadData = this.createLeadDataService.getLeadSectionData();
+   // const leadData = this.createLeadDataService.getLeadSectionData();
 
+    this.leadDetails = leadData['leadDetails']
+   // this.leadId = leadData['leadId'];
+    this.productCatoryCode = this.leadDetails['productCatCode'];
     // this.leadId = leadData['leadId']
 
     console.log("user id ==>", this.userId)
@@ -224,7 +249,11 @@ export class FleetDetailsComponent implements OnInit {
         regdNo: new FormControl(rowData.regdNo, Validators.compose([Validators.required])),
         regdOwner: new FormControl(rowData.regdOwner, Validators.compose([Validators.required])),
         relation: new FormControl(rowData.relation, [Validators.required]),
+        region : new FormControl(rowData.region, [Validators.required]),
         make: new FormControl(rowData.make, [Validators.required]),
+        vehicleType : new FormControl(rowData.vehicleType, [Validators.required]),
+        assetBodyType :  new FormControl(rowData.assetBodyType, [Validators.required]),
+        assetModel: new FormControl(rowData.assetModel, [Validators.required]),
         yom: new FormControl(rowData.yom, Validators.compose([Validators.required])),
         financier: new FormControl(rowData.financier, [Validators.required]),
         loanNo: new FormControl(rowData.loanNo, Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(20)])),
@@ -235,7 +264,8 @@ export class FleetDetailsComponent implements OnInit {
         ad: new FormControl({ value: rowData.ad, disabled: true }),
         pd: new FormControl({ value: rowData.pd, disabled: true }),
         gridValue: new FormControl({ value: rowData.gridValue, disabled: true }),
-        id: rowData.id
+        id: rowData.id,
+        vehicleId : rowData.vehicleId,
       })
     }
     else return this.fb.group({
@@ -244,6 +274,10 @@ export class FleetDetailsComponent implements OnInit {
       regdOwner: new FormControl('', Validators.compose([Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z ]*$/)])),
       relation: new FormControl('', [Validators.required]),
       make: new FormControl('', [Validators.required]),
+      vehicleType : new FormControl('', [Validators.required]),
+      assetBodyType :  new FormControl('', [Validators.required]),
+      assetModel: new FormControl('', [Validators.required]),
+     region : new FormControl('', [Validators.required]),
       yom: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(4), Validators.maxLength(4)])),
       financier: new FormControl('', [Validators.required]),
       loanNo: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(4), Validators.maxLength(20)])),
@@ -254,15 +288,214 @@ export class FleetDetailsComponent implements OnInit {
       ad: new FormControl({ value: '', disabled: true }),
       pd: new FormControl({ value: '', disabled: true }),
       gridValue: new FormControl({ value: '', disabled: true }),
+      vehicleId : '',
     });
+  }
+  // make field changes 
+  onAssetMake(value, obj ,index) {
+    let VehicleTypeArray = []
+
+    if (value) {
+
+      const data = {
+        "region": obj.value.region,
+        "productCategory": this.productCatoryCode,
+        "make": value
+      }
+
+      this.vehicleDetailService.getVehicleMasterFromAssetMake(data).subscribe((res: any) => {
+        this.uiLoader.start();
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+
+          if (res.ProcessVariables.vehicleMasterDetails && res.ProcessVariables.vehicleMasterDetails.length > 0) {
+
+            VehicleTypeArray = this.utilityService.getValueFromJSON(res.ProcessVariables.vehicleMasterDetails,
+              "vehicleTypeUniqueCode", "vehicleTypeCode");
+
+            this.vehicleTypeLov[index] = VehicleTypeArray;
+            obj.patchValue({
+              vehicleType: '',
+              assetBodyType: '',
+              yom: ''
+            })
+
+          } else {
+            this.vehicleTypeLov = []
+            this.toasterService.showWarning('No Data in Vehicle Master Asset Make', 'Vehicle Master Asset Make')
+          }
+        } else {
+          this.vehicleTypeLov = []
+          this.toasterService.showWarning(res.ErrorMessage, 'Vehicle Master Asset Make')
+        }
+        this.uiLoader.stop();
+      }, error => {
+        console.log(error, 'error')
+        this.uiLoader.stop();
+      });
+    }
+
+  }
+  //  vechile type change event
+  onVehicleType(value, obj , index) {
+
+    let assetBodyTypeData = []
+
+    if (value) {
+
+      const data =
+      {
+        "region": obj.value.region,
+        "productCategory": this.productCatoryCode,
+        "make": obj.value.make,
+        "vehicleType": value
+      }
+
+      this.vehicleDetailService.getVehicleMasterFromVehicleType(data).subscribe((res: any) => {
+        this.uiLoader.start();
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+
+          if (res.ProcessVariables.vehicleMasterDetails && res.ProcessVariables.vehicleMasterDetails.length > 0) {
+            this.assetBodyType = res.ProcessVariables.vehicleMasterDetails;
+            assetBodyTypeData = this.utilityService.getValueFromJSON(res.ProcessVariables.vehicleMasterDetails,
+              "uniqueSegmentCode", "segmentCode");
+
+            this.assetBodyTypeLov[index] = assetBodyTypeData;
+
+            obj.patchValue({
+              assetBodyType: '',
+              assetModel: '',
+              assetVariant: '',
+              yom: ''
+            })
+
+          } else {
+            this.assetBodyTypeLov = []
+            this.toasterService.showWarning('No Data in Vehicle Master Vehicle Type', 'Vehicle Master Vehicle Type')
+          }
+        } else {
+          this.assetBodyTypeLov = []
+          this.toasterService.showWarning(res.ErrorMessage, 'Vehicle Master Vehicle Type')
+        }
+        this.uiLoader.stop();
+      }, error => {
+        console.log(error, 'error')
+        this.uiLoader.stop();
+      });
+    }
+  }
+  // asst body tye event
+  onAssetBodyType(value: any, obj , index) {
+    this.assetModelType = this.assetBodyType.filter((data) => data.uniqueSegmentCode === value)
+    this.assetModelTypeLov[index] = this.utilityService.getValueFromJSON(this.assetModelType,
+      "vehicleModelCode", "vehicleModel")
+    obj.patchValue({
+      assetModel: '',
+      yom: ''
+    })
+  }
+  // get vechile Id
+  onAssetModel(value: any, obj , index) {
+    this.assetVariant = this.assetModelType.filter((data) => data.vehicleModelCode === value)
+    const array = this.utilityService.getCommonUniqueValue(this.assetVariant, 'vehicleVariant')
+    const formArray = (this.fleetForm.get('Rows') as FormArray);
+    formArray.controls[index].patchValue({
+      vehicleId: array.length > 0 ? Number(array[0].vehicleCode) : 0,
+      yom: ' '
+
+    })
+
+    // this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVariant,
+    //   0, "vehicleVariant")
+
+    // obj.patchValue({
+    //   yom : ''
+    // })
+
+  }
+// region change event
+  onVehicleRegion(value: any, obj , index) {
+    const region = value ? value : '';
+    let assetMakeArray = [];
+
+    const data = {
+      "region": region,
+      "productCategory": this.productCatoryCode
+    }
+
+    this.vehicleDetailService.getVehicleMasterFromRegion(data).subscribe((res: any) => {
+      this.uiLoader.start();
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+
+        if (res.ProcessVariables.vehicleMasterDetails && res.ProcessVariables.vehicleMasterDetails.length > 0) {
+
+          assetMakeArray = this.utilityService.getValueFromJSON(res.ProcessVariables.vehicleMasterDetails,
+            "uniqueMFRCode", "mfrCode")
+          this.vehicleManufacturer[index] = assetMakeArray;
+          obj.patchValue({
+            make: '',
+            vehicleType: '',
+            assetBodyType: '',
+            assetModel: '',
+            assetVariant: '',
+            yom: ''
+          })
+        } else {
+          this.vehicleManufacturer = []
+          this.toasterService.showWarning('No Data in Vehicle Master Region', 'Vehicle Master Region')
+        }
+      } else {
+        this.vehicleManufacturer = []
+        this.toasterService.showWarning(res.ErrorMessage, 'Vehicle Master Region')
+      }
+      this.uiLoader.stop();
+    }, error => {
+      console.log(error, 'error')
+      this.uiLoader.stop();
+    })
+  }
+  // YOM changes 
+  onGetDateValue(event ,index) {
+    if (event.target.value > this.toDayDate) {
+      this.customFutureDate = true;
+    } else {
+      this.customFutureDate = false;
+      const formArray = (this.fleetForm.get('Rows') as FormArray);
+     
+      this.getVehicleGridValue(formArray , index)
+    }
+
+
+  }
+  // get grid value
+  getVehicleGridValue(formArray: any , index) {
+
+    if (formArray.value[index].vehicleId !== 0) {
+
+      const date = this.utilityService.convertDateTimeTOUTC(formArray.value[index].manufactureYear, 'YYYY')
+
+      const data = { "manufactureYear": date, "vehicleCode": formArray.value[index].vehicleId + '' };
+
+      this.vehicleDetailService.getVehicleGridValue(data).subscribe((res: any) => {
+        const apiError = res.ProcessVariables.error.message;
+
+        formArray.controls[index].patchValue({
+          gridValue: res.ProcessVariables.vehicleCost,
+        })
+      }, err => {
+        console.log('err', err)
+      })
+    } else {
+      this.toasterService.showWarning('Please Select Asset Varient', '')
+    }
   }
 
   getLov() {
 
     this.commonLovService.getLovData().subscribe((value: any) => {
       this.fleetLov.applicantRelationshipWithLead = value.LOVS.applicantRelationshipWithLead;
+      this.allLovs = value.LOVS;
+    
       this.fleetLov.vehicleFinanciers = value.LOVS.vehicleFinanciers;
-      this.fleetLov.vehicleManufacturer = value.LOVS.vehicleManufacturer;
     });
 
   }
@@ -337,12 +570,13 @@ export class FleetDetailsComponent implements OnInit {
 
   saveOrUpdateFleetDetails(index) {
     //console.log(this.fleetDetails);
+    const formArray = (this.fleetForm.get('Rows') as FormArray);
+
     for (let i = 0; i < this.fleetDetails.length; i++) {
       this.fleetDetails[i]['purchaseDate'] = this.sendDate(this.fleetDetails[i]['purchaseDate'])
       this.fleetDetails[i]['tenure'] = parseInt(this.fleetDetails[i]['tenure'])
       this.fleetDetails[i]['paid'] = parseInt(this.fleetDetails[i]['paid'])
-
-
+      this.fleetDetails[i]['gridValue'] = parseInt(formArray.controls[i]['controls']['gridValue'].value);
     }
     //  this.fleetDetails['purchaseDate'] = this.sendDate(this.fleetDetails['purchaseDate'])
     const data = {
@@ -393,6 +627,17 @@ export class FleetDetailsComponent implements OnInit {
       if (res['Status'] == "Execution Completed" && res.ProcessVariables.fleets != null) {
         const fleets = res['ProcessVariables'].fleets;
         for (let i = 0; i < fleets.length; i++) {
+          this.vehicleTypeLov[i] = this.allLovs.vehicleType;
+          this.regionLov[i] = this.allLovs.assetRegion;
+          this.vehicleManufacturer[i] =  this.allLovs.vehicleManufacturer;
+          this.assetBodyTypeLov[i] = [{
+            key: fleets[i].assetBodyType,
+            value: fleets[i].assetBodyTypeDesc
+          }];
+          this.assetModelTypeLov[i] = [{
+            key: fleets[i].assetModel,
+            value: fleets[i].assetModelDesc
+          }];
           if (i == 0) {
             this.formArr.push(this.initRows(fleets[i]))
           }
@@ -412,6 +657,7 @@ export class FleetDetailsComponent implements OnInit {
 
   addNewRow(rowData) {
     this.formArr.push(this.initRows(rowData));
+    this.regionLov[this.formArr.length -1] = this.allLovs.assetRegion;
   }
 
   deleteRow(index: number, fleets: any) {
