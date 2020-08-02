@@ -374,14 +374,7 @@ export class BasicDetailsComponent implements OnInit {
       // });
 
     }
-    const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails;
-    this.occupationValue = aboutIndivProspectDetails.occupation
-    this.custCatValue = applicantDetails.custSegment;
-    if (this.custCatValue === "SEMCUSTSEG" || this.occupationValue === "FAROCPTION") {
-      this.removeEmployeeValidators()
-    } else {
-      this.setEmployeeValidators()
-    }
+    
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
 
@@ -424,6 +417,15 @@ export class BasicDetailsComponent implements OnInit {
     } else if (mobile && mobile.length === 10) {
       this.mobilePhone = mobile;
     }
+    const applicantDetails= this.applicant.applicantDetails
+    this.occupationValue = aboutIndivProspectDetails.occupation
+    this.custCatValue = applicantDetails.custSegment;
+    if (this.custCatValue === "SEMCUSTSEG" || this.occupationValue === "FAROCPTION") {
+      this.removeEmployeeValidators()
+    }
+     else {
+      this.setEmployeeValidators()
+    }
 
 
     const formArray = this.basicForm.get('details') as FormArray;
@@ -441,7 +443,7 @@ export class BasicDetailsComponent implements OnInit {
       motherMaidenName: aboutIndivProspectDetails.motherMaidenName || '',
       preferredLanguage: aboutIndivProspectDetails.preferredLanguage || 'ENGPRFLAN',
       occupation: aboutIndivProspectDetails.occupation || '',
-      nationality: aboutIndivProspectDetails.nationality || 'Indian',
+      nationality: aboutIndivProspectDetails.nationality || '',
       age: this.showAge,
       gender: aboutIndivProspectDetails.gender || '',
       politicallyExposedPerson:
@@ -656,16 +658,6 @@ export class BasicDetailsComponent implements OnInit {
       din: new FormControl()
     });
   }
-
-  // listerForDirectors() {                         
-  //   const formArray = this.basicForm.get('details') as FormArray;
-  //   const details = formArray.at(0);
-  //   details.get('numberOfDirectors').valueChanges.subscribe((val) => {
-
-  //     this.addDirectorControls(val)
-
-  //   })
-  // }
 
 
   addDirectorControls(value) {                      // adding director controls based on no of directors
