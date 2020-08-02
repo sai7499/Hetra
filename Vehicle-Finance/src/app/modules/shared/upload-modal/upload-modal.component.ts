@@ -173,6 +173,7 @@ export class UploadModalComponent {
           if (value.addDocumentRep.msgHdr.rslt === 'OK') {
             const body = value.addDocumentRep.msgBdy;
             const docsRes = body.addDocResp[0];
+            console.log('docsRes', docsRes);
             const docsDetails = {
               ...docsRes,
             };
