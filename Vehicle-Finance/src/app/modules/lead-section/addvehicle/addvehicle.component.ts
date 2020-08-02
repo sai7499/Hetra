@@ -27,7 +27,6 @@ export class AddvehicleComponent implements OnInit {
   leadId: number;
 
   constructor(
-
     private labelsData: LabelsService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
