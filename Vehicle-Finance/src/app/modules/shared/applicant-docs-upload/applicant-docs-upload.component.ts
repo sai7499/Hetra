@@ -712,4 +712,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
         });
       });
   }
+
+  navigateBack() {
+    this.router.navigateByUrl(localStorage.getItem('currentUrl'));
+  }
 }
