@@ -145,10 +145,15 @@
                         [format]="'dd/MM/yyyy'"
                         [max]="toDayDate"
                         [activeView]="'decade'"
-                        placeholder="Issues Date"
+                        placeholder="Issue Date"
                         formControlName="issueDate"
                       >
                       </kendo-datepicker>
+                      <div class="invalid-feedback">
+                        <div *ngIf="checkDate(subCat.code, i, 'issueDate')">
+                          Invalid date
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div
@@ -165,11 +170,16 @@
                         placeholder="Expiry Date"
                         formControlName="expiryDate"
                         [min]="
-                          uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)
-                            .value | docsUpload: i
+                          (uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)
+                            .value | docsUpload: i) || toDayDate
                         "
                       >
                       </kendo-datepicker>
+                      <div class="invalid-feedback">
+                        <div *ngIf="checkDate(subCat.code, i, 'expiryDate')">
+                          Invalid date
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div class="form-group col-sm-3 col-md-2">
