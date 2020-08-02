@@ -3,56 +3,12 @@
     <div class="content">
       <div class="col-12">
         <h3 class="margin_zero">In Principle Offer</h3>
-        <!---<div class="table-responsive application">
-                    <table class="table">
-                        <thead>
-                            <tr class="table-head-bg">
-                                <th>{{labels?.productOffered}} <i class="fa fa-sort"></i> </th>
-                                <th>{{labels?.customerSegment}} <i class="fa fa-sort"></i> </th>
-                                <th>{{labels?.loanTenor}} <i class="fa fa-sort"></i> </th>
-                                <th>{{labels?.loanAmountRange}} <i class="fa fa-sort"></i> </th>
-                                <th>{{labels?.ageOfCar}} <i class="fa fa-sort"></i> </th>
-                                <th>{{labels?.loanToValue}} <i class="fa fa-sort"></i> </th>
-                                <th>{{labels?.insuranceCrossSell}}<i class="fa fa-sort"></i> </th>
-                                <th>{{labels?.loanToValueInsuranceFunded}}<i class="fa fa-sort"></i> </th>
-                                <th>{{labels?.equitasFastTagRequired}} <i class="fa fa-sort"></i> </th>
-                                <th>{{labels?.OnRoadPricingFunding}}<i class="fa fa-sort"></i> </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>New CV</td>
-                                <td>Customer</td>
-                                <td>12</td>
-                                <td>15L</td>
-                                <td>5 years</td>
-                                <td>10L</td>
-                                <td>5</td>
-                                <td>12</td>
-                                <td>applicable</td>
-                                <td>125</td>
-                            </tr>
-                            <tr>
-                                <td>New CV</td>
-                                <td>Customer</td>
-                                <td>12</td>
-                                <td>15L</td>
-                                <td>5 years</td>
-                                <td>10L</td>
-                                <td>5</td>
-                                <td>12</td>
-                                <td>applicable</td>
-                                <td>125</td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div> ---->
+        
         <hr />
         <div class="container-fluid" id="sales_credit_score">
-          <div class="row" id="sales_credit_score_sec">
+          <!-- <div class="row" id="sales_credit_score_sec">
           
-            <div class="col-lg-4">
+            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12 p-0 ">
               <p id="">
                 <span id="">Product Offered</span
                 ><span id="credit_score_tag1">{{processData?.productCategoryName}}</span>
@@ -61,14 +17,18 @@
                 <span id="">Customer Segment</span
                 ><span id="credit_score_tag2">{{processData?.customerSegment}}</span>
               </p>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6"> <p>{{labels?.productOffered}}</p></div>
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6"><p class="var-lab">{{variable?.productCategoryName}}</p></div>
             </div>
-            <div class="col-lg-4">
+            </div>
+            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12 p-0">
               <p id="">
                 <span id="">Requested Loan Amount</span
                 ><span id="credit_score_tag4">{{processData?.loanAmount}}</span>
               </p>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12 p-0">
               <p id="">
                 <span id="">Loan Tenor</span
                 ><span id="credit_score_tag3">{{processData?.loanTenure}}Months</span>
@@ -78,25 +38,39 @@
                 ><span id="credit_score_tag5"> {{processData?.ageAfterTenure}} Months</span>
               </p>
             </div>
-
-            <!---- <div class="col-lg-4">
-                            <p id=""><span id="">Product Offered</span><span id="credit_score_tag1">New CV</span></p>
-                            <p id=""><span id="">Customer Segment</span><span id="credit_score_tag2">Customer</span></p>
-                            <p id=""><span id="">Loan Tenor</span><span id="credit_score_tag3">12</span></p>
-                        </div>
-                        <div class="col-lg-4">
-                            <p id=""><span id="">Loan Amount Range</span><span id="credit_score_tag4">15L</span></p>
-                            <p id=""><span id="">Age of the car at the end of tenor (months)</span><span>&nbsp;</span><span id="credit_score_tag5"> 5 Years</span></p>
-                            <p id=""><span id="">Loan to Value</span><span id="credit_score_tag6">10L</span></p>
-                        </div>
-                        <div class="col-lg-4">
-                            <p id=""><span id="">Loan to Value Insurance Funded</span><span id="credit_score_tag7">12L</span></p>
-                            <p id=""><span id="">Equitas Fast Tag Required</span><span id="credit_score_tag8">Applicable</span></p>
-                            <p id=""><span id="">On Road Pricing Funding</span><span id="credit_score_tag9">125</span></p>
-                        </div> ---->
+          </div> -->
+          <div class="p-0 row " id="sales_credit_score_sec">
+            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12 p-0">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
+                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 "> <p class="var-lab">{{labels?.productOffered}}</p></div>
+                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 "><p class="var-lab" >{{processData?.productCategoryName}}</p></div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
+                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 "> <p class="var-lab">{{labels?.customerSegment  }}</p></div>
+                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 "><p class="var-lab">{{processData?.customerSegment }}</p></div>
+                </div>
+                
+            </div>
+            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12 p-0">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 "> <p class="var-lab">{{labels?.requestedAmount}}</p></div>
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 "><p class="var-lab">{{processData?.loanAmount}}</p></div>
+            </div>
+           
+            </div>
+            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12 p-0">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 "> <p class="var-lab">{{labels?.loanTenor}}</p></div>
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 "><p class="var-lab">{{processData?.loanTenure}} Months</p></div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 "> <p class="var-lab">{{labels?.ageOfCarEndOfTenor}}</p></div>
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 "><p class="var-lab">{{processData?.ageAfterTenure}} Months</p></div>
+            </div>
           </div>
+        </div>
 
-          <p class="text-center" id="credit_score_tag10">
+          <p class="text-center mar-10" id="credit_score_tag10">
             Eligible Loan Amount : {{processData?.eligibleAmount}}
           </p>
           <hr />
