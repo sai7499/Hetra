@@ -1573,7 +1573,8 @@
                                 placeholder="insurance_validity">
                             </kendo-datepicker>
 
-                            <div class="invalid-feedback" *ngIf="obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < maxDate">
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < maxDate">
                                 Invalid Date
                             </div>
 
@@ -1773,7 +1774,8 @@
                                 </div>
                             </div>
 
-                            <div class="invalid-feedback" *ngIf="obj.controls['manuFacMonthYear'].touched && customFutureDate">
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['manuFacMonthYear'].touched && customFutureDate">
                                 Invalid Date
                             </div>
 
@@ -1922,7 +1924,8 @@
                                 placeholder="Vehicle Registration Date">
                             </kendo-datepicker>
 
-                            <div class="invalid-feedback" *ngIf="obj.controls['vehicleRegDate'].touched && obj.controls['vehicleRegDate'].value > maxDate">
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['vehicleRegDate'].touched && obj.controls['vehicleRegDate'].value > maxDate">
                                 Invalid Date
                             </div>
 
@@ -1932,8 +1935,8 @@
                             <label for="gross_vehicle_weight">{{label.grossVehicleWeight}}</label>
 
                             <app-custom-input formControlName="gorssVehicleWeight"
-                                [type]="label.validationData?.fullName.type" [id]="'gross_vehicle_weight'"
-                                [className]="'form-control'" [maxLength]="label.validationData?.fullName.maxLength"
+                                [type]="label.validationData?.amountValue.type" [id]="'gross_vehicle_weight'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Gross Vehicle Weight'">
                             </app-custom-input>
                         </div>

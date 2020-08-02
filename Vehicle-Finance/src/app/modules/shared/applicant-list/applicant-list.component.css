@@ -13,12 +13,13 @@
 }
 
 .row {
-  margin-left: 15px;
-  margin-right: 15px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 td a {
   cursor: pointer;
 }
+
 
 table {
   width: 100%;
@@ -105,9 +106,11 @@ th {
       content: attr(data-item-value);
       }
 } */
+
 /* style for modal */
 
 .modal-style{
   width:85%;
   margin:auto;
 }
+
