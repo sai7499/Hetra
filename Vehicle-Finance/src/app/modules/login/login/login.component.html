@@ -48,6 +48,28 @@
     <!-- <div>
         <img src="{{base64Image}}" alt="Red dot" />
       </div> -->
+      <div id="overlay" *ngIf="isModelShow">
+        <div id="text">
+          <div class="panel">
+            <div class="panel-body">
+              <!-- <button type="button" class="close" aria-label="Close" (click)="isModelShow = false" >
+                <span aria-hidden="true">&times;</span>
+              </button> -->
+              <div class="modal-dialog">
+                <div class="modal-body" style="text-align: center;">
+                  <h2>{{ errorMessage }}</h2>
+                  <div class="btn-wrap">
+                    <button class="btn btn-primary" (click)="isModelShow = false">
+                      OK
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
 
 
 </main>
@@ -77,3 +99,4 @@
     </div>
 
 </footer>
+

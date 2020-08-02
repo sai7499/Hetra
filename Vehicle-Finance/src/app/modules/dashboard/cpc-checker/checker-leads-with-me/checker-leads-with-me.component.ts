@@ -4,6 +4,7 @@ import { LoginService } from '../../../login/login/login.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-checker-leads-with-me',
@@ -23,15 +24,21 @@ export class CheckerLeadsWithMeComponent implements OnInit {
   currentPage: any;
   totalItems: any;
   isLoadLead = true;
+  roleType: string;
 
   constructor(
     private labelsData: LabelsService,
     private loginService: LoginService,
     private loginStoreService: LoginStoreService,
     private personalDiscussion: PersonalDiscussionService,
-    private taskDashboard: TaskDashboard
+    private taskDashboard: TaskDashboard,
+    private toasterService: ToasterService
     ) {
-
+      if (window.screen.width > 768) {
+        this.itemsPerPage = '25';
+      } else if (window.screen.width <= 768) {
+        this.itemsPerPage = '5';
+      }
   }
 
 
@@ -45,10 +52,13 @@ export class CheckerLeadsWithMeComponent implements OnInit {
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
+      this.roleType = value.roleType;
       console.log('values For User in My Task', value);
     });
     this.getPdMyTask(this.itemsPerPage);
   }
+
+
 
   getPdMyTask(perPageCount, pageNumber?) {
     const data = {
@@ -85,5 +95,20 @@ export class CheckerLeadsWithMeComponent implements OnInit {
     this.getPdMyTask(this.itemsPerPage, event);
   }
 
+  onClick() {
+    this.getPdMyTask(this.itemsPerPage);
+  }
+
+  onRelase(id) {
+    this.taskDashboard.releaseTask(id).subscribe((res: any) => {
+      console.log('release Task', res);
+      const response = res;
+      if (response.ErrorCode == 0) {
+        this.toasterService.showSuccess('Lead Released Successfully', 'Released');
+      } else {
+        this.toasterService.showError(response.Error, '');
+      }
+    });
+  }
 
 }
