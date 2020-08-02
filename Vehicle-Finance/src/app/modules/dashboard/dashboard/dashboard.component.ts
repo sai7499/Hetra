@@ -55,7 +55,7 @@ export class DashboardComponent implements OnInit {
       loanMaxAmt: ['']
       });
 
-     this.dashboardfilter();
+    //  this.dashboardfilter();
   }
 
   dateToFormate(date) {
