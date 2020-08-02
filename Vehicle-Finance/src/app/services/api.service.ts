@@ -567,6 +567,11 @@ export class ApiService {
       workflowId: 'cf499204cfdf11eaad5000505695f93b',
       projectId: environment.projectIds.salesProjectId,
     },
+    dashboardFilter: {
+      processId: '3d804624d26911eaa78100505695f93b',
+      workflowId: '3d804624d26911eaa78100505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
     uploadPhotoOrSignature: {
       processId: '9cdb8a7ed30011ea8bba00505695f93b',
       workflowId: '9cb93d8ed30011eaaed400505695f93b',

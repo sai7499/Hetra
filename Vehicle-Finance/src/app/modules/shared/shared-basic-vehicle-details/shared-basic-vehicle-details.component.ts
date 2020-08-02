@@ -527,7 +527,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     })
   }
 
-  onAssetModel(value: any, obj) {
+  onAssetModel(value: any, obj , index) {
     this.assetVariant = this.assetModelType.filter((data) => data.vehicleModelCode === value)
     const array = this.utilityService.getCommonUniqueValue(this.assetVariant, 'vehicleVariant')
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);

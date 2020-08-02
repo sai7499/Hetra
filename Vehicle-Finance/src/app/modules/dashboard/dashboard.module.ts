@@ -17,7 +17,7 @@ import { BranchTasksComponent } from './personal-discussion/branch-tasks/branch-
 import { VehicleViabilityComponent } from './vehicle-viability/vehicle-viability.component';
 import { ViabilityChecksComponent } from './vehicle-viability/viability-checks/viability-checks.component';
 import { ViabilityChecksBranchComponent } from './vehicle-viability/viability-checks-branch/viability-checks-branch.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DeviationComponent } from './deviation/deviation.component';
 import { DeviationWithMeComponent } from './deviation/deviation-with-me/deviation-with-me.component';
 import { DeviationWithBranchComponent } from './deviation/deviation-with-branch/deviation-with-branch.component';
@@ -32,6 +32,8 @@ import { MakerLeadsWithMeComponent } from './cpc-maker/maker-leads-with-me/maker
 import { MakerLeadsWithCpcComponent } from './cpc-maker/maker-leads-with-cpc/maker-leads-with-cpc.component';
 import { DdeBranchLeadsComponent } from './leads/dde-branch-leads/dde-branch-leads.component';
 import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
+import { SharedModule } from '@modules/shared/shared.module';
+
 
 
 @NgModule({
@@ -42,7 +44,9 @@ import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
     DashboardRoutingModule,
     NgxPaginationModule,
     FormsModule,
-    DatePickerModule
+    DatePickerModule,
+    ReactiveFormsModule,
+    SharedModule
     ]
 })
 export class DashboardModule { }
