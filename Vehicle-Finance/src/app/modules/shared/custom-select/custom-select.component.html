@@ -7,8 +7,8 @@
   <option value="{{ defaultOption.key }}" disabled>{{
     defaultOption.value
   }}</option>
-  <option value="{{ option.key }}" *ngFor="let option of values">{{
-    option.value
+  <option value="{{ option[keyField] }}" *ngFor="let option of values">{{
+    option[valueField]
   }}</option>
 </select>
 <div class="invalid-feedback" *ngIf="inputError">

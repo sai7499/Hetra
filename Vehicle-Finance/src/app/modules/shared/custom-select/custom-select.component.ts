@@ -38,13 +38,16 @@ export class CustomSelectComponent
   @Input() values: any[];
   @Input() isRequired: string;
 
+  @Input() keyField = 'key';
+  @Input() valueField = 'value';
+
   @Output() valueChange = new EventEmitter();
 
   inputError: boolean;
   isFirst: boolean = true;
 
-  onChange: any = () => { };
-  onTouch: any = () => { };
+  onChange: any = () => {};
+  onTouch: any = () => {};
 
   @Input() set isDirty(val) {
     if (val) {
@@ -65,7 +68,9 @@ export class CustomSelectComponent
 
   getSelectedObject() {
     return this.values && Array.isArray(this.values)
-      ? this.values.find((value) => String(value.key) === this.selectedOption)
+      ? this.values.find(
+          (value) => String(value[this.keyField]) === this.selectedOption
+        )
       : {};
   }
 
@@ -73,7 +78,7 @@ export class CustomSelectComponent
     return this.val;
   }
 
-  constructor(private lovDataService: LovDataService) { }
+  constructor(private lovDataService: LovDataService) {}
 
   ngOnInit() {
     this.selectedOption = this.selectedOption || this.defaultOption.key;
@@ -99,9 +104,9 @@ export class CustomSelectComponent
 
   writeValue(val) {
     this.val = val;
-    if ((!val && this.isFirst) || (this.isFirst)) {
+    if ((!val && this.isFirst) || this.isFirst) {
       this.isFirst = false;
-      this.inputError= false;
+      this.inputError = false;
       return;
     }
     if (!this.val) {
@@ -127,10 +132,10 @@ export class CustomSelectComponent
     return !this.inputError
       ? null
       : {
-        customError: {
-          valid: false,
-        },
-      };
+          customError: {
+            valid: false,
+          },
+        };
   }
   onBlurMethod(event) {
     const newValue = event.target.value;

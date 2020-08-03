@@ -228,6 +228,11 @@ select#select_main_button_match {
 
 #align_this_checkbox {
   margin-top: 16px;
+  margin-bottom: 5px;
+
+
+
+
 }
 
 .footer {
@@ -243,13 +248,13 @@ select#select_main_button_match {
 }
 
 
-.ShowError{
-  font-size: 1.0vw;
+ .ShowError{
+  font-size: 12px;
   font-family: zurich-bold;
   letter-spacing: 0.5px;
   color: red;
   padding-top: 0.5vw;
-}
+} 
 #align_this_checkbox{
   margin-top: 16px;
   font-weight: 600;
@@ -259,4 +264,20 @@ select#select_main_button_match {
 }
 .is_senior{
   padding-left: 10px ;
+}
+
+@media (min-width:300px) and (max-width:767px) {
+  .ShowError{
+    font-size: 12px;
+    font-family: zurich-bold;
+    letter-spacing: 0.5px;
+    color: red;
+    padding-top: 0.5vw;
+  } 
+}
+
+.btn-space{
+  margin-left: 8px!important;
+margin-right: 15px!important;
+  
 }

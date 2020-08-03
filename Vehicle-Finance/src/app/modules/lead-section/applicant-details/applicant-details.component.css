@@ -217,6 +217,8 @@ td, th {
     text-align: left; 
     text-align: center
 }
+
+
 /*Mobile View*/
 @media 
 only screen and 
@@ -234,7 +236,7 @@ only screen and
     line-height: 1.5;
     /* color: white; */
     padding: 2px;
-    font-size: 15px;
+    font-size: 12px;
     }
 	
 	/* Hide table headers (but not display: none;, for accessibility) */
@@ -281,6 +283,10 @@ only screen and
     
    
        
+}
+
+.btn-mar-15{
+    margin: 15px;
 }
 /* @media (min-width:260px) and (max-width:560px){
     td::before {

@@ -21,6 +21,11 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
 import { CustomInputComponent } from './custom-input/custom-input.component';
 import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
 import { SalesExactMatchComponent } from './sales-exact-match/sales-exact-match.component';
+import { UploadModalComponent } from './upload-modal/upload-modal.component';
+import { CommonDocsUploadComponent } from './common-docs-upload/common-docs-upload.component';
+import { DocsUploadPipe } from './pipes/docs-upload.pipe';
+import { DraggableComponent } from './draggable-container/draggable-container.component';
+import { ApplicantDocsUploadComponent } from './applicant-docs-upload/applicant-docs-upload.component';
 
 import {
   BsDatepickerModule,
@@ -49,6 +54,11 @@ setTheme('bs4');
     SalesExactMatchComponent,
     SharedDeviationComponent,
     NegativeListModalComponent,
+    UploadModalComponent,
+    CommonDocsUploadComponent,
+    DocsUploadPipe,
+    DraggableComponent,
+    ApplicantDocsUploadComponent,
   ],
   imports: [
     CommonModule,
@@ -75,6 +85,11 @@ setTheme('bs4');
     CustomInputComponent,
     SalesExactMatchComponent,
     DatePickerModule,
+    UploadModalComponent,
+    CommonDocsUploadComponent,
+    DocsUploadPipe,
+    DraggableComponent,
+    ApplicantDocsUploadComponent,
   ],
 })
 export class SharedModule {}

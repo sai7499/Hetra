@@ -282,13 +282,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           userId: this.userId,
           category: VehicleDetail.category || ''
         })
-        // this.formDataOutput.emit(formArray.value);
         this.sharedService.getFormValidation(this.basicVehicleForm)
       } else if (this.roleType === 2) {
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
         this.onPatchArrayValue(formArray, VehicleDetail)
         this.sharedService.getFormValidation(this.basicVehicleForm)
-        // this.formDataOutput.emit(formArray.value)
       }
       this.vehicleDataService.setIndividualVehicleDetails(VehicleDetail);
     })
@@ -529,7 +527,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     })
   }
 
-  onAssetModel(value: any, obj) {
+  onAssetModel(value: any, obj , index) {
     this.assetVariant = this.assetModelType.filter((data) => data.vehicleModelCode === value)
     const array = this.utilityService.getCommonUniqueValue(this.assetVariant, 'vehicleVariant')
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
@@ -564,8 +562,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           if (value.ProcessVariables.GeoMasterView && value.ProcessVariables.GeoMasterView.length > 0) {
             let addressList: any[] = value.ProcessVariables.GeoMasterView;
           } else {
-            this.toasterService.showError('Invalid pincode', '');
-            return;
+            this.toasterService.showError('Invalid pincode', '');   
+            
+            return  
           }
         })).subscribe((res: any) => {
           if (!res) {

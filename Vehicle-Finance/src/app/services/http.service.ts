@@ -26,7 +26,7 @@ export declare class myOptions {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HttpService {
   isMobile: any;
@@ -56,8 +56,16 @@ export class HttpService {
     }
   }
 
-  post(url: string, requestEntity: any, showLoader: boolean = true, headers?: any) {
+  docUpload(url, body) {
+    return this.http.post(url, body);
+  }
 
+  post(
+    url: string,
+    requestEntity: any,
+    showLoader: boolean = true,
+    headers?: any
+  ) {
     // if (requestEntity["processVariables"]){
     //   requestEntity["processVariables"]["userId"] = localStorage.getItem('userId')
     // }
@@ -65,14 +73,14 @@ export class HttpService {
     //   this.ngxService.start(); // start foreground spinner of the master loader with 'default' taskId
     // }
     if (this.isMobile) {
-      console.log("url", url);
-      console.log("body", requestEntity);
+      console.log('url', url);
+      console.log('body', requestEntity);
       const body = JSON.stringify(requestEntity);
       return this.postM(url, body);
     } else {
       if (headers) {
         return this.http.post(url, requestEntity, {
-          headers: headers
+          headers: headers,
         });
       }
       // const body = new HttpParams({ "fromObject": requestEntity});
@@ -82,26 +90,27 @@ export class HttpService {
   }
 
   postMWithoutEncryption(url, body) {
-
-    const obs = new Observable(observer => {
-
+    const obs = new Observable((observer) => {
       const headers = {
         'Content-Type': 'text/html',
-        'authentication-token': localStorage.getItem('token') ? localStorage.getItem('token') : '',
+        'authentication-token': localStorage.getItem('token')
+          ? localStorage.getItem('token')
+          : '',
       };
 
-      this.httpIonic.setServerTrustMode("nocheck");
+      this.httpIonic.setServerTrustMode('nocheck');
 
-      this.httpIonic.setDataSerializer("urlencoded");
+      this.httpIonic.setDataSerializer('urlencoded');
       this.httpIonic
         .post(url, body, headers)
-        .then(result => {
+        .then((result) => {
           const data = JSON.parse(result.data);
           observer.next(data);
           observer.complete();
-        }).catch(error => {
-          console.log("error", error);
         })
+        .catch((error) => {
+          console.log('error', error);
+        });
     });
 
     return obs;
@@ -118,7 +127,7 @@ export class HttpService {
     }
     this.activeRequests++;
 
-    const obs = new Observable(observer => {
+    const obs = new Observable((observer) => {
       let data;
 
       this.httpIonic.setServerTrustMode('nocheck');
@@ -137,13 +146,12 @@ export class HttpService {
         data: encryption.rawPayload,
         headers: encryption.headers,
         serializer: 'utf8',
-        responseType: 'text'
+        responseType: 'text',
       };
 
       this.httpIonic
         .sendRequest(url, this.ionicOption)
-        .then(result => {
-
+        .then((result) => {
           if (
             result['headers']['content-type'] != 'text/plain' &&
             typeof (result['data'] != 'object')
@@ -183,16 +191,16 @@ export class HttpService {
               data['ProcessVariables']['errorMessage'] != undefined &&
               data['ProcessVariables']['errroMessage'] != ''
             ) {
-              // this.cds.setErrorData(true, cdsData, msg);  
+              // this.cds.setErrorData(true, cdsData, msg);
               this.errorListenerService.setError({
                 msg,
-                errorCode: cdsData
-              })
+                errorCode: cdsData,
+              });
             } else {
               // this.cds.setErrorData(true, data);
               this.errorListenerService.setError({
-                errorCode: cdsData
-              })
+                errorCode: cdsData,
+              });
             }
           } else if (
             data['Error'] == '0' &&
@@ -202,12 +210,15 @@ export class HttpService {
             data['ProcessVariables']['status'] == false &&
             data['ProcessVariables']['status'] != undefined
           ) {
-            if (data['ProcessName'] != 'Required documents' && data['ProcessName'] != 'Authenticate User Login') {
+            if (
+              data['ProcessName'] != 'Required documents' &&
+              data['ProcessName'] != 'Authenticate User Login'
+            ) {
               let data = 'DEF';
               // this.cds.setErrorData(true, data);
               this.errorListenerService.setError({
-                errorCode: data
-              })
+                errorCode: data,
+              });
             }
           } else if (
             (data['Error'] == '1' && data['Error'] != undefined) ||
@@ -216,8 +227,8 @@ export class HttpService {
             let data = 'APP001';
             // this.cds.setErrorData(true, data);
             this.errorListenerService.setError({
-              errorCode: data
-            })
+              errorCode: data,
+            });
           }
 
           observer.next(data);
@@ -229,15 +240,14 @@ export class HttpService {
             // storage.removeToken();
             // this.utilService.clearCredentials();
             this.errorListenerService.setError({
-              errorCode: 'SESSION_EXPIRED'
-            })
+              errorCode: 'SESSION_EXPIRED',
+            });
             storage.removeToken();
             // storage.removeRoles();
             storage.removeUserId();
             // storage.removeBootData();
             // storage.removeBranchData();
             this.router.navigate(['/login']);
-
           }
 
           this.activeRequests--;
@@ -245,7 +255,7 @@ export class HttpService {
             this.ngxService.stop();
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log('~~~***Response error***~~~', error);
 
           if (error['headers']['content-type'] == 'text/plain') {
@@ -280,24 +290,24 @@ export class HttpService {
   getM(url?: string, params?: any) {
     this.ngxService.start();
 
-    const obs = new Observable(observer => {
+    const obs = new Observable((observer) => {
       const headers = {
         // 'Content-Type': 'application/x-www-form-urlencoded',
         'Content-Type': 'application/json',
-        'authentication-token': storage.getToken() ? storage.getToken() : ''
+        'authentication-token': storage.getToken() ? storage.getToken() : '',
       };
 
       this.httpIonic.setServerTrustMode('nocheck');
 
       this.httpIonic
         .get(url, {}, headers)
-        .then(result => {
+        .then((result) => {
           const data = JSON.parse(result.data);
           observer.next(data);
           observer.complete();
           this.ngxService.stop();
         })
-        .catch(error => {
+        .catch((error) => {
           console.log('Data-error', error);
           observer.error(error);
           observer.complete();
@@ -311,28 +321,33 @@ export class HttpService {
   downloadMFile(uri, savePath) {
     this.ngxService.start();
 
-    const obs = new Observable(observer => {
-
-      let header = { 'authentication-token': localStorage.getItem('token') ? localStorage.getItem('token') : '' };
+    const obs = new Observable((observer) => {
+      let header = {
+        'authentication-token': localStorage.getItem('token')
+          ? localStorage.getItem('token')
+          : '',
+      };
       this.httpIonic.setServerTrustMode('nocheck');
 
-      this.httpIonic.downloadFile(uri, {}, header, savePath).then(result => {
-        observer.next(result);
-        observer.complete();
-        this.ngxService.stop();
-      }).catch((error) => {
-        observer.error(error);
-        observer.complete();
-        this.ngxService.stop();
-      });
-
+      this.httpIonic
+        .downloadFile(uri, {}, header, savePath)
+        .then((result) => {
+          observer.next(result);
+          observer.complete();
+          this.ngxService.stop();
+        })
+        .catch((error) => {
+          observer.error(error);
+          observer.complete();
+          this.ngxService.stop();
+        });
     });
 
     return obs;
   }
 
-  logOut(){
-    let url = environment.host + "/account/logout";
+  logOut() {
+    let url = environment.host + '/account/logout';
     return this.http.get(url);
   }
 }

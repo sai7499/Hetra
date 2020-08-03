@@ -6,6 +6,7 @@ import { PersonalDiscussionService } from '@services/personal-discussion.service
 import { ToasterService } from '@services/toaster.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { Router } from '@angular/router';
+import { DashboardService } from '@services/dashboard/dashboard.service';
 
 @Component({
   selector: 'app-deviation-with-branch',
@@ -25,6 +26,8 @@ export class DeviationWithBranchComponent implements OnInit {
   currentPage: any;
   totalItems: any;
   isLoadLead = true;
+  roleType: any;
+  filterDetails: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -33,8 +36,14 @@ export class DeviationWithBranchComponent implements OnInit {
     private personalDiscussion: PersonalDiscussionService,
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService,
-    private router: Router
+    private router: Router,
+    private dashboardService: DashboardService
   ) {
+    if (window.screen.width > 768) {
+      this.itemsPerPage = '25';
+    } else if (window.screen.width <= 768) {
+      this.itemsPerPage = '5';
+    }
   }
 
   ngOnInit() {
@@ -43,37 +52,89 @@ export class DeviationWithBranchComponent implements OnInit {
         this.labels = data;
       }
     );
+  //   this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+  //     this.roleId = String(value.roleId);
+  //     this.branchId = value.branchId;
+  //     this.roleType = value.roleType;
+  //   });
+  //   this.getBranchLeads(this.itemsPerPage);
+  // }
+
+    this.dashboardService.isFilterData.subscribe((filterValue: any) => {
+    console.log('filterDetails', filterValue);
+    this.filterDetails = filterValue;
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
+      this.roleType = value.roleType;
     });
-    this.getBranchLeads(this.itemsPerPage);
-  }
+    this.getBranchLeads(filterValue);
+  });
 
-  onClick() {
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+    this.roleId = String(value.roleId);
+    this.branchId = value.branchId;
+    this.roleType = value.roleType;
+  });
     this.getBranchLeads(this.itemsPerPage);
-  }
 
-  getBranchLeads(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'Deviation',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: false,
-    };
-    this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
-      this.setPageData(res);
-      if (res.ProcessVariables.loanLead != null) {
-        this.isLoadLead = true;
-      } else {
-        this.isLoadLead = false;
-    }
-    });
+}
+
+onClick() {
+  this.getBranchLeads(this.itemsPerPage);
+}
+
+getBranchLeads(filterValue, pageNumber?) {
+  const data = {
+    taskName: 'Deviation',
+    branchId: this.branchId,
+    roleId: this.roleId,
+    // tslint:disable-next-line: radix
+    currentPage: parseInt(pageNumber),
+    // tslint:disable-next-line: radix
+    perPage: parseInt(this.itemsPerPage),
+    myLeads: false,
+    leadId: filterValue ? filterValue.leadId : '',
+    fromDate: filterValue ? filterValue.fromDate : '',
+    toDate: filterValue ? filterValue.toDate : '',
+    productCategory: filterValue ? filterValue.product : '',
+    loanMinAmt: filterValue ? filterValue.loanMinAmt : '',
+    loanMaxAmt: filterValue ? filterValue.loanMaxAmt : ''
+  };
+  this.responseForCredit(data);
+}
+
+responseForCredit(data) {
+  this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
+    this.setPageData(res);
+    if (res.ProcessVariables.loanLead != null) {
+      this.isLoadLead = true;
+    } else {
+      this.isLoadLead = false;
   }
+  });
+}
+
+  // getBranchLeads(perPageCount, pageNumber?) {
+  //   const data = {
+  //     taskName: 'Deviation',
+  //     branchId: this.branchId,
+  //     roleId: this.roleId,
+  //     // tslint:disable-next-line: radix
+  //     currentPage: parseInt(pageNumber),
+  //     // tslint:disable-next-line: radix
+  //     perPage: parseInt(perPageCount),
+  //     myLeads: false,
+  //   };
+  //   this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
+  //     this.setPageData(res);
+  //     if (res.ProcessVariables.loanLead != null) {
+  //       this.isLoadLead = true;
+  //     } else {
+  //       this.isLoadLead = false;
+  //   }
+  //   });
+  // }
 
   setPageData(res) {
     const response = res.ProcessVariables.loanLead;
@@ -86,7 +147,7 @@ export class DeviationWithBranchComponent implements OnInit {
   }
 
   setPage(event) {
-    this.getBranchLeads(this.itemsPerPage, event);
+    this.getBranchLeads(this.filterDetails, event);
   }
 
   onAssign(id, leadId) {

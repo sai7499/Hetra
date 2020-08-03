@@ -444,15 +444,20 @@ export class ApiService {
       workflowId: '587a62d4b9c311ea8dd900505695f93b',
       projectId: environment.projectIds.salesProjectId,
     },
+    saveOrUpdateDocument: {
+      processId: '5f947022c67611eabcd500505695f93b',
+      workflowId: '5f5f525cc67611eaaf9400505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
     submitApproveReferDeclineCreditConditions: {
       processId: '0e709facc67311ea954700505695f93b',
       workflowId: '3ea13662c66611eaa13a00505695f93b',
       projectId: environment.projectIds.submitToCredit,
     },
-    assignCDTaskFromSales : {
+    assignCDTaskFromSales: {
       processId: '90408c36cc9f11ea83c800505695f93b',
       workflowId: '3ea13662c66611eaa13a00505695f93b',
-      projectId: environment.projectIds.submitToCredit
+      projectId: environment.projectIds.submitToCredit,
     },
     getCountryList: {
       processId: '6c3f2eb0c1d611ea80d600505695f93b',
@@ -504,6 +509,11 @@ export class ApiService {
       workflowId: '5f726640c4cc11ea958b00505695f93b',
       projectId: environment.projectIds.salesProjectId,
     },
+    getCamNewCvDetails: {
+      processId: '95d6f6f8c5ab11eab03700505695f93b',
+      workflowId: '95d6f6f8c5ab11eab03700505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
     saveCamRemarks: {
       processId: 'b099b6aac71e11ea8c4800505695f93b',
       workflowId: 'b0689796c71e11ea8df900505695f93b',
@@ -514,6 +524,13 @@ export class ApiService {
       workflowId: '6ec1aaf28f8911eabdc4f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
+
+    getFiList: {
+      processId: '4339b99accc611ea881800505695f93b',
+      workflowId: 'ebb849eecb5c11ea91c600505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
+
     getFiReportDetails: {
       processId: 'f10ff346cbda11ea83b800505695f93b',
       workflowId: 'ebb849eecb5c11ea91c600505695f93b',
@@ -534,6 +551,41 @@ export class ApiService {
       processId: 'e6e974d4ccb411eab67600505695f93b',
       workflowId: '051db99495c711eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
+    },
+    getAddressDetails : {
+      processId: 'b95e7cfad0b311ea9f0400505695f93b',
+      workflowId: 'b93fc6e8d0b311eab67600505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    wrapperPanValidation : {
+      processId: '9bdd1c8eca8911eabb8100505695f93b',
+      workflowId: '9bb46abeca8911ea8b0000505695f93b',
+      projectId: environment.projectIds.wrapperPanValidation,
+    },
+    getDocumentCategory: {
+      processId: 'cf9334f4cfdf11ea8a4900505695f93b',
+      workflowId: 'cf499204cfdf11eaad5000505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    dashboardFilter: {
+      processId: '3d804624d26911eaa78100505695f93b',
+      workflowId: '3d804624d26911eaa78100505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    uploadPhotoOrSignature: {
+      processId: '9cdb8a7ed30011ea8bba00505695f93b',
+      workflowId: '9cb93d8ed30011eaaed400505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    wrapperBiometriceKYC: {
+      processId: 'b918564cd3b211ea93de00505695f93b',
+      workflowId: ' b90074dcd3b211eabfae00505695f93b',
+      projectId: environment.projectIds.wrapperBiometriceKYC,
+    },
+    getApplicantDataImage: {
+      processId: 'af1e3b4ed0b411ea9da200505695f93b',
+      workflowId: 'aeed7234d0b411ea99c400505695f93b',
+      projectId: environment.projectIds.externalApi,
     },
   };
 }

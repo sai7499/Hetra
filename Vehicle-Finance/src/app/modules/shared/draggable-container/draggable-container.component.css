@@ -1,0 +1,48 @@
+#mydiv {
+  position: absolute;
+  z-index: 9999;
+  background-color: #ffff;
+  border: 1px solid #d3d3d3;
+  text-align: center;
+  height: 600px;
+  width: 600px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+#mydivheader {
+  padding: 10px;
+  cursor: move;
+  z-index: 10;
+  background-color: #2196f3;
+  color: #fff;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+}
+
+.header {
+  padding: 5px;
+}
+
+.image-content {
+  height: 90%;
+  width: 100%;
+}
+
+.center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

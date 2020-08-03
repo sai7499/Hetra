@@ -6,6 +6,7 @@ import { PersonalDiscussionService } from '@services/personal-discussion.service
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { DashboardService } from '@services/dashboard/dashboard.service';
 
 @Component({
   selector: 'app-my-tasks',
@@ -29,6 +30,7 @@ export class MyTasksComponent implements OnInit {
   roleName: any;
   roleType: any;
   isLoadLead = true;
+  filterDetails: any;
 
 
   constructor(
@@ -39,8 +41,13 @@ export class MyTasksComponent implements OnInit {
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService,
     private sharedService: SharedService,
+    private dashboardService: DashboardService
   ) {
-   
+    if (window.screen.width > 768) {
+      this.itemsPerPage = '25';
+    } else if (window.screen.width <= 768) {
+      this.itemsPerPage = '5';
+    }
   }
 
 
@@ -51,25 +58,38 @@ export class MyTasksComponent implements OnInit {
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
-    console.log("this user roleType", this.roleType)
+    console.log('this user roleType', this.roleType);
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
       }
     );
 
+    this.dashboardService.isFilterData.subscribe((filterValue: any) => {
+      console.log('filterDetails', filterValue);
+      this.filterDetails = filterValue;
+      this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+        this.roleId = String(value.roleId);
+        this.branchId = value.branchId;
+        this.roleType = value.roleType;
+      });
+      this.getPdMyTask(filterValue);
+    });
+
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
-      // console.log('values For User in My Task', value);
+      this.roleType = value.roleType;
     });
     this.getPdMyTask(this.itemsPerPage);
+
   }
 
   onClick() {
     this.getPdMyTask(this.itemsPerPage);
   }
-  getPdMyTask(perPageCount, pageNumber?) {
+
+  getPdMyTask(filterValue, pageNumber?) {
     const data = {
       taskName: 'Personal Discussion',
       branchId: this.branchId,
@@ -77,18 +97,51 @@ export class MyTasksComponent implements OnInit {
       // tslint:disable-next-line: radix
       currentPage: parseInt(pageNumber),
       // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: true
+      perPage: parseInt(this.itemsPerPage),
+      myLeads: true,
+      leadId: filterValue ? filterValue.leadId : '',
+      fromDate: filterValue? filterValue.fromDate : '',
+      toDate: filterValue ? filterValue.toDate : '',
+      productCategory: filterValue ? filterValue.product : '',
+      loanMinAmt: filterValue ? filterValue.loanMinAmt : '',
+      loanMaxAmt: filterValue ? filterValue.loanMaxAmt : ''
     };
+    this.responseForCredit(data);
+  }
+
+  responseForCredit(data) {
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
       if (res.ProcessVariables.loanLead != null) {
         this.isLoadLead = true;
       } else {
         this.isLoadLead = false;
-      }
+    }
     });
   }
+
+  // getPdMyTask(perPageCount, pageNumber?) {
+  //   const data = {
+  //     taskName: 'Personal Discussion',
+  //     branchId: this.branchId,
+  //     roleId: this.roleId,
+  //     // tslint:disable-next-line: radix
+  //     currentPage: parseInt(pageNumber),
+  //     // tslint:disable-next-line: radix
+  //     perPage: parseInt(perPageCount),
+  //     myLeads: true
+  //   };
+  //   this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
+  //     this.setPageData(res);
+  //     if (res.ProcessVariables.loanLead != null) {
+  //       this.isLoadLead = true;
+  //     } else {
+  //       this.isLoadLead = false;
+  //     }
+  //   });
+  // }
+
+  
 
   setPageData(res) {
     const response = res.ProcessVariables.loanLead;
@@ -101,7 +154,7 @@ export class MyTasksComponent implements OnInit {
   }
 
   setPage(event) {
-    this.getPdMyTask(this.itemsPerPage, event);
+    this.getPdMyTask(this.filterDetails, event);
   }
 
   onRelase(id) {

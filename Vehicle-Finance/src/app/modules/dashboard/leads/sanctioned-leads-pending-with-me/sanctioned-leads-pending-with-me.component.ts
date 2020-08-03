@@ -5,6 +5,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
+import { DashboardService } from '@services/dashboard/dashboard.service';
 
 @Component({
   selector: 'app-sanctioned-leads-pending-with-me',
@@ -24,6 +25,8 @@ export class SanctionedLeadsPendingWithMeComponent implements OnInit {
   currentPage: any;
   totalItems: any;
   isLoadLead = true;
+  roleType: string;
+  filterDetails: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -31,9 +34,14 @@ export class SanctionedLeadsPendingWithMeComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private personalDiscussion: PersonalDiscussionService,
     private taskDashboard: TaskDashboard,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private dashboardService: DashboardService
     ) {
-
+      if (window.screen.width > 768) {
+        this.itemsPerPage = '25';
+      } else if (window.screen.width <= 768) {
+        this.itemsPerPage = '5';
+      }
   }
 
 
@@ -44,38 +52,91 @@ export class SanctionedLeadsPendingWithMeComponent implements OnInit {
       }
     );
 
+  //   this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+  //     this.roleId = String(value.roleId);
+  //     this.branchId = value.branchId;
+  //     this.roleType = value.roleType;
+
+  //     console.log('values For User in My Task', value);
+  //   });
+  //   this.getSanctionedLeads(this.itemsPerPage);
+  // }
+
+    this.dashboardService.isFilterData.subscribe((filterValue: any) => {
+    console.log('filterDetails', filterValue);
+    this.filterDetails = filterValue;
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
-      console.log('values For User in My Task', value);
+      this.roleType = value.roleType;
     });
-    this.getSanctionedLeads(this.itemsPerPage);
-  }
+    this.getSanctionedLeads(filterValue);
+  });
 
-  onClick() {
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+    this.roleId = String(value.roleId);
+    this.branchId = value.branchId;
+    this.roleType = value.roleType;
+  });
     this.getSanctionedLeads(this.itemsPerPage);
-  }
 
-  getSanctionedLeads(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'Sanctioned Leads',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: true
-    };
-    this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
-      this.setPageData(res);
-      if (res.ProcessVariables.loanLead != null) {
-        this.isLoadLead = true;
-      } else {
-        this.isLoadLead = false;
-    }
-    });
+}
+
+onClick() {
+  this.getSanctionedLeads(this.itemsPerPage);
+}
+
+getSanctionedLeads(filterValue, pageNumber?) {
+  const data = {
+    taskName: 'Sanctioned Leads',
+    branchId: this.branchId,
+    roleId: this.roleId,
+    // tslint:disable-next-line: radix
+    currentPage: parseInt(pageNumber),
+    // tslint:disable-next-line: radix
+    perPage: parseInt(this.itemsPerPage),
+    myLeads: true,
+    leadId: filterValue ? filterValue.leadId : '',
+    fromDate: filterValue ? filterValue.fromDate : '',
+    toDate: filterValue ? filterValue.toDate : '',
+    productCategory: filterValue ? filterValue.product : '',
+    loanMinAmt: filterValue ? filterValue.loanMinAmt : '',
+    loanMaxAmt: filterValue ? filterValue.loanMaxAmt : ''
+  };
+  this.responseForCredit(data);
+}
+
+responseForCredit(data) {
+  this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
+    this.setPageData(res);
+    if (res.ProcessVariables.loanLead != null) {
+      this.isLoadLead = true;
+    } else {
+      this.isLoadLead = false;
   }
+  });
+}
+
+  // getSanctionedLeads(perPageCount, pageNumber?) {
+  //   const data = {
+  //     taskName: 'Sanctioned Leads',
+  //     branchId: this.branchId,
+  //     roleId: this.roleId,
+  //     // tslint:disable-next-line: radix
+  //     currentPage: parseInt(pageNumber),
+  //     // tslint:disable-next-line: radix
+  //     perPage: parseInt(perPageCount),
+  //     myLeads: true
+  //   };
+  //   this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
+  //     this.setPageData(res);
+  //     if (res.ProcessVariables.loanLead != null) {
+  //       this.isLoadLead = true;
+  //     } else {
+  //       this.isLoadLead = false;
+  //   }
+  //   });
+  // }
 
   setPageData(res) {
     const response = res.ProcessVariables.loanLead;
@@ -88,7 +149,7 @@ export class SanctionedLeadsPendingWithMeComponent implements OnInit {
   }
 
   setPage(event) {
-    this.getSanctionedLeads(this.itemsPerPage, event);
+    this.getSanctionedLeads(this.filterDetails, event);
   }
 
   onRelase(id) {

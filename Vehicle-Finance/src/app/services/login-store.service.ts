@@ -1,29 +1,42 @@
 import { Injectable } from '@angular/core';
 import { CommonDataService } from './common-data.service';
-import { Observable, of, BehaviorSubject } from 'rxjs';
-import { DashboardService } from './dashboard/dashboard.service';
+import { BehaviorSubject } from 'rxjs';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
-
 export class LoginStoreService {
 
     constructor(private cds: CommonDataService,
-        private dashBoardService: DashboardService) { }
+        private sharedService: SharedService) { }
 
     roleAndUserDetails;
     emailId: string;
     roleName: string;
     roleId: any;
+    userRoleActivityList: any;
+    businessDivisionList: any;
+    userDetails: any;
 
-    setRolesAndUserDetails(roles, userDetails, businessDivisionList, activityList) {
+    setRolesAndUserDetails(roles, userDetails, businessDivisionList, activityList, userRoleActivityList) {
         this.roleAndUserDetails = {
             roles,
             userDetails,
             businessDivisionList,
-            activityList
+            activityList,
+            userRoleActivityList
         }
+
+        this.sharedService.setSearchBarActivity(activityList)
+
+        this.sharedService.getRolesActivityList({
+            roles,
+            userDetails,
+            businessDivisionList,
+            activityList,
+            userRoleActivityList
+        });
         this.cds.changeCdsStatus(true);
         this.creditDashboardMethod({
             branchId: userDetails["branchId"],
@@ -31,10 +44,29 @@ export class LoginStoreService {
             roleType: roles[0].roleType,
             userName: userDetails.firstName
         });
+        this.userRoleActivityList = userRoleActivityList;
+        this.userDetails = userDetails;
+        this.businessDivisionList = businessDivisionList;
+
+    }
+
+    getUserRoleActivityList() {
+        return this.userRoleActivityList;
     }
 
     getRolesAndUserDetails() {
+        this.sharedService.roleAndActivityList$.subscribe((val: any) => {
+            this.roleAndUserDetails = val;
+        })
         return this.roleAndUserDetails;
+    }
+
+    getUserDetails() {
+        return this.userDetails;
+    }
+
+    getBusinessDeviation() {
+        return this.businessDivisionList;
     }
 
     setEmailId(email) {

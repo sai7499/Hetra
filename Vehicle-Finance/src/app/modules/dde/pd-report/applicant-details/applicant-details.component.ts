@@ -33,69 +33,7 @@ export class ApplicantDetailComponent implements OnInit {
   applicantFullName: any;
   mobileNo: any;
   standardOfLiving: any;
-
-
-  // namePattern = {
-  //   rule: '^[A-Za-z ]{0,99}$',
-  //   msg: 'Invalid Name',
-  // };
-
-
-  maxlength30 = {
-    rule: 30,
-    msg: '',
-  };
-
-  maxlength25 = {
-    rule: 25,
-    msg: '',
-  };
-
-  // landlinePattern = {
-  //   rule: '^[0-9]{6,15}',
-  //   msg: 'Invalid Landline Number',
-  // };
-
-  maxlength15 = {
-    rule: 15,
-    msg: '',
-  };
-
-  // mobileNumberPattern = {
-  //   rule: '^[6-9][0-9]*$',
-  //   msg: 'Invalid Mobile Number',
-  // };
-
-  maxlength10 = {
-    rule: 10,
-    msg: 'Max Required Length 10',
-  };
-
-  // bankAccountNumber = {
-  //   rule: '^[0-9A-Za-z]{9,15}$',
-  //   msg: 'Invalid Account Number',
-  // };
-
-  maxlength18 = {
-    rule: 18,
-    msg: '',
-  };
-
-  // landmarkPattern = {
-  //   rule: '^[0-9A-Za-z, _&*#/\\-@]{0,99}$',
-  //   msg: 'Invalid Landmark',
-  // };
-
-  maxlength40 = {
-    rule: 40,
-    msg: '',
-  };
   version: any;
-  // data: {
-  //   applicantId: number;
-  //   // applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */,
-  //   pdVersion: any;
-  // };
   roleName: string;
   data: any;
   userId: number;
@@ -106,16 +44,16 @@ export class ApplicantDetailComponent implements OnInit {
   roleType: any;
 
   constructor(private labelsData: LabelsService,
-              private lovDataService: LovDataService,
-              private router: Router,
-              private ddeStoreService: DdeStoreService,
-              private commomLovService: CommomLovService,
-              private loginStoreService: LoginStoreService,
-              private personaldiscussion: PersonalDiscussionService,
-              private activatedRoute: ActivatedRoute,
-              private pdDataService: PdDataService,
-              private toasterService: ToasterService,
-              private createLeadDataService: CreateLeadDataService) { }
+    private lovDataService: LovDataService,
+    private router: Router,
+    private ddeStoreService: DdeStoreService,
+    private commomLovService: CommomLovService,
+    private loginStoreService: LoginStoreService,
+    private personaldiscussion: PersonalDiscussionService,
+    private activatedRoute: ActivatedRoute,
+    private pdDataService: PdDataService,
+    private toasterService: ToasterService,
+    private createLeadDataService: CreateLeadDataService) { }
 
   async ngOnInit() {
 
@@ -167,8 +105,14 @@ export class ApplicantDetailComponent implements OnInit {
       }
       this.applicantId = Number(value.applicantId);
       this.version = String(value.version);
-      this.getLeadSectionData(); // calling get lead section data function in line 179
+      // if (this.version === 'undefined') {
+      //   this.version = '0';
+      //   console.log('in undefined condition version', this.version);
+
+      // }
+      this.getLeadSectionData(); // calling get lead section data function
       this.getPdDetails();
+      // console.log('applicant form', this.applicantForm);
       console.log('Applicant Id In applicant Details Component', this.applicantId);
       console.log('Version In applicant Details Component', this.version);
 
@@ -183,12 +127,12 @@ export class ApplicantDetailComponent implements OnInit {
     // console.log('leadSectionData Lead details', leadSectionData);
     this.leadData = { ...leadSectionData };
     const data = this.leadData;
-    // console.log("in get lead section data", data['applicantDetails']);
+    console.log('in get lead section data', data['applicantDetails']);
 
     // console.log('current app id', this.applicantId);
 
     for (const value of data['applicantDetails']) {  // for loop to get the respective applicant details form applicant details array
-      console.log('in for loop app id', value['applicantId']);
+      // console.log('in for loop app id', value['applicantId']);
 
       if (value['applicantId'] === this.applicantId) {
 
@@ -252,37 +196,21 @@ export class ApplicantDetailComponent implements OnInit {
       ratingbySO: applicantModal.ratingbySO || ''
     });
   }
-  onNavigateNext() {
-    if (this.version !== 'undefined') {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile/${this.version}`]);
 
-    } else {
-
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile`]);
-
-    }
-  }
-
-  onNavigateBack() {
-    console.log('in nav back', this.version);
-    if (this.version !== 'undefined') {
-
-      this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
-    } else {
-      this.router.navigateByUrl(`/pages/pd-dashboard/${this.leadId}/pd-list`);
-
-
-    }
-  }
-
-  getPdDetails() { // function to get the pd details with respect to applicant id 
+  getPdDetails() { // function to get the pd details with respect to applicant id
     console.log('pd version', this.version);
+    console.log('pd applicant id', this.applicantId);
+    // if (this.version === 'undefined') {
+    //   this.version = '0';
+    //   console.log('in undefined condition version', this.version);
+
+    // }
 
     const data = {
-
       applicantId: this.applicantId,
       pdVersion: this.version,
     };
+    console.log('in request data version', this.version);
 
 
     this.personaldiscussion.getPdData(data).subscribe((value: any) => {
@@ -300,24 +228,16 @@ export class ApplicantDetailComponent implements OnInit {
 
   }
 
-  onFormSubmit() { // fun that submits all the pd data
+  onFormSubmit(action) { // fun that submits all the pd data
     const formModal = this.applicantForm.value;
     const applicantFormModal = { ...formModal };
     // console.log('Form Data', applicantFormModal);
     // console.log('Status', this.applicantForm.get('physicallyChallenged').invalid);
     this.isDirty = true;
     if (this.applicantForm.invalid) {
+      this.toasterService.showWarning('please enter required details', '');
       return;
     }
-    //  this.router.navigate(['/pages/fl-and-pd-report/customer-profile']);
-    // if (
-    //   this.applicantForm.get('physicallyChallenged').invalid ||
-    //   this.applicantForm.get('maritalStatus').invalid ||
-    //   this.applicantForm.get('gender').invalid
-    // ) {
-    //   this.isDirty = true;
-    //   return;
-    // }
 
     this.applicantDetails = {
       applicantName: this.applicantFullName,
@@ -357,13 +277,57 @@ export class ApplicantDetailComponent implements OnInit {
       const processVariables = value.ProcessVariables;
       // console.log(processVariables)
       if (processVariables.error.code === '0') {
+        const message = processVariables.error.message;
         this.toasterService.showSuccess('Record Saved Successfully', '');
+        // this.toasterService.showSuccess(message, '');
+        if (action === 'save') {
+
+        } else if (action === 'next') {
+
+          if (this.version !== 'undefined') {
+
+            this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile/${this.version}`]);
+
+          } else {
+
+            this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile`]);
+
+          }
+
+        }
+
       } else {
         // console.log('error', processVariables.error.message);
         this.toasterService.showError('ivalid save', 'message');
 
       }
     });
+  }
+  onNavigateNext() {
+
+
+    if (this.version !== 'undefined') {
+
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile/${this.version}`]);
+
+    } else {
+
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile`]);
+
+    }
+  }
+
+
+  onNavigateBack() {
+    console.log('in nav back', this.version);
+    if (this.version !== 'undefined') {
+
+      this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
+    } else {
+      this.router.navigateByUrl(`/pages/pd-dashboard/${this.leadId}/pd-list`);
+
+
+    }
   }
 
 }

@@ -1,0 +1,80 @@
+.panel-primary {
+  background-color: #1d1a4b !important;
+  color: white !important;
+}
+
+.form label {
+  font-size: 13px !important;
+}
+
+.image-upload input {
+  cursor: pointer;
+  opacity: 0;
+  height: 5%;
+  width: 5%;
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.fa.fa-upload {
+  font-size: 20px;
+}
+
+.fa.fa-plus {
+  font-size: 20px;
+}
+
+.fa.fa-minus {
+  font-size: 20px;
+}
+.date_width {
+  width: 146px;
+  margin: 0px;
+  font-size: 12px;
+}
+
+@media (min-width: 992px) {
+  .form .col-md-2 {
+    width: 20%;
+  }
+}
+
+#saveNext {
+  margin-bottom: 50px;
+}
+
+#scroll_starts_here {
+  height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.height {
+  height: auto;
+}
+h4 {
+  cursor: pointer;
+}
+
+.dis-block {
+  display: block;
+}
+
+.file-input {
+  border: none;
+  border-bottom: 2px solid #0e25c7;
+  border-radius: 0px;
+}
+
+.file-input:read-only {
+  background-color: #fff;
+}
+
+.file-input:hover {
+  cursor: pointer;
+  font-size: 16px;
+}
+/* .panel-heading {
+  background-color: #1d1a4b;
+  color: #fff;
+} */

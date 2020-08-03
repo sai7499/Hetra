@@ -815,6 +815,8 @@ export class AddressDetailsComponent implements OnInit {
       currentAddress.get('state').enable();
       currentAddress.get('country').enable();
       currentAddress.get('landlineNumber').enable();
+
+      currentAddress.reset();
     }
 
     this.isCurrAddSameAsPermAdd = isChecked === true ? '1' : '0';
@@ -838,6 +840,8 @@ export class AddressDetailsComponent implements OnInit {
       communicationAddress.get('state').enable();
       communicationAddress.get('country').enable();
       communicationAddress.get('landlineNumber').enable();
+
+      communicationAddress.reset();
     }
 
     this.isCurrAddSameAsPermAdd = isChecked === true ? '1' : '0';

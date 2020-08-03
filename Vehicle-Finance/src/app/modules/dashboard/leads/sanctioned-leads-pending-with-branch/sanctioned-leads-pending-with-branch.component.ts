@@ -6,6 +6,7 @@ import { PersonalDiscussionService } from '@services/personal-discussion.service
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
 import { Router } from '@angular/router';
+import { DashboardService } from '@services/dashboard/dashboard.service';
 @Component({
   selector: 'app-sanctioned-leads-pending-with-branch',
   templateUrl: './sanctioned-leads-pending-with-branch.component.html',
@@ -25,6 +26,8 @@ export class SanctionedLeadsPendingWithBranchComponent implements OnInit {
   totalItems: any;
   taskId: any;
   isLoadLead = true;
+  roleType: string;
+  filterDetails: any;
 
 
   constructor(
@@ -34,9 +37,15 @@ export class SanctionedLeadsPendingWithBranchComponent implements OnInit {
     private personalDiscussion: PersonalDiscussionService,
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService,
-    private router: Router
+    private router: Router,
+    private dashboardService: DashboardService
 
   ) {
+    if (window.screen.width > 768) {
+      this.itemsPerPage = '25';
+    } else if (window.screen.width <= 768) {
+      this.itemsPerPage = '5';
+    }
   }
 
   ngOnInit() {
@@ -45,18 +54,31 @@ export class SanctionedLeadsPendingWithBranchComponent implements OnInit {
         this.labels = data;
       }
     );
+    this.dashboardService.isFilterData.subscribe((filterValue: any) => {
+      console.log('filterDetails', filterValue);
+      this.filterDetails = filterValue;
+      this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+        this.roleId = String(value.roleId);
+        this.branchId = value.branchId;
+        this.roleType = value.roleType;
+      });
+      this.getSanctionedLeads(filterValue);
+    });
+
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
+      this.roleType = value.roleType;
     });
     this.getSanctionedLeads(this.itemsPerPage);
+
   }
 
   onClick() {
     this.getSanctionedLeads(this.itemsPerPage);
   }
 
-  getSanctionedLeads(perPageCount, pageNumber?) {
+  getSanctionedLeads(filterValue, pageNumber?) {
     const data = {
       taskName: 'Sanctioned Leads',
       branchId: this.branchId,
@@ -64,9 +86,19 @@ export class SanctionedLeadsPendingWithBranchComponent implements OnInit {
       // tslint:disable-next-line: radix
       currentPage: parseInt(pageNumber),
       // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
+      perPage: parseInt(this.itemsPerPage),
       myLeads: false,
+      leadId: filterValue ? filterValue.leadId : '',
+      fromDate: filterValue ? filterValue.fromDate : '',
+      toDate: filterValue ? filterValue.toDate : '',
+      productCategory: filterValue ? filterValue.product : '',
+      loanMinAmt: filterValue ? filterValue.loanMinAmt : '',
+      loanMaxAmt: filterValue ? filterValue.loanMaxAmt : ''
     };
+    this.responseForCredit(data);
+  }
+
+  responseForCredit(data) {
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
       if (res.ProcessVariables.loanLead != null) {
@@ -76,6 +108,27 @@ export class SanctionedLeadsPendingWithBranchComponent implements OnInit {
     }
     });
   }
+
+  // getSanctionedLeads(perPageCount, pageNumber?) {
+  //   const data = {
+  //     taskName: 'Sanctioned Leads',
+  //     branchId: this.branchId,
+  //     roleId: this.roleId,
+  //     // tslint:disable-next-line: radix
+  //     currentPage: parseInt(pageNumber),
+  //     // tslint:disable-next-line: radix
+  //     perPage: parseInt(perPageCount),
+  //     myLeads: false,
+  //   };
+  //   this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
+  //     this.setPageData(res);
+  //     if (res.ProcessVariables.loanLead != null) {
+  //       this.isLoadLead = true;
+  //     } else {
+  //       this.isLoadLead = false;
+  //   }
+  //   });
+  // }
 
   setPageData(res) {
     const response = res.ProcessVariables.loanLead;
@@ -88,7 +141,7 @@ export class SanctionedLeadsPendingWithBranchComponent implements OnInit {
   }
 
   setPage(event) {
-    this.getSanctionedLeads(this.itemsPerPage, event);
+    this.getSanctionedLeads(this.filterDetails, event);
   }
 
   onAssign(id, leadId) {

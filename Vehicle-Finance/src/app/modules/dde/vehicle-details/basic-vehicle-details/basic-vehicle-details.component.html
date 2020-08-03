@@ -5,11 +5,11 @@
     </div>
     <div class="row">
         <div class="col-sm-5"><button class="btn btn-primary dash_href"
-                [routerLink]="['/pages/dde/'+ leadId + '/vehicle-list']">Back
+                [routerLink]="['/pages/dde/'+ leadId + '/vehicle-list']">{{label.back}}
                 To
                 Vehicle Details </button></div>
         <div class="col-sm-7 text-right">
-            <button class="btn btn-primary dash_href mar-right8" (click)="onSubmit()"> Save </button>
+            <button class="btn btn-primary dash_href mar-right8" (click)="onSubmit()"> {{label.save}} </button>
         </div>
 
     </div>

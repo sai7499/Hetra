@@ -15,6 +15,7 @@ import { BehaviorSubject } from 'rxjs';
 import { UtilityService } from '@services/utility.service';
 import { ToasterService } from '@services/toaster.service';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
+import { debounce } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sourcing-details',
@@ -80,7 +81,12 @@ export class SourcingDetailsComponent implements OnInit {
   isDirty: boolean;
   isSaved: boolean;
   amountTenureData: any;
-  isLoanAmountTenure: boolean;
+  leadSectionData: any;
+
+  tenureMonthlyValidation: {
+    rule?: any,
+    msg?: string
+  }[];
 
 
   sourcingCodeObject: {
@@ -158,6 +164,8 @@ export class SourcingDetailsComponent implements OnInit {
     this.getLabels();
     this.getLOV();
     this.getSourcingChannel();
+
+    this.tenureMonthlyValidation = this.loanTenureMonth();
   }
 
   getLabels() {
@@ -203,9 +211,15 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   async getLeadSectionData() {
-    const leadSectionData = this.createLeadDataService.getLeadSectionData();
-    console.log('leadSectionData Lead details', leadSectionData);
-    this.leadData = { ...leadSectionData };
+    // const leadDeatilsData = this.createLeadDataService.getLeadDetailsData();
+    // if (leadDeatilsData == {}) {
+    //   this.leadSectionData = { ...leadDeatilsData };
+    // } else {
+    //   this.leadSectionData = this.createLeadDataService.getLeadSectionData();
+    // }
+    this.leadSectionData = this.createLeadDataService.getLeadSectionData();
+    console.log('leadSectionData Lead details', this.leadSectionData);
+    this.leadData = { ...this.leadSectionData };
     const data = this.leadData;
 
     const currentUrl = this.location.path();
@@ -229,11 +243,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.dealorCodeValue = data.leadDetails.dealorCodeDesc;
 
     const priorityFromLead = data.leadDetails.priority;
-    if (data.leadId) {
-      this.leadId = data.leadId;
-    } else {
-      this.leadId = data.leadDetails.leadId;
-    }
+    this.leadId = (data.leadId) ? data.leadId : data.leadDetails.leadId;
 
     const sourchingType = this.leadData.leadDetails.sourcingType;
     this.sourchingTypeFromLead = sourchingType;
@@ -409,7 +419,9 @@ export class SourcingDetailsComponent implements OnInit {
   sourchingTypeChange(event) {
     const sourchingTypeId = event.target ? event.target.value : event;
     this.socuringTypeData = this.sourcingData.filter(data => data.sourcingTypeId === sourchingTypeId);
-    this.placeholder = this.utilityService.getValueFromJSON(this.socuringTypeData, 'sourcingCodeType', 'sourcingCode');
+    this.placeholder = this.utilityService.getValueFromJSON(this.socuringTypeData,
+      'sourcingCodeType',
+      'sourcingCode');
     console.log('placeholder', this.placeholder);
     this.sourcingDetailsForm.controls.sourcingCode.reset();
     this.sourcingCodePlaceholder = this.placeholder[0].value;
@@ -421,6 +433,7 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   onSourcingCodeSearch(event) {
+   
     let inputString = event;
     let sourcingCode = [];
     console.log('inputString', event);
@@ -428,7 +441,8 @@ export class SourcingDetailsComponent implements OnInit {
     console.log('sourcingCode', sourcingCode);
     let sourcingCodeType: string = sourcingCode[0].sourcingCodeType;
     let sourcingSubCodeType: string = sourcingCode[0].sourcingSubCodeType;
-    this.createLeadService.sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString).subscribe((res: any) => {
+    this.createLeadService.sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString)
+      .subscribe((res: any) => {
       const response = res;
       const appiyoError = response.Error;
       const apiError = response.ProcessVariables.error.code;
@@ -499,6 +513,24 @@ export class SourcingDetailsComponent implements OnInit {
     });
   }
 
+  loanTenureMonth() {
+    const loanTenure = [
+      {
+        rule: month => {
+          return month < 12;
+        },
+        msg: 'Month should be greater than or equal to 12'
+      },
+      {
+        rule: month => {
+          return month > 72;
+        },
+        msg: 'Month should be lesser than or equal to 72'
+      }
+    ];
+    return loanTenure;
+  }
+
   saveAndUpdate() {
     const formValue = this.sourcingDetailsForm.getRawValue();
     console.log('this.sourcingDetailsForm.value', this.sourcingDetailsForm.valid);
@@ -526,7 +558,7 @@ export class SourcingDetailsComponent implements OnInit {
         leadHandeledBy: Number(this.userId),
         leadCreatedBy: Number(this.branchId),
         leadCreatedOn: this.leadCreatedDateFromLead,
-        reqLoanAmt: Number(saveAndUpdate.reqLoanAmt),
+        reqLoanAmt: saveAndUpdate.reqLoanAmt,
         reqTenure: Number(saveAndUpdate.requestedTenor),
       };
       console.log('this.saveUpdate', this.saveUpdate);
@@ -538,18 +570,20 @@ export class SourcingDetailsComponent implements OnInit {
 
         if (appiyoError === '0' && apiError === '0') {
           this.toasterService.showSuccess('Record Saved Successfully !', 'Lead Details');
-          this.sharedService.changeLoanAmount(Number(saveAndUpdate.requestedAmount));
+          this.sharedService.changeLoanAmount(Number(saveAndUpdate.reqLoanAmt));
           this.sharedService.leadDataToHeader(this.productCategoryChanged);
-          let dataa = {
+          const dataa = {
             ...this.saveUpdate,
             sourcingCodeDesc: this.sourcingCodeValue,
             dealorCodeDesc: this.dealorCodeValue
-          }
+          };
           const data = {
             leadDetails: dataa
           };
-          this.createLeadDataService.setLeadSectionData(data);
+          this.createLeadDataService.setLeadDetailsData(data);
           this.isSaved = true;
+        }else{
+          this.toasterService.showError(response.ProcessVariables.error.message, 'Lead Details');
         }
       });
     } else {
@@ -562,6 +596,7 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   nextToApplicant() {
+    this.isDirty = true;
     if (this.sourcingDetailsForm.valid === true) {
       if (!this.isSaved) {
         this.saveAndUpdate();

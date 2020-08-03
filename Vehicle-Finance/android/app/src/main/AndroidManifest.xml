@@ -4,7 +4,8 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:name="com.vehicle.finance.MainApplication"
+        android:icon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -16,6 +17,7 @@
             android:name="com.vehicle.finance.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBarLaunch"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask">
 
             <intent-filter>
@@ -31,6 +33,16 @@
             </intent-filter>
 
         </activity>
+
+        <activity
+            android:name="com.fiberlink.maas360sdk.ipc.service.MaaS360SecureViewerCallbackProxyActivity"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:theme="@android:style/Theme.Holo.Light.Panel" >
+        </activity>
+
+
+
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -74,17 +86,18 @@
                 <data android:mimeType="*/*" />
             </intent-filter>
         </receiver>
-        <activity
-            android:name="com.fiberlink.maas360sdk.ipc.service.MaaS360SecureViewerCallbackProxyActivity"
-            android:configChanges="orientation"
-            android:exported="false"
-            android:theme="@android:style/Theme.Holo.Light.Panel" >
-        </activity>
+
 
         <provider
             android:name="com.fiberlink.maas360.android.app.analytics.sdk.provider.AnalyticsSDKContentProvider"
             android:authorities="${applicationId}.app.analytics.sdk.provider"
             android:exported="true" />
+
+        <provider
+            android:name="com.fiberlink.maas360sdk.providers.LogsProvider"
+            android:authorities="${applicationId}.log.provider"
+            android:exported="true">
+        </provider>
 
 
     </application>
