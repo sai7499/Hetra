@@ -24,16 +24,18 @@ export const environment = {
   // hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
 
-  host: '/appiyo/',
+  //host: '/appiyo/',
   //  host: 'http://128.199.164.250/appiyo/',
   // host: 'http://10.101.10.153/appiyo/',
+  host: 'https://hetrauat.equitasbank.com/appiyodev/',
+
 
   // tslint:disable-next-line: max-line-length
   aesPublicKey:
     'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ+GJdSSEeaNFBLqyfM3DIOgQgWCwJ0INfeZZV7ITsLeuA7Yd02rrkYGIix1IWvoebWVmzhncUepYxHwK1ARCdUCAwEAAQ==',
   encryptionType: true, // Ecryption
   appiyoDrive: '/d/drive/upload/',
-  isMobile: false,
+  isMobile: true,
   isMaas360Enabled: false
 };
 

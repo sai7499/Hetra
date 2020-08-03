@@ -28,6 +28,12 @@ import { Subscription } from 'rxjs';
 import { ready } from 'jquery';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
+import { environment } from 'src/environments/environment';
+import { BiometricService } from '@services/biometric.service';
+
+declare var identi5: any;
+
+
 @Component({
   selector: 'app-add-update-applicant',
   templateUrl: './add-update-applicant.component.html',
@@ -179,6 +185,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   addDisabledCheckBox: boolean;
   panValidate = false;
   showEkycbutton = false;
+
+  isMobile: any;
+
+
 
   biometricResponce = {
     addressLineOne: "PLOT NO 968TH CROSS STREETKARU",
@@ -350,9 +360,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     private location: Location,
     private salesDedupeService: SalesDedupeService,
     private toasterService: ToasterService,
-    private createLeadDataService: CreateLeadDataService
+    private createLeadDataService: CreateLeadDataService,
+    private biometricService: BiometricService
   ) {
     this.leadId = this.activatedRoute.snapshot.params['leadId'];
+    this.isMobile = environment.isMobile;
+
   }
 
   async ngOnInit() {
@@ -2150,25 +2163,33 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     // this.applicantService.wrapperBiometriceKYC(data).subscribe((response)=>{
     //   console.log('responce eKYC', response)
     // })
-    const value = this.biometricResponce;
-    this.setBiometricValues(value)
-    this.showEkycbutton = false;
-    this.isEnableDedupe = false;
-    this.isMobileChanged = false;
-    this.isName1Changed = false;
-    this.isPanChanged = false;
-    this.isAadharChanged = false;
-    this.isPassportChanged = false;
-    this.isDrivingLicenseChanged = false;
-    this.isVoterIdChanged = false;
-    this.isContactNumberChanged = false;
-    this.isCstNumberChanged = false;
-    this.isCinNumberChanged = false;
-    this.isGstNumberChanged = false;
-    this.isTanNumberChanged = false;
+    let that = this;
+    let applicantId =  this.applicantId;
+    let aadhar = "802172334890";
+    this.biometricService.initIdenti5(aadhar, applicantId, function(result) {
+      console.log("KYC result&&&&@@@"+result);
+      const value = result;
+      that.setBiometricValues(value)
+      that.showEkycbutton = false;
+      that.isEnableDedupe = false;
+      that.isMobileChanged = false;
+      that.isName1Changed = false;
+      that.isPanChanged = false;
+      that.isAadharChanged = false;
+      that.isPassportChanged = false;
+      that.isDrivingLicenseChanged = false;
+      that.isVoterIdChanged = false;
+      that.isContactNumberChanged = false;
+      that.isCstNumberChanged = false;
+      that.isCinNumberChanged = false;
+      that.isGstNumberChanged = false;
+      that.isTanNumberChanged = false;
+    });
+   
   }
 
   setBiometricValues(value) {
+    value = JSON.parse(value).ProcessVariables;
     console.log('value', value)
     const dedupe = this.coApplicantForm.get('dedupe');
     const dob = value.dobFromResponse;

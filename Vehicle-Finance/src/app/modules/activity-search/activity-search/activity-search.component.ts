@@ -121,8 +121,9 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
 
 
   initIdenti5(){
+    let applicantId = 1005;
     let aadhar = "802172334890";
-    this.biometricService.initIdenti5(aadhar, function(result) {
+    this.biometricService.initIdenti5(aadhar, applicantId, function(result) {
       console.log("KYC result&&&&@@@"+result);
     });
   }
