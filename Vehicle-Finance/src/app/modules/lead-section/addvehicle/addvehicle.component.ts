@@ -64,6 +64,7 @@ export class AddvehicleComponent implements OnInit {
   }
 
   onFormSubmit() {
+
     if (this.formValue.valid === true) {
       let data = this.formValue.value.vehicleFormArray[0];
 
