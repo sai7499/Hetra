@@ -11,6 +11,8 @@ import { LeadStoreService } from '@services/lead-store.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 import { ApplicantService } from '@services/applicant.service';
 import { formatDate, Location } from '@angular/common';
+
+import { ViewChild, ElementRef,  } from '@angular/core';
 import {
   Applicant,
   ApplicantDetails,
@@ -188,7 +190,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   isMobile: any;
 
-
+  @ViewChild('pTag', {static: false} ) pTag: ElementRef<HTMLElement>;
 
   biometricResponce = {
     addressLineOne: "PLOT NO 968TH CROSS STREETKARU",
@@ -2163,62 +2165,80 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     // this.applicantService.wrapperBiometriceKYC(data).subscribe((response)=>{
     //   console.log('responce eKYC', response)
     // })
+
     let that = this;
     let applicantId =  this.applicantId;
     let aadhar = "802172334890";
     this.biometricService.initIdenti5(aadhar, applicantId, function(result) {
       console.log("KYC result&&&&@@@"+result);
       const value = result;
-      that.setBiometricValues(value)
+
       that.showEkycbutton = false;
-      that.isEnableDedupe = false;
-      that.isMobileChanged = false;
-      that.isName1Changed = false;
-      that.isPanChanged = false;
-      that.isAadharChanged = false;
-      that.isPassportChanged = false;
-      that.isDrivingLicenseChanged = false;
-      that.isVoterIdChanged = false;
-      that.isContactNumberChanged = false;
-      that.isCstNumberChanged = false;
-      that.isCinNumberChanged = false;
-      that.isGstNumberChanged = false;
-      that.isTanNumberChanged = false;
+      // that.isEnableDedupe = false;
+      // that.isMobileChanged = false;
+      // that.isName1Changed = false;
+      // that.isPanChanged = false;
+      // that.isAadharChanged = false;
+      // that.isPassportChanged = false;
+      // that.isDrivingLicenseChanged = false;
+      // that.isVoterIdChanged = false;
+      // that.isContactNumberChanged = false;
+      // that.isCstNumberChanged = false;
+      // that.isCinNumberChanged = false;
+      // that.isGstNumberChanged = false;
+      // that.isTanNumberChanged = false;
+
+      setTimeout(function(){
+        that.setBiometricValues(that, value);
+      },0);
+
     });
    
   }
 
-  setBiometricValues(value) {
+  givalert() {
+    alert("test")
+  }
+
+  setBiometricValues(ctx, value) {
     value = JSON.parse(value).ProcessVariables;
     console.log('value', value)
-    const dedupe = this.coApplicantForm.get('dedupe');
+    const dedupe = ctx.coApplicantForm.get('dedupe');
+    console.log("dedupe-element", dedupe);
     const dob = value.dobFromResponse;
     value.dobFromResponse = dob.split('-').join('/');
+
+    dedupe.get('name1').setValue(value.firstName);
+    
     dedupe.patchValue({
       name1: value.firstName,
       name2: value.middleName,
       name3: value.lastName,
-      dob: new Date(this.utilityService.getDateFromString(value.dobFromResponse))
+      dob: new Date(ctx.utilityService.getDateFromString(value.dobFromResponse))
     })
-    const currentAddress = this.coApplicantForm.get('currentAddress');
-    const permanantAddress = this.coApplicantForm.get('permentAddress');
+
+    dedupe.updateValueAndValidity();
+
+    const currentAddress = ctx.coApplicantForm.get('currentAddress');
+    const permanantAddress = ctx.coApplicantForm.get('permentAddress');
     permanantAddress.patchValue({
       addressLineOne: value.addressLineOne,
       addressLineTwo: value.addressLineTwo,
       addressLineThree: value.addressLineThree,
-      pincode: value.pincode
+      pincode: value.resultPincode
 
     })
 
     const id = 'permanentPincode'
-    const pincode = Number(value.pincode);
-    this.getPincodeResult(pincode, id);
+    const pincode = value.resultPincode;
+    ctx.getPincodeResult(pincode, id);
 
-    permanantAddress.disable();
+    //permanantAddress.disable();
     currentAddress.reset();
     currentAddress.enable();
-    this.isPermanantAddressSame = false
-
+    ctx.isPermanantAddressSame = false
+    
+    ctx.pTag.nativeElement.click();
 
   }
 
