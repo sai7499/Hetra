@@ -90,6 +90,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log("base url",window.location.origin);
     this.appVersion = environment.version;
     this.buildDate = environment.buildDate;
     this.labelsData.getLabelsData().subscribe(

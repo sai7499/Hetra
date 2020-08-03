@@ -3,13 +3,16 @@
     </app-shared-basic-vehicle-details>
 </div>
 
-<div class="btn-sec clear-both btn-mar-15" id="clickbutton">
+<div class="btn-sec clear-both btn-mar-15 " id="clickbutton" 
+    style="margin-bottom: 80px;">
     <div class="col-sm-5"> </div>
     <div class="col-sm-7 btn-pad text-right">
-        <button class="btn btn-sec btn-primary js-btn-prev" type="button" [routerLink]="['../vehicle-details']">
+        <button class="btn btn-sec btn-primary js-btn-prev" type="button" 
+            [routerLink]="['../vehicle-details']">
             {{ label.back }} 
         </button> 
-        <button class="btn btn-sec btn-primary" type="button" (click)="onFormSubmit()">
+        <button class="btn btn-sec btn-primary" type="button" 
+            (click)="onFormSubmit()">
             {{ label.save }} </button>
         &nbsp;
     </div>

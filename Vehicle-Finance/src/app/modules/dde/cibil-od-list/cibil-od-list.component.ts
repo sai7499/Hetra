@@ -122,7 +122,6 @@ export class CibilOdListComponent implements OnInit {
       this.odListLov.typeOfLoan = value.LOVS.typeOfLoan;
       this.odListLov.clearanceProof = value.LOVS.clearanceProof;
       console.log(this.odListLov.clearanceProof);
-
       this.odListLov.highestDpd = value.LOVS.highestDpd;
     });
   }
