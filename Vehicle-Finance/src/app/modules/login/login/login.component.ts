@@ -22,7 +22,6 @@ import { UtilityService } from '@services/utility.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Camera } from '@ionic-native/camera/ngx';
 
-
 declare var identi5: any;
 declare var cordova: any;
 @Component({

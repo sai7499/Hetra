@@ -11,7 +11,6 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { Router } from '@angular/router';
 import { storage } from '../storage/localstorage';
 
-
 export declare class myOptions {
   method: any;
   data?: any;
