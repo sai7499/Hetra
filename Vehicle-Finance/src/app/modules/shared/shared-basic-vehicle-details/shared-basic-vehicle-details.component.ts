@@ -567,7 +567,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
             return value.ProcessVariables.GeoMasterView;
           } else {
             this.toasterService.showError('Invalid pincode', '');
-            this.isValidPincode = false;
+            this.isValidPincode = true;
             return;
           }
         })).subscribe((res: any) => {
@@ -582,7 +582,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           // return pincodeResult
         })
 
-        // setTimeout({})
+    // setTimeout({})
 
     console.log(pincodeResult, 'AddressList', this.addressList)
   }
@@ -616,8 +616,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleId: 0,
       collateralId: 0,
       leadId: this.leadId,
-      userId: this.userId,
-      isValidPincode: this.isValidPincode
+      userId: this.userId
     });
     formArray.push(controls);
     this.changeSalesForm()
