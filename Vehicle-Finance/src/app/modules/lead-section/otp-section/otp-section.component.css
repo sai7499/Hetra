@@ -3,13 +3,17 @@
 }
 
 #resendotp_button {
-    width: 24%;
-    padding-right: 30px;
+    /* width: 24%;
+    padding-right: 30px; */
+    
+    margin: 0px 8px 8px 8px;
 }
 
 #validateOtp_button {
-    margin-left: 135px;
+    
     width: 33%;
+    margin-left:8px;
+    margin-right:8px;
 }
 
 .btn-primary {
@@ -17,6 +21,27 @@
 }
 
 .otp-button{
-
     margin-top: 12px;
 }
+
+.content-trd{
+    text-align: justify;
+    padding: 12px;
+}
+
+.verify-btn{
+    margin-left: 8px;
+}
+
+@media 
+only screen and 
+    (max-width: 760px){
+
+        #resendotp_button {
+            /* width: 24%;
+            padding-right: 30px; */
+            
+            margin: 8px;
+        }
+
+    }

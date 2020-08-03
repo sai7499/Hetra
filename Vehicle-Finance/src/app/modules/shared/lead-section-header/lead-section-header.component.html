@@ -76,6 +76,7 @@
       class="btn btn-primary view-button"
       [routerLink]="['/pages/document-viewupload', leadId]"
       type="button"
+      (click)="saveCurrentUrl()"
     >
       View/Upload Document
     </button>

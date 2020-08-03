@@ -1,10 +1,8 @@
-import { DeviceDetectorService } from 'ngx-device-detector';
 import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
   FormControl,
   Validators,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import { LoginService } from './login.service';
 import { Router } from '@angular/router';
@@ -17,11 +15,12 @@ import { CommonDataService } from '@services/common-data.service';
 import * as moment from 'moment';
 import { GoogleMapsAPIWrapper } from '@agm/core';
 import { GpsService } from 'src/app/services/gps.service';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { environment } from 'src/environments/environment';
 import { DashboardService } from '@services/dashboard/dashboard.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { UtilityService } from '@services/utility.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { Camera } from '@ionic-native/camera/ngx';
 
 
 declare var identi5: any;
@@ -68,9 +67,9 @@ export class LoginComponent implements OnInit {
 
   isModelShow: boolean;
   errorMessage: string;
-  
 
-  
+
+
 
 
 
@@ -119,7 +118,6 @@ export class LoginComponent implements OnInit {
       this.gpsService.initLatLong().subscribe((res) => {
         if (res) {
           this.gpsService.getLatLong().subscribe((position) => {
-            console.log('login position', position);
           });
         } else {
           console.log(res);
@@ -127,7 +125,6 @@ export class LoginComponent implements OnInit {
       });
     } else {
       this.gpsService.getBrowserLatLong().subscribe((position) => {
-        //console.log('login position', position);
       });
     }
     this.getRouteMap();
@@ -171,17 +168,15 @@ export class LoginComponent implements OnInit {
               const userId = response.ProcessVariables.userId;
               localStorage.setItem('branchId', userDetails.branchId);
               localStorage.setItem('userId', userId);
+              let userRoleActivityList = response.ProcessVariables.userRoleActivityList;
               this.loginStoreService.setRolesAndUserDetails(
                 roles,
                 userDetails,
                 businessDivisionList,
-                activityList
+                activityList,
+                userRoleActivityList
               );
               this.router.navigateByUrl('/activity-search');
-              // const role = response.ProcessVariables.roles[0].name;
-              // if (role === 'Sales Officer') {
-              //   this.router.navigateByUrl('/activity-search');
-              // }
             }
           });
         }
@@ -190,7 +185,7 @@ export class LoginComponent implements OnInit {
         this.ngxUiLoaderService.stop();
         this.isModelShow = true;
         // alert('Invalid Login');
-        this.errorMessage = "Invalid Login"    
+        this.errorMessage = "Invalid Login"
         this.loginForm.reset();
       }
     );

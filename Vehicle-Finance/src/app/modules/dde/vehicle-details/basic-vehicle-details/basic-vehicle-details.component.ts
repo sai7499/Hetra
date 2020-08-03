@@ -6,6 +6,7 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { UtilityService } from '@services/utility.service';
 import { ToasterService } from '@services/toaster.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { LabelsService } from '@services/labels.service';
 
 @Component({
   selector: 'app-basic-vehicle-details',
@@ -16,6 +17,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
   public leadData: any;
   public leadId: number;
+  public label: any;
   public routerId: number;
 
   public formValue: any;
@@ -24,18 +26,28 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
   constructor(private createLeadDataService: CreateLeadDataService, public vehicleDataStoreService: VehicleDataStoreService, private toasterService: ToasterService,
     private vehicleDetailService: VehicleDetailService, private utilityService: UtilityService, private router: Router,
-    private activatedRoute: ActivatedRoute, private sharedService: SharedService) { }
+    private activatedRoute: ActivatedRoute, private sharedService: SharedService, private labelsData: LabelsService,
+  ) { }
 
   ngOnInit() {
 
     this.leadData = this.createLeadDataService.getLeadSectionData();
     this.leadId = this.leadData.leadId;
 
+    this.labelsData.getLabelsData()
+      .subscribe(data => {
+        this.label = data;
+      },
+        error => {
+          console.log('error', error)
+          // this.errorMsg = error;
+        });
+
     this.activatedRoute.params.subscribe((value) => {
       this.routerId = value ? value.vehicleId : null;
     })
 
-   this.subscription = this.sharedService.vaildateForm$.subscribe((value) => {
+    this.subscription = this.sharedService.vaildateForm$.subscribe((value) => {
       this.formValue = value;
     })
   }

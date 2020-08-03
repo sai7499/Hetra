@@ -1,7 +1,8 @@
-<div class="multisteps-form__form">
+
+<div class="multisteps-form__form btn-sec">
     <h4 class="title"><b>{{ roleType === 1 ? label.vehcileDetailsTitle : '' }}</b></h4>
     <div class="text-right" id="add_vehicle_details_btn">
-        <button class="btn mar-right8 btn-primary" type="button"
+        <button class="btn btn-primary" type="button"
             [routerLink]="roleType === 1 ? ['../add-vehicle'] : ['/pages/vehicle-details/' + leadId + '/basic-vehicle-details']">{{label.addVehicle}}</button>
     </div>
     <div id="wrapper">  
