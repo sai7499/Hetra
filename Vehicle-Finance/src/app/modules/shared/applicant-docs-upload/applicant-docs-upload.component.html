@@ -11,15 +11,17 @@
           class="panel panel-default"
           *ngFor="let subCat of subCategories; let i = index"
         >
-          <div class="panel-heading" id="headingThree">
+          <div
+            class="panel-heading"
+            id="headingThree"
+            class="panel-heading"
+            id="headingThree"
+            data-toggle="collapse"
+            data-parent="#accordion"
+            [attr.data-target]="'#collapse' + subCat.code"
+          >
             <h4 class="panel-title">
-              <a
-                class="collapsed"
-                data-toggle="collapse"
-                data-parent="#accordion"
-                href="#collapse{{ subCat.code }}"
-                aria-expanded="false"
-              >
+              <a class="collapsed" aria-expanded="false">
                 <!-- <i class="fa fa-address-card"></i>&nbsp; -->
                 {{ subCat.displayName }}
                 <i class="fa fa-angle-down"></i>
@@ -127,6 +129,7 @@
                     <label for="documentnumber">Document Number</label>
                     <app-custom-input
                       formControlName="documentNumber"
+                      [maxLength]="documentMaxLength"
                     ></app-custom-input>
                   </div>
 
@@ -134,7 +137,7 @@
                     class="form-group col-sm-3 col-md-2"
                     *ngIf="subCat.code !== 3"
                   >
-                    <label for="idate">Issues Date</label>
+                    <label for="idate">Issue Date</label>
                     <div class="input-group input-medium">
                       <kendo-datepicker
                         class="form-control mandatory"
@@ -142,10 +145,15 @@
                         [format]="'dd/MM/yyyy'"
                         [max]="toDayDate"
                         [activeView]="'decade'"
-                        placeholder="Issues Date"
+                        placeholder="Issue Date"
                         formControlName="issueDate"
                       >
                       </kendo-datepicker>
+                      <div class="invalid-feedback">
+                        <div *ngIf="checkDate(subCat.code, i, 'issueDate')">
+                          Invalid date
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div
@@ -162,11 +170,16 @@
                         placeholder="Expiry Date"
                         formControlName="expiryDate"
                         [min]="
-                          uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)
-                            .value | docsUpload: i
+                          (uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)
+                            .value | docsUpload: i) || toDayDate
                         "
                       >
                       </kendo-datepicker>
+                      <div class="invalid-feedback">
+                        <div *ngIf="checkDate(subCat.code, i, 'expiryDate')">
+                          Invalid date
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div class="form-group col-sm-3 col-md-2">
@@ -200,7 +213,8 @@
                               i,
                               subCat,
                               OTHER_DOCUMENTS_SIZE,
-                              OTHER_DOCS_TYPE
+                              OTHER_DOCS_TYPE,
+                              subCat.code !== 3 ? '' : 'biometric'
                             )
                           "
                         ></i></label
@@ -237,12 +251,21 @@
   </form>
 </div>
 <div class="btn-sec clear-both row">
-  <div class="col-sm-5"></div>
+  <div class="col-sm-5">
+    <!-- <button
+      class="btn btn-primary js-btn-prev dash_href"
+      type="button"
+      (click)="navigateBack()"
+    >
+
+      Back to lead details
+    </button> -->
+  </div>
   <div class="col-sm-7 text-right">
     <button
       class="btn btn-primary js-btn-prev dash_href"
       type="button"
-      (click)="onBack()"
+      (click)="navigateBack()"
     >
       Back
     </button>

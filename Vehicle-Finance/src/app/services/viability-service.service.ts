@@ -93,7 +93,7 @@ export class ViabilityServiceService {
       const url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
       return this.httpService.post(url, requestEntity);
     }
-    
+
      CollateralId(data) {
       this.CollateralObj = data;
       console.log(this.CollateralObj, this.collateralId, 'Coll obj');

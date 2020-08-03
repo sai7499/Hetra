@@ -55,11 +55,11 @@
 	.alert{
 		width: 95%;
 	}
-	.content{
-		padding: 20px 5px;
+	.content-sec{
+		padding: 20px 5px!important;
 	}
 	.multisteps-form .multisteps-form__progress-btn {
-		text-indent: 0;
+		text-indent: 0!important;
 		font-size: 12px;
 	}
 	

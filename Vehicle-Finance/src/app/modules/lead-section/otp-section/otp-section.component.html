@@ -57,7 +57,7 @@
 <main>
     <div class="container-fluid" *ngIf="mobileNo">
         <form [formGroup]="otpForm">
-            <div class="content">
+            <div class="content content-trd">
                 <h3 class="title">Credit Report Authorization</h3>
                 <hr>
                 <div id="">
@@ -72,28 +72,32 @@
                 <hr>
                 <br>
                 <div class="row">
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-12">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                         <label>OTP Sent To {{mobileNo}}</label>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-12">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                         <input class="form-control text-center" type="password" maxlength="6" placeholder="Enter OTP" autofocus="" formControlName="otp" />
                         <div *ngIf="otpForm.get('otp').errors?.minlength || otpForm.get('otp').errors?.maxlength">
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-12">
-                        <button class="btn  btn-primary otp-button " id="resendotp_button" (click)=sendOtp()> Resend OTP </button>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-12" style="margin-left: 150px;">
-                        <button class="btn btn-primary " id="validateOtp_button " (click)="validateOtp() ">
-                            Verify
-                            OTP</button>
-                        <!-- <button class="btn btn-primary " id="otp_button " (click)=sendOtp()> Resend OTP </button> -->
-                    </div>
+                   
                     <!-- <div class="col-lg-4">
                         <button class="btn  btn-primary" id="resendotp_button" (click)=sendOtp()> Resend OTP </button>
                     </div> -->
                 </div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" >                        
+                        
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="text-align: center;">
+                        <button class="btn  btn-primary top-margin" id="resendotp_button" (click)=sendOtp()> Resend OTP </button>&nbsp;
+                        <button class="btn btn-primary top-margin" id="validateOtp_button" (click)="validateOtp() ">
+                            Verify OTP</button>
+                    </div>
+                   
+                </div>
             </div>
+            <!-- </div> -->            
         </form>
     </div>
 </main>

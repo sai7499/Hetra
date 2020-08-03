@@ -1,25 +1,8 @@
 <main class="mar-top90">
     <div class="container-fluid">
-        <div class="pull-right dropdown nav">
-            <span class="visible-xs pull-left mar-right8">
-                        <!-- <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"> Add Field <i class="fa fa-angle-down"></i> </button> -->
-                        <ul class="dropdown-menu">
-                            <li> <div class="checkbox"><label><input type="checkbox">Product <span class="checkmark"></span></label>
-        </div>
-        </li>
-        <li>
-            <div class="checkbox"><label><input type="checkbox">Stage <span class="checkmark"></span> </label></div>
-        </li>
-        <li>
-            <div class="checkbox"><label><input type="checkbox">Loan Amount <span class="checkmark"></span> </label></div>
-        </li>
-        <li>
-            <div class="checkbox"><label><input type="checkbox">Assigned By <span class="checkmark"></span> </label></div>
-        </li>
-        </ul>
-        </span>
-        <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter </button>
-    </div>
+        <!-- <div class="pull-right dropdown nav">
+            <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter </button>
+        </div> -->
     </div>
     <div class="filter-block container-fluid mar-bottom" *ngIf="showFilter">
         <div>
@@ -68,49 +51,72 @@
                     </div>
                 </div>
             </div> -->
-            <form>
+            <form [formGroup]="filterForm">
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="leadId">{{labels.leadID}}</label>
-                        <input class="form-control" type="text" id="leadId">
+                        <!-- <input class="form-control" formControlName="leadId" type="text" id="leadId"> -->
+                        <app-custom-input id="leadId" formControlName="leadId" [className]="'form-control'" [placeholder]="'Lead Id'" [maxLength]="validationData?.extn.maxLength" [type]="validationData?.extn.type">
+                        </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="productCategory">{{labels.productCategory}}</label>
-                        <input class="form-control" type="text" id="productCategory">
+                        <select class="form-control" formControlName="product">
+                            <option value=''>-- select one --</option>
+                            <option *ngFor="let item of productCategoryData" 
+                                [value]="item.key">{{item.value}}</option>                        
+                        </select>
+                        <!-- <app-vf-custom-select [values]="productCategoryData" 
+                             formControlName="product"> 
+                        </app-vf-custom-select> -->
+                        <!-- <input class="form-control" formControlName="product" type="text" id="productCategory"> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
                         <label for="status">{{labels.status}}</label>
-                        <input class="form-control" type="text" id="status">
+                        <!-- <input class="form-control" formControlName="status" type="text" id="status"> -->
+                        <!-- <app-vf-custom-select [values]="stageData" 
+                            formControlName="leadStage"> </app-vf-custom-select> -->
+                            <select class="form-control" formControlName="leadStage">
+                                <option value=''>-- select one --</option>
+                                <option *ngFor="let item of stageData" 
+                                    [value]="item.key">{{item.value}}</option>                        
+                            </select>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="startDate">{{labels.leadCreatedOnStartDate}}</label>
-                        <kendo-datepicker class="form-control" 
-                            [format]="'dd/MM/yyyy'" placeholder="Start Date" [activeView]="'decade'"></kendo-datepicker>
+                        <kendo-datepicker class="form-control" formControlName="fromDate" [format]="'dd/MM/yyyy'" placeholder="Start Date" [activeView]="'decade'"></kendo-datepicker>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="endDate">{{labels.leadCreatedOnEndDate}}</label>
-                        <kendo-datepicker class="form-control" 
-                        [format]="'dd/MM/yyyy'" placeholder="End Date" [activeView]="'decade'"></kendo-datepicker>
+                        <kendo-datepicker class="form-control" formControlName="toDate" [format]="'dd/MM/yyyy'" placeholder="End Date" [activeView]="'decade'"></kendo-datepicker>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="minAmount">{{labels.loanMinAmount}}</label>
-                        <input class="form-control" type="text" id="minAmount">
+                        <!-- <input class="form-control" formControlName="loanMinAmt" type="text" id="minAmount"> -->
+                        <app-custom-input id="minAmount" formControlName="loanMinAmt" [className]="'form-control'" [placeholder]="'Enter Loan amount'" [maxLength]="validationData?.amountValue.maxLength" [type]="validationData?.amountValue.type">
+                        </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="maxAmount">{{labels.loanMaxAmount}}</label>
-                        <input class="form-control" type="text" id="maxAmount">
+                        <!-- <input class="form-control" formControlName="loanMaxAmt" type="text" id="maxAmount"> -->
+                        <app-custom-input id="maxAmount" formControlName="loanMaxAmt" [className]="'form-control'" [placeholder]="'Enter Loan amount'" [maxLength]="validationData?.amountValue.maxLength" [type]="validationData?.amountValue.type">
+                        </app-custom-input>
+                    </div>
+                    <div class="actionbtn col-sm-6 col-md-3 col-lg-3">
+                        <button class="btn btn-default mar-right8" type="button" id="clearbtn" (click)="onClear()"> Clear </button>
+                        <button class="btn btn-primary" type="submit" (click)="onApply()"> Apply </button>
                     </div>
                 </div>
             </form>
 
-            <div class="btn-sec col-xs-12 text-right">
+            <!-- <div class="btn-sec col-xs-12 text-right">
                 <button class="btn btn-default mar-right8" id="clearbtn"> Clear </button>
                 <button class="btn btn-primary"> Apply </button>
-            </div>
+            </div> -->
         </div>
     </div>
     <div class="container-fluid mar-bottom" *ngIf="roleType == '1'">

@@ -34,11 +34,13 @@ export class ApplicantDocsUploadComponent implements OnInit {
     if (!value) {
       return;
     }
-    this.applicantId = Number(value);
+    this.applicantId = Number(value.id);
+    this.associatedWith = value.associatedWith;
     this.getApplicantDocumentCategory(this.applicantId);
     this.DEFAULT_PROFILE_IMAGE = '';
     this.DEFAULT_SIGNATURE_IMAGE = '';
   }
+  associatedWith;
   PROFILE_SIZE = Constant.PROFILE_IMAGE_SIZE;
   PROFILE_TYPE = Constant.PROFILE_ALLOWED_TYPES;
   OTHER_DOCUMENTS_SIZE = Constant.OTHER_DOCUMENTS_SIZE;
@@ -76,8 +78,13 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
   showDraggableContainer: {
     imageUrl: string;
+    imageType: string;
   };
   documentArr: DocumentDetails[] = [];
+
+  documentMaxLength = {
+    rule: 15,
+  };
 
   constructor(
     private lovData: LovDataService,
@@ -125,7 +132,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
     }
     const data = {
       applicantId,
-      associatedWith: 2,
+      associatedWith: this.associatedWith,
     };
     if (this.documentCategorySubs$) {
       this.documentCategorySubs$.unsubscribe();
@@ -190,6 +197,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
         const docDetails: DocumentDetails[] =
           value.ProcessVariables.documentDetails;
         this.documentArr = docDetails || [];
+        console.log('this.documentArr', this.documentArr);
         if (!docDetails) {
           this.subCategories.forEach((subCategory) => {
             const formArray = this.uploadForm.get(
@@ -206,13 +214,15 @@ export class ApplicantDocsUploadComponent implements OnInit {
           formArray.push(this.getDocsFormControls(docs));
           if (docs.categoryCode === '50' && docs.subCategoryCode === '1') {
             this.getBase64String(docs.dmsDocumentId).then((value: any) => {
-              this.DEFAULT_PROFILE_IMAGE = 'data:image/jpeg;base64,' + value;
+              this.DEFAULT_PROFILE_IMAGE =
+                'data:image/jpeg;base64,' + value.imageUrl;
             });
           }
 
           if (docs.categoryCode === '50' && docs.subCategoryCode === '2') {
             this.getBase64String(docs.dmsDocumentId).then((value: any) => {
-              this.DEFAULT_SIGNATURE_IMAGE = 'data:image/jpeg;base64,' + value;
+              this.DEFAULT_SIGNATURE_IMAGE =
+                'data:image/jpeg;base64,' + value.imageUrl;
             });
           }
         });
@@ -386,6 +396,23 @@ export class ApplicantDocsUploadComponent implements OnInit {
     const expiryDate = formGroup.get('expiryDate').value || '';
     const documentNumber = formGroup.get('documentNumber').value;
     const documentId = formGroup.get('documentId').value;
+    const documentName = formGroup.get('documentName').value;
+
+    if (!imageType) {
+      if (!documentName) {
+        return this.toasterService.showError(
+          'Please select the document name',
+          ''
+        );
+      }
+      if (!documentNumber) {
+        return this.toasterService.showError(
+          'Please enter the document number',
+          ''
+        );
+      }
+    }
+
     if (index !== undefined) {
       this.selectedIndex = index;
     }
@@ -421,7 +448,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
       issueDate,
       expiryDate,
       associatedId: String(this.applicantId),
-      associatedWith: '1',
+      associatedWith: this.associatedWith,
       documentNumber,
       documentId,
       docTp: 'Lead',
@@ -439,7 +466,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
         },
         {
           idTp: 'BRNCH',
-          id: 1001,
+          id: Number(localStorage.getItem('branchId')),
         },
       ],
       docsTypeForString: imageType,
@@ -461,7 +488,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
     if (bas64String) {
       this.setContainerPosition(el);
       this.showDraggableContainer = {
-        imageUrl: bas64String,
+        imageUrl: bas64String.imageUrl,
+        imageType: bas64String.imageType,
       };
       this.draggableContainerService.setContainerValue({
         image: this.showDraggableContainer,
@@ -469,19 +497,20 @@ export class ApplicantDocsUploadComponent implements OnInit {
       });
       return;
     }
-    const imageUrl: any = await this.getBase64String(documentId);
+    const imageValue: any = await this.getBase64String(documentId);
     this.setContainerPosition(el);
     this.showDraggableContainer = {
-      imageUrl,
+      imageUrl: imageValue.imageUrl,
+      imageType: imageValue.imageType,
     };
     this.draggableContainerService.setContainerValue({
       image: this.showDraggableContainer,
       css: this.setCss,
     });
-    this.base64StorageService.storeString(
-      this.applicantId + documentId,
-      imageUrl
-    );
+    this.base64StorageService.storeString(this.applicantId + documentId, {
+      imageUrl: imageValue.imageUrl,
+      imageType: imageValue.imageType,
+    });
   }
 
   getBase64String(documentId) {
@@ -490,7 +519,13 @@ export class ApplicantDocsUploadComponent implements OnInit {
         .getDocumentBase64String(documentId)
         .subscribe((value) => {
           const imageUrl = value['dwnldDocumentRep'].msgBdy.bsPyld;
-          resolve(imageUrl);
+          const documentName = value['dwnldDocumentRep'].msgBdy.docNm || '';
+          const imageType = documentName.split('.')[1].toLowerCase();
+
+          resolve({
+            imageUrl,
+            imageType,
+          });
           console.log('downloadDocs', value);
         });
     });
@@ -515,61 +550,110 @@ export class ApplicantDocsUploadComponent implements OnInit {
     this.showModal = false;
     if (event.docsTypeForString === 'profile') {
       this.DEFAULT_PROFILE_IMAGE = 'data:image/jpeg;base64,' + event.imageUrl;
+      const data = {
+        inputValue: event.imageUrl,
+        isCreate: true,
+        isFingerPrint: false,
+        isPhoto: true,
+        isSignature: false,
+        tableName: 'ind_identification_proof',
+        applicantId: this.applicantId,
+      };
+      // this.uploadPhotoOrSignature(data);
     } else if (event.docsTypeForString === 'signature') {
       this.DEFAULT_SIGNATURE_IMAGE = 'data:image/jpeg;base64,' + event.imageUrl;
+      const data = {
+        inputValue: event.imageUrl,
+        isCreate: true,
+        isFingerPrint: false,
+        isPhoto: false,
+        isSignature: true,
+        tableName: 'ind_identification_proof',
+        applicantId: this.applicantId,
+      };
+      // this.uploadPhotoOrSignature(data);
     }
+
+    event.imageUrl = '';
 
     const formArray = this.uploadForm.get(
       `${this.FORM_ARRAY_NAME}_${event.subCategoryCode}`
     ) as FormArray;
     formArray.at(this.selectedIndex).get('file').setValue(event.dmsDocumentId);
+    let index = 0;
     if (this.documentArr.length === 0) {
       this.documentArr.push(event);
+      index = 0;
     } else {
-      const index = this.documentArr.findIndex((value) => {
+      index = this.documentArr.findIndex((value) => {
         return (
           value.subCategoryCode === event.subCategoryCode &&
-          value.documentName === event.documentName &&
           value.documentId === event.documentId
         );
       });
       if (index === -1) {
         this.documentArr.push(event);
+        index = this.documentArr.length - 1;
       } else {
         this.documentArr[index] = event;
       }
     }
 
     console.log('documentArr', this.documentArr);
-    this.individualImageUpload(event);
+    this.individualImageUpload(event, index);
   }
 
-  individualImageUpload(request: DocumentDetails) {
+  uploadPhotoOrSignature(data) {
+    this.applicantService.uploadPhotoOrSignature(data).subscribe((value) => {
+      console.log('uploadPhotoOrSignature', value, 'data', data);
+    });
+  }
+
+  checkDate(subCategoryCode, index, controlName) {
+    const issueDate = (this.uploadForm.get(
+      this.FORM_ARRAY_NAME + '_' + subCategoryCode
+    ) as FormArray)
+      .at(index)
+      .get(controlName);
+    return issueDate.value && issueDate.errors;
+  }
+
+  individualImageUpload(request: DocumentDetails, index: number) {
     this.uploadService
       .saveOrUpdateDocument([request])
       .subscribe((value: any) => {
         if (value.Error !== '0') {
           return;
         }
-        this.toasterService.showSuccess('Documents saved successfully', '');
+        this.toasterService.showSuccess('Document uploaded successfully', '');
         console.log('saveOrUpdateDocument', value);
         const processVariables = value.ProcessVariables;
-        const documentIds = processVariables.documentIds;
-        documentIds.forEach((id, index) => {
-          this.documentArr[index].documentId = id;
-        });
-        this.documentArr.forEach((docs, index) => {
-          const formArrayIndex = docs.formArrayIndex;
-          if (formArrayIndex !== undefined) {
-            const formArray = this.uploadForm.get(
-              `${this.FORM_ARRAY_NAME}_${docs.subCategoryCode}`
-            ) as FormArray;
-            formArray
-              .at(formArrayIndex)
-              .get('documentId')
-              .setValue(documentIds[index]);
-          }
-        });
+        const documentId = processVariables.documentIds[0];
+        this.documentArr[index].documentId = documentId;
+        const subCategoryCode = this.documentArr[index].subCategoryCode;
+        const formArray = this.uploadForm.get(
+          `${this.FORM_ARRAY_NAME}_${subCategoryCode}`
+        ) as FormArray;
+        formArray
+          .at(this.documentArr[index].formArrayIndex)
+          .get('documentId')
+          .setValue(documentId);
+        console.log('this.documentArr', this.documentArr);
+        // documentIds.forEach((id, index) => {
+        //   this.documentArr[index].documentId = id;
+        // });
+        // this.documentArr.forEach((docs, index) => {
+        //   const formArrayIndex = docs.formArrayIndex;
+        //   if (formArrayIndex !== undefined) {
+        //     const formArray = this.uploadForm.get(
+        //       `${this.FORM_ARRAY_NAME}_${docs.subCategoryCode}`
+        //     ) as FormArray;
+        //     formArray
+        //       .at(formArrayIndex)
+        //       .get('documentId')
+        //       .setValue(documentIds[index]);
+        //   }
+        // });
       });
   }
 
@@ -627,5 +711,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
           }
         });
       });
+  }
+
+  navigateBack() {
+    this.router.navigateByUrl(localStorage.getItem('currentUrl'));
   }
 }

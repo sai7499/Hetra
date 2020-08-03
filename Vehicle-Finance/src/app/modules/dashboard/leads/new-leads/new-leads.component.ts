@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-new-leads',
@@ -15,10 +17,10 @@ import { SharedService } from '@modules/shared/shared-service/shared-service';
 })
 export class NewLeadsComponent implements OnInit {
 
-  newArray;
+  newArray: Array<any>;
   salesLeads;
   creditLeads;
-  itemsPerPage = '25';
+  itemsPerPage;
   totalItems;
   labels: any = {};
   lovData: any;
@@ -32,6 +34,8 @@ export class NewLeadsComponent implements OnInit {
   roleId;
   roleType;
   isLoadLead = true;
+  filterDetails: any;
+  isMobile = environment.isMobile;
 
   constructor(
     private labelsData: LabelsService,
@@ -42,7 +46,62 @@ export class NewLeadsComponent implements OnInit {
     private sharedService: SharedService,
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService
-  ) { }
+  ) {
+    console.log('environment', environment);
+
+    // if (environment.isMobile === true) {
+    //   this.itemsPerPage = '25';
+    // } else {
+    //   this.itemsPerPage = '5';
+    // }
+
+    if (window.screen.width > 768) {
+      this.itemsPerPage = '25';
+    } else if (window.screen.width <= 768) {
+      this.itemsPerPage = '5';
+    }
+  }
+
+  ngOnInit() {
+    this.labelsData.getLabelsData().subscribe(
+      data => {
+        this.labels = data;
+      }
+    );
+
+    this.dashboardService.isFilterData.subscribe((filterValue: any) => {
+      console.log('filterDetails', filterValue);
+      this.filterDetails = filterValue;
+      // this.getMyLeads(value);
+      this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+        this.branchId = value.branchId;
+        this.roleId = value.roleId;
+        this.roleType = value.roleType;
+        console.log('role Type', this.roleType);
+      });
+      if (this.roleType == '2') {
+        // this.getDDELeads(this.itemsPerPage);
+        this.getCreditFilterLeads(filterValue);
+      } else {
+        this.getSalesFilterLeads(filterValue);
+      }
+    });
+
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+      this.branchId = value.branchId;
+      this.roleId = value.roleId;
+      this.roleType = value.roleType;
+      console.log('role Type', this.roleType);
+    });
+    if (this.roleType == '2') {
+      // this.getDDELeads(this.itemsPerPage);
+      this.getCreditFilterLeads(this.itemsPerPage);
+    } else {
+      // this.getMyLeads(this.itemsPerPage);
+      this.getSalesFilterLeads(this.itemsPerPage);
+    }
+
+  }
 
   getMyLeads(perPageCount, pageNumber?) {
 
@@ -51,15 +110,40 @@ export class NewLeadsComponent implements OnInit {
       // tslint:disable-next-line: radix
       perPage: parseInt(perPageCount),
       // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber)
+      currentPage: parseInt(pageNumber),
     };
+    console.log('normal get my leads', data)
+    this.responseForSales(data);
+  }
 
+  getSalesFilterLeads(filterValue, pageNumber?) {
+    const data = {
+      userId: localStorage.getItem('userId'),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(this.itemsPerPage),
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      leadId: filterValue ? filterValue.leadId : '',
+      fromDate: filterValue ? filterValue.fromDate : '',
+      toDate: filterValue? filterValue.toDate : '',
+      productCategory: filterValue? filterValue.product : '',
+      loanMinAmt: filterValue? filterValue.loanMinAmt : '',
+      loanMaxAmt: filterValue ? filterValue.loanMaxAmt : '',
+      leadStage: filterValue? filterValue.leadStage:'',
+    };
+    console.log('getmyFilterdata', data);
+
+    this.responseForSales(data);
+  }
+
+  responseForSales(data) {
     this.dashboardService.myLeads(data).subscribe((res: any) => {
       this.setPageData(res);
       if (res.ProcessVariables.loanLead != null) {
         this.isLoadLead = true;
       } else {
         this.isLoadLead = false;
+        return this.newArray = [];
     }
     });
   }
@@ -75,15 +159,42 @@ export class NewLeadsComponent implements OnInit {
       perPage: parseInt(perPageCount),
       myLeads: true
     };
+    this.responseForCredit(data);
+  }
+
+  getCreditFilterLeads(filterValue, pageNumber?) {
+    const data = {
+      taskName: 'DDE',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(this.itemsPerPage),
+      myLeads: true,
+      leadId: filterValue ? filterValue.leadId : '',
+      fromDate: filterValue ? filterValue.fromDate : '',
+      toDate: filterValue ? filterValue.toDate : '',
+      product: filterValue ? filterValue.product : '',
+      loanMinAmt: filterValue ? filterValue.loanMinAmt : '',
+      loanMaxAmt: filterValue ? filterValue.loanMaxAmt : '',
+      leadStage: filterValue ? filterValue.leadStage:'',
+    };
+    this.responseForCredit(data);
+  }
+
+  responseForCredit(data) {
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
       if (res.ProcessVariables.loanLead != null) {
         this.isLoadLead = true;
       } else {
         this.isLoadLead = false;
+        return this.newArray = [];
     }
     });
   }
+
   setPageData(res) {
     const response = res.ProcessVariables.loanLead;
     this.newArray = response;
@@ -96,31 +207,13 @@ export class NewLeadsComponent implements OnInit {
   }
   setPage(event) {
     if (this.roleType == '2') {
-      this.getDDELeads(this.itemsPerPage, event);
+      // this.getDDELeads(this.itemsPerPage, event);
+      this.getCreditFilterLeads(this.filterDetails, event);
     } else {
-      this.getMyLeads(this.itemsPerPage, event);
+      // this.getMyLeads(this.itemsPerPage, event);
+
+      this.getSalesFilterLeads(this.filterDetails, event);
     }
-  }
-
-  ngOnInit() {
-    this.labelsData.getLabelsData().subscribe(
-      data => {
-        this.labels = data;
-      }
-    );
-
-    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
-      this.branchId = value.branchId;
-      this.roleId = value.roleId;
-      this.roleType = value.roleType;
-      console.log("role Type",this.roleType);
-    });
-    if (this.roleType == '2') {
-      this.getDDELeads(this.itemsPerPage);
-    } else {
-      this.getMyLeads(this.itemsPerPage);
-    }
-
   }
 
   onClick() {

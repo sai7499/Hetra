@@ -6,6 +6,7 @@ import { PersonalDiscussionService } from '@services/personal-discussion.service
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
 import { Router } from '@angular/router';
+import { DashboardService } from '@services/dashboard/dashboard.service';
 @Component({
   selector: 'app-declined-leads-with-branch',
   templateUrl: './declined-leads-with-branch.component.html',
@@ -26,6 +27,7 @@ export class DeclinedLeadsWithBranchComponent implements OnInit {
   taskId: any;
   isLoadLead = true;
   roleType: any;
+  filterDetails: any;
 
 
   constructor(
@@ -35,8 +37,14 @@ export class DeclinedLeadsWithBranchComponent implements OnInit {
     private personalDiscussion: PersonalDiscussionService,
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService,
-    private router: Router
+    private router: Router,
+    private dashboardService: DashboardService
   ) {
+    if (window.screen.width > 768) {
+      this.itemsPerPage = '25';
+    } else if (window.screen.width <= 768) {
+      this.itemsPerPage = '5';
+    }
   }
 
   ngOnInit() {
@@ -45,20 +53,31 @@ export class DeclinedLeadsWithBranchComponent implements OnInit {
         this.labels = data;
       }
     );
+    this.dashboardService.isFilterData.subscribe((filterValue: any) => {
+      console.log('filterDetails', filterValue);
+      this.filterDetails = filterValue;
+      this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+        this.roleId = String(value.roleId);
+        this.branchId = value.branchId;
+        this.roleType = value.roleType;
+      });
+      this.getDeclinedLeads(filterValue);
+    });
+
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
       this.roleType = value.roleType;
     });
     this.getDeclinedLeads(this.itemsPerPage);
+
   }
 
   onClick() {
     this.getDeclinedLeads(this.itemsPerPage);
-
   }
 
-  getDeclinedLeads(perPageCount, pageNumber?) {
+  getDeclinedLeads(filterValue, pageNumber?) {
     const data = {
       taskName: 'Declined Leads',
       branchId: this.branchId,
@@ -66,9 +85,19 @@ export class DeclinedLeadsWithBranchComponent implements OnInit {
       // tslint:disable-next-line: radix
       currentPage: parseInt(pageNumber),
       // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
+      perPage: parseInt(this.itemsPerPage),
       myLeads: false,
+      leadId: filterValue ? filterValue.leadId : '',
+      fromDate: filterValue ? filterValue.fromDate : '',
+      toDate: filterValue ? filterValue.toDate : '',
+      productCategory: filterValue ? filterValue.product : '',
+      loanMinAmt: filterValue ? filterValue.loanMinAmt : '',
+      loanMaxAmt: filterValue ? filterValue.loanMaxAmt : ''
     };
+    this.responseForCredit(data);
+  }
+
+  responseForCredit(data) {
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
       if (res.ProcessVariables.loanLead != null) {
@@ -78,6 +107,27 @@ export class DeclinedLeadsWithBranchComponent implements OnInit {
     }
     });
   }
+
+  // getDeclinedLeads(perPageCount, pageNumber?) {
+  //   const data = {
+  //     taskName: 'Declined Leads',
+  //     branchId: this.branchId,
+  //     roleId: this.roleId,
+  //     // tslint:disable-next-line: radix
+  //     currentPage: parseInt(pageNumber),
+  //     // tslint:disable-next-line: radix
+  //     perPage: parseInt(perPageCount),
+  //     myLeads: false,
+  //   };
+  //   this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
+  //     this.setPageData(res);
+  //     if (res.ProcessVariables.loanLead != null) {
+  //       this.isLoadLead = true;
+  //     } else {
+  //       this.isLoadLead = false;
+  //   }
+  //   });
+  // }
 
   setPageData(res) {
     const response = res.ProcessVariables.loanLead;
@@ -90,7 +140,7 @@ export class DeclinedLeadsWithBranchComponent implements OnInit {
   }
 
   setPage(event) {
-    this.getDeclinedLeads(this.itemsPerPage, event);
+    this.getDeclinedLeads(this.filterDetails, event);
   }
 
   onAssign(id, leadId) {

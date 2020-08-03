@@ -31,8 +31,8 @@ export class UploadService {
           extRefId: dateFormat,
           timestamp: moment.utc().format(),
           authInfo: {
-            brnchId: 1001,
-            usrId: 474,
+            brnchId: Number(localStorage.getItem('branchId')),
+            usrId: localStorage.getItem('userId'),
           },
         },
         msgBdy: {
@@ -46,10 +46,10 @@ export class UploadService {
       },
     };
     console.log(JSON.stringify(data));
-    return this.httpService.docUpload(
-      'http://10.101.10.153/addDigiDocument/',
-      data
-    );
+    console.log("base url",environment.baseUrl);
+    const url = environment.baseUrl+'/addDigiDocument/';
+    // 'http://10.101.10.153/addDigiDocument/',
+    return this.httpService.docUpload(url,data);
   }
 
   saveOrUpdateDocument(documentDetails: DocumentDetails[]) {
@@ -115,7 +115,7 @@ export class UploadService {
           extRefId: 'WIZ2020621616194742655',
           timestamp: '2020-07-02T10:46:19.934Z',
           authInfo: {
-            brnchId: '1001',
+            brnchId: localStorage.getItem('branchId'),
             usrId: localStorage.getItem('userId'),
           },
         },
@@ -129,9 +129,10 @@ export class UploadService {
         },
       },
     };
-    return this.httpService.docUpload(
-      'http://10.101.10.153/downloadDigiDocument/',
-      data
-    );
+    const url = environment.baseUrl+'/downloadDigiDocument/';
+    console.log("base url",window.location.origin);
+         // 'http://10.101.10.153/downloadDigiDocument/',
+   
+    return this.httpService.docUpload(url,data);
   }
 }

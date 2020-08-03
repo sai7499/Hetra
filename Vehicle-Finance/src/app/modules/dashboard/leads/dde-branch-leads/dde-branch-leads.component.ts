@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { HttpService } from '@services/http.service';
 import { HttpClient } from '@angular/common/http';
 import { ToasterService } from '@services/toaster.service';
+import { DashboardService } from '@services/dashboard/dashboard.service';
 
 @Component({
   selector: 'app-dde-branch-leads',
@@ -30,6 +31,7 @@ export class DdeBranchLeadsComponent implements OnInit {
   taskId: any;
   isLoadLead = true;
   roleType: any;
+  filterDetails: any;
 
 
   constructor(
@@ -39,9 +41,15 @@ export class DdeBranchLeadsComponent implements OnInit {
     private taskDashboard: TaskDashboard,
     private router: Router,
     private httpService: HttpService,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private dashboardService: DashboardService
 
   ) {
+    if (window.screen.width > 768) {
+      this.itemsPerPage = '25';
+    } else if (window.screen.width <= 768) {
+      this.itemsPerPage = '5';
+    }
   }
 
   ngOnInit() {
@@ -50,19 +58,54 @@ export class DdeBranchLeadsComponent implements OnInit {
         this.labels = data;
       }
     );
+
+    this.dashboardService.isFilterData.subscribe((filterValue: any) => {
+      console.log('filterDetails', filterValue);
+      this.filterDetails = filterValue;
+      this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+        this.roleId = String(value.roleId);
+        this.branchId = value.branchId;
+        this.roleType = value.roleType;
+      });
+      this.getCreditFilterLeads(filterValue);
+    });
+
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
       this.roleType = value.roleType;
     });
-    this.getDDEBranchLeads(this.itemsPerPage);
+    this.getCreditFilterLeads(this.itemsPerPage);
+
   }
 
   onClick() {
-    this.getDDEBranchLeads(this.itemsPerPage);
+    // this.getDDEBranchLeads(this.itemsPerPage);
+    this.getCreditFilterLeads(this.itemsPerPage);
   }
 
-  getDDEBranchLeads(perPageCount, pageNumber?) {
+  // getDDEBranchLeads(perPageCount, pageNumber?) {
+  //   const data = {
+  //     taskName: 'DDE',
+  //     branchId: this.branchId,
+  //     roleId: this.roleId,
+  //     // tslint:disable-next-line: radix
+  //     currentPage: parseInt(pageNumber),
+  //     // tslint:disable-next-line: radix
+  //     perPage: parseInt(perPageCount),
+  //     myLeads: false,
+  //   };
+  //   this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
+  //     this.setPageData(res);
+  //     if (res.ProcessVariables.loanLead != null) {
+  //       this.isLoadLead = true;
+  //     } else {
+  //       this.isLoadLead = false;
+  //   }
+  //   });
+  // }
+
+  getCreditFilterLeads(filterValue, pageNumber?) {
     const data = {
       taskName: 'DDE',
       branchId: this.branchId,
@@ -70,9 +113,19 @@ export class DdeBranchLeadsComponent implements OnInit {
       // tslint:disable-next-line: radix
       currentPage: parseInt(pageNumber),
       // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
+      perPage: parseInt(this.itemsPerPage),
       myLeads: false,
+      leadId: filterValue ? filterValue.leadId : '',
+      fromDate: filterValue ? filterValue.fromDate : '',
+      toDate: filterValue ? filterValue.toDate : '',
+      productCategory: filterValue ? filterValue.product : '',
+      loanMinAmt: filterValue ? filterValue.loanMinAmt : '',
+      loanMaxAmt: filterValue ? filterValue.loanMaxAmt : ''
     };
+    this.responseForCredit(data);
+  }
+
+  responseForCredit(data) {
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
       if (res.ProcessVariables.loanLead != null) {
@@ -94,7 +147,8 @@ export class DdeBranchLeadsComponent implements OnInit {
   }
 
   setPage(event) {
-    this.getDDEBranchLeads(this.itemsPerPage, event);
+    // this.getDDEBranchLeads(this.itemsPerPage, event);
+    this.getCreditFilterLeads(this.filterDetails, event);
   }
 
   onAssign(id, leadId) {

@@ -47,4 +47,17 @@ export class SharedService {
     getTvrDetailsPrevious(data) {
         this.tvrDetailsPrevious$.next(data);
     }
+    roleAndActivityList$: BehaviorSubject<any> = new BehaviorSubject([]);
+    getRolesActivityList(data) {
+        this.roleAndActivityList$.next(data);
+    }
+
+    private searchbarRoleActivityList$: BehaviorSubject<any> = new BehaviorSubject(null);
+    setSearchBarActivity(data) {
+        this.searchbarRoleActivityList$.next(data);
+    }
+
+    getSearchBarActivity() {
+        return this.searchbarRoleActivityList$;
+    }
 }

@@ -1,7 +1,7 @@
 <main class="mar-top90">
   <app-lead-section-header></app-lead-section-header>
 
-  <div class="container-fluid">
+  <div class="">
     <h3 class="margin_zero" *ngIf="applicantId == null">
       {{ labels?.addApplicantTitle }}
     </h3>
@@ -232,7 +232,7 @@
                     </kendo-datepicker>
 
                     <div
-                      class="ShowError"
+                      class="invalid-feedback ShowError"
                       *ngIf="
                         coApplicantForm.get('dedupe').get('dob').touched ||
                         isDirty
@@ -241,7 +241,7 @@
                       <div
                         *ngIf="coApplicantForm.get('dedupe').get('dob').invalid"
                       >
-                        select date
+                        Select date
                       </div>
                     </div>
                   </div>
@@ -964,8 +964,19 @@
                     <a class="back_color">Back</a>
                   </button>
                 </div>
+                <!-- <div  class="form-group col-sm-6 col-md-4 col-lg-4 margin-top-20"
+                *ngIf="showEkycbutton && applicantType == 'INDIVENTTYP'">
+                  <button
+                    class="btn btn-primary mar-right8"
+                    type="button"
+                    (click)="calleKYC()"
+                  >
+                    <a class="back_color">eKYC Mobile</a>
+                  </button>
+                </div> -->
               </div>
             </div>
+            
 
             <div
               class="multisteps-form__panel"
@@ -985,8 +996,8 @@
                   !isCinNumberChanged &&
                   !isAadharChanged &&
                   !isPanChanged &&
-                  !isName1Changed)
-              "
+                  !isName1Changed)"
+              
             >
               <div
                 id="individual_section_address"
@@ -1137,7 +1148,7 @@
                       [disabled]="isDisabledCheckbox"
                     />
                     <span id="address_section_checkbox_text"
-                      >Check If It Is Same As Permanent Address?
+                      >&nbsp;Check If It Is Same As Permanent Address?
                     </span>
                   </div>
                 </div>
@@ -1523,7 +1534,7 @@
     </form>
   </div>
   <div
-    class="btn-sec clear-both"
+    class="btn-sec clear-both btn-space"
     *ngIf="
       (applicantType == 'INDIVENTTYP' &&
         !isMobileChanged &&
@@ -1543,20 +1554,20 @@
     "
   >
     <div class="col-sm-5"></div>
-    <div class="col-sm-7 text-right" id="clickButton">
+    <div class="col-sm-7 text-right p-0" id="clickButton">
       <button
-        class="btn btn-primary mar-right8"
+        class="btn btn-primary "
         type="button"
         (click)="navigateToApplicantList()"
       >
         <a class="back_color">Back</a>
       </button>
-      &nbsp;
-      <button type="button" (click)="onFormSubmit()" class="btn btn-primary">
+      
+      <button type="button" (click)="onFormSubmit()" class="btn btn-primary ">
         <a class="back_color">Save</a>
       </button>
-      &nbsp;
-      <button type="button" class="btn btn-primary" (click)="onNext()">
+      
+      <button type="button" class="btn btn-primary " (click)="onNext()">
         <a class="back_color">Next</a>
       </button>
     </div>
