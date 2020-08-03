@@ -587,5 +587,10 @@ export class ApiService {
       workflowId: 'aeed7234d0b411ea99c400505695f93b',
       projectId: environment.projectIds.externalApi,
     },
+    getTermSheet: {
+      processId: 'aa0bd7accd8e11eaa47f00505695f93b',
+      workflowId: 'a9e25f4ecd8e11eab88900505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    }
   };
 }
