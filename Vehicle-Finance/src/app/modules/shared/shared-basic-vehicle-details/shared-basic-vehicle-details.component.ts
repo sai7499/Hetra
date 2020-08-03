@@ -562,8 +562,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           if (value.ProcessVariables.GeoMasterView && value.ProcessVariables.GeoMasterView.length > 0) {
             let addressList: any[] = value.ProcessVariables.GeoMasterView;
           } else {
-            this.toasterService.showError('Invalid pincode', '');
-            return;
+            this.toasterService.showError('Invalid pincode', '');   
+            
+            return  
           }
         })).subscribe((res: any) => {
           if (!res) {

@@ -727,6 +727,9 @@ h4.table-head-bg.m-0.p-02 {
 .top-padding{
     padding-top: 1vw
 }
+.top-margin{
+    margin-top: 1vw;
+}
 @media (min-width:300px) and (max-width:767px) {
     .search{    
       position: relative;
@@ -762,6 +765,10 @@ h4.table-head-bg.m-0.p-02 {
         top: calc(100% - 280px)!important; 
         /* top: -15vw; */
      } 
+     td, th {
+    
+        font-size: 12px;
+        }
   }
 
   /* fa fa-icon */
@@ -775,8 +782,5 @@ h4.table-head-bg.m-0.p-02 {
   }
 
   /* font size in table td*/
-  td, th {
-    
-    font-size: 12px;
-    }
+  
 	

@@ -1382,8 +1382,10 @@
                                 [id]="'vehicle_pincode'" [className]="'form-control mandatory'"
                                 [placeholder]="'Vehicle Address PINCODE'"
                                 (keyup)="getPincode(obj.controls['pincode'].value)"
-                                [maxLength]="label.validationData?.pincode.maxLength" [custom]="initalZeroCheck"
-                                [isRequired]="'Vehicle Address PINCODE Required'" [isDirty]="isDirty">
+                                [maxLength]="label.validationData?.pincode.maxLength" 
+                                [custom]="initalZeroCheck"
+                                [isRequired]="'Vehicle Address PINCODE Required'" 
+                                [isDirty]="isDirty">
                             </app-custom-input>
 
                         </div>
@@ -1392,7 +1394,7 @@
                             <label for="fitness_date">{{label.fitnessDate}} </label>
 
                             <kendo-datepicker class="form-control mandatory" formControlName="fitnessDate"
-                                [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
+                                [format]="'dd/MM/yyyy'" [min]="maxDate" [activeView]="'decade'"
                                 placeholder="Fitness Date">
                             </kendo-datepicker>
 
