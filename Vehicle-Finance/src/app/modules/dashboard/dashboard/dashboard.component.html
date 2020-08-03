@@ -1,8 +1,8 @@
 <main class="mar-top90">
     <div class="container-fluid">
-        <div class="pull-right dropdown nav">
+        <!-- <div class="pull-right dropdown nav">
             <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter </button>
-        </div>
+        </div> -->
     </div>
     <div class="filter-block container-fluid mar-bottom" *ngIf="showFilter">
         <div>
@@ -61,13 +61,26 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="productCategory">{{labels.productCategory}}</label>
-                        <app-vf-custom-select [values]="productCategoryData" formControlName="product"> </app-vf-custom-select>
+                        <select class="form-control" formControlName="product">
+                            <option value=''>-- select one --</option>
+                            <option *ngFor="let item of productCategoryData" 
+                                [value]="item.key">{{item.value}}</option>                        
+                        </select>
+                        <!-- <app-vf-custom-select [values]="productCategoryData" 
+                             formControlName="product"> 
+                        </app-vf-custom-select> -->
                         <!-- <input class="form-control" formControlName="product" type="text" id="productCategory"> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
                         <label for="status">{{labels.status}}</label>
                         <!-- <input class="form-control" formControlName="status" type="text" id="status"> -->
-                        <app-vf-custom-select [values]="stageData" formControlName="leadStage"> </app-vf-custom-select>
+                        <!-- <app-vf-custom-select [values]="stageData" 
+                            formControlName="leadStage"> </app-vf-custom-select> -->
+                            <select class="form-control" formControlName="leadStage">
+                                <option value=''>-- select one --</option>
+                                <option *ngFor="let item of stageData" 
+                                    [value]="item.key">{{item.value}}</option>                        
+                            </select>
                     </div>
                 </div>
                 <div class="row">
