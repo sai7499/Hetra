@@ -162,7 +162,7 @@ export class IdentityDetailsComponent implements OnInit {
   }
   addIndividualFormControls() {
     const controls = new FormGroup({
-      aadhar: new FormControl(null),
+      aadhar: new FormControl({value:null,disabled: true}),
       panType: new FormControl({value :'', disabled : true}),
       pan: new FormControl(null),
       passportNumber: new FormControl(null),
@@ -180,7 +180,7 @@ export class IdentityDetailsComponent implements OnInit {
   
   addNonIndividualFormControls() {
     const controls = new FormGroup({
-      aadhar: new FormControl(null),
+      aadhar: new FormControl({value :'', disabled : true}),
       panType: new FormControl({value :'', disabled : true}),
       panNumber: new FormControl(null),
       
