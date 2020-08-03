@@ -2188,9 +2188,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       // that.isGstNumberChanged = false;
       // that.isTanNumberChanged = false;
 
-      setTimeout(function(){
-        that.setBiometricValues(that, value);
-      },0);
+      that.setBiometricValues(that, value);
 
     });
    
