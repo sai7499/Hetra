@@ -23,6 +23,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   @Input() id: any;
 
+  addressList: any = [];
+
+  isValidPincode: boolean = true;
+
   maxDate = new Date();
   initalZeroCheck = [];
   customFutureDate: boolean;
@@ -527,7 +531,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     })
   }
 
-  onAssetModel(value: any, obj , index) {
+  onAssetModel(value: any, obj, index) {
     this.assetVariant = this.assetModelType.filter((data) => data.vehicleModelCode === value)
     const array = this.utilityService.getCommonUniqueValue(this.assetVariant, 'vehicleVariant')
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
@@ -545,7 +549,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   }
 
   getPincode(pincode) {
-    console.log(pincode, 'picsf')
     if (pincode.length === 6) {
       const pincodeNumber = Number(pincode);
       this.getPincodeResult(pincodeNumber);
@@ -553,6 +556,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   }
 
   getPincodeResult(pincodeNumber: number) {
+    let pincodeResult = [];
     this.applicantService
       .getGeoMasterValue({
         pincode: pincodeNumber,
@@ -560,16 +564,27 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       .pipe(
         map((value: any) => {
           if (value.ProcessVariables.GeoMasterView && value.ProcessVariables.GeoMasterView.length > 0) {
-            let addressList: any[] = value.ProcessVariables.GeoMasterView;
+            return value.ProcessVariables.GeoMasterView;
           } else {
             this.toasterService.showError('Invalid pincode', '');
+            this.isValidPincode = false;
             return;
           }
         })).subscribe((res: any) => {
+          console.log('Before res', res)
           if (!res) {
             return;
           }
+          pincodeResult = res;
+          console.log('res', pincodeResult)
+          setTimeout(() => {
+          });
+          // return pincodeResult
         })
+
+        // setTimeout({})
+
+    console.log(pincodeResult, 'AddressList', this.addressList)
   }
 
   addSalesFormControls() {
@@ -601,7 +616,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleId: 0,
       collateralId: 0,
       leadId: this.leadId,
-      userId: this.userId
+      userId: this.userId,
+      isValidPincode: this.isValidPincode
     });
     formArray.push(controls);
     this.changeSalesForm()
