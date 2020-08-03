@@ -11,29 +11,36 @@
         <p id="exact_macth_title1">Negative List Results</p>
         <div id="nagative_list_results">
           <div class="row">
-            <div class="col-md-12">
-              <p id="nagative_list_results_tag">
-                <span>Found in NL?</span>
+            <div class="row" >
+              <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                <label id="nagative_list_results_tag">Found in NL?</label>
+              </div>
+              <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
                 <input
-                  type="text"
-                  [value]="modalInput?.isNLFound"
-                  name="found_in_nl"
-                  id="found_in_nl"
-                  disabled="disabled"
-                />
-              </p>
+                type="text"
+                [value]="modalInput?.isNLFound"
+                name="found_in_nl"
+                id="found_in_nl"
+                disabled="disabled"
+                class="input-style"
+              />
+              </div>
             </div>
-            <div class="col-md-12">
-              <p id="nagative_list_results_tag1">
-                <span>Found in TR NL?</span
-                ><input
+            <div class="row line-space">
+              <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                <label id="nagative_list_results_tag1">Found in TR NL?</label>
+              </div>
+              <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                <input
                   type="text"
                   [value]="modalInput?.isNLTRFound"
                   name="found_in_trnl"
                   id="found_in_trnl"
                   disabled="disabled"
+                  class="input-style"
                 />
-              </p>
+
+              </div>
             </div>
             <!-- <ng-container *ngIf="modalInput"> -->
             <div class="col-md-12" *ngIf="modalInput?.isNLFound">
@@ -73,7 +80,7 @@
 
       <!-- Modal footer -->
       <div class="modal-footer text-center">
-        <div class="form-group col-md-12" style="margin-top: 10px;">
+        <div class="form-group" style="margin-top: 10px;">
           <p for="Vechical Type" style="text-align: left;">Remarks</p>
           <textarea
             [(ngModel)]="remarks"
