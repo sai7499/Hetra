@@ -102,7 +102,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   gstNumber: string;
 
   toDayDate: Date = new Date();
-  isAlert : boolean = true;
+  isAlertSuccess : boolean = true;
+  isAlertDanger : boolean = true;
  
 
   mandatory: any = {};
@@ -2098,17 +2099,17 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       if(processVariables.error.code=='0'){
         console.log("KYC success" + processVariables.error.code);
 
-        that.isAlert = false;
+        that.isAlertSuccess = false;
         setTimeout(() => {
-          that.isAlert = true;
+          that.isAlertSuccess = true;
         }, 1500);
       }
        else{
         console.log("KYC failure" + processVariables.error.code);
 
-        that.isAlert = false;
+        that.isAlertDanger = false;
         setTimeout(() => {
-          that.isAlert = true;
+          that.isAlertDanger = true;
         }, 1500);
         return;
        }
