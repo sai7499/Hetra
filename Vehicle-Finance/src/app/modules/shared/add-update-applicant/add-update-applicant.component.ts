@@ -14,6 +14,7 @@ import { ApplicantService } from '@services/applicant.service';
 import { formatDate, Location } from '@angular/common';
 
 import { ViewChild, ElementRef, } from '@angular/core';
+
 import {
   Applicant,
   ApplicantDetails,
@@ -101,6 +102,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   gstNumber: string;
 
   toDayDate: Date = new Date();
+  isAlert : boolean = true;
+ 
 
   mandatory: any = {};
   expiryMandatory: any = {};
@@ -2077,9 +2080,41 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     //   console.log("KYC result&&&&@@@" + result);
     //   const value = result;
-    const value= this.biometricResponce
+    //const value= this.biometricResponce;
+
+    
+    this.ngxService.start();
+    let applicantId = this.applicantId;
+    let aadhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
+    this.biometricService.initIdenti5(aadhar, applicantId, function (result) {
+      that.ngxService.stop();
+
+
+      let processVariables = JSON.parse(result).ProcessVariables
+      // value = JSON.parse(value).ProcessVariables;
+
+      console.log("KYC result&&&&@@@" + processVariables);
+
+      if(processVariables.error.code=='0'){
+        console.log("KYC success" + processVariables.error.code);
+
+        that.isAlert = false;
+        setTimeout(() => {
+          that.isAlert = true;
+        }, 1500);
+      }
+       else{
+        console.log("KYC failure" + processVariables.error.code);
+
+        that.isAlert = false;
+        setTimeout(() => {
+          that.isAlert = true;
+        }, 1500);
+        return;
+       }
+
       //const value= this.biometricResponce;
-      that.setBiometricValues(that, value);
+      that.setBiometricValues(that, processVariables);
 
 
       that.showEkycbutton = false;
@@ -2096,7 +2131,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       that.isCinNumberChanged = false;
       that.isGstNumberChanged = false;
       that.isTanNumberChanged = false;
-    // });
+    });
 
   }
 
@@ -2106,7 +2141,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   setBiometricValues(ctx, value) {
 
-    //value = JSON.parse(value).ProcessVariables;
+    value = JSON.parse(value).ProcessVariables;
     console.log('value', value)
     const dedupe = ctx.coApplicantForm.get('dedupe');
     console.log("dedupe-element", dedupe);
