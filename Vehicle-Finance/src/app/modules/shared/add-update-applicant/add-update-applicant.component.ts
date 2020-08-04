@@ -11,6 +11,8 @@ import { LeadStoreService } from '@services/lead-store.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 import { ApplicantService } from '@services/applicant.service';
 import { formatDate, Location } from '@angular/common';
+
+import { ViewChild, ElementRef, } from '@angular/core';
 import {
   Applicant,
   ApplicantDetails,
@@ -27,6 +29,12 @@ import { ToasterService } from '@services/toaster.service';
 import { Subscription } from 'rxjs';
 import { ready } from 'jquery';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+
+import { environment } from 'src/environments/environment';
+import { BiometricService } from '@services/biometric.service';
+
+declare var identi5: any;
+
 
 @Component({
   selector: 'app-add-update-applicant',
@@ -179,11 +187,15 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   addDisabledCheckBox: boolean;
   panValidate = false;
   showEkycbutton = false;
-  showMessage : any={};
-  disabledDrivingDates= true;
-  disabledPassportDates= true;
-  
-  
+  showMessage: any = {};
+  disabledDrivingDates = true;
+  disabledPassportDates = true;
+
+
+
+  isMobile: any;
+
+  @ViewChild('pTag', { static: false }) pTag: ElementRef<HTMLElement>;
 
   biometricResponce = {
     addressLineOne: "PLOT NO 968TH CROSS STREETKARU",
@@ -207,133 +219,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     pincode: "620001",
     resultPincode: 620001,
     genderFromResponse: "M",
-    geoMasterData: [
-      {
-        cityCode: 125216,
-        cityId: 125216,
-        cityName: "BHEEMANAGAR S.O-TIRUCHY",
-        country: "INDIA",
-        countryId: 6,
-        districtId: 596,
-        districtName: "Tiruchirappalli",
-        geoMasterId: 124138,
-        pincode: 620001,
-        stateId: 40,
-        stateName: "TAMIL NADU",
-        threeAlphaCode: "IND"
-      },
-      {
-        cityCode: 125246,
-        cityId: 125246,
-        cityName: "PONNIAH SCHOOL BUILDINGS -TIRUCHY",
-        country: "INDIA",
-        countryId: 6,
-        districtId: 596,
-        districtName: "Tiruchirappalli",
-        geoMasterId: 124168,
-        pincode: 620001,
-        stateId: 40,
-        stateName: "TAMIL NADU",
-        threeAlphaCode: "IND"
-      },
-      {
-        cityCode: 125250,
-        cityId: 125250,
-        cityName: "TIRUCHIRAPPALLI R.S. S.O-TIRUCHY",
-        country: "INDIA",
-        countryId: 6,
-        districtId: 596,
-        districtName: "Tiruchirappalli",
-        geoMasterId: 124172,
-        pincode: 620001,
-        stateId: 40,
-        stateName: "TAMIL NADU",
-        threeAlphaCode: "IND"
-      },
-      {
-        cityCode: 125406,
-        cityId: 125406,
-        cityName: "TIRUCHIRAPPALLICOLLECTORATE-TIRUCHY",
-        country: "INDIA",
-        countryId: 6,
-        districtId: 596,
-        districtName: "Tiruchirappalli",
-        geoMasterId: 124328,
-        pincode: 620001,
-        stateId: 40,
-        stateName: "TAMIL NADU",
-        threeAlphaCode: "IND"
-      },
-      {
-        cityCode: 125443,
-        cityId: 125443,
-        cityName: "PUSHPANAGAR S.O-TIRUCHY",
-        country: "INDIA",
-        countryId: 6,
-        districtId: 596,
-        districtName: "Tiruchirappalli",
-        geoMasterId: 124365,
-        pincode: 620001,
-        stateId: 40,
-        stateName: "TAMIL NADU",
-        threeAlphaCode: "IND"
-      },
-      {
-        cityCode: 125454,
-        cityId: 125454,
-        cityName: "TIRUCHIRAPPALLI CANTONMENT -TIRUCHY",
-        country: "INDIA",
-        countryId: 6,
-        districtId: 596,
-        districtName: "Tiruchirappalli",
-        geoMasterId: 124376,
-        pincode: 620001,
-        tateId: 40,
-        stateName: "TAMIL NADU",
-        threeAlphaCode: "IND"
-      },
-      {
-        cityCode: 125502,
-        cityId: 125502,
-        cityName: "TIRUCHIRAPPALLI H.O-TIRUCHY",
-        country: "INDIA",
-        countryId: 6,
-        districtId: 596,
-        districtName: "Tiruchirappalli",
-        geoMasterId: 124424,
-        pincode: 620001,
-        stateId: 40,
-        stateName: "TAMIL NADU",
-        threeAlphaCode: "IND"
-      },
-      {
-        cityCode: 125581,
-        cityId: 125581,
-        cityName: "PONNAGAR S.O-TIRUCHY",
-        country: "INDIA",
-        countryId: 6,
-        districtId: 596,
-        districtName: "Tiruchirappalli",
-        geoMasterId: 124503,
-        pincode: 620001,
-        stateId: 40,
-        stateName: "TAMIL NADU",
-        threeAlphaCode: "IND"
-      }, {
-        cityCode: 160391,
-        cityId: 160391,
-        cityName: "TIRUCHIRAPPALLI",
-        country: "INDIA",
-        countryId: 6,
-        districtId: 596,
-        districtName: "Tiruchirappalli",
-        eoMasterId: 252064,
-        pincode: 620001,
-        stateId: 40,
-        stateName: "TAMIL NADU",
-        threeAlphaCode: "IND",
-      }
-    ],
     house: "PLOT NO 96",
     state: "Tamil Nadu",
     street: "8TH CROSS STREET",
@@ -355,9 +240,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     private location: Location,
     private salesDedupeService: SalesDedupeService,
     private toasterService: ToasterService,
-    private createLeadDataService: CreateLeadDataService
+    private createLeadDataService: CreateLeadDataService,
+    private biometricService: BiometricService
   ) {
     this.leadId = this.activatedRoute.snapshot.params['leadId'];
+    this.isMobile = environment.isMobile;
+
   }
 
   async ngOnInit() {
@@ -623,7 +511,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').status ===
       'VALID'
     ) {
-      this.disabledDrivingDates=false;
+      this.disabledDrivingDates = false;
       this.coApplicantForm
         .get('dedupe')
         .get('drivingLicenseIssueDate')
@@ -663,7 +551,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.coApplicantForm.get('dedupe').get('passportNumber').status ===
       'VALID'
     ) {
-      this.disabledPassportDates= false;
+      this.disabledPassportDates = false;
       this.coApplicantForm
         .get('dedupe')
         .get('passportIssueDate')
@@ -960,7 +848,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       loanApplicationRelation: new FormControl('', Validators.required),
       entityType: new FormControl('', Validators.required),
       bussinessEntityType: new FormControl(''),
-      fullName : new FormControl(''),
+      fullName: new FormControl(''),
       name1: new FormControl('', Validators.required),
       name2: new FormControl(''),
       name3: new FormControl(''),
@@ -1401,23 +1289,23 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   clearDrivingExpiryDate() {
-    const valueChecked= this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').value > this.toDayDate;
-    this.showMessage['drivinglicenseIssue']=valueChecked? true : false;
+    const valueChecked = this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').value > this.toDayDate;
+    this.showMessage['drivinglicenseIssue'] = valueChecked ? true : false;
     this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').setValue(null);
   }
 
   clearPassportExpiryDate() {
-    const valueChecked= this.coApplicantForm.get('dedupe').get('passportIssueDate').value > this.toDayDate;
-    this.showMessage['passportIssue']=valueChecked? true : false;
+    const valueChecked = this.coApplicantForm.get('dedupe').get('passportIssueDate').value > this.toDayDate;
+    this.showMessage['passportIssue'] = valueChecked ? true : false;
     this.coApplicantForm.get('dedupe').get('passportExpiryDate').setValue(null);
   }
-  drivingLicenceExpiryShowError(){
-    const valueChecked =this.drivingLicenseIssueDate > this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').value;
-    this.showMessage['drivingLicenseExpiry']=valueChecked? true : false;
+  drivingLicenceExpiryShowError() {
+    const valueChecked = this.drivingLicenseIssueDate > this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').value;
+    this.showMessage['drivingLicenseExpiry'] = valueChecked ? true : false;
   }
-  passportExpiryShowError(){
-    const valueChecked =this.passportIssueDate > this.coApplicantForm.get('dedupe').get('passportExpiryDate').value;
-    this.showMessage['passportExpiry']=valueChecked? true : false;
+  passportExpiryShowError() {
+    const valueChecked = this.passportIssueDate > this.coApplicantForm.get('dedupe').get('passportExpiryDate').value;
+    this.showMessage['passportExpiry'] = valueChecked ? true : false;
   }
 
   onAddrSameAsApplicant(event) {
@@ -1975,7 +1863,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.setDrivingLicenceValidator();
       this.isDirty = true;
       if (dedupe.invalid ||
-        this.showMessage['drivinglicenseIssue']||
+        this.showMessage['drivinglicenseIssue'] ||
         this.showMessage['passportIssue'] ||
         this.showMessage['drivingLicenseExpiry'] ||
         this.showMessage['passportExpiry']) {
@@ -2152,7 +2040,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.router.navigateByUrl(
       `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
     );
-    //console.log('dedeupe', this.coApplicantForm.get('dedupe'));
     this.isEnableDedupe = false;
     this.isMobileChanged = false;
     this.isName1Changed = false;
@@ -2169,44 +2056,61 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   calleKYC() {
-    // const data ={
-    //   applicantId : this.applicantId,
-    //   ekycRequest : "test"
-    // }
-    // this.applicantService.wrapperBiometriceKYC(data).subscribe((response)=>{
-    //   console.log('responce eKYC', response)
-    // })
-    const value = this.biometricResponce;
-    this.setBiometricValues(value)
-    this.showEkycbutton = false;
-    this.isEnableDedupe = false;
-    this.isMobileChanged = false;
-    this.isName1Changed = false;
-    this.isPanChanged = false;
-    this.isAadharChanged = false;
-    this.isPassportChanged = false;
-    this.isDrivingLicenseChanged = false;
-    this.isVoterIdChanged = false;
-    this.isContactNumberChanged = false;
-    this.isCstNumberChanged = false;
-    this.isCinNumberChanged = false;
-    this.isGstNumberChanged = false;
-    this.isTanNumberChanged = false;
+
+    let that = this;
+    let applicantId = this.applicantId;
+    let aadhar = "802172334890";
+    //let aadhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
+    this.biometricService.initIdenti5(aadhar, applicantId, function (result) {
+      console.log("KYC result&&&&@@@" + result);
+      const value = result;
+      //const value= this.biometricResponce;
+      that.setBiometricValues(that, value);
+
+
+      that.showEkycbutton = false;
+      that.isEnableDedupe = false;
+      that.isMobileChanged = false;
+      that.isName1Changed = false;
+      that.isPanChanged = false;
+      that.isAadharChanged = false;
+      that.isPassportChanged = false;
+      that.isDrivingLicenseChanged = false;
+      that.isVoterIdChanged = false;
+      that.isContactNumberChanged = false;
+      that.isCstNumberChanged = false;
+      that.isCinNumberChanged = false;
+      that.isGstNumberChanged = false;
+      that.isTanNumberChanged = false;
+    });
+
   }
 
-  setBiometricValues(value) {
+  // givalert() {
+  //   alert("test")
+  // }
+
+  setBiometricValues(ctx, value) {
+    value = JSON.parse(value).ProcessVariables;
     console.log('value', value)
-    const dedupe = this.coApplicantForm.get('dedupe');
+    const dedupe = ctx.coApplicantForm.get('dedupe');
+    console.log("dedupe-element", dedupe);
     const dob = value.dobFromResponse;
     value.dobFromResponse = dob.split('-').join('/');
+
+    dedupe.get('name1').setValue(value.firstName);
+
     dedupe.patchValue({
       name1: value.firstName,
       name2: value.middleName,
       name3: value.lastName,
-      dob: new Date(this.utilityService.getDateFromString(value.dobFromResponse))
+      dob: new Date(ctx.utilityService.getDateFromString(value.dobFromResponse))
     })
-    const currentAddress = this.coApplicantForm.get('currentAddress');
-    const permanantAddress = this.coApplicantForm.get('permentAddress');
+
+    dedupe.updateValueAndValidity();
+
+    const currentAddress = ctx.coApplicantForm.get('currentAddress');
+    const permanantAddress = ctx.coApplicantForm.get('permentAddress');
     permanantAddress.patchValue({
       addressLineOne: value.addressLineOne,
       addressLineTwo: value.addressLineTwo,
@@ -2216,14 +2120,15 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     })
 
     const id = 'permanentPincode'
-    const pincode =value.resultPincode;
-    this.getPincodeResult(pincode, id);
+    const pincode = value.resultPincode;
+    ctx.getPincodeResult(pincode, id);
 
     //permanantAddress.disable();
     currentAddress.reset();
     currentAddress.enable();
-    this.isPermanantAddressSame = false
+    ctx.isPermanantAddressSame = false
 
+    ctx.pTag.nativeElement.click();
 
   }
 
