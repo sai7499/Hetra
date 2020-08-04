@@ -9,6 +9,7 @@ import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
 import { Router } from '@angular/router';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-dashboard',
@@ -85,14 +86,15 @@ export class DashboardComponent implements OnInit {
     private router: Router,
     // private sharedService: SharedService,
     private taskDashboard: TaskDashboard,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private sharedService: SharedService
   ) { }
 
   ngOnInit() {
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleType = value.roleType;
       this.businessDivision = value.businessDivision[0].bizDivId;
-      console.log(value);
+      // console.log(value);
     });
 
     this.labelService.getLabelsData().subscribe(res => {
@@ -110,7 +112,7 @@ export class DashboardComponent implements OnInit {
       loanMaxAmt: ['']
     });
 
-     this.dashboardFilter();
+    this.dashboardFilter();
 
     // new leads
 
@@ -118,7 +120,7 @@ export class DashboardComponent implements OnInit {
       this.branchId = value.branchId;
       this.roleId = value.roleId;
       this.roleType = value.roleType;
-      console.log('role Type', this.roleType);
+      // console.log('role Type', this.roleType);
     });
     if (this.roleType == '2') {
       // this.getCreditFilterLeads(this.itemsPerPage);
@@ -159,7 +161,6 @@ export class DashboardComponent implements OnInit {
   // new leads
 
   getSalesFilterLeads(perPageCount, pageNumber?) {
-    console.log('filter form', this.filterFormDetails);
 
     // this.filterFormDetails['userId'] = localStorage.getItem('userId');
     // this.filterFormDetails['perPage'] = parseInt(perPageCount);
@@ -179,7 +180,7 @@ export class DashboardComponent implements OnInit {
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
     };
-    console.log('getmyFilterdata', data);
+    // console.log('getmyFilterdata', data);
     // console.log('filter form data', this.filterFormDetails);
 
 
@@ -898,6 +899,12 @@ export class DashboardComponent implements OnInit {
         this.toasterService.showError(response.Error, '');
       }
     });
+  }
+
+  // external methods
+  assignTaskId(taskId) {
+    this.sharedService.getTaskID(taskId)
+    console.log("in assign task", taskId)
   }
 
 }
