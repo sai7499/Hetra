@@ -8,8 +8,13 @@
         <td>{{odApplicantData?.applicantType}}</td>
         <td>{{ labels?.bureauScore }}</td>
         <td>{{odApplicantData?.bureauScore}}</td> 
-        <td colspan="1"> <button  class = "btn btn-primary" type="button" style="float: right; "><a (click)="getApplicantImage()" data-toggle="modal"
-          data-target="#myModalApplicantImage"  ><strong>View CB</strong></a></button></td>
+        <td colspan="1"> 
+          <button  class = "btn btn-primary" type="button" style="float: right; ">
+            <a (click)="getApplicantImage()" data-toggle="modal"
+            data-target="#myModalApplicantImage"><strong>View Report</strong>
+            </a>
+          </button>
+        </td>
       </tr>
      
     </table>
@@ -32,7 +37,7 @@
               </div>
             </div>
             <div class="clearfix"></div>
-            <table id="POITable" border="1" class="table mb-15">
+            <table id="POITable" class="table mb-15">
               <thead>
                 <tr class="">
                   <th role="columnheader" class="caption">{{ labels?.odType }}<sub class="star_blue_col">*</sub></th>
@@ -130,13 +135,13 @@
               <div class="col-md-2"><label>{{labels?.highestDPDInLastSixM}}</label></div>
               <div class="col-md-2">
 
-                <app-vf-custom-select [values]="odListLov?.clearanceProof" formControlName="highDpd6m">
+                <app-vf-custom-select [values]="odListLov?.highestDpd" formControlName="highDpd6m">
                 </app-vf-custom-select>
               </div>
               <div class="col-md-2"><label>{{labels?.highestDPDInLastTwelveM}}</label></div>
               <div class="col-md-2">
 
-                <app-vf-custom-select [values]="odListLov?.clearanceProof" formControlName="highDpd12m">
+                <app-vf-custom-select [values]="odListLov?.highestDpd" formControlName="highDpd12m">
                 </app-vf-custom-select>
               </div>
               <div class="clearfix"></div>

@@ -787,6 +787,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           // this.setDefaultValueForAddress(value, formGroupName);
         });
       });
+      console.log(this.currentPincode)
   }
 
   setDefaultValueForAddress(value, formGroupName: string) {
@@ -2109,7 +2110,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         //console.log('responce Pan Validation', responce)
         if (responce['ProcessVariables'].error.code == '0') {
           this.toasterService.showSuccess(responce['ProcessVariables'].error.message,
-            'Pan Validation Successfull');
+            'Pan Validation Successful');
           this.showEkycbutton = true
         } else {
           this.panValidate = true;

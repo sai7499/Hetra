@@ -661,7 +661,7 @@
     "eCode": "E code",
     "date": "Date",
     "requestedLoanAmount": "Requested Loan Amount",
-    "ageOfCarEndOfTenor": "Age of the car at the end of tenor ",
+    "ageOfCarEndOfTenor": "Age of the Asset at the end of the Tenor ",
     "bureauScore": "Bureau Score",
     "eligibleAmount": "Eligible Loan Amount ",
     "creditBureauCIBIL": "Credit Bureau (CIBIL)",
@@ -1333,6 +1333,7 @@
     "leadCreatedOnEndDate": "Lead Created On - End Date",
     "loanMinAmount": "Loan Min Amount",
     "loanMaxAmount": "Loan Max Amount",
+    "mode":"mode",
     "validationData": {
         "name": {
             "maxLength": {

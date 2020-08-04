@@ -50,7 +50,7 @@
     "customerSegment": "Customer Segment",
     "loanTenor": "Loan Tenor",
     "loanAmountRange": "Loan Amount Range",
-    "ageOfCar": "Age of the car at the end of tenor (months)",
+    "ageOfCar": "Age of the Asset at the end of the Tenor (months)",
     "loanToValue ": "Loan to Value ",
     "insuranceCrossSell": "Insurance Cross sell",
     "loanToValueInsuranceFunded": "Loan to Value Insurance Funded",

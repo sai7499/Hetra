@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
-import { environment } from '../../../../../environments/environment';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -17,7 +17,7 @@ import { environment } from '../../../../../environments/environment';
 })
 export class NewLeadsComponent implements OnInit {
 
-  newArray;
+  newArray: Array<any>;
   salesLeads;
   creditLeads;
   itemsPerPage;
@@ -123,12 +123,13 @@ export class NewLeadsComponent implements OnInit {
       perPage: parseInt(this.itemsPerPage),
       // tslint:disable-next-line: radix
       currentPage: parseInt(pageNumber),
-      leadId: filterValue.leadId ? filterValue.leadId : '',
-      fromDate: filterValue.fromDate ? filterValue.fromDate : '',
-      toDate: filterValue.toDate ? filterValue.toDate : '',
-      productCategory: filterValue.product ? filterValue.product : '',
-      loanMinAmt: filterValue.loanMinAmt ? filterValue.loanMinAmt : '',
-      loanMaxAmt: filterValue.loanMaxAmt ? filterValue.loanMaxAmt : ''
+      leadId: filterValue ? filterValue.leadId : '',
+      fromDate: filterValue ? filterValue.fromDate : '',
+      toDate: filterValue? filterValue.toDate : '',
+      productCategory: filterValue? filterValue.product : '',
+      loanMinAmt: filterValue? filterValue.loanMinAmt : '',
+      loanMaxAmt: filterValue ? filterValue.loanMaxAmt : '',
+      leadStage: filterValue? filterValue.leadStage:'',
     };
     console.log('getmyFilterdata', data);
 
@@ -142,6 +143,7 @@ export class NewLeadsComponent implements OnInit {
         this.isLoadLead = true;
       } else {
         this.isLoadLead = false;
+        return this.newArray = [];
     }
     });
   }
@@ -175,7 +177,8 @@ export class NewLeadsComponent implements OnInit {
       toDate: filterValue ? filterValue.toDate : '',
       product: filterValue ? filterValue.product : '',
       loanMinAmt: filterValue ? filterValue.loanMinAmt : '',
-      loanMaxAmt: filterValue ? filterValue.loanMaxAmt : ''
+      loanMaxAmt: filterValue ? filterValue.loanMaxAmt : '',
+      leadStage: filterValue ? filterValue.leadStage:'',
     };
     this.responseForCredit(data);
   }
@@ -187,6 +190,7 @@ export class NewLeadsComponent implements OnInit {
         this.isLoadLead = true;
       } else {
         this.isLoadLead = false;
+        return this.newArray = [];
     }
     });
   }

@@ -13,26 +13,36 @@
 
         <br />
         <div class="container" id="sales_credit_score">
-            <div class="row" id="sales_credit_score_sec">
-
-                <div class="col-lg-4">
-                    <p id=""><span id="">{{labels?.productOffered}}</span><span id="credit_score_tag1">{{variable?.productCategoryName}}</span></p>
-                    <p id=""><span id="">{{labels?.customerSegment  }}</span><span id="credit_score_tag2">{{variable?.customerSegment }}</span></p>
+            <div class="p-0 row " id="sales_credit_score_sec">
+                <div class="col-lg-6 col-sm-12 col-md-6 col-xs-12 p-0">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6"> <p class="var-lab">{{labels?.productOffered}}</p></div>
+                        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6"><p class="var-lab">{{variable?.productCategoryName}}</p></div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6"> <p class="var-lab">{{labels?.customerSegment  }}</p></div>
+                        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6"><p class="var-lab">{{variable?.customerSegment }}</p></div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6"> <p class="var-lab">{{labels?.requestedAmount}}</p></div>
+                        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6"><p class="var-lab">{{variable?.loanAmount}}</p></div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6"> <p class="var-lab">{{labels?.loanTenor}}</p></div>
+                        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6"><p class="var-lab">{{variable?.loanTenure}} Months</p></div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6"> <p class="var-lab">{{labels?.ageOfCarEndOfTenor}}</p></div>
+                        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6"><p class="var-lab">{{variable?.ageAfterTenure}} Months</p></div>
+                    </div>
                 </div>
-                <div class="col-lg-4">
-                    <p id=""><span id="">{{labels?.requestedAmount}}</span><span id="credit_score_tag4">{{variable?.loanAmount}} </span></p>
+                <div class="col-lg-6 col-sm-12 col-md-6 col-xs-12 p-0">
+                    &nbsp;
                 </div>
-                <div class="col-lg-4">
-                    <p id=""><span id="">{{labels?.loanTenor}}</span><span id="credit_score_tag3">{{variable?.loanTenure}} Months</span></p>
-                    <p id=""><span id="">{{labels?.ageOfCarEndOfTenor}}</span><span id="credit_score_tag5"> {{variable?.ageAfterTenure}} Months</span></p>
-                </div>
-
-
-
             </div>
-
-
-            <br />
+      
+        <div class="" id="">
+            
             <h3 class="title">{{labels?.creditBureauCIBIL}}</h3>
             <div id="wrapper">  
                 <table>
@@ -75,14 +85,17 @@
 
                 </table>
             </div>
-            <p class="text-center" id="credit_score_tag10">{{labels?.eligibleLoanAmount}} : {{variable?.eligibleAmount}}</p>
-            <div class="text-center" id="">
+            <p class="text-center var-lab mar-10" id="credit_score_tag10">{{labels?.eligibleLoanAmount}} : {{variable?.eligibleAmount}}</p>
+            <div class="text-center var-lab mar-10">
                 <button type="button " class="btn btn-primary ok_button proceed_button mar-right8" id="proceed_button "
                     (click)="navigateUrl()">{{labels?.proceed}}</button>
                 <a data-toggle="modal" data-target="#myModal" id="reject_credit">
                     <p type="button" class="btn btn-primary">{{labels?.reject}}</p>
                 </a>
             </div>
+
+        </div>
+           
         </div>
     </div>
 </main>
