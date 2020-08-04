@@ -9,12 +9,16 @@
 /* bottom buttons css */
 
 .cst_btm_btns {
-  margin-bottom: 55px;
+  margin-bottom: 55px!important;
+}
+
+.btn-sec {
+  margin: 10px 2px;
 }
 
 .row {
-  margin-left: 5px;
-  margin-right: 5px;
+  /* margin-left: 5px;
+  margin-right: 5px; */
 }
 td a {
   cursor: pointer;
