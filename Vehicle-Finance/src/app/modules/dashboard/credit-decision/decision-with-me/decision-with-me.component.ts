@@ -99,8 +99,9 @@ getMyCreditDecisionLeads(filterValue, pageNumber?) {
     myLeads: true,
     leadId: filterValue ? filterValue.leadId : '',
     fromDate: filterValue ? filterValue.fromDate : '',
-    toDate: filterValue  ? filterValue.toDate : '',
+    toDate: filterValue ? filterValue.toDate : '',
     productCategory: filterValue ? filterValue.product : '',
+    leadStage: filterValue ? filterValue.leadStage : '',
     loanMinAmt: filterValue ? filterValue.loanMinAmt : '',
     loanMaxAmt: filterValue ? filterValue.loanMaxAmt : ''
   };

@@ -91,6 +91,7 @@ export class DeclinedLeadsWithBranchComponent implements OnInit {
       fromDate: filterValue ? filterValue.fromDate : '',
       toDate: filterValue ? filterValue.toDate : '',
       productCategory: filterValue ? filterValue.product : '',
+      leadStage: filterValue ? filterValue.leadStage : '',
       loanMinAmt: filterValue ? filterValue.loanMinAmt : '',
       loanMaxAmt: filterValue ? filterValue.loanMaxAmt : ''
     };
