@@ -667,7 +667,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         if (id === 'permanentPincode') {
           this.permanentPincode = value;
           formGroupName = 'permentAddress';
-          console.log('this.permanentPincode', this.permanentPincode)
+          this.setDefaultValueForAddress(value,formGroupName)
         }
         if (id === 'currentPincode') {
           this.currentPincode = value;
@@ -695,19 +695,19 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     if (country && country.length === 1) {
       this.coApplicantForm.get(formGroupName).patchValue({
-        country: country[0].value,
+        country: country[0].key,
       });
     }
 
     if (district && district.length === 1) {
       this.coApplicantForm.get(formGroupName).patchValue({
-        district: district[0].value,
+        district: district[0].key,
       });
     }
 
     if (state && state.length === 1) {
       this.coApplicantForm.get(formGroupName).patchValue({
-        state: state[0].value,
+        state: state[0].key,
       });
     }
   }
@@ -2033,7 +2033,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
             responce['ProcessVariables'].error.message,
             'Pan validation Error'
           );
-          this.showEkycbutton = true
+          
         }
       })
     }
@@ -2063,8 +2063,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     let that = this;
     this.ngxService.start();
     let applicantId = this.applicantId;
-    let aadhar = "802172334890";
-    //let aadhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
+    //let aadhar = "802172334890";
+    let aadhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
     this.biometricService.initIdenti5(aadhar, applicantId, function (result) {
       that.ngxService.stop();
 
@@ -2118,17 +2118,22 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     const currentAddress = ctx.coApplicantForm.get('currentAddress');
     const permanantAddress = ctx.coApplicantForm.get('permentAddress');
+  
     permanantAddress.patchValue({
       addressLineOne: value.addressLineOne,
       addressLineTwo: value.addressLineTwo,
       addressLineThree: value.addressLineThree,
-      pincode: value.resultPincode
+      pincode: value.resultPincode,
+      city : value.cityId,
+      state : value.stateId,
+      country : value.countryId,
+      district : value.districtId
 
     })
 
-    const id = 'permanentPincode'
-    const pincode = value.resultPincode;
-    ctx.getPincodeResult(pincode, id);
+    // const id = 'permanentPincode'
+    // const pincode = value.resultPincode;
+    // ctx.getPincodeResult(pincode, id);
 
     //permanantAddress.disable();
     currentAddress.reset();
