@@ -14,6 +14,7 @@ import { ApplicantService } from '@services/applicant.service';
 import { formatDate, Location } from '@angular/common';
 
 import { ViewChild, ElementRef, } from '@angular/core';
+
 import {
   Applicant,
   ApplicantDetails,
@@ -2068,10 +2069,33 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.biometricService.initIdenti5(aadhar, applicantId, function (result) {
       that.ngxService.stop();
 
-      console.log("KYC result&&&&@@@" + result);
-      const value = result;
+
+      let processVariables = JSON.parse(result).ProcessVariables
+      // value = JSON.parse(value).ProcessVariables;
+
+      console.log("KYC result&&&&@@@" + processVariables);
+
+
+
+      if(processVariables.error.code=='0'){
+        console.log("KYC success" + processVariables.error.code);
+
+        that.toasterService.showSuccess(
+          processVariables.error.message,
+          'eKYC Success'
+        );
+       }else{
+        console.log("KYC failure" + processVariables.error.code);
+
+        that.toasterService.showError(
+          processVariables.error.message,
+          'eKYC Failed'
+        );
+        return;
+       }
+
       //const value= this.biometricResponce;
-      that.setBiometricValues(that, value);
+      that.setBiometricValues(that, processVariables);
 
 
       that.showEkycbutton = false;
@@ -2098,7 +2122,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   setBiometricValues(ctx, value) {
 
-    value = JSON.parse(value).ProcessVariables;
     console.log('value', value)
     const dedupe = ctx.coApplicantForm.get('dedupe');
     console.log("dedupe-element", dedupe);

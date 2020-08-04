@@ -80,21 +80,9 @@ export class BiometricService {
            ekycRequest: kycRequest,
          };
          this.applicantService.wrapperBiometriceKYC(data, applicantId).subscribe((res: any) => {
-           if(res['ProcessVariables'].error.code=='0'){
-            this.toasterService.showSuccess(
-              res['ProcessVariables'].error.message,
-              'eKYC Request'
-            );
-            let result = JSON.stringify(res);
-            console.log("wrapperBiometriceKYC", result);
-            callBack(result);
-           }else{
-            this.toasterService.showError(
-              res['ProcessVariables'].error.message,
-              'eKYC Request Failed'
-            );
-           }
-          
+          let result = JSON.stringify(res);
+          console.log("wrapperBiometriceKYC", result);
+          callBack(result);
          });
      
        }
