@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  version: '0.7.5',
-  buildDate: '01/08/2020',
+  version: '0.8',
+  buildDate: '02/08/2020',
   apiVersion: {
     login: 'v3/',
     api: 'v2/',
@@ -30,6 +30,7 @@ export const environment = {
   // host: 'http://10.101.10.153/appiyo/',
   host: "https://hetrauat.equitasbank.com/appiyo/",
 
+  baseUrl: window.location.origin,
   // tslint:disable-next-line: max-line-length
   aesPublicKey:
     'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ+GJdSSEeaNFBLqyfM3DIOgQgWCwJ0INfeZZV7ITsLeuA7Yd02rrkYGIix1IWvoebWVmzhncUepYxHwK1ARCdUCAwEAAQ==',
