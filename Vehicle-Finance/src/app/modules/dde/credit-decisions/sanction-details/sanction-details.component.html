@@ -70,7 +70,7 @@
                             <td> {{labels?.vehicleRegistrationNo}} </td>
                             <td>{{vehicleDetails?.vehicleRegNo | uppercase}}</td>
                         </tr>
-                        <tr>
+                        <tr *ngIf="sanctionDetailsObject.productCode !== 'NCV' && sanctionDetailsObject.productCode !== 'NC' ">
                             <td> {{labels?.engineNo}} </td>
                             <td>{{vehicleDetails?.engineNo | uppercase}}</td>
                             <td> {{labels?.chasisNo}} </td>
