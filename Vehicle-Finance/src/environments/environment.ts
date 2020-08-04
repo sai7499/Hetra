@@ -31,7 +31,7 @@ export const environment = {
   // host: 'http://128.199.164.250/appiyo/',
   // host: 'https://hetrauat.equitasbank.com/appiyo/',
   host: 'http://10.101.10.153/appiyo/',
-
+  baseUrl: 'http://10.101.10.153',
   // tslint:disable-next-line: max-line-length
   aesPublicKey: 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ+GJdSSEeaNFBLqyfM3DIOgQgWCwJ0INfeZZV7ITsLeuA7Yd02rrkYGIix1IWvoebWVmzhncUepYxHwK1ARCdUCAwEAAQ==',
   encryptionType: true, // Ecryption
