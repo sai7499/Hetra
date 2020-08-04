@@ -676,14 +676,17 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         if (id === 'currentPincode') {
           this.currentPincode = value;
           formGroupName = 'currentAddress';
+          this.setDefaultValueForAddress(value,formGroupName)
         }
         if (id === 'registerPincode') {
           this.registerPincode = value;
           formGroupName = 'registeredAddress';
+          this.setDefaultValueForAddress(value,formGroupName)
         }
         if (id === 'communicationPincode') {
           this.communicationPincode = value;
           formGroupName = 'communicationAddress';
+          this.setDefaultValueForAddress(value,formGroupName)
         }
 
         setTimeout(() => {
@@ -2065,15 +2068,16 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   calleKYC() {
 
     let that = this;
-    this.ngxService.start();
-    let applicantId = this.applicantId;
-    //let aadhar = "802172334890";
-    let aadhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
-    this.biometricService.initIdenti5(aadhar, applicantId, function (result) {
-      that.ngxService.stop();
+    // this.ngxService.start();
+    // let applicantId = this.applicantId;
+    // //let aadhar = "802172334890";
+    // let aadhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
+    // this.biometricService.initIdenti5(aadhar, applicantId, function (result) {
+    //   that.ngxService.stop();
 
-      console.log("KYC result&&&&@@@" + result);
-      const value = result;
+    //   console.log("KYC result&&&&@@@" + result);
+    //   const value = result;
+    const value= this.biometricResponce
       //const value= this.biometricResponce;
       that.setBiometricValues(that, value);
 
@@ -2092,7 +2096,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       that.isCinNumberChanged = false;
       that.isGstNumberChanged = false;
       that.isTanNumberChanged = false;
-    });
+    // });
 
   }
 
@@ -2102,7 +2106,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   setBiometricValues(ctx, value) {
 
-    value = JSON.parse(value).ProcessVariables;
+    //value = JSON.parse(value).ProcessVariables;
     console.log('value', value)
     const dedupe = ctx.coApplicantForm.get('dedupe');
     console.log("dedupe-element", dedupe);
