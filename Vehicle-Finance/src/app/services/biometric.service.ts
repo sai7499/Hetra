@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable, of, BehaviorSubject } from 'rxjs';
 import { DashboardService } from '@services/dashboard/dashboard.service';
 import * as moment from 'moment';
+import { ApplicantService } from '@services/applicant.service';
+import { ToasterService } from '@services/toaster.service';
+
 
 
 
@@ -14,10 +17,13 @@ declare var identi5: any;
 
 export class BiometricService {
     pid: any;
-    constructor(private dashboardService: DashboardService){}
+    constructor(private dashboardService: DashboardService,
+      private applicantService: ApplicantService,
+      private toasterService: ToasterService,
+    ){}
 
 
-    initIdenti5(aadhar: string, callBack){
+    initIdenti5(aadhar: string, applicantId, callBack){
 
         // let dInfo = new device();
         // console.log(dInfo.model);
@@ -28,7 +34,7 @@ export class BiometricService {
           console.log("Result&&&&"+ result);
           that.pid = result["model"];
           console.log("base64Data"+ that.pid);
-          that.prepareKYCRequest(that.pid, aadhar, callBack);
+          that.prepareKYCRequest(that.pid, aadhar, applicantId, callBack);
         },function(error){
           console.log("Result&&&&"+ error);
           alert("error"+error);
@@ -36,7 +42,7 @@ export class BiometricService {
       
     }
 
-    prepareKYCRequest(pid, aadharStr, callBack) {
+    prepareKYCRequest(pid, aadharStr, applicantId, callBack) {
         let stan =  Math.floor(100000 + Math.random() * 900000);
         console.log(stan);
      
@@ -73,9 +79,10 @@ export class BiometricService {
          const data = {
            ekycRequest: kycRequest,
          };
-         this.dashboardService.getKycDetails(data).subscribe((res: any) => {
-           let result = JSON.stringify(res);
-           callBack(result);
+         this.applicantService.wrapperBiometriceKYC(data, applicantId).subscribe((res: any) => {
+          let result = JSON.stringify(res);
+          console.log("wrapperBiometriceKYC", result);
+          callBack(result);
          });
      
        }

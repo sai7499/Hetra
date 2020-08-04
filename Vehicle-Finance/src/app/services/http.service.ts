@@ -278,6 +278,7 @@ export class HttpService {
           observer.error(data);
           observer.complete();
           this.activeRequests--;
+          console.log("activeRequests", this.activeRequests)
           if (this.activeRequests === 0) {
             this.ngxService.stop();
           }
