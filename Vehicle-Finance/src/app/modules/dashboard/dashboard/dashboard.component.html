@@ -1,6 +1,6 @@
 <main class="mar-top90">
     <div class="container-fluid">
-        <div class="pull-right dropdown nav">
+        <div class="pull-right dropdown nav" *ngIf="roleType == '1'">
             <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter </button>
         </div>
     </div>
@@ -92,8 +92,16 @@
             <li (click)="onViabilityClick('branchViability')" routerLinkActive="active"><a data-toggle="tab">Viability Checks Pending with Branch</a></li>
         </ul>
     </div>
-    <div>
 
+    <div class="container-fluid mar-bottom" *ngIf="roleType == '2'">
+        <ul class="nav nav-pills nav-justified" id="background_white">
+            <li [routerLink]="[ '/pages/dashboard/leads-section' ]" routerLinkActive="active" id="leads"><a>DDE</a></li>
+            <li [routerLink]="[ '/pages/dashboard/personal-discussion' ]" routerLinkActive="active"><a>Personal Discussion</a></li>
+            <li [routerLink]="[ '/pages/dashboard/deviation' ]" routerLinkActive="active"><a>Deviation</a></li>
+            <li [routerLink]="[ '/pages/dashboard/credit-decision' ]" routerLinkActive="active"><a>Credit Decision</a></li>
+            <li [routerLink]="[ '/pages/dashboard/cpc-maker' ]" routerLinkActive="active"><a>CPC Maker</a></li>
+            <li [routerLink]="[ '/pages/dashboard/cpc-checker' ]" routerLinkActive="active"><a>CPC Checker</a></li>
+        </ul>
     </div>
     <!--  -->
     <!-- <div class="container-fluid mar-bottom" *ngIf="roleType == '2'">
@@ -136,7 +144,7 @@
 
     </div> -->
 
-    <div>
+    <div *ngIf="roleType == '1'">
         <div class="container-fluid">
             <table>
                 <thead>

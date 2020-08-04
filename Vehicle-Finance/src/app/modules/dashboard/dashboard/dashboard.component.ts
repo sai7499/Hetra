@@ -91,7 +91,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleType = value.roleType;
-      this.businessDivision = value.businessDivision;
+      this.businessDivision = value.businessDivision[0].bizDivId;
       console.log(value);
     });
 
@@ -110,7 +110,7 @@ export class DashboardComponent implements OnInit {
       loanMaxAmt: ['']
     });
 
-    //  this.dashboardFilter();
+     this.dashboardFilter();
 
     // new leads
 
@@ -120,12 +120,11 @@ export class DashboardComponent implements OnInit {
       this.roleType = value.roleType;
       console.log('role Type', this.roleType);
     });
-    //  if (this.roleType == '2') {
-    //   // this.getCreditFilterLeads(this.itemsPerPage);
-    // } else {
-    //   this.getSalesFilterLeads(this.itemsPerPage);
-    // }
-    this.getSalesFilterLeads(this.itemsPerPage);
+    if (this.roleType == '2') {
+      // this.getCreditFilterLeads(this.itemsPerPage);
+    } else {
+      this.getSalesFilterLeads(this.itemsPerPage);
+    }
   }
 
   dateToFormate(date) {
@@ -617,57 +616,79 @@ export class DashboardComponent implements OnInit {
     this.from = res.ProcessVariables.from;
   }
   setPage(event) {
-    if (this.roleType == '2') {
-      // this.getCreditFilterLeads(this.filterDetails, event);
-    } else {
+    if (this.roleType == '1') {
+      // this.getSalesFilterLeads(this.itemsPerPage, event);
+      if (this.salesLead) {
+        this.getSalesFilterLeads(this.itemsPerPage, event);
+        } else if (this.sanctionedMe) {
+        this.getSanctionedLeads(this.itemsPerPage, event);
+        } else if (this.sanctionedBranch) {
+        this.getSanctionedBranchLeads(this.itemsPerPage, event);
+        } else if (this.declined) {
+        this.getDeclinedLeads(this.itemsPerPage, event);
+        } else if (this.declinedBranch) {
+          this.getDeclinedBranchLeads(this.itemsPerPage, event);
+        } else if (this.myPD) {
+        this.getPdMyTask(this.itemsPerPage, event);
+        } else if (this.myPDBranch) {
+        this.getPdBranchTask(this.itemsPerPage, event);
+        } else if (this.myViability) {
+          this.getViabilityLeads(this.itemsPerPage, event);
+        } else if (this.myViabilityBranch) {
+        this.getViabilityBranchLeads(this.itemsPerPage, event);
+        }
+        } else {
 
-      this.getSalesFilterLeads(this.itemsPerPage, event);
+      return
       // this.getSanctionedBranchLeads(this.filterFormDetails, event);
     }
   }
 
   // changing main tabs
   onLeads(data) {
-    if (data === 'leads') {
-      this.leadSection = true;
-      this.PD = false;
-      this.vehicle = false;
-      this.onReleaseTab = false;
-      this.onAssignTab = false;
-      this.salesLead = true;
-      this.myPD = false;
-      this.sanctionedMe = false;
-      this.sanctionedBranch = false;
-      this.declined = false;
-      this.declinedBranch = false;
-      this.getSalesFilterLeads(this.itemsPerPage);
-    } else if (data === 'PD') {
-      this.leadSection = false;
-      this.PD = true;
-      this.vehicle = false;
-      this.onReleaseTab = true;
-      this.onAssignTab = false;
-      this.myPD = true;
-      this.salesLead = false;
-      this.sanctionedMe = false;
-      this.sanctionedBranch = false;
-      this.declined = false;
-      this.declinedBranch = false;
-      this.getPdMyTask(this.filterFormDetails);
-    } else if (data === 'Vehicle') {
-      this.leadSection = false;
-      this.PD = false;
-      this.vehicle = true;
-      this.onReleaseTab = true;
-      this.onAssignTab = false;
-      this.myViability = true;
-      this.salesLead = false;
-      this.sanctionedMe = false;
-      this.sanctionedBranch = false;
-      this.declined = false;
-      this.declinedBranch = false;
-      this.getViabilityLeads(this.filterFormDetails);
+    if (this.roleType == '1') {
+      if (data === 'leads') {
+        this.leadSection = true;
+        this.PD = false;
+        this.vehicle = false;
+        this.onReleaseTab = false;
+        this.onAssignTab = false;
+        this.salesLead = true;
+        this.myPD = false;
+        this.sanctionedMe = false;
+        this.sanctionedBranch = false;
+        this.declined = false;
+        this.declinedBranch = false;
+        this.getSalesFilterLeads(this.itemsPerPage);
+      } else if (data === 'PD') {
+        this.leadSection = false;
+        this.PD = true;
+        this.vehicle = false;
+        this.onReleaseTab = true;
+        this.onAssignTab = false;
+        this.myPD = true;
+        this.salesLead = false;
+        this.sanctionedMe = false;
+        this.sanctionedBranch = false;
+        this.declined = false;
+        this.declinedBranch = false;
+        this.getPdMyTask(this.filterFormDetails);
+      } else if (data === 'Vehicle') {
+        this.leadSection = false;
+        this.PD = false;
+        this.vehicle = true;
+        this.onReleaseTab = true;
+        this.onAssignTab = false;
+        this.myViability = true;
+        this.salesLead = false;
+        this.sanctionedMe = false;
+        this.sanctionedBranch = false;
+        this.declined = false;
+        this.declinedBranch = false;
+        this.getViabilityLeads(this.filterFormDetails);
+      }
     }
+    
   }
 
   // changing sub tabs
@@ -732,6 +753,8 @@ export class DashboardComponent implements OnInit {
       this.onAssignTab = true;
       this.myPD = false;
       this.myPDBranch = true;
+      this.salesLead = false;
+
       this.getPdBranchTask(this.itemsPerPage);
     }
   }
@@ -748,6 +771,8 @@ export class DashboardComponent implements OnInit {
       this.onAssignTab = true;
       this.myViabilityBranch = true;
       this.myViability = false;
+      this.salesLead = false;
+
       this.getViabilityBranchLeads(this.itemsPerPage);
     }
   }
