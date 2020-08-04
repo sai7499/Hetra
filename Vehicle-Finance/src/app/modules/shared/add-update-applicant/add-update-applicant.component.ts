@@ -2076,23 +2076,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       console.log("KYC result&&&&@@@" + processVariables);
 
 
-
       if(processVariables.error.code=='0'){
         console.log("KYC success" + processVariables.error.code);
-
-        that.toasterService.showSuccess(
-          processVariables.error.message,
-          'eKYC Success'
-        );
-       }else{
+      }else{
         console.log("KYC failure" + processVariables.error.code);
-
-        that.toasterService.showError(
-          processVariables.error.message,
-          'eKYC Failed'
-        );
         return;
-       }
+      }
 
       //const value= this.biometricResponce;
       that.setBiometricValues(that, processVariables);
@@ -2164,6 +2153,24 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     ctx.isPermanantAddressSame = false
 
     ctx.pTag.nativeElement.click();
+
+
+    if(value.error.code=='0'){
+      console.log("KYC success" + value.error.code);
+
+      ctx.toasterService.showSuccess(
+        value.error.message,
+        'eKYC Success'
+      );
+     }else{
+      console.log("KYC failure" + value.error.code);
+
+      ctx.toasterService.showError(
+        value.error.message,
+        'eKYC Failed'
+      );
+      return;
+     }
 
   }
 
