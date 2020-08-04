@@ -179,6 +179,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   addDisabledCheckBox: boolean;
   panValidate = false;
   showEkycbutton = false;
+  showMessage : any={};
+  disabledDrivingDates= true;
+  disabledPassportDates= true;
+  
+  
 
   biometricResponce = {
     addressLineOne: "PLOT NO 968TH CROSS STREETKARU",
@@ -618,6 +623,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').status ===
       'VALID'
     ) {
+      this.disabledDrivingDates=false;
       this.coApplicantForm
         .get('dedupe')
         .get('drivingLicenseIssueDate')
@@ -657,6 +663,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.coApplicantForm.get('dedupe').get('passportNumber').status ===
       'VALID'
     ) {
+      this.disabledPassportDates= false;
       this.coApplicantForm
         .get('dedupe')
         .get('passportIssueDate')
@@ -666,6 +673,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         .get('passportExpiryDate')
         .setValidators([Validators.required]);
       this.coApplicantForm.get('dedupe').updateValueAndValidity();
+      console.log('todate', this.toDayDate)
       this.passportMandatory['passportIssueDate'] = true;
       this.passportMandatory['passportExpiryDate'] = true;
     } else {
@@ -952,6 +960,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       loanApplicationRelation: new FormControl('', Validators.required),
       entityType: new FormControl('', Validators.required),
       bussinessEntityType: new FormControl(''),
+      fullName : new FormControl(''),
       name1: new FormControl('', Validators.required),
       name2: new FormControl(''),
       name3: new FormControl(''),
@@ -1163,6 +1172,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         entityType: applicantValue.applicantDetails.entityTypeKey || '',
         loanApplicationRelation:
           applicantValue.applicantDetails.applicantTypeKey || '',
+        // fullName : applicantValue.applicantDetails.name1+' '+
+        //            applicantValue.applicantDetails.name2+' '+
+        //            applicantValue.applicantDetails.name3,
         name1: applicantValue.applicantDetails.name1 || '',
         name2: applicantValue.applicantDetails.name2 || '',
         name3: applicantValue.applicantDetails.name3 || '',
@@ -1389,14 +1401,23 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   clearDrivingExpiryDate() {
-    this.coApplicantForm
-      .get('dedupe')
-      .get('drivingLicenseExpiryDate')
-      .setValue(null);
+    const valueChecked= this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').value > this.toDayDate;
+    this.showMessage['drivinglicenseIssue']=valueChecked? true : false;
+    this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').setValue(null);
   }
 
   clearPassportExpiryDate() {
+    const valueChecked= this.coApplicantForm.get('dedupe').get('passportIssueDate').value > this.toDayDate;
+    this.showMessage['passportIssue']=valueChecked? true : false;
     this.coApplicantForm.get('dedupe').get('passportExpiryDate').setValue(null);
+  }
+  drivingLicenceExpiryShowError(){
+    const valueChecked =this.drivingLicenseIssueDate > this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').value;
+    this.showMessage['drivingLicenseExpiry']=valueChecked? true : false;
+  }
+  passportExpiryShowError(){
+    const valueChecked =this.passportIssueDate > this.coApplicantForm.get('dedupe').get('passportExpiryDate').value;
+    this.showMessage['passportExpiry']=valueChecked? true : false;
   }
 
   onAddrSameAsApplicant(event) {
@@ -1802,7 +1823,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   enableDedupeButton() {
     const dedupe = this.coApplicantForm.get('dedupe');
     dedupe.get('name1').valueChanges.subscribe((value) => {
-      console.log('getValidStatus', this.getValidStatus('name1'));
+      //console.log('getValidStatus', this.getValidStatus('name1'));
       const status = this.getValidStatus('name1');
       if (status === 'VALID') {
       } else {
@@ -1953,7 +1974,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     } else {
       this.setDrivingLicenceValidator();
       this.isDirty = true;
-      if (dedupe.invalid) {
+      if (dedupe.invalid ||
+        this.showMessage['drivinglicenseIssue']||
+        this.showMessage['passportIssue'] ||
+        this.showMessage['drivingLicenseExpiry'] ||
+        this.showMessage['passportExpiry']) {
         this.toasterService.showError(
           'Please fill all mandatory fields.',
           'Applicant Details'
@@ -2117,6 +2142,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
             responce['ProcessVariables'].error.message,
             'Pan validation Error'
           );
+          this.showEkycbutton = true
         }
       })
     }
@@ -2185,15 +2211,15 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       addressLineOne: value.addressLineOne,
       addressLineTwo: value.addressLineTwo,
       addressLineThree: value.addressLineThree,
-      pincode: value.pincode
+      pincode: value.resultPincode
 
     })
 
     const id = 'permanentPincode'
-    const pincode = Number(value.pincode);
+    const pincode =value.resultPincode;
     this.getPincodeResult(pincode, id);
 
-    permanantAddress.disable();
+    //permanantAddress.disable();
     currentAddress.reset();
     currentAddress.enable();
     this.isPermanantAddressSame = false
