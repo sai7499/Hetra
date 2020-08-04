@@ -1,3 +1,4 @@
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -245,7 +246,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     private salesDedupeService: SalesDedupeService,
     private toasterService: ToasterService,
     private createLeadDataService: CreateLeadDataService,
-    private biometricService: BiometricService
+    private biometricService: BiometricService,
+    private ngxService: NgxUiLoaderService,
+
   ) {
     this.leadId = this.activatedRoute.snapshot.params['leadId'];
     this.isMobile = environment.isMobile;
@@ -2062,10 +2065,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   calleKYC() {
 
     let that = this;
+    this.ngxService.start();
     let applicantId = this.applicantId;
     //let aadhar = "802172334890";
     let aadhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
     this.biometricService.initIdenti5(aadhar, applicantId, function (result) {
+      that.ngxService.stop();
+
       console.log("KYC result&&&&@@@" + result);
       const value = result;
       //const value= this.biometricResponce;
@@ -2095,6 +2101,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   // }
 
   setBiometricValues(ctx, value) {
+
     value = JSON.parse(value).ProcessVariables;
     console.log('value', value)
     const dedupe = ctx.coApplicantForm.get('dedupe');
@@ -2111,7 +2118,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       dob: new Date(ctx.utilityService.getDateFromString(value.dobFromResponse))
     })
 
-    dedupe.updateValueAndValidity();
+   // dedupe.updateValueAndValidity();
 
     const currentAddress = ctx.coApplicantForm.get('currentAddress');
     const permanantAddress = ctx.coApplicantForm.get('permentAddress');
