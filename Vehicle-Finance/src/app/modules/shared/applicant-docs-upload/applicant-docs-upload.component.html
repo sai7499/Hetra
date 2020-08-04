@@ -252,19 +252,20 @@
 </div>
 <div class="btn-sec clear-both row">
   <div class="col-sm-5">
-    <button
+    <!-- <button
       class="btn btn-primary js-btn-prev dash_href"
       type="button"
-      [routerLink]="['/pages', 'lead-section', leadId]"
+      (click)="navigateBack()"
     >
+
       Back to lead details
-    </button>
+    </button> -->
   </div>
   <div class="col-sm-7 text-right">
     <button
       class="btn btn-primary js-btn-prev dash_href"
       type="button"
-      (click)="onBack()"
+      (click)="navigateBack()"
     >
       Back
     </button>

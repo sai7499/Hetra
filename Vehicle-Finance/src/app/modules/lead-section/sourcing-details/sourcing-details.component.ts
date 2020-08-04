@@ -525,7 +525,7 @@ export class SourcingDetailsComponent implements OnInit {
         rule: month => {
           return month > 72;
         },
-        msg: 'Month should be lesser than or equal to 60'
+        msg: 'Month should be lesser than or equal to 72'
       }
     ];
     return loanTenure;

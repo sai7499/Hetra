@@ -27,7 +27,6 @@ export class AddvehicleComponent implements OnInit {
   leadId: number;
 
   constructor(
-
     private labelsData: LabelsService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -65,6 +64,7 @@ export class AddvehicleComponent implements OnInit {
   }
 
   onFormSubmit() {
+
     if (this.formValue.valid === true) {
       let data = this.formValue.value.vehicleFormArray[0];
 
