@@ -38,6 +38,7 @@ export class TermSheetComponent implements OnInit {
      public labelsService: LabelsService,
      private activatedRoute: ActivatedRoute,
      private utilityService: UtilityService,
+     private router: Router,
      public termSheetService : TermSheetService
     ) { }
   getLabelData() {
@@ -90,7 +91,10 @@ export class TermSheetComponent implements OnInit {
     }
   })
   }
+  nextRoute(url){
+    this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/'+url)
 
+  }
   async ngOnInit() {
     this.getLabelData();
     this.leadId = (await this.getLeadId()) as number;
