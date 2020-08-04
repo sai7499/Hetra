@@ -102,6 +102,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   gstNumber: string;
 
   toDayDate: Date = new Date();
+  // isAlertSuccess : boolean = true;
+  // isAlertDanger : boolean = true;
+ 
 
   mandatory: any = {};
   expiryMandatory: any = {};
@@ -224,7 +227,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     house: "PLOT NO 96",
     state: "Tamil Nadu",
     street: "8TH CROSS STREET",
-    villageTownOrCity: "Tiruchirappalli"
+    villageTownOrCity: "Tiruchirappalli",
+    stateId : 40,
+    cityId :  160391 ,
+    districtId : 596 ,
+    countryId  : 6 ,
 
 
   };
@@ -673,14 +680,17 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         if (id === 'currentPincode') {
           this.currentPincode = value;
           formGroupName = 'currentAddress';
+          this.setDefaultValueForAddress(value,formGroupName)
         }
         if (id === 'registerPincode') {
           this.registerPincode = value;
           formGroupName = 'registeredAddress';
+          this.setDefaultValueForAddress(value,formGroupName)
         }
         if (id === 'communicationPincode') {
           this.communicationPincode = value;
           formGroupName = 'communicationAddress';
+          this.setDefaultValueForAddress(value,formGroupName)
         }
 
         setTimeout(() => {
@@ -2062,9 +2072,20 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   calleKYC() {
 
     let that = this;
+    // this.ngxService.start();
+    // let applicantId = this.applicantId;
+    // //let aadhar = "802172334890";
+    // let aadhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
+    // this.biometricService.initIdenti5(aadhar, applicantId, function (result) {
+    //   that.ngxService.stop();
+
+    //   console.log("KYC result&&&&@@@" + result);
+    //   const value = result;
+    //const value= this.biometricResponce;
+
+    
     this.ngxService.start();
     let applicantId = this.applicantId;
-    //let aadhar = "802172334890";
     let aadhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
     this.biometricService.initIdenti5(aadhar, applicantId, function (result) {
       that.ngxService.stop();
@@ -2076,14 +2097,39 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       console.log("KYC result&&&&@@@" + processVariables);
 
 
+
       if(processVariables.error.code=='0'){
         console.log("KYC success" + processVariables.error.code);
-      }else{
+
+        // that.isAlertSuccess = false;
+        // setTimeout(() => {
+        //   that.isAlertSuccess = true;
+        // }, 1500);
+
+        alert("e-KYC successful");
+        that.toasterService.showSuccess(
+          "e-KYC Successful",
+          'eKYC Success'
+        );
+
+      }
+       else{
         console.log("KYC failure" + processVariables.error.code);
+        // that.isAlertDanger = false;
+        // setTimeout(() => {
+        //   that.isAlertDanger = true;
+        // }, 1500);
+        alert(processVariables.error.message);
+
+        that.toasterService.showError(
+          processVariables.error.message,
+          'eKYC Failed'
+        );
+
         return;
       }
 
-      //const value= this.biometricResponce;
+
       that.setBiometricValues(that, processVariables);
 
 
@@ -2105,13 +2151,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   }
 
-  // givalert() {
-  //   alert("test")
-  // }
-
   setBiometricValues(ctx, value) {
 
-    console.log('value', value)
     const dedupe = ctx.coApplicantForm.get('dedupe');
     console.log("dedupe-element", dedupe);
     const dob = value.dobFromResponse;
@@ -2126,7 +2167,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       dob: new Date(ctx.utilityService.getDateFromString(value.dobFromResponse))
     })
 
-   // dedupe.updateValueAndValidity();
 
     const currentAddress = ctx.coApplicantForm.get('currentAddress');
     const permanantAddress = ctx.coApplicantForm.get('permentAddress');
@@ -2155,22 +2195,24 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     ctx.pTag.nativeElement.click();
 
 
-    if(value.error.code=='0'){
-      console.log("KYC success" + value.error.code);
+    // if(value.error.code=='0'){
+    //   console.log("KYC success" + value.error.code);
+    //   alert("e-KYC successful" );
 
-      ctx.toasterService.showSuccess(
-        value.error.message,
-        'eKYC Success'
-      );
-     }else{
-      console.log("KYC failure" + value.error.code);
+    //   ctx.toasterService.showSuccess(
+    //     value.error.message,
+    //     'eKYC Success'
+    //   );
+    //  }else{
+    //   console.log("KYC failure" + value.error.code);
+    //   alert(value.error.message);
 
-      ctx.toasterService.showError(
-        value.error.message,
-        'eKYC Failed'
-      );
-      return;
-     }
+    //   ctx.toasterService.showError(
+    //     value.error.message,
+    //     'eKYC Failed'
+    //   );
+    //   return;
+    //  }
 
   }
 

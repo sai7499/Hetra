@@ -289,28 +289,66 @@ export class AddressDetailsComponent implements OnInit {
         })
       )
       .subscribe((value) => {
+        if (!value) {
+          return;
+        }
+        let formGroupName = '';
         if (id == 'permanantPincode') {
           this.permanantPincode = value;
          this.addressValidations.get('permanantAddress').get('city').setValidators(Validators.required)
-          return;
+         formGroupName = 'permanantAddress';
+          this.setDefaultValueForAddress(value,formGroupName)
+          
         }
         if (id == 'currentPincode') {
           this.currentPincode = value;
-          return;
+          formGroupName = 'currentAddress';
+          this.setDefaultValueForAddress(value,formGroupName)
+          
         }
         if (id == 'officePincode') {
           this.officePincode = value;
-          return;
+          formGroupName = 'officeAddress';
+          this.setDefaultValueForAddress(value,formGroupName)
+          
         }
         if (id == 'registeredPincode') {
           this.registeredPincode = value;
-          return;
+          formGroupName = 'registeredAddress';
+          this.setDefaultValueForAddress(value,formGroupName)
+        
         }
         if (id == 'communicationPincode') {
           this.communicationPincode = value;
-          return;
+          formGroupName = 'communicationAddress';
+          this.setDefaultValueForAddress(value,formGroupName)
+          
         }
       });
+  }
+  setDefaultValueForAddress(value, formGroupName: string) {
+    const country = value.country;
+    const state = value.state;
+    const district = value.district;
+    const formArray= this.addressForm.get('details') as FormArray
+    const details= formArray.at(0)
+    if (country && country.length === 1) {
+      details.get(formGroupName).patchValue({
+        country: country[0].key,
+      });
+    }
+
+    if (district && district.length === 1) {
+      details.get(formGroupName).patchValue({
+        district: district[0].key,
+      });
+    }
+
+    if (state && state.length === 1) {
+      details.get(formGroupName).patchValue({
+        state: state[0].key,
+      });
+    }
   }
 
   getLeadId() {
