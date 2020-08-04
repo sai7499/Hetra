@@ -222,7 +222,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     house: "PLOT NO 96",
     state: "Tamil Nadu",
     street: "8TH CROSS STREET",
-    villageTownOrCity: "Tiruchirappalli"
+    villageTownOrCity: "Tiruchirappalli",
+    stateId : 40,
+    cityId :  160391 ,
+    districtId : 596 ,
+    countryId  : 6 ,
 
 
   };
