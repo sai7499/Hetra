@@ -218,8 +218,7 @@
                 <div
                   class="ShowError"
                   *ngIf="
-                   ( isDirty || validation.get('dob').touched) &&
-                    validation.get('dob').invalid
+                  basicForm.controls.details['controls'][0].controls.dob.value > toDayDate
                   "
                 >
                   Invalid Date
