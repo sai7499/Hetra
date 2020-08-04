@@ -24,6 +24,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               {
                 "input": "node_modules/@progress/kendo-theme-default/dist/all.css"
               },
@@ -54,8 +55,7 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true             
-              
+              "buildOptimizer": true
             }
           }
         },
@@ -88,6 +88,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               {
                 "input": "node_modules/@progress/kendo-theme-default/dist/all.css"
               },
