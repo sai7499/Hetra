@@ -29,20 +29,20 @@ import { MakerLeadsWithMeComponent } from './cpc-maker/maker-leads-with-me/maker
 import { DdeBranchLeadsComponent } from './leads/dde-branch-leads/dde-branch-leads.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'leads-section/leads',
-    pathMatch: 'full'
-  },
+  // {
+  //   path: '',
+  //   redirectTo: 'leads-section/leads',
+  //   pathMatch: 'full'
+  // },
   {
     path: '',
     component: DashboardComponent,
     children: [
-      {
-        path: 'leads-section',
-        redirectTo: 'leads-section/leads',
-        pathMatch: 'full'
-      },
+      // {
+      //   path: 'leads-section',
+      //   redirectTo: 'leads-section/leads',
+      //   pathMatch: 'full'
+      // },
       {
         path: 'leads-section',
         component: LeadsComponent,
