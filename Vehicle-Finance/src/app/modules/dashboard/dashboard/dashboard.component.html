@@ -97,7 +97,7 @@
         </ul>
     </div>
 
-    <div class="container-fluid mar-bottom" *ngIf="roleType == '2'">
+    <div class="container-fluid mar-bottom" *ngIf="roleType == '2' || '4'">
         <ul class="nav nav-pills nav-justified" id="background_white">
             <li [routerLink]="[ '/pages/dashboard/leads-section' ]" routerLinkActive="active" id="leads"><a>DDE</a></li>
             <li [routerLink]="[ '/pages/dashboard/personal-discussion' ]" routerLinkActive="active"><a>Personal Discussion</a></li>

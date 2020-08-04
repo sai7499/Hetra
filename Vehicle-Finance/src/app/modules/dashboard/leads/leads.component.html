@@ -8,7 +8,7 @@
 
     </ul>
 </div>
-<div class="container-fluid mar-bottom" *ngIf="roleType == '2'">
+<div class="container-fluid mar-bottom" *ngIf="roleType == '2' || '4'">
     <ul class="nav nav-pills nav-justified" id="background_white">
         <li [routerLink]="[ '/pages/dashboard/leads-section/leads' ]" routerLinkActive="active" id="leads"><a>DDE Leads Pending with Me</a></li>
         <li [routerLink]="[ '/pages/dashboard/leads-section/dde-branch-leads' ]" routerLinkActive="active"><a>DDE Leads Pending with Branch</a></li>
