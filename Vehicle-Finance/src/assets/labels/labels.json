@@ -1333,6 +1333,7 @@
     "leadCreatedOnEndDate": "Lead Created On - End Date",
     "loanMinAmount": "Loan Min Amount",
     "loanMaxAmount": "Loan Max Amount",
+    "mode":"mode",
     "validationData": {
         "name": {
             "maxLength": {

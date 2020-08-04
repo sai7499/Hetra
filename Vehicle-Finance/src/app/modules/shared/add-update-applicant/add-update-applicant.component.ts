@@ -787,6 +787,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           // this.setDefaultValueForAddress(value, formGroupName);
         });
       });
+      console.log(this.currentPincode)
   }
 
   setDefaultValueForAddress(value, formGroupName: string) {
