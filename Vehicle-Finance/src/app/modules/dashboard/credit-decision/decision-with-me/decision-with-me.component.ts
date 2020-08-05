@@ -5,6 +5,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
+import { DashboardService } from '@services/dashboard/dashboard.service';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { ToasterService } from '@services/toaster.service';
 export class DecisionWithMeComponent implements OnInit {
 
   leadDetails;
-  itemsPerPage = 5;
+  itemsPerPage = '25';
   labels: any = {};
   roleId: any;
   newArray: any;
@@ -26,6 +27,8 @@ export class DecisionWithMeComponent implements OnInit {
   currentPage: any;
   totalItems: any;
   isLoadLead = true;
+  roleType: any;
+  filterDetails: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -33,9 +36,14 @@ export class DecisionWithMeComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private personalDiscussion: PersonalDiscussionService,
     private taskDashboard: TaskDashboard,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private dashboardService: DashboardService
     ) {
-
+      if (window.screen.width > 768) {
+        this.itemsPerPage = '25';
+      } else if (window.screen.width <= 768) {
+        this.itemsPerPage = '5';
+      }
   }
 
 
@@ -46,39 +54,91 @@ export class DecisionWithMeComponent implements OnInit {
       }
     );
 
+  //   this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+  //     this.roleId = String(value.roleId);
+  //     this.branchId = value.branchId;
+  //     console.log('values For User in My Task', value);
+  //   });
+  //   this.getMyCreditDecisionLeads(this.itemsPerPage);
+  // }
+
+
+    this.dashboardService.isFilterData.subscribe((filterValue: any) => {
+    console.log('filterDetails', filterValue);
+    this.filterDetails = filterValue;
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
-      console.log('values For User in My Task', value);
+      this.roleType = value.roleType;
     });
+    this.getMyCreditDecisionLeads(filterValue);
+  });
+
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+    this.roleId = String(value.roleId);
+    this.branchId = value.branchId;
+    this.roleType = value.roleType;
+  });
     this.getMyCreditDecisionLeads(this.itemsPerPage);
-  }
 
-  onClick() {
-    this.getMyCreditDecisionLeads(this.itemsPerPage);
+}
 
-  }
+onClick() {
+  this.getMyCreditDecisionLeads(this.itemsPerPage);
+}
 
-  getMyCreditDecisionLeads(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'Credit Decision',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: true
-    };
-    this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
-      this.setPageData(res);
-      if (res.ProcessVariables.loanLead != null) {
-        this.isLoadLead = true;
-      } else {
-        this.isLoadLead = false;
-    }
-    });
+getMyCreditDecisionLeads(filterValue, pageNumber?) {
+  const data = {
+    taskName: 'Credit Decision',
+    branchId: this.branchId,
+    roleId: this.roleId,
+    // tslint:disable-next-line: radix
+    currentPage: parseInt(pageNumber),
+    // tslint:disable-next-line: radix
+    perPage: parseInt(this.itemsPerPage),
+    myLeads: true,
+    leadId: filterValue ? filterValue.leadId : '',
+    fromDate: filterValue ? filterValue.fromDate : '',
+    toDate: filterValue ? filterValue.toDate : '',
+    productCategory: filterValue ? filterValue.product : '',
+    leadStage: filterValue ? filterValue.leadStage : '',
+    loanMinAmt: filterValue ? filterValue.loanMinAmt : '',
+    loanMaxAmt: filterValue ? filterValue.loanMaxAmt : ''
+  };
+  this.responseForCredit(data);
+}
+
+responseForCredit(data) {
+  this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
+    this.setPageData(res);
+    if (res.ProcessVariables.loanLead != null) {
+      this.isLoadLead = true;
+    } else {
+      this.isLoadLead = false;
   }
+  });
+}
+
+  // getMyCreditDecisionLeads(perPageCount, pageNumber?) {
+  //   const data = {
+  //     taskName: 'Credit Decision',
+  //     branchId: this.branchId,
+  //     roleId: this.roleId,
+  //     // tslint:disable-next-line: radix
+  //     currentPage: parseInt(pageNumber),
+  //     // tslint:disable-next-line: radix
+  //     perPage: parseInt(perPageCount),
+  //     myLeads: true
+  //   };
+  //   this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
+  //     this.setPageData(res);
+  //     if (res.ProcessVariables.loanLead != null) {
+  //       this.isLoadLead = true;
+  //     } else {
+  //       this.isLoadLead = false;
+  //   }
+  //   });
+  // }
 
   setPageData(res) {
     const response = res.ProcessVariables.loanLead;
@@ -91,7 +151,7 @@ export class DecisionWithMeComponent implements OnInit {
   }
 
   setPage(event) {
-    this.getMyCreditDecisionLeads(this.itemsPerPage, event);
+    this.getMyCreditDecisionLeads(this.filterDetails, event);
   }
 
   onRelase(id) {

@@ -1,6 +1,6 @@
-<!-- <div class="content"> -->
-<form class="multisteps-form__form" method="post" style="height: 400px;">
-  <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+<div class="">
+<!-- <form class="multisteps-form__form" method="post" style="height: 400px;"> -->
+  <div class="multisteps-form__panel js-active content" data-animation="scaleIn">
     <div class="container controlWidth">
       <div class="btn-sec clear-both row">
         <div class="col-sm-5">
@@ -27,7 +27,7 @@
               <th>{{ labels.entity }} <i class="fa fa-sort"></i></th>
               <th>{{ labels?.name }} <i class="fa fa-sort"></i></th>
               <th>{{ labels?.mobileNumber }} <i class="fa fa-sort"></i></th>
-              <th>{{ labels?.dateOfBirth }} <i class="fa fa-sort"></i></th>
+              <th>{{ labels.dobDoi }} <i class="fa fa-sort"></i></th>
               <th>{{ labels?.applicantType }} <i class="fa fa-sort"></i></th>
               <th>{{ labels?.action }} <i class="fa fa-sort"></i></th>
             </tr>
@@ -57,14 +57,15 @@
                 <a (click)="navigatePage(item.applicantId)" title="Edit applicant"
                   ><i  class="fa fa-pencil" aria-hidden="true"></i
                 ></a>
-                &nbsp;&nbsp;<a
+                &nbsp;<a
                   data-toggle="modal"
                   data-target="#myModal"
                   (click)="softDeleteApplicant(i, item.applicantId)"
                   title="Delete applicant"><i  class="fa fa-trash" aria-hidden="true"></i
-                ></a> &nbsp;&nbsp;
+                ></a> &nbsp;
                 <a (click)="getApplicantImage(item.applicantId)" data-toggle="modal"
-                data-target="#myModalApplicantImage"  > <strong>CB</strong></a>
+                data-target="#myModalApplicantImage"  
+                title="View Bureau Report"> <strong>CB</strong></a>
               </td>
              
             </tr>
@@ -115,27 +116,8 @@
 
 <!-- </div> -->
 
-<div class="btn-sec clear-both row cst_btm_btns">
-  <div class="col-sm-5"></div>
-  <div class="col-sm-7 text-right">
-    <button
-      class="btn btn-primary mar-right8"
-      type="button"
-      [routerLink]="['../lead-details']"
-    >
-      Back
-    </button>
-    <!-- <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button> -->
-    <button
-      class="btn btn-primary js-btn-next mar-right8"
-      type="button"
-      routerLink="../vehicle-list"
-    >
-      Next
-    </button>
-  </div>
-</div>
-</form>
+
+<!-- </form> -->
 
 <div class="modal" id="myModal">
   <div class="modal-dialog">
@@ -186,5 +168,28 @@
         </button>
       </div>
     </div>
+  </div>
+</div>
+</div>
+
+</div>
+<div class="btn-sec clear-both row cst_btm_btns">
+  <div class="col-sm-5"></div>
+  <div class="col-sm-7 text-right">
+    <button
+      class="btn btn-primary "
+      type="button"
+      [routerLink]="['../lead-details']"
+    >
+      Back
+    </button>
+    <!-- <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button> -->
+    <button
+      class="btn btn-primary js-btn-next "
+      type="button"
+      routerLink="../vehicle-list"
+    >
+      Next
+    </button>
   </div>
 </div>

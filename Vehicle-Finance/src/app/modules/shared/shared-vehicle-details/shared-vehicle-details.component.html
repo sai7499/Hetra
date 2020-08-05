@@ -1,9 +1,16 @@
-<div class="multisteps-form__form">
-    <h4 class="title"><b>{{ roleType === 1 ? label.vehcileDetailsTitle : '' }}</b></h4>
-    <div class="text-right" id="add_vehicle_details_btn">
-        <button class="btn mar-right8 btn-primary" type="button"
-            [routerLink]="roleType === 1 ? ['../add-vehicle'] : ['/pages/vehicle-details/' + leadId + '/basic-vehicle-details']">{{label.addVehicle}}</button>
-    </div>
+
+ <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+    <div class="container controlWidth">
+        <div class="btn-sec clear-both row">
+          <div class="col-sm-5">
+            <h4 class="title"><b>{{ roleType === 1 ? label.vehcileDetailsTitle : '' }}</b></h4>
+          </div>
+          <div class=" col-sm-7 text-right" id="add_vehicle_details_btn">
+            <button class="btn btn-primary" type="button"
+                [routerLink]="roleType === 1 ? ['../add-vehicle'] : ['/pages/vehicle-details/' + leadId + '/basic-vehicle-details']">{{label.addVehicle}}</button>
+        </div>
+        </div>
+      </div>
     <div id="wrapper">  
        
         <table  id="add_vhd_table">
@@ -38,7 +45,7 @@
 
                         <a
                             (click)="roleType === 1 ? editVehicle(item.collateralId) : onEditVehicleDetails(item.collateralId)" title="Edit collateral"><i
-                                class="fa fa-pencil cursor-pointer" aria-hidden="true" ></i></a>&nbsp;
+                                class="fa fa-pencil cursor-pointer" aria-hidden="true" ></i></a>
                         <a data-toggle="modal" data-target="#exampleModal"
                             (click)="softDeleteCollateral(i, item.collateralId)" title="Delete collateral"><i class="fa fa-trash cursor-pointer"
                                 aria-hidden="true" ></i></a>

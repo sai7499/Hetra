@@ -3,15 +3,22 @@ import { HttpService } from './http.service';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Injectable()
 export class UtilityService {
-  constructor(private httpService: HttpService, private router: Router) { }
+  constructor(private httpService: HttpService, private router: Router,
+    private ngxUiLoaderService: NgxUiLoaderService) { }
 
   logOut() {
     this.httpService.logOut().subscribe(
-      (res) => { },
-      (error) => { }
+      (res) => {
+        this.ngxUiLoaderService.stop();
+      },
+      (error) => {
+        this.ngxUiLoaderService.stop();
+      }
+
     );
     localStorage.removeItem('token');
     localStorage.removeItem('roles');
@@ -109,15 +116,18 @@ export class UtilityService {
     console.log('JsonObj', JsonObj);
     console.log('key1', key1);
     console.log('value1', value1);
-    JsonObj.map((data: any) => {
-      if (data) {
-        const val = {
-          key: data[key1] ? data[key1] : 0,
-          value: data[value1],
-        };
-        arrayList.push(val);
-      }
-    });
+    if (JsonObj) {
+      JsonObj.map((data: any) => {
+        if (data) {
+          const val = {
+            key: data[key1] ? data[key1] : 0,
+            value: data[value1],
+          };
+          arrayList.push(val);
+        }
+      });
+    }
+
     return this.getUiquJson(arrayList, 'key');
   }
   getDateFromString(date) {

@@ -21,7 +21,7 @@
                     <input type="button" class="btn btn-primary" (click)="onRelase(item.taskId); onClick()" value="Release" data-toggle="modal" data-target="#releaseModal">
                 </td>
                 <td [attr.data-label]="labels?.leadID" class="text-underline" style="cursor: pointer;"><a [routerLink]="['/pages/credit-decisions', item.leadId, 'credit-condition']">{{item.leadId}}</a></td>
-                <td [attr.data-label]="labels?.product" >{{item.product ? item.product : '--'}}</td>
+                <td [attr.data-label]="labels?.product">{{item.product ? item.product : '--'}}</td>
                 <td [attr.data-label]="labels?.loanAmount">{{item.loanAmt ? item.loanAmt : '--'}}</td>
                 <td [attr.data-label]="labels?.applicant">{{item.applicants ? item.applicants : '--'}}</td>
                 <td [attr.data-label]="labels?.createdOn">{{item.createdOn ? item.createdOn : '--'}}</td>
@@ -48,8 +48,8 @@
                 <select class="form-control  input-sm" (change)="setPage($event)" [(ngModel)]="itemsPerPage">
                     <option value="5">5</option>
                     <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
+                    <option class="disable" value="25">25</option>
+                    <option class="disable" value="50">50</option>
                 </select>
             </div>
 

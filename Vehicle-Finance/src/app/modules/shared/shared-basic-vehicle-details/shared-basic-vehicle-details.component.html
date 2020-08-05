@@ -76,7 +76,7 @@
 
             <div id="sales_section_start" *ngIf="roleType == 1">
 
-                <h3 class="title" style="margin-top: -10px;"> {{ label.vehcileDetailsTitle }} </h3>
+                <h3 class="title cus-title"> {{ label.vehcileDetailsTitle }} </h3>
 
                 <div class="row" *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
@@ -175,7 +175,8 @@
                         </app-vf-custom-select>
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3"
+                        *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
                         <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} <sub
                                 class="star_red_col">*</sub>
                         </label>
@@ -200,7 +201,8 @@
 
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset"
+                        *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
                         <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub> </label>
 
                         <app-custom-input formControlName="ageOfAsset" [id]="'age_of_asset'"
@@ -210,11 +212,12 @@
 
                     </div>
 
-                </div>
+                    <!-- </div>
 
-                <div class="row">
+                <div class="row"> -->
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle"
+                        *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
                         <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
                         </label>
 
@@ -491,7 +494,7 @@
                                 placeholder="Asset - Variant - Other" name="asset_other" formControlName="assetOther">
                         </div> -->
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} <sub
                                     class="star_red_col">*</sub>
                             </label>
@@ -514,21 +517,21 @@
                                 Invalid Date
                             </div>
 
-                        </div>
+                        </div> -->
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
+                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
                             <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub> </label>
                             <app-custom-input formControlName="ageOfAsset" [className]="'form-control mandatory'"
                                 [placeholder]="'Age of Asset'" [isRequired]="'Age of Asset Required'"
                                 [id]="'age_of_asset'" [isDirty]="isDirty" [isDisabled]="true">
                             </app-custom-input>
-                        </div>
+                        </div> -->
 
-                    </div>
+                        <!-- </div>
 
-                    <div class="row">
+                    <div class="row"> -->
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
+                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
                             <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
                             </label>
                             <app-custom-input formControlName="ageAfterTenure" [className]="'form-control mandatory'"
@@ -536,7 +539,7 @@
                                 [isRequired]="'Age of vehicle at the end of tenor Required'" [isDirty]="isDirty"
                                 [isDisabled]="true">
                             </app-custom-input>
-                        </div>
+                        </div> -->
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
@@ -872,7 +875,7 @@
                                 placeholder="Asset - Variant - Other" name="asset_other" formControlName="assetOther">
                         </div> -->
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} <sub
                                     class="star_red_col">*</sub>
                             </label>
@@ -903,13 +906,13 @@
                                 [placeholder]="'Age of Asset'" [isRequired]="'Age of Asset Required'"
                                 [id]="'age_of_asset'" [isDirty]="isDirty" [isDisabled]="true">
                             </app-custom-input>
-                        </div>
-
+                        </div> -->
+<!-- 
                     </div>
 
-                    <div class="row">
+                    <div class="row"> -->
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
+                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
                             <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
                             </label>
                             <app-custom-input formControlName="ageAfterTenure" [className]="'form-control mandatory'"
@@ -917,7 +920,7 @@
                                 [isRequired]="'Age of vehicle at the end of tenor Required'" [isDirty]="isDirty"
                                 [isDisabled]="true">
                             </app-custom-input>
-                        </div>
+                        </div> -->
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
@@ -1392,7 +1395,7 @@
                             <label for="fitness_date">{{label.fitnessDate}} </label>
 
                             <kendo-datepicker class="form-control mandatory" formControlName="fitnessDate"
-                                [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
+                                [format]="'dd/MM/yyyy'" [min]="maxDate" [activeView]="'decade'"
                                 placeholder="Fitness Date">
                             </kendo-datepicker>
 
@@ -1573,7 +1576,8 @@
                                 placeholder="insurance_validity">
                             </kendo-datepicker>
 
-                            <div class="invalid-feedback" *ngIf="obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < maxDate">
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < maxDate">
                                 Invalid Date
                             </div>
 
@@ -1773,7 +1777,8 @@
                                 </div>
                             </div>
 
-                            <div class="invalid-feedback" *ngIf="obj.controls['manuFacMonthYear'].touched && customFutureDate">
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['manuFacMonthYear'].touched && customFutureDate">
                                 Invalid Date
                             </div>
 
@@ -1922,7 +1927,8 @@
                                 placeholder="Vehicle Registration Date">
                             </kendo-datepicker>
 
-                            <div class="invalid-feedback" *ngIf="obj.controls['vehicleRegDate'].touched && obj.controls['vehicleRegDate'].value > maxDate">
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['vehicleRegDate'].touched && obj.controls['vehicleRegDate'].value > maxDate">
                                 Invalid Date
                             </div>
 
@@ -1932,8 +1938,8 @@
                             <label for="gross_vehicle_weight">{{label.grossVehicleWeight}}</label>
 
                             <app-custom-input formControlName="gorssVehicleWeight"
-                                [type]="label.validationData?.fullName.type" [id]="'gross_vehicle_weight'"
-                                [className]="'form-control'" [maxLength]="label.validationData?.fullName.maxLength"
+                                [type]="label.validationData?.amountValue.type" [id]="'gross_vehicle_weight'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Gross Vehicle Weight'">
                             </app-custom-input>
                         </div>

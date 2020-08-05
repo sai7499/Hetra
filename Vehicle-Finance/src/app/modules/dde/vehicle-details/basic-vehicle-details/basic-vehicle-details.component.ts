@@ -6,6 +6,7 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { UtilityService } from '@services/utility.service';
 import { ToasterService } from '@services/toaster.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { LabelsService } from '@services/labels.service';
 
 @Component({
   selector: 'app-basic-vehicle-details',
@@ -16,6 +17,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
   public leadData: any;
   public leadId: number;
+  public label: any;
   public routerId: number;
 
   public formValue: any;
@@ -24,18 +26,28 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
   constructor(private createLeadDataService: CreateLeadDataService, public vehicleDataStoreService: VehicleDataStoreService, private toasterService: ToasterService,
     private vehicleDetailService: VehicleDetailService, private utilityService: UtilityService, private router: Router,
-    private activatedRoute: ActivatedRoute, private sharedService: SharedService) { }
+    private activatedRoute: ActivatedRoute, private sharedService: SharedService, private labelsData: LabelsService,
+  ) { }
 
   ngOnInit() {
 
     this.leadData = this.createLeadDataService.getLeadSectionData();
     this.leadId = this.leadData.leadId;
 
+    this.labelsData.getLabelsData()
+      .subscribe(data => {
+        this.label = data;
+      },
+        error => {
+          console.log('error', error)
+          // this.errorMsg = error;
+        });
+
     this.activatedRoute.params.subscribe((value) => {
       this.routerId = value ? value.vehicleId : null;
     })
 
-   this.subscription = this.sharedService.vaildateForm$.subscribe((value) => {
+    this.subscription = this.sharedService.vaildateForm$.subscribe((value) => {
       this.formValue = value;
     })
   }
@@ -44,32 +56,39 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
     if (this.formValue.valid === true) {
 
-      let data = this.formValue.value.vehicleFormArray[0];
+      if (this.formValue.value.isValidPincode) {
+        let data = this.formValue.value.vehicleFormArray[0];
 
-      data.manuFacMonthYear = data.manuFacMonthYear ? this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY') : null;
-      data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : null;
+        data.manuFacMonthYear = data.manuFacMonthYear ? this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY') : null;
+        data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : null;
 
-      data.fitnessDate = data.fitnessDate ? this.utilityService.convertDateTimeTOUTC(data.fitnessDate, 'DD/MM/YYYY') : null;
-      data.permitExpiryDate = data.permitExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpiryDate, 'DD/MM/YYYY') : null;
-      data.vehicleRegDate = data.vehicleRegDate ? this.utilityService.convertDateTimeTOUTC(data.vehicleRegDate, 'DD/MM/YYYY') : null;
-      data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : null;
+        data.fitnessDate = data.fitnessDate ? this.utilityService.convertDateTimeTOUTC(data.fitnessDate, 'DD/MM/YYYY') : null;
+        data.permitExpiryDate = data.permitExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpiryDate, 'DD/MM/YYYY') : null;
+        data.vehicleRegDate = data.vehicleRegDate ? this.utilityService.convertDateTimeTOUTC(data.vehicleRegDate, 'DD/MM/YYYY') : null;
+        data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : null;
 
-      data.fsrdFundingReq = data.fsrdFundingReq === true ? '1' : '0'
+        data.fsrdFundingReq = data.fsrdFundingReq === true ? '1' : '0';
 
-      this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
-        const apiError = res.ProcessVariables.error.message;
+        this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
+          const apiError = res.ProcessVariables.error.message;
+  
+          if (res.Error === '0' && res.Error === '0' && res.ProcessVariables.error.code === '0') {
+            this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Vehicle Detail');
+            this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
+          } else {
+            this.toasterService.showError(apiError, 'Vehicle Detail')
+          }
+  
+        }, error => {
+          console.log(error, 'error')
+          this.toasterService.showError(error, 'Vehicle Detail')
+        })
 
-        if (res.Error === '0' && res.Error === '0' && res.ProcessVariables.error.code === '0') {
-          this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Vehicle Detail');
-          this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
-        } else {
-          this.toasterService.showError(apiError, 'Vehicle Detail')
-        }
+      } else {
+        this.toasterService.showError('Please Enter Valid Pincode', 'Invalid Pincode')
+      }
 
-      }, error => {
-        console.log(error, 'error')
-        this.toasterService.showError(error, 'Vehicle Detail')
-      })
+
     } else {
       this.isDirty = true;
       console.log('error', this.formValue)

@@ -82,6 +82,7 @@ export class AddressDetailsComponent implements OnInit {
   currentAddressDetails: AddressDetails[];
   onPerAsCurChecked: boolean;
   onRegAsCommChecked: boolean;
+  onCurrAsOfficeChecked : boolean;
   addressObj: any;
 
   isOfficeAddressMandatory: boolean;
@@ -233,7 +234,9 @@ export class AddressDetailsComponent implements OnInit {
     const value = event.target.value;
     const id = event.target.id;
     //console.log('pincode change ', pincode)
+    
     if (value.length == 6) {
+      
       this.getPincodeResult(Number(value), id);
     }
   }
@@ -254,6 +257,7 @@ export class AddressDetailsComponent implements OnInit {
           if (!addressList) {
             return;
           }
+          
           const first = addressList[0];
           console.log('first', first);
           const obj = {
@@ -289,28 +293,76 @@ export class AddressDetailsComponent implements OnInit {
         })
       )
       .subscribe((value) => {
-        if (id == 'permanantPincode') {
-          this.permanantPincode = value;
-         this.addressValidations.get('permanantAddress').get('city').setValidators(Validators.required)
+        if (!value) {
           return;
+        }
+        let formGroupName = '';
+        const formArray= this.addressForm.get('details') as FormArray
+          let details = formArray.at(0)
+        if (id == 'permanantPincode') {
+          details.get('permanantAddress').get('city').setValue('')
+          this.permanantPincode = value;
+          
+         formGroupName = 'permanantAddress';
+          this.setDefaultValueForAddress(value,formGroupName)
+          
         }
         if (id == 'currentPincode') {
+          
+          details.get('currentAddress').get('city').setValue('')
           this.currentPincode = value;
-          return;
+          formGroupName = 'currentAddress';
+          this.setDefaultValueForAddress(value,formGroupName)
+          
+          
         }
         if (id == 'officePincode') {
+          details.get('officeAddress').get('city').setValue('')
           this.officePincode = value;
-          return;
+          formGroupName = 'officeAddress';
+          this.setDefaultValueForAddress(value,formGroupName)
+          
         }
         if (id == 'registeredPincode') {
+          details.get('registeredAddress').get('city').setValue('')
           this.registeredPincode = value;
-          return;
+          formGroupName = 'registeredAddress';
+          this.setDefaultValueForAddress(value,formGroupName)
+        
         }
         if (id == 'communicationPincode') {
+          details.get('communicationAddress').get('city').setValue('')
           this.communicationPincode = value;
-          return;
+          formGroupName = 'communicationAddress';
+          this.setDefaultValueForAddress(value,formGroupName)
+          
         }
       });
+  }
+  setDefaultValueForAddress(value, formGroupName: string) {
+    
+    const country = value.country;
+    const state = value.state;
+    const district = value.district;
+    const formArray= this.addressForm.get('details') as FormArray
+    const details= formArray.at(0)
+    if (country && country.length === 1) {
+      details.get(formGroupName).patchValue({
+        country: country[0].key,
+      });
+    }
+
+    if (district && district.length === 1) {
+      details.get(formGroupName).patchValue({
+        district: district[0].key,
+      });
+    }
+
+    if (state && state.length === 1) {
+      details.get(formGroupName).patchValue({
+        state: state[0].key,
+      });
+    }
   }
 
   getLeadId() {
@@ -367,6 +419,7 @@ export class AddressDetailsComponent implements OnInit {
       state: new FormControl('', Validators.required),
       country: new FormControl('', Validators.required),
       landlineNumber: new FormControl(null),
+      nearestLandmark : new FormControl(null)
     };
   }
 
@@ -457,6 +510,7 @@ export class AddressDetailsComponent implements OnInit {
       addressLineTwo: address.addressLineTwo,
       addressLineThree: address.addressLineThree,
       landlineNumber: address.landlineNumber,
+      nearestLandmark : address.nearestLandmark
     };
   }
 
@@ -465,7 +519,26 @@ export class AddressDetailsComponent implements OnInit {
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
     const permanentAddressObj = addressObj[Constant.PERMANENT_ADDRESS];
-    console.log('permanentAddressObj', permanentAddressObj);
+    if (permanentAddressObj && permanentAddressObj.isCurrAddSameAsPermAdd == '1') {
+       
+      const formArray = this.addressForm.get('details') as FormArray;
+      const details = formArray.at(0);
+      const currentAddressVariable = details.get('currentAddress');
+      this.onPerAsCurChecked = true;
+      currentAddressVariable.get('addressLineOne').disable();
+      currentAddressVariable.get('addressLineTwo').disable();
+      currentAddressVariable.get('addressLineThree').disable();
+      currentAddressVariable.get('pincode').disable();
+      currentAddressVariable.get('city').disable();
+      currentAddressVariable.get('district').disable();
+      currentAddressVariable.get('state').disable();
+      currentAddressVariable.get('country').disable();
+      currentAddressVariable.get('landlineNumber').disable();
+      currentAddressVariable.get('nearestLandmark').disable();
+    }
+
+    
+   // console.log('permanentAddressObj', permanentAddressObj);
 
     if (permanentAddressObj) {
       this.permanantPincode = {
@@ -498,64 +571,61 @@ export class AddressDetailsComponent implements OnInit {
       permenantAddress.patchValue(this.setAddressValues(permanentAddressObj));
     }
 
-    const valueCheckbox = this.getAddressObj();
-    const isCurAsPer = valueCheckbox[Constant.PERMANENT_ADDRESS];
-    const currentObjReplace = valueCheckbox[Constant.CURRENT_ADDRESS]
-    if (isCurAsPer && isCurAsPer.isCurrAddSameAsPermAdd == '1') {
-      this.onPerAsCurChecked = true;
-      const formArray = this.addressForm.get('details') as FormArray;
-      const details = formArray.at(0);
-      const currentAddressVariable = details.get('currentAddress');
+    // const valueCheckbox = this.getAddressObj();
+    // const isCurAsPer = valueCheckbox[Constant.PERMANENT_ADDRESS];
+    // const currentObjReplace = valueCheckbox[Constant.CURRENT_ADDRESS]
+    //this.onCurrAsOfficeChecked=currentObjReplace.isCurrAddSameAsPermAdd=='1'? true : false;
 
-      currentAddressVariable.get('addressLineOne').disable();
-      currentAddressVariable.get('addressLineTwo').disable();
-      currentAddressVariable.get('addressLineThree').disable();
-      currentAddressVariable.get('pincode').disable();
-      currentAddressVariable.get('city').disable();
-      currentAddressVariable.get('district').disable();
-      currentAddressVariable.get('state').disable();
-      currentAddressVariable.get('country').disable();
-      currentAddressVariable.get('landlineNumber').disable();
-
-      const currentAddressObj = isCurAsPer;
-      this.currentPincode = {
-        city: [
-          {
-            key: currentAddressObj.city,
-            value: currentAddressObj.cityValue,
-          },
-        ],
-        district: [
-          {
-            key: currentAddressObj.district,
-            value: currentAddressObj.districtValue,
-          },
-        ],
-        state: [
-          {
-            key: currentAddressObj.state,
-            value: currentAddressObj.stateValue,
-          },
-        ],
-        country: [
-          {
-            key: currentAddressObj.country,
-            value: currentAddressObj.countryValue,
-          },
-        ],
-      };
-      const currentAddress = details.get('currentAddress');
-      currentAddress.patchValue(this.setAddressValues(currentAddressObj));
-      //const currentReplaceObj= this.getAddressObj[Constant.CURRENT_ADDRESS]
-      currentAddress.patchValue({
-        accommodationType: currentObjReplace.accommodationType || '',
-        periodOfCurrentStay: currentObjReplace.periodOfCurrentStay,
-        mobileNumber: currentObjReplace.mobileNumber,
-      });
-    } else {
-      this.onPerAsCurChecked = false;
+   
+    //   const currentAddressObj = isCurAsPer;
+    //   this.currentPincode = {
+    //     city: [
+    //       {
+    //         key: currentAddressObj.city,
+    //         value: currentAddressObj.cityValue,
+    //       },
+    //     ],
+    //     district: [
+    //       {
+    //         key: currentAddressObj.district,
+    //         value: currentAddressObj.districtValue,
+    //       },
+    //     ],
+    //     state: [
+    //       {
+    //         key: currentAddressObj.state,
+    //         value: currentAddressObj.stateValue,
+    //       },
+    //     ],
+    //     country: [
+    //       {
+    //         key: currentAddressObj.country,
+    //         value: currentAddressObj.countryValue,
+    //       },
+    //     ],
+    //   };
+    //   const currentAddress = details.get('currentAddress');
+    //   currentAddress.patchValue(this.setAddressValues(currentAddressObj));
+    //   //const currentReplaceObj= this.getAddressObj[Constant.CURRENT_ADDRESS]
+    //   currentAddress.patchValue({
+    //     accommodationType: currentObjReplace.accommodationType || '',
+    //     periodOfCurrentStay: currentObjReplace.periodOfCurrentStay,
+    //     mobileNumber: currentObjReplace.mobileNumber,
+    //   });
+    // } else {
+      
       const currentAddressObj =
         addressObj[Constant.CURRENT_ADDRESS] || addressObj['COMMADDADDTYP'];
+        
+    if(currentAddressObj.isCurrAddSameAsPermAdd=='1'){
+      this.onCurrAsOfficeChecked= true;
+      const formArray = this.addressForm.get('details') as FormArray;
+      const details = formArray.at(0);
+      details.get('officeAddress').disable();
+
+    }
+
+
       if (currentAddressObj) {
         this.currentPincode = {
           city: [
@@ -591,7 +661,7 @@ export class AddressDetailsComponent implements OnInit {
           mobileNumber: currentAddressObj.mobileNumber,
         });
       }
-    }
+    // }
 
     const officeAddressObj = addressObj[Constant.OFFICE_ADDRESS];
     if (officeAddressObj) {
@@ -692,6 +762,7 @@ export class AddressDetailsComponent implements OnInit {
       communicationAddressVariable.get('state').disable();
       communicationAddressVariable.get('country').disable();
       communicationAddressVariable.get('landlineNumber').disable();
+      communicationAddressVariable.get('nearestlandmark').disable();
       const communicationAddressObj = isCommAsReg;
       this.communicationPincode = {
         city: [
@@ -799,8 +870,9 @@ export class AddressDetailsComponent implements OnInit {
     console.log('permanantPincode', this.permanantPincode);
     if (isChecked) {
       this.currentPincode = this.permanantPincode;
-      console.log('currentPincode', this.currentPincode);
+      //console.log('currentPincode', this.currentPincode);
       this.getPermanentAddressValue();
+      this.onPerAsCurChecked= true;
     } else if (!isChecked) {
       const formArray = this.addressForm.get('details') as FormArray;
       const details = formArray.at(0);
@@ -815,10 +887,32 @@ export class AddressDetailsComponent implements OnInit {
       currentAddress.get('state').enable();
       currentAddress.get('country').enable();
       currentAddress.get('landlineNumber').enable();
+      currentAddress.get('nearestLandmark').enable();
+
+      currentAddress.reset();
+      this.onPerAsCurChecked= false;
     }
 
-    this.isCurrAddSameAsPermAdd = isChecked === true ? '1' : '0';
+    
   }
+
+  officeSameAddress(event){
+     const isChecked = event.target.checked;
+     if(isChecked){
+       this.officePincode= this.currentPincode;
+       this.getCurrentAddressValue();
+       this.onCurrAsOfficeChecked= true;
+     }else{
+      const formArray = this.addressForm.get('details') as FormArray;
+      const details = formArray.at(0);
+      const officeAddress = details.get('officeAddress');
+      officeAddress.enable();
+      officeAddress.reset();
+      this.onCurrAsOfficeChecked= false;
+
+     }
+  }
+
   onSameRegistered(event) {
     const isChecked = event.target.checked;
     if (isChecked) {
@@ -838,6 +932,9 @@ export class AddressDetailsComponent implements OnInit {
       communicationAddress.get('state').enable();
       communicationAddress.get('country').enable();
       communicationAddress.get('landlineNumber').enable();
+      communicationAddress.get('nearestLandmark').enable();
+
+      communicationAddress.reset();
     }
 
     this.isCurrAddSameAsPermAdd = isChecked === true ? '1' : '0';
@@ -846,7 +943,7 @@ export class AddressDetailsComponent implements OnInit {
   getPermanentAddressValue() {
     const formArray = this.addressForm.get('details') as FormArray;
     const formValue = formArray.at(0).value.permanantAddress;
-    console.log('PERAM VALUE', formValue);
+    //console.log('PERAM VALUE', formValue);
     const details = formArray.at(0);
     const currentAddress = details.get('currentAddress');
     console.log('currentAddress', currentAddress);
@@ -862,6 +959,30 @@ export class AddressDetailsComponent implements OnInit {
     currentAddress.get('state').disable();
     currentAddress.get('country').disable();
     currentAddress.get('landlineNumber').disable();
+    currentAddress.get('nearestLandmark').disable();
+  }
+
+  getCurrentAddressValue(){
+    const formArray = this.addressForm.get('details') as FormArray;
+    const details= formArray.at(0);
+    const currentAddressValue = details.get('currentAddress')['controls'];
+    console.log('currentAddressValue',currentAddressValue)
+    const officeAddress = details.get('officeAddress')
+    officeAddress.patchValue({
+        addressLineOne : currentAddressValue.addressLineOne.value,
+        addressLineTwo : currentAddressValue.addressLineTwo.value,
+        addressLineThree : currentAddressValue.addressLineThree.value,
+        pincode : currentAddressValue.pincode.value,
+        city : currentAddressValue.city.value,
+        district : currentAddressValue.district.value,
+        state : currentAddressValue.state.value,
+        country : currentAddressValue.country.value,
+        landlineNumber : currentAddressValue.landlineNumber.value,
+        nearestLandmark : currentAddressValue.nearestLandmark.value,
+        mobileNumber : currentAddressValue.mobileNumber.value
+    });
+    officeAddress.disable();
+
   }
 
   getRegisteredAddressValue() {
@@ -882,6 +1003,8 @@ export class AddressDetailsComponent implements OnInit {
     communicationAddress.get('state').disable();
     communicationAddress.get('country').disable();
     communicationAddress.get('landlineNumber').disable();
+    communicationAddress.get('nearestLandmark').disable();
+
   }
 
   hasRoute() {
@@ -1002,40 +1125,39 @@ export class AddressDetailsComponent implements OnInit {
       addressType: Constant.PERMANENT_ADDRESS,
       isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd || this.onPerAsCurChecked==true? '1': '0',
     });
-    const officeAddressObject = value.details[0].officeAddress;
+    const formArray = this.addressForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    const officeAddressObject = details.get('officeAddress').value;
     this.addressDetailsDataArray.push({
       ...this.getAddressFormValues(officeAddressObject),
       addressType: Constant.OFFICE_ADDRESS,
-      // accommodationType: officeAddressObject.accommodationType,
-      // periodOfCurrentStay: Number(officeAddressObject.periodOfCurrentStay),
       mobileNumber: officeAddressObject.mobileNumber || '',
       nearestLandmark : officeAddressObject.nearestLandmark || ''
-      //isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
     });
-    const initialCurAsPer= this.onPerAsCurChecked== true? '1' : '0'
+    //const initialCurAsPer= this.onPerAsCurChecked== true? '1' : '0'
     
-    if (this.isCurrAddSameAsPermAdd ?this.isCurrAddSameAsPermAdd == '0' : initialCurAsPer == '0') {
+    
       const currentAddressObject = value.details[0].currentAddress;
-      //const periodOfCurrentStay= Number(currentAddressObject.periodOfCurrentStay)
       this.addressDetailsDataArray.push({
         ...this.getAddressFormValues(currentAddressObject),
         addressType: Constant.CURRENT_ADDRESS,
         accommodationType: currentAddressObject.accommodationType || '',
+        isCurrAddSameAsPermAdd : this.onCurrAsOfficeChecked? '1' : '0',
         
         periodOfCurrentStay: currentAddressObject.periodOfCurrentStay ? Number(currentAddressObject.periodOfCurrentStay) : null,
         mobileNumber: currentAddressObject.mobileNumber || '',
       });
       
-    }else if(this.isCurrAddSameAsPermAdd ?this.isCurrAddSameAsPermAdd == '1' : initialCurAsPer == '1'){
-      const currentAddressObject = value.details[0].currentAddress;
-    this.addressDetailsDataArray.push({
-      addressType: Constant.CURRENT_ADDRESS,
-      accommodationType: currentAddressObject.accommodationType || '',
-      periodOfCurrentStay: Number(currentAddressObject.periodOfCurrentStay) || null,
-      mobileNumber: currentAddressObject.mobileNumber || '',
+    // else if(this.isCurrAddSameAsPermAdd ?this.isCurrAddSameAsPermAdd == '1' : initialCurAsPer == '1'){
+    //   const currentAddressObject = value.details[0].currentAddress;
+    // this.addressDetailsDataArray.push({
+    //   addressType: Constant.CURRENT_ADDRESS,
+    //   accommodationType: currentAddressObject.accommodationType || '',
+    //   periodOfCurrentStay: Number(currentAddressObject.periodOfCurrentStay) || null,
+    //   mobileNumber: currentAddressObject.mobileNumber || '',
       
-    });
-    }
+    // });
+    // }
     
     
     

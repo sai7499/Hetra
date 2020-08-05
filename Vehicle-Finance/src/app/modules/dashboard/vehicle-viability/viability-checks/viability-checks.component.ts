@@ -6,6 +6,7 @@ import { PersonalDiscussionService } from '@services/personal-discussion.service
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { DashboardService } from '@services/dashboard/dashboard.service';
 
 @Component({
   selector: 'app-viability-checks',
@@ -30,6 +31,7 @@ export class ViabilityChecksComponent implements OnInit {
   roleType: any;
   leadId: any;
   isLoadLead = true;
+  filterDetails: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -38,8 +40,14 @@ export class ViabilityChecksComponent implements OnInit {
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dashboardService: DashboardService
   ) {
+    if (window.screen.width > 768) {
+      this.itemsPerPage = '25';
+    } else if (window.screen.width <= 768) {
+      this.itemsPerPage = '5';
+    }
   }
 
  async  ngOnInit() {
@@ -57,12 +65,70 @@ export class ViabilityChecksComponent implements OnInit {
         this.labels = data;
       }
     );
+  //   this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+  //     this.roleId = String(value.roleId);
+  //     this.branchId = value.branchId;
+  //   });
+  //   this.getViabilityDashboard(this.itemsPerPage);
+  // }
+
+    this.dashboardService.isFilterData.subscribe((filterValue: any) => {
+    console.log('filterDetails', filterValue);
+    this.filterDetails = filterValue;
+    // this.getMyLeads(value);
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
+      this.roleType = value.roleType;
     });
+    this.getViabilityDashboard(filterValue);
+  });
+
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+    this.roleId = String(value.roleId);
+    this.branchId = value.branchId;
+    this.roleType = value.roleType;
+  });
     this.getViabilityDashboard(this.itemsPerPage);
+
+}
+
+onClick() {
+  this.getViabilityDashboard(this.itemsPerPage);
+}
+
+getViabilityDashboard(filterValue, pageNumber?) {
+  const data = {
+    taskName: 'Vehicle Viability',
+    branchId: this.branchId,
+    roleId: this.roleId,
+    // tslint:disable-next-line: radix
+    currentPage: parseInt(pageNumber),
+    // tslint:disable-next-line: radix
+    perPage: parseInt(this.itemsPerPage),
+    myLeads: true,
+    leadId: filterValue ? filterValue.leadId : '',
+    fromDate: filterValue ? filterValue.fromDate : '',
+    toDate: filterValue ? filterValue.toDate : '',
+    productCategory: filterValue ? filterValue.product : '',
+    leadStage: filterValue ? filterValue.leadStage : '',
+    loanMinAmt: filterValue ? filterValue.loanMinAmt : '',
+    loanMaxAmt: filterValue ? filterValue.loanMaxAmt : ''
+  };
+  this.responseForCredit(data);
+}
+
+responseForCredit(data) {
+  this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
+    this.setPageData(res);
+    if (res.ProcessVariables.loanLead != null) {
+      this.isLoadLead = true;
+    } else {
+      this.isLoadLead = false;
   }
+  });
+}
+
   getLeadId() {
     return new Promise((resolve, reject) => {
       this.route.parent.params.subscribe((value) => {
@@ -74,30 +140,27 @@ export class ViabilityChecksComponent implements OnInit {
     });
   }
 
-  onClick() {
-    this.getViabilityDashboard(this.itemsPerPage);
-  }
 
-  getViabilityDashboard(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'Vehicle Viability',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: true,
-    };
-    this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
-      this.setPageData(res);
-      if (res.ProcessVariables.loanLead != null) {
-        this.isLoadLead = true;
-      } else {
-        this.isLoadLead = false;
-    }
-    });
-  }
+// getViabilityDashboard(perPageCount, pageNumber?) {
+//     const data = {
+//       taskName: 'Vehicle Viability',
+//       branchId: this.branchId,
+//       roleId: this.roleId,
+//       // tslint:disable-next-line: radix
+//       currentPage: parseInt(pageNumber),
+//       // tslint:disable-next-line: radix
+//       perPage: parseInt(perPageCount),
+//       myLeads: true,
+//     };
+//     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
+//       this.setPageData(res);
+//       if (res.ProcessVariables.loanLead != null) {
+//         this.isLoadLead = true;
+//       } else {
+//         this.isLoadLead = false;
+//     }
+//     });
+//   }
 
   setPageData(res) {
     const response = res.ProcessVariables.loanLead;
@@ -110,7 +173,7 @@ export class ViabilityChecksComponent implements OnInit {
   }
 
   setPage(event) {
-    this.getViabilityDashboard(this.itemsPerPage, event);
+    this.getViabilityDashboard(this.filterDetails, event);
   }
   routeToViabilityList(leadId: any) {
   this.router.navigate([`/pages/viability-list/${leadId}/viability-list`]);

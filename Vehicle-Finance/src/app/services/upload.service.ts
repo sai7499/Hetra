@@ -32,7 +32,7 @@ export class UploadService {
           timestamp: moment.utc().format(),
           authInfo: {
             brnchId: Number(localStorage.getItem('branchId')),
-            usrId: Number(localStorage.getItem('userId')),
+            usrId: localStorage.getItem('userId'),
           },
         },
         msgBdy: {
@@ -46,10 +46,10 @@ export class UploadService {
       },
     };
     console.log(JSON.stringify(data));
-    return this.httpService.docUpload(
-      'http://10.101.10.153/addDigiDocument/',
-      data
-    );
+    console.log("base url",environment.baseUrl);
+    const url = environment.baseUrl+'/addDigiDocument/';
+    // 'http://10.101.10.153/addDigiDocument/',
+    return this.httpService.docUpload(url,data);
   }
 
   saveOrUpdateDocument(documentDetails: DocumentDetails[]) {
@@ -129,9 +129,10 @@ export class UploadService {
         },
       },
     };
-    return this.httpService.docUpload(
-      'http://10.101.10.153/downloadDigiDocument/',
-      data
-    );
+    const url = environment.baseUrl+'/downloadDigiDocument/';
+    console.log("base url",window.location.origin);
+         // 'http://10.101.10.153/downloadDigiDocument/',
+   
+    return this.httpService.docUpload(url,data);
   }
 }

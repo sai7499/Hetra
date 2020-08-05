@@ -2,21 +2,46 @@
     margin-top: 20px;
 }
 
-#resendotp_button {
-    width: 24%;
-    padding-right: 30px;
-}
+/* #resendotp_button {
+    /* width: 24%;
+    padding-right: 30px; 
+    
+    margin: 0px 8px 8px 8px;
+} */
 
-#validateOtp_button {
-    margin-left: 135px;
+/* #validateOtp_button {
+    
     width: 33%;
-}
+    margin-left:8px;
+    margin-right:8px;
+} */
 
 .btn-primary {
     padding: 6px 9px;
 }
 
-.otp-button{
-
+/* .otp-button{
     margin-top: 12px;
+} */
+
+.content-trd{
+    text-align: justify;
+    padding: 12px;
 }
+/* 
+.verify-btn{
+    margin-left: 8px;
+} */
+
+@media 
+only screen and 
+    (max-width: 760px){
+
+        #resendotp_button {
+            /* width: 24%;
+            padding-right: 30px; */
+            
+            /* margin: 8px; */
+        }
+
+    }

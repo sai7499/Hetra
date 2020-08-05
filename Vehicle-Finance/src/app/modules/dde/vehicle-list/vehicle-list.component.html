@@ -1,57 +1,12 @@
-<!-- <div class="content"> -->
-<form class="multisteps-form__form">
-    <div class="container cus-wid-sty">
-        <app-shared-vehicle-details></app-shared-vehicle-details>
+<div class="container cus-wid-sty">
+    <app-shared-vehicle-details></app-shared-vehicle-details>
+</div>
 
-        <!--  <div class="btn-sec clear-both row">
-
-            <div class="col-sm-12 text-right">
-                <button class="btn btn-secondary mar-right8" type="button" [routerLink]="['/pages/vehicle-details']">
-                    {{labels.addAdditionalCollaterals}}</button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="table-responsive application" id="applicantTable">
-                <table class="table">
-                    <thead>
-                        <tr class="table-head-bg">
-                            <th>{{labels?.colleteralType}} </th>
-                            <th>{{labels?.column2}} </th>
-                            <th>{{labels?.column3}} </th>
-                            <th>{{labels?.action}} </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="text-center" id="applicant_row" *ngFor="let item of colleteralArray; let i = index">
-                            <td data-title="Colleteral Type">
-                                {{item.colleteralType}}
-                            </td>
-                            <td data-title="Column 2">
-                                {{item.column2}}
-                            </td>
-                            <td data-title="Column 3">
-                                {{item.column3}}
-                            </td>
-                            <td data-title="Action"><i class="fa fa-pencil" aria-hidden="true"
-                                    [routerLink]="['/pages/vehicle-details']"></i>&nbsp;&nbsp;<i class="fa fa-minus"
-                                    aria-hidden="true" id="remove_item_applicant"
-                                    (click)="removeOtherIndex(i, colleteralArray)"></i>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-            </div>
-
-        </div> -->
+<div class="btn-sec clear-both btn-mar-15" id="clickButton">
+    <div class="col-sm-5"> </div>
+    <div class="col-sm-7 text-right">
+        <button class="btn btn-primary" type="button"
+            [routerLink]="['../applicant-list']">{{labels.back}}</button>
+        <button class="btn btn-primary" type="button" [routerLink]="['../fleet-details']">{{labels.next}}</button>
     </div>
-</form>
-<!-- </div> -->
-
-<div class="btn-sec clear-both text-right cus-btn-cls">
-    <!-- <div class="col-sm-12"> -->
-    <button class="btn btn-primary" type="button" [routerLink]="['../applicant-list']">{{labels.back}}</button>&nbsp;
-    <button class="btn btn-primary" type="button" [routerLink]="['../fleet-details']">{{labels.next}}</button>&nbsp;
-    
-    <!-- </div> -->
 </div>

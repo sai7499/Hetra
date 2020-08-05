@@ -11,15 +11,17 @@
           class="panel panel-default"
           *ngFor="let subCat of subCategories; let i = index"
         >
-          <div class="panel-heading" id="headingThree">
+          <div
+            class="panel-heading"
+            id="headingThree"
+            class="panel-heading"
+            id="headingThree"
+            data-toggle="collapse"
+            data-parent="#accordion"
+            [attr.data-target]="'#collapse' + subCat.code"
+          >
             <h4 class="panel-title">
-              <a
-                class="collapsed"
-                data-toggle="collapse"
-                data-parent="#accordion"
-                href="#collapse{{ subCat.code }}"
-                aria-expanded="false"
-              >
+              <a class="collapsed" aria-expanded="false">
                 <!-- <i class="fa fa-address-card"></i>&nbsp; -->
                 {{ subCat.displayName }}
                 <i class="fa fa-angle-down"></i>
@@ -143,10 +145,15 @@
                         [format]="'dd/MM/yyyy'"
                         [max]="toDayDate"
                         [activeView]="'decade'"
-                        placeholder="Issues Date"
+                        placeholder="Issue Date"
                         formControlName="issueDate"
                       >
                       </kendo-datepicker>
+                      <div class="invalid-feedback">
+                        <div *ngIf="checkDate(subCat.code, i, 'issueDate')">
+                          Invalid date
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div
@@ -163,11 +170,16 @@
                         placeholder="Expiry Date"
                         formControlName="expiryDate"
                         [min]="
-                          uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)
-                            .value | docsUpload: i
+                          (uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)
+                            .value | docsUpload: i) || toDayDate
                         "
                       >
                       </kendo-datepicker>
+                      <div class="invalid-feedback">
+                        <div *ngIf="checkDate(subCat.code, i, 'expiryDate')">
+                          Invalid date
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div class="form-group col-sm-3 col-md-2">
@@ -240,19 +252,20 @@
 </div>
 <div class="btn-sec clear-both row">
   <div class="col-sm-5">
-    <button
+    <!-- <button
       class="btn btn-primary js-btn-prev dash_href"
       type="button"
-      [routerLink]="['/pages', 'lead-section', leadId]"
+      (click)="navigateBack()"
     >
+
       Back to lead details
-    </button>
+    </button> -->
   </div>
   <div class="col-sm-7 text-right">
     <button
       class="btn btn-primary js-btn-prev dash_href"
       type="button"
-      (click)="onBack()"
+      (click)="navigateBack()"
     >
       Back
     </button>

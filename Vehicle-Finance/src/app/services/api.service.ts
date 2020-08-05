@@ -567,14 +567,19 @@ export class ApiService {
       workflowId: 'cf499204cfdf11eaad5000505695f93b',
       projectId: environment.projectIds.salesProjectId,
     },
+    dashboardFilter: {
+      processId: '3d804624d26911eaa78100505695f93b',
+      workflowId: '3d804624d26911eaa78100505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
     uploadPhotoOrSignature: {
       processId: '9cdb8a7ed30011ea8bba00505695f93b',
       workflowId: '9cb93d8ed30011eaaed400505695f93b',
       projectId: environment.projectIds.salesProjectId,
     },
     wrapperBiometriceKYC: {
-      processId: 'b95e7cfad0b311ea9f0400505695f93b',
-      workflowId: 'b93fc6e8d0b311eab67600505695f93b',
+      processId: 'b918564cd3b211ea93de00505695f93b',
+      workflowId: ' b90074dcd3b211eabfae00505695f93b',
       projectId: environment.projectIds.wrapperBiometriceKYC,
     },
     getApplicantDataImage: {
@@ -582,5 +587,25 @@ export class ApiService {
       workflowId: 'aeed7234d0b411ea99c400505695f93b',
       projectId: environment.projectIds.externalApi,
     },
+    getTermSheet: {
+      processId: 'aa0bd7accd8e11eaa47f00505695f93b',
+      workflowId: 'a9e25f4ecd8e11eab88900505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    saveCheckList: {
+      processId: '2f5e323ad59911ea9d5d00505695f93b',
+      workflowId: '2f32c4bad59911eabaa900505695f93b',
+      projectId : environment.projectIds.salesProjectId
+    },
+    assignCPCRules: {
+      processId: '8a5609aad32e11eaacee00505695f93b',
+      workflowId: '8a1d1abed32e11eaa96700505695f93b',
+      projectId: environment.projectIds.submitToCredit
+    },
+    getCheckList : {
+      processId: 'd895c8a4d5a811ea9d5d00505695f93b',
+      workflowId: 'd86551d8d5a811ea933000505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    }
   };
 }
