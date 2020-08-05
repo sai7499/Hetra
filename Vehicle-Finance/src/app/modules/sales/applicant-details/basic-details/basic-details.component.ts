@@ -52,6 +52,7 @@ export class BasicDetailsComponent implements OnInit {
   isDirty: boolean;
   mobilePhone: any;
   countryList = [];
+  leadId : number;
   
 
   //imMinor : boolean= true
@@ -72,6 +73,7 @@ export class BasicDetailsComponent implements OnInit {
   };
 
   public toDayDate: Date = new Date();
+  public ageMinDate : Date = new Date(1948, 12, 1)
   isRequiredSpouse = 'Spouse Name is Required';
   isRequiredFather = 'Father Name is Required';
   productCategory: string;
@@ -98,7 +100,8 @@ export class BasicDetailsComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
@@ -125,6 +128,7 @@ export class BasicDetailsComponent implements OnInit {
     this.getCountryList();
     const formArray = this.basicForm.get('details') as FormArray;
     this.validation = formArray.at(0);
+    this.leadId = (await this.getLeadId()) as number;
 
   }
   getLeadSectiondata() {
@@ -457,7 +461,7 @@ export class BasicDetailsComponent implements OnInit {
       motherMaidenName: aboutIndivProspectDetails.motherMaidenName || '',
       preferredLanguage: aboutIndivProspectDetails.preferredLanguage || 'ENGPRFLAN',
       occupation: aboutIndivProspectDetails.occupation || '',
-      nationality: aboutIndivProspectDetails.nationality || '',
+      nationality: aboutIndivProspectDetails.nationality || 'RSDTINDNATIONALITY',
       age: this.showAge,
       gender: aboutIndivProspectDetails.gender || '',
       politicallyExposedPerson:
@@ -687,6 +691,8 @@ export class BasicDetailsComponent implements OnInit {
 
     const applicantData = this.applicantDataService.getApplicant();
     const leadId = (await this.getLeadId()) as number;
+    this.leadId=leadId;
+
 
     const data = {
       applicantId: this.applicantId,
@@ -887,6 +893,7 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   onBack() {
-    this.location.back();
+    //this.location.back();
+    this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`)
   }
 }
