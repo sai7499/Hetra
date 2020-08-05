@@ -2095,18 +2095,31 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       if (processVariables.error.code == '0') {
         console.log("KYC success" + processVariables.error.code);
 
-        that.isAlertSuccess = false;
-        setTimeout(() => {
-          that.isAlertSuccess = true;
-        }, 1500);
+        // that.isAlertSuccess = false;
+        // setTimeout(() => {
+        //   that.isAlertSuccess = true;
+        // }, 1500);
+
+        alert("e-KYC successful");
+        that.toasterService.showSuccess(
+          "e-KYC Successful",
+          'eKYC Success'
+        );
+
       }
       else {
         console.log("KYC failure" + processVariables.error.code);
+        // that.isAlertDanger = false;
+        // setTimeout(() => {
+        //   that.isAlertDanger = true;
+        // }, 1500);
+        alert(processVariables.error.message);
 
-        that.isAlertDanger = false;
-        setTimeout(() => {
-          that.isAlertDanger = true;
-        }, 1500);
+        that.toasterService.showError(
+          processVariables.error.message,
+          'eKYC Failed'
+        );
+
         return;
       }
 
@@ -2132,14 +2145,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   }
 
-  // givalert() {
-  //   alert("test")
-  // }
-
   setBiometricValues(ctx, value) {
 
-    value = JSON.parse(value).ProcessVariables;
-    console.log('value', value)
     const dedupe = ctx.coApplicantForm.get('dedupe');
     console.log("dedupe-element", dedupe);
     const dob = value.dobFromResponse;
@@ -2206,6 +2213,26 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     ctx.isPermanantAddressSame = false
 
     ctx.pTag.nativeElement.click();
+
+
+    // if(value.error.code=='0'){
+    //   console.log("KYC success" + value.error.code);
+    //   alert("e-KYC successful" );
+
+    //   ctx.toasterService.showSuccess(
+    //     value.error.message,
+    //     'eKYC Success'
+    //   );
+    //  }else{
+    //   console.log("KYC failure" + value.error.code);
+    //   alert(value.error.message);
+
+    //   ctx.toasterService.showError(
+    //     value.error.message,
+    //     'eKYC Failed'
+    //   );
+    //   return;
+    //  }
 
   }
 

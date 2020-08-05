@@ -1020,7 +1020,7 @@
                     
                     (click)="calleKYC()"
                   >
-                    <a class="back_color">Check eKYC</a>
+                    <a class="back_color">Check e-KYC</a>
                   </button>
                 </div>
               </div>
@@ -1659,30 +1659,6 @@
     </div>
   </div>
 </main>
-
-<div
-  class="alert alert-danger alert-dismissible"
-  style="position: fixed;"
-  id="alert"
-  *ngIf="!isAlertDanger"
->
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  ekyc Request Failed
-</div>
-
-<div
-  class="alert alert-success alert-dismissible"
-  style="position: fixed;"
-  id="alert"
-  *ngIf="!isAlertSuccess"
->
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  ekyc Request Success
-</div>
 
 <div
   class="modal"
