@@ -97,7 +97,7 @@
         </ul>
     </div>
 
-    <div class="container-fluid mar-bottom" *ngIf="roleType == '2'">
+    <div class="container-fluid mar-bottom" *ngIf="roleType == '2' || '4'">
         <ul class="nav nav-pills nav-justified" id="background_white">
             <li [routerLink]="[ '/pages/dashboard/leads-section' ]" routerLinkActive="active" id="leads"><a>DDE</a></li>
             <li [routerLink]="[ '/pages/dashboard/personal-discussion' ]" routerLinkActive="active"><a>Personal Discussion</a></li>
@@ -197,9 +197,9 @@
                 <h3>No data found</h3>
             </div>
             <div *ngIf="isLoadLead" class="row clearfix marBottom-45">
-                <div class="records col-xs-3 col-sm-4">
+                <div class="records col-lg-6 col-md-6 col-sm-3 col-xs-3">
 
-                    <div class="col-lg-3 top-padding"><label>No. of Rows </label>
+                    <div class="top-padding"><label>No. of Rows </label>
                         <select class="form-control  input-sm" (change)="setPage($event)" [(ngModel)]="itemsPerPage">
                             <option value="5">5</option>
                             <option value="10">10</option>
@@ -209,7 +209,7 @@
                     </div>
 
                 </div>
-                <nav class="col-xs-9 col-sm-4 text-center top-padding">
+                <nav class="col-lg-6 col-md-6 col-sm-9 col-xs-9 text-center top-padding">
                     <pagination-controls previousLabel="" nextLabel="" (pageChange)="setPage($event)"></pagination-controls>
                 </nav>
             </div>
