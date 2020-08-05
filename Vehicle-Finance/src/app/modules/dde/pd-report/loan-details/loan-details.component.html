@@ -352,6 +352,10 @@
           id="know_abt_vechicle"
           formControlName="proposedVehicle"
           placeholder="how do you know about proposed vehilcle"
+          [type]="labels?.validationData?.sourceOf?.type"
+          [isRequired]="' know about proposed vehicle is required'"
+          [maxLength]="labels?.validationData?.sourceOf?.maxLength"
+          [isDirty]="isDirty"
         >
         </app-custom-input>
       </div>

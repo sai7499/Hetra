@@ -6,16 +6,20 @@ import { FiReportComponent } from './fi-report/fi-report.component';
 import { SharedModule } from '@shared/shared.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DdeSharedModule } from '../shared/shared.module';
+import { FiReportResidenceComponent } from './fi-residence/fi-report-residence.component';
+import { FiReportOfficeComponent } from './fi-business/fi-report-office.component';
+import { TimePickerModule } from '@progress/kendo-angular-dateinputs';
 
 @NgModule({
-  declarations: [FiReportComponent],
+  declarations: [FiReportComponent, FiReportResidenceComponent, FiReportOfficeComponent],
   imports: [
     CommonModule,
     FiReportRoutingModule,
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
-    DdeSharedModule
+    DdeSharedModule,
+    TimePickerModule
 
   ]
 })
