@@ -42,6 +42,8 @@ export class IdentityDetailsComponent implements OnInit {
   isIndividual = true;
   identityForm: FormGroup;
   isDirty : boolean;
+  drivingLicenceDates : boolean;
+  passportDates : boolean;
 
   panPattern = {
     rule: '[A-Z]{3}(P)[A-Z]{1}[0-9]{4}[A-Z]{1}',
@@ -76,7 +78,14 @@ export class IdentityDetailsComponent implements OnInit {
 }
 
   onBack() {
-    this.location.back();
+    //this.location.back();
+    const url = this.location.path();
+    if (url.includes('sales')) {
+      this.router.navigateByUrl(`/pages/sales-applicant-details/${this.leadId}/basic-details/${this.applicantId}`);
+      
+    }else{
+    this.router.navigateByUrl(`/pages/applicant-details/${this.leadId}/basic-data/${this.applicantId}`);
+  }
   }
 
   async ngOnInit() {
@@ -293,7 +302,10 @@ export class IdentityDetailsComponent implements OnInit {
     const value = this.indivIdentityInfoDetails;
 
     this.convertPassportDate= this.utilityService.getDateFromString(value.passportIssueDate);
-    this.convertDrivingDate = this.utilityService.getDateFromString(value.drivingLicenseIssueDate)
+    this.convertDrivingDate = this.utilityService.getDateFromString(value.drivingLicenseIssueDate);
+    this.drivingLicenceDates= value.drivingLicenseNumber? false : true;
+    this.passportDates = value.passportNumber? false: true;
+
 
     //console.log('individual', value)
     const formArray = this.identityForm.get('details') as FormArray;

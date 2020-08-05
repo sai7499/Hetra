@@ -37,6 +37,7 @@ export class CreateLeadDataService {
     }
 
     getLeadSectionData() {
+        console.log('in create lead service', this.leadSectionData);
         return this.leadSectionData;
     }
 

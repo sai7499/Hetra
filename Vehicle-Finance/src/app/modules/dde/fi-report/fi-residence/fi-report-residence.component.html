@@ -1,0 +1,853 @@
+<form
+  class="multisteps-form"
+  [formGroup]="fieldReportForm"
+  *ngIf="this.fieldReportForm"
+>
+  <div class="row">
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="nameOfExternalAgency"
+          >{{ labels?.nameOfExternalAgency }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <app-vf-custom-select
+          [values]=""
+          formControlName="externalAgencyName"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="contactPoint"
+          >{{ labels?.contactPointVerification }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <app-vf-custom-select
+          [values]="(LOV?.LOVS)['contactPointVerification']"
+          formControlName="contactPointVerification"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="referenceNo"
+          >{{ labels?.referenceNo }} <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="referenceNo"
+          [placeholder]="'Enter reference number'"
+          [type]="labels?.validationData?.receiptNo?.type"
+          formControlName="referenceNo"
+          [isRequired]="'Reference number is required'"
+          [maxLength]="labels?.validationData?.receiptNo?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="cpv_date"
+          >{{ labels?.cpvIntiatedDate }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <kendo-datepicker
+          id="cpv_date"
+          class="form-control mandatory"
+          formControlName="cpvInitiatedDate"
+          [format]="'dd/MM/yyyy'"
+          [placeholder]="'Enter initiated date'"
+          [activeView]="'decade'"
+          [min]="leadCreatedDateFromLead"
+          [max]="toDayDate"
+          (valueChange)="getMonths()"
+        ></kendo-datepicker>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="cpv_time"
+          >{{ labels?.cpvIntiatedTime }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <input
+          type="time"
+          class="form-control mandatory"
+          placeholder="'cpv initiated time'"
+          formControlName="cpvInitiatedTime"
+        />
+        <!-- <app-custom-input
+          id="cpv_time"
+          [placeholder]="'Enter initiated time'"
+          [type]="labels?.validationData?.cubicCapacity?.type"
+          formControlName="cpvInitiatedTime"
+          [isRequired]="'Time is required'"
+          [maxLength]="labels?.validationData?.cubicCapacity?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input> -->
+        <!-- <kendo-timepicker
+          class="form-control mandatory"
+          formControlName="cpvInitiatedTime"
+          [format]="'HH:mm'"
+          placeholder=" cpv initiated time"
+        >
+        </kendo-timepicker> -->
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="report_date"
+          >{{ labels?.reportSubmitDate }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <kendo-datepicker
+          id="cpv_date"
+          class="form-control mandatory"
+          formControlName="reportSubmitDate"
+          [format]="'dd/MM/yyyy'"
+          placeholder="'Enter submit date'"
+          [activeView]="'decade'"
+          [min]="cpvInitiatedDate"
+          (valueChange)="getMonths()"
+        ></kendo-datepicker>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="report_time"
+          >{{ labels?.reportSubmitTime }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <!-- <app-custom-input
+          id="report_time"
+          [placeholder]="'Enter submit time'"
+          [type]="labels?.validationData?.cubicCapacity?.type"
+          formControlName="reportSubmitTime"
+          [isRequired]="'Time is required'"
+          [maxLength]="labels?.validationData?.cubicCapacity?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input> -->
+        <!-- <kendo-timepicker
+          class="form-control mandatory"
+          formControlName="reportSubmitTime"
+          [format]="'HH:mm'"
+          placeholder="Enter submit time"
+        >
+        </kendo-timepicker> -->
+        <input
+          type="time"
+          class="form-control mandatory"
+          placeholder="'Enter submit time'"
+          formControlName="reportSubmitTime"
+        />
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="applicantsName"
+          >{{ labels?.applicantsName }} <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="applicantsName"
+          [placeholder]="'Enter applicant Name'"
+          [type]="labels?.validationData?.name?.type"
+          formControlName="applicantName"
+          [isRequired]="'Applicant Name is required'"
+          [maxLength]="labels?.validationData?.name?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="residenceAddressline1"
+          >{{ labels?.residenceAddressline1 }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="residenceAddressline1"
+          [placeholder]="'Enter address'"
+          [type]="labels?.validationData?.address?.type"
+          formControlName="addressLine1"
+          [isRequired]="'Address is required'"
+          [maxLength]="labels?.validationData?.address?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="residenceAddressline2"
+          >{{ labels?.residenceAddressline2 }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="residenceAddressline2"
+          [placeholder]="'Enter address'"
+          [type]="labels?.validationData?.address?.type"
+          formControlName="addressLine2"
+          [isRequired]="'Address is required'"
+          [maxLength]="labels?.validationData?.address?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="residenceAddressline3"
+          >{{ labels?.residenceAddressline3 }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="residenceAddressline3"
+          [placeholder]="'Enter address'"
+          [type]="labels?.validationData?.address?.type"
+          formControlName="addressLine3"
+          [isRequired]="'Address is required'"
+          [maxLength]="labels?.validationData?.address?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="pincode"
+          >{{ labels?.pincode }} <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          formControlName="pincode"
+          [maxLength]="labels?.validationData?.pincode?.maxLength"
+          [patternCheck]="labels?.validationData?.pincode?.patternCheck"
+          (keyup)="getPincode($event.target)"
+          [id]="'Pincode'"
+          [isRequired]="'Pincode is required'"
+          [isDirty]="isDirty"
+          [type]="labels?.validationData?.pincode?.type"
+        ></app-custom-input>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="city"
+          >{{ labels?.city }} <sub class="star_red_col">*</sub></label
+        >
+        <app-vf-custom-select
+          id="city"
+          [values]="city"
+          formControlName="city"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="state"
+          >{{ labels?.state }} <sub class="star_red_col">*</sub></label
+        >
+        <app-vf-custom-select
+          id="state"
+          [values]="state"
+          formControlName="state"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
+      </div>
+    </div>
+    <!-- if Bussiness -->
+    <!-- <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="typeofConcern"
+          >{{ labels?.typeOfConcern }} <sub class="star_red_col">*</sub></label
+        >
+        <app-vf-custom-select
+          id="typeofConcern"
+          [values]="(LOV?.LOVS)['typeOfConcern']"
+          formControlName="typeOfConcern"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="designation"
+          >{{ labels?.designation }} <sub class="star_red_col">*</sub></label
+        >
+        <app-vf-custom-select
+          id="designation"
+          [values]="(LOV?.LOVS)['designation']"
+          formControlName="designation"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="natureOfBusiness"
+          >{{ labels?.natureOfBusiness }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="natureOfBusiness"
+          [placeholder]="'Enter business details'"
+          [type]="labels?.validationData?.name?.type"
+          formControlName="natureOfBusiness"
+          [isRequired]="'Nature of business is required'"
+          [maxLength]="labels?.validationData?.name?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+    </div> -->
+  </div>
+
+  <!-- if Residence -->
+  <div class="row">
+    <h3>Residence Observation</h3>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="residenceApproach"
+          >{{ labels?.residenceApproach }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="residenceApproach"
+          [placeholder]="'Enter residence Approach'"
+          [type]="labels?.validationData?.name?.type"
+          formControlName="residenceApproach"
+          [isRequired]="'Residence Approach is required'"
+          [maxLength]="labels?.validationData?.name?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="detailsOfResidence"
+          >{{ labels?.detailsOfResidence }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <app-vf-custom-select
+          id="detailsOfResidence"
+          [values]="(LOV?.LOVS)['fi/PdHouseOwnership']"
+          formControlName="residenceDetails"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="rentAmount"
+          >{{ labels?.rentAmount }} <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="rentAmount"
+          [placeholder]="'Enter rent Amount'"
+          [type]="labels?.validationData?.idv?.type"
+          formControlName="rentAmt"
+          [isRequired]="'Rent Ammount is required'"
+          [maxLength]="labels?.validationData?.idv?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="residenceName"
+          >{{ labels?.residenceName }} <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="residenceName"
+          [placeholder]="'Enter residence name'"
+          [type]="labels?.validationData?.name?.type"
+          formControlName="residenceName"
+          [isRequired]="'Residence Name is required'"
+          [maxLength]="labels?.validationData?.name?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="verifiedFrom"
+          >{{ labels?.verifiedFrom }} <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="verifiedFrom"
+          [placeholder]="'Enter Verified from'"
+          [type]="labels?.validationData?.name?.type"
+          formControlName="verifiedFrom"
+          [isRequired]="'form is required'"
+          [maxLength]="labels?.validationData?.name?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="personMetName"
+          >{{ labels?.personMetName }} <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="personMetName"
+          [placeholder]="'Enter person met name'"
+          [type]="labels?.validationData?.name?.type"
+          formControlName="personMetName"
+          [isRequired]="'Person met name is required'"
+          [maxLength]="labels?.validationData?.name?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="YearsStayinCity"
+          >{{ labels?.YearsStayinCity }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="YearsStayinCity"
+          [placeholder]="'Enter years of stay in city'"
+          [type]="labels?.validationData?.percentage?.type"
+          formControlName="yrsOfStayInCity"
+          [isRequired]="'Staying years in city is required'"
+          [maxLength]="labels?.validationData?.percentage?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="YearsStayinResi"
+          >{{ labels?.YearsStayinResi }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="YearsStayinResi"
+          [placeholder]="'Enter years of stay in residence'"
+          [type]="labels?.validationData?.percentage?.type"
+          formControlName="yrsOfStayInResi"
+          [isRequired]="'Staying years in residence is required'"
+          [maxLength]="labels?.validationData?.percentage?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="areainSquarefeet"
+          >{{ labels?.areainSquarefeet
+          }}<sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="areainSquarefeet"
+          [placeholder]="'Enter Area in Square feet'"
+          [type]="labels?.validationData?.noOfEmployeesSeen?.type"
+          formControlName="areaInSqFeet"
+          [isRequired]="'Area is required'"
+          [maxLength]="labels?.validationData?.noOfEmployeesSeen?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="fi_locality"
+          >{{ labels?.fiLocality }} <sub class="star_red_col">*</sub></label
+        >
+        <app-vf-custom-select
+          id="fi_locality"
+          [values]="(LOV?.LOVS)['fi/PdResidentialLocality']"
+          formControlName="locality"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="assetsVisibleAtHome"
+          >{{ labels?.assetsVisibleAtHome }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="assetsVisibleAtHome"
+          [placeholder]="'Enter assets visible at Home'"
+          [type]="labels?.validationData?.assetsVisible?.type"
+          formControlName="visibleAssets"
+          [isRequired]="'Assets is required'"
+          [maxLength]="labels?.validationData?.assetsVisible?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="locatingResidence"
+          >{{ labels?.locatingResidence }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="locatingResidence"
+          [placeholder]="'Enter locating residence'"
+          [type]="labels?.validationData?.name?.type"
+          formControlName="locatingResidence"
+          [isRequired]="'Residence location is required'"
+          [maxLength]="labels?.validationData?.name?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+    </div>
+
+    <h3>Asset & family member details</h3>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="propertyOwned"
+          >{{ labels?.propertyOwned }} <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="propertyOwned"
+          [placeholder]="'Enter property owned details'"
+          [type]="labels?.validationData?.assetsOwned?.type"
+          formControlName="otherAssetsOwned"
+          [isRequired]="'Owned property is required'"
+          [maxLength]="labels?.validationData?.assetsOwned?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="noOffamilyMembers"
+          >{{ labels?.noOffamilyMembers }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="noOffamilyMembers"
+          [placeholder]="'Enter family members name'"
+          [type]="labels?.validationData?.percentage?.type"
+          formControlName="noOfFamilyMembers"
+          [isRequired]="'Family members is required'"
+          [maxLength]="labels?.validationData?.percentage?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="noOfEarningMembers"
+          >{{ labels?.noOfEarningMembers }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="noOfEarningMembers"
+          [placeholder]="'Enter earning members name'"
+          [type]="labels?.validationData?.noOfVehicles?.type"
+          formControlName="noOfEarningMembers"
+          [isRequired]="'Earning members is required'"
+          [maxLength]="labels?.validationData?.noOfVehicles?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="vehiclesDetails"
+          >{{ labels?.vehiclesDetails }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="vehiclesDetails"
+          [placeholder]="'Enter vehicle details'"
+          [type]="labels?.validationData?.assetsVisible?.type"
+          formControlName="vehicleDetails"
+          [isRequired]="'Vehicles Details is required'"
+          [maxLength]="labels?.validationData?.assetsVisible?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+    </div>
+  </div>
+
+  <!-- if Bussiness -->
+  <!-- <div class="row">
+    <h3>Office Observation</h3>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="approachable"
+          >{{ labels?.approachable }} <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="approachable"
+          [placeholder]="'Enter office/bussiness approach'"
+          [type]="labels?.validationData?.offBusinessApproach?.type"
+          formControlName="officeApproach"
+          [isRequired]="'Approach type is required'"
+          [maxLength]="labels?.validationData?.offBusinessApproach?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="premises"
+          >{{ labels?.premises }} <sub class="star_red_col">*</sub></label
+        >
+        <app-vf-custom-select
+          id="premises"
+          [values]="(LOV?.LOVS)['fi/PdOfficePremisesType']"
+          formControlName="officePremises"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="officeLocation"
+          >{{ labels?.officeLocation }} <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="officeLocation"
+          [placeholder]="'enter office location'"
+          [type]="labels?.validationData?.offBusinessApproach?.type"
+          formControlName="officeLocation"
+          [isRequired]="'Location is required'"
+          [maxLength]="labels?.validationData?.offBusinessApproach?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="furnishings"
+          >{{ labels?.furnishings }} <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="furnishings"
+          [placeholder]="'enter furnishings'"
+          [type]="labels?.validationData?.offBusinessApproach?.type"
+          formControlName="furnishings"
+          [isRequired]="'Furnishings is required'"
+          [maxLength]="labels?.validationData?.offBusinessApproach?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="sizeOfOffice"
+          >{{ labels?.sizeOfOffice }} <sub class="star_red_col">*</sub></label
+        > -->
+  <!-- <app-custom-input
+                  id="sizeOfOffice"
+                  [placeholder]="'Enter office location'"
+                  [type]="labels?.validationData?.name?.type"
+                  formControlName="officeSize"
+                  [isRequired]="'Size of Office is required'"
+                  [maxLength]="labels?.validationData?.name?.maxLength"
+                  [isDirty]="isDirty"
+                >
+                </app-custom-input> -->
+  <!-- <app-vf-custom-select
+          [values]="(LOV?.LOVS)['fi/PdOfficeSize']"
+          formControlName="officeSize"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="observations"
+          >{{ labels?.observations }} <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="observations"
+          [placeholder]="'enter observations'"
+          [type]="labels?.validationData?.assetsOwned?.type"
+          formControlName="observations"
+          [isRequired]="'Observations is required'"
+          [maxLength]="labels?.validationData?.assetsOwned?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="noofEmployeesWorking"
+          >{{ labels?.noofEmployeesWorking }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="noofEmployeesWorking"
+          [placeholder]="'enter office location'"
+          [type]="labels?.validationData?.noOfVehicles?.type"
+          formControlName="noOfWorkingEmployees"
+          [isRequired]="'Working Employees is required'"
+          [maxLength]="labels?.validationData?.noOfVehicles?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="noofEmployeesVisible"
+          >{{ labels?.noofEmployeesVisible }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="noofEmployeesVisible"
+          [placeholder]="'no of employees visible'"
+          [type]="labels?.validationData?.percentage?.type"
+          formControlName="noOfVisibleEmployees"
+          [isRequired]="'Visible Employees is required'"
+          [maxLength]="labels?.validationData?.percentage?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="activityLevel"
+          >{{ labels?.activityLevel }} <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="activityLevel"
+          [placeholder]="'activity level'"
+          [type]="labels?.validationData?.name?.type"
+          formControlName="activityLevel"
+          [isRequired]="'Activity level is required'"
+          [maxLength]="labels?.validationData?.name?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- if business and if residence -->
+  <div class="row">
+    <h3>Comments and Recommendations</h3>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="comments"
+          >{{ labels?.commentsAndRecommendations }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="comments"
+          [placeholder]="'comments'"
+          [type]="labels?.validationData?.assetsVisible?.type"
+          formControlName="fiComments"
+          [isRequired]="'Name is required'"
+          [maxLength]="labels?.validationData?.assetsVisible?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="distance"
+          >{{ labels?.distanceinKMs }} <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="distance"
+          [placeholder]="'distance in KMs'"
+          [type]="labels?.validationData?.noOfVehicles?.type"
+          formControlName="distanceInKms"
+          [isRequired]="'Name is required'"
+          [maxLength]="labels?.validationData?.noOfVehicles?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="cpvAgencyStatus"
+          >{{ labels?.cpvAgencyStatus }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <app-vf-custom-select
+          id="cpvAgencyStatus"
+          [values]="[
+            { key: '0', value: 'Positive' },
+            { key: '1', value: 'Negative' }
+          ]"
+          formControlName="cpvAgencyStatus"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="verifiedBy"
+          >{{ labels?.verifiedBy }} <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="verifiedBy"
+          [placeholder]="'Enter details'"
+          [type]="labels?.validationData?.name?.type"
+          formControlName="verifiedBy"
+          [isRequired]="'Name is required'"
+          [maxLength]="labels?.validationData?.name?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label>{{ labels.date }} <sub class="star_red_col">*</sub></label>
+        <kendo-datepicker
+          class="form-control mandatory"
+          formControlName="fiDate"
+          [format]="'dd/MM/yyyy'"
+          placeholder="Enter Date"
+          [activeView]="'decade'"
+          [min]="leadCreatedDateFromLead"
+          [max]="toDayDate"
+        ></kendo-datepicker>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for=""
+          >{{ labels?.time }} <sub class="star_red_col">*</sub></label
+        >
+        <!-- <app-custom-input
+          [placeholder]="'Enter time'"
+          [type]="labels?.validationData?.cubicCapacity?.type"
+          formControlName="fiTime"
+          [isRequired]="'Time is required'"
+          [maxLength]="labels?.validationData?.cubicCapacity?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input> -->
+        <!-- <kendo-timepicker
+        class="form-control mandatory"
+        formControlName="fiTime"
+        [format]="'HH:mm'"
+        placeholder="Enter time"
+      >
+      </kendo-timepicker> -->
+        <input
+          type="text"
+          class="form-control mandatory"
+          placeholder="Enter time"
+          formControlName="fiTime" disabled="true"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="mar-bot25">
+    <div class="col-sm-5"></div>
+    <div class="col-sm-7 text-right">
+      <button
+        class="btn btn-primary"
+        type="button"
+        (click)="onNavigate('back')"
+      >
+        {{ labels.back }}
+      </button>
+      &nbsp;
+      <button class="btn btn-primary" (click)="onFormSubmit()">
+        {{ labels.save }}
+      </button>
+      &nbsp;
+      <button
+        class="btn btn-primary"
+        type="button"
+        (click)="onNavigate('next')"
+      >
+        {{ labels.next }}
+      </button>
+    </div>
+  </div>
+</form>
