@@ -368,11 +368,12 @@ export class FiReportOfficeComponent implements OnInit {
     console.log('in submit fi report lead id', this.leadId);
     this.fieldInvestigationService.SumbitFiReportDetails(data).subscribe((res: any) => {
       const processvariables = res.ProcessVariables;
-      const message = res.processVariables.error.message;
+      const message = processvariables.error.message;
       console.log('in submit fi response', processvariables);
       if (processvariables.error.code === '0') {
         console.log('result', processvariables.error.message);
         this.toasterService.showSuccess('Report Submitted Successfully', '');
+        this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
 
       } else {
         this.toasterService.showError('', message);
