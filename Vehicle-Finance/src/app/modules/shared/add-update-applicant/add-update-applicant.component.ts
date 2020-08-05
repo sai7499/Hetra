@@ -178,6 +178,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   isDisabledCheckbox: boolean = false;
   addDisabledCheckBox: boolean;
   panValidate = false;
+  showEkycbutton = false;
+
   biometricResponce = {
     addressLineOne: "PLOT NO 968TH CROSS STREETKARU",
     addressLineThree: "",
@@ -198,13 +200,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     middleName: "Valerian",
     nameFromResponse: "Christus Valerian Johnpaul",
     pincode: "620001",
-    resultPincode:620001,
+    resultPincode: 620001,
     genderFromResponse: "M",
     geoMasterData: [
       {
-       cityCode: 125216,
-       cityId: 125216,
-       cityName: "BHEEMANAGAR S.O-TIRUCHY",
+        cityCode: 125216,
+        cityId: 125216,
+        cityName: "BHEEMANAGAR S.O-TIRUCHY",
         country: "INDIA",
         countryId: 6,
         districtId: 596,
@@ -221,7 +223,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         cityName: "PONNIAH SCHOOL BUILDINGS -TIRUCHY",
         country: "INDIA",
         countryId: 6,
-        districtId :596,
+        districtId: 596,
         districtName: "Tiruchirappalli",
         geoMasterId: 124168,
         pincode: 620001,
@@ -312,7 +314,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         stateId: 40,
         stateName: "TAMIL NADU",
         threeAlphaCode: "IND"
-      },      {
+      }, {
         cityCode: 160391,
         cityId: 160391,
         cityName: "TIRUCHIRAPPALLI",
@@ -766,7 +768,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         if (id === 'permanentPincode') {
           this.permanentPincode = value;
           formGroupName = 'permentAddress';
-          console.log('this.permanentPincode',this.permanentPincode)
+          console.log('this.permanentPincode', this.permanentPincode)
         }
         if (id === 'currentPincode') {
           this.currentPincode = value;
@@ -785,6 +787,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           // this.setDefaultValueForAddress(value, formGroupName);
         });
       });
+      console.log(this.currentPincode)
   }
 
   setDefaultValueForAddress(value, formGroupName: string) {
@@ -1419,6 +1422,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         }
 
       })
+    } else if (!checked) {
+      const currentAddress = this.coApplicantForm.get('currentAddress');
+      const permenantAddress = this.coApplicantForm.get('permentAddress');
+
+      currentAddress.reset();
+      permenantAddress.reset();
     }
   }
 
@@ -1633,7 +1642,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           'Applicant Details'
         );
         return;
-      } 
+      }
       // else if (this.panValidate) {
       //   this.toasterService.showError(
       //     'Invalid Pan Number.',
@@ -1657,7 +1666,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           'Applicant Details'
         );
         return;
-      } 
+      }
       // else if (this.panValidate) {
       //   this.toasterService.showError(
       //     'Invalid Pan Number.',
@@ -1740,8 +1749,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.isCurrAddSameAsPermAdd = eventClicked ? '1' : '0';
     const currentAddress = this.coApplicantForm.get('currentAddress');
     if (eventClicked) {
-      const formValue: AddressDetails = this.coApplicantForm.value
-        .permentAddress;
+      const formValue: AddressDetails = this.coApplicantForm.get('permentAddress').value
+
+      console.log('formvalue permanent', formValue)
       this.currentPincode = this.permanentPincode;
       //const permanentAddress = this.coApplicantForm.get('currentAddress');
       currentAddress.patchValue({
@@ -1749,7 +1759,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       });
       currentAddress.disable();
     } else if (!eventClicked) {
+
       currentAddress.enable();
+      currentAddress.reset()
     }
   }
   onAddressCommunication(event) {
@@ -1768,6 +1780,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       communicationAddress.disable();
     } else if (!eventClicked) {
       communicationAddress.enable();
+      communicationAddress.reset();
     }
   }
 
@@ -2097,7 +2110,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         //console.log('responce Pan Validation', responce)
         if (responce['ProcessVariables'].error.code == '0') {
           this.toasterService.showSuccess(responce['ProcessVariables'].error.message,
-           'Pan Validate Successfully');
+            'Pan Validation Successful');
+          this.showEkycbutton = true
         } else {
           this.panValidate = true;
           this.toasterService.showError(
@@ -2107,6 +2121,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         }
       })
     }
+
 
     this.showDedupeModal = false;
     this.router.navigateByUrl(
@@ -2128,7 +2143,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.isTanNumberChanged = false;
   }
 
-  calleKYC(){
+  calleKYC() {
     // const data ={
     //   applicantId : this.applicantId,
     //   ekycRequest : "test"
@@ -2136,36 +2151,56 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     // this.applicantService.wrapperBiometriceKYC(data).subscribe((response)=>{
     //   console.log('responce eKYC', response)
     // })
-    const value= this.biometricResponce;
+    const value = this.biometricResponce;
     this.setBiometricValues(value)
+    this.showEkycbutton = false;
+    this.isEnableDedupe = false;
+    this.isMobileChanged = false;
+    this.isName1Changed = false;
+    this.isPanChanged = false;
+    this.isAadharChanged = false;
+    this.isPassportChanged = false;
+    this.isDrivingLicenseChanged = false;
+    this.isVoterIdChanged = false;
+    this.isContactNumberChanged = false;
+    this.isCstNumberChanged = false;
+    this.isCinNumberChanged = false;
+    this.isGstNumberChanged = false;
+    this.isTanNumberChanged = false;
   }
 
-  setBiometricValues(value){
+  setBiometricValues(value) {
     console.log('value', value)
     const dedupe = this.coApplicantForm.get('dedupe');
-    const dob=  value.dobFromResponse;
-    value.dobFromResponse= dob.split('-').join('/');
+    const dob = value.dobFromResponse;
+    value.dobFromResponse = dob.split('-').join('/');
     dedupe.patchValue({
       name1: value.firstName,
       name2: value.middleName,
       name3: value.lastName,
       dob: new Date(this.utilityService.getDateFromString(value.dobFromResponse))
     })
-     const permanantAddress= this.coApplicantForm.get('permentAddress');
-     permanantAddress.patchValue({
-       addressLineOne : value.addressLineOne,
-       addressLineTwo : value.addressLineTwo,
-       addressLineThree : value.addressLineThree,
-       pincode : value.pincode
+    const currentAddress = this.coApplicantForm.get('currentAddress');
+    const permanantAddress = this.coApplicantForm.get('permentAddress');
+    permanantAddress.patchValue({
+      addressLineOne: value.addressLineOne,
+      addressLineTwo: value.addressLineTwo,
+      addressLineThree: value.addressLineThree,
+      pincode: value.pincode
 
-     })
+    })
 
-     const id='permanentPincode'
-     const pincode = Number(value.pincode);
-     this.getPincodeResult(pincode, id);
-    
-        
- }
+    const id = 'permanentPincode'
+    const pincode = Number(value.pincode);
+    this.getPincodeResult(pincode, id);
+
+    permanantAddress.disable();
+    currentAddress.reset();
+    currentAddress.enable();
+    this.isPermanantAddressSame = false
+
+
+  }
 
   listenerForUnique() {
     const dedupe = this.coApplicantForm.get('dedupe');

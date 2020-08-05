@@ -27,7 +27,7 @@
               <th>{{ labels.entity }} <i class="fa fa-sort"></i></th>
               <th>{{ labels?.name }} <i class="fa fa-sort"></i></th>
               <th>{{ labels?.mobileNumber }} <i class="fa fa-sort"></i></th>
-              <th>{{ labels?.dateOfBirth }} <i class="fa fa-sort"></i></th>
+              <th>{{ labels.dobDoi }} <i class="fa fa-sort"></i></th>
               <th>{{ labels?.applicantType }} <i class="fa fa-sort"></i></th>
               <th>{{ labels?.action }} <i class="fa fa-sort"></i></th>
             </tr>
@@ -57,14 +57,15 @@
                 <a (click)="navigatePage(item.applicantId)" title="Edit applicant"
                   ><i  class="fa fa-pencil" aria-hidden="true"></i
                 ></a>
-                &nbsp;&nbsp;<a
+                &nbsp;<a
                   data-toggle="modal"
                   data-target="#myModal"
                   (click)="softDeleteApplicant(i, item.applicantId)"
                   title="Delete applicant"><i  class="fa fa-trash" aria-hidden="true"></i
-                ></a> &nbsp;&nbsp;
+                ></a> &nbsp;
                 <a (click)="getApplicantImage(item.applicantId)" data-toggle="modal"
-                data-target="#myModalApplicantImage"  > <strong>CB</strong></a>
+                data-target="#myModalApplicantImage"  
+                title="View Bureau Report"> <strong>CB</strong></a>
               </td>
              
             </tr>

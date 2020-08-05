@@ -107,12 +107,12 @@ getViabilityDashboard(filterValue, pageNumber?) {
     // tslint:disable-next-line: radix
     perPage: parseInt(this.itemsPerPage),
     myLeads: true,
-    leadId: filterValue.leadId ? filterValue.leadId : '',
-    fromDate: filterValue.fromDate ? filterValue.fromDate : '',
-    toDate: filterValue.toDate ? filterValue.toDate : '',
-    productCategory: filterValue.product ? filterValue.product : '',
-    loanMinAmt: filterValue.loanMinAmt ? filterValue.loanMinAmt : '',
-    loanMaxAmt: filterValue.loanMaxAmt ? filterValue.loanMaxAmt : ''
+    leadId: filterValue ? filterValue.leadId : '',
+    fromDate: filterValue ? filterValue.fromDate : '',
+    toDate: filterValue ? filterValue.toDate : '',
+    productCategory: filterValue ? filterValue.product : '',
+    loanMinAmt: filterValue ? filterValue.loanMinAmt : '',
+    loanMaxAmt: filterValue ? filterValue.loanMaxAmt : ''
   };
   this.responseForCredit(data);
 }

@@ -646,6 +646,9 @@ export class FleetDetailsComponent implements OnInit {
           }
         }
       } else {
+        this.vehicleTypeLov[0] = this.allLovs.vehicleType;
+        this.regionLov[0] = this.allLovs.assetRegion;
+        this.vehicleManufacturer[0] =  this.allLovs.vehicleManufacturer;
         this.formArr.push(this.initRows(null));
       }
       // console.log("in get fleets", res.ProcessVariables.fleets)
