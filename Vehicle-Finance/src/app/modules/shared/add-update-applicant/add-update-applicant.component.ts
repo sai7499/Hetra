@@ -102,9 +102,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   gstNumber: string;
 
   toDayDate: Date = new Date();
-  isAlertSuccess : boolean = true;
-  isAlertDanger : boolean = true;
- 
+  isAlertSuccess: boolean = true;
+  isAlertDanger: boolean = true;
+
 
   mandatory: any = {};
   expiryMandatory: any = {};
@@ -228,10 +228,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     state: "Tamil Nadu",
     street: "8TH CROSS STREET",
     villageTownOrCity: "Tiruchirappalli",
-    stateId : 40,
-    cityId :  160391 ,
-    districtId : 596 ,
-    countryId  : 6 ,
+    stateId: 40,
+    cityId: 160391,
+    districtId: 596,
+    countryId: 6,
+    cityName: "TIRUCHIRAPPALLI H.O-TIRUCHY"
 
 
   };
@@ -672,25 +673,30 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           return;
         }
         let formGroupName = '';
+
         if (id === 'permanentPincode') {
+          this.coApplicantForm.get('permentAddress').get('city').setValue('')
           this.permanentPincode = value;
           formGroupName = 'permentAddress';
-          this.setDefaultValueForAddress(value,formGroupName)
+          this.setDefaultValueForAddress(value, formGroupName)
         }
         if (id === 'currentPincode') {
+          this.coApplicantForm.get('currentAddress').get('city').setValue('')
           this.currentPincode = value;
           formGroupName = 'currentAddress';
-          this.setDefaultValueForAddress(value,formGroupName)
+          this.setDefaultValueForAddress(value, formGroupName)
         }
         if (id === 'registerPincode') {
+          this.coApplicantForm.get('registeredAddress').get('city').setValue('')
           this.registerPincode = value;
           formGroupName = 'registeredAddress';
-          this.setDefaultValueForAddress(value,formGroupName)
+          this.setDefaultValueForAddress(value, formGroupName)
         }
         if (id === 'communicationPincode') {
+          this.coApplicantForm.get('communicationAddress').get('city').setValue('')
           this.communicationPincode = value;
           formGroupName = 'communicationAddress';
-          this.setDefaultValueForAddress(value,formGroupName)
+          this.setDefaultValueForAddress(value, formGroupName)
         }
 
         setTimeout(() => {
@@ -763,6 +769,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       addressLineThree: address.addressLineThree,
       country: address.country,
       landlineNumber: address.landlineNumber,
+      nearestLandmark: address.nearestLandmark
     };
   }
   getApplicantDetails() {
@@ -940,6 +947,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       state: new FormControl('', Validators.required),
       country: new FormControl('', Validators.required),
       landlineNumber: new FormControl(''),
+      nearestLandmark: new FormControl('')
     };
   }
 
@@ -1052,6 +1060,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           companyPhoneNumber = companyPhoneNumber.slice(2, 12);
         }
       }
+      this.disabledPassportDates = details.passportNumber ? false : true;
+      this.disabledDrivingDates = details.drivingLicenseNumber ? false : true;
       this.contactNumber = companyPhoneNumber;
       this.setValueForFormControl('pan', details.pan);
 
@@ -2037,14 +2047,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         if (responce['ProcessVariables'].error.code == '0') {
           this.toasterService.showSuccess(responce['ProcessVariables'].error.message,
             'Pan Validation Successful');
-          this.showEkycbutton = true
+          this.showEkycbutton = true;
         } else {
           this.panValidate = true;
           this.toasterService.showError(
             responce['ProcessVariables'].error.message,
             'Pan validation Error'
           );
-          
+
         }
       })
     }
@@ -2072,31 +2082,17 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   calleKYC() {
 
     let that = this;
-    // this.ngxService.start();
-    // let applicantId = this.applicantId;
-    // //let aadhar = "802172334890";
-    // let aadhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
-    // this.biometricService.initIdenti5(aadhar, applicantId, function (result) {
-    //   that.ngxService.stop();
-
-    //   console.log("KYC result&&&&@@@" + result);
-    //   const value = result;
-    //const value= this.biometricResponce;
-
-    
     this.ngxService.start();
     let applicantId = this.applicantId;
     let aadhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
     this.biometricService.initIdenti5(aadhar, applicantId, function (result) {
       that.ngxService.stop();
-
-
       let processVariables = JSON.parse(result).ProcessVariables
       // value = JSON.parse(value).ProcessVariables;
 
       console.log("KYC result&&&&@@@" + processVariables);
 
-      if(processVariables.error.code=='0'){
+      if (processVariables.error.code == '0') {
         console.log("KYC success" + processVariables.error.code);
 
         that.isAlertSuccess = false;
@@ -2104,7 +2100,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           that.isAlertSuccess = true;
         }, 1500);
       }
-       else{
+      else {
         console.log("KYC failure" + processVariables.error.code);
 
         that.isAlertDanger = false;
@@ -2112,9 +2108,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           that.isAlertDanger = true;
         }, 1500);
         return;
-       }
+      }
 
-      //const value= this.biometricResponce;
+      //const processVariables= this.biometricResponce;
       that.setBiometricValues(that, processVariables);
 
 
@@ -2158,26 +2154,51 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       dob: new Date(ctx.utilityService.getDateFromString(value.dobFromResponse))
     })
 
-   // dedupe.updateValueAndValidity();
+    // dedupe.updateValueAndValidity();
 
     const currentAddress = ctx.coApplicantForm.get('currentAddress');
     const permanantAddress = ctx.coApplicantForm.get('permentAddress');
-  
+
+
+
+    this.permanentPincode = {
+      city: [
+        {
+          key: value.cityId,
+          value: value.villageTownOrCity,
+        },
+      ],
+      district: [
+        {
+          key: value.districtId,
+          value: value.district,
+        },
+      ],
+      state: [
+        {
+          key: value.stateId,
+          value: value.state,
+        },
+      ],
+      country: [
+        {
+          key: value.countryId,
+          value: value.country,
+        },
+      ],
+    };
+
     permanantAddress.patchValue({
       addressLineOne: value.addressLineOne,
       addressLineTwo: value.addressLineTwo,
       addressLineThree: value.addressLineThree,
       pincode: value.resultPincode,
-      city : value.cityId,
-      state : value.stateId,
-      country : value.countryId,
-      district : value.districtId
-
+      city: value.cityId,
+      state: value.stateId,
+      country: value.countryId,
+      district: value.districtId,
+      nearestLandmark: value.landmark
     })
-
-    // const id = 'permanentPincode'
-    // const pincode = value.resultPincode;
-    // ctx.getPincodeResult(pincode, id);
 
     //permanantAddress.disable();
     currentAddress.reset();

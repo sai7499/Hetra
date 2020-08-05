@@ -233,7 +233,9 @@ export class AddressDetailsComponent implements OnInit {
     const value = event.target.value;
     const id = event.target.id;
     //console.log('pincode change ', pincode)
+    
     if (value.length == 6) {
+      
       this.getPincodeResult(Number(value), id);
     }
   }
@@ -254,6 +256,7 @@ export class AddressDetailsComponent implements OnInit {
           if (!addressList) {
             return;
           }
+          
           const first = addressList[0];
           console.log('first', first);
           const obj = {
@@ -293,32 +296,41 @@ export class AddressDetailsComponent implements OnInit {
           return;
         }
         let formGroupName = '';
+        const formArray= this.addressForm.get('details') as FormArray
+          let details = formArray.at(0)
         if (id == 'permanantPincode') {
+          details.get('permanantAddress').get('city').setValue('')
           this.permanantPincode = value;
-         this.addressValidations.get('permanantAddress').get('city').setValidators(Validators.required)
+          
          formGroupName = 'permanantAddress';
           this.setDefaultValueForAddress(value,formGroupName)
           
         }
         if (id == 'currentPincode') {
+          
+          details.get('currentAddress').get('city').setValue('')
           this.currentPincode = value;
           formGroupName = 'currentAddress';
           this.setDefaultValueForAddress(value,formGroupName)
           
+          
         }
         if (id == 'officePincode') {
+          details.get('officeAddress').get('city').setValue('')
           this.officePincode = value;
           formGroupName = 'officeAddress';
           this.setDefaultValueForAddress(value,formGroupName)
           
         }
         if (id == 'registeredPincode') {
+          details.get('registeredAddress').get('city').setValue('')
           this.registeredPincode = value;
           formGroupName = 'registeredAddress';
           this.setDefaultValueForAddress(value,formGroupName)
         
         }
         if (id == 'communicationPincode') {
+          details.get('communicationAddress').get('city').setValue('')
           this.communicationPincode = value;
           formGroupName = 'communicationAddress';
           this.setDefaultValueForAddress(value,formGroupName)
@@ -327,6 +339,7 @@ export class AddressDetailsComponent implements OnInit {
       });
   }
   setDefaultValueForAddress(value, formGroupName: string) {
+    
     const country = value.country;
     const state = value.state;
     const district = value.district;
@@ -405,6 +418,7 @@ export class AddressDetailsComponent implements OnInit {
       state: new FormControl('', Validators.required),
       country: new FormControl('', Validators.required),
       landlineNumber: new FormControl(null),
+      nearestLandmark : new FormControl(null)
     };
   }
 
@@ -495,6 +509,7 @@ export class AddressDetailsComponent implements OnInit {
       addressLineTwo: address.addressLineTwo,
       addressLineThree: address.addressLineThree,
       landlineNumber: address.landlineNumber,
+      nearestLandmark : address.nearestLandmark
     };
   }
 
@@ -554,6 +569,7 @@ export class AddressDetailsComponent implements OnInit {
       currentAddressVariable.get('state').disable();
       currentAddressVariable.get('country').disable();
       currentAddressVariable.get('landlineNumber').disable();
+      currentAddressVariable.get('nearestLandmark').disable();
 
       const currentAddressObj = isCurAsPer;
       this.currentPincode = {
@@ -730,6 +746,7 @@ export class AddressDetailsComponent implements OnInit {
       communicationAddressVariable.get('state').disable();
       communicationAddressVariable.get('country').disable();
       communicationAddressVariable.get('landlineNumber').disable();
+      communicationAddressVariable.get('nearestlandmark').disable();
       const communicationAddressObj = isCommAsReg;
       this.communicationPincode = {
         city: [
@@ -853,6 +870,7 @@ export class AddressDetailsComponent implements OnInit {
       currentAddress.get('state').enable();
       currentAddress.get('country').enable();
       currentAddress.get('landlineNumber').enable();
+      currentAddress.get('nearestLandmark').enable();
 
       currentAddress.reset();
     }
@@ -878,6 +896,7 @@ export class AddressDetailsComponent implements OnInit {
       communicationAddress.get('state').enable();
       communicationAddress.get('country').enable();
       communicationAddress.get('landlineNumber').enable();
+      communicationAddress.get('nearestLandmark').enable();
 
       communicationAddress.reset();
     }
@@ -904,6 +923,7 @@ export class AddressDetailsComponent implements OnInit {
     currentAddress.get('state').disable();
     currentAddress.get('country').disable();
     currentAddress.get('landlineNumber').disable();
+    currentAddress.get('nearestLandmark').disable();
   }
 
   getRegisteredAddressValue() {
@@ -924,6 +944,8 @@ export class AddressDetailsComponent implements OnInit {
     communicationAddress.get('state').disable();
     communicationAddress.get('country').disable();
     communicationAddress.get('landlineNumber').disable();
+    communicationAddress.get('nearestLandmark').disable();
+
   }
 
   hasRoute() {

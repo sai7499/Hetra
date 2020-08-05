@@ -141,6 +141,17 @@
                 ></app-custom-input>
               </div>
             </div>
+            <div class="row">
+              <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                <label for="landline">LandMark</label>
+                
+                <app-custom-input
+                  formControlName="nearestLandmark"
+                  [maxLength]="validationData?.landmark?.maxLength"
+                  
+                ></app-custom-input>
+              </div>
+            </div>
           </div>
           <div class="btn-sec clear-both row">
             <div class="col-sm-5">
@@ -281,6 +292,16 @@
               </div>
             </div>
             <div class="row">
+
+              <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                <label for="landline">LandMark</label>
+                
+                <app-custom-input
+                  formControlName="nearestLandmark"
+                  [maxLength]="validationData?.landmark?.maxLength"
+                  
+                ></app-custom-input>
+              </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{
                   labels.periodOfCurrentStayInYears
@@ -312,6 +333,9 @@
               </div>
 
 
+              
+            </div>
+            <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="alternate_mobile">{{
                   labels?.alternateContactNumber
@@ -479,6 +503,15 @@
               </div>
             </div>
             <div class="row">
+              <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="alternate_mobile_num">{{labels?.nearestLandmark}}</label>
+               
+                <app-custom-input
+                  formControlName="nearestLandmark"
+                  [maxLength]="validationData?.landMark?.maxLength"
+                  
+                ></app-custom-input>
+              </div>
               <!-- <div class="form-group col-sm-6 col-md-4 col-lg-4">
                                 <label for="passport">{{labels.periodOfCurrentStayInYears }}</label>
                                 
@@ -498,15 +531,7 @@
                 ></app-custom-input>
               </div>
 
-              <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="alternate_mobile_num">{{labels?.nearestLandmark}}</label>
-               
-                <app-custom-input
-                  formControlName="nearestLandmark"
-                  [maxLength]="validationData?.landMark?.maxLength"
-                  
-                ></app-custom-input>
-              </div>
+              
             </div>
           </div>
         </div>
@@ -647,6 +672,15 @@
 
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                <label for="landline">LandMark</label>
+                
+                <app-custom-input
+                  formControlName="nearestLandmark"
+                  [maxLength]="validationData?.landmark?.maxLength"
+                  
+                ></app-custom-input>
+              </div>
+              <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{ labels.alternateContactNumber }}</label>
                 <!-- <input formControlName="mobileNumber" type="text" class="form-control" id="line3" /> -->
                 <app-custom-input
@@ -656,6 +690,8 @@
                   [type]="validationData?.landlineNumber?.type"
                 ></app-custom-input>
               </div>
+
+              
             </div>
           </div>
           <!-- <div *ngIf="isSalesOrCredit == 'sales'"> -->
@@ -783,6 +819,15 @@
                     [type]="validationData?.landlineNumber?.type"
                   ></app-custom-input>
                 </div>
+              </div>
+              <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                <label for="landline">LandMark</label>
+                
+                <app-custom-input
+                  formControlName="nearestLandmark"
+                  [maxLength]="validationData?.landmark?.maxLength"
+                  
+                ></app-custom-input>
               </div>
             </div>
           </div>
