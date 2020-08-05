@@ -198,6 +198,7 @@
                   class="form-control"
                   formControlName="dob"
                   [format]="'dd/MM/yyyy'"
+                  [min]="ageMinDate"
                   [max]="toDayDate"
                   placeholder="Date of birth"
                   [activeView]="'decade'"
