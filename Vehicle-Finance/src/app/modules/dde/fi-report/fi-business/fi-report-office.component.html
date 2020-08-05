@@ -272,6 +272,7 @@
           formControlName="typeOfConcern"
           [isRequired]="'Please select one'"
           [isDirty]="isDirty"
+          (change)="concernType($event.target.value)"
         >
         </app-vf-custom-select>
       </div>

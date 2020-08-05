@@ -45,6 +45,7 @@ export class FiReportOfficeComponent implements OnInit {
   fiDate: Date = new Date();
   fiTime: any = String(new Date(new Date().getTime()).toLocaleTimeString()).slice(0, 5);
   leadCreatedDateFromLead: Date;
+  typeOfConcernValue: string;
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -210,30 +211,30 @@ export class FiReportOfficeComponent implements OnInit {
       designation: new FormControl('', Validators.required),
       natureOfBusiness: new FormControl('', Validators.required),
       typeOfConcern: new FormControl('', Validators.required),
-      residenceApproach: new FormControl('', Validators.required),
-      residenceDetails: new FormControl('', Validators.required),
-      rentAmt: new FormControl('', Validators.required),
-      residenceName: new FormControl('', Validators.required),
-      verifiedFrom: new FormControl('', Validators.required),
-      yrsOfStayInCity: new FormControl('', Validators.required),
-      yrsOfStayInResi: new FormControl('', Validators.required),
-      areaInSqFeet: new FormControl('', Validators.required),
-      locality: new FormControl('', Validators.required),
-      visibleAssets: new FormControl('', Validators.required),
-      locatingResidence: new FormControl('', Validators.required),
-      otherAssetsOwned: new FormControl('', Validators.required),
-      noOfFamilyMembers: new FormControl('', Validators.required),
-      noOfEarningMembers: new FormControl('', Validators.required),
-      vehicleDetails: new FormControl('', Validators.required),
-      officeApproach: new FormControl('', Validators.required),
-      officePremises: new FormControl('', Validators.required),
-      officeLocation: new FormControl('', Validators.required),
-      furnishings: new FormControl('', Validators.required),
-      officeSize: new FormControl('', Validators.required),
-      observations: new FormControl('', Validators.required),
-      noOfWorkingEmployees: new FormControl('', Validators.required),
-      noOfVisibleEmployees: new FormControl('', Validators.required),
-      activityLevel: new FormControl('', Validators.required),
+      // residenceApproach: new FormControl('', Validators.required),
+      // residenceDetails: new FormControl('', Validators.required),
+      // rentAmt: new FormControl('', Validators.required),
+      // residenceName: new FormControl('', Validators.required),
+      // verifiedFrom: new FormControl('', Validators.required),
+      // yrsOfStayInCity: new FormControl('', Validators.required),
+      // yrsOfStayInResi: new FormControl('', Validators.required),
+      // areaInSqFeet: new FormControl('', Validators.required),
+      // locality: new FormControl('', Validators.required),
+      // visibleAssets: new FormControl('', Validators.required),
+      // locatingResidence: new FormControl('', Validators.required),
+      // otherAssetsOwned: new FormControl('', Validators.required),
+      // noOfFamilyMembers: new FormControl('', Validators.required),
+      // noOfEarningMembers: new FormControl('', Validators.required),
+      // vehicleDetails: new FormControl('', Validators.required),
+      officeApproach: new FormControl(''),
+      officePremises: new FormControl(''),
+      officeLocation: new FormControl(''),
+      furnishings: new FormControl(''),
+      officeSize: new FormControl(''),
+      observations: new FormControl(''),
+      noOfWorkingEmployees: new FormControl(''),
+      noOfVisibleEmployees: new FormControl(''),
+      activityLevel: new FormControl(''),
       fiComments: new FormControl('', Validators.required),
       distanceInKms: new FormControl('', Validators.required),
       cpvAgencyStatus: new FormControl('', Validators.required),
@@ -269,21 +270,21 @@ export class FiReportOfficeComponent implements OnInit {
       designation: fiModel.designation ? fiModel.designation : null,
       natureOfBusiness: fiModel.natureOfBusiness ? fiModel.natureOfBusiness : null,
       typeOfConcern: fiModel.typeOfConcern ? fiModel.typeOfConcern : null,
-      residenceApproach: fiModel.residenceApproach ? fiModel.residenceApproach : null,
-      residenceDetails: fiModel.residenceDetails ? fiModel.residenceDetails : null,
-      rentAmt: fiModel.rentAmt ? fiModel.rentAmt : null,
-      residenceName: fiModel.residenceName ? fiModel.residenceName : null,
-      verifiedFrom: fiModel.verifiedFrom ? fiModel.verifiedFrom : null,
-      yrsOfStayInCity: fiModel.yrsOfStayInCity ? fiModel.yrsOfStayInCity : null,
-      yrsOfStayInResi: fiModel.yrsOfStayInResi ? fiModel.yrsOfStayInResi : null,
-      areaInSqFeet: fiModel.areaInSqFeet ? fiModel.areaInSqFeet : null,
-      locality: fiModel.locality ? fiModel.locality : null,
-      visibleAssets: fiModel.visibleAssets ? fiModel.visibleAssets : null,
-      locatingResidence: fiModel.locatingResidence ? fiModel.locatingResidence : null,
-      otherAssetsOwned: fiModel.otherAssetsOwned ? fiModel.otherAssetsOwned : null,
-      noOfFamilyMembers: fiModel.noOfFamilyMembers ? fiModel.noOfFamilyMembers : null,
-      noOfEarningMembers: fiModel.noOfEarningMembers ? fiModel.noOfEarningMembers : null,
-      vehicleDetails: fiModel.vehicleDetails ? fiModel.vehicleDetails : null,
+      // residenceApproach: fiModel.residenceApproach ? fiModel.residenceApproach : null,
+      // residenceDetails: fiModel.residenceDetails ? fiModel.residenceDetails : null,
+      // rentAmt: fiModel.rentAmt ? fiModel.rentAmt : null,
+      // residenceName: fiModel.residenceName ? fiModel.residenceName : null,
+      // verifiedFrom: fiModel.verifiedFrom ? fiModel.verifiedFrom : null,
+      // yrsOfStayInCity: fiModel.yrsOfStayInCity ? fiModel.yrsOfStayInCity : null,
+      // yrsOfStayInResi: fiModel.yrsOfStayInResi ? fiModel.yrsOfStayInResi : null,
+      // areaInSqFeet: fiModel.areaInSqFeet ? fiModel.areaInSqFeet : null,
+      // locality: fiModel.locality ? fiModel.locality : null,
+      // visibleAssets: fiModel.visibleAssets ? fiModel.visibleAssets : null,
+      // locatingResidence: fiModel.locatingResidence ? fiModel.locatingResidence : null,
+      // otherAssetsOwned: fiModel.otherAssetsOwned ? fiModel.otherAssetsOwned : null,
+      // noOfFamilyMembers: fiModel.noOfFamilyMembers ? fiModel.noOfFamilyMembers : null,
+      // noOfEarningMembers: fiModel.noOfEarningMembers ? fiModel.noOfEarningMembers : null,
+      // vehicleDetails: fiModel.vehicleDetails ? fiModel.vehicleDetails : null,
       officeApproach: fiModel.officeApproach ? fiModel.officeApproach : null,
       officePremises: fiModel.officePremises ? fiModel.officePremises : null,
       officeLocation: fiModel.officeLocation ? fiModel.officeLocation : null,
@@ -297,13 +298,60 @@ export class FiReportOfficeComponent implements OnInit {
       distanceInKms: fiModel.distanceInKms ? fiModel.distanceInKms : null,
       cpvAgencyStatus: fiModel.cpvAgencyStatus ? fiModel.cpvAgencyStatus : null,
       verifiedBy: fiModel.verifiedBy ? fiModel.verifiedBy : null,
-       // fiDate: fiModel.fiDate ?
+      // fiDate: fiModel.fiDate ?
       //   new Date(this.getDateFormat(fiModel.fiDate)) : null,
       fiDate: this.fiDate ? this.fiDate : null,
       fiTime: this.fiTime ? this.fiTime : null,
       // fiTime: fiModel.fiTime ? fiModel.fiTime : null,
 
     });
+  }
+  concernType(event) {
+    console.log('in concern event');
+    console.log(event);
+    this.typeOfConcernValue = event ? event : event;
+    if (this.typeOfConcernValue === 'SLRYCTYP') {
+      this.removeAddressValidators();
+    } else if (this.typeOfConcernValue === 'SEMPCTYP') {
+      this.addAddressValidators();
+
+    }
+
+  }
+  removeAddressValidators() {
+    console.log('in remove address validators');
+    this.fieldReportForm.get('officeApproach').clearValidators();
+    this.fieldReportForm.get('officeApproach').updateValueAndValidity();
+    this.fieldReportForm.get('officePremises').clearValidators();
+    this.fieldReportForm.get('officePremises').updateValueAndValidity();
+    this.fieldReportForm.get('officeLocation').clearValidators();
+    this.fieldReportForm.get('officeLocation').updateValueAndValidity();
+    this.fieldReportForm.get('furnishings').clearValidators();
+    this.fieldReportForm.get('furnishings').updateValueAndValidity();
+    this.fieldReportForm.get('officeSize').clearValidators();
+    this.fieldReportForm.get('officeSize').updateValueAndValidity();
+    this.fieldReportForm.get('observations').clearValidators();
+    this.fieldReportForm.get('observations').updateValueAndValidity();
+    this.fieldReportForm.get('noOfWorkingEmployees').clearValidators();
+    this.fieldReportForm.get('noOfWorkingEmployees').updateValueAndValidity();
+    this.fieldReportForm.get('noOfVisibleEmployees').clearValidators();
+    this.fieldReportForm.get('noOfVisibleEmployees').updateValueAndValidity();
+    this.fieldReportForm.get('activityLevel').clearValidators();
+    this.fieldReportForm.get('activityLevel').updateValueAndValidity();
+  }
+  addAddressValidators() {
+    console.log('in add address validators');
+    this.fieldReportForm.get('officeApproach').setValidators(Validators.required);
+    this.fieldReportForm.get('officePremises').setValidators(Validators.required);
+    this.fieldReportForm.get('officeLocation').setValidators(Validators.required);
+    this.fieldReportForm.get('furnishings').setValidators(Validators.required);
+    this.fieldReportForm.get('officeSize').setValidators(Validators.required);
+    this.fieldReportForm.get('observations').setValidators(Validators.required);
+    this.fieldReportForm.get('noOfWorkingEmployees').setValidators(Validators.required);
+    this.fieldReportForm.get('noOfVisibleEmployees').setValidators(Validators.required);
+    this.fieldReportForm.get('activityLevel').setValidators(Validators.required);
+
+
   }
 
 
@@ -417,21 +465,21 @@ export class FiReportOfficeComponent implements OnInit {
       designation: fieldReportModal.designation,
       natureOfBusiness: fieldReportModal.natureOfBusiness,
       typeOfConcern: fieldReportModal.typeOfConcern,
-      residenceApproach: fieldReportModal.residenceApproach,
-      residenceDetails: fieldReportModal.residenceDetails,
-      rentAmt: Number(fieldReportModal.rentAmt),
-      residenceName: fieldReportModal.residenceName,
-      verifiedFrom: fieldReportModal.verifiedFrom,
-      yrsOfStayInCity: Number(fieldReportModal.yrsOfStayInCity),
-      yrsOfStayInResi: Number(fieldReportModal.yrsOfStayInResi),
-      areaInSqFeet: Number(fieldReportModal.areaInSqFeet),
-      locality: fieldReportModal.locality,
-      visibleAssets: fieldReportModal.visibleAssets,
-      locatingResidence: fieldReportModal.locatingResidence,
-      otherAssetsOwned: fieldReportModal.otherAssetsOwned,
-      noOfFamilyMembers: Number(fieldReportModal.noOfFamilyMembers),
-      noOfEarningMembers: Number(fieldReportModal.noOfEarningMembers),
-      vehicleDetails: fieldReportModal.vehicleDetails,
+      // residenceApproach: fieldReportModal.residenceApproach,
+      // residenceDetails: fieldReportModal.residenceDetails,
+      // rentAmt: Number(fieldReportModal.rentAmt),
+      // residenceName: fieldReportModal.residenceName,
+      // verifiedFrom: fieldReportModal.verifiedFrom,
+      // yrsOfStayInCity: Number(fieldReportModal.yrsOfStayInCity),
+      // yrsOfStayInResi: Number(fieldReportModal.yrsOfStayInResi),
+      // areaInSqFeet: Number(fieldReportModal.areaInSqFeet),
+      // locality: fieldReportModal.locality,
+      // visibleAssets: fieldReportModal.visibleAssets,
+      // locatingResidence: fieldReportModal.locatingResidence,
+      // otherAssetsOwned: fieldReportModal.otherAssetsOwned,
+      // noOfFamilyMembers: Number(fieldReportModal.noOfFamilyMembers),
+      // noOfEarningMembers: Number(fieldReportModal.noOfEarningMembers),
+      // vehicleDetails: fieldReportModal.vehicleDetails,
       officeApproach: fieldReportModal.officeApproach,
       officePremises: fieldReportModal.officePremises,
       officeLocation: fieldReportModal.officeLocation,
