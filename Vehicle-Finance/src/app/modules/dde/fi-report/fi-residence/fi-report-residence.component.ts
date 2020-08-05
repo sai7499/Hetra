@@ -32,6 +32,8 @@ export class FiReportResidenceComponent implements OnInit {
   fIReportList: any = {};
   leadData: {};
   applicantFullName: any;
+  fiDate: Date = new Date();
+  fiTime: any = String(new Date(new Date().getTime()).toLocaleTimeString()).slice(0, 5);
   pincodeResult: {
     state?: any[];
     country?: any[];
@@ -44,7 +46,6 @@ export class FiReportResidenceComponent implements OnInit {
   state = [];
   city = [];
   toDayDate: Date = new Date();
-
   leadCreatedDateFromLead: Date;
   constructor(
     private labelService: LabelsService,
@@ -64,6 +65,7 @@ export class FiReportResidenceComponent implements OnInit {
     this.applicantId = Number(this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
     console.log('in construc app id', this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
     console.log('leadid', this.leadId);
+    console.log('now  fi date', this.fiDate);
 
   }
 
@@ -239,8 +241,8 @@ export class FiReportResidenceComponent implements OnInit {
       distanceInKms: new FormControl('', Validators.required),
       cpvAgencyStatus: new FormControl('', Validators.required),
       verifiedBy: new FormControl('', Validators.required),
-      fiDate: new FormControl('', Validators.required),
-      fiTime: new FormControl('', Validators.required)
+      fiDate: new FormControl({ value: '', disabled: true }),
+      fiTime: new FormControl({ value: '', disabled: true })
 
     });
 
@@ -259,7 +261,7 @@ export class FiReportResidenceComponent implements OnInit {
       reportSubmitDate: fiModel.reportSubmitDate ?
         new Date(this.getDateFormat(fiModel.reportSubmitDate)) : null,
       reportSubmitTime: fiModel.reportSubmitTime ? fiModel.reportSubmitTime : null,
-      applicantName: this.applicantFullName || this.applicantFullName || null,
+      applicantName: this.applicantFullName ? this.applicantFullName : null,
       addressLine1: fiModel.addressLine1 ? fiModel.addressLine1 : null,
       addressLine2: fiModel.addressLine2 ? fiModel.addressLine2 : null,
       addressLine3: fiModel.addressLine3 ? fiModel.addressLine3 : null,
@@ -298,9 +300,11 @@ export class FiReportResidenceComponent implements OnInit {
       distanceInKms: fiModel.distanceInKms ? fiModel.distanceInKms : null,
       cpvAgencyStatus: fiModel.cpvAgencyStatus ? fiModel.cpvAgencyStatus : null,
       verifiedBy: fiModel.verifiedBy ? fiModel.verifiedBy : null,
-      fiDate: fiModel.fiDate ?
-        new Date(this.getDateFormat(fiModel.fiDate)) : null,
-      fiTime: fiModel.fiTime ? fiModel.fiTime : null,
+      // fiDate: fiModel.fiDate ?
+      //   new Date(this.getDateFormat(fiModel.fiDate)) : null,
+      fiDate: this.fiDate ? this.fiDate : null,
+      fiTime: this.fiTime ? this.fiTime : null,
+      // fiTime: fiModel.fiTime ? fiModel.fiTime : null,
 
     });
   }
@@ -422,8 +426,8 @@ export class FiReportResidenceComponent implements OnInit {
       distanceInKms: Number(fieldReportModal.distanceInKms),
       cpvAgencyStatus: fieldReportModal.cpvAgencyStatus,
       verifiedBy: fieldReportModal.verifiedBy,
-      fiDate: this.sendDate(fieldReportModal.fiDate),
-      fiTime: fieldReportModal.fiTime,
+      fiDate: this.sendDate(this.fiDate),
+      fiTime: this.fiTime,
     };
     const data = {
       userId: this.userId,

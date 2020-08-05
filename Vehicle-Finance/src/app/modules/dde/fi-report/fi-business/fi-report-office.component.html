@@ -764,7 +764,7 @@
         <label for=""
           >{{ labels?.time }} <sub class="star_red_col">*</sub></label
         >
-        <app-custom-input
+        <!-- <app-custom-input
           [placeholder]="'Enter time'"
           [type]="labels?.validationData?.cubicCapacity?.type"
           formControlName="fiTime"
@@ -772,7 +772,14 @@
           [maxLength]="labels?.validationData?.cubicCapacity?.maxLength"
           [isDirty]="isDirty"
         >
-        </app-custom-input>
+        </app-custom-input> -->
+        <input
+          type="text"
+          class="form-control mandatory"
+          placeholder="Enter time"
+          formControlName="fiTime"
+          disabled="true"
+        />
       </div>
     </div>
   </div>
@@ -780,11 +787,7 @@
   <div class="mar-bot25">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right">
-      <button
-        class="btn btn-primary" 
-        type="button"
-        (click)="onNavigateBack()"
-      >
+      <button class="btn btn-primary" type="button" (click)="onNavigateBack()">
         {{ labels.back }}
       </button>
       &nbsp;

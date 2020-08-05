@@ -42,7 +42,8 @@ export class FiReportOfficeComponent implements OnInit {
   state = [];
   city = [];
   toDayDate: Date = new Date();
-
+  fiDate: Date = new Date();
+  fiTime: any = String(new Date(new Date().getTime()).toLocaleTimeString()).slice(0, 5);
   leadCreatedDateFromLead: Date;
   constructor(
     private labelService: LabelsService,
@@ -237,8 +238,8 @@ export class FiReportOfficeComponent implements OnInit {
       distanceInKms: new FormControl('', Validators.required),
       cpvAgencyStatus: new FormControl('', Validators.required),
       verifiedBy: new FormControl('', Validators.required),
-      fiDate: new FormControl('', Validators.required),
-      fiTime: new FormControl('', Validators.required)
+      fiDate: new FormControl({ value: '', disabled: true }),
+      fiTime: new FormControl({ value: '', disabled: true })
 
     });
 
@@ -296,9 +297,11 @@ export class FiReportOfficeComponent implements OnInit {
       distanceInKms: fiModel.distanceInKms ? fiModel.distanceInKms : null,
       cpvAgencyStatus: fiModel.cpvAgencyStatus ? fiModel.cpvAgencyStatus : null,
       verifiedBy: fiModel.verifiedBy ? fiModel.verifiedBy : null,
-      fiDate: fiModel.fiDate ?
-        new Date(this.getDateFormat(fiModel.fiDate)) : null,
-      fiTime: fiModel.fiTime ? fiModel.fiTime : null,
+       // fiDate: fiModel.fiDate ?
+      //   new Date(this.getDateFormat(fiModel.fiDate)) : null,
+      fiDate: this.fiDate ? this.fiDate : null,
+      fiTime: this.fiTime ? this.fiTime : null,
+      // fiTime: fiModel.fiTime ? fiModel.fiTime : null,
 
     });
   }
@@ -442,8 +445,8 @@ export class FiReportOfficeComponent implements OnInit {
       distanceInKms: Number(fieldReportModal.distanceInKms),
       cpvAgencyStatus: fieldReportModal.cpvAgencyStatus,
       verifiedBy: fieldReportModal.verifiedBy,
-      fiDate: this.sendDate(fieldReportModal.fiDate),
-      fiTime: fieldReportModal.fiTime,
+      fiDate: this.sendDate(this.fiDate),
+      fiTime: this.fiTime,
     };
     const data = {
       userId: this.userId,
