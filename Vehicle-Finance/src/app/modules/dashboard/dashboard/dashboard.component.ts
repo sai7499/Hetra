@@ -74,8 +74,14 @@ export class DashboardComponent implements OnInit {
   DeviationWithBranch: boolean;
   DecisionWithMe: boolean;
   DecisionWithBranch: boolean;
-  // onMaker: boolean;
-  // onChecker: boolean;
+
+  // for CPC Maker and Checker
+  onMaker: boolean;
+  onChecker: boolean;
+  makerWithMe: boolean;
+  makerWithCPC: boolean;
+  checkerWithMe: boolean;
+  checkerWithCPC: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -84,14 +90,9 @@ export class DashboardComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private labelService: LabelsService,
     private utilityService: UtilityService,
-
-    // new leads
     private labelsData: LabelsService,
-    // private dashboardService: DashboardService,
     private vehicleDataStoreService: VehicleDataStoreService,
-    // private loginStoreService: LoginStoreService,
     private router: Router,
-    // private sharedService: SharedService,
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService,
     private sharedService: SharedService
@@ -189,7 +190,7 @@ export class DashboardComponent implements OnInit {
       }
     }
 
-    if (this.roleType == '2') {
+    else if (this.roleType == '2') {
       if (data === 'DDE') {
         this.onReleaseTab = true;
         this.onAssignTab = false;
@@ -254,6 +255,26 @@ export class DashboardComponent implements OnInit {
         this.DeviationWithBranch = false;
         this.DeviationWithMe = false;
         this.getMyDecisionLeads(this.itemsPerPage);
+      }
+    } else if (this.roleType == '4') {
+      if (data === 'maker') {
+        this.onReleaseTab = true;
+        this.onAssignTab = false;
+        this.onMaker = true;
+        this.onChecker = false;
+        this.makerWithMe = true;
+        this.makerWithCPC = false;
+        this.checkerWithMe = false;
+        this.checkerWithCPC = false;
+      } else if (data === 'checker') {
+        this.onReleaseTab = true;
+        this.onAssignTab = false;
+        this.onMaker = false;
+        this.onChecker = true;
+        this.makerWithMe = false;
+        this.makerWithCPC = false;
+        this.checkerWithMe = true;
+        this.checkerWithCPC = false;
       }
     }
 
@@ -392,6 +413,46 @@ export class DashboardComponent implements OnInit {
       this.DecisionWithMe = false;
       this.DecisionWithBranch = true;
       this.getBranchDecisionLeads(this.itemsPerPage);
+    }
+  }
+
+  onCPCMakerClick(data) {
+    if (data === 'myMaker') {
+      this.onReleaseTab = true;
+      this.onAssignTab = false;
+      this.makerWithMe = true;
+        this.makerWithCPC = false;
+        this.checkerWithMe = false;
+        this.checkerWithCPC = false;
+      this.getMakerLeads(this.itemsPerPage);
+    } else if (data === 'cpcMaker') {
+      this.onReleaseTab = false;
+      this.onAssignTab = true;
+      this.makerWithMe = false;
+        this.makerWithCPC = true;
+        this.checkerWithMe = false;
+        this.checkerWithCPC = false;
+      this.getMakerCPCLeads(this.itemsPerPage);
+    }
+  }
+
+  onCPCCheckerClick(data) {
+    if (data === 'myChecker') {
+      this.onReleaseTab = true;
+      this.onAssignTab = false;
+      this.makerWithMe = false;
+        this.makerWithCPC = false;
+        this.checkerWithMe = true;
+        this.checkerWithCPC = false;
+      this.getCheckerLeads(this.itemsPerPage);
+    } else if (data === 'cpcChecker') {
+      this.onReleaseTab = false;
+      this.onAssignTab = true;
+      this.makerWithMe = false;
+        this.makerWithCPC = false;
+        this.checkerWithMe = false;
+        this.checkerWithCPC = true;
+      this.getCheckerCPCLeads(this.itemsPerPage);
     }
   }
 
@@ -947,6 +1008,12 @@ export class DashboardComponent implements OnInit {
       } else if (this.DecisionWithMe) {
         this.getMyDecisionLeads(this.itemsPerPage);
       }
+    } else if (this.roleType == '4') {
+      if (this.makerWithMe) {
+        this.getMakerLeads(this.itemsPerPage);
+      } else if (this.checkerWithMe) {
+        this.getCheckerLeads(this.itemsPerPage)
+      }
     }
   }
 
@@ -1023,6 +1090,16 @@ export class DashboardComponent implements OnInit {
       } else if (this.DecisionWithBranch) {
         this.getBranchDecisionLeads(this.itemsPerPage);
       }
+    } else if (this.roleType == '4') {
+      if (this.makerWithMe) {
+        this.getMakerLeads(this.itemsPerPage);
+      } else if (this.makerWithCPC) {
+        this.getMakerCPCLeads(this.itemsPerPage);
+      } else if (this.checkerWithMe) {
+        this.getCheckerLeads(this.itemsPerPage);
+      } else if (this.checkerWithCPC) {
+        this.getCheckerCPCLeads(this.itemsPerPage);
+      }
     }
   }
 
@@ -1068,6 +1145,16 @@ export class DashboardComponent implements OnInit {
         this.getMyDecisionLeads(this.itemsPerPage);
       } else if (this.DecisionWithBranch) {
         this.getBranchDecisionLeads(this.itemsPerPage);
+      }
+    } else if (this.roleType == '4') {
+      if (this.makerWithMe) {
+        this.getMakerLeads(this.itemsPerPage);
+      } else if (this.makerWithCPC) {
+        this.getMakerCPCLeads(this.itemsPerPage);
+      } else if (this.checkerWithMe) {
+        this.getCheckerLeads(this.itemsPerPage);
+      } else if (this.checkerWithCPC) {
+        this.getCheckerCPCLeads(this.itemsPerPage);
       }
     }
     // this.dashboardService.filterData(this.filterFormDetails);

@@ -114,8 +114,6 @@
             <li (click)="onLeads('PD')" routerLinkActive="active"><a data-toggle="tab">Personal Discussion</a></li>
             <li (click)="onLeads('deviation')" routerLinkActive="active"><a data-toggle="tab">Deviation</a></li>
             <li (click)="onLeads('decision')" routerLinkActive="active"><a data-toggle="tab">Credit Decision</a></li>
-            <!-- <li (click)="onLeads('maker')" routerLinkActive="active"><a data-toggle="tab">CPC Maker</a></li>
-            <li (click)="onLeads('checker')" routerLinkActive="active"><a data-toggle="tab">CPC Checker</a></li> -->
         </ul>
     </div>
 
@@ -136,14 +134,25 @@
             <li id="new_leads" class="active" (click)="onDecisionClick('myDecision')" routerLinkActive="active"><a data-toggle="tab">Decision Pending With Me</a></li>
             <li id="sanction_leads" (click)="onDecisionClick('branchDecision')" routerLinkActive="active"><a data-toggle="tab">Decision Pending With Branch</a></li>
         </ul>
-        <!-- <ul *ngIf="onMaker" class="nav nav-pills nav-justified" id="background_white">
-            <li id="new_leads" class="active" routerLinkActive="active"><a data-toggle="tab">Leads Pending with Me</a></li>
-            <li id="sanction_leads" routerLinkActive="active"><a data-toggle="tab">Leads Pending with CPC</a></li>
+
+    </div>
+
+    <!-- for CPC Maker and CPC Checker -->
+    <div class="container-fluid mar-bottom" *ngIf="roleType == '4'">
+        <ul class="nav nav-pills nav-justified" id="background_white">
+            <li (click)="onLeads('maker')" routerLinkActive="active"><a data-toggle="tab">CPC Maker</a></li>
+            <li (click)="onLeads('checker')" routerLinkActive="active"><a data-toggle="tab">CPC Checker</a></li>
+        </ul>
+    </div>
+    <div class="container-fluid mar-bottom" *ngIf="roleType == '4'">
+        <ul *ngIf="onMaker" class="nav nav-pills nav-justified" id="background_white">
+            <li id="new_leads" class="active" (click)="onCPCMakerClick('myMaker')" routerLinkActive="active"><a data-toggle="tab">Leads Pending with Me</a></li>
+            <li id="sanction_leads" (click)="onCPCMakerClick('cpcMaker')" routerLinkActive="active"><a data-toggle="tab">Leads Pending with CPC</a></li>
         </ul>
         <ul *ngIf="onChecker" class="nav nav-pills nav-justified" id="background_white">
-            <li id="new_leads" class="active" routerLinkActive="active"><a data-toggle="tab">Leads Pending with Me</a></li>
-            <li id="sanction_leads" routerLinkActive="active"><a data-toggle="tab">Leads Pending with CPC</a></li>
-        </ul> -->
+            <li id="new_leads" class="active" (click)="onCPCCheckerClick('myChecker')" routerLinkActive="active"><a data-toggle="tab">Leads Pending with Me</a></li>
+            <li id="sanction_leads" (click)="onCPCCheckerClick('cpcChecker')" routerLinkActive="active"><a data-toggle="tab">Leads Pending with CPC</a></li>
+        </ul>
     </div>
 
     <div>
