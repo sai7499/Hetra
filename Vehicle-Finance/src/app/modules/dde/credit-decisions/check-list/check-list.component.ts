@@ -48,10 +48,10 @@ export class CheckListComponent implements OnInit {
   ngOnInit() {
     this.commonLovService.getLovData().subscribe((res: any) => {
       console.log(res, 'cmn lov service');
-      this.checklistObject = res.LOVS;
+      this.checklistObject = res.LOVS.checklistans;
       this.checkListMaster = res.LOVS.checklistMstView;
       // this.checkListMaster.push(res.LOVS.);
-      console.log(this.checkListMaster, 'array of checklist');
+      console.log(this.checkListMaster, this.checklistObject, 'array of checklist');
     });
     const body = {
       leadId: 1176,
