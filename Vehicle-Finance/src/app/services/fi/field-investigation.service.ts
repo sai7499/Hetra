@@ -68,4 +68,20 @@ export class FieldInvestigationService {
     return this.httpService.post(url, body);
 
   }
+  SumbitFiReportDetails(data) {
+    const processData = data;
+    const processId = this.apiService.api.submitFiReportDetais.processId;
+    const workflowId = this.apiService.api.submitFiReportDetais.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
+
+    const body: RequestEntity = {
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+
+  }
 }
