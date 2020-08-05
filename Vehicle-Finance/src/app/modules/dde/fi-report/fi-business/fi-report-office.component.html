@@ -127,8 +127,7 @@
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="residenceAddressline1"
-          >{{ labels?.residenceAddressline1 }}
-          <sub class="star_red_col">*</sub></label
+          >{{ labels?.addressline1 }} <sub class="star_red_col">*</sub></label
         >
         <app-custom-input
           id="residenceAddressline1"
@@ -145,8 +144,7 @@
     <div class="row">
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="residenceAddressline2"
-          >{{ labels?.residenceAddressline2 }}
-          <sub class="star_red_col">*</sub></label
+          >{{ labels?.addressline2 }} <sub class="star_red_col">*</sub></label
         >
         <app-custom-input
           id="residenceAddressline2"
@@ -161,8 +159,7 @@
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="residenceAddressline3"
-          >{{ labels?.residenceAddressline3 }}
-          <sub class="star_red_col">*</sub></label
+          >{{ labels?.addressline3 }} <sub class="star_red_col">*</sub></label
         >
         <app-custom-input
           id="residenceAddressline3"
@@ -219,37 +216,6 @@
         </app-vf-custom-select>
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="personMetName"
-          >{{ labels?.personMetName }} <sub class="star_red_col">*</sub></label
-        >
-        <app-custom-input
-          id="personMetName"
-          [placeholder]="'Enter person met name'"
-          [type]="labels?.validationData?.name?.type"
-          formControlName="personMetName"
-          [isRequired]="'Person met name is required'"
-          [maxLength]="labels?.validationData?.name?.maxLength"
-          [isDirty]="isDirty"
-        >
-        </app-custom-input>
-      </div>
-    </div>
-    <!-- if Bussiness -->
-    <div class="row">
-      <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="typeofConcern"
-          >{{ labels?.typeOfConcern }} <sub class="star_red_col">*</sub></label
-        >
-        <app-vf-custom-select
-          id="typeofConcern"
-          [values]="(LOV?.LOVS)['typeOfConcern']"
-          formControlName="typeOfConcern"
-          [isRequired]="'Please select one'"
-          [isDirty]="isDirty"
-        >
-        </app-vf-custom-select>
-      </div>
-      <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="designation"
           >{{ labels?.designation }} <sub class="star_red_col">*</sub></label
         >
@@ -262,6 +228,9 @@
         >
         </app-vf-custom-select>
       </div>
+    </div>
+    <!-- if Bussiness -->
+    <div class="row">
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="natureOfBusiness"
           >{{ labels?.natureOfBusiness }}
@@ -278,11 +247,39 @@
         >
         </app-custom-input>
       </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="personMetName"
+          >{{ labels?.personMetName }} <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          id="personMetName"
+          [placeholder]="'Enter person met name'"
+          [type]="labels?.validationData?.name?.type"
+          formControlName="personMetName"
+          [isRequired]="'Person met name is required'"
+          [maxLength]="labels?.validationData?.name?.maxLength"
+          [isDirty]="isDirty"
+        >
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="typeofConcern"
+          >{{ labels?.typeOfConcern }} <sub class="star_red_col">*</sub></label
+        >
+        <app-vf-custom-select
+          id="typeofConcern"
+          [values]="(LOV?.LOVS)['typeOfConcern']"
+          formControlName="typeOfConcern"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
+      </div>
     </div>
   </div>
 
   <!-- if Residence -->
-  <div class="row">
+  <!-- <div class="row">
     <h3>Residence Observation</h3>
     <div class="row">
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -529,7 +526,7 @@
         </app-custom-input>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!-- if Bussiness -->
   <div class="row">
@@ -784,9 +781,9 @@
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right">
       <button
-        class="btn btn-primary"
+        class="btn btn-primary" 
         type="button"
-        (click)="onNavigate('back')"
+        (click)="onNavigateBack()"
       >
         {{ labels.back }}
       </button>
@@ -798,9 +795,9 @@
       <button
         class="btn btn-primary"
         type="button"
-        (click)="onNavigate('next')"
+        (click)="submitFiReportDetails()"
       >
-        {{ labels.next }}
+        {{ labels.submit }}
       </button>
     </div>
   </div>

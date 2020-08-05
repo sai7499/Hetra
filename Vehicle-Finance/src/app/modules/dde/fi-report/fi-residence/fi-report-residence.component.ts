@@ -10,7 +10,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FieldInvestigation } from '@model/dde.model';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ApplicantService } from '@services/applicant.service';
-import { AddressDetails } from '@model/applicant.model';
 
 
 
@@ -44,9 +43,9 @@ export class FiReportResidenceComponent implements OnInit {
   };
   state = [];
   city = [];
+  toDayDate: Date = new Date();
 
-  addressDetails: AddressDetails[];
-  leadCreatedDateFromLead: string;
+  leadCreatedDateFromLead: Date;
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -120,9 +119,11 @@ export class FiReportResidenceComponent implements OnInit {
     // console.log('in get lead section data', data);
     console.log('in get lead section data', data['applicantDetails']);
 
-
+    const leadCreatedDate = data['leadDetails']['leadCreatedOn'];
+    console.log('strind date', leadCreatedDate);
+    this.leadCreatedDateFromLead = new Date(leadCreatedDate);
     // this.leadCreatedDateFromLead = String(leadCreatedDate).slice(0, 10);
-    // console.log('lead created Date', this.leadCreatedDateFromLead);
+    console.log('lead created Date', this.leadCreatedDateFromLead);
 
     // console.log('current app id', this.applicantId);
 
@@ -169,6 +170,20 @@ export class FiReportResidenceComponent implements OnInit {
           // console.log('in geo', city);
         });
       });
+
+  }
+  getMonths() {
+    const initiatedDate = new Date(this.fieldReportForm.value.cpvInitiatedDate)
+      ? new Date(this.fieldReportForm.value.cpvInitiatedDate) : null;
+    const submitDate = new Date(this.fieldReportForm.value.reportSubmitDate)
+      ? new Date(this.fieldReportForm.value.reportSubmitDate) : null;
+    if (initiatedDate && submitDate) {
+      if (initiatedDate > submitDate) {
+        this.toasterService.showWarning('Submit Date should be greater than Initiated Date', '');
+
+      }
+
+    }
 
   }
 

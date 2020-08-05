@@ -41,8 +41,9 @@ export class FiReportOfficeComponent implements OnInit {
   };
   state = [];
   city = [];
+  toDayDate: Date = new Date();
 
-  leadCreatedDateFromLead: string;
+  leadCreatedDateFromLead: Date;
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -116,9 +117,11 @@ export class FiReportOfficeComponent implements OnInit {
     // console.log('in get lead section data', data);
     console.log('in get lead section data', data['applicantDetails']);
 
-
+    const leadCreatedDate = data['leadDetails']['leadCreatedOn'];
+    console.log('strind date', leadCreatedDate);
+    this.leadCreatedDateFromLead = new Date(leadCreatedDate);
     // this.leadCreatedDateFromLead = String(leadCreatedDate).slice(0, 10);
-    // console.log('lead created Date', this.leadCreatedDateFromLead);
+    console.log('lead created Date', this.leadCreatedDateFromLead);
 
     // console.log('current app id', this.applicantId);
 
@@ -165,6 +168,20 @@ export class FiReportOfficeComponent implements OnInit {
           // console.log('in geo', city);
         });
       });
+
+  }
+  getMonths() {
+    const initiatedDate = new Date(this.fieldReportForm.value.cpvInitiatedDate)
+      ? new Date(this.fieldReportForm.value.cpvInitiatedDate) : null;
+    const submitDate = new Date(this.fieldReportForm.value.reportSubmitDate)
+      ? new Date(this.fieldReportForm.value.reportSubmitDate) : null;
+    if (initiatedDate && submitDate) {
+      if (initiatedDate > submitDate) {
+        this.toasterService.showWarning('Submit Date should be greater than Initiated Date', '');
+
+      }
+
+    }
 
   }
 
@@ -342,6 +359,27 @@ export class FiReportOfficeComponent implements OnInit {
       }
     });
   }
+  submitFiReportDetails() {
+    const data = {
+      applicantId: this.applicantId,
+      leadId: this.leadId
+    };
+    console.log('in submit fi report app id', this.applicantId);
+    console.log('in submit fi report lead id', this.leadId);
+    this.fieldInvestigationService.SumbitFiReportDetails(data).subscribe((res: any) => {
+      const processvariables = res.ProcessVariables;
+      const message = res.processVariables.error.message;
+      console.log('in submit fi response', processvariables);
+      if (processvariables.error.code === '0') {
+        console.log('result', processvariables.error.message);
+        this.toasterService.showSuccess('Report Submitted Successfully', '');
+
+      } else {
+        this.toasterService.showError('', message);
+      }
+    });
+
+  }
 
 
   onFormSubmit() { // fun that submits all the pd data
@@ -428,16 +466,11 @@ export class FiReportOfficeComponent implements OnInit {
   }
 
 
-  onNavigate(action) {
+  onNavigateBack() {
     // console.log('in on navigate', action);
 
-    if (action === 'back') {
-      this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
-    } else if (action === 'next') {
-      // this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
-      this.router.navigateByUrl(`pages/fi-list/${this.leadId}/${this.applicantId}/fi-report/fi-business`);
+    this.router.navigateByUrl(`pages/fi-list/${this.leadId}/${this.applicantId}/fi-report/fi-residence`);
 
-    }
   }
 
 }

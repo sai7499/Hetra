@@ -541,7 +541,12 @@ export class ApiService {
       workflowId: 'ebb849eecb5c11ea91c600505695f93b',
       projectId: environment.projectIds.salesProjectId,
     },
+    submitFiReportDetais: {
+      processId: '10d63ed4d6e311ea996900505695f93b',
+      workflowId: '10b16f78d6e311eaad8d00505695f93b',
+      projectId: environment.projectIds.salesProjectId,
 
+    },
     nlUpdatingRemarks: {
       processId: 'c68a7f8acd5411eab88900505695f93b',
       workflowId: 'c6616082cd5411eab5b200505695f93b',
@@ -552,12 +557,12 @@ export class ApiService {
       workflowId: '051db99495c711eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
-    getAddressDetails : {
+    getAddressDetails: {
       processId: 'b95e7cfad0b311ea9f0400505695f93b',
       workflowId: 'b93fc6e8d0b311eab67600505695f93b',
       projectId: environment.projectIds.salesProjectId,
     },
-    wrapperPanValidation : {
+    wrapperPanValidation: {
       processId: '9bdd1c8eca8911eabb8100505695f93b',
       workflowId: '9bb46abeca8911ea8b0000505695f93b',
       projectId: environment.projectIds.wrapperPanValidation,
