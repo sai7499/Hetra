@@ -1,6 +1,6 @@
 <main class="mar-top90">
     <div class="container-fluid">
-        <div class="pull-right dropdown nav" *ngIf="roleType == '1'">
+        <div class="pull-right dropdown nav">
             <div class="pull-right dropdown nav">
                 <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter </button>
             </div>
@@ -97,7 +97,7 @@
         </ul>
     </div>
 
-    <div class="container-fluid mar-bottom" *ngIf="roleType == '2' || '4'">
+    <!-- <div class="container-fluid mar-bottom" *ngIf="roleType == '2' || '4'">
         <ul class="nav nav-pills nav-justified" id="background_white">
             <li [routerLink]="[ '/pages/dashboard/leads-section' ]" routerLinkActive="active" id="leads"><a>DDE</a></li>
             <li [routerLink]="[ '/pages/dashboard/personal-discussion' ]" routerLinkActive="active"><a>Personal Discussion</a></li>
@@ -106,49 +106,47 @@
             <li [routerLink]="[ '/pages/dashboard/cpc-maker' ]" routerLinkActive="active"><a>CPC Maker</a></li>
             <li [routerLink]="[ '/pages/dashboard/cpc-checker' ]" routerLinkActive="active"><a>CPC Checker</a></li>
         </ul>
-    </div>
-    <!--  -->
-    <!-- <div class="container-fluid mar-bottom" *ngIf="roleType == '2'">
-        <ul class="nav nav-pills nav-justified" id="background_white">
-            <li (click)="onCreditLeads('DDE')" routerLinkActive="active" id="leads"><a>{{roleType == '1' ? 'Leads' : 'DDE' }}</a></li>
-            <li (click)="onCreditLeads('PD')" routerLinkActive="active"><a>Personal Discussion</a></li>
-            <li (click)="onCreditLeads('deviation')" routerLinkActive="active"><a>Deviation</a></li>
-            <li (click)="onCreditLeads('decision')" routerLinkActive="active"><a>Credit Decision</a></li>
-            <li (click)="onCreditLeads('maker')" routerLinkActive="active"><a>CPC Maker</a></li>
-            <li (click)="onCreditLeads('checker')" routerLinkActive="active"><a>CPC Checker</a></li>
-        </ul>
     </div> -->
+    <!--  -->
+    <div class="container-fluid mar-bottom" *ngIf="roleType == '2'">
+        <ul class="nav nav-pills nav-justified" id="background_white">
+            <li class="active" (click)="onLeads('DDE')" routerLinkActive="active" id="leads"><a data-toggle="tab">DDE</a></li>
+            <li (click)="onLeads('PD')" routerLinkActive="active"><a data-toggle="tab">Personal Discussion</a></li>
+            <li (click)="onLeads('deviation')" routerLinkActive="active"><a data-toggle="tab">Deviation</a></li>
+            <li (click)="onLeads('decision')" routerLinkActive="active"><a data-toggle="tab">Credit Decision</a></li>
+            <!-- <li (click)="onLeads('maker')" routerLinkActive="active"><a data-toggle="tab">CPC Maker</a></li>
+            <li (click)="onLeads('checker')" routerLinkActive="active"><a data-toggle="tab">CPC Checker</a></li> -->
+        </ul>
+    </div>
 
-    <!-- <div class="container-fluid mar-bottom" *ngIf="roleType == '2'">
+    <div class="container-fluid mar-bottom" *ngIf="roleType == '2'">
         <ul *ngIf="DDESection" class="nav nav-pills nav-justified" id="background_white">
-            <li id="new_leads" class="active" routerLinkActive="active"><a data-toggle="tab">DDE Leads Pending with Me</a></li>
-            <li id="sanction_leads" routerLinkActive="active"><a data-toggle="tab">DDE Leads Pending with Branch</a></li>
+            <li id="new_leads" class="active" (click)="onDDEClick('myDDE')" routerLinkActive="active"><a data-toggle="tab">DDE Leads Pending with Me</a></li>
+            <li id="sanction_leads" (click)="onDDEClick('branchDDE')" routerLinkActive="active"><a data-toggle="tab">DDE Leads Pending with Branch</a></li>
         </ul>
         <ul *ngIf="PD" class="nav nav-pills nav-justified" id="background_white">
-            <li id="new_leads" class="active" routerLinkActive="active"><a data-toggle="tab">My PD Tasks</a></li>
-            <li id="sanction_leads" routerLinkActive="active"><a data-toggle="tab">Branch PD Tasks</a></li>
+            <li id="new_leads" class="active" (click)="onPdClick('myPd')" routerLinkActive="active"><a data-toggle="tab">My PD Tasks</a></li>
+            <li id="sanction_leads" (click)="onPdClick('BranchPd')" routerLinkActive="active"><a data-toggle="tab">Branch PD Tasks</a></li>
         </ul>
         <ul *ngIf="onDeviation" class="nav nav-pills nav-justified" id="background_white">
-            <li id="new_leads" class="active" routerLinkActive="active"><a data-toggle="tab">Deviation Pending With Me</a></li>
-            <li id="sanction_leads" routerLinkActive="active"><a data-toggle="tab">Deviation Pending With Branch</a></li>
+            <li id="new_leads" class="active" (click)="onDeviationClick('myDeviation')" routerLinkActive="active"><a data-toggle="tab">Deviation Pending With Me</a></li>
+            <li id="sanction_leads" (click)="onDeviationClick('branchDeviation')" routerLinkActive="active"><a data-toggle="tab">Deviation Pending With Branch</a></li>
         </ul>
         <ul *ngIf="onDecision" class="nav nav-pills nav-justified" id="background_white">
-            <li id="new_leads" class="active" routerLinkActive="active"><a data-toggle="tab">Decision Pending With Me</a></li>
-            <li id="sanction_leads" routerLinkActive="active"><a data-toggle="tab">Decision Pending With Branch</a></li>
+            <li id="new_leads" class="active" (click)="onDecisionClick('myDecision')" routerLinkActive="active"><a data-toggle="tab">Decision Pending With Me</a></li>
+            <li id="sanction_leads" (click)="onDecisionClick('branchDecision')" routerLinkActive="active"><a data-toggle="tab">Decision Pending With Branch</a></li>
         </ul>
-        <ul *ngIf="onMaker" class="nav nav-pills nav-justified" id="background_white">
+        <!-- <ul *ngIf="onMaker" class="nav nav-pills nav-justified" id="background_white">
             <li id="new_leads" class="active" routerLinkActive="active"><a data-toggle="tab">Leads Pending with Me</a></li>
             <li id="sanction_leads" routerLinkActive="active"><a data-toggle="tab">Leads Pending with CPC</a></li>
         </ul>
         <ul *ngIf="onChecker" class="nav nav-pills nav-justified" id="background_white">
             <li id="new_leads" class="active" routerLinkActive="active"><a data-toggle="tab">Leads Pending with Me</a></li>
             <li id="sanction_leads" routerLinkActive="active"><a data-toggle="tab">Leads Pending with CPC</a></li>
-        </ul>
+        </ul> -->
+    </div>
 
-
-    </div> -->
-
-    <div *ngIf="roleType == '1'">
+    <div>
         <div class="container-fluid">
             <table>
                 <thead>
@@ -174,9 +172,9 @@
                         <td [attr.data-label]="labels?.action" *ngIf="onAssignTab">
                             <input type="button" class="btn btn-primary" (click)="onAssign(item.taskId, item.leadId); onClick()" value="Assign" data-toggle="modal" data-target="#assignModel" />
                         </td>
-                        <td [attr.data-label]="labels?.leadID" class="text-underline" *ngIf="roleType == '1'" (click)="onRoute(item.leadId,item.stageCode,item.taskId)" style="cursor: pointer;">
+                        <td [attr.data-label]="labels?.leadID" class="text-underline" (click)="onRoute(item.leadId,item.stageCode,item.taskId); assignTaskId(item.taskId); getLeadId(item)" style="cursor: pointer;">
                             {{item.leadId}}</td>
-                        <td [attr.data-label]="labels?.leadID" class="text-underline" *ngIf="roleType == '2'"><a [routerLink]="['/pages/dde', item.leadId, 'lead-details']" (click)="getLeadId(item)">{{item.leadId}}</a></td>
+                        <!-- <td [attr.data-label]="labels?.leadID" class="text-underline" *ngIf="roleType == '2'"><a (click)="assignTaskId(item.taskId); getLeadId(item)">{{item.leadId}}</a></td> -->
                         <td [attr.data-label]="labels?.product">{{item.product ? item.product : '--'}}</td>
                         <td [attr.data-label]="labels?.loanAmount">{{item.loanAmt ? item.loanAmt : '--'}}</td>
                         <td [attr.data-label]="labels?.applicant">{{item.applicants ? item.applicants : '--'}}</td>
