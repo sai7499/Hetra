@@ -351,7 +351,22 @@
               </div>
             </div>
           </div>
-          <h4 class="title">Office/Business Address</h4>
+          <div class="btn-sec clear-both row">
+            <div class="col-sm-5">
+              <h4 class="title">Office/Business Address</h4>
+            </div>
+            <div class="col-sm-7" id="align_this_texbox">
+              <input
+                type="checkbox"
+                id="address_section_checkbox"
+                (change)="officeSameAddress($event)"
+                [checked]="onCurrAsOfficeChecked"
+              />
+              <span id="address_section_checkbox_text"
+                >Is it same as your current Address?
+              </span>
+            </div>
+          </div>
           <div class="" formGroupName="officeAddress">
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
