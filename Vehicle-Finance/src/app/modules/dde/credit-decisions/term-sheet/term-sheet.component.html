@@ -159,7 +159,7 @@
                         <thead>
                             <tr id="table_header_top" style="border: none !important">
                                 <th id="table_column_width15"></th>
-                                 <th></th>
+                                 <th style=" width: 15px;"s></th>
                                 <th id="table_column_width10">
                                     
                                    </th>
@@ -176,7 +176,7 @@
                                 <td>:</td>
                                 <td>{{pslDetails?.category}}</td>
                                 <td></td>
-                                <td>:</td>
+                                <td></td>
                                 <td></td>
                             </tr>
                             <tr>
@@ -184,7 +184,7 @@
                                 <td>:</td>
                                 <td>{{pslDetails?.subCategory}}</td>
                                 <td> </td>
-                                <td>:</td>
+                                <td></td>
                                 <td></td>
                             </tr>
                             <tr>
@@ -257,6 +257,7 @@
                 </div>
                 <div id="tearms_sheet_header2">
                     <p id="tearms_sheet_header2_top">{{labels.coApplicantDetails}}</p>
+                  <div *ngFor = "let coAppDetails of coAppDetails; let i=index">
                     <p id="tearms_sheet_hdr_left_tag">
                         {{labels.name}} : {{coAppDetails?.name}}
                     </p>
@@ -266,6 +267,8 @@
                         {{labels.type}} : {{coAppDetails?.type}}-&nbsp;
                         {{labels.gender}} : {{coAppDetails?.gender}}
                     </p>
+                  </div> 
+                   
 
                 </div>
                 <div id="tearms_sheet_header3">
