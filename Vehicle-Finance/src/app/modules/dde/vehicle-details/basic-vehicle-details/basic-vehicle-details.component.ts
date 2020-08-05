@@ -56,32 +56,39 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
     if (this.formValue.valid === true) {
 
-      let data = this.formValue.value.vehicleFormArray[0];
+      if (this.formValue.value.isValidPincode) {
+        let data = this.formValue.value.vehicleFormArray[0];
 
-      data.manuFacMonthYear = data.manuFacMonthYear ? this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY') : null;
-      data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : null;
+        data.manuFacMonthYear = data.manuFacMonthYear ? this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY') : null;
+        data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : null;
 
-      data.fitnessDate = data.fitnessDate ? this.utilityService.convertDateTimeTOUTC(data.fitnessDate, 'DD/MM/YYYY') : null;
-      data.permitExpiryDate = data.permitExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpiryDate, 'DD/MM/YYYY') : null;
-      data.vehicleRegDate = data.vehicleRegDate ? this.utilityService.convertDateTimeTOUTC(data.vehicleRegDate, 'DD/MM/YYYY') : null;
-      data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : null;
+        data.fitnessDate = data.fitnessDate ? this.utilityService.convertDateTimeTOUTC(data.fitnessDate, 'DD/MM/YYYY') : null;
+        data.permitExpiryDate = data.permitExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpiryDate, 'DD/MM/YYYY') : null;
+        data.vehicleRegDate = data.vehicleRegDate ? this.utilityService.convertDateTimeTOUTC(data.vehicleRegDate, 'DD/MM/YYYY') : null;
+        data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : null;
 
-      data.fsrdFundingReq = data.fsrdFundingReq === true ? '1' : '0'
+        data.fsrdFundingReq = data.fsrdFundingReq === true ? '1' : '0';
 
-      this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
-        const apiError = res.ProcessVariables.error.message;
+        this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
+          const apiError = res.ProcessVariables.error.message;
+  
+          if (res.Error === '0' && res.Error === '0' && res.ProcessVariables.error.code === '0') {
+            this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Vehicle Detail');
+            this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
+          } else {
+            this.toasterService.showError(apiError, 'Vehicle Detail')
+          }
+  
+        }, error => {
+          console.log(error, 'error')
+          this.toasterService.showError(error, 'Vehicle Detail')
+        })
 
-        if (res.Error === '0' && res.Error === '0' && res.ProcessVariables.error.code === '0') {
-          this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Vehicle Detail');
-          this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
-        } else {
-          this.toasterService.showError(apiError, 'Vehicle Detail')
-        }
+      } else {
+        this.toasterService.showError('Please Enter Valid Pincode', 'Invalid Pincode')
+      }
 
-      }, error => {
-        console.log(error, 'error')
-        this.toasterService.showError(error, 'Vehicle Detail')
-      })
+
     } else {
       this.isDirty = true;
       console.log('error', this.formValue)

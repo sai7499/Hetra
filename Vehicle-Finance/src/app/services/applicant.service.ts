@@ -330,7 +330,7 @@ export class ApplicantService {
     return this.httpService.post(url, body);
   }
 
-  wrapperBiometriceKYC(data){
+  wrapperBiometriceKYC(data, applicantId){
     const projectId = this.biometriceKYC.projectId;
     const processId = this.biometriceKYC.processId;
     const workflowId = this.biometriceKYC.workflowId;
@@ -340,6 +340,7 @@ export class ApplicantService {
       workflowId,
       projectId,
       ProcessVariables: {
+        applicantId: applicantId,
         ...data,
         userId
       },

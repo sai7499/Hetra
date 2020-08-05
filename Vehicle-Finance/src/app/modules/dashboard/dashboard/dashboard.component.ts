@@ -5,6 +5,12 @@ import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { UtilityService } from '@services/utility.service';
+import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
+import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
+import { ToasterService } from '@services/toaster.service';
+import { Router } from '@angular/router';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { NumberFormatStyle } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,7 +21,7 @@ export class DashboardComponent implements OnInit {
   filterForm: FormGroup;
   showFilter;
   roleType;
-  labels;
+  labels: any = {};
   validationData;
   isDirty: boolean;
   filterFormDetails: any;
@@ -24,28 +30,87 @@ export class DashboardComponent implements OnInit {
   productCategoryData: any;
   stageList = [];
   stageData: any;
+
+  // new leads
+  newArray;
+  salesLeads;
+  creditLeads;
+  itemsPerPage = '25';
+  totalItems;
+  // labels: any = {};
+  lovData: any;
+  count: any;
+  currentPage: any;
+  limit;
+  pageNumber;
+  from;
+  isCreditShow;
+  branchId;
+  roleId;
+  // roleType;
+  isLoadLead = true;
+  leadSection = true;
+  salesLead = true;
+  PD: boolean;
+  vehicle: boolean;
+  onAssignTab: boolean;
+  onReleaseTab: boolean;
+  sanctionedMe: boolean;
+  sanctionedBranch: boolean;
+  declined: boolean;
+  declinedBranch: boolean;
+  myPD: boolean;
+  myPDBranch: boolean;
+  myViability: boolean;
+  myViabilityBranch: boolean;
+
+  // for credit
+  DDESection = true;
+  onDeviation: boolean;
+  onDecision: boolean;
+  DDEWithMe = true;
+  DDEWithBranch: boolean;
+  DeviationWithMe: boolean;
+  DeviationWithBranch: boolean;
+  DecisionWithMe: boolean;
+  DecisionWithBranch: boolean;
+
+  // for CPC Maker and Checker
+  onMaker: boolean;
+  onChecker: boolean;
+  makerWithMe: boolean;
+  makerWithCPC: boolean;
+  checkerWithMe: boolean;
+  checkerWithCPC: boolean;
+
   constructor(
     private fb: FormBuilder,
     private dashboardService: DashboardService,
     private loginService: LoginService,
     private loginStoreService: LoginStoreService,
     private labelService: LabelsService,
-    private utilityService: UtilityService
-     ) { }
+    private utilityService: UtilityService,
+    private labelsData: LabelsService,
+    private vehicleDataStoreService: VehicleDataStoreService,
+    private router: Router,
+    private taskDashboard: TaskDashboard,
+    private toasterService: ToasterService,
+    private sharedService: SharedService
+  ) { }
 
   ngOnInit() {
-     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
-       this.roleType = value.roleType;
-       this.businessDivision = value.businessDivision;
-       console.log(value);
-      });
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+      this.roleType = value.roleType;
+      this.businessDivision = value.businessDivision[0].bizDivId;
+      // console.log(value);
+    });
 
-     this.labelService.getLabelsData().subscribe(res => {
-        this.labels = res;
-        this.validationData = res.validationData;
-      });
+    this.labelService.getLabelsData().subscribe(res => {
+      this.labels = res;
+      this.validationData = res.validationData;
+    });
 
-     this.filterForm = this.fb.group({
+    this.filterForm = this.fb.group({
       leadId: [''],
       product: [''],
       leadStage: [''],
@@ -53,36 +118,351 @@ export class DashboardComponent implements OnInit {
       toDate: [''],
       loanMinAmt: [''],
       loanMaxAmt: ['']
-      });
+    });
 
-    //  this.dashboardfilter();
+    this.dashboardFilter();
+
+    // new leads
+
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+      this.branchId = value.branchId;
+      this.roleId = value.roleId;
+      this.roleType = value.roleType;
+      // console.log('role Type', this.roleType);
+    });
+    if (this.roleType == '2') {
+      this.onReleaseTab = true;
+      this.getMyDDELeads(this.itemsPerPage);
+    } else {
+      this.getSalesFilterLeads(this.itemsPerPage);
+    }
+  }
+
+  // changing main tabs
+  onLeads(data) {
+    if (this.roleType == '1') {
+      if (data === 'leads') {
+        this.leadSection = true;
+        this.PD = false;
+        this.vehicle = false;
+        this.onReleaseTab = false;
+        this.onAssignTab = false;
+        this.salesLead = true;
+        this.myPD = false;
+        this.myPDBranch = false;
+        this.sanctionedMe = false;
+        this.sanctionedBranch = false;
+        this.declined = false;
+        this.declinedBranch = false;
+        this.getSalesFilterLeads(this.itemsPerPage);
+      } else if (data === 'PD') {
+        this.leadSection = false;
+        this.PD = true;
+        this.vehicle = false;
+        this.onReleaseTab = true;
+        this.onAssignTab = false;
+        this.myPD = true;
+        this.myPDBranch = false;
+        this.myViability = false;
+        this.myViabilityBranch = false;
+        this.salesLead = false;
+        this.sanctionedMe = false;
+        this.sanctionedBranch = false;
+        this.declined = false;
+        this.declinedBranch = false;
+        this.getPdMyTask(this.itemsPerPage);
+      } else if (data === 'Vehicle') {
+        this.leadSection = false;
+        this.PD = false;
+        this.vehicle = true;
+        this.onReleaseTab = true;
+        this.onAssignTab = false;
+        this.myPD = false;
+        this.myPDBranch = false;
+        this.myViability = true;
+        this.myViabilityBranch = false;
+        this.salesLead = false;
+        this.sanctionedMe = false;
+        this.sanctionedBranch = false;
+        this.declined = false;
+        this.declinedBranch = false;
+        this.getViabilityLeads(this.itemsPerPage);
+      }
+    }
+
+    else if (this.roleType == '2') {
+      if (data === 'DDE') {
+        this.onReleaseTab = true;
+        this.onAssignTab = false;
+        this.DDESection = true;
+        this.PD = false;
+        this.onDeviation = false;
+        this.onDecision = false;
+        this.DDEWithMe = true;
+        this.DDEWithBranch = false;
+        this.myPD = false;
+        this.myPDBranch = false;
+        this.DecisionWithMe = false;
+        this.DecisionWithBranch = false;
+        this.DeviationWithBranch = false;
+        this.DeviationWithMe = false;
+        this.getMyDDELeads(this.itemsPerPage);
+      } else if (data === 'PD') {
+        this.onReleaseTab = true;
+        this.onAssignTab = false;
+        this.DDESection = false;
+        this.PD = true;
+        this.onDeviation = false;
+        this.onDecision = false;
+        this.DDEWithMe = false;
+        this.DDEWithBranch = false;
+        this.myPD = true;
+        this.myPDBranch = false;
+        this.DecisionWithMe = false;
+        this.DecisionWithBranch = false;
+        this.DeviationWithBranch = false;
+        this.DeviationWithMe = false;
+        this.getPdMyTask(this.itemsPerPage);
+      } else if (data === 'deviation') {
+        this.onReleaseTab = true;
+        this.onAssignTab = false;
+        this.DDESection = false;
+        this.PD = false;
+        this.onDeviation = true;
+        this.onDecision = false;
+        this.DDEWithMe = false;
+        this.DDEWithBranch = false;
+        this.myPD = false;
+        this.myPDBranch = false;
+        this.DecisionWithMe = false;
+        this.DecisionWithBranch = false;
+        this.DeviationWithBranch = false;
+        this.DeviationWithMe = true;
+        this.getMyDeviationLeads(this.itemsPerPage);
+      } else if (data === 'decision') {
+        this.onReleaseTab = true;
+        this.onAssignTab = false;
+        this.DDESection = false;
+        this.PD = false;
+        this.onDeviation = false;
+        this.onDecision = true;
+        this.DDEWithMe = false;
+        this.DDEWithBranch = false;
+        this.myPD = false;
+        this.myPDBranch = false;
+        this.DecisionWithMe = true;
+        this.DecisionWithBranch = false;
+        this.DeviationWithBranch = false;
+        this.DeviationWithMe = false;
+        this.getMyDecisionLeads(this.itemsPerPage);
+      }
+    } else if (this.roleType == '4') {
+      if (data === 'maker') {
+        this.onReleaseTab = true;
+        this.onAssignTab = false;
+        this.onMaker = true;
+        this.onChecker = false;
+        this.makerWithMe = true;
+        this.makerWithCPC = false;
+        this.checkerWithMe = false;
+        this.checkerWithCPC = false;
+      } else if (data === 'checker') {
+        this.onReleaseTab = true;
+        this.onAssignTab = false;
+        this.onMaker = false;
+        this.onChecker = true;
+        this.makerWithMe = false;
+        this.makerWithCPC = false;
+        this.checkerWithMe = true;
+        this.checkerWithCPC = false;
+      }
+    }
+
+  }
+
+  // changing sub tabs
+  leads(data) {
+    if (data === 'newLeads') {
+      this.onReleaseTab = false;
+      this.onAssignTab = false;
+      this.salesLead = true;
+      this.sanctionedMe = false;
+      this.sanctionedBranch = false;
+      this.declined = false;
+      this.declinedBranch = false;
+      this.getSalesFilterLeads(this.itemsPerPage);
+    } else if (data === 'SanctionedMe') {
+      this.onReleaseTab = true;
+      this.onAssignTab = false;
+      this.sanctionedMe = true;
+      this.sanctionedBranch = false;
+      this.declined = false;
+      this.salesLead = false;
+      this.declinedBranch = false;
+      this.getSanctionedLeads(this.itemsPerPage);
+    } else if (data === 'SanctionedBranch') {
+      this.onReleaseTab = false;
+      this.onAssignTab = true;
+      this.salesLead = false;
+      this.sanctionedMe = false;
+      this.sanctionedBranch = true;
+      this.declined = false;
+      this.declinedBranch = false;
+      this.getSanctionedBranchLeads(this.itemsPerPage);
+    } else if (data === 'DeclinedMe') {
+      this.onReleaseTab = true;
+      this.onAssignTab = false;
+      this.declined = true;
+      this.sanctionedMe = false;
+      this.salesLead = false;
+      this.declinedBranch = false;
+      this.sanctionedBranch = false;
+      this.getDeclinedLeads(this.itemsPerPage);
+    } else if (data === 'DeclinedBranch') {
+      this.onReleaseTab = false;
+      this.onAssignTab = true;
+      this.salesLead = false;
+      this.sanctionedMe = false;
+      this.sanctionedBranch = true;
+      this.declined = false;
+      this.declinedBranch = true;
+      this.getDeclinedBranchLeads(this.itemsPerPage);
+    }
+  }
+
+  onPdClick(data) {
+    if (data === 'myPd') {
+      this.onReleaseTab = true;
+      this.onAssignTab = false;
+      this.myPD = true;
+      this.myPDBranch = false;
+      this.getPdMyTask(this.itemsPerPage);
+    } else if (data === 'BranchPd') {
+      this.onReleaseTab = false;
+      this.onAssignTab = true;
+      this.myPD = false;
+      this.myPDBranch = true;
+      this.salesLead = false;
+
+      this.getPdBranchTask(this.itemsPerPage);
+    }
+  }
+
+  onViabilityClick(data) {
+    if (data === 'myViability') {
+      this.onReleaseTab = true;
+      this.onAssignTab = false;
+      this.myViability = true;
+      this.myViabilityBranch = false;
+      this.getViabilityLeads(this.itemsPerPage);
+    } else if (data === 'branchViability') {
+      this.onReleaseTab = false;
+      this.onAssignTab = true;
+      this.myViabilityBranch = true;
+      this.myViability = false;
+      this.salesLead = false;
+
+      this.getViabilityBranchLeads(this.itemsPerPage);
+    }
+  }
+
+  onDDEClick(data) {
+    if (data === 'myDDE') {
+      this.onReleaseTab = true;
+      this.onAssignTab = false;
+      this.DDEWithMe = true;
+      this.DDEWithBranch = false;
+      this.getMyDDELeads(this.itemsPerPage);
+      // this.myPD = false;
+      // this.myPDBranch = false;
+    } else if (data === 'branchDDE') {
+      this.onReleaseTab = false;
+      this.onAssignTab = true;
+      this.DDEWithMe = false;
+      this.DDEWithBranch = true;
+      this.getBranchDDELeads(this.itemsPerPage);
+    }
+  }
+
+  onDeviationClick(data) {
+    if (data === 'myDeviation') {
+      this.onReleaseTab = true;
+      this.onAssignTab = false;
+      this.DeviationWithBranch = false;
+      this.DeviationWithMe = true;
+      this.getMyDeviationLeads(this.itemsPerPage);
+    } else if (data === 'branchDeviation') {
+      this.onReleaseTab = false;
+      this.onAssignTab = true;
+      this.DeviationWithBranch = true;
+      this.DeviationWithMe = false;
+      this.getBranchDeviationLeads(this.itemsPerPage);
+    }
+  }
+
+  onDecisionClick(data) {
+    if (data === 'myDecision') {
+      this.onReleaseTab = true;
+      this.onAssignTab = false;
+      this.DecisionWithMe = true;
+      this.DecisionWithBranch = false;
+      this.getMyDecisionLeads(this.itemsPerPage);
+    } else if (data === 'branchDecision') {
+      this.onReleaseTab = false;
+      this.onAssignTab = true;
+      this.DecisionWithMe = false;
+      this.DecisionWithBranch = true;
+      this.getBranchDecisionLeads(this.itemsPerPage);
+    }
+  }
+
+  onCPCMakerClick(data) {
+    if (data === 'myMaker') {
+      this.onReleaseTab = true;
+      this.onAssignTab = false;
+      this.makerWithMe = true;
+        this.makerWithCPC = false;
+        this.checkerWithMe = false;
+        this.checkerWithCPC = false;
+      this.getMakerLeads(this.itemsPerPage);
+    } else if (data === 'cpcMaker') {
+      this.onReleaseTab = false;
+      this.onAssignTab = true;
+      this.makerWithMe = false;
+        this.makerWithCPC = true;
+        this.checkerWithMe = false;
+        this.checkerWithCPC = false;
+      this.getMakerCPCLeads(this.itemsPerPage);
+    }
+  }
+
+  onCPCCheckerClick(data) {
+    if (data === 'myChecker') {
+      this.onReleaseTab = true;
+      this.onAssignTab = false;
+      this.makerWithMe = false;
+        this.makerWithCPC = false;
+        this.checkerWithMe = true;
+        this.checkerWithCPC = false;
+      this.getCheckerLeads(this.itemsPerPage);
+    } else if (data === 'cpcChecker') {
+      this.onReleaseTab = false;
+      this.onAssignTab = true;
+      this.makerWithMe = false;
+        this.makerWithCPC = false;
+        this.checkerWithMe = false;
+        this.checkerWithCPC = true;
+      this.getCheckerCPCLeads(this.itemsPerPage);
+    }
   }
 
   dateToFormate(date) {
     return date ? `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}` : '';
   }
 
-  filteredData() {
-    const data = {
-      userId: localStorage.getItem('userId'),
-      // tslint:disable-next-line: radix
-      // perPage: parseInt(perPageCount),
-      // tslint:disable-next-line: radix
-      // currentPage: parseInt(pageNumber),
-      leadId: this.filterFormDetails.leadId,
-      fromDate: this.filterFormDetails.fromDate,
-      toDate: this.filterFormDetails.toDate,
-      product: this.filterFormDetails.product,
-      leadStage: this.filterFormDetails.leadStage,
-      sortByProduct: true
-    };
 
-    this.dashboardService.myLeads(data).subscribe((res: any) => {
-      console.log('dashboard', res);
-    });
-  }
-
-  dashboardfilter() {
+  // for getting productCatagory and leadStage
+  dashboardFilter() {
     const data = {
       bizDiv: this.businessDivision
     };
@@ -105,9 +485,622 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  // new leads
+
+  getSalesFilterLeads(perPageCount, pageNumber?) {
+
+    // this.filterFormDetails['userId'] = localStorage.getItem('userId');
+    // this.filterFormDetails['perPage'] = parseInt(perPageCount);
+    // this.filterFormDetails['currentPage'] = parseInt(pageNumber);
+    // const data = this.filterFormDetails;
+    const data = {
+      userId: localStorage.getItem('userId'),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+    // console.log('getmyFilterdata', data);
+    // console.log('filter form data', this.filterFormDetails);
+
+
+    this.responseForSales(data);
+  }
+  // for MyLeads Api
+  responseForSales(data) {
+    this.dashboardService.myLeads(data).subscribe((res: any) => {
+      this.setPageData(res);
+      if (res.ProcessVariables.loanLead != null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+        this.newArray = [];
+      }
+    });
+  }
+
+  // For TaskDashboard Api
+  responseForCredit(data) {
+    this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
+      this.setPageData(res);
+      if (res.ProcessVariables.loanLead != null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+        this.newArray = [];
+      }
+    });
+  }
+
+  // for Sanctioned Leads with Me
+  getSanctionedLeads(perPageCount, pageNumber?) {
+    // this.filterFormDetails.userId = localStorage.getItem('userId');
+    // this.filterFormDetails.perPage = parseInt(perPageCount);
+    // this.filterFormDetails.currentPage = parseInt(pageNumber);
+    // const data = this.filterFormDetails;
+    const data = {
+      taskName: 'Sanctioned Leads',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: true,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+
+    this.responseForCredit(data);
+  }
+
+  // for Sanctioned Leads with Branch
+  getSanctionedBranchLeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'Sanctioned Leads',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: false,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+    this.responseForCredit(data);
+  }
+
+  // for Declined Leads with Me
+  getDeclinedLeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'Declined Leads',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: true,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+    this.responseForCredit(data);
+  }
+
+  // for Declined Leads with Branch
+  getDeclinedBranchLeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'Declined Leads',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: false,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+    this.responseForCredit(data);
+  }
+
+  // for PD with Me
+  getPdMyTask(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'Personal Discussion',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: true,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+    this.responseForCredit(data);
+  }
+
+  // for PD with Branch
+  getPdBranchTask(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'Personal Discussion',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: false,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+    this.responseForCredit(data);
+  }
+
+  // for Viability with Me
+  getViabilityLeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'Vehicle Viability',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: true,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+    this.responseForCredit(data);
+  }
+
+  // for Viability with Branch
+  getViabilityBranchLeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'Vehicle Viability',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: false,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+    this.responseForCredit(data);
+  }
+
+  // for credit flow dashboard
+
+  // for DDE leads with me
+  getMyDDELeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'DDE',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: true,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+    this.responseForCredit(data);
+  }
+
+  // for DDE leads with Branch
+  getBranchDDELeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'DDE',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: false,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+    this.responseForCredit(data);
+  }
+
+  // for DDE Deviation leads with Me
+  getMyDeviationLeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'Deviation',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: true,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+    this.responseForCredit(data);
+  }
+
+  // for DDE Deviation leads with Branch
+  getBranchDeviationLeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'Deviation',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: false,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+    this.responseForCredit(data);
+  }
+
+  // for DDE Decision leads with Me
+  getMyDecisionLeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'Credit Decision',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: true,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+    this.responseForCredit(data);
+  }
+
+  // for DDE Decision leads with Branch
+  getBranchDecisionLeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'Credit Decision',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: false,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+    this.responseForCredit(data);
+  }
+
+  // for DDE Maker with Me
+  getMakerLeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'CPC Maker',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: true,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+    this.responseForCredit(data);
+
+  }
+
+  // for DDE Maker with CPC
+  getMakerCPCLeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'CPC Maker',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: false,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+    this.responseForCredit(data);
+
+  }
+
+  // for DDE Checker with Me
+  getCheckerLeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'CPC Checker',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: true
+    };
+    this.responseForCredit(data);
+  }
+
+  // for DDE Checker with CPC
+  getCheckerCPCLeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'CPC Checker',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: false
+    };
+    this.responseForCredit(data);
+  }
+
+
+
+  // getting response Data for all tabs
+  setPageData(res) {
+    const response = res.ProcessVariables.loanLead;
+    this.newArray = response;
+    this.limit = res.ProcessVariables.perPage;
+    this.pageNumber = res.ProcessVariables.from;
+    this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
+    this.currentPage = res.ProcessVariables.currentPage;
+    this.totalItems = res.ProcessVariables.totalPages;
+    this.from = res.ProcessVariables.from;
+  }
+  setPage(event) {
+    if (this.roleType == '1') {
+      // this.getSalesFilterLeads(this.itemsPerPage, event);
+      if (this.salesLead) {
+        this.getSalesFilterLeads(this.itemsPerPage, event);
+      } else if (this.sanctionedMe) {
+        this.getSanctionedLeads(this.itemsPerPage, event);
+      } else if (this.sanctionedBranch) {
+        this.getSanctionedBranchLeads(this.itemsPerPage, event);
+      } else if (this.declined) {
+        this.getDeclinedLeads(this.itemsPerPage, event);
+      } else if (this.declinedBranch) {
+        this.getDeclinedBranchLeads(this.itemsPerPage, event);
+      } else if (this.myPD) {
+        this.getPdMyTask(this.itemsPerPage, event);
+      } else if (this.myPDBranch) {
+        this.getPdBranchTask(this.itemsPerPage, event);
+      } else if (this.myViability) {
+        this.getViabilityLeads(this.itemsPerPage, event);
+      } else if (this.myViabilityBranch) {
+        this.getViabilityBranchLeads(this.itemsPerPage, event);
+      }
+    } else if (this.roleType == '2') {
+      if (this.DDEWithMe) {
+        this.getMyDDELeads(this.itemsPerPage, event);
+      } else if (this.DDEWithBranch) {
+        this.getBranchDDELeads(this.itemsPerPage, event);
+      } else if (this.myPD) {
+        this.getPdMyTask(this.itemsPerPage, event);
+      } else if (this.myPDBranch) {
+        this.getPdBranchTask(this.itemsPerPage, event);
+      } else if (this.DeviationWithMe) {
+        this.getMyDeviationLeads(this.itemsPerPage, event);
+      } else if (this.DeviationWithBranch) {
+        this.getBranchDeviationLeads(this.itemsPerPage, event);
+      } else if (this.DecisionWithMe) {
+        this.getMyDecisionLeads(this.itemsPerPage, event);
+      } else if (this.DecisionWithBranch) {
+        this.getBranchDecisionLeads(this.itemsPerPage, event);
+      }
+    }
+  }
+
+
+  onClick() {
+    if (this.roleType == '1') {
+      if (this.sanctionedMe) {
+        this.getSanctionedLeads(this.itemsPerPage);
+      } else if (this.declined) {
+        this.getDeclinedLeads(this.itemsPerPage);
+      } else if (this.myPD) {
+        this.getPdMyTask(this.itemsPerPage);
+      } else if (this.myViability) {
+        this.getViabilityLeads(this.itemsPerPage);
+      }
+    } else if (this.roleType == '2') {
+      if (this.DDEWithMe) {
+        this.getMyDDELeads(this.itemsPerPage);
+      } else if (this.myPD) {
+        this.getPdMyTask(this.itemsPerPage);
+      } else if (this.DeviationWithMe) {
+        this.getMyDeviationLeads(this.itemsPerPage);
+      } else if (this.DecisionWithMe) {
+        this.getMyDecisionLeads(this.itemsPerPage);
+      }
+    } else if (this.roleType == '4') {
+      if (this.makerWithMe) {
+        this.getMakerLeads(this.itemsPerPage);
+      } else if (this.checkerWithMe) {
+        this.getCheckerLeads(this.itemsPerPage)
+      }
+    }
+  }
+
+  onRoute(leadId, stageCode?, taskId?) {
+    // this.vehicleDataStoreService.setSalesLeadID(leadId);
+    // this.sharedService.getTaskID(taskId)
+      if (!this.onAssignTab && !this.onReleaseTab) {
+        if (stageCode == '10') {
+          this.router.navigateByUrl(`/pages/lead-section/${leadId}`);
+        } else if (stageCode == '20') {
+          this.router.navigateByUrl(`/pages/sales/${leadId}/lead-details`);
+        }
+      } else if (this.sanctionedMe) {
+        this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
+      } else if (this.declined) {
+
+      } else if (this.myPD) {
+        this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
+      } else if (this.myViability) {
+        this.router.navigate([`/pages/viability-list/${leadId}/viability-list`]);
+      } else if (this.DDEWithMe) {
+        this.router.navigateByUrl(`/pages/dde/${leadId}/lead-details`);
+      } else if (this.myPD) {
+        this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
+      } else if (this.DeviationWithMe) {
+        this.router.navigateByUrl(`/pages/deviation-dashboard/${leadId}/dashboard-deviation-details`);
+      } else if (this.DecisionWithMe) {
+        this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
+      }
+    
+
+
+
+  }
+
   onClear() {
     this.filterForm.reset();
-    this.dashboardService.filterData('');
+    this.filterFormDetails = {};
+    if (this.roleType == '1') {
+      if (this.salesLead) {
+        this.getSalesFilterLeads(this.itemsPerPage);
+      } else if (this.sanctionedMe) {
+        this.getSanctionedLeads(this.itemsPerPage);
+      } else if (this.sanctionedBranch) {
+        this.getSanctionedBranchLeads(this.itemsPerPage);
+      } else if (this.declined) {
+        this.getDeclinedLeads(this.itemsPerPage);
+      } else if (this.declinedBranch) {
+        this.getDeclinedBranchLeads(this.itemsPerPage);
+      } else if (this.myPD) {
+        this.getPdMyTask(this.itemsPerPage);
+      } else if (this.myPDBranch) {
+        this.getPdBranchTask(this.itemsPerPage);
+      } else if (this.myViability) {
+        this.getViabilityLeads(this.itemsPerPage);
+      } else if (this.myViabilityBranch) {
+        this.getViabilityBranchLeads(this.itemsPerPage);
+      }
+    } else if (this.roleType == '2') {
+      if (this.DDEWithMe) {
+        this.getMyDDELeads(this.itemsPerPage);
+      } else if (this.DDEWithBranch) {
+        this.getBranchDDELeads(this.itemsPerPage);
+      } else if (this.myPD) {
+        this.getPdMyTask(this.itemsPerPage);
+      } else if (this.myPDBranch) {
+        this.getPdBranchTask(this.itemsPerPage);
+      } else if (this.DeviationWithMe) {
+        this.getMyDeviationLeads(this.itemsPerPage);
+      } else if (this.DeviationWithBranch) {
+        this.getBranchDeviationLeads(this.itemsPerPage);
+      } else if (this.DecisionWithMe) {
+        this.getMyDecisionLeads(this.itemsPerPage);
+      } else if (this.DecisionWithBranch) {
+        this.getBranchDecisionLeads(this.itemsPerPage);
+      }
+    } else if (this.roleType == '4') {
+      if (this.makerWithMe) {
+        this.getMakerLeads(this.itemsPerPage);
+      } else if (this.makerWithCPC) {
+        this.getMakerCPCLeads(this.itemsPerPage);
+      } else if (this.checkerWithMe) {
+        this.getCheckerLeads(this.itemsPerPage);
+      } else if (this.checkerWithCPC) {
+        this.getCheckerCPCLeads(this.itemsPerPage);
+      }
+    }
   }
 
   onApply() {
@@ -115,8 +1108,111 @@ export class DashboardComponent implements OnInit {
     this.filterFormDetails.fromDate = this.dateToFormate(this.filterFormDetails.fromDate);
     this.filterFormDetails.toDate = this.dateToFormate(this.filterFormDetails.toDate);
     console.log('filter form details', this.filterFormDetails);
-    // this.filteredData();
-    this.dashboardService.filterData(this.filterFormDetails);
+    if (this.roleType == '1') {
+      if (this.salesLead) {
+        this.getSalesFilterLeads(this.itemsPerPage);
+      } else if (this.sanctionedMe) {
+        this.getSanctionedLeads(this.itemsPerPage);
+      } else if (this.sanctionedBranch) {
+        this.getSanctionedBranchLeads(this.itemsPerPage);
+      } else if (this.declined) {
+        this.getDeclinedLeads(this.itemsPerPage);
+      } else if (this.declinedBranch) {
+        this.getDeclinedBranchLeads(this.itemsPerPage);
+      } else if (this.myPD) {
+        this.getPdMyTask(this.itemsPerPage);
+      } else if (this.myPDBranch) {
+        this.getPdBranchTask(this.itemsPerPage);
+      } else if (this.myViability) {
+        this.getViabilityLeads(this.itemsPerPage);
+      } else if (this.myViabilityBranch) {
+        this.getViabilityBranchLeads(this.itemsPerPage);
+      }
+    } else if (this.roleType == '2') {
+      if (this.DDEWithMe) {
+        this.getMyDDELeads(this.itemsPerPage);
+      } else if (this.DDEWithBranch) {
+        this.getBranchDDELeads(this.itemsPerPage);
+      } else if (this.myPD) {
+        this.getPdMyTask(this.itemsPerPage);
+      } else if (this.myPDBranch) {
+        this.getPdBranchTask(this.itemsPerPage);
+      } else if (this.DeviationWithMe) {
+        this.getMyDeviationLeads(this.itemsPerPage);
+      } else if (this.DeviationWithBranch) {
+        this.getBranchDeviationLeads(this.itemsPerPage);
+      } else if (this.DecisionWithMe) {
+        this.getMyDecisionLeads(this.itemsPerPage);
+      } else if (this.DecisionWithBranch) {
+        this.getBranchDecisionLeads(this.itemsPerPage);
+      }
+    } else if (this.roleType == '4') {
+      if (this.makerWithMe) {
+        this.getMakerLeads(this.itemsPerPage);
+      } else if (this.makerWithCPC) {
+        this.getMakerCPCLeads(this.itemsPerPage);
+      } else if (this.checkerWithMe) {
+        this.getCheckerLeads(this.itemsPerPage);
+      } else if (this.checkerWithCPC) {
+        this.getCheckerCPCLeads(this.itemsPerPage);
+      }
+    }
+    // this.dashboardService.filterData(this.filterFormDetails);
+  }
+
+  onRelase(taskId) {
+    this.taskDashboard.releaseTask(taskId).subscribe((res: any) => {
+      const response = res;
+      if (response.ErrorCode == 0) {
+        this.toasterService.showSuccess('Lead Released Successfully', 'Released');
+      } else {
+        this.toasterService.showError(response.Error, '');
+      }
+    });
+  }
+
+  onAssign(taskId, leadId) {
+
+    this.taskDashboard.assignTask(taskId).subscribe((res: any) => {
+      console.log('assignResponse', res);
+      const response = JSON.parse(res);
+      console.log(response);
+      if (response.ErrorCode == 0) {
+        this.toasterService.showSuccess('Assigned Successfully', 'Assigned');
+        // this.router.navigate(['/pages/dde/' + leadId + '/lead-details']);
+        if (this.sanctionedBranch) {
+          this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
+        } else if (this.declinedBranch) {
+
+        } else if (this.myPDBranch) {
+          this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
+        } else if (this.myViabilityBranch) {
+          this.router.navigate([`/pages/viability-list/${leadId}/viability-list`]);
+        } else if (this.DDEWithBranch) {
+          this.router.navigateByUrl(`/pages/dde/${leadId}/lead-details`);
+        }
+        // else if (this.myPD) {
+        //   this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
+        // }
+        else if (this.DeviationWithBranch) {
+          this.router.navigateByUrl(`/pages/deviation-dashboard/${leadId}/dashboard-deviation-details`);
+        } else if (this.DecisionWithBranch) {
+          this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
+        }
+      } else {
+        this.toasterService.showError(response.Error, '');
+      }
+    });
+  }
+
+  // external methods
+  assignTaskId(taskId) {
+    this.sharedService.getTaskID(taskId);
+    console.log('in assign task', taskId);
+  }
+  getLeadId(item) {
+    this.vehicleDataStoreService.setCreditTaskId(item.taskId);
+    this.sharedService.getTaskID(item.taskId)
   }
 
 }

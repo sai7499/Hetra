@@ -42,7 +42,8 @@ export class LoginStoreService {
             branchId: userDetails["branchId"],
             roleId: roles[0].roleId,
             roleType: roles[0].roleType,
-            userName: userDetails.firstName
+            userName: userDetails.firstName,
+            businessDivision: businessDivisionList
         });
         this.userRoleActivityList = userRoleActivityList;
         this.userDetails = userDetails;

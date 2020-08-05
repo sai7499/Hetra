@@ -36,7 +36,7 @@ todayDate;
     this.getLabels();
     this.getLeadId();
     this.getSanctionDetails();
-    this.todayDate = this.utilityService.convertDateTimeTOUTC(this.date, 'DD/MM/YYYY')
+    this.todayDate = this.utilityService.convertDateTimeTOUTC(this.date, 'DD/MM/YYYY');
   }
 
   getLabels() {
