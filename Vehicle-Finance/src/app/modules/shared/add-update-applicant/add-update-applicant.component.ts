@@ -935,6 +935,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         console.log(error);
       }
     );
+   
   }
 
   getAddressFormControls() {
@@ -1029,7 +1030,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         );
       }
     }
+    
     return details;
+    
   }
 
   setFormValue(applicantValue) {
@@ -1251,6 +1254,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     }
     setTimeout(() => {
       this.listenerForUnique();
+      this.setDedupeValidators();
     });
   }
 
@@ -1555,7 +1559,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   onFormSubmit() {
     console.log('Form', this.coApplicantForm);
     const formValue = this.coApplicantForm.getRawValue();
-    this.setDedupeValidators();
+    
     const coApplicantModel = {
       ...formValue,
       entity: this.getEntityObject(formValue.entity),
@@ -1802,7 +1806,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   checkDedupe() {
     console.log('dedupeMobileBoolean', this.dedupeMobile);
     const dedupe = this.coApplicantForm.get('dedupe');
-    this.setDedupeValidators();
+    //this.setDedupeValidators();
     console.log('dedupe', dedupe);
     if (this.applicantType == 'NONINDIVENTTYP') {
       this.addNonIndFormControls();
