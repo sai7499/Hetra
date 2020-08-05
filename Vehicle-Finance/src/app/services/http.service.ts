@@ -57,6 +57,11 @@ export class HttpService {
   }
 
   docUpload(url, body) {
+    if (this.isMobile) {
+     //const requestEntity = JSON.stringify(body);
+      return this.uploadDocMobile(url, body);
+    }
+    console.log("From web");
     return this.http.post(url, body);
   }
 
@@ -131,6 +136,7 @@ export class HttpService {
       let data;
 
       this.httpIonic.setServerTrustMode('nocheck');
+      
 
       let encryption = this.encrytionService.encrypt(
         reqEntity,
@@ -282,6 +288,63 @@ export class HttpService {
           if (this.activeRequests === 0) {
             this.ngxService.stop();
           }
+        });
+    });
+
+    return obs;
+  }
+
+  uploadDocMobile(url?: string, body?: any){
+    this.ngxService.start();
+
+    const obs = new Observable((observer) => {
+      const headers = {
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
+      };
+     
+      this.httpIonic.setServerTrustMode('nocheck');
+
+      this.httpIonic.setDataSerializer('urlencoded');
+
+
+   
+
+      // this.ionicOption = {
+      //   method: 'post',
+      //   ...body,
+      //   headers: headers,
+      //   serializer: 'utf8',
+      //   responseType: 'text',
+      // };
+
+      // this.httpIonic
+      //   .sendRequest(url, this.ionicOption)
+      //   .then((result) => {
+      //     const data = JSON.parse(result.data);
+      //     observer.next(data);
+      //     observer.complete();
+      //     this.ngxService.stop();
+      //   }).catch((error) => {
+      //     console.log('Data-error', error);
+      //     observer.error(error);
+      //     observer.complete();
+      //     this.ngxService.stop();
+      //   });
+
+      this.httpIonic
+        .post(url, body, headers)
+        .then((result) => {
+          const data = JSON.parse(result.data);
+          observer.next(data);
+          observer.complete();
+          this.ngxService.stop();
+        })
+        .catch((error) => {
+          console.log('Data-error', error);
+          observer.error(error);
+          observer.complete();
+          this.ngxService.stop();
         });
     });
 

@@ -36,6 +36,8 @@ export const environment = {
     'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ+GJdSSEeaNFBLqyfM3DIOgQgWCwJ0INfeZZV7ITsLeuA7Yd02rrkYGIix1IWvoebWVmzhncUepYxHwK1ARCdUCAwEAAQ==',
   encryptionType: true, // Ecryption
   appiyoDrive: '/d/drive/upload/',
+  
+  mobileBaseUrl: "https://hetrauat.equitasbank.com",
   isMobile: true,
   isMaas360Enabled: false
 };
