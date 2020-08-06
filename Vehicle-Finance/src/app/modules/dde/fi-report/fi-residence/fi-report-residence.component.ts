@@ -29,7 +29,7 @@ export class FiReportResidenceComponent implements OnInit {
   fieldReportForm: FormGroup;
   fieldInvestigation: FieldInvestigation;
   fiDetails: any = [];
-  fIReportList: any = {};
+  fiResidenceDetails: any = {};
   leadData: {};
   applicantFullName: any;
   fiDate: Date = new Date();
@@ -351,7 +351,7 @@ export class FiReportResidenceComponent implements OnInit {
       if (processVariables.error.code === '0') {
         this.applicantFullName = res.ProcessVariables.applicantName;
         console.log('in get fi applicant name', this.applicantFullName);
-        this.fiDetails = res.ProcessVariables.getFiReportDetails;
+        this.fiDetails = res.ProcessVariables.getFIResidenceDetails;
         console.log('in get fi details', this.fiDetails);
         this.setFormValue();
         if (this.fiDetails) {
@@ -376,7 +376,7 @@ export class FiReportResidenceComponent implements OnInit {
     //   // this.toasterService.showError('', '');
     //   return;
     // }
-    this.fIReportList = {
+    this.fiResidenceDetails = {
 
       // applicantId: 1177, // hardcoded as per backend
       applicantId: this.applicantId,
@@ -431,9 +431,9 @@ export class FiReportResidenceComponent implements OnInit {
     };
     const data = {
       userId: this.userId,
-      fIReportList: this.fIReportList
+      fiResidenceDetails: this.fiResidenceDetails
     };
-    console.log('fi report list', this.fIReportList);
+    console.log('fi report details', this.fiResidenceDetails);
 
     this.fieldInvestigationService.saveOrUpdateFiReportDetails(data).subscribe((res: any) => {
       const processVariables = res.ProcessVariables;
