@@ -2448,7 +2448,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
             .get('dedupe')
             .get('loanApplicationRelation').value;
           if (applicantRelation === 'APPAPPRELLEAD') {
-            this.router.navigateByUrl('/pages/dashboard/leads-section/leads');
+            this.router.navigateByUrl('/pages/dashboard');
           } else {
             this.navigateToApplicantList();
           }
