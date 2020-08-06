@@ -112,7 +112,7 @@ export class FiListComponent implements OnInit {
     if (action === 'back') {
       this.router.navigate(['pages/dde/' + this.leadId + '/tvr-details']);
     } else if (action === 'next') {
-      this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+      this.router.navigate(['pages/dde/' + this.leadId + '/fi-cum-pd-list']);
 
     }
 
