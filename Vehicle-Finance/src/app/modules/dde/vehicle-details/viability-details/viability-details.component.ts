@@ -237,7 +237,7 @@ export class ViabilityDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if ( res.ProcessVariables.error.code == '0') {
        this.toasterService.showSuccess('Record Saved Successfully', 'Viability');
-       this.router.navigateByUrl(`pages/dashboard/vehicle-viability/viability-checks`);
+       this.router.navigateByUrl(`pages/dashboard`);
       // tslint:disable-next-line: triple-equals
       } else if (res.ProcessVariables.error.code == '1') {
         this.toasterService.showError(res.ProcessVariables.error.message, 'Viability');
