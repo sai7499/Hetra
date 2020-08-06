@@ -97,20 +97,13 @@ export class FiListComponent implements OnInit {
       // console.log('in get fi list', processvariables);
       this.fiList = processvariables.fIReportList;
       console.log('fi List', this.fiList);
-
-      // for (var i in this.pdList) {
-      //   console.log("in for pd list", i)
-      //   this.pdStatusValue = this.pdList[i]['pdStatusValue']
-      //   console.log("pd status value", this.pdStatusValue)
-
-      // this.leadId = (await this.getLeadId()) as number;
-      // this.router.navigateByUrl(`pages/fi-list/${this.leadId}/fi-report`);
     });
   }
 
 
-  onClick() {
-    this.router.navigateByUrl(`pages/fi-list/${this.leadId}/${this.applicantId}/fi-report`);
+  onClick(applicantIdFromHtml: string) {
+    console.log('this applicant id', applicantIdFromHtml);
+    this.router.navigateByUrl(`pages/fi-list/${this.leadId}/${applicantIdFromHtml}/fi-report/fi-residence`);
   }
 
   onNavigate(action) { // fun for routing into next and back pages using argument ==> 'action'
