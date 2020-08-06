@@ -119,7 +119,7 @@
                       [values]="subCat.docList"
                       [keyField]="'code'"
                       [valueField]="'displayName'"
-                      (valueChange)="onDocumentSelect($event, subCat.code)"
+                      (valueChange)="onDocumentSelect($event, subCat.code, i)"
                     ></app-vf-custom-select>
                   </div>
                   <div
