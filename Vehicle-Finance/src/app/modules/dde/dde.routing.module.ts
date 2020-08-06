@@ -20,8 +20,8 @@ import { ViabilityListComponent } from './viability-list/viability-list.componen
 // import { ViabilityDetailsComponent } from './vehicle-details/viability-details/viability-details.component';
 import { CibilOdComponent } from './cibil-od/cibil-od.component';
 import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
-import { PdListComponent } from './pd-list/pd-list.component';
 import { FiListComponent } from './fi-list/fi-list.component';
+import { PdListComponent } from './pd-list/pd-list.component';
 
 const routes: Routes = [
   {
@@ -67,8 +67,12 @@ const routes: Routes = [
         component: InsuranceDetailsComponent,
       },
       {
+        path: 'fi-list',
+        component: FiListComponent
+      },
+      {
         path: 'pd-list',
-        component: PdListComponent,
+        component: PdListComponent
       },
       {
         path: 'vehicle-valuation',
@@ -85,10 +89,6 @@ const routes: Routes = [
       {
         path: 'tvr-details',
         component: TvrDetailsComponent,
-      },
-      {
-        path: 'fi-list',
-        component: FiListComponent
       },
       {
         path: 'cam',
