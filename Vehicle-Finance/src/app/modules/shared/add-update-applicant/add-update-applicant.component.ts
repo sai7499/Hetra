@@ -703,7 +703,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           // this.setDefaultValueForAddress(value, formGroupName);
         });
       });
-      console.log(this.currentPincode)
+    console.log(this.currentPincode)
   }
 
   setDefaultValueForAddress(value, formGroupName: string) {
@@ -935,7 +935,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         console.log(error);
       }
     );
-   
+
   }
 
   getAddressFormControls() {
@@ -1030,9 +1030,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         );
       }
     }
-    
+
     return details;
-    
+
   }
 
   setFormValue(applicantValue) {
@@ -1406,6 +1406,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       );
     }
 
+    this.isPermanantAddressSame = false;
+    currentAddress.enable();
+
   }
   onNext() {
     if (this.applicantType === 'INDIVENTTYP') {
@@ -1559,7 +1562,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   onFormSubmit() {
     console.log('Form', this.coApplicantForm);
     const formValue = this.coApplicantForm.getRawValue();
-    
+
     const coApplicantModel = {
       ...formValue,
       entity: this.getEntityObject(formValue.entity),
