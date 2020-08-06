@@ -7,10 +7,10 @@ import { PdDataService } from './pd-data.service';
 import { LoginStoreService } from '@services/login-store.service';
 
 @Component({
-    templateUrl: './pd-report.component.html',
-    styleUrls: ['./pd-report.component.css']
+    templateUrl: './fi-cum-pd-report.component.html',
+    styleUrls: ['./fi-cum-pd-report.component.css']
 })
-export class PdReportComponent implements OnInit {
+export class FiCumPdReportComponent implements OnInit {
     locationIndex = 0;
     pdDetail: any;
     leadId: any;

@@ -1397,6 +1397,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.createAddressObject(permenantAddressObj)
       );
     }
+    
 
     const currentAddressObj = addressObj[Constant.CURRENT_ADDRESS];
     this.currentPincode = this.formatPincodeData(currentAddressObj);
@@ -1405,6 +1406,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.createAddressObject(currentAddressObj)
       );
     }
+
+    this.isPermanantAddressSame= false;
+    currentAddress.enable();
 
   }
   onNext() {
@@ -2444,7 +2448,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
             .get('dedupe')
             .get('loanApplicationRelation').value;
           if (applicantRelation === 'APPAPPRELLEAD') {
-            this.router.navigateByUrl('/pages/dashboard/leads-section/leads');
+            this.router.navigateByUrl('/pages/dashboard');
           } else {
             this.navigateToApplicantList();
           }

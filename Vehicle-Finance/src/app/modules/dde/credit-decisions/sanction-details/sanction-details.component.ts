@@ -18,7 +18,7 @@ sanctionDetailsObject: any = {};
 applicantList: any = [];
 coApplicantList: any = [];
 guarantorList: any = [];
-vehicleDetails: any = {};
+vehicleDetailsArray: any = [];
 loanApprovedDetails: any = {};
 generalTermsAndConditions: string;
 date: Date = new Date();
@@ -103,7 +103,7 @@ todayDate;
           this.guarantorList.push(data);
         }
       });
-      this.vehicleDetails = this.sanctionDetailsObject.vehicleDetails;
+      this.vehicleDetailsArray = this.sanctionDetailsObject.vehicleDetails;
       this.loanApprovedDetails = this.sanctionDetailsObject.loanApprovedDetails;
       this.generalTermsAndConditions = this.sanctionDetailsObject.generalTermsAndConditions;
     });    
