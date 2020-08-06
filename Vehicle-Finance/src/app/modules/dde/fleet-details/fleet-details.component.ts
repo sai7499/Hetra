@@ -256,7 +256,7 @@ export class FleetDetailsComponent implements OnInit {
         assetModel: new FormControl(rowData.assetModel, [Validators.required]),
         yom: new FormControl(rowData.yom, Validators.compose([Validators.required])),
         financier: new FormControl(rowData.financier, [Validators.required]),
-        loanNo: new FormControl(rowData.loanNo, Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(20)])),
+        loanNo: new FormControl(rowData.loanNo, Validators.compose([Validators.required])),
         purchaseDate: new FormControl(rowData.purchaseDate ? this.getDateFormat(rowData.purchaseDate) : "", Validators.compose([Validators.required])),
         tenure: new FormControl(rowData.tenure, Validators.compose([Validators.required])),
         paid: new FormControl(rowData.paid, Validators.compose([Validators.required])),
@@ -270,20 +270,20 @@ export class FleetDetailsComponent implements OnInit {
     }
     else return this.fb.group({
       // id: [],
-      regdNo: new FormControl('', Validators.compose([Validators.required, Validators.minLength(8)])),
-      regdOwner: new FormControl('', Validators.compose([Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z ]*$/)])),
+      regdNo: new FormControl('', Validators.compose([Validators.required])),
+      regdOwner: new FormControl('', Validators.compose([Validators.required])),
       relation: new FormControl('', [Validators.required]),
       make: new FormControl('', [Validators.required]),
       vehicleType : new FormControl('', [Validators.required]),
       assetBodyType :  new FormControl('', [Validators.required]),
       assetModel: new FormControl('', [Validators.required]),
      region : new FormControl('', [Validators.required]),
-      yom: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(4), Validators.maxLength(4)])),
+      yom: new FormControl('', Validators.compose([Validators.required])),
       financier: new FormControl('', [Validators.required]),
-      loanNo: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(4), Validators.maxLength(20)])),
+      loanNo: new FormControl('', Validators.compose([Validators.required])),
       purchaseDate: new FormControl('', [Validators.required]),
-      tenure: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(1), Validators.maxLength(3)])),
-      paid: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(1), Validators.maxLength(3)])),
+      tenure: new FormControl('', Validators.compose([Validators.required])),
+      paid: new FormControl('', Validators.compose([Validators.required])),
       seasoning: new FormControl({ value: '', disabled: true }),
       ad: new FormControl({ value: '', disabled: true }),
       pd: new FormControl({ value: '', disabled: true }),
@@ -727,7 +727,7 @@ export class FleetDetailsComponent implements OnInit {
   onFormSubmit(index: any) {
 
     this.fleetDetails = this.fleetForm.value.Rows;
-
+    console.log("fleet form value",this.fleetForm)
 
     this.isDirty = true;
     if (this.fleetForm.valid === true) {

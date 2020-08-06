@@ -341,6 +341,7 @@
     "areaName": "Area Name",
     "branchName": "Branch Name",
     "proposedExposure": "Proposed Exposure",
+    "sourcingChannal": "Sourcing Channal",
     "sourcingSoName": "Sourcing SO Name",
     "overallExposure": "Overall Exposure",
     "payout": "Payout %",
@@ -1358,6 +1359,10 @@
             "maxLength": {
                 "rule": 15
             },
+            "minLength": {
+                "rule": 4,
+                "msg":"Minimum Length 4 digits"
+            },
             "type": "alpha-numeric-nospace"
         },
         "amountValue": {
@@ -1486,6 +1491,10 @@
             "maxLength": {
                 "rule": 11
             },
+            "minLength": {
+                "rule": 8,
+                "msg":"Minimum Length 8 digits"
+            },
             "type": "alpha-numeric"
         },
         "employeeCode": {
@@ -1559,7 +1568,7 @@
             },
             "type": "number",
             "patternCheck": {
-                "ru20le": "^[1-9][0-9]*$",
+                "rule": "^[1-9][0-9]*$",
                 "msg": "Aadhar Number Should be Valid"
             }
         },
@@ -1810,24 +1819,6 @@
             "maxLength": {
                 "rule": 100
             }
-        },
-        "offBusinessApproach": {
-            "maxLength": {
-                "rule": 20
-            },
-            "type": "alpha-numeric"
-        },
-        "assetsVisible": {
-            "maxLength": {
-                "rule": 150
-            },
-            "type": "alpha-numeric"
-        },
-        "assetsOwned": {
-            "maxLength": {
-                "rule": 100
-            },
-            "type": "alpha-numeric"
         }
     }
 }

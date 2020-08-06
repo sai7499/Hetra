@@ -102,7 +102,7 @@ export class PdListComponent implements OnInit {
 
     // http://localhost:4200/#/pages/dashboard/personal-discussion/my-pd-tasks
 
-    this.router.navigate([`/pages/dashboard/personal-discussion/my-pd-tasks`]);
+    this.router.navigate([`/pages/dashboard`]);
 
   }
 
