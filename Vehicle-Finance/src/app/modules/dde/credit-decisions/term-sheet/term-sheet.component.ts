@@ -34,6 +34,8 @@ export class TermSheetComponent implements OnInit {
   assetLoanDetails: any;
   creditApprovalHeader = ['CIBIL score','Marital (0-Single and 1 Married)']
   leadId;
+  coAppIndentityDetails: Array<any>
+  guaIdentityDetails: Array<any>
   constructor(   
      public labelsService: LabelsService,
      private activatedRoute: ActivatedRoute,
@@ -88,6 +90,9 @@ export class TermSheetComponent implements OnInit {
       this.paymentDetails = res['ProcessVariables'].paymentDetails
       this.pslDetails = res['ProcessVariables'].pslDetails
       this.assetLoanDetails = res['ProcessVariables'].assetLoanDetails
+      this.coAppIndentityDetails = res['ProcessVariables'].coAppIndentityDetails
+      this.guaIdentityDetails =res['ProcessVariables'].guaIdentityDetails
+
     }
   })
   }
