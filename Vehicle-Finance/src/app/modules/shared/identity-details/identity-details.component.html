@@ -187,6 +187,7 @@
                  placeholder="Issue Date"
                 [activeView]="'decade'"
                 (valueChange)="datePassportChange($event)"
+                [disabled]="passportDates"
                 ></kendo-datepicker>
                 </div>
               </div>
@@ -209,6 +210,7 @@
                 formControlName="passportExpiryDate" [format]="'dd/MM/yyyy'"
                 [min]="this.convertPassportDate"
                  placeholder="Expriy Date"
+                 [disabled]="passportDates"
                 [activeView]="'decade'"
                 
                 ></kendo-datepicker>
@@ -282,6 +284,7 @@
                 [max]="toDayDate"
                  placeholder="Issue Date"
                 [activeView]="'decade'"
+                [disabled]="drivingLicenceDates"
                 (valueChange)="dateDrivingChange($event)"
                 
                 ></kendo-datepicker>
@@ -309,6 +312,7 @@
                 formControlName="drivingLicenseExpiryDate" [format]="'dd/MM/yyyy'"
                 [min]="convertDrivingDate"
                  placeholder="Expiry Date"
+                 [disabled]="drivingLicenceDates"
                 [activeView]="'decade'"
                 
                 ></kendo-datepicker>

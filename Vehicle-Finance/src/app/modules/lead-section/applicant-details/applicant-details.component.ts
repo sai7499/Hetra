@@ -154,6 +154,7 @@ export class ApplicantDetailsComponent implements OnInit {
   }
 
   onBack() {
-    this.location.back();
+    //this.location.back();
+    this.route.navigateByUrl(`pages/lead-section/${this.leadId}`)
   }
 }
