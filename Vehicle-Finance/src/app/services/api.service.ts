@@ -541,7 +541,12 @@ export class ApiService {
       workflowId: 'ebb849eecb5c11ea91c600505695f93b',
       projectId: environment.projectIds.salesProjectId,
     },
+    submitFiReportDetais: {
+      processId: '10d63ed4d6e311ea996900505695f93b',
+      workflowId: '10b16f78d6e311eaad8d00505695f93b',
+      projectId: environment.projectIds.salesProjectId,
 
+    },
     nlUpdatingRemarks: {
       processId: 'c68a7f8acd5411eab88900505695f93b',
       workflowId: 'c6616082cd5411eab5b200505695f93b',
@@ -552,12 +557,12 @@ export class ApiService {
       workflowId: '051db99495c711eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
-    getAddressDetails : {
+    getAddressDetails: {
       processId: 'b95e7cfad0b311ea9f0400505695f93b',
       workflowId: 'b93fc6e8d0b311eab67600505695f93b',
       projectId: environment.projectIds.salesProjectId,
     },
-    wrapperPanValidation : {
+    wrapperPanValidation: {
       processId: '9bdd1c8eca8911eabb8100505695f93b',
       workflowId: '9bb46abeca8911ea8b0000505695f93b',
       projectId: environment.projectIds.wrapperPanValidation,
@@ -591,6 +596,21 @@ export class ApiService {
       processId: 'aa0bd7accd8e11eaa47f00505695f93b',
       workflowId: 'a9e25f4ecd8e11eab88900505695f93b',
       projectId: environment.projectIds.salesProjectId,
+    },
+    saveCheckList: {
+      processId: '2f5e323ad59911ea9d5d00505695f93b',
+      workflowId: '2f32c4bad59911eabaa900505695f93b',
+      projectId : environment.projectIds.salesProjectId
+    },
+    assignCPCRules: {
+      processId: '8a5609aad32e11eaacee00505695f93b',
+      workflowId: '8a1d1abed32e11eaa96700505695f93b',
+      projectId: environment.projectIds.submitToCredit
+    },
+    getCheckList : {
+      processId: 'd895c8a4d5a811ea9d5d00505695f93b',
+      workflowId: 'd86551d8d5a811ea933000505695f93b',
+      projectId: environment.projectIds.salesProjectId
     }
   };
 }
