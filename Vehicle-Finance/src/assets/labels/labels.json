@@ -1358,6 +1358,10 @@
             "maxLength": {
                 "rule": 15
             },
+            "minLength": {
+                "rule": 4,
+                "msg":"Minimum Length 4 digits"
+            },
             "type": "alpha-numeric-nospace"
         },
         "amountValue": {
@@ -1485,6 +1489,10 @@
         "vehicleRegNo": {
             "maxLength": {
                 "rule": 11
+            },
+            "minLength": {
+                "rule": 8,
+                "msg":"Minimum Length 8 digits"
             },
             "type": "alpha-numeric"
         },
