@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  version: '0.8',
-  buildDate: '02/08/2020',
+  version: '0.9',
+  buildDate: '06/08/2020',
   apiVersion: {
     login: 'v3/',
     api: 'v2/',
@@ -20,14 +20,14 @@ export const environment = {
     wrapperPanValidation : 'db2732f4ab4811ea82f8f2fa9bec3d63',
     wrapperBiometriceKYC : 'db2732f4ab4811ea82f8f2fa9bec3d63'
   },
-   hostingEnvironment: 'DEV',
-  //hostingEnvironment: 'UAT',
+  //  hostingEnvironment: 'DEV',
+  hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
 
-  //host: '/appiyo/',
+  host: '/appiyo/',
   //  host: 'http://128.199.164.250/appiyo/',
   // host: 'http://10.101.10.153/appiyo/',
-  host: 'https://hetrauat.equitasbank.com/appiyodev/',
+  // host: 'https://hetrauat.equitasbank.com/appiyodev/',
 
 
   baseUrl: window.location.origin,
@@ -36,7 +36,7 @@ export const environment = {
     'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ+GJdSSEeaNFBLqyfM3DIOgQgWCwJ0INfeZZV7ITsLeuA7Yd02rrkYGIix1IWvoebWVmzhncUepYxHwK1ARCdUCAwEAAQ==',
   encryptionType: true, // Ecryption
   appiyoDrive: '/d/drive/upload/',
-  isMobile: true,
+  isMobile: false,
   isMaas360Enabled: false
 };
 

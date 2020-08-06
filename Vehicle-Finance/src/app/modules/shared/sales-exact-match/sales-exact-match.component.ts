@@ -180,7 +180,7 @@ export class SalesExactMatchComponent implements OnInit {
       );
     } else if (event.name === 'reject') {
       if (this.dedupeParameter.loanApplicationRelation === 'APPAPPRELLEAD') {
-        this.router.navigateByUrl('/pages/dashboard/leads-section/leads');
+        this.router.navigateByUrl('/pages/dashboard');
         return;
       }
       this.router.navigateByUrl(

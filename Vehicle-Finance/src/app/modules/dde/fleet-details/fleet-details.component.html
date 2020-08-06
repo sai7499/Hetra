@@ -45,7 +45,8 @@
                                     [isRequired]="'Registration number is mandatory'" 
                                     [type]="validationData?.vehicleRegNo['type']"
                                     [isDirty]="isDirty"
-                                    [inputClass]="'input-upper'">
+                                    [inputClass]="'input-upper'"
+                                    [minLength]="validationData?.vehicleRegNo['minLength']">
                                 </app-custom-input>
 
                                 <!-- <div>
@@ -189,7 +190,8 @@
                                     [isRequired]="'Loan No is mandatory'" 
                                     [type]="validationData?.loanNumber.type" 
                                     [isDirty]="isDirty"
-                                    [inputClass]="'input-upper'">
+                                    [inputClass]="'input-upper'"
+                                    [minLength]='validationData?.loanNumber.minLength'>
                                 </app-custom-input>
                                 <!-- <input type="text" class="form-control  input_value height" placeholder="Loan No" formControlName="loanNo" maxlength="20"></div>
 
