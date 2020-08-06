@@ -7,7 +7,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
-  selector: 'app-pd-report',
+  selector: 'app-pd-list',
   templateUrl: './pd-list.component.html',
   styleUrls: ['./pd-list.component.css']
 })
@@ -123,6 +123,8 @@ export class PdListComponent implements OnInit {
     console.log(
       'applicantId',
       applicantId,
+      'version',
+      version
     );
 
     console.log('URL', URL);
