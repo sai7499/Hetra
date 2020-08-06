@@ -104,6 +104,10 @@ export class ApplicantDetailsComponent implements OnInit {
       //console.log('ProcessVariables', processVariables);
       this.applicantList = processVariables.applicantListForLead;
       console.log('applicantList', this.applicantList);
+      const mobile= this.applicantList[0].mobileNumber;
+      if(mobile.length==12){
+        this.applicantList[0].mobileNumber= mobile.slice(2,12)
+      }
     });
   }
   navigateAddApplicant(){
@@ -155,6 +159,6 @@ export class ApplicantDetailsComponent implements OnInit {
 
   onBack() {
     //this.location.back();
-    this.route.navigateByUrl(`pages/lead-section/${this.leadId}`)
+    this.route.navigateByUrl(`pages/lead-section/${this.leadId}`) 
   }
 }

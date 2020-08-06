@@ -1397,6 +1397,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.createAddressObject(permenantAddressObj)
       );
     }
+    
 
     const currentAddressObj = addressObj[Constant.CURRENT_ADDRESS];
     this.currentPincode = this.formatPincodeData(currentAddressObj);
@@ -1405,6 +1406,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.createAddressObject(currentAddressObj)
       );
     }
+
+    this.isPermanantAddressSame= false;
+    currentAddress.enable();
 
   }
   onNext() {
