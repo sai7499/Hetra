@@ -1160,11 +1160,12 @@
       ><button
         class="btn btn-primary"
         type="button"
-        [routerLink]="['../../identity-details', applicantId]"
+        (click)="onNext()"
       >
         Next
       </button></a
     >
+    <!-- [routerLink]="['../../identity-details', applicantId]" -->
     <br />
     <br />
     <br />
