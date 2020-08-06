@@ -38,11 +38,11 @@ const routes: Routes = [
     path: '',
     component: DashboardComponent,
     children: [
-      // {
-      //   path: 'leads-section',
-      //   redirectTo: 'leads-section/leads',
-      //   pathMatch: 'full'
-      // },
+      {
+        path: 'leads-section',
+        redirectTo: 'leads-section/leads',
+        pathMatch: 'full'
+      },
       {
         path: 'leads-section',
         component: LeadsComponent,

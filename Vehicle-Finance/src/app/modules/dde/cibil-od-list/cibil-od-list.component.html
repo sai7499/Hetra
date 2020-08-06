@@ -1,6 +1,9 @@
-<div class="container row">
-  <div class="table-responsive application row">
-    <table class="table row" style="height: 30px;" >
+
+<form class="multisteps-form__form" [formGroup]="odDetailsForm">
+
+  <div class="container-fluid row">
+  
+    <table class="table center-align" >
       <tr>
         <td>{{ labels?.applicant }}</td>
         <td>{{odApplicantData?.applicantName}}</td>
@@ -9,7 +12,7 @@
         <td>{{ labels?.bureauScore }}</td>
         <td>{{odApplicantData?.bureauScore}}</td> 
         <td colspan="1"> 
-          <button  class = "btn btn-primary" type="button" style="float: right; ">
+          <button  class = "btn btn-primary" type="button" >
             <a (click)="getApplicantImage()" data-toggle="modal"
             data-target="#myModalApplicantImage"><strong>View Report</strong>
             </a>
@@ -18,10 +21,8 @@
       </tr>
      
     </table>
-   
-  </div>
 </div>
-<form class="multisteps-form__form" [formGroup]="odDetailsForm">
+
   <div class="multisteps-form">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
       <div class="container-fluid">

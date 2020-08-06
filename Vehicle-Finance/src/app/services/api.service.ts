@@ -591,6 +591,21 @@ export class ApiService {
       processId: 'aa0bd7accd8e11eaa47f00505695f93b',
       workflowId: 'a9e25f4ecd8e11eab88900505695f93b',
       projectId: environment.projectIds.salesProjectId,
+    },
+    saveCheckList: {
+      processId: '2f5e323ad59911ea9d5d00505695f93b',
+      workflowId: '2f32c4bad59911eabaa900505695f93b',
+      projectId : environment.projectIds.salesProjectId
+    },
+    assignCPCRules: {
+      processId: '8a5609aad32e11eaacee00505695f93b',
+      workflowId: '8a1d1abed32e11eaa96700505695f93b',
+      projectId: environment.projectIds.submitToCredit
+    },
+    getCheckList : {
+      processId: 'd895c8a4d5a811ea9d5d00505695f93b',
+      workflowId: 'd86551d8d5a811ea933000505695f93b',
+      projectId: environment.projectIds.salesProjectId
     }
   };
 }

@@ -445,3 +445,12 @@ input[type=number] {
   .error {
     color: red;
 }
+
+.modal-style{
+  width:85%;
+  margin:auto;
+}
+
+.center-align{
+  text-align: center;
+}
