@@ -101,6 +101,13 @@ const routes: Routes = [
       {
         path: 'pd-dashboard',
         loadChildren: () =>
+          import('./modules/dde/fi-cum-pd-report/fi-cum-pd-report.module').then(
+            (m) => m.FiCumPdReportModule
+          ),
+      },
+      {
+        path: 'new-pd-dashboard',
+        loadChildren: () =>
           import('./modules/dde/pd-report/pd-report.module').then(
             (m) => m.PdReportModule
           ),
