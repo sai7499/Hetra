@@ -34,6 +34,7 @@
     "mobile": "Mobile",
     "dateOfBirth": "Date of Birth",
     "dateofIncorporation": "Date Of Incorporation",
+    
     "cancel": "Cancel",
     "createLead": "Create Lead",
     "leadDedupetitle": "Lead to Lead Dedupe Results",
@@ -144,7 +145,7 @@
     "applicantDetailsTitle": "Applicant Details",
     "addApplicantTitle": "Add Applicant",
     "ucicId": "UCIC ID",
-    "name": "NAME",
+    "name": "Name",
     "mobileNumber": "Mobile Number",
     "applicantType": "Applicant Type",
     "action": "Action",
@@ -281,7 +282,7 @@
     "history": "History",
     "tvrStatus": "TVR Status",
     "tvrReport": "TVR Report",
-    "soName": "SO NAME",
+    "soName": "SO Name",
     "assetCost": "Asset Cost",
     "financeAmount": "Finance Amount",
     "tenureInMonths": "TENURE IN MONTHS",
@@ -340,7 +341,6 @@
     "areaName": "Area Name",
     "branchName": "Branch Name",
     "proposedExposure": "Proposed Exposure",
-    "sourcingChannal": "Sourcing Channal",
     "sourcingSoName": "Sourcing SO Name",
     "overallExposure": "Overall Exposure",
     "payout": "Payout %",
@@ -660,7 +660,7 @@
     "eCode": "E code",
     "date": "Date",
     "requestedLoanAmount": "Requested Loan Amount",
-    "ageOfCarEndOfTenor": "Age of the car at the end of tenor ",
+    "ageOfCarEndOfTenor": "Age of the Asset at the end of the Tenor ",
     "bureauScore": "Bureau Score",
     "eligibleAmount": "Eligible Loan Amount ",
     "creditBureauCIBIL": "Credit Bureau (CIBIL)",
@@ -971,7 +971,6 @@
     "typeOfAccommmodation": "Type of Accommodation",
     "periodOfCurrentStayInYears": "Period of Current Stay (in Years)",
     "alternateMobileNumber": "Alternate Mobile Number",
-    "nearestLandmark": "Nearest Landmark",
     "officeAddress": "Office Address",
     "registeredAddress": "Registered Address",
     "documentUpload": "Document upload",
@@ -1333,6 +1332,7 @@
     "leadCreatedOnEndDate": "Lead Created On - End Date",
     "loanMinAmount": "Loan Min Amount",
     "loanMaxAmount": "Loan Max Amount",
+    "mode":"mode",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1357,7 +1357,7 @@
             "maxLength": {
                 "rule": 15
             },
-            "type": "number"
+            "type": "alpha-numeric-nospace"
         },
         "amountValue": {
             "maxLength": {
@@ -1558,7 +1558,7 @@
             },
             "type": "number",
             "patternCheck": {
-                "rule": "^[1-9][0-9]*$",
+                "ru20le": "^[1-9][0-9]*$",
                 "msg": "Aadhar Number Should be Valid"
             }
         },
@@ -1809,6 +1809,24 @@
             "maxLength": {
                 "rule": 100
             }
+        },
+        "offBusinessApproach": {
+            "maxLength": {
+                "rule": 20
+            },
+            "type": "alpha-numeric"
+        },
+        "assetsVisible": {
+            "maxLength": {
+                "rule": 150
+            },
+            "type": "alpha-numeric"
+        },
+        "assetsOwned": {
+            "maxLength": {
+                "rule": 100
+            },
+            "type": "alpha-numeric"
         }
     }
 }
