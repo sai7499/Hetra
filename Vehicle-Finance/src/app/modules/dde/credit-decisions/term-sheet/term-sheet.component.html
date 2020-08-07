@@ -1,4 +1,4 @@
-<main style="padding-bottom: 30px;">
+<main class="content" style="padding-bottom: 30px;">
     <div class="container overflow-hidden">
         <div class="multisteps-form">
             <div class="print_top">
@@ -115,7 +115,7 @@
                             <tr>
                                 <td>{{labels.vehicleRegistrationDate}}</td>
                                 <td>:</td>
-                                <td>{{assetDetailsData.regDate}}</td>
+                                <td>{{assetDetailsData.regDate | date: 'dd/MM/yyyy'}}</td>
                                 <td>{{labels.fcExpiryGapDays}}</td>
                                 <td>: </td>
                                 <td> {{assetDetailsData.fcExpGapDays}}</td>
@@ -176,7 +176,7 @@
                                 <td>:</td>
                                 <td>{{pslDetails?.category}}</td>
                                 <td></td>
-                                <td>:</td>
+                                <td></td>
                                 <td></td>
                             </tr>
                             <tr>
@@ -184,7 +184,7 @@
                                 <td>:</td>
                                 <td>{{pslDetails?.subCategory}}</td>
                                 <td> </td>
-                                <td>:</td>
+                                <td></td>
                                 <td></td>
                             </tr>
                             <tr>
@@ -239,7 +239,7 @@
                             <tr>
                                 <td>{{labels.genderOfCustomer}}</td>
                                 <td>:</td>
-                                <td>MALE</td>
+                                <td>{{applicantDetails?.gender}}</td>
                                 <td>{{labels.distance}}</td>
                                 <td>: </td>
                                 <td>{{commonAppDetails?.distance}}</td>
@@ -257,15 +257,18 @@
                 </div>
                 <div id="tearms_sheet_header2">
                     <p id="tearms_sheet_header2_top">{{labels.coApplicantDetails}}</p>
+                  <div *ngFor = "let coAppDetailsData of coAppDetails; let i=index">
                     <p id="tearms_sheet_hdr_left_tag">
-                        {{labels.name}} : {{coAppDetails?.name}}
+                        {{labels.name}} : {{coAppDetailsData.name}}
                     </p>
                     <p id="tearms_sheet_hdr_left_tag">
-                        {{labels.dob}} : {{coAppDetails?.dob}} &nbsp;
-                        {{labels.age}} : {{coAppDetails?.age}}&nbsp;
-                        {{labels.type}} : {{coAppDetails?.type}}-&nbsp;
-                        {{labels.gender}} : {{coAppDetails?.gender}}
+                        {{labels.dob}} : {{coAppDetailsData.dob}} &nbsp;
+                        {{labels.age}} : {{coAppDetailsData.age}}&nbsp;
+                        {{labels.type}} : {{coAppDetailsData.type}}&nbsp;
+                        {{labels.gender}} : {{coAppDetailsData.gender}}
                     </p>
+                  </div> 
+                   
 
                 </div>
                 <div id="tearms_sheet_header3">
@@ -315,15 +318,35 @@
                 </div>
                 <div id="tearms_sheet_header6">
                     <div *ngFor = "let identityData of identityDetails">
-                    <p id="tearms_sheet_header6_tag">
-                        <span id="tearms_sheet_header6_tag1">
-                            {{labels.addressCumIdProof}}:&nbsp; {{identityData.addrCumIdProof}}
-                        </span>
-                        <span id="tearms_sheet_header6_tag2">
-                            {{labels.docRefNo}}: &nbsp; {{identityData.docRef}} &nbsp;{{identityData.date}}
-                        </span>
-                    </p>
-                </div>
+                        <p id="tearms_sheet_header6_tag">
+                            <span id="tearms_sheet_header6_tag1">
+                                {{labels.addressCumIdProof}}:&nbsp; {{identityData.addrCumIdProof}}
+                            </span>
+                            <span id="tearms_sheet_header6_tag2">
+                                {{labels.docRefNo}}: &nbsp; {{identityData.docRef}} &nbsp;{{identityData.date}}
+                            </span>
+                        </p>
+                    </div>
+                    <div  *ngFor = "let identityData of coAppIndentityDetails">
+                        <p id="tearms_sheet_header6_tag">
+                            <span id="tearms_sheet_header6_tag1">
+                                {{'co-Applicant '+labels.addressCumIdProof}}:&nbsp; {{identityData.addrCumIdProof}}
+                            </span>
+                            <span id="tearms_sheet_header6_tag2">
+                                {{labels.docRefNo}}: &nbsp; {{identityData.docRef}} &nbsp;{{identityData.date}}
+                            </span>
+                        </p>
+                    </div>
+                    <div  *ngFor = "let identityData of guaIdentityDetails">
+                        <p id="tearms_sheet_header6_tag">
+                            <span id="tearms_sheet_header6_tag1">
+                                {{'Guarantor '+labels.addressCumIdProof}}:&nbsp; {{identityData.addrCumIdProof}}
+                            </span>
+                            <span id="tearms_sheet_header6_tag2">
+                                {{labels.docRefNo}}: &nbsp; {{identityData.docRef}} &nbsp;{{identityData.date}}
+                            </span>
+                        </p>
+                    </div>
                 </div>
                 <div id="tearms_sheet_header7">
                     <table class="table table-responsive  table-borderless"
@@ -799,9 +822,9 @@
 
             </div>
             <div class="col-sm-7 text-right">
-                <button class="btn btn-primary btn_div " (click)= "nextRoute('credit-condition')" type="button">Back</button>
+                <button class="btn btn-primary btn_div " (click)= "onBack()" type="button">Back</button>
                 <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
-                <button class="btn btn-primary btn_div" (click)= "nextRoute('sanction-details')" type="button">Next</button>
+                <button class="btn btn-primary btn_div" (click)= "onNext()" type="button">Next</button>
             </div>
         </div>
 

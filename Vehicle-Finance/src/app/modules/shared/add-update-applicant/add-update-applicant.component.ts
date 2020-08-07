@@ -703,7 +703,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           // this.setDefaultValueForAddress(value, formGroupName);
         });
       });
-      console.log(this.currentPincode)
+    console.log(this.currentPincode)
   }
 
   setDefaultValueForAddress(value, formGroupName: string) {
@@ -935,7 +935,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         console.log(error);
       }
     );
-   
+
   }
 
   getAddressFormControls() {
@@ -1030,9 +1030,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         );
       }
     }
-    
+
     return details;
-    
+
   }
 
   setFormValue(applicantValue) {
@@ -1397,6 +1397,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.createAddressObject(permenantAddressObj)
       );
     }
+    
 
     const currentAddressObj = addressObj[Constant.CURRENT_ADDRESS];
     this.currentPincode = this.formatPincodeData(currentAddressObj);
@@ -1405,6 +1406,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.createAddressObject(currentAddressObj)
       );
     }
+
+    this.isPermanantAddressSame= false;
+    currentAddress.enable();
 
   }
   onNext() {
@@ -1559,7 +1563,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   onFormSubmit() {
     console.log('Form', this.coApplicantForm);
     const formValue = this.coApplicantForm.getRawValue();
-    
+
     const coApplicantModel = {
       ...formValue,
       entity: this.getEntityObject(formValue.entity),
@@ -2444,7 +2448,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
             .get('dedupe')
             .get('loanApplicationRelation').value;
           if (applicantRelation === 'APPAPPRELLEAD') {
-            this.router.navigateByUrl('/pages/dashboard/leads-section/leads');
+            this.router.navigateByUrl('/pages/dashboard');
           } else {
             this.navigateToApplicantList();
           }

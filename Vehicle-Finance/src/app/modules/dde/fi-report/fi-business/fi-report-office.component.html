@@ -60,6 +60,8 @@
           [format]="'dd/MM/yyyy'"
           [placeholder]="'Enter initiated date'"
           [activeView]="'decade'"
+          [min]="leadCreatedDateFromLead"
+          (valueChange)="getMonths()"
         ></kendo-datepicker>
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -67,7 +69,13 @@
           >{{ labels?.cpvIntiatedTime }}
           <sub class="star_red_col">*</sub></label
         >
-        <app-custom-input
+        <input
+          type="time"
+          class="form-control mandatory"
+          placeholder="'cpv initiated time'"
+          formControlName="cpvInitiatedTime"
+        />
+        <!-- <app-custom-input
           id="cpv_time"
           [placeholder]="'Enter initiated time'"
           [type]="labels?.validationData?.cubicCapacity?.type"
@@ -76,7 +84,7 @@
           [maxLength]="labels?.validationData?.cubicCapacity?.maxLength"
           [isDirty]="isDirty"
         >
-        </app-custom-input>
+        </app-custom-input> -->
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="report_date"
@@ -90,6 +98,8 @@
           [format]="'dd/MM/yyyy'"
           placeholder="'Enter submit date'"
           [activeView]="'decade'"
+          [min]="cpvInitiatedDate"
+          (valueChange)="getMonths()"
         ></kendo-datepicker>
       </div>
     </div>
@@ -99,7 +109,14 @@
           >{{ labels?.reportSubmitTime }}
           <sub class="star_red_col">*</sub></label
         >
-        <app-custom-input
+        <input
+          type="time"
+          class="form-control mandatory"
+          placeholder="'Enter submit time'"
+          formControlName="reportSubmitTime"
+        />
+
+        <!-- <app-custom-input
           id="report_time"
           [placeholder]="'Enter submit time'"
           [type]="labels?.validationData?.cubicCapacity?.type"
@@ -108,7 +125,7 @@
           [maxLength]="labels?.validationData?.cubicCapacity?.maxLength"
           [isDirty]="isDirty"
         >
-        </app-custom-input>
+        </app-custom-input> -->
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="applicantsName"
@@ -535,7 +552,7 @@
     <div class="row">
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="approachable"
-          >{{ labels?.approachable }} <sub class="star_red_col">*</sub></label
+          >{{ labels?.approachable }} <sub class="star_blue_col">*</sub></label
         >
         <app-custom-input
           id="approachable"
@@ -550,7 +567,7 @@
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="premises"
-          >{{ labels?.premises }} <sub class="star_red_col">*</sub></label
+          >{{ labels?.premises }} <sub class="star_blue_col">*</sub></label
         >
         <app-vf-custom-select
           id="premises"
@@ -563,7 +580,7 @@
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="officeLocation"
-          >{{ labels?.officeLocation }} <sub class="star_red_col">*</sub></label
+          >{{ labels?.officeLocation }} <sub class="star_blue_col">*</sub></label
         >
         <app-custom-input
           id="officeLocation"
@@ -580,7 +597,7 @@
     <div class="row">
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="furnishings"
-          >{{ labels?.furnishings }} <sub class="star_red_col">*</sub></label
+          >{{ labels?.furnishings }} <sub class="star_blue_col">*</sub></label
         >
         <app-custom-input
           id="furnishings"
@@ -595,7 +612,7 @@
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="sizeOfOffice"
-          >{{ labels?.sizeOfOffice }} <sub class="star_red_col">*</sub></label
+          >{{ labels?.sizeOfOffice }} <sub class="star_blue_col">*</sub></label
         >
         <!-- <app-custom-input
                   id="sizeOfOffice"
@@ -617,7 +634,7 @@
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="observations"
-          >{{ labels?.observations }} <sub class="star_red_col">*</sub></label
+          >{{ labels?.observations }} <sub class="star_blue_col">*</sub></label
         >
         <app-custom-input
           id="observations"
@@ -635,7 +652,7 @@
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="noofEmployeesWorking"
           >{{ labels?.noofEmployeesWorking }}
-          <sub class="star_red_col">*</sub></label
+          <sub class="star_blue_col">*</sub></label
         >
         <app-custom-input
           id="noofEmployeesWorking"
@@ -651,7 +668,7 @@
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="noofEmployeesVisible"
           >{{ labels?.noofEmployeesVisible }}
-          <sub class="star_red_col">*</sub></label
+          <sub class="star_blue_col">*</sub></label
         >
         <app-custom-input
           id="noofEmployeesVisible"
@@ -666,7 +683,7 @@
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="activityLevel"
-          >{{ labels?.activityLevel }} <sub class="star_red_col">*</sub></label
+          >{{ labels?.activityLevel }} <sub class="star_blue_col">*</sub></label
         >
         <app-custom-input
           id="activityLevel"

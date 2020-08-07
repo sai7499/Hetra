@@ -10,7 +10,6 @@ import { ExposureDetailsComponent } from './exposure-details/exposure-details.co
 import { IncomeDetailsComponent } from './income-details/income-details.component';
 import { VehicleValuationComponent } from './vehicle-valuation/vehicle-valuation.component';
 import { PslDataComponent } from './psl-data/psl-data.component';
-import { PdListComponent } from './pd-list/pd-list.component';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { FleetDetailsComponent } from './fleet-details/fleet-details.component';
 import { TrackVehicleComponent } from './track-vehicle/track-vehicle.component';
@@ -28,9 +27,12 @@ import { LeadSectionModule } from '@modules/lead-section/lead-section.module';
 import { NumberOnlyDirective } from '@services/directives/number-only.directive';
 import { CibilOdComponent } from './cibil-od/cibil-od.component';
 import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
-import { PdReportModule } from './pd-report/pd-report.module';
+import { FiCumPdReportModule } from './fi-cum-pd-report/fi-cum-pd-report.module';
 import { ViabilityDashboardModule } from './viability-dashboard/viability-dashboard.module';
 import { FiListComponent } from './fi-list/fi-list.component';
+import { CreditConditionModule } from './credit-decisions/credit-decisions.module';
+import { PdReportModule } from './pd-report/pd-report.module';
+import { PdListComponent } from './pd-list/pd-list.component';
 // import { PdReportComponent } from './pd-report/pd-report.component';
 
 @NgModule({
@@ -38,7 +40,6 @@ import { FiListComponent } from './fi-list/fi-list.component';
     DdeComponent,
     // PdReportComponent,
     // ViabilityListComponent,
-    PdListComponent,
     // ViabilityListComponent,
     InsuranceDetailsComponent,
     PslDataComponent,
@@ -58,6 +59,7 @@ import { FiListComponent } from './fi-list/fi-list.component';
     CibilOdComponent,
     CibilOdListComponent,
     FiListComponent,
+    PdListComponent,
 
 
   ],
@@ -71,10 +73,11 @@ import { FiListComponent } from './fi-list/fi-list.component';
     DdeSharedModule,
     LeadSectionModule,
     DateInputsModule,
+    FiCumPdReportModule,
     PdReportModule,
-
+    CreditConditionModule,
     ViabilityDashboardModule
   ],
-  exports: [ViabilityDashboardModule]
+  exports: [ViabilityDashboardModule, CreditConditionModule]
 })
 export class DdeModule { }

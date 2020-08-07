@@ -361,7 +361,7 @@ select#select_main_button_leadco {
 }
 #clickButton{
     margin-right: 2px;
-    margin-bottom: 50px;
+    margin-bottom: 85px;
 }
 
 table th, table td{
@@ -373,3 +373,9 @@ table th, table td{
     
 } */
 
+@media (min-width:300px) and (max-width:767px) {
+    #clickButton{
+        margin-right: 2px;
+        margin-bottom: 30px!important;
+    }
+}

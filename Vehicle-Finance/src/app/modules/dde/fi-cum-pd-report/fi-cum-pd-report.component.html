@@ -1,0 +1,28 @@
+<main class="mar-top90">
+    <div class="container overflow-hidden">
+        <h3 class="margin_zero"></h3>
+
+        <!-- <app-dde-header></app-dde-header> -->
+        <app-lead-section-header></app-lead-section-header>
+
+        <div class="multisteps-form">
+            <!-- <div class=" multisteps-form__progress " *ngIf !=" router.url == '/pages/fl-and-pd-report/:leadId/pd-dashboard'"> -->
+            <div class=" multisteps-form__progress ">
+                <button class="multisteps-form__progress-btn " [ngClass]="{ 'js-active': locationIndex>= 0}" type="button" id="applicant_basic_details" (click)="onNavigate('applicant-details')"> Applicant
+                    Details </button>
+                <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 1}" type="button" id="applicant_bank_details" (click)="onNavigate('customer-profile')">
+                    Customer Profile Details</button>
+                <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 2}" type="button" id="applicant_identity_details" (click)="onNavigate('loan-details')">Loan
+                    Details</button>
+                <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 3}" type="button" id="applicant_identity_details" (click)="onNavigate('reference-check')">Reference
+                    Check</button>
+            </div>
+
+            <div class="content">
+                <router-outlet></router-outlet>
+            </div>
+
+        </div>
+    </div>
+
+</main>
