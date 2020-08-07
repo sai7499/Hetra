@@ -4,6 +4,7 @@ import { DashboardService } from '@services/dashboard/dashboard.service';
 import * as moment from 'moment';
 import { ApplicantService } from '@services/applicant.service';
 import { ToasterService } from '@services/toaster.service';
+import { truncateSync } from 'fs';
 
 
 
@@ -54,7 +55,7 @@ export class BiometricService {
      
         let pId = pid;
         if(!pId){
-          let result = JSON.stringify({"status": false});
+          let result = JSON.stringify({"pidErr": true});
           callBack(result);
           return;
         }
