@@ -248,10 +248,11 @@ export class UploadModalComponent {
 
    openCamera() {
     this.takePicture().then((uri) => {
+      
       console.log('imageData', uri);
       this.imageUrl = uri;
-      this.fileName = "test_chris"
-      this.fileSize = "123"
+      this.fileName = Math.random().toString(36).substring(2, 15);
+      this.fileSize = ""
       this.fileType = "png";
       console.log("fileName", this.fileName);
       console.log("fileSize", this.fileSize);
