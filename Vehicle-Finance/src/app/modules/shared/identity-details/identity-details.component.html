@@ -27,7 +27,7 @@
       <ng-container formArrayName="details">
         <div id="individual_section_start" *ngIf="isIndividual">
           <div class="row" formGroupName="0">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3 third_width">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 col-xs-12 third_width">
               <label>{{labels?.aadharnumber}}</label>
               <div class="input-group input-medium">
                 <input
@@ -44,18 +44,18 @@
                 </span>
               </div>
             </div>
-            <!-- <div class="form-group col-md-3 col-lg-3 third_width"
+            <!--<div class="form-group col-md-3 col-lg-3 third_width"
               style="visibility: hidden;"
             >
               <label for="pan_number">{{labels?.pannumber}}</label>
               <input type="text" class="form-control m-50" />
             </div>
-            <div class="form-group col-md-3 col-lg-3 third_width"
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 col-xs-12 third_width"
               style="visibility: hidden;"
             >
               <label for="pan_number">{{labels?.pannumber}}</label>
               <input type="text" class="form-control m-50" />
-            </div> -->
+            </div>-->
             <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
               <a href="#">
                 <label for="upload_aadhaar" class="upload_down"
@@ -67,7 +67,7 @@
               <div class="image-upload">
                 <label style="cursor: pointer;" for="file_upload">
                   <img src="" alt="" class="uploaded-image" />
-<!-- 
+
                   <div class="dplay-tbl">
                     <div class="dplay-tbl-cell">
                       <i class="fa fa-upload"></i>
@@ -87,7 +87,7 @@
               </div>
             </div> -->
             <div class="clearfix"></div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3 third_width">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 col-xs-12 third_width">
               <label for="pan_form">{{labels?.panform}}</label>
               <!-- <select class="form-control m-50" id="pan_form" name="pan_form" disabled="">
                                     <option value="PAN" selected="selected">PAN</option>
@@ -100,7 +100,7 @@
                 
               ></app-vf-custom-select>
             </div>
-            <div class="form-group col-md-3 col-lg-3 third_width">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 col-xs-12 third_width">
               <label for="pan_number">{{labels?.pannumber}}</label>
               <input
                 formControlName="pan"
@@ -117,14 +117,14 @@
                   [isRequired]="'Pan number is required'"
                 ></app-custom-input> -->
             </div>
-            <!-- <div  class="form-group col-md-3 col-lg-3 third_width"
+            <!--<div  class="form-group col-md-3 col-lg-3 third_width"
               style="visibility: hidden;"
             >
               <label for="pan_number">PAN Number</label>
               <input type="text" class="form-control m-50" />
             </div> -->
 
-            <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
+             <div class="form-group col-sm-1 col-md-1 col-lg-1">
               <a href="#"
                 ><label for="upload_aadhaar" class="upload_down"
                   >PAN_1219</label
@@ -136,13 +136,13 @@
                 <label style="cursor: pointer;" for="file_upload">
                   <img src="" alt="" class="uploaded-image" />
 
-                  <!-- <div class="dplay-tbl">
+                   <div class="dplay-tbl">
                     <div class="dplay-tbl-cell">
                       <i class="fa fa-upload"></i>
                     </div>
                   </div>
 
-                  <!--upload-content
+                  upload-content
                   <input
                     data-required="image"
                     type="file"
@@ -155,7 +155,7 @@
               </div>
             </div> -->
             <div class="clearfix"></div>
-            <div class="form-group col-md-3 col-lg-3 third_width">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 col-xs-12 third_width">
               <label for="passport_number">{{labels?.passportNumber}}</label>
               <input
                 formControlName="passportNumber"
@@ -166,7 +166,7 @@
                 disabled=""
               />
             </div>
-            <div class="form-group  col-md-3 col-lg-3 third_width">
+            <div class="form-group  col-sm-6 col-md-3 col-lg-3 col-xs-12 third_width">
               <label for="passport_expiry_date">{{labels?.issuanceDate}}</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">

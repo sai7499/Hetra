@@ -421,17 +421,17 @@ export class DashboardComponent implements OnInit {
       this.onReleaseTab = true;
       this.onAssignTab = false;
       this.makerWithMe = true;
-        this.makerWithCPC = false;
-        this.checkerWithMe = false;
-        this.checkerWithCPC = false;
+      this.makerWithCPC = false;
+      this.checkerWithMe = false;
+      this.checkerWithCPC = false;
       this.getMakerLeads(this.itemsPerPage);
     } else if (data === 'cpcMaker') {
       this.onReleaseTab = false;
       this.onAssignTab = true;
       this.makerWithMe = false;
-        this.makerWithCPC = true;
-        this.checkerWithMe = false;
-        this.checkerWithCPC = false;
+      this.makerWithCPC = true;
+      this.checkerWithMe = false;
+      this.checkerWithCPC = false;
       this.getMakerCPCLeads(this.itemsPerPage);
     }
   }
@@ -441,17 +441,17 @@ export class DashboardComponent implements OnInit {
       this.onReleaseTab = true;
       this.onAssignTab = false;
       this.makerWithMe = false;
-        this.makerWithCPC = false;
-        this.checkerWithMe = true;
-        this.checkerWithCPC = false;
+      this.makerWithCPC = false;
+      this.checkerWithMe = true;
+      this.checkerWithCPC = false;
       this.getCheckerLeads(this.itemsPerPage);
     } else if (data === 'cpcChecker') {
       this.onReleaseTab = false;
       this.onAssignTab = true;
       this.makerWithMe = false;
-        this.makerWithCPC = false;
-        this.checkerWithMe = false;
-        this.checkerWithCPC = true;
+      this.makerWithCPC = false;
+      this.checkerWithMe = false;
+      this.checkerWithCPC = true;
       this.getCheckerCPCLeads(this.itemsPerPage);
     }
   }
@@ -1020,30 +1020,30 @@ export class DashboardComponent implements OnInit {
   onRoute(leadId, stageCode?, taskId?) {
     // this.vehicleDataStoreService.setSalesLeadID(leadId);
     // this.sharedService.getTaskID(taskId)
-      if (!this.onAssignTab && !this.onReleaseTab) {
-        if (stageCode == '10') {
-          this.router.navigateByUrl(`/pages/lead-section/${leadId}`);
-        } else if (stageCode == '20') {
-          this.router.navigateByUrl(`/pages/sales/${leadId}/lead-details`);
-        }
-      } else if (this.sanctionedMe) {
-        this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
-      } else if (this.declined) {
-
-      } else if (this.myPD) {
-        this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
-      } else if (this.myViability) {
-        this.router.navigate([`/pages/viability-list/${leadId}/viability-list`]);
-      } else if (this.DDEWithMe) {
-        this.router.navigateByUrl(`/pages/dde/${leadId}/lead-details`);
-      } else if (this.myPD) {
-        this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
-      } else if (this.DeviationWithMe) {
-        this.router.navigateByUrl(`/pages/deviation-dashboard/${leadId}/dashboard-deviation-details`);
-      } else if (this.DecisionWithMe) {
-        this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
+    if (!this.onAssignTab && !this.onReleaseTab) {
+      if (stageCode == '10') {
+        this.router.navigateByUrl(`/pages/lead-section/${leadId}`);
+      } else if (stageCode == '20') {
+        this.router.navigateByUrl(`/pages/sales/${leadId}/lead-details`);
       }
-    
+    } else if (this.sanctionedMe) {
+      this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
+    } else if (this.declined) {
+
+    } else if (this.myPD) {
+      this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
+    } else if (this.myViability) {
+      this.router.navigate([`/pages/viability-list/${leadId}/viability-list`]);
+    } else if (this.DDEWithMe) {
+      this.router.navigateByUrl(`/pages/dde/${leadId}/lead-details`);
+    } else if (this.myPD) {
+      this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
+    } else if (this.DeviationWithMe) {
+      this.router.navigateByUrl(`/pages/deviation-dashboard/${leadId}/dashboard-deviation-details`);
+    } else if (this.DecisionWithMe) {
+      this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
+    }
+
 
 
 
