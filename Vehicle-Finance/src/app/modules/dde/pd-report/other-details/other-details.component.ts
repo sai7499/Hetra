@@ -44,7 +44,7 @@ export class OtherDetailsComponent implements OnInit {
     this.aRoute.parent.params.subscribe((val) => {
       this.leadId = Number(val.leadId);
     });
-    console.log("LEADID::::", this.leadId);
+    console.log("LEADID::", this.leadId);
   }
 
   //GET APPLICANTID
