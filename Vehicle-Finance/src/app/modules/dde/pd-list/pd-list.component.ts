@@ -113,6 +113,7 @@ export class PdListComponent implements OnInit {
     );
 
     console.log('URL', URL);
+    
     if (version) {
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${applicantId}/applicant-details/${version}`]);
     } else {
