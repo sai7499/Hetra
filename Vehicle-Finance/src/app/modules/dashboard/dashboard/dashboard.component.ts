@@ -1048,7 +1048,7 @@ export class DashboardComponent implements OnInit {
       } else if (this.subActiveTab === this.displayCreditTabs.CreditDecisionWithMe) {
         this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
       } else if (this.subActiveTab === this.displayCreditTabs.MyFI) {
-        this.router.navigateByUrl(`/pages/dde/${leadId}/fi-list`);
+        this.router.navigateByUrl(`/pages/fi-dashboard/${leadId}/fi-list`);
       }
     } else if (this.roleType === 4) {
       if (this.makerWithMe) {
