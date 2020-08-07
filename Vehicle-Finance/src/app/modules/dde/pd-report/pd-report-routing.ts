@@ -22,15 +22,15 @@ const routes: Routes = [
         component: PersonalDetailsComponent
       },
       {
-        path: ':applicantId/income-detials',
+        path: ':applicantId/income-details',
         component: IncomeDetailsComponent
       },
       {
-        path: ':applicantId/income-detials?:version',
+        path: ':applicantId/income-details/:version',
         component: IncomeDetailsComponent
       },
       {
-        path: ':applicantId/other-detials',
+        path: ':applicantId/other-details',
         component: OtherDetailsComponent
       },
       {

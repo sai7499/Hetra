@@ -1,1 +1,236 @@
-<p>other-details works!</p>
+<!-- <div class="content"> -->
+    <form class="multisteps-form__form" [formGroup]="otherDetailsForm">
+        <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+            <h3 class="title"> {{ labels.otherDetailsTitle }} </h3>
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="agriculture_proof">{{labels.agricultureProof}}
+                            <!-- <sub class="star_red_col">*</sub> -->
+                        </label>
+                        <app-custom-input 
+                            formControlName="agricultureProof"
+                            [className]="'form-control mandatory'"
+                            [placeholder]="'Agriculture Proof'"
+                        >
+                        </app-custom-input>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="income">{{labels.income1}}
+                            <!-- <sub class="star_red_col">*</sub> -->
+                        </label>
+                        <app-custom-input 
+                            formControlName="income"
+                            [className]="'form-control mandatory'"
+                            [placeholder]="'Income'"
+                        >
+                        </app-custom-input>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="secured_Loan">{{labels.securedLoans}}
+                            <!-- <sub class="star_red_col">*</sub> -->
+                        </label>
+                        <app-custom-input 
+                            formControlName="securedLoans"
+                            [className]="'form-control mandatory'"
+                            [placeholder]="'Secured Loans'"
+                         >
+                        </app-custom-input> 
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="unSecured_Loans">{{labels.unSecuredLoans}}
+                            <!-- <sub class="star_red_col">*</sub> -->
+                        </label>
+                        <app-custom-input 
+                            formControlName="unSecuredLoans"
+                            [className]="'form-control mandatory'"
+                            [placeholder]="'Un Secured Loans'"
+                         >
+                        </app-custom-input> 
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="creditors">{{labels.creditors}}
+                            <!-- <sub class="star_red_col">*</sub> -->
+                        </label>
+                        <app-custom-input 
+                            formControlName="creditors"
+                            [className]="'form-control mandatory'"
+                            [placeholder]="'Creditors'"
+                         >
+                        </app-custom-input> 
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="debtors">{{labels.debtors}}
+                            <!-- <sub class="star_red_col">*</sub> -->
+                        </label>
+                        <app-custom-input 
+                            formControlName="debtors"
+                            [className]="'form-control mandatory'"
+                            [placeholder]="'Debtors'"
+                         >
+                        </app-custom-input> 
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="fixed_assets">{{labels.fixedAssets}}
+                            <!-- <sub class="star_red_col">*</sub> -->
+                        </label>
+                        <app-custom-input 
+                            formControlName="fixedAssets"
+                            [className]="'form-control mandatory'"
+                            [placeholder]="'Fixed Assets'"
+                         >
+                        </app-custom-input> 
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="application_no">{{labels?.applicationNo}}
+                            <!-- <sub class="star_red_col">*</sub> -->
+                        </label>
+                        <app-custom-input 
+                            formControlName="applicationNo"
+                            [className]="'form-control mandatory'"
+                            [placeholder]="'Application No'"
+                         >
+                        </app-custom-input> 
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="area">{{labels.area}}
+                            <!-- <sub class="star_red_col">*</sub> -->
+                        </label>
+                        <app-custom-input 
+                            formControlName="area"
+                            [className]="'form-control mandatory'"
+                            [placeholder]="'Area'"
+                         >
+                        </app-custom-input> 
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="place">{{labels.place}}
+                            <!-- <sub class="star_red_col">*</sub> -->
+                        </label>
+                        <app-custom-input 
+                            formControlName="place"
+                            [className]="'form-control mandatory'"
+                            [placeholder]="'Place'"
+                        >
+                        </app-custom-input> 
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="geoTag_information">{{labels.geotagInformation}}
+                            <!-- <sub class="star_red_col">*</sub> -->
+                        </label>
+                        <!-- <app-custom-input 
+                            formControlName="geotagInformation" 
+                            [className]="'form-control mandatory'"
+                            [placeholder]="'Geotag Information'">
+                        </app-custom-input> -->
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="route_map">{{labels.routeMap}}
+                            <!-- <sub class="star_red_col">*</sub> -->
+                        </label>
+                        <!-- <app-custom-input 
+                            formControlName="routeMap" 
+                            [className]="'form-control mandatory'"
+                            [placeholder]="'Route Map'">
+                        </app-custom-input> -->
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="equitas_branch_name">{{labels.equitasBranchName}}
+                            <!-- <sub class="star_red_col">*</sub> -->
+                        </label>
+                            <app-custom-input 
+                                formControlName="equitasBranchName"
+                                [className]="'form-control mandatory'"
+                                [placeholder]="'Equitas Branch Name'"
+                            >
+                            </app-custom-input> 
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="distance_equitasAssetBranch_Kms">{{labels.distanceEquitasAssetBranch}}
+                            <!-- <sub class="star_red_col">*</sub> -->
+                        </label>
+                        <app-custom-input
+                            formControlName="distanceEquitasAssetBranch"
+                            [className]="'form-control mandatory'"
+                            [placeholder]="'Distance from Equitas Asset Branch in Kms'"
+                        >
+                        </app-custom-input>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="so_name">{{labels.soName}} 
+                            <!-- <sub class="star_red_col">*</sub> -->
+                        </label>
+                        <app-custom-input
+                            formControlName="soName"
+                            [className]="'form-control mandatory'"
+                            [placeholder]="'SO Name'"
+                        >
+                        </app-custom-input>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="employee_code">{{labels.employeeCode}}
+                            <!-- <sub class="star_red_col">*</sub> -->
+                        </label>
+                        <app-custom-input
+                            formControlName="employeeCode"
+                            [className]="'form-control mandatory'"
+                            [placeholder]="'Employee Code'"
+                        >
+                        </app-custom-input>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="date"> {{labels.date}} 
+                            <!-- <sub class="star_red_col">*</sub> -->
+                        </label>
+                        <kendo-datepicker class="form-control" formControlName="date" [activeView]="'decade'" [format]="'dd/MM/yyyy'"
+                            placeholder="Date">
+                        </kendo-datepicker>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="product">{{labels.product}}
+                            <!-- <sub class="star_red_col">*</sub> -->
+                        </label>
+                        <app-custom-input
+                            formControlName="product"
+                            [className]="'form-control mandatory'"
+                            [placeholder]="'Product'"
+                        >
+                        </app-custom-input>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="sourcing_channel"> {{labels.sourcingChannel}}
+                            <!-- <sub class="star_red_col">*</sub> -->
+                        </label>
+                        <app-custom-input
+                            formControlName="sourcingChannel"
+                            [className]="'form-control mandatory'"
+                            [placeholder]="'Sourcing Channel'"
+                        >
+                        </app-custom-input>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="timeOf_verification">{{labels.tomeOfVerification}} 
+                            <!-- <sub class="star_red_col">*</sub> -->
+                        </label>
+                        <app-custom-input
+                            formControlName="tomeOfVerification"
+                            [className]="'form-control mandatory'"
+                            [placeholder]="'Time of Verification'"
+                        >
+                        </app-custom-input>
+                    </div>
+
+            </div>
+        </div>
+        &nbsp;
+        <div class="row">
+            <div class="col-sm-5"></div>
+            <div class="col-sm-7 text-right">
+                <button class="btn btn-primary js-btn-prev" type="button"
+                    (click)="onBack()"> {{labels.back}} </button> &nbsp;
+                <button class="btn btn-primary" (click)="onFormSubmit()"> {{labels.save}} </button> &nbsp;
+                <button class="btn btn-primary " type="button" (click)="onNext()"> {{labels.next}} </button>
+            </div>
+        </div>
+
+    </form>
+<!-- </div> -->

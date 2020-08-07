@@ -1336,6 +1336,16 @@
     "loanMinAmount": "Loan Min Amount",
     "loanMaxAmount": "Loan Max Amount",
     "mode":"mode",
+    "income1": "Income",
+    "securedLoans": "Secured Loans",
+    "unSecuredLoans": "Un Secured Loans",
+    "creditors": "Crediotrs",
+    "debtors": "Debtors",
+    "fixedAssets": "Fixed Assets",
+    "geotagInformation": "Geotag Information",
+    "equitasBranchName": "Equitas Branch Name",
+    "distanceEquitasAssetBranch": "Distance from Equitas Asset Branch in Kms",
+    "tomeOfVerification": "Time of Verification",
     "validationData": {
         "name": {
             "maxLength": {

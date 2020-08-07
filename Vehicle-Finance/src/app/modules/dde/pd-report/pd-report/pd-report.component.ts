@@ -38,7 +38,25 @@ export class PdReportComponent implements OnInit {
     this.location.onUrlChange((url: string) => {
       this.locationIndex = this.getLocationIndex(url);
     });
-
+    this.activatedRoute.params.subscribe((value: any) => {
+      console.log('params', value);
+      this.leadId = Number(value.leadId);
+      // if (!this.leadId) {
+      //   const data: any = this.createLeadDataService.getLeadData();
+      //   this.leadId = data.leadId;
+      // }
+      // this.leadStoreService.setLeadId(this.leadId);
+      // console.log(
+      //   ' this.createLeadDataService.getLeadData()',
+      //   this.createLeadDataService.getLeadData()
+      // );
+  });
+  this.activatedRoute.firstChild.params.subscribe((value: any) => {
+      this.applicantId = value.applicantId;
+      this.version = value.version;
+      console.log('applicant ID', this.applicantId);
+      console.log('version in fi and pd report', this.version);
+  });
   }
   onNavigate(url: string) {
 
