@@ -44,6 +44,7 @@
     "product": "Product",
     "loanAmount": "Loan Amount",
     "branch": "Branch",
+    "cbs": "Credit Bureau Score",
     "stage": "Lead Stage",
     "status": "Status",
     "reasonForRejection": "Rejection Reason",
@@ -142,6 +143,7 @@
     "back": "Back",
     "save": "Save",
     "applicantDetailsTitle": "Applicant Details",
+    "personalDetailsTitle": "Personal Details",
     "addApplicantTitle": "Add Applicant",
     "ucicId": "UCIC ID",
     "name": "Name",
@@ -310,6 +312,10 @@
     "extn": "Extn",
     "workStability": "Work Stability",
     "natureOfBusiness": "Nature of Business",
+    "educationalBackground": "Educational Background Type",
+    "isMinority": "Is Minority?",
+    "community": "Community",
+    "srto": "SRTO",
     "transactionType": "Type of Transaction",
     "businessStability": "Business Stability",
     "coNameAndAddress": "Co.Name & Address",
@@ -529,6 +535,18 @@
     "soRcGreaterthanSixtyDays": "SO RC >60DAYS",
     "zone": "Zone",
     "religion": "Religion",
+    "Category": "Category",
+    "customerProfile": "Customer Profile",
+    "priorExperience": "Prior Experience",
+    "businessKey": "Business Key",
+    "occupationType": "Occupation Type",
+    "businessType": "Business Type",
+    "residentStatus": "Resident Status",
+    "accomodationType": "Accomodation Type",
+    "noOfYearsResiding": "No. of years residing at present residence",
+    "noOfAdultsDependant": "No. of Adults Dependant",
+    "noOfChildrenDependant": "No. of Children Dependant",
+    "bankHolderName": "Bank A/c holder Name",
     "caste": "Caste",
     "noOfUnits": "No of Units",
     "nameOfSoSsoWithECode": "Name of SO/SSO with E Code",
@@ -897,8 +915,13 @@
     "fatherName": "Father Name",
     "fullName": "Full Name",
     "fatherNameHusbandName": "Father/Husband Name",
+    "fatherNameHusbandFirstName": "Father/Husband First Name",
+    "fatherNameHusbandSecondName": "Father/Husband Second Name",
+    "fatherNameHusbandThirdName": "Father/Husband Third Name",
+    "fatherNameHusbandFullName": "Father/Husband Full Name",
     "gender": "Gender",
     "maritalStatus": "Marital Status",
+    "weddingAnniversaryDate": "Wedding Anniversary Date",
     "physicallyChallenged": "Physically Challenged",
     "residenceNo": "Residence Number(with STD code)",
     "officeNo": "Office Number(with STD code)",
@@ -1035,6 +1058,7 @@
     "nationality": "Nationality",
     "customerCategory": "Customer Category",
     "emailID": "Email ID",
+    "emailAddress": "E-mail Address",
     "alternateEmailID": "Alternate email ID",
     "prefferedLanguageForCommunication": "Preferred Language for Communication",
     "bankAccountNumber": "Bank Account Number",
@@ -1388,6 +1412,15 @@
     "pdStatusTitle":"PD Status",
     "PdStatus":"PD Status",
     "opinionOfOfficer":"Opinion of PD Officer",
+    "referenceDetailsTitle": "Reference Details",
+    "referrerRelationship": "Referrer Relationship",
+    "referrerOfficePhoneNo": "Referrer Office Phone No",
+    "refereneceInfoMiddleName": "Reference Info -Middle Name",
+    "referenceInfoOfficeNo": "Reference Info - Office Phone No",
+    "referenceRelationship": "Reference Info  - Relationship with Applicant",
+    "selfieWithCustomer": "Selfie with Customer",
+    "uploadImages": "Upload Images",
+    "opinionOfPDOfficer": "Opinion of PD Officer",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1398,6 +1431,12 @@
         "fullName": {
             "maxLength": {
                 "rule": 40
+            },
+            "type": "alpha"
+        },
+        "srto": {
+            "maxLength": {
+                "rule": 10
             },
             "type": "alpha"
         },
@@ -1573,6 +1612,15 @@
                 "rule": 50
             },
             "type": "alpha-numeric"
+        },
+        "emailPattern": {
+            "maxLength": {
+                "rule": 50
+            },
+            "patternCheck": {
+                "rule": "^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(\\.\\w{2,10})+$",
+                "msg": "Invalid email"
+            }
         },
         "chasisNo": {
             "maxLength": {
@@ -1906,6 +1954,30 @@
         "tomeOfVerification": {
             "maxLength": {
                 "rule": 10
+            },
+            "type": "alpha-numeric"
+        },
+        "referrerName": {
+            "maxLength": {
+                "rule": 30
+            },
+            "type": "alpha"
+        },
+        "referrerFullName": {
+            "maxLength": {
+                "rule": 90
+            },
+            "type": "alpha"
+        },
+        "referrerOfficePhoneNo": {
+            "maxLength": {
+                "rule": 12
+            },
+            "type": "number"
+        },
+        "referrerAddress": {
+            "maxLength": {
+                "rule": 30
             },
             "type": "alpha-numeric"
         }
