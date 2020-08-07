@@ -26,6 +26,21 @@ export enum DisplayTabs {
   BranchPd,
   ViabilityWithMe,
   ViabilityWithBranch,
+  FI,
+  MyFI,
+  BranchFI,
+  LoanBooking,
+  LoanBookingWithMe,
+  LoanBookingWithBranch,
+  LoanDisbursement,
+  LoanDisbursementWithMe,
+  LoanDisbursementWithBranch,
+  Negotiatin,
+  NegotiatinWithMe,
+  NegotiatinWithBranch,
+  Disbursement,
+  DisbursementWithMe,
+  DisbursementWithBranch
 }
 export enum DisplayCreditTabs {
   DDE,
