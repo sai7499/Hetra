@@ -16,6 +16,7 @@ export class PersonalDetailsComponent implements OnInit {
   public errorMsg: string = '';
   public labels: any = {};
   private leadId: number = 0;
+  public maxDate: any = new Date();
 
   public applicantLov: any = {};
   public getLabels;
@@ -43,8 +44,6 @@ export class PersonalDetailsComponent implements OnInit {
 
     this.leadId = (await this.getLeadId()) as number;
 
-    console.log('LeadId', this.leadId)
-
     this.getLOV();
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.applicantLov = value ? value[0].applicantDetails[0] : {};
@@ -54,26 +53,42 @@ export class PersonalDetailsComponent implements OnInit {
   initForm() {
 
     this.personalDetailsForm = this._fb.group({
+      firstName: ['', Validators.required],
+      middleName: ['', Validators.required],
+      lastName: ['', Validators.required],
       applicantName: [{ value: '', disabled: true }],
-      fatherName: ['', Validators.required],
+      fatherFirstName: ['', Validators.required],
+      fatherMiddleName: ['', Validators.required],
+      fatherLastName: ['', Validators.required],
+      fatherName: [{ value: '', disabled: true }],
       gender: ['', Validators.required],
+      dob: ['', Validators.required],
       maritalStatus: ['', Validators.required],
+      dom: [''],
+      religion: ['', Validators.required],
+      category: ['', Validators.required],
       physicallyChallenged: ['', Validators.required],
-      residancePhoneNumber: ['', Validators.required],
-      officePhoneNumber: ['', Validators.required],
-      mobile: [{ value: '', disabled: true }],
-      residenceAddressAsPerLoanApplication: ['', Validators.required],
-      bankName: ['', Validators.required],
-      accountNumber: ['', Validators.required],
-      landmark: ['', Validators.required],
-      addressAccessibility: ['', Validators.required],
-      residentialLocality: ['', Validators.required],
-      residentialType: ['', Validators.required],
-      houseType: ['', Validators.required],
-      sizeOfHouse: ['', Validators.required],
-      standardOfLiving: ['', Validators.required],
-      houseOwnership: ['', Validators.required],
-      ratingbySO: ['', Validators.required]
+      customerProfile: ['', Validators.required],
+      priorExperience: ['', Validators.required],
+      businessKey: ['', Validators.required],
+      occupationType: ['', Validators.required],
+      businessType: ['', Validators.required],
+      natureOfBusiness: [''],
+      educationalBackground: [''],
+      isMinority: [''],
+      community: [''],
+      srto: [''],
+      contactNumber: ['', Validators.required],
+      alternateMobileNumber: ['', Validators.required],
+      emailId: ['', Validators.required],
+      residentStatus: ['', Validators.required],
+      accomodationType: ['', Validators.required],
+      noOfYearsResiding: [''],
+      noOfAdultsDependant: [''],
+      noOfChildrenDependant: [''],
+      bankHolderName: [''],
+      branch: [''],
+      cbs: ['']
     })
 
   }
@@ -86,8 +101,7 @@ export class PersonalDetailsComponent implements OnInit {
         return;
       }
       this.applicantId = Number(value.applicantId);
-      console.log(value.version)
-      this.version = value.version ? String(value.version): null;
+      this.version = value.version ? String(value.version) : null;
     });
   }
 
