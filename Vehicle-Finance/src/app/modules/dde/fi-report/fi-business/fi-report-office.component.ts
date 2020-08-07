@@ -178,7 +178,7 @@ export class FiReportOfficeComponent implements OnInit {
     const submitDate = new Date(this.fieldReportForm.value.reportSubmitDate)
       ? new Date(this.fieldReportForm.value.reportSubmitDate) : null;
     if (initiatedDate && submitDate) {
-      if (initiatedDate > submitDate) {
+      if (submitDate < initiatedDate) {
         this.toasterService.showWarning('Submit Date should be greater than Initiated Date', '');
 
       }

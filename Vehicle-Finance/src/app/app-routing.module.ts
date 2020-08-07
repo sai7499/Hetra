@@ -85,6 +85,11 @@ const routes: Routes = [
           import('./modules/dde/dde.module').then((m) => m.DdeModule),
       },
       {
+        path: 'fi-dashboard', // added another routing for dde module to load from fi-dashboard
+        loadChildren: () =>
+          import('./modules/dde/dde.module').then((m) => m.DdeModule),
+      },
+      {
         path: 'vehicle-details',
         loadChildren: () =>
           import('./modules/dde/vehicle-details/vehicle-details.module').then(
