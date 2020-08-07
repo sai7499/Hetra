@@ -36,7 +36,7 @@ export class ReferenceDetailsComponent implements OnInit {
 
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
-      (data) => (this.labels = data),
+      (data) => (this.labels = data)
     );
   }
 
