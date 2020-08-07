@@ -211,19 +211,21 @@ export class ApplicantDocsUploadComponent implements OnInit {
           const formArray = this.uploadForm.get(
             `${this.FORM_ARRAY_NAME}_${docs.subCategoryCode}`
           ) as FormArray;
-          formArray.push(this.getDocsFormControls(docs));
-          if (docs.categoryCode === '50' && docs.subCategoryCode === '1') {
-            this.getBase64String(docs.dmsDocumentId).then((value: any) => {
-              this.DEFAULT_PROFILE_IMAGE =
-                'data:image/jpeg;base64,' + value.imageUrl;
-            });
-          }
+          if (formArray) {
+            formArray.push(this.getDocsFormControls(docs));
+            if (docs.categoryCode === '50' && docs.subCategoryCode === '1') {
+              this.getBase64String(docs.dmsDocumentId).then((value: any) => {
+                this.DEFAULT_PROFILE_IMAGE =
+                  'data:image/jpeg;base64,' + value.imageUrl;
+              });
+            }
 
-          if (docs.categoryCode === '50' && docs.subCategoryCode === '2') {
-            this.getBase64String(docs.dmsDocumentId).then((value: any) => {
-              this.DEFAULT_SIGNATURE_IMAGE =
-                'data:image/jpeg;base64,' + value.imageUrl;
-            });
+            if (docs.categoryCode === '50' && docs.subCategoryCode === '2') {
+              this.getBase64String(docs.dmsDocumentId).then((value: any) => {
+                this.DEFAULT_SIGNATURE_IMAGE =
+                  'data:image/jpeg;base64,' + value.imageUrl;
+              });
+            }
           }
         });
 
@@ -368,7 +370,11 @@ export class ApplicantDocsUploadComponent implements OnInit {
     formArray.push(controls);
   }
 
-  onDocumentSelect(event, categoryCode) {
+  onDocumentSelect(event, categoryCode, index) {
+    const formArray = this.uploadForm.get(
+      `${this.FORM_ARRAY_NAME}_${categoryCode}`
+    ) as FormArray;
+    formArray.at(index).get('documentNumber').setValue(null);
     this.docListObj[categoryCode] = event;
     console.log('onDocumentSelect', event, categoryCode);
   }
