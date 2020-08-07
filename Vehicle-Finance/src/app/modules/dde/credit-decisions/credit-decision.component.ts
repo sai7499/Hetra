@@ -34,7 +34,7 @@ export class CreditDecisionComponent implements OnInit {
         this.roleId = this.roles[0].roleId;
         this.roleName = this.roles[0].name;
         this.roleType = this.roles[0].roleType;
-        console.log("this user roleType", this.roleType)
+        console.log("this user roleType", this.roleType);
         const currentUrl = this.location.path();
         this.locationIndex = this.getLocationIndex(currentUrl);
         console.log(this.locationIndex);

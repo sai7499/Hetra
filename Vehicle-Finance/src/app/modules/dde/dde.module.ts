@@ -30,6 +30,7 @@ import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
 import { FiCumPdReportModule } from './fi-cum-pd-report/fi-cum-pd-report.module';
 import { ViabilityDashboardModule } from './viability-dashboard/viability-dashboard.module';
 import { FiListComponent } from './fi-list/fi-list.component';
+import { CreditConditionModule } from './credit-decisions/credit-decisions.module';
 import { PdReportModule } from './pd-report/pd-report.module';
 import { PdListComponent } from './pd-list/pd-list.component';
 // import { PdReportComponent } from './pd-report/pd-report.component';
@@ -74,8 +75,9 @@ import { PdListComponent } from './pd-list/pd-list.component';
     DateInputsModule,
     FiCumPdReportModule,
     PdReportModule,
+    CreditConditionModule,
     ViabilityDashboardModule
   ],
-  exports: [ViabilityDashboardModule]
+  exports: [ViabilityDashboardModule, CreditConditionModule]
 })
 export class DdeModule { }

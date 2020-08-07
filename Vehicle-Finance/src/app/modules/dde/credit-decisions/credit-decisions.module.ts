@@ -11,7 +11,7 @@ import {TermSheetComponent} from './term-sheet/term-sheet.component';
 import { SanctionDetailsComponent } from './sanction-details/sanction-details.component';
 import { CustomerFeedbackComponent } from './customer-feedback/customer-feedback.component';
 import { CheckListComponent } from './check-list/check-list.component';
-import {AccordionComponent } from './accordion/accordion.component';
+
 @NgModule({
   declarations: [
     CreditDecisionComponent,
@@ -20,15 +20,22 @@ import {AccordionComponent } from './accordion/accordion.component';
     SanctionDetailsComponent,
     CustomerFeedbackComponent,
     CheckListComponent,
-    AccordionComponent
   ],
   imports: [
     CommonModule,
-    CreditDecisionRouterModule, 
-    ReactiveFormsModule, 
-    FormsModule, 
-    SharedModule, 
+    CreditDecisionRouterModule,
+    ReactiveFormsModule,
+    FormsModule,
+    SharedModule,
     DdeSharedModule
+  ],
+  exports: [
+    TermSheetComponent ,
+    CreditConditionsComponent,
+    SanctionDetailsComponent,
+    CustomerFeedbackComponent,
+    CheckListComponent,
+    CreditConditionsComponent
   ]
 })
 export class CreditConditionModule { }
