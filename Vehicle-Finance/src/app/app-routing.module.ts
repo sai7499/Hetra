@@ -179,12 +179,26 @@ const routes: Routes = [
             (m) => m.SupervisorModule
           ),
       },
- {
-        path: 'negotiation',
+      {
+              path: 'negotiation',
+              loadChildren: () =>
+                import(
+                  './modules/negotiation/negotiation.module'
+                ).then((m) => m.NegotiationModule),
+      },
+      {
+        path: 'cpc-maker',
         loadChildren: () =>
           import(
-            './modules/negotiation/negotiation.module'
-          ).then((m) => m.NegotiationModule),
+            './modules/dde/cpc-maker/cpc-maker.module'
+          ).then((m) => m.CpcMakerModule),
+      },
+      {
+        path: 'cpc-checker',
+        loadChildren: () =>
+          import(
+            './modules/dde/cpc-maker/cpc-maker.module'
+          ).then((m) => m.CpcMakerModule),
       },
     ],
   },

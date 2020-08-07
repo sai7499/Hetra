@@ -11,6 +11,7 @@ export class IncomeDetailsComponent implements OnInit {
   labels: any;
   acType: any  = [{}]
   public errorMsg;
+  isDirty:boolean;
   constructor(private labelsData: LabelsService) { }
   getLabels(){
     this.labelsData.getLabelsData().subscribe(

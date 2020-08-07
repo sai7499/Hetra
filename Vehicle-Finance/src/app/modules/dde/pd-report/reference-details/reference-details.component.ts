@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LabelsService } from '@services/labels.service';
 
 @Component({
   selector: 'app-reference-details',
@@ -6,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./reference-details.component.css']
 })
 export class ReferenceDetailsComponent implements OnInit {
-
-  constructor() { }
+  labels: any = {};
+  constructor(private labelsData: LabelsService) { }
 
   ngOnInit() {
+    this.getLabels();
+  }
+  getLabels() {
+    this.labelsData.getLabelsData().subscribe(
+      (data) => (this.labels = data),
+    );
   }
 
 }

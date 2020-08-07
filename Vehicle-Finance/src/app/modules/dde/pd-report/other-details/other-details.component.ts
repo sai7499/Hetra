@@ -18,6 +18,7 @@ export class OtherDetailsComponent implements OnInit {
   version: any;
   labels: any = {};
   LOV: any = {};
+  isDirty:boolean;
 
   constructor( private labelsData: LabelsService,
                private formBuilder: FormBuilder,

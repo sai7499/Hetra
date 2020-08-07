@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, AbstractType } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LabelsService } from 'src/app/services/labels.service';
@@ -83,6 +83,7 @@ export class NegotiationComponent implements OnInit {
   userId: string;
   sample = [];
   CrossSellInsurance: any;
+  SelectAppropriateLMSScheduleCode;
   constructor(
     private labelsData: LabelsService,
     private NegotiationService: NegotiationService,
