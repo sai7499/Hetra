@@ -401,10 +401,7 @@ export class FiReportOfficeComponent implements OnInit {
         this.setFormValue();
         if (this.fiDetails) {
           if (this.fiDetails.pincode != null) {
-            this.getPincodeResult(this.fiDetails.pincode);
-          } else {
-            this.toasterService.showError('', 'message');
-
+            this.getPincodeResult(Number(this.fiDetails.pincode));
           }
         }
       }
@@ -446,7 +443,7 @@ export class FiReportOfficeComponent implements OnInit {
     this.fIBusinessDetails = {
 
       // applicantId: 1177, // hardcoded as per backend
-      applicantId: this.applicantId,
+      // applicantId: this.applicantId,
       externalAgencyName: fieldReportModal.externalAgencyName,
       contactPointVerification: fieldReportModal.contactPointVerification,
       referenceNo: fieldReportModal.referenceNo,
@@ -458,9 +455,9 @@ export class FiReportOfficeComponent implements OnInit {
       addressLine1: fieldReportModal.addressLine1,
       addressLine2: fieldReportModal.addressLine2,
       addressLine3: fieldReportModal.addressLine3,
-      pincode: Number(fieldReportModal.pincode),
-      city: Number(fieldReportModal.city),
-      state: Number(fieldReportModal.state),
+      pincode: fieldReportModal.pincode,
+      city: fieldReportModal.city,
+      state: fieldReportModal.state,
       personMetName: fieldReportModal.personMetName,
       designation: fieldReportModal.designation,
       natureOfBusiness: fieldReportModal.natureOfBusiness,
@@ -486,11 +483,11 @@ export class FiReportOfficeComponent implements OnInit {
       furnishings: fieldReportModal.furnishings,
       officeSize: fieldReportModal.officeSize,
       observations: fieldReportModal.observations,
-      noOfWorkingEmployees: Number(fieldReportModal.noOfWorkingEmployees),
-      noOfVisibleEmployees: Number(fieldReportModal.noOfVisibleEmployees),
+      noOfWorkingEmployees: fieldReportModal.noOfWorkingEmployees,
+      noOfVisibleEmployees: fieldReportModal.noOfVisibleEmployees,
       activityLevel: fieldReportModal.activityLevel,
       fiComments: fieldReportModal.fiComments,
-      distanceInKms: Number(fieldReportModal.distanceInKms),
+      distanceInKms: fieldReportModal.distanceInKms,
       cpvAgencyStatus: fieldReportModal.cpvAgencyStatus,
       verifiedBy: fieldReportModal.verifiedBy,
       fiDate: this.sendDate(this.fiDate),
@@ -498,6 +495,7 @@ export class FiReportOfficeComponent implements OnInit {
     };
     const data = {
       userId: this.userId,
+      applicantId: this.applicantId,
       fIBusinessDetails: this.fIBusinessDetails
     };
     console.log('fi business details', this.fIBusinessDetails);

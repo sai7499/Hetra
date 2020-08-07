@@ -67,7 +67,13 @@
           >{{ labels?.cpvIntiatedTime }}
           <sub class="star_red_col">*</sub></label
         >
-        <app-custom-input
+        <input
+          type="time"
+          class="form-control mandatory"
+          placeholder="'cpv initiated time'"
+          formControlName="cpvInitiatedTime"
+        />
+        <!-- <app-custom-input
           id="cpv_time"
           [placeholder]="'Enter initiated time'"
           [type]="labels?.validationData?.cubicCapacity?.type"
@@ -76,7 +82,7 @@
           [maxLength]="labels?.validationData?.cubicCapacity?.maxLength"
           [isDirty]="isDirty"
         >
-        </app-custom-input>
+        </app-custom-input> -->
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="report_date"
@@ -99,7 +105,14 @@
           >{{ labels?.reportSubmitTime }}
           <sub class="star_red_col">*</sub></label
         >
-        <app-custom-input
+        <input
+          type="time"
+          class="form-control mandatory"
+          placeholder="'Enter submit time'"
+          formControlName="reportSubmitTime"
+        />
+
+        <!-- <app-custom-input
           id="report_time"
           [placeholder]="'Enter submit time'"
           [type]="labels?.validationData?.cubicCapacity?.type"
@@ -108,7 +121,7 @@
           [maxLength]="labels?.validationData?.cubicCapacity?.maxLength"
           [isDirty]="isDirty"
         >
-        </app-custom-input>
+        </app-custom-input> -->
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="applicantsName"
