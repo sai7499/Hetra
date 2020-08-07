@@ -378,7 +378,7 @@ export class ReferenceCheckComponent implements OnInit {
         // this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
         this.router.navigate([`/pages/dashboard`]);
       } else {
-        this.toasterService.showError( processVariables.error.message, '');
+        this.toasterService.showError(processVariables.error.message, '');
         console.log('error', processVariables.error.message);
 
       }
@@ -404,12 +404,10 @@ export class ReferenceCheckComponent implements OnInit {
 
   onNavigateBack() { // fun to navigate to back page
     if (this.version !== 'undefined') {
-      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}
-      /fi-cum-pd-list/${this.applicantId}/loan-details/${this.version}`]);
+      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/loan-details/${this.version}`]);
 
     } else {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}
-      /fi-cum-pd-list/${this.applicantId}/loan-details`]);
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/loan-details`]);
       // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
 
     }

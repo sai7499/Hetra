@@ -89,9 +89,9 @@ export class CustomerProfileDetailsComponent implements OnInit {
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
-    console.log("this user roleType", this.roleType)
-    console.log("user name", this.userName)
-    console.log("user id ==>", this.userId)
+    console.log('this user roleType', this.roleType);
+    console.log('user name', this.userName)
+    console.log('user id ==>', this.userId)
 
     this.initForm();
 
@@ -165,10 +165,9 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
     if (customerProfileModal) {
 
-      console.log("common variable ", customerProfileModal);
-    }
-    else {
-      console.log("common variable is empty calling get api")
+      console.log('common variable ', customerProfileModal);
+    } else {
+      console.log('common variable is empty calling get api')
 
       // this.getPdDetails();
 
@@ -182,7 +181,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
       applicantId: this.applicantId,
       pdVersion: this.version,
-    }
+    };
 
     this.personalDiscussion.getPdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
@@ -191,7 +190,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
         this.custProfDetails = value.ProcessVariables.customerProfileDetails;
         console.log('calling get api ', this.custProfDetails);
         if (this.custProfDetails) {
-          this.setFormValue()
+          this.setFormValue();
           this.pdDataService.setCustomerProfile(this.custProfDetails);
         }
       }
@@ -261,13 +260,12 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
           if (this.version !== 'undefined') {
 
-            this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}
-            /fi-cum-pd-list/${this.applicantId}/loan-details/${this.version}`]);
+            // tslint:disable-next-line: max-line-length
+            this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/loan-details/${this.version}`]);
 
           } else {
 
-            this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}
-            /fi-cum-pd-list/${this.applicantId}/loan-details`]);
+            this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/loan-details`]);
 
           }
 
@@ -296,12 +294,11 @@ export class CustomerProfileDetailsComponent implements OnInit {
   // }
   onNavigateBack() {
     if (this.version !== 'undefined') {
-      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}
-      /fi-cum-pd-list/${this.applicantId}/applicant-details/${this.version}`]);
+      // tslint:disable-next-line: max-line-length
+      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/applicant-details/${this.version}`]);
 
     } else {
-      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}
-      /fi-cum-pd-list/${this.applicantId}/applicant-details`]);
+      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/applicant-details`]);
       // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
 
     }

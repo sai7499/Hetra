@@ -9,10 +9,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class IncomeDetailsComponent implements OnInit {
   incomeDetailsForm: FormGroup;
   labels: any;
-  acType: any  = [{}]
+  acType: any = [{}]
   public errorMsg;
   constructor(private labelsData: LabelsService) { }
-  getLabels(){
+  getLabels() {
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
@@ -31,7 +31,7 @@ export class IncomeDetailsComponent implements OnInit {
       additionaIncome: new FormControl('', Validators.required),
       grossSalary: new FormControl('', Validators.required),
       netSalary: new FormControl('', Validators.required),
-      individualIncome : new FormControl('', Validators.required),
+      individualIncome: new FormControl('', Validators.required),
       acType: new FormControl('', Validators.required),
       bankName: new FormControl('', Validators.required),
       accountNumber: new FormControl('', Validators.required),
@@ -51,7 +51,7 @@ export class IncomeDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getLabels()
+    this.getLabels();
     this.initForm();
   }
 

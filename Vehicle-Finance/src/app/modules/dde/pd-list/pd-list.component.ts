@@ -109,11 +109,12 @@ export class PdListComponent implements OnInit {
 
   }
 
-  navigatePage(applicantId: string, version) {
+  navigatePage(applicantId: string, version: any) {
     console.log(
       'applicantId',
       applicantId,
     );
+    console.log('version', version);
 
     console.log('URL', URL);
     console.log('flag ficumPD', this.isFiCumPD);
@@ -124,18 +125,21 @@ export class PdListComponent implements OnInit {
         console.log(' in pd-dashboard flow');
 
         // this.show = true;
-        if (version) {
+        if (version !== undefined) {
+          console.log('in fi-cum-pd-dashboard version conditon');
           this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${applicantId}/applicant-details/${version}`]);
         } else {
+          console.log('in fi-cum-pd-dashboard undefined version conditon');
           this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${applicantId}/applicant-details`]);
         }
 
       } else if (this.router.url.includes('/dde')) {
         console.log(' in dde flow');
         // this.showStatus = true;
-        if (version) {
+        if (version !== 'undefined') {
           this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${applicantId}/applicant-details/${version}`]);
         } else {
+
           this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${applicantId}/applicant-details`]);
         }
 
@@ -144,24 +148,27 @@ export class PdListComponent implements OnInit {
 
       if (this.router.url.includes('/fi-cum-pd-dashboard')) {
 
-        console.log(' in pd-dashboard flow');
+        console.log(' in pd-dashboard flow', this.isFiCumPD);
 
         // this.show = true;
-        if (version) {
+        if (version !== undefined) {
+          console.log('in fi-cum-pd-dashboard version conditon');
           // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
-          this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details`]);
+          this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
           // right now version not available so
 
         } else {
+          console.log('in fi-cum-pd-dashboard undefined version conditon');
           this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details`]);
         }
 
       } else if (this.router.url.includes('/dde')) {
         console.log(' in dde flow');
         // this.showStatus = true;
-        if (version) {
+        if (version !== 'undefined') {
+          console.log('dde version conditon');
           // this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
-          this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${applicantId}/personal-details`]);
+          this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
           // right now version not available so
         } else {
           this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${applicantId}/personal-details`]);

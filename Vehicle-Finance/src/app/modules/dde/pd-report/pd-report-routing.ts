@@ -26,7 +26,7 @@ const routes: Routes = [
         component: IncomeDetailsComponent
       },
       {
-        path: ':applicantId/income-details?:version',
+        path: ':applicantId/income-details/:version',
         component: IncomeDetailsComponent
       },
       {

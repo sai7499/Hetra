@@ -34,18 +34,18 @@ export class FiCumPdReportComponent implements OnInit {
     ngOnInit() {
 
 
-        console.log("in router url", this.router.url)
+        console.log('in router url', this.router.url);
         if (this.router.url.includes('/pd-dashboard')) {
 
-            console.log(" pd-dashboard ")
+            console.log(' pd-dashboard ');
             this.show = false;
-            console.log(" pd-dashboard ", this.show)
+            console.log(' pd-dashboard ', this.show);
 
 
         } else {
 
             this.show = true;
-            console.log(" pd-dashboard ", this.show)
+            console.log(' pd-dashboard ', this.show);
         }
 
         const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -54,7 +54,7 @@ export class FiCumPdReportComponent implements OnInit {
         this.roleId = this.roles[0].roleId;
         this.roleName = this.roles[0].name;
         this.roleType = this.roles[0].roleType;
-        console.log("this user roleType", this.roleType)
+        console.log('this user roleType', this.roleType);
 
 
         const currentUrl = this.location.path();
@@ -103,14 +103,30 @@ export class FiCumPdReportComponent implements OnInit {
 
     }
     onNavigate(url: string) {
+        if (this.router.url.includes('/fi-cum-pd-dashboard')) {
 
-        if (this.version) {
-            this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/${url}/${this.version}`]);
-            // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${applicantId}/applicant-details/${version}`]);
+            if (this.version !== undefined) {
+                console.log('in defined progress bar', this.version);
+                // tslint:disable-next-line: max-line-length
+                this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/${url}/${this.version}`]);
+                // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${applicantId}/applicant-details/${version}`]);
 
-        } else {
-            this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/${url}`]);
-            // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/${url}/${this.version}`]);
+            } else {
+                console.log('in undefined progress bar', this.version);
+                this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/${url}`]);
+                // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/${url}/${this.version}`]);
+            }
+        } else if (this.router.url.includes('/dde')) {
+            if (this.version !== 'undefined') {
+                this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/${url}/${this.version}`]);
+                // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${applicantId}/applicant-details/${version}`]);
+
+            } else {
+                this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/${url}`]);
+                // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/${url}/${this.version}`]);
+            }
+
+
         }
 
     }

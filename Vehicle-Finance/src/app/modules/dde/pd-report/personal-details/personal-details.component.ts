@@ -43,7 +43,7 @@ export class PersonalDetailsComponent implements OnInit {
 
     this.leadId = (await this.getLeadId()) as number;
 
-    console.log('LeadId', this.leadId)
+    console.log('LeadId', this.leadId);
 
     this.getLOV();
     this.lovDataService.getLovData().subscribe((value: any) => {
@@ -86,7 +86,7 @@ export class PersonalDetailsComponent implements OnInit {
         return;
       }
       this.applicantId = Number(value.applicantId);
-      console.log(value.version)
+      console.log(value.version);
       this.version = value.version ? String(value.version) : null;
     });
   }
@@ -103,7 +103,7 @@ export class PersonalDetailsComponent implements OnInit {
   }
 
   onNavigateNext() {
-    if (this.version) {
+    if (this.version !== 'undefined') {
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/income-details/${this.version}`]);
     } else {
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/income-details`]);
