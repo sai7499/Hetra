@@ -38,7 +38,7 @@ export const environment = {
   appiyoDrive: '/d/drive/upload/',
   
   mobileBaseUrl: "https://hetrauat.equitasbank.com",
-  isMobile: false,
+  isMobile: true,
   isMaas360Enabled: false
 };
 
