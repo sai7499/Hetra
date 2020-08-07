@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { PersonalDiscussionService } from '@services/personal-discussion.service';
-import { DdeStoreService } from '@services/dde-store.service';
-import { LoginStoreService } from '@services/login-store.service';
 
 @Component({
   selector: 'app-pd-report',
@@ -26,38 +23,44 @@ export class PdReportComponent implements OnInit {
   constructor(
     private router: Router,
     private location: Location,
-    private loginStoreService: LoginStoreService,
-    private personalDiscussion: PersonalDiscussionService,
-    private ddeStoreService: DdeStoreService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     const currentUrl = this.location.path();
     this.locationIndex = this.getLocationIndex(currentUrl);
     this.location.onUrlChange((url: string) => {
       this.locationIndex = this.getLocationIndex(url);
     });
-    this.activatedRoute.params.subscribe((value: any) => {
-      console.log('params', value);
-      this.leadId = Number(value.leadId);
-      // if (!this.leadId) {
-      //   const data: any = this.createLeadDataService.getLeadData();
-      //   this.leadId = data.leadId;
-      // }
-      // this.leadStoreService.setLeadId(this.leadId);
-      // console.log(
-      //   ' this.createLeadDataService.getLeadData()',
-      //   this.createLeadDataService.getLeadData()
-      // );
-  });
-  this.activatedRoute.firstChild.params.subscribe((value: any) => {
-      this.applicantId = value.applicantId;
-      this.version = value.version;
-      console.log('applicant ID', value.applicantId);
-      console.log('version in fi and pd report', this.version);
-  });
+
+    this.applicantId = (await this.getApplicantId()) as number;
+    this.leadId = (await this.getLeadId()) as number;
   }
+
+  getLeadId() {
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.params.subscribe((value) => {
+        const leadId = value.leadId;
+        if (leadId) {
+          resolve(Number(leadId));
+        }
+        resolve(null);
+      });
+    });
+  }
+
+  getApplicantId() {
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.firstChild.params.subscribe((value) => {
+        const applicantId = value.applicantId;
+        if (applicantId) {
+          resolve(Number(applicantId));
+        }
+        resolve(null);
+      });
+    });
+  }
+
   onNavigate(url: string) {
 
     if (this.version) {
