@@ -205,11 +205,18 @@ export class DashboardComponent implements OnInit {
 
   // changing main tabs
   onLeads(data, subTab) {
-    this.onReleaseTab = true;
-    this.onAssignTab = false;
+   
+
     this.activeTab = data;
     this.subActiveTab = subTab;
     console.log('activeTab', this.activeTab);
+    if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
+      this.onReleaseTab = false;
+      this.onAssignTab = false;
+    } else {
+      this.onReleaseTab = true;
+      this.onAssignTab = false;
+    }
     if (this.roleType === 1) {
       if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
         this.getSalesFilterLeads(this.itemsPerPage);
@@ -235,6 +242,13 @@ export class DashboardComponent implements OnInit {
   // changing sub tabs
   leads(data) {
     this.subActiveTab = data;
+    if (this.subActiveTab === this.displayTabs.NewLeads) {
+      this.onReleaseTab = false;
+      this.onAssignTab = false;
+    } else {
+      this.onReleaseTab = true;
+      this.onAssignTab = false;
+    }
     console.log('subActiveTab', this.subActiveTab);
     if (this.roleType === 1) {
       switch (data) {
