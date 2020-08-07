@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 @Component({
   selector: 'app-income-details',
@@ -10,8 +12,13 @@ export class IncomeDetailsComponent implements OnInit {
   incomeDetailsForm: FormGroup;
   labels: any;
   acType: any  = [{}]
+  private leadId: number;
+  applicantId: any;
+  version: any;
   public errorMsg;
-  constructor(private labelsData: LabelsService) { }
+  constructor(private labelsData: LabelsService, 
+    private activatedRoute: ActivatedRoute,
+    private router: Router,) { }
   getLabels(){
     this.labelsData.getLabelsData().subscribe(
       data => {
@@ -21,6 +28,17 @@ export class IncomeDetailsComponent implements OnInit {
       error => {
         this.errorMsg = error;
       });
+  }
+
+  getLeadId() {
+    return new Promise((resolve, reject) => {
+      this.activatedRoute.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
+    });
   }
 
   initForm() { // initialising the form group
@@ -50,7 +68,37 @@ export class IncomeDetailsComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  onNavigateNext() {
+    if (this.version) {
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/reference-details/${this.version}`]);
+    } else {
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/reference-details`]);
+    }
+  }
+
+  onNavigateBack() {
+    if (this.version) {
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/personal-details/${this.version}`]);
+    } else {
+      this.router.navigateByUrl(`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/personal-details`);
+    }
+  }
+
+  onFormSubmit(url: string) {
+
+  }
+
+
+  async ngOnInit() {
+    this.leadId = (await this.getLeadId()) as number;
+    this.activatedRoute.params.subscribe((value) => {
+      if (!value && !value.applicantId) {
+        return;
+      }
+      this.applicantId = Number(value.applicantId);
+      console.log(value.version)
+      this.version = value.version ? String(value.version): null;
+    });
     this.getLabels()
     this.initForm();
   }

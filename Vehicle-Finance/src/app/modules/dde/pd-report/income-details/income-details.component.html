@@ -2,7 +2,7 @@
   class="multisteps-form__form"
   [formGroup]="incomeDetailsForm"
 >
-<div
+<div style="margin-bottom: 47px;"
 class="multisteps-form__panel js-active"
 data-animation="scaleIn"
 >
@@ -340,7 +340,22 @@ data-animation="scaleIn"
   </div>
 </div>
 
-
+<div class="btn-sec clear-both">
+  <div class="col-sm-5"></div>
+  <div class="col-sm-7 text-right">
+      <button class="btn btn-primary" type="button" (click)="onNavigateBack()">
+          {{ labels.back }}
+      </button>
+      &nbsp;
+      <button class="btn btn-primary" (click)="onFormSubmit('save')">
+          {{ labels.save }}
+      </button>
+      &nbsp;
+      <button class="btn btn-primary" (click)="onNavigateNext()">
+          {{ labels.next }}
+      </button>
+  </div>
+</div>
 </div>
 
 </form>
