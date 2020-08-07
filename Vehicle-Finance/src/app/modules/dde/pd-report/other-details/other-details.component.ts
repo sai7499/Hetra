@@ -49,12 +49,12 @@ export class OtherDetailsComponent implements OnInit {
 
   //GET APPLICANTID
   getApplicantId() {
-    this.aRoute.parent.params.subscribe((value: any) => {
-      this.applicantId = value.applicantId;
-      this.version = value.version;
-      console.log('ApplicantId::', this.applicantId);
-      console.log('Version::', this.version);
+    this.aRoute.params.subscribe((value: any) => {
+      this.applicantId = Number(value.applicantId);
+      this.version = String(value.version);
     });
+    console.log('ApplicantId::', this.applicantId);
+    console.log('Version::', this.version);
   }
 
   //GET ALL LOVS
