@@ -8,6 +8,7 @@ import { SanctionDetailsComponent } from '../credit-decisions/sanction-details/s
 import { CustomerFeedbackComponent } from '../credit-decisions/customer-feedback/customer-feedback.component';
 import { CheckListComponent } from '../credit-decisions/check-list/check-list.component';
 import { CpcMakerDdeComponent } from './cpc-maker-dde/cpc-maker-dde.component';
+import { PdcDetailsComponent } from './pdc-details/pdc-details.component';
 
 const routes: Routes = [
   {
@@ -19,10 +20,10 @@ const routes: Routes = [
             path: '',
             component: CheckListComponent
         },
-        {
-            path: 'credit-condition',
-            component: CreditConditionsComponent
-        },
+        // {
+        //     path: 'credit-condition',
+        //     component: CreditConditionsComponent
+        // },
         {
             path: 'term-sheet',
             component: TermSheetComponent
@@ -38,6 +39,10 @@ const routes: Routes = [
         {
             path: 'check-list',
             component: CheckListComponent
+        } ,
+        {
+            path: 'pdc-details',
+            component: PdcDetailsComponent
         }
     ]
 }

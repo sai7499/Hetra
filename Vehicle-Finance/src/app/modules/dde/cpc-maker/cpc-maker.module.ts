@@ -12,10 +12,12 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModule } from '@modules/shared/shared.module';
 import { DdeSharedModule } from '../shared/shared.module';
 import { CreditConditionModule } from '../credit-decisions/credit-decisions.module';
+import { PdcDetailsComponent } from './pdc-details/pdc-details.component';
 
 @NgModule({
   declarations: [
     CpcMakerDdeComponent,
+    PdcDetailsComponent,
     // CreditConditionsComponent,
     // TermSheetComponent,
     // SanctionDetailsComponent,
@@ -33,7 +35,8 @@ import { CreditConditionModule } from '../credit-decisions/credit-decisions.modu
 
   ],
   exports: [
-    CpcMakerDdeComponent
+    CpcMakerDdeComponent,
+    PdcDetailsComponent,
   ]
 })
 export class CpcMakerModule { }

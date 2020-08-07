@@ -207,7 +207,7 @@ export class CheckListComponent implements OnInit {
        this.toasterService.showSuccess('Record Saved Successfully', ' ');
        this.getCheckList();
      } else {
-       this.toasterService.showError(res.ProcessVariables.error.code.message, '');
+       this.toasterService.showError(res.ProcessVariables.error.message, '');
      }
     });
   }
@@ -288,16 +288,16 @@ export class CheckListComponent implements OnInit {
 
   }
 onNext()  {
-  this.onSave();
+  // this.onSave();
   // tslint:disable-next-line: triple-equals
   if (this.roleType == '2') {
   // this.router.navigate([`pages/cred`])
   // tslint:disable-next-line: triple-equals
   } else if (this.roleType == '4') {
-    this.router.navigate([`pages/cpc-maker/${this.leadId}/credit-condition`]);
+    this.router.navigate([`pages/cpc-maker/${this.leadId}/term-sheet`]);
   // tslint:disable-next-line: triple-equals
   } else if ( this.roleType == '5') {
-  this.router.navigate([`pages/cpc-checker/${this.leadId}/credit-condition`]);
+  this.router.navigate([`pages/cpc-checker/${this.leadId}/term-sheet`]);
   }
 }
 }

@@ -67,11 +67,11 @@ export class CpcMakerDdeComponent implements OnInit {
   getLocationIndex(url: string) {
     if (url.includes('check-list')) {
       return 0;
-    } else if (url.includes('credit-condition')) {
+    }  else if (url.includes('term-sheet')) {
       return 1;
-    } else if (url.includes('term-sheet')) {
-      return 2;
     } else if (url.includes('sanction-details')) {
+      return 2;
+    } else if (url.includes('pdc-details')) {
       return 3;
     } else if (url.includes('customer-feedback')) {
       return 4;
