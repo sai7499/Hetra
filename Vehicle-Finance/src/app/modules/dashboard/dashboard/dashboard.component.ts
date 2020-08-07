@@ -1036,7 +1036,7 @@ export class DashboardComponent implements OnInit {
       } else if (this.subActiveTab === this.displayTabs.ViabilityWithMe) {
         this.router.navigate([`/pages/viability-list/${leadId}/viability-list`]);
       } else if (this.subActiveTab === this.displayTabs.MyFI) {
-        // this.router.navigateByUrl(`/pages/dde/${leadId}/fi-list`);
+        this.router.navigateByUrl(`/pages/fi-dashboard/${leadId}/fi-list`);
       }
     } else if (this.roleType === 2) {
       if (this.subActiveTab === this.displayCreditTabs.DDEWithMe) {
