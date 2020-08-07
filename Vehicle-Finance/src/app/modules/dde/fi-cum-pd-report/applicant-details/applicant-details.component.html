@@ -11,6 +11,8 @@
     <h3 class="title">{{ labels.applicantDetailsTitle }}</h3>
 
     <div class="row">
+      <div class="row">
+
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="applicant_name"> {{ labels.fullName }} </label>
         <input
@@ -58,7 +60,9 @@
         </app-vf-custom-select>
       </div>
     </div>
+  </div>
     <div class="row">
+      <div class="row">
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="marital_status">
           {{ labels.maritalStatus }} <sub class="star_red_col">*</sub></label
@@ -112,8 +116,10 @@
         >
         </app-custom-input>
       </div>
+      </div>
     </div>
     <div class="row">
+      <div class="row">
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="office_number"
           >{{ labels.officeNo }} <sub class="star_red_col">*</sub></label
@@ -162,8 +168,10 @@
         >
         </app-vf-custom-select>
       </div>
+      </div>
     </div>
     <div class="row">
+      <div class="row">
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="bank_name"
           >{{ labels.bankName }} <sub class="star_red_col">*</sub></label
@@ -214,8 +222,10 @@
         >
         </app-custom-input>
       </div>
+      </div>
     </div>
     <div class="row">
+      <div class="row">
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="locate"
           >{{ labels.locate }} <sub class="star_red_col">*</sub></label
@@ -271,6 +281,7 @@
         >
         </app-vf-custom-select>
       </div>
+    </div>
       <div class="row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="standard_house"
@@ -372,8 +383,8 @@
         </div>
 
         <div class="btn-sec clear-both">
-          <div class="col-sm-5"></div>
-          <div class="col-sm-7 text-right">
+          <div class="col-sm-4"></div>
+          <div class="col-sm-8 text-right">
             <button
               class="btn btn-primary"
               type="button"
@@ -381,11 +392,11 @@
             >
               {{ labels.back }}
             </button>
-            &nbsp;
+           
             <button class="btn btn-primary" (click)="onFormSubmit('save')">
               {{ labels.save }}
             </button>
-            &nbsp;
+           
             <!-- <button class="btn btn-primary" (click)="onNavigateNext()">
               {{ labels.next }}
             </button> -->

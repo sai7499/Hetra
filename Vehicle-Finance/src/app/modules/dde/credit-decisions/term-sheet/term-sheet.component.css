@@ -134,6 +134,8 @@ border: none !important;
 	margin-left: 400px;
 	margin-top: 10px;
 }
+
+
 #tearm_sheet1_ul
 {
 	margin-top: -21px;
@@ -305,5 +307,37 @@ border: none !important;
         margin-bottom: 20px;
          margin-right: 8px;
         margin-left: 8px;
-    }
+	}
+	
+	#tearms_sheet_header2_top
+{
+	margin-left: 0px;
+	margin-top: 10px;
+}
+
+#tearms_sheet_header3_top {
+    margin-left: 0px;
+    margin-top: 10px;
+}
+
+#terms_sheet_headline10_tag {
+    margin-left: 0px;
+}
+
+#terms_sheet_headline11 {
+    margin-left: 0px;
+}
+
+#terms_sheet_headline12_tag {
+    margin-left: 0px;
+}
+
+#terms_sheet_headline13_tag {
+    margin-left: 0px;
+}
+
+#terms_sheet_headline14_tag {
+    margin-left: 0px;
+}
+
 }
