@@ -245,9 +245,9 @@ export class CreditConditionsComponent implements OnInit {
             this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
           }else{
             if(this.userType == 2){
-              this.router.navigateByUrl('/pages/dashboard/credit-decision/decision-with-me')
+              this.router.navigateByUrl('/pages/dashboard')
             }else{
-              this.router.navigateByUrl('/pages/dashboard/leads-section/sanction-leads')
+              this.router.navigateByUrl('/pages/dashboard')
             }
           }
   

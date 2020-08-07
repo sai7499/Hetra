@@ -1,0 +1,13 @@
+.mar-bot25 {
+    margin-bottom: 50px;
+    
+}
+
+div {
+    margin: 5px 0;
+}
+cus-mandatory-field {
+    color: red;
+    font-style: oblique;
+    font-size: 12px;
+}

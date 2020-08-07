@@ -969,20 +969,6 @@ export class DashboardComponent implements OnInit {
         this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
       }
     }
-    // else if (this.subActiveTab === this.displayCreditTabs.DDEWithMe) {
-    //   this.router.navigateByUrl(`/pages/dde/${leadId}/lead-details`);
-    // } else if (this.subActiveTab === this.displayCreditTabs.MyPD) {
-    //   this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
-    // } else if (this.subActiveTab === this.displayCreditTabs.DeviationWithMe) {
-    //   this.router.navigateByUrl(`/pages/deviation-dashboard/${leadId}/dashboard-deviation-details`);
-    // } else if (this.subActiveTab === this.displayCreditTabs.CreditDecisionWithMe) {
-    //   this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
-    // } else if (this.makerWithMe) {
-
-    // } else if (this.checkerWithMe) {
-
-    // }
-
 
   }
 

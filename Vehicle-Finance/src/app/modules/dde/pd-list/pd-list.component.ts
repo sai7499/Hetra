@@ -7,7 +7,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
-  selector: 'app-pd-report',
+  selector: 'app-pd-list',
   templateUrl: './pd-list.component.html',
   styleUrls: ['./pd-list.component.css']
 })
@@ -102,7 +102,7 @@ export class PdListComponent implements OnInit {
 
     // http://localhost:4200/#/pages/dashboard/personal-discussion/my-pd-tasks
 
-    this.router.navigate([`/pages/dashboard/personal-discussion/my-pd-tasks`]);
+    this.router.navigate([`/pages/dashboard`]);
 
   }
 
@@ -119,7 +119,21 @@ export class PdListComponent implements OnInit {
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${applicantId}/applicant-details`]);
     }
   }
+  navigateNewPdPage(applicantId: string, version) {
+    console.log(
+      'applicantId',
+      applicantId,
+      'version',
+      version
+    );
 
+    console.log('URL', URL);
+    if (version) {
+      this.router.navigate([`/pages/new-pd-dashboard/${this.leadId}/${applicantId}/personal-details/${version}`]);
+    } else {
+      this.router.navigate([`/pages/new-pd-dashboard/${this.leadId}/${applicantId}/personal-details`]);
+    }
+  }
   getLeadId() {  // function to get the respective  lead id from the url
     return new Promise((resolve, reject) => {
       this.activatedRoute.parent.params.subscribe((value) => {
