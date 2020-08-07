@@ -90,6 +90,6 @@ height: 100vh;
 .fa.fa-eye{width:50px;font-size: 20px;}
 
 .buttonsAdjust {
-    margin-top: -10px;
-    margin-bottom: 30px;
+   margin: 20px;
+   margin-bottom: 20px;
 }
