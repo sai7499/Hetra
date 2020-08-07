@@ -43,13 +43,13 @@ export class DdeComponent implements OnInit {
         this.createLeadDataService.setLeadSectionData(leadData);
         this.leadStoreService.setLeadCreation(leadData);
       }
-      this.sharedService.vehicleValuationNext$.subscribe( (val) => {
-        if(val === true) {
+      this.sharedService.vehicleValuationNext$.subscribe((val) => {
+        if (val === true) {
           this.onNext();
         }
       });
-      this.sharedService.tvrDetailsPrevious$.subscribe( (val) => {
-        if(val === true) {
+      this.sharedService.tvrDetailsPrevious$.subscribe((val) => {
+        if (val === true) {
           this.onPrevious();
         }
       });
@@ -67,7 +67,7 @@ export class DdeComponent implements OnInit {
       this.show = true;
     }
 
-    if (this.router.url.includes('/pd-dashboard')) {
+    if (this.router.url.includes('/pd-dashboard') || this.router.url.includes('/fi-dashboard')) {
       this.showNav = false;
     } else {
       this.showNav = true;
@@ -112,7 +112,7 @@ export class DdeComponent implements OnInit {
       return 11;
     } else if (url.includes('cibil-od')) {
       return 12;
-    }  else if (url.includes('score-card')) {
+    } else if (url.includes('score-card')) {
       return 13;
     } else if (url.includes('cam')) {
       return 14;

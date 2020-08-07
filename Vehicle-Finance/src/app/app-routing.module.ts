@@ -85,6 +85,11 @@ const routes: Routes = [
           import('./modules/dde/dde.module').then((m) => m.DdeModule),
       },
       {
+        path: 'fi-dashboard', // added another routing for dde module to load from fi-dashboard
+        loadChildren: () =>
+          import('./modules/dde/dde.module').then((m) => m.DdeModule),
+      },
+      {
         path: 'vehicle-details',
         loadChildren: () =>
           import('./modules/dde/vehicle-details/vehicle-details.module').then(
@@ -165,6 +170,20 @@ const routes: Routes = [
           import(
             './modules/dde/viability-dashboard/viability-dashboard.module'
           ).then((m) => m.ViabilityDashboardModule),
+      },
+      {
+        path: 'cpc-maker',
+        loadChildren: () =>
+          import(
+            './modules/dde/cpc-maker/cpc-maker.module'
+          ).then((m) => m.CpcMakerModule),
+      },
+      {
+        path: 'cpc-checker',
+        loadChildren: () =>
+          import(
+            './modules/dde/cpc-maker/cpc-maker.module'
+          ).then((m) => m.CpcMakerModule),
       },
     ],
   },

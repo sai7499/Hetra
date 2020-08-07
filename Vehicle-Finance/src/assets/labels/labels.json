@@ -914,11 +914,11 @@
     "close": "Close",
     "fatherName": "Father Name",
     "fullName": "Full Name",
+    "fatherNameHusbandName": "Father/Husband Name",
     "fatherNameHusbandFirstName": "Father/Husband First Name",
     "fatherNameHusbandSecondName": "Father/Husband Second Name",
     "fatherNameHusbandThirdName": "Father/Husband Third Name",
     "fatherNameHusbandFullName": "Father/Husband Full Name",
-    "fatherNameHusbandName": "Father/Husband Name",
     "gender": "Gender",
     "maritalStatus": "Marital Status",
     "weddingAnniversaryDate": "Wedding Anniversary Date",
@@ -1358,8 +1358,19 @@
     "leadCreatedOnEndDate": "Lead Created On - End Date",
     "loanMinAmount": "Loan Min Amount",
     "loanMaxAmount": "Loan Max Amount",
-    "mode": "mode",
-    "netIncome": "Net Income",
+    "mode":"mode",
+    "otherDetailsTitle": "Other Details",
+    "income1": "Income",
+    "securedLoans": "Secured Loans",
+    "unSecuredLoans": "Un Secured Loans",
+    "creditors": "Crediotrs",
+    "debtors": "Debtors",
+    "fixedAssets": "Fixed Assets",
+    "geotagInformation": "Geotag Information",
+    "equitasBranchName": "Equitas Branch Name",
+    "distanceEquitasAssetBranch": "Distance from Equitas Asset Branch in Kms",
+    "tomeOfVerification": "Time of Verification",
+    "netIncome" : "Net Income",
     "additionalSourceofIncome": "Additional source of income",
     "grossSalary": "Gross Salary",
     "netsalary": "Net salary",
@@ -1375,6 +1386,41 @@
     "creditCardFullName": "Credit Card Full Name",
     "creditcardIssuedby": "Credit card Issued by",
     "creditcardLimit": "Credit card Limit",
+    "referrerDetailsTitle": "Referrer Details",
+    "referrerFirstName": "Referrer First Name",
+    "referrerMiddleName": "Referrer Middle Name",
+    "referrerLastName": "Referrer Last Name",
+    "referrerFullName": "Referrer Full Name",
+    "refererRelationship": "Referrer Relationship",
+    "refereerOfficePhone": "Referrer Office Phone No",
+    "referrerAddressLine1": "Referrer Address Line1",
+    "referrerAddressLine2": "Referrer Address Line2",
+    "referrerAddressLine3": "Referrer Address Line3",
+    "referrerAssetName": "Referrer Asset Name",
+    "applicationReferenceTitle": "Application Reference",
+    "referenceInfoFirstName": "Reference Info - First Name",
+    "referenceInfoMiddleName": "Reference Info - Middle Name",
+    "referenceInfoLastName": "Reference Info - Last Name",
+    "referenceInfoFullName": "Reference Info - Full Name",
+    "referenceInfoPhoneNumber": "Reference Info - Phone Number",
+    "referenceInfoRelationshipwithApplicant":"Reference Info - Relationship with Applicant",
+    "referenceInfoAddressLine1": "Reference Info - Address Line1",
+    "referenceInfoAddressLine2": "Reference Info - Address Line2",
+    "referenceInfoAddressLine3": "Reference Info - Address Line3",
+    "selfieImageTitle":"Selfie With Customer House[Click Photo]",
+    "uploadIamges":"Upload Image",
+    "pdStatusTitle":"PD Status",
+    "PdStatus":"PD Status",
+    "opinionOfOfficer":"Opinion of PD Officer",
+    "referenceDetailsTitle": "Reference Details",
+    "referrerRelationship": "Referrer Relationship",
+    "referrerOfficePhoneNo": "Referrer Office Phone No",
+    "refereneceInfoMiddleName": "Reference Info -Middle Name",
+    "referenceInfoOfficeNo": "Reference Info - Office Phone No",
+    "referenceRelationship": "Reference Info  - Relationship with Applicant",
+    "selfieWithCustomer": "Selfie with Customer",
+    "uploadImages": "Upload Images",
+    "opinionOfPDOfficer": "Opinion of PD Officer",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1880,6 +1926,60 @@
                 "rule": 6
             },
             "type": "number"
+        },
+        "applicationNo": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "alpha-numeric"
+        },
+        "area": {
+            "maxLength": {
+                "rule": 30
+            },
+            "type": "alpha-numeric"
+        },
+        "equitasBranchName": {
+            "type": "alpha"
+        },
+        "distanceEquitasAssetBranch": {
+            "type": "number"
+        },
+        "soName": {
+            "maxLength": {
+                "rule": 30
+            },
+            "type": "alpha"
+        },
+        "tomeOfVerification": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "alpha-numeric"
+        },
+        "referrerName": {
+            "maxLength": {
+                "rule": 30
+            },
+            "type": "alpha"
+        },
+        "referrerFullName": {
+            "maxLength": {
+                "rule": 90
+            },
+            "type": "alpha"
+        },
+        "referrerOfficePhoneNo": {
+            "maxLength": {
+                "rule": 12
+            },
+            "type": "number"
+        },
+        "referrerAddress": {
+            "maxLength": {
+                "rule": 30
+            },
+            "type": "alpha-numeric"
         }
     }
 }

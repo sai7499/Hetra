@@ -26,6 +26,21 @@ export enum DisplayTabs {
   BranchPd,
   ViabilityWithMe,
   ViabilityWithBranch,
+  FI,
+  MyFI,
+  BranchFI,
+  LoanBooking,
+  LoanBookingWithMe,
+  LoanBookingWithBranch,
+  LoanDisbursement,
+  LoanDisbursementWithMe,
+  LoanDisbursementWithBranch,
+  Negotiation,
+  NegotiatinWithMe,
+  NegotiatinWithBranch,
+  Disbursement,
+  DisbursementWithMe,
+  DisbursementWithBranch
 }
 export enum DisplayCreditTabs {
   DDE,
@@ -39,7 +54,10 @@ export enum DisplayCreditTabs {
   DeviationWithMe,
   DeviationWithBranch,
   CreditDecisionWithMe,
-  CreditDecisionWithBranch
+  CreditDecisionWithBranch,
+  FI,
+  MyFI,
+  BranchFI,
 }
 @Component({
   selector: 'app-dashboard',
@@ -175,7 +193,6 @@ export class DashboardComponent implements OnInit {
 
   // changing main tabs
   onLeads(data, subTab) {
-   
 
     this.activeTab = data;
     this.subActiveTab = subTab;
@@ -194,6 +211,8 @@ export class DashboardComponent implements OnInit {
         this.getPdMyTask(this.itemsPerPage);
       } else if (this.activeTab === this.displayTabs.Viability && this.subActiveTab === this.displayTabs.ViabilityWithMe) {
         this.getViabilityLeads(this.itemsPerPage);
+      } else if (this.activeTab === this.displayTabs.FI && this.subActiveTab === this.displayTabs.MyFI) {
+        this.getMyFITask(this.itemsPerPage);
       }
     } else if (this.roleType === 2) {
       if (this.activeTab === this.displayCreditTabs.DDE && this.subActiveTab === this.displayCreditTabs.DDEWithMe) {
@@ -204,6 +223,8 @@ export class DashboardComponent implements OnInit {
         this.getMyDeviationLeads(this.itemsPerPage);
       } else if (this.activeTab === this.displayCreditTabs.Decision && this.subActiveTab === this.displayCreditTabs.CreditDecisionWithMe) {
         this.getMyDecisionLeads(this.itemsPerPage);
+      } else if (this.activeTab === this.displayCreditTabs.FI && this.subActiveTab === this.displayCreditTabs.MyFI) {
+        this.getMyFITask(this.itemsPerPage);
       }
     }
 
@@ -265,6 +286,16 @@ export class DashboardComponent implements OnInit {
           this.onReleaseTab = false;
           this.getViabilityBranchLeads(this.itemsPerPage);
           break;
+        case 13:
+          this.onAssignTab = false;
+          this.onReleaseTab = true;
+          this.getMyFITask(this.itemsPerPage);
+          break;
+        case 14:
+          this.onAssignTab = true;
+          this.onReleaseTab = false;
+          this.getBranchFITask(this.itemsPerPage);
+          break;
         default:
           break;
       }
@@ -310,7 +341,16 @@ export class DashboardComponent implements OnInit {
           this.onReleaseTab = false;
           this.getBranchDecisionLeads(this.itemsPerPage);
           break;
-
+          case 13:
+            this.onAssignTab = false;
+            this.onReleaseTab = true;
+            this.getMyFITask(this.itemsPerPage);
+            break;
+          case 14:
+            this.onAssignTab = true;
+            this.onReleaseTab = false;
+            this.getBranchFITask(this.itemsPerPage);
+            break;
         default:
           break;
       }
@@ -552,6 +592,50 @@ export class DashboardComponent implements OnInit {
   getPdBranchTask(perPageCount, pageNumber?) {
     const data = {
       taskName: 'Personal Discussion',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: false,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+    this.responseForCredit(data);
+  }
+
+  // for FI with Me
+  getMyFITask(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'Field Investigation',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: true,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+    this.responseForCredit(data);
+  }
+
+  // for FI with Branch
+  getBranchFITask(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'Field Investigation',
       branchId: this.branchId,
       roleId: this.roleId,
       // tslint:disable-next-line: radix
@@ -858,6 +942,10 @@ export class DashboardComponent implements OnInit {
         this.getViabilityLeads(this.itemsPerPage, event);
       } else if (this.subActiveTab === this.displayTabs.ViabilityWithBranch) {
         this.getViabilityBranchLeads(this.itemsPerPage, event);
+      } else if (this.subActiveTab === this.displayTabs.MyFI) {
+        this.getMyFITask(this.itemsPerPage, event);
+      } else if (this.subActiveTab === this.displayTabs.BranchFI) {
+        this.getBranchFITask(this.itemsPerPage, event);
       }
     } else if (this.roleType == '2') {
       if (this.subActiveTab === this.displayCreditTabs.DDEWithMe) {
@@ -876,6 +964,10 @@ export class DashboardComponent implements OnInit {
         this.getMyDecisionLeads(this.itemsPerPage, event);
       } else if (this.subActiveTab === this.displayCreditTabs.CreditDecisionWithBranch) {
         this.getBranchDecisionLeads(this.itemsPerPage, event);
+      } else if (this.subActiveTab === this.displayCreditTabs.MyFI) {
+        this.getMyFITask(this.itemsPerPage, event);
+      } else if (this.subActiveTab === this.displayCreditTabs.BranchFI) {
+        this.getBranchFITask(this.itemsPerPage, event);
       }
     } else if (this.roleType == '4') {
       if (this.makerWithMe) {
@@ -903,6 +995,8 @@ export class DashboardComponent implements OnInit {
         this.getPdMyTask(this.itemsPerPage);
       } else if (this.subActiveTab === this.displayTabs.ViabilityWithMe) {
         this.getViabilityLeads(this.itemsPerPage);
+      } else if (this.subActiveTab === this.displayTabs.MyFI) {
+        this.getMyFITask(this.itemsPerPage);
       }
     } else if (this.roleType == '2') {
       if (this.subActiveTab === this.displayCreditTabs.DDEWithMe) {
@@ -913,6 +1007,8 @@ export class DashboardComponent implements OnInit {
         this.getMyDeviationLeads(this.itemsPerPage);
       } else if (this.subActiveTab === this.displayCreditTabs.CreditDecisionWithMe) {
         this.getMyDecisionLeads(this.itemsPerPage);
+      } else if (this.subActiveTab === this.displayCreditTabs.MyFI) {
+        this.getMyFITask(this.itemsPerPage);
       }
     } else if (this.roleType == '4' || this.roleType == '5') {
       if (this.makerWithMe) {
@@ -924,8 +1020,6 @@ export class DashboardComponent implements OnInit {
   }
 
   onRoute(leadId, stageCode?, taskId?) {
-    // this.vehicleDataStoreService.setSalesLeadID(leadId);
-    // this.sharedService.getTaskID(taskId)
     if (this.roleType === 1) {
       if (!this.onAssignTab && !this.onReleaseTab) {
         if (stageCode == '10') {
@@ -941,6 +1035,8 @@ export class DashboardComponent implements OnInit {
         this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
       } else if (this.subActiveTab === this.displayTabs.ViabilityWithMe) {
         this.router.navigate([`/pages/viability-list/${leadId}/viability-list`]);
+      } else if (this.subActiveTab === this.displayTabs.MyFI) {
+        this.router.navigateByUrl(`/pages/fi-dashboard/${leadId}/fi-list`);
       }
     } else if (this.roleType === 2) {
       if (this.subActiveTab === this.displayCreditTabs.DDEWithMe) {
@@ -951,6 +1047,16 @@ export class DashboardComponent implements OnInit {
         this.router.navigateByUrl(`/pages/deviation-dashboard/${leadId}/dashboard-deviation-details`);
       } else if (this.subActiveTab === this.displayCreditTabs.CreditDecisionWithMe) {
         this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
+      } else if (this.subActiveTab === this.displayCreditTabs.MyFI) {
+        this.router.navigateByUrl(`/pages/fi-dashboard/${leadId}/fi-list`);
+      }
+    } else if (this.roleType === 4) {
+      if (this.makerWithMe) {
+        this.router.navigateByUrl(`/pages/cpc-maker/${leadId}/check-list`);
+      }
+    } else if (this.roleType === 5) {
+      if (this.checkerWithMe) {
+        this.router.navigateByUrl(`/pages/cpc-checker/${leadId}/check-list`);
       }
     }
 
@@ -978,6 +1084,10 @@ export class DashboardComponent implements OnInit {
         this.getViabilityLeads(this.itemsPerPage);
       } else if (this.subActiveTab === this.displayTabs.ViabilityWithBranch) {
         this.getViabilityBranchLeads(this.itemsPerPage);
+      } else if (this.subActiveTab === this.displayTabs.MyFI) {
+        this.getMyFITask(this.itemsPerPage);
+      } else if (this.subActiveTab === this.displayTabs.BranchFI) {
+        this.getBranchFITask(this.itemsPerPage);
       }
     } else if (this.roleType == '2') {
       if (this.subActiveTab === this.displayCreditTabs.DDEWithMe) {
@@ -996,6 +1106,10 @@ export class DashboardComponent implements OnInit {
         this.getMyDecisionLeads(this.itemsPerPage);
       } else if (this.subActiveTab === this.displayCreditTabs.CreditDecisionWithBranch) {
         this.getBranchDecisionLeads(this.itemsPerPage);
+      } else if (this.subActiveTab === this.displayCreditTabs.MyFI) {
+        this.getViabilityBranchLeads(this.itemsPerPage);
+      } else if (this.subActiveTab === this.displayCreditTabs.BranchFI) {
+        this.getViabilityBranchLeads(this.itemsPerPage);
       }
     } else if (this.roleType == '4' || this.roleType == '5') {
       if (this.makerWithMe) {
@@ -1035,6 +1149,10 @@ export class DashboardComponent implements OnInit {
         this.getViabilityLeads(this.itemsPerPage);
       } else if (this.subActiveTab === this.displayTabs.ViabilityWithBranch) {
         this.getViabilityBranchLeads(this.itemsPerPage);
+      } else if (this.subActiveTab === this.displayTabs.MyFI) {
+        this.getMyFITask(this.itemsPerPage);
+      } else if (this.subActiveTab === this.displayTabs.BranchFI) {
+        this.getBranchFITask(this.itemsPerPage);
       }
     } else if (this.roleType == '2') {
       if (this.subActiveTab === this.displayCreditTabs.DDEWithMe) {
@@ -1053,6 +1171,10 @@ export class DashboardComponent implements OnInit {
         this.getMyDecisionLeads(this.itemsPerPage);
       } else if (this.subActiveTab === this.displayCreditTabs.CreditDecisionWithBranch) {
         this.getBranchDecisionLeads(this.itemsPerPage);
+      } else if (this.subActiveTab === this.displayCreditTabs.MyFI) {
+        this.getViabilityBranchLeads(this.itemsPerPage);
+      } else if (this.subActiveTab === this.displayCreditTabs.BranchFI) {
+        this.getViabilityBranchLeads(this.itemsPerPage);
       }
     } else if (this.roleType == '4' || this.roleType == '5') {
       if (this.makerWithMe) {
@@ -1097,6 +1219,8 @@ export class DashboardComponent implements OnInit {
             this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
           } else if (this.subActiveTab === this.displayTabs.ViabilityWithBranch) {
             this.router.navigate([`/pages/viability-list/${leadId}/viability-list`]);
+          } else if (this.subActiveTab === this.displayTabs.BranchFI) {
+            // this.router.navigateByUrl(`/pages/dde/${leadId}/fi-list`);
           }
         } else if (this.roleType === 2) {
           if (this.subActiveTab === this.displayCreditTabs.DDEWithBranch) {
@@ -1107,17 +1231,18 @@ export class DashboardComponent implements OnInit {
             this.router.navigateByUrl(`/pages/deviation-dashboard/${leadId}/dashboard-deviation-details`);
           } else if (this.subActiveTab === this.displayCreditTabs.CreditDecisionWithBranch) {
             this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
+          } else if (this.subActiveTab === this.displayCreditTabs.BranchFI) {
+            this.router.navigateByUrl(`/pages/dde/${leadId}/fi-list`);
           }
         } else if (this.roleType === 4) {
-           if (this.makerWithCPC) {
-
+          if (this.makerWithCPC) {
+            this.router.navigateByUrl(`/pages/cpc-maker/${leadId}/check-list`);
           } else if (this.roleType === 5) {
             if (this.checkerWithCPC) {
-
+              this.router.navigateByUrl(`/pages/cpc-checker/${leadId}/check-list`);
             }
           }
         }
-        
       } else {
         this.toasterService.showError(response.Error, '');
       }
