@@ -19,6 +19,8 @@ export class FiListComponent implements OnInit {
   leadData: {};
   applicantId: any;
   userId: any;
+  show: boolean;
+  showStatus: boolean;
   constructor(
     private labelDetails: LabelsService,
     private router: Router,
@@ -52,7 +54,18 @@ export class FiListComponent implements OnInit {
     );
     this.leadId = (await this.getLeadId()) as number;
     this.getFiList();
-    // this.getPdList();
+    if (this.router.url.includes('/fi-dashboard')) {   // showing/hiding the buttons based on url
+
+      console.log(' pd-dashboard ');
+      this.show = true;
+
+    } else if (this.router.url.includes('/dde')) {
+      this.showStatus = true;
+
+    } else {
+      this.show = false;
+    }
+
 
   }
 
@@ -97,20 +110,13 @@ export class FiListComponent implements OnInit {
       // console.log('in get fi list', processvariables);
       this.fiList = processvariables.fIReportList;
       console.log('fi List', this.fiList);
-
-      // for (var i in this.pdList) {
-      //   console.log("in for pd list", i)
-      //   this.pdStatusValue = this.pdList[i]['pdStatusValue']
-      //   console.log("pd status value", this.pdStatusValue)
-
-      // this.leadId = (await this.getLeadId()) as number;
-      // this.router.navigateByUrl(`pages/fi-list/${this.leadId}/fi-report`);
     });
   }
 
 
-  onClick() {
-    this.router.navigateByUrl(`pages/fi-list/${this.leadId}/${this.applicantId}/fi-report`);
+  onClick(applicantIdFromHtml: string) {
+    console.log('this applicant id', applicantIdFromHtml);
+    this.router.navigateByUrl(`pages/fi-list/${this.leadId}/${applicantIdFromHtml}/fi-report/fi-residence`);
   }
 
   onNavigate(action) { // fun for routing into next and back pages using argument ==> 'action'
@@ -123,6 +129,13 @@ export class FiListComponent implements OnInit {
 
     }
 
+
+  }
+  onNavigateToFiSummary() { // func to route to the pd dashboard
+
+    // http://localhost:4200/#/pages/dashboard/personal-discussion/my-pd-tasks
+
+    this.router.navigate([`/pages/dashboard`]);
 
   }
 }

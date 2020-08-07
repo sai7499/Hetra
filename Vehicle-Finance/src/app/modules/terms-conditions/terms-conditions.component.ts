@@ -80,7 +80,7 @@ export class TermsConditionsComponent implements OnInit {
     this.termsService.acceptTerms(body).subscribe((res: any) => {
       console.log(res);
       if ( res && res.ProcessVariables.error.code === '0') {
-        this.router.navigateByUrl(`/pages/dashboard/leads-section/leads`);
+        this.router.navigateByUrl(`/pages/dashboard`);
       }
     });
   }

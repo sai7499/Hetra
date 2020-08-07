@@ -15,9 +15,9 @@
                     <p id="vf_sheet_tag11">{{applicant?.addressLine1}}</p>
                     <p id="vf_sheet_tag12">{{applicant?.addressLine2}} </p>
                     <p id="vf_sheet_tag13">{{applicant?.addressLine3}}</p>
-                    <p id="vf_sheet_tag14">{{applicant?.district}} </p>
+                    <p id="vf_sheet_tag14">{{applicant?.district + '-'+ applicant?.pincode}} </p>
                     <p id="vf_sheet_tag15">{{applicant?.country}}</p>
-                    <p id="vf_sheet_tag16">{{applicant?.pincode}} </p>
+                    <!-- <p id="vf_sheet_tag16">{{applicant?.pincode}} </p> -->
                     <p id="vf_sheet_tag17">{{applicant?.mobileNo}}</p>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                     <p id="vf_sheet_tag20">{{coApplicant?.addressLine1}}</p>
                     <p id="vf_sheet_tag21">{{coApplicant?.addressLine2}}</p>
                     <p id="vf_sheet_tag22">{{coApplicant?.addressLine3}}</p>
-                    <p id="vf_sheet_tag23">{{coApplicant?.district}}</p>
+                    <p id="vf_sheet_tag23">{{coApplicant?.district + '-' + coApplicant?.pincode}}</p>
                     <p id="vf_sheet_tag24">{{coApplicant?.country}}</p>
                     <p id="vf_sheet_tag25">{{coApplicant?.mobileNo}}</p>
                 </div>
@@ -57,8 +57,8 @@
             <div id="vf_sheet_first_table">
                 <p id="vf_sheet_tag32 " class="text-center"><strong>{{labels?.vehicleDetails}}</strong></p>
                 <table class="table table-responsive table-bordered">
-                    <tbody>
-                        <tr>
+                    <tbody *ngFor="let vehicleDetails of vehicleDetailsArray">
+                        <tr class="top-border">
                             <td> {{labels?.vehicleMake}} </td>
                             <td>{{vehicleDetails?.vehicleMake}}</td>
                             <td> {{labels?.vehicleModel}} </td>
@@ -259,7 +259,7 @@
             <div class="col-sm-7 text-right">
                 <button class="btn btn-primary btn_div " type="button" (click)="onBack()">{{labels?.back}}</button>
                 <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
-                <button class="btn btn-primary btn_div" type="button" (click)="onNext()">{{labels?.next}}</button>
+                <button class="btn btn-primary btn_div" type="button" (click)="onNext()" >{{labels?.next}}</button>
             </div>
         </div>
         

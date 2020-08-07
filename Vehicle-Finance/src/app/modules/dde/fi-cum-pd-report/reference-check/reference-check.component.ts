@@ -376,7 +376,7 @@ export class ReferenceCheckComponent implements OnInit {
         console.log('message', processVariables.error.message);
         this.toasterService.showSuccess('submitted to credit successfully', '');
         // this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
-        this.router.navigate([`/pages/dashboard/personal-discussion/my-pd-tasks`]);
+        this.router.navigate([`/pages/dashboard`]);
       } else {
         this.toasterService.showError( processVariables.error.message, '');
         console.log('error', processVariables.error.message);

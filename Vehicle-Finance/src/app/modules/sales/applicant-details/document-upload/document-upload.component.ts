@@ -23,6 +23,7 @@ import { ApplicantDataStoreService } from '@services/applicant-data-store.servic
   styleUrls: ['./document-upload.component.css'],
 })
 export class DocumentUploadComponent implements OnInit {
+  details;
   applicantId;
   leadId;
   constructor(
@@ -37,6 +38,10 @@ export class DocumentUploadComponent implements OnInit {
       this.leadId = Number(this.leadStoreService.getLeadId());
 
       this.applicantId = value.applicantId;
+      this.details = {
+        id: this.applicantId,
+        associatedWith: 2,
+      };
     });
     console.log('document category', this.lovService.getDocumentCategories());
   }

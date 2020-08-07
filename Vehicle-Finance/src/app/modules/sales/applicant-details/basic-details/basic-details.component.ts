@@ -52,6 +52,8 @@ export class BasicDetailsComponent implements OnInit {
   isDirty: boolean;
   mobilePhone: any;
   countryList = [];
+  leadId : number;
+  mobileNumberChange: boolean;
   
 
   //imMinor : boolean= true
@@ -72,6 +74,7 @@ export class BasicDetailsComponent implements OnInit {
   };
 
   public toDayDate: Date = new Date();
+  public ageMinDate : Date = new Date(1948, 12, 1)
   isRequiredSpouse = 'Spouse Name is Required';
   isRequiredFather = 'Father Name is Required';
   productCategory: string;
@@ -98,7 +101,8 @@ export class BasicDetailsComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
@@ -125,6 +129,7 @@ export class BasicDetailsComponent implements OnInit {
     this.getCountryList();
     const formArray = this.basicForm.get('details') as FormArray;
     this.validation = formArray.at(0);
+    this.leadId = (await this.getLeadId()) as number;
 
   }
   getLeadSectiondata() {
@@ -440,6 +445,7 @@ export class BasicDetailsComponent implements OnInit {
     } else if (mobile && mobile.length == 10) {
       this.mobilePhone = mobile;
     }
+  
 
 
     const formArray = this.basicForm.get('details') as FormArray;
@@ -457,7 +463,7 @@ export class BasicDetailsComponent implements OnInit {
       motherMaidenName: aboutIndivProspectDetails.motherMaidenName || '',
       preferredLanguage: aboutIndivProspectDetails.preferredLanguage || 'ENGPRFLAN',
       occupation: aboutIndivProspectDetails.occupation || '',
-      nationality: aboutIndivProspectDetails.nationality || '',
+      nationality: aboutIndivProspectDetails.nationality || 'RSDTINDNATIONALITY',
       age: this.showAge,
       gender: aboutIndivProspectDetails.gender || '',
       politicallyExposedPerson:
@@ -469,6 +475,7 @@ export class BasicDetailsComponent implements OnInit {
     });
     this.clearFatherOrSpouseValidation();
     this.eitherFathOrspouse();
+    this.listenerForMobilechange()
   }
 
   setValuesForNonIndividual() {
@@ -515,11 +522,36 @@ export class BasicDetailsComponent implements OnInit {
       preferredLanguageCommunication:
         corporateProspectDetails.preferredLanguageCommunication || 'ENGPRFLAN',
     });
+    this.listenerCompanyNumberChange()
   }
 
   clearFormArray() {
     const formArray = this.basicForm.get('details') as FormArray;
     formArray.clear();
+  }
+
+  listenerForMobilechange(){
+      const formArray= this.basicForm.get('details') as FormArray;
+      const details = formArray.at(0)
+      details.get('mobilePhone').valueChanges.subscribe((value)=>{
+        if(!details.get('mobilePhone').invalid){
+          if(value!==this.mobilePhone){
+            this.mobileNumberChange= true;
+          }
+        }
+      })
+  }
+
+  listenerCompanyNumberChange(){
+    const formArray= this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0)
+    details.get('companyPhoneNumber').valueChanges.subscribe((value)=>{
+      if(!details.get('companyPhoneNumber').invalid){
+        if(value!==this.mobilePhone){
+          this.mobileNumberChange= true;
+        }
+      }
+    })
   }
 
   getLovData() {
@@ -687,6 +719,8 @@ export class BasicDetailsComponent implements OnInit {
 
     const applicantData = this.applicantDataService.getApplicant();
     const leadId = (await this.getLeadId()) as number;
+    this.leadId=leadId;
+
 
     const data = {
       applicantId: this.applicantId,
@@ -887,6 +921,21 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   onBack() {
-    this.location.back();
+    //this.location.back();
+    this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`)
+  }
+
+  onNext(){
+      if(this.mobileNumberChange){
+        this.router.navigateByUrl(
+          `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
+        );
+      }
+      else{
+        this.router.navigateByUrl(
+          `/pages/sales-applicant-details/${this.leadId}/identity-details/${this.applicantId}`
+        );
+      }
+     
   }
 }

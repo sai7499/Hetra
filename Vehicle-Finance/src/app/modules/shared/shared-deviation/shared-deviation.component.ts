@@ -423,7 +423,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
         this.deviationService.getReferNextLevel(data).subscribe((res: any) => {
           if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-            this.router.navigate(['pages/dashboard/deviation/deviation-with-branch'])
+            this.router.navigate(['pages/dashboard'])
             this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Leads Refer Deviation')
           } else {
             this.toasterService.showError(res.ErrorMessage, 'Refer Deviation Error')
@@ -443,7 +443,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         this.deviationService.approveDeviation(data).subscribe((res: any) => {
           if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
             this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Approve Deviation')
-            this.router.navigateByUrl('/pages/dashboard/deviation/deviation-with-me')
+            this.router.navigateByUrl('/pages/dashboard')
           } else {
             this.toasterService.showError(res.ErrorMessage, 'Approve Deviation Error')
           }

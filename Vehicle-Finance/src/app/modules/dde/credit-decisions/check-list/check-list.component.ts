@@ -1,92 +1,303 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
+import { CommomLovService } from '@services/commom-lov-service';
+import { ChecklistService } from '@services/checklist.service';
+import { FormBuilder, FormArray, Validators, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToasterService } from '@services/toaster.service';
+import { LoginStoreService } from '@services/login-store.service';
+import { CpcRolesService } from '@services/cpc-roles.service';
 
 @Component({
   selector: 'app-check-list',
   templateUrl: './check-list.component.html',
-  styleUrls: ['./check-list.component.css']
+  styleUrls: ['./check-list.component.css'],
 })
 export class CheckListComponent implements OnInit {
-
-  constructor() {
+  checklistForm: any;
+  checkListMaster: any;
+  checklistObject: any;
+  checkListArray = [];
+  formControlArray = [];
+  checkListFormArray = [];
+  applicantId: number;
+  leadId: number;
+  roleId: any;
+  roleType: any;
+  coAnswerFlag = true;
+  cpcMakerFlag = true;
+  constructor(
+    private commonLovService: CommomLovService,
+    private checkListService: ChecklistService,
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private toasterService: ToasterService,
+    private loginStoreService: LoginStoreService,
+    private cpcService: CpcRolesService,
+    private router: Router
+  ) {
     // tslint:disable-next-line: deprecation
-    // $(document).click(() => {
-
-    //     $('#d_date').prop('disabled', true);
-    //     $('#deferral_status').change(function() {
-    //     let type_vals =  $('#deferral_status').val();
-    //     if (type_vals == 'Deferred') {
-    //             $('#d_date').prop('disabled', false);
-    //         } else {
-    //             $('#d_date').prop('disabled', true);
-    //          }
-
-    //     });
-
-    // });
-    $(document).ready(function() {
+    $(document).ready(() => {
       $('.collapse')
-          .on('shown.bs.collapse', function(event) {
-              event.stopPropagation();
-              console.log("open");
-              $(this)
-                  .parent()
-                  .find(".fa-chevron-right")
-                  .removeClass("fa-chevron-right")
-                  .addClass("fa-chevron-down")
-                  .find(".btn_bar")
-                  .removeClass("btn_bar")
-                  .addClass("btn_bar_pink");
-  
-          }).on('hidden.bs.collapse', function(event) {
-              console.log("closed");
-              event.stopPropagation();
-              $(this)
-                  .parent()
-                  .find(".fa-chevron-down")
-                  .removeClass("fa-chevron-down")
-                  .addClass("fa-chevron-right")
-                  .find(".btn_bar_pink")
-                  .removeClass("btn_bar_pink")
-                  .addClass("btn_bar");
-  
-          });
-  });
-    // var hdr_locations_ids = new Array('#credit_sourcing_details','#credit_application_details','#credit_vehicle_details','#credit_fleet_details','#credit_liveloan','#credit_income_details','#credit_psl_data','#credit_vehicle_valuation','#credit_tvr_details','#credit_fi_pd','#credit_vehicle_viability','#credit_existing_relationship','#credit_score_card','#credit_cam','#credit_deviations','#credit_insurance','#credit_conditions','#credit_term_sheets','#credit_sanction_details','#credit_checklist');
-    // var length_hdr_locations_ids = hdr_locations_ids.length;
-    // $('button').click(function() {
-    //     var get_button_id_here = $(this).attr('id');
-    //     var actual_id_get = '#' + get_button_id_here;
-    //     for (m = 0; m < length_hdr_locations_ids; m++) {
-    //         if (hdr_locations_ids[m] == actual_id_get) {
-    //             var get_html_file_name_here = actual_id_get.split('#');
-    //             var actual_file_name = get_html_file_name_here[1] + '.html';
-    //             var path = actual_file_name;
-    //             document.location = path;
-    //         } else {
+        .on('shown.bs.collapse', function(event) {
+          event.stopPropagation();
+          console.log('open');
+          $(this)
+            .parent()
+            .find('.fa-chevron-right')
+            .removeClass('fa-chevron-right')
+            .addClass('fa-chevron-down')
+            .find('.btn_bar')
+            .removeClass('btn_bar')
+            .addClass('btn_bar_pink');
+        })
+        .on('hidden.bs.collapse', function(event) {
+          console.log('closed');
+          event.stopPropagation();
+          $(this)
+            .parent()
+            .find('.fa-chevron-down')
+            .removeClass('fa-chevron-down')
+            .addClass('fa-chevron-right')
+            .find('.btn_bar_pink')
+            .removeClass('btn_bar_pink')
+            .addClass('btn_bar');
+        });
+    });
+  }
 
-    //         }
+  async ngOnInit() {
+    this.commonLovService.getLovData().subscribe((res: any) => {
+      console.log(res, 'cmn lov service');
+      this.checklistObject = res.LOVS.checklistans;
+      this.checkListMaster = res.LOVS.checklistMstView;
+      // this.checkListMaster.push(res.LOVS.);
+      console.log(this.checkListMaster, typeof(this.checkListMaster), 'array of checklist');
+    });
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+      this.roleId = value.roleId;
+      this.roleType = value.roleType;
+      console.log('role Type', this.roleType);
+    });
 
-        // }
-    // });
+    // tslint:disable-next-line: prefer-const
+    let childgroups = [];
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < this.checkListMaster.length; i++) {
+      childgroups.push(this.creategroup(this.checkListMaster[i]));
+    }
+    this.checklistForm = this.formBuilder.group({
+      checklistArray: this.formBuilder.array(childgroups)
+    });
+    console.log(this.checklistForm, typeof(this.checklistForm.controls));
+    this.applicantId = (await this.getApplicantId()) as number;
+    this.leadId = (await this.getLeadId()) as number;
+    this.getCheckList();
+    this.addValidatorsCO();
+    for (let i = 0; i < this.checklistForm.controls.checklistArray.length; i++) {
+      // tslint:disable-next-line: triple-equals
+      if (this.roleType == '4' ) {
+       this.checklistForm.controls.checklistArray.controls[i].controls.coAnswer.disable();
+      // tslint:disable-next-line: triple-equals
+      } else if ( this.roleType == '5') {
+       this.checklistForm.controls.checklistArray.controls[i].controls.coAnswer.disable();
+       this.checklistForm.controls.checklistArray.controls[i].controls.cpcMaker.disable();
+      }
+    }
+
+    // tslint:disable-next-line: triple-equals
+  }
+  getCheckList() {
+    const body = {
+      leadId: this.leadId,
+    };
+    this.checkListService.getCheckListDetails(body).subscribe((res: any) => {
+      console.log(res, ' checklist get response');
+      // tslint:disable-next-line: triple-equals
+      if (res.ProcessVariables.error.code == '0' && res.ProcessVariables.checkList ) {
+        // tslint:disable-next-line: prefer-for-of
+        for (let i = 0; i < res.ProcessVariables.checkList.length; i++) {
+          this.patchChecklist(res.ProcessVariables.checkList[i]);
+          // tslint:disable-next-line: no-shadowed-variable
+          
+        }
+      }
+    });
+  }
+  getApplicantId() {
+    return new Promise((resolve, reject) => {
+      this.route.params.subscribe((value) => {
+        const applicantId = value.applicantId;
+        if (applicantId) {
+          resolve(Number(applicantId));
+        }
+        resolve(null);
+      });
+    });
+  }
+  getLeadId() {
+    return new Promise((resolve, reject) => {
+      this.route.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
+    });
+  }
+  creategroup(list: any) {
+    return this.formBuilder.group({
+      checkListId: [Number(list.key)],
+      checklistName: [list.value],
+      coAnswer: [null ],
+      cpcChecker: [null ],
+      cpcMaker: [null ]
+    });
+  }
+
+  get f() { return this.checklistForm.controls; }  /// total formcontrols
+  get t() { return this.f.checklistArray as FormArray; } // controls of coAwnser array.error
+
+  onSave() {
+  console.log(this.checklistForm.status, 'status before add validators');
+  this.addValidatorsCO();
+  if ( this.checklistForm.invalid) {
+      this.toasterService.showError('Select Mandatory Fields', ' ');
+      return ;
+    }
+  this.checkListFormArray = [];
+    // tslint:disable-next-line: prefer-for-of
+  for (let i = 0; i < this.checklistForm.controls.checklistArray.length; i++) {
+      const data = this.checklistForm.controls.checklistArray.value[i];
+      // tslint:disable-next-line: triple-equals
+      if (this.roleType == '2') {
+        const body = {
+          checkListId: data.checkListId,
+          checklistName: data.checklistName,
+          coAnswer: data.coAnswer
+        };
+        this.checkListFormArray.push(body);
+      // tslint:disable-next-line: triple-equals
+      } else if (this.roleType == '4') {
+        const body = {
+          checkListId: data.checkListId,
+          checklistName: data.checklistName,
+          cpcMaker: data.cpcMaker
+        };
+        this.checkListFormArray.push(body);
+      // tslint:disable-next-line: triple-equals
+      } else if ( this.roleType == '5') {
+        const body = {
+          checkListId: data.checkListId,
+          checklistName: data.checklistName,
+          cpcChecker: data.cpcChecker
+        };
+        this.checkListFormArray.push(body);
+      }
+    }
+  const bodyReq = {
+      userId: localStorage.getItem('userId'),
+      leadId: this.leadId,
+      checkList: this.checkListFormArray
+    };
+  console.log(bodyReq);
+  this.checkListService.saveCheckListDetails(bodyReq).subscribe((res: any) => {
+      // tslint:disable-next-line: triple-equals
+      if (res.ProcessVariables.error.code == '0') {
+       this.toasterService.showSuccess('Record Saved Successfully', ' ');
+       this.getCheckList();
+     } else {
+       this.toasterService.showError(res.ProcessVariables.error.message, '');
+     }
+    });
+  }
+  patchChecklist(data?: any) {
+    const array = this.t as FormArray;
+    array.controls.forEach((element: any) => {
+      if (element.value.checkListId === data.checkListId) {
+         element.patchValue({
+          coAnswer : data.coAnswer ? data.coAnswer : null,
+          cpcChecker: data.cpcChecker ? data.cpcChecker : null,
+          cpcMaker: data.cpcMaker ? data.cpcMaker : null
+         });
+      }
+    });
+  }
+  addValidatorsCO() {
+    const group: any = this.checklistForm.controls.checklistArray as FormGroup;
+    const groupLength: any = group.controls.length;
+    for (let i = 0; i < groupLength ; i ++) {
+      // tslint:disable-next-line: triple-equals
+      if (this.roleType == '2') {
+        group.at(i).controls.coAnswer.setValidators(Validators.required);
+        group.at(i).controls.coAnswer.updateValueAndValidity();
+      // tslint:disable-next-line: triple-equals
+      } else if (this.roleType == '4') {
+        group.at(i).controls.cpcMaker.setValidators(Validators.required);
+        group.at(i).controls.cpcMaker.updateValueAndValidity();
+      // tslint:disable-next-line: triple-equals
+      } else if ( this.roleType == '5') {
+        group.at(i).controls.cpcChecker.setValidators(Validators.required);
+        group.at(i).controls.cpcChecker.updateValueAndValidity();
+      }
+
+    }
+
 
   }
 
-  ngOnInit() {
-  }
-  // onClick(event: any) {
-  //   const element = event.target;
-  //   console.log(element);
-  //   element.classList.toggle('active');
-  //   console.log(element.style);
-  //   // const panel = element.nextElementSibling;
-  //   if (element.style.display === 'block') {
-  //     element.style.display = 'none';
-  //   } else if (element.style == null) {
-  //     element.style.display = 'none';
-  //   } else {
-  //     element.style.display = 'block';
-  //   }
-  // }
+  submitTocpc() {
 
+    // tslint:disable-next-line: triple-equals
+    if (this.roleType == '2') {
+      const body = {
+        leadId: this.leadId,
+        userId: localStorage.getItem('userId'),
+        isCPCMaker: true,
+        isCPCChecker: false,
+        sendBackToCredit: false
+        };
+      this.cpcService.getCPCRolesDetails(body).subscribe((res) => {
+          console.log(res);
+        });
+    // tslint:disable-next-line: triple-equals
+    } else if (this.roleType == '4') {
+      const body = {
+        leadId: this.leadId,
+        userId: localStorage.getItem('userId'),
+        isCPCMaker: false,
+        isCPCChecker: true,
+        sendBackToCredit: false
+        };
+      this.cpcService.getCPCRolesDetails(body).subscribe((res) => {
+          console.log(res);
+        });
+    // tslint:disable-next-line: triple-equals
+    } else if ( this.roleType == '5') {
+      const body = {
+        leadId: this.leadId,
+        userId: localStorage.getItem('userId'),
+        isCPCMaker: false,
+        isCPCChecker: false,
+        sendBackToCredit: false
+        };
+      this.cpcService.getCPCRolesDetails(body).subscribe((res) => {
+          console.log(res);
+        });
+    }
+
+  }
+onNext()  {
+  // this.onSave();
+  // tslint:disable-next-line: triple-equals
+  if (this.roleType == '2') {
+  // this.router.navigate([`pages/cred`])
+  // tslint:disable-next-line: triple-equals
+  } else if (this.roleType == '4') {
+    this.router.navigate([`pages/cpc-maker/${this.leadId}/term-sheet`]);
+  // tslint:disable-next-line: triple-equals
+  } else if ( this.roleType == '5') {
+  this.router.navigate([`pages/cpc-checker/${this.leadId}/term-sheet`]);
+  }
+}
 }

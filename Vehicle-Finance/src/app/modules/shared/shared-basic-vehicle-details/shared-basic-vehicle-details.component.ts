@@ -25,8 +25,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   addressList: any = [];
 
-  isValidPincode: boolean = true;
-
   maxDate = new Date();
   initalZeroCheck = [];
   customFutureDate: boolean;
@@ -76,6 +74,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   ngOnInit() {
 
     this.basicVehicleForm = this._fb.group({
+      isValidPincode: true,
       vehicleFormArray: this._fb.array([])
     })
 
@@ -125,11 +124,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       })
 
       if (this.productCatoryCode === 'UCV') {
-        this.getVehicleGridValue(formArray)
+      this.getVehicleGridValue(formArray)
       }
     }
-
-
   }
 
   getVehicleGridValue(formArray: any) {
@@ -253,45 +250,45 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         value: VehicleDetail.assetVarient
       }]
 
-      if (this.roleType === 1) {
-        const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+      // if (this.roleType === 1) {
+      //   const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
 
-        formArray.controls[0].patchValue({
-          vehicleRegNo: VehicleDetail.vehicleRegNo || '',
-          region: VehicleDetail.region || '',
-          assetMake: VehicleDetail.vehicleMfrUniqueCode || '',
-          vehicleType: VehicleDetail.vehicleTypeCode || '',
-          assetBodyType: VehicleDetail.vehicleSegmentUniqueCode || '',
-          assetModel: VehicleDetail.vehicleModelCode || '',
-          assetVariant: VehicleDetail.assetVarient || '',
-          assetSubVariant: VehicleDetail.assetSubVariant || '',
-          manuFacMonthYear: VehicleDetail.manuFacMonthYear ? this.utilityService.getDateFromString(VehicleDetail.manuFacMonthYear) : '',
-          ageOfAsset: VehicleDetail.ageOfAsset || null,
-          finalAssetCost: VehicleDetail.finalAssetCost || '',
-          exShowRoomCost: Number(VehicleDetail.exShowRoomCost) || null,
-          vehicleUsage: VehicleDetail.vehicleUsage || '',
-          noOfVehicles: VehicleDetail.noOfVehicles || '',
-          usage: VehicleDetail.usage || '',
-          vehicleId: VehicleDetail.vehicleId || '',
-          assetCostGrid: VehicleDetail.assetCostGrid || null,
-          assetCostCarTrade: VehicleDetail.assetCostCarTrade || null,
-          assetCostIBB: VehicleDetail.assetCostIBB || null,
-          rcOwnerName: VehicleDetail.rcOwnerName || '',
-          collateralId: VehicleDetail.collateralId || '',
-          ownerMobileNo: VehicleDetail.ownerMobileNo || null,
-          address: VehicleDetail.address || '',
-          ageAfterTenure: VehicleDetail.ageAfterTenure || null,
-          pincode: VehicleDetail.pincode || null,
-          leadId: this.leadId,
-          userId: this.userId,
-          category: VehicleDetail.category || ''
-        })
-        this.sharedService.getFormValidation(this.basicVehicleForm)
-      } else if (this.roleType === 2) {
-        const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-        this.onPatchArrayValue(formArray, VehicleDetail)
-        this.sharedService.getFormValidation(this.basicVehicleForm)
-      }
+      //   formArray.controls[0].patchValue({
+      //     vehicleRegNo: VehicleDetail.vehicleRegNo || '',
+      //     region: VehicleDetail.region || '',
+      //     assetMake: VehicleDetail.vehicleMfrUniqueCode || '',
+      //     vehicleType: VehicleDetail.vehicleTypeCode || '',
+      //     assetBodyType: VehicleDetail.vehicleSegmentUniqueCode || '',
+      //     assetModel: VehicleDetail.vehicleModelCode || '',
+      //     assetVariant: VehicleDetail.assetVarient || '',
+      //     assetSubVariant: VehicleDetail.assetSubVariant || '',
+      //     manuFacMonthYear: VehicleDetail.manuFacMonthYear ? this.utilityService.getDateFromString(VehicleDetail.manuFacMonthYear) : '',
+      //     ageOfAsset: VehicleDetail.ageOfAsset || null,
+      //     finalAssetCost: VehicleDetail.finalAssetCost || '',
+      //     exShowRoomCost: Number(VehicleDetail.exShowRoomCost) || null,
+      //     vehicleUsage: VehicleDetail.vehicleUsage || '',
+      //     noOfVehicles: VehicleDetail.noOfVehicles || '',
+      //     usage: VehicleDetail.usage || '',
+      //     vehicleId: VehicleDetail.vehicleId || '',
+      //     assetCostGrid: VehicleDetail.assetCostGrid || null,
+      //     assetCostCarTrade: VehicleDetail.assetCostCarTrade || null,
+      //     assetCostIBB: VehicleDetail.assetCostIBB || null,
+      //     rcOwnerName: VehicleDetail.rcOwnerName || '',
+      //     collateralId: VehicleDetail.collateralId || '',
+      //     ownerMobileNo: VehicleDetail.ownerMobileNo || null,
+      //     address: VehicleDetail.address || '',
+      //     ageAfterTenure: VehicleDetail.ageAfterTenure || null,
+      //     pincode: VehicleDetail.pincode || null,
+      //     leadId: this.leadId,
+      //     userId: this.userId,
+      //     category: VehicleDetail.category || ''
+      //   })
+      //   this.sharedService.getFormValidation(this.basicVehicleForm)
+      // } else if (this.roleType === 2) {
+      const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+      this.onPatchArrayValue(formArray, VehicleDetail)
+      this.sharedService.getFormValidation(this.basicVehicleForm)
+      // }
       this.vehicleDataService.setIndividualVehicleDetails(VehicleDetail);
     })
 
@@ -531,7 +528,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     })
   }
 
-  onAssetModel(value: any, obj, index) {
+  onAssetModel(value: any, obj) {
     this.assetVariant = this.assetModelType.filter((data) => data.vehicleModelCode === value)
     const array = this.utilityService.getCommonUniqueValue(this.assetVariant, 'vehicleVariant')
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
@@ -556,6 +553,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   }
 
   getPincodeResult(pincodeNumber: number) {
+
     let pincodeResult = [];
     this.applicantService
       .getGeoMasterValue({
@@ -567,7 +565,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
             return value.ProcessVariables.GeoMasterView;
           } else {
             this.toasterService.showError('Invalid pincode', '');
-            this.isValidPincode = true;
+            this.basicVehicleForm.patchValue({
+              isValidPincode: false
+            })
             return;
           }
         })).subscribe((res: any) => {
@@ -576,14 +576,22 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
             return;
           }
           pincodeResult = res;
-          console.log('res', pincodeResult)
-          setTimeout(() => {
-          });
-          // return pincodeResult
+          if (res && res.length > 0) {
+            this.basicVehicleForm.patchValue({
+              isValidPincode: true
+            })
+          } else {
+            this.basicVehicleForm.patchValue({
+              isValidPincode: false
+            })
+          }
         })
 
     // setTimeout({})
 
+    setTimeout(() => {
+      console.log('res', this.basicVehicleForm)
+    });
     console.log(pincodeResult, 'AddressList', this.addressList)
   }
 
@@ -598,9 +606,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetModel: ['', Validators.required],
       assetVariant: ['', Validators.required],
       assetSubVariant: [''],
-      manuFacMonthYear: ['', Validators.required],
-      ageOfAsset: ['', Validators.required],
-      ageAfterTenure: ['', Validators.required],
+      manuFacMonthYear: [''],
+      ageOfAsset: [''],
+      ageAfterTenure: [''],
       assetCostGrid: [''],
       assetCostIBB: [''],
       assetCostCarTrade: [''],
@@ -638,6 +646,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.removeControl('pincode');
       controls.removeControl('exShowRoomCost');
       controls.removeControl('category');
+      controls.removeControl('manuFacMonthYear');
+      controls.removeControl('ageOfAsset');
+      controls.removeControl('ageAfterTenure'); 
 
       controls.addControl('exShowRoomCost', new FormControl('', [Validators.required, Validators.maxLength(10)]));
     } else if (this.productCatoryCode === 'NC') {
@@ -652,6 +663,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.removeControl('pincode');
       controls.removeControl('category');
       controls.removeControl('exShowRoomCost');
+      controls.removeControl('manuFacMonthYear');
+      controls.removeControl('ageOfAsset');
+      controls.removeControl('ageAfterTenure'); 
 
       controls.addControl('vehicleUsage', new FormControl('', Validators.required));
       controls.addControl('exShowRoomCost', new FormControl('', Validators.required));
@@ -668,12 +682,18 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.removeControl('pincode');
       controls.removeControl('exShowRoomCost');
       controls.removeControl('category');
+      controls.removeControl('manuFacMonthYear');
+      controls.removeControl('ageOfAsset');
+      controls.removeControl('ageAfterTenure'); 
 
       controls.addControl('assetCostIBB', new FormControl('', Validators.required));
       controls.addControl('assetCostCarTrade', new FormControl('', Validators.required));
       controls.addControl('vehicleRegNo', new FormControl('', Validators.required));
       controls.addControl('vehicleUsage', new FormControl('', Validators.required));
       controls.addControl('category', new FormControl('', Validators.required));
+      controls.addControl('manuFacMonthYear', new FormControl('', Validators.required));
+      controls.addControl('ageOfAsset', new FormControl('', Validators.required));
+      controls.addControl('ageAfterTenure', new FormControl('', Validators.required));
     } else if (this.productCatoryCode === 'UCV') {
 
       controls.removeControl('vehicleRegNo');
@@ -685,6 +705,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.removeControl('pincode');
       controls.removeControl('exShowRoomCost');
       controls.removeControl('category');
+      controls.removeControl('manuFacMonthYear');
+      controls.removeControl('ageOfAsset');
+      controls.removeControl('ageAfterTenure'); 
 
       controls.addControl('vehicleRegNo', new FormControl('', Validators.required));
       controls.addControl('assetCostGrid', new FormControl('', Validators.required));
@@ -692,6 +715,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.addControl('ownerMobileNo', new FormControl('', [Validators.required, Validators.pattern('[6-9]{1}[0-9]{9}')]));
       controls.addControl('address', new FormControl('', Validators.compose([Validators.required, Validators.maxLength(120)])));
       controls.addControl('pincode', new FormControl('', [Validators.required, Validators.pattern('[1-9]{1}[0-9]{5}')]));
+      controls.addControl('manuFacMonthYear', new FormControl('', Validators.required));
+      controls.addControl('ageOfAsset', new FormControl('', Validators.required));
+      controls.addControl('ageAfterTenure', new FormControl('', Validators.required));
     }
     this.sharedService.getFormValidation(this.basicVehicleForm)
   }
@@ -714,9 +740,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetOther: '',
       assetBodyType: ['', Validators.required],
       vehicleType: ['', Validators.required],
-      manuFacMonthYear: ['', Validators.required],
-      ageOfAsset: ['', Validators.required],
-      ageAfterTenure: ['', Validators.required],
       exShowRoomCost: [null, Validators.required],
       finalAssetCost: ['', Validators.required],
       dealerSuventionApproval: [''],
