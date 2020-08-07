@@ -1,0 +1,109 @@
+.example-tree-invisible {
+    display: none;
+  }
+  
+  .example-tree ul,
+  .example-tree li {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+    width: 500px;
+  }
+  .parent-data-list,
+  .child-data-list {
+      position: relative;
+  }
+  .parent-list,
+  .child-list {
+     position: absolute;
+     top: 10px;
+     left: 0;
+     margin-left: 140px;
+     z-index: 100;
+     
+  }
+  .parent-container,
+  .child-container {
+     max-height: 150px !important;
+     overflow-y: scroll;
+  }
+  /* .child-list {
+    height: 100%;
+  } */
+  .supervisor-data-table {
+     background: #fff;
+     width: 300px;
+  }
+  .supervisor-data-table td {
+     padding: 5px 10px;
+  }
+  .supervisor-data-table td a {
+     color: #4a4a4a;
+     font-size: 14px;
+     cursor: pointer;
+     text-decoration: none;
+  }
+  .supervisor-data-table td a:hover {
+     color: blue;
+  }
+  .supervisor-data-table tr:nth-child(odd) {
+     background: #f5f5f8;
+  }
+  .supervisor-tree-icon {
+     width: 20px;
+     height: 20px;
+     padding: 0;
+     margin-right: 10px;
+  }
+  .supervisor-tree-icon .material-icons {
+     font-size: 16px !important;
+     text-align: left !important;
+  }
+  .mat-tree-node {
+     overflow: inherit !important;
+  }
+  .reporter-status {
+    position: absolute;
+    top: 35px;
+    left: 32px;
+    color: red;
+  }
+  .user-role-list {
+     cursor: pointer;
+  }
+  .child-active:hover,
+  .child-active,
+  .parent-active:hover,
+  .parent-active,
+  .user-role-list:hover {
+     color: #1d1a4b;
+     font-weight: bold;
+  }
+  .svsearch{
+     width: 15%;
+  }
+  
+
+  /* fallback */
+/* @font-face {
+   font-family: 'Material Icons';
+   font-style: normal;
+   font-weight: 400;
+   src: url(https://fonts.gstatic.com/s/materialicons/v53/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
+ }
+ 
+ .material-icons {
+   font-family: 'Material Icons';
+   font-weight: normal;
+   font-style: normal;
+   font-size: 24px;
+   line-height: 1;
+   letter-spacing: normal;
+   text-transform: none;
+   display: inline-block;
+   white-space: nowrap;
+   word-wrap: normal;
+   direction: ltr;
+   -webkit-font-feature-settings: 'liga';
+   -webkit-font-smoothing: antialiased;
+ } */
