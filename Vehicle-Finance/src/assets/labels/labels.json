@@ -3,7 +3,7 @@
     "businessDivision": "Business Division",
     "fundingProgram": "Funding Program",
     "priority": "Priority",
-    "productCategory": "Product Category",
+    "productCategory": "Product Category",  
     "childLoan": "Child Loan",
     "scheme_Promotion": "Scheme/Promotion",
     "subventionApplied": "Subvention Applied",
@@ -242,6 +242,7 @@
     "emiPaid": "EMI Paid",
     "flAndpdTitle": "PSL Data",
     "pdStatus": "PD Status",
+    "newpdRoute":"New Pd Route",
     "pdReport": "PD Report",
     "flStatus": "Fl Status",
     "flReport": "Fl Report",
@@ -895,6 +896,7 @@
     "yes": "Yes",
     "close": "Close",
     "fatherName": "Father Name",
+    "fullName":"Full Name",
     "fatherNameHusbandName": "Father/Husband Name",
     "gender": "Gender",
     "maritalStatus": "Marital Status",
@@ -1334,6 +1336,22 @@
     "loanMinAmount": "Loan Min Amount",
     "loanMaxAmount": "Loan Max Amount",
     "mode":"mode",
+    "netIncome" : "Net Income",
+    "additionalSourceofIncome": "Additional source of income",
+    "grossSalary": "Gross Salary",
+    "netsalary":"Net salary",
+    "individualIncome" : "Individual Income",
+    "CCODLIMIT": "CC/OD LIMIT",
+    "noOfChqReturns":"No of Chq returns",
+    "cashAndBankBalance":"Cash and Bank balance",
+    "monthlyInflows": "Monthly Inflows",
+    "creditCardFirstName":"Credit Card First Name",
+    "CreditCardMiddleName" : "Credit Card Middle Name",
+    "creditCardLastName" : "Credit Card Last Name",
+    "monthlyOutflows" : "Monthly Outflows",
+    "creditCardFullName" : "Credit Card Full Name",
+    "creditcardIssuedby": "Credit card Issued by",
+    "creditcardLimit": "Credit card Limit",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1357,6 +1375,10 @@
         "loanNumber": {
             "maxLength": {
                 "rule": 15
+            },
+            "minLength": {
+                "rule": 4,
+                "msg":"Minimum Length 4 digits"
             },
             "type": "alpha-numeric-nospace"
         },
@@ -1485,6 +1507,10 @@
         "vehicleRegNo": {
             "maxLength": {
                 "rule": 11
+            },
+            "minLength": {
+                "rule": 8,
+                "msg":"Minimum Length 8 digits"
             },
             "type": "alpha-numeric"
         },
@@ -1810,6 +1836,12 @@
             "maxLength": {
                 "rule": 100
             }
+        },
+        "salary": {
+            "maxLength": {
+                "rule": 6
+            },
+            "type": "number"
         }
     }
 }

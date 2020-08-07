@@ -718,7 +718,7 @@ export class LoanDetailsComponent implements OnInit {
   onNavigateToPdSummary() {
 
 
-    this.router.navigate([`/pages/dashboard/personal-discussion/my-pd-tasks`]);
+    this.router.navigate([`/pages/dashboard`]);
 
   }
   // onNavigateNext() {

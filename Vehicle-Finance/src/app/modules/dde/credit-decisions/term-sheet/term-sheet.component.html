@@ -115,7 +115,7 @@
                             <tr>
                                 <td>{{labels.vehicleRegistrationDate}}</td>
                                 <td>:</td>
-                                <td>{{assetDetailsData.regDate}}</td>
+                                <td>{{assetDetailsData.regDate | date: 'dd/MM/yyyy'}}</td>
                                 <td>{{labels.fcExpiryGapDays}}</td>
                                 <td>: </td>
                                 <td> {{assetDetailsData.fcExpGapDays}}</td>
@@ -239,7 +239,7 @@
                             <tr>
                                 <td>{{labels.genderOfCustomer}}</td>
                                 <td>:</td>
-                                <td>MALE</td>
+                                <td>{{applicantDetails?.gender}}</td>
                                 <td>{{labels.distance}}</td>
                                 <td>: </td>
                                 <td>{{commonAppDetails?.distance}}</td>
@@ -318,15 +318,35 @@
                 </div>
                 <div id="tearms_sheet_header6">
                     <div *ngFor = "let identityData of identityDetails">
-                    <p id="tearms_sheet_header6_tag">
-                        <span id="tearms_sheet_header6_tag1">
-                            {{labels.addressCumIdProof}}:&nbsp; {{identityData.addrCumIdProof}}
-                        </span>
-                        <span id="tearms_sheet_header6_tag2">
-                            {{labels.docRefNo}}: &nbsp; {{identityData.docRef}} &nbsp;{{identityData.date}}
-                        </span>
-                    </p>
-                </div>
+                        <p id="tearms_sheet_header6_tag">
+                            <span id="tearms_sheet_header6_tag1">
+                                {{labels.addressCumIdProof}}:&nbsp; {{identityData.addrCumIdProof}}
+                            </span>
+                            <span id="tearms_sheet_header6_tag2">
+                                {{labels.docRefNo}}: &nbsp; {{identityData.docRef}} &nbsp;{{identityData.date}}
+                            </span>
+                        </p>
+                    </div>
+                    <div  *ngFor = "let identityData of coAppIndentityDetails">
+                        <p id="tearms_sheet_header6_tag">
+                            <span id="tearms_sheet_header6_tag1">
+                                {{'co-Applicant '+labels.addressCumIdProof}}:&nbsp; {{identityData.addrCumIdProof}}
+                            </span>
+                            <span id="tearms_sheet_header6_tag2">
+                                {{labels.docRefNo}}: &nbsp; {{identityData.docRef}} &nbsp;{{identityData.date}}
+                            </span>
+                        </p>
+                    </div>
+                    <div  *ngFor = "let identityData of guaIdentityDetails">
+                        <p id="tearms_sheet_header6_tag">
+                            <span id="tearms_sheet_header6_tag1">
+                                {{'Guarantor '+labels.addressCumIdProof}}:&nbsp; {{identityData.addrCumIdProof}}
+                            </span>
+                            <span id="tearms_sheet_header6_tag2">
+                                {{labels.docRefNo}}: &nbsp; {{identityData.docRef}} &nbsp;{{identityData.date}}
+                            </span>
+                        </p>
+                    </div>
                 </div>
                 <div id="tearms_sheet_header7">
                     <table class="table table-responsive  table-borderless"

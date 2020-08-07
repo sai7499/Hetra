@@ -727,7 +727,7 @@ export class FleetDetailsComponent implements OnInit {
   onFormSubmit(index: any) {
 
     this.fleetDetails = this.fleetForm.value.Rows;
-
+    console.log("fleet form value",this.fleetForm)
 
     this.isDirty = true;
     if (this.fleetForm.valid === true) {
