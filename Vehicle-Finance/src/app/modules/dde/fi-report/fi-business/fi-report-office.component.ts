@@ -192,7 +192,8 @@ export class FiReportOfficeComponent implements OnInit {
     // fun that initilalizes the form group
     this.fieldReportForm = new FormGroup({
 
-      externalAgencyName: new FormControl('', Validators.required),
+      // externalAgencyName: new FormControl('', Validators.required),
+      externalAgencyName: new FormControl(''),
       contactPointVerification: new FormControl('', Validators.required),
       referenceNo: new FormControl('', Validators.required),
       cpvInitiatedDate: new FormControl('', Validators.required),
@@ -338,6 +339,7 @@ export class FiReportOfficeComponent implements OnInit {
     this.fieldReportForm.get('noOfVisibleEmployees').updateValueAndValidity();
     this.fieldReportForm.get('activityLevel').clearValidators();
     this.fieldReportForm.get('activityLevel').updateValueAndValidity();
+    console.log('sal concern', this.fieldReportForm);
   }
   addAddressValidators() {
     console.log('in add address validators');
@@ -350,6 +352,7 @@ export class FiReportOfficeComponent implements OnInit {
     this.fieldReportForm.get('noOfWorkingEmployees').setValidators(Validators.required);
     this.fieldReportForm.get('noOfVisibleEmployees').setValidators(Validators.required);
     this.fieldReportForm.get('activityLevel').setValidators(Validators.required);
+    console.log('self concern', this.fieldReportForm);
 
 
   }
@@ -436,10 +439,10 @@ export class FiReportOfficeComponent implements OnInit {
     const fieldReportModal = { ...formModal };
     // console.log('Form Data', fieldReportForm);
     this.isDirty = true;
-    // if (this.fieldReportForm.invalid) {
-    //   // this.toasterService.showError('', '');
-    //   return;
-    // }
+    if (this.fieldReportForm.invalid) {
+      this.toasterService.showWarning('please enter required details', '');
+      return;
+    }
     this.fIBusinessDetails = {
 
       // applicantId: 1177, // hardcoded as per backend

@@ -47,6 +47,8 @@ export class FiReportResidenceComponent implements OnInit {
   city = [];
   toDayDate: Date = new Date();
   leadCreatedDateFromLead: Date;
+  cpVerificaton: string;
+
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -98,12 +100,17 @@ export class FiReportResidenceComponent implements OnInit {
   getLabels() {
     this.labelService.getLabelsData().subscribe(async (value) => {
       this.labels = value;
+
     });
   }
 
   getLOV() {
     this.commonLovService.getLovData().subscribe((value) => {
       this.LOV = value;
+      if (this.LOV) {
+        this.cpVerificaton = this.LOV.LOVS['contactPointVerification'];
+        console.log('in concern', this.cpVerificaton);
+      }
       console.log('in get lov app id', this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
       this.getLeadSectionData();
       this.getFiReportDetails();
@@ -194,7 +201,8 @@ export class FiReportResidenceComponent implements OnInit {
     // fun that initilalizes the form group
     this.fieldReportForm = new FormGroup({
 
-      externalAgencyName: new FormControl('', Validators.required),
+      // externalAgencyName: new FormControl('', Validators.required),
+      externalAgencyName: new FormControl(''),
       contactPointVerification: new FormControl('', Validators.required),
       referenceNo: new FormControl('', Validators.required),
       cpvInitiatedDate: new FormControl('', Validators.required),
@@ -369,10 +377,10 @@ export class FiReportResidenceComponent implements OnInit {
     const fieldReportModal = { ...formModal };
     // console.log('Form Data', fieldReportForm);
     this.isDirty = true;
-    // if (this.fieldReportForm.invalid) {
-    //   // this.toasterService.showError('', '');
-    //   return;
-    // }
+    if (this.fieldReportForm.invalid) {
+      this.toasterService.showWarning('please enter required details', '');
+      return;
+    }
     this.fiResidenceDetails = {
 
       // applicantId: 1177, // hardcoded as per backend
