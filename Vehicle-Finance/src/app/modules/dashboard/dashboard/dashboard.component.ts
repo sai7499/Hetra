@@ -85,29 +85,10 @@ export class DashboardComponent implements OnInit {
   isLoadLead = true;
   leadSection = true;
   salesLead = true;
-  PD: boolean;
-  vehicle: boolean;
+  // PD: boolean;
+  // vehicle: boolean;
   onAssignTab: boolean;
   onReleaseTab: boolean;
-  sanctionedMe: boolean;
-  sanctionedBranch: boolean;
-  declined: boolean;
-  declinedBranch: boolean;
-  myPD: boolean;
-  myPDBranch: boolean;
-  myViability: boolean;
-  myViabilityBranch: boolean;
-
-  // for credit
-  DDESection = true;
-  onDeviation: boolean;
-  onDecision: boolean;
-  DDEWithMe = true;
-  DDEWithBranch: boolean;
-  DeviationWithMe: boolean;
-  DeviationWithBranch: boolean;
-  DecisionWithMe: boolean;
-  DecisionWithBranch: boolean;
 
   // for CPC Maker and Checker
   onMaker = true;
@@ -139,17 +120,6 @@ export class DashboardComponent implements OnInit {
     private sharedService: SharedService
   ) {
     console.log(DisplayTabs.NewLeads);
-    // if (this.roleType === 1) {
-    //   this.activeTab = 0;
-    //   this.subActiveTab = 3;
-    // } else if (this.roleType === 2) {
-    //   this.activeTab = 0;
-    //   this.subActiveTab = 4;
-    // }
-    // this.activeTab = 0;
-    // this.subActiveTab = this.roleType == '1' ? 3 : 4;
-    // console.log('roleType', this.roleType);
-
   }
 
   ngOnInit() {
