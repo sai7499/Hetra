@@ -1388,6 +1388,15 @@
     "pdStatusTitle":"PD Status",
     "PdStatus":"PD Status",
     "opinionOfOfficer":"Opinion of PD Officer",
+    "referenceDetailsTitle": "Reference Details",
+    "referrerRelationship": "Referrer Relationship",
+    "referrerOfficePhoneNo": "Referrer Office Phone No",
+    "refereneceInfoMiddleName": "Reference Info -Middle Name",
+    "referenceInfoOfficeNo": "Reference Info - Office Phone No",
+    "referenceRelationship": "Reference Info  - Relationship with Applicant",
+    "selfieWithCustomer": "Selfie with Customer",
+    "uploadImages": "Upload Images",
+    "opinionOfPDOfficer": "Opinion of PD Officer",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1906,6 +1915,30 @@
         "tomeOfVerification": {
             "maxLength": {
                 "rule": 10
+            },
+            "type": "alpha-numeric"
+        },
+        "referrerName": {
+            "maxLength": {
+                "rule": 30
+            },
+            "type": "alpha"
+        },
+        "referrerFullName": {
+            "maxLength": {
+                "rule": 90
+            },
+            "type": "alpha"
+        },
+        "referrerOfficePhoneNo": {
+            "maxLength": {
+                "rule": 12
+            },
+            "type": "number"
+        },
+        "referrerAddress": {
+            "maxLength": {
+                "rule": 30
             },
             "type": "alpha-numeric"
         }

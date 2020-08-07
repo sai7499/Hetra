@@ -44,17 +44,17 @@ export class OtherDetailsComponent implements OnInit {
     this.aRoute.parent.params.subscribe((val) => {
       this.leadId = Number(val.leadId);
     });
-    console.log("LEADID::::", this.leadId);
+    console.log("LEADID::", this.leadId);
   }
 
   //GET APPLICANTID
   getApplicantId() {
-    this.aRoute.parent.params.subscribe((value: any) => {
-      this.applicantId = value.applicantId;
-      this.version = value.version;
-      console.log('ApplicantId::', this.applicantId);
-      console.log('Version::', this.version);
+    this.aRoute.params.subscribe((value: any) => {
+      this.applicantId = Number(value.applicantId);
+      this.version = String(value.version);
     });
+    console.log('ApplicantId::', this.applicantId);
+    console.log('Version::', this.version);
   }
 
   //GET ALL LOVS
