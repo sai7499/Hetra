@@ -2088,6 +2088,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     let aadhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
     this.biometricService.initIdenti5(aadhar, applicantId, function (result) {
       that.ngxService.stop();
+
+      if(!result.status) {
+        that.pTag.nativeElement.click();
+        that.ngxService.stop();
+        return;
+      }
       let processVariables = JSON.parse(result).ProcessVariables
       // value = JSON.parse(value).ProcessVariables;
 

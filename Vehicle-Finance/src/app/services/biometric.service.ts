@@ -30,6 +30,7 @@ export class BiometricService {
         var that = this;
         this.pid = "";
     
+
         identi5.getInfo(function(result){
           console.log("Result&&&&"+ result);
           that.pid = result["model"];
@@ -52,6 +53,11 @@ export class BiometricService {
      
      
         let pId = pid;
+        if(!pId){
+          let result = JSON.stringify({"status": false});
+          callBack(result);
+          return;
+        }
      
         console.log("pId"+pId);
      

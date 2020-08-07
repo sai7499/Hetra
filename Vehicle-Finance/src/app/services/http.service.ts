@@ -58,8 +58,8 @@ export class HttpService {
 
   docUpload(url, body) {
     if (this.isMobile) {
-     //const requestEntity = JSON.stringify(body);
-      return this.uploadDocMobile(url, body);
+     const requestEntity = JSON.stringify(body);
+      return this.uploadDocMobile(url, requestEntity);
     }
     console.log("From web");
     return this.http.post(url, body);
@@ -297,6 +297,24 @@ export class HttpService {
   uploadDocMobile(url?: string, body?: any){
     this.ngxService.start();
 
+    // let JsonToArray = function(json){
+    //   var str = JSON.stringify(json, null, 0);
+    //   var ret = new Uint8Array(str.length);
+    //   for (var i = 0; i < str.length; i++) {
+    //     ret[i] = str.charCodeAt(i);
+    //   }
+    //   return ret
+    // };
+
+
+    // let binArrayToJson = function(binArray) {
+    //   var str = "";
+    //   for (var i = 0; i < binArray.length; i++) {
+    //     str += String.fromCharCode(parseInt(binArray[i]));
+    //   }
+    //   return JSON.parse(str)
+    // }
+
     const obs = new Observable((observer) => {
       const headers = {
         // 'Content-Type': 'application/x-www-form-urlencoded',
@@ -305,51 +323,73 @@ export class HttpService {
      
       this.httpIonic.setServerTrustMode('nocheck');
 
-      this.httpIonic.setDataSerializer('urlencoded');
+      this.httpIonic.setDataSerializer('utf8');
 
 
    
 
-      // this.ionicOption = {
-      //   method: 'post',
-      //   ...body,
-      //   headers: headers,
-      //   serializer: 'utf8',
-      //   responseType: 'text',
-      // };
-
-      // this.httpIonic
-      //   .sendRequest(url, this.ionicOption)
-      //   .then((result) => {
-      //     const data = JSON.parse(result.data);
-      //     observer.next(data);
-      //     observer.complete();
-      //     this.ngxService.stop();
-      //   }).catch((error) => {
-      //     console.log('Data-error', error);
-      //     observer.error(error);
-      //     observer.complete();
-      //     this.ngxService.stop();
-      //   });
+      this.ionicOption = {
+        method: 'post',
+        data: body,
+        headers: headers
+      };
 
       this.httpIonic
-        .post(url, body, headers)
+        .sendRequest(url, this.ionicOption)
         .then((result) => {
           const data = JSON.parse(result.data);
           observer.next(data);
           observer.complete();
           this.ngxService.stop();
-        })
-        .catch((error) => {
+        }).catch((error) => {
           console.log('Data-error', error);
           observer.error(error);
           observer.complete();
           this.ngxService.stop();
         });
+
+     
+
+      // let dataUint8Array = binArrayToJson(body);
+      // console.log("dataUint8Array", dataUint8Array);
+      // console.log("JsonToArray", JsonToArray(dataUint8Array));
+
+
+     
+      // let data = this.str2ab(body);
+      
+      // this.httpIonic
+      //   .post(url, data, headers)
+      //   .then((result) => {
+      //     const data = JSON.parse(result.data);
+      //     observer.next(data);
+      //     observer.complete();
+      //     this.ngxService.stop();
+      //   })
+      //   .catch((error) => {
+      //     console.log('Data-error', error);
+      //     observer.error(error);
+      //     observer.complete();
+      //     this.ngxService.stop();
+      //   });
     });
 
     return obs;
   }
+
+  str2ab(str) {
+    var buf = new ArrayBuffer(str.length*2); // 2 bytes for each char
+    var bufView = new Uint16Array(buf);
+    for (var i=0, strLen=str.length; i < strLen; i++) {
+      bufView[i] = str.charCodeAt(i);
+    }
+    return buf;
+  }
+
+  ab2str(buf) {
+    return String.fromCharCode.apply(null, new Uint16Array(buf));
+  }
+  
 
   getM(url?: string, params?: any) {
     this.ngxService.start();
