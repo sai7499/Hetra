@@ -65,7 +65,7 @@
                                                 <option *ngFor="let checklist of checklistObject" value="{{checklist.key}}">
                                                     {{checklist.value}}</option>
                                             </select>
-                                            <!-- <div class="invalid-feedback text-center" *ngIf="t.controls[i].invalid && (t.controls[i].touched || t.controls[i].dirty)">
+                                             <div class="invalid-feedback text-center" *ngIf="t.controls[i].get('coAnswer').invalid && (t.controls[i].get('coAnswer').touched || t.controls[i].get('coAnswer').dirty)">
                                                 <p>Please Select One</p>
                                             </div>
      -->
@@ -89,9 +89,9 @@
                                                 <option *ngFor="let checklist of checklistObject" value="{{checklist.key}}">
                                                     {{checklist.value}}</option>
                                             </select>
-                                            <!-- <div class="invalid-feedback text-center" *ngIf="t.controls[i].invalid && (t.controls[i].touched || t.controls[i].dirty)">
+                                            <div class="invalid-feedback text-center" *ngIf="t.controls[i].get('cpcChecker').invalid && (t.controls[i].get('cpcChecker').touched || t.controls[i].get('cpcChecker').dirty)">
                                                 <p>Please Select One</p>
-                                            </div> -->
+                                            </div>
                                         </div>
 
                                     </div>
