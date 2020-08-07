@@ -257,15 +257,15 @@
                 </div>
                 <div id="tearms_sheet_header2">
                     <p id="tearms_sheet_header2_top">{{labels.coApplicantDetails}}</p>
-                  <div *ngFor = "let coAppDetails of coAppDetails; let i=index">
+                  <div *ngFor = "let coAppDetailsData of coAppDetails; let i=index">
                     <p id="tearms_sheet_hdr_left_tag">
-                        {{labels.name}} : {{coAppDetails?.name}}
+                        {{labels.name}} : {{coAppDetailsData.name}}
                     </p>
                     <p id="tearms_sheet_hdr_left_tag">
-                        {{labels.dob}} : {{coAppDetails?.dob}} &nbsp;
-                        {{labels.age}} : {{coAppDetails?.age}}&nbsp;
-                        {{labels.type}} : {{coAppDetails?.type}}-&nbsp;
-                        {{labels.gender}} : {{coAppDetails?.gender}}
+                        {{labels.dob}} : {{coAppDetailsData.dob}} &nbsp;
+                        {{labels.age}} : {{coAppDetailsData.age}}&nbsp;
+                        {{labels.type}} : {{coAppDetailsData.type}}&nbsp;
+                        {{labels.gender}} : {{coAppDetailsData.gender}}
                     </p>
                   </div> 
                    
