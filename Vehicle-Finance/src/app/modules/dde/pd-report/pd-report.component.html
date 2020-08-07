@@ -12,7 +12,7 @@
                     type="button" id="applicant_basic_details" (click)="onNavigate('personal-details')"> Personal
                     Details </button>
                 <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 1}"
-                    routerLink="'/pages/new-pd-dashboard/' + ${this.leadId}/${this.applicantId} + '/${url}'"
+                    routerLink="'/pages/pd-dashboard/' + ${this.leadId}/${this.applicantId} + '/${url}'"
                     type="button" id="applicant_bank_details" (click)="onNavigate('income-details')">
                     <!--  (click)="onNavigate('income-details')" -->
                     Income Details</button>

@@ -1032,7 +1032,7 @@ export class DashboardComponent implements OnInit {
       } else if (this.subActiveTab === this.displayTabs.DeclinedWithMe) {
 
       } else if (this.subActiveTab === this.displayTabs.MyPD) {
-        this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
+        this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${leadId}/pd-list`);
       } else if (this.subActiveTab === this.displayTabs.ViabilityWithMe) {
         this.router.navigate([`/pages/viability-list/${leadId}/viability-list`]);
       } else if (this.subActiveTab === this.displayTabs.MyFI) {
@@ -1042,7 +1042,7 @@ export class DashboardComponent implements OnInit {
       if (this.subActiveTab === this.displayCreditTabs.DDEWithMe) {
         this.router.navigateByUrl(`/pages/dde/${leadId}/lead-details`);
       } else if (this.subActiveTab === this.displayCreditTabs.MyPD) {
-        this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
+        this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${leadId}/pd-list`);
       } else if (this.subActiveTab === this.displayCreditTabs.DeviationWithMe) {
         this.router.navigateByUrl(`/pages/deviation-dashboard/${leadId}/dashboard-deviation-details`);
       } else if (this.subActiveTab === this.displayCreditTabs.CreditDecisionWithMe) {
@@ -1216,7 +1216,7 @@ export class DashboardComponent implements OnInit {
           } else if (this.subActiveTab === this.displayTabs.DeclinedWithBranch) {
 
           } else if (this.subActiveTab === this.displayTabs.BranchPd) {
-            this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
+            this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${leadId}/pd-list`);
           } else if (this.subActiveTab === this.displayTabs.ViabilityWithBranch) {
             this.router.navigate([`/pages/viability-list/${leadId}/viability-list`]);
           } else if (this.subActiveTab === this.displayTabs.BranchFI) {
@@ -1226,7 +1226,7 @@ export class DashboardComponent implements OnInit {
           if (this.subActiveTab === this.displayCreditTabs.DDEWithBranch) {
             this.router.navigateByUrl(`/pages/dde/${leadId}/lead-details`);
           } else if (this.subActiveTab === this.displayCreditTabs.BranchPd) {
-            this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
+            this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${leadId}/pd-list`);
           } else if (this.subActiveTab === this.displayCreditTabs.DeviationWithBranch) {
             this.router.navigateByUrl(`/pages/deviation-dashboard/${leadId}/dashboard-deviation-details`);
           } else if (this.subActiveTab === this.displayCreditTabs.CreditDecisionWithBranch) {

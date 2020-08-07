@@ -64,11 +64,11 @@ export class PdReportComponent implements OnInit {
   onNavigate(url: string) {
 
     if (this.version) {
-      this.router.navigate([`/pages/new-pd-dashboard/${this.leadId}/${this.applicantId}/${url}/${this.version}`]);
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/${url}/${this.version}`]);
       // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${applicantId}/applicant-details/${version}`]);
 
     } else {
-      this.router.navigate([`/pages/new-pd-dashboard/${this.leadId}/${this.applicantId}/${url}`]);
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/${url}`]);
       // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/${url}/${this.version}`]);
     }
   }

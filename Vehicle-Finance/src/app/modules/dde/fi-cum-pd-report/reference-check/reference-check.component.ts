@@ -397,17 +397,19 @@ export class ReferenceCheckComponent implements OnInit {
 
     } else {
 
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list`]);
+      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
 
     }
   }
 
   onNavigateBack() { // fun to navigate to back page
     if (this.version !== 'undefined') {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/loan-details/${this.version}`]);
+      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}
+      /fi-cum-pd-list/${this.applicantId}/loan-details/${this.version}`]);
 
     } else {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/loan-details`]);
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}
+      /fi-cum-pd-list/${this.applicantId}/loan-details`]);
       // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
 
     }

@@ -286,11 +286,13 @@ export class ApplicantDetailComponent implements OnInit {
 
           if (this.version !== 'undefined') {
 
-            this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile/${this.version}`]);
+            this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}
+            /fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
 
           } else {
 
-            this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile`]);
+            this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}
+            /fi-cum-pd-list/${this.applicantId}/customer-profile`]);
 
           }
 
@@ -308,11 +310,13 @@ export class ApplicantDetailComponent implements OnInit {
 
     if (this.version !== 'undefined') {
 
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile/${this.version}`]);
+      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}
+      /fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
 
     } else {
 
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile`]);
+      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}
+      /fi-cum-pd-list/${this.applicantId}/customer-profile`]);
 
     }
   }
@@ -320,11 +324,14 @@ export class ApplicantDetailComponent implements OnInit {
 
   onNavigateBack() {
     console.log('in nav back', this.version);
-    if (this.version !== 'undefined') {
+    if (this.router.url.includes('/fi-cum-pd-dashboard')) {
+
+      this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`);
+
+
+    } else if (this.router.url.includes('/dde')) {
 
       this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
-    } else {
-      this.router.navigateByUrl(`/pages/pd-dashboard/${this.leadId}/pd-list`);
 
 
     }

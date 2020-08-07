@@ -87,7 +87,7 @@ export class PersonalDetailsComponent implements OnInit {
       }
       this.applicantId = Number(value.applicantId);
       console.log(value.version)
-      this.version = value.version ? String(value.version): null;
+      this.version = value.version ? String(value.version) : null;
     });
   }
 
@@ -104,17 +104,19 @@ export class PersonalDetailsComponent implements OnInit {
 
   onNavigateNext() {
     if (this.version) {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/income-details/${this.version}`]);
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/income-details/${this.version}`]);
     } else {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/income-details`]);
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/income-details`]);
     }
   }
 
   onNavigateBack() {
-    if (this.version) {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list`]);
-    } else {
-      this.router.navigateByUrl(`/pages/pd-dashboard/${this.leadId}/pd-list`);
+    if (this.router.url.includes('/fi-cum-pd-dashboard')) {
+      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
+    } else if (this.router.url.includes('/dde')) {
+      {
+        this.router.navigateByUrl(`/pages/dde/${this.leadId}/pd-list`);
+      }
     }
   }
 
