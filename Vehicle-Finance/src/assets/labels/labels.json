@@ -3,7 +3,7 @@
     "businessDivision": "Business Division",
     "fundingProgram": "Funding Program",
     "priority": "Priority",
-    "productCategory": "Product Category",  
+    "productCategory": "Product Category",
     "childLoan": "Child Loan",
     "scheme_Promotion": "Scheme/Promotion",
     "subventionApplied": "Subvention Applied",
@@ -34,7 +34,6 @@
     "mobile": "Mobile",
     "dateOfBirth": "Date of Birth",
     "dateofIncorporation": "Date Of Incorporation",
-    
     "cancel": "Cancel",
     "createLead": "Create Lead",
     "leadDedupetitle": "Lead to Lead Dedupe Results",
@@ -45,6 +44,7 @@
     "product": "Product",
     "loanAmount": "Loan Amount",
     "branch": "Branch",
+    "cbs": "Credit Bureau Score",
     "stage": "Lead Stage",
     "status": "Status",
     "reasonForRejection": "Rejection Reason",
@@ -143,6 +143,7 @@
     "back": "Back",
     "save": "Save",
     "applicantDetailsTitle": "Applicant Details",
+    "personalDetailsTitle": "Personal Details",
     "addApplicantTitle": "Add Applicant",
     "ucicId": "UCIC ID",
     "name": "Name",
@@ -242,7 +243,7 @@
     "emiPaid": "EMI Paid",
     "flAndpdTitle": "PSL Data",
     "pdStatus": "PD Status",
-    "newpdRoute":"New Pd Route",
+    "newpdRoute": "New Pd Route",
     "pdReport": "PD Report",
     "flStatus": "Fl Status",
     "flReport": "Fl Report",
@@ -311,6 +312,10 @@
     "extn": "Extn",
     "workStability": "Work Stability",
     "natureOfBusiness": "Nature of Business",
+    "educationalBackground": "Educational Background Type",
+    "isMinority": "Is Minority?",
+    "community": "Community",
+    "srto": "SRTO",
     "transactionType": "Type of Transaction",
     "businessStability": "Business Stability",
     "coNameAndAddress": "Co.Name & Address",
@@ -530,6 +535,18 @@
     "soRcGreaterthanSixtyDays": "SO RC >60DAYS",
     "zone": "Zone",
     "religion": "Religion",
+    "Category": "Category",
+    "customerProfile": "Customer Profile",
+    "priorExperience": "Prior Experience",
+    "businessKey": "Business Key",
+    "occupationType": "Occupation Type",
+    "businessType": "Business Type",
+    "residentStatus": "Resident Status",
+    "accomodationType": "Accomodation Type",
+    "noOfYearsResiding": "No. of years residing at present residence",
+    "noOfAdultsDependant": "No. of Adults Dependant",
+    "noOfChildrenDependant": "No. of Children Dependant",
+    "bankHolderName": "Bank A/c holder Name",
     "caste": "Caste",
     "noOfUnits": "No of Units",
     "nameOfSoSsoWithECode": "Name of SO/SSO with E Code",
@@ -896,10 +913,15 @@
     "yes": "Yes",
     "close": "Close",
     "fatherName": "Father Name",
-    "fullName":"Full Name",
+    "fullName": "Full Name",
+    "fatherNameHusbandFirstName": "Father/Husband First Name",
+    "fatherNameHusbandSecondName": "Father/Husband Second Name",
+    "fatherNameHusbandThirdName": "Father/Husband Third Name",
+    "fatherNameHusbandFullName": "Father/Husband Full Name",
     "fatherNameHusbandName": "Father/Husband Name",
     "gender": "Gender",
     "maritalStatus": "Marital Status",
+    "weddingAnniversaryDate": "Wedding Anniversary Date",
     "physicallyChallenged": "Physically Challenged",
     "residenceNo": "Residence Number(with STD code)",
     "officeNo": "Office Number(with STD code)",
@@ -1036,6 +1058,7 @@
     "nationality": "Nationality",
     "customerCategory": "Customer Category",
     "emailID": "Email ID",
+    "emailAddress": "E-mail Address",
     "alternateEmailID": "Alternate email ID",
     "prefferedLanguageForCommunication": "Preferred Language for Communication",
     "bankAccountNumber": "Bank Account Number",
@@ -1335,21 +1358,21 @@
     "leadCreatedOnEndDate": "Lead Created On - End Date",
     "loanMinAmount": "Loan Min Amount",
     "loanMaxAmount": "Loan Max Amount",
-    "mode":"mode",
-    "netIncome" : "Net Income",
+    "mode": "mode",
+    "netIncome": "Net Income",
     "additionalSourceofIncome": "Additional source of income",
     "grossSalary": "Gross Salary",
-    "netsalary":"Net salary",
-    "individualIncome" : "Individual Income",
+    "netsalary": "Net salary",
+    "individualIncome": "Individual Income",
     "CCODLIMIT": "CC/OD LIMIT",
-    "noOfChqReturns":"No of Chq returns",
-    "cashAndBankBalance":"Cash and Bank balance",
+    "noOfChqReturns": "No of Chq returns",
+    "cashAndBankBalance": "Cash and Bank balance",
     "monthlyInflows": "Monthly Inflows",
-    "creditCardFirstName":"Credit Card First Name",
-    "CreditCardMiddleName" : "Credit Card Middle Name",
-    "creditCardLastName" : "Credit Card Last Name",
-    "monthlyOutflows" : "Monthly Outflows",
-    "creditCardFullName" : "Credit Card Full Name",
+    "creditCardFirstName": "Credit Card First Name",
+    "CreditCardMiddleName": "Credit Card Middle Name",
+    "creditCardLastName": "Credit Card Last Name",
+    "monthlyOutflows": "Monthly Outflows",
+    "creditCardFullName": "Credit Card Full Name",
     "creditcardIssuedby": "Credit card Issued by",
     "creditcardLimit": "Credit card Limit",
     "validationData": {
@@ -1362,6 +1385,12 @@
         "fullName": {
             "maxLength": {
                 "rule": 40
+            },
+            "type": "alpha"
+        },
+        "srto": {
+            "maxLength": {
+                "rule": 10
             },
             "type": "alpha"
         },
@@ -1378,7 +1407,7 @@
             },
             "minLength": {
                 "rule": 4,
-                "msg":"Minimum Length 4 digits"
+                "msg": "Minimum Length 4 digits"
             },
             "type": "alpha-numeric-nospace"
         },
@@ -1510,7 +1539,7 @@
             },
             "minLength": {
                 "rule": 8,
-                "msg":"Minimum Length 8 digits"
+                "msg": "Minimum Length 8 digits"
             },
             "type": "alpha-numeric"
         },
@@ -1537,6 +1566,15 @@
                 "rule": 50
             },
             "type": "alpha-numeric"
+        },
+        "emailPattern": {
+            "maxLength": {
+                "rule": 50
+            },
+            "patternCheck": {
+                "rule": "^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(\\.\\w{2,10})+$",
+                "msg": "Invalid email"
+            }
         },
         "chasisNo": {
             "maxLength": {

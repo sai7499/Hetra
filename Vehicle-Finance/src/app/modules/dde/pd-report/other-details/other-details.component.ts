@@ -7,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OtherDetailsComponent implements OnInit {
 
+  public labels: any = {};
+  public errorMsg: any = '';
+  public isDirty: boolean;
+
   constructor() { }
 
   ngOnInit() {
