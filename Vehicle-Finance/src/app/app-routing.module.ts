@@ -159,6 +159,20 @@ const routes: Routes = [
             './modules/dde/viability-dashboard/viability-dashboard.module'
           ).then((m) => m.ViabilityDashboardModule),
       },
+      {
+        path: 'cpc-maker',
+        loadChildren: () =>
+          import(
+            './modules/dde/cpc-maker/cpc-maker.module'
+          ).then((m) => m.CpcMakerModule),
+      },
+      {
+        path: 'cpc-checker',
+        loadChildren: () =>
+          import(
+            './modules/dde/cpc-maker/cpc-maker.module'
+          ).then((m) => m.CpcMakerModule),
+      },
     ],
   },
 ];

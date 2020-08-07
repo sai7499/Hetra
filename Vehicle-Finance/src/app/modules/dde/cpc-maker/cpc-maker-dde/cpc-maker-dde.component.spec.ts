@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AccordionComponent } from './accordion.component';
+import { CpcMakerDdeComponent } from './cpc-maker-dde.component';
 
-describe('AccordionComponent', () => {
-  let component: AccordionComponent;
-  let fixture: ComponentFixture<AccordionComponent>;
+describe('CpcMakerDdeComponent', () => {
+  let component: CpcMakerDdeComponent;
+  let fixture: ComponentFixture<CpcMakerDdeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AccordionComponent ]
+      declarations: [ CpcMakerDdeComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AccordionComponent);
+    fixture = TestBed.createComponent(CpcMakerDdeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

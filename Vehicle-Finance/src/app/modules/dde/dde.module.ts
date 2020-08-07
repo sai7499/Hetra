@@ -31,6 +31,7 @@ import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
 import { PdReportModule } from './pd-report/pd-report.module';
 import { ViabilityDashboardModule } from './viability-dashboard/viability-dashboard.module';
 import { FiListComponent } from './fi-list/fi-list.component';
+import { CreditConditionModule } from './credit-decisions/credit-decisions.module';
 // import { PdReportComponent } from './pd-report/pd-report.component';
 
 @NgModule({
@@ -72,9 +73,9 @@ import { FiListComponent } from './fi-list/fi-list.component';
     LeadSectionModule,
     DateInputsModule,
     PdReportModule,
-
+    CreditConditionModule,
     ViabilityDashboardModule
   ],
-  exports: [ViabilityDashboardModule]
+  exports: [ViabilityDashboardModule, CreditConditionModule]
 })
 export class DdeModule { }
