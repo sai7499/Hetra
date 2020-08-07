@@ -4,7 +4,7 @@ import { LeadDataResolverService } from '@modules/lead-section/services/leadData
 import { PersonalDetailsComponent } from './personal-details/personal-details.component';
 import { ReferenceDetailsComponent } from './reference-details/reference-details.component';
 import { OtherDetailsComponent } from './other-details/other-details.component';
-import { PdReportComponent } from './pd-report/pd-report.component';
+import { PdReportComponent } from './pd-report.component';
 import { IncomeDetailsComponent } from './income-details/income-details.component';
 
 const routes: Routes = [
@@ -26,7 +26,7 @@ const routes: Routes = [
         component: IncomeDetailsComponent
       },
       {
-        path: ':applicantId/income-details/:version',
+        path: ':applicantId/income-details?:version',
         component: IncomeDetailsComponent
       },
       {
@@ -44,7 +44,7 @@ const routes: Routes = [
       {
         path: ':applicantId/reference-details/:version',
         component: ReferenceDetailsComponent
-      },
+      }
     ]
   }
 ];

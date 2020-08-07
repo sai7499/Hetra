@@ -3,7 +3,7 @@
     "businessDivision": "Business Division",
     "fundingProgram": "Funding Program",
     "priority": "Priority",
-    "productCategory": "Product Category",
+    "productCategory": "Product Category",  
     "childLoan": "Child Loan",
     "scheme_Promotion": "Scheme/Promotion",
     "subventionApplied": "Subvention Applied",
@@ -1336,6 +1336,7 @@
     "loanMinAmount": "Loan Min Amount",
     "loanMaxAmount": "Loan Max Amount",
     "mode":"mode",
+    "otherDetailsTitle": "Other Details",
     "income1": "Income",
     "securedLoans": "Secured Loans",
     "unSecuredLoans": "Un Secured Loans",
@@ -1346,6 +1347,22 @@
     "equitasBranchName": "Equitas Branch Name",
     "distanceEquitasAssetBranch": "Distance from Equitas Asset Branch in Kms",
     "tomeOfVerification": "Time of Verification",
+    "netIncome" : "Net Income",
+    "additionalSourceofIncome": "Additional source of income",
+    "grossSalary": "Gross Salary",
+    "netsalary":"Net salary",
+    "individualIncome" : "Individual Income",
+    "CCODLIMIT": "CC/OD LIMIT",
+    "noOfChqReturns":"No of Chq returns",
+    "cashAndBankBalance":"Cash and Bank balance",
+    "monthlyInflows": "Monthly Inflows",
+    "creditCardFirstName":"Credit Card First Name",
+    "CreditCardMiddleName" : "Credit Card Middle Name",
+    "creditCardLastName" : "Credit Card Last Name",
+    "monthlyOutflows" : "Monthly Outflows",
+    "creditCardFullName" : "Credit Card Full Name",
+    "creditcardIssuedby": "Credit card Issued by",
+    "creditcardLimit": "Credit card Limit",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1830,6 +1847,42 @@
             "maxLength": {
                 "rule": 100
             }
+        },
+        "salary": {
+            "maxLength": {
+                "rule": 6
+            },
+            "type": "number"
+        },
+        "applicationNo": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "alpha-numeric"
+        },
+        "area": {
+            "maxLength": {
+                "rule": 30
+            },
+            "type": "alpha-numeric"
+        },
+        "equitasBranchName": {
+            "type": "alpha"
+        },
+        "distanceEquitasAssetBranch": {
+            "type": "number"
+        },
+        "soName": {
+            "maxLength": {
+                "rule": 30
+            },
+            "type": "alpha"
+        },
+        "tomeOfVerification": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "alpha-numeric"
         }
     }
 }

@@ -47,6 +47,8 @@ export class FiReportResidenceComponent implements OnInit {
   city = [];
   toDayDate: Date = new Date();
   leadCreatedDateFromLead: Date;
+  cpVerificaton: string;
+
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -98,12 +100,17 @@ export class FiReportResidenceComponent implements OnInit {
   getLabels() {
     this.labelService.getLabelsData().subscribe(async (value) => {
       this.labels = value;
+
     });
   }
 
   getLOV() {
     this.commonLovService.getLovData().subscribe((value) => {
       this.LOV = value;
+      if (this.LOV) {
+        this.cpVerificaton = this.LOV.LOVS['contactPointVerification'];
+        console.log('in concern', this.cpVerificaton);
+      }
       console.log('in get lov app id', this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
       this.getLeadSectionData();
       this.getFiReportDetails();
@@ -194,7 +201,8 @@ export class FiReportResidenceComponent implements OnInit {
     // fun that initilalizes the form group
     this.fieldReportForm = new FormGroup({
 
-      externalAgencyName: new FormControl('', Validators.required),
+      // externalAgencyName: new FormControl('', Validators.required),
+      externalAgencyName: new FormControl(''),
       contactPointVerification: new FormControl('', Validators.required),
       referenceNo: new FormControl('', Validators.required),
       cpvInitiatedDate: new FormControl('', Validators.required),
@@ -356,10 +364,7 @@ export class FiReportResidenceComponent implements OnInit {
         this.setFormValue();
         if (this.fiDetails) {
           if (this.fiDetails.pincode != null) {
-            this.getPincodeResult(this.fiDetails.pincode);
-          } else {
-            this.toasterService.showError('', 'message');
-
+            this.getPincodeResult(Number(this.fiDetails.pincode));
           }
         }
       }
@@ -372,14 +377,14 @@ export class FiReportResidenceComponent implements OnInit {
     const fieldReportModal = { ...formModal };
     // console.log('Form Data', fieldReportForm);
     this.isDirty = true;
-    // if (this.fieldReportForm.invalid) {
-    //   // this.toasterService.showError('', '');
-    //   return;
-    // }
+    if (this.fieldReportForm.invalid) {
+      this.toasterService.showWarning('please enter required details', '');
+      return;
+    }
     this.fiResidenceDetails = {
 
       // applicantId: 1177, // hardcoded as per backend
-      applicantId: this.applicantId,
+      // applicantId: Number(this.applicantId),
       externalAgencyName: fieldReportModal.externalAgencyName,
       contactPointVerification: fieldReportModal.contactPointVerification,
       referenceNo: fieldReportModal.referenceNo,
@@ -391,27 +396,27 @@ export class FiReportResidenceComponent implements OnInit {
       addressLine1: fieldReportModal.addressLine1,
       addressLine2: fieldReportModal.addressLine2,
       addressLine3: fieldReportModal.addressLine3,
-      pincode: Number(fieldReportModal.pincode),
-      city: Number(fieldReportModal.city),
-      state: Number(fieldReportModal.state),
+      pincode: fieldReportModal.pincode,
+      city: fieldReportModal.city,
+      state: fieldReportModal.state,
       personMetName: fieldReportModal.personMetName,
       designation: fieldReportModal.designation,
       natureOfBusiness: fieldReportModal.natureOfBusiness,
       typeOfConcern: fieldReportModal.typeOfConcern,
       residenceApproach: fieldReportModal.residenceApproach,
       residenceDetails: fieldReportModal.residenceDetails,
-      rentAmt: Number(fieldReportModal.rentAmt),
+      rentAmt: fieldReportModal.rentAmt,
       residenceName: fieldReportModal.residenceName,
       verifiedFrom: fieldReportModal.verifiedFrom,
-      yrsOfStayInCity: Number(fieldReportModal.yrsOfStayInCity),
-      yrsOfStayInResi: Number(fieldReportModal.yrsOfStayInResi),
-      areaInSqFeet: Number(fieldReportModal.areaInSqFeet),
+      yrsOfStayInCity: fieldReportModal.yrsOfStayInCity,
+      yrsOfStayInResi: fieldReportModal.yrsOfStayInResi,
+      areaInSqFeet: fieldReportModal.areaInSqFeet,
       locality: fieldReportModal.locality,
       visibleAssets: fieldReportModal.visibleAssets,
       locatingResidence: fieldReportModal.locatingResidence,
       otherAssetsOwned: fieldReportModal.otherAssetsOwned,
-      noOfFamilyMembers: Number(fieldReportModal.noOfFamilyMembers),
-      noOfEarningMembers: Number(fieldReportModal.noOfEarningMembers),
+      noOfFamilyMembers: fieldReportModal.noOfFamilyMembers,
+      noOfEarningMembers: fieldReportModal.noOfEarningMembers,
       vehicleDetails: fieldReportModal.vehicleDetails,
       officeApproach: fieldReportModal.officeApproach,
       officePremises: fieldReportModal.officePremises,
@@ -419,11 +424,11 @@ export class FiReportResidenceComponent implements OnInit {
       furnishings: fieldReportModal.furnishings,
       officeSize: fieldReportModal.officeSize,
       observations: fieldReportModal.observations,
-      noOfWorkingEmployees: Number(fieldReportModal.noOfWorkingEmployees),
-      noOfVisibleEmployees: Number(fieldReportModal.noOfVisibleEmployees),
+      noOfWorkingEmployees: fieldReportModal.noOfWorkingEmployees,
+      noOfVisibleEmployees: fieldReportModal.noOfVisibleEmployees,
       activityLevel: fieldReportModal.activityLevel,
       fiComments: fieldReportModal.fiComments,
-      distanceInKms: Number(fieldReportModal.distanceInKms),
+      distanceInKms: fieldReportModal.distanceInKms,
       cpvAgencyStatus: fieldReportModal.cpvAgencyStatus,
       verifiedBy: fieldReportModal.verifiedBy,
       fiDate: this.sendDate(this.fiDate),
@@ -431,6 +436,7 @@ export class FiReportResidenceComponent implements OnInit {
     };
     const data = {
       userId: this.userId,
+      applicantId: this.applicantId,
       fiResidenceDetails: this.fiResidenceDetails
     };
     console.log('fi report details', this.fiResidenceDetails);
