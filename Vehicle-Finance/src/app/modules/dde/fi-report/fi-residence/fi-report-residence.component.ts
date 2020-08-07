@@ -459,6 +459,23 @@ export class FiReportResidenceComponent implements OnInit {
   }
 
 
+  // onNavigate(action) {
+  //   // console.log('in on navigate', action);
+
+  //   if (action === 'back') {
+  //     if (this.router.url.includes('/fi-dashboard')) {
+
+  //       this.router.navigate(['pages/fi-dashboard/' + this.leadId + '/fi-list']);
+
+  //     } else if (this.router.url.includes('/dde')) {
+
+  //       this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
+  //     }
+  //   } else if (action === 'next') {
+  //     // this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+  //     this.router.navigateByUrl(`pages/fi-list/${this.leadId}/${this.applicantId}/fi-report/fi-business`);
+
+  //   }
   onNavigate(action) {
     // console.log('in on navigate', action);
 
