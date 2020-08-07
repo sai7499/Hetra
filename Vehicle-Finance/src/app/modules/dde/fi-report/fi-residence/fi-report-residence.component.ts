@@ -29,7 +29,7 @@ export class FiReportResidenceComponent implements OnInit {
   fieldReportForm: FormGroup;
   fieldInvestigation: FieldInvestigation;
   fiDetails: any = [];
-  fIReportList: any = {};
+  fiResidenceDetails: any = {};
   leadData: {};
   applicantFullName: any;
   fiDate: Date = new Date();
@@ -47,6 +47,9 @@ export class FiReportResidenceComponent implements OnInit {
   city = [];
   toDayDate: Date = new Date();
   leadCreatedDateFromLead: Date;
+  cpVerificaton: string;
+  initiatedDate: any;
+
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -98,12 +101,17 @@ export class FiReportResidenceComponent implements OnInit {
   getLabels() {
     this.labelService.getLabelsData().subscribe(async (value) => {
       this.labels = value;
+
     });
   }
 
   getLOV() {
     this.commonLovService.getLovData().subscribe((value) => {
       this.LOV = value;
+      if (this.LOV) {
+        this.cpVerificaton = this.LOV.LOVS['contactPointVerification'];
+        console.log('in concern', this.cpVerificaton);
+      }
       console.log('in get lov app id', this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
       this.getLeadSectionData();
       this.getFiReportDetails();
@@ -180,7 +188,7 @@ export class FiReportResidenceComponent implements OnInit {
     const submitDate = new Date(this.fieldReportForm.value.reportSubmitDate)
       ? new Date(this.fieldReportForm.value.reportSubmitDate) : null;
     if (initiatedDate && submitDate) {
-      if (initiatedDate > submitDate) {
+      if (submitDate < initiatedDate) {
         this.toasterService.showWarning('Submit Date should be greater than Initiated Date', '');
 
       }
@@ -194,7 +202,8 @@ export class FiReportResidenceComponent implements OnInit {
     // fun that initilalizes the form group
     this.fieldReportForm = new FormGroup({
 
-      externalAgencyName: new FormControl('', Validators.required),
+      // externalAgencyName: new FormControl('', Validators.required),
+      externalAgencyName: new FormControl({ value: '', disabled: true }),
       contactPointVerification: new FormControl('', Validators.required),
       referenceNo: new FormControl('', Validators.required),
       cpvInitiatedDate: new FormControl('', Validators.required),
@@ -209,15 +218,15 @@ export class FiReportResidenceComponent implements OnInit {
       pincode: new FormControl('', Validators.required),
       city: new FormControl('', Validators.required),
       state: new FormControl('', Validators.required),
-      personMetName: new FormControl('', Validators.required),
-      designation: new FormControl('', Validators.required),
-      natureOfBusiness: new FormControl('', Validators.required),
-      typeOfConcern: new FormControl('', Validators.required),
+      // designation: new FormControl('', Validators.required),
+      // natureOfBusiness: new FormControl('', Validators.required),
+      // typeOfConcern: new FormControl('', Validators.required),
       residenceApproach: new FormControl('', Validators.required),
       residenceDetails: new FormControl('', Validators.required),
       rentAmt: new FormControl('', Validators.required),
       residenceName: new FormControl('', Validators.required),
       verifiedFrom: new FormControl('', Validators.required),
+      personMetName: new FormControl('', Validators.required),
       yrsOfStayInCity: new FormControl('', Validators.required),
       yrsOfStayInResi: new FormControl('', Validators.required),
       areaInSqFeet: new FormControl('', Validators.required),
@@ -228,15 +237,15 @@ export class FiReportResidenceComponent implements OnInit {
       noOfFamilyMembers: new FormControl('', Validators.required),
       noOfEarningMembers: new FormControl('', Validators.required),
       vehicleDetails: new FormControl('', Validators.required),
-      officeApproach: new FormControl('', Validators.required),
-      officePremises: new FormControl('', Validators.required),
-      officeLocation: new FormControl('', Validators.required),
-      furnishings: new FormControl('', Validators.required),
-      officeSize: new FormControl('', Validators.required),
-      observations: new FormControl('', Validators.required),
-      noOfWorkingEmployees: new FormControl('', Validators.required),
-      noOfVisibleEmployees: new FormControl('', Validators.required),
-      activityLevel: new FormControl('', Validators.required),
+      // officeApproach: new FormControl('', Validators.required),
+      // officePremises: new FormControl('', Validators.required),
+      // officeLocation: new FormControl('', Validators.required),
+      // furnishings: new FormControl('', Validators.required),
+      // officeSize: new FormControl('', Validators.required),
+      // observations: new FormControl('', Validators.required),
+      // noOfWorkingEmployees: new FormControl('', Validators.required),
+      // noOfVisibleEmployees: new FormControl('', Validators.required),
+      // activityLevel: new FormControl('', Validators.required),
       fiComments: new FormControl('', Validators.required),
       distanceInKms: new FormControl('', Validators.required),
       cpvAgencyStatus: new FormControl('', Validators.required),
@@ -268,15 +277,15 @@ export class FiReportResidenceComponent implements OnInit {
       pincode: fiModel.pincode ? fiModel.pincode : null,
       city: fiModel.city ? fiModel.city : null,
       state: fiModel.state ? fiModel.state : null,
-      personMetName: fiModel.personMetName ? fiModel.personMetName : null,
-      designation: fiModel.designation ? fiModel.designation : null,
-      natureOfBusiness: fiModel.natureOfBusiness ? fiModel.natureOfBusiness : null,
-      typeOfConcern: fiModel.typeOfConcern ? fiModel.typeOfConcern : null,
+      // designation: fiModel.designation ? fiModel.designation : null,
+      // natureOfBusiness: fiModel.natureOfBusiness ? fiModel.natureOfBusiness : null,
+      // typeOfConcern: fiModel.typeOfConcern ? fiModel.typeOfConcern : null,
       residenceApproach: fiModel.residenceApproach ? fiModel.residenceApproach : null,
       residenceDetails: fiModel.residenceDetails ? fiModel.residenceDetails : null,
       rentAmt: fiModel.rentAmt ? fiModel.rentAmt : null,
       residenceName: fiModel.residenceName ? fiModel.residenceName : null,
       verifiedFrom: fiModel.verifiedFrom ? fiModel.verifiedFrom : null,
+      personMetName: fiModel.personMetName ? fiModel.personMetName : null,
       yrsOfStayInCity: fiModel.yrsOfStayInCity ? fiModel.yrsOfStayInCity : null,
       yrsOfStayInResi: fiModel.yrsOfStayInResi ? fiModel.yrsOfStayInResi : null,
       areaInSqFeet: fiModel.areaInSqFeet ? fiModel.areaInSqFeet : null,
@@ -287,14 +296,14 @@ export class FiReportResidenceComponent implements OnInit {
       noOfFamilyMembers: fiModel.noOfFamilyMembers ? fiModel.noOfFamilyMembers : null,
       noOfEarningMembers: fiModel.noOfEarningMembers ? fiModel.noOfEarningMembers : null,
       vehicleDetails: fiModel.vehicleDetails ? fiModel.vehicleDetails : null,
-      officeApproach: fiModel.officeApproach ? fiModel.officeApproach : null,
-      officePremises: fiModel.officePremises ? fiModel.officePremises : null,
-      officeLocation: fiModel.officeLocation ? fiModel.officeLocation : null,
-      furnishings: fiModel.furnishings ? fiModel.furnishings : null,
-      officeSize: fiModel.officeSize ? fiModel.officeSize : null,
-      observations: fiModel.observations ? fiModel.observations : null,
-      noOfWorkingEmployees: fiModel.noOfWorkingEmployees ? fiModel.noOfWorkingEmployees : null,
-      noOfVisibleEmployees: fiModel.noOfVisibleEmployees ? fiModel.noOfVisibleEmployees : null,
+      // officeApproach: fiModel.officeApproach ? fiModel.officeApproach : null,
+      // officePremises: fiModel.officePremises ? fiModel.officePremises : null,
+      // officeLocation: fiModel.officeLocation ? fiModel.officeLocation : null,
+      // furnishings: fiModel.furnishings ? fiModel.furnishings : null,
+      // officeSize: fiModel.officeSize ? fiModel.officeSize : null,
+      // observations: fiModel.observations ? fiModel.observations : null,
+      // noOfWorkingEmployees: fiModel.noOfWorkingEmployees ? fiModel.noOfWorkingEmployees : null,
+      // noOfVisibleEmployees: fiModel.noOfVisibleEmployees ? fiModel.noOfVisibleEmployees : null,
       activityLevel: fiModel.activityLevel ? fiModel.activityLevel : null,
       fiComments: fiModel.fiComments ? fiModel.fiComments : null,
       distanceInKms: fiModel.distanceInKms ? fiModel.distanceInKms : null,
@@ -351,15 +360,13 @@ export class FiReportResidenceComponent implements OnInit {
       if (processVariables.error.code === '0') {
         this.applicantFullName = res.ProcessVariables.applicantName;
         console.log('in get fi applicant name', this.applicantFullName);
-        this.fiDetails = res.ProcessVariables.getFiReportDetails;
+        this.fiDetails = res.ProcessVariables.getFIResidenceDetails;
         console.log('in get fi details', this.fiDetails);
         this.setFormValue();
         if (this.fiDetails) {
           if (this.fiDetails.pincode != null) {
-            this.getPincodeResult(this.fiDetails.pincode);
-          } else {
-            this.toasterService.showError('', 'message');
-
+            this.getPincodeResult(Number(this.fiDetails.pincode));
+            this.initiatedDate = new Date(this.getDateFormat(this.fiDetails.cpvInitiatedDate));
           }
         }
       }
@@ -370,16 +377,16 @@ export class FiReportResidenceComponent implements OnInit {
   onFormSubmit() { // fun that submits all the pd data
     const formModal = this.fieldReportForm.value;
     const fieldReportModal = { ...formModal };
-    // console.log('Form Data', fieldReportForm);
+    console.log('Form Data', this.fieldReportForm);
     this.isDirty = true;
-    // if (this.fieldReportForm.invalid) {
-    //   // this.toasterService.showError('', '');
-    //   return;
-    // }
-    this.fIReportList = {
+    if (this.fieldReportForm.invalid) {
+      this.toasterService.showWarning('please enter required details', '');
+      return;
+    }
+    this.fiResidenceDetails = {
 
       // applicantId: 1177, // hardcoded as per backend
-      applicantId: this.applicantId,
+      // applicantId: Number(this.applicantId),
       externalAgencyName: fieldReportModal.externalAgencyName,
       contactPointVerification: fieldReportModal.contactPointVerification,
       referenceNo: fieldReportModal.referenceNo,
@@ -391,39 +398,39 @@ export class FiReportResidenceComponent implements OnInit {
       addressLine1: fieldReportModal.addressLine1,
       addressLine2: fieldReportModal.addressLine2,
       addressLine3: fieldReportModal.addressLine3,
-      pincode: Number(fieldReportModal.pincode),
-      city: Number(fieldReportModal.city),
-      state: Number(fieldReportModal.state),
-      personMetName: fieldReportModal.personMetName,
-      designation: fieldReportModal.designation,
-      natureOfBusiness: fieldReportModal.natureOfBusiness,
-      typeOfConcern: fieldReportModal.typeOfConcern,
+      pincode: fieldReportModal.pincode,
+      city: fieldReportModal.city,
+      state: fieldReportModal.state,
+      // designation: fieldReportModal.designation,
+      // natureOfBusiness: fieldReportModal.natureOfBusiness,
+      // typeOfConcern: fieldReportModal.typeOfConcern,
       residenceApproach: fieldReportModal.residenceApproach,
       residenceDetails: fieldReportModal.residenceDetails,
-      rentAmt: Number(fieldReportModal.rentAmt),
+      rentAmt: fieldReportModal.rentAmt,
       residenceName: fieldReportModal.residenceName,
       verifiedFrom: fieldReportModal.verifiedFrom,
-      yrsOfStayInCity: Number(fieldReportModal.yrsOfStayInCity),
-      yrsOfStayInResi: Number(fieldReportModal.yrsOfStayInResi),
-      areaInSqFeet: Number(fieldReportModal.areaInSqFeet),
+      personMetName: fieldReportModal.personMetName,
+      yrsOfStayInCity: fieldReportModal.yrsOfStayInCity,
+      yrsOfStayInResi: fieldReportModal.yrsOfStayInResi,
+      areaInSqFeet: fieldReportModal.areaInSqFeet,
       locality: fieldReportModal.locality,
       visibleAssets: fieldReportModal.visibleAssets,
       locatingResidence: fieldReportModal.locatingResidence,
       otherAssetsOwned: fieldReportModal.otherAssetsOwned,
-      noOfFamilyMembers: Number(fieldReportModal.noOfFamilyMembers),
-      noOfEarningMembers: Number(fieldReportModal.noOfEarningMembers),
+      noOfFamilyMembers: fieldReportModal.noOfFamilyMembers,
+      noOfEarningMembers: fieldReportModal.noOfEarningMembers,
       vehicleDetails: fieldReportModal.vehicleDetails,
-      officeApproach: fieldReportModal.officeApproach,
-      officePremises: fieldReportModal.officePremises,
-      officeLocation: fieldReportModal.officeLocation,
-      furnishings: fieldReportModal.furnishings,
-      officeSize: fieldReportModal.officeSize,
-      observations: fieldReportModal.observations,
-      noOfWorkingEmployees: Number(fieldReportModal.noOfWorkingEmployees),
-      noOfVisibleEmployees: Number(fieldReportModal.noOfVisibleEmployees),
-      activityLevel: fieldReportModal.activityLevel,
+      // officeApproach: fieldReportModal.officeApproach,
+      // officePremises: fieldReportModal.officePremises,
+      // officeLocation: fieldReportModal.officeLocation,
+      // furnishings: fieldReportModal.furnishings,
+      // officeSize: fieldReportModal.officeSize,
+      // observations: fieldReportModal.observations,
+      // noOfWorkingEmployees: fieldReportModal.noOfWorkingEmployees,
+      // noOfVisibleEmployees: fieldReportModal.noOfVisibleEmployees,
+      // activityLevel: fieldReportModal.activityLevel,
       fiComments: fieldReportModal.fiComments,
-      distanceInKms: Number(fieldReportModal.distanceInKms),
+      distanceInKms: fieldReportModal.distanceInKms,
       cpvAgencyStatus: fieldReportModal.cpvAgencyStatus,
       verifiedBy: fieldReportModal.verifiedBy,
       fiDate: this.sendDate(this.fiDate),
@@ -431,9 +438,10 @@ export class FiReportResidenceComponent implements OnInit {
     };
     const data = {
       userId: this.userId,
-      fIReportList: this.fIReportList
+      applicantId: this.applicantId,
+      fiResidenceDetails: this.fiResidenceDetails
     };
-    console.log('fi report list', this.fIReportList);
+    console.log('fi report details', this.fiResidenceDetails);
 
     this.fieldInvestigationService.saveOrUpdateFiReportDetails(data).subscribe((res: any) => {
       const processVariables = res.ProcessVariables;

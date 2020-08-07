@@ -109,6 +109,11 @@ h3.dedupe_head {
     text-align: center;
 }
 
+
+.text-right{
+    text-align: right;
+}
+
 .box_shadow {
     box-shadow: 0px 8px 6px -9px black;
 }

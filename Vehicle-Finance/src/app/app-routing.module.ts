@@ -85,6 +85,11 @@ const routes: Routes = [
           import('./modules/dde/dde.module').then((m) => m.DdeModule),
       },
       {
+        path: 'fi-dashboard', // added another routing for dde module to load from fi-dashboard
+        loadChildren: () =>
+          import('./modules/dde/dde.module').then((m) => m.DdeModule),
+      },
+      {
         path: 'vehicle-details',
         loadChildren: () =>
           import('./modules/dde/vehicle-details/vehicle-details.module').then(
@@ -100,6 +105,13 @@ const routes: Routes = [
       },
       {
         path: 'pd-dashboard',
+        loadChildren: () =>
+          import('./modules/dde/fi-cum-pd-report/fi-cum-pd-report.module').then(
+            (m) => m.FiCumPdReportModule
+          ),
+      },
+      {
+        path: 'new-pd-dashboard',
         loadChildren: () =>
           import('./modules/dde/pd-report/pd-report.module').then(
             (m) => m.PdReportModule

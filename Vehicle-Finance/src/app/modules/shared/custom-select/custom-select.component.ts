@@ -40,6 +40,7 @@ export class CustomSelectComponent
 
   @Input() keyField = 'key';
   @Input() valueField = 'value';
+  @Input() isDefaultDisabled = true;
 
   @Output() valueChange = new EventEmitter();
 

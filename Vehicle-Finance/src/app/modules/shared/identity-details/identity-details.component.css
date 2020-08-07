@@ -3,8 +3,8 @@ input#add_banks {
 }
 
 .content { 
-    overflow: hidden;
-    overflow-y: scroll;
+    /* overflow: hidden;
+    overflow-y: scroll; */
 }
 
 .dropdown_individual {
