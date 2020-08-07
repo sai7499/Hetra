@@ -73,9 +73,14 @@
             <li [routerLink]="[ '/pages/dashboard/vehicle-viability' ]" routerLinkActive="active"><a>Vehicle Viability</a></li>
         </ul> -->
         <ul class="nav nav-pills nav-justified" id="background_white">
-            <li [ngClass]="{'active':displayTabs?.Leads === activeTab}" (click)="onLeads(displayTabs?.Leads, displayTabs?.NewLeads)" routerLinkActive="active" id="leads"><a data-toggle="tab">Leads</a></li>
+            <li (click)="onLeads(displayTabs?.Leads, displayTabs?.NewLeads)" [ngClass]="{'active':displayTabs?.Leads === activeTab}" routerLinkActive="active" id="leads"><a data-toggle="tab">Leads</a></li>
             <li (click)="onLeads(displayTabs?.PD, displayTabs?.MyPD)" [ngClass]="{'active':displayTabs?.PD === activeTab}" routerLinkActive="active"><a data-toggle="tab">Personal Discussion</a></li>
+            <li (click)="onLeads(displayTabs?.FI, displayTabs?.MyFI)" [ngClass]="{'active':displayTabs?.FI === activeTab}" routerLinkActive="active"><a data-toggle="tab">Field Investigation</a></li>
             <li (click)="onLeads(displayTabs?.Viability, displayTabs?.ViabilityWithMe)" [ngClass]="{'active':displayTabs?.Viability === activeTab}" routerLinkActive="active"><a data-toggle="tab">Vehicle Viability</a></li>
+            <!-- <li (click)="onLeads(displayTabs?.LoanBooking, displayTabs?.LoanBookingWithMe)" [ngClass]="{'active':displayTabs?.LoanBooking === activeTab}" routerLinkActive="active"><a data-toggle="tab">Loan Booking</a></li>
+            <li (click)="onLeads(displayTabs?.LoanDisbursement, displayTabs?.LoanDisbursementWithMe)" [ngClass]="{'active':displayTabs?.LoanDisbursement === activeTab}" routerLinkActive="active"><a data-toggle="tab">Loan Disbursement</a></li>
+            <li (click)="onLeads(displayTabs?.Negotiation, displayTabs?.NegotiatinWithMe)" [ngClass]="{'active':displayTabs?.Negotiation === activeTab}" routerLinkActive="active"><a data-toggle="tab">Negotiation</a></li>
+            <li (click)="onLeads(displayTabs?.Disbursement, displayTabs?.DisbursementWithMe)" [ngClass]="{'active':displayTabs?.Disbursement === activeTab}" routerLinkActive="active"><a data-toggle="tab">Disbursement</a></li> -->
         </ul>
     </div>
     <!--  -->
@@ -91,10 +96,33 @@
             <li id="new_leads" (click)="leads(displayTabs?.MyPD)" [ngClass]="{'active':displayTabs?.MyPD === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">My PD Tasks</a></li>
             <li id="sanction_leads" (click)="leads(displayTabs?.BranchPd)" [ngClass]="{'active':displayTabs?.BranchPd === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Branch PD Tasks</a></li>
         </ul>
+        <!--  -->
+        <ul *ngIf="displayTabs?.FI === activeTab" class="nav nav-pills nav-justified" id="background_white">
+            <li id="new_leads" (click)="leads(displayTabs?.MyFI)" [ngClass]="{'active':displayTabs?.MyFI === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">My FI Tasks</a></li>
+            <li id="sanction_leads" (click)="leads(displayTabs?.BranchFI)" [ngClass]="{'active':displayTabs?.BranchFI === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Branch FI Tasks</a></li>
+        </ul>
+        <!--  -->
         <ul *ngIf="displayTabs?.Viability === activeTab" class="nav nav-pills nav-justified" id="background_white">
             <li (click)="leads(displayTabs?.ViabilityWithMe)" [ngClass]="{'active':displayTabs?.ViabilityWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Viability Checks Pending with Me</a></li>
             <li (click)="leads(displayTabs?.ViabilityWithBranch)" [ngClass]="{'active':displayTabs?.ViabilityWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Viability Checks Pending with Branch</a></li>
         </ul>
+        <!--  -->
+        <!-- <ul *ngIf="displayTabs?.LoanBooking === activeTab" class="nav nav-pills nav-justified" id="background_white">
+            <li id="new_leads" (click)="leads(displayTabs?.LoanBookingWithMe)" [ngClass]="{'active':displayTabs?.LoanBookingWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Loan with Me</a></li>
+            <li id="sanction_leads" (click)="leads(displayTabs?.LoanBookingWithBranch)" [ngClass]="{'active':displayTabs?.LoanBookingWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Loan With Branch</a></li>
+        </ul>
+        <ul *ngIf="displayTabs?.LoanDisbursement === activeTab" class="nav nav-pills nav-justified" id="background_white">
+            <li id="new_leads" (click)="leads(displayTabs?.LoanDisbursementWithMe)" [ngClass]="{'active':displayTabs?.LoanDisbursementWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Loan Disbursement with Me</a></li>
+            <li id="sanction_leads" (click)="leads(displayTabs?.LoanDisbursementWithBranch)" [ngClass]="{'active':displayTabs?.LoanDisbursementWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Loan Disbursement With Branch</a></li>
+        </ul>
+        <ul *ngIf="displayTabs?.Negotiation === activeTab" class="nav nav-pills nav-justified" id="background_white">
+            <li id="new_leads" (click)="leads(displayTabs?.NegotiatinWithMe)" [ngClass]="{'active':displayTabs?.NegotiatinWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Negotiation with Me</a></li>
+            <li id="sanction_leads" (click)="leads(displayTabs?.NegotiatinWithBranch)" [ngClass]="{'active':displayTabs?.NegotiatinWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">NegotiationWith Branch</a></li>
+        </ul>
+        <ul *ngIf="displayTabs?.Disbursement === activeTab" class="nav nav-pills nav-justified" id="background_white">
+            <li id="new_leads" (click)="leads(displayTabs?.DisbursementWithMe)" [ngClass]="{'active':displayTabs?.DisbursementWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Disbursement with Me</a></li>
+            <li id="sanction_leads" (click)="leads(displayTabs?.DisbursementWithBranch)" [ngClass]="{'active':displayTabs?.DisbursementWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Disbursement With Branch</a></li>
+        </ul> -->
     </div>
 
     <!-- <div class="container-fluid mar-bottom" *ngIf="roleType == '2' || '4'">
@@ -112,6 +140,7 @@
         <ul class="nav nav-pills nav-justified" id="background_white">
             <li (click)="onLeads(displayCreditTabs?.DDE, displayCreditTabs?.DDEWithMe)" [ngClass]="{'active':displayCreditTabs?.DDE === activeTab}" routerLinkActive="active" id="leads"><a data-toggle="tab">DDE</a></li>
             <li (click)="onLeads(displayCreditTabs?.PD, displayCreditTabs?.MyPD)" [ngClass]="{'active':displayCreditTabs?.PD === activeTab}" routerLinkActive="active"><a data-toggle="tab">Personal Discussion</a></li>
+            <li (click)="onLeads(displayTabs?.FI, displayTabs?.MyFI)" [ngClass]="{'active':displayTabs?.FI === activeTab}" routerLinkActive="active"><a data-toggle="tab">Field Investigation</a></li>
             <li (click)="onLeads(displayCreditTabs?.Deviation, displayCreditTabs?.DeviationWithMe)" [ngClass]="{'active':displayCreditTabs?.Deviation === activeTab}" routerLinkActive="active"><a data-toggle="tab">Deviation</a></li>
             <li (click)="onLeads(displayCreditTabs?.Decision, displayCreditTabs?.CreditDecisionWithMe)" [ngClass]="{'active':displayCreditTabs?.Decision === activeTab}" routerLinkActive="active"><a data-toggle="tab">Credit Decision</a></li>
         </ul>
@@ -125,6 +154,10 @@
         <ul *ngIf="displayCreditTabs?.PD === activeTab" class="nav nav-pills nav-justified" id="background_white">
             <li id="new_leads" (click)="leads(displayCreditTabs?.MyPD)" [ngClass]="{'active':displayCreditTabs?.MyPD === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">My PD Tasks</a></li>
             <li id="sanction_leads" (click)="leads(displayCreditTabs?.BranchPd)" [ngClass]="{'active':displayCreditTabs?.BranchPd === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Branch PD Tasks</a></li>
+        </ul>
+        <ul *ngIf="displayTabs?.FI === activeTab" class="nav nav-pills nav-justified" id="background_white">
+            <li id="new_leads" (click)="leads(displayCreditTabs?.MyFI)" [ngClass]="{'active':displayCreditTabs?.MyFI === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">My FI Tasks</a></li>
+            <li id="sanction_leads" (click)="leads(displayCreditTabs?.BranchFI)" [ngClass]="{'active':displayCreditTabs?.BranchFI === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Branch FI Tasks</a></li>
         </ul>
         <ul *ngIf="displayCreditTabs?.Deviation === activeTab" class="nav nav-pills nav-justified" id="background_white">
             <li id="new_leads" (click)="leads(displayCreditTabs?.DeviationWithMe)" [ngClass]="{'active':displayCreditTabs?.DeviationWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Deviation Pending With Me</a></li>

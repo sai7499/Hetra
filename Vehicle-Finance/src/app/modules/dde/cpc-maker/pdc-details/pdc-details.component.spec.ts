@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AccordionComponent } from './accordion.component';
+import { PdcDetailsComponent } from './pdc-details.component';
 
-describe('AccordionComponent', () => {
-  let component: AccordionComponent;
-  let fixture: ComponentFixture<AccordionComponent>;
+describe('PdcDetailsComponent', () => {
+  let component: PdcDetailsComponent;
+  let fixture: ComponentFixture<PdcDetailsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AccordionComponent ]
+      declarations: [ PdcDetailsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AccordionComponent);
+    fixture = TestBed.createComponent(PdcDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
