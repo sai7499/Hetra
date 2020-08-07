@@ -1334,8 +1334,19 @@
     "leadCreatedOnEndDate": "Lead Created On - End Date",
     "loanMinAmount": "Loan Min Amount",
     "loanMaxAmount": "Loan Max Amount",
-    "mode": "mode",
-    "netIncome": "Net Income",
+    "mode":"mode",
+    "otherDetailsTitle": "Other Details",
+    "income1": "Income",
+    "securedLoans": "Secured Loans",
+    "unSecuredLoans": "Un Secured Loans",
+    "creditors": "Crediotrs",
+    "debtors": "Debtors",
+    "fixedAssets": "Fixed Assets",
+    "geotagInformation": "Geotag Information",
+    "equitasBranchName": "Equitas Branch Name",
+    "distanceEquitasAssetBranch": "Distance from Equitas Asset Branch in Kms",
+    "tomeOfVerification": "Time of Verification",
+    "netIncome" : "Net Income",
     "additionalSourceofIncome": "Additional source of income",
     "grossSalary": "Gross Salary",
     "netsalary": "Net salary",
@@ -1867,6 +1878,36 @@
                 "rule": 6
             },
             "type": "number"
+        },
+        "applicationNo": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "alpha-numeric"
+        },
+        "area": {
+            "maxLength": {
+                "rule": 30
+            },
+            "type": "alpha-numeric"
+        },
+        "equitasBranchName": {
+            "type": "alpha"
+        },
+        "distanceEquitasAssetBranch": {
+            "type": "number"
+        },
+        "soName": {
+            "maxLength": {
+                "rule": 30
+            },
+            "type": "alpha"
+        },
+        "tomeOfVerification": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "alpha-numeric"
         }
     }
 }
