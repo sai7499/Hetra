@@ -117,7 +117,7 @@ isSanctionDetails: boolean;
     });
   }
 
-  //TO SHOW CONTENT OF SANCTION_DETAILS
+  //TO SHOW CONTENT OF SANCTION-DETAILS
   showSanctionDetailsPage() {
     this.isSanctionDetails = true;
     console.log("IsSanctionDetailsPage::", this.isSanctionDetails);
