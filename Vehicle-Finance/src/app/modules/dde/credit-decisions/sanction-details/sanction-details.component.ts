@@ -42,7 +42,7 @@ salesResponse: any;
   ngOnInit() {
     this.getLabels();
     this.getLeadId();
-    this.getSanctionDetails();
+    // this.getSanctionDetails();
     this.salesResponse = localStorage.getItem('salesResponse');
     this.todayDate = this.utilityService.convertDateTimeTOUTC(this.date, 'DD/MM/YYYY');
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
@@ -69,68 +69,67 @@ salesResponse: any;
   getSanctionDetails() {
     const data = this.leadId;
     this.sanctionDetailsService.getSanctionDetails(data).subscribe((res: any) => {
-      const response = res;
-      this.sanctionDetailsObject = response.ProcessVariables;
-      // Filter Out Applicant, Co-Applicant And Guarantor List If ApplicantList_Object Exist
-      if(this.sanctionDetailsObject.applicantList) {
-        this.sanctionDetailsObject.applicantList.filter( (element) => {
-          if (element.applicantType === 'Applicant') {
-            const data = {
-              applicantType: element.applicantType,
-              name: element.name,
-              addressLine1: element.addressLine1,
-              addressLine2: element.addressLine2,
-              addressLine3: element.addressLine3,
-              district: element.district,
-              country: element.country,
-              pincode: element.pincode,
-              mobileNo: element.mobileNo,
-            };
-            this.applicantList.push(data);
-          } else if (element.applicantType === 'Co-Applicant') {
-            const data = {
-              applicantType: element.applicantType,
-              name: element.name,
-              addressLine1: element.addressLine1,
-              addressLine2: element.addressLine2,
-              addressLine3: element.addressLine3,
-              district: element.district,
-              country: element.country,
-              pincode: element.pincode,
-              mobileNo: element.mobileNo,
-            };
-            this.coApplicantList.push(data);
-          } else if (element.applicantType === 'Guarantor') {
-            const data = {
-              applicantType: element.applicantType,
-              name: element.name,
-              addressLine1: element.addressLine1,
-              addressLine2: element.addressLine2,
-              addressLine3: element.addressLine3,
-              district: element.district,
-              country: element.country,
-              pincode: element.pincode,
-              mobileNo: element.mobileNo,
-            };
-            this.guarantorList.push(data);
-          }
-        });
+      if (res['ProcessVariables'] && res['ProcessVariables'].error['code'] == "0") {
+        this.isSanctionDetails = true;
+        const response = res;
+        this.sanctionDetailsObject = response.ProcessVariables;
+        // Filter Out Applicant, Co-Applicant And Guarantor List If ApplicantList_Object Exist
+        if (this.sanctionDetailsObject.applicantList) {
+          this.sanctionDetailsObject.applicantList.filter((element) => {
+            if (element.applicantType === 'Applicant') {
+              const data = {
+                applicantType: element.applicantType,
+                name: element.name,
+                addressLine1: element.addressLine1,
+                addressLine2: element.addressLine2,
+                addressLine3: element.addressLine3,
+                district: element.district,
+                country: element.country,
+                pincode: element.pincode,
+                mobileNo: element.mobileNo,
+              };
+              this.applicantList.push(data);
+            } else if (element.applicantType === 'Co-Applicant') {
+              const data = {
+                applicantType: element.applicantType,
+                name: element.name,
+                addressLine1: element.addressLine1,
+                addressLine2: element.addressLine2,
+                addressLine3: element.addressLine3,
+                district: element.district,
+                country: element.country,
+                pincode: element.pincode,
+                mobileNo: element.mobileNo,
+              };
+              this.coApplicantList.push(data);
+            } else if (element.applicantType === 'Guarantor') {
+              const data = {
+                applicantType: element.applicantType,
+                name: element.name,
+                addressLine1: element.addressLine1,
+                addressLine2: element.addressLine2,
+                addressLine3: element.addressLine3,
+                district: element.district,
+                country: element.country,
+                pincode: element.pincode,
+                mobileNo: element.mobileNo,
+              };
+              this.guarantorList.push(data);
+            }
+          });
+        }
+        this.vehicleDetailsArray = this.sanctionDetailsObject.vehicleDetails;
+        this.loanApprovedDetails = this.sanctionDetailsObject.loanApprovedDetails;
+        this.generalTermsAndConditions = this.sanctionDetailsObject.generalTermsAndConditions;
+      } else {
+        this.toasterService.showError(res['ProcessVariables'].error['message'], 'Sanction Details');
       }
-      this.vehicleDetailsArray = this.sanctionDetailsObject.vehicleDetails;
-      this.loanApprovedDetails = this.sanctionDetailsObject.loanApprovedDetails;
-      this.generalTermsAndConditions = this.sanctionDetailsObject.generalTermsAndConditions;
     });
   }
 
   //TO SHOW CONTENT OF SANCTION-DETAILS
   generateSanctionLetter() {
-    if(this.sanctionDetailsObject.error.code === "0") {
-      this.isSanctionDetails = true;
-      console.log("IsSanctionDetailsPage::", this.isSanctionDetails);
-      this.getSanctionDetails(); //CALL_GET_API_IF_ERROR_CODE_0
-    } else {
-      this.toasterService.showError("Credit Condition is not approved", "Sanction Details");
-    }
+    this.getSanctionDetails();
   }
 
   //TO SEND BACK SANCTION_DETAILS TO SALES
@@ -146,7 +145,7 @@ salesResponse: any;
       if (response["Error"] == 0) {
         this.toasterService.showSuccess("Sanctioned Leads Submitted Successfully", "Sanction Details");
       } else {
-        this.toasterService.showError("Error", "Sanction Details");
+        this.toasterService.showError(res['ProcessVariables'].error['message'], 'Sanction Details');
       }
     });
   }
