@@ -41,6 +41,8 @@ export class TermSheetComponent implements OnInit {
   guaIdentityDetails: Array<any>;
   roleType: any;
   roleId: any;
+  userId;
+  userType;
   roleAndUserDetails: any;
   @Input() isApprove: boolean; 
   constructor(
@@ -118,13 +120,33 @@ export class TermSheetComponent implements OnInit {
   //   this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/'+url);
 
   // }
+  assignTaskToTSAndCPC(){
+    const ProcessVariables = {
+      "leadId": this.leadId,
+      "userId":this.userId
+    };
+    this.termSheetService.assignTaskToTSAndCPC(ProcessVariables).subscribe((res)=>{
+      if(res['ProcessVariables'].error['code'] == "0"){
+        this.toasterService.showSuccess("Record Assigned Successfuly", '');
+
+      }else{
+        this.toasterService.showSuccess(res['ProcessVariables'].error['message'], '');
+
+      }
+    })
+  }
   async ngOnInit() {
     this.getLabelData();
     console.log(this.isApprove);
     this.leadId = (await this.getLeadId()) as number;
     console.log(this.leadId);
     this.todayDate = this.utilityService.convertDateTimeTOUTC(this.date, 'DD/MM/YYYY');
- 
+    this.roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    console.log(this.roleAndUserDetails)
+    if (this.roleAndUserDetails) {
+      this.userId = this.roleAndUserDetails['userDetails'].userId;
+      this.userType = this.roleAndUserDetails['roles'][0].roleType;
+    }
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
       this.roleType = value.roleType;

@@ -1171,6 +1171,7 @@
     "noofEmployeesVisible": "No of employees Visible",
     "activityLevel": "Activity Level",
     "cpvAgencyStatus": "CPV Agency Status",
+    "sanctionDetailsPage": "Show Sanction Details Page",
     "sanctionLetter": "Sanction Letter",
     "toSanction": "To",
     "vfSheetTag30": "Further to your application for a finance facility, we are glad to inform you that your loan application has been sanctioned as per the following terms and conditions:",
@@ -1360,6 +1361,8 @@
     "loanMaxAmount": "Loan Max Amount",
     "mode":"mode",
     "otherDetailsTitle": "Other Details",
+    "genericDetails": "Generic Details",
+    "loanDetails": "Loan Details",
     "income1": "Income",
     "securedLoans": "Secured Loans",
     "unSecuredLoans": "Un Secured Loans",
@@ -1369,7 +1372,9 @@
     "geotagInformation": "Geotag Information",
     "equitasBranchName": "Equitas Branch Name",
     "distanceEquitasAssetBranch": "Distance from Equitas Asset Branch in Kms",
+    "pdOfficerName": "PD Officer Name",
     "tomeOfVerification": "Time of Verification",
+    "sourceOfMarginMoney1": "Source of Margin Money",
     "netIncome" : "Net Income",
     "additionalSourceofIncome": "Additional source of income",
     "grossSalary": "Gross Salary",
@@ -1386,7 +1391,7 @@
     "creditCardFullName": "Credit Card Full Name",
     "creditcardIssuedby": "Credit card Issued by",
     "creditcardLimit": "Credit card Limit",
-    "referrerDetailsTitle": "Referrer Details",
+    "referrerDetails": "Referrer Details",
     "referrerFirstName": "Referrer First Name",
     "referrerMiddleName": "Referrer Middle Name",
     "referrerLastName": "Referrer Last Name",
@@ -1397,6 +1402,7 @@
     "referrerAddressLine2": "Referrer Address Line2",
     "referrerAddressLine3": "Referrer Address Line3",
     "referrerAssetName": "Referrer Asset Name",
+    "applicationReference": "Application Reference",
     "applicationReferenceTitle": "Application Reference",
     "referenceInfoFirstName": "Reference Info - First Name",
     "referenceInfoMiddleName": "Reference Info - Middle Name",
@@ -1407,6 +1413,7 @@
     "referenceInfoAddressLine1": "Reference Info - Address Line1",
     "referenceInfoAddressLine2": "Reference Info - Address Line2",
     "referenceInfoAddressLine3": "Reference Info - Address Line3",
+    "imageSelfie": "Image/Selfie",
     "selfieImageTitle":"Selfie With Customer House[Click Photo]",
     "uploadIamges":"Upload Image",
     "pdStatusTitle":"PD Status",
@@ -1945,7 +1952,7 @@
         "distanceEquitasAssetBranch": {
             "type": "number"
         },
-        "soName": {
+        "pdOfficerName": {
             "maxLength": {
                 "rule": 30
             },

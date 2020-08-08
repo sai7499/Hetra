@@ -602,6 +602,11 @@ export class ApiService {
       workflowId: 'a9e25f4ecd8e11eab88900505695f93b',
       projectId: environment.projectIds.salesProjectId,
     },
+    assignTaskToTSAndCPC: {
+      processId: '87a68dacd95911ea9e8400505695f93b',
+      workflowId: '877db1ded95911eaaa8300505695f93b',
+      projectId: environment.projectIds.submitToCredit,
+    },
     saveCheckList: {
       processId: '2f5e323ad59911ea9d5d00505695f93b',
       workflowId: '2f32c4bad59911eabaa900505695f93b',
