@@ -69,9 +69,9 @@ export class CpcMakerDdeComponent implements OnInit {
       return 0;
     }  else if (url.includes('term-sheet')) {
       return 1;
-    } else if (url.includes('sanction-details')) {
-      return 2;
     } else if (url.includes('negotiation')) {
+      return 2;
+    } else if (url.includes('sanction-details')) {
       return 3;
     } else if (url.includes('pdc-details')) {
       return 4;
