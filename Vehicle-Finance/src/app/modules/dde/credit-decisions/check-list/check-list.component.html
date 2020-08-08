@@ -48,7 +48,7 @@
                             <div class="row" formArrayName = "checklistArray"
                                >
                                 <ng-container *ngFor=" let item of checklistForm.get('checklistArray')['controls']; let i = index" [formGroupName]="i" >
-                                    <div   class="col-sm-12 col-md-12 col-lg-12 row text-center">
+                                    <div   class="col-sm-12 col-md-12 col-lg-12 row text-center" style="margin-bottom: 10px;">
                                         <div class="form-group col-sm-1 col-md-1 col-lg-1 row">
                                             <p class="text-center">{{i+ 1}}</p>
                                         </div>

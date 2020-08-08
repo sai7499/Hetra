@@ -23,6 +23,7 @@ export class UtilityService {
     localStorage.removeItem('token');
     localStorage.removeItem('roles');
     localStorage.removeItem('userId');
+    localStorage.removeItem('salesResponse');
     console.clear();
     this.router.navigateByUrl('/login');
   }
