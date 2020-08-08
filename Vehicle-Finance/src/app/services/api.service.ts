@@ -454,6 +454,11 @@ export class ApiService {
       workflowId: '3ea13662c66611eaa13a00505695f93b',
       projectId: environment.projectIds.submitToCredit,
     },
+    approveCreditConditions: {
+      processId: '8f288e04d95e11ea819000505695f93b',
+      workflowId: '3ea13662c66611eaa13a00505695f93b',
+      projectId: environment.projectIds.submitToCredit,
+    },
     assignCDTaskFromSales: {
       processId: '90408c36cc9f11ea83c800505695f93b',
       workflowId: '3ea13662c66611eaa13a00505695f93b',
@@ -600,6 +605,11 @@ export class ApiService {
       processId: 'aa0bd7accd8e11eaa47f00505695f93b',
       workflowId: 'a9e25f4ecd8e11eab88900505695f93b',
       projectId: environment.projectIds.salesProjectId,
+    },
+    assignTaskToTSAndCPC: {
+      processId: '87a68dacd95911ea9e8400505695f93b',
+      workflowId: '877db1ded95911eaaa8300505695f93b',
+      projectId: environment.projectIds.submitToCredit,
     },
     saveCheckList: {
       processId: '2f5e323ad59911ea9d5d00505695f93b',
