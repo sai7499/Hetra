@@ -14,7 +14,6 @@ import { ToasterService } from '@services/toaster.service';
 export class SanctionDetailsComponent implements OnInit {
 
 leadId;
-
 labels: any = {};
 sanctionDetailsObject: any = {};
 applicantList: any = [];
@@ -28,6 +27,7 @@ todayDate;
 roleId: any;
 roleType: any;
 isSanctionDetails: boolean;
+salesResponse: any;
 
   constructor(
         private labelsData: LabelsService,
@@ -43,6 +43,7 @@ isSanctionDetails: boolean;
     this.getLabels();
     this.getLeadId();
     this.getSanctionDetails();
+    this.salesResponse = localStorage.getItem('salesResponse');
     this.todayDate = this.utilityService.convertDateTimeTOUTC(this.date, 'DD/MM/YYYY');
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
