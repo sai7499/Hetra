@@ -9,7 +9,7 @@ import { IncomeDetailsComponent } from './income-details/income-details.componen
 
 const routes: Routes = [
   {
-    path: ':leadId',
+    path: ':leadId/pd-list',
     component: PdReportComponent,
     resolve: { leadData: LeadDataResolverService },
     children: [
@@ -26,7 +26,7 @@ const routes: Routes = [
         component: IncomeDetailsComponent
       },
       {
-        path: ':applicantId/income-details?:version',
+        path: ':applicantId/income-details/:version',
         component: IncomeDetailsComponent
       },
       {
