@@ -1288,6 +1288,8 @@ export class DashboardComponent implements OnInit {
     console.log('in assign task', taskId);
   }
   getLeadId(item) {
+    console.log(item.is_sales_response_completed);
+    localStorage.setItem('salesResponse', item.is_sales_response_completed);
     this.vehicleDataStoreService.setCreditTaskId(item.taskId);
     this.sharedService.getTaskID(item.taskId);
   }
