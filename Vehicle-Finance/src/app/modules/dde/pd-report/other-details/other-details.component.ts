@@ -81,7 +81,7 @@ export class OtherDetailsComponent implements OnInit {
       routeMap: [""],
       equitasBranchName: [""],
       distanceEquitasAssetBranch: [""],
-      soName: [""],
+      pdOfficerName: [""],
       employeeCode: [""],
       date: [""],
       product: [""],
