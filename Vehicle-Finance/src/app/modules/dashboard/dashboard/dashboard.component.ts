@@ -1115,7 +1115,7 @@ export class DashboardComponent implements OnInit {
 
           break;
         case 8:
-          this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
+          this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${leadId}/pd-list`);
           break;
         case 10:
           this.router.navigate([`/pages/viability-list/${leadId}/viability-list`]);
@@ -1133,7 +1133,7 @@ export class DashboardComponent implements OnInit {
           this.router.navigateByUrl(`/pages/dde/${leadId}/lead-details`);
           break;
         case 6:
-          this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
+          this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${leadId}/pd-list`);
           break;
         case 8:
           this.router.navigateByUrl(`/pages/deviation-dashboard/${leadId}/dashboard-deviation-details`);
@@ -1233,7 +1233,7 @@ export class DashboardComponent implements OnInit {
 
               break;
             case 9:
-              this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
+              this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${leadId}/pd-list`);
               break;
             case 11:
               this.router.navigate([`/pages/viability-list/${leadId}/viability-list`]);
@@ -1250,7 +1250,7 @@ export class DashboardComponent implements OnInit {
               this.router.navigateByUrl(`/pages/dde/${leadId}/lead-details`);
               break;
             case 7:
-              this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
+              this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${leadId}/pd-list`);
               break;
             case 9:
               this.router.navigateByUrl(`/pages/deviation-dashboard/${leadId}/dashboard-deviation-details`);

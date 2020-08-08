@@ -24,8 +24,9 @@ loanApprovedDetails: any = {};
 generalTermsAndConditions: string;
 date: Date = new Date();
 todayDate;
-  roleId: any;
-  roleType: any;
+roleId: any;
+roleType: any;
+isSanctionDetails: boolean;
 
   constructor(
         private labelsData: LabelsService,
@@ -59,7 +60,7 @@ todayDate;
     this.aRoute.parent.params.subscribe((val) => {
       this.leadId = Number(val.leadId);
     });
-    console.log('LEADID::::', this.leadId);
+    console.log('LEADID::', this.leadId);
   }
   // FUNCTION FOR GET API of SANCTION-DETAILS
   getSanctionDetails() {
@@ -114,6 +115,12 @@ todayDate;
       this.loanApprovedDetails = this.sanctionDetailsObject.loanApprovedDetails;
       this.generalTermsAndConditions = this.sanctionDetailsObject.generalTermsAndConditions;
     });
+  }
+
+  //TO SHOW CONTENT OF SANCTION-DETAILS
+  showSanctionDetailsPage() {
+    this.isSanctionDetails = true;
+    console.log("IsSanctionDetailsPage::", this.isSanctionDetails);
   }
 
   onNext() {

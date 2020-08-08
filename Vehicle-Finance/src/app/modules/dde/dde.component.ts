@@ -67,7 +67,7 @@ export class DdeComponent implements OnInit {
       this.show = true;
     }
 
-    if (this.router.url.includes('/pd-dashboard') || this.router.url.includes('/fi-dashboard')) {
+    if (this.router.url.includes('/fi-cum-pd-dashboard') || this.router.url.includes('/fi-dashboard')) {
       this.showNav = false;
     } else {
       this.showNav = true;
