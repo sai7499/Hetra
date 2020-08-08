@@ -108,7 +108,7 @@ export class NegotiationComponent implements OnInit {
     if (this.roleType == '4' || this.roleType == '5') {
     console.log(this.createNegotiationForm,  this.t) ;
     this.createNegotiationForm.disable();
-    this.t.controls['ticket1'].disable();
+    this.t.disable();
     }
   }
   onChangeLanguage(labels: string) {

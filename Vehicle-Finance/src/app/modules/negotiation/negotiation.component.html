@@ -427,11 +427,17 @@
       </form>
       <div class="btn-sec button-section clear-both " style="margin-bottom: 30px ;">
         <div class="col-sm-12 text-right">
+          <button type="button" class="btn btn-primary mar-right8" value="submit">
+            {{ labels.back }}
+          </button>
           <button type="button" class="btn btn-default mar-right8" value="submit">
             {{ labels.cancel }}
           </button>
           <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()">
             {{ labels.submit }}
+          </button>
+          <button type="button" class="btn btn-primary mar-right8" value="submit">
+            {{ labels.next }}
           </button>
         </div>
       </div>
