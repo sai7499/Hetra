@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , Input} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LabelsService } from '../../../../services/labels.service';
 import { UtilityService } from '@services/utility.service';
+import { ToasterService } from '@services/toaster.service';
 
 import {TermSheetService} from '../../services/terms-sheet.service';
 import { LoginStoreService } from '@services/login-store.service';
@@ -41,14 +42,18 @@ export class TermSheetComponent implements OnInit {
   roleType: any;
   roleId: any;
   roleAndUserDetails: any;
+  @Input() isApprove: boolean; 
   constructor(
      public labelsService: LabelsService,
      private activatedRoute: ActivatedRoute,
      private utilityService: UtilityService,
      private router: Router,
+     private toasterService: ToasterService,
      public termSheetService : TermSheetService,
      private loginStoreService: LoginStoreService,
-    ) { }
+    ) { 
+     
+    }
   getLabelData() {
     this.labelsService.getLabelsData().subscribe(labelsData => {
       this.labels = labelsData;
@@ -72,7 +77,7 @@ export class TermSheetComponent implements OnInit {
   }
 
   showTermSheet(){
-this.isTermSheet= true;
+    this.getTermSheet(this.leadId);
   }
   getTermSheet(leadId){
    const ProcessVariables = {
@@ -81,6 +86,7 @@ this.isTermSheet= true;
    this.termSheetService.getTermSheet(ProcessVariables).subscribe(res => {
     if(res['ProcessVariables'] && res['ProcessVariables'].error['code'] == "0" ){
       console.log(res);
+      this.isTermSheet= true;
       this.agentDetails = res['ProcessVariables'].agentDetails;
       this.applicantDetails = res['ProcessVariables'].applicantDetails;
       this.applicationDetails = res['ProcessVariables'].applicationDetails;
@@ -102,6 +108,9 @@ this.isTermSheet= true;
       this.coAppIndentityDetails = res['ProcessVariables'].coAppIndentityDetails;
       this.guaIdentityDetails =res['ProcessVariables'].guaIdentityDetails;
 
+    } else {
+      this.toasterService.showSuccess(res['ProcessVariables'].error['message'], '');
+
     }
   });
   }
@@ -111,19 +120,22 @@ this.isTermSheet= true;
   // }
   async ngOnInit() {
     this.getLabelData();
+    console.log(this.isApprove);
     this.leadId = (await this.getLeadId()) as number;
     console.log(this.leadId);
     this.todayDate = this.utilityService.convertDateTimeTOUTC(this.date, 'DD/MM/YYYY');
-    this.getTermSheet(this.leadId);
-  
+ 
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
       this.roleType = value.roleType;
       console.log('role Type', this.roleType);
-      if(this.roleType != '2'){
+      if(this.roleType != '2' || this.isApprove){
         this.isTermSheet = true
       }
     });
+    if(this.roleType != '2' || this.isApprove){
+      this.getTermSheet(this.leadId);
+    }
   }
   onNext() {
     // this.router.navigate([`/pages/credit-decisions/${this.leadId}/check-list`]);

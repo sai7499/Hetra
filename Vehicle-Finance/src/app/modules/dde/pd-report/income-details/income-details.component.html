@@ -9,7 +9,7 @@ data-animation="scaleIn"
 <h3 class="title">{{ labels.incomeDetails }}</h3>
 <div class="row">
   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-    <label > {{ labels.grossIncome }} </label>
+    <label > {{ labels.grossIncome }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Enter Gross Income'"
     [type]="labels?.validationData?.salary?.type"
@@ -58,7 +58,7 @@ data-animation="scaleIn"
 
 <div class="row">
   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-    <label > {{ labels.grossSalary }} </label>
+    <label > {{ labels.grossSalary }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Enter Gross Salary'"
     [type]="labels?.validationData?.salary?.type"
@@ -105,7 +105,7 @@ data-animation="scaleIn"
 
 <div class="row">
   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-    <label > {{ labels.bankName }} </label>
+    <label > {{ labels.bankName }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Enter Bank Name'"
     [type]="labels?.validationData?.bankName?.type"
@@ -135,7 +135,7 @@ data-animation="scaleIn"
     >
     </app-custom-input> -->
     <app-vf-custom-select
-    [values]="acType"
+    [values]="LOV?.LOVS.bankAccountType"
     formControlName="acType"
     [isRequired]="'Please select one'"
     [isDirty]="isDirty"
@@ -163,7 +163,7 @@ data-animation="scaleIn"
 
 <div class="row">
   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-    <label > {{ labels.CCODLIMIT }} </label>
+    <label > {{ labels.CCODLIMIT }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Enter CC/OD LIMIT'"
     [type]="labels?.validationData?.totalExposure?.type"
@@ -210,7 +210,7 @@ data-animation="scaleIn"
 
 <div class="row">
   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-    <label > {{ labels.monthlyInflows }} </label>
+    <label > {{ labels.monthlyInflows }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Enter Monthly Inflows'"
     [type]="labels?.validationData?.salary?.type"
@@ -244,7 +244,7 @@ data-animation="scaleIn"
 
 <div class="row">
   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-    <label > {{ labels.creditCardFirstName }} </label>
+    <label > {{ labels.creditCardFirstName }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Enter Credit Card First Name'"
     [type]="labels?.validationData?.name?.type"
@@ -258,8 +258,7 @@ data-animation="scaleIn"
   </div>
   <div class="form-group col-sm-6 col-md-3 col-lg-3">
     <label for="creditCardMiddleName"
-      >{{ labels.CreditCardMiddleName}}
-      <sub class="star_red_col">*</sub></label
+      >{{ labels.CreditCardMiddleName}}</label
     >
     <!-- <input type="text" class="form-control" id="father_name" formControlName="fatherName"> -->
     <app-custom-input
@@ -268,7 +267,6 @@ data-animation="scaleIn"
       [type]="labels?.validationData?.name?.type"
       formControlName="creditCardMiddleName"
       [patternCheck]="labels?.validationData?.name?.pattern"
-      [isRequired]="'Credit Card Middle Name is required'"
       [maxLength]="labels?.validationData?.name?.maxLength"
       [isDirty]="isDirty"
     >
@@ -294,15 +292,16 @@ data-animation="scaleIn"
 
 <div class="row">
   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-    <label > {{ labels.creditCardFullName }} </label>
+    <label > {{ labels.creditCardFullName }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Credit Card Full Name'"
     [type]="labels?.validationData?.name?.type"
     formControlName="creditCardFullName"
     [patternCheck]="labels?.validationData?.name?.pattern"
-    [isRequired]="'Name is required'"
-    [maxLength]="labels?.validationData?.name?.maxLength"
     [isDirty]="isDirty"
+    [value]="incomeDetailsForm.get('creditCardFirstName').value + ' ' +
+                    incomeDetailsForm.get('creditCardMiddleName').value + ' ' +
+                     incomeDetailsForm.get('creditCardLastName').value"
     ></app-custom-input>
  
   </div>
@@ -330,7 +329,7 @@ data-animation="scaleIn"
       <app-custom-input
       id="creditcardLimit"
       [placeholder]="'Enter credit card Limit'"
-      [type]="labels?.creditCardLastName?.amountValue?.type"
+      [type]="labels?.validationData.amountValue?.type"
       formControlName="creditcardLimit"
       [isRequired]="'Credit card Limit is required'"
       [maxLength]="labels?.validationData?.amountValue?.maxLength"

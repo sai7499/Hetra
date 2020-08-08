@@ -90,20 +90,20 @@ export class OtherDetailsComponent implements OnInit {
     });
   }
 
-  //SUBMIT FORM
+  // SUBMIT FORM
   onFormSubmit() {
   }
 
   onBack() {
     if (this.version !== 'undefined') {
-      this.router.navigate([`/pages/new-pd-dashboard/${this.leadId}/${this.applicantId}/reference-details/${this.version}`]);
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/reference-details/${this.version}`]);
     } else {
-      this.router.navigate([`/pages/new-pd-dashboard/${this.leadId}/${this.applicantId}/reference-details`]);
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/reference-details`]);
     }
   }
 
   onNext() {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list`]);
+      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
   }
 
 }
