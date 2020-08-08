@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SanctionDetailsService } from '@services/sanction-details.service';
 import { UtilityService } from '@services/utility.service';
 import { LoginStoreService } from '@services/login-store.service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-sanction-details',
@@ -35,7 +36,8 @@ isSanctionDetails: boolean;
         private sanctionDetailsService: SanctionDetailsService,
         private utilityService: UtilityService,
         private loginStoreService: LoginStoreService,
-  ) { }
+        private toasterService: ToasterService,
+       ) { }
 
   ngOnInit() {
     this.getLabels();
@@ -68,49 +70,51 @@ isSanctionDetails: boolean;
     this.sanctionDetailsService.getSanctionDetails(data).subscribe((res: any) => {
       const response = res;
       this.sanctionDetailsObject = response.ProcessVariables;
-      // Filter Out Applicant, Co-Applicant And Guarantor List
-      this.sanctionDetailsObject.applicantList.filter( (element) => {
-        if (element.applicantType === 'Applicant') {
-          const data = {
-            applicantType: element.applicantType,
-            name: element.name,
-            addressLine1: element.addressLine1,
-            addressLine2: element.addressLine2,
-            addressLine3: element.addressLine3,
-            district: element.district,
-            country: element.country,
-            pincode: element.pincode,
-            mobileNo: element.mobileNo,
-          };
-          this.applicantList.push(data);
-        } else if (element.applicantType === 'Co-Applicant') {
-          const data = {
-            applicantType: element.applicantType,
-            name: element.name,
-            addressLine1: element.addressLine1,
-            addressLine2: element.addressLine2,
-            addressLine3: element.addressLine3,
-            district: element.district,
-            country: element.country,
-            pincode: element.pincode,
-            mobileNo: element.mobileNo,
-          };
-          this.coApplicantList.push(data);
-        } else if (element.applicantType === 'Guarantor') {
-          const data = {
-            applicantType: element.applicantType,
-            name: element.name,
-            addressLine1: element.addressLine1,
-            addressLine2: element.addressLine2,
-            addressLine3: element.addressLine3,
-            district: element.district,
-            country: element.country,
-            pincode: element.pincode,
-            mobileNo: element.mobileNo,
-          };
-          this.guarantorList.push(data);
-        }
-      });
+      // Filter Out Applicant, Co-Applicant And Guarantor List If ApplicantList_Object Exist
+      if(this.sanctionDetailsObject.applicantList) {
+        this.sanctionDetailsObject.applicantList.filter( (element) => {
+          if (element.applicantType === 'Applicant') {
+            const data = {
+              applicantType: element.applicantType,
+              name: element.name,
+              addressLine1: element.addressLine1,
+              addressLine2: element.addressLine2,
+              addressLine3: element.addressLine3,
+              district: element.district,
+              country: element.country,
+              pincode: element.pincode,
+              mobileNo: element.mobileNo,
+            };
+            this.applicantList.push(data);
+          } else if (element.applicantType === 'Co-Applicant') {
+            const data = {
+              applicantType: element.applicantType,
+              name: element.name,
+              addressLine1: element.addressLine1,
+              addressLine2: element.addressLine2,
+              addressLine3: element.addressLine3,
+              district: element.district,
+              country: element.country,
+              pincode: element.pincode,
+              mobileNo: element.mobileNo,
+            };
+            this.coApplicantList.push(data);
+          } else if (element.applicantType === 'Guarantor') {
+            const data = {
+              applicantType: element.applicantType,
+              name: element.name,
+              addressLine1: element.addressLine1,
+              addressLine2: element.addressLine2,
+              addressLine3: element.addressLine3,
+              district: element.district,
+              country: element.country,
+              pincode: element.pincode,
+              mobileNo: element.mobileNo,
+            };
+            this.guarantorList.push(data);
+          }
+        });
+      }
       this.vehicleDetailsArray = this.sanctionDetailsObject.vehicleDetails;
       this.loanApprovedDetails = this.sanctionDetailsObject.loanApprovedDetails;
       this.generalTermsAndConditions = this.sanctionDetailsObject.generalTermsAndConditions;
@@ -118,9 +122,32 @@ isSanctionDetails: boolean;
   }
 
   //TO SHOW CONTENT OF SANCTION-DETAILS
-  showSanctionDetailsPage() {
-    this.isSanctionDetails = true;
-    console.log("IsSanctionDetailsPage::", this.isSanctionDetails);
+  generateSanctionLetter() {
+    if(this.sanctionDetailsObject.error.code === "0") {
+      this.isSanctionDetails = true;
+      console.log("IsSanctionDetailsPage::", this.isSanctionDetails);
+      this.getSanctionDetails(); //CALL_GET_API_IF_ERROR_CODE_0
+    } else {
+      this.toasterService.showError("Credit Condition is not approved", "Sanction Details");
+    }
+  }
+
+  //TO SEND BACK SANCTION_DETAILS TO SALES
+  onSubmitToSales() {
+    const data = { 
+      leadId: this.leadId,
+      userId: localStorage.getItem('userId'),
+      onSubmit: true,
+    };
+    this.sanctionDetailsService.submitToSanctionLeads(data).subscribe((res: any) => {
+      const response = res;
+      // console.log("RESPONSE_SUBMIT_TO_SALES::", response);
+      if (response["Error"] == 0) {
+        this.toasterService.showSuccess("Sanctioned Leads Submitted Successfully", "Sanction Details");
+      } else {
+        this.toasterService.showError("Error", "Sanction Details");
+      }
+    });
   }
 
   onNext() {
