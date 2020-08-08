@@ -58,6 +58,9 @@ export enum DisplayCreditTabs {
   FI,
   MyFI,
   BranchFI,
+  TermSheet,
+  TermSheetWithMe,
+  TermSheetWithBranch
 }
 @Component({
   selector: 'app-dashboard',
@@ -96,6 +99,8 @@ export class DashboardComponent implements OnInit {
   roleId;
   activeTab;
   subActiveTab;
+  minAmount;
+  maxAmount;
 
 
 
@@ -138,109 +143,10 @@ export class DashboardComponent implements OnInit {
     private sharedService: SharedService
   ) {
     console.log(DisplayTabs.NewLeads);
+    console.log(dashboardService.routingData);
   }
 
-  ngOnInit() {
-
-
-    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
-      this.roleType = value.roleType;
-      this.businessDivision = value.businessDivision[0].bizDivId;
-      // console.log(value);
-    });
-    this.activeTab = 0;
-    this.subActiveTab = this.roleType === 1 ? 3 : 4;
-
-    this.labelService.getLabelsData().subscribe(res => {
-      this.labels = res;
-      this.validationData = res.validationData;
-    });
-
-    this.filterForm = this.fb.group({
-      leadId: [''],
-      product: [''],
-      leadStage: [''],
-      fromDate: [''],
-      toDate: [''],
-      loanMinAmt: [''],
-      loanMaxAmt: ['']
-    });
-
-    this.dashboardFilter();
-
-    // new leads
-
-    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
-      this.branchId = value.branchId;
-      this.roleId = value.roleId;
-      this.roleType = value.roleType;
-      console.log('role Type', typeof this.roleType, this.roleType);
-    });
-    if (this.roleType == '2') {
-      this.onReleaseTab = true;
-      this.getMyDDELeads(this.itemsPerPage);
-    } else if (this.roleType == '1') {
-      this.getSalesFilterLeads(this.itemsPerPage);
-    } else if (this.roleType == '4') {
-      this.onReleaseTab = true;
-      this.getMakerLeads(this.itemsPerPage);
-    } else if (this.roleType == '5') {
-      this.onReleaseTab = true;
-      this.getCheckerLeads(this.itemsPerPage);
-    }
-  }
-
-
-  // changing main tabs
-  onLeads(data, subTab) {
-
-    this.activeTab = data;
-    this.subActiveTab = subTab;
-    console.log('activeTab', this.activeTab);
-    if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
-      this.onReleaseTab = false;
-      this.onAssignTab = false;
-    } else {
-      this.onReleaseTab = true;
-      this.onAssignTab = false;
-    }
-    if (this.roleType === 1) {
-      if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
-        this.getSalesFilterLeads(this.itemsPerPage);
-      } else if (this.activeTab === this.displayTabs.PD && this.subActiveTab === this.displayTabs.MyPD) {
-        this.getPdMyTask(this.itemsPerPage);
-      } else if (this.activeTab === this.displayTabs.Viability && this.subActiveTab === this.displayTabs.ViabilityWithMe) {
-        this.getViabilityLeads(this.itemsPerPage);
-      } else if (this.activeTab === this.displayTabs.FI && this.subActiveTab === this.displayTabs.MyFI) {
-        this.getMyFITask(this.itemsPerPage);
-      }
-    } else if (this.roleType === 2) {
-      if (this.activeTab === this.displayCreditTabs.DDE && this.subActiveTab === this.displayCreditTabs.DDEWithMe) {
-        this.getMyDDELeads(this.itemsPerPage);
-      } else if (this.activeTab === this.displayCreditTabs.PD && this.subActiveTab === this.displayCreditTabs.MyPD) {
-        this.getPdMyTask(this.itemsPerPage);
-      } else if (this.activeTab === this.displayCreditTabs.Deviation && this.subActiveTab === this.displayCreditTabs.DeviationWithMe) {
-        this.getMyDeviationLeads(this.itemsPerPage);
-      } else if (this.activeTab === this.displayCreditTabs.Decision && this.subActiveTab === this.displayCreditTabs.CreditDecisionWithMe) {
-        this.getMyDecisionLeads(this.itemsPerPage);
-      } else if (this.activeTab === this.displayCreditTabs.FI && this.subActiveTab === this.displayCreditTabs.MyFI) {
-        this.getMyFITask(this.itemsPerPage);
-      }
-    }
-
-  }
-
-  // changing sub tabs
-  leads(data) {
-    this.subActiveTab = data;
-    if (this.subActiveTab === this.displayTabs.NewLeads) {
-      this.onReleaseTab = false;
-      this.onAssignTab = false;
-    } else {
-      this.onReleaseTab = true;
-      this.onAssignTab = false;
-    }
-    console.log('subActiveTab', this.subActiveTab);
+  onTabsLoading(data) {
     if (this.roleType === 1) {
       switch (data) {
         case 3:
@@ -341,20 +247,135 @@ export class DashboardComponent implements OnInit {
           this.onReleaseTab = false;
           this.getBranchDecisionLeads(this.itemsPerPage);
           break;
-          case 13:
-            this.onAssignTab = false;
-            this.onReleaseTab = true;
-            this.getMyFITask(this.itemsPerPage);
-            break;
-          case 14:
-            this.onAssignTab = true;
-            this.onReleaseTab = false;
-            this.getBranchFITask(this.itemsPerPage);
-            break;
+        case 13:
+          this.onAssignTab = false;
+          this.onReleaseTab = true;
+          this.getMyFITask(this.itemsPerPage);
+          break;
+        case 14:
+          this.onAssignTab = true;
+          this.onReleaseTab = false;
+          this.getBranchFITask(this.itemsPerPage);
+          break;
+        case 16:
+          this.onAssignTab = false;
+          this.onReleaseTab = true;
+          this.getMyTermsheetLeads(this.itemsPerPage);
+          break;
+        case 17:
+          this.onAssignTab = true;
+          this.onReleaseTab = false;
+          this.getBranchTermsheetLeads(this.itemsPerPage);
+          break;
         default:
           break;
       }
     }
+  }
+
+  ngOnInit() {
+
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+      this.branchId = value.branchId;
+      this.roleId = value.roleId;
+      this.businessDivision = value.businessDivision[0].bizDivId;
+      this.roleType = value.roleType;
+      console.log('role Type', typeof this.roleType, this.roleType);
+    });
+
+    if (this.dashboardService.routingData) {
+      this.activeTab = this.dashboardService.routingData.activeTab;
+      this.subActiveTab = this.dashboardService.routingData.subActiveTab;
+      this.onTabsLoading(this.subActiveTab);
+    } else {
+      this.activeTab = 0;
+      this.subActiveTab = this.roleType === 1 ? 3 : 4;
+      this.onTabsLoading(this.subActiveTab);
+    }
+
+
+    this.labelService.getLabelsData().subscribe(res => {
+      this.labels = res;
+      this.validationData = res.validationData;
+    });
+
+    this.filterForm = this.fb.group({
+      leadId: [''],
+      product: [''],
+      leadStage: [''],
+      fromDate: [''],
+      toDate: [''],
+      loanMinAmt: [''],
+      loanMaxAmt: ['']
+    });
+
+    this.dashboardFilter();
+
+    // new leads
+
+    if (this.roleType === 4) {
+      this.onReleaseTab = true;
+      this.getMakerLeads(this.itemsPerPage);
+    } else if (this.roleType === 5) {
+      this.onReleaseTab = true;
+      this.getCheckerLeads(this.itemsPerPage);
+    }
+  }
+
+
+  // changing main tabs
+  onLeads(data, subTab) {
+
+    this.activeTab = data;
+    this.subActiveTab = subTab;
+    console.log('activeTab', this.activeTab);
+    if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
+      this.onReleaseTab = false;
+      this.onAssignTab = false;
+    } else {
+      this.onReleaseTab = true;
+      this.onAssignTab = false;
+    }
+    if (this.roleType === 1) {
+      if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
+        this.getSalesFilterLeads(this.itemsPerPage);
+      } else if (this.activeTab === this.displayTabs.PD && this.subActiveTab === this.displayTabs.MyPD) {
+        this.getPdMyTask(this.itemsPerPage);
+      } else if (this.activeTab === this.displayTabs.Viability && this.subActiveTab === this.displayTabs.ViabilityWithMe) {
+        this.getViabilityLeads(this.itemsPerPage);
+      } else if (this.activeTab === this.displayTabs.FI && this.subActiveTab === this.displayTabs.MyFI) {
+        this.getMyFITask(this.itemsPerPage);
+      }
+    } else if (this.roleType === 2) {
+      if (this.activeTab === this.displayCreditTabs.DDE && this.subActiveTab === this.displayCreditTabs.DDEWithMe) {
+        this.getMyDDELeads(this.itemsPerPage);
+      } else if (this.activeTab === this.displayCreditTabs.PD && this.subActiveTab === this.displayCreditTabs.MyPD) {
+        this.getPdMyTask(this.itemsPerPage);
+      } else if (this.activeTab === this.displayCreditTabs.Deviation && this.subActiveTab === this.displayCreditTabs.DeviationWithMe) {
+        this.getMyDeviationLeads(this.itemsPerPage);
+      } else if (this.activeTab === this.displayCreditTabs.Decision && this.subActiveTab === this.displayCreditTabs.CreditDecisionWithMe) {
+        this.getMyDecisionLeads(this.itemsPerPage);
+      } else if (this.activeTab === this.displayCreditTabs.FI && this.subActiveTab === this.displayCreditTabs.MyFI) {
+        this.getMyFITask(this.itemsPerPage);
+      } else if (this.activeTab === this.displayCreditTabs.TermSheet && this.subActiveTab === this.displayCreditTabs.TermSheetWithMe) {
+        this.getMyTermsheetLeads(this.itemsPerPage);
+      }
+    }
+
+  }
+
+  // changing sub tabs
+  leads(data) {
+    this.subActiveTab = data;
+    if (this.subActiveTab === this.displayTabs.NewLeads) {
+      this.onReleaseTab = false;
+      this.onAssignTab = false;
+    } else {
+      this.onReleaseTab = true;
+      this.onAssignTab = false;
+    }
+    console.log('subActiveTab', this.subActiveTab);
+    this.onTabsLoading(this.subActiveTab);
 
   }
 
@@ -832,6 +853,50 @@ export class DashboardComponent implements OnInit {
     this.responseForCredit(data);
   }
 
+  // for Termsheet leads with Me
+  getMyTermsheetLeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'TermSheet',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: true,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+    this.responseForCredit(data);
+  }
+
+  // for Termsheet leads with Branch
+  getBranchTermsheetLeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'TermSheet',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: false,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+    this.responseForCredit(data);
+  }
+
   // for DDE Maker with Me
   getMakerLeads(perPageCount, pageNumber?) {
     const data = {
@@ -922,95 +987,105 @@ export class DashboardComponent implements OnInit {
     this.from = res.ProcessVariables.from;
   }
   setPage(event) {
-    if (this.roleType == '1') {
-      // this.getSalesFilterLeads(this.itemsPerPage, event);
-      if (this.subActiveTab === this.displayTabs.NewLeads) {
-        this.getSalesFilterLeads(this.itemsPerPage, event);
-      } else if (this.subActiveTab === this.displayTabs.SanctionedWithMe) {
-        this.getSanctionedLeads(this.itemsPerPage, event);
-      } else if (this.subActiveTab === this.displayTabs.SanctionedWithBranch) {
-        this.getSanctionedBranchLeads(this.itemsPerPage, event);
-      } else if (this.subActiveTab === this.displayTabs.DeclinedWithMe) {
-        this.getDeclinedLeads(this.itemsPerPage, event);
-      } else if (this.subActiveTab === this.displayTabs.DeclinedWithBranch) {
-        this.getDeclinedBranchLeads(this.itemsPerPage, event);
-      } else if (this.subActiveTab === this.displayTabs.MyPD) {
-        this.getPdMyTask(this.itemsPerPage, event);
-      } else if (this.subActiveTab === this.displayTabs.BranchPd) {
-        this.getPdBranchTask(this.itemsPerPage, event);
-      } else if (this.subActiveTab === this.displayTabs.ViabilityWithMe) {
-        this.getViabilityLeads(this.itemsPerPage, event);
-      } else if (this.subActiveTab === this.displayTabs.ViabilityWithBranch) {
-        this.getViabilityBranchLeads(this.itemsPerPage, event);
-      } else if (this.subActiveTab === this.displayTabs.MyFI) {
-        this.getMyFITask(this.itemsPerPage, event);
-      } else if (this.subActiveTab === this.displayTabs.BranchFI) {
-        this.getBranchFITask(this.itemsPerPage, event);
+
+    if (this.roleType === 1) {
+      switch (this.subActiveTab) {
+        case 3:
+          this.getSalesFilterLeads(this.itemsPerPage, event);
+          break;
+        case 4:
+          this.getSanctionedLeads(this.itemsPerPage, event);
+          break;
+        case 5:
+          this.getSanctionedBranchLeads(this.itemsPerPage, event);
+          break;
+        case 6:
+          this.getDeclinedLeads(this.itemsPerPage, event);
+          break;
+        case 7:
+          this.getDeclinedBranchLeads(this.itemsPerPage, event);
+          break;
+        case 8:
+          this.getPdMyTask(this.itemsPerPage, event);
+          break;
+        case 9:
+          this.getPdBranchTask(this.itemsPerPage, event);
+          break;
+        case 10:
+          this.getViabilityLeads(this.itemsPerPage, event);
+          break;
+        case 11:
+          this.getViabilityBranchLeads(this.itemsPerPage, event);
+          break;
+        case 13:
+          this.getMyFITask(this.itemsPerPage, event);
+          break;
+        case 14:
+          this.getBranchFITask(this.itemsPerPage, event);
+          break;
+        default:
+          break;
       }
-    } else if (this.roleType == '2') {
-      if (this.subActiveTab === this.displayCreditTabs.DDEWithMe) {
-        this.getMyDDELeads(this.itemsPerPage, event);
-      } else if (this.subActiveTab === this.displayCreditTabs.DDEWithBranch) {
-        this.getBranchDDELeads(this.itemsPerPage, event);
-      } else if (this.subActiveTab === this.displayCreditTabs.MyPD) {
-        this.getPdMyTask(this.itemsPerPage, event);
-      } else if (this.subActiveTab === this.displayCreditTabs.BranchPd) {
-        this.getPdBranchTask(this.itemsPerPage, event);
-      } else if (this.subActiveTab === this.displayCreditTabs.DeviationWithMe) {
-        this.getMyDeviationLeads(this.itemsPerPage, event);
-      } else if (this.subActiveTab === this.displayCreditTabs.DeviationWithBranch) {
-        this.getBranchDeviationLeads(this.itemsPerPage, event);
-      } else if (this.subActiveTab === this.displayCreditTabs.CreditDecisionWithMe) {
-        this.getMyDecisionLeads(this.itemsPerPage, event);
-      } else if (this.subActiveTab === this.displayCreditTabs.CreditDecisionWithBranch) {
-        this.getBranchDecisionLeads(this.itemsPerPage, event);
-      } else if (this.subActiveTab === this.displayCreditTabs.MyFI) {
-        this.getMyFITask(this.itemsPerPage, event);
-      } else if (this.subActiveTab === this.displayCreditTabs.BranchFI) {
-        this.getBranchFITask(this.itemsPerPage, event);
+    } else if (this.roleType === 2) {
+      switch (this.subActiveTab) {
+        case 4:
+          this.getMyDDELeads(this.itemsPerPage, event);
+          break;
+        case 5:
+          this.getBranchDDELeads(this.itemsPerPage, event);
+          break;
+        case 6:
+          this.getPdMyTask(this.itemsPerPage, event);
+          break;
+        case 7:
+          this.getPdBranchTask(this.itemsPerPage, event);
+          break;
+        case 8:
+          this.getMyDeviationLeads(this.itemsPerPage, event);
+          break;
+        case 9:
+          this.getBranchDeviationLeads(this.itemsPerPage, event);
+          break;
+        case 10:
+          this.getMyDecisionLeads(this.itemsPerPage, event);
+          break;
+        case 11:
+          this.getBranchDecisionLeads(this.itemsPerPage, event);
+          break;
+        case 13:
+          this.getMyFITask(this.itemsPerPage, event);
+          break;
+        case 14:
+          this.getBranchFITask(this.itemsPerPage, event);
+          break;
+        case 14:
+          this.getMyTermsheetLeads(this.itemsPerPage, event);
+          break;
+        case 14:
+          this.getBranchTermsheetLeads(this.itemsPerPage, event);
+          break;
+        default:
+          break;
       }
-    } else if (this.roleType == '4') {
+    } else if (this.roleType === 4) {
       if (this.makerWithMe) {
-        this.getMakerLeads(this.itemsPerPage);
+        this.getMakerLeads(this.itemsPerPage, event);
       } else if (this.makerWithCPC) {
-        this.getMakerCPCLeads(this.itemsPerPage);
+        this.getMakerCPCLeads(this.itemsPerPage, event);
       }
-    } else if (this.roleType == '5') {
+    } else if (this.roleType === 5) {
       if (this.checkerWithMe) {
-        this.getCheckerLeads(this.itemsPerPage);
+        this.getCheckerLeads(this.itemsPerPage, event);
       } else if (this.checkerWithCPC) {
-        this.getCheckerCPCLeads(this.itemsPerPage);
+        this.getCheckerCPCLeads(this.itemsPerPage, event);
       }
     }
   }
 
 
   onClick() {
-    if (this.roleType == '1') {
-      if (this.subActiveTab === this.displayTabs.SanctionedWithMe) {
-        this.getSanctionedLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.DeclinedWithMe) {
-        this.getDeclinedLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.MyPD) {
-        this.getPdMyTask(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.ViabilityWithMe) {
-        this.getViabilityLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.MyFI) {
-        this.getMyFITask(this.itemsPerPage);
-      }
-    } else if (this.roleType == '2') {
-      if (this.subActiveTab === this.displayCreditTabs.DDEWithMe) {
-        this.getMyDDELeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayCreditTabs.MyPD) {
-        this.getPdMyTask(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayCreditTabs.DeviationWithMe) {
-        this.getMyDeviationLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayCreditTabs.CreditDecisionWithMe) {
-        this.getMyDecisionLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayCreditTabs.MyFI) {
-        this.getMyFITask(this.itemsPerPage);
-      }
-    } else if (this.roleType == '4' || this.roleType == '5') {
+    this.onTabsLoading(this.subActiveTab);
+    if (this.roleType === 4 || this.roleType === 5) {
       if (this.makerWithMe) {
         this.getMakerLeads(this.itemsPerPage);
       } else if (this.checkerWithMe) {
@@ -1020,6 +1095,10 @@ export class DashboardComponent implements OnInit {
   }
 
   onRoute(leadId, stageCode?, taskId?) {
+    this.dashboardService.routingData = {
+      activeTab: this.activeTab,
+      subActiveTab: this.subActiveTab
+    };
     if (this.roleType === 1) {
       if (!this.onAssignTab && !this.onReleaseTab) {
         if (stageCode == '10') {
@@ -1027,28 +1106,49 @@ export class DashboardComponent implements OnInit {
         } else if (stageCode == '20') {
           this.router.navigateByUrl(`/pages/sales/${leadId}/lead-details`);
         }
-      } else if (this.subActiveTab === this.displayTabs.SanctionedWithMe) {
-        this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
-      } else if (this.subActiveTab === this.displayTabs.DeclinedWithMe) {
+      }
+      switch (this.subActiveTab) {
+        case 4:
+          this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
+          break;
+        case 6:
 
-      } else if (this.subActiveTab === this.displayTabs.MyPD) {
-        this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
-      } else if (this.subActiveTab === this.displayTabs.ViabilityWithMe) {
-        this.router.navigate([`/pages/viability-list/${leadId}/viability-list`]);
-      } else if (this.subActiveTab === this.displayTabs.MyFI) {
-        this.router.navigateByUrl(`/pages/fi-dashboard/${leadId}/fi-list`);
+          break;
+        case 8:
+          this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${leadId}/pd-list`);
+          break;
+        case 10:
+          this.router.navigate([`/pages/viability-list/${leadId}/viability-list`]);
+          break;
+        case 13:
+          this.router.navigateByUrl(`/pages/fi-dashboard/${leadId}/fi-list`);
+          break;
+
+        default:
+          break;
       }
     } else if (this.roleType === 2) {
-      if (this.subActiveTab === this.displayCreditTabs.DDEWithMe) {
-        this.router.navigateByUrl(`/pages/dde/${leadId}/lead-details`);
-      } else if (this.subActiveTab === this.displayCreditTabs.MyPD) {
-        this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
-      } else if (this.subActiveTab === this.displayCreditTabs.DeviationWithMe) {
-        this.router.navigateByUrl(`/pages/deviation-dashboard/${leadId}/dashboard-deviation-details`);
-      } else if (this.subActiveTab === this.displayCreditTabs.CreditDecisionWithMe) {
-        this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
-      } else if (this.subActiveTab === this.displayCreditTabs.MyFI) {
-        this.router.navigateByUrl(`/pages/fi-dashboard/${leadId}/fi-list`);
+      switch (this.subActiveTab) {
+        case 4:
+          this.router.navigateByUrl(`/pages/dde/${leadId}/lead-details`);
+          break;
+        case 6:
+          this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${leadId}/pd-list`);
+          break;
+        case 8:
+          this.router.navigateByUrl(`/pages/deviation-dashboard/${leadId}/dashboard-deviation-details`);
+          break;
+        case 10:
+          this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
+          break;
+        case 13:
+          this.router.navigateByUrl(`/pages/fi-dashboard/${leadId}/fi-list`);
+          break;
+        case 16:
+          this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/term-sheet`);
+          break;
+        default:
+          break;
       }
     } else if (this.roleType === 4) {
       if (this.makerWithMe) {
@@ -1065,53 +1165,8 @@ export class DashboardComponent implements OnInit {
   onClear() {
     this.filterForm.reset();
     this.filterFormDetails = {};
-    if (this.roleType == '1') {
-      if (this.subActiveTab === this.displayTabs.NewLeads) {
-        this.getSalesFilterLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.SanctionedWithMe) {
-        this.getSanctionedLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.SanctionedWithBranch) {
-        this.getSanctionedBranchLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.DeclinedWithMe) {
-        this.getDeclinedLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.DeclinedWithBranch) {
-        this.getDeclinedBranchLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.MyPD) {
-        this.getPdMyTask(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.BranchPd) {
-        this.getPdBranchTask(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.ViabilityWithMe) {
-        this.getViabilityLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.ViabilityWithBranch) {
-        this.getViabilityBranchLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.MyFI) {
-        this.getMyFITask(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.BranchFI) {
-        this.getBranchFITask(this.itemsPerPage);
-      }
-    } else if (this.roleType == '2') {
-      if (this.subActiveTab === this.displayCreditTabs.DDEWithMe) {
-        this.getMyDDELeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayCreditTabs.DDEWithBranch) {
-        this.getBranchDDELeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayCreditTabs.MyPD) {
-        this.getPdMyTask(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayCreditTabs.BranchPd) {
-        this.getPdBranchTask(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayCreditTabs.DeviationWithMe) {
-        this.getMyDeviationLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayCreditTabs.DeviationWithBranch) {
-        this.getBranchDeviationLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayCreditTabs.CreditDecisionWithMe) {
-        this.getMyDecisionLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayCreditTabs.CreditDecisionWithBranch) {
-        this.getBranchDecisionLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayCreditTabs.MyFI) {
-        this.getViabilityBranchLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayCreditTabs.BranchFI) {
-        this.getViabilityBranchLeads(this.itemsPerPage);
-      }
-    } else if (this.roleType == '4' || this.roleType == '5') {
+    this.onTabsLoading(this.subActiveTab);
+    if (this.roleType === 4 || this.roleType === 5) {
       if (this.makerWithMe) {
         this.getMakerLeads(this.itemsPerPage);
       } else if (this.makerWithCPC) {
@@ -1129,54 +1184,10 @@ export class DashboardComponent implements OnInit {
     this.filterFormDetails.fromDate = this.dateToFormate(this.filterFormDetails.fromDate);
     this.filterFormDetails.toDate = this.dateToFormate(this.filterFormDetails.toDate);
     this.selectedDate = this.dateToFormate(this.filterFormDetails.fromDate);
+    this.minAmount = this.filterForm.get('loanMinAmt').value;
     console.log('filter form details', this.filterFormDetails);
-    if (this.roleType == '1') {
-      if (this.subActiveTab === this.displayTabs.NewLeads) {
-        this.getSalesFilterLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.SanctionedWithMe) {
-        this.getSanctionedLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.SanctionedWithBranch) {
-        this.getSanctionedBranchLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.DeclinedWithMe) {
-        this.getDeclinedLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.DeclinedWithBranch) {
-        this.getDeclinedBranchLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.MyPD) {
-        this.getPdMyTask(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.BranchPd) {
-        this.getPdBranchTask(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.ViabilityWithMe) {
-        this.getViabilityLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.ViabilityWithBranch) {
-        this.getViabilityBranchLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.MyFI) {
-        this.getMyFITask(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayTabs.BranchFI) {
-        this.getBranchFITask(this.itemsPerPage);
-      }
-    } else if (this.roleType == '2') {
-      if (this.subActiveTab === this.displayCreditTabs.DDEWithMe) {
-        this.getMyDDELeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayCreditTabs.DDEWithBranch) {
-        this.getBranchDDELeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayCreditTabs.MyPD) {
-        this.getPdMyTask(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayCreditTabs.BranchPd) {
-        this.getPdBranchTask(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayCreditTabs.DeviationWithMe) {
-        this.getMyDeviationLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayCreditTabs.DeviationWithBranch) {
-        this.getBranchDeviationLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayCreditTabs.CreditDecisionWithMe) {
-        this.getMyDecisionLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayCreditTabs.CreditDecisionWithBranch) {
-        this.getBranchDecisionLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayCreditTabs.MyFI) {
-        this.getViabilityBranchLeads(this.itemsPerPage);
-      } else if (this.subActiveTab === this.displayCreditTabs.BranchFI) {
-        this.getViabilityBranchLeads(this.itemsPerPage);
-      }
-    } else if (this.roleType == '4' || this.roleType == '5') {
+    this.onTabsLoading(this.subActiveTab);
+    if (this.roleType === 4 || this.roleType === 5) {
       if (this.makerWithMe) {
         this.getMakerLeads(this.itemsPerPage);
       } else if (this.makerWithCPC) {
@@ -1202,7 +1213,10 @@ export class DashboardComponent implements OnInit {
   }
 
   onAssign(taskId, leadId) {
-
+    this.dashboardService.routingData = {
+      activeTab: this.activeTab,
+      subActiveTab: this.subActiveTab
+    };
     this.taskDashboard.assignTask(taskId).subscribe((res: any) => {
       console.log('assignResponse', res);
       const response = JSON.parse(res);
@@ -1211,28 +1225,47 @@ export class DashboardComponent implements OnInit {
         this.toasterService.showSuccess('Assigned Successfully', 'Assigned');
         // this.router.navigate(['/pages/dde/' + leadId + '/lead-details']);
         if (this.roleType === 1) {
-          if (this.subActiveTab === this.displayTabs.SanctionedWithBranch) {
-            this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
-          } else if (this.subActiveTab === this.displayTabs.DeclinedWithBranch) {
+          switch (this.subActiveTab) {
+            case 5:
+              this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
+              break;
+            case 7:
 
-          } else if (this.subActiveTab === this.displayTabs.BranchPd) {
-            this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
-          } else if (this.subActiveTab === this.displayTabs.ViabilityWithBranch) {
-            this.router.navigate([`/pages/viability-list/${leadId}/viability-list`]);
-          } else if (this.subActiveTab === this.displayTabs.BranchFI) {
-            // this.router.navigateByUrl(`/pages/dde/${leadId}/fi-list`);
+              break;
+            case 9:
+              this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${leadId}/pd-list`);
+              break;
+            case 11:
+              this.router.navigate([`/pages/viability-list/${leadId}/viability-list`]);
+              break;
+            case 14:
+              this.router.navigateByUrl(`/pages/fi-dashboard/${leadId}/fi-list`);
+              break;
+            default:
+              break;
           }
         } else if (this.roleType === 2) {
-          if (this.subActiveTab === this.displayCreditTabs.DDEWithBranch) {
-            this.router.navigateByUrl(`/pages/dde/${leadId}/lead-details`);
-          } else if (this.subActiveTab === this.displayCreditTabs.BranchPd) {
-            this.router.navigateByUrl(`/pages/pd-dashboard/${leadId}/pd-list`);
-          } else if (this.subActiveTab === this.displayCreditTabs.DeviationWithBranch) {
-            this.router.navigateByUrl(`/pages/deviation-dashboard/${leadId}/dashboard-deviation-details`);
-          } else if (this.subActiveTab === this.displayCreditTabs.CreditDecisionWithBranch) {
-            this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
-          } else if (this.subActiveTab === this.displayCreditTabs.BranchFI) {
-            this.router.navigateByUrl(`/pages/dde/${leadId}/fi-list`);
+          switch (this.subActiveTab) {
+            case 5:
+              this.router.navigateByUrl(`/pages/dde/${leadId}/lead-details`);
+              break;
+            case 7:
+              this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${leadId}/pd-list`);
+              break;
+            case 9:
+              this.router.navigateByUrl(`/pages/deviation-dashboard/${leadId}/dashboard-deviation-details`);
+              break;
+            case 11:
+              this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
+              break;
+            case 14:
+              this.router.navigateByUrl(`/pages/dde/${leadId}/fi-list`);
+              break;
+            case 17:
+              this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/term-sheet`);
+              break;
+            default:
+              break;
           }
         } else if (this.roleType === 4) {
           if (this.makerWithCPC) {

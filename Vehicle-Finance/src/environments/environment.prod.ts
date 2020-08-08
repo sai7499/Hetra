@@ -21,15 +21,15 @@ export const environment = {
     wrapperBiometriceKYC : 'db2732f4ab4811ea82f8f2fa9bec3d63',
     supervisorProId:'ed58f72ea9a811ea824bf2fa9bec3d63'//supervisorRelated
   },
-   hostingEnvironment: 'DEV',
-  // hostingEnvironment: 'UAT',
+  hostingEnvironment: 'DEV',
+  //hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
 
-  host: '/appiyo/',
-  //  host: 'http://128.199.164.250/appiyo/',
+  //host: '/appiyo/',
+  host:"https://hetrauat.equitasbank.com/appiyodev/",
+  //host: 'http://128.199.164.250/appiyo/',
   // host: 'http://10.101.10.153/appiyo/',
-  // host: 'https://hetrauat.equitasbank.com/appiyodev/',
-
+  //host: "https://hetrauat.equitasbank.com/appiyo/",
 
   baseUrl: window.location.origin,
   // tslint:disable-next-line: max-line-length
@@ -37,7 +37,9 @@ export const environment = {
     'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ+GJdSSEeaNFBLqyfM3DIOgQgWCwJ0INfeZZV7ITsLeuA7Yd02rrkYGIix1IWvoebWVmzhncUepYxHwK1ARCdUCAwEAAQ==',
   encryptionType: true, // Ecryption
   appiyoDrive: '/d/drive/upload/',
-  isMobile: false,
+  
+  mobileBaseUrl: "https://hetrauat.equitasbank.com",
+  isMobile: true,
   isMaas360Enabled: false
 };
 
