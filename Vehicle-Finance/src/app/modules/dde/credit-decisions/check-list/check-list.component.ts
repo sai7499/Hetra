@@ -70,9 +70,7 @@ export class CheckListComponent implements OnInit {
     this.commonLovService.getLovData().subscribe((res: any) => {
       console.log(res, 'cmn lov service');
       this.checklistObject = res.LOVS.checklistans;
-      this.checkListMaster = res.LOVS.checklistMstView;
-      // this.checkListMaster.push(res.LOVS.);
-      console.log(this.checkListMaster, typeof(this.checkListMaster), 'array of checklist');
+      this.checkListMaster = res.LOVS.checklistMstView.sort((a, b) => Number(a.key) - Number(b.key));
     });
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
@@ -86,6 +84,7 @@ export class CheckListComponent implements OnInit {
     for (let i = 0; i < this.checkListMaster.length; i++) {
       childgroups.push(this.creategroup(this.checkListMaster[i]));
     }
+    // childgroups.sort()
     this.checklistForm = this.formBuilder.group({
       checklistArray: this.formBuilder.array(childgroups)
     });
@@ -119,7 +118,7 @@ export class CheckListComponent implements OnInit {
         for (let i = 0; i < res.ProcessVariables.checkList.length; i++) {
           this.patchChecklist(res.ProcessVariables.checkList[i]);
           // tslint:disable-next-line: no-shadowed-variable
-          
+
         }
       }
     });
@@ -300,4 +299,20 @@ onNext()  {
   this.router.navigate([`pages/cpc-checker/${this.leadId}/term-sheet`]);
   }
 }
+
+onBack() {
+  if (this.roleType == '2') {
+    this.router.navigate([`pages/credit-decisions/${this.leadId}/sanction-details`])
+    // tslint:disable-next-line: triple-equals
+    } else if (this.roleType == '4') {
+      this.router.navigate([`pages/cpc-maker/${this.leadId}/term-sheet`]);
+    // tslint:disable-next-line: triple-equals
+    } else if ( this.roleType == '5') {
+    this.router.navigate([`pages/cpc-checker/${this.leadId}/term-sheet`]);
+    }
+
+}
+
+// tslint:disable-next-line: adjacent-overload-signatures
+
 }

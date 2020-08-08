@@ -611,6 +611,12 @@ export class ApiService {
       processId: 'd895c8a4d5a811ea9d5d00505695f93b',
       workflowId: 'd86551d8d5a811ea933000505695f93b',
       projectId: environment.projectIds.salesProjectId
+    },
+    customerAcceptance: {
+      projectId: environment.projectIds.submitToCredit,
+      processId: '90408c36cc9f11ea83c800505695f93b',
+      workflowId: '3ea13662c66611eaa13a00505695f93b',
+
     }
   };
 }
