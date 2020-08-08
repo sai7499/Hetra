@@ -29,8 +29,8 @@ export const environment = {
   // hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
   // host: 'http://128.199.164.250/appiyo/',
-  host: 'https://hetrauat.equitasbank.com/appiyodev/',
-  //host: 'http://10.101.10.153/appiyo/',
+  // host: 'https://hetrauat.equitasbank.com/appiyodev/',
+  host: 'http://10.101.10.153/appiyo/',
 
   // host: 'https://hetrauat.equitasbank.com/appiyo/',
   //host: 'http://10.101.10.153/appiyo/',
