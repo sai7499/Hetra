@@ -10,7 +10,7 @@ import { PdListComponent } from '../pd-list/pd-list.component';
 
 const routes: Routes = [
     {
-        path: ':leadId',
+        path: ':leadId/fi-cum-pd-list',
         component: FiCumPdReportComponent,
         resolve: { leadData: LeadDataResolverService },
         children: [
