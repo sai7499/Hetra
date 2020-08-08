@@ -12,6 +12,8 @@ import { SanctionDetailsComponent } from './sanction-details/sanction-details.co
 import { CustomerFeedbackComponent } from './customer-feedback/customer-feedback.component';
 import { CheckListComponent } from './check-list/check-list.component';
 import {TermSheetFromDashboardComponent} from './term-sheet-from-dashboard/term-sheet-from-dashboard.component'
+import { NegotiationComponent } from '@modules/negotiation/negotiation.component';
+import { NegotiationModule } from '@modules/negotiation/negotiation.module';
 @NgModule({
   declarations: [
     CreditDecisionComponent,
@@ -20,7 +22,8 @@ import {TermSheetFromDashboardComponent} from './term-sheet-from-dashboard/term-
     SanctionDetailsComponent,
     CustomerFeedbackComponent,
     CheckListComponent,
-    TermSheetFromDashboardComponent
+    TermSheetFromDashboardComponent,
+    // NegotiationComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +31,8 @@ import {TermSheetFromDashboardComponent} from './term-sheet-from-dashboard/term-
     ReactiveFormsModule,
     FormsModule,
     SharedModule,
-    DdeSharedModule
+    DdeSharedModule,
+    NegotiationModule
   ],
   exports: [
     TermSheetComponent ,

@@ -93,3 +93,10 @@ height: 100vh;
    margin: 20px;
    margin-bottom: 20px;
 }
+.paddingNgContainer {
+    padding-left:  15px;
+    padding-right: 15px;
+}
+.adjustMargins {
+    margin: 5px;
+}

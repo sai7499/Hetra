@@ -167,13 +167,13 @@ export class TermSheetComponent implements OnInit {
     // if ( this.roleType == ) { }
     // tslint:disable-next-line: triple-equals
     if (this.roleType == '2' || this.roleType == '1') {
-      this.router.navigate([`/pages/credit-decisions/${this.leadId}/sanction-details`]);
+      this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
       // tslint:disable-next-line: triple-equals
       } else if (this.roleType == '4') {
-        this.router.navigate([`pages/cpc-maker/${this.leadId}/sanction-details`]);
+        this.router.navigate([`pages/cpc-maker/${this.leadId}/negotiation`]);
       // tslint:disable-next-line: triple-equals
       } else if ( this.roleType == '5') {
-      this.router.navigate([`pages/cpc-checker/${this.leadId}/sanction-details`]);
+      this.router.navigate([`pages/cpc-checker/${this.leadId}/negotiation`]);
       }
   }
 
