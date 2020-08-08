@@ -58,6 +58,9 @@ export enum DisplayCreditTabs {
   FI,
   MyFI,
   BranchFI,
+  TermSheet,
+  TermSheetWithMe,
+  TermSheetWithBranch
 }
 @Component({
   selector: 'app-dashboard',
@@ -96,6 +99,8 @@ export class DashboardComponent implements OnInit {
   roleId;
   activeTab;
   subActiveTab;
+  minAmount;
+  maxAmount;
 
 
 
@@ -252,6 +257,16 @@ export class DashboardComponent implements OnInit {
           this.onReleaseTab = false;
           this.getBranchFITask(this.itemsPerPage);
           break;
+        case 16:
+          this.onAssignTab = false;
+          this.onReleaseTab = true;
+          this.getMyTermsheetLeads(this.itemsPerPage);
+          break;
+        case 17:
+          this.onAssignTab = true;
+          this.onReleaseTab = false;
+          this.getBranchTermsheetLeads(this.itemsPerPage);
+          break;
         default:
           break;
       }
@@ -298,10 +313,10 @@ export class DashboardComponent implements OnInit {
 
     // new leads
 
-    if (this.roleType == '4') {
+    if (this.roleType === 4) {
       this.onReleaseTab = true;
       this.getMakerLeads(this.itemsPerPage);
-    } else if (this.roleType == '5') {
+    } else if (this.roleType === 5) {
       this.onReleaseTab = true;
       this.getCheckerLeads(this.itemsPerPage);
     }
@@ -342,6 +357,8 @@ export class DashboardComponent implements OnInit {
         this.getMyDecisionLeads(this.itemsPerPage);
       } else if (this.activeTab === this.displayCreditTabs.FI && this.subActiveTab === this.displayCreditTabs.MyFI) {
         this.getMyFITask(this.itemsPerPage);
+      } else if (this.activeTab === this.displayCreditTabs.TermSheet && this.subActiveTab === this.displayCreditTabs.TermSheetWithMe) {
+        this.getMyTermsheetLeads(this.itemsPerPage);
       }
     }
 
@@ -836,6 +853,50 @@ export class DashboardComponent implements OnInit {
     this.responseForCredit(data);
   }
 
+  // for Termsheet leads with Me
+  getMyTermsheetLeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'TermSheet',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: true,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+    this.responseForCredit(data);
+  }
+
+  // for Termsheet leads with Branch
+  getBranchTermsheetLeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'TermSheet',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: false,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+    this.responseForCredit(data);
+  }
+
   // for DDE Maker with Me
   getMakerLeads(perPageCount, pageNumber?) {
     const data = {
@@ -997,21 +1058,26 @@ export class DashboardComponent implements OnInit {
         case 14:
           this.getBranchFITask(this.itemsPerPage, event);
           break;
-
+        case 14:
+          this.getMyTermsheetLeads(this.itemsPerPage, event);
+          break;
+        case 14:
+          this.getBranchTermsheetLeads(this.itemsPerPage, event);
+          break;
         default:
           break;
       }
     } else if (this.roleType === 4) {
       if (this.makerWithMe) {
-        this.getMakerLeads(this.itemsPerPage);
+        this.getMakerLeads(this.itemsPerPage, event);
       } else if (this.makerWithCPC) {
-        this.getMakerCPCLeads(this.itemsPerPage);
+        this.getMakerCPCLeads(this.itemsPerPage, event);
       }
     } else if (this.roleType === 5) {
       if (this.checkerWithMe) {
-        this.getCheckerLeads(this.itemsPerPage);
+        this.getCheckerLeads(this.itemsPerPage, event);
       } else if (this.checkerWithCPC) {
-        this.getCheckerCPCLeads(this.itemsPerPage);
+        this.getCheckerCPCLeads(this.itemsPerPage, event);
       }
     }
   }
@@ -1019,7 +1085,7 @@ export class DashboardComponent implements OnInit {
 
   onClick() {
     this.onTabsLoading(this.subActiveTab);
-    if (this.roleType == '4' || this.roleType == '5') {
+    if (this.roleType === 4 || this.roleType === 5) {
       if (this.makerWithMe) {
         this.getMakerLeads(this.itemsPerPage);
       } else if (this.checkerWithMe) {
@@ -1078,7 +1144,9 @@ export class DashboardComponent implements OnInit {
         case 13:
           this.router.navigateByUrl(`/pages/fi-dashboard/${leadId}/fi-list`);
           break;
-
+        case 16:
+          this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/term-sheet`);
+          break;
         default:
           break;
       }
@@ -1116,6 +1184,7 @@ export class DashboardComponent implements OnInit {
     this.filterFormDetails.fromDate = this.dateToFormate(this.filterFormDetails.fromDate);
     this.filterFormDetails.toDate = this.dateToFormate(this.filterFormDetails.toDate);
     this.selectedDate = this.dateToFormate(this.filterFormDetails.fromDate);
+    this.minAmount = this.filterForm.get('loanMinAmt').value;
     console.log('filter form details', this.filterFormDetails);
     this.onTabsLoading(this.subActiveTab);
     if (this.roleType === 4 || this.roleType === 5) {
@@ -1192,7 +1261,9 @@ export class DashboardComponent implements OnInit {
             case 14:
               this.router.navigateByUrl(`/pages/dde/${leadId}/fi-list`);
               break;
-
+            case 17:
+              this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/term-sheet`);
+              break;
             default:
               break;
           }
