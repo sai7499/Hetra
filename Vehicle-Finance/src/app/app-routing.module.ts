@@ -171,6 +171,21 @@ const routes: Routes = [
             './modules/dde/viability-dashboard/viability-dashboard.module'
           ).then((m) => m.ViabilityDashboardModule),
       },
+ //supervisorRelated starts
+      {
+        path: 'supervisor',
+        loadChildren: () =>
+          import('./modules/supervisor/supervisor.module').then(
+            (m) => m.SupervisorModule
+          ),
+      },
+      {
+              path: 'negotiation',
+              loadChildren: () =>
+                import(
+                  './modules/negotiation/negotiation.module'
+                ).then((m) => m.NegotiationModule),
+      },
       {
         path: 'cpc-maker',
         loadChildren: () =>
