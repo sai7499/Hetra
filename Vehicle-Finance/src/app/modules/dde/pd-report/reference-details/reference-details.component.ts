@@ -107,7 +107,7 @@ export class ReferenceDetailsComponent implements OnInit {
     if (this.version !== 'undefined') {
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/income-details/${this.version}`]);
     } else {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/income-details`]);
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/income-details`]);
     }
   }
 
