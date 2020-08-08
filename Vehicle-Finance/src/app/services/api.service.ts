@@ -529,7 +529,11 @@ export class ApiService {
       workflowId: '6ec1aaf28f8911eabdc4f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
-
+    submitToSanctionLeads: {
+      processId: '0e709facc67311ea954700505695f93b',
+      workflowId: '3ea13662c66611eaa13a00505695f93b',
+      projectId: environment.projectIds.submitToCredit,
+    },
     getFiList: {
       processId: '4339b99accc611ea881800505695f93b',
       workflowId: 'ebb849eecb5c11ea91c600505695f93b',
