@@ -47,7 +47,6 @@ export class PdListComponent implements OnInit {
     console.log('this user roleType', this.roleType);
 
     this.leadId = (await this.getLeadId()) as number;
-    console.log('Lead ID', this.leadId);
     this.getLabels = this.labelsData.getLabelsData()
       .subscribe(data => {
         this.labels = data;
@@ -55,7 +54,6 @@ export class PdListComponent implements OnInit {
         error => {
           this.errorMsg = error;
         });
-    console.log('in pd report');
     this.getPdList();
 
 
@@ -63,10 +61,8 @@ export class PdListComponent implements OnInit {
 
       console.log(' pd-dashboard ');
       this.show = true;
-
     } else if (this.router.url.includes('/dde')) {
       this.showStatus = true;
-
     } else {
       this.show = false;
     }
@@ -87,14 +83,9 @@ export class PdListComponent implements OnInit {
       console.log('PD List', this.pdList);
 
       for (var i in this.pdList) {
-        console.log('in for pd list', i)
         this.pdStatusValue = this.pdList[i]['pdStatusValue']
-        console.log('pd status value', this.pdStatusValue)
-
         if (this.pdList[i]['pdStatusValue'] == "Submitted") {
           this.pdStatus[this.pdList[i]['applicantId']] = this.pdList[i]['pdStatusValue']
-
-          console.log("pd status array", this.pdStatus)
           this.sharedService.getPdStatus(this.pdStatus)
         }
 
@@ -179,14 +170,6 @@ export class PdListComponent implements OnInit {
     }
   }
   navigateNewPdPage(applicantId: string, version) {
-    console.log(
-      'applicantId',
-      applicantId,
-      'version',
-      version
-    );
-
-    console.log('URL', URL);
     if (version) {
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
     } else {
@@ -203,8 +186,6 @@ export class PdListComponent implements OnInit {
       });
     });
   }
-
-
 
   onNavigateBack() {
     this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);

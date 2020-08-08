@@ -2095,8 +2095,16 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     let applicantId = this.applicantId;
     let aadhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
     this.biometricService.initIdenti5(aadhar, applicantId, function (result) {
+
       that.ngxService.stop();
-      let processVariables = JSON.parse(result).ProcessVariables
+      let res = JSON.parse(result);
+
+      if(res.pidErr) {
+        that.pTag.nativeElement.click();
+        that.ngxService.stop();
+        return;
+      }
+      let processVariables = res.ProcessVariables;
       // value = JSON.parse(value).ProcessVariables;
 
       console.log("KYC result&&&&@@@" + processVariables);
