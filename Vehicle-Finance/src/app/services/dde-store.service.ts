@@ -68,8 +68,6 @@ export class DdeStoreService {
   }
 
   setCustomerProfile(customerProfile: CustomerProfile) {
-    // console.log("in set custprof", customerProfile)
-
     this.ddeStore.customerProfile = this.customerProfile;
   }
 
