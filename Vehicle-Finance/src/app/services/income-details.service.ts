@@ -18,7 +18,6 @@ export class IncomeDetailsService {
     const projectId = this.apiService.api.getAllIncomeDetails.projectId;
 
     const userId = localStorage.getItem('userId');
-    console.log('userid in service', userId);
 
     const requestEntity: RequestEntity = {
         processId,
@@ -26,8 +25,6 @@ export class IncomeDetailsService {
         workflowId,
         projectId
     };
-    console.log(requestEntity, 'income details');
-
     
     let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
     
@@ -41,9 +38,7 @@ setAllIncomeDetails(data)
   const workflowId = this.apiService.api.setAllIncomeDetails.workflowId;
   const projectId = this.apiService.api.setAllIncomeDetails.projectId;
 
-
   const userId = localStorage.getItem('userId');
-  console.log('userid in service', userId);
 
   const requestEntity: RequestEntity = {
       processId,
@@ -51,7 +46,6 @@ setAllIncomeDetails(data)
       workflowId,
       projectId
   };
-  console.log(requestEntity, 'Set income details');
 
   let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
  
@@ -63,7 +57,6 @@ softDeleteIncomeDetails(data){
   const workflowId = this.apiService.api.softDeleteIncomeDetails.workflowId;
   const projectId = this.apiService.api.softDeleteIncomeDetails.projectId;
   const userId = localStorage.getItem('userId');
-  console.log('userid in service', userId);
 
   const requestEntity: RequestEntity = {
       processId,
@@ -71,7 +64,6 @@ softDeleteIncomeDetails(data){
       workflowId,
       projectId
   };
-  console.log(requestEntity, 'delete income details');
 
   let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
  
@@ -84,7 +76,6 @@ getAllAplicantDetails(data){
     const projectId = this.apiService.api.getAllAplicantDetails.projectId;
 
     const userId = localStorage.getItem('userId');
-    console.log('userid in service', userId);
 
     const requestEntity: RequestEntity = {
         processId,
@@ -92,8 +83,6 @@ getAllAplicantDetails(data){
         workflowId,
         projectId
     };
-    console.log(requestEntity, 'income details');
-
     
     let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
     
@@ -106,7 +95,6 @@ getFactoringValue(data){
   const projectId = this.apiService.api.getFactoringValue.projectId;
 
   const userId = localStorage.getItem('userId');
-  console.log('userid in service', userId);
 
   const requestEntity: RequestEntity = {
       processId,
@@ -114,8 +102,6 @@ getFactoringValue(data){
       workflowId,
       projectId
   };
-  console.log(requestEntity, 'income details');
-
   
   let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
   

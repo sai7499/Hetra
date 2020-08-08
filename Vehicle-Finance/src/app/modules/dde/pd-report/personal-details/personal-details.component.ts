@@ -4,6 +4,11 @@ import { LabelsService } from '@services/labels.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LovDataService } from '@services/lov-data.service';
 import { CommomLovService } from '@services/commom-lov-service';
+import { LoginStoreService } from '@services/login-store.service';
+import { PersonalDiscussionService } from '@services/personal-discussion.service';
+import { PdDataService } from '@modules/dde/fi-cum-pd-report/pd-data.service';
+import { ToasterService } from '@services/toaster.service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 @Component({
   selector: 'app-personal-details',
@@ -27,11 +32,15 @@ export class PersonalDetailsComponent implements OnInit {
   version: any;
 
   constructor(private labelsData: LabelsService,
-    private _fb: FormBuilder, private router: Router,
     private lovDataService: LovDataService,
+    private router: Router,
+    private commomLovService: CommomLovService,
+    private _fb: FormBuilder,
+    private personaldiscussion: PersonalDiscussionService,
     private activatedRoute: ActivatedRoute,
-    private commomLovService: CommomLovService,) { }
-
+    private pdDataService: PdDataService,
+    private toasterService: ToasterService,
+    private createLeadDataService: CreateLeadDataService) { }
   async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
       data => {

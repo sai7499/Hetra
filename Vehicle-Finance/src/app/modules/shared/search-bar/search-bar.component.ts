@@ -44,7 +44,6 @@ export class SearchBarComponent implements OnInit {
   getvalue(enteredValue: string) {
     this.dropDown = (enteredValue === '') ? false : true;
     const sections = this.activityList;
-    console.log('section', sections);
 
     this.searchLead = sections.filter(e => {
       enteredValue = enteredValue.toLowerCase();
@@ -65,7 +64,6 @@ export class SearchBarComponent implements OnInit {
 
   navigateToModule() {
     commonRoutingUrl.map(element => {
-      console.log('URl', element)
       if (element.routeId === this.routingId) {
         this.route.navigateByUrl(element.routeUrl);
       }
@@ -74,7 +72,6 @@ export class SearchBarComponent implements OnInit {
 
   mouseEnter() {
     this.dropDown = true;
-    console.log('dropdown', this.dropDown);
   }
 
 }
