@@ -27,11 +27,11 @@ export class PersonalDetailsComponent implements OnInit {
   version: any;
 
   constructor(private labelsData: LabelsService,
-              // tslint:disable-next-line: variable-name
-              private _fb: FormBuilder, private router: Router,
-              private lovDataService: LovDataService,
-              private activatedRoute: ActivatedRoute,
-              private commomLovService: CommomLovService,) { }
+    // tslint:disable-next-line: variable-name
+    private _fb: FormBuilder, private router: Router,
+    private lovDataService: LovDataService,
+    private activatedRoute: ActivatedRoute,
+    private commomLovService: CommomLovService,) { }
 
   async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -119,9 +119,11 @@ export class PersonalDetailsComponent implements OnInit {
   }
 
   onNavigateNext() {
-    if (this.version !== 'undefined') {
+    if (this.version) {
+      console.log('in routing defined version condition', this.version);
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/income-details/${this.version}`]);
     } else {
+      console.log('in routing undefined version condition', this.version);
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/income-details`]);
     }
   }

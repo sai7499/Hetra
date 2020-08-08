@@ -62,7 +62,7 @@ export class PdReportComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.activatedRoute.firstChild.params.subscribe((value) => {
         const applicantId = value.applicantId;
-        console.log("APPLICANTID::", applicantId);
+        console.log('APPLICANTID::', applicantId);
         if (applicantId) {
           resolve(Number(applicantId));
         }
@@ -72,23 +72,26 @@ export class PdReportComponent implements OnInit {
   }
 
   onNavigate(componentUrl: string) {
-    if (this.router.url.includes('/fi-cum-pd-dashboard')) {
+    if (this.router.url.includes('/pd-dashboard')) {
 
-      if (this.version !== 'undefined') {
-        console.log('in undefined pd-dashboard', this.version);
+      if (this.version) {
+        console.log('in defined version prg bar routing', this.version);
         this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/${componentUrl}/${this.version}`]);
         // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${applicantId}/applicant-details/${version}`]);
 
       } else {
+        console.log('in undefined version prg bar routing', this.version);
         this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/${componentUrl}`]);
         // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/${url}/${this.version}`]);
       }
     } else if (this.router.url.includes('/dde')) {
-      if (this.version !== 'undefined') {
+      if (this.version) {
+        console.log('in defined version prg bar routing', this.version);
         this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${this.applicantId}/${componentUrl}/${this.version}`]);
         // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${applicantId}/applicant-details/${version}`]);
 
       } else {
+        console.log('in undefined version prg bar routing', this.version);
         this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${this.applicantId}/${componentUrl}`]);
         // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/${url}/${this.version}`]);
       }

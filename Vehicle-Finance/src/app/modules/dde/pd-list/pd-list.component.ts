@@ -116,10 +116,10 @@ export class PdListComponent implements OnInit {
         console.log(' in pd-dashboard flow');
 
         // this.show = true;
-        if (version !== undefined) {
+        if (version) {
           console.log('in fi-cum-pd-dashboard version conditon');
           this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${applicantId}/applicant-details/${version}`]);
-        } else {
+        } else if (version === undefined || version === null) {
           console.log('in fi-cum-pd-dashboard undefined version conditon');
           this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${applicantId}/applicant-details`]);
         }
@@ -127,9 +127,9 @@ export class PdListComponent implements OnInit {
       } else if (this.router.url.includes('/dde')) {
         console.log(' in dde flow');
         // this.showStatus = true;
-        if (version !== 'undefined') {
+        if (version) {
           this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${applicantId}/applicant-details/${version}`]);
-        } else {
+        } else if (version === undefined || version === null) {
 
           this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${applicantId}/applicant-details`]);
         }
@@ -142,13 +142,13 @@ export class PdListComponent implements OnInit {
         console.log(' in pd-dashboard flow', this.isFiCumPD);
 
         // this.show = true;
-        if (version !== undefined) {
+        if (version !== null && version !== undefined) {
           console.log('in fi-cum-pd-dashboard version conditon');
           // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
           this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
           // right now version not available so
 
-        } else {
+        } else if (version === undefined || version === null) {
           console.log('in fi-cum-pd-dashboard undefined version conditon');
           this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details`]);
         }
@@ -156,12 +156,12 @@ export class PdListComponent implements OnInit {
       } else if (this.router.url.includes('/dde')) {
         console.log(' in dde flow');
         // this.showStatus = true;
-        if (version !== 'undefined') {
+        if (version) {
           console.log('dde version conditon');
           // this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
           this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
           // right now version not available so
-        } else {
+        } else if (version === undefined || version === null) {
           this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${applicantId}/personal-details`]);
         }
 
@@ -169,10 +169,13 @@ export class PdListComponent implements OnInit {
 
     }
   }
-  navigateNewPdPage(applicantId: string, version) {
-    if (version) {
+  navigateNewPdPage(applicantId: string, version: any) {
+    console.log('in new pd flow', version);
+    if (version !== null && version !== undefined) {
+      console.log('in defined version prg bar routing', version);
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
-    } else {
+    } else if (version === undefined || version === null) {
+      console.log('in undefined version prg bar routing', version);
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details`]);
     }
   }

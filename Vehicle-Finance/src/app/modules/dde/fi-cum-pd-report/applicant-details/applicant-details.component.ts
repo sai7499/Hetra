@@ -44,16 +44,16 @@ export class ApplicantDetailComponent implements OnInit {
   roleType: any;
 
   constructor(private labelsData: LabelsService,
-              private lovDataService: LovDataService,
-              private router: Router,
-              private ddeStoreService: DdeStoreService,
-              private commomLovService: CommomLovService,
-              private loginStoreService: LoginStoreService,
-              private personaldiscussion: PersonalDiscussionService,
-              private activatedRoute: ActivatedRoute,
-              private pdDataService: PdDataService,
-              private toasterService: ToasterService,
-              private createLeadDataService: CreateLeadDataService) { }
+    private lovDataService: LovDataService,
+    private router: Router,
+    private ddeStoreService: DdeStoreService,
+    private commomLovService: CommomLovService,
+    private loginStoreService: LoginStoreService,
+    private personaldiscussion: PersonalDiscussionService,
+    private activatedRoute: ActivatedRoute,
+    private pdDataService: PdDataService,
+    private toasterService: ToasterService,
+    private createLeadDataService: CreateLeadDataService) { }
 
   async ngOnInit() {
 
@@ -284,7 +284,7 @@ export class ApplicantDetailComponent implements OnInit {
 
         } else if (action === 'next') {
 
-          if (this.version !== 'undefined') {
+          if (this.version) {
 
             // tslint:disable-next-line: max-line-length
             this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
@@ -307,13 +307,14 @@ export class ApplicantDetailComponent implements OnInit {
   onNavigateNext() {
 
 
-    if (this.version !== 'undefined') {
-
+    if (this.version) {
+      console.log('in  routing defined version condition', this.version);
       // tslint:disable-next-line: max-line-length
       this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
 
     } else {
 
+      console.log('in routing undefined version condition', this.version);
       this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile`]);
 
     }

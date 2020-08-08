@@ -105,23 +105,25 @@ export class FiCumPdReportComponent implements OnInit {
     onNavigate(url: string) {
         if (this.router.url.includes('/fi-cum-pd-dashboard')) {
 
-            if (this.version !== undefined) {
-                console.log('in defined progress bar', this.version);
+            if (this.version) {
+                console.log('in defined progress bar routing', this.version);
                 // tslint:disable-next-line: max-line-length
                 this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/${url}/${this.version}`]);
                 // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${applicantId}/applicant-details/${version}`]);
 
             } else {
-                console.log('in undefined progress bar', this.version);
+                console.log('in undefined progress bar routing', this.version);
                 this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/${url}`]);
                 // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/${url}/${this.version}`]);
             }
         } else if (this.router.url.includes('/dde')) {
+            console.log('in defined progress bar routing', this.version);
             if (this.version !== 'undefined') {
                 this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/${url}/${this.version}`]);
                 // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${applicantId}/applicant-details/${version}`]);
 
             } else {
+                console.log('in undefined progress bar routing', this.version);
                 this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/${url}`]);
                 // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/${url}/${this.version}`]);
             }

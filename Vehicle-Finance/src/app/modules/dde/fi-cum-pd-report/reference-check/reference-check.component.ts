@@ -390,13 +390,13 @@ export class ReferenceCheckComponent implements OnInit {
   onNavigateToPdSummary() { // fun to navigate to pd summary
 
     if (this.version !== 'undefined') {
-
+      console.log('in routing defined version condition', this.version);
       // http://localhost:4200/#/pages/dashboard/personal-discussion/my-pd-tasks
 
       this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
 
     } else {
-
+      console.log('in routing undefined version condition', this.version);
       this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
 
     }
@@ -404,9 +404,11 @@ export class ReferenceCheckComponent implements OnInit {
 
   onNavigateBack() { // fun to navigate to back page
     if (this.version !== 'undefined') {
+      console.log('in routing defined version condition', this.version);
       this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/loan-details/${this.version}`]);
 
     } else {
+      console.log('in routing undefined version condition', this.version);
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/loan-details`]);
       // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
 

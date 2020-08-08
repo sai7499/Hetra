@@ -175,7 +175,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
   }
 
   getPdDetails() {
-    console.log('pd version', this.version)
+    console.log('pd version', this.version);
 
     const data = {
 
@@ -258,7 +258,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
         } else if (action === 'next') {
 
-          if (this.version !== 'undefined') {
+          if (this.version) {
 
             // tslint:disable-next-line: max-line-length
             this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/loan-details/${this.version}`]);
@@ -294,10 +294,12 @@ export class CustomerProfileDetailsComponent implements OnInit {
   // }
   onNavigateBack() {
     if (this.version !== 'undefined') {
+      console.log('in  routing defined version condition', this.version);
       // tslint:disable-next-line: max-line-length
       this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/applicant-details/${this.version}`]);
 
     } else {
+      console.log('in routing undefined version condition', this.version);
       this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/applicant-details`]);
       // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
 
