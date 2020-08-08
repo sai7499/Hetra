@@ -58,10 +58,9 @@ export class HttpService {
 
   docUpload(url, body) {
     if (this.isMobile) {
-     const requestEntity = JSON.stringify(body);
+      const requestEntity = JSON.stringify(body);
       return this.uploadDocMobile(url, requestEntity);
     }
-    console.log("From web");
     return this.http.post(url, body);
   }
 
@@ -78,8 +77,6 @@ export class HttpService {
     //   this.ngxService.start(); // start foreground spinner of the master loader with 'default' taskId
     // }
     if (this.isMobile) {
-      console.log('url', url);
-      console.log('body', requestEntity);
       const body = JSON.stringify(requestEntity);
       return this.postM(url, body);
     } else {
@@ -136,7 +133,7 @@ export class HttpService {
       let data;
 
       this.httpIonic.setServerTrustMode('nocheck');
-      
+
 
       let encryption = this.encrytionService.encrypt(
         reqEntity,
@@ -265,12 +262,9 @@ export class HttpService {
           console.log('~~~***Response error***~~~', error);
 
           if (error['headers']['content-type'] == 'text/plain') {
-            console.log('text/plain');
             let decritedData = that.encrytionService.decryptMobileResponse(
               error
             );
-            console.log('decritedData', decritedData);
-
             data = JSON.parse(decritedData);
           }
 
@@ -284,7 +278,6 @@ export class HttpService {
           observer.error(data);
           observer.complete();
           this.activeRequests--;
-          console.log("activeRequests", this.activeRequests)
           if (this.activeRequests === 0) {
             this.ngxService.stop();
           }
@@ -294,7 +287,7 @@ export class HttpService {
     return obs;
   }
 
-  uploadDocMobile(url?: string, body?: any){
+  uploadDocMobile(url?: string, body?: any) {
     this.ngxService.start();
 
     // let JsonToArray = function(json){
@@ -320,13 +313,13 @@ export class HttpService {
         // 'Content-Type': 'application/x-www-form-urlencoded',
         'Content-Type': 'application/json',
       };
-     
+
       this.httpIonic.setServerTrustMode('nocheck');
 
       this.httpIonic.setDataSerializer('utf8');
 
 
-   
+
 
       this.ionicOption = {
         method: 'post',
@@ -342,22 +335,17 @@ export class HttpService {
           observer.complete();
           this.ngxService.stop();
         }).catch((error) => {
-          console.log('Data-error', error);
           observer.error(error);
           observer.complete();
           this.ngxService.stop();
         });
 
-     
-
       // let dataUint8Array = binArrayToJson(body);
       // console.log("dataUint8Array", dataUint8Array);
       // console.log("JsonToArray", JsonToArray(dataUint8Array));
 
-
-     
       // let data = this.str2ab(body);
-      
+
       // this.httpIonic
       //   .post(url, data, headers)
       //   .then((result) => {
@@ -378,9 +366,9 @@ export class HttpService {
   }
 
   str2ab(str) {
-    var buf = new ArrayBuffer(str.length*2); // 2 bytes for each char
+    var buf = new ArrayBuffer(str.length * 2); // 2 bytes for each char
     var bufView = new Uint16Array(buf);
-    for (var i=0, strLen=str.length; i < strLen; i++) {
+    for (var i = 0, strLen = str.length; i < strLen; i++) {
       bufView[i] = str.charCodeAt(i);
     }
     return buf;
@@ -389,7 +377,7 @@ export class HttpService {
   ab2str(buf) {
     return String.fromCharCode.apply(null, new Uint16Array(buf));
   }
-  
+
 
   getM(url?: string, params?: any) {
     this.ngxService.start();
@@ -412,7 +400,6 @@ export class HttpService {
           this.ngxService.stop();
         })
         .catch((error) => {
-          console.log('Data-error', error);
           observer.error(error);
           observer.complete();
           this.ngxService.stop();

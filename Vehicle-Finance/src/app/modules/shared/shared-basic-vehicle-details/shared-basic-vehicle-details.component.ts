@@ -571,7 +571,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
             return;
           }
         })).subscribe((res: any) => {
-          console.log('Before res', res)
           if (!res) {
             return;
           }
@@ -587,12 +586,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           }
         })
 
-    // setTimeout({})
-
     setTimeout(() => {
-      console.log('res', this.basicVehicleForm)
     });
-    console.log(pincodeResult, 'AddressList', this.addressList)
   }
 
   addSalesFormControls() {

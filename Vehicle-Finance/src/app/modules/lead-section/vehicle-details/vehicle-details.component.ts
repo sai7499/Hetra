@@ -19,10 +19,10 @@ export class VehicleDetailComponent implements OnInit {
     this.leadId = (await this.getLeadId()) as string;
   }
   onCredit() {
-    const body = { leadId : this.leadId.toString() };  console.log(body);
+    const body = { leadId : this.leadId };
     this.creditService.getCreditScore(body).subscribe((res: any) => {
           console.log(res, ' in vehicle details ');
-          // const resObj = res;
+          const resObj = res;
           // tslint:disable-next-line: no-bitwise
           if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
             const bodyRes = res;
