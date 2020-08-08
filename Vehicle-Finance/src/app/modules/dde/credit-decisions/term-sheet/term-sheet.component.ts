@@ -130,7 +130,10 @@ export class TermSheetComponent implements OnInit {
         this.toasterService.showSuccess("Record Assigned Successfuly", '');
 
       }else{
-        this.toasterService.showSuccess(res['ProcessVariables'].error['message'], '');
+        if(this.roleType == '2' && !this.isApprove){
+          this.toasterService.showSuccess(res['ProcessVariables'].error['message'], '');
+
+        }
 
       }
     })
