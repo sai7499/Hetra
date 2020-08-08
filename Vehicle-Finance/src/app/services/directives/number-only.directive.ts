@@ -6,9 +6,7 @@ import { NgControl } from '@angular/forms';
 export class NumberOnlyDirective {
  
   // tslint:disable-next-line: variable-name
-  constructor(private _el: ElementRef ) { 
-    console.log("number directive");
-  }
+  constructor(private _el: ElementRef ) { }
 
   @HostListener('input', ['$event']) onInputChange(event) {
     const initalValue = this._el.nativeElement.value;
