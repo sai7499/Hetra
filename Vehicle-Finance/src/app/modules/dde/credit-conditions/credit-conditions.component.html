@@ -31,17 +31,17 @@
 
       <div class="row" *ngFor="let item of creditConditionForm.get('Rows')['controls']; let i = index"
         [formGroupName]="i">
-        <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
+        <div class="col-xs-6 col-sm-3 c">
 
           <textarea class="form-control" formControlName="creditCondition"
             placeholder="Content Goes here......"></textarea>
 
         </div>
-        <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
+        <div class="col-xs-6 col-sm-3 ">
           <textarea class="form-control" formControlName="salesResponse"
             placeholder="Content Goes here......"></textarea>
         </div>
-        <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
+        <div class="col-xs-6 col-sm-3 ">
           <div class="row m-0">
            
               <input type="radio" value="1" formControlName="isDocReq"> {{labels.yes}}
@@ -113,7 +113,7 @@
        (click)="assignCDTaskFromSales()"
         type="button">Submit</button> -->
       <button class="btn btn-primary" *ngIf="userType === 2" 
-        (click)="creditConditionActions('submited')" type="button">Approve</button>
+        (click)="approveCreditCondition()" type="button">Approve</button>
       <!-- <button class="btn btn-primary" *ngIf="userType === 2" 
         (click)="creditConditionActions('approved')" type="button" [disabled] ="disableControl">Approve</button>
       <button class="btn btn-primary"
