@@ -99,7 +99,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
     private base64StorageService: Base64StorageService,
     private draggableContainerService: DraggableContainerService,
     private toasterService: ToasterService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.uploadForm = new FormGroup({});
@@ -140,7 +140,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
     this.documentCategorySubs$ = this.applicantService
       .getDocumentCategory(data)
       .subscribe((value: any) => {
-        console.log('getDocumentCategory', value);
         this.documentCategorySubs$.unsubscribe();
         if (value.Error !== '0') {
           return;
@@ -174,12 +173,10 @@ export class ApplicantDocsUploadComponent implements OnInit {
       return category.subcategories;
     });
 
-    console.log('subCategories', subCategories);
     let subCategoryList: any = [];
     for (const subCategory of subCategories) {
       subCategoryList = [...subCategoryList, ...subCategory];
     }
-    console.log('subCategoryList', subCategoryList);
     this.subCategories = subCategoryList;
     if (this.applicantId) {
       this.constructOnlyFormArray();
@@ -193,11 +190,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
     this.uploadService
       .getDocumentDetails(this.applicantId)
       .subscribe((value: any) => {
-        console.log('doc details', value);
         const docDetails: DocumentDetails[] =
           value.ProcessVariables.documentDetails;
         this.documentArr = docDetails || [];
-        console.log('this.documentArr', this.documentArr);
         if (!docDetails) {
           this.subCategories.forEach((subCategory) => {
             const formArray = this.uploadForm.get(
@@ -479,7 +474,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
     };
   }
 
-  getProfileImage() {}
+  getProfileImage() { }
 
   async downloadDocs(formArrayName: string, index: number, event) {
     let el = event.srcElement;

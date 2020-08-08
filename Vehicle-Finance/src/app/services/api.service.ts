@@ -616,7 +616,33 @@ export class ApiService {
       projectId: environment.projectIds.submitToCredit,
       processId: '90408c36cc9f11ea83c800505695f93b',
       workflowId: '3ea13662c66611eaa13a00505695f93b',
-
+    },
+  // supervisorRelated starts
+    supervisor: {
+      processId: 'c16cfe62c5be11eaa04300505695f93b',
+      workflowId: 'c14dda82c5be11eaa09f00505695f93b',
+      projectId: environment.projectIds.supervisorProId
+    },
+    // supervisorRelated ends
+    getmotorInsuranceLOV: {
+      workflowId: '7ab11904cca811eaaa1200505695f93b',
+      processId: 'cdeef696cda111ea89bf00505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    getInsuranceLOV: {
+      workflowId: '7ab11904cca811eaaa1200505695f93b',
+      processId: '7aca596ecca811eaa4ed00505695f93b',
+      projectId: '74c36bec6da211eabdc2f2fa9bec3d63'
+    },
+    getAssetDetails: {
+      workflowId: 'f98fcb80cb0e11ea961200505695f93b',
+      processId: 'f9ae9f6acb0e11ea814c00505695f93b',
+      projectId: '74c36bec6da211eabdc2f2fa9bec3d63'
+    },
+    submitNegotiation: {
+      workflowId: 'f98fcb80cb0e11ea961200505695f93b',
+      processId: '5f84550ecfcf11ea99aa00505695f93b',
+      projectId: '74c36bec6da211eabdc2f2fa9bec3d63'
     }
   };
 }

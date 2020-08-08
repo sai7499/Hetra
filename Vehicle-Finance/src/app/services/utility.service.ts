@@ -39,7 +39,6 @@ export class UtilityService {
     day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
     // const formattedDate = year + '-' + month1 + '-' + day;
     const formattedDate = day + '/' + month1 + '/' + year;
-    console.log('return Date', formattedDate);
     return formattedDate;
   }
   getNewDateFormat(date) {
@@ -51,7 +50,6 @@ export class UtilityService {
     day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
     const formattedDate = year + '-' + month1 + '-' + day;
     // const formattedDate = day + '/' + month1 + '/' + year;
-    console.log('return Date', formattedDate);
     return formattedDate;
   }
   ageFromAsset(dateOfBirth: any): number {
@@ -113,9 +111,7 @@ export class UtilityService {
 
   getValueFromJSON(JsonObj, key1, value1) {
     let arrayList = [];
-    console.log('JsonObj', JsonObj);
-    console.log('key1', key1);
-    console.log('value1', value1);
+
     if (JsonObj) {
       JsonObj.map((data: any) => {
         if (data) {
@@ -138,7 +134,6 @@ export class UtilityService {
     let getDate = new Date(
       dateArray[1] + '-' + dateArray[0] + '-' + dateArray[2]
     );
-    console.log('return Date', getDate);
     return getDate;
   }
 }

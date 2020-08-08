@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { LabelsService } from '@services/labels.service';
@@ -67,43 +67,47 @@ export class OtherDetailsComponent implements OnInit {
   //FORMGROUP
   initForm() {
     this.otherDetailsForm = this.formBuilder.group({
-      agricultureProof: [""],
-      income: [""],
-      securedLoans: [""],
-      unSecuredLoans: [""],
-      creditors: [""],
-      debtors: [""],
-      fixedAssets: [""],
-      applicationNo: [""],
-      area: [""],
-      place: [""],
-      geotagInformation: [""],
-      routeMap: [""],
-      equitasBranchName: [""],
-      distanceEquitasAssetBranch: [""],
-      soName: [""],
-      employeeCode: [""],
-      date: [""],
-      product: [""],
-      sourcingChannel: [""],
-      tomeOfVerification: [""]
+      agricultureProof: ["", Validators.required],
+      income: ["", Validators.required],
+      securedLoans: ["", Validators.required],
+      unSecuredLoans: ["", Validators.required],
+      creditors: ["", Validators.required],
+      debtors: ["", Validators.required],
+      fixedAssets: ["", Validators.required],
+      applicationNo: ["", Validators.required],
+      area: ["", Validators.required],
+      place: ["", Validators.required],
+      geotagInformation: ["", Validators.required],
+      routeMap: ["", Validators.required],
+      equitasBranchName: [{ value: '', disabled: true }],
+      distanceEquitasAssetBranch: [{ value: '', disabled: true }],
+      pdOfficerName: ["", Validators.required],
+      employeeCode: ["", Validators.required],
+      date: ["", Validators.required],
+      product: [{ value: '', disabled: true }],
+      sourcingChannel: [{ value: '', disabled: true }],
+      tomeOfVerification: ["", Validators.required],
+      loanAmount: ["", Validators.required],
+      marginMoney: ["", Validators.required],
+      emiAffordability: ["", Validators.required],
+      sourceOfMarginMoney: ["", Validators.required],
     });
   }
 
-  //SUBMIT FORM
+  // SUBMIT FORM
   onFormSubmit() {
   }
 
   onBack() {
     if (this.version !== 'undefined') {
-      this.router.navigate([`/pages/new-pd-dashboard/${this.leadId}/${this.applicantId}/reference-details/${this.version}`]);
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/reference-details/${this.version}`]);
     } else {
-      this.router.navigate([`/pages/new-pd-dashboard/${this.leadId}/${this.applicantId}/reference-details`]);
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/reference-details`]);
     }
   }
 
   onNext() {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list`]);
+      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
   }
 
 }

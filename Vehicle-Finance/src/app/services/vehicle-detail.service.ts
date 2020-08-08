@@ -11,13 +11,11 @@ import { IndivVehicleInfoDetails } from '@model/lead.model';
 
 import  mUrl  from '../../assets/vehicle-details-data/vehicle-details-label.json';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class VehicleDetailService {
   isMobile: any;
-
 
   private currentPage$ = new BehaviorSubject(0);
 
@@ -65,7 +63,6 @@ export class VehicleDetailService {
 
   // methods for getting vehicle collaterals data from api
 
-
   // 1.method for getting vehicle details
 
   getAnVehicleDetails(collateralId) {
@@ -109,7 +106,6 @@ export class VehicleDetailService {
     return this.httpService.post(url, body);
   }
 
-
   // 3.method to get all vehicle collateral details
 
   getAllVehicleCollateralDetails(leadId) {
@@ -122,9 +118,7 @@ export class VehicleDetailService {
 
       processId: processId,
       ProcessVariables: {
-
         "leadId": leadId
-
       },
       workflowId: workflowId,
       projectId: projectId
@@ -200,11 +194,8 @@ export class VehicleDetailService {
 
       processId: processId,
       ProcessVariables: {
-
         "id": id,
-
         "userId": userId
-
       },
       workflowId: workflowId,
       projectId: projectId
@@ -227,11 +218,6 @@ export class VehicleDetailService {
       projectId: projectId
     };
 
-    console.log(JSON.stringify(body), 'Body')
-
-    console.log(body, 'body')
-
-
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
@@ -243,8 +229,5 @@ export class VehicleDetailService {
     });
     return obs;
   }
-
-
-
 
 }

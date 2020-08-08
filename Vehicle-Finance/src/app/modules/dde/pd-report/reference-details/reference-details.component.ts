@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { LabelsService } from '@services/labels.service';
@@ -67,35 +67,35 @@ export class ReferenceDetailsComponent implements OnInit {
   //FORMGROUP
   initForm() {
     this.referenceDetailsForm = this.formBuilder.group({
-      referrerFirstName: [""],
-      referrerMiddleName: [""],
-      referrerLastName: [""],
-      referrerFullName: [""],
-      referrerRelationship: [""],
-      referrerOfficePhoneNo: [""],
-      referrerAddressLine1: [""],
-      referrerAddressLine2: [""],
-      referrerAddressLine3: [""],
-      pincode: [""],
-      city: [""],
-      district: [""],
-      state: [""],
-      country: [""],
-      referrerAssetName: [""],
-      referenceInfoFirstName: [""],
-      refereneceInfoMiddleName: [""],
-      referenceInfoLastName: [""],
-      referenceInfoFullName: [""],
-      referenceInfoAddressLine1: [""],
-      referenceInfoAddressLine2: [""],
-      referenceInfoAddressLine3: [""],
-      referenceInfoOfficeNo: [""],
-      referenceRelationship: [""],
-      natureOfBusiness: [""],
-      selfieWithCustomer: [""],
-      uploadImages: [""],
-      pdStatus: [""],
-      opinionOfPdOfficer: [""],
+      referrerFirstName: ["", Validators.required],
+      referrerMiddleName: ["", Validators.required],
+      referrerLastName: ["", Validators.required],
+      referrerFullName: [{ value: '', disabled: true }],
+      referrerRelationship: ["", Validators.required],
+      referrerOfficePhoneNo: ["", Validators.required],
+      referrerAddressLine1: ["", Validators.required],
+      referrerAddressLine2: ["", Validators.required],
+      referrerAddressLine3: ["", Validators.required],
+      pincode: ["", Validators.required],
+      city: ["", Validators.required],
+      district: ["", Validators.required],
+      state: ["", Validators.required],
+      country: ["", Validators.required],
+      referrerAssetName: ["", Validators.required],
+      referenceInfoFirstName: ["", Validators.required],
+      refereneceInfoMiddleName: ["", Validators.required],
+      referenceInfoLastName: ["", Validators.required],
+      referenceInfoFullName: [{ value: '', disabled: true }],
+      referenceInfoAddressLine1: ["", Validators.required],
+      referenceInfoAddressLine2: ["", Validators.required],
+      referenceInfoAddressLine3: ["", Validators.required],
+      referenceInfoOfficeNo: ["", Validators.required],
+      referenceRelationship: ["", Validators.required],
+      natureOfBusiness: ["", Validators.required],
+      selfieWithCustomer: ["", Validators.required],
+      uploadImages: ["", Validators.required],
+      pdStatus: ["", Validators.required],
+      opinionOfPdOfficer: ["", Validators.required],
     });
   }
 
@@ -105,17 +105,17 @@ export class ReferenceDetailsComponent implements OnInit {
 
   onBack() {
     if (this.version !== 'undefined') {
-      this.router.navigate([`/pages/new-pd-dashboard/${this.leadId}/${this.applicantId}/income-details/${this.version}`]);
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/income-details/${this.version}`]);
     } else {
-      this.router.navigate([`/pages/new-pd-dashboard/${this.leadId}/${this.applicantId}/income-details`]);
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/income-details`]);
     }
   }
 
   onNext() {
     if (this.version !== 'undefined') {
-      this.router.navigate([`/pages/new-pd-dashboard/${this.leadId}/${this.applicantId}/other-details/${this.version}`]);
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/other-details/${this.version}`]);
     } else {
-      this.router.navigate([`/pages/new-pd-dashboard/${this.leadId}/${this.applicantId}/other-details`]);
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/other-details`]);
     }
   }
 
