@@ -86,7 +86,11 @@ export class OtherDetailsComponent implements OnInit {
       date: [""],
       product: [""],
       sourcingChannel: [""],
-      tomeOfVerification: [""]
+      tomeOfVerification: [""],
+      loanAmount: [""],
+      marginMoney: [""],
+      emiAffordability: [""],
+      sourceOfMarginMoney: [""],
     });
   }
 
