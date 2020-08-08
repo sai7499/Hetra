@@ -1,7 +1,7 @@
 <div class="btn-sec clear-both row"> 
     <div class="col-sm-5"></div> 
     <div class="col-sm-7 text-left">
-        <button class="btn btn-primary btn_div " type="button" (click)="showSanctionDetailsPage()">{{labels?.sanctionDetailsPage}}</button>
+        <button class="btn btn-primary btn_div " type="button" (click)="generateSanctionLetter()">{{labels?.generateSanctionLetter}}</button>
     </div>
 </div>
 
@@ -266,7 +266,8 @@
             <div class="col-sm-7 text-right">
                 <button class="btn btn-primary btn_div " type="button" (click)="onBack()">{{labels?.back}}</button>
                 <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
-                <button class="btn btn-primary btn_div" type="button" (click)="onNext()" >{{labels?.next}}</button>
+                <button class="btn btn-primary btn_div" type="button" [disabled]="salesResponse != true" (click)="onNext()" >{{labels?.next}}</button>
+                <button class="btn btn-primary btn_div" type="button" (click)="onSubmitToSales()" >{{labels?.submitToSales}}</button>
             </div>
         </div>
         
