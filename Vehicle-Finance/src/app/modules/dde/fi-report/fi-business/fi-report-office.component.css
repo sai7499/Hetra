@@ -11,3 +11,13 @@ cus-mandatory-field {
     font-style: oblique;
     font-size: 12px;
 }
+
+.btn-mar-bottom{
+    margin-bottom: 30px;
+}
+
+@media (min-width:300px) and (max-width:767px) {
+    .btn-mar-bottom{
+        margin-bottom: 0px;
+    }
+}

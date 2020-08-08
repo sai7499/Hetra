@@ -1,4 +1,9 @@
-<main class="content" style="padding-bottom: 30px;">
+
+
+<button class="btn btn-primary btn_div " *ngIf = "roleType == '2' && !isTermSheet" (click)= "showTermSheet()" type="button">Show Term Sheet</button>
+
+
+<main class="content" style="padding-bottom: 30px;" *ngIf = "isTermSheet">
     <div class="container overflow-hidden">
         <div class="multisteps-form">
             <div class="print_top">
@@ -822,9 +827,9 @@
 
             </div>
             <div class="col-sm-7 text-right">
-                <button class="btn btn-primary btn_div " (click)= "nextRoute('credit-condition')" type="button">Back</button>
+                <button class="btn btn-primary btn_div " (click)= "onBack()" type="button">Back</button>
                 <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
-                <button class="btn btn-primary btn_div" (click)= "nextRoute('sanction-details')" type="button">Next</button>
+                <button class="btn btn-primary btn_div" (click)= "onNext()" type="button">Next</button>
             </div>
         </div>
 

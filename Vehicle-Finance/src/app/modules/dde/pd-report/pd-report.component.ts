@@ -41,6 +41,7 @@ export class PdReportComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.activatedRoute.params.subscribe((value) => {
         const leadId = value.leadId;
+        console.log("LaedId::", leadId);
         if (leadId) {
           resolve(Number(leadId));
         }
@@ -53,6 +54,7 @@ export class PdReportComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.activatedRoute.firstChild.params.subscribe((value) => {
         const applicantId = value.applicantId;
+        console.log("APPLICANTID::", applicantId);
         if (applicantId) {
           resolve(Number(applicantId));
         }
