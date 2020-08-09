@@ -9,6 +9,7 @@ import { SanctionDetailsComponent } from './sanction-details/sanction-details.co
 import { CustomerFeedbackComponent } from './customer-feedback/customer-feedback.component';
 import { CheckListComponent } from './check-list/check-list.component';
 import { NegotiationComponent } from '@modules/negotiation/negotiation.component';
+import{TermSheetFromDashboardComponent} from './term-sheet-from-dashboard/term-sheet-from-dashboard.component'
 const routes: Routes = [
     {
         path: ':leadId',
@@ -39,11 +40,15 @@ const routes: Routes = [
                 path: 'check-list',
                 component: CheckListComponent
             },
-            
+
               {
                 path: 'negotiation',
                 component : NegotiationComponent
               },
+              {
+                path: 'new-term-sheet',
+                component : TermSheetFromDashboardComponent
+            },
         ]
     }
 ];

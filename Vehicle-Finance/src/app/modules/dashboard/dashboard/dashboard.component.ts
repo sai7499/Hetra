@@ -1098,6 +1098,7 @@ export class DashboardComponent implements OnInit {
       }
       switch (this.subActiveTab) {
         case 4:
+          localStorage.setItem('istermSheet', 'false');
           this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
           break;
         case 6:
@@ -1128,13 +1129,15 @@ export class DashboardComponent implements OnInit {
           this.router.navigateByUrl(`/pages/deviation-dashboard/${leadId}/dashboard-deviation-details`);
           break;
         case 10:
+          localStorage.setItem('istermSheet', 'false');
           this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
           break;
         case 13:
           this.router.navigateByUrl(`/pages/fi-dashboard/${leadId}/fi-list`);
           break;
         case 16:
-          this.router.navigateByUrl(`/pages/${leadId}/new-term-sheet`);
+          localStorage.setItem('istermSheet', 'true');
+          this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/new-term-sheet`);
           break;
         default:
           break;
@@ -1213,6 +1216,7 @@ export class DashboardComponent implements OnInit {
         if (this.roleType === 1) {
           switch (this.subActiveTab) {
             case 5:
+              localStorage.setItem('istermSheet', 'false');
               this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
               break;
             case 7:
@@ -1242,12 +1246,14 @@ export class DashboardComponent implements OnInit {
               this.router.navigateByUrl(`/pages/deviation-dashboard/${leadId}/dashboard-deviation-details`);
               break;
             case 11:
+              localStorage.setItem('istermSheet', 'false');
               this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
               break;
             case 14:
               this.router.navigateByUrl(`/pages/dde/${leadId}/fi-list`);
               break;
             case 17:
+              localStorage.setItem('istermSheet', 'true');
               this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/new-term-sheet`);
               break;
             default:

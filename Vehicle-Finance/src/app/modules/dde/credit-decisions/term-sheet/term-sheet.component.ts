@@ -112,7 +112,7 @@ export class TermSheetComponent implements OnInit {
       this.guaIdentityDetails =res['ProcessVariables'].guaIdentityDetails;
 
     } else {
-      this.toasterService.showSuccess(res['ProcessVariables'].error['message'], '');
+      this.toasterService.showError(res['ProcessVariables'].error['message'], '');
 
     }
   });
@@ -167,9 +167,9 @@ export class TermSheetComponent implements OnInit {
   }
   onNext() {
     // this.router.navigate([`/pages/credit-decisions/${this.leadId}/check-list`]);
-    // if ( this.roleType == ) { }
-    // tslint:disable-next-line: triple-equals
-    if (this.roleType == '2' || this.roleType == '1') {
+    if (  this.roleType == '2' ) { 
+      this.router.navigate([`/pages/credit-decisions/${this.leadId}/sanction-details`]);
+    } else if (this.roleType == '1' ) {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
       // tslint:disable-next-line: triple-equals
       } else if (this.roleType == '4') {
@@ -181,8 +181,10 @@ export class TermSheetComponent implements OnInit {
   }
 
   onBack() {
-    if (this.roleType == '2' || this.roleType == '1') {
+    if( this.roleType == '1') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/credit-condition`]);
+    } else if (this.roleType == '2' ) {
+      this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
       // tslint:disable-next-line: triple-equals
       } else if (this.roleType == '4') {
         this.router.navigate([`pages/cpc-maker/${this.leadId}/check-list`]);

@@ -5,7 +5,7 @@ import { CommomLovService } from '@services/commom-lov-service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators,FormBuilder } from '@angular/forms';
 @Component({
   selector: 'app-income-details',
   templateUrl: './income-details.component.html',
@@ -27,12 +27,14 @@ export class IncomeDetailsComponent implements OnInit {
   roleType: any;
   roleName: string;
   roles: any;
+  isccOdLimit: boolean = false;
   public errorMsg;
   constructor(private labelsData: LabelsService, 
     private activatedRoute: ActivatedRoute,
     private router: Router,  
     private toasterService: ToasterService,
     private loginStoreService: LoginStoreService,
+    private formBuilder: FormBuilder,
     private personalDiscussion: PersonalDiscussionService,
      private commomLovService: CommomLovService) { }
   getLabels(){
@@ -74,15 +76,22 @@ export class IncomeDetailsComponent implements OnInit {
 
   getIncomeDetails(){
     const data = {
-      // applicantId: 6,
-      applicantId: this.applicantId
+     // leadId: this.leadId,
+      pdVersion : this.version,
+      applicantId: this.applicantId, /* Uncomment this after getting applicant Id from Lead */
+      userId: this.userId,
   };
 
      this.personalDiscussion.getPdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
-          this.pdDetail = value.ProcessVariables;
-          console.log('PD Details', this.pdDetail);          
+          this.pdDetail = value.ProcessVariables['incomeDetails'];
+          console.log('PD Details', this.pdDetail);     
+          if( value.ProcessVariables['incomeDetails'].typeOfAccount =="4BNKACCTYP"){
+         this.isccOdLimit = true;
+            this.addCCOd(value.ProcessVariables['incomeDetails'].typeOfAccount)
+          }
+          this.setFormValue(value.ProcessVariables['incomeDetails']) ;
       }
   });
 
@@ -100,7 +109,7 @@ export class IncomeDetailsComponent implements OnInit {
       typeOfAccount: new FormControl('', Validators.required),
       bankName: new FormControl('', Validators.required),
       accountNumber: new FormControl('', Validators.required),
-      ccOdLimit: new FormControl('', Validators.required),
+    //  ccOdLimit: new FormControl('', Validators.required),
      // ifCcOdLimit: new FormControl('', Validators.required),
      noOfChequeReturns: new FormControl('', Validators.required),
      cashBankBalance: new FormControl('', Validators.required),
@@ -115,6 +124,46 @@ export class IncomeDetailsComponent implements OnInit {
     });
   }
 
+  setFormValue(incomeDetails) {
+    this.incomeDetailsForm.patchValue({
+      grossIncome: incomeDetails.grossIncome || '',
+      netIncome: incomeDetails.netIncome || '',
+      additionalSourceOfIncome: incomeDetails.additionalSourceOfIncome || '',
+      grossSalary: incomeDetails.grossSalary || '',
+      netSalary: incomeDetails.netSalary || '',
+      individualIncome: incomeDetails.individualIncome || '',
+      typeOfAccount: incomeDetails.typeOfAccount || '',
+      bankName: incomeDetails.bankName || '',
+      accountNumber: incomeDetails.accountNumber || '',
+      ccOdLimit: incomeDetails.ccOdLimit || '',
+     // ifCcOdLimit: incomeDetails,
+     noOfChequeReturns: incomeDetails.noOfChequeReturns || '',
+     cashBankBalance: incomeDetails.cashBankBalance || '',
+     monthlyInflow: incomeDetails.monthlyInflow || '',
+     monthlyOutflow: incomeDetails.monthlyOutflow || '',
+     ccHolderFirstName: incomeDetails.ccHolderFirstName || '',
+     ccHolderSecondName: incomeDetails.ccHolderSecondName || '',
+     ccHolderThirdName: incomeDetails.ccHolderThirdName || '',
+     ccHolderFullName: incomeDetails.ccHolderFullName || '',
+     ccIssuedBy: incomeDetails.ccIssuedBy || '',
+     ccLimit: incomeDetails.ccLimit || ''
+     })
+  }
+  ccOd: FormGroup = this.formBuilder.group({
+    ccOdLimit: ['', Validators.required]
+    }); 
+
+  addCCOd(data){
+    if( data =="4BNKACCTYP"){
+      this.isccOdLimit = true;
+      this.incomeDetailsForm.addControl('ccOdLimit', this.formBuilder.control('', [Validators.required])); 
+    }else{
+      this.isccOdLimit = false;
+      this.incomeDetailsForm.removeControl('ccOdLimit'); 
+   
+    }
+
+  }
   onNavigateNext() {
     if (this.version) {
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/reference-details/${this.version}`]);
@@ -139,7 +188,7 @@ export class IncomeDetailsComponent implements OnInit {
       return;
     }
     this.incomeDetailsForm.value['ccHolderFullName'] = this.incomeDetailsForm['controls']['ccHolderFirstName'].value + ' ' 
-                                                      +this.incomeDetailsForm['controls']['ccHolderSecondName'].value+ '' +
+                                                      +this.incomeDetailsForm['controls']['ccHolderSecondName'].value+ ' ' +
                                                        this.incomeDetailsForm['controls']['ccHolderThirdName'].value 
     const data = {
       leadId: this.leadId,
