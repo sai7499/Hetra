@@ -37,7 +37,7 @@ export class TermSheetFromDashboardComponent implements OnInit {
   getLeadId() {
     // console.log("in getleadID")
     return new Promise((resolve, reject) => {
-      this.activatedRoute.parent.params.subscribe((value) => {
+      this.activatedRoute.params.subscribe((value) => {
         if (value && value.leadId) {
           // console.log("in if", value.leadId)
           resolve(Number(value.leadId));
@@ -53,6 +53,7 @@ export class TermSheetFromDashboardComponent implements OnInit {
  
   async ngOnInit() {
     this.leadId = (await this.getLeadId()) as number;
+    console.log( this.leadId);
   }
   
 
