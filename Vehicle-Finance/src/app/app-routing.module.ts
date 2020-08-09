@@ -4,7 +4,7 @@ import { HeaderComponent } from './modules/header/header.component';
 import { LovResolverService } from './services/Lov-resolver.service';
 import { Authguard } from '@services/authguard';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
-
+import {TermSheetFromDashboardComponent} from './modules/dde/credit-decisions/term-sheet-from-dashboard/term-sheet-from-dashboard.component'
 const routes: Routes = [
   {
     path: '',
@@ -139,12 +139,18 @@ const routes: Routes = [
           ).then((m) => m.TeleVerificarionFormModule),
       },
       {
-        path: 'fi-list',
+        path: 'fi-dashboard',
         loadChildren: () =>
           import('./modules/dde/fi-report/fi-report.module').then(
             (m) => m.FiReportModule
           ),
       },
+      {
+        path: 'fi-dashboard', // added another routing for dde module to load from pd-dashboard
+        loadChildren: () =>
+          import('./modules/dde/dde.module').then((m) => m.DdeModule),
+      },
+
       {
         path: 'vehicle-valuation',
         loadChildren: () =>
@@ -199,6 +205,10 @@ const routes: Routes = [
           import(
             './modules/dde/cpc-maker/cpc-maker.module'
           ).then((m) => m.CpcMakerModule),
+      },
+      {
+        path: ':leadId/new-term-sheet',
+        component : TermSheetFromDashboardComponent
       },
     ],
   },

@@ -44,8 +44,9 @@ export class FiReportOfficeComponent implements OnInit {
   toDayDate: Date = new Date();
   fiDate: Date = new Date();
   fiTime: any = String(new Date(new Date().getTime()).toLocaleTimeString()).slice(0, 5);
-  leadCreatedDateFromLead: Date;
+  leadCreatedDateFromLead: any;
   typeOfConcernValue: string;
+  version: any;
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -62,6 +63,8 @@ export class FiReportOfficeComponent implements OnInit {
     this.leadId = Number(this.activatedRoute.snapshot.parent.params.leadId);
     // this.applicantId = Number(this.activatedRoute.parent)
     this.applicantId = Number(this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
+    this.version = Number(this.activatedRoute.snapshot.parent.firstChild.params.version);
+    console.log('version', this.version);
     console.log('in construc app id', this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
     console.log('leadid', this.leadId);
 
@@ -121,7 +124,7 @@ export class FiReportOfficeComponent implements OnInit {
 
     const leadCreatedDate = data['leadDetails']['leadCreatedOn'];
     console.log('strind date', leadCreatedDate);
-    this.leadCreatedDateFromLead = new Date(leadCreatedDate);
+    this.leadCreatedDateFromLead = new Date(this.getDateFormat(leadCreatedDate));
     // this.leadCreatedDateFromLead = String(leadCreatedDate).slice(0, 10);
     console.log('lead created Date', this.leadCreatedDateFromLead);
 
@@ -193,7 +196,7 @@ export class FiReportOfficeComponent implements OnInit {
     this.fieldReportForm = new FormGroup({
 
       // externalAgencyName: new FormControl('', Validators.required),
-      externalAgencyName: new FormControl(''),
+      externalAgencyName: new FormControl({ value: '', disabled: true }),
       contactPointVerification: new FormControl('', Validators.required),
       referenceNo: new FormControl('', Validators.required),
       cpvInitiatedDate: new FormControl('', Validators.required),
@@ -424,7 +427,8 @@ export class FiReportOfficeComponent implements OnInit {
       if (processvariables.error.code === '0') {
         console.log('result', processvariables.error.message);
         this.toasterService.showSuccess('Report Submitted Successfully', '');
-        this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
+        // this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
+        this.router.navigate([`/pages/dashboard`]);
 
       } else {
         this.toasterService.showError('', message);
@@ -520,9 +524,19 @@ export class FiReportOfficeComponent implements OnInit {
 
 
   onNavigateBack() {
-    // console.log('in on navigate', action);
+    if (this.version) {
+      console.log('in routing defined version condition', this.version);
+      this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${this.applicantId}/fi-residence/${this.version}`]);
 
-    this.router.navigateByUrl(`pages/fi-list/${this.leadId}/${this.applicantId}/fi-report/fi-residence`);
+    } else {
+      console.log('in routing undefined version condition', this.version);
+      this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-report/${this.applicantId}/fi-residence`]);
+      // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
+
+    }
+
+
+    // this.router.navigateByUrl(`pages/fi-list/${this.leadId}/${this.applicantId}/fi-report/fi-residence`);
 
   }
 

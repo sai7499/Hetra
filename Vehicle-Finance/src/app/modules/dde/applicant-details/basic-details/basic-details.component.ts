@@ -862,9 +862,6 @@ export class BasicDetailsComponent implements OnInit {
   async onSubmit() {
     this.setValidation();
     const value = this.basicForm.getRawValue();
-
-
-
     if (this.basicForm.invalid) {
       this.isDirty = true;
       this.toasterService.showError(

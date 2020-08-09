@@ -24,9 +24,7 @@ export class PdReportComponent implements OnInit {
     private router: Router,
     private location: Location,
     private activatedRoute: ActivatedRoute,
-  ) {
-    console.log('this url', this.router.url);
-  }
+  ) { }
 
   async ngOnInit() {
     const currentUrl = this.location.path();
@@ -40,8 +38,6 @@ export class PdReportComponent implements OnInit {
     this.activatedRoute.firstChild.params.subscribe((value: any) => {
       this.applicantId = value.applicantId;
       this.version = value.version;
-      console.log('applicant ID', value.applicantId);
-      console.log('version in pd report', this.version);
     });
   }
 
@@ -49,7 +45,6 @@ export class PdReportComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.activatedRoute.params.subscribe((value) => {
         const leadId = value.leadId;
-        console.log("LaedId::", leadId);
         if (leadId) {
           resolve(Number(leadId));
         }
@@ -62,7 +57,6 @@ export class PdReportComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.activatedRoute.firstChild.params.subscribe((value) => {
         const applicantId = value.applicantId;
-        console.log('APPLICANTID::', applicantId);
         if (applicantId) {
           resolve(Number(applicantId));
         }
@@ -75,23 +69,19 @@ export class PdReportComponent implements OnInit {
     if (this.router.url.includes('/pd-dashboard')) {
 
       if (this.version) {
-        console.log('in defined version prg bar routing', this.version);
         this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/${componentUrl}/${this.version}`]);
         // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${applicantId}/applicant-details/${version}`]);
 
       } else {
-        console.log('in undefined version prg bar routing', this.version);
         this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/${componentUrl}`]);
         // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/${url}/${this.version}`]);
       }
     } else if (this.router.url.includes('/dde')) {
       if (this.version) {
-        console.log('in defined version prg bar routing', this.version);
         this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${this.applicantId}/${componentUrl}/${this.version}`]);
         // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${applicantId}/applicant-details/${version}`]);
 
       } else {
-        console.log('in undefined version prg bar routing', this.version);
         this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${this.applicantId}/${componentUrl}`]);
         // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/${url}/${this.version}`]);
       }

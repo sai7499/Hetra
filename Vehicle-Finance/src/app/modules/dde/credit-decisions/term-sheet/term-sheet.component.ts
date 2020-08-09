@@ -45,6 +45,7 @@ export class TermSheetComponent implements OnInit {
   userType;
   roleAndUserDetails: any;
   @Input() isApprove: boolean; 
+  @Input() isLeadId: number;
   constructor(
      public labelsService: LabelsService,
      private activatedRoute: ActivatedRoute,
@@ -122,7 +123,7 @@ export class TermSheetComponent implements OnInit {
   // }
   assignTaskToTSAndCPC(){
     const ProcessVariables = {
-      "leadId": this.leadId,
+      "leadId": this.isLeadId,
       "userId":this.userId
     };
     this.termSheetService.assignTaskToTSAndCPC(ProcessVariables).subscribe((res)=>{
@@ -158,8 +159,10 @@ export class TermSheetComponent implements OnInit {
         this.isTermSheet = true
       }
     });
-    if(this.roleType != '2' || this.isApprove){
+    if(this.roleType != '2' && !this.isApprove){
       this.getTermSheet(this.leadId);
+    }else if(this.isApprove && this.isLeadId){
+      this.getTermSheet(this.isLeadId);
     }
   }
   onNext() {

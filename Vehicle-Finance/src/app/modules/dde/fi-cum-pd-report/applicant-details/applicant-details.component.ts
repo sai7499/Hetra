@@ -197,34 +197,22 @@ export class ApplicantDetailComponent implements OnInit {
   }
 
   getPdDetails() { // function to get the pd details with respect to applicant id
-    console.log('pd version', this.version);
-    console.log('pd applicant id', this.applicantId);
-    // if (this.version === 'undefined') {
-    //   this.version = '0';
-    //   console.log('in undefined condition version', this.version);
-
-    // }
-
     const data = {
       applicantId: this.applicantId,
       pdVersion: this.version,
     };
-    console.log('in request data version', this.version);
-
 
     this.personaldiscussion.getPdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
 
         this.applicantPdDetails = value.ProcessVariables.applicantPersonalDiscussionDetails;
-        // console.log('Applicant Details in calling get api ', this.applicantPdDetails);
         if (this.applicantPdDetails) {
           this.setFormValue();
           this.pdDataService.setCustomerProfile(this.applicantPdDetails);
         }
       }
     });
-
   }
 
   onFormSubmit(action) { // fun that submits all the pd data
@@ -286,7 +274,7 @@ export class ApplicantDetailComponent implements OnInit {
           if (this.version) {
 
             // tslint:disable-next-line: max-line-length
-            this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
+            this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
 
           } else {
 
@@ -309,7 +297,7 @@ export class ApplicantDetailComponent implements OnInit {
     if (this.version) {
       console.log('in  routing defined version condition', this.version);
       // tslint:disable-next-line: max-line-length
-      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
+      this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
 
     } else {
 
