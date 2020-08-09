@@ -217,9 +217,6 @@ export class PersonalDetailsComponent implements OnInit {
   }
 
   onNavigateBack() {
-
-    console.log(this.router.url.includes('/personal-details'), 'URL')
-
     if (this.router.url.includes('/personal-details')) {
       this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
     } else if (this.router.url.includes('/dde')) {
