@@ -20,6 +20,8 @@ export class CreditDecisionComponent implements OnInit {
     roles: any = [];
     roleId: any;
     roleType: any;
+    salesResponse = 'false';
+    istermSheet = 'false'
     constructor(
         private router: Router,
         private location: Location,
@@ -28,6 +30,14 @@ export class CreditDecisionComponent implements OnInit {
         private activatedRoute: ActivatedRoute) { }
 
     ngOnInit() {
+        this.salesResponse = localStorage.getItem('salesResponse');
+        this.istermSheet = localStorage.getItem('istermSheet');
+        const button = document.getElementById('checklist_identity_details');
+        // tslint:disable-next-line: triple-equals
+        // if (this.salesResponse != 'true') {
+        // button.disable();
+        // }
+
         const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
         this.userId = roleAndUserDetails.userDetails.userId;
         this.roles = roleAndUserDetails.roles;
@@ -59,9 +69,13 @@ export class CreditDecisionComponent implements OnInit {
     getLocationIndex(url: string) {
         if (url.includes('credit-condition')) {
             return 0;
-        } else if (url.includes('term-sheet')) {
+        } else if (url.includes('term-sheet') && this.roleType == '1') {
             return 1;
-        } else if (url.includes('negotiation')) {
+        } else if (url.includes('term-sheet') && this.roleType == '2') {
+            return 2;
+        } else if (url.includes('negotiation') && this.roleType == '2') {
+            return 1;
+        }  else if (url.includes('negotiation') && this.roleType == '1') {
             return 2;
         } else if (url.includes('sanction-details')) {
             return 3;

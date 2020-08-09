@@ -206,10 +206,10 @@ const routes: Routes = [
             './modules/dde/cpc-maker/cpc-maker.module'
           ).then((m) => m.CpcMakerModule),
       },
-      {
-        path: ':leadId/new-term-sheet',
-        component : TermSheetFromDashboardComponent
-      },
+      // {
+      //   path: ':leadId/new-term-sheet',
+      //   component : TermSheetFromDashboardComponent
+      // },
     ],
   },
 ];

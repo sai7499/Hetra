@@ -54,7 +54,6 @@ export class DeviationWithMeComponent implements OnInit {
     );
 
     this.dashboardService.isFilterData.subscribe((filterValue: any) => {
-    console.log('filterDetails', filterValue);
     this.filterDetails = filterValue;
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = String(value.roleId);
@@ -146,7 +145,6 @@ responseForCredit(data) {
 
   onRelase(id) {
     this.taskDashboard.releaseTask(id).subscribe((res: any) => {
-      console.log('release Task', res);
       const response = res;
       if (response.ErrorCode == 0 ) {
         this.toasterService.showSuccess('Lead Released Successfully', 'Released');
