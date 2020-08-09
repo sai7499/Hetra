@@ -23,6 +23,7 @@ export class FiListComponent implements OnInit {
   showStatus: boolean;
   fiStatusValue: any;
   fiStatus: { [id: string]: any; } = {};
+  pdStatusValue;
   constructor(
     private labelDetails: LabelsService,
     private router: Router,
@@ -114,11 +115,18 @@ export class FiListComponent implements OnInit {
       console.log('fi List', this.fiList);
 
       for (var i in this.fiList) {
-        this.fiStatusValue = this.fiList[i]['fiStatusValue']
+        this.fiStatusValue = this.fiList[i]['fiStatus']
+
         if (this.fiList[i]['fiStatusValue'] == "Submitted") {
           this.fiStatus[this.fiList[i]['applicantId']] = this.fiList[i]['fiStatusValue']
           // this.sharedService.getPdStatus(this.pdStatus)
         }
+        if (this.fiList[i]['fiReportValue']!=null){
+          this.fiList[i]['fiReportValue'] = this.fiList[i]['fiReportValue'].split(',');
+        }else{
+          this.fiList[i]['fiReportValue']=[];
+        }
+        
 
       }
     });

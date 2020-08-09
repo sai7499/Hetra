@@ -233,33 +233,41 @@ export class CreditConditionsComponent implements OnInit {
         "leadId":this.leadId,
         "creditConditionDetails": creditConditionDetails
       }
-      this.creditConditionService.saveUpdateCreditConditions(ProcessVariables).subscribe(res=> {
-        console.log(res);
-        if(res['ProcessVariables'].error['code'] == 0){
-          this.toasterService.showSuccess("Record Saved successfully!", '');
-          if(data == 'save' ){
-            this.creditConditions = [];
-            this.creditConditionForm = this.formBuilder.group({
-              Rows: this.formBuilder.array([])
-            });
-            this.getCreditConditions();
-          }else if(data == 'next' && this.userType == 2 && this.salesResponse == 'true' ){
-            this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/negotiation')
-          } else if(data == 'next' && this.userType == 2 && this.salesResponse == 'false' ){
-            this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
-          } else if(data == 'next' && this.userType == 1){
-            this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
-          }else{
-            if(this.userType == 2){
-              this.router.navigateByUrl('/pages/dashboard')
+      this.creditConditionService.
+        saveUpdateCreditConditions(ProcessVariables).
+          subscribe(res=> {
+          console.log(res);
+          if(res['ProcessVariables'].error['code'] == 0){
+            this.toasterService.showSuccess("Record Saved successfully!", '');
+            if(data == 'save' ){
+              this.creditConditions = [];
+              this.creditConditionForm = this.formBuilder.group({
+                Rows: this.formBuilder.array([])
+              });
+              this.getCreditConditions();
+            }else if(data == 'next' && this.userType == 2 && this.salesResponse == 'true' ){
+              this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/negotiation')
+            } else if(data == 'next' && this.userType == 2 && this.salesResponse == 'false' ){
+              this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
+            } else if(data == 'next' && this.userType == 1){
+              this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
             }else{
-              this.router.navigateByUrl('/pages/dashboard')
+              if(this.userType == 2){
+                this.router.navigateByUrl('/pages/dashboard')
+              }else{
+                this.router.navigateByUrl('/pages/dashboard')
+              }
             }
+    
           }
-  
-        }
-      
-      })
+        
+        })
+    }else{
+      if(data == 'next' && this.userType == 2 && this.salesResponse == 'true' ){
+        this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/negotiation')
+      } else if(data == 'next' && this.userType == 2 && this.salesResponse == 'false' ){
+        this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
+      }
     }
    
   }
