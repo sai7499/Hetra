@@ -21,6 +21,7 @@ export class CreditDecisionComponent implements OnInit {
     roleId: any;
     roleType: any;
     salesResponse = 'false';
+    istermSheet = 'false'
     constructor(
         private router: Router,
         private location: Location,
@@ -30,6 +31,7 @@ export class CreditDecisionComponent implements OnInit {
 
     ngOnInit() {
         this.salesResponse = localStorage.getItem('salesResponse');
+        this.istermSheet = localStorage.getItem('istermSheet');
         const button = document.getElementById('checklist_identity_details');
         // tslint:disable-next-line: triple-equals
         // if (this.salesResponse != 'true') {
