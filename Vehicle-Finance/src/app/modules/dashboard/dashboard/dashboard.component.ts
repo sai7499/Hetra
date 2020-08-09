@@ -1145,7 +1145,7 @@ export class DashboardComponent implements OnInit {
           this.router.navigateByUrl(`/pages/fi-dashboard/${leadId}/fi-list`);
           break;
         case 16:
-          this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/new-term-sheet`);
+          this.router.navigateByUrl(`/pages/${leadId}/new-term-sheet`);
           break;
         default:
           break;

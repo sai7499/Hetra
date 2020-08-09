@@ -1,1 +1,3 @@
-<app-term-sheet [isApprove] = "isApprove"></app-term-sheet>
+<div *ngIf = "leadId" style=" padding-top: 80px;">
+    <app-term-sheet [isApprove] = "isApprove" [isLeadId] = "leadId"></app-term-sheet>
+</div>
