@@ -47,6 +47,10 @@ export class FiReportOfficeComponent implements OnInit {
   leadCreatedDateFromLead: any;
   typeOfConcernValue: string;
   version: any;
+  showReinitiate: boolean;
+  roleType: any;
+  roles: any;
+  invalidPincode: boolean;
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -71,11 +75,26 @@ export class FiReportOfficeComponent implements OnInit {
   }
 
   async ngOnInit() {
+    console.log('in router url', this.router.url);
+    if (this.router.url.includes('/fi-dashboard')) {
+
+      console.log(' /fi-dashboard ');
+      this.showReinitiate = false;
+      console.log(' fi-dashboard ', this.showReinitiate);
+
+    } else if (this.router.url.includes('/dde')) {
+
+      this.showReinitiate = true;
+      console.log(' dde', this.showReinitiate);
+    }
+
 
     // calling login store service to retrieve the user data
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
+    this.roles = roleAndUserDetails.roles;
+    this.roleType = this.roles[0].roleType;
     console.log('user id ==>', this.userId);
     this.leadId = (await this.getLeadId()) as number;
     this.getLOV();
@@ -148,6 +167,8 @@ export class FiReportOfficeComponent implements OnInit {
       const pincodeNumber = Number(pincodeValue);
       this.getPincodeResult(pincodeNumber);
       console.log('in get pincode', pincodeNumber);
+    } else {
+      this.invalidPincode = false;
     }
   }
   getPincodeResult(pincodeNumber: number) {
@@ -156,22 +177,37 @@ export class FiReportOfficeComponent implements OnInit {
     this.applicantService
       .getGeoMasterValue({
         pincode: pincodeNumber,
-      }).subscribe((value) => {
+      }).subscribe((value: any) => {
         console.log('res', value);
-        const values = value['ProcessVariables'].GeoMasterView;
-        const state = {
-          key: values[0].stateId,
-          value: values[0].stateName
-        };
-        this.state.push(state);
-        values.map((element) => {
-          const city = {
-            key: element.cityId,
-            value: element.cityName
+        // tslint:disable-next-line: no-string-literal
+        if (value['ProcessVariables'].error.code === '0') {
+
+          console.log('in valid pincode', value['ProcessVariables'].error);
+          // tslint:disable-next-line: no-string-literal
+          this.invalidPincode = false;
+          const values = value['ProcessVariables'].GeoMasterView;
+          const state = {
+            key: values[0].stateId,
+            value: values[0].stateName
           };
-          this.city.push(city);
-          // console.log('in geo', city);
-        });
+          this.state.push(state);
+          values.map((element) => {
+            const city = {
+              key: element.cityId,
+              value: element.cityName
+            };
+            this.city.push(city);
+            // console.log('in geo', city);
+          });
+          // tslint:disable-next-line: no-string-literal
+        } else if (value['ProcessVariables'].error.code === '1') {
+          this.invalidPincode = true;
+          // tslint:disable-next-line: no-string-literal
+          console.log('in valid pincode', value['ProcessVariables'].error);
+          const message = value.ProcessVariables.error.message;
+          this.toasterService.showWarning('', message);
+
+        }
       });
 
   }
@@ -521,6 +557,31 @@ export class FiReportOfficeComponent implements OnInit {
     });
 
   }
+  // method for re-initating fi report
+
+  reinitiateFi() {  // fun calling reinitiate fi report  api for reinitiating the respective fi report
+    const data = {
+      applicantId: this.applicantId,
+      // applicantId: 1,
+      userId: this.userId
+    };
+    this.fieldInvestigationService.reinitiateFiReportDetails(data).subscribe((res: any) => {
+      const processVariables = res.ProcessVariables;
+      console.log('response reinitiate pd', processVariables);
+      const message = processVariables.error.message;
+      if (processVariables.error.code === '0') {
+        this.toasterService.showSuccess('Report Reinitiated Successfully', '');
+        this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
+      } else {
+        this.toasterService.showError('', 'message');
+
+      }
+    });
+
+
+
+  }
+
 
 
   onNavigateBack() {
@@ -535,9 +596,7 @@ export class FiReportOfficeComponent implements OnInit {
 
     }
 
-
-    // this.router.navigateByUrl(`pages/fi-list/${this.leadId}/${this.applicantId}/fi-report/fi-residence`);
-
   }
+
 
 }

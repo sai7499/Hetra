@@ -3,17 +3,24 @@
         <!-- <h3 class="margin_zero">Lead ID : 125468</h3> -->
         <!-- <app-dde-header></app-dde-header> -->
         <app-lead-section-header></app-lead-section-header>
-        <div class="multisteps-form">
-            <div class="multisteps-form__progress1">
+        <div class="multisteps-form" >
+            <div class="multisteps-form__progress1" *ngIf = "istermSheet != 'true'">
                 <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 0}"
                     type="button" id="applicant_basic_details" (click)="onNavigate('credit-condition')">
                     Credit Condition </button>
                 <button class="multisteps-form__progress-btn "  (click)="onNavigate('term-sheet')" [ngClass]="{'js-active': locationIndex >= 1}"
-                    type="button" id="applicant_bank_details">
+                    type="button" id="applicant_bank_details" *ngIf = "roleType == '1'">
                     Term Sheet</button>
                 <button class="multisteps-form__progress-btn "  (click)="onNavigate('negotiation')" [ngClass]="{'js-active': locationIndex >= 2}"
-                    type="button" id="applicant_bank_details">
+                        type="button" id="applicant_bank_details" *ngIf = "roleType == '1'">
+                        Negotiation</button>
+                <button class="multisteps-form__progress-btn "  (click)="onNavigate('negotiation')" [ngClass]="{'js-active': locationIndex >= 1}"
+                    type="button" id="applicant_bank_details" *ngIf = "roleType == '2' && salesResponse == 'true'">
                     Negotiation</button>
+                <button class="multisteps-form__progress-btn "  (click)="onNavigate('term-sheet')" [ngClass]="{'js-active': locationIndex >= 2}"
+                        type="button" id="applicant_bank_details" *ngIf = "roleType == '2'">
+                        Term Sheet</button>
+                    
                 <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 3}"
                     type="button" id="applicant_identity_details" (click)="onNavigate('sanction-details')" >
                     Sanction Details
@@ -22,8 +29,9 @@
                     type="button" id="applicant_identity_details" (click)="onNavigate('customer-feedback')">
                     Customer Feedback
                 </button>
-                <button *ngIf = "roleType == 2" class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 5}"  [disabled] ="salesResponse != 'true'"
-                    type="button" id="checklist_identity_details" (click)="onNavigate('check-list')" >
+                <button *ngIf = "roleType == 2 && salesResponse == 'true'" class="multisteps-form__progress-btn " 
+                    [ngClass]="{'js-active': locationIndex >= 5}"  
+                    type="button" id="checklist_identity_details" (click)="onNavigate('check-list')"  >
                     Check List 
                 </button>
             </div>

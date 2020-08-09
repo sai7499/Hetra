@@ -21,6 +21,7 @@ export class CreditDecisionComponent implements OnInit {
     roleId: any;
     roleType: any;
     salesResponse = 'false';
+    istermSheet = 'false'
     constructor(
         private router: Router,
         private location: Location,
@@ -30,6 +31,7 @@ export class CreditDecisionComponent implements OnInit {
 
     ngOnInit() {
         this.salesResponse = localStorage.getItem('salesResponse');
+        this.istermSheet = localStorage.getItem('istermSheet');
         const button = document.getElementById('checklist_identity_details');
         // tslint:disable-next-line: triple-equals
         // if (this.salesResponse != 'true') {
@@ -67,9 +69,13 @@ export class CreditDecisionComponent implements OnInit {
     getLocationIndex(url: string) {
         if (url.includes('credit-condition')) {
             return 0;
-        } else if (url.includes('term-sheet')) {
+        } else if (url.includes('term-sheet') && this.roleType == '1') {
             return 1;
-        } else if (url.includes('negotiation')) {
+        } else if (url.includes('term-sheet') && this.roleType == '2') {
+            return 2;
+        } else if (url.includes('negotiation') && this.roleType == '2') {
+            return 1;
+        }  else if (url.includes('negotiation') && this.roleType == '1') {
             return 2;
         } else if (url.includes('sanction-details')) {
             return 3;

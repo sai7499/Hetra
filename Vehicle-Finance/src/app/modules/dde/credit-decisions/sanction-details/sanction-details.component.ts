@@ -50,6 +50,9 @@ salesResponse: any;
       this.roleType = value.roleType;
       console.log('role Type', this.roleType);
     });
+    if (this.roleType ==1){
+      this.getSanctionDetails();
+    }
   }
 
   getLabels() {
@@ -144,6 +147,7 @@ salesResponse: any;
       // console.log("RESPONSE_SUBMIT_TO_SALES::", response);
       if (response["Error"] == 0) {
         this.toasterService.showSuccess("Sanctioned Leads Submitted Successfully", "Sanction Details");
+        this.router.navigateByUrl['/pages/dashboard'];
       } else {
         this.toasterService.showError(res['ProcessVariables'].error['message'], 'Sanction Details');
       }
@@ -154,9 +158,7 @@ salesResponse: any;
     
     if ( this.roleType == '1' ) { 
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/customer-feedback`]);
-    }
-    // tslint:disable-next-line: triple-equals
-    else if (this.roleType == '2') {
+    } else if (this.roleType == '2') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/check-list`]);
       // tslint:disable-next-line: triple-equals
       } else if (this.roleType == '4') {
@@ -168,8 +170,10 @@ salesResponse: any;
   }
 
   onBack() {
-    if (this.roleType == '2' || this.roleType == '1') {
+    if(this.roleType == '1') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
+    } else if (this.roleType == '2' ) {
+      this.router.navigate([`/pages/credit-decisions/${this.leadId}/term-sheet`]);
       // tslint:disable-next-line: triple-equals
       } else if (this.roleType == '4') {
         this.router.navigate([`pages/cpc-maker/${this.leadId}/negotiation`]);

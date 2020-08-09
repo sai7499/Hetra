@@ -21,7 +21,7 @@
                 <th>
                   {{ labels?.flStatus }}
                 </th>
-                <th *ngIf="fiStatusValue === 'Submitted'">
+                <th *ngIf="fiStatusValue === '3' && showStatus ">
                   {{ labels?.flReport }}
                 </th>
               </tr>
@@ -35,23 +35,34 @@
                 <td *ngIf="showStatus">
                   <u>{{ item.fiStatusValue ? item.fiStatusValue : "-" }}</u>
                 </td>
-                <td style="cursor: pointer;" *ngIf="show && pdStatusValue != 'Submitted'"
+                <td
+                  style="cursor: pointer;"
+                  *ngIf="show && fiStatusValue != '3'"
                   (click)="navigatePage(item.applicantId)">
                   <u>{{ item.fiStatusValue ? item.fiStatusValue : "-" }}</u>
                 </td>
-                <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;"
-                  *ngIf="show && pdStatusValue === 'Submitted'">
-                  <u>{{ item.fiStatusValue ? item.diStatusValue : "-" }}</u>
+                <td
+                  [attr.data-label]="labels?.flStatus"
+                  style="cursor: pointer;"
+                  *ngIf="show && fiStatusValue === '3'">
+                  <u>{{ item.fiStatusValue ? item.fiStatusValue : "-" }}</u>
                 </td>
-                <ng-container *ngIf="fiStatusValue === 'Submitted'">
-                  <td [attr.data-label]="labels?.ucicId">
-                    <ng-container *ngFor="let version of item.fiReportValue.split(',')">
-                      <u><a class="a_tag" style="cursor: pointer;"
-                          (click)="navigatePage(item.applicantId, version)">Version - {{ version }}</a></u><br />
-                    </ng-container>
-                  </td>
+              <ng-container *ngIf="fiStatusValue === '3' && showStatus">
+                <td [attr.data-label]="labels?.ucicId">
+                  <ng-container
+                    *ngFor="let version of item.fiReportValue">
+                    <u>
+                      <a
+                        class="a_tag"
+                        style="cursor: pointer;"
+                        (click)="navigatePage(item.applicantId, version)"
+                        >Version - {{ version }}</a>
+                      </u>
+                      <br />
                 </ng-container>
-                <!-- <td>
+                </td>
+              </ng-container>
+              <!-- <td>
                 <u
                   ><a
                     class="a_tag"
