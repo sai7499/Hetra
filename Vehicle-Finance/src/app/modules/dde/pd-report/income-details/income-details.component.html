@@ -139,6 +139,7 @@ data-animation="scaleIn"
     formControlName="typeOfAccount"
     [isRequired]="'Please select one'"
     [isDirty]="isDirty"
+    (change) = "addCCOd($event.target.value)"
   >
   </app-vf-custom-select>
   </div>
@@ -148,11 +149,11 @@ data-animation="scaleIn"
       <app-custom-input
       id="accountNumber"
       [placeholder]="'Enter account Number'"
-      [type]="labels?.validationData?.accountNumber?.type"
+      [type]="labels?.validationData?.pdIncomeAccountNumber?.type"
       formControlName="accountNumber"
-      [patternCheck]="labels?.validationData?.accountNumber?.pattern"
+      [patternCheck]="labels?.validationData?.pdIncomeAccountNumber?.pattern"
       [isRequired]="'Account Number is required'"
-      [maxLength]="labels?.validationData?.accountNumber?.maxLength"
+      [maxLength]="labels?.validationData?.pdIncomeAccountNumber?.maxLength"
       [isDirty]="isDirty"
   >
     </app-custom-input>
@@ -162,18 +163,7 @@ data-animation="scaleIn"
 
 
 <div class="row">
-  <div class="form-group col-sm-6 col-md-3 col-lg-3">
-    <label > {{ labels.CCODLIMIT }} <sub class="star_red_col">*</sub></label>
-    <app-custom-input
-    [placeholder]="'Enter CC/OD LIMIT'"
-    [type]="labels?.validationData?.totalExposure?.type"
-    formControlName="ccOdLimit"
-    [isRequired]="'CC/OD LIMIT is required'"
-    [maxLength]="labels?.validationData?.totalExposure?.maxLength"
-    [isDirty]="isDirty"
-    ></app-custom-input>
  
-  </div>
   <div class="form-group col-sm-6 col-md-3 col-lg-3">
     <label for="noOfChqReturns"
       >{{ labels.noOfChqReturns }}
@@ -204,6 +194,18 @@ data-animation="scaleIn"
       [isDirty]="isDirty"
   >
     </app-custom-input>
+  </div>
+  <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf ="isccOdLimit">
+    <label > {{ labels.CCODLIMIT }} <sub class="star_red_col">*</sub></label>
+    <app-custom-input
+    [placeholder]="'Enter CC/OD LIMIT'"
+    [type]="labels?.validationData?.totalExposure?.type"
+    formControlName="ccOdLimit"
+    [isRequired]="'CC/OD LIMIT is required'"
+    [maxLength]="labels?.validationData?.totalExposure?.maxLength"
+    [isDirty]="isDirty"
+    ></app-custom-input>
+ 
   </div>
 </div>
 
