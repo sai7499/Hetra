@@ -74,8 +74,8 @@ export class FiReportComponent implements OnInit {
       }
     } else if (this.router.url.includes('/dde')) {
       console.log('in defined progress bar routing', this.version);
-      if (this.version !== 'undefined') {
-        this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${this.applicantId}/${url}/${this.version}`]);
+      if (this.version) {
+      this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${this.applicantId}/${url}/${this.version}`]);
         // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${applicantId}/applicant-details/${version}`]);
 
       } else {

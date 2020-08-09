@@ -43,11 +43,11 @@ export const storage = {
         if (localStorage.getItem('token')) {
             return true
         }
-        else{
+        else {
             return false
         }
     },
-    
+
     getRoleType() {
         let role = localStorage.getItem('role')
             ? localStorage.getItem('role')
