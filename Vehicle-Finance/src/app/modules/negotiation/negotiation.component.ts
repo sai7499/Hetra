@@ -109,7 +109,7 @@ export class NegotiationComponent implements OnInit {
     });
     this.leadId = (await this.getLeadId()) as number;
     // tslint:disable-next-line: triple-equals
-    if (this.roleType == '4' || this.roleType == '5') {
+    if (this.roleType == '4' || this.roleType == '5' || this.roleType == '2') {
     console.log(this.createNegotiationForm,  this.t) ;
     this.createNegotiationForm.disable();
     this.t.disable();

@@ -271,7 +271,7 @@
             <button class="btn btn-primary btn_div " type="button" (click)="onBack()">{{labels?.back}}</button>
             <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
             <button class="btn btn-primary btn_div" type="button" 
-                [disabled]="salesResponse == true" *ngIf="roleType == '2'" (click)="onNext()" >{{labels?.next}}</button>
+                [disabled]="salesResponse == 'false'" *ngIf="roleType == '2'" (click)="onNext()" >{{labels?.next}}</button>
                 
             <button class="btn btn-primary btn_div" type="button" 
                 *ngIf="roleType == '1'" (click)="onNext()" >{{labels?.next}}</button>
