@@ -34,7 +34,7 @@ import {
 import { setTheme } from 'ngx-bootstrap/utils';
 import { SharedDeviationComponent } from './shared-deviation/shared-deviation.component';
 import { NegativeListModalComponent } from './negative-list-modal/negative-list.modal.component';
-
+import { MatTreeModule,MatIconModule } from '@angular/material';
 setTheme('bs4');
 
 @NgModule({
@@ -69,6 +69,8 @@ setTheme('bs4');
     DdeSharedModule,
     NgxPaginationModule,
     DatePickerModule,
+    MatTreeModule,
+    MatIconModule
   ],
   exports: [
     CustomSelectComponent,
@@ -90,6 +92,8 @@ setTheme('bs4');
     DocsUploadPipe,
     DraggableComponent,
     ApplicantDocsUploadComponent,
+    MatTreeModule,
+    MatIconModule
   ],
 })
 export class SharedModule {}

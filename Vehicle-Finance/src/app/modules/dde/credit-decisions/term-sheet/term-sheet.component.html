@@ -1,4 +1,9 @@
-<main class="content" style="padding-bottom: 30px;">
+
+
+<button class="btn btn-primary btn_div " *ngIf = "roleType == '2' && !isApprove" (click)= "showTermSheet()" type="button">Generate Term Sheet</button>
+
+
+<main class="content" style="padding-bottom: 50px;" *ngIf = "isTermSheet">
     <div class="container overflow-hidden">
         <div class="multisteps-form">
             <div class="print_top">
@@ -817,7 +822,7 @@
 
             </div>
         </div>
-        <div class="btn-sec clear-both row">
+        <div class="btn-sec clear-both row" *ngIf = "!isApprove">
             <div class="col-sm-5">
 
             </div>
@@ -838,3 +843,20 @@
 
 
 </main>
+
+
+<div class="btn-sec clear-both row" *ngIf = "roleType == '2' && !isTermSheet && !isApprove" >
+    <div class="col-sm-5">
+
+    </div>
+    <div class="col-sm-7 text-right">
+        <button class="btn btn-primary btn_div " (click)= "onBack()" type="button">Back</button>
+        <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
+        <button class="btn btn-primary btn_div" (click)= "onNext()" type="button">Next</button>
+    </div>
+</div>
+<div style="padding-bottom: 50px;" *ngIf = "isApprove">
+    <button class="btn btn-primary btn_div" (click)= "assignTaskToTSAndCPC()"  type="button">Approve</button>
+
+</div>
+
