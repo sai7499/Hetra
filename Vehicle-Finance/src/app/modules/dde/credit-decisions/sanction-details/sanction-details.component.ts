@@ -50,6 +50,9 @@ salesResponse: any;
       this.roleType = value.roleType;
       console.log('role Type', this.roleType);
     });
+    if (this.roleType ==1){
+      this.getSanctionDetails();
+    }
   }
 
   getLabels() {
@@ -144,6 +147,7 @@ salesResponse: any;
       // console.log("RESPONSE_SUBMIT_TO_SALES::", response);
       if (response["Error"] == 0) {
         this.toasterService.showSuccess("Sanctioned Leads Submitted Successfully", "Sanction Details");
+        this.router.navigateByUrl['/pages/dashboard'];
       } else {
         this.toasterService.showError(res['ProcessVariables'].error['message'], 'Sanction Details');
       }
