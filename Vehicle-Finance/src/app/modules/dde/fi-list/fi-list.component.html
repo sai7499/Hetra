@@ -21,7 +21,7 @@
                 <th>
                   {{ labels?.flStatus }}
                 </th>
-                <th *ngIf="pdStatusValue === 'Submitted'">
+                <th *ngIf="fiStatusValue === 'Submitted'">
                   {{ labels?.flReport }}
                 </th>
               </tr>
@@ -37,17 +37,17 @@
                 </td>
                 <td
                   style="cursor: pointer;"
-                  *ngIf="show && pdStatusValue != 'Submitted'"
+                  *ngIf="show && fiStatusValue != 'Submitted'"
                   (click)="navigatePage(item.applicantId)"
                 >
                   <u>{{ item.fiStatusValue ? item.fiStatusValue : "-" }}</u>
                 </td>
                 <td
-                [attr.data-label]="labels?.pdStatus"
+                [attr.data-label]="labels?.flStatus"
                 style="cursor: pointer;"
-                *ngIf="show && pdStatusValue === 'Submitted'"
+                *ngIf="show && flStatusValue === 'Submitted'"
               >
-                <u>{{ item.fiStatusValue ? item.diStatusValue : "-" }}</u>
+                <u>{{ item.fiStatusValue ? item.fiStatusValue : "-" }}</u>
               </td>
               <ng-container *ngIf="fiStatusValue === 'Submitted'">
                 <td [attr.data-label]="labels?.ucicId">
