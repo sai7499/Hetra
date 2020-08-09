@@ -243,9 +243,42 @@
         <div class="col-sm-8 text-right">
             <button class="btn btn-primary js-btn-prev" type="button" (click)="onBack()"> {{labels.back}} </button>
             <button class="btn btn-primary" (click)="onFormSubmit()"> {{labels.save}} </button>
-            <button class="btn btn-primary " type="button" (click)="onNext()"> {{labels.next}} </button>
+            <!-- <button class="btn btn-primary " type="button" (click)="onNext()"> {{labels.submit}} </button> -->
+            <a data-toggle="modal" data-target="#myModal" id="reject_credit" *ngIf="showSubmit">
+                <p type="button" class="btn btn-primary">{{ labels.submit }}</p>
+            </a>
         </div>
     </div>
 
 </form>
 <!-- </div> -->
+
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content" style="text-align: center;">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    &times;
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <p>{{ labels.submitToCredit }}</p>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer" style="text-align: center;">
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val" value="Yes"
+                    (click)="submitToCredit()">
+                    {{ labels.yes }}
+                </button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    {{ labels.cancel }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

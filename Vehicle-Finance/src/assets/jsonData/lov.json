@@ -1496,6 +1496,7 @@
                         "value": "Middle/Upper Class"
                     }
                 ],
+                "natureOfBusiness": [],
                 "residentialType": [
                     {
                         "key": 1,
