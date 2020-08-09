@@ -1890,6 +1890,12 @@
             },
             "type": "alpha-numeric"
         },
+        "pdIncomeAccountNumber": {
+            "maxLength": {
+                "rule": 15
+            },
+            "type": "alpha-numeric-nospace"
+        },
         "vehiclePrefixNo": {
             "maxLength": {
                 "rule": 40
