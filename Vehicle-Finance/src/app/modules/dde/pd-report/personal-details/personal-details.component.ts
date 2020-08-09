@@ -32,7 +32,7 @@ export class PersonalDetailsComponent implements OnInit {
   applicantId: any;
   standardOfLiving: any;
   version: any;
-  userId: number;
+  userId: any;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -141,17 +141,33 @@ export class PersonalDetailsComponent implements OnInit {
   }
 
   setFormValue(personalPDDetais) {
+
+    let first = '';
+    let second = '';
+    let third = '';
+
+    let nameOfSplit = personalPDDetais.fatherFullName.split(' ');
+
+    if (nameOfSplit && nameOfSplit.length > 0) {
+      first = nameOfSplit[0];
+      second = nameOfSplit[1] ? nameOfSplit[1] : '';
+      third = nameOfSplit[2] ? nameOfSplit[2] : '';
+    }
+
     this.personalDetailsForm.patchValue({
       accomodationType: personalPDDetais.accomodationType || '',
       applicantName: personalPDDetais.applicantName || '',
       bankAccHolderName: personalPDDetais.bankAccHolderName || '',
       branch: personalPDDetais.branch === 'T Nagar' ? '1' : '2' || '',
       category: personalPDDetais.category || '',
-      community: personalPDDetais.category || '',
+      community: personalPDDetais.community || '',
       creditBureauScore: personalPDDetais.creditBureauScore || '',
       dob: personalPDDetais.dob ? this.utilityService.getDateFromString(personalPDDetais.dob) : '',
       email: personalPDDetais.email || '',
       fatherName: personalPDDetais.fatherFullName || '',
+      fatherFirstName: nameOfSplit ? first : '',
+      fatherMiddleName: nameOfSplit ? second : '',
+      fatherLastName: nameOfSplit ? third : '',
       firstName: personalPDDetais.firstName || '',
       fullName: personalPDDetais.fullName || '',
       gender: personalPDDetais.gender || '',
@@ -175,7 +191,7 @@ export class PersonalDetailsComponent implements OnInit {
       standardOfLiving: personalPDDetais.standardOfLiving || '',
       religion: personalPDDetais.religion || '',
       customerProfile: personalPDDetais.customerProfile || '',
-      priorInfo: personalPDDetais.priorInfo || '',
+      priorInfo: personalPDDetais.priorInfo ? personalPDDetais.priorInfo : '',
       businessKey: personalPDDetais.businessKey || '',
       occupationType: personalPDDetais.occupationType || '',
       businessType: personalPDDetais.businessType || '',
@@ -198,7 +214,6 @@ export class PersonalDetailsComponent implements OnInit {
   getLeadId() {
     return new Promise((resolve, reject) => {
       this.activatedRoute.parent.params.subscribe((value) => {
-        console.log('zval', value)
         if (value && value.leadId) {
           resolve(Number(value.leadId));
         }
@@ -247,11 +262,7 @@ export class PersonalDetailsComponent implements OnInit {
         const processVariables = value.ProcessVariables;
         if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
           this.personalPDDetais = value.ProcessVariables.applicantPersonalDiscussionDetails ? value.ProcessVariables.applicantPersonalDiscussionDetails : {};
-          if (this.personalPDDetais) {
-            this.setFormValue(this.personalPDDetais);
-            this.pdDataService.setCustomerProfile(this.personalPDDetais);
-          }
-          this.getPdDetails();
+          this.getLOV();
           this.toasterService.showSuccess('Successfully Save Personal Details', 'Save/Update Personal Details');
         } else {
           this.toasterService.showSuccess(value.ErrorMessage, 'Error Personal Details');
@@ -260,7 +271,6 @@ export class PersonalDetailsComponent implements OnInit {
 
     } else {
       this.isDirty = true;
-      console.log('Error', this.personalDetailsForm)
       this.toasterService.showError('Please enter valid details', 'Personal Details');
       this.utilityService.validateAllFormFields(this.personalDetailsForm);
     }
