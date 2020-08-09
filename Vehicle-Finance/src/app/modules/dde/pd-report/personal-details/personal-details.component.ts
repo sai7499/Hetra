@@ -141,7 +141,6 @@ export class PersonalDetailsComponent implements OnInit {
   }
 
   setFormValue(personalPDDetais) {
-    console.log('Log', this.personalPDDetais)
     this.personalDetailsForm.patchValue({
       accomodationType: personalPDDetais.accomodationType || '',
       applicantName: personalPDDetais.applicantName || '',
