@@ -9,6 +9,7 @@ import { CustomerFeedbackComponent } from '../credit-decisions/customer-feedback
 import { CheckListComponent } from '../credit-decisions/check-list/check-list.component';
 import { CpcMakerDdeComponent } from './cpc-maker-dde/cpc-maker-dde.component';
 import { PdcDetailsComponent } from './pdc-details/pdc-details.component';
+import { NegotiationComponent } from '@modules/negotiation/negotiation.component';
 
 const routes: Routes = [
   {
@@ -43,6 +44,10 @@ const routes: Routes = [
         {
             path: 'pdc-details',
             component: PdcDetailsComponent
+        },
+        {
+            path: 'negotiation',
+            component: NegotiationComponent
         }
     ]
 }

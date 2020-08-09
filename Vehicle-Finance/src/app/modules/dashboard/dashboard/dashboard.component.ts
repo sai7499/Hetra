@@ -1134,7 +1134,7 @@ export class DashboardComponent implements OnInit {
           this.router.navigateByUrl(`/pages/fi-dashboard/${leadId}/fi-list`);
           break;
         case 16:
-          this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/term-sheet`);
+          this.router.navigateByUrl(`/pages/${leadId}/new-term-sheet`);
           break;
         default:
           break;
@@ -1248,7 +1248,7 @@ export class DashboardComponent implements OnInit {
               this.router.navigateByUrl(`/pages/dde/${leadId}/fi-list`);
               break;
             case 17:
-              this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/term-sheet`);
+              this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/new-term-sheet`);
               break;
             default:
               break;
@@ -1273,6 +1273,8 @@ export class DashboardComponent implements OnInit {
     this.sharedService.getTaskID(taskId);
   }
   getLeadId(item) {
+    console.log(item.is_sales_response_completed);
+    localStorage.setItem('salesResponse', item.is_sales_response_completed);
     this.vehicleDataStoreService.setCreditTaskId(item.taskId);
     this.sharedService.getTaskID(item.taskId);
   }

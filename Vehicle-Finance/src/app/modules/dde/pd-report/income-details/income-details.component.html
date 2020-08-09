@@ -2,14 +2,14 @@
   class="multisteps-form__form"
   [formGroup]="incomeDetailsForm"
 >
-<div
+<div style="margin-bottom: 47px;"
 class="multisteps-form__panel js-active"
 data-animation="scaleIn"
 >
 <h3 class="title">{{ labels.incomeDetails }}</h3>
 <div class="row">
   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-    <label > {{ labels.grossIncome }} </label>
+    <label > {{ labels.grossIncome }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Enter Gross Income'"
     [type]="labels?.validationData?.salary?.type"
@@ -41,10 +41,10 @@ data-animation="scaleIn"
     <label for="gender"
       >{{ labels.additionalSourceofIncome }} <sub class="star_red_col">*</sub></label>
       <app-custom-input
-      id="additionaIncome"
+      id="additionalSourceOfIncome"
       [placeholder]="'Enter Additional Income'"
       [type]="labels?.validationData?.salary?.type"
-      formControlName="additionaIncome"
+      formControlName="additionalSourceOfIncome"
       [isRequired]="'Additional Income is required'"
       [maxLength]="labels?.validationData?.salary?.maxLength"
       [isDirty]="isDirty"
@@ -58,7 +58,7 @@ data-animation="scaleIn"
 
 <div class="row">
   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-    <label > {{ labels.grossSalary }} </label>
+    <label > {{ labels.grossSalary }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Enter Gross Salary'"
     [type]="labels?.validationData?.salary?.type"
@@ -105,7 +105,7 @@ data-animation="scaleIn"
 
 <div class="row">
   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-    <label > {{ labels.bankName }} </label>
+    <label > {{ labels.bankName }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Enter Bank Name'"
     [type]="labels?.validationData?.bankName?.type"
@@ -135,8 +135,8 @@ data-animation="scaleIn"
     >
     </app-custom-input> -->
     <app-vf-custom-select
-    [values]="acType"
-    formControlName="acType"
+    [values]="LOV?.LOVS.bankAccountType"
+    formControlName="typeOfAccount"
     [isRequired]="'Please select one'"
     [isDirty]="isDirty"
   >
@@ -163,7 +163,7 @@ data-animation="scaleIn"
 
 <div class="row">
   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-    <label > {{ labels.CCODLIMIT }} </label>
+    <label > {{ labels.CCODLIMIT }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Enter CC/OD LIMIT'"
     [type]="labels?.validationData?.totalExposure?.type"
@@ -184,7 +184,7 @@ data-animation="scaleIn"
       id="noOfChqReturns"
       [placeholder]="'Enter No of Chq returns'"
       [type]="labels?.validationData?.gvw?.type"
-      formControlName="noOfChqReturns"
+      formControlName="noOfChequeReturns"
       [isRequired]="'No of Chq returns is required'"
       [maxLength]="labels?.validationData?.gvw?.maxLength"
       [isDirty]="isDirty"
@@ -210,11 +210,11 @@ data-animation="scaleIn"
 
 <div class="row">
   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-    <label > {{ labels.monthlyInflows }} </label>
+    <label > {{ labels.monthlyInflows }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Enter Monthly Inflows'"
     [type]="labels?.validationData?.salary?.type"
-    formControlName="monthlyInflows"
+    formControlName="monthlyInflow"
     [isRequired]="'Monthly Inflows is required'"
     [maxLength]="labels?.validationData?.salary?.maxLength"
     [isDirty]="isDirty"
@@ -231,7 +231,7 @@ data-animation="scaleIn"
       id="monthlyOutflows"
       [placeholder]="'Enter Monthly Outflows'"
       [type]="labels?.validationData?.salary?.type"
-      formControlName="monthlyOutflows"
+      formControlName="monthlyOutflow"
       [isRequired]="'Monthly Outflows is required'"
       [maxLength]="labels?.validationData?.salary?.maxLength"
       [isDirty]="isDirty"
@@ -244,11 +244,11 @@ data-animation="scaleIn"
 
 <div class="row">
   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-    <label > {{ labels.creditCardFirstName }} </label>
+    <label > {{ labels.creditCardFirstName }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Enter Credit Card First Name'"
     [type]="labels?.validationData?.name?.type"
-    formControlName="creditCardFirstName"
+    formControlName="ccHolderFirstName"
     [patternCheck]="labels?.validationData?.name?.pattern"
     [isRequired]="'Credit Card First Name is required'"
     [maxLength]="labels?.validationData?.name?.maxLength"
@@ -258,17 +258,15 @@ data-animation="scaleIn"
   </div>
   <div class="form-group col-sm-6 col-md-3 col-lg-3">
     <label for="creditCardMiddleName"
-      >{{ labels.CreditCardMiddleName}}
-      <sub class="star_red_col">*</sub></label
+      >{{ labels.CreditCardMiddleName}}</label
     >
     <!-- <input type="text" class="form-control" id="father_name" formControlName="fatherName"> -->
     <app-custom-input
       id="creditCardMiddleName"
       [placeholder]="'Enter Credit Card Middle Name'"
       [type]="labels?.validationData?.name?.type"
-      formControlName="creditCardMiddleName"
+      formControlName="ccHolderSecondName"
       [patternCheck]="labels?.validationData?.name?.pattern"
-      [isRequired]="'Credit Card Middle Name is required'"
       [maxLength]="labels?.validationData?.name?.maxLength"
       [isDirty]="isDirty"
     >
@@ -281,7 +279,7 @@ data-animation="scaleIn"
       id="creditCardLastName"
       [placeholder]="'Enter Credit Card Last Name'"
       [type]="labels?.creditCardLastName?.name?.type"
-      formControlName="creditCardLastName"
+      formControlName="ccHolderThirdName"
       [patternCheck]="labels?.validationData?.name?.pattern"
       [isRequired]="'Credit Card Last Name is required'"
       [maxLength]="labels?.validationData?.name?.maxLength"
@@ -294,15 +292,16 @@ data-animation="scaleIn"
 
 <div class="row">
   <div class="form-group col-sm-6 col-md-3 col-lg-3">
-    <label > {{ labels.creditCardFullName }} </label>
+    <label > {{ labels.creditCardFullName }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Credit Card Full Name'"
     [type]="labels?.validationData?.name?.type"
-    formControlName="creditCardFullName"
+    formControlName="ccHolderFullName"
     [patternCheck]="labels?.validationData?.name?.pattern"
-    [isRequired]="'Name is required'"
-    [maxLength]="labels?.validationData?.name?.maxLength"
     [isDirty]="isDirty"
+    [value]="incomeDetailsForm.get('ccHolderFirstName').value + ' ' +
+                    incomeDetailsForm.get('ccHolderSecondName').value + ' ' +
+                     incomeDetailsForm.get('ccHolderThirdName').value"
     ></app-custom-input>
  
   </div>
@@ -316,7 +315,7 @@ data-animation="scaleIn"
       id="creditcardIssuedby"
       [placeholder]="'Enter Credit card Issued by'"
       [type]="labels?.validationData?.bankName?.type"
-      formControlName="creditcardIssuedby"
+      formControlName="ccIssuedBy"
       [patternCheck]="labels?.validationData?.bankName?.pattern"
       [isRequired]="'Credit card Issued by is required'"
       [maxLength]="labels?.validationData?.bankName?.maxLength"
@@ -330,8 +329,8 @@ data-animation="scaleIn"
       <app-custom-input
       id="creditcardLimit"
       [placeholder]="'Enter credit card Limit'"
-      [type]="labels?.creditCardLastName?.amountValue?.type"
-      formControlName="creditcardLimit"
+      [type]="labels?.validationData.amountValue?.type"
+      formControlName="ccLimit"
       [isRequired]="'Credit card Limit is required'"
       [maxLength]="labels?.validationData?.amountValue?.maxLength"
       [isDirty]="isDirty"
@@ -340,7 +339,22 @@ data-animation="scaleIn"
   </div>
 </div>
 
-
+<div class="btn-sec clear-both">
+  <div class="col-sm-5"></div>
+  <div class="col-sm-7 text-right">
+      <button class="btn btn-primary" type="button" (click)="onNavigateBack()">
+          {{ labels.back }}
+      </button>
+      &nbsp;
+      <button class="btn btn-primary" (click)="onFormSubmit('save')">
+          {{ labels.save }}
+      </button>
+      &nbsp;
+      <button class="btn btn-primary" (click)="onNavigateNext()">
+          {{ labels.next }}
+      </button>
+  </div>
+</div>
 </div>
 
 </form>

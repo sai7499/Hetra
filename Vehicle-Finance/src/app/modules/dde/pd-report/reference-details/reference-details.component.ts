@@ -105,15 +105,15 @@ export class ReferenceDetailsComponent implements OnInit {
 
   onBack() {
     if (this.version !== 'undefined') {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/income-details/${this.version}`]);
+      this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${this.applicantId}/income-details/${this.version}`]);
     } else {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/income-details`]);
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/income-details`]);
     }
   }
 
   onNext() {
     if (this.version !== 'undefined') {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/other-details/${this.version}`]);
+      this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${this.applicantId}/other-details/${this.version}`]);
     } else {
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/other-details`]);
     }

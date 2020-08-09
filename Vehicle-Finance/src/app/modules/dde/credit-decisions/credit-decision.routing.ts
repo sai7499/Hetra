@@ -8,7 +8,7 @@ import { LeadDataResolverService } from '@modules/lead-section/services/leadData
 import { SanctionDetailsComponent } from './sanction-details/sanction-details.component';
 import { CustomerFeedbackComponent } from './customer-feedback/customer-feedback.component';
 import { CheckListComponent } from './check-list/check-list.component';
-
+import { NegotiationComponent } from '@modules/negotiation/negotiation.component';
 const routes: Routes = [
     {
         path: ':leadId',
@@ -38,7 +38,12 @@ const routes: Routes = [
             {
                 path: 'check-list',
                 component: CheckListComponent
-            }
+            },
+            
+              {
+                path: 'negotiation',
+                component : NegotiationComponent
+              },
         ]
     }
 ];

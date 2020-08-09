@@ -274,7 +274,7 @@ export class ApplicantDetailComponent implements OnInit {
           if (this.version) {
 
             // tslint:disable-next-line: max-line-length
-            this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
+            this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
 
           } else {
 
@@ -297,7 +297,7 @@ export class ApplicantDetailComponent implements OnInit {
     if (this.version) {
       console.log('in  routing defined version condition', this.version);
       // tslint:disable-next-line: max-line-length
-      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
+      this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
 
     } else {
 

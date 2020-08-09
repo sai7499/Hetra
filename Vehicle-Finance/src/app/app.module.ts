@@ -35,7 +35,7 @@ import { AgmDirectionModule } from 'agm-direction'; // agm-direction
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 import { DdeSharedModule } from './modules/dde/shared/shared.module';
-
+import {CreditConditionModule} from './modules/dde/credit-decisions/credit-decisions.module';
 import {
   NgxUiLoaderModule,
   NgxUiLoaderConfig,
@@ -94,6 +94,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     }),
     DateInputsModule,
     AutocompleteLibModule,
+    CreditConditionModule,
     // DateInputsModule,
     DatePickerModule
   ],

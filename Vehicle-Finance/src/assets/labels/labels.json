@@ -1171,8 +1171,9 @@
     "noofEmployeesVisible": "No of employees Visible",
     "activityLevel": "Activity Level",
     "cpvAgencyStatus": "CPV Agency Status",
-    "sanctionDetailsPage": "Show Sanction Details Page",
+    "generateSanctionLetter": "Generate Sanction Letter",
     "sanctionLetter": "Sanction Letter",
+    "submitToSales": "Send Back to Sales",
     "toSanction": "To",
     "vfSheetTag30": "Further to your application for a finance facility, we are glad to inform you that your loan application has been sanctioned as per the following terms and conditions:",
     "proposalNumber": "Proposal Number",
@@ -1360,6 +1361,48 @@
     "loanMinAmount": "Loan Min Amount",
     "loanMaxAmount": "Loan Max Amount",
     "mode":"mode",
+    "negotiationTitle": "Negotiation",
+    "leadReferenceDetails":"Lead Reference Details",   
+    "crossSellInsurance":"Cross Sell - Insurance",
+    "motorInsurance":"FRSD / Motor Insurance",
+    "MITenure":"MI Tenure",
+    "fundingRequiredforMI":"Is Funding Required for MI?",
+    "MIPremiumAmount":"MI Premium Amount (in INR)",
+     "creditShieldPAC":"Credit Shield - PAC",
+    "PACPremiumAmount":"PAC Premium Amount (in INR)",
+    "fundingRequiredforPAC":"Is Funding Required for PAC?",
+     "VAS":"VAS",
+    "VASPremiumAmount":"VAS Premium Amount (in INR)",
+    "fundingRequiredforVAS":"Is Funding Required for VAS?",
+    "creditShieldLifeCover":"Credit Shield - Life Cover",
+    "fundingforLifeCover":"Funding for Life Cover (Sum Assured % on Loan Amount)",
+    "lifeCoverPremiumAmount":"Life Cover Premium Amount (in INR)",
+    "CrossSellFASTag":"Cross Sell - FASTag",
+    "EquitasFASTagRequired":"Equitas FASTag Required?",
+    "FASTagAmount":"FASTag Amount (in INR)",
+    "fundingRequiredforFASTag":"Is Funding Required for FASTag?",
+    "LoanAmountincludingCrossSell":"Loan Amount including Cross Sell (in INR)",
+    "NegotiatedLoanAmount":"Negotiated Loan Amount (in INR)",
+    "NegotiatedLoanTenor":"Negotiated Loan Tenor (in Months)",
+    "NegotiatedIRR":"Negotiated IRR (in %)",
+    "NegotiatedEMI":"Negotiated EMI (in INR)",
+    "MoratoriumPeriod":"Moratorium / Holiday Period (in days)",
+    "NoofRepayableMonthsafterMoratorium":"No. of Repayable Months after Moratorium",
+    "EMICycle":"EMI Cycle (Day of a Month)",
+    "EMIStartDateAfterDisbursement":"EMI Start Date After Disbursement",
+    "PaymentModeforGapDaysInterest":"Payment Mode for Gap Days Interest",
+    "SelectAppropriateLMSScheduleCode":"Select Appropriate LMS Schedule Code",
+    "DeductionsCharges":"Deductions & Charges",
+    "ProcessingFee":"Processing Fee (in INR)",
+    "DocumentationCharges":"Documentation Charges (in INR)",
+    "ValuationFee":"Valuation Fee (in INR)",
+    "CreditShieldCharges":"Credit Shield Charges (in INR)",
+    "MotorInsuranceCharges":"Motor Insurance Charges (in INR)",
+    "PACCharges":"PAC Charges (in INR)",
+    "VASCharges":"VAS Charges (in INR)",
+    "RTOCharges":"RTO Charges (in INR)",
+    "NetDisbursementAmount":"Net Disbursement Amount (in INR)",
+    "LoanAmountincludingCrossSellofalltheassets":"Loan Amount including CrossSell of all the assets",
     "otherDetailsTitle": "Other Details",
     "genericDetails": "Generic Details",
     "loanDetails": "Loan Details",
@@ -1987,6 +2030,18 @@
                 "rule": 30
             },
             "type": "alpha-numeric"
+        },
+        "assetsVisible":{
+            "maxLength":{
+                "rule":150
+            },
+            "type":"alpha-numeric"
+        },
+        "assetsOwned":{
+            "maxLength":{
+                "rule":100
+            },
+            "type":"alpha-numeric"
         }
     }
 }

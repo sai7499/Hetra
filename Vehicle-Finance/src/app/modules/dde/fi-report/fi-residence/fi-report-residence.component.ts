@@ -46,9 +46,10 @@ export class FiReportResidenceComponent implements OnInit {
   state = [];
   city = [];
   toDayDate: Date = new Date();
-  leadCreatedDateFromLead: Date;
+  leadCreatedDateFromLead: any;
   cpVerificaton: string;
   initiatedDate: any;
+  version: any;
 
   constructor(
     private labelService: LabelsService,
@@ -66,9 +67,12 @@ export class FiReportResidenceComponent implements OnInit {
     this.leadId = Number(this.activatedRoute.snapshot.parent.params.leadId);
     // this.applicantId = Number(this.activatedRoute.parent)
     this.applicantId = Number(this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
+    this.version = Number(this.activatedRoute.snapshot.parent.firstChild.params.version);
     console.log('in construc app id', this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
     console.log('leadid', this.leadId);
     console.log('now  fi date', this.fiDate);
+    console.log('router', this.activatedRoute.snapshot);
+    console.log('version', this.version);
 
   }
 
@@ -131,7 +135,7 @@ export class FiReportResidenceComponent implements OnInit {
 
     const leadCreatedDate = data['leadDetails']['leadCreatedOn'];
     console.log('strind date', leadCreatedDate);
-    this.leadCreatedDateFromLead = new Date(leadCreatedDate);
+    this.leadCreatedDateFromLead = new Date(this.getDateFormat(leadCreatedDate));
     // this.leadCreatedDateFromLead = String(leadCreatedDate).slice(0, 10);
     console.log('lead created Date', this.leadCreatedDateFromLead);
 
@@ -185,9 +189,11 @@ export class FiReportResidenceComponent implements OnInit {
   getMonths() {
     const initiatedDate = new Date(this.fieldReportForm.value.cpvInitiatedDate)
       ? new Date(this.fieldReportForm.value.cpvInitiatedDate) : null;
+    console.log('init date', initiatedDate);
     const submitDate = new Date(this.fieldReportForm.value.reportSubmitDate)
       ? new Date(this.fieldReportForm.value.reportSubmitDate) : null;
-    if (initiatedDate && submitDate) {
+    console.log('init date', submitDate);
+    if (initiatedDate !== null && submitDate !== null) {
       if (submitDate < initiatedDate) {
         this.toasterService.showWarning('Submit Date should be greater than Initiated Date', '');
 
@@ -480,11 +486,33 @@ export class FiReportResidenceComponent implements OnInit {
     // console.log('in on navigate', action);
 
     if (action === 'back') {
-      this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
-    } else if (action === 'next') {
-      // this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
-      this.router.navigateByUrl(`pages/fi-list/${this.leadId}/${this.applicantId}/fi-report/fi-business`);
 
+      console.log('in nav back', this.version);
+      if (this.router.url.includes('/fi-dashboard')) {
+
+        this.router.navigateByUrl(`/pages/fi-dashboard/${this.leadId}/fi-list`);
+
+
+      } else if (this.router.url.includes('/dde')) {
+
+        this.router.navigate([`/pages/dde/${this.leadId}/fi-list`]);
+
+
+      }
+
+
+    } else if (action === 'next') {
+      if (this.version) {
+        console.log('in  routing defined version condition', this.version);
+        // tslint:disable-next-line: max-line-length
+        this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${this.applicantId}/fi-business/${this.version}`]);
+
+      } else {
+
+        console.log('in routing undefined version condition', this.version);
+        this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-report/${this.applicantId}/fi-business`]);
+
+      }
     }
   }
 
