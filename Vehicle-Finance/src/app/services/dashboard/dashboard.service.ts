@@ -30,7 +30,6 @@ export class DashboardService {
     ) { }
 
   leadsChange(value: object) {
-    console.log(value);
     this.dashboardLeadsAction.next(value);
 
   }

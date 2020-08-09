@@ -139,12 +139,18 @@ const routes: Routes = [
           ).then((m) => m.TeleVerificarionFormModule),
       },
       {
-        path: 'fi-list',
+        path: 'fi-dashboard',
         loadChildren: () =>
           import('./modules/dde/fi-report/fi-report.module').then(
             (m) => m.FiReportModule
           ),
       },
+      {
+        path: 'fi-dashboard', // added another routing for dde module to load from pd-dashboard
+        loadChildren: () =>
+          import('./modules/dde/dde.module').then((m) => m.DdeModule),
+      },
+
       {
         path: 'vehicle-valuation',
         loadChildren: () =>

@@ -62,7 +62,6 @@ export class PersonalDiscussionService {
     const processId = this.pdData.processId;
     const workflowId = this.pdData.workflowId;
     this.userId = localStorage.getItem('userId');
-    console.log('userID in Get PD Data', this.userId);
     const body = {
       projectId,
       processId,

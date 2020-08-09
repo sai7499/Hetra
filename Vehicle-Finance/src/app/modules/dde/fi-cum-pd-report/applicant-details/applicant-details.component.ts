@@ -4,13 +4,13 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommomLovService } from '@services/commom-lov-service';
 import { LabelsService } from '@services/labels.service';
 import { LovDataService } from '@services/lov-data.service';
-import { DdeStoreService } from '@services/dde-store.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { ApplicantDetails } from '@model/dde.model';
 import { PdDataService } from '../pd-data.service';
 import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+
 @Component({
   templateUrl: './applicant-details.component.html',
   styleUrls: ['./applicant-details.component.css']
@@ -46,7 +46,6 @@ export class ApplicantDetailComponent implements OnInit {
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
     private router: Router,
-    private ddeStoreService: DdeStoreService,
     private commomLovService: CommomLovService,
     private loginStoreService: LoginStoreService,
     private personaldiscussion: PersonalDiscussionService,
@@ -287,7 +286,7 @@ export class ApplicantDetailComponent implements OnInit {
           if (this.version) {
 
             // tslint:disable-next-line: max-line-length
-            this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
+            this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
 
           } else {
 
@@ -310,7 +309,7 @@ export class ApplicantDetailComponent implements OnInit {
     if (this.version) {
       console.log('in  routing defined version condition', this.version);
       // tslint:disable-next-line: max-line-length
-      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
+      this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
 
     } else {
 

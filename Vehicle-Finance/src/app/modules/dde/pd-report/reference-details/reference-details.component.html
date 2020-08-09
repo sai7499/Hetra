@@ -1,7 +1,6 @@
 <form class="multisteps-form__form" [formGroup]="referenceDetailsForm" *ngIf="labels?.validationData">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn" *ngIf="LOV.LOVS">
-        <h3 class="title">{{ labels.referenceDetailsTitle }}</h3>
-
+        <h3 class="cus-title title">{{ labels.referrerDetails }}</h3>
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="referrer_first_name"> {{ labels.referrerFirstName }} 
@@ -216,8 +215,9 @@
                     [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
-        <!-- </div> -->
-        <!-- <div class="row"> -->
+        </div>
+        <h3 class="cus-title title"> {{labels?.applicationReference}} </h3>
+        <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="reference_info_first_name"> {{ labels.referenceInfoFirstName }} 
                     <sub class="star_red_col">*</sub>
@@ -428,8 +428,9 @@
                     [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
-        <!-- </div> -->
-        <!-- <div class="row"> -->
+        </div>
+        <h3 class="cus-title title"> {{labels?.imageSelfie}} </h3>
+        <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="selfie_with_customer"> {{ labels.selfieWithCustomer }} 
                     <sub class="star_red_col">*</sub>
@@ -452,8 +453,9 @@
                     multiple=""
                     name="upload_images">
             </div>
-        <!-- </div> -->
-        <!-- <div class="row"> -->
+        </div>
+        <h3 class="cus-title title"> {{labels?.pdStatus}} </h3>
+        <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="pd_status"> {{ labels.pdStatus }} 
                     <sub class="star_red_col">*</sub>
@@ -477,8 +479,8 @@
                     >
                 </app-custom-input>
             </div>
-        <!-- </div> -->
-    </div>
+        </div>
+    <!-- </div> -->
     &nbsp;
     <div class="row">
         <div class="col-sm-5"></div>
