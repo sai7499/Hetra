@@ -23,6 +23,7 @@ export class FiListComponent implements OnInit {
   showStatus: boolean;
   fiStatusValue: any;
   fiStatus: { [id: string]: any; } = {};
+  pdStatusValue;
   constructor(
     private labelDetails: LabelsService,
     private router: Router,
