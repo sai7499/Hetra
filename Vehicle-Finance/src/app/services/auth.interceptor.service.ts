@@ -23,13 +23,12 @@ export class AuthInterceptor implements HttpInterceptor {
     private encrytionService: EncryptService,
     private ngxUiLoaderService: NgxUiLoaderService,
     private utilityService: UtilityService
-  ) {}
+  ) { }
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    // console.log('auth', localStorage.getItem('token'))
     this.ngxUiLoaderService.start();
     this.apiCount++;
     let httpMethod = req.method;
@@ -82,8 +81,8 @@ export class AuthInterceptor implements HttpInterceptor {
           let res;
           this.apiCount--;
           if (event instanceof HttpResponse) {
-            
-            if (event.headers.get('content-type') == 'text/plain' ) {
+
+            if (event.headers.get('content-type') == 'text/plain') {
               event = event.clone({
                 body: JSON.parse(this.encrytionService.decryptResponse(event)),
               });
@@ -108,7 +107,7 @@ export class AuthInterceptor implements HttpInterceptor {
             this.checkApiCount();
             return event;
           } else {
-            // this.ngxUiLoaderService.stop();
+            this.ngxUiLoaderService.stop();
           }
         },
         (err: any) => {
@@ -116,15 +115,14 @@ export class AuthInterceptor implements HttpInterceptor {
           this.checkApiCount();
         }
       )
-      
+
     );
 
-    
+
   }
 
-  checkApiCount(){
-    console.log("api count",this.apiCount)
-    if(this.apiCount <= 0){
+  checkApiCount() {
+    if (this.apiCount <= 0) {
       this.ngxUiLoaderService.stop();
     }
   }

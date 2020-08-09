@@ -4,6 +4,11 @@ import { LabelsService } from '@services/labels.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LovDataService } from '@services/lov-data.service';
 import { CommomLovService } from '@services/commom-lov-service';
+import { LoginStoreService } from '@services/login-store.service';
+import { PersonalDiscussionService } from '@services/personal-discussion.service';
+import { PdDataService } from '@modules/dde/fi-cum-pd-report/pd-data.service';
+import { ToasterService } from '@services/toaster.service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 @Component({
   selector: 'app-personal-details',
@@ -16,6 +21,7 @@ export class PersonalDetailsComponent implements OnInit {
   public errorMsg: string = '';
   public labels: any = {};
   private leadId: number = 0;
+  public maxDate: any = new Date();
 
   public applicantLov: any = {};
   public getLabels;
@@ -26,11 +32,15 @@ export class PersonalDetailsComponent implements OnInit {
   version: any;
 
   constructor(private labelsData: LabelsService,
-    private _fb: FormBuilder, private router: Router,
     private lovDataService: LovDataService,
+    private router: Router,
+    private commomLovService: CommomLovService,
+    private _fb: FormBuilder,
+    private personaldiscussion: PersonalDiscussionService,
     private activatedRoute: ActivatedRoute,
-    private commomLovService: CommomLovService,) { }
-
+    private pdDataService: PdDataService,
+    private toasterService: ToasterService,
+    private createLeadDataService: CreateLeadDataService) { }
   async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
       data => {
@@ -43,8 +53,6 @@ export class PersonalDetailsComponent implements OnInit {
 
     this.leadId = (await this.getLeadId()) as number;
 
-    console.log('LeadId', this.leadId)
-
     this.getLOV();
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.applicantLov = value ? value[0].applicantDetails[0] : {};
@@ -54,26 +62,42 @@ export class PersonalDetailsComponent implements OnInit {
   initForm() {
 
     this.personalDetailsForm = this._fb.group({
+      firstName: ['', Validators.required],
+      middleName: ['', Validators.required],
+      lastName: ['', Validators.required],
       applicantName: [{ value: '', disabled: true }],
-      fatherName: ['', Validators.required],
+      fatherFirstName: ['', Validators.required],
+      fatherMiddleName: ['', Validators.required],
+      fatherLastName: ['', Validators.required],
+      fatherName: [{ value: '', disabled: true }],
       gender: ['', Validators.required],
+      dob: ['', Validators.required],
       maritalStatus: ['', Validators.required],
+      dom: [''],
+      religion: ['', Validators.required],
+      category: ['', Validators.required],
       physicallyChallenged: ['', Validators.required],
-      residancePhoneNumber: ['', Validators.required],
-      officePhoneNumber: ['', Validators.required],
-      mobile: [{ value: '', disabled: true }],
-      residenceAddressAsPerLoanApplication: ['', Validators.required],
-      bankName: ['', Validators.required],
-      accountNumber: ['', Validators.required],
-      landmark: ['', Validators.required],
-      addressAccessibility: ['', Validators.required],
-      residentialLocality: ['', Validators.required],
-      residentialType: ['', Validators.required],
-      houseType: ['', Validators.required],
-      sizeOfHouse: ['', Validators.required],
-      standardOfLiving: ['', Validators.required],
-      houseOwnership: ['', Validators.required],
-      ratingbySO: ['', Validators.required]
+      customerProfile: ['', Validators.required],
+      priorExperience: ['', Validators.required],
+      businessKey: ['', Validators.required],
+      occupationType: ['', Validators.required],
+      businessType: ['', Validators.required],
+      natureOfBusiness: [''],
+      educationalBackground: [''],
+      isMinority: [''],
+      community: [''],
+      srto: [''],
+      contactNumber: ['', Validators.required],
+      alternateMobileNumber: ['', Validators.required],
+      emailId: ['', Validators.required],
+      residentStatus: ['', Validators.required],
+      accomodationType: ['', Validators.required],
+      noOfYearsResiding: [''],
+      noOfAdultsDependant: [''],
+      noOfChildrenDependant: [''],
+      bankHolderName: [''],
+      branch: [''],
+      cbs: ['']
     })
 
   }
@@ -86,8 +110,8 @@ export class PersonalDetailsComponent implements OnInit {
         return;
       }
       this.applicantId = Number(value.applicantId);
-      console.log(value.version)
-      this.version = value.version ? String(value.version): null;
+      console.log(value.version);
+      this.version = value.version ? String(value.version) : null;
     });
   }
 
@@ -104,17 +128,21 @@ export class PersonalDetailsComponent implements OnInit {
 
   onNavigateNext() {
     if (this.version) {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/income-details/${this.version}`]);
+      console.log('in routing defined version condition', this.version);
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/income-details/${this.version}`]);
     } else {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/income-details`]);
+      console.log('in routing undefined version condition', this.version);
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/income-details`]);
     }
   }
 
   onNavigateBack() {
-    if (this.version) {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list`]);
-    } else {
-      this.router.navigateByUrl(`/pages/pd-dashboard/${this.leadId}/pd-list`);
+    if (this.router.url.includes('/fi-cum-pd-dashboard')) {
+      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
+    } else if (this.router.url.includes('/dde')) {
+      {
+        this.router.navigateByUrl(`/pages/dde/${this.leadId}/pd-list`);
+      }
     }
   }
 

@@ -35,16 +35,30 @@
             <button
               class="upload-btn"
               (click)="fileInput.click()"
-              *ngIf="!imageUrl"
+              *ngIf="!imageUrl && !isMobile"
             >
               Select Document
             </button>
             <button
               class="upload-btn"
+              (click)="openCamera()"
+              *ngIf="!imageUrl && isMobile"
+            >
+              Take photo
+            </button>
+            <button
+              class="upload-btn"
               (click)="fileInput.click(); removeFile()"
-              *ngIf="imageUrl"
+              *ngIf="imageUrl && isMobile"
             >
               Change</button
+            >
+            <button
+              class="upload-btn"
+              (click)="openCamera()"
+              *ngIf="imageUrl && !isMobile"
+            >
+              Retake photo</button
             >&nbsp;
             <button
               class="upload-btn remove-btn"
