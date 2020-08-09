@@ -101,6 +101,7 @@ export class DashboardComponent implements OnInit {
   subActiveTab;
   minAmount;
   maxAmount;
+  isFilterApplied: boolean;
 
 
 
@@ -1163,6 +1164,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onClear() {
+    this.isFilterApplied = false;
     this.filterForm.reset();
     this.filterFormDetails = {};
     this.onTabsLoading(this.subActiveTab);
@@ -1180,6 +1182,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onApply() {
+    this.isFilterApplied = true;
     this.filterFormDetails = this.filterForm.value;
     this.filterFormDetails.fromDate = this.dateToFormate(this.filterFormDetails.fromDate);
     this.filterFormDetails.toDate = this.dateToFormate(this.filterFormDetails.toDate);

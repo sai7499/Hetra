@@ -2,8 +2,11 @@
     <div class="container-fluid">
         <div class="pull-right dropdown nav">
             <div class="pull-right dropdown nav">
-                <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter </button>
+                <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> {{!isFilterApplied ? "Filter" : "Filter Applied"}} </button>
             </div>
+            <!-- <div *ngIf="isFilterApplied" class="pull-right dropdown nav">
+                <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter Applied</button>
+            </div> -->
         </div>
     </div>
 
@@ -57,8 +60,8 @@
                         </app-custom-input>
                     </div>
                     <div class="actionbtn col-sm-6 col-md-3 col-lg-3">
-                        <button class="btn btn-default mar-right8" type="button" id="clearbtn" (click)="onClear()"> Clear </button>
-                        <button class="btn btn-primary" type="submit" (click)="onApply()"> Apply </button>
+                        <button class="btn btn-default mar-right8" type="button" id="clearbtn" (click)="onClear(); showFilter=!showFilter"> Clear </button>
+                        <button class="btn btn-primary" type="submit" (click)="onApply(); showFilter=!showFilter"> Apply </button>
                     </div>
                 </div>
             </form>
