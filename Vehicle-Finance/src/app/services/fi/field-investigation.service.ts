@@ -84,4 +84,20 @@ export class FieldInvestigationService {
     return this.httpService.post(url, body);
 
   }
+  reinitiateFiReportDetails(data) {
+    const processData = data;
+    const processId = this.apiService.api.reinitiateFiDetails.processId;
+    const workflowId = this.apiService.api.reinitiateFiDetails.workflowId;
+    const projectId = environment.projectIds.reinititateFiApi;
+
+    const body: RequestEntity = {
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+
+  }
 }

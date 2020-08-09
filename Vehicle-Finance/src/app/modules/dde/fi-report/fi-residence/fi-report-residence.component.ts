@@ -50,6 +50,10 @@ export class FiReportResidenceComponent implements OnInit {
   cpVerificaton: string;
   initiatedDate: any;
   version: any;
+  isRentDisabled: boolean;
+  resedenceType: string;
+  rentRequired: boolean;
+  invalidPincode = false;
 
   constructor(
     private labelService: LabelsService,
@@ -151,6 +155,27 @@ export class FiReportResidenceComponent implements OnInit {
     //   }
     // }
   }
+  ownerShipType(event: any) {
+    console.log('in resendential type');
+    console.log(event);
+    this.resedenceType = event ? event : event;
+    if (this.resedenceType === '2HOUOWN') {
+      console.log('in add rent amount validator');
+      this.isRentDisabled = false;
+      this.rentRequired = true;
+      this.fieldReportForm.get('rentAmt').enable();
+      this.fieldReportForm.get('rentAmt').setValidators(Validators.required);
+
+    } else if (this.resedenceType !== '2HOUOWN') {
+      console.log('in remove rent amount validator');
+      this.fieldReportForm.get('rentAmt').disable();
+      this.isRentDisabled = true;
+      this.rentRequired = false;
+      this.fieldReportForm.get('rentAmt').clearValidators();
+      this.fieldReportForm.get('rentAmt').updateValueAndValidity();
+
+    }
+  }
 
   getPincode(pincode) {
     // const id = pincode.id;
@@ -159,6 +184,8 @@ export class FiReportResidenceComponent implements OnInit {
       const pincodeNumber = Number(pincodeValue);
       this.getPincodeResult(pincodeNumber);
       console.log('in get pincode', pincodeNumber);
+    } else {
+      this.invalidPincode = false;
     }
   }
   getPincodeResult(pincodeNumber: number) {
@@ -167,22 +194,36 @@ export class FiReportResidenceComponent implements OnInit {
     this.applicantService
       .getGeoMasterValue({
         pincode: pincodeNumber,
-      }).subscribe((value) => {
+      }).subscribe((value: any) => {
         console.log('res', value);
-        const values = value['ProcessVariables'].GeoMasterView;
-        const state = {
-          key: values[0].stateId,
-          value: values[0].stateName
-        };
-        this.state.push(state);
-        values.map((element) => {
-          const city = {
-            key: element.cityId,
-            value: element.cityName
+        // tslint:disable-next-line: no-string-literal
+        if (value['ProcessVariables'].error.code === '0') {
+          console.log('in valid pincode', value['ProcessVariables'].error);
+          // tslint:disable-next-line: no-string-literal
+          this.invalidPincode = false;
+          const values = value['ProcessVariables'].GeoMasterView;
+          const state = {
+            key: values[0].stateId,
+            value: values[0].stateName
           };
-          this.city.push(city);
-          // console.log('in geo', city);
-        });
+          this.state.push(state);
+          values.map((element) => {
+            const city = {
+              key: element.cityId,
+              value: element.cityName
+            };
+            this.city.push(city);
+            // console.log('in geo', city);
+          });
+          // tslint:disable-next-line: no-string-literal
+        } else if (value['ProcessVariables'].error.code === '1') {
+          this.invalidPincode = true;
+          // tslint:disable-next-line: no-string-literal
+          console.log('in valid pincode', value['ProcessVariables'].error);
+          const message = value.ProcessVariables.error.message;
+          this.toasterService.showWarning('', message);
+
+        }
       });
 
   }
@@ -229,7 +270,7 @@ export class FiReportResidenceComponent implements OnInit {
       // typeOfConcern: new FormControl('', Validators.required),
       residenceApproach: new FormControl('', Validators.required),
       residenceDetails: new FormControl('', Validators.required),
-      rentAmt: new FormControl('', Validators.required),
+      rentAmt: new FormControl(''),
       residenceName: new FormControl('', Validators.required),
       verifiedFrom: new FormControl('', Validators.required),
       personMetName: new FormControl('', Validators.required),

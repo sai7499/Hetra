@@ -556,6 +556,11 @@ export class ApiService {
       projectId: environment.projectIds.salesProjectId,
 
     },
+    reinitiateFiDetails: {
+      processId: '5189333ed98911eabbdf00505695f93b',
+      workflowId: '10b16f78d6e311eaad8d00505695f93b',
+      projectId: environment.projectIds.reinititateFiApi,
+    },
     nlUpdatingRemarks: {
       processId: 'c68a7f8acd5411eab88900505695f93b',
       workflowId: 'c6616082cd5411eab5b200505695f93b',
@@ -614,14 +619,14 @@ export class ApiService {
     saveCheckList: {
       processId: '2f5e323ad59911ea9d5d00505695f93b',
       workflowId: '2f32c4bad59911eabaa900505695f93b',
-      projectId : environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     assignCPCRules: {
       processId: '8a5609aad32e11eaacee00505695f93b',
       workflowId: '8a1d1abed32e11eaa96700505695f93b',
       projectId: environment.projectIds.submitToCredit
     },
-    getCheckList : {
+    getCheckList: {
       processId: 'd895c8a4d5a811ea9d5d00505695f93b',
       workflowId: 'd86551d8d5a811ea933000505695f93b',
       projectId: environment.projectIds.salesProjectId
@@ -631,7 +636,7 @@ export class ApiService {
       processId: '90408c36cc9f11ea83c800505695f93b',
       workflowId: '3ea13662c66611eaa13a00505695f93b',
     },
-  // supervisorRelated starts
+    // supervisorRelated starts
     supervisor: {
       processId: 'c16cfe62c5be11eaa04300505695f93b',
       workflowId: 'c14dda82c5be11eaa09f00505695f93b',
