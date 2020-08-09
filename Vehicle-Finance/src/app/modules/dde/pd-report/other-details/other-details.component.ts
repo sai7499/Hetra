@@ -9,6 +9,9 @@ import { PdDataService } from '@modules/dde/fi-cum-pd-report/pd-data.service';
 import { UtilityService } from '@services/utility.service';
 import { ToasterService } from '@services/toaster.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { Constant } from '../../../../../assets/constants/constant';
+import { LoginStoreService } from '@services/login-store.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-other-details',
@@ -21,6 +24,7 @@ export class OtherDetailsComponent implements OnInit {
   leadId: any;
   applicantId: any;
   version: any;
+
   labels: any = {};
   LOV: any = {};
   formValues: any = {};
@@ -29,20 +33,45 @@ export class OtherDetailsComponent implements OnInit {
   product: any;
   sourcingChannel: any;
   isDirty: boolean;
+  showSubmit: boolean = true;
 
-  constructor( private labelsData: LabelsService,
-               private formBuilder: FormBuilder,
-               private router: Router, private createLeadDataService: CreateLeadDataService,
-               private aRoute: ActivatedRoute,
-               private commomLovService: CommomLovService,
-               private personalDiscussionService: PersonalDiscussionService,
-               private pdDataService: PdDataService,
-               private utilityService: UtilityService,
-               private toasterService: ToasterService,
-               ) { }
+  userId: any;
+  taskId: number;
+
+  constructor(
+              private labelsData: LabelsService,
+              private formBuilder: FormBuilder, 
+              private loginStoreService: LoginStoreService,
+              private router: Router, 
+              private createLeadDataService: CreateLeadDataService,
+              private aRoute: ActivatedRoute,
+              private commomLovService: CommomLovService,
+              private toasterService: ToasterService,
+              private utilityService: UtilityService,
+              private personalDiscussionService: PersonalDiscussionService,
+              private pdDataService: PdDataService,
+              private sharedSercive: SharedService
+          ) {
+              this.sharedSercive.taskId$.subscribe((value) => {
+                this.taskId = value;
+              });
+          }
+
+  // constructor( private labelsData: LabelsService,
+  //              private formBuilder: FormBuilder,
+  //              private router: Router, private createLeadDataService: CreateLeadDataService,
+  //              private aRoute: ActivatedRoute,
+  //              private commomLovService: CommomLovService,
+  //              private personalDiscussionService: PersonalDiscussionService,
+  //              private pdDataService: PdDataService,
+  //              private utilityService: UtilityService,
+  //              private toasterService: ToasterService,
+  //              ) { }
 
    ngOnInit() {
     this.initForm();
+    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    this.userId = roleAndUserDetails.userDetails.userId;
     this.getLabels();
     this.getLeadId();
     this.getApplicantId();
@@ -53,7 +82,23 @@ export class OtherDetailsComponent implements OnInit {
 
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
-      (data) => (this.labels = data),
+      (data) => {
+        this.labels = data;
+        this.aRoute.params.subscribe((value) => {// calling get lead section data function in line 174
+          if (!value && !value.applicantId) {
+            return;
+          }
+          this.applicantId = Number(value.applicantId);
+          this.version = String(value.version);
+          console.log('xv', this.version)
+          if (this.version !== 'undefined') {
+            this.showSubmit = false;
+          }
+          this.getPdDetails();    // for getting the data for pd details on initializing the page
+        });
+      }, err => {
+        console.log('err', err)
+      }
     );
   }
 
@@ -76,9 +121,8 @@ export class OtherDetailsComponent implements OnInit {
       this.otherDetailsForm.addControl('agricultureProof', new FormControl('', [Validators.required]));
     } else {
       this.otherDetailsForm.removeControl('agricultureProof');
-      this.otherDetailsForm.addControl('agricultureProof', new FormControl({value: '', disabled: true}));
+      this.otherDetailsForm.addControl('agricultureProof', new FormControl({ value: '', disabled: true }));
     }
-
   }
 
   //GET APPLICANTID
@@ -209,6 +253,33 @@ export class OtherDetailsComponent implements OnInit {
     this.saveOrUpdateOtherDetails();
   }
 
+  submitToCredit() {
+    if (this.otherDetailsForm.valid) {
+
+      const data = {
+        taskName: Constant.PDTASKNAME,
+        leadId: this.leadId,
+        userId: this.userId,
+        taskId: this.taskId,
+        applicantId: this.applicantId
+      };
+
+      this.personalDiscussionService.submitPdReport(data).subscribe((value: any) => {
+        const processVariables = value.ProcessVariables;
+        if (processVariables.error.code === '0') {
+          this.toasterService.showSuccess('submitted to credit successfully', '');
+          this.router.navigate([`/pages/dashboard`]);
+        } else {
+          this.toasterService.showError(processVariables.error.message, '');
+        }
+      });
+    } else {
+      this.isDirty = true;
+      this.toasterService.showError('please enter required details', '');
+      this.utilityService.validateAllFormFields(this.otherDetailsForm)
+    }
+  }
+
   onBack() {
     if (this.version !== 'undefined') {
       this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${this.applicantId}/reference-details/${this.version}`]);
@@ -218,7 +289,7 @@ export class OtherDetailsComponent implements OnInit {
   }
 
   onNext() {
-      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
+    this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
   }
 
 }
