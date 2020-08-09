@@ -135,7 +135,7 @@ export class OtherDetailsComponent implements OnInit {
 
   onBack() {
     if (this.version !== 'undefined') {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/reference-details/${this.version}`]);
+      this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${this.applicantId}/reference-details/${this.version}`]);
     } else {
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/reference-details`]);
     }

@@ -129,7 +129,7 @@ export class PersonalDetailsComponent implements OnInit {
   onNavigateNext() {
     if (this.version) {
       console.log('in routing defined version condition', this.version);
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/income-details/${this.version}`]);
+      this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${this.applicantId}/income-details/${this.version}`]);
     } else {
       console.log('in routing undefined version condition', this.version);
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/income-details`]);

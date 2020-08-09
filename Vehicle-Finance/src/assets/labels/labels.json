@@ -2030,6 +2030,18 @@
                 "rule": 30
             },
             "type": "alpha-numeric"
+        },
+        "assetsVisible":{
+            "maxLength":{
+                "rule":150
+            },
+            "type":"alpha-numeric"
+        },
+        "assetsOwned":{
+            "maxLength":{
+                "rule":100
+            },
+            "type":"alpha-numeric"
         }
     }
 }

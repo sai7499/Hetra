@@ -13,7 +13,6 @@
         <app-vf-custom-select
           [values]=""
           formControlName="externalAgencyName"
-          [isRequired]="'Please select one'"
           [isDirty]="isDirty"
         >
         </app-vf-custom-select>
@@ -61,7 +60,6 @@
           [placeholder]="'Enter initiated date'"
           [activeView]="'decade'"
           [min]="leadCreatedDateFromLead"
-          (valueChange)="getMonths()"
         ></kendo-datepicker>
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
