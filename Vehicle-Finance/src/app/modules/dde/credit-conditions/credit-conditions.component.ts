@@ -40,6 +40,7 @@ export class CreditConditionsComponent implements OnInit {
         defferedDate: null
   }
   disableControl: boolean;
+  roleType: any;
   constructor(
     public labelsService: LabelsService,
     private loginStoreService: LoginStoreService,
@@ -345,8 +346,33 @@ export class CreditConditionsComponent implements OnInit {
     this.creditConditionForm = this.formBuilder.group({
       Rows: this.formBuilder.array([])
     });
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+      this.roleType = value.roleType;
+      console.log('role Type', this.roleType);
+    });
     this.getCreditConditions();
 
   }
+  onNext()  {
+    // this.onSave();
+    // tslint:disable-next-line: triple-equals
+    if (this.roleType == '2' || this.roleType == '1') {
+    this.router.navigate([`pages/credit-decisions/${this.leadId}/term-sheet`]);
+    // tslint:disable-next-line: triple-equals
+    // tslint:disable-next-line: align
+    } else if (this.roleType == '4') {
+      this.router.navigate([`pages/cpc-maker/${this.leadId}/term-sheet`]);
+    // tslint:disable-next-line: triple-equals
+    } else if ( this.roleType == '5') {
+    this.router.navigate([`pages/cpc-checker/${this.leadId}/term-sheet`]);
+    }
+  }
+  
+  onBack() {
+    if (this.roleType == '2' || this.roleType == '1') {
+      this.router.navigate([`pages/dashboard`]);
+      // tslint:disable-next-line: triple-equals
+      } 
+    }
 
 }

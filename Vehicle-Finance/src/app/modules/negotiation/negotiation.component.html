@@ -1,12 +1,13 @@
-<main class="mar-top90">
+<main >
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-6">
-        <h3>{{ labels?.negotiationTitle }}</h3>
-      </div>
-      <div class="col-md-6 text-right"></div>
-    </div>
+   
     <div class="content" id="disbursement-memo">
+      <div class="row">
+        <div class="col-md-6">
+          <h3>{{ labels?.negotiationTitle }}</h3>
+        </div>
+        <div class="col-md-6 text-right"></div>
+      </div>
       <form [formGroup]="createNegotiationForm" class="form-horizontal" autocomplete="off">
         <div>
           <h4 class="title">{{ labels?.leadReferenceDetails }}</h4>
@@ -424,13 +425,19 @@
           </div>
         </div>
       </form>
-      <div class="btn-sec button-section clear-both">
+      <div class="btn-sec button-section clear-both " style="margin-bottom: 30px ;">
         <div class="col-sm-12 text-right">
+          <button type="button" class="btn btn-primary mar-right8" value="submit" (click)="onBack()">
+            {{ labels.back }}
+          </button>
           <button type="button" class="btn btn-default mar-right8" value="submit">
             {{ labels.cancel }}
           </button>
           <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()">
             {{ labels.submit }}
+          </button>
+          <button type="button" class="btn btn-primary mar-right8" value="submit" (click)="onNext()">
+            {{ labels.next }}
           </button>
         </div>
       </div>

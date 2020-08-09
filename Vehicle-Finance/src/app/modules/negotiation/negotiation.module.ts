@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgxPaginationModule } from "ngx-pagination";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgxPaginationModule } from 'ngx-pagination';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
@@ -22,6 +22,7 @@ import { NegotiationRouterModule } from './negotiation.router';
     DateInputsModule,
     AutocompleteLibModule,
     SharedModule
-  ]
+  ],
+  exports:  [ NegotiationComponent]
 })
 export class NegotiationModule { }

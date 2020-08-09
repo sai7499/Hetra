@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, AbstractType } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { LabelsService } from 'src/app/services/labels.service';
 import { LeadStoreService } from 'src/app/services/lead-store.service';
 import { CommomLovService } from '@services/commom-lov-service';
@@ -84,12 +84,17 @@ export class NegotiationComponent implements OnInit {
   sample = [];
   CrossSellInsurance: any;
   SelectAppropriateLMSScheduleCode;
+  roleType: any;
+  leadId: number;
   constructor(
     private labelsData: LabelsService,
     private NegotiationService: NegotiationService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private loginStoreService: LoginStoreService,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
-  ngOnInit() {
+  async ngOnInit() {
     this.userId = localStorage.getItem('userId');
     this.onChangeLanguage('English');
     // this.initForm();
@@ -97,7 +102,18 @@ export class NegotiationComponent implements OnInit {
     this.getLOV();
     this.getInsuranceLOV();
     this.loadForm();
-    setTimeout(() => { this.getAssetDetails(); }, 1000)
+    setTimeout(() => { this.getAssetDetails(); }, 1000);
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+      this.roleType = value.roleType;
+      console.log('role Type', this.roleType);
+    });
+    this.leadId = (await this.getLeadId()) as number;
+    // tslint:disable-next-line: triple-equals
+    if (this.roleType == '4' || this.roleType == '5') {
+    console.log(this.createNegotiationForm,  this.t) ;
+    this.createNegotiationForm.disable();
+    this.t.disable();
+    }
   }
   onChangeLanguage(labels: string) {
     if (labels === 'Hindi') {
@@ -119,6 +135,7 @@ export class NegotiationComponent implements OnInit {
       },
       (error) => console.log('Lead Creation Label Error', error)
     );
+    
   }
   loadForm() {
     this.createNegotiationForm = this.fb.group({
@@ -674,5 +691,41 @@ export class NegotiationComponent implements OnInit {
     //     this.CrossSellIns, this.CrossSellOthers)
     //   .subscribe((res: any) => {
     //   });
+  }
+  getLeadId() {
+    return new Promise((resolve, reject) => {
+      this.route.parent.params.subscribe((value) => {
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
+    });
+  }
+  onNext()  {
+    // this.onSave();
+    // tslint:disable-next-line: triple-equals
+    if (this.roleType == '2' || this.roleType == '1') {
+    this.router.navigate([`pages/credit-decisions/${this.leadId}/sanction-details`]);
+    // tslint:disable-next-line: triple-equals
+    } else if (this.roleType == '4') {
+      this.router.navigate([`pages/cpc-maker/${this.leadId}/sanction-details`]);
+    // tslint:disable-next-line: triple-equals
+    } else if ( this.roleType == '5') {
+    this.router.navigate([`pages/cpc-checker/${this.leadId}/sanction-details`]);
+    }
+  }
+  
+  onBack() {
+    if (this.roleType == '2' || this.roleType == '1') {
+      this.router.navigate([`pages/credit-decisions/${this.leadId}/term-sheet`]);
+      // tslint:disable-next-line: triple-equals
+      } else if (this.roleType == '4') {
+        this.router.navigate([`pages/cpc-maker/${this.leadId}/term-sheet`]);
+      // tslint:disable-next-line: triple-equals
+      } else if ( this.roleType == '5') {
+      this.router.navigate([`pages/cpc-checker/${this.leadId}/term-sheet`]);
+      }
+  
   }
 }
