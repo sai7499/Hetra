@@ -22,8 +22,8 @@
                     type="button" id="applicant_identity_details" (click)="onNavigate('customer-feedback')">
                     Customer Feedback
                 </button>
-                <button *ngIf = "roleType == 2" class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 5}"
-                    type="button" id="applicant_identity_details" (click)="onNavigate('check-list')" >
+                <button *ngIf = "roleType == 2" class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 5}"  [disabled] ="salesResponse != 'true'"
+                    type="button" id="checklist_identity_details" (click)="onNavigate('check-list')" >
                     Check List 
                 </button>
             </div>
