@@ -41,6 +41,7 @@ export class CreditConditionsComponent implements OnInit {
   }
   disableControl: boolean;
   roleType: any;
+  salesResponse = 'false';
   constructor(
     public labelsService: LabelsService,
     private loginStoreService: LoginStoreService,
@@ -242,7 +243,11 @@ export class CreditConditionsComponent implements OnInit {
               Rows: this.formBuilder.array([])
             });
             this.getCreditConditions();
-          }else if(data == 'next'){
+          }else if(data == 'next' && this.userType == 2 && this.salesResponse == 'true' ){
+            this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/negotiation')
+          } else if(data == 'next' && this.userType == 2 && this.salesResponse == 'false' ){
+            this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
+          } else if(data == 'next' && this.userType == 1){
             this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
           }else{
             if(this.userType == 2){
@@ -351,6 +356,7 @@ export class CreditConditionsComponent implements OnInit {
       console.log('role Type', this.roleType);
     });
     this.getCreditConditions();
+    this.salesResponse = localStorage.getItem('salesResponse')
 
   }
   onNext()  {
