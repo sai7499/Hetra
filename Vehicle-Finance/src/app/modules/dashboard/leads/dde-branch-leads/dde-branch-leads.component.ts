@@ -60,7 +60,6 @@ export class DdeBranchLeadsComponent implements OnInit {
     );
 
     this.dashboardService.isFilterData.subscribe((filterValue: any) => {
-      console.log('filterDetails', filterValue);
       this.filterDetails = filterValue;
       this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
         this.roleId = String(value.roleId);
@@ -133,7 +132,7 @@ export class DdeBranchLeadsComponent implements OnInit {
         this.isLoadLead = true;
       } else {
         this.isLoadLead = false;
-    }
+      }
     });
   }
 
@@ -155,10 +154,8 @@ export class DdeBranchLeadsComponent implements OnInit {
   onAssign(id, leadId) {
 
     this.taskDashboard.assignTask(id).subscribe((res: any) => {
-      console.log('assignResponse', res);
       const response = JSON.parse(res);
-      console.log(response);
-      if (response.ErrorCode == 0 ) {
+      if (response.ErrorCode == 0) {
         this.toasterService.showSuccess('Assigned Successfully', 'Assigned');
         this.router.navigate(['/pages/dde/' + leadId + '/lead-details']);
       } else {

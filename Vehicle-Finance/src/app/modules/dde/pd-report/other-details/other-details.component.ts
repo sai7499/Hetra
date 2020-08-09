@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { LabelsService } from '@services/labels.service';
 import { CommomLovService } from "@services/commom-lov-service";
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { PdDataService } from '@modules/dde/fi-cum-pd-report/pd-data.service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 @Component({
   selector: 'app-other-details',
@@ -14,7 +15,7 @@ import { PdDataService } from '@modules/dde/fi-cum-pd-report/pd-data.service';
 })
 export class OtherDetailsComponent implements OnInit {
   otherDetailsForm: FormGroup;
-
+  fundingProgram: any;
   leadId: number;
   applicantId: any;
   version: any;
@@ -25,7 +26,7 @@ export class OtherDetailsComponent implements OnInit {
 
   constructor( private labelsData: LabelsService,
                private formBuilder: FormBuilder,
-               private router: Router,
+               private router: Router, private createLeadDataService: CreateLeadDataService,
                private aRoute: ActivatedRoute,
                private commomLovService: CommomLovService,
                private personalDiscussionService: PersonalDiscussionService,
@@ -39,6 +40,7 @@ export class OtherDetailsComponent implements OnInit {
     this.getLOV();
     this.getPdDetails();
     this.initForm();
+    this.getLeadSectiondata();
   }
 
   getLabels() {
@@ -52,7 +54,20 @@ export class OtherDetailsComponent implements OnInit {
     this.aRoute.parent.params.subscribe((val) => {
       this.leadId = Number(val.leadId);
     });
-    console.log("LEADID::", this.leadId);
+  }
+
+  getLeadSectiondata() {
+    const leadData = this.createLeadDataService.getLeadSectionData();
+    this.fundingProgram = leadData['leadDetails'].fundingProgramDesc;
+
+    if (this.fundingProgram === 'CAT D') {
+      this.otherDetailsForm.removeControl('agricultureProof');
+      this.otherDetailsForm.addControl('agricultureProof', new FormControl('', [Validators.required]));
+    } else {
+      this.otherDetailsForm.removeControl('agricultureProof');
+      this.otherDetailsForm.addControl('agricultureProof', new FormControl({value: '', disabled: true}));
+    }
+
   }
 
   //GET APPLICANTID
@@ -61,20 +76,17 @@ export class OtherDetailsComponent implements OnInit {
       this.applicantId = Number(value.applicantId);
       this.version = String(value.version);
     });
-    console.log('ApplicantId::', this.applicantId);
-    console.log('Version::', this.version);
   }
 
   //GET ALL LOVS
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
-    console.log('LOV::', this.LOV);
   }
 
   //FORMGROUP
   initForm() {
     this.otherDetailsForm = this.formBuilder.group({
-      agricultureProof: ["", Validators.required],
+      agricultureProof: [""],
       income: ["", Validators.required],
       securedLoans: ["", Validators.required],
       unSecuredLoans: ["", Validators.required],
@@ -103,17 +115,10 @@ export class OtherDetailsComponent implements OnInit {
 
   // GET PD-DETAILS FOR APPLICANT_ID
   getPdDetails() {
-    console.log('pd version', this.version);
-    console.log('pd applicant id', this.applicantId);
-    // if (this.version === 'undefined') {
-    //   this.version = '0';
-    //   console.log('in undefined condition version', this.version);
-    // }
     const data = {
       applicantId: this.applicantId,
       pdVersion: this.version,
     };
-    console.log('in request data version', this.version);
     this.personalDiscussionService.getPdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
@@ -126,8 +131,6 @@ export class OtherDetailsComponent implements OnInit {
       }
     });
   }
-
-  
 
   // SUBMIT FORM
   onFormSubmit() {
