@@ -21,7 +21,7 @@
                 <th>
                   {{ labels?.flStatus }}
                 </th>
-                <th *ngIf="pdStatusValue === 'Submitted'">
+                <th *ngIf="fiStatusValue === 'Submitted'">
                   {{ labels?.flReport }}
                 </th>
               </tr>
@@ -35,37 +35,23 @@
                 <td *ngIf="showStatus">
                   <u>{{ item.fiStatusValue ? item.fiStatusValue : "-" }}</u>
                 </td>
-                <td
-                  style="cursor: pointer;"
-                  *ngIf="show && pdStatusValue != 'Submitted'"
-                  (click)="navigatePage(item.applicantId)"
-                >
+                <td style="cursor: pointer;" *ngIf="show && pdStatusValue != 'Submitted'"
+                  (click)="navigatePage(item.applicantId)">
                   <u>{{ item.fiStatusValue ? item.fiStatusValue : "-" }}</u>
                 </td>
-                <td
-                [attr.data-label]="labels?.pdStatus"
-                style="cursor: pointer;"
-                *ngIf="show && pdStatusValue === 'Submitted'"
-              >
-                <u>{{ item.fiStatusValue ? item.diStatusValue : "-" }}</u>
-              </td>
-              <ng-container *ngIf="fiStatusValue === 'Submitted'">
-                <td [attr.data-label]="labels?.ucicId">
-                  <ng-container
-                    *ngFor="let version of item.fiReportValue.split(',')"
-                  >
-                    <u
-                      ><a
-                        class="a_tag"
-                        style="cursor: pointer;"
-                        (click)="navigatePage(item.applicantId, version)"
-                        >Version - {{ version }}</a
-                      ></u
-                    ><br />
-                  </ng-container>
+                <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;"
+                  *ngIf="show && pdStatusValue === 'Submitted'">
+                  <u>{{ item.fiStatusValue ? item.diStatusValue : "-" }}</u>
                 </td>
-              </ng-container>
-              <!-- <td>
+                <ng-container *ngIf="fiStatusValue === 'Submitted'">
+                  <td [attr.data-label]="labels?.ucicId">
+                    <ng-container *ngFor="let version of item.fiReportValue.split(',')">
+                      <u><a class="a_tag" style="cursor: pointer;"
+                          (click)="navigatePage(item.applicantId, version)">Version - {{ version }}</a></u><br />
+                    </ng-container>
+                  </td>
+                </ng-container>
+                <!-- <td>
                 <u
                   ><a
                     class="a_tag"
@@ -93,11 +79,7 @@
   <div class="col-sm-7 text-right cst_btm_btns">
     <br />
     <br />
-    <button
-      class="btn btn-primary"
-      type="button"
-      (click)="onNavigateToFiSummary()"
-    >
+    <button class="btn btn-primary" type="button" (click)="onNavigateToFiSummary()">
       Back to FI Summary
     </button>
     <!-- <button class="btn btn-primary " type="button " (click)=onNavigateBack()> {{labels.back}} </button> &nbsp; -->
