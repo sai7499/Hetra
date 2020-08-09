@@ -4,7 +4,7 @@ import { HeaderComponent } from './modules/header/header.component';
 import { LovResolverService } from './services/Lov-resolver.service';
 import { Authguard } from '@services/authguard';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
-
+import {TermSheetFromDashboardComponent} from './modules/dde/credit-decisions/term-sheet-from-dashboard/term-sheet-from-dashboard.component'
 const routes: Routes = [
   {
     path: '',
@@ -206,6 +206,10 @@ const routes: Routes = [
             './modules/dde/cpc-maker/cpc-maker.module'
           ).then((m) => m.CpcMakerModule),
       },
+      // {
+      //   path: ':leadId/new-term-sheet',
+      //   component : TermSheetFromDashboardComponent
+      // },
     ],
   },
 ];

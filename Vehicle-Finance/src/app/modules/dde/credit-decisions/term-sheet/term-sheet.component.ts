@@ -45,6 +45,7 @@ export class TermSheetComponent implements OnInit {
   userType;
   roleAndUserDetails: any;
   @Input() isApprove: boolean; 
+  @Input() isLeadId: number;
   constructor(
      public labelsService: LabelsService,
      private activatedRoute: ActivatedRoute,
@@ -122,7 +123,7 @@ export class TermSheetComponent implements OnInit {
   // }
   assignTaskToTSAndCPC(){
     const ProcessVariables = {
-      "leadId": this.leadId,
+      "leadId": this.isLeadId,
       "userId":this.userId
     };
     this.termSheetService.assignTaskToTSAndCPC(ProcessVariables).subscribe((res)=>{
@@ -158,15 +159,17 @@ export class TermSheetComponent implements OnInit {
         this.isTermSheet = true
       }
     });
-    if(this.roleType != '2' || this.isApprove){
+    if(this.roleType != '2' && !this.isApprove){
       this.getTermSheet(this.leadId);
+    }else if(this.isApprove && this.isLeadId){
+      this.getTermSheet(this.isLeadId);
     }
   }
   onNext() {
     // this.router.navigate([`/pages/credit-decisions/${this.leadId}/check-list`]);
-    // if ( this.roleType == ) { }
-    // tslint:disable-next-line: triple-equals
-    if (this.roleType == '2' || this.roleType == '1') {
+    if (  this.roleType == '2' ) { 
+      this.router.navigate([`/pages/credit-decisions/${this.leadId}/sanction-details`]);
+    } else if (this.roleType == '1' ) {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
       // tslint:disable-next-line: triple-equals
       } else if (this.roleType == '4') {
@@ -178,8 +181,10 @@ export class TermSheetComponent implements OnInit {
   }
 
   onBack() {
-    if (this.roleType == '2' || this.roleType == '1') {
+    if( this.roleType == '1') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/credit-condition`]);
+    } else if (this.roleType == '2' ) {
+      this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
       // tslint:disable-next-line: triple-equals
       } else if (this.roleType == '4') {
         this.router.navigate([`pages/cpc-maker/${this.leadId}/check-list`]);
