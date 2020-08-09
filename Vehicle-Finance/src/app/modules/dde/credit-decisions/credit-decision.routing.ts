@@ -40,7 +40,7 @@ const routes: Routes = [
                 path: 'check-list',
                 component: CheckListComponent
             },
-            
+
               {
                 path: 'negotiation',
                 component : NegotiationComponent

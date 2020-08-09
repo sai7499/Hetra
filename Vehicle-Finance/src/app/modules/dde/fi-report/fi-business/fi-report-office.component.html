@@ -201,7 +201,12 @@
           [isDirty]="isDirty"
           [type]="labels?.validationData?.pincode?.type"
         ></app-custom-input>
+        <div *ngIf="invalidPincode" class="invalid-feedback">
+          Invalid Pincode
+        </div>
       </div>
+     
+      <div></div>
     </div>
     <div class="row">
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -578,7 +583,8 @@
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="officeLocation"
-          >{{ labels?.officeLocation }} <sub class="star_blue_col">*</sub></label
+          >{{ labels?.officeLocation }}
+          <sub class="star_blue_col">*</sub></label
         >
         <app-custom-input
           id="officeLocation"
@@ -799,6 +805,22 @@
       </div>
     </div>
   </div>
+  <div class="btn-sec clear-both">
+    <div class="col-sm-7"></div>
+    <div
+      class="col-sm-5 text-right"
+      *ngIf="
+        roleType == '2' && version != 'undefined' && showReinitiate == true
+      "
+    >
+      <button class="btn btn-danger" type="button" (click)="reinitiateFi()">
+        {{ labels.reinitiate }}</button
+      >&nbsp;
+      <!-- <button class="btn btn-success" (click)="approvePd()">
+        {{ labels.approve }}
+      </button> -->
+    </div>
+  </div>
 
   <div class="btn-sec btn-mar-bottom clear-both">
     <div class="col-sm-5"></div>
@@ -806,11 +828,11 @@
       <button class="btn btn-primary" type="button" (click)="onNavigateBack()">
         {{ labels.back }}
       </button>
-      
+
       <button class="btn btn-primary" (click)="onFormSubmit()">
         {{ labels.save }}
       </button>
-      
+
       <button
         class="btn btn-primary"
         type="button"
