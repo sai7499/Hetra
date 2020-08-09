@@ -142,10 +142,7 @@ export class DashboardComponent implements OnInit {
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService,
     private sharedService: SharedService
-  ) {
-    console.log(DisplayTabs.NewLeads);
-    console.log(dashboardService.routingData);
-  }
+  ) {}
 
   onTabsLoading(data) {
     if (this.roleType === 1) {
@@ -281,7 +278,6 @@ export class DashboardComponent implements OnInit {
       this.roleId = value.roleId;
       this.businessDivision = value.businessDivision[0].bizDivId;
       this.roleType = value.roleType;
-      console.log('role Type', typeof this.roleType, this.roleType);
     });
 
     if (this.dashboardService.routingData) {
@@ -329,7 +325,6 @@ export class DashboardComponent implements OnInit {
 
     this.activeTab = data;
     this.subActiveTab = subTab;
-    console.log('activeTab', this.activeTab);
     if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
       this.onReleaseTab = false;
       this.onAssignTab = false;
@@ -375,9 +370,7 @@ export class DashboardComponent implements OnInit {
       this.onReleaseTab = true;
       this.onAssignTab = false;
     }
-    console.log('subActiveTab', this.subActiveTab);
     this.onTabsLoading(this.subActiveTab);
-
   }
 
   onCPCMakerClick(data) {
@@ -423,7 +416,6 @@ export class DashboardComponent implements OnInit {
       bizDiv: this.businessDivision
     };
     this.dashboardService.dashboardFilter(data).subscribe((res: any) => {
-      console.log('get product catagory', res);
       this.productCategoryList = res.ProcessVariables.productCategory;
       this.productCategoryData = this.utilityService.getValueFromJSON(
         this.productCategoryList,
@@ -463,9 +455,6 @@ export class DashboardComponent implements OnInit {
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
     };
-    // console.log('getmyFilterdata', data);
-    // console.log('filter form data', this.filterFormDetails);
-
 
     this.responseForSales(data);
   }
@@ -1110,6 +1099,7 @@ export class DashboardComponent implements OnInit {
       }
       switch (this.subActiveTab) {
         case 4:
+          localStorage.setItem('istermSheet', 'false');
           this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
           break;
         case 6:
@@ -1140,13 +1130,15 @@ export class DashboardComponent implements OnInit {
           this.router.navigateByUrl(`/pages/deviation-dashboard/${leadId}/dashboard-deviation-details`);
           break;
         case 10:
+          localStorage.setItem('istermSheet', 'false');
           this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
           break;
         case 13:
           this.router.navigateByUrl(`/pages/fi-dashboard/${leadId}/fi-list`);
           break;
         case 16:
-          this.router.navigateByUrl(`/pages/${leadId}/new-term-sheet`);
+          localStorage.setItem('istermSheet', 'true');
+          this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/new-term-sheet`);
           break;
         default:
           break;
@@ -1188,7 +1180,6 @@ export class DashboardComponent implements OnInit {
     this.filterFormDetails.toDate = this.dateToFormate(this.filterFormDetails.toDate);
     this.selectedDate = this.dateToFormate(this.filterFormDetails.fromDate);
     this.minAmount = this.filterForm.get('loanMinAmt').value;
-    console.log('filter form details', this.filterFormDetails);
     this.onTabsLoading(this.subActiveTab);
     if (this.roleType === 4 || this.roleType === 5) {
       if (this.makerWithMe) {
@@ -1221,15 +1212,14 @@ export class DashboardComponent implements OnInit {
       subActiveTab: this.subActiveTab
     };
     this.taskDashboard.assignTask(taskId).subscribe((res: any) => {
-      console.log('assignResponse', res);
       const response = JSON.parse(res);
-      console.log(response);
       if (response.ErrorCode == 0) {
         this.toasterService.showSuccess('Assigned Successfully', 'Assigned');
         // this.router.navigate(['/pages/dde/' + leadId + '/lead-details']);
         if (this.roleType === 1) {
           switch (this.subActiveTab) {
             case 5:
+              localStorage.setItem('istermSheet', 'false');
               this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
               break;
             case 7:
@@ -1259,12 +1249,14 @@ export class DashboardComponent implements OnInit {
               this.router.navigateByUrl(`/pages/deviation-dashboard/${leadId}/dashboard-deviation-details`);
               break;
             case 11:
+              localStorage.setItem('istermSheet', 'false');
               this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
               break;
             case 14:
               this.router.navigateByUrl(`/pages/dde/${leadId}/fi-list`);
               break;
             case 17:
+              localStorage.setItem('istermSheet', 'true');
               this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/new-term-sheet`);
               break;
             default:
@@ -1288,7 +1280,6 @@ export class DashboardComponent implements OnInit {
   // external methods
   assignTaskId(taskId) {
     this.sharedService.getTaskID(taskId);
-    console.log('in assign task', taskId);
   }
   getLeadId(item) {
     console.log(item.is_sales_response_completed);

@@ -20,6 +20,8 @@ export class CreditDecisionComponent implements OnInit {
     roles: any = [];
     roleId: any;
     roleType: any;
+    salesResponse = 'false';
+    istermSheet = 'false'
     constructor(
         private router: Router,
         private location: Location,
@@ -28,6 +30,14 @@ export class CreditDecisionComponent implements OnInit {
         private activatedRoute: ActivatedRoute) { }
 
     ngOnInit() {
+        this.salesResponse = localStorage.getItem('salesResponse');
+        this.istermSheet = localStorage.getItem('istermSheet');
+        const button = document.getElementById('checklist_identity_details');
+        // tslint:disable-next-line: triple-equals
+        // if (this.salesResponse != 'true') {
+        // button.disable();
+        // }
+
         const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
         this.userId = roleAndUserDetails.userDetails.userId;
         this.roles = roleAndUserDetails.roles;

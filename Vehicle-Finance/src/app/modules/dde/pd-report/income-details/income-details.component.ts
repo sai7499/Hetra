@@ -74,14 +74,16 @@ export class IncomeDetailsComponent implements OnInit {
 
   getIncomeDetails(){
     const data = {
-      // applicantId: 6,
-      applicantId: this.applicantId
+     // leadId: this.leadId,
+      pdVersion : this.version,
+      applicantId: this.applicantId, /* Uncomment this after getting applicant Id from Lead */
+      userId: this.userId,
   };
 
      this.personalDiscussion.getPdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
-          this.pdDetail = value.ProcessVariables;
+          this.pdDetail = value.ProcessVariables['incomeDetails'];
           console.log('PD Details', this.pdDetail);          
       }
   });
