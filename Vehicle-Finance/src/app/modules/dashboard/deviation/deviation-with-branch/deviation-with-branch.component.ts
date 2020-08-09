@@ -52,68 +52,60 @@ export class DeviationWithBranchComponent implements OnInit {
         this.labels = data;
       }
     );
-  //   this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
-  //     this.roleId = String(value.roleId);
-  //     this.branchId = value.branchId;
-  //     this.roleType = value.roleType;
-  //   });
-  //   this.getBranchLeads(this.itemsPerPage);
-  // }
 
     this.dashboardService.isFilterData.subscribe((filterValue: any) => {
-    console.log('filterDetails', filterValue);
-    this.filterDetails = filterValue;
+      this.filterDetails = filterValue;
+      this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+        this.roleId = String(value.roleId);
+        this.branchId = value.branchId;
+        this.roleType = value.roleType;
+      });
+      this.getBranchLeads(filterValue);
+    });
+
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
       this.roleType = value.roleType;
     });
-    this.getBranchLeads(filterValue);
-  });
-
-    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
-    this.roleId = String(value.roleId);
-    this.branchId = value.branchId;
-    this.roleType = value.roleType;
-  });
     this.getBranchLeads(this.itemsPerPage);
 
-}
-
-onClick() {
-  this.getBranchLeads(this.itemsPerPage);
-}
-
-getBranchLeads(filterValue, pageNumber?) {
-  const data = {
-    taskName: 'Deviation',
-    branchId: this.branchId,
-    roleId: this.roleId,
-    // tslint:disable-next-line: radix
-    currentPage: parseInt(pageNumber),
-    // tslint:disable-next-line: radix
-    perPage: parseInt(this.itemsPerPage),
-    myLeads: false,
-    leadId: filterValue ? filterValue.leadId : '',
-    fromDate: filterValue ? filterValue.fromDate : '',
-    toDate: filterValue ? filterValue.toDate : '',
-    productCategory: filterValue ? filterValue.product : '',
-    loanMinAmt: filterValue ? filterValue.loanMinAmt : '',
-    loanMaxAmt: filterValue ? filterValue.loanMaxAmt : ''
-  };
-  this.responseForCredit(data);
-}
-
-responseForCredit(data) {
-  this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
-    this.setPageData(res);
-    if (res.ProcessVariables.loanLead != null) {
-      this.isLoadLead = true;
-    } else {
-      this.isLoadLead = false;
   }
-  });
-}
+
+  onClick() {
+    this.getBranchLeads(this.itemsPerPage);
+  }
+
+  getBranchLeads(filterValue, pageNumber?) {
+    const data = {
+      taskName: 'Deviation',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(this.itemsPerPage),
+      myLeads: false,
+      leadId: filterValue ? filterValue.leadId : '',
+      fromDate: filterValue ? filterValue.fromDate : '',
+      toDate: filterValue ? filterValue.toDate : '',
+      productCategory: filterValue ? filterValue.product : '',
+      loanMinAmt: filterValue ? filterValue.loanMinAmt : '',
+      loanMaxAmt: filterValue ? filterValue.loanMaxAmt : ''
+    };
+    this.responseForCredit(data);
+  }
+
+  responseForCredit(data) {
+    this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
+      this.setPageData(res);
+      if (res.ProcessVariables.loanLead != null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+      }
+    });
+  }
 
   // getBranchLeads(perPageCount, pageNumber?) {
   //   const data = {
@@ -153,10 +145,8 @@ responseForCredit(data) {
   onAssign(id, leadId) {
 
     this.taskDashboard.assignTask(id).subscribe((res: any) => {
-      console.log('assignResponse', res);
       const response = JSON.parse(res);
-      console.log(response);
-      if (response.ErrorCode == 0 ) {
+      if (response.ErrorCode == 0) {
         this.toasterService.showSuccess('Assigned Successfully', 'Assigned');
         this.router.navigate(['/pages/deviation-dashboard/' + leadId + '/dashboard-deviation-details']);
       } else {

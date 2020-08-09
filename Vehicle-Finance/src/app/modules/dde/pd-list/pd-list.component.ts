@@ -44,7 +44,6 @@ export class PdListComponent implements OnInit {
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
-    console.log('this user roleType', this.roleType);
 
     this.leadId = (await this.getLeadId()) as number;
     this.getLabels = this.labelsData.getLabelsData()
@@ -58,8 +57,6 @@ export class PdListComponent implements OnInit {
 
 
     if (this.router.url.includes('/fi-cum-pd-dashboard')) {   // showing/hiding the nav bar based on url
-
-      console.log(' pd-dashboard ');
       this.show = true;
     } else if (this.router.url.includes('/dde')) {
       this.showStatus = true;
@@ -78,9 +75,7 @@ export class PdListComponent implements OnInit {
     this.personalDiscussionService.getPdList(data).subscribe((value: any) => {
       const processvariables = value.ProcessVariables;
       this.isFiCumPD = processvariables.isFiCumPD;
-      console.log('in get pd ficum pdstatus', this.isFiCumPD);
       this.pdList = processvariables.finalPDList;
-      console.log('PD List', this.pdList);
 
       for (var i in this.pdList) {
         this.pdStatusValue = this.pdList[i]['pdStatusValue']
@@ -101,31 +96,18 @@ export class PdListComponent implements OnInit {
   }
 
   navigatePage(applicantId: string, version: any) {
-    console.log(
-      'applicantId',
-      applicantId,
-    );
-    console.log('version', version);
 
-    console.log('URL', URL);
-    console.log('flag ficumPD', this.isFiCumPD);
     if (this.isFiCumPD === true) { // for routing to fi cum pd screens
 
       if (this.router.url.includes('fi-cum-pd-dashboard')) {
-
-        console.log(' in pd-dashboard flow');
-
         // this.show = true;
         if (version) {
-          console.log('in fi-cum-pd-dashboard version conditon');
           this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${applicantId}/applicant-details/${version}`]);
         } else if (version === undefined || version === null) {
-          console.log('in fi-cum-pd-dashboard undefined version conditon');
           this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${applicantId}/applicant-details`]);
         }
 
       } else if (this.router.url.includes('/dde')) {
-        console.log(' in dde flow');
         // this.showStatus = true;
         if (version) {
           this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${applicantId}/applicant-details/${version}`]);
@@ -139,25 +121,19 @@ export class PdListComponent implements OnInit {
 
       if (this.router.url.includes('/fi-cum-pd-dashboard')) {
 
-        console.log(' in pd-dashboard flow', this.isFiCumPD);
-
         // this.show = true;
         if (version !== null && version !== undefined) {
-          console.log('in fi-cum-pd-dashboard version conditon');
           // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
           this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
           // right now version not available so
 
         } else if (version === undefined || version === null) {
-          console.log('in fi-cum-pd-dashboard undefined version conditon');
           this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details`]);
         }
 
       } else if (this.router.url.includes('/dde')) {
-        console.log(' in dde flow');
         // this.showStatus = true;
         if (version) {
-          console.log('dde version conditon');
           // this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
           this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
           // right now version not available so
@@ -170,12 +146,9 @@ export class PdListComponent implements OnInit {
     }
   }
   navigateNewPdPage(applicantId: string, version: any) {
-    console.log('in new pd flow', version);
     if (version !== null && version !== undefined) {
-      console.log('in defined version prg bar routing', version);
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
     } else if (version === undefined || version === null) {
-      console.log('in undefined version prg bar routing', version);
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details`]);
     }
   }

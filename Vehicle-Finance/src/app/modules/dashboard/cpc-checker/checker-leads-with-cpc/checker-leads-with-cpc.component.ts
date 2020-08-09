@@ -93,9 +93,7 @@ export class CheckerLeadsWithCpcComponent implements OnInit {
   onAssign(id, leadId) {
 
     this.taskDashboard.assignTask(id).subscribe((res: any) => {
-      console.log('assignResponse', res);
       const response = JSON.parse(res);
-      console.log(response);
       if (response.ErrorCode == 0 ) {
         this.toasterService.showSuccess('Assigned Successfully', 'Assigned');
         // this.router.navigate(['/pages/dde/' + leadId + '/lead-details']);
