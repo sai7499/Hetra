@@ -2030,6 +2030,30 @@
                 "rule": 30
             },
             "type": "alpha-numeric"
+        },
+        "assetsVisible":{
+            "maxLength":{
+                "rule":150
+            },
+            "type":"alpha-numeric"
+        },
+        "assetsOwned":{
+            "maxLength":{
+                "rule":100
+            },
+            "type":"alpha-numeric"
+        },
+        "timeOfVerification": {
+            "maxLength":{
+                "rule":10
+            },
+            "type":"alpha-numeric"
+        },
+        "emiAffordability": {
+            "maxLength":{
+                "rule":6
+            },
+            "type":"number"
         }
     }
 }

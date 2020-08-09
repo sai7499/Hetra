@@ -261,7 +261,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
           if (this.version) {
 
             // tslint:disable-next-line: max-line-length
-            this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/loan-details/${this.version}`]);
+            this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/loan-details/${this.version}`]);
 
           } else {
 

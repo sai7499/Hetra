@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { LabelsService } from '@services/labels.service';
@@ -8,6 +8,7 @@ import { PersonalDiscussionService } from '@services/personal-discussion.service
 import { PdDataService } from '@modules/dde/fi-cum-pd-report/pd-data.service';
 import { UtilityService } from '@services/utility.service';
 import { ToasterService } from '@services/toaster.service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 @Component({
   selector: 'app-other-details',
@@ -16,18 +17,22 @@ import { ToasterService } from '@services/toaster.service';
 })
 export class OtherDetailsComponent implements OnInit {
   otherDetailsForm: FormGroup;
-
-  leadId: number;
+  fundingProgram: any;
+  leadId: any;
   applicantId: any;
   version: any;
   labels: any = {};
   LOV: any = {};
+  formValues: any = {};
   otherDetails: any;
+  equitasBranchName: any;
+  product: any;
+  sourcingChannel: any;
   isDirty: boolean;
 
   constructor( private labelsData: LabelsService,
                private formBuilder: FormBuilder,
-               private router: Router,
+               private router: Router, private createLeadDataService: CreateLeadDataService,
                private aRoute: ActivatedRoute,
                private commomLovService: CommomLovService,
                private personalDiscussionService: PersonalDiscussionService,
@@ -37,12 +42,13 @@ export class OtherDetailsComponent implements OnInit {
                ) { }
 
    ngOnInit() {
+    this.initForm();
     this.getLabels();
     this.getLeadId();
     this.getApplicantId();
     this.getLOV();
     this.getPdDetails();
-    this.initForm();
+    this.getLeadSectiondata();
   }
 
   getLabels() {
@@ -59,37 +65,53 @@ export class OtherDetailsComponent implements OnInit {
     console.log("LEADID::", this.leadId);
   }
 
+  getLeadSectiondata() {
+    const leadData = this.createLeadDataService.getLeadSectionData();
+    this.fundingProgram = leadData['leadDetails'].fundingProgramDesc;
+    this.sourcingChannel = leadData['leadDetails'].sourcingChannelDesc;
+    this.equitasBranchName = leadData['leadDetails'].branchName;
+    this.product = leadData['leadDetails'].productCatName;
+    if (this.fundingProgram === 'CAT D') {
+      this.otherDetailsForm.removeControl('agricultureProof');
+      this.otherDetailsForm.addControl('agricultureProof', new FormControl('', [Validators.required]));
+    } else {
+      this.otherDetailsForm.removeControl('agricultureProof');
+      this.otherDetailsForm.addControl('agricultureProof', new FormControl({value: '', disabled: true}));
+    }
+
+  }
+
   //GET APPLICANTID
   getApplicantId() {
     this.aRoute.params.subscribe((value: any) => {
+      if (!value && !value.applicantId) {
+        return;
+      }
       this.applicantId = Number(value.applicantId);
       this.version = String(value.version);
     });
-    console.log('ApplicantId::', this.applicantId);
-    console.log('Version::', this.version);
   }
 
   //GET ALL LOVS
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
-    console.log('LOV::', this.LOV);
   }
 
   //FORMGROUP
   initForm() {
     this.otherDetailsForm = this.formBuilder.group({
-      agricultureProof: ["", Validators.required],
+      agricultureProof: [""],
       income: ["", Validators.required],
       securedLoans: ["", Validators.required],
       unsecuredLoans: ["", Validators.required],
       creditors: ["", Validators.required],
       debtors: ["", Validators.required],
       fixedAssets: ["", Validators.required],
-      applicationNo: [{ value: '', disabled: true }],
+      applicationNo: [{ value: this.leadId, disabled: true }],
       area: ["", Validators.required],
       place: ["", Validators.required],
-      geoTagInfo: ["", Validators.required],
-      routeMap: ["", Validators.required],
+      geoTagInfo: [""],
+      routeMap: [""],
       equitasBranchName: [{ value: '', disabled: true }],
       distanceFromEquitas: [{ value: '', disabled: true }],
       pdOfficerName: ["", Validators.required],
@@ -107,28 +129,20 @@ export class OtherDetailsComponent implements OnInit {
 
   // GET PD-DETAILS FOR APPLICANT_ID
   getPdDetails() {
-    // console.log('pd version', this.version);
-    // console.log('pd applicant id', this.applicantId);
-    // // if (this.version === 'undefined') {
-    // //   this.version = '0';
-    // //   console.log('in undefined condition version', this.version);
-    // // }
-    // const data = {
-    //   applicantId: this.applicantId,
-    //   pdVersion: this.version,
-    // };
-    // console.log('in request data version', this.version);
-    // this.personalDiscussionService.getPdData(data).subscribe((res: any) => {
-    //   const response = res.ProcessVariables;
-    //   if (response.error.code === '0') {
-    //     this.otherDetails = res.ProcessVariables.otherDetails;
-    //     // console.log('Applicant Details in calling get api ', this.otherDetails);
-    //     if (this.otherDetails) {
-    //       // this.setFormValue();
-    //   // this.pdDataService.setCustomerProfile(this.otherDetails);
-    //     }
-    //   }
-    // });
+    const data = {
+      applicantId: this.applicantId,
+      userId: localStorage.getItem('userId'),
+      pdVersion: this.version,
+    };
+    console.log('REQUEST DATA VERSION::', this.version);
+    this.personalDiscussionService.getPdData(data).subscribe((res: any) => {
+      const response = res.ProcessVariables;
+      if (response.error.code === '0') {
+        this.otherDetails = res.ProcessVariables.otherDetails;
+        console.log('GET_OTHER_DETAILS:: ', this.otherDetails);
+      }
+      this.setFormValue();
+    });
   }
 
   //PATCH_FORM_VALUES
@@ -164,20 +178,21 @@ export class OtherDetailsComponent implements OnInit {
 
   //SAVE_OR_UPDATE_OTHER-DETAILS
   saveOrUpdateOtherDetails() {
-    const formValues = this.otherDetailsForm.getRawValue();
-    console.log("FORMVALUES::::", formValues);
+    this.formValues = this.otherDetailsForm.getRawValue();
+    console.log("FORMVALUES::", this.formValues);
+    this.formValues.date = this.formValues.date ? this.utilityService.convertDateTimeTOUTC(this.formValues.date, 'DD/MM/YYYY') : null;
     const data = {
       leadId: this.leadId,
       applicantId: this.applicantId,
       userId: localStorage.getItem('userId'),
-      ...formValues,
-      date: this.utilityService.convertDateTimeTOUTC(formValues.date, 'DD/MM/YYYY'),
+      otherDetails: this.formValues
     }
+    // console.log("DATA_LEADID", data.leadId);
     if (this.otherDetailsForm.valid === true) {
       this.personalDiscussionService.saveOrUpdatePdData(data).subscribe((res: any) => {
           const response = res.ProcessVariables;
           // console.log("RESPONSE_SAVEUPDATE_API::", response)
-          if (res.error.code === "0") {
+          if (res['ProcessVariables'] && res['ProcessVariables'].error['code'] == "0") {
             this.toasterService.showSuccess("Record Saved Successfully", "Other Details");
             // this.toasterService.showSuccess(message, '');
             }
@@ -196,7 +211,7 @@ export class OtherDetailsComponent implements OnInit {
 
   onBack() {
     if (this.version !== 'undefined') {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/reference-details/${this.version}`]);
+      this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${this.applicantId}/reference-details/${this.version}`]);
     } else {
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/reference-details`]);
     }
