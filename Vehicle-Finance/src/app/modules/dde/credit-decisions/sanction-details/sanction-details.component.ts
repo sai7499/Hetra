@@ -50,6 +50,9 @@ salesResponse: any;
       this.roleType = value.roleType;
       console.log('role Type', this.roleType);
     });
+    if(this.roleType == '2') {
+      this.getSanctionDetails();
+    }
   }
 
   getLabels() {

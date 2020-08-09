@@ -6,6 +6,8 @@ import { LabelsService } from '@services/labels.service';
 import { CommomLovService } from "@services/commom-lov-service";
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { PdDataService } from '@modules/dde/fi-cum-pd-report/pd-data.service';
+import { UtilityService } from '@services/utility.service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-other-details',
@@ -20,7 +22,7 @@ export class OtherDetailsComponent implements OnInit {
   version: any;
   labels: any = {};
   LOV: any = {};
-  applicantPdDetails: any;
+  otherDetails: any;
   isDirty: boolean;
 
   constructor( private labelsData: LabelsService,
@@ -30,6 +32,8 @@ export class OtherDetailsComponent implements OnInit {
                private commomLovService: CommomLovService,
                private personalDiscussionService: PersonalDiscussionService,
                private pdDataService: PdDataService,
+               private utilityService: UtilityService,
+               private toasterService: ToasterService,
                ) { }
 
    ngOnInit() {
@@ -77,60 +81,117 @@ export class OtherDetailsComponent implements OnInit {
       agricultureProof: ["", Validators.required],
       income: ["", Validators.required],
       securedLoans: ["", Validators.required],
-      unSecuredLoans: ["", Validators.required],
+      unsecuredLoans: ["", Validators.required],
       creditors: ["", Validators.required],
       debtors: ["", Validators.required],
       fixedAssets: ["", Validators.required],
       applicationNo: [{ value: '', disabled: true }],
       area: ["", Validators.required],
       place: ["", Validators.required],
-      geotagInformation: ["", Validators.required],
+      geoTagInfo: ["", Validators.required],
       routeMap: ["", Validators.required],
       equitasBranchName: [{ value: '', disabled: true }],
-      distanceEquitasAssetBranch: [{ value: '', disabled: true }],
+      distanceFromEquitas: [{ value: '', disabled: true }],
       pdOfficerName: ["", Validators.required],
-      employeeCode: ["", Validators.required],
+      empCode: ["", Validators.required],
       date: ["", Validators.required],
       product: [{ value: '', disabled: true }],
       sourcingChannel: [{ value: '', disabled: true }],
-      tomeOfVerification: ["", Validators.required],
+      timeOfVerification: ["", Validators.required],
       loanAmount: ["", Validators.required],
       marginMoney: ["", Validators.required],
       emiAffordability: ["", Validators.required],
-      sourceOfMarginMoney: ["", Validators.required],
+      sourceOfMarginMoney: [{ value: '', disabled: true }],
     });
   }
 
   // GET PD-DETAILS FOR APPLICANT_ID
   getPdDetails() {
-    console.log('pd version', this.version);
-    console.log('pd applicant id', this.applicantId);
-    // if (this.version === 'undefined') {
-    //   this.version = '0';
-    //   console.log('in undefined condition version', this.version);
-    // }
-    const data = {
-      applicantId: this.applicantId,
-      pdVersion: this.version,
-    };
-    console.log('in request data version', this.version);
-    this.personalDiscussionService.getPdData(data).subscribe((value: any) => {
-      const processVariables = value.ProcessVariables;
-      if (processVariables.error.code === '0') {
-        this.applicantPdDetails = value.ProcessVariables.applicantPersonalDiscussionDetails;
-        // console.log('Applicant Details in calling get api ', this.applicantPdDetails);
-        if (this.applicantPdDetails) {
-          // this.setFormValue();
-          this.pdDataService.setCustomerProfile(this.applicantPdDetails);
-        }
-      }
+    // console.log('pd version', this.version);
+    // console.log('pd applicant id', this.applicantId);
+    // // if (this.version === 'undefined') {
+    // //   this.version = '0';
+    // //   console.log('in undefined condition version', this.version);
+    // // }
+    // const data = {
+    //   applicantId: this.applicantId,
+    //   pdVersion: this.version,
+    // };
+    // console.log('in request data version', this.version);
+    // this.personalDiscussionService.getPdData(data).subscribe((res: any) => {
+    //   const response = res.ProcessVariables;
+    //   if (response.error.code === '0') {
+    //     this.otherDetails = res.ProcessVariables.otherDetails;
+    //     // console.log('Applicant Details in calling get api ', this.otherDetails);
+    //     if (this.otherDetails) {
+    //       // this.setFormValue();
+    //   // this.pdDataService.setCustomerProfile(this.otherDetails);
+    //     }
+    //   }
+    // });
+  }
+
+  //PATCH_FORM_VALUES
+  setFormValue() {
+    // const otherDetailsFormModal = this.otherDetails || {};
+    this.otherDetailsForm.patchValue({ 
+      agricultureProof: this.otherDetails.agricultureProof || '',
+      income: this.otherDetails.income || '',
+      securedLoans: this.otherDetails.securedLoans || '',
+      unsecuredLoans: this.otherDetails.unsecuredLoans || '',
+      creditors: this.otherDetails.creditors || '',
+      debtors: this.otherDetails.debtors || '',
+      fixedAssets: this.otherDetails.fixedAssets || '',
+      applicationNo: this.otherDetails.applicationNo || '',
+      area: this.otherDetails.area || '',
+      place: this.otherDetails.place || '',
+      geoTagInfo: this.otherDetails.geoTagInfo || '',
+      routeMap: this.otherDetails.routeMap || '',
+      equitasBranchName: this.otherDetails.equitasBranchName || '',
+      distanceFromEquitas: this.otherDetails.distanceFromEquitas || '',
+      pdOfficerName: this.otherDetails.pdOfficerName || '',
+      empCode: this.otherDetails.empCode || '',
+      date: this.otherDetails.date ? this.utilityService.getDateFromString(this.otherDetails.date) : '',
+      product: this.otherDetails.product || '',
+      sourcingChannel: this.otherDetails.sourcingChannel || '',
+      timeOfVerification: this.otherDetails.timeOfVerification || '',
+      loanAmount: this.otherDetails.loanAmount || '',
+      marginMoney: this.otherDetails.marginMoney || '',
+      emiAffordability: this.otherDetails.emiAffordability || '',
+      sourceOfMarginMoney: this.otherDetails.sourceOfMarginMoney || '',
     });
   }
 
-  
+  //SAVE_OR_UPDATE_OTHER-DETAILS
+  saveOrUpdateOtherDetails() {
+    const formValues = this.otherDetailsForm.getRawValue();
+    console.log("FORMVALUES::::", formValues);
+    const data = {
+      leadId: this.leadId,
+      applicantId: this.applicantId,
+      userId: localStorage.getItem('userId'),
+      ...formValues,
+      date: this.utilityService.convertDateTimeTOUTC(formValues.date, 'DD/MM/YYYY'),
+    }
+    if (this.otherDetailsForm.valid === true) {
+      this.personalDiscussionService.saveOrUpdatePdData(data).subscribe((res: any) => {
+          const response = res.ProcessVariables;
+          // console.log("RESPONSE_SAVEUPDATE_API::", response)
+          if (res.error.code === "0") {
+            this.toasterService.showSuccess("Record Saved Successfully", "Other Details");
+            // this.toasterService.showSuccess(message, '');
+            }
+        });
+    } else {
+      this.toasterService.showError("Please fill all mandatory fields.", "Other Details");
+    }
 
+  }
+  
   // SUBMIT FORM
   onFormSubmit() {
+    this.isDirty = true;
+    this.saveOrUpdateOtherDetails();
   }
 
   onBack() {
