@@ -69,9 +69,13 @@ export class CreditDecisionComponent implements OnInit {
     getLocationIndex(url: string) {
         if (url.includes('credit-condition')) {
             return 0;
-        } else if (url.includes('term-sheet')) {
+        } else if (url.includes('term-sheet') && this.roleType == '1') {
             return 1;
-        } else if (url.includes('negotiation')) {
+        } else if (url.includes('term-sheet') && this.roleType == '2') {
+            return 2;
+        } else if (url.includes('negotiation') && this.roleType == '2') {
+            return 1;
+        }  else if (url.includes('negotiation') && this.roleType == '1') {
             return 2;
         } else if (url.includes('sanction-details')) {
             return 3;

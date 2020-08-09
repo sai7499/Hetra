@@ -154,9 +154,7 @@ salesResponse: any;
     
     if ( this.roleType == '1' ) { 
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/customer-feedback`]);
-    }
-    // tslint:disable-next-line: triple-equals
-    else if (this.roleType == '2') {
+    } else if (this.roleType == '2') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/check-list`]);
       // tslint:disable-next-line: triple-equals
       } else if (this.roleType == '4') {
@@ -168,8 +166,10 @@ salesResponse: any;
   }
 
   onBack() {
-    if (this.roleType == '2' || this.roleType == '1') {
+    if(this.roleType == '1') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
+    } else if (this.roleType == '2' ) {
+      this.router.navigate([`/pages/credit-decisions/${this.leadId}/term-sheet`]);
       // tslint:disable-next-line: triple-equals
       } else if (this.roleType == '4') {
         this.router.navigate([`pages/cpc-maker/${this.leadId}/negotiation`]);
