@@ -212,6 +212,7 @@
                             [placeholder]="'Distance from Equitas Asset Branch in Kms'"
                             [isRequired]="' Distance from Equitas Asset Branch in Kms is required'"
                             [type]="labels?.validationData?.distanceEquitasAssetBranch?.type"
+                            [maxLength]="labels?.validationData?.distanceEquitasAssetBranch?.maxLength"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input> -->
@@ -284,6 +285,7 @@
                             [(ngModel)]="sourcingChannel"
                             [isRequired]="' Sourcing Channel is required'"
                             [type]="labels?.validationData?.equitasBranchName?.type"
+                            [maxLength]="labels?.validationData?.equitasBranchName?.maxLength"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>

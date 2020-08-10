@@ -2002,6 +2002,9 @@
             "type": "alpha"
         },
         "distanceEquitasAssetBranch": {
+            "maxLength": {
+                "rule": 12
+            },
             "type": "number"
         },
         "pdOfficerName": {
