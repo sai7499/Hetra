@@ -99,7 +99,6 @@ export class ReferenceDetailsComponent implements OnInit {
   //GET ALL LOVS
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
-    console.log('Lov', this.LOV.LOVS)
   }
 
   getReferenceDetails() {
@@ -208,7 +207,6 @@ export class ReferenceDetailsComponent implements OnInit {
   getPincode(val) {
     const id = val.id;
     const pincodeValue = val.value;
-    console.log('val', id)
 
     if (pincodeValue.length === 6) {
       const pincodeNumber = Number(pincodeValue);
@@ -267,7 +265,6 @@ export class ReferenceDetailsComponent implements OnInit {
           return;
         }
         if (id === 'refererPincode') {
-          console.log(value, 'refererPincode')
           this.refererPincode = value;
           this.referenceDetailsForm.patchValue({
             refererCity: value.city[0].value,
@@ -278,7 +275,6 @@ export class ReferenceDetailsComponent implements OnInit {
         } else if (id === 'referencePincode') {
 
           this.referencePincode = value;
-          console.log(value, 'referencePincode')
           this.referenceDetailsForm.patchValue({
             referenceCity: value.city[0].value,
             referenceDistrict: value.district[0].value,
@@ -291,7 +287,6 @@ export class ReferenceDetailsComponent implements OnInit {
           // this.setDefaultValueForAddress(value, formGroupName);
         });
       });
-    console.log('')
   }
 
   onFormSubmit() {
