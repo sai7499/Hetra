@@ -33,8 +33,8 @@
                 <label for="applicant_name"> {{ labels.fullName }} </label>
 
                 <app-custom-input [id]="'applicant_name'" [type]="labels?.validationData?.name?.type"
-                    formControlName="applicantName" [maxLength]="labels?.validationData?.name?.maxLength" [value]="personalDetailsForm.get('firstName').value + ' ' +
-                    personalDetailsForm.get('middleName').value + ' ' + personalDetailsForm.get('lastName').value"
+                    formControlName="applicantName" [maxLength]="labels?.validationData?.name?.maxLength"
+                    [value]="(personalDetailsForm.get('firstName').value || '') + ' ' + (personalDetailsForm.get('middleName').value || '') + ' ' + (personalDetailsForm.get('lastName').value || '')"
                     [placeholder]="'Enter Full Name'">
                 </app-custom-input>
 
@@ -74,7 +74,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="father_full_name">{{ labels.fatherNameHusbandFullName }}</label>
                 <app-custom-input [id]="'father_full_name'" [type]="labels?.validationData?.name?.type"
-                    formControlName="fatherName" [maxLength]="labels?.validationData?.name?.maxLength"
+                    formControlName="fatherFullName" [maxLength]="labels?.validationData?.name?.maxLength"
                     [value]="personalDetailsForm.get('fatherFirstName').value + ' ' + personalDetailsForm.get('fatherMiddleName').value + ' ' + personalDetailsForm.get('fatherLastName').value"
                     [placeholder]="'Enter Father/Husband Full Name'">
                 </app-custom-input>
@@ -217,7 +217,8 @@
                 <label for="nature_of_business">{{ labels.natureOfBusiness }}
                     <!-- <sub class="star_red_col">*</sub> -->
                 </label>
-                <app-vf-custom-select [values]="applicantLov?.natureOfBusiness" formControlName="natureOfBusiness"></app-vf-custom-select>
+                <app-vf-custom-select [values]="applicantLov?.natureOfBusiness" formControlName="natureOfBusiness">
+                </app-vf-custom-select>
             </div>
 
         </div>
