@@ -36,6 +36,9 @@ export class OtherDetailsComponent implements OnInit {
   showSubmit: boolean = true;
   userId: any;
   taskId: number;
+  showReinitiate: boolean;
+  roles: any;
+  roleType: any;
 
   constructor(
               private labelsData: LabelsService,
@@ -237,7 +240,6 @@ export class OtherDetailsComponent implements OnInit {
 
   submitToCredit() {
     if (this.otherDetailsForm.valid) {
-
       const data = {
         taskName: Constant.PDTASKNAME,
         leadId: this.leadId,
@@ -245,7 +247,6 @@ export class OtherDetailsComponent implements OnInit {
         taskId: this.taskId,
         applicantId: this.applicantId
       };
-
       this.personalDiscussionService.submitPdReport(data).subscribe((value: any) => {
         const processVariables = value.ProcessVariables;
         if (processVariables.error.code === '0') {
@@ -260,6 +261,26 @@ export class OtherDetailsComponent implements OnInit {
       this.toasterService.showError('Please Enter Required Details', '');
       this.utilityService.validateAllFormFields(this.otherDetailsForm)
     }
+  }
+
+  reinitiatePd() {  // fun calling reinitiate fi report  api for reinitiating the respective fi report
+    const data = {
+      applicantId: this.applicantId,
+      // applicantId: 1,
+      userId: this.userId
+    };
+    this.personalDiscussionService.reinitiatePd(data).subscribe((res: any) => {
+      const processVariables = res.ProcessVariables;
+      console.log('response reinitiate pd', processVariables);
+      const message = processVariables.error.message;
+      if (processVariables.error.code === '0') {
+        this.toasterService.showSuccess('Report Reinitiated Successfully', '');
+        this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
+      } else {
+        this.toasterService.showError('', 'message');
+
+      }
+    });
   }
 
   onBack() {
