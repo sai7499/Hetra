@@ -259,6 +259,8 @@ export class CreditConditionsComponent implements OnInit {
               }
             }
     
+          }else {
+            this.toasterService.showError(res['ProcessVariables'].error['message'], '');
           }
         
         })

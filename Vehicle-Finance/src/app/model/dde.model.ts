@@ -115,7 +115,7 @@ export interface PslData {
 
 export interface ApplicantDetails {
     applicantName?: string;
-    fatherName?: string;
+    fatherFullName?: string;
     gender?: string;
     maritalStatus?: string;
     physicallyChallenged?: string;
