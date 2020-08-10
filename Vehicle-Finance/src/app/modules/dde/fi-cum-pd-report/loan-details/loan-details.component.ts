@@ -419,11 +419,13 @@ export class LoanDetailsComponent implements OnInit {
 
   setFormValue() {
     // const loanDetailsModal = this.ddeStoreService.getLoanDetails() || {};
-
-    const newCvModel = this.newCvDetails || {};
+    let newCvModel = null;
+    newCvModel = this.newCvDetails || {};
     console.log('new cv model', newCvModel);
-    const usedVehicleModel = this.usedVehicleDetails || {};
-    const assetDetailsUsedVehicleModel = this.assetDetailsUsedVehicle || {};
+    let usedVehicleModel = null;
+    usedVehicleModel = this.usedVehicleDetails || {};
+    let assetDetailsUsedVehicleModel = null;
+    assetDetailsUsedVehicleModel = this.assetDetailsUsedVehicle || {};
 
     if (this.productCatCode === 'NCV' || this.productCatCode === 'NC') {
 
@@ -601,6 +603,8 @@ export class LoanDetailsComponent implements OnInit {
           console.log('PD Status', message);
           console.log('response loan details', value.ProcessVariables);
           this.toasterService.showSuccess('Record Saved Successfully', '');
+          this.getPdDetails();
+
         } else {
           console.log('error', processVariables.error.message);
           this.toasterService.showError('invalid loan details', 'message');
@@ -691,9 +695,11 @@ export class LoanDetailsComponent implements OnInit {
           this.toasterService.showSuccess('Record Saved Successfully', '');
           if (action === 'save') {
 
+            this.getPdDetails();
+
           } else if (action === 'next') {
 
-            if (this.version !== 'undefined') {
+            if (this.version != 'undefined') {
 
               // tslint:disable-next-line: max-line-length
               this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/reference-check/${this.version}`]);
@@ -734,7 +740,7 @@ export class LoanDetailsComponent implements OnInit {
   // }
 
   onNavigateBack() {
-    if (this.version !== 'undefined') {
+    if (this.version != 'undefined') {
       console.log('in routing defined version condition', this.version);
       // tslint:disable-next-line: max-line-length
       this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
