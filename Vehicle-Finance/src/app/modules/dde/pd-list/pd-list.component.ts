@@ -95,7 +95,9 @@ export class PdListComponent implements OnInit {
 
   }
 
-  navigatePage(applicantId: string, version: any) {
+  navigatePage(applicantId: string, version?: any) {
+
+    console.log('in navigate page', version);
 
     if (this.isFiCumPD === true) { // for routing to fi cum pd screens
 

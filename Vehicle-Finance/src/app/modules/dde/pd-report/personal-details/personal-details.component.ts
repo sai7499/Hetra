@@ -75,7 +75,7 @@ export class PersonalDetailsComponent implements OnInit {
       fatherFirstName: ['', Validators.required],
       fatherMiddleName: [''],
       fatherLastName: ['', Validators.required],
-      fatherName: [{ value: '', disabled: true }, Validators.required],
+      fatherFullName: [{ value: '', disabled: true }, Validators.required],
       gender: ['', Validators.required],
       dob: ['', Validators.required],
       maritalStatus: ['', Validators.required],
@@ -128,14 +128,14 @@ export class PersonalDetailsComponent implements OnInit {
     };
 
     this.personaldiscussion.getPdData(data).subscribe((value: any) => {
-      const processVariables = value.ProcessVariables;
-      if (processVariables.error.code === '0') {
-
+      if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
         this.personalPDDetais = value.ProcessVariables.applicantPersonalDiscussionDetails ? value.ProcessVariables.applicantPersonalDiscussionDetails : {};
         if (this.personalPDDetais) {
           this.setFormValue(this.personalPDDetais);
           this.pdDataService.setCustomerProfile(this.personalPDDetais);
         }
+      } else {
+        this.toasterService.showError(value.ErrorMessage, 'Personal Details')
       }
     });
   }
@@ -164,7 +164,7 @@ export class PersonalDetailsComponent implements OnInit {
       creditBureauScore: personalPDDetais.creditBureauScore || '',
       dob: personalPDDetais.dob ? this.utilityService.getDateFromString(personalPDDetais.dob) : '',
       email: personalPDDetais.email || '',
-      fatherName: personalPDDetais.fatherFullName || '',
+      fatherFullName: personalPDDetais.fatherFullName || '',
       fatherFirstName: nameOfSplit ? first : '',
       fatherMiddleName: nameOfSplit ? second : '',
       fatherLastName: nameOfSplit ? third : '',
@@ -245,7 +245,7 @@ export class PersonalDetailsComponent implements OnInit {
     let formValue = this.personalDetailsForm.getRawValue();
 
     formValue.applicantFullName = formValue.firstName + ' ' + formValue.middleName + ' ' + formValue.lastName;
-    formValue.fatherName = formValue.fatherFirstName + ' ' + formValue.fatherMiddleName + ' ' + formValue.fatherLastName;
+    formValue.fatherFullName = formValue.fatherFirstName + ' ' + formValue.fatherMiddleName + ' ' + formValue.fatherLastName;
     formValue.dob = formValue.dob ? this.utilityService.convertDateTimeTOUTC(formValue.dob, 'DD/MM/YYYY') : null;;
     formValue.weddingAnniversaryDate = formValue.weddingAnniversaryDate ? this.utilityService.convertDateTimeTOUTC(formValue.weddingAnniversaryDate, 'DD/MM/YYYY') : null;
 
@@ -257,9 +257,7 @@ export class PersonalDetailsComponent implements OnInit {
         userId: this.userId,
         applicantPersonalDiscussionDetails: formValue
       };
-
       this.personaldiscussion.saveOrUpdatePdData(data).subscribe((value: any) => {
-        const processVariables = value.ProcessVariables;
         if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
           this.personalPDDetais = value.ProcessVariables.applicantPersonalDiscussionDetails ? value.ProcessVariables.applicantPersonalDiscussionDetails : {};
           this.getLOV();

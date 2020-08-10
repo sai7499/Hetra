@@ -36,6 +36,7 @@ export class DdeComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('ficumpd', localStorage.getItem('isFiCumPd'));
     if (this.leadId) {
       const gotLeadData = this.route.snapshot.data.leadData;
       if (gotLeadData.Error === '0') {
