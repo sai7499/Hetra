@@ -942,7 +942,14 @@ export class DashboardComponent implements OnInit {
       currentPage: parseInt(pageNumber),
       // tslint:disable-next-line: radix
       perPage: parseInt(perPageCount),
-      myLeads: true
+      myLeads: true,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
     };
     this.responseForCredit(data);
   }
@@ -957,7 +964,14 @@ export class DashboardComponent implements OnInit {
       currentPage: parseInt(pageNumber),
       // tslint:disable-next-line: radix
       perPage: parseInt(perPageCount),
-      myLeads: false
+      myLeads: false,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
     };
     this.responseForCredit(data);
   }
