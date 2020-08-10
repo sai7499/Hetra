@@ -117,11 +117,9 @@ export class OtherDetailsComponent implements OnInit {
     this.applicationNo = String(this.leadId);
     this.product = leadData['leadDetails'].productCatName;
     if (this.fundingProgram === 'CAT D') {
-      this.otherDetailsForm.removeControl('agricultureProof');
-      this.otherDetailsForm.addControl('agricultureProof', new FormControl('', [Validators.required]));
+      this.otherDetailsForm.get('agricultureProof').enable(); //SET_VALIDATIONS
     } else {
-      this.otherDetailsForm.removeControl('agricultureProof');
-      this.otherDetailsForm.addControl('agricultureProof', new FormControl({ value: '', disabled: true }));
+      this.otherDetailsForm.get('agricultureProof').disable(); //DISABLE_FORMCONTROL_&&_VALIDATION
     }
   }
 
@@ -133,14 +131,14 @@ export class OtherDetailsComponent implements OnInit {
   //FORMGROUP
   initForm() {
     this.otherDetailsForm = this.formBuilder.group({
-      agricultureProof: [""],
+      agricultureProof: ["", Validators.required],
       income: ["", Validators.required],
       securedLoans: ["", Validators.required],
       unsecuredLoans: ["", Validators.required],
       creditors: ["", Validators.required],
       debtors: ["", Validators.required],
       fixedAssets: ["", Validators.required],
-      applicationNo: [{ value: this.leadId, disabled: true }],
+      applicationNo: [{ value: '', disabled: true }],
       area: ["", Validators.required],
       place: ["", Validators.required],
       geoTagInfo: [""],
@@ -176,7 +174,10 @@ export class OtherDetailsComponent implements OnInit {
         this.otherDetails = value.ProcessVariables.otherDetails;
         console.log('GET_OTHER_DETAILS:: ', this.otherDetails);
       }
-      this.setFormValue();
+        if(this.otherDetails) {
+          this.setFormValue(); /////////SET_FORM_VALUES_ON_INITIALISATION
+          this.pdDataService.setCustomerProfile(this.otherDetails);
+        } 
     });
   }
 
