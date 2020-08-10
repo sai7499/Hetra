@@ -18,13 +18,13 @@ export class ReferenceDetailsComponent implements OnInit {
   version: any;
   LOV: any = {};
   labels: any = {};
-  valuesToYesNo: any = [{key: 1, value: 'Yes'}, {key: 0, value: 'No'}];
+  valuesToYesNo: any = [{ key: 1, value: 'Yes' }, { key: 0, value: 'No' }];
 
   constructor(private labelsData: LabelsService,
-              private formBuilder: FormBuilder,
-              private router: Router,
-              private aRoute: ActivatedRoute,
-              private commomLovService: CommomLovService) { }
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private aRoute: ActivatedRoute,
+    private commomLovService: CommomLovService) { }
 
   ngOnInit() {
     this.getLabels();
@@ -57,12 +57,12 @@ export class ReferenceDetailsComponent implements OnInit {
     console.log('ApplicantId::', this.applicantId);
     console.log('Version::', this.version);
   }
-  
-    //GET ALL LOVS
-    getLOV() {
-      this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
-      console.log('LOV::', this.LOV);
-    }
+
+  //GET ALL LOVS
+  getLOV() {
+    this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
+    console.log('LOV::', this.LOV);
+  }
 
   //FORMGROUP
   initForm() {
@@ -107,7 +107,7 @@ export class ReferenceDetailsComponent implements OnInit {
     if (this.version !== 'undefined') {
       this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${this.applicantId}/income-details/${this.version}`]);
     } else {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/income-details`]);
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/income-details`]);
     }
   }
 
