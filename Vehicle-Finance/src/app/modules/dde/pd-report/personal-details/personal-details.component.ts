@@ -135,7 +135,7 @@ export class PersonalDetailsComponent implements OnInit {
           this.pdDataService.setCustomerProfile(this.personalPDDetais);
         }
       } else {
-        this.toasterService.showError(value.ErrorMessage,'Personal Details')
+        this.toasterService.showError(value.ErrorMessage, 'Personal Details')
       }
     });
   }
@@ -257,9 +257,7 @@ export class PersonalDetailsComponent implements OnInit {
         userId: this.userId,
         applicantPersonalDiscussionDetails: formValue
       };
-      console.log("LEADID::", this.leadId);
       this.personaldiscussion.saveOrUpdatePdData(data).subscribe((value: any) => {
-        const processVariables = value.ProcessVariables;
         if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
           this.personalPDDetais = value.ProcessVariables.applicantPersonalDiscussionDetails ? value.ProcessVariables.applicantPersonalDiscussionDetails : {};
           this.getLOV();
