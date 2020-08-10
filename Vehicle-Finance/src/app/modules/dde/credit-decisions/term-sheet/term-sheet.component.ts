@@ -113,6 +113,7 @@ export class TermSheetComponent implements OnInit {
       this.guaIdentityDetails =res['ProcessVariables'].guaIdentityDetails;
 
     } else {
+      this.isTermSheet =res['ProcessVariables'].isGenerated;
       this.toasterService.showError(res['ProcessVariables'].error['message'], '');
 
     }
