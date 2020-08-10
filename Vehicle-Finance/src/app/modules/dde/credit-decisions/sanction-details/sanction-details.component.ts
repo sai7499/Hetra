@@ -53,6 +53,7 @@ salesResponse: any;
     if (this.roleType == 1){
       this.getSanctionDetails();
     }
+    this.getSanctionDetails();
   }
 
   getLabels() {
@@ -73,7 +74,7 @@ salesResponse: any;
     const data = this.leadId;
     this.sanctionDetailsService.getSanctionDetails(data).subscribe((res: any) => {
       if (res['ProcessVariables'] && res['ProcessVariables'].error['code'] == "0") {
-        this.isSanctionDetails = true;
+        this.isSanctionDetails = res['ProcessVariables'].isGenerated;
         const response = res;
         this.sanctionDetailsObject = response.ProcessVariables;
         // Filter Out Applicant, Co-Applicant And Guarantor List If ApplicantList_Object Exist

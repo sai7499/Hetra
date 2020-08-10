@@ -89,7 +89,8 @@ export class TermSheetComponent implements OnInit {
    this.termSheetService.getTermSheet(ProcessVariables).subscribe(res => {
     if(res['ProcessVariables'] && res['ProcessVariables'].error['code'] == "0" ){
       console.log(res);
-      this.isTermSheet= true;
+      this.isTermSheet =res['ProcessVariables'].isGenerated;
+      // this.isTermSheet= true;
       this.agentDetails = res['ProcessVariables'].agentDetails;
       this.applicantDetails = res['ProcessVariables'].applicantDetails;
       this.applicationDetails = res['ProcessVariables'].applicationDetails;
@@ -112,6 +113,7 @@ export class TermSheetComponent implements OnInit {
       this.guaIdentityDetails =res['ProcessVariables'].guaIdentityDetails;
 
     } else {
+      this.isTermSheet =res['ProcessVariables'].isGenerated;
       this.toasterService.showError(res['ProcessVariables'].error['message'], '');
 
     }
@@ -162,7 +164,9 @@ export class TermSheetComponent implements OnInit {
     if(this.roleType != '2' && !this.isApprove){
       this.getTermSheet(this.leadId);
     }else if(this.isApprove && this.isLeadId){
-      this.getTermSheet(this.isLeadId);
+      this.getTermSheet(this.leadId);
+    }else{
+      this.getTermSheet(this.leadId);
     }
   }
   onNext() {
