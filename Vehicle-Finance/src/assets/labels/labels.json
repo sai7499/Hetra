@@ -1808,11 +1808,7 @@
                 "rule": 6,
                 "msg": "Pincode Max Length Should be 6"
             },
-            "type": "number",
-            "patternCheck": {
-                "rule": "[5-6]{1}[0-9]{5}",
-                "msg": "Invalid Pincode"
-            }
+            "type": "number"
         },
         "numberOfYears": {
             "maxLength": {
