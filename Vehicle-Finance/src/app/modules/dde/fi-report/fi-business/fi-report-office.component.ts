@@ -51,6 +51,8 @@ export class FiReportOfficeComponent implements OnInit {
   roleType: any;
   roles: any;
   invalidPincode: boolean;
+  custSegment: any;
+  concernLov: any;
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -119,6 +121,27 @@ export class FiReportOfficeComponent implements OnInit {
     this.labelService.getLabelsData().subscribe(async (value) => {
       this.labels = value;
     });
+  }
+  getConcernType() {
+    if (this.custSegment == "SALCUSTSEG") {
+      this.concernLov = this.LOV.LOVS['concernType-Salaried']
+      this.concernType(this.custSegment);
+    } else if (this.custSegment == "SEMCUSTSEG") {
+      this.concernLov = this.LOV.LOVS['concernType-SelfEmployed']
+      this.concernType(this.custSegment);
+    }
+  }
+  concernType(event) {
+    console.log('in concern event');
+    console.log(event);
+    this.typeOfConcernValue = event ? event : event;
+    if (this.typeOfConcernValue === 'SALCUSTSEG') {
+      this.removeAddressValidators();
+    } else if (this.typeOfConcernValue === 'SEMCUSTSEG') {
+      this.addAddressValidators();
+
+    }
+
   }
 
   getLOV() {
@@ -354,18 +377,7 @@ export class FiReportOfficeComponent implements OnInit {
 
     });
   }
-  concernType(event) {
-    console.log('in concern event');
-    console.log(event);
-    this.typeOfConcernValue = event ? event : event;
-    if (this.typeOfConcernValue === 'SLRYCTYP') {
-      this.removeAddressValidators();
-    } else if (this.typeOfConcernValue === 'SEMPCTYP') {
-      this.addAddressValidators();
 
-    }
-
-  }
   removeAddressValidators() {
     console.log('in remove address validators');
     this.fieldReportForm.get('officeApproach').clearValidators();
@@ -444,11 +456,14 @@ export class FiReportOfficeComponent implements OnInit {
       console.log('get fi report response', processVariables);
       const message = processVariables.error.message;
       if (processVariables.error.code === '0') {
+        this.custSegment = res.ProcessVariables.getFIBusinessDetails.custSegment;
+        // this.custSegment = "SEMCUSTSEG"
         this.applicantFullName = res.ProcessVariables.applicantName;
         console.log('in get fi applicant name', this.applicantFullName);
         this.fiDetails = res.ProcessVariables.getFIBusinessDetails;
         console.log('in get fi details', this.fiDetails);
         this.setFormValue();
+        this.getConcernType()
         if (this.fiDetails) {
           if (this.fiDetails.pincode != null) {
             this.getPincodeResult(Number(this.fiDetails.pincode));
@@ -557,6 +572,7 @@ export class FiReportOfficeComponent implements OnInit {
       const message = processVariables.error.message;
       if (processVariables.error.code === '0') {
         this.toasterService.showSuccess('Record Saved Successfully', '');
+        this.getFiReportDetails();
 
       } else {
         this.toasterService.showError('', 'message');

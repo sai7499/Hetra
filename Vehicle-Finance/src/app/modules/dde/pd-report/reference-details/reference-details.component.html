@@ -104,6 +104,10 @@
                     [type]="labels?.validationData?.pincode?.type"
                     [maxLength]="labels?.validationData?.pincode?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
+                <div class="invalid-feedback" *ngIf="isValidPincode">
+                    Invalid Pincode
+                </div>
+
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="city"> {{ labels.city }}
@@ -230,6 +234,9 @@
                     [isRequired]="'Pincode is required'" [type]="labels?.validationData?.pincode?.type"
                     [maxLength]="labels?.validationData?.pincode?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
+                <div class="invalid-feedback" *ngIf="isValidPincode">
+                    Invalid Pincode
+                </div>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="city"> {{ labels.city }}

@@ -451,12 +451,12 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="comments">{{ labels?.commentsAndRecommendations }}
           <sub class="star_red_col">*</sub></label>
-                <app-custom-input id="comments" [placeholder]="'comments'" [type]="labels?.validationData?.assetsVisible?.type" formControlName="fiComments" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.assetsVisible?.maxLength" [isDirty]="isDirty">
+                <app-custom-input id="comments" [placeholder]="'comments'" [type]="labels?.validationData?.assetsVisible?.type" formControlName="fiComments" [isRequired]="'Comments are required'" [maxLength]="labels?.validationData?.assetsVisible?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="distance">{{ labels?.distanceinKMs }} <sub class="star_red_col">*</sub></label>
-                <app-custom-input id="distance" [placeholder]="'distance in KMs'" [type]="labels?.validationData?.noOfVehicles?.type" formControlName="distanceInKms" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.noOfVehicles?.maxLength" [isDirty]="isDirty">
+                <app-custom-input id="distance" [placeholder]="'distance in KMs'" [type]="labels?.validationData?.noOfVehicles?.type" formControlName="distanceInKms" [isRequired]="'Distance is required'" [maxLength]="labels?.validationData?.noOfVehicles?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -472,7 +472,7 @@
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="verifiedBy">{{ labels?.verifiedBy }} <sub class="star_red_col">*</sub></label>
-                <app-custom-input id="verifiedBy" [placeholder]="'Enter details'" [type]="labels?.validationData?.name?.type" formControlName="verifiedBy" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
+                <app-custom-input id="verifiedBy" [placeholder]="'Enter details'" [type]="labels?.validationData?.name?.type" formControlName="verifiedBy" [isRequired]="'Verified By is required'" [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">

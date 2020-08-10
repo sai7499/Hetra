@@ -162,10 +162,7 @@ export class CheckListComponent implements OnInit {
   onSave() {
   console.log(this.checklistForm.status, 'status before add validators');
   this.addValidatorsCO();
-  if ( this.checklistForm.invalid) {
-      this.toasterService.showError('Select Mandatory Fields', ' ');
-      return ;
-    }
+
   this.checkListFormArray = [];
     // tslint:disable-next-line: prefer-for-of
   for (let i = 0; i < this.checklistForm.controls.checklistArray.length; i++) {
@@ -177,7 +174,10 @@ export class CheckListComponent implements OnInit {
           checklistName: data.checklistName,
           coAnswer: data.coAnswer
         };
+
         this.checkListFormArray.push(body);
+        this.checkListFormArray = this.checkListFormArray.filter((res) => res.coAnswer !== null );
+        console.log(this.checkListFormArray);
       // tslint:disable-next-line: triple-equals
       } else if (this.roleType == '4') {
         const body = {
@@ -186,6 +186,7 @@ export class CheckListComponent implements OnInit {
           cpcMaker: data.cpcMaker
         };
         this.checkListFormArray.push(body);
+        this.checkListFormArray = this.checkListFormArray.filter((res) => res.cpcMaker !== null );
       // tslint:disable-next-line: triple-equals
       } else if ( this.roleType == '5') {
         const body = {
@@ -194,6 +195,8 @@ export class CheckListComponent implements OnInit {
           cpcChecker: data.cpcChecker
         };
         this.checkListFormArray.push(body);
+        this.checkListFormArray = this.checkListFormArray.filter((res) => res.cpcChecker !== null );
+
       }
     }
   const bodyReq = {
@@ -201,6 +204,11 @@ export class CheckListComponent implements OnInit {
       leadId: this.leadId,
       checkList: this.checkListFormArray
     };
+  if ( this.checklistForm.invalid) {
+          console.log(this.checklistForm);
+          this.toasterService.showError('Select Mandatory Fields', ' ');
+          return ;
+        }
   console.log(bodyReq);
   this.checkListService.saveCheckListDetails(bodyReq).subscribe((res: any) => {
       // tslint:disable-next-line: triple-equals
@@ -259,7 +267,7 @@ export class CheckListComponent implements OnInit {
         sendBackToCredit: false
         };
       this.termSheetService.assignTaskToTSAndCPC(body).subscribe((res) => {
-          console.log(res);
+         this.router.navigate([`pages/dashboard`]);
         });
     // tslint:disable-next-line: triple-equals
     } else if (this.roleType == '4') {
@@ -271,7 +279,8 @@ export class CheckListComponent implements OnInit {
         sendBackToCredit: false
         };
       this.cpcService.getCPCRolesDetails(body).subscribe((res) => {
-          console.log(res);
+        this.toasterService.showSuccess('Record Saved Successfully','');
+        this.router.navigate([`pages/dashboard`]);
         });
     // tslint:disable-next-line: triple-equals
     } else if ( this.roleType == '5') {
@@ -283,7 +292,7 @@ export class CheckListComponent implements OnInit {
         sendBackToCredit: false
         };
       this.cpcService.getCPCRolesDetails(body).subscribe((res) => {
-          console.log(res);
+        this.router.navigate([`pages/dashboard`]);
         });
     }
 
