@@ -209,6 +209,9 @@ export class IncomeDetailsComponent implements OnInit {
 
 
   async ngOnInit() {
+    this.getLabels();
+    this.initForm();
+
     this.leadId = (await this.getLeadId()) as number;
     
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -229,8 +232,6 @@ export class IncomeDetailsComponent implements OnInit {
       this.version = value.version ? String(value.version): null;
     });
     this.getLOV();
-    this.initForm();
-    this.getLabels();
     this.getIncomeDetails();
   }
 
