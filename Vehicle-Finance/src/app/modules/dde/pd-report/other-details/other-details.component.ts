@@ -168,10 +168,12 @@ export class OtherDetailsComponent implements OnInit {
       pdVersion: this.version,
     };
     console.log('REQUEST DATA VERSION::', this.version);
-    this.personalDiscussionService.getPdData(data).subscribe((res: any) => {
-      const response = res.ProcessVariables;
-      if (response.error.code === '0') {
-        this.otherDetails = res.ProcessVariables.otherDetails;
+    this.personalDiscussionService.getPdData(data).subscribe((value: any) => {
+      const processVariables = value.ProcessVariables;
+      if (processVariables.error.code === '0') {
+        this.showReinitiate = value.ProcessVariables.showReinitiate;
+        console.log('in other details show renitiate', this.showReinitiate);
+        this.otherDetails = value.ProcessVariables.otherDetails;
         console.log('GET_OTHER_DETAILS:: ', this.otherDetails);
       }
       this.setFormValue();
@@ -252,7 +254,7 @@ export class OtherDetailsComponent implements OnInit {
       this.personalDiscussionService.submitPdReport(data).subscribe((value: any) => {
         const processVariables = value.ProcessVariables;
         if (processVariables.error.code === '0') {
-          this.toasterService.showSuccess('Submitted to Credit Successfully', '');
+          this.toasterService.showSuccess('submitted to credit successfully', '');
           this.router.navigate([`/pages/dashboard`]);
         } else {
           this.toasterService.showError(processVariables.error.message, '');
@@ -260,13 +262,12 @@ export class OtherDetailsComponent implements OnInit {
       });
     } else {
       this.isDirty = true;
-      this.toasterService.showError('Please Enter Required Details', '');
+      this.toasterService.showError('please enter required details', '');
       this.utilityService.validateAllFormFields(this.otherDetailsForm)
     }
   }
 
-  // fun calling reinitiate fi report  api for reinitiating the respective fi report
-  reinitiatePd() {  
+  reinitiatePd() {  // fun calling reinitiate fi report  api for reinitiating the respective fi report
     const data = {
       applicantId: this.applicantId,
       // applicantId: 1,
