@@ -175,7 +175,7 @@ export class OtherDetailsComponent implements OnInit {
         console.log('GET_OTHER_DETAILS:: ', this.otherDetails);
       }
         if(this.otherDetails) {
-          this.setFormValue(); /////////SET_FORM_VALUES_ON_INITIALISATION
+          this.setFormValue(); //SET_FORM_VALUES_ON_INITIALISATION
           this.pdDataService.setCustomerProfile(this.otherDetails);
         } 
     });
