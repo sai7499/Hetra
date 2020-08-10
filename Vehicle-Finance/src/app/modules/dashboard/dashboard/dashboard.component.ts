@@ -138,7 +138,7 @@ export class DashboardComponent implements OnInit {
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService,
     private sharedService: SharedService
-  ) {}
+  ) { }
 
   onTabsLoading(data) {
     if (this.roleType === 1) {
@@ -1277,6 +1277,7 @@ export class DashboardComponent implements OnInit {
   }
   getLeadId(item) {
     localStorage.setItem('salesResponse', item.is_sales_response_completed);
+    localStorage.setItem('isFiCumPd', item.isFiCumPD);
     this.vehicleDataStoreService.setCreditTaskId(item.taskId);
     this.sharedService.getTaskID(item.taskId);
   }

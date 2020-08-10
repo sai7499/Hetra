@@ -222,7 +222,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
   onFormSubmit(action) {
     const formModal = this.customerProfileForm.value;
-    const customerProfileModel = { ...formModal };
+    let customerProfileModel = { ...formModal };
     this.isDirty = true;
     if (this.customerProfileForm.invalid) {
       this.toasterService.showWarning('please enter required details', '');
@@ -255,10 +255,12 @@ export class CustomerProfileDetailsComponent implements OnInit {
       if (res.ProcessVariables.error.code === '0') {
         this.toasterService.showSuccess('Record Saved Successfully', '');
         if (action === 'save') {
+          customerProfileModel = {};
+          this.getPdDetails();
 
         } else if (action === 'next') {
 
-          if (this.version) {
+          if (this.version != 'undefined') {
 
             // tslint:disable-next-line: max-line-length
             this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/loan-details/${this.version}`]);
@@ -293,7 +295,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
   //   }
   // }
   onNavigateBack() {
-    if (this.version !== 'undefined') {
+    if (this.version != 'undefined') {
       console.log('in  routing defined version condition', this.version);
       // tslint:disable-next-line: max-line-length
       this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/applicant-details/${this.version}`]);
