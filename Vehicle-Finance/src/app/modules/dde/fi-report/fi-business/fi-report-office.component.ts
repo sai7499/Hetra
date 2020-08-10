@@ -201,13 +201,21 @@ export class FiReportOfficeComponent implements OnInit {
           });
           // tslint:disable-next-line: no-string-literal
         } else if (value['ProcessVariables'].error.code === '1') {
-          this.invalidPincode = true;
+          if (value['ProcessVariables'].error.message && value['ProcessVariables'].error.message != null) {
+            const message = value.ProcessVariables.error.message;
+            this.toasterService.showWarning('', message);
+            this.invalidPincode = true
+          } else {
+            this.invalidPincode = true
+
+          }
           // tslint:disable-next-line: no-string-literal
-          console.log('in valid pincode', value['ProcessVariables'].error);
-          const message = value.ProcessVariables.error.message;
-          this.toasterService.showWarning('', message);
+          // console.log('in valid pincode', value['ProcessVariables'].error);
+          // const message = value.ProcessVariables.error.message;
+          // this.toasterService.showWarning('', message);
 
         }
+
       });
 
   }
