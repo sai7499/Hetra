@@ -263,7 +263,8 @@ export class OtherDetailsComponent implements OnInit {
     }
   }
 
-  reinitiatePd() {  // fun calling reinitiate fi report  api for reinitiating the respective fi report
+  // fun calling reinitiate fi report  api for reinitiating the respective fi report
+  reinitiatePd() {  
     const data = {
       applicantId: this.applicantId,
       // applicantId: 1,
