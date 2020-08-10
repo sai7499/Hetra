@@ -257,7 +257,7 @@ export class PersonalDetailsComponent implements OnInit {
         userId: this.userId,
         applicantPersonalDiscussionDetails: formValue
       };
-
+      console.log("LEADID::", this.leadId);
       this.personaldiscussion.saveOrUpdatePdData(data).subscribe((value: any) => {
         const processVariables = value.ProcessVariables;
         if (value.Error === '0' && value.ProcessVariables.error.code === '0') {

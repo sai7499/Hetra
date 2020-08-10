@@ -50,7 +50,7 @@ salesResponse: any;
       this.roleType = value.roleType;
       console.log('role Type', this.roleType);
     });
-    if (this.roleType ==1){
+    if (this.roleType == 1){
       this.getSanctionDetails();
     }
   }
