@@ -6,10 +6,10 @@ import { LabelsService } from '@services/labels.service';
 import { CommomLovService } from "@services/commom-lov-service";
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { PdDataService } from '@modules/dde/fi-cum-pd-report/pd-data.service';
-import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
-import { ToasterService } from '@services/toaster.service';
-import { Constant } from '../../../../../assets/constants/constant';
 import { UtilityService } from '@services/utility.service';
+import { ToasterService } from '@services/toaster.service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { Constant } from '../../../../../assets/constants/constant';
 import { LoginStoreService } from '@services/login-store.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 
@@ -21,87 +21,101 @@ import { SharedService } from '@modules/shared/shared-service/shared-service';
 export class OtherDetailsComponent implements OnInit {
   otherDetailsForm: FormGroup;
   fundingProgram: any;
-  leadId: number;
+  leadId;
   applicantId: any;
   version: any;
-
   labels: any = {};
   LOV: any = {};
-  applicantPdDetails: any;
+  formValues: any = {};
+  otherDetails: any;
+  equitasBranchName: any;
+  product: any;
+  sourcingChannel: any;
+  applicationNo: any;
   isDirty: boolean;
   showSubmit: boolean = true;
-
   userId: any;
   taskId: number;
   showReinitiate: boolean;
   roles: any;
   roleType: any;
 
-  constructor(private labelsData: LabelsService,
-    private formBuilder: FormBuilder, private loginStoreService: LoginStoreService,
-    private router: Router, private createLeadDataService: CreateLeadDataService,
-    private aRoute: ActivatedRoute,
-    private commomLovService: CommomLovService,
-    private toasterService: ToasterService,
-    private utilityService: UtilityService,
-    private personalDiscussionService: PersonalDiscussionService,
-    private pdDataService: PdDataService,
-    private sharedSercive: SharedService
-  ) {
-    this.sharedSercive.taskId$.subscribe((value) => {
-      this.taskId = value;
-    });
-  }
+  constructor(
+              private labelsData: LabelsService,
+              private formBuilder: FormBuilder, 
+              private loginStoreService: LoginStoreService,
+              private router: Router, 
+              private createLeadDataService: CreateLeadDataService,
+              private aRoute: ActivatedRoute,
+              private commomLovService: CommomLovService,
+              private toasterService: ToasterService,
+              private utilityService: UtilityService,
+              private personalDiscussionService: PersonalDiscussionService,
+              private pdDataService: PdDataService,
+              private sharedSercive: SharedService
+          ) {
+              this.sharedSercive.taskId$.subscribe((value) => {
+                this.taskId = value;
+              });
+          }
 
-  ngOnInit() {
-
+   async ngOnInit() {
+    this.initForm();
+    this.getLabels();
+    this.leadId = (await this.getLeadId()) as number;
+    this.getLOV();
+    // this.getPdDetails();
+    this.getLeadSectiondata();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     this.roles = roleAndUserDetails.roles;
     this.roleType = this.roles[0].roleType;
-
-    this.getLabels();
-    this.getLeadId();
-    this.getApplicantId();
-    this.getLOV();
-    this.getPdDetails();
-    this.initForm();
-    this.getLeadSectiondata();
   }
 
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
-        this.aRoute.params.subscribe((value) => {// calling get lead section data function in line 174
+        this.aRoute.params.subscribe((value) => {    //GETTING APPLICANT_ID FROM ROUTES
           if (!value && !value.applicantId) {
             return;
           }
           this.applicantId = Number(value.applicantId);
           this.version = String(value.version);
-          console.log('xv', this.version)
-          if (this.version !== 'undefined') {
-            this.showSubmit = false;
-          }
+          console.log('APPLICANT_ID::', this.applicantId)
+          console.log('VERSION::', this.version)
+          // if (this.version !== 'undefined') {
+          //   this.showSubmit = false;
+          // }
           this.getPdDetails();    // for getting the data for pd details on initializing the page
         });
-      }, err => {
-        console.log('err', err)
+      }, error => {
+        console.log('ERROR::', error)
       }
     );
   }
 
   // GET LEADID FROM URL
   getLeadId() {
-    this.aRoute.parent.params.subscribe((val) => {
-      this.leadId = Number(val.leadId);
+    return new Promise((resolve, reject) => {
+      this.aRoute.parent.params.subscribe((value) => {
+        console.log("LEAD_ID::", value.leadId);
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
     });
   }
 
+  //GET LEAD SECTION DATA
   getLeadSectiondata() {
     const leadData = this.createLeadDataService.getLeadSectionData();
     this.fundingProgram = leadData['leadDetails'].fundingProgramDesc;
-
+    this.sourcingChannel = leadData['leadDetails'].sourcingChannelDesc;
+    this.equitasBranchName = leadData['leadDetails'].branchName;
+    this.applicationNo = String(this.leadId);
+    this.product = leadData['leadDetails'].productCatName;
     if (this.fundingProgram === 'CAT D') {
       this.otherDetailsForm.removeControl('agricultureProof');
       this.otherDetailsForm.addControl('agricultureProof', new FormControl('', [Validators.required]));
@@ -109,15 +123,6 @@ export class OtherDetailsComponent implements OnInit {
       this.otherDetailsForm.removeControl('agricultureProof');
       this.otherDetailsForm.addControl('agricultureProof', new FormControl({ value: '', disabled: true }));
     }
-
-  }
-
-  //GET APPLICANTID
-  getApplicantId() {
-    this.aRoute.params.subscribe((value: any) => {
-      this.applicantId = Number(value.applicantId);
-      this.version = String(value.version);
-    });
   }
 
   //GET ALL LOVS
@@ -131,27 +136,27 @@ export class OtherDetailsComponent implements OnInit {
       agricultureProof: [""],
       income: ["", Validators.required],
       securedLoans: ["", Validators.required],
-      unSecuredLoans: ["", Validators.required],
+      unsecuredLoans: ["", Validators.required],
       creditors: ["", Validators.required],
       debtors: ["", Validators.required],
       fixedAssets: ["", Validators.required],
-      applicationNo: [{ value: '', disabled: true }],
+      applicationNo: [{ value: this.leadId, disabled: true }],
       area: ["", Validators.required],
       place: ["", Validators.required],
-      geotagInformation: ["", Validators.required],
-      routeMap: ["", Validators.required],
+      geoTagInfo: [""],
+      routeMap: [""],
       equitasBranchName: [{ value: '', disabled: true }],
-      distanceEquitasAssetBranch: [{ value: '', disabled: true }],
+      distanceFromEquitas: [{ value: '', disabled: true }],
       pdOfficerName: ["", Validators.required],
-      employeeCode: ["", Validators.required],
+      empCode: ["", Validators.required],
       date: ["", Validators.required],
       product: [{ value: '', disabled: true }],
       sourcingChannel: [{ value: '', disabled: true }],
-      tomeOfVerification: ["", Validators.required],
+      timeOfVerification: ["", Validators.required],
       loanAmount: ["", Validators.required],
       marginMoney: ["", Validators.required],
       emiAffordability: ["", Validators.required],
-      sourceOfMarginMoney: ["", Validators.required],
+      sourceOfMarginMoney: [{ value: '', disabled: true }],
     });
   }
 
@@ -159,30 +164,86 @@ export class OtherDetailsComponent implements OnInit {
   getPdDetails() {
     const data = {
       applicantId: this.applicantId,
+      userId: localStorage.getItem('userId'),
       pdVersion: this.version,
     };
+    console.log('REQUEST DATA VERSION::', this.version);
     this.personalDiscussionService.getPdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
         this.showReinitiate = value.ProcessVariables.showReinitiate;
         console.log('in other details show renitiate', this.showReinitiate);
-        this.applicantPdDetails = value.ProcessVariables.applicantPersonalDiscussionDetails;
-        // console.log('Applicant Details in calling get api ', this.applicantPdDetails);
-        if (this.applicantPdDetails) {
-          // this.setFormValue();
-          this.pdDataService.setCustomerProfile(this.applicantPdDetails);
-        }
+        this.otherDetails = value.ProcessVariables.otherDetails;
+        console.log('GET_OTHER_DETAILS:: ', this.otherDetails);
       }
+      this.setFormValue();
     });
   }
 
+  //PATCH_FORM_VALUES
+  setFormValue() {
+    // const otherDetailsFormModal = this.otherDetails || {};
+    this.otherDetailsForm.patchValue({ 
+      agricultureProof: this.otherDetails.agricultureProof || '',
+      income: this.otherDetails.income || '',
+      securedLoans: this.otherDetails.securedLoans || '',
+      unsecuredLoans: this.otherDetails.unsecuredLoans || '',
+      creditors: this.otherDetails.creditors || '',
+      debtors: this.otherDetails.debtors || '',
+      fixedAssets: this.otherDetails.fixedAssets || '',
+      applicationNo: this.otherDetails.applicationNo || '',
+      area: this.otherDetails.area || '',
+      place: this.otherDetails.place || '',
+      geoTagInfo: this.otherDetails.geoTagInfo || '',
+      routeMap: this.otherDetails.routeMap || '',
+      equitasBranchName: this.otherDetails.equitasBranchName || '',
+      distanceFromEquitas: this.otherDetails.distanceFromEquitas || '',
+      pdOfficerName: this.otherDetails.pdOfficerName || '',
+      empCode: this.otherDetails.empCode || '',
+      date: this.otherDetails.date ? this.utilityService.getDateFromString(this.otherDetails.date) : '',
+      product: this.otherDetails.product || '',
+      sourcingChannel: this.otherDetails.sourcingChannel || '',
+      timeOfVerification: this.otherDetails.timeOfVerification || '',
+      loanAmount: this.otherDetails.loanAmount || '',
+      marginMoney: this.otherDetails.marginMoney || '',
+      emiAffordability: this.otherDetails.emiAffordability || '',
+      sourceOfMarginMoney: this.otherDetails.sourceOfMarginMoney || '',
+    });
+  }
+
+  //SAVE_OR_UPDATE_OTHER-DETAILS
+  saveOrUpdateOtherDetails() {
+    this.formValues = this.otherDetailsForm.getRawValue();
+    console.log("FORMVALUES::", this.formValues);
+    this.formValues.date = this.formValues.date ? this.utilityService.convertDateTimeTOUTC(this.formValues.date, 'DD/MM/YYYY') : null;
+    if (this.otherDetailsForm.valid === true) {
+    const data = {
+      leadId: this.leadId,
+      applicantId: this.applicantId,
+      userId: this.userId,
+      otherDetails: this.formValues
+    }
+      this.personalDiscussionService.saveOrUpdatePdData(data).subscribe((res: any) => {
+          const response = res.ProcessVariables;
+          // console.log("RESPONSE_SAVEUPDATE_API::", response)
+          if (res['ProcessVariables'] && res['ProcessVariables'].error['code'] == "0") {
+            this.toasterService.showSuccess("Record Saved Successfully", "Other Details");
+            }
+        });
+    } else {
+      this.toasterService.showError("Please fill all mandatory fields.", "Other Details");
+    }
+
+  }
+  
   // SUBMIT FORM
   onFormSubmit() {
+    this.isDirty = true;
+    this.saveOrUpdateOtherDetails();
   }
 
   submitToCredit() {
     if (this.otherDetailsForm.valid) {
-
       const data = {
         taskName: Constant.PDTASKNAME,
         leadId: this.leadId,
@@ -190,7 +251,6 @@ export class OtherDetailsComponent implements OnInit {
         taskId: this.taskId,
         applicantId: this.applicantId
       };
-
       this.personalDiscussionService.submitPdReport(data).subscribe((value: any) => {
         const processVariables = value.ProcessVariables;
         if (processVariables.error.code === '0') {
@@ -206,6 +266,7 @@ export class OtherDetailsComponent implements OnInit {
       this.utilityService.validateAllFormFields(this.otherDetailsForm)
     }
   }
+
   reinitiatePd() {  // fun calling reinitiate fi report  api for reinitiating the respective fi report
     const data = {
       applicantId: this.applicantId,
@@ -224,9 +285,6 @@ export class OtherDetailsComponent implements OnInit {
 
       }
     });
-
-
-
   }
 
   onBack() {
