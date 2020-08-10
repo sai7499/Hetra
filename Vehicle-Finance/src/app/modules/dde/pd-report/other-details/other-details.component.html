@@ -12,7 +12,8 @@
                             [className]="'form-control mandatory'"
                             [placeholder]="'Agriculture Proof'"
                             [isRequired]="fundingProgram == 'CAT D' ? 'Agriculture Proof is required': ''"
-                            [isDirty]="isDirty"
+                            [type]="labels?.validationData?.agricultureProof?.type"
+                            [maxLength]="labels?.validationData?.agricultureProof?.maxLength"                            [isDirty]="isDirty"
                         >
                         </app-custom-input>
                     </div>
@@ -157,7 +158,7 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="geoTag_information">{{labels.geotagInformation}}
-                            <sub class="star_red_col">*</sub>
+                            <!-- <sub class="star_red_col">*</sub> -->
                         </label> 
                         <!-- <app-custom-input 
                         formControlName="geoTagInfo"
@@ -174,7 +175,7 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="route_map">{{labels.routeMap}}
-                            <sub class="star_red_col">*</sub> 
+                            <!-- <sub class="star_red_col">*</sub>  -->
                         </label> <br>
                         <!-- src="https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=800x400&markers=color:blue%7Clabel:S%7C12.96186,80.20078&&markers=color:red%7Clabel:C%7C12.98714,80.17511&&center=12.9982906,80.2009504|12.9618433,80.1750283&zoom=13&path=color:blue|weight:6|enc:orbnAqfohNiBKQ?ED@zBYnDE%60@MjCGL%7B@B@FI~@k@zCa@lBEHmApBMPK?%7BBIAd@QfBKx@Bf@@%5EQ%60Ac@tCG%60BBz@KbAi@lDw@zFgAnJgCw@k@IgBk@mDeAuCkAaCw@cBm@USu@SuAg@%7DBu@wFkBcEkAwFyAu@UcAa@%7BBmAg@SUKoAs@m@Sy@OaBKeC_@eA%5DsAy@m@e@SYyBiAs@%5BuD%7BAkCqAqAc@YO%5BKe@R%7B@TaBTwAHk@?qC?%7B@DyCf@cARkEt@%7DA@mB@iBEsDGa@Hq@b@e@%60@s@dAmClEWZWLYHeBJgAD%7DA?sKDwFFA@ABEBEBMAGCoAz@mA%60AoB~AHH%60CfDbB%60CfApAxAzAtAjBv@%7CAdAfCx@lB%7C@%60C%60DbI%60DdH%7CAxC~AdCnErGrCxDrBjCj@~@ID%5BV%7D@v@zEbGlAxANHJLh@v@PTZD%60@ZVTLFLTd@%7C@c@XH%5CJb@&key=AIzaSyDJ9TZyUZNB2uY_267eIUQCV72YiYmArIw" -->
                         <img [src]="" alt="Route Map" width="800" height="400" />
@@ -189,6 +190,7 @@
                                 [(ngModel)]="equitasBranchName"
                                 [placeholder]="'Equitas Branch Name'"
                                 [isRequired]="' Equitas Branch Name is required'"
+                                [maxLength]="labels?.validationData?.equitasBranchName?.maxLength"
                                 [type]="labels?.validationData?.equitasBranchName?.type"
                                 [isDirty]="isDirty"
                             >
@@ -196,7 +198,7 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="distance_equitasAssetBranch_Kms">{{labels.distanceEquitasAssetBranch}}
-                            <sub class="star_red_col">*</sub>
+                            <!-- <sub class="star_red_col">*</sub> -->
                         </label>
                         <app-custom-input
                             formControlName="distanceFromEquitas"
@@ -210,6 +212,7 @@
                             [placeholder]="'Distance from Equitas Asset Branch in Kms'"
                             [isRequired]="' Distance from Equitas Asset Branch in Kms is required'"
                             [type]="labels?.validationData?.distanceEquitasAssetBranch?.type"
+                            [maxLength]="labels?.validationData?.distanceEquitasAssetBranch?.maxLength"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input> -->
@@ -238,8 +241,8 @@
                             [className]="'form-control mandatory'"
                             [placeholder]="'Employee Code'"
                             [isRequired]="' Employee Code is required'"
-                            [type]="labels?.validationData?.amountValua?.type"
-                            [maxLength]="labels?.validationData?.amountValua?.maxLength"
+                            [type]="labels?.validationData?.amountValue?.type"
+                            [maxLength]="labels?.validationData?.amountValue?.maxLength"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -248,7 +251,10 @@
                         <label for="date"> {{labels.date}} 
                             <sub class="star_red_col">*</sub>
                         </label>
-                        <kendo-datepicker class="form-control" formControlName="date" [activeView]="'decade'" [format]="'dd/MM/yyyy'"
+                        <kendo-datepicker class="form-control" 
+                            formControlName="date" 
+                            [activeView]="'decade'" 
+                            [format]="'dd/MM/yyyy'"
                             placeholder="Date">
                         </kendo-datepicker>
                     </div>
@@ -263,6 +269,7 @@
                             [placeholder]="'Product'"
                             [isRequired]="'Product is required'"
                             [type]="labels?.validationData?.equitasBranchName?.type"
+                            [maxLength]="labels?.validationData?.equitasBranchName?.maxLength"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -278,6 +285,7 @@
                             [(ngModel)]="sourcingChannel"
                             [isRequired]="' Sourcing Channel is required'"
                             [type]="labels?.validationData?.equitasBranchName?.type"
+                            [maxLength]="labels?.validationData?.equitasBranchName?.maxLength"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -292,7 +300,7 @@
                             [placeholder]="'Time of Verification'"
                             [isRequired]="' Time of Verification is required'"
                             [type]="labels?.validationData?.timeOfVerification?.type"
-                            [maxLength]="labels?.validationData?.timeOfVerification?.type"
+                            [maxLength]="labels?.validationData?.timeOfVerification?.maxLength"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -347,7 +355,7 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="sourceOf_margin_money">{{labels.sourceOfMarginMoney1}} 
-                            <sub class="star_red_col">*</sub>
+                            <!-- <sub class="star_red_col">*</sub> -->
                         </label>
                         <app-vf-custom-select 
                             [values]="" 
