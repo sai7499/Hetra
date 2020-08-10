@@ -33,6 +33,9 @@ export class OtherDetailsComponent implements OnInit {
 
   userId: any;
   taskId: number;
+  showReinitiate: boolean;
+  roles: any;
+  roleType: any;
 
   constructor(private labelsData: LabelsService,
     private formBuilder: FormBuilder, private loginStoreService: LoginStoreService,
@@ -54,6 +57,8 @@ export class OtherDetailsComponent implements OnInit {
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
+    this.roles = roleAndUserDetails.roles;
+    this.roleType = this.roles[0].roleType;
 
     this.getLabels();
     this.getLeadId();
@@ -159,6 +164,8 @@ export class OtherDetailsComponent implements OnInit {
     this.personalDiscussionService.getPdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
+        this.showReinitiate = value.ProcessVariables.showReinitiate;
+        console.log('in other details show renitiate', this.showReinitiate);
         this.applicantPdDetails = value.ProcessVariables.applicantPersonalDiscussionDetails;
         // console.log('Applicant Details in calling get api ', this.applicantPdDetails);
         if (this.applicantPdDetails) {
@@ -198,6 +205,28 @@ export class OtherDetailsComponent implements OnInit {
       this.toasterService.showError('please enter required details', '');
       this.utilityService.validateAllFormFields(this.otherDetailsForm)
     }
+  }
+  reinitiatePd() {  // fun calling reinitiate fi report  api for reinitiating the respective fi report
+    const data = {
+      applicantId: this.applicantId,
+      // applicantId: 1,
+      userId: this.userId
+    };
+    this.personalDiscussionService.reinitiatePd(data).subscribe((res: any) => {
+      const processVariables = res.ProcessVariables;
+      console.log('response reinitiate pd', processVariables);
+      const message = processVariables.error.message;
+      if (processVariables.error.code === '0') {
+        this.toasterService.showSuccess('Report Reinitiated Successfully', '');
+        this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
+      } else {
+        this.toasterService.showError('', 'message');
+
+      }
+    });
+
+
+
   }
 
   onBack() {
