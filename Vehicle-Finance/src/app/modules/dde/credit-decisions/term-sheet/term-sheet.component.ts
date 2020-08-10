@@ -125,7 +125,7 @@ export class TermSheetComponent implements OnInit {
   // }
   assignTaskToTSAndCPC(){
     const ProcessVariables = {
-      "leadId": this.isLeadId,
+      "leadId": this.leadId,
       "userId":this.userId
     };
     this.termSheetService.assignTaskToTSAndCPC(ProcessVariables).subscribe((res)=>{
