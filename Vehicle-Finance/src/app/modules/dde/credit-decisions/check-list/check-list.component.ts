@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CpcRolesService } from '@services/cpc-roles.service';
+import { TermSheetService } from '@modules/dde/services/terms-sheet.service';
 
 @Component({
   selector: 'app-check-list',
@@ -34,7 +35,8 @@ export class CheckListComponent implements OnInit {
     private toasterService: ToasterService,
     private loginStoreService: LoginStoreService,
     private cpcService: CpcRolesService,
-    private router: Router
+    private router: Router,
+    private termSheetService: TermSheetService
   ) {
     // tslint:disable-next-line: deprecation
     $(document).ready(() => {
@@ -224,8 +226,8 @@ export class CheckListComponent implements OnInit {
   }
   addValidatorsCO() {
     const group: any = this.checklistForm.controls.checklistArray as FormGroup;
-    const groupLength: any = group.controls.length;
-    for (let i = 0; i < groupLength ; i ++) {
+    // const groupLength: any = group.controls.length;
+    for (let i = 0; i < 29 ; i ++) {
       // tslint:disable-next-line: triple-equals
       if (this.roleType == '2') {
         group.at(i).controls.coAnswer.setValidators(Validators.required);
@@ -256,7 +258,7 @@ export class CheckListComponent implements OnInit {
         isCPCChecker: false,
         sendBackToCredit: false
         };
-      this.cpcService.getCPCRolesDetails(body).subscribe((res) => {
+      this.termSheetService.assignTaskToTSAndCPC(body).subscribe((res) => {
           console.log(res);
         });
     // tslint:disable-next-line: triple-equals

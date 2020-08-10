@@ -1,7 +1,8 @@
-<div class="btn-sec clear-both row"> 
+<div class="btn-sec clear-both row" *ngIf="!isSanctionDetails"> 
     <div class="col-sm-5"></div>   
     <div class="col-sm-7 text-left" *ngIf="roleType == '2'">
-        <button class="btn btn-primary btn_div" type="button" (click)="generateSanctionLetter()">{{labels?.generateSanctionLetter}}</button>
+        <button class="btn btn-primary btn_div" type="button" 
+            (click)="generateSanctionLetter()">{{labels?.generateSanctionLetter}}</button>
     </div>
 </div>
 
