@@ -99,8 +99,6 @@ export class DashboardComponent implements OnInit {
   roleId;
   activeTab;
   subActiveTab;
-  minAmount;
-  maxAmount;
   isFilterApplied: boolean;
 
 
@@ -121,8 +119,6 @@ export class DashboardComponent implements OnInit {
   makerWithCPC: boolean;
   checkerWithMe: boolean;
   checkerWithCPC: boolean;
-
-  selectedDate;
 
   displayTabs = DisplayTabs;
   displayCreditTabs = DisplayCreditTabs;
@@ -1178,8 +1174,6 @@ export class DashboardComponent implements OnInit {
     this.filterFormDetails = this.filterForm.value;
     this.filterFormDetails.fromDate = this.dateToFormate(this.filterFormDetails.fromDate);
     this.filterFormDetails.toDate = this.dateToFormate(this.filterFormDetails.toDate);
-    this.selectedDate = this.dateToFormate(this.filterFormDetails.fromDate);
-    this.minAmount = this.filterForm.get('loanMinAmt').value;
     this.onTabsLoading(this.subActiveTab);
     if (this.roleType === 4 || this.roleType === 5) {
       if (this.makerWithMe) {
