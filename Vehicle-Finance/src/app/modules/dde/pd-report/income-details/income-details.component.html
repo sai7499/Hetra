@@ -12,10 +12,10 @@ data-animation="scaleIn"
     <label > {{ labels.grossIncome }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Enter Gross Income'"
-    [type]="labels?.validationData?.salary?.type"
+    [type]="labels?.validationData?.amountValue?.type"
     formControlName="grossIncome"
     [isRequired]="'Gross Income is required'"
-    [maxLength]="labels?.validationData?.salary?.maxLength"
+    [maxLength]="labels?.validationData?.amountValue?.maxLength"
     [isDirty]="isDirty"
     ></app-custom-input>
  
@@ -29,10 +29,10 @@ data-animation="scaleIn"
     <app-custom-input
       id="father_name"
       [placeholder]="'Enter Net Income'"
-      [type]="labels?.validationData?.salary?.type"
+      [type]="labels?.validationData?.amountValue?.type"
       formControlName="netIncome"
       [isRequired]="'Net Income is required'"
-      [maxLength]="labels?.validationData?.salary?.maxLength"
+      [maxLength]="labels?.validationData?.amountValue?.maxLength"
       [isDirty]="isDirty"
     >
     </app-custom-input>
@@ -43,10 +43,10 @@ data-animation="scaleIn"
       <app-custom-input
       id="additionalSourceOfIncome"
       [placeholder]="'Enter Additional Income'"
-      [type]="labels?.validationData?.salary?.type"
+      [type]="labels?.validationData?.amountValue?.type"
       formControlName="additionalSourceOfIncome"
       [isRequired]="'Additional Income is required'"
-      [maxLength]="labels?.validationData?.salary?.maxLength"
+      [maxLength]="labels?.validationData?.amountValue?.maxLength"
       [isDirty]="isDirty"
   >
     </app-custom-input>
@@ -61,10 +61,10 @@ data-animation="scaleIn"
     <label > {{ labels.grossSalary }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Enter Gross Salary'"
-    [type]="labels?.validationData?.salary?.type"
+    [type]="labels?.validationData?.amountValue?.type"
     formControlName="grossSalary"
     [isRequired]="'Gross Salary is required'"
-    [maxLength]="labels?.validationData?.salary?.maxLength"
+    [maxLength]="labels?.validationData?.amountValue?.maxLength"
     [isDirty]="isDirty"
     ></app-custom-input>
  
@@ -78,10 +78,10 @@ data-animation="scaleIn"
     <app-custom-input
       id="netSalary"
       [placeholder]="'Enter Net Salary'"
-      [type]="labels?.validationData?.salary?.type"
+      [type]="labels?.validationData?.amountValue?.type"
       formControlName="netSalary"
       [isRequired]="'Net Salary is required'"
-      [maxLength]="labels?.validationData?.salary?.maxLength"
+      [maxLength]="labels?.validationData?.amountValue?.maxLength"
       [isDirty]="isDirty"
     >
     </app-custom-input>
@@ -92,10 +92,10 @@ data-animation="scaleIn"
       <app-custom-input
       id="individualIncome"
       [placeholder]="'Enter Individual Income'"
-      [type]="labels?.validationData?.salary?.type"
+      [type]="labels?.validationData?.amountValue?.type"
       formControlName="individualIncome"
       [isRequired]="'Individual Income is required'"
-      [maxLength]="labels?.validationData?.salary?.maxLength"
+      [maxLength]="labels?.validationData?.amountValue?.maxLength"
       [isDirty]="isDirty"
   >
     </app-custom-input>
@@ -187,10 +187,10 @@ data-animation="scaleIn"
       <app-custom-input
       id="cashBankBalance"
       [placeholder]="'Enter Cash and Bank balance'"
-      [type]="labels?.validationData?.salary?.type"
+      [type]="labels?.validationData?.amountValue?.type"
       formControlName="cashBankBalance"
       [isRequired]="'Cash and Bank balance is required'"
-      [maxLength]="labels?.validationData?.salary?.maxLength"
+      [maxLength]="labels?.validationData?.amountValue?.maxLength"
       [isDirty]="isDirty"
   >
     </app-custom-input>
@@ -215,10 +215,10 @@ data-animation="scaleIn"
     <label > {{ labels.monthlyInflows }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Enter Monthly Inflows'"
-    [type]="labels?.validationData?.salary?.type"
+    [type]="labels?.validationData?.amountValue?.type"
     formControlName="monthlyInflow"
     [isRequired]="'Monthly Inflows is required'"
-    [maxLength]="labels?.validationData?.salary?.maxLength"
+    [maxLength]="labels?.validationData?.amountValue?.maxLength"
     [isDirty]="isDirty"
     ></app-custom-input>
  
@@ -232,10 +232,10 @@ data-animation="scaleIn"
     <app-custom-input
       id="monthlyOutflows"
       [placeholder]="'Enter Monthly Outflows'"
-      [type]="labels?.validationData?.salary?.type"
+      [type]="labels?.validationData?.amountValue?.type"
       formControlName="monthlyOutflow"
       [isRequired]="'Monthly Outflows is required'"
-      [maxLength]="labels?.validationData?.salary?.maxLength"
+      [maxLength]="labels?.validationData?.amountValue?.maxLength"
       [isDirty]="isDirty"
     >
     </app-custom-input>
