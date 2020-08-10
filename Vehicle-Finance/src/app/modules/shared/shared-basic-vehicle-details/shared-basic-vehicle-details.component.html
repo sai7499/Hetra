@@ -317,6 +317,10 @@
                             [isRequired]="'Vehicle Address PINCODE Required'" [isDirty]="isDirty">
                         </app-custom-input>
 
+                        <div *ngIf="obj.controls['pincode'].invalid && basicVehicleForm.controls['isValidPincode'].value === false">
+                            Invalid Pincode
+                        </div>
+
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 no_vehicle">
