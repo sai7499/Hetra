@@ -136,11 +136,13 @@
                     [disabled]="personalDetailsForm.get('maritalStatus').value !== '2MRGSTS'">
                 </kendo-datepicker>
 
-                <div class="invalid-feedback ShowError"
+                <!-- <div class="invalid-feedback ShowError"
                     *ngIf="personalDetailsForm.get('weddingAnniversaryDate').touched || isDirty">
-                    <div *ngIf="personalDetailsForm.get('weddingAnniversaryDate').invalid">
-                        Invalid date
-                    </div>
+                    
+                </div> -->
+                <div class="invalid-feedback ShowError"
+                 *ngIf="personalDetailsForm.get('weddingAnniversaryDate').touched && personalDetailsForm.get('weddingAnniversaryDate').invalid">
+                    Invalid date
                 </div>
             </div>
 

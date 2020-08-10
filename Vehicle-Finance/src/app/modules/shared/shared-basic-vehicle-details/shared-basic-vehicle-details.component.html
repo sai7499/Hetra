@@ -316,6 +316,10 @@
                             (keyup)="getPincode(obj.controls['pincode'].value)"
                             [isRequired]="'Vehicle Address PINCODE Required'" [isDirty]="isDirty">
                         </app-custom-input>
+                        <div class="invalid-feedback"
+                        *ngIf="basicVehicleForm.controls['isValidPincode'].value === false">
+                            Invalid Pincode
+                        </div>
 
                     </div>
 
@@ -1319,6 +1323,10 @@
                                 [maxLength]="label.validationData?.pincode.maxLength" [custom]="initalZeroCheck"
                                 [isRequired]="'Vehicle Address PINCODE Required'" [isDirty]="isDirty">
                             </app-custom-input>
+                            <div class="invalid-feedback"
+                                 *ngIf="basicVehicleForm.controls['isValidPincode'].value === false">
+                                Invalid Pincode
+                            </div>
 
                         </div>
 
