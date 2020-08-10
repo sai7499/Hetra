@@ -11,7 +11,7 @@
                             formControlName="agricultureProof"
                             [className]="'form-control mandatory'"
                             [placeholder]="'Agriculture Proof'"
-                            [isRequired]="fundingProgram === 'CAT D'? 'Agriculture Proof is required': ''"
+                            [isRequired]="fundingProgram == 'CAT D' ? 'Agriculture Proof is required': ''"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -116,7 +116,7 @@
                         <app-custom-input 
                             formControlName="applicationNo"
                             [className]="'form-control mandatory'"
-                            [(ngModel)]="leadId"
+                            [(ngModel)]="applicationNo"
                             [placeholder]="'Application No'"
                             [isRequired]="'Application No is required'"
                             [type]="labels?.validationData?.applicationNo?.type"

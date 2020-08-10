@@ -21,10 +21,9 @@ import { SharedService } from '@modules/shared/shared-service/shared-service';
 export class OtherDetailsComponent implements OnInit {
   otherDetailsForm: FormGroup;
   fundingProgram: any;
-  leadId: any;
+  leadId;
   applicantId: any;
   version: any;
-
   labels: any = {};
   LOV: any = {};
   formValues: any = {};
@@ -32,9 +31,9 @@ export class OtherDetailsComponent implements OnInit {
   equitasBranchName: any;
   product: any;
   sourcingChannel: any;
+  applicationNo: any;
   isDirty: boolean;
   showSubmit: boolean = true;
-
   userId: any;
   taskId: number;
 
@@ -57,64 +56,60 @@ export class OtherDetailsComponent implements OnInit {
               });
           }
 
-  // constructor( private labelsData: LabelsService,
-  //              private formBuilder: FormBuilder,
-  //              private router: Router, private createLeadDataService: CreateLeadDataService,
-  //              private aRoute: ActivatedRoute,
-  //              private commomLovService: CommomLovService,
-  //              private personalDiscussionService: PersonalDiscussionService,
-  //              private pdDataService: PdDataService,
-  //              private utilityService: UtilityService,
-  //              private toasterService: ToasterService,
-  //              ) { }
-
-   ngOnInit() {
+   async ngOnInit() {
     this.initForm();
+    this.getLabels();
+    this.leadId = (await this.getLeadId()) as number;
+    this.getLOV();
+    // this.getPdDetails();
+    this.getLeadSectiondata();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
-    this.getLabels();
-    this.getLeadId();
-    this.getApplicantId();
-    this.getLOV();
-    this.getPdDetails();
-    this.getLeadSectiondata();
   }
 
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
-        this.aRoute.params.subscribe((value) => {// calling get lead section data function in line 174
+        this.aRoute.params.subscribe((value) => {    //GETTING APPLICANT_ID FROM ROUTES
           if (!value && !value.applicantId) {
             return;
           }
           this.applicantId = Number(value.applicantId);
           this.version = String(value.version);
-          console.log('xv', this.version)
+          console.log('APPLICANT_ID::', this.applicantId)
+          console.log('VERSION::', this.version)
           if (this.version !== 'undefined') {
             this.showSubmit = false;
           }
           this.getPdDetails();    // for getting the data for pd details on initializing the page
         });
-      }, err => {
-        console.log('err', err)
+      }, error => {
+        console.log('ERROR::', error)
       }
     );
   }
 
   // GET LEADID FROM URL
   getLeadId() {
-    this.aRoute.parent.params.subscribe((val) => {
-      this.leadId = Number(val.leadId);
+    return new Promise((resolve, reject) => {
+      this.aRoute.parent.params.subscribe((value) => {
+        console.log("LEAD_ID::", value.leadId);
+        if (value && value.leadId) {
+          resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
     });
-    console.log("LEADID::", this.leadId);
   }
 
+  //GET LEAD SECTION DATA
   getLeadSectiondata() {
     const leadData = this.createLeadDataService.getLeadSectionData();
     this.fundingProgram = leadData['leadDetails'].fundingProgramDesc;
     this.sourcingChannel = leadData['leadDetails'].sourcingChannelDesc;
     this.equitasBranchName = leadData['leadDetails'].branchName;
+    this.applicationNo = String(this.leadId);
     this.product = leadData['leadDetails'].productCatName;
     if (this.fundingProgram === 'CAT D') {
       this.otherDetailsForm.removeControl('agricultureProof');
@@ -123,17 +118,6 @@ export class OtherDetailsComponent implements OnInit {
       this.otherDetailsForm.removeControl('agricultureProof');
       this.otherDetailsForm.addControl('agricultureProof', new FormControl({ value: '', disabled: true }));
     }
-  }
-
-  //GET APPLICANTID
-  getApplicantId() {
-    this.aRoute.params.subscribe((value: any) => {
-      if (!value && !value.applicantId) {
-        return;
-      }
-      this.applicantId = Number(value.applicantId);
-      this.version = String(value.version);
-    });
   }
 
   //GET ALL LOVS
@@ -225,20 +209,18 @@ export class OtherDetailsComponent implements OnInit {
     this.formValues = this.otherDetailsForm.getRawValue();
     console.log("FORMVALUES::", this.formValues);
     this.formValues.date = this.formValues.date ? this.utilityService.convertDateTimeTOUTC(this.formValues.date, 'DD/MM/YYYY') : null;
+    if (this.otherDetailsForm.valid === true) {
     const data = {
       leadId: this.leadId,
       applicantId: this.applicantId,
-      userId: localStorage.getItem('userId'),
+      userId: this.userId,
       otherDetails: this.formValues
     }
-    // console.log("DATA_LEADID", data.leadId);
-    if (this.otherDetailsForm.valid === true) {
       this.personalDiscussionService.saveOrUpdatePdData(data).subscribe((res: any) => {
           const response = res.ProcessVariables;
           // console.log("RESPONSE_SAVEUPDATE_API::", response)
           if (res['ProcessVariables'] && res['ProcessVariables'].error['code'] == "0") {
             this.toasterService.showSuccess("Record Saved Successfully", "Other Details");
-            // this.toasterService.showSuccess(message, '');
             }
         });
     } else {
@@ -267,7 +249,7 @@ export class OtherDetailsComponent implements OnInit {
       this.personalDiscussionService.submitPdReport(data).subscribe((value: any) => {
         const processVariables = value.ProcessVariables;
         if (processVariables.error.code === '0') {
-          this.toasterService.showSuccess('submitted to credit successfully', '');
+          this.toasterService.showSuccess('Submitted to Credit Successfully', '');
           this.router.navigate([`/pages/dashboard`]);
         } else {
           this.toasterService.showError(processVariables.error.message, '');
@@ -275,7 +257,7 @@ export class OtherDetailsComponent implements OnInit {
       });
     } else {
       this.isDirty = true;
-      this.toasterService.showError('please enter required details', '');
+      this.toasterService.showError('Please Enter Required Details', '');
       this.utilityService.validateAllFormFields(this.otherDetailsForm)
     }
   }
