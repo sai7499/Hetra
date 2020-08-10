@@ -68,6 +68,8 @@ export class OtherDetailsComponent implements OnInit {
     this.getLeadSectiondata();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
+    this.roles = roleAndUserDetails.roles;
+    this.roleType = this.roles[0].roleType;
   }
 
   getLabels() {
@@ -82,9 +84,9 @@ export class OtherDetailsComponent implements OnInit {
           this.version = String(value.version);
           console.log('APPLICANT_ID::', this.applicantId)
           console.log('VERSION::', this.version)
-          if (this.version !== 'undefined') {
-            this.showSubmit = false;
-          }
+          // if (this.version !== 'undefined') {
+          //   this.showSubmit = false;
+          // }
           this.getPdDetails();    // for getting the data for pd details on initializing the page
         });
       }, error => {
