@@ -7,72 +7,56 @@
                 <label for="agriculture_proof">{{labels.agricultureProof}}
                     <sub class="star_blue_col">*</sub>
                 </label>
-                <app-custom-input formControlName="agricultureProof" [className]="'form-control mandatory'"
-                    [placeholder]="'Agriculture Proof'"
-                    [isRequired]="fundingProgram === 'CAT D'? 'Agriculture Proof is required': ''"
-                    [type]="labels?.validationData?.amountValue?.type"
-                    [maxLength]="labels?.validationData?.amountValue?.maxLength"
-                    [isDirty]="fundingProgram === 'CAT D'? true : false">
+                <app-custom-input formControlName="agricultureProof" [className]="'form-control mandatory'" [placeholder]="'Agriculture Proof'" [isRequired]="fundingProgram === 'CAT D'? 'Agriculture Proof is required': ''" [type]="labels?.validationData?.amountValue?.type"
+                    [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="fundingProgram === 'CAT D'? true : false">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="income">{{labels.income1}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="income" [className]="'form-control mandatory'"
-                    [placeholder]="'Income'" [isRequired]="'Income is required'"
-                    [type]="labels?.validationData?.amountValue?.type"
-                    [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
+                <app-custom-input formControlName="income" [className]="'form-control mandatory'" [placeholder]="'Income'" [isRequired]="'Income is required'" [type]="labels?.validationData?.amountValue?.type" [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="secured_Loan">{{labels.securedLoans}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="securedLoans" [className]="'form-control mandatory'"
-                    [placeholder]="'Secured Loans'" [isRequired]="'Secured Loans is required'"
-                    [type]="labels?.validationData?.amountValue?.type"
-                    [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
+                <app-custom-input formControlName="securedLoans" [className]="'form-control mandatory'" [placeholder]="'Secured Loans'" [isRequired]="'Secured Loans is required'" [type]="labels?.validationData?.amountValue?.type" [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="unSecured_Loans">{{labels.unSecuredLoans}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="unSecuredLoans" [className]="'form-control mandatory'"
-                    [placeholder]="'Un Secured Loans'" [isRequired]="'Un Secured Loans is required'"
-                    [type]="labels?.validationData?.amountValue?.type"
-                    [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
+                <app-custom-input formControlName="unSecuredLoans" [className]="'form-control mandatory'" [placeholder]="'Un Secured Loans'" [isRequired]="'Un Secured Loans is required'" [type]="labels?.validationData?.amountValue?.type" [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="creditors">{{labels.creditors}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="creditors" [className]="'form-control mandatory'"
-                    [placeholder]="'Creditors'" [isRequired]="'Creditors is required'"
-                    [type]="labels?.validationData?.amountValue?.type"
-                    [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
+                <app-custom-input formControlName="creditors" [className]="'form-control mandatory'" [placeholder]="'Creditors'" [isRequired]="'Creditors is required'" [type]="labels?.validationData?.amountValue?.type" [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="debtors">{{labels.debtors}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="debtors" [className]="'form-control mandatory'"
-                    [placeholder]="'Debtors'" [isRequired]="'Debtors is required'"
-                    [type]="labels?.validationData?.amountValue?.type"
-                    [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
+                <app-custom-input formControlName="debtors" [className]="'form-control mandatory'" [placeholder]="'Debtors'" [isRequired]="'Debtors is required'" [type]="labels?.validationData?.amountValue?.type" [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="fixed_assets">{{labels.fixedAssets}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="fixedAssets" [className]="'form-control mandatory'"
-                    [placeholder]="'Fixed Assets'" [isRequired]="'Fixed Assets is required'"
-                    [type]="labels?.validationData?.amountValue?.type"
-                    [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
+                <app-custom-input formControlName="fixedAssets" [className]="'form-control mandatory'" [placeholder]="'Fixed Assets'" [isRequired]="'Fixed Assets is required'" [type]="labels?.validationData?.amountValue?.type" [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [isDirty]="isDirty">
                 </app-custom-input>
             </div>
         </div>
@@ -82,28 +66,22 @@
                 <label for="application_no">{{labels?.applicationNo}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="applicationNo" [className]="'form-control mandatory'"
-                    [placeholder]="'Application No'" [isRequired]="'Application No is required'"
-                    [type]="labels?.validationData?.applicationNo?.type"
-                    [maxLength]="labels?.validationData?.applicationNo?.maxLength" [isDirty]="isDirty">
+                <app-custom-input formControlName="applicationNo" [className]="'form-control mandatory'" [placeholder]="'Application No'" [isRequired]="'Application No is required'" [type]="labels?.validationData?.applicationNo?.type" [maxLength]="labels?.validationData?.applicationNo?.maxLength"
+                    [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="area">{{labels.area}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="area" [className]="'form-control mandatory'" [placeholder]="'Area'"
-                    [isRequired]="' Area is required'" [type]="labels?.validationData?.area?.type"
-                    [maxLength]="labels?.validationData?.area?.maxLength" [isDirty]="isDirty">
+                <app-custom-input formControlName="area" [className]="'form-control mandatory'" [placeholder]="'Area'" [isRequired]="' Area is required'" [type]="labels?.validationData?.area?.type" [maxLength]="labels?.validationData?.area?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="place">{{labels.place}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="place" [className]="'form-control mandatory'" [placeholder]="'Place'"
-                    [isRequired]="' Place is required'" [type]="labels?.validationData?.area?.type"
-                    [maxLength]="labels?.validationData?.area?.maxLength" [isDirty]="isDirty">
+                <app-custom-input formControlName="place" [className]="'form-control mandatory'" [placeholder]="'Place'" [isRequired]="' Place is required'" [type]="labels?.validationData?.area?.type" [maxLength]="labels?.validationData?.area?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -124,74 +102,59 @@
                 <label for="equitas_branch_name">{{labels.equitasBranchName}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="equitasBranchName" [className]="'form-control mandatory'"
-                    [placeholder]="'Equitas Branch Name'" [isRequired]="' Equitas Branch Name is required'"
-                    [type]="labels?.validationData?.equitasBranchName?.type" [isDirty]="isDirty">
+                <app-custom-input formControlName="equitasBranchName" [className]="'form-control mandatory'" [placeholder]="'Equitas Branch Name'" [isRequired]="' Equitas Branch Name is required'" [type]="labels?.validationData?.equitasBranchName?.type" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="distance_equitasAssetBranch_Kms">{{labels.distanceEquitasAssetBranch}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="distanceEquitasAssetBranch" [className]="'form-control mandatory'"
-                    [placeholder]="'Distance from Equitas Asset Branch in Kms'"
-                    [isRequired]="' Distance from Equitas Asset Branch in Kms is required'"
-                    [type]="labels?.validationData?.distanceEquitasAssetBranch?.type" [isDirty]="isDirty">
+                <app-custom-input formControlName="distanceEquitasAssetBranch" [className]="'form-control mandatory'" [placeholder]="'Distance from Equitas Asset Branch in Kms'" [isRequired]="' Distance from Equitas Asset Branch in Kms is required'" [type]="labels?.validationData?.distanceEquitasAssetBranch?.type"
+                    [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="so_name">{{labels.pdOfficerName}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="pdOfficerName" [className]="'form-control mandatory'"
-                    [placeholder]="'PD Officer Name'" [isRequired]="' PD Officer Name is required'"
-                    [type]="labels?.validationData?.pdOfficerName?.type"
-                    [maxLength]="labels?.validationData?.pdOfficerName?.maxLength" [isDirty]="isDirty">
+                <app-custom-input formControlName="pdOfficerName" [className]="'form-control mandatory'" [placeholder]="'PD Officer Name'" [isRequired]="' PD Officer Name is required'" [type]="labels?.validationData?.pdOfficerName?.type" [maxLength]="labels?.validationData?.pdOfficerName?.maxLength"
+                    [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="employee_code">{{labels.employeeCode}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="employeeCode" [className]="'form-control mandatory'"
-                    [placeholder]="'Employee Code'" [isRequired]="' Employee Code is required'"
-                    [type]="labels?.validationData?.amountValua?.type"
-                    [maxLength]="labels?.validationData?.amountValua?.maxLength" [isDirty]="isDirty">
+                <app-custom-input formControlName="employeeCode" [className]="'form-control mandatory'" [placeholder]="'Employee Code'" [isRequired]="' Employee Code is required'" [type]="labels?.validationData?.amountValua?.type" [maxLength]="labels?.validationData?.amountValua?.maxLength"
+                    [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="date"> {{labels.date}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <kendo-datepicker class="form-control" formControlName="date" [activeView]="'decade'"
-                    [format]="'dd/MM/yyyy'" placeholder="Date">
+                <kendo-datepicker class="form-control" formControlName="date" [activeView]="'decade'" [format]="'dd/MM/yyyy'" placeholder="Date">
                 </kendo-datepicker>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="product">{{labels.product}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="product" [className]="'form-control mandatory'"
-                    [placeholder]="'Product'" [isRequired]="'Product is required'"
-                    [type]="labels?.validationData?.equitasBranchName?.type" [isDirty]="isDirty">
+                <app-custom-input formControlName="product" [className]="'form-control mandatory'" [placeholder]="'Product'" [isRequired]="'Product is required'" [type]="labels?.validationData?.equitasBranchName?.type" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="sourcing_channel"> {{labels.sourcingChannel}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="sourcingChannel" [className]="'form-control mandatory'"
-                    [placeholder]="'Sourcing Channel'" [isRequired]="' Sourcing Channel is required'"
-                    [type]="labels?.validationData?.equitasBranchName?.type" [isDirty]="isDirty">
+                <app-custom-input formControlName="sourcingChannel" [className]="'form-control mandatory'" [placeholder]="'Sourcing Channel'" [isRequired]="' Sourcing Channel is required'" [type]="labels?.validationData?.equitasBranchName?.type" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="timeOf_verification">{{labels.tomeOfVerification}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="tomeOfVerification" [className]="'form-control mandatory'"
-                    [placeholder]="'Time of Verification'" [isRequired]="' Time of Verification is required'"
-                    [type]="labels?.validationData?.equitasBranchName?.type" [isDirty]="isDirty">
+                <app-custom-input formControlName="tomeOfVerification" [className]="'form-control mandatory'" [placeholder]="'Time of Verification'" [isRequired]="' Time of Verification is required'" [type]="labels?.validationData?.equitasBranchName?.type" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
         </div>
@@ -201,43 +164,49 @@
                 <label for="loan_amount_required">{{labels.loanAmount}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="loanAmount" [className]="'form-control mandatory'"
-                    [placeholder]="'Loan Amount'" [isRequired]="' Loan Amount is required'"
-                    [type]="labels?.validationData?.amountValue?.type"
-                    [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
+                <app-custom-input formControlName="loanAmount" [className]="'form-control mandatory'" [placeholder]="'Loan Amount'" [isRequired]="' Loan Amount is required'" [type]="labels?.validationData?.amountValue?.type" [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="margin_money">{{labels.marginMoney}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="marginMoney" [className]="'form-control mandatory'"
-                    [placeholder]="'Margin Money'" [isRequired]="' Margin Money is required'"
-                    [type]="labels?.validationData?.amountValue?.type"
-                    [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
+                <app-custom-input formControlName="marginMoney" [className]="'form-control mandatory'" [placeholder]="'Margin Money'" [isRequired]="' Margin Money is required'" [type]="labels?.validationData?.amountValue?.type" [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="emi_affordability">{{labels.emiAffordability}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="emiAffordability" [className]="'form-control mandatory'"
-                    [placeholder]="'EMI Affordability'" [isRequired]="' EMI Affordability is required'"
-                    [type]="labels?.validationData?.pincode?.type"
-                    [maxLength]="labels?.validationData?.pincode?.maxLength" [isDirty]="isDirty">
+                <app-custom-input formControlName="emiAffordability" [className]="'form-control mandatory'" [placeholder]="'EMI Affordability'" [isRequired]="' EMI Affordability is required'" [type]="labels?.validationData?.pincode?.type" [maxLength]="labels?.validationData?.pincode?.maxLength"
+                    [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="sourceOf_margin_money">{{labels.sourceOfMarginMoney1}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-vf-custom-select [values]="" formControlName="sourceOfMarginMoney"
-                    [isRequired]="'Please select one'" [isDirty]="isDirty">
+                <app-vf-custom-select [values]="" formControlName="sourceOfMarginMoney" [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
         </div>
     </div>
     &nbsp;
+    <div class="btn-sec clear-both">
+        <div class="col-sm-7"></div>
+        <div class="col-sm-5 text-right" *ngIf="
+            roleType == '2' && version != 'undefined' && showReinitiate == true
+          ">
+            <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
+                {{labels.reinitiate}}
+            </button>&nbsp;
+            <!-- <button class="btn btn-success" (click)="approvePd()">
+            {{ labels.approve }}
+          </button> -->
+        </div>
+    </div>
     <div class="btn-sec btn-mar-bottom clear-both">
         <div class="col-sm-4"></div>
         <div class="col-sm-8 text-right">
@@ -271,8 +240,7 @@
 
             <!-- Modal footer -->
             <div class="modal-footer" style="text-align: center;">
-                <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val" value="Yes"
-                    (click)="submitToCredit()">
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val" value="Yes" (click)="submitToCredit()">
                     {{ labels.yes }}
                 </button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">
