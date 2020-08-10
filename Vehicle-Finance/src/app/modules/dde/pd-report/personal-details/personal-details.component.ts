@@ -203,11 +203,13 @@ export class PersonalDetailsComponent implements OnInit {
 
   onValidateWeddingDate(event) {
     if (event.target.value === "2MRGSTS") {
-      this.personalDetailsForm.removeControl('weddingAnniversaryDate');
-      this.personalDetailsForm.addControl('weddingAnniversaryDate', new FormControl('', [Validators.required]));
+      // this.personalDetailsForm.removeControl('weddingAnniversaryDate');
+      this.personalDetailsForm.get('weddingAnniversaryDate').enable();
+      // this.personalDetailsForm.addControl('weddingAnniversaryDate', new FormControl('', [Validators.required]));
     } else {
-      this.personalDetailsForm.removeControl('weddingAnniversaryDate')
-      this.personalDetailsForm.addControl('weddingAnniversaryDate', new FormControl({ value: '', disabled: true }));
+      this.personalDetailsForm.get('weddingAnniversaryDate').disable();
+      // this.personalDetailsForm.removeControl('weddingAnniversaryDate')
+      // this.personalDetailsForm.addControl('weddingAnniversaryDate', new FormControl({ value: '', disabled: true }));
     }
   }
 
