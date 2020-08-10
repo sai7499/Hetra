@@ -546,6 +546,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   }
 
   getPincode(pincode) {
+    this.basicVehicleForm.patchValue({
+      isValidPincode: true
+    })
     if (pincode.length === 6) {
       const pincodeNumber = Number(pincode);
       this.getPincodeResult(pincodeNumber);
