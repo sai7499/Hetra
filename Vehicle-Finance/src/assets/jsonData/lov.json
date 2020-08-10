@@ -1496,6 +1496,38 @@
                         "value": "Middle/Upper Class"
                     }
                 ],
+                "pdStatus": [
+                    {
+                        "key": 1,
+                        "value": "Positive"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Negative"
+                    }
+                ],
+                "referrerAssetName": [
+                    {
+                        "key": 1,
+                        "value": "AIR CONDITIONER"
+                    },
+                    {
+                        "key": 2,
+                        "value": "TELEVISION"
+                    },
+                    {
+                        "key": 3,
+                        "value": "WASHING MACHINE"
+                    },
+                    {
+                        "key": 4,
+                        "value": "TWO WHEELER"
+                    },
+                    {
+                        "key": 5,
+                        "value": "CAR"
+                    }
+                ],
                 "natureOfBusiness": [],
                 "residentialType": [
                     {
@@ -1589,14 +1621,16 @@
                         "value": "6 Year 10 Months"
                     }
                 ],
-                "branch": [    {
-                    "key": 1,
-                    "value": "T Nagar"
-                },
-                {
-                    "key": 2,
-                    "value": "Tambarram"
-                }],
+                "branch": [
+                    {
+                        "key": 1,
+                        "value": "T Nagar"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Tambarram"
+                    }
+                ],
                 "standardHouse": [
                     {
                         "key": 1,
