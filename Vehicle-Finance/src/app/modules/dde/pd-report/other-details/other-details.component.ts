@@ -95,7 +95,7 @@ export class OtherDetailsComponent implements OnInit {
     );
   }
 
-  // GET LEADID FROM URL
+  // GET LEADID FROM URL ROUTES
   getLeadId() {
     return new Promise((resolve, reject) => {
       this.aRoute.parent.params.subscribe((value) => {
