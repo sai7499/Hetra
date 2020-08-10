@@ -1993,9 +1993,12 @@
             "maxLength": {
                 "rule": 30
             },
-            "type": "alpha-numeric"
+            "type": "alpha"
         },
         "equitasBranchName": {
+            "maxLength": {
+                "rule": 30
+            },
             "type": "alpha"
         },
         "distanceEquitasAssetBranch": {
@@ -2060,6 +2063,12 @@
                 "rule":6
             },
             "type":"number"
+        },
+        "agricultureProof": {
+            "maxLength":{
+                "rule":50
+            },
+            "type":"alpha-numeric"
         }
     }
 }
