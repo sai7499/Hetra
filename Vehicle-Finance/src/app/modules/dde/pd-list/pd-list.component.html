@@ -1,102 +1,80 @@
 <!-- <div class="content"> -->
 <form class="multisteps-form__form" method="post">
-  <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-    <div class="container">
-      <div class="btn-sec clear-both row">
-        <!-- <div class="col-sm-5">
+    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+        <div class="container">
+            <div class="btn-sec clear-both row">
+                <!-- <div class="col-sm-5">
                         <h3 class="title"> {{ labels.flAndpdTitle }} </h3>
                     </div> -->
-        <div class="col-sm-7 text-right">
-          <!-- <button class="btn btn-secondary mar-right8" type="button" onclick="add_applicant();"> Add Applicant </button> -->
-          <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
-        </div>
-      </div>
-      <div class="row">
-        <div id="applicantTable">
-          <table>
-            <thead>
-              <tr class="table-head-bg">
-                <th>
-                  {{ labels.ucicId }}
-                  <!-- <i class="fa fa-sort"></i> -->
-                </th>
-                <th>
-                  {{ labels.applicantName }}
-                  <!-- <i class="fa fa-sort"></i> -->
-                </th>
-                <th>
-                  {{ labels.mobileNumber }}
-                  <!-- <i class="fa fa-sort"></i> -->
-                </th>
-                <th>
-                  {{ labels.applicantType }}
-                  <!-- <i class="fa fa-sort"></i> -->
-                </th>
-                <th>
-                  {{ labels.pdStatus }}
-                  <!-- <i class="fa fa-sort"></i> -->
-                </th>
-                <th *ngIf="pdStatusValue === 'Submitted'">
-                  {{ labels.pdReport }}
-                  <!-- <i class="fa fa-sort"></i> -->
-                </th>
-                <th>
-                  {{ labels.newpdRoute }}
-                  <!-- <i class="fa fa-sort"></i> -->
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of pdList; let i = index">
-                <td [attr.data-label]="labels?.ucicId">
-                  {{ item.ucic ? item.ucic : "-" }}
-                </td>
-                <td [attr.data-label]="labels?.applicantName">
-                  {{ item.applicantName ? item.applicantName : "-" }}
-                </td>
-                <td [attr.data-label]="labels?.mobileNumber">
-                  {{ item.mobileNumber ? item.mobileNumber : "-" }}
-                </td>
-                <td [attr.data-label]="labels?.applicantType">
-                  {{ item.applicantType ? item.applicantType : "-" }}
-                </td>
-                <td [attr.data-label]="labels?.pdStatus" *ngIf="showStatus">
-                  <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
-                </td>
-                <td
-                  [attr.data-label]="labels?.pdStatus"
-                  style="cursor: pointer;"
-                  *ngIf="show && pdStatusValue != 'Submitted'"
-                  (click)="navigatePage(item.applicantId)"
-                >
-                  <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
-                </td>
-                <td
-                  [attr.data-label]="labels?.pdStatus"
-                  style="cursor: pointer;"
-                  *ngIf="show && pdStatusValue === 'Submitted'"
-                >
-                  <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
-                </td>
-                <!-- <ng-container *ngIf='item.pdReportValue'> -->
-                <ng-container *ngIf="pdStatusValue === 'Submitted'">
-                  <td [attr.data-label]="labels?.ucicId">
-                    <ng-container
-                      *ngFor="let version of item.pdReportValue.split(',')"
-                    >
-                      <u
-                        ><a
-                          class="a_tag"
-                          style="cursor: pointer;"
-                          (click)="navigatePage(item.applicantId, version)"
-                          >Version - {{ version }}</a
-                        ></u
-                      ><br />
-                    </ng-container>
-                  </td>
-                </ng-container>
+                <div class="col-sm-7 text-right">
+                    <!-- <button class="btn btn-secondary mar-right8" type="button" onclick="add_applicant();"> Add Applicant </button> -->
+                    <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
+                </div>
+            </div>
+            <div class="row">
+                <div id="applicantTable">
+                    <table>
+                        <thead>
+                            <tr class="table-head-bg">
+                                <th>
+                                    {{ labels.ucicId }}
+                                    <!-- <i class="fa fa-sort"></i> -->
+                                </th>
+                                <th>
+                                    {{ labels.applicantName }}
+                                    <!-- <i class="fa fa-sort"></i> -->
+                                </th>
+                                <th>
+                                    {{ labels.mobileNumber }}
+                                    <!-- <i class="fa fa-sort"></i> -->
+                                </th>
+                                <th>
+                                    {{ labels.applicantType }}
+                                    <!-- <i class="fa fa-sort"></i> -->
+                                </th>
+                                <th>
+                                    {{ labels.pdStatus }}
+                                    <!-- <i class="fa fa-sort"></i> -->
+                                </th>
+                                <th *ngIf="pdStatusValue === 'Submitted'">
+                                    {{ labels.pdReport }}
+                                    <!-- <i class="fa fa-sort"></i> -->
+                                </th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of pdList; let i = index">
+                                <td [attr.data-label]="labels?.ucicId">
+                                    {{ item.ucic ? item.ucic : "-" }}
+                                </td>
+                                <td [attr.data-label]="labels?.applicantName">
+                                    {{ item.applicantName ? item.applicantName : "-" }}
+                                </td>
+                                <td [attr.data-label]="labels?.mobileNumber">
+                                    {{ item.mobileNumber ? item.mobileNumber : "-" }}
+                                </td>
+                                <td [attr.data-label]="labels?.applicantType">
+                                    {{ item.applicantType ? item.applicantType : "-" }}
+                                </td>
+                                <td [attr.data-label]="labels?.pdStatus" *ngIf="showStatus">
+                                    <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
+                                </td>
+                                <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;" *ngIf="show && pdStatusValue != 'Submitted'" (click)="navigatePage(item.applicantId)">
+                                    <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
+                                </td>
+                                <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;" *ngIf="show && pdStatusValue === 'Submitted'">
+                                    <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
+                                </td>
+                                <!-- <ng-container *ngIf='item.pdReportValue'> -->
+                                <ng-container *ngIf="pdStatusValue === 'Submitted'">
+                                    <td [attr.data-label]="labels?.ucicId">
+                                        <ng-container *ngFor="let version of item.pdReportValue.split(',')">
+                                            <u><a class="a_tag" style="cursor: pointer;"
+                          (click)="navigatePage(item.applicantId, version)">Version - {{ version }}</a></u><br />
+                                        </ng-container>
+                                    </td>
+                                </ng-container>
 
-                <td>
+                                <!-- <td>
                   <u
                     ><a
                       class="a_tag"
@@ -107,11 +85,11 @@
                       >click</a
                     ></u
                   >
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <!-- <div class="btn-sec clear-both ">
+                </td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- <div class="btn-sec clear-both ">
                             <div class="records col-sm-6 ">
                                 <select class="form-control input-sm ">
                                     <option value="10 ">10</option>
@@ -151,48 +129,43 @@
                                             </a>
                                         </li>
                                     </ul> -->
-          <!-- <pagination-controls class="pagination " previousLabel=" " nextLabel=" " (pageChange)="p=$ event ">
+                    <!-- <pagination-controls class="pagination " previousLabel=" " nextLabel=" " (pageChange)="p=$ event ">
                                     </pagination-controls> -->
-          <!-- </nav>
+                    <!-- </nav>
                             </div>
                         </div> -->
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </form>
 
 <!-- </div> -->
 
 <div class="btn-sec clear-both" *ngIf="show">
-  <div class="col-sm-5"></div>
-  <div class="col-sm-7 text-right cst_btm_btns">
-    <br />
-    <br />
-    <button
-      class="btn btn-primary"
-      type="button"
-      (click)="onNavigateToPdSummary()"
-    >
+    <div class="col-sm-5"></div>
+    <div class="col-sm-7 text-right cst_btm_btns">
+        <br />
+        <br />
+        <button class="btn btn-primary" type="button" (click)="onNavigateToPdSummary()">
       Back to PD Summary
     </button>
-    <!-- <button class="btn btn-primary " type="button " (click)=onNavigateBack()> {{labels.back}} </button> &nbsp; -->
-    <!-- <p class="btn btn-primary save "> Save </p> -->
-    <!-- <button class="btn btn-primary " type="button " (click)="onNavigateNext() "> {{labels.next}} </button> -->
-  </div>
+        <!-- <button class="btn btn-primary " type="button " (click)=onNavigateBack()> {{labels.back}} </button> &nbsp; -->
+        <!-- <p class="btn btn-primary save "> Save </p> -->
+        <!-- <button class="btn btn-primary " type="button " (click)="onNavigateNext() "> {{labels.next}} </button> -->
+    </div>
 </div>
 <div class="btn-sec clear-both" *ngIf="showStatus">
-  <div class="col-sm-5"></div>
-  <div class="col-sm-7 text-right cst_btm_btns">
-    <br />
-    <br />
+    <div class="col-sm-5"></div>
+    <div class="col-sm-7 text-right cst_btm_btns">
+        <br />
+        <br />
 
-    <button class="btn btn-primary" type="button " (click)="onNavigateBack()">
+        <button class="btn btn-primary" type="button " (click)="onNavigateBack()">
       {{ labels.back }}
-    </button>
-    &nbsp;
-    <button class="btn btn-primary" type="button " (click)="onNavigateNext()">
+    </button> &nbsp;
+        <button class="btn btn-primary" type="button " (click)="onNavigateNext()">
       {{ labels.next }}
     </button>
-  </div>
+    </div>
 </div>
