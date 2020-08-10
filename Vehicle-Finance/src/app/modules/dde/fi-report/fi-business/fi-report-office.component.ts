@@ -567,11 +567,11 @@ export class FiReportOfficeComponent implements OnInit {
     };
     this.fieldInvestigationService.reinitiateFiReportDetails(data).subscribe((res: any) => {
       const processVariables = res.ProcessVariables;
-      console.log('response reinitiate pd', processVariables);
+      console.log('response reinitiate fi', processVariables);
       const message = processVariables.error.message;
       if (processVariables.error.code === '0') {
         this.toasterService.showSuccess('Report Reinitiated Successfully', '');
-        this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
+        this.router.navigate([`/pages/dde/${this.leadId}/fi-list`]);
       } else {
         this.toasterService.showError('', 'message');
 
