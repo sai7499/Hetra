@@ -80,7 +80,7 @@ export class DashboardComponent implements OnInit {
   productCategoryData: any;
   stageList = [];
   stageData: any;
-
+  OldFromDate: Date;
   // new leads
   newArray;
   salesLeads;
@@ -100,6 +100,7 @@ export class DashboardComponent implements OnInit {
   activeTab;
   subActiveTab;
   isFilterApplied: boolean;
+  toDayDate: Date = new Date();
 
 
 
@@ -308,9 +309,11 @@ export class DashboardComponent implements OnInit {
 
     if (this.roleType === 4) {
       this.onReleaseTab = true;
+      this.makerWithMe = true;
       this.getMakerLeads(this.itemsPerPage);
     } else if (this.roleType === 5) {
       this.onReleaseTab = true;
+      this.checkerWithMe = true;
       this.getCheckerLeads(this.itemsPerPage);
     }
   }
@@ -1076,6 +1079,8 @@ export class DashboardComponent implements OnInit {
         this.getMakerLeads(this.itemsPerPage);
       } else if (this.checkerWithMe) {
         this.getCheckerLeads(this.itemsPerPage);
+      } else if (this.checkerWithCPC) {
+        this.getCheckerCPCLeads(this.itemsPerPage);
       }
     }
   }
@@ -1172,8 +1177,10 @@ export class DashboardComponent implements OnInit {
   onApply() {
     this.isFilterApplied = true;
     this.filterFormDetails = this.filterForm.value;
-    this.filterFormDetails.fromDate = this.dateToFormate(this.filterFormDetails.fromDate);
-    this.filterFormDetails.toDate = this.dateToFormate(this.filterFormDetails.toDate);
+    // this.filterFormDetails.fromDate = this.dateToFormate(this.filterFormDetails.fromDate);
+    this.filterFormDetails.fromDate = this.utilityService.getDateFormat(this.filterFormDetails.fromDate);
+    // this.filterFormDetails.toDate = this.dateToFormate(this.filterFormDetails.toDate);
+    this.filterFormDetails.toDate = this.utilityService.getDateFormat(this.filterFormDetails.toDate);
     this.onTabsLoading(this.subActiveTab);
     if (this.roleType === 4 || this.roleType === 5) {
       if (this.makerWithMe) {
@@ -1188,6 +1195,25 @@ export class DashboardComponent implements OnInit {
     }
     // this.dashboardService.filterData(this.filterFormDetails);
   }
+
+  // onChangeDate() {
+  //   const fromDate = new Date(this.filterFormDetails.controls['fromDate'].value);
+  //   const toDate = new Date(this.filterFormDetails.controls['toDate'].value);
+  //   if (fromDate > toDate) {
+  //     this.toasterService.showWarning('Invalid Date Selection', '');
+  //     if (this.OldFromDate) {
+  //       // this.listArray.controls = [];
+  //       const date = new Date(this.OldFromDate);
+  //       this.filterFormDetails.patchValue({
+  //         fromDate: this.OldFromDate,
+  //         toDate: this.OldFromDate,
+  //       });
+  //     }
+  //     return;
+  //   }
+  //   const fromDateNew = this.filterFormDetails.fromDate;
+  //   this.OldFromDate = fromDateNew;
+  // }
 
   onRelase(taskId) {
     this.taskDashboard.releaseTask(taskId).subscribe((res: any) => {
