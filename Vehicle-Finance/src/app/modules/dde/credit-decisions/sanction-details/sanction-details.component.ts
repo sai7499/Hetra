@@ -53,6 +53,7 @@ salesResponse: any;
     if (this.roleType == 1){
       this.getSanctionDetails();
     }
+    this.getSanctionDetails();
   }
 
   getLabels() {
@@ -73,7 +74,7 @@ salesResponse: any;
     const data = this.leadId;
     this.sanctionDetailsService.getSanctionDetails(data).subscribe((res: any) => {
       if (res['ProcessVariables'] && res['ProcessVariables'].error['code'] == "0") {
-        this.isSanctionDetails = true;
+        this.isSanctionDetails = res['ProcessVariables'].isGenerated;
         const response = res;
         this.sanctionDetailsObject = response.ProcessVariables;
         // Filter Out Applicant, Co-Applicant And Guarantor List If ApplicantList_Object Exist
@@ -147,7 +148,7 @@ salesResponse: any;
       // console.log("RESPONSE_SUBMIT_TO_SALES::", response);
       if (response["Error"] == 0) {
         this.toasterService.showSuccess("Sanctioned Leads Submitted Successfully", "Sanction Details");
-        this.router.navigateByUrl['/pages/dashboard'];
+        this.router.navigateByUrl('/pages/dashboard');
       } else {
         this.toasterService.showError(res['ProcessVariables'].error['message'], 'Sanction Details');
       }
