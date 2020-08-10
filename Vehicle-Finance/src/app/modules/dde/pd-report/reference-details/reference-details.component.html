@@ -14,7 +14,7 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="referrer_middle_name"> {{ labels.referrerMiddleName }}
-                    <sub class="star_red_col">*</sub>
+                    <!-- <sub class="star_red_col">*</sub> -->
                 </label>
                 <app-custom-input id="referrer_middle_name" formControlName="refererSecondName"
                     [className]="'form-control mandatory'" [placeholder]="'Referrer Middle Name'"
@@ -34,7 +34,7 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="referrer_full_name"> {{ labels.referrerFullName }}
-                    <sub class="star_red_col">*</sub>
+                    <!-- <sub class="star_red_col">*</sub> -->
                 </label>
                 <app-custom-input id="referrer_full_name" formControlName="referrerFullName"
                     [className]="'form-control mandatory'" [placeholder]="'Referrer Full Name'"
@@ -186,8 +186,8 @@
                     [className]="'form-control mandatory'" [placeholder]="'Reference Info -Full Name'"
                     [type]="labels?.validationData?.referrerFullName?.type"
                     [maxLength]="labels?.validationData?.referrerFullName?.maxLength"
-                    [value]="referenceDetailsForm.get('referenceFirstName').value + ' ' +
-                    referenceDetailsForm.get('referenceSecondName').value + ' ' + referenceDetailsForm.get('referenceThirdName').value">
+                    [value]="(referenceDetailsForm.get('referenceFirstName').value || '') + ' ' +
+                   ( referenceDetailsForm.get('referenceSecondName').value || '') + ' ' + (referenceDetailsForm.get('referenceThirdName').value || '')">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -282,30 +282,30 @@
                     [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="natureOf_business"> {{ labels.natureOfBusiness }}
-                    <!-- <sub class="star_red_col">*</sub> -->
+                    <sub class="star_red_col">*</sub>
                 </label>
                 <app-vf-custom-select [values]="(LOV?.LOVS)['natureOfBusiness']" formControlName="natureOfBusiness">
                 </app-vf-custom-select>
-            </div>
+            </div> -->
         </div>
-        <h3 class="cus-title title"> {{labels?.imageSelfie}} </h3>
+        <!-- <h3 class="cus-title title"> {{labels?.imageSelfie}} </h3>
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="selfie_with_customer"> {{ labels.selfieWithCustomer }}
-                    <!-- <sub class="star_red_col">*</sub> -->
+                    <sub class="star_red_col">*</sub>
                 </label>
                 <app-vf-custom-select [values]="valuesToYesNo" formControlName="selfieWithCustomer">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="upload_images">{{labels.uploadImages}}
-                    <!-- <sub class="star_red_col">*</sub> -->
+                    <sub class="star_red_col">*</sub>
                 </label>
                 <input id="upload_images" formControlName="uploadImages" type="file" multiple="" name="upload_images">
             </div>
-        </div>
+        </div> -->
         <h3 class="cus-title title"> {{labels?.pdStatus}} </h3>
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
