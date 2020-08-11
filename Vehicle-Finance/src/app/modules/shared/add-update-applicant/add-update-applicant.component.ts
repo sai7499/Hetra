@@ -1476,7 +1476,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     }
     this.aboutIndivProspectDetails = {
       dob: dedupe.dob,
-      mobilePhone: mobileNumber,
+      mobilePhone: mobileNumber, 
     };
 
     this.indivIdentityInfoDetails = {

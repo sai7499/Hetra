@@ -41,9 +41,10 @@ export class ReferenceDetailsComponent implements OnInit {
   version: any;
   LOV: any = {};
   labels: any = {};
-  valuesToYesNo: any = [{key: 1, value: 'Yes'}, {key: 0, value: 'No'}];
-  isDirty= false;
+  valuesToYesNo: any = [{ key: 1, value: 'Yes' }, { key: 0, value: 'No' }];
+  isDirty = false;
   userId: any;
+  isValidPincode: boolean;
   //valuesToYesNo: any = [{ key: 1, value: 'Yes' }, { key: 0, value: 'No' }];
 
   constructor(private labelsData: LabelsService, private lovDataService: LovDataService,
@@ -209,8 +210,9 @@ export class ReferenceDetailsComponent implements OnInit {
   getPincode(val) {
     const id = val.id;
     const pincodeValue = val.value;
-
+    this.isValidPincode = false;
     if (pincodeValue.length === 6) {
+
       const pincodeNumber = Number(pincodeValue);
       this.getPincodeResult(pincodeNumber, id);
     }
@@ -227,6 +229,23 @@ export class ReferenceDetailsComponent implements OnInit {
           const addressList: any[] = processVariables.GeoMasterView;
           if (!addressList) {
             this.toastrService.showError('Invalid pincode', '');
+            this.isValidPincode = true;
+            if (id === 'refererPincode') {
+              this.referenceDetailsForm.patchValue({
+                refererCity: '',
+                refererDistrict: '',
+                refererState: '',
+                refererCountry: ''
+              })
+            } else if (id === 'referencePincode') {
+              this.referenceDetailsForm.patchValue({
+                referenceCity: '',
+                referenceDistrict: '',
+                referencetate: '',
+                referenceCountry: ''
+              })
+            }
+
             return;
           }
           const first = addressList[0];
@@ -263,6 +282,7 @@ export class ReferenceDetailsComponent implements OnInit {
         })
       )
       .subscribe((value) => {
+        console.log('value', value)
         if (!value) {
           return;
         }
