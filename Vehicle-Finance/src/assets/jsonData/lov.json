@@ -54,16 +54,16 @@
                 ],
                 "assetModel": [
                     {
-                      "key": 1,
-                      "value": "CITY RIDER"
+                        "key": 1,
+                        "value": "CITY RIDER"
                     },
                     {
-                      "key": 2,
-                      "value": "LP 709 32 SEATER"
+                        "key": 2,
+                        "value": "LP 709 32 SEATER"
                     },
                     {
-                      "key": 3,
-                      "value": "LP 709 36 SEATER"
+                        "key": 3,
+                        "value": "LP 709 36 SEATER"
                     },
                     {
                         "key": 3,
@@ -76,44 +76,44 @@
                 ],
                 "assetBodyType": [
                     {
-                      "key": 1,
-                      "value": "Asset Body Type 1"
+                        "key": 1,
+                        "value": "Asset Body Type 1"
                     },
                     {
-                      "key": 2,
-                      "value": "Asset Body Type 2"
+                        "key": 2,
+                        "value": "Asset Body Type 2"
                     },
                     {
-                      "key": 3,
-                      "value": "Asset Body Type 3"
+                        "key": 3,
+                        "value": "Asset Body Type 3"
                     }
                 ],
                 "assetVariant": [
                     {
-                      "key": 1,
-                      "value": "LP 1512 - 54 SEATER"
+                        "key": 1,
+                        "value": "LP 1512 - 54 SEATER"
                     },
                     {
-                      "key": 2,
-                      "value": "Viking HCV BUS"
+                        "key": 2,
+                        "value": "Viking HCV BUS"
                     },
                     {
-                      "key": 3,
-                      "value": "2214"
+                        "key": 3,
+                        "value": "2214"
                     }
                 ],
                 "assetSubVariant": [
                     {
-                      "key": 1,
-                      "value": "Sub Variant 1"
+                        "key": 1,
+                        "value": "Sub Variant 1"
                     },
                     {
-                      "key": 2,
-                      "value": "Sub Variant 2"
+                        "key": 2,
+                        "value": "Sub Variant 2"
                     },
                     {
-                      "key": 3,
-                      "value": "Sub Variant 3"
+                        "key": 3,
+                        "value": "Sub Variant 3"
                     }
                 ],
                 "vechicalUsage": [
@@ -1496,6 +1496,39 @@
                         "value": "Middle/Upper Class"
                     }
                 ],
+                "pdStatus": [
+                    {
+                        "key": 1,
+                        "value": "Positive"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Negative"
+                    }
+                ],
+                "referrerAssetName": [
+                    {
+                        "key": 1,
+                        "value": "AIR CONDITIONER"
+                    },
+                    {
+                        "key": 2,
+                        "value": "TELEVISION"
+                    },
+                    {
+                        "key": 3,
+                        "value": "WASHING MACHINE"
+                    },
+                    {
+                        "key": 4,
+                        "value": "TWO WHEELER"
+                    },
+                    {
+                        "key": 5,
+                        "value": "CAR"
+                    }
+                ],
+                "natureOfBusiness": [],
                 "residentialType": [
                     {
                         "key": 1,
@@ -1514,6 +1547,90 @@
                         "value": "Flat/Apartment"
                     }
                 ],
+                "customerProfilePersonal": [
+                    {
+                        "key": 1,
+                        "value": "FTU"
+                    },
+                    {
+                        "key": 2,
+                        "value": "FTB"
+                    }
+                ],
+                "priorExperience": [
+                    {
+                        "key": 1,
+                        "value": "Driver cum owner"
+                    },
+                    {
+                        "key": 2,
+                        "value": "With Agricultural land"
+                    },
+                    {
+                        "key": 3,
+                        "value": "With house property"
+                    },
+                    {
+                        "key": 4,
+                        "value": "Without repayment track record"
+                    },
+                    {
+                        "key": 5,
+                        "value": "With proven repayment track record"
+                    }
+                ],
+                "residentStatus": [
+                    {
+                        "key": 1,
+                        "value": "Indian"
+                    },
+                    {
+                        "key": 2,
+                        "value": "NRI"
+                    },
+                    {
+                        "key": 3,
+                        "value": "PIO"
+                    }
+                ],
+                "accomodationType": [
+                    {
+                        "key": 1,
+                        "value": "Rented"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Owned"
+                    },
+                    {
+                        "key": 3,
+                        "value": "Mortgaged"
+                    },
+                    {
+                        "key": 4,
+                        "value": "Owned andself occupied"
+                    }
+                ],
+                "noOfYearsResidingInCurrResidence": [
+                    {
+                        "key": 1,
+                        "value": "5 Year 7 Months"
+                    },
+                    {
+                        "key": 2,
+                        "value": "6 Year 10 Months"
+                    }
+                ],
+                "branch": [
+                    {
+                        "key": 1,
+                        "value": "T Nagar"
+                    },
+                    {
+                        "key": 2,
+                        "value": "Tambarram"
+                    }
+                ],
                 "standardHouse": [
                     {
                         "key": 1,
@@ -1525,7 +1642,7 @@
                     },
                     {
                         "key": 3,
-                        "value": " Poor "
+                        "value": "Poor"
                     }
                 ],
                 "sizeOfHouse": [

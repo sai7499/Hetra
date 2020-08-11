@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CpcRolesService } from '@services/cpc-roles.service';
+import { TermSheetService } from '@modules/dde/services/terms-sheet.service';
 
 @Component({
   selector: 'app-check-list',
@@ -34,7 +35,8 @@ export class CheckListComponent implements OnInit {
     private toasterService: ToasterService,
     private loginStoreService: LoginStoreService,
     private cpcService: CpcRolesService,
-    private router: Router
+    private router: Router,
+    private termSheetService: TermSheetService
   ) {
     // tslint:disable-next-line: deprecation
     $(document).ready(() => {
@@ -70,9 +72,7 @@ export class CheckListComponent implements OnInit {
     this.commonLovService.getLovData().subscribe((res: any) => {
       console.log(res, 'cmn lov service');
       this.checklistObject = res.LOVS.checklistans;
-      this.checkListMaster = res.LOVS.checklistMstView;
-      // this.checkListMaster.push(res.LOVS.);
-      console.log(this.checkListMaster, typeof(this.checkListMaster), 'array of checklist');
+      this.checkListMaster = res.LOVS.checklistMstView.sort((a, b) => Number(a.key) - Number(b.key));
     });
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
@@ -86,6 +86,7 @@ export class CheckListComponent implements OnInit {
     for (let i = 0; i < this.checkListMaster.length; i++) {
       childgroups.push(this.creategroup(this.checkListMaster[i]));
     }
+    // childgroups.sort()
     this.checklistForm = this.formBuilder.group({
       checklistArray: this.formBuilder.array(childgroups)
     });
@@ -119,7 +120,7 @@ export class CheckListComponent implements OnInit {
         for (let i = 0; i < res.ProcessVariables.checkList.length; i++) {
           this.patchChecklist(res.ProcessVariables.checkList[i]);
           // tslint:disable-next-line: no-shadowed-variable
-          
+
         }
       }
     });
@@ -225,8 +226,8 @@ export class CheckListComponent implements OnInit {
   }
   addValidatorsCO() {
     const group: any = this.checklistForm.controls.checklistArray as FormGroup;
-    const groupLength: any = group.controls.length;
-    for (let i = 0; i < groupLength ; i ++) {
+    // const groupLength: any = group.controls.length;
+    for (let i = 0; i < 29 ; i ++) {
       // tslint:disable-next-line: triple-equals
       if (this.roleType == '2') {
         group.at(i).controls.coAnswer.setValidators(Validators.required);
@@ -257,7 +258,7 @@ export class CheckListComponent implements OnInit {
         isCPCChecker: false,
         sendBackToCredit: false
         };
-      this.cpcService.getCPCRolesDetails(body).subscribe((res) => {
+      this.termSheetService.assignTaskToTSAndCPC(body).subscribe((res) => {
           console.log(res);
         });
     // tslint:disable-next-line: triple-equals
@@ -291,7 +292,7 @@ onNext()  {
   // this.onSave();
   // tslint:disable-next-line: triple-equals
   if (this.roleType == '2') {
-  // this.router.navigate([`pages/cred`])
+  this.router.navigate([`pages/dashboard`]);
   // tslint:disable-next-line: triple-equals
   } else if (this.roleType == '4') {
     this.router.navigate([`pages/cpc-maker/${this.leadId}/term-sheet`]);
@@ -300,4 +301,20 @@ onNext()  {
   this.router.navigate([`pages/cpc-checker/${this.leadId}/term-sheet`]);
   }
 }
+
+onBack() {
+  if (this.roleType == '2') {
+    this.router.navigate([`pages/credit-decisions/${this.leadId}/sanction-details`]);
+    // tslint:disable-next-line: triple-equals
+    } else if (this.roleType == '4') {
+      this.router.navigate([`pages/dashboard`]);
+    // tslint:disable-next-line: triple-equals
+    } else if ( this.roleType == '5') {
+    this.router.navigate([`pages/dashboard`]);
+    }
+
+}
+
+// tslint:disable-next-line: adjacent-overload-signatures
+
 }

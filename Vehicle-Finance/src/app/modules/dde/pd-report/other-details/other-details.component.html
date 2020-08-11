@@ -1,7 +1,7 @@
 <!-- <div class="content"> -->
     <form class="multisteps-form__form" [formGroup]="otherDetailsForm">
         <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-            <h3 class="title"> {{ labels.otherDetailsTitle }} </h3>
+            <h3 class="cus-title title"> {{ labels.otherDetailsTitle }} </h3>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="agriculture_proof">{{labels.agricultureProof}}
@@ -11,10 +11,9 @@
                             formControlName="agricultureProof"
                             [className]="'form-control mandatory'"
                             [placeholder]="'Agriculture Proof'"
-                            [isRequired]="'Agriculture Proof is required'"
-                            [type]="labels?.validationData?.amountValue?.type"
-                            [maxLength]="labels?.validationData?.amountValue?.maxLength"
-                            [isDirty]="isDirty"
+                            [isRequired]="fundingProgram == 'CAT D' ? 'Agriculture Proof is required': ''"
+                            [type]="labels?.validationData?.agricultureProof?.type"
+                            [maxLength]="labels?.validationData?.agricultureProof?.maxLength"                            [isDirty]="isDirty"
                         >
                         </app-custom-input>
                     </div>
@@ -53,7 +52,7 @@
                             <sub class="star_red_col">*</sub>
                         </label>
                         <app-custom-input 
-                            formControlName="unSecuredLoans"
+                            formControlName="unsecuredLoans"
                             [className]="'form-control mandatory'"
                             [placeholder]="'Un Secured Loans'"
                             [isRequired]="'Un Secured Loans is required'"
@@ -108,6 +107,9 @@
                          >
                         </app-custom-input> 
                     </div>
+                </div>
+                <h3 class="cus-title title"> {{labels?.genericDetails}} </h3>
+                <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="application_no">{{labels?.applicationNo}}
                             <sub class="star_red_col">*</sub>
@@ -115,6 +117,7 @@
                         <app-custom-input 
                             formControlName="applicationNo"
                             [className]="'form-control mandatory'"
+                            [(ngModel)]="applicationNo"
                             [placeholder]="'Application No'"
                             [isRequired]="'Application No is required'"
                             [type]="labels?.validationData?.applicationNo?.type"
@@ -155,17 +158,27 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="geoTag_information">{{labels.geotagInformation}}
-                            <sub class="star_red_col">*</sub>
-                        </label> <br>
+                            <!-- <sub class="star_red_col">*</sub> -->
+                        </label> 
+                        <!-- <app-custom-input 
+                        formControlName="geoTagInfo"
+                        [className]="'form-control mandatory'"
+                        [placeholder]="'Geotag Information'"
+                        [isRequired]="' Geotag Information is required'"
+                        [type]="labels?.validationData?.area?.type"
+                        [maxLength]="labels?.validationData?.area?.maxLength"
+                        [isDirty]="isDirty"
+                    >
+                    </app-custom-input>  -->
                         <!-- src="https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=800x400&markers=color:blue%7Clabel:S%7C12.96186,80.20078&&markers=color:red%7Clabel:C%7C12.98714,80.17511&&center=12.9982906,80.2009504|12.9618433,80.1750283&zoom=13&path=color:blue|weight:6|enc:orbnAqfohNiBKQ?ED@zBYnDE%60@MjCGL%7B@B@FI~@k@zCa@lBEHmApBMPK?%7BBIAd@QfBKx@Bf@@%5EQ%60Ac@tCG%60BBz@KbAi@lDw@zFgAnJgCw@k@IgBk@mDeAuCkAaCw@cBm@USu@SuAg@%7DBu@wFkBcEkAwFyAu@UcAa@%7BBmAg@SUKoAs@m@Sy@OaBKeC_@eA%5DsAy@m@e@SYyBiAs@%5BuD%7BAkCqAqAc@YO%5BKe@R%7B@TaBTwAHk@?qC?%7B@DyCf@cARkEt@%7DA@mB@iBEsDGa@Hq@b@e@%60@s@dAmClEWZWLYHeBJgAD%7DA?sKDwFFA@ABEBEBMAGCoAz@mA%60AoB~AHH%60CfDbB%60CfApAxAzAtAjBv@%7CAdAfCx@lB%7C@%60C%60DbI%60DdH%7CAxC~AdCnErGrCxDrBjCj@~@ID%5BV%7D@v@zEbGlAxANHJLh@v@PTZD%60@ZVTLFLTd@%7C@c@XH%5CJb@&key=AIzaSyDJ9TZyUZNB2uY_267eIUQCV72YiYmArIw" -->
                         <!-- <img [src]="" alt="Geo Location" width="800" height="400" /> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="route_map">{{labels.routeMap}}
-                            <sub class="star_red_col">*</sub> 
+                            <!-- <sub class="star_red_col">*</sub>  -->
                         </label> <br>
                         <!-- src="https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=800x400&markers=color:blue%7Clabel:S%7C12.96186,80.20078&&markers=color:red%7Clabel:C%7C12.98714,80.17511&&center=12.9982906,80.2009504|12.9618433,80.1750283&zoom=13&path=color:blue|weight:6|enc:orbnAqfohNiBKQ?ED@zBYnDE%60@MjCGL%7B@B@FI~@k@zCa@lBEHmApBMPK?%7BBIAd@QfBKx@Bf@@%5EQ%60Ac@tCG%60BBz@KbAi@lDw@zFgAnJgCw@k@IgBk@mDeAuCkAaCw@cBm@USu@SuAg@%7DBu@wFkBcEkAwFyAu@UcAa@%7BBmAg@SUKoAs@m@Sy@OaBKeC_@eA%5DsAy@m@e@SYyBiAs@%5BuD%7BAkCqAqAc@YO%5BKe@R%7B@TaBTwAHk@?qC?%7B@DyCf@cARkEt@%7DA@mB@iBEsDGa@Hq@b@e@%60@s@dAmClEWZWLYHeBJgAD%7DA?sKDwFFA@ABEBEBMAGCoAz@mA%60AoB~AHH%60CfDbB%60CfApAxAzAtAjBv@%7CAdAfCx@lB%7C@%60C%60DbI%60DdH%7CAxC~AdCnErGrCxDrBjCj@~@ID%5BV%7D@v@zEbGlAxANHJLh@v@PTZD%60@ZVTLFLTd@%7C@c@XH%5CJb@&key=AIzaSyDJ9TZyUZNB2uY_267eIUQCV72YiYmArIw" -->
-                        <!-- <img [src]="" alt="Route Map" width="800" height="400" /> -->
+                        <img [src]="" alt="Route Map" width="800" height="400" />
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="equitas_branch_name">{{labels.equitasBranchName}}
@@ -174,8 +187,10 @@
                             <app-custom-input 
                                 formControlName="equitasBranchName"
                                 [className]="'form-control mandatory'"
+                                [(ngModel)]="equitasBranchName"
                                 [placeholder]="'Equitas Branch Name'"
                                 [isRequired]="' Equitas Branch Name is required'"
+                                [maxLength]="labels?.validationData?.equitasBranchName?.maxLength"
                                 [type]="labels?.validationData?.equitasBranchName?.type"
                                 [isDirty]="isDirty"
                             >
@@ -183,29 +198,36 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="distance_equitasAssetBranch_Kms">{{labels.distanceEquitasAssetBranch}}
-                            <sub class="star_red_col">*</sub>
+                            <!-- <sub class="star_red_col">*</sub> -->
                         </label>
                         <app-custom-input
-                            formControlName="distanceEquitasAssetBranch"
+                            formControlName="distanceFromEquitas"
+                            [className]="'form-control mandatory'"
+                            [placeholder]="'Distance from Equitas Asset Branch in Kms'"
+                        >
+                        </app-custom-input>
+                        <!-- <app-custom-input
+                            formControlName="distanceFromEquitas"
                             [className]="'form-control mandatory'"
                             [placeholder]="'Distance from Equitas Asset Branch in Kms'"
                             [isRequired]="' Distance from Equitas Asset Branch in Kms is required'"
                             [type]="labels?.validationData?.distanceEquitasAssetBranch?.type"
+                            [maxLength]="labels?.validationData?.distanceEquitasAssetBranch?.maxLength"
                             [isDirty]="isDirty"
                         >
-                        </app-custom-input>
+                        </app-custom-input> -->
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="so_name">{{labels.soName}} 
+                        <label for="so_name">{{labels.pdOfficerName}} 
                             <sub class="star_red_col">*</sub>
                         </label>
                         <app-custom-input
-                            formControlName="soName"
+                            formControlName="pdOfficerName"
                             [className]="'form-control mandatory'"
-                            [placeholder]="'SO Name'"
-                            [isRequired]="' SO Name is required'"
-                            [type]="labels?.validationData?.soName?.type"
-                            [maxLength]="labels?.validationData?.soName?.maxLength"
+                            [placeholder]="'PD Officer Name'"
+                            [isRequired]="' PD Officer Name is required'"
+                            [type]="labels?.validationData?.pdOfficerName?.type"
+                            [maxLength]="labels?.validationData?.pdOfficerName?.maxLength"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -215,12 +237,12 @@
                             <sub class="star_red_col">*</sub>
                         </label>
                         <app-custom-input
-                            formControlName="employeeCode"
+                            formControlName="empCode"
                             [className]="'form-control mandatory'"
                             [placeholder]="'Employee Code'"
                             [isRequired]="' Employee Code is required'"
-                            [type]="labels?.validationData?.amountValua?.type"
-                            [maxLength]="labels?.validationData?.amountValua?.maxLength"
+                            [type]="labels?.validationData?.amountValue?.type"
+                            [maxLength]="labels?.validationData?.amountValue?.maxLength"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -229,7 +251,10 @@
                         <label for="date"> {{labels.date}} 
                             <sub class="star_red_col">*</sub>
                         </label>
-                        <kendo-datepicker class="form-control" formControlName="date" [activeView]="'decade'" [format]="'dd/MM/yyyy'"
+                        <kendo-datepicker class="form-control" 
+                            formControlName="date" 
+                            [activeView]="'decade'" 
+                            [format]="'dd/MM/yyyy'"
                             placeholder="Date">
                         </kendo-datepicker>
                     </div>
@@ -240,9 +265,11 @@
                         <app-custom-input
                             formControlName="product"
                             [className]="'form-control mandatory'"
+                            [(ngModel)]="product"
                             [placeholder]="'Product'"
                             [isRequired]="'Product is required'"
                             [type]="labels?.validationData?.equitasBranchName?.type"
+                            [maxLength]="labels?.validationData?.equitasBranchName?.maxLength"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -255,8 +282,10 @@
                             formControlName="sourcingChannel"
                             [className]="'form-control mandatory'"
                             [placeholder]="'Sourcing Channel'"
+                            [(ngModel)]="sourcingChannel"
                             [isRequired]="' Sourcing Channel is required'"
                             [type]="labels?.validationData?.equitasBranchName?.type"
+                            [maxLength]="labels?.validationData?.equitasBranchName?.maxLength"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
@@ -266,23 +295,27 @@
                             <sub class="star_red_col">*</sub>
                         </label>
                         <app-custom-input
-                            formControlName="tomeOfVerification"
+                            formControlName="timeOfVerification"
                             [className]="'form-control mandatory'"
                             [placeholder]="'Time of Verification'"
                             [isRequired]="' Time of Verification is required'"
-                            [type]="labels?.validationData?.equitasBranchName?.type"
+                            [type]="labels?.validationData?.timeOfVerification?.type"
+                            [maxLength]="labels?.validationData?.timeOfVerification?.maxLength"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
                     </div>
+                </div>
+                <h3 class="cus-title title"> {{labels?.loanDetails}} </h3>
+                <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="loan_amount_required">{{labels.loanAmountRequired}} 
+                        <label for="loan_amount_required">{{labels.loanAmount}} 
                             <sub class="star_red_col">*</sub>
                         </label>
                         <app-custom-input
                             formControlName="loanAmount"
                             [className]="'form-control mandatory'"
-                            [placeholder]="'Loan Amount Required'"
+                            [placeholder]="'Loan Amount'"
                             [isRequired]="' Loan Amount is required'"
                             [type]="labels?.validationData?.amountValue?.type"
                             [maxLength]="labels?.validationData?.amountValue?.maxLength"
@@ -314,35 +347,86 @@
                             [className]="'form-control mandatory'"
                             [placeholder]="'EMI Affordability'"
                             [isRequired]="' EMI Affordability is required'"
-                            [type]="labels?.validationData?.pincode?.type"
-                            [maxLength]="labels?.validationData?.pincode?.maxLength"
+                            [type]="labels?.validationData?.emiAffordability?.type"
+                            [maxLength]="labels?.validationData?.emiAffordability?.maxLength"
                             [isDirty]="isDirty"
                         >
                         </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="sourceOf_margin_money">{{labels.sourceOfMarginMoney1}} 
-                            <sub class="star_red_col">*</sub>
+                            <!-- <sub class="star_red_col">*</sub> -->
                         </label>
                         <app-vf-custom-select 
                             [values]="" 
                             formControlName="sourceOfMarginMoney"
-                            [isRequired]="'Please select one'" 
-                            [isDirty]="isDirty">
+                        >
                         </app-vf-custom-select>
                     </div>
-            </div>
+                </div>
         </div>
         &nbsp;
+        <div class="btn-sec clear-both">
+            <div class="col-sm-7"></div>
+            <div class="col-sm-5 text-right" *ngIf="
+                roleType == '2' && version != 'undefined' && showReinitiate == true
+              ">
+                <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
+                    {{labels.reinitiate}}
+                </button>&nbsp;
+                <!-- <button class="btn btn-success" (click)="approvePd()">
+                {{ labels.approve }}
+              </button> -->
+            </div>
+        </div>
         <div class="btn-sec btn-mar-bottom clear-both">
             <div class="col-sm-4"></div>
             <div class="col-sm-8 text-right">
-                <button class="btn btn-primary js-btn-prev" type="button"
-                    (click)="onBack()"> {{labels.back}} </button> 
+                <button class="btn btn-primary js-btn-prev" type="button" (click)="onBack()"> {{labels.back}} </button>
+                <button class="btn btn-primary" (click)="onFormSubmit()"> {{labels.save}} </button>
+                <!-- <button class="btn btn-primary " type="button" (click)="onNext()"> {{labels.submit}} </button> -->
+                <a data-toggle="modal" data-target="#myModal" id="reject_credit">
+                    <p type="button" class="btn btn-primary">{{ labels.submit }}</p>
+                </a>
+            </div>
+        </div>
+        <!-- <div class="btn-sec btn-mar-bottom clear-both">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-8 text-right">
+                <button class="btn btn-primary js-btn-prev" type="button" (click)="onBack()"> {{labels.back}} </button> 
                 <button class="btn btn-primary" (click)="onFormSubmit()"> {{labels.save}} </button>
                 <button class="btn btn-primary " type="button" (click)="onNext()"> {{labels.next}} </button>
             </div>
-        </div>
+        </div> -->
 
-    </form>
+</form>
 <!-- </div> -->
+
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content" style="text-align: center;">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    &times;
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <p>{{ labels.submitToCredit }}</p>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer" style="text-align: center;">
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val" value="Yes" (click)="submitToCredit()">
+                    {{ labels.yes }}
+                </button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    {{ labels.cancel }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

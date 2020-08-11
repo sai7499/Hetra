@@ -145,7 +145,7 @@ export class ApplicantDetailComponent implements OnInit {
     this.applicantForm = new FormGroup({
       // applicantName: new FormControl({ value: this.applicantFullName, disabled: true }),
       applicantName: new FormControl({ value: '', disabled: true }),
-      fatherName: new FormControl('', Validators.required),
+      fatherFullName: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
       maritalStatus: new FormControl('', Validators.required),
       physicallyChallenged: new FormControl('', Validators.required),
@@ -174,7 +174,7 @@ export class ApplicantDetailComponent implements OnInit {
     const applicantModal = this.applicantPdDetails || {};
     this.applicantForm.patchValue({
       applicantName: applicantModal.applicantName || this.applicantFullName || '',
-      fatherName: applicantModal.fatherName || '',
+      fatherFullName: applicantModal.fatherFullName || '',
       gender: applicantModal.gender || '',
       maritalStatus: applicantModal.maritalStatus || '',
       physicallyChallenged: applicantModal.physicallyChallenged || '',
@@ -197,34 +197,22 @@ export class ApplicantDetailComponent implements OnInit {
   }
 
   getPdDetails() { // function to get the pd details with respect to applicant id
-    console.log('pd version', this.version);
-    console.log('pd applicant id', this.applicantId);
-    // if (this.version === 'undefined') {
-    //   this.version = '0';
-    //   console.log('in undefined condition version', this.version);
-
-    // }
-
     const data = {
       applicantId: this.applicantId,
       pdVersion: this.version,
     };
-    console.log('in request data version', this.version);
-
 
     this.personaldiscussion.getPdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
 
         this.applicantPdDetails = value.ProcessVariables.applicantPersonalDiscussionDetails;
-        // console.log('Applicant Details in calling get api ', this.applicantPdDetails);
         if (this.applicantPdDetails) {
           this.setFormValue();
           this.pdDataService.setCustomerProfile(this.applicantPdDetails);
         }
       }
     });
-
   }
 
   onFormSubmit(action) { // fun that submits all the pd data
@@ -240,7 +228,7 @@ export class ApplicantDetailComponent implements OnInit {
 
     this.applicantDetails = {
       applicantName: this.applicantFullName,
-      fatherName: applicantFormModal.fatherName,
+      fatherFullName: applicantFormModal.fatherFullName,
       gender: applicantFormModal.gender,
       maritalStatus: applicantFormModal.maritalStatus,
       physicallyChallenged: applicantFormModal.physicallyChallenged,
@@ -278,15 +266,16 @@ export class ApplicantDetailComponent implements OnInit {
       if (processVariables.error.code === '0') {
         const message = processVariables.error.message;
         this.toasterService.showSuccess('Record Saved Successfully', '');
+        this.getPdDetails()
         // this.toasterService.showSuccess(message, '');
         if (action === 'save') {
 
         } else if (action === 'next') {
 
-          if (this.version) {
+          if (this.version != 'undefined') {
 
             // tslint:disable-next-line: max-line-length
-            this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
+            this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
 
           } else {
 
@@ -306,10 +295,10 @@ export class ApplicantDetailComponent implements OnInit {
   onNavigateNext() {
 
 
-    if (this.version) {
+    if (this.version != 'undefined') {
       console.log('in  routing defined version condition', this.version);
       // tslint:disable-next-line: max-line-length
-      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
+      this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
 
     } else {
 
@@ -322,16 +311,10 @@ export class ApplicantDetailComponent implements OnInit {
 
   onNavigateBack() {
     console.log('in nav back', this.version);
-    if (this.router.url.includes('/fi-cum-pd-dashboard')) {
-
-      this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`);
-
-
-    } else if (this.router.url.includes('/dde')) {
-
+    if (this.version) {
       this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
-
-
+    } else {
+      this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`);
     }
   }
 

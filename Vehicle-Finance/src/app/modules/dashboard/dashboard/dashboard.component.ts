@@ -80,7 +80,7 @@ export class DashboardComponent implements OnInit {
   productCategoryData: any;
   stageList = [];
   stageData: any;
-
+  OldFromDate: Date;
   // new leads
   newArray;
   salesLeads;
@@ -99,8 +99,8 @@ export class DashboardComponent implements OnInit {
   roleId;
   activeTab;
   subActiveTab;
-  minAmount;
-  maxAmount;
+  isFilterApplied: boolean;
+  toDayDate: Date = new Date();
 
 
 
@@ -121,8 +121,6 @@ export class DashboardComponent implements OnInit {
   checkerWithMe: boolean;
   checkerWithCPC: boolean;
 
-  selectedDate;
-
   displayTabs = DisplayTabs;
   displayCreditTabs = DisplayCreditTabs;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
@@ -141,10 +139,7 @@ export class DashboardComponent implements OnInit {
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService,
     private sharedService: SharedService
-  ) {
-    console.log(DisplayTabs.NewLeads);
-    console.log(dashboardService.routingData);
-  }
+  ) { }
 
   onTabsLoading(data) {
     if (this.roleType === 1) {
@@ -280,7 +275,6 @@ export class DashboardComponent implements OnInit {
       this.roleId = value.roleId;
       this.businessDivision = value.businessDivision[0].bizDivId;
       this.roleType = value.roleType;
-      console.log('role Type', typeof this.roleType, this.roleType);
     });
 
     if (this.dashboardService.routingData) {
@@ -315,9 +309,11 @@ export class DashboardComponent implements OnInit {
 
     if (this.roleType === 4) {
       this.onReleaseTab = true;
+      this.makerWithMe = true;
       this.getMakerLeads(this.itemsPerPage);
     } else if (this.roleType === 5) {
       this.onReleaseTab = true;
+      this.checkerWithMe = true;
       this.getCheckerLeads(this.itemsPerPage);
     }
   }
@@ -328,7 +324,6 @@ export class DashboardComponent implements OnInit {
 
     this.activeTab = data;
     this.subActiveTab = subTab;
-    console.log('activeTab', this.activeTab);
     if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
       this.onReleaseTab = false;
       this.onAssignTab = false;
@@ -374,9 +369,7 @@ export class DashboardComponent implements OnInit {
       this.onReleaseTab = true;
       this.onAssignTab = false;
     }
-    console.log('subActiveTab', this.subActiveTab);
     this.onTabsLoading(this.subActiveTab);
-
   }
 
   onCPCMakerClick(data) {
@@ -422,7 +415,6 @@ export class DashboardComponent implements OnInit {
       bizDiv: this.businessDivision
     };
     this.dashboardService.dashboardFilter(data).subscribe((res: any) => {
-      console.log('get product catagory', res);
       this.productCategoryList = res.ProcessVariables.productCategory;
       this.productCategoryData = this.utilityService.getValueFromJSON(
         this.productCategoryList,
@@ -462,9 +454,6 @@ export class DashboardComponent implements OnInit {
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
     };
-    // console.log('getmyFilterdata', data);
-    // console.log('filter form data', this.filterFormDetails);
-
 
     this.responseForSales(data);
   }
@@ -953,7 +942,14 @@ export class DashboardComponent implements OnInit {
       currentPage: parseInt(pageNumber),
       // tslint:disable-next-line: radix
       perPage: parseInt(perPageCount),
-      myLeads: true
+      myLeads: true,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
     };
     this.responseForCredit(data);
   }
@@ -968,7 +964,14 @@ export class DashboardComponent implements OnInit {
       currentPage: parseInt(pageNumber),
       // tslint:disable-next-line: radix
       perPage: parseInt(perPageCount),
-      myLeads: false
+      myLeads: false,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
     };
     this.responseForCredit(data);
   }
@@ -1090,6 +1093,8 @@ export class DashboardComponent implements OnInit {
         this.getMakerLeads(this.itemsPerPage);
       } else if (this.checkerWithMe) {
         this.getCheckerLeads(this.itemsPerPage);
+      } else if (this.checkerWithCPC) {
+        this.getCheckerCPCLeads(this.itemsPerPage);
       }
     }
   }
@@ -1109,6 +1114,7 @@ export class DashboardComponent implements OnInit {
       }
       switch (this.subActiveTab) {
         case 4:
+          localStorage.setItem('istermSheet', 'false');
           this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
           break;
         case 6:
@@ -1139,13 +1145,15 @@ export class DashboardComponent implements OnInit {
           this.router.navigateByUrl(`/pages/deviation-dashboard/${leadId}/dashboard-deviation-details`);
           break;
         case 10:
+          localStorage.setItem('istermSheet', 'false');
           this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
           break;
         case 13:
           this.router.navigateByUrl(`/pages/fi-dashboard/${leadId}/fi-list`);
           break;
         case 16:
-          this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/term-sheet`);
+          localStorage.setItem('istermSheet', 'true');
+          this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/new-term-sheet`);
           break;
         default:
           break;
@@ -1163,6 +1171,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onClear() {
+    this.isFilterApplied = false;
     this.filterForm.reset();
     this.filterFormDetails = {};
     this.onTabsLoading(this.subActiveTab);
@@ -1180,12 +1189,12 @@ export class DashboardComponent implements OnInit {
   }
 
   onApply() {
+    this.isFilterApplied = true;
     this.filterFormDetails = this.filterForm.value;
-    this.filterFormDetails.fromDate = this.dateToFormate(this.filterFormDetails.fromDate);
-    this.filterFormDetails.toDate = this.dateToFormate(this.filterFormDetails.toDate);
-    this.selectedDate = this.dateToFormate(this.filterFormDetails.fromDate);
-    this.minAmount = this.filterForm.get('loanMinAmt').value;
-    console.log('filter form details', this.filterFormDetails);
+    // this.filterFormDetails.fromDate = this.dateToFormate(this.filterFormDetails.fromDate);
+    this.filterFormDetails.fromDate = this.utilityService.getDateFormat(this.filterFormDetails.fromDate);
+    // this.filterFormDetails.toDate = this.dateToFormate(this.filterFormDetails.toDate);
+    this.filterFormDetails.toDate = this.utilityService.getDateFormat(this.filterFormDetails.toDate);
     this.onTabsLoading(this.subActiveTab);
     if (this.roleType === 4 || this.roleType === 5) {
       if (this.makerWithMe) {
@@ -1200,6 +1209,25 @@ export class DashboardComponent implements OnInit {
     }
     // this.dashboardService.filterData(this.filterFormDetails);
   }
+
+  // onChangeDate() {
+  //   const fromDate = new Date(this.filterFormDetails.controls['fromDate'].value);
+  //   const toDate = new Date(this.filterFormDetails.controls['toDate'].value);
+  //   if (fromDate > toDate) {
+  //     this.toasterService.showWarning('Invalid Date Selection', '');
+  //     if (this.OldFromDate) {
+  //       // this.listArray.controls = [];
+  //       const date = new Date(this.OldFromDate);
+  //       this.filterFormDetails.patchValue({
+  //         fromDate: this.OldFromDate,
+  //         toDate: this.OldFromDate,
+  //       });
+  //     }
+  //     return;
+  //   }
+  //   const fromDateNew = this.filterFormDetails.fromDate;
+  //   this.OldFromDate = fromDateNew;
+  // }
 
   onRelase(taskId) {
     this.taskDashboard.releaseTask(taskId).subscribe((res: any) => {
@@ -1218,15 +1246,14 @@ export class DashboardComponent implements OnInit {
       subActiveTab: this.subActiveTab
     };
     this.taskDashboard.assignTask(taskId).subscribe((res: any) => {
-      console.log('assignResponse', res);
       const response = JSON.parse(res);
-      console.log(response);
       if (response.ErrorCode == 0) {
         this.toasterService.showSuccess('Assigned Successfully', 'Assigned');
         // this.router.navigate(['/pages/dde/' + leadId + '/lead-details']);
         if (this.roleType === 1) {
           switch (this.subActiveTab) {
             case 5:
+              localStorage.setItem('istermSheet', 'false');
               this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
               break;
             case 7:
@@ -1256,13 +1283,15 @@ export class DashboardComponent implements OnInit {
               this.router.navigateByUrl(`/pages/deviation-dashboard/${leadId}/dashboard-deviation-details`);
               break;
             case 11:
+              localStorage.setItem('istermSheet', 'false');
               this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/credit-condition`);
               break;
             case 14:
-              this.router.navigateByUrl(`/pages/dde/${leadId}/fi-list`);
+              this.router.navigateByUrl(`/pages/fi-dashboard/${leadId}/fi-list`);
               break;
             case 17:
-              this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/term-sheet`);
+              localStorage.setItem('istermSheet', 'true');
+              this.router.navigateByUrl(`/pages/credit-decisions/${leadId}/new-term-sheet`);
               break;
             default:
               break;
@@ -1285,9 +1314,11 @@ export class DashboardComponent implements OnInit {
   // external methods
   assignTaskId(taskId) {
     this.sharedService.getTaskID(taskId);
-    console.log('in assign task', taskId);
   }
   getLeadId(item) {
+    localStorage.setItem('salesResponse', item.is_sales_response_completed);
+    console.log('isficumPd', item.isFiCumPD);
+    localStorage.setItem('isFiCumPd', item.isFiCumPD);
     this.vehicleDataStoreService.setCreditTaskId(item.taskId);
     this.sharedService.getTaskID(item.taskId);
   }

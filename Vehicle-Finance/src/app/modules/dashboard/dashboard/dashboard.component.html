@@ -2,8 +2,11 @@
     <div class="container-fluid">
         <div class="pull-right dropdown nav">
             <div class="pull-right dropdown nav">
-                <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter </button>
+                <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> {{!isFilterApplied ? "Filter" : "Filter Applied"}} </button>
             </div>
+            <!-- <div *ngIf="isFilterApplied" class="pull-right dropdown nav">
+                <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter Applied</button>
+            </div> -->
         </div>
     </div>
 
@@ -38,11 +41,11 @@
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="startDate">{{labels.leadCreatedOnStartDate}}</label>
-                        <kendo-datepicker class="form-control" formControlName="fromDate" [format]="'dd/MM/yyyy'" placeholder="Start Date" [activeView]="'decade'"></kendo-datepicker>
+                        <kendo-datepicker class="form-control" formControlName="fromDate" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Start Date" [activeView]="'decade'"></kendo-datepicker>
                     </div>
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="endDate">{{labels.leadCreatedOnEndDate}}</label>
-                        <kendo-datepicker class="form-control" formControlName="toDate" [min]="selectedDate" [format]="'dd/MM/yyyy'" placeholder="End Date" [activeView]="'decade'"></kendo-datepicker>
+                        <kendo-datepicker class="form-control" formControlName="toDate" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="End Date" [activeView]="'decade'"></kendo-datepicker>
                     </div>
                 </div>
                 <div class="row">
@@ -57,8 +60,8 @@
                         </app-custom-input>
                     </div>
                     <div class="actionbtn col-sm-6 col-md-3 col-lg-3">
-                        <button class="btn btn-default mar-right8" type="button" id="clearbtn" (click)="onClear()"> Clear </button>
-                        <button class="btn btn-primary" type="submit" (click)="onApply()"> Apply </button>
+                        <button class="btn btn-default mar-right8" type="button" id="clearbtn" (click)="onClear(); showFilter=!showFilter"> Clear </button>
+                        <button class="btn btn-primary" type="submit" (click)="onApply(); showFilter=!showFilter"> Apply </button>
                     </div>
                 </div>
             </form>
@@ -224,7 +227,7 @@
                             <input type="button" class="btn btn-primary" (click)="onRelase(item.taskId); onClick()" value="Release" data-toggle="modal" data-target="#releaseModal">
                         </td>
                         <td [attr.data-label]="labels?.action" *ngIf="onAssignTab">
-                            <input type="button" class="btn btn-primary" (click)="onAssign(item.taskId, item.leadId); onClick()" value="Assign" data-toggle="modal" data-target="#assignModel" />
+                            <input type="button" class="btn btn-primary" (click)="onAssign(item.taskId, item.leadId); onClick(); getLeadId(item)" value="Assign" data-toggle="modal" data-target="#assignModel" />
                         </td>
                         <td [attr.data-label]="labels?.leadID" *ngIf="!onReleaseTab && !onAssignTab" class="text-underline" (click)="onRoute(item.leadId,item.stageCode,item.taskId); assignTaskId(item.taskId); getLeadId(item)" style="cursor: pointer;">
                             {{item.leadId}}</td>
@@ -241,8 +244,8 @@
                         <td [attr.data-label]="labels?.priority" *ngIf="item.priority == '1'">Yes</td>
                         <td [attr.data-label]="labels?.priority" *ngIf="item.priority == '0' || item.priority == null">No</td>
                         <td [attr.data-label]="labels?.promoCode">{{item.promoCode ? item.promoCode : '--'}}</td>
-                        <td [attr.data-label]="labels?.status" *ngIf="roleType == '1'">{{item.stage ? item.stage : '--'}}</td>
-                        <td [attr.data-label]="labels?.status" *ngIf="roleType == '2'">{{item.status ? item.status : '--'}}</td>
+                        <td [attr.data-label]="labels?.status">{{item.stage ? item.stage : '--'}}</td>
+                        <!-- <td [attr.data-label]="labels?.status" *ngIf="roleType == '2'">{{item.status ? item.status : '--'}}</td> -->
                         <td [attr.data-label]="labels?.history">
                             <a data-toggle="tooltip" data-placement="bottom" title="Click to View Timeline Chart"> <i class="fa fa-history"></i></a>
                         </td>
