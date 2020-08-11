@@ -1,72 +1,3 @@
-<!-- <form class="multisteps-form__form" [formGroup]="basicVehicleForm" *ngIf="label.validationData">
-    <ng-container formArrayName="vehicleFormArray">
-
-        <div *ngFor="let obj of basicVehicleForm.get('vehicleFormArray')['controls']; let i=index;let l=last"
-            [formGroupName]="i">
-
-            <div id="sales_section_start">
-
-                <h3 class="title" style="margin-top: -10px;" *ngIf="roleType == 1"> {{ label.vehcileDetailsTitle }}
-                </h3>
-
-                <div class="row" *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
-                        <label for="registartion_number"> {{ label.registartionNumber }}
-                            <sub class="star_red_col">*</sub>
-                        </label>
-
-                        <app-custom-input formControlName="vehicleRegNo"
-                            [type]="label.validationData?.vehicleRegNo.type" [id]="'vechical_reg'"
-                            [className]="'form-control mandatory'" [placeholder]="'Vechical Registration No'"
-                            [inputClass]="'input-upper'" [maxLength]="label.validationData?.vehicleRegNo.maxLength"
-                            [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
-                        </app-custom-input>
-
-                    </div>
-                </div>
-
-                <div class="row">
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="vechical_region"> {{ label.vechicalRegion }}
-                            <sub class="star_red_col">*</sub>
-                        </label>
-
-                        <app-vf-custom-select [values]="vehicleLov?.region" [id]="'vechical_region'"
-                            formControlName="region" [isRequired]="'Vehicle Region Required'"
-                            (change)="onVehicleRegion($event.target.value, obj)" [isDirty]="isDirty">
-                        </app-vf-custom-select>
-
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="asset_make"> {{ label.assetMake }} <sub class="star_red_col">*</sub> </label>
-
-                        <app-vf-custom-select [values]="vehicleLov?.assetMake" [id]="'asset_make'"
-                            formControlName="assetMake" [isRequired]="'Asset Make Required'"
-                            (change)="onAssetMake($event.target.value, obj)" [isDirty]="isDirty">
-                        </app-vf-custom-select>
-
-                    </div>
-
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="vechical_type"> {{ label.vechicalType }} <sub class="star_red_col">*</sub> </label>
-
-                        <app-vf-custom-select [values]="vehicleLov?.vehicleType" [id]="'vechical_type'"
-                            formControlName="vehicleType" [isRequired]="'Vehicle Type Required'"
-                            (change)="onVehicleType($event.target.value, obj)" [isDirty]="isDirty">
-                        </app-vf-custom-select>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-    </ng-container>
-</form> -->
-
 <form class="multisteps-form__form" [formGroup]="basicVehicleForm" *ngIf="label.validationData">
 
     <ng-container formArrayName="vehicleFormArray">
@@ -76,7 +7,7 @@
 
             <div id="sales_section_start" *ngIf="roleType == 1">
 
-                <h3 class="title" style="margin-top: -10px;"> {{ label.vehcileDetailsTitle }} </h3>
+                <h3 class="title cus-title"> {{ label.vehcileDetailsTitle }} </h3>
 
                 <div class="row" *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
@@ -175,7 +106,8 @@
                         </app-vf-custom-select>
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3"
+                        *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
                         <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} <sub
                                 class="star_red_col">*</sub>
                         </label>
@@ -200,7 +132,8 @@
 
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset"
+                        *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
                         <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub> </label>
 
                         <app-custom-input formControlName="ageOfAsset" [id]="'age_of_asset'"
@@ -210,11 +143,12 @@
 
                     </div>
 
-                </div>
+                    <!-- </div>
 
-                <div class="row">
+                <div class="row"> -->
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle"
+                        *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
                         <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
                         </label>
 
@@ -382,6 +316,14 @@
                             (keyup)="getPincode(obj.controls['pincode'].value)"
                             [isRequired]="'Vehicle Address PINCODE Required'" [isDirty]="isDirty">
                         </app-custom-input>
+                        <div class="invalid-feedback"
+                        *ngIf="basicVehicleForm.controls['isValidPincode'].value === false">
+                            Invalid Pincode
+                        </div>
+
+                        <div *ngIf="obj.controls['pincode'].invalid && basicVehicleForm.controls['isValidPincode'].value === false">
+                            Invalid Pincode
+                        </div>
 
                     </div>
 
@@ -491,7 +433,7 @@
                                 placeholder="Asset - Variant - Other" name="asset_other" formControlName="assetOther">
                         </div> -->
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} <sub
                                     class="star_red_col">*</sub>
                             </label>
@@ -514,21 +456,21 @@
                                 Invalid Date
                             </div>
 
-                        </div>
+                        </div> -->
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
+                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
                             <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub> </label>
                             <app-custom-input formControlName="ageOfAsset" [className]="'form-control mandatory'"
                                 [placeholder]="'Age of Asset'" [isRequired]="'Age of Asset Required'"
                                 [id]="'age_of_asset'" [isDirty]="isDirty" [isDisabled]="true">
                             </app-custom-input>
-                        </div>
+                        </div> -->
 
-                    </div>
+                        <!-- </div>
 
-                    <div class="row">
+                    <div class="row"> -->
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
+                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
                             <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
                             </label>
                             <app-custom-input formControlName="ageAfterTenure" [className]="'form-control mandatory'"
@@ -536,7 +478,7 @@
                                 [isRequired]="'Age of vehicle at the end of tenor Required'" [isDirty]="isDirty"
                                 [isDisabled]="true">
                             </app-custom-input>
-                        </div>
+                        </div> -->
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
@@ -872,7 +814,7 @@
                                 placeholder="Asset - Variant - Other" name="asset_other" formControlName="assetOther">
                         </div> -->
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} <sub
                                     class="star_red_col">*</sub>
                             </label>
@@ -903,13 +845,13 @@
                                 [placeholder]="'Age of Asset'" [isRequired]="'Age of Asset Required'"
                                 [id]="'age_of_asset'" [isDirty]="isDirty" [isDisabled]="true">
                             </app-custom-input>
-                        </div>
-
+                        </div> -->
+<!-- 
                     </div>
 
-                    <div class="row">
+                    <div class="row"> -->
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
+                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
                             <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
                             </label>
                             <app-custom-input formControlName="ageAfterTenure" [className]="'form-control mandatory'"
@@ -917,7 +859,7 @@
                                 [isRequired]="'Age of vehicle at the end of tenor Required'" [isDirty]="isDirty"
                                 [isDisabled]="true">
                             </app-custom-input>
-                        </div>
+                        </div> -->
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
@@ -1382,11 +1324,13 @@
                                 [id]="'vehicle_pincode'" [className]="'form-control mandatory'"
                                 [placeholder]="'Vehicle Address PINCODE'"
                                 (keyup)="getPincode(obj.controls['pincode'].value)"
-                                [maxLength]="label.validationData?.pincode.maxLength" 
-                                [custom]="initalZeroCheck"
-                                [isRequired]="'Vehicle Address PINCODE Required'" 
-                                [isDirty]="isDirty">
+                                [maxLength]="label.validationData?.pincode.maxLength" [custom]="initalZeroCheck"
+                                [isRequired]="'Vehicle Address PINCODE Required'" [isDirty]="isDirty">
                             </app-custom-input>
+                            <div class="invalid-feedback"
+                                 *ngIf="basicVehicleForm.controls['isValidPincode'].value === false">
+                                Invalid Pincode
+                            </div>
 
                         </div>
 

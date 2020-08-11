@@ -24,30 +24,30 @@
     }">
       <label class="action"> {{labels.action}} </label>
     </div>
-    <div class="col-xs-6 col-sm-1 " *ngIf="userType === 2">Action</div>
   </div>
   <form class="multisteps-form__form" [formGroup]="creditConditionForm" *ngIf="this.creditConditionForm">
     <div formArrayName="Rows">
 
       <div class="row" *ngFor="let item of creditConditionForm.get('Rows')['controls']; let i = index"
         [formGroupName]="i">
-        <div class="col-xs-6 col-sm-3">
+        <div class="col-xs-6 col-sm-3 c">
 
           <textarea class="form-control" formControlName="creditCondition"
             placeholder="Content Goes here......"></textarea>
 
         </div>
-        <div class="col-xs-6 col-sm-3">
+        <div class="col-xs-6 col-sm-3 ">
           <textarea class="form-control" formControlName="salesResponse"
             placeholder="Content Goes here......"></textarea>
         </div>
-        <div class="col-xs-6 col-sm-3">
+        <div class="col-xs-6 col-sm-3 ">
           <div class="row m-0">
            
-              <input type="radio" value="1" formControlName="isDocReq"> {{labels.yes}}
-            
+              <input type="radio" value="1" formControlName="isDocReq" 
+              > {{labels.yes}}         
            
-              <input type="radio" value="0" formControlName="isDocReq"> {{labels.no}}
+              <input type="radio" value="0" formControlName="isDocReq" 
+              > {{labels.no}}
          
           </div>
           <!-- <a href="#" *ngIf="item.get('isDocReq').value != '1'" class="input_design">Ref<span class="text-dec">#123456</span></a> -->
@@ -103,9 +103,9 @@
 
   <div class="bottom_20"></div>
   <div class="btn-sec clear-both">
-    <div class="col-sm-5">
+    <div class="col-sm-4">
     </div>
-    <div class="col-sm-7 text-right">
+    <div class="col-sm-8 text-right">
        <button class="btn btn-primary" (click)="saveUpdate('back')" type="button">Back</button>
       <button class="btn btn-primary" (click)="saveUpdate('save')" type="button">Save</button>
       <!-- <button class="btn btn-primary"
@@ -113,7 +113,7 @@
        (click)="assignCDTaskFromSales()"
         type="button">Submit</button> -->
       <button class="btn btn-primary" *ngIf="userType === 2" 
-        (click)="creditConditionActions('submited')" type="button">Approve</button>
+        (click)="approveCreditCondition()" type="button">Approve</button>
       <!-- <button class="btn btn-primary" *ngIf="userType === 2" 
         (click)="creditConditionActions('approved')" type="button" [disabled] ="disableControl">Approve</button>
       <button class="btn btn-primary"

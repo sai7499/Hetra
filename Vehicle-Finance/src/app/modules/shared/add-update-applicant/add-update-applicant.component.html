@@ -1,4 +1,4 @@
-<main class="mar-top90">
+<main class="mar-top90" #pTag>
   <app-lead-section-header></app-lead-section-header>
 
   <div class="">
@@ -61,6 +61,28 @@
                   >
                   </app-vf-custom-select>
                 </div>
+                <div
+                  class="form-group col-sm-6 col-md-4 col-lg-4"
+                  *ngIf="applicantType == 'INDIVENTTYP'"
+                >
+                  <label
+                    >Full Name<sub class="star_red_col"
+                      >*</sub
+                    ></label
+                  >
+                  <input 
+                  formControlName='fullName'
+                  disabled 
+                  type="text" 
+                  class="form-control mandatory select2"
+                  placeholder="Full Name"
+                  [value]="coApplicantForm.get('dedupe').get('name1').value + ' ' +
+                           coApplicantForm.get('dedupe').get('name2').value + ' ' +
+                           coApplicantForm.get('dedupe').get('name3').value"/>
+                  
+                  
+                </div>
+                
 
                 <!-- <div
                   class="form-group col-sm-6 col-md-4 col-lg-4"
@@ -704,6 +726,7 @@
                     [(ngModel)]="drivingLicenseIssueDate"
                     (ngModelChange)="dateSelected()"
                     (valueChange)="clearDrivingExpiryDate()"
+                    [disabled]='disabledDrivingDates'
                     placeholder="Driving License Issue Date"
                   >
                   </kendo-datepicker>
@@ -722,6 +745,10 @@
                     "
                   >
                     Select Date
+                  </div>
+                  <div 
+                  class="ShowError" *ngIf="showMessage['drivinglicenseIssue']">
+                      Invalid Date
                   </div>
                 </div>
                 <div
@@ -770,6 +797,8 @@
                     [activeView]="'decade'"
                     [(ngModel)]="drivingLicenseExpiryDate"
                     (ngModelChange)="expiryDateSelected()"
+                    (valueChange)="drivingLicenceExpiryShowError()"
+                    [disabled]='disabledDrivingDates'
                     placeholder="Driving License Expiry Date"
                   >
                   </kendo-datepicker>
@@ -788,6 +817,12 @@
                     "
                   >
                     Select date
+                  </div>
+                  <div class="ShowError"
+                  *ngIf="(coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate')
+                  .dirty) && showMessage['drivingLicenseExpiry'] "
+                  >
+                      Invalid Date
                   </div>
                   <!-- <div class="ShowError" *ngIf="coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').invalid" >
                     Invalid Date
@@ -860,6 +895,7 @@
                     [(ngModel)]="passportIssueDate"
                     (ngModelChange)="passportDateSelected()"
                     (valueChange)="clearPassportExpiryDate()"
+                    [disabled]="disabledPassportDates"
                     placeholder="Passport Issue Date"
                   >
                   </kendo-datepicker>
@@ -877,6 +913,10 @@
                   >
                     Select Date
                   </div>
+                  <div 
+                  class="ShowError" *ngIf="showMessage['passportIssue']">
+                      Invalid Date
+                  </div>
                 </div>
 
                 <div
@@ -892,6 +932,8 @@
                     [activeView]="'decade'"
                     [(ngModel)]="passportExpiryDate"
                     (ngModelChange)="passportExpiryDateSelected()"
+                    (valueChange)="passportExpiryShowError()"
+                    [disabled]="disabledPassportDates"
                     placeholder="Passport Expiry Date"
                   >
                   </kendo-datepicker>
@@ -908,6 +950,12 @@
                     "
                   >
                     Select Date
+                  </div>
+                  <div class="ShowError"
+                  *ngIf="(coApplicantForm.get('dedupe').get('passportExpiryDate')
+                  .dirty) && showMessage['passportExpiry']"
+                  >
+                      Invalid Date
                   </div>
                 </div>
               </div>
@@ -964,18 +1012,20 @@
                     <a class="back_color">Back</a>
                   </button>
                 </div>
-                <!-- <div  class="form-group col-sm-6 col-md-4 col-lg-4 margin-top-20"
-                *ngIf="showEkycbutton && applicantType == 'INDIVENTTYP'">
+                <div  class="form-group col-sm-6 col-md-4 col-lg-4 margin-top-20"
+                *ngIf="isMobile && showEkycbutton && applicantType=='INDIVENTTYP'">
                   <button
                     class="btn btn-primary mar-right8"
                     type="button"
+                    
                     (click)="calleKYC()"
                   >
-                    <a class="back_color">eKYC Mobile</a>
+                    <a class="back_color">Check e-KYC</a>
                   </button>
-                </div> -->
+                </div>
               </div>
             </div>
+            <!-- *ngIf= "isMobile && showEkycbutton && applicantType == 'INDIVENTTYP'" -->
             
 
             <div
@@ -1054,9 +1104,9 @@
                   </div>
                   <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                      <label for="pincode"
-                        >{{ labels?.code }}
-                        <sub class="star_red_col">*</sub></label
+                      <label for="pincode" required
+                        >{{ labels?.code }} 
+                        <!-- <sub class="star_red_col">*</sub>--></label 
                       >
                       <app-custom-input
                         formControlName="pincode"
@@ -1123,6 +1173,16 @@
                       >
                       </app-vf-custom-select>
                     </div>
+                    
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                      <label for="landline">{{labels?.nearestLandmark}}</label>
+                      <app-custom-input
+                        formControlName="nearestLandmark"
+                        [maxLength]="validationData?.landMark?.maxLength"
+                      ></app-custom-input>
+                    </div>
+                  </div>
+                  <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="landline">{{
                         labels?.permanentAddressLandline
@@ -1255,6 +1315,16 @@
                       </app-vf-custom-select>
                     </div>
 
+                    
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                      <label for="landline">{{labels?.nearestLandmark}}</label>
+                      <app-custom-input
+                        formControlName="nearestLandmark"
+                        [maxLength]="validationData?.landMark?.maxLength"
+                      ></app-custom-input>
+                    </div>
+                  </div>
+                  <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="current_landline">{{
                         labels?.landlineNumber
@@ -1380,6 +1450,16 @@
                       >
                       </app-vf-custom-select>
                     </div>
+                    
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                      <label for="landline">{{labels?.nearestLandmark}}</label>
+                      <app-custom-input
+                        formControlName="nearestLandmark"
+                        [maxLength]="validationData?.landMark?.maxLength"
+                      ></app-custom-input>
+                    </div>
+                  </div>
+                  <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="reg_mobile">{{
                         labels?.landLineNumber
@@ -1514,6 +1594,16 @@
                       >
                       </app-vf-custom-select>
                     </div>
+                    
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                      <label for="landline">{{labels?.nearestLandmark}}</label>
+                      <app-custom-input
+                        formControlName="nearestLandmark"
+                        [maxLength]="validationData?.landMark?.maxLength"
+                      ></app-custom-input>
+                    </div>
+                  </div>
+                  <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="reg_mobile">{{
                         labels?.landLineNumber
@@ -1534,7 +1624,7 @@
     </form>
   </div>
   <div
-    class="btn-sec clear-both btn-space"
+    class="btn-sec clear-both btn-space btn-mar-bot"
     *ngIf="
       (applicantType == 'INDIVENTTYP' &&
         !isMobileChanged &&

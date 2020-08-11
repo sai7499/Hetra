@@ -19,6 +19,11 @@ export class FiListComponent implements OnInit {
   leadData: {};
   applicantId: any;
   userId: any;
+  show: boolean;
+  showStatus: boolean;
+  fiStatusValue: any;
+  fiStatus: { [id: string]: any; } = {};
+  pdStatusValue;
   constructor(
     private labelDetails: LabelsService,
     private router: Router,
@@ -52,7 +57,18 @@ export class FiListComponent implements OnInit {
     );
     this.leadId = (await this.getLeadId()) as number;
     this.getFiList();
-    // this.getPdList();
+    if (this.router.url.includes('/fi-dashboard')) {   // showing/hiding the buttons based on url
+
+      console.log(' fi-dashboard ');
+      this.show = true;
+
+    } else if (this.router.url.includes('/dde')) {
+      this.showStatus = true;
+
+    } else {
+      this.show = false;
+    }
+
 
   }
 
@@ -95,23 +111,68 @@ export class FiListComponent implements OnInit {
     this.fieldInvestigationService.getFiList(data).subscribe((value: any) => {
       const processvariables = value.ProcessVariables;
       // console.log('in get fi list', processvariables);
-      this.fiList = processvariables.fIReportList;
+      this.fiList = processvariables.finalFIList;
       console.log('fi List', this.fiList);
 
-      // for (var i in this.pdList) {
-      //   console.log("in for pd list", i)
-      //   this.pdStatusValue = this.pdList[i]['pdStatusValue']
-      //   console.log("pd status value", this.pdStatusValue)
+      for (var i in this.fiList) {
+        this.fiStatusValue = this.fiList[i]['fiStatus']
 
-      // this.leadId = (await this.getLeadId()) as number;
-      // this.router.navigateByUrl(`pages/fi-list/${this.leadId}/fi-report`);
+        if (this.fiList[i]['fiStatusValue'] == "Submitted") {
+          this.fiStatus[this.fiList[i]['applicantId']] = this.fiList[i]['fiStatusValue']
+          // this.sharedService.getPdStatus(this.pdStatus)
+        }
+        if (this.fiList[i]['fiReportValue']!=null){
+          this.fiList[i]['fiReportValue'] = this.fiList[i]['fiReportValue'].split(',');
+        }else{
+          this.fiList[i]['fiReportValue']=[];
+        }
+        
+
+      }
     });
   }
 
 
-  onClick() {
-    this.router.navigateByUrl(`pages/fi-list/${this.leadId}/${this.applicantId}/fi-report`);
+  onClick(applicantIdFromHtml: string) {
+
+    console.log('this applicant id', applicantIdFromHtml);
+    this.router.navigateByUrl(`pages/fi-dashboard/${this.leadId}/fi-report/${applicantIdFromHtml}/fi-residence`);
   }
+  navigatePage(applicantId: string, version: any) {
+    console.log(
+      'applicantId',
+      applicantId,
+    );
+    console.log('version', version);
+
+    console.log('URL', URL);
+
+    if (this.router.url.includes('fi-dashboard')) {
+
+      console.log(' in fi-dashboard flow');
+
+      // this.show = true;
+      if (version) {
+        console.log('in fi-dashboard version conditon');
+        this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-report/${applicantId}/fi-residence/${version}`]);
+      } else if (version === undefined || version === null) {
+        console.log('in fi-cum-pd-dashboard undefined version conditon');
+        this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-report/${applicantId}/fi-residence`]);
+      }
+
+    } else if (this.router.url.includes('/dde')) {
+      console.log(' in dde flow');
+      // this.showStatus = true;
+      if (version) {
+        this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${applicantId}/fi-residence/${version}`]);
+      } else if (version === undefined || version === null) {
+
+        this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${applicantId}/fi-residence`]);
+      }
+
+    }
+  }
+
 
   onNavigate(action) { // fun for routing into next and back pages using argument ==> 'action'
     // console.log('in on navigate', action);
@@ -123,6 +184,13 @@ export class FiListComponent implements OnInit {
 
     }
 
+
+  }
+  onNavigateToFiSummary() { // func to route to the pd dashboard
+
+    // http://localhost:4200/#/pages/dashboard/personal-discussion/my-pd-tasks
+
+    this.router.navigate([`/pages/dashboard`]);
 
   }
 }

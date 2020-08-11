@@ -4,10 +4,11 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { DashboardService } from './dashboard/dashboard.service';
 
 @Injectable()
 export class UtilityService {
-  constructor(private httpService: HttpService, private router: Router,
+  constructor(private httpService: HttpService, private router: Router, private dashboardServiec: DashboardService,
     private ngxUiLoaderService: NgxUiLoaderService) { }
 
   logOut() {
@@ -23,6 +24,8 @@ export class UtilityService {
     localStorage.removeItem('token');
     localStorage.removeItem('roles');
     localStorage.removeItem('userId');
+    localStorage.removeItem('salesResponse');
+    this.dashboardServiec.routingData = '';
     console.clear();
     this.router.navigateByUrl('/login');
   }
@@ -39,7 +42,6 @@ export class UtilityService {
     day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
     // const formattedDate = year + '-' + month1 + '-' + day;
     const formattedDate = day + '/' + month1 + '/' + year;
-    console.log('return Date', formattedDate);
     return formattedDate;
   }
   getNewDateFormat(date) {
@@ -51,7 +53,6 @@ export class UtilityService {
     day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
     const formattedDate = year + '-' + month1 + '-' + day;
     // const formattedDate = day + '/' + month1 + '/' + year;
-    console.log('return Date', formattedDate);
     return formattedDate;
   }
   ageFromAsset(dateOfBirth: any): number {
@@ -113,9 +114,7 @@ export class UtilityService {
 
   getValueFromJSON(JsonObj, key1, value1) {
     let arrayList = [];
-    console.log('JsonObj', JsonObj);
-    console.log('key1', key1);
-    console.log('value1', value1);
+
     if (JsonObj) {
       JsonObj.map((data: any) => {
         if (data) {
@@ -138,7 +137,6 @@ export class UtilityService {
     let getDate = new Date(
       dateArray[1] + '-' + dateArray[0] + '-' + dateArray[2]
     );
-    console.log('return Date', getDate);
     return getDate;
   }
 }

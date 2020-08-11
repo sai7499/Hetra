@@ -46,6 +46,6 @@ export class DocumentUploadComponent implements OnInit {
 
   navigateToDashBoard() {
     this.isModelShow = false;
-    this.router.navigateByUrl(`/pages/dashboard/leads-section/leads`);
+    this.router.navigateByUrl(`/pages/dashboard`);
   }
 }

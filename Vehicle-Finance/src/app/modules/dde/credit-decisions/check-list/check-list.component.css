@@ -88,3 +88,15 @@ height: 100vh;
 .fa.fa-upload{width:50px;font-size: 20px;}
 .fa.fa-question-circle{width:50px;font-size: 20px;}
 .fa.fa-eye{width:50px;font-size: 20px;}
+
+.buttonsAdjust {
+   margin: 20px;
+   margin-bottom: 20px;
+}
+.paddingNgContainer {
+    padding-left:  15px;
+    padding-right: 15px;
+}
+.adjustMargins {
+    margin: 5px;
+}

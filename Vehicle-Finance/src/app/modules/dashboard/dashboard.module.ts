@@ -33,6 +33,7 @@ import { MakerLeadsWithCpcComponent } from './cpc-maker/maker-leads-with-cpc/mak
 import { DdeBranchLeadsComponent } from './leads/dde-branch-leads/dde-branch-leads.component';
 import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
 import { SharedModule } from '@modules/shared/shared.module';
+import {MatSortModule} from '@angular/material/sort';
 
 
 
@@ -46,7 +47,8 @@ import { SharedModule } from '@modules/shared/shared.module';
     FormsModule,
     DatePickerModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    MatSortModule
     ]
 })
 export class DashboardModule { }

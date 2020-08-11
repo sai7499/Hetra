@@ -24,6 +24,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               {
                 "input": "node_modules/@progress/kendo-theme-default/dist/all.css"
               },
@@ -33,6 +34,7 @@
               "src/assets/css/style-responsive.css",
               "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
               "node_modules/font-awesome/css/font-awesome.min.css"
+       
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js"
@@ -54,8 +56,7 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true             
-              
+              "buildOptimizer": true
             }
           }
         },
@@ -88,6 +89,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               {
                 "input": "node_modules/@progress/kendo-theme-default/dist/all.css"
               },

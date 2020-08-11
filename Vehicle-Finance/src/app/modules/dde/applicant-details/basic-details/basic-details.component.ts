@@ -443,7 +443,7 @@ export class BasicDetailsComponent implements OnInit {
       motherMaidenName: aboutIndivProspectDetails.motherMaidenName || '',
       preferredLanguage: aboutIndivProspectDetails.preferredLanguage || 'ENGPRFLAN',
       occupation: aboutIndivProspectDetails.occupation || '',
-      nationality: aboutIndivProspectDetails.nationality || '',
+      nationality: aboutIndivProspectDetails.nationality || 'RSDTINDNATIONALITY',
       age: this.showAge,
       gender: aboutIndivProspectDetails.gender || '',
       politicallyExposedPerson:
@@ -862,9 +862,6 @@ export class BasicDetailsComponent implements OnInit {
   async onSubmit() {
     this.setValidation();
     const value = this.basicForm.getRawValue();
-
-
-
     if (this.basicForm.invalid) {
       this.isDirty = true;
       this.toasterService.showError(
@@ -1099,7 +1096,8 @@ export class BasicDetailsComponent implements OnInit {
     this.applicantDataService.setDirectorDetails(this.directorObject);
   }
   onBack() {
-    this.location.back();
+    //this.location.back();
+    this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
   }
 
   onNext() {

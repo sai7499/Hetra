@@ -237,7 +237,7 @@ export class ViabilityDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if ( res.ProcessVariables.error.code == '0') {
        this.toasterService.showSuccess('Record Saved Successfully', 'Viability');
-       this.router.navigateByUrl(`pages/dashboard/vehicle-viability/viability-checks`);
+       this.router.navigateByUrl(`pages/dashboard`);
       // tslint:disable-next-line: triple-equals
       } else if (res.ProcessVariables.error.code == '1') {
         this.toasterService.showError(res.ProcessVariables.error.message, 'Viability');
@@ -736,13 +736,18 @@ if (this.router.url.includes('/dde')) {
  }
  calculateStandOperatorB() {
   this.standoperatorExpense = 0;
+
   const passengerStandGroup = this.viabilityForm.controls.passangerStandOperator;
+  const businessEarningPerDay = passengerStandGroup.value.businessEarningPerDay ?
+  Number(passengerStandGroup.value.businessEarningPerDay) : 0;
+  // tslint:disable-next-line: max-line-length
+  // const grossIncomePerDay = Number(passengerStandGroup.value.grossIncomePerDay) ?  Number(passengerStandGroup.value.grossIncomePerDay) : 0;
   const businessIncomePerDay =  passengerStandGroup.value.businessIncomePerDay ? Number(passengerStandGroup.value.businessIncomePerDay) : 0;
   const avgTyreExpenses = passengerStandGroup.value.avgTyreExpenses ? Number(passengerStandGroup.value.avgTyreExpenses) : 0;
   const insuranceExpenses = passengerStandGroup.value.insuranceExpenses ? Number(passengerStandGroup.value.insuranceExpenses) : 0;
   // tslint:disable-next-line: max-line-length
   const miscellaneousExpenses = passengerStandGroup.value.miscellaneousExpenses ? Number(passengerStandGroup.value.miscellaneousExpenses) : 0;
-  this.standoperatorExpense = businessIncomePerDay + avgTyreExpenses + insuranceExpenses + miscellaneousExpenses;
+  this.standoperatorExpense = (businessIncomePerDay * businessEarningPerDay ) + avgTyreExpenses + insuranceExpenses + miscellaneousExpenses;
   passengerStandGroup.patchValue({
     totalExpenses : this.standoperatorExpense
   });
@@ -782,13 +787,16 @@ calculateCaptive() {
  calculateCaptiveB() {
   this.captiveExpense = 0;
   const passengerStandGroup = this.viabilityForm.controls.captive;
+  const businessEarningPerDay = passengerStandGroup.value.businessEarningPerDay ?
+  Number(passengerStandGroup.value.businessEarningPerDay) : 0;
   const businessIncomePerDay =  passengerStandGroup.value.busExpensesPerDay ? Number(passengerStandGroup.value.busExpensesPerDay) : 0;
   const avgTyreExpenses = passengerStandGroup.value.busTyreAvgExpenses ? Number(passengerStandGroup.value.busTyreAvgExpenses) : 0;
   const insuranceExpenses = passengerStandGroup.value.busInsurenceExpenses ? Number(passengerStandGroup.value.busInsurenceExpenses) : 0;
   // tslint:disable-next-line: max-line-length
   const miscellaneousExpenses = passengerStandGroup.value.busMiscellaneousExpenses ? Number(passengerStandGroup.value.busMiscellaneousExpenses) : 0;
   const oblicationsPerMonth = passengerStandGroup.value.oblicationsPerMonth ? Number(passengerStandGroup.value.oblicationsPerMonth) : 0;
-  this.captiveExpense = businessIncomePerDay + avgTyreExpenses + insuranceExpenses + miscellaneousExpenses + oblicationsPerMonth;
+  // tslint:disable-next-line: max-line-length
+  this.captiveExpense = (businessIncomePerDay * businessEarningPerDay) + avgTyreExpenses + insuranceExpenses + miscellaneousExpenses + oblicationsPerMonth;
   passengerStandGroup.patchValue({
     totalExpenses : this.captiveExpense
   });

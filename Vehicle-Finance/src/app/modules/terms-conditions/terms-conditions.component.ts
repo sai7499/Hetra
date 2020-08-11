@@ -32,14 +32,12 @@ export class TermsConditionsComponent implements OnInit {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
-        // console.log(this.labels)
       },
       (error) => {
         console.log(error);
       }
     );
     this.leadId = (await this.getLeadId()) as string;
-    console.log(this.leadId);
     this.getCreditFromService(this.leadId);
   }
 
@@ -65,7 +63,6 @@ export class TermsConditionsComponent implements OnInit {
       statusType : 'accept'
     };
     this.termsService.acceptTerms(body).subscribe((res: any) => {
-      console.log(res);
       if ( res && res.ProcessVariables.error.code === '0') {
         this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
       }
@@ -78,15 +75,13 @@ export class TermsConditionsComponent implements OnInit {
       statusType : 'reject'
     };
     this.termsService.acceptTerms(body).subscribe((res: any) => {
-      console.log(res);
       if ( res && res.ProcessVariables.error.code === '0') {
-        this.router.navigateByUrl(`/pages/dashboard/leads-section/leads`);
+        this.router.navigateByUrl(`/pages/dashboard`);
       }
     });
   }
   getCreditFromService(data: any) {
     const body = { leadId: data.toString() };
-    console.log(body);
     this.creditService.getCreditScore(body).subscribe((res: any) => {
       // this.processData = res;
       if (

@@ -17,6 +17,8 @@ export class TvrDetailsComponent implements OnInit {
   tableData: any;
   tvrList: any;
   applicantId;
+  fiCumPdStatusString: string;
+  fiCumPdStatus: boolean;
   constructor(
     private labelDetails: LabelsService,
     private activatedRoute: ActivatedRoute,
@@ -26,6 +28,12 @@ export class TvrDetailsComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
+    this.fiCumPdStatusString = (localStorage.getItem('isFiCumPd'));
+    if (this.fiCumPdStatusString == 'false') {
+      this.fiCumPdStatus = false
+    } else if (this.fiCumPdStatusString == 'true') {
+      this.fiCumPdStatus = true
+    }
     this.labelDetails.getLabelsData().subscribe(
       data => {
         this.labels = data;
@@ -73,7 +81,12 @@ export class TvrDetailsComponent implements OnInit {
   }
 
   onNext() {
-    this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
+    if (this.fiCumPdStatus == false) {
+      this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
+    } else if (this.fiCumPdStatus == true) {
+      this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+
+    }
   }
 
 }

@@ -1,4 +1,4 @@
-import { ReferenceCheckComponent } from '@modules/dde/pd-report/reference-check/reference-check.component';
+import { ReferenceCheckComponent } from '@modules/dde/fi-cum-pd-report/reference-check/reference-check.component';
 
 export interface Dde {
     vehicleValuation?: VehicleValuation;
@@ -115,7 +115,7 @@ export interface PslData {
 
 export interface ApplicantDetails {
     applicantName?: string;
-    fatherName?: string;
+    fatherFullName?: string;
     gender?: string;
     maritalStatus?: string;
     physicallyChallenged?: string;

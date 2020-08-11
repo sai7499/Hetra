@@ -13,24 +13,24 @@
             </div>
         </div>
         <div class="row">
-            <div class="table-responsive application" id="applicantTable">
-                <table class="table">
+            <div class="" id="applicantTable">
+                <table class="">
                     <thead>
                         <tr class="table-head-bg">
-                            <th>{{labels?.registrationNum }} </th>
-                            <th>{{labels?.make}} </th>
-                            <th>{{labels?.model}} </th>
-                            <th>{{labels?.viabilityStatus}} </th>
-                            <th>{{labels?.action}} </th>
+                            <th>{{labels?.registrationNum }}<i class="fa fa-sort"></i> </th>
+                            <th>{{labels?.make}}<i class="fa fa-sort"></i> </th>
+                            <th>{{labels?.model}} <i class="fa fa-sort"></i></th>
+                            <th>{{labels?.viabilityStatus}}<i class="fa fa-sort"></i> </th>
+                            <th>{{labels?.action}} <i class="fa fa-sort"></i></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr id="applicant_1_row" *ngFor=" let viability of viabilityData; let i = index">
-                            <td>{{viability?.registerNo | uppercase}}</td>
-                            <td>{{viability?.make}}</td>
-                            <td>{{viability?.model}}</td>
-                            <td>{{viability?.viabilityStatus}}</td>
-                            <td><u><a class="a_tag" style="cursor:pointer"
+                            <td [attr.data-label]="labels?.registrationNum" >{{viability?.registerNo | uppercase}}</td>
+                            <td [attr.data-label]="labels?.make" >{{viability?.make}}</td>
+                            <td [attr.data-label]="labels?.model">{{viability?.model}}</td>
+                            <td [attr.data-label]="labels?.viabilityStatus">{{viability?.viabilityStatus}}</td>
+                            <td [attr.data-label]="labels?.action"><u><a class="a_tag" style="cursor:pointer"
                                         (click)="getViability(viability?.collateralId, viability?.make,viability?.model, viability?.applicantName)"
                                         *ngIf="(viability?.viabilityStatus !== 'Submitted' && viability?.viabilityStatus !== 'Completed')&& showNext == false">Start</a>
                                     <a class="a_tag" style="cursor:pointer"

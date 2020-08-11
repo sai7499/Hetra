@@ -1,6 +1,13 @@
-<div class="content" style="background: #f5f5f5; border: none;">
-    <div class="container-fluid print_top " id="vf_sheet_print_starts">
+<div class="btn-sec clear-both row" *ngIf="!isSanctionDetails"> 
+    <div class="col-sm-5"></div>   
+    <div class="col-sm-7 text-left" *ngIf="roleType == '2'">
+        <button class="btn btn-primary btn_div" type="button" 
+            (click)="generateSanctionLetter()">{{labels?.generateSanctionLetter}}</button>
+    </div>
+</div>
 
+<main class="content" style="background: #f5f5f5; border: none;" >
+    <div class="container-fluid print_top " id="vf_sheet_print_starts" *ngIf="isSanctionDetails">
         <h4 id="vf_sheet_tag4" class="text-center" style="font-weight: lighter;">{{labels?.sanctionLetter}}</h4>
         <div id="vf_sheet_tag5">
             <p id="vf_sheet_tag6" class="text-right"><strong>{{labels?.date}}</strong> &nbsp; :{{todayDate}}</p>
@@ -15,9 +22,9 @@
                     <p id="vf_sheet_tag11">{{applicant?.addressLine1}}</p>
                     <p id="vf_sheet_tag12">{{applicant?.addressLine2}} </p>
                     <p id="vf_sheet_tag13">{{applicant?.addressLine3}}</p>
-                    <p id="vf_sheet_tag14">{{applicant?.district}} </p>
+                    <p id="vf_sheet_tag14">{{applicant?.district + '-'+ applicant?.pincode}} </p>
                     <p id="vf_sheet_tag15">{{applicant?.country}}</p>
-                    <p id="vf_sheet_tag16">{{applicant?.pincode}} </p>
+                    <!-- <p id="vf_sheet_tag16">{{applicant?.pincode}} </p> -->
                     <p id="vf_sheet_tag17">{{applicant?.mobileNo}}</p>
                 </div>
             </div>
@@ -28,7 +35,7 @@
                     <p id="vf_sheet_tag20">{{coApplicant?.addressLine1}}</p>
                     <p id="vf_sheet_tag21">{{coApplicant?.addressLine2}}</p>
                     <p id="vf_sheet_tag22">{{coApplicant?.addressLine3}}</p>
-                    <p id="vf_sheet_tag23">{{coApplicant?.district}}</p>
+                    <p id="vf_sheet_tag23">{{coApplicant?.district + '-' + coApplicant?.pincode}}</p>
                     <p id="vf_sheet_tag24">{{coApplicant?.country}}</p>
                     <p id="vf_sheet_tag25">{{coApplicant?.mobileNo}}</p>
                 </div>
@@ -53,12 +60,12 @@
         <p id="vf_sheet_tag30"> {{labels?.vfSheetTag30}} </p>
         <!-- <p id="vf_sheet_tag31"><strong>{{labels?.proposalNumber}}</strong>&nbsp;&nbsp;<sup>{{this.leadId}}</sup></p> -->
         <p id="vf_sheet_tag31"><strong>{{labels?.proposalNumber}}:</strong> {{this.leadId}}</p>
-        <div id="vf_sheet_table_div">
-            <div id="vf_sheet_first_table">
-                <p id="vf_sheet_tag32 " class="text-center"><strong>{{labels?.vehicleDetails}}</strong></p>
-                <table class="table table-responsive table-bordered">
-                    <tbody>
-                        <tr>
+        <div id="">
+            <div id="">
+                <p id=" " class="text-center"><strong>{{labels?.vehicleDetails}}</strong></p>
+                <table class="table">
+                    <tbody *ngFor="let vehicleDetails of vehicleDetailsArray">
+                        <tr class="top-border">
                             <td> {{labels?.vehicleMake}} </td>
                             <td>{{vehicleDetails?.vehicleMake}}</td>
                             <td> {{labels?.vehicleModel}} </td>
@@ -70,7 +77,7 @@
                             <td> {{labels?.vehicleRegistrationNo}} </td>
                             <td>{{vehicleDetails?.vehicleRegNo | uppercase}}</td>
                         </tr>
-                        <tr>
+                        <tr *ngIf="sanctionDetailsObject.productCode !== 'NCV' && sanctionDetailsObject.productCode !== 'NC' ">
                             <td> {{labels?.engineNo}} </td>
                             <td>{{vehicleDetails?.engineNo | uppercase}}</td>
                             <td> {{labels?.chasisNo}} </td>
@@ -138,7 +145,7 @@
                             <td>{{loanApprovedDetails?.rateOfPenaltyInterest}}</td>
                         </tr>
                         <tr>
-                            <td> {{labels?.emiDueDate}}} </td>
+                            <td> {{labels?.emiDueDate}} </td>
                             <td>{{loanApprovedDetails?.emiDueDate}}</td>
                             <td> {{labels?.emiAmountRs}} </td>
                             <td>{{loanApprovedDetails?.emiAmount}}</td>
@@ -250,18 +257,23 @@
                         </div>
                     </div>
                 </div>
+
             </div>
-    
         </div> 
-    
-        <div class="btn-sec clear-both row"> 
-            <div class="col-sm-5"></div> 
-            <div class="col-sm-7 text-right">
-                <button class="btn btn-primary btn_div " type="button" (click)="onBack()">{{labels?.back}}</button>
-                <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
-                <button class="btn btn-primary btn_div" type="button" (click)="onNext()">{{labels?.next}}</button>
-            </div>
-        </div>
         
     </div>
-</div>
+
+    <div class="btn-sec clear-both row"> 
+        <div class="col-sm-5"></div> 
+        <div class="col-sm-7 text-right">
+            <button class="btn btn-primary btn_div " type="button" (click)="onBack()">{{labels?.back}}</button>
+            <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
+            <button class="btn btn-primary btn_div" type="button" 
+                [disabled]="salesResponse == 'false'" *ngIf="roleType == '2'" (click)="onNext()" >{{labels?.next}}</button>
+            <button class="btn btn-primary btn_div" type="button" 
+                *ngIf="roleType != '2'" (click)="onNext()" >{{labels?.next}}</button>
+            <button class="btn btn-primary btn_div"  *ngIf="roleType == '2'"
+                type="button" (click)="onSubmitToSales()" >{{labels?.submit}}</button>
+        </div>
+    </div>
+</main>

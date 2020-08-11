@@ -20,6 +20,8 @@ export class CreditDecisionComponent implements OnInit {
     roles: any = [];
     roleId: any;
     roleType: any;
+    salesResponse = 'false';
+    istermSheet = 'false'
     constructor(
         private router: Router,
         private location: Location,
@@ -28,13 +30,21 @@ export class CreditDecisionComponent implements OnInit {
         private activatedRoute: ActivatedRoute) { }
 
     ngOnInit() {
+        this.salesResponse = localStorage.getItem('salesResponse');
+        this.istermSheet = localStorage.getItem('istermSheet');
+        const button = document.getElementById('checklist_identity_details');
+        // tslint:disable-next-line: triple-equals
+        // if (this.salesResponse != 'true') {
+        // button.disable();
+        // }
+
         const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
         this.userId = roleAndUserDetails.userDetails.userId;
         this.roles = roleAndUserDetails.roles;
         this.roleId = this.roles[0].roleId;
         this.roleName = this.roles[0].name;
         this.roleType = this.roles[0].roleType;
-        console.log("this user roleType", this.roleType)
+        console.log("this user roleType", this.roleType);
         const currentUrl = this.location.path();
         this.locationIndex = this.getLocationIndex(currentUrl);
         console.log(this.locationIndex);
@@ -59,14 +69,20 @@ export class CreditDecisionComponent implements OnInit {
     getLocationIndex(url: string) {
         if (url.includes('credit-condition')) {
             return 0;
-        } else if (url.includes('term-sheet')) {
+        } else if (url.includes('term-sheet') && this.roleType == '1') {
             return 1;
-        } else if (url.includes('sanction-details')) {
+        } else if (url.includes('term-sheet') && this.roleType == '2') {
             return 2;
-        } else if (url.includes('customer-feedback')) {
+        } else if (url.includes('negotiation') && this.roleType == '2') {
+            return 1;
+        }  else if (url.includes('negotiation') && this.roleType == '1') {
+            return 2;
+        } else if (url.includes('sanction-details')) {
             return 3;
-        } else if (url.includes('check-list')) {
+        } else if (url.includes('customer-feedback')) {
             return 4;
+        } else if (url.includes('check-list')) {
+            return 5;
         }
     }
 }

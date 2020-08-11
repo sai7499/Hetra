@@ -53,12 +53,9 @@ export class CheckerLeadsWithMeComponent implements OnInit {
       this.roleId = String(value.roleId);
       this.branchId = value.branchId;
       this.roleType = value.roleType;
-      console.log('values For User in My Task', value);
     });
     this.getPdMyTask(this.itemsPerPage);
   }
-
-
 
   getPdMyTask(perPageCount, pageNumber?) {
     const data = {
@@ -101,7 +98,6 @@ export class CheckerLeadsWithMeComponent implements OnInit {
 
   onRelase(id) {
     this.taskDashboard.releaseTask(id).subscribe((res: any) => {
-      console.log('release Task', res);
       const response = res;
       if (response.ErrorCode == 0) {
         this.toasterService.showSuccess('Lead Released Successfully', 'Released');

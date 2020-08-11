@@ -49,9 +49,9 @@ export class AddvehicleComponent implements OnInit {
       .subscribe(data => {
         this.label = data;
       },
-      error => {
+        error => {
           this.errorMsg = error;
-      });
+        });
 
     this.activatedRoute.params.subscribe((value) => {
       this.routerId = value ? value.vehicleId : null;
@@ -64,24 +64,28 @@ export class AddvehicleComponent implements OnInit {
   }
 
   onFormSubmit() {
+
     if (this.formValue.valid === true) {
       let data = this.formValue.value.vehicleFormArray[0];
 
-      data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
+      if (this.formValue.value.isValidPincode) {
+        data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
+        this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
+          const apiError = res.ProcessVariables.error.message;
 
-      this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
-        const apiError = res.ProcessVariables.error.message;
-
-        if (res.Error === '0' && res.Error === '0') {
-          this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Vehicle Details');
-          this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-details']);
-        } else {
-          this.toasterService.showError(apiError, 'Vehicle Details')
-        }
-      }, error => {
-        console.log(error, 'error')
-        this.toasterService.showError(error, 'Vehicle Details')
-      })
+          if (res.Error === '0' && res.Error === '0') {
+            this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Vehicle Details');
+            this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-details']);
+          } else {
+            this.toasterService.showError(apiError, 'Vehicle Details')
+          }
+        }, error => {
+          console.log(error, 'error')
+          this.toasterService.showError(error, 'Vehicle Details')
+        })
+      } else {
+        this.toasterService.showError('Please Enter Valid Pincode', 'Invalid Pincode')
+      }
     } else {
       this.isDirty = true;
       this.utilityService.validateAllFormFields(this.formValue)

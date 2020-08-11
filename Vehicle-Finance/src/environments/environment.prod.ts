@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  version: '0.8',
-  buildDate: '02/08/2020',
+  version: '1.0',
+  buildDate: '11/08/2020',
   apiVersion: {
     login: 'v3/',
     api: 'v2/',
@@ -18,21 +18,28 @@ export const environment = {
     submitToCredit: '403a8a12b79511ea8afff2fa9bec3d63',
     viabilityApi: '0d888054a7e811ea800bf2fa9bec3d63',
     wrapperPanValidation : 'db2732f4ab4811ea82f8f2fa9bec3d63',
-    wrapperBiometriceKYC : 'db2732f4ab4811ea82f8f2fa9bec3d63'
+    wrapperBiometriceKYC : 'db2732f4ab4811ea82f8f2fa9bec3d63',
+    supervisorProId:'ed58f72ea9a811ea824bf2fa9bec3d63',//supervisorRelated
+    reinititateFiApi: '403a8a12b79511ea8afff2fa9bec3d63',
   },
   // hostingEnvironment: 'DEV',
   hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
 
   host: '/appiyo/',
-  //  host: 'http://128.199.164.250/appiyo/',
+  // host:"https://hetrauat.equitasbank.com/appiyodev/",
+  //host: 'http://128.199.164.250/appiyo/',
   // host: 'http://10.101.10.153/appiyo/',
+  //host: "https://hetrauat.equitasbank.com/appiyo/",
+
   baseUrl: window.location.origin,
   // tslint:disable-next-line: max-line-length
   aesPublicKey:
     'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ+GJdSSEeaNFBLqyfM3DIOgQgWCwJ0INfeZZV7ITsLeuA7Yd02rrkYGIix1IWvoebWVmzhncUepYxHwK1ARCdUCAwEAAQ==',
   encryptionType: true, // Ecryption
   appiyoDrive: '/d/drive/upload/',
+  
+  mobileBaseUrl: "https://hetrauat.equitasbank.com",
   isMobile: false,
   isMaas360Enabled: false
 };

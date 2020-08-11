@@ -57,6 +57,7 @@ export class CustomInputComponent
   @Input() qdeValue;
   @Output() change = new EventEmitter();
   @Input() isRequired: string;
+  @Input() value: string;
 
   @Input() inputClass: string;
 
@@ -85,6 +86,8 @@ export class CustomInputComponent
   private propagateChange = (event) => {
     // this.change.emit(event);
   };
+
+  decimalTimeOut;
 
   constructor(private elementRef: ElementRef) {}
 
@@ -200,7 +203,7 @@ export class CustomInputComponent
 
   onBlurMethod(event) {
     const newValue = event.target.value;
-   
+
     if (!newValue && this.isRequired) {
       this.displayError(this.isRequired);
       return;
@@ -232,9 +235,31 @@ export class CustomInputComponent
       case 'alpha-numeric-nospace':
         this.allowAlphaNumericNoSpace(event);
         break;
+      case 'decimal':
+        this.allowDecimal(event, this.type);
+        break;
     }
     this.propagateChange(this.inputValue);
     this.checkValidation(this.inputValue);
+  }
+
+  allowDecimal(event, type: string) {
+    const decimalPoints = type.split('-')[1] || 2;
+    let zeros = '';
+    for (let i = 0; i < decimalPoints; i++) {
+      zeros += '0';
+    }
+    const initialValue = event.target.value;
+    if (this.decimalTimeOut) {
+      clearTimeout(this.decimalTimeOut);
+    }
+    this.decimalTimeOut = setTimeout(() => {
+      if (!initialValue.includes('.') && this.inputValue) {
+        this.inputValue += '.' + zeros;
+      }
+    }, 1000);
+
+    this.inputValue = initialValue.replace(/[^0-9 .]*/g, '');
   }
 
   allowNumberOnly(event) {

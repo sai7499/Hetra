@@ -1,4 +1,4 @@
-<div class="text-left" *ngIf="label">
+ty <div class="text-left" *ngIf="label">
 
     <form [formGroup]="viabilityForm">
 
@@ -667,11 +667,11 @@
                             </td>
                     </tr>
                     <tr>
-                        <td><strong>{{label?.monthlyIncome}}</strong></td>
+                        <td><strong> {{label?.monthlyIncome}} (A)</strong></td>
                         <td><strong>{{montlyStandOperatorIncome}}</strong></td>
                     </tr>
                     <tr>
-                        <td>{{label?.expensesPerDay}}</td>
+                        <td>(c) {{label?.expensesPerDay}}</td>
                         <td>
                             <!-- <input type="text" class="form-control" name="expenses_perday" id="expenses_perday"
                                 formControlName="businessIncomePerDay" /> -->
@@ -690,7 +690,7 @@
                              </td>
                     </tr>
                     <tr>
-                        <td>{{label?.avgTyreExpenses}}</td>
+                        <td>(d) {{label?.avgTyreExpenses}}</td>
                         <td>
                             <!-- <input type="text" class="form-control" name="avg_tyre_expenses_permonth"
                                 id="avg_tyre_expenses_permonth" formControlName="avgTyreExpenses" /> -->
@@ -709,7 +709,7 @@
                             </td>
                     </tr>
                     <tr>
-                        <td>{{label?.insuranceExpensePerMonth}}</td>
+                        <td>(e) {{label?.insuranceExpensePerMonth}}</td>
                         <td>
                             <!-- <input type="text" class="form-control" name="insurance_expenses_permonth"
                                 id="insurance_expenses_permonth" formControlName="insuranceExpenses" /> -->
@@ -728,7 +728,7 @@
                             </td>
                     </tr>
                     <tr>
-                        <td>{{label?.miscellaneousExpenses}}</td>
+                        <td>(f) {{label?.miscellaneousExpenses}}</td>
                         <td>
                             <!-- <input type="text" class="form-control" name="miscellaneous_expenses"
                                 id="miscellaneous_expenses" formControlName="miscellaneousExpenses" /> -->
@@ -748,7 +748,7 @@
                             </td>
                     </tr>
                     <tr>
-                        <td>{{label?.totalExpenses}}</td>
+                        <td>{{label?.totalExpenses}} ((b*c)+d+e+f) </td>
                         <td>
                             <!-- <input type="text" class="form-control" name="total_expenses" id="total_expenses"
                                 formControlName="totalExpenses" /> -->
@@ -897,7 +897,7 @@
                         <td><strong>{{montlyCaptiveIncome}}</strong></td>
                     </tr>
                     <tr>
-                        <td>{{label?.expensesPerDay}}  </td>
+                        <td>(c) {{label?.expensesPerDay}}  </td>
                         <td>
                             <!-- <input type="text" class="form-control" name="expenses_perday_business"
                                 id="expenses_perday_business" formControlName="busExpensesPerDay" /> -->
@@ -916,7 +916,7 @@
                             </td>
                     </tr>
                     <tr>
-                        <td>{{label?.obligationsBusinessMonth}}</td>
+                        <td> (d) {{label?.obligationsBusinessMonth}}</td>
                         <td>
                             <!-- <input type="text" class="form-control" name="obligations_business_month"
                                 id="obligations_business_month" formControlName="oblicationsPerMonth" /> -->
@@ -935,7 +935,7 @@
                             </td>
                     </tr>
                     <tr>
-                        <td>{{label?.avgTyreExpenses}} </td>
+                        <td> (e) {{label?.avgTyreExpenses}} </td>
                         <td>
                             <!-- <input type="text" class="form-control" name="avgtyre_expenses_permonth"
                                 id="avgtyre_expenses_permonth" formControlName="busTyreAvgExpenses" /> -->
@@ -954,7 +954,7 @@
                             </td>
                     </tr>
                     <tr>
-                        <td>{{label?.insuranceExpensePerMonth}}</td>
+                        <td> (f) {{label?.insuranceExpensePerMonth}}</td>
                         <td>
                             <!-- <input type="text" class="form-control" name="insurance_expenses_permonth"
                                 id="insurance_expenses_permonth" formControlName="busInsurenceExpenses" /> -->
@@ -973,7 +973,7 @@
                             </td>
                     </tr>
                     <tr>
-                        <td>{{label?.miscellaneousExpenses}}</td>
+                        <td> (g) {{label?.miscellaneousExpenses}}</td>
                         <td>
                             <!-- <input type="text" class="form-control" name="miscellaneous_expenses"
                                 id="miscellaneous_expenses" formControlName="busMiscellaneousExpenses" /> -->
@@ -992,7 +992,7 @@
                             </td>
                     </tr>
                     <tr>
-                        <td>{{label?.totalExpenses}}</td>
+                        <td>{{label?.totalExpenses}} ((b*c)+d+e+f+g) </td>
                         <td>
                             <!-- <input type="text" class="form-control" name="total_expenses" id="total_expenses"
                                 formControlName="totalExpenses" disabled /> -->
@@ -1069,8 +1069,8 @@
 
 <div class="btn-sec clear-both row text-right">
     <div class="col-sm-12">
-        <button class="btn btn-primary cus-btn-sty" type="button" (click)="onBack()">{{label?.back}}</button> &nbsp;
-        <p class="btn btn-primary save cus-btn-sty" (click)="onSave()"> {{label?.save}} </p>&nbsp;
+        <button class="btn btn-primary cus-btn-sty" type="button" (click)="onBack()">{{label?.back}}</button> 
+        <p class="btn btn-primary save cus-btn-sty" (click)="onSave()"> {{label?.save}} </p>
         <!-- <button class="btn btn-primary cus-btn-sty" type="button" (click)="submitViability()">{{label.submit}}</button>&nbsp; -->
         <a data-toggle="modal" data-target="#myModal" id="reject_credit" *ngIf="hideSubmit">
             <p type="button" class="btn btn-primary">{{label?.submit}}</p>

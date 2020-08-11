@@ -13,26 +13,25 @@ export class VehicleDetailComponent implements OnInit {
   errorMessage: any;
 
   constructor(private creditService: CreditScoreService,
-              private activatedRoute: ActivatedRoute,
-              private route: Router) {}
- async ngOnInit() {
+    private activatedRoute: ActivatedRoute,
+    private route: Router) { }
+  async ngOnInit() {
     this.leadId = (await this.getLeadId()) as string;
   }
   onCredit() {
-    const body = { leadId : this.leadId.toString() };  console.log(body);
+    const body = { leadId: this.leadId };
     this.creditService.getCreditScore(body).subscribe((res: any) => {
-          console.log(res, ' in vehicle details ');
-          // const resObj = res;
-          // tslint:disable-next-line: no-bitwise
-          if (res && res.ProcessVariables.error.code === '0') {
-            const bodyRes = res;
-            this.creditService.setResponseForCibil(bodyRes);
-            this.route.navigate([`pages/lead-section/${this.leadId}/credit-score`]);
-          } else {
-            // alert(res.ProcessVariables.error.message);
-            this.errorMessage = res.ProcessVariables.error.message;
-            this.isModelShow = true;
-          }
+      const resObj = res;
+      // tslint:disable-next-line: no-bitwise
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        const bodyRes = res;
+        this.creditService.setResponseForCibil(bodyRes);
+        this.route.navigate([`pages/lead-section/${this.leadId}/credit-score`]);
+      } else {
+        // alert(res.ProcessVariables.error.message);
+        this.errorMessage = res.ProcessVariables.error.message;
+        this.isModelShow = true;
+      }
     });
 
   }

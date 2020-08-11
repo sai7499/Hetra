@@ -1,0 +1,362 @@
+<form
+  class="multisteps-form__form"
+  [formGroup]="incomeDetailsForm"
+>
+<div style="margin-bottom: 47px;"
+class="multisteps-form__panel js-active"
+data-animation="scaleIn"
+>
+<h3 class="title">{{ labels.incomeDetails }}</h3>
+<div class="row">
+  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+    <label > {{ labels.grossIncome }} <sub class="star_red_col">*</sub></label>
+    <app-custom-input
+    [placeholder]="'Enter Gross Income'"
+    [type]="labels?.validationData?.amountValue?.type"
+    formControlName="grossIncome"
+    [isRequired]="'Gross Income is required'"
+    [maxLength]="labels?.validationData?.amountValue?.maxLength"
+    [isDirty]="isDirty"
+    ></app-custom-input>
+ 
+  </div>
+  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+    <label for="netIncome"
+      >{{ labels.netIncome }}
+      <sub class="star_red_col">*</sub></label
+    >
+    <!-- <input type="text" class="form-control" id="father_name" formControlName="fatherName"> -->
+    <app-custom-input
+      id="father_name"
+      [placeholder]="'Enter Net Income'"
+      [type]="labels?.validationData?.amountValue?.type"
+      formControlName="netIncome"
+      [isRequired]="'Net Income is required'"
+      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+      [isDirty]="isDirty"
+    >
+    </app-custom-input>
+  </div>
+  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+    <label for="gender"
+      >{{ labels.additionalSourceofIncome }} <sub class="star_red_col">*</sub></label>
+      <app-custom-input
+      id="additionalSourceOfIncome"
+      [placeholder]="'Enter Additional Income'"
+      [type]="labels?.validationData?.amountValue?.type"
+      formControlName="additionalSourceOfIncome"
+      [isRequired]="'Additional Income is required'"
+      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+      [isDirty]="isDirty"
+  >
+    </app-custom-input>
+  </div>
+</div>
+
+
+
+
+<div class="row">
+  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+    <label > {{ labels.grossSalary }} <sub class="star_red_col">*</sub></label>
+    <app-custom-input
+    [placeholder]="'Enter Gross Salary'"
+    [type]="labels?.validationData?.amountValue?.type"
+    formControlName="grossSalary"
+    [isRequired]="'Gross Salary is required'"
+    [maxLength]="labels?.validationData?.amountValue?.maxLength"
+    [isDirty]="isDirty"
+    ></app-custom-input>
+ 
+  </div>
+  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+    <label for="netIncome"
+      >{{ labels.netsalary }}
+      <sub class="star_red_col">*</sub></label
+    >
+    <!-- <input type="text" class="form-control" id="father_name" formControlName="fatherName"> -->
+    <app-custom-input
+      id="netSalary"
+      [placeholder]="'Enter Net Salary'"
+      [type]="labels?.validationData?.amountValue?.type"
+      formControlName="netSalary"
+      [isRequired]="'Net Salary is required'"
+      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+      [isDirty]="isDirty"
+    >
+    </app-custom-input>
+  </div>
+  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+    <label for="gender"
+      >{{ labels.individualIncome }} <sub class="star_red_col">*</sub></label>
+      <app-custom-input
+      id="individualIncome"
+      [placeholder]="'Enter Individual Income'"
+      [type]="labels?.validationData?.amountValue?.type"
+      formControlName="individualIncome"
+      [isRequired]="'Individual Income is required'"
+      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+      [isDirty]="isDirty"
+  >
+    </app-custom-input>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+    <label > {{ labels.bankName }} <sub class="star_red_col">*</sub></label>
+    <app-custom-input
+    [placeholder]="'Enter Bank Name'"
+    [type]="labels?.validationData?.bankName?.type"
+    formControlName="bankName"
+    [patternCheck]="labels?.validationData?.bankName?.pattern"
+    [isRequired]="'Bank Name is required'"
+    [maxLength]="labels?.validationData?.bankName?.maxLength"
+    [isDirty]="isDirty"
+    ></app-custom-input>
+ 
+  </div>
+  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+    <label for="acType"
+      >{{ labels.accountType }}
+      <sub class="star_red_col">*</sub></label
+    >
+    <!-- <input type="text" class="form-control" id="father_name" formControlName="fatherName"> -->
+    <!-- <app-custom-input
+      id="acType"
+      [placeholder]="'Enter account Type'"
+      [type]="labels?.validationData?.name?.type"
+      formControlName="acType"
+      [patternCheck]="labels?.validationData?.name?.pattern"
+      [isRequired]="' Account Type is required'"
+      [maxLength]="labels?.validationData?.name?.maxLength"
+      [isDirty]="isDirty"
+    >
+    </app-custom-input> -->
+    <app-vf-custom-select
+    [values]="LOV?.LOVS.bankAccountType"
+    formControlName="typeOfAccount"
+    [isRequired]="'Please select one'"
+    [isDirty]="isDirty"
+    (change) = "addCCOd($event.target.value)"
+  >
+  </app-vf-custom-select>
+  </div>
+  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+    <label for="accountNumber"
+      >{{ labels.accountNumber }} <sub class="star_red_col">*</sub></label>
+      <app-custom-input
+      id="accountNumber"
+      [placeholder]="'Enter account Number'"
+      [type]="labels?.validationData?.pdIncomeAccountNumber?.type"
+      formControlName="accountNumber"
+      [patternCheck]="labels?.validationData?.pdIncomeAccountNumber?.pattern"
+      [isRequired]="'Account Number is required'"
+      [maxLength]="labels?.validationData?.pdIncomeAccountNumber?.maxLength"
+      [isDirty]="isDirty"
+  >
+    </app-custom-input>
+  </div>
+</div>
+
+
+
+<div class="row">
+ 
+  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+    <label for="noOfChqReturns"
+      >{{ labels.noOfChqReturns }}
+      <sub class="star_red_col">*</sub></label
+    >
+    <!-- <input type="text" class="form-control" id="father_name" formControlName="fatherName"> -->
+    <app-custom-input
+      id="noOfChqReturns"
+      [placeholder]="'Enter No of Chq returns'"
+      [type]="labels?.validationData?.gvw?.type"
+      formControlName="noOfChequeReturns"
+      [isRequired]="'No of Chq returns is required'"
+      [maxLength]="labels?.validationData?.gvw?.maxLength"
+      [isDirty]="isDirty"
+    >
+    </app-custom-input>
+  </div>
+  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+    <label for="cashBankBalance"
+      >{{ labels.cashAndBankBalance }} <sub class="star_red_col">*</sub></label>
+      <app-custom-input
+      id="cashBankBalance"
+      [placeholder]="'Enter Cash and Bank balance'"
+      [type]="labels?.validationData?.amountValue?.type"
+      formControlName="cashBankBalance"
+      [isRequired]="'Cash and Bank balance is required'"
+      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+      [isDirty]="isDirty"
+  >
+    </app-custom-input>
+  </div>
+  <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf ="isccOdLimit">
+    <label > {{ labels.CCODLIMIT }} <sub class="star_red_col">*</sub></label>
+    <app-custom-input
+    [placeholder]="'Enter CC/OD LIMIT'"
+    [type]="labels?.validationData?.totalExposure?.type"
+    formControlName="ccOdLimit"
+    [isRequired]="'CC/OD LIMIT is required'"
+    [maxLength]="labels?.validationData?.totalExposure?.maxLength"
+    [isDirty]="isDirty"
+    ></app-custom-input>
+ 
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+    <label > {{ labels.monthlyInflows }} <sub class="star_red_col">*</sub></label>
+    <app-custom-input
+    [placeholder]="'Enter Monthly Inflows'"
+    [type]="labels?.validationData?.amountValue?.type"
+    formControlName="monthlyInflow"
+    [isRequired]="'Monthly Inflows is required'"
+    [maxLength]="labels?.validationData?.amountValue?.maxLength"
+    [isDirty]="isDirty"
+    ></app-custom-input>
+ 
+  </div>
+  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+    <label for="monthlyOutflows"
+      >{{ labels.monthlyOutflows }}
+      <sub class="star_red_col">*</sub></label
+    >
+    <!-- <input type="text" class="form-control" id="father_name" formControlName="fatherName"> -->
+    <app-custom-input
+      id="monthlyOutflows"
+      [placeholder]="'Enter Monthly Outflows'"
+      [type]="labels?.validationData?.amountValue?.type"
+      formControlName="monthlyOutflow"
+      [isRequired]="'Monthly Outflows is required'"
+      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+      [isDirty]="isDirty"
+    >
+    </app-custom-input>
+  </div>
+
+</div>
+
+
+<div class="row">
+  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+    <label > {{ labels.creditCardFirstName }} <sub class="star_red_col">*</sub></label>
+    <app-custom-input
+    [placeholder]="'Enter Credit Card First Name'"
+    [type]="labels?.validationData?.name?.type"
+    formControlName="ccHolderFirstName"
+    [patternCheck]="labels?.validationData?.name?.pattern"
+    [isRequired]="'Credit Card First Name is required'"
+    [maxLength]="labels?.validationData?.name?.maxLength"
+    [isDirty]="isDirty"
+    ></app-custom-input>
+ 
+  </div>
+  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+    <label for="creditCardMiddleName"
+      >{{ labels.CreditCardMiddleName}}</label
+    >
+    <!-- <input type="text" class="form-control" id="father_name" formControlName="fatherName"> -->
+    <app-custom-input
+      id="creditCardMiddleName"
+      [placeholder]="'Enter Credit Card Middle Name'"
+      [type]="labels?.validationData?.name?.type"
+      formControlName="ccHolderSecondName"
+      [patternCheck]="labels?.validationData?.name?.pattern"
+      [maxLength]="labels?.validationData?.name?.maxLength"
+      [isDirty]="isDirty"
+    >
+    </app-custom-input>
+  </div>
+  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+    <label for="creditCardLastName"
+      >{{ labels.creditCardLastName }} <sub class="star_red_col">*</sub></label>
+      <app-custom-input
+      id="creditCardLastName"
+      [placeholder]="'Enter Credit Card Last Name'"
+      [type]="labels?.creditCardLastName?.name?.type"
+      formControlName="ccHolderThirdName"
+      [patternCheck]="labels?.validationData?.name?.pattern"
+      [isRequired]="'Credit Card Last Name is required'"
+      [maxLength]="labels?.validationData?.name?.maxLength"
+      [isDirty]="isDirty"
+  >
+    </app-custom-input>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+    <label > {{ labels.creditCardFullName }} <sub class="star_red_col">*</sub></label>
+    <app-custom-input
+    [placeholder]="'Credit Card Full Name'"
+    [type]="labels?.validationData?.name?.type"
+    formControlName="ccHolderFullName"
+    [patternCheck]="labels?.validationData?.name?.pattern"
+    [isDirty]="isDirty"
+    [value]="incomeDetailsForm.get('ccHolderFirstName').value + ' ' +
+                    incomeDetailsForm.get('ccHolderSecondName').value + ' ' +
+                     incomeDetailsForm.get('ccHolderThirdName').value"
+    ></app-custom-input>
+ 
+  </div>
+  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+    <label for="creditcardIssuedby"
+      >{{ labels.creditcardIssuedby }}
+      <sub class="star_red_col">*</sub></label
+    >
+    <!-- <input type="text" class="form-control" id="father_name" formControlName="fatherName"> -->
+    <app-custom-input
+      id="creditcardIssuedby"
+      [placeholder]="'Enter Credit card Issued by'"
+      [type]="labels?.validationData?.bankName?.type"
+      formControlName="ccIssuedBy"
+      [patternCheck]="labels?.validationData?.bankName?.pattern"
+      [isRequired]="'Credit card Issued by is required'"
+      [maxLength]="labels?.validationData?.bankName?.maxLength"
+      [isDirty]="isDirty"
+    >
+    </app-custom-input>
+  </div>
+  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+    <label for="creditcardLimit"
+      >{{ labels.creditcardLimit }} <sub class="star_red_col">*</sub></label>
+      <app-custom-input
+      id="creditcardLimit"
+      [placeholder]="'Enter credit card Limit'"
+      [type]="labels?.validationData.amountValue?.type"
+      formControlName="ccLimit"
+      [isRequired]="'Credit card Limit is required'"
+      [maxLength]="labels?.validationData?.amountValue?.maxLength"
+      [isDirty]="isDirty"
+  >
+    </app-custom-input>
+  </div>
+</div>
+
+<div class="btn-sec clear-both">
+  <div class="col-sm-5"></div>
+  <div class="col-sm-7 text-right">
+      <button class="btn btn-primary" type="button" (click)="onNavigateBack()">
+          {{ labels.back }}
+      </button>
+      &nbsp;
+      <button class="btn btn-primary" (click)="onFormSubmit('save')">
+          {{ labels.save }}
+      </button>
+      &nbsp;
+      <button class="btn btn-primary" (click)="onNavigateNext()">
+          {{ labels.next }}
+      </button>
+  </div>
+</div>
+</div>
+
+</form>

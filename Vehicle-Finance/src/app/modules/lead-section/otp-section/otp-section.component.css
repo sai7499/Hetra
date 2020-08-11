@@ -45,3 +45,8 @@ only screen and
         }
 
     }
+
+
+.word-brk {
+    word-break:break-all;
+}

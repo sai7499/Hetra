@@ -4,7 +4,7 @@
   [disabled]="isDisabled"
   (blur)="onBlurMethod($event)"
 >
-  <option value="{{ defaultOption.key }}" disabled>{{
+  <option value="{{ defaultOption.key }}" [disabled]="isDefaultDisabled">{{
     defaultOption.value
   }}</option>
   <option value="{{ option[keyField] }}" *ngFor="let option of values">{{

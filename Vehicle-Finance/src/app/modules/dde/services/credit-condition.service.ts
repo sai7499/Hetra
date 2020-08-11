@@ -59,20 +59,21 @@ export class CreditConditionService {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
-  // rejectCreditConditions(data){
-  //   const processData = data;
-  //   const processId = this.apiService.api.rejectCreditConditions.processId;
-  //   const workflowId = this.apiService.api.rejectCreditConditions.workflowId;
-  //   const projectId = this.apiService.api.rejectCreditConditions.projectId;
-  //   const body: RequestEntity = {
-  //     processId: processId,
-  //     ProcessVariables: processData,
-  //     workflowId: workflowId,
-  //     projectId: projectId
-  //   };
-  //   const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
-  //   return this.httpService.post(url, body);
-  // }
+  
+  approveCreditConditions(data){
+    const processData = data;
+    const processId = this.apiService.api.approveCreditConditions.processId;
+    const workflowId = this.apiService.api.approveCreditConditions.workflowId;
+    const projectId = this.apiService.api.approveCreditConditions.projectId;
+    const body: RequestEntity = {
+      processId: processId,
+      ProcessVariables: processData,
+      workflowId: workflowId,
+      projectId: projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
   // declinedCreditConditions(data){
   //   const processData = data;
   //   const processId = this.apiService.api.declineCreditConditions.processId;

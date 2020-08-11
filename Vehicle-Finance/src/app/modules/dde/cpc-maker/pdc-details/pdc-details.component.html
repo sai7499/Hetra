@@ -1,0 +1,66 @@
+<form class="form multisteps-form__form" style="height: auto" >
+  <div class="container overflow-hidden">
+    <div class="content">
+      <p> Under Developement</p>
+    </div>
+    <div class="row ">
+
+      <div class="col-sm-5 text-right">
+
+      </div>
+      <div class="col-sm-7 text-right">
+          <!-- <button class="btn btn-primary dash_href " type="button"><a>Back</a></button>
+          <button class="btn btn-primary dash_href " (click)="onSave()"> Save </button>
+          <button class="btn btn-primary dash_href " type="button" (click)="onNext()"><a>Next</a></button> -->
+          <button class="btn btn-primary dash_href marginAdd" type="button"><a data-toggle="modal"
+                  data-target="#myModal">Submit to CPC</a></button>
+       <button class="btn btn-primary dash_href marginAdd" (click)="sendBackToCredit()" *ngIf = "roleType == '4'" > Send Back To Credit </button>
+
+      </div>
+
+  </div>
+  </div>
+</form>
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Submit to CPC Maker</h4>
+          </div>
+          <div class="modal-body" *ngIf = "roleType == '4'">
+              <p>Are You Sure Want Submit Record?</p>
+          </div>
+          <!-- <div class="modal-body" *ngIf = "roleType == '5'">
+            <p>Are you sure you want to move lead to CPC maker?</p>
+        </div> -->
+          <div class="modal-footer" >
+              <button type="button" class="btn btn-primary marginAdd"  (click)="submitTocpc()" >Yes</button> 
+              <button type="button" class="btn btn-primary marginAdd" data-dismiss="modal" >Close</button>
+          </div>
+      </div>
+
+  </div>
+</div>
+<div class="modal fade" id="myModaltwo" role="dialog">
+  <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">CPC Queue</h4>
+          </div>
+          <div class="modal-body">
+              <p>Lead {{leadId}} is move to CPC Maker Queue</p>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+          </div>
+      </div>
+
+  </div>
+</div>

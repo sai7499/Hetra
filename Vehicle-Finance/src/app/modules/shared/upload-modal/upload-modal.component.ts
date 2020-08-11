@@ -1,3 +1,4 @@
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import {
   Component,
   Input,
@@ -15,6 +16,8 @@ import { UtilityService } from '@services/utility.service';
 import { DocRequest } from '@model/upload-model';
 import { DocumentDetails } from '@model/upload-model';
 import { Constant } from '@assets/constants/constant';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-upload-modal',
@@ -34,11 +37,16 @@ export class UploadModalComponent {
 
   @ViewChild('fileInput', { static: false })
   fileInput: ElementRef;
+  isMobile: any;
+
 
   constructor(
     private uploadService: UploadService,
-    private utilityService: UtilityService
-  ) {}
+    private utilityService: UtilityService,
+    private camera: Camera,
+  ) {
+    this.isMobile = environment.isMobile;
+  }
 
   async onFileSelect(event) {
     this.showError = '';
@@ -56,7 +64,6 @@ export class UploadModalComponent {
     }
 
     const base64: any = await this.toBase64(files);
-    console.log('base64', base64);
     this.imageUrl = base64;
     this.fileSize = this.bytesToSize(files.size);
     this.fileName = files.name;
@@ -165,7 +172,6 @@ export class UploadModalComponent {
         ...this.docsDetails,
       },
     ];
-    console.log('docsDetails', this.docsDetails);
     this.uploadService
       .constructUploadModel(addDocReq)
       .pipe(
@@ -173,7 +179,6 @@ export class UploadModalComponent {
           if (value.addDocumentRep.msgHdr.rslt === 'OK') {
             const body = value.addDocumentRep.msgBdy;
             const docsRes = body.addDocResp[0];
-            console.log('docsRes', docsRes);
             const docsDetails = {
               ...docsRes,
             };
@@ -220,6 +225,31 @@ export class UploadModalComponent {
           console.log('error', error);
         }
       );
+  }
+
+
+  async takePicture() {
+    const options: CameraOptions = {
+      quality: 50,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType: this.camera.PictureSourceType.CAMERA,
+      allowEdit: true,
+      encodingType: this.camera.EncodingType.PNG,
+      targetWidth: 100,
+      targetHeight: 100,
+      saveToPhotoAlbum: false,
+    };
+
+    return this.camera.getPicture(options);
+  }
+
+  openCamera() {
+    this.takePicture().then((uri) => {
+      this.imageUrl = uri;
+      this.fileName = Math.random().toString(36).substring(2, 15);
+      this.fileSize = ""
+      this.fileType = "png";
+    });
   }
 
   onClose() {

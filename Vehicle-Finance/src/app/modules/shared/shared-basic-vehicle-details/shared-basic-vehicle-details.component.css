@@ -8,6 +8,10 @@
     font-size: 12px;
 }
 
+.cus-title {
+    margin: 15px 0;
+}
+
 .star_red_col
 {
     color: #da3939;
@@ -25,14 +29,6 @@
 kendo-datepicker{
     width: 100%!important;
 }
-
-/* .invalid-feedback {
-    font-size: 1vw;
-    font-family: zurich-bold;
-    letter-spacing: 0.5px;
-    color: red;
-    padding-top: 0.5vw;
-} */
 
 .mt {
     margin-top: 24px;

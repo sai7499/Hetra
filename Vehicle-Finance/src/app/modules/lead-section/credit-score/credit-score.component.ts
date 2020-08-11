@@ -92,7 +92,7 @@ export class CreditScoreComponent implements OnInit {
     this.router.navigateByUrl(`/pages/terms-condition/${this.leadId}`);
   }
   backToLeads() {
-    this.router.navigateByUrl(`/pages/dashboard/leads-section/leads`);
+    this.router.navigateByUrl(`/pages/dashboard`);
   }
   declineOffer() {
     const body = {
@@ -103,7 +103,7 @@ export class CreditScoreComponent implements OnInit {
     this.termsService.acceptTerms(body).subscribe((res: any) => {
       console.log(res);
       if ( res && res.ProcessVariables.error.code === '0') {
-        this.router.navigateByUrl(`/pages/dashboard/leads-section/leads`);
+        this.router.navigateByUrl(`/pages/dashboard`);
       }
     });
   }

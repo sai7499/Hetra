@@ -1,0 +1,14 @@
+.cus-title {
+    margin: 15px 0;
+}
+
+.btn-mar-5{
+    margin-bottom: 50px;
+}
+
+@media (min-width:300px) and (max-width:767px) {
+    .btn-mar-5{
+        margin-bottom: 0px;
+    }
+
+}

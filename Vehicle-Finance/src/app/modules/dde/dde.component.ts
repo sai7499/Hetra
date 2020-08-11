@@ -15,6 +15,8 @@ export class DdeComponent implements OnInit {
   leadId: number;
   show: boolean;
   showNav: boolean = false;
+  fiCumPdStatusString: any;
+  fiCumPdStatus: boolean;
 
   constructor(
     public router: Router,
@@ -36,6 +38,16 @@ export class DdeComponent implements OnInit {
   }
 
   ngOnInit() {
+    // console.log('ficumpd', localStorage.getItem('isFiCumPd')); 
+    this.fiCumPdStatusString = (localStorage.getItem('isFiCumPd'));
+    if (this.fiCumPdStatusString == 'false') {
+      this.fiCumPdStatus = false
+    } else if (this.fiCumPdStatusString == 'true') {
+      this.fiCumPdStatus = true
+    }
+
+    console.log('ficumpd status', this.fiCumPdStatus);
+
     if (this.leadId) {
       const gotLeadData = this.route.snapshot.data.leadData;
       if (gotLeadData.Error === '0') {
@@ -43,13 +55,13 @@ export class DdeComponent implements OnInit {
         this.createLeadDataService.setLeadSectionData(leadData);
         this.leadStoreService.setLeadCreation(leadData);
       }
-      this.sharedService.vehicleValuationNext$.subscribe( (val) => {
-        if(val === true) {
+      this.sharedService.vehicleValuationNext$.subscribe((val) => {
+        if (val === true) {
           this.onNext();
         }
       });
-      this.sharedService.tvrDetailsPrevious$.subscribe( (val) => {
-        if(val === true) {
+      this.sharedService.tvrDetailsPrevious$.subscribe((val) => {
+        if (val === true) {
           this.onPrevious();
         }
       });
@@ -67,7 +79,7 @@ export class DdeComponent implements OnInit {
       this.show = true;
     }
 
-    if (this.router.url.includes('/pd-dashboard')) {
+    if (this.router.url.includes('/fi-cum-pd-dashboard') || this.router.url.includes('/fi-dashboard')) {
       this.showNav = false;
     } else {
       this.showNav = true;
@@ -112,7 +124,7 @@ export class DdeComponent implements OnInit {
       return 11;
     } else if (url.includes('cibil-od')) {
       return 12;
-    }  else if (url.includes('score-card')) {
+    } else if (url.includes('score-card')) {
       return 13;
     } else if (url.includes('cam')) {
       return 14;
