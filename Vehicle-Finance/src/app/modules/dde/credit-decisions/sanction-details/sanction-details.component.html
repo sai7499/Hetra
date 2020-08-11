@@ -1,6 +1,13 @@
-<div class="content" style="background: #f5f5f5; border: none;">
-    <div class="container-fluid print_top " id="vf_sheet_print_starts">
+<div class="btn-sec clear-both row" *ngIf="!isSanctionDetails"> 
+    <div class="col-sm-5"></div>   
+    <div class="col-sm-7 text-left" *ngIf="roleType == '2'">
+        <button class="btn btn-primary btn_div" type="button" 
+            (click)="generateSanctionLetter()">{{labels?.generateSanctionLetter}}</button>
+    </div>
+</div>
 
+<main class="content" style="background: #f5f5f5; border: none;" >
+    <div class="container-fluid print_top " id="vf_sheet_print_starts" *ngIf="isSanctionDetails">
         <h4 id="vf_sheet_tag4" class="text-center" style="font-weight: lighter;">{{labels?.sanctionLetter}}</h4>
         <div id="vf_sheet_tag5">
             <p id="vf_sheet_tag6" class="text-right"><strong>{{labels?.date}}</strong> &nbsp; :{{todayDate}}</p>
@@ -250,18 +257,23 @@
                         </div>
                     </div>
                 </div>
+
             </div>
-    
         </div> 
-    
-        <div class="btn-sec clear-both row"> 
-            <div class="col-sm-5"></div> 
-            <div class="col-sm-7 text-right">
-                <button class="btn btn-primary btn_div " type="button" (click)="onBack()">{{labels?.back}}</button>
-                <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
-                <button class="btn btn-primary btn_div" type="button" (click)="onNext()" >{{labels?.next}}</button>
-            </div>
-        </div>
         
     </div>
-</div>
+
+    <div class="btn-sec clear-both row"> 
+        <div class="col-sm-5"></div> 
+        <div class="col-sm-7 text-right">
+            <button class="btn btn-primary btn_div " type="button" (click)="onBack()">{{labels?.back}}</button>
+            <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
+            <button class="btn btn-primary btn_div" type="button" 
+                [disabled]="salesResponse == 'false'" *ngIf="roleType == '2'" (click)="onNext()" >{{labels?.next}}</button>
+            <button class="btn btn-primary btn_div" type="button" 
+                *ngIf="roleType == '1'" (click)="onNext()" >{{labels?.next}}</button>
+            <button class="btn btn-primary btn_div"  *ngIf="roleType == '2'"
+                type="button" (click)="onSubmitToSales()" >{{labels?.submit}}</button>
+        </div>
+    </div>
+</main>

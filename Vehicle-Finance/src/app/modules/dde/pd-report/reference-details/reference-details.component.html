@@ -1,432 +1,348 @@
 <form class="multisteps-form__form" [formGroup]="referenceDetailsForm" *ngIf="labels?.validationData">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn" *ngIf="LOV.LOVS">
-        <h3 class="title">{{ labels.referenceDetailsTitle }}</h3>
-
+        <h3 class="cus-title title">{{ labels.referrerDetails }}</h3>
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="referrer_first_name"> {{ labels.referrerFirstName }} </label>
-                <app-custom-input 
-                    id="referrer_first_name" 
-                    formControlName="referrerFirstName" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Referrer First Name'"
-                    [isRequired]="'Referrer First Name is required'"
-                    [type]="labels?.validationData?.referrerName?.type"
-                    [maxLength]="labels?.validationData?.referrerName?.maxLength"
-                    [isDirty]="isDirty"
-                    >
+                <label for="referrer_first_name"> {{ labels.referrerFirstName }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input id="referrer_first_name" formControlName="referrerFirstName"
+                    [className]="'form-control mandatory'" [placeholder]="'Referrer First Name'"
+                    [isRequired]="'Referrer First Name is required'" [type]="labels?.validationData?.referrerName?.type"
+                    [maxLength]="labels?.validationData?.referrerName?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="referrer_middle_name"> {{ labels.referrerMiddleName }} </label>
-                <app-custom-input 
-                    id="referrer_middle_name" 
-                    formControlName="referrerMiddleName" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Referrer Middle Name'"
+                <label for="referrer_middle_name"> {{ labels.referrerMiddleName }}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input id="referrer_middle_name" formControlName="refererSecondName"
+                    [className]="'form-control mandatory'" [placeholder]="'Referrer Middle Name'"
                     [type]="labels?.validationData?.referrerName?.type"
-                    [maxLength]="labels?.validationData?.referrerName?.maxLength"
-                    [isDirty]="isDirty"
-                    >
+                    [maxLength]="labels?.validationData?.referrerName?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="referrer_last_name"> {{ labels.referrerLastName }} </label>
-                <app-custom-input 
-                    id="referrer_last_name" 
-                    formControlName="referrerLastName" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Referrer Last Name'"
-                    [isRequired]="'Referrer Last Name is required'"
-                    [type]="labels?.validationData?.referrerName?.type"
-                    [maxLength]="labels?.validationData?.referrerName?.maxLength"
-                    [isDirty]="isDirty"
-                    >
+                <label for="referrer_last_name"> {{ labels.referrerLastName }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input id="referrer_last_name" formControlName="referrerThirdName"
+                    [className]="'form-control mandatory'" [placeholder]="'Referrer Last Name'"
+                    [isRequired]="'Referrer Last Name is required'" [type]="labels?.validationData?.referrerName?.type"
+                    [maxLength]="labels?.validationData?.referrerName?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="referrer_full_name"> {{ labels.referrerFullName }} </label>
-                <app-custom-input 
-                    id="referrer_full_name" 
-                    formControlName="referrerFullName" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Referrer Full Name'"
-                    [isRequired]="'Referrer Full Name is required'"
+                <label for="referrer_full_name"> {{ labels.referrerFullName }}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input id="referrer_full_name" formControlName="referrerFullName"
+                    [className]="'form-control mandatory'" [placeholder]="'Referrer Full Name'"
                     [type]="labels?.validationData?.referrerFullName?.type"
                     [maxLength]="labels?.validationData?.referrerFullName?.maxLength"
-                    [isDirty]="isDirty"
-                    >
+                    [value]="(referenceDetailsForm.get('referrerFirstName').value || '') + ' ' +
+                    (referenceDetailsForm.get('refererSecondName').value || '') + ' ' + (referenceDetailsForm.get('referrerThirdName').value || '')">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="referrer_relationship">{{ labels.referrerRelationship }} 
-                    <sub class="star_red_col">*</sub></label>
-                <app-vf-custom-select 
-                    [values]="" 
-                    formControlName="referrerRelationship"
-                    [isRequired]="'Please select one'" 
-                    [isDirty]="isDirty">
+                <label for="referrer_relationship">{{ labels.referrerRelationship }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-vf-custom-select [values]="(LOV?.LOVS)['relationship']" formControlName="refererRelationship"
+                    [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="referrer_office_phone_no"> {{ labels.referrerOfficePhoneNo }} </label>
-                <app-custom-input 
-                    id="referrer_office_phone_no" 
-                    formControlName="referrerOfficePhoneNo" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Referrer Office Phone No.'"
+                <label for="referrer_office_phone_no"> {{ labels.referrerOfficePhoneNo }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input id="referrer_office_phone_no" formControlName="refererOfficePhoneNo"
+                    [className]="'form-control mandatory'" [placeholder]="'Referrer Office Phone No.'"
                     [isRequired]="'Referrer Office Phone No. is required'"
                     [type]="labels?.validationData?.referrerOfficePhoneNo?.type"
-                    [maxLength]="labels?.validationData?.referrerOfficePhoneNo?.maxLength"
-                    [isDirty]="isDirty"
-                    >
+                    [maxLength]="labels?.validationData?.referrerOfficePhoneNo?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="referrer_address_line1"> {{ labels.referrerAddressLine1 }} </label>
-                <app-custom-input 
-                    id="referrer_address_line1" 
-                    formControlName="referrerAddressLine1" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Referrer Address Line1'"
+                <label for="referrer_address_line1"> {{ labels.referrerAddressLine1 }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input id="referrer_address_line1" formControlName="refererAddressLine1"
+                    [className]="'form-control mandatory'" [placeholder]="'Referrer Address Line1'"
                     [isRequired]="'Referrer Address Line1 is required'"
                     [type]="labels?.validationData?.referrerAddress?.type"
-                    [maxLength]="labels?.validationData?.referrerAddress?.maxLength"
-                    [isDirty]="isDirty"
-                    >
+                    [maxLength]="labels?.validationData?.referrerAddress?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="referrer_address_line2"> {{ labels.referrerAddressLine2 }} </label>
-                <app-custom-input 
-                    id="referrer_address_line2" 
-                    formControlName="referrerAddressLine2" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Referrer Address Line2'"
-                    [isRequired]="'Referrer Address Line2 is required'"
+                <label for="referrer_address_line2"> {{ labels.referrerAddressLine2 }}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input id="referrer_address_line2" formControlName="refererAddressLine2"
+                    [className]="'form-control mandatory'" [placeholder]="'Referrer Address Line2'"
                     [type]="labels?.validationData?.referrerAddress?.type"
-                    [maxLength]="labels?.validationData?.referrerAddress?.maxLength"
-                    [isDirty]="isDirty"
-                    >
+                    [maxLength]="labels?.validationData?.referrerAddress?.maxLength">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="referrer_address_line3"> {{ labels.referrerAddressLine3 }} </label>
-                <app-custom-input 
-                    id="referrer_address_line3" 
-                    formControlName="referrerAddressLine3" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Referrer Address Line3'"
-                    [isRequired]="'Referrer Address Line3 is required'"
+                <label for="referrer_address_line3"> {{ labels.referrerAddressLine3 }}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input id="referrer_address_line3" formControlName="refererAddressLine3"
+                    [className]="'form-control mandatory'" [placeholder]="'Referrer Address Line3'"
                     [type]="labels?.validationData?.referrerAddress?.type"
-                    [maxLength]="labels?.validationData?.referrerAddress?.maxLength"
-                    [isDirty]="isDirty"
-                    >
+                    [maxLength]="labels?.validationData?.referrerAddress?.maxLength">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="pincode"> {{ labels.pincode }} </label>
-                <app-custom-input 
-                    id="pincode" 
-                    formControlName="pincode" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Pincode'"
-                    [isRequired]="'Pincode is required'"
+                <label for="pincode"> {{ labels.pincode }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input [id]="'refererPincode'" formControlName="refererPincode"
+                    [className]="'form-control mandatory'" [placeholder]="'Pincode'"
+                    [isRequired]="'Pincode is required'" (keyup)="getPincode($event.target)"
                     [type]="labels?.validationData?.pincode?.type"
-                    [maxLength]="labels?.validationData?.pincode?.maxLength"
-                    [isDirty]="isDirty"
-                    >
+                    [maxLength]="labels?.validationData?.pincode?.maxLength" [isDirty]="isDirty">
+                </app-custom-input>
+                <div class="invalid-feedback" *ngIf="isValidPincode">
+                    Invalid Pincode
+                </div>
+
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="city"> {{ labels.city }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input id="city" formControlName="refererCity" [className]="'form-control mandatory'"
+                    [placeholder]="'City'">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="city"> {{ labels.city }} </label>
-                <app-custom-input 
-                    id="city" 
-                    formControlName="city" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'City'"
-                    >
+                <label for="district"> {{ labels.district }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input id="district" formControlName="refererDistrict" [className]="'form-control mandatory'"
+                    [placeholder]="'District'">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="district"> {{ labels.district }} </label>
-                <app-custom-input 
-                    id="district" 
-                    formControlName="district" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'District'"
-                    >
+                <label for="state"> {{ labels.state }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input id="state" formControlName="refererState" [className]="'form-control mandatory'"
+                    [placeholder]="'State'">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="state"> {{ labels.state }} </label>
-                <app-custom-input 
-                    id="state" 
-                    formControlName="state" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'State'"
-                    >
+                <label for="country"> {{ labels.country }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input id="country" formControlName="refererCountry" [className]="'form-control mandatory'"
+                    [placeholder]="'Country'">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="country"> {{ labels.country }} </label>
-                <app-custom-input 
-                    id="country" 
-                    formControlName="country" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Country'"
-                    >
-                </app-custom-input>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="referrer_asset_name">
-                    {{ labels.referrerAssetName }} <sub class="star_red_col">*</sub></label>
-                <app-vf-custom-select 
-                    [values]="(LOV?.LOVS)['referrerAssetName']" 
-                    formControlName="referrerAssetName"
-                    [isRequired]="'Please select one'" 
-                    [isDirty]="isDirty">
+                <label for="referrer_asset_name"> {{ labels.referrerAssetName }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-vf-custom-select [values]="applicantLov?.referrerAssetName" formControlName="refererAssetName"
+                    [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
-        <!-- </div> -->
-        <!-- <div class="row"> -->
+        </div>
+        <h3 class="cus-title title"> {{labels?.applicationReference}} </h3>
+        <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="reference_info_first_name"> {{ labels.referenceInfoFirstName }} </label>
-                <app-custom-input 
-                    id="reference_info_first_name" 
-                    formControlName="referenceInfoFirstName" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Reference Info -First Name'"
+                <label for="reference_info_first_name"> {{ labels.referenceInfoFirstName }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input id="reference_info_first_name" formControlName="referenceFirstName"
+                    [className]="'form-control mandatory'" [placeholder]="'Reference Info -First Name'"
                     [isRequired]="'Reference Info -First Name is required'"
                     [type]="labels?.validationData?.referrerName?.type"
-                    [maxLength]="labels?.validationData?.referrerName?.maxLength"
-                    [isDirty]="isDirty"
-                    >
+                    [maxLength]="labels?.validationData?.referrerName?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="reference_info_middle_name"> {{ labels.refereneceInfoMiddleName }} </label>
-                <app-custom-input 
-                    id="reference_info_middle_name" 
-                    formControlName="refereneceInfoMiddleName" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Reference Info -Middle Name'"
-                    >
+                <label for="reference_info_middle_name"> {{ labels.refereneceInfoMiddleName }}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input id="reference_info_middle_name" formControlName="referenceSecondName"
+                    [className]="'form-control mandatory'" [placeholder]="'Reference Info -Middle Name'">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="reference_info_last_name"> {{ labels.referenceInfoLastName }} </label>
-                <app-custom-input 
-                    id="reference_info_last_name" 
-                    formControlName="referenceInfoLastName" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Reference Info -Last Name'"
+                <label for="reference_info_last_name"> {{ labels.referenceInfoLastName }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input id="reference_info_last_name" formControlName="referenceThirdName"
+                    [className]="'form-control mandatory'" [placeholder]="'Reference Info -Last Name'"
                     [isRequired]="'Reference Info -Last Name is required'"
                     [type]="labels?.validationData?.referrerName?.type"
-                    [maxLength]="labels?.validationData?.referrerName?.maxLength"
-                    [isDirty]="isDirty"
-                    >
+                    [maxLength]="labels?.validationData?.referrerName?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="reference_info_full_name"> {{ labels.referenceInfoFullName }} </label>
-                <app-custom-input 
-                    id="reference_info_full_name" 
-                    formControlName="referenceInfoFullName" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Reference Info -Full Name'"
-                    [isRequired]="'Reference Info -Full Name is required'"
+                <label for="reference_info_full_name"> {{ labels.referenceInfoFullName }}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input id="reference_info_full_name" formControlName="referenceFullName"
+                    [className]="'form-control mandatory'" [placeholder]="'Reference Info -Full Name'"
                     [type]="labels?.validationData?.referrerFullName?.type"
                     [maxLength]="labels?.validationData?.referrerFullName?.maxLength"
-                    [isDirty]="isDirty"
-                    >
+                    [value]="(referenceDetailsForm.get('referenceFirstName').value || '') + ' ' +
+                   ( referenceDetailsForm.get('referenceSecondName').value || '') + ' ' + (referenceDetailsForm.get('referenceThirdName').value || '')">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="reference_info_address_line1"> {{ labels.referenceInfoAddressLine1 }} </label>
-                <app-custom-input 
-                    id="reference_info_address_line1" 
-                    formControlName="referenceInfoAddressLine1" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Reference Info - Address Line1'"
+                <label for="reference_info_address_line1"> {{ labels.referenceInfoAddressLine1 }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input id="reference_info_address_line1" formControlName="referenceAddressLine1"
+                    [className]="'form-control mandatory'" [placeholder]="'Reference Info - Address Line1'"
                     [isRequired]="'Reference Info - Address Line1 is required'"
                     [type]="labels?.validationData?.referrerAddress?.type"
-                    [maxLength]="labels?.validationData?.referrerAddress?.maxLength"
-                    [isDirty]="isDirty"
-                    >
+                    [maxLength]="labels?.validationData?.referrerAddress?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="reference_info_address_line2"> {{ labels.referenceInfoAddressLine2 }} </label>
-                <app-custom-input 
-                    id="reference_info_address_line2" 
-                    formControlName="referenceInfoAddressLine2" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Reference Info - Address Line2'"
-                    [isRequired]="'Reference Info - Address Line2 is required'"
+                <label for="reference_info_address_line2"> {{ labels.referenceInfoAddressLine2 }}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input id="reference_info_address_line2" formControlName="referenceAddressLine2"
+                    [className]="'form-control mandatory'" [placeholder]="'Reference Info - Address Line2'"
                     [type]="labels?.validationData?.referrerAddress?.type"
-                    [maxLength]="labels?.validationData?.referrerAddress?.maxLength"
-                    [isDirty]="isDirty"
-                    >
+                    [maxLength]="labels?.validationData?.referrerAddress?.maxLength">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="reference_info_address_line3"> {{ labels.referenceInfoAddressLine3 }} </label>
-                <app-custom-input 
-                    id="reference_info_address_line3" 
-                    formControlName="referenceInfoAddressLine3" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Reference Info - Address Line3'"
-                    [isRequired]="'Reference Info - Address Line3 is required'"
+                <label for="reference_info_address_line3"> {{ labels.referenceInfoAddressLine3 }}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input id="reference_info_address_line3" formControlName="referenceAddressLine3"
+                    [className]="'form-control mandatory'" [placeholder]="'Reference Info - Address Line3'"
                     [type]="labels?.validationData?.referrerAddress?.type"
-                    [maxLength]="labels?.validationData?.referrerAddress?.maxLength"
-                    [isDirty]="isDirty"
-                    >
+                    [maxLength]="labels?.validationData?.referrerAddress?.maxLength">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="pincode"> {{ labels.pincode }} </label>
-                <app-custom-input 
-                    id="pincode" 
-                    formControlName="pincode" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Pincode'"
-                    [isRequired]="'Pincode is required'"
-                    [type]="labels?.validationData?.pincode?.type"
-                    [maxLength]="labels?.validationData?.pincode?.maxLength"
-                    [isDirty]="isDirty"
-                    >
+                <label for="pincode"> {{ labels.pincode }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input [id]="'referencePincode'" formControlName="referencePincode"
+                    [className]="'form-control mandatory'" [placeholder]="'Pincode'" (keyup)="getPincode($event.target)"
+                    [isRequired]="'Pincode is required'" [type]="labels?.validationData?.pincode?.type"
+                    [maxLength]="labels?.validationData?.pincode?.maxLength" [isDirty]="isDirty">
+                </app-custom-input>
+                <div class="invalid-feedback" *ngIf="isValidPincode">
+                    Invalid Pincode
+                </div>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="city"> {{ labels.city }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input id="city" formControlName="referenceCity" [className]="'form-control mandatory'"
+                    [placeholder]="'City'">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="city"> {{ labels.city }} </label>
-                <app-custom-input 
-                    id="city" 
-                    formControlName="city" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'City'"
-                    >
+                <label for="district"> {{ labels.district }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input id="district" formControlName="referenceDistrict"
+                    [className]="'form-control mandatory'" [placeholder]="'District'">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="district"> {{ labels.district }} </label>
-                <app-custom-input 
-                    id="district" 
-                    formControlName="district" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'District'"
-                    >
+                <label for="state"> {{ labels.state }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input id="state" formControlName="referenceState" [className]="'form-control mandatory'"
+                    [placeholder]="'State'">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="state"> {{ labels.state }} </label>
-                <app-custom-input 
-                    id="state" 
-                    formControlName="state" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'State'"
-                    >
+                <label for="country"> {{ labels.country }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input id="country" formControlName="referenceCountry" [className]="'form-control mandatory'"
+                    [placeholder]="'Country'">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="country"> {{ labels.country }} </label>
-                <app-custom-input 
-                    id="country" 
-                    formControlName="country" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Country'"
-                    >
-                </app-custom-input>
-            </div>
-           <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="referenece_info_office_phone_no"> {{ labels.referenceInfoOfficeNo }} </label>
-                <app-custom-input 
-                    id="referenece_info_office_phone_no" 
-                    formControlName="referenceInfoOfficeNo" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Reference Info - Office Phone No.'"
+                <label for="referenece_info_office_phone_no"> {{ labels.referenceInfoOfficeNo }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input id="referenece_info_office_phone_no" formControlName="referenceMobile"
+                    [className]="'form-control mandatory'" [placeholder]="'Reference Info - Office Phone No.'"
                     [isRequired]="'Reference Info - Office Phone No. is required'"
                     [type]="labels?.validationData?.referrerOfficePhoneNo?.type"
-                    [maxLength]="labels?.validationData?.referrerOfficePhoneNo?.maxLength"
-                    [isDirty]="isDirty"
-                    >
+                    [maxLength]="labels?.validationData?.referrerOfficePhoneNo?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="referenece_relationship">{{ labels.referenceRelationship }} 
-                    <sub class="star_red_col">*</sub></label>
-                <app-vf-custom-select 
-                    [values]="" 
-                    formControlName="referenceRelationship"
-                    [isRequired]="'Please select one'" 
-                    [isDirty]="isDirty">
+                <label for="referenece_relationship">{{ labels.referenceRelationship }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-vf-custom-select [values]="(LOV?.LOVS)['relationship']" formControlName="referenceRelationship"
+                    [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="natureOf_business">
-                    {{ labels.natureOfBusiness }} <sub class="star_red_col">*</sub></label>
-                <app-vf-custom-select 
-                    [values]="(LOV?.LOVS)['natureOfBusiness']" 
-                    formControlName="natureOfBusiness"
-                    [isRequired]="'Please select one'" 
-                    [isDirty]="isDirty">
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="natureOf_business"> {{ labels.natureOfBusiness }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-vf-custom-select [values]="(LOV?.LOVS)['natureOfBusiness']" formControlName="natureOfBusiness">
                 </app-vf-custom-select>
-            </div>
-        <!-- </div> -->
-        <!-- <div class="row"> -->
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="selfie_with_customer">
-                    {{ labels.selfieWithCustomer }} <sub class="star_red_col">*</sub></label>
-                <app-vf-custom-select 
-                    [values]="valuesToYesNo" 
-                    formControlName="selfieWithCustomer"
-                    [isRequired]="'Please select one'" 
-                    [isDirty]="isDirty">
-                </app-vf-custom-select>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3" >
-                <label for="upload_images">{{labels.uploadImages}}</label>
-                <input 
-                    id="upload_images" 
-                    formControlName="uploadImages" 
-                    type="file" 
-                    multiple=""
-                    name="upload_images">
-            </div>
-        <!-- </div> -->
-        <!-- <div class="row"> -->
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="pd_status">
-                    {{ labels.pdStatus }} <sub class="star_red_col">*</sub></label>
-                <app-vf-custom-select 
-                    [values]="" 
-                    formControlName="pdStatus"
-                    [isRequired]="'Please select one'" 
-                    [isDirty]="isDirty">
-                </app-vf-custom-select>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="opinion_of_pd_officer"> {{ labels.opinionOfPDOfficer }} </label>
-                <app-custom-input 
-                    id="opinion_of_pd_officer" 
-                    formControlName="opinionOfPdOfficer" 
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Opinion of PD Officer'"
-                    >
-                </app-custom-input>
-            </div>
-        <!-- </div> -->
-    </div>
-    &nbsp;
-    <div class="row">
-        <div class="col-sm-5"></div>
-        <div class="col-sm-7 text-right">
-            <button class="btn btn-primary js-btn-prev" type="button"
-                (click)="onBack()"> {{labels.back}} </button> &nbsp;
-            <button class="btn btn-primary" (click)="onFormSubmit()"> {{labels.save}} </button> &nbsp;
-            <button class="btn btn-primary " type="button" (click)="onNext()"> {{labels.next}} </button>
+            </div> -->
         </div>
-    </div>
-        
+        <!-- <h3 class="cus-title title"> {{labels?.imageSelfie}} </h3>
+        <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="selfie_with_customer"> {{ labels.selfieWithCustomer }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-vf-custom-select [values]="valuesToYesNo" formControlName="selfieWithCustomer">
+                </app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="upload_images">{{labels.uploadImages}}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <input id="upload_images" formControlName="uploadImages" type="file" multiple="" name="upload_images">
+            </div>
+        </div> -->
+        <h3 class="cus-title title"> {{labels?.pdStatus}} </h3>
+        <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="pd_status"> {{ labels.pdStatus }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-vf-custom-select [values]="applicantLov?.pdStatus" formControlName="pdStatus"
+                    [isRequired]="'Please select one'" [isDirty]="isDirty">
+                </app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="opinion_of_pd_officer"> {{ labels.opinionOfPDOfficer }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input id="opinion_of_pd_officer" formControlName="opinionOfPdOfficer"
+                    [className]="'form-control mandatory'" [placeholder]="'Opinion of PD Officer'">
+                </app-custom-input>
+            </div>
+        </div>
+        <!-- </div> -->
+        &nbsp;
+        <div class="row">
+            <div class="col-sm-5"></div>
+            <div class="col-sm-7 text-right">
+                <button class="btn btn-primary js-btn-prev" type="button" (click)="onBack()"> {{labels.back}} </button>
+                &nbsp;
+                <button class="btn btn-primary" (click)="onFormSubmit()"> {{labels.save}} </button> &nbsp;
+                <button class="btn btn-primary " type="button" (click)="onNext()"> {{labels.next}} </button>
+            </div>
+        </div>
+
     </div>
 </form>

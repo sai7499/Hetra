@@ -7,16 +7,24 @@ import { FiReportResidenceComponent } from './fi-residence/fi-report-residence.c
 
 const routes: Routes = [
   {
-    path: ':leadId',
+    path: ':leadId/fi-report',
     component: FiReportComponent,
     resolve: { leadData: LeadDataResolverService },
     children: [
       {
-        path: ':applicantId/fi-report/fi-residence',
+        path: ':applicantId/fi-residence',
         component: FiReportResidenceComponent
       },
       {
-        path: ':applicantId/fi-report/fi-business',
+        path: ':applicantId/fi-residence/:version',
+        component: FiReportResidenceComponent
+      },
+      {
+        path: ':applicantId/fi-business',
+        component: FiReportOfficeComponent
+      },
+      {
+        path: ':applicantId/fi-business/:version',
         component: FiReportOfficeComponent
       }
 

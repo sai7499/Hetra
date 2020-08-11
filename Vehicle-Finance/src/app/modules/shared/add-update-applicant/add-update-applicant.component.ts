@@ -632,7 +632,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           const processVariables = value.ProcessVariables;
           const addressList: any[] = processVariables.GeoMasterView;
           if (!addressList) {
-            //this.toasterService.showError('Invalid pincode', '');
+            this.toasterService.showError('Invalid pincode', '');
             return;
           }
           const first = addressList[0];
@@ -1476,7 +1476,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     }
     this.aboutIndivProspectDetails = {
       dob: dedupe.dob,
-      mobilePhone: mobileNumber,
+      mobilePhone: mobileNumber, 
     };
 
     this.indivIdentityInfoDetails = {

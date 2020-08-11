@@ -20,6 +20,8 @@ export class DashboardService {
   responseData: Subject<any> = new Subject<any>();
   isFilterData: Observable<any> = this.responseData.asObservable();
 
+  routingData;
+
 
   constructor(
     private httpService: HttpService,
@@ -28,7 +30,6 @@ export class DashboardService {
     ) { }
 
   leadsChange(value: object) {
-    console.log(value);
     this.dashboardLeadsAction.next(value);
 
   }
@@ -37,7 +38,6 @@ export class DashboardService {
     this.responseData.next(value);
   }
 
-  
 
   myLeads(data) {
     const processId = this.apiService.api.getMyLeads.processId;

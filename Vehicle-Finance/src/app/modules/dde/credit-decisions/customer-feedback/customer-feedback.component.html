@@ -1,1 +1,30 @@
-<p>customer-feedback works!</p>
+<form class="form multisteps-form__form" style="height: auto">
+    <div class="container overflow-hidden content ">
+    <div class=" align-center text-center ">
+    <h5 class="">Is Customer Accepted Offer ?</h5> &nbsp;
+    <button class="btn btn-success" (click)="customerAcceptance('accepted')">Accepted</button> &nbsp;
+    <button class= "btn btn-danger" data-toggle="modal" data-target="#myModal">Declined</button>
+    </div>
+    </div>
+</form>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Submit to CPC Maker</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure <strong>Customer Rejected Offer</strong>?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+                    data-target="#myModaltwo" (click)="customerAcceptance('rejected')">Yes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

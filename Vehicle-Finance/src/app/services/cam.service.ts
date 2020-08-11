@@ -10,8 +10,8 @@ import { ApiService } from './api.service';
 })
 export class CamService {
 
-  constructor( private httpService: HttpService,  private apiService: ApiService) { }
-  
+  constructor(private httpService: HttpService, private apiService: ApiService) { }
+
   getCamDetails(data) {
     const processData = data;
     const processId = this.apiService.api.getCamDetails.processId;
@@ -19,109 +19,96 @@ export class CamService {
     const projectId = this.apiService.api.getCamDetails.projectId;
 
     const userId = localStorage.getItem('userId');
-    console.log('userid in service', userId);
 
     const requestEntity: RequestEntity = {
-        processId,
-        ProcessVariables:  processData,
-        workflowId,
-        projectId
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId
     };
-    console.log(requestEntity, 'cam details');
 
-    
     let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
-    
+
     return this.httpService.post(url, requestEntity);
-}
+  }
 
-getCamUsedCvDetails(data) {
-  const processData = data;
-  const processId = this.apiService.api.getCamUsedCvDetails.processId;
-  const workflowId = this.apiService.api.getCamUsedCvDetails.workflowId;
-  const projectId = this.apiService.api.getCamUsedCvDetails.projectId;
+  getCamUsedCvDetails(data) {
+    const processData = data;
+    const processId = this.apiService.api.getCamUsedCvDetails.processId;
+    const workflowId = this.apiService.api.getCamUsedCvDetails.workflowId;
+    const projectId = this.apiService.api.getCamUsedCvDetails.projectId;
 
-  const userId = localStorage.getItem('userId');
-  console.log('userid in service', userId);
+    const userId = localStorage.getItem('userId');
 
-  const requestEntity: RequestEntity = {
+    const requestEntity: RequestEntity = {
       processId,
-      ProcessVariables:  processData,
+      ProcessVariables: processData,
       workflowId,
       projectId
-  };
-  console.log(requestEntity, 'cam used cv details');
+    };
 
-  
-  let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
-  
-  return this.httpService.post(url, requestEntity);
-}
+    let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
 
-saveCamRemarks (data) {
-  const processData = data;
-  const processId = this.apiService.api.saveCamRemarks.processId;
-  const workflowId = this.apiService.api.saveCamRemarks.workflowId;
-  const projectId = this.apiService.api.saveCamRemarks.projectId;
+    return this.httpService.post(url, requestEntity);
+  }
 
-  const userId = localStorage.getItem('userId');
-  console.log('userid in service', userId);
+  saveCamRemarks(data) {
+    const processData = data;
+    const processId = this.apiService.api.saveCamRemarks.processId;
+    const workflowId = this.apiService.api.saveCamRemarks.workflowId;
+    const projectId = this.apiService.api.saveCamRemarks.projectId;
 
-  const requestEntity: RequestEntity = {
+    const userId = localStorage.getItem('userId');
+
+    const requestEntity: RequestEntity = {
       processId,
-      ProcessVariables:  processData,
+      ProcessVariables: processData,
       workflowId,
       projectId
-  };
-  console.log(requestEntity, 'cam used cv details');
+    };
 
-  
-  let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
-  
-  return this.httpService.post(url, requestEntity);
-}
-getCamUsedCarDetails(data) {
-  const processData = data;
-  const processId = this.apiService.api.getCamUsedCarDetails.processId;
-  const workflowId = this.apiService.api.getCamUsedCarDetails.workflowId;
-  const projectId = this.apiService.api.getCamUsedCarDetails.projectId;
+    let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
 
-  const userId = localStorage.getItem('userId');
-  console.log('userid in service', userId);
+    return this.httpService.post(url, requestEntity);
+  }
 
-  const requestEntity: RequestEntity = {
+  getCamUsedCarDetails(data) {
+    const processData = data;
+    const processId = this.apiService.api.getCamUsedCarDetails.processId;
+    const workflowId = this.apiService.api.getCamUsedCarDetails.workflowId;
+    const projectId = this.apiService.api.getCamUsedCarDetails.projectId;
+
+    const userId = localStorage.getItem('userId');
+
+    const requestEntity: RequestEntity = {
       processId,
-      ProcessVariables:  processData,
+      ProcessVariables: processData,
       workflowId,
       projectId
-  };
-  console.log(requestEntity, 'cam used car details');
+    };
 
-  
-  let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
-  
-  return this.httpService.post(url, requestEntity);
-}
-getCamNewCvDetails(data) {
-  const processData = data;
-  const processId = this.apiService.api.getCamNewCvDetails.processId;
-  const workflowId = this.apiService.api.getCamNewCvDetails.workflowId;
-  const projectId = this.apiService.api.getCamNewCvDetails.projectId;
+    let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
 
-  const userId = localStorage.getItem('userId');
-  console.log('userid in service', userId);
+    return this.httpService.post(url, requestEntity);
+  }
 
-  const requestEntity: RequestEntity = {
+  getCamNewCvDetails(data) {
+    const processData = data;
+    const processId = this.apiService.api.getCamNewCvDetails.processId;
+    const workflowId = this.apiService.api.getCamNewCvDetails.workflowId;
+    const projectId = this.apiService.api.getCamNewCvDetails.projectId;
+
+    const userId = localStorage.getItem('userId');
+
+    const requestEntity: RequestEntity = {
       processId,
-      ProcessVariables:  processData,
+      ProcessVariables: processData,
       workflowId,
       projectId
-  };
-  console.log(requestEntity, 'cam New Cv details');
+    };
 
-  
-  let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
-  
-  return this.httpService.post(url, requestEntity);
-}
+    let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+
+    return this.httpService.post(url, requestEntity);
+  }
 }

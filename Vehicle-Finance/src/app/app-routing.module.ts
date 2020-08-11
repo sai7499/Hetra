@@ -4,7 +4,7 @@ import { HeaderComponent } from './modules/header/header.component';
 import { LovResolverService } from './services/Lov-resolver.service';
 import { Authguard } from '@services/authguard';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
-
+import {TermSheetFromDashboardComponent} from './modules/dde/credit-decisions/term-sheet-from-dashboard/term-sheet-from-dashboard.component'
 const routes: Routes = [
   {
     path: '',
@@ -80,12 +80,7 @@ const routes: Routes = [
           import('./modules/dde/dde.module').then((m) => m.DdeModule),
       },
       {
-        path: 'pd-dashboard', // added another routing for dde module to load from pd-dashboard
-        loadChildren: () =>
-          import('./modules/dde/dde.module').then((m) => m.DdeModule),
-      },
-      {
-        path: 'fi-dashboard', // added another routing for dde module to load from fi-dashboard
+        path: 'fi-cum-pd-dashboard', // added another routing for dde module to load from pd-dashboard
         loadChildren: () =>
           import('./modules/dde/dde.module').then((m) => m.DdeModule),
       },
@@ -104,18 +99,23 @@ const routes: Routes = [
           ).then((m) => m.DeviationDashoardModule),
       },
       {
-        path: 'pd-dashboard',
+        path: 'fi-cum-pd-dashboard',
         loadChildren: () =>
           import('./modules/dde/fi-cum-pd-report/fi-cum-pd-report.module').then(
             (m) => m.FiCumPdReportModule
           ),
       },
       {
-        path: 'new-pd-dashboard',
+        path: 'pd-dashboard',
         loadChildren: () =>
           import('./modules/dde/pd-report/pd-report.module').then(
             (m) => m.PdReportModule
           ),
+      },
+      {
+        path: 'pd-dashboard', // added another routing for dde module to load from pd-dashboard
+        loadChildren: () =>
+          import('./modules/dde/dde.module').then((m) => m.DdeModule),
       },
       {
         path: 'credit-decisions',
@@ -139,12 +139,18 @@ const routes: Routes = [
           ).then((m) => m.TeleVerificarionFormModule),
       },
       {
-        path: 'fi-list',
+        path: 'fi-dashboard',
         loadChildren: () =>
           import('./modules/dde/fi-report/fi-report.module').then(
             (m) => m.FiReportModule
           ),
       },
+      {
+        path: 'fi-dashboard', // added another routing for dde module to load from pd-dashboard
+        loadChildren: () =>
+          import('./modules/dde/dde.module').then((m) => m.DdeModule),
+      },
+
       {
         path: 'vehicle-valuation',
         loadChildren: () =>
@@ -171,6 +177,21 @@ const routes: Routes = [
             './modules/dde/viability-dashboard/viability-dashboard.module'
           ).then((m) => m.ViabilityDashboardModule),
       },
+ //supervisorRelated starts
+      {
+        path: 'supervisor',
+        loadChildren: () =>
+          import('./modules/supervisor/supervisor.module').then(
+            (m) => m.SupervisorModule
+          ),
+      },
+      {
+              path: 'negotiation',
+              loadChildren: () =>
+                import(
+                  './modules/negotiation/negotiation.module'
+                ).then((m) => m.NegotiationModule),
+      },
       {
         path: 'cpc-maker',
         loadChildren: () =>
@@ -185,6 +206,10 @@ const routes: Routes = [
             './modules/dde/cpc-maker/cpc-maker.module'
           ).then((m) => m.CpcMakerModule),
       },
+      // {
+      //   path: ':leadId/new-term-sheet',
+      //   component : TermSheetFromDashboardComponent
+      // },
     ],
   },
 ];

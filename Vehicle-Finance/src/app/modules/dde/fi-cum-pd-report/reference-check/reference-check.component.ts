@@ -290,6 +290,7 @@ export class ReferenceCheckComponent implements OnInit {
       console.log('save or update PD Response', res);
       if (res.ProcessVariables.error.code === '0') {
         this.toasterService.showSuccess('Record Saved Successfully', '');
+        this.getPdDetails();
 
       } else {
         console.log('error', res.ProcessVariables.error.message);
@@ -378,7 +379,7 @@ export class ReferenceCheckComponent implements OnInit {
         // this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
         this.router.navigate([`/pages/dashboard`]);
       } else {
-        this.toasterService.showError( processVariables.error.message, '');
+        this.toasterService.showError(processVariables.error.message, '');
         console.log('error', processVariables.error.message);
 
       }
@@ -389,25 +390,27 @@ export class ReferenceCheckComponent implements OnInit {
 
   onNavigateToPdSummary() { // fun to navigate to pd summary
 
-    if (this.version !== 'undefined') {
-
+    if (this.version != 'undefined') {
+      console.log('in routing defined version condition', this.version);
       // http://localhost:4200/#/pages/dashboard/personal-discussion/my-pd-tasks
 
       this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
 
     } else {
-
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list`]);
+      console.log('in routing undefined version condition', this.version);
+      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
 
     }
   }
 
   onNavigateBack() { // fun to navigate to back page
-    if (this.version !== 'undefined') {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/loan-details/${this.version}`]);
+    if (this.version != 'undefined') {
+      console.log('in routing defined version condition', this.version);
+      this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/loan-details/${this.version}`]);
 
     } else {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/loan-details`]);
+      console.log('in routing undefined version condition', this.version);
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/loan-details`]);
       // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
 
     }

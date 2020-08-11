@@ -546,6 +546,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   }
 
   getPincode(pincode) {
+    this.basicVehicleForm.patchValue({
+      isValidPincode: true
+    })
     if (pincode.length === 6) {
       const pincodeNumber = Number(pincode);
       this.getPincodeResult(pincodeNumber);
@@ -571,7 +574,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
             return;
           }
         })).subscribe((res: any) => {
-          console.log('Before res', res)
           if (!res) {
             return;
           }
@@ -587,12 +589,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           }
         })
 
-    // setTimeout({})
-
     setTimeout(() => {
-      console.log('res', this.basicVehicleForm)
     });
-    console.log(pincodeResult, 'AddressList', this.addressList)
   }
 
   addSalesFormControls() {

@@ -46,9 +46,14 @@ export class FiReportResidenceComponent implements OnInit {
   state = [];
   city = [];
   toDayDate: Date = new Date();
-  leadCreatedDateFromLead: Date;
+  leadCreatedDateFromLead: any;
   cpVerificaton: string;
   initiatedDate: any;
+  version: any;
+  isRentDisabled: boolean;
+  resedenceType: string;
+  rentRequired: boolean;
+  invalidPincode = false;
 
   constructor(
     private labelService: LabelsService,
@@ -66,9 +71,12 @@ export class FiReportResidenceComponent implements OnInit {
     this.leadId = Number(this.activatedRoute.snapshot.parent.params.leadId);
     // this.applicantId = Number(this.activatedRoute.parent)
     this.applicantId = Number(this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
+    this.version = Number(this.activatedRoute.snapshot.parent.firstChild.params.version);
     console.log('in construc app id', this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
     console.log('leadid', this.leadId);
     console.log('now  fi date', this.fiDate);
+    console.log('router', this.activatedRoute.snapshot);
+    console.log('version', this.version);
 
   }
 
@@ -131,7 +139,7 @@ export class FiReportResidenceComponent implements OnInit {
 
     const leadCreatedDate = data['leadDetails']['leadCreatedOn'];
     console.log('strind date', leadCreatedDate);
-    this.leadCreatedDateFromLead = new Date(leadCreatedDate);
+    this.leadCreatedDateFromLead = new Date(this.getDateFormat(leadCreatedDate));
     // this.leadCreatedDateFromLead = String(leadCreatedDate).slice(0, 10);
     console.log('lead created Date', this.leadCreatedDateFromLead);
 
@@ -147,6 +155,27 @@ export class FiReportResidenceComponent implements OnInit {
     //   }
     // }
   }
+  ownerShipType(event: any) {
+    console.log('in resendential type');
+    console.log(event);
+    this.resedenceType = event ? event : event;
+    if (this.resedenceType === '2HOUOWN') {
+      console.log('in add rent amount validator');
+      this.isRentDisabled = false;
+      this.rentRequired = true;
+      this.fieldReportForm.get('rentAmt').enable();
+      this.fieldReportForm.get('rentAmt').setValidators(Validators.required);
+
+    } else if (this.resedenceType !== '2HOUOWN') {
+      console.log('in remove rent amount validator');
+      this.fieldReportForm.get('rentAmt').disable();
+      this.isRentDisabled = true;
+      this.rentRequired = false;
+      this.fieldReportForm.get('rentAmt').clearValidators();
+      this.fieldReportForm.get('rentAmt').updateValueAndValidity();
+
+    }
+  }
 
   getPincode(pincode) {
     // const id = pincode.id;
@@ -155,39 +184,65 @@ export class FiReportResidenceComponent implements OnInit {
       const pincodeNumber = Number(pincodeValue);
       this.getPincodeResult(pincodeNumber);
       console.log('in get pincode', pincodeNumber);
+    } else {
+      this.invalidPincode = false;
     }
   }
   getPincodeResult(pincodeNumber: number) {
+    this.invalidPincode = false;
     this.city = []; // clearing the array which contains previous city list
     this.state = []; // clearing the array which contains previous state list
     this.applicantService
       .getGeoMasterValue({
         pincode: pincodeNumber,
-      }).subscribe((value) => {
+      }).subscribe((value: any) => {
         console.log('res', value);
-        const values = value['ProcessVariables'].GeoMasterView;
-        const state = {
-          key: values[0].stateId,
-          value: values[0].stateName
-        };
-        this.state.push(state);
-        values.map((element) => {
-          const city = {
-            key: element.cityId,
-            value: element.cityName
+        // tslint:disable-next-line: no-string-literal
+        if (value['ProcessVariables'].error.code === '0') {
+          console.log('in valid pincode', value['ProcessVariables'].error);
+          // tslint:disable-next-line: no-string-literal
+          this.invalidPincode = false;
+          const values = value['ProcessVariables'].GeoMasterView;
+          const state = {
+            key: values[0].stateId,
+            value: values[0].stateName
           };
-          this.city.push(city);
-          // console.log('in geo', city);
-        });
+          this.state.push(state);
+          values.map((element) => {
+            const city = {
+              key: element.cityId,
+              value: element.cityName
+            };
+            this.city.push(city);
+            // console.log('in geo', city);
+          });
+          // tslint:disable-next-line: no-string-literal
+        } else if (value['ProcessVariables'].error.code === '1') {
+          if (value['ProcessVariables'].error.message && value['ProcessVariables'].error.message != null) {
+            const message = value.ProcessVariables.error.message;
+            this.toasterService.showWarning('', message);
+            this.invalidPincode = true
+          } else {
+            this.invalidPincode = true
+
+          }
+          // tslint:disable-next-line: no-string-literal
+          // console.log('in valid pincode', value['ProcessVariables'].error);
+          // const message = value.ProcessVariables.error.message;
+          // this.toasterService.showWarning('', message);
+
+        }
       });
 
   }
   getMonths() {
     const initiatedDate = new Date(this.fieldReportForm.value.cpvInitiatedDate)
       ? new Date(this.fieldReportForm.value.cpvInitiatedDate) : null;
+    console.log('init date', initiatedDate);
     const submitDate = new Date(this.fieldReportForm.value.reportSubmitDate)
       ? new Date(this.fieldReportForm.value.reportSubmitDate) : null;
-    if (initiatedDate && submitDate) {
+    console.log('init date', submitDate);
+    if (initiatedDate !== null && submitDate !== null) {
       if (submitDate < initiatedDate) {
         this.toasterService.showWarning('Submit Date should be greater than Initiated Date', '');
 
@@ -223,7 +278,7 @@ export class FiReportResidenceComponent implements OnInit {
       // typeOfConcern: new FormControl('', Validators.required),
       residenceApproach: new FormControl('', Validators.required),
       residenceDetails: new FormControl('', Validators.required),
-      rentAmt: new FormControl('', Validators.required),
+      rentAmt: new FormControl(''),
       residenceName: new FormControl('', Validators.required),
       verifiedFrom: new FormControl('', Validators.required),
       personMetName: new FormControl('', Validators.required),
@@ -480,11 +535,33 @@ export class FiReportResidenceComponent implements OnInit {
     // console.log('in on navigate', action);
 
     if (action === 'back') {
-      this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
-    } else if (action === 'next') {
-      // this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
-      this.router.navigateByUrl(`pages/fi-list/${this.leadId}/${this.applicantId}/fi-report/fi-business`);
 
+      console.log('in nav back', this.version);
+      if (this.router.url.includes('/fi-dashboard')) {
+
+        this.router.navigateByUrl(`/pages/fi-dashboard/${this.leadId}/fi-list`);
+
+
+      } else if (this.router.url.includes('/dde')) {
+
+        this.router.navigate([`/pages/dde/${this.leadId}/fi-list`]);
+
+
+      }
+
+
+    } else if (action === 'next') {
+      if (this.version) {
+        console.log('in  routing defined version condition', this.version);
+        // tslint:disable-next-line: max-line-length
+        this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${this.applicantId}/fi-business/${this.version}`]);
+
+      } else {
+
+        console.log('in routing undefined version condition', this.version);
+        this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-report/${this.applicantId}/fi-business`]);
+
+      }
     }
   }
 

@@ -50,16 +50,14 @@ export class UploadService {
         },
       },
     };
-    //console.log(JSON.stringify(data));
-    console.log("base url",environment.baseUrl);
     let url;
-    if(this.isMobile){
-       url = environment.mobileBaseUrl+'/addDigiDocument/';
-    }else{
-       url = environment.baseUrl+'/addDigiDocument/';
+    if (this.isMobile) {
+      url = environment.mobileBaseUrl + '/addDigiDocument/';
+    } else {
+      url = environment.baseUrl + '/addDigiDocument/';
     }
     // 'http://10.101.10.153/addDigiDocument/',
-    return this.httpService.docUpload(url,data);
+    return this.httpService.docUpload(url, data);
   }
 
   saveOrUpdateDocument(documentDetails: DocumentDetails[]) {
@@ -139,10 +137,9 @@ export class UploadService {
         },
       },
     };
-    const url = environment.baseUrl+'/downloadDigiDocument/';
-    console.log("base url",window.location.origin);
-         // 'http://10.101.10.153/downloadDigiDocument/',
-   
-    return this.httpService.docUpload(url,data);
+    const url = environment.baseUrl + '/downloadDigiDocument/';
+    // 'http://10.101.10.153/downloadDigiDocument/',
+
+    return this.httpService.docUpload(url, data);
   }
 }

@@ -35,13 +35,16 @@ export class PdReportComponent implements OnInit {
 
     this.applicantId = (await this.getApplicantId()) as number;
     this.leadId = (await this.getLeadId()) as number;
+    this.activatedRoute.firstChild.params.subscribe((value: any) => {
+      this.applicantId = value.applicantId;
+      this.version = value.version;
+    });
   }
 
   getLeadId() {
     return new Promise((resolve, reject) => {
       this.activatedRoute.params.subscribe((value) => {
         const leadId = value.leadId;
-        console.log("LaedId::", leadId);
         if (leadId) {
           resolve(Number(leadId));
         }
@@ -54,7 +57,6 @@ export class PdReportComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.activatedRoute.firstChild.params.subscribe((value) => {
         const applicantId = value.applicantId;
-        console.log("APPLICANTID::", applicantId);
         if (applicantId) {
           resolve(Number(applicantId));
         }
@@ -63,16 +65,28 @@ export class PdReportComponent implements OnInit {
     });
   }
 
-  onNavigate(url: string) {
+  onNavigate(componentUrl: string) {
+    if (this.router.url.includes('/pd-dashboard')) {
 
-    if (this.version) {
-      this.router.navigate([`/pages/new-pd-dashboard/${this.leadId}/${this.applicantId}/${url}/${this.version}`]);
-      // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${applicantId}/applicant-details/${version}`]);
+      if (this.version) {
+        this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/${componentUrl}/${this.version}`]);
+        // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${applicantId}/applicant-details/${version}`]);
 
-    } else {
-      this.router.navigate([`/pages/new-pd-dashboard/${this.leadId}/${this.applicantId}/${url}`]);
-      // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/${url}/${this.version}`]);
+      } else {
+        this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/${componentUrl}`]);
+        // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/${url}/${this.version}`]);
+      }
+    } else if (this.router.url.includes('/dde')) {
+      if (this.version) {
+        this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${this.applicantId}/${componentUrl}/${this.version}`]);
+        // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${applicantId}/applicant-details/${version}`]);
+
+      } else {
+        this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${this.applicantId}/${componentUrl}`]);
+        // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/${url}/${this.version}`]);
+      }
     }
+
   }
   getLocationIndex(url: string) {
     if (url.includes('personal-details')) {

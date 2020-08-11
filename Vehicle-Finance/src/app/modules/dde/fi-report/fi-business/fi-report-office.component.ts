@@ -44,8 +44,15 @@ export class FiReportOfficeComponent implements OnInit {
   toDayDate: Date = new Date();
   fiDate: Date = new Date();
   fiTime: any = String(new Date(new Date().getTime()).toLocaleTimeString()).slice(0, 5);
-  leadCreatedDateFromLead: Date;
+  leadCreatedDateFromLead: any;
   typeOfConcernValue: string;
+  version: any;
+  showReinitiate: boolean;
+  roleType: any;
+  roles: any;
+  invalidPincode: boolean;
+  custSegment: any;
+  concernLov: any;
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -62,17 +69,34 @@ export class FiReportOfficeComponent implements OnInit {
     this.leadId = Number(this.activatedRoute.snapshot.parent.params.leadId);
     // this.applicantId = Number(this.activatedRoute.parent)
     this.applicantId = Number(this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
+    this.version = Number(this.activatedRoute.snapshot.parent.firstChild.params.version);
+    console.log('version', this.version);
     console.log('in construc app id', this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
     console.log('leadid', this.leadId);
 
   }
 
   async ngOnInit() {
+    console.log('in router url', this.router.url);
+    if (this.router.url.includes('/fi-dashboard')) {
+
+      console.log(' /fi-dashboard ');
+      this.showReinitiate = false;
+      console.log(' fi-dashboard ', this.showReinitiate);
+
+    } else if (this.router.url.includes('/dde')) {
+
+      this.showReinitiate = true;
+      console.log(' dde', this.showReinitiate);
+    }
+
 
     // calling login store service to retrieve the user data
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
+    this.roles = roleAndUserDetails.roles;
+    this.roleType = this.roles[0].roleType;
     console.log('user id ==>', this.userId);
     this.leadId = (await this.getLeadId()) as number;
     this.getLOV();
@@ -98,6 +122,27 @@ export class FiReportOfficeComponent implements OnInit {
       this.labels = value;
     });
   }
+  getConcernType() {
+    if (this.custSegment == "SALCUSTSEG") {
+      this.concernLov = this.LOV.LOVS['concernType-Salaried']
+      this.concernType(this.custSegment);
+    } else if (this.custSegment == "SEMCUSTSEG") {
+      this.concernLov = this.LOV.LOVS['concernType-SelfEmployed']
+      this.concernType(this.custSegment);
+    }
+  }
+  concernType(event) {
+    console.log('in concern event');
+    console.log(event);
+    this.typeOfConcernValue = event ? event : event;
+    if (this.typeOfConcernValue === 'SALCUSTSEG') {
+      this.removeAddressValidators();
+    } else if (this.typeOfConcernValue === 'SEMCUSTSEG') {
+      this.addAddressValidators();
+
+    }
+
+  }
 
   getLOV() {
     this.commonLovService.getLovData().subscribe((value) => {
@@ -121,7 +166,7 @@ export class FiReportOfficeComponent implements OnInit {
 
     const leadCreatedDate = data['leadDetails']['leadCreatedOn'];
     console.log('strind date', leadCreatedDate);
-    this.leadCreatedDateFromLead = new Date(leadCreatedDate);
+    this.leadCreatedDateFromLead = new Date(this.getDateFormat(leadCreatedDate));
     // this.leadCreatedDateFromLead = String(leadCreatedDate).slice(0, 10);
     console.log('lead created Date', this.leadCreatedDateFromLead);
 
@@ -145,6 +190,8 @@ export class FiReportOfficeComponent implements OnInit {
       const pincodeNumber = Number(pincodeValue);
       this.getPincodeResult(pincodeNumber);
       console.log('in get pincode', pincodeNumber);
+    } else {
+      this.invalidPincode = false;
     }
   }
   getPincodeResult(pincodeNumber: number) {
@@ -153,22 +200,45 @@ export class FiReportOfficeComponent implements OnInit {
     this.applicantService
       .getGeoMasterValue({
         pincode: pincodeNumber,
-      }).subscribe((value) => {
+      }).subscribe((value: any) => {
         console.log('res', value);
-        const values = value['ProcessVariables'].GeoMasterView;
-        const state = {
-          key: values[0].stateId,
-          value: values[0].stateName
-        };
-        this.state.push(state);
-        values.map((element) => {
-          const city = {
-            key: element.cityId,
-            value: element.cityName
+        // tslint:disable-next-line: no-string-literal
+        if (value['ProcessVariables'].error.code === '0') {
+
+          console.log('in valid pincode', value['ProcessVariables'].error);
+          // tslint:disable-next-line: no-string-literal
+          this.invalidPincode = false;
+          const values = value['ProcessVariables'].GeoMasterView;
+          const state = {
+            key: values[0].stateId,
+            value: values[0].stateName
           };
-          this.city.push(city);
-          // console.log('in geo', city);
-        });
+          this.state.push(state);
+          values.map((element) => {
+            const city = {
+              key: element.cityId,
+              value: element.cityName
+            };
+            this.city.push(city);
+            // console.log('in geo', city);
+          });
+          // tslint:disable-next-line: no-string-literal
+        } else if (value['ProcessVariables'].error.code === '1') {
+          if (value['ProcessVariables'].error.message && value['ProcessVariables'].error.message != null) {
+            const message = value.ProcessVariables.error.message;
+            this.toasterService.showWarning('', message);
+            this.invalidPincode = true
+          } else {
+            this.invalidPincode = true
+
+          }
+          // tslint:disable-next-line: no-string-literal
+          // console.log('in valid pincode', value['ProcessVariables'].error);
+          // const message = value.ProcessVariables.error.message;
+          // this.toasterService.showWarning('', message);
+
+        }
+
       });
 
   }
@@ -193,7 +263,7 @@ export class FiReportOfficeComponent implements OnInit {
     this.fieldReportForm = new FormGroup({
 
       // externalAgencyName: new FormControl('', Validators.required),
-      externalAgencyName: new FormControl(''),
+      externalAgencyName: new FormControl({ value: '', disabled: true }),
       contactPointVerification: new FormControl('', Validators.required),
       referenceNo: new FormControl('', Validators.required),
       cpvInitiatedDate: new FormControl('', Validators.required),
@@ -307,18 +377,7 @@ export class FiReportOfficeComponent implements OnInit {
 
     });
   }
-  concernType(event) {
-    console.log('in concern event');
-    console.log(event);
-    this.typeOfConcernValue = event ? event : event;
-    if (this.typeOfConcernValue === 'SLRYCTYP') {
-      this.removeAddressValidators();
-    } else if (this.typeOfConcernValue === 'SEMPCTYP') {
-      this.addAddressValidators();
 
-    }
-
-  }
   removeAddressValidators() {
     console.log('in remove address validators');
     this.fieldReportForm.get('officeApproach').clearValidators();
@@ -397,11 +456,14 @@ export class FiReportOfficeComponent implements OnInit {
       console.log('get fi report response', processVariables);
       const message = processVariables.error.message;
       if (processVariables.error.code === '0') {
+        this.custSegment = res.ProcessVariables.getFIBusinessDetails.custSegment;
+        // this.custSegment = "SEMCUSTSEG"
         this.applicantFullName = res.ProcessVariables.applicantName;
         console.log('in get fi applicant name', this.applicantFullName);
         this.fiDetails = res.ProcessVariables.getFIBusinessDetails;
         console.log('in get fi details', this.fiDetails);
         this.setFormValue();
+        this.getConcernType()
         if (this.fiDetails) {
           if (this.fiDetails.pincode != null) {
             this.getPincodeResult(Number(this.fiDetails.pincode));
@@ -424,7 +486,8 @@ export class FiReportOfficeComponent implements OnInit {
       if (processvariables.error.code === '0') {
         console.log('result', processvariables.error.message);
         this.toasterService.showSuccess('Report Submitted Successfully', '');
-        this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
+        // this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
+        this.router.navigate([`/pages/dashboard`]);
 
       } else {
         this.toasterService.showError('', message);
@@ -509,6 +572,7 @@ export class FiReportOfficeComponent implements OnInit {
       const message = processVariables.error.message;
       if (processVariables.error.code === '0') {
         this.toasterService.showSuccess('Record Saved Successfully', '');
+        this.getFiReportDetails();
 
       } else {
         this.toasterService.showError('', 'message');
@@ -517,13 +581,46 @@ export class FiReportOfficeComponent implements OnInit {
     });
 
   }
+  // method for re-initating fi report
+
+  reinitiateFi() {  // fun calling reinitiate fi report  api for reinitiating the respective fi report
+    const data = {
+      applicantId: this.applicantId,
+      // applicantId: 1,
+      userId: this.userId
+    };
+    this.fieldInvestigationService.reinitiateFiReportDetails(data).subscribe((res: any) => {
+      const processVariables = res.ProcessVariables;
+      console.log('response reinitiate fi', processVariables);
+      const message = processVariables.error.message;
+      if (processVariables.error.code === '0') {
+        this.toasterService.showSuccess('Report Reinitiated Successfully', '');
+        this.router.navigate([`/pages/dde/${this.leadId}/fi-list`]);
+      } else {
+        this.toasterService.showError('', 'message');
+
+      }
+    });
+
+
+
+  }
+
 
 
   onNavigateBack() {
-    // console.log('in on navigate', action);
+    if (this.version) {
+      console.log('in routing defined version condition', this.version);
+      this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${this.applicantId}/fi-residence/${this.version}`]);
 
-    this.router.navigateByUrl(`pages/fi-list/${this.leadId}/${this.applicantId}/fi-report/fi-residence`);
+    } else {
+      console.log('in routing undefined version condition', this.version);
+      this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-report/${this.applicantId}/fi-residence`]);
+      // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
+
+    }
 
   }
+
 
 }
