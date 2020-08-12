@@ -1,10 +1,10 @@
-<div class="content">
+<div class="">
     <form class="multisteps-form__form" style="height: 400px;">
         <div class="multisteps-form__panel js-active" data-animation="scaleIn">
             <!-- <h4 class="title">Bank Details</h4> -->
             <!-- Individual Section Starts Here -->
 
-            <div class="">
+            <div class="controlWidth container">
                 <div class="btn-sec clear-both row">
                     <!-- <div class="col-sm-5">
                            <h4 class="title">Vehicle Details</h4> 
@@ -32,27 +32,27 @@
                                     <td class="text-center">{{ labels?.action }}</td>
                                 </tr>
                             </thead>
-                            <tbody class=" rowCollapse" *ngIf="bankDetails === null">
-                                <!-- <div  >
+                            <!-- <tbody class=" rowCollapse" *ngIf="bankDetails === null">
+                                 <div  >
                                     <p> No records found...</p> 
-                                </div> -->
+                                </div> 
                                 <tr>
                                     <td colspan="8">NO RECORDS FOUND</td>
                                 </tr>
-                            </tbody>
+                            </tbody> -->
                             
                             <tbody>
                                
-                                <tr id="" *ngFor="let item of bankDetails">
+                                <tr id="applicant_1_row" *ngFor="let item of bankDetails">
 
                                     <td [attr.data-label]="labels?.accountHolderName">{{ item.accountHolderName ? item.accountHolderName : '-' }}</td>
                                     <td [attr.data-label]="labels?.bankName">{{item?.bankName}}</td>
-                                    <td [attr.data-label]="labels?.accountNumber">{{item?.accountNumber | uppercase}}</td>
+                                    <td [attr.data-label]="labels?.accountNumber">{{item?.accountNumber ? item?.accountNumber: '-' | uppercase}}</td>
                                     <td [attr.data-label]="labels?.accountType">{{item?.accountType}}</td>
                                     <td [attr.data-label]="labels?.fromDate">{{item?.fromDate }}</td>
                                     <td [attr.data-label]="labels?.toDate">{{item?.toDate }}</td>
                                     <td [attr.data-label]="labels?.period">{{item?.period}}</td>
-                                    <td class="cursor-pointer" [attr.data-label]="labels?.accountHolderName"><i class="fa fa-pencil"
+                                    <td class="cursor-pointer" [attr.data-label]="labels?.action"><i class="fa fa-pencil"
                                             (click)="routeDetails(item.applicantId);"
                                             aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus cursor-pointer" aria-hidden="true"
                                             id="remove_item_applicant" (click)="onDelete()"></i></td>
