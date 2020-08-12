@@ -15,7 +15,7 @@
         </div>
         <p id="vf_sheet_tag8"><strong>{{labels?.toSanction}}</strong>,</p>
         <div class="row">
-            <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
+            <div class="col-lg-4 col-sm-4 col-xs-12 col-md-4">
                 <div *ngFor="let applicant of applicantList; let i = index">
                     <p id="vf_sheet_tag9"><strong>{{applicant?.applicantType}} {{i+1}}</strong></p>
                     <p id="vf_sheet_tag10"><strong>{{applicant?.name}}</strong></p>
@@ -28,7 +28,7 @@
                     <p id="vf_sheet_tag17">{{applicant?.mobileNo}}</p>
                 </div>
             </div>
-            <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
+            <div class="col-lg-4 col-sm-4 col-xs-12 col-md-4">
                 <div *ngFor="let coApplicant of coApplicantList; let i = index">
                     <p id="vf_sheet_tag18"><strong> {{coApplicant?.applicantType}} {{i+1}}</strong></p>
                     <p id="vf_sheet_tag19"><strong>{{coApplicant?.name}}</strong></p>
@@ -41,7 +41,7 @@
                 </div>
                 <!-- <p id="vf_sheet_tag26"><strong> {{coApplicant?.applicantType}} </strong></p> -->
             </div>
-            <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
+            <div class="col-lg-4 col-sm-4 col-xs-12 col-md-4">
                 <!-- <p id="vf_sheet_tag27"><strong>{{labels?.guarantor1}}</strong></p>
                 <p id="vf_sheet_tag28"><strong>NOT APPLICABLE</strong></p>
                 <p id="vf_sheet_tag29"><strong>{{labels?.guarantor2}}</strong></p> -->
@@ -61,7 +61,7 @@
         <!-- <p id="vf_sheet_tag31"><strong>{{labels?.proposalNumber}}</strong>&nbsp;&nbsp;<sup>{{this.leadId}}</sup></p> -->
         <p id="vf_sheet_tag31"><strong>{{labels?.proposalNumber}}:</strong> {{this.leadId}}</p>
         <div id="">
-            <div id="">
+            <div id="" class="table-responsive">
                 <p id=" " class="text-center"><strong>{{labels?.vehicleDetails}}</strong></p>
                 <table class="table">
                     <tbody *ngFor="let vehicleDetails of vehicleDetailsArray">
@@ -86,9 +86,9 @@
                     </tbody>
                 </table>
             </div>
-            <div id="vf_sheet_second_table">
+            <div class="align-justify table-responsive" id="vf_sheet_second_table">
                 <p id="vf_sheet_tag33" class="text-center"><strong> {{labels?.loanApprovedDetails}} </strong></p>
-                <table class="table table-responsive table-bordered">
+                <table class="table">
                     <tbody>
                         <tr>
                             <td id="table_column_width15"> {{labels?.assetCostRs}} </td>
@@ -173,7 +173,7 @@
         <p id="vf_sheet_tag38"> {{labels?.vfSheetTag38}} </p>
         <p id="vf_sheet_tag39"> {{labels?.vfSheetTag39}} </p>
         <p id="vf_sheet_tag40"> {{labels?.vfSheetTag40}} </p>
-        <div id="vf_sheet_row_space">
+        <div  class="align-justify" id="vf_sheet_row_space">
             <div class="row">
                 <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4" >
                     <div *ngFor="let applicant of applicantList; let i = index">
@@ -194,9 +194,9 @@
                 </div>
             </div>
         </div>
-        <p id="vf_sheet_text_tag"> {{labels?.generalTermsAndConditions}} </p>
+        <p class="align-justify" id="vf_sheet_text_tag"> {{labels?.generalTermsAndConditions}} </p>
         <div [innerHTML]="generalTermsAndConditions"></div>
-        <div id="vf_sheet_row_space">
+        <div class="align-justify" id="vf_sheet_row_space">
             <div class="row">
                 <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4" >
                     <div *ngFor="let applicant of applicantList; let i = index">
@@ -215,7 +215,7 @@
                 </div>
             </div>
         </div>
-        <div id="">
+        <div class="align-justify table-responsive" id="">
             <h4 id="vf_sheet_tag75" style="text-align: center; font-weight: lighter;">
                 <p> {{labels?.vfSheetTag75}} </p>
             </h4>
@@ -226,15 +226,15 @@
             <p id="vf_sheet_tag80"> {{labels?.vfSheetTag80}} </p>
             <p id="81"> {{labels?.vfSheetTag81}} </p>
             <p id="82"> {{labels?.vfSheetTag82}} {{sanctionDetailsObject.employeeName}}. ({{sanctionDetailsObject.employeeId}}){{labels?.vfSheetTag82A}} </p>
-            <table class="table table-responsive table-bordered">
+            <table class="table">
                 <tbody>
                     <tr>
-                        <td><strong> {{labels?.paymentType}} </strong></td>
-                        <td>{{sanctionDetailsObject?.paymentType}}</td>
-                        <td><strong> {{labels?.payeeName}} </strong></td>
-                        <td>{{sanctionDetailsObject?.payeeName}}</td>
-                        <td><strong> {{labels?.paymentAmount}} </strong></td>
-                        <td>{{sanctionDetailsObject?.paymentAmount}}</td>
+                        <td [attr.data-label]="labels?.paymentType"><strong> {{labels?.paymentType}} </strong></td>
+                        <td [attr.data-label]="sanctionDetailsObject?.paymentType">{{sanctionDetailsObject?.paymentType}}</td>
+                        <td [attr.data-label]="labels?.payeeName"><strong> {{labels?.payeeName}} </strong></td>
+                        <td [attr.data-label]="labels?.payeeName">{{sanctionDetailsObject?.payeeName}}</td>
+                        <td [attr.data-label]="labels?.paymentAmount"><strong> {{labels?.paymentAmount}} </strong></td>
+                        <td [attr.data-label]="labels?.paymentAmount">{{sanctionDetailsObject?.paymentAmount}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -263,7 +263,7 @@
         
     </div>
 
-    <div class="btn-sec clear-both row"> 
+    <div class="btn-sec clear-both row cst_btm_btns"> 
         <div class="col-sm-5"></div> 
         <div class="col-sm-7 text-right">
             <button class="btn btn-primary btn_div " type="button" (click)="onBack()">{{labels?.back}}</button>

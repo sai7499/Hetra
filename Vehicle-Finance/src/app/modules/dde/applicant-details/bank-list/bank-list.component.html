@@ -1,5 +1,5 @@
 <div class="">
-    <form class="multisteps-form__form" style="height: 400px;">
+    <form class="multisteps-form__form">
         <div class="multisteps-form__panel js-active" data-animation="scaleIn">
             <!-- <h4 class="title">Bank Details</h4> -->
             <!-- Individual Section Starts Here -->
@@ -86,18 +86,17 @@
         </div>
        
     </form>
+    <div class="btn-sec clear-both row cst_btm_btns">
+
+        <div class="col-sm-5">
+            <button class="btn btn-primary dash_href " (click)=loadAppplicant()> Back To Applicant
+                Details </button>
+        </div>
+        <div class="col-sm-7 text-right">
+            <button class="btn btn-primary dash_href" type="button" (click)="onBack()">Back</button>
+            <!-- <button class="btn btn-primary" (click)="onSave()"> Save </button> -->
+            <!-- <button class="btn btn-primary dash_href " type="button" (click)="onNext()" >Next</button> -->
+        </div>
     
-</div>
-<div class="row">
-
-    <div class="col-sm-5">
-        <button class="btn btn-primary dash_href " (click)=loadAppplicant()> Back To Applicant
-            Details </button>
     </div>
-    <div class="col-sm-7 text-right">
-        <button class="btn btn-primary dash_href" type="button" (click)="onBack()">Back</button>
-        <!-- <button class="btn btn-primary" (click)="onSave()"> Save </button> -->
-        <!-- <button class="btn btn-primary dash_href " type="button" (click)="onNext()" >Next</button> -->
-    </div>
-
 </div>

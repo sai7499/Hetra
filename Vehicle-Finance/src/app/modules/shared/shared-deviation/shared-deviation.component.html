@@ -13,17 +13,17 @@
         <h3 class="margin_zero">{{labels?.autoDeviation}}</h3>
 
         <div class="row">
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-3 col-lg-3 col-xs-12">
             <label for="acp">Deviation</label>
           </div>
-          <div class="form-group col-sm-6 col-md-2 col-lg-2">
+          <div class="form-group col-sm-6 col-md-2 col-lg-2 col-xs-12">
             <label for="acp">Approval level</label>
           </div>
-          <div class="form-group col-sm-6 col-md-5 col-lg-5">
+          <div class="form-group col-sm-6 col-md-5 col-lg-5 col-xs-12">
             <label for="activity">Justification</label>
           </div>
 
-          <div class="form-group col-sm-6 col-md-2 col-lg-2">
+          <div class="form-group col-sm-6 col-md-2 col-lg-2 col-xs-12">
             <label for="end" class="action">{{labels?.action}}</label>
           </div>
         </div>
@@ -32,13 +32,13 @@
           [formGroupName]="i">
 
           <div class="row">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3 col-xs-12">
               <p>{{obj.controls['devDesc'].value}}</p>
             </div>
-            <div class="form-group col-sm-6 col-md-2 col-lg-2">
+            <div class="form-group col-sm-6 col-md-2 col-lg-2 col-xs-12">
               <p>{{obj.controls['approverRoleName'].value}}</p>
             </div>
-            <div class="form-group col-sm-6 col-md-5 col-lg-5">
+            <div class="form-group col-sm-6 col-md-5 col-lg-5 col-xs-12">
               <textarea class="form-control" value="Justification" formControlName="justification"
                 [readonly]="isSubmitToCredit"></textarea>
 
@@ -51,7 +51,7 @@
 
             </div>
 
-            <div class="form-group col-sm-6 col-md-2 col-lg-2">
+            <div class="form-group col-sm-6 col-md-2 col-lg-2 col-xs-12">
 
               <div class="row m-0 radio-inline"
                 [ngClass]="{'disabled': !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}">
@@ -95,7 +95,7 @@
 
         <div class="row">
 
-          <div class="form-group col-sm-6 col-md-2 col-lg-2">
+          <div class=" col-sm-6 col-md-2 col-lg-2 col-xs-12">
 
             <label for="deviation">{{labels?.deviation}}</label>
             <app-vf-custom-select [values]="deviationLov?.deviation" [id]="'deviation'" formControlName="devCode"
@@ -109,16 +109,16 @@
             </div>
           </div>
 
-          <div class="form-group col-sm-6 col-md-3 col-lg-2">
+          <div class=" col-sm-6 col-md-3 col-lg-2 col-xs-12">
 
             <label for="deviation">{{labels?.description}}</label>
-            <p>
-              {{item.controls['devDesc'].value}}
-            </p>
+           
+            <textarea class="form-control" formControlName="justification" [readonly]="isSubmitToCredit"
+              style="resize: none;">{{item.controls['devDesc'].value}}</textarea>
             <!-- <textarea class="form-control" formControlName="devDesc" readonly style="resize: none;"></textarea> -->
           </div>
 
-          <div class="form-group col-sm-6 col-md-2 col-lg-2">
+          <div class=" col-sm-6 col-md-2 col-lg-2 col-xs-12">
             <label for="approval_level"> {{labels?.approvalLevel}}</label>
 
             <app-vf-custom-select [values]="deviationLov?.approvalLevel" [id]="'approval_level'"
@@ -127,7 +127,7 @@
             </app-vf-custom-select>
           </div>
 
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class=" col-sm-6 col-md-3 col-lg-3 col-xs-12">
             <label for="activity">{{labels?.justification}}</label>
             <textarea class="form-control" formControlName="justification" [readonly]="isSubmitToCredit"
               style="resize: none;"></textarea>
@@ -141,7 +141,7 @@
 
           </div>
 
-          <div class="form-group col-sm-6 col-md-2 col-lg-2">
+          <div class=" col-sm-6 col-md-2 col-lg-2 col-xs-12">
 
             <label for="end" class="action">{{labels?.action}} </label>
             <div class="row m-0 radio-inline"
@@ -162,7 +162,7 @@
             </div>
           </div>
 
-          <div class="form-group col-sm-6 col-md-1 col-lg-1" *ngIf="!isSubmitToCredit">
+          <div class=" col-sm-6 col-md-1 col-lg-1" *ngIf="!isSubmitToCredit">
             <label>{{labels?.more}} </label>
             <div class="row">
               <div class="col-sm-12 col-md-12 col-lg-12">
@@ -217,13 +217,13 @@
 
     </div>
 
-    <div class="row btn-sec clear-both">
+    <div class="btn-sec clear-both row cst_btm_btns">
       <div class="col-sm-4">
       </div>
-      <div class="col-sm-5 text-right">
+      <div class="col-sm-5">
         <div class="form-group col-md-10" style="margin-bottom: 0px;">
 
-          <div class="form-group col-sm-3 col-md-3 text-right" style="padding: 0px;">
+          <div class="form-group col-sm-3 col-md-3 " style="padding: 0px;">
             <label for="document" style="padding-top:8px;">{{labels?.referTo}}</label>
           </div>
 
@@ -237,7 +237,7 @@
           [disabled]="!deviationsForm.controls['approverRole'].value"
           (click)="onPatchRecommendationModal('Recommendation')">{{labels?.refer}}</button>
       </div>
-      <div class="col-sm-3 row text-right" *ngIf="isSubmitToCredit">
+      <div class="col-sm-12 col-md-12 text-right" *ngIf="isSubmitToCredit">
 
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
           [disabled]="isSendBacktoCredit !== 1"
