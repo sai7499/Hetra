@@ -1188,7 +1188,10 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   onNext() {
+   
+    
     const url = this.location.path();
+    localStorage.setItem('currentUrl',url);
     if (url.includes('sales')) {
       this.router.navigateByUrl(
         `pages/sales-applicant-details/${this.leadId}/document-upload/${this.applicantId}`

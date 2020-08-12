@@ -1158,7 +1158,7 @@
     "noOffamilyMembers": "No of family members",
     "noOfEarningMembers": "No of earning members",
     "vehiclesDetails": "Vehicles details",
-    "commentsAndRecommendations": "Comments & Recommendations (Space to capture corrections, remarks and recommendations of the FI officer",
+    "commentsAndRecommendations": "Comments & Recommendations",
     "distanceinKMs": "Distance in KMs",
     "verifiedBy": "Verified by",
     "typeOfConcern": "Type of Concern",
@@ -1360,56 +1360,56 @@
     "leadCreatedOnEndDate": "Lead Created On - End Date",
     "loanMinAmount": "Loan Min Amount",
     "loanMaxAmount": "Loan Max Amount",
-    "mode":"mode",
+    "mode": "mode",
     "negotiationTitle": "Negotiation",
-    "leadReferenceDetails":"Lead Reference Details",   
-    "crossSellInsurance":"Cross Sell - Insurance",
-    "motorInsurance":"FRSD / Motor Insurance",
-    "MITenure":"MI Tenure",
-    "fundingRequiredforMI":"Is Funding Required for MI?",
-    "MIPremiumAmount":"MI Premium Amount (in INR)",
-     "creditShieldPAC":"Credit Shield - PAC",
-    "PACPremiumAmount":"PAC Premium Amount (in INR)",
-    "fundingRequiredforPAC":"Is Funding Required for PAC?",
-     "VAS":"VAS",
-    "VASPremiumAmount":"VAS Premium Amount (in INR)",
-    "fundingRequiredforVAS":"Is Funding Required for VAS?",
-    "creditShieldLifeCover":"Credit Shield - Life Cover",
-    "fundingforLifeCover":"Funding for Life Cover (Sum Assured % on Loan Amount)",
-    "lifeCoverPremiumAmount":"Life Cover Premium Amount (in INR)",
-    "CrossSellFASTag":"Cross Sell - FASTag",
-    "EquitasFASTagRequired":"Equitas FASTag Required?",
-    "FASTagAmount":"FASTag Amount (in INR)",
-    "fundingRequiredforFASTag":"Is Funding Required for FASTag?",
-    "LoanAmountincludingCrossSell":"Loan Amount including Cross Sell (in INR)",
-    "NegotiatedLoanAmount":"Negotiated Loan Amount (in INR)",
-    "NegotiatedLoanTenor":"Negotiated Loan Tenor (in Months)",
-    "NegotiatedIRR":"Negotiated IRR (in %)",
-    "NegotiatedEMI":"Negotiated EMI (in INR)",
-    "MoratoriumPeriod":"Moratorium / Holiday Period (in days)",
-    "NoofRepayableMonthsafterMoratorium":"No. of Repayable Months after Moratorium",
-    "EMICycle":"EMI Cycle (Day of a Month)",
-    "EMIStartDateAfterDisbursement":"EMI Start Date After Disbursement",
-    "PaymentModeforGapDaysInterest":"Payment Mode for Gap Days Interest",
-    "SelectAppropriateLMSScheduleCode":"Select Appropriate LMS Schedule Code",
-    "DeductionsCharges":"Deductions & Charges",
-    "ProcessingFee":"Processing Fee (in INR)",
-    "DocumentationCharges":"Documentation Charges (in INR)",
-    "ValuationFee":"Valuation Fee (in INR)",
-    "CreditShieldCharges":"Credit Shield Charges (in INR)",
-    "MotorInsuranceCharges":"Motor Insurance Charges (in INR)",
-    "PACCharges":"PAC Charges (in INR)",
-    "VASCharges":"VAS Charges (in INR)",
-    "RTOCharges":"RTO Charges (in INR)",
-    "NetDisbursementAmount":"Net Disbursement Amount (in INR)",
-    "LoanAmountincludingCrossSellofalltheassets":"Loan Amount including CrossSell of all the assets",
+    "leadReferenceDetails": "Lead Reference Details",
+    "crossSellInsurance": "Cross Sell - Insurance",
+    "motorInsurance": "FRSD / Motor Insurance",
+    "MITenure": "MI Tenure",
+    "fundingRequiredforMI": "Is Funding Required for MI?",
+    "MIPremiumAmount": "MI Premium Amount (in INR)",
+    "creditShieldPAC": "Credit Shield - PAC",
+    "PACPremiumAmount": "PAC Premium Amount (in INR)",
+    "fundingRequiredforPAC": "Is Funding Required for PAC?",
+    "VAS": "VAS",
+    "VASPremiumAmount": "VAS Premium Amount (in INR)",
+    "fundingRequiredforVAS": "Is Funding Required for VAS?",
+    "creditShieldLifeCover": "Credit Shield - Life Cover",
+    "fundingforLifeCover": "Funding for Life Cover (Sum Assured % on Loan Amount)",
+    "lifeCoverPremiumAmount": "Life Cover Premium Amount (in INR)",
+    "CrossSellFASTag": "Cross Sell - FASTag",
+    "EquitasFASTagRequired": "Equitas FASTag Required?",
+    "FASTagAmount": "FASTag Amount (in INR)",
+    "fundingRequiredforFASTag": "Is Funding Required for FASTag?",
+    "LoanAmountincludingCrossSell": "Loan Amount including Cross Sell (in INR)",
+    "NegotiatedLoanAmount": "Negotiated Loan Amount (in INR)",
+    "NegotiatedLoanTenor": "Negotiated Loan Tenor (in Months)",
+    "NegotiatedIRR": "Negotiated IRR (in %)",
+    "NegotiatedEMI": "Negotiated EMI (in INR)",
+    "MoratoriumPeriod": "Moratorium / Holiday Period (in days)",
+    "NoofRepayableMonthsafterMoratorium": "No. of Repayable Months after Moratorium",
+    "EMICycle": "EMI Cycle (Day of a Month)",
+    "EMIStartDateAfterDisbursement": "EMI Start Date After Disbursement",
+    "PaymentModeforGapDaysInterest": "Payment Mode for Gap Days Interest",
+    "SelectAppropriateLMSScheduleCode": "Select Appropriate LMS Schedule Code",
+    "DeductionsCharges": "Deductions & Charges",
+    "ProcessingFee": "Processing Fee (in INR)",
+    "DocumentationCharges": "Documentation Charges (in INR)",
+    "ValuationFee": "Valuation Fee (in INR)",
+    "CreditShieldCharges": "Credit Shield Charges (in INR)",
+    "MotorInsuranceCharges": "Motor Insurance Charges (in INR)",
+    "PACCharges": "PAC Charges (in INR)",
+    "VASCharges": "VAS Charges (in INR)",
+    "RTOCharges": "RTO Charges (in INR)",
+    "NetDisbursementAmount": "Net Disbursement Amount (in INR)",
+    "LoanAmountincludingCrossSellofalltheassets": "Loan Amount including CrossSell of all the assets",
     "otherDetailsTitle": "Other Details",
     "genericDetails": "Generic Details",
     "loanDetails": "Loan Details",
     "income1": "Income",
     "securedLoans": "Secured Loans",
     "unSecuredLoans": "Un Secured Loans",
-    "creditors": "Crediotrs",
+    "creditors": "Creditors",
     "debtors": "Debtors",
     "fixedAssets": "Fixed Assets",
     "geotagInformation": "Geotag Information",
@@ -1418,7 +1418,7 @@
     "pdOfficerName": "PD Officer Name",
     "tomeOfVerification": "Time of Verification",
     "sourceOfMarginMoney1": "Source of Margin Money",
-    "netIncome" : "Net Income",
+    "netIncome": "Net Income",
     "additionalSourceofIncome": "Additional source of income",
     "grossSalary": "Gross Salary",
     "netsalary": "Net salary",
@@ -1427,11 +1427,11 @@
     "noOfChqReturns": "No of Chq returns",
     "cashAndBankBalance": "Cash and Bank balance",
     "monthlyInflows": "Monthly Inflows",
-    "creditCardFirstName": "Credit Card First Name",
-    "CreditCardMiddleName": "Credit Card Middle Name",
-    "creditCardLastName": "Credit Card Last Name",
+    "creditCardFirstName": "Credit Card Holder's First Name",
+    "CreditCardMiddleName": "Credit Card Holder's Middle Name",
+    "creditCardLastName": "Credit Card Holder's Last Name",
     "monthlyOutflows": "Monthly Outflows",
-    "creditCardFullName": "Credit Card Full Name",
+    "creditCardFullName": "Credit Card Holder's Full Name",
     "creditcardIssuedby": "Credit card Issued by",
     "creditcardLimit": "Credit card Limit",
     "referrerDetails": "Referrer Details",
@@ -1452,16 +1452,16 @@
     "referenceInfoLastName": "Reference Info - Last Name",
     "referenceInfoFullName": "Reference Info - Full Name",
     "referenceInfoPhoneNumber": "Reference Info - Phone Number",
-    "referenceInfoRelationshipwithApplicant":"Reference Info - Relationship with Applicant",
+    "referenceInfoRelationshipwithApplicant": "Reference Info - Relationship with Applicant",
     "referenceInfoAddressLine1": "Reference Info - Address Line1",
     "referenceInfoAddressLine2": "Reference Info - Address Line2",
     "referenceInfoAddressLine3": "Reference Info - Address Line3",
     "imageSelfie": "Image/Selfie",
-    "selfieImageTitle":"Selfie With Customer House[Click Photo]",
-    "uploadIamges":"Upload Image",
-    "pdStatusTitle":"PD Status",
-    "PdStatus":"PD Status",
-    "opinionOfOfficer":"Opinion of PD Officer",
+    "selfieImageTitle": "Selfie With Customer House[Click Photo]",
+    "uploadIamges": "Upload Image",
+    "pdStatusTitle": "PD Status",
+    "PdStatus": "PD Status",
+    "opinionOfOfficer": "Opinion of PD Officer",
     "referenceDetailsTitle": "Reference Details",
     "referrerRelationship": "Referrer Relationship",
     "referrerOfficePhoneNo": "Referrer Office Phone No",
@@ -1806,9 +1806,13 @@
         "pincode": {
             "maxLength": {
                 "rule": 6,
-                "msg": "Pincode Max Length Should be 6"
+                "msg": "Pincode should be 6 Digit"
             },
-            "type": "number"
+            "type": "number",
+            "patternCheck": {
+                "rule": "[1-9]{1}[0-9]{5}",
+                "msg": "Invalid Pincode"
+            }
         },
         "numberOfYears": {
             "maxLength": {
@@ -2039,35 +2043,41 @@
             },
             "type": "alpha-numeric"
         },
-        "assetsVisible":{
-            "maxLength":{
-                "rule":150
+        "assetsVisible": {
+            "maxLength": {
+                "rule": 150
             },
-            "type":"alpha-numeric"
+            "type": "alpha-numeric"
         },
-        "assetsOwned":{
-            "maxLength":{
-                "rule":100
+        "assetsOwned": {
+            "maxLength": {
+                "rule": 100
             },
-            "type":"alpha-numeric"
+            "type": "alpha-numeric"
         },
         "timeOfVerification": {
-            "maxLength":{
-                "rule":10
+            "maxLength": {
+                "rule": 10
             },
-            "type":"alpha-numeric"
+            "type": "alpha-numeric"
         },
         "emiAffordability": {
-            "maxLength":{
-                "rule":6
+            "maxLength": {
+                "rule": 6
             },
-            "type":"number"
+            "type": "number"
         },
         "agricultureProof": {
-            "maxLength":{
-                "rule":50
+            "maxLength": {
+                "rule": 50
             },
-            "type":"alpha-numeric"
+            "type": "alpha-numeric"
+        },
+        "offBusinessApproach": {
+            "maxLength": {
+                "rule": 20
+            },
+            "type": "alpha-numeric"
         }
     }
 }
