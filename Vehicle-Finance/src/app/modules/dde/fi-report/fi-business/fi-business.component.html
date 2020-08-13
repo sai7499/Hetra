@@ -44,7 +44,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="report_date">{{ labels?.reportSubmitDate }}
           <sub class="star_red_col">*</sub></label>
-                <kendo-datepicker id="cpv_date" class="form-control mandatory" formControlName="reportSubmitDate" [format]="'dd/MM/yyyy'" placeholder="'Enter submit date'" [activeView]="'decade'" [min]="cpvInitiatedDate" (valueChange)="getMonths()"></kendo-datepicker>
+                <kendo-datepicker id="cpv_date" class="form-control mandatory" formControlName="reportSubmitDate" [format]="'dd/MM/yyyy'" placeholder="Enter submit date" [activeView]="'decade'" [min]="cpvInitiatedDate" (valueChange)="getMonths()"></kendo-datepicker>
             </div>
         </div>
         <div class="row">
@@ -491,7 +491,7 @@
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="verifiedBy">{{ labels?.verifiedBy }} <sub class="star_red_col">*</sub></label>
-                <app-custom-input id="verifiedBy" [placeholder]="'Enter details'" [type]="labels?.validationData?.name?.type" formControlName="verifiedBy" [isRequired]="'Name is required'" [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
+                <app-custom-input id="verifiedBy" [placeholder]="'Enter details'" [type]="labels?.validationData?.name?.type" formControlName="verifiedBy" [isRequired]="'Verified by is required'" [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -500,15 +500,6 @@
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="">{{ labels?.time }} <sub class="star_red_col">*</sub></label>
-                <!-- <app-custom-input
-          [placeholder]="'Enter time'"
-          [type]="labels?.validationData?.cubicCapacity?.type"
-          formControlName="fiTime"
-          [isRequired]="'Time is required'"
-          [maxLength]="labels?.validationData?.cubicCapacity?.maxLength"
-          [isDirty]="isDirty"
-        >
-        </app-custom-input> -->
                 <input type="text" class="form-control mandatory" placeholder="Enter time" formControlName="fiTime" disabled="true" />
             </div>
         </div>

@@ -14,11 +14,11 @@ import { ApplicantService } from '@services/applicant.service';
 
 
 @Component({
-  selector: 'app-fi-report-residence',
-  templateUrl: './fi-report-residence.component.html',
-  styleUrls: ['./fi-report-residence.component.css']
+  selector: 'app-fi-residence',
+  templateUrl: './fi-residence.component.html',
+  styleUrls: ['./fi-residence.component.css']
 })
-export class FiReportResidenceComponent implements OnInit {
+export class FiResidenceComponent implements OnInit {
 
   labels: any = {};
   LOV: any = [];
