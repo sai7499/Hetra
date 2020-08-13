@@ -221,9 +221,9 @@ export class FiResidenceComponent implements OnInit {
           if (value['ProcessVariables'].error.message && value['ProcessVariables'].error.message != null) {
             const message = value.ProcessVariables.error.message;
             this.toasterService.showWarning('', message);
-            this.invalidPincode = true
+            this.invalidPincode = true;
           } else {
-            this.invalidPincode = true
+            this.invalidPincode = true;
 
           }
           // tslint:disable-next-line: no-string-literal
