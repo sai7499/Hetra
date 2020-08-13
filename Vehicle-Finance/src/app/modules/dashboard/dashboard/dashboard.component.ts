@@ -12,8 +12,8 @@ import { Router } from '@angular/router';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { NumberFormatStyle } from '@angular/common';
 
+// for sales
 export enum DisplayTabs {
-  // sales
   Leads,
   PD,
   Viability,
@@ -42,6 +42,8 @@ export enum DisplayTabs {
   DisbursementWithMe,
   DisbursementWithBranch
 }
+
+// for credit
 export enum DisplayCreditTabs {
   DDE,
   PD,
@@ -61,6 +63,17 @@ export enum DisplayCreditTabs {
   TermSheet,
   TermSheetWithMe,
   TermSheetWithBranch
+}
+
+// for CPC
+export enum DisplayCPCTabs {
+  CPCMaker,
+  CPCMakerWithMe,
+  CPCMakerWithBranch,
+  CPCChecker,
+  CPCCheckerWithMe,
+  CPCCheckerWithBranch,
+
 }
 @Component({
   selector: 'app-dashboard',
@@ -123,6 +136,7 @@ export class DashboardComponent implements OnInit {
 
   displayTabs = DisplayTabs;
   displayCreditTabs = DisplayCreditTabs;
+  displayCPCTabs = DisplayCPCTabs;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
@@ -265,6 +279,37 @@ export class DashboardComponent implements OnInit {
         default:
           break;
       }
+    } else if (this.roleType === 4) {
+      switch (data) {
+        case 1:
+          this.onAssignTab = false;
+          this.onReleaseTab = true;
+          this.getMakerLeads(this.itemsPerPage);
+          break;
+        case 2:
+          this.onAssignTab = true;
+          this.onReleaseTab = false;
+          this.getMakerCPCLeads(this.itemsPerPage);
+          break;
+        default:
+          break;
+      }
+    } else if (this.roleType === 5) {
+      switch (data) {
+        case 4:
+        this.onAssignTab = false;
+        this.onReleaseTab = true;
+        this.getCheckerLeads(this.itemsPerPage);
+        break;
+      case 5:
+        this.onAssignTab = true;
+        this.onReleaseTab = false;
+        this.getCheckerCPCLeads(this.itemsPerPage);
+        break;
+      
+        default:
+          break;
+      }
     }
   }
 
@@ -282,11 +327,21 @@ export class DashboardComponent implements OnInit {
       this.subActiveTab = this.dashboardService.routingData.subActiveTab;
       this.onTabsLoading(this.subActiveTab);
     } else {
-      this.activeTab = 0;
-      this.subActiveTab = this.roleType === 1 ? 3 : 4;
-      this.onTabsLoading(this.subActiveTab);
-    }
+      if (this.roleType === 1 || this.roleType === 2 || this.roleType === 4) {
+        this.activeTab = 0;
+        if (this.roleType === 1 || this.roleType === 2) {
+          this.subActiveTab = this.roleType === 1 ? 3 : 4;
+        } else if (this.roleType === 4) {
+          this.subActiveTab = 1;
+        }
+        this.onTabsLoading(this.subActiveTab);
+      } else if (this.roleType === 5) {
+        this.activeTab = 3;
+        this.subActiveTab = 4;
+        this.onTabsLoading(this.subActiveTab);
+      }
 
+    }
 
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
@@ -304,18 +359,6 @@ export class DashboardComponent implements OnInit {
     });
 
     this.dashboardFilter();
-
-    // new leads
-
-    if (this.roleType === 4) {
-      this.onReleaseTab = true;
-      this.makerWithMe = true;
-      this.getMakerLeads(this.itemsPerPage);
-    } else if (this.roleType === 5) {
-      this.onReleaseTab = true;
-      this.checkerWithMe = true;
-      this.getCheckerLeads(this.itemsPerPage);
-    }
   }
 
 
@@ -355,6 +398,10 @@ export class DashboardComponent implements OnInit {
       } else if (this.activeTab === this.displayCreditTabs.TermSheet && this.subActiveTab === this.displayCreditTabs.TermSheetWithMe) {
         this.getMyTermsheetLeads(this.itemsPerPage);
       }
+    } else if (this.roleType === 4) {
+      this.getMakerLeads(this.itemsPerPage);
+    } else if (this.roleType === 5) {
+      this.getCheckerLeads(this.itemsPerPage);
     }
 
   }
@@ -370,38 +417,6 @@ export class DashboardComponent implements OnInit {
       this.onAssignTab = false;
     }
     this.onTabsLoading(this.subActiveTab);
-  }
-
-  onCPCMakerClick(data) {
-    if (data === 'myMaker') {
-      this.onReleaseTab = true;
-      this.onAssignTab = false;
-      this.makerWithMe = true;
-      this.makerWithCPC = false;
-      this.getMakerLeads(this.itemsPerPage);
-    } else if (data === 'cpcMaker') {
-      this.onReleaseTab = false;
-      this.onAssignTab = true;
-      this.makerWithMe = false;
-      this.makerWithCPC = true;
-      this.getMakerCPCLeads(this.itemsPerPage);
-    }
-  }
-
-  onCPCCheckerClick(data) {
-    if (data === 'myChecker') {
-      this.onReleaseTab = true;
-      this.onAssignTab = false;
-      this.checkerWithMe = true;
-      this.checkerWithCPC = false;
-      this.getCheckerLeads(this.itemsPerPage);
-    } else if (data === 'cpcChecker') {
-      this.onReleaseTab = false;
-      this.onAssignTab = true;
-      this.checkerWithMe = false;
-      this.checkerWithCPC = true;
-      this.getCheckerCPCLeads(this.itemsPerPage);
-    }
   }
 
   dateToFormate(date) {
@@ -1071,16 +1086,26 @@ export class DashboardComponent implements OnInit {
           break;
       }
     } else if (this.roleType === 4) {
-      if (this.makerWithMe) {
-        this.getMakerLeads(this.itemsPerPage, event);
-      } else if (this.makerWithCPC) {
-        this.getMakerCPCLeads(this.itemsPerPage, event);
+      switch (this.subActiveTab) {
+        case 1:
+          this.getMakerLeads(this.itemsPerPage, event);
+          break;
+        case 2:
+          this.getMakerCPCLeads(this.itemsPerPage, event);
+          break;
+        default:
+          break;
       }
     } else if (this.roleType === 5) {
-      if (this.checkerWithMe) {
-        this.getCheckerLeads(this.itemsPerPage, event);
-      } else if (this.checkerWithCPC) {
-        this.getCheckerCPCLeads(this.itemsPerPage, event);
+      switch (this.subActiveTab) {
+        case 4:
+          this.getCheckerLeads(this.itemsPerPage, event);
+          break;
+        case 5:
+          this.getCheckerCPCLeads(this.itemsPerPage, event);
+          break;
+        default:
+          break;
       }
     }
   }
@@ -1088,15 +1113,15 @@ export class DashboardComponent implements OnInit {
 
   onClick() {
     this.onTabsLoading(this.subActiveTab);
-    if (this.roleType === 4 || this.roleType === 5) {
-      if (this.makerWithMe) {
-        this.getMakerLeads(this.itemsPerPage);
-      } else if (this.checkerWithMe) {
-        this.getCheckerLeads(this.itemsPerPage);
-      } else if (this.checkerWithCPC) {
-        this.getCheckerCPCLeads(this.itemsPerPage);
-      }
-    }
+    // if (this.roleType === 4 || this.roleType === 5) {
+    //   if (this.makerWithMe) {
+    //     this.getMakerLeads(this.itemsPerPage);
+    //   } else if (this.checkerWithMe) {
+    //     this.getCheckerLeads(this.itemsPerPage);
+    //   } else if (this.checkerWithCPC) {
+    //     this.getCheckerCPCLeads(this.itemsPerPage);
+    //   }
+    // }
   }
 
   onRoute(leadId, stageCode?, taskId?) {
@@ -1159,11 +1184,11 @@ export class DashboardComponent implements OnInit {
           break;
       }
     } else if (this.roleType === 4) {
-      if (this.makerWithMe) {
+      if (this.subActiveTab === this.displayCPCTabs.CPCMakerWithMe) {
         this.router.navigateByUrl(`/pages/cpc-maker/${leadId}/check-list`);
       }
     } else if (this.roleType === 5) {
-      if (this.checkerWithMe) {
+      if (this.subActiveTab === this.displayCPCTabs.CPCCheckerWithMe) {
         this.router.navigateByUrl(`/pages/cpc-checker/${leadId}/check-list`);
       }
     }
@@ -1175,17 +1200,6 @@ export class DashboardComponent implements OnInit {
     this.filterForm.reset();
     this.filterFormDetails = {};
     this.onTabsLoading(this.subActiveTab);
-    if (this.roleType === 4 || this.roleType === 5) {
-      if (this.makerWithMe) {
-        this.getMakerLeads(this.itemsPerPage);
-      } else if (this.makerWithCPC) {
-        this.getMakerCPCLeads(this.itemsPerPage);
-      } else if (this.checkerWithMe) {
-        this.getCheckerLeads(this.itemsPerPage);
-      } else if (this.checkerWithCPC) {
-        this.getCheckerCPCLeads(this.itemsPerPage);
-      }
-    }
   }
 
   onApply() {
@@ -1196,17 +1210,6 @@ export class DashboardComponent implements OnInit {
     // this.filterFormDetails.toDate = this.dateToFormate(this.filterFormDetails.toDate);
     this.filterFormDetails.toDate = this.utilityService.getDateFormat(this.filterFormDetails.toDate);
     this.onTabsLoading(this.subActiveTab);
-    if (this.roleType === 4 || this.roleType === 5) {
-      if (this.makerWithMe) {
-        this.getMakerLeads(this.itemsPerPage);
-      } else if (this.makerWithCPC) {
-        this.getMakerCPCLeads(this.itemsPerPage);
-      } else if (this.checkerWithMe) {
-        this.getCheckerLeads(this.itemsPerPage);
-      } else if (this.checkerWithCPC) {
-        this.getCheckerCPCLeads(this.itemsPerPage);
-      }
-    }
     // this.dashboardService.filterData(this.filterFormDetails);
   }
 
@@ -1297,10 +1300,10 @@ export class DashboardComponent implements OnInit {
               break;
           }
         } else if (this.roleType === 4) {
-          if (this.makerWithCPC) {
+          if (this.subActiveTab === this.displayCPCTabs.CPCMakerWithBranch) {
             this.router.navigateByUrl(`/pages/cpc-maker/${leadId}/check-list`);
           } else if (this.roleType === 5) {
-            if (this.checkerWithCPC) {
+            if (this.subActiveTab === this.displayCPCTabs.CPCCheckerWithBranch) {
               this.router.navigateByUrl(`/pages/cpc-checker/${leadId}/check-list`);
             }
           }

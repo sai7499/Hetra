@@ -181,6 +181,30 @@
     <!-- for CPC Maker and CPC Checker -->
     <div class="container-fluid mar-bottom" *ngIf="roleType == '4'">
         <ul class="nav nav-pills nav-justified" id="background_white">
+            <li (click)="onLeads(displayCPCTabs?.CPCMaker, displayCPCTabs?.CPCMakerWithMe)" [ngClass]="{'active':displayCPCTabs?.CPCMaker === activeTab}" routerLinkActive="active"><a data-toggle="tab">CPC Maker</a></li>
+        </ul>
+    </div>
+    <div class="container-fluid mar-bottom" *ngIf="roleType == '4'">
+        <ul *ngIf="displayCPCTabs?.CPCMaker === activeTab" class="nav nav-pills nav-justified" id="background_white">
+            <li class="active" (click)="leads(displayCPCTabs?.CPCMakerWithMe)" [ngClass]="{'active':displayCPCTabs?.CPCMakerWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Leads Pending with Me</a></li>
+            <li (click)="leads(displayCPCTabs?.CPCMakerWithBranch)" [ngClass]="{'active':displayCPCTabs?.CPCMakerWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Leads Pending with CPC</a></li>
+        </ul>
+    </div>
+
+    <div class="container-fluid mar-bottom" *ngIf="roleType == '5'">
+        <ul class="nav nav-pills nav-justified" id="background_white">
+            <li (click)="onLeads(displayCPCTabs?.CPCChecker, displayCPCTabs?.CPCCheckerWithMe)" [ngClass]="{'active':displayCPCTabs?.CPCChecker === activeTab}" routerLinkActive="active"><a data-toggle="tab">CPC Checker</a></li>
+        </ul>
+    </div>
+    <div class="container-fluid mar-bottom" *ngIf="roleType == '5'">
+        <ul *ngIf="displayCPCTabs?.CPCChecker === activeTab" class="nav nav-pills nav-justified" id="background_white">
+            <li class="active" (click)="leads(displayCPCTabs?.CPCCheckerWithMe)" [ngClass]="{'active':displayCPCTabs?.CPCCheckerWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Leads Pending with Me</a></li>
+            <li (click)="leads(displayCPCTabs?.CPCCheckerWithBranch)" [ngClass]="{'active':displayCPCTabs?.CPCCheckerWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Leads Pending with CPC</a></li>
+        </ul>
+    </div>
+
+    <!-- <div class="container-fluid mar-bottom" *ngIf="roleType == '4'">
+        <ul class="nav nav-pills nav-justified" id="background_white">
             <li (click)="onLeads('maker')" class="active" routerLinkActive="active"><a data-toggle="tab">CPC Maker</a></li>
         </ul>
     </div>
@@ -201,7 +225,7 @@
             <li class="active" (click)="onCPCCheckerClick('myChecker')" routerLinkActive="active"><a data-toggle="tab">Leads Pending with Me</a></li>
             <li (click)="onCPCCheckerClick('cpcChecker')" routerLinkActive="active"><a data-toggle="tab">Leads Pending with CPC</a></li>
         </ul>
-    </div>
+    </div> -->
 
     <div>
         <div class="container-fluid">
