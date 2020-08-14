@@ -18,7 +18,6 @@ export class UploadService {
     private apiService: ApiService
   ) {
     this.isMobile = environment.isMobile;
-
   }
 
   constructUploadModel(addDocRq) {
@@ -78,7 +77,7 @@ export class UploadService {
     return this.httpService.post(url, body);
   }
 
-  getDocumentDetails(id: number) {
+  getDocumentDetails(id: number, associatedWith) {
     const processId = '5ed3d854c78311eab03700505695f93b';
     const workflowId = '5eb62296c78311ea887700505695f93b';
     const projectId = '8bfa8dba945b11eabdcaf2fa9bec3d63';
@@ -89,6 +88,7 @@ export class UploadService {
       ProcessVariables: {
         userId: localStorage.getItem('userId'),
         associatedId: id,
+        associatedWith,
       },
     };
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;

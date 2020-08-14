@@ -124,7 +124,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       })
 
       if (this.productCatoryCode === 'UCV') {
-      this.getVehicleGridValue(formArray)
+        this.getVehicleGridValue(formArray)
       }
     }
   }
@@ -618,7 +618,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       ownerMobileNo: [''],
       address: ['', Validators.maxLength(120)],
       pincode: ['', Validators.maxLength(6)],
-      noOfVehicles: ['', Validators.required],
+      noOfVehicles: [''],
       vehicleId: 0,
       collateralId: 0,
       leadId: this.leadId,
@@ -646,9 +646,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.removeControl('category');
       controls.removeControl('manuFacMonthYear');
       controls.removeControl('ageOfAsset');
-      controls.removeControl('ageAfterTenure'); 
+      controls.removeControl('noOfVehicles');
+      controls.removeControl('ageAfterTenure');
 
       controls.addControl('exShowRoomCost', new FormControl('', [Validators.required, Validators.maxLength(10)]));
+      controls.addControl('noOfVehicles', new FormControl('', [Validators.required]));
+
     } else if (this.productCatoryCode === 'NC') {
       controls.removeControl('vehicleRegNo');
       controls.removeControl('assetCostGrid');
@@ -663,10 +666,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.removeControl('exShowRoomCost');
       controls.removeControl('manuFacMonthYear');
       controls.removeControl('ageOfAsset');
-      controls.removeControl('ageAfterTenure'); 
+      controls.removeControl('ageAfterTenure');
+      controls.removeControl('noOfVehicles');
 
       controls.addControl('vehicleUsage', new FormControl('', Validators.required));
       controls.addControl('exShowRoomCost', new FormControl('', Validators.required));
+      controls.addControl('noOfVehicles', new FormControl('', [Validators.required]));
     } else if (this.productCatoryCode === 'UC') {
 
       controls.removeControl('vehicleRegNo');
@@ -682,7 +687,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.removeControl('category');
       controls.removeControl('manuFacMonthYear');
       controls.removeControl('ageOfAsset');
-      controls.removeControl('ageAfterTenure'); 
+      controls.removeControl('ageAfterTenure');
+      controls.removeControl('noOfVehicles');
 
       controls.addControl('assetCostIBB', new FormControl('', Validators.required));
       controls.addControl('assetCostCarTrade', new FormControl('', Validators.required));
@@ -700,12 +706,13 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.removeControl('rcOwnerName');
       controls.removeControl('ownerMobileNo');
       controls.removeControl('address');
+      controls.removeControl('noOfVehicles');
       controls.removeControl('pincode');
       controls.removeControl('exShowRoomCost');
       controls.removeControl('category');
       controls.removeControl('manuFacMonthYear');
       controls.removeControl('ageOfAsset');
-      controls.removeControl('ageAfterTenure'); 
+      controls.removeControl('ageAfterTenure');
 
       controls.addControl('vehicleRegNo', new FormControl('', Validators.required));
       controls.addControl('assetCostGrid', new FormControl('', Validators.required));
