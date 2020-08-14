@@ -28,6 +28,8 @@ export class PdListComponent implements OnInit {
   showStatus: boolean;
   pdStatusValue: any;
   isFiCumPD: boolean;
+  fiCumPdStatusString: string;
+  fiCumPdStatus: boolean;
 
   constructor(private labelsData: LabelsService,
     private router: Router,
@@ -37,6 +39,12 @@ export class PdListComponent implements OnInit {
     private activatedRoute: ActivatedRoute) { }
 
   async ngOnInit() {
+    this.fiCumPdStatusString = (localStorage.getItem('isFiCumPd'));
+    if (this.fiCumPdStatusString == 'false') {
+      this.fiCumPdStatus = false
+    } else if (this.fiCumPdStatusString == 'true') {
+      this.fiCumPdStatus = true
+    }
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
@@ -70,7 +78,7 @@ export class PdListComponent implements OnInit {
       // leadId: 153,
       //  uncomment this once get proper Pd data for perticular
       leadId: this.leadId,
-      userId: '1001',
+      userId: localStorage.getItem('userId'),
     };
     this.personalDiscussionService.getPdList(data).subscribe((value: any) => {
       const processvariables = value.ProcessVariables;
@@ -166,7 +174,13 @@ export class PdListComponent implements OnInit {
   }
 
   onNavigateBack() {
-    this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
+    if (this.fiCumPdStatus == false) {
+      this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
+      // this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+    } else if (this.fiCumPdStatus == true) {
+      this.router.navigate(['pages/dde/' + this.leadId + '/tvr-details']);
+
+    }
 
   }
   onNavigateNext() {
