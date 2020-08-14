@@ -48,10 +48,10 @@ export class ChequeTrackingComponent implements OnInit {
     });
   }
   onUpdate() {
-   
+    this.router.navigate([`/pages/dashboard`]);
   }
   onBack() {
-
+    this.router.navigate([`/pages/dashboard`]);
   }
 
 }
