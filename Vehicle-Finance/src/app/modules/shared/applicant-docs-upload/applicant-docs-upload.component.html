@@ -263,7 +263,7 @@
                         [format]="'dd/MM/yyyy'"
                         [activeView]="'decade'"
                         placeholder="Deferral Date"
-                        formControlName="deferralDate"
+                        formControlName="deferredDate"
                         [min]="
                           (uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)
                             .value | docsUpload: i) || toDayDate

@@ -208,9 +208,9 @@ export class UploadModalComponent {
             associatedId: this.docsDetails.associatedId,
             associatedWith: this.docsDetails.associatedWith,
             formArrayIndex: this.docsDetails.formArrayIndex,
-            deferralDate:
+            deferredDate:
               this.utilityService.getDateFormat(
-                this.docsDetails.deferralDate
+                this.docsDetails.deferredDate
               ) || '',
             isDeferred: this.docsDetails.isDeferred,
           };

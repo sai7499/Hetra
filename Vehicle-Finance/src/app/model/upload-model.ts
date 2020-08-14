@@ -43,7 +43,7 @@ export interface DocRequest {
   docSize?: number;
   docsType?: string;
   docsTypeForString?: string;
-  deferralDate?: string;
+  deferredDate?: string;
   isDeferred?: string;
 }
 
@@ -63,6 +63,6 @@ export interface DocumentDetails {
   formArrayIndex?: number;
   imageUrl?: string;
   docsTypeForString?: string;
-  deferralDate?: string;
+  deferredDate?: string;
   isDeferred?: string;
 }
