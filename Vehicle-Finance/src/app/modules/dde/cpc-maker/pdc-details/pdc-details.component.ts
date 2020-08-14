@@ -171,7 +171,6 @@ onBack() {
 
 }
 getData() {
-alert(localStorage.getItem('pdcData'));
 const data = JSON.parse(localStorage.getItem('pdcData'));
 if (data) {
   const spdcControl = this.pdcForm.controls.spdc as FormArray;
