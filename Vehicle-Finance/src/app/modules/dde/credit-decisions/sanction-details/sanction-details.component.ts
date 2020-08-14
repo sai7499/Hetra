@@ -172,15 +172,15 @@ salesResponse: any;
 
   onBack() {
     if(this.roleType == '1') {
-      this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
+      this.router.navigate([`/pages/credit-decisions/${this.leadId}/disbursement`]);
     } else if (this.roleType == '2' ) {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/term-sheet`]);
       // tslint:disable-next-line: triple-equals
       } else if (this.roleType == '4') {
-        this.router.navigate([`pages/cpc-maker/${this.leadId}/negotiation`]);
+        this.router.navigate([`pages/cpc-maker/${this.leadId}/disbursement`]);
       // tslint:disable-next-line: triple-equals
       } else if ( this.roleType == '5') {
-      this.router.navigate([`pages/cpc-checker/${this.leadId}/negotiation`]);
+      this.router.navigate([`pages/cpc-checker/${this.leadId}/disbursement`]);
       }
   }
 
