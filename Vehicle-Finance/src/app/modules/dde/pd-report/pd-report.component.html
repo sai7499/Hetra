@@ -1,0 +1,34 @@
+<main class="mar-top90">
+    <div class="container overflow-hidden">
+        <h3 class="margin_zero"></h3>
+
+        <!-- <app-dde-header></app-dde-header> -->
+        <app-lead-section-header></app-lead-section-header>
+
+        <div class="multisteps-form">
+            <!-- <div class=" multisteps-form__progress " *ngIf !=" router.url == '/pages/fl-and-pd-report/:leadId/pd-dashboard'"> -->
+            <div class=" multisteps-form__progress ">
+                <button class="multisteps-form__progress-btn " [ngClass]="{ 'js-active': locationIndex>= 0}"
+                    type="button" id="applicant_basic_details" (click)="onNavigate('personal-details')"> Personal
+                    Details </button>
+                <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 1}"
+                    routerLink="'/pages/pd-dashboard/' + ${this.leadId}/${this.applicantId} + '/${url}'"
+                    type="button" id="applicant_bank_details" (click)="onNavigate('income-details')">
+                    <!--  (click)="onNavigate('income-details')" -->
+                    Income Details</button>
+                <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 2}"
+                    type="button" id="applicant_identity_details" (click)="onNavigate('reference-details')">Reference
+                    Details</button>
+                <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 3}"
+                    type="button" id="applicant_identity_details" (click)="onNavigate('other-details')">Other
+                    Details</button>
+            </div>
+
+            <div class="content">
+                <router-outlet></router-outlet>
+            </div>
+
+        </div>
+    </div>
+
+</main>

@@ -703,7 +703,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           // this.setDefaultValueForAddress(value, formGroupName);
         });
       });
-      console.log(this.currentPincode)
+    console.log(this.currentPincode)
   }
 
   setDefaultValueForAddress(value, formGroupName: string) {
@@ -935,7 +935,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         console.log(error);
       }
     );
-   
+
   }
 
   getAddressFormControls() {
@@ -1030,9 +1030,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         );
       }
     }
-    
+
     return details;
-    
+
   }
 
   setFormValue(applicantValue) {
@@ -1563,7 +1563,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   onFormSubmit() {
     console.log('Form', this.coApplicantForm);
     const formValue = this.coApplicantForm.getRawValue();
-    
+
     const coApplicantModel = {
       ...formValue,
       entity: this.getEntityObject(formValue.entity),
@@ -2095,8 +2095,16 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     let applicantId = this.applicantId;
     let aadhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
     this.biometricService.initIdenti5(aadhar, applicantId, function (result) {
+
       that.ngxService.stop();
-      let processVariables = JSON.parse(result).ProcessVariables
+      let res = JSON.parse(result);
+
+      if(res.pidErr) {
+        that.pTag.nativeElement.click();
+        that.ngxService.stop();
+        return;
+      }
+      let processVariables = res.ProcessVariables;
       // value = JSON.parse(value).ProcessVariables;
 
       console.log("KYC result&&&&@@@" + processVariables);
