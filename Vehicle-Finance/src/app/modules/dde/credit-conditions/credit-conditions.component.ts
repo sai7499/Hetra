@@ -269,7 +269,12 @@ export class CreditConditionsComponent implements OnInit {
         this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/negotiation')
       } else if(data == 'next' && this.userType == 2 && this.salesResponse == 'false' ){
         this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
+      } else if(data == 'next' && this.userType == 1  ){
+        this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet');
       }
+      else if(data == 'back' ){
+        this.router.navigateByUrl('/pages/dashboard')
+        }
     }
    
   }
