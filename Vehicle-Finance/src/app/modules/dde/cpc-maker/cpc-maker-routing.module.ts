@@ -10,6 +10,7 @@ import { CheckListComponent } from '../credit-decisions/check-list/check-list.co
 import { CpcMakerDdeComponent } from './cpc-maker-dde/cpc-maker-dde.component';
 import { PdcDetailsComponent } from './pdc-details/pdc-details.component';
 import { NegotiationComponent } from '@modules/negotiation/negotiation.component';
+import { DisbursementFormComponent } from '@modules/disbursement-section/disbursement-form/disbursement-form.component';
 
 const routes: Routes = [
   {
@@ -48,6 +49,10 @@ const routes: Routes = [
         {
             path: 'negotiation',
             component: NegotiationComponent
+        },
+        {
+            path: 'disbursement',
+            component: DisbursementFormComponent
         }
     ]
 }

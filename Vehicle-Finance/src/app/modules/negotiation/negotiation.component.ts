@@ -112,6 +112,8 @@ export class NegotiationComponent implements OnInit {
   pACInsuranceProviderName: any;
   vASInsuranceProvidersName: any;
   creditShieldInsuranceProviderName: any;
+  roleType: any;
+  showSaveButton: boolean;
   constructor(
     private labelsData: LabelsService,
     private NegotiationService: NegotiationService,
@@ -120,7 +122,10 @@ export class NegotiationComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private leadStoreService: LeadStoreService,
     private sharedData: SharedService,
-  ) { 
+    private loginStoreService: LoginStoreService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     this.sharedData.leadData$.subscribe((value) => {
       this.leadData = value;
     });
@@ -138,8 +143,15 @@ export class NegotiationComponent implements OnInit {
     this.getInsuranceLOV();
     this.loadForm();
     this.getAssetDetails();
-    if (this.view)
+    if (this.view) {
       this.fetchValue();
+    }
+
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+        // this.roleId = value.roleId;
+        this.roleType = value.roleType;
+        console.log('role Type', this.roleType);
+      });
   }
   onChangeLanguage(labels: string) {
     if (labels === 'Hindi') {
@@ -458,7 +470,7 @@ export class NegotiationComponent implements OnInit {
   
     const  productCode = this.createLeadDataService.getLeadSectionData();
     console.log('product code',productCode['leadDetails']['productCatCode']);
-const data={
+    const data={
   "ProductCode": productCode['leadDetails']['productCatCode']?
                 productCode['leadDetails']['productCatCode']:null
         }
@@ -794,7 +806,25 @@ const data={
       insuranceType:insuranceType, // motor 
       applicantId:this.LeadReferenceDetails[0].ApplicationId
     }
-  console.log("applicant detail",insuranceType,event,data ,this.LeadReferenceDetails)
+    console.log("applicant detail",insuranceType,event,data ,this.LeadReferenceDetails)
 
   }
+
+  //  buttons navigation
+  onNext() {
+    if(this.roleType == '1') {
+      this.router.navigate([`pages/credit-decisions/${this.leadId}/sanction-details`]);
+    } else if (this.roleType == '2' ) {
+      this.router.navigate([`pages/credit-decisions/${this.leadId}/term-sheet`]);
+    }
+    }
+  routerUrlIdentifier() {
+    if (this.router.url.includes('disbursement-section')) {
+      this.showSaveButton = false;
+    }
+  }
+  onBack() {
+  this.router.navigate([`pages/credit-decisions/${this.leadId}/negotiation`]);
+  }
+  
 }
