@@ -14,6 +14,7 @@ import { CheckListComponent } from './check-list/check-list.component';
 import {TermSheetFromDashboardComponent} from './term-sheet-from-dashboard/term-sheet-from-dashboard.component'
 import { NegotiationComponent } from '@modules/negotiation/negotiation.component';
 import { NegotiationModule } from '@modules/negotiation/negotiation.module';
+import { DisbursementSectionModule } from '@modules/disbursement-section/disbursement-section.module';
 @NgModule({
   declarations: [
     CreditDecisionComponent,
@@ -32,7 +33,8 @@ import { NegotiationModule } from '@modules/negotiation/negotiation.module';
     FormsModule,
     SharedModule,
     DdeSharedModule,
-    NegotiationModule
+    NegotiationModule,
+    DisbursementSectionModule
   ],
   exports: [
     TermSheetComponent ,
