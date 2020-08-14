@@ -14,11 +14,11 @@ import { ApplicantService } from '@services/applicant.service';
 
 
 @Component({
-  selector: 'app-fi-report-residence',
-  templateUrl: './fi-report-residence.component.html',
-  styleUrls: ['./fi-report-residence.component.css']
+  selector: 'app-fi-residence',
+  templateUrl: './fi-residence.component.html',
+  styleUrls: ['./fi-residence.component.css']
 })
-export class FiReportResidenceComponent implements OnInit {
+export class FiResidenceComponent implements OnInit {
 
   labels: any = {};
   LOV: any = [];
@@ -221,9 +221,9 @@ export class FiReportResidenceComponent implements OnInit {
           if (value['ProcessVariables'].error.message && value['ProcessVariables'].error.message != null) {
             const message = value.ProcessVariables.error.message;
             this.toasterService.showWarning('', message);
-            this.invalidPincode = true
+            this.invalidPincode = true;
           } else {
-            this.invalidPincode = true
+            this.invalidPincode = true;
 
           }
           // tslint:disable-next-line: no-string-literal
