@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  version: '1.0',
-  buildDate: '11/08/2020',
+  version: '0.10',
+  buildDate: '12/08/2020',
   apiVersion: {
     login: 'v3/',
     api: 'v2/',
@@ -22,8 +22,8 @@ export const environment = {
     supervisorProId:'ed58f72ea9a811ea824bf2fa9bec3d63',//supervisorRelated
     reinititateFiApi: '403a8a12b79511ea8afff2fa9bec3d63',
   },
-  // hostingEnvironment: 'DEV',
-  hostingEnvironment: 'UAT',
+  hostingEnvironment: 'DEV',
+  // hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
 
   host: '/appiyo/',
