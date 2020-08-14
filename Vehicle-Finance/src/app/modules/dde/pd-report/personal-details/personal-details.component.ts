@@ -79,7 +79,7 @@ export class PersonalDetailsComponent implements OnInit {
       gender: ['', Validators.required],
       dob: ['', Validators.required],
       maritalStatus: ['', Validators.required],
-      weddingAnniversaryDate: [''],
+      weddingAnniversaryDate: [{ value: '', disabled: true }],
       religion: ['', Validators.required],
       category: [''],
       physicallyChallenged: ['', Validators.required],
@@ -99,8 +99,8 @@ export class PersonalDetailsComponent implements OnInit {
       residentStatus: ['', Validators.required],
       accomodationType: ['', Validators.required],
       noOfYearsResidingInCurrResidence: ['', Validators.required],
-      noOfAdultDependant: ['', Validators.required],
-      noOfChildrenDependant: ['', Validators.required],
+      noOfAdultDependant: ['', Validators.compose([Validators.maxLength(2), Validators.required])],
+      noOfChildrenDependant: ['', Validators.compose([Validators.maxLength(2), Validators.required])],
       bankAccHolderName: ['', Validators.required],
       branch: ['', Validators.required],
       creditBureauScore: [{ value: '-1', disabled: true }]
@@ -146,8 +146,7 @@ export class PersonalDetailsComponent implements OnInit {
     let second = '';
     let third = '';
 
-    let nameOfSplit = personalPDDetais.fatherFullName.split(' ');
-
+    let nameOfSplit = personalPDDetais.fatherFullName ? personalPDDetais.fatherFullName.split(' ') : [];
     if (nameOfSplit && nameOfSplit.length > 0) {
       first = nameOfSplit[0];
       second = nameOfSplit[1] ? nameOfSplit[1] : '';
@@ -207,7 +206,7 @@ export class PersonalDetailsComponent implements OnInit {
       this.personalDetailsForm.addControl('weddingAnniversaryDate', new FormControl('', [Validators.required]));
     } else {
       this.personalDetailsForm.removeControl('weddingAnniversaryDate')
-      this.personalDetailsForm.addControl('weddingAnniversaryDate', new FormControl(''));
+      this.personalDetailsForm.addControl('weddingAnniversaryDate', new FormControl({ value: '', disabled: true }));
     }
   }
 
@@ -246,7 +245,7 @@ export class PersonalDetailsComponent implements OnInit {
 
     formValue.applicantFullName = formValue.firstName + ' ' + formValue.middleName + ' ' + formValue.lastName;
     formValue.fatherFullName = formValue.fatherFirstName + ' ' + formValue.fatherMiddleName + ' ' + formValue.fatherLastName;
-    formValue.dob = formValue.dob ? this.utilityService.convertDateTimeTOUTC(formValue.dob, 'DD/MM/YYYY') : null;;
+    formValue.dob = formValue.dob ? this.utilityService.convertDateTimeTOUTC(formValue.dob, 'DD/MM/YYYY') : null;
     formValue.weddingAnniversaryDate = formValue.weddingAnniversaryDate ? this.utilityService.convertDateTimeTOUTC(formValue.weddingAnniversaryDate, 'DD/MM/YYYY') : null;
 
     if (this.personalDetailsForm.valid) {

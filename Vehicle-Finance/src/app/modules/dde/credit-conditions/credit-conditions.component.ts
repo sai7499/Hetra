@@ -110,7 +110,7 @@ export class CreditConditionsComponent implements OnInit {
         creditId: new FormControl(data.creditId ? data.creditId : ''),
         creditCondition: new FormControl({ value: data.creditCondition ? data.creditCondition : '', disabled: false }),
         salesResponse: new FormControl({ value: data.salesResponse ? data.salesResponse : '', disabled: true }),
-        isDocReq: new FormControl(data.isDocReq ? data.isDocReq : null),
+        isDocReq: new FormControl({value:data.isDocReq ? data.isDocReq : null, disabled: false}),
         creditAction: new FormControl({value:data.creditAction ? 
           data.creditAction : null,disabled:!data.is_sales_response_completed}),
         defferedDate: new FormControl(data.defferedDate ? data.defferedDate : null)
@@ -120,7 +120,7 @@ export class CreditConditionsComponent implements OnInit {
         creditCondition: new FormControl({ value: data.creditCondition ? data.creditCondition : '', disabled: true }),
         salesResponse: new FormControl({ value:data.salesResponse ? data.salesResponse : '', disabled: false }),
         creditId: new FormControl(data.creditId ? data.creditId : ''),
-        isDocReq: new FormControl(data.isDocReq ? data.isDocReq : null),
+        isDocReq: new FormControl({value:data.isDocReq ? data.isDocReq : null, disabled: true}),
         creditAction: new FormControl({value:data.creditAction ? 
           data.creditAction : null,disabled:true}),
         defferedDate: new FormControl(data.defferedDate ? data.defferedDate : null)
@@ -269,8 +269,11 @@ export class CreditConditionsComponent implements OnInit {
         this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/negotiation')
       } else if(data == 'next' && this.userType == 2 && this.salesResponse == 'false' ){
         this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
-      } else if(data == 'next' && this.userType == 1  ){
+      }else if(data == 'next' && this.userType == 1  ){
         this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet');
+      }
+      else if(data == 'back' ){
+        this.router.navigateByUrl('/pages/dashboard')
       }
       else if(data == 'back' ){
         this.router.navigateByUrl('/pages/dashboard')
