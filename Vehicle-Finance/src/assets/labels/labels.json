@@ -1471,6 +1471,18 @@
     "selfieWithCustomer": "Selfie with Customer",
     "uploadImages": "Upload Images",
     "opinionOfPDOfficer": "Opinion of PD Officer",
+    "chequeTracking" : "Cheque Tracking",
+    "chequeMode" : "Mode",
+    "chequeNumber" : "Cheque Number",
+    "chequeDate" : "Cheque Date",
+    "chequeAmount" : "Cheque Amount",
+    "chequestatus" : "Cheque Status",
+    "statusUpdatedOn" : "Status Updated On",
+    "payableTo" : "Payabe To",
+    "favouringTo" : "Favouring To",
+    "chequeRemark" : "Remark",
+    "initialDisbursement" : "Initiate Disbursement",
+    
     "validationData": {
         "name": {
             "maxLength": {

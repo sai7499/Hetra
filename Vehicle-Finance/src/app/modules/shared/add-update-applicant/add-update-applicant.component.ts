@@ -2055,13 +2055,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         //console.log('responce Pan Validation', responce)
         if (responce['ProcessVariables'].error.code == '0') {
           this.toasterService.showSuccess(responce['ProcessVariables'].error.message,
-            'Pan Validation Successful');
+            'PAN Validation Successful');
           this.showEkycbutton = true;
         } else {
           this.panValidate = true;
           this.toasterService.showError(
             responce['ProcessVariables'].error.message,
-            'Pan validation Error'
+            'PAN Validation Error'
           );
 
         }
