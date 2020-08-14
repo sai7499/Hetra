@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FiReportOfficeComponent } from './fi-report-office.component';
+import { FiResidenceComponent } from './fi-residence.component';
 
-describe('FiReportOfficeComponent', () => {
-  let component: FiReportOfficeComponent;
-  let fixture: ComponentFixture<FiReportOfficeComponent>;
+describe('FiResidenceComponent', () => {
+  let component: FiResidenceComponent;
+  let fixture: ComponentFixture<FiResidenceComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FiReportOfficeComponent ]
+      declarations: [ FiResidenceComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FiReportOfficeComponent);
+    fixture = TestBed.createComponent(FiResidenceComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

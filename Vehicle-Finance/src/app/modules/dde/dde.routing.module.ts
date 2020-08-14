@@ -23,6 +23,7 @@ import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
 import { FiListComponent } from './fi-list/fi-list.component';
 import { PdListComponent } from './pd-list/pd-list.component';
 import { PddDetailsComponent } from './pdd-details/pdd-details.component';
+import { ChequeTrackingComponent} from './cheque-tracking/cheque-tracking.component'
 
 const routes: Routes = [
   {
@@ -119,9 +120,14 @@ const routes: Routes = [
         path: 'pdd-details',
         component: PddDetailsComponent,
       },
-      
+      {
+        path: 'cheque-tracking',
+        component: ChequeTrackingComponent,
+      },
+
     ],
   },
+  
 ];
 
 @NgModule({
