@@ -394,6 +394,11 @@ export class ApiService {
       workflowId: '76f72586b22e11ea87a8f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
+    autoDeviation: {
+      processId: '2ddfa32cd8b311ea8ba800505695f93b',
+      workflowId: '6a6dec02d7a711eabfa200505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
     saveorUpdateDeviation: {
       processId: '0e3ffa76b13f11ea86b8f2fa9bec3d63',
       workflowId: '0e10bb58b13f11ea86b8f2fa9bec3d63',

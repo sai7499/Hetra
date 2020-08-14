@@ -146,8 +146,7 @@ export class PersonalDetailsComponent implements OnInit {
     let second = '';
     let third = '';
 
-    let nameOfSplit = personalPDDetais.fatherFullName.split(' ');
-
+    let nameOfSplit = personalPDDetais.fatherFullName ? personalPDDetais.fatherFullName.split(' ') : [];
     if (nameOfSplit && nameOfSplit.length > 0) {
       first = nameOfSplit[0];
       second = nameOfSplit[1] ? nameOfSplit[1] : '';
