@@ -1471,6 +1471,13 @@
     "selfieWithCustomer": "Selfie with Customer",
     "uploadImages": "Upload Images",
     "opinionOfPDOfficer": "Opinion of PD Officer",
+    "pddDetails": "PDD Details",
+    "expectedDate": "Expected Date",
+    "viewDocument": "View Document",
+    "collectedDate": "Collected Date",
+    "cpcCheck": "CPC Check",
+    "physicalTrackingNumber": "Physical Tracking Number",
+
     "validationData": {
         "name": {
             "maxLength": {
