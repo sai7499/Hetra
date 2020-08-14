@@ -48,7 +48,7 @@ export class ChequeTrackingComponent implements OnInit {
     });
   }
   onUpdate() {
-
+   
   }
   onBack() {
 
