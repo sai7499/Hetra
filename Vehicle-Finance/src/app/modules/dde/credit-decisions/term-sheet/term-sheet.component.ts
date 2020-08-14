@@ -125,12 +125,13 @@ export class TermSheetComponent implements OnInit {
   // }
   assignTaskToTSAndCPC(){
     const ProcessVariables = {
-      "leadId": this.isLeadId,
+      "leadId": this.leadId,
       "userId":this.userId
     };
     this.termSheetService.assignTaskToTSAndCPC(ProcessVariables).subscribe((res)=>{
       if(res['ProcessVariables'].error['code'] == "0"){
         this.toasterService.showSuccess("Record Assigned Successfuly", '');
+        this.router.navigateByUrl("/pages/dashboard");
 
       }else{
         if(this.roleType == '2' && !this.isApprove){

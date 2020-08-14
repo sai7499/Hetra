@@ -33,6 +33,27 @@ export class DeviationService {
     return this.httpService.post(url, body);
   }
 
+  autoDeviationDetails(data) {
+    // 
+
+    const processId = this.apiService.api.autoDeviation.processId;
+    const workflowId = this.apiService.api.autoDeviation.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
+
+    const body: RequestEntity = {
+
+      processId: processId,
+      ProcessVariables: data,
+      workflowId: workflowId,
+      projectId: projectId
+
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+
+  }
+
   getDeviationsMaster(data) {
 
     const processId = this.apiService.api.getDeviationsMaster.processId;

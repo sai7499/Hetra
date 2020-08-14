@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
-import { FiReportOfficeComponent } from './fi-business/fi-report-office.component';
+import { FiBusinessComponent } from './fi-business/fi-business.component';
 import { FiReportComponent } from './fi-report/fi-report.component';
-import { FiReportResidenceComponent } from './fi-residence/fi-report-residence.component';
+import { FiResidenceComponent } from './fi-residence/fi-residence.component';
 
 const routes: Routes = [
   {
@@ -13,19 +13,19 @@ const routes: Routes = [
     children: [
       {
         path: ':applicantId/fi-residence',
-        component: FiReportResidenceComponent
+        component: FiResidenceComponent
       },
       {
         path: ':applicantId/fi-residence/:version',
-        component: FiReportResidenceComponent
+        component: FiResidenceComponent
       },
       {
         path: ':applicantId/fi-business',
-        component: FiReportOfficeComponent
+        component: FiBusinessComponent
       },
       {
         path: ':applicantId/fi-business/:version',
-        component: FiReportOfficeComponent
+        component: FiBusinessComponent
       }
 
     ]
