@@ -18,7 +18,6 @@ import { DocumentDetails } from '@model/upload-model';
 import { Constant } from '@assets/constants/constant';
 import { environment } from 'src/environments/environment';
 
-
 @Component({
   selector: 'app-upload-modal',
   templateUrl: './upload-modal.component.html',
@@ -39,11 +38,10 @@ export class UploadModalComponent {
   fileInput: ElementRef;
   isMobile: any;
 
-
   constructor(
     private uploadService: UploadService,
     private utilityService: UtilityService,
-    private camera: Camera,
+    private camera: Camera
   ) {
     this.isMobile = environment.isMobile;
   }
@@ -210,6 +208,11 @@ export class UploadModalComponent {
             associatedId: this.docsDetails.associatedId,
             associatedWith: this.docsDetails.associatedWith,
             formArrayIndex: this.docsDetails.formArrayIndex,
+            deferralDate:
+              this.utilityService.getDateFormat(
+                this.docsDetails.deferralDate
+              ) || '',
+            isDeferred: this.docsDetails.isDeferred,
           };
           if (
             this.docsDetails.docsTypeForString === 'profile' ||
@@ -230,7 +233,6 @@ export class UploadModalComponent {
       );
   }
 
-
   async takePicture() {
     const options: CameraOptions = {
       quality: 50,
@@ -246,16 +248,15 @@ export class UploadModalComponent {
     return this.camera.getPicture(options);
   }
 
-   openCamera() {
+  openCamera() {
     this.takePicture().then((uri) => {
-      
       console.log('imageData', uri);
       this.imageUrl = uri;
       this.fileName = Math.random().toString(36).substring(2, 15);
-      this.fileSize = ""
-      this.fileType = "png";
-      console.log("fileName", this.fileName);
-      console.log("fileSize", this.fileSize);
+      this.fileSize = '';
+      this.fileType = 'png';
+      console.log('fileName', this.fileName);
+      console.log('fileSize', this.fileSize);
     });
   }
 

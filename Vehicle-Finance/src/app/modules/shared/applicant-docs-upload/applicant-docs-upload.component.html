@@ -1,9 +1,5 @@
-<div class="content" >
-  <form
-    class="multisteps-form__form"
-    
-    [formGroup]="uploadForm"
-  >
+<div class="content">
+  <form class="multisteps-form__form" [formGroup]="uploadForm">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
       <h4 class="title">Document upload</h4>
       <div class="panel-group" id="accordion">
@@ -240,6 +236,47 @@
                         *ngIf="subCat.code !== 3"
                       ></i>
                     </p>
+                  </div>
+                  <div
+                    class="col-sm-3 col-md-2"
+                    *ngIf="subCat.code !== 3"
+                    style="margin-top: 15px;"
+                  >
+                    <input
+                      formControlName="isDeferred"
+                      name="isDeferred"
+                      type="checkbox"
+                      (change)="toggleDeferralDate(subCat.code, i)"
+                    />
+                    <span id="address_section_checkbox_text" class="is-deferred"
+                      >&nbsp;isDeferred
+                    </span>
+                  </div>
+                  <div
+                    class="form-group col-sm-3 col-md-2"
+                    *ngIf="subCat.code !== 3"
+                  >
+                    <label for="edate">Deferral Date</label>
+                    <div class="input-group input-medium">
+                      <kendo-datepicker
+                        class="form-control mandatory"
+                        [format]="'dd/MM/yyyy'"
+                        [activeView]="'decade'"
+                        placeholder="Deferral Date"
+                        formControlName="deferralDate"
+                        [min]="
+                          (uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)
+                            .value | docsUpload: i) || toDayDate
+                        "
+                        [disabled]=""
+                      >
+                      </kendo-datepicker>
+                      <div class="invalid-feedback">
+                        <div *ngIf="checkDate(subCat.code, i, 'expiryDate')">
+                          Invalid date
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </ng-container>

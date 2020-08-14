@@ -18,7 +18,6 @@ export class UploadService {
     private apiService: ApiService
   ) {
     this.isMobile = environment.isMobile;
-
   }
 
   constructUploadModel(addDocRq) {
@@ -51,23 +50,21 @@ export class UploadService {
       },
     };
     //console.log(JSON.stringify(data));
-    console.log("base url",environment.baseUrl);
+    console.log('base url', environment.baseUrl);
     let url;
-    if(this.isMobile){
-       url = environment.mobileBaseUrl+'/addDigiDocument/';
-    }else{
-       url = environment.baseUrl+'/addDigiDocument/';
+    if (this.isMobile) {
+      url = environment.mobileBaseUrl + '/addDigiDocument/';
+    } else {
+      url = environment.baseUrl + '/addDigiDocument/';
     }
     // 'http://10.101.10.153/addDigiDocument/',
-    return this.httpService.docUpload(url,data);
-=======
-    console.log(JSON.stringify(data));
-    console.log('base url', environment.baseUrl);
-    const url =
-      //environment.baseUrl+'/addDigiDocument/';
-      'http://10.101.10.153/addDigiDocument/';
     return this.httpService.docUpload(url, data);
->>>>>>> Stashed changes
+    // console.log(JSON.stringify(data));
+    // console.log('base url', environment.baseUrl);
+    // const url =
+    //   //environment.baseUrl+'/addDigiDocument/';
+    //   'http://10.101.10.153/addDigiDocument/';
+    // return this.httpService.docUpload(url, data);
   }
 
   saveOrUpdateDocument(documentDetails: DocumentDetails[]) {

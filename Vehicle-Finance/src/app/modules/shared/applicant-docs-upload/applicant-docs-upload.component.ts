@@ -281,8 +281,23 @@ export class ApplicantDocsUploadComponent implements OnInit {
     console.log('this.uploadForm', this.uploadForm.value);
   }
 
+  toggleDeferralDate(categoryCode, index) {
+    const formArray = this.uploadForm.get(
+      `${this.FORM_ARRAY_NAME}_${categoryCode}`
+    ) as FormArray;
+    const formGroup = formArray.at(index);
+    console.log('checked value', formGroup.get('isDeferred').value);
+    const isChecked = formGroup.get('isDeferred').value;
+    if (isChecked) {
+      formGroup.get('deferralDate').enable();
+    } else {
+      formGroup.get('deferralDate').disable();
+    }
+  }
+
   getDocsFormControls(data?: DocumentDetails) {
     const document = data || {};
+    const isDeferred = document.isDeferred === '1';
     const controls = new FormGroup({
       documentName: new FormControl(document.documentName || ''),
       documentNumber: new FormControl(document.documentNumber || ''),
@@ -294,6 +309,10 @@ export class ApplicantDocsUploadComponent implements OnInit {
       ),
       file: new FormControl(document.dmsDocumentId || ''),
       documentId: new FormControl(document.documentId || 0),
+      isDeferred: new FormControl(isDeferred),
+      deferralDate: new FormControl(
+        this.utilityService.getDateFromString(document.deferralDate) || ''
+      ),
     });
     return controls;
   }
@@ -375,6 +394,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
       expiryDate: new FormControl(''),
       file: new FormControl(''),
       documentId: new FormControl(0),
+      deferralDate: new FormControl(''),
+      isDeferred: new FormControl(''),
     });
     formArray.push(controls);
   }
@@ -412,6 +433,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
     const documentNumber = formGroup.get('documentNumber').value;
     const documentId = formGroup.get('documentId').value;
     const documentName = formGroup.get('documentName').value;
+    const isDeferred = formGroup.get('isDeferred').value;
+    const deferralDate = formGroup.get('deferralDate').value;
 
     if (!imageType) {
       if (!documentName) {
@@ -423,6 +446,15 @@ export class ApplicantDocsUploadComponent implements OnInit {
       if (!documentNumber) {
         return this.toasterService.showError(
           'Please enter the document number',
+          ''
+        );
+      }
+    }
+
+    if (isDeferred) {
+      if (!deferralDate) {
+        return this.toasterService.showError(
+          'Please enter the deferral date',
           ''
         );
       }
@@ -485,6 +517,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
         },
       ],
       docsTypeForString: imageType,
+      deferralDate,
+      isDeferred: isDeferred ? '1' : '0',
     };
   }
 
