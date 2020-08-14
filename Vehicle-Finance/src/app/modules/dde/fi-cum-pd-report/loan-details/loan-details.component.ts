@@ -71,6 +71,11 @@ export class LoanDetailsComponent implements OnInit {
   productCategoryId: any;
   roleId: any;
   roleType: any;
+  regStatus: any;
+  engChassDisabled: boolean;
+  engChassRequired: boolean;
+  insuranceStatus: any;
+  insRequired: boolean;
 
 
 
@@ -185,6 +190,46 @@ export class LoanDetailsComponent implements OnInit {
 
       console.log('in get pd status', value);
     });
+  }
+
+
+  regCopyVerified(event: any) { // fun for conditional based validation for regcopy verified data field
+    console.log(event);
+    this.regStatus = event ? event : event;
+    if (this.regStatus === '1') {
+      this.engChassDisabled = false;
+      this.engChassRequired = true;
+      this.loanDetailsForm.get('engineNumber').enable();
+      this.loanDetailsForm.get('chasisNumber').setValidators(Validators.required);
+      this.loanDetailsForm.get('chasisNumber').enable();
+      this.loanDetailsForm.get('chasisNumber').setValidators(Validators.required);
+
+    } else if (this.regStatus !== '1') {
+      this.engChassDisabled = true;
+      this.engChassRequired = false;
+      this.loanDetailsForm.get('engineNumber').disable();
+      this.loanDetailsForm.get('chasisNumber').clearValidators();
+      this.loanDetailsForm.get('chasisNumber').updateValueAndValidity();
+      this.loanDetailsForm.get('chasisNumber').disable();
+      this.loanDetailsForm.get('chasisNumber').updateValueAndValidity();
+
+    }
+
+  }
+  insCopyVerified(event) {
+    this.insuranceStatus = event ? event : event;
+    if (this.insuranceStatus === '1') {
+      this.insRequired = true;
+      this.loanDetailsForm.get('insuranceValidity').enable();
+      this.loanDetailsForm.get('insuranceValidity').setValidators(Validators.required);
+    } else if (this.insuranceStatus !== '1') {
+      this.insRequired = true;
+      this.loanDetailsForm.get('insuranceValidity').disable();
+      this.loanDetailsForm.get('insuranceValidity').clearValidators();
+      this.loanDetailsForm.get('insuranceValidity').updateValueAndValidity();
+
+    }
+
   }
 
   initForm() {
