@@ -718,6 +718,11 @@ export class ApiService {
       processId: '67441434dd9711ea944100505695f93b',
       workflowId: '671dd0b2dd9711ea909f00505695f93b',
       projectId: environment.projectIds.salesProjectId
+    },
+    fetchPreimumAmount:{
+      processId: '3c99e428d71811eabcf800505695f93b',
+      workflowId: '3c71c4d4d71811eaabba00505695f93b',
+      projectId: environment.projectIds.externalApi
     }
   };
 }

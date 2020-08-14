@@ -57,4 +57,11 @@ export class PddDetailsComponent implements OnInit {
       
     });
   }
+  onSubmit() {
+    this.router.navigate([`/pages/dashboard`]);
+  }
+
+  onBack() {
+    this.router.navigate([`/pages/dashboard`]);
+  }
 }

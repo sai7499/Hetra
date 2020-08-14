@@ -108,6 +108,10 @@ export class NegotiationComponent implements OnInit {
   lifecovervalueSelected: any;
   NegotiationId: any;
   leadData;
+  motorInsuranceProviderName: any;
+  pACInsuranceProviderName: any;
+  vASInsuranceProvidersName: any;
+  creditShieldInsuranceProviderName: any;
   constructor(
     private labelsData: LabelsService,
     private NegotiationService: NegotiationService,
@@ -125,7 +129,8 @@ export class NegotiationComponent implements OnInit {
     // const leadData = this.createLeadDataService.getLeadSectionData();
     // this.leadId = leadData['leadId']
     this.userId = localStorage.getItem('userId');
-    this.onChangeLanguage('English');this.getLeadId();
+    this.onChangeLanguage('English');
+    this.getLeadId();
 
     // this.initForm();
     this.getLabels();
@@ -322,6 +327,7 @@ export class NegotiationComponent implements OnInit {
           x.fundingRequiredforMI.enable();
           x.MIPremiumAmount.enable();
         }
+        this.motorInsuranceProviderName = event.target.value
       }
       else if (value == 'PAC') {
         let x = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls'].pac['controls']
@@ -337,6 +343,7 @@ export class NegotiationComponent implements OnInit {
           x.fundingRequiredforPAC.enable();
           x.PACPremiumAmount.enable();
         }
+        this.pACInsuranceProviderName = event.target.value
       }
       else if (value == 'VAS') {
         let x = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls'].vas['controls']
@@ -352,6 +359,7 @@ export class NegotiationComponent implements OnInit {
           x.fundingRequiredforVAS.enable();
           x.VASPremiumAmount.enable();
         }
+        this.vASInsuranceProvidersName = event.target.value
       }
       else if (value == 'creditShield') {
         let x = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls'].life['controls']
@@ -367,6 +375,7 @@ export class NegotiationComponent implements OnInit {
           x.fundingRequiredforlifeCover.enable();
           x.lifeCoverPremiumAmount.enable();
         }
+        this.creditShieldInsuranceProviderName = event.target.value
       }
       else if (value == 'fastTag') {
         let x = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].fastTag.get('fundingRequiredforFASTag');
@@ -452,7 +461,7 @@ export class NegotiationComponent implements OnInit {
 const data={
   "ProductCode": productCode['leadDetails']['productCatCode']?
                 productCode['leadDetails']['productCatCode']:null
-}
+        }
     this.NegotiationService
       .getInsuranceLOV(data)
       .subscribe((res: any) => {
@@ -706,8 +715,10 @@ const data={
       this.CrossSellOthers.push(fasttagValue);
     });
     this.NegotiationService
-      .submitNegotiation(this.leadId, this.userId, this.NegotiationId, this.Applicants, this.CombinedLoan, this.Deductions, this.Asset,
-        this.CrossSellInsurance, this.CrossSellOthers)
+      .submitNegotiation(this.leadId, this.userId, this.NegotiationId, 
+        this.Applicants, this.CombinedLoan, this.Deductions, this.Asset,
+        this.CrossSellInsurance, 
+        this.CrossSellOthers)
       .subscribe((res: any) => {
         this.NegotiationId = res.ProcessVariables.NegotiationId;
       });
@@ -776,5 +787,14 @@ const data={
           })
         });
       });
+  }
+  fetchPreimumAmount(insuranceType,event){
+    const data ={
+      insuranceProvider:2,//icic chola
+      insuranceType:insuranceType, // motor 
+      applicantId:this.LeadReferenceDetails[0].ApplicationId
+    }
+  console.log("applicant detail",insuranceType,event,data ,this.LeadReferenceDetails)
+
   }
 }
