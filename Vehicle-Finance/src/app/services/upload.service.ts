@@ -60,6 +60,14 @@ export class UploadService {
     }
     // 'http://10.101.10.153/addDigiDocument/',
     return this.httpService.docUpload(url,data);
+=======
+    console.log(JSON.stringify(data));
+    console.log('base url', environment.baseUrl);
+    const url =
+      //environment.baseUrl+'/addDigiDocument/';
+      'http://10.101.10.153/addDigiDocument/';
+    return this.httpService.docUpload(url, data);
+>>>>>>> Stashed changes
   }
 
   saveOrUpdateDocument(documentDetails: DocumentDetails[]) {
@@ -80,7 +88,7 @@ export class UploadService {
     return this.httpService.post(url, body);
   }
 
-  getDocumentDetails(id: number) {
+  getDocumentDetails(id: number, associatedWith) {
     const processId = '5ed3d854c78311eab03700505695f93b';
     const workflowId = '5eb62296c78311ea887700505695f93b';
     const projectId = '8bfa8dba945b11eabdcaf2fa9bec3d63';
@@ -91,6 +99,7 @@ export class UploadService {
       ProcessVariables: {
         userId: localStorage.getItem('userId'),
         associatedId: id,
+        associatedWith,
       },
     };
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
@@ -139,10 +148,10 @@ export class UploadService {
         },
       },
     };
-    const url = environment.baseUrl+'/downloadDigiDocument/';
-    console.log("base url",window.location.origin);
-         // 'http://10.101.10.153/downloadDigiDocument/',
-   
-    return this.httpService.docUpload(url,data);
+    // const url = environment.baseUrl+'/downloadDigiDocument/';
+    console.log('base url', window.location.origin);
+    const url = 'http://10.101.10.153/downloadDigiDocument/';
+
+    return this.httpService.docUpload(url, data);
   }
 }

@@ -191,12 +191,21 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
   setDocumentDetails() {
     this.uploadService
-      .getDocumentDetails(this.applicantId)
+      .getDocumentDetails(this.applicantId, this.associatedWith)
       .subscribe((value: any) => {
         console.log('doc details', value);
-        const docDetails: DocumentDetails[] =
-          value.ProcessVariables.documentDetails;
+        const processVariables = value.ProcessVariables;
+        const docDetails: DocumentDetails[] = processVariables.documentDetails;
         this.documentArr = docDetails || [];
+        const photo = processVariables.photo;
+        const signature = processVariables.signature;
+        if (photo) {
+          this.DEFAULT_PROFILE_IMAGE = 'data:image/jpeg;base64,' + photo;
+        }
+
+        if (signature) {
+          this.DEFAULT_SIGNATURE_IMAGE = 'data:image/jpeg;base64,' + signature;
+        }
         console.log('this.documentArr', this.documentArr);
         if (!docDetails) {
           this.subCategories.forEach((subCategory) => {
@@ -213,19 +222,19 @@ export class ApplicantDocsUploadComponent implements OnInit {
           ) as FormArray;
           if (formArray) {
             formArray.push(this.getDocsFormControls(docs));
-            if (docs.categoryCode === '50' && docs.subCategoryCode === '1') {
-              this.getBase64String(docs.dmsDocumentId).then((value: any) => {
-                this.DEFAULT_PROFILE_IMAGE =
-                  'data:image/jpeg;base64,' + value.imageUrl;
-              });
-            }
+            // if (docs.categoryCode === '50' && docs.subCategoryCode === '1') {
+            //   this.getBase64String(docs.dmsDocumentId).then((value: any) => {
+            //      this.DEFAULT_PROFILE_IMAGE =
+            //       'data:image/jpeg;base64,' + value.imageUrl;
+            //   });
+            // }
 
-            if (docs.categoryCode === '50' && docs.subCategoryCode === '2') {
-              this.getBase64String(docs.dmsDocumentId).then((value: any) => {
-                this.DEFAULT_SIGNATURE_IMAGE =
-                  'data:image/jpeg;base64,' + value.imageUrl;
-              });
-            }
+            // if (docs.categoryCode === '50' && docs.subCategoryCode === '2') {
+            //   this.getBase64String(docs.dmsDocumentId).then((value: any) => {
+            //      this.DEFAULT_SIGNATURE_IMAGE =
+            //       'data:image/jpeg;base64,' + value.imageUrl;
+            //   });
+            // }
           }
         });
 
@@ -558,26 +567,18 @@ export class ApplicantDocsUploadComponent implements OnInit {
       this.DEFAULT_PROFILE_IMAGE = 'data:image/jpeg;base64,' + event.imageUrl;
       const data = {
         inputValue: event.imageUrl,
-        isCreate: true,
-        isFingerPrint: false,
         isPhoto: true,
-        isSignature: false,
-        tableName: 'ind_identification_proof',
         applicantId: this.applicantId,
       };
-      // this.uploadPhotoOrSignature(data);
+      this.uploadPhotoOrSignature(data);
     } else if (event.docsTypeForString === 'signature') {
       this.DEFAULT_SIGNATURE_IMAGE = 'data:image/jpeg;base64,' + event.imageUrl;
       const data = {
         inputValue: event.imageUrl,
-        isCreate: true,
-        isFingerPrint: false,
-        isPhoto: false,
         isSignature: true,
-        tableName: 'ind_identification_proof',
         applicantId: this.applicantId,
       };
-      // this.uploadPhotoOrSignature(data);
+      this.uploadPhotoOrSignature(data);
     }
 
     event.imageUrl = '';
