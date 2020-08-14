@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PdReportComponent } from './pd-report.component';
+import { CpcMakerDdeComponent } from './cpc-maker-dde.component';
 
-describe('PdReportComponent', () => {
-  let component: PdReportComponent;
-  let fixture: ComponentFixture<PdReportComponent>;
+describe('CpcMakerDdeComponent', () => {
+  let component: CpcMakerDdeComponent;
+  let fixture: ComponentFixture<CpcMakerDdeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PdReportComponent ]
+      declarations: [ CpcMakerDdeComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PdReportComponent);
+    fixture = TestBed.createComponent(CpcMakerDdeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

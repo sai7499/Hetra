@@ -695,11 +695,12 @@ export class LoanDetailsComponent implements OnInit {
 
             if (this.version !== 'undefined') {
 
-              this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/reference-check/${this.version}`]);
+              // tslint:disable-next-line: max-line-length
+              this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/reference-check/${this.version}`]);
 
             } else {
 
-              this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/reference-check`]);
+              this.router.navigate([`/pages/pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/reference-check`]);
 
             }
 
@@ -734,11 +735,13 @@ export class LoanDetailsComponent implements OnInit {
 
   onNavigateBack() {
     if (this.version !== 'undefined') {
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile/${this.version}`]);
+      console.log('in routing defined version condition', this.version);
+      // tslint:disable-next-line: max-line-length
+      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
 
     } else {
-
-      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/customer-profile`]);
+      console.log('in routing undefined version condition', this.version);
+      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile`]);
 
     }
   }
