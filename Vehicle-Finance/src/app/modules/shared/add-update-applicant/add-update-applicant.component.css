@@ -274,18 +274,10 @@ select#select_main_button_match {
     color: red;
     padding-top: 0.5vw;
   } 
-
-  .btn-mar-bot{
-    margin-bottom: 10px!important;
-  }
 }
 
 .btn-space{
   margin-left: 8px!important;
 margin-right: 15px!important;
   
-}
-
-.btn-mar-bot{
-  margin-bottom: 80px;
 }

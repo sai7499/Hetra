@@ -80,7 +80,7 @@ const routes: Routes = [
           import('./modules/dde/dde.module').then((m) => m.DdeModule),
       },
       {
-        path: 'fi-cum-pd-dashboard', // added another routing for dde module to load from pd-dashboard
+        path: 'pd-dashboard', // added another routing for dde module to load from pd-dashboard
         loadChildren: () =>
           import('./modules/dde/dde.module').then((m) => m.DdeModule),
       },
@@ -99,23 +99,18 @@ const routes: Routes = [
           ).then((m) => m.DeviationDashoardModule),
       },
       {
-        path: 'fi-cum-pd-dashboard',
+        path: 'pd-dashboard',
         loadChildren: () =>
           import('./modules/dde/fi-cum-pd-report/fi-cum-pd-report.module').then(
             (m) => m.FiCumPdReportModule
           ),
       },
       {
-        path: 'pd-dashboard',
+        path: 'new-pd-dashboard',
         loadChildren: () =>
           import('./modules/dde/pd-report/pd-report.module').then(
             (m) => m.PdReportModule
           ),
-      },
-      {
-        path: 'pd-dashboard', // added another routing for dde module to load from pd-dashboard
-        loadChildren: () =>
-          import('./modules/dde/dde.module').then((m) => m.DdeModule),
       },
       {
         path: 'credit-decisions',
@@ -170,20 +165,6 @@ const routes: Routes = [
           import(
             './modules/dde/viability-dashboard/viability-dashboard.module'
           ).then((m) => m.ViabilityDashboardModule),
-      },
-      {
-        path: 'cpc-maker',
-        loadChildren: () =>
-          import(
-            './modules/dde/cpc-maker/cpc-maker.module'
-          ).then((m) => m.CpcMakerModule),
-      },
-      {
-        path: 'cpc-checker',
-        loadChildren: () =>
-          import(
-            './modules/dde/cpc-maker/cpc-maker.module'
-          ).then((m) => m.CpcMakerModule),
       },
     ],
   },

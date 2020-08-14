@@ -19,8 +19,6 @@ export class FiListComponent implements OnInit {
   leadData: {};
   applicantId: any;
   userId: any;
-  show: boolean;
-  showStatus: boolean;
   constructor(
     private labelDetails: LabelsService,
     private router: Router,
@@ -54,18 +52,7 @@ export class FiListComponent implements OnInit {
     );
     this.leadId = (await this.getLeadId()) as number;
     this.getFiList();
-    if (this.router.url.includes('/fi-dashboard')) {   // showing/hiding the buttons based on url
-
-      console.log(' pd-dashboard ');
-      this.show = true;
-
-    } else if (this.router.url.includes('/dde')) {
-      this.showStatus = true;
-
-    } else {
-      this.show = false;
-    }
-
+    // this.getPdList();
 
   }
 
@@ -125,17 +112,10 @@ export class FiListComponent implements OnInit {
     if (action === 'back') {
       this.router.navigate(['pages/dde/' + this.leadId + '/tvr-details']);
     } else if (action === 'next') {
-      this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+      this.router.navigate(['pages/dde/' + this.leadId + '/fi-cum-pd-list']);
 
     }
 
-
-  }
-  onNavigateToFiSummary() { // func to route to the pd dashboard
-
-    // http://localhost:4200/#/pages/dashboard/personal-discussion/my-pd-tasks
-
-    this.router.navigate([`/pages/dashboard`]);
 
   }
 }

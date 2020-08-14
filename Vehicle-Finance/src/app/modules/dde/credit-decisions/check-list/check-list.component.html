@@ -1,174 +1,459 @@
-<form class="form multisteps-form__form" style="height: auto" [formGroup]="checklistForm">
-    <div class="container overflow-hidden">
+<form class="form">
+  <div class="container overflow-hidden">
+    
+     
+      <div class="row js-active" data-animation="scaleIn"> 
+         
+                           
+          <div class="panel-group hidden-xs" id="accordion" >                            
+              <div class="panel panel-default">
+                  <div class="panel-heading panel-primary" id="headingTwo1">
+                    <h4 class="panel-title">
+                      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo1">
+                           Term sheets <i class="fa fa-angle-down"></i>
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseTwo1" class="panel-collapse collapse in" aria-expanded="true"  >
+                      <div class="panel-body"  >
+                      <div class="row" >
+                          <div class="form-group col-sm-1 col-md-1 col-lg-1">
+                            <p class="text-center">S.No</p>
+                          </div>
+                          <div class="form-group col-sm-3 col-md-4 col-lg-4 text-center row">
+                             
+                              <label for="document">Checklist</label>
+                             
+                              
+                          </div>
+                          <div class="form-group col-sm-2 col-md-2 text-center">
+                              <label for="document">Credit Officer</label>
+                              <!-- <input type="text" class="form-control_input" disabled value="Sandya" id=""> -->
+                          </div>
+                          <div class="form-group col-sm-2 col-md-2 text-center">
+                              <label for="documentnumber">CPC Maker</label>
+                              <!-- <input type="text" class="form-control_input" disabled value="Mohan" id=""> -->
+                          </div>
 
-
-        <div class="row js-active" data-animation="scaleIn">
-            <div class="panel-group hidden-xs" id="accordion">
-                <div class="panel panel-default">
-                    <div class="panel-heading panel-primary" id="headingTwo1">
-                        <h4 class="panel-title">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo1">
-                                Term sheets <i class="fa fa-angle-down"></i>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseTwo1" class="panel-collapse collapse in" aria-expanded="true">
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="form-group col-sm-1 col-md-1 col-lg-1">
-                                    <p class="text-center">S.No</p>
-                                </div>
-                                <div class="form-group col-sm-3 col-md-4 col-lg-4 text-center row">
-
-                                    <label for="document">Checklist</label>
-
-
-                                </div>
-                                <div class="form-group col-sm-2 col-md-2 text-center">
-                                    <label for="document">Credit Officer</label>
-                                    <!-- <input type="text" class="form-control_input" disabled value="Sandya" id=""> -->
-                                </div>
-                                <div class="form-group col-sm-2 col-md-2 text-center" *ngIf="roleType == '4' || roleType == '5'">
-                                    <label for="documentnumber">CPC Maker</label>
-                                    <!-- <input type="text" class="form-control_input" disabled value="Mohan" id=""> -->
-                                </div>
-
-                                <div class="form-group col-sm-2 col-md-2 text-center" *ngIf=" roleType == '5'">
-                                    <label for="documentnumber">CPC Checker</label>
-                                    <!-- <input type="text" class="form-control_input" disabled value="Krishna" id=""> -->
-                                </div>
-
-                                <!-- <div class="form-group col-sm-2 col-md-2 text-center" >
+                          <div class="form-group col-sm-2 col-md-2 text-center">
+                              <label for="documentnumber">CPC Checker</label>
+                              <!-- <input type="text" class="form-control_input" disabled value="Krishna" id=""> -->
+                          </div>
+                         
+                          <!-- <div class="form-group col-sm-2 col-md-2 text-center" >
                               <label for="documentnumber">Check</label>
                                <input type="checkbox" class="form-control_input" id="" (click)="selectedItem(item.key)"> 
                           </div> -->
-                            </div>
-                            <!-- <div  *ngFor = "let group of checklistForm.controls; let i = index " >
-                          {{group[i]}} -->
-                            <div class="row" formArrayName = "checklistArray"
-                               >
-                                <ng-container *ngFor=" let item of checklistForm.get('checklistArray')['controls']; let i = index" [formGroupName]="i" >
-                                    <div   class="col-sm-12 col-md-12 col-lg-12 row text-center">
-                                        <div class="form-group col-sm-1 col-md-1 col-lg-1 row">
-                                            <p class="text-center">{{i+ 1}}</p>
-                                        </div>
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4 text-center row">
-    
-                                            <p >{{ item['controls'].checklistName.value}}</p>
-                                        </div>
-                                        <div class="form-group col-sm-2 col-md-2">
-    
-                                            <select class="form-control" formControlName="coAnswer" 
-                                            >
-                                            <!-- [attr.disabled]="roleType != '2'" -->
-                                                <option value="null" >-- Select One --</option>
-                                                <option *ngFor="let checklist of checklistObject" value="{{checklist.key}}">
-                                                    {{checklist.value}}</option>
-                                            </select>
-                                             <div class="invalid-feedback text-center" *ngIf="t.controls[i].get('coAnswer').invalid && (t.controls[i].get('coAnswer').touched || t.controls[i].get('coAnswer').dirty)">
-                                                <p>Please Select One</p>
-                                            </div>
-    
-                                        </div>
-                                        <div class="form-group col-sm-2 col-md-2 text-center" *ngIf="roleType == '4' || roleType == '5'" >  
-    <!-- *ngIf="roleType == '4' || roleType == '5'" -->
-                                            <select class="form-control" formControlName="cpcMaker">
-                                                <option value="null" >-- Select One --</option>
-                                                <option *ngFor="let checklist of checklistObject" value="{{checklist.key}}">
-                                                    {{checklist.value}}</option>
-                                            </select>
-                                            <div class="invalid-feedback text-center" *ngIf="t.controls[i].get('cpcMaker').invalid && (t.controls[i].get('cpcMaker').touched || t.controls[i].get('cpcMaker').dirty)">
-                                                <p>Please Select One</p>
-                                            </div>
-                                        </div>
-    
-                                        <div class="form-group col-sm-2 col-md-2 text-center" *ngIf="roleType ==  '5'">
-    <!-- *ngIf="roleType ==  '5'" -->
-                                            <select class="form-control" formControlName="cpcChecker">
-                                                <option value="null" >-- Select One --</option>
-                                                <option *ngFor="let checklist of checklistObject" value="{{checklist.key}}">
-                                                    {{checklist.value}}</option>
-                                            </select>
-                                            <div class="invalid-feedback text-center" *ngIf="t.controls[i].get('cpcChecker').invalid && (t.controls[i].get('cpcChecker').touched || t.controls[i].get('cpcChecker').dirty)">
-                                                <p>Please Select One</p>
-                                            </div>
-                                        </div>
+                      </div>
+                       <div class="row" *ngFor =" let item of checkListMaster; let i = index">
+                        <div class="form-group col-sm-1 col-md-1 col-lg-1">
+                            <p class="text-center">{{i+ 1}}</p>
+                          </div>
+                          <div class="form-group col-sm-4 col-md-4 col-lg-4 row">
+                            
+                              <p>{{item.value}}</p>
+                          </div>
+                          <div class="form-group col-sm-2 col-md-2">
+                            <select class="form-group">
+                                <option *ngFor="let checklist of checklistObject" value="{{checklist.key}}"> {{checklist.value}}</option>
+                            </select> 
+                             
+                            
+                          </div>
+                          <div class="form-group col-sm-2 col-md-2">
+                             
+                            <select class="form-group">
+                                <option *ngFor="let checklist of checklistObject" value="{{checklist.key}}"> {{checklist.value}}</option>
+                            </select> 
+                          </div>
 
-                                    </div>
-                                    
-                                </ng-container>
-
-
-
-                                <!-- <div class="form-group col-sm-2 col-md-2">
+                          <div class="form-group col-sm-2 col-md-2">
+                              
+                            <select class="form-group">
+                                <option *ngFor="let checklist of checklistObject" value="{{checklist.key}}"> {{checklist.value}}</option>
+                            </select> 
+                          </div>
+                         
+                          <!-- <div class="form-group col-sm-2 col-md-2">
                              
                               <input type="checkbox" class="form-control_input" id="" (click)="selectedItem(item.key)">
                           </div> -->
-                            </div>
-                        </div>
+                      </div>
+                      <!-- <div class="row">
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <p>KYC Document</p>
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="text" class="form-control_input" disabled value="Submitted" id="">
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="text" class="form-control_input" disabled value="Submitted" id="">
+                          </div>
 
-                       
-                    </div>
-                    <!--mobile view end-->
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <input type="text" class="form-control_input" disabled value="Submitted" id="">
+                          </div>
+                         
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="checkbox" class="form-control_input" id="">
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <p>Grid Value</p>
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <input type="text" class="form-control_input" disabled value="11" id="">
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <input type="text" class="form-control_input" disabled value="20" id="">
+                          </div>
+
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <input type="text" class="form-control_input" disabled value="22" id="">
+                          </div>
+                         
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="checkbox" class="form-control_input" id="">
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <p>Loan Amount</p>
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="text" class="form-control_input" disabled value="2000000" id="">
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="text" class="form-control_input" disabled value="2000000" id="">
+                          </div>
+
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <input type="text" class="form-control_input" disabled value="2000000" id="">
+                          </div>
+                         
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="checkbox" class="form-control_input" id="">
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <p>Tenure</p>
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="text" class="form-control_input" disabled value="300" id="">
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="text" class="form-control_input" disabled value="200" id="">
+                          </div>
+
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <input type="text" class="form-control_input" disabled value="100" id="">
+                          </div>
+                         
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="checkbox" class="form-control_input" id="">
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <p>IRR</p>
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="text" class="form-control_input" disabled value="345" id="">
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="text" class="form-control_input" disabled value="22" id="">
+                          </div>
+
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="text" class="form-control_input" disabled value="456" id="">
+                          </div>
+                         
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="checkbox" class="form-control_input" id="">
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <p>EMI</p>
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="text" class="form-control_input" disabled value="4000" id="">
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="text" class="form-control_input" disabled value="4000" id="">
+                          </div>
+
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <input type="text" class="form-control_input" disabled value="4000" id="">
+                          </div>
+                         
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="checkbox" class="form-control_input" id="">
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <p>Payment Favouring</p>
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="text" class="form-control_input" disabled value="" id="">
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="text" class="form-control_input" disabled value="" id="">
+                          </div>
+
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <input type="text" class="form-control_input" disabled value="" id="">
+                          </div>
+                         
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="checkbox" class="form-control_input" id="">
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <p>Vehicle Model</p>
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <input type="text" class="form-control_input" disabled value="UCV" id="">
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <input type="text" class="form-control_input" disabled value="UCV" id="">
+                          </div>
+
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <input type="text" class="form-control_input" disabled value="UCV" id="">
+                          </div>
+                         
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <input type="checkbox" class="form-control_input" id="">
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <p>Asset Details</p>
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="text" class="form-control_input" disabled value="" id="">
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="text" class="form-control_input" disabled value="" id="">
+                          </div>
+
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <input type="text" class="form-control_input" disabled value="" id="">
+                          </div>
+                         
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="checkbox" class="form-control_input" id="">
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <p>Applicant Bank Name</p>
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="text" class="form-control_input" disabled value="ICICI" id="">
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="text" class="form-control_input" disabled value="HDFC" id="">
+                          </div>
+
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <input type="text" class="form-control_input" disabled value="SBI" id="">
+                          </div>
+                         
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="checkbox" class="form-control_input" id="">
+                          </div>
+                      </div>
+                       <div class="row">
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <p>Applicant A/C No:</p>
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="text" class="form-control_input" disabled value="789056874" id="">
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <input type="text" class="form-control_input" disabled value="567890161" id="">
+                          </div>
+
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <input type="text" class="form-control_input" disabled value="2457901112" id="">
+                          </div>
+                         
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <input type="checkbox" class="form-control_input" id="">
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <p>PF Calculation</p>
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="text" class="form-control_input" disabled value="97" id="">
+                          </div>
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="text" class="form-control_input" disabled value="23" id="">
+                          </div>
+
+                          <div class="form-group col-sm-3 col-md-2">
+                              
+                              <input type="text" class="form-control_input" disabled value="12" id="">
+                          </div>
+                         
+                          <div class="form-group col-sm-3 col-md-2">
+                             
+                              <input type="checkbox" class="form-control_input" id="">
+                          </div>
+                      </div> -->
+                                                           
+                      </div>
+                  </div>
+                 
+                  
                 </div>
-                <div class="row buttonsAdjust">
 
-                    <div class="col-sm-5 text-right">
-
-                    </div>
-                    <div class="col-sm-7 text-right">
-                        <button class="btn btn-primary dash_href " type="button"><a>Back</a></button>
-                        <button class="btn btn-primary dash_href " (click)="onSave()"> Save </button>
-                        <button class="btn btn-primary dash_href " type="button" (click)="onNext()"><a>Next</a></button>
-                        <button class="btn btn-primary dash_href " type="button" *ngIf="roleType == '2'"><a data-toggle="modal"
-                                data-target="#myModal">Submit to CPC</a></button>
-                    </div>
-
-                </div>
-            </div>
+                
+          <!---- <p class="btn btn-primary" id="add_more_documents" >Add More Additional Documents</p> ----->
+          <br />
+          </div>
+          
+          <!--mobile view start-->
+          <div class="col-xs-12 visible-xs">
+              <!---<div class="box active" data-toggle="modal" data-target="#photo">
+                  <div><i class="fa fa-image"></i></div>
+                  <div> Photo </div>
+              </div>
+              <div class="box">
+                  <div><i class="fa fa-image"></i></div>
+                  <div> Signature </div>
+              </div>
+              <div class="box" data-toggle="modal" data-target="#Id_proof">
+                  <div><i class="fa fa-address-card"></i></div>
+                  <div> ID Proof </div>
+              </div>----->
+              <div class="box">
+                  <div><i class="fa fa-plus-circle"></i></div>
+                  <div> Additional </div>
+              </div>
+          </div>
+          <!--mobile view end-->
+      </div>
+      <div class="row buttonsAdjust" >
+                                                   
+        <div class="col-sm-5 text-right">
+            
         </div>
+        <div class="col-sm-7 text-right">
+            <button class="btn btn-primary dash_href " type="button"><a >Back</a></button>
+            <button class="btn btn-primary dash_href "> Save </button>
+            <button class="btn btn-primary dash_href " type="button"><a >Next</a></button>
+            <button class="btn btn-primary dash_href " type="button"><a data-toggle="modal" data-target="#myModal">Submit to CPC</a></button>
         </div>
-
+                
+      </div>
+  </div>
+ 
 </form>
 
 <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Submit to CPC Maker</h4>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to move lead to CPC maker?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
-                    data-target="#myModaltwo" (click)="submitTocpc()">Yes</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Submit to CPC Maker</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to move lead to CPC maker?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#myModaltwo">Yes</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
     </div>
+    
+  </div>
 </div>
 <div class="modal fade" id="myModaltwo" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">CPC Queue</h4>
-            </div>
-            <div class="modal-body">
-                <p>Lead {{leadId}} is move to CPC Maker Queue</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">CPC Queue</h4>
+      </div>
+      <div class="modal-body">
+        <p>Lead 100001 is move to CPC Maker Queue</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
     </div>
+    
+  </div>
 </div>

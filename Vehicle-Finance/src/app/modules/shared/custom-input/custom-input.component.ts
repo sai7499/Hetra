@@ -57,7 +57,6 @@ export class CustomInputComponent
   @Input() qdeValue;
   @Output() change = new EventEmitter();
   @Input() isRequired: string;
-  @Input() value: string;
 
   @Input() inputClass: string;
 

@@ -4,7 +4,6 @@ import { DashboardService } from '@services/dashboard/dashboard.service';
 import * as moment from 'moment';
 import { ApplicantService } from '@services/applicant.service';
 import { ToasterService } from '@services/toaster.service';
-import { truncateSync } from 'fs';
 
 
 
@@ -31,7 +30,6 @@ export class BiometricService {
         var that = this;
         this.pid = "";
     
-
         identi5.getInfo(function(result){
           console.log("Result&&&&"+ result);
           that.pid = result["model"];
@@ -54,11 +52,6 @@ export class BiometricService {
      
      
         let pId = pid;
-        if(!pId){
-          let result = JSON.stringify({"pidErr": true});
-          callBack(result);
-          return;
-        }
      
         console.log("pId"+pId);
      

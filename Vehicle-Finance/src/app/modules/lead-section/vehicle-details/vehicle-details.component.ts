@@ -24,7 +24,7 @@ export class VehicleDetailComponent implements OnInit {
           console.log(res, ' in vehicle details ');
           // const resObj = res;
           // tslint:disable-next-line: no-bitwise
-          if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          if (res && res.ProcessVariables.error.code === '0') {
             const bodyRes = res;
             this.creditService.setResponseForCibil(bodyRes);
             this.route.navigate([`pages/lead-section/${this.leadId}/credit-score`]);

@@ -178,7 +178,7 @@ export class FiReportOfficeComponent implements OnInit {
     const submitDate = new Date(this.fieldReportForm.value.reportSubmitDate)
       ? new Date(this.fieldReportForm.value.reportSubmitDate) : null;
     if (initiatedDate && submitDate) {
-      if (submitDate < initiatedDate) {
+      if (initiatedDate > submitDate) {
         this.toasterService.showWarning('Submit Date should be greater than Initiated Date', '');
 
       }
@@ -192,8 +192,7 @@ export class FiReportOfficeComponent implements OnInit {
     // fun that initilalizes the form group
     this.fieldReportForm = new FormGroup({
 
-      // externalAgencyName: new FormControl('', Validators.required),
-      externalAgencyName: new FormControl(''),
+      externalAgencyName: new FormControl('', Validators.required),
       contactPointVerification: new FormControl('', Validators.required),
       referenceNo: new FormControl('', Validators.required),
       cpvInitiatedDate: new FormControl('', Validators.required),
@@ -339,7 +338,6 @@ export class FiReportOfficeComponent implements OnInit {
     this.fieldReportForm.get('noOfVisibleEmployees').updateValueAndValidity();
     this.fieldReportForm.get('activityLevel').clearValidators();
     this.fieldReportForm.get('activityLevel').updateValueAndValidity();
-    console.log('sal concern', this.fieldReportForm);
   }
   addAddressValidators() {
     console.log('in add address validators');
@@ -352,7 +350,6 @@ export class FiReportOfficeComponent implements OnInit {
     this.fieldReportForm.get('noOfWorkingEmployees').setValidators(Validators.required);
     this.fieldReportForm.get('noOfVisibleEmployees').setValidators(Validators.required);
     this.fieldReportForm.get('activityLevel').setValidators(Validators.required);
-    console.log('self concern', this.fieldReportForm);
 
 
   }
@@ -404,7 +401,10 @@ export class FiReportOfficeComponent implements OnInit {
         this.setFormValue();
         if (this.fiDetails) {
           if (this.fiDetails.pincode != null) {
-            this.getPincodeResult(Number(this.fiDetails.pincode));
+            this.getPincodeResult(this.fiDetails.pincode);
+          } else {
+            this.toasterService.showError('', 'message');
+
           }
         }
       }
@@ -439,14 +439,14 @@ export class FiReportOfficeComponent implements OnInit {
     const fieldReportModal = { ...formModal };
     // console.log('Form Data', fieldReportForm);
     this.isDirty = true;
-    if (this.fieldReportForm.invalid) {
-      this.toasterService.showWarning('please enter required details', '');
-      return;
-    }
+    // if (this.fieldReportForm.invalid) {
+    //   // this.toasterService.showError('', '');
+    //   return;
+    // }
     this.fIBusinessDetails = {
 
       // applicantId: 1177, // hardcoded as per backend
-      // applicantId: this.applicantId,
+      applicantId: this.applicantId,
       externalAgencyName: fieldReportModal.externalAgencyName,
       contactPointVerification: fieldReportModal.contactPointVerification,
       referenceNo: fieldReportModal.referenceNo,
@@ -458,9 +458,9 @@ export class FiReportOfficeComponent implements OnInit {
       addressLine1: fieldReportModal.addressLine1,
       addressLine2: fieldReportModal.addressLine2,
       addressLine3: fieldReportModal.addressLine3,
-      pincode: fieldReportModal.pincode,
-      city: fieldReportModal.city,
-      state: fieldReportModal.state,
+      pincode: Number(fieldReportModal.pincode),
+      city: Number(fieldReportModal.city),
+      state: Number(fieldReportModal.state),
       personMetName: fieldReportModal.personMetName,
       designation: fieldReportModal.designation,
       natureOfBusiness: fieldReportModal.natureOfBusiness,
@@ -486,11 +486,11 @@ export class FiReportOfficeComponent implements OnInit {
       furnishings: fieldReportModal.furnishings,
       officeSize: fieldReportModal.officeSize,
       observations: fieldReportModal.observations,
-      noOfWorkingEmployees: fieldReportModal.noOfWorkingEmployees,
-      noOfVisibleEmployees: fieldReportModal.noOfVisibleEmployees,
+      noOfWorkingEmployees: Number(fieldReportModal.noOfWorkingEmployees),
+      noOfVisibleEmployees: Number(fieldReportModal.noOfVisibleEmployees),
       activityLevel: fieldReportModal.activityLevel,
       fiComments: fieldReportModal.fiComments,
-      distanceInKms: fieldReportModal.distanceInKms,
+      distanceInKms: Number(fieldReportModal.distanceInKms),
       cpvAgencyStatus: fieldReportModal.cpvAgencyStatus,
       verifiedBy: fieldReportModal.verifiedBy,
       fiDate: this.sendDate(this.fiDate),
@@ -498,7 +498,6 @@ export class FiReportOfficeComponent implements OnInit {
     };
     const data = {
       userId: this.userId,
-      applicantId: this.applicantId,
       fIBusinessDetails: this.fIBusinessDetails
     };
     console.log('fi business details', this.fIBusinessDetails);

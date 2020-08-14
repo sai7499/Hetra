@@ -78,6 +78,13 @@
                 >
                   <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
                 </td>
+                <td >
+                    <u><a class="a_tag"
+                    style="cursor: pointer;"
+                    (click)="navigateNewPdPage(item.applicantId, version)"
+                    >click</a></u>
+
+                </td>
                 <!-- <ng-container *ngIf='item.pdReportValue'> -->
                 <ng-container *ngIf="pdStatusValue === 'Submitted'">
                   <td [attr.data-label]="labels?.ucicId">
@@ -96,18 +103,8 @@
                   </td>
                 </ng-container>
 
-                <td>
-                  <u
-                    ><a
-                      class="a_tag"
-                      style="cursor: pointer;"
-                      (click)="
-                        navigateNewPdPage(item.applicantId, version)
-                      "
-                      >click</a
-                    ></u
-                  >
-                </td>
+        
+               
               </tr>
             </tbody>
           </table>

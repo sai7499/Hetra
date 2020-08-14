@@ -21,7 +21,6 @@ import { TimePickerModule } from '@progress/kendo-angular-dateinputs';
     DdeSharedModule,
     TimePickerModule
 
-  ],
-  exports: [FiReportComponent, FiReportResidenceComponent, FiReportOfficeComponent]
+  ]
 })
 export class FiReportModule { }

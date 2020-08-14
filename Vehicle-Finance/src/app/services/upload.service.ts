@@ -11,15 +11,10 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class UploadService {
-  isMobile: any;
-
   constructor(
     private httpService: HttpService,
     private apiService: ApiService
-  ) {
-    this.isMobile = environment.isMobile;
-
-  }
+  ) {}
 
   constructUploadModel(addDocRq) {
     const appId = 'WIZ';
@@ -50,14 +45,9 @@ export class UploadService {
         },
       },
     };
-    //console.log(JSON.stringify(data));
+    console.log(JSON.stringify(data));
     console.log("base url",environment.baseUrl);
-    let url;
-    if(this.isMobile){
-       url = environment.mobileBaseUrl+'/addDigiDocument/';
-    }else{
-       url = environment.baseUrl+'/addDigiDocument/';
-    }
+    const url = environment.baseUrl+'/addDigiDocument/';
     // 'http://10.101.10.153/addDigiDocument/',
     return this.httpService.docUpload(url,data);
   }

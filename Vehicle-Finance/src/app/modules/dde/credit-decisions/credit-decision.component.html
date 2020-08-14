@@ -20,7 +20,7 @@
                     Customer Feedback
                 </button>
                 <button *ngIf = "roleType == 2" class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 4}"
-                    type="button" id="applicant_identity_details" (click)="onNavigate('check-list')" >
+                    type="button" id="applicant_identity_details" (click)="onNavigate('check-list')" disabled>
                     Check List 
                 </button>
             </div>

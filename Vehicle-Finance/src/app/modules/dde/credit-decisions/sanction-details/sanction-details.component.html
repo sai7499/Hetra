@@ -53,10 +53,10 @@
         <p id="vf_sheet_tag30"> {{labels?.vfSheetTag30}} </p>
         <!-- <p id="vf_sheet_tag31"><strong>{{labels?.proposalNumber}}</strong>&nbsp;&nbsp;<sup>{{this.leadId}}</sup></p> -->
         <p id="vf_sheet_tag31"><strong>{{labels?.proposalNumber}}:</strong> {{this.leadId}}</p>
-        <div id="">
-            <div id="">
-                <p id=" " class="text-center"><strong>{{labels?.vehicleDetails}}</strong></p>
-                <table class="table">
+        <div id="vf_sheet_table_div">
+            <div id="vf_sheet_first_table">
+                <p id="vf_sheet_tag32 " class="text-center"><strong>{{labels?.vehicleDetails}}</strong></p>
+                <table class="table table-responsive table-bordered">
                     <tbody *ngFor="let vehicleDetails of vehicleDetailsArray">
                         <tr class="top-border">
                             <td> {{labels?.vehicleMake}} </td>
@@ -259,7 +259,7 @@
             <div class="col-sm-7 text-right">
                 <button class="btn btn-primary btn_div " type="button" (click)="onBack()">{{labels?.back}}</button>
                 <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
-                <button class="btn btn-primary btn_div" type="button" (click)="onNext()" >{{labels?.next}}</button>
+                <button class="btn btn-primary btn_div" type="button" (click)="onNext()" disabled>{{labels?.next}}</button>
             </div>
         </div>
         
