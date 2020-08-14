@@ -1471,6 +1471,7 @@
     "selfieWithCustomer": "Selfie with Customer",
     "uploadImages": "Upload Images",
     "opinionOfPDOfficer": "Opinion of PD Officer",
+    "loanNumber": "Loan Number",
     "validationData": {
         "name": {
             "maxLength": {

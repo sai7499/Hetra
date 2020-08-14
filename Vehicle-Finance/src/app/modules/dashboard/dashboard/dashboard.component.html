@@ -84,6 +84,8 @@
             <li (click)="onLeads(displayTabs?.LoanDisbursement, displayTabs?.LoanDisbursementWithMe)" [ngClass]="{'active':displayTabs?.LoanDisbursement === activeTab}" routerLinkActive="active"><a data-toggle="tab">Loan Disbursement</a></li>
             <li (click)="onLeads(displayTabs?.Negotiation, displayTabs?.NegotiatinWithMe)" [ngClass]="{'active':displayTabs?.Negotiation === activeTab}" routerLinkActive="active"><a data-toggle="tab">Negotiation</a></li>
             <li (click)="onLeads(displayTabs?.Disbursement, displayTabs?.DisbursementWithMe)" [ngClass]="{'active':displayTabs?.Disbursement === activeTab}" routerLinkActive="active"><a data-toggle="tab">Disbursement</a></li> -->
+            <li (click)="onLeads(displayTabs?.PDD)" [ngClass]="{'active':displayTabs?.PDD === activeTab}" routerLinkActive="active"><a data-toggle="tab">PDD</a></li>
+            <li (click)="onLeads(displayTabs?.ChequeTracking)" [ngClass]="{'active':displayTabs?.ChequeTracking === activeTab}" routerLinkActive="active"><a data-toggle="tab">Cheque Tracking</a></li>
         </ul>
     </div>
     <!--  -->
@@ -229,7 +231,7 @@
 
     <div>
         <div class="container-fluid">
-            <table>
+            <table *ngIf="displayTabs?.PDD != activeTab && displayTabs?.ChequeTracking != activeTab ">
                 <thead>
                     <tr class="table-head-bg">
                         <th *ngIf="onReleaseTab || onAssignTab">{{labels?.action}}<i class="fa fa-sort"></i></th>
@@ -276,6 +278,36 @@
                     </tr>
                 </tbody>
             </table>
+            <table *ngIf="displayTabs?.PDD === activeTab || displayTabs?.ChequeTracking === activeTab">
+                <thead>
+                    <tr class="table-head-bg">
+                        <th>{{labels?.loanNumber}}<i class="fa fa-sort"></i> </th>
+                        <th>{{labels?.productCategory}}<i class="fa fa-sort"></i> </th>
+                        <th>{{labels?.loanAmount}}<i class="fa fa-sort"></i> </th>
+                        <th *ngIf="displayTabs?.PDD === activeTab">{{labels?.applicant+'s'}}<i class="fa fa-sort"></i> </th>
+                        <th *ngIf="displayTabs?.ChequeTracking === activeTab">{{labels?.applicantName}}<i class="fa fa-sort"></i> </th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="displayTabs?.PDD === activeTab">
+                    <tr *ngFor="let item of pddDetails | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
+
+                        <td [attr.data-label]="labels?.loanNumber" class="text-underline"><a [routerLink]="['/pages/dde/1249/pdd-details']">{{item.loanNumber}}</a></td>
+                        <td [attr.data-label]="labels?.productCategory">{{item.product ? item.product : '--'}}</td>
+                        <td [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
+                        <td [attr.data-label]="labels?.applicants">{{item.applicants ? item.applicants : '--'}}</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="displayTabs?.ChequeTracking === activeTab">
+                    <tr *ngFor="let item of chequeTrackingDetails | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
+
+                        <td [attr.data-label]="labels?.loanNumber" class="text-underline"><a [routerLink]="[ '/pages/dde/1249/cheque-tracking' ]">{{item.loanNumber}}</a></td>
+                        <td [attr.data-label]="labels?.productCategory">{{item.product ? item.product : '--'}}</td>
+                        <td [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
+                        <td [attr.data-label]="labels?.applicantName">{{item.applicantName ? item.applicantName : '--'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
             <div class="noDataFound" *ngIf="!isLoadLead">
                 <h3>No data found</h3>
             </div>

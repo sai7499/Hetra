@@ -40,7 +40,9 @@ export enum DisplayTabs {
   NegotiatinWithBranch,
   Disbursement,
   DisbursementWithMe,
-  DisbursementWithBranch
+  DisbursementWithBranch,
+  PDD,
+  ChequeTracking
 }
 
 // for credit
@@ -96,6 +98,8 @@ export class DashboardComponent implements OnInit {
   OldFromDate: Date;
   // new leads
   newArray;
+  pddDetails;
+  chequeTrackingDetails;
   salesLeads;
   creditLeads;
   itemsPerPage = '25';
@@ -297,16 +301,15 @@ export class DashboardComponent implements OnInit {
     } else if (this.roleType === 5) {
       switch (data) {
         case 4:
-        this.onAssignTab = false;
-        this.onReleaseTab = true;
-        this.getCheckerLeads(this.itemsPerPage);
-        break;
-      case 5:
-        this.onAssignTab = true;
-        this.onReleaseTab = false;
-        this.getCheckerCPCLeads(this.itemsPerPage);
-        break;
-      
+          this.onAssignTab = false;
+          this.onReleaseTab = true;
+          this.getCheckerLeads(this.itemsPerPage);
+          break;
+        case 5:
+          this.onAssignTab = true;
+          this.onReleaseTab = false;
+          this.getCheckerCPCLeads(this.itemsPerPage);
+          break;
         default:
           break;
       }
@@ -383,6 +386,10 @@ export class DashboardComponent implements OnInit {
         this.getViabilityLeads(this.itemsPerPage);
       } else if (this.activeTab === this.displayTabs.FI && this.subActiveTab === this.displayTabs.MyFI) {
         this.getMyFITask(this.itemsPerPage);
+      } else if (this.activeTab === this.displayTabs.PDD) {
+        this.getPDDLeads(this.itemsPerPage);
+      } else if (this.activeTab === this.displayTabs.ChequeTracking) {
+        this.getChequeTrackingLeads(this.itemsPerPage);
       }
     } else if (this.roleType === 2) {
       if (this.activeTab === this.displayCreditTabs.DDE && this.subActiveTab === this.displayCreditTabs.DDEWithMe) {
@@ -447,6 +454,76 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  // getting response Data for all tabs
+  setPageData(res) {
+    const response = res.ProcessVariables.loanLead;
+    this.newArray = response;
+    this.limit = res.ProcessVariables.perPage;
+    this.pageNumber = res.ProcessVariables.from;
+    this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
+    this.currentPage = res.ProcessVariables.currentPage;
+    this.totalItems = res.ProcessVariables.totalPages;
+    this.from = res.ProcessVariables.from;
+  }
+
+  setPDDPageData(res) {
+    const response = res.ProcessVariables.pddDetails;
+    this.pddDetails = response;
+    this.limit = res.ProcessVariables.perPage;
+    this.pageNumber = res.ProcessVariables.from;
+    this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
+    this.currentPage = res.ProcessVariables.currentPage;
+    this.totalItems = res.ProcessVariables.totalPages;
+    this.from = res.ProcessVariables.from;
+  }
+
+  setChequeTrackingPageData(res) {
+    const response = res.ProcessVariables.chequeTrackingDetails;
+    this.chequeTrackingDetails = response;
+    this.limit = res.ProcessVariables.perPage;
+    this.pageNumber = res.ProcessVariables.from;
+    this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
+    this.currentPage = res.ProcessVariables.currentPage;
+    this.totalItems = res.ProcessVariables.totalPages;
+    this.from = res.ProcessVariables.from;
+  }
+  // for MyLeads Api
+  responseForSales(data) {
+    this.dashboardService.myLeads(data).subscribe((res: any) => {
+      this.setPageData(res);
+      if (res.ProcessVariables.loanLead != null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+        this.newArray = [];
+      }
+    });
+  }
+
+  responseForPDD(data) {
+    this.dashboardService.myLeads(data).subscribe((res: any) => {
+      this.setPDDPageData(res);
+      if (res.ProcessVariables.pddDetails != null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+        this.pddDetails = [];
+      }
+    });
+  }
+
+  responseForChequeTracking(data) {
+    this.dashboardService.myLeads(data).subscribe((res: any) => {
+      this.setChequeTrackingPageData(res);
+      if (res.ProcessVariables.chequeTrackingDetails != null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+        this.chequeTrackingDetails = [];
+      }
+    });
+  }
+
   // new leads
 
   getSalesFilterLeads(perPageCount, pageNumber?) {
@@ -461,6 +538,8 @@ export class DashboardComponent implements OnInit {
       perPage: parseInt(perPageCount),
       // tslint:disable-next-line: radix
       currentPage: parseInt(pageNumber),
+      isPDD: false,
+      isChequeTracking: false,
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
@@ -472,17 +551,57 @@ export class DashboardComponent implements OnInit {
 
     this.responseForSales(data);
   }
-  // for MyLeads Api
-  responseForSales(data) {
-    this.dashboardService.myLeads(data).subscribe((res: any) => {
-      this.setPageData(res);
-      if (res.ProcessVariables.loanLead != null) {
-        this.isLoadLead = true;
-      } else {
-        this.isLoadLead = false;
-        this.newArray = [];
-      }
-    });
+
+  getPDDLeads(perPageCount, pageNumber?) {
+
+    // this.filterFormDetails['userId'] = localStorage.getItem('userId');
+    // this.filterFormDetails['perPage'] = parseInt(perPageCount);
+    // this.filterFormDetails['currentPage'] = parseInt(pageNumber);
+    // const data = this.filterFormDetails;
+    const data = {
+      userId: localStorage.getItem('userId'),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      isPDD: true,
+      isChequeTracking: false,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+
+    this.responseForPDD(data);
+  }
+
+  getChequeTrackingLeads(perPageCount, pageNumber?) {
+
+    // this.filterFormDetails['userId'] = localStorage.getItem('userId');
+    // this.filterFormDetails['perPage'] = parseInt(perPageCount);
+    // this.filterFormDetails['currentPage'] = parseInt(pageNumber);
+    // const data = this.filterFormDetails;
+    const data = {
+      userId: localStorage.getItem('userId'),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      isPDD: false,
+      isChequeTracking: true,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+
+    this.responseForChequeTracking(data);
   }
 
   // For TaskDashboard Api
@@ -993,20 +1112,15 @@ export class DashboardComponent implements OnInit {
 
 
 
-  // getting response Data for all tabs
-  setPageData(res) {
-    const response = res.ProcessVariables.loanLead;
-    this.newArray = response;
-    this.limit = res.ProcessVariables.perPage;
-    this.pageNumber = res.ProcessVariables.from;
-    this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
-    this.currentPage = res.ProcessVariables.currentPage;
-    this.totalItems = res.ProcessVariables.totalPages;
-    this.from = res.ProcessVariables.from;
-  }
+
   setPage(event) {
 
     if (this.roleType === 1) {
+      if (this.displayTabs.PDD === this.activeTab) {
+          this.getPDDLeads(this.itemsPerPage, event);
+      } else if (this.displayTabs.ChequeTracking === this.activeTab) {
+          this.getChequeTrackingLeads(this.itemsPerPage, event);
+      }
       switch (this.subActiveTab) {
         case 3:
           this.getSalesFilterLeads(this.itemsPerPage, event);
