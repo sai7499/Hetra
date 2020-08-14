@@ -82,7 +82,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.sharedService.taskId$.subscribe((id) => {
       this.taskId = id ? id : '';
     })
-
   }
 
   initForms() {
