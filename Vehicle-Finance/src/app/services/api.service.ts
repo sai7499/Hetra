@@ -708,6 +708,11 @@ export class ApiService {
       processId: 'd250da02da3e11ea9e8400505695f93b',
       workflowId: '08905702d7b811eab3fc00505695f93b',
       projectId: environment.projectIds.camProjectId
+    },
+    fetchPreimumAmount:{
+      processId: '3c99e428d71811eabcf800505695f93b',
+      workflowId: '3c71c4d4d71811eaabba00505695f93b',
+      projectId: environment.projectIds.externalApi
     }
   };
 }
