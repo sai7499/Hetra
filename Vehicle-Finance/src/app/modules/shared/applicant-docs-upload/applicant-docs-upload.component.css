@@ -78,3 +78,9 @@ h4 {
   background-color: #1d1a4b;
   color: #fff;
 } */
+
+.is-deferred {
+  font-size: 13px;
+  font-weight: bold;
+  margin-left: 6px;
+}

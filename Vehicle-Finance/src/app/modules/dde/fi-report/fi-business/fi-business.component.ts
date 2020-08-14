@@ -13,11 +13,11 @@ import { ApplicantService } from '@services/applicant.service';
 
 
 @Component({
-  selector: 'app-fi-report-office',
-  templateUrl: './fi-report-office.component.html',
-  styleUrls: ['./fi-report-office.component.css']
+  selector: 'app-fi-business',
+  templateUrl: './fi-business.component.html',
+  styleUrls: ['./fi-business.component.css']
 })
-export class FiReportOfficeComponent implements OnInit {
+export class FiBusinessComponent implements OnInit {
   labels: any = {};
   LOV: any = [];
   isDirty: boolean;
