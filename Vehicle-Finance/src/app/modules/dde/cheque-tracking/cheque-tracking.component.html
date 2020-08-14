@@ -1,0 +1,165 @@
+
+<div class="multisteps-form" style="margin-top:20px;">
+        <form>
+        <div class="table-responsive application" id="cheque_results_section">
+                            <h3 class="">{{labels?.chequeTracking}} -&gt; {{labels.loanNo}} <span id="loan_number">345678901</span></h3>
+                                    <table class="table">
+                                        <thead>
+                                          <tr class="table-head-bg">
+                                            <th>  </th>
+                                            <th>{{labels?.chequeMode}}<i class="fa fa-sort"></i> </th>
+                                            <th>{{labels?.chequeNumber}}<i class="fa fa-sort"></i> </th>
+                                            <th>{{labels?.chequeDate}}<i class="fa fa-sort"></i> </th>
+                                            <th>{{labels?.chequeAmount}}<i class="fa fa-sort"></i> </th>
+                                            <th>{{labels?.chequestatus}}<i class="fa fa-sort"></i> </th>
+                                            <th>{{labels?.statusUpdatedOn}}<i class="fa fa-sort"></i> </th>
+                                            <th>{{labels?.payableTo}}<i class="fa fa-sort"></i> </th>
+                                            <th>{{labels?.favouringTo}}<i class="fa fa-sort"></i> </th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr>
+                                            
+                                            <td><input type="radio" name="cheque_radio" id="cheque_radio_1" ></td>
+                                            <td>Cheque</td>
+                                            <td>234536</td>
+                                            <td>14/06/20</td>
+                                            <td>245000</td>
+                                            <td>Branch Received</td>
+                                            <td>16/06/20</td>
+                                            <td>Customer</td>
+                                            <td>Hari Savanth</td>
+                                            
+                                          </tr>
+                                           <!-- <tr>
+                                            <td><input type="radio" name="cheque_radio" id="cheque_radio_2"></td>
+                                            <td>Cheque</td>
+                                            <td>123823</td>
+                                            <td>14/06/20</td>
+                                            <td>145000</td>
+                                            <td>Branch Received</td>
+                                            <td>16/06/20</td>
+                                            <td>Dealer</td>
+                                            <td>Dealer 1</td>
+                                          </tr> -->
+                                          
+                                        </tbody>
+                                    </table>
+                                    <div id="cheque_results_1">
+                                        <div class="row" style="margin-right:0px;margin-left:0px;">
+                                            <div class="col-lg-6 col-sm-4 col-md-3">
+                                                <div class="row">
+                                            <div class="col-lg-3 col-sm-4 col-md-3">{{labels?.chequeNumber}}</div>
+                                            <div class="col-lg-4 col-sm-4 col-md-3"><strong>234536</strong></div>
+                                        </div>
+                                        &nbsp;
+                                        <div class="row">
+                                            <div class="col-lg-3 col-sm-4 col-md-3">{{labels?.chequeDate}}</div>
+                                            <div class="col-lg-4 col-sm-4 col-md-3"><strong>14/06/20</strong></div>
+                                        </div>
+                                        &nbsp;
+                                        <div class="row">
+                                            <div class="col-lg-3 col-sm-4 col-md-3">{{labels?.chequeAmount}}</div>
+                                            <div class="col-lg-4 col-sm-4 col-md-3"><strong>245000</strong></div>
+                                        </div>
+                                        &nbsp;
+                                        <div class="row">
+                                            <div class="col-lg-3 col-sm-4 col-md-3">{{labels?.payableTo}}</div>
+                                            <div class="col-lg-4 col-sm-4 col-md-3"><strong>Customer</strong></div>
+                                        </div>
+                                        &nbsp;
+                                        <div class="row">
+                                            <div class="col-lg-3 col-sm-4 col-md-3">{{labels?.favouringTo}}</div>
+                                            <div class="col-lg-4 col-sm-4 col-md-3"><strong>Hari Savanth</strong></div>
+                                        </div>
+                                        &nbsp;
+                                        <div class="row">
+                                            <div class="col-lg-3 col-sm-4 col-md-3">{{labels.customerName}}</div>
+                                            <div class="col-lg-4 col-sm-4 col-md-3"><strong>Hari Savanth</strong></div>
+                                        </div>
+                                            </div>
+                                            <div class="col-lg-6 col-sm-4 col-md-3">
+                                                <div class="row">
+                                                    <div class="col-lg-2 col-sm-4 col-md-3">{{labels.status}}</div>
+                                                    <div class="col-lg-4 col-sm-4 col-md-3">
+                                                        <!-- <select id="" class="form-control" >
+                                                            <option value="Handed Over">Handed Over</option>
+                                                            <option value="On-Hold">On-Hold</option>
+                                                            <option value="Branch Received">Branch Received</option>
+                                                            
+                                                        </select> -->
+                                                        <app-vf-custom-select
+                                                            isDisabled
+                                                            [values]=""
+                                                        ></app-vf-custom-select>
+                                                    </div>
+                                                </div>
+                                                &nbsp;
+                                                <div class="row">
+                                                    <div class="col-lg-2 col-sm-4 col-md-3"><p id="remarks_place">{{labels?.chequeRemark}}</p></div>
+                                                    <div class="col-lg-4 col-sm-4 col-md-3">
+                                                        <textarea class="form-control" cols="2" disabled></textarea>
+                                                    </div>
+                                                </div>
+                                                &nbsp;
+                                                <div class="row">
+                                                    <div class="col-lg-2 col-sm-4 col-md-3"></div>
+                                                    <div class="col-lg-4 col-sm-4 col-md-3">
+                                                        <!-- <a ><input type="button" class="btn btn-primary form-control" value="Update Status" id="update_status_btn"></a> -->
+                                                        <button class="btn btn-primary" disabled>{{labels.initialDisbursement}}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                        </div>               
+    </form>
+    <!-- <div class="for_space"></div>
+
+    </div>
+    <div class="for_space"></div> -->
+
+    <div class="row btn-sec clear-both mb-4 mt-0" style="margin:0px !important">
+                    
+        <div class="col-sm-5"></div>
+        <div class="col-sm-7 text-right">
+            <button class="btn btn-primary dash_href mar-right8" (click)="onBack()">{{labels.back}}</button>
+            <button class="btn btn-primary dash_href mar-right8"
+            data-toggle="modal"
+            data-target="#myModal"
+            >Update</button>
+        </div>
+                
+    </div>
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title"></h4>
+              <button type="button" class="close" data-dismiss="modal">
+                &times;
+              </button>
+            </div>
+      
+            <div class="modal-body">
+              Are you Sure Want to Update?
+            </div>
+      
+            <div class="modal-footer text-center"
+            >
+              <button
+                type="button"
+                class="btn btn-success"
+                data-dismiss="modal"
+                (click)="onUpdate()"
+              >
+                Yes
+              </button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal" >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>

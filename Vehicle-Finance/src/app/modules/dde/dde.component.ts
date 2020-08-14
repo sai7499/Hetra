@@ -15,6 +15,8 @@ export class DdeComponent implements OnInit {
   leadId: number;
   show: boolean;
   showNav: boolean = false;
+  fiCumPdStatusString: any;
+  fiCumPdStatus: boolean;
 
   constructor(
     public router: Router,
@@ -36,6 +38,16 @@ export class DdeComponent implements OnInit {
   }
 
   ngOnInit() {
+    // console.log('ficumpd', localStorage.getItem('isFiCumPd')); 
+    this.fiCumPdStatusString = (localStorage.getItem('isFiCumPd'));
+    if (this.fiCumPdStatusString == 'false') {
+      this.fiCumPdStatus = false
+    } else if (this.fiCumPdStatusString == 'true') {
+      this.fiCumPdStatus = true
+    }
+
+    console.log('ficumpd status', this.fiCumPdStatus);
+
     if (this.leadId) {
       const gotLeadData = this.route.snapshot.data.leadData;
       if (gotLeadData.Error === '0') {

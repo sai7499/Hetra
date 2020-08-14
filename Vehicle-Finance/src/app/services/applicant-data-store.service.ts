@@ -74,10 +74,6 @@ export class ApplicantDataStoreService {
       ...value,
     };
     this.applicant.indivProspectProfileDetails = newDetails;
-    console.log(
-      ' this.applicant.indivProspectProfileDetails',
-      this.applicant.indivProspectProfileDetails
-    );
   }
 
   setCorporateProspectDetails(value: CorporateProspectDetails) {

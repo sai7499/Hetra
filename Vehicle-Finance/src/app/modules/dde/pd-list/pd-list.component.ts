@@ -28,6 +28,8 @@ export class PdListComponent implements OnInit {
   showStatus: boolean;
   pdStatusValue: any;
   isFiCumPD: boolean;
+  fiCumPdStatusString: string;
+  fiCumPdStatus: boolean;
 
   constructor(private labelsData: LabelsService,
     private router: Router,
@@ -37,6 +39,12 @@ export class PdListComponent implements OnInit {
     private activatedRoute: ActivatedRoute) { }
 
   async ngOnInit() {
+    this.fiCumPdStatusString = (localStorage.getItem('isFiCumPd'));
+    if (this.fiCumPdStatusString == 'false') {
+      this.fiCumPdStatus = false
+    } else if (this.fiCumPdStatusString == 'true') {
+      this.fiCumPdStatus = true
+    }
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
@@ -44,7 +52,6 @@ export class PdListComponent implements OnInit {
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
-    console.log('this user roleType', this.roleType);
 
     this.leadId = (await this.getLeadId()) as number;
     this.getLabels = this.labelsData.getLabelsData()
@@ -58,8 +65,6 @@ export class PdListComponent implements OnInit {
 
 
     if (this.router.url.includes('/fi-cum-pd-dashboard')) {   // showing/hiding the nav bar based on url
-
-      console.log(' pd-dashboard ');
       this.show = true;
     } else if (this.router.url.includes('/dde')) {
       this.showStatus = true;
@@ -73,14 +78,12 @@ export class PdListComponent implements OnInit {
       // leadId: 153,
       //  uncomment this once get proper Pd data for perticular
       leadId: this.leadId,
-      userId: '1001',
+      userId: localStorage.getItem('userId'),
     };
     this.personalDiscussionService.getPdList(data).subscribe((value: any) => {
       const processvariables = value.ProcessVariables;
       this.isFiCumPD = processvariables.isFiCumPD;
-      console.log('in get pd ficum pdstatus', this.isFiCumPD);
       this.pdList = processvariables.finalPDList;
-      console.log('PD List', this.pdList);
 
       for (var i in this.pdList) {
         this.pdStatusValue = this.pdList[i]['pdStatusValue']
@@ -100,32 +103,21 @@ export class PdListComponent implements OnInit {
 
   }
 
-  navigatePage(applicantId: string, version: any) {
-    console.log(
-      'applicantId',
-      applicantId,
-    );
-    console.log('version', version);
+  navigatePage(applicantId: string, version?: any) {
 
-    console.log('URL', URL);
-    console.log('flag ficumPD', this.isFiCumPD);
+    console.log('in navigate page', version);
+
     if (this.isFiCumPD === true) { // for routing to fi cum pd screens
 
       if (this.router.url.includes('fi-cum-pd-dashboard')) {
-
-        console.log(' in pd-dashboard flow');
-
         // this.show = true;
         if (version) {
-          console.log('in fi-cum-pd-dashboard version conditon');
           this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${applicantId}/applicant-details/${version}`]);
         } else if (version === undefined || version === null) {
-          console.log('in fi-cum-pd-dashboard undefined version conditon');
           this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${applicantId}/applicant-details`]);
         }
 
       } else if (this.router.url.includes('/dde')) {
-        console.log(' in dde flow');
         // this.showStatus = true;
         if (version) {
           this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${applicantId}/applicant-details/${version}`]);
@@ -139,25 +131,19 @@ export class PdListComponent implements OnInit {
 
       if (this.router.url.includes('/fi-cum-pd-dashboard')) {
 
-        console.log(' in pd-dashboard flow', this.isFiCumPD);
-
         // this.show = true;
         if (version !== null && version !== undefined) {
-          console.log('in fi-cum-pd-dashboard version conditon');
           // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
           this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
           // right now version not available so
 
         } else if (version === undefined || version === null) {
-          console.log('in fi-cum-pd-dashboard undefined version conditon');
           this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details`]);
         }
 
       } else if (this.router.url.includes('/dde')) {
-        console.log(' in dde flow');
         // this.showStatus = true;
         if (version) {
-          console.log('dde version conditon');
           // this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
           this.router.navigate([`/pages/dde/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
           // right now version not available so
@@ -170,12 +156,9 @@ export class PdListComponent implements OnInit {
     }
   }
   navigateNewPdPage(applicantId: string, version: any) {
-    console.log('in new pd flow', version);
     if (version !== null && version !== undefined) {
-      console.log('in defined version prg bar routing', version);
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
     } else if (version === undefined || version === null) {
-      console.log('in undefined version prg bar routing', version);
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details`]);
     }
   }
@@ -191,7 +174,13 @@ export class PdListComponent implements OnInit {
   }
 
   onNavigateBack() {
-    this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
+    if (this.fiCumPdStatus == false) {
+      this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
+      // this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+    } else if (this.fiCumPdStatus == true) {
+      this.router.navigate(['pages/dde/' + this.leadId + '/tvr-details']);
+
+    }
 
   }
   onNavigateNext() {

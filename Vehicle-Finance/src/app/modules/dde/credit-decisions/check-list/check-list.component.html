@@ -14,88 +14,101 @@
                     </div>
                     <div id="collapseTwo1" class="panel-collapse collapse in" aria-expanded="true">
                         <div class="panel-body">
-                            <div class="row">
-                                <div class="form-group col-sm-1 col-md-1 col-lg-1">
-                                    <p class="text-center">S.No</p>
+                            <ng-container>
+                                <div class="row">
+                                    <div class="form-group col-sm-1 col-md-1 col-lg-1">
+                                        <p class="text-center">S.No</p>
+                                    </div>
+                                    <div class="form-group col-sm-3 col-md-4 col-lg-4 text-center row">
+    
+                                        <label for="document">Checklist</label>
+    
+    
+                                    </div>
+                                    <div class="form-group col-sm-2 col-md-2 text-center">
+                                        <label for="document">Credit Officer</label>
+                                        <!-- <input type="text" class="form-control_input" disabled value="Sandya" id=""> -->
+                                    </div>
+                                    <div class="form-group col-sm-2 col-md-2 text-center"
+                                        *ngIf="roleType == '4' || roleType == '5'">
+                                        <label for="documentnumber">CPC Maker</label>
+                                        <!-- <input type="text" class="form-control_input" disabled value="Mohan" id=""> -->
+                                    </div>
+    
+                                    <div class="form-group col-sm-2 col-md-2 text-center" *ngIf=" roleType == '5'">
+                                        <label for="documentnumber">CPC Checker</label>
+                                        <!-- <input type="text" class="form-control_input" disabled value="Krishna" id=""> -->
+                                    </div>
+    
+                                    <!-- <div class="form-group col-sm-2 col-md-2 text-center" >
+                                  <label for="documentnumber">Check</label>
+                                   <input type="checkbox" class="form-control_input" id="" (click)="selectedItem(item.key)"> 
+                              </div> -->
                                 </div>
-                                <div class="form-group col-sm-3 col-md-4 col-lg-4 text-center row">
-
-                                    <label for="document">Checklist</label>
-
-
-                                </div>
-                                <div class="form-group col-sm-2 col-md-2 text-center">
-                                    <label for="document">Credit Officer</label>
-                                    <!-- <input type="text" class="form-control_input" disabled value="Sandya" id=""> -->
-                                </div>
-                                <div class="form-group col-sm-2 col-md-2 text-center" *ngIf="roleType == '4' || roleType == '5'">
-                                    <label for="documentnumber">CPC Maker</label>
-                                    <!-- <input type="text" class="form-control_input" disabled value="Mohan" id=""> -->
-                                </div>
-
-                                <div class="form-group col-sm-2 col-md-2 text-center" *ngIf=" roleType == '5'">
-                                    <label for="documentnumber">CPC Checker</label>
-                                    <!-- <input type="text" class="form-control_input" disabled value="Krishna" id=""> -->
-                                </div>
-
-                                <!-- <div class="form-group col-sm-2 col-md-2 text-center" >
-                              <label for="documentnumber">Check</label>
-                               <input type="checkbox" class="form-control_input" id="" (click)="selectedItem(item.key)"> 
-                          </div> -->
-                            </div>
+                            </ng-container>
+                            
+                            
                             <!-- <div  *ngFor = "let group of checklistForm.controls; let i = index " >
                           {{group[i]}} -->
-                            <div class="row" formArrayName = "checklistArray"
-                               >
-                                <ng-container *ngFor=" let item of checklistForm.get('checklistArray')['controls']; let i = index" [formGroupName]="i" >
-                                    <div   class="col-sm-12 col-md-12 col-lg-12 row text-center">
-                                        <div class="form-group col-sm-1 col-md-1 col-lg-1 row">
+                            <!-- <div   > -->
+                                <ng-container
+                                formArrayName="checklistArray">
+                                    <div class="row "
+                                        style="margin-bottom: 10px; " *ngFor=" let item of checklistForm.get('checklistArray')['controls'] ; let i = index "
+                                        [formGroupName]="i">
+                                        <div class="form-group col-sm-1 col-md-1 col-lg-1 row paddingNgContainer">
                                             <p class="text-center">{{i+ 1}}</p>
                                         </div>
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4 text-center row">
-    
-                                            <p >{{ item['controls'].checklistName.value}}</p>
+                                        <div class="form-group col-sm-3 col-md-4 col-lg-4  text-center row paddingNgContainer">
+
+                                            <p class="text-center">{{ item['controls'].checklistName.value}}</p>
                                         </div>
-                                        <div class="form-group col-sm-2 col-md-2">
-    
-                                            <select class="form-control" formControlName="coAnswer" 
-                                            >
-                                            <!-- [attr.disabled]="roleType != '2'" -->
-                                                <option value="null" >-- Select One --</option>
-                                                <option *ngFor="let checklist of checklistObject" value="{{checklist.key}}">
+                                        <div class="form-group col-sm-2 col-md-2 paddingNgContainer">
+
+                                            <select class="form-control" formControlName="coAnswer">
+                                                <!-- [attr.disabled]="roleType != '2'" -->
+                                                <option value="null">-- Select One --</option>
+                                                <option *ngFor="let checklist of checklistObject"
+                                                    value="{{checklist.key}}">
                                                     {{checklist.value}}</option>
                                             </select>
-                                             <div class="invalid-feedback text-center" *ngIf="t.controls[i].get('coAnswer').invalid && (t.controls[i].get('coAnswer').touched || t.controls[i].get('coAnswer').dirty)">
+                                            <div class="invalid-feedback text-center"
+                                                *ngIf="t.controls[i].get('coAnswer').invalid && (t.controls[i].get('coAnswer').touched || t.controls[i].get('coAnswer').dirty)">
                                                 <p>Please Select One</p>
                                             </div>
-    
+
                                         </div>
-                                        <div class="form-group col-sm-2 col-md-2 text-center" *ngIf="roleType == '4' || roleType == '5'" >  
-    <!-- *ngIf="roleType == '4' || roleType == '5'" -->
+                                        <div class="form-group col-sm-2 col-md-2 text-center paddingNgContainer"
+                                            *ngIf="roleType == '4' || roleType == '5'">
+                                            <!-- *ngIf="roleType == '4' || roleType == '5'" -->
                                             <select class="form-control" formControlName="cpcMaker">
-                                                <option value="null" >-- Select One --</option>
-                                                <option *ngFor="let checklist of checklistObject" value="{{checklist.key}}">
+                                                <option value="null">-- Select One --</option>
+                                                <option *ngFor="let checklist of checklistObject"
+                                                    value="{{checklist.key}}">
                                                     {{checklist.value}}</option>
                                             </select>
-                                            <div class="invalid-feedback text-center" *ngIf="t.controls[i].get('cpcMaker').invalid && (t.controls[i].get('cpcMaker').touched || t.controls[i].get('cpcMaker').dirty)">
+                                            <div class="invalid-feedback text-center"
+                                                *ngIf="t.controls[i].get('cpcMaker').invalid && (t.controls[i].get('cpcMaker').touched || t.controls[i].get('cpcMaker').dirty)">
                                                 <p>Please Select One</p>
                                             </div>
                                         </div>
-    
-                                        <div class="form-group col-sm-2 col-md-2 text-center" *ngIf="roleType ==  '5'">
-    <!-- *ngIf="roleType ==  '5'" -->
+
+                                        <div class="form-group col-sm-2 col-md-2 text-center paddingNgContainer" *ngIf="roleType ==  '5'">
+                                            <!-- *ngIf="roleType ==  '5'" -->
                                             <select class="form-control" formControlName="cpcChecker">
-                                                <option value="null" >-- Select One --</option>
-                                                <option *ngFor="let checklist of checklistObject" value="{{checklist.key}}">
+                                                <option value="null">-- Select One --</option>
+                                                <option *ngFor="let checklist of checklistObject"
+                                                    value="{{checklist.key}}">
                                                     {{checklist.value}}</option>
                                             </select>
-                                            <div class="invalid-feedback text-center" *ngIf="t.controls[i].get('cpcChecker').invalid && (t.controls[i].get('cpcChecker').touched || t.controls[i].get('cpcChecker').dirty)">
+                                            <div class="invalid-feedback text-center"
+                                                *ngIf="t.controls[i].get('cpcChecker').invalid && (t.controls[i].get('cpcChecker').touched || t.controls[i].get('cpcChecker').dirty)">
                                                 <p>Please Select One</p>
                                             </div>
                                         </div>
 
                                     </div>
-                                    
+
                                 </ng-container>
 
 
@@ -104,10 +117,10 @@
                              
                               <input type="checkbox" class="form-control_input" id="" (click)="selectedItem(item.key)">
                           </div> -->
-                            </div>
+                            <!-- </div> -->
                         </div>
 
-                       
+
                     </div>
                     <!--mobile view end-->
                 </div>
@@ -117,17 +130,19 @@
 
                     </div>
                     <div class="col-sm-7 text-right">
-                        <button class="btn btn-primary dash_href " type="button"><a>Back</a></button>
-                        <button class="btn btn-primary dash_href " (click)="onSave()"> Save </button>
-                        <button class="btn btn-primary dash_href " type="button" (click)="onNext()"><a>Next</a></button>
-                        <button class="btn btn-primary dash_href " type="button" *ngIf="roleType == '2'"><a data-toggle="modal"
-                                data-target="#myModal">Submit to CPC</a></button>
+                        <button class="btn btn-primary dash_href adjustMargins " type="button" (click)="onBack()"><a>Back</a></button>
+                        <button class="btn btn-primary dash_href adjustMargins" (click)="onSave()"> Save </button>
+                        <button class="btn btn-primary dash_href adjustMargins" 
+                            type="button" (click)="onNext()" *ngIf="roleType != '2'"><a>Next</a>
+                        </button>
+                        <button class="btn btn-primary dash_href adjustMargins" type="button" *ngIf="roleType == '2'"><a
+                                data-toggle="modal" data-target="#myModal">Submit for Approval</a></button>
                     </div>
 
                 </div>
             </div>
         </div>
-        </div>
+    </div>
 
 </form>
 
@@ -138,14 +153,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Submit to CPC Maker</h4>
+                <!-- <h4 class="modal-title">Submit Record</h4> -->
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to move lead to CPC maker?</p>
+                <p>Do you want to submit record ?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
-                    data-target="#myModaltwo" (click)="submitTocpc()">Yes</button>
+                <button type="button" class="btn btn-primary" (click)="submitTocpc()" data-dismiss="modal">Yes</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -159,14 +173,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">CPC Queue</h4>
+                <!-- <h4 class="modal-title">Submit Record</h4> -->
             </div>
             <div class="modal-body">
-                <p>Lead {{leadId}} is move to CPC Maker Queue</p>
+                <p>Lead {{leadId}} is submited successful</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-dismiss="modal">OK</button>
+                <!-- <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button> -->
             </div>
         </div>
 

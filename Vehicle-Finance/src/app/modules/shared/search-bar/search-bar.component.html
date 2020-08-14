@@ -11,7 +11,16 @@
             data-toggle="collapse"
             data-target="#bs-navbar">
             <a (click)="getRoute(item.id, item.name)">{{item.name}}</a>
+           
+           
+         
         </div>
+
+          <!-- supervisorRelated starts -->
+        <!-- <a [routerLink]="[ '/pages/supervisor' ]">SuperVisor</a> -->
+           <!-- supervisorRelated ends -->
+           <!-- <a [routerLink]="[ '/pages/negotiation']">Negotiation</a> -->
+           <a [routerLink]="[ '/pages/disbursement-section/102']">Disbursement</a>
     </div>
     <span class="search-icon-left" [ngClass]="{'test': isMobile}"></span>
     <button 

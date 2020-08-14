@@ -71,6 +71,11 @@ export class LoanDetailsComponent implements OnInit {
   productCategoryId: any;
   roleId: any;
   roleType: any;
+  regStatus: any;
+  engChassDisabled: boolean;
+  engChassRequired: boolean;
+  insuranceStatus: any;
+  insRequired: boolean;
 
 
 
@@ -185,6 +190,46 @@ export class LoanDetailsComponent implements OnInit {
 
       console.log('in get pd status', value);
     });
+  }
+
+
+  regCopyVerified(event: any) { // fun for conditional based validation for regcopy verified data field
+    console.log(event);
+    this.regStatus = event ? event : event;
+    if (this.regStatus === '1') {
+      this.engChassDisabled = false;
+      this.engChassRequired = true;
+      this.loanDetailsForm.get('engineNumber').enable();
+      this.loanDetailsForm.get('chasisNumber').setValidators(Validators.required);
+      this.loanDetailsForm.get('chasisNumber').enable();
+      this.loanDetailsForm.get('chasisNumber').setValidators(Validators.required);
+
+    } else if (this.regStatus !== '1') {
+      this.engChassDisabled = true;
+      this.engChassRequired = false;
+      this.loanDetailsForm.get('engineNumber').disable();
+      this.loanDetailsForm.get('chasisNumber').clearValidators();
+      this.loanDetailsForm.get('chasisNumber').updateValueAndValidity();
+      this.loanDetailsForm.get('chasisNumber').disable();
+      this.loanDetailsForm.get('chasisNumber').updateValueAndValidity();
+
+    }
+
+  }
+  insCopyVerified(event) {
+    this.insuranceStatus = event ? event : event;
+    if (this.insuranceStatus === '1') {
+      this.insRequired = true;
+      this.loanDetailsForm.get('insuranceValidity').enable();
+      this.loanDetailsForm.get('insuranceValidity').setValidators(Validators.required);
+    } else if (this.insuranceStatus !== '1') {
+      this.insRequired = true;
+      this.loanDetailsForm.get('insuranceValidity').disable();
+      this.loanDetailsForm.get('insuranceValidity').clearValidators();
+      this.loanDetailsForm.get('insuranceValidity').updateValueAndValidity();
+
+    }
+
   }
 
   initForm() {
@@ -419,11 +464,13 @@ export class LoanDetailsComponent implements OnInit {
 
   setFormValue() {
     // const loanDetailsModal = this.ddeStoreService.getLoanDetails() || {};
-
-    const newCvModel = this.newCvDetails || {};
+    let newCvModel = null;
+    newCvModel = this.newCvDetails || {};
     console.log('new cv model', newCvModel);
-    const usedVehicleModel = this.usedVehicleDetails || {};
-    const assetDetailsUsedVehicleModel = this.assetDetailsUsedVehicle || {};
+    let usedVehicleModel = null;
+    usedVehicleModel = this.usedVehicleDetails || {};
+    let assetDetailsUsedVehicleModel = null;
+    assetDetailsUsedVehicleModel = this.assetDetailsUsedVehicle || {};
 
     if (this.productCatCode === 'NCV' || this.productCatCode === 'NC') {
 
@@ -601,6 +648,8 @@ export class LoanDetailsComponent implements OnInit {
           console.log('PD Status', message);
           console.log('response loan details', value.ProcessVariables);
           this.toasterService.showSuccess('Record Saved Successfully', '');
+          this.getPdDetails();
+
         } else {
           console.log('error', processVariables.error.message);
           this.toasterService.showError('invalid loan details', 'message');
@@ -691,12 +740,14 @@ export class LoanDetailsComponent implements OnInit {
           this.toasterService.showSuccess('Record Saved Successfully', '');
           if (action === 'save') {
 
+            this.getPdDetails();
+
           } else if (action === 'next') {
 
-            if (this.version !== 'undefined') {
+            if (this.version != 'undefined') {
 
               // tslint:disable-next-line: max-line-length
-              this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/reference-check/${this.version}`]);
+              this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/reference-check/${this.version}`]);
 
             } else {
 
@@ -722,22 +773,25 @@ export class LoanDetailsComponent implements OnInit {
     this.router.navigate([`/pages/dashboard`]);
 
   }
-  // onNavigateNext() {
-  //   if (this.version !== 'undefined') {
-  //     this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/reference-check/${this.version}`]);
+  onNavigateNext() {
+    if (this.version !== 'undefined') {
+      // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/reference-check/${this.version}`]);
+      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/reference-check/${this.version}`]);
 
-  //   } else {
-  //     this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/reference-check`]);
-  //     // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
+    } else {
+      // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/reference-check`]);
+      // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
+      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/reference-check`]);
 
-  //   }
-  // }
+    }
+    // /pages/fi-cum-pd-dashboard/1731/fi-cum-pd-list/1974/reference-check
+  }
 
   onNavigateBack() {
-    if (this.version !== 'undefined') {
+    if (this.version != 'undefined') {
       console.log('in routing defined version condition', this.version);
       // tslint:disable-next-line: max-line-length
-      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
+      this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
 
     } else {
       console.log('in routing undefined version condition', this.version);

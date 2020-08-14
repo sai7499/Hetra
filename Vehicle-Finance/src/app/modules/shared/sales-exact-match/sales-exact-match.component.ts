@@ -34,17 +34,10 @@ export class SalesExactMatchComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log('details', this.salesDedupeService.getDedupeDetails());
     this.dedupeDetails = this.salesDedupeService.getDedupeDetails();
     this.dedupeParameter = this.salesDedupeService.getDedupeParameter();
     this.isExactAvailable = !!this.dedupeDetails.deduIndExctMatch;
     this.isIndividual = this.dedupeDetails.entityType === 'INDIVENTTYP';
-    console.log(
-      'this.isExactAvailable ',
-      this.isExactAvailable,
-      'this.isNewApplicant',
-      this.isNewApplicant
-    );
   }
 
   rejectLead() {}
@@ -60,7 +53,6 @@ export class SalesExactMatchComponent implements OnInit {
   }
 
   onProbableChange(event, value) {
-    console.log('probable event', event, 'value', value);
     if (this.selectedDetails && value.ucic === this.selectedDetails.ucic) {
       if (!this.isExactAvailable) {
         this.isNewApplicant = false;
@@ -77,7 +69,6 @@ export class SalesExactMatchComponent implements OnInit {
   onExactChange(event) {
     this.selectedDetails = event;
     this.enableUcicButton();
-    console.log('exact event', event);
   }
 
   enableUcicButton() {
@@ -97,7 +88,6 @@ export class SalesExactMatchComponent implements OnInit {
     this.applicantService
       .checkSalesApplicantDedupe(data)
       .subscribe((value: any) => {
-        console.log('callApiForNewApplicant', value);
         const leadId = this.dedupeParameter.leadId;
         if (value.Error === '0') {
           const processVariables = value.ProcessVariables;
@@ -144,7 +134,6 @@ export class SalesExactMatchComponent implements OnInit {
     this.applicantService
       .checkSalesApplicantUcic(data)
       .subscribe((data: any) => {
-        console.log('ucicservice', data);
         if (data.Error === '0') {
           const processVariables = data.ProcessVariables;
           this.checkNegativeList(processVariables.applicantId);
@@ -166,7 +155,6 @@ export class SalesExactMatchComponent implements OnInit {
       const isProceed = event.name === 'proceed';
       const remarks = event.remarks;
       await this.storeRemarks(isProceed, remarks);
-      console.log('remarks stored');
     }
 
     if (event.name === 'proceed' || event.name === 'next') {
@@ -246,7 +234,6 @@ export class SalesExactMatchComponent implements OnInit {
     this.applicantService
       .applicantNegativeListWrapper(data)
       .subscribe((value: any) => {
-        console.log('checkNegativeList', value);
         const processVariables = value.ProcessVariables;
         this.showNegativeListModal = true;
         let nlRemarks = '';

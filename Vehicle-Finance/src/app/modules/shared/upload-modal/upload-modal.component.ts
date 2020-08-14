@@ -62,7 +62,6 @@ export class UploadModalComponent {
     }
 
     const base64: any = await this.toBase64(files);
-    console.log('base64', base64);
     this.imageUrl = base64;
     this.fileSize = this.bytesToSize(files.size);
     this.fileName = files.name;
@@ -171,7 +170,6 @@ export class UploadModalComponent {
         ...this.docsDetails,
       },
     ];
-    console.log('docsDetails', this.docsDetails);
     this.uploadService
       .constructUploadModel(addDocReq)
       .pipe(
@@ -179,7 +177,6 @@ export class UploadModalComponent {
           if (value.addDocumentRep.msgHdr.rslt === 'OK') {
             const body = value.addDocumentRep.msgBdy;
             const docsRes = body.addDocResp[0];
-            console.log('docsRes', docsRes);
             const docsDetails = {
               ...docsRes,
             };
@@ -250,13 +247,10 @@ export class UploadModalComponent {
 
   openCamera() {
     this.takePicture().then((uri) => {
-      console.log('imageData', uri);
       this.imageUrl = uri;
       this.fileName = Math.random().toString(36).substring(2, 15);
-      this.fileSize = '';
-      this.fileType = 'png';
-      console.log('fileName', this.fileName);
-      console.log('fileSize', this.fileSize);
+      this.fileSize = ""
+      this.fileType = "png";
     });
   }
 

@@ -19,18 +19,20 @@ export const environment = {
     submitToCredit: '403a8a12b79511ea8afff2fa9bec3d63',
     externalApi: 'db2732f4ab4811ea82f8f2fa9bec3d63',
     reinitiatePdApi: '403a8a12b79511ea8afff2fa9bec3d63',
+    reinititateFiApi: '403a8a12b79511ea8afff2fa9bec3d63',
     camProjectId: '74c36bec6da211eabdc2f2fa9bec3d63',
     viabilityApi: '0d888054a7e811ea800bf2fa9bec3d63',
-    wrapperPanValidation : 'db2732f4ab4811ea82f8f2fa9bec3d63',
-    wrapperBiometriceKYC : 'db2732f4ab4811ea82f8f2fa9bec3d63'
+    wrapperPanValidation: 'db2732f4ab4811ea82f8f2fa9bec3d63',
+    wrapperBiometriceKYC: 'db2732f4ab4811ea82f8f2fa9bec3d63',
+    supervisorProId: 'ed58f72ea9a811ea824bf2fa9bec3d63'//supervisorRelated
   },
 
   hostingEnvironment: 'DEV',
   // hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
   // host: 'http://128.199.164.250/appiyo/',
-  host: 'https://hetrauat.equitasbank.com/appiyodev/',
-  //host: 'http://10.101.10.153/appiyo/',
+  // host: 'https://hetrauat.equitasbank.com/appiyodev/',
+  host: 'http://10.101.10.153/appiyo/',
 
   // host: 'https://hetrauat.equitasbank.com/appiyo/',
   //host: 'http://10.101.10.153/appiyo/',

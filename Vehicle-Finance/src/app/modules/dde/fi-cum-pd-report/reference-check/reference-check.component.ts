@@ -290,6 +290,7 @@ export class ReferenceCheckComponent implements OnInit {
       console.log('save or update PD Response', res);
       if (res.ProcessVariables.error.code === '0') {
         this.toasterService.showSuccess('Record Saved Successfully', '');
+        this.getPdDetails();
 
       } else {
         console.log('error', res.ProcessVariables.error.message);
@@ -389,7 +390,7 @@ export class ReferenceCheckComponent implements OnInit {
 
   onNavigateToPdSummary() { // fun to navigate to pd summary
 
-    if (this.version !== 'undefined') {
+    if (this.version != 'undefined') {
       console.log('in routing defined version condition', this.version);
       // http://localhost:4200/#/pages/dashboard/personal-discussion/my-pd-tasks
 
@@ -403,9 +404,9 @@ export class ReferenceCheckComponent implements OnInit {
   }
 
   onNavigateBack() { // fun to navigate to back page
-    if (this.version !== 'undefined') {
+    if (this.version != 'undefined') {
       console.log('in routing defined version condition', this.version);
-      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/loan-details/${this.version}`]);
+      this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/loan-details/${this.version}`]);
 
     } else {
       console.log('in routing undefined version condition', this.version);

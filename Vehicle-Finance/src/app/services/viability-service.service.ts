@@ -96,7 +96,6 @@ export class ViabilityServiceService {
 
      CollateralId(data) {
       this.CollateralObj = data;
-      console.log(this.CollateralObj, this.collateralId, 'Coll obj');
     }
      getCollateralId() {
       return this.CollateralObj;

@@ -632,7 +632,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           const processVariables = value.ProcessVariables;
           const addressList: any[] = processVariables.GeoMasterView;
           if (!addressList) {
-            //this.toasterService.showError('Invalid pincode', '');
+            this.toasterService.showError('Invalid pincode', '');
             return;
           }
           const first = addressList[0];
@@ -1476,7 +1476,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     }
     this.aboutIndivProspectDetails = {
       dob: dedupe.dob,
-      mobilePhone: mobileNumber,
+      mobilePhone: mobileNumber, 
     };
 
     this.indivIdentityInfoDetails = {
@@ -2055,13 +2055,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         //console.log('responce Pan Validation', responce)
         if (responce['ProcessVariables'].error.code == '0') {
           this.toasterService.showSuccess(responce['ProcessVariables'].error.message,
-            'Pan Validation Successful');
+            'PAN Validation Successful');
           this.showEkycbutton = true;
         } else {
           this.panValidate = true;
           this.toasterService.showError(
             responce['ProcessVariables'].error.message,
-            'Pan validation Error'
+            'PAN Validation Error'
           );
 
         }
