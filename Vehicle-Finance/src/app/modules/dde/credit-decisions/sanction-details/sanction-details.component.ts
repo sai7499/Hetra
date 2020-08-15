@@ -77,9 +77,15 @@ salesResponse: any;
         this.isSanctionDetails = res['ProcessVariables'].isGenerated;
         const response = res;
         this.sanctionDetailsObject = response.ProcessVariables;
+        
         // Filter Out Applicant, Co-Applicant And Guarantor List If ApplicantList_Object Exist
         if (this.sanctionDetailsObject.applicantList) {
-          this.sanctionDetailsObject.applicantList.filter((element) => {
+          const getApplicantList: Array<any> = this.sanctionDetailsObject.applicantList
+          this.applicantList = [];
+          this.coApplicantList = [];
+          this.guarantorList = [];
+          // this.sanctionDetailsObject.applicantList.filter((element) => {
+            getApplicantList.forEach((element) => {
             if (element.applicantType === 'Applicant') {
               const data = {
                 applicantType: element.applicantType,

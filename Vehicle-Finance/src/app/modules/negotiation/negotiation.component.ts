@@ -406,7 +406,7 @@ export class NegotiationComponent implements OnInit {
       }
     }
   }
-  getRepayableMonths() {
+  getRepayableMonths(event) {
     const selectedValu = this.createNegotiationForm.get('MoratoriumPeriod').value;
     if (Number(selectedValu.slice(0, 1))) {
       const ab = Number(this.createNegotiationForm.controls.NegotiatedLoanTenor.value) - (Number(selectedValu.slice(0, 1)) - 1);
@@ -812,11 +812,12 @@ export class NegotiationComponent implements OnInit {
 
   //  buttons navigation
   onNext() {
-    if(this.roleType == '1') {
-      this.router.navigate([`pages/credit-decisions/${this.leadId}/sanction-details`]);
-    } else if (this.roleType == '2' ) {
-      this.router.navigate([`pages/credit-decisions/${this.leadId}/term-sheet`]);
-    }
+    // if(this.roleType == '1') {
+    //   this.router.navigate([`pages/credit-decisions/${this.leadId}/sanction-details`]);
+    // } else if (this.roleType == '2' ) {
+      this.router.navigate([`pages/credit-decisions/${this.leadId}/disbursement`]);
+    // }
+    
     }
   routerUrlIdentifier() {
     if (this.router.url.includes('disbursement-section')) {
