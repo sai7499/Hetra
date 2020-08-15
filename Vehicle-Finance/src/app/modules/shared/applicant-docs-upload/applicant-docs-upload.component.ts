@@ -188,11 +188,22 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
   setDocumentDetails() {
     this.uploadService
-      .getDocumentDetails(this.applicantId)
+      .getDocumentDetails(this.applicantId, this.associatedWith)
       .subscribe((value: any) => {
-        const docDetails: DocumentDetails[] =
-          value.ProcessVariables.documentDetails;
+        console.log('doc details', value);
+        const processVariables = value.ProcessVariables;
+        const docDetails: DocumentDetails[] = processVariables.documentDetails;
         this.documentArr = docDetails || [];
+        const photo = processVariables.photo;
+        const signature = processVariables.signature;
+        if (photo) {
+          this.DEFAULT_PROFILE_IMAGE = 'data:image/jpeg;base64,' + photo;
+        }
+
+        if (signature) {
+          this.DEFAULT_SIGNATURE_IMAGE = 'data:image/jpeg;base64,' + signature;
+        }
+        console.log('this.documentArr', this.documentArr);
         if (!docDetails) {
           this.subCategories.forEach((subCategory) => {
             const formArray = this.uploadForm.get(
@@ -208,19 +219,19 @@ export class ApplicantDocsUploadComponent implements OnInit {
           ) as FormArray;
           if (formArray) {
             formArray.push(this.getDocsFormControls(docs));
-            if (docs.categoryCode === '50' && docs.subCategoryCode === '1') {
-              this.getBase64String(docs.dmsDocumentId).then((value: any) => {
-                this.DEFAULT_PROFILE_IMAGE =
-                  'data:image/jpeg;base64,' + value.imageUrl;
-              });
-            }
+            // if (docs.categoryCode === '50' && docs.subCategoryCode === '1') {
+            //   this.getBase64String(docs.dmsDocumentId).then((value: any) => {
+            //      this.DEFAULT_PROFILE_IMAGE =
+            //       'data:image/jpeg;base64,' + value.imageUrl;
+            //   });
+            // }
 
-            if (docs.categoryCode === '50' && docs.subCategoryCode === '2') {
-              this.getBase64String(docs.dmsDocumentId).then((value: any) => {
-                this.DEFAULT_SIGNATURE_IMAGE =
-                  'data:image/jpeg;base64,' + value.imageUrl;
-              });
-            }
+            // if (docs.categoryCode === '50' && docs.subCategoryCode === '2') {
+            //   this.getBase64String(docs.dmsDocumentId).then((value: any) => {
+            //      this.DEFAULT_SIGNATURE_IMAGE =
+            //       'data:image/jpeg;base64,' + value.imageUrl;
+            //   });
+            // }
           }
         });
 
@@ -267,8 +278,23 @@ export class ApplicantDocsUploadComponent implements OnInit {
     console.log('this.uploadForm', this.uploadForm.value);
   }
 
+  toggleDeferralDate(categoryCode, index) {
+    const formArray = this.uploadForm.get(
+      `${this.FORM_ARRAY_NAME}_${categoryCode}`
+    ) as FormArray;
+    const formGroup = formArray.at(index);
+    console.log('checked value', formGroup.get('isDeferred').value);
+    const isChecked = formGroup.get('isDeferred').value;
+    if (isChecked) {
+      formGroup.get('deferredDate').enable();
+    } else {
+      formGroup.get('deferredDate').disable();
+    }
+  }
+
   getDocsFormControls(data?: DocumentDetails) {
     const document = data || {};
+    const isDeferred = document.isDeferred === '1';
     const controls = new FormGroup({
       documentName: new FormControl(document.documentName || ''),
       documentNumber: new FormControl(document.documentNumber || ''),
@@ -280,6 +306,10 @@ export class ApplicantDocsUploadComponent implements OnInit {
       ),
       file: new FormControl(document.dmsDocumentId || ''),
       documentId: new FormControl(document.documentId || 0),
+      isDeferred: new FormControl(isDeferred),
+      deferredDate: new FormControl(
+        this.utilityService.getDateFromString(document.deferredDate) || ''
+      ),
     });
     return controls;
   }
@@ -361,6 +391,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
       expiryDate: new FormControl(''),
       file: new FormControl(''),
       documentId: new FormControl(0),
+      deferredDate: new FormControl(''),
+      isDeferred: new FormControl(''),
     });
     formArray.push(controls);
   }
@@ -398,6 +430,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
     const documentNumber = formGroup.get('documentNumber').value;
     const documentId = formGroup.get('documentId').value;
     const documentName = formGroup.get('documentName').value;
+    const isDeferred = formGroup.get('isDeferred').value;
+    const deferredDate = formGroup.get('deferredDate').value;
 
     if (!imageType) {
       if (!documentName) {
@@ -413,6 +447,15 @@ export class ApplicantDocsUploadComponent implements OnInit {
         );
       }
     }
+
+    // if (isDeferred) {
+    //   if (!deferredDate) {
+    //     return this.toasterService.showError(
+    //       'Please enter the deferral date',
+    //       ''
+    //     );
+    //   }
+    // }
 
     if (index !== undefined) {
       this.selectedIndex = index;
@@ -471,6 +514,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
         },
       ],
       docsTypeForString: imageType,
+      deferredDate,
+      isDeferred: isDeferred ? '1' : '0',
     };
   }
 
@@ -553,26 +598,18 @@ export class ApplicantDocsUploadComponent implements OnInit {
       this.DEFAULT_PROFILE_IMAGE = 'data:image/jpeg;base64,' + event.imageUrl;
       const data = {
         inputValue: event.imageUrl,
-        isCreate: true,
-        isFingerPrint: false,
         isPhoto: true,
-        isSignature: false,
-        tableName: 'ind_identification_proof',
         applicantId: this.applicantId,
       };
-      // this.uploadPhotoOrSignature(data);
+      this.uploadPhotoOrSignature(data);
     } else if (event.docsTypeForString === 'signature') {
       this.DEFAULT_SIGNATURE_IMAGE = 'data:image/jpeg;base64,' + event.imageUrl;
       const data = {
         inputValue: event.imageUrl,
-        isCreate: true,
-        isFingerPrint: false,
-        isPhoto: false,
         isSignature: true,
-        tableName: 'ind_identification_proof',
         applicantId: this.applicantId,
       };
-      // this.uploadPhotoOrSignature(data);
+      this.uploadPhotoOrSignature(data);
     }
 
     event.imageUrl = '';
@@ -666,25 +703,122 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   onSubmit() {
-    this.documentArr.forEach((value, index) => {
-      const formArray = this.uploadForm.get(
-        `${this.FORM_ARRAY_NAME}_${value.subCategoryCode}`
-      ) as FormArray;
-      const rawValue = formArray.getRawValue();
-      rawValue.forEach((formValue) => {
-        if (formValue.file === value.dmsDocumentId) {
-          this.documentArr[index] = {
-            ...this.documentArr[index],
-            expiryDate:
-              this.utilityService.getDateFormat(formValue.expiryDate) || '',
-            issueDate:
-              this.utilityService.getDateFormat(formValue.issueDate) || '',
-            documentNumber: formValue.documentNumber,
-          };
-        }
-      });
-    });
-    console.log('documentArr', this.documentArr);
+    // const requestArr = [];
+    // // if (this.documentArr.length === 0) {
+    // console.log('form value', this.uploadForm.value);
+    // const formValue = this.uploadForm.value;
+    // for (const key in formValue) {
+    //   if (formValue[key]) {
+    //     const subCategoryCode = Number(key.split('_')[1]);
+    //     let category: Categories;
+
+    //     this.categories.forEach((val) => {
+    //       val.subcategories.forEach((subCat) => {
+    //         if (subCat.code === subCategoryCode) {
+    //           category = val;
+    //         }
+    //       });
+    //     });
+    //     (formValue[key] || []).forEach((value) => {
+    //       requestArr.push({
+    //         deferredDate:
+    //           this.utilityService.getDateFormat(value.deferredDate) || '',
+    //         documentId: value.documentId,
+    //         documentName: value.documentName,
+    //         documentNumber: value.documentNumber,
+    //         expiryDate:
+    //           this.utilityService.getDateFormat(value.expiryDate) || '',
+    //         dmsDocumentId: value.file,
+    //         isDeferred: value.isDeferred,
+    //         issueDate: this.utilityService.getDateFormat(value.issueDate) || '',
+    //         subCategoryCode: subCategoryCode,
+    //         issuedAt: 'check',
+    //         categoryCode: category.code,
+    //         // associatedId: this.applicantId,
+    //         // associatedWith: this.associatedWith
+    //       });
+    //     });
+    //   }
+    // }
+
+    // // this.documentArr = requestArr;
+    // console.log('this.documentArr', this.documentArr);
+    // //   return;
+    // // }
+
+    // this.documentArr.forEach((value, index) => {
+    //   const formArray = this.uploadForm.get(
+    //     `${this.FORM_ARRAY_NAME}_${value.subCategoryCode}`
+    //   ) as FormArray;
+    //   const rawValue = formArray.getRawValue();
+    //   rawValue.forEach((formValue) => {
+    //     if (formValue.file === value.dmsDocumentId) {
+    //       this.documentArr[index] = {
+    //         ...this.documentArr[index],
+    //         expiryDate:
+    //           this.utilityService.getDateFormat(formValue.expiryDate) || '',
+    //         issueDate:
+    //           this.utilityService.getDateFormat(formValue.issueDate) || '',
+    //         documentNumber: formValue.documentNumber,
+    //       };
+    //     }
+    //   });
+    // });
+
+    // if (this.documentArr.length === 0) {
+    const formValue = this.uploadForm.value;
+    const requestArr = [];
+    for (const key in formValue) {
+      if (formValue[key]) {
+        const subCategoryCode = Number(key.split('_')[1]);
+        let category: Categories;
+
+        this.categories.forEach((val) => {
+          val.subcategories.forEach((subCat) => {
+            if (subCat.code === subCategoryCode) {
+              category = val;
+            }
+          });
+        });
+        (formValue[key] || []).forEach((value, index) => {
+          const documentName = value.documentName;
+          // const expiryDate =
+          // this.utilityService.getDateFormat(value.expiryDate) || '';
+          // const issueDate =
+          // this.utilityService.getDateFormat(value.issueDate) || '';
+          const deferredDate =
+            this.utilityService.getDateFormat(value.deferredDate) || '';
+          if (documentName || deferredDate) {
+            requestArr.push({
+              deferredDate:
+                this.utilityService.getDateFormat(value.deferredDate) || '',
+              documentId: value.documentId,
+              documentName: value.documentName,
+              documentType: value.documentName,
+              documentNumber: value.documentNumber || '',
+              expiryDate:
+                this.utilityService.getDateFormat(value.expiryDate) || '',
+              dmsDocumentId: value.file,
+              isDeferred: value.isDeferred ? '1' : '0',
+              issueDate:
+                this.utilityService.getDateFormat(value.issueDate) || '',
+              subCategoryCode,
+              issuedAt: 'check',
+              categoryCode: category.code,
+              formArrayIndex: index,
+              associatedId: String(this.applicantId),
+              associatedWith: String(this.associatedWith),
+            });
+          }
+        });
+      }
+    }
+    this.documentArr = requestArr;
+    // }
+
+    // console.log('documentArr', requestArr);
+
+    // return;
 
     this.uploadService
       .saveOrUpdateDocument(this.documentArr)

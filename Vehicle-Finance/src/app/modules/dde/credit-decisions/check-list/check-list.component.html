@@ -136,7 +136,7 @@
                             type="button" (click)="onNext()" *ngIf="roleType != '2'"><a>Next</a>
                         </button>
                         <button class="btn btn-primary dash_href adjustMargins" type="button" *ngIf="roleType == '2'"><a
-                                data-toggle="modal" data-target="#myModal">Submit to CPC</a></button>
+                                data-toggle="modal" data-target="#myModal">Submit for Approval</a></button>
                     </div>
 
                 </div>
@@ -153,13 +153,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Submit to CPC Maker</h4>
+                <!-- <h4 class="modal-title">Submit Record</h4> -->
             </div>
             <div class="modal-body">
-                <p>Are You Sure Want To Save Record ?</p>
+                <p>Do you want to submit record ?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" (click)="submitTocpc()">Yes</button>
+                <button type="button" class="btn btn-primary" (click)="submitTocpc()" data-dismiss="modal">Yes</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -173,14 +173,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">CPC Queue</h4>
+                <!-- <h4 class="modal-title">Submit Record</h4> -->
             </div>
             <div class="modal-body">
-                <p>Lead {{leadId}} is move to CPC Maker Queue</p>
+                <p>Lead {{leadId}} is submited successful</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-dismiss="modal">OK</button>
+                <!-- <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button> -->
             </div>
         </div>
 

@@ -71,10 +71,12 @@ export class CpcMakerDdeComponent implements OnInit {
       return 1;
     } else if (url.includes('negotiation')) {
       return 2;
-    } else if (url.includes('sanction-details')) {
+    }  else if (url.includes('disbursement')) {
       return 3;
-    } else if (url.includes('pdc-details')) {
+    } else if (url.includes('sanction-details')) {
       return 4;
+    } else if (url.includes('pdc-details')) {
+      return 5;
     }
   }
 }

@@ -18,11 +18,15 @@
                [ngClass]="{'js-active': locationIndex >= 2}"
                   type="button" id="applicant_bank_details">
                   Negotiations</button>
-              <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 3}"
+                  <button class="multisteps-form__progress-btn "  (click)="onNavigate('disbursement')"
+               [ngClass]="{'js-active': locationIndex >= 3}"
+                  type="button" id="applicant_bank_details">
+                  Disbursement</button>
+              <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 4}"
                   type="button" id="applicant_identity_details" (click)="onNavigate('sanction-details')" >
                   Sanction Details
               </button>
-              <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 4}"
+              <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 5}"
                 type="button" id="applicant_basic_details" (click)="onNavigate('pdc-details')">
                 Pdc Details </button>
              
