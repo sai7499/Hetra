@@ -1,3 +1,4 @@
+import { DisbursementComponent } from './disbursement/disbursement.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -39,7 +40,7 @@ import {MatSortModule} from '@angular/material/sort';
 
 @NgModule({
   // tslint:disable-next-line: max-line-length
-  declarations: [DashboardComponent, NewLeadsComponent, LeadsComponent, SanctionedLeadsPendingWithMeComponent, SanctionedLeadsPendingWithBranchComponent, DeclinedLeadsWithMeComponent, DeclinedLeadsWithBranchComponent, PersonalDiscussionComponent, MyTasksComponent, BranchTasksComponent, VehicleViabilityComponent, ViabilityChecksComponent, ViabilityChecksBranchComponent, DeviationComponent, DeviationWithMeComponent, DeviationWithBranchComponent, CreditDecisionComponent, DecisionWithMeComponent, DecisionWithBranchComponent, CpcMakerComponent, CpcCheckerComponent, CheckerLeadsWithMeComponent, CheckerLeadsWithCpcComponent, MakerLeadsWithMeComponent, MakerLeadsWithCpcComponent, DdeBranchLeadsComponent],
+  declarations: [DashboardComponent, NewLeadsComponent, DisbursementComponent, LeadsComponent, SanctionedLeadsPendingWithMeComponent, SanctionedLeadsPendingWithBranchComponent, DeclinedLeadsWithMeComponent, DeclinedLeadsWithBranchComponent, PersonalDiscussionComponent, MyTasksComponent, BranchTasksComponent, VehicleViabilityComponent, ViabilityChecksComponent, ViabilityChecksBranchComponent, DeviationComponent, DeviationWithMeComponent, DeviationWithBranchComponent, CreditDecisionComponent, DecisionWithMeComponent, DecisionWithBranchComponent, CpcMakerComponent, CpcCheckerComponent, CheckerLeadsWithMeComponent, CheckerLeadsWithCpcComponent, MakerLeadsWithMeComponent, MakerLeadsWithCpcComponent, DdeBranchLeadsComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,
