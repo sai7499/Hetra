@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FiReportOfficeComponent } from './fi-report-office.component';
+import { DisbursementFormComponent } from './disbursement-form.component';
 
-describe('FiReportOfficeComponent', () => {
-  let component: FiReportOfficeComponent;
-  let fixture: ComponentFixture<FiReportOfficeComponent>;
+describe('DisbursementFormComponent', () => {
+  let component: DisbursementFormComponent;
+  let fixture: ComponentFixture<DisbursementFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FiReportOfficeComponent ]
+      declarations: [ DisbursementFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FiReportOfficeComponent);
+    fixture = TestBed.createComponent(DisbursementFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

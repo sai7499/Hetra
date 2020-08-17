@@ -18,7 +18,6 @@ import { DocumentDetails } from '@model/upload-model';
 import { Constant } from '@assets/constants/constant';
 import { environment } from 'src/environments/environment';
 
-
 @Component({
   selector: 'app-upload-modal',
   templateUrl: './upload-modal.component.html',
@@ -39,11 +38,10 @@ export class UploadModalComponent {
   fileInput: ElementRef;
   isMobile: any;
 
-
   constructor(
     private uploadService: UploadService,
     private utilityService: UtilityService,
-    private camera: Camera,
+    private camera: Camera
   ) {
     this.isMobile = environment.isMobile;
   }
@@ -207,6 +205,11 @@ export class UploadModalComponent {
             associatedId: this.docsDetails.associatedId,
             associatedWith: this.docsDetails.associatedWith,
             formArrayIndex: this.docsDetails.formArrayIndex,
+            deferredDate:
+              this.utilityService.getDateFormat(
+                this.docsDetails.deferredDate
+              ) || '',
+            isDeferred: this.docsDetails.isDeferred,
           };
           if (
             this.docsDetails.docsTypeForString === 'profile' ||
@@ -226,7 +229,6 @@ export class UploadModalComponent {
         }
       );
   }
-
 
   async takePicture() {
     const options: CameraOptions = {

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FiReportResidenceComponent } from './fi-report-residence.component';
+import { PddDetailsComponent } from './pdd-details.component';
 
-describe('FiReportResidenceComponent', () => {
-  let component: FiReportResidenceComponent;
-  let fixture: ComponentFixture<FiReportResidenceComponent>;
+describe('PddDetailsComponent', () => {
+  let component: PddDetailsComponent;
+  let fixture: ComponentFixture<PddDetailsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FiReportResidenceComponent ]
+      declarations: [ PddDetailsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FiReportResidenceComponent);
+    fixture = TestBed.createComponent(PddDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

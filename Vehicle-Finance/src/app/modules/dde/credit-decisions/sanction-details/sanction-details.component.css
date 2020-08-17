@@ -5,8 +5,19 @@
     border-bottom: 1px solid;
 }
 
+<<<<<<< HEAD
 .align-justify{
     text-align: justify;
 }
 
  
+=======
+.head-tag{
+    font-weight: bolder;
+    font-size: 18px;
+}
+
+.font-fam{
+    font-family: times new roman;
+}
+>>>>>>> a07b3db40425ffa249832b46420509d54410098c

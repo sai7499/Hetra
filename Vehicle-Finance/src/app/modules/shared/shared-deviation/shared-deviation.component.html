@@ -10,7 +10,7 @@
 
       <div *ngIf="deviationsForm.get('autoDeviationFormArray')['controls'].length > 0">
 
-        <h3 class="margin_zero">{{labels?.autoDeviation}}</h3>
+        <h3 class="cus-title margin_zero">{{labels?.autoDeviation}}</h3>
 
         <div class="row">
           <div class="form-group col-sm-6 col-md-3 col-lg-3 col-xs-12">
@@ -24,6 +24,8 @@
           </div>
 
           <div class="form-group col-sm-6 col-md-2 col-lg-2 col-xs-12">
+          
+          <div class="form-group col-sm-6 col-md-2 col-lg-2">
             <label for="end" class="action">{{labels?.action}}</label>
           </div>
         </div>
@@ -56,15 +58,15 @@
               <div class="row m-0 radio-inline"
                 [ngClass]="{'disabled': !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}">
                 <label for="approve_action">
-                  <input type="radio" id="approve_action" formControlName="statusCode" value="1"
+                  <input type="radio" id="approve_action_{{i}}" formControlName="statusCode" value="1"
                     (click)="onApproveDeclineAction(1, obj)">{{labels?.approve}}
                 </label>
                 <label for=" refer_action">
-                  <input type="radio" id="refer_action" formControlName="statusCode" value="2"
+                  <input type="radio" id="refer_actionn_{{i}}" formControlName="statusCode" value="2"
                     (click)="onApproveDeclineAction(2, obj)">{{labels?.referToNextLevel}}
                 </label>
                 <label for="decline_action">
-                  <input type="radio" id="decline_action" formControlName="statusCode" value="0"
+                  <input type="radio" id="decline_actionn_{{i}}" formControlName="statusCode" value="0"
                     (click)="onApproveDeclineAction(0, obj)">{{labels?.decline}}
                 </label>
               </div>
@@ -82,7 +84,7 @@
 
     <ng-container formArrayName="manualDeviationFormArray">
 
-      <h3 class="margin_zero">{{labels?.manualDeviation}}</h3>
+      <h3 class="cus-title margin_zero">{{labels?.manualDeviation}}</h3>
 
       <div class="text-right" id="add_manual_deviation_btn" *ngIf="!isSubmitToCredit">
         <button class="btn mar-right8 btn-primary" type="button"
@@ -103,8 +105,7 @@
               (change)="onGetDeviationCode($event, j)">
             </app-vf-custom-select>
 
-            <div class="invalid-feedback"
-              *ngIf="findDuplicate(item.controls['devCode'].value, j) && j > 0">
+            <div class="invalid-feedback" *ngIf="findDuplicate(item.controls['devCode'].value, j) && j > 0">
               Duplicate Deviation
             </div>
           </div>
@@ -148,15 +149,15 @@
               [ngClass]="{'disabled': !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}">
 
               <label for="approve_action">
-                <input type="radio" id="approve_action" formControlName="statusCode" value="1"
+                <input type="radio" id="approve_action_manual_{{j}}" formControlName="statusCode" value="1"
                   (click)="onApproveDeclineAction(1, item)">{{labels?.approve}}
               </label>
               <label for=" refer_action">
-                <input type="radio" id="refer_action" formControlName="statusCode" value="2"
+                <input type="radio" id="refer_action_manual_{{j}}" formControlName="statusCode" value="2"
                   (click)="onApproveDeclineAction(2, item)">{{labels?.referToNextLevel}}
               </label>
               <label for="decline_action">
-                <input type="radio" id="decline_action" formControlName="statusCode" value="0"
+                <input type="radio" id="decline_action_manual_{{j}}" formControlName="statusCode" value="0"
                   (click)="onApproveDeclineAction(0, item)">{{labels?.decline}}
               </label>
             </div>
@@ -240,10 +241,10 @@
       <div class="col-sm-12 col-md-12 text-right" *ngIf="isSubmitToCredit">
 
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
-          [disabled]="isSendBacktoCredit !== 1"
+          [disabled]="!(isSendBacktoCredit === 1)"
           (click)="onPatchRecommendationModal('ApproveDeviations')">{{labels?.approveDeviations}}</button>
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
-          [disabled]="isSendBacktoCredit !== 0"
+          [disabled]="!(isSendBacktoCredit === 0)"
           (click)="onPatchRecommendationModal('sendBackToCredit')">{{labels?.sendBackToCredit}}</button>
 
       </div>
