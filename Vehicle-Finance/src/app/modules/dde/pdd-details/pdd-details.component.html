@@ -12,19 +12,29 @@
                         </h4>
                     </div>
                     <div id="collapseTwo1" class="panel-collapse collapse in" aria-expanded="true">
-                        <div class="panel-body" id="show_1_div_identity">
-                            <div class="row">
+                        <div class="panel-body" id="show_1_div_identity" formArrayName="pddDocumentDetails">
+                            <div class="row"  *ngFor="
+                            let item of pddDetailsForm.get('pddDocumentDetails')[
+                              'controls'
+                            ];
+                            let i = index
+                          "
+                          [formGroupName]="i" >
                                 <div class="form-group col-sm-3 col-md-2">
                                     <label for="document" class="label_height">{{labels?.documentName}}</label>
-                                    <input type="text" class="form-control" id="amount" value="RC" readonly="">
-                                    <!-- <app-custom-input
-                                formControlName="documentName"
-                                [type]="labels?.validationData?.fullName?.type"
-                                [className]="'form-control mandatory'"
-                                [maxLength]="labels?.validationData?.fullName?.maxLength"
-                                [isDirty]="isDirty"
-                                [isDisabled]="true"
-                              ></app-custom-input> -->
+                                    <!-- <input type="text" class="form-control" id="amount" value="RC" readonly=""> -->
+                                   <ng-container>
+                                        <app-custom-input 
+                                        formControlName="documentName"
+                                        [type]="labels?.validationData?.fullName?.type"
+                                        [className]="'form-control mandatory'"
+                                        [maxLength]="labels?.validationData?.fullName?.maxLength"
+                                        [isDirty]="isDirty"
+                                        [isDisabled]="true"
+                                      ></app-custom-input>
+                                    </ng-container>
+                                    
+                                   
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
                                     <label for="idate" class="label_height">{{labels?.expectedDate}}</label>
@@ -100,109 +110,6 @@
                                 [maxLength]="labels?.validationData?.fullName?.maxLength"
                                 [isDirty]="isDirty"
                               ></app-custom-input> -->
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="document" class="label_height">Document Name</label> -->
-                                    <input type="text" class="form-control" id="amount" value="Invoice" readonly="">
-                                </div>
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="idate" class="label_height">Expected Date</label> -->
-                                    <div class="input-group input-medium">
-                                        <span class="input-group-btn">
-                                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
-                                    </span>
-                                        <input type="" class="form-control date_width" id="date" value="23-07-2020" readonly="">
-                                    </div>
-                                </div>
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="documentnumber" class="label_height">Document Number</label> -->
-                                    <input type="text" class="form-control" id="amount" value="26793">
-                                </div>
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label class="upload_label label_height">Upload </label> -->
-                                    <!-- <div class="btn btn-primary uploadsan">Upload -->
-                                    <a href="" class="input_design">invoce<span class="text-dec">#123456</span></a>
-                                </div>
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="edate" class="label_height">Collected Date</label> -->
-                                    <div class="input-group input-medium">
-                                        <span class="input-group-btn">
-                                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
-                                    </span>
-                                        <input type="" class="form-control date_width" id="" value="15-07-2020" readonly="">
-                                    </div>
-                                </div>
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="Status" class="label_height">Status</label> -->
-                                    <select name="status" id="deferral_status" class="form-control">
-                                    <option value="Submitted">Collected</option>
-                                    <option value="Pending">Pending</option>
-                                </select>
-                                </div>
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label class="label_height">CPC Check</label> -->
-                                    <select name="status" id="deferral_status" class="form-control">
-                                   
-                                    <option value="Pending">Verified</option>
-                                    <option value="Submitted">Image not clear</option>
-                                </select>
-                                </div>
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="documentnumber">Physical Tracking Number</label> -->
-                                    <input type="text" class="form-control" id="amount" value="">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="document" class="label_height">Document Name</label> -->
-                                    <input type="text" class="form-control" id="amount" value="Insurance" readonly="">
-                                </div>
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="idate" class="label_height">Expected Date</label> -->
-                                    <div class="input-group input-medium">
-                                        <span class="input-group-btn">
-                                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
-                                    </span>
-                                        <input type="" class="form-control date_width" id="date" value="23-07-2020" readonly="">
-                                    </div>
-                                </div>
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="documentnumber" class="label_height">Document Number</label> -->
-                                    <input type="text" class="form-control" id="amount" value="78654">
-                                </div>
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label class="upload_label label_height">Upload </label> -->
-                                    <!-- <div class="btn btn-primary uploadsan">Upload -->
-                                    <a href="" class="input_design">insrn<span class="text-dec">#123456</span></a>
-                                </div>
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="edate" class="label_height">Collected Date</label> -->
-                                    <div class="input-group input-medium">
-                                        <span class="input-group-btn">
-                                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
-                                    </span>
-                                        <input type="" class="form-control date_width" id="" value="16-07-2020" readonly="">
-                                    </div>
-                                </div>
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="Status" class="label_height">Status</label> -->
-                                    <select name="status" id="deferral_status" class="form-control">
-                                    <option value="Submitted">Collected</option>
-                                    <option value="Pending">Pending</option>
-                                </select>
-                                </div>
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label class="label_height">CPC Check</label> -->
-                                    <select name="status" id="deferral_status" class="form-control">
-                                    <option value="Pending">Verified</option>
-                                    <option value="Submitted">Image not clear</option>
-                                </select>
-                                </div>
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="documentnumber">Physical Tracking Number</label> -->
-                                    <input type="text" class="form-control" id="amount" value="">
                                 </div>
                             </div>
 
