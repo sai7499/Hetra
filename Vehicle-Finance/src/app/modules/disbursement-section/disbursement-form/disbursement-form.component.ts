@@ -132,8 +132,8 @@ export class DisbursementFormComponent implements OnInit {
   trancheDisbLov=[];
   instrumentTypeLov=[];
   coAppNamesLov=[];
-  disbLeadId='1234'// ryt now static lead given , get the lead id from dashboard dynamically
-  disuserID='Anand'// ryt now static userId given , get the userId from dashboard dynamically
+  disbLeadId// ryt now static lead given , get the lead id from dashboard dynamically
+  disuserID = localStorage.getItem("userId");// ryt now static userId given , get the userId from dashboard dynamically
   dealerDetailsData: any;
   applicantDetailsData: any;
   dealerCode: any;
@@ -142,14 +142,14 @@ export class DisbursementFormComponent implements OnInit {
   leadID: any;
   disburseTo: any;
   loanDetailsData : Object = {};
-  ReqDealerDetails: { leadID:any;disbursementID:any; payableTo:String; favouring:String; dealerCode: any; beneficiaryName: String; applicantName:String; favouringName:String; beneficiaryAccountNo: any; beneficiaryBank: any; ifscCode: any; beneficiaryBranch: any; instrumentType: any; instrumentNumber: any; instrumentDate: String; favouringBankOfDraw: any; favouringBankBranch: any; loanNumber: any; beneficiaryAddress1: any; paymentMethod: any; disbursementAmount: any; deductChargesFlag: any; trancheDisbursementFlag: any;trancheDisbursementJson: any ;active:any};
-  ReqApplicantDetails: { leadID: any; disbursementID: any; payableTo:String; favouring:String; beneficiaryName: any; applicantName: any; favouringName: any; beneficiaryAccountNo: any; beneficiaryBank: any; ifscCode: any; beneficiaryBranch: any; instrumentType: any; instrumentNumber: any; instrumentDate: string; favouringBankOfDraw: any; favouringBankBranch: any; loanNumber: any; beneficiaryAddress1: any; paymentMethod: any; disbursementAmount: any; deductChargesFlag: string; trancheDisbursementFlag: string; trancheDisbursementJson: any;active:any };
-  ReqBankerDetails: { leadID: any; disbursementID: any; payableTo:String; favouring:String; bankerId: any; beneficiaryName: any; applicantName: any; favouringName: any; beneficiaryAccountNo: any; beneficiaryBank: any; ifscCode: any; beneficiaryBranch: any; instrumentType: any; instrumentNumber: any; instrumentDate: string; favouringBankOfDraw: any; favouringBankBranch: any; loanNumber: any; beneficiaryAddress1: any; paymentMethod: any; disbursementAmount: any; deductChargesFlag: string; trancheDisbursementFlag: string; trancheDisbursementJson: any;active:any };
-  ReqFinancierDetails: { leadID: any; disbursementID: any; payableTo:String; favouring:String; financierId: any; beneficiaryName: any; applicantName: any; favouringName: any; beneficiaryAccountNo: any; beneficiaryBank: any; ifscCode: any; beneficiaryBranch: any; instrumentType: any; instrumentNumber: any; instrumentDate: string; favouringBankOfDraw: any; favouringBankBranch: any; loanNumber: any; beneficiaryAddress1: any; paymentMethod: any; disbursementAmount: any; deductChargesFlag: string; trancheDisbursementFlag: string; trancheDisbursementJson: any;active:any };
-  ReqTPDetails: { leadID: any; disbursementID: any; payableTo:String; favouring:String; bankerId: any; beneficiaryName: any; applicantName: any; favouringName: any; beneficiaryAccountNo: any; beneficiaryBank: any; ifscCode: any; beneficiaryBranch: any; instrumentType: any; instrumentNumber: any; instrumentDate: string; favouringBankOfDraw: any; favouringBankBranch: any; loanNumber: any; beneficiaryAddress1: any; paymentMethod: any; disbursementAmount: any; deductChargesFlag: string; trancheDisbursementFlag: string; trancheDisbursementJson: any;active:any };
+  ReqDealerDetails: { leadID: any;disbursementID: any; payableTo:String; favouring:String; dealerCode: String; beneficiaryName: String; applicantName:String; favouringName:String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String; loanNumber: String; beneficiaryAddress1: String; paymentMethod: String; disbursementAmount: number; deductChargesFlag: String; trancheDisbursementFlag: String;trancheDisbursementJson: any ;active:String};
+  ReqApplicantDetails: { leadID: any;disbursementID: any; payableTo:String; favouring:String;  beneficiaryName: String; applicantName:String; favouringName:String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String; loanNumber: String; beneficiaryAddress1: String; paymentMethod: String; disbursementAmount: number; deductChargesFlag: String; trancheDisbursementFlag: String;trancheDisbursementJson: any ;active:String };
+  ReqBankerDetails: { leadID: any;disbursementID: any; payableTo:String; favouring:String; bankerId: String;  beneficiaryName: String; applicantName:String; favouringName:String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String; loanNumber: String; beneficiaryAddress1: String; paymentMethod: String; disbursementAmount: number; deductChargesFlag: String; trancheDisbursementFlag: String;trancheDisbursementJson: any ;active:String };
+  ReqFinancierDetails: { leadID: any;disbursementID: any; payableTo:String; favouring:String; financierId: String;  beneficiaryName: String; applicantName:String; favouringName:String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String; loanNumber: String; beneficiaryAddress1: String; paymentMethod: String; disbursementAmount: number; deductChargesFlag: String; trancheDisbursementFlag: String;trancheDisbursementJson: any ;active:String };
+  ReqTPDetails:     { leadID: any;disbursementID: any; payableTo:String; favouring:String;  beneficiaryName: String; applicantName:String; favouringName:String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String; loanNumber: String; beneficiaryAddress1: String; paymentMethod: String; disbursementAmount: number; deductChargesFlag: String; trancheDisbursementFlag: String;trancheDisbursementJson: any ;active:String};
   ReqCoAppDetails: { leadID: any; disbursementID: any; payableTo:String; favouring:String; beneficiaryName: any; applicantName: any; favouringName: any; beneficiaryAccountNo: any; beneficiaryBank: any; ifscCode: any; beneficiaryBranch: any; instrumentType: any; instrumentNumber: any; instrumentDate: string; favouringBankOfDraw: any; favouringBankBranch: any; loanNumber: any; beneficiaryAddress1: any; paymentMethod: any; disbursementAmount: any; deductChargesFlag: string; trancheDisbursementFlag: string; trancheDisbursementJson: any;active:any };
   roleType: any;
-  leadId: any;
+  // leadId: any;
   showSaveButton = true;
   salesResponse: string;
 
@@ -167,19 +167,20 @@ export class DisbursementFormComponent implements OnInit {
   }
 
   async ngOnInit() {
+   
     this.initForm();
     this.getLabels();
     this.disbLOV();
-    this.getCoAppDetails();
-    this.getApplicantDetails();
+    this.disbLeadId = (await this.getLeadId()) as number;
+    // this.getCoAppDetails();
+    // this.getApplicantDetails();
     // this.fetchDisbursementDetails();//enable this to fetch data,redirects fro dashboard
     this.fetchLoanDetails();
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       // this.roleId = value.roleId;
       this.roleType = value.roleType;
       console.log('role Type', this.roleType);
-    });
-    this.leadId = (await this.getLeadId()) as number;
+    });   
     this.routerUrlIdentifier();
     this.salesResponse = localStorage.getItem('salesResponse');
   }
@@ -202,7 +203,6 @@ export class DisbursementFormComponent implements OnInit {
   get tpTrancheDetail(): FormArray {
     return <FormArray>this.trancheTPForm.get('trancheTpArray')
   }
-
 
 
 
@@ -1249,7 +1249,7 @@ selectCheckBox(flag,val) {
     const dealerFormValue = this.dealerDetailsForm.getRawValue();
     dealerFormValue.trancheDisbursementJson = this.trancheDealerForm?JSON.stringify(this.trancheDealerForm.value.trancheDealerArray):'';
     this.ReqDealerDetails = {
-      leadID: this.dealerObjInfo['leadID'],
+      leadID: this.disbLeadId,
       disbursementID: this.dealerObjInfo['disbursementID'] ? this.dealerObjInfo['disbursementID'] : null,
       payableTo:'1DISBURSETO',
       favouring:'Dealer',
@@ -1261,12 +1261,12 @@ selectCheckBox(flag,val) {
       beneficiaryBank:dealerFormValue.beneficiaryBank,
       ifscCode:dealerFormValue.ifscCode,
       beneficiaryBranch:dealerFormValue.beneficiaryBranch,
-      instrumentType:dealerFormValue.instrumentType ? dealerFormValue.instrumentType.value : '',
-      instrumentNumber: dealerFormValue.instrumentNumber ? dealerFormValue.instrumentNumber.value : null,
-      instrumentDate: dealerFormValue.instrumentDate ? (dealerFormValue.instrumentDate.value ? this.utilityService.getNewDateFormat(dealerFormValue.instrumentDate) : '') : '',
-      favouringBankOfDraw: dealerFormValue.favouringBankOfDraw ? dealerFormValue.favouringBankOfDraw.value : '',
-      favouringBankBranch: dealerFormValue.favouringBankBranch ? dealerFormValue.favouringBankBranch.value : '',
-      loanNumber: dealerFormValue.loanNumber ? dealerFormValue.loanNumber.value : '',
+      instrumentType:dealerFormValue.instrumentType,
+      instrumentNumber: dealerFormValue.instrumentNumber,
+      instrumentDate: dealerFormValue.instrumentDate ? this.utilityService.getNewDateFormat(dealerFormValue.instrumentDate) : '',
+      favouringBankOfDraw: dealerFormValue.favouringBankOfDraw,
+      favouringBankBranch: dealerFormValue.favouringBankBranch,
+      loanNumber: dealerFormValue.loanNumber,
       beneficiaryAddress1 : dealerFormValue.address,
       paymentMethod:dealerFormValue.paymentMethod,
       disbursementAmount:dealerFormValue.disbursementAmount,
@@ -1279,7 +1279,7 @@ selectCheckBox(flag,val) {
     const appFormValue = this.appDetailsForm.getRawValue();
     appFormValue.trancheDisbursementJson = this.trancheAppForm?JSON.stringify(this.trancheAppForm.value.trancheAppArray):'';
     this.ReqApplicantDetails = {
-      leadID: this.applicantObjInfo['leadID'],
+      leadID: this.disbLeadId,
       disbursementID: this.applicantObjInfo['disbursementID'] ? this.applicantObjInfo['disbursementID'] : null,
       payableTo:'2DISBURSETO',
       favouring:'Applicant',
@@ -1290,12 +1290,12 @@ selectCheckBox(flag,val) {
       beneficiaryBank:appFormValue.beneficiaryBank,
       ifscCode:appFormValue.ifscCode,
       beneficiaryBranch:appFormValue.beneficiaryBranch,
-      instrumentType:appFormValue.instrumentType ? appFormValue.instrumentType.value : '',
-      instrumentNumber: appFormValue.instrumentNumber ? appFormValue.instrumentNumber.value : null,
-      instrumentDate: appFormValue.instrumentDate ? (appFormValue.instrumentDate.value ? this.utilityService.getNewDateFormat(appFormValue.instrumentDate) : '') : '',
-      favouringBankOfDraw: appFormValue.favouringBankOfDraw ? appFormValue.favouringBankOfDraw.value : '',
-      favouringBankBranch: (appFormValue.favouringBankBranch) ? appFormValue.favouringBankBranch.value : '',
-      loanNumber: appFormValue.loanNumber ? appFormValue.loanNumber.value : '',
+      instrumentType:appFormValue.instrumentType,
+      instrumentNumber: appFormValue.instrumentNumber,
+      instrumentDate: appFormValue.instrumentDate ? this.utilityService.getNewDateFormat(appFormValue.instrumentDate) : '',
+      favouringBankOfDraw: appFormValue.favouringBankOfDraw,
+      favouringBankBranch: appFormValue.favouringBankBranch,
+      loanNumber: appFormValue.loanNumber,
       beneficiaryAddress1 : appFormValue.address,
       paymentMethod:appFormValue.paymentMethod,
       disbursementAmount:appFormValue.disbursementAmount,
@@ -1308,7 +1308,7 @@ selectCheckBox(flag,val) {
     const coAppFormValue = this.coAppDetailsForm.getRawValue();
     coAppFormValue.trancheDisbursementJson = this.trancheCoAppForm?JSON.stringify(this.trancheCoAppForm.value.trancheCoAppArray):'';
     this.ReqCoAppDetails = {
-      leadID: this.bankerObjInfo['leadID'],
+      leadID: this.disbLeadId,
       disbursementID: this.bankerObjInfo['disbursementID'] ? this.bankerObjInfo['disbursementID'] : null,
       payableTo:'3DISBURSETO',
       favouring:'Co Applicant',
@@ -1337,7 +1337,7 @@ selectCheckBox(flag,val) {
     const bankerFormValue = this.bankerDetailsForm.getRawValue();
     bankerFormValue.trancheDisbursementJson = this.trancheBankerForm?JSON.stringify(this.trancheBankerForm.value.trancheBankerArray):'';
     this.ReqBankerDetails = {
-      leadID: this.bankerObjInfo['leadID'],
+      leadID: this.disbLeadId,
       disbursementID: this.bankerObjInfo['disbursementID'] ? this.bankerObjInfo['disbursementID'] : null,
       payableTo:'4DISBURSETO',
       favouring:'Banker',
@@ -1349,12 +1349,12 @@ selectCheckBox(flag,val) {
       beneficiaryBank:bankerFormValue.beneficiaryBank,
       ifscCode:bankerFormValue.ifscCode,
       beneficiaryBranch:bankerFormValue.beneficiaryBranch,
-      instrumentType:bankerFormValue.instrumentType ? bankerFormValue.instrumentType.value : '',
-      instrumentNumber: bankerFormValue.instrumentNumber ? bankerFormValue.instrumentNumber.value : null,
-      instrumentDate: bankerFormValue.instrumentDate ? (bankerFormValue.instrumentDate.value ? this.utilityService.getNewDateFormat(bankerFormValue.instrumentDate) : '') : '',
-      favouringBankOfDraw: bankerFormValue.favouringBankOfDraw ? bankerFormValue.favouringBankOfDraw.value : '',
-      favouringBankBranch: (bankerFormValue.favouringBankBranch) ? bankerFormValue.favouringBankBranch.value : '',
-      loanNumber: bankerFormValue.loanNumber ? bankerFormValue.loanNumber.value : '',
+      instrumentType:bankerFormValue.instrumentType,
+      instrumentNumber: bankerFormValue.instrumentNumber,
+      instrumentDate: bankerFormValue.instrumentDate ? this.utilityService.getNewDateFormat(bankerFormValue.instrumentDate) : '',
+      favouringBankOfDraw: bankerFormValue.favouringBankOfDraw,
+      favouringBankBranch: bankerFormValue.favouringBankBranch,
+      loanNumber: bankerFormValue.loanNumber,
       beneficiaryAddress1 : bankerFormValue.address,
       paymentMethod:bankerFormValue.paymentMethod,
       disbursementAmount:bankerFormValue.disbursementAmount,
@@ -1367,7 +1367,7 @@ selectCheckBox(flag,val) {
     const financierFormValue = this.financierDetailsForm.getRawValue();
     financierFormValue.trancheDisbursementJson = this.trancheFinancierForm?JSON.stringify(this.trancheFinancierForm.value.trancheFinancierArray):'';
     this.ReqFinancierDetails = {
-      leadID: this.financierObjInfo['leadID'],
+      leadID: this.disbLeadId,
       disbursementID: this.financierObjInfo['disbursementID'] ? this.financierObjInfo['disbursementID'] : null,
       payableTo:'5DISBURSETO',
       favouring:'Financier',
@@ -1379,12 +1379,12 @@ selectCheckBox(flag,val) {
       beneficiaryBank:financierFormValue.beneficiaryBank,
       ifscCode:financierFormValue.ifscCode,
       beneficiaryBranch:financierFormValue.beneficiaryBranch,
-      instrumentType:financierFormValue.instrumentType ? financierFormValue.instrumentType.value : '',
-      instrumentNumber: financierFormValue.instrumentNumber ? financierFormValue.instrumentNumber.value : null,
-      instrumentDate: financierFormValue.instrumentDate ? (financierFormValue.instrumentDate.value ? this.utilityService.getNewDateFormat(financierFormValue.instrumentDate) : '') : '',
-      favouringBankOfDraw: financierFormValue.favouringBankOfDraw ? financierFormValue.favouringBankOfDraw.value : '',
-      favouringBankBranch: (financierFormValue.favouringBankBranch) ? financierFormValue.favouringBankBranch.value : '',
-      loanNumber: financierFormValue.loanNumber ? financierFormValue.loanNumber.value : '',
+      instrumentType:financierFormValue.instrumentType,
+      instrumentNumber: financierFormValue.instrumentNumber,
+      instrumentDate: financierFormValue.instrumentDate ? this.utilityService.getNewDateFormat(financierFormValue.instrumentDate) : '',
+      favouringBankOfDraw: financierFormValue.favouringBankOfDraw,
+      favouringBankBranch: financierFormValue.favouringBankBranch,
+      loanNumber: financierFormValue.loanNumber,
       beneficiaryAddress1 : financierFormValue.address,
       paymentMethod:financierFormValue.paymentMethod,
       disbursementAmount:financierFormValue.disbursementAmount,
@@ -1397,11 +1397,10 @@ selectCheckBox(flag,val) {
     const thirdPartyFormValue = this.thirdPartyDetailsForm.getRawValue();
     thirdPartyFormValue.trancheDisbursementJson = this.trancheTPForm?JSON.stringify(this.trancheTPForm.value.trancheTpArray):'';
     this.ReqTPDetails = {
-      leadID: this.thirdPartyObjInfo['leadID'],
+      leadID: this.disbLeadId,
       disbursementID: this.thirdPartyObjInfo['disbursementID'] ? this.thirdPartyObjInfo['disbursementID'] : null,
       payableTo:'6DISBURSETO',
       favouring:'Third Party',
-      bankerId:thirdPartyFormValue.bankerId,
       beneficiaryName:thirdPartyFormValue.beneficiaryName,
       applicantName: thirdPartyFormValue.beneficiaryName,
       favouringName : thirdPartyFormValue.beneficiaryName,
@@ -1409,12 +1408,12 @@ selectCheckBox(flag,val) {
       beneficiaryBank:thirdPartyFormValue.beneficiaryBank,
       ifscCode:thirdPartyFormValue.ifscCode,
       beneficiaryBranch:thirdPartyFormValue.beneficiaryBranch,
-      instrumentType:thirdPartyFormValue.instrumentType ? thirdPartyFormValue.instrumentType.value : '',
-      instrumentNumber: thirdPartyFormValue.instrumentNumber ? thirdPartyFormValue.instrumentNumber.value : null,
-      instrumentDate: thirdPartyFormValue.instrumentDate ? (thirdPartyFormValue.instrumentDate.value ? this.utilityService.getNewDateFormat(thirdPartyFormValue.instrumentDate) : '') : '',
-      favouringBankOfDraw: thirdPartyFormValue.favouringBankOfDraw ? thirdPartyFormValue.favouringBankOfDraw.value : '',
-      favouringBankBranch: (thirdPartyFormValue.favouringBankBranch) ? thirdPartyFormValue.favouringBankBranch.value : '',
-      loanNumber: thirdPartyFormValue.loanNumber ? thirdPartyFormValue.loanNumber.value : '',
+      instrumentType:thirdPartyFormValue.instrumentType,
+      instrumentNumber: thirdPartyFormValue.instrumentNumber,
+      instrumentDate: thirdPartyFormValue.instrumentDate ? this.utilityService.getNewDateFormat(thirdPartyFormValue.instrumentDate) : '',
+      favouringBankOfDraw: thirdPartyFormValue.favouringBankOfDraw,
+      favouringBankBranch: thirdPartyFormValue.favouringBankBranch,
+      loanNumber: thirdPartyFormValue.loanNumber,
       beneficiaryAddress1 : thirdPartyFormValue.address,
       paymentMethod:thirdPartyFormValue.paymentMethod,
       disbursementAmount:thirdPartyFormValue.disbursementAmount,
@@ -1431,7 +1430,7 @@ selectCheckBox(flag,val) {
     let inputData = {
               // "LeadID": this.disbLeadId,
               'LeadID':this.disbLeadId,
-              'UserID': 'Anand',
+              'UserID': this.disuserID,
               'DealerDetails': this.disburseToDealer ? this.ReqDealerDetails : null,
               'ApplicantDetails': this.disburseToApp ? this.ReqApplicantDetails : null,
               'CoApplicantDetails': this.disburseToCoApp ? this.ReqCoAppDetails : null,
@@ -1483,7 +1482,7 @@ selectCheckBox(flag,val) {
                 this.toasterService.showError('Kindly fill mandatory fields in Tranche third party table & check other tranche tables too', '');
                 return;}
             }
-            this.toasterService.showError('saved successfully.', '');
+            // 
             console.log('Req:',inputData);
             this.disbursementService.saveUpdateDisbursement(inputData).subscribe((res: any) => {
               const response = res;
@@ -1491,6 +1490,7 @@ selectCheckBox(flag,val) {
               // const apiError = response.ProcessVariables.error.code;
               if (appiyoError === '0') {
                 console.log('saveUpdate',response.ProcessVariables)
+                this.toasterService.showSuccess('saved successfully.', '');
               }
             });
 
@@ -1523,8 +1523,9 @@ selectCheckBox(flag,val) {
         if(this.disbursementDetailsData.DealerDetails) {
         this.dealerObjInfo = this.disbursementDetailsData.DealerDetails;
         this.dealerCode = this.disbursementDetailsData.DealerDetails.dealerCode;
-        this.dealerObjInfo['instrumentDate'] = String(this.disbursementDetailsData.DealerDetails.instrumentDate).slice(0, 10)
-        this.dealerObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.DealerDetails.trancheDisbursementFlag == 'Y') ? true : false;
+        this.dealerObjInfo['instrumentDate'] = this.disbursementDetailsData.DealerDetails.instrumentDate
+        this.dealerObjInfo['instrumentDate'] = new Date(this.utilityService.getDateFromString(this.dealerObjInfo['instrumentDate']));
+        this.dealerObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.DealerDetails.trancheDisbursementFlag == 'Y') ? true : false; 
         this.dealerObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.DealerDetails.deductChargesFlag == 'Y') ? true : false;
         this.dealerObjInfo['disbursementAmount'] = (this.disbursementDetailsData.DealerDetails.disbursementAmount)?parseInt(this.disbursementDetailsData.DealerDetails.disbursementAmount):null;
         this.dealerDetailsForm.patchValue({ address: (this.disbursementDetailsData.DealerDetails)? this.disbursementDetailsData.DealerDetails.beneficiaryAddress1 +','+ this.disbursementDetailsData.DealerDetails.beneficiaryAddress2 + ',' + this.disbursementDetailsData.DealerDetails.beneficiaryAddress3: null });
@@ -1554,8 +1555,9 @@ selectCheckBox(flag,val) {
 
         if(this.disbursementDetailsData.ApplicantDetails) {
         this.applicantObjInfo = this.disbursementDetailsData.ApplicantDetails;
-        this.applicantObjInfo['instrumentDate'] = String(this.disbursementDetailsData.ApplicantDetails.instrumentDate).slice(0, 10)
-        this.applicantObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.ApplicantDetails.trancheDisbursementFlag == 'Y') ? true : false;
+        this.applicantObjInfo['instrumentDate'] = this.disbursementDetailsData.ApplicantDetails.instrumentDate;
+        this.applicantObjInfo['instrumentDate'] = new Date(this.utilityService.getDateFromString(this.applicantObjInfo['instrumentDate']));
+        this.applicantObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.ApplicantDetails.trancheDisbursementFlag == 'Y') ? true : false; 
         this.applicantObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.ApplicantDetails.deductChargesFlag == 'Y') ? true : false;
         this.applicantObjInfo['disbursementAmount'] = (this.disbursementDetailsData.ApplicantDetails.disbursementAmount)?parseInt(this.disbursementDetailsData.ApplicantDetails.disbursementAmount):null;
         this.appDetailsForm.patchValue({ appAddress: (this.disbursementDetailsData.ApplicantDetails)? this.disbursementDetailsData.ApplicantDetails.beneficiaryAddress1 +','+ this.disbursementDetailsData.ApplicantDetails.beneficiaryAddress2 + ',' + this.disbursementDetailsData.ApplicantDetails.beneficiaryAddress3: null });
@@ -1587,8 +1589,9 @@ selectCheckBox(flag,val) {
 
         if(this.disbursementDetailsData.BankerDetails) {
         this.bankerObjInfo = this.disbursementDetailsData.BankerDetails;
-        this.bankerObjInfo['instrumentDate'] = String(this.disbursementDetailsData.BankerDetails.instrumentDate).slice(0, 10)
-        this.bankerObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.BankerDetails.trancheDisbursementFlag == 'Y') ? true : false;
+        this.bankerObjInfo['instrumentDate'] = this.disbursementDetailsData.BankerDetails.instrumentDate
+        this.bankerObjInfo['instrumentDate'] = new Date(this.utilityService.getDateFromString(this.bankerObjInfo['instrumentDate']));
+        this.bankerObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.BankerDetails.trancheDisbursementFlag == 'Y') ? true : false; 
         this.bankerObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.BankerDetails.deductChargesFlag == 'Y') ? true : false;
         this.bankerObjInfo['disbursementAmount'] = (this.disbursementDetailsData.BankerDetails.disbursementAmount)?parseInt(this.disbursementDetailsData.BankerDetails.disbursementAmount):null;
 
@@ -1616,9 +1619,10 @@ selectCheckBox(flag,val) {
 
         if(this.disbursementDetailsData.FinancierDetails) {
         this.financierObjInfo = this.disbursementDetailsData.FinancierDetails;
-        this.financierObjInfo['instrumentDate'] = String(this.disbursementDetailsData.FinancierDetails.instrumentDate).slice(0, 10)
-        this.financierObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.FinancierDetails.trancheDisbursementFlag == 'Y') ? true : false;
-        this.financierObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.FinancierDetails.deductChargesFlag == 'Y') ? true : false;
+        this.financierObjInfo['instrumentDate'] = this.disbursementDetailsData.FinancierDetails.instrumentDate
+        this.financierObjInfo['instrumentDate'] = new Date(this.utilityService.getDateFromString(this.financierObjInfo['instrumentDate']));
+        this.financierObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.FinancierDetails.trancheDisbursementFlag == 'Y') ? true : false; 
+        this.financierObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.FinancierDetails.deductChargesFlag == 'Y') ? true : false;     
         this.financierObjInfo['disbursementAmount'] = (this.disbursementDetailsData.FinancierDetails.disbursementAmount)?parseInt(this.disbursementDetailsData.FinancierDetails.disbursementAmount):null;
         this.financierDetailsForm.patchValue({ financierAddress: (this.disbursementDetailsData.FinancierDetails)? this.disbursementDetailsData.FinancierDetails.beneficiaryAddress1 +','+ this.disbursementDetailsData.FinancierDetails.beneficiaryAddress2 + ',' + this.disbursementDetailsData.FinancierDetails.beneficiaryAddress3: null });
 
@@ -1644,8 +1648,9 @@ selectCheckBox(flag,val) {
 
         if(this.disbursementDetailsData.ThirdPartyDetails) {
         this.thirdPartyObjInfo = this.disbursementDetailsData.ThirdPartyDetails;
-        this.thirdPartyObjInfo['instrumentDate'] = String(this.disbursementDetailsData.ThirdPartyDetails.instrumentDate).slice(0, 10)
-        this.thirdPartyObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.ThirdPartyDetails.trancheDisbursementFlag == 'Y') ? true : false;
+        this.thirdPartyObjInfo['instrumentDate'] = this.disbursementDetailsData.ThirdPartyDetails.instrumentDate
+        this.thirdPartyObjInfo['instrumentDate'] = new Date(this.utilityService.getDateFromString(this.thirdPartyObjInfo['instrumentDate']));
+        this.thirdPartyObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.ThirdPartyDetails.trancheDisbursementFlag == 'Y') ? true : false; 
         this.thirdPartyObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.ThirdPartyDetails.deductChargesFlag == 'Y') ? true : false;
         this.thirdPartyObjInfo['disbursementAmount'] = (this.disbursementDetailsData.ThirdPartyDetails.disbursementAmount)?parseInt(this.disbursementDetailsData.ThirdPartyDetails.disbursementAmount):null;
         this.thirdPartyDetailsForm.patchValue({ thirdPartyAddress: (this.disbursementDetailsData.ThirdPartyDetails)? this.disbursementDetailsData.ThirdPartyDetails.beneficiaryAddress1 +','+ this.disbursementDetailsData.ThirdPartyDetails.beneficiaryAddress2 + ',' + this.disbursementDetailsData.ThirdPartyDetails.beneficiaryAddress3: null });
@@ -1685,13 +1690,13 @@ selectCheckBox(flag,val) {
   }
   onNext() {
   if(this.roleType == '1') {
-    this.router.navigate([`pages/credit-decisions/${this.leadId}/sanction-details`]);
+    this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/sanction-details`]);
   } else if (this.roleType == '2' ) {
-    this.router.navigate([`pages/credit-decisions/${this.leadId}/term-sheet`]);
+    this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/term-sheet`]);
   } else if( this.roleType == '4' ) {
-    this.router.navigate([`pages/cpc-maker/${this.leadId}/term-sheet`]);
+    this.router.navigate([`pages/cpc-maker/${this.disbLeadId}/sanction-details`]);
   } else if(  this.roleType == '5') {
-    this.router.navigate([`pages/cpc-checker/${this.leadId}/term-sheet`]);
+    this.router.navigate([`pages/cpc-checker/${this.disbLeadId}/sanction-details`]);
   }
   }
 routerUrlIdentifier() {
@@ -1700,13 +1705,13 @@ routerUrlIdentifier() {
   }
 }
 onBack() {
-this.router.navigate([`pages/credit-decisions/${this.leadId}/negotiation`]);
+// this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/negotiation`]);
 if(this.roleType == '1' || this.roleType == '2') {
-  this.router.navigate([`pages/credit-decisions/${this.leadId}/negotiation`]);
+  this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/negotiation`]);
 }  else if( this.roleType == '4' ) {
-  this.router.navigate([`pages/cpc-maker/${this.leadId}/negotiation`]);
+  this.router.navigate([`pages/cpc-maker/${this.disbLeadId}/negotiation`]);
 } else if(  this.roleType == '5') {
-  this.router.navigate([`pages/cpc-checker/${this.leadId}/negotiation`]);
+  this.router.navigate([`pages/cpc-checker/${this.disbLeadId}/negotiation`]);
 }
 }
 
