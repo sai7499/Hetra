@@ -14,6 +14,7 @@ import { DdeSharedModule } from '../shared/shared.module';
 import { CreditConditionModule } from '../credit-decisions/credit-decisions.module';
 import { PdcDetailsComponent } from './pdc-details/pdc-details.component';
 import { NegotiationModule } from '@modules/negotiation/negotiation.module';
+import { DisbursementSectionModule } from '@modules/disbursement-section/disbursement-section.module';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { NegotiationModule } from '@modules/negotiation/negotiation.module';
     SharedModule,
     DdeSharedModule,
     CreditConditionModule,
-    NegotiationModule
+    NegotiationModule,
+    DisbursementSectionModule
   ],
   exports: [
     CpcMakerDdeComponent,

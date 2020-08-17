@@ -23,6 +23,6 @@ import { MatSelectModule } from '@angular/material';
     AutocompleteLibModule,
     MatSelectModule
   ],
-  exports: [MatSelectModule],
+  exports: [MatSelectModule, DisbursementFormComponent, DisbursementSectionComponent ],
 })
 export class DisbursementSectionModule { }
