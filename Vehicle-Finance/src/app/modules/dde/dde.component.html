@@ -5,12 +5,12 @@
 
         <div class="multisteps-form">
             <div class="multisteps-form__progress" *ngIf="showNav == true">
-                <div class="col-md-1" [style]="{'cursor': pointer}" [ngClass]="{'isDisabled': show}">
+                <div class="col-md-1 col-xs-1" [style]="{'cursor': pointer}" [ngClass]="{'isDisabled': show}">
                     <a class="prev-first-data" (click)="onPrevious()">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 </div>
-                <div class="col-md-10 text-center">
+                <div class="col-md-10 col-xs-9 text-center">
                     <div *ngIf="show" class="progress-box">
                         <button class="multisteps-form__progress-btn first-row" type="button" id="credit_sourcing_details" [routerLink]="['./lead-details']" [ngClass]="{ 'js-active': locationIndex >= 0 }">
               Lead Details
@@ -77,7 +77,7 @@
             </button>
                     </div>
                 </div>
-                <div class="col-md-1" [style]="{'cursor': pointer}" [ngClass]="{'isDisabled': !show}">
+                <div class="col-md-1 col-xs-1" [style]="{'cursor': pointer}" [ngClass]="{'isDisabled': !show}">
                     <a class="next-second-data text-right" href="javascript:void(0)" (click)="onNext()">
                         <i class="fa fa-angle-right"></i>
                     </a>

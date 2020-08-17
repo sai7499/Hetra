@@ -536,37 +536,19 @@
             </label>
           </div>
         </div>
-<<<<<<< HEAD
-      </form>
-      <div class="btn-sec clear-both row cst_btm_btns" >
-        <div class="col-sm-12 text-right">
-          <button type="button" class="btn btn-primary " value="submit" (click)="onBack()">
-            {{ labels.back }}
-          </button>
-          <button type="button" class="btn btn-default" value="submit">
-            {{ labels.cancel }}
-          </button>
-          <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()">
-            {{ labels.submit }}
-          </button>
-          <button type="button" class="btn btn-primary " value="submit" (click)="onNext()">
-            {{ labels.next }}
-          </button>
-=======
         <div class="btn-sec button-section clear-both">
           <div class="col-sm-12 text-right">
-            <button type="button" class="btn btn-primary mar-right8" value="cancel" (click)="cancel()">
+            <button type="button" class="btn btn-primary" value="cancel" (click)="cancel()">
               {{ labels?.cancel }}
             </button>
             <button type="button" class="btn btn-primary"  value="submit" [disabled]="this.createNegotiationForm.invalid" (click)="onSubmit()">
               {{ labels?.submit }}
             </button>
-            <button  class="btn btn-primary mar-right8" type="button" 
-              *ngIf="showSaveButton == true">Back </button>&nbsp;
+            <button  class="btn btn-primary" type="button" 
+              *ngIf="showSaveButton == true">Back </button>
             <button  class="btn btn-primary js-btn-next" (click)="onNext()"
               type="button"> Next </button>
           </div>
->>>>>>> a07b3db40425ffa249832b46420509d54410098c
         </div>
       </form>
     </div>
