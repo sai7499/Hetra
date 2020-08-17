@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { BankTransactionsService } from '@services/bank-transactions.service';
 import { Router , ActivatedRoute} from '@angular/router';
 import { Location } from '@angular/common';
+import { LabelsService } from '@services/labels.service';
 
 @Component({
     templateUrl: './bank-list.component.html',
@@ -13,9 +14,11 @@ export class BankListComponent {
     applicantId: number;
     leadId: number;
   userId: string;
+  labels: any;
     constructor(private bankService: BankTransactionsService,
                 private route: Router, private activatedRoute: ActivatedRoute,
-                private location: Location) { }
+                private location: Location,
+                private labelsData: LabelsService) { }
     // tslint:disable-next-line: use-lifecycle-interface
    async  ngOnInit() {
         this.userId = localStorage.getItem('userId');
@@ -24,6 +27,14 @@ export class BankListComponent {
         this.bankService.getBankList({ applicantId: this.applicantId }).subscribe((res: any) => {
             this.bankDetails = res.ProcessVariables.applicantBankDetails;
         });
+        this.labelsData.getLabelsData().subscribe(
+      data => {
+        this.labels = data;
+      },
+      error => {
+        console.log(error);
+      }
+    );
 
     }
     getLeadId() {

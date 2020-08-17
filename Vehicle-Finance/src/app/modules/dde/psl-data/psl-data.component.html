@@ -1,4 +1,4 @@
-<form class="multisteps-form__form"  [formGroup]="pslDataForm">
+<form class="multisteps-form__form content"  [formGroup]="pslDataForm">
     <!-- <div class="multisteps-form__panel js-active" data-animation="scaleIn"> -->
         <!-- <h3 class="title">{{labels.pslDataTitle}}</h3> -->
         <div class="row">
@@ -1172,14 +1172,14 @@
     </div>
 </form>
 
-<div class="btn-sec clear-both ">
+<div class="btn-sec clear-both row cst_btm_btns">
     <div class="col-sm-5"> </div>
-    <div class="col-sm-7 text-right cst_btm_btns"> <br> <br>
+    <div class="col-sm-7 text-right"> <br> <br>
         <button class="btn btn-primary" type="button" (click)="onBack()">
-            {{labels.back}} </button> &nbsp;
+            {{labels.back}} </button> 
         <!-- <p class="btn btn-primary save"> Save </p>  -->
         <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{labels.save}} </button>
-        &nbsp;
+        
         <button class="btn btn-primary" type="button"  (click)="navigateNext()">
             {{labels.next}} </button>
     </div>
