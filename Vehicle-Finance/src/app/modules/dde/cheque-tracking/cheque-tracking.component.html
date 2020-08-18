@@ -18,17 +18,21 @@
                                           </tr>
                                         </thead>
                                         <tbody>
-                                          <tr>
+                                          <tr
+                                          *ngFor="let data of chequeData">
                                             
-                                            <td><input type="radio" name="cheque_radio" id="cheque_radio_1" ></td>
-                                            <td>Cheque</td>
-                                            <td>234536</td>
-                                            <td>14/06/20</td>
-                                            <td>245000</td>
-                                            <td>Branch Received</td>
-                                            <td>16/06/20</td>
-                                            <td>Customer</td>
-                                            <td>Hari Savanth</td>
+                                            <td><input type="radio"
+                                               name="cheque_radio" 
+                                               id="cheque_radio_1"
+                                                (click)="onGetChequeData(data)"></td>
+                                            <td>{{data?.mode || '-'}}</td>
+                                            <td>{{data?.chequeNum || '-'}}</td>
+                                            <td>{{data?.chequeDate|| '-'}}</td>
+                                            <td>{{data?.chequeAmt|| '-'}}</td>
+                                            <td>{{data?.chequeStatus|| '-'}}</td>
+                                            <td>{{data?.statusUpdatedOn|| '-'}}</td>
+                                            <td>{{data?.payableTo|| '-'}}</td>
+                                            <td>{{data?.favTo|| '-'}}</td>
                                             
                                           </tr>
                                            <!-- <tr>
@@ -50,35 +54,36 @@
                                             <div class="col-lg-6 col-sm-4 col-md-3">
                                                 <div class="row">
                                             <div class="col-lg-3 col-sm-4 col-md-3">{{labels?.chequeNumber}}</div>
-                                            <div class="col-lg-4 col-sm-4 col-md-3"><strong>234536</strong></div>
+                                            <div class="col-lg-4 col-sm-4 col-md-3"><strong>{{selectedData?.chequeNum || '-'}}</strong></div>
                                         </div>
                                         &nbsp;
                                         <div class="row">
                                             <div class="col-lg-3 col-sm-4 col-md-3">{{labels?.chequeDate}}</div>
-                                            <div class="col-lg-4 col-sm-4 col-md-3"><strong>14/06/20</strong></div>
+                                            <div class="col-lg-4 col-sm-4 col-md-3"><strong>{{selectedData?.chequeDate || '-'}}</strong></div>
                                         </div>
                                         &nbsp;
                                         <div class="row">
                                             <div class="col-lg-3 col-sm-4 col-md-3">{{labels?.chequeAmount}}</div>
-                                            <div class="col-lg-4 col-sm-4 col-md-3"><strong>245000</strong></div>
+                                            <div class="col-lg-4 col-sm-4 col-md-3"><strong>{{selectedData?.chequeAmt || '-'}}</strong></div>
                                         </div>
                                         &nbsp;
                                         <div class="row">
                                             <div class="col-lg-3 col-sm-4 col-md-3">{{labels?.payableTo}}</div>
-                                            <div class="col-lg-4 col-sm-4 col-md-3"><strong>Customer</strong></div>
+                                            <div class="col-lg-4 col-sm-4 col-md-3"><strong>{{selectedData?.payableTo || '-'}}</strong></div>
                                         </div>
                                         &nbsp;
                                         <div class="row">
                                             <div class="col-lg-3 col-sm-4 col-md-3">{{labels?.favouringTo}}</div>
-                                            <div class="col-lg-4 col-sm-4 col-md-3"><strong>Hari Savanth</strong></div>
+                                            <div class="col-lg-4 col-sm-4 col-md-3"><strong>{{selectedData?.favTo || '-'}}</strong></div>
                                         </div>
                                         &nbsp;
                                         <div class="row">
                                             <div class="col-lg-3 col-sm-4 col-md-3">{{labels.customerName}}</div>
-                                            <div class="col-lg-4 col-sm-4 col-md-3"><strong>Hari Savanth</strong></div>
+                                            <div class="col-lg-4 col-sm-4 col-md-3"><strong>-</strong></div>
                                         </div>
                                             </div>
                                             <div class="col-lg-6 col-sm-4 col-md-3">
+                                              <div [formGroup]="chequeForm">
                                                 <div class="row">
                                                     <div class="col-lg-2 col-sm-4 col-md-3">{{labels.status}}</div>
                                                     <div class="col-lg-4 col-sm-4 col-md-3">
@@ -89,8 +94,9 @@
                                                             
                                                         </select> -->
                                                         <app-vf-custom-select
-                                                            isDisabled
-                                                            [values]=""
+                                                            formControlName="status"
+                                                            [values]="LOV.LOVS.chequeStatus"
+                                                            (change)="onChangeStatus($event)"
                                                         ></app-vf-custom-select>
                                                     </div>
                                                 </div>
@@ -98,9 +104,11 @@
                                                 <div class="row">
                                                     <div class="col-lg-2 col-sm-4 col-md-3"><p id="remarks_place">{{labels?.chequeRemark}}</p></div>
                                                     <div class="col-lg-4 col-sm-4 col-md-3">
-                                                        <textarea class="form-control" cols="2" disabled></textarea>
+                                                        <textarea class="form-control" cols="2"
+                                                        formControlName='remarks'></textarea>
                                                     </div>
                                                 </div>
+                                              </div>
                                                 &nbsp;
                                                 <div class="row">
                                                     <div class="col-lg-2 col-sm-4 col-md-3"></div>
