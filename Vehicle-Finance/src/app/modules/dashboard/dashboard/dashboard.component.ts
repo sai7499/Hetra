@@ -160,6 +160,11 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   onTabsLoading(data) {
+    if (this.activeTab === this.displayTabs.PDD) {
+      this.getPDDLeads(this.itemsPerPage);
+    } else if (this.activeTab === this.displayTabs.ChequeTracking) {
+      this.getChequeTrackingLeads(this.itemsPerPage);
+    }
     if (this.roleType === 1) {
       switch (data) {
         case 3:
@@ -500,6 +505,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  // for PDD Leads
   responseForPDD(data) {
     this.dashboardService.myLeads(data).subscribe((res: any) => {
       this.setPDDPageData(res);
@@ -512,6 +518,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  // for Cheque tracking
   responseForChequeTracking(data) {
     this.dashboardService.myLeads(data).subscribe((res: any) => {
       this.setChequeTrackingPageData(res);
@@ -525,7 +532,6 @@ export class DashboardComponent implements OnInit {
   }
 
   // new leads
-
   getSalesFilterLeads(perPageCount, pageNumber?) {
 
     // this.filterFormDetails['userId'] = localStorage.getItem('userId');
