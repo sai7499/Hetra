@@ -22,15 +22,15 @@ export const environment = {
     supervisorProId:'ed58f72ea9a811ea824bf2fa9bec3d63',//supervisorRelated
     reinititateFiApi: '403a8a12b79511ea8afff2fa9bec3d63',
   },
-  //hostingEnvironment: 'DEV',
-  hostingEnvironment: 'UAT',
+  hostingEnvironment: 'DEV',
+  //hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
 
   //host: '/appiyo/',
-  //host:"https://hetrauat.equitasbank.com/appiyodev/",
+  host:"https://hetrauat.equitasbank.com/appiyodev/",
   //host: 'http://128.199.164.250/appiyo/',
   // host: 'http://10.101.10.153/appiyo/',
-  host: "https://hetrauat.equitasbank.com/appiyo/",
+  //host: "https://hetrauat.equitasbank.com/appiyo/",
 
   baseUrl: window.location.origin,
   // tslint:disable-next-line: max-line-length
