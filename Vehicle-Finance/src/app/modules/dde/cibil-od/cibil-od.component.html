@@ -9,7 +9,7 @@
     </div>
     <div class="row">
       <div class="table-responsive application" id="applicantTable">
-        <table class="table">
+        <table class="">
           <thead>
             <tr class="table-head-bg">
               <th>{{labels?.applicant}}</th>
@@ -21,11 +21,11 @@
           </thead>
           <tbody>
             <tr *ngFor="let odApplicant of odApplicantList">
-              <td>{{odApplicant?.fullName}}</td>
-              <td>{{odApplicant?.applicantType}}</td>
-              <td>{{odApplicant?.ucic}}</td>
-              <td>{{odApplicant?.cibilScore}}</td>
-              <td> <a (click)="navigatePage(odApplicant?.applicantId)"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
+              <td [attr.data-label]="labels?.fullName">{{odApplicant?.fullName}}</td>
+              <td [attr.data-label]="labels?.applicantType">{{odApplicant?.applicantType}}</td>
+              <td [attr.data-label]="labels?.ucicId">{{odApplicant?.ucic}}</td>
+              <td [attr.data-label]="labels?.cibilScore">{{odApplicant?.cibilScore}}</td>
+              <td [attr.data-label]="labels?.action"> <a (click)="navigatePage(odApplicant?.applicantId)"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
             </tr>
           </tbody>
         </table>
@@ -35,10 +35,10 @@
   </div>
   <!-- back..save..next -->
 
-  <div class="btn-sec clear-both row cst_btm_btns">
+  <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right">
-      <button class="btn btn-primary mar-right8" type="button" (click)="onBack()">
+      <button class="btn btn-primary " type="button" (click)="onBack()">
         Back
       </button>
      

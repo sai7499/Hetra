@@ -290,7 +290,7 @@
                 <tbody *ngIf="displayTabs?.PDD === activeTab">
                     <tr *ngFor="let item of pddDetails | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
 
-                        <td [attr.data-label]="labels?.loanNumber" class="text-underline"><a [routerLink]="['/pages/dde/1249/pdd-details']">{{item.loanNumber}}</a></td>
+                        <td [attr.data-label]="labels?.loanNumber" class="text-underline" (click)="getLoanNumber(item.loanNumber)"><a [routerLink]="['/pages/dde', item.leadId,'pdd-details']">{{item.loanNumber}}</a></td>
                         <td [attr.data-label]="labels?.productCategory">{{item.product ? item.product : '--'}}</td>
                         <td [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
                         <td [attr.data-label]="labels?.applicants">{{item.applicants ? item.applicants : '--'}}</td>
@@ -299,7 +299,7 @@
                 <tbody *ngIf="displayTabs?.ChequeTracking === activeTab">
                     <tr *ngFor="let item of chequeTrackingDetails | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
 
-                        <td [attr.data-label]="labels?.loanNumber" class="text-underline"><a [routerLink]="[ '/pages/dde/1249/cheque-tracking' ]">{{item.loanNumber}}</a></td>
+                        <td [attr.data-label]="labels?.loanNumber" class="text-underline" (click)="getLoanNumber(item.loanNumber)"><a [routerLink]="[ '/pages/dde', item.leadId,'cheque-tracking' ]">{{item.loanNumber}}</a></td>
                         <td [attr.data-label]="labels?.productCategory">{{item.product ? item.product : '--'}}</td>
                         <td [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
                         <td [attr.data-label]="labels?.applicantName">{{item.applicantName ? item.applicantName : '--'}}</td>
