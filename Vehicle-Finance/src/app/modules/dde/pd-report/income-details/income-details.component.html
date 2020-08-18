@@ -8,7 +8,7 @@ data-animation="scaleIn"
 >
 <h3 class="title">{{ labels.incomeDetails }}</h3>
 <div class="row">
-  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+  <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
     <label > {{ labels.grossIncome }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Enter Gross Income'"
@@ -20,7 +20,7 @@ data-animation="scaleIn"
     ></app-custom-input>
  
   </div>
-  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+  <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
     <label for="netIncome"
       >{{ labels.netIncome }}
       <sub class="star_red_col">*</sub></label
@@ -37,7 +37,7 @@ data-animation="scaleIn"
     >
     </app-custom-input>
   </div>
-  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+  <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
     <label for="gender"
       >{{ labels.additionalSourceofIncome }} <sub class="star_red_col">*</sub></label>
       <app-custom-input
@@ -57,7 +57,7 @@ data-animation="scaleIn"
 
 
 <div class="row">
-  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+  <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
     <label > {{ labels.grossSalary }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Enter Gross Salary'"
@@ -69,7 +69,7 @@ data-animation="scaleIn"
     ></app-custom-input>
  
   </div>
-  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+  <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
     <label for="netIncome"
       >{{ labels.netsalary }}
       <sub class="star_red_col">*</sub></label
@@ -86,7 +86,7 @@ data-animation="scaleIn"
     >
     </app-custom-input>
   </div>
-  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+  <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
     <label for="gender"
       >{{ labels.individualIncome }} <sub class="star_red_col">*</sub></label>
       <app-custom-input
@@ -104,7 +104,7 @@ data-animation="scaleIn"
 
 
 <div class="row">
-  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+  <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
     <label > {{ labels.bankName }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Enter Bank Name'"
@@ -117,7 +117,7 @@ data-animation="scaleIn"
     ></app-custom-input>
  
   </div>
-  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+  <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
     <label for="acType"
       >{{ labels.accountType }}
       <sub class="star_red_col">*</sub></label
@@ -143,7 +143,7 @@ data-animation="scaleIn"
   >
   </app-vf-custom-select>
   </div>
-  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+  <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
     <label for="accountNumber"
       >{{ labels.accountNumber }} <sub class="star_red_col">*</sub></label>
       <app-custom-input
@@ -164,7 +164,7 @@ data-animation="scaleIn"
 
 <div class="row">
  
-  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+  <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
     <label for="noOfChqReturns"
       >{{ labels.noOfChqReturns }}
       <sub class="star_red_col">*</sub></label
@@ -181,7 +181,7 @@ data-animation="scaleIn"
     >
     </app-custom-input>
   </div>
-  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+  <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
     <label for="cashBankBalance"
       >{{ labels.cashAndBankBalance }} <sub class="star_red_col">*</sub></label>
       <app-custom-input
@@ -195,7 +195,7 @@ data-animation="scaleIn"
   >
     </app-custom-input>
   </div>
-  <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf ="isccOdLimit">
+  <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12" *ngIf ="isccOdLimit">
     <label > {{ labels.CCODLIMIT }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Enter CC/OD LIMIT'"
@@ -211,7 +211,7 @@ data-animation="scaleIn"
 
 
 <div class="row">
-  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+  <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
     <label > {{ labels.monthlyInflows }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Enter Monthly Inflows'"
@@ -223,7 +223,7 @@ data-animation="scaleIn"
     ></app-custom-input>
  
   </div>
-  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+  <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
     <label for="monthlyOutflows"
       >{{ labels.monthlyOutflows }}
       <sub class="star_red_col">*</sub></label
@@ -245,7 +245,7 @@ data-animation="scaleIn"
 
 
 <div class="row">
-  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+  <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
     <label > {{ labels.creditCardFirstName }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Enter Credit Card First Name'"
@@ -258,7 +258,7 @@ data-animation="scaleIn"
     ></app-custom-input>
  
   </div>
-  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+  <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
     <label for="creditCardMiddleName"
       >{{ labels.CreditCardMiddleName}}</label
     >
@@ -274,7 +274,7 @@ data-animation="scaleIn"
     >
     </app-custom-input>
   </div>
-  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+  <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
     <label for="creditCardLastName"
       >{{ labels.creditCardLastName }} <sub class="star_red_col">*</sub></label>
       <app-custom-input
@@ -293,7 +293,7 @@ data-animation="scaleIn"
 
 
 <div class="row">
-  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+  <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
     <label > {{ labels.creditCardFullName }} <sub class="star_red_col">*</sub></label>
     <app-custom-input
     [placeholder]="'Credit Card Full Name'"
@@ -307,7 +307,7 @@ data-animation="scaleIn"
     ></app-custom-input>
  
   </div>
-  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+  <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
     <label for="creditcardIssuedby"
       >{{ labels.creditcardIssuedby }}
       <sub class="star_red_col">*</sub></label
@@ -325,7 +325,7 @@ data-animation="scaleIn"
     >
     </app-custom-input>
   </div>
-  <div class="form-group col-sm-6 col-md-3 col-lg-3">
+  <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
     <label for="creditcardLimit"
       >{{ labels.creditcardLimit }} <sub class="star_red_col">*</sub></label>
       <app-custom-input
@@ -341,17 +341,17 @@ data-animation="scaleIn"
   </div>
 </div>
 
-<div class="btn-sec clear-both">
+<div class="btn-sec clear-both row cst_btm_btns">
   <div class="col-sm-5"></div>
   <div class="col-sm-7 text-right">
       <button class="btn btn-primary" type="button" (click)="onNavigateBack()">
           {{ labels.back }}
       </button>
-      &nbsp;
+      
       <button class="btn btn-primary" (click)="onFormSubmit('save')">
           {{ labels.save }}
       </button>
-      &nbsp;
+      
       <button class="btn btn-primary" (click)="onNavigateNext()">
           {{ labels.next }}
       </button>

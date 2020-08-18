@@ -1,10 +1,10 @@
-<div class="content">
-    <form class="multisteps-form__form" style="height: 400px;">
+<div class="">
+    <form class="multisteps-form__form">
         <div class="multisteps-form__panel js-active" data-animation="scaleIn">
             <!-- <h4 class="title">Bank Details</h4> -->
             <!-- Individual Section Starts Here -->
 
-            <div class="">
+            <div class="controlWidth container">
                 <div class="btn-sec clear-both row">
                     <!-- <div class="col-sm-5">
                            <h4 class="title">Vehicle Details</h4> 
@@ -18,41 +18,41 @@
                 </div>
                 <div class="row">
                     <div class=" application" id="applicantTable">
-                        <table class="table table-responsive ">
+                        <table class="">
                             <thead>
                                 <tr class="table-head-bg">
 
-                                    <td class="text-center">Account Holder Name </td>
-                                    <td class="text-center">Bank Name </td>
-                                    <td class="text-center">A/C Number </td>
-                                    <td class="text-center">A/C Type</td>
-                                    <td class="text-center">From Date</td>
-                                    <td class="text-center">To Date</td>
-                                    <td class="text-center">Period</td>
-                                    <td class="text-center">Action</td>
+                                    <td class="text-center">{{ labels?.accountHolderName }} <i class="fa fa-sort"></i></td>
+                                    <td class="text-center">{{ labels?.bankName }}</td>
+                                    <td class="text-center">{{ labels?.accountNumber | uppercase }}</td>
+                                    <td class="text-center">{{ labels?.accountType }}</td>
+                                    <td class="text-center">{{ labels?.fromDate }}</td>
+                                    <td class="text-center">{{ labels?.toDate }}</td>
+                                    <td class="text-center">{{ labels?.period }}</td>
+                                    <td class="text-center">{{ labels?.action }}</td>
                                 </tr>
                             </thead>
-                            <tbody class=" rowCollapse" *ngIf="bankDetails === null">
-                                <!-- <div  >
+                            <!-- <tbody class=" rowCollapse" *ngIf="bankDetails === null">
+                                 <div  >
                                     <p> No records found...</p> 
-                                </div> -->
+                                </div> 
                                 <tr>
                                     <td colspan="8">NO RECORDS FOUND</td>
                                 </tr>
-                            </tbody>
+                            </tbody> -->
                             
                             <tbody>
                                
-                                <tr id="" *ngFor="let item of bankDetails">
+                                <tr id="applicant_1_row" *ngFor="let item of bankDetails">
 
-                                    <td class="text-center">{{item?.accountHolderName}}</td>
-                                    <td class="text-center">{{item?.bankName}}</td>
-                                    <td class="text-center">{{item?.accountNumber | uppercase}}</td>
-                                    <td class="text-center">{{item?.accountType}}</td>
-                                    <td class="text-center">{{item?.fromDate }}</td>
-                                    <td class="text-center">{{item?.toDate }}</td>
-                                    <td class="text-center">{{item?.period}}</td>
-                                    <td class="text-center cursor-pointer"><i class="fa fa-pencil"
+                                    <td [attr.data-label]="labels?.accountHolderName">{{ item.accountHolderName ? item.accountHolderName : '-' }}</td>
+                                    <td [attr.data-label]="labels?.bankName">{{item?.bankName}}</td>
+                                    <td [attr.data-label]="labels?.accountNumber">{{item?.accountNumber ? item?.accountNumber: '-' | uppercase}}</td>
+                                    <td [attr.data-label]="labels?.accountType">{{item?.accountType}}</td>
+                                    <td [attr.data-label]="labels?.fromDate">{{item?.fromDate }}</td>
+                                    <td [attr.data-label]="labels?.toDate">{{item?.toDate }}</td>
+                                    <td [attr.data-label]="labels?.period">{{item?.period}}</td>
+                                    <td class="cursor-pointer" [attr.data-label]="labels?.action"><i class="fa fa-pencil"
                                             (click)="routeDetails(item.applicantId);"
                                             aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus cursor-pointer" aria-hidden="true"
                                             id="remove_item_applicant" (click)="onDelete()"></i></td>
@@ -84,9 +84,9 @@
 
 
         </div>
-
+       
     </form>
-    <div class="row">
+    <div class="btn-sec clear-both row cst_btm_btns">
 
         <div class="col-sm-5">
             <button class="btn btn-primary dash_href " (click)=loadAppplicant()> Back To Applicant
@@ -97,6 +97,6 @@
             <!-- <button class="btn btn-primary" (click)="onSave()"> Save </button> -->
             <!-- <button class="btn btn-primary dash_href " type="button" (click)="onNext()" >Next</button> -->
         </div>
-
+    
     </div>
 </div>

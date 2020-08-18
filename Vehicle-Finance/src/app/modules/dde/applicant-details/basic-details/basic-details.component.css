@@ -43,3 +43,15 @@ kendo-datepicker{
   color: red;
   padding-top: 0.5vw;
 }
+
+.mar-btn-bot{
+  margin-bottom: 25px;
+}
+
+
+@media (min-width:300px) and (max-width:760px){
+  .mar-btn-bot{
+    margin-bottom: 25px;
+  }
+  
+}
