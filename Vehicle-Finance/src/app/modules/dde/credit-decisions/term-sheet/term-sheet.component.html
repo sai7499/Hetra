@@ -46,7 +46,9 @@
                         </tbody>
                     </table>    
 
+                    <div class="table-responsive">
 
+                    
                     <table class="table-responsive table table-borderless" *ngFor = "let assetDetailsData of assetDetails ; let i=index">
                         <thead>
                             <tr id="table_header_top" style="border: none !important">
@@ -163,6 +165,8 @@
                             <!-- assetDetails end -->
                         </tbody>
                     </table>
+                </div>
+                <div class="table-responsive">
                     <table class="table-responsive  table table-borderless">
                         <thead>
                             <tr id="table_header_top" style="border: none !important">
@@ -262,6 +266,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
                 <div id="tearms_sheet_header2">
                     <p id="tearms_sheet_header2_top">{{labels.coApplicantDetails}}</p>
@@ -356,7 +361,7 @@
                         </p>
                     </div>
                 </div>
-                <div id="tearms_sheet_header7">
+                <div id="tearms_sheet_header7" class="table-responsive">
                     <table class="table table-responsive  table-borderless"
                      cellspadding="10" *ngFor = "let assValuationData of assValuationDetails; let i= index;">
                         <thead>
@@ -462,7 +467,7 @@
                     </table>
                 </div>
 
-                <div id="tearms_sheet_header8">
+                <div id="tearms_sheet_header8" class="table-responsive">
                     <table class="table table-responsive table-borderless">
                         <thead>
                         </thead>
@@ -570,7 +575,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="terms_sheet_headline9">
+                <div id="terms_sheet_headline9" class="table-responsive">
                     <p id="terms_sheet_headline9_tag">
                         <span id="terms_sheet_headline9_tag1">
                             {{labels.ecsMandate}} :&nbsp;
@@ -580,7 +585,7 @@
                         <span id=""> {{ecsDetails?.ecs_bank}}</span>
                     </p>
                 </div>
-                <div id="terms_sheet_headline10">
+                <div id="terms_sheet_headline10" class="table-responsive">
                     <!-- Deduction Charges from Loan Amount -->
                     <p id="terms_sheet_headline10_tag">
                         {{labels.termSheetTag3}}</p>
@@ -620,7 +625,7 @@
                     </div>
                 </div> -->
 
-                <div id="terms_sheet_headline11_header">
+                <div id="terms_sheet_headline11_header" class="table-responsive">
                     <table class="table table-responsive table-borderless">
                         <thead>
                             <tr id="table_header_top">
@@ -649,7 +654,7 @@
                         <span id="terms_sheet_headline11_tag8"></span>
                     </p>
                 </div>
-                <div id="terms_sheet_headline12">
+                <div id="terms_sheet_headline12" class="table-responsive">
 
                     <p id="terms_sheet_headline12_tag">{{labels.approvalDetails}}</p>
                     <hr id="terms_sheet_headline12_tag0" />
@@ -683,7 +688,7 @@
             </span>
                     </p> -->
                 </div>
-                <div id="terms_sheet_headline13">
+                <div id="terms_sheet_headline13" class="table-responsive">
                     <p id="terms_sheet_headline13_tag">{{labels.creditApprovalDeviation}}</p>
                     <table class="table table-responsive table-borderless">
                         <thead>
@@ -709,7 +714,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="terms_sheet_headline14">
+                <div id="terms_sheet_headline14" class="table-responsive">
                     <p id="terms_sheet_headline14_tag">{{labels.termSheetTag4}}</p>
                     <hr id="terms_sheet_headline12_tag0" />
                     <table class="table table-responsive table-borderless" *ngFor = "let loanDetailsData of loanDetails; let i = index">
@@ -813,7 +818,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="row" id="terms_sheet_headline15">
+                <div class="row" id="terms_sheet_headline15" class="table-responsive">
                     <div class="col-6col-lg-6 col-sm-6 col-xs-6 col-md-6">
                         <p id="">
                             <span id="">{{labels.dateTime}} : </span>
