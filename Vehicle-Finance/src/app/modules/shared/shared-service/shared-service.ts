@@ -57,6 +57,11 @@ export class SharedService {
         this.searchbarRoleActivityList$.next(data);
     }
 
+    loanNumber$: BehaviorSubject<any> = new BehaviorSubject(0);
+    getLoanNumber(data) {
+        this.loanNumber$.next(data);
+    }
+
     getSearchBarActivity() {
         return this.searchbarRoleActivityList$;
     }
