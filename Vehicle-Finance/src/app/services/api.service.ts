@@ -669,12 +669,12 @@ export class ApiService {
       processId: '5f84550ecfcf11ea99aa00505695f93b',
       projectId: environment.projectIds.camProjectId
     },
-    getNegotiationData:{
+    getNegotiationData: {
       workflowId: 'f98fcb80cb0e11ea961200505695f93b',
       processId: '19120c14d4c611eabe8800505695f93b',
       projectId: 'environment.projectIds.camProjectId'
     },
-    //disbursementRelated starts
+    // disbursementRelated starts
     disbursementLOV: {
       processId: '08a96b3ed7b811eaac0400505695f93b',
       workflowId: '08905702d7b811eab3fc00505695f93b',
@@ -724,6 +724,21 @@ export class ApiService {
       processId: '3c99e428d71811eabcf800505695f93b',
       workflowId: '3c71c4d4d71811eaabba00505695f93b',
       projectId: environment.projectIds.externalApi
+    },
+    savePdcDetails : {
+      workflowId : 'cf14db1cdd4111eaba8c00505695f93b',
+      processId : '2ccd2806dd4511ea9d5000505695f93b',
+      projectId : environment.projectIds.salesProjectId
+    },
+    getPdcDetails : {
+      processId: 'cf39d584dd4111eab90000505695f93b',
+      workflowId : 'cf14db1cdd4111eaba8c00505695f93b',
+      projectId : environment.projectIds.salesProjectId
+    },
+    deletePdcDetails : {
+      processId: '870e7208dd4411eaa66700505695f93b',
+      workflowId: 'cf14db1cdd4111eaba8c00505695f93b',
+      projectId : environment.projectIds.salesProjectId
     }
   };
 }
