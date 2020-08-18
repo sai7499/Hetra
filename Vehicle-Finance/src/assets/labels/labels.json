@@ -1362,8 +1362,7 @@
     "loanMaxAmount": "Loan Max Amount",
     "mode": "mode",
     "negotiationTitle": "Negotiation",
-    "leadReferenceDetails": "Lead Reference Details",
-    "crossSellInsurance": "Cross Sell - Insurance",
+    "leadReferenceDetails": "Lead Reference Details",    
     "motorInsurance": "FRSD / Motor Insurance",
     "MITenure": "MI Tenure",
     "fundingRequiredforMI": "Is Funding Required for MI?",
@@ -1471,6 +1470,66 @@
     "selfieWithCustomer": "Selfie with Customer",
     "uploadImages": "Upload Images",
     "opinionOfPDOfficer": "Opinion of PD Officer",
+    "chequeTracking" : "Cheque Tracking",
+    "chequeMode" : "Mode",
+    "chequeNumber" : "Cheque Number",
+    "chequeDate" : "Cheque Date",
+    "chequeAmount" : "Cheque Amount",
+    "chequestatus" : "Cheque Status",
+    "statusUpdatedOn" : "Status Updated On",
+    "payableTo" : "Payabe To",
+    "favouringTo" : "Favouring To",
+    "chequeRemark" : "Remark",
+    "initialDisbursement" : "Initiate Disbursement",
+    
+    "fundingRequiredforlifeCover":"Is Funding Required for Credit Shield - Life Cover?",
+    "productLMSCode": "Product (LMS Code - Name)",
+    "CoApplicant": "Co - Applicant",
+    "requestedLoanAmount ": "Requested Loan Amount (in INR)",
+    "requestedLoanTenor": "Requested Loan Tenor (in Months)",
+    "VehicleModel": "Vehicle Model",
+    "FundingProgram": "Funding Program",
+    "RegNo": "Reg.No",
+    "ManufacturingYear": "Manufacturing Year",
+    "AgeofAsset": "Age of Asset as on date",
+    "NetAssetCost": "Net Asset Cost (in INR)",
+    "EligibleLTV": "Eligible LTV (in %)",
+    "PromotionSubventionCode": "Promotion / Subvention Code",
+    "EligibleLoanAmount": "Eligible Loan Amount (in INR)",
+    "SubventionAmount": "Subvention Amount (in INR)",
+    "IncentiveAmount": "Incentive Amount (in INR)",
+    "EligibleLoanAmountAfterSubvention": "Eligible Loan Amount After Subvention (in INR)",
+    "EligibleLoanTenor": "Eligible Loan Tenor",
+    "EligibleIRR": "Eligible IRR (%)",
+    "disburseTo" : "Disburse To",
+    "dealerCode": "Dealer Code",
+    "dealerName" : "Dealer Name",
+    "favouringName" : "Favouring Name",
+    "tpName": "Third Party Name",
+    "bnfAccount" : "Beneficiary Account",
+    "bnfBank" : "Beneficiary Bank",
+    "bnfBranch" : "Beneficiary Branch",
+    "instType" : "Instrument Type",
+    "instNumber" : "Instrument Number",
+    "instDate" : "Instrument Date",
+    "favourBankOfDrawee" : "Favouring Bank of Drawee",
+    "favourBankBranch" : "Favouring Bank Branch",
+    "disburseLoanNumber" : "Loan Number",
+    "applyDeductDisbursement" : "Apply deduction in this disbursement",
+    "disburseInTranches" : "Disburse in Tranches",
+    "disbursementPercent" : "Disbursement Percentage",
+    "disbursementAmount" : "Disbursement Amount",
+    "disbursementDate" : "Disbursement Date",
+    "appName" : "Applicant Name",
+    "coAppName" : "Co-Applicant Name",
+    "selectBanker" : "Select Banker",
+    "selectFinancier" : "Select Financier",
+    "approvedLoanAmount" : "Approved Loan Amount",
+    "approvedIRR" : "Approved IRR (in %)",
+    "approvedTenor" : "Approved Tenor (in months)",
+    "chargesAndFees": "Charges & fees (excluding tax) (in IRR)",
+    "crossSellInsurance" : "Cross Sell Insurance (in INR)",
+    "crossSellOthers" : "Cross Sell Others (in INR)",
     "validationData": {
         "name": {
             "maxLength": {
@@ -2078,6 +2137,19 @@
                 "rule": 20
             },
             "type": "alpha-numeric"
+        },
+        "disburseAmountType": { 
+            "maxLength": {
+                "rule": 20
+            },
+            "type": "number"
+        },
+        "disburseIfsc": {
+            "maxLength": {
+                "rule": 15
+            },
+            "type": "alpha-numeric-nospace"
         }
     }
+    
 }

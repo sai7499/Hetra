@@ -821,3 +821,17 @@ th {
 }
 html, body { height: 100%; }
 /* body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
+.mat-form-field {
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	width: 100%;
+	height: 34px;
+}
+.mat-form-field-infix {
+	padding: 9px 5px !important;
+    line-height: 15px;
+    border-top: none !important;
+}
+.mat-form-field-appearance-legacy .mat-form-field-underline {
+    display:  none;
+}
