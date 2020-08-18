@@ -7,13 +7,13 @@
                     <div class="panel-heading panel-primary" id="headingTwo1">
                         <h4 class="panel-title">
                             <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo1">
-                           {{labels?.pddDetails}}<i class="fa fa-angle-down"></i>
-                        </a>
+                                {{labels?.pddDetails}}<i class="fa fa-angle-down"></i>
+                            </a>
                         </h4>
                     </div>
                     <div id="collapseTwo1" class="panel-collapse collapse in" aria-expanded="true">
                         <div class="panel-body" id="show_1_div_identity" formArrayName="pddDocumentDetails">
-                            <div class="row" >
+                            <div class="row">
                                 <div class="form-group col-sm-3 col-md-2">
                                     <label for="document" class="label_height">{{labels?.documentName}}</label>
                                 </div>
@@ -39,84 +39,72 @@
                                     <label for="documentnumber">{{labels?.physicalTrackingNumber}}</label>
                                 </div>
                             </div>
-                            <div class="row"  *ngFor="
+                            <div class="row" *ngFor="
                             let item of pddDetailsForm.get('pddDocumentDetails')[
                               'controls'
                             ];
                             let i = index
-                          "
-                          [formGroupName]="i" >
+                          " [formGroupName]="i">
                                 <div class="form-group col-sm-3 col-md-2">
-                                        <app-custom-input 
-                                        formControlName="documentName"
-                                        [type]="labels?.validationData?.fullName?.type"
+                                    <app-custom-input formControlName="documentName"
+                                        [type]="labels?.validationData?.chasisNo?.type"
                                         [className]="'form-control mandatory'"
-                                        [maxLength]="labels?.validationData?.fullName?.maxLength"
-                                        [isDirty]="isDirty"
-                                        [isDisabled]="true"
-                                      ></app-custom-input>
+                                        [maxLength]="labels?.validationData?.chasisNo?.maxLength" [isDirty]="isDirty"
+                                        [isDisabled]="true"></app-custom-input>
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
                                     <div class="input-group input-medium">
                                         <span class="input-group-btn">
-                                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
-                                    </span>
-                                        <app-custom-input
-                                    formControlName="expectedDate"
-                                    [className]="'form-control mandatory'"
-                                    [maxLength]="labels?.validationData?.fullName?.maxLength"
-                                    [isDirty]="isDirty"
-                                    [isDisabled]="true"
-                                  ></app-custom-input>
+                                            <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                                        </span>
+                                        <app-custom-input formControlName="expectedDate"
+                                            [className]="'form-control mandatory'"
+                                            [maxLength]="labels?.validationData?.chasisNo?.maxLength"
+                                            [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
-                                    <app-custom-input
-                                formControlName="documentNumber"
-                                [type]="labels?.validationData?.fullName?.type"
-                                [className]="'form-control mandatory'"
-                                [maxLength]="labels?.validationData?.fullName?.maxLength"
-                                [isDirty]="isDirty"
-                              ></app-custom-input>
+                                    <app-custom-input formControlName="documentNumber"
+                                        [type]="labels?.validationData?.chasisNo?.type"
+                                        [className]="'form-control mandatory'"
+                                        [maxLength]="labels?.validationData?.chasisNo?.maxLength" [isDirty]="isDirty">
+                                    </app-custom-input>
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
-                                    <app-custom-input
+                                    <!-- <app-custom-input
                                     formControlName="dmsDocumentId"
-                                    [type]="labels?.validationData?.fullName?.type"
+                                    [type]="labels?.validationData?.chasisNo?.type"
                                     [className]="'form-control mandatory'"
-                                    [maxLength]="labels?.validationData?.fullName?.maxLength"
+                                    [maxLength]="labels?.validationData?.chasisNo?.maxLength"
                                     [isDirty]="isDirty"
-                                  ></app-custom-input>
-                                  <!-- <a href="" class="input_design">insrn<span class="text-dec" formControlName="dmsDocumentId"></span></a> -->
+                                  ></app-custom-input> -->
+                                    <input formControlName="dmsDocumentId" name="input" type="text" class="form-control file-input"
+                                         readonly (click)="downloadDocs(FORM_ARRAY_NAME + '_' + subCat.code,i,$event)" />
+                                    <!-- <a href="" class="input_design">insrn<span class="text-dec" formControlName="dmsDocumentId"></span></a> -->
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
                                     <div class="input-group input-medium">
                                         <span class="input-group-btn">
-                                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
-                                    </span>
-                                        <app-custom-input
-                                    formControlName="docCollectedDate"
-                                    [type]="labels?.validationData?.fullName?.type"
-                                    [className]="'form-control mandatory'"
-                                    [maxLength]="labels?.validationData?.fullName?.maxLength"
-                                    [isDirty]="isDirty"
-                                    [isDisabled]="true"
-                                  ></app-custom-input>
+                                            <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                                        </span>
+                                        <app-custom-input formControlName="docCollectedDate"
+                                            [type]="labels?.validationData?.chasisNo?.type"
+                                            [className]="'form-control mandatory'"
+                                            [maxLength]="labels?.validationData?.chasisNo?.maxLength"
+                                            [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
-                                    <select name="status" id="deferral_status" class="form-control" formControlName="pddDocumentStatus">
-                                    <option value="0">Pending</option>
-                                    <option value="1">Collected</option>
-                                </select>
+                                    <select name="status" id="deferral_status" class="form-control"
+                                        formControlName="pddDocumentStatus">
+                                        <option value="0">Pending</option>
+                                        <option value="1">Collected</option>
+                                    </select>
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
-                                    <app-vf-custom-select
-                                    [values]="pddLov?.checklistans"
-                                    formControlName="cpcCheck"
-                                    [isDirty]="isDirty"
-                                  >
-                                  </app-vf-custom-select>
+                                    <app-vf-custom-select [values]="pddLov?.checklistans" formControlName="cpcCheck"
+                                        [isDirty]="isDirty">
+                                    </app-vf-custom-select>
                                     <!-- <select name="status" id="deferral_status" class="form-control" formControlName="cpcCheck" aria-readonly="true">
                                     <option value="">--Select ---</option>
                                     <option value="Pending">Verified</option>
@@ -124,13 +112,11 @@
                                 </select> -->
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
-                                    <app-custom-input
-                                formControlName="physicalTrackingNumber"
-                                [type]="labels?.validationData?.fullName?.type"
-                                [className]="'form-control mandatory'"
-                                [maxLength]="labels?.validationData?.fullName?.maxLength"
-                                [isDirty]="isDirty"
-                              ></app-custom-input>
+                                    <app-custom-input formControlName="physicalTrackingNumber"
+                                        [type]="labels?.validationData?.chasisNo?.type"
+                                        [className]="'form-control mandatory'"
+                                        [maxLength]="labels?.validationData?.chasisNo?.maxLength" [isDirty]="isDirty">
+                                    </app-custom-input>
                                 </div>
                             </div>
 
@@ -177,14 +163,14 @@
         <div class="col-sm-5"></div>
         <div class="col-sm-7 text-right">
             <button class="btn btn-primary dash_href" type="button" (click)="onBack()">
-                    Back
-                  </button>
+                Back
+            </button>
             <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()">
-        Update
-      </button>
+                Update
+            </button>
             <button class="btn btn-primary dash_href" type="button" routerLink="">
-                    Next
-                  </button>
+                Next
+            </button>
         </div>
     </div>
 </form>

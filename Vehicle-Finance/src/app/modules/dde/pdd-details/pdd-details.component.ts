@@ -196,14 +196,17 @@ export class PddDetailsComponent implements OnInit {
       console.log(this.applicantResponse);
       let childgroups = []
       // this.getpddDocumentDetails(this.applicantResponse)
-      for (let i = 0; i < this.applicantResponse.length; i++) {
-        childgroups.push(this.getpddDocumentDetails(this.applicantResponse[i]));
-        // pddDetailsContols.controls.push(this.getpddDocumentDetails(this.applicantResponse[i]));
-        // pddDetailsContols.value.push((this.applicantResponse[i]));
+      if(this.applicantResponse && this.applicantResponse.length > 0 ){
+        for (let i = 0; i < this.applicantResponse.length; i++) {
+          childgroups.push(this.getpddDocumentDetails(this.applicantResponse[i]));
+          // pddDetailsContols.controls.push(this.getpddDocumentDetails(this.applicantResponse[i]));
+          // pddDetailsContols.value.push((this.applicantResponse[i]));
+        }
+        this.pddDetailsForm = this.formBuilder.group({
+          pddDocumentDetails: this.formBuilder.array(childgroups),
+        })
       }
-      this.pddDetailsForm = this.formBuilder.group({
-        pddDocumentDetails: this.formBuilder.array(childgroups),
-      })
+     
       // pddDetailsContols.controls.push(this.childgroups)
       // this.pddDetailsForm.controls.pddDocumentDetails = 
     })
