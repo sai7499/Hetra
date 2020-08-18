@@ -1438,6 +1438,12 @@ export class DashboardComponent implements OnInit {
   assignTaskId(taskId) {
     this.sharedService.getTaskID(taskId);
   }
+  getLoanNumber(loanNumber) {
+    this.dashboardService.routingData = {
+      activeTab: this.activeTab
+    };
+    this.sharedService.getLoanNumber(loanNumber);
+  }
   getLeadId(item) {
     localStorage.setItem('salesResponse', item.is_sales_response_completed);
     console.log('isficumPd', item.isFiCumPD);
