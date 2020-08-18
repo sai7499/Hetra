@@ -3,7 +3,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { CpcRolesService } from '@services/cpc-roles.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToasterService } from '@services/toaster.service';
-import { FormBuilder, FormArray } from '@angular/forms';
+import { FormBuilder, FormArray, Validators } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
 import { HttpService } from '@services/http.service';
 import { Observable } from 'rxjs';
@@ -75,14 +75,14 @@ export class PdcDetailsComponent implements OnInit {
   private initRows() {
     return this.fb.group({
       pdcId: [null],
-      instrType: [null],
-      emiAmount: [null],
-      instrNo: [null],
-      instrDate: [null],
-      instrBankName: [null],
-      instrBranchName: [null],
-      instrBranchAccountNumber: [null],
-      instrAmount: [null]
+      instrType: [null, Validators.required],
+      emiAmount: [null, Validators.required],
+      instrNo: [null, Validators.required],
+      instrDate: [null, Validators.required],
+      instrBankName: [null, Validators.required],
+      instrBranchName: [null, Validators.required],
+      instrBranchAccountNumber: [null, Validators.required],
+      instrAmount: [null, Validators.required]
     });
   }
   addPdcUnit(data?: any) {
@@ -205,11 +205,16 @@ const body = {
   userId: localStorage.getItem('userId'),
   ...this.pdcForm.value
 };
+if (this.pdcForm.invalid) {
+  this.toasterService.showWarning('Mandatory Fields Missing', '');
+  return;
+}
 this.pdcService.savePdcDetails(body).subscribe((res: any) => {
   console.log(res);
   // tslint:disable-next-line: triple-equals
   if (res.ProcessVariables.error.code == '0') {
     // this.getData(res.ProcessVariables);
+    this.getPdcDetails();
     this.toasterService.showSuccess('Record Saved Successfully', '');
   } else {
 
@@ -230,15 +235,14 @@ onBack() {
 }
 getData(data: any) {
 // const data = JSON.parse(localStorage.getItem('pdcData'));
-this.pdcForm.controls.pdcList.controls = [];
-this.pdcForm.controls.spdcList.controls = [];
+// this.pdcForm.controls.pdcList.controls = [];
+// this.pdcForm.controls.spdcList.controls = [];
 if (data) {
   const spdcControl = this.pdcForm.controls.spdcList as FormArray;
   const PdcControl = this.pdcForm.controls.pdcList as FormArray;
 
-  if (data.pdcList) {
+  if (data.pdcList ) {
     for (let i = 0; i < data.pdcList.length; i++ ) {
-      this.addPdcUnit();
       PdcControl.at(i).patchValue({
         pdcId : data.pdcList[i].pdcId ? data.pdcList[i].pdcId : null,
       instrType: data.pdcList[i].instrType ? data.pdcList[i].instrType : null,
@@ -251,8 +255,9 @@ if (data) {
           instrAmount: data.pdcList[i].instrAmount ? data.pdcList[i].instrAmount : null
     });
   }
+} else { this.addPdcUnit(); }
   // tslint:disable-next-line: prefer-for-of
-    if (data.spdcList) {
+  if (data.spdcList) {
  // tslint:disable-next-line: prefer-for-of
    for (let j = 0; j < data.spdcList.length; j++ ) {
      this.addSPdcUnit();
@@ -268,9 +273,7 @@ if (data) {
       instrAmount: data.spdcList[j].instrAmount ? data.spdcList[j].instrAmount : null
     });
   }
-  }
-
-}
+  } else { this.addSPdcUnit(); }
 }
 }
 
@@ -284,7 +287,22 @@ getPdcDetails() {
     console.log(res);
     // tslint:disable-next-line: triple-equals
     if (res.ProcessVariables.error.code == '0') {
-      this.getData(res.ProcessVariables);
+      this.pdcForm.controls.pdcList.controls = [];
+      this.pdcForm.controls.spdcList.controls = [];
+      if (res.ProcessVariables) {
+        this.getData(res.ProcessVariables);
+      }
+      // else if (res.ProcessVariables.pdcList && res.ProcessVariables.spdcList != null) {
+      //   this.addPdcUnit();
+      //   this.getData(res.ProcessVariables);
+      // } else if (res.ProcessVariables.pdcList != null && res.ProcessVariables.spdcList == null) {
+      //   this.addSPdcUnit();
+      //   this.getData(res.ProcessVariables);
+      // } else {
+      //   this.addPdcUnit();
+      //   this.addSPdcUnit();
+      //   this.getData(res.ProcessVariables);
+      // }
     } else {
       this.addPdcUnit();
       this.addSPdcUnit();
