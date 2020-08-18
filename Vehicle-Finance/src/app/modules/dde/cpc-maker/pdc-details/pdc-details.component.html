@@ -20,19 +20,21 @@
                               </h4>
                         </div>
                         <div id="collapseTwo1" class="panel-collapse collapse in" aria-expanded="true"  >
-                        <div class="panel-body" formArrayName="pdc">
-                            <div class="row" id="show_1_div_identity" *ngFor="let item of pdcForm.get('pdc')['controls']; let i= index " [formGroupName]="i">
+                        <div class="panel-body" formArrayName="pdcList">
+                            <div class="row" id="show_1_div_identity" *ngFor="let item of pdcForm.get('pdcList')['controls']; let i= index " [formGroupName]="i">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="business_division" class="height_label">Instr.Type</label>
+                                    <label for="business_division" class="height_label">Instr.Type {{pdcId}}</label>
       
-                                    <select class="form-control mandatory" id="business_division" formControlName="instrType">
+                                    <!-- <select class="form-control mandatory" id="business_division" formControlName="instrType">
                                         <option value="Cheque">Cheque</option>
                                         <option value="NACH">NACH</option>
-                                    </select>
+                                    </select> -->
+                                    <app-vf-custom-select formControlName="instrType" [values]="lovData?.instrumentType" 
+                                       [isRequired]="'Please Select Instr Type'"></app-vf-custom-select>
       
                                 </div>
                                 <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                    <label for="lead_id">Pre EMI / EMI Amount</label>
+                                    <label for="lead_id">Pre EMI / EMI Amount</label> 
                                     <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" name="lead_id" value="" formControlName="emiAmount"> -->
                                     <app-custom-input
                                     formControlName="emiAmount"
@@ -80,10 +82,12 @@
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="business_division" class="height_label">Instr.Bank Name</label>
       
-                                    <select class="form-control mandatory" id="business_division" formControlName= "instrBankName" >
+                                    <!-- <select class="form-control mandatory" id="business_division" formControlName= "instrBankName" >
                                         <option value="Vehicle Finance">ICICI</option>
                                         <option value="Housing Finance">HDFC</option>
-                                    </select> 
+                                    </select>  -->
+                                    <app-vf-custom-select formControlName="instrBankName" [values]="lovData?.bankMaster" 
+                                        [isRequired]="'Please Select Instr Bank'"></app-vf-custom-select>
                                     
       
                                 </div>
@@ -94,8 +98,8 @@
                                     <app-custom-input
                                     formControlName="instrBranchName"
                                     [patternCheck]="inputValidation"
-                                    [maxLength]="labels?.validationData?.amountValue?.maxLength"
-                                    [type]="labels?.validationData?.amountValue?.type"
+                                    [maxLength]="labels?.validationData?.name?.maxLength"
+                                    [type]="labels?.validationData?.name?.type"
                                     [isRequired]="'*required'"
                                     [isDirty]="isDirty"
                                     [placeholder]="'InstrBranchName'"
@@ -132,9 +136,9 @@
                                   ></app-custom-input>
                                 </div>
                                 <div class="form-group col-lg-2 col-sm-6 col-md-2">
-                                    <label class="image-upload" for="upload_files">
+                                    <div class="image-upload" for="upload_files"  >
                                         <i class="fa fa-plus fa-3" aria-hidden="true"  id="add_more_documents1" (click)="addPdcUnit()" ></i> &nbsp; 
-                                        <i class="fa fa-minus fa-3" aria-hidden="true"  id="add_more_documents_remove1" (click)="deleteRows('pdc',i)"></i></label>
+                                        <i class="fa fa-minus fa-3" aria-hidden="true"  id="add_more_documents_remove1 "  (click)="deleteRows('pdc',item.value.pdcId,i)"></i></div>
                                 </div>
                             </div>
                         </div>
@@ -151,16 +155,18 @@
                               </h4>
                         </div>
                         <div id="collapseTwo2" class="panel-collapse collapse in" aria-expanded="true"  >
-                            <div class="panel-body" formArrayName="spdc">
-                                <div class="row" id="show_1_div_identity" *ngFor="let item of pdcForm.get('spdc')['controls']; let i= index " [formGroupName]="i">
+                            <div class="panel-body" formArrayName="spdcList">
+                                <div class="row" id="show_1_div_identity" *ngFor="let item of pdcForm.get('spdcList')['controls']; let i= index " [formGroupName]="i">
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label for="business_division" class="height_label">Instr.Type</label>
           
-                                        <select class="form-control mandatory" id="business_division" formControlName="instrType">
+                                        <!-- <select class="form-control mandatory" id="business_division" formControlName="instrType">
                                             <option value="Cheque">Cheque</option>
                                             <option value="Housing Finance">NACH</option>
                                         </select>
-          
+           -->
+           <app-vf-custom-select formControlName="instrType" [values]="lovData?.instrumentType" 
+           [isRequired]="'Please Select Instr Type'"></app-vf-custom-select>
                                     </div>
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
                                         <label for="lead_id">Pre EMI / EMI Amount</label>
@@ -211,10 +217,12 @@
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label for="business_division" class="height_label">Instr.Bank Name</label>
           
-                                        <select class="form-control mandatory" id="business_division" formControlName= "instrBankName" >
+                                        <!-- <select class="form-control mandatory" id="business_division" formControlName= "instrBankName" >
                                             <option value="Vehicle Finance">ICICI</option>
                                             <option value="Housing Finance">HDFC</option>
-                                        </select> 
+                                        </select>  -->
+                                        <app-vf-custom-select formControlName="instrBankName" [values]="lovData?.bankMaster" 
+                                        [isRequired]="'Please Select Instr Bank'"></app-vf-custom-select>
                                         
           
                                     </div>
@@ -225,8 +233,8 @@
                                         <app-custom-input
                                         formControlName="instrBranchName"
                                         [patternCheck]="inputValidation"
-                                        [maxLength]="labels?.validationData?.amountValue?.maxLength"
-                                        [type]="labels?.validationData?.amountValue?.type"
+                                        [maxLength]="labels?.validationData?.name?.maxLength"
+                                        [type]="labels?.validationData?.name?.type"
                                         [isRequired]="'*required'"
                                         [isDirty]="isDirty"
                                         [placeholder]="'Instr.Branch Name'"
@@ -265,7 +273,7 @@
                                     <div class="form-group col-lg-2 col-sm-6 col-md-2">
                                         <label class="image-upload" for="upload_files">
                                             <i class="fa fa-plus fa-3" aria-hidden="true"  id="add_more_documents1" (click)="addSPdcUnit()" ></i> &nbsp; 
-                                            <i class="fa fa-minus fa-3" aria-hidden="true"  id="add_more_documents_remove1" (click)="deleteRows('spdc',i)"></i></label>
+                                            <i class="fa fa-minus fa-3" aria-hidden="true"  id="add_more_documents_remove1" (click)="deleteRows('spdc',item.value.pdcId,i)"></i></label>
                                     </div>
                                 </div>
                             </div>
