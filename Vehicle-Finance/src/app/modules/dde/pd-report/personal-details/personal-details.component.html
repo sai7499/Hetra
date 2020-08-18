@@ -3,7 +3,7 @@
         <h3 class="cus-title title">{{ labels.personalDetailsTitle }}</h3>
 
         <div class="row">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="first_name">{{ labels?.firstName }}
                     <sub class="star_red_col">*</sub></label>
 
@@ -15,7 +15,7 @@
 
             </div>
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="middle_name">{{ labels?.middleName }}</label>
 
                 <app-custom-input formControlName="middleName" [type]="labels.validationData?.name.type"
@@ -24,7 +24,7 @@
                 </app-custom-input>
             </div>
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="last_name">{{ labels?.lastName }}
                     <sub class="star_red_col">*</sub>
                 </label>
@@ -36,7 +36,7 @@
         </div>
 
         <div class="row">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="applicant_name"> {{ labels.fullName }} </label>
 
                 <app-custom-input [id]="'applicant_name'" [type]="labels?.validationData?.name?.type"
@@ -47,7 +47,7 @@
 
             </div>
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="father_first_name">{{ labels?.fatherNameHusbandFirstName }}
                     <sub class="star_red_col">*</sub></label>
 
@@ -59,7 +59,7 @@
                 </app-custom-input>
             </div>
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="father_middle_name">{{ labels?.fatherNameHusbandSecondName }}</label>
                 <app-custom-input formControlName="fatherMiddleName" [id]="'father_middle_name'"
                     [className]="'form-control'" [maxLength]="labels.validationData?.name.maxLength"
@@ -71,7 +71,7 @@
 
         <div class="row">
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="father_last_name">{{ labels?.fatherNameHusbandThirdName }}
                     <sub class="star_red_col">*</sub>
                 </label>
@@ -81,7 +81,7 @@
                     [type]="labels?.validationData.name.type"></app-custom-input>
             </div>
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="father_full_name">{{ labels.fatherNameHusbandFullName }}</label>
                 <app-custom-input [id]="'father_full_name'" [type]="labels?.validationData?.name?.type"
                     formControlName="fatherFullName" [maxLength]="labels?.validationData?.name?.maxLength"
@@ -90,7 +90,7 @@
                 </app-custom-input>
             </div>
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="gender">{{ labels.gender }} <sub class="star_red_col">*</sub></label>
                 <app-vf-custom-select [values]="(LOV?.LOVS)['gender']" formControlName="gender"
                     [isRequired]="'Please select one'" [isDirty]="isDirty">
@@ -100,7 +100,7 @@
 
         <div class="row">
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="date_of_birth">{{ labels?.dateOfBirth }}
                     <sub class="star_red_col">*</sub></label>
 
@@ -115,7 +115,7 @@
                 </div>
             </div>
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="marital_status">
                     {{ labels.maritalStatus }} <sub class="star_red_col">*</sub></label>
                 <app-vf-custom-select [values]="(LOV?.LOVS)['maritalStatus']" formControlName="maritalStatus"
@@ -123,7 +123,7 @@
                 </app-vf-custom-select>
             </div>
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="date_of_married">{{ labels?.weddingAnniversaryDate }}
                     <sub class="star_blue_col">*</sub></label>
                 <kendo-datepicker class="form-control mandatory" formControlName="weddingAnniversaryDate"
@@ -146,7 +146,7 @@
 
         <div class="row">
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="religion">{{ labels.religion }}
                     <sub class="star_red_col">*</sub></label>
                 <app-vf-custom-select [values]="LOV?.LOVS.religion" formControlName="religion"
@@ -154,7 +154,7 @@
                 </app-vf-custom-select>
             </div>
 
-            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <!-- <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="category">{{ labels.Category }}
                     <sub class="star_red_col">*</sub>
                 </label>
@@ -162,7 +162,7 @@
         
             </div> -->
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="physically_challenged">{{ labels.physicallyChallenged }}
                     <sub class="star_red_col">*</sub></label>
                 <app-vf-custom-select [values]="applicantLov?.commonLov" formControlName="physicallyChallenged"
@@ -171,7 +171,7 @@
             </div>
 
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="customer_profile">{{ labels.customerProfile }}
                     <sub class="star_red_col">*</sub></label>
                 <app-vf-custom-select [values]="applicantLov?.customerProfilePersonal" formControlName="customerProfile"
@@ -183,7 +183,7 @@
 
         <div class="row">
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="prior_experience">{{ labels.priorExperience }}
                     <sub class="star_red_col">*</sub></label>
                 <app-vf-custom-select [values]="applicantLov?.priorExperience" formControlName="priorInfo"
@@ -191,7 +191,7 @@
                 </app-vf-custom-select>
             </div>
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="business_key">{{ labels.businessKey }}
                     <sub class="star_red_col">*</sub>
                 </label>
@@ -202,7 +202,7 @@
 
             </div>
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="occupation_type">{{ labels.occupationType }}
                     <sub class="star_red_col">*</sub></label>
                 <app-vf-custom-select [values]="LOV?.LOVS.occupation" formControlName="occupationType"
@@ -214,7 +214,7 @@
 
         <div class="row">
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="business_type">{{ labels.businessType }}
                     <sub class="star_red_col">*</sub></label>
                 <app-vf-custom-select [values]="LOV?.LOVS.businessType" formControlName="businessType"
@@ -222,21 +222,21 @@
                 </app-vf-custom-select>
             </div>
 
-            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <!-- <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="nature_of_business">{{ labels.natureOfBusiness }}
                 </label>
                 <app-vf-custom-select [values]="applicantLov?.natureOfBusiness" formControlName="natureOfBusiness">
                 </app-vf-custom-select>
             </div> -->
 
-            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <!-- <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="educational_background_type">{{ labels.educationalBackground }}
                     <sub class="star_red_col">*</sub>
                 </label>
                 <app-vf-custom-select [values]="" formControlName="educationalBackground"></app-vf-custom-select>
             </div> -->
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="is_minority">{{ labels.isMinority }}
                     <sub class="star_red_col">*</sub></label>
                 <app-vf-custom-select [values]="applicantLov?.commonLov" formControlName="isMinority"
@@ -244,7 +244,7 @@
                 </app-vf-custom-select>
             </div>
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="community">{{ labels.community }}
                     <sub class="star_red_col">*</sub></label>
                 <app-vf-custom-select [values]="LOV?.LOVS.community" formControlName="community"
@@ -256,7 +256,7 @@
 
         <div class="row">
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="srto">{{ labels.srto }}
                     <sub class="star_red_col">*</sub></label>
                 <app-custom-input formControlName="srto" [isRequired]="'SRTO is Required'"
@@ -264,7 +264,7 @@
                     [placeholder]="'Enter SRTO'" [type]="labels.validationData?.srto?.type"></app-custom-input>
             </div>
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="contact_number">{{ labels.contactNumber }}
                     <sub class="star_red_col">*</sub></label>
 
@@ -276,7 +276,7 @@
                 </app-custom-input>
             </div>
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="alternate_mobile_number">{{ labels.alternateMobileNumber }}
                     <!-- <sub class="star_red_col">*</sub> -->
                 </label>
@@ -294,7 +294,7 @@
 
         <div class="row">
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="email_id">{{ labels?.emailAddress }}
                     <sub class="star_red_col">*</sub></label>
                 <app-custom-input formControlName="email" [isRequired]="'Email Address is Required'"
@@ -303,7 +303,7 @@
                 </app-custom-input>
             </div>
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="resident_status">{{ labels?.residentStatus }}
                     <sub class="star_red_col">*</sub></label>
                 <app-vf-custom-select [values]="applicantLov?.residentStatus" formControlName="residentStatus"
@@ -311,7 +311,7 @@
                 </app-vf-custom-select>
             </div>
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="accomodation_type">{{ labels?.accomodationType }}
                     <sub class="star_red_col">*</sub></label>
                 <app-vf-custom-select [values]="applicantLov?.accomodationType" formControlName="accomodationType"
@@ -322,7 +322,7 @@
         </div>
 
         <div class="row">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="no_of_years_residing">{{ labels?.noOfYearsResiding }}
                     <sub class="star_red_col">*</sub></label>
                 <app-vf-custom-select [values]="applicantLov?.noOfYearsResidingInCurrResidence"
@@ -331,7 +331,7 @@
                 </app-vf-custom-select>
             </div>
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="no_of_adults_dependant">{{ labels?.noOfAdultsDependant }}
                     <sub class="star_red_col">*</sub></label>
 
@@ -344,7 +344,7 @@
 
             </div>
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="no_of_children_dependant">{{ labels?.noOfChildrenDependant }}
                     <sub class="star_red_col">*</sub></label>
                 <app-custom-input formControlName="noOfChildrenDependant"
@@ -359,7 +359,7 @@
 
         <div class="row">
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="bank_a/c_holder_name">{{ labels.bankHolderName }} <sub class="star_red_col">*</sub></label>
                 <app-custom-input id="bank_a/c_holder_name" [placeholder]="'Enter Bank A/C Holder Name'"
                     formControlName="bankAccHolderName" [type]="labels?.validationData?.pdBankName?.type"
@@ -369,7 +369,7 @@
                 </app-custom-input>
             </div>
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="branch">{{ labels?.branch }}
                     <sub class="star_red_col">*</sub>
                 </label>
@@ -377,7 +377,7 @@
                 </app-vf-custom-select>
             </div>
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="cbs">{{ labels.cbs }} <sub class="star_red_col">*</sub></label>
                 <app-custom-input id="cbs" [placeholder]="'Enter Credit Bureau Score'"
                     formControlName="creditBureauScore" [type]="labels?.validationData?.pdBankName?.type"
@@ -387,7 +387,7 @@
 
         </div>
 
-        <div class="btn-sec clear-both btn-mar-5">
+        <div class="btn-sec clear-both row cst_btm_btns">
             <div class="col-sm-4"></div>
             <div class="col-sm-8 text-right">
                 <button class="btn btn-primary" type="button" (click)="onNavigateBack()">

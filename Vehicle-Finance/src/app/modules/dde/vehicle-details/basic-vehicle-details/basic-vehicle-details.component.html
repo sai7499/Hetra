@@ -3,13 +3,13 @@
         <app-shared-basic-vehicle-details [isDirty]="isDirty" [id]="routerId">
         </app-shared-basic-vehicle-details>
     </div>
-    <div class="row">
+    <div class="btn-sec clear-both row cst_btm_btns">
         <div class="col-sm-5"><button class="btn btn-primary dash_href"
                 [routerLink]="['/pages/dde/'+ leadId + '/vehicle-list']">{{label.back}}
                 To
                 Vehicle Details </button></div>
         <div class="col-sm-7 text-right">
-            <button class="btn btn-primary dash_href mar-right8" (click)="onSubmit()"> {{label.save}} </button>
+            <button class="btn btn-primary dash_href" (click)="onSubmit()"> {{label.save}} </button>
         </div>
 
     </div>
