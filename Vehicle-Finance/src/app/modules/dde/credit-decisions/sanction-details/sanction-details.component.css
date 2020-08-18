@@ -4,3 +4,12 @@
 .bottum-border{
     border-bottom: 1px solid;
 }
+
+.head-tag{
+    font-weight: bolder;
+    font-size: 18px;
+}
+
+.font-fam{
+    font-family: times new roman;
+}

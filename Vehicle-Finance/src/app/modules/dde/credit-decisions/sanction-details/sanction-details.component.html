@@ -8,8 +8,21 @@
 
 <main class="content" style="background: #f5f5f5; border: none;" >
     <div class="container-fluid print_top " id="vf_sheet_print_starts" *ngIf="isSanctionDetails">
-        <h4 id="vf_sheet_tag4" class="text-center" style="font-weight: lighter;">{{labels?.sanctionLetter}}</h4>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" style="text-align: left;" id="vf_sheet_tag8">
+                <img src="assets\images\equitas-logo.png" style="width: 200%;">
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 font-fam" style="text-align: right; ">
+                <p><span class="head-tag" >{{labels?.vfSheetTag76A}}<br/></span>{{labels?.equitasBranchAddress1A}}<br/>{{labels?.equitasBranchAddress1B}}<br/>
+                    {{labels?.equitasBranchAddress1C}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <h4 id="vf_sheet_tag4" class="text-center head-tag" ><i>{{labels?.sanctionLetter}}</i></h4>
+        </div>
+
         <div id="vf_sheet_tag5">
+            
             <p id="vf_sheet_tag6" class="text-right"><strong>{{labels?.date}}</strong> &nbsp; :{{todayDate}}</p>
             <p id="vf_sheet_tag7" class="text-right"><strong>{{labels?.place}}</strong> :{{sanctionDetailsObject.Place}}</p>
         </div>
@@ -19,11 +32,11 @@
                 <div *ngFor="let applicant of applicantList; let i = index">
                     <p id="vf_sheet_tag9"><strong>{{applicant?.applicantType}} {{i+1}}</strong></p>
                     <p id="vf_sheet_tag10"><strong>{{applicant?.name}}</strong></p>
-                    <p id="vf_sheet_tag11">{{applicant?.addressLine1}}</p>
-                    <p id="vf_sheet_tag12">{{applicant?.addressLine2}} </p>
-                    <p id="vf_sheet_tag13">{{applicant?.addressLine3}}</p>
-                    <p id="vf_sheet_tag14">{{applicant?.district + '-'+ applicant?.pincode}} </p>
-                    <p id="vf_sheet_tag15">{{applicant?.country}}</p>
+                    <p id="vf_sheet_tag11">{{applicant?.addressLine1 | titlecase}}</p>
+                    <p id="vf_sheet_tag12">{{applicant?.addressLine2 | titlecase}} </p>
+                    <p id="vf_sheet_tag13">{{applicant?.addressLine3 | titlecase}}</p>
+                    <p id="vf_sheet_tag14">{{applicant?.district + '-'+ applicant?.pincode | titlecase}} </p>
+                    <p id="vf_sheet_tag15">{{applicant?.country | titlecase}}</p>
                     <!-- <p id="vf_sheet_tag16">{{applicant?.pincode}} </p> -->
                     <p id="vf_sheet_tag17">{{applicant?.mobileNo}}</p>
                 </div>
@@ -32,11 +45,11 @@
                 <div *ngFor="let coApplicant of coApplicantList; let i = index">
                     <p id="vf_sheet_tag18"><strong> {{coApplicant?.applicantType}} {{i+1}}</strong></p>
                     <p id="vf_sheet_tag19"><strong>{{coApplicant?.name}}</strong></p>
-                    <p id="vf_sheet_tag20">{{coApplicant?.addressLine1}}</p>
-                    <p id="vf_sheet_tag21">{{coApplicant?.addressLine2}}</p>
-                    <p id="vf_sheet_tag22">{{coApplicant?.addressLine3}}</p>
-                    <p id="vf_sheet_tag23">{{coApplicant?.district + '-' + coApplicant?.pincode}}</p>
-                    <p id="vf_sheet_tag24">{{coApplicant?.country}}</p>
+                    <p id="vf_sheet_tag20">{{coApplicant?.addressLine1 | titlecase}}</p>
+                    <p id="vf_sheet_tag21">{{coApplicant?.addressLine2 | titlecase}}</p>
+                    <p id="vf_sheet_tag22">{{coApplicant?.addressLine3 | titlecase}}</p>
+                    <p id="vf_sheet_tag23">{{coApplicant?.district + '-' + coApplicant?.pincode | titlecase}}</p>
+                    <p id="vf_sheet_tag24">{{coApplicant?.country | titlecase}}</p>
                     <p id="vf_sheet_tag25">{{coApplicant?.mobileNo}}</p>
                 </div>
                 <!-- <p id="vf_sheet_tag26"><strong> {{coApplicant?.applicantType}} </strong></p> -->
@@ -48,11 +61,11 @@
                 <div *ngFor="let guarantor of guarantorList; let i = index">
                     <p id="vf_sheet_tag18"><strong> {{guarantor?.applicantType}} {{i+1}}</strong></p>
                     <p id="vf_sheet_tag19"><strong>{{guarantor?.name}}</strong></p>
-                    <p id="vf_sheet_tag20">{{guarantor?.addressLine1}}</p>
-                    <p id="vf_sheet_tag21">{{guarantor?.addressLine2}}</p>
-                    <p id="vf_sheet_tag22">{{guarantor?.addressLine3}}</p>
-                    <p id="vf_sheet_tag23">{{guarantor?.district}}</p>
-                    <p id="vf_sheet_tag24">{{guarantor?.country}}</p>
+                    <p id="vf_sheet_tag20">{{guarantor?.addressLine1 | titlecase}}</p>
+                    <p id="vf_sheet_tag21">{{guarantor?.addressLine2 | titlecase}}</p>
+                    <p id="vf_sheet_tag22">{{guarantor?.addressLine3 | titlecase}}</p>
+                    <p id="vf_sheet_tag23">{{guarantor?.district | titlecase}}</p>
+                    <p id="vf_sheet_tag24">{{guarantor?.country | titlecase}}</p>
                     <p id="vf_sheet_tag25">{{guarantor?.mobileNo}}</p>
                 </div>
             </div>
@@ -129,8 +142,8 @@
                         <tr>
                             <td> {{labels?.emiCoverage}} </td>
                             <td>{{loanApprovedDetails?.emiCoveragePremiumAmount}}</td>
-                            <td></td>
-                            <td></td>
+                            <td> {{labels?.documentationCharges}} </td>
+                            <td>{{loanApprovedDetails?.documentationCharges}}</td>
                         </tr>
                         <tr>
                             <td> {{labels?.personalAccidentCover}} </td>
