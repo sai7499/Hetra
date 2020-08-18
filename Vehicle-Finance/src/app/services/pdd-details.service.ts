@@ -10,6 +10,7 @@ import { ApiService } from './api.service';
   providedIn: 'root'
 })
 export class PddDetailsService {
+  userId: any;
 
   constructor( private httpService: HttpService,  private apiService: ApiService) { }
 
@@ -39,15 +40,18 @@ export class PddDetailsService {
 updatePddDetails(data) {
 
   const processData = data;
-  const processId = this.apiService.api.getPddDetails.processId;
-  const workflowId = this.apiService.api.getPddDetails.workflowId;
-  const projectId = this.apiService.api.getPddDetails.projectId;
+  const processId = this.apiService.api.updatePddDetails.processId;
+  const workflowId = this.apiService.api.updatePddDetails.workflowId;
+  const projectId = this.apiService.api.updatePddDetails.projectId;
 
-  const userId = localStorage.getItem('userId');
+  this.userId = localStorage.getItem('userId');
 
   const requestEntity: RequestEntity = {
       processId,
-      ProcessVariables:  processData,
+      ProcessVariables: {
+        userId: this.userId,
+        ...data
+      },
       workflowId,
       projectId
   };
