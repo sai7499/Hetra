@@ -9,6 +9,7 @@ import { HttpService } from '@services/http.service';
 import { Observable } from 'rxjs';
 import { PdcServiceService } from '@services/pdc-service.service';
 import { UtilityService } from '@services/utility.service';
+import { CommomLovService } from '@services/commom-lov-service';
 
 @Component({
   selector: 'app-pdc-details',
@@ -29,6 +30,7 @@ export class PdcDetailsComponent implements OnInit {
   json: any;
   showPdc = false;
   showSpdc = false;
+  lovData: any;
 
 
   constructor( private loginStoreService: LoginStoreService,
@@ -40,7 +42,8 @@ export class PdcDetailsComponent implements OnInit {
                private http: HttpService,
                private fb: FormBuilder,
                private pdcService: PdcServiceService,
-               private utilityService: UtilityService) {
+               private utilityService: UtilityService,
+               private lovService: CommomLovService) {
                 this.pdcArray = this.fb.array([]);
                 this.spdcArray = this.fb.array([]);
                }
@@ -56,19 +59,18 @@ export class PdcDetailsComponent implements OnInit {
       spdcList: this.spdcArray
     });
     this.leadId = (await this.getLeadId()) as number;
-    // this.pdcForm = this.fb.group({
-    //   pdc: this.pdcArray,
-    //   spdc: this.spdcArray
-    // });
     this.labelsService.getLabelsData().subscribe((res: any) => {
       this.labels = res;
     });
+    this.getPdcDetails();
     // if (this.pdcForm.controls.pdcList.controls.length === 0) {
     //   this.showPdc = true;
     // } else if (this.pdcForm.controls.spdcList.controls.length === 0) {
     //   this.showSpdc = true;
     // }
-    this.getPdcDetails();
+    this.lovService.getLovData().subscribe((res: any) => {
+      this.lovData = res.LOVS;
+    });
   }
   private initRows() {
     return this.fb.group({
@@ -93,8 +95,29 @@ export class PdcDetailsComponent implements OnInit {
   }
  deleteRows(table: string, id: any, i: number) {
    console.log(table + id + i);
-   const array = this.pdcForm.get(table) as FormArray;
+   const body = {
+     pdcId: id
+   };
+   
   //  array.removeAt(i);
+   if (table && id) {
+  this.pdcService.deletePdcDetails(body).subscribe((res: any) => {
+    // tslint:disable-next-line: triple-equals
+    if (res.ProcessVariables.error.code == '0') {
+      this.toasterService.showSuccess('Record Deleted Succesfully', '');
+      this.getPdcDetails();
+    } else {
+      this.toasterService.showSuccess(res.ProcessVariables.error.message, '');
+    }
+  });
+  } else if ((id === null || id === undefined) && table == 'pdc' ) {
+    const array = this.pdcForm.get('pdcList') as FormArray;
+    array.removeAt(i);
+  } else if ((id === null || id === undefined) && table == 'spdc' ) {
+    const array = this.pdcForm.get('spdcList') as FormArray;
+    array.removeAt(i);
+  }
+
  }
   getLeadId() {
     return new Promise((resolve, reject) => {
@@ -207,6 +230,8 @@ onBack() {
 }
 getData(data: any) {
 // const data = JSON.parse(localStorage.getItem('pdcData'));
+this.pdcForm.controls.pdcList.controls = [];
+this.pdcForm.controls.spdcList.controls = [];
 if (data) {
   const spdcControl = this.pdcForm.controls.spdcList as FormArray;
   const PdcControl = this.pdcForm.controls.pdcList as FormArray;
@@ -215,15 +240,15 @@ if (data) {
     for (let i = 0; i < data.pdcList.length; i++ ) {
       this.addPdcUnit();
       PdcControl.at(i).patchValue({
-        pdcId : data.pdcList[i].pdcId,
-      instrType: data.pdcList[i].instrType,
-          emiAmount: data.pdcList[i].emiAmount,
-          instrNo: data.pdcList[i].instrNo,
-          instrDate: this.utilityService.getDateFromString(data.pdcList[i].instrDate) ,
-          instrBankName: data.pdcList[i].instrBankName,
-          instrBranchName: data.pdcList[i].instrBranchName,
-          instrBranchAccountNumber: data.pdcList[i].instrBranchAccountNumber,
-          instrAmount: data.pdcList[i].instrAmount
+        pdcId : data.pdcList[i].pdcId ? data.pdcList[i].pdcId : null,
+      instrType: data.pdcList[i].instrType ? data.pdcList[i].instrType : null,
+          emiAmount: data.pdcList[i].emiAmount ? data.pdcList[i].emiAmount : null,
+          instrNo: data.pdcList[i].instrNo ? data.pdcList[i].instrNo : null,
+          instrDate: data.pdcList[i].instrDate ? this.utilityService.getDateFromString(data.pdcList[i].instrDate) : null ,
+          instrBankName: data.pdcList[i].instrBankName ? data.pdcList[i].instrBankName : null,
+          instrBranchName: data.pdcList[i].instrBranchName ? data.pdcList[i].instrBranchName : null,
+          instrBranchAccountNumber: data.pdcList[i].instrBranchAccountNumber ? data.pdcList[i].instrBranchAccountNumber : null,
+          instrAmount: data.pdcList[i].instrAmount ? data.pdcList[i].instrAmount : null
     });
   }
   // tslint:disable-next-line: prefer-for-of
@@ -232,15 +257,15 @@ if (data) {
    for (let j = 0; j < data.spdcList.length; j++ ) {
      this.addSPdcUnit();
      spdcControl.at(j).patchValue({
-      pdcId: data.spdcList[j].pdcId,
-      instrType: data.spdcList[j].instrType,
-      emiAmount: data.spdcList[j].emiAmount,
-      instrNo: data.spdcList[j].instrNo,
-      instrDate: this.utilityService.getDateFromString(data.spdcList[j].instrDate) ,
-      instrBankName: data.spdcList[j].instrBankName,
-      instrBranchName: data.spdcList[j].instrBranchName,
-      instrBranchAccountNumber: data.spdcList[j].instrBranchAccountNumber,
-      instrAmount: data.spdcList[j].instrAmount
+      pdcId: data.spdcList[j].pdcId ? data.spdcList[j].pdcId : null,
+      instrType: data.spdcList[j].instrType ? data.spdcList[j].instrType : null,
+      emiAmount: data.spdcList[j].emiAmount ? data.spdcList[j].emiAmount : null,
+      instrNo: data.spdcList[j].instrNo ? data.spdcList[j].instrNo : null,
+      instrDate: data.spdcList[j].instrDate ? this.utilityService.getDateFromString(data.spdcList[j].instrDate) : null ,
+      instrBankName: data.spdcList[j].instrBankName ? data.spdcList[j].instrBankName : null,
+      instrBranchName: data.spdcList[j].instrBranchName ? data.spdcList[j].instrBranchName : null,
+      instrBranchAccountNumber: data.spdcList[j].instrBranchAccountNumber ?  data.spdcList[j].instrBranchAccountNumber : null,
+      instrAmount: data.spdcList[j].instrAmount ? data.spdcList[j].instrAmount : null
     });
   }
   }
