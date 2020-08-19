@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { NegotiationService } from './negotiation.service';
+import { PdcServiceService } from './pdc-service.service';
 
-describe('NegotiationService', () => {
+describe('PdcServiceService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: NegotiationService = TestBed.get(NegotiationService);
+    const service: PdcServiceService = TestBed.get(PdcServiceService);
     expect(service).toBeTruthy();
   });
 });

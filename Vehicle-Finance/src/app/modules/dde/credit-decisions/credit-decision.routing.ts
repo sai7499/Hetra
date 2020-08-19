@@ -10,6 +10,7 @@ import { CustomerFeedbackComponent } from './customer-feedback/customer-feedback
 import { CheckListComponent } from './check-list/check-list.component';
 import { NegotiationComponent } from '@modules/negotiation/negotiation.component';
 import{TermSheetFromDashboardComponent} from './term-sheet-from-dashboard/term-sheet-from-dashboard.component'
+import { DisbursementFormComponent } from '@modules/disbursement-section/disbursement-form/disbursement-form.component';
 const routes: Routes = [
     {
         path: ':leadId',
@@ -41,14 +42,18 @@ const routes: Routes = [
                 component: CheckListComponent
             },
 
-              {
+            {
                 path: 'negotiation',
                 component : NegotiationComponent
-              },
-              {
+            },
+            {
                 path: 'new-term-sheet',
                 component : TermSheetFromDashboardComponent
             },
+            {
+                path: 'disbursement',
+                component: DisbursementFormComponent
+            }
         ]
     }
 ];

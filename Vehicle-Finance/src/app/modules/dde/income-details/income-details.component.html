@@ -1040,13 +1040,17 @@
               </div>
             </div>
           </div>
-          <div class="table-responsive application mt-3 oblig col-md-6 p-0">
+          <div class="table-responsive application mt-3 oblig  p-0">
             <table id="POITable" border="1" class="table income_obli">
-              <caption class="caption">
-                {{
-                  labels?.incomeObligationSummaryTitle
-                }}
-              </caption>
+              <tr>
+              
+                  <caption class="caption">
+                    {{
+                      labels?.incomeObligationSummaryTitle
+                    }}
+                  </caption>
+               
+              </tr>
 
               <tr>
                 <td>{{ labels?.totalMonthlySalaryIncome }}</td>
@@ -1101,7 +1105,7 @@
                 <td>
                   {{
                     (totalMonthlySalaryIncome *
-                      (totalSalariedFOIR + salariedFOIRasperPolicy)) /
+                      (totalSalariedFOIR)) /
                       100 | number: "1.0-0"
                   }}
                 </td>
@@ -1144,14 +1148,14 @@
                   }}
                 </td>
               </tr>
-            </table>
+            </table> 
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="btn-sec clear-both row cst_btm_btns">
+  <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right">
       <button

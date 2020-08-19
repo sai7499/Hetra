@@ -12,8 +12,8 @@ import { Router } from '@angular/router';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { NumberFormatStyle } from '@angular/common';
 
+// for sales
 export enum DisplayTabs {
-  // sales
   Leads,
   PD,
   Viability,
@@ -40,8 +40,12 @@ export enum DisplayTabs {
   NegotiatinWithBranch,
   Disbursement,
   DisbursementWithMe,
-  DisbursementWithBranch
+  DisbursementWithBranch,
+  PDD,
+  ChequeTracking
 }
+
+// for credit
 export enum DisplayCreditTabs {
   DDE,
   PD,
@@ -61,6 +65,17 @@ export enum DisplayCreditTabs {
   TermSheet,
   TermSheetWithMe,
   TermSheetWithBranch
+}
+
+// for CPC
+export enum DisplayCPCTabs {
+  CPCMaker,
+  CPCMakerWithMe,
+  CPCMakerWithBranch,
+  CPCChecker,
+  CPCCheckerWithMe,
+  CPCCheckerWithBranch,
+
 }
 @Component({
   selector: 'app-dashboard',
@@ -83,6 +98,8 @@ export class DashboardComponent implements OnInit {
   OldFromDate: Date;
   // new leads
   newArray;
+  pddDetails;
+  chequeTrackingDetails;
   salesLeads;
   creditLeads;
   itemsPerPage = '25';
@@ -123,6 +140,7 @@ export class DashboardComponent implements OnInit {
 
   displayTabs = DisplayTabs;
   displayCreditTabs = DisplayCreditTabs;
+  displayCPCTabs = DisplayCPCTabs;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
@@ -142,6 +160,11 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   onTabsLoading(data) {
+    if (this.activeTab === this.displayTabs.PDD) {
+      this.getPDDLeads(this.itemsPerPage);
+    } else if (this.activeTab === this.displayTabs.ChequeTracking) {
+      this.getChequeTrackingLeads(this.itemsPerPage);
+    }
     if (this.roleType === 1) {
       switch (data) {
         case 3:
@@ -265,6 +288,36 @@ export class DashboardComponent implements OnInit {
         default:
           break;
       }
+    } else if (this.roleType === 4) {
+      switch (data) {
+        case 1:
+          this.onAssignTab = false;
+          this.onReleaseTab = true;
+          this.getMakerLeads(this.itemsPerPage);
+          break;
+        case 2:
+          this.onAssignTab = true;
+          this.onReleaseTab = false;
+          this.getMakerCPCLeads(this.itemsPerPage);
+          break;
+        default:
+          break;
+      }
+    } else if (this.roleType === 5) {
+      switch (data) {
+        case 4:
+          this.onAssignTab = false;
+          this.onReleaseTab = true;
+          this.getCheckerLeads(this.itemsPerPage);
+          break;
+        case 5:
+          this.onAssignTab = true;
+          this.onReleaseTab = false;
+          this.getCheckerCPCLeads(this.itemsPerPage);
+          break;
+        default:
+          break;
+      }
     }
   }
 
@@ -282,11 +335,21 @@ export class DashboardComponent implements OnInit {
       this.subActiveTab = this.dashboardService.routingData.subActiveTab;
       this.onTabsLoading(this.subActiveTab);
     } else {
-      this.activeTab = 0;
-      this.subActiveTab = this.roleType === 1 ? 3 : 4;
-      this.onTabsLoading(this.subActiveTab);
-    }
+      if (this.roleType === 1 || this.roleType === 2 || this.roleType === 4) {
+        this.activeTab = 0;
+        if (this.roleType === 1 || this.roleType === 2) {
+          this.subActiveTab = this.roleType === 1 ? 3 : 4;
+        } else if (this.roleType === 4) {
+          this.subActiveTab = 1;
+        }
+        this.onTabsLoading(this.subActiveTab);
+      } else if (this.roleType === 5) {
+        this.activeTab = 3;
+        this.subActiveTab = 4;
+        this.onTabsLoading(this.subActiveTab);
+      }
 
+    }
 
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
@@ -304,18 +367,6 @@ export class DashboardComponent implements OnInit {
     });
 
     this.dashboardFilter();
-
-    // new leads
-
-    if (this.roleType === 4) {
-      this.onReleaseTab = true;
-      this.makerWithMe = true;
-      this.getMakerLeads(this.itemsPerPage);
-    } else if (this.roleType === 5) {
-      this.onReleaseTab = true;
-      this.checkerWithMe = true;
-      this.getCheckerLeads(this.itemsPerPage);
-    }
   }
 
 
@@ -340,6 +391,10 @@ export class DashboardComponent implements OnInit {
         this.getViabilityLeads(this.itemsPerPage);
       } else if (this.activeTab === this.displayTabs.FI && this.subActiveTab === this.displayTabs.MyFI) {
         this.getMyFITask(this.itemsPerPage);
+      } else if (this.activeTab === this.displayTabs.PDD) {
+        this.getPDDLeads(this.itemsPerPage);
+      } else if (this.activeTab === this.displayTabs.ChequeTracking) {
+        this.getChequeTrackingLeads(this.itemsPerPage);
       }
     } else if (this.roleType === 2) {
       if (this.activeTab === this.displayCreditTabs.DDE && this.subActiveTab === this.displayCreditTabs.DDEWithMe) {
@@ -355,6 +410,10 @@ export class DashboardComponent implements OnInit {
       } else if (this.activeTab === this.displayCreditTabs.TermSheet && this.subActiveTab === this.displayCreditTabs.TermSheetWithMe) {
         this.getMyTermsheetLeads(this.itemsPerPage);
       }
+    } else if (this.roleType === 4) {
+      this.getMakerLeads(this.itemsPerPage);
+    } else if (this.roleType === 5) {
+      this.getCheckerLeads(this.itemsPerPage);
     }
 
   }
@@ -370,38 +429,6 @@ export class DashboardComponent implements OnInit {
       this.onAssignTab = false;
     }
     this.onTabsLoading(this.subActiveTab);
-  }
-
-  onCPCMakerClick(data) {
-    if (data === 'myMaker') {
-      this.onReleaseTab = true;
-      this.onAssignTab = false;
-      this.makerWithMe = true;
-      this.makerWithCPC = false;
-      this.getMakerLeads(this.itemsPerPage);
-    } else if (data === 'cpcMaker') {
-      this.onReleaseTab = false;
-      this.onAssignTab = true;
-      this.makerWithMe = false;
-      this.makerWithCPC = true;
-      this.getMakerCPCLeads(this.itemsPerPage);
-    }
-  }
-
-  onCPCCheckerClick(data) {
-    if (data === 'myChecker') {
-      this.onReleaseTab = true;
-      this.onAssignTab = false;
-      this.checkerWithMe = true;
-      this.checkerWithCPC = false;
-      this.getCheckerLeads(this.itemsPerPage);
-    } else if (data === 'cpcChecker') {
-      this.onReleaseTab = false;
-      this.onAssignTab = true;
-      this.checkerWithMe = false;
-      this.checkerWithCPC = true;
-      this.getCheckerCPCLeads(this.itemsPerPage);
-    }
   }
 
   dateToFormate(date) {
@@ -432,30 +459,38 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  // new leads
+  // getting response Data for all tabs
+  setPageData(res) {
+    const response = res.ProcessVariables.loanLead;
+    this.newArray = response;
+    this.limit = res.ProcessVariables.perPage;
+    this.pageNumber = res.ProcessVariables.from;
+    this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
+    this.currentPage = res.ProcessVariables.currentPage;
+    this.totalItems = res.ProcessVariables.totalPages;
+    this.from = res.ProcessVariables.from;
+  }
 
-  getSalesFilterLeads(perPageCount, pageNumber?) {
+  setPDDPageData(res) {
+    const response = res.ProcessVariables.pddDetails;
+    this.pddDetails = response;
+    this.limit = res.ProcessVariables.perPage;
+    this.pageNumber = res.ProcessVariables.from;
+    this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
+    this.currentPage = res.ProcessVariables.currentPage;
+    this.totalItems = res.ProcessVariables.totalPages;
+    this.from = res.ProcessVariables.from;
+  }
 
-    // this.filterFormDetails['userId'] = localStorage.getItem('userId');
-    // this.filterFormDetails['perPage'] = parseInt(perPageCount);
-    // this.filterFormDetails['currentPage'] = parseInt(pageNumber);
-    // const data = this.filterFormDetails;
-    const data = {
-      userId: localStorage.getItem('userId'),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
-    };
-
-    this.responseForSales(data);
+  setChequeTrackingPageData(res) {
+    const response = res.ProcessVariables.chequeTrackingDetails;
+    this.chequeTrackingDetails = response;
+    this.limit = res.ProcessVariables.perPage;
+    this.pageNumber = res.ProcessVariables.from;
+    this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
+    this.currentPage = res.ProcessVariables.currentPage;
+    this.totalItems = res.ProcessVariables.totalPages;
+    this.from = res.ProcessVariables.from;
   }
   // for MyLeads Api
   responseForSales(data) {
@@ -468,6 +503,111 @@ export class DashboardComponent implements OnInit {
         this.newArray = [];
       }
     });
+  }
+
+  // for PDD Leads
+  responseForPDD(data) {
+    this.dashboardService.myLeads(data).subscribe((res: any) => {
+      this.setPDDPageData(res);
+      if (res.ProcessVariables.pddDetails != null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+        this.pddDetails = [];
+      }
+    });
+  }
+
+  // for Cheque tracking
+  responseForChequeTracking(data) {
+    this.dashboardService.myLeads(data).subscribe((res: any) => {
+      this.setChequeTrackingPageData(res);
+      if (res.ProcessVariables.chequeTrackingDetails != null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+        this.chequeTrackingDetails = [];
+      }
+    });
+  }
+
+  // new leads
+  getSalesFilterLeads(perPageCount, pageNumber?) {
+
+    // this.filterFormDetails['userId'] = localStorage.getItem('userId');
+    // this.filterFormDetails['perPage'] = parseInt(perPageCount);
+    // this.filterFormDetails['currentPage'] = parseInt(pageNumber);
+    // const data = this.filterFormDetails;
+    const data = {
+      userId: localStorage.getItem('userId'),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      isPDD: false,
+      isChequeTracking: false,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+
+    this.responseForSales(data);
+  }
+
+  getPDDLeads(perPageCount, pageNumber?) {
+
+    // this.filterFormDetails['userId'] = localStorage.getItem('userId');
+    // this.filterFormDetails['perPage'] = parseInt(perPageCount);
+    // this.filterFormDetails['currentPage'] = parseInt(pageNumber);
+    // const data = this.filterFormDetails;
+    const data = {
+      userId: localStorage.getItem('userId'),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      isPDD: true,
+      isChequeTracking: false,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+
+    this.responseForPDD(data);
+  }
+
+  getChequeTrackingLeads(perPageCount, pageNumber?) {
+
+    // this.filterFormDetails['userId'] = localStorage.getItem('userId');
+    // this.filterFormDetails['perPage'] = parseInt(perPageCount);
+    // this.filterFormDetails['currentPage'] = parseInt(pageNumber);
+    // const data = this.filterFormDetails;
+    const data = {
+      userId: localStorage.getItem('userId'),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      isPDD: false,
+      isChequeTracking: true,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+
+    this.responseForChequeTracking(data);
   }
 
   // For TaskDashboard Api
@@ -978,20 +1118,15 @@ export class DashboardComponent implements OnInit {
 
 
 
-  // getting response Data for all tabs
-  setPageData(res) {
-    const response = res.ProcessVariables.loanLead;
-    this.newArray = response;
-    this.limit = res.ProcessVariables.perPage;
-    this.pageNumber = res.ProcessVariables.from;
-    this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
-    this.currentPage = res.ProcessVariables.currentPage;
-    this.totalItems = res.ProcessVariables.totalPages;
-    this.from = res.ProcessVariables.from;
-  }
+
   setPage(event) {
 
     if (this.roleType === 1) {
+      if (this.displayTabs.PDD === this.activeTab) {
+          this.getPDDLeads(this.itemsPerPage, event);
+      } else if (this.displayTabs.ChequeTracking === this.activeTab) {
+          this.getChequeTrackingLeads(this.itemsPerPage, event);
+      }
       switch (this.subActiveTab) {
         case 3:
           this.getSalesFilterLeads(this.itemsPerPage, event);
@@ -1071,16 +1206,26 @@ export class DashboardComponent implements OnInit {
           break;
       }
     } else if (this.roleType === 4) {
-      if (this.makerWithMe) {
-        this.getMakerLeads(this.itemsPerPage, event);
-      } else if (this.makerWithCPC) {
-        this.getMakerCPCLeads(this.itemsPerPage, event);
+      switch (this.subActiveTab) {
+        case 1:
+          this.getMakerLeads(this.itemsPerPage, event);
+          break;
+        case 2:
+          this.getMakerCPCLeads(this.itemsPerPage, event);
+          break;
+        default:
+          break;
       }
     } else if (this.roleType === 5) {
-      if (this.checkerWithMe) {
-        this.getCheckerLeads(this.itemsPerPage, event);
-      } else if (this.checkerWithCPC) {
-        this.getCheckerCPCLeads(this.itemsPerPage, event);
+      switch (this.subActiveTab) {
+        case 4:
+          this.getCheckerLeads(this.itemsPerPage, event);
+          break;
+        case 5:
+          this.getCheckerCPCLeads(this.itemsPerPage, event);
+          break;
+        default:
+          break;
       }
     }
   }
@@ -1088,15 +1233,15 @@ export class DashboardComponent implements OnInit {
 
   onClick() {
     this.onTabsLoading(this.subActiveTab);
-    if (this.roleType === 4 || this.roleType === 5) {
-      if (this.makerWithMe) {
-        this.getMakerLeads(this.itemsPerPage);
-      } else if (this.checkerWithMe) {
-        this.getCheckerLeads(this.itemsPerPage);
-      } else if (this.checkerWithCPC) {
-        this.getCheckerCPCLeads(this.itemsPerPage);
-      }
-    }
+    // if (this.roleType === 4 || this.roleType === 5) {
+    //   if (this.makerWithMe) {
+    //     this.getMakerLeads(this.itemsPerPage);
+    //   } else if (this.checkerWithMe) {
+    //     this.getCheckerLeads(this.itemsPerPage);
+    //   } else if (this.checkerWithCPC) {
+    //     this.getCheckerCPCLeads(this.itemsPerPage);
+    //   }
+    // }
   }
 
   onRoute(leadId, stageCode?, taskId?) {
@@ -1159,11 +1304,11 @@ export class DashboardComponent implements OnInit {
           break;
       }
     } else if (this.roleType === 4) {
-      if (this.makerWithMe) {
+      if (this.subActiveTab === this.displayCPCTabs.CPCMakerWithMe) {
         this.router.navigateByUrl(`/pages/cpc-maker/${leadId}/check-list`);
       }
     } else if (this.roleType === 5) {
-      if (this.checkerWithMe) {
+      if (this.subActiveTab === this.displayCPCTabs.CPCCheckerWithMe) {
         this.router.navigateByUrl(`/pages/cpc-checker/${leadId}/check-list`);
       }
     }
@@ -1175,17 +1320,6 @@ export class DashboardComponent implements OnInit {
     this.filterForm.reset();
     this.filterFormDetails = {};
     this.onTabsLoading(this.subActiveTab);
-    if (this.roleType === 4 || this.roleType === 5) {
-      if (this.makerWithMe) {
-        this.getMakerLeads(this.itemsPerPage);
-      } else if (this.makerWithCPC) {
-        this.getMakerCPCLeads(this.itemsPerPage);
-      } else if (this.checkerWithMe) {
-        this.getCheckerLeads(this.itemsPerPage);
-      } else if (this.checkerWithCPC) {
-        this.getCheckerCPCLeads(this.itemsPerPage);
-      }
-    }
   }
 
   onApply() {
@@ -1196,17 +1330,6 @@ export class DashboardComponent implements OnInit {
     // this.filterFormDetails.toDate = this.dateToFormate(this.filterFormDetails.toDate);
     this.filterFormDetails.toDate = this.utilityService.getDateFormat(this.filterFormDetails.toDate);
     this.onTabsLoading(this.subActiveTab);
-    if (this.roleType === 4 || this.roleType === 5) {
-      if (this.makerWithMe) {
-        this.getMakerLeads(this.itemsPerPage);
-      } else if (this.makerWithCPC) {
-        this.getMakerCPCLeads(this.itemsPerPage);
-      } else if (this.checkerWithMe) {
-        this.getCheckerLeads(this.itemsPerPage);
-      } else if (this.checkerWithCPC) {
-        this.getCheckerCPCLeads(this.itemsPerPage);
-      }
-    }
     // this.dashboardService.filterData(this.filterFormDetails);
   }
 
@@ -1297,10 +1420,10 @@ export class DashboardComponent implements OnInit {
               break;
           }
         } else if (this.roleType === 4) {
-          if (this.makerWithCPC) {
+          if (this.subActiveTab === this.displayCPCTabs.CPCMakerWithBranch) {
             this.router.navigateByUrl(`/pages/cpc-maker/${leadId}/check-list`);
           } else if (this.roleType === 5) {
-            if (this.checkerWithCPC) {
+            if (this.subActiveTab === this.displayCPCTabs.CPCCheckerWithBranch) {
               this.router.navigateByUrl(`/pages/cpc-checker/${leadId}/check-list`);
             }
           }
@@ -1314,6 +1437,12 @@ export class DashboardComponent implements OnInit {
   // external methods
   assignTaskId(taskId) {
     this.sharedService.getTaskID(taskId);
+  }
+  getLoanNumber(loanNumber) {
+    this.dashboardService.routingData = {
+      activeTab: this.activeTab
+    };
+    this.sharedService.getLoanNumber(loanNumber);
   }
   getLeadId(item) {
     localStorage.setItem('salesResponse', item.is_sales_response_completed);

@@ -1,0 +1,139 @@
+<form class="form" [formGroup]="pddDetailsForm">
+    <div class="container overflow-hidden">
+
+        <div class="row js-active" data-animation="scaleIn">
+            <div class="panel-group hidden-xs" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading panel-primary" id="headingTwo1">
+                        <h4 class="panel-title">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo1">
+                                {{labels?.pddDetails}}<i class="fa fa-angle-down"></i>
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseTwo1" class="panel-collapse collapse in" aria-expanded="true">
+                        <div class="panel-body" id="show_1_div_identity" formArrayName="pddDocumentDetails">
+                            <div class="row text-center">
+                                <div class="form-group col-sm-3 col-md-2">
+                                    <label for="document" class="label_height">{{labels?.documentName}}</label>
+                                </div>
+                                <div class="form-group col-sm-3 col-md-2">
+                                    <label for="idate" class="label_height">{{labels?.expectedDate}}</label>
+                                </div>
+                                <div class="form-group col-sm-3 col-md-2">
+                                    <label for="documentnumber" class="label_height">{{labels?.documentNumber}}</label>
+                                </div>
+                                <div class="form-group col-sm-3 col-md-2">
+                                    <label class="upload_label label_height">{{labels?.viewDocument}} </label>
+                                </div>
+                                <div class="form-group col-sm-3 col-md-2">
+                                    <label for="edate" class="label_height">{{labels?.collectedDate}}</label>
+                                </div>
+                                <div class="form-group col-sm-3 col-md-2">
+                                    <label for="Status" class="label_height">{{labels?.status}}</label>
+                                </div>
+                                <div class="form-group col-sm-3 col-md-2">
+                                    <label class="label_height">{{labels?.cpcCheck}}</label>
+                                </div>
+                                <div class="form-group col-sm-3 col-md-2">
+                                    <label for="documentnumber" class="label_height">{{labels?.physicalTrackingNumber}}</label>
+                                </div>
+                            </div>
+                            <div class="row" *ngFor="
+                            let item of pddDetailsForm.get('pddDocumentDetails')[
+                              'controls'
+                            ];
+                            let i = index
+                          " [formGroupName]="i">
+                                <div class="form-group col-sm-3 col-md-2">
+                                    <app-custom-input formControlName="documentName"
+                                        [type]="labels?.validationData?.chasisNo?.type"
+                                        [className]="'form-control mandatory'"
+                                        [maxLength]="labels?.validationData?.chasisNo?.maxLength" [isDirty]="isDirty"
+                                        [isDisabled]="true"></app-custom-input>
+                                </div>
+                                <div class="form-group col-sm-3 col-md-2">
+                                    <div class="input-group input-medium">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" aria-readonly="true"> <i class="fa fa-calendar"></i> </button>
+                                        </span>
+                                        <app-custom-input formControlName="expectedDate"
+                                            [className]="'form-control mandatory'"
+                                            [maxLength]="labels?.validationData?.chasisNo?.maxLength"
+                                            [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3 col-md-2">
+                                    <app-custom-input formControlName="documentNumber"
+                                        [type]="labels?.validationData?.chasisNo?.type"
+                                        [className]="'form-control mandatory'"
+                                        [maxLength]="labels?.validationData?.chasisNo?.maxLength" [isDirty]="isDirty">
+                                    </app-custom-input>
+                                </div>
+                                <div class="form-group col-sm-3 col-md-2">
+                                    <input formControlName="dmsDocumentId" name="input" type="text" class="form-control file-input"
+                                         readonly (click)="downloadDocs($event.target.value)" />
+                                </div>
+                                <div class="form-group col-sm-3 col-md-2">
+                                    <div class="">
+                                            <kendo-datepicker class="form-control" formControlName="docCollectedDate" [activeView]="'decade'"
+                                            [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Doc collected date">
+                                          </kendo-datepicker>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3 col-md-2">
+                                    <select name="status" id="deferral_status" class="form-control"
+                                        formControlName="pddDocumentStatus">
+                                        <option value="0">Pending</option>
+                                        <option value="1">Collected</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-3 col-md-2">
+                                    <app-vf-custom-select [values]="pddLov?.checklistans" formControlName="cpcCheck"
+                                        [isDirty]="isDirty">
+                                    </app-vf-custom-select>
+                                </div>
+                                <div class="form-group col-sm-3 col-md-2">
+                                    <app-custom-input formControlName="physicalTrackingNumber"
+                                        [type]="labels?.validationData?.chasisNo?.type"
+                                        [className]="'form-control mandatory'"
+                                        [maxLength]="labels?.validationData?.chasisNo?.maxLength" [isDirty]="isDirty">
+                                    </app-custom-input>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <br>
+    </div>
+
+    <!--mobile view start-->
+    <div class="col-xs-12 visible-xs">
+        <div class="box">
+            <div> Additional </div>
+        </div>
+    </div>
+    <!--mobile view end-->
+    <div class="btn-sec clear-both row cst_btm_btns">
+        <div class="col-sm-5"></div>
+        <div class="col-sm-7 text-right">
+            <button class="btn btn-primary dash_href" type="button" (click)="onBack()">
+                Back
+            </button>
+            <button class="btn btn-primary mar-right8" type="button" (click)="onUpdate()">
+                Update
+            </button>
+            <button class="btn btn-primary dash_href" type="button" routerLink="">
+                Next
+            </button>
+        </div>
+    </div>
+</form>

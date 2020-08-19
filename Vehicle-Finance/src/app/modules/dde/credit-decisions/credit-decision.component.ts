@@ -72,17 +72,21 @@ export class CreditDecisionComponent implements OnInit {
         } else if (url.includes('term-sheet') && this.roleType == '1') {
             return 1;
         } else if (url.includes('term-sheet') && this.roleType == '2') {
-            return 2;
+            return 3;
         } else if (url.includes('negotiation') && this.roleType == '2') {
             return 1;
         }  else if (url.includes('negotiation') && this.roleType == '1') {
             return 2;
-        } else if (url.includes('sanction-details')) {
+        }  else if (url.includes('disbursement') && this.roleType == '1') {
             return 3;
-        } else if (url.includes('customer-feedback')) {
+        }  else if (url.includes('disbursement') && this.roleType == '2') {
+            return 2;
+        } else if (url.includes('sanction-details')) {
             return 4;
-        } else if (url.includes('check-list')) {
+        } else if (url.includes('customer-feedback')) {
             return 5;
+        } else if (url.includes('check-list')) {
+            return 6;
         }
     }
 }

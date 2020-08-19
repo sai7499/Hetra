@@ -95,3 +95,16 @@ only screen and
         content: attr(data-item-value);
         }
 } */
+
+
+
+
+@media (min-width:300px) and (max-width:767px) {
+    .btn-mar-bottom{
+        margin-bottom: 25px;
+    }
+}
+
+.mar-bot-btn{
+    margin-bottom: 25px;
+  }
