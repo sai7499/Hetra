@@ -64,7 +64,7 @@
                     <p id="vf_sheet_tag20">{{guarantor?.addressLine1 | titlecase}}</p>
                     <p id="vf_sheet_tag21">{{guarantor?.addressLine2 | titlecase}}</p>
                     <p id="vf_sheet_tag22">{{guarantor?.addressLine3 | titlecase}}</p>
-                    <p id="vf_sheet_tag23">{{guarantor?.district | titlecase}}</p>
+                    <p id="vf_sheet_tag23">{{guarantor?.district + '-' + guarantor?.pincode | titlecase}}</p>
                     <p id="vf_sheet_tag24">{{guarantor?.country | titlecase}}</p>
                     <p id="vf_sheet_tag25">{{guarantor?.mobileNo}}</p>
                 </div>
