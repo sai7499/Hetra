@@ -47,7 +47,7 @@ export class PslDataComponent implements OnInit {
   pslCategoryChange: string;
   pslCategoryData: any;
   pslSubCategoryData: any;
-  pslSubCategoryChange: string;
+  // pslSubCategoryChange: string;
 
   pslCertificateValues: any = [];
   weakerSectionValues: any = [];
@@ -510,6 +510,7 @@ export class PslDataComponent implements OnInit {
       this.pslLandHolding = [{ key: 0, value: "No" }];
       this.landAreaInAcresValue = 0;
       this.isLandHoldingYes = false;   //When selected "Allied Activities" in Detail_Activity
+      //IF_DETAILS-ACTIVITY-ALLIED ACTIVITIES--> PSLSUBCATEGORY AS OTHER-FARMER
       this.LOV.LOVS.pslSubCategory.filter((element) => {
         if (element.key === "3PSLSUBCAT") {
           this.pslSubCategoryData = [{ key: element.key, value: element.value }];
@@ -702,6 +703,7 @@ export class PslDataComponent implements OnInit {
   //     weakerSection: "",
   //   });
   // }
+
   // GET LOV FOR PSLSUBCATEGORY
   // onChangePslSubCategory(event: any) {
   //   this.pslSubCategoryChange = event.target.value;
