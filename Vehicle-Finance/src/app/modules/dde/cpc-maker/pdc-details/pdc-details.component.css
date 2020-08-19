@@ -52,7 +52,7 @@ p {
  font-size:20px;
  }
  
- .fa.fa-plus
+ /* .fa.fa-plus
  {
  font-size:20px;
  }
@@ -60,8 +60,9 @@ p {
  .fa.fa-minus
  {
  font-size:20px;
- }
- .date_width{width: 146px;
+ } */
+ .date_width{
+     width: 146px;
  margin: 0px;
  font-size: 12px;}
  
