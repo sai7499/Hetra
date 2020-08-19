@@ -555,8 +555,9 @@ td:before {
  
      
 }
-/* @media (min-width:260px) and (max-width:560px){
-  td::before {
-      content: attr(data-item-value);
-      }
-} */
+ @media (min-width:300px) and (max-width:760px){
+  .btn-mar-reject{
+  margin-bottom: 50px;
+}
+} 
+
