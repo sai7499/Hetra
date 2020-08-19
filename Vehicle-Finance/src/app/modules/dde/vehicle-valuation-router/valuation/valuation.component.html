@@ -309,11 +309,13 @@
             </kendo-datepicker> -->
             <app-custom-input 
                 formControlName="yearOfManufacturer" 
+                (change)="onGetDateValue($event)"
                 [className]="'form-control mandatory'"
                 [placeholder]="'Year of Manuf/Reg. of Asset'" 
                 [maxLength]="labels?.validationData?.yom.maxLength"
                 [isRequired]="'Required Input is mandatory'" 
                 [type]="labels?.validationData?.yom.type" 
+                [custom]="yearCheck"
                 [isDirty]="isDirty"
                 >
             </app-custom-input>
