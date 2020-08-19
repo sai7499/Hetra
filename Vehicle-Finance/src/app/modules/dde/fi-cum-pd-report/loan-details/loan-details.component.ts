@@ -269,7 +269,7 @@ export class LoanDetailsComponent implements OnInit {
       fundsUsage: new FormControl(''),
       earlierVehicleApplication: new FormControl(''),
       othersRemarks: new FormControl('', Validators.compose([Validators.maxLength(300),
-      Validators.pattern(/^[a-zA-Z .-]*$/), Validators.required])),
+      Validators.pattern(/^[a-zA-Z0-9 ]*$/), Validators.required])),
       // othersRemarks: new FormControl(''),
       drivingVehicleEarlier: new FormControl(''),
       vehicleAttachedPlying: new FormControl(''),
@@ -298,7 +298,7 @@ export class LoanDetailsComponent implements OnInit {
       selfDrivenOrDriver: new FormControl(''),
       // remarks: new FormControl('')
       remarks: new FormControl('', Validators.compose([Validators.maxLength(300),
-      Validators.pattern(/^[a-zA-Z ,-]*$/), Validators.required])),
+      Validators.pattern(/^[a-zA-Z0-9 ]*$/), Validators.required])),
     });
   }
 
