@@ -85,9 +85,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   drivingLicenseNumber: string;
   passportNumber: string;
   pan: string;
-  drivingLicenseIssueDate: string;
+  drivingLicenseIssueDate: any;
   drivingLicenseExpiryDate: string;
-  passportIssueDate: string;
+  passportIssueDate: any;
   passportExpiryDate: string;
   voterIdNumber: string;
   isPermanantAddressSame: boolean;
@@ -195,6 +195,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   showMessage: any = {};
   disabledDrivingDates = true;
   disabledPassportDates = true;
+  
 
 
 
@@ -1320,12 +1321,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   clearDrivingExpiryDate() {
     const valueChecked = this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').value > this.toDayDate;
     this.showMessage['drivinglicenseIssue'] = valueChecked ? true : false;
+    this.drivingLicenseIssueDate.setDate(this.drivingLicenseIssueDate.getDate() + 1)
     this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').setValue(null);
   }
 
   clearPassportExpiryDate() {
     const valueChecked = this.coApplicantForm.get('dedupe').get('passportIssueDate').value > this.toDayDate;
     this.showMessage['passportIssue'] = valueChecked ? true : false;
+     this.passportIssueDate.setDate(this.passportIssueDate.getDate() + 1)
     this.coApplicantForm.get('dedupe').get('passportExpiryDate').setValue(null);
   }
   drivingLicenceExpiryShowError() {
