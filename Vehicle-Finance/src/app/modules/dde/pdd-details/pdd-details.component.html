@@ -13,7 +13,7 @@
                     </div>
                     <div id="collapseTwo1" class="panel-collapse collapse in" aria-expanded="true">
                         <div class="panel-body" id="show_1_div_identity" formArrayName="pddDocumentDetails">
-                            <div class="row">
+                            <div class="row text-center">
                                 <div class="form-group col-sm-3 col-md-2">
                                     <label for="document" class="label_height">{{labels?.documentName}}</label>
                                 </div>
@@ -36,7 +36,7 @@
                                     <label class="label_height">{{labels?.cpcCheck}}</label>
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
-                                    <label for="documentnumber">{{labels?.physicalTrackingNumber}}</label>
+                                    <label for="documentnumber" class="label_height">{{labels?.physicalTrackingNumber}}</label>
                                 </div>
                             </div>
                             <div class="row" *ngFor="
@@ -55,7 +55,7 @@
                                 <div class="form-group col-sm-3 col-md-2">
                                     <div class="input-group input-medium">
                                         <span class="input-group-btn">
-                                            <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
+                                            <button class="btn btn-default" aria-readonly="true"> <i class="fa fa-calendar"></i> </button>
                                         </span>
                                         <app-custom-input formControlName="expectedDate"
                                             [className]="'form-control mandatory'"
@@ -79,19 +79,22 @@
                                     [isDirty]="isDirty"
                                   ></app-custom-input> -->
                                     <input formControlName="dmsDocumentId" name="input" type="text" class="form-control file-input"
-                                         readonly (click)="downloadDocs(FORM_ARRAY_NAME + '_' + subCat.code,i,$event)" />
+                                         readonly (click)="downloadDocs($event.target.value)" />
                                     <!-- <a href="" class="input_design">insrn<span class="text-dec" formControlName="dmsDocumentId"></span></a> -->
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
-                                    <div class="input-group input-medium">
-                                        <span class="input-group-btn">
+                                    <div class="">
+                                        <!-- <span class="input-group-btn">
                                             <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
-                                        </span>
-                                        <app-custom-input formControlName="docCollectedDate"
+                                        </span> -->
+                                        <!-- <app-custom-input formControlName="docCollectedDate"
                                             [type]="labels?.validationData?.chasisNo?.type"
                                             [className]="'form-control mandatory'"
                                             [maxLength]="labels?.validationData?.chasisNo?.maxLength"
-                                            [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
+                                            [isDirty]="isDirty" ></app-custom-input> -->
+                                            <kendo-datepicker class="form-control" formControlName="docCollectedDate" [activeView]="'decade'"
+                                            [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Doc collected date">
+                                          </kendo-datepicker>
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
