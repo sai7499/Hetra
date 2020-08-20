@@ -2012,7 +2012,7 @@
         },
         "gvw": {
             "maxLength": {
-                "rule": 2
+                "rule": 10
             },
             "type": "number"
         },

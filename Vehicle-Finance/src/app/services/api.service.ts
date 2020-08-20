@@ -725,6 +725,16 @@ export class ApiService {
       workflowId: '3c71c4d4d71811eaabba00505695f93b',
       projectId: environment.projectIds.externalApi
     },
+    getChequeTracking : {
+      processId: '85449f66e0ae11eabfc800505695f93b',
+      workflowId: '852bb118e0ae11ea86c900505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    saveUpdateChequeTracking : {
+      processId: 'ac0026eee0b711eab03500505695f93b',
+      workflowId: 'abe6f5a2e0b711eaa73200505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
     savePdcDetails : {
       workflowId : 'cf14db1cdd4111eaba8c00505695f93b',
       processId : '2ccd2806dd4511ea9d5000505695f93b',
