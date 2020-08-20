@@ -7,6 +7,7 @@ import { ToasterService } from '@services/toaster.service';
 import { DisbursementService } from '../services/disbursement.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginStoreService } from '@services/login-store.service';
+import { LoanCreationService } from '@services/loan-creation.service';
 declare var jquery: any;
 declare var $: any;
 
@@ -161,13 +162,14 @@ export class DisbursementFormComponent implements OnInit {
     private disbursementService:DisbursementService,
     private loginStoreService: LoginStoreService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private loanCreationService: LoanCreationService
   ) {
 
   }
 
   async ngOnInit() {
-   
+
     this.initForm();
     this.getLabels();
     this.disbLOV();
@@ -180,7 +182,7 @@ export class DisbursementFormComponent implements OnInit {
       // this.roleId = value.roleId;
       this.roleType = value.roleType;
       console.log('role Type', this.roleType);
-    });   
+    });
     this.routerUrlIdentifier();
     this.salesResponse = localStorage.getItem('salesResponse');
   }
@@ -1482,7 +1484,7 @@ selectCheckBox(flag,val) {
                 this.toasterService.showError('Kindly fill mandatory fields in Tranche third party table & check other tranche tables too', '');
                 return;}
             }
-            // 
+            //
             console.log('Req:',inputData);
             this.disbursementService.saveUpdateDisbursement(inputData).subscribe((res: any) => {
               const response = res;
@@ -1525,7 +1527,7 @@ selectCheckBox(flag,val) {
         this.dealerCode = this.disbursementDetailsData.DealerDetails.dealerCode;
         this.dealerObjInfo['instrumentDate'] = this.disbursementDetailsData.DealerDetails.instrumentDate
         this.dealerObjInfo['instrumentDate'] = new Date(this.utilityService.getDateFromString(this.dealerObjInfo['instrumentDate']));
-        this.dealerObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.DealerDetails.trancheDisbursementFlag == 'Y') ? true : false; 
+        this.dealerObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.DealerDetails.trancheDisbursementFlag == 'Y') ? true : false;
         this.dealerObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.DealerDetails.deductChargesFlag == 'Y') ? true : false;
         this.dealerObjInfo['disbursementAmount'] = (this.disbursementDetailsData.DealerDetails.disbursementAmount)?parseInt(this.disbursementDetailsData.DealerDetails.disbursementAmount):null;
         this.dealerDetailsForm.patchValue({ address: (this.disbursementDetailsData.DealerDetails)? this.disbursementDetailsData.DealerDetails.beneficiaryAddress1 +','+ this.disbursementDetailsData.DealerDetails.beneficiaryAddress2 + ',' + this.disbursementDetailsData.DealerDetails.beneficiaryAddress3: null });
@@ -1557,7 +1559,7 @@ selectCheckBox(flag,val) {
         this.applicantObjInfo = this.disbursementDetailsData.ApplicantDetails;
         this.applicantObjInfo['instrumentDate'] = this.disbursementDetailsData.ApplicantDetails.instrumentDate;
         this.applicantObjInfo['instrumentDate'] = new Date(this.utilityService.getDateFromString(this.applicantObjInfo['instrumentDate']));
-        this.applicantObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.ApplicantDetails.trancheDisbursementFlag == 'Y') ? true : false; 
+        this.applicantObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.ApplicantDetails.trancheDisbursementFlag == 'Y') ? true : false;
         this.applicantObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.ApplicantDetails.deductChargesFlag == 'Y') ? true : false;
         this.applicantObjInfo['disbursementAmount'] = (this.disbursementDetailsData.ApplicantDetails.disbursementAmount)?parseInt(this.disbursementDetailsData.ApplicantDetails.disbursementAmount):null;
         this.appDetailsForm.patchValue({ appAddress: (this.disbursementDetailsData.ApplicantDetails)? this.disbursementDetailsData.ApplicantDetails.beneficiaryAddress1 +','+ this.disbursementDetailsData.ApplicantDetails.beneficiaryAddress2 + ',' + this.disbursementDetailsData.ApplicantDetails.beneficiaryAddress3: null });
@@ -1591,7 +1593,7 @@ selectCheckBox(flag,val) {
         this.bankerObjInfo = this.disbursementDetailsData.BankerDetails;
         this.bankerObjInfo['instrumentDate'] = this.disbursementDetailsData.BankerDetails.instrumentDate
         this.bankerObjInfo['instrumentDate'] = new Date(this.utilityService.getDateFromString(this.bankerObjInfo['instrumentDate']));
-        this.bankerObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.BankerDetails.trancheDisbursementFlag == 'Y') ? true : false; 
+        this.bankerObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.BankerDetails.trancheDisbursementFlag == 'Y') ? true : false;
         this.bankerObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.BankerDetails.deductChargesFlag == 'Y') ? true : false;
         this.bankerObjInfo['disbursementAmount'] = (this.disbursementDetailsData.BankerDetails.disbursementAmount)?parseInt(this.disbursementDetailsData.BankerDetails.disbursementAmount):null;
 
@@ -1621,8 +1623,8 @@ selectCheckBox(flag,val) {
         this.financierObjInfo = this.disbursementDetailsData.FinancierDetails;
         this.financierObjInfo['instrumentDate'] = this.disbursementDetailsData.FinancierDetails.instrumentDate
         this.financierObjInfo['instrumentDate'] = new Date(this.utilityService.getDateFromString(this.financierObjInfo['instrumentDate']));
-        this.financierObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.FinancierDetails.trancheDisbursementFlag == 'Y') ? true : false; 
-        this.financierObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.FinancierDetails.deductChargesFlag == 'Y') ? true : false;     
+        this.financierObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.FinancierDetails.trancheDisbursementFlag == 'Y') ? true : false;
+        this.financierObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.FinancierDetails.deductChargesFlag == 'Y') ? true : false;
         this.financierObjInfo['disbursementAmount'] = (this.disbursementDetailsData.FinancierDetails.disbursementAmount)?parseInt(this.disbursementDetailsData.FinancierDetails.disbursementAmount):null;
         this.financierDetailsForm.patchValue({ financierAddress: (this.disbursementDetailsData.FinancierDetails)? this.disbursementDetailsData.FinancierDetails.beneficiaryAddress1 +','+ this.disbursementDetailsData.FinancierDetails.beneficiaryAddress2 + ',' + this.disbursementDetailsData.FinancierDetails.beneficiaryAddress3: null });
 
@@ -1650,7 +1652,7 @@ selectCheckBox(flag,val) {
         this.thirdPartyObjInfo = this.disbursementDetailsData.ThirdPartyDetails;
         this.thirdPartyObjInfo['instrumentDate'] = this.disbursementDetailsData.ThirdPartyDetails.instrumentDate
         this.thirdPartyObjInfo['instrumentDate'] = new Date(this.utilityService.getDateFromString(this.thirdPartyObjInfo['instrumentDate']));
-        this.thirdPartyObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.ThirdPartyDetails.trancheDisbursementFlag == 'Y') ? true : false; 
+        this.thirdPartyObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.ThirdPartyDetails.trancheDisbursementFlag == 'Y') ? true : false;
         this.thirdPartyObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.ThirdPartyDetails.deductChargesFlag == 'Y') ? true : false;
         this.thirdPartyObjInfo['disbursementAmount'] = (this.disbursementDetailsData.ThirdPartyDetails.disbursementAmount)?parseInt(this.disbursementDetailsData.ThirdPartyDetails.disbursementAmount):null;
         this.thirdPartyDetailsForm.patchValue({ thirdPartyAddress: (this.disbursementDetailsData.ThirdPartyDetails)? this.disbursementDetailsData.ThirdPartyDetails.beneficiaryAddress1 +','+ this.disbursementDetailsData.ThirdPartyDetails.beneficiaryAddress2 + ',' + this.disbursementDetailsData.ThirdPartyDetails.beneficiaryAddress3: null });
@@ -1713,6 +1715,21 @@ if(this.roleType == '1' || this.roleType == '2') {
 } else if(  this.roleType == '5') {
   this.router.navigate([`pages/cpc-checker/${this.disbLeadId}/negotiation`]);
 }
+}
+
+sendLoanCreationWrapper() {
+  const body = {
+    leadId: this.disbLeadId
+  }
+  this.loanCreationService.setLoanCreation(body).subscribe((res: any) => {
+    console.log(res);
+    if(res.ProcessVariables.error.code == '0') {
+      this.toasterService.showSuccess('Lead submitted For Loan Creation', '');
+    } else {
+      this.toasterService.showSuccess(res.ProcessVariables.error.message, '');
+    }
+
+ });
 }
 
 }
