@@ -159,7 +159,7 @@ export class DashboardComponent implements OnInit {
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService,
     private sharedService: SharedService,
-    private applicantStoreService : ApplicantDataStoreService
+    private applicantStoreService: ApplicantDataStoreService
   ) { }
 
   onTabsLoading(data) {
