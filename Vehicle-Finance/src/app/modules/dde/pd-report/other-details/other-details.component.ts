@@ -12,6 +12,7 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { Constant } from '../../../../../assets/constants/constant';
 import { LoginStoreService } from '@services/login-store.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { DocRequest } from '@model/upload-model';
 
 @Component({
   selector: 'app-other-details',
@@ -39,6 +40,12 @@ export class OtherDetailsComponent implements OnInit {
   showReinitiate: boolean;
   roles: any;
   roleType: any;
+  selectedDocDetails: DocRequest;
+
+  
+
+  
+
 
   constructor(
               private labelsData: LabelsService,

@@ -403,7 +403,7 @@
                 <button class="btn btn-primary " type="button" (click)="onNext()"> {{labels.next}} </button>
             </div>
         </div> -->
-
+        <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie </button>
 </form>
 <!-- </div> -->
 
@@ -435,3 +435,11 @@
         </div>
     </div>
 </div>
+
+<app-upload-modal
+  [showModal]="showModal"
+  (close)="showModal = false"
+  (uploadSuccess)="onUploadSuccess($event)"
+  [docsDetails]="selectedDocDetails"
+></app-upload-modal>
+
