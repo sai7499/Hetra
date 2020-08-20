@@ -475,13 +475,12 @@
                 <app-vf-custom-select 
                     [values]="pslSubCategoryValues" 
                     formControlName="pslSubCategory"
-                    (change)="onChangePslSubCategory($event)"
                     name="pslSubCategory"
                     [isRequired]="'Please Select One Option'"
                     [isDirty] = "isDirty"
                     >
                 </app-vf-custom-select>
-
+                <!-- (change)="onChangePslSubCategory($event)" -->
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
                 <label for="psl_certificate_ag">{{labels.pslCertificateAg}}
@@ -817,12 +816,12 @@
         <app-vf-custom-select 
             [values]="pslSubCategoryValues" 
             formControlName="pslSubCategory"
-            (change) = "onChangePslSubCategory($event)"
             name="pslSubCategory"
             [isRequired]="'Please Select One Option'"
             [isDirty] = "isDirty"
         >
         </app-vf-custom-select>
+        <!-- (change) = "onChangePslSubCategory($event)" -->
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
         <label for="psl_certificate_msme">{{labels.pslCertificateMsme}}

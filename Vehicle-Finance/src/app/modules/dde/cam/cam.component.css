@@ -93,3 +93,6 @@ font-size: 16px;
 .mar-bot-btn{
     margin-bottom: 25px;
 }
+.dispNone{
+display: none;
+}
