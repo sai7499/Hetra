@@ -1,16 +1,18 @@
-ty <div class="text-left" *ngIf="label">
+ <div class="text-left" *ngIf="label">
 
     <form [formGroup]="viabilityForm">
-
-        <select class="btn btn-primary" id="vehicle_viability_navigate" formControlName="type"
+        <div class="row">
+            <select class="btn btn-primary col-lg-2 col-md-2 col-sm-2 col-xs-12 btn-mar" id="vehicle_viability_navigate" formControlName="type"
             (change)="vehicle_viability_navigate($event.target.value)" *ngIf="hideSubmit">
             <option value="{{item.key}}" *ngFor="let item of viabilityObj.vehicleViability">{{item?.value}}</option>
-        </select>
+            </select>
+        </div>
+        
         <!-- <app-vf-custom-select class="btn" id="vehicle_viability_navigate" [values]="viabilityObj?.vehicleViability"
             formControlName="type" (change)="vehicle_viability_navigate($event.target.value)">
         </app-vf-custom-select> -->
         <div id="passanger" *ngIf="vehicle_viability_value === '1VHCLVBTY'" formGroupName="passanger">
-            <h3 class="title">{{label?.passengerTitle}}</h3>
+            <h3 class="title heading-align">{{label?.passengerTitle}}</h3>
              
             
                 <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName  }} </p> 
@@ -22,7 +24,7 @@ ty <div class="text-left" *ngIf="label">
                 class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
                 <tr class="table-head-bg m-0 p-02 text-left">
                     <th>
-                        <h4>{{label?.income}}</h4>
+                        <h4 class="heading-mar">{{label?.income}}</h4>
                     </th>
                     <th></th>
                 </tr>
@@ -177,7 +179,7 @@ ty <div class="text-left" *ngIf="label">
                     </tr>
                     <tr>
                         <td><strong>(g) {{label?.monthlyRevenueInLacs}}</strong></td>
-                        <td><strong>{{monthlyIncome}}</strong></td>
+                        <td class="wrd-brk"><strong>{{monthlyIncome}}</strong></td>
                     </tr>
                     <tr>
                         <td>{{label?.validityCheck}}</td>
@@ -272,7 +274,7 @@ ty <div class="text-left" *ngIf="label">
                     </tr>
                     <tr>
                         <td><strong>{{label?.expenses}}</strong></td>
-                        <td></td>
+                        <td class="wrd-brk"></td>
                     </tr>
                     <tr>
                         <td>{{label?.totalFuelCost}}</td>
@@ -564,7 +566,7 @@ ty <div class="text-left" *ngIf="label">
                     </tr>
                     <tr>
                         <td>{{label?.netCashFlow}}</td>
-                        <td ><strong>{{netFlowCash}}</strong></td>
+                        <td class="wrd-brk" ><strong>{{netFlowCash}}</strong></td>
                     </tr>
                     <tr>
                         <td>{{label?.emiFull}}</td>
@@ -585,7 +587,7 @@ ty <div class="text-left" *ngIf="label">
                     </tr>
                     <tr>
                         <td><strong>{{label?.netEmi}}</strong></td>
-                        <td colspan="1"><strong>{{netCashFlowEmiPassenger}}</strong></td>
+                        <td class="wrd-brk" colspan="1"><strong>{{netCashFlowEmiPassenger}}</strong></td>
                     </tr>
                     <tr>
                         <td colspan="2">&nbsp;</td>
@@ -598,7 +600,7 @@ ty <div class="text-left" *ngIf="label">
         </div>
         <div id="passanger_stand_operator" formGroupName="passangerStandOperator"
             *ngIf="vehicle_viability_value === '2VHCLVBTY'">
-            <h3 class="title">{{label?.passengerTitle}}</h3>
+            <h3 class="title heading-align">{{label?.passengerTitle}}</h3>
 
             <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName  }} </p> 
                 <p id="" >{{label?.vehicleModel}}:{{ viabilityDataObj?.model}}</p>
@@ -608,7 +610,7 @@ ty <div class="text-left" *ngIf="label">
                 class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
                 <tr class="table-head-bg m-0 p-02">
                     <th>
-                        <h4>{{label?.income}}</h4>
+                        <h4 class="heading-mar">{{label?.income}}</h4>
                     </th>
                     <th></th>
                 </tr>
@@ -668,7 +670,7 @@ ty <div class="text-left" *ngIf="label">
                     </tr>
                     <tr>
                         <td><strong> {{label?.monthlyIncome}} (A)</strong></td>
-                        <td><strong>{{montlyStandOperatorIncome}}</strong></td>
+                        <td class="wrd-brk"><strong>{{montlyStandOperatorIncome}}</strong></td>
                     </tr>
                     <tr>
                         <td>(c) {{label?.expensesPerDay}}</td>
@@ -811,7 +813,7 @@ ty <div class="text-left" *ngIf="label">
                     </tr>
                     <tr>
                         <td><strong>{{label?.netCashFlowEMI}}</strong></td>
-                        <td colspan="1"><strong>{{standOperatorEmi}}</strong></td>
+                        <td class="wrd-brk" colspan="1"><strong>{{standOperatorEmi}}</strong></td>
                     </tr>
                     <tr>
                         <td colspan="2">&nbsp;</td>
@@ -822,7 +824,7 @@ ty <div class="text-left" *ngIf="label">
 
         </div>
         <div id="captive" formGroupName="captive" *ngIf="vehicle_viability_value === '3VHCLVBTY'">
-            <h3 class="title">{{label?.passengerTitle}}</h3>
+            <h3 class="title heading-align">{{label?.passengerTitle}}</h3>
 
             <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName  }} </p> 
                 <p id="" >{{label?.vehicleModel}}:{{ viabilityDataObj?.model}}</p>
@@ -832,7 +834,7 @@ ty <div class="text-left" *ngIf="label">
                 class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
                 <tr class="table-head-bg m-0 p-02">
                     <th>
-                        <h4>{{label?.income}}</h4>
+                        <h4 class="heading-mar">{{label?.income}}</h4>
                     </th>
                     <th></th>
                 </tr>
@@ -894,7 +896,7 @@ ty <div class="text-left" *ngIf="label">
                     </tr>
                     <tr>
                         <td><strong>{{label?.monthlyIncome}}(A)</strong></td>
-                        <td><strong>{{montlyCaptiveIncome}}</strong></td>
+                        <td class="wrd-brk"><strong>{{montlyCaptiveIncome}}</strong></td>
                     </tr>
                     <tr>
                         <td>(c) {{label?.expensesPerDay}}  </td>
@@ -1054,7 +1056,7 @@ ty <div class="text-left" *ngIf="label">
                     </tr>
                     <tr>
                         <td><strong>{{label?.netCashFlowEMI}}</strong></td>
-                        <td colspan="1"><strong>{{captiveEmi}}</strong></td>
+                        <td class="wrd-brk" colspan="1"><strong>{{captiveEmi}}</strong></td>
                     </tr>
                     <tr>
                         <td colspan="2" >&nbsp;</td>

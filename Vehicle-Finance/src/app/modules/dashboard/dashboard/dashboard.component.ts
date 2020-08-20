@@ -11,6 +11,7 @@ import { ToasterService } from '@services/toaster.service';
 import { Router } from '@angular/router';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { NumberFormatStyle } from '@angular/common';
+import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 
 // for sales
 export enum DisplayTabs {
@@ -157,7 +158,8 @@ export class DashboardComponent implements OnInit {
     // public displayTabs: DisplayTabs,
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private applicantStoreService : ApplicantDataStoreService
   ) { }
 
   onTabsLoading(data) {

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
-import {NgxPaginationModule} from 'ngx-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NewLeadsComponent } from './leads/new-leads/new-leads.component';
 import { LeadsComponent } from './leads/leads.component';
@@ -33,9 +33,7 @@ import { MakerLeadsWithCpcComponent } from './cpc-maker/maker-leads-with-cpc/mak
 import { DdeBranchLeadsComponent } from './leads/dde-branch-leads/dde-branch-leads.component';
 import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
 import { SharedModule } from '@modules/shared/shared.module';
-import {MatSortModule} from '@angular/material/sort';
-
-
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   // tslint:disable-next-line: max-line-length
@@ -49,6 +47,6 @@ import {MatSortModule} from '@angular/material/sort';
     ReactiveFormsModule,
     SharedModule,
     MatSortModule
-    ]
+  ]
 })
 export class DashboardModule { }

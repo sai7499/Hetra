@@ -24,7 +24,7 @@ export const environment = {
     viabilityApi: '0d888054a7e811ea800bf2fa9bec3d63',
     wrapperPanValidation: 'db2732f4ab4811ea82f8f2fa9bec3d63',
     wrapperBiometriceKYC: 'db2732f4ab4811ea82f8f2fa9bec3d63',
-    supervisorProId: 'ed58f72ea9a811ea824bf2fa9bec3d63'//supervisorRelated
+    supervisorProId: 'ed58f72ea9a811ea824bf2fa9bec3d63'// supervisorRelated
   },
 
   hostingEnvironment: 'DEV',
