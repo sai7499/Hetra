@@ -6,6 +6,9 @@ import { CommomLovService } from '@services/commom-lov-service';
 import { UtilityService } from '@services/utility.service';
 import { ToasterService } from '@services/toaster.service';
 import { ChequeTrackingService } from '@services/cheque-tracking.service'
+import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-cheque-tracking',
@@ -21,20 +24,25 @@ export class ChequeTrackingComponent implements OnInit {
   leadId: number;
   chequeData = [];
   selectedData: any;
-  chequeForm : FormGroup
+  chequeForm: FormGroup;
+  loanNumber: string;
+  index : number;
+  disableUpdate : boolean= true;
 
   constructor(
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    public utilityService: UtilityService,
+    private utilityService: UtilityService,
     private toasterService: ToasterService,
-    private chequeTrackingService: ChequeTrackingService
+    private chequeTrackingService: ChequeTrackingService,
+    private sharedService: SharedService,
+    private applicantStoreService: ApplicantDataStoreService
   ) { }
 
   async ngOnInit() {
-     this.initForm()
+    this.initForm()
 
     this.labelsData.getLabelsData().subscribe(
       (data) => {
@@ -48,13 +56,23 @@ export class ChequeTrackingComponent implements OnInit {
     this.getLOV();
     this.leadId = (await this.getLeadId()) as number;
     console.log('leadid', this.leadId)
+    this.sharedService.loanNumber$.subscribe((loanNumber) => {
+      console.log('loanNumber', loanNumber)
+      this.loanNumber = loanNumber
+    })
+    console.log('loanNumber', this.loanNumber)
     this.getChequeTrckingData();
+
   }
-  initForm(){
-     this.chequeForm= new FormGroup({
-       status : new FormControl(''),
-       remarks : new FormControl('')
-     })
+  initForm() {
+    this.chequeForm = new FormGroup({
+       details : new FormArray([]),
+      // chequeNum: new FormControl(''),
+      // chequeDate: new FormControl(''),
+      // statusUpdatedOn: new FormControl(''),
+      status: new FormControl(''),
+      remarks: new FormControl('')
+    })
   }
 
   getLeadId() {
@@ -76,30 +94,107 @@ export class ChequeTrackingComponent implements OnInit {
   }
   getChequeTrckingData() {
     const data = {
-      leadId: 1178,
-      loanNumber: ""
+      leadId: this.leadId,
+
     }
     this.chequeTrackingService.getChequeTracking(data).subscribe((res) => {
-      console.log('res', res)
       if (res['ProcessVariables'].error.code == '0') {
-        this.chequeData = res['ProcessVariables'].chequeData;
+        const data = res['ProcessVariables'].chequeData;
+        this.addUnit(data)
+        setTimeout(()=>{
+          this.chequeData=data;
+        })
+
       }
     })
   }
 
-  onChangeStatus(event){
-    const value= event.target.value;
-    const status= this.LOV.LOVS.chequeStatus
-    const findValue=status.find(element=>element.key==value)
-    this.selectedData.chequeStatus= findValue.value
+  
+
+  addUnit(data) {
+    const control = this.chequeForm.controls.details as FormArray;
+    console.log(data, 'control', control)
+    if (data && data.length > 0) {
+      for (let i = 0; i < data.length; i++) {
+        control.push(this.setChequeData(data[i]));
+      }
+    }
   }
-  onGetChequeData(data) {
-    console.log('data', data)
+
+  setChequeData(data) {
+   const chequeDate= data.chequeDate!==null? new Date(
+      this.utilityService.getDateFromString(data.chequeDate)
+    ) : '';
+    const statusUpdatedOn =data.statusUpdatedOn!==null? new Date(
+      this.utilityService.getDateFromString(data.statusUpdatedOn)
+    ) : '';
+    return new FormGroup({
+      chequeNum: new FormControl(data.chequeNum),
+      chequeDate: new FormControl(chequeDate),
+      statusUpdatedOn: new FormControl(statusUpdatedOn ),
+    });
+
+  }
+
+
+
+  onChangeStatus(event) {
+    const value = event.target.value;
+    const status = this.LOV.LOVS.chequeStatus
+    const findValue = status.find(element => element.key == value)
+    if (this.selectedData) {
+      this.selectedData.chequeStatus = findValue.value
+    }
+    
+
+  }
+  onGetChequeData(data, index, event) {
+    this.disableUpdate= false;
+    this.index=index;
+
     this.selectedData = data;
+    const control = this.chequeForm.controls.details as FormArray;
+
+    this.selectedData.chequeNum= control.controls[index].value.chequeNum;
+    
+    const dateValue=control.controls[index].value.chequeDate
+    const date= dateValue!==null? this.utilityService.getDateFormat(dateValue) : '';
+    this.selectedData.chequeDate= date
+    
     this.chequeForm.get('status').setValue('')
+    
   }
+
+  onChangeCheque(i, event){
+    if(this.selectedData){
+      if(this.index==i){
+        this.selectedData.chequeNum= event;
+      } 
+    }
+  }
+
+  chequeDateChange(event, i){
+     
+     if(this.selectedData){
+      if(this.index==i){
+        this.selectedData.chequeDate=this.utilityService.getDateFormat(event)
+      }
+     }
+  }
+  statusDateChange(event, i){
+     
+    if(this.selectedData){
+     if(this.index==i){
+       this.selectedData.statusUpdatedOn=this.utilityService.getDateFormat(event)
+     }
+    }
+ }
+
   onUpdate() {
-    const value= this.chequeForm.value
+    const value = this.chequeForm.value
+    if (!this.selectedData) {
+      return null
+    }
     const chequeData = {
       chequeAmt: this.selectedData.chequeAmt,
       chequeDate: this.selectedData.chequeDate,
@@ -110,19 +205,29 @@ export class ChequeTrackingComponent implements OnInit {
       mode: this.selectedData.mode,
       payableTo: this.selectedData.payableTo,
       statusUpdatedOn: this.selectedData.statusUpdatedOn,
+      trancheId: this.selectedData.trancheId,
       remarks: value.remarks
 
     }
-    const data={
-      leadId : this.leadId,
-      chequeData :{
+    const data = {
+      leadId: this.leadId,
+      chequeData: {
         ...chequeData
       }
     }
-    this.chequeTrackingService.saveUpdateChequeTracking(data).subscribe((res)=>{
-      console.log('res', res)
+    this.chequeTrackingService.saveUpdateChequeTracking(data).subscribe((res) => {
+
+      if (res['ProcessVariables'].error.code == '0') {
+        this.toasterService.showSuccess('Record Updated Successfully',
+          '')
+           //this.router.navigate([`/pages/dashboard`]);
+      }
+      else {
+        this.toasterService.showError(res['ProcessVariables'].error.message,
+          '')
+      }
     })
-    // this.router.navigate([`/pages/dashboard`]);
+    
   }
   onBack() {
     this.router.navigate([`/pages/dashboard`]);

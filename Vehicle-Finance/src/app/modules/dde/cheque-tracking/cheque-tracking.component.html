@@ -1,8 +1,8 @@
 
 <div class="multisteps-form" style="margin-top:20px;">
-        <form>
+        <form [formGroup]="chequeForm">
         <div class="table-responsive application" id="cheque_results_section">
-                            <h3 class="">{{labels?.chequeTracking}} -&gt; {{labels.loanNo}} <span id="loan_number">345678901</span></h3>
+                            <h3 class="">{{labels?.chequeTracking}} </h3>
                                     <table class="table">
                                         <thead>
                                           <tr class="table-head-bg">
@@ -17,20 +17,49 @@
                                             <th>{{labels?.favouringTo}}<i class="fa fa-sort"></i> </th>
                                           </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody  formArrayName='details'>
                                           <tr
-                                          *ngFor="let data of chequeData">
+                                          *ngFor="let data of chequeData ; let i =index " [formGroupName]='i'>
                                             
                                             <td><input type="radio"
                                                name="cheque_radio" 
                                                id="cheque_radio_1"
-                                                (click)="onGetChequeData(data)"></td>
+                                                (click)="onGetChequeData(data, i, $event)"></td>
                                             <td>{{data?.mode || '-'}}</td>
-                                            <td>{{data?.chequeNum || '-'}}</td>
-                                            <td>{{data?.chequeDate|| '-'}}</td>
+                                            <td>
+                                              <app-custom-input
+                                                  formControlName="chequeNum"
+                                                  [maxLength]=""
+                                                  (ngModelChange)="onChangeCheque(i, $event)"
+                                                  
+                                                  [type]=""
+                                                ></app-custom-input>
+                                            </td>
+                                            <td>
+                                              <kendo-datepicker
+                                              class="form-control"
+                                              formControlName="chequeDate"
+                                              [format]="'dd/MM/yyyy'"
+                                              placeholder="Cheque Date"
+                                              [activeView]="'decade'"
+                                              (ngModelChange)="chequeDateChange($event, i)"
+                                              
+                                            ></kendo-datepicker>
+                                            
+                                            </td>
                                             <td>{{data?.chequeAmt|| '-'}}</td>
                                             <td>{{data?.chequeStatus|| '-'}}</td>
-                                            <td>{{data?.statusUpdatedOn|| '-'}}</td>
+                                            <td>
+                                              <kendo-datepicker
+                                              class="form-control"
+                                              (ngModelChange)="statusDateChange($event, i)"
+                                              formControlName="statusUpdatedOn"
+                                              [format]="'dd/MM/yyyy'"
+                                              placeholder="Status Updated On"
+                                              [activeView]="'decade'"
+                                            ></kendo-datepicker>
+                                            
+                                            </td>
                                             <td>{{data?.payableTo|| '-'}}</td>
                                             <td>{{data?.favTo|| '-'}}</td>
                                             
@@ -83,7 +112,7 @@
                                         </div>
                                             </div>
                                             <div class="col-lg-6 col-sm-4 col-md-3">
-                                              <div [formGroup]="chequeForm">
+                                              
                                                 <div class="row">
                                                     <div class="col-lg-2 col-sm-4 col-md-3">{{labels.status}}</div>
                                                     <div class="col-lg-4 col-sm-4 col-md-3">
@@ -108,7 +137,7 @@
                                                         formControlName='remarks'></textarea>
                                                     </div>
                                                 </div>
-                                              </div>
+                                             
                                                 &nbsp;
                                                 <div class="row">
                                                     <div class="col-lg-2 col-sm-4 col-md-3"></div>
@@ -131,9 +160,11 @@
     <div class="row btn-sec clear-both mb-4 mt-0" style="margin:0px !important">
                     
         <div class="col-sm-5"></div>
-        <div class="col-sm-7 text-right">
+        <div class="col-sm-7 text-right"
+        >
             <button class="btn btn-primary dash_href mar-right8" (click)="onBack()">{{labels.back}}</button>
             <button class="btn btn-primary dash_href mar-right8"
+            [disabled]="disableUpdate"
             data-toggle="modal"
             data-target="#myModal"
             >Update</button>
@@ -154,13 +185,16 @@
               Are you Sure Want to Update?
             </div>
       
-            <div class="modal-footer text-center"
+            <div class="modal-footer text-center" 
+            
             >
               <button
                 type="button"
                 class="btn btn-success"
                 data-dismiss="modal"
                 (click)="onUpdate()"
+                
+
               >
                 Yes
               </button>
