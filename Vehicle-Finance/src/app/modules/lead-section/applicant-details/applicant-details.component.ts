@@ -8,6 +8,7 @@ import { ApplicantService } from '@services/applicant.service';
 import { ApplicantList } from '@model/applicant.model';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-applicant-details',
@@ -33,7 +34,8 @@ export class ApplicantDetailsComponent implements OnInit {
     private lovData: LovDataService,
     private applicantService: ApplicantService,
     private applicantDataStoreService: ApplicantDataStoreService,
-    private createLeadDataService: CreateLeadDataService
+    private createLeadDataService: CreateLeadDataService,
+    private toasterService : ToasterService
   ) {}
 
   getLeadId() {
@@ -105,12 +107,16 @@ export class ApplicantDetailsComponent implements OnInit {
       this.applicantList = processVariables.applicantListForLead;
       console.log('applicantList', this.applicantList);
       const mobile= this.applicantList[0].mobileNumber;
-      if(mobile.length==12){
+
+      if(this.applicantList[0].entityTypeKey=='INDIVENTTYP' && mobile.length==12){
         this.applicantList[0].mobileNumber= mobile.slice(2,12)
       }
     });
   }
   navigateAddApplicant(){
+    if(this.applicantList.length > 4){
+       this.toasterService.showWarning('Maximum 5 Applicants','')
+    }
     this.route.navigateByUrl(`/pages/lead-section/${this.leadId}/co-applicant`);
     if (this.applicantList.length > 0) {
       this.applicantList.filter((val: any) => {

@@ -154,9 +154,9 @@ export class LeadCreationComponent implements OnInit {
       sourcingType: new FormControl('', Validators.required),
       sourcingCode: new FormControl(''),
       dealerCode: new FormControl('', Validators.required),
-      rcLimit: new FormControl('', Validators.required),
-      rcUtilizedLimit: new FormControl('', Validators.required),
-      rcUnutilizedLimit: new FormControl('', Validators.required),
+      rcLimit: new FormControl({value:'',disabled:true}, Validators.required),
+      rcUtilizedLimit: new FormControl({value:'',disabled:true}, Validators.required),
+      rcUnutilizedLimit: new FormControl({value:'',disabled:true}, Validators.required),
       spokeCodeLocation: new FormControl({
         value: '',
         disabled: !this.isSpoke,
@@ -496,7 +496,7 @@ export class LeadCreationComponent implements OnInit {
       this.applicantDetails = {
         entity: leadModel.entity,
         nameOne: leadModel.nameOne,
-        nameTwo: leadModel.nameTwo,
+        nameTwo: leadModel.nameTwo ? leadModel.nameTwo:null,
         nameThree: leadModel.nameThree,
         mobileNumber: `91${leadModel.mobile}`,
         dobOrDoc: this.utilityService.getDateFormat(leadModel.dateOfBirth),

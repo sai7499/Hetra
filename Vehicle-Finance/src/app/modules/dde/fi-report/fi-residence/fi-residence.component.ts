@@ -382,7 +382,7 @@ export class FiResidenceComponent implements OnInit {
     const day = datePart[0];
     const year = datePart[2];
     const dateFormat: Date = new Date(year + '/' + month + '/' + day);
-    // console.log('formated data', dateFormat);
+    console.log('formated data', dateFormat);
     return dateFormat;
   }
 
@@ -396,7 +396,9 @@ export class FiResidenceComponent implements OnInit {
     day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
 
     const formattedDate = day + '/' + month1 + '/' + year;
+    // console.log('formated date', formattedDate);
     return formattedDate;
+
 
   }
 
