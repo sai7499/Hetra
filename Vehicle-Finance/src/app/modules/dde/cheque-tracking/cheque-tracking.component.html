@@ -12,7 +12,7 @@
                                             <th>{{labels?.chequeDate}}<i class="fa fa-sort"></i> </th>
                                             <th>{{labels?.chequeAmount}}<i class="fa fa-sort"></i> </th>
                                             <th>{{labels?.chequestatus}}<i class="fa fa-sort"></i> </th>
-                                            <th>{{labels?.statusUpdatedOn}}<i class="fa fa-sort"></i> </th>
+                                            <!-- <th>{{labels?.statusUpdatedOn}}<i class="fa fa-sort"></i> </th> -->
                                             <th>{{labels?.payableTo}}<i class="fa fa-sort"></i> </th>
                                             <th>{{labels?.favouringTo}}<i class="fa fa-sort"></i> </th>
                                           </tr>
@@ -36,7 +36,7 @@
                                                 ></app-custom-input>
                                             </td>
                                             <td>
-                                              <kendo-datepicker
+                                              <!-- <kendo-datepicker
                                               class="form-control"
                                               formControlName="chequeDate"
                                               [format]="'dd/MM/yyyy'"
@@ -44,12 +44,13 @@
                                               [activeView]="'decade'"
                                               (ngModelChange)="chequeDateChange($event, i)"
                                               
-                                            ></kendo-datepicker>
+                                            ></kendo-datepicker> -->
+                                            {{data?.chequeDate || '-'}}
                                             
                                             </td>
                                             <td>{{data?.chequeAmt|| '-'}}</td>
-                                            <td>{{data?.chequeStatus|| '-'}}</td>
-                                            <td>
+                                            <td>{{data?.chequeStatusDesc|| '-'}}</td>
+                                            <!-- <td>
                                               <kendo-datepicker
                                               class="form-control"
                                               (ngModelChange)="statusDateChange($event, i)"
@@ -58,8 +59,9 @@
                                               placeholder="Status Updated On"
                                               [activeView]="'decade'"
                                             ></kendo-datepicker>
+
                                             
-                                            </td>
+                                            </td> -->
                                             <td>{{data?.payableTo|| '-'}}</td>
                                             <td>{{data?.favTo|| '-'}}</td>
                                             
@@ -113,7 +115,8 @@
                                             </div>
                                             <div class="col-lg-6 col-sm-4 col-md-3">
                                               
-                                                <div class="row">
+                                                <div class="row"
+                                                >
                                                     <div class="col-lg-2 col-sm-4 col-md-3">{{labels.status}}</div>
                                                     <div class="col-lg-4 col-sm-4 col-md-3">
                                                         <!-- <select id="" class="form-control" >
@@ -124,10 +127,33 @@
                                                         </select> -->
                                                         <app-vf-custom-select
                                                             formControlName="status"
+                                                            [isDisabled]="disableUpdate"
                                                             [values]="LOV.LOVS.chequeStatus"
                                                             (change)="onChangeStatus($event)"
+                                                            [isRequired]="'Please select one'"
+                                                            [isDirty]="isDirty"
                                                         ></app-vf-custom-select>
                                                     </div>
+                                                </div>
+                                                &nbsp;
+                                                <div class="row" *ngIf="showStatusDate">
+                                                   <div class="col-lg-2 col-sm-4 col-md-3">Status Updated On</div>
+                                                   <div class="col-lg-4 col-sm-4 col-md-3">
+                                                    <kendo-datepicker
+                                                    class="form-control"
+                                                    formControlName="statusUpdatedOn"
+                                                    [format]="'dd/MM/yyyy'"
+                                                    placeholder="Status Updated On"
+                                                    [activeView]="'decade'"
+                                                  ></kendo-datepicker>
+                                                  <div class="invalid-feedback ShowError"
+                                                  *ngIf="chequeForm.get('statusUpdatedOn').touched || isDirty">
+                                                    <div *ngIf="chequeForm.get('statusUpdatedOn').invalid">
+                                                        Select Date
+                                                    </div>
+                                                  </div>
+
+                                                   </div>
                                                 </div>
                                                 &nbsp;
                                                 <div class="row">
@@ -136,8 +162,10 @@
                                                         <textarea class="form-control" cols="2"
                                                         formControlName='remarks'></textarea>
                                                     </div>
+                                                    
                                                 </div>
                                              
+                                                
                                                 &nbsp;
                                                 <div class="row">
                                                     <div class="col-lg-2 col-sm-4 col-md-3"></div>
