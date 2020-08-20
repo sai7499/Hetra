@@ -120,3 +120,18 @@
 .upload_label {
     width: 100%;
 }
+
+.file-input {
+    border: none;
+    border-bottom: 2px solid #0e25c7;
+    border-radius: 0px;
+}
+
+.file-input:read-only {
+    background-color: #fff;
+}
+
+.file-input:hover {
+    cursor: pointer;
+    font-size: 16px;
+}

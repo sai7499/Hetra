@@ -710,7 +710,17 @@ export class ApiService {
       workflowId: '08905702d7b811eab3fc00505695f93b',
       projectId: environment.projectIds.camProjectId
     },
-    fetchPreimumAmount: {
+    getPddDetails:{
+      processId: 'a8c2c304dd6c11eaafb500505695f93b',
+      workflowId: 'a897ad40dd6c11eab53900505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    updatePddDetails:{
+      processId: '67441434dd9711ea944100505695f93b',
+      workflowId: '671dd0b2dd9711ea909f00505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    fetchPreimumAmount:{
       processId: '3c99e428d71811eabcf800505695f93b',
       workflowId: '3c71c4d4d71811eaabba00505695f93b',
       projectId: environment.projectIds.externalApi
