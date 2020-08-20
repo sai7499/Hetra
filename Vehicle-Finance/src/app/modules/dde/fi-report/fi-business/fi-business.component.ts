@@ -463,7 +463,7 @@ export class FiBusinessComponent implements OnInit {
         this.fiDetails = res.ProcessVariables.getFIBusinessDetails;
         console.log('in get fi details', this.fiDetails);
         this.setFormValue();
-        this.getConcernType()
+        this.getConcernType();
         if (this.fiDetails) {
           if (this.fiDetails.pincode != null) {
             this.getPincodeResult(Number(this.fiDetails.pincode));

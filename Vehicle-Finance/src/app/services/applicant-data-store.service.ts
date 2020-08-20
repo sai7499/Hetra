@@ -124,4 +124,5 @@ export class ApplicantDataStoreService {
   getApplicantRelation(){
     return this.applicantRelation;
   }
+
 }
