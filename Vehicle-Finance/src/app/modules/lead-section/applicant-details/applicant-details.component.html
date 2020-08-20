@@ -118,15 +118,11 @@
             <!-- <table class="table">
               <thead>
                 <tr class="table-head-bg"> -->
-                  <tr
-                >
                   <th >{{ labels.ucicId }} <i class="fa fa-sort"></i></th>
                   <th>{{ labels.entity }} <i class="fa fa-sort"></i></th>
                   <th>{{ labels.name }} <i class="fa fa-sort"></i></th>
-                  
-                    <th>{{ labels.mobileNumber }}<i class="fa fa-sort"></i></th>
-                    <th>{{ labels.dobDoi }}<i class="fa fa-sort"></i></th>
-                  
+                  <th>{{ labels.mobile }} <i class="fa fa-sort"></i></th>
+                  <th>{{ labels.dobDoi }}<i class="fa fa-sort"></i></th>
                   <th>{{ labels.applicantType }}<i class="fa fa-sort"></i></th>
                   <th>{{ labels.action }} <i class="fa fa-sort"></i></th>
                 </tr>
@@ -144,15 +140,15 @@
                   <td [attr.data-label]="labels?.name">{{ item.fullName ? item.fullName : '-' }}</td>
                   <ng-container *ngIf="item.entityTypeKey !== 'NONINDIVENTTYP'">
                     <td [attr.data-label]="labels?.mobile">{{ item.mobileNumber? item.mobileNumber : '-' }}</td>
-                    <td [attr.data-label]="labels?.dob">{{ item.dob ? item.dob : '-' }}</td>
+                    <td [attr.data-label]="labels?.dobDoi">{{ item.dob ? item.dob : '-' }}</td>
                   </ng-container>
                   <ng-container *ngIf="item.entityTypeKey == 'NONINDIVENTTYP'">
-                    <td [attr.data-label]="labels?.companyNumber">
-                      {{ 
+                    <td [attr.data-label]="labels?.mobile">
+                      {{
                         item.companyPhoneNumber ? item.companyPhoneNumber : '-'
                       }}
                     </td>
-                    <td [attr.data-label]="labels?.doi">{{ item.doi ? item.doi : '-' }}</td>
+                    <td [attr.data-label]="labels?.dobDoi">{{ item.doi ? item.doi : '-' }}</td>
                   </ng-container>
                   <td [attr.data-label]="labels?.applicantType">{{ item.applicantType ? item.applicantType : '-' }}</td>
                   <td [attr.data-label]="labels?.action">
