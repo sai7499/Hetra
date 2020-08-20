@@ -391,7 +391,7 @@ export class NegotiationComponent implements OnInit {
       }
     }
   }
-  getRepayableMonths() {
+  getRepayableMonths(event) {
     const selectedValu = this.createNegotiationForm.get('MoratoriumPeriod').value;
     if (Number(selectedValu.slice(0, 1))) {
       const ab = Number(this.createNegotiationForm.controls.NegotiatedLoanTenor.value) - (Number(selectedValu.slice(0, 1)) - 1);
