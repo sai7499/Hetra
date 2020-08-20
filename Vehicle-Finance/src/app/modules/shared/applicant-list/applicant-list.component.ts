@@ -8,6 +8,7 @@ import { ApplicantList } from '@model/applicant.model';
 import { LeadStoreService } from '../../sales/services/lead.store.service';
 import { ApplicantImageService } from '@services/applicant-image.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   templateUrl: './applicant-list.component.html',
@@ -34,7 +35,8 @@ export class ApplicantListComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private applicantImageService: ApplicantImageService,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private toasterService : ToasterService
   ) {}
 
   async ngOnInit() {
@@ -76,6 +78,9 @@ export class ApplicantListComponent implements OnInit {
   }
 
   navigateAddapplicant() {
+    if(this.applicantList.length > 4){
+      this.toasterService.showWarning('Maximum 5 Applicants','')
+   }
     this.router.navigateByUrl(`/pages/sales-applicant-details/${this.leadId}/add-applicant`);
   }
 
