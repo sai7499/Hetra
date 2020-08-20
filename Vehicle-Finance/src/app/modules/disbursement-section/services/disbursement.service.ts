@@ -40,7 +40,8 @@ getCoAppNames(leadId) {
   const body: RequestEntity = {
       processId: processId,
       ProcessVariables: {
-        "LeadID":leadId          
+        // "LeadID":leadId
+        ...leadId          
       },
       workflowId: workflowId,
       projectId: projectId
