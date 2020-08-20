@@ -479,8 +479,16 @@ export class DashboardComponent implements OnInit {
   }
 
   setPDDPageData(res) {
-    const response = res.ProcessVariables.pddDetails;
-    this.pddDetails = response;
+    if (this.activeTab === this.displayTabs.PDD) {
+      const response = res.ProcessVariables.pddDetails;
+      this.pddDetails = response;
+    } else if (this.activeTab === this.displayTabs.ChequeTracking) {
+      const response = res.ProcessVariables.chequeTrackingDetails;
+      this.pddDetails = response;
+    } else if (this.activeTab === this.displayTabs.LoanBooking) {
+      const response = res.ProcessVariables.processLogs;
+      this.pddDetails = response;
+    }
     this.limit = res.ProcessVariables.perPage;
     this.pageNumber = res.ProcessVariables.from;
     this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
@@ -489,27 +497,28 @@ export class DashboardComponent implements OnInit {
     this.from = res.ProcessVariables.from;
   }
 
-  setChequeTrackingPageData(res) {
-    const response = res.ProcessVariables.chequeTrackingDetails;
-    this.chequeTrackingDetails = response;
-    this.limit = res.ProcessVariables.perPage;
-    this.pageNumber = res.ProcessVariables.from;
-    this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
-    this.currentPage = res.ProcessVariables.currentPage;
-    this.totalItems = res.ProcessVariables.totalPages;
-    this.from = res.ProcessVariables.from;
-  }
+  // setChequeTrackingPageData(res) {
+  //   const response = res.ProcessVariables.chequeTrackingDetails;
+  //   this.chequeTrackingDetails = response;
+  //   this.limit = res.ProcessVariables.perPage;
+  //   this.pageNumber = res.ProcessVariables.from;
+  //   this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
+  //   this.currentPage = res.ProcessVariables.currentPage;
+  //   this.totalItems = res.ProcessVariables.totalPages;
+  //   this.from = res.ProcessVariables.from;
+  // }
 
-  setProcessLogsPageData(res) {
-    const response = res.ProcessVariables.processLogs;
-    this.processLogs = response;
-    this.limit = res.ProcessVariables.perPage;
-    this.pageNumber = res.ProcessVariables.from;
-    this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
-    this.currentPage = res.ProcessVariables.currentPage;
-    this.totalItems = res.ProcessVariables.totalPages;
-    this.from = res.ProcessVariables.from;
-  }
+  // setProcessLogsPageData(res) {
+  //   const response = res.ProcessVariables.processLogs;
+  //   this.processLogs = response;
+  //   this.limit = res.ProcessVariables.perPage;
+  //   this.pageNumber = res.ProcessVariables.from;
+  //   this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
+  //   this.currentPage = res.ProcessVariables.currentPage;
+  //   this.totalItems = res.ProcessVariables.totalPages;
+  //   this.from = res.ProcessVariables.from;
+  // }
+
   // for MyLeads Api
   responseForSales(data) {
     this.dashboardService.myLeads(data).subscribe((res: any) => {
@@ -539,7 +548,8 @@ export class DashboardComponent implements OnInit {
   // for Cheque tracking
   responseForChequeTracking(data) {
     this.dashboardService.myLeads(data).subscribe((res: any) => {
-      this.setChequeTrackingPageData(res);
+      // this.setChequeTrackingPageData(res);
+      this.setPDDPageData(res);
       if (res.ProcessVariables.chequeTrackingDetails != null) {
         this.isLoadLead = true;
       } else {
@@ -552,7 +562,8 @@ export class DashboardComponent implements OnInit {
   // for process logs
   responseForProcessLogs(data) {
     this.dashboardService.myLeads(data).subscribe((res: any) => {
-      this.setProcessLogsPageData(res);
+      // this.setProcessLogsPageData(res);
+      this.setPDDPageData(res);
       if (res.ProcessVariables.processLogs != null) {
         this.isLoadLead = true;
       } else {
