@@ -664,15 +664,25 @@ export class ApiService {
       processId: 'f9ae9f6acb0e11ea814c00505695f93b',
       projectId: environment.projectIds.camProjectId
     },
+    // submitNegotiation: {
+    //   workflowId: 'f98fcb80cb0e11ea961200505695f93b',
+    //   processId: '5f84550ecfcf11ea99aa00505695f93b',
+    //   projectId: environment.projectIds.camProjectId
+    // },
+    // getNegotiationData:{
+    //   workflowId: 'f98fcb80cb0e11ea961200505695f93b',
+    //   processId: '19120c14d4c611eabe8800505695f93b',
+    //   projectId: environment.projectIds.camProjectId
+    // },
     submitNegotiation: {
-      workflowId: 'f98fcb80cb0e11ea961200505695f93b',
-      processId: '5f84550ecfcf11ea99aa00505695f93b',
+      workflowId: '2ebdbf38dd7511eaad1a00505695f93b',
+      processId: '5ebaf41add7c11ea908100505695f93b',
       projectId: environment.projectIds.camProjectId
     },
-    getNegotiationData:{
-      workflowId: 'f98fcb80cb0e11ea961200505695f93b',
-      processId: '19120c14d4c611eabe8800505695f93b',
-      projectId: 'environment.projectIds.camProjectId'
+    getNegotiationData: {
+      workflowId: '2ebdbf38dd7511eaad1a00505695f93b',
+      processId: '2ed6d234dd7511eaba4a00505695f93b',
+      projectId: environment.projectIds.camProjectId
     },
     //disbursementRelated starts
     disbursementLOV: {

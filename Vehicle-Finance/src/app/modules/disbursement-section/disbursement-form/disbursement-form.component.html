@@ -80,16 +80,8 @@
           <div class="form-group">
             <label for="disburse_To" class="control-label disburse-label">{{labels?.disburseTo}}</label>
             <div class="disburse-select">
-              <!-- <app-vf-custom-select
-                  [values]="disburseToLov"
-                  formControlName="disburseTo"
-                  (change)="disburseTo($event)"
-                  [isRequired]="'Disburse To required'"
-                  [isDirty]="isDirty"
-                >
-                </app-vf-custom-select> -->
               <mat-form-field>
-                <mat-select [(ngModel)]="disburseTo" formControlName="disburseTo" multiple (selectionChange)="disburseToVal(disburseTo)">
+                <mat-select [(ngModel)]="disburseTo" id="disburseTo" formControlName="disburseTo" multiple (selectionChange)="disburseToVal(disburseTo)">
                   <mat-option *ngFor="let x of disburseToLov" [value]="x.key">{{x.value}}
                   </mat-option>
                 </mat-select>
@@ -113,14 +105,14 @@
             </label>
             <div class="ng-autocomplete col-sm-6 col-md-4 col-lg-3">
               <ng-autocomplete [data]="dealerCodeData" [(ngModel)]="dealerCode" [searchKeyword]="keyword" 
-                (inputChanged)='onDealerCodeSearch($event)' formControlName="dealerCode" [placeHolder]="'Dealer Code'" [minQueryLength]="2">
+                (inputChanged)='onDealerCodeSearch($event)' [notFoundTemplate]="notFoundTemplate" formControlName="dealerCode" [placeHolder]="'Dealer Code'" [minQueryLength]="2">
               </ng-autocomplete>
               <!-- <ng-template #dealerCodeTemplate let-item>
                 <a [innerHTML]="item.dealerName"></a>
-              </ng-template>
-              <ng-template #notFoundTemplate let-notFound>
+              </ng-template>-->
+              <!-- <ng-template #notFoundTemplate let-notFound>
                 <div [innerHTML]="notFound"></div>
-              </ng-template> -->
+              </ng-template>  -->
             </div>
           </div>
           <div class="form-group">
@@ -128,7 +120,7 @@
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input [(ngModel)]="dealerObjInfo['beneficiaryName']" [isRequired]="'Dealer Name is required'" formControlName="beneficiaryName" name="Dealer Name" [className]="'form-control mandatory'" [placeholder]="'Dealer Name'"
+                <app-custom-input id="dealerBeneficiaryName" [(ngModel)]="dealerObjInfo['beneficiaryName']" [isRequired]="'Dealer Name is required'" formControlName="beneficiaryName" name="Dealer Name" [className]="'form-control mandatory'" [placeholder]="'Dealer Name'"
                  [isDirty]="isDirty">
               </app-custom-input>
             </div>
@@ -138,7 +130,7 @@
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input id="disbursementAmount" [(ngModel)]="dealerObjInfo['disbursementAmount']" [isRequired]="'Disbursement Amount is required'" formControlName="disbursementAmount" [className]="'form-control mandatory'"
+              <app-custom-input id="dealerDisbursementAmount" [(ngModel)]="dealerObjInfo['disbursementAmount']" [isRequired]="'Disbursement Amount is required'" formControlName="disbursementAmount" [className]="'form-control mandatory'"
                 [placeholder]="'Disbursement Amount'" [maxLength]="amountLength" [patternCheck]="regexPattern.amount" [isDirty]="isDirty"
                 [type]="'number'" (keyup)="getCumulativeDisbAmnt($event,1)">
               </app-custom-input>
@@ -159,8 +151,8 @@
                 <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input [(ngModel)]="dealerObjInfo['beneficiaryAccountNo']" [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo" [className]="'form-control mandatory'" [placeholder]="'Account Number'" [maxLength]="amountLength"
-                  [patternCheck]="regexPattern.amount" [isDirty]="isDirty" [type]="'number'">
+                <app-custom-input id="dealerBenAccNo" [(ngModel)]="dealerObjInfo['beneficiaryAccountNo']" [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo" [className]="'form-control mandatory'" [placeholder]="'Account Number'" [maxLength]="amountLength"
+                   [isDirty]="isDirty" [type]="'number'">
                 </app-custom-input>
               </div>
             </div>
@@ -180,7 +172,7 @@
                 <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input [(ngModel)]="dealerObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
+                <app-custom-input id="dealerIFSC" [(ngModel)]="dealerObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                   [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
                 </app-custom-input>
               </div>
@@ -190,7 +182,7 @@
                 <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input [(ngModel)]="dealerObjInfo['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="ifscLength"
+                <app-custom-input id="dealerBenBranch" [(ngModel)]="dealerObjInfo['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="ifscLength"
                   [isDirty]="isDirty" [type]="'alpha'">
                 </app-custom-input>
               </div>
@@ -212,6 +204,7 @@
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
                 <app-custom-input [(ngModel)]="dealerObjInfo['instrumentNumber']" 
+                  id="dealerInstrumentNumber"
                   [isRequired]="'Instrument Number is required'" 
                   formControlName="instrumentNumber" 
                   [className]="'form-control mandatory'" 
@@ -226,7 +219,7 @@
                 <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <kendo-datepicker class="form-control mandatory" formControlName="instrumentDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
+                <kendo-datepicker class="form-control mandatory" formControlName="instrumentDate" [format]="'dd/MM/yyyy'" 
                   placeholder="Instrument Date" [activeView]="'decade'"></kendo-datepicker>
               </div>
             </div>
@@ -235,7 +228,7 @@
                 <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input [(ngModel)]="dealerObjInfo['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
+                <app-custom-input id="dealerFavBankOfDraw" [(ngModel)]="dealerObjInfo['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
                   [isDirty]="isDirty" [type]="'alpha'">
                 </app-custom-input>
               </div>
@@ -245,7 +238,7 @@
                 <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input [(ngModel)]="dealerObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
+                <app-custom-input id="dealerFavBankBranch" [(ngModel)]="dealerObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
                   [isDirty]="isDirty" [type]="'alpha'">
                 </app-custom-input>
               </div>
@@ -256,16 +249,29 @@
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="dealerObjInfo['loanNumber']" [isRequired]="'Loan Number is required'" formControlName="loanNumber" [className]="'form-control mandatory'" [placeholder]="'loan Number'"
+              <app-custom-input id="dealerLoanNumber" [(ngModel)]="dealerObjInfo['loanNumber']" [isRequired]="'Loan Number is required'" formControlName="loanNumber" [className]="'form-control mandatory'" [placeholder]="'loan Number'"
                  [isDirty]="isDirty" [type]="'number'">
               </app-custom-input>
             </div>
           </div>
 
           <div class="form-group" *ngIf="showDDDetails || showBankDetails">
-            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">Address</label>
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline1}}</label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <textarea class="form-control" formControlName="address" placeholder="Address......"></textarea>
+              <app-custom-input id="dealerAddLine1" [(ngModel)]="dealerObjInfo['beneficiaryAddress1']"  formControlName="beneficiaryAddress1" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 1'"></app-custom-input>
+              <!-- <textarea class="form-control" formControlName="address" placeholder="Address......"></textarea> --> 
+            </div>
+          </div>
+          <div class="form-group" *ngIf="showDDDetails || showBankDetails">
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline2}}</label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="dealerAddLine2" [(ngModel)]="dealerObjInfo['beneficiaryAddress2']"  formControlName="beneficiaryAddress2" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 2'"></app-custom-input>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="showDDDetails || showBankDetails">
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline3}}</label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="dealerAddLine3" [(ngModel)]="dealerObjInfo['beneficiaryAddress3']"  formControlName="beneficiaryAddress3" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 3'"></app-custom-input>
             </div>
           </div>
 
@@ -321,9 +327,9 @@
                             </div>
                           </td>
                           <td width="15%">
-                            <!-- <input type="text"  class="form-control text-field" [(ngModel)]="trancheDealerList[i].trancheDisbursePercentage"
-                               name="trancheDealerList[i].trancheDisbursePercentage" formControlName="trancheDisbursePercentage" />                         -->
-                               <app-custom-input [(ngModel)]="trancheDealerList[i].trancheDisbursePercentage"  formControlName="trancheDisbursePercentage" [className]="'form-control'" 
+                            <!-- <input type="text"  class="form-control text-field" [(ngModel)]="trancheDealerList[i].disbursement_percentage"
+                               name="trancheDealerList[i].disbursement_percentage" formControlName="disbursement_percentage" />                         -->
+                               <app-custom-input [(ngModel)]="trancheDealerList[i].disbursement_percentage"  formControlName="disbursement_percentage" [className]="'form-control'" 
                          [isDirty]="isDirty" [type]="'number'" (keyup)="validatePercentage(trancheDealerList,'1')">
                           </app-custom-input>
                           </td>
@@ -336,7 +342,7 @@
                             <div *ngIf="i==0">
                             <input type="text"  class="form-control text-field" [(ngModel)]="trancheDealerList[i].trancheDisburseDate"
                                name="trancheDealerList[i].trancheDisburseDate" formControlName="trancheDisburseDate" [readOnly]='true'/>
-                         <!-- <kendo-datepicker class="form-control mandatory" formControlName="trancheDisburseDate" [(ngModel)]="trancheDealerList[i].trancheDisburseDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
+                         <!-- <kendo-datepicker class="form-control mandatory" formControlName="trancheDisburseDate" [(ngModel)]="trancheDealerList[i].trancheDisburseDate" [format]="'dd/MM/yyyy'" 
                            placeholder="tranche Date" [activeView]="'decade'" [disabled]='true'></kendo-datepicker> -->
                             </div>
                           </td>
@@ -367,7 +373,7 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="applicantObjInfo['beneficiaryName']" [isRequired]="'Applicant Name is required'" formControlName="beneficiaryName" [className]="'form-control mandatory'" [placeholder]="'Applicant Name'"
+              <app-custom-input [(ngModel)]="applicantObjInfo['beneficiaryName']" id="appBeneficiaryName" [isRequired]="'Applicant Name is required'" formControlName="beneficiaryName" [className]="'form-control mandatory'" [placeholder]="'Applicant Name'"
               [type]="'text'" [isDirty]="isDirty">
               </app-custom-input>
             </div>
@@ -398,8 +404,8 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="applicantObjInfo['beneficiaryAccountNo']" [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo" [className]="'form-control mandatory'" [placeholder]="'Account Number'"
-                [maxLength]="amountLength" [patternCheck]="regexPattern.amount" [isDirty]="isDirty" [type]="'number'">
+              <app-custom-input id="appBenAccNo" [(ngModel)]="applicantObjInfo['beneficiaryAccountNo']" [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo" [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+                [maxLength]="amountLength" [isDirty]="isDirty" [type]="'number'">
               </app-custom-input>
             </div>
           </div>
@@ -419,7 +425,7 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="applicantObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
+              <app-custom-input id="appIFSC" [(ngModel)]="applicantObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                 [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
               </app-custom-input>
             </div>
@@ -428,7 +434,7 @@
             <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBranch}}
             <sub class="star_red_col">*</sub></label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="applicantObjInfo['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="ifscLength"
+              <app-custom-input id="appBenBranch" [(ngModel)]="applicantObjInfo['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="ifscLength"
                 [isDirty]="isDirty" [type]="'alpha'">
               </app-custom-input>
             </div>
@@ -449,7 +455,10 @@
               <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input [(ngModel)]="applicantObjInfo['instrumentNumber']" [isRequired]="'Instrument Number is required'" formControlName="instrumentNumber" [className]="'form-control mandatory'" [placeholder]="'Instrument Number'"
+                <app-custom-input 
+                [(ngModel)]="applicantObjInfo['instrumentNumber']"
+                id="appInstrumentNumber"
+                [isRequired]="'Instrument Number is required'" formControlName="instrumentNumber" [className]="'form-control mandatory'" [placeholder]="'Instrument Number'"
                   [isDirty]="isDirty" [type]="'number'">
                 </app-custom-input>
               </div>
@@ -459,7 +468,7 @@
                 <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <kendo-datepicker class="form-control mandatory" formControlName="instrumentDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
+                <kendo-datepicker class="form-control mandatory" formControlName="instrumentDate" [format]="'dd/MM/yyyy'" 
                   placeholder="Instrument Date" [activeView]="'decade'"></kendo-datepicker>
               </div>
             </div>
@@ -468,7 +477,7 @@
               <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input [(ngModel)]="applicantObjInfo['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
+                <app-custom-input id="appFavBankOfDraw" [(ngModel)]="applicantObjInfo['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
                   [isDirty]="isDirty" [type]="'alpha'">
                 </app-custom-input>
               </div>
@@ -478,7 +487,7 @@
               <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input [(ngModel)]="applicantObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
+                <app-custom-input id="appFavBankBranch" [(ngModel)]="applicantObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
                   [isDirty]="isDirty" [type]="'alpha'">
                 </app-custom-input>
               </div>
@@ -489,18 +498,32 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="applicantObjInfo['loanNumber']" [isRequired]="'Loan Number is required'" formControlName="loanNumber" [className]="'form-control mandatory'" [placeholder]="'loan Number'"
-                [patternCheck]="regexPattern.amount" [isDirty]="isDirty" [type]="'number'">
+              <app-custom-input id="appLoanNumber" [(ngModel)]="applicantObjInfo['loanNumber']" [isRequired]="'Loan Number is required'" formControlName="loanNumber" [className]="'form-control mandatory'" [placeholder]="'loan Number'"
+                [isDirty]="isDirty" [type]="'number'">
               </app-custom-input>
             </div>
           </div>
 
+          
           <div class="form-group" *ngIf="showAppDDDetails || showAppBankDetails">
-            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">Address</label>
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline1}}</label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <textarea class="form-control" formControlName="appAddress" placeholder="Address......"></textarea>
+              <app-custom-input id="appAddLine1" [(ngModel)]="applicantObjInfo['beneficiaryAddress1']"  formControlName="beneficiaryAddress1" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 1'"></app-custom-input>
             </div>
           </div>
+          <div class="form-group" *ngIf="showAppDDDetails || showAppBankDetails">
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline2}}</label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="appAddLine2" [(ngModel)]="applicantObjInfo['beneficiaryAddress2']"  formControlName="beneficiaryAddress2" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 2'"></app-custom-input>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="showAppDDDetails || showAppBankDetails">
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline3}}</label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="appAddLine3" [(ngModel)]="applicantObjInfo['beneficiaryAddress3']"  formControlName="beneficiaryAddress3" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 3'"></app-custom-input>
+            </div>
+          </div>
+
 
           <div class="form-group">
             <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
@@ -554,9 +577,9 @@
                             </div>
                           </td>
                           <td width="15%">
-                            <!-- <input type="text"  class="form-control text-field" [(ngModel)]="trancheAppList[i].trancheDisbursePercentage"
-                               name="trancheAppList[i].trancheDisbursePercentage" formControlName="trancheDisbursePercentage" /> -->
-                               <app-custom-input [(ngModel)]="trancheAppList[i].trancheDisbursePercentage"  formControlName="trancheDisbursePercentage" [className]="'form-control'" 
+                            <!-- <input type="text"  class="form-control text-field" [(ngModel)]="trancheAppList[i].disbursement_percentage"
+                               name="trancheAppList[i].disbursement_percentage" formControlName="disbursement_percentage" /> -->
+                               <app-custom-input [(ngModel)]="trancheAppList[i].disbursement_percentage"  formControlName="disbursement_percentage" [className]="'form-control'" 
                          [isDirty]="isDirty" [type]="'number'" (keyup)="validatePercentage(trancheAppList,'2')">
                           </app-custom-input>                        
                           </td>
@@ -569,7 +592,7 @@
                             <div *ngIf="i==0">
                               <input type="text"  class="form-control text-field" [(ngModel)]="trancheAppList[i].trancheDisburseDate"
                                name="trancheAppList[i].trancheDisburseDate" formControlName="trancheDisburseDate" [readOnly]='true'/>
-                         <!-- <kendo-datepicker class="form-control mandatory" formControlName="trancheDisburseDate" [(ngModel)]="trancheAppList[i].trancheDisburseDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
+                         <!-- <kendo-datepicker class="form-control mandatory" formControlName="trancheDisburseDate" [(ngModel)]="trancheAppList[i].trancheDisburseDate" [format]="'dd/MM/yyyy'" 
                            placeholder="tranche Date" [activeView]="'decade'"></kendo-datepicker> -->
                            </div>
                           </td>
@@ -601,233 +624,750 @@
             <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.coAppName}}
             <sub class="star_red_col">*</sub>
             </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <!-- <input formControlName="coApplicantName" type="text" class="form-control mandatory" id="coApplicant_name" placeholder="coApplicant Name"
-                name="applicantName" /> -->
-                <app-vf-custom-select [(ngModel)]="coApplicantObjInfo['beneficiaryName']" [isRequired]="'Co-Applicant Name is required'" [values]="coAppNamesLov" formControlName="beneficiaryName"  [isDirty]="isDirty">
-                </app-vf-custom-select>
+            <div class="col-sm-6 col-md-4 col-lg-3">             
+                <mat-form-field>
+                  <mat-select [(ngModel)]="coAppName" formControlName="coAppName" multiple (selectionChange)="selectCoApplicant(coAppName)">
+                    <mat-option *ngFor="let x of coAppNamesLov" [value]="x.serialNo">{{x.value}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
             </div>
           </div>
-        <div class="form-group">
-            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.disbursementAmount}}
-              <sub class="star_red_col">*</sub>
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input id="coAppDisbursementAmount" [(ngModel)]="coApplicantObjInfo['disbursementAmount']" [isRequired]="'Disbursement Amount is required'" formControlName="disbursementAmount" [className]="'form-control mandatory'"
-                [placeholder]="'Disbursement Amount'" [maxLength]="amountLength" [patternCheck]="regexPattern.amount" [isDirty]="isDirty"
-                [type]="'number'" (keyup)="getCumulativeDisbAmnt($event,3)">
-              </app-custom-input>
-            </div>
-          </div>
-        <div class="form-group">
-            <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.modeOfPayment}}
-            <sub class="star_red_col">*</sub>
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-vf-custom-select [(ngModel)]="coApplicantObjInfo['paymentMethod']" [values]="paymentLov" [isRequired]="'Mode Of Payment is required'" formControlName="paymentMethod" (change)="setModeOfPayment($event,'coApplicant')" [isDirty]="isDirty">
-              </app-vf-custom-select>
-            </div>
-        </div>
-        <div *ngIf="showCoAppBankDetails">
-          <div class="form-group">
-            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfAccount}}
-            <sub class="star_red_col">*</sub>
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="coApplicantObjInfo['beneficiaryAccountNo']" [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo" [className]="'form-control mandatory'" [placeholder]="'Account Number'"
-                [maxLength]="amountLength" [patternCheck]="regexPattern.amount" [isDirty]="isDirty" [type]="'number'">
-              </app-custom-input>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
-            <sub class="star_red_col">*</sub>
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-vf-custom-select [values]="bankerLov" [(ngModel)]="coApplicantObjInfo['beneficiaryBank']" [isRequired]="'Beneficiary Bank is required'" formControlName="beneficiaryBank" [isRequired]="'Beneficiary Bank is required'" [isDirty]="isDirty">
-              </app-vf-custom-select>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.ifscCode}}
-            <sub class="star_red_col">*</sub>
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="coApplicantObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
-                [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
-              </app-custom-input>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBranch}}
-            <sub class="star_red_col">*</sub>
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="coApplicantObjInfo['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="ifscLength"
-                [isDirty]="isDirty" [type]="'alpha'">
-              </app-custom-input>
-            </div>
-          </div>
-        </div>
-          <div *ngIf="showCoAppDDDetails">
-            <div class="form-group">
-              <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instType}}
-              <sub class="star_red_col">*</sub>
-              </label>
-              <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-vf-custom-select [values]="instrumentTypeLov" [(ngModel)]="coApplicantObjInfo['instrumentType']" [isRequired]="'Instrument Type is required'" formControlName="instrumentType" [isDirty]="isDirty">
-                </app-vf-custom-select>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instNumber}}
-              <sub class="star_red_col">*</sub>
-              </label>
-              <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input [(ngModel)]="coApplicantObjInfo['instrumentNumber']" [isRequired]="'Instrument Number is required'" formControlName="instrumentNumber" [className]="'form-control mandatory'" [placeholder]="'Instrument Number'"
-                  [isDirty]="isDirty" [type]="'number'">
-                </app-custom-input>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="tdd" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instDate}}
+          <!-- container coApp1 starts -->
+          <form [formGroup]="coApp1Form" *ngIf="coApp1">
+            <div>
+              <h4 class="title coAppTitle">CoApplicant-1</h4>
+              <div class="form-group">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.appName}}
                 <sub class="star_red_col">*</sub>
-              </label>
-              <div class="col-sm-6 col-md-4 col-lg-3">
-                <kendo-datepicker class="form-control mandatory" formControlName="instrumentDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
-                  placeholder="Instrument Date" [activeView]="'decade'"></kendo-datepicker>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
-              <sub class="star_red_col">*</sub>
-              </label>
-              <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input [(ngModel)]="coApplicantObjInfo['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
-                  [isDirty]="isDirty" [type]="'alpha'">
-                </app-custom-input>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
-              <sub class="star_red_col">*</sub>
-              </label>
-              <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input [(ngModel)]="coApplicantObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
-                  [isDirty]="isDirty" [type]="'alpha'">
-                </app-custom-input>
-              </div>
-            </div>
-          </div>
-          <div class="form-group" *ngIf="showCoAppCASADetails">
-            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.disburseLoanNumber}}
-            <sub class="star_red_col">*</sub>
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="coApplicantObjInfo['loanNumber']" [isRequired]="'Loan Number is required'" formControlName="loanNumber" [className]="'form-control mandatory'" [placeholder]="'loan Number'"
-                [patternCheck]="regexPattern.amount" [isDirty]="isDirty" [type]="'number'">
-              </app-custom-input>
-            </div>
-          </div>
-          <div class="form-group" *ngIf="showCoAppDDDetails || showCoAppBankDetails">
-            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">Address</label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <textarea class="form-control" formControlName="coAppAddress" placeholder="Address......"></textarea>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <input type="checkbox" id="toDeductCharges3" [(ngModel)]="coApplicantObjInfo['deductChargesFlag']" formControlName="deductChargesFlag" class="toDeductCharges3"
-                [checked]="coApplicantObjInfo['deductChargesFlag']" (change)="selectCheckBox(coApplicantObjInfo['deductChargesFlag'],3)">
-              <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <input type="checkbox" id="coAppInTranches" [(ngModel)]="coApplicantObjInfo['trancheDisbursementFlag']" formControlName="trancheDisbursementFlag" class="coAppInTranches"
-                [checked]="coApplicantObjInfo['trancheDisbursementFlag']" (change)="selectTranche(coApplicantObjInfo['trancheDisbursementFlag'],3,false)">
-              <span class="deduct_Charges disburse-checkbox">{{labels?.disburseInTranches}}</span>
-            </div>
-          </div>
-
-          <div class="row" *ngIf="showCoAppTrancheTable">
-            <form [formGroup]="trancheCoAppForm">
-                <div class="disbursement-table-section">
-                    <table formArrayName="trancheCoAppArray" class="table disbursement-table">
-                        <thead>
-                          <tr>
-                            <th>#</th>
-                            <th>{{labels?.disbursementType}}</th>
-                            <th>{{labels?.disbursementPercent}}</th>
-                            <th>{{labels?.disbursementAmount}}</th>
-                            <th>{{labels?.disbursementDate}}</th>
-                            <th>{{labels?.action}}</th>                   
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let trance of trancheCoAppForm['controls'].trancheCoAppArray['controls']; let i=index" [formGroupName]="i">
-                            <td width="8%">
-                              <div>
-                                Tranche {{i+1}}
-                              </div>
-                            </td>
-                            <td width="15%">
-                              <div class="viewable-field">
-                                  <app-custom-input [hidden]="true" [(ngModel)]="trancheCoAppList[i].disbursement_id"  formControlName="disbursement_id" [className]="'form-control'" [type]="'number'">
-                                    </app-custom-input>
-                                    <app-custom-input [hidden]="true" [(ngModel)]="trancheCoAppList[i].tranche_disbursement_id"  formControlName="tranche_disbursement_id" [className]="'form-control'" [type]="'number'">
-                                      </app-custom-input>
-                                <mat-form-field [ngClass]="onlyViewable? 'readOnlyClass' : ''">
-                                  <mat-select [(ngModel)]="trancheCoAppList[i].tranche_disbursement_type" formControlName="tranche_disbursement_type">
-                                    <mat-option value=""> Select </mat-option>
-                                    <mat-option *ngFor="let x of trancheDisbLov" [value]="x.key">{{ x.value}}</mat-option>
-                                  </mat-select>
-                                </mat-form-field>
-                              </div>
-                            </td>
-                            <td width="15%">
-                              <!-- <input type="text"  class="form-control text-field" [(ngModel)]="trancheCoAppList[i].trancheDisbursePercentage"
-                                 name="trancheCoAppList[i].trancheDisbursePercentage" formControlName="trancheDisbursePercentage" />      -->
-                                 <app-custom-input [(ngModel)]="trancheCoAppList[i].trancheDisbursePercentage"  formControlName="trancheDisbursePercentage" [className]="'form-control'" 
-                         [isDirty]="isDirty" [type]="'number'" (keyup)="validatePercentage(trancheCoAppList,'3')">
-                          </app-custom-input>                    
-                            </td>
-                            <td width="15%">
-                              <input type="text"  class="form-control text-field" [(ngModel)]="trancheCoAppList[i].tranche_disbursement_amount"
-                                name="trancheCoAppList[i].tranche_disbursement_amount" formControlName="tranche_disbursement_amount" 
-                                [readOnly]="true" />
-                            </td>
-                            <td width="18%">
-                              <div *ngIf="i==0">
-                                <input type="text"  class="form-control text-field" [(ngModel)]="trancheCoAppList[i].trancheDisburseDate"
-                                name="trancheCoAppList[i].trancheDisburseDate" formControlName="trancheDisburseDate" [readOnly]='true'/>
-                           <!-- <kendo-datepicker class="form-control mandatory" formControlName="trancheDisburseDate" [(ngModel)]="trancheCoAppList[i].trancheDisburseDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
-                             placeholder="tranche Date" [activeView]="'decade'"></kendo-datepicker> -->
-                            </div>
-                            </td>
-                            <td class="text-center" width="10%">
-                              <div>
-                                <button class="delete-btn mr-8" (click)="deleteRow(i,3)" title="delete">
-                                  <img src="assets/images/delete-icon.png" />
-                                </button>
-                                <button class="plus-btn" (click)="addRow('3')" [disabled]="trancheCoAppForm.invalid" title="add">
-                                  <img src="assets/images/plus-icon.png" />
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-custom-input id="coApp1BeneficiaryName" [(ngModel)]="coApplicant1['beneficiaryName']" [isRequired]="'Applicant Name is required'" formControlName="beneficiaryName" [className]="'form-control mandatory'" [placeholder]="'Applicant Name'"
+                  [type]="'text'" [isDirty]="isDirty">
+                  </app-custom-input>
                 </div>
-            </form>
-       </div>
+              </div>
+            <div class="form-group">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.disbursementAmount}}
+                  <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-custom-input id="coApp1DisbursementAmount" [(ngModel)]="coApplicant1['disbursementAmount']" [isRequired]="'Disbursement Amount is required'" formControlName="disbursementAmount" [className]="'form-control mandatory'"
+                    [placeholder]="'Disbursement Amount'" [maxLength]="amountLength" [patternCheck]="regexPattern.amount" [isDirty]="isDirty"
+                    [type]="'number'" (keyup)="getCumulativeDisbAmnt($event,8)">
+                  </app-custom-input>
+                </div>
+              </div>
+            <div class="form-group">
+                <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.modeOfPayment}}
+                <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-vf-custom-select [values]="paymentLov" [(ngModel)]="coApplicant1['paymentMethod']" [isRequired]="'Mode of Payment is required'" formControlName="paymentMethod" (change)="setCoAppMOP($event,'coApp1')" [isDirty]="isDirty">
+                  </app-vf-custom-select>
+                </div>
+              </div>
+            <div *ngIf="showCoApp1BankDetails">
+              <div class="form-group">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfAccount}}
+                <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-custom-input id="coApp1BenAccNo" [(ngModel)]="coApplicant1['beneficiaryAccountNo']" [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo" [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+                    [maxLength]="amountLength" [isDirty]="isDirty" [type]="'number'">
+                  </app-custom-input>
+                </div>
+              </div>
+          
+              <div class="form-group">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
+                <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-vf-custom-select [values]="bankerLov" [(ngModel)]="coApplicant1['beneficiaryBank']" formControlName="beneficiaryBank" [isRequired]="'Beneficiary Bank is required'" [isDirty]="isDirty">
+                  </app-vf-custom-select>
+                </div>
+              </div>
+          
+              <div class="form-group">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.ifscCode}}
+                <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-custom-input id="coApp1IFSC" [(ngModel)]="coApplicant1['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
+                    [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
+                  </app-custom-input>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBranch}}
+                <sub class="star_red_col">*</sub></label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-custom-input id="coApp1BenBranch" [(ngModel)]="coApplicant1['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="ifscLength"
+                    [isDirty]="isDirty" [type]="'alpha'">
+                  </app-custom-input>
+                </div>
+              </div>
+            </div>
+              <div *ngIf="showCoApp1DDDetails">
+                <div class="form-group">
+                  <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instType}}
+                  <sub class="star_red_col">*</sub>
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <app-vf-custom-select [values]="instrumentTypeLov" [(ngModel)]="coApplicant1['instrumentType']" [isRequired]="'Instrument Type is required'" formControlName="instrumentType" [isDirty]="isDirty">
+                    </app-vf-custom-select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instNumber}}
+                  <sub class="star_red_col">*</sub>
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <app-custom-input id="coApp1InstrumentNumber" [(ngModel)]="coApplicant1['instrumentNumber']" [isRequired]="'Instrument Number is required'" formControlName="instrumentNumber" [className]="'form-control mandatory'" [placeholder]="'Instrument Number'"
+                      [isDirty]="isDirty" [type]="'number'">
+                    </app-custom-input>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="tdd" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instDate}}
+                    <sub class="star_red_col">*</sub>
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <kendo-datepicker class="form-control mandatory" formControlName="instrumentDate" [format]="'dd/MM/yyyy'" 
+                      placeholder="Instrument Date" [activeView]="'decade'"></kendo-datepicker>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
+                  <sub class="star_red_col">*</sub>
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <app-custom-input id="coApp1FavBankOfDraw" [(ngModel)]="coApplicant1['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
+                      [isDirty]="isDirty" [type]="'alpha'">
+                    </app-custom-input>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
+                  <sub class="star_red_col">*</sub>
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <app-custom-input id="coApp1FavBankBranch" [(ngModel)]="coApplicant1['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
+                      [isDirty]="isDirty" [type]="'alpha'">
+                    </app-custom-input>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group" *ngIf="showCoApp1CASADetails">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.disburseLoanNumber}}
+                <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-custom-input id="coApp1LoanNumber" [(ngModel)]="coApplicant1['loanNumber']" [isRequired]="'Loan Number is required'" formControlName="loanNumber" [className]="'form-control mandatory'" [placeholder]="'loan Number'"
+                   [isDirty]="isDirty" [type]="'number'">
+                  </app-custom-input>
+                </div>
+              </div>
+          
+              
+          <div class="form-group" *ngIf="showCoApp1DDDetails || showCoApp1BankDetails">
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline1}}</label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="coApp1AddLine1" [(ngModel)]="coApplicant1['beneficiaryAddress1']"  formControlName="beneficiaryAddress1" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 1'"></app-custom-input>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="showCoApp1DDDetails || showCoApp1BankDetails">
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline2}}</label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="coApp1AddLine2" [(ngModel)]="coApplicant1['beneficiaryAddress2']"  formControlName="beneficiaryAddress2" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 2'"></app-custom-input>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="showCoApp1DDDetails || showCoApp1BankDetails">
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline3}}</label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="coApp1AddLine3" [(ngModel)]="coApplicant1['beneficiaryAddress3']"  formControlName="beneficiaryAddress3" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 3'"></app-custom-input>
+            </div>
+          </div>
+          
+              <div class="form-group">
+                <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <input type="checkbox" id="toDeductCharges2" [(ngModel)]="coApplicant1['deductChargesFlag']" formControlName="deductChargesFlag" class="toDeductCharges2"
+                    [checked]="coApplicant1['deductChargesFlag']" (change)="selectCheckBox(coApplicant1['deductChargesFlag'],8)">
+                  <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <input type="checkbox" id="appInTranches" [(ngModel)]="coApplicant1['trancheDisbursementFlag']" formControlName="trancheDisbursementFlag" class="appInTranches"
+                    [checked]="coApplicant1['trancheDisbursementFlag']" (change)="selectTranche(coApplicant1['trancheDisbursementFlag'],8,false)">
+                  <span class="deduct_Charges disburse-checkbox">{{labels?.disburseInTranches}}</span>
+                </div>
+              </div>
+              <div class="row" *ngIf="showCoApp1TrancheTable">
+                <form [formGroup]="trancheCoApp1Form">
+                  <div class="disbursement-table-section">
+                      <table formArrayName="trancheCoApp1Array" class="table disbursement-table">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>{{labels?.disbursementType}}</th>
+                              <th>{{labels?.disbursementPercent}}</th>
+                              <th>{{labels?.disbursementAmount}}</th>
+                              <th>{{labels?.disbursementDate}}</th>
+                              <th>{{labels?.action}}</th>                   
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let trance of trancheCoApp1Form['controls'].trancheCoApp1Array['controls']; let i=index" [formGroupName]="i">
+                              <td width="8%">
+                                <div>
+                                  Tranche {{i+1}}
+                                </div>
+                              </td>
+                              <td width="15%">
+                                <div class="viewable-field">
+                                    <app-custom-input [hidden]="true" [(ngModel)]="trancheCoApp1List[i].disbursement_id"  formControlName="disbursement_id" [className]="'form-control'" [type]="'number'">
+                                     </app-custom-input>
+                                     <app-custom-input [hidden]="true" [(ngModel)]="trancheCoApp1List[i].tranche_disbursement_id"  formControlName="tranche_disbursement_id" [className]="'form-control'" [type]="'number'">
+                                      </app-custom-input>
+                                  <mat-form-field [ngClass]="onlyViewable? 'readOnlyClass' : ''">
+                                    <mat-select [(ngModel)]="trancheCoApp1List[i].tranche_disbursement_type" formControlName="tranche_disbursement_type">
+                                      <mat-option value=""> Select </mat-option>
+                                      <mat-option *ngFor="let x of trancheDisbLov" [value]="x.key">{{ x.value}}</mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                </div>
+                              </td>
+                              <td width="15%">
+                                         <app-custom-input [(ngModel)]="trancheCoApp1List[i].disbursement_percentage"  formControlName="disbursement_percentage" [className]="'form-control'" 
+                             [isDirty]="isDirty" [type]="'number'" (keyup)="validatePercentage(trancheCoApp1List,'8')">
+                              </app-custom-input>                        
+                              </td>
+                              <td width="15%">
+                                <input type="text"  class="form-control text-field" [(ngModel)]="trancheCoApp1List[i].tranche_disbursement_amount"
+                                  name="trancheCoApp1List[i].tranche_disbursement_amount" formControlName="tranche_disbursement_amount" 
+                                  [readOnly]="true" />
+                              </td>
+                              <td width="18%">
+                                <div *ngIf="i==0">
+                                  <input type="text"  class="form-control text-field" [(ngModel)]="trancheCoApp1List[i].trancheDisburseDate"
+                                   name="trancheCoApp1List[i].trancheDisburseDate" formControlName="trancheDisburseDate" [readOnly]='true'/>
+                            </div>
+                              </td>
+                              <td class="text-center" width="10%">
+                                <div>
+                                  <button class="delete-btn mr-8" (click)="deleteRow(i,8)" title="delete">
+                                    <img src="assets/images/delete-icon.png" />
+                                  </button>
+                                  <button class="plus-btn" (click)="addRow('8')" [disabled]="trancheCoApp1Form.invalid" title="add">
+                                    <img src="assets/images/plus-icon.png" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                  </div>
+                </form>
+           </div>
+          
+            </div>
+          </form>
+          <!-- container coApp1 ends -->
+       
 
+          <!-- container coApp2 starts -->
+          <form [formGroup]="coApp2Form" *ngIf="coApp2">
+            <div>
+              <h4 class="title coAppTitle">CoApplicant-2</h4>
+              <div class="form-group">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.appName}}
+                <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-custom-input id="coApp2BeneficiaryName" [(ngModel)]="coApplicant2['beneficiaryName']" [isRequired]="'Applicant Name is required'" formControlName="beneficiaryName" [className]="'form-control mandatory'" [placeholder]="'Applicant Name'"
+                  [type]="'text'" [isDirty]="isDirty">
+                  </app-custom-input>
+                </div>
+              </div>
+            <div class="form-group">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.disbursementAmount}}
+                  <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-custom-input id="coApp2DisbursementAmount" [(ngModel)]="coApplicant2['disbursementAmount']" [isRequired]="'Disbursement Amount is required'" formControlName="disbursementAmount" [className]="'form-control mandatory'"
+                    [placeholder]="'Disbursement Amount'" [maxLength]="amountLength" [patternCheck]="regexPattern.amount" [isDirty]="isDirty"
+                    [type]="'number'" (keyup)="getCumulativeDisbAmnt($event,9)">
+                  </app-custom-input>
+                </div>
+              </div>
+            <div class="form-group">
+                <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.modeOfPayment}}
+                <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-vf-custom-select [values]="paymentLov" [(ngModel)]="coApplicant2['paymentMethod']" [isRequired]="'Mode of Payment is required'" formControlName="paymentMethod" (change)="setCoAppMOP($event,'coApp2')" [isDirty]="isDirty">
+                  </app-vf-custom-select>
+                </div>
+              </div>
+            <div *ngIf="showCoApp2BankDetails">
+              <div class="form-group">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfAccount}}
+                <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-custom-input id="coApp2BenAccNo" [(ngModel)]="coApplicant2['beneficiaryAccountNo']" [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo" [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+                    [maxLength]="amountLength" [isDirty]="isDirty" [type]="'number'">
+                  </app-custom-input>
+                </div>
+              </div>
+          
+              <div class="form-group">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
+                <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-vf-custom-select [values]="bankerLov" [(ngModel)]="coApplicant2['beneficiaryBank']" formControlName="beneficiaryBank" [isRequired]="'Beneficiary Bank is required'" [isDirty]="isDirty">
+                  </app-vf-custom-select>
+                </div>
+              </div>
+          
+              <div class="form-group">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.ifscCode}}
+                <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-custom-input id="coApp2IFSC" [(ngModel)]="coApplicant2['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
+                    [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
+                  </app-custom-input>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBranch}}
+                <sub class="star_red_col">*</sub></label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-custom-input id="coApp2BenBranch" [(ngModel)]="coApplicant2['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="ifscLength"
+                    [isDirty]="isDirty" [type]="'alpha'">
+                  </app-custom-input>
+                </div>
+              </div>
+            </div>
+              <div *ngIf="showCoApp2DDDetails">
+                <div class="form-group">
+                  <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instType}}
+                  <sub class="star_red_col">*</sub>
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <app-vf-custom-select [values]="instrumentTypeLov" [(ngModel)]="coApplicant2['instrumentType']" [isRequired]="'Instrument Type is required'" formControlName="instrumentType" [isDirty]="isDirty">
+                    </app-vf-custom-select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instNumber}}
+                  <sub class="star_red_col">*</sub>
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <app-custom-input [(ngModel)]="coApplicant2['instrumentNumber']" id="coApp2InstrumentNumber" [isRequired]="'Instrument Number is required'" formControlName="instrumentNumber" [className]="'form-control mandatory'" [placeholder]="'Instrument Number'"
+                      [isDirty]="isDirty" [type]="'number'">
+                    </app-custom-input>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="tdd" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instDate}}
+                    <sub class="star_red_col">*</sub>
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <kendo-datepicker class="form-control mandatory" formControlName="instrumentDate" [format]="'dd/MM/yyyy'" 
+                      placeholder="Instrument Date" [activeView]="'decade'"></kendo-datepicker>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
+                  <sub class="star_red_col">*</sub>
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <app-custom-input id="coApp2FavBankOfDraw" [(ngModel)]="coApplicant2['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
+                      [isDirty]="isDirty" [type]="'alpha'">
+                    </app-custom-input>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
+                  <sub class="star_red_col">*</sub>
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <app-custom-input id="coApp2FavBankBranch" [(ngModel)]="coApplicant2['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
+                      [isDirty]="isDirty" [type]="'alpha'">
+                    </app-custom-input>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group" *ngIf="showCoApp2CASADetails">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.disburseLoanNumber}}
+                <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-custom-input id="coApp2LoanNumber" [(ngModel)]="coApplicant2['loanNumber']" [isRequired]="'Loan Number is required'" formControlName="loanNumber" [className]="'form-control mandatory'" [placeholder]="'loan Number'"
+                     [isDirty]="isDirty" [type]="'number'">
+                  </app-custom-input>
+                </div>
+              </div>
+          
+              
+          <div class="form-group" *ngIf="showCoApp2DDDetails || showCoApp2BankDetails">
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline1}}</label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="coApp2AddLine1" [(ngModel)]="coApplicant2['beneficiaryAddress1']"  formControlName="beneficiaryAddress1" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 1'"></app-custom-input>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="showCoApp2DDDetails || showCoApp2BankDetails">
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline2}}</label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="coApp2AddLine2" [(ngModel)]="coApplicant2['beneficiaryAddress2']"  formControlName="beneficiaryAddress2" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 2'"></app-custom-input>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="showCoApp2DDDetails || showCoApp2BankDetails">
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline3}}</label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="coApp2AddLine3" [(ngModel)]="coApplicant2['beneficiaryAddress3']"  formControlName="beneficiaryAddress3" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 3'"></app-custom-input>
+            </div>
+          </div>
+          
+              <div class="form-group">
+                <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <input type="checkbox" id="toDeductCharges2" [(ngModel)]="coApplicant2['deductChargesFlag']" formControlName="deductChargesFlag" class="toDeductCharges2"
+                    [checked]="coApplicant2['deductChargesFlag']" (change)="selectCheckBox(coApplicant2['deductChargesFlag'],9)">
+                  <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <input type="checkbox" id="appInTranches" [(ngModel)]="coApplicant2['trancheDisbursementFlag']" formControlName="trancheDisbursementFlag" class="appInTranches"
+                    [checked]="coApplicant2['trancheDisbursementFlag']" (change)="selectTranche(coApplicant2['trancheDisbursementFlag'],9,false)">
+                  <span class="deduct_Charges disburse-checkbox">{{labels?.disburseInTranches}}</span>
+                </div>
+              </div>
+              <div class="row" *ngIf="showCoApp2TrancheTable">
+                <form [formGroup]="trancheCoApp2Form">
+                  <div class="disbursement-table-section">
+                      <table formArrayName="trancheCoApp2Array" class="table disbursement-table">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>{{labels?.disbursementType}}</th>
+                              <th>{{labels?.disbursementPercent}}</th>
+                              <th>{{labels?.disbursementAmount}}</th>
+                              <th>{{labels?.disbursementDate}}</th>
+                              <th>{{labels?.action}}</th>                   
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let trance of trancheCoApp2Form['controls'].trancheCoApp2Array['controls']; let i=index" [formGroupName]="i">
+                              <td width="8%">
+                                <div>
+                                  Tranche {{i+1}}
+                                </div>
+                              </td>
+                              <td width="15%">
+                                <div class="viewable-field">
+                                    <app-custom-input [hidden]="true" [(ngModel)]="trancheCoApp2List[i].disbursement_id"  formControlName="disbursement_id" [className]="'form-control'" [type]="'number'">
+                                     </app-custom-input>
+                                     <app-custom-input [hidden]="true" [(ngModel)]="trancheCoApp2List[i].tranche_disbursement_id"  formControlName="tranche_disbursement_id" [className]="'form-control'" [type]="'number'">
+                                      </app-custom-input>
+                                  <mat-form-field [ngClass]="onlyViewable? 'readOnlyClass' : ''">
+                                    <mat-select [(ngModel)]="trancheCoApp2List[i].tranche_disbursement_type" formControlName="tranche_disbursement_type">
+                                      <mat-option value=""> Select </mat-option>
+                                      <mat-option *ngFor="let x of trancheDisbLov" [value]="x.key">{{ x.value}}</mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                </div>
+                              </td>
+                              <td width="15%">
+                                         <app-custom-input [(ngModel)]="trancheCoApp2List[i].disbursement_percentage"  formControlName="disbursement_percentage" [className]="'form-control'" 
+                             [isDirty]="isDirty" [type]="'number'" (keyup)="validatePercentage(trancheCoApp2List,'9')">
+                              </app-custom-input>                        
+                              </td>
+                              <td width="15%">
+                                <input type="text"  class="form-control text-field" [(ngModel)]="trancheCoApp2List[i].tranche_disbursement_amount"
+                                  name="trancheCoApp2List[i].tranche_disbursement_amount" formControlName="tranche_disbursement_amount" 
+                                  [readOnly]="true" />
+                              </td>
+                              <td width="18%">
+                                <div *ngIf="i==0">
+                                  <input type="text"  class="form-control text-field" [(ngModel)]="trancheCoApp2List[i].trancheDisburseDate"
+                                   name="trancheCoApp2List[i].trancheDisburseDate" formControlName="trancheDisburseDate" [readOnly]='true'/>
+                            </div>
+                              </td>
+                              <td class="text-center" width="10%">
+                                <div>
+                                  <button class="delete-btn mr-8" (click)="deleteRow(i,9)" title="delete">
+                                    <img src="assets/images/delete-icon.png" />
+                                  </button>
+                                  <button class="plus-btn" (click)="addRow('9')" [disabled]="trancheCoApp2Form.invalid" title="add">
+                                    <img src="assets/images/plus-icon.png" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                  </div>
+                </form>
+           </div>
+          
+            </div>
+          </form>
+          <!-- container coApp2 ends -->
+
+          <!-- container coApp3 starts -->
+          <form [formGroup]="coApp3Form" *ngIf="coApp3">
+            <div>
+              <h4 class="title coAppTitle">CoApplicant-3</h4>
+              <div class="form-group">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.appName}}
+                <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-custom-input id="coApp3BeneficiaryName" [(ngModel)]="coApplicant3['beneficiaryName']" [isRequired]="'Applicant Name is required'" formControlName="beneficiaryName" [className]="'form-control mandatory'" [placeholder]="'Applicant Name'"
+                  [type]="'text'" [isDirty]="isDirty">
+                  </app-custom-input>
+                </div>
+              </div>
+            <div class="form-group">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.disbursementAmount}}
+                  <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-custom-input id="coApp3DisbursementAmount" [(ngModel)]="coApplicant3['disbursementAmount']" [isRequired]="'Disbursement Amount is required'" formControlName="disbursementAmount" [className]="'form-control mandatory'"
+                    [placeholder]="'Disbursement Amount'" [maxLength]="amountLength" [patternCheck]="regexPattern.amount" [isDirty]="isDirty"
+                    [type]="'number'" (keyup)="getCumulativeDisbAmnt($event,10)">
+                  </app-custom-input>
+                </div>
+              </div>
+            <div class="form-group">
+                <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.modeOfPayment}}
+                <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-vf-custom-select [values]="paymentLov" [(ngModel)]="coApplicant3['paymentMethod']" [isRequired]="'Mode of Payment is required'" formControlName="paymentMethod" (change)="setCoAppMOP($event,'coApp3')" [isDirty]="isDirty">
+                  </app-vf-custom-select>
+                </div>
+              </div>
+            <div *ngIf="showCoApp3BankDetails">
+              <div class="form-group">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfAccount}}
+                <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-custom-input id="coApp3BenAccNo" [(ngModel)]="coApplicant3['beneficiaryAccountNo']" [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo" [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+                    [maxLength]="amountLength" [isDirty]="isDirty" [type]="'number'">
+                  </app-custom-input>
+                </div>
+              </div>
+          
+              <div class="form-group">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
+                <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-vf-custom-select [values]="bankerLov" [(ngModel)]="coApplicant3['beneficiaryBank']" formControlName="beneficiaryBank" [isRequired]="'Beneficiary Bank is required'" [isDirty]="isDirty">
+                  </app-vf-custom-select>
+                </div>
+              </div>
+          
+              <div class="form-group">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.ifscCode}}
+                <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-custom-input id="coApp3IFSC" [(ngModel)]="coApplicant3['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
+                    [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
+                  </app-custom-input>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBranch}}
+                <sub class="star_red_col">*</sub></label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-custom-input id="coApp3BenBranch" [(ngModel)]="coApplicant3['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="ifscLength"
+                    [isDirty]="isDirty" [type]="'alpha'">
+                  </app-custom-input>
+                </div>
+              </div>
+            </div>
+              <div *ngIf="showCoApp3DDDetails">
+                <div class="form-group">
+                  <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instType}}
+                  <sub class="star_red_col">*</sub>
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <app-vf-custom-select [values]="instrumentTypeLov" [(ngModel)]="coApplicant3['instrumentType']" [isRequired]="'Instrument Type is required'" formControlName="instrumentType" [isDirty]="isDirty">
+                    </app-vf-custom-select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instNumber}}
+                  <sub class="star_red_col">*</sub>
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <app-custom-input [(ngModel)]="coApplicant3['instrumentNumber']" id="coApp3InstrumentNumber" [isRequired]="'Instrument Number is required'" formControlName="instrumentNumber" [className]="'form-control mandatory'" [placeholder]="'Instrument Number'"
+                      [isDirty]="isDirty" [type]="'number'">
+                    </app-custom-input>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="tdd" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instDate}}
+                    <sub class="star_red_col">*</sub>
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <kendo-datepicker class="form-control mandatory" formControlName="instrumentDate" [format]="'dd/MM/yyyy'" 
+                      placeholder="Instrument Date" [activeView]="'decade'"></kendo-datepicker>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
+                  <sub class="star_red_col">*</sub>
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <app-custom-input id="coApp3FavBankOfDraw" [(ngModel)]="coApplicant3['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
+                      [isDirty]="isDirty" [type]="'alpha'">
+                    </app-custom-input>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
+                  <sub class="star_red_col">*</sub>
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <app-custom-input id="coApp3FavBankBranch" [(ngModel)]="coApplicant3['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
+                      [isDirty]="isDirty" [type]="'alpha'">
+                    </app-custom-input>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group" *ngIf="showCoApp3CASADetails">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.disburseLoanNumber}}
+                <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <app-custom-input id="coApp3LoanNumber" [(ngModel)]="coApplicant3['loanNumber']" [isRequired]="'Loan Number is required'" formControlName="loanNumber" [className]="'form-control mandatory'" [placeholder]="'loan Number'"
+                     [isDirty]="isDirty" [type]="'number'">
+                  </app-custom-input>
+                </div>
+              </div>
+          
+              
+          <div class="form-group" *ngIf="showCoApp3DDDetails || showCoApp3BankDetails">
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline1}}</label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="coApp3AddLine1" [(ngModel)]="coApplicant3['beneficiaryAddress1']"  formControlName="beneficiaryAddress1" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 1'"></app-custom-input>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="showCoApp3DDDetails || showCoApp3BankDetails">
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline2}}</label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="coApp3AddLine2" [(ngModel)]="coApplicant3['beneficiaryAddress2']"  formControlName="beneficiaryAddress2" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 2'"></app-custom-input>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="showCoApp3DDDetails || showCoApp3BankDetails">
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline3}}</label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="coApp3AddLine3" [(ngModel)]="coApplicant3['beneficiaryAddress3']"  formControlName="beneficiaryAddress3" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 3'"></app-custom-input>
+            </div>
+          </div>
+          
+              <div class="form-group">
+                <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <input type="checkbox" id="toDeductCharges2" [(ngModel)]="coApplicant3['deductChargesFlag']" formControlName="deductChargesFlag" class="toDeductCharges2"
+                    [checked]="coApplicant3['deductChargesFlag']" (change)="selectCheckBox(coApplicant3['deductChargesFlag'],10)">
+                  <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <input type="checkbox" id="appInTranches" [(ngModel)]="coApplicant3['trancheDisbursementFlag']" formControlName="trancheDisbursementFlag" class="appInTranches"
+                    [checked]="coApplicant3['trancheDisbursementFlag']" (change)="selectTranche(coApplicant3['trancheDisbursementFlag'],10,false)">
+                  <span class="deduct_Charges disburse-checkbox">{{labels?.disburseInTranches}}</span>
+                </div>
+              </div>
+              <div class="row" *ngIf="showCoApp3TrancheTable">
+                <form [formGroup]="trancheCoApp3Form">
+                  <div class="disbursement-table-section">
+                      <table formArrayName="trancheCoApp3Array" class="table disbursement-table">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>{{labels?.disbursementType}}</th>
+                              <th>{{labels?.disbursementPercent}}</th>
+                              <th>{{labels?.disbursementAmount}}</th>
+                              <th>{{labels?.disbursementDate}}</th>
+                              <th>{{labels?.action}}</th>                   
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let trance of trancheCoApp3Form['controls'].trancheCoApp3Array['controls']; let i=index" [formGroupName]="i">
+                              <td width="8%">
+                                <div>
+                                  Tranche {{i+1}}
+                                </div>
+                              </td>
+                              <td width="15%">
+                                <div class="viewable-field">
+                                    <app-custom-input [hidden]="true" [(ngModel)]="trancheCoApp3List[i].disbursement_id"  formControlName="disbursement_id" [className]="'form-control'" [type]="'number'">
+                                     </app-custom-input>
+                                     <app-custom-input [hidden]="true" [(ngModel)]="trancheCoApp3List[i].tranche_disbursement_id"  formControlName="tranche_disbursement_id" [className]="'form-control'" [type]="'number'">
+                                      </app-custom-input>
+                                  <mat-form-field [ngClass]="onlyViewable? 'readOnlyClass' : ''">
+                                    <mat-select [(ngModel)]="trancheCoApp3List[i].tranche_disbursement_type" formControlName="tranche_disbursement_type">
+                                      <mat-option value=""> Select </mat-option>
+                                      <mat-option *ngFor="let x of trancheDisbLov" [value]="x.key">{{ x.value}}</mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                </div>
+                              </td>
+                              <td width="15%">
+                                         <app-custom-input [(ngModel)]="trancheCoApp3List[i].disbursement_percentage"  formControlName="disbursement_percentage" [className]="'form-control'" 
+                             [isDirty]="isDirty" [type]="'number'" (keyup)="validatePercentage(trancheCoApp3List,'10')">
+                              </app-custom-input>                        
+                              </td>
+                              <td width="15%">
+                                <input type="text"  class="form-control text-field" [(ngModel)]="trancheCoApp3List[i].tranche_disbursement_amount"
+                                  name="trancheCoApp3List[i].tranche_disbursement_amount" formControlName="tranche_disbursement_amount" 
+                                  [readOnly]="true" />
+                              </td>
+                              <td width="18%">
+                                <div *ngIf="i==0">
+                                  <input type="text"  class="form-control text-field" [(ngModel)]="trancheCoApp3List[i].trancheDisburseDate"
+                                   name="trancheCoApp3List[i].trancheDisburseDate" formControlName="trancheDisburseDate" [readOnly]='true'/>
+                            </div>
+                              </td>
+                              <td class="text-center" width="10%">
+                                <div>
+                                  <button class="delete-btn mr-8" (click)="deleteRow(i,10)" title="delete">
+                                    <img src="assets/images/delete-icon.png" />
+                                  </button>
+                                  <button class="plus-btn" (click)="addRow('10')" [disabled]="trancheCoApp3Form.invalid" title="add">
+                                    <img src="assets/images/plus-icon.png" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                  </div>
+                </form>
+           </div>
+          
+            </div>
+          </form>
+          <!-- container coApp3 ends -->
         </div>
       </form>
       <!--container 4-->
@@ -880,8 +1420,8 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="bankerObjInfo['beneficiaryAccountNo']" [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo" [className]="'form-control mandatory'" [placeholder]="'Account Number'"
-                [maxLength]="amountLength" [patternCheck]="regexPattern.amount" [isDirty]="isDirty" [type]="'number'">
+              <app-custom-input id="bankerBenAccNo" [(ngModel)]="bankerObjInfo['beneficiaryAccountNo']" [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo" [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+                [maxLength]="amountLength" [isDirty]="isDirty" [type]="'number'">
               </app-custom-input>
             </div>
           </div>
@@ -901,7 +1441,7 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="bankerObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
+              <app-custom-input id="bankerIFSC" [(ngModel)]="bankerObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                 [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
               </app-custom-input>
             </div>
@@ -911,7 +1451,7 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="bankerObjInfo['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="ifscLength"
+              <app-custom-input id="bankerBenBranch" [(ngModel)]="bankerObjInfo['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="ifscLength"
                 [isDirty]="isDirty" [type]="'alpha'">
               </app-custom-input>
             </div>
@@ -932,7 +1472,7 @@
               <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input [(ngModel)]="bankerObjInfo['instrumentNumber']" [isRequired]="'Instrument Number is required'" formControlName="instrumentNumber" [className]="'form-control mandatory'" [placeholder]="'Instrument Number'"
+                <app-custom-input [(ngModel)]="bankerObjInfo['instrumentNumber']" id="bankerInstrumentNumber" [isRequired]="'Instrument Number is required'" formControlName="instrumentNumber" [className]="'form-control mandatory'" [placeholder]="'Instrument Number'"
                   [isDirty]="isDirty" [type]="'number'">
                 </app-custom-input>
               </div>
@@ -942,7 +1482,7 @@
                 <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <kendo-datepicker class="form-control mandatory" formControlName="instrumentDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
+                <kendo-datepicker class="form-control mandatory" formControlName="instrumentDate" [format]="'dd/MM/yyyy'" 
                   placeholder="Instrument Date" [activeView]="'decade'"></kendo-datepicker>
               </div>
             </div>
@@ -951,7 +1491,7 @@
               <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input [(ngModel)]="bankerObjInfo['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
+                <app-custom-input id="bankerFavBankOfDraw" [(ngModel)]="bankerObjInfo['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
                   [isDirty]="isDirty" [type]="'alpha'">
                 </app-custom-input>
               </div>
@@ -961,7 +1501,7 @@
               <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input [(ngModel)]="bankerObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
+                <app-custom-input id="bankerFavBankBranch" [(ngModel)]="bankerObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
                   [isDirty]="isDirty" [type]="'alpha'">
                 </app-custom-input>
               </div>
@@ -972,15 +1512,28 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="bankerObjInfo['loanNumber']" [isRequired]="'Loan Number is required'" formControlName="loanNumber" [className]="'form-control mandatory'" [placeholder]="'loan Number'"
-                [patternCheck]="regexPattern.amount" [isDirty]="isDirty" [type]="'number'">
+              <app-custom-input id="bankerLoanNumber" [(ngModel)]="bankerObjInfo['loanNumber']" [isRequired]="'Loan Number is required'" formControlName="loanNumber" [className]="'form-control mandatory'" [placeholder]="'loan Number'"
+                 [isDirty]="isDirty" [type]="'number'">
               </app-custom-input>
             </div>
           </div>
+         
           <div class="form-group" *ngIf="showBankerDDDetails || showBankerBankDetails">
-            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">Address</label>
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline1}}</label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <textarea class="form-control" formControlName="bankerAddress" placeholder="Address......"></textarea>
+              <app-custom-input id="bankerAddLine1" [(ngModel)]="bankerObjInfo['beneficiaryAddress1']"  formControlName="beneficiaryAddress1" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 1'"></app-custom-input>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="showBankerDDDetails || showBankerBankDetails">
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline2}}</label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="bankerAddLine2" [(ngModel)]="bankerObjInfo['beneficiaryAddress2']"  formControlName="beneficiaryAddress2" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 2'"></app-custom-input>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="showBankerDDDetails || showBankerBankDetails">
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline3}}</label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="bankerAddLine3" [(ngModel)]="bankerObjInfo['beneficiaryAddress3']"  formControlName="beneficiaryAddress3" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 3'"></app-custom-input>
             </div>
           </div>
 
@@ -1036,9 +1589,9 @@
                             </div>
                           </td>
                           <td width="15%">
-                            <!-- <input type="text"  class="form-control text-field" [(ngModel)]="trancheBankerList[i].trancheDisbursePercentage"
-                               name="trancheBankerList[i].trancheDisbursePercentage" formControlName="trancheDisbursePercentage" />  -->
-                               <app-custom-input [(ngModel)]="trancheBankerList[i].trancheDisbursePercentage"  formControlName="trancheDisbursePercentage" [className]="'form-control'" 
+                            <!-- <input type="text"  class="form-control text-field" [(ngModel)]="trancheBankerList[i].disbursement_percentage"
+                               name="trancheBankerList[i].disbursement_percentage" formControlName="disbursement_percentage" />  -->
+                               <app-custom-input [(ngModel)]="trancheBankerList[i].disbursement_percentage"  formControlName="disbursement_percentage" [className]="'form-control'" 
                                [isDirty]="isDirty" [type]="'number'" (keyup)="validatePercentage(trancheBankerList,'4')">
                                 </app-custom-input>                       
                           </td>
@@ -1051,7 +1604,7 @@
                             <div *ngIf="i==0">
                               <input type="text"  class="form-control text-field" [(ngModel)]="trancheBankerList[i].trancheDisburseDate"
                                 name="trancheBankerList[i].trancheDisburseDate" formControlName="trancheDisburseDate" [readOnly]='true'/>
-                         <!-- <kendo-datepicker class="form-control mandatory" formControlName="trancheDisburseDate" [(ngModel)]="trancheBankerList[i].trancheDisburseDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
+                         <!-- <kendo-datepicker class="form-control mandatory" formControlName="trancheDisburseDate" [(ngModel)]="trancheBankerList[i].trancheDisburseDate" [format]="'dd/MM/yyyy'" 
                            placeholder="tranche Date" [activeView]="'decade'"></kendo-datepicker> -->
                            </div>
                           </td>
@@ -1092,7 +1645,7 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input [(ngModel)]="financierObjInfo['beneficiaryName']" [isRequired]="'Applicant Name is required'" formControlName="beneficiaryName"
+                <app-custom-input id="finBeneficiaryName" [(ngModel)]="financierObjInfo['beneficiaryName']" [isRequired]="'Applicant Name is required'" formControlName="beneficiaryName"
                 [placeholder]="'Applicant Name'" [isDirty]="isDirty" [type]="'text'">
               </app-custom-input>
             </div>
@@ -1124,8 +1677,8 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="financierObjInfo['beneficiaryAccountNo']" [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo" [className]="'form-control mandatory'" [placeholder]="'Account Number'"
-                [maxLength]="amountLength" [patternCheck]="regexPattern.amount" [isDirty]="isDirty" [type]="'number'">
+              <app-custom-input id="finBenAccNo" [(ngModel)]="financierObjInfo['beneficiaryAccountNo']" [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo" [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+                [maxLength]="amountLength" [isDirty]="isDirty" [type]="'number'">
               </app-custom-input>
             </div>
           </div>
@@ -1145,7 +1698,7 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="financierObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
+              <app-custom-input id="finIFSC" [(ngModel)]="financierObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                 [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
               </app-custom-input>
             </div>
@@ -1155,7 +1708,7 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="financierObjInfo['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="ifscLength"
+              <app-custom-input id="finBenBranch" [(ngModel)]="financierObjInfo['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="ifscLength"
                 [isDirty]="isDirty" [type]="'alpha'">
               </app-custom-input>
             </div>
@@ -1176,7 +1729,7 @@
               <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input [(ngModel)]="financierObjInfo['instrumentNumber']" [isRequired]="'Instrument Number is required'" formControlName="instrumentNumber" [className]="'form-control mandatory'" [placeholder]="'Instrument Number'"
+                <app-custom-input [(ngModel)]="financierObjInfo['instrumentNumber']" id="finInstrumentNumber" [isRequired]="'Instrument Number is required'" formControlName="instrumentNumber" [className]="'form-control mandatory'" [placeholder]="'Instrument Number'"
                   [isDirty]="isDirty" [type]="'number'">
                 </app-custom-input>
               </div>
@@ -1186,7 +1739,7 @@
                 <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <kendo-datepicker class="form-control mandatory" formControlName="instrumentDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
+                <kendo-datepicker class="form-control mandatory" formControlName="instrumentDate" [format]="'dd/MM/yyyy'" 
                   placeholder="Instrument Date" [activeView]="'decade'"></kendo-datepicker>
               </div>
             </div>
@@ -1195,7 +1748,7 @@
               <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input [(ngModel)]="financierObjInfo['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
+                <app-custom-input id="finFavBankOfDraw" [(ngModel)]="financierObjInfo['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
                   [isDirty]="isDirty" [type]="'alpha'">
                 </app-custom-input>
               </div>
@@ -1205,7 +1758,7 @@
               <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input [(ngModel)]="financierObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
+                <app-custom-input id="finFavBankBranch" [(ngModel)]="financierObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
                   [isDirty]="isDirty" [type]="'alpha'">
                 </app-custom-input>
               </div>
@@ -1216,15 +1769,28 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="financierObjInfo['loanNumber']" [isRequired]="'Loan Number is required'" formControlName="loanNumber" [className]="'form-control mandatory'" [placeholder]="'loan Number'"
-                [patternCheck]="regexPattern.amount" [isDirty]="isDirty" [type]="'number'">
+              <app-custom-input id="finLoanNumber" [(ngModel)]="financierObjInfo['loanNumber']" [isRequired]="'Loan Number is required'" formControlName="loanNumber" [className]="'form-control mandatory'" [placeholder]="'loan Number'"
+                 [isDirty]="isDirty" [type]="'number'">
               </app-custom-input>
             </div>
           </div>
+          
           <div class="form-group" *ngIf="showFinDDDetails || showFinBankDetails">
-            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">Address</label>
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline1}}</label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <textarea class="form-control" formControlName="financierAddress" placeholder="Address......"></textarea>
+              <app-custom-input id="finAddLine1" [(ngModel)]="financierObjInfo['beneficiaryAddress1']"  formControlName="beneficiaryAddress1" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 1'"></app-custom-input>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="showFinDDDetails || showFinBankDetails">
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline2}}</label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="finAddLine2" [(ngModel)]="financierObjInfo['beneficiaryAddress2']"  formControlName="beneficiaryAddress2" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 2'"></app-custom-input>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="showFinDDDetails || showFinBankDetails">
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline3}}</label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="finAddLine3" [(ngModel)]="financierObjInfo['beneficiaryAddress3']"  formControlName="beneficiaryAddress3" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 3'"></app-custom-input>
             </div>
           </div>
 
@@ -1282,9 +1848,9 @@
                             </div>
                           </td>
                           <td width="15%">
-                            <!-- <input type="text"  class="form-control text-field" [(ngModel)]="trancheFinancierList[i].trancheDisbursePercentage"
-                               name="trancheFinancierList[i].trancheDisbursePercentage" formControlName="trancheDisbursePercentage" />      -->
-                               <app-custom-input [(ngModel)]="trancheFinancierList[i].trancheDisbursePercentage"  formControlName="trancheDisbursePercentage" [className]="'form-control'" 
+                            <!-- <input type="text"  class="form-control text-field" [(ngModel)]="trancheFinancierList[i].disbursement_percentage"
+                               name="trancheFinancierList[i].disbursement_percentage" formControlName="disbursement_percentage" />      -->
+                               <app-custom-input [(ngModel)]="trancheFinancierList[i].disbursement_percentage"  formControlName="disbursement_percentage" [className]="'form-control'" 
                                [isDirty]="isDirty" [type]="'number'" (keyup)="validatePercentage(trancheFinancierList,'5')">
                                 </app-custom-input>                     
                           </td>
@@ -1297,7 +1863,7 @@
                             <div *ngIf="i==0">
                               <input type="text"  class="form-control text-field" [(ngModel)]="trancheFinancierList[i].trancheDisburseDate"
                                 name="trancheFinancierList[i].trancheDisburseDate" formControlName="trancheDisburseDate" [readOnly]='true'/>
-                         <!-- <kendo-datepicker class="form-control mandatory" formControlName="trancheDisburseDate" [(ngModel)]="trancheFinancierList[i].trancheDisburseDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
+                         <!-- <kendo-datepicker class="form-control mandatory" formControlName="trancheDisburseDate" [(ngModel)]="trancheFinancierList[i].trancheDisburseDate" [format]="'dd/MM/yyyy'" 
                            placeholder="tranche Date" [activeView]="'decade'"></kendo-datepicker> -->
                            </div>
                           </td>
@@ -1344,7 +1910,7 @@
           <sub class="star_red_col">*</sub>
           </label>
           <div class="col-sm-6 col-md-4 col-lg-3">
-            <app-custom-input [(ngModel)]="thirdPartyObjInfo['beneficiaryName']" [isRequired]="'Third Party is required'" formControlName="beneficiaryName" [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'"
+            <app-custom-input id="tpBeneficiaryName" [(ngModel)]="thirdPartyObjInfo['beneficiaryName']" [isRequired]="'Third Party is required'" formControlName="beneficiaryName" [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'"
               [isDirty]="isDirty" [type]="'text'">
             </app-custom-input>
           </div>
@@ -1375,8 +1941,8 @@
             <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfAccount}}
             <sub class="star_red_col">*</sub></label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="thirdPartyObjInfo['beneficiaryAccountNo']" [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo" [className]="'form-control mandatory'" [placeholder]="'Account Number'"
-                [maxLength]="amountLength" [patternCheck]="regexPattern.amount" [isDirty]="isDirty" [type]="'number'">
+              <app-custom-input id="tpBenAccNo" [(ngModel)]="thirdPartyObjInfo['beneficiaryAccountNo']" [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo" [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+                [maxLength]="amountLength" [isDirty]="isDirty" [type]="'number'">
               </app-custom-input>
             </div>
           </div>
@@ -1396,7 +1962,7 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="thirdPartyObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
+              <app-custom-input id="tpIFSC" [(ngModel)]="thirdPartyObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                 [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
               </app-custom-input>
             </div>
@@ -1406,7 +1972,7 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="thirdPartyObjInfo['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="ifscLength"
+              <app-custom-input id="tpBenBranch" [(ngModel)]="thirdPartyObjInfo['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="ifscLength"
                 [isDirty]="isDirty" [type]="'alpha'">
               </app-custom-input>
             </div>
@@ -1427,7 +1993,7 @@
               <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input [(ngModel)]="thirdPartyObjInfo['instrumentNumber']" [isRequired]="'Instrument Number is required'" formControlName="instrumentNumber" [className]="'form-control mandatory'" [placeholder]="'Instrument Number'"
+                <app-custom-input [(ngModel)]="thirdPartyObjInfo['instrumentNumber']" id="tpInstrumentNumber" [isRequired]="'Instrument Number is required'" formControlName="instrumentNumber" [className]="'form-control mandatory'" [placeholder]="'Instrument Number'"
                   [isDirty]="isDirty" [type]="'number'">
                 </app-custom-input>
               </div>
@@ -1437,7 +2003,7 @@
                 <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <kendo-datepicker class="form-control mandatory" formControlName="instrumentDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
+                <kendo-datepicker class="form-control mandatory" formControlName="instrumentDate" [format]="'dd/MM/yyyy'" 
                   placeholder="Instrument Date" [activeView]="'decade'"></kendo-datepicker>
               </div>
             </div>
@@ -1446,7 +2012,7 @@
               <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input [(ngModel)]="thirdPartyObjInfo['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
+                <app-custom-input id="tpFavBankOfDraw" [(ngModel)]="thirdPartyObjInfo['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
                   [isDirty]="isDirty" [type]="'alpha'">
                 </app-custom-input>
               </div>
@@ -1456,7 +2022,7 @@
               <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input [(ngModel)]="thirdPartyObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
+                <app-custom-input id="tpFavBankBranch" [(ngModel)]="thirdPartyObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
                   [isDirty]="isDirty" [type]="'alpha'">
                 </app-custom-input>
               </div>
@@ -1467,15 +2033,28 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="thirdPartyObjInfo['loanNumber']" [isRequired]="'Loan Number is required'" formControlName="loanNumber" [className]="'form-control mandatory'" [placeholder]="'loan Number'"
-                [patternCheck]="regexPattern.amount" [isDirty]="isDirty" [type]="'number'">
+              <app-custom-input id="tpLoanNumber" [(ngModel)]="thirdPartyObjInfo['loanNumber']" [isRequired]="'Loan Number is required'" formControlName="loanNumber" [className]="'form-control mandatory'" [placeholder]="'loan Number'"
+                 [isDirty]="isDirty" [type]="'number'">
               </app-custom-input>
             </div>
           </div>
+          
           <div class="form-group" *ngIf="showTPDDDetails || showTPBankDetails">
-            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">Address</label>
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline1}}</label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <textarea class="form-control" formControlName="thirdPartyAddress" placeholder="Address......"></textarea>
+              <app-custom-input id="tpAddLine1" [(ngModel)]="thirdPartyObjInfo['beneficiaryAddress1']"  formControlName="beneficiaryAddress1" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 1'"></app-custom-input>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="showTPDDDetails || showTPBankDetails">
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline2}}</label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="tpAddLine2" [(ngModel)]="thirdPartyObjInfo['beneficiaryAddress2']"  formControlName="beneficiaryAddress2" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 2'"></app-custom-input>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="showTPDDDetails || showTPBankDetails">
+            <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline3}}</label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="tpAddLine3" [(ngModel)]="thirdPartyObjInfo['beneficiaryAddress3']"  formControlName="beneficiaryAddress3" name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 3'"></app-custom-input>
             </div>
           </div>
 
@@ -1533,9 +2112,9 @@
                             </div>
                           </td>
                           <td width="15%">
-                            <!-- <input type="text"  class="form-control text-field" [(ngModel)]="trancheTpList[i].trancheDisbursePercentage"
-                               name="trancheTpList[i].trancheDisbursePercentage" formControlName="trancheDisbursePercentage" />          -->
-                               <app-custom-input [(ngModel)]="trancheTpList[i].trancheDisbursePercentage"  formControlName="trancheDisbursePercentage" [className]="'form-control'" 
+                            <!-- <input type="text"  class="form-control text-field" [(ngModel)]="trancheTpList[i].disbursement_percentage"
+                               name="trancheTpList[i].disbursement_percentage" formControlName="disbursement_percentage" />          -->
+                               <app-custom-input [(ngModel)]="trancheTpList[i].disbursement_percentage"  formControlName="disbursement_percentage" [className]="'form-control'" 
                                [isDirty]="isDirty" [type]="'number'" (keyup)="validatePercentage(trancheTpList,'6')">
                                 </app-custom-input>                
                           </td>
@@ -1548,7 +2127,7 @@
                             <div *ngIf="i==0">
                               <input type="text"  class="form-control text-field" [(ngModel)]="trancheTpList[i].trancheDisburseDate"
                                 name="trancheTpList[i].trancheDisburseDate" formControlName="trancheDisburseDate" [readOnly]='true'/>
-                         <!-- <kendo-datepicker class="form-control mandatory" formControlName="trancheDisburseDate" [(ngModel)]="trancheTpList[i].trancheDisburseDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
+                         <!-- <kendo-datepicker class="form-control mandatory" formControlName="trancheDisburseDate" [(ngModel)]="trancheTpList[i].trancheDisburseDate" [format]="'dd/MM/yyyy'" 
                            placeholder="tranche Date" [activeView]="'decade'"></kendo-datepicker> -->
                            </div>
                           </td>
@@ -1619,7 +2198,8 @@
     <div class="col-sm-5">
     </div>
     <div class="col-sm-7 text-right">
-      <button (click)="onBack()" class="btn btn-primary mar-right8" type="button" *ngIf="showSaveButton == true">Back </button>&nbsp;
+     <button (click)="onBack()" class="btn btn-primary mar-right8" type="button" 
+       *ngIf="showSaveButton == true">Back </button>&nbsp;
       <button (click)="saveAndUpdate()" class="btn btn-primary mar-right8" type="button" >Save </button>&nbsp;
       <button (click)="onNext()" class="btn btn-primary js-btn-next" type="button"> Next </button>
     </div>
