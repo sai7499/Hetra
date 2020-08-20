@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { NumberFormatStyle } from '@angular/common';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
+import { environment } from 'src/environments/environment';
 
 // for sales
 export enum DisplayTabs {
@@ -160,7 +161,18 @@ export class DashboardComponent implements OnInit {
     private toasterService: ToasterService,
     private sharedService: SharedService,
     private applicantStoreService: ApplicantDataStoreService
-  ) { }
+  ) {
+    // if (environment.isMobile === true) {
+    //   this.itemsPerPage = '5';
+    // } else {
+    //   this.itemsPerPage = '25';
+    // }
+    if (window.screen.width > 768) {
+      this.itemsPerPage = '25';
+    } else if (window.screen.width <= 768) {
+      this.itemsPerPage = '5';
+    }
+  }
 
   onTabsLoading(data) {
     if (this.activeTab === this.displayTabs.PDD) {

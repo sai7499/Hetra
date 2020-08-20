@@ -109,8 +109,7 @@ h3.dedupe_head {
     text-align: center;
 }
 
-
-.text-right{
+.text-right {
     text-align: right;
 }
 
@@ -362,6 +361,9 @@ th {
         color: white;
         height: 40px;
         padding: 10px;
+    }
+    .disable {
+        display: none;
     }
 }
 
