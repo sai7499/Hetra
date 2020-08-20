@@ -7,202 +7,98 @@
                     <div class="panel-heading panel-primary" id="headingTwo1">
                         <h4 class="panel-title">
                             <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo1">
-                           {{labels?.pddDetails}}<i class="fa fa-angle-down"></i>
-                        </a>
+                                {{labels?.pddDetails}}<i class="fa fa-angle-down"></i>
+                            </a>
                         </h4>
                     </div>
                     <div id="collapseTwo1" class="panel-collapse collapse in" aria-expanded="true">
-                        <div class="panel-body" id="show_1_div_identity">
-                            <div class="row">
+                        <div class="panel-body" id="show_1_div_identity" formArrayName="pddDocumentDetails">
+                            <div class="row text-center">
                                 <div class="form-group col-sm-3 col-md-2">
                                     <label for="document" class="label_height">{{labels?.documentName}}</label>
-                                    <input type="text" class="form-control" id="amount" value="RC" readonly="">
-                                    <!-- <app-custom-input
-                                formControlName="documentName"
-                                [type]="labels?.validationData?.fullName?.type"
-                                [className]="'form-control mandatory'"
-                                [maxLength]="labels?.validationData?.fullName?.maxLength"
-                                [isDirty]="isDirty"
-                                [isDisabled]="true"
-                              ></app-custom-input> -->
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
                                     <label for="idate" class="label_height">{{labels?.expectedDate}}</label>
-                                    <div class="input-group input-medium">
-                                        <span class="input-group-btn">
-                                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
-                                    </span>
-                                        <input type="" class="form-control date_width" id="date" value="12-07-2020" readonly="">
-                                        <!-- <app-custom-input
-                                    formControlName="expectedDate"
-                                    [className]="'form-control mandatory'"
-                                    [maxLength]="labels?.validationData?.fullName?.maxLength"
-                                    [isDirty]="isDirty"
-                                    [isDisabled]="true"
-                                  ></app-custom-input> -->
-                                    </div>
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
                                     <label for="documentnumber" class="label_height">{{labels?.documentNumber}}</label>
-                                    <input type="text" class="form-control" id="amount" value="">
-                                    <!-- <app-custom-input
-                                formControlName="documentNumber"
-                                [type]="labels?.validationData?.fullName?.type"
-                                [className]="'form-control mandatory'"
-                                [maxLength]="labels?.validationData?.fullName?.maxLength"
-                                [isDirty]="isDirty"
-                              ></app-custom-input> -->
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
                                     <label class="upload_label label_height">{{labels?.viewDocument}} </label>
-
-
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
                                     <label for="edate" class="label_height">{{labels?.collectedDate}}</label>
-                                    <div class="input-group input-medium">
-                                        <span class="input-group-btn">
-                                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
-                                    </span>
-                                        <input type="" class="form-control date_width" id="date" value="">
-                                        <!-- <app-custom-input
-                                    formControlName="collectedDate"
-                                    [type]="labels?.validationData?.fullName?.type"
-                                    [className]="'form-control mandatory'"
-                                    [maxLength]="labels?.validationData?.fullName?.maxLength"
-                                    [isDirty]="isDirty"
-                                    [isDisabled]="true"
-                                  ></app-custom-input> -->
-                                    </div>
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
                                     <label for="Status" class="label_height">{{labels?.status}}</label>
-                                    <select name="status" id="deferral_status" class="form-control">
-                                    <option value="Pending">Pending</option>
-                                    <option value="Submitted">Collected</option>
-                                </select>
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
                                     <label class="label_height">{{labels?.cpcCheck}}</label>
-                                    <select name="status" id="deferral_status" class="form-control">
-                                    <option value="">--Select ---</option>
-                                    <option value="Pending">Verified</option>
-                                    <option value="Submitted">Image not clear</option>
-                                </select>
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
-                                    <label for="documentnumber">{{labels?.physicalTrackingNumber}}</label>
-                                    <input type="text" class="form-control" id="amount" value="">
-                                    <!-- <app-custom-input
-                                formControlName="physicalTrackingNumber"
-                                [type]="labels?.validationData?.fullName?.type"
-                                [className]="'form-control mandatory'"
-                                [maxLength]="labels?.validationData?.fullName?.maxLength"
-                                [isDirty]="isDirty"
-                              ></app-custom-input> -->
+                                    <label for="documentnumber" class="label_height">{{labels?.physicalTrackingNumber}}</label>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" *ngFor="
+                            let item of pddDetailsForm.get('pddDocumentDetails')[
+                              'controls'
+                            ];
+                            let i = index
+                          " [formGroupName]="i">
                                 <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="document" class="label_height">Document Name</label> -->
-                                    <input type="text" class="form-control" id="amount" value="Invoice" readonly="">
+                                    <app-custom-input formControlName="documentName"
+                                        [type]="labels?.validationData?.chasisNo?.type"
+                                        [className]="'form-control mandatory'"
+                                        [maxLength]="labels?.validationData?.chasisNo?.maxLength" [isDirty]="isDirty"
+                                        [isDisabled]="true"></app-custom-input>
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="idate" class="label_height">Expected Date</label> -->
                                     <div class="input-group input-medium">
                                         <span class="input-group-btn">
-                                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
-                                    </span>
-                                        <input type="" class="form-control date_width" id="date" value="23-07-2020" readonly="">
+                                            <button class="btn btn-default" aria-readonly="true"> <i class="fa fa-calendar"></i> </button>
+                                        </span>
+                                        <app-custom-input formControlName="expectedDate"
+                                            [className]="'form-control mandatory'"
+                                            [maxLength]="labels?.validationData?.chasisNo?.maxLength"
+                                            [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="documentnumber" class="label_height">Document Number</label> -->
-                                    <input type="text" class="form-control" id="amount" value="26793">
+                                    <app-custom-input formControlName="documentNumber"
+                                        [type]="labels?.validationData?.chasisNo?.type"
+                                        [className]="'form-control mandatory'"
+                                        [maxLength]="labels?.validationData?.chasisNo?.maxLength" [isDirty]="isDirty">
+                                    </app-custom-input>
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label class="upload_label label_height">Upload </label> -->
-                                    <!-- <div class="btn btn-primary uploadsan">Upload -->
-                                    <a href="" class="input_design">invoce<span class="text-dec">#123456</span></a>
+                                    <input formControlName="dmsDocumentId" name="input" type="text" class="form-control file-input"
+                                         readonly (click)="downloadDocs($event.target.value)" />
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="edate" class="label_height">Collected Date</label> -->
-                                    <div class="input-group input-medium">
-                                        <span class="input-group-btn">
-                                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
-                                    </span>
-                                        <input type="" class="form-control date_width" id="" value="15-07-2020" readonly="">
+                                    <div class="">
+                                            <kendo-datepicker class="form-control" formControlName="docCollectedDate" [activeView]="'decade'"
+                                            [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Doc collected date">
+                                          </kendo-datepicker>
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="Status" class="label_height">Status</label> -->
-                                    <select name="status" id="deferral_status" class="form-control">
-                                    <option value="Submitted">Collected</option>
-                                    <option value="Pending">Pending</option>
-                                </select>
+                                    <select name="status" id="deferral_status" class="form-control"
+                                        formControlName="pddDocumentStatus">
+                                        <option value="0">Pending</option>
+                                        <option value="1">Collected</option>
+                                    </select>
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label class="label_height">CPC Check</label> -->
-                                    <select name="status" id="deferral_status" class="form-control">
-                                   
-                                    <option value="Pending">Verified</option>
-                                    <option value="Submitted">Image not clear</option>
-                                </select>
+                                    <app-vf-custom-select [values]="pddLov?.checklistans" formControlName="cpcCheck"
+                                        [isDirty]="isDirty">
+                                    </app-vf-custom-select>
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="documentnumber">Physical Tracking Number</label> -->
-                                    <input type="text" class="form-control" id="amount" value="">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="document" class="label_height">Document Name</label> -->
-                                    <input type="text" class="form-control" id="amount" value="Insurance" readonly="">
-                                </div>
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="idate" class="label_height">Expected Date</label> -->
-                                    <div class="input-group input-medium">
-                                        <span class="input-group-btn">
-                                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
-                                    </span>
-                                        <input type="" class="form-control date_width" id="date" value="23-07-2020" readonly="">
-                                    </div>
-                                </div>
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="documentnumber" class="label_height">Document Number</label> -->
-                                    <input type="text" class="form-control" id="amount" value="78654">
-                                </div>
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label class="upload_label label_height">Upload </label> -->
-                                    <!-- <div class="btn btn-primary uploadsan">Upload -->
-                                    <a href="" class="input_design">insrn<span class="text-dec">#123456</span></a>
-                                </div>
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="edate" class="label_height">Collected Date</label> -->
-                                    <div class="input-group input-medium">
-                                        <span class="input-group-btn">
-                                        <button class="btn btn-default"> <i class="fa fa-calendar"></i> </button>
-                                    </span>
-                                        <input type="" class="form-control date_width" id="" value="16-07-2020" readonly="">
-                                    </div>
-                                </div>
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="Status" class="label_height">Status</label> -->
-                                    <select name="status" id="deferral_status" class="form-control">
-                                    <option value="Submitted">Collected</option>
-                                    <option value="Pending">Pending</option>
-                                </select>
-                                </div>
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label class="label_height">CPC Check</label> -->
-                                    <select name="status" id="deferral_status" class="form-control">
-                                    <option value="Pending">Verified</option>
-                                    <option value="Submitted">Image not clear</option>
-                                </select>
-                                </div>
-                                <div class="form-group col-sm-3 col-md-2">
-                                    <!-- <label for="documentnumber">Physical Tracking Number</label> -->
-                                    <input type="text" class="form-control" id="amount" value="">
+                                    <app-custom-input formControlName="physicalTrackingNumber"
+                                        [type]="labels?.validationData?.chasisNo?.type"
+                                        [className]="'form-control mandatory'"
+                                        [maxLength]="labels?.validationData?.chasisNo?.maxLength" [isDirty]="isDirty">
+                                    </app-custom-input>
                                 </div>
                             </div>
 
@@ -216,31 +112,12 @@
 
         </div>
 
-
-
-
-
-
-        <!---- <p class="btn btn-primary" id="add_more_documents" >Add More Additional Documents</p> ----->
         <br>
     </div>
 
     <!--mobile view start-->
     <div class="col-xs-12 visible-xs">
-        <!---<div class="box active" data-toggle="modal" data-target="#photo">
-                    <div><i class="fa fa-image"></i></div>
-                    <div> Photo </div>
-                </div>
-                <div class="box">
-                    <div><i class="fa fa-image"></i></div>
-                    <div> Signature </div>
-                </div>
-                <div class="box" data-toggle="modal" data-target="#Id_proof">
-                    <div><i class="fa fa-address-card"></i></div>
-                    <div> ID Proof </div>
-                </div>----->
         <div class="box">
-            <!--  <div><i class="fa fa-plus-circle"></i></div> -->
             <div> Additional </div>
         </div>
     </div>
@@ -249,14 +126,14 @@
         <div class="col-sm-5"></div>
         <div class="col-sm-7 text-right">
             <button class="btn btn-primary dash_href" type="button" (click)="onBack()">
-                    Back
-                  </button>
-            <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()">
-        Update
-      </button>
+                Back
+            </button>
+            <button class="btn btn-primary mar-right8" type="button" (click)="onUpdate()">
+                Update
+            </button>
             <button class="btn btn-primary dash_href" type="button" routerLink="">
-                    Next
-                  </button>
+                Next
+            </button>
         </div>
     </div>
 </form>
