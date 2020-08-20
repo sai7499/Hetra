@@ -25,8 +25,10 @@ export class ValuationComponent implements OnInit {
   vehicleValuationDetails: any = {};
   isInputField: boolean = false;
   isDirty : boolean;
+  customFutureDate: boolean;
   public toDayDate: Date = new Date();
-
+  currentYear = new Date().getFullYear();
+  yearCheck = [];
   valuatorType: string;
   valuatorCode: string;
   valuatorName: string;
@@ -37,6 +39,13 @@ export class ValuationComponent implements OnInit {
   assetCostGrid: string;
 
   valuesToYesNo: any = [{key: 1, value: 'Yes'}, {key: 0, value: 'No'}];
+  monthsLOVS: any = [
+    {key: "January", value: "January"}, {key: "February", value: "February"}, 
+    {key: "March", value: "March"}, {key: "April", value: "April"}, {key: "May", value: "May"},
+    {key: "June", value: "June"}, {key: "July", value: "July"}, {key: "August", value: "August"},
+    {key: "September", value: "September"}, {key: "October", value: "October"}, 
+    {key: "November", value: "November"}, {key: "December", value: "December"},
+  ];
 
   constructor(
     private labelsData: LabelsService,
@@ -59,6 +68,7 @@ export class ValuationComponent implements OnInit {
     // this.getCollateralId();
     console.log("COLLATERALID::::", this.colleteralId);
     this.getVehicleValuation();
+    this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
   }
 
   getLabels() {
@@ -97,6 +107,23 @@ export class ValuationComponent implements OnInit {
         resolve(null);
       });
     });
+  }
+
+  //CHANGE EVENT FUNCTION FOR monthLOVS
+  onChangeMonthValues(event: any) {
+    const monthChange = event.target.value;
+    console.log("CHANGE_IN_MONTH::", monthChange);
+  }
+
+  //CHANGE_YEAR
+  onGetDateValue(event: any) {
+    const yearOfManufacturer = event.target.value;
+    console.log("YEAR_OF_MANUFACTURER::", yearOfManufacturer);
+    if (yearOfManufacturer > this.toDayDate) {
+      this.customFutureDate = true;
+    } else {
+      this.customFutureDate = false;
+    }
   }
 
   getVehicleValuation() {

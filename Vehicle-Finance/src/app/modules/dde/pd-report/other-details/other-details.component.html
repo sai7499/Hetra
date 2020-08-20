@@ -371,20 +371,20 @@
                 </div>
         </div>
         &nbsp;
-        <div class="btn-sec clear-both">
+        <div class="btn-sec clear-both row cst_btm_btns">
             <div class="col-sm-7"></div>
             <div class="col-sm-5 text-right" *ngIf="
                 roleType == '2' && version != 'undefined' && showReinitiate == true
               ">
                 <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
                     {{labels.reinitiate}}
-                </button>&nbsp;
+                </button>
                 <!-- <button class="btn btn-success" (click)="approvePd()">
                 {{ labels.approve }}
               </button> -->
             </div>
         </div>
-        <div class="btn-sec btn-mar-bottom clear-both">
+        <div class="btn-sec clear-both row cst_btm_btns">
             <div class="col-sm-4"></div>
             <div class="col-sm-8 text-right">
                 <button class="btn btn-primary js-btn-prev" type="button" (click)="onBack()"> {{labels.back}} </button>

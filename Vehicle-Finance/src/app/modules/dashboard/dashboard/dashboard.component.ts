@@ -11,6 +11,7 @@ import { ToasterService } from '@services/toaster.service';
 import { Router } from '@angular/router';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { NumberFormatStyle } from '@angular/common';
+import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 
 // for sales
 export enum DisplayTabs {
@@ -156,10 +157,16 @@ export class DashboardComponent implements OnInit {
     // public displayTabs: DisplayTabs,
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private applicantStoreService : ApplicantDataStoreService
   ) { }
 
   onTabsLoading(data) {
+    if (this.activeTab === this.displayTabs.PDD) {
+      this.getPDDLeads(this.itemsPerPage);
+    } else if (this.activeTab === this.displayTabs.ChequeTracking) {
+      this.getChequeTrackingLeads(this.itemsPerPage);
+    }
     if (this.roleType === 1) {
       switch (data) {
         case 3:
@@ -500,6 +507,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  // for PDD Leads
   responseForPDD(data) {
     this.dashboardService.myLeads(data).subscribe((res: any) => {
       this.setPDDPageData(res);
@@ -512,6 +520,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  // for Cheque tracking
   responseForChequeTracking(data) {
     this.dashboardService.myLeads(data).subscribe((res: any) => {
       this.setChequeTrackingPageData(res);
@@ -525,7 +534,6 @@ export class DashboardComponent implements OnInit {
   }
 
   // new leads
-
   getSalesFilterLeads(perPageCount, pageNumber?) {
 
     // this.filterFormDetails['userId'] = localStorage.getItem('userId');
@@ -1431,6 +1439,12 @@ export class DashboardComponent implements OnInit {
   // external methods
   assignTaskId(taskId) {
     this.sharedService.getTaskID(taskId);
+  }
+  getLoanNumber(loanNumber) {
+    this.dashboardService.routingData = {
+      activeTab: this.activeTab
+    };
+    this.sharedService.getLoanNumber(loanNumber);
   }
   getLeadId(item) {
     localStorage.setItem('salesResponse', item.is_sales_response_completed);
