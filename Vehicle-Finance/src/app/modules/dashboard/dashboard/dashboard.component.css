@@ -362,7 +362,7 @@ th {
         height: 40px;
         padding: 10px;
     }
-    .disable {
+    .filter-disable {
         display: none;
     }
 }
