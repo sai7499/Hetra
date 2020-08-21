@@ -29,6 +29,7 @@ export class PersonalDetailsComponent implements OnInit {
   public getLabels;
   isDirty: boolean;
   LOV: any = [];
+  applicantDetails: any = [];
   applicantId: any;
   standardOfLiving: any;
   version: any;
@@ -56,6 +57,10 @@ export class PersonalDetailsComponent implements OnInit {
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
     this.userId = roleAndUserDetails.userDetails.userId;
+
+    const leadData = this.createLeadDataService.getLeadSectionData();
+
+    this.applicantDetails = leadData['applicantDetails']
 
     this.leadId = (await this.getLeadId()) as number;
 
@@ -130,9 +135,23 @@ export class PersonalDetailsComponent implements OnInit {
     this.personaldiscussion.getPdData(data).subscribe((value: any) => {
       if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
         this.personalPDDetais = value.ProcessVariables.applicantPersonalDiscussionDetails ? value.ProcessVariables.applicantPersonalDiscussionDetails : {};
-        if (this.personalPDDetais) {
+        if (this.personalPDDetais && this.personalPDDetais['fullName']) {
           this.setFormValue(this.personalPDDetais);
           this.pdDataService.setCustomerProfile(this.personalPDDetais);
+        } else {
+          this.applicantDetails.filter((val: any) => {
+            const splitName = val.fullName.split(' ')
+            if (val.applicantId === this.applicantId) {
+              this.personalDetailsForm.patchValue({
+                firstName: splitName ? splitName[0] : '',
+                middleName: '',
+                lastName: splitName && splitName.length > 1 ? splitName[1] : '',
+                fullName: val.fullName || '',
+                contactNo: val.mobileNumber || ''
+              })
+            }
+            return val
+          })
         }
       } else {
         this.toasterService.showError(value.ErrorMessage, 'Personal Details')
