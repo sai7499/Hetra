@@ -162,6 +162,7 @@ export class ChequeTrackingComponent implements OnInit {
     else {
       this.chequeForm.get('statusUpdatedOn').clearValidators();
       this.chequeForm.get('statusUpdatedOn').updateValueAndValidity();
+      this.chequeData[this.index].statusUpdatedOn= '-'
       this.showStatusDate = false;
     }
   }
@@ -175,14 +176,6 @@ export class ChequeTrackingComponent implements OnInit {
 
     this.selectedData.chequeNum = control.controls[index].value.chequeNum;
 
-    // const dateValue=control.controls[index].value.chequeDate
-    // const date= dateValue!==null? this.utilityService.getDateFormat(dateValue) : '';
-    // this.selectedData.chequeDate= date
-
-    // const statusDateValue=control.controls[index].value.statusUpdatedOn
-    // const statusDate= statusDateValue!==null? this.utilityService.getDateFormat(statusDateValue) : '';
-    // this.selectedData.statusUpdatedOn= statusDate
-
     this.chequeForm.get('status').setValue('')
 
   }
@@ -195,23 +188,9 @@ export class ChequeTrackingComponent implements OnInit {
     }
   }
 
-  //   chequeDateChange(event, i){
-
-  //      if(this.selectedData){
-  //       if(this.index==i){
-  //         this.selectedData.chequeDate=this.utilityService.getDateFormat(event)
-  //       }
-  //      }
-  //   }
-  //   statusDateChange(event, i){
-
-  //     if(this.selectedData){
-  //      if(this.index==i){
-  //        this.selectedData.statusUpdatedOn=this.utilityService.getDateFormat(event)
-  //      }
-  //     }
-  //  }
-
+  updateStatusDate(event){
+    this.chequeData[this.index].statusUpdatedOn=this.utilityService.getDateFormat(event)
+  }
   onUpdate() {
     const value = this.chequeForm.value;
     console.log('value', value)
@@ -220,12 +199,14 @@ export class ChequeTrackingComponent implements OnInit {
     if (this.chequeForm.invalid) {
       console.log('valid', this.chequeForm)
       this.isDirty = true;
-      this.toasterService.showError('please Fill', '')
+      this.toasterService.showError( 'Please fill mandatory fields.',
+      'Cheque Tracking')
       return;
     }
     if (this.statusValue == 'BRNCHRECEIVEDCHEQUESTS') {
       if (control.controls[this.index].get('chequeNum').value == '' || undefined || null) {
-        this.toasterService.showError('please Fill', '')
+        this.toasterService.showError( 'Please fill mandatory fields.',
+        'Cheque Tracking')
         return;
       }
 
