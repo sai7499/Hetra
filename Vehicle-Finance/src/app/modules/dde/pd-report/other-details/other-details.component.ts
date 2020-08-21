@@ -144,6 +144,10 @@ export class OtherDetailsComponent implements OnInit {
     };
 
     this.getRouteMap();
+
+    let documentId = "537402";
+    this.downloadDocs(documentId);
+
   }
 
   getLabels() {
@@ -382,6 +386,7 @@ export class OtherDetailsComponent implements OnInit {
       this.gpsService.initLatLong().subscribe((res) => {
         if (res) {
           this.gpsService.getLatLong().subscribe((position) => {
+            this.getRouteMap();
           });
         } else {
           console.log(res);
@@ -389,9 +394,9 @@ export class OtherDetailsComponent implements OnInit {
       });
     } else {
       this.gpsService.getBrowserLatLong().subscribe((position) => {
+        this.getRouteMap();
       });
     }
-    this.getRouteMap();
   }
 
   getRouteMap() {
@@ -416,30 +421,33 @@ export class OtherDetailsComponent implements OnInit {
     );
     if (bas64String) {
       // this.setContainerPosition(el);
-      this.showDraggableContainer = {
-        imageUrl: bas64String.imageUrl,
-        imageType: bas64String.imageType,
-      };
-      this.draggableContainerService.setContainerValue({
-        image: this.showDraggableContainer,
-        css: this.setCss,
-      });
+      // this.showDraggableContainer = {
+      //   imageUrl: bas64String.imageUrl,
+      //   imageType: bas64String.imageType,
+      // };
+      // this.draggableContainerService.setContainerValue({
+      //   image: this.showDraggableContainer,
+      //   css: this.setCss,
+      // });
+      this.SELFIE_IMAGE = 'data:image/jpeg;base64,' + bas64String.imageUrl;
       return;
     }
     const imageValue: any = await this.getBase64String(documentId);
     // this.setContainerPosition(el);
-    this.showDraggableContainer = {
-      imageUrl: imageValue.imageUrl,
-      imageType: imageValue.imageType,
-    };
-    this.draggableContainerService.setContainerValue({
-      image: this.showDraggableContainer,
-      css: this.setCss,
-    });
-    this.base64StorageService.storeString(this.applicantId + documentId, {
-      imageUrl: imageValue.imageUrl,
-      imageType: imageValue.imageType,
-    });
+    // this.showDraggableContainer = {
+    //   imageUrl: imageValue.imageUrl,
+    //   imageType: imageValue.imageType,
+    // };
+    // this.draggableContainerService.setContainerValue({
+    //   image: this.showDraggableContainer,
+    //   css: this.setCss,
+    // });
+    // this.base64StorageService.storeString(this.applicantId + documentId, {
+    //   imageUrl: imageValue.imageUrl,
+    //   imageType: imageValue.imageType,
+    // });
+    this.SELFIE_IMAGE = 'data:image/jpeg;base64,' + imageValue.imageUrl;
+
   }
 
   getBase64String(documentId) {
@@ -484,7 +492,7 @@ export class OtherDetailsComponent implements OnInit {
       isPhoto: true,
       applicantId: this.applicantId,
     };
-   // this.uploadPhotoOrSignature(data);
+   this.uploadPhotoOrSignature(data);
     
     event.imageUrl = '';
 
@@ -498,7 +506,8 @@ export class OtherDetailsComponent implements OnInit {
       index = 0;
     } 
     console.log('documentArr', this.documentArr);
-   // this.individualImageUpload(event, index);
+    this.individualImageUpload(event, index);
+    this.getLatLong();
   }
 
   uploadPhotoOrSignature(data) {
@@ -519,6 +528,7 @@ export class OtherDetailsComponent implements OnInit {
         console.log('saveOrUpdateDocument', value);
         const processVariables = value.ProcessVariables;
         const documentId = processVariables.documentIds[0];
+        console.log("documentId******", documentId);
         this.documentArr[index].documentId = documentId;
         const subCategoryCode = this.documentArr[index].subCategoryCode;
         // const formArray = this.uploadForm.get(

@@ -12,7 +12,6 @@ import { ApiService } from '../../services/api.service';
   providedIn: 'root'
 })
 export class NegotiationService {
-
   constructor(
     private httpService: HttpService,
     private apiService: ApiService
@@ -24,7 +23,7 @@ export class NegotiationService {
     const body: RequestEntity = {
       processId: processId,
       ProcessVariables: {
-        // "ProductCode": "UC"
+       
         ...data
       },
       workflowId: workflowId,
@@ -40,7 +39,6 @@ export class NegotiationService {
     const body: RequestEntity = {
       processId: processId,
       ProcessVariables: {
-
       },
       workflowId: workflowId,
       projectId: projectId
@@ -63,15 +61,14 @@ export class NegotiationService {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
-  viewNegotiationData(NegotiationId)
-  {
+  viewNegotiationData(leadid) {
     const processId = this.apiService.api.getNegotiationData.processId;
     const workflowId = this.apiService.api.getNegotiationData.workflowId;
     const projectId = this.apiService.api.getNegotiationData.projectId;
     const body: RequestEntity = {
       processId: processId,
       ProcessVariables: {
-        "NegotiationId":NegotiationId
+        "LeadID": leadid
       },
       workflowId: workflowId,
       projectId: projectId
@@ -79,23 +76,15 @@ export class NegotiationService {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
-  submitNegotiation(leadID,userId,NegotiationId, Applicants, CombinedLoan, Deductions, Asset, CrossSellIns, CrossSellOthers) {
+  submitNegotiation(NegotiationDetails) {
     const processId = this.apiService.api.submitNegotiation.processId;
     const workflowId = this.apiService.api.submitNegotiation.workflowId;
     const projectId = this.apiService.api.submitNegotiation.projectId;
     const body: RequestEntity = {
       processId: processId,
       ProcessVariables: {
-        "LeadId": leadID,
-        "userId": userId,
-        "NegotiationId": NegotiationId?NegotiationId:null,
-        "IsInsert": true,
-        "Applicants": Applicants,
-        "deductions": Deductions,
-        "CombinedLoan": CombinedLoan,
-        "Asset": Asset,
-        "CrossSellIns": CrossSellIns,
-        "CrossSellOthers": CrossSellOthers
+        NegotiationDetails
+       
       },
       workflowId: workflowId,
       projectId: projectId
@@ -103,7 +92,25 @@ export class NegotiationService {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
-  fetchPreimumAmount(){
-
+  fetchPreimumAmount(data) {
+    const processId = this.apiService.api.fetchPreimumAmount.processId;
+    const workflowId = this.apiService.api.fetchPreimumAmount.workflowId;
+    const projectId = this.apiService.api.fetchPreimumAmount.projectId;
+    const body: RequestEntity = {
+      processId: processId,
+      ProcessVariables: {
+        // insuranceProvider: parseInt(data.insuranceProvider),//icic chola
+        // insuranceType:parseInt (data.insuranceType), // motor 
+        // applicantId: parseInt (data.applicantId),
+        // loanAmount:parseInt(data.loanAmount),
+        // loanTenure: parseInt(data.loanTenure),
+        // loanPercentage: 
+        ...data
+      },
+      workflowId: workflowId,
+      projectId: projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
   }
 }
