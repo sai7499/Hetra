@@ -1543,6 +1543,8 @@
     "chargesAndFees": "Charges & fees (excluding tax) (in IRR)",
     "crossSellInsurance": "Cross Sell Insurance (in INR)",
     "crossSellOthers": "Cross Sell Others (in INR)",
+    "errorCode": "Error Code",
+    "errorMsg": "Error Message",
     "validationData": {
         "name": {
             "maxLength": {
