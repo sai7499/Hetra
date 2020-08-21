@@ -429,7 +429,8 @@ onSave() {
         if ( res.ProcessVariables.error.code === '0') {
           this.toasterService.showSuccess('Record Saved Successfully', 'Viability');
           if (this.router.url.includes('/dde')) {
-            this.router.navigateByUrl(`/pages/dde/${this.leadId}/viability-list`);
+            // this.router.navigateByUrl(`/pages/dde/${this.leadId}/viability-list`);
+               this.getViability();
           } else {
             // this.router.navigateByUrl(`/pages/viability-list/${this.leadId}/viability-list`);
           }
@@ -450,6 +451,7 @@ onSave() {
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
         if ( res.ProcessVariables.error.code === '0') {
           this.toasterService.showSuccess('Record Saved Successfully', 'Viability');
+          this.getViability();
          } else {
        this.toasterService.showError(res.ProcessVariables.error.message, 'Viability');
       }
@@ -467,6 +469,7 @@ onSave() {
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
         if ( res.ProcessVariables.error.code === '0') {
            this.toasterService.showSuccess('Record Saved Successfully', 'Viability');
+           this.getViability();
           } else {
         this.toasterService.showError(res.ProcessVariables.error.message, 'Viability');
        }
