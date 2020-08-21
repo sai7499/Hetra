@@ -203,41 +203,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   @ViewChild('pTag', { static: false }) pTag: ElementRef<HTMLElement>;
 
-  biometricResponce = {
-    addressLineOne: "PLOT NO 968TH CROSS STREETKARU",
-    addressLineThree: "",
-    addressLineTwo: "MANDAPAM",
-    applicantId: 222,
-    careOfPerson: "S/O Johnpaul",
-    country: "India",
-    district: "Tiruchirappalli",
-    dobFromResponse: "22-12-1989",
-    // "error": {
-    //   "code": "0",
-    //   "message": "Success"
-    // },
-    firstName: "Christus",
-    landmark: "VASANTHA NAGAR, JAYA NAGAR EXTN",
-    lastName: "Johnpaul",
-    locality: "KARUMANDAPAM",
-    middleName: "Valerian",
-    nameFromResponse: "Christus Valerian Johnpaul",
-    pincode: "620001",
-    resultPincode: 620001,
-    genderFromResponse: "M",
-    house: "PLOT NO 96",
-    state: "Tamil Nadu",
-    street: "8TH CROSS STREET",
-    villageTownOrCity: "Tiruchirappalli",
-    stateId: 40,
-    cityId: 160391,
-    districtId: 596,
-    countryId: 6,
-    cityName: "TIRUCHIRAPPALLI H.O-TIRUCHY"
-
-
-  };
-
+  
   constructor(
     private labelsData: LabelsService,
     private lovData: LovDataService,
@@ -258,6 +224,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   ) {
     this.leadId = this.activatedRoute.snapshot.params['leadId'];
     this.isMobile = environment.isMobile;
+
 
   }
 
@@ -2069,6 +2036,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
         }
       })
+    }
+    else{
+      this.showEkycbutton = true;
     }
 
 
