@@ -7,6 +7,7 @@ import { ToasterService } from '@services/toaster.service';
 import { DisbursementService } from '../services/disbursement.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginStoreService } from '@services/login-store.service';
+import { LoanCreationService } from '@services/loan-creation.service';
 declare var jquery: any;
 declare var $: any;
 
@@ -194,13 +195,14 @@ export class DisbursementFormComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private router: Router,
     private route: ActivatedRoute,
+    private loanCreationService: LoanCreationService,
     private cdr: ChangeDetectorRef
   ) {
 
   }
 
   async ngOnInit() {
-   
+
     this.initForm();
     this.getLabels();
     this.disbLOV();
@@ -214,7 +216,7 @@ export class DisbursementFormComponent implements OnInit {
       this.roleId = value.roleId;
       this.roleType = value.roleType;
       console.log('role Type', this.roleType);
-    });   
+    });
     this.routerUrlIdentifier();
     this.salesResponse = localStorage.getItem('salesResponse');
   }
@@ -2036,6 +2038,7 @@ selectCheckBox(flag,val) {
                 this.toasterService.showError('Kindly fill mandatory fields in Tranche third party table & check other tranche tables too', '');
                 return;}
             }
+            //
             console.log('Req:',inputData);
             this.disbursementService.saveUpdateDisbursement(inputData).subscribe((res: any) => {
               const response = res;
@@ -2406,6 +2409,21 @@ if(this.roleType == '1' || this.roleType == '2') {
 } else if(  this.roleType == '5') {
   this.router.navigate([`pages/cpc-checker/${this.disbLeadId}/negotiation`]);
 }
+}
+
+sendLoanCreationWrapper() {
+  const body = {
+    leadId: this.disbLeadId
+  }
+  this.loanCreationService.setLoanCreation(body).subscribe((res: any) => {
+    console.log(res);
+    if(res.ProcessVariables.error.code == '0') {
+      this.toasterService.showSuccess('Lead submitted For Loan Creation', '');
+    } else {
+      this.toasterService.showSuccess(res.ProcessVariables.error.message, '');
+    }
+
+ });
 }
 
 }
