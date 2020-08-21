@@ -957,8 +957,8 @@
     "assetDetailsForUsedVehicleTitle": "Used Vehicle Asset Details",
     "loanAmtReq": "Loan amount required",
     "sourcePurchase": "Source of vechicle purchase",
-    "marginMoneyPaid": "Source of margin money paid",
-    "nameOfFinancer": "Name of Financier",
+    "marginMoneyPaid": "Source of Margin money paid in case of re-purchase / Used vehicle / Secondhand vehicle / Balance Take over case",
+    "nameOfFinancer": "Name of the Financier in case of Balance transfer case",
     "awareMarginMoney": "Is the co-applicant aware of source of margin money?",
     "nameOfChannel": "Name of Channel",
     "sellerVehicle": "Do you know seller of the vehicle?",
@@ -973,7 +973,7 @@
     "remarksOthers": "Remarks of others",
     "earlierDriving": "Which vehicle was the Applicant driving earlier?",
     "runningAttached": "Where will this vehicle running/attached/plying?",
-    "awareDue": "Customer aware of Due date and EMI Loan amount",
+    "awareDue": "Is the customer aware of Due Date and EMI for the loan amount",
     "vehicleMake": "Vehicle Make",
     "model1": "Model(Year)",
     "addVehicle": "Add Vehicle",
@@ -1484,7 +1484,6 @@
     "collectedDate": "Collected Date",
     "cpcCheck": "CPC Check",
     "physicalTrackingNumber": "Physical Tracking Number",
-
     "chequeTracking": "Cheque Tracking",
     "chequeMode": "Mode",
     "chequeNumber": "Cheque Number",
@@ -1496,7 +1495,6 @@
     "favouringTo": "Favouring To",
     "chequeRemark": "Remark",
     "initialDisbursement": "Initiate Disbursement",
-
     "fundingRequiredforlifeCover": "Is Funding Required for Credit Shield - Life Cover?",
     "productLMSCode": "Product (LMS Code - Name)",
     "CoApplicant": "Co - Applicant",
@@ -1545,6 +1543,8 @@
     "chargesAndFees": "Charges & fees (excluding tax) (in IRR)",
     "crossSellInsurance": "Cross Sell Insurance (in INR)",
     "crossSellOthers": "Cross Sell Others (in INR)",
+    "errorCode": "Error Code",
+    "errorMsg": "Error Message",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1764,9 +1764,9 @@
             },
             "type": "number"
         },
-        "sourceOf": {
+        "sourceOfMarginMoneyPaid": {
             "maxLength": {
-                "rule": 40
+                "rule": 30
             },
             "type": "alpha"
         },
@@ -2165,12 +2165,17 @@
             },
             "type": "alpha-numeric-nospace"
         },
+        "rentAmount": {
+            "maxLength": {
+                "rule": 6
+            },
+            "type": "number"
+        },
         "amountDecimal": {
             "maxLength": {
-                "rule" : 10
+                "rule": 10
             },
             "type": "decimal"
         }
     }
-
 }
