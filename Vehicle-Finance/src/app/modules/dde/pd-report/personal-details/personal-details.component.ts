@@ -130,6 +130,7 @@ export class PersonalDetailsComponent implements OnInit {
     this.personaldiscussion.getPdData(data).subscribe((value: any) => {
       if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
         this.personalPDDetais = value.ProcessVariables.applicantPersonalDiscussionDetails ? value.ProcessVariables.applicantPersonalDiscussionDetails : {};
+        console.log('personalPDDetails',this.personalPDDetais);
         if (this.personalPDDetais) {
           this.setFormValue(this.personalPDDetais);
           this.pdDataService.setCustomerProfile(this.personalPDDetais);
