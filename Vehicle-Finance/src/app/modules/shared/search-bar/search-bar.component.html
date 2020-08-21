@@ -7,8 +7,7 @@
         (mouseover)="mouseEnter()" 
         (keyup)="getvalue($event.target.value)">
     <div class="dropdown-content " *ngIf="dropDown" [ngClass]="{'profile-style': activityClass }" [ngClass]="{'profile-compartment': activityClass }">
-        <div *ngFor="let item of searchLead"
-        (click)="onCollapse($event)">
+        <div *ngFor="let item of searchLead">
             <a   
             data-toggle="collapse"
             data-target="#bs-navbar"

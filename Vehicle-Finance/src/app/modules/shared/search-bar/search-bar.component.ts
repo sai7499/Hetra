@@ -77,12 +77,4 @@ export class SearchBarComponent implements OnInit {
   mouseEnter() {
     this.dropDown = true;
   }
-
-  onCollapse(event) {
-    const currentUrl = this.location.path();
-    if (!currentUrl.includes('activity-search')) {
-      event.stopPropagation();
-    }
-  }
-
 }
