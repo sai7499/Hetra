@@ -49,17 +49,17 @@ export class NewLeadsComponent implements OnInit {
   ) {
     console.log('environment', environment);
 
-    // if (environment.isMobile === true) {
+    if (environment.isMobile === true) {
+      this.itemsPerPage = '5';
+    } else {
+      this.itemsPerPage = '25';
+    }
+
+    // if (window.screen.width > 768) {
     //   this.itemsPerPage = '25';
-    // } else {
+    // } else if (window.screen.width <= 768) {
     //   this.itemsPerPage = '5';
     // }
-
-    if (window.screen.width > 768) {
-      this.itemsPerPage = '25';
-    } else if (window.screen.width <= 768) {
-      this.itemsPerPage = '5';
-    }
   }
 
   ngOnInit() {
