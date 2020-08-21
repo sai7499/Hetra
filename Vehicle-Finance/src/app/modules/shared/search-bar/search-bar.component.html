@@ -7,13 +7,12 @@
         (mouseover)="mouseEnter()" 
         (keyup)="getvalue($event.target.value)">
     <div class="dropdown-content " *ngIf="dropDown" [ngClass]="{'profile-style': activityClass }" [ngClass]="{'profile-compartment': activityClass }">
-        <div *ngFor="let item of searchLead" 
+        <div *ngFor="let item of searchLead"
+        (click)="onCollapse($event)">
+            <a   
             data-toggle="collapse"
-            data-target="#bs-navbar">
-            <a (click)="getRoute(item.id, item.name)">{{item.name}}</a>
-           
-           
-         
+            data-target="#bs-navbar"
+            (click)="getRoute($event, item.id, item.name)">{{item.name}}</a>
         </div>
 
           <!-- supervisorRelated starts -->

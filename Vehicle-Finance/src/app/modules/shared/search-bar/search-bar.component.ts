@@ -55,11 +55,15 @@ export class SearchBarComponent implements OnInit {
     });
   }
 
-  getRoute(id, name) {
+  getRoute(e, id, name) {
     this.searchText = name;
     this.routingId = id;
     this.dropDown = false;
     this.navigateToModule();
+    const currentUrl = this.location.path();
+    if (currentUrl.includes('activity-search')) {
+      e.stopPropagation();
+    }
   }
 
   navigateToModule() {
@@ -72,6 +76,13 @@ export class SearchBarComponent implements OnInit {
 
   mouseEnter() {
     this.dropDown = true;
+  }
+
+  onCollapse(event) {
+    const currentUrl = this.location.path();
+    if (!currentUrl.includes('activity-search')) {
+      event.stopPropagation();
+    }
   }
 
 }
