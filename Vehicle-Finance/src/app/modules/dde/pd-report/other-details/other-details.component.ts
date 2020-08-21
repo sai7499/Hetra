@@ -1,3 +1,8 @@
+import { ApplicantService } from '@services/applicant.service';
+import { DraggableContainerService } from '@services/draggable.service';
+import { Base64StorageService } from '@services/base64-storage.service';
+import { UploadService } from './../../../../services/upload.service';
+import { GpsService } from './../../../../services/gps.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,7 +17,11 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { Constant } from '../../../../../assets/constants/constant';
 import { LoginStoreService } from '@services/login-store.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
-import { DocRequest } from '@model/upload-model';
+import { DocRequest, DocumentDetails } from '@model/upload-model';
+import { environment } from 'src/environments/environment';
+import { LoginService } from '@modules/login/login/login.service';
+import { StringifyOptions } from 'querystring';
+
 
 @Component({
   selector: 'app-other-details',
@@ -20,6 +29,7 @@ import { DocRequest } from '@model/upload-model';
   styleUrls: ['./other-details.component.css']
 })
 export class OtherDetailsComponent implements OnInit {
+  
   otherDetailsForm: FormGroup;
   fundingProgram: any;
   leadId;
@@ -41,10 +51,30 @@ export class OtherDetailsComponent implements OnInit {
   roles: any;
   roleType: any;
   selectedDocDetails: DocRequest;
+  showModal:boolean;
+  isMobile: any;
+  base64Image: any;
 
+  PROFILE_TYPE = Constant.PROFILE_ALLOWED_TYPES;
+  OTHER_DOCUMENTS_SIZE = Constant.OTHER_DOCUMENTS_SIZE;
+  OTHER_DOCS_TYPE = Constant.OTHER_DOCUMENTS_ALLOWED_TYPES;
+
+  SELFIE_IMAGE: string;
+
+
+  setCss = {
+    top: '',
+    left: '',
+  };
+
+  showDraggableContainer: {
+    imageUrl: string;
+    imageType: string;
+  };
   
 
-  
+  documentArr: DocumentDetails[] = [];
+
 
 
   constructor(
@@ -59,11 +89,20 @@ export class OtherDetailsComponent implements OnInit {
               private utilityService: UtilityService,
               private personalDiscussionService: PersonalDiscussionService,
               private pdDataService: PdDataService,
-              private sharedSercive: SharedService
+              private sharedSercive: SharedService,
+              private gpsService: GpsService,
+              private loginService: LoginService,
+              private uploadService: UploadService,
+              private base64StorageService: Base64StorageService,
+              private draggableContainerService: DraggableContainerService,
+              private applicantService: ApplicantService
+
           ) {
               this.sharedSercive.taskId$.subscribe((value) => {
                 this.taskId = value;
               });
+              this.isMobile = environment.isMobile;
+              this.isMobile = true;
           }
 
    async ngOnInit() {
@@ -77,6 +116,34 @@ export class OtherDetailsComponent implements OnInit {
     this.userId = roleAndUserDetails.userDetails.userId;
     this.roles = roleAndUserDetails.roles;
     this.roleType = this.roles[0].roleType;
+
+    this.selectedDocDetails = {
+      docsType: this.PROFILE_TYPE,
+      docSize: this.OTHER_DOCUMENTS_SIZE,
+      docTp: "LEAD",
+      docSbCtgry: "ACCOUNT OPENING FORM",
+      docNm: "ACCOUNT_OPENING_FORM20206216328474448.pdf",
+      docCtgryCd: 70,
+      docCatg: "KYC - I",
+      docTypCd: 276,
+      flLoc: "",
+      docCmnts: "Addition of document for Lead Creation",
+      bsPyld: "Base64 data of the image",
+      docSbCtgryCd: 204,
+      docsTypeForString: "selfie",
+      docRefId: [
+        {
+          idTp: 'LEDID',
+          id: this.leadId,
+        },
+        {
+          idTp: 'BRNCH',
+          id: Number(localStorage.getItem('branchId')),
+        },
+      ],
+    };
+
+    this.getRouteMap();
   }
 
   getLabels() {
@@ -306,5 +373,180 @@ export class OtherDetailsComponent implements OnInit {
   onNext() {
     this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
   }
+
+
+
+  getLatLong() {
+     /* Get latitude and longitude from mobile */
+     if (this.isMobile) {
+      this.gpsService.initLatLong().subscribe((res) => {
+        if (res) {
+          this.gpsService.getLatLong().subscribe((position) => {
+          });
+        } else {
+          console.log(res);
+        }
+      });
+    } else {
+      this.gpsService.getBrowserLatLong().subscribe((position) => {
+      });
+    }
+    this.getRouteMap();
+  }
+
+  getRouteMap() {
+    var that = this;
+    this.loginService.getPolyLine(function (result) {
+      that.base64Image = result;
+      // console.log("getPolyLine", that.base64Image);
+    }, null, null);
+  }
+
+  async downloadDocs(documentId: string) {
+    console.log(event);
+    
+    // let el = event.srcElement;
+    // const formArray = this.uploadForm.get(formArrayName) as FormArray;
+    // const documentId = formArray.at(index).get('file').value;
+    if (!documentId) {
+      return;
+    }
+    const bas64String = this.base64StorageService.getString(
+      this.applicantId + documentId
+    );
+    if (bas64String) {
+      // this.setContainerPosition(el);
+      this.showDraggableContainer = {
+        imageUrl: bas64String.imageUrl,
+        imageType: bas64String.imageType,
+      };
+      this.draggableContainerService.setContainerValue({
+        image: this.showDraggableContainer,
+        css: this.setCss,
+      });
+      return;
+    }
+    const imageValue: any = await this.getBase64String(documentId);
+    // this.setContainerPosition(el);
+    this.showDraggableContainer = {
+      imageUrl: imageValue.imageUrl,
+      imageType: imageValue.imageType,
+    };
+    this.draggableContainerService.setContainerValue({
+      image: this.showDraggableContainer,
+      css: this.setCss,
+    });
+    this.base64StorageService.storeString(this.applicantId + documentId, {
+      imageUrl: imageValue.imageUrl,
+      imageType: imageValue.imageType,
+    });
+  }
+
+  getBase64String(documentId) {
+    return new Promise((resolve, reject) => {
+      this.uploadService
+        .getDocumentBase64String(documentId)
+        .subscribe((value) => {
+          const imageUrl = value['dwnldDocumentRep'].msgBdy.bsPyld;
+          const documentName = value['dwnldDocumentRep'].msgBdy.docNm || '';
+          const imageType = documentName.split('.')[1].toLowerCase();
+
+          resolve({
+            imageUrl,
+            imageType,
+          });
+          console.log('downloadDocs', value);
+        });
+    });
+  }
+
+  setContainerPosition(el) {
+    let offsetLeft = 0;
+    let offsetTop = 0;
+    while (el) {
+      offsetLeft += el.offsetLeft;
+      offsetTop += el.offsetTop;
+      el = el.offsetParent;
+    }
+    this.setCss = {
+      top: offsetTop + 'px',
+      left: offsetLeft + 'px',
+    };
+  }
+
+
+  onUploadSuccess(event: DocumentDetails) {
+    // this.toasterService.showSuccess('Document uploaded successfully', '');
+    this.showModal = false;
+    this.SELFIE_IMAGE = 'data:image/jpeg;base64,' + event.imageUrl;
+    const data = {
+      inputValue: event.imageUrl,
+      isPhoto: true,
+      applicantId: this.applicantId,
+    };
+   // this.uploadPhotoOrSignature(data);
+    
+    event.imageUrl = '';
+
+    // const formArray = this.uploadForm.get(
+    //   `${this.FORM_ARRAY_NAME}_${event.subCategoryCode}`
+    // ) as FormArray;
+    // formArray.at(this.selectedIndex).get('file').setValue(event.dmsDocumentId);
+    let index = 0;
+    if (this.documentArr.length === 0) {
+      this.documentArr.push(event);
+      index = 0;
+    } 
+    console.log('documentArr', this.documentArr);
+   // this.individualImageUpload(event, index);
+  }
+
+  uploadPhotoOrSignature(data) {
+    this.applicantService.uploadPhotoOrSignature(data).subscribe((value) => {
+      console.log('uploadPhotoOrSignature', value, 'data', data);
+    });
+  }
+
+
+  individualImageUpload(request: DocumentDetails, index: number) {
+    this.uploadService
+      .saveOrUpdateDocument([request])
+      .subscribe((value: any) => {
+        if (value.Error !== '0') {
+          return;
+        }
+        this.toasterService.showSuccess('Document uploaded successfully', '');
+        console.log('saveOrUpdateDocument', value);
+        const processVariables = value.ProcessVariables;
+        const documentId = processVariables.documentIds[0];
+        this.documentArr[index].documentId = documentId;
+        const subCategoryCode = this.documentArr[index].subCategoryCode;
+        // const formArray = this.uploadForm.get(
+        //   `${this.FORM_ARRAY_NAME}_${subCategoryCode}`
+        // ) as FormArray;
+        // formArray
+        //   .at(this.documentArr[index].formArrayIndex)
+        //   .get('documentId')
+        //   .setValue(documentId);
+        // console.log('this.documentArr', this.documentArr);
+        // documentIds.forEach((id, index) => {
+        //   this.documentArr[index].documentId = id;
+        // });
+        // this.documentArr.forEach((docs, index) => {
+        //   const formArrayIndex = docs.formArrayIndex;
+        //   if (formArrayIndex !== undefined) {
+        //     const formArray = this.uploadForm.get(
+        //       `${this.FORM_ARRAY_NAME}_${docs.subCategoryCode}`
+        //     ) as FormArray;
+        //     formArray
+        //       .at(formArrayIndex)
+        //       .get('documentId')
+        //       .setValue(documentIds[index]);
+        //   }
+        // });
+      });
+  }
+
+  
 
 }

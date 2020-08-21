@@ -310,6 +310,32 @@
                         >
                         </app-custom-input>
                     </div>
+                    <div *ngIf="isMobile" class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <div class="photo">
+                            <img
+                            [src]="
+                            SELFIE_IMAGE ||
+                                '../../../../assets/images/user.jpg'
+                            "
+                            alt="[Image: Photo]"
+                            width="100"
+                            />
+                        </div>
+                        <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie </button>
+                        <app-upload-modal
+                        [showModal]="showModal"
+                        (close)="showModal = false"
+                        (uploadSuccess)="onUploadSuccess($event)"
+                        [docsDetails]="selectedDocDetails"
+                        ></app-upload-modal>
+                    </div>
+                    <div *ngIf="isMobile" class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <label for="timeOf_verification">{{labels.routeMap}} 
+                        </label>
+                        <div class="photo">
+                            <img src="{{base64Image}}"  width="300"/>
+                        </div>
+                    </div>
                 </div>
                 <h3 class="cus-title title"> {{labels?.loanDetails}} </h3>
                 <div class="row">
@@ -403,7 +429,6 @@
                 <button class="btn btn-primary " type="button" (click)="onNext()"> {{labels.next}} </button>
             </div>
         </div> -->
-        <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie </button>
 </form>
 <!-- </div> -->
 
@@ -435,11 +460,4 @@
         </div>
     </div>
 </div>
-
-<app-upload-modal
-  [showModal]="showModal"
-  (close)="showModal = false"
-  (uploadSuccess)="onUploadSuccess($event)"
-  [docsDetails]="selectedDocDetails"
-></app-upload-modal>
 
