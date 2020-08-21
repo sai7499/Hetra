@@ -515,3 +515,26 @@ agm-map {
 .show{
     display: inline-block;
 }
+
+.mob-font{
+    font-style: 12px;
+}
+
+
+@media (min-width:200px) and (max-width:767px) {
+    .mob-font{
+        font-style: 9px!important;
+    }
+
+    .footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 30px;
+    font-size: 9px!important;
+    color: #cacaca;
+    background-color: #1f1f1f;
+    margin-top: 30px;
+}    
+
+}

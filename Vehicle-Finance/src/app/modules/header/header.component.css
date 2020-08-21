@@ -34,3 +34,15 @@ width: 16px;
 border: none;
 outline: none;
 }
+
+.mob-font{
+    font-style: 12px;
+}
+
+
+@media (min-width:200px) and (max-width:767px) {
+    .mob-font{
+        font-style: 9px;
+    }    
+
+}
