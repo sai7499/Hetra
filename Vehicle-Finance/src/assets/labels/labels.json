@@ -2163,19 +2163,17 @@
             },
             "type": "alpha-numeric-nospace"
         },
-<<<<<<< HEAD
         "rentAmount": {
             "maxLength": {
                 "rule": 6
             },
             "type": "number"
-=======
+        },
         "amountDecimal": {
             "maxLength": {
-                "rule" : 10
+                "rule": 10
             },
             "type": "decimal"
->>>>>>> f45e9ca533f7956ae1f85919bac82fe386fbf591
         }
     }
 }
