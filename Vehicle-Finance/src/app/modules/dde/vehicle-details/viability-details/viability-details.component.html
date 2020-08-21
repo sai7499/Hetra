@@ -1,16 +1,18 @@
-ty <div class="text-left" *ngIf="label">
+ <div class="text-left" *ngIf="label">
 
     <form [formGroup]="viabilityForm">
-
-        <select class="btn btn-primary" id="vehicle_viability_navigate" formControlName="type"
+        <div class="row">
+            <select class="btn btn-primary col-lg-2 col-md-2 col-sm-2 col-xs-12 btn-mar" id="vehicle_viability_navigate" formControlName="type"
             (change)="vehicle_viability_navigate($event.target.value)" *ngIf="hideSubmit">
             <option value="{{item.key}}" *ngFor="let item of viabilityObj.vehicleViability">{{item?.value}}</option>
-        </select>
+            </select>
+        </div>
+        
         <!-- <app-vf-custom-select class="btn" id="vehicle_viability_navigate" [values]="viabilityObj?.vehicleViability"
             formControlName="type" (change)="vehicle_viability_navigate($event.target.value)">
         </app-vf-custom-select> -->
         <div id="passanger" *ngIf="vehicle_viability_value === '1VHCLVBTY'" formGroupName="passanger">
-            <h3 class="title">{{label?.passengerTitle}}</h3>
+            <h3 class="title heading-align">{{label?.passengerTitle}}</h3>
              
             
                 <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName  }} </p> 
@@ -22,7 +24,7 @@ ty <div class="text-left" *ngIf="label">
                 class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
                 <tr class="table-head-bg m-0 p-02 text-left">
                     <th>
-                        <h4>{{label?.income}}</h4>
+                        <h4 class="heading-mar">{{label?.income}}</h4>
                     </th>
                     <th></th>
                 </tr>
@@ -64,10 +66,10 @@ ty <div class="text-left" *ngIf="label">
                             <!-- <input type="number" class="form-control" name="distance_km" id="distance_km"
                                 formControlName="distanceInKm" /> -->
                             <app-custom-input formControlName="distanceInKm" 
-                                [maxLength]="label?.validationData?.amountValue?.maxLength" [isRequired]="'Distance in kms is Required'"
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength" [isRequired]="'Distance in kms is Required'"
                                 [placeholder]="'Enter Distance In Kms'"
                                 (keyup)="calculatePassenger()"
-                                [isDirty]="isDirty" [type]="label?.validationData?.amountValue?.type"></app-custom-input>
+                                [isDirty]="isDirty" [type]="label?.validationData?. amountDecimal?.type"></app-custom-input>
 
                         </td>
                     </tr>
@@ -78,12 +80,12 @@ ty <div class="text-left" *ngIf="label">
                                 formControlName="tripsPerMonth" /></td> -->
                                 <app-custom-input
                                 formControlName="tripsPerMonth"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [isRequired]="'TripsPerMonth is Required'"
                                 [placeholder]="'Enter Trips Per Month'"
                                 [isDirty]="isDirty"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 (keyup)="calculatePassenger()"
                                 ></app-custom-input>
                     </tr>
@@ -95,12 +97,12 @@ ty <div class="text-left" *ngIf="label">
 
                                 <app-custom-input
                                 formControlName="monthlyRunningKm"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [isRequired]="'monthlyRunningKm is Required'"
                                 [isDirty]="isDirty"
                                 [placeholder]="' Monthly Running Kms'"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isDisabled]=" true"
                                 ></app-custom-input>
                     </tr>
@@ -112,12 +114,12 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="average_load_ton"
                                 formControlName="avgLoadPerTon"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
+                                [patternCheck]=""
+                                [maxLength]="label?.validationData?.amountDecimal?.maxLength"
                                 [isRequired]="'Average Load Per Ton is Required'"
                                 [isDirty]="isDirty"
                                 [placeholder]="'Enter Average Load Per Ton'"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [type]="label?.validationData?.amountDecimal?.type"
                                 (keyup)="calculatePassenger()"
                                 ></app-custom-input>
                             </td>
@@ -130,12 +132,12 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="rate_tonne_kl"
                                 formControlName="rateTonne"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [isRequired]="'Tonnage Rate is Required'"
                                 [placeholder]="'Enter Rate of Tonne'"
                                 [isDirty]="isDirty"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 (keyup)="calculatePassenger()"
                                 ></app-custom-input>
                         </td>
@@ -148,11 +150,11 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="rate_tonne_kl"
                                 formControlName="otherIncome"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"  
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"  
                                 [placeholder]="'Enter Other Revenue'"
                                
-                                [type]="label?.validationData?.amountValue?.type"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 (keyup)="calculatePassenger()"
                                 ></app-custom-input>
                         </td>
@@ -177,7 +179,7 @@ ty <div class="text-left" *ngIf="label">
                     </tr>
                     <tr>
                         <td><strong>(g) {{label?.monthlyRevenueInLacs}}</strong></td>
-                        <td><strong>{{monthlyIncome}}</strong></td>
+                        <td class="wrd-brk"><strong>{{monthlyIncome}}</strong></td>
                     </tr>
                     <tr>
                         <td>{{label?.validityCheck}}</td>
@@ -191,11 +193,11 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="fuel_average_km"
                                 formControlName="fuelAvgPerKm"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [isRequired]="'Fuel Avg Per Km is Required'"
                                 [isDirty]="isDirty"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [placeholder]="'Enter Fuel Avg Per Km'"
                                 (keyup)=" calculatePassengerB()"
                                 ></app-custom-input>
@@ -208,11 +210,11 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="cost_litre_fuel"
                                 formControlName="costPerLtr"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [isRequired]="'Cost Per Litre is Required'"
                                 [isDirty]="isDirty"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [placeholder]="'Enter Cost Per Litre'"
                                 (keyup) = " calculatePassengerB()"
                                 ></app-custom-input>
@@ -225,11 +227,11 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="num_tyres"
                                 formControlName="noOfTyres"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [isRequired]="'No Of Tyres is Required'"
                                 [isDirty]="isDirty"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [placeholder]="'Enter No of Tyres'"
                                 (keyup)=" calculatePassengerB()"
                                 ></app-custom-input>
@@ -243,11 +245,11 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="cost_tyre"
                                 formControlName="perTyreCost"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [isRequired]="'Cost Per Tyre is Required'"
                                 [isDirty]="isDirty"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [placeholder]="'Enter Cost Per Tyre'"
                                 (keyup)=" calculatePassengerB()"
                                 ></app-custom-input>
@@ -261,9 +263,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="cost_tyre"
                                 formControlName="newTyreLifeKm"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Life Of Tyre Is Required'"
                                 [isDirty]="isDirty"
                                 [placeholder]="'Enter Life of New Tyre'"
@@ -272,7 +274,7 @@ ty <div class="text-left" *ngIf="label">
                     </tr>
                     <tr>
                         <td><strong>{{label?.expenses}}</strong></td>
-                        <td></td>
+                        <td class="wrd-brk"></td>
                     </tr>
                     <tr>
                         <td>{{label?.totalFuelCost}}</td>
@@ -282,9 +284,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="fuel_cost"
                                 formControlName="fuelCost"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Fuel Cost Is Required'"
                                 [isDirty]="isDirty"
                                 [placeholder]="'Enter Fuel Cost'"
@@ -301,9 +303,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="fuel_cost"
                                 formControlName="tyreCost"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'tyre Cost Is Required'"
                                 [isDirty]="isDirty"
                                 
@@ -321,9 +323,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="drivers_salary_allowances"
                                 formControlName="driversSalary"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Drivers Salary Is Required'"
                                 [isDirty]="isDirty"
                                 
@@ -341,9 +343,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="cleaners_salary_allowances"
                                 formControlName="cleanersSalary"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Cleaners Salary Is Required'"
                                 [isDirty]="isDirty"
                                
@@ -360,9 +362,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="permit_cost"
                                 formControlName="permitCost"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Permit Cost Is Required'"
                                 [isDirty]="isDirty"
                                 
@@ -379,9 +381,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="fc_charge"
                                 formControlName="fcCharge"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'FC-Charge Cost Is Required'"
                                 [isDirty]="isDirty"
                                 [placeholder]="'Enter FC-Charge Cost'"
@@ -397,9 +399,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="toll_tax_paid"
                                 formControlName="paidTollTax"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Paid TollTax Cost Is Required'"
                                 [isDirty]="isDirty"
                                 
@@ -417,9 +419,9 @@ ty <div class="text-left" *ngIf="label">
                                 [id]="taxes"
                                 (keyup)="calculatePassengerC()"
                                 formControlName="taxes"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Taxes Is Required'"
                                 [isDirty]="isDirty"
                                 
@@ -437,9 +439,9 @@ ty <div class="text-left" *ngIf="label">
                                 [id]="maintanence"
                                 (keyup)="calculatePassengerC()"
                                 formControlName="maintanence"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Maintanence Is Required'"
                                 [isDirty]="isDirty"
                                 
@@ -455,9 +457,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="miscellaneous"
                                 formControlName="busMiscellaneousExpenses"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Miscellaneous Is Required'"
                                 [isDirty]="isDirty"
                                 
@@ -474,7 +476,7 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="insurance_expenses"
                                 formControlName="busInsurenceExpenses"
-                                [patternCheck]="inputValidation"
+                                [patternCheck]=" "
                                 [maxLength]="inputLength10"
                                 [isRequired]="'Insurance Expenses Is Required'"
                                 [isDirty]="isDirty"
@@ -492,11 +494,11 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="insurance_expenses"
                                 formControlName="otherExpenses"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [isRequired]="'Other Expenses Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [placeholder]="'Enter Other Expenses If Any'"
                                 (keyup)="calculatePassengerC()"
                                 ></app-custom-input>
@@ -528,11 +530,11 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="insurance_expenses"
                                 formControlName="operationsExpenses"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                
                                 
-                                [type]="label?.validationData?.amountValue?.type"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [placeholder]="'Enter Operational Expenses If  Any'"
                                 (keyup)="calculatePassengerC()"
                                 ></app-custom-input>
@@ -546,9 +548,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="total_expensess"
                                 formControlName="totalExpenses"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Total Expenses Is Required'"
                                 [isDirty]="isDirty"
                                
@@ -564,7 +566,7 @@ ty <div class="text-left" *ngIf="label">
                     </tr>
                     <tr>
                         <td>{{label?.netCashFlow}}</td>
-                        <td ><strong>{{netFlowCash}}</strong></td>
+                        <td class="wrd-brk" ><strong>{{netFlowCash}}</strong></td>
                     </tr>
                     <tr>
                         <td>{{label?.emiFull}}</td>
@@ -573,9 +575,9 @@ ty <div class="text-left" *ngIf="label">
                             <app-custom-input
                                 [id]="emi"
                                 formControlName="emi"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Emi Is Required'"
                                 [isDirty]="isDirty"
                                 [placeholder]="'Enter EMI '"
@@ -585,7 +587,7 @@ ty <div class="text-left" *ngIf="label">
                     </tr>
                     <tr>
                         <td><strong>{{label?.netEmi}}</strong></td>
-                        <td colspan="1"><strong>{{netCashFlowEmiPassenger}}</strong></td>
+                        <td class="wrd-brk" colspan="1"><strong>{{netCashFlowEmiPassenger}}</strong></td>
                     </tr>
                     <tr>
                         <td colspan="2">&nbsp;</td>
@@ -598,7 +600,7 @@ ty <div class="text-left" *ngIf="label">
         </div>
         <div id="passanger_stand_operator" formGroupName="passangerStandOperator"
             *ngIf="vehicle_viability_value === '2VHCLVBTY'">
-            <h3 class="title">{{label?.passengerTitle}}</h3>
+            <h3 class="title heading-align">{{label?.passengerTitle}}</h3>
 
             <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName  }} </p> 
                 <p id="" >{{label?.vehicleModel}}:{{ viabilityDataObj?.model}}</p>
@@ -608,7 +610,7 @@ ty <div class="text-left" *ngIf="label">
                 class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
                 <tr class="table-head-bg m-0 p-02">
                     <th>
-                        <h4>{{label?.income}}</h4>
+                        <h4 class="heading-mar">{{label?.income}}</h4>
                     </th>
                     <th></th>
                 </tr>
@@ -638,9 +640,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="gross_income_perday"
                                 formControlName="grossIncomePerDay"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Gross Income Per Day Is Required'"
                                 [isDirty]="isDirty"
                                 [placeholder]="'Enter Gross Income Per Day'"
@@ -656,9 +658,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="gross_income_perday"
                                 formControlName="businessEarningPerDay"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Earnings Per Day Is Required'"
                                 [isDirty]="isDirty"
                                 (keyup)="calculateStandOperator()"
@@ -668,7 +670,7 @@ ty <div class="text-left" *ngIf="label">
                     </tr>
                     <tr>
                         <td><strong> {{label?.monthlyIncome}} (A)</strong></td>
-                        <td><strong>{{montlyStandOperatorIncome}}</strong></td>
+                        <td class="wrd-brk"><strong>{{montlyStandOperatorIncome}}</strong></td>
                     </tr>
                     <tr>
                         <td>(c) {{label?.expensesPerDay}}</td>
@@ -678,9 +680,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="expenses_perday"
                                 formControlName="businessIncomePerDay"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Expenses Per Day Is Required'"
                                 [isDirty]="isDirty"
                                 
@@ -698,9 +700,9 @@ ty <div class="text-left" *ngIf="label">
                                 (keyup)="calculateStandOperatorB()"
                                 [id]="avg_tyre_expenses_permonth"
                                 formControlName="avgTyreExpenses"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Avg Tyre Expenses Is Required'"
                                 [isDirty]="isDirty"
                                 
@@ -717,9 +719,9 @@ ty <div class="text-left" *ngIf="label">
                                 (keyup)="calculateStandOperatorB()"
                                 [id]="insurance_expenses_permonth"
                                 formControlName="insuranceExpenses"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Insurance Expenses Is Required'"
                                 [isDirty]="isDirty"
                                 
@@ -736,9 +738,9 @@ ty <div class="text-left" *ngIf="label">
                                 (keyup)="calculateStandOperatorB()"
                                 [id]="miscellaneous_expenses"
                                 formControlName="miscellaneousExpenses"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Miscellaneous Expenses Is Required'"
                                 [isDirty]="isDirty"
                                 
@@ -755,9 +757,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="total_expenses"
                                 formControlName="totalExpenses"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Total Expenses Is Required'"
                                 [isDirty]="isDirty"
                                 
@@ -780,9 +782,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="net_cash_flow"
                                 formControlName="netCashFlow"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Net Cash Flow Is Required'"
                                 [isDirty]="isDirty"
                                 
@@ -798,9 +800,9 @@ ty <div class="text-left" *ngIf="label">
                             <app-custom-input
                             [id]="emi"
                             formControlName="emi"
-                            [patternCheck]="inputValidation"
-                            [maxLength]="label?.validationData?.amountValue?.maxLength"
-                            [type]="label?.validationData?.amountValue?.type"
+                            [patternCheck]=" "
+                            [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                            [type]="label?.validationData?. amountDecimal?.type"
                             [isRequired]="'EMI Is Required'"
                             [isDirty]="isDirty"
                             
@@ -811,7 +813,7 @@ ty <div class="text-left" *ngIf="label">
                     </tr>
                     <tr>
                         <td><strong>{{label?.netCashFlowEMI}}</strong></td>
-                        <td colspan="1"><strong>{{standOperatorEmi}}</strong></td>
+                        <td class="wrd-brk" colspan="1"><strong>{{standOperatorEmi}}</strong></td>
                     </tr>
                     <tr>
                         <td colspan="2">&nbsp;</td>
@@ -822,7 +824,7 @@ ty <div class="text-left" *ngIf="label">
 
         </div>
         <div id="captive" formGroupName="captive" *ngIf="vehicle_viability_value === '3VHCLVBTY'">
-            <h3 class="title">{{label?.passengerTitle}}</h3>
+            <h3 class="title heading-align">{{label?.passengerTitle}}</h3>
 
             <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName  }} </p> 
                 <p id="" >{{label?.vehicleModel}}:{{ viabilityDataObj?.model}}</p>
@@ -832,7 +834,7 @@ ty <div class="text-left" *ngIf="label">
                 class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
                 <tr class="table-head-bg m-0 p-02">
                     <th>
-                        <h4>{{label?.income}}</h4>
+                        <h4 class="heading-mar">{{label?.income}}</h4>
                     </th>
                     <th></th>
                 </tr>
@@ -862,9 +864,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="gross_income_perday_business"
                                 formControlName="businessIncomePerDay"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Business Income Per Day Is Required'"
                                 [isDirty]="isDirty"
                         
@@ -881,9 +883,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="num_earnings_perday"
                                 formControlName="businessEarningPerDay"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Business Earning Per Day Is Required'"
                                 [isDirty]="isDirty"
                                 
@@ -894,7 +896,7 @@ ty <div class="text-left" *ngIf="label">
                     </tr>
                     <tr>
                         <td><strong>{{label?.monthlyIncome}}(A)</strong></td>
-                        <td><strong>{{montlyCaptiveIncome}}</strong></td>
+                        <td class="wrd-brk"><strong>{{montlyCaptiveIncome}}</strong></td>
                     </tr>
                     <tr>
                         <td>(c) {{label?.expensesPerDay}}  </td>
@@ -904,9 +906,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="expenses_perday_business"
                                 formControlName="busExpensesPerDay"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Business Expenses Per Day Is Required'"
                                 [isDirty]="isDirty"
                                 
@@ -923,9 +925,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="obligations_business_month"
                                 formControlName="oblicationsPerMonth"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Obligations Per Month Is Required'"
                                 [isDirty]="isDirty"
                                 
@@ -942,9 +944,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="avgtyre_expenses_permonth"
                                 formControlName="busTyreAvgExpenses"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Bus Tyre Avg Expenses Is Required'"
                                 [isDirty]="isDirty"
                                
@@ -961,9 +963,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="insurance_expenses_permonth"
                                 formControlName="busInsurenceExpenses"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Obligations Per Day Is Required'"
                                 [isDirty]="isDirty"
                                 
@@ -980,9 +982,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="miscellaneous_expenses"
                                 formControlName="busMiscellaneousExpenses"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Miscellaneous Per Day Is Required'"
                                 [isDirty]="isDirty"
                                 
@@ -999,9 +1001,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="miscellaneous_expenses"
                                 formControlName="totalExpenses"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Total Expenses Is Required'"
                                 [isDirty]="isDirty"
                                 
@@ -1022,9 +1024,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="net_cash_flow"
                                 formControlName="netCashFlowEmi"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'NetCashFlowEmi Is Required'"
                                 [isDirty]="isDirty"
                                 
@@ -1041,9 +1043,9 @@ ty <div class="text-left" *ngIf="label">
                                 <app-custom-input
                                 [id]="emi"
                                 formControlName="emi"
-                                [patternCheck]="inputValidation"
-                                [maxLength]="label?.validationData?.amountValue?.maxLength"
-                                [type]="label?.validationData?.amountValue?.type"
+                                [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type"
                                 [isRequired]="'Emi Is Required'"
                                 [isDirty]="isDirty"
                                 
@@ -1054,7 +1056,7 @@ ty <div class="text-left" *ngIf="label">
                     </tr>
                     <tr>
                         <td><strong>{{label?.netCashFlowEMI}}</strong></td>
-                        <td colspan="1"><strong>{{captiveEmi}}</strong></td>
+                        <td class="wrd-brk" colspan="1"><strong>{{captiveEmi}}</strong></td>
                     </tr>
                     <tr>
                         <td colspan="2" >&nbsp;</td>

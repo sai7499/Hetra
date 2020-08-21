@@ -243,6 +243,7 @@ if (data) {
 
   if (data.pdcList ) {
     for (let i = 0; i < data.pdcList.length; i++ ) {
+      this.addPdcUnit();
       PdcControl.at(i).patchValue({
         pdcId : data.pdcList[i].pdcId ? data.pdcList[i].pdcId : null,
       instrType: data.pdcList[i].instrType ? data.pdcList[i].instrType : null,

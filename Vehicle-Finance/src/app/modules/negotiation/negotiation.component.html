@@ -1,561 +1,560 @@
 <main>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-6">
-        <h3>{{ labels?.negotiationTitle }}</h3>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6">
+          <h3>{{ labels?.negotiationTitle }}</h3>
+        </div>
+        <div class="col-md-6 text-right"></div>
       </div>
-      <div class="col-md-6 text-right"></div>
-    </div>
-    <div class="content" id="disbursement-memo">
-      <form [formGroup]="createNegotiationForm" class="form-horizontal" autocomplete="off">
-        <div>
-          <h4 class="title">{{ labels?.leadReferenceDetails }}</h4>
-          <div class="form-group">
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="productCode">{{labels?.productLMSCode}}
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <input disabled formControlName="productCode" type="text" class="form-control mandatory select2" id="productCode" placeholder="Product (LMS Code - Name)"
-                name="productCode" />
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="applicant">{{labels?.applicantName}}
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <input disabled formControlName="applicant" type="text" class="form-control mandatory select2" id="applicant" placeholder="Applicant"
-                name="applicant" />
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-5 col-md-4 col-lg-3">
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <input disabled formControlName="CustomerCategory" type="text" class="form-control mandatory select2" id="CustomerCategory"
-                placeholder="Applicant Category" name="CustomerCategory" />
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="coApplicant">{{labels?.CoApplicant}}
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <input disabled formControlName="coApplicant" type="text" class="form-control mandatory select2" id="coApplicant" placeholder="Co - Applicant"
-                name="coApplicant" />
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-5 col-md-4 col-lg-3">
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <input disabled formControlName="coapplicantCategory" type="text" class="form-control mandatory select2" id="coapplicantCategory"
-                placeholder="Co-Applicant Category" name="coapplicantCategory" />
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="guarantor">{{labels?.guarantor}}
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <input disabled formControlName="guarantor" type="text" class="form-control mandatory select2" id="guarantor" placeholder="Guarantor"
-                name="guarantor" />
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-5 col-md-4 col-lg-3">
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <input disabled formControlName="guarantorCategory" type="text" class="form-control mandatory select2" id="guarantorCategory"
-                placeholder="Guarantor Category" name="guarantorCategory" />
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="reqLoanAmount">{{labels?.requestedLoanAmount}}
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <input disabled formControlName="reqLoanAmount" type="text" class="form-control mandatory select2" id="reqLoanAmount" placeholder="Requested Loan Amount"
-                name="reqLoanAmount" />
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="reqLoanTenor">{{labels?.requestedLoanTenor}}
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <input disabled formControlName="reqLoanTenor" type="text" class="form-control mandatory select2" id="reqLoanTenor" placeholder="Requested Loan Tenor"
-                name="reqLoanTenor" />
-            </div>
-          </div>
-        </div>
-        <div *ngFor="let ticket of t.controls; let i = index">
-          <h4 class="title">{{ labels?.assetDetails }} - {{i +1}}</h4>
-          <div [formGroup]="ticket">
+      <div class="content" id="disbursement-memo">
+        <form [formGroup]="createNegotiationForm" class="form-horizontal" autocomplete="off">
+          <div>
+            <h4 class="title">{{ labels?.leadReferenceDetails }}</h4>
             <div class="form-group">
-              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="vehicleModel">{{ labels?.VehicleModel }}
+              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="productCode">{{labels?.productLMSCode}}
               </label>
-              <div class="col-sm-6 col-md-4 col-lg-3 label-space">
-                <input disabled formControlName="vehicleModel" type="text" class="form-control mandatory select2" id="vehicleModel" placeholder="Vehicle Model"
-                  name="vehicleModel" />
+              <div class="col-sm-6 col-md-4 col-lg-3">
+                <input formControlName="productCode" type="text" class="form-control mandatory select2" id="productCode" placeholder="Product (LMS Code - Name)"
+                  name="productCode" />
               </div>
-              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingProgram">{{ labels?.FundingProgram }}
+            </div>
+            <div class="form-group">
+              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="applicant">{{labels?.applicantName}}
               </label>
-              <div class="col-sm-6 col-md-4 col-lg-3 label-space">
-                <input disabled formControlName="fundingProgram" type="text" class="form-control mandatory select2" id="fundingProgram" placeholder="Funding Program"
-                  name="fundingProgram" />
+              <div class="col-sm-6 col-md-4 col-lg-3">
+                <input formControlName="applicant" type="text" class="form-control mandatory select2" id="applicant" placeholder="Applicant"
+                  name="applicant" />
               </div>
-              <div class="form-group">
-                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="regNo">{{ labels?.RegNo }}
-                </label>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                  <input disabled formControlName="regNo" type="text" class="form-control mandatory select2" id="regNo" placeholder="Reg.No"
-                    name="regNo" />
-                </div>
-                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="ManufacturingYear">{{ labels?.ManufacturingYear }}
-                </label>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                  <input disabled formControlName="ManufacturingYear" type="text" class="form-control mandatory select2" id="ManufacturingYear"
-                    placeholder="Manufacturing Year" name="ManufacturingYear" />
-                </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-sm-5 col-md-4 col-lg-3">
+              </label>
+              <div class="col-sm-6 col-md-4 col-lg-3">
+                <input formControlName="CustomerCategory" type="text" class="form-control mandatory select2" id="CustomerCategory" placeholder="Applicant Category"
+                  name="CustomerCategory" />
               </div>
-              <div class="form-group">
-                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="ageofAsset">{{ labels?.AgeofAsset }}
-                </label>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                  <input disabled formControlName="ageofAsset" type="text" class="form-control mandatory select2" id="ageofAsset" placeholder="Age of Asset as on date"
-                    name="ageofAsset" />
-                </div>
-                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="netAssetCost">{{ labels?.NetAssetCost }}
-                </label>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                  <input disabled formControlName="netAssetCost" type="text" class="form-control mandatory select2" id="netAssetCost" placeholder="Net Asset Cost (in INR)"
-                    name="netAssetCost" />
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="eligibleLTV">{{ labels?.EligibleLTV }}
-                </label>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                  <input disabled formControlName="eligibleLTV" type="text" class="form-control mandatory select2" id="eligibleLTV" placeholder="Eligible LTV (in %)"
-                    name="eligibleLTV" />
-                </div>
-                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="eligibleLoanAmount">{{ labels?.EligibleLoanAmount }}
-                </label>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                  <input disabled formControlName="eligibleLoanAmount" type="text" class="form-control mandatory select2" id="eligibleLoanAmount"
-                    placeholder="Eligible Loan Amount (in INR)" name="eligibleLoanAmount" />
-                </div>
-                <!-- <label class="control-label col-sm-5 col-md-4 col-lg-3" for="promoCode">{{ labels?.PromotionSubventionCode }}
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3">
-                    <input disabled formControlName="promoCode" type="text" class="form-control mandatory select2" id="promoCode" placeholder="Promotion / Subvention Code"
-                      name="promoCode" />
-                  </div> -->
-              </div>
-              <div class="form-group">
-                <!-- <label class="control-label col-sm-5 col-md-4 col-lg-3" for="subventionAmount">{{ labels?.SubventionAmount }}
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3">
-                    <input disabled formControlName="subventionAmount" type="text" class="form-control mandatory select2" id="subventionAmount"
-                      placeholder="Subvention Amount (in INR)" name="subventionAmount" />
-                  </div> -->
-              </div>
-              <!-- <div class="form-group">
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="incentiveAmount">{{ labels?.IncentiveAmount }}
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3">
-                    <input disabled formControlName="incentiveAmount" type="text" class="form-control mandatory select2" id="incentiveAmount"
-                      placeholder="Incentive Amount (in INR)" name="incentiveAmount" />
+            </div>
+            <div *ngIf="applicant1.length > 0">
+              <div *ngFor="let app1 of applicant1.controls; let i = index">
+                <div [formGroup]="app1">
+                  <div *ngIf="applicant1.controls[i].coApplicant != ''" class="form-group">
+                    <label class="control-label col-sm-5 col-md-4 col-lg-3" for="coApplicant">{{labels?.CoApplicant}}
+                    </label>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                      <input formControlName="coApplicant" type="text" class="form-control mandatory select2" id="coApplicant" placeholder="Co - Applicant"
+                        name="coApplicant" />
+                    </div>
                   </div>
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="eligibleLoanAmountAftersubvention">{{ labels?.EligibleLoanAmountAfterSubvention }}
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3">
-                    <input disabled formControlName="eligibleLoanAmountAftersubvention" type="text" class="form-control mandatory select2" id="eligibleLoanAmountAftersubvention"
-                      placeholder="Eligible Loan Amount After Subvention (in INR)" name="eligibleLoanAmountAftersubvention" />
+                  <div *ngIf="applicant1.controls[i].coApplicant != ''"class="form-group">
+                    <label class="control-label col-sm-5 col-md-4 col-lg-3">
+                    </label>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                      <input formControlName="coapplicantCategory" type="text" class="form-control mandatory select2" id="coapplicantCategory"
+                        placeholder="Co-Applicant Category" name="coapplicantCategory" />
+                    </div>
                   </div>
-                </div> -->
-              <div class="form-group">
-                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="eligibleLoanTenor">{{ labels?.EligibleLoanTenor }}
-                </label>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                  <input disabled formControlName="eligibleLoanTenor" type="text" class="form-control mandatory select2" id="eligibleLoanTenor"
-                    placeholder="Eligible Loan Tenor" name="eligibleLoanTenor" />
                 </div>
-                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="EligibleIRR">{{ labels?.EligibleIRR }}
-                </label>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                  <input disabled formControlName="EligibleIRR" type="text" class="form-control mandatory select2" id="EligibleIRR" placeholder="Eligible IRR (%)"
-                    name="EligibleIRR" />
+              </div>
+            </div>
+            <div *ngIf="guarantor1.length > 0">
+              <div *ngFor="let app1 of guarantor1.controls; let i = index">
+                <div [formGroup]="app1">
+                  <div class="form-group">
+                    <label class="control-label col-sm-5 col-md-4 col-lg-3" for="guarantor">{{labels?.guarantor}}
+                    </label>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                      <input formControlName="guarantor" type="text" class="form-control mandatory select2" id="guarantor" placeholder="Guarantor"
+                        name="guarantor" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-sm-5 col-md-4 col-lg-3">
+                    </label>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                      <input formControlName="guarantorCategory" type="text" class="form-control mandatory select2" id="guarantorCategory" placeholder="Guarantor Category"
+                        name="guarantorCategory" />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="form-group">
-              <b>{{ labels?.crossSellInsurance }}</b>
-            </div>
-            <div formGroupName="CrossSellInsurance">
-              <!-- <div *ngFor="let ins of createNegotiationForm.controls.CrossSellInsurance['controls'][i].controls"> -->
-              <!-- <div formArrayName="0"> -->
-              <div formGroupName="motor">
-                <div class="form-group">
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="business_division">{{ InsuranceProvidersLabel[0].insurance_type_name }}
-                    <sub class="star_red_col">*</sub>
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3 position-relative">
-                    <app-vf-custom-select [values]="InsuranceProvidersLOV" 
-                      formControlName="motorInsurance" 
-                      [isRequired]="'FRSD / Motor Insurance is required'"
-                      (change)="getUIValues($event, true, 'MI',i);calculateTotal($event, true,'MI',i, 'motor');calculatepremiumAmount($event,1,i)">
-                    </app-vf-custom-select>
-                    <button type="button" [disabled]="motarButtonFlag[i]" 
-                      (click)="fetchPreimumAmount(1,motorInsuranceProviderName)" 
-                      class="calc-icon">
-                    </button>
-                  </div>
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" 
-                    for="MITenure">{{ labels?.MITenure }}
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-custom-input formControlName="MITenure" type="text"  
-                      class="form-control mandatory select2 custom-negotiation-field" 
-                      id="MITenure" placeholder="Eligible LTV (in %)"
-                      name="MITenure">
-                    </app-custom-input>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" 
-                    for="fundingRequiredforMI">{{ labels?.fundingRequiredforMI }}
-                    <sub class="star_red_col">*</sub>
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-vf-custom-select [values]="FundingRequiredLOV" 
-                      formControlName="fundingRequiredforMI" [isDirty]="isDirty" 
-                      [isRequired]="'Is Funding Required for MI is required'"
-                      (change)="calculateTotal($event, true,'MI',i,'motor')">
-                    </app-vf-custom-select>
-                  </div>
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" 
-                    for="MIPremiumAmount">{{ labels?.MIPremiumAmount }}
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-custom-input formControlName="MIPremiumAmount" type="text" 
-                      id="MIPremiumAmount" placeholder="MI Premium Amount (in INR)"
-                      name="MIPremiumAmount"  
-                      class="form-control mandatory select2 custom-negotiation-field"  
-                      (change)="calculateTotal($event, true,'MI',i,'motor')" >
-                      </app-custom-input>
-                  </div>
-                </div>
-              </div>
-              <div formGroupName="pac">
-                <div class="form-group">
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" 
-                    for="creditShieldPAC"> {{ InsuranceProvidersLabel[1].insurance_type_name }}
-                    <sub class="star_red_col">*</sub>
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3 position-relative">
-                    <app-vf-custom-select [values]="PACInsuranceProvidersLOV" 
-                      formControlName="creditShieldPAC" 
-                      [isRequired]="'Credit Shield - PAC is required'"
-                      (change)="getUIValues($event, true, 'PAC',i);
-                              calculateTotal($event, true,'PAC',i, 'pac');
-                              calculatepremiumAmount($event,2,i)">
-                    </app-vf-custom-select>
-                    <button type="button" [disabled]="PACButtonFlag[i]" 
-                    (click)="fetchPreimumAmount(2,pACInsuranceProviderName)" class="calc-icon"></button>
-                  </div>
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" 
-                    for="PACPremiumAmount">{{ labels?.PACPremiumAmount }}
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-custom-input formControlName="PACPremiumAmount" 
-                      type="text" id="PACPremiumAmount" 
-                      placeholder="PAC Premium Amount (in INR)"
-                      name="PACPremiumAmount"  
-                      class="form-control mandatory select2 custom-negotiation-field" 
-                      (change)="calculateTotal($event, true,'PAC',i,'pac')">
-                      </app-custom-input>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" 
-                    for="fundingRequiredforPAC">{{ labels?.fundingRequiredforPAC }}
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-vf-custom-select [values]="FundingRequiredLOV" 
-                      formControlName="fundingRequiredforPAC" 
-                      (change)="calculateTotal($event, true,'PAC',i , 'pac')"
-                      [isRequired]="'Is Funding Required for PAC is required'">
-                    </app-vf-custom-select>
-                  </div>
-                </div>
-              </div>
-              <div formGroupName="life">
-                <div class="form-group">
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" 
-                    for="creditShieldLifeCover">{{ InsuranceProvidersLabel[2].insurance_type_name }}
-                    <sub class="star_red_col">*</sub>
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3 position-relative">
-                    <app-vf-custom-select [values]="creditShieldInsuranceProvidersLOV" 
-                      formControlName="creditShieldLifeCover" 
-                      [className]="'form-control mandatory'"
-                      (change)="getUIValues($event, true, 'creditShield',i);
-                      calculateTotal($event, true,'LIFE',i,'life');calculatepremiumAmount($event,3,i)">
-                    </app-vf-custom-select>
-                    <button type="button" [disabled]="lifeButtonFlag[i]" 
-                    (click)="fetchPreimumAmount(3,creditShieldInsuranceProviderName)" class="calc-icon"></button>
-                  </div>
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingforLifeCover">{{ labels?.fundingforLifeCover }}
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-vf-custom-select [values]="InsuranceSlabLOV" formControlName="fundingforLifeCover" [className]="'form-control mandatory'">
-                    </app-vf-custom-select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforPAC">{{ labels?.fundingRequiredforlifeCover }}
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforlifeCover" (change)="calculateTotal($event, true,'LIFE',i , 'life')"
-                      [isRequired]="'Is Funding Required for life-cover is required'">
-                    </app-vf-custom-select>
-                  </div>
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="lifeCoverPremiumAmount">{{ labels?.lifeCoverPremiumAmount }}
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-custom-input formControlName="lifeCoverPremiumAmount" type="text"  class="form-control mandatory select2 custom-negotiation-field"  id="lifeCoverPremiumAmount"
-                      placeholder="Life Cover Premium Amount (in INR)" name="lifeCoverPremiumAmount" (change)="calculateTotal($event, true,'LIFE',i , 'life')"
-                    >
-                    </app-custom-input>
-                  </div>
-                </div>
-              </div>
-              <div formGroupName="vas">
-                <div class="form-group">
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" 
-                    for="VAS">{{ InsuranceProvidersLabel[3].insurance_type_name}}
-                    <sub class="star_red_col">*</sub>
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3 position-relative">
-                    <app-vf-custom-select [values]="VASInsuranceProvidersLOV" 
-                      formControlName="VAS" (change)="getUIValues($event, true,'VAS',i);
-                        calculateTotal($event, true,'VAS',i,'vas');
-                        calculatepremiumAmount($event,4,i)"
-                      [isRequired]="'VAS is required'">
-                    </app-vf-custom-select>
-                    <button type="button" [disabled]="VASButtonFlag[i]" 
-                      (click)="fetchPreimumAmount(4,vASInsuranceProvidersName)" class="calc-icon"></button>
-                  </div>
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="VASPremiumAmount">{{ labels?.VASPremiumAmount }}
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-custom-input formControlName="VASPremiumAmount" type="text"  class="form-control mandatory select2 custom-negotiation-field"  id="VASPremiumAmount" placeholder="VAS Premium Amount (in INR)"
-                      name="VASPremiumAmount" (change)="calculateTotal($event, true,'VAS',i , 'vas')">
-                      </app-custom-input>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforVAS">{{ labels?.fundingRequiredforVAS }}
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforVAS" (change)="calculateTotal($event, true,'VAS',i,'vas')"
-                      [isRequired]="'Is Funding Required for VAS is required'">
-                    </app-vf-custom-select>
-                  </div>
-                </div>
+              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="reqLoanAmount">{{labels?.requestedLoanAmount}}
+              </label>
+              <div class="col-sm-6 col-md-4 col-lg-3">
+                <input formControlName="reqLoanAmount" type="text" class="form-control mandatory select2" id="reqLoanAmount" placeholder="Requested Loan Amount"
+                  name="reqLoanAmount" />
               </div>
             </div>
-            <!-- </div> -->
-            <!-- </div> -->
             <div class="form-group">
-              <b>{{ labels?.CrossSellFASTag }}</b>
+              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="reqLoanTenor">{{labels?.requestedLoanTenor}}
+              </label>
+              <div class="col-sm-6 col-md-4 col-lg-3">
+                <input formControlName="reqLoanTenor" type="text" class="form-control mandatory select2" id="reqLoanTenor" placeholder="Requested Loan Tenor"
+                  name="reqLoanTenor" />
+              </div>
             </div>
-            <div>
-            </div>
-            <div formGroupName="fastTag">
-              <!-- <div formArrayName="{{i}}">
-                  <div formGroupName="0"> -->
+          </div>
+          <div *ngFor="let ticket of t.controls; let i = index">
+            <h4 *ngIf="t.controls.length>1" class="title">{{ labels?.assetDetails }} - {{i +1}}</h4>
+            <h4 *ngIf="t.controls.length ==1" class="title">{{ labels?.assetDetails }}</h4>
+            <div *ngIf="this.productCategoryList" [formGroup]="ticket">
               <div class="form-group">
-                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="EquitasFASTagRequired">{{ labels?.EquitasFASTagRequired }}
-                  <sub class="star_red_col">*</sub>
+                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="vehicleModel">{{ labels?.VehicleModel }}
                 </label>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                  <app-vf-custom-select [values]="FASTagReqLOV" (change)="calculateTotal($event, true,'fastTag',i);getUIValues($event, true, 'fastTag',i)"
-                    formControlName="EquitasFASTagRequired">
-                  </app-vf-custom-select>
+                <div class="col-sm-6 col-md-4 col-lg-3 label-space">
+                  <input formControlName="vehicleModel" type="text" class="form-control mandatory select2" id="vehicleModel" placeholder="Vehicle Model"
+                    name="vehicleModel" />
                 </div>
-                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="FASTagAmount">{{ labels?.FASTagAmount }}
+                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingProgram">{{ labels?.FundingProgram }}
                 </label>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                  <app-custom-input formControlName="FASTagAmount" type="text" class="form-control mandatory select2 custom-negotiation-field" id="FASTagAmount" placeholder="FASTag Amount (in INR)"
-                    name="FASTagAmount" (change)="calculateTotal($event, true,'fastTag',i)" ></app-custom-input>
+                <div class="col-sm-6 col-md-4 col-lg-3 label-space">
+                  <input formControlName="fundingProgram" type="text" class="form-control mandatory select2" id="fundingProgram" placeholder="Funding Program"
+                    name="fundingProgram" />
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="regNo">{{ labels?.RegNo }}
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <input formControlName="regNo" type="text" class="form-control mandatory select2" id="regNo" placeholder="Reg.No" name="regNo"
+                    />
+                  </div>
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="ManufacturingYear">{{ labels?.ManufacturingYear }}
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <input formControlName="ManufacturingYear" type="text" class="form-control mandatory select2" id="ManufacturingYear" placeholder="Manufacturing Year"
+                      name="ManufacturingYear" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="ageofAsset">{{ labels?.AgeofAsset }}
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <input formControlName="ageofAsset" type="text" class="form-control mandatory select2" id="ageofAsset" placeholder="Age of Asset as on date"
+                      name="ageofAsset" />
+                  </div>
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="netAssetCost">{{ labels?.NetAssetCost }}
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <input formControlName="netAssetCost" type="text" class="form-control mandatory select2" id="netAssetCost" placeholder="Net Asset Cost (in INR)"
+                      name="netAssetCost" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="eligibleLTV">{{ labels?.EligibleLTV }}
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <input formControlName="eligibleLTV" type="text" class="form-control mandatory select2" id="eligibleLTV" placeholder="Eligible LTV (in %)"
+                      name="eligibleLTV" />
+                  </div>
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="eligibleLoanAmount">{{ labels?.EligibleLoanAmount }}
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <input formControlName="eligibleLoanAmount" type="text" class="form-control mandatory select2" id="eligibleLoanAmount" placeholder="Eligible Loan Amount (in INR)"
+                      name="eligibleLoanAmount" />
+                  </div>
+                  <!-- <label class="control-label col-sm-5 col-md-4 col-lg-3" for="promoCode">{{ labels?.PromotionSubventionCode }}
+                    </label>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                      <input  formControlName="promoCode" type="text" class="form-control mandatory select2" id="promoCode" placeholder="Promotion / Subvention Code"
+                        name="promoCode" />
+                    </div> -->
+                </div>
+                <div class="form-group">
+                  <!-- <label class="control-label col-sm-5 col-md-4 col-lg-3" for="subventionAmount">{{ labels?.SubventionAmount }}
+                    </label>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                      <input  formControlName="subventionAmount" type="text" class="form-control mandatory select2" id="subventionAmount"
+                        placeholder="Subvention Amount (in INR)" name="subventionAmount" />
+                    </div> -->
+                </div>
+                <!-- <div class="form-group">
+                    <label class="control-label col-sm-5 col-md-4 col-lg-3" for="incentiveAmount">{{ labels?.IncentiveAmount }}
+                    </label>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                      <input  formControlName="incentiveAmount" type="text" class="form-control mandatory select2" id="incentiveAmount"
+                        placeholder="Incentive Amount (in INR)" name="incentiveAmount" />
+                    </div>
+                    <label class="control-label col-sm-5 col-md-4 col-lg-3" for="eligibleLoanAmountAftersubvention">{{ labels?.EligibleLoanAmountAfterSubvention }}
+                    </label>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                      <input  formControlName="eligibleLoanAmountAftersubvention" type="text" class="form-control mandatory select2" id="eligibleLoanAmountAftersubvention"
+                        placeholder="Eligible Loan Amount After Subvention (in INR)" name="eligibleLoanAmountAftersubvention" />
+                    </div>
+                  </div> -->
+                <div class="form-group">
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="eligibleLoanTenor">{{ labels?.EligibleLoanTenor }}
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <input formControlName="eligibleLoanTenor" type="text" class="form-control mandatory select2" id="eligibleLoanTenor" placeholder="Eligible Loan Tenor"
+                      name="eligibleLoanTenor" />
+                  </div>
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="EligibleIRR">{{ labels?.EligibleIRR }}
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <input formControlName="EligibleIRR" type="text" class="form-control mandatory select2" id="EligibleIRR" placeholder="Eligible IRR (%)"
+                      name="EligibleIRR" />
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <b>{{ labels?.crossSellInsurance }}</b>
+              </div>
+              <div *ngIf="InsuranceProvidersLabel" formGroupName="CrossSellInsurance">
+                <!-- <div *ngFor="let ins of createNegotiationForm.controls.CrossSellInsurance['controls'][i].controls"> -->
+                <!-- <div formArrayName="0"> -->
+                <div formGroupName="motor">
+                  <div class="form-group">
+                    <label class="control-label col-sm-5 col-md-4 col-lg-3" 
+                    for="business_division">{{ InsuranceProvidersLabel[0]?.insurance_type_name }}
+                      <sub class="star_red_col">*</sub>
+                    </label>
+                    <div class="col-sm-6 col-md-4 col-lg-3 position-relative">
+                      <app-vf-custom-select [values]="InsuranceProvidersLOV" 
+                        formControlName="motorInsurance" [isDirty]="isDirty" [isRequired]="'FRSD / Motor Insurance is required'"
+                        (change)="getUIValues($event, true, 'MI',i);calculateTotal($event, true,'MI',i, 'motor');calculatepremiumAmount($event,1,i)">
+                      </app-vf-custom-select>
+                      <button type="button" [disabled]="motarButtonFlag[i]" 
+                        (click)="fetchPreimumAmount(1,'motor',i)" 
+                        class="calc-icon">
+                      </button>
+                    </div>
+                    <label class="control-label col-sm-5 col-md-4 col-lg-3" for="MITenure">{{ labels?.MITenure }}
+                    </label>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                      <app-custom-input formControlName="MITenure" type="text" class="form-control mandatory select2 custom-negotiation-field"
+                        id="MITenure" placeholder="Eligible LTV (in %)" [isDirty]="isDirty" [isRequired]="'MI Tenure is Required'"
+                        name="MITenure">
+                      </app-custom-input>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforMI">{{ labels?.fundingRequiredforMI }}
+                      <sub class="star_red_col">*</sub>
+                    </label>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                      <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforMI" [isDirty]="isDirty" [isRequired]="'Is Funding Required for MI is required'"
+                        (change)="calculateTotal($event, true,'MI',i,'motor')">
+                      </app-vf-custom-select>
+                    </div>
+                    <label class="control-label col-sm-5 col-md-4 col-lg-3" for="MIPremiumAmount">{{ labels?.MIPremiumAmount }}
+                    </label>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                      <app-custom-input formControlName="MIPremiumAmount" type="text" id="MIPremiumAmount" placeholder="MI Premium Amount (in INR)"
+                        name="MIPremiumAmount" [isDirty]="isDirty" [isRequired]="'MI Premium Amount is Required'" class="form-control mandatory select2 custom-negotiation-field"
+                        (change)="calculateTotal($event, true,'MI',i,'motor')">
+                      </app-custom-input>
+                    </div>
+                  </div>
+                </div>
+                <div formGroupName="pac">
+                  <div class="form-group">
+                    <label class="control-label col-sm-5 col-md-4 col-lg-3" for="creditShieldPAC"> {{ InsuranceProvidersLabel[1].insurance_type_name }}
+                      <sub class="star_red_col">*</sub>
+                    </label>
+                    <div class="col-sm-6 col-md-4 col-lg-3 position-relative">
+                      <app-vf-custom-select [values]="PACInsuranceProvidersLOV" formControlName="creditShieldPAC" [isDirty]="isDirty" [isRequired]="'Credit Shield - PAC is required'"
+                        (change)="getUIValues($event, true, 'PAC',i);
+                                calculateTotal($event, true,'PAC',i, 'pac');
+                                calculatepremiumAmount($event,2,i)">
+                      </app-vf-custom-select>
+                      <!-- <button type="button" [disabled]="PACButtonFlag[i]" 
+                        click)="fetchPreimumAmount(2,pACInsuranceProviderName)" 
+                        class="calc-icon"></button> -->
+                    </div>
+                    <label class="control-label col-sm-5 col-md-4 col-lg-3" for="PACPremiumAmount">{{ labels?.PACPremiumAmount }}
+                    </label>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                      <app-custom-input formControlName="PACPremiumAmount" type="text" id="PACPremiumAmount" placeholder="PAC Premium Amount (in INR)"
+                        name="PACPremiumAmount" [isDirty]="isDirty" [isRequired]="'PAC Premium Amount is Required'" class="form-control mandatory select2 custom-negotiation-field"
+                        (change)="calculateTotal($event, true,'PAC',i,'pac')">
+                      </app-custom-input>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforPAC">{{ labels?.fundingRequiredforPAC }}
+                    </label>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                      <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforPAC" [isDirty]="isDirty" (change)="calculateTotal($event, true,'PAC',i , 'pac')"
+                        [isRequired]="'Is Funding Required for PAC is required'">
+                      </app-vf-custom-select>
+                    </div>
+                  </div>
+                </div>
+                <div formGroupName="vas">
+                  <div class="form-group">
+                    <label class="control-label col-sm-5 col-md-4 col-lg-3" for="VAS">{{ InsuranceProvidersLabel[3].insurance_type_name}}
+                      <sub class="star_red_col">*</sub>
+                    </label>
+                    <div class="col-sm-6 col-md-4 col-lg-3 position-relative">
+                      <app-vf-custom-select [values]="VASInsuranceProvidersLOV" formControlName="VAS" (change)="getUIValues($event, true,'VAS',i);
+                          calculateTotal($event, true,'VAS',i,'vas');
+                          calculatepremiumAmount($event,4,i)" [isDirty]="isDirty" [isRequired]="'VAS is required'">
+                      </app-vf-custom-select>
+                      <!-- <button type="button" [disabled]="VASButtonFlag[i]" 
+                        (click)="fetchPreimumAmount(4,vASInsuranceProvidersName)" 
+                        class="calc-icon"></button> -->
+                    </div>
+                    <label class="control-label col-sm-5 col-md-4 col-lg-3" for="VASPremiumAmount">{{ labels?.VASPremiumAmount }}
+                    </label>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                      <app-custom-input formControlName="VASPremiumAmount" type="text" class="form-control mandatory select2 custom-negotiation-field"
+                        [isDirty]="isDirty" id="VASPremiumAmount" placeholder="VAS Premium Amount (in INR)" name="VASPremiumAmount"
+                        (change)="calculateTotal($event, true,'VAS',i , 'vas')">
+                      </app-custom-input>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforVAS">{{ labels?.fundingRequiredforVAS }}
+                    </label>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                      <app-vf-custom-select [values]="FundingRequiredLOV" [isDirty]="isDirty" formControlName="fundingRequiredforVAS" (change)="calculateTotal($event, true,'VAS',i,'vas')"
+                        [isRequired]="'Is Funding Required for VAS is required'">
+                      </app-vf-custom-select>
+                    </div>
+                  </div>
+                </div>
+                <div formGroupName="life">
+                  <div class="form-group">
+                    <label class="control-label col-sm-5 col-md-4 col-lg-3" for="creditShieldLifeCover">{{ InsuranceProvidersLabel[2].insurance_type_name }}
+                      <sub class="star_red_col">*</sub>
+                    </label>
+                    <div class="col-sm-6 col-md-4 col-lg-3 position-relative">
+                      <app-vf-custom-select [values]="creditShieldInsuranceProvidersLOV" 
+                        formControlName="creditShieldLifeCover" [className]="'form-control mandatory'"
+                        [isDirty]="isDirty" [isRequired]="'Credit Shield Life Cover is Required'" (change)="getUIValues($event, true, 'creditShield',i);
+                        calculateTotal($event, true,'LIFE',i,'life');calculatepremiumAmount($event,3,i)">
+                      </app-vf-custom-select>
+                      <button type="button" [disabled]="lifeButtonFlag[i]" 
+                        (click)="fetchPreimumAmount(3,'creditShieldInsurance',i)" class="calc-icon"></button>
+                    </div>
+                    <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingforLifeCover">{{ labels?.fundingforLifeCover }}
+                    </label>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                      <app-vf-custom-select [values]="InsuranceSlabLOV" 
+                        [isDirty]="isDirty" formControlName="fundingforLifeCover" 
+                        [className]="'form-control mandatory'"
+                        [isRequired]="'Is Funding Required for Lifer Cover is required'">
+                      </app-vf-custom-select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforPAC">{{ labels?.fundingRequiredforlifeCover }}
+                    </label>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                      <app-vf-custom-select [values]="FundingRequiredLOV" 
+                        formControlName="fundingRequiredforlifeCover" 
+                        (change)="calculateTotal($event, true,'LIFE',i , 'life')"
+                        [isRequired]="'Is Funding Required for life-cover is required'">
+                      </app-vf-custom-select>
+                    </div>
+                    <label class="control-label col-sm-5 col-md-4 col-lg-3" for="lifeCoverPremiumAmount">{{ labels?.lifeCoverPremiumAmount }}
+                    </label>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                      <app-custom-input formControlName="lifeCoverPremiumAmount" type="text" class="form-control mandatory select2 custom-negotiation-field"
+                        id="lifeCoverPremiumAmount" [isDirty]="isDirty" placeholder="Life Cover Premium Amount (in INR)" name="lifeCoverPremiumAmount"
+                        [isRequired]="'Life Cover Premium Amount is required'" (change)="calculateTotal($event, true,'LIFE',i , 'life')">
+                      </app-custom-input>
+                    </div>
+                  </div>
+                </div>
                 
-                </div>
               </div>
+              <!-- </div> -->
+              <!-- </div> -->
               <div class="form-group">
-                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforFASTag">{{ labels?.fundingRequiredforFASTag }}
-                  <sub class="star_red_col">*</sub>
-                </label>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                  <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforFASTag" (change)="calculateTotal($event, true,'fastTag',i)"
-                    [isRequired]="'Is Funding Required for FASTag is required'">
-                  </app-vf-custom-select>
-                </div>
-                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="LoanAmountincludingCrossSell">{{ labels?.LoanAmountincludingCrossSell }}
-                </label>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                  <input disabled formControlName="LoanAmountincludingCrossSell" type="text" class="form-control mandatory select2" id="LoanAmountincludingCrossSell"
-                    placeholder="Loan Amount including Cross Sell (in INR)" name="LoanAmountincludingCrossSell" />
-                </div>
+                <b>{{ labels?.CrossSellFASTag }}</b>
               </div>
-              <!-- </div>
-                </div> -->
+              <div>
+              </div>
+              <div formGroupName="fastTag">
+                <!-- <div formArrayName="{{i}}">
+                    <div formGroupName="0"> -->
+                <div class="form-group">
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="EquitasFASTagRequired">{{ labels?.EquitasFASTagRequired }}
+                    <sub class="star_red_col">*</sub>
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <app-vf-custom-select [values]="FASTagReqLOV" [isDirty]="isDirty" (change)="calculateTotal($event, true,'fastTag',i);getUIValues($event, true, 'fastTag',i)"
+                      formControlName="EquitasFASTagRequired" [isRequired]="'Is fastTag Required is Required'">
+                    </app-vf-custom-select>
+                  </div>
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="FASTagAmount">{{ labels?.FASTagAmount }}
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <app-custom-input formControlName="FASTagAmount" type="text" class="form-control mandatory select2 custom-negotiation-field"
+                      id="FASTagAmount" placeholder="FASTag Amount (in INR)" name="FASTagAmount" (change)="calculateTotal($event, true,'fastTag',i)"
+                      [isRequired]="'FAST Tag Amount is Required'" [isDirty]="isDirty"></app-custom-input>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforFASTag">{{ labels?.fundingRequiredforFASTag }}
+                    <sub class="star_red_col">*</sub>
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforFASTag" (change)="calculateTotal($event, true,'fastTag',i)"
+                      [isRequired]="'Is Funding Required for FASTag is required'" [isDirty]="isDirty">
+                    </app-vf-custom-select>
+                  </div>
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="LoanAmountincludingCrossSell">{{ labels?.LoanAmountincludingCrossSell }}
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <input formControlName="LoanAmountincludingCrossSell" type="text" class="form-control mandatory select2" id="LoanAmountincludingCrossSell"
+                      placeholder="Loan Amount including Cross Sell (in INR)" name="LoanAmountincludingCrossSell" />
+                  </div>
+                </div>
+                <!-- </div>
+                  </div> -->
+              </div>
             </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-5 col-md-4 col-lg-3" for="LoanAmountincludingCrossSellofalltheassets">{{ labels?.LoanAmountincludingCrossSellofalltheassets }}
-          </label>
-          <div class="col-sm-6 col-md-4 col-lg-3">
-            <input disabled formControlName="LoanAmountincludingCrossSellofalltheassets" type="text" class="form-control mandatory select2"
-              id="LoanAmountincludingCrossSellofalltheassets" placeholder="Loan Amount including Cross Sell of all the assets(in INR)"
-              name="LoanAmountincludingCrossSellofalltheassets" />
-          </div>
-        </div>
-        <div>
-          <h4 class="title">{{ labels?.negotiationTitle }}</h4>
-          <div class="form-group">
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NegotiatedLoanAmount">{{ labels?.NegotiatedLoanAmount }}
-              <sub class="star_red_col">*</sub>
+          <div *ngIf="t.controls.length>1" class="form-group">
+            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="LoanAmountincludingCrossSellofalltheassets">{{ labels?.LoanAmountincludingCrossSellofalltheassets }}
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input formControlName="NegotiatedLoanAmount" [className]="'form-control mandatory'" [type]="'number'" [placeholder]="'Negotiated Loan Amount'">
-              </app-custom-input>
-            </div>
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NegotiatedLoanTenor">{{ labels?.NegotiatedLoanTenor }}
-              <sub class="star_red_col">*</sub>
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input formControlName="NegotiatedLoanTenor" 
-                [className]="'form-control mandatory'" [type]="'number'" 
-                (change)="getRepayableMonths($event)"
-                [placeholder]="'Negotiated Loan Tenor (in Months)'" 
-                (change)="allowSix($event)">
-              </app-custom-input>
+              <input formControlName="LoanAmountincludingCrossSellofalltheassets" type="text" class="form-control mandatory select2" id="LoanAmountincludingCrossSellofalltheassets"
+                placeholder="Loan Amount including Cross Sell of all the assets(in INR)" name="LoanAmountincludingCrossSellofalltheassets"
+              />
             </div>
           </div>
-          <div class="form-group">
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NegotiatedIRR">{{ labels?.NegotiatedIRR }}
-              <sub class="star_red_col">*</sub>
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input formControlName="NegotiatedIRR" [className]="'form-control mandatory'" [type]="'number'" [placeholder]="'Negotiated IRR (in %)'"
-                (change)="calculateEMI($event)">
-              </app-custom-input>
-            </div>
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NegotiatedEMI">{{ labels?.NegotiatedEMI }}
-              <sub class="star_red_col">*</sub>
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input formControlName="NegotiatedEMI" [className]="'form-control mandatory'" [type]="'number'" [placeholder]="'Negotiated EMI (in INR)'">
-              </app-custom-input>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="MoratoriumPeriod">{{ labels?.MoratoriumPeriod }}
-              <sub class="star_red_col">*</sub>
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-vf-custom-select [values]="MoratoriumDaysLOV" 
-                formControlName="MoratoriumPeriod" 
-                (change)="getRepayableMonths($event)"
-                [isRequired]="'Moratorium / Holiday Period is required'">
-              </app-vf-custom-select>
-            </div>
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NoofRepayableMonthsafterMoratorium">{{ labels?.NoofRepayableMonthsafterMoratorium }}
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <input disabled formControlName="NoofRepayableMonthsafterMoratorium" type="text" class="form-control mandatory select2" id="NoofRepayableMonthsafterMoratorium"
-                placeholder="'No. of Repayable Months after Moratorium'" name="NoofRepayableMonthsafterMoratorium"/>
-               
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="EMICycle">{{ labels?.EMICycle }}
-              <sub class="star_red_col">*</sub>
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-vf-custom-select [values]="EMICycleDaysLOV" formControlName="EMICycle">
-              </app-vf-custom-select>
-            </div>
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="EMIStartDateAfterDisbursement">{{ labels?.EMIStartDateAfterDisbursement }}
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-vf-custom-select [values]="EMIStartDateLOV" formControlName="EMIStartDateAfterDisbursement">
-              </app-vf-custom-select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="PaymentModeforGapDaysInterest">{{ labels?.PaymentModeforGapDaysInterest }}
-              <sub class="star_red_col">*</sub>
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-vf-custom-select [values]="GapDaysIntPayMode" formControlName="PaymentModeforGapDaysInterest">
-              </app-vf-custom-select>
-            </div>
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="SelectAppropriateLMSScheduleCode">{{ labels?.SelectAppropriateLMSScheduleCode }}
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-vf-custom-select [values]="LMSSchedule" formControlName="SelectAppropriateLMSScheduleCode">
-              </app-vf-custom-select>
-            </div>
-            <label class="control-label col-sm-5 note-field col-md-6 col-lg-6">
-              Note: Upfront deduction of Gap Days Interest is not supported for cheque mode of disbursement. So verify your option
-                once Deductions & Charges
-            </label>
-          </div>
-          <div class="form-group">
-            <b>{{ labels?.DeductionsCharges }}</b>
-          </div>
-          <div *ngFor="let ticket1 of t1.controls; let i = index">
-            <div [formGroup]="ticket1">
-              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="CreditShieldCharges">{{deductionLabel[i] }}
+          <div>
+            <h4 class="title">{{ labels?.negotiationTitle }}</h4>
+            <div class="form-group">
+              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NegotiatedLoanAmount">{{ labels?.NegotiatedLoanAmount }}
+                <sub class="star_red_col">*</sub>
               </label>
-              <div class="col-sm-6 col-md-4 col-lg-3 label-space ">
-                <app-custom-input formControlName="DeductionChargefixedRate" [className]="'form-control mandatory'" [type]="'number'" (change)="getNetDisbursementAmount()"
-                  [placeholder]="'Credit Shield Charges (in INR)'">
+              <div class="col-sm-6 col-md-4 col-lg-3">
+                <app-custom-input formControlName="NegotiatedLoanAmount" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
+                  [isRequired]="'Negotiated Loan Amount is Required'" [placeholder]="'Negotiated Loan Amount'">
+                </app-custom-input>
+              </div>
+              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NegotiatedLoanTenor">{{ labels?.NegotiatedLoanTenor }}
+                <sub class="star_red_col">*</sub>
+              </label>
+              <div class="col-sm-6 col-md-4 col-lg-3">
+                <app-custom-input formControlName="NegotiatedLoanTenor" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
+                  (change)="getRepayableMonths($event)" [placeholder]="'Negotiated Loan Tenor (in Months)'" [isRequired]="'Negotiated Loan Tenor is Required'"
+                  (change)="allowSix($event)">
                 </app-custom-input>
               </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NetDisbursementAmount">{{ labels?.NetDisbursementAmount }}
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3 label-space">
-              <app-custom-input disabled formControlName="NetDisbursementAmount" [className]="'form-control mandatory'" [placeholder]="'Net Disbursement Amount (in INR)'">
-              </app-custom-input>
+            <div class="form-group">
+              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NegotiatedIRR">{{ labels?.NegotiatedIRR }}
+                <sub class="star_red_col">*</sub>
+              </label>
+              <div class="col-sm-6 col-md-4 col-lg-3">
+                <app-custom-input formControlName="NegotiatedIRR" [isDirty]="isDirty" [className]="'form-control mandatory'" [isRequired]="'Negotiated IRR is Required'"
+                  [type]="'number'" [placeholder]="'Negotiated IRR (in %)'" (change)="calculateEMI($event)">
+                </app-custom-input>
+              </div>
+              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NegotiatedEMI">{{ labels?.NegotiatedEMI }}
+                <sub class="star_red_col">*</sub>
+              </label>
+              <div class="col-sm-6 col-md-4 col-lg-3">
+                <app-custom-input formControlName="NegotiatedEMI" 
+                  [isDirty]="isDirty" [className]="'form-control mandatory'" 
+                  [isRequired]="'Negotiated EMI is Required'"
+                  [type]="'decimal'" 
+                  [placeholder]="'Negotiated EMI (in INR)'">
+                </app-custom-input>
+              </div>
             </div>
-            <label class="control-label col-sm-5 note-field col-md-6 col-lg-6">
-              Note: Taxes will be deducted as applicable
-            </label>
+            <div class="form-group">
+              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="MoratoriumPeriod">{{ labels?.MoratoriumPeriod }}
+                <sub class="star_red_col">*</sub>
+              </label>
+              <div class="col-sm-6 col-md-4 col-lg-3">
+                <app-vf-custom-select [values]="MoratoriumDaysLOV" [isDirty]="isDirty" formControlName="MoratoriumPeriod" (change)="getRepayableMonths($event)"
+                  [isRequired]="'Moratorium / Holiday Period is required'">
+                </app-vf-custom-select>
+              </div>
+              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NoofRepayableMonthsafterMoratorium">{{ labels?.NoofRepayableMonthsafterMoratorium }}
+              </label>
+              <div class="col-sm-6 col-md-4 col-lg-3">
+                <input formControlName="NoofRepayableMonthsafterMoratorium" type="text" class="form-control mandatory select2" id="NoofRepayableMonthsafterMoratorium"
+                  placeholder="'No. of Repayable Months after Moratorium'" name="NoofRepayableMonthsafterMoratorium" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="EMICycle">{{ labels?.EMICycle }}
+                <sub class="star_red_col">*</sub>
+              </label>
+              <div class="col-sm-6 col-md-4 col-lg-3">
+                <app-vf-custom-select [values]="EMICycleDaysLOV" [isDirty]="isDirty" [isRequired]="'EMI Cycle is Required'" formControlName="EMICycle">
+                </app-vf-custom-select>
+              </div>
+              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="EMIStartDateAfterDisbursement">{{ labels?.EMIStartDateAfterDisbursement }}
+              </label>
+              <div class="col-sm-6 col-md-4 col-lg-3">
+                <app-vf-custom-select [values]="EMIStartDateLOV" [isDirty]="isDirty" [isRequired]="'EMI Start Date After Disbursement is Required'"
+                  formControlName="EMIStartDateAfterDisbursement">
+                </app-vf-custom-select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="PaymentModeforGapDaysInterest">{{ labels?.PaymentModeforGapDaysInterest }}
+                <sub class="star_red_col">*</sub>
+              </label>
+              <div class="col-sm-6 col-md-4 col-lg-3">
+                <app-vf-custom-select [values]="GapDaysIntPayMode" [isDirty]="isDirty" [isRequired]="'Payment Mode is Required'" formControlName="PaymentModeforGapDaysInterest">
+                </app-vf-custom-select>
+              </div>
+              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="SelectAppropriateLMSScheduleCode">{{ labels?.SelectAppropriateLMSScheduleCode }}
+              </label>
+              <div class="col-sm-6 col-md-4 col-lg-3">
+                <app-vf-custom-select [values]="LMSSchedule" [isDirty]="isDirty" [isRequired]="'LMS LMSSchedule Code is Required'" formControlName="SelectAppropriateLMSScheduleCode">
+                </app-vf-custom-select>
+              </div>
+              <label class="control-label col-sm-5 note-field col-md-6 col-lg-6">
+                Note: Upfront deduction of Gap Days Interest is not supported for cheque mode of disbursement. So verify your option once
+                Deductions & Charges
+              </label>
+            </div>
+            <div class="form-group">
+              <b>{{ labels?.DeductionsCharges }}</b>
+            </div>
+            <div *ngFor="let ticket1 of t1.controls; let i = index">
+              <div [formGroup]="ticket1">
+                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="CreditShieldCharges">{{deductionLabel[i]}}
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3 label-space ">
+                  <app-custom-input formControlName="DeductionChargefixedRate" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
+                    (change)="getNetDisbursementAmount()" [placeholder]="'Credit Shield Charges (in INR)'">
+                  </app-custom-input>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NetDisbursementAmount">{{ labels?.NetDisbursementAmount }}
+              </label>
+              <div class="col-sm-6 col-md-4 col-lg-3 label-space">
+                <app-custom-input formControlName="NetDisbursementAmount" [isDirty]="isDirty" [className]="'form-control mandatory'" [placeholder]="'Net Disbursement Amount (in INR)'">
+                </app-custom-input>
+              </div>
+              <label class="control-label col-sm-5 note-field col-md-6 col-lg-6">
+                Note: Taxes will be deducted as applicable
+              </label>
+            </div>
           </div>
-        </div>
-        <div class="btn-sec button-section clear-both">
-          <div class="col-sm-12 text-right">
-            <button type="button" class="btn btn-primary" value="cancel" (click)="cancel()">
-              {{ labels?.cancel }}
-            </button>
-            <button type="button" class="btn btn-primary"  value="submit" [disabled]="this.createNegotiationForm.invalid" (click)="onSubmit()">
-              {{ labels?.submit }}
-            </button>
-            <button  class="btn btn-primary" type="button" 
-              *ngIf="showSaveButton == true">Back </button>
-            <button  class="btn btn-primary js-btn-next" (click)="onNext()"
-              type="button"> Next </button>
+          <div class="btn-sec button-section clear-both">
+            <div class="col-sm-12 text-right">
+              <!-- <button (click)="onBack()" class="btn btn-primary mar-right8" type="button" >Back </button>&nbsp; -->
+
+              <button type="button" class="btn btn-primary mar-right8" value="cancel" (click)="cancel()">
+                {{ labels?.cancel }}
+              </button>
+              <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()">
+                {{ labels?.submit }}
+              </button>
+            <button (click)="onNext()" class="btn btn-primary js-btn-next" type="button"> Next </button>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
-  </div>
-  <!-- Footer -->
-  <footer class="footer pf">
-    <div class="container-fluid">
-      <p>© Equitas Small Finance Bank Limited. All Rights Reserved.</p>
-    </div>
-  </footer>
+    <!-- Footer -->
+    <footer class="footer pf">
+      <div class="container-fluid">
+        <p>© Equitas Small Finance Bank Limited. All Rights Reserved.</p>
+      </div>
+    </footer>

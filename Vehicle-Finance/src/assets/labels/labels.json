@@ -1623,7 +1623,7 @@
             "type": "alpha-numeric-nospace",
             "pattern": {
                 "rule": "^[0-9A-Za-z]{9,30}$",
-                "msg": "Invalid account Number"
+                "msg": "Minimum length is 9 require for account Number"
             }
         },
         "pdBankName": {
@@ -2010,7 +2010,7 @@
         },
         "gvw": {
             "maxLength": {
-                "rule": 2
+                "rule": 10
             },
             "type": "number"
         },
@@ -2163,11 +2163,19 @@
             },
             "type": "alpha-numeric-nospace"
         },
+<<<<<<< HEAD
         "rentAmount": {
             "maxLength": {
                 "rule": 6
             },
             "type": "number"
+=======
+        "amountDecimal": {
+            "maxLength": {
+                "rule" : 10
+            },
+            "type": "decimal"
+>>>>>>> f45e9ca533f7956ae1f85919bac82fe386fbf591
         }
     }
 }
