@@ -1625,7 +1625,7 @@
             "type": "alpha-numeric-nospace",
             "pattern": {
                 "rule": "^[0-9A-Za-z]{9,30}$",
-                "msg": "Invalid account Number"
+                "msg": "Minimum length is 9 require for account Number"
             }
         },
         "pdBankName": {
@@ -2164,6 +2164,12 @@
                 "rule": 15
             },
             "type": "alpha-numeric-nospace"
+        },
+        "amountDecimal": {
+            "maxLength": {
+                "rule" : 10
+            },
+            "type": "decimal"
         }
     }
 
