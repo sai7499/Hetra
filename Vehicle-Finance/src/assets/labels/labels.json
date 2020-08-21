@@ -2164,6 +2164,12 @@
                 "rule": 15
             },
             "type": "alpha-numeric-nospace"
+        },
+        "amountDecimal": {
+            "maxLength": {
+                "rule" : 10
+            },
+            "type": "decimal"
         }
     }
 
