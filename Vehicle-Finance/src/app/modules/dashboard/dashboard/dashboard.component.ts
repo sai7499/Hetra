@@ -11,6 +11,8 @@ import { ToasterService } from '@services/toaster.service';
 import { Router } from '@angular/router';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { NumberFormatStyle } from '@angular/common';
+import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
+import { environment } from 'src/environments/environment';
 
 // for sales
 export enum DisplayTabs {
@@ -42,7 +44,7 @@ export enum DisplayTabs {
   DisbursementWithMe,
   DisbursementWithBranch,
   PDD,
-  ChequeTracking
+  ChequeTracking,
 }
 
 // for credit
@@ -100,6 +102,7 @@ export class DashboardComponent implements OnInit {
   newArray;
   pddDetails;
   chequeTrackingDetails;
+  processLogs;
   salesLeads;
   creditLeads;
   itemsPerPage = '25';
@@ -156,10 +159,29 @@ export class DashboardComponent implements OnInit {
     // public displayTabs: DisplayTabs,
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService,
-    private sharedService: SharedService
-  ) { }
+    private sharedService: SharedService,
+    private applicantStoreService: ApplicantDataStoreService
+  ) {
+    if (environment.isMobile === true) {
+       this.itemsPerPage = '5';
+     } else {
+       this.itemsPerPage = '25';
+     }
+    // if (window.screen.width > 768) {
+    //   this.itemsPerPage = '25';
+    // } else if (window.screen.width <= 768) {
+    //   this.itemsPerPage = '5';
+    // }
+  }
 
   onTabsLoading(data) {
+    if (this.activeTab === this.displayTabs.PDD) {
+      this.getPDDLeads(this.itemsPerPage);
+    } else if (this.activeTab === this.displayTabs.ChequeTracking) {
+      this.getChequeTrackingLeads(this.itemsPerPage);
+    } else if (this.activeTab === this.displayTabs.LoanBooking) {
+      this.getProcessLogsLeads(this.itemsPerPage);
+    }
     if (this.roleType === 1) {
       switch (data) {
         case 3:
@@ -390,6 +412,8 @@ export class DashboardComponent implements OnInit {
         this.getPDDLeads(this.itemsPerPage);
       } else if (this.activeTab === this.displayTabs.ChequeTracking) {
         this.getChequeTrackingLeads(this.itemsPerPage);
+      } else if (this.activeTab === this.displayTabs.LoanBooking) {
+        this.getProcessLogsLeads(this.itemsPerPage);
       }
     } else if (this.roleType === 2) {
       if (this.activeTab === this.displayCreditTabs.DDE && this.subActiveTab === this.displayCreditTabs.DDEWithMe) {
@@ -467,8 +491,16 @@ export class DashboardComponent implements OnInit {
   }
 
   setPDDPageData(res) {
-    const response = res.ProcessVariables.pddDetails;
-    this.pddDetails = response;
+    if (this.activeTab === this.displayTabs.PDD) {
+      const response = res.ProcessVariables.pddDetails;
+      this.pddDetails = response;
+    } else if (this.activeTab === this.displayTabs.ChequeTracking) {
+      const response = res.ProcessVariables.chequeTrackingDetails;
+      this.pddDetails = response;
+    } else if (this.activeTab === this.displayTabs.LoanBooking) {
+      const response = res.ProcessVariables.processLogs;
+      this.pddDetails = response;
+    }
     this.limit = res.ProcessVariables.perPage;
     this.pageNumber = res.ProcessVariables.from;
     this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
@@ -477,16 +509,28 @@ export class DashboardComponent implements OnInit {
     this.from = res.ProcessVariables.from;
   }
 
-  setChequeTrackingPageData(res) {
-    const response = res.ProcessVariables.chequeTrackingDetails;
-    this.chequeTrackingDetails = response;
-    this.limit = res.ProcessVariables.perPage;
-    this.pageNumber = res.ProcessVariables.from;
-    this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
-    this.currentPage = res.ProcessVariables.currentPage;
-    this.totalItems = res.ProcessVariables.totalPages;
-    this.from = res.ProcessVariables.from;
-  }
+  // setChequeTrackingPageData(res) {
+  //   const response = res.ProcessVariables.chequeTrackingDetails;
+  //   this.chequeTrackingDetails = response;
+  //   this.limit = res.ProcessVariables.perPage;
+  //   this.pageNumber = res.ProcessVariables.from;
+  //   this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
+  //   this.currentPage = res.ProcessVariables.currentPage;
+  //   this.totalItems = res.ProcessVariables.totalPages;
+  //   this.from = res.ProcessVariables.from;
+  // }
+
+  // setProcessLogsPageData(res) {
+  //   const response = res.ProcessVariables.processLogs;
+  //   this.processLogs = response;
+  //   this.limit = res.ProcessVariables.perPage;
+  //   this.pageNumber = res.ProcessVariables.from;
+  //   this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
+  //   this.currentPage = res.ProcessVariables.currentPage;
+  //   this.totalItems = res.ProcessVariables.totalPages;
+  //   this.from = res.ProcessVariables.from;
+  // }
+
   // for MyLeads Api
   responseForSales(data) {
     this.dashboardService.myLeads(data).subscribe((res: any) => {
@@ -500,6 +544,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  // for PDD Leads
   responseForPDD(data) {
     this.dashboardService.myLeads(data).subscribe((res: any) => {
       this.setPDDPageData(res);
@@ -512,9 +557,11 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  // for Cheque tracking
   responseForChequeTracking(data) {
     this.dashboardService.myLeads(data).subscribe((res: any) => {
-      this.setChequeTrackingPageData(res);
+      // this.setChequeTrackingPageData(res);
+      this.setPDDPageData(res);
       if (res.ProcessVariables.chequeTrackingDetails != null) {
         this.isLoadLead = true;
       } else {
@@ -524,8 +571,21 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  // new leads
+  // for process logs
+  responseForProcessLogs(data) {
+    this.dashboardService.myLeads(data).subscribe((res: any) => {
+      // this.setProcessLogsPageData(res);
+      this.setPDDPageData(res);
+      if (res.ProcessVariables.processLogs != null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+        this.processLogs = [];
+      }
+    });
+  }
 
+  // new leads
   getSalesFilterLeads(perPageCount, pageNumber?) {
 
     // this.filterFormDetails['userId'] = localStorage.getItem('userId');
@@ -592,6 +652,7 @@ export class DashboardComponent implements OnInit {
       currentPage: parseInt(pageNumber),
       isPDD: false,
       isChequeTracking: true,
+      isLog: false,
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
@@ -602,6 +663,29 @@ export class DashboardComponent implements OnInit {
     };
 
     this.responseForChequeTracking(data);
+  }
+
+  getProcessLogsLeads(perPageCount, pageNumber?) {
+
+    const data = {
+      userId: localStorage.getItem('userId'),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      isPDD: false,
+      isChequeTracking: false,
+      isLog: true,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+    };
+
+    this.responseForProcessLogs(data);
   }
 
   // For TaskDashboard Api
@@ -1120,7 +1204,9 @@ export class DashboardComponent implements OnInit {
           this.getPDDLeads(this.itemsPerPage, event);
       } else if (this.displayTabs.ChequeTracking === this.activeTab) {
           this.getChequeTrackingLeads(this.itemsPerPage, event);
-      }
+      } else if (this.displayTabs.LoanBooking === this.activeTab) {
+        this.getProcessLogsLeads(this.itemsPerPage, event);
+    }
       switch (this.subActiveTab) {
         case 3:
           this.getSalesFilterLeads(this.itemsPerPage, event);
@@ -1227,15 +1313,6 @@ export class DashboardComponent implements OnInit {
 
   onClick() {
     this.onTabsLoading(this.subActiveTab);
-    // if (this.roleType === 4 || this.roleType === 5) {
-    //   if (this.makerWithMe) {
-    //     this.getMakerLeads(this.itemsPerPage);
-    //   } else if (this.checkerWithMe) {
-    //     this.getCheckerLeads(this.itemsPerPage);
-    //   } else if (this.checkerWithCPC) {
-    //     this.getCheckerCPCLeads(this.itemsPerPage);
-    //   }
-    // }
   }
 
   onRoute(leadId, stageCode?, taskId?) {
@@ -1431,6 +1508,12 @@ export class DashboardComponent implements OnInit {
   // external methods
   assignTaskId(taskId) {
     this.sharedService.getTaskID(taskId);
+  }
+  getLoanNumber(loanNumber) {
+    this.dashboardService.routingData = {
+      activeTab: this.activeTab
+    };
+    this.sharedService.getLoanNumber(loanNumber);
   }
   getLeadId(item) {
     localStorage.setItem('salesResponse', item.is_sales_response_completed);

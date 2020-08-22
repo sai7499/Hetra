@@ -24,6 +24,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   @Input() id: any;
 
   addressList: any = [];
+  applicantDetails: any = [];
 
   maxDate = new Date();
   initalZeroCheck = [];
@@ -46,7 +47,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   @Input() isDirty: boolean;
   isDisabled: boolean = true;
 
-  public minDate = new Date('01/01/2010')
+  public minDate = new Date(new Date().setFullYear(new Date().getFullYear() - 15))
+  public isInvalidMobileNumber: boolean;
 
   // LovData
   public assetMake: any = [];
@@ -94,6 +96,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.userId = roleAndUserDetails.userDetails.userId;
     const leadData = this.createLeadDataService.getLeadSectionData();
 
+    this.applicantDetails = leadData['applicantDetails']
     this.leadDetails = leadData['leadDetails']
     this.leadId = leadData['leadId'];
     this.productCatoryCode = this.leadDetails['productCatCode'];
@@ -250,45 +253,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         value: VehicleDetail.assetVarient
       }]
 
-      // if (this.roleType === 1) {
-      //   const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-
-      //   formArray.controls[0].patchValue({
-      //     vehicleRegNo: VehicleDetail.vehicleRegNo || '',
-      //     region: VehicleDetail.region || '',
-      //     assetMake: VehicleDetail.vehicleMfrUniqueCode || '',
-      //     vehicleType: VehicleDetail.vehicleTypeCode || '',
-      //     assetBodyType: VehicleDetail.vehicleSegmentUniqueCode || '',
-      //     assetModel: VehicleDetail.vehicleModelCode || '',
-      //     assetVariant: VehicleDetail.assetVarient || '',
-      //     assetSubVariant: VehicleDetail.assetSubVariant || '',
-      //     manuFacMonthYear: VehicleDetail.manuFacMonthYear ? this.utilityService.getDateFromString(VehicleDetail.manuFacMonthYear) : '',
-      //     ageOfAsset: VehicleDetail.ageOfAsset || null,
-      //     finalAssetCost: VehicleDetail.finalAssetCost || '',
-      //     exShowRoomCost: Number(VehicleDetail.exShowRoomCost) || null,
-      //     vehicleUsage: VehicleDetail.vehicleUsage || '',
-      //     noOfVehicles: VehicleDetail.noOfVehicles || '',
-      //     usage: VehicleDetail.usage || '',
-      //     vehicleId: VehicleDetail.vehicleId || '',
-      //     assetCostGrid: VehicleDetail.assetCostGrid || null,
-      //     assetCostCarTrade: VehicleDetail.assetCostCarTrade || null,
-      //     assetCostIBB: VehicleDetail.assetCostIBB || null,
-      //     rcOwnerName: VehicleDetail.rcOwnerName || '',
-      //     collateralId: VehicleDetail.collateralId || '',
-      //     ownerMobileNo: VehicleDetail.ownerMobileNo || null,
-      //     address: VehicleDetail.address || '',
-      //     ageAfterTenure: VehicleDetail.ageAfterTenure || null,
-      //     pincode: VehicleDetail.pincode || null,
-      //     leadId: this.leadId,
-      //     userId: this.userId,
-      //     category: VehicleDetail.category || ''
-      //   })
-      //   this.sharedService.getFormValidation(this.basicVehicleForm)
-      // } else if (this.roleType === 2) {
       const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
       this.onPatchArrayValue(formArray, VehicleDetail)
       this.sharedService.getFormValidation(this.basicVehicleForm)
-      // }
       this.vehicleDataService.setIndividualVehicleDetails(VehicleDetail);
     })
 
@@ -468,7 +435,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         this.uiLoader.stop();
       });
     }
-
   }
 
   onVehicleType(value, obj) {
@@ -543,6 +509,33 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetVariant: ''
     })
 
+  }
+
+  onChangeMobileNumber(value) {
+
+    this.isInvalidMobileNumber = false;
+
+    if (value.length === 10) {
+      if (this.applicantDetails && this.applicantDetails.length > 0) {
+        this.applicantDetails.filter((mob: any) => {
+          let mobileNumber = mob.mobileNumber;
+          if (mobileNumber && mobileNumber.length === 12) {
+            mobileNumber = mob.mobileNumber.slice(2, 12);
+          }
+          setTimeout(() => {
+
+            if (mobileNumber === value) {
+              this.isInvalidMobileNumber = true;
+              this.toasterService.showInfo('Applicant and Vehicle Owner Mobile Number Same, Please Change', 'Mobile Number')
+            } else {
+              this.isInvalidMobileNumber = false;
+            }
+          })
+        })
+      } else {
+        this.isInvalidMobileNumber = false;
+      }
+    }
   }
 
   getPincode(pincode) {

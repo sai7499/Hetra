@@ -154,21 +154,21 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_code">RC Limit
             </label>
-            <input disabled formControlName="rcLimit" type="text" class="form-control mandatory select2" id="rcLimit"
+            <input formControlName="rcLimit" type="text" class="form-control mandatory select2" id="rcLimit"
               placeholder="RC Limit" name="rcLimit" />
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_code">RC Utilized Limit
             </label>
-            <input disabled formControlName="rcUtilizedLimit" type="text" class="form-control mandatory select2"
+            <input formControlName="rcUtilizedLimit" type="text" class="form-control mandatory select2"
               id="rcUtilizedLimit" placeholder="RC Utilized Limit" name="rcUtilizedLimit" />
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_code">RC Unutilized Limit
             </label>
-            <input disabled formControlName="rcUnutilizedLimit" type="text" class="form-control mandatory select2"
+            <input formControlName="rcUnutilizedLimit" type="text" class="form-control mandatory select2"
               id="rcUnutilizedLimit" placeholder="RC Utilized Limit" name="rcUnutilizedLimit" />
           </div>
         </div>
@@ -270,14 +270,16 @@
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3"  *ngIf="applicantType == 'INDIVENTTYP'">
-            <label for="entity">Full Name </label>
+            <label for="entity">{{ labels.fullName }}</label>
             <!-- <label for="entity">{{createLeadForm.value.nameOne | json}} </label> -->
             <input 
-              disabled 
+             [disabled]="true"
               type="text" 
               class="form-control mandatory select2"
               placeholder="Full Name"
-              [value]="createLeadForm.controls.nameOne.value +' '+ createLeadForm.controls.nameTwo.value+' '+ createLeadForm.controls.nameThree.value"/>
+              [value]="createLeadForm.controls.nameOne.value +' '
+                + createLeadForm.controls.nameTwo?.value+' '
+                + createLeadForm.controls.nameThree.value"/>
           </div> 
         
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -364,7 +366,7 @@
 
 
 <!-- Footer -->
-<footer class="footer pf">
+<footer class="footer pf mob-font">
   <div class="container-fluid">
     <p>© Equitas Small Finance Bank Limited. All Rights Reserved.</p>
   </div>
