@@ -155,15 +155,15 @@
         <!-- <button class="btn btn-primary " type="button " (click)="onNavigateNext() "> {{labels.next}} </button> -->
     </div>
 </div>
-<div class="btn-sec clear-both" *ngIf="showStatus">
+<div class="btn-sec clear-both row cst_btm_btns" *ngIf="showStatus">
     <div class="col-sm-5"></div>
-    <div class="col-sm-7 text-right cst_btm_btns">
+    <div class="col-sm-7 text-right ">
         <br />
         <br />
 
         <button class="btn btn-primary" type="button " (click)="onNavigateBack()">
       {{ labels.back }}
-    </button> &nbsp;
+    </button>
         <button class="btn btn-primary" type="button " (click)="onNavigateNext()">
       {{ labels.next }}
     </button>

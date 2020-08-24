@@ -94,12 +94,13 @@ export class ApiService {
     validateOtp: {
       processId: '3e2e4f5caad811ea82aef2fa9bec3d63',
       workflowId: 'bba4f1028f5811eabdc4f2fa9bec3d63',
-      projectId: 'db2732f4ab4811ea82f8f2fa9bec3d63',
+      // projectId: 'db2732f4ab4811ea82f8f2fa9bec3d63',
+      projectId: environment.projectIds.externalApi,
     },
     sendOtp: {
       processId: '3dec693eaad811ea82aef2fa9bec3d63',
       workflowId: 'bba4f1028f5811eabdc4f2fa9bec3d63',
-      projectId: 'db2732f4ab4811ea82f8f2fa9bec3d63',
+      projectId: environment.projectIds.externalApi,
     },
     getFleetDetails: {
       workflowId: '05f4baea998511eabdcff2fa9bec3d63',
@@ -708,6 +709,11 @@ export class ApiService {
       processId: 'd250da02da3e11ea9e8400505695f93b',
       workflowId: '08905702d7b811eab3fc00505695f93b',
       projectId: environment.projectIds.camProjectId
+    },
+    fetchPreimumAmount:{
+      processId: '3c99e428d71811eabcf800505695f93b',
+      workflowId: '3c71c4d4d71811eaabba00505695f93b',
+      projectId: environment.projectIds.externalApi
     }
   };
 }

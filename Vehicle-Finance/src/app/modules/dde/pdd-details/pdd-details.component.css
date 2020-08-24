@@ -1,0 +1,122 @@
+.panel-primary {
+    background-color: #1d1a4b !important;
+    color: white !important;
+}
+
+.form label {
+    font-size: 13px !important;
+}
+
+
+.image-upload input {
+    cursor: pointer;
+    opacity: 0;
+    height: 5%;
+    width: 5%;
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    left: 0
+}
+
+.fa.fa-upload {
+    font-size: 20px;
+}
+
+.fa.fa-plus {
+    font-size: 20px;
+}
+
+.fa.fa-minus {
+    font-size: 20px;
+}
+
+.date_width {
+    width: 146px;
+    margin: 0px;
+    font-size: 12px;
+}
+
+@media (min-width: 992px) {
+    .form .col-md-2 {
+        width: 20%;
+    }
+}
+
+.form-group.col-sm-6.col-md-3.col-lg-3 {
+    width: 28%;
+}
+
+.form-group.col-sm-6.col-md-4.col-lg-3 {
+    width: 28%;
+    max-width: 28%;
+}
+
+.form-group.col-sm-3.col-md-2 {
+    width: 12.5%;
+}
+
+.image-upload input {
+    cursor: pointer;
+    opacity: 0;
+    height: 5%;
+    width: 5%;
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    left: 0
+}
+
+.text-dec {
+    text-decoration: underline;
+}
+
+.label_height {
+    height: 37px;
+}
+
+.fa.fa-upload {
+    font-size: 20px;
+}
+
+.date_width {
+    width: 100%;
+    margin: 0px;
+    font-size: 12px;
+}
+
+.upload_down {
+    margin-top: 30px;
+}
+
+.image-upload {
+    margin-top: 8px;
+}
+
+.action {
+    width: 100%;
+}
+
+.form-group.col-sm-6.col-md-2.col-lg-3 {
+    width: 15%;
+}
+
+.radio-inline.p-0.m-0 {
+    padding: 0px;
+    margin-left: 0px;
+    margin-top: 10px;
+}
+
+.upload_sanction {
+    position: absolute;
+    font-size: 50px;
+    opacity: 0;
+    right: 87px;
+    top: 34px;
+    width: 95px;
+    height: 37px;
+}
+
+.upload_label {
+    width: 100%;
+}

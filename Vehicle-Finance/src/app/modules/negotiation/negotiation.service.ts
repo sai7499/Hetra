@@ -103,4 +103,7 @@ export class NegotiationService {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
+  fetchPreimumAmount(){
+
+  }
 }

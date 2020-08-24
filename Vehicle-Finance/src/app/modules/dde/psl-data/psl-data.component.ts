@@ -817,11 +817,14 @@ export class PslDataComponent implements OnInit {
         }
       });
       this.LOV.LOVS.pslSubCategory.filter((element) => {
-        if (element.key === "6PSLSUBCAT") {
-          const data = [{ key: element.key, value: element.value }];
-          this.pslSubCategoryValues = data;
-        }
+          const data = [{ key: 'Not Applicable', value: 'Not Applicable'}];
+          this.pslSubCategoryValues = data;   //If PSL_CATEGORY_AS_Non-PSL---> Not Applicable
       });
+      this.LOV.LOVS.pslCertificate.filter((element) => {
+          this.data = [{ key: 'Not Applicable', value: 'Not Applicable'}];
+          this.pslCertificateValues = this.data;  //If PSL_CATEGORY_AS_Non-PSL---> Not Applicable
+          this.formValues.pslCCertificate = this.data[0].key; 
+      });    
     } else {
       this.LOV.LOVS.pslCategory.filter((element) => {
         if (element.key === "2PSLCAT") {
@@ -875,7 +878,7 @@ export class PslDataComponent implements OnInit {
         }
       });
     }
-    //If "Investment in Plant and machinery" is greater than 10 crores then default as Non-PSL
+    //If "Investment in Plant and machinery" is greater than 10 crores then default as PSL-CATEGORY Non-PSL
     if (this.investmentInPlantMachineryValue > 100000000) {
       this.LOV.LOVS.pslCategory.filter((element) => {
         if (element.key === "4PSLCAT") {
@@ -885,11 +888,14 @@ export class PslDataComponent implements OnInit {
         }
       });
       this.LOV.LOVS.pslSubCategory.filter((element) => {
-        if (element.key === "8PSLSUBCAT") {
-          const data = [{ key: element.key, value: element.value }];
-          this.pslSubCategoryValues = data;
-        }
+          const data = [{ key: 'Not Applicable', value: 'Not Applicable'}];
+          this.pslSubCategoryValues = data; //If PSL_CATEGORY_AS_Non-PSL---> Not Applicable
       });
+      this.LOV.LOVS.pslCertificate.filter((element) => {
+          this.data = [{ key: 'Not Applicable', value: 'Not Applicable'}];
+          this.pslCertificateValues = this.data;   //If PSL_CATEGORY_AS_Non-PSL---> Not Applicable
+          this.formValues.pslCCertificate = this.data[0].key;
+      });  
     } else {
       this.LOV.LOVS.pslCategory.filter((element) => {
         if (element.key === "3PSLCAT") {

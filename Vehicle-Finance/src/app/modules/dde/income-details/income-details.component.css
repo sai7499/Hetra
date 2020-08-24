@@ -45,7 +45,7 @@
 @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
   .table tbody tr td {
     border-top: 1px solid #e6e6e6;
-    padding: 10px;
+    padding: 0px;
     padding-left: 50%;
   }
   /* Force table to not be like tables anymore */
@@ -397,3 +397,11 @@ cursor: pointer;
   i.fa.fa-minus:hover{
     cursor: pointer;
       }
+
+.mar-bot-btn{
+  margin-bottom: 25px;
+}
+
+/* .caption{
+  width: max-content!important;
+} */

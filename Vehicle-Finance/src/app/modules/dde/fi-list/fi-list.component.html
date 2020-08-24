@@ -2,8 +2,8 @@
   <div class="multisteps-form__panel js-active" data-animation="scaleIn">
     <div class="container">
       <div class="row">
-        <div class="table-responsive application" id="applicantTable">
-          <table class="table">
+        <div class="" id="applicantTable">
+          <table class="">
             <thead>
               <tr class="table-head-bg">
                 <th>
@@ -28,14 +28,14 @@
             </thead>
             <tbody>
               <tr *ngFor="let item of fiList">
-                <td>{{ item.ucic ? item.ucic : "-" }}</td>
-                <td>{{ item.applicantName ? item.applicantName : "-" }}</td>
-                <td>{{ item.mobileNumber ? item.mobileNumber : "-" }}</td>
-                <td>{{ item.applicantType ? item.applicantType : "-" }}</td>
-                <td *ngIf="showStatus">
+                <td [attr.data-label]="labels?.ucicId">{{ item.ucic ? item.ucic : "-" }}</td>
+                <td [attr.data-label]="labels?.applicantName">{{ item.applicantName ? item.applicantName : "-" }}</td>
+                <td [attr.data-label]="labels?.mobileNumber">{{ item.mobileNumber ? item.mobileNumber : "-" }}</td>
+                <td [attr.data-label]="labels?.applicantType">{{ item.applicantType ? item.applicantType : "-" }}</td>
+                <td [attr.data-label]="labels?.accountHolderName" *ngIf="showStatus">
                   <u>{{ item.fiStatusValue ? item.fiStatusValue : "-" }}</u>
                 </td>
-                <td
+                <td [attr.data-label]="labels?.accountHolderName"
                   style="cursor: pointer;"
                   *ngIf="show && fiStatusValue != '3'"
                   (click)="navigatePage(item.applicantId)">
@@ -99,15 +99,14 @@
   </div>
 </div>
 
-<div class="btn-sec clear-both">
+<div class="btn-sec clear-both row cst_btm_btns">
   <div class="col-sm-5"></div>
   <div class="col-sm-7 text-right cst_btm_btns" *ngIf="showStatus">
-    <br />
-    <br />
+    
     <button class="btn btn-primary" type="button" (click)="onNavigate('back')">
       {{ labels?.back }}
     </button>
-    &nbsp;
+    
     <button class="btn btn-primary" type="button" (click)="onNavigate('next')">
       {{ labels?.next }}
     </button>
