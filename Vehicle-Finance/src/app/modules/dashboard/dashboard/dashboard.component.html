@@ -43,9 +43,9 @@
                         <label for="startDate">{{labels.leadCreatedOnStartDate}}</label>
                         <kendo-datepicker class="form-control" formControlName="fromDate" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Start Date" [activeView]="'decade'"></kendo-datepicker>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div [ngClass]="{'disablField': !filterForm.get('fromDate').value}" class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="endDate">{{labels.leadCreatedOnEndDate}}</label>
-                        <kendo-datepicker class="form-control" formControlName="toDate" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="End Date" [activeView]="'decade'"></kendo-datepicker>
+                        <kendo-datepicker class="form-control" formControlName="toDate" [format]="'dd/MM/yyyy'" [min]="filterForm.get('fromDate').value" [max]="toDayDate" placeholder="End Date" [activeView]="'decade'"></kendo-datepicker>
                     </div>
                 </div>
                 <div class="row">
@@ -54,7 +54,7 @@
                         <app-custom-input id="minAmount" formControlName="loanMinAmt" min="minAmount" [className]="'form-control'" [placeholder]="'Enter Loan amount'" [maxLength]="validationData?.amountValue.maxLength" [type]="validationData?.amountValue.type">
                         </app-custom-input>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div [ngClass]="{'disablField': !filterForm.get('loanMinAmt').value}" class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="maxAmount">{{labels.loanMaxAmount}}</label>
                         <app-custom-input id="maxAmount" formControlName="loanMaxAmt" [className]="'form-control'" [placeholder]="'Enter Loan amount'" [maxLength]="validationData?.amountValue.maxLength" [type]="validationData?.amountValue.type">
                         </app-custom-input>
@@ -77,7 +77,7 @@
         </ul> -->
         <ul class="nav nav-pills nav-justified" id="background_white">
             <li (click)="onLeads(displayTabs?.Leads, displayTabs?.NewLeads)" [ngClass]="{'active':displayTabs?.Leads === activeTab}" routerLinkActive="active" id="leads"><a data-toggle="tab">Leads</a></li>
-            <li (click)="onLeads(displayTabs?.PD, displayTabs?.MyPD)" [ngClass]="{'active':displayTabs?.PD === activeTab}" routerLinkActive="active"><a data-toggle="tab">Personal Discussion</a></li>
+            <li (click)="onLeads(displayTabs?.PD, displayTabs?.MyPD)" [ngClass]="{'active':displayTabs?.PD === activeTab}" routerLinkActive="active"><a data-toggle="tab">FI cum PD</a></li>
             <li (click)="onLeads(displayTabs?.FI, displayTabs?.MyFI)" [ngClass]="{'active':displayTabs?.FI === activeTab}" routerLinkActive="active"><a data-toggle="tab">Field Investigation</a></li>
             <li (click)="onLeads(displayTabs?.Viability, displayTabs?.ViabilityWithMe)" [ngClass]="{'active':displayTabs?.Viability === activeTab}" routerLinkActive="active"><a data-toggle="tab">Vehicle Viability</a></li>
             <li (click)="onLeads(displayTabs?.LoanBooking)" [ngClass]="{'active':displayTabs?.LoanBooking === activeTab}" routerLinkActive="active"><a data-toggle="tab">Loan Booking</a></li>

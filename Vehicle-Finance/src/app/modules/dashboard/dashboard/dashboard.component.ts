@@ -13,6 +13,7 @@ import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { NumberFormatStyle } from '@angular/common';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 import { environment } from 'src/environments/environment';
+import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 
 // for sales
 export enum DisplayTabs {
@@ -379,14 +380,27 @@ export class DashboardComponent implements OnInit {
       leadStage: [''],
       fromDate: [''],
       toDate: [''],
-      loanMinAmt: [''],
-      loanMaxAmt: ['']
+      loanMinAmt: [null],
+      loanMaxAmt: [null]
     });
 
     this.dashboardFilter();
+    this.loanMinAmtChange();
   }
 
 
+  loanMinAmtChange() {
+    this.filterForm.get('loanMaxAmt').valueChanges.pipe(debounceTime(600)).subscribe((data) => {
+      // console.log(data);
+
+      const minAmt = this.filterForm.get('loanMinAmt').value;
+      const minLoanAmt = Number(minAmt || 0);
+      if (minAmt != null && !minAmt || (data && minLoanAmt >= data)) {
+        this.filterForm.get('loanMaxAmt').setValue(null);
+        this.toasterService.showWarning('Invalid Amount', '');
+      }
+    });
+  }
   // changing main tabs
   onLeads(data, subTab) {
 
