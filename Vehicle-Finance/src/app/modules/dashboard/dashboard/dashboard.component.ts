@@ -32,7 +32,6 @@ export enum DisplayTabs {
   FI,
   MyFI,
   BranchFI,
-  LoanBooking,
   LoanBookingWithMe,
   LoanBookingWithBranch,
   LoanDisbursement,
@@ -44,6 +43,7 @@ export enum DisplayTabs {
   Disbursement,
   DisbursementWithMe,
   DisbursementWithBranch,
+  LoanBooking,
   PDD,
   ChequeTracking,
 }
@@ -369,6 +369,9 @@ export class DashboardComponent implements OnInit {
 
     }
 
+    console.log('activeTab', this.activeTab,'subActiveTab', this.subActiveTab);
+
+
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
       this.validationData = res.validationData;
@@ -406,6 +409,8 @@ export class DashboardComponent implements OnInit {
 
     this.activeTab = data;
     this.subActiveTab = subTab;
+    console.log('activeTab', this.activeTab,'subActiveTab', this.subActiveTab);
+
     if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
       this.onReleaseTab = false;
       this.onAssignTab = false;
@@ -453,7 +458,9 @@ export class DashboardComponent implements OnInit {
 
   // changing sub tabs
   leads(data) {
+
     this.subActiveTab = data;
+    console.log('activeTab', this.activeTab,'subActiveTab', this.subActiveTab);
     if (this.subActiveTab === this.displayTabs.NewLeads) {
       this.onReleaseTab = false;
       this.onAssignTab = false;
@@ -496,6 +503,7 @@ export class DashboardComponent implements OnInit {
   setPageData(res) {
     const response = res.ProcessVariables.loanLead;
     this.newArray = response;
+    console.log('data', this.newArray);
     this.limit = res.ProcessVariables.perPage;
     this.pageNumber = res.ProcessVariables.from;
     this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
