@@ -256,7 +256,11 @@ export class CheckListComponent implements OnInit {
   }
 
   submitTocpc() {
-
+    if ( this.checklistForm.invalid) {
+      console.log(this.checklistForm);
+      this.toasterService.showError('Select Mandatory Fields', 'Save Checklist ');
+      return ;
+    }
     // tslint:disable-next-line: triple-equals
     if (this.roleType == '2') {
       const body = {
@@ -266,8 +270,14 @@ export class CheckListComponent implements OnInit {
         isCPCChecker: false,
         sendBackToCredit: false
         };
-      this.termSheetService.assignTaskToTSAndCPC(body).subscribe((res) => {
-         this.router.navigate([`pages/dashboard`]);
+      this.termSheetService.assignTaskToTSAndCPC(body).subscribe((res: any) => {
+         // tslint:disable-next-line: triple-equals
+         if (res.ProcessVariables.error.code == '0') {
+       this.toasterService.showSuccess('Record Saved Successfully', ' ');
+       this.router.navigate([`pages/dashboard`]);
+     } else {
+       this.toasterService.showError(res.ProcessVariables.error.message, '');
+     }
         });
     // tslint:disable-next-line: triple-equals
     } else if (this.roleType == '4') {
@@ -278,9 +288,15 @@ export class CheckListComponent implements OnInit {
         isCPCChecker: true,
         sendBackToCredit: false
         };
-      this.cpcService.getCPCRolesDetails(body).subscribe((res) => {
-        this.toasterService.showSuccess('Record Saved Successfully','');
-        this.router.navigate([`pages/dashboard`]);
+      this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
+        // tslint:disable-next-line: triple-equals
+        if (res.ProcessVariables.error.code == '0') {
+          this.toasterService.showSuccess('Record Saved Successfully', '');
+          this.router.navigate([`pages/dashboard`]);
+        } else {
+          this.toasterService.showError(res.ProcessVariables.error.message, '');
+        }
+
         });
     // tslint:disable-next-line: triple-equals
     } else if ( this.roleType == '5') {
@@ -300,8 +316,8 @@ export class CheckListComponent implements OnInit {
 onNext()  {
   // this.onSave();
   // tslint:disable-next-line: triple-equals
-  console.log("form value" ,this.checklistForm.valid);
-  if (this.checklistForm.valid){    
+  if (this.checklistForm.valid) {
+    // tslint:disable-next-line: triple-equals
     if (this.roleType == '2') {
     this.router.navigate([`pages/dashboard`]);
     // tslint:disable-next-line: triple-equals
@@ -311,12 +327,13 @@ onNext()  {
     } else if ( this.roleType == '5') {
     this.router.navigate([`pages/cpc-checker/${this.leadId}/term-sheet`]);
     }
-  }else{
+  } else {
     this.toasterService.showError('Select Mandatory Fields', ' ');
   }
 }
 
 onBack() {
+  // tslint:disable-next-line: triple-equals
   if (this.roleType == '2') {
     this.router.navigate([`pages/credit-decisions/${this.leadId}/sanction-details`]);
     // tslint:disable-next-line: triple-equals
