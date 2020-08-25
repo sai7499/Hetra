@@ -675,7 +675,7 @@
     "referText3": "Insurance expiry below 60days (deviation is not applicable if the insurance is done through inhouse at the time of funding)",
     "recommendation": "Recommendation",
     "roleName": "Role Name",
-    "commend": "Commend",
+    "commend": "Comments",
     "referText4": "Text area to input recommendation (max 2000 characters)",
     "more": "More",
     "eCode": "E code",
