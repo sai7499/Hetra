@@ -645,6 +645,17 @@
     "fleetSummaryTitle": "FLEET SUMMARY",
     "trackValidationSummaryTitle": "TRACK VALIDATION SUMMARY",
     "keyFinancialTitle": "KEY FINANCIAL",
+    "shareCapital": "Share Capital",
+    "lorryHireChargesPaid": "Lorry hire charges paid",
+    "netProfitAfterTax":"Net Profit after Tax",
+    "currentLiabilities": "Current Liabilities",
+    "currentAssets": "Current Assets",
+    "revenueFromOperationsOrTopLine": "Revenue From Operations/Top Line",
+    "partnersSalary": "Partners Salary",
+    "cashGeneration": "Cash Generation",
+    "dateOfItrFiling": "Date Of ITR Filing",
+
+
     "creditCondition": "Credit Condition",
     "salesResponse": "Sales Response",
     "supportDocument": "Support Document",
@@ -1545,6 +1556,7 @@
     "crossSellOthers": "Cross Sell Others (in INR)",
     "errorCode": "Error Code",
     "errorMsg": "Error Message",
+
     "validationData": {
         "name": {
             "maxLength": {
