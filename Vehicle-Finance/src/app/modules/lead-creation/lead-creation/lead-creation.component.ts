@@ -77,8 +77,8 @@ export class LeadCreationComponent implements OnInit {
   obj = {};
   test = [];
 
-  public dateValue: Date = new Date(2000, 2, 10);
-  public toDayDate: Date = new Date();
+  public maxAge: Date = new Date();
+  public minAge: Date = new Date();
 
   namePattern: string;
   nameLength: number;
@@ -132,6 +132,8 @@ export class LeadCreationComponent implements OnInit {
     this.getSourcingChannel();
     this.createLeadForm.patchValue({ entity: 'INDIVENTTYP' });
     this.selectApplicantType('INDIVENTTYP', true);
+    this.minAge.setFullYear(this.minAge.getFullYear() - 100);
+    this.maxAge.setFullYear(this.maxAge.getFullYear() - 10);
   }
 
   getLabels() {
