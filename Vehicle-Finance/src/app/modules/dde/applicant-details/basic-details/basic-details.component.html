@@ -1674,7 +1674,7 @@
     >
       Back
     </button>
-    <button class="btn btn-primary" (click)="onSubmit()">Save</button>
+    <button class="btn btn-primary" (click)="onSubmit()" *ngIf="!disableSaveBtn">Save</button>
     <button
       class="btn btn-primary dash_href"
       type="button"

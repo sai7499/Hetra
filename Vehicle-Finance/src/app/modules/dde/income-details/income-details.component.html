@@ -35,7 +35,7 @@
                   </th>
                   <th role="columnheader">{{ labels?.grossDerivedIncome }}</th>
                   <th role="columnheader">{{ labels?.grossMonthlyIncome }}</th>
-                  <th role="columnheader">{{ labels?.actions }}</th>
+                  <th role="columnheader" *ngIf="!disableSaveBtn">{{ labels?.actions }}</th>
                 </tr>
               </thead>
               <tbody formArrayName="businessIncomeDetails">
@@ -315,7 +315,7 @@
                       [isDisabled]="true"
                     ></app-custom-input>
                   </td>
-                  <td data-title="Actions">
+                  <td data-title="Actions" *ngIf="!disableSaveBtn">
                     <i
                       type="button"
                       class="fa fa-plus"
@@ -370,7 +370,7 @@
                   </th>
                   <th role="columnheader">{{ labels?.factoring }}</th>
                   <th role="columnheader">{{ labels?.factoredIncome }}</th>
-                  <th role="columnheader">{{ labels?.actions }}</th>
+                  <th role="columnheader" *ngIf="!disableSaveBtn">{{ labels?.actions }}</th>
                 </tr>
               </thead>
               <tbody formArrayName="otherIncomeDetails">
@@ -585,7 +585,7 @@
                       [isDisabled]="true"
                     ></app-custom-input>
                   </td>
-                  <td data-title="Actions">
+                  <td data-title="Actions" *ngIf="!disableSaveBtn">
                     <i
                       type="button"
                       class="fa fa-plus"
@@ -650,7 +650,7 @@
                   </th>
                   <th role="columnheader">{{ labels?.balanceTenor }}</th>
                   <th role="columnheader">{{ labels?.obligationAmount }}</th>
-                  <th role="columnheader">{{ labels?.actions }}</th>
+                  <th role="columnheader" *ngIf="!disableSaveBtn">{{ labels?.actions }}</th>
                 </tr>
               </thead>
               <tbody formArrayName="obligationDetails">
@@ -1009,7 +1009,7 @@
                       [isDisabled]="true"
                     ></app-custom-input>
                   </td>
-                  <td data-title="Actions">
+                  <td data-title="Actions" *ngIf="!disableSaveBtn">
                     <i
                       type="button"
                       class="fa fa-plus"
@@ -1169,6 +1169,7 @@
         class="btn btn-primary mar-right8"
         type="button"
         (click)="onSubmit()"
+        *ngIf="!disableSaveBtn"
       >
         Save
       </button>

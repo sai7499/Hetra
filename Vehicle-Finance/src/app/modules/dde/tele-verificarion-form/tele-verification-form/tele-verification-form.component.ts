@@ -9,6 +9,7 @@ import { TvrDetailsService } from '@services/tvr/tvr-details.service';
 import { ToasterService } from '@services/toaster.service';
 import { OtpServiceService } from '@modules/lead-section/services/otp-details.service';
 import { LoginStoreService } from '@services/login-store.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-tele-verification-form',
@@ -16,6 +17,7 @@ import { LoginStoreService } from '@services/login-store.service';
   styleUrls: ['./tele-verification-form.component.css']
 })
 export class TeleVerificationFormComponent implements OnInit {
+  disableSaveBtn: boolean;
   referenceData = [];
   teleVerificationForm: FormGroup;
   otpForm: FormGroup;
@@ -77,7 +79,8 @@ export class TeleVerificationFormComponent implements OnInit {
     private tvrService: TvrDetailsService,
     private toasterService: ToasterService,
     private otpService: OtpServiceService,
-    private loginStoreService: LoginStoreService
+    private loginStoreService: LoginStoreService,
+    private toggleDdeService: ToggleDdeService
 
   ) {
 
@@ -337,6 +340,12 @@ export class TeleVerificationFormComponent implements OnInit {
         this.teleVerificationForm.get('tvrDate').setValue(this.toDayDate);
         this.teleVerificationForm.get('product').setValue(this.product);
       }
+
+      const operationType = this.toggleDdeService.getOperationType();
+       if (operationType === '1') {
+           this.teleVerificationForm.disable();
+           this.disableSaveBtn  = true;
+         }
 
     });
   }

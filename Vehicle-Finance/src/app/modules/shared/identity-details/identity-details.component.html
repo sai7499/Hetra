@@ -556,6 +556,7 @@
       class="btn btn-primary save"
       id="save_vehicle_details"
       (click)="onSubmit()"
+      *ngIf="!disableSaveBtn"
     >
       Save
     </p>

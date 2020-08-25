@@ -19,12 +19,14 @@ import {
   DirectorDetails
 } from '@model/applicant.model';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   templateUrl: './basic-details.component.html',
   styleUrls: ['./basic-details.component.css'],
 })
 export class BasicDetailsComponent implements OnInit {
+  disableSaveBtn: boolean;
   basicForm: FormGroup;
   isIndividual = false;
   //isSelfEmployed = true;
@@ -94,6 +96,7 @@ export class BasicDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private toasterService: ToasterService,
     private createLeadDataService: CreateLeadDataService,
+    private toggleDdeService: ToggleDdeService
   ) { }
   async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -132,7 +135,11 @@ export class BasicDetailsComponent implements OnInit {
     });
     this.leadId = (await this.getLeadId()) as number;
     //console.log('leadId', this.leadId);
-
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      this.basicForm.disable();
+      this.disableSaveBtn  = true;
+    }
   }
 
   getLeadSectiondata() {

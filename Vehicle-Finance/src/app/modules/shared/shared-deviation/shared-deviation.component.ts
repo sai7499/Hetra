@@ -9,6 +9,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { Router } from '@angular/router';
 import { UtilityService } from '@services/utility.service';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-shared-deviation',
@@ -16,7 +17,7 @@ import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
   styleUrls: ['./shared-deviation.component.css']
 })
 export class SharedDeviationComponent implements OnInit, OnChanges {
-
+  disableSaveBtn: boolean;
   deviationsForm: FormGroup;
   modalForm: FormGroup;
   taskId: any;
@@ -49,7 +50,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   constructor(private labelsData: LabelsService, private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService,
     private deviationService: DeviationService, private toasterService: ToasterService, private sharedService: SharedService,
-    private loginStoreService: LoginStoreService, private router: Router, private utilityService: UtilityService, private vehicleDataStoreService: VehicleDataStoreService) { }
+    private loginStoreService: LoginStoreService, private router: Router, private utilityService: UtilityService, private vehicleDataStoreService: VehicleDataStoreService,
+    private toggleDdeService: ToggleDdeService) { }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -220,6 +222,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       } else {
         this.toasterService.showError(res.ErrorMessage, 'Get Deviation Master')
       }
+      
     }, err => {
       console.log('err', err)
       this.toasterService.showError(err, 'Get Deviation Master')
@@ -448,6 +451,11 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     setTimeout(() => {
       this.isApproveDeviation()
     })
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      this.deviationsForm.disable();
+      this.disableSaveBtn  = true;
+    }
   }
 
   ReferDeviation() {
