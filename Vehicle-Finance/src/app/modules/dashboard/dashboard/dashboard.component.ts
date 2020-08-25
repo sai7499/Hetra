@@ -390,11 +390,14 @@ export class DashboardComponent implements OnInit {
 
 
   loanMinAmtChange() {
-    this.filterForm.get('loanMaxAmt').valueChanges.pipe(debounceTime(600)).subscribe((data)=> {
+    this.filterForm.get('loanMaxAmt').valueChanges.pipe(debounceTime(600)).subscribe((data) => {
+      // console.log(data);
+
       const minAmt = this.filterForm.get('loanMinAmt').value;
       const minLoanAmt = Number(minAmt || 0);
       if (minAmt != null && !minAmt || (data && minLoanAmt >= data)) {
         this.filterForm.get('loanMaxAmt').setValue(null);
+        this.toasterService.showWarning('Invalid Amount', '');
       }
     });
   }
