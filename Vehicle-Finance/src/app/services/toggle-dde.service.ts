@@ -20,12 +20,26 @@ export class ToggleDdeService {
     this.setCurrentPath(labelName, currentUrl);
   }
 
+  setIsDDEClicked() {
+    localStorage.setItem('isDdeClicked', '1');
+  }
+
+  getDdeClickedValue() {
+    return localStorage.getItem('isDdeClicked') === '1';
+  }
+
   getOperationType() {
     return localStorage.getItem('ddeType');
   }
 
   clearOperationType() {
     localStorage.removeItem('ddeType');
+  }
+
+  clearToggleData() {
+    localStorage.removeItem('ddeType');
+    localStorage.removeItem('ddePath');
+    localStorage.removeItem('isDdeClicked');
   }
 
   setCurrentPath(labelName: string, currentUrl: string) {

@@ -5,6 +5,7 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { LeadStoreService } from '@services/lead-store.service';
 import { CommonDataService } from '@services/common-data.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   templateUrl: './dde.component.html',
@@ -31,7 +32,8 @@ export class DdeComponent implements OnInit {
     private cds: CommonDataService,
     private renderer: Renderer2,
     private elementRef: ElementRef,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private toggleDdeService: ToggleDdeService
   ) {
     this.leadId = this.route.snapshot.params['leadId'];
   }
@@ -109,6 +111,7 @@ export class DdeComponent implements OnInit {
   }
 
   backFromDde() {
+    this.toggleDdeService.clearToggleData();
     this.router.navigateByUrl(this.ddeBackRouter);
   }
 
