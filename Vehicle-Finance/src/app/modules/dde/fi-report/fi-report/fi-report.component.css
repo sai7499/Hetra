@@ -127,7 +127,7 @@ h3.dedupe_head {
     padding: 25px 30px;
     border-radius: 8px;
     border: 1px solid #ddd;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
 }
 
 label.col-form-label {
