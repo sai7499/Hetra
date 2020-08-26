@@ -1091,6 +1091,7 @@ export class AddressDetailsComponent implements OnInit {
     this.addressDetailsDataArray.push({
       ...this.getAddressFormValues(permanentAddressObject),
       addressType: Constant.PERMANENT_ADDRESS,
+      nearestLandmark : permanentAddressObject.nearestLandmark,
       isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd || this.onPerAsCurChecked == true ? '1' : '0',
     });
     const formArray = this.addressForm.get('details') as FormArray;
@@ -1127,6 +1128,7 @@ export class AddressDetailsComponent implements OnInit {
       addressType: Constant.CURRENT_ADDRESS,
       accommodationType: currentAddressObject.accommodationType || '',
       isCurrAddSameAsOffAdd: this.onCurrAsOfficeChecked ? '1' : '0',
+      nearestLandmark : values.get('nearestLandmark').value,
 
       periodOfCurrentStay: currentAddressObject.periodOfCurrentStay ? Number(currentAddressObject.periodOfCurrentStay) : null,
 

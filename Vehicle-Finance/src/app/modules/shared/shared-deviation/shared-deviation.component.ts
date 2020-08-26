@@ -328,7 +328,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           this.onPatchFormArrayValue(this.autoDeviationArray)
         }
       } else {
-        this.toasterService.showError(res.ErrorMessage, 'Get Deviation Details')
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Deviation Details')
       }
     }, err => {
       console.log('err', err)
@@ -377,7 +377,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           })
         }
       } else {
-        this.toasterService.showError(res.ErrorMessage, 'Auto Deviation')
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Auto Deviation')
       }
     }, err => {
       this.toasterService.showError(err, 'Auto Deviation')

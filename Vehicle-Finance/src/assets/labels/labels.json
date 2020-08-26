@@ -153,6 +153,7 @@
     "company1": "Company Name 1",
     "company2": "Company Name 2",
     "company3": "Company Name 3",
+    "companyNumber": "Company No.",
     "dateOfIncorporation": "Date Of Incorporation",
     "aadharnumber": "Aadhaar Number",
     "panform": "PAN / Form 60",
@@ -301,6 +302,7 @@
     "noOfYears": "No.of Years",
     "cc": "CC",
     "dob": "DOB",
+    "doi": "DOI",
     "spokenTo": "Spoken to",
     "familyMembers": "Family Members",
     "relationWithApplicant": "Relation with Applicant",
@@ -955,23 +957,23 @@
     "assetDetailsForUsedVehicleTitle": "Used Vehicle Asset Details",
     "loanAmtReq": "Loan amount required",
     "sourcePurchase": "Source of vechicle purchase",
-    "marginMoneyPaid": "Source of margin money paid",
-    "nameOfFinancer": "Name of Financier",
+    "marginMoneyPaid": "Source of Margin money paid in case of re-purchase / Used vehicle / Secondhand vehicle / Balance Take over case",
+    "nameOfFinancer": "Name of the Financier in case of Balance transfer case",
     "awareMarginMoney": "Is the co-applicant aware of source of margin money?",
     "nameOfChannel": "Name of Channel",
     "sellerVehicle": "Do you know seller of the vehicle?",
     "knowAbtVehicle": "How did you come to know about proposed vehicle?",
-    "moneyInvested": "Margin Money/Investment Amount",
-    "moneyBorrowed": "Margin Money/Borrowed Amount",
-    "marketValue": "Market Value",
-    "purchasedValue": "Purchased Value",
+    "moneyInvested": "Margin Money / Investment Amount",
+    "moneyBorrowed": "Margin Money / Borrowed Amount",
+    "marketValue": "Market value for the proposed vehicle",
+    "purchasedValue": "Purchase Price for the proposed vehicle",
     "vehicleCondition": "Do you know vehicle condition?",
-    "usageFunds": "Usage of Funds",
-    "vehicleConditions": "Application of earlier vehicle",
+    "usageFunds": "Usage of Funds in case of refinance",
+    "vehicleConditions": "What was the application of earlier vehicle",
     "remarksOthers": "Remarks of others",
-    "earlierDriving": "Applicant driving earlier",
+    "earlierDriving": "Which vehicle was the Applicant driving earlier?",
     "runningAttached": "Where will this vehicle running/attached/plying?",
-    "awareDue": "Customer aware of Due date and EMI Loan amount",
+    "awareDue": "Is the customer aware of Due Date and EMI for the loan amount",
     "vehicleMake": "Vehicle Make",
     "model1": "Model(Year)",
     "addVehicle": "Add Vehicle",
@@ -984,8 +986,8 @@
     "insuranceCopyVerfied": "Insurance Copy Verified",
     "insuranceDate": "Insurance Valid up to",
     "vehicleVerified": "Vehicle Physically Verified",
-    "physicalCondition": "Condition of Vehicle",
-    "vehicleRoute": "Vehicle Route",
+    "physicalCondition": "If verified, Condition of Vehicle",
+    "vehicleRoute": "If vehicle is in running condition, then Mention the vehicle route and goods for transportation",
     "noTrips": "No of Trips",
     "tripAmt": "Amount Received per trip",
     "selfDriver": "Self Driven or Driver",
@@ -1482,7 +1484,6 @@
     "collectedDate": "Collected Date",
     "cpcCheck": "CPC Check",
     "physicalTrackingNumber": "Physical Tracking Number",
-
     "chequeTracking": "Cheque Tracking",
     "chequeMode": "Mode",
     "chequeNumber": "Cheque Number",
@@ -1494,7 +1495,6 @@
     "favouringTo": "Favouring To",
     "chequeRemark": "Remark",
     "initialDisbursement": "Initiate Disbursement",
-
     "fundingRequiredforlifeCover": "Is Funding Required for Credit Shield - Life Cover?",
     "productLMSCode": "Product (LMS Code - Name)",
     "CoApplicant": "Co - Applicant",
@@ -1543,6 +1543,8 @@
     "chargesAndFees": "Charges & fees (excluding tax) (in IRR)",
     "crossSellInsurance": "Cross Sell Insurance (in INR)",
     "crossSellOthers": "Cross Sell Others (in INR)",
+    "errorCode": "Error Code",
+    "errorMsg": "Error Message",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1623,7 +1625,7 @@
             "type": "alpha-numeric-nospace",
             "pattern": {
                 "rule": "^[0-9A-Za-z]{9,30}$",
-                "msg": "Invalid account Number"
+                "msg": "Minimum length is 9 require for account Number"
             }
         },
         "pdBankName": {
@@ -1762,9 +1764,9 @@
             },
             "type": "number"
         },
-        "sourceOf": {
+        "sourceOfMarginMoneyPaid": {
             "maxLength": {
-                "rule": 40
+                "rule": 30
             },
             "type": "alpha"
         },
@@ -2010,7 +2012,7 @@
         },
         "gvw": {
             "maxLength": {
-                "rule": 2
+                "rule": 10
             },
             "type": "number"
         },
@@ -2162,7 +2164,18 @@
                 "rule": 15
             },
             "type": "alpha-numeric-nospace"
+        },
+        "rentAmount": {
+            "maxLength": {
+                "rule": 6
+            },
+            "type": "number"
+        },
+        "amountDecimal": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "decimal"
         }
     }
-
 }

@@ -83,7 +83,9 @@ export class LeadCreationComponent implements OnInit {
   namePattern: string;
   nameLength: number;
   mobileLength: number;
-  fullName: string;
+  firstName: string = '';
+  middleName: string = '';
+  lastName: string = '';
 
   loanLeadDetails: {
     bizDivision: string;
@@ -154,9 +156,9 @@ export class LeadCreationComponent implements OnInit {
       sourcingType: new FormControl('', Validators.required),
       sourcingCode: new FormControl(''),
       dealerCode: new FormControl('', Validators.required),
-      rcLimit: new FormControl('', Validators.required),
-      rcUtilizedLimit: new FormControl('', Validators.required),
-      rcUnutilizedLimit: new FormControl('', Validators.required),
+      rcLimit: new FormControl({ value: '', disabled: true }, Validators.required),
+      rcUtilizedLimit: new FormControl({ value: '', disabled: true }, Validators.required),
+      rcUnutilizedLimit: new FormControl({ value: '', disabled: true }, Validators.required),
       spokeCodeLocation: new FormControl({
         value: '',
         disabled: !this.isSpoke,
@@ -455,6 +457,18 @@ export class LeadCreationComponent implements OnInit {
     }
   }
 
+  onFirstName(event) {
+    this.firstName = event.target.value;
+  }
+
+  onMiddleName(event) {
+    this.middleName = event.target.value;
+  }
+
+  onLastName(event) {
+    this.lastName = event.target.value;
+  }
+
   onSubmit() {
     const formValue = this.createLeadForm.getRawValue();
     console.log('this.createLeadForm.valid', this.createLeadForm.valid);
@@ -496,7 +510,7 @@ export class LeadCreationComponent implements OnInit {
       this.applicantDetails = {
         entity: leadModel.entity,
         nameOne: leadModel.nameOne,
-        nameTwo: leadModel.nameTwo,
+        nameTwo: leadModel.nameTwo ? leadModel.nameTwo : null,
         nameThree: leadModel.nameThree,
         mobileNumber: `91${leadModel.mobile}`,
         dobOrDoc: this.utilityService.getDateFormat(leadModel.dateOfBirth),
