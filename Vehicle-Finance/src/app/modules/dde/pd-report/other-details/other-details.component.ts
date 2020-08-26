@@ -149,8 +149,8 @@ export class OtherDetailsComponent implements OnInit {
       ],
     };
 
-    let documentId = "537402";
-    this.downloadDocs(documentId);
+    // let documentId = "537402";
+    // this.downloadDocs(documentId);
 
   }
 
@@ -408,16 +408,23 @@ export class OtherDetailsComponent implements OnInit {
      return new Promise((resolve, reject) => {
 
       if (this.isMobile) {
-        this.gpsService.initLatLong().subscribe((res) => {
-          if (res) {
-            this.gpsService.getLatLong().subscribe((position) => {
-              console.log("Mobile position", position);
-              resolve(position);
-            });
-          } else {
-            console.log("Error position", res);
-          }
+
+        this.gpsService.getLatLong().subscribe((position) => {
+          console.log("Mobile position", position);
+          resolve(position);
         });
+
+        // this.gpsService.initLatLong().subscribe((res) => {
+        //   console.log("Error position", res);
+        //   if (res) {
+        //     this.gpsService.getLatLong().subscribe((position) => {
+        //       console.log("Mobile position", position);
+        //       resolve(position);
+        //     });
+        //   } else {
+        //     console.log("Error position", res);
+        //   }
+        // });
       } else {
         this.gpsService.getBrowserLatLong().subscribe((position) => {
           console.log("Browser position", position);

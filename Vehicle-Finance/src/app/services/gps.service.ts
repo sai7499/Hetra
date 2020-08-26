@@ -36,11 +36,14 @@ export class GpsService {
     const obs = new Observable(observer => {
 
       this.locationAccuracy.canRequest().then((canRequest: boolean) => {
+        console.log("canRequest", canRequest)
 
         if(canRequest) {
           // the accuracy option will be ignored by iOS
           this.locationAccuracy.
           request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(() =>{
+            console.log("locationAccuracy", this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY)
+
               var obj = {
                 "result": true
               }
@@ -49,6 +52,7 @@ export class GpsService {
               that.ngxService.stop();    
             },
             error => {
+              console.log("locationAccuracy", error)
               var obj = {
                 "result": false,
                 "error": error
@@ -135,7 +139,7 @@ export class GpsService {
   
       this.geolocation.getCurrentPosition(options).then((position) => {
         let coords = position.coords;
-       
+        console.log("coords", coords);
 
         if(coords["latitude"]){
           let gps = {
