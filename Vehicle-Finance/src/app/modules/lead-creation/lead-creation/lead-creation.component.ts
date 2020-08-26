@@ -80,6 +80,7 @@ export class LeadCreationComponent implements OnInit {
 
   public maxAge: Date = new Date();
   public minAge: Date = new Date();
+  ageCount: number = 0;
 
   namePattern: string;
   nameLength: number;
@@ -134,7 +135,7 @@ export class LeadCreationComponent implements OnInit {
     this.getSourcingChannel();
     this.createLeadForm.patchValue({ entity: 'INDIVENTTYP' });
     this.selectApplicantType('INDIVENTTYP', true);
-    this.getAgeValidation();
+    // this.getAgeValidation();
     // this.minAge.setFullYear(this.minAge.getFullYear() - 100);
     // this.maxAge.setFullYear(this.maxAge.getFullYear() - 10);
   }
@@ -153,11 +154,15 @@ export class LeadCreationComponent implements OnInit {
   getAgeValidation() {
     this.ageValidationService.getAgeValidationData().subscribe(
       data => {
+        this.ageCount++;
         const minAge = data.ages.applicant.minAge;
         const maxAge = data.ages.applicant.maxAge;
-        if (this.applicantType === 'INDIVENTTYP') {
+        if (this.applicantType === 'INDIVENTTYP' && this.ageCount >= 1) {
           this.minAge.setFullYear(this.minAge.getFullYear() - minAge);
           this.maxAge.setFullYear(this.maxAge.getFullYear() - maxAge);
+        } else {
+          // this.minAge.setFullYear(this.minAge.getFullYear() - 0);
+          // this.maxAge.setFullYear(this.maxAge.getFullYear() - 0);
         }
       }
     );
