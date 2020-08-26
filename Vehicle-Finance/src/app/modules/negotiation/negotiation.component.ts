@@ -7,6 +7,7 @@ import { CreateLeadDataService } from '../lead-creation/service/createLead-data.
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { ToasterService } from '@services/toaster.service';
 import { IfStmt } from '@angular/compiler';
+import { LoginStoreService } from '@services/login-store.service';
 @Component({
   selector: 'app-negotiation',
   templateUrl: './negotiation.component.html',
@@ -106,6 +107,7 @@ export class NegotiationComponent implements OnInit {
   vASInsuranceProvidersName: any;
   creditShieldInsuranceProviderName: any;
   finalAsset = [];
+  roleType: any;
   constructor(
     private labelsData: LabelsService,
     private NegotiationService: NegotiationService,
@@ -114,7 +116,8 @@ export class NegotiationComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private toasterService: ToasterService,
     private sharedData: SharedService,
-    private router: Router
+    private router: Router,
+    private loginStoreService: LoginStoreService
   ) {
     this.sharedData.leadData$.subscribe((value) => {
       this.leadData = value;
@@ -135,6 +138,11 @@ export class NegotiationComponent implements OnInit {
     // }, 1500);
     // else if (!this.view)
     this.getAssetDetails();
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+      
+      this.roleType = value.roleType;
+      console.log('role Type', this.roleType);
+    });
   }
   onChangeLanguage(labels: string) {
     if (labels === 'Hindi') {
@@ -979,7 +987,16 @@ console.log('event val',this.lifecovervalueSelected)
       });
   }
 onNext(){
-  this.router.navigateByUrl(`pages/credit-decisions/${this.leadId}/disbursement`)
+  if(this.roleType == '1') {
+    this.router.navigate([`pages/credit-decisions/${this.leadId}/disbursement`]);
+  } else if (this.roleType == '2' ) {
+    this.router.navigate([`pages/credit-decisions/${this.leadId}/disbursement`]);
+  } else if( this.roleType == '4' ) {
+    this.router.navigate([`pages/cpc-maker/${this.leadId}/disbursement`]);
+  } else if(  this.roleType == '5') {
+    this.router.navigate([`pages/cpc-checker/${this.leadId}/disbursement`]);
+  }
+  // this.router.navigateByUrl(`pages/credit-decisions/${this.leadId}/disbursement`)
 
 }
 

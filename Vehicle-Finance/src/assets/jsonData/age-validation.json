@@ -1,0 +1,12 @@
+{
+    "ages": {
+        "applicant": {
+            "minAge": 100,
+            "maxAge": 10
+        },
+        "seniorCitizen": {
+            "salaried": 60,
+            "selfEmployment": 65
+        }
+    }
+}
