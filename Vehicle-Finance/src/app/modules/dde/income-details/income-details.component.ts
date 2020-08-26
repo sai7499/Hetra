@@ -136,13 +136,13 @@ export class IncomeDetailsComponent implements OnInit {
           "yearTwo": "Test",
           "yearThree": "12321"
         },
-        
+
         "applicantType": {
           "yearOne": "2020-19",
           "yearTwo": "Test",
           "yearThree": "12321"
         },
-       
+
         "shareCapital": {
           "yearOne": "2020-19",
           "yearTwo": "Test",
@@ -150,20 +150,20 @@ export class IncomeDetailsComponent implements OnInit {
         },
         "id": 1
       }
-     ,
+      ,
       {
-      "applicant": {
+        "applicant": {
           "yearOne": "2020-19",
           "yearTwo": "Test",
           "yearThree": "12321"
         },
-        
+
         "applicantType": {
           "yearOne": "2020-19",
           "yearTwo": "Test",
           "yearThree": "12321"
         },
-       
+
         "shareCapital": {
           "yearOne": "2020-19",
           "yearTwo": "Test",
@@ -211,10 +211,10 @@ export class IncomeDetailsComponent implements OnInit {
     });
 
     this.incomeDetailsForm = this.formBuilder.group({
-      // keyFinancialDetails:this.formBuilder.group({
-      //   yearOne: this.formBuilder.array([this.getKeyFinancialDetails()]) 
-      // }),
       keyFinancialDetails: this.formBuilder.array([this.getKeyFinancialDetails()]),
+      // keyFinancialDetails: this.formBuilder.group({
+      //   keyFinancials: this.formBuilder.array([this.getKeyFinancialDetails()])
+      //   }),
       businessIncomeDetails: this.formBuilder.array([]),
       otherIncomeDetails: this.formBuilder.array([]),
       obligationDetails: this.formBuilder.array([]),
@@ -231,7 +231,7 @@ export class IncomeDetailsComponent implements OnInit {
     const leadSectionData = leadData as any;
     this.productCode = leadSectionData.leadDetails['productCatCode'];
     console.log(this.productCode);
-    
+
     const incomeData = {
       productCode: this.productCode,
     };
@@ -246,11 +246,12 @@ export class IncomeDetailsComponent implements OnInit {
     } else if (this.productCode == "NCV" || this.productCode == "UCV") {
       this.NewOrUsedComercialVehicle = true
     }
-    console.log(this.incomeDetailsForm.controls.keyFinancialDetails.value);
+    console.log(this.incomeDetailsForm);
 
-    console.log(this.incomeDetailsForm.controls.keyFinancialDetails.value);
-  
-    
+    console.log(this.f);
+    console.log(this.k);
+
+
   }
 
   getLov() {
@@ -282,33 +283,21 @@ export class IncomeDetailsComponent implements OnInit {
       this.applicantDetails = processVariables.applicantListForLead;
     });
   }
+
+  get f() {
+    return this.incomeDetailsForm.get('keyFinancialDetails') as FormArray;
+  }
+  get k() {
+    return this.f as FormArray;
+  }
   private getKeyFinancialDetails(data?: any) {
     // if (data === undefined) {
-     
-        return  this.formBuilder.group({
+
+    return this.formBuilder.group({
+      yearOne: this.formBuilder.group({
         applicantId: [''],
         applicantType: [''],
         shareCapital: [''],
-        lorryHireChargesPaid: [''],
-        securedLoans: [''],
-        unSecuredLoans: [''],
-        creditors: [''],
-        debtors: [''],
-        currentLiabilities: [''],
-        fixedAssets: [''],
-        currentAssets: [''],
-        cashAndBankBalance: [''],
-        revenueFromOperationsOrTopLine: [''],
-        netProfitAfterTax: [''],
-        depreciation: [''],
-        partnersSalary: [''],
-        cashGeneration: [''], 
-        dateOfItrFiling: [''],
-        })
-        // yearTwo: this.formBuilder.group({
-        // applicantId: [''],
-        // applicantType: [''],
-        // shareCapital: [''],
         // lorryHireChargesPaid: [''],
         // securedLoans: [''],
         // unSecuredLoans: [''],
@@ -324,11 +313,12 @@ export class IncomeDetailsComponent implements OnInit {
         // partnersSalary: [''],
         // cashGeneration: [''], 
         // dateOfItrFiling: [''],
-        // }),
-        // yearThree: this.formBuilder.group({
-        // applicantId: [''],
-        // applicantType: [''],
-        // shareCapital: [''],
+      }),
+
+      yearTwo: this.formBuilder.group({
+        applicantId: [''],
+        applicantType: [''],
+        shareCapital: [''],
         // lorryHireChargesPaid: [''],
         // securedLoans: [''],
         // unSecuredLoans: [''],
@@ -344,9 +334,29 @@ export class IncomeDetailsComponent implements OnInit {
         // partnersSalary: [''],
         // cashGeneration: [''], 
         // dateOfItrFiling: [''],
-        // }),
-        
-     
+      }),
+      yearThree: this.formBuilder.group({
+        applicantId: [''],
+        applicantType: [''],
+        shareCapital: [''],
+        // lorryHireChargesPaid: [''],
+        // securedLoans: [''],
+        // unSecuredLoans: [''],
+        // creditors: [''],
+        // debtors: [''],
+        // currentLiabilities: [''],
+        // fixedAssets: [''],
+        // currentAssets: [''],
+        // cashAndBankBalance: [''],
+        // revenueFromOperationsOrTopLine: [''],
+        // netProfitAfterTax: [''],
+        // depreciation: [''],
+        // partnersSalary: [''],
+        // cashGeneration: [''], 
+        // dateOfItrFiling: [''],
+      }),
+    })
+
     // } else {
     //   return this.formBuilder.group({
     //     id: data.id ? data.id : 0,
@@ -370,28 +380,31 @@ export class IncomeDetailsComponent implements OnInit {
     //     netProfit: Number(data.netProfit ? data.netProfit : 0),
     //   });
     // }
-  } 
+  }
   addKeyFinancialDetails(data?: any) {
+    console.log(data);
+
     const control = this.incomeDetailsForm.controls
       .keyFinancialDetails as FormArray;
+    console.log(control, 'key controls')
     // if (data && data.length > 0) {
     //   // tslint:disable-next-line: prefer-for-of
     //   for (let i = 0; i < data.length; i++) {
     //     control.push(this.getKeyFinancialDetails(data[i]));
     //   }
     // } else {
-      control.push(this.getKeyFinancialDetails());
+    control.push(this.getKeyFinancialDetails());
     // }
   }
   removeKeyFinancialDetails(i?: any) {
     console.log(i);
-    
+
     const control = this.incomeDetailsForm.controls
       .keyFinancialDetails as FormArray;
-      if(i > 0){
-        control.removeAt(i);
+    if (i > 0) {
+      control.removeAt(i);
 
-      }
+    }
     // const id = control.at(i).value.id;
     // if (control.controls.length > 1) {
     //   // tslint:disable-next-line: triple-equals
@@ -686,6 +699,8 @@ export class IncomeDetailsComponent implements OnInit {
   }
 
   onBusinessApplicantChange(event?: any, i?: number) {
+    console.log(event);
+    
     // tslint:disable-next-line: triple-equals
     const applicantType = this.applicantDetails.find(
       // tslint:disable-next-line: triple-equals
@@ -716,6 +731,21 @@ export class IncomeDetailsComponent implements OnInit {
     const control = this.incomeDetailsForm.controls
       .obligationDetails as FormArray;
     control.at(i).get('applicantType').setValue(applicantType);
+  }
+  onKeyFinancialApplicantChange(event, i?: number) {
+    // tslint:disable-next-line: triple-equals
+    const applicantType = this.applicantDetails.find(
+      // tslint:disable-next-line: triple-equals
+      (res) => res.applicantId == event
+    ).applicantType;
+    console.log(applicantType);
+    
+    const control = this.incomeDetailsForm.controls
+      .keyFinancialDetails as FormArray;
+      console.log(control);
+    control.value[i].yearOne.get('applicantType').setValue(applicantType);
+    console.log(control);
+    
   }
 
   onSubmit() {
