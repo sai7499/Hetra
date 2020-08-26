@@ -125,12 +125,13 @@ export class TermSheetComponent implements OnInit {
   // }
   assignTaskToTSAndCPC(){
     const ProcessVariables = {
-      "leadId": this.isLeadId,
+      "leadId": this.leadId,
       "userId":this.userId
     };
     this.termSheetService.assignTaskToTSAndCPC(ProcessVariables).subscribe((res)=>{
       if(res['ProcessVariables'].error['code'] == "0"){
         this.toasterService.showSuccess("Record Assigned Successfuly", '');
+        this.router.navigateByUrl("/pages/dashboard");
 
       }else{
         if(this.roleType == '2' && !this.isApprove){
@@ -188,7 +189,7 @@ export class TermSheetComponent implements OnInit {
     if( this.roleType == '1') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/credit-condition`]);
     } else if (this.roleType == '2' ) {
-      this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
+      this.router.navigate([`/pages/credit-decisions/${this.leadId}/disbursement`]);
       // tslint:disable-next-line: triple-equals
       } else if (this.roleType == '4') {
         this.router.navigate([`pages/cpc-maker/${this.leadId}/check-list`]);

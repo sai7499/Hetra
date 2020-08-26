@@ -77,9 +77,15 @@ salesResponse: any;
         this.isSanctionDetails = res['ProcessVariables'].isGenerated;
         const response = res;
         this.sanctionDetailsObject = response.ProcessVariables;
+        
         // Filter Out Applicant, Co-Applicant And Guarantor List If ApplicantList_Object Exist
         if (this.sanctionDetailsObject.applicantList) {
-          this.sanctionDetailsObject.applicantList.filter((element) => {
+          const getApplicantList: Array<any> = this.sanctionDetailsObject.applicantList
+          this.applicantList = [];
+          this.coApplicantList = [];
+          this.guarantorList = [];
+          // this.sanctionDetailsObject.applicantList.filter((element) => {
+            getApplicantList.forEach((element) => {
             if (element.applicantType === 'Applicant') {
               const data = {
                 applicantType: element.applicantType,
@@ -172,15 +178,15 @@ salesResponse: any;
 
   onBack() {
     if(this.roleType == '1') {
-      this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
+      this.router.navigate([`/pages/credit-decisions/${this.leadId}/disbursement`]);
     } else if (this.roleType == '2' ) {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/term-sheet`]);
       // tslint:disable-next-line: triple-equals
       } else if (this.roleType == '4') {
-        this.router.navigate([`pages/cpc-maker/${this.leadId}/negotiation`]);
+        this.router.navigate([`pages/cpc-maker/${this.leadId}/disbursement`]);
       // tslint:disable-next-line: triple-equals
       } else if ( this.roleType == '5') {
-      this.router.navigate([`pages/cpc-checker/${this.leadId}/negotiation`]);
+      this.router.navigate([`pages/cpc-checker/${this.leadId}/disbursement`]);
       }
   }
 

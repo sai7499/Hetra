@@ -278,8 +278,15 @@
                             [placeholder]="'Mobile Number of Vehicle Owner/Dealer'"
                             [maxLength]="label.validationData?.mobileNumber.maxLength"
                             [patternCheck]="label.validationData?.mobileNumber.pattern"
+                            (keyUp)="onChangeMobileNumber($event.target.value)"
+                            (change)="onChangeMobileNumber($event.target.value)"
                             [isRequired]="'Mobile Number of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                         </app-custom-input>
+
+                        <div class="invalid-feedback"
+                            *ngIf="obj.controls['ownerMobileNo'].touched || isInvalidMobileNumber">
+                            Invalid Mobile Number of Vehicle Owner/Dealer
+                        </div>
 
                     </div>
 
@@ -317,17 +324,19 @@
                             [isRequired]="'Vehicle Address PINCODE Required'" [isDirty]="isDirty">
                         </app-custom-input>
                         <div class="invalid-feedback"
-                        *ngIf="basicVehicleForm.controls['isValidPincode'].value === false">
+                            *ngIf="basicVehicleForm.controls['isValidPincode'].value === false">
                             Invalid Pincode
                         </div>
 
-                        <div *ngIf="obj.controls['pincode'].invalid && basicVehicleForm.controls['isValidPincode'].value === false">
+                        <div
+                            *ngIf="obj.controls['pincode'].invalid && basicVehicleForm.controls['isValidPincode'].value === false">
                             Invalid Pincode
                         </div>
 
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 no_vehicle">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 no_vehicle"
+                        *ngIf="productCatoryCode === 'NCV' || productCatoryCode === 'NC'">
                         <label for="no_vehicle"> {{ label.noVehicle }} <sub class="star_red_col">*</sub> </label>
 
                         <!-- [patternCheck]="label.validationData?.noOfVehicles.pattern" -->
@@ -846,7 +855,7 @@
                                 [id]="'age_of_asset'" [isDirty]="isDirty" [isDisabled]="true">
                             </app-custom-input>
                         </div> -->
-<!-- 
+                        <!-- 
                     </div>
 
                     <div class="row"> -->
@@ -1291,8 +1300,15 @@
                                 [placeholder]="'Mobile Number of Vehicle Owner/Dealer'"
                                 [maxLength]="label.validationData?.mobileNumber.maxLength"
                                 [patternCheck]="label.validationData?.mobileNumber.pattern"
+                                (keyUp)="onChangeMobileNumber($event.target.value)"
+                                (change)="onChangeMobileNumber($event.target.value)"
                                 [isRequired]="'Mobile Number of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                             </app-custom-input>
+
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['ownerMobileNo'].touched || isInvalidMobileNumber">
+                                Invalid Mobile Number of Vehicle Owner/Dealer
+                            </div>
 
                         </div>
 
@@ -1328,7 +1344,7 @@
                                 [isRequired]="'Vehicle Address PINCODE Required'" [isDirty]="isDirty">
                             </app-custom-input>
                             <div class="invalid-feedback"
-                                 *ngIf="basicVehicleForm.controls['isValidPincode'].value === false">
+                                *ngIf="basicVehicleForm.controls['isValidPincode'].value === false">
                                 Invalid Pincode
                             </div>
 

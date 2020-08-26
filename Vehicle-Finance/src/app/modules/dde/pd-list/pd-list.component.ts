@@ -78,7 +78,7 @@ export class PdListComponent implements OnInit {
       // leadId: 153,
       //  uncomment this once get proper Pd data for perticular
       leadId: this.leadId,
-      userId: '1001',
+      userId: localStorage.getItem('userId'),
     };
     this.personalDiscussionService.getPdList(data).subscribe((value: any) => {
       const processvariables = value.ProcessVariables;

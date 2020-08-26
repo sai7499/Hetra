@@ -34,6 +34,8 @@ import { CreditConditionModule } from './credit-decisions/credit-decisions.modul
 import { PdReportModule } from './pd-report/pd-report.module';
 import { PdListComponent } from './pd-list/pd-list.component';
 import { FiReportModule } from './fi-report/fi-report.module';
+import { PddDetailsComponent } from './pdd-details/pdd-details.component';
+import { ChequeTrackingComponent} from './cheque-tracking/cheque-tracking.component'
 // import { PdReportComponent } from './pd-report/pd-report.component';
 
 @NgModule({
@@ -61,6 +63,8 @@ import { FiReportModule } from './fi-report/fi-report.module';
     CibilOdListComponent,
     FiListComponent,
     PdListComponent,
+    PddDetailsComponent,
+    ChequeTrackingComponent
 
 
   ],
@@ -80,6 +84,6 @@ import { FiReportModule } from './fi-report/fi-report.module';
     ViabilityDashboardModule,
     FiReportModule
   ],
-  exports: [ViabilityDashboardModule, CreditConditionModule]
+  exports: [ViabilityDashboardModule, CreditConditionModule, ChequeTrackingComponent]
 })
 export class DdeModule { }

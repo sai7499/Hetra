@@ -300,14 +300,19 @@ export class CheckListComponent implements OnInit {
 onNext()  {
   // this.onSave();
   // tslint:disable-next-line: triple-equals
-  if (this.roleType == '2') {
-  this.router.navigate([`pages/dashboard`]);
-  // tslint:disable-next-line: triple-equals
-  } else if (this.roleType == '4') {
-    this.router.navigate([`pages/cpc-maker/${this.leadId}/term-sheet`]);
-  // tslint:disable-next-line: triple-equals
-  } else if ( this.roleType == '5') {
-  this.router.navigate([`pages/cpc-checker/${this.leadId}/term-sheet`]);
+  console.log("form value" ,this.checklistForm.valid);
+  if (this.checklistForm.valid){    
+    if (this.roleType == '2') {
+    this.router.navigate([`pages/dashboard`]);
+    // tslint:disable-next-line: triple-equals
+    } else if (this.roleType == '4') {
+      this.router.navigate([`pages/cpc-maker/${this.leadId}/term-sheet`]);
+    // tslint:disable-next-line: triple-equals
+    } else if ( this.roleType == '5') {
+    this.router.navigate([`pages/cpc-checker/${this.leadId}/term-sheet`]);
+    }
+  }else{
+    this.toasterService.showError('Select Mandatory Fields', ' ');
   }
 }
 

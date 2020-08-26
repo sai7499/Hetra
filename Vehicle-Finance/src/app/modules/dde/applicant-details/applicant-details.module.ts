@@ -15,6 +15,7 @@ import { EmploymentDetailsComponent } from './employment-details/employment-deta
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
 import { SharedModule } from '@shared/shared.module';
 import {NumberOnlyDirective} from '../../../services/directives/number-only.directive';
+import { DdeModule } from '../dde.module';
 
 @NgModule({
     declarations: [
@@ -35,6 +36,7 @@ import {NumberOnlyDirective} from '../../../services/directives/number-only.dire
         FormsModule,
         ReactiveFormsModule,
         SharedModule,
+        DdeModule
     ]
 })
 export class ApplicantDetailsModule { }

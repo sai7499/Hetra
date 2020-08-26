@@ -27,7 +27,7 @@
       <ng-container formArrayName="details">
         <div id="individual_section_start" *ngIf="isIndividual">
           <div class="row" formGroupName="0">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3 col-xs-12 third_width">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 col-xs-12 third_width">
               <label>{{labels?.aadharnumber}}</label>
               <div class="input-group input-medium">
                 <input
@@ -50,7 +50,7 @@
               <label for="pan_number">{{labels?.pannumber}}</label>
               <input type="text" class="form-control m-50" />
             </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3 col-xs-12 third_width"
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 col-xs-12 third_width"
               style="visibility: hidden;"
             >
               <label for="pan_number">{{labels?.pannumber}}</label>
@@ -87,7 +87,7 @@
               </div>
             </div> -->
             <div class="clearfix"></div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3 col-xs-12 third_width">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 col-xs-12 third_width">
               <label for="pan_form">{{labels?.panform}}</label>
               <!-- <select class="form-control m-50" id="pan_form" name="pan_form" disabled="">
                                     <option value="PAN" selected="selected">PAN</option>
@@ -100,7 +100,7 @@
                 
               ></app-vf-custom-select>
             </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3 col-xs-12 third_width">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 col-xs-12 third_width">
               <label for="pan_number">{{labels?.pannumber}}</label>
               <input
                 formControlName="pan"
@@ -155,7 +155,7 @@
               </div>
             </div> -->
             <div class="clearfix"></div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3 col-xs-12 third_width">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 col-xs-12 third_width">
               <label for="passport_number">{{labels?.passportNumber}}</label>
               <input
                 formControlName="passportNumber"
@@ -166,7 +166,7 @@
                 disabled=""
               />
             </div>
-            <div class="form-group  col-sm-6 col-md-3 col-lg-3 col-xs-12 third_width">
+            <div class="form-group  col-sm-4 col-md-4 col-lg-4 col-xs-12 col-xs-12 third_width">
               <label for="passport_expiry_date">{{labels?.issuanceDate}}</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
@@ -192,7 +192,7 @@
                 </div>
               </div>
             </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3 third_width">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
               <label for="issuance_date">{{labels?.expiryDate}}</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
@@ -208,7 +208,7 @@
                   /> -->
                   <kendo-datepicker class="form-control" 
                 formControlName="passportExpiryDate" [format]="'dd/MM/yyyy'"
-                [min]="this.convertPassportDate"
+                [min]="convertPassportDate"
                  placeholder="Expriy Date"
                  [disabled]="passportDates"
                 [activeView]="'decade'"
@@ -249,7 +249,7 @@
               </div>
             </div> -->
             <div class="clearfix"></div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3 third_width">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
               <label for="ration_card_number" class="driving_height"
                 >{{labels?.drivingLicenseNumber}}</label
               >
@@ -263,7 +263,7 @@
                 disabled=""
               />
             </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3 third_width">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
               <label for="issuance_date" class="driving_height"
                 >{{labels?.issuanceDate}}</label
               >
@@ -292,7 +292,7 @@
                 </div>
               </div>
             </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3 third_width">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
               <label for="expiry_date" class="driving_height"
                 >{{labels?.expiryDate}}</label
               >
@@ -350,7 +350,7 @@
               </div>
             </div> -->
             <div class="clearfix"></div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3 third_width">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
               <label for="passport_number">{{labels?.voterIdNumber}}</label>
               <input
                 formControlName="voterIdNumber"
@@ -362,7 +362,7 @@
               />
             </div>
 
-            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3 third_width">
+            <!-- <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
               <label for="issuance_date">Issuance Date</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
@@ -377,7 +377,7 @@
                 </div>
               </div>
             </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3 third_width">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
               <label for="expiry_date">Expiry Date</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
@@ -401,10 +401,10 @@
                 ></a
               >
             </div> -->
-            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3 third_width">
+            <!-- <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
 
             </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3 third_width">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
 
             </div> -->
             <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
@@ -450,7 +450,7 @@
         >
           <!-- <div class="row" > -->
             <div class="row">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3 third_width">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
               <label for="issuance_date">{{labels?.udyogAdhar}}</label>
               <div class="input-group input-medium">
                 <input
@@ -471,7 +471,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3 " >
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 " >
               <label for="identity_number"
                 >{{ labels?.panform }}
                 </label
@@ -483,7 +483,7 @@
               >
               </app-vf-custom-select>
             </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="mobile">{{ labels?.pannumber }}</label>
               <app-custom-input
                 formControlName="panNumber"
@@ -492,7 +492,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="adhar">{{labels?.cinRegisteredNumber}}</label>
               <app-custom-input
                 formControlName="corporateIdentificationNumber"
@@ -501,7 +501,7 @@
                 
               ></app-custom-input>
             </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="adhar">{{labels?.cstVatNumber}}</label>
               <app-custom-input
                 formControlName="cstVatNumber"
@@ -510,7 +510,7 @@
               ></app-custom-input>
             </div>
             
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="adhar">{{labels?.gstNumber}}</label>
               <app-custom-input
                 formControlName="gstNumber"
@@ -520,7 +520,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="adhar">{{labels?.tanNumber}}</label>
               <app-custom-input
                 formControlName="tanNumber"

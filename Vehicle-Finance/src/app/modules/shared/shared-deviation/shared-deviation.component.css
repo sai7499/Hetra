@@ -193,13 +193,9 @@
         margin: 10px 4px;
     }
 
-    /* .invalid-feedback {
-        font-size: 1vw;
-        font-family: zurich-bold;
-        letter-spacing: 0.5px;
-        color: red;
-        padding-top: 0.5vw;
-    } */
+    .cus-title {
+        margin: 15px 0;
+    }
 
     #credit_sourcing_details:after,#credit_tvr_details:after, #credit_application_details:after, #credit_vehicle_details:after, #credit_fleet_details:after,#credit_liveloan:after, #credit_income_details:after, #credit_psl_data:after{width:100% !important;left: 70px;}
     

@@ -100,11 +100,11 @@
             type="button"
             (click)="onNavigateBack()"
           >
-            {{ labels.back }}</button
-          >
+            {{ labels.back }}
+          </button>
           <button class="btn btn-primary" (click)="onFormSubmit()">
-            {{ labels.save }}</button
-          >
+            {{ labels.save }}
+          </button>
           <button
             class="btn btn-primary"
             type="button"
@@ -218,9 +218,9 @@
           id="source_puchase"
           formControlName="sourceOfVehiclePurchase"
           placeholder="source of vehicle purchase"
-          [type]="labels?.validationData?.sourceOf?.type"
+          [type]="labels?.validationData?.sourceOfMarginMoneyPaid?.type"
           [isRequired]="' source of purchase is required'"
-          [maxLength]="labels?.validationData?.sourceOf?.maxLength"
+          [maxLength]="labels?.validationData?.sourceOfMarginMoneyPaid?.maxLength"
           [isDirty]="isDirty"
         >
         </app-custom-input>
@@ -251,9 +251,9 @@
           id="margin_money"
           formControlName="marginMoneySource"
           placeholder="source of margin money"
-          [type]="labels?.validationData?.sourceOf?.type"
+          [type]="labels?.validationData?.sourceOfMarginMoneyPaid?.type"
           [isRequired]="' source of margin money is required'"
-          [maxLength]="labels?.validationData?.sourceOf?.maxLength"
+          [maxLength]="labels?.validationData?.sourceOfMarginMoneyPaid?.maxLength"
           [isDirty]="isDirty"
         >
         </app-custom-input>
@@ -352,9 +352,9 @@
           id="know_abt_vechicle"
           formControlName="proposedVehicle"
           placeholder="how do you know about proposed vehilcle"
-          [type]="labels?.validationData?.sourceOf?.type"
+          [type]="labels?.validationData?.sourceOfMarginMoneyPaid?.type"
           [isRequired]="' know about proposed vehicle is required'"
-          [maxLength]="labels?.validationData?.sourceOf?.maxLength"
+          [maxLength]="labels?.validationData?.sourceOfMarginMoneyPaid?.maxLength"
           [isDirty]="isDirty"
         >
         </app-custom-input>
@@ -574,7 +574,7 @@
           rows="3"
           placeholder="other remarks"
           formControlName="othersRemarks"
-          maxlength="200"
+          maxlength="300"
           style="resize: none;"
         ></textarea>
 
@@ -685,9 +685,43 @@
           formControlName="regCopVfd"
           [isRequired]="'Please select one'"
           [isDirty]="isDirty"
+          (change)="regCopyVerified($event.target.value)"
         >
         </app-vf-custom-select>
       </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="engine_number"
+          >{{ labels.engineNumber }} <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          formControlName="engineNumber"
+          placeholder="engine number"
+          [inputClass]="'input-upper'"
+          [type]="labels?.validationData?.chasisEngineNo?.type"
+          [isRequired]="engChassRequired ? 'engine number is required' : ''"
+          [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength"
+          [isDirty]="isDirty"
+        ></app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="chassis_number"
+          >{{ labels.chassisNumber }} <sub class="star_red_col">*</sub></label
+        >
+        <app-custom-input
+          formControlName="chasisNumber"
+          placeholder="chasis number"
+          [inputClass]="'input-upper'"
+          [type]="labels?.validationData?.chasisEngineNo?.type"
+          [isRequired]="engChassRequired ? 'chasis number is required' : ''"
+          [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength"
+          [isDirty]="isDirty"
+        ></app-custom-input>
+      </div>
+    </div>
+    <div
+      class="row"
+      *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'"
+    >
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="hpa_with_nbfc"
           >{{ labels.hpaNbfc }} <sub class="star_red_col">*</sub></label
@@ -704,39 +738,6 @@
           [isDirty]="isDirty"
         >
         </app-vf-custom-select>
-      </div>
-      <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="engine_number"
-          >{{ labels.engineNumber }} <sub class="star_red_col">*</sub></label
-        >
-        <app-custom-input
-          formControlName="engineNumber"
-          placeholder="engine number"
-          [inputClass]="'input-upper'"
-          [type]="labels?.validationData?.chasisEngineNo?.type"
-          [isRequired]="'engine number is required'"
-          [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength"
-          [isDirty]="isDirty"
-        ></app-custom-input>
-      </div>
-    </div>
-    <div
-      class="row"
-      *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'"
-    >
-      <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="chassis_number"
-          >{{ labels.chassisNumber }} <sub class="star_red_col">*</sub></label
-        >
-        <app-custom-input
-          formControlName="chasisNumber"
-          placeholder="chasis number"
-          [inputClass]="'input-upper'"
-          [type]="labels?.validationData?.chasisEngineNo?.type"
-          [isRequired]="'chasis number is required'"
-          [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength"
-          [isDirty]="isDirty"
-        ></app-custom-input>
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="permit_date"
@@ -867,7 +868,7 @@
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="insurance_copy"
-          >{{ labels.insuranceCopy }} <sub class="star_red_col">*</sub></label
+          >{{ labels.insuranceCopyVerfied }} <sub class="star_red_col">*</sub></label
         >
         <!-- <select class="form-control">
                     <option>Select</option>
@@ -1040,7 +1041,7 @@
           rows="3"
           placeholder="remarks"
           formControlName="remarks"
-          maxlength="200"
+          maxlength="300"
           style="resize: none;"
         ></textarea>
 
@@ -1070,11 +1071,11 @@
             type="button"
             (click)="onNavigateBack()"
           >
-            {{ labels.back }}</button
-          >
+            {{ labels.back }}
+          </button>
           <button class="btn btn-primary" (click)="onFormSubmit('save')">
-            {{ labels.save }}</button
-          >
+            {{ labels.save }}
+          </button>
           <button
             class="btn btn-primary"
             type="button"

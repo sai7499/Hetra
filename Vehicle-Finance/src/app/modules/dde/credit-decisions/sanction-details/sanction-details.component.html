@@ -8,51 +8,64 @@
 
 <main class="content" style="background: #f5f5f5; border: none;" >
     <div class="container-fluid print_top " id="vf_sheet_print_starts" *ngIf="isSanctionDetails">
-        <h4 id="vf_sheet_tag4" class="text-center" style="font-weight: lighter;">{{labels?.sanctionLetter}}</h4>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" style="text-align: left;" id="vf_sheet_tag8">
+                <img class="img-style" src="assets\images\equitas-logo.png" >
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 font-fam" style="text-align: right; ">
+                <p><span class="head-tag" >{{labels?.vfSheetTag76A}}<br/></span>{{labels?.equitasBranchAddress1A}}<br/>{{labels?.equitasBranchAddress1B}}<br/>
+                    {{labels?.equitasBranchAddress1C}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <h4 id="vf_sheet_tag4" class="text-center head-tag" ><i>{{labels?.sanctionLetter}}</i></h4>
+        </div>
+
         <div id="vf_sheet_tag5">
+            
             <p id="vf_sheet_tag6" class="text-right"><strong>{{labels?.date}}</strong> &nbsp; :{{todayDate}}</p>
             <p id="vf_sheet_tag7" class="text-right"><strong>{{labels?.place}}</strong> :{{sanctionDetailsObject.Place}}</p>
         </div>
         <p id="vf_sheet_tag8"><strong>{{labels?.toSanction}}</strong>,</p>
         <div class="row">
-            <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
+            <div class="col-lg-4 col-sm-4 col-xs-12 col-md-4">
                 <div *ngFor="let applicant of applicantList; let i = index">
                     <p id="vf_sheet_tag9"><strong>{{applicant?.applicantType}} {{i+1}}</strong></p>
                     <p id="vf_sheet_tag10"><strong>{{applicant?.name}}</strong></p>
-                    <p id="vf_sheet_tag11">{{applicant?.addressLine1}}</p>
-                    <p id="vf_sheet_tag12">{{applicant?.addressLine2}} </p>
-                    <p id="vf_sheet_tag13">{{applicant?.addressLine3}}</p>
-                    <p id="vf_sheet_tag14">{{applicant?.district + '-'+ applicant?.pincode}} </p>
-                    <p id="vf_sheet_tag15">{{applicant?.country}}</p>
+                    <p id="vf_sheet_tag11">{{applicant?.addressLine1 | titlecase}}</p>
+                    <p id="vf_sheet_tag12">{{applicant?.addressLine2 | titlecase}} </p>
+                    <p id="vf_sheet_tag13">{{applicant?.addressLine3 | titlecase}}</p>
+                    <p id="vf_sheet_tag14">{{applicant?.district + '-'+ applicant?.pincode | titlecase}} </p>
+                    <p id="vf_sheet_tag15">{{applicant?.country | titlecase}}</p>
                     <!-- <p id="vf_sheet_tag16">{{applicant?.pincode}} </p> -->
                     <p id="vf_sheet_tag17">{{applicant?.mobileNo}}</p>
                 </div>
             </div>
-            <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
+            <div class="col-lg-4 col-sm-4 col-xs-12 col-md-4">
                 <div *ngFor="let coApplicant of coApplicantList; let i = index">
                     <p id="vf_sheet_tag18"><strong> {{coApplicant?.applicantType}} {{i+1}}</strong></p>
                     <p id="vf_sheet_tag19"><strong>{{coApplicant?.name}}</strong></p>
-                    <p id="vf_sheet_tag20">{{coApplicant?.addressLine1}}</p>
-                    <p id="vf_sheet_tag21">{{coApplicant?.addressLine2}}</p>
-                    <p id="vf_sheet_tag22">{{coApplicant?.addressLine3}}</p>
-                    <p id="vf_sheet_tag23">{{coApplicant?.district + '-' + coApplicant?.pincode}}</p>
-                    <p id="vf_sheet_tag24">{{coApplicant?.country}}</p>
+                    <p id="vf_sheet_tag20">{{coApplicant?.addressLine1 | titlecase}}</p>
+                    <p id="vf_sheet_tag21">{{coApplicant?.addressLine2 | titlecase}}</p>
+                    <p id="vf_sheet_tag22">{{coApplicant?.addressLine3 | titlecase}}</p>
+                    <p id="vf_sheet_tag23">{{coApplicant?.district + '-' + coApplicant?.pincode | titlecase}}</p>
+                    <p id="vf_sheet_tag24">{{coApplicant?.country | titlecase}}</p>
                     <p id="vf_sheet_tag25">{{coApplicant?.mobileNo}}</p>
                 </div>
                 <!-- <p id="vf_sheet_tag26"><strong> {{coApplicant?.applicantType}} </strong></p> -->
             </div>
-            <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
+            <div class="col-lg-4 col-sm-4 col-xs-12 col-md-4">
                 <!-- <p id="vf_sheet_tag27"><strong>{{labels?.guarantor1}}</strong></p>
                 <p id="vf_sheet_tag28"><strong>NOT APPLICABLE</strong></p>
                 <p id="vf_sheet_tag29"><strong>{{labels?.guarantor2}}</strong></p> -->
                 <div *ngFor="let guarantor of guarantorList; let i = index">
                     <p id="vf_sheet_tag18"><strong> {{guarantor?.applicantType}} {{i+1}}</strong></p>
                     <p id="vf_sheet_tag19"><strong>{{guarantor?.name}}</strong></p>
-                    <p id="vf_sheet_tag20">{{guarantor?.addressLine1}}</p>
-                    <p id="vf_sheet_tag21">{{guarantor?.addressLine2}}</p>
-                    <p id="vf_sheet_tag22">{{guarantor?.addressLine3}}</p>
-                    <p id="vf_sheet_tag23">{{guarantor?.district}}</p>
-                    <p id="vf_sheet_tag24">{{guarantor?.country}}</p>
+                    <p id="vf_sheet_tag20">{{guarantor?.addressLine1 | titlecase}}</p>
+                    <p id="vf_sheet_tag21">{{guarantor?.addressLine2 | titlecase}}</p>
+                    <p id="vf_sheet_tag22">{{guarantor?.addressLine3 | titlecase}}</p>
+                    <p id="vf_sheet_tag23">{{guarantor?.district + '-' + guarantor?.pincode | titlecase}}</p>
+                    <p id="vf_sheet_tag24">{{guarantor?.country | titlecase}}</p>
                     <p id="vf_sheet_tag25">{{guarantor?.mobileNo}}</p>
                 </div>
             </div>
@@ -61,7 +74,7 @@
         <!-- <p id="vf_sheet_tag31"><strong>{{labels?.proposalNumber}}</strong>&nbsp;&nbsp;<sup>{{this.leadId}}</sup></p> -->
         <p id="vf_sheet_tag31"><strong>{{labels?.proposalNumber}}:</strong> {{this.leadId}}</p>
         <div id="">
-            <div id="">
+            <div id="" class="table-responsive">
                 <p id=" " class="text-center"><strong>{{labels?.vehicleDetails}}</strong></p>
                 <table class="table">
                     <tbody *ngFor="let vehicleDetails of vehicleDetailsArray">
@@ -86,9 +99,9 @@
                     </tbody>
                 </table>
             </div>
-            <div id="vf_sheet_second_table">
+            <div class="align-justify table-responsive" id="vf_sheet_second_table">
                 <p id="vf_sheet_tag33" class="text-center"><strong> {{labels?.loanApprovedDetails}} </strong></p>
-                <table class="table table-responsive table-bordered">
+                <table class="table">
                     <tbody>
                         <tr>
                             <td id="table_column_width15"> {{labels?.assetCostRs}} </td>
@@ -129,8 +142,8 @@
                         <tr>
                             <td> {{labels?.emiCoverage}} </td>
                             <td>{{loanApprovedDetails?.emiCoveragePremiumAmount}}</td>
-                            <td></td>
-                            <td></td>
+                            <td> {{labels?.documentationCharges}} </td>
+                            <td>{{loanApprovedDetails?.documentationCharges}}</td>
                         </tr>
                         <tr>
                             <td> {{labels?.personalAccidentCover}} </td>
@@ -173,7 +186,7 @@
         <p id="vf_sheet_tag38"> {{labels?.vfSheetTag38}} </p>
         <p id="vf_sheet_tag39"> {{labels?.vfSheetTag39}} </p>
         <p id="vf_sheet_tag40"> {{labels?.vfSheetTag40}} </p>
-        <div id="vf_sheet_row_space">
+        <div  class="align-justify" id="vf_sheet_row_space">
             <div class="row">
                 <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4" >
                     <div *ngFor="let applicant of applicantList; let i = index">
@@ -194,9 +207,9 @@
                 </div>
             </div>
         </div>
-        <p id="vf_sheet_text_tag"> {{labels?.generalTermsAndConditions}} </p>
+        <p class="align-justify" id="vf_sheet_text_tag"> {{labels?.generalTermsAndConditions}} </p>
         <div [innerHTML]="generalTermsAndConditions"></div>
-        <div id="vf_sheet_row_space">
+        <div class="align-justify" id="vf_sheet_row_space">
             <div class="row">
                 <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4" >
                     <div *ngFor="let applicant of applicantList; let i = index">
@@ -215,7 +228,7 @@
                 </div>
             </div>
         </div>
-        <div id="">
+        <div class="align-justify table-responsive" id="">
             <h4 id="vf_sheet_tag75" style="text-align: center; font-weight: lighter;">
                 <p> {{labels?.vfSheetTag75}} </p>
             </h4>
@@ -226,15 +239,15 @@
             <p id="vf_sheet_tag80"> {{labels?.vfSheetTag80}} </p>
             <p id="81"> {{labels?.vfSheetTag81}} </p>
             <p id="82"> {{labels?.vfSheetTag82}} {{sanctionDetailsObject.employeeName}}. ({{sanctionDetailsObject.employeeId}}){{labels?.vfSheetTag82A}} </p>
-            <table class="table table-responsive table-bordered">
+            <table class="table">
                 <tbody>
                     <tr>
-                        <td><strong> {{labels?.paymentType}} </strong></td>
-                        <td>{{sanctionDetailsObject?.paymentType}}</td>
-                        <td><strong> {{labels?.payeeName}} </strong></td>
-                        <td>{{sanctionDetailsObject?.payeeName}}</td>
-                        <td><strong> {{labels?.paymentAmount}} </strong></td>
-                        <td>{{sanctionDetailsObject?.paymentAmount}}</td>
+                        <td [attr.data-label]="labels?.paymentType"><strong> {{labels?.paymentType}} </strong></td>
+                        <td [attr.data-label]="sanctionDetailsObject?.paymentType">{{sanctionDetailsObject?.paymentType}}</td>
+                        <td [attr.data-label]="labels?.payeeName"><strong> {{labels?.payeeName}} </strong></td>
+                        <td [attr.data-label]="labels?.payeeName">{{sanctionDetailsObject?.payeeName}}</td>
+                        <td [attr.data-label]="labels?.paymentAmount"><strong> {{labels?.paymentAmount}} </strong></td>
+                        <td [attr.data-label]="labels?.paymentAmount">{{sanctionDetailsObject?.paymentAmount}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -263,7 +276,7 @@
         
     </div>
 
-    <div class="btn-sec clear-both row"> 
+    <div class="btn-sec clear-both row cst_btm_btns"> 
         <div class="col-sm-5"></div> 
         <div class="col-sm-7 text-right">
             <button class="btn btn-primary btn_div " type="button" (click)="onBack()">{{labels?.back}}</button>
@@ -271,9 +284,54 @@
             <button class="btn btn-primary btn_div" type="button" 
                 [disabled]="salesResponse == 'false'" *ngIf="roleType == '2'" (click)="onNext()" >{{labels?.next}}</button>
             <button class="btn btn-primary btn_div" type="button" 
-                *ngIf="roleType == '1'" (click)="onNext()" >{{labels?.next}}</button>
+                *ngIf="roleType != '2'" (click)="onNext()" >{{labels?.next}}</button>
             <button class="btn btn-primary btn_div"  *ngIf="roleType == '2'"
-                type="button" (click)="onSubmitToSales()" >{{labels?.submit}}</button>
+                data-toggle="modal" data-target="#myModal" type="button" 
+                >{{labels?.submit}}</button>
         </div>
     </div>
 </main>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <!-- <h4 class="modal-title">Submit Record</h4> -->
+            </div>
+            <div class="modal-body">
+                <p>Lead will now be moved to Sales.
+                    Do you want to continue?
+                   </p>                             
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" 
+                    (click)="onSubmitToSales()" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-primary" 
+                data-dismiss="modal" data-target="#noModal" data-toggle="modal">No</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="noModal" role="dialog" *ngIf="salesResponse == 'true'">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <!-- <h4 class="modal-title">Submit Record</h4> -->
+            </div>
+            <div class="modal-body">
+                <p>Please click on NEXT to proceed further</p>              
+            </div>
+            <div class="modal-footer">                
+                <button type="button" class="btn btn-primary" data-dismiss="modal">ok</button>
+            </div>
+        </div>
+
+    </div>
+</div>
