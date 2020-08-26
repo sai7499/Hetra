@@ -390,6 +390,9 @@ export class DashboardComponent implements OnInit {
     if (tabName === 'deviation') {
       this.toggleDdeService.setIsDDEClicked('0');
       this.toggleDdeService.setOperationType('1', 'Deviation', currentUrl);
+    } else if (tabName === 'creditDecision') {
+      this.toggleDdeService.setOperationType('0');
+      this.toggleDdeService.setOperationType('2', 'Credit Decision', currentUrl);
     } else if (tabName === 'dde') {
       this.toggleDdeService.setOperationType('0');
     }

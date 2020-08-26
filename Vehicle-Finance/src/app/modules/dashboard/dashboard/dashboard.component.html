@@ -372,7 +372,8 @@
         (click)="
           onLeads(
             displayCreditTabs?.Decision,
-            displayCreditTabs?.CreditDecisionWithMe
+            displayCreditTabs?.CreditDecisionWithMe,
+            'creditDecision'
           )
         "
         [ngClass]="{ active: displayCreditTabs?.Decision === activeTab }"
