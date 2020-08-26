@@ -1703,6 +1703,12 @@
                 "rule": 50
             }
         },
+        "businessName": {
+            "maxLength": {
+                "rule": 50
+            }
+        },
+
         "vehicleRegNo": {
             "maxLength": {
                 "rule": 11
@@ -1839,7 +1845,7 @@
         },
         "cinRegNumber": {
             "maxLength": {
-                "rule": 26
+                "rule": 21
             },
             "type": "alpha-numeric",
             "patternCheck": {
@@ -1894,6 +1900,16 @@
             },
             "type": "number"
         },
+        "phone": {
+            "maxLength": {
+                "rule": 15
+            },
+            "type": "number",
+            "patternCheck": {
+                "rule": "^[0-9]{6}",
+                "msg": "Number Should be valid and atleast 6 Digits"
+            }
+        },
         "landlineNumber": {
             "maxLength": {
                 "rule": 15
@@ -1904,6 +1920,13 @@
                 "msg": "Number Should be valid and atleast 10 Digits"
             }
         },
+        "noOfBusinessYears": {
+            "maxLength": {
+                "rule": 3
+            },
+            "type": "number"
+        },
+
         "directorName": {
             "maxLength": {
                 "rule": 60

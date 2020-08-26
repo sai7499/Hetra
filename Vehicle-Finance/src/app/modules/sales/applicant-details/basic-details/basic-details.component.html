@@ -199,7 +199,7 @@
                   formControlName="dob"
                   [format]="'dd/MM/yyyy'"
                   [min]="ageMinDate"
-                  [max]="toDayDate"
+                  [max]="setBirthDate"
                   placeholder="Date of birth"
                   [activeView]="'decade'"
                   (valueChange)="ageCalculation($event)"

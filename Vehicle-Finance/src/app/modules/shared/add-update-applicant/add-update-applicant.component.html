@@ -247,7 +247,8 @@
                       class="form-control mandatory"
                       formControlName="dob"
                       [format]="'dd/MM/yyyy'"
-                      [max]="toDayDate"
+                      [min]="ageMinDate"
+                      [max]="setBirthDate"
                       [activeView]="'decade'"
                       placeholder="Date of birth"
                     >
@@ -1190,6 +1191,7 @@
                       }}</label>
                       <app-custom-input
                         formControlName="landlineNumber"
+                        [patternCheck]="validationData?.phone?.patternCheck"
                         [maxLength]="validationData?.landlineNumber?.maxLength"
                         [type]="validationData?.landlineNumber?.type"
                       ></app-custom-input>
@@ -1212,7 +1214,33 @@
                       >&nbsp;Check If It Is Same As Permanent Address?
                     </span>
                   </div>
+                  <!-- <div class="col-lg-3 text-left" id="align_this_checkbox"
+                  *ngIf="showModifyCurrCheckBox">
+                    <input
+                      type="checkbox"
+                      id="address_section_checkbox"
+                      (click)="onModCurrAddress($event)"
+                    />
+                    <span id="address_section_checkbox_text"
+                      >&nbsp;Modify Current Address
+                    </span>
+                  </div> -->
+                 
+
                 </div>
+                <!-- <div class="row">
+                  <div class="form-group col-sm-6 col-md-4 col-lg-4"
+                  *ngIf="showSrField">
+                    <label for="line1"
+                      >SR Number</label
+                    >
+                    <app-custom-input
+                    formControlName="srNumber"
+                      
+                    ></app-custom-input>
+                  </div>
+                </div> -->
+                
                 <div class="row container" formGroupName="currentAddress">
                   <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -1332,6 +1360,7 @@
                       }}</label>
                       <app-custom-input
                         formControlName="landlineNumber"
+                        [patternCheck]="validationData?.phone?.patternCheck"
                         [maxLength]="validationData?.landlineNumber?.maxLength"
                         [type]="validationData?.landlineNumber?.type"
                       ></app-custom-input>
@@ -1469,13 +1498,14 @@
                         formControlName="landlineNumber"
                         [maxLength]="validationData?.landlineNumber?.maxLength"
                         [type]="validationData?.landlineNumber?.type"
+                        [patternCheck]="validationData?.phone?.patternCheck"
                       ></app-custom-input>
                     </div>
                   </div>
                 </div>
                 <div class="btn-sec clear-both row">
                   <div class="col-lg-3 col-sm-5">
-                    <h3 class="title">Communication Address</h3>
+                    <h3 class="title">Office Address</h3>
                   </div>
                   <div class="col-lg-3 text-left" id="align_this_checkbox">
                     <input
@@ -1613,6 +1643,7 @@
                         formControlName="landlineNumber"
                         [maxLength]="validationData?.landlineNumber?.maxLength"
                         [type]="validationData?.landlineNumber?.type"
+                        [patternCheck]="validationData?.phone?.patternCheck"
                       ></app-custom-input>
                     </div>
                   </div>

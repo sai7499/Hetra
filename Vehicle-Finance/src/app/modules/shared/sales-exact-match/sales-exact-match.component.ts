@@ -128,13 +128,14 @@ export class SalesExactMatchComponent implements OnInit {
       isIndividual: !(this.dedupeDetails.entityType !== 'INDIVENTTYP'),
       isMobileNumberChanged: this.dedupeDetails.isMobileNumberChanged,
       custSegment : this.dedupeDetails.custSegment,
-      contactPerson : this.dedupeDetails.contactPerson
+      contactPerson : this.dedupeDetails.contactPerson,
+      // entityType : this.dedupeDetails.entityType
     };
 
     this.applicantService
       .checkSalesApplicantUcic(data)
       .subscribe((data: any) => {
-        if (data.Error === '0') {
+        if (data.ProcessVariables.error.code === '0') {
           const processVariables = data.ProcessVariables;
           this.checkNegativeList(processVariables.applicantId);
           // this.router.navigateByUrl(
