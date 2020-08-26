@@ -73,8 +73,9 @@ export class BasicDetailsComponent implements OnInit {
     msg: 'Invalid email',
   };
 
-  public toDayDate: Date = new Date();
-  public ageMinDate : Date = new Date(1948, 12, 1)
+  toDayDate: Date = new Date();
+  setBirthDate : Date = new Date()
+  public ageMinDate : Date = new Date()
   isRequiredSpouse = 'Spouse Name is Required';
   isRequiredFather = 'Father Name is Required';
   productCategory: string;
@@ -121,8 +122,8 @@ export class BasicDetailsComponent implements OnInit {
       applicantRelationshipWithLead: new FormControl(''),
       details: new FormArray([]),
     });
-
-
+    this.setBirthDate.setFullYear(this.setBirthDate.getFullYear()-10)
+    this.ageMinDate.setFullYear(this.ageMinDate.getFullYear()-100)
     //this.addNonIndividualFormControls();
     this.getLovData();
     this.getLeadSectiondata();

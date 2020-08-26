@@ -116,7 +116,9 @@ export class ApplicantDetailsComponent implements OnInit {
   navigateAddApplicant(){
     if(this.applicantList.length > 4){
        this.toasterService.showWarning('Maximum 5 Applicants','')
+       return;
     }
+    
     this.route.navigateByUrl(`/pages/lead-section/${this.leadId}/co-applicant`);
     if (this.applicantList.length > 0) {
       this.applicantList.filter((val: any) => {
