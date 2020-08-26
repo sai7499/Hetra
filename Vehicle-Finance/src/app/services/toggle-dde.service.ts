@@ -20,7 +20,11 @@ export class ToggleDdeService {
     this.setCurrentPath(labelName, currentUrl);
   }
 
-  setIsDDEClicked() {
+  setIsDDEClicked(value?: any) {
+    if (value) {
+      localStorage.setItem('isDdeClicked', '0');
+      return;
+    }
     localStorage.setItem('isDdeClicked', '1');
   }
 

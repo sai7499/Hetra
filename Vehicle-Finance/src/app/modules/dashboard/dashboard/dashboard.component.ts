@@ -388,6 +388,7 @@ export class DashboardComponent implements OnInit {
   onLeads(data, subTab, tabName: string) {
     const currentUrl = this.location.path();
     if (tabName === 'deviation') {
+      this.toggleDdeService.setIsDDEClicked('0');
       this.toggleDdeService.setOperationType('1', 'Deviation', currentUrl);
     } else if (tabName === 'dde') {
       this.toggleDdeService.setOperationType('0');
