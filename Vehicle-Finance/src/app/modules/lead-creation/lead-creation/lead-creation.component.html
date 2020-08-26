@@ -308,7 +308,8 @@
             <kendo-datepicker class="form-control mandatory" 
               formControlName="dateOfBirth" 
               [format]="'dd/MM/yyyy'"
-              [max]="toDayDate" 
+              [min]="minAge"
+              [max]="maxAge" 
               [placeholder]="dobOrDoiPlaceHolder"
               [activeView]="'decade'">
             </kendo-datepicker>  
