@@ -76,6 +76,13 @@ export class OtherDetailsComponent implements OnInit {
   documentArr: DocumentDetails[] = [];
 
 
+  latitude: string = null;
+  longitude: string = null;
+  branchLatitude: string;
+  branchLongitude: string;
+  custProfileDetails: {};
+  showRouteMap: boolean;
+
 
   constructor(
               private labelsData: LabelsService,
@@ -102,7 +109,6 @@ export class OtherDetailsComponent implements OnInit {
                 this.taskId = value;
               });
               this.isMobile = environment.isMobile;
-              this.isMobile = true;
           }
 
    async ngOnInit() {
@@ -142,8 +148,6 @@ export class OtherDetailsComponent implements OnInit {
         },
       ],
     };
-
-    this.getRouteMap();
 
     let documentId = "537402";
     this.downloadDocs(documentId);
@@ -250,12 +254,20 @@ export class OtherDetailsComponent implements OnInit {
         this.showReinitiate = value.ProcessVariables.showReinitiate;
         console.log('in other details show renitiate', this.showReinitiate);
         this.otherDetails = value.ProcessVariables.otherDetails;
+        this.branchLongitude = value.ProcessVariables.customerProfileDetails.branchLongitude
+        this.branchLatitude = value.ProcessVariables.customerProfileDetails.branchLatitude;
+        this.latitude = value.ProcessVariables.customerProfileDetails.latitude;
+        this.longitude = value.ProcessVariables.customerProfileDetails.longitude;
+        this.SELFIE_IMAGE = value.ProcessVariables.profilePhoto;
         console.log('GET_OTHER_DETAILS:: ', this.otherDetails);
       }
         if(this.otherDetails) {
-          this.setFormValue(); //SET_FORM_VALUES_ON_INITIALISATION
+          this.setFormValue(); //SsaveOrUpdateOtherDetailsET_FORM_VALUES_ON_INITIALISATION
           this.pdDataService.setCustomerProfile(this.otherDetails);
-        } 
+        }
+        if(this.latitude){
+          this.getRouteMap();
+        }
     });
   }
 
@@ -291,16 +303,26 @@ export class OtherDetailsComponent implements OnInit {
   }
 
   //SAVE_OR_UPDATE_OTHER-DETAILS
-  saveOrUpdateOtherDetails() {
+  async saveOrUpdateOtherDetails() {
+    console.log("latitude::", this.latitude);
+    console.log("longitude::", this.longitude);
+
     this.formValues = this.otherDetailsForm.getRawValue();
     console.log("FORMVALUES::", this.formValues);
     this.formValues.date = this.formValues.date ? this.utilityService.convertDateTimeTOUTC(this.formValues.date, 'DD/MM/YYYY') : null;
+
+    this.custProfileDetails = {
+      latitude: this.latitude || '',
+      longitude: this.longitude || '',
+    }
     if (this.otherDetailsForm.valid === true) {
     const data = {
       leadId: this.leadId,
       applicantId: this.applicantId,
       userId: this.userId,
-      otherDetails: this.formValues
+      otherDetails: this.formValues,
+      customerProfileDetails: this.custProfileDetails,
+      profilePhoto: this.SELFIE_IMAGE
     }
       this.personalDiscussionService.saveOrUpdatePdData(data).subscribe((res: any) => {
           const response = res.ProcessVariables;
@@ -380,29 +402,47 @@ export class OtherDetailsComponent implements OnInit {
 
 
 
-  getLatLong() {
+  async getLatLong() {
      /* Get latitude and longitude from mobile */
-     if (this.isMobile) {
-      this.gpsService.initLatLong().subscribe((res) => {
-        if (res) {
-          this.gpsService.getLatLong().subscribe((position) => {
-            this.getRouteMap();
-          });
-        } else {
-          console.log(res);
-        }
-      });
-    } else {
-      this.gpsService.getBrowserLatLong().subscribe((position) => {
-        this.getRouteMap();
-      });
-    }
+
+     return new Promise((resolve, reject) => {
+
+      if (this.isMobile) {
+        this.gpsService.initLatLong().subscribe((res) => {
+          if (res) {
+            this.gpsService.getLatLong().subscribe((position) => {
+              console.log("Mobile position", position);
+              resolve(position);
+            });
+          } else {
+            console.log("Error position", res);
+          }
+        });
+      } else {
+        this.gpsService.getBrowserLatLong().subscribe((position) => {
+          console.log("Browser position", position);
+          if(position["code"]){
+            this.toasterService.showError(position["message"], "GPS Alert");
+          }
+          resolve(position);
+        });
+      }
+    });
   }
 
-  getRouteMap() {
+  getRouteMap(branchPosition?: any, currentPostion?: any) {
     var that = this;
+    let branchPos = {
+      latitude: this.branchLongitude,
+      longitude: this.branchLongitude
+    };
+    let currentPos = {
+      latitude: this.latitude,
+      longitude: this.longitude
+    }
     this.loginService.getPolyLine(function (result) {
       that.base64Image = result;
+      that.showRouteMap = true;
       // console.log("getPolyLine", that.base64Image);
     }, null, null);
   }
@@ -483,7 +523,7 @@ export class OtherDetailsComponent implements OnInit {
   }
 
 
-  onUploadSuccess(event: DocumentDetails) {
+  async onUploadSuccess(event: DocumentDetails) {
     // this.toasterService.showSuccess('Document uploaded successfully', '');
     this.showModal = false;
     this.SELFIE_IMAGE = 'data:image/jpeg;base64,' + event.imageUrl;
@@ -507,7 +547,18 @@ export class OtherDetailsComponent implements OnInit {
     } 
     console.log('documentArr', this.documentArr);
     this.individualImageUpload(event, index);
-    this.getLatLong();
+
+    let position = await this.getLatLong();
+    if(position["latitude"]){
+      this.latitude = position["latitude"].toString();
+      this.longitude = position["longitude"].toString();
+      this.getRouteMap();
+    }else {
+      this.latitude = "";
+      this.longitude = "";
+      this.showRouteMap = false;
+    }
+
   }
 
   uploadPhotoOrSignature(data) {

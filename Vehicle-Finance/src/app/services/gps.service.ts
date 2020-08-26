@@ -5,6 +5,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 
 
@@ -22,11 +23,15 @@ export class GpsService {
   }
 
   constructor(private locationAccuracy: LocationAccuracy,
+    private ngxService: NgxUiLoaderService,
     private geolocation: Geolocation) { 
     this.initLatLong();
   }
 
   initLatLong() {
+    let that = this;
+
+    this.ngxService.start();
 
     const obs = new Observable(observer => {
 
@@ -40,7 +45,8 @@ export class GpsService {
                 "result": true
               }
               observer.next(obj);
-              observer.complete();    
+              observer.complete();
+              that.ngxService.stop();    
             },
             error => {
               var obj = {
@@ -48,7 +54,9 @@ export class GpsService {
                 "error": error
               }
               observer.next(obj);
-              observer.complete();    
+              observer.complete();  
+              that.ngxService.stop();    
+  
             }
           )}
       
@@ -62,6 +70,10 @@ export class GpsService {
   }
 
   getBrowserLatLong() {
+    let that = this;
+
+    this.ngxService.start();
+
 
     const obs = new Observable(observer => {
 
@@ -86,6 +98,8 @@ export class GpsService {
           }
           observer.next(gps);
           observer.complete();
+          that.ngxService.stop();
+
         }
 
         
@@ -95,6 +109,8 @@ export class GpsService {
        // console.warn(`ERROR(${err.code}): ${err.message}`);
         observer.next(err);
         observer.complete();
+        that.ngxService.stop();
+
     }
       
       navigator.geolocation.getCurrentPosition(success, error, options);
@@ -106,6 +122,8 @@ export class GpsService {
   getLatLong() {
 
     let that = this;
+    this.ngxService.start();
+
 
     const obs = new Observable(observer => {
 
@@ -126,8 +144,11 @@ export class GpsService {
           }
           observer.next(gps);
           observer.complete();
+          that.ngxService.stop();
         }           
       }).catch((error) => {
+        that.ngxService.stop();
+
         console.log("Code", error["code"]);
         let code = error["code"];
         switch(code){
@@ -158,6 +179,9 @@ export class GpsService {
 
   advanceGPSLocation(observer) {
     // Implement this in `deviceready` event callback
+    let that = this;
+    this.ngxService.start();
+
     AdvancedGeolocation.start(function(success){
 
 
@@ -170,6 +194,8 @@ export class GpsService {
           }
           observer.next(gps);
           observer.complete();
+          that.ngxService.stop();
+
           
           AdvancedGeolocation.stop();
 
@@ -213,6 +239,7 @@ export class GpsService {
       console.log("ERROR! " + JSON.stringify(error));
       observer.next(error);
       observer.complete();  
+      that.ngxService.stop();
 
   },
   ////////////////////////////////////////////
