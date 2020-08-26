@@ -223,7 +223,7 @@ label{
     opacity: 0.6;
 }
 .calc-icon {
-    background: url(/assets/images/calc-icon.png) no-repeat;
+    background: url(~/assets/images/calc-icon.png) no-repeat;
     width: 20px;
     height: 34px;
     background-size: 100%;
