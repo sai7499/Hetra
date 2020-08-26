@@ -2,6 +2,10 @@
     padding: 20px 0 0 200px
 }
 
+.disablField {
+    pointer-events: none;
+}
+
 
 /* li:active {
     background-color: #272264;

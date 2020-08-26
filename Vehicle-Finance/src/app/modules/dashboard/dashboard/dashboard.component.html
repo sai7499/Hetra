@@ -43,9 +43,9 @@
                         <label for="startDate">{{labels.leadCreatedOnStartDate}}</label>
                         <kendo-datepicker class="form-control" formControlName="fromDate" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Start Date" [activeView]="'decade'"></kendo-datepicker>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div [ngClass]="{'disablField': !filterForm.get('fromDate').value}" class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="endDate">{{labels.leadCreatedOnEndDate}}</label>
-                        <kendo-datepicker class="form-control" formControlName="toDate" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="End Date" [activeView]="'decade'"></kendo-datepicker>
+                        <kendo-datepicker class="form-control" formControlName="toDate" [format]="'dd/MM/yyyy'" [min]="filterForm.get('fromDate').value" [max]="toDayDate" placeholder="End Date" [activeView]="'decade'"></kendo-datepicker>
                     </div>
                 </div>
                 <div class="row">
@@ -54,7 +54,7 @@
                         <app-custom-input id="minAmount" formControlName="loanMinAmt" min="minAmount" [className]="'form-control'" [placeholder]="'Enter Loan amount'" [maxLength]="validationData?.amountValue.maxLength" [type]="validationData?.amountValue.type">
                         </app-custom-input>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div [ngClass]="{'disablField': !filterForm.get('loanMinAmt').value}" class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="maxAmount">{{labels.loanMaxAmount}}</label>
                         <app-custom-input id="maxAmount" formControlName="loanMaxAmt" [className]="'form-control'" [placeholder]="'Enter Loan amount'" [maxLength]="validationData?.amountValue.maxLength" [type]="validationData?.amountValue.type">
                         </app-custom-input>
@@ -77,7 +77,7 @@
         </ul> -->
         <ul class="nav nav-pills nav-justified" id="background_white">
             <li (click)="onLeads(displayTabs?.Leads, displayTabs?.NewLeads)" [ngClass]="{'active':displayTabs?.Leads === activeTab}" routerLinkActive="active" id="leads"><a data-toggle="tab">Leads</a></li>
-            <li (click)="onLeads(displayTabs?.PD, displayTabs?.MyPD)" [ngClass]="{'active':displayTabs?.PD === activeTab}" routerLinkActive="active"><a data-toggle="tab">Personal Discussion</a></li>
+            <li (click)="onLeads(displayTabs?.PD, displayTabs?.MyPD)" [ngClass]="{'active':displayTabs?.PD === activeTab}" routerLinkActive="active"><a data-toggle="tab">FI cum PD</a></li>
             <li (click)="onLeads(displayTabs?.FI, displayTabs?.MyFI)" [ngClass]="{'active':displayTabs?.FI === activeTab}" routerLinkActive="active"><a data-toggle="tab">Field Investigation</a></li>
             <li (click)="onLeads(displayTabs?.Viability, displayTabs?.ViabilityWithMe)" [ngClass]="{'active':displayTabs?.Viability === activeTab}" routerLinkActive="active"><a data-toggle="tab">Vehicle Viability</a></li>
             <li (click)="onLeads(displayTabs?.LoanBooking)" [ngClass]="{'active':displayTabs?.LoanBooking === activeTab}" routerLinkActive="active"><a data-toggle="tab">Loan Booking</a></li>
@@ -98,8 +98,8 @@
             <li (click)="leads(displayTabs?.DeclinedWithBranch)" [ngClass]="{'active':displayTabs?.DeclinedWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Declined Leads with Branch</a></li>
         </ul>
         <ul *ngIf="displayTabs?.PD === activeTab" class="nav nav-pills nav-justified" id="background_white">
-            <li (click)="leads(displayTabs?.MyPD)" [ngClass]="{'active':displayTabs?.MyPD === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">My PD Tasks</a></li>
-            <li (click)="leads(displayTabs?.BranchPd)" [ngClass]="{'active':displayTabs?.BranchPd === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Branch PD Tasks</a></li>
+            <li (click)="leads(displayTabs?.MyPD)" [ngClass]="{'active':displayTabs?.MyPD === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">My Tasks</a></li>
+            <li (click)="leads(displayTabs?.BranchPd)" [ngClass]="{'active':displayTabs?.BranchPd === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Branch Tasks</a></li>
         </ul>
         <!--  -->
         <ul *ngIf="displayTabs?.FI === activeTab" class="nav nav-pills nav-justified" id="background_white">
@@ -170,11 +170,11 @@
             <li (click)="leads(displayCreditTabs?.DeviationWithBranch)" [ngClass]="{'active':displayCreditTabs?.DeviationWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Deviation Pending With Branch</a></li>
         </ul>
         <ul *ngIf="displayCreditTabs?.Decision === activeTab" class="nav nav-pills nav-justified" id="background_white">
-            <li class="active" (click)="leads(displayCreditTabs?.CreditDecisionWithMe)" [ngClass]="{'active':displayCreditTabs?.CreditDecisionWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Decision Pending With Me</a></li>
+            <li (click)="leads(displayCreditTabs?.CreditDecisionWithMe)" [ngClass]="{'active':displayCreditTabs?.CreditDecisionWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Decision Pending With Me</a></li>
             <li (click)="leads(displayCreditTabs?.CreditDecisionWithBranch)" [ngClass]="{'active':displayCreditTabs?.CreditDecisionWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Decision Pending With Branch</a></li>
         </ul>
         <ul *ngIf="displayCreditTabs?.TermSheet === activeTab" class="nav nav-pills nav-justified" id="background_white">
-            <li class="active" (click)="leads(displayCreditTabs?.TermSheetWithMe)" [ngClass]="{'active':displayCreditTabs?.TermSheetWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Termsheet Pending with Me</a></li>
+            <li (click)="leads(displayCreditTabs?.TermSheetWithMe)" [ngClass]="{'active':displayCreditTabs?.TermSheetWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Termsheet Pending with Me</a></li>
             <li (click)="leads(displayCreditTabs?.TermSheetWithBranch)" [ngClass]="{'active':displayCreditTabs?.TermSheetWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Termsheet Pending With Branch</a></li>
         </ul>
 
@@ -277,47 +277,51 @@
                     </tr>
                 </tbody>
             </table>
-            <table *ngIf="displayTabs?.PDD === activeTab || displayTabs?.ChequeTracking === activeTab || displayTabs?.LoanBooking === activeTab">
-                <thead>
-                    <tr class="table-head-bg">
-                        <th>{{labels?.loanNumber}}<i class="fa fa-sort"></i> </th>
-                        <th>{{labels?.productCategory}}<i class="fa fa-sort"></i> </th>
-                        <th>{{labels?.loanAmount}}<i class="fa fa-sort"></i> </th>
-                        <th *ngIf="displayTabs?.PDD === activeTab || displayTabs?.LoanBooking === activeTab ">{{labels?.applicant+'s'}}<i class="fa fa-sort"></i> </th>
-                        <th *ngIf="displayTabs?.ChequeTracking === activeTab">{{labels?.applicantName}}<i class="fa fa-sort"></i> </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of pddDetails | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
+            <div *ngIf="roleType == '1'">
+                <table *ngIf="displayTabs?.PDD === activeTab || displayTabs?.ChequeTracking === activeTab || displayTabs?.LoanBooking === activeTab">
+                    <thead>
+                        <tr class="table-head-bg">
+                            <th *ngIf="displayTabs?.LoanBooking === activeTab">{{labels?.leadID}}</th>
+                            <th>{{labels?.loanNumber}}<i class="fa fa-sort"></i> </th>
+                            <th>{{labels?.productCategory}}<i class="fa fa-sort"></i> </th>
+                            <th>{{labels?.loanAmount}}<i class="fa fa-sort"></i> </th>
+                            <th *ngIf="displayTabs?.PDD === activeTab || displayTabs?.LoanBooking === activeTab ">{{labels?.applicant+'s'}}<i class="fa fa-sort"></i> </th>
+                            <th *ngIf="displayTabs?.ChequeTracking === activeTab">{{labels?.applicantName}}<i class="fa fa-sort"></i> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of pddDetails | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
+                            <td *ngIf="displayTabs?.LoanBooking === activeTab" [attr.data-label]="labels?.leadID" class="text-underline" (click)="getLoanNumber(item.loanNumber)"><a [routerLink]="[ '/pages/dde', item.leadId,'loan-status' ]">{{item.leadId}}</a></td>
+                            <td *ngIf="displayTabs?.PDD === activeTab" [attr.data-label]="labels?.loanNumber" class="text-underline" (click)="getLoanNumber(item.loanNumber)"><a [routerLink]="['/pages/dde', item.leadId,'pdd-details']">{{item.loanNumber}}</a></td>
+                            <td *ngIf="displayTabs?.ChequeTracking === activeTab" [attr.data-label]="labels?.loanNumber" class="text-underline" (click)="getLoanNumber(item.loanNumber)"><a [routerLink]="[ '/pages/dde', item.leadId,'cheque-tracking' ]">{{item.loanNumber}}</a></td>
+                            <td *ngIf="displayTabs?.LoanBooking === activeTab" [attr.data-label]="labels?.loanNumber" class="text-underline"><a>{{item.loanAccountNo}}</a></td>
 
-                        <td *ngIf="displayTabs?.PDD === activeTab" [attr.data-label]="labels?.loanNumber" class="text-underline" (click)="getLoanNumber(item.loanNumber)"><a [routerLink]="['/pages/dde', item.leadId,'pdd-details']">{{item.loanNumber}}</a></td>
-                        <td *ngIf="displayTabs?.ChequeTracking === activeTab" [attr.data-label]="labels?.loanNumber" class="text-underline" (click)="getLoanNumber(item.loanNumber)"><a [routerLink]="[ '/pages/dde', item.leadId,'cheque-tracking' ]">{{item.loanNumber}}</a></td>
-                        <td *ngIf="displayTabs?.LoanBooking === activeTab" [attr.data-label]="labels?.loanNumber" class="text-underline"><a>{{item.loanAccountNo}}</a></td>
-                        <td [attr.data-label]="labels?.productCategory">{{item.product ? item.product : '--'}}</td>
-                        <td [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
-                        <td *ngIf="displayTabs?.ChequeTracking != activeTab" [attr.data-label]="labels?.applicants">{{item.applicants ? item.applicants : '--'}}</td>
-                        <td *ngIf="displayTabs?.ChequeTracking === activeTab" [attr.data-label]="labels?.applicantName">{{item.applicantName ? item.applicantName : '--'}}</td>
-                    </tr>
-                </tbody>
-                <!-- <tbody *ngIf="displayTabs?.ChequeTracking === activeTab">PDD
-                    <tr *ngFor="let item of pddDetails | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
-
-                        <td [attr.data-label]="labels?.loanNumber" class="text-underline" (click)="getLoanNumber(item.loanNumber)"><a [routerLink]="[ '/pages/dde', item.leadId,'cheque-tracking' ]">{{item.loanNumber}}</a></td>
-                        <td [attr.data-label]="labels?.productCategory">{{item.product ? item.product : '--'}}</td>
-                        <td [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
-                        <td [attr.data-label]="labels?.applicantName">{{item.applicantName ? item.applicantName : '--'}}</td>
-                    </tr>
-                </tbody>
-                <tbody *ngIf="displayTabs?.LoanBooking === activeTab">
-                    <tr *ngFor="let item of pddDetails | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
-
-                        <td [attr.data-label]="labels?.loanNumber" class="text-underline"><a>{{item.loanAccountNo}}</a></td>
-                        <td [attr.data-label]="labels?.productCategory">{{item.product ? item.product : '--'}}</td>
-                        <td [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
-                        <td [attr.data-label]="labels?.applicants">{{item.applicants ? item.applicants : '--'}}</td>
-                    </tr>
-                </tbody> -->
-            </table>
+                            <td [attr.data-label]="labels?.productCategory">{{item.product ? item.product : '--'}}</td>
+                            <td [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
+                            <td *ngIf="displayTabs?.ChequeTracking != activeTab" [attr.data-label]="labels?.applicants">{{item.applicants ? item.applicants : '--'}}</td>
+                            <td *ngIf="displayTabs?.ChequeTracking === activeTab" [attr.data-label]="labels?.applicantName">{{item.applicantName ? item.applicantName : '--'}}</td>
+                        </tr>
+                    </tbody>
+                    <!-- <tbody *ngIf="displayTabs?.ChequeTracking === activeTab">PDD
+                        <tr *ngFor="let item of pddDetails | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
+    
+                            <td [attr.data-label]="labels?.loanNumber" class="text-underline" (click)="getLoanNumber(item.loanNumber)"><a [routerLink]="[ '/pages/dde', item.leadId,'cheque-tracking' ]">{{item.loanNumber}}</a></td>
+                            <td [attr.data-label]="labels?.productCategory">{{item.product ? item.product : '--'}}</td>
+                            <td [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
+                            <td [attr.data-label]="labels?.applicantName">{{item.applicantName ? item.applicantName : '--'}}</td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="displayTabs?.LoanBooking === activeTab">
+                        <tr *ngFor="let item of pddDetails | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
+    
+                            <td [attr.data-label]="labels?.loanNumber" class="text-underline"><a>{{item.loanAccountNo}}</a></td>
+                            <td [attr.data-label]="labels?.productCategory">{{item.product ? item.product : '--'}}</td>
+                            <td [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
+                            <td [attr.data-label]="labels?.applicants">{{item.applicants ? item.applicants : '--'}}</td>
+                        </tr>
+                    </tbody> -->
+                </table>
+            </div>
 
             <div class="noDataFound" *ngIf="!isLoadLead">
                 <h3>No data found</h3>

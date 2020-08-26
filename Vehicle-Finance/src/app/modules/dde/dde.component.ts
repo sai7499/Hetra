@@ -82,7 +82,8 @@ export class DdeComponent implements OnInit {
     if (this.router.url.includes('/fi-cum-pd-dashboard')
      || this.router.url.includes('/fi-dashboard') ||
       this.router.url.includes('/cheque-tracking') 
-    || this.router.url.includes('/pdd-details')) {
+    || this.router.url.includes('/pdd-details') ||
+      this.router.url.includes('/loan-status')) {
       this.showNav = false;
     } else {
       this.showNav = true;

@@ -133,7 +133,7 @@ export class LoanDetailsComponent implements OnInit {
     this.getLOV();
     this.getPdDetails();
     this.RemoveAddControls();
-    this.getPdStatus();
+    // this.getPdStatus();
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.loanDetailsLov = value ? value[0].loanDetail[0] : {};
 

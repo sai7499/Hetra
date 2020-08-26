@@ -275,6 +275,9 @@ export class CreditConditionsComponent implements OnInit {
       else if(data == 'back' ){
         this.router.navigateByUrl('/pages/dashboard')
       }
+      else if(data == 'back' ){
+        this.router.navigateByUrl('/pages/dashboard')
+        }
     }
    
   }
@@ -293,19 +296,6 @@ export class CreditConditionsComponent implements OnInit {
   creditConditionActions(data){
     let processData = {};
     switch(data) {
-      // case 'approved':
-      //   {
-      //     processData["isApprove"]= true;
-      //     processData["userId"]= this.userId;
-      //     processData["leadId"]= this.leadId;
-      //     this.creditConditionService.approveCreditConditions(processData).subscribe(res=> {
-      //       console.log(res);
-      //       if(res['ProcessVariables'].error['code'] == 0){
-      //         this.toasterService.showSuccess("Record " + data + " successfully!", '')
-      //       }
-      //     })
-      //   }
-      //   break;
       case 'submited':
         {
           processData["onSubmit"]= true;
@@ -335,7 +325,7 @@ export class CreditConditionsComponent implements OnInit {
     }
     processData["userId"]= this.userId;
     processData["leadId"]= this.leadId;
-      this.creditConditionService.submitApproveReferDeclineCreditConditions(processData).subscribe(res=> {
+      this.creditConditionService.submitReferDeclineCreditConditions(processData).subscribe(res=> {
       console.log(res);
       if(res['ProcessVariables'].error['code'] == 0){
         this.toasterService.showSuccess("Record " + data + " successfully!", '')
