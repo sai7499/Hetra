@@ -69,7 +69,7 @@
                                     <td [attr.data-label]="labels?.ucicId">
                                         <ng-container *ngFor="let version of item.pdReportValue.split(',')">
                                             <u><a class="a_tag" style="cursor: pointer;"
-                          (click)="navigatePage(item.applicantId, version)">Version - {{ version }}</a></u><br />
+                          (click)="navigatePage(item.applicantId, version)">Version - {{ version }}</a></u><span>&nbsp;<br class="filter-display"/></span>
                                         </ng-container>
                                     </td>
                                 </ng-container>

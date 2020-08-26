@@ -102,6 +102,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   gstNumber: string;
 
   toDayDate: Date = new Date();
+  setBirthDate: Date = new Date();  
+  ageMinDate: Date = new Date();  
   isAlertSuccess: boolean = true;
   isAlertDanger: boolean = true;
 
@@ -195,49 +197,15 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   showMessage: any = {};
   disabledDrivingDates = true;
   disabledPassportDates = true;
+  showModifyCurrCheckBox : boolean;
+  showSrField : boolean;
   
-
-
 
   isMobile: any;
 
   @ViewChild('pTag', { static: false }) pTag: ElementRef<HTMLElement>;
 
-  biometricResponce = {
-    addressLineOne: "PLOT NO 968TH CROSS STREETKARU",
-    addressLineThree: "",
-    addressLineTwo: "MANDAPAM",
-    applicantId: 222,
-    careOfPerson: "S/O Johnpaul",
-    country: "India",
-    district: "Tiruchirappalli",
-    dobFromResponse: "22-12-1989",
-    // "error": {
-    //   "code": "0",
-    //   "message": "Success"
-    // },
-    firstName: "Christus",
-    landmark: "VASANTHA NAGAR, JAYA NAGAR EXTN",
-    lastName: "Johnpaul",
-    locality: "KARUMANDAPAM",
-    middleName: "Valerian",
-    nameFromResponse: "Christus Valerian Johnpaul",
-    pincode: "620001",
-    resultPincode: 620001,
-    genderFromResponse: "M",
-    house: "PLOT NO 96",
-    state: "Tamil Nadu",
-    street: "8TH CROSS STREET",
-    villageTownOrCity: "Tiruchirappalli",
-    stateId: 40,
-    cityId: 160391,
-    districtId: 596,
-    countryId: 6,
-    cityName: "TIRUCHIRAPPALLI H.O-TIRUCHY"
-
-
-  };
-
+  
   constructor(
     private labelsData: LabelsService,
     private lovData: LovDataService,
@@ -259,10 +227,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.leadId = this.activatedRoute.snapshot.params['leadId'];
     this.isMobile = environment.isMobile;
 
+
   }
 
   async ngOnInit() {
+    
     this.initForm();
+    this.setBirthDate.setFullYear(this.setBirthDate.getFullYear()-10)
+    this.ageMinDate.setFullYear(this.ageMinDate.getFullYear()-100)
 
     this.getLOV();
     // if (this.leadId) {
@@ -294,6 +266,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.coApplicantForm.get('dedupe').get('pan').disable();
       }
     }
+    
   }
   getLeadSectiondata() {
     const leadData = this.createLeadDataService.getLeadSectionData();
@@ -385,6 +358,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   getPanValue(event: any) {
     this.panValue = event.target.value;
     this.isPanDisabled = this.panValue === '1PANTYPE';
+    this.panValidate= false;
     const dedupe = this.coApplicantForm.get('dedupe');
     if (this.applicantType == 'NONINDIVENTTYP') {
       if (!this.isPanDisabled) {
@@ -804,6 +778,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.disableRegisteredAddress();
         this.disableCommunicationAddress();
         //}
+        this.showModifyCurrCheckBox= true;
 
       }
 
@@ -919,6 +894,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.coApplicantForm = new FormGroup({
       dedupe: new FormGroup(this.getDedupeFormControls()),
       permentAddress: new FormGroup(this.getAddressFormControls()),
+      srNumber : new FormControl(''),
       currentAddress: new FormGroup(this.getAddressFormControls()),
       registeredAddress: new FormGroup(this.getAddressFormControls()),
       communicationAddress: new FormGroup(this.getAddressFormControls()),
@@ -1688,6 +1664,19 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     });
   }
 
+  onModCurrAddress(event){
+    const eventClicked = event.target.checked;
+    if(eventClicked){
+      this.showSrField= true;
+      this.coApplicantForm.get('srNumber').setValidators([Validators.required])
+      this.coApplicantForm.get('srNumber').updateValueAndValidity()
+    }else{
+      this.showSrField= false;
+      this.coApplicantForm.get('srNumber').clearValidators()
+      this.coApplicantForm.get('srNumber').updateValueAndValidity()
+    }
+  }
+
   onAddress(event) {
     const eventClicked = event.target.checked;
     this.isCurrAddSameAsPermAdd = eventClicked ? '1' : '0';
@@ -2069,6 +2058,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
         }
       })
+    }
+    else{
+      this.showEkycbutton = true;
     }
 
 
