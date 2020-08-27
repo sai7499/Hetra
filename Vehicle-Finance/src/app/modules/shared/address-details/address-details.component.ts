@@ -615,6 +615,8 @@ export class AddressDetailsComponent implements OnInit {
     }
 
     if (this.checkedModifyCurrent) {
+      this.onPerAsCurChecked = false;
+      this.disableCurrent = false;
       details.get('currentAddress').enable()
       details.get('srNumber').setValue(srNumber)
     }
