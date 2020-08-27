@@ -268,6 +268,27 @@ export class AddressDetailsComponent implements OnInit {
           }
           if (!addressList) {
             this.toasterService.showError('Invalid pincode', '');
+            if(id=='permanantPincode'){
+              this.setNullValues('permanantAddress') ;
+              this.permanantPincode={}
+            }
+            if(id=='currentPincode'){
+              this.setNullValues('currentAddress') ;
+              this.currentPincode={}
+            }
+            if(id=='officePincode'){
+              this.setNullValues('officeAddress') ;
+              this.communicationPincode={}
+            }
+            if(id=='registeredPincode'){
+              this.setNullValues('registeredAddress') ;
+              this.registeredPincode={}
+            }
+            if(id=='communicationPincode'){
+              this.setNullValues('communicationAddress') ;
+              this.communicationPincode={}
+            }
+           
             return;
           }
 
@@ -376,6 +397,17 @@ export class AddressDetailsComponent implements OnInit {
         state: state[0].key,
       });
     }
+  }
+
+  setNullValues(control){
+    const formArray = this.addressForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    details.get(control).patchValue({
+      state : null || '',
+      country : null || '',
+      district : null || '',
+      city : null || ''
+    })
   }
 
   getLeadId() {
@@ -560,10 +592,7 @@ export class AddressDetailsComponent implements OnInit {
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
     
-    if (this.checkedModifyCurrent) {
-      details.get('currentAddress').enable()
-      details.get('srNumber').setValue(srNumber)
-    }
+    
     const addressObj = this.getAddressObj();
 
     const permanentAddressObj = addressObj[Constant.PERMANENT_ADDRESS];
@@ -583,6 +612,11 @@ export class AddressDetailsComponent implements OnInit {
       currentAddressVariable.get('country').disable();
       currentAddressVariable.get('landlineNumber').disable();
       currentAddressVariable.get('nearestLandmark').disable();
+    }
+
+    if (this.checkedModifyCurrent) {
+      details.get('currentAddress').enable()
+      details.get('srNumber').setValue(srNumber)
     }
 
 
@@ -950,8 +984,8 @@ export class AddressDetailsComponent implements OnInit {
 
   getPermanentAddressValue() {
     const formArray = this.addressForm.get('details') as FormArray;
-    const formValue = formArray.at(0).value.permanantAddress;
-    //console.log('PERAM VALUE', formValue);
+    const formValue = formArray.at(0).get('permanantAddress').value;
+    console.log('PERAM VALUE', formValue);
     const details = formArray.at(0);
     const currentAddress = details.get('currentAddress');
     console.log('currentAddress', currentAddress);
@@ -1036,6 +1070,7 @@ export class AddressDetailsComponent implements OnInit {
       control.get('srNumber').clearValidators();
       control.get('srNumber').updateValueAndValidity();
       control.get('currentAddress').disable();
+      this.onPerAsCurChecked = true;
       this.disableCurrent = true;
 
     }
