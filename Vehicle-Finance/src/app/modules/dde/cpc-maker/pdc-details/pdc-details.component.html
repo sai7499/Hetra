@@ -29,8 +29,10 @@
                                         <option value="Cheque">Cheque</option>
                                         <option value="NACH">NACH</option>
                                     </select> -->
-                                    <app-vf-custom-select formControlName="instrType" [values]="lovData?.instrumentType" 
-                                       [isRequired]="'Please Select Instr Type'"></app-vf-custom-select>
+                                    <app-vf-custom-select formControlName="instrType" 
+                                        [values]="lovData?.instrumentType" 
+                                       [isRequired]="'Please Select Instr Type'">
+                                    </app-vf-custom-select>
       
                                 </div>
                                 <div class="form-group col-lg-3 col-sm-6 col-md-3">
@@ -70,7 +72,7 @@
                                           <kendo-datepicker class="form-control" 
                                           formControlName="instrDate" 
                                           [format]="'dd/MM/yyyy'"
-                                          [max]="toDayDate"
+                                          [min]="toDayDate"
                                           placeholder="Select Latest Month"
                                           [activeView]="'decade'"
                                           
