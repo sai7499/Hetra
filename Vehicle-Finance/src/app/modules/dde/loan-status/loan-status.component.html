@@ -1,0 +1,57 @@
+<div class="container-fluid">
+    <h3>Loan Process Logs</h3>
+    <table>
+        <thead>
+            <tr class="table-head-bg">
+                <th>{{labels?.name}}<i class="fa fa-sort"></i> </th>
+                <th>{{labels?.stage}} <i class="fa fa-sort"></i> </th>
+                <th>{{labels?.loanNumber}} <i class="fa fa-sort"></i> </th>
+                <th>{{labels?.status}} <i class="fa fa-sort"></i> </th>
+                <th>{{labels?.applicantType}} <i class="fa fa-sort"></i> </th>
+                <th>{{labels?.vehicleRegistrationDate}} <i class="fa fa-sort"></i> </th>
+                <!-- <th>{{labels?.errorCode}} <i class="fa fa-sort"></i> </th>
+                <th>{{labels?.errorMsg}} <i class="fa fa-sort"></i> </th> -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of processLogs">
+                <td [attr.data-label]="labels?.name">{{item.name ? item.name : '--'}}</td>
+                <td [attr.data-label]="labels?.stage">{{item.stage ? item.stage : '--'}}</td>
+                <td [attr.data-label]="labels?.loanNumber">{{item.loanAccountNo ? item.loanAccountNo : '--'}}</td>
+                <td [attr.data-label]="labels?.status">{{item.status ? item.status : '--'}}</td>
+                <td [attr.data-label]="labels?.applicantType">{{item.type ? item.type : '--'}}</td>
+                <td [attr.data-label]="labels?.vehicleRegistrationDate">{{item.vehicleRegNo ? item.vehicleRegNo : '--'}}</td>
+                <!-- <td [attr.data-label]="labels?.errorCode">{{item.errorCode ? item.errorCode : '--'}}</td>
+                <td [attr.data-label]="labels?.errorMsg">{{item.errorMsg ? item.errorMsg : '--'}}</td> -->
+            </tr>
+        </tbody>
+    </table>
+    <div class="noDataFound" *ngIf="!isLoadLead">
+        <h3>No data found</h3>
+    </div>
+    <div class="btn-sec clear-both row cst_btm_btns mar-bot">
+        <div class="col-sm-5"></div>
+        <div class="col-sm-7 text-right">
+            <button class="btn btn-primary dash_href" type="button" (click)="onBack()">
+              Back
+          </button>
+        </div>
+    </div>
+    <!-- <div *ngIf="isLoadLead" class="row clearfix marBottom-45">
+      <div class="records col-xs-3 col-sm-4">
+
+          <div class="col-lg-3 top-padding"><label> </label>
+              <select class="form-control  input-sm" (change)="setPage($event)" [(ngModel)]="itemsPerPage">
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option class="disable" value="25">25</option>
+                  <option class="disable" value="50">50</option>
+              </select>
+          </div>
+
+      </div>
+      <nav class="col-xs-9 col-sm-4 text-center top-padding">
+          <pagination-controls previousLabel="" nextLabel="" (pageChange)="setPage($event)"></pagination-controls>
+      </nav>
+  </div> -->
+</div>

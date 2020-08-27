@@ -170,6 +170,13 @@ public class Identi5 extends CordovaPlugin {
         } catch (Exception e) {
             Log.e(TAG,"Error while connecting to RDService");
             e.printStackTrace();
+  	    try {
+                JSONObject r = new JSONObject();
+                r.put("error", true);
+                pluginCallback.success(r);
+            }catch (JSONException exp){
+
+            }
         }
 
     }

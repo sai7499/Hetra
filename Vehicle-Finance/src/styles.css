@@ -846,4 +846,9 @@ html, body { height: 100%; }
         font-style: 9px!important;
     }    
 
+    .footer {
+        
+        font-size: 9px!important;
+        
+    }
 }

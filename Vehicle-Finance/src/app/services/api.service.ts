@@ -455,7 +455,7 @@ export class ApiService {
       workflowId: '5f5f525cc67611eaaf9400505695f93b',
       projectId: environment.projectIds.salesProjectId,
     },
-    submitApproveReferDeclineCreditConditions: {
+    submitReferDeclineCreditConditions: {
       processId: '0e709facc67311ea954700505695f93b',
       workflowId: '3ea13662c66611eaa13a00505695f93b',
       projectId: environment.projectIds.submitToCredit,
@@ -735,35 +735,40 @@ export class ApiService {
       workflowId: '3c71c4d4d71811eaabba00505695f93b',
       projectId: environment.projectIds.externalApi
     },
-    getChequeTracking : {
+    getChequeTracking: {
       processId: '85449f66e0ae11eabfc800505695f93b',
       workflowId: '852bb118e0ae11ea86c900505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
-    saveUpdateChequeTracking : {
+    saveUpdateChequeTracking: {
       processId: 'ac0026eee0b711eab03500505695f93b',
       workflowId: 'abe6f5a2e0b711eaa73200505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
-    savePdcDetails : {
-      workflowId : 'cf14db1cdd4111eaba8c00505695f93b',
-      processId : '2ccd2806dd4511ea9d5000505695f93b',
-      projectId : environment.projectIds.salesProjectId
+    savePdcDetails: {
+      workflowId: 'cf14db1cdd4111eaba8c00505695f93b',
+      processId: '2ccd2806dd4511ea9d5000505695f93b',
+      projectId: environment.projectIds.salesProjectId
     },
-    getPdcDetails : {
+    getPdcDetails: {
       processId: 'cf39d584dd4111eab90000505695f93b',
-      workflowId : 'cf14db1cdd4111eaba8c00505695f93b',
-      projectId : environment.projectIds.salesProjectId
+      workflowId: 'cf14db1cdd4111eaba8c00505695f93b',
+      projectId: environment.projectIds.salesProjectId
     },
-    deletePdcDetails : {
+    deletePdcDetails: {
       processId: '870e7208dd4411eaa66700505695f93b',
       workflowId: 'cf14db1cdd4111eaba8c00505695f93b',
-      projectId : environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId
     },
-    loanCreationWrapper : {
+    loanCreationWrapper: {
       processId: 'bafeada0e13911eabda900505695f93b',
       workflowId: 'd53d6b40d92b11eaaf9700505695f93b',
       projectId: environment.projectIds.salesProjectId
-      }
+    },
+    getProcessLogs: {
+      processId: '12d07096e09411eaaeaa00505695f93b',
+      workflowId: '12aa87f0e09411ea900500505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    }
   };
 }
