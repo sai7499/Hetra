@@ -87,92 +87,7 @@ export class IncomeDetailsComponent implements OnInit {
   SalariedFOIRDeviation: number;
   usedCar: boolean;
   NewOrUsedComercialVehicle: boolean;
-  keyFinancial = {
-    "keyFinancials": [
-      {
-        "yearOne": {
-          "yearvalue": "2020-19",
-          "shareCapital": "Test",
-          "hireCharge": "12321"
-        },
-        "yearTwo": {
-          "yearvalue": "2020-19",
-          "shareCapital": "Test",
-          "hireCharge": "12321"
-        },
-        "yearThree": {
-          "yearvalue": "2020-19",
-          "shareCapital": "Test",
-          "hireCharge": "12321"
-        },
-        "id": 1
-      },
-      {
-        "yearOne": {
-          "yearvalue": "2020-19",
-          "shareCapital": "Test",
-          "hireCharge": "12321"
-        },
-        "yearTwo": {
-          "yearvalue": "2020-19",
-          "shareCapital": "Test",
-          "hireCharge": "12321"
-        },
-        "yearThree": {
-          "yearvalue": "2020-19",
-          "shareCapital": "Test",
-          "hireCharge": "12321"
-        },
-        "id": 2
-      }
-    ]
-  }
-  keyFinancialObj: any;
-  keyFinancials = {
-    "keyFinancials": [
-      {
-        "applicant": {
-          "yearOne": "2020-19",
-          "yearTwo": "Test",
-          "yearThree": "12321"
-        },
-
-        "applicantType": {
-          "yearOne": "2020-19",
-          "yearTwo": "Test",
-          "yearThree": "12321"
-        },
-
-        "shareCapital": {
-          "yearOne": "2020-19",
-          "yearTwo": "Test",
-          "yearThree": "12321"
-        },
-        "id": 1
-      }
-      ,
-      {
-        "applicant": {
-          "yearOne": "2020-19",
-          "yearTwo": "Test",
-          "yearThree": "12321"
-        },
-
-        "applicantType": {
-          "yearOne": "2020-19",
-          "yearTwo": "Test",
-          "yearThree": "12321"
-        },
-
-        "shareCapital": {
-          "yearOne": "2020-19",
-          "yearTwo": "Test",
-          "yearThree": "12321"
-        },
-        "id": 2
-      }
-    ]
-  }
+  
   constructor(
     private router: Router,
     private labelsData: LabelsService,
@@ -187,9 +102,6 @@ export class IncomeDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.keyFinancialObj = this.keyFinancials.keyFinancials
-    console.log(this.keyFinancialObj);
-
     this.labelsData.getLabelsData().subscribe(
       // tslint:disable-next-line: no-shadowed-variable
       (data) => {
@@ -211,8 +123,8 @@ export class IncomeDetailsComponent implements OnInit {
     });
 
     this.incomeDetailsForm = this.formBuilder.group({
-      keyFinancialDetails: this.formBuilder.array([this.getKeyFinancialDetails()]),
-      // keyFinancialDetails: this.formBuilder.group({
+      keyFinanceDetails: this.formBuilder.array([this.getKeyFinancialDetails()]),
+      // keyFinanceDetails: this.formBuilder.group({
       //   keyFinancials: this.formBuilder.array([this.getKeyFinancialDetails()])
       //   }),
       businessIncomeDetails: this.formBuilder.array([]),
@@ -285,7 +197,7 @@ export class IncomeDetailsComponent implements OnInit {
   }
 
   get f() {
-    return this.incomeDetailsForm.get('keyFinancialDetails') as FormArray;
+    return this.incomeDetailsForm.get('keyFinanceDetails') as FormArray;
   }
   get k() {
     return this.f as FormArray;
@@ -385,7 +297,7 @@ export class IncomeDetailsComponent implements OnInit {
     console.log(data);
 
     const control = this.incomeDetailsForm.controls
-      .keyFinancialDetails as FormArray;
+      .keyFinanceDetails as FormArray;
     console.log(control, 'key controls')
     // if (data && data.length > 0) {
     //   // tslint:disable-next-line: prefer-for-of
@@ -400,7 +312,7 @@ export class IncomeDetailsComponent implements OnInit {
     console.log(i);
 
     const control = this.incomeDetailsForm.controls
-      .keyFinancialDetails as FormArray;
+      .keyFinanceDetails as FormArray;
     if (i > 0) {
       control.removeAt(i);
 
@@ -700,7 +612,7 @@ export class IncomeDetailsComponent implements OnInit {
 
   onBusinessApplicantChange(event?: any, i?: number) {
     console.log(event);
-    
+
     // tslint:disable-next-line: triple-equals
     const applicantType = this.applicantDetails.find(
       // tslint:disable-next-line: triple-equals
@@ -732,25 +644,88 @@ export class IncomeDetailsComponent implements OnInit {
       .obligationDetails as FormArray;
     control.at(i).get('applicantType').setValue(applicantType);
   }
-  onKeyFinancialApplicantChange(event, i?: number) {
+  onKeyFinancialApplicantChangeYearOne(event, i?: number) {
     // tslint:disable-next-line: triple-equals
     const applicantType = this.applicantDetails.find(
       // tslint:disable-next-line: triple-equals
       (res) => res.applicantId == event
     ).applicantType;
     console.log(applicantType);
-    
-    const control = this.incomeDetailsForm.controls
-      .keyFinancialDetails as FormArray;
-      console.log(control);
-    control.value[i].yearOne.get('applicantType').setValue(applicantType);
-    console.log(control);
-    
-  }
 
+    const control: any = this.incomeDetailsForm.controls
+      .keyFinanceDetails['controls'] as FormGroup;
+    console.log(control);
+    control[i].controls.yearOne.get('applicantType').setValue(applicantType);
+    // control[i].controls.yearTwo.get('applicantType').setValue(applicantType);
+    // control[i].controls.yearThree.get('applicantType').setValue(applicantType);
+    // const applicantName = this.applicantDetails.find(
+    //   // tslint:disable-next-line: triple-equals
+    //   (res) => res.applicantId == event
+    // ).fullName;
+    // control[i].controls.yearTwo.get('applicantId').setValue(applicantName);
+    // control[i].controls.yearThree.get('applicantId').setValue(applicantName);
+
+    // console.log(control);
+
+  }
+  onKeyFinancialApplicantChangeYearTwo(event, i?: number) {
+    // tslint:disable-next-line: triple-equals
+    const applicantType = this.applicantDetails.find(
+      // tslint:disable-next-line: triple-equals
+      (res) => res.applicantId == event
+    ).applicantType;
+    console.log(applicantType);
+
+    const control: any = this.incomeDetailsForm.controls
+      .keyFinanceDetails['controls'] as FormGroup;
+    console.log(control);
+    // control[i].controls.yearOne.get('applicantType').setValue(applicantType);
+    control[i].controls.yearTwo.get('applicantType').setValue(applicantType);
+    // control[i].controls.yearThree.get('applicantType').setValue(applicantType);
+    // const applicantName = this.applicantDetails.find(
+    //   // tslint:disable-next-line: triple-equals
+    //   (res) => res.applicantId == event
+    // ).fullName;
+    // control[i].controls.yearTwo.get('applicantId').setValue(applicantName);
+    // control[i].controls.yearThree.get('applicantId').setValue(applicantName);
+
+    // console.log(control);
+
+  }
+  onKeyFinancialApplicantChangeYearThree(event, i?: number) {
+    // tslint:disable-next-line: triple-equals
+    const applicantType = this.applicantDetails.find(
+      // tslint:disable-next-line: triple-equals
+      (res) => res.applicantId == event
+    ).applicantType;
+    console.log(applicantType);
+
+    const control: any = this.incomeDetailsForm.controls
+      .keyFinanceDetails['controls'] as FormGroup;
+    console.log(control);
+    // control[i].controls.yearOne.get('applicantType').setValue(applicantType);
+    // control[i].controls.yearTwo.get('applicantType').setValue(applicantType);
+    control[i].controls.yearThree.get('applicantType').setValue(applicantType);
+    // const applicantName = this.applicantDetails.find(
+    //   // tslint:disable-next-line: triple-equals
+    //   (res) => res.applicantId == event
+    // ).fullName;
+    // control[i].controls.yearTwo.get('applicantId').setValue(applicantName);
+    // control[i].controls.yearThree.get('applicantId').setValue(applicantName);
+
+    // console.log(control);
+
+  }
   onSubmit() {
     this.submitted = true;
     console.log(this.incomeDetailsForm);
+
+    // let keyFinancialsArray = [];
+    // keyFinancialsArray.push(this.incomeDetailsForm.value.keyFinanceDetails);
+    // console.log(keyFinancialsArray, 'key financial []');
+    // let keyFinancial = keyFinancialsArray;
+    // this.incomeDetailsForm.value.keyFinanceDetails.push(keyFinancial)
+    // console.log( this.incomeDetailsForm.value.keyFinanceDetails, 'key financial [][]');
 
     // stop here if form is invalid
     if (this.incomeDetailsForm.invalid) {
@@ -807,9 +782,28 @@ export class IncomeDetailsComponent implements OnInit {
       const salariedFOIRDeviation = Number(salaryContol.value);
       salaryContol.setValue(salariedFOIRDeviation);
 
+
+      const keyFinancialsArray = { keyFinancials: this.incomeDetailsForm.value.keyFinanceDetails };
+      console.log(keyFinancialsArray);
+
+      const body = {
+
+        businessIncomeDetails: this.incomeDetailsForm.controls.businessIncomeDetails.value,
+        otherIncomeDetails: this.incomeDetailsForm.controls.otherIncomeDetails.value,
+        obligationDetails: this.incomeDetailsForm.controls.obligationDetails.value,
+        keyFinanceDetails:keyFinancialsArray,
+        salariedFOIRasperPolicy: this.incomeDetailsForm.controls.salariedFOIRasperPolicy.value,
+        salariedFOIRDeviation: this.incomeDetailsForm.controls.salariedFOIRDeviation.value,
+        leadId: this.leadId,
+        userId: this.userId,
+       
+      };
+
       this.incomeDetailsService
-        .setAllIncomeDetails(this.incomeDetailsForm.value)
+        .setAllIncomeDetails(body)
         .subscribe((res: any) => {
+          console.log(res);
+
           // tslint:disable-next-line: triple-equals
           if (res && res.ProcessVariables.error.code == '0') {
             // tslint:disable-next-line: prefer-const

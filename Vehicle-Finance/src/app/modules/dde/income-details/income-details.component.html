@@ -245,8 +245,9 @@
               </div>
             </div>
           </div>
-        
-          <div class="table-responsive application" *ngIf="NewOrUsedComercialVehicle" formArrayName="keyFinancialDetails">
+
+          <div class="table-responsive application" *ngIf="NewOrUsedComercialVehicle"
+            formArrayName="keyFinanceDetails">
             <table id="POITable" border="1" class="table">
               <caption class="caption">
                 {{
@@ -267,11 +268,9 @@
 
               </tr>
               </thead> -->
-              
-                  <tbody *ngFor="
-                  let item of incomeDetailsForm.get('keyFinancialDetails')[
-                    'controls'
-                  ];
+
+              <tbody *ngFor="
+                  let item of incomeDetailsForm.get('keyFinanceDetails')['controls'];
                   let i = index
                 " [formGroupName]="i">
                 <tr class="">
@@ -284,85 +283,110 @@
                     year3
                   </th>
                   <th role="columnheader">{{ labels?.actions }}</th>
-  
-                </tr>
-                     <!-- <ng-container>
-                       <div > -->
-                  <tr >
-                      <td class="bank_name">{{ labels?.applicant }}</td>
-                      <td>
-                        <select class="form-control mandatory select2" id="" name="applicantId"
-                        class="form-control text-center" [formControl]="item.controls.yearOne.controls.applicantId" (change)="
-                          onKeyFinancialApplicantChange($event.target.value, i)
-                        ">
-                          <option *ngFor="let applicants of applicantDetails" [value]="applicants.applicantId" >
-                            {{ applicants.fullName }}</option>
-                        </select>
-                      </td>
-                      <td> <app-custom-input [formControl]="item.controls.yearTwo.controls.applicantId" [placeholder]="'Share Capital'"
-                        [type]="labels?.validationData?.amountValue?.type" [maxLength]="
-                      labels?.validationData?.amountValue?.maxLength
-                    " [isDirty]="isDirty"></app-custom-input></td>
-                      <td> <app-custom-input [formControl]="item.controls.yearThree.controls.applicantId" [placeholder]="'Share Capital'"
-                        [type]="labels?.validationData?.amountValue?.type" [maxLength]="
-                      labels?.validationData?.amountValue?.maxLength
-                    " [isDirty]="isDirty"></app-custom-input></td>
-                      <td data-title="Actions">
-                        <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
-                          title="Add income" (click)="addKeyFinancialDetails(item)"></i>&nbsp;
-                        <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
-                          title="Delete income" (click)="removeKeyFinancialDetails(i)"></i>
-                      </td>
-                  </tr>
 
-                    <tr>
-                      <td class="bank_name">{{ labels?.applicantType }}</td>
-  
-                      <td data-title="Applicant Type">
-  
-                        <app-custom-input [formControl]="item.controls.yearOne.controls.applicantType" [type]="labels?.validationData?.fullName?.type"
-                          [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.fullName?.maxLength"
-                          [isDirty]="isDirty" ></app-custom-input>
-                      </td>
-                      <td> <app-custom-input [formControl]="item.controls.yearTwo.controls.applicantType" [placeholder]="'Share Capital'"
-                        [type]="labels?.validationData?.amountValue?.type" [maxLength]="
+                </tr>
+                <!-- <ng-container>
+                       <div > -->
+                <tr>
+                  <td class="bank_name">{{ labels?.applicant }}</td>
+                  <td>
+                    <select class="form-control mandatory select2" id="" name="applicantId"
+                      class="form-control text-center" [formControl]="item.controls.yearOne.controls.applicantId"
+                      (change)="
+                          onKeyFinancialApplicantChangeYearOne($event.target.value, i)
+                        ">
+                      <option *ngFor="let applicants of applicantDetails" [value]="applicants.applicantId">
+                        {{ applicants.fullName }}</option>
+                    </select>
+                  </td>
+                  <td>
+                    <!-- <app-custom-input [formControl]="item.controls.yearTwo.controls.applicantId"
+                      [type]="labels?.validationData?.fullName?.type" [className]="'form-control mandatory'"
+                      [maxLength]="labels?.validationData?.fullName?.maxLength" [isDisabled]="true" [isDirty]="isDirty"></app-custom-input> -->
+                    <select class="form-control mandatory select2" id="" name="applicantId"
+                    class="form-control text-center" [formControl]="item.controls.yearTwo.controls.applicantId"
+                    (change)="
+                          onKeyFinancialApplicantChangeYearTwo($event.target.value, i)
+                        "
+                    >
+                    <option *ngFor="let applicants of applicantDetails" [value]="applicants.applicantId">
+                      {{ applicants.fullName }}</option>
+                  </select>
+                   
+                  </td>
+                  <td>
+                    <select class="form-control mandatory select2" id="" name="applicantId"
+                    class="form-control text-center" [formControl]="item.controls.yearThree.controls.applicantId"
+                    (change)="
+                        onKeyFinancialApplicantChangeYearThree($event.target.value, i)
+                      ">
+                    <option *ngFor="let applicants of applicantDetails" [value]="applicants.applicantId">
+                      {{ applicants.fullName }}</option>
+                  </select>
+                  <!-- <app-custom-input [formControl]="item.controls.yearTwo.controls.applicantId"
+                  [type]="labels?.validationData?.fullName?.type" [className]="'form-control mandatory'"
+                  [maxLength]="labels?.validationData?.fullName?.maxLength" [isDisabled]="true" [isDirty]="isDirty"></app-custom-input> -->
+                  </td>
+                  <td data-title="Actions">
+                    <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
+                      title="Add income" (click)="addKeyFinancialDetails(null)"></i>&nbsp;
+                    <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
+                      title="Delete income" (click)="removeKeyFinancialDetails(i)"></i>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="bank_name">{{ labels?.applicantType }}</td>
+
+                  <td data-title="Applicant Type">
+
+                    <app-custom-input [formControl]="item.controls.yearOne.controls.applicantType"
+                      [type]="labels?.validationData?.fullName?.type" [className]="'form-control mandatory'"
+                      [maxLength]="labels?.validationData?.fullName?.maxLength" [isDisabled]="true" [isDirty]="isDirty"></app-custom-input>
+                  </td>
+                  <td>
+                    <app-custom-input [formControl]="item.controls.yearTwo.controls.applicantType"
+                      [type]="labels?.validationData?.amountValue?.type" [maxLength]="
                       labels?.validationData?.amountValue?.maxLength
-                    " [isDirty]="isDirty"></app-custom-input></td>
-                      <td> <app-custom-input [formControl]="item.controls.yearThree.controls.applicantType" [placeholder]="'Share Capital'"
-                        [type]="labels?.validationData?.amountValue?.type" [maxLength]="
+                    " [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
+                  </td>
+                  <td>
+                    <app-custom-input [formControl]="item.controls.yearThree.controls.applicantType"
+                       [type]="labels?.validationData?.amountValue?.type" [maxLength]="
                       labels?.validationData?.amountValue?.maxLength
-                    " [isDirty]="isDirty"></app-custom-input></td>
-                      <td rowspan="17"></td>
-                    </tr>
-                    <tr>
-                      <td class="bank_name">{{ labels?.shareCapital }}</td>
-                      <td>
-                        <app-custom-input [formControl]="item.controls.yearOne.controls.shareCapital" [placeholder]="'Share Capital'"
-                          [type]="labels?.validationData?.amountValue?.type" [maxLength]="
+                    " [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
+                  </td>
+                  <td rowspan="17"></td>
+                </tr>
+                <tr>
+                  <td class="bank_name">{{ labels?.shareCapital }}</td>
+                  <td>
+                    <app-custom-input [formControl]="item.controls.yearOne.controls.shareCapital"
+                      [placeholder]="'Share Capital'" [type]="labels?.validationData?.amountValue?.type" [maxLength]="
                         labels?.validationData?.amountValue?.maxLength
                       " [isDirty]="isDirty"></app-custom-input>
-                      </td>
-                      <td>
-                        <app-custom-input [formControl]="item.controls.yearTwo.controls.shareCapital" [placeholder]="'Share Capital'"
-                        [type]="labels?.validationData?.amountValue?.type" [maxLength]="
+                  </td>
+                  <td>
+                    <app-custom-input [formControl]="item.controls.yearTwo.controls.shareCapital"
+                      [placeholder]="'Share Capital'" [type]="labels?.validationData?.amountValue?.type" [maxLength]="
                       labels?.validationData?.amountValue?.maxLength
                     " [isDirty]="isDirty"></app-custom-input>
-                      </td>
-                      <td>
-                        <app-custom-input [formControl]="item.controls.yearThree.controls.shareCapital" [placeholder]="'Share Capital'"
-                          [type]="labels?.validationData?.amountValue?.type" [maxLength]="
+                  </td>
+                  <td>
+                    <app-custom-input [formControl]="item.controls.yearThree.controls.shareCapital"
+                      [placeholder]="'Share Capital'" [type]="labels?.validationData?.amountValue?.type" [maxLength]="
                         labels?.validationData?.amountValue?.maxLength
                       " [isDirty]="isDirty"></app-custom-input>
-                      </td>
-                    </tr>
-                   
-                   
-                   <!-- </div>
+                  </td>
+                </tr>
+
+
+                <!-- </div>
                    
                 </ng-container> -->
-                  
-                  </tbody>
-                
+
+              </tbody>
+
             </table>
 
           </div>
@@ -960,7 +984,7 @@
               </tr>
             </table>
           </div>
-           
+
         </div>
       </div>
     </div>
