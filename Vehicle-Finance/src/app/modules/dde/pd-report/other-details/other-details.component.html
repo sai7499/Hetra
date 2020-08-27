@@ -394,7 +394,7 @@
                         <label for="timeOf_verification">{{labels.routeMap}} 
                         </label>
                         <div class="photo">
-                            <img src="{{base64Image}}"  width="300"/>
+                            <img src="{{base64Image}}"  width="235"/>
                         </div>
                     </div>
                 </div>
@@ -419,7 +419,7 @@
                 <button class="btn btn-primary js-btn-prev" type="button" (click)="onBack()"> {{labels.back}} </button>
                 <button class="btn btn-primary" (click)="onFormSubmit()"> {{labels.save}} </button>
                 <!-- <button class="btn btn-primary " type="button" (click)="onNext()"> {{labels.submit}} </button> -->
-                <a data-toggle="modal" data-target="#myModal" id="reject_credit">
+                <a data-toggle="modal" data-target="#myModalCredit" id="reject_credit">
                     <p type="button" class="btn btn-primary">{{ labels.submit }}</p>
                 </a>
             </div>
@@ -435,7 +435,7 @@
 </form>
 <!-- </div> -->
 
-<div class="modal" id="myModal">
+<div class="modal" id="myModalCredit">
     <div class="modal-dialog">
         <div class="modal-content" style="text-align: center;">
             <!-- Modal Header -->
