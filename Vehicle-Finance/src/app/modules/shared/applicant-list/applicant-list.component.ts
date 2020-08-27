@@ -36,8 +36,8 @@ export class ApplicantListComponent implements OnInit {
     private router: Router,
     private applicantImageService: ApplicantImageService,
     private domSanitizer: DomSanitizer,
-    private toasterService : ToasterService
-  ) {}
+    private toasterService: ToasterService
+  ) { }
 
   async ngOnInit() {
     const currentUrl = this.location.path();
@@ -78,9 +78,12 @@ export class ApplicantListComponent implements OnInit {
   }
 
   navigateAddapplicant() {
-    if(this.applicantList.length > 4){
-      this.toasterService.showWarning('Maximum 5 Applicants','')
-   }
+
+
+    if (this.applicantList.length > 4) {
+      this.toasterService.showWarning('Maximum 5 Applicants', '')
+      return;
+    }
     this.router.navigateByUrl(`/pages/sales-applicant-details/${this.leadId}/add-applicant`);
   }
 
@@ -109,7 +112,7 @@ export class ApplicantListComponent implements OnInit {
   isShowAddaApplicant(currentUrl: string) {
     this.showAddApplicant = !currentUrl.includes('dde');
   }
-  onApplicantClick(item) {}
+  onApplicantClick(item) { }
 
   softDeleteApplicant(index: number, applicantId: number) {
     const findIndex = this.p === 1 ? index : (this.p - 1) * 5 + index;
@@ -137,36 +140,36 @@ export class ApplicantListComponent implements OnInit {
 
   getApplicantImage(applicantID: any) {
 
-   // tslint:disable-next-line: triple-equals
-   if ( this.backupApplicantId == applicantID) {
+    // tslint:disable-next-line: triple-equals
+    if (this.backupApplicantId == applicantID) {
       this.cibilImage = this.imageUrl;
       return;
-   } else {
-    const body = {
-      applicantId: applicantID
-    };
-    this.backupApplicantId = applicantID;
-    this.applicantImageService.getApplicantImageDetails(body).subscribe((res: any) => {
-      // tslint:disable-next-line: triple-equals
-      if (res.ProcessVariables.error.code == '0') {
-        console.log(res);
-        const imageUrl = res.ProcessVariables.response;
-        console.log(imageUrl);
-        this.imageUrl = imageUrl;
-        this.imageUrl = atob(this.imageUrl); // decoding base64 string to get xml file
-        this.imageUrl = this.domSanitizer.bypassSecurityTrustHtml(this.imageUrl); // sanitizing xml doc for rendering with proper css
-        this.cibilImage = this.imageUrl;
-      } else {
-        this.imageUrl = res.ProcessVariables.error.message;
-        this.cibilImage = res.ProcessVariables.error.message;
-      }
-    });
-   }
+    } else {
+      const body = {
+        applicantId: applicantID
+      };
+      this.backupApplicantId = applicantID;
+      this.applicantImageService.getApplicantImageDetails(body).subscribe((res: any) => {
+        // tslint:disable-next-line: triple-equals
+        if (res.ProcessVariables.error.code == '0') {
+          console.log(res);
+          const imageUrl = res.ProcessVariables.response;
+          console.log(imageUrl);
+          this.imageUrl = imageUrl;
+          this.imageUrl = atob(this.imageUrl); // decoding base64 string to get xml file
+          this.imageUrl = this.domSanitizer.bypassSecurityTrustHtml(this.imageUrl); // sanitizing xml doc for rendering with proper css
+          this.cibilImage = this.imageUrl;
+        } else {
+          this.imageUrl = res.ProcessVariables.error.message;
+          this.cibilImage = res.ProcessVariables.error.message;
+        }
+      });
+    }
 
   }
-destroyImage() {
+  destroyImage() {
     if (this.cibilImage) {
-     this.cibilImage = null;
+      this.cibilImage = null;
     }
   }
 }

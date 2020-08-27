@@ -97,6 +97,13 @@ export interface IndividualProspectDetails {
   minorGuardianRelation?: string;
   alternateMobileNumber?: string;
   politicallyExposedPerson?: string;
+  
+  businessType? : string;
+  businessName? : string;
+  businessStartDate? : string;
+  currentBusinessYears? : string;
+  turnOver? : string;
+
 }
 
 export interface AddressDetails {

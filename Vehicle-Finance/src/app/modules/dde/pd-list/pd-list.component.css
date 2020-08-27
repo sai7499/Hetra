@@ -307,8 +307,9 @@ only screen and
    
        
 }
-/* @media (min-width:260px) and (max-width:560px){
-    td::before {
-        content: attr(data-item-value);
-        }
-} */
+ @media (min-width:260px) and (max-width:767px){
+    .filter-display{
+    display:none;
+}
+} 
+

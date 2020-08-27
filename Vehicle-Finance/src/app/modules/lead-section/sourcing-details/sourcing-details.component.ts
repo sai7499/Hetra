@@ -88,6 +88,13 @@ export class SourcingDetailsComponent implements OnInit {
     msg?: string
   }[];
 
+  tenureAmountValidation: {
+    rule?: any,
+    msg?: string
+  }[];
+
+  reqLoanAmount: number;
+
 
   sourcingCodeObject: {
     key: string;
@@ -108,6 +115,7 @@ export class SourcingDetailsComponent implements OnInit {
 
   amountLength: number;
   tenureMonthLength: number;
+  productCategoryLoanAmount: any;
 
   saveUpdate: {
     bizDivision: string;
@@ -166,6 +174,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.getSourcingChannel();
 
     this.tenureMonthlyValidation = this.loanTenureMonth();
+    // this.tenureAmountValidation = this.loanTenureAmount();
   }
 
   getLabels() {
@@ -256,6 +265,7 @@ export class SourcingDetailsComponent implements OnInit {
 
     const requiredLoanAmount = data.leadDetails.reqLoanAmt;
     const requiredLoanTenor = data.leadDetails.reqTenure;
+    this.reqLoanAmount = requiredLoanAmount;
     this.sourcingDetailsForm.patchValue({ reqLoanAmt: requiredLoanAmount });
     this.sourcingDetailsForm.patchValue({ requestedTenor: requiredLoanTenor });
 
@@ -320,6 +330,11 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   productCategory(event, isBool) {
+    if(!isBool){
+      this.sourcingDetailsForm.patchValue({ reqLoanAmt: this.reqLoanAmount });
+    } else {
+      this.sourcingDetailsForm.patchValue({ reqLoanAmt: 0 });
+    }
     this.productCategorySelectedList = [];
     const productCategorySelected = isBool ? event.target.value : event;
     this.productCategorySelectedList = this.utilityService.getValueFromJSON(
@@ -334,9 +349,11 @@ export class SourcingDetailsComponent implements OnInit {
       this.productCategoryData.map(data => {
         if (data.key === productCategorySelected) {
           this.productCategoryChanged = data.value;
+          this.productCategoryLoanAmount = productCategorySelected;
         }
       });
       this.productChange(this.productFromLead);
+      this.tenureAmountValidation = this.loanTenureAmount(this.productCategoryLoanAmount);
     }
   }
 
@@ -433,7 +450,7 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   onSourcingCodeSearch(event) {
-   
+
     let inputString = event;
     let sourcingCode = [];
     console.log('inputString', event);
@@ -443,14 +460,14 @@ export class SourcingDetailsComponent implements OnInit {
     let sourcingSubCodeType: string = sourcingCode[0].sourcingSubCodeType;
     this.createLeadService.sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString)
       .subscribe((res: any) => {
-      const response = res;
-      const appiyoError = response.Error;
-      const apiError = response.ProcessVariables.error.code;
-      if (appiyoError === '0' && apiError === '0') {
-        this.sourcingCodeData = response.ProcessVariables.codeList;
-        this.keyword = 'value';
-      }
-    });
+        const response = res;
+        const appiyoError = response.Error;
+        const apiError = response.ProcessVariables.error.code;
+        if (appiyoError === '0' && apiError === '0') {
+          this.sourcingCodeData = response.ProcessVariables.codeList;
+          this.keyword = 'value';
+        }
+      });
   }
 
   selectSourcingEvent(event) {
@@ -531,6 +548,22 @@ export class SourcingDetailsComponent implements OnInit {
     return loanTenure;
   }
 
+  loanTenureAmount(productCategoryChanged?) {
+      const loanAmount = [
+        {
+          rule: amount => {
+            if (productCategoryChanged === 'UC') {
+            return amount <= 100000;
+            } else {
+              return null;
+            }
+          },
+          msg: 'Minimum loan amount should be 100000'
+        }
+      ];
+      return loanAmount;
+  }
+
   saveAndUpdate() {
     const formValue = this.sourcingDetailsForm.getRawValue();
     console.log('this.sourcingDetailsForm.value', this.sourcingDetailsForm.valid);
@@ -582,7 +615,7 @@ export class SourcingDetailsComponent implements OnInit {
           };
           this.createLeadDataService.setLeadDetailsData(data);
           this.isSaved = true;
-        }else{
+        } else {
           this.toasterService.showError(response.ProcessVariables.error.message, 'Lead Details');
         }
       });
