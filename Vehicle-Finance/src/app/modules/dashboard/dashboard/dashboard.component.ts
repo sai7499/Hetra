@@ -74,7 +74,6 @@ export class DashboardComponent implements OnInit {
   stageList = [];
   stageData: any;
   OldFromDate: Date;
-  // new leads
   newArray;
   pddDetails;
   chequeTrackingDetails;
@@ -83,7 +82,6 @@ export class DashboardComponent implements OnInit {
   creditLeads;
   itemsPerPage = '25';
   totalItems;
-  // labels: any = {};
   lovData: any;
   count: any;
   currentPage: any;
@@ -105,18 +103,8 @@ export class DashboardComponent implements OnInit {
   isLoadLead = true;
   leadSection = true;
   salesLead = true;
-  // PD: boolean;
-  // vehicle: boolean;
   onAssignTab: boolean;
   onReleaseTab: boolean;
-
-  // for CPC Maker and Checker
-  onMaker = true;
-  onChecker = true;
-  makerWithMe: boolean;
-  makerWithCPC: boolean;
-  checkerWithMe: boolean;
-  checkerWithCPC: boolean;
 
   displayTabs = DisplayTabs;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
@@ -131,7 +119,6 @@ export class DashboardComponent implements OnInit {
     private labelsData: LabelsService,
     private vehicleDataStoreService: VehicleDataStoreService,
     private router: Router,
-    // public displayTabs: DisplayTabs,
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService,
     private sharedService: SharedService,
@@ -319,7 +306,7 @@ export class DashboardComponent implements OnInit {
 
     this.activeTab = data;
     this.subActiveTab = subTab;
-    console.log('activeTab', this.activeTab, 'subActiveTab', this.subActiveTab);
+    // console.log('activeTab', this.activeTab, 'subActiveTab', this.subActiveTab);
 
     if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
       this.onReleaseTab = false;
@@ -362,7 +349,7 @@ export class DashboardComponent implements OnInit {
   leads(data) {
 
     this.subActiveTab = data;
-    console.log('activeTab', this.activeTab, 'subActiveTab', this.subActiveTab);
+    // console.log('activeTab', this.activeTab, 'subActiveTab', this.subActiveTab);
     if (this.subActiveTab === this.displayTabs.NewLeads) {
       this.onReleaseTab = false;
       this.onAssignTab = false;
@@ -405,7 +392,6 @@ export class DashboardComponent implements OnInit {
   setPageData(res) {
     const response = res.ProcessVariables.loanLead;
     this.newArray = response;
-    console.log('data', this.newArray);
     this.limit = res.ProcessVariables.perPage;
     this.pageNumber = res.ProcessVariables.from;
     this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);

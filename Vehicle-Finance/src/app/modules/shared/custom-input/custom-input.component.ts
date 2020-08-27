@@ -79,7 +79,7 @@ export class CustomInputComponent
     if (value) {
       this.checkIsFirst = false;
       this.checkValidation(this.data);
-      this.propagateChange(this.data);
+      //this.propagateChange(this.data);
     }
   }
   private checkIsFirst = true;

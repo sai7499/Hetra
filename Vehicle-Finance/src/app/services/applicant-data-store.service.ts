@@ -50,6 +50,7 @@ export class ApplicantDataStoreService {
       indivProspectProfileDetails,
       directorDetails,
       otpVerified: applicant.otpVerified,
+      ucic : applicant.ucic
     };
   }
 
