@@ -433,7 +433,9 @@
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
                 <app-custom-input formControlName="NegotiatedLoanTenor" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
-                  (change)="getRepayableMonths($event)" [placeholder]="'Negotiated Loan Tenor (in Months)'" [isRequired]="'Negotiated Loan Tenor is Required'"
+                  (change)="getRepayableMonths($event)" 
+                  [placeholder]="'Negotiated Loan Tenor (in Months)'" 
+                  [isRequired]="'Negotiated Loan Tenor is Required'"
                   (change)="allowSix($event)">
                 </app-custom-input>
               </div>
@@ -443,8 +445,10 @@
                 <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input formControlName="NegotiatedIRR" [isDirty]="isDirty" [className]="'form-control mandatory'" [isRequired]="'Negotiated IRR is Required'"
-                  [type]="'number'" [placeholder]="'Negotiated IRR (in %)'" (change)="calculateEMI($event)">
+                <app-custom-input formControlName="NegotiatedIRR" [isDirty]="isDirty" 
+                  [className]="'form-control mandatory'" [isRequired]="'Negotiated IRR is Required'"
+                  [type]="'number'" [placeholder]="'Negotiated IRR (in %)'" 
+                  (change)="calculateEMI($event)">
                 </app-custom-input>
               </div>
               <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NegotiatedEMI">{{ labels?.NegotiatedEMI }}
