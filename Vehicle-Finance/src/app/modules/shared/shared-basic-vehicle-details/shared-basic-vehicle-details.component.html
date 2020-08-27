@@ -715,8 +715,8 @@
                             <label for="others">{{label.others}} </label>
 
                             <app-custom-input formControlName="others" [id]="'others'"
-                                [type]="label.validationData?.name.type" [className]="'form-control'"
-                                [maxLength]="label.validationData?.name.maxLength" [placeholder]="'Others'">
+                                [type]="label.validationData?.amountValue.type" [className]="'form-control'"
+                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Others'">
                             </app-custom-input>
                         </div>
 
@@ -1091,8 +1091,8 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
                             <label for="others">{{label.others}} </label>
-                            <app-custom-input formControlName="others" [type]="label.validationData?.name.type"
-                                [maxLength]="label.validationData?.name.maxLength" [id]="'others'"
+                            <app-custom-input formControlName="others" [type]="label.validationData?.amountValue.type"
+                                [maxLength]="label.validationData?.amountValue.maxLength" [id]="'others'"
                                 [className]="'form-control'" [placeholder]="'Others'">
                             </app-custom-input>
                         </div>
@@ -1893,8 +1893,8 @@
                             <label for="gross_vehicle_weight">{{label.grossVehicleWeight}}</label>
 
                             <app-custom-input formControlName="gorssVehicleWeight"
-                                [type]="label.validationData?.amountValue.type" [id]="'gross_vehicle_weight'"
-                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
+                                [type]="label.validationData?.gorssVehicleWeight.type" [id]="'gross_vehicle_weight'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.gorssVehicleWeight.maxLength"
                                 [placeholder]="'Gross Vehicle Weight'">
                             </app-custom-input>
                         </div>

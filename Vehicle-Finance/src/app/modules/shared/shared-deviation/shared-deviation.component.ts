@@ -300,6 +300,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   removeDeviationIndex(id, i?: any) {
     const control = this.deviationsForm.controls.manualDeviationFormArray as FormArray;
 
+    console.log(id, 'id')
+
     if (id && id !== 0) {
 
       this.deviationService.getDeleteDeviation(id).subscribe((res: any) => {
