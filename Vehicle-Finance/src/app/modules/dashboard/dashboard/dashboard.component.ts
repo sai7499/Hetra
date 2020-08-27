@@ -306,7 +306,7 @@ export class DashboardComponent implements OnInit {
 
     this.activeTab = data;
     this.subActiveTab = subTab;
-    console.log('activeTab', this.activeTab, 'subActiveTab', this.subActiveTab);
+    // console.log('activeTab', this.activeTab, 'subActiveTab', this.subActiveTab);
 
     if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
       this.onReleaseTab = false;
@@ -349,7 +349,7 @@ export class DashboardComponent implements OnInit {
   leads(data) {
 
     this.subActiveTab = data;
-    console.log('activeTab', this.activeTab, 'subActiveTab', this.subActiveTab);
+    // console.log('activeTab', this.activeTab, 'subActiveTab', this.subActiveTab);
     if (this.subActiveTab === this.displayTabs.NewLeads) {
       this.onReleaseTab = false;
       this.onAssignTab = false;
