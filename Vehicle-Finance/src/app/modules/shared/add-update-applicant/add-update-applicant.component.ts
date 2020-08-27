@@ -199,6 +199,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   disabledPassportDates = true;
   showModifyCurrCheckBox : boolean;
   showSrField : boolean;
+  checkedModifyCurrent : boolean;
   
 
   isMobile: any;
@@ -1056,7 +1057,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       const applicantType = applicantValue.applicantDetails.applicantTypeKey;
       this.showApplicantAddCheckBox = applicantType !== "APPAPPRELLEAD" ? true : false;
       const isAddrSameAsApplicant = applicantValue.applicantDetails.isAddrSameAsApplicant;
-      this.checkedAddressLead = isAddrSameAsApplicant == '1' ? '1' : '0'
+      this.checkedAddressLead = isAddrSameAsApplicant
 
       const dedupe = this.coApplicantForm.get('dedupe');
 
@@ -1112,6 +1113,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       ) {
         this.addIndFormControls();
         this.removeNonIndFormControls();
+        const modifyaddress=applicantValue.applicantDetails.modifyCurrentAddress
+        this.checkedModifyCurrent=modifyaddress=="1"? true : false;
+        this.showSrField=modifyaddress=="1"? true : false;
+        if(this.checkedModifyCurrent){
+          this.coApplicantForm.get('currentAddress').enable();
+        }
+        this.coApplicantForm.patchValue({srNumber : applicantValue.applicantDetails.srNumber })
 
         dedupe.patchValue({
           mobilePhone: mobile || '',
@@ -1551,9 +1559,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     if (this.applicantType === 'INDIVENTTYP') {
       if (
         this.coApplicantForm.get('dedupe').invalid ||
+        this.coApplicantForm.get('srNumber').invalid ||
         this.coApplicantForm.get('currentAddress').invalid ||
         this.coApplicantForm.get('permentAddress').invalid ||
-        this.panValidate
+        this.panValidate 
+        
 
       ) {
         this.isDirty = true;
@@ -1629,7 +1639,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       agriOwnerProperty: coApplicantModel.dedupe.agriOwnerProperty,
       agriAppRelationship: coApplicantModel.dedupe.agriAppRelationship,
       grossReceipt: coApplicantModel.dedupe.grossReceipt,
-      isAddrSameAsApplicant: this.checkedAddressLead
+      isAddrSameAsApplicant: this.checkedAddressLead,
+      modifyCurrentAddress : this.checkedModifyCurrent== true? '1' : '0',
+      srNumber : coApplicantModel.srNumber
 
       //customerCategory: 'SALCUSTCAT',
     };
@@ -1666,14 +1678,28 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   onModCurrAddress(event){
     const eventClicked = event.target.checked;
-    if(eventClicked){
+    if(eventClicked ){
       this.showSrField= true;
-      this.coApplicantForm.get('srNumber').setValidators([Validators.required])
-      this.coApplicantForm.get('srNumber').updateValueAndValidity()
+      this.checkedModifyCurrent= true;
+      this.coApplicantForm.get('srNumber').setValue(null);
+      this.coApplicantForm.get('srNumber').setValidators([Validators.required]);
+      this.coApplicantForm.get('srNumber').updateValueAndValidity();
+
+      const currentAddress = this.coApplicantForm.get('currentAddress');
+      currentAddress.enable();
+      this.isPermanantAddressSame= false;
+      this.isDisabledCheckbox= false;
+
     }else{
       this.showSrField= false;
-      this.coApplicantForm.get('srNumber').clearValidators()
-      this.coApplicantForm.get('srNumber').updateValueAndValidity()
+      this.checkedModifyCurrent= false;
+      this.coApplicantForm.get('srNumber').setValue(null);
+      this.coApplicantForm.get('srNumber').clearValidators();
+      this.coApplicantForm.get('srNumber').updateValueAndValidity();
+      const currentAddress = this.coApplicantForm.get('currentAddress');
+      currentAddress.disable();
+      // this.isPermanantAddressSame= true;
+      this.isDisabledCheckbox= true;
     }
   }
 
