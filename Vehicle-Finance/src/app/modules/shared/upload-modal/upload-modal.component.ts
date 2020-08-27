@@ -213,7 +213,8 @@ export class UploadModalComponent {
           };
           if (
             this.docsDetails.docsTypeForString === 'profile' ||
-            this.docsDetails.docsTypeForString === 'signature'
+            this.docsDetails.docsTypeForString === 'signature' ||
+            this.docsDetails.docsTypeForString === 'selfie'
           ) {
             documentDetails.imageUrl = this.imageUrl;
             documentDetails.docsTypeForString = this.docsDetails.docsTypeForString;
