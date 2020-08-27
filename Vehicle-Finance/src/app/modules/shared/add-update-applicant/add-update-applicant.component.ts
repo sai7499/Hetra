@@ -1699,7 +1699,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       const currentAddress = this.coApplicantForm.get('currentAddress');
       currentAddress.disable();
       // this.isPermanantAddressSame= true;
-      this.isDisabledCheckbox= true;
+      this.isDisabledCheckbox= true; 
     }
   }
 
