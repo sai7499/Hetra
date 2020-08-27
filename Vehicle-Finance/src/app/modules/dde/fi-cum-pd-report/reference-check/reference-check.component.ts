@@ -4,11 +4,11 @@ import { PersonalDiscussionService } from '@services/personal-discussion.service
 import { LabelsService } from '@services/labels.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PdDataService } from '../pd-data.service';
 import { ToasterService } from '@services/toaster.service';
 import { SharedModule } from '@modules/shared/shared.module';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { Constant } from '../../../../../assets/constants/constant';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 @Component({
   selector: 'app-reference-check',
@@ -27,6 +27,7 @@ export class ReferenceCheckComponent implements OnInit {
   errorMsg: any;
   applicantId: number;
   refCheckDetails: any = {};
+  otherDetails: any = {};
   isDirty: boolean;
   isSoNameEnable: true;
   userDetails: any;
@@ -67,8 +68,14 @@ export class ReferenceCheckComponent implements OnInit {
   taskId: any;
   roleId: any;
   roleType: any;
+  productCat: any;
+  sourcingChannel: any;
   showReinitiate: boolean;
+  equitasBranchName: any;
+  employeeCode: any;
   showSubmit = true;
+  date: Date = new Date();
+  timeOfVerification: any = String(new Date(new Date().getTime()).toLocaleTimeString()).slice(0, 5);
   constructor(
     private labelsData: LabelsService, // service to access labels
     private personalDiscussion: PersonalDiscussionService,
@@ -76,7 +83,7 @@ export class ReferenceCheckComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private sharedSercive: SharedService,
-    private pdDataService: PdDataService,
+    private createLeadDataService: CreateLeadDataService,
     private toasterService: ToasterService, // service for accessing the toaster
 
   ) {
@@ -107,10 +114,12 @@ export class ReferenceCheckComponent implements OnInit {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     this.roles = roleAndUserDetails.roles;
+    this.userDetails = roleAndUserDetails.userDetails;
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
-    console.log('user details ==> ', this.userDetails);
+    this.userName = this.userDetails.firstName;
+    console.log('user details ==> ', roleAndUserDetails);
     console.log('user id ==>', this.userId);
     console.log('user name', this.userName);
 
@@ -126,7 +135,7 @@ export class ReferenceCheckComponent implements OnInit {
           if (this.version !== 'undefined') {
             this.showSubmit = false;
           }
-
+          this.getLeadSectiondata();
           this.getPdDetails();    // for getting the data for pd details on initializing the page
           console.log('Applicant Id In reference Details Component', this.applicantId);
 
@@ -153,6 +162,13 @@ export class ReferenceCheckComponent implements OnInit {
       });
     });
   }
+  //GET LEAD SECTION DATA
+  getLeadSectiondata() {
+    const leadData = this.createLeadDataService.getLeadSectionData();
+    this.sourcingChannel = leadData['leadDetails'].sourcingChannelDesc;
+    this.equitasBranchName = leadData['leadDetails'].branchName;
+    this.productCat = leadData['leadDetails'].productCatName;
+  }
   getApplicantId() { // function to access respective applicant id from the routing
 
     this.activatedRoute.params.subscribe((value) => {
@@ -164,26 +180,35 @@ export class ReferenceCheckComponent implements OnInit {
     });
   }
 
-  initForm() {  // fun that intializes the form group
+  initForm() {  // function that intializes the form group
+
     this.referenceCheckForm = new FormGroup({
       nameOfReference: new FormControl('', Validators.required),
       addressOfReference: new FormControl('', Validators.required),
       referenceMobile: new FormControl('', Validators.required),
-      // soName: new FormControl('', Validators.required),
-      // employeeCode: new FormControl('', Validators.required),
-      // date: new FormControl('', Validators.required),
-      // place: new FormControl('', Validators.required),
-      // time: new FormControl('', Validators.required),
-      // pdRemarks: new FormControl('', Validators.required),
+      overallFiReport: new FormControl('', Validators.required),
       negativeProfile: new FormControl('', Validators.required),
-      latitude: new FormControl({ value: '', disabled: true }),
-      longitude: new FormControl({ value: '', disabled: true }),
-      distanceFromBranch: new FormControl({ value: '', disabled: true }),
-      routeMap: new FormControl(''),
+      // pdRemarks: new FormControl('', Validators.required),
       pdRemarks: new FormControl('', Validators.compose
         ([Validators.maxLength(200), Validators.pattern(/^[a-zA-Z .:,]*$/), Validators.required])),
-      overallFiReport: new FormControl('', Validators.required)
-
+      product: new FormControl({ value: '', disabled: true }),
+      sourcingChannel: new FormControl({ value: '', disabled: true }),
+      routeMap: new FormControl(''),
+      equitasBranchName: new FormControl({ value: '', disabled: true }),
+      distanceFromEquitas: new FormControl({ value: '', disabled: true }),
+      // soName: new FormControl('', Validators.required),
+      soName: new FormControl({ value: '', disabled: true }),
+      // employeeCode: new FormControl('', Validators.required),
+      employeeCode: new FormControl({ value: '', disabled: true }),
+      area: new FormControl('', Validators.required),
+      // date: new FormControl('', Validators.required),
+      date: new FormControl({ value: '', disabled: true }),
+      // place: new FormControl('', Validators.required),
+      place: new FormControl({ value: '', disabled: true }),
+      // time: new FormControl('', Validators.required),
+      timeOfVerification: new FormControl({ value: '', disabled: true }),
+      // latitude: new FormControl({ value: '', disabled: true }),
+      // longitude: new FormControl({ value: '', disabled: true }),
     });
   }
 
@@ -191,27 +216,23 @@ export class ReferenceCheckComponent implements OnInit {
 
     const data = {
 
-      // applicantId: 6,
       applicantId: this.applicantId,
       pdVersion: this.version,
 
-
-      /* Uncomment this after getting applicant Id from Lead */
     };
     console.log('applicant id in get detaisl', this.applicantId);
-
 
     this.personalDiscussion.getPdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
 
         this.refCheckDetails = value.ProcessVariables.referenceCheck;
+        this.otherDetails = value.ProcessVariables.otherDetails;
         this.showReinitiate = value.ProcessVariables.showReinitiate;
-        console.log('in ref check show renitiate', this.showReinitiate);
-        console.log('calling get api ', this.refCheckDetails);
-        if (this.refCheckDetails) {
+        // console.log('in ref check show renitiate', this.showReinitiate);
+        // console.log('calling get api ', this.refCheckDetails);
+        if (this.refCheckDetails && this.otherDetails) {
           this.setFormValue();
-          this.pdDataService.setCustomerProfile(this.refCheckDetails);
         }
       } else {
         console.log('error', processVariables.error.message);
@@ -223,27 +244,36 @@ export class ReferenceCheckComponent implements OnInit {
   setFormValue() {
 
     // const customerProfileModal = this.pdDataService.getCustomerProfile() || {};
-    const refCheckModal = this.refCheckDetails || {};
+    const refCheckModel = this.refCheckDetails || {};
+    const otherDetailsModel = this.otherDetails || {};
 
-    console.log('in form value', refCheckModal);
+    console.log('in form value', refCheckModel);
+    console.log('in form value other details', otherDetailsModel);
 
     this.referenceCheckForm.patchValue({
-      nameOfReference: refCheckModal.nameOfReference || '',
-      addressOfReference: refCheckModal.addressOfReference || '',
-      referenceMobile: refCheckModal.referenceMobile || '',
-      // soName: refCheckModal.soName || '',
-      // soName: this.userName,
-      // employeeCode: refCheckModal.employeeCode || '',
-      // date: refCheckModal.date || '',
-      // place: refCheckModal.place || '',
+      nameOfReference: refCheckModel.nameOfReference ? refCheckModel.nameOfReference : null,
+      addressOfReference: refCheckModel.addressOfReference ? refCheckModel.addressOfReference : null,
+      referenceMobile: refCheckModel.referenceMobile ? refCheckModel.referenceMobile : null,
+      negativeProfile: refCheckModel.negativeProfile ? refCheckModel.negativeProfile : null,
+      overallFiReport: refCheckModel.overallFiReport ? refCheckModel.overallFiReport : null,
+      pdRemarks: refCheckModel.pdRemarks ? refCheckModel.pdRemarks : null,
+      // soName: this.userName ? this.userName : null,
+      soName: refCheckModel.soName ? refCheckModel.soName : null,
+      employeeCode: refCheckModel.employeeCode ? refCheckModel.employeeCode : null,
+      // patching other details object data from backend
+      product: otherDetailsModel.product ? otherDetailsModel.product : null,
+      sourcingChannel: otherDetailsModel.sourcingChannel ? otherDetailsModel.sourcingChannel : null,
+      routeMap: otherDetailsModel.routeMap ? otherDetailsModel.routeMap : null,
+      equitasBranchName: otherDetailsModel.equitasBranchName ? otherDetailsModel.equitasBranchName : null,
+      distanceFromEquitas: otherDetailsModel.distanceFromEquitas ? otherDetailsModel.distanceFromEquitas : null,
+      date: otherDetailsModel.date ? otherDetailsModel.date : null,
+      area: otherDetailsModel.area ? otherDetailsModel.area : null,
+      place: otherDetailsModel.place ? otherDetailsModel.place : null,
+      timeOfVerification: otherDetailsModel.timeOfVerification ? otherDetailsModel.timeOfVerification : null,
+
       // time: new Date(refCheckModal.time ? this.getDateFormat(refCheckModal.time) : ""),
-      // time: refCheckModal.time || '',
-      negativeProfile: refCheckModal.negativeProfile || '',
-      latitude: refCheckModal.latitude || '',
-      longitude: refCheckModal.longitude || '',
-      pdRemarks: refCheckModal.pdRemarks || '',
-      distanceFromBranch: refCheckModal.distanceFromBranch || '',
-      overallFiReport: refCheckModal.overallFiReport || ''
+      // latitude: refCheckModal.latitude || '',
+      // longitude: refCheckModal.longitude || '',
     });
     console.log('patched form', this.referenceCheckForm);
   }
@@ -251,39 +281,49 @@ export class ReferenceCheckComponent implements OnInit {
 
   onFormSubmit() { // function that calls sumbit pd report api to save the respective pd report
     console.log('in save api');
-    const formModal = this.referenceCheckForm.value;
+    const formModel = this.referenceCheckForm.value;
     this.isDirty = true;
     if (this.referenceCheckForm.invalid) {
       console.log('in invalid ref checkform', this.referenceCheckForm);
       this.toasterService.showWarning('please enter required details', '');
       return;
     }
-    const refCheckModal = { ...formModal };
-    console.log('profile form', refCheckModal);
+    console.log("this product", this.productCat);
+    console.log("this soucing", this.sourcingChannel);
+    const referenceCheckModel = { ...formModel };
     this.refCheckDetails = {
-      nameOfReference: refCheckModal.nameOfReference || '',
-      addressOfReference: refCheckModal.addressOfReference || '',
-      referenceMobile: refCheckModal.referenceMobile || '',
-      // soName: this.userName || '',
-      // employeeCode: refCheckModal.employeeCode || '',
-      // date: refCheckModal.date || '',
-      // place: refCheckModal.place || '',
-      // time: this.sendDate(refCheckModal.time),
-      // time: refCheckModal.time || '',
-      negativeProfile: refCheckModal.negativeProfile || '',
-      latitude: refCheckModal.latitude || '',
-      longitude: refCheckModal.longitude || '',
-      distanceFromBranch: refCheckModal.distanceFromBranch || '',
-      pdRemarks: refCheckModal.pdRemarks || '',
-      overallFiReport: refCheckModal.overallFiReport || '',
+      nameOfReference: referenceCheckModel.nameOfReference ? referenceCheckModel.nameOfReference : null,
+      addressOfReference: referenceCheckModel.addressOfReference ? referenceCheckModel.addressOfReference : null,
+      referenceMobile: referenceCheckModel.referenceMobile ? referenceCheckModel.referenceMobile : null,
+      negativeProfile: referenceCheckModel.negativeProfile ? referenceCheckModel.negativeProfile : null,
+      overallFiReport: referenceCheckModel.overallFiReport ? referenceCheckModel.overallFiReport : null,
+      pdRemarks: referenceCheckModel.pdRemarks ? referenceCheckModel.pdRemarks : null,
+      soName: this.userName ? this.userName : null,
+      employeeCode: this.userId ? this.userId : null,
+    };
+
+    this.otherDetails = {
+      product: this.productCat ? this.productCat : null,
+      sourcingChannel: this.sourcingChannel ? this.sourcingChannel : null,
+      // routeMap: referenceCheckModel.routeMap ? referenceCheckModel.routeMap : null,
+      routeMap: referenceCheckModel.routeMap,
+      equitasBranchName: this.equitasBranchName ? this.equitasBranchName : null,
+      distanceFromEquitas: referenceCheckModel.distanceFromEquitas ? referenceCheckModel.distanceFromEquitas : null,
+      date: this.date ? this.date : null,
+      area: referenceCheckModel.area ? referenceCheckModel.area : null,
+      place: referenceCheckModel.place ? referenceCheckModel.place : null,
+      timeOfVerification: this.timeOfVerification ? this.timeOfVerification : null,
+      pdOfficerName: this.userName ? this.userName : null,
+
+
     };
     const data = {
       leadId: this.leadId,
-      // applicantId: 6,
-      applicantId: this.applicantId, /* Uncomment this after getting applicant Id from Lead */
+      applicantId: this.applicantId,
       userId: this.userId,
+      // referenceCheck: this.refCheckDetails,
+      otherDetails: this.otherDetails
 
-      referenceCheck: this.refCheckDetails
     };
 
     this.personalDiscussion.saveOrUpdatePdData(data).subscribe((res: any) => {
