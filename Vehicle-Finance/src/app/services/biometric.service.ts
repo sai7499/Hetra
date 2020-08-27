@@ -34,6 +34,11 @@ export class BiometricService {
 
         identi5.getInfo(function(result){
           console.log("Result&&&&"+ result);
+          if(result["error"]){
+            let result = JSON.stringify({"pidErr": true});
+            callBack(result);
+            return;
+          }
           that.pid = result["model"];
           console.log("base64Data"+ that.pid);
           that.prepareKYCRequest(that.pid, aadhar, applicantId, callBack);
