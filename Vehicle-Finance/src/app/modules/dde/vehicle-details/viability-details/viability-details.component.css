@@ -35,3 +35,12 @@
 .wrd-brk{
     word-break: break-all;
 }
+
+
+
+@media (min-width:200px) and (max-width:767px) {
+    .mar-bot{
+        margin-bottom:20px;
+    }
+    
+}
