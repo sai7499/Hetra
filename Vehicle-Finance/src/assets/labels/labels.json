@@ -1657,6 +1657,14 @@
                 "msg": "Invalid Number"
             }
         },
+        "srNumber": {
+            "maxLength": {
+                "rule": 10
+            },
+           
+            "type": "alpha-numeric"
+        },
+
         "remark": {
             "maxLength": {
                 "rule": 40

@@ -199,6 +199,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   disabledPassportDates = true;
   showModifyCurrCheckBox : boolean;
   showSrField : boolean;
+  checkedModifyCurrent : boolean;
   
 
   isMobile: any;
@@ -364,20 +365,21 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       if (!this.isPanDisabled) {
         //this.panPattern = {};
         this.panRequired = false;
-        dedupe.patchValue({
-          pan: null,
-        });
+        // dedupe.patchValue({
+        //   pan: null,
+        // });
         dedupe.get('pan').disable();
       } else {
         dedupe.get('pan').enable();
         //this.panPattern = this.panFormPattern;
         this.panRequired = true;
-        setTimeout(() => {
-          dedupe.patchValue({
-            pan: null,
-          });
-        });
+        
       }
+      setTimeout(() => {
+        dedupe.patchValue({
+          pan: null,
+        });
+      });
     } else {
       const passportValue = dedupe.get('passportNumber').value;
       const voterId = dedupe.get('voterIdNumber').value;
@@ -608,6 +610,23 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           const addressList: any[] = processVariables.GeoMasterView;
           if (!addressList) {
             this.toasterService.showError('Invalid pincode', '');
+            if(id=='permanentPincode'){
+              this.setNullValues('permentAddress') ;
+              this.permanentPincode={}
+            }
+            if(id=='currentPincode'){
+              this.setNullValues('currentAddress') ;
+              this.currentPincode={}
+            }
+            if(id=='registerPincode'){
+              this.setNullValues('registeredAddress') ;
+              this.registerPincode={}
+            }
+            if(id=='communicationPincode'){
+              this.setNullValues('communicationAddress') ;
+              this.communicationPincode={}
+            }
+
             return;
           }
           const first = addressList[0];
@@ -703,6 +722,15 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         state: state[0].key,
       });
     }
+  }
+
+  setNullValues(control){
+    this.coApplicantForm.get(control).patchValue({
+      state : null || '',
+      country : null || '',
+      district : null || '',
+      city : null || ''
+    })
   }
 
   getLeadId() {
@@ -1056,7 +1084,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       const applicantType = applicantValue.applicantDetails.applicantTypeKey;
       this.showApplicantAddCheckBox = applicantType !== "APPAPPRELLEAD" ? true : false;
       const isAddrSameAsApplicant = applicantValue.applicantDetails.isAddrSameAsApplicant;
-      this.checkedAddressLead = isAddrSameAsApplicant == '1' ? '1' : '0'
+      this.checkedAddressLead = isAddrSameAsApplicant
 
       const dedupe = this.coApplicantForm.get('dedupe');
 
@@ -1112,6 +1140,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       ) {
         this.addIndFormControls();
         this.removeNonIndFormControls();
+        const modifyaddress=applicantValue.applicantDetails.modifyCurrentAddress
+        this.checkedModifyCurrent=modifyaddress=="1"? true : false;
+        this.showSrField=modifyaddress=="1"? true : false;
+        
+        this.coApplicantForm.patchValue({srNumber : applicantValue.applicantDetails.srNumber })
 
         dedupe.patchValue({
           mobilePhone: mobile || '',
@@ -1163,6 +1196,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
               this.createAddressObject(currentAddressObj)
             );
           }
+        }
+        if(this.checkedModifyCurrent){
+          this.isDisabledCheckbox= false;
+          this.isPermanantAddressSame= false;
+          this.coApplicantForm.get('currentAddress').enable();
         }
         // }
       } else {
@@ -1551,9 +1589,18 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     if (this.applicantType === 'INDIVENTTYP') {
       if (
         this.coApplicantForm.get('dedupe').invalid ||
-        this.coApplicantForm.get('currentAddress').invalid ||
-        this.coApplicantForm.get('permentAddress').invalid ||
-        this.panValidate
+        // this.coApplicantForm.get('permentAddress').invalid ||
+        // this.coApplicantForm.get('currentAddress').invalid ||
+        formValue.permentAddress.addressLineOne=='' ||
+        formValue.permentAddress.pincode=='' ||
+        formValue.permentAddress.city=='' ||
+        formValue.currentAddress.addressLineOne=='' ||
+        formValue.currentAddress.pincode=='' ||
+        formValue.currentAddress.city=='' ||
+
+        this.coApplicantForm.get('srNumber').invalid ||
+        this.panValidate 
+        
 
       ) {
         this.isDirty = true;
@@ -1563,21 +1610,19 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         );
         return;
       }
-      // else if (this.panValidate) {
-      //   this.toasterService.showError(
-      //     'Invalid Pan Number.',
-      //     ''
-      //   );
-      //   return;
-      // }
-
       this.storeIndividualValueInService(coApplicantModel);
       this.applicantDataService.setCorporateProspectDetails(null);
     } else {
       if (
         this.coApplicantForm.get('dedupe').invalid ||
-        this.coApplicantForm.get('registeredAddress').invalid ||
-        this.coApplicantForm.get('communicationAddress').invalid ||
+        // this.coApplicantForm.get('registeredAddress').invalid ||
+        // this.coApplicantForm.get('communicationAddress').invalid ||
+        formValue.registeredAddress.addressLineOne=='' ||
+        formValue.registeredAddress.pincode=='' ||
+        formValue.registeredAddress.city=='' ||
+        formValue.communicationAddress.addressLineOne=='' ||
+        formValue.communicationAddress.pincode=='' ||
+        formValue.communicationAddress.city=='' ||
         this.panValidate
       ) {
         this.isDirty = true;
@@ -1629,7 +1674,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       agriOwnerProperty: coApplicantModel.dedupe.agriOwnerProperty,
       agriAppRelationship: coApplicantModel.dedupe.agriAppRelationship,
       grossReceipt: coApplicantModel.dedupe.grossReceipt,
-      isAddrSameAsApplicant: this.checkedAddressLead
+      isAddrSameAsApplicant: this.checkedAddressLead,
+      modifyCurrentAddress : this.checkedModifyCurrent== true? '1' : '0',
+      srNumber : coApplicantModel.srNumber
 
       //customerCategory: 'SALCUSTCAT',
     };
@@ -1666,14 +1713,28 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   onModCurrAddress(event){
     const eventClicked = event.target.checked;
-    if(eventClicked){
+    if(eventClicked ){
       this.showSrField= true;
-      this.coApplicantForm.get('srNumber').setValidators([Validators.required])
-      this.coApplicantForm.get('srNumber').updateValueAndValidity()
+      this.checkedModifyCurrent= true;
+      this.coApplicantForm.get('srNumber').setValue(null);
+      this.coApplicantForm.get('srNumber').setValidators([Validators.required]);
+      this.coApplicantForm.get('srNumber').updateValueAndValidity();
+
+      const currentAddress = this.coApplicantForm.get('currentAddress');
+      currentAddress.enable();
+      this.isPermanantAddressSame= false;
+      this.isDisabledCheckbox= false;
+
     }else{
       this.showSrField= false;
-      this.coApplicantForm.get('srNumber').clearValidators()
-      this.coApplicantForm.get('srNumber').updateValueAndValidity()
+      this.checkedModifyCurrent= false;
+      this.coApplicantForm.get('srNumber').setValue(null);
+      this.coApplicantForm.get('srNumber').clearValidators();
+      this.coApplicantForm.get('srNumber').updateValueAndValidity();
+      const currentAddress = this.coApplicantForm.get('currentAddress');
+      currentAddress.disable();
+       this.isPermanantAddressSame= true;
+      this.isDisabledCheckbox= true; 
     }
   }
 
