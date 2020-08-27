@@ -1661,10 +1661,8 @@
             "maxLength": {
                 "rule": 10
             },
-           
             "type": "alpha-numeric"
         },
-
         "remark": {
             "maxLength": {
                 "rule": 40
@@ -1716,7 +1714,6 @@
                 "rule": 50
             }
         },
-
         "vehicleRegNo": {
             "maxLength": {
                 "rule": 11
@@ -1810,6 +1807,13 @@
                 "rule": "^[1-9][0-9]*$",
                 "msg": "Aadhar Number Should be Valid"
             }
+        },
+        "gorssVehicleWeight": {
+            "maxLength": {
+                "rule": 5,
+                "msg": ""
+            },
+            "type": "number"
         },
         "panNumber": {
             "maxLength": {
@@ -1934,7 +1938,6 @@
             },
             "type": "number"
         },
-
         "directorName": {
             "maxLength": {
                 "rule": 60
