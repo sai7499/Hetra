@@ -24,6 +24,7 @@ import { Constant } from '../../../../assets/constants/constant';
 import { UtilityService } from '@services/utility.service';
 import { ToasterService } from '@services/toaster.service'
 import { ControlPosition } from '@agm/core';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-identity-details',
@@ -31,6 +32,7 @@ import { ControlPosition } from '@agm/core';
   styleUrls: ['./identity-details.component.css'],
 })
 export class IdentityDetailsComponent implements OnInit {
+  disableSaveBtn: boolean;
   labels: any = {};
   validationData: any = {}
   lov: any = {};
@@ -64,7 +66,8 @@ export class IdentityDetailsComponent implements OnInit {
     private leadStoreService: LeadStoreService,
     private location: Location,
     private utilityService: UtilityService,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private toggleDdeService: ToggleDdeService
   ) { }
 
   navigateToApplicantList() {
@@ -106,6 +109,11 @@ export class IdentityDetailsComponent implements OnInit {
     });
     this.addIndividualFormControls();
     this.getLov();
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      this.identityForm.disable();
+      this.disableSaveBtn  = true;
+    }
   }
 
   getLeadId() {

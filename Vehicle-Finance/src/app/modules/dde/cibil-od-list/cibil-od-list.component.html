@@ -62,7 +62,7 @@
                   <th role="columnheader" class="caption">
                     {{ labels?.odDpd }}<sub class="star_blue_col">*</sub>
                   </th>
-                  <th role="columnheader" class="caption">{{labels?.action}}</th>
+                  <th *ngIf="!disableSaveBtn" role="columnheader" class="caption">{{labels?.action}}</th>
                 </tr>
               </thead>
               <tbody formArrayName="odAccountDetails">
@@ -118,7 +118,7 @@
                       [isRequired]="'OD DPD mandatory'">
                     </app-custom-input>
                   </td>
-                  <td data-title="Actions">
+                  <td data-title="Actions" *ngIf="!disableSaveBtn">
                     <!-- <i type="button" class="fa fa-trash" aria-hidden="true" id="delPOIbutton" value="Delete"
                       (click)="removeOdDetails(i)"></i> -->
                     <i type="button" class="fa fa-trash" aria-hidden="true" id="delPOIbutton" value="Delete"
@@ -248,7 +248,7 @@
                     <th role="columnheader" class="caption">
                       {{ labels?.enquiryAmount }}<sub class="star_blue_col">*</sub>
                     </th>
-                    <th role="columnheader" class="caption">{{labels?.action}}</th>
+                    <th role="columnheader" class="caption" *ngIf="!disableSaveBtn">{{labels?.action}}</th>
 
                   </tr>
                 </thead>
@@ -283,7 +283,7 @@
                       </app-custom-input>
 
                     </td>
-                    <td data-title="Actions">
+                    <td data-title="Actions" *ngIf="!disableSaveBtn">
 
                       <!-- <i type="button" class="fa fa-trash" aria-hidden="true" id="delPOIbutton" value="Delete"
                         (click)="removeLastThirtyDaysLoan(i)"></i> -->
@@ -312,7 +312,7 @@
                     <th role="columnheader" class="caption">
                       {{ labels?.enquiryAmount }}<sub class="star_blue_col">*</sub>
                     </th>
-                    <th role="columnheader" class="caption">{{labels?.action}}</th>
+                    <th role="columnheader" class="caption" *ngIf="!disableSaveBtn">{{labels?.action}}</th>
 
                   </tr>
                 </thead>
@@ -347,7 +347,7 @@
                       </app-custom-input>
 
                     </td>
-                    <td data-title="Actions">
+                    <td data-title="Actions" *ngIf="!disableSaveBtn">
 
                       <i type="button" class="fa fa-trash" aria-hidden="true" id="delPOIbutton" value="Delete"
                         (click)="showSixtyModel(i)"></i>
@@ -373,7 +373,7 @@
         <button class="btn btn-primary dash_href" type="button" routerLink="../exposure">
           Back
         </button>
-        <button class="btn btn-primary mar-right8" type="button" (click)=onSubmit();>
+        <button *ngIf="!disableSaveBtn" class="btn btn-primary mar-right8" type="button" (click)=onSubmit();>
           Save
         </button>
         <button class="btn btn-primary dash_href" type="button" routerLink="../psl-data">

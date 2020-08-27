@@ -165,6 +165,7 @@
                 id="address_section_checkbox"
                 (change)="isSameAddress($event)"
                 [checked]="onPerAsCurChecked"
+                [disabled]="disableSaveBtn"
               />
               <span id="address_section_checkbox_text"
                 >&nbsp;Is it same as your permanent Address?
