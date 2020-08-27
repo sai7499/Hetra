@@ -193,7 +193,7 @@ export class ChequeTrackingComponent implements OnInit {
   }
   onUpdate() {
     const value = this.chequeForm.value;
-    console.log('value', value)
+    console.log('value', this.chequeForm)
 
     const control = this.chequeForm.controls.details as FormArray;
     if (this.chequeForm.invalid) {
@@ -204,7 +204,8 @@ export class ChequeTrackingComponent implements OnInit {
       return;
     }
     if (this.statusValue == 'BRNCHRECEIVEDCHEQUESTS') {
-      if (control.controls[this.index].get('chequeNum').value == '' || undefined || null) {
+      const chequeNumValue=control.controls[this.index].get('chequeNum').value
+      if (chequeNumValue == null ||chequeNumValue== undefined || chequeNumValue== '') {
         this.toasterService.showError( 'Please fill mandatory fields.',
         'Cheque Tracking')
         return;
