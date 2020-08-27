@@ -2200,6 +2200,31 @@
             },
             "type": "decimal"
         },
+        "NegotiatedIRR": {
+            "maxLength": {
+                "rule": 5
+            },
+            "type": "decimal"
+        },
+        "NegotiatedLoanTenor": {
+            "maxLength": {
+                "rule": 3
+            },
+           
+             "minLength": {
+                "rule": 2
+            },
+            "type": "number"
+        },
+        "NegotiatedLoanAmount": {
+            "maxLength": {
+                "rule": 7
+            },
+            "minLength": {
+                "rule": 5
+            },
+            "type": "number"
+        },
         "instrumentNumber": {
             "maxLength": {
                 "rule": 6

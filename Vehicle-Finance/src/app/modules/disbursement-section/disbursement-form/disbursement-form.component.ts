@@ -195,6 +195,7 @@ export class DisbursementFormComponent implements OnInit {
   showcoApp1IntDetails: boolean;
   showcoApp2IntDetails: boolean;
   showcoApp3IntDetails: boolean;
+  flag:boolean;
  
   
   constructor(
@@ -213,7 +214,7 @@ export class DisbursementFormComponent implements OnInit {
   }
 
   async ngOnInit() {
-
+    this.flag= true;
     this.initForm();
     this.getLabels();
     this.disbLOV();
@@ -733,6 +734,7 @@ export class DisbursementFormComponent implements OnInit {
       // appiyoError === '0' && apiError === '0'
       if (appiyoError === '0') {
         console.log('applicantData',response)
+        this.flag = false;
         this.applicantDetailsData=response.ProcessVariables.ApplicantDetails;
         const duplicateAppDetails: any = { ...this.applicantDetailsData };
         this.applicantObjInfo = duplicateAppDetails;
@@ -1227,7 +1229,7 @@ export class DisbursementFormComponent implements OnInit {
     }
   }
 
-  disburseToVal(val,flag) {
+  disburseToVal(val) {
     console.log('diburseToValues',this.disburseTo)
     // console.log(val,val.length)
     this.disburseToDealer=false;
@@ -1246,8 +1248,8 @@ export class DisbursementFormComponent implements OnInit {
               this.disburseToDealer=true;
              }
              if(val[j]=='2DISBURSETO') {
-               if(flag == true){
-                //this.getApplicantDetails();
+               if(this.flag){
+                this.getApplicantDetails();
                }
               this.disburseToApp=true;
              }
@@ -1292,6 +1294,7 @@ export class DisbursementFormComponent implements OnInit {
       this.showAppBankDetails = false;
       this.showAppDDDetails = false;
       this.showAppCASADetails = false;
+      this.flag = true;
       this.trancheAppList=[];
       this.commonFormArray.forEach(key => {
         this.appDetailsForm.get(key).clearValidators();
@@ -2236,7 +2239,8 @@ selectCheckBox(flag,val) {
         this.disburseTo = this.disbursementDetailsData.payableTo.split(',');
         }
         if(this.disburseTo) {
-          this.disburseToVal(this.disburseTo,false);
+          this.flag=(this.disbursementDetailsData.ApplicantDetails)? false:true;
+          this.disburseToVal(this.disburseTo);
         }
         if(this.disbursementDetailsData.DealerDetails) {
         this.dealerObjInfo = this.disbursementDetailsData.DealerDetails;
