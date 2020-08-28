@@ -95,7 +95,7 @@ export class VehicleValuationComponent implements OnInit {
         const response = res;
         this.collateralDetailsData = response.ProcessVariables.collateralDetails;
         if(this.collateralDetailsData) {
-          this.collateralDetailsData.filter( (element) => {            
+          this.collateralDetailsData.forEach( (element) => {            
             this.colleteralId = element.collateralId;
             this.apiValuatorStatus = element.valuatorStatus;
             this.apiValuationStatus = element.valuationStatus;
