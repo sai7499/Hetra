@@ -132,6 +132,7 @@ export class SourcingDetailsComponent implements OnInit {
     userId: number;
     leadId: number;
   };
+  operationType: string;
 
   constructor(
     private leadSectionService: VehicleDetailService,
@@ -169,13 +170,13 @@ export class SourcingDetailsComponent implements OnInit {
 
     this.tenureMonthlyValidation = this.loanTenureMonth();
 
-    const operationType = this.toggleDdeService.getOperationType();
+    this.operationType = this.toggleDdeService.getOperationType();
 
-    if (operationType === '1') {
-      this.sourcingDetailsForm.disable();
-      this.isSourchingCode = true;
-      this.isDisabledDealerCode = true;
-    }
+    // if (operationType === '1') {
+    //   this.sourcingDetailsForm.disable();
+    //   this.isSourchingCode = true;
+    //   this.isDisabledDealerCode = true;
+    // }
   }
 
   getLabels() {
@@ -465,6 +466,7 @@ export class SourcingDetailsComponent implements OnInit {
     } else {
       this.isSourchingCode = false;
     }
+    this.onFormDisable();
   }
 
   onSourcingCodeSearch(event) {
@@ -566,6 +568,14 @@ export class SourcingDetailsComponent implements OnInit {
       },
     ];
     return loanTenure;
+  }
+
+  onFormDisable(){
+    if (this.operationType === '1') {
+      this.sourcingDetailsForm.disable();
+      this.isSourchingCode = true;
+      this.isDisabledDealerCode = true;
+    }
   }
 
   saveAndUpdate() {

@@ -201,7 +201,10 @@
             >Dealer Code
             <sub class="star_blue_col">*</sub>
           </label>
-          <div class="ng-autocomplete" style="width: 100%;">
+          <div 
+            class="ng-autocomplete" 
+            style="width: 100%;" 
+            [ngClass]="{ 'codeDisable disableCode': isDisabledDealerCode }">
             <ng-autocomplete
               [data]="dealerCodeData"
               [searchKeyword]="keyword"
