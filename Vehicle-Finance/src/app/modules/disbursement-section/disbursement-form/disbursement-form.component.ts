@@ -195,7 +195,6 @@ export class DisbursementFormComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private router: Router,
     private route: ActivatedRoute,
-    private loanCreationService: LoanCreationService,
     private cdr: ChangeDetectorRef
   ) {
 
@@ -2410,20 +2409,4 @@ if(this.roleType == '1' || this.roleType == '2') {
   this.router.navigate([`pages/cpc-checker/${this.disbLeadId}/negotiation`]);
 }
 }
-
-sendLoanCreationWrapper() {
-  const body = {
-    leadId: this.disbLeadId
-  }
-  this.loanCreationService.setLoanCreation(body).subscribe((res: any) => {
-    console.log(res);
-    if(res.ProcessVariables.error.code == '0') {
-      this.toasterService.showSuccess('Lead submitted For Loan Creation', '');
-    } else {
-      this.toasterService.showSuccess(res.ProcessVariables.error.message, '');
-    }
-
- });
-}
-
 }

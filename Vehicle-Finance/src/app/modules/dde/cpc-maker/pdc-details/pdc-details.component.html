@@ -54,7 +54,7 @@
                                     [isRequired]="'*required'"
                                     [isDirty]="isDirty"
                                     [placeholder]="'Instr No'"
-                                    (keyup)="findUnique($event.target.value, i)"
+                                    (keyup)="findUnique($event.target.value, i, 'pdcList', 'spdcList')"
                                     
                                   ></app-custom-input>
                                 </div>
@@ -133,7 +133,8 @@
                                     <!-- <label for="lead_id" class="height_label"></label> -->
                                     <div class="image-upload row" for="upload_files"  >
                                         <i class="fa fa-plus fa-3" aria-hidden="true"  id="add_more_documents1" (click)="addPdcUnit()" ></i> &nbsp; 
-                                        <i class="fa fa-minus fa-3" aria-hidden="true"  id="add_more_documents_remove1 "  (click)="deleteRows('pdc',item.value.pdcId,i)"></i></div>
+                                        <a data-toggle="modal" data-target="#myModalthree"><i class="fa fa-minus fa-3" aria-hidden="true"  id="add_more_documents_remove1" ></i></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -182,9 +183,9 @@
                                         [patternCheck]="inputValidation"
                                         [maxLength]="labels?.validationData?.amountValue?.maxLength"
                                         [type]="labels?.validationData?.amountValue?.type"
-                                        [isRequired]="'*required'"
-                                        [isDirty]="isDirty"
+                                        
                                         [placeholder]="'Instr.No'"
+                                        (keyup)="findUnique($event.target.value, i, 'spdcList', 'pdcList')"
                                         
                                       ></app-custom-input>
                                     </div>
@@ -196,7 +197,7 @@
                                               <kendo-datepicker class="form-control" 
                                               formControlName="instrDate" 
                                               [format]="'dd/MM/yyyy'"
-                                              [max]="toDayDate"
+                                              [min]="toDayDate"
                                               placeholder="Select Latest Month"
                                               [activeView]="'decade'"
                                               
@@ -262,7 +263,8 @@
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
                                         <label class="image-upload row" for="upload_files">
                                             <i class="fa fa-plus fa-3" aria-hidden="true"  id="add_more_documents1" (click)="addSPdcUnit()" ></i> &nbsp; 
-                                            <i class="fa fa-minus fa-3" aria-hidden="true"  id="add_more_documents_remove1" (click)="deleteRows('spdc',item.value.pdcId,i)"></i></label>
+                                            <a data-toggle="modal" data-target="#myModaltwo"><i class="fa fa-minus fa-3" aria-hidden="true"  id="add_more_documents_remove1" ></i></a>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -283,6 +285,9 @@
                             data-target="#myModal">Submit to CPC Checker</a></button>
                     <button class="btn btn-primary dash_href marginAdd" (click)="sendBackToCredit()"
                         *ngIf="roleType == '4'"> Send Back To Credit </button>
+                    <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '5'"><a data-toggle="modal"
+                            data-target="#myModal">Book Loan</a></button>   
+                        
     
                 </div>
     
@@ -306,8 +311,13 @@
             <!-- <div class="modal-body" *ngIf = "roleType == '5'">
             <p>Are you sure you want to move lead to CPC maker?</p>
         </div> -->
-            <div class="modal-footer">
+            <div class="modal-footer" *ngIf="roleType == '4'">
                 <button type="button" class="btn btn-primary " (click)="submitTocpc()" 
+                    data-dismiss="modal">Yes</button> &nbsp;
+                <button type="button" class="btn btn-primary " data-dismiss="modal">Close</button>
+            </div>
+            <div class="modal-footer" *ngIf="roleType == '5'">
+                <button type="button" class="btn btn-primary " (click)="sendLoanCreationWrapper()"  
                     data-dismiss="modal">Yes</button> &nbsp;
                 <button type="button" class="btn btn-primary " data-dismiss="modal">Close</button>
             </div>
@@ -322,13 +332,34 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">CPC Queue</h4>
+                <h4 class="modal-title">Submit</h4>
             </div>
             <div class="modal-body">
-                <p>Lead {{leadId}} is move to CPC Maker Queue</p>
+                <p>Are you sure want to delete record ?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteRows('spdcList',i)">Yes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="myModalthree" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Submit</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure want to delete record ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteRows('pdcList',i)">Yes</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>

@@ -314,7 +314,7 @@ export class CheckListComponent implements OnInit {
 
   }
 onNext()  {
-  // this.onSave();
+  this.onSave();
   // tslint:disable-next-line: triple-equals
   if (this.checklistForm.valid) {
     // tslint:disable-next-line: triple-equals
