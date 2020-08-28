@@ -992,9 +992,9 @@ onNext(){
   } else if (this.roleType == '2' ) {
     this.router.navigate([`pages/credit-decisions/${this.leadId}/disbursement`]);
   } else if( this.roleType == '4' ) {
-    this.router.navigate([`pages/cpc-maker/${this.leadId}/disbursement`]);
+    this.router.navigate([`pages/cpc-maker/${this.leadId}/check-list`]);
   } else if(  this.roleType == '5') {
-    this.router.navigate([`pages/cpc-checker/${this.leadId}/disbursement`]);
+    this.router.navigate([`pages/cpc-checker/${this.leadId}/check-list`]);
   }
   // this.router.navigateByUrl(`pages/credit-decisions/${this.leadId}/disbursement`)
 

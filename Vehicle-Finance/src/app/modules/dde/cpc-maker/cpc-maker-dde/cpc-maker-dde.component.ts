@@ -69,7 +69,7 @@ export class CpcMakerDdeComponent implements OnInit {
       return 0;
     }  else if (url.includes('sanction-details')) {
       return 1;
-    } else if (url.includes('pdc-details') && this.roleType == '4') {
+    } else if (url.includes('pdc-details') && this.roleType == '5') {
       return 2;
     }  else if (url.includes('negotiation')) {
       return 3;
@@ -77,7 +77,7 @@ export class CpcMakerDdeComponent implements OnInit {
       return 4;
     } else if (url.includes('disbursement')) {
       return 5;
-    } else if (url.includes('pdc-details') && this.roleType == '5') {
+    } else if (url.includes('pdc-details') && this.roleType == '4') {
       return 6;
     }
   }
