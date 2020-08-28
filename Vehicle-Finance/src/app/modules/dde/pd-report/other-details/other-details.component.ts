@@ -112,6 +112,23 @@ export class OtherDetailsComponent implements OnInit {
           }
 
    async ngOnInit() {
+
+    if (this.isMobile) {
+      this.gpsService.getLatLong().subscribe((position) => {
+        console.log("getLatLong", position);
+        this.gpsService.initLatLong().subscribe((res) => {
+          console.log("gpsService", res);
+          if (res) {
+            this.gpsService.getLatLong().subscribe((position) => {
+              console.log("getLatLong", position);
+            });
+          } else {
+            console.log("error initLatLong",res);
+          }
+        });
+      });
+    }
+
     this.initForm();
     this.getLabels();
     this.leadId = (await this.getLeadId()) as number;
@@ -437,10 +454,10 @@ export class OtherDetailsComponent implements OnInit {
     });
   }
 
-  getRouteMap(branchPosition?: any, currentPostion?: any) {
+  getRouteMap() {
     var that = this;
     let branchPos = {
-      latitude: this.branchLongitude,
+      latitude: this.branchLatitude,
       longitude: this.branchLongitude
     };
     let currentPos = {
@@ -451,7 +468,7 @@ export class OtherDetailsComponent implements OnInit {
       that.base64Image = result;
       that.showRouteMap = true;
       // console.log("getPolyLine", that.base64Image);
-    }, null, null);
+    }, currentPos, branchPos);
   }
 
   async downloadDocs(documentId: string) {
@@ -515,20 +532,6 @@ export class OtherDetailsComponent implements OnInit {
     });
   }
 
-  setContainerPosition(el) {
-    let offsetLeft = 0;
-    let offsetTop = 0;
-    while (el) {
-      offsetLeft += el.offsetLeft;
-      offsetTop += el.offsetTop;
-      el = el.offsetParent;
-    }
-    this.setCss = {
-      top: offsetTop + 'px',
-      left: offsetLeft + 'px',
-    };
-  }
-
 
   async onUploadSuccess(event: DocumentDetails) {
     // this.toasterService.showSuccess('Document uploaded successfully', '');
@@ -539,7 +542,7 @@ export class OtherDetailsComponent implements OnInit {
       isPhoto: true,
       applicantId: this.applicantId,
     };
-   this.uploadPhotoOrSignature(data);
+   //this.uploadPhotoOrSignature(data);
     
     event.imageUrl = '';
 
@@ -589,29 +592,6 @@ export class OtherDetailsComponent implements OnInit {
         console.log("documentId******", documentId);
         this.documentArr[index].documentId = documentId;
         const subCategoryCode = this.documentArr[index].subCategoryCode;
-        // const formArray = this.uploadForm.get(
-        //   `${this.FORM_ARRAY_NAME}_${subCategoryCode}`
-        // ) as FormArray;
-        // formArray
-        //   .at(this.documentArr[index].formArrayIndex)
-        //   .get('documentId')
-        //   .setValue(documentId);
-        // console.log('this.documentArr', this.documentArr);
-        // documentIds.forEach((id, index) => {
-        //   this.documentArr[index].documentId = id;
-        // });
-        // this.documentArr.forEach((docs, index) => {
-        //   const formArrayIndex = docs.formArrayIndex;
-        //   if (formArrayIndex !== undefined) {
-        //     const formArray = this.uploadForm.get(
-        //       `${this.FORM_ARRAY_NAME}_${docs.subCategoryCode}`
-        //     ) as FormArray;
-        //     formArray
-        //       .at(formArrayIndex)
-        //       .get('documentId')
-        //       .setValue(documentIds[index]);
-        //   }
-        // });
       });
   }
 
