@@ -435,6 +435,7 @@ export class PdcDetailsComponent implements OnInit {
     });
   } 
    findUniqueDate(value: any, i: number, string1: any, string2: any) {
+    value = this.utilityService.getDateFormat(value);
     setTimeout(() => {
       if (value) {
         const stringValue1 = this.pdcForm.value[string1];
@@ -443,7 +444,7 @@ export class PdcDetailsComponent implements OnInit {
         // tslint:disable-next-line: triple-equals
         // tslint:disable-next-line: prefer-const
         let foundValue = value
-          ? stringValue1.filter((x) => x.instrDate === value)
+          ? stringValue1.filter((x) => this.utilityService.getDateFormat(x.instrDate) === value)
           : 'not found';
         console.log(foundValue);
         if (foundValue.length > 1) {
@@ -452,12 +453,12 @@ export class PdcDetailsComponent implements OnInit {
           console.log(control);
           // tslint:disable-next-line: no-unused-expression
           this.toasterService.showWarning('Duplicate InstrDate Found', '');
-          control[i].controls.instrNo.reset();
+          control[i].controls.instrDate.reset();
         }
         if (value) {
           // tslint:disable-next-line: prefer-const
           let spdcCheck = value
-            ? stringValue2.filter((x) => x.instrDate === value)
+            ? stringValue2.filter((x) => this.utilityService.getDateFormat(x.instrDate) === value)
             : 'not found';
           console.log(spdcCheck);
           if (spdcCheck.length >= 1) {
@@ -466,27 +467,11 @@ export class PdcDetailsComponent implements OnInit {
             console.log(control);
             // tslint:disable-next-line: no-unused-expression
             this.toasterService.showWarning('Duplicate InstrDate Found', '');
-            control[i].controls.instrNo.reset();
+            control[i].controls.instrDate.reset();
           }
         }
       }
     }, 2000);
   }
-  sendLoanCreationWrapper() {
-    if (this.pdcForm.invalid) {
-    this.toasterService.showError('Save details before booking loan', '');
-    }
-    const body = {
-      leadId: this.leadId,
-    };
-    this.loanCreationService.setLoanCreation(body).subscribe((res: any) => {
-      console.log(res);
-      // tslint:disable-next-line: triple-equals
-      if (res.ProcessVariables.error.code == '0') {
-        this.toasterService.showSuccess('Lead submitted For Loan Creation', '');
-      } else {
-        this.toasterService.showSuccess(res.ProcessVariables.error.message, '');
-      }
-    });
-  }
+
 }
