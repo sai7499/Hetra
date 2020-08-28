@@ -75,10 +75,23 @@ export class PdcDetailsComponent implements OnInit {
   private initRows() {
     return this.fb.group({
       pdcId: [null],
-      instrType: [null, Validators.required],
+      // instrType: [null, Validators.required],
       emiAmount: [null, Validators.required],
       instrNo: [null, Validators.required],
       instrDate: [null, Validators.required],
+      instrBankName: [null, Validators.required],
+      instrBranchName: [null, Validators.required],
+      instrBranchAccountNumber: [null, Validators.required],
+      instrAmount: [null, Validators.required]
+    });
+  }
+  private initSpdcRows() {
+    return this.fb.group({
+      pdcId: [null],
+      // instrType: [null, Validators.required],
+      emiAmount: [null],
+      instrNo: [null, Validators.required],
+      instrDate: [null],
       instrBankName: [null, Validators.required],
       instrBranchName: [null, Validators.required],
       instrBranchAccountNumber: [null, Validators.required],
@@ -91,14 +104,14 @@ export class PdcDetailsComponent implements OnInit {
   }
   addSPdcUnit(data?: any) {
     const control = this.pdcForm.controls.spdcList as FormArray;
-    control.push(this.initRows());
+    control.push(this.initSpdcRows());
   }
  deleteRows(table: string, id: any, i: number) {
    console.log(table + id + i);
    const body = {
      pdcId: id
    };
-   
+
   //  array.removeAt(i);
    if (table && id) {
   this.pdcService.deletePdcDetails(body).subscribe((res: any) => {
@@ -143,6 +156,7 @@ export class PdcDetailsComponent implements OnInit {
       this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
         if (res.ProcessVariables.error.code == '0') {
+          this.toasterService.showSuccess('Submitted Suucessfully', '');
           this.router.navigate([`pages/dashboard`]);
         } else {
           this.toasterService.showError(res.Processvariables.error.message, '');
@@ -160,6 +174,7 @@ export class PdcDetailsComponent implements OnInit {
       this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
           // tslint:disable-next-line: triple-equals
           if (res.ProcessVariables.error.code == '0') {
+            this.toasterService.showSuccess('Submitted Suucessfully', '');
             this.router.navigate([`pages/dashboard`]);
           } else {
             this.toasterService.showError(res.Processvariables.error.message, '');
@@ -169,6 +184,9 @@ export class PdcDetailsComponent implements OnInit {
 
   }
   sendBackToCredit() {
+    if (this.pdcForm.invalid) {
+      this.toasterService.showError('Save before Submitting', '');
+    }
     const body = {
       leadId: this.leadId,
       userId: localStorage.getItem('userId'),
@@ -180,6 +198,7 @@ export class PdcDetailsComponent implements OnInit {
     this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
         if (res.ProcessVariables.error.code == '0') {
+          this.toasterService.showSuccess('Submitted Suucessfully', '');
           this.router.navigate([`pages/dashboard`]);
         } else {
           this.toasterService.showError(res.Processvariables.error.message, '');
@@ -199,7 +218,7 @@ for (let i = 0; i < this.pdcForm.controls.spdcList.controls.length; i++) {
   // tslint:disable-next-line: max-line-length
   this.pdcForm.value.spdcList[i].instrDate = this.pdcForm.value.spdcList[i].instrDate ? this.utilityService.getDateFormat(this.pdcForm.value.spdcList[i].instrDate) : null;
 }
-console.log(this.pdcForm.value, 'pdc Form');
+console.log(this.pdcForm, 'pdc Form');
 const body = {
   leadId: this.leadId,
   userId: localStorage.getItem('userId'),
@@ -313,5 +332,42 @@ getPdcDetails() {
 
 }
 
+findUnique(value: any, i: number) {
+  setTimeout(() => {
+    if (value) {
+      const pdcData = this.pdcForm.value.pdcList;
+      const spdcData = this.pdcForm.value.spdcList;
+      console.log(pdcData, 'pdc value data');
+      // tslint:disable-next-line: triple-equals
+      // tslint:disable-next-line: prefer-const
+      let foundValue = value ? pdcData.filter(x => x.instrNo === value) : 'not found';
+      console.log(foundValue);
+      if (foundValue.length > 1) {
+         // alert(foundValue.length);
+         const control = this.pdcForm.controls.pdcList.controls as FormArray;
+         console.log(control);
+         // tslint:disable-next-line: no-unused-expression
+         this.toasterService.showWarning('Duplicate InstrNo Found', '');
+         control[i].controls.instrNo.reset();
+       }
+      if (value) {
+        // tslint:disable-next-line: prefer-const
+        let spdcCheck = value ? spdcData.filter(x => x.instrNo === value) : 'not found';
+        console.log(spdcCheck);
+        if (spdcCheck.length >= 1) {
+          // alert(foundValue.length);
+          const control = this.pdcForm.controls.pdcList.controls as FormArray;
+          console.log(control);
+          // tslint:disable-next-line: no-unused-expression
+          this.toasterService.showWarning('Duplicate InstrNo Found', '');
+          control[i].controls.instrNo.reset();
+        }
+       }
+  }
+}, 2000);
+
+
+
+}
 
 }

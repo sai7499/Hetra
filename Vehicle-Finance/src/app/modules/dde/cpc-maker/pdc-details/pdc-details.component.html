@@ -1,15 +1,15 @@
 <form class="form multisteps-form__form" style="height: auto" [formGroup]="pdcForm">
-    <div class="container overflow-hidden">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="col-lg-5 col-md-5 col-sm-5"></div>
-            <div class="col-lg-7 col-md-7 col-sm-7">
-                <button class="btn btn-primary"(click)="addPdcUnit()" *ngIf = "showPdc" >Add PDC Row</button>
-                <button class="btn btn-primary"(click)="addSPdcUnit()" *ngIf = "showSpdc" >Add SPDC Row</button>
-            </div>
-        </div>
-        <div class="content">
-            
-             <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+    <div class="container overflow-hidden">       
+        
+        <div class="content">   
+            <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-5"></div>
+                <div class="col-lg-7 col-md-7 col-sm-7 text-right" >
+                    <button class="btn btn-primary btn-mar"(click)="addPdcUnit()"  >Add PDC Row</button>
+                    <button class="btn btn-primary btn-mar"(click)="addSPdcUnit()"  >Add SPDC Row</button>
+                </div>
+            </div>        
+            <div class="multisteps-form__panel js-active" data-animation="scaleIn">              
                 <div class="panel-group hidden-xs" id="accordion">
                     <div class="panel panel-default">
                         <div class="panel-heading panel-primary" id="headingTwo1">
@@ -20,19 +20,14 @@
                               </h4>
                         </div>
                         <div id="collapseTwo1" class="panel-collapse collapse in" aria-expanded="true"  >
-                        <div class="panel-body" formArrayName="pdcList">
+                        <div class="panel-body text-center float_right" formArrayName="pdcList">
                             <div class="row" id="show_1_div_identity" *ngFor="let item of pdcForm.get('pdcList')['controls']; let i= index " [formGroupName]="i">
-                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="business_division" class="height_label">Instr.Type {{pdcId}}</label>
-      
-                                    <!-- <select class="form-control mandatory" id="business_division" formControlName="instrType">
-                                        <option value="Cheque">Cheque</option>
-                                        <option value="NACH">NACH</option>
-                                    </select> -->
-                                    <app-vf-custom-select formControlName="instrType" [values]="lovData?.instrumentType" 
-                                       [isRequired]="'Please Select Instr Type'"></app-vf-custom-select>
-      
-                                </div>
+                                <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                    <label for="business_division" class="height_label">Sr.No </label>  -->
+                                    <!-- <app-vf-custom-select formControlName="instrType" [values]="lovData?.instrumentType" 
+                                       [isRequired]="'Please Select Instr Type'"></app-vf-custom-select> -->
+                                       <!-- {{i+1}}
+                                </div> -->
                                 <div class="form-group col-lg-3 col-sm-6 col-md-3">
                                     <label for="lead_id">Pre EMI / EMI Amount</label> 
                                     <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" name="lead_id" value="" formControlName="emiAmount"> -->
@@ -59,6 +54,7 @@
                                     [isRequired]="'*required'"
                                     [isDirty]="isDirty"
                                     [placeholder]="'Instr No'"
+                                    (keyup)="findUnique($event.target.value, i)"
                                     
                                   ></app-custom-input>
                                 </div>
@@ -133,8 +129,9 @@
                                     
                                   ></app-custom-input>
                                 </div>
-                                <div class="form-group col-lg-2 col-sm-6 col-md-2">
-                                    <div class="image-upload" for="upload_files"  >
+                                <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                    <label for="lead_id" class="height_label">Actions</label>
+                                    <div class="image-upload row" for="upload_files"  >
                                         <i class="fa fa-plus fa-3" aria-hidden="true"  id="add_more_documents1" (click)="addPdcUnit()" ></i> &nbsp; 
                                         <i class="fa fa-minus fa-3" aria-hidden="true"  id="add_more_documents_remove1 "  (click)="deleteRows('pdc',item.value.pdcId,i)"></i></div>
                                 </div>
@@ -153,19 +150,15 @@
                               </h4>
                         </div>
                         <div id="collapseTwo2" class="panel-collapse collapse in" aria-expanded="true"  >
-                            <div class="panel-body" formArrayName="spdcList">
+                            <div class="panel-body text-center float_right" formArrayName="spdcList">
                                 <div class="row" id="show_1_div_identity" *ngFor="let item of pdcForm.get('spdcList')['controls']; let i= index " [formGroupName]="i">
-                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="business_division" class="height_label">Instr.Type</label>
+                                    <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                        <label for="business_division" class="height_label"></label> -->
           
-                                        <!-- <select class="form-control mandatory" id="business_division" formControlName="instrType">
-                                            <option value="Cheque">Cheque</option>
-                                            <option value="Housing Finance">NACH</option>
-                                        </select>
-           -->
-           <app-vf-custom-select formControlName="instrType" [values]="lovData?.instrumentType" 
-           [isRequired]="'Please Select Instr Type'"></app-vf-custom-select>
-                                    </div>
+                                        
+           <!-- <app-vf-custom-select formControlName="instrType" [values]="lovData?.instrumentType" 
+           [isRequired]="'Please Select Instr Type'"></app-vf-custom-select> -->
+                                    <!-- </div> -->
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
                                         <label for="lead_id">Pre EMI / EMI Amount</label>
                                         <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" name="lead_id" value="" formControlName="emiAmount"> -->
@@ -266,8 +259,8 @@
                                         
                                       ></app-custom-input>
                                     </div>
-                                    <div class="form-group col-lg-2 col-sm-6 col-md-2">
-                                        <label class="image-upload" for="upload_files">
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                        <label class="image-upload row" for="upload_files">
                                             <i class="fa fa-plus fa-3" aria-hidden="true"  id="add_more_documents1" (click)="addSPdcUnit()" ></i> &nbsp; 
                                             <i class="fa fa-minus fa-3" aria-hidden="true"  id="add_more_documents_remove1" (click)="deleteRows('spdc',item.value.pdcId,i)"></i></label>
                                     </div>
@@ -286,7 +279,7 @@
                      <button class="btn btn-primary dash_href marginAdd" type="button" (click)="onBack()"><a>Back</a></button>
               <button class="btn btn-primary dash_href marginAdd" (click)="onSave()"> Save </button>
               <!-- <button class="btn btn-primary dash_href marginAdd " type="button" (click)="onNext()"><a>Next</a></button>  -->
-                    <button class="btn btn-primary dash_href marginAdd" type="button"><a data-toggle="modal"
+                    <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '4'"><a data-toggle="modal"
                             data-target="#myModal">Submit to CPC</a></button>
                     <button class="btn btn-primary dash_href marginAdd" (click)="sendBackToCredit()"
                         *ngIf="roleType == '4'"> Send Back To Credit </button>
@@ -295,8 +288,7 @@
     
             </div>        
         </div>
-        <!-- </div> -->
-       
+        <!-- </div> -->     
     </div>
 </form>
 <div class="modal fade" id="myModal" role="dialog">
@@ -306,10 +298,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Submit to BM</h4>
+                <h4 class="modal-title">Submit </h4>
             </div>
             <div class="modal-body" >
-                <p>Are You Sure Want Submit Record?</p>
+                <p>Are you sure want to submit record ?</p>
             </div>
             <!-- <div class="modal-body" *ngIf = "roleType == '5'">
             <p>Are you sure you want to move lead to CPC maker?</p>
