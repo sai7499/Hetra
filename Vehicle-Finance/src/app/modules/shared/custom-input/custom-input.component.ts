@@ -79,7 +79,7 @@ export class CustomInputComponent
     if (value) {
       this.checkIsFirst = false;
       this.checkValidation(this.data);
-      this.propagateChange(this.data);
+      //this.propagateChange(this.data);
     }
   }
   private checkIsFirst = true;
@@ -238,6 +238,9 @@ export class CustomInputComponent
       case 'decimal':
         this.allowDecimal(event, this.type);
         break;
+      case 'percent':
+        this.allowPercentageFormat(event);
+      break;
     }
     this.propagateChange(this.inputValue);
     this.checkValidation(this.inputValue);
@@ -286,5 +289,15 @@ export class CustomInputComponent
   allowAlphaNumericNoSpace(event) {
     const initialValue = event.target.value;
     this.inputValue = initialValue.replace(/[^a-zA-Z0-9]/g, '');
+  }
+
+  allowPercentageFormat(event) {
+    const initialValue = event.target.value;
+    this.inputValue = initialValue
+          .replace(/[^\d.]/g, '')             // numbers and decimals only
+          .replace(/(^[\d]{2})[\d]/g, '$1')   // not more than 2 digits at the beginning
+          .replace(/(\..*)\./g, '$1')         // decimal can't exist more than once
+          .replace(/(\.[\d]{2})./g, '$1');    // not more than 2 digits after decimal
+   // this.inputValue = initialValue.replace(/[^a-zA-Z0-9 ]/g, '');
   }
 }

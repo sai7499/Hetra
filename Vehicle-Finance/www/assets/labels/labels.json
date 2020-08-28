@@ -923,7 +923,7 @@
     "fatherNameHusbandFullName": "Father/Husband Full Name",
     "gender": "Gender",
     "maritalStatus": "Marital Status",
-    "weddingAnniversaryDate": "Wedding Anniversary Date",
+    "weddingAnniversaryDate": "Wedding Anniversary Date",
     "physicallyChallenged": "Physically Challenged",
     "residenceNo": "Residence Number(with STD code)",
     "officeNo": "Office Number(with STD code)",
@@ -1123,6 +1123,7 @@
     "latitude": "Latitude",
     "vehicleContract": "Vehicle Contract",
     "negativeProfile": "Negative Profile",
+    "distFromBranch": "Distance from branch",
     "routeMap": "RouteMap",
     "otherRevenue": "Other Revenue",
     "otherRevenueRemarks": "Other Revenue Remarks",
@@ -1420,7 +1421,6 @@
     "geotagInformation": "Geotag Information",
     "equitasBranchName": "Equitas Branch Name",
     "distanceEquitasAssetBranch": "Distance from Equitas Asset Branch in Kms",
-    "distanceAssetBranch": "Distance from Equitas Asset Branch",
     "pdOfficerName": "PD Officer Name",
     "tomeOfVerification": "Time of Verification",
     "sourceOfMarginMoney1": "Source of Margin Money",
@@ -1657,12 +1657,6 @@
                 "msg": "Invalid Number"
             }
         },
-        "srNumber": {
-            "maxLength": {
-                "rule": 10
-            },
-            "type": "alpha-numeric"
-        },
         "remark": {
             "maxLength": {
                 "rule": 40
@@ -1714,6 +1708,7 @@
                 "rule": 50
             }
         },
+
         "vehicleRegNo": {
             "maxLength": {
                 "rule": 11
@@ -1807,13 +1802,6 @@
                 "rule": "^[1-9][0-9]*$",
                 "msg": "Aadhar Number Should be Valid"
             }
-        },
-        "gorssVehicleWeight": {
-            "maxLength": {
-                "rule": 5,
-                "msg": ""
-            },
-            "type": "number"
         },
         "panNumber": {
             "maxLength": {
@@ -1938,6 +1926,7 @@
             },
             "type": "number"
         },
+
         "directorName": {
             "maxLength": {
                 "rule": 60
@@ -2195,7 +2184,7 @@
         },
         "disburseIfsc": {
             "maxLength": {
-                "rule": 11
+                "rule": 15
             },
             "type": "alpha-numeric-nospace"
         },
@@ -2210,42 +2199,6 @@
                 "rule": 10
             },
             "type": "decimal"
-        },
-        "NegotiatedIRR": {
-            "maxLength": {
-                "rule": 5
-            },
-            "type": "decimal"
-        },
-        "NegotiatedLoanTenor": {
-            "maxLength": {
-                "rule": 3
-            },
-           
-             "minLength": {
-                "rule": 2
-            },
-            "type": "number"
-        },
-        "NegotiatedLoanAmount": {
-            "maxLength": {
-                "rule": 7
-            },
-            "minLength": {
-                "rule": 5
-            },
-            "type": "number"
-        },
-        "instrumentNumber": {
-            "maxLength": {
-                "rule": 6
-            }
-        },
-        "beneficiaryBranch": {
-            "maxLength": {
-                "rule": 30
-            },
-            "type": "alpha"
         }
     }
 }

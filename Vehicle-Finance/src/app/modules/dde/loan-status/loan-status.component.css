@@ -318,3 +318,10 @@ td::before {
   content: attr(data-item-value);
   }
 } */
+
+@media (min-width:200px) and (max-width:767px) {
+        .mar-bot{
+        margin-bottom:30px;
+    }
+
+}
