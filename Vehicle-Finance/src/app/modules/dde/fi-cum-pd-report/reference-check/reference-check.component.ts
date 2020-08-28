@@ -16,6 +16,7 @@ import { UploadService } from './../../../../services/upload.service';
 import { LoginService } from '@modules/login/login/login.service';
 import { ApplicantService } from '@services/applicant.service';
 import { GpsService } from './../../../../services/gps.service';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -133,10 +134,27 @@ export class ReferenceCheckComponent implements OnInit {
       this.taskId = value;
       console.log('in ref check task id', this.taskId);
     });
+    this.isMobile = environment.isMobile;
+
   }
 
   async ngOnInit() {
 
+    if (this.isMobile) {
+      this.gpsService.getLatLong().subscribe((position) => {
+        console.log("getLatLong", position);
+        this.gpsService.initLatLong().subscribe((res) => {
+          console.log("gpsService", res);
+          if (res) {
+            this.gpsService.getLatLong().subscribe((position) => {
+              console.log("getLatLong", position);
+            });
+          } else {
+            console.log("error initLatLong",res);
+          }
+        });
+      });
+    }
 
     if (this.router.url.includes('/pd-dashboard')) {
 
@@ -308,6 +326,9 @@ export class ReferenceCheckComponent implements OnInit {
 
         if (this.refCheckDetails && this.otherDetails) {
           this.setFormValue();
+        }
+        if(this.latitude){
+          this.getRouteMap();
         }
       } else {
         console.log('error', processVariables.error.message);

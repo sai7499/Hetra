@@ -79,7 +79,6 @@ export class LoginComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private cds: CommonDataService,
     private gmapsApi: GoogleMapsAPIWrapper,
-    private gpsService: GpsService,
     private deviceService: DeviceDetectorService,
     private camera: Camera,
     private dashboardService: DashboardService,
@@ -117,15 +116,17 @@ export class LoginComponent implements OnInit {
     /* Get latitude and longitude from mobile */
     // if (this.isMobile) {
     //   this.gpsService.getLatLong().subscribe((position) => {
-    //   });
-
-    //   this.gpsService.initLatLong().subscribe((res) => {
-    //     if (res) {
-    //       this.gpsService.getLatLong().subscribe((position) => {
-    //       });
-    //     } else {
-    //       console.log(res);
-    //     }
+    //     console.log("getLatLong", position);
+    //     this.gpsService.initLatLong().subscribe((res) => {
+    //       console.log("gpsService", res);
+    //       if (res) {
+    //         this.gpsService.getLatLong().subscribe((position) => {
+    //           console.log("getLatLong", position);
+    //         });
+    //       } else {
+    //         console.log("error initLatLong",res);
+    //       }
+    //     });
     //   });
     // } else {
     //   this.gpsService.getBrowserLatLong().subscribe((position) => {

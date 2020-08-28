@@ -112,6 +112,23 @@ export class OtherDetailsComponent implements OnInit {
           }
 
    async ngOnInit() {
+
+    if (this.isMobile) {
+      this.gpsService.getLatLong().subscribe((position) => {
+        console.log("getLatLong", position);
+        this.gpsService.initLatLong().subscribe((res) => {
+          console.log("gpsService", res);
+          if (res) {
+            this.gpsService.getLatLong().subscribe((position) => {
+              console.log("getLatLong", position);
+            });
+          } else {
+            console.log("error initLatLong",res);
+          }
+        });
+      });
+    }
+
     this.initForm();
     this.getLabels();
     this.leadId = (await this.getLeadId()) as number;
@@ -437,10 +454,10 @@ export class OtherDetailsComponent implements OnInit {
     });
   }
 
-  getRouteMap(branchPosition?: any, currentPostion?: any) {
+  getRouteMap() {
     var that = this;
     let branchPos = {
-      latitude: this.branchLongitude,
+      latitude: this.branchLatitude,
       longitude: this.branchLongitude
     };
     let currentPos = {
@@ -525,7 +542,7 @@ export class OtherDetailsComponent implements OnInit {
       isPhoto: true,
       applicantId: this.applicantId,
     };
-   this.uploadPhotoOrSignature(data);
+   //this.uploadPhotoOrSignature(data);
     
     event.imageUrl = '';
 

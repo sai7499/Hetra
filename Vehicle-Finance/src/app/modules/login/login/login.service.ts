@@ -6,6 +6,7 @@ import RequestEntity from '@model/request.entity';
 import { environment } from 'src/environments/environment';
 import { ApiService } from '@services/api.service';
 
+
 declare var google: any;
 
 @Injectable()
@@ -14,7 +15,7 @@ export class LoginService {
   constructor(
     private httpService: HttpService,
     private loginService: LoginStoreService,
-    private apiService: ApiService
+    private apiService: ApiService,
   ) {}
 
   getLogin(data) {
@@ -48,11 +49,8 @@ export class LoginService {
     return this.httpService.post(url, body);
   }
 
-  getPolyLine(fn, orig, dest) {
-    // let url = "https://maps.googleapis.com/maps/api/directions/json?origin=12.96186,80.20078&destination=12.98714,80.17511&key=AIzaSyDJ9TZyUZNB2uY_267eIUQCV72YiYmArIw";
-    // return this.httpService.get(url);
+  getPolyLine(fn, origin, destination) {
     let that =  this;
-
   //  let origin = {
   //     latitude: 12.96186,
   //     longitude:  80.20078
@@ -61,15 +59,6 @@ export class LoginService {
   //     latitude: 12.98714,
   //     longitude: 80.17511
   //   };
-
-    let origin = {
-      latitude: orig.latitude,
-      longitude: orig.longitude
-      };
-    let destination = {
-      latitude: dest.latitude,
-      longitude: dest.longitude
-    };
 
     let directionsService = new google.maps.DirectionsService();
     var request = {
@@ -98,7 +87,6 @@ export class LoginService {
           this.base64Image = 'data:image/jpg;base64,' + base64data;
           return fn(this.base64Image);
         });
-
 
         // return encodeURI(polyline);
       }
