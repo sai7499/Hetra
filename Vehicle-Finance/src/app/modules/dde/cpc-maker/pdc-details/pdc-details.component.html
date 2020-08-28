@@ -69,6 +69,7 @@
                                           [min]="toDayDate"
                                           placeholder="Select Latest Month"
                                           [activeView]="'decade'"
+                                          (keyup)="findUniqueDate($event.target.value, i, 'pdcList', 'spdcList')"
                                           
                                           ></kendo-datepicker>
                                         </div>
@@ -200,6 +201,7 @@
                                               [min]="toDayDate"
                                               placeholder="Select Latest Month"
                                               [activeView]="'decade'"
+                                              (keyup)="findUniqueDate($event.target.value, i, 'spdcList', 'pdcList')"
                                               
                                               ></kendo-datepicker>
                                             </div>
