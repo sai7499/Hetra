@@ -451,7 +451,7 @@ export class OtherDetailsComponent implements OnInit {
       that.base64Image = result;
       that.showRouteMap = true;
       // console.log("getPolyLine", that.base64Image);
-    }, null, null);
+    }, currentPos, branchPos);
   }
 
   async downloadDocs(documentId: string) {

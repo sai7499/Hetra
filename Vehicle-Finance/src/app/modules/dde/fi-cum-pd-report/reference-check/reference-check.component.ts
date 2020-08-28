@@ -133,7 +133,6 @@ export class ReferenceCheckComponent implements OnInit {
       this.taskId = value;
       console.log('in ref check task id', this.taskId);
     });
-    this.getRouteMap();
   }
 
   async ngOnInit() {
@@ -408,8 +407,8 @@ export class ReferenceCheckComponent implements OnInit {
       userId: this.userId,
       referenceCheck: this.refCheckDetails,
       otherDetails: this.otherDetails,
-      customerProfileDetails: this.custProfileDetails
-
+      customerProfileDetails: this.custProfileDetails,
+      profilePhoto: this.SELFIE_IMAGE
     };
 
     this.personalDiscussion.saveOrUpdatePdData(data).subscribe((res: any) => {
@@ -600,10 +599,10 @@ export class ReferenceCheckComponent implements OnInit {
       });
   }
 
-  getRouteMap(branchPosition?: any, currentPostion?: any) {
+  getRouteMap() {
     var that = this;
     let branchPos = {
-      latitude: this.branchLongitude,
+      latitude: this.branchLatitude,
       longitude: this.branchLongitude
     };
     let currentPos = {
@@ -614,7 +613,7 @@ export class ReferenceCheckComponent implements OnInit {
       that.base64Image = result;
       that.showRouteMap = true;
       // console.log("getPolyLine", that.base64Image);
-    }, null, null);
+    }, currentPos, branchPos);
   }
 
   async downloadDocs(documentId: string) {

@@ -115,23 +115,23 @@ export class LoginComponent implements OnInit {
 
     // alert("test");
     /* Get latitude and longitude from mobile */
-    if (this.isMobile) {
-      this.gpsService.getLatLong().subscribe((position) => {
-      });
+    // if (this.isMobile) {
+    //   this.gpsService.getLatLong().subscribe((position) => {
+    //   });
 
-      // this.gpsService.initLatLong().subscribe((res) => {
-      //   if (res) {
-      //     this.gpsService.getLatLong().subscribe((position) => {
-      //     });
-      //   } else {
-      //     console.log(res);
-      //   }
-      // });
-    } else {
-      this.gpsService.getBrowserLatLong().subscribe((position) => {
-      });
-    }
-    this.getRouteMap();
+    //   this.gpsService.initLatLong().subscribe((res) => {
+    //     if (res) {
+    //       this.gpsService.getLatLong().subscribe((position) => {
+    //       });
+    //     } else {
+    //       console.log(res);
+    //     }
+    //   });
+    // } else {
+    //   this.gpsService.getBrowserLatLong().subscribe((position) => {
+    //   });
+    // }
+    // this.getRouteMap();
   }
 
   enter(event) {
@@ -214,13 +214,13 @@ export class LoginComponent implements OnInit {
     window.open(dirUrl, '_blank', 'location=yes');
   }
 
-  getRouteMap() {
-    var that = this;
-    this.loginService.getPolyLine(function (result) {
-      that.base64Image = result;
-      // console.log("getPolyLine", that.base64Image);
-    }, null, null);
-  }
+  // getRouteMap() {
+  //   var that = this;
+  //   this.loginService.getPolyLine(function (result) {
+  //     that.base64Image = result;
+  //     // console.log("getPolyLine", that.base64Image);
+  //   }, null, null);
+  // }
 }
 
 
