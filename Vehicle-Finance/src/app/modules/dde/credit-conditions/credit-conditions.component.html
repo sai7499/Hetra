@@ -112,6 +112,10 @@
        *ngIf="userType !== 2" 
        (click)="assignCDTaskFromSales()"
         type="button">Submit</button> -->
+        <button class="btn btn-primary"
+       *ngIf="userType == 2" 
+       (click)="creditConditionActions('submited')"
+        type="button">Submit</button>
       <button class="btn btn-primary" *ngIf="userType === 2" 
         (click)="approveCreditCondition()" type="button">Approve</button>
       <!-- <button class="btn btn-primary" *ngIf="userType === 2" 
@@ -125,6 +129,9 @@
          >Refer</button>
       <button class="btn btn-primary" *ngIf="userType === 2" 
         (click) ="creditConditionActions('declined')" type="button" [disabled] ="disableControl">Decline</button> -->
+
+        <button class="btn btn-primary" *ngIf="userType === 2" 
+        (click) ="creditConditionActions('declined')" type="button" [disabled] ="disableControl">Decline</button>
       <button class="btn btn-primary" (click)="saveUpdate('next')"  type="button">Next</button>
     </div>
   </div>

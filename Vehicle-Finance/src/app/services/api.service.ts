@@ -455,7 +455,7 @@ export class ApiService {
       workflowId: '5f5f525cc67611eaaf9400505695f93b',
       projectId: environment.projectIds.salesProjectId,
     },
-    submitApproveReferDeclineCreditConditions: {
+    submitReferDeclineCreditConditions: {
       processId: '0e709facc67311ea954700505695f93b',
       workflowId: '3ea13662c66611eaa13a00505695f93b',
       projectId: environment.projectIds.submitToCredit,
