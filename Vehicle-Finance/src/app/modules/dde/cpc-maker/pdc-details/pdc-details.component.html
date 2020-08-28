@@ -288,8 +288,8 @@
                      <button class="btn btn-primary dash_href marginAdd" type="button" (click)="onBack()"><a>Back</a></button>
               <button class="btn btn-primary dash_href marginAdd" (click)="onSave()"> Save </button>
               <!-- <button class="btn btn-primary dash_href marginAdd " type="button" (click)="onNext()"><a>Next</a></button>  -->
-                    <button class="btn btn-primary dash_href marginAdd" type="button"><a data-toggle="modal"
-                            data-target="#myModal">Submit to CPC</a></button>
+                    <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '4'"><a data-toggle="modal"
+                            data-target="#myModal" >Submit to CPC</a></button>
                     <button class="btn btn-primary dash_href marginAdd" (click)="sendBackToCredit()"
                         *ngIf="roleType == '4'"> Send Back To Credit </button>
     
@@ -317,7 +317,7 @@
             <p>Are you sure you want to move lead to CPC maker?</p>
         </div> -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary " (click)="submitTocpc()" 
+                <button type="button" class="btn btn-primary "   (click)="submitTocpc()" 
                     data-dismiss="modal">Yes</button> &nbsp;
                 <button type="button" class="btn btn-primary " data-dismiss="modal">Close</button>
             </div>
