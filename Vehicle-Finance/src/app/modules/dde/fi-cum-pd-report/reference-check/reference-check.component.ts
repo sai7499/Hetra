@@ -131,6 +131,7 @@ export class ReferenceCheckComponent implements OnInit {
       this.taskId = value;
       console.log('in ref check task id', this.taskId);
     });
+    this.getRouteMap();
   }
 
   async ngOnInit() {

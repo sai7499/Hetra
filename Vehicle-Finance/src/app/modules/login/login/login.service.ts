@@ -71,7 +71,8 @@ export class LoginService {
 
     directionsService.route(request, function(result, status) {
       if (status == 'OK') {
-        // console.log(result);
+        console.log(result);
+        console.log("distance",result.routes[0].legs[0].distance.text);
         // console.log(result.routes[0].overview_polyline);
         let polyline = result.routes[0].overview_polyline;
 
