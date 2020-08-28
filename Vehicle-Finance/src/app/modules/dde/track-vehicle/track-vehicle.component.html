@@ -335,7 +335,7 @@
                             <td>{{labels?.action}} </td>
                         </tr>
                     </thead>
-                    <tbody formArrayName="installment">
+                    <tbody formArrayName="installment" >
 
                         <tr id="applicant_1_row"
                             *ngFor="let itemrow of trackVehicleForm.get('installment')['controls']; let i=index;let l=last"
@@ -456,9 +456,9 @@
                                 >
                               </app-custom-input>
                             </td>
-                            <td><i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
+                            <td><i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"                                    
                                     (click)="addNewRow()"></i>&nbsp;
-                                <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
+                                <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"                                    
                                     (click)="deleteRow(i,itemrow)"></i></td>
                         </tr>
 

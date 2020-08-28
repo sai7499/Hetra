@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LabelsService } from 'src/app/services/labels.service';
-import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, FormArray, FormArrayName } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
 import { DdeStoreService } from '@services/dde-store.service';
 import { TrackVechileService } from "./track-vechile.service";
@@ -11,6 +11,7 @@ import { CommomLovService } from '@services/commom-lov-service';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ToasterService } from '@services/toaster.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 
 @Component({
@@ -39,6 +40,8 @@ export class TrackVehicleComponent implements OnInit {
   maturedDate: Date = new Date();
   validationData: any;
   dateExceeded : boolean = false;
+  disableActionBtn: boolean;
+  installment: FormArrayName;
   // regexPattern = {
   //   amount: {
   //     rule: "^[1-9][0-9]*$",
@@ -80,7 +83,8 @@ export class TrackVehicleComponent implements OnInit {
     private utilityService: UtilityService,
     private location: Location,
     private toasterService: ToasterService,
-    private actRoute: ActivatedRoute
+    private actRoute: ActivatedRoute,
+    private toggleDdeService: ToggleDdeService
   ) { }
   async getId() {
     this.leadId = (await this.getLeadId()) as number;
@@ -208,6 +212,15 @@ export class TrackVehicleComponent implements OnInit {
     //  this.emiAmount = this.trackVehicleForm.controls['emiAmount'].value;
     this.loanEmiDate = this.trackVehicleForm.controls['loanStartDate'].value;
     this.noOfEmi = this.trackVehicleForm.controls['emisPaid'].value;
+
+    const operationType = this.toggleDdeService.getOperationType();
+      if (operationType === '1') {
+          this.trackVehicleForm.disable();
+          // this.installment = this.trackVehicleForm.get('installment');
+          // this.installment.disable();
+          this.disableActionBtn  = true;
+
+      }
   }
   checkFinanceCharge(){
     let financeCharges = parseInt(this.trackVehicleForm.controls['financeCharges'].value);

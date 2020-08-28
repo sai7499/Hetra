@@ -315,8 +315,8 @@
                                             <i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant"
                                                 (click)="deleteRow(i)"></i></td> -->
                             <td>
-                                <button class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add" (click)="addNewRow()"></button>
-                                <button type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete" (click)="deleteRow(i,fleetForm.value.Rows)"></button>
+                                <button class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add" [disabled]="disableSaveBtn" (click)="addNewRow()"></button>
+                                <button type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" [disabled]="disableSaveBtn" value="Delete" (click)="deleteRow(i,fleetForm.value.Rows)"></button>
                             </td>
                         </tr>
                     </tbody>

@@ -363,6 +363,7 @@
                 id="address_section_checkbox"
                 (change)="officeSameAddress($event)"
                 [checked]="onCurrAsOfficeChecked"
+                [disabled]="disableSaveBtn"
               />
               <span id="address_section_checkbox_text"
                 >Is it same as your current Address?
