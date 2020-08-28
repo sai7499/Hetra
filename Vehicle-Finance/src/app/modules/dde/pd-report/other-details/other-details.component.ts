@@ -515,20 +515,6 @@ export class OtherDetailsComponent implements OnInit {
     });
   }
 
-  setContainerPosition(el) {
-    let offsetLeft = 0;
-    let offsetTop = 0;
-    while (el) {
-      offsetLeft += el.offsetLeft;
-      offsetTop += el.offsetTop;
-      el = el.offsetParent;
-    }
-    this.setCss = {
-      top: offsetTop + 'px',
-      left: offsetLeft + 'px',
-    };
-  }
-
 
   async onUploadSuccess(event: DocumentDetails) {
     // this.toasterService.showSuccess('Document uploaded successfully', '');
@@ -589,29 +575,6 @@ export class OtherDetailsComponent implements OnInit {
         console.log("documentId******", documentId);
         this.documentArr[index].documentId = documentId;
         const subCategoryCode = this.documentArr[index].subCategoryCode;
-        // const formArray = this.uploadForm.get(
-        //   `${this.FORM_ARRAY_NAME}_${subCategoryCode}`
-        // ) as FormArray;
-        // formArray
-        //   .at(this.documentArr[index].formArrayIndex)
-        //   .get('documentId')
-        //   .setValue(documentId);
-        // console.log('this.documentArr', this.documentArr);
-        // documentIds.forEach((id, index) => {
-        //   this.documentArr[index].documentId = id;
-        // });
-        // this.documentArr.forEach((docs, index) => {
-        //   const formArrayIndex = docs.formArrayIndex;
-        //   if (formArrayIndex !== undefined) {
-        //     const formArray = this.uploadForm.get(
-        //       `${this.FORM_ARRAY_NAME}_${docs.subCategoryCode}`
-        //     ) as FormArray;
-        //     formArray
-        //       .at(formArrayIndex)
-        //       .get('documentId')
-        //       .setValue(documentIds[index]);
-        //   }
-        // });
       });
   }
 
