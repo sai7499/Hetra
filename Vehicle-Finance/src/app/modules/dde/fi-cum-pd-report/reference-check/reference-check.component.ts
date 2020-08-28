@@ -8,6 +8,7 @@ import { ToasterService } from '@services/toaster.service';
 import { SharedModule } from '@modules/shared/shared.module';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { Constant } from '../../../../../assets/constants/constant';
+import { UtilityService } from '@services/utility.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { DocRequest, DocumentDetails } from '@model/upload-model';
 import { Base64StorageService } from '@services/base64-storage.service';
@@ -124,6 +125,7 @@ export class ReferenceCheckComponent implements OnInit {
     private loginService: LoginService,
     private applicantService: ApplicantService,
     private gpsService: GpsService,
+    private utilityService: UtilityService,
     private toasterService: ToasterService, // service for accessing the toaster
 
   ) {
@@ -340,7 +342,8 @@ export class ReferenceCheckComponent implements OnInit {
       routeMap: otherDetailsModel.routeMap ? otherDetailsModel.routeMap : null,
       equitasBranchName: otherDetailsModel.equitasBranchName ? otherDetailsModel.equitasBranchName : null,
       distanceFromEquitas: otherDetailsModel.distanceFromEquitas ? otherDetailsModel.distanceFromEquitas : null,
-      date: otherDetailsModel.date ? otherDetailsModel.date : null,
+      date: otherDetailsModel.date ? this.utilityService.getDateFromString(otherDetailsModel.date) : null,
+      // date: this.otherDetails.date ? this.utilityService.getDateFromString(this.otherDetails.date) : '',
       area: otherDetailsModel.area ? otherDetailsModel.area : null,
       place: otherDetailsModel.place ? otherDetailsModel.place : null,
       timeOfVerification: otherDetailsModel.timeOfVerification ? otherDetailsModel.timeOfVerification : null,
@@ -390,7 +393,8 @@ export class ReferenceCheckComponent implements OnInit {
       routeMap: referenceCheckModel.routeMap,
       equitasBranchName: this.equitasBranchName ? this.equitasBranchName : null,
       distanceFromEquitas: referenceCheckModel.distanceFromEquitas ? referenceCheckModel.distanceFromEquitas : null,
-      date: this.date ? this.date : null,
+      // this.formValues.date = this.formValues.date ? this.utilityService.convertDateTimeTOUTC(this.formValues.date, 'DD/MM/YYYY') : null;
+      date: this.date ? this.utilityService.convertDateTimeTOUTC(this.date, 'DD/MM/YYYY') : null,
       area: referenceCheckModel.area ? referenceCheckModel.area : null,
       place: referenceCheckModel.place ? referenceCheckModel.place : null,
       timeOfVerification: this.timeOfVerification ? this.timeOfVerification : null,
@@ -402,7 +406,7 @@ export class ReferenceCheckComponent implements OnInit {
       leadId: this.leadId,
       applicantId: this.applicantId,
       userId: this.userId,
-      // referenceCheck: this.refCheckDetails,
+      referenceCheck: this.refCheckDetails,
       otherDetails: this.otherDetails,
       customerProfileDetails: this.custProfileDetails
 
