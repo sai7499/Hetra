@@ -213,14 +213,7 @@ export class TrackVehicleComponent implements OnInit {
     this.loanEmiDate = this.trackVehicleForm.controls['loanStartDate'].value;
     this.noOfEmi = this.trackVehicleForm.controls['emisPaid'].value;
 
-    const operationType = this.toggleDdeService.getOperationType();
-      if (operationType === '1') {
-          this.trackVehicleForm.disable();
-          // this.installment = this.trackVehicleForm.get('installment');
-          // this.installment.disable();
-          this.disableActionBtn  = true;
-
-      }
+   
   }
   checkFinanceCharge(){
     let financeCharges = parseInt(this.trackVehicleForm.controls['financeCharges'].value);
@@ -433,6 +426,11 @@ export class TrackVehicleComponent implements OnInit {
               }
               this.formArr.push(this.initRows(rowData));
             }
+          }
+          const operationType = this.toggleDdeService.getOperationType();
+          if (operationType === '1') {
+              this.trackVehicleForm.disable();
+              this.disableActionBtn  = true;    
           }
         } else {
           this.formArr.push(this.initRows(null));
