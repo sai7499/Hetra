@@ -999,5 +999,18 @@ onNext(){
   // this.router.navigateByUrl(`pages/credit-decisions/${this.leadId}/disbursement`)
 
 }
+onBack() {
+  if(this.roleType == '1') {
+    this.router.navigate([`pages/credit-decisions/${this.leadId}/term-sheet`]);
+  } else if (this.roleType == '2' ) {
+    this.router.navigate([`pages/credit-decisions/${this.leadId}/credit-condition`]);
+  } else if( this.roleType == '4' ) {
+    this.router.navigate([`pages/cpc-maker/${this.leadId}/check-list`]);
+  } else if(  this.roleType == '5') {
+    this.router.navigate([`pages/cpc-checker/${this.leadId}/check-list`]);
+  }
+  // this.router.navigateByUrl(`pages/credit-decisions/${this.leadId}/disbursement`)
+
+}
 
 }
