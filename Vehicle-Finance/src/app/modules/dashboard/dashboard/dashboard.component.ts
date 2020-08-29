@@ -1196,10 +1196,10 @@ export class DashboardComponent implements OnInit {
         this.router.navigateByUrl(`/pages/credit-decisions/${this.leadId}/new-term-sheet`);
         break;
       case 31: case 32:
-        this.router.navigateByUrl(`/pages/cpc-maker/${this.leadId}/check-list`);
+        this.router.navigateByUrl(`/pages/cpc-maker/${this.leadId}/term-sheet`);
         break;
       case 34: case 35:
-        this.router.navigateByUrl(`/pages/cpc-checker/${this.leadId}/check-list`);
+        this.router.navigateByUrl(`/pages/cpc-checker/${this.leadId}/term-sheet`);
         break;
 
       default:

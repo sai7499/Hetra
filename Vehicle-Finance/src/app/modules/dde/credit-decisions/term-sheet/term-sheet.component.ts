@@ -178,10 +178,10 @@ export class TermSheetComponent implements OnInit {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
       // tslint:disable-next-line: triple-equals
       } else if (this.roleType == '4') {
-        this.router.navigate([`pages/cpc-maker/${this.leadId}/negotiation`]);
+        this.router.navigate([`pages/cpc-maker/${this.leadId}/sanction-details`]);
       // tslint:disable-next-line: triple-equals
       } else if ( this.roleType == '5') {
-      this.router.navigate([`pages/cpc-checker/${this.leadId}/negotiation`]);
+      this.router.navigate([`pages/cpc-checker/${this.leadId}/sanction-details`]);
       }
   }
 
@@ -192,10 +192,10 @@ export class TermSheetComponent implements OnInit {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/disbursement`]);
       // tslint:disable-next-line: triple-equals
       } else if (this.roleType == '4') {
-        this.router.navigate([`pages/cpc-maker/${this.leadId}/check-list`]);
+        this.router.navigate([`pages/dashboard`]);
       // tslint:disable-next-line: triple-equals
       } else if ( this.roleType == '5') {
-      this.router.navigate([`pages/cpc-checker/${this.leadId}/check-list`]);
+      this.router.navigate([`pages/dashboard`]);
       }
   }
 
