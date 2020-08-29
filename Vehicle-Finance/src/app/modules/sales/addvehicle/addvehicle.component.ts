@@ -68,7 +68,7 @@ export class AddvehicleComponent implements OnInit {
     if (this.formValue.valid === true) {
       let data = this.formValue.value.vehicleFormArray[0];
 
-      if (this.formValue.value.isValidPincode) {
+      if (this.formValue.value.isValidPincode && this.formValue.value.isInvalidMobileNumber) {
         data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
 
         this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
@@ -85,7 +85,7 @@ export class AddvehicleComponent implements OnInit {
           this.toasterService.showError(error, 'Vehicle Details')
         })
       } else {
-        this.toasterService.showError('Please Enter Valid Pincode', 'Invalid Pincode')
+        this.toasterService.showError('Please Enter Valid Data', 'Invalid Fields')
       }
 
     } else {
