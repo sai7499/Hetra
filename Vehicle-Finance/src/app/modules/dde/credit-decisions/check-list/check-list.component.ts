@@ -159,7 +159,7 @@ export class CheckListComponent implements OnInit {
   get f() { return this.checklistForm.controls; }  /// total formcontrols
   get t() { return this.f.checklistArray as FormArray; } // controls of coAwnser array.error
 
-  onSave() {
+  onSave(btnType) {
   console.log(this.checklistForm.status, 'status before add validators');
   this.addValidatorsCO();
 
@@ -214,7 +214,12 @@ export class CheckListComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (res.ProcessVariables.error.code == '0') {
        this.toasterService.showSuccess('Record Saved Successfully', ' ');
-       this.getCheckList();
+       
+       if(btnType == 'submitTocpc'){
+        this.submitTocpc();
+       }else{
+        this.getCheckList(); 
+       }
      } else {
        this.toasterService.showError(res.ProcessVariables.error.message, '');
      }

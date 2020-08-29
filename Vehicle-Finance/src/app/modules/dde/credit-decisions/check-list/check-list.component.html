@@ -131,7 +131,7 @@
                     </div>
                     <div class="col-sm-7 text-right">
                         <button class="btn btn-primary dash_href adjustMargins " type="button" (click)="onBack()"><a>Back</a></button>
-                        <button class="btn btn-primary dash_href adjustMargins" (click)="onSave()"> Save </button>
+                        <button class="btn btn-primary dash_href adjustMargins" (click)="onSave('save')"> Save </button>
                         <button class="btn btn-primary dash_href adjustMargins" 
                             type="button" (click)="onNext()" *ngIf="roleType != '2'"><a>Next</a>
                         </button>
@@ -159,7 +159,9 @@
                 <p>Do you want to submit record ?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" (click)="submitTocpc()" data-dismiss="modal">Yes</button>
+                <!-- <button type="button" class="btn btn-primary" (click)="submitTocpc()" data-dismiss="modal">Yes</button> -->
+                <button type="button" class="btn btn-primary" (click)="onSave('submitTocpc')"
+                     data-dismiss="modal">Yes</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>

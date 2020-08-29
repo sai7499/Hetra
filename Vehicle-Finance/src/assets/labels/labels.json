@@ -923,7 +923,7 @@
     "fatherNameHusbandFullName": "Father/Husband Full Name",
     "gender": "Gender",
     "maritalStatus": "Marital Status",
-    "weddingAnniversaryDate": "Wedding Anniversary Date",
+    "weddingAnniversaryDate": "Wedding Anniversary Date",
     "physicallyChallenged": "Physically Challenged",
     "residenceNo": "Residence Number(with STD code)",
     "officeNo": "Office Number(with STD code)",
@@ -1808,6 +1808,16 @@
                 "msg": "Aadhar Number Should be Valid"
             }
         },
+
+        "turnOver": {
+            "maxLength": {
+                "rule": 10
+                
+            },
+            "type": "number"
+        },
+        
+
         "gorssVehicleWeight": {
             "maxLength": {
                 "rule": 5,
@@ -2046,7 +2056,7 @@
         },
         "gvw": {
             "maxLength": {
-                "rule": 10
+                "rule": 5
             },
             "type": "number"
         },
@@ -2195,7 +2205,7 @@
         },
         "disburseIfsc": {
             "maxLength": {
-                "rule": 15
+                "rule": 11
             },
             "type": "alpha-numeric-nospace"
         },
@@ -2210,6 +2220,42 @@
                 "rule": 10
             },
             "type": "decimal"
+        },
+        "NegotiatedIRR": {
+            "maxLength": {
+                "rule": 5
+            },
+            "type": "decimal"
+        },
+        "NegotiatedLoanTenor": {
+            "maxLength": {
+                "rule": 3
+            },
+           
+             "minLength": {
+                "rule": 2
+            },
+            "type": "number"
+        },
+        "NegotiatedLoanAmount": {
+            "maxLength": {
+                "rule": 7
+            },
+            "minLength": {
+                "rule": 5
+            },
+            "type": "number"
+        },
+        "instrumentNumber": {
+            "maxLength": {
+                "rule": 6
+            }
+        },
+        "beneficiaryBranch": {
+            "maxLength": {
+                "rule": 30
+            },
+            "type": "alpha"
         }
     }
 }

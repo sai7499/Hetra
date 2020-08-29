@@ -214,6 +214,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             return data
           })
           this.deviationLov.deviation = deviationArray;
+          console.log(this.deviationLov, 'Lov')
         }
         this.getDeviationDetails();
 
@@ -268,6 +269,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     return this._fb.group({
       approverRole: ['', Validators.required],
       approverRoleName: [''],
+      approverRoles: [''],
       shortDeDesc: [''],
       devCode: ['', Validators.required],
       devDesc: [""],
@@ -306,8 +308,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
       this.deviationService.getDeleteDeviation(id).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-          this.getDeviationDetails()
-          this.toasterService.showSuccess('Delete Devision Successfully', 'Delete Deviation')
+          this.toasterService.showSuccess('Delete Devision Successfully', 'Delete Deviation');
+          this.getDeviationDetails();
         } else {
           this.toasterService.showError(res.ErrorMessage, 'Delete Deviation')
         }
@@ -346,38 +348,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
     this.deviationService.autoDeviationDetails(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === "0") {
-
-        this.deviationList = res.ProcessVariables.deviationList ? JSON.parse(res.ProcessVariables.deviationList) : [];
-
-        const autoDeviationFormArray = (this.deviationsForm.get('autoDeviationFormArray') as FormArray);
-
-        if (res.ProcessVariables.deviationList && res.ProcessVariables.deviationList.length > 0) {
-
-          this.deviationList.map((data: any) => {
-
-            let typeofRole = this.creditRoles.find((res: any) => {
-              return Number(data.opApproverId) === res.id;
-            })
-
-            let type = typeofRole ? Number(typeofRole.type) : 0;
-            let hierarchy = typeofRole ? typeofRole.hierarchy + '' : '0';
-
-            autoDeviationFormArray.push(
-              this._fb.group({
-                devCode: data.opDeviationRuleId,
-                devDesc: data.opDeviationRule,
-                approverRole: data.opApproverId,
-                approverRoleName: data.opApprover,
-                devRuleId: 0,
-                isManualDev: '0',
-                type: type,
-                hierarchy: hierarchy,
-                justification: data.opRemarks,
-                statusCode: [{ value: null, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
-              }))
-            return data
-          })
-        }
+        this.getDeviationDetails();
       } else {
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Auto Deviation')
       }
@@ -396,14 +367,34 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     manualDiviationFormArray.controls = [];
     autoDeviationFormArray.controls = [];
 
+    let typeofRole;
+    let matchRole;
+    let splitData = [];
+
     array.map((data: any) => {
-      let typeofRole = this.creditRoles.find((res: any) => {
-        return Number(data.approverRole) === res.id;
+
+      let approverRole = data.approverRoles ? data.approverRoles : data.approverRole;
+
+      splitData.push(...approverRole.split('|'))
+
+      splitData.find((role: any) => {
+        console.log('approverRole', role)
+        this.creditRoles.find((res: any) => {
+          // return Number(role) === res.id;
+          if (Number(role) === res.id) {
+            // console.log(res, 'res')
+            typeofRole = res;
+            return res
+          }
+        })
+        return typeofRole;
       })
+
+      console.log(typeofRole, 'typeofRole', matchRole)
+
 
       let type = typeofRole ? Number(typeofRole.type) : 0;
       let hierarchy = typeofRole ? typeofRole.hierarchy + '' : '0';
-
       if (data.isManualDev === '1') {
 
         manualDiviationFormArray.push(
@@ -437,7 +428,11 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
           }))
       }
+
     })
+
+    console.log(this.deviationsForm, 'splitData')
+
 
     this.deviationsForm.patchValue({
       isSaveEdit: true
