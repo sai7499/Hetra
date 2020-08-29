@@ -77,6 +77,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     this.basicVehicleForm = this._fb.group({
       isValidPincode: true,
+      isInvalidMobileNumber: true,
       vehicleFormArray: this._fb.array([])
     })
 
@@ -210,7 +211,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.vehicleLov.vechicalUsage = value.LOVS.vehicleUsage;
       this.vehicleLov.vehicleType = value.LOVS.vehicleType;
       this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
-      // this.vehicleLov.vehicleCategory = value.LOVS.customerCategory;
       this.vehicleLov.permitType = value.LOVS.vehiclePermitType;
 
       this.vehicleLov.YesORNoValue = [
@@ -513,8 +513,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   onChangeMobileNumber(value) {
 
-    this.isInvalidMobileNumber = false;
-
+    this.basicVehicleForm.patchValue({
+      isInvalidMobileNumber: true
+    })
     if (value.length === 10) {
       if (this.applicantDetails && this.applicantDetails.length > 0) {
         this.applicantDetails.filter((mob: any) => {
@@ -525,15 +526,21 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           setTimeout(() => {
 
             if (mobileNumber === value) {
-              this.isInvalidMobileNumber = true;
+              this.basicVehicleForm.patchValue({
+                isInvalidMobileNumber: false
+              })
               this.toasterService.showInfo('Applicant and Vehicle Owner Mobile Number Same, Please Change', 'Mobile Number')
             } else {
-              this.isInvalidMobileNumber = false;
+              this.basicVehicleForm.patchValue({
+                isInvalidMobileNumber: true
+              })
             }
           })
         })
       } else {
-        this.isInvalidMobileNumber = false;
+        this.basicVehicleForm.patchValue({
+          isInvalidMobileNumber: true
+        })
       }
     }
   }

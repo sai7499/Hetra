@@ -56,7 +56,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
     if (this.formValue.valid === true) {
 
-      if (this.formValue.value.isValidPincode) {
+      if (this.formValue.value.isValidPincode && this.formValue.value.isInvalidMobileNumber) {
         let data = this.formValue.value.vehicleFormArray[0];
 
         data.manuFacMonthYear = data.manuFacMonthYear ? this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY') : null;
@@ -85,9 +85,8 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
         })
 
       } else {
-        this.toasterService.showError('Please Enter Valid Pincode', 'Invalid Pincode')
+        this.toasterService.showError('Please Enter Valid Data', 'Invalid Fields')
       }
-
 
     } else {
       this.isDirty = true;

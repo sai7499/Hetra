@@ -160,3 +160,14 @@ p {
               color: white!important;
           }
  
+.btn-mar{
+    margin:5px;
+}
+.float_right {
+    align-items: center;
+}
+.test_class {
+    margin: auto;
+    padding: 0px;
+    width:106%;
+}
