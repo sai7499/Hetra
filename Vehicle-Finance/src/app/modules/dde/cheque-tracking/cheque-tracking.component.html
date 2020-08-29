@@ -17,23 +17,27 @@
                                             <th>{{labels?.favouringTo}}<i class="fa fa-sort"></i> </th>
                                           </tr>
                                         </thead>
-                                        <tbody  formArrayName='details'>
+                                        <!-- <tbody  formArrayName='details'> -->
+                                        <tbody  >
                                           <tr
-                                          *ngFor="let data of chequeData ; let i =index " [formGroupName]='i'>
+                                          *ngFor="let data of chequeData ; let i =index ">
                                             
                                             <td><input type="radio"
                                                name="cheque_radio" 
                                                id="cheque_radio_1"
-                                                (click)="onGetChequeData(data, i, $event)"></td>
+                                                (click)="onGetChequeData(data, i, $event)"
+                                                [disabled]="data.chequeStatus=='HANDEDOVERCHEQUESTS'"></td>
+                                                
                                             <td>{{data?.mode || '-'}}</td>
                                             <td>
-                                              <app-custom-input
+                                              <!-- <app-custom-input
                                                   formControlName="chequeNum"
                                                   [maxLength]=""
                                                   (ngModelChange)="onChangeCheque(i, $event)"
                                                   
                                                   [type]=""
-                                                ></app-custom-input>
+                                                ></app-custom-input> -->
+                                                {{data?.chequeNum || '-'}}
                                             </td>
                                             <td>
                                               <!-- <kendo-datepicker
@@ -113,12 +117,19 @@
                                             <div class="col-lg-3 col-sm-4 col-md-3">{{labels.customerName}}</div>
                                             <div class="col-lg-4 col-sm-4 col-md-3"><strong>-</strong></div>
                                         </div>
+                                        &nbsp;
+                                        <div class="row" 
+                                        *ngIf="showRemark">
+                                          <div class="col-lg-3 col-sm-4 col-md-3">Remarks</div>
+                                          <div class="col-lg-4 col-sm-4 col-md-3"><strong>{{selectedData?.remarks || '-'}}</strong></div>
+                                      </div>
+
                                             </div>
                                             <div class="col-lg-6 col-sm-4 col-md-3">
                                               
                                                 <div class="row"
                                                 >
-                                                    <div class="col-lg-2 col-sm-4 col-md-3">{{labels.status}}</div>
+                                                    <div class="col-lgg-3 col-sm-4 col-md-3">{{labels.status}}</div>
                                                     <div class="col-lg-4 col-sm-4 col-md-3">
                                                         <!-- <select id="" class="form-control" >
                                                             <option value="Handed Over">Handed Over</option>
@@ -137,8 +148,28 @@
                                                     </div>
                                                 </div>
                                                 &nbsp;
+                                                <div class="row"
+                                                *ngIf="showChequeNum">
+                                                  <div class="col-lgg-3 col-sm-4 col-md-3"><p id="remarks_place">Cheque Number</p></div>
+                                                  <!-- <div class="col-lg-4 col-sm-4 col-md-3">
+                                                      <textarea class="form-control" cols="2"
+                                                      formControlName='remarks'></textarea>
+                                                  </div> -->
+                                                  <div class="col-lg-4 col-sm-4 col-md-3">
+                                                    <app-custom-input
+                                                    formControlName="chequeNum"
+                                                    [maxLength]=""
+                                                    (ngModelChange)="onChangeCheque( $event)"
+                                                    
+                                                    [type]=""
+                                                  ></app-custom-input>
+                                                  </div>
+                                                  
+                                                  
+                                              </div>
+                                                &nbsp;
                                                 <div class="row" *ngIf="showStatusDate">
-                                                   <div class="col-lg-2 col-sm-4 col-md-3">Status Updated On</div>
+                                                   <div class="col-lgg-3 col-sm-4 col-md-3">Handed Over Date</div>
                                                    <div class="col-lg-4 col-sm-4 col-md-3">
                                                     <kendo-datepicker
                                                     class="form-control"
@@ -159,24 +190,34 @@
                                                    </div>
                                                 </div>
                                                 &nbsp;
-                                                <div class="row">
-                                                    <div class="col-lg-2 col-sm-4 col-md-3"><p id="remarks_place">{{labels?.chequeRemark}}</p></div>
+                                                <div class="row"
+                                                *ngIf="showRemark">
+                                                    <div class="col-lgg-3 col-sm-4 col-md-3"><p id="remarks_place">{{labels?.chequeRemark}}</p></div>
                                                     <div class="col-lg-4 col-sm-4 col-md-3">
-                                                        <textarea class="form-control" cols="2"
+                                                        <textarea class="form-control" cols="4" 
+                                                        (ngModelChange)="onRemarkValue($event)"
                                                         formControlName='remarks'></textarea>
+
+                                                        <div class="invalid-feedback ShowError"
+                                                  *ngIf="chequeForm.get('remarks').touched || isDirty">
+                                                    <div *ngIf="chequeForm.get('remarks').invalid">
+                                                        Remarks Is Required
                                                     </div>
+                                                  </div>
+                                                    </div>
+                                                    
                                                     
                                                 </div>
                                              
                                                 
                                                 &nbsp;
-                                                <div class="row">
+                                                <!-- <div class="row">
                                                     <div class="col-lg-2 col-sm-4 col-md-3"></div>
                                                     <div class="col-lg-4 col-sm-4 col-md-3">
-                                                        <!-- <a ><input type="button" class="btn btn-primary form-control" value="Update Status" id="update_status_btn"></a> -->
+                                                        
                                                         <button class="btn btn-primary" disabled>{{labels.initialDisbursement}}</button>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                     </div>
