@@ -516,6 +516,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.mandatory['drivingLicenseIssueDate'] = true;
       this.mandatory['drivingLicenseExpiryDate'] = true;
     } else {
+      //this.disabledDrivingDates = true;
+      
       this.coApplicantForm
         .get('dedupe')
         .get('drivingLicenseIssueDate')
@@ -558,6 +560,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.passportMandatory['passportIssueDate'] = true;
       this.passportMandatory['passportExpiryDate'] = true;
     } else {
+      
+      if(this.coApplicantForm.get('dedupe').get('passportNumber').value ==''){
+        this.disabledPassportDates = true;
+        this.coApplicantForm.get('dedupe').get('passportIssueDate').setValue(null);
+        this.coApplicantForm.get('dedupe').get('passportExpiryDate').setValue(null);
+      }
       this.coApplicantForm
         .get('dedupe')
         .get('passportIssueDate')
@@ -570,6 +578,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.passportMandatory['passportIssueDate'] = false;
       this.passportMandatory['passportExpiryDate'] = false;
     }
+    
   }
 
   passportDateSelected() {
@@ -1952,7 +1961,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
       this.onDedupeApiCall(data);
     } else {
-      this.setDrivingLicenceValidator();
+      //this.setDrivingLicenceValidator();
       this.isDirty = true;
       if (dedupe.invalid ||
         this.showMessage['drivinglicenseIssue'] ||
