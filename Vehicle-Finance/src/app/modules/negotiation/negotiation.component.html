@@ -220,7 +220,7 @@
                   <div class="col-sm-6 col-md-4 col-lg-3">
                     <app-custom-input formControlName="MITenure" type="text" class="form-control mandatory select2 custom-negotiation-field"
                       id="MITenure" placeholder="Eligible LTV (in %)" [isDirty]="isDirty" [isRequired]="'MI Tenure is Required'"
-                      name="MITenure">
+                      name="MITenure" (change)="fetchPreimumAmount(1,'motor',i)">
                     </app-custom-input>
                   </div>
                 </div>
@@ -347,7 +347,7 @@
                     <app-vf-custom-select [values]="InsuranceSlabLOV" [isDirty]="isDirty" 
                       formControlName="fundingforLifeCover" [className]="'form-control mandatory'"
                       [isRequired]="'Is Funding Required for Lifer Cover is required'" 
-                      (change)="getFundingReq($event,i)">
+                      (change)="getFundingReq($event,i);fetchPreimumAmount(3,'creditShieldInsurance',i)">
                     </app-vf-custom-select>
                   </div>
                 </div>
@@ -567,10 +567,15 @@
         </div>
         <div class="btn-sec button-section clear-both">
           <div class="col-sm-12 text-right">
+            <button type="button" class="btn btn-primary" value="back" 
+            (click)="onBack()">
+            {{ labels?.back }}
+          </button>
             <!-- <button (click)="onBack()" class="btn btn-primary mar-right8" type="button" >Back </button>&nbsp; -->
-            <button type="button" class="btn btn-primary mar-right8" value="cancel" (click)="cancel()">
+            <button type="button" class="btn btn-primary" value="cancel" (click)="cancel()">
               {{ labels?.cancel }}
             </button>
+           
             <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()">
               {{ labels?.save }}
             </button>

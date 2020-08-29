@@ -659,7 +659,7 @@
                       validationData?.drivingLicense?.patternCheck
                     "
                     [maxLength]="validationData?.drivingLicense?.maxLength"
-                    (change)="onDrvingLisenseChange($event)"
+                    (keyup)="onDrvingLisenseChange($event)"
                     [inputClass]="'text-uppercase'"
                     [type]="validationData?.drivingLicense?.type"
                     [isRequired]="
@@ -737,14 +737,15 @@
                       !drivingLicenseIssueDate &&
                       mandatory['drivingLicenseIssueDate'] &&
                       (isDirty ||
+                        
                         coApplicantForm
                           .get('dedupe')
                           .get('drivingLicenseIssueDate').dirty ||
-                        coApplicantForm
+                          coApplicantForm
                           .get('dedupe')
                           .get('drivingLicenseIssueDate').touched)
                     "
-                  >
+                  > 
                     Select Date
                   </div>
                   <div 
@@ -856,7 +857,7 @@
                     [patternCheck]="
                       validationData?.passportNumber?.patternCheck
                     "
-                    (change)="onPassportNumberChange($event)"
+                    (keyup)="onPassportNumberChange($event)"
                     [inputClass]="'text-uppercase'"
                     [maxLength]="validationData?.passportNumber?.maxLength"
                     [isRequired]="

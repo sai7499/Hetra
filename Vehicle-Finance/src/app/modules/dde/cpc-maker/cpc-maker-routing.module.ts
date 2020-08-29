@@ -20,7 +20,7 @@ const routes: Routes = [
     children: [
         {
             path: '',
-            component: CheckListComponent
+            component: TermSheetComponent
         },
         // {
         //     path: 'credit-condition',

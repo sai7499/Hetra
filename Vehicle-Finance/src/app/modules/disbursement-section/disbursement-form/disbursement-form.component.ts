@@ -207,8 +207,8 @@ export class DisbursementFormComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private router: Router,
     private route: ActivatedRoute,
-    private loanCreationService: LoanCreationService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private loanCreationService: LoanCreationService
   ) {
 
   }
@@ -219,13 +219,14 @@ export class DisbursementFormComponent implements OnInit {
     this.getLabels();
     this.disbLOV();
     this.disbLeadId = (await this.getLeadId()) as number;
+    this.fetchLoanDetails();
     //this.disbLeadId = '1253';
     this.getCoAppDetails();
     //this.getApplicantDetails();
-    // this.fetchLoanDetails();
-    setTimeout(() => {
-      this.fetchDisbursementDetails();//enable this to fetch data,redirects fro dashboard
-    }, 1000);//enable this to fetch data,redirects fro dashboard
+    
+    // setTimeout(() => {
+    //   this.fetchDisbursementDetails();//enable this to fetch data,redirects fro dashboard
+    // }, 1000);//enable this to fetch data,redirects fro dashboard
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
       this.roleType = value.roleType;
@@ -679,6 +680,7 @@ export class DisbursementFormComponent implements OnInit {
           this.paymentLov = resData.PaymentMethod;
           this.trancheDisbLov = resData.TrancheDisbType;
           this.instrumentTypeLov = resData.InstrumentType;
+          this.fetchDisbursementDetails();
         }
 
       });
@@ -2572,17 +2574,17 @@ export class DisbursementFormComponent implements OnInit {
       });
     });
   }
-  onNext() {
-    if (this.roleType == '1') {
-      this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/sanction-details`]);
-    } else if (this.roleType == '2') {
-      this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/term-sheet`]);
-    } else if (this.roleType == '4') {
-      this.router.navigate([`pages/cpc-maker/${this.disbLeadId}/sanction-details`]);
-    } else if (this.roleType == '5') {
-      this.router.navigate([`pages/cpc-checker/${this.disbLeadId}/sanction-details`]);
-    }
+ onNext() {
+  if(this.roleType == '1') {
+    this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/sanction-details`]);
+  } else if (this.roleType == '2' ) {
+    this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/term-sheet`]);
+  } else if( this.roleType == '4' ) {
+    this.router.navigate([`pages/cpc-maker/${this.disbLeadId}/check-list`]);
+  } else if(  this.roleType == '5') {
+    this.router.navigate([`pages/cpc-checker/${this.disbLeadId}/sanction-details`]);
   }
+}
   routerUrlIdentifier() {
     if (this.router.url.includes('disbursement')) {
       this.showSaveButton = true;
@@ -2595,23 +2597,23 @@ export class DisbursementFormComponent implements OnInit {
     } else if (this.roleType == '4') {
       this.router.navigate([`pages/cpc-maker/${this.disbLeadId}/negotiation`]);
     } else if (this.roleType == '5') {
-      this.router.navigate([`pages/cpc-checker/${this.disbLeadId}/negotiation`]);
+      this.router.navigate([`pages/cpc-checker/${this.disbLeadId}/check-list`]);
     }
   }
 
-  sendLoanCreationWrapper() {
-    const body = {
-      leadId: this.disbLeadId
-    }
-    this.loanCreationService.setLoanCreation(body).subscribe((res: any) => {
-      console.log(res);
-      if (res.ProcessVariables.error.code == '0') {
-        this.toasterService.showSuccess('Lead submitted For Loan Creation', '');
-      } else {
-        this.toasterService.showSuccess(res.ProcessVariables.error.message, '');
-      }
-
-    });
+sendLoanCreationWrapper() {
+  const body = {
+    leadId: this.disbLeadId
   }
-
+  this.loanCreationService.setLoanCreation(body).subscribe((res: any) => {
+    
+    // tslint:disable-next-line: triple-equals
+    if (res.ProcessVariables.error.code == '0') {
+      this.toasterService.showSuccess('Lead submitted For Loan Creation', '');
+      this.router.navigate([`pages/dashboard`]);
+    } else {
+      this.toasterService.showSuccess(res.ProcessVariables.error.message, '');
+    }
+  });
+}
 }

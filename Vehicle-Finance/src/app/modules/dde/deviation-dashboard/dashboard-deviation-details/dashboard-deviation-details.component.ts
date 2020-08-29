@@ -46,35 +46,35 @@ export class DashboardDeviationDetailsComponent implements OnInit, OnDestroy {
     })
   }
 
-  saveorUpdateDeviationDetails() {
+  // saveorUpdateDeviationDetails() {
 
-    if (this.formValue.valid) {
-      let data = [];
+  //   if (this.formValue.valid) {
+  //     let data = [];
 
-      if (this.formValue.value.autoDeviationFormArray.length > 0) {
-        data = data.concat(this.formValue.value.autoDeviationFormArray);
-        data = data.concat(this.formValue.value.manualDeviationFormArray);
+  //     if (this.formValue.value.autoDeviationFormArray.length > 0) {
+  //       data = data.concat(this.formValue.value.autoDeviationFormArray);
+  //       data = data.concat(this.formValue.value.manualDeviationFormArray);
 
-      } else {
-        data = this.formValue.value.manualDeviationFormArray
-      }
+  //     } else {
+  //       data = this.formValue.value.manualDeviationFormArray
+  //     }
 
-      this.deviationService.saveOrUpdateDeviations(this.leadId, data, this.userId).subscribe((res: any) => {
-        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-          let updateDevision = res.ProcessVariables.updatedDev ? res.ProcessVariables.updatedDev : []
-          this.sharedService.getUpdatedDeviation(updateDevision)
-          this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Deviation Save/Update')
-        }
-      }, err => {
-        console.log('err', err)
-      })
+  //     this.deviationService.saveOrUpdateDeviations(this.leadId, data, this.userId).subscribe((res: any) => {
+  //       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+  //         let updateDevision = res.ProcessVariables.updatedDev ? res.ProcessVariables.updatedDev : []
+  //         this.sharedService.getUpdatedDeviation(updateDevision)
+  //         this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Deviation Save/Update')
+  //       }
+  //     }, err => {
+  //       console.log('err', err)
+  //     })
 
-    } else {
-      this.isDirty = true;
-      console.log('error', this.formValue)
-      this.utilityService.validateAllFormFields(this.formValue)
-    }
-  }
+  //   } else {
+  //     this.isDirty = true;
+  //     console.log('error', this.formValue)
+  //     this.utilityService.validateAllFormFields(this.formValue)
+  //   }
+  // }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();

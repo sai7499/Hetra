@@ -2217,8 +2217,8 @@
       <button (click)="onBack()" class="btn btn-primary " type="button" *ngIf="showSaveButton == true">Back </button>
       <button (click)="saveAndUpdate()" class="btn btn-primary " type="button" *ngIf="roleType != 4 && roleType != 5" >Save </button>
       
-      <button data-toggle="modal" data-target="#myModal" class="btn btn-primary " type="button" *ngIf="roleType == '5'">Submit To Loan </button>
-      <button (click)="onNext()" class="btn btn-primary js-btn-next" type="button"> Next </button>
+      <button data-toggle="modal" data-target="#myModal" class="btn btn-primary " type="button" *ngIf="roleType == '5'">Book Loan </button>
+      <button (click)="onNext()" class="btn btn-primary js-btn-next" type="button" *ngIf="roleType != '5'" > Next </button>
     </div>
   </div>
 </div>
@@ -2232,7 +2232,7 @@
               <h4 class="modal-title">Submit to Loan Creation</h4>
           </div>
           <div class="modal-body" >
-              <p>Are You Sure Want Submit Record?</p>
+              <p>Record will be submitted for loan booking. Are you sure?</p>
           </div>
           <!-- <div class="modal-body" *ngIf = "roleType == '5'">
           <p>Are you sure you want to move lead to CPC maker?</p>
@@ -2240,7 +2240,7 @@
           <div class="modal-footer">
               <button type="button" class="btn btn-primary " (click)="sendLoanCreationWrapper()"  
                   data-dismiss="modal">Yes</button> &nbsp;
-              <button type="button" class="btn btn-primary " data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary " data-dismiss="modal">No</button>
           </div>
       </div>
 
