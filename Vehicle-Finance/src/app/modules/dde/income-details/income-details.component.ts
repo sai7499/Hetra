@@ -123,7 +123,7 @@ export class IncomeDetailsComponent implements OnInit {
     });
 
     this.incomeDetailsForm = this.formBuilder.group({
-      keyFinanceDetails: this.formBuilder.array([this.getKeyFinancialDetails()]),
+      keyFinanceDetails: this.formBuilder.array([]),
       // keyFinanceDetails: this.formBuilder.group({
       //   keyFinancials: this.formBuilder.array([this.getKeyFinancialDetails()])
       //   }),
@@ -132,7 +132,7 @@ export class IncomeDetailsComponent implements OnInit {
       obligationDetails: this.formBuilder.array([]),
       salariedFOIRasperPolicy: Number(70),
       salariedFOIRDeviation: [
-        null,
+        0,
         [Validators.required, Validators.pattern('^[0-9]*$')],
       ],
       leadId: this.leadId,
@@ -160,8 +160,7 @@ export class IncomeDetailsComponent implements OnInit {
     }
     console.log(this.incomeDetailsForm);
 
-    console.log(this.f);
-    console.log(this.k);
+  
 
 
   }
@@ -196,14 +195,10 @@ export class IncomeDetailsComponent implements OnInit {
     });
   }
 
-  get f() {
-    return this.incomeDetailsForm.get('keyFinanceDetails') as FormArray;
-  }
-  get k() {
-    return this.f as FormArray;
-  }
   private getKeyFinancialDetails(data?: any) {
-    // if (data === undefined) {
+    console.log(data);
+    
+    if (data === undefined) {
 
     return this.formBuilder.group({
       yearOne: this.formBuilder.group({
@@ -269,44 +264,84 @@ export class IncomeDetailsComponent implements OnInit {
       }),
     })
 
-    // } else {
-    //   return this.formBuilder.group({
-    //     id: data.id ? data.id : 0,
-    //     applicantId: Number(data.applicantId ? data.applicantId : ''),
-
-    //     applicantType: data.applicantTypeValue ? data.applicantTypeValue : '',
-    //     applicantTypeValue: data.applicantTypeValue
-    //       ? data.applicantTypeValue
-    //       : '',
-    //     businessEnterpriseName: data.businessEnterpriseName
-    //       ? data.businessEnterpriseName
-    //       : 'Abc Enterprises',
-    //     depreciation: Number(data.depreciation ? data.depreciation : 0),
-    //     directorSalary: Number(data.directorSalary ? data.directorSalary : 0),
-    //     grossDerivedIncome: Number(
-    //       data.grossDerivedIncome ? data.grossDerivedIncome : 0
-    //     ),
-    //     grossMonthlyIncome: Number(
-    //       data.grossMonthlyIncome ? data.grossMonthlyIncome : 0
-    //     ),
-    //     netProfit: Number(data.netProfit ? data.netProfit : 0),
-    //   });
-    // }
+    } else {
+      return this.formBuilder.group({
+        yearOne: this.formBuilder.group({
+          applicantId: data.applicantId ? data.applicantId : '',
+          applicantType: data.applicantType ? data.applicantType : '',
+          shareCapital: data.shareCapital ? data.shareCapital : '',
+          // lorryHireChargesPaid: [''],
+          // securedLoans: [''],
+          // unSecuredLoans: [''],
+          // creditors: [''],
+          // debtors: [''],
+          // currentLiabilities: [''],
+          // fixedAssets: [''],
+          // currentAssets: [''],
+          // cashAndBankBalance: [''],
+          // revenueFromOperationsOrTopLine: [''],
+          // netProfitAfterTax: [''],
+          // depreciation: [''],
+          // partnersSalary: [''],
+          // cashGeneration: [''], 
+          // dateOfItrFiling: [''],
+        }),
+        yearTwo: this.formBuilder.group({
+          applicantId: data.applicantId ? data.applicantId : '',
+          applicantType: data.applicantType ? data.applicantType : '',
+          shareCapital: data.shareCapital ? data.shareCapital : '',
+          // lorryHireChargesPaid: [''],
+          // securedLoans: [''],
+          // unSecuredLoans: [''],
+          // creditors: [''],
+          // debtors: [''],
+          // currentLiabilities: [''],
+          // fixedAssets: [''],
+          // currentAssets: [''],
+          // cashAndBankBalance: [''],
+          // revenueFromOperationsOrTopLine: [''],
+          // netProfitAfterTax: [''],
+          // depreciation: [''],
+          // partnersSalary: [''],
+          // cashGeneration: [''], 
+          // dateOfItrFiling: [''],
+        }),
+        yearThree: this.formBuilder.group({
+          applicantId: data.applicantId ? data.applicantId : '',
+          applicantType: data.applicantType ? data.applicantType : '',
+          shareCapital: data.shareCapital ? data.shareCapital : '',
+          // lorryHireChargesPaid: [''],
+          // securedLoans: [''],
+          // unSecuredLoans: [''],
+          // creditors: [''],
+          // debtors: [''],
+          // currentLiabilities: [''],
+          // fixedAssets: [''],
+          // currentAssets: [''],
+          // cashAndBankBalance: [''],
+          // revenueFromOperationsOrTopLine: [''],
+          // netProfitAfterTax: [''],
+          // depreciation: [''],
+          // partnersSalary: [''],
+          // cashGeneration: [''], 
+          // dateOfItrFiling: [''],
+        }),
+      });
+    }
   }
   addKeyFinancialDetails(data?: any) {
     console.log(data);
 
     const control = this.incomeDetailsForm.controls
       .keyFinanceDetails as FormArray;
-    console.log(control, 'key controls')
-    // if (data && data.length > 0) {
-    //   // tslint:disable-next-line: prefer-for-of
-    //   for (let i = 0; i < data.length; i++) {
-    //     control.push(this.getKeyFinancialDetails(data[i]));
-    //   }
-    // } else {
+    if (data && data.length > 0) {
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0; i < data.length; i++) {
+        control.push(this.getKeyFinancialDetails(data[i]));
+      }
+    } else {
     control.push(this.getKeyFinancialDetails());
-    // }
+    }
   }
   removeKeyFinancialDetails(i?: any) {
     console.log(i);
@@ -607,6 +642,9 @@ export class IncomeDetailsComponent implements OnInit {
         this.addOtherIncomeUnit(res.ProcessVariables.otherIncomeList);
         this.addObligationUnit(res.ProcessVariables.obligationsList);
         this.onSalFoirDeviation(this.applicantResponse.salariedFOIRDeviation);
+// if(res && res.ProcessVariables.keyFinanceDetails != undefined || ""){
+        this.addKeyFinancialDetails(JSON.parse(res.ProcessVariables.keyFinanceDetails))
+// }
       });
   }
 
@@ -726,8 +764,10 @@ export class IncomeDetailsComponent implements OnInit {
     // let keyFinancial = keyFinancialsArray;
     // this.incomeDetailsForm.value.keyFinanceDetails.push(keyFinancial)
     // console.log( this.incomeDetailsForm.value.keyFinanceDetails, 'key financial [][]');
-
-    // stop here if form is invalid
+  //   let key = Object.assign({keyFinancials:this.incomeDetailsForm.value.keyFinanceDetails})
+  //  console.log(key);
+   
+   // stop here if form is invalid
     if (this.incomeDetailsForm.invalid) {
       this.toasterService.showError(
         'Mandatory Fields Missing Or Invalid Pattern Detected',
@@ -782,16 +822,15 @@ export class IncomeDetailsComponent implements OnInit {
       const salariedFOIRDeviation = Number(salaryContol.value);
       salaryContol.setValue(salariedFOIRDeviation);
 
-
-      const keyFinancialsArray = { keyFinancials: this.incomeDetailsForm.value.keyFinanceDetails };
-      console.log(keyFinancialsArray);
-
+      const keyFinancialObj = {keyFinancials : this.incomeDetailsForm.controls.keyFinanceDetails.value}
+    
+    
       const body = {
 
         businessIncomeDetails: this.incomeDetailsForm.controls.businessIncomeDetails.value,
         otherIncomeDetails: this.incomeDetailsForm.controls.otherIncomeDetails.value,
         obligationDetails: this.incomeDetailsForm.controls.obligationDetails.value,
-        keyFinanceDetails:keyFinancialsArray,
+        keyFinanceDetails: JSON.stringify(keyFinancialObj),
         salariedFOIRasperPolicy: this.incomeDetailsForm.controls.salariedFOIRasperPolicy.value,
         salariedFOIRDeviation: this.incomeDetailsForm.controls.salariedFOIRDeviation.value,
         leadId: this.leadId,
@@ -821,7 +860,7 @@ export class IncomeDetailsComponent implements OnInit {
               'Applicant Income Details Saved Successfully',
               'Income Details'
             );
-            this.getAllIncome();
+            // this.getAllIncome();
           }
         });
     }
