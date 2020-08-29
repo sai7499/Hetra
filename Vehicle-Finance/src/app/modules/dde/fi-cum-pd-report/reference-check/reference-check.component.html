@@ -124,7 +124,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="employee_code">{{labels.employeeCode}} <sub class="star_red_col">*</sub></label>
 
-                <app-custom-input id="employee_code" formControlName="employeeCode" [isDisabled]='true' [isDirty]="isDirty">
+                <app-custom-input id="employee_code" formControlName="employeeCode" [placeholder]="'Employee Code'" [isRequired]="' Employee Code is required'" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -155,7 +155,29 @@
                     [isDirty]="isDirty">
                 </app-custom-input>
             </div>
-
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="sourceOf_margin_money">{{labels.selfieImageTitle}}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <div class="photo">
+                    <img [src]="
+                            SELFIE_IMAGE ||
+                                '../../../../assets/images/user.jpg'
+                            " alt="[Image: Photo]" width="100" />
+                </div>
+                <span> <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie
+                    </button></span>
+                <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails"></app-upload-modal>
+            </div>
+            <div *ngIf="showRouteMap" class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="timeOf_verification">{{labels.routeMap}}
+                </label>
+                <div class="photo">
+                    <img src="{{base64Image}}" width="235" />
+                </div>
+            </div>
         </div>
         <!-- <p>{{ labels.routeMap }}</p> -->
         <!-- <div class="row"> -->
