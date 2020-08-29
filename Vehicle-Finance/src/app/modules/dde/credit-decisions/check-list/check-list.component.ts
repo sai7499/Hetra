@@ -322,10 +322,10 @@ onNext()  {
     this.router.navigate([`pages/dashboard`]);
     // tslint:disable-next-line: triple-equals
     } else if (this.roleType == '4') {
-      this.router.navigate([`pages/cpc-maker/${this.leadId}/term-sheet`]);
+      this.router.navigate([`pages/cpc-maker/${this.leadId}/pdc-details`]);
     // tslint:disable-next-line: triple-equals
     } else if ( this.roleType == '5') {
-    this.router.navigate([`pages/cpc-checker/${this.leadId}/term-sheet`]);
+    this.router.navigate([`pages/cpc-checker/${this.leadId}/disbursement`]);
     }
   } else {
     this.toasterService.showError('Select Mandatory Fields', ' ');
@@ -338,10 +338,10 @@ onBack() {
     this.router.navigate([`pages/credit-decisions/${this.leadId}/sanction-details`]);
     // tslint:disable-next-line: triple-equals
     } else if (this.roleType == '4') {
-      this.router.navigate([`pages/dashboard`]);
+      this.router.navigate([`pages/cpc-maker/${this.leadId}/disbursement`]);
     // tslint:disable-next-line: triple-equals
     } else if ( this.roleType == '5') {
-    this.router.navigate([`pages/dashboard`]);
+    this.router.navigate([`pages/cpc-checker/${this.leadId}/negotiation`]);
     }
 
 }

@@ -6,12 +6,13 @@
                 <div class="col-lg-5 col-md-5 col-sm-5"></div>
                 <div class="col-lg-7 col-md-7 col-sm-7 text-right" >
                     <button class="btn btn-primary btn-mar"(click)="addPdcUnit()"  >Add PDC Row</button>
-                    <button class="btn btn-primary btn-mar"(click)="addSPdcUnit()"  >Add SPDC Row</button>
+                    <!-- <button class="btn btn-primary btn-mar"(click)="addSPdcUnit()"  >Add SPDC Row</button> -->
                 </div>
             </div>        
             <div class="multisteps-form__panel js-active" data-animation="scaleIn">              
                 <div class="panel-group hidden-xs" id="accordion">
                     <div class="panel panel-default">
+                        
                         <div class="panel-heading panel-primary" id="headingTwo1">
                             <h4 class="panel-title">
                                 <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo1">
@@ -21,15 +22,41 @@
                         </div>
                         <div id="collapseTwo1" class="panel-collapse collapse in" aria-expanded="true"  >
                         <div class="panel-body text-center float_right" formArrayName="pdcList">
-                            <div class="row" id="show_1_div_identity" *ngFor="let item of pdcForm.get('pdcList')['controls']; let i= index " [formGroupName]="i">
-                                <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="business_division" class="height_label">Sr.No </label>  -->
-                                    <!-- <app-vf-custom-select formControlName="instrType" [values]="lovData?.instrumentType" 
-                                       [isRequired]="'Please Select Instr Type'"></app-vf-custom-select> -->
-                                       <!-- {{i+1}}
-                                </div> -->
+                         <div class="row test_class">
+                            <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                            <label for="lead_id">Pre EMI / EMI Amount</label>
+                            </div>
+                            <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                <label for="lead_id">Instr Number</label>
+                                </div>
+                            <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                <label for="lead_id">Instr.Date</label>
+                            </div>
+                            <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                <label for="lead_id">Instr.Bank Name</label>
+                                </div>
+                             <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                    <label for="lead_id">Instr.Branch Name</label>
+                             </div>
+                             <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                <label for="lead_id">Instr.Branch Account Number</label>
+                                </div>
+                            <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                    <label for="lead_id">Instr.Amount</label>
+                                </div>
+                            <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                    <label for="lead_id">Action</label>
+                            </div>
+                            
+                        </div>
+                            
+                            <div class="row col-lg-12 test_class" id="show_1_div_identity" *ngFor="let item of pdcForm.get('pdcList')['controls']; let i= index " [formGroupName]="i">
+                                 <!-- <div class="form-group col-sm-6 col-md-2 col-lg-2">
+                                   
+                                    
+                                </div>  -->
                                 <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                    <label for="lead_id">Pre EMI / EMI Amount</label> 
+                                   
                                     <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" name="lead_id" value="" formControlName="emiAmount"> -->
                                     <app-custom-input
                                     formControlName="emiAmount"
@@ -43,7 +70,7 @@
                                   ></app-custom-input>
                                 </div>
                                 <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                    <label for="lead_id" class="height_label">Instr.No</label>
+                                   
                                     <!-- <input type="text" class="form-control mandatory" id="lead_id" 
                                         placeholder="" name="lead_id" value="" formControlName= "instrNo"> -->
                                     <app-custom-input
@@ -53,13 +80,13 @@
                                     [type]="labels?.validationData?.amountValue?.type"
                                     [isRequired]="'*required'"
                                     [isDirty]="isDirty"
-                                    [placeholder]="'Instr No'"
+                                    [placeholder]="'Instr Number'"
                                     (keyup)="findUnique($event.target.value, i, 'pdcList', 'spdcList')"
                                     
                                   ></app-custom-input>
                                 </div>
                                 <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                    <label for="lead_id" class="height_label">Instr.Date</label>
+                                    <!-- <label for="lead_id" class="height_label"></label> -->
                                      <div class="input-group input-medium">
                                           
                                           <!-- <input type="date" class="form-control date_caps" id="date" formControlName= "instrDate " >  -->
@@ -75,7 +102,7 @@
                                         </div>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="business_division" class="height_label">Instr.Bank Name</label>
+                                    <!-- <label for="business_division" class="height_label"></label> -->
       
                                     <!-- <select class="form-control mandatory" id="business_division" formControlName= "instrBankName" >
                                         <option value="Vehicle Finance">ICICI</option>
@@ -87,7 +114,7 @@
       
                                 </div>
                                 <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                    <label for="lead_id" class="height_label">Instr.Branch Name</label>
+                                    <!-- <label for="lead_id" class="height_label"></label> -->
                                     <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" 
                                         name="lead_id" value="" formControlName= "instrBranchName"> -->
                                     <app-custom-input
@@ -97,12 +124,12 @@
                                     [type]="labels?.validationData?.name?.type"
                                     [isRequired]="'*required'"
                                     [isDirty]="isDirty"
-                                    [placeholder]="'InstrBranchName'"
+                                    [placeholder]="'Instr BranchName'"
                                     
                                   ></app-custom-input>
                                 </div>
                                 <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                    <label for="lead_id">Instr.Branch Account Number</label>
+                                    <!-- <label for="lead_id">Instr.Branch Account Number</label> -->
                                     <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder=""
                                      name="lead_id" value="" formControlName= "instrBranchAccountNumber"> -->
                                     <app-custom-input
@@ -117,7 +144,7 @@
                                   ></app-custom-input>
                                 </div>
                                 <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                    <label for="lead_id" class="height_label">Instr.Amount</label>
+                                    <!-- <label for="lead_id" class="height_label"></label> -->
                                     <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" name="lead_id" value="" formControlName= "instrAmount"> -->
                                     <app-custom-input
                                     formControlName="instrAmount"
@@ -130,11 +157,11 @@
                                     
                                   ></app-custom-input>
                                 </div>
-                                <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                <div class="form-group col-lg-3 col-sm-6 col-md-3 text-center">
                                     <!-- <label for="lead_id" class="height_label"></label> -->
-                                    <div class="image-upload row" for="upload_files"  >
-                                        <i class="fa fa-plus fa-3" aria-hidden="true"  id="add_more_documents1" (click)="addPdcUnit()" ></i> &nbsp; 
-                                        <a data-toggle="modal" data-target="#myModalthree"><i class="fa fa-minus fa-3" aria-hidden="true"  id="add_more_documents_remove1" ></i></a>
+                                    <div class=" row" for="upload_files"  >
+                                        <!-- <i class="fa fa-plus fa-3" aria-hidden="true"  id="add_more_documents1" (click)="addPdcUnit()" ></i> &nbsp;  -->
+                                        <a data-toggle="modal" data-target="#myModalthree" (click)="getIndex(i)"><i class="fa fa-trash fa-3 " aria-hidden="true"  id="add_more_documents_remove1" ></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -142,6 +169,13 @@
                     </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-5"></div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 text-right" >
+                        <!-- <button class="btn btn-primary btn-mar"(click)="addPdcUnit()"  >Add PDC Row</button> -->
+                        <button class="btn btn-primary btn-mar"(click)="addSPdcUnit()"  >Add SPDC Row</button>
+                    </div>
+                </div> 
                 <div class="panel-group hidden-xs" id="accordion">
                     <div class="panel panel-default">
                         <div class="panel-heading panel-primary" id="headingTwo2">
@@ -152,8 +186,36 @@
                               </h4>
                         </div>
                         <div id="collapseTwo2" class="panel-collapse collapse in" aria-expanded="true"  >
+                            
                             <div class="panel-body text-center float_right" formArrayName="spdcList">
-                                <div class="row" id="show_1_div_identity" *ngFor="let item of pdcForm.get('spdcList')['controls']; let i= index " [formGroupName]="i">
+                                <div class="row test_class">
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                    <label for="lead_id">Pre EMI / EMI Amount</label>
+                                    </div>
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                        <label for="lead_id">Instr Number</label>
+                                        </div>
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                        <label for="lead_id">Instr.Date</label>
+                                    </div>
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                        <label for="lead_id">Instr.Bank Name</label>
+                                        </div>
+                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                            <label for="lead_id">Instr.Branch Name</label>
+                                     </div>
+                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                        <label for="lead_id">Instr.Branch Account Number</label>
+                                        </div>
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                            <label for="lead_id">Instr.Amount</label>
+                                        </div>
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                            <label for="lead_id">Action</label>
+                                    </div>
+                                    
+                                </div>
+                                <div class="row col-lg-12 test_class" style="margin-bottom: 8px;" id="show_1_div_identity" *ngFor="let item of pdcForm.get('spdcList')['controls']; let i= index " [formGroupName]="i">
                                     <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label for="business_division" class="height_label"></label> -->
           
@@ -162,21 +224,19 @@
            [isRequired]="'Please Select Instr Type'"></app-vf-custom-select> -->
                                     <!-- </div> -->
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <label for="lead_id">Pre EMI / EMI Amount</label>
+                                        <!-- <label for="lead_id">Pre EMI / EMI Amount</label> -->
                                         <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" name="lead_id" value="" formControlName="emiAmount"> -->
                                         <app-custom-input
                                         formControlName="emiAmount"
                                         [patternCheck]="inputValidation"
                                         [maxLength]="labels?.validationData?.amountValue?.maxLength"
                                         [type]="labels?.validationData?.amountValue?.type"
-                                        [isRequired]="'*required'"
-                                        [isDirty]="isDirty"
                                         [placeholder]="'EMI Amount'"
                                         
                                       ></app-custom-input>
                                     </div>
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <label for="lead_id" class="height_label">Instr.No</label>
+                                        <!-- <label for="lead_id" class="height_label">Instr.No</label> -->
                                         <!-- <input type="text" class="form-control mandatory" id="lead_id" 
                                             placeholder="" name="lead_id" value="" formControlName= "instrNo"> -->
                                         <app-custom-input
@@ -185,13 +245,13 @@
                                         [maxLength]="labels?.validationData?.amountValue?.maxLength"
                                         [type]="labels?.validationData?.amountValue?.type"
                                         
-                                        [placeholder]="'Instr.No'"
+                                        [placeholder]="'Instr Number'"
                                         (keyup)="findUnique($event.target.value, i, 'spdcList', 'pdcList')"
                                         
                                       ></app-custom-input>
                                     </div>
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <label for="lead_id" class="height_label">Instr.Date</label>
+                                        <!-- <label for="lead_id" class="height_label">Instr.Date</label> -->
                                          <div class="input-group input-medium">
                                               
                                               <!-- <input type="date" class="form-control date_caps" id="date" formControlName= "instrDate " >  -->
@@ -207,7 +267,7 @@
                                             </div>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="business_division" class="height_label">Instr.Bank Name</label>
+                                        <!-- <label for="business_division" class="height_label">Instr.Bank Name</label> -->
           
                                         <!-- <select class="form-control mandatory" id="business_division" formControlName= "instrBankName" >
                                             <option value="Vehicle Finance">ICICI</option>
@@ -219,7 +279,7 @@
           
                                     </div>
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <label for="lead_id" class="height_label">Instr.Branch Name</label>
+                                        <!-- <label for="lead_id" class="height_label">Instr.Branch Name</label> -->
                                         <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" 
                                             name="lead_id" value="" formControlName= "instrBranchName"> -->
                                         <app-custom-input
@@ -234,7 +294,7 @@
                                       ></app-custom-input>
                                     </div>
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <label for="lead_id">Instr.Branch Account Number</label>
+                                        <!-- <label for="lead_id">Instr.Branch Account Number</label> -->
                                         <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder=""
                                          name="lead_id" value="" formControlName= "instrBranchAccountNumber"> -->
                                         <app-custom-input
@@ -249,7 +309,7 @@
                                       ></app-custom-input>
                                     </div>
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <label for="lead_id" class="height_label">Instr.Amount</label>
+                                        <!-- <label for="lead_id" class="height_label">Instr.Amount</label> -->
                                         <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" name="lead_id" value="" formControlName= "instrAmount"> -->
                                         <app-custom-input
                                         formControlName="instrAmount"
@@ -263,9 +323,9 @@
                                       ></app-custom-input>
                                     </div>
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <label class="image-upload row" for="upload_files">
-                                            <i class="fa fa-plus fa-3" aria-hidden="true"  id="add_more_documents1" (click)="addSPdcUnit()" ></i> &nbsp; 
-                                            <a data-toggle="modal" data-target="#myModaltwo"><i class="fa fa-minus fa-3" aria-hidden="true"  id="add_more_documents_remove1" ></i></a>
+                                        <label class=" row" for="upload_files">
+                                            <!-- <i class="fa fa-plus fa-3" aria-hidden="true"  id="add_more_documents1" (click)="addSPdcUnit()" ></i> &nbsp;  -->
+                                            <a data-toggle="modal" data-target="#myModaltwo" (click)="getIndex(i)" class="text-center"><i class="fa fa-trash fa-3" aria-hidden="true"  id="add_more_documents_remove1"  ></i></a>
                                         </label>
                                     </div>
                                 </div>
@@ -282,15 +342,15 @@
                 <div class="col-sm-7 text-right">
                      <button class="btn btn-primary dash_href marginAdd" type="button" (click)="onBack()"><a>Back</a></button>
               <button class="btn btn-primary dash_href marginAdd" (click)="onSave()"> Save </button>
-              <!-- <button class="btn btn-primary dash_href marginAdd " type="button" (click)="onNext()"><a>Next</a></button>  -->
+              
                     <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '4'"><a data-toggle="modal"
                             data-target="#myModal">Submit to CPC Checker</a></button>
                     <button class="btn btn-primary dash_href marginAdd" (click)="sendBackToCredit()"
                         *ngIf="roleType == '4'"> Send Back To Credit </button>
-                    <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '5'"><a data-toggle="modal"
-                            data-target="#myModal">Book Loan</a></button>   
-                        
-    
+                    <!-- <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '5'"><a data-toggle="modal" -->
+                            <!-- data-target="#myModal">Book Loan</a></button>    -->
+
+                <button class="btn btn-primary dash_href marginAdd " type="button" (click)="onNext()" *ngIf="roleType == '5'"><a>Next</a></button> 
                 </div>
     
             </div>        
@@ -334,7 +394,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Submit</h4>
+                <h4 class="modal-title">Delete</h4>
             </div>
             <div class="modal-body">
                 <p>Are you sure want to delete record ?</p>
@@ -361,7 +421,7 @@
                 <p>Are you sure want to delete record ?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteRows('pdcList',i)">Yes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteRows('pdcList')">Yes</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>

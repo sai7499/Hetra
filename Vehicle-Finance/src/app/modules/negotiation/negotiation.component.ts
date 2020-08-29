@@ -992,7 +992,7 @@ onNext(){
   } else if (this.roleType == '2' ) {
     this.router.navigate([`pages/credit-decisions/${this.leadId}/disbursement`]);
   } else if( this.roleType == '4' ) {
-    this.router.navigate([`pages/cpc-maker/${this.leadId}/check-list`]);
+    this.router.navigate([`pages/cpc-maker/${this.leadId}/disbursement`]);
   } else if(  this.roleType == '5') {
     this.router.navigate([`pages/cpc-checker/${this.leadId}/check-list`]);
   }
@@ -1005,9 +1005,9 @@ onBack() {
   } else if (this.roleType == '2' ) {
     this.router.navigate([`pages/credit-decisions/${this.leadId}/credit-condition`]);
   } else if( this.roleType == '4' ) {
-    this.router.navigate([`pages/cpc-maker/${this.leadId}/check-list`]);
+    this.router.navigate([`pages/cpc-maker/${this.leadId}/sanction-details`]);
   } else if(  this.roleType == '5') {
-    this.router.navigate([`pages/cpc-checker/${this.leadId}/check-list`]);
+    this.router.navigate([`pages/cpc-checker/${this.leadId}/pdc-details`]);
   }
   // this.router.navigateByUrl(`pages/credit-decisions/${this.leadId}/disbursement`)
 

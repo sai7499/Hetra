@@ -73,9 +73,13 @@ export class CpcMakerDdeComponent implements OnInit {
       return 2;
     }  else if (url.includes('negotiation')) {
       return 3;
-    } else if (url.includes('check-list')) {
+    }  else if (url.includes('disbursement') && this.roleType == '4') {
       return 4;
-    } else if (url.includes('disbursement')) {
+    } else if (url.includes('check-list') && this.roleType == '4') {
+      return 5;
+    } else if (url.includes('check-list') && this.roleType == '5' ) {
+      return 4;
+    } else if (url.includes('disbursement') && this.roleType == '5') {
       return 5;
     } else if (url.includes('pdc-details') && this.roleType == '4') {
       return 6;

@@ -195,7 +195,8 @@ export class DisbursementFormComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private router: Router,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private loanCreationService: LoanCreationService
   ) {
 
   }
@@ -2389,7 +2390,7 @@ selectCheckBox(flag,val) {
   } else if (this.roleType == '2' ) {
     this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/term-sheet`]);
   } else if( this.roleType == '4' ) {
-    this.router.navigate([`pages/cpc-maker/${this.disbLeadId}/sanction-details`]);
+    this.router.navigate([`pages/cpc-maker/${this.disbLeadId}/check-list`]);
   } else if(  this.roleType == '5') {
     this.router.navigate([`pages/cpc-checker/${this.disbLeadId}/sanction-details`]);
   }
@@ -2408,5 +2409,20 @@ if(this.roleType == '1' || this.roleType == '2') {
 } else if(  this.roleType == '5') {
   this.router.navigate([`pages/cpc-checker/${this.disbLeadId}/negotiation`]);
 }
+}
+sendLoanCreationWrapper() {
+  const body = {
+    leadId: this.disbLeadId,
+  };
+  this.loanCreationService.setLoanCreation(body).subscribe((res: any) => {
+    
+    // tslint:disable-next-line: triple-equals
+    if (res.ProcessVariables.error.code == '0') {
+      this.toasterService.showSuccess('Lead submitted For Loan Creation', '');
+      this.router.navigate([`pages/dashboard`]);
+    } else {
+      this.toasterService.showSuccess(res.ProcessVariables.error.message, '');
+    }
+  });
 }
 }

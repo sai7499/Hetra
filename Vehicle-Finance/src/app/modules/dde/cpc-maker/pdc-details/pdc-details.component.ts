@@ -33,6 +33,7 @@ export class PdcDetailsComponent implements OnInit {
   showPdc = false;
   showSpdc = false;
   lovData: any;
+  rowIndex: number;
 
   constructor(
     private loginStoreService: LoginStoreService,
@@ -110,7 +111,8 @@ export class PdcDetailsComponent implements OnInit {
     const control = this.pdcForm.controls.spdcList as FormArray;
     control.push(this.initSpdcRows());
   }
-  deleteRows(table: string,  i: number) {
+  deleteRows(table: string) {
+    let i = this.rowIndex;
     console.log(table , i);
     const stringValue1 = this.pdcForm.value[table];
     // tslint:disable-next-line: prefer-const
@@ -134,11 +136,11 @@ export class PdcDetailsComponent implements OnInit {
         }
       });
     // tslint:disable-next-line: triple-equals
-    } else if ((getId === null || getId === undefined) && table == 'pdc') {
+    } else if ((getId === null || getId === undefined) && table == 'pdcList') {
       const array = this.pdcForm.get('pdcList') as FormArray;
       array.removeAt(i);
     // tslint:disable-next-line: triple-equals
-    } else if ((getId === null || getId === undefined) && table == 'spdc') {
+    } else if ((getId === null || getId === undefined) && table == 'spdcList') {
       const array = this.pdcForm.get('spdcList') as FormArray;
       array.removeAt(i);
     }
@@ -259,11 +261,21 @@ export class PdcDetailsComponent implements OnInit {
   onBack() {
     // tslint:disable-next-line: triple-equals
     if (this.roleType == '4') {
-      this.router.navigate([`pages/cpc-maker/${this.leadId}/sanction-details`]);
+      this.router.navigate([`pages/cpc-maker/${this.leadId}/check-list`]);
       // tslint:disable-next-line: triple-equals
     } else if (this.roleType == '5') {
       this.router.navigate([
         `pages/cpc-checker/${this.leadId}/sanction-details`,
+      ]);
+    }
+  }
+  onNext () {
+    if (this.roleType == '4') {
+      // this.router.navigate([`pages/cpc-maker/${this.leadId}/check-list`]);
+      // tslint:disable-next-line: triple-equals
+    } else if (this.roleType == '5') {
+      this.router.navigate([
+        `pages/cpc-checker/${this.leadId}/negotiation`,
       ]);
     }
   }
@@ -474,4 +486,9 @@ export class PdcDetailsComponent implements OnInit {
     }, 2000);
   }
 
+
+  getIndex(i: number) {
+  this.rowIndex = null;
+  this.rowIndex = i;
+  }
 }
