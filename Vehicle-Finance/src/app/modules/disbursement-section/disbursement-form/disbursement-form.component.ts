@@ -210,7 +210,11 @@ export class DisbursementFormComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private loanCreationService: LoanCreationService
   ) {
-
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+      this.roleId = value.roleId;
+      this.roleType = value.roleType;
+      console.log('role Type', this.roleType);
+    });
   }
 
   async ngOnInit() {
@@ -227,11 +231,7 @@ export class DisbursementFormComponent implements OnInit {
     // setTimeout(() => {
     //   this.fetchDisbursementDetails();//enable this to fetch data,redirects fro dashboard
     // }, 1000);//enable this to fetch data,redirects fro dashboard
-    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
-      this.roleId = value.roleId;
-      this.roleType = value.roleType;
-      console.log('role Type', this.roleType);
-    });
+  
     this.routerUrlIdentifier();
     this.salesResponse = localStorage.getItem('salesResponse');
   }
@@ -1826,6 +1826,20 @@ export class DisbursementFormComponent implements OnInit {
       // disburseTo:new FormControl(''),
       toDeductCharges: [''],
     })
+    
+    if (this.roleType != '1' && this.roleType != '2'){
+      this.disbursementDetailsForm.disable();
+      this.dealerDetailsForm.disable();
+      this.appDetailsForm.disable();
+      this.coAppDetailsForm.disable();
+      this.bankerDetailsForm.disable();
+      this.financierDetailsForm.disable();
+      this.thirdPartyDetailsForm.disable();
+      this.ibtDetailsForm.disable();
+      this.coApp1Form.disable();
+      this.coApp2Form.disable();
+      this.coApp3Form.disable();    
+    }
   }
 
   saveAndUpdate() {
@@ -2212,6 +2226,7 @@ export class DisbursementFormComponent implements OnInit {
               const apiError = response.ProcessVariables.error;
               if (apiError.code == '0') {
                 this.toasterService.showSuccess('saved successfully', '');
+                this.fetchDisbursementDetails();
               } else {
                 this.toasterService.showError(apiError.message, '');
               }

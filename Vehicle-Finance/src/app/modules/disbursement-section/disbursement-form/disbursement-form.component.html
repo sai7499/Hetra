@@ -81,7 +81,9 @@
             <label for="disburse_To" class="control-label disburse-label">{{labels?.disburseTo}}</label>
             <div class="disburse-select">
               <mat-form-field>
-                <mat-select [(ngModel)]="disburseTo" id="disburseTo" formControlName="disburseTo" multiple (selectionChange)="disburseToVal(disburseTo)">
+                <mat-select [(ngModel)]="disburseTo" id="disburseTo" 
+                  formControlName="disburseTo" multiple 
+                  (selectionChange)="disburseToVal(disburseTo)" >
                   <mat-option *ngFor="let x of disburseToLov" [value]="x.key">{{x.value}}
                   </mat-option>
                 </mat-select>

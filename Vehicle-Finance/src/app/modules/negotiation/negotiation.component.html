@@ -576,7 +576,8 @@
               {{ labels?.cancel }}
             </button>
            
-            <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()">
+            <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()" 
+              *ngIf="roleType != 4 && roleType != 5">
               {{ labels?.save }}
             </button>
             <button (click)="onNext()" class="btn btn-primary js-btn-next" type="button"> Next </button>

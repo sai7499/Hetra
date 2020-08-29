@@ -127,6 +127,9 @@ export class NegotiationComponent implements OnInit {
     this.sharedData.leadData$.subscribe((value) => {
       this.leadData = value;
     });
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+      this.roleType = value.roleType;
+    });
   }
   ngOnInit() {
     // const leadData = this.createLeadDataService.getLeadSectionData();
@@ -146,9 +149,7 @@ export class NegotiationComponent implements OnInit {
     setTimeout(() => {
       this.getAssetDetails();//enable this to fetch data,redirects fro dashboard
     }, 1000);
-    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
-      this.roleType = value.roleType;
-    });
+    
   }
   getFundingReq(event, i) {
     this.showapplicable = false;
@@ -227,6 +228,7 @@ export class NegotiationComponent implements OnInit {
       NoofRepayableMonthsafterMoratorium: [{ value: '', disabled: true }],
       netAssetCost: [''],
     })
+   
   }
   calculatepremiumAmount(event, ins_type_id, i) {
     const value = event.target.value;
@@ -1041,7 +1043,7 @@ fetchPreimumAmount(insuranceType, event, i) {
         val.key == this.lifecovervalueSelected['controls'].fundingforLifeCover.value)
       insurancePercentage = Number(percentage[0].value.replace('%', ''));
       insuranceTenor =
-        Number(this.AssetDetailsList[i].EligibleTenorMax) / 12;
+        Number(this.AssetDetailsList[i].EligibleTenorMax);
     }
     const data = {
       insuranceProvider: Number(insuranceProviderName),// Number(this.valueSelected.motorInsurance),//icic chola
