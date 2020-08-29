@@ -200,6 +200,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   showModifyCurrCheckBox : boolean;
   showSrField : boolean;
   checkedModifyCurrent : boolean;
+  SelectDate : string = 'Select Date'
   
 
   isMobile: any;
@@ -493,12 +494,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   onDrvingLisenseChange(formCtrl) {
+    
     console.log(
-      this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').status
+      this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').value
     );
     if (
       this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').status ===
-      'VALID'
+      'VALID' && this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').value !==''
     ) {
       this.disabledDrivingDates = false;
       this.coApplicantForm
@@ -509,6 +511,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         .get('dedupe')
         .get('drivingLicenseExpiryDate')
         .setValidators([Validators.required]);
+        
       this.coApplicantForm.get('dedupe').updateValueAndValidity();
       this.mandatory['drivingLicenseIssueDate'] = true;
       this.mandatory['drivingLicenseExpiryDate'] = true;
@@ -522,6 +525,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         .get('drivingLicenseExpiryDate')
         .clearValidators();
       this.coApplicantForm.get('dedupe').updateValueAndValidity();
+      
       this.mandatory['drivingLicenseIssueDate'] = false;
       this.mandatory['drivingLicenseExpiryDate'] = false;
     }
@@ -538,7 +542,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   onPassportNumberChange($formCtrl) {
     if (
       this.coApplicantForm.get('dedupe').get('passportNumber').status ===
-      'VALID'
+      'VALID' && this.coApplicantForm.get('dedupe').get('passportNumber').value !==''
     ) {
       this.disabledPassportDates = false;
       this.coApplicantForm
@@ -564,6 +568,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         .clearValidators();
       this.coApplicantForm.get('dedupe').updateValueAndValidity();
       this.passportMandatory['passportIssueDate'] = false;
+      this.passportMandatory['passportExpiryDate'] = false;
     }
   }
 
@@ -1337,6 +1342,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.showMessage['drivinglicenseIssue'] = valueChecked ? true : false;
     this.drivingLicenseIssueDate.setDate(this.drivingLicenseIssueDate.getDate() + 1)
     this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').setValue(null);
+   
   }
 
   clearPassportExpiryDate() {

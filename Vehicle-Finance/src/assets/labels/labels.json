@@ -1808,6 +1808,16 @@
                 "msg": "Aadhar Number Should be Valid"
             }
         },
+
+        "turnOver": {
+            "maxLength": {
+                "rule": 10
+                
+            },
+            "type": "number"
+        },
+        
+
         "gorssVehicleWeight": {
             "maxLength": {
                 "rule": 5,
