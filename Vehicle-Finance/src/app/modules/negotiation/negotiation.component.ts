@@ -266,7 +266,6 @@ export class NegotiationComponent implements OnInit {
         }
       }
     });
-    this.getNetDisbursementAmount();
   }
   calculateTotal(i) {
     this.valueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['motor']
@@ -323,9 +322,27 @@ export class NegotiationComponent implements OnInit {
     this.createNegotiationForm.get('tickets1')['controls'][selectedIndex]['controls']['DeductionChargefixedRate'].setValue(percentDeductionValue);
     this.getNetDisbursementAmount();
   }
+  calculatededuction() {
+    let percentDeductionValue: Number;
+    let selectedIndex;
+    for (let i = 0; i < this.DeductionDetails.length; i++) {
+      if (!this.view && this.DeductionDetails[i].DeductionChargeType == "P") {
+        percentDeductionValue = (Number(this.DeductionDetails[i].DeductionChargePercentage) / 100) * (Number(this.createNegotiationForm.controls.NegotiatedLoanAmount.value));
+        selectedIndex = i;
+      }
+      else if (this.view && this.DeductionDetails[i].charge_type == "P") {
+        percentDeductionValue = (Number(this.DeductionDetails[i].charge_ratio) / 100) * (Number(this.createNegotiationForm.controls.NegotiatedLoanAmount.value));
+        selectedIndex = i;
+      }
+    }
+    this.createNegotiationForm.get('tickets1')['controls'][selectedIndex]['controls']['DeductionChargefixedRate'].setValue(percentDeductionValue);
+    this.getNetDisbursementAmount();
+  }
   getNetDisbursementAmount() {
     const arrayData = this.createNegotiationForm.controls['tickets1'].value;
     let sumValue = 0;
+    this.PremiumAmntSum = 0;
+    this.fastTagAmtSum = 0;
     arrayData.forEach(array => {
       sumValue += Number(array['DeductionChargefixedRate']);
     });
@@ -337,7 +354,7 @@ export class NegotiationComponent implements OnInit {
       this.fastTagAmtSum += Number(ticket['controls'].fastTag['controls'].FASTagAmount.value)
     })
     this.createNegotiationForm.patchValue({
-      NetDisbursementAmount: this.createNegotiationForm.controls.NegotiatedLoanAmount.value - (sumValue + this.fastTagAmtSum + this.PremiumAmntSum)
+      NetDisbursementAmount: Number(this.createNegotiationForm.controls.NegotiatedLoanAmount.value) - (sumValue + this.fastTagAmtSum + this.PremiumAmntSum)
     });
   }
   isDecimal = (event) => {
@@ -552,8 +569,9 @@ export class NegotiationComponent implements OnInit {
     else
       this.createNegotiationForm.controls.NegotiatedLoanTenor.setValue(null)
   }
-  calculateEMI(event) {
-    let IRR = Number(event.target.value) / 1200;
+  calculateEMI(event?) {
+    this.createNegotiationForm.controls.NegotiatedEMI.value ? this.createNegotiationForm.controls.NegotiatedEMI.setValue(0) : 0;
+    let IRR = parseFloat(this.createNegotiationForm.controls.NegotiatedIRR.value) / 1200;
     let loanAmount = this.createNegotiationForm.controls.NegotiatedLoanAmount.value ?
       Number(this.createNegotiationForm.controls.NegotiatedLoanAmount.value) : null;
     let loanTenor = this.createNegotiationForm.controls.NegotiatedLoanTenor.value ?
@@ -763,7 +781,7 @@ export class NegotiationComponent implements OnInit {
           this.toasterService.showError(res.ProcessVariables.error.message, '');
         }
       });
-    // this.getNetDisbursementAmount();
+    //  this.getNetDisbursementAmount();
   }
   get f() { return this.createNegotiationForm.controls; }
   get t() { return this.f.tickets as FormArray; }
@@ -1000,13 +1018,11 @@ export class NegotiationComponent implements OnInit {
       });
   }
 
-
-fetchPreimumAmount(insuranceType, event, i) {
+  fetchPreimumAmount(insuranceType, event, i) {
     const crossSellIns = this.createNegotiationForm.controls.tickets['controls'].forEach((ticket, index) => {
       // this.CrossSellIns.forEach(key => {
       // const i = {};LoanAmountincludingCrossSell
-    
-    
+
       this.valueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['motor']
       this.PACvalueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['pac']
       this.lifecovervalueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['life']
@@ -1020,7 +1036,6 @@ fetchPreimumAmount(insuranceType, event, i) {
     let insuranceProviderName: String;
     let insurancePercentage: number;
     let insuranceTenor: number;
-   
     if (event == 'motor') {
       insuranceProviderName = this.valueSelected['controls'].motorInsurance.value;
       insuranceTenor = Number(this.valueSelected['controls'].MITenure.value);

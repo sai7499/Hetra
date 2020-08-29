@@ -451,7 +451,7 @@
             <div class="col-sm-6 col-md-4 col-lg-3">
               <app-custom-input formControlName="NegotiatedLoanAmount" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
                 [isRequired]="'Negotiated Loan Amount is Required'" [placeholder]="'Negotiated Loan Amount'" 
-                (change)="calculateEMI($event);getNetDisbursementAmount()" [maxLength]="labels?.validationData.NegotiatedLoanAmount.maxLength"                      
+                (change)="calculateEMI();calculatededuction()" [maxLength]="labels?.validationData.NegotiatedLoanAmount.maxLength"                      
                 [minLength]="labels?.validationData.NegotiatedLoanAmount.maxLength">
               </app-custom-input>
             </div>
@@ -472,7 +472,8 @@
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input formControlName="NegotiatedIRR" [isDirty]="isDirty" [className]="'form-control mandatory'" [isRequired]="'Negotiated IRR is Required'"
+              <app-custom-input formControlName="NegotiatedIRR" [isDirty]="isDirty" [className]="'form-control mandatory'" 
+              [isRequired]="'Negotiated IRR is Required'"
                 [type]="'decimal'" 
                 [maxLength]="labels?.validationData.NegotiatedIRR.maxLength"                      
                 [placeholder]="'Negotiated IRR (in %)'" step="0.01" (keypress)="isDecimal($event);" (change)="calculateEMI($event)">
