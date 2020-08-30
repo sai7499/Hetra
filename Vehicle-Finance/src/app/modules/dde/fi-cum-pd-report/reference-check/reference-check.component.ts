@@ -414,7 +414,7 @@ export class ReferenceCheckComponent implements OnInit {
       equitasBranchName: this.equitasBranchName ? this.equitasBranchName : null,
       distanceFromEquitas: referenceCheckModel.distanceFromEquitas ? referenceCheckModel.distanceFromEquitas : null,
       // this.formValues.date = this.formValues.date ? this.utilityService.convertDateTimeTOUTC(this.formValues.date, 'DD/MM/YYYY') : null;
-      date: this.date ? this.utilityService.convertDateTimeTOUTC(this.date, 'DD/MM/YYYY') : null,
+      date: this.date ? this.utilityService.getDateFormat(this.date) : null,
       area: referenceCheckModel.area ? referenceCheckModel.area : null,
       place: referenceCheckModel.place ? referenceCheckModel.place : null,
       timeOfVerification: this.timeOfVerification ? this.timeOfVerification : null,
