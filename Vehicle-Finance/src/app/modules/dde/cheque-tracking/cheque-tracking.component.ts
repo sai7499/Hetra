@@ -162,10 +162,7 @@ export class ChequeTrackingComponent implements OnInit {
     }
     this.forHandedOver(value);
     this.forBranchReceived(value);
-    this.forOnHold(value);
-
-    
-    
+    this.forOnHold(value);  
   }
 
   forHandedOver(value){
@@ -173,6 +170,8 @@ export class ChequeTrackingComponent implements OnInit {
       this.chequeForm.get('statusUpdatedOn').setValidators([Validators.required]);
       this.chequeForm.get('statusUpdatedOn').updateValueAndValidity();
       this.showStatusDate = true;
+      this.chequeForm.get('statusUpdatedOn').setValue('')
+      
     }
     else {
       this.chequeForm.get('statusUpdatedOn').clearValidators();
@@ -186,6 +185,7 @@ export class ChequeTrackingComponent implements OnInit {
       this.chequeForm.get('chequeNum').setValidators([Validators.required]);
       this.chequeForm.get('chequeNum').updateValueAndValidity();
       this.showChequeNum = true;
+      this.chequeForm.get('chequeNum').setValue('')
     }
     else {
       this.chequeForm.get('chequeNum').clearValidators();
@@ -201,6 +201,7 @@ export class ChequeTrackingComponent implements OnInit {
       this.chequeForm.get('remarks').updateValueAndValidity();
       this.showRemark = true;
       this.selectedData.remarks='-';
+      this.chequeForm.get('remarks').setValue('')
     }
     else {
       this.chequeForm.get('remarks').clearValidators();
@@ -274,7 +275,8 @@ export class ChequeTrackingComponent implements OnInit {
       payableTo: this.selectedData.payableTo || '',
       statusUpdatedOn: this.utilityService.getDateFormat(value.statusUpdatedOn ) || "",
       trancheId: this.selectedData.trancheId || '',
-      remarks: value.remarks || ''
+      remarks: value.remarks || '',
+      loanAccNo : this.selectedData.loanAccNo || ''
 
     }
 
