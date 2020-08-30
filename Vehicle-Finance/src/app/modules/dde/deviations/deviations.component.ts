@@ -72,7 +72,6 @@ export class DeviationsComponent implements OnInit, OnDestroy {
       console.log('error', this.formValue)
       this.utilityService.validateAllFormFields(this.formValue)
     }
-
   }
 
   ngOnDestroy() {

@@ -117,16 +117,17 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       "userId": this.userId,
       "devRuleId": obj.value.devRuleId,
       "statusCode": value + '',
-      "isRevert": Number(obj.value.statusCode) === value ? true : false,
+      "isRevert": false
     }
 
     this.deviationService.approveDeclineDeviation(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        0
         let DevisionApproveDecline = res.ProcessVariables ? res.ProcessVariables : {};
-        this.toasterService.showSuccess((value === 1 ? 'Approve' : value === 2 ? 'Refer to Next Level' : 'Decline') + 'Deviation Successfully', 'Status of Deviation')
+        this.toasterService.showSuccess('Deviation status updated successfully', 'Deviation approval')
         this.getDeviationDetails()
       } else {
-        this.toasterService.showError(res.ErrorMessage, 'Approve Decline Deviation')
+        this.toasterService.showError(res.ErrorMessage, 'Deviation approval')
       }
     })
 
@@ -148,6 +149,15 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
     data.filter((res: any) => {
       total += Number(res.statusCode)
+      if (res.statusCode === 1) {
+        this.isSendBacktoCredit = 1;
+      }
+      return total;
+    })
+
+    data.some((item: any) => {
+      console.log(item, 'item')
+      return item
     })
 
     if (total === NaN) {
@@ -159,11 +169,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         this.isSendBacktoCredit = 0;
       }
     }
-
-    setTimeout(() => {
-      // console.log(total,'Send', this.isSendBacktoCredit)
-    })
-
   }
 
   getDeviationMaster() {
@@ -368,30 +373,22 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     autoDeviationFormArray.controls = [];
 
     let typeofRole;
-    let matchRole;
     let splitData = [];
 
     array.map((data: any) => {
 
       let approverRole = data.approverRoles ? data.approverRoles : data.approverRole;
 
-      splitData.push(...approverRole.split('|'))
+      splitData = approverRole.split('|')
 
       splitData.find((role: any) => {
-        console.log('approverRole', role)
-        this.creditRoles.find((res: any) => {
-          // return Number(role) === res.id;
+        typeofRole = this.creditRoles.find((res: any) => {
           if (Number(role) === res.id) {
-            // console.log(res, 'res')
-            typeofRole = res;
             return res
           }
         })
         return typeofRole;
       })
-
-      console.log(typeofRole, 'typeofRole', matchRole)
-
 
       let type = typeofRole ? Number(typeofRole.type) : 0;
       let hierarchy = typeofRole ? typeofRole.hierarchy + '' : '0';
@@ -428,11 +425,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
           }))
       }
-
     })
-
-    console.log(this.deviationsForm, 'splitData')
-
 
     this.deviationsForm.patchValue({
       isSaveEdit: true
@@ -501,6 +494,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         this.deviationService.sendBackToCredit(data).subscribe((res: any) => {
           if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
             this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Send Back to Credit')
+            this.router.navigate(['pages/dashboard'])
           } else {
             this.toasterService.showError(res.ErrorMessage, 'Send Back to Credit')
           }

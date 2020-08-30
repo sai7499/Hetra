@@ -6,12 +6,10 @@ import { ToasterService } from '@services/toaster.service';
 import { FormBuilder, FormArray, Validators } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
 import { HttpService } from '@services/http.service';
-import { Observable } from 'rxjs';
 import { PdcServiceService } from '@services/pdc-service.service';
 import { UtilityService } from '@services/utility.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { LoanCreationService } from '@services/loan-creation.service';
-import { debounce, debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pdc-details',
@@ -113,7 +111,7 @@ export class PdcDetailsComponent implements OnInit {
   }
   deleteRows(table: string) {
     let i = this.rowIndex;
-    console.log(table , i);
+    console.log(table, i);
     const stringValue1 = this.pdcForm.value[table];
     // tslint:disable-next-line: prefer-const
     let getId = stringValue1[i].pdcId ? stringValue1[i].pdcId : null;
@@ -135,11 +133,11 @@ export class PdcDetailsComponent implements OnInit {
           );
         }
       });
-    // tslint:disable-next-line: triple-equals
+      // tslint:disable-next-line: triple-equals
     } else if ((getId === null || getId === undefined) && table == 'pdcList') {
       const array = this.pdcForm.get('pdcList') as FormArray;
       array.removeAt(i);
-    // tslint:disable-next-line: triple-equals
+      // tslint:disable-next-line: triple-equals
     } else if ((getId === null || getId === undefined) && table == 'spdcList') {
       const array = this.pdcForm.get('spdcList') as FormArray;
       array.removeAt(i);
@@ -232,8 +230,8 @@ export class PdcDetailsComponent implements OnInit {
       this.pdcForm.value.spdcList[i].instrDate = this.pdcForm.value.spdcList[i]
         .instrDate
         ? this.utilityService.getDateFormat(
-            this.pdcForm.value.spdcList[i].instrDate
-          )
+          this.pdcForm.value.spdcList[i].instrDate
+        )
         : null;
     }
     console.log(this.pdcForm, 'pdc Form');
@@ -269,7 +267,7 @@ export class PdcDetailsComponent implements OnInit {
       ]);
     }
   }
-  onNext () {
+  onNext() {
     if (this.roleType == '4') {
       // this.router.navigate([`pages/cpc-maker/${this.leadId}/check-list`]);
       // tslint:disable-next-line: triple-equals
@@ -335,8 +333,8 @@ export class PdcDetailsComponent implements OnInit {
             instrNo: data.spdcList[j].instrNo ? data.spdcList[j].instrNo : null,
             instrDate: data.spdcList[j].instrDate
               ? this.utilityService.getDateFromString(
-                  data.spdcList[j].instrDate
-                )
+                data.spdcList[j].instrDate
+              )
               : null,
             instrBankName: data.spdcList[j].instrBankName
               ? data.spdcList[j].instrBankName
@@ -402,7 +400,6 @@ export class PdcDetailsComponent implements OnInit {
         let foundValue = value
           ? stringValue1.filter((x) => x.instrNo === value)
           : 'not found';
-        console.log(foundValue);
         if (foundValue.length > 1) {
           // alert(foundValue.length);
           const control = this.pdcForm.controls[string1].controls as FormArray;
@@ -431,7 +428,7 @@ export class PdcDetailsComponent implements OnInit {
   }
   sendLoanCreationWrapper() {
     if (this.pdcForm.invalid) {
-    this.toasterService.showError('Save details before booking loan', '');
+      this.toasterService.showError('Save details before booking loan', '');
     }
     const body = {
       leadId: this.leadId,
@@ -445,8 +442,8 @@ export class PdcDetailsComponent implements OnInit {
         this.toasterService.showSuccess(res.ProcessVariables.error.message, '');
       }
     });
-  } 
-   findUniqueDate(value: any, i: number, string1: any, string2: any) {
+  }
+  findUniqueDate(value: any, i: number, string1: any, string2: any) {
     value = this.utilityService.getDateFormat(value);
     setTimeout(() => {
       if (value) {
@@ -488,7 +485,7 @@ export class PdcDetailsComponent implements OnInit {
 
 
   getIndex(i: number) {
-  this.rowIndex = null;
-  this.rowIndex = i;
+    this.rowIndex = null;
+    this.rowIndex = i;
   }
 }
