@@ -109,7 +109,7 @@ export class PdcDetailsComponent implements OnInit {
     const control = this.pdcForm.controls.spdcList as FormArray;
     control.push(this.initSpdcRows());
   }
-  deleteRows(table: string) {
+  deleteRows(table: string,index?) {
     let i = this.rowIndex;
     console.log(table, i);
     const stringValue1 = this.pdcForm.value[table];
