@@ -169,7 +169,7 @@ salesResponse: any;
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/check-list`]);
       // tslint:disable-next-line: triple-equals
       } else if (this.roleType == '4') {
-        this.router.navigate([`pages/cpc-maker/${this.leadId}/pdc-details`]);
+        this.router.navigate([`pages/cpc-maker/${this.leadId}/negotiation`]);
       // tslint:disable-next-line: triple-equals
       } else if ( this.roleType == '5') {
       this.router.navigate([`pages/cpc-checker/${this.leadId}/pdc-details`]);
@@ -183,10 +183,10 @@ salesResponse: any;
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/term-sheet`]);
       // tslint:disable-next-line: triple-equals
       } else if (this.roleType == '4') {
-        this.router.navigate([`pages/cpc-maker/${this.leadId}/disbursement`]);
+        this.router.navigate([`pages/cpc-maker/${this.leadId}/term-sheet`]);
       // tslint:disable-next-line: triple-equals
       } else if ( this.roleType == '5') {
-      this.router.navigate([`pages/cpc-checker/${this.leadId}/disbursement`]);
+      this.router.navigate([`pages/cpc-checker/${this.leadId}/term-sheet`]);
       }
   }
 
