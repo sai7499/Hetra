@@ -516,6 +516,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.basicVehicleForm.patchValue({
       isInvalidMobileNumber: true
     })
+
+    console.log(value, 'value')
+    
     if (value.length === 10) {
       if (this.applicantDetails && this.applicantDetails.length > 0) {
         this.applicantDetails.filter((mob: any) => {
