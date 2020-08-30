@@ -206,7 +206,7 @@
 
       <!-- Modal body -->
       <div class="modal-body" style="text-align: center;">
-       <label>Are you sure you want to {{alertMsg}} the Record"</label>
+       <label>Are you sure you want to {{alertMsg}} the Record</label>
       </div>
 
       <!-- Modal footer -->
@@ -218,6 +218,7 @@
           *ngIf = "alertMsg == 'Approve'"
           value="Yes"
           (click)="approveCreditCondition()"
+          data-dismiss="modal"
         >
           {{ labels.yes }}
         </button>
@@ -227,6 +228,7 @@
         id="reject_yes_val"
         *ngIf = "alertMsg == 'Decline'"
         value="Yes"
+        data-dismiss="modal"
         (click)="creditConditionActions('declined')"
       >
         {{ labels.yes }}
