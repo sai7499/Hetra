@@ -55,6 +55,14 @@ export enum DisplayTabs {
   CPCCheckerWithBranch
 }
 
+export enum sortingTables {
+  ByLeadId,
+  ByProduct,
+  ByLoanAmt,
+  ByDate,
+  ByStage
+}
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -96,7 +104,12 @@ export class DashboardComponent implements OnInit {
   isFilterApplied: boolean;
   toDayDate: Date = new Date();
   leadId;
-
+  sortTab;
+  sortByDate;
+  sortByLead;
+  sortByLoanAmt;
+  sortByProduct;
+  sortByStage;
 
 
   // roleType;
@@ -107,6 +120,7 @@ export class DashboardComponent implements OnInit {
   onReleaseTab: boolean;
 
   displayTabs = DisplayTabs;
+  sortTables = sortingTables;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
@@ -190,6 +204,57 @@ export class DashboardComponent implements OnInit {
 
     this.dashboardFilter();
     this.loanMaxAmtChange();
+  }
+
+  onSort(data) {
+    console.log('clicked');
+    this.sortTab = data;
+    console.log(data);
+    switch (data) {
+      case 0:
+        this.sortByLead = true;
+        this.sortByDate = false;
+        this.sortByProduct = false;
+        this.sortByLoanAmt = false;
+        this.sortByStage = false;
+        this.getSalesFilterLeads(this.itemsPerPage);
+        break;
+      case 1:
+        this.sortByLead = false;
+        this.sortByDate = false;
+        this.sortByProduct = true;
+        this.sortByLoanAmt = false;
+        this.sortByStage = false;
+        this.getSalesFilterLeads(this.itemsPerPage);
+        break;
+      case 2:
+        this.sortByLead = false;
+        this.sortByDate = false;
+        this.sortByProduct = false;
+        this.sortByLoanAmt = true;
+        this.sortByStage = false;
+        this.getSalesFilterLeads(this.itemsPerPage);
+        break;
+      case 3:
+        this.sortByLead = false;
+        this.sortByDate = false;
+        this.sortByProduct = true;
+        this.sortByLoanAmt = false;
+        this.sortByStage = false;
+        this.getSalesFilterLeads(this.itemsPerPage);
+        break;
+      case 4:
+        this.sortByLead = false;
+        this.sortByDate = false;
+        this.sortByProduct = false;
+        this.sortByLoanAmt = false;
+        this.sortByStage = true;
+        this.getSalesFilterLeads(this.itemsPerPage);
+        break;
+
+      default:
+        break;
+    }
   }
 
 
@@ -494,7 +559,12 @@ export class DashboardComponent implements OnInit {
       productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
+      sortByDate: this.sortByDate,
+      sortByLead: this.sortByLead,
+      sortByLoanAmt: this.sortByLoanAmt,
+      sortByProduct: this.sortByProduct,
+      sortByStage: this.sortByStage
     };
 
     this.responseForSales(data);
@@ -602,7 +672,13 @@ export class DashboardComponent implements OnInit {
       productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : ''
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
+      sortByDate: false,
+      sortByLead: false,
+      sortByLoanAmt: false,
+      sortByProduct: false,
+      sortByStatus: false,
+      sortByStage: false
     };
 
     this.responseForCredit(data);
