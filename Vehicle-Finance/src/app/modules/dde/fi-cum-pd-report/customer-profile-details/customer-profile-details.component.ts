@@ -10,6 +10,7 @@ import { CustomerProfile } from '@model/dde.model';
 import { CommomLovService } from '@services/commom-lov-service';
 import { PdDataService } from '../pd-data.service';
 import { LoginStoreService } from '@services/login-store.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 // import { MessageService } from '@progress/kendo-angular-l10n';
 @Component({
@@ -61,6 +62,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
   userName: any;
   roleId: any;
   roleType: any;
+  disableSaveBtn: boolean;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -72,7 +74,9 @@ export class CustomerProfileDetailsComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private activatedRoute: ActivatedRoute,
     private pdDataService: PdDataService,
-    private personalDiscussion: PersonalDiscussionService) { }
+    private personalDiscussion: PersonalDiscussionService,
+    private toggleDdeService: ToggleDdeService
+    ) { }
 
   async ngOnInit() {
 
@@ -113,6 +117,11 @@ export class CustomerProfileDetailsComponent implements OnInit {
       // console.log("lov customer", this.customerProfileLov)
 
     });
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      this.customerProfileForm.disable();
+      this.disableSaveBtn = true;
+    }
 
   }
   getLeadId() {

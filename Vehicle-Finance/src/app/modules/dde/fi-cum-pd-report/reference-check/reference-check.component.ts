@@ -18,8 +18,7 @@ import { ApplicantService } from '@services/applicant.service';
 import { GpsService } from './../../../../services/gps.service';
 import { environment } from 'src/environments/environment';
 
-
-
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-reference-check',
@@ -43,6 +42,7 @@ export class ReferenceCheckComponent implements OnInit {
   isSoNameEnable: true;
   userDetails: any;
   leadId: number;
+  disableSaveBtn: boolean;
 
   selectedDocDetails: DocRequest;
 
@@ -128,6 +128,7 @@ export class ReferenceCheckComponent implements OnInit {
     private gpsService: GpsService,
     private utilityService: UtilityService,
     private toasterService: ToasterService, // service for accessing the toaster
+    private toggleDdeService: ToggleDdeService
 
   ) {
     this.sharedSercive.taskId$.subscribe((value) => {
@@ -235,6 +236,13 @@ export class ReferenceCheckComponent implements OnInit {
       ],
     };
 
+    setTimeout(() => {
+      const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      this.referenceCheckForm.disable();
+      this.disableSaveBtn = true;
+    }
+    });
   }
   getLeadId() { // function to access respective lead id from the routing
     // console.log("in getleadID")

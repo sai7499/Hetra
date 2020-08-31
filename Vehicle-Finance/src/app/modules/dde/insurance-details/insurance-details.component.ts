@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-insurance-details',
@@ -14,10 +15,11 @@ export class InsuranceDetailsComponent implements OnInit {
   public label: any = {};
   public labelCreditShield: any = {};
   public labelExistingInsuranceDetails: any = {};
+  disableSaveBtn: boolean;
 
   select_main_button_value: string = 'individual';
 
-  constructor(private _fb: FormBuilder, private labelsData: LabelsService) { }
+  constructor(private _fb: FormBuilder, private labelsData: LabelsService, private toggleDdeService: ToggleDdeService) { }
 
   ngOnInit() {
     this.createForm();
@@ -27,10 +29,17 @@ export class InsuranceDetailsComponent implements OnInit {
         this.labelCreditShield = this.label.creditShield[0];
         this.labelExistingInsuranceDetails = this.label.existingInsuranceDetails[0];
 
+        const operationType = this.toggleDdeService.getOperationType();
+        if (operationType === '1') {
+          this.InsuranceDetailForm.disable();
+          this.disableSaveBtn = true;
+        }
+
       },
         error => {
           console.log(error, 'error')
         });
+
   }
 
   select_main_button(event) {

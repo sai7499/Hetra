@@ -164,7 +164,7 @@
 <div class="btn-sec clear-both row btn-mar-15" id="clickButton">
   <div class="col-sm-5"></div>
   <div class="col-sm-7 text-right p-0" style="padding-bottom: 2vw;">
-    <button (click)="saveAndUpdate()" class="btn btn-primary" type="button">
+    <button (click)="saveAndUpdate()" class="btn btn-primary" type="button" *ngIf="!(operationType === '1')">
       Save
     </button>
     <button (click)="nextToApplicant()" class="btn btn-primary -btn-next" type="button">

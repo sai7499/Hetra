@@ -718,28 +718,37 @@ export class SourcingDetailsComponent implements OnInit {
 
   nextToApplicant() {
     this.isDirty = true;
+    console.log('testform', this.sourcingDetailsForm);
+    if(this.operationType === '1'){
+     this.onNavigate(); 
+     return
+    }
     if (this.sourcingDetailsForm.valid === true) {
-      if (!this.isSaved) {
-        this.saveAndUpdate();
+      if (!this.isSaved) {       
+          this.saveAndUpdate();
       }
-      const currentUrl = this.location.path();
-      if (currentUrl.includes('sales')) {
-        this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
-        return;
-      }
-      if (currentUrl.includes('dde')) {
-        this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
-        return;
-      }
-      this.router.navigateByUrl(
-        `/pages/lead-section/${this.leadId}/applicant-details`
-      );
+      this.onNavigate(); 
     } else {
       this.toasterService.showError(
         'Please fill all mandatory fields.',
         'Lead Details'
       );
     }
+  }
+
+  onNavigate(){
+    const currentUrl = this.location.path();
+    if (currentUrl.includes('sales')) {
+      this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
+      return;
+    }
+    if (currentUrl.includes('dde')) {
+      this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
+      return;
+    }
+    this.router.navigateByUrl(
+      `/pages/lead-section/${this.leadId}/applicant-details`
+    );
   }
 
   getLeadId() {

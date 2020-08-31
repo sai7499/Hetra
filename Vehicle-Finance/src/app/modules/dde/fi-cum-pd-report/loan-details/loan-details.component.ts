@@ -14,6 +14,7 @@ import { valHooks } from 'jquery';
 import { typeWithParameters } from '@angular/compiler/src/render3/util';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-loan-details',
@@ -76,6 +77,7 @@ export class LoanDetailsComponent implements OnInit {
   engChassRequired: boolean;
   insuranceStatus: any;
   insRequired: boolean;
+  disableSaveBtn: boolean;
 
 
 
@@ -89,7 +91,8 @@ export class LoanDetailsComponent implements OnInit {
     private pdDataService: PdDataService,
     private toasterService: ToasterService,
     public sharedService: SharedService,
-    private createLeadDataService: CreateLeadDataService) {
+    private createLeadDataService: CreateLeadDataService,
+    private toggleDdeService: ToggleDdeService) {
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
   }
 
@@ -138,6 +141,11 @@ export class LoanDetailsComponent implements OnInit {
       this.loanDetailsLov = value ? value[0].loanDetail[0] : {};
 
     });
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      this.loanDetailsForm.disable();
+      this.disableSaveBtn = true;
+    }
   }
 
   getLeadId() {

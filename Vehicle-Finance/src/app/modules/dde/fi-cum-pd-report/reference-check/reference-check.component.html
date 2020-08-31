@@ -195,25 +195,33 @@
                     <!-- <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
                         {{labels.reinitiate}}
                     </button>&nbsp; -->
-                    <button class="btn btn-success" (click)="approvePd()">
-                        {{ labels.approve }}
-                    </button>
-                </div>
-            </div>
+          <button class="btn btn-success" (click)="approvePd()" [disabled]="disableSaveBtn">
+            {{ labels.approve }}
+          </button>
+        </div>
+      </div>
 
-            <div class="btn-sec clear-both">
-                <div class="col-sm-4">
-                    <button class="btn btn-primary" type="button" (click)="onNavigateToPdSummary()">
-                        Back to PD List
-                    </button>
-                </div>
-                <div class="col-sm-8 text-right">
-                    <button class="btn btn-primary" type="button" (click)="onNavigateBack()">
-                        Back
-                    </button>
-                    <p class="btn btn-primary" (click)="onFormSubmit()">
-                        {{ labels.save }}
-                    </p>
+      <div class="btn-sec clear-both">
+        <div class="col-sm-4">
+          <button
+            class="btn btn-primary"
+            type="button"
+            (click)="onNavigateToPdSummary()"
+          >
+            Back to PD List
+          </button>
+        </div>
+        <div class="col-sm-8 text-right">
+          <button
+            class="btn btn-primary"
+            type="button"
+            (click)="onNavigateBack()"
+          >
+            Back
+          </button>
+          <p class="btn btn-primary" (click)="onFormSubmit()" *ngIf="!disableSaveBtn">
+            {{ labels.save }}
+          </p>
 
                     <!-- <button
             type="button"
