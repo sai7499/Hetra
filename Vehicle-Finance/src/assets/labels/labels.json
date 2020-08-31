@@ -288,7 +288,7 @@
     "soName": "SO Name",
     "assetCost": "Asset Cost",
     "financeAmount": "Finance Amount",
-    "tenureInMonths": "TENURE IN MONTHS",
+    "tenureInMonths": "Tenure in Months",
     "sourceOfProposal": "Source of Proposal",
     "assetType": "Asset Type",
     "needForProposedVehicle": "Need for proposed vehicle (In case of addition / expansion)",
@@ -1812,11 +1812,11 @@
         "turnOver": {
             "maxLength": {
                 "rule": 10
-                
+
             },
             "type": "number"
         },
-        
+
 
         "gorssVehicleWeight": {
             "maxLength": {
@@ -2285,6 +2285,14 @@
                 "rule": 30
             },
             "type": "alpha"
+        },
+        "chequeNumber": {
+            "maxLength": {
+                "rule": 6,
+                "msg" : "Should be 6 Digits"
+            },
+            "type": "number"
         }
+
     }
 }
