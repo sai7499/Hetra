@@ -27,7 +27,7 @@ export const environment = {
   // hostingEnvironment: 'Production',
 
   //host: '/appiyo/',
-  host:"https://hetrauat.equitasbank.com/appiyodev/",
+  host: "https://hetrauat.equitasbank.com/appiyodev/",
   //host: 'http://128.199.164.250/appiyo/',
   // host: 'http://10.101.10.153/appiyo/',
   //host: "https://hetrauat.equitasbank.com/appiyo/",
