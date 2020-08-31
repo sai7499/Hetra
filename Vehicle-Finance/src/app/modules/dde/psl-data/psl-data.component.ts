@@ -46,8 +46,6 @@ export class PslDataComponent implements OnInit {
   pslCategoryChange: string;
   pslCategoryData: any;
   pslSubCategoryData: any;
-  // pslSubCategoryChange: string;
-
   pslCertificateValues: any = [];
   weakerSectionValues: any = [];
 
@@ -310,8 +308,6 @@ export class PslDataComponent implements OnInit {
         this.onSelectPslLandHolding();
         this.landOwnerChange = this.pslData.landOwner;
         this.setValueForLandOwner();
-        // this.pslSubCategoryChange = this.pslData.pslSubCategory;
-        // this.setValueForPslSubCategory();
         setTimeout(() => {
           this.landAreaInAcresValue = this.pslData.landArea;
           this.setValueForPslCategoryByLandArea();
@@ -340,8 +336,6 @@ export class PslDataComponent implements OnInit {
         // this.nameOfCA = this.pslData.nameOfCA;
         // this.nameOfCAFirm = this.pslData.nameOfCAFirm;
         // this.udinNo = this.pslData.udinNo;
-        // this.pslSubCategoryChange = this.pslData.pslSubCategory;
-        // this.setValueForPslSubCategory();
         setTimeout(() => {
           this.proofOfInvestmentChange = this.pslData.proofOfInvestment;
           this.setValueForProofOfInvetment();
@@ -702,96 +696,6 @@ export class PslDataComponent implements OnInit {
     this.purposeOfLoanChange = event.target.value;
     console.log("purposeOfLoanChange", this.purposeOfLoanChange);
   }
-
-  // //CALLING FUNCTION OF "onChangePslSubCategory()"
-  // setValueForPslSubCategory() {
-  //   console.log("this.pslSubCategoryChange:::::", this.pslSubCategoryChange);
-  //   if (this.pslSubCategoryChange === "2PSLSUBCAT") {
-  //     this.LOV.LOVS.pslCertificate.filter((element) => {
-  //       if (element.key === "1PSLCRTFCTE") {
-  //         this.data = [{ key: element.key, value: element.value }];
-  //         this.pslCertificateValues = this.data;
-  //         this.formValues.pslCCertificate = this.data[0].key;
-  //       }
-  //     });
-  //   } else if (this.pslSubCategoryChange === "1PSLSUBCAT") {
-  //     this.LOV.LOVS.pslCertificate.filter((element) => {
-  //       if (element.key === "2PSLCRTFCTE") {
-  //         this.data = [{ key: element.key, value: element.value }];
-  //         this.pslCertificateValues = this.data;
-  //         this.formValues.pslCCertificate = this.data[0].key;
-  //       }
-  //     });
-  //   } else if (this.pslSubCategoryChange === "3PSLSUBCAT") {
-  //     this.LOV.LOVS.pslCertificate.filter((element) => {
-  //       if (element.key === "3PSLCRTFCTE") {
-  //         this.data = [{ key: element.key, value: element.value }];
-  //         this.pslCertificateValues = this.data;
-  //         this.formValues.pslCCertificate = this.data[0].key;
-  //       }
-  //     });
-  //   }
-  //   // FOR PSL_SUBCATEGORY AS MICRO
-  //   else if (
-  //     this.pslSubCategoryChange === "7PSLSUBCAT" ||
-  //     this.pslSubCategoryChange === "4PSLSUBCAT"
-  //   ) {
-  //     this.LOV.LOVS.pslCertificate.filter((element) => {
-  //       if (element.key === "4PSLCRTFCTE") {
-  //         this.data = [{ key: element.key, value: element.value }];
-  //         this.pslCertificateValues = this.data;
-  //         this.formValues.pslCCertificate = this.data[0].key;
-  //       }
-  //     });
-  //   } else if (           //IF_PSL_SBUCATEGORY_OTHER_THAN_MICRO
-  //     this.pslSubCategoryChange === "5PSLSUBCAT" ||
-  //     this.pslSubCategoryChange === "6PSLSUBCAT" ||
-  //     this.pslSubCategoryChange === "8PSLSUBCAT" ||
-  //     this.pslSubCategoryChange === "9PSLSUBCAT"
-  //   ) {
-  //     this.LOV.LOVS.pslCertificate.filter((element) => {
-  //       if (element.key === "5PSLCRTFCTE") {
-  //         this.data = [{ key: element.key, value: element.value }];
-  //         this.pslCertificateValues = this.data;
-  //         this.formValues.pslCCertificate = this.data[0].key;
-  //       }
-  //     });
-  //   }
-  //   // IF DETAIL_ACTIVITY AS AGRICULTURE
-  //   this.weakerSectionValues = [];
-  //   if (
-  //     this.pslSubCategoryChange === "1PSLSUBCAT" ||
-  //     this.pslSubCategoryChange === "2PSLSUBCAT"
-  //   ) {
-  //     this.LOV.LOVS.weakerSection.filter((element) => {
-  //       if (element.key === "1PSLWKRSCT") {
-  //         const data = { key: element.key, value: element.value };
-  //         this.weakerSectionValues.push(data);
-  //       }
-  //     });
-  //   } else if (this.pslSubCategoryChange === "3PSLSUBCAT") {
-  //     this.LOV.LOVS.weakerSection.filter((element) => {
-  //       if (element.key != '1PSLWKRSCT') {
-  //         const data = { key: element.key, value: element.value };
-  //         this.weakerSectionValues.push(data);
-  //       }
-  //     });
-  //   } else {
-  //     this.weakerSectionValues = [
-  //       { key: "Not Applicable", value: "Not Applicable" },
-  //     ];
-  //   }
-  //   this.pslDataForm.get("agriculture").patchValue({
-  //     weakerSection: "",
-  //   });
-  // }
-
-  // GET LOV FOR PSLSUBCATEGORY
-  // onChangePslSubCategory(event: any) {
-  //   this.pslSubCategoryChange = event.target.value;
-  //   console.log("PSL_SUBCATEGORY_ID", this.pslSubCategoryChange);
-  //   // this.setValueForPslSubCategory();
-  // }
 
   //LOV CHANGE OF WEAKER SECTION AND SET THE KEY TO AVOID AMIGUITY
   onChangeWeakerSection(event: any) {
@@ -1427,19 +1331,19 @@ export class PslDataComponent implements OnInit {
     }
     // this.caCertifiedAmount = 0;
     // if (this.caCertifiedAmount && this.otherInvestmentCost) {
-    //   this.totalInvestmentCost = +this.caCertifiedAmount + +this.otherInvestmentCost;
+    //   this.totalInvestmentCost = this.caCertifiedAmount + this.otherInvestmentCost;
     //   // console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
     // } else if (this.otherInvestmentCost) {
     //   this.caCertifiedAmount = 0;
-    //   this.totalInvestmentCost = +this.caCertifiedAmount + +this.otherInvestmentCost;
+    //   this.totalInvestmentCost = this.caCertifiedAmount + this.otherInvestmentCost;
     //   // console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
     // } else {
-    //   this.totalInvestmentCost = +this.caCertifiedAmount + +this.otherInvestmentCost;
+    //   this.totalInvestmentCost = this.caCertifiedAmount + this.otherInvestmentCost;
     // }
     // // console.log("TOTAL_INVESTMENT_COST", this.totalInvestmentCost);
   }
 
-  //LOV CHANGE IN LAND OWNER
+  //FUNCTION TO CHNAGE LOV IN LAND OWNER
   onChangeLandOwner(event: any) {
     this.landOwnerChange = event.target.value;
     console.log("LandOwner_Change::::", this.landOwnerChange);
@@ -1504,7 +1408,7 @@ export class PslDataComponent implements OnInit {
   //   }
   // }
 
-  //SAVE / UPDATE FUNCTION
+  //SAVE/UPDATE FUNCTION FOR PSL-DATA FORM
   saveOrUpdatePslData() {
     this.agriculture = this.pslDataForm.get("agriculture");
     this.microSmallAndMediumEnterprises = this.pslDataForm.get(
