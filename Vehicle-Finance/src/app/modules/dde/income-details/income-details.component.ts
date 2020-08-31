@@ -14,6 +14,7 @@ import { CommomLovService } from '@services/commom-lov-service';
 import { ApplicantService } from '@services/applicant.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ToasterService } from '@services/toaster.service';
+import { UtilityService } from '@services/utility.service';
 
 @Component({
   selector: 'app-income-details',
@@ -87,7 +88,15 @@ export class IncomeDetailsComponent implements OnInit {
   SalariedFOIRDeviation: number;
   usedCar: boolean;
   NewOrUsedComercialVehicle: boolean;
-
+  today: any = new Date().getFullYear();
+  yearOneValue: string;
+  yearTwoValue: string;
+  yearThreeValue: string;
+  cashGeneratedValue: number;
+  cashGeneration: number;
+  cashGeneratedYearOneValue: number;
+  cashGeneratedYearTwoValue: number;
+  cashGeneratedYearThreeValue: number;
   constructor(
     private router: Router,
     private labelsData: LabelsService,
@@ -97,11 +106,25 @@ export class IncomeDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private applicantService: ApplicantService,
     private createLeadDataService: CreateLeadDataService,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private utilityService: UtilityService,
+
   ) {
+
+    console.log((this.today - 1).toString() + '-' + (this.today) );
+    console.log((this.today - 2).toString() + '-' + (this.today - 1) );
+    console.log((this.today - 3).toString() + '-' + (this.today - 2) );
+    this.yearOneValue = (this.today - 1).toString() + '-' + (this.today)
+    this.yearTwoValue = (this.today - 2).toString() + '-' + (this.today - 1)
+    this.yearThreeValue = (this.today - 3).toString() + '-' + (this.today - 2)
+
+    console.log(this.today);
+
   }
 
+
   ngOnInit() {
+    console.log((this.today - 1).toString() + '-' + (this.today) );
     this.labelsData.getLabelsData().subscribe(
       // tslint:disable-next-line: no-shadowed-variable
       (data) => {
@@ -132,13 +155,14 @@ export class IncomeDetailsComponent implements OnInit {
       obligationDetails: this.formBuilder.array([]),
       salariedFOIRasperPolicy: Number(70),
       salariedFOIRDeviation: [
-        0,
+        ,
         [Validators.required, Validators.pattern('^[0-9]*$')],
       ],
       leadId: this.leadId,
       userId: this.userId,
     });
     this.salariedFOIRasperPolicy = 70;
+    this.SalariedFOIRDeviation = 0;
     const leadData = this.createLeadDataService.getLeadSectionData();
     const leadSectionData = leadData as any;
     this.productCode = leadSectionData.leadDetails['productCatCode'];
@@ -154,14 +178,26 @@ export class IncomeDetailsComponent implements OnInit {
 
     if (this.productCode == "UC") {
       this.usedCar = true;
+      // this.incomeDetailsForm.controls.
     } else if (this.productCode == "NCV" || this.productCode == "UCV") {
       this.NewOrUsedComercialVehicle = true
     }
     console.log(this.incomeDetailsForm);
+    this.businessIncomeValidators()
+  }
+  businessIncomeValidators() {
+    if (this.productCode == "NCV" || this.productCode == "UCV") {
+      //  const businessIncome: any = this.incomeDetailsForm.controls.businessIncomeDetails as FormArray
+      //  businessIncome.forEach(element => {
+      // for (const key in businessIncome.controls) {
+      //   businessIncome.get(key).clearValidators();
+      //   businessIncome.get(key).updateValueAndValidity();
+      // }
+      //  }); 
+      this.incomeDetailsForm.get('salariedFOIRDeviation').clearValidators();
+      this.incomeDetailsForm.get('salariedFOIRDeviation').updateValueAndValidity();
 
-
-
-
+    }
   }
 
   getLov() {
@@ -201,6 +237,7 @@ export class IncomeDetailsComponent implements OnInit {
 
       return this.formBuilder.group({
         yearOne: this.formBuilder.group({
+          yearValue: this.yearOneValue,
           applicantId: [''],
           applicantType: [''],
           shareCapital: [''],
@@ -217,11 +254,12 @@ export class IncomeDetailsComponent implements OnInit {
           netProfitAfterTax: [''],
           depreciation: [''],
           partnersSalary: [''],
-          cashGeneration: [''], 
+          cashGeneration: [''],
           dateOfItrFiling: [''],
         }),
 
         yearTwo: this.formBuilder.group({
+          yearValue: this.yearTwoValue,
           applicantId: [''],
           applicantType: [''],
           shareCapital: [''],
@@ -238,10 +276,11 @@ export class IncomeDetailsComponent implements OnInit {
           netProfitAfterTax: [''],
           depreciation: [''],
           partnersSalary: [''],
-          cashGeneration: [''], 
+          cashGeneration: [''],
           dateOfItrFiling: [''],
         }),
         yearThree: this.formBuilder.group({
+          yearValue: this.yearThreeValue,
           applicantId: [''],
           applicantType: [''],
           shareCapital: [''],
@@ -258,7 +297,7 @@ export class IncomeDetailsComponent implements OnInit {
           netProfitAfterTax: [''],
           depreciation: [''],
           partnersSalary: [''],
-          cashGeneration: [''], 
+          cashGeneration: [''],
           dateOfItrFiling: [''],
         }),
       })
@@ -266,6 +305,7 @@ export class IncomeDetailsComponent implements OnInit {
     } else {
       return this.formBuilder.group({
         yearOne: this.formBuilder.group({
+          yearValue: data.yearOne.yearValue ? data.yearOne.yearValue : this.yearOneValue,
           applicantId: data.yearOne.applicantId ? data.yearOne.applicantId : '',
           applicantType: data.yearOne.applicantType ? data.yearOne.applicantType : '',
           shareCapital: data.yearOne.shareCapital ? data.yearOne.shareCapital : '',
@@ -282,10 +322,13 @@ export class IncomeDetailsComponent implements OnInit {
           netProfitAfterTax: data.yearOne.netProfitAfterTax ? data.yearOne.netProfitAfterTax : '',
           depreciation: data.yearOne.depreciation ? data.yearOne.depreciation : '',
           partnersSalary: data.yearOne.partnersSalary ? data.yearOne.partnersSalary : '',
-          cashGeneration: data.yearOne.cashGeneration ? data.yearOne.cashGeneration : '', 
-          dateOfItrFiling: data.yearOne.dateOfItrFiling ? data.yearOne.dateOfItrFiling : '',
+          cashGeneration: data.yearOne.cashGeneration ? data.yearOne.cashGeneration : '',
+          dateOfItrFiling: data.yearOne.dateOfItrFiling ? this.utilityService.getDateFromString(
+            this.utilityService.convertDateTimeTOUTC(data.yearOne.dateOfItrFiling,'DD/MM/YYYY')
+          ) : '',
         }),
         yearTwo: this.formBuilder.group({
+          yearValue: data.yearTwo.yearValue ? data.yearTwo.yearValue : this.yearTwoValue,
           applicantId: data.yearTwo.applicantId ? data.yearTwo.applicantId : '',
           applicantType: data.yearTwo.applicantType ? data.yearTwo.applicantType : '',
           shareCapital: data.yearTwo.shareCapital ? data.yearTwo.shareCapital : '',
@@ -302,10 +345,13 @@ export class IncomeDetailsComponent implements OnInit {
           netProfitAfterTax: data.yearTwo.netProfitAfterTax ? data.yearTwo.netProfitAfterTax : '',
           depreciation: data.yearTwo.depreciation ? data.yearTwo.depreciation : '',
           partnersSalary: data.yearTwo.partnersSalary ? data.yearTwo.partnersSalary : '',
-          cashGeneration: data.yearTwo.cashGeneration ? data.yearTwo.cashGeneration : '', 
-          dateOfItrFiling: data.yearTwo.dateOfItrFiling ? data.yearTwo.dateOfItrFiling : '',
+          cashGeneration: data.yearTwo.cashGeneration ? data.yearTwo.cashGeneration : '',
+          dateOfItrFiling: data.yearTwo.dateOfItrFiling ? this.utilityService.getDateFromString(
+            this.utilityService.convertDateTimeTOUTC(data.yearTwo.dateOfItrFiling,'DD/MM/YYYY')
+          ) : '',
         }),
-        yearThree: this.formBuilder.group({ 
+        yearThree: this.formBuilder.group({
+          yearValue: data.yearThree.yearValue ? data.yearThree.yearValue : this.yearThreeValue,
           applicantId: data.yearThree.applicantId ? data.yearThree.applicantId : '',
           applicantType: data.yearThree.applicantType ? data.yearThree.applicantType : '',
           shareCapital: data.yearThree.shareCapital ? data.yearThree.shareCapital : '',
@@ -322,8 +368,10 @@ export class IncomeDetailsComponent implements OnInit {
           netProfitAfterTax: data.yearThree.netProfitAfterTax ? data.yearThree.netProfitAfterTax : '',
           depreciation: data.yearThree.depreciation ? data.yearThree.depreciation : '',
           partnersSalary: data.yearThree.partnersSalary ? data.yearThree.partnersSalary : '',
-          cashGeneration: data.yearThree.cashGeneration ? data.yearThree.cashGeneration : '', 
-          dateOfItrFiling: data.yearThree.dateOfItrFiling ? data.yearThree.dateOfItrFiling : '',
+          cashGeneration: data.yearThree.cashGeneration ? data.yearThree.cashGeneration : '',
+          dateOfItrFiling: data.yearThree.dateOfItrFiling ? this.utilityService.getDateFromString(
+            this.utilityService.convertDateTimeTOUTC(data.yearThree.dateOfItrFiling,'DD/MM/YYYY')
+          ) : '',
         }),
       });
     }
@@ -337,6 +385,7 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < data.length; i++) {
         control.push(this.getKeyFinancialDetails(data[i]));
+        this.onCashGeneration(null,i)
       }
     } else {
       control.push(this.getKeyFinancialDetails());
@@ -347,31 +396,32 @@ export class IncomeDetailsComponent implements OnInit {
 
     const control = this.incomeDetailsForm.controls
       .keyFinanceDetails as FormArray;
-    if (i > 0) {
+    // if (i > 0) {
       // const body = {
       //   userId: this.userId,
       //   leadId: this.leadId,
       // };
+      control.removeAt(i);
+
       const keyFinancialObj = { keyFinancials: this.incomeDetailsForm.controls.keyFinanceDetails.value }
 
       const body = {
 
-        businessIncomeDetails: this.incomeDetailsForm.controls.businessIncomeDetails.value,
+        // businessIncomeDetails: this.incomeDetailsForm.controls.businessIncomeDetails.value,
         otherIncomeDetails: this.incomeDetailsForm.controls.otherIncomeDetails.value,
         obligationDetails: this.incomeDetailsForm.controls.obligationDetails.value,
         keyFinanceDetails: JSON.stringify(keyFinancialObj || null),
-        salariedFOIRasperPolicy: this.incomeDetailsForm.controls.salariedFOIRasperPolicy.value,
-        salariedFOIRDeviation: this.incomeDetailsForm.controls.salariedFOIRDeviation.value,
+        // salariedFOIRasperPolicy: this.incomeDetailsForm.controls.salariedFOIRasperPolicy.value,
+        // salariedFOIRDeviation: this.incomeDetailsForm.controls.salariedFOIRDeviation.value,
         leadId: this.leadId,
         userId: this.userId,
 
       };
       console.log(body);
-      
+
       this.incomeDetailsService
         .setAllIncomeDetails(body)
         .subscribe((res: any) => {
-          control.removeAt(i);
           if (res && res.ProcessVariables.error.code == '0') {
             // tslint:disable-next-line: prefer-const
             let businessControls = this.incomeDetailsForm.controls
@@ -394,44 +444,63 @@ export class IncomeDetailsComponent implements OnInit {
           }
 
         });
-    }
-   
-    else {
-      this.toasterService.showError('Atleast One Row Required', '');
-    }
+    // }
+
+    // else {
+    //   this.toasterService.showError('Atleast One Row Required', '');
+    // }
   }
   private getBusinessIncomeDetails(data?: any) {
     if (data === undefined) {
-      return this.formBuilder.group({
-        applicantId: ['', Validators.required],
-        applicantType: [''],
-        businessEnterpriseName: [
-          null,
-          [Validators.required],
-        ],
-        depreciation: [
-          null,
-          [Validators.required, Validators.pattern('^[0-9]*$')],
-        ],
-        directorSalary: [
-          null,
-          [Validators.required, Validators.pattern('^[0-9]*$')],
-        ],
-        grossDerivedIncome: Number(null),
-        grossMonthlyIncome: Number(null),
-        netProfit: [
-          null,
-          [
-            Validators.required,
-            Validators.pattern('^[0-9]*$'),
-            Validators.maxLength(10),
+      if (this.productCode == "UC") {
+        return this.formBuilder.group({
+          applicantId: ['', Validators.required],
+          applicantType: [''],
+          businessEnterpriseName: [
+            null,
+            [Validators.required],
           ],
-        ],
-      });
+          depreciation: [
+            null,
+            [Validators.required, Validators.pattern('^[0-9]*$')],
+          ],
+          directorSalary: [
+            null,
+            [Validators.required, Validators.pattern('^[0-9]*$')],
+          ],
+          grossDerivedIncome: Number(null),
+          grossMonthlyIncome: Number(null),
+          netProfit: [
+            null,
+            [
+              Validators.required,
+              Validators.pattern('^[0-9]*$'),
+              Validators.maxLength(10),
+            ],
+          ],
+        });
+      }
+      else {
+        return this.formBuilder.group({
+          applicantId: [],
+          applicantType: [],
+          businessEnterpriseName: [],
+          depreciation: [
+            ,
+          ],
+          directorSalary: [
+
+          ],
+          grossDerivedIncome: [],
+          grossMonthlyIncome: [],
+          netProfit: [],
+        });
+      }
+
     } else {
       return this.formBuilder.group({
-        id: data.id ? data.id : 0,
-        applicantId: Number(data.applicantId ? data.applicantId : ''),
+        id: data.id ? data.id : null,
+        applicantId: data.applicantId ? data.applicantId : null,
 
         applicantType: data.applicantTypeValue ? data.applicantTypeValue : '',
         applicantTypeValue: data.applicantTypeValue
@@ -439,16 +508,16 @@ export class IncomeDetailsComponent implements OnInit {
           : '',
         businessEnterpriseName: data.businessEnterpriseName
           ? data.businessEnterpriseName
-          : 'Abc Enterprises',
-        depreciation: Number(data.depreciation ? data.depreciation : 0),
-        directorSalary: Number(data.directorSalary ? data.directorSalary : 0),
+          : null,
+        depreciation: Number(data.depreciation ? data.depreciation : null),
+        directorSalary: Number(data.directorSalary ? data.directorSalary : null),
         grossDerivedIncome: Number(
-          data.grossDerivedIncome ? data.grossDerivedIncome : 0
+          data.grossDerivedIncome ? data.grossDerivedIncome : null
         ),
         grossMonthlyIncome: Number(
-          data.grossMonthlyIncome ? data.grossMonthlyIncome : 0
+          data.grossMonthlyIncome ? data.grossMonthlyIncome : null
         ),
-        netProfit: Number(data.netProfit ? data.netProfit : 0),
+        netProfit: Number(data.netProfit ? data.netProfit : null),
       });
     }
   }
@@ -557,7 +626,10 @@ export class IncomeDetailsComponent implements OnInit {
           });
       }
     } else {
-      this.toasterService.showError('Atleast One Row Required', '');
+      if (this.productCode == 'UC') {
+        this.toasterService.showError('Atleast One Row Required', '');
+      }
+
     }
   }
 
@@ -620,7 +692,7 @@ export class IncomeDetailsComponent implements OnInit {
     const control = this.incomeDetailsForm.controls
       .obligationDetails as FormArray;
     const id = control.at(i).value.id;
-    if (control.controls.length > 1) {
+    if (control.controls.length > 0) {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         control.removeAt(i);
@@ -664,12 +736,14 @@ export class IncomeDetailsComponent implements OnInit {
         this.addOtherIncomeUnit(res.ProcessVariables.otherIncomeList);
         this.addObligationUnit(res.ProcessVariables.obligationsList);
         this.onSalFoirDeviation(this.applicantResponse.salariedFOIRDeviation);
-        let keyFinancialData = JSON.parse(res.ProcessVariables.keyFinanceDetails.keyFinancials || null)
+        let keyFinancialData = JSON.parse(res.ProcessVariables.keyFinanceDetails || null)
 
         console.log(keyFinancialData, "converted key data");
-       // const keyFinancialObj = keyFinancialData.keyFinancials
-        // console.log(keyFinancialObj);
-        this.addKeyFinancialDetails(keyFinancialData)
+        const keyFinancialObj = keyFinancialData.keyFinancials
+        if(keyFinancialObj != []) {
+          this.addKeyFinancialDetails(keyFinancialObj)
+        }
+       
       });
   }
 
@@ -805,17 +879,17 @@ export class IncomeDetailsComponent implements OnInit {
         .businessIncomeDetails as FormArray;
       for (let i = 0; i < businessControl.length; i++) {
         const depreciation = (businessControl.at(i).get('depreciation').value);
-        businessControl.at(i).get('depreciation').setValue(depreciation.toString());
+        businessControl.at(i).get('depreciation').setValue(depreciation);
         const directorSalary = businessControl.at(i).get('directorSalary').value;
-        businessControl.at(i).get('directorSalary').setValue(directorSalary.toString());
+        businessControl.at(i).get('directorSalary').setValue(directorSalary);
         const netProfit = businessControl.at(i).get('netProfit').value;
-        businessControl.at(i).get('netProfit').setValue(netProfit.toString());
+        businessControl.at(i).get('netProfit').setValue(netProfit);
         businessControl.at(i).get('grossDerivedIncome').setValue(
-          businessControl.at(i).get('grossDerivedIncome').value.toString());
+          businessControl.at(i).get('grossDerivedIncome').value);
         businessControl.at(i).get('grossMonthlyIncome').setValue(
-          businessControl.at(i).get('grossMonthlyIncome').value.toString());
+          businessControl.at(i).get('grossMonthlyIncome').value);
         businessControl.at(i).get('applicantId').setValue(
-          Number(businessControl.at(i).get('applicantId').value));
+          (businessControl.at(i).get('applicantId').value));
       }
       const otherIncomeControl = this.incomeDetailsForm.controls
         .otherIncomeDetails as FormArray;
@@ -848,24 +922,61 @@ export class IncomeDetailsComponent implements OnInit {
       const salariedFOIRDeviation = Number(salaryContol.value);
       salaryContol.setValue(salariedFOIRDeviation);
 
+      // const keyFinanceControl = this.incomeDetailsForm.controls
+      // .keyFinanceDetails as FormArray;
+      // console.log(keyFinanceControl);
+      
+    // for (let i = 0; i < keyFinanceControl.length; i++) {
+    //   const dateOfItrFiling = keyFinanceControl.at(i).get('dateOfItrFiling').value;
+    //   keyFinanceControl.at(i).get('dateOfItrFiling').setValue(this.utilityService.convertDateTimeTOUTC(
+    //     dateOfItrFiling,
+    //     'DD/MM/YYYY'));
+    // console.log("date.........",dateOfItrFiling);
+      
+    // }
+    
       const keyFinancialObj = { keyFinancials: this.incomeDetailsForm.controls.keyFinanceDetails.value }
 
-
+     let  productCode = this.productCode;
+     let bodyForm;
+     if(productCode == "UC"){
       const body = {
 
         businessIncomeDetails: this.incomeDetailsForm.controls.businessIncomeDetails.value,
         otherIncomeDetails: this.incomeDetailsForm.controls.otherIncomeDetails.value,
         obligationDetails: this.incomeDetailsForm.controls.obligationDetails.value,
-        keyFinanceDetails: JSON.stringify(keyFinancialObj || null),
+        // keyFinanceDetails: JSON.stringify(keyFinancialObj || null),
         salariedFOIRasperPolicy: this.incomeDetailsForm.controls.salariedFOIRasperPolicy.value,
         salariedFOIRDeviation: this.incomeDetailsForm.controls.salariedFOIRDeviation.value,
         leadId: this.leadId,
         userId: this.userId,
 
-      };
+      } 
+
+      bodyForm = body
+
+    }else if(productCode == "UCV" || productCode == "NCV"){
+      
+      const body = {
+
+        // businessIncomeDetails: this.incomeDetailsForm.controls.businessIncomeDetails.value,
+        otherIncomeDetails: this.incomeDetailsForm.controls.otherIncomeDetails.value,
+        obligationDetails: this.incomeDetailsForm.controls.obligationDetails.value,
+        keyFinanceDetails: JSON.stringify(keyFinancialObj || null),
+        // salariedFOIRasperPolicy: this.incomeDetailsForm.controls.salariedFOIRasperPolicy.value,
+        // salariedFOIRDeviation: this.incomeDetailsForm.controls.salariedFOIRDeviation.value,
+        leadId: this.leadId,
+        userId: this.userId,
+
+      } 
+
+      bodyForm = body
+
+    }
+      
 
       this.incomeDetailsService
-        .setAllIncomeDetails(body)
+        .setAllIncomeDetails(bodyForm)
         .subscribe((res: any) => {
           console.log(res);
 
@@ -1119,5 +1230,36 @@ export class IncomeDetailsComponent implements OnInit {
       this.toasterService.showWarning('should not exceed 150', '');
       this.totalSalariedFOIR = 0;
     }
+  }
+  onCashGeneration(event,i:number){
+    console.log(event);
+    
+    const keyFinanceDetails = this.incomeDetailsForm.controls
+    .keyFinanceDetails as FormArray;
+
+    if (keyFinanceDetails && keyFinanceDetails.length > 0) {
+      // for (let i = 0; i < keyFinanceDetails.length; i++) {
+      //   this.cashGeneratedValue = Math.round(
+      //     this.cashGeneratedValue +
+      //     keyFinanceDetails.value.yearThree.netProfitAfterTax
+      //   );
+      // }
+      const netProfitAfterTaxYearOne = keyFinanceDetails.value[i].yearOne.netProfitAfterTax;
+      const depreciationBYearOne = keyFinanceDetails.value[i].yearOne.depreciation;
+      const netProfitAfterTaxYearTwo = keyFinanceDetails.value[i].yearTwo.netProfitAfterTax;
+      const depreciationBYearTwo = keyFinanceDetails.value[i].yearTwo.depreciation;
+      const netProfitAfterTaxYearThree = keyFinanceDetails.value[i].yearThree.netProfitAfterTax;
+      const depreciationBYearThree = keyFinanceDetails.value[i].yearThree.depreciation;
+     
+      this.cashGeneratedYearOneValue = Number(netProfitAfterTaxYearOne) + Number(depreciationBYearOne);
+      this.cashGeneratedYearTwoValue = Number(netProfitAfterTaxYearTwo) + Number(depreciationBYearTwo);
+      this.cashGeneratedYearThreeValue = Number(netProfitAfterTaxYearThree) + Number(depreciationBYearThree);
+
+    
+      
+      // keyFinanceDetails.value[i].yearThree.patchValue({ cashGeneration });
+     
+  
+  }
   }
 }

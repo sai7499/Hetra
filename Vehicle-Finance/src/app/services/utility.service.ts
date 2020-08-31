@@ -64,7 +64,11 @@ export class UtilityService {
   }
 
   convertDateTimeTOUTC(date, format) {
+    console.log(date);
+    console.log(format);
+
     return moment.utc(date).local().format(format);
+    
   }
 
   converDateToUTC(date) {

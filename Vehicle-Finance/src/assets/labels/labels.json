@@ -646,13 +646,14 @@
     "trackValidationSummaryTitle": "TRACK VALIDATION SUMMARY",
     "keyFinancialTitle": "KEY FINANCIAL",
     "shareCapital": "Share Capital",
-    "lorryHireChargesPaid": "Lorry hire charges paid",
-    "netProfitAfterTax":"Net Profit after Tax",
+    "lorryHireChargesPaid": "Lorry hire charges paid (Freight charges )",
+    "netProfitAfterTaxA":"Net Profit after Tax (A)",
+    "depreciationB":"Depreciation (B)",
     "currentLiabilities": "Current Liabilities",
     "currentAssets": "Current Assets",
     "revenueFromOperationsOrTopLine": "Revenue From Operations/Top Line",
-    "partnersSalary": "Partners Salary",
-    "cashGeneration": "Cash Generation",
+    "partnersSalaryC": "Partners Salary (C)",
+    "cashGenerationAB": "Cash Generation (A)+(B)",
     "dateOfItrFiling": "Date Of ITR Filing",
 
 
@@ -2297,6 +2298,12 @@
                 "rule": 30
             },
             "type": "alpha"
+        },
+        "keyFinancialAmount":{
+            "maxLength":{
+                "rule" : 8
+            },
+            "type":"decimal"
         }
     }
 }
