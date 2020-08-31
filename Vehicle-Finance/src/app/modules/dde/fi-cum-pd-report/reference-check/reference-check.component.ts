@@ -295,9 +295,10 @@ export class ReferenceCheckComponent implements OnInit {
         this.longitude = value.ProcessVariables.customerProfileDetails.longitude;
         this.SELFIE_IMAGE = value.ProcessVariables.profilePhoto;
 
-        if (this.refCheckDetails && this.otherDetails) {
-          this.setFormValue();
-        }
+        // if (this.refCheckDetails && this.otherDetails) {
+        //   this.setFormValue();
+        // }
+        this.setFormValue();
         if (this.latitude) {
           this.getRouteMap();
         }
