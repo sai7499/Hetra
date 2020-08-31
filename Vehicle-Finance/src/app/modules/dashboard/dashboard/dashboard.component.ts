@@ -217,7 +217,6 @@ export class DashboardComponent implements OnInit {
         this.sortByProduct = false;
         this.sortByLoanAmt = false;
         this.sortByStage = false;
-        // this.getSalesFilterLeads(this.itemsPerPage);
         this.onTabsLoading(this.subActiveTab);
         break;
       case 1:
@@ -226,7 +225,6 @@ export class DashboardComponent implements OnInit {
         this.sortByProduct = true;
         this.sortByLoanAmt = false;
         this.sortByStage = false;
-        // this.getSalesFilterLeads(this.itemsPerPage);
         this.onTabsLoading(this.subActiveTab);
         break;
       case 2:
@@ -235,7 +233,6 @@ export class DashboardComponent implements OnInit {
         this.sortByProduct = false;
         this.sortByLoanAmt = true;
         this.sortByStage = false;
-        // this.getSalesFilterLeads(this.itemsPerPage);
         this.onTabsLoading(this.subActiveTab);
         break;
       case 3:
@@ -244,7 +241,6 @@ export class DashboardComponent implements OnInit {
         this.sortByProduct = true;
         this.sortByLoanAmt = false;
         this.sortByStage = false;
-        // this.getSalesFilterLeads(this.itemsPerPage);
         this.onTabsLoading(this.subActiveTab);
         break;
       case 4:
@@ -253,7 +249,6 @@ export class DashboardComponent implements OnInit {
         this.sortByProduct = false;
         this.sortByLoanAmt = false;
         this.sortByStage = true;
-        // this.getSalesFilterLeads(this.itemsPerPage);
         this.onTabsLoading(this.subActiveTab);
         break;
 
