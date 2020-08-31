@@ -925,9 +925,11 @@
     "maritalStatus": "Marital Status",
     "weddingAnniversaryDate": "Wedding Anniversary Date",
     "physicallyChallenged": "Physically Challenged",
+    "dependants": "Dependants",
     "residenceNo": "Residence Number(with STD code)",
     "officeNo": "Office Number(with STD code)",
-    "residenceAddress": "Address as per loan application?",
+    "residenceAddress": " Residence Address as per loan application?",
+    "ifNotResidenceAddress": "If residence address not as per records the mention the address",
     "bankName": "Bank Name",
     "accountNo": "Bank Account No",
     "landmark": "Landmark",
@@ -1808,16 +1810,12 @@
                 "msg": "Aadhar Number Should be Valid"
             }
         },
-
         "turnOver": {
             "maxLength": {
                 "rule": 10
-                
             },
             "type": "number"
         },
-        
-
         "gorssVehicleWeight": {
             "maxLength": {
                 "rule": 5,
@@ -2285,6 +2283,12 @@
                 "rule": 30
             },
             "type": "alpha"
+        },
+        "mismatchResidenceAddress": {
+            "maxLenght": {
+                "rule": 120
+            },
+            "type": "alpha-numeric"
         }
     }
 }
