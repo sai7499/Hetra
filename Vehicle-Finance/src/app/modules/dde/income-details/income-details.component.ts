@@ -14,6 +14,7 @@ import { CommomLovService } from '@services/commom-lov-service';
 import { ApplicantService } from '@services/applicant.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ToasterService } from '@services/toaster.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-income-details',
@@ -21,6 +22,7 @@ import { ToasterService } from '@services/toaster.service';
   styleUrls: ['./income-details.component.css'],
 })
 export class IncomeDetailsComponent implements OnInit {
+  disableSaveBtn: boolean;
   labels: any = {};
   incomeDetailsForm: FormGroup;
   otherDetailsForm: FormGroup;
@@ -95,7 +97,8 @@ export class IncomeDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private applicantService: ApplicantService,
     private createLeadDataService: CreateLeadDataService,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private toggleDdeService: ToggleDdeService
   ) { 
   }
 
@@ -438,6 +441,11 @@ export class IncomeDetailsComponent implements OnInit {
         this.addOtherIncomeUnit(res.ProcessVariables.otherIncomeList);
         this.addObligationUnit(res.ProcessVariables.obligationsList);
         this.onSalFoirDeviation(this.applicantResponse.salariedFOIRDeviation);
+        const operationType = this.toggleDdeService.getOperationType();
+        if (operationType === '1') {
+            this.incomeDetailsForm.disable();
+            this.disableSaveBtn  = true;
+        }
       });
   }
 

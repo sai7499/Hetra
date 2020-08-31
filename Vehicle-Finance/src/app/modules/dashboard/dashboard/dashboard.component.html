@@ -1,118 +1,274 @@
 <main class="mar-top90">
-    <div class="container-fluid">
-        <div class="pull-right dropdown nav">
-            <div class="pull-right dropdown nav">
-                <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> {{!isFilterApplied ? "Filter" : "Filter Applied"}} </button>
-            </div>
-            <!-- <div *ngIf="isFilterApplied" class="pull-right dropdown nav">
+  <div class="container-fluid">
+    <div class="pull-right dropdown nav">
+      <div class="pull-right dropdown nav">
+        <button class="btn btn-default mar-bottom" (click)="showFilter = !showFilter">
+          <i class="fa fa-filter"></i>
+          {{ !isFilterApplied ? 'Filter' : 'Filter Applied' }}
+        </button>
+      </div>
+      <!-- <div *ngIf="isFilterApplied" class="pull-right dropdown nav">
                 <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter Applied</button>
             </div> -->
-        </div>
     </div>
+  </div>
 
-    <div class="filter-block container-fluid mar-bottom" *ngIf="showFilter">
-        <div>
-            <form [formGroup]="filterForm">
-                <div class="row">
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="leadId">{{labels.leadID}}</label>
-                        <app-custom-input id="leadId" formControlName="leadId" [className]="'form-control'" [placeholder]="'Lead Id'" [maxLength]="validationData?.extn.maxLength" [type]="validationData?.extn.type">
-                        </app-custom-input>
-                    </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="productCategory">{{labels.productCategory}}</label>
-                        <!-- <app-vf-custom-select [values]="productCategoryData" formControlName="product"> </app-vf-custom-select> -->
-                        <select class="form-control" formControlName="product">
-                            <option value=''>-- select one --</option>
-                            <option *ngFor="let item of productCategoryData" 
-                                [value]="item.key">{{item.value}}</option>                        
-                        </select>
-                    </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
-                        <label for="status">{{labels.status}}</label>
-                        <!-- <app-vf-custom-select [values]="stageData" formControlName="leadStage"> </app-vf-custom-select> -->
-                        <select class="form-control" formControlName="leadStage">
-                            <option value=''>-- select one --</option>
-                            <option *ngFor="let item of stageData" 
-                                [value]="item.key">{{item.value}}</option>                        
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="startDate">{{labels.leadCreatedOnStartDate}}</label>
-                        <kendo-datepicker class="form-control" formControlName="fromDate" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Start Date" [activeView]="'decade'"></kendo-datepicker>
-                    </div>
-                    <div [ngClass]="{'disablField': !filterForm.get('fromDate').value}" class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="endDate">{{labels.leadCreatedOnEndDate}}</label>
-                        <kendo-datepicker class="form-control" formControlName="toDate" [format]="'dd/MM/yyyy'" [min]="filterForm.get('fromDate').value" [max]="toDayDate" placeholder="End Date" [activeView]="'decade'"></kendo-datepicker>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="minAmount">{{labels.loanMinAmount}}</label>
-                        <app-custom-input id="minAmount" formControlName="loanMinAmt" min="minAmount" [className]="'form-control'" [placeholder]="'Enter Loan amount'" [maxLength]="validationData?.amountValue.maxLength" [type]="validationData?.amountValue.type">
-                        </app-custom-input>
-                    </div>
-                    <div [ngClass]="{'disablField': !filterForm.get('loanMinAmt').value}" class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="maxAmount">{{labels.loanMaxAmount}}</label>
-                        <app-custom-input id="maxAmount" formControlName="loanMaxAmt" [className]="'form-control'" [placeholder]="'Enter Loan amount'" [maxLength]="validationData?.amountValue.maxLength" [type]="validationData?.amountValue.type">
-                        </app-custom-input>
-                    </div>
-                    <div class="actionbtn col-sm-6 col-md-3 col-lg-3">
-                        <button class="btn btn-default mar-right8" type="button" id="clearbtn" (click)="onClear(); showFilter=!showFilter"> Clear </button>
-                        <button class="btn btn-primary" type="submit" (click)="onApply(); showFilter=!showFilter"> Apply </button>
-                    </div>
-                </div>
-            </form>
-
+  <div class="filter-block container-fluid mar-bottom" *ngIf="showFilter">
+    <div>
+      <form [formGroup]="filterForm">
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="leadId">{{labels.leadID}}</label>
+            <app-custom-input id="leadId" formControlName="leadId" [className]="'form-control'"
+              [placeholder]="'Lead Id'" [maxLength]="validationData?.extn.maxLength" [type]="validationData?.extn.type">
+            </app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="productCategory">{{labels.productCategory}}</label>
+            <!-- <app-vf-custom-select [values]="productCategoryData" formControlName="product"> </app-vf-custom-select> -->
+            <select class="form-control" formControlName="product">
+              <option value=''>-- select one --</option>
+              <option *ngFor="let item of productCategoryData" [value]="item.key">{{item.value}}</option>
+            </select>
+          </div>
+          <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
+            <label for="status">{{labels.status}}</label>
+            <!-- <app-vf-custom-select [values]="stageData" formControlName="leadStage"> </app-vf-custom-select> -->
+            <select class="form-control" formControlName="leadStage">
+              <option value=''>-- select one --</option>
+              <option *ngFor="let item of stageData" [value]="item.key">{{item.value}}</option>
+            </select>
+          </div>
         </div>
-    </div>
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="startDate">{{labels.leadCreatedOnStartDate}}</label>
+            <kendo-datepicker class="form-control" formControlName="fromDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
+              placeholder="Start Date" [activeView]="'decade'"></kendo-datepicker>
+          </div>
+          <div [ngClass]="{'disablField': !filterForm.get('fromDate').value}"
+            class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="endDate">{{labels.leadCreatedOnEndDate}}</label>
+            <kendo-datepicker class="form-control" formControlName="toDate" [format]="'dd/MM/yyyy'"
+              [min]="filterForm.get('fromDate').value" [max]="toDayDate" placeholder="End Date" [activeView]="'decade'">
+            </kendo-datepicker>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="minAmount">{{labels.loanMinAmount}}</label>
+            <app-custom-input id="minAmount" formControlName="loanMinAmt" min="minAmount" [className]="'form-control'"
+              [placeholder]="'Enter Loan amount'" [maxLength]="validationData?.amountValue.maxLength"
+              [type]="validationData?.amountValue.type">
+            </app-custom-input>
+          </div>
+          <div [ngClass]="{'disablField': !filterForm.get('loanMinAmt').value}"
+            class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="maxAmount">{{labels.loanMaxAmount}}</label>
+            <app-custom-input id="maxAmount" formControlName="loanMaxAmt" [className]="'form-control'"
+              [placeholder]="'Enter Loan amount'" [maxLength]="validationData?.amountValue.maxLength"
+              [type]="validationData?.amountValue.type">
+            </app-custom-input>
+          </div>
+          <div class="actionbtn col-sm-6 col-md-3 col-lg-3">
+            <button class="btn btn-default mar-right8" type="button" id="clearbtn"
+              (click)="onClear(); showFilter=!showFilter"> Clear </button>
+            <button class="btn btn-primary" type="submit" (click)="onApply(); showFilter=!showFilter"> Apply </button>
+          </div>
+        </div>
+      </form>
 
-    <div class="container-fluid mar-bottom" *ngIf="roleType == '1'">
-        <!-- <ul class="nav nav-pills nav-justified" id="background_white">
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="startDate">{{ labels.leadCreatedOnStartDate }}</label>
+        <kendo-datepicker class="form-control" formControlName="fromDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
+          placeholder="Start Date" [activeView]="'decade'"></kendo-datepicker>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="endDate">{{ labels.leadCreatedOnEndDate }}</label>
+        <kendo-datepicker class="form-control" formControlName="toDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
+          placeholder="End Date" [activeView]="'decade'"></kendo-datepicker>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="minAmount">{{ labels.loanMinAmount }}</label>
+        <app-custom-input id="minAmount" formControlName="loanMinAmt" min="minAmount" [className]="'form-control'"
+          [placeholder]="'Enter Loan amount'" [maxLength]="validationData?.amountValue.maxLength"
+          [type]="validationData?.amountValue.type">
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="maxAmount">{{ labels.loanMaxAmount }}</label>
+        <app-custom-input id="maxAmount" formControlName="loanMaxAmt" [className]="'form-control'"
+          [placeholder]="'Enter Loan amount'" [maxLength]="validationData?.amountValue.maxLength"
+          [type]="validationData?.amountValue.type">
+        </app-custom-input>
+      </div>
+      <div class="actionbtn col-sm-6 col-md-3 col-lg-3">
+        <button class="btn btn-default mar-right8" type="button" id="clearbtn"
+          (click)="onClear(); showFilter = !showFilter">
+          Clear
+        </button>
+        <button class="btn btn-primary" type="submit" (click)="onApply(); showFilter = !showFilter">
+          Apply
+        </button>
+      </div>
+    </div>
+    <!-- </form>
+  </div> -->
+  </div>
+
+  <div class="container-fluid mar-bottom" *ngIf="roleType == '1'">
+    <!-- <ul class="nav nav-pills nav-justified" id="background_white">
             <li [routerLink]="[ '/pages/dashboard/leads-section' ]" routerLinkActive="active" id="leads"><a>Leads</a></li>
             <li [routerLink]="[ '/pages/dashboard/personal-discussion' ]" routerLinkActive="active"><a>Personal Discussion</a></li>
             <li [routerLink]="[ '/pages/dashboard/vehicle-viability' ]" routerLinkActive="active"><a>Vehicle Viability</a></li>
         </ul> -->
-        <ul class="nav nav-pills nav-justified" id="background_white">
-            <li (click)="onLeads(displayTabs?.Leads, displayTabs?.NewLeads)" [ngClass]="{'active':displayTabs?.Leads === activeTab}" routerLinkActive="active" id="leads"><a data-toggle="tab">Leads</a></li>
-            <li (click)="onLeads(displayTabs?.PD, displayTabs?.MyPD)" [ngClass]="{'active':displayTabs?.PD === activeTab}" routerLinkActive="active"><a data-toggle="tab">FI cum PD</a></li>
-            <li (click)="onLeads(displayTabs?.FI, displayTabs?.MyFI)" [ngClass]="{'active':displayTabs?.FI === activeTab}" routerLinkActive="active"><a data-toggle="tab">Field Investigation</a></li>
-            <li (click)="onLeads(displayTabs?.Viability, displayTabs?.ViabilityWithMe)" [ngClass]="{'active':displayTabs?.Viability === activeTab}" routerLinkActive="active"><a data-toggle="tab">Vehicle Viability</a></li>
-            <!-- <li (click)="onLeads(displayTabs?.LoanBooking)" [ngClass]="{'active':displayTabs?.LoanBooking === activeTab}" routerLinkActive="active"><a data-toggle="tab">Loan Booking</a></li> -->
-            <!-- <li (click)="onLeads(displayTabs?.LoanDisbursement, displayTabs?.LoanDisbursementWithMe)" [ngClass]="{'active':displayTabs?.LoanDisbursement === activeTab}" routerLinkActive="active"><a data-toggle="tab">Loan Disbursement</a></li>
+    <ul class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="onLeads(displayTabs?.Leads, displayTabs?.NewLeads)"
+        [ngClass]="{'active':displayTabs?.Leads === activeTab}" routerLinkActive="active" id="leads"><a
+          data-toggle="tab">Leads</a></li>
+      <li (click)="onLeads(displayTabs?.PD, displayTabs?.MyPD)" [ngClass]="{'active':displayTabs?.PD === activeTab}"
+        routerLinkActive="active"><a data-toggle="tab">FI cum PD</a></li>
+      <li (click)="onLeads(displayTabs?.FI, displayTabs?.MyFI)" [ngClass]="{'active':displayTabs?.FI === activeTab}"
+        routerLinkActive="active"><a data-toggle="tab">Field Investigation</a></li>
+      <li (click)="onLeads(displayTabs?.Viability, displayTabs?.ViabilityWithMe)"
+        [ngClass]="{'active':displayTabs?.Viability === activeTab}" routerLinkActive="active"><a
+          data-toggle="tab">Vehicle Viability</a></li>
+      <!-- <li (click)="onLeads(displayTabs?.LoanBooking)" [ngClass]="{'active':displayTabs?.LoanBooking === activeTab}" routerLinkActive="active"><a data-toggle="tab">Loan Booking</a></li> -->
+      <!-- <li (click)="onLeads(displayTabs?.LoanDisbursement, displayTabs?.LoanDisbursementWithMe)" [ngClass]="{'active':displayTabs?.LoanDisbursement === activeTab}" routerLinkActive="active"><a data-toggle="tab">Loan Disbursement</a></li>
+=======
+    <ul class="nav nav-pills nav-justified" id="background_white">
+      <li
+        (click)="onLeads(displayTabs?.Leads, displayTabs?.NewLeads)"
+        [ngClass]="{ active: displayTabs?.Leads === activeTab }"
+        routerLinkActive="active"
+        id="leads"
+      >
+        <a data-toggle="tab">Leads</a>
+      </li>
+      <li
+        (click)="onLeads(displayTabs?.PD, displayTabs?.MyPD)"
+        [ngClass]="{ active: displayTabs?.PD === activeTab }"
+        routerLinkActive="active"
+      >
+        <a data-toggle="tab">Personal Discussion</a>
+      </li>
+      <li
+        (click)="onLeads(displayTabs?.FI, displayTabs?.MyFI)"
+        [ngClass]="{ active: displayTabs?.FI === activeTab }"
+        routerLinkActive="active"
+      >
+        <a data-toggle="tab">Field Investigation</a>
+      </li>
+      <li
+        (click)="onLeads(displayTabs?.Viability, displayTabs?.ViabilityWithMe)"
+        [ngClass]="{ active: displayTabs?.Viability === activeTab }"
+        routerLinkActive="active"
+      >
+        <a data-toggle="tab">Vehicle Viability</a>
+      </li>
+      <li
+        (click)="onLeads(displayTabs?.LoanBooking)"
+        [ngClass]="{ active: displayTabs?.LoanBooking === activeTab }"
+        routerLinkActive="active"
+      >
+        <a data-toggle="tab">Loan Booking</a>
+      </li>
+     li (click)="onLeads(displayTabs?.LoanDisbursement, displayTabs?.LoanDisbursementWithMe)" [ngClass]="{'active':displayTabs?.LoanDisbursement === activeTab}" routerLinkActive="active"><a data-toggle="tab">Loan Disbursement</a></li>
+>>>>>>> 50b4a8332e99efb4fd93eb7de16f2e2a41020fa8
             <li (click)="onLeads(displayTabs?.Negotiation, displayTabs?.NegotiatinWithMe)" [ngClass]="{'active':displayTabs?.Negotiation === activeTab}" routerLinkActive="active"><a data-toggle="tab">Negotiation</a></li>
             <li (click)="onLeads(displayTabs?.Disbursement, displayTabs?.DisbursementWithMe)" [ngClass]="{'active':displayTabs?.Disbursement === activeTab}" routerLinkActive="active"><a data-toggle="tab">Disbursement</a></li> -->
-            <li (click)="onLeads(displayTabs?.PDD)" [ngClass]="{'active':displayTabs?.PDD === activeTab}" routerLinkActive="active"><a data-toggle="tab">PDD</a></li>
-            <li (click)="onLeads(displayTabs?.ChequeTracking)" [ngClass]="{'active':displayTabs?.ChequeTracking === activeTab}" routerLinkActive="active"><a data-toggle="tab">Cheque Tracking</a></li>
-        </ul>
-    </div>
+      <li (click)="onLeads(displayTabs?.PDD)" [ngClass]="{ active: displayTabs?.PDD === activeTab }"
+        routerLinkActive="active">
+        <a data-toggle="tab">PDD</a>
+      </li>
+      <li (click)="onLeads(displayTabs?.ChequeTracking)"
+        [ngClass]="{ active: displayTabs?.ChequeTracking === activeTab }" routerLinkActive="active">
+        <a data-toggle="tab">Cheque Tracking</a>
+      </li>
+    </ul>
+  </div>
+  <!--  -->
+  <div class="container-fluid mar-bottom" *ngIf="roleType == '1'">
+    <ul *ngIf="displayTabs?.Leads === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="leads(displayTabs?.NewLeads)" [ngClass]="{ active: displayTabs?.NewLeads === subActiveTab }"
+        routerLinkActive="active" id="leads">
+        <a data-toggle="tab">New Leads</a>
+      </li>
+      <li (click)="leads(displayTabs?.SanctionedWithMe)"
+        [ngClass]="{ active: displayTabs?.SanctionedWithMe === subActiveTab }" routerLinkActive="active">
+        <a data-toggle="tab">Sanctioned Leads Pending with Me</a>
+      </li>
+      <li (click)="leads(displayTabs?.SanctionedWithBranch)" [ngClass]="{
+          active: displayTabs?.SanctionedWithBranch === subActiveTab
+        }" routerLinkActive="active">
+        <a data-toggle="tab">Sanctioned Leads Pending with Branch</a>
+      </li>
+      <li (click)="leads(displayTabs?.DeclinedWithMe)"
+        [ngClass]="{ active: displayTabs?.DeclinedWithMe === subActiveTab }" routerLinkActive="active">
+        <a data-toggle="tab">Declined Leads with Me</a>
+      </li>
+      <li (click)="leads(displayTabs?.DeclinedWithBranch)"
+        [ngClass]="{ active: displayTabs?.DeclinedWithBranch === subActiveTab }" routerLinkActive="active">
+        <a data-toggle="tab">Declined Leads with Branch</a>
+      </li>
+    </ul>
+    <ul *ngIf="displayTabs?.PD === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="leads(displayTabs?.MyPD)" [ngClass]="{ active: displayTabs?.MyPD === subActiveTab }"
+        routerLinkActive="active">
+        <a data-toggle="tab">My PD Tasks</a>
+      </li>
+      <li (click)="leads(displayTabs?.BranchPd)" [ngClass]="{ active: displayTabs?.BranchPd === subActiveTab }"
+        routerLinkActive="active">
+        <a data-toggle="tab">Branch PD Tasks</a>
+      </li>
+    </ul>
+  </div>
+  <!--  -->
+  <div class="container-fluid mar-bottom" *ngIf="roleType == '1'">
+    <ul *ngIf="displayTabs?.Leads === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="leads(displayTabs?.NewLeads)" [ngClass]="{'active':displayTabs?.NewLeads === subActiveTab}"
+        routerLinkActive="active" id="leads"><a data-toggle="tab">New Leads</a></li>
+      <li (click)="leads(displayTabs?.SanctionedWithMe)"
+        [ngClass]="{'active':displayTabs?.SanctionedWithMe === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Sanctioned Leads Pending with Me</a></li>
+      <li (click)="leads(displayTabs?.SanctionedWithBranch)"
+        [ngClass]="{'active':displayTabs?.SanctionedWithBranch === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Sanctioned Leads Pending with Branch</a></li>
+      <li (click)="leads(displayTabs?.DeclinedWithMe)"
+        [ngClass]="{'active':displayTabs?.DeclinedWithMe === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Declined Leads with Me</a></li>
+      <li (click)="leads(displayTabs?.DeclinedWithBranch)"
+        [ngClass]="{'active':displayTabs?.DeclinedWithBranch === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Declined Leads with Branch</a></li>
+    </ul>
+    <ul *ngIf="displayTabs?.PD === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="leads(displayTabs?.MyPD)" [ngClass]="{'active':displayTabs?.MyPD === subActiveTab}"
+        routerLinkActive="active"><a data-toggle="tab">My Tasks</a></li>
+      <li (click)="leads(displayTabs?.BranchPd)" [ngClass]="{'active':displayTabs?.BranchPd === subActiveTab}"
+        routerLinkActive="active"><a data-toggle="tab">Branch Tasks</a></li>
+    </ul>
     <!--  -->
-    <div class="container-fluid mar-bottom" *ngIf="roleType == '1'">
-        <ul *ngIf="displayTabs?.Leads === activeTab" class="nav nav-pills nav-justified" id="background_white">
-            <li (click)="leads(displayTabs?.NewLeads)" [ngClass]="{'active':displayTabs?.NewLeads === subActiveTab}" routerLinkActive="active" id="leads"><a data-toggle="tab">New Leads</a></li>
-            <li (click)="leads(displayTabs?.SanctionedWithMe)" [ngClass]="{'active':displayTabs?.SanctionedWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Sanctioned Leads Pending with Me</a></li>
-            <li (click)="leads(displayTabs?.SanctionedWithBranch)" [ngClass]="{'active':displayTabs?.SanctionedWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Sanctioned Leads Pending with Branch</a></li>
-            <li (click)="leads(displayTabs?.DeclinedWithMe)" [ngClass]="{'active':displayTabs?.DeclinedWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Declined Leads with Me</a></li>
-            <li (click)="leads(displayTabs?.DeclinedWithBranch)" [ngClass]="{'active':displayTabs?.DeclinedWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Declined Leads with Branch</a></li>
-        </ul>
-        <ul *ngIf="displayTabs?.PD === activeTab" class="nav nav-pills nav-justified" id="background_white">
-            <li (click)="leads(displayTabs?.MyPD)" [ngClass]="{'active':displayTabs?.MyPD === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">My Tasks</a></li>
-            <li (click)="leads(displayTabs?.BranchPd)" [ngClass]="{'active':displayTabs?.BranchPd === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Branch Tasks</a></li>
-        </ul>
-        <!--  -->
-        <ul *ngIf="displayTabs?.FI === activeTab" class="nav nav-pills nav-justified" id="background_white">
-            <li (click)="leads(displayTabs?.MyFI)" [ngClass]="{'active':displayTabs?.MyFI === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">My FI Tasks</a></li>
-            <li (click)="leads(displayTabs?.BranchFI)" [ngClass]="{'active':displayTabs?.BranchFI === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Branch FI Tasks</a></li>
-        </ul>
-        <!--  -->
-        <ul *ngIf="displayTabs?.Viability === activeTab" class="nav nav-pills nav-justified" id="background_white">
-            <li (click)="leads(displayTabs?.ViabilityWithMe)" [ngClass]="{'active':displayTabs?.ViabilityWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Viability Checks Pending with Me</a></li>
-            <li (click)="leads(displayTabs?.ViabilityWithBranch)" [ngClass]="{'active':displayTabs?.ViabilityWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Viability Checks Pending with Branch</a></li>
-        </ul>
-        <!--  -->
-        <!-- <ul *ngIf="displayTabs?.LoanBooking === activeTab" class="nav nav-pills nav-justified" id="background_white">
+    <ul *ngIf="displayTabs?.FI === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="leads(displayTabs?.MyFI)" [ngClass]="{'active':displayTabs?.MyFI === subActiveTab}"
+        routerLinkActive="active"><a data-toggle="tab">My FI Tasks</a></li>
+      <li (click)="leads(displayTabs?.BranchFI)" [ngClass]="{'active':displayTabs?.BranchFI === subActiveTab}"
+        routerLinkActive="active"><a data-toggle="tab">Branch FI Tasks</a></li>
+    </ul>
+    <!--  -->
+    <ul *ngIf="displayTabs?.Viability === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="leads(displayTabs?.ViabilityWithMe)"
+        [ngClass]="{'active':displayTabs?.ViabilityWithMe === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Viability Checks Pending with Me</a></li>
+      <li (click)="leads(displayTabs?.ViabilityWithBranch)"
+        [ngClass]="{'active':displayTabs?.ViabilityWithBranch === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Viability Checks Pending with Branch</a></li>
+    </ul>
+    <!--  -->
+    <!-- <ul *ngIf="displayTabs?.LoanBooking === activeTab" class="nav nav-pills nav-justified" id="background_white">
             <li (click)="leads(displayTabs?.LoanBookingWithMe)" [ngClass]="{'active':displayTabs?.LoanBookingWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Loan with Me</a></li>
             <li (click)="leads(displayTabs?.LoanBookingWithBranch)" [ngClass]="{'active':displayTabs?.LoanBookingWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Loan With Branch</a></li>
         </ul>
@@ -128,9 +284,9 @@
             <li (click)="leads(displayTabs?.DisbursementWithMe)" [ngClass]="{'active':displayTabs?.DisbursementWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Disbursement with Me</a></li>
             <li (click)="leads(displayTabs?.DisbursementWithBranch)" [ngClass]="{'active':displayTabs?.DisbursementWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Disbursement With Branch</a></li>
         </ul> -->
-    </div>
+  </div>
 
-    <!-- <div class="container-fluid mar-bottom" *ngIf="roleType == '2' || '4'">
+  <!-- <div class="container-fluid mar-bottom" *ngIf="roleType == '2' || '4'">
         <ul class="nav nav-pills nav-justified" id="background_white">
             <li [routerLink]="[ '/pages/dashboard/leads-section' ]" routerLinkActive="active" id="leads"><a>DDE</a></li>
             <li [routerLink]="[ '/pages/dashboard/personal-discussion' ]" routerLinkActive="active"><a>Personal Discussion</a></li>
@@ -140,73 +296,183 @@
             <li [routerLink]="[ '/pages/dashboard/cpc-checker' ]" routerLinkActive="active"><a>CPC Checker</a></li>
         </ul>
     </div> -->
-    <!--  -->
-    <div class="container-fluid mar-bottom" *ngIf="roleType == '2'">
-        <ul class="nav nav-pills nav-justified" id="background_white">
-            <li (click)="onLeads(displayTabs?.DDE, displayTabs?.DDEWithMe)" [ngClass]="{'active':displayTabs?.DDE === activeTab}" routerLinkActive="active" id="leads"><a data-toggle="tab">DDE</a></li>
-            <li (click)="onLeads(displayTabs?.PD, displayTabs?.MyPD)" [ngClass]="{'active':displayTabs?.PD === activeTab}" routerLinkActive="active"><a data-toggle="tab">Personal Discussion</a></li>
-            <li (click)="onLeads(displayTabs?.FI, displayTabs?.MyFI)" [ngClass]="{'active':displayTabs?.FI === activeTab}" routerLinkActive="active"><a data-toggle="tab">Field Investigation</a></li>
-            <li (click)="onLeads(displayTabs?.Deviation, displayTabs?.DeviationWithMe)" [ngClass]="{'active':displayTabs?.Deviation === activeTab}" routerLinkActive="active"><a data-toggle="tab">Deviation</a></li>
-            <li (click)="onLeads(displayTabs?.Decision, displayTabs?.CreditDecisionWithMe)" [ngClass]="{'active':displayTabs?.Decision === activeTab}" routerLinkActive="active"><a data-toggle="tab">Credit Decision</a></li>
-            <li (click)="onLeads(displayTabs?.TermSheet, displayTabs?.TermSheetWithMe)" [ngClass]="{'active':displayTabs?.TermSheet === activeTab}" routerLinkActive="active"><a data-toggle="tab">Term Sheet</a></li>
-        </ul>
-    </div>
+  <!--  -->
+  <div class="container-fluid mar-bottom" *ngIf="roleType == '2'">
+    <ul class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="onLeads(displayTabs?.DDE, displayTabs?.DDEWithMe)"
+        [ngClass]="{'active':displayTabs?.DDE === activeTab}" routerLinkActive="active" id="leads"><a
+          data-toggle="tab">DDE</a></li>
+      <li (click)="onLeads(displayTabs?.PD, displayTabs?.MyPD)" [ngClass]="{'active':displayTabs?.PD === activeTab}"
+        routerLinkActive="active"><a data-toggle="tab">Personal Discussion</a></li>
+      <li (click)="onLeads(displayTabs?.FI, displayTabs?.MyFI)" [ngClass]="{'active':displayTabs?.FI === activeTab}"
+        routerLinkActive="active"><a data-toggle="tab">Field Investigation</a></li>
+      <li (click)="onLeads(displayTabs?.Deviation, displayTabs?.DeviationWithMe)"
+        [ngClass]="{'active':displayTabs?.Deviation === activeTab}" routerLinkActive="active"><a
+          data-toggle="tab">Deviation</a></li>
+      <li (click)="onLeads(displayTabs?.Decision, displayTabs?.CreditDecisionWithMe)"
+        [ngClass]="{'active':displayTabs?.Decision === activeTab}" routerLinkActive="active"><a data-toggle="tab">Credit
+          Decision</a></li>
+      <li (click)="onLeads(displayTabs?.TermSheet, displayTabs?.TermSheetWithMe)"
+        [ngClass]="{'active':displayTabs?.TermSheet === activeTab}" routerLinkActive="active"><a data-toggle="tab">Term
+          Sheet</a></li>
+    </ul>
+  </div>
 
-    <div class="container-fluid mar-bottom" *ngIf="roleType == '2'">
-        <ul *ngIf="displayTabs?.DDE === activeTab" class="nav nav-pills nav-justified" id="background_white">
-            <li (click)="leads(displayTabs?.DDEWithMe)" [ngClass]="{'active':displayTabs?.DDEWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">DDE Leads Pending with Me</a></li>
-            <li (click)="leads(displayTabs?.DDEWithBranch)" [ngClass]="{'active':displayTabs?.DDEWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">DDE Leads Pending with Branch</a></li>
-        </ul>
-        <ul *ngIf="displayTabs?.PD === activeTab" class="nav nav-pills nav-justified" id="background_white">
-            <li (click)="leads(displayTabs?.MyPD)" [ngClass]="{'active':displayTabs?.MyPD === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">My PD Tasks</a></li>
-            <li (click)="leads(displayTabs?.BranchPd)" [ngClass]="{'active':displayTabs?.BranchPd === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Branch PD Tasks</a></li>
-        </ul>
-        <ul *ngIf="displayTabs?.FI === activeTab" class="nav nav-pills nav-justified" id="background_white">
-            <li (click)="leads(displayTabs?.MyFI)" [ngClass]="{'active':displayTabs?.MyFI === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">My FI Tasks</a></li>
-            <li (click)="leads(displayTabs?.BranchFI)" [ngClass]="{'active':displayTabs?.BranchFI === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Branch FI Tasks</a></li>
-        </ul>
-        <ul *ngIf="displayTabs?.Deviation === activeTab" class="nav nav-pills nav-justified" id="background_white">
-            <li (click)="leads(displayTabs?.DeviationWithMe)" [ngClass]="{'active':displayTabs?.DeviationWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Deviation Pending With Me</a></li>
-            <li (click)="leads(displayTabs?.DeviationWithBranch)" [ngClass]="{'active':displayTabs?.DeviationWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Deviation Pending With Branch</a></li>
-        </ul>
-        <ul *ngIf="displayTabs?.Decision === activeTab" class="nav nav-pills nav-justified" id="background_white">
-            <li (click)="leads(displayTabs?.CreditDecisionWithMe)" [ngClass]="{'active':displayTabs?.CreditDecisionWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Decision Pending With Me</a></li>
-            <li (click)="leads(displayTabs?.CreditDecisionWithBranch)" [ngClass]="{'active':displayTabs?.CreditDecisionWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Decision Pending With Branch</a></li>
-        </ul>
-        <ul *ngIf="displayTabs?.TermSheet === activeTab" class="nav nav-pills nav-justified" id="background_white">
-            <li (click)="leads(displayTabs?.TermSheetWithMe)" [ngClass]="{'active':displayTabs?.TermSheetWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Termsheet Pending with Me</a></li>
-            <li (click)="leads(displayTabs?.TermSheetWithBranch)" [ngClass]="{'active':displayTabs?.TermSheetWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Termsheet Pending With Branch</a></li>
-        </ul>
+  <div class="container-fluid mar-bottom" *ngIf="roleType == '2'">
+    <ul *ngIf="displayTabs?.DDE === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="leads(displayTabs?.DDEWithMe)" [ngClass]="{'active':displayTabs?.DDEWithMe === subActiveTab}"
+        routerLinkActive="active"><a data-toggle="tab">DDE Leads Pending with Me</a></li>
+      <li (click)="leads(displayTabs?.DDEWithBranch)" [ngClass]="{'active':displayTabs?.DDEWithBranch === subActiveTab}"
+        routerLinkActive="active"><a data-toggle="tab">DDE Leads Pending with Branch</a></li>
+    </ul>
+    <ul *ngIf="displayTabs?.PD === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="leads(displayTabs?.MyPD)" [ngClass]="{'active':displayTabs?.MyPD === subActiveTab}"
+        routerLinkActive="active"><a data-toggle="tab">My PD Tasks</a></li>
+      <li (click)="leads(displayTabs?.BranchPd)" [ngClass]="{'active':displayTabs?.BranchPd === subActiveTab}"
+        routerLinkActive="active"><a data-toggle="tab">Branch PD Tasks</a></li>
+    </ul>
+    <ul *ngIf="displayTabs?.FI === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="leads(displayTabs?.MyFI)" [ngClass]="{'active':displayTabs?.MyFI === subActiveTab}"
+        routerLinkActive="active"><a data-toggle="tab">My FI Tasks</a></li>
+      <li (click)="leads(displayTabs?.BranchFI)" [ngClass]="{'active':displayTabs?.BranchFI === subActiveTab}"
+        routerLinkActive="active"><a data-toggle="tab">Branch FI Tasks</a></li>
+    </ul>
+    <ul *ngIf="displayTabs?.Deviation === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="leads(displayTabs?.DeviationWithMe)"
+        [ngClass]="{'active':displayTabs?.DeviationWithMe === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Deviation Pending With Me</a></li>
+      <li (click)="leads(displayTabs?.DeviationWithBranch)"
+        [ngClass]="{'active':displayTabs?.DeviationWithBranch === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Deviation Pending With Branch</a></li>
+    </ul>
+    <ul *ngIf="displayTabs?.Decision === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="leads(displayTabs?.CreditDecisionWithMe)"
+        [ngClass]="{'active':displayTabs?.CreditDecisionWithMe === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Decision Pending With Me</a></li>
+      <li (click)="leads(displayTabs?.CreditDecisionWithBranch)"
+        [ngClass]="{'active':displayTabs?.CreditDecisionWithBranch === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Decision Pending With Branch</a></li>
+    </ul>
+    <ul *ngIf="displayTabs?.TermSheet === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="leads(displayTabs?.TermSheetWithMe)"
+        [ngClass]="{'active':displayTabs?.TermSheetWithMe === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Termsheet Pending with Me</a></li>
+      <li (click)="leads(displayTabs?.TermSheetWithBranch)"
+        [ngClass]="{'active':displayTabs?.TermSheetWithBranch === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Termsheet Pending With Branch</a></li>
+    </ul>
+  </div>
 
-    </div>
+  <div class="container-fluid mar-bottom" *ngIf="roleType == '2'">
+    <ul *ngIf="displayCreditTabs?.DDE === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="leads(displayCreditTabs?.DDEWithMe)"
+        [ngClass]="{ active: displayCreditTabs?.DDEWithMe === subActiveTab }" routerLinkActive="active">
+        <a data-toggle="tab">DDE Leads Pending with Me</a>
+      </li>
+      <li (click)="leads(displayCreditTabs?.DDEWithBranch)" [ngClass]="{
+          active: displayCreditTabs?.DDEWithBranch === subActiveTab
+        }" routerLinkActive="active">
+        <a data-toggle="tab">DDE Leads Pending with Branch</a>
+      </li>
+    </ul>
+    <ul *ngIf="displayCreditTabs?.PD === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="leads(displayCreditTabs?.MyPD)" [ngClass]="{ active: displayCreditTabs?.MyPD === subActiveTab }"
+        routerLinkActive="active">
+        <a data-toggle="tab">My PD Tasks</a>
+      </li>
+      <li (click)="leads(displayCreditTabs?.BranchPd)"
+        [ngClass]="{ active: displayCreditTabs?.BranchPd === subActiveTab }" routerLinkActive="active">
+        <a data-toggle="tab">Branch PD Tasks</a>
+      </li>
+    </ul>
+    <ul *ngIf="displayTabs?.FI === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="leads(displayCreditTabs?.MyFI)" [ngClass]="{ active: displayCreditTabs?.MyFI === subActiveTab }"
+        routerLinkActive="active">
+        <a data-toggle="tab">My FI Tasks</a>
+      </li>
+      <li (click)="leads(displayCreditTabs?.BranchFI)"
+        [ngClass]="{ active: displayCreditTabs?.BranchFI === subActiveTab }" routerLinkActive="active">
+        <a data-toggle="tab">Branch FI Tasks</a>
+      </li>
+    </ul>
+    <ul *ngIf="displayCreditTabs?.Deviation === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="leads(displayCreditTabs?.DeviationWithMe)" [ngClass]="{
+          active: displayCreditTabs?.DeviationWithMe === subActiveTab
+        }" routerLinkActive="active">
+        <a data-toggle="tab">Deviation Pending With Me</a>
+      </li>
+      <li (click)="leads(displayCreditTabs?.DeviationWithBranch)" [ngClass]="{
+          active: displayCreditTabs?.DeviationWithBranch === subActiveTab
+        }" routerLinkActive="active">
+        <a data-toggle="tab">Deviation Pending With Branch</a>
+      </li>
+    </ul>
+    <ul *ngIf="displayCreditTabs?.Decision === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li class="active" (click)="leads(displayCreditTabs?.CreditDecisionWithMe)" [ngClass]="{
+          active: displayCreditTabs?.CreditDecisionWithMe === subActiveTab
+        }" routerLinkActive="active">
+        <a data-toggle="tab">Decision Pending With Me</a>
+      </li>
+      <li (click)="leads(displayCreditTabs?.CreditDecisionWithBranch)" [ngClass]="{
+          active: displayCreditTabs?.CreditDecisionWithBranch === subActiveTab
+        }" routerLinkActive="active">
+        <a data-toggle="tab">Decision Pending With Branch</a>
+      </li>
+    </ul>
+    <ul *ngIf="displayCreditTabs?.TermSheet === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li class="active" (click)="leads(displayCreditTabs?.TermSheetWithMe)" [ngClass]="{
+          active: displayCreditTabs?.TermSheetWithMe === subActiveTab
+        }" routerLinkActive="active">
+        <a data-toggle="tab">Termsheet Pending with Me</a>
+      </li>
+      <li (click)="leads(displayCreditTabs?.TermSheetWithBranch)" [ngClass]="{
+          active: displayCreditTabs?.TermSheetWithBranch === subActiveTab
+        }" routerLinkActive="active">
+        <a data-toggle="tab">Termsheet Pending With Branch</a>
+      </li>
+    </ul>
+  </div>
 
-    <!-- for CPC Maker and CPC Checker -->
-    <div class="container-fluid mar-bottom" *ngIf="roleType == '4'">
-        <ul class="nav nav-pills nav-justified" id="background_white">
-            <li (click)="onLeads(displayTabs?.CPCMaker, displayTabs?.CPCMakerWithMe)" [ngClass]="{'active':displayTabs?.CPCMaker === activeTab}" routerLinkActive="active"><a data-toggle="tab">CPC Maker</a></li>
-        </ul>
-    </div>
-    <div class="container-fluid mar-bottom" *ngIf="roleType == '4'">
-        <ul *ngIf="displayTabs?.CPCMaker === activeTab" class="nav nav-pills nav-justified" id="background_white">
-            <li class="active" (click)="leads(displayTabs?.CPCMakerWithMe)" [ngClass]="{'active':displayTabs?.CPCMakerWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Leads Pending with Me</a></li>
-            <li (click)="leads(displayTabs?.CPCMakerWithBranch)" [ngClass]="{'active':displayTabs?.CPCMakerWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Leads Pending with CPC</a></li>
-        </ul>
-    </div>
+  <!-- for CPC Maker and CPC Checker -->
+  <div class="container-fluid mar-bottom" *ngIf="roleType == '4'">
+    <ul class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="onLeads(displayTabs?.CPCMaker, displayTabs?.CPCMakerWithMe)"
+        [ngClass]="{'active':displayTabs?.CPCMaker === activeTab}" routerLinkActive="active"><a data-toggle="tab">CPC
+          Maker</a></li>
+    </ul>
+  </div>
+  <div class="container-fluid mar-bottom" *ngIf="roleType == '4'">
+    <ul *ngIf="displayTabs?.CPCMaker === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li class="active" (click)="leads(displayTabs?.CPCMakerWithMe)"
+        [ngClass]="{'active':displayTabs?.CPCMakerWithMe === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Leads Pending with Me</a></li>
+      <li (click)="leads(displayTabs?.CPCMakerWithBranch)"
+        [ngClass]="{'active':displayTabs?.CPCMakerWithBranch === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Leads Pending with CPC</a></li>
+    </ul>
+  </div>
 
-    <div class="container-fluid mar-bottom" *ngIf="roleType == '5'">
-        <ul class="nav nav-pills nav-justified" id="background_white">
-            <li (click)="onLeads(displayTabs?.CPCChecker, displayTabs?.CPCCheckerWithMe)" [ngClass]="{'active':displayTabs?.CPCChecker === activeTab}" routerLinkActive="active"><a data-toggle="tab">CPC Checker</a></li>
-            <li (click)="onLeads(displayTabs?.LoanBooking)" [ngClass]="{'active':displayTabs?.LoanBooking === activeTab}" routerLinkActive="active"><a data-toggle="tab">Loan Booking</a></li>
-        </ul>
-    </div>
-    <div class="container-fluid mar-bottom" *ngIf="roleType == '5'">
-        <ul *ngIf="displayTabs?.CPCChecker === activeTab" class="nav nav-pills nav-justified" id="background_white">
-            <li class="active" (click)="leads(displayTabs?.CPCCheckerWithMe)" [ngClass]="{'active':displayTabs?.CPCCheckerWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Leads Pending with Me</a></li>
-            <li (click)="leads(displayTabs?.CPCCheckerWithBranch)" [ngClass]="{'active':displayTabs?.CPCCheckerWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Leads Pending with CPC</a></li>
-        </ul>
-    </div>
+  <div class="container-fluid mar-bottom" *ngIf="roleType == '5'">
+    <ul class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="onLeads(displayTabs?.CPCChecker, displayTabs?.CPCCheckerWithMe)"
+        [ngClass]="{'active':displayTabs?.CPCChecker === activeTab}" routerLinkActive="active"><a data-toggle="tab">CPC
+          Checker</a></li>
+      <li (click)="onLeads(displayTabs?.LoanBooking)" [ngClass]="{'active':displayTabs?.LoanBooking === activeTab}"
+        routerLinkActive="active"><a data-toggle="tab">Loan Booking</a></li>
+    </ul>
+  </div>
+  <div class="container-fluid mar-bottom" *ngIf="roleType == '5'">
+    <ul *ngIf="displayTabs?.CPCChecker === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li class="active" (click)="leads(displayTabs?.CPCCheckerWithMe)"
+        [ngClass]="{'active':displayTabs?.CPCCheckerWithMe === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Leads Pending with Me</a></li>
+      <li (click)="leads(displayTabs?.CPCCheckerWithBranch)"
+        [ngClass]="{'active':displayTabs?.CPCCheckerWithBranch === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Leads Pending with CPC</a></li>
+    </ul>
+  </div>
 
-    <!-- <div class="container-fluid mar-bottom" *ngIf="roleType == '4'">
+  <!-- <div class="container-fluid mar-bottom" *ngIf="roleType == '4'">
         <ul class="nav nav-pills nav-justified" id="background_white">
             <li (click)="onLeads('maker')" class="active" routerLinkActive="active"><a data-toggle="tab">CPC Maker</a></li>
         </ul>
@@ -230,80 +496,103 @@
         </ul>
     </div> -->
 
-    <div>
-        <div class="container-fluid">
-            <table *ngIf="displayTabs?.PDD != activeTab && displayTabs?.ChequeTracking != activeTab && displayTabs?.LoanBooking != activeTab">
-                <thead>
-                    <tr class="table-head-bg">
-                        <th *ngIf="onReleaseTab || onAssignTab">{{labels?.action}}<i class="fa fa-sort"></i></th>
-                        <th>{{labels?.leadID}}<i class="fa fa-sort"></i> </th>
-                        <th>{{labels?.product}}<i class="fa fa-sort"></i> </th>
-                        <th>{{labels?.loanAmount}}<i class="fa fa-sort"></i> </th>
-                        <th>{{labels?.applicant+'s'}}<i class="fa fa-sort"></i> </th>
-                        <th>{{labels?.createdOn}}<i class="fa fa-sort"></i> </th>
-                        <th>{{labels?.createdBy}}<i class="fa fa-sort"></i> </th>
-                        <th>{{labels?.priority}}<i class="fa fa-sort"></i> </th>
-                        <th>{{labels?.promoCode}}<i class="fa fa-sort"></i> </th>
-                        <th>{{labels?.status}} <i class="fa fa-sort"></i> </th>
-                        <th>{{labels?.history}} <i class="fa fa-sort"></i> </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
-                        <td [attr.data-label]="labels?.action" *ngIf="onReleaseTab">
-                            <input type="button" class="btn btn-primary" (click)="onRelase(item.taskId); onClick()" value="Release" data-toggle="modal" data-target="#releaseModal">
-                        </td>
-                        <td [attr.data-label]="labels?.action" *ngIf="onAssignTab">
-                            <input type="button" class="btn btn-primary" (click)="onAssign(item.taskId, item.leadId); onClick(); getLeadId(item)" value="Assign" data-toggle="modal" data-target="#assignModel" />
-                        </td>
-                        <td [attr.data-label]="labels?.leadID" *ngIf="!onReleaseTab && !onAssignTab" class="text-underline" (click)="onRoute(item.leadId,item.stageCode,item.taskId); assignTaskId(item.taskId); getLeadId(item)" style="cursor: pointer;">
-                            {{item.leadId}}</td>
-                        <td [attr.data-label]="labels?.leadID" *ngIf="onReleaseTab && !onAssignTab" class="text-underline" (click)="onRoute(item.leadId,item.stageCode,item.taskId); assignTaskId(item.taskId); getLeadId(item)" style="cursor: pointer;">
-                            {{item.leadId}}</td>
-                        <td [attr.data-label]="labels?.leadID" *ngIf="!onReleaseTab && onAssignTab">
-                            {{item.leadId}}</td>
-                        <!-- <td [attr.data-label]="labels?.leadID" class="text-underline" *ngIf="roleType == '2'"><a (click)="assignTaskId(item.taskId); getLeadId(item)">{{item.leadId}}</a></td> -->
-                        <td [attr.data-label]="labels?.product">{{item.product ? item.product : '--'}}</td>
-                        <td [attr.data-label]="labels?.loanAmount">{{item.loanAmt ? item.loanAmt : '--'}}</td>
-                        <td [attr.data-label]="labels?.applicant">{{item.applicants ? item.applicants : '--'}}</td>
-                        <td [attr.data-label]="labels?.createdOn">{{item.createdOn ? item.createdOn : '--'}}</td>
-                        <td [attr.data-label]="labels?.createdBy">{{item.createdBy ? item.createdBy : '--'}}</td>
-                        <td [attr.data-label]="labels?.priority" *ngIf="item.priority == '1'">Yes</td>
-                        <td [attr.data-label]="labels?.priority" *ngIf="item.priority == '0' || item.priority == null">No</td>
-                        <td [attr.data-label]="labels?.promoCode">{{item.promoCode ? item.promoCode : '--'}}</td>
-                        <td [attr.data-label]="labels?.status">{{item.stage ? item.stage : '--'}}</td>
-                        <td [attr.data-label]="labels?.history">
-                            <a data-toggle="tooltip" data-placement="bottom" title="Click to View Timeline Chart"> <i class="fa fa-history"></i></a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div>
-                <table *ngIf="displayTabs?.PDD === activeTab || displayTabs?.ChequeTracking === activeTab || displayTabs?.LoanBooking === activeTab">
-                    <thead>
-                        <tr class="table-head-bg">
-                            <th *ngIf="displayTabs?.LoanBooking === activeTab">{{labels?.leadID}}</th>
-                            <th>{{labels?.loanNumber}}<i class="fa fa-sort"></i> </th>
-                            <th>{{labels?.productCategory}}<i class="fa fa-sort"></i> </th>
-                            <th>{{labels?.loanAmount}}<i class="fa fa-sort"></i> </th>
-                            <th *ngIf="displayTabs?.PDD === activeTab || displayTabs?.LoanBooking === activeTab ">{{labels?.applicant+'s'}}<i class="fa fa-sort"></i> </th>
-                            <th *ngIf="displayTabs?.ChequeTracking === activeTab">{{labels?.applicantName}}<i class="fa fa-sort"></i> </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of pddDetails | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
-                            <td *ngIf="displayTabs?.LoanBooking === activeTab" [attr.data-label]="labels?.leadID" class="text-underline" (click)="getLoanNumber(item.loanNumber)"><a [routerLink]="[ '/pages/dde', item.leadId,'loan-status' ]">{{item.leadId}}</a></td>
-                            <td *ngIf="displayTabs?.PDD === activeTab" [attr.data-label]="labels?.loanNumber" class="text-underline" (click)="getLoanNumber(item.loanNumber)"><a [routerLink]="['/pages/dde', item.leadId,'pdd-details']">{{item.loanNumber}}</a></td>
-                            <td *ngIf="displayTabs?.ChequeTracking === activeTab" [attr.data-label]="labels?.loanNumber" class="text-underline" (click)="getLoanNumber(item.loanNumber)"><a [routerLink]="[ '/pages/dde', item.leadId,'cheque-tracking' ]">{{item.loanNumber}}</a></td>
-                            <td *ngIf="displayTabs?.LoanBooking === activeTab" [attr.data-label]="labels?.loanNumber" class="text-underline"><a>{{item.loanAccountNo}}</a></td>
+  <div>
+    <div class="container-fluid">
+      <table
+        *ngIf="displayTabs?.PDD != activeTab && displayTabs?.ChequeTracking != activeTab && displayTabs?.LoanBooking != activeTab">
+        <thead>
+          <tr class="table-head-bg">
+            <th *ngIf="onReleaseTab || onAssignTab">{{labels?.action}}<i class="fa fa-sort"></i></th>
+            <th>{{labels?.leadID}}<i class="fa fa-sort"></i> </th>
+            <th>{{labels?.product}}<i class="fa fa-sort"></i> </th>
+            <th>{{labels?.loanAmount}}<i class="fa fa-sort"></i> </th>
+            <th>{{labels?.applicant+'s'}}<i class="fa fa-sort"></i> </th>
+            <th>{{labels?.createdOn}}<i class="fa fa-sort"></i> </th>
+            <th>{{labels?.createdBy}}<i class="fa fa-sort"></i> </th>
+            <th>{{labels?.priority}}<i class="fa fa-sort"></i> </th>
+            <th>{{labels?.promoCode}}<i class="fa fa-sort"></i> </th>
+            <th>{{labels?.status}} <i class="fa fa-sort"></i> </th>
+            <th>{{labels?.history}} <i class="fa fa-sort"></i> </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
+            <td [attr.data-label]="labels?.action" *ngIf="onReleaseTab">
+              <input type="button" class="btn btn-primary" (click)="onRelase(item.taskId); onClick()" value="Release"
+                data-toggle="modal" data-target="#releaseModal">
+            </td>
+            <td [attr.data-label]="labels?.action" *ngIf="onAssignTab">
+              <input type="button" class="btn btn-primary"
+                (click)="onAssign(item.taskId, item.leadId); onClick(); getLeadId(item)" value="Assign"
+                data-toggle="modal" data-target="#assignModel" />
+            </td>
+            <td [attr.data-label]="labels?.leadID" *ngIf="!onReleaseTab && !onAssignTab" class="text-underline"
+              (click)="onRoute(item.leadId,item.stageCode,item.taskId); assignTaskId(item.taskId); getLeadId(item)"
+              style="cursor: pointer;">
+              {{item.leadId}}</td>
+            <td [attr.data-label]="labels?.leadID" *ngIf="onReleaseTab && !onAssignTab" class="text-underline"
+              (click)="onRoute(item.leadId,item.stageCode,item.taskId); assignTaskId(item.taskId); getLeadId(item)"
+              style="cursor: pointer;">
+              {{item.leadId}}</td>
+            <td [attr.data-label]="labels?.leadID" *ngIf="!onReleaseTab && onAssignTab">
+              {{item.leadId}}</td>
+            <!-- <td [attr.data-label]="labels?.leadID" class="text-underline" *ngIf="roleType == '2'"><a (click)="assignTaskId(item.taskId); getLeadId(item)">{{item.leadId}}</a></td> -->
+            <td [attr.data-label]="labels?.product">{{item.product ? item.product : '--'}}</td>
+            <td [attr.data-label]="labels?.loanAmount">{{item.loanAmt ? item.loanAmt : '--'}}</td>
+            <td [attr.data-label]="labels?.applicant">{{item.applicants ? item.applicants : '--'}}</td>
+            <td [attr.data-label]="labels?.createdOn">{{item.createdOn ? item.createdOn : '--'}}</td>
+            <td [attr.data-label]="labels?.createdBy">{{item.createdBy ? item.createdBy : '--'}}</td>
+            <td [attr.data-label]="labels?.priority" *ngIf="item.priority == '1'">Yes</td>
+            <td [attr.data-label]="labels?.priority" *ngIf="item.priority == '0' || item.priority == null">No</td>
+            <td [attr.data-label]="labels?.promoCode">{{item.promoCode ? item.promoCode : '--'}}</td>
+            <td [attr.data-label]="labels?.status">{{item.stage ? item.stage : '--'}}</td>
+            <td [attr.data-label]="labels?.history">
+              <a data-toggle="tooltip" data-placement="bottom" title="Click to View Timeline Chart"> <i
+                  class="fa fa-history"></i></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div>
+        <table
+          *ngIf="displayTabs?.PDD === activeTab || displayTabs?.ChequeTracking === activeTab || displayTabs?.LoanBooking === activeTab">
+          <thead>
+            <tr class="table-head-bg">
+              <th *ngIf="displayTabs?.LoanBooking === activeTab">{{labels?.leadID}}</th>
+              <th>{{labels?.loanNumber}}<i class="fa fa-sort"></i> </th>
+              <th>{{labels?.productCategory}}<i class="fa fa-sort"></i> </th>
+              <th>{{labels?.loanAmount}}<i class="fa fa-sort"></i> </th>
+              <th *ngIf="displayTabs?.PDD === activeTab || displayTabs?.LoanBooking === activeTab ">
+                {{labels?.applicant+'s'}}<i class="fa fa-sort"></i> </th>
+              <th *ngIf="displayTabs?.ChequeTracking === activeTab">{{labels?.applicantName}}<i class="fa fa-sort"></i>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let item of pddDetails | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
+              <td *ngIf="displayTabs?.LoanBooking === activeTab" [attr.data-label]="labels?.leadID"
+                class="text-underline" (click)="getLoanNumber(item.loanNumber)"><a
+                  [routerLink]="[ '/pages/dde', item.leadId,'loan-status' ]">{{item.leadId}}</a></td>
+              <td *ngIf="displayTabs?.PDD === activeTab" [attr.data-label]="labels?.loanNumber" class="text-underline"
+                (click)="getLoanNumber(item.loanNumber)"><a
+                  [routerLink]="['/pages/dde', item.leadId,'pdd-details']">{{item.loanNumber}}</a></td>
+              <td *ngIf="displayTabs?.ChequeTracking === activeTab" [attr.data-label]="labels?.loanNumber"
+                class="text-underline" (click)="getLoanNumber(item.loanNumber)"><a
+                  [routerLink]="[ '/pages/dde', item.leadId,'cheque-tracking' ]">{{item.loanNumber}}</a></td>
+              <td *ngIf="displayTabs?.LoanBooking === activeTab" [attr.data-label]="labels?.loanNumber"
+                class="text-underline"><a>{{item.loanAccountNo}}</a></td>
 
-                            <td [attr.data-label]="labels?.productCategory">{{item.product ? item.product : '--'}}</td>
-                            <td [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
-                            <td *ngIf="displayTabs?.ChequeTracking != activeTab" [attr.data-label]="labels?.applicants">{{item.applicants ? item.applicants : '--'}}</td>
-                            <td *ngIf="displayTabs?.ChequeTracking === activeTab" [attr.data-label]="labels?.applicantName">{{item.applicantName ? item.applicantName : '--'}}</td>
-                        </tr>
-                    </tbody>
-                    <!-- <tbody *ngIf="displayTabs?.ChequeTracking === activeTab">PDD
+              <td [attr.data-label]="labels?.productCategory">{{item.product ? item.product : '--'}}</td>
+              <td [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
+              <td *ngIf="displayTabs?.ChequeTracking != activeTab" [attr.data-label]="labels?.applicants">
+                {{item.applicants ? item.applicants : '--'}}</td>
+              <td *ngIf="displayTabs?.ChequeTracking === activeTab" [attr.data-label]="labels?.applicantName">
+                {{item.applicantName ? item.applicantName : '--'}}</td>
+            </tr>
+          </tbody>
+          <!-- <tbody *ngIf="displayTabs?.ChequeTracking === activeTab">PDD
                         <tr *ngFor="let item of pddDetails | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
     
                             <td [attr.data-label]="labels?.loanNumber" class="text-underline" (click)="getLoanNumber(item.loanNumber)"><a [routerLink]="[ '/pages/dde', item.leadId,'cheque-tracking' ]">{{item.loanNumber}}</a></td>
@@ -321,32 +610,30 @@
                             <td [attr.data-label]="labels?.applicants">{{item.applicants ? item.applicants : '--'}}</td>
                         </tr>
                     </tbody> -->
-                </table>
-            </div>
+        </table>
+      </div>
 
-            <div class="noDataFound" *ngIf="!isLoadLead">
-                <h3>No data found</h3>
-            </div>
-            <div *ngIf="isLoadLead" class="row clearfix marBottom-45">
-                <div class="records col-lg-6 col-md-6 col-sm-3 col-xs-3">
-
-                    <div class="top-padding"><label>No. of Rows </label>
-                        <select class="form-control  input-sm" (change)="setPage($event)" [(ngModel)]="itemsPerPage">
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option class="filter-disable" value="25">25</option>
-                            <option class="filter-disable" value="50">50</option>
-                        </select>
-                    </div>
-
-                </div>
-                <nav class="col-lg-6 col-md-6 col-sm-9 col-xs-9 text-right top-padding">
-                    <pagination-controls previousLabel="" nextLabel="" (pageChange)="setPage($event)"></pagination-controls>
-                </nav>
-            </div>
+      <div class="noDataFound" *ngIf="!isLoadLead">
+        <h3>No data found</h3>
+      </div>
+      <div *ngIf="isLoadLead" class="row clearfix marBottom-45">
+        <div class="records col-lg-6 col-md-6 col-sm-3 col-xs-3">
+          <div class="top-padding">
+            <label>No. of Rows </label>
+            <select class="form-control input-sm" (change)="setPage($event)" [(ngModel)]="itemsPerPage">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option class="filter-disable" value="25">25</option>
+              <option class="filter-disable" value="50">50</option>
+            </select>
+          </div>
         </div>
+        <nav class="col-lg-6 col-md-6 col-sm-9 col-xs-9 text-right top-padding">
+          <pagination-controls previousLabel="" nextLabel="" (pageChange)="setPage($event)"></pagination-controls>
+        </nav>
+      </div>
     </div>
+  </div>
 
-
-    <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </main>

@@ -1,25 +1,17 @@
 <div class="content">
   <form class="" [formGroup]="addressForm">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-      <div class="btn-sec clear-both row" >
+      <div class="btn-sec clear-both row">
         <div class="col-sm-3">
-          <app-vf-custom-select
-            formControlName="entity"
-            [values]="LOV.LOVS.entityType"
-            (change)="onIndividualChange($event)"
-            hidden
-          >
+          <app-vf-custom-select formControlName="entity" [values]="LOV.LOVS.entityType"
+            (change)="onIndividualChange($event)" hidden>
           </app-vf-custom-select>
         </div>
         <div class="col-sm-7 text-right"></div>
       </div>
 
       <ng-container formArrayName="details">
-        <div
-          id="individual_section_start"
-          *ngIf="isIndividual"
-          [formGroupName]="0"
-        >
+        <div id="individual_section_start" *ngIf="isIndividual" [formGroupName]="0">
           <!-- <h4 class="title">individual</h4> -->
           <h4 class="title">Permanent Address</h4>
           <div formGroupName="permanantAddress">
@@ -27,30 +19,20 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="pan">{{ labels.addressline1 }} <sub class="star_red_col">*</sub></label>
                 <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="address1" /> -->
-                <app-custom-input
-                  formControlName="addressLineOne"
-                  [maxLength]="validationData?.address?.maxLength"
-                  [isRequired]="'Address is required'"
-                  [isDirty]="isDirty"
-                >
+                <app-custom-input formControlName="addressLineOne" [maxLength]="validationData?.address?.maxLength"
+                  [isRequired]="'Address is required'" [isDirty]="isDirty">
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{ labels.addressline2 }}</label>
                 <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="address2" /> -->
-                <app-custom-input
-                  formControlName="addressLineTwo"
-                  [maxLength]="validationData?.address?.maxLength"
-                >
+                <app-custom-input formControlName="addressLineTwo" [maxLength]="validationData?.address?.maxLength">
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{ labels.addressline3 }}</label>
                 <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="address3" /> -->
-                <app-custom-input
-                  formControlName="addressLineThree"
-                  [maxLength]="validationData?.address?.maxLength"
-                >
+                <app-custom-input formControlName="addressLineThree" [maxLength]="validationData?.address?.maxLength">
                 </app-custom-input>
               </div>
             </div>
@@ -58,16 +40,10 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="pincode">{{ labels.code }} <sub class="star_red_col">*</sub></label>
                 <!-- <input formControlName="pincode" type="text" class="form-control" id="permanantPincode" (keyup)="inputPincode($event)" /> -->
-                <app-custom-input
-                  formControlName="pincode"
-                  [patternCheck]="validationData?.pincode?.patternCheck"
-                  [type]="validationData?.pincode?.type"
-                  [maxLength]="validationData?.pincode?.maxLength"
-                  [isRequired]="'Pincode is required'"
-                  [isDirty]="isDirty"
-                  (keyup)="inputPincode($event)"
-                  id="permanantPincode"
-                ></app-custom-input>
+                <app-custom-input formControlName="pincode" [patternCheck]="validationData?.pincode?.patternCheck"
+                  [type]="validationData?.pincode?.type" [maxLength]="validationData?.pincode?.maxLength"
+                  [isRequired]="'Pincode is required'" [isDirty]="isDirty" (keyup)="inputPincode($event)"
+                  id="permanantPincode"></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{ labels.city }} <sub class="star_red_col">*</sub></label>
@@ -76,12 +52,8 @@
                                         <option>City 2</option>
                                         <option>City 3</option>
                                     </select> -->
-                <app-vf-custom-select
-                  formControlName="city"
-                  [values]="permanantPincode?.city"
-                  [isRequired]="'Please select one'"
-                  [isDirty]="isDirty"
-                >
+                <app-vf-custom-select formControlName="city" [values]="permanantPincode?.city"
+                  [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -91,12 +63,8 @@
                                         <option>District 2</option>
                                         <option>District 3</option>
                                     </select> -->
-                <app-vf-custom-select
-                  formControlName="district"
-                  [values]="permanantPincode?.district"
-                  [isRequired]="'Please select one'"
-                  [isDirty]="isDirty"
-                >
+                <app-vf-custom-select formControlName="district" [values]="permanantPincode?.district"
+                  [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>
             </div>
@@ -108,12 +76,8 @@
                                         <option>State 2</option>
                                         <option>State 3</option>
                                     </select> -->
-                <app-vf-custom-select
-                  formControlName="state"
-                  [values]="permanantPincode?.state"
-                  [isRequired]="'Please select one'"
-                  [isDirty]="isDirty"
-                >
+                <app-vf-custom-select formControlName="state" [values]="permanantPincode?.state"
+                  [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -123,35 +87,25 @@
                                         <option>Country 2</option>
                                         <option>Country 3</option>
                                     </select> -->
-                <app-vf-custom-select
-                  formControlName="country"
-                  [values]="permanantPincode?.country"
-                  [isRequired]="'Please select one'"
-                  [isDirty]="isDirty"
-                >
+                <app-vf-custom-select formControlName="country" [values]="permanantPincode?.country"
+                  [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>
-              
+
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="landline">{{labels?.nearestLandmark}}</label>
-                
-                <app-custom-input
-                  formControlName="nearestLandmark"
-                  [maxLength]="validationData?.landmark?.maxLength"
-                  
-                ></app-custom-input>
+
+                <app-custom-input formControlName="nearestLandmark" [maxLength]="validationData?.landmark?.maxLength">
+                </app-custom-input>
               </div>
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="landline">{{ labels.landLineNumber }}</label>
                 <!-- <input formControlName="landlineNumber" type="text" class="form-control" id="landline" /> -->
-                <app-custom-input
-                  formControlName="landlineNumber"
-                  [maxLength]="validationData?.landlineNumber?.maxLength"
-                  [type]="validationData?.landlineNumber?.type"
-                  [patternCheck]="validationData?.phone?.patternCheck"
-                ></app-custom-input>
+                <app-custom-input formControlName="landlineNumber"
+                  [maxLength]="validationData?.landlineNumber?.maxLength" [type]="validationData?.landlineNumber?.type"
+                  [patternCheck]="validationData?.phone?.patternCheck"></app-custom-input>
               </div>
             </div>
           </div>
@@ -160,44 +114,23 @@
               <h4 class="title">Current Address</h4>
             </div>
             <div class="col-sm-3 col-md-3 col-lg-3 text-center" id="align_this_texbox">
-              <input
-                type="checkbox"
-                id="address_section_checkbox"
-                (change)="isSameAddress($event)"
-                [checked]="onPerAsCurChecked"
-                [disabled]="disableCurrent"
-              />
-              <span id="address_section_checkbox_text"
-                >&nbsp;Is it same as your permanent Address?
+              <input type="checkbox" id="address_section_checkbox" (change)="isSameAddress($event)"
+                [checked]="onPerAsCurChecked" [disabled]="disableSaveBtn" />
+              <span id="address_section_checkbox_text">&nbsp;Is it same as your permanent Address?
               </span>
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 text-left" id="align_this_checkbox"
-                 *ngIf="showModCurrCheckBox" >
-                    <input
-                      type="checkbox"
-                      id="address_section_checkbox"
-                      (click)="onModCurrAddress($event)"
-                      [checked]="checkedModifyCurrent"
-                      
-                    />
-                    <span id="address_section_checkbox_text"
-                      >&nbsp;Modify Current Address
-                    </span>
-                  </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 text-left" id="align_this_checkbox" *ngIf="showModCurrCheckBox">
+              <input type="checkbox" id="address_section_checkbox" (click)="onModCurrAddress($event)"
+                [checked]="checkedModifyCurrent" />
+              <span id="address_section_checkbox_text">&nbsp;Modify Current Address
+              </span>
+            </div>
 
-                  <div class="form-group col-sm-6 col-md-3 col-lg-3"
-                  *ngIf="showSrField">
-                     <label for="line1"
-                       >SR Number</label
-                     >
-                     <app-custom-input
-                     formControlName="srNumber"
-                     [isRequired]="'SR Number is Required'"
-                     [isDirty]="isDirty"
-                     [type]="validationData.srNumber.type"
-                       
-                     ></app-custom-input>
-                   </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf="showSrField">
+              <label for="line1">SR Number</label>
+              <app-custom-input formControlName="srNumber" [isRequired]="'SR Number is Required'" [isDirty]="isDirty"
+                [type]="validationData.srNumber.type"></app-custom-input>
+            </div>
           </div>
           <!-- <div class="row">
            
@@ -207,30 +140,20 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="pan">{{ labels.addressline1 }} <sub class="star_red_col">*</sub></label>
                 <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="line1" /> -->
-                <app-custom-input
-                  formControlName="addressLineOne"
-                  [maxLength]="validationData?.address?.maxLength"
-                  [isRequired]="'Address is required'"
-                  [isDirty]="isDirty"
-                >
+                <app-custom-input formControlName="addressLineOne" [maxLength]="validationData?.address?.maxLength"
+                  [isRequired]="'Address is required'" [isDirty]="isDirty">
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{ labels.addressline2 }} </label>
                 <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="line2" /> -->
-                <app-custom-input
-                  formControlName="addressLineTwo"
-                  [maxLength]="validationData?.address?.maxLength"
-                >
+                <app-custom-input formControlName="addressLineTwo" [maxLength]="validationData?.address?.maxLength">
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{ labels.addressline3 }}</label>
                 <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="line3" /> -->
-                <app-custom-input
-                  formControlName="addressLineThree"
-                  [maxLength]="validationData?.address?.maxLength"
-                >
+                <app-custom-input formControlName="addressLineThree" [maxLength]="validationData?.address?.maxLength">
                 </app-custom-input>
               </div>
             </div>
@@ -238,16 +161,10 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="current_pincode">{{ labels.code }} <sub class="star_red_col">*</sub></label>
                 <!-- <input formControlName="pincode" type="text" class="form-control" id="currentPincode" (keyup)="inputPincode($event)" /> -->
-                <app-custom-input
-                  formControlName="pincode"
-                  [patternCheck]="validationData?.pincode?.patternCheck"
-                  [maxLength]="validationData?.pincode?.maxLength"
-                  [isRequired]="'Pincode is required'"
-                  [isDirty]="isDirty"
-                  (keyup)="inputPincode($event)"
-                  id="currentPincode"
-                  [type]="validationData?.pincode?.type"
-                ></app-custom-input>
+                <app-custom-input formControlName="pincode" [patternCheck]="validationData?.pincode?.patternCheck"
+                  [maxLength]="validationData?.pincode?.maxLength" [isRequired]="'Pincode is required'"
+                  [isDirty]="isDirty" (keyup)="inputPincode($event)" id="currentPincode"
+                  [type]="validationData?.pincode?.type"></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{ labels.city }} <sub class="star_red_col">*</sub></label>
@@ -256,12 +173,8 @@
                                         <option>City 2</option>
                                         <option>City 3</option>
                                     </select> -->
-                <app-vf-custom-select
-                  formControlName="city"
-                  [values]="currentPincode?.city"
-                  [isRequired]="'Please select one'"
-                  [isDirty]="isDirty"
-                >
+                <app-vf-custom-select formControlName="city" [values]="currentPincode?.city"
+                  [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -271,12 +184,8 @@
                                         <option>District 2</option>
                                         <option>District 3</option>
                                     </select> -->
-                <app-vf-custom-select
-                  formControlName="district"
-                  [values]="currentPincode?.district"
-                  [isRequired]="'Please select one'"
-                  [isDirty]="isDirty"
-                >
+                <app-vf-custom-select formControlName="district" [values]="currentPincode?.district"
+                  [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>
             </div>
@@ -288,12 +197,8 @@
                                         <option>State 2</option>
                                         <option>State 3</option>
                                     </select> -->
-                <app-vf-custom-select
-                  formControlName="state"
-                  [values]="currentPincode?.state"
-                  [isRequired]="'Please select one'"
-                  [isDirty]="isDirty"
-                >
+                <app-vf-custom-select formControlName="state" [values]="currentPincode?.state"
+                  [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -303,23 +208,16 @@
                                         <option>Country 2</option>
                                         <option>Country 3</option>
                                     </select> -->
-                <app-vf-custom-select
-                  formControlName="country"
-                  [values]="currentPincode?.country"
-                  [isRequired]="'Please select one'"
-                  [isDirty]="isDirty"
-                >
+                <app-vf-custom-select formControlName="country" [values]="currentPincode?.country"
+                  [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>
-              
+
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="landline">{{labels?.nearestLandmark}}</label>
-                
-                <app-custom-input
-                  formControlName="nearestLandmark"
-                  [maxLength]="validationData?.landmark?.maxLength"
-                  
-                ></app-custom-input>
+
+                <app-custom-input formControlName="nearestLandmark" [maxLength]="validationData?.landmark?.maxLength">
+                </app-custom-input>
               </div>
             </div>
             <div class="row">
@@ -329,12 +227,9 @@
                 }}</label>
                 <!-- <input formControlName="landlineNumber" type="text" class="form-control"
                                 id="current_landline" /> -->
-                <app-custom-input
-                  formControlName="landlineNumber"
-                  [maxLength]="validationData?.landlineNumber?.maxLength"
-                  [type]="validationData?.landlineNumber?.type"
-                  [patternCheck]="validationData?.phone?.patternCheck"
-                ></app-custom-input>
+                <app-custom-input formControlName="landlineNumber"
+                  [maxLength]="validationData?.landlineNumber?.maxLength" [type]="validationData?.landlineNumber?.type"
+                  [patternCheck]="validationData?.phone?.patternCheck"></app-custom-input>
               </div>
 
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -343,14 +238,10 @@
                 }}</label>
                 <!-- <input formControlName="mobileNumber" type="text" class="form-control"
                                 id="alternate_mobile" /> -->
-                <app-custom-input
-                  formControlName="mobileNumber"
-                  
-                  [maxLength]="validationData?.landlineNumber?.maxLength"
-                  [type]="validationData?.landlineNumber?.type"
-                ></app-custom-input>
+                <app-custom-input formControlName="mobileNumber" [maxLength]="validationData?.landlineNumber?.maxLength"
+                  [type]="validationData?.landlineNumber?.type"></app-custom-input>
               </div>
-              
+
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{
                   labels.periodOfCurrentStayInYears
@@ -360,14 +251,11 @@
                                     <option>2 years</option>
                                 </select> -->
                 <!-- <app-vf-custom-select formControlName="periodOfCurrentStay"> </app-vf-custom-select> -->
-                <app-custom-input
-                  formControlName="periodOfCurrentStay"
-                  [maxLength]="validationData?.numberOfYears?.maxLength"
-                  
-                  [type]="validationData?.numberOfYears.type"
-                ></app-custom-input>
+                <app-custom-input formControlName="periodOfCurrentStay"
+                  [maxLength]="validationData?.numberOfYears?.maxLength" [type]="validationData?.numberOfYears.type">
+                </app-custom-input>
               </div>
-              
+
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -377,10 +265,7 @@
                                         <option>Rented House</option>
                                         
                                     </select> -->
-                <app-vf-custom-select
-                  formControlName="accommodationType"
-                  [values]="LOV.LOVS.accomodationType"
-                >
+                <app-vf-custom-select formControlName="accommodationType" [values]="LOV.LOVS.accomodationType">
                 </app-vf-custom-select>
               </div>
             </div>
@@ -390,14 +275,9 @@
               <h4 class="title">Office/Business Address</h4>
             </div>
             <div class="col-sm-7" id="align_this_texbox">
-              <input
-                type="checkbox"
-                id="address_section_checkbox"
-                (change)="officeSameAddress($event)"
-                [checked]="onCurrAsOfficeChecked"
-              />
-              <span id="address_section_checkbox_text"
-                >Is it same as your current Address?
+              <input type="checkbox" id="address_section_checkbox" (change)="officeSameAddress($event)"
+                [checked]="onCurrAsOfficeChecked" [disabled]="disableSaveBtn" />
+              <span id="address_section_checkbox_text">Is it same as your current Address?
               </span>
             </div>
           </div>
@@ -406,34 +286,24 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="pan">{{ labels.addressline1 }}</label>
                 <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="passport" /> -->
-                <app-custom-input
-                  formControlName="addressLineOne"
-                  [maxLength]="validationData?.address?.maxLength"
+                <app-custom-input formControlName="addressLineOne" [maxLength]="validationData?.address?.maxLength"
                   [isRequired]="
                     isDirty && isOfficeAddressMandatory
                       ? 'Address is required'
                       : ''
-                  "
-                  [isDirty]="isDirty && isOfficeAddressMandatory"
-                >
+                  " [isDirty]="isDirty && isOfficeAddressMandatory">
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{ labels.addressline2 }}</label>
                 <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="passport" /> -->
-                <app-custom-input
-                  formControlName="addressLineTwo"
-                  [maxLength]="validationData?.address?.maxLength"
-                >
+                <app-custom-input formControlName="addressLineTwo" [maxLength]="validationData?.address?.maxLength">
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{ labels.addressline3 }}</label>
                 <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="passport" /> -->
-                <app-custom-input
-                  formControlName="addressLineThree"
-                  [maxLength]="validationData?.address?.maxLength"
-                >
+                <app-custom-input formControlName="addressLineThree" [maxLength]="validationData?.address?.maxLength">
                 </app-custom-input>
               </div>
             </div>
@@ -441,20 +311,14 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{ labels.code }}</label>
                 <!-- <input formControlName="pincode" type="text" class="form-control" id="officePincode" (keyup)="inputPincode($event)" /> -->
-                <app-custom-input
-                  formControlName="pincode"
-                  [patternCheck]="validationData?.pincode?.patternCheck"
-                  [maxLength]="validationData?.pincode?.maxLength"
-                  (keyup)="inputPincode($event)"
-                  id="officePincode"
+                <app-custom-input formControlName="pincode" [patternCheck]="validationData?.pincode?.patternCheck"
+                  [maxLength]="validationData?.pincode?.maxLength" (keyup)="inputPincode($event)" id="officePincode"
                   [isRequired]="
                     isDirty && isOfficeAddressMandatory
                       ? 'Pincode is required'
                       : ''
-                  "
-                  [isDirty]="isDirty && isOfficeAddressMandatory"
-                  [type]="validationData?.pincode?.type"
-                ></app-custom-input>
+                  " [isDirty]="isDirty && isOfficeAddressMandatory" [type]="validationData?.pincode?.type">
+                </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{labels?.city}}</label>
@@ -463,16 +327,11 @@
                                         <option>City 2</option>
                                         <option>City 3</option>
                                     </select> -->
-                <app-vf-custom-select
-                  formControlName="city"
-                  [values]="officePincode?.city"
-                  [isRequired]="
+                <app-vf-custom-select formControlName="city" [values]="officePincode?.city" [isRequired]="
                     isDirty && isOfficeAddressMandatory
                       ? 'Please select one'
                       : ''
-                  "
-                  [isDirty]="isDirty && isOfficeAddressMandatory"
-                >
+                  " [isDirty]="isDirty && isOfficeAddressMandatory">
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -482,16 +341,11 @@
                                         <option>District 2</option>
                                         <option>District 3</option>
                                     </select> -->
-                <app-vf-custom-select
-                  formControlName="district"
-                  [values]="officePincode?.district"
-                  [isRequired]="
+                <app-vf-custom-select formControlName="district" [values]="officePincode?.district" [isRequired]="
                     isDirty && isOfficeAddressMandatory
                       ? 'Please select one'
                       : ''
-                  "
-                  [isDirty]="isDirty && isOfficeAddressMandatory"
-                >
+                  " [isDirty]="isDirty && isOfficeAddressMandatory">
                 </app-vf-custom-select>
               </div>
             </div>
@@ -503,16 +357,11 @@
                                         <option>State 2</option>
                                         <option>State 3</option>
                                     </select> -->
-                <app-vf-custom-select
-                  formControlName="state"
-                  [values]="officePincode?.state"
-                  [isRequired]="
+                <app-vf-custom-select formControlName="state" [values]="officePincode?.state" [isRequired]="
                     isDirty && isOfficeAddressMandatory
                       ? 'Please select one'
                       : ''
-                  "
-                  [isDirty]="isDirty && isOfficeAddressMandatory"
-                >
+                  " [isDirty]="isDirty && isOfficeAddressMandatory">
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -522,16 +371,11 @@
                                         <option>Country 2</option>
                                         <option>Country 3</option>
                                     </select> -->
-                <app-vf-custom-select
-                  formControlName="country"
-                  [values]="officePincode?.country"
-                  [isRequired]="
+                <app-vf-custom-select formControlName="country" [values]="officePincode?.country" [isRequired]="
                     isDirty && isOfficeAddressMandatory
                       ? 'Please select one'
                       : ''
-                  "
-                  [isDirty]="isDirty && isOfficeAddressMandatory"
-                >
+                  " [isDirty]="isDirty && isOfficeAddressMandatory">
                 </app-vf-custom-select>
               </div>
               <!-- <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -540,16 +384,13 @@
                                 <app-vf-custom-select formControlName="accommodationType"
                                     [values]="LOV.LOVS.accomodationType"></app-vf-custom-select>
                             </div> -->
-              
+
 
               <div class="form-group col-sm-6 col-md-4 col-lg-4 col-xs-12">
                 <label for="alternate_mobile_num">{{labels?.nearestLandmark}}</label>
-               
-                <app-custom-input
-                  formControlName="nearestLandmark"
-                  [maxLength]="validationData?.landMark?.maxLength"
-                  
-                ></app-custom-input>
+
+                <app-custom-input formControlName="nearestLandmark" [maxLength]="validationData?.landMark?.maxLength">
+                </app-custom-input>
               </div>
             </div>
             <div class="row">
@@ -557,12 +398,9 @@
                 <label for="current_landline_num">{{labels?.landLineNumber}}</label>
                 <!-- <input formControlName="landlineNumber" type="text" class="form-control"
                                     id="current_landline_num" /> -->
-                <app-custom-input
-                  formControlName="landlineNumber"
-                  [maxLength]="validationData?.landlineNumber?.maxLength"
-                  [type]="validationData?.landlineNumber?.type"
-                  [patternCheck]="validationData?.phone?.patternCheck"
-                ></app-custom-input>
+                <app-custom-input formControlName="landlineNumber"
+                  [maxLength]="validationData?.landlineNumber?.maxLength" [type]="validationData?.landlineNumber?.type"
+                  [patternCheck]="validationData?.phone?.patternCheck"></app-custom-input>
               </div>
               <!-- <div class="form-group col-sm-6 col-md-4 col-lg-4">
                                 <label for="passport">{{labels.periodOfCurrentStayInYears }}</label>
@@ -575,23 +413,15 @@
                 <label for="alternate_mobile_num">{{labels?.alternateContactNumber}}</label>
                 <!-- <input formControlName="mobileNumber" type="text" class="form-control"
                                     id="alternate_mobile_num" /> -->
-                <app-custom-input
-                  formControlName="mobileNumber"
-                  
-                  [maxLength]="validationData?.landlineNumber?.maxLength"
-                  [type]="validationData?.landlineNumber?.type"
-                ></app-custom-input>
+                <app-custom-input formControlName="mobileNumber" [maxLength]="validationData?.landlineNumber?.maxLength"
+                  [type]="validationData?.landlineNumber?.type"></app-custom-input>
               </div>
 
-              
+
             </div>
           </div>
         </div>
-        <div
-          id="non_individual_section_start"
-          *ngIf="!isIndividual"
-          formGroupName="0"
-        >
+        <div id="non_individual_section_start" *ngIf="!isIndividual" formGroupName="0">
           <!-- <h4 class="title">Non-individual</h4>-->
           <h4 class="title">Registered Address</h4>
           <div class="" formGroupName="registeredAddress">
@@ -599,30 +429,20 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="pan">{{ labels.addressline1 }} <sub class="star_red_col">*</sub></label>
                 <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="line1" /> -->
-                <app-custom-input
-                  formControlName="addressLineOne"
-                  [maxLength]="validationData?.address?.maxLength"
-                  [isRequired]="'Address is required'"
-                  [isDirty]="isDirty"
-                >
+                <app-custom-input formControlName="addressLineOne" [maxLength]="validationData?.address?.maxLength"
+                  [isRequired]="'Address is required'" [isDirty]="isDirty">
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{ labels.addressline2 }}</label>
                 <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="line2" /> -->
-                <app-custom-input
-                  formControlName="addressLineTwo"
-                  [maxLength]="validationData?.address?.maxLength"
-                >
+                <app-custom-input formControlName="addressLineTwo" [maxLength]="validationData?.address?.maxLength">
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{ labels.addressline3 }}</label>
                 <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="line3" /> -->
-                <app-custom-input
-                  formControlName="addressLineThree"
-                  [maxLength]="validationData?.address?.maxLength"
-                >
+                <app-custom-input formControlName="addressLineThree" [maxLength]="validationData?.address?.maxLength">
                 </app-custom-input>
               </div>
             </div>
@@ -635,16 +455,10 @@
                                     <option>pincode 3</option>
                                 </select> -->
                 <!-- <input formControlName="pincode" type="text" class="form-control" id="registeredPincode" (keyup)="inputPincode($event)" /> -->
-                <app-custom-input
-                  formControlName="pincode"
-                  [patternCheck]="validationData?.pincode?.patternCheck"
-                  [maxLength]="validationData?.pincode?.maxLength"
-                  [isRequired]="'Pincode is required'"
-                  [isDirty]="isDirty"
-                  (keyup)="inputPincode($event)"
-                  id="registeredPincode"
-                  [type]="validationData?.pincode?.type"
-                ></app-custom-input>
+                <app-custom-input formControlName="pincode" [patternCheck]="validationData?.pincode?.patternCheck"
+                  [maxLength]="validationData?.pincode?.maxLength" [isRequired]="'Pincode is required'"
+                  [isDirty]="isDirty" (keyup)="inputPincode($event)" id="registeredPincode"
+                  [type]="validationData?.pincode?.type"></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{ labels.city }} <sub class="star_red_col">*</sub></label>
@@ -653,12 +467,8 @@
                                     <option>City 2</option>
                                     <option>City 3</option>
                                 </select> -->
-                <app-vf-custom-select
-                  formControlName="city"
-                  [values]="registeredPincode?.city"
-                  [isRequired]="'Please select one'"
-                  [isDirty]="isDirty"
-                >
+                <app-vf-custom-select formControlName="city" [values]="registeredPincode?.city"
+                  [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -668,12 +478,8 @@
                                     <option>District 2</option>
                                     <option>District 3</option>
                                 </select> -->
-                <app-vf-custom-select
-                  formControlName="district"
-                  [values]="registeredPincode?.district"
-                  [isRequired]="'Please select one'"
-                  [isDirty]="isDirty"
-                >
+                <app-vf-custom-select formControlName="district" [values]="registeredPincode?.district"
+                  [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>
             </div>
@@ -685,12 +491,8 @@
                                         <option>State 2</option>
                                         <option>State 3</option>
                                     </select> -->
-                <app-vf-custom-select
-                  formControlName="state"
-                  [values]="registeredPincode?.state"
-                  [isRequired]="'Please select one'"
-                  [isDirty]="isDirty"
-                >
+                <app-vf-custom-select formControlName="state" [values]="registeredPincode?.state"
+                  [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -700,23 +502,16 @@
                                         <option>Country 2</option>
                                         <option>Country 3</option>
                                     </select> -->
-                <app-vf-custom-select
-                  formControlName="country"
-                  [values]="registeredPincode?.country"
-                  [isRequired]="'Please select one'"
-                  [isDirty]="isDirty"
-                >
+                <app-vf-custom-select formControlName="country" [values]="registeredPincode?.country"
+                  [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>
-              
+
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="landline">{{labels?.nearestLandmark}}</label>
-                
-                <app-custom-input
-                  formControlName="nearestLandmark"
-                  [maxLength]="validationData?.landmark?.maxLength"
-                  
-                ></app-custom-input>
+
+                <app-custom-input formControlName="nearestLandmark" [maxLength]="validationData?.landmark?.maxLength">
+                </app-custom-input>
               </div>
             </div>
 
@@ -726,45 +521,30 @@
                   labels.landlineNumber
                 }}</label>
                 <!-- <input formControlName="landlineNumber" type="text" class="form-control" id="line3" /> -->
-                <app-custom-input
-                  formControlName="landlineNumber"
-                  
-                  [maxLength]="validationData?.landlineNumber?.maxLength"
-                  [type]="validationData?.landlineNumber?.type"
-                  [patternCheck]="validationData?.phone?.patternCheck"
-                ></app-custom-input>
+                <app-custom-input formControlName="landlineNumber"
+                  [maxLength]="validationData?.landlineNumber?.maxLength" [type]="validationData?.landlineNumber?.type"
+                  [patternCheck]="validationData?.phone?.patternCheck"></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{ labels.alternateContactNumber }}</label>
                 <!-- <input formControlName="mobileNumber" type="text" class="form-control" id="line3" /> -->
-                <app-custom-input
-                  formControlName="mobileNumber"
-                  
-                  [maxLength]="validationData?.landlineNumber?.maxLength"
-                  [type]="validationData?.landlineNumber?.type"
-                  
-                ></app-custom-input>
+                <app-custom-input formControlName="mobileNumber" [maxLength]="validationData?.landlineNumber?.maxLength"
+                  [type]="validationData?.landlineNumber?.type"></app-custom-input>
               </div>
 
-              
+
             </div>
           </div>
           <!-- <div *ngIf="isSalesOrCredit == 'sales'"> -->
-            <div >
+          <div>
             <div class="btn-sec clear-both row">
               <div class="col-sm-5">
                 <h4 class="title">Office Address</h4>
               </div>
               <div class="col-sm-7" id="align_this_texbox">
-                <input
-                  type="checkbox"
-                  id="address_section_checkbox"
-                  (change)="onSameRegistered($event)"
-                  [checked]="onRegAsCommChecked"
-                  [disabled]="disableRegister"
-                />
-                <span id="address_section_checkbox_text"
-                  >Is it same as your Registered Address?
+                <input type="checkbox" id="address_section_checkbox" (change)="onSameRegistered($event)"
+                  [checked]="onRegAsCommChecked" [disabled]="disableRegister" />
+                <span id="address_section_checkbox_text">Is it same as your Registered Address?
                 </span>
               </div>
             </div>
@@ -773,30 +553,20 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="pan">{{ labels.addressline1 }} <sub class="star_red_col">*</sub></label>
                   <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="line1" /> -->
-                  <app-custom-input
-                    formControlName="addressLineOne"
-                    [maxLength]="validationData?.address?.maxLength"
-                    [isRequired]="'Address is required'"
-                    [isDirty]="isDirty"
-                  >
+                  <app-custom-input formControlName="addressLineOne" [maxLength]="validationData?.address?.maxLength"
+                    [isRequired]="'Address is required'" [isDirty]="isDirty">
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="passport">{{ labels.addressline2 }}</label>
                   <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="line2" /> -->
-                  <app-custom-input
-                    formControlName="addressLineTwo"
-                    [maxLength]="validationData?.address?.maxLength"
-                  >
+                  <app-custom-input formControlName="addressLineTwo" [maxLength]="validationData?.address?.maxLength">
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="passport">{{ labels.addressline3 }}</label>
                   <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="line3" /> -->
-                  <app-custom-input
-                    formControlName="addressLineThree"
-                    [maxLength]="validationData?.address?.maxLength"
-                  >
+                  <app-custom-input formControlName="addressLineThree" [maxLength]="validationData?.address?.maxLength">
                   </app-custom-input>
                 </div>
               </div>
@@ -805,27 +575,17 @@
                   <label for="passport">{{ labels.code }} <sub class="star_red_col">*</sub></label>
 
                   <!-- <input formControlName="pincode" type="text" class="form-control" id="communicationPincode" (keyup)="inputPincode($event)" /> -->
-                  <app-custom-input
-                    formControlName="pincode"
-                    [patternCheck]="validationData?.pincode?.patternCheck"
-                    [maxLength]="validationData?.pincode?.maxLength"
-                    [isRequired]="'Pincode is required'"
-                    [isDirty]="isDirty"
-                    (keyup)="inputPincode($event)"
-                    id="communicationPincode"
-                    [type]="validationData?.pincode?.type"
-                  >
+                  <app-custom-input formControlName="pincode" [patternCheck]="validationData?.pincode?.patternCheck"
+                    [maxLength]="validationData?.pincode?.maxLength" [isRequired]="'Pincode is required'"
+                    [isDirty]="isDirty" (keyup)="inputPincode($event)" id="communicationPincode"
+                    [type]="validationData?.pincode?.type">
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="passport">{{ labels.city }} <sub class="star_red_col">*</sub></label>
 
-                  <app-vf-custom-select
-                    formControlName="city"
-                    [values]="communicationPincode?.city"
-                    [isRequired]="'Please select one'"
-                    [isDirty]="isDirty"
-                  >
+                  <app-vf-custom-select formControlName="city" [values]="communicationPincode?.city"
+                    [isRequired]="'Please select one'" [isDirty]="isDirty">
                   </app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -835,61 +595,43 @@
                                         <option>District 2</option>
                                         <option>District 3</option>
                                     </select> -->
-                  <app-vf-custom-select
-                    formControlName="district"
-                    [values]="communicationPincode?.district"
-                    [isRequired]="'Please select one'"
-                    [isDirty]="isDirty"
-                  ></app-vf-custom-select>
+                  <app-vf-custom-select formControlName="district" [values]="communicationPincode?.district"
+                    [isRequired]="'Please select one'" [isDirty]="isDirty"></app-vf-custom-select>
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="passport">{{ labels.state }} <sub class="star_red_col">*</sub></label>
 
-                  <app-vf-custom-select
-                    formControlName="state"
-                    [values]="communicationPincode?.state"
-                    [isRequired]="'Please select one'"
-                    [isDirty]="isDirty"
-                  >
+                  <app-vf-custom-select formControlName="state" [values]="communicationPincode?.state"
+                    [isRequired]="'Please select one'" [isDirty]="isDirty">
                   </app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="passport">{{ labels.country }} <sub class="star_red_col">*</sub></label>
 
-                  <app-vf-custom-select
-                    formControlName="country"
-                    [values]="communicationPincode?.country"
-                    [isRequired]="'Please select one'"
-                    [isDirty]="isDirty"
-                  ></app-vf-custom-select>
+                  <app-vf-custom-select formControlName="country" [values]="communicationPincode?.country"
+                    [isRequired]="'Please select one'" [isDirty]="isDirty"></app-vf-custom-select>
                 </div>
-                
+
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="landline">{{labels?.nearestLandmark}}</label>
-                  
-                  <app-custom-input
-                    formControlName="nearestLandmark"
-                    [maxLength]="validationData?.landmark?.maxLength"
-                    
-                  ></app-custom-input>
+
+                  <app-custom-input formControlName="nearestLandmark" [maxLength]="validationData?.landmark?.maxLength">
+                  </app-custom-input>
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="passport">{{ labels.landlineNumber }}</label>
                   <!-- <input formControlName="landlineNumber" type="text" class="form-control" id="line3" /> -->
-                  <app-custom-input
-                    formControlName="landlineNumber"
-                    
+                  <app-custom-input formControlName="landlineNumber"
                     [maxLength]="validationData?.landlineNumber?.maxLength"
-                    [type]="validationData?.landlineNumber?.type"
-                    [patternCheck]="validationData?.phone?.patternCheck"
-                  ></app-custom-input>
+                    [type]="validationData?.landlineNumber?.type" [patternCheck]="validationData?.phone?.patternCheck">
+                  </app-custom-input>
                 </div>
               </div>
-              
+
             </div>
           </div>
         </div>
@@ -900,37 +642,21 @@
 
 <div class="btn-sec clear-both row">
   <div class="col-sm-5">
-    <button
-      class="btn btn-primary dash_href"
-      (click)="navigateToApplicantList()"
-    >
+    <button class="btn btn-primary dash_href" (click)="navigateToApplicantList()">
       <a>Back To Applicant Details</a>
     </button>
   </div>
   <div class="col-sm-7 text-right">
     <span id="edit_vehicle_details_replace"></span>
-    <a id="back_vehicle_details"
-      ><button class="btn btn-primary" type="button" (click)="onBack()">
+    <a id="back_vehicle_details"><button class="btn btn-primary" type="button" (click)="onBack()">
         Back
-      </button></a
-    >
-    <p
-      class="btn btn-primary save"
-      id="save_vehicle_details"
-      (click)="onSubmit()"
-    >
+      </button></a>
+    <p class="btn btn-primary save" id="save_vehicle_details" (click)="onSubmit()" *ngIf="!disableSaveBtn">
       Save
     </p>
-    <a id="next_vehicle_details"
-      ><button
-        class="btn btn-primary"
-        type="button"
-        (click)="onNext()"
-       
-      >
+    <a id="next_vehicle_details"><button class="btn btn-primary" type="button" (click)="onNext()">
         Next
-      </button></a
-    >
+      </button></a>
     <br />
     <br />
     <br />

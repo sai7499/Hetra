@@ -15,6 +15,7 @@ import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { TypeaheadOptions } from 'ngx-bootstrap/typeahead/public_api';
 import { VehicleDetailService } from '../../../services/vehicle-detail.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-fleet-details',
@@ -22,7 +23,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
   styleUrls: ['./fleet-details.component.css']
 })
 export class FleetDetailsComponent implements OnInit {
-
+  disableSaveBtn: boolean;
   public fleetForm: FormGroup;
   labels: any = {};
   formValidation: any = {};
@@ -117,7 +118,8 @@ export class FleetDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private uiLoader: NgxUiLoaderService,
     private vehicleDetailService: VehicleDetailService,
-    private sharedService: SharedService) {
+    private sharedService: SharedService,
+    private toggleDdeService: ToggleDdeService) {
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
     this.fleetArrayList = this.fb.array([]);
   }
@@ -662,6 +664,11 @@ export class FleetDetailsComponent implements OnInit {
         this.regionLov[0] = this.allLovs.assetRegion;
         this.vehicleManufacturer[0] =  this.allLovs.vehicleManufacturer;
         this.formArr.push(this.initRows(null));
+      }
+      const operationType = this.toggleDdeService.getOperationType();
+      if (operationType === '1') {
+          this.fleetForm.disable();
+          this.disableSaveBtn  = true;
       }
       // console.log("in get fleets", res.ProcessVariables.fleets)
       // console.log("get fleet response", res.ProcessVariables.fleets)

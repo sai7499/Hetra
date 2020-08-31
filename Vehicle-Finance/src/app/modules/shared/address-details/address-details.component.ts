@@ -25,6 +25,7 @@ import { map } from 'rxjs/operators';
 import { UtilityService } from '@services/utility.service';
 import { constants } from 'os';
 import { ToasterService } from '@services/toaster.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-address-details',
@@ -32,6 +33,7 @@ import { ToasterService } from '@services/toaster.service';
   styleUrls: ['./address-details.component.css'],
 })
 export class AddressDetailsComponent implements OnInit {
+  disableSaveBtn: boolean;
   isIndividual = true;
   addressForm: FormGroup;
   addressDetailsDataArray: any = [];
@@ -104,7 +106,8 @@ export class AddressDetailsComponent implements OnInit {
     private leadStoreService: LeadStoreService,
     private location: Location,
     private utilityService: UtilityService,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private toggleDdeService: ToggleDdeService
   ) { }
 
   async ngOnInit() {
@@ -131,6 +134,11 @@ export class AddressDetailsComponent implements OnInit {
       });
     });
 
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      this.addressForm.disable();
+      this.disableSaveBtn  = true;
+    }
 
   }
 
