@@ -87,7 +87,7 @@ export class IncomeDetailsComponent implements OnInit {
   SalariedFOIRDeviation: number;
   usedCar: boolean;
   NewOrUsedComercialVehicle: boolean;
-  
+
   constructor(
     private router: Router,
     private labelsData: LabelsService,
@@ -154,13 +154,12 @@ export class IncomeDetailsComponent implements OnInit {
 
     if (this.productCode == "UC") {
       this.usedCar = true;
-      this.getAllIncome();
     } else if (this.productCode == "NCV" || this.productCode == "UCV") {
       this.NewOrUsedComercialVehicle = true
     }
     console.log(this.incomeDetailsForm);
 
-  
+
 
 
   }
@@ -197,134 +196,134 @@ export class IncomeDetailsComponent implements OnInit {
 
   private getKeyFinancialDetails(data?: any) {
     console.log(data);
-    
-    if (data === undefined) {
 
-    return this.formBuilder.group({
-      yearOne: this.formBuilder.group({
-        applicantId: [''],
-        applicantType: [''],
-        shareCapital: [''],
-        // lorryHireChargesPaid: [''],
-        // securedLoans: [''],
-        // unSecuredLoans: [''],
-        // creditors: [''],
-        // debtors: [''],
-        // currentLiabilities: [''],
-        // fixedAssets: [''],
-        // currentAssets: [''],
-        // cashAndBankBalance: [''],
-        // revenueFromOperationsOrTopLine: [''],
-        // netProfitAfterTax: [''],
-        // depreciation: [''],
-        // partnersSalary: [''],
-        // cashGeneration: [''], 
-        // dateOfItrFiling: [''],
-      }),
+    if (data == undefined) {
 
-      yearTwo: this.formBuilder.group({
-        applicantId: [''],
-        applicantType: [''],
-        shareCapital: [''],
-        // lorryHireChargesPaid: [''],
-        // securedLoans: [''],
-        // unSecuredLoans: [''],
-        // creditors: [''],
-        // debtors: [''],
-        // currentLiabilities: [''],
-        // fixedAssets: [''],
-        // currentAssets: [''],
-        // cashAndBankBalance: [''],
-        // revenueFromOperationsOrTopLine: [''],
-        // netProfitAfterTax: [''],
-        // depreciation: [''],
-        // partnersSalary: [''],
-        // cashGeneration: [''], 
-        // dateOfItrFiling: [''],
-      }),
-      yearThree: this.formBuilder.group({
-        applicantId: [''],
-        applicantType: [''],
-        shareCapital: [''],
-        // lorryHireChargesPaid: [''],
-        // securedLoans: [''],
-        // unSecuredLoans: [''],
-        // creditors: [''],
-        // debtors: [''],
-        // currentLiabilities: [''],
-        // fixedAssets: [''],
-        // currentAssets: [''],
-        // cashAndBankBalance: [''],
-        // revenueFromOperationsOrTopLine: [''],
-        // netProfitAfterTax: [''],
-        // depreciation: [''],
-        // partnersSalary: [''],
-        // cashGeneration: [''], 
-        // dateOfItrFiling: [''],
-      }),
-    })
+      return this.formBuilder.group({
+        yearOne: this.formBuilder.group({
+          applicantId: [''],
+          applicantType: [''],
+          shareCapital: [''],
+          lorryHireChargesPaid: [''],
+          securedLoans: [''],
+          unSecuredLoans: [''],
+          creditors: [''],
+          debtors: [''],
+          currentLiabilities: [''],
+          fixedAssets: [''],
+          currentAssets: [''],
+          cashAndBankBalance: [''],
+          revenueFromOperationsOrTopLine: [''],
+          netProfitAfterTax: [''],
+          depreciation: [''],
+          partnersSalary: [''],
+          cashGeneration: [''], 
+          dateOfItrFiling: [''],
+        }),
+
+        yearTwo: this.formBuilder.group({
+          applicantId: [''],
+          applicantType: [''],
+          shareCapital: [''],
+          lorryHireChargesPaid: [''],
+          securedLoans: [''],
+          unSecuredLoans: [''],
+          creditors: [''],
+          debtors: [''],
+          currentLiabilities: [''],
+          fixedAssets: [''],
+          currentAssets: [''],
+          cashAndBankBalance: [''],
+          revenueFromOperationsOrTopLine: [''],
+          netProfitAfterTax: [''],
+          depreciation: [''],
+          partnersSalary: [''],
+          cashGeneration: [''], 
+          dateOfItrFiling: [''],
+        }),
+        yearThree: this.formBuilder.group({
+          applicantId: [''],
+          applicantType: [''],
+          shareCapital: [''],
+          lorryHireChargesPaid: [''],
+          securedLoans: [''],
+          unSecuredLoans: [''],
+          creditors: [''],
+          debtors: [''],
+          currentLiabilities: [''],
+          fixedAssets: [''],
+          currentAssets: [''],
+          cashAndBankBalance: [''],
+          revenueFromOperationsOrTopLine: [''],
+          netProfitAfterTax: [''],
+          depreciation: [''],
+          partnersSalary: [''],
+          cashGeneration: [''], 
+          dateOfItrFiling: [''],
+        }),
+      })
 
     } else {
       return this.formBuilder.group({
         yearOne: this.formBuilder.group({
-          applicantId: data.applicantId ? data.applicantId : '',
-          applicantType: data.applicantType ? data.applicantType : '',
-          shareCapital: data.shareCapital ? data.shareCapital : '',
-          // lorryHireChargesPaid: [''],
-          // securedLoans: [''],
-          // unSecuredLoans: [''],
-          // creditors: [''],
-          // debtors: [''],
-          // currentLiabilities: [''],
-          // fixedAssets: [''],
-          // currentAssets: [''],
-          // cashAndBankBalance: [''],
-          // revenueFromOperationsOrTopLine: [''],
-          // netProfitAfterTax: [''],
-          // depreciation: [''],
-          // partnersSalary: [''],
-          // cashGeneration: [''], 
-          // dateOfItrFiling: [''],
+          applicantId: data.yearOne.applicantId ? data.yearOne.applicantId : '',
+          applicantType: data.yearOne.applicantType ? data.yearOne.applicantType : '',
+          shareCapital: data.yearOne.shareCapital ? data.yearOne.shareCapital : '',
+          lorryHireChargesPaid: data.yearOne.lorryHireChargesPaid ? data.yearOne.lorryHireChargesPaid : '',
+          securedLoans: data.yearOne.securedLoans ? data.yearOne.securedLoans : '',
+          unSecuredLoans: data.yearOne.unSecuredLoans ? data.yearOne.unSecuredLoans : '',
+          creditors: data.yearOne.creditors ? data.yearOne.creditors : '',
+          debtors: data.yearOne.debtors ? data.yearOne.debtors : '',
+          currentLiabilities: data.yearOne.currentLiabilities ? data.yearOne.currentLiabilities : '',
+          fixedAssets: data.yearOne.fixedAssets ? data.yearOne.fixedAssets : '',
+          currentAssets: data.yearOne.currentAssets ? data.yearOne.currentAssets : '',
+          cashAndBankBalance: data.yearOne.cashAndBankBalance ? data.yearOne.cashAndBankBalance : '',
+          revenueFromOperationsOrTopLine: data.yearOne.revenueFromOperationsOrTopLine ? data.yearOne.revenueFromOperationsOrTopLine : '',
+          netProfitAfterTax: data.yearOne.netProfitAfterTax ? data.yearOne.netProfitAfterTax : '',
+          depreciation: data.yearOne.depreciation ? data.yearOne.depreciation : '',
+          partnersSalary: data.yearOne.partnersSalary ? data.yearOne.partnersSalary : '',
+          cashGeneration: data.yearOne.cashGeneration ? data.yearOne.cashGeneration : '', 
+          dateOfItrFiling: data.yearOne.dateOfItrFiling ? data.yearOne.dateOfItrFiling : '',
         }),
         yearTwo: this.formBuilder.group({
-          applicantId: data.applicantId ? data.applicantId : '',
-          applicantType: data.applicantType ? data.applicantType : '',
-          shareCapital: data.shareCapital ? data.shareCapital : '',
-          // lorryHireChargesPaid: [''],
-          // securedLoans: [''],
-          // unSecuredLoans: [''],
-          // creditors: [''],
-          // debtors: [''],
-          // currentLiabilities: [''],
-          // fixedAssets: [''],
-          // currentAssets: [''],
-          // cashAndBankBalance: [''],
-          // revenueFromOperationsOrTopLine: [''],
-          // netProfitAfterTax: [''],
-          // depreciation: [''],
-          // partnersSalary: [''],
-          // cashGeneration: [''], 
-          // dateOfItrFiling: [''],
+          applicantId: data.yearTwo.applicantId ? data.yearTwo.applicantId : '',
+          applicantType: data.yearTwo.applicantType ? data.yearTwo.applicantType : '',
+          shareCapital: data.yearTwo.shareCapital ? data.yearTwo.shareCapital : '',
+          lorryHireChargesPaid: data.yearTwo.lorryHireChargesPaid ? data.yearTwo.lorryHireChargesPaid : '',
+          securedLoans: data.yearTwo.securedLoans ? data.yearTwo.securedLoans : '',
+          unSecuredLoans: data.yearTwo.unSecuredLoans ? data.yearTwo.unSecuredLoans : '',
+          creditors: data.yearTwo.creditors ? data.yearTwo.creditors : '',
+          debtors: data.yearTwo.debtors ? data.yearTwo.debtors : '',
+          currentLiabilities: data.yearTwo.currentLiabilities ? data.yearTwo.currentLiabilities : '',
+          fixedAssets: data.yearTwo.fixedAssets ? data.yearTwo.fixedAssets : '',
+          currentAssets: data.yearTwo.currentAssets ? data.yearTwo.currentAssets : '',
+          cashAndBankBalance: data.yearTwo.cashAndBankBalance ? data.yearTwo.cashAndBankBalance : '',
+          revenueFromOperationsOrTopLine: data.yearTwo.revenueFromOperationsOrTopLine ? data.yearTwo.revenueFromOperationsOrTopLine : '',
+          netProfitAfterTax: data.yearTwo.netProfitAfterTax ? data.yearTwo.netProfitAfterTax : '',
+          depreciation: data.yearTwo.depreciation ? data.yearTwo.depreciation : '',
+          partnersSalary: data.yearTwo.partnersSalary ? data.yearTwo.partnersSalary : '',
+          cashGeneration: data.yearTwo.cashGeneration ? data.yearTwo.cashGeneration : '', 
+          dateOfItrFiling: data.yearTwo.dateOfItrFiling ? data.yearTwo.dateOfItrFiling : '',
         }),
-        yearThree: this.formBuilder.group({
-          applicantId: data.applicantId ? data.applicantId : '',
-          applicantType: data.applicantType ? data.applicantType : '',
-          shareCapital: data.shareCapital ? data.shareCapital : '',
-          // lorryHireChargesPaid: [''],
-          // securedLoans: [''],
-          // unSecuredLoans: [''],
-          // creditors: [''],
-          // debtors: [''],
-          // currentLiabilities: [''],
-          // fixedAssets: [''],
-          // currentAssets: [''],
-          // cashAndBankBalance: [''],
-          // revenueFromOperationsOrTopLine: [''],
-          // netProfitAfterTax: [''],
-          // depreciation: [''],
-          // partnersSalary: [''],
-          // cashGeneration: [''], 
-          // dateOfItrFiling: [''],
+        yearThree: this.formBuilder.group({ 
+          applicantId: data.yearThree.applicantId ? data.yearThree.applicantId : '',
+          applicantType: data.yearThree.applicantType ? data.yearThree.applicantType : '',
+          shareCapital: data.yearThree.shareCapital ? data.yearThree.shareCapital : '',
+          lorryHireChargesPaid: data.yearThree.lorryHireChargesPaid ? data.yearThree.lorryHireChargesPaid : '',
+          securedLoans: data.yearThree.securedLoans ? data.yearThree.securedLoans : '',
+          unSecuredLoans: data.yearThree.unSecuredLoans ? data.yearThree.unSecuredLoans : '',
+          creditors: data.yearThree.creditors ? data.yearThree.creditors : '',
+          debtors: data.yearThree.debtors ? data.yearThree.debtors : '',
+          currentLiabilities: data.yearThree.currentLiabilities ? data.yearThree.currentLiabilities : '',
+          fixedAssets: data.yearThree.fixedAssets ? data.yearThree.fixedAssets : '',
+          currentAssets: data.yearThree.currentAssets ? data.yearThree.currentAssets : '',
+          cashAndBankBalance: data.yearThree.cashAndBankBalance ? data.yearThree.cashAndBankBalance : '',
+          revenueFromOperationsOrTopLine: data.yearThree.revenueFromOperationsOrTopLine ? data.yearThree.revenueFromOperationsOrTopLine : '',
+          netProfitAfterTax: data.yearThree.netProfitAfterTax ? data.yearThree.netProfitAfterTax : '',
+          depreciation: data.yearThree.depreciation ? data.yearThree.depreciation : '',
+          partnersSalary: data.yearThree.partnersSalary ? data.yearThree.partnersSalary : '',
+          cashGeneration: data.yearThree.cashGeneration ? data.yearThree.cashGeneration : '', 
+          dateOfItrFiling: data.yearThree.dateOfItrFiling ? data.yearThree.dateOfItrFiling : '',
         }),
       });
     }
@@ -340,7 +339,7 @@ export class IncomeDetailsComponent implements OnInit {
         control.push(this.getKeyFinancialDetails(data[i]));
       }
     } else {
-    control.push(this.getKeyFinancialDetails());
+      control.push(this.getKeyFinancialDetails());
     }
   }
   removeKeyFinancialDetails(i?: any) {
@@ -349,31 +348,54 @@ export class IncomeDetailsComponent implements OnInit {
     const control = this.incomeDetailsForm.controls
       .keyFinanceDetails as FormArray;
     if (i > 0) {
-      control.removeAt(i);
+      // const body = {
+      //   userId: this.userId,
+      //   leadId: this.leadId,
+      // };
+      const keyFinancialObj = { keyFinancials: this.incomeDetailsForm.controls.keyFinanceDetails.value }
 
+      const body = {
+
+        businessIncomeDetails: this.incomeDetailsForm.controls.businessIncomeDetails.value,
+        otherIncomeDetails: this.incomeDetailsForm.controls.otherIncomeDetails.value,
+        obligationDetails: this.incomeDetailsForm.controls.obligationDetails.value,
+        keyFinanceDetails: JSON.stringify(keyFinancialObj || null),
+        salariedFOIRasperPolicy: this.incomeDetailsForm.controls.salariedFOIRasperPolicy.value,
+        salariedFOIRDeviation: this.incomeDetailsForm.controls.salariedFOIRDeviation.value,
+        leadId: this.leadId,
+        userId: this.userId,
+
+      };
+      console.log(body);
+      
+      this.incomeDetailsService
+        .setAllIncomeDetails(body)
+        .subscribe((res: any) => {
+          control.removeAt(i);
+          if (res && res.ProcessVariables.error.code == '0') {
+            // tslint:disable-next-line: prefer-const
+            let businessControls = this.incomeDetailsForm.controls
+              .businessIncomeDetails as FormArray;
+            businessControls.controls = [];
+            const otherIncomeDetailsControls = this.incomeDetailsForm.controls
+              .otherIncomeDetails as FormArray;
+            otherIncomeDetailsControls.controls = [];
+            const obligationDetailsControls = this.incomeDetailsForm.controls
+              .obligationDetails as FormArray;
+            obligationDetailsControls.controls = [];
+            const keyFinancialCOntrols = this.incomeDetailsForm.controls
+              .keyFinanceDetails as FormArray;
+            keyFinancialCOntrols.controls = [];
+            this.toasterService.showSuccess(
+              'Applicant Income Details Saved Successfully',
+              'Income Details'
+            );
+            this.getAllIncome();
+          }
+
+        });
     }
-    // const id = control.at(i).value.id;
-    // if (control.controls.length > 1) {
-    //   // tslint:disable-next-line: triple-equals
-    //   if (id == undefined) {
-    //     control.removeAt(i);
-    //     this.onIncome(null, i)
-    //   } else {
-    //     const body = {
-    //       userId: this.userId,
-    //       aBusinessIncomeDetail: { id },
-    //     };
-    //     this.incomeDetailsService
-    //       .softDeleteIncomeDetails(body)
-    //       .subscribe((res: any) => {
-    //         control.removeAt(i);
-    //         const message = res.ProcessVariables.error.message;
-    //         this.toasterService.showSuccess(message, '');
-    //         this.onIncome(null, i)
-
-    //       });
-    //   }
-    // } 
+   
     else {
       this.toasterService.showError('Atleast One Row Required', '');
     }
@@ -642,9 +664,12 @@ export class IncomeDetailsComponent implements OnInit {
         this.addOtherIncomeUnit(res.ProcessVariables.otherIncomeList);
         this.addObligationUnit(res.ProcessVariables.obligationsList);
         this.onSalFoirDeviation(this.applicantResponse.salariedFOIRDeviation);
-// if(res && res.ProcessVariables.keyFinanceDetails != undefined || ""){
-        this.addKeyFinancialDetails(JSON.parse(res.ProcessVariables.keyFinanceDetails))
-// }
+        let keyFinancialData = JSON.parse(res.ProcessVariables.keyFinanceDetails.keyFinancials || null)
+
+        console.log(keyFinancialData, "converted key data");
+       // const keyFinancialObj = keyFinancialData.keyFinancials
+        // console.log(keyFinancialObj);
+        this.addKeyFinancialDetails(keyFinancialData)
       });
   }
 
@@ -694,14 +719,15 @@ export class IncomeDetailsComponent implements OnInit {
       .keyFinanceDetails['controls'] as FormGroup;
     console.log(control);
     control[i].controls.yearOne.get('applicantType').setValue(applicantType);
-    // control[i].controls.yearTwo.get('applicantType').setValue(applicantType);
-    // control[i].controls.yearThree.get('applicantType').setValue(applicantType);
-    // const applicantName = this.applicantDetails.find(
-    //   // tslint:disable-next-line: triple-equals
-    //   (res) => res.applicantId == event
-    // ).fullName;
-    // control[i].controls.yearTwo.get('applicantId').setValue(applicantName);
-    // control[i].controls.yearThree.get('applicantId').setValue(applicantName);
+    control[i].controls.yearTwo.get('applicantType').setValue(applicantType);
+    control[i].controls.yearThree.get('applicantType').setValue(applicantType);
+    const applicantName = this.applicantDetails.find(
+      // tslint:disable-next-line: triple-equals
+      (res) => res.applicantId == event
+    ).fullName;
+    // control[i].controls.yearOne.get('applicantId').setValue(applicantName);
+    control[i].controls.yearTwo.get('applicantId').setValue(applicantName);
+    control[i].controls.yearThree.get('applicantId').setValue(applicantName);
 
     // console.log(control);
 
@@ -720,11 +746,11 @@ export class IncomeDetailsComponent implements OnInit {
     // control[i].controls.yearOne.get('applicantType').setValue(applicantType);
     control[i].controls.yearTwo.get('applicantType').setValue(applicantType);
     // control[i].controls.yearThree.get('applicantType').setValue(applicantType);
-    // const applicantName = this.applicantDetails.find(
-    //   // tslint:disable-next-line: triple-equals
-    //   (res) => res.applicantId == event
-    // ).fullName;
-    // control[i].controls.yearTwo.get('applicantId').setValue(applicantName);
+    const applicantName = this.applicantDetails.find(
+      // tslint:disable-next-line: triple-equals
+      (res) => res.applicantId == event
+    ).fullName;
+    control[i].controls.yearTwo.get('applicantId').setValue(applicantName);
     // control[i].controls.yearThree.get('applicantId').setValue(applicantName);
 
     // console.log(control);
@@ -744,12 +770,12 @@ export class IncomeDetailsComponent implements OnInit {
     // control[i].controls.yearOne.get('applicantType').setValue(applicantType);
     // control[i].controls.yearTwo.get('applicantType').setValue(applicantType);
     control[i].controls.yearThree.get('applicantType').setValue(applicantType);
-    // const applicantName = this.applicantDetails.find(
-    //   // tslint:disable-next-line: triple-equals
-    //   (res) => res.applicantId == event
-    // ).fullName;
+    const applicantName = this.applicantDetails.find(
+      // tslint:disable-next-line: triple-equals
+      (res) => res.applicantId == event
+    ).fullName;
     // control[i].controls.yearTwo.get('applicantId').setValue(applicantName);
-    // control[i].controls.yearThree.get('applicantId').setValue(applicantName);
+    control[i].controls.yearThree.get('applicantId').setValue(applicantName);
 
     // console.log(control);
 
@@ -764,10 +790,10 @@ export class IncomeDetailsComponent implements OnInit {
     // let keyFinancial = keyFinancialsArray;
     // this.incomeDetailsForm.value.keyFinanceDetails.push(keyFinancial)
     // console.log( this.incomeDetailsForm.value.keyFinanceDetails, 'key financial [][]');
-  //   let key = Object.assign({keyFinancials:this.incomeDetailsForm.value.keyFinanceDetails})
-  //  console.log(key);
-   
-   // stop here if form is invalid
+    //   let key = Object.assign({keyFinancials:this.incomeDetailsForm.value.keyFinanceDetails})
+    //  console.log(key);
+
+    // stop here if form is invalid
     if (this.incomeDetailsForm.invalid) {
       this.toasterService.showError(
         'Mandatory Fields Missing Or Invalid Pattern Detected',
@@ -822,20 +848,20 @@ export class IncomeDetailsComponent implements OnInit {
       const salariedFOIRDeviation = Number(salaryContol.value);
       salaryContol.setValue(salariedFOIRDeviation);
 
-      const keyFinancialObj = {keyFinancials : this.incomeDetailsForm.controls.keyFinanceDetails.value}
-    
-    
+      const keyFinancialObj = { keyFinancials: this.incomeDetailsForm.controls.keyFinanceDetails.value }
+
+
       const body = {
 
         businessIncomeDetails: this.incomeDetailsForm.controls.businessIncomeDetails.value,
         otherIncomeDetails: this.incomeDetailsForm.controls.otherIncomeDetails.value,
         obligationDetails: this.incomeDetailsForm.controls.obligationDetails.value,
-        keyFinanceDetails: JSON.stringify(keyFinancialObj),
+        keyFinanceDetails: JSON.stringify(keyFinancialObj || null),
         salariedFOIRasperPolicy: this.incomeDetailsForm.controls.salariedFOIRasperPolicy.value,
         salariedFOIRDeviation: this.incomeDetailsForm.controls.salariedFOIRDeviation.value,
         leadId: this.leadId,
         userId: this.userId,
-       
+
       };
 
       this.incomeDetailsService
@@ -855,12 +881,14 @@ export class IncomeDetailsComponent implements OnInit {
             const obligationDetailsControls = this.incomeDetailsForm.controls
               .obligationDetails as FormArray;
             obligationDetailsControls.controls = [];
-
+            const keyFinancialCOntrols = this.incomeDetailsForm.controls
+              .keyFinanceDetails as FormArray;
+            keyFinancialCOntrols.controls = [];
             this.toasterService.showSuccess(
               'Applicant Income Details Saved Successfully',
               'Income Details'
             );
-            // this.getAllIncome();
+            this.getAllIncome();
           }
         });
     }
