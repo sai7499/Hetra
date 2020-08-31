@@ -117,16 +117,17 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       "userId": this.userId,
       "devRuleId": obj.value.devRuleId,
       "statusCode": value + '',
-      "isRevert": Number(obj.value.statusCode) === value ? true : false,
+      "isRevert": false
     }
 
     this.deviationService.approveDeclineDeviation(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        0
         let DevisionApproveDecline = res.ProcessVariables ? res.ProcessVariables : {};
-        this.toasterService.showSuccess((value === 1 ? 'Approve' : value === 2 ? 'Refer to Next Level' : 'Decline') + 'Deviation Successfully', 'Status of Deviation')
+        this.toasterService.showSuccess('Deviation status updated successfully', 'Deviation approval')
         this.getDeviationDetails()
       } else {
-        this.toasterService.showError(res.ErrorMessage, 'Approve Decline Deviation')
+        this.toasterService.showError(res.ErrorMessage, 'Deviation approval')
       }
     })
 
@@ -148,6 +149,15 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
     data.filter((res: any) => {
       total += Number(res.statusCode)
+      if (res.statusCode === 1) {
+        this.isSendBacktoCredit = 1;
+      }
+      return total;
+    })
+
+    data.some((item: any) => {
+      console.log(item, 'item')
+      return item
     })
 
     if (total === NaN) {
@@ -159,11 +169,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         this.isSendBacktoCredit = 0;
       }
     }
-
-    setTimeout(() => {
-      // console.log(total,'Send', this.isSendBacktoCredit)
-    })
-
   }
 
   getDeviationMaster() {
@@ -214,6 +219,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             return data
           })
           this.deviationLov.deviation = deviationArray;
+          console.log(this.deviationLov, 'Lov')
         }
         this.getDeviationDetails();
 
@@ -268,6 +274,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     return this._fb.group({
       approverRole: ['', Validators.required],
       approverRoleName: [''],
+      approverRoles: [''],
       shortDeDesc: [''],
       devCode: ['', Validators.required],
       devDesc: [""],
@@ -306,8 +313,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
       this.deviationService.getDeleteDeviation(id).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-          this.getDeviationDetails()
-          this.toasterService.showSuccess('Delete Devision Successfully', 'Delete Deviation')
+          this.toasterService.showSuccess('Delete Devision Successfully', 'Delete Deviation');
+          this.getDeviationDetails();
         } else {
           this.toasterService.showError(res.ErrorMessage, 'Delete Deviation')
         }
@@ -346,38 +353,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
     this.deviationService.autoDeviationDetails(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === "0") {
-
-        this.deviationList = res.ProcessVariables.deviationList ? JSON.parse(res.ProcessVariables.deviationList) : [];
-
-        const autoDeviationFormArray = (this.deviationsForm.get('autoDeviationFormArray') as FormArray);
-
-        if (res.ProcessVariables.deviationList && res.ProcessVariables.deviationList.length > 0) {
-
-          this.deviationList.map((data: any) => {
-
-            let typeofRole = this.creditRoles.find((res: any) => {
-              return Number(data.opApproverId) === res.id;
-            })
-
-            let type = typeofRole ? Number(typeofRole.type) : 0;
-            let hierarchy = typeofRole ? typeofRole.hierarchy + '' : '0';
-
-            autoDeviationFormArray.push(
-              this._fb.group({
-                devCode: data.opDeviationRuleId,
-                devDesc: data.opDeviationRule,
-                approverRole: data.opApproverId,
-                approverRoleName: data.opApprover,
-                devRuleId: 0,
-                isManualDev: '0',
-                type: type,
-                hierarchy: hierarchy,
-                justification: data.opRemarks,
-                statusCode: [{ value: null, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
-              }))
-            return data
-          })
-        }
+        this.getDeviationDetails();
       } else {
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Auto Deviation')
       }
@@ -396,14 +372,26 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     manualDiviationFormArray.controls = [];
     autoDeviationFormArray.controls = [];
 
+    let typeofRole;
+    let splitData = [];
+
     array.map((data: any) => {
-      let typeofRole = this.creditRoles.find((res: any) => {
-        return Number(data.approverRole) === res.id;
+
+      let approverRole = data.approverRoles ? data.approverRoles : data.approverRole;
+
+      splitData = approverRole.split('|')
+
+      splitData.find((role: any) => {
+        typeofRole = this.creditRoles.find((res: any) => {
+          if (Number(role) === res.id) {
+            return res
+          }
+        })
+        return typeofRole;
       })
 
       let type = typeofRole ? Number(typeofRole.type) : 0;
       let hierarchy = typeofRole ? typeofRole.hierarchy + '' : '0';
-
       if (data.isManualDev === '1') {
 
         manualDiviationFormArray.push(
@@ -506,6 +494,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         this.deviationService.sendBackToCredit(data).subscribe((res: any) => {
           if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
             this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Send Back to Credit')
+            this.router.navigate(['pages/dashboard'])
           } else {
             this.toasterService.showError(res.ErrorMessage, 'Send Back to Credit')
           }

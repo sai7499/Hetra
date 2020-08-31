@@ -278,13 +278,13 @@
                             [placeholder]="'Mobile Number of Vehicle Owner/Dealer'"
                             [maxLength]="label.validationData?.mobileNumber.maxLength"
                             [patternCheck]="label.validationData?.mobileNumber.pattern"
-                            (keyUp)="onChangeMobileNumber($event.target.value)"
                             (change)="onChangeMobileNumber($event.target.value)"
+                            (keyUp)="onChangeMobileNumber($event.target.value)"
                             [isRequired]="'Mobile Number of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                         </app-custom-input>
 
                         <div class="invalid-feedback"
-                            *ngIf="obj.controls['ownerMobileNo'].touched && isInvalidMobileNumber">
+                            *ngIf="obj.controls['ownerMobileNo'].touched && basicVehicleForm.controls['isInvalidMobileNumber'].value === false">
                             Invalid Mobile Number of Vehicle Owner/Dealer
                         </div>
 
@@ -323,7 +323,7 @@
                             (keyup)="getPincode(obj.controls['pincode'].value)"
                             [isRequired]="'Vehicle Address PINCODE Required'" [isDirty]="isDirty">
                         </app-custom-input>
-                        
+
                         <div class="invalid-feedback"
                             *ngIf="basicVehicleForm.controls['isValidPincode'].value === false">
                             Invalid Pincode
@@ -1296,13 +1296,13 @@
                                 [placeholder]="'Mobile Number of Vehicle Owner/Dealer'"
                                 [maxLength]="label.validationData?.mobileNumber.maxLength"
                                 [patternCheck]="label.validationData?.mobileNumber.pattern"
-                                (keyUp)="onChangeMobileNumber($event.target.value)"
+                                
                                 (change)="onChangeMobileNumber($event.target.value)"
                                 [isRequired]="'Mobile Number of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                             </app-custom-input>
 
                             <div class="invalid-feedback"
-                                *ngIf="obj.controls['ownerMobileNo'].touched && isInvalidMobileNumber">
+                                *ngIf="obj.controls['ownerMobileNo'].touched && basicVehicleForm.controls['isInvalidMobileNumber'].value === false">
                                 Invalid Mobile Number of Vehicle Owner/Dealer
                             </div>
 
@@ -1894,7 +1894,8 @@
 
                             <app-custom-input formControlName="gorssVehicleWeight"
                                 [type]="label.validationData?.gorssVehicleWeight.type" [id]="'gross_vehicle_weight'"
-                                [className]="'form-control'" [maxLength]="label.validationData?.gorssVehicleWeight.maxLength"
+                                [className]="'form-control'"
+                                [maxLength]="label.validationData?.gorssVehicleWeight.maxLength"
                                 [placeholder]="'Gross Vehicle Weight'">
                             </app-custom-input>
                         </div>

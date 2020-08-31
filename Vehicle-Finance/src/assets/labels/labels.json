@@ -2243,18 +2243,47 @@
             "maxLength": {
                 "rule": 3
             },
-           
-             "minLength": {
+            "minLength": {
                 "rule": 2
             },
             "type": "number"
         },
         "NegotiatedLoanAmount": {
             "maxLength": {
-                "rule": 7
+                "rule": 10
             },
             "minLength": {
                 "rule": 5
+            },
+            "type": "number"
+        },
+        "FASTagAmount": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
+        "lifeCoverPremiumAmount": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
+        "VASPremiumAmount": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
+        "PACPremiumAmount": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
+        "MIPremiumAmount": {
+            "maxLength": {
+                "rule": 10
             },
             "type": "number"
         },
