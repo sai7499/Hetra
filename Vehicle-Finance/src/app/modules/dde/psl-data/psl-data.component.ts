@@ -22,7 +22,6 @@ export class PslDataComponent implements OnInit {
 
   labels: any = {};
   LOV: any = [];
-  test: any;
 
   formValues: any = {};
   pslData: any = [];
@@ -98,9 +97,9 @@ export class PslDataComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.initForm();
     this.getLabels();
     this.getLOV();
-    this.initForm();
   }
 
   getLabels() {
@@ -115,7 +114,7 @@ export class PslDataComponent implements OnInit {
       this.leadId = Number(val.leadId);
       this.getPslData();
     });
-    console.log("LEADID::::", this.leadId);
+    console.log("LEADID::", this.leadId);
   }
 
   getLOV() {
@@ -124,7 +123,7 @@ export class PslDataComponent implements OnInit {
       this.getDependentDropdownLOV();
       this.getProofOfInvestmentLOVS();
     });
-    console.log("PSL-DATA_LOV::::", this.LOV);
+    console.log("PSL-DATA_LOV::", this.LOV);
   }
 
   //Get Dependent API LOV for Activity, Detail Activity & Purpose of Loan
@@ -139,7 +138,7 @@ export class PslDataComponent implements OnInit {
     });
   }
 
-  // CREATE FORMS
+  // CREATE_PSLDATA_FORMGROUPS
   initForm() {
     this.pslDataForm = this.formBuilder.group({
       activity: ["", Validators.required],
@@ -289,7 +288,7 @@ export class PslDataComponent implements OnInit {
     });
   }
 
-  //GET API FOR PSL-DATA
+  //CALLING_GET_API_FOR_PSL-DATA&&PATCHING_VALUES
   getPslData() {
     const data = this.leadId;
     this.pslDataService.getPslData(data).subscribe((res: any) => {
@@ -456,10 +455,40 @@ export class PslDataComponent implements OnInit {
     this.isInvestmentInPlantMachinery = true;
     this.isLandHoldingYes = true;
     this.isGoosManufactured = true;
+    //CLEAR_PREVIOUS_VALUES_OF_FORMCONTROLS_IF_FORMGROUP_CHANGES
+    this.pslDataForm.get('agriculture').patchValue({
+      detailActivity: "",
+      pslCategory: "",
+      purposeOfLoan: "",
+      landHolding: "",
+      landOwner: "",
+      landArea: 0,
+      relationshipWithLandOwner: "",
+      farmerType: "",
+      landProof: "",
+      pslSubCategory: "",
+      pslCCertificate: "",
+      weakerSection: "",
+    });
+    this.pslDataForm.get('microSmallAndMediumEnterprises').patchValue({
+      detailActivity: "",
+      pslCategory: "",
+      purposeOfLoan: "",
+      goodsManufactured: "",
+      typeOfService: "",
+      proofOfInvestment: "",
+      otherInvestmentCost: 0,
+      totalInvestmentCost: 0,
+      investmentInEquipment: 0,
+      investmentInPlantAndMachinery: 0,
+      pslSubCategory: "",
+      pslCCertificate: "",
+    });
   }
 
   // GET ALL LOV  FOR "DETAIL-ACIVITY DROPDOWN" WHICH IS BASED ON IT
   getLovForDetailActivity() {
+    //CLEAR_PREVIOUS_VALUES_OF_FORMCONTROLS_IF_DETAIL-ACTIVITY_CHANGES
     this.pslDataForm.get("agriculture").patchValue({
       purposeOfLoan: "",
       landHolding: "",
@@ -475,6 +504,7 @@ export class PslDataComponent implements OnInit {
     this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
       purposeOfLoan: "",
       goodsManufactured: "",
+      typeOfService: "",
       proofOfInvestment: "",
       otherInvestmentCost: 0,
       totalInvestmentCost: 0,
@@ -492,25 +522,13 @@ export class PslDataComponent implements OnInit {
         };
         this.endUseValues.push(data);
       }
-      //If DETAIL_ACTIVITY as MSME service
-      if (this.detailActivityChange === "6PSLDTLACTVTY") {
-        const data = this.LOV.LOVS.typeOfService;
-        this.typeOfService = data;
-        this.isGoosManufactured = false;
-      } else {
-        this.typeOfService = [
-          { key: "Not Applicable", value: "Not Applicable" },
-        ];
-        this.isGoosManufactured = true;
-      }
     });
-    
-    //If DETAIL_ACTIVITY as ALLIED ACTIVITY
+    //If DETAIL_ACTIVITY AS ALLIED ACTIVITY
     if (this.detailActivityChange === "2PSLDTLACTVTY") {
       this.pslLandHolding = [{ key: 0, value: "No" }];
       this.landAreaInAcresValue = 0;
-      this.isLandHoldingYes = false;   //When selected "Allied Activities" in Detail_Activity
-      //IF_DETAILS-ACTIVITY-ALLIED ACTIVITIES--> PSLSUBCATEGORY AS OTHER-FARMER
+      this.isLandHoldingYes = false; //When selected "Allied Activities" in Detail_Activity
+      //IF_DETAILS-ACTIVITY-ALLIED ACTIVITIES--> AUTOMATICALLY PSLSUBCATEGORY AS OTHER-FARMER
       this.LOV.LOVS.pslSubCategory.filter((element) => {
         if (element.key === "3PSLSUBCAT") {
           this.pslSubCategoryData = [{ key: element.key, value: element.value }];
@@ -518,8 +536,49 @@ export class PslDataComponent implements OnInit {
           this.formValues.pslSubCategory = this.pslSubCategoryData[0].key;
         }
       });
+      this.LOV.LOVS.pslCertificate.filter((element) => {
+        if (element.key === "3PSLCRTFCTE") {
+          this.data = [{ key: element.key, value: element.value }];
+          this.pslCertificateValues = this.data;
+          this.formValues.pslCCertificate = this.data[0].key;
+        }
+      });
+      this.LOV.LOVS.weakerSection.filter((element) => {
+        if (element.key != '1PSLWKRSCT') {
+          const data = { key: element.key, value: element.value };
+          this.weakerSectionValues.push(data);
+        }
+      }); 
+      //AUTOPOPULATE_PSLSUBCATEGORY||PSLCERTIFICATE||WEAKERSECTION DATA_IF_ALLIED-ACTIVITY_SELECTED
+      if (this.pslSubCategoryValues.length == 1) {
+        this.pslDataForm.get("agriculture").patchValue({
+          pslSubCategory: this.pslSubCategoryValues[0].key
+        });
+      } else {
+        this.pslDataForm.get("agriculture").patchValue({
+          pslSubCategory: ""
+        });
+      }
+      if (this.pslCertificateValues.length == 1) {
+        this.pslDataForm.get("agriculture").patchValue({
+          pslCCertificate: this.pslCertificateValues[0].key
+        });
+      } else {
+        this.pslDataForm.get("agriculture").patchValue({
+          pslCCertificate: ""
+        });
+      }
+      if (this.weakerSectionValues.length == 1) {
+        this.pslDataForm.get("agriculture").patchValue({
+          weakerSection: this.weakerSectionValues[0].key
+        });
+      } else {
+        this.pslDataForm.get("agriculture").patchValue({
+          weakerSection: ""
+        });
+      }
     }
-    //If DETAIL_ACTIVITY as AGRICULTURE
+    //If DETAIL_ACTIVITY AS AGRICULTURE
     else if (this.detailActivityChange === "1PSLDTLACTVTY") {
       this.pslLandHolding = [
         { key: 1, value: "Yes" },
@@ -527,7 +586,7 @@ export class PslDataComponent implements OnInit {
       ];
       this.isLandHoldingYes = true;
     }
-    //For DETAIL_ACTIVITY--AGRICULTURE OR ALLIED>>>>>
+    //DETAIL_ACTIVITY_AS_AGRICULTURE_OR_ALLIED-ACTIVITIES
     if (
       this.detailActivityChange === "1PSLDTLACTVTY" ||
       this.detailActivityChange === "2PSLDTLACTVTY"
@@ -581,6 +640,9 @@ export class PslDataComponent implements OnInit {
     }
     //IF DETAIL-ACTIVITY AS "SERVICE"
     if (this.detailActivityChange === "6PSLDTLACTVTY") {
+      const data = this.LOV.LOVS.typeOfService;
+      this.typeOfService = data;
+      this.isGoosManufactured = false;
       this.isInvestmentInEquipment = true;
       this.investmentInPlantMachineryValue = 0;
       this.LOV.LOVS.pslCategory.filter((element) => {
@@ -597,6 +659,8 @@ export class PslDataComponent implements OnInit {
         .get("microSmallAndMediumEnterprises.investmentInEquipment")
         .updateValueAndValidity();
     } else {
+      this.typeOfService = [{ key: "Not Applicable", value: "Not Applicable" }];
+      this.isGoosManufactured = true;
       this.isInvestmentInEquipment = false;
       this.pslDataForm
         .get("microSmallAndMediumEnterprises.investmentInEquipment")
@@ -604,6 +668,24 @@ export class PslDataComponent implements OnInit {
       this.pslDataForm
         .get("microSmallAndMediumEnterprises.investmentInEquipment")
         .updateValueAndValidity();
+    }
+    if (this.pslCategoryValues.length == 1) {
+      this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
+        pslCategory: this.pslCategoryValues[0].key
+      });
+    } else {
+      this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
+        pslCategory: ""
+      });
+    }
+    if (this.pslCategoryValues.length == 1) {
+      this.pslDataForm.get("agriculture").patchValue({
+        pslCategory: this.pslCategoryValues[0].key
+      });
+    } else {
+      this.pslDataForm.get("agriculture").patchValue({
+        pslCategory: ""
+      });
     }
   }
 
@@ -717,20 +799,6 @@ export class PslDataComponent implements OnInit {
     console.log("weakerSectionChange::", this.formValues.weakerSection);
   }
 
-  // onChangePslCertificate (event:any) {
-  //   let pslCerticateChange = event.target.value;
-  //   console.log("PSL_CERTIFICATE_CHANGE_ID--", pslCerticateChange);
-  // if (this.pslSubCategoryChange === "1PSLSUBCAT" || this.pslSubCategoryChange === "2PSLSUBCAT") {
-  //   const data = [
-  //     {
-  //       key: this.LOV.LOVS.weakerSection[0].key,
-  //       value: this.LOV.LOVS.weakerSection[0].value,
-  //     }
-  //   ];
-  //   this.weakerSectionValues = data;
-  // }
-  // }
-
   // Change in PSL_SUBCATEGORY BASED UPON INPUT VALUE IN "LAND AREA IN ACRES"
   setValueForPslCategoryByLandArea() {
     this.weakerSectionValues = [];
@@ -809,9 +877,34 @@ export class PslDataComponent implements OnInit {
           }
         }); 
     }
-    this.pslDataForm.get("agriculture").patchValue({
-      weakerSection: "",
-    });
+    //TO AUTO-POPULATE PSL-SUBCATEGORY||PSL-CERTIFICATE||PSL-WEAKERSECTION DATA
+    if (this.pslSubCategoryValues.length == 1) {
+      this.pslDataForm.get("agriculture").patchValue({
+        pslSubCategory: this.pslSubCategoryValues[0].key
+      });
+    } else {
+      this.pslDataForm.get("agriculture").patchValue({
+        pslSubCategory: ""
+      });
+    }
+    if (this.pslCertificateValues.length == 1) {
+      this.pslDataForm.get("agriculture").patchValue({
+        pslCCertificate: this.pslCertificateValues[0].key
+      });
+    } else {
+      this.pslDataForm.get("agriculture").patchValue({
+        pslCCertificate: ""
+      });
+    }
+    if (this.weakerSectionValues.length == 1) {
+      this.pslDataForm.get("agriculture").patchValue({
+        weakerSection: this.weakerSectionValues[0].key
+      });
+    } else {
+      this.pslDataForm.get("agriculture").patchValue({
+        weakerSection: ""
+      });
+    }
   }
 
   // CHANGE IN LAND AREA VALUE
@@ -911,9 +1004,25 @@ export class PslDataComponent implements OnInit {
         }
       });
     }
-    // this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
-    //   pslSubCategory: "",
-    // });
+    //TO AUTO-POPULATE PSL-SUBCATEGORY AND PSL-CERTIFICATE DATA
+    if (this.pslSubCategoryValues.length == 1) {
+      this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
+        pslSubCategory: this.pslSubCategoryValues[0].key
+      });
+    } else {
+      this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
+        pslSubCategory: ""
+      });
+    }
+    if (this.pslCertificateValues.length == 1) {
+      this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
+        pslCCertificate: this.pslCertificateValues[0].key
+      });
+    } else {
+      this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
+        pslCCertificate: ""
+      });
+    }
   }
 
   // CHANGE IN VALUE OF INVESTMENT IN PLANT AND MACHINERY
@@ -1013,9 +1122,25 @@ export class PslDataComponent implements OnInit {
         }
       });
     }
-    // this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
-    //   pslSubCategory: "",
-    // });
+    //TO AUTO-POPULATE PSL-SUBCATEGORY AND PSL-CERTIFICATE DATA
+    if (this.pslSubCategoryValues.length == 1) {
+      this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
+        pslSubCategory: this.pslSubCategoryValues[0].key
+      });
+    } else {
+      this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
+        pslSubCategory: ""
+      });
+    }
+    if (this.pslCertificateValues.length == 1) {
+      this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
+        pslCCertificate: this.pslCertificateValues[0].key
+      });
+    } else {
+      this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
+        pslCCertificate: ""
+      });
+    }
   }
 
   //GET LOV FOR "PROOF OF INVESTMENT" EXCEPT "CA CERTIFICATE"
@@ -1139,7 +1264,9 @@ export class PslDataComponent implements OnInit {
 
   //SET VALIDATION AND SET LOV FOR PSL LAND HOLDING 
   onSelectPslLandHolding() {
+    //TO_CLEAR_PREVIOUS_FORMCONTROLS_VALUES_IF_LANDHOLDING_CHANGES
     this.pslDataForm.get("agriculture").patchValue({
+      // purposeOfLoan: "",
       landOwner: "",
       relationshipWithLandOwner: "",
       landProof: "",
@@ -1221,7 +1348,35 @@ export class PslDataComponent implements OnInit {
       this.pslDataForm.get("agriculture.landOwner").updateValueAndValidity();
       this.pslDataForm.get("agriculture.relationshipWithLandOwner").clearValidators();
       this.pslDataForm.get("agriculture.relationshipWithLandOwner").updateValueAndValidity();
-    }
+      //TO AUTOPOPULATE DATA_PSLSUBCATEGORY||PSLCERTIFICATE||WEAKERSECTION
+      if (this.pslSubCategoryValues.length == 1) {
+        this.pslDataForm.get("agriculture").patchValue({
+          pslSubCategory: this.pslSubCategoryValues[0].key
+        });
+      } else {
+        this.pslDataForm.get("agriculture").patchValue({
+          pslSubCategory: ""
+        });
+      }
+      if (this.pslCertificateValues.length == 1) {
+        this.pslDataForm.get("agriculture").patchValue({
+          pslCCertificate: this.pslCertificateValues[0].key
+        });
+      } else {
+        this.pslDataForm.get("agriculture").patchValue({
+          pslCCertificate: ""
+        });
+      }
+      if (this.weakerSectionValues.length == 1) {
+        this.pslDataForm.get("agriculture").patchValue({
+          weakerSection: this.weakerSectionValues[0].key
+        });
+      } else {
+        this.pslDataForm.get("agriculture").patchValue({
+          weakerSection: ""
+        });
+      }
+    } 
   }
 
   //CHANGE OPTION IN LAND HOLDING
@@ -1309,6 +1464,16 @@ export class PslDataComponent implements OnInit {
         }
       });
     }
+    //AUTOPOPULATE_RELATIONSHIPWITHLANDOWNER_IF_LANDOWNER_AS_APPLICANT
+    if(this.relationshipWithLandOwner.length == 1) {
+      this.pslDataForm.get('agriculture').patchValue({
+        relationshipWithLandOwner: this.relationshipWithLandOwner[0].key
+      });
+    } else {
+      this.pslDataForm.get('agriculture').patchValue({
+        relationshipWithLandOwner: ""
+      });
+    }
   }
 
   //CHANGE LOV IN RELATIONSGIP WITH LAND OWNER
@@ -1350,7 +1515,7 @@ export class PslDataComponent implements OnInit {
       this.isDirty = true;
       this.formValues = this.pslDataForm.get("agriculture").value;
       console.log("FormValues::", this.formValues);
-      //IF NOT PSL CERTIFICATE FOUND 
+      //IF_PSL-CERTIFICATE_NOT_FOUND 
       if (!this.formValues.pslCCertificate) {
         return;
       }
@@ -1385,7 +1550,7 @@ export class PslDataComponent implements OnInit {
       this.isDirty = true;
       this.formValues = this.pslDataForm.get("microSmallAndMediumEnterprises").value;
       console.log("FormValues::", this.formValues);
-      //IF NOT PSL CERTIFICATE FOUND 
+      //IF_PSL-CERTIFICATE_NOT_FOUND 
       if (!this.formValues.pslCCertificate) {
         return;
       }
@@ -1396,7 +1561,6 @@ export class PslDataComponent implements OnInit {
       this.formValues.typeOfService = this.typeOfService[0].key;
       this.formValues.purposeOfLoan = this.purposeOfLoanChange;
       this.formValues.totalInvestmentCost = this.totalInvestmentCost;
-      // this.formValues.investmentInEquipment = this.investmentInEquipmentValue;
       const data = {
         userId: localStorage.getItem("userId"),
         leadId: this.leadId,
