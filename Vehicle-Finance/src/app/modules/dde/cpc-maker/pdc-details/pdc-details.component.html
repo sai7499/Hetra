@@ -50,7 +50,8 @@
                             
                         </div>
                             
-                            <div class="row col-lg-12 test_class" id="show_1_div_identity" *ngFor="let item of pdcForm.get('pdcList')['controls']; let i= index " [formGroupName]="i">
+                            <div class="row col-lg-12 test_class" id="show_1_div_identity" style="margin-bottom: 8px;"
+                                *ngFor="let item of pdcForm.get('pdcList')['controls']; let i= index " [formGroupName]="i">
                                  <!-- <div class="form-group col-sm-6 col-md-2 col-lg-2">
                                    
                                     
@@ -215,7 +216,8 @@
                                     </div>
                                     
                                 </div>
-                                <div class="row col-lg-12 test_class" style="margin-bottom: 8px;" id="show_1_div_identity" *ngFor="let item of pdcForm.get('spdcList')['controls']; let i= index " [formGroupName]="i">
+                                <div class="row col-lg-12 test_class" style="margin-bottom: 8px;" 
+                                    id="show_1_div_identity" *ngFor="let item of pdcForm.get('spdcList')['controls']; let i= index " [formGroupName]="i">
                                     <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <label for="business_division" class="height_label"></label> -->
           
@@ -400,7 +402,7 @@
                 <p>Are you sure want to delete record ?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteRows('spdcList',i)">Yes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteRows('spdcList')">Yes</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>

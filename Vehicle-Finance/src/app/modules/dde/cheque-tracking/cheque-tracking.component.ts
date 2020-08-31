@@ -29,7 +29,10 @@ export class ChequeTrackingComponent implements OnInit {
   index: number;
   disableUpdate: boolean = true;
   showStatusDate: boolean;
+  showChequeNum : boolean;
+  showRemark : boolean;
   statusValue: string;
+  
   showChequeNumError: boolean;
   isDirty = false
 
@@ -70,8 +73,8 @@ export class ChequeTrackingComponent implements OnInit {
   }
   initForm() {
     this.chequeForm = new FormGroup({
-      details: new FormArray([]),
-      // chequeNum: new FormControl(''),
+      //details: new FormArray([]),
+      chequeNum: new FormControl(''),
       // chequeDate: new FormControl(''),
       // statusUpdatedOn: new FormControl(''),
       status: new FormControl('', Validators.required),
@@ -105,7 +108,7 @@ export class ChequeTrackingComponent implements OnInit {
     this.chequeTrackingService.getChequeTracking(data).subscribe((res) => {
       if (res['ProcessVariables'].error.code == '0') {
         const data = res['ProcessVariables'].chequeData;
-        this.addUnit(data)
+        //this.addUnit(data)
         setTimeout(() => {
           this.chequeData = data;
           
@@ -118,118 +121,165 @@ export class ChequeTrackingComponent implements OnInit {
 
 
 
-  addUnit(data) {
-    const control = this.chequeForm.controls.details as FormArray;
-    console.log(data, 'control', control)
-    if (data && data.length > 0) {
-      for (let i = 0; i < data.length; i++) {
-        control.push(this.setChequeData(data[i]));
-      }
-    }
-  }
+  // addUnit(data) {
+  //   const control = this.chequeForm.controls.details as FormArray;
+  //   console.log(data, 'control', control)
+  //   if (data && data.length > 0) {
+  //     for (let i = 0; i < data.length; i++) {
+  //       control.push(this.setChequeData(data[i]));
+  //     }
+  //   }
+  // }
 
-  setChequeData(data) {
-    const chequeDate = data.chequeDate !== null ? new Date(
-      this.utilityService.getDateFromString(data.chequeDate)
-    ) : '';
-    const statusUpdatedOn = data.statusUpdatedOn !== null ? new Date(
-      this.utilityService.getDateFromString(data.statusUpdatedOn)
-    ) : '';
-    return new FormGroup({
-      chequeNum: new FormControl(data.chequeNum),
+  // setChequeData(data) {
+    // const chequeDate = data.chequeDate !== null ? new Date(
+    //   this.utilityService.getDateFromString(data.chequeDate)
+    // ) : '';
+    // const statusUpdatedOn = data.statusUpdatedOn !== null ? new Date(
+    //   this.utilityService.getDateFromString(data.statusUpdatedOn)
+    // ) : '';
+    // return new FormGroup({
+    //   chequeNum: new FormControl(data.chequeNum),
       // chequeDate: new FormControl(chequeDate),
       // statusUpdatedOn: new FormControl(statusUpdatedOn ),
-    });
+  //   });
 
-  }
+  // }
 
 
 
   onChangeStatus(event) {
 
     const value = event.target.value;
-    this.statusValue = value;
+
+    this.showChequeNum= false;
+    this.showRemark= false;
+    this.showStatusDate= false;
     const status = this.LOV.LOVS.chequeStatus
     const findValue = status.find(element => element.key == value)
     if (this.selectedData) {
       this.selectedData.chequeStatusDesc = findValue.value
     }
+    this.forHandedOver(value);
+    this.forBranchReceived(value);
+    this.forOnHold(value);  
+  }
+
+  forHandedOver(value){
     if (value == 'HANDEDOVERCHEQUESTS') {
       this.chequeForm.get('statusUpdatedOn').setValidators([Validators.required]);
       this.chequeForm.get('statusUpdatedOn').updateValueAndValidity();
       this.showStatusDate = true;
+      this.chequeForm.get('statusUpdatedOn').setValue('')
+      
     }
     else {
       this.chequeForm.get('statusUpdatedOn').clearValidators();
       this.chequeForm.get('statusUpdatedOn').updateValueAndValidity();
-      this.chequeData[this.index].statusUpdatedOn= '-'
+      //this.chequeData[this.index].statusUpdatedOn= '-'
       this.showStatusDate = false;
     }
   }
+  forBranchReceived(value){
+    if (value == 'BRNCHRECEIVEDCHEQUESTS') {
+      this.chequeForm.get('chequeNum').setValidators([Validators.required]);
+      this.chequeForm.get('chequeNum').updateValueAndValidity();
+      this.showChequeNum = true;
+      this.chequeForm.get('chequeNum').setValue('')
+    }
+    else {
+      this.chequeForm.get('chequeNum').clearValidators();
+      this.chequeForm.get('chequeNum').updateValueAndValidity();
+      //this.chequeData[this.index].statusUpdatedOn= '-'
+      this.showChequeNum = false;
+    }
+  }
+
+  forOnHold(value){
+    if (value == 'ONHOLDCHEQUESTS') {
+      this.chequeForm.get('remarks').setValidators([Validators.required]);
+      this.chequeForm.get('remarks').updateValueAndValidity();
+      this.showRemark = true;
+      this.selectedData.remarks='-';
+      this.chequeForm.get('remarks').setValue('')
+    }
+    else {
+      this.chequeForm.get('remarks').clearValidators();
+      this.chequeForm.get('remarks').updateValueAndValidity();
+      //this.chequeData[this.index].statusUpdatedOn= '-'
+      this.showRemark = false;
+    }
+  }
   onGetChequeData(data, index, event) {
+
     this.disableUpdate = false;
     this.index = index;
 
     this.selectedData = data;
     console.log('statusUpdaed', this.selectedData)
-    const control = this.chequeForm.controls.details as FormArray;
-
-    this.selectedData.chequeNum = control.controls[index].value.chequeNum;
+    
 
     this.chequeForm.get('status').setValue('')
+    this.showChequeNum= false;
+    this.showRemark= false;
+    this.showStatusDate= false;
+    if(this.selectedData.chequeStatus=="ONHOLDCHEQUESTS"){
+      this.showRemark= true;
+  }
+    
 
   }
 
-  onChangeCheque(i, event) {
-    if (this.selectedData) {
-      if (this.index == i) {
+  onChangeCheque( event) {
         this.selectedData.chequeNum = event;
-      }
-    }
   }
 
-  updateStatusDate(event){
-    this.chequeData[this.index].statusUpdatedOn=this.utilityService.getDateFormat(event)
+  onRemarkValue(event){
+    //console.log('event', event)
+    this.selectedData.remarks = event;
+
+
   }
   onUpdate() {
     const value = this.chequeForm.value;
     console.log('value', this.chequeForm)
 
-    const control = this.chequeForm.controls.details as FormArray;
+   // const control = this.chequeForm.controls.details as FormArray;
     if (this.chequeForm.invalid) {
-      console.log('valid', this.chequeForm)
       this.isDirty = true;
       this.toasterService.showError( 'Please fill mandatory fields.',
       'Cheque Tracking')
       return;
     }
-    if (this.statusValue == 'BRNCHRECEIVEDCHEQUESTS') {
-      const chequeNumValue=control.controls[this.index].get('chequeNum').value
-      if (chequeNumValue == null ||chequeNumValue== undefined || chequeNumValue== '') {
-        this.toasterService.showError( 'Please fill mandatory fields.',
-        'Cheque Tracking')
-        return;
-      }
+    // if (this.statusValue == 'BRNCHRECEIVEDCHEQUESTS') {
+    //   const chequeNumValue=control.controls[this.index].get('chequeNum').value
+    //   if (chequeNumValue == null ||chequeNumValue== undefined || chequeNumValue== '') {
+    //     this.toasterService.showError( 'Please fill mandatory fields.',
+    //     'Cheque Tracking')
+    //     return;
+    //   }
 
-    }
+    // }
     if (!this.selectedData) {
       return null
     }
   
     const chequeData = {
-      chequeAmt: this.selectedData.chequeAmt,
-      chequeDate: this.selectedData.chequeDate,
-      chequeNum: this.selectedData.chequeNum,
-      chequeStatus: value.status,
-      disbId: this.selectedData.disbId,
-      favTo: this.selectedData.favTo,
-      mode: this.selectedData.mode,
-      payableTo: this.selectedData.payableTo,
+      chequeAmt: this.selectedData.chequeAmt || '',
+      chequeDate: this.selectedData.chequeDate || '',
+      chequeNum: this.selectedData.chequeNum || '',
+      chequeStatus: value.status || '',
+      disbId: this.selectedData.disbId || '',
+      favTo: this.selectedData.favTo || '',
+      mode: this.selectedData.mode || '',
+      payableTo: this.selectedData.payableTo || '',
       statusUpdatedOn: this.utilityService.getDateFormat(value.statusUpdatedOn ) || "",
-      trancheId: this.selectedData.trancheId,
-      remarks: value.remarks
+      trancheId: this.selectedData.trancheId || '',
+      remarks: value.remarks || '',
+      loanAccNo : this.selectedData.loanAccNo || ''
 
     }
+
     const data = {
       leadId: this.leadId,
       chequeData: {

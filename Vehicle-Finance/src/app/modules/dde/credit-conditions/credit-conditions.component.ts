@@ -333,6 +333,9 @@ export class CreditConditionsComponent implements OnInit {
       console.log(res);
       if(res['ProcessVariables'].error['code'] == 0){
         this.toasterService.showSuccess("Record " + data + " successfully!", '')
+      }else{
+        this.toasterService.showError(res['ProcessVariables'].error['message'], '')
+
       }
     })
   }
@@ -345,6 +348,8 @@ export class CreditConditionsComponent implements OnInit {
       console.log(res);
       if(res['ProcessVariables'].error['code'] == 0){
         this.toasterService.showSuccess("Record Approved successfully!", '')
+      }else{
+        this.toasterService.showError(res['ProcessVariables'].error['message'], '')
       }
     })
   }
