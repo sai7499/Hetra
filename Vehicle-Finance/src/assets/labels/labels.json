@@ -2256,6 +2256,14 @@
                 "rule": 30
             },
             "type": "alpha"
+        },
+        "chequeNumber": {
+            "maxLength": {
+                "rule": 6,
+                "msg" : "Should be 6 Digits"
+            },
+            "type": "number"
         }
+
     }
 }
