@@ -8,7 +8,7 @@ import { DashboardService } from './dashboard/dashboard.service';
 
 @Injectable()
 export class UtilityService {
-  constructor(private httpService: HttpService, private router: Router, private dashboardServiec: DashboardService,
+  constructor(private httpService: HttpService, private router: Router, private dashboardService: DashboardService,
     private ngxUiLoaderService: NgxUiLoaderService) { }
 
   logOut() {
@@ -25,7 +25,7 @@ export class UtilityService {
     localStorage.removeItem('roles');
     localStorage.removeItem('userId');
     localStorage.removeItem('salesResponse');
-    this.dashboardServiec.routingData = '';
+    this.dashboardService.routingData = '';
     console.clear();
     this.router.navigateByUrl('/login');
   }

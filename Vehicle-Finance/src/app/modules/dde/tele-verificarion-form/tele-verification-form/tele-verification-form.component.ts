@@ -50,6 +50,7 @@ export class TeleVerificationFormComponent implements OnInit {
   changeLabelsForRoute: any;
   changeLabelsForGoods: any;
   userName: any;
+  mobileNumber: any;
 
   public dateValue: Date = new Date(2, 10, 2000);
   public toDayDate: Date = new Date();
@@ -89,6 +90,7 @@ export class TeleVerificationFormComponent implements OnInit {
     this.applicantType = this.route.snapshot.params.applicantType;
     this.leadDetails = this.route.snapshot.data.leadData;
     this.product = this.leadDetails.ProcessVariables.leadDetails.assetProdutName;
+    this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[0].mobileNumber;
     this.sourcingChannelDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingChannelDesc;
     this.sourcingTypeDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingTypeDesc;
     this.sourcingCodeDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingCodeDesc;
@@ -120,7 +122,7 @@ export class TeleVerificationFormComponent implements OnInit {
       fundEndUse: ['', Validators.required],
       tenureRequested: ['', Validators.required],
       otherVehiclesOwned: ['', Validators.required],
-      residentPhnNo: ['', Validators.required],
+      residentPhnNo: [''],
       residentAddress: ['', Validators.required],
       otherLoans: ['', Validators.required],
       otherLoanEmi: ['', Validators.required],
@@ -336,6 +338,7 @@ export class TeleVerificationFormComponent implements OnInit {
         this.teleVerificationForm.get('tvrTime').setValue(this.time);
         this.teleVerificationForm.get('tvrDate').setValue(this.toDayDate);
         this.teleVerificationForm.get('product').setValue(this.product);
+        this.teleVerificationForm.get('residentPhnNo').setValue(this.mobileNumber);
       }
 
     });
