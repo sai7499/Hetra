@@ -41,6 +41,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   public selectDeviationId: number = 0;
   public findIndex;
+  isOne: boolean;
+  isZero: boolean;
 
   @Input() isSubmitToCredit: boolean;
   @Input() isDirty: boolean;
@@ -117,8 +119,10 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       "userId": this.userId,
       "devRuleId": obj.value.devRuleId,
       "statusCode": value + '',
-      "isRevert": false
+      "isRevert": Number(obj.value.statusCode) === value ? true : false
     }
+
+    console.log(obj.value.statusCode, 'status code', data)
 
     this.deviationService.approveDeclineDeviation(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
@@ -138,6 +142,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.isSendBacktoCredit = null;
 
     let total = null;
+    this.isOne = false;
+    this.isZero = false;
     let data = [];
 
     if (this.deviationsForm.controls['autoDeviationFormArray'].value.length > 0) {
@@ -147,28 +153,67 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       data = this.deviationsForm.controls['manualDeviationFormArray'].value
     }
 
-    data.filter((res: any) => {
-      total += Number(res.statusCode)
-      if (res.statusCode === 1) {
-        this.isSendBacktoCredit = 1;
-      }
-      return total;
-    })
-
-    data.some((item: any) => {
-      console.log(item, 'item')
-      return item
-    })
-
-    if (total === NaN) {
-      this.isSendBacktoCredit = null;
-    } else {
-      if (total === data.length) {
-        this.isSendBacktoCredit = 1;
-      } else if (total < data.length) {
+    data.map((res: any) => {
+      if (res.statusCode === '0') {
         this.isSendBacktoCredit = 0;
+        this.isOne = true;
+        this.isZero = true;
+        return;
+      } else if (res.statusCode === null || res.statusCode === undefined) {
+        console.log(res.statusCode, 'statuscode')
+        this.isSendBacktoCredit = null;
+        this.isOne = true;
       }
+      //  else {
+      //   this.isOne = true;
+      // }
+      //   total += Number(res.statusCode)
+      //   if (res.statusCode && res.statusCode === 1) {
+      //     this.isSendBacktoCredit = 1;
+      //   } else {
+      //     console.log(res, 'res')
+      //   }
+      //   return total;
+    });
+
+    // for (let i = 0; i < data.length - 1; i++) {
+    //   if (data[i].statusCode === '1') {
+    //     this.isSendBacktoCredit = 1;
+    //   } else {
+    //     console.log(data[i], 'data res')
+    //   }
+    // }
+
+    console.log(this.isOne, 'Vakye', this.isSendBacktoCredit)
+    if (this.isZero) {
+      this.isSendBacktoCredit = 0;
     }
+    if (!this.isOne) {
+      this.isSendBacktoCredit = 1;
+    }
+
+
+    // data.some((item: any) => {
+    //   if (item.statusCode === null) {
+    //     this.isSendBacktoCredit = null;
+    //   } else if (item.statusCode === 1) {
+    //     this.isSendBacktoCredit = 1;
+    //   } else if (item.statusCode === 0) {
+    //     this.isSendBacktoCredit = 0;
+    //   }
+    //   return item
+    // })
+    console.log(this.isSendBacktoCredit, 'item', total)
+
+    // if (total === NaN) {
+    //   this.isSendBacktoCredit = null;
+    // } else {
+    //   if (total === data.length) {
+    //     this.isSendBacktoCredit = 1;
+    //   } else if (total < data.length) {
+    //     this.isSendBacktoCredit = 0;
+    //   }
+    // }
   }
 
   getDeviationMaster() {
