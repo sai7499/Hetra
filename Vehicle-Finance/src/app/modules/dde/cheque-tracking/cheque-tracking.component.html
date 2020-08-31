@@ -26,7 +26,7 @@
                                                name="cheque_radio" 
                                                id="cheque_radio_1"
                                                 (click)="onGetChequeData(data, i, $event)"
-                                                [disabled]="data.chequeStatus=='HANDEDOVERCHEQUESTS'"
+                                               
                                                 ></td>
                                                
                                                 
@@ -144,7 +144,7 @@
                                                             [isDisabled]="disableUpdate"
                                                             [values]="LOV.LOVS.chequeStatus"
                                                             (change)="onChangeStatus($event)"
-                                                            [isRequired]="'Please select one'"
+                                                            [isRequired]="statusMsg"
                                                             [isDirty]="isDirty"
                                                         ></app-vf-custom-select>
                                                     </div>
@@ -160,10 +160,12 @@
                                                   <div class="col-lg-4 col-sm-4 col-md-3">
                                                     <app-custom-input
                                                     formControlName="chequeNum"
-                                                    [maxLength]=""
+                                                    [maxLength]="validationData?.chequeNumber?.maxLength"
+                                                    [isRequired]="'Cheque Number Is Required'"
+                                                    [isDirty]="isDirty"
                                                     (ngModelChange)="onChangeCheque( $event)"
                                                     
-                                                    [type]=""
+                                                    [type]="validationData?.chequeNumber?.type"
                                                   ></app-custom-input>
                                                   </div>
                                                   
