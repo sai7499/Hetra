@@ -9,6 +9,7 @@ import { ToasterService } from '@services/toaster.service';
 import { SharedModule } from '@modules/shared/shared.module';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { Constant } from '../../../../../assets/constants/constant';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-reference-check',
@@ -31,6 +32,7 @@ export class ReferenceCheckComponent implements OnInit {
   isSoNameEnable: true;
   userDetails: any;
   leadId: number;
+  disableSaveBtn: boolean;
 
   // <-- route map sample url start
   // routeMapUrl = "https://maps.googleapis.com/maps/api/staticmap?sensor=false
@@ -78,6 +80,7 @@ export class ReferenceCheckComponent implements OnInit {
     private sharedSercive: SharedService,
     private pdDataService: PdDataService,
     private toasterService: ToasterService, // service for accessing the toaster
+    private toggleDdeService: ToggleDdeService
 
   ) {
     this.sharedSercive.taskId$.subscribe((value) => {
@@ -139,6 +142,13 @@ export class ReferenceCheckComponent implements OnInit {
     this.initForm();              // for initializing the form
 
     this.setFormValue();          // for setting the values what we get when the component gets initialized
+    setTimeout(() => {
+      const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      this.referenceCheckForm.disable();
+      this.disableSaveBtn = true;
+    }
+    });
   }
   getLeadId() { // function to access respective lead id from the routing
     // console.log("in getleadID")

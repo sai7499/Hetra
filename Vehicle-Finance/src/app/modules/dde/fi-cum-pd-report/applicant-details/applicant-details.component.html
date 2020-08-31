@@ -228,7 +228,7 @@
               {{ labels.back }}
             </button>
 
-                        <button class="btn btn-primary" (click)="onFormSubmit('save')">
+                        <button class="btn btn-primary" (click)="onFormSubmit('save')" *ngIf="!disableSaveBtn">
               {{ labels.save }}
             </button>
 

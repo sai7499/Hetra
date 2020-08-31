@@ -46,19 +46,19 @@ export class FleetDetailsComponent implements OnInit {
   validationData: any;
   isDirty = false;
   vehicleLov: any = [];
-  leadDetails :any;
+  leadDetails: any;
   productCatoryCode: any;
-  
+
   // lov Data
   public assetBodyType: any = [];
   public assetModelType: any = [];
-  public assetModelTypeLov : any = []
+  public assetModelTypeLov: any = []
   public assetVariant: any = [];
-  public vehicleManufacturer : any = []; // make field lov
-  public vehicleTypeLov : any = [];
-  public assetBodyTypeLov : any= [];
-  public regionLov : any = [];
-  public allLovs : any;
+  public vehicleManufacturer: any = []; // make field lov
+  public vehicleTypeLov: any = [];
+  public assetBodyTypeLov: any = [];
+  public regionLov: any = [];
+  public allLovs: any;
   fleetLov: any = [];
 
   regexPattern = {
@@ -103,6 +103,7 @@ export class FleetDetailsComponent implements OnInit {
   yearCheck = [];
   paidTenureCheck = [];
   fleetArrayList: FormArray;
+  operationType: string;
   constructor(
 
     private labelsData: LabelsService,
@@ -137,10 +138,10 @@ export class FleetDetailsComponent implements OnInit {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     const leadData = this.createLeadDataService.getLeadSectionData();
-   // const leadData = this.createLeadDataService.getLeadSectionData();
+    // const leadData = this.createLeadDataService.getLeadSectionData();
 
     this.leadDetails = leadData['leadDetails']
-   // this.leadId = leadData['leadId'];
+    // this.leadId = leadData['leadId'];
     this.productCatoryCode = this.leadDetails['productCatCode'];
     // this.leadId = leadData['leadId']
 
@@ -251,10 +252,10 @@ export class FleetDetailsComponent implements OnInit {
         regdNo: new FormControl(rowData.regdNo, Validators.compose([Validators.required])),
         regdOwner: new FormControl(rowData.regdOwner, Validators.compose([Validators.required])),
         relation: new FormControl(rowData.relation, [Validators.required]),
-        region : new FormControl(rowData.region, [Validators.required]),
+        region: new FormControl(rowData.region, [Validators.required]),
         make: new FormControl(rowData.make, [Validators.required]),
-        vehicleType : new FormControl(rowData.vehicleType, [Validators.required]),
-        assetBodyType :  new FormControl(rowData.assetBodyType, [Validators.required]),
+        vehicleType: new FormControl(rowData.vehicleType, [Validators.required]),
+        assetBodyType: new FormControl(rowData.assetBodyType, [Validators.required]),
         assetModel: new FormControl(rowData.assetModel, [Validators.required]),
         yom: new FormControl(rowData.yom, Validators.compose([Validators.required])),
         financier: new FormControl(rowData.financier, [Validators.required]),
@@ -267,7 +268,7 @@ export class FleetDetailsComponent implements OnInit {
         pd: new FormControl({ value: rowData.pd, disabled: true }),
         gridValue: new FormControl({ value: rowData.gridValue, disabled: true }),
         id: rowData.id,
-        vehicleId : rowData.vehicleId,
+        vehicleId: rowData.vehicleId,
       })
     }
     else return this.fb.group({
@@ -276,10 +277,10 @@ export class FleetDetailsComponent implements OnInit {
       regdOwner: new FormControl('', Validators.compose([Validators.required])),
       relation: new FormControl('', [Validators.required]),
       make: new FormControl('', [Validators.required]),
-      vehicleType : new FormControl('', [Validators.required]),
-      assetBodyType :  new FormControl('', [Validators.required]),
+      vehicleType: new FormControl('', [Validators.required]),
+      assetBodyType: new FormControl('', [Validators.required]),
       assetModel: new FormControl('', [Validators.required]),
-     region : new FormControl('', [Validators.required]),
+      region: new FormControl('', [Validators.required]),
       yom: new FormControl('', Validators.compose([Validators.required])),
       financier: new FormControl('', [Validators.required]),
       loanNo: new FormControl('', Validators.compose([Validators.required])),
@@ -290,11 +291,11 @@ export class FleetDetailsComponent implements OnInit {
       ad: new FormControl({ value: '', disabled: true }),
       pd: new FormControl({ value: '', disabled: true }),
       gridValue: new FormControl({ value: '', disabled: true }),
-      vehicleId : '',
+      vehicleId: '',
     });
   }
   // make field changes 
-  onAssetMake(value, obj ,index) {
+  onAssetMake(value, obj, index) {
     let VehicleTypeArray = []
 
     if (value) {
@@ -338,7 +339,7 @@ export class FleetDetailsComponent implements OnInit {
 
   }
   //  vechile type change event
-  onVehicleType(value, obj , index) {
+  onVehicleType(value, obj, index) {
 
     let assetBodyTypeData = []
 
@@ -386,7 +387,7 @@ export class FleetDetailsComponent implements OnInit {
     }
   }
   // asst body tye event
-  onAssetBodyType(value: any, obj , index) {
+  onAssetBodyType(value: any, obj, index) {
     this.assetModelType = this.assetBodyType.filter((data) => data.uniqueSegmentCode === value)
     this.assetModelTypeLov[index] = this.utilityService.getValueFromJSON(this.assetModelType,
       "vehicleModelCode", "vehicleModel")
@@ -396,7 +397,7 @@ export class FleetDetailsComponent implements OnInit {
     })
   }
   // get vechile Id
-  onAssetModel(value: any, obj , index) {
+  onAssetModel(value: any, obj, index) {
     this.assetVariant = this.assetModelType.filter((data) => data.vehicleModelCode === value)
     const array = this.utilityService.getCommonUniqueValue(this.assetVariant, 'vehicleVariant')
     const formArray = (this.fleetForm.get('Rows') as FormArray);
@@ -414,8 +415,8 @@ export class FleetDetailsComponent implements OnInit {
     // })
 
   }
-// region change event
-  onVehicleRegion(value: any, obj , index) {
+  // region change event
+  onVehicleRegion(value: any, obj, index) {
     const region = value ? value : '';
     let assetMakeArray = [];
 
@@ -456,20 +457,20 @@ export class FleetDetailsComponent implements OnInit {
     })
   }
   // YOM changes 
-  onGetDateValue(event ,index) {
+  onGetDateValue(event, index) {
     if (event.target.value > this.toDayDate) {
       this.customFutureDate = true;
     } else {
       this.customFutureDate = false;
       const formArray = (this.fleetForm.get('Rows') as FormArray);
-     
-      this.getVehicleGridValue(formArray , index)
+
+      this.getVehicleGridValue(formArray, index)
     }
 
 
   }
   // get grid value
-  getVehicleGridValue(formArray: any , index) {
+  getVehicleGridValue(formArray: any, index) {
 
     if (formArray.value[index].vehicleId !== 0) {
 
@@ -496,7 +497,7 @@ export class FleetDetailsComponent implements OnInit {
     this.commonLovService.getLovData().subscribe((value: any) => {
       this.fleetLov.applicantRelationshipWithLead = value.LOVS.applicantRelationshipWithLead;
       this.allLovs = value.LOVS;
-    
+
       this.fleetLov.vehicleFinanciers = value.LOVS.vehicleFinanciers;
     });
 
@@ -592,10 +593,10 @@ export class FleetDetailsComponent implements OnInit {
       this.fleetIDs = res.ProcessVariables.ids
       console.log("saveFleetDetailsResponse", this.fleetIDs)
       this.toasterService.showSuccess('Record saved successfully!', '');
-      const fleetList:Array<any> = res.ProcessVariables.fleets;
+      const fleetList: Array<any> = res.ProcessVariables.fleets;
       this.fleetArrayList.controls = [];
       fleetList.forEach(val =>
-        this.fleetArrayList.push(this.initRows(val)) );
+        this.fleetArrayList.push(this.initRows(val)));
 
       console.log("fletds", this.fleetArrayList);
       if (index != null && index != 'next') {
@@ -631,7 +632,7 @@ export class FleetDetailsComponent implements OnInit {
         for (let i = 0; i < fleets.length; i++) {
           this.vehicleTypeLov[i] = this.allLovs.vehicleType;
           this.regionLov[i] = this.allLovs.assetRegion;
-          this.vehicleManufacturer[i] =  this.allLovs.vehicleManufacturer;
+          this.vehicleManufacturer[i] = this.allLovs.vehicleManufacturer;
           this.assetBodyTypeLov[i] = [{
             key: fleets[i].assetBodyType,
             value: fleets[i].assetBodyTypeDesc
@@ -650,13 +651,13 @@ export class FleetDetailsComponent implements OnInit {
       } else {
         this.vehicleTypeLov[0] = this.allLovs.vehicleType;
         this.regionLov[0] = this.allLovs.assetRegion;
-        this.vehicleManufacturer[0] =  this.allLovs.vehicleManufacturer;
+        this.vehicleManufacturer[0] = this.allLovs.vehicleManufacturer;
         this.formArr.push(this.initRows(null));
       }
-      const operationType = this.toggleDdeService.getOperationType();
-      if (operationType === '1') {
-          this.fleetForm.disable();
-          this.disableSaveBtn  = true;
+      this.operationType = this.toggleDdeService.getOperationType();
+      if (this.operationType === '1') {
+        this.fleetForm.disable();
+        this.disableSaveBtn = true;
       }
       // console.log("in get fleets", res.ProcessVariables.fleets)
       // console.log("get fleet response", res.ProcessVariables.fleets)
@@ -667,7 +668,7 @@ export class FleetDetailsComponent implements OnInit {
 
   addNewRow(rowData) {
     this.formArr.push(this.initRows(rowData));
-    this.regionLov[this.formArr.length -1] = this.allLovs.assetRegion;
+    this.regionLov[this.formArr.length - 1] = this.allLovs.assetRegion;
   }
 
   deleteRow(index: number, fleets: any) {
@@ -734,20 +735,23 @@ export class FleetDetailsComponent implements OnInit {
   onFormSubmit(index: any) {
 
     this.fleetDetails = this.fleetForm.value.Rows;
-    console.log("fleet form value",this.fleetForm)
+    console.log("fleet form value", this.fleetForm)
 
     this.isDirty = true;
-    if (this.fleetForm.valid === true) {
-      // this.fleetDetails = this.fleetForm.value.Rows
-      // console.log(this.fleetDetails)
-      this.saveOrUpdateFleetDetails(index);
-
+    if (this.operationType === '1' && index === 'next') {
+      this.router.navigate(['pages/dde/' + this.leadId + '/exposure']);
+      return;
     } else {
-      this.isDirty = true;
-      // console.log('Error', this.fleetForm)
-      this.toasterService.showError('Please enter valid details', '');
-      this.utilityService.validateAllFormFields(this.fleetForm);
-
+      if (this.fleetForm.valid === true) {
+        // this.fleetDetails = this.fleetForm.value.Rows
+        // console.log(this.fleetDetails)
+        this.saveOrUpdateFleetDetails(index);
+      } else {
+        this.isDirty = true;
+        // console.log('Error', this.fleetForm)
+        this.toasterService.showError('Please enter valid details', '');
+        this.utilityService.validateAllFormFields(this.fleetForm);
+      }
     }
   }
 }

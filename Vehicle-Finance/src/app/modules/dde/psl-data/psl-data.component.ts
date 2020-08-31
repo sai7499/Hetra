@@ -101,9 +101,9 @@ export class PslDataComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.initForm();
     this.getLabels();
     this.getLOV();
-    this.initForm();
   }
 
   getLabels() {

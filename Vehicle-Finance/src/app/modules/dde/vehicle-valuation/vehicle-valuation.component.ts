@@ -7,6 +7,8 @@ import { VehicleValuationService } from '../services/vehicle-valuation.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { ToasterService } from '@services/toaster.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
+
 
 @Component({
   selector: "app-vehicle-valuation",
@@ -39,6 +41,7 @@ export class VehicleValuationComponent implements OnInit {
   isOk: boolean;
   isYes: boolean;
   isDirty: boolean;
+  disableSaveBtn: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -48,7 +51,8 @@ export class VehicleValuationComponent implements OnInit {
     private router: Router,
     private aRoute: ActivatedRoute,
     private toasterService: ToasterService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private toggleDdeService: ToggleDdeService
   ) { }
 
   ngOnInit() {
@@ -58,6 +62,11 @@ export class VehicleValuationComponent implements OnInit {
     this.getLeadId();
     this.getCollateralDetailsForVehicleValuation();
     this.getVendorCode();
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      this.modalDataForm.disable();
+      this.disableSaveBtn = true;
+    }
   }
 
   getLabels() {

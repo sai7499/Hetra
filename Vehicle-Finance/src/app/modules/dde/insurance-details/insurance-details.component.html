@@ -4,7 +4,7 @@
         <!-- <div class="multisteps-form__panel js-active" data-animation="scaleIn"> -->
         <div class="btn-sec clear-both row">
             <div class="col-sm-5">
-                <select id="select_main_button" class="dropdown_individual" (change)="select_main_button($event)">
+                <select [disabled]="disableSaveBtn" id="select_main_button" class="dropdown_individual" (change)="select_main_button($event)">
                     <option value="individual"> {{labelCreditShield.title}} </option>
                     <option value="non-individual">{{labelExistingInsuranceDetails.title}}</option>
                 </select>
