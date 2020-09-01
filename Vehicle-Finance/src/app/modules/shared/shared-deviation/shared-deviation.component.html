@@ -238,7 +238,7 @@
           [disabled]="!(isSendBacktoCredit === 1)"
           (click)="onPatchRecommendationModal('ApproveDeviations')">{{labels?.approveDeviations}}</button>
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
-          [disabled]="!(isSendBacktoCredit === 0)"
+          [disabled]="isSendBacktoCredit === 1"
           (click)="onPatchRecommendationModal('sendBackToCredit')">{{labels?.sendBackToCredit}}</button>
 
       </div>
@@ -292,12 +292,12 @@
         </div>
         <div class="modal-body">
           <textarea class="form-control" rows="10" cols="5" formControlName="recommendation"
-            placeholder="{{modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendation' : 'Commend'}}"></textarea>
+            placeholder="{{modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendation' : 'Comments'}}"></textarea>
 
           <div class="invalid-feedback"
             *ngIf="modalForm.controls['recommendation'].touched && !modalForm.controls['recommendation'].valid">
             <div *ngIf="modalForm.controls['recommendation'].hasError('required')">
-              {{ modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendation ' : 'Commend '}}
+              {{ modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendation ' : 'Comments '}}
               Required
             </div>
           </div>
