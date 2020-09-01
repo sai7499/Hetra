@@ -28,6 +28,19 @@
           >
           </app-vf-custom-select>
         </div>      
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="account_branch">{{ labels.applicationNo }}</label>
+          <sub class="star_red_col">*</sub>
+          <app-custom-input
+            formControlName="applicationNo"
+            [className]="'form-control mandatory'"
+            [placeholder]="'Application No.'"
+            [isRequired]="'Application No. is mandatory'"
+            [isDirty]="isDirty"
+            [type]="'number'"
+          >
+          </app-custom-input>
+        </div>
       </div>
 
       <div class="row">
@@ -176,8 +189,7 @@
               formControlName="sourcingCode"
               [placeHolder]="sourcingCodePlaceholder"
               [debounceTime]="400"
-              [disabled]="isSourchingCode">      
-                                         
+              [disabled]="isSourchingCode">                                           
             </ng-autocomplete>               
             <ng-template #sourcingCodeTemplate let-item>
             <a [innerHTML]="item.value"></a>
@@ -218,6 +230,18 @@
       </div>
 
       <div class="row">
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="sourcing_type">{{ labels.loanType }}</label>
+          <sub class="star_red_col">*</sub>
+          <app-vf-custom-select
+            [values]="LOV.LOVS.loanType"
+            formControlName="loanType"
+            (change)="onLoanTypeTypeChange($event)"
+            [isRequired]="'Loan Type required'"
+            [isDirty]="isDirty"
+          >
+          </app-vf-custom-select>
+        </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="spoken_code">{{ labels.requestedAmount }}</label>
           <sub class="star_red_col">*</sub>

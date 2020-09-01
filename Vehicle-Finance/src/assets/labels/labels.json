@@ -1545,6 +1545,7 @@
     "crossSellOthers": "Cross Sell Others (in INR)",
     "errorCode": "Error Code",
     "errorMsg": "Error Message",
+    "loanType": "Loan Type",
     "validationData": {
         "name": {
             "maxLength": {

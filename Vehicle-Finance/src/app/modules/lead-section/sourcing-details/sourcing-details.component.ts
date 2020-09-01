@@ -82,6 +82,8 @@ export class SourcingDetailsComponent implements OnInit {
   isSaved: boolean;
   amountTenureData: any;
   leadSectionData: any;
+  loanTypeValues: any = [];
+  selectedLoanType: string;
 
   tenureMonthlyValidation: {
     rule?: any,
@@ -122,6 +124,7 @@ export class SourcingDetailsComponent implements OnInit {
     productCatCode?: string;
     productId: any;
     priority: number;
+    applicationNo: number;
     fundingProgram: string;
     sourcingChannel: string;
     sourcingType: string;
@@ -134,6 +137,7 @@ export class SourcingDetailsComponent implements OnInit {
     leadHandeledBy: number;
     leadCreatedBy: number;
     leadCreatedOn: string;
+    loanType: string;
     reqLoanAmt: number;
     reqTenure: number;
     userId: number;
@@ -274,6 +278,12 @@ export class SourcingDetailsComponent implements OnInit {
     const leadCreatedby = data.leadDetails.leadCreatedBy;
     this.sourcingDetailsForm.patchValue({ leadCreatedBy: leadCreatedby });
 
+    const applicationNO = data.leadDetails.applicationNo;
+    this.sourcingDetailsForm.patchValue({ applicationNo: applicationNO });
+
+    const loanTypeFromLead = data.leadDetails.loanType;
+    this.sourcingDetailsForm.patchValue({ loanType: loanTypeFromLead});
+
     this.getBusinessDivision(businessDivisionFromLead);
     this.sourcingDetailsForm.patchValue({ priority: priorityFromLead });
     this.sourcingDetailsForm.patchValue({ leadNumber: this.leadId });
@@ -330,7 +340,7 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   productCategory(event, isBool) {
-    if(!isBool){
+    if (!isBool) {
       this.sourcingDetailsForm.patchValue({ reqLoanAmt: this.reqLoanAmount });
     } else {
       this.sourcingDetailsForm.patchValue({ reqLoanAmt: 0 });
@@ -450,7 +460,6 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   onSourcingCodeSearch(event) {
-
     let inputString = event;
     let sourcingCode = [];
     console.log('inputString', event);
@@ -508,6 +517,10 @@ export class SourcingDetailsComponent implements OnInit {
     this.dealorCodeKey = '';
   }
 
+  onLoanTypeTypeChange(event) {
+    this.selectedLoanType = event.target.value;
+  }
+
   initForm() {
     this.sourcingDetailsForm = new FormGroup({
       leadNumber: new FormControl({ value: '', disabled: true }),
@@ -516,6 +529,7 @@ export class SourcingDetailsComponent implements OnInit {
       leadHandeledBy: new FormControl('', Validators.required),
       productCategory: new FormControl('', Validators.required),
       priority: new FormControl(''),
+      applicationNo: new FormControl('', Validators.required),
       product: new FormControl('', Validators.required),
       fundingProgram: new FormControl('', Validators.required),
       bizDivision: new FormControl('', Validators.required),
@@ -525,6 +539,7 @@ export class SourcingDetailsComponent implements OnInit {
       dealerCode: new FormControl('', Validators.required),
       spokeCodeLocation: new FormControl({ value: '', disabled: true }),
       loanBranch: new FormControl({ value: '', disabled: true }),
+      loanType: new FormControl('', Validators.required),
       reqLoanAmt: new FormControl('', Validators.required),
       requestedTenor: new FormControl('', Validators.required),
     });
@@ -549,19 +564,19 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   loanTenureAmount(productCategoryChanged?) {
-      const loanAmount = [
-        {
-          rule: amount => {
-            if (productCategoryChanged === 'UC') {
+    const loanAmount = [
+      {
+        rule: amount => {
+          if (productCategoryChanged === 'UC') {
             return amount <= 100000;
-            } else {
-              return null;
-            }
-          },
-          msg: 'Minimum loan amount should be 100000'
-        }
-      ];
-      return loanAmount;
+          } else {
+            return null;
+          }
+        },
+        msg: 'Minimum loan amount should be 100000'
+      }
+    ];
+    return loanAmount;
   }
 
   saveAndUpdate() {
@@ -581,6 +596,7 @@ export class SourcingDetailsComponent implements OnInit {
         productId: Number(saveAndUpdate.product),
         fundingProgram: saveAndUpdate.fundingProgram,
         priority: Number(saveAndUpdate.priority),
+        applicationNo: Number(saveAndUpdate.applicationNo),
         sourcingChannel: saveAndUpdate.sourcingChannel,
         sourcingType: saveAndUpdate.sourcingType,
         sourcingCode: this.sourcingCodeKey,
@@ -591,6 +607,7 @@ export class SourcingDetailsComponent implements OnInit {
         leadHandeledBy: Number(this.userId),
         leadCreatedBy: Number(this.branchId),
         leadCreatedOn: this.leadCreatedDateFromLead,
+        loanType: saveAndUpdate.loanType,
         reqLoanAmt: saveAndUpdate.reqLoanAmt,
         reqTenure: Number(saveAndUpdate.requestedTenor),
       };
