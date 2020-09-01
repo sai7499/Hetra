@@ -288,7 +288,7 @@
     "soName": "SO Name",
     "assetCost": "Asset Cost",
     "financeAmount": "Finance Amount",
-    "tenureInMonths": "TENURE IN MONTHS",
+    "tenureInMonths": "Tenure in Months",
     "sourceOfProposal": "Source of Proposal",
     "assetType": "Asset Type",
     "needForProposedVehicle": "Need for proposed vehicle (In case of addition / expansion)",
@@ -645,6 +645,16 @@
     "fleetSummaryTitle": "FLEET SUMMARY",
     "trackValidationSummaryTitle": "TRACK VALIDATION SUMMARY",
     "keyFinancialTitle": "KEY FINANCIAL",
+    "shareCapital": "Share Capital",
+    "lorryHireChargesPaid": "Lorry hire charges paid (Freight charges )",
+    "netProfitAfterTaxA": "Net Profit after Tax (A)",
+    "depreciationB": "Depreciation (B)",
+    "currentLiabilities": "Current Liabilities",
+    "currentAssets": "Current Assets",
+    "revenueFromOperationsOrTopLine": "Revenue From Operations/Top Line",
+    "partnersSalaryC": "Partners Salary (C)",
+    "cashGenerationAB": "Cash Generation (A)+(B)",
+    "dateOfItrFiling": "Date Of ITR Filing",
     "creditCondition": "Credit Condition",
     "salesResponse": "Sales Response",
     "supportDocument": "Support Document",
@@ -2303,6 +2313,19 @@
                 "rule": "^[0-9]{15}",
                 "msg": "Number Should be valid and atleast 10 Digits"
             }
+        },
+        "keyFinancialAmount": {
+            "maxLength": {
+                "rule": 8
+            },
+            "type": "decimal"
+        },
+        "chequeNumber": {
+            "maxLength": {
+                "rule": 6,
+                "msg": "Should be 6 Digits"
+            },
+            "type": "number"
         }
     }
 }
