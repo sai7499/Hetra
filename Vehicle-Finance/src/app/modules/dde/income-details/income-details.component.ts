@@ -97,6 +97,8 @@ export class IncomeDetailsComponent implements OnInit {
   cashGeneratedYearOneValue: number;
   cashGeneratedYearTwoValue: number;
   cashGeneratedYearThreeValue: number;
+  keyFinancialObj: any;
+  keyFinancialData: any;
   constructor(
     private router: Router,
     private labelsData: LabelsService,
@@ -187,13 +189,6 @@ export class IncomeDetailsComponent implements OnInit {
   }
   businessIncomeValidators() {
     if (this.productCode == "NCV" || this.productCode == "UCV") {
-      //  const businessIncome: any = this.incomeDetailsForm.controls.businessIncomeDetails as FormArray
-      //  businessIncome.forEach(element => {
-      // for (const key in businessIncome.controls) {
-      //   businessIncome.get(key).clearValidators();
-      //   businessIncome.get(key).updateValueAndValidity();
-      // }
-      //  }); 
       this.incomeDetailsForm.get('salariedFOIRDeviation').clearValidators();
       this.incomeDetailsForm.get('salariedFOIRDeviation').updateValueAndValidity();
 
@@ -396,23 +391,15 @@ export class IncomeDetailsComponent implements OnInit {
 
     const control = this.incomeDetailsForm.controls
       .keyFinanceDetails as FormArray;
-    // if (i > 0) {
-    // const body = {
-    //   userId: this.userId,
-    //   leadId: this.leadId,
-    // };
     control.removeAt(i);
 
     const keyFinancialObj = { keyFinancials: this.incomeDetailsForm.controls.keyFinanceDetails.value }
 
     const body = {
 
-      // businessIncomeDetails: this.incomeDetailsForm.controls.businessIncomeDetails.value,
       otherIncomeDetails: this.incomeDetailsForm.controls.otherIncomeDetails.value,
       obligationDetails: this.incomeDetailsForm.controls.obligationDetails.value,
       keyFinanceDetails: JSON.stringify(keyFinancialObj || null),
-      // salariedFOIRasperPolicy: this.incomeDetailsForm.controls.salariedFOIRasperPolicy.value,
-      // salariedFOIRDeviation: this.incomeDetailsForm.controls.salariedFOIRDeviation.value,
       leadId: this.leadId,
       userId: this.userId,
 
@@ -444,11 +431,7 @@ export class IncomeDetailsComponent implements OnInit {
         }
 
       });
-    // }
-
-    // else {
-    //   this.toasterService.showError('Atleast One Row Required', '');
-    // }
+    
   }
   private getBusinessIncomeDetails(data?: any) {
     if (data === undefined) {
@@ -736,13 +719,12 @@ export class IncomeDetailsComponent implements OnInit {
         this.addOtherIncomeUnit(res.ProcessVariables.otherIncomeList);
         this.addObligationUnit(res.ProcessVariables.obligationsList);
         this.onSalFoirDeviation(this.applicantResponse.salariedFOIRDeviation);
-        let keyFinancialData = JSON.parse(res.ProcessVariables.keyFinanceDetails || null)
+        this.keyFinancialData = JSON.parse(res.ProcessVariables.keyFinanceDetails.keyFinancials || null)
 
-        console.log(keyFinancialData, "converted key data");
-        const keyFinancialObj = keyFinancialData.keyFinancials
-        if (keyFinancialObj != []) {
-          this.addKeyFinancialDetails(keyFinancialObj)
-        }
+        console.log(this.keyFinancialData, "converted key data");
+        
+          this.addKeyFinancialDetails(this.keyFinancialData)
+        
 
       });
   }
@@ -799,12 +781,8 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       (res) => res.applicantId == event
     ).fullName;
-    // control[i].controls.yearOne.get('applicantId').setValue(applicantName);
     control[i].controls.yearTwo.get('applicantId').setValue(applicantName);
     control[i].controls.yearThree.get('applicantId').setValue(applicantName);
-
-    // console.log(control);
-
   }
   onKeyFinancialApplicantChangeYearTwo(event, i?: number) {
     // tslint:disable-next-line: triple-equals
@@ -825,9 +803,6 @@ export class IncomeDetailsComponent implements OnInit {
       (res) => res.applicantId == event
     ).fullName;
     control[i].controls.yearTwo.get('applicantId').setValue(applicantName);
-    // control[i].controls.yearThree.get('applicantId').setValue(applicantName);
-
-    // console.log(control);
 
   }
   onKeyFinancialApplicantChangeYearThree(event, i?: number) {
@@ -841,32 +816,18 @@ export class IncomeDetailsComponent implements OnInit {
     const control: any = this.incomeDetailsForm.controls
       .keyFinanceDetails['controls'] as FormGroup;
     console.log(control);
-    // control[i].controls.yearOne.get('applicantType').setValue(applicantType);
-    // control[i].controls.yearTwo.get('applicantType').setValue(applicantType);
     control[i].controls.yearThree.get('applicantType').setValue(applicantType);
     const applicantName = this.applicantDetails.find(
       // tslint:disable-next-line: triple-equals
       (res) => res.applicantId == event
     ).fullName;
-    // control[i].controls.yearTwo.get('applicantId').setValue(applicantName);
     control[i].controls.yearThree.get('applicantId').setValue(applicantName);
-
-    // console.log(control);
 
   }
   onSubmit() {
     this.submitted = true;
     console.log(this.incomeDetailsForm);
-
-    // let keyFinancialsArray = [];
-    // keyFinancialsArray.push(this.incomeDetailsForm.value.keyFinanceDetails);
-    // console.log(keyFinancialsArray, 'key financial []');
-    // let keyFinancial = keyFinancialsArray;
-    // this.incomeDetailsForm.value.keyFinanceDetails.push(keyFinancial)
-    // console.log( this.incomeDetailsForm.value.keyFinanceDetails, 'key financial [][]');
-    //   let key = Object.assign({keyFinancials:this.incomeDetailsForm.value.keyFinanceDetails})
-    //  console.log(key);
-
+  
     // stop here if form is invalid
     if (this.incomeDetailsForm.invalid) {
       this.toasterService.showError(
@@ -921,19 +882,6 @@ export class IncomeDetailsComponent implements OnInit {
         .salariedFOIRDeviation as FormControl;
       const salariedFOIRDeviation = Number(salaryContol.value);
       salaryContol.setValue(salariedFOIRDeviation);
-
-      // const keyFinanceControl = this.incomeDetailsForm.controls
-      // .keyFinanceDetails as FormArray;
-      // console.log(keyFinanceControl);
-
-      // for (let i = 0; i < keyFinanceControl.length; i++) {
-      //   const dateOfItrFiling = keyFinanceControl.at(i).get('dateOfItrFiling').value;
-      //   keyFinanceControl.at(i).get('dateOfItrFiling').setValue(this.utilityService.convertDateTimeTOUTC(
-      //     dateOfItrFiling,
-      //     'DD/MM/YYYY'));
-      // console.log("date.........",dateOfItrFiling);
-
-      // }
 
       const keyFinancialObj = { keyFinancials: this.incomeDetailsForm.controls.keyFinanceDetails.value }
 
@@ -1116,18 +1064,7 @@ export class IncomeDetailsComponent implements OnInit {
       }
     }
     this.getTotalOtherIncome(i)
-    // if (incomeArray && incomeArray.length > 0) {
-    //   this.totalMonthlyOtherIncome = 0;
-    //   for (let i = 0; i < incomeArray.length; i++) {
-    //     this.totalMonthlyOtherIncome = Math.round(
-    //       this.totalMonthlyOtherIncome + incomeArray.value[i].factoredIncome
-    //     );
-    //   }
-    // }
-    // const factoringPerc = incomeArray.at(i).value.factoring;
-    // const grossIncome = incomeArray.at(i).value.grossIncome;
-    // const value = Math.round(grossIncome * (factoringPerc / 100));
-    // incomeArray.at(i).patchValue({ factoredIncome: value });
+    
   }
   getTotalOtherIncome(i: number) {
     const incomeArray = this.incomeDetailsForm.controls
@@ -1169,9 +1106,6 @@ export class IncomeDetailsComponent implements OnInit {
   onEmi(event: any, i: number) {
     const obligationArray = this.incomeDetailsForm.controls
       .obligationDetails as FormArray;
-    // const emi = obligationArray.value[i].emi;
-    // const obligationAmount = emi;
-    // obligationArray.at(i).patchValue({ obligationAmount });
     if (obligationArray && obligationArray.length > 0) {
       this.totalObligationAmount = 0;
       for (let i = 0; i < obligationArray.length; i++) {
@@ -1188,16 +1122,6 @@ export class IncomeDetailsComponent implements OnInit {
   onIncome(event: any, i: number) {
     const businessIncomeArray = this.incomeDetailsForm.controls
       .businessIncomeDetails as FormArray;
-    // const netProfit = businessIncomeArray.value[i].netProfit;
-    // const depreciation = businessIncomeArray.value[i].depreciation;
-    // const directorSalary = businessIncomeArray.value[i].directorSalary;
-
-    // const grossDerivedIncome = Math.round(
-    //   Number(netProfit * 3) + Number(depreciation) + Number(directorSalary)
-    // );
-    // businessIncomeArray.at(i).patchValue({ grossDerivedIncome });
-    // const grossMonthlyIncome = Math.round(grossDerivedIncome / 12);
-    // businessIncomeArray.at(i).patchValue({ grossMonthlyIncome });
     if (businessIncomeArray && businessIncomeArray.length > 0) {
       this.totalBusinessIncomeAmount = 0;
       for (let i = 0; i < businessIncomeArray.length; i++) {
@@ -1236,13 +1160,7 @@ export class IncomeDetailsComponent implements OnInit {
 
     const keyFinanceDetails = this.incomeDetailsForm.controls
       .keyFinanceDetails as FormArray;
-    // if (keyFinanceDetails && keyFinanceDetails.length > 0) {
-    // for (let i = 0; i < keyFinanceDetails.length; i++) {
-    //   this.cashGeneratedValue = Math.round(
-    //     this.cashGeneratedValue +
-    //     keyFinanceDetails.value.yearThree.netProfitAfterTax
-    //   );
-    // }
+   
     const netProfitAfterTaxYearOne = keyFinanceDetails.value[i].yearOne.netProfitAfterTax;
     const depreciationBYearOne = keyFinanceDetails.value[i].yearOne.depreciation;
     const netProfitAfterTaxYearTwo = keyFinanceDetails.value[i].yearTwo.netProfitAfterTax;
@@ -1253,10 +1171,7 @@ export class IncomeDetailsComponent implements OnInit {
     this.cashGeneratedYearOneValue = Number(netProfitAfterTaxYearOne) + Number(depreciationBYearOne);
     this.cashGeneratedYearTwoValue = Number(netProfitAfterTaxYearTwo) + Number(depreciationBYearTwo);
     this.cashGeneratedYearThreeValue = Number(netProfitAfterTaxYearThree) + Number(depreciationBYearThree);
-    // keyFinanceDetails.controls[i].yearOne.patchValue({cashGeneration : this.cashGeneratedYearOneValue})
-    console.log(this.cashGeneratedYearOneValue)
-    console.log(this.cashGeneratedYearTwoValue)
-    console.log(this.cashGeneratedYearThreeValue)
+ 
     const control = this.incomeDetailsForm.controls
       .keyFinanceDetails['controls'] as FormGroup;
 
@@ -1266,39 +1181,5 @@ export class IncomeDetailsComponent implements OnInit {
 
 
 
-    // }
   }
-  // onCashGeneration(event,i:number){
-  //   console.log(event);
-
-  //   const keyFinanceDetails = this.incomeDetailsForm.controls
-  //   .keyFinanceDetails as FormArray;
-
-  //   if (keyFinanceDetails && keyFinanceDetails.length > 0) {
-  //     // for (let i = 0; i < keyFinanceDetails.length; i++) {
-  //     //   this.cashGeneratedValue = Math.round(
-  //     //     this.cashGeneratedValue +
-  //     //     keyFinanceDetails.value.yearThree.netProfitAfterTax
-  //     //   );
-  //     // }
-  //     const netProfitAfterTaxYearOne = keyFinanceDetails.value[i].yearOne.netProfitAfterTax;
-  //     const depreciationBYearOne = keyFinanceDetails.value[i].yearOne.depreciation;
-  //     const netProfitAfterTaxYearTwo = keyFinanceDetails.value[i].yearTwo.netProfitAfterTax;
-  //     const depreciationBYearTwo = keyFinanceDetails.value[i].yearTwo.depreciation;
-  //     const netProfitAfterTaxYearThree = keyFinanceDetails.value[i].yearThree.netProfitAfterTax;
-  //     const depreciationBYearThree = keyFinanceDetails.value[i].yearThree.depreciation;
-
-  //     this.cashGeneratedYearOneValue = Number(netProfitAfterTaxYearOne) + Number(depreciationBYearOne);
-  //     this.cashGeneratedYearTwoValue = Number(netProfitAfterTaxYearTwo) + Number(depreciationBYearTwo);
-  //     this.cashGeneratedYearThreeValue = Number(netProfitAfterTaxYearThree) + Number(depreciationBYearThree);
-  //     keyFinanceDetails.controls[i].yearOne.patchValue({cashGeneration : this.cashGeneratedYearOneValue})
-  //   console.log(this.cashGeneratedYearOneValue)
-  //   console.log(this.cashGeneratedYearTwoValue)
-  //   console.log(this.cashGeneratedYearThreeValue)
-
-  //     // keyFinanceDetails.value[i].yearThree.patchValue({ cashGeneration });
-
-
-  // }
-  // }
 }

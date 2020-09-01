@@ -1120,9 +1120,9 @@
                   </td>
                   <td data-title="EMI">
                     <app-custom-input formControlName="emi" [placeholder]="'EMI'"
-                      [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'"
+                      [type]="labels?.validationData?.distanceEquitasAssetBranch?.type" [className]="'form-control mandatory'"
                       [maxLength]="
-                        labels?.validationData?.amountValue?.maxLength
+                        labels?.validationData?.distanceEquitasAssetBranch?.maxLength
                       " [isRequired]="'EMI mandatory'" [isDirty]="isDirty" (keyup)="onEmi($event.target.value, i)">
                     </app-custom-input>
                     <div *ngIf="
