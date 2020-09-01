@@ -108,6 +108,7 @@ export class ReferenceCheckComponent implements OnInit {
       console.log('in ref check task id', this.taskId);
     });
     this.isMobile = environment.isMobile;
+    // console.log('systime default', this.sysDate);
 
   }
 
@@ -397,6 +398,7 @@ export class ReferenceCheckComponent implements OnInit {
       soName: this.userName ? this.userName : null,
       employeeCode: this.userId ? this.userId : null,
     };
+    // console.log('systime', this.sysTimeOfVerification);
 
     this.otherDetails = {
       product: referenceCheckModel.productCat ? referenceCheckModel.productCat : null,
