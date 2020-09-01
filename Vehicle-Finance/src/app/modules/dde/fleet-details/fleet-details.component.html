@@ -252,12 +252,19 @@
                             </td>
                             <td style="min-width: 120px;">
                                 <div>
-                                    <app-custom-input formControlName="paid" [className]="'form-control mandatory'" [placeholder]="'paid'" [maxLength]="validationData?.tenurePaid['maxLength']" [isRequired]="'Paid is mandatory'" [type]="validationData?.tenurePaid['type']" [isDirty]="isDirty"
-                                        (keyup)="checkPaid(event ,i)">
+                                    <app-custom-input formControlName="paid"
+                                     [className]="'form-control mandatory'"
+                                      [placeholder]="'paid'"
+                                       [maxLength]="validationData?.tenurePaid['maxLength']" 
+                                       [isRequired]="'Paid is mandatory'"
+                                        [type]="validationData?.tenurePaid['type']" 
+                                        [isDirty]="isDirty"
+                                        (keyup)="checkPaid(event ,i)"
+                                        (change) = "calcSeasoning(event ,i)">
                                     </app-custom-input>
 
                                     <div class="cus-mandatory-field" *ngIf="itemrow.controls['paid'].errors && itemrow.controls['paid'].errors['incorrect']">
-                                        Paid not grater than Tenure
+                                        Paid not grater Tenure
                                     </div>
 
                                     <!-- <input type="number" class="form-control  input_value height" placeholder="Paid" formControlName="paid" max="3">

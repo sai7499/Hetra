@@ -90,6 +90,14 @@ export class SourcingDetailsComponent implements OnInit {
     msg?: string;
   }[];
 
+  tenureAmountValidation: {
+    rule?: any,
+    msg?: string
+  }[];
+
+  reqLoanAmount: number;
+
+
   sourcingCodeObject: {
     key: string;
     value: string;
@@ -109,6 +117,7 @@ export class SourcingDetailsComponent implements OnInit {
 
   amountLength: number;
   tenureMonthLength: number;
+  productCategoryLoanAmount: any;
 
   saveUpdate: {
     bizDivision: string;
@@ -269,6 +278,7 @@ export class SourcingDetailsComponent implements OnInit {
 
     const requiredLoanAmount = data.leadDetails.reqLoanAmt;
     const requiredLoanTenor = data.leadDetails.reqTenure;
+    this.reqLoanAmount = requiredLoanAmount;
     this.sourcingDetailsForm.patchValue({ reqLoanAmt: requiredLoanAmount });
     this.sourcingDetailsForm.patchValue({ requestedTenor: requiredLoanTenor });
 
@@ -343,6 +353,11 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   productCategory(event, isBool) {
+    if (!isBool) {
+      this.sourcingDetailsForm.patchValue({ reqLoanAmt: this.reqLoanAmount });
+    } else {
+      this.sourcingDetailsForm.patchValue({ reqLoanAmt: 0 });
+    }
     this.productCategorySelectedList = [];
     const productCategorySelected = isBool ? event.target.value : event;
     this.productCategorySelectedList = this.utilityService.getValueFromJSON(
@@ -360,9 +375,11 @@ export class SourcingDetailsComponent implements OnInit {
       this.productCategoryData.map((data) => {
         if (data.key === productCategorySelected) {
           this.productCategoryChanged = data.value;
+          this.productCategoryLoanAmount = productCategorySelected;
         }
       });
       this.productChange(this.productFromLead);
+      this.tenureAmountValidation = this.loanTenureAmount(this.productCategoryLoanAmount);
     }
   }
 
@@ -470,6 +487,7 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   onSourcingCodeSearch(event) {
+
     let inputString = event;
     let sourcingCode = [];
     console.log('inputString', event);
@@ -570,7 +588,23 @@ export class SourcingDetailsComponent implements OnInit {
     return loanTenure;
   }
 
-  onFormDisable(){
+  loanTenureAmount(productCategoryChanged?) {
+    const loanAmount = [
+      {
+        rule: amount => {
+          if (productCategoryChanged === 'UC') {
+            return amount <= 100000;
+          } else {
+            return null;
+          }
+        },
+        msg: 'Minimum loan amount should be 100000'
+      }
+    ];
+    return loanAmount;
+  }
+
+  onFormDisable() {
     if (this.operationType === '1') {
       this.sourcingDetailsForm.disable();
       this.isSourchingCode = true;
@@ -612,6 +646,30 @@ export class SourcingDetailsComponent implements OnInit {
         reqTenure: Number(saveAndUpdate.requestedTenor),
       };
       console.log('this.saveUpdate', this.saveUpdate);
+      this.leadDetail.saveAndUpdateLead(this.saveUpdate).subscribe((res: any) => {
+        const response = res;
+        console.log('saveUpdate Response', response);
+        const appiyoError = response.Error;
+        const apiError = response.ProcessVariables.error.code;
+
+        if (appiyoError === '0' && apiError === '0') {
+          this.toasterService.showSuccess('Record Saved Successfully !', 'Lead Details');
+          this.sharedService.changeLoanAmount(Number(saveAndUpdate.reqLoanAmt));
+          this.sharedService.leadDataToHeader(this.productCategoryChanged);
+          const dataa = {
+            ...this.saveUpdate,
+            sourcingCodeDesc: this.sourcingCodeValue,
+            dealorCodeDesc: this.dealorCodeValue
+          };
+          const data = {
+            leadDetails: dataa
+          };
+          this.createLeadDataService.setLeadDetailsData(data);
+          this.isSaved = true;
+        } else {
+          this.toasterService.showError(response.ProcessVariables.error.message, 'Lead Details');
+        }
+      });
       this.leadDetail
         .saveAndUpdateLead(this.saveUpdate)
         .subscribe((res: any) => {

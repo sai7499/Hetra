@@ -89,7 +89,7 @@
             <app-vf-custom-select
               formControlName="custSegment"
               [values]="LOV?.LOVS?.customerSegment"
-              (change)="onCustCategoryChanged($event)"
+              (change)="onCustCategoryChanged($event.target.value)"
               [isRequired]="'Please select one'"
               [isDirty]="isDirty"
             ></app-vf-custom-select>
@@ -209,7 +209,8 @@
                   class="form-control"
                   formControlName="dob"
                   [format]="'dd/MM/yyyy'"
-                  [max]="toDayDate"
+                  [min]="ageMinDate"
+                  [max]="setBirthDate"
                   placeholder="Date of birth"
                   [activeView]="'decade'"
                   (valueChange)="ageCalculation($event)"
@@ -694,7 +695,6 @@
               <app-vf-custom-select
                 formControlName="occupation"
                 [values]="LOV.LOVS.occupation"
-                (change)="onOccupationChange($event)"
                 [isRequired]="'Please select one'"
                 [isDirty]="isDirty"
               >
@@ -748,86 +748,23 @@
                 [isRequired]="'Please select one'"
                 [isDirty]="isDirty"
               ></app-vf-custom-select>
-              <!-- <span class="showErrorMessage"  
-              *ngIf="validation.get('customerCategory').errors?.value !== ''
-               && validation.get('customerCategory').errors?.required">                  
-                Select customer category
-            </span> -->
+             
             </div>
-            <!-- <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
-              <label for="customer_category"
-                >{{ labels?.customerCategory }}
-                <sub class="star_red_col">*</sub></label
-              >
-              <app-vf-custom-select
-                formControlName="custSegment"
-                [values]="LOV?.LOVS?.customerSegment"
-                (change)="onCustCategoryChanged($event)"
-                [isRequired]="'Please select one'"
-                [isDirty]="isDirty"
-              ></app-vf-custom-select>
-            </div> -->
-
-            <!-- <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
-              <label for="customer_category"
-                >{{ labels?.customerCategory }}
-                <sub class="star_red_col">*</sub></label
-              >
-              <app-vf-custom-select
-                formControlName="customerCategory"
-                [values]="LOV?.LOVS?.customerCategory"
-                [isRequired]="'Please select one'"
-                [isDirty]="isDirty"
-              ></app-vf-custom-select>
-            </div> -->
+            
           </div>
 
-          <!-- <div class="row">
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="bank_account_number">{{labels?.bankAccountNumber}}</label>
-                        <input formControlName="accountNumber" type="text" class="form-control" name="bank_account_number" id="bank_account_number" required="required">
-                    </div>
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="account_holding_bank">{{labels?.accountHoldingBank}}</label>
-                        <select class="form-control" id="account_holding_bank" name="account_holding_bank" required="required">
-                            <option value="">Select</option>
-                        </select>
-                        <app-vf-custom-select formControlName="accountBank"></app-vf-custom-select>
-                    </div>
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="branch_and_communication_address">{{labels?.branchAndCommunicationAddress}}</label>
-                        <textarea formControlName="branchAddress" class="form-control" rows="1" id="branch_and_communication_address" name="branch_and_communication_address"></textarea>											
-                    </div>
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="spoke_and_communication_address">{{labels?.spokeAndCommunicationAddress}}</label>
-                        <textarea formControlName="spokeAddress" class="form-control" rows="1" id="spoke_and_communication_address" name="spoke_and_communication_address"></textarea>					
-                    </div>
-
-                </div> -->
+          
+          <div *ngIf="custCatValue=='SALCUSTSEG'">      
           <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="designation"
                 >{{ labels?.designation }}
                 <sub class="star_blue_col">*</sub></label
               >
-              <!-- <select class="form-control" id="designation" name="designation">
-                            <option value="Salaried">Salaried</option>
-                            <option value="Self_Employed">Self Employed</option>
-                        </select> -->
-              <!-- <app-vf-custom-select formControlName="designation" [values]="designation" (change)="onDesignationChange($event)"></app-vf-custom-select> -->
-              <!-- <input
-                type="text"
-                class="form-control"
-                formControlName="designation"
-                name="designation"
-                id="designation"
-                
-                value="Product Manager"
-              /> -->
               <app-vf-custom-select
                 formControlName="designation"
                 [values]="LOV.LOVS.designation"
-                [isRequired]="designation"
+                [isRequired]="'Please Select One'"
                 [isDirty]="isDirty"
               ></app-vf-custom-select>
             </div>
@@ -836,18 +773,10 @@
                 >{{ labels?.officeName }}
                 <sub class="star_blue_col">*</sub></label
               >
-              <!-- <input
-                formControlName="employerName"
-                type="text"
-                class="form-control"
-                name="office_name"
-                id="office_name"
-                required="required"
-              /> -->
               <app-custom-input
                 formControlName="employerName"
                 [maxLength]="validationData?.name?.maxLength"
-                [isRequired]="employerName"
+                [isRequired]="'Office Name Is Required'"
                 [isDirty]="isDirty"
               ></app-custom-input>
               <!-- [patternCheck]="nameSpacePattern" -->
@@ -857,18 +786,11 @@
                 >{{ labels?.noOfyearsInCurrEmployment }}
                 <sub class="star_blue_col">*</sub></label
               >
-              <!-- <input
-                formControlName="currentEmpYears"
-                type="text"
-                class="form-control"
-                name="yr_curr_employment"
-                id="yr_curr_employment"
-                required="required"
-              /> -->
+             
               <app-custom-input
                 formControlName="currentEmpYears"
                 [maxLength]="validationData?.numberOfYears?.maxLength"
-                [isRequired]="noOfEmpYears"
+                [isRequired]="'Employeement Year is required'"
                 [isDirty]="isDirty"
                 [type]="validationData?.numberOfYears?.type"
               ></app-custom-input>
@@ -880,17 +802,10 @@
                 >{{ labels?.employeeCode }}
                 <sub class="star_blue_col">*</sub></label
               >
-              <!-- <input
-                formControlName="employeeCode"
-                type="text"
-                class="form-control"
-                name="employee_code"
-                id="employee_code"
-                required="required"
-              /> -->
+             
               <app-custom-input
                 formControlName="employeeCode"
-                [isRequired]="employeeCode"
+                [isRequired]="'Employee Code is required'"
                 [isDirty]="isDirty"
                 [inputClass]="'text-uppercase'"
                 [maxLength]="validationData?.employeeCode?.maxLength"
@@ -908,10 +823,12 @@
               <app-vf-custom-select
                 formControlName="employerType"
                 [values]="LOV.LOVS.applicantEmployerTpe"
-                [isRequired]="employerType"
+                [isRequired]="'Please Select One'"
                 [isDirty]="isDirty"
               ></app-vf-custom-select>
             </div>
+          </div>
+          
             <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="department">{{ labels?.department }}</label>
              
@@ -1007,6 +924,100 @@
                         <input formControlName="name" type="text" class="form-control" name="annual_income" id="annual_income">
                     </div> -->
           </div>
+          <div *ngIf="custCatValue=='SEMCUSTSEG'">
+         <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="employee_type"
+              >Type Of Business
+              <sub class="star_blue_col">*</sub></label
+            >
+            <!-- <select class="form-control" id="employee_type" name="employee_type">
+                          <option value="">Select</option>
+                      </select> -->
+            <app-vf-custom-select
+            formControlName="businessType"
+            [isRequired]="'Please Select One'"
+                [isDirty]="isDirty"
+               [values]="selfEmpBusType"
+             ></app-vf-custom-select>
+          </div>
+
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="employee_code"
+              >Business Name
+              <sub class="star_blue_col">*</sub></label
+            >
+           
+            <app-custom-input
+            formControlName="businessName"
+            [isRequired]="'Business Name Is Required'"
+            [isDirty]="isDirty"
+            [maxLength]="validationData?.businessName.maxLength"
+
+            ></app-custom-input>
+          </div>
+
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="extnl_rating_expiry_date"
+              >Business Start Date
+              <sub class="star_red_col">*</sub></label
+            >
+            <div class="input-group input-medium" id="date_of_birth">
+              <kendo-datepicker
+                class="form-control"
+                formControlName="businessStartDate"
+                [format]="'dd/MM/yyyy'"
+                [max]="toDayDate"
+                placeholder="Business Start Date"
+                [activeView]="'decade'"
+              ></kendo-datepicker>
+              <div
+                class="ShowError"
+                *ngIf="
+                  isDirty &&
+                  validation.get('businessStartDate').errors?.required
+                "
+              >
+                select date
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="employee_code"
+              >Number Of years In Current business
+              <sub class="star_blue_col">*</sub></label
+            >
+           
+            <app-custom-input
+            formControlName="currentBusinessYears"
+            [isRequired]="'Number Of Years is Required'"
+            [isDirty]="isDirty"
+            [maxLength]="validationData?.noOfBusinessYears.maxLength"
+            [type]="validationData?.noOfBusinessYears.type"
+
+            ></app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="employee_code"
+              >Turn Over
+              <sub class="star_blue_col">*</sub></label
+            >
+           
+            <app-custom-input
+            formControlName="turnOver"
+            [isRequired]="'Turn Over Is Required'"
+            [isDirty]="isDirty"
+            [maxLength]="validationData?.turnOver.maxLength"
+            [type]="validationData?.turnOver.type"
+
+            ></app-custom-input>
+          </div>
+        </div>
+      </div>
+
         </div>
 
         <!-- Individual Section End Here -->
@@ -1433,34 +1444,7 @@
           </div>
 
           <div class="row">
-            <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="name_of_director">{{ labels?.nameofDirector }} <sub class="star_blue_col">*</sub></label>
-             
-              <app-custom-input
-              formControlName="directorName"
-             
-              [maxLength]="validationData?.directorName?.maxLength"
-              [type]="validationData?.directorName?.type"
-              
-            ></app-custom-input>
-            </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="din">{{
-                labels?.directorIdentificationNumber
-              }} <sub class="star_red_col">*</sub></label>
-              
-              <app-custom-input
-                  formControlName="directorIdentificationNumber"
-                  [maxLength]="validationData?.dinNumber?.maxLength"
-                  [type]="validationData?.dinNumber?.type"
-                  [isRequired]="'Direction Identification Number is Required'"
-                  [isDirty]="isDirty"
-                  ></app-custom-input>
-            </div>
-             -->
-
-            
-          </div>
+           </div>
 
           <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
                         <label for="external_rating_assigned">{{labels?.ratingIssuerName}}</label>

@@ -1,5 +1,5 @@
 
-<div class="multisteps-form" style="margin-top:20px;">
+<div class="multisteps-form" >
         <form [formGroup]="chequeForm">
         <div class="table-responsive application" id="cheque_results_section">
                             <h3 class="">{{labels?.chequeTracking}} </h3>
@@ -17,23 +17,29 @@
                                             <th>{{labels?.favouringTo}}<i class="fa fa-sort"></i> </th>
                                           </tr>
                                         </thead>
-                                        <tbody  formArrayName='details'>
+                                        <!-- <tbody  formArrayName='details'> -->
+                                        <tbody  >
                                           <tr
-                                          *ngFor="let data of chequeData ; let i =index " [formGroupName]='i'>
+                                          *ngFor="let data of chequeData ; let i =index ">
                                             
                                             <td><input type="radio"
                                                name="cheque_radio" 
                                                id="cheque_radio_1"
-                                                (click)="onGetChequeData(data, i, $event)"></td>
+                                                (click)="onGetChequeData(data, i, $event)"
+                                                [disabled]="data.chequeStatus=='HANDEDOVERCHEQUESTS'"
+                                                ></td>
+                                               
+                                                
                                             <td>{{data?.mode || '-'}}</td>
                                             <td>
-                                              <app-custom-input
+                                              <!-- <app-custom-input
                                                   formControlName="chequeNum"
                                                   [maxLength]=""
                                                   (ngModelChange)="onChangeCheque(i, $event)"
                                                   
                                                   [type]=""
-                                                ></app-custom-input>
+                                                ></app-custom-input> -->
+                                                {{data?.chequeNum || '-'}}
                                             </td>
                                             <td>
                                               <!-- <kendo-datepicker
@@ -113,12 +119,19 @@
                                             <div class="col-lg-3 col-sm-4 col-md-3">{{labels.customerName}}</div>
                                             <div class="col-lg-4 col-sm-4 col-md-3"><strong>-</strong></div>
                                         </div>
+                                        &nbsp;
+                                        <div class="row" 
+                                        *ngIf="showRemark">
+                                          <div class="col-lg-3 col-sm-4 col-md-3">Remarks</div>
+                                          <div class="col-lg-4 col-sm-4 col-md-3"><strong>{{selectedData?.remarks || '-'}}</strong></div>
+                                      </div>
+
                                             </div>
                                             <div class="col-lg-6 col-sm-4 col-md-3">
                                               
                                                 <div class="row"
                                                 >
-                                                    <div class="col-lg-2 col-sm-4 col-md-3">{{labels.status}}</div>
+                                                    <div class="col-lgg-3 col-sm-4 col-md-3">{{labels.status}}</div>
                                                     <div class="col-lg-4 col-sm-4 col-md-3">
                                                         <!-- <select id="" class="form-control" >
                                                             <option value="Handed Over">Handed Over</option>
@@ -137,8 +150,28 @@
                                                     </div>
                                                 </div>
                                                 &nbsp;
+                                                <div class="row"
+                                                *ngIf="showChequeNum">
+                                                  <div class="col-lgg-3 col-sm-4 col-md-3"><p id="remarks_place">Cheque Number</p></div>
+                                                  <!-- <div class="col-lg-4 col-sm-4 col-md-3">
+                                                      <textarea class="form-control" cols="2"
+                                                      formControlName='remarks'></textarea>
+                                                  </div> -->
+                                                  <div class="col-lg-4 col-sm-4 col-md-3">
+                                                    <app-custom-input
+                                                    formControlName="chequeNum"
+                                                    [maxLength]=""
+                                                    (ngModelChange)="onChangeCheque( $event)"
+                                                    
+                                                    [type]=""
+                                                  ></app-custom-input>
+                                                  </div>
+                                                  
+                                                  
+                                              </div>
+                                                &nbsp;
                                                 <div class="row" *ngIf="showStatusDate">
-                                                   <div class="col-lg-2 col-sm-4 col-md-3">Status Updated On</div>
+                                                   <div class="col-lgg-3 col-sm-4 col-md-3">Handed Over Date</div>
                                                    <div class="col-lg-4 col-sm-4 col-md-3">
                                                     <kendo-datepicker
                                                     class="form-control"
@@ -159,24 +192,34 @@
                                                    </div>
                                                 </div>
                                                 &nbsp;
-                                                <div class="row">
-                                                    <div class="col-lg-2 col-sm-4 col-md-3"><p id="remarks_place">{{labels?.chequeRemark}}</p></div>
+                                                <div class="row"
+                                                *ngIf="showRemark">
+                                                    <div class="col-lgg-3 col-sm-4 col-md-3"><p id="remarks_place">{{labels?.chequeRemark}}</p></div>
                                                     <div class="col-lg-4 col-sm-4 col-md-3">
-                                                        <textarea class="form-control" cols="2"
+                                                        <textarea class="form-control" cols="4" 
+                                                        (ngModelChange)="onRemarkValue($event)"
                                                         formControlName='remarks'></textarea>
+
+                                                        <div class="invalid-feedback ShowError"
+                                                  *ngIf="chequeForm.get('remarks').touched || isDirty">
+                                                    <div *ngIf="chequeForm.get('remarks').invalid">
+                                                        Remarks Is Required
                                                     </div>
+                                                  </div>
+                                                    </div>
+                                                    
                                                     
                                                 </div>
                                              
                                                 
                                                 &nbsp;
-                                                <div class="row">
+                                                <!-- <div class="row">
                                                     <div class="col-lg-2 col-sm-4 col-md-3"></div>
                                                     <div class="col-lg-4 col-sm-4 col-md-3">
-                                                        <!-- <a ><input type="button" class="btn btn-primary form-control" value="Update Status" id="update_status_btn"></a> -->
+                                                        
                                                         <button class="btn btn-primary" disabled>{{labels.initialDisbursement}}</button>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                     </div>
@@ -188,13 +231,13 @@
     </div>
     <div class="for_space"></div> -->
 
-    <div class="row btn-sec clear-both mb-4 mt-0" style="margin:0px !important">
+    <div class="row btn-sec clear-both mar-bot">
                     
         <div class="col-sm-5"></div>
-        <div class="col-sm-7 text-right"
+        <div class="col-sm-7 "
         >
-            <button class="btn btn-primary dash_href mar-right8" (click)="onBack()">{{labels.back}}</button>
-            <button class="btn btn-primary dash_href mar-right8"
+            <button class="btn btn-primary dash_href " (click)="onBack()">{{labels.back}}</button>
+            <button class="btn btn-primary dash_href "
             [disabled]="disableUpdate"
             data-toggle="modal"
             data-target="#myModal"
@@ -202,7 +245,7 @@
         </div>
                 
     </div>
-    <div class="modal" id="myModal">
+    <!-- <div class="modal" id="myModal">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -235,4 +278,27 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
+
+      <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+    
+  
+            <div class="modal-content">
+                <!-- <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Update</h4>
+                </div> -->
+                <div class="modal-body" >
+                    <p>Are You Sure Want to Update Record?</p>
+                </div>
+               
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary " (click)="onUpdate()" 
+                        data-dismiss="modal">Yes</button> &nbsp;
+                    <button type="button" class="btn btn-primary " data-dismiss="modal">Close</button>
+                </div>
+            </div>
+    
+        </div>
+    </div>

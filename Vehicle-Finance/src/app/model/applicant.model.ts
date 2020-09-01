@@ -2,6 +2,7 @@ import { SpawnSyncOptionsWithBufferEncoding } from 'child_process';
 
 export interface Applicant {
   otpVerified?: boolean;
+  ucic? : number ;
   applicantDetails?: ApplicantDetails;
   aboutIndivProspectDetails?: IndividualProspectDetails;
   indivIdentityInfoDetails?: IndivIdentityInfoDetails;
@@ -54,6 +55,8 @@ export interface ApplicantDetails {
   agriAppRelationship?: string;
   grossReceipt?: number;
   isAddrSameAsApplicant? : string;
+  modifyCurrentAddress ? : string;
+  srNumber? : string;
 }
 
 export interface ApplicantList {
@@ -97,6 +100,13 @@ export interface IndividualProspectDetails {
   minorGuardianRelation?: string;
   alternateMobileNumber?: string;
   politicallyExposedPerson?: string;
+  
+  businessType? : string;
+  businessName? : string;
+  businessStartDate? : string;
+  currentBusinessYears? : string;
+  turnOver? : string;
+
 }
 
 export interface AddressDetails {

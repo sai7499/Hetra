@@ -10,7 +10,7 @@ import RequestEntity from '@model/request.entity';
 export class LoanCreationService {
 
   constructor(private httpService: HttpService,
-    private apiService: ApiService) { }
+              private apiService: ApiService) { }
 
   setLoanCreation(data) {
     const processData = data;
