@@ -112,21 +112,14 @@ export class IncomeDetailsComponent implements OnInit {
     private utilityService: UtilityService,
 
   ) {
-
-    console.log((this.today - 1).toString() + '-' + (this.today));
-    console.log((this.today - 2).toString() + '-' + (this.today - 1));
-    console.log((this.today - 3).toString() + '-' + (this.today - 2));
     this.yearOneValue = (this.today - 1).toString() + '-' + (this.today)
     this.yearTwoValue = (this.today - 2).toString() + '-' + (this.today - 1)
     this.yearThreeValue = (this.today - 3).toString() + '-' + (this.today - 2)
-
-    console.log(this.today);
 
   }
 
 
   ngOnInit() {
-    console.log((this.today - 1).toString() + '-' + (this.today));
     this.labelsData.getLabelsData().subscribe(
       // tslint:disable-next-line: no-shadowed-variable
       (data) => {
@@ -168,8 +161,6 @@ export class IncomeDetailsComponent implements OnInit {
     const leadData = this.createLeadDataService.getLeadSectionData();
     const leadSectionData = leadData as any;
     this.productCode = leadSectionData.leadDetails['productCatCode'];
-    console.log(this.productCode);
-
     const incomeData = {
       productCode: this.productCode,
     };
@@ -184,7 +175,6 @@ export class IncomeDetailsComponent implements OnInit {
     } else if (this.productCode == "NCV" || this.productCode == "UCV") {
       this.NewOrUsedComercialVehicle = true
     }
-    console.log(this.incomeDetailsForm);
     this.businessIncomeValidators()
   }
   businessIncomeValidators() {
@@ -226,7 +216,6 @@ export class IncomeDetailsComponent implements OnInit {
   }
 
   private getKeyFinancialDetails(data?: any) {
-    console.log(data);
 
     if (data == undefined) {
 
@@ -372,8 +361,6 @@ export class IncomeDetailsComponent implements OnInit {
     }
   }
   addKeyFinancialDetails(data?: any) {
-    console.log(data);
-
     const control = this.incomeDetailsForm.controls
       .keyFinanceDetails as FormArray;
     if (data && data.length > 0) {
@@ -387,8 +374,6 @@ export class IncomeDetailsComponent implements OnInit {
     }
   }
   removeKeyFinancialDetails(i?: any) {
-    console.log(i);
-
     const control = this.incomeDetailsForm.controls
       .keyFinanceDetails as FormArray;
     control.removeAt(i);
@@ -404,8 +389,6 @@ export class IncomeDetailsComponent implements OnInit {
       userId: this.userId,
 
     };
-    console.log(body);
-
     this.incomeDetailsService
       .setAllIncomeDetails(body)
       .subscribe((res: any) => {
@@ -710,7 +693,6 @@ export class IncomeDetailsComponent implements OnInit {
       .getAllIncomeDetails(body)
       .subscribe((res: any) => {
         this.applicantResponse = res.ProcessVariables;
-        console.log(this.applicantResponse);
 
         this.incomeDetailsForm.patchValue({
           salariedFOIRDeviation: this.applicantResponse.salariedFOIRDeviation,
@@ -720,9 +702,6 @@ export class IncomeDetailsComponent implements OnInit {
         this.addObligationUnit(res.ProcessVariables.obligationsList);
         this.onSalFoirDeviation(this.applicantResponse.salariedFOIRDeviation);
         this.keyFinancialData = JSON.parse(res.ProcessVariables.keyFinanceDetails.keyFinancials || null)
-
-        console.log(this.keyFinancialData, "converted key data");
-        
           this.addKeyFinancialDetails(this.keyFinancialData)
         
 
@@ -730,8 +709,6 @@ export class IncomeDetailsComponent implements OnInit {
   }
 
   onBusinessApplicantChange(event?: any, i?: number) {
-    console.log(event);
-
     // tslint:disable-next-line: triple-equals
     const applicantType = this.applicantDetails.find(
       // tslint:disable-next-line: triple-equals
@@ -769,11 +746,9 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       (res) => res.applicantId == event
     ).applicantType;
-    console.log(applicantType);
 
     const control: any = this.incomeDetailsForm.controls
       .keyFinanceDetails['controls'] as FormGroup;
-    console.log(control);
     control[i].controls.yearOne.get('applicantType').setValue(applicantType);
     control[i].controls.yearTwo.get('applicantType').setValue(applicantType);
     control[i].controls.yearThree.get('applicantType').setValue(applicantType);
@@ -790,11 +765,9 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       (res) => res.applicantId == event
     ).applicantType;
-    console.log(applicantType);
 
     const control: any = this.incomeDetailsForm.controls
       .keyFinanceDetails['controls'] as FormGroup;
-    console.log(control);
     // control[i].controls.yearOne.get('applicantType').setValue(applicantType);
     control[i].controls.yearTwo.get('applicantType').setValue(applicantType);
     // control[i].controls.yearThree.get('applicantType').setValue(applicantType);
@@ -811,11 +784,9 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       (res) => res.applicantId == event
     ).applicantType;
-    console.log(applicantType);
 
     const control: any = this.incomeDetailsForm.controls
       .keyFinanceDetails['controls'] as FormGroup;
-    console.log(control);
     control[i].controls.yearThree.get('applicantType').setValue(applicantType);
     const applicantName = this.applicantDetails.find(
       // tslint:disable-next-line: triple-equals
@@ -826,7 +797,6 @@ export class IncomeDetailsComponent implements OnInit {
   }
   onSubmit() {
     this.submitted = true;
-    console.log(this.incomeDetailsForm);
   
     // stop here if form is invalid
     if (this.incomeDetailsForm.invalid) {
@@ -926,7 +896,6 @@ export class IncomeDetailsComponent implements OnInit {
       this.incomeDetailsService
         .setAllIncomeDetails(bodyForm)
         .subscribe((res: any) => {
-          console.log(res);
 
           // tslint:disable-next-line: triple-equals
           if (res && res.ProcessVariables.error.code == '0') {
@@ -1156,7 +1125,6 @@ export class IncomeDetailsComponent implements OnInit {
     }
   }
   onCashGeneration(event, i: number) {
-    console.log(event);
 
     const keyFinanceDetails = this.incomeDetailsForm.controls
       .keyFinanceDetails as FormArray;
