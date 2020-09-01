@@ -111,9 +111,9 @@ export class IncomeDetailsComponent implements OnInit {
 
   ) {
 
-    console.log((this.today - 1).toString() + '-' + (this.today) );
-    console.log((this.today - 2).toString() + '-' + (this.today - 1) );
-    console.log((this.today - 3).toString() + '-' + (this.today - 2) );
+    console.log((this.today - 1).toString() + '-' + (this.today));
+    console.log((this.today - 2).toString() + '-' + (this.today - 1));
+    console.log((this.today - 3).toString() + '-' + (this.today - 2));
     this.yearOneValue = (this.today - 1).toString() + '-' + (this.today)
     this.yearTwoValue = (this.today - 2).toString() + '-' + (this.today - 1)
     this.yearThreeValue = (this.today - 3).toString() + '-' + (this.today - 2)
@@ -124,7 +124,7 @@ export class IncomeDetailsComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log((this.today - 1).toString() + '-' + (this.today) );
+    console.log((this.today - 1).toString() + '-' + (this.today));
     this.labelsData.getLabelsData().subscribe(
       // tslint:disable-next-line: no-shadowed-variable
       (data) => {
@@ -324,7 +324,7 @@ export class IncomeDetailsComponent implements OnInit {
           partnersSalary: data.yearOne.partnersSalary ? data.yearOne.partnersSalary : '',
           cashGeneration: data.yearOne.cashGeneration ? data.yearOne.cashGeneration : '',
           dateOfItrFiling: data.yearOne.dateOfItrFiling ? this.utilityService.getDateFromString(
-            this.utilityService.convertDateTimeTOUTC(data.yearOne.dateOfItrFiling,'DD/MM/YYYY')
+            this.utilityService.convertDateTimeTOUTC(data.yearOne.dateOfItrFiling, 'DD/MM/YYYY')
           ) : '',
         }),
         yearTwo: this.formBuilder.group({
@@ -347,7 +347,7 @@ export class IncomeDetailsComponent implements OnInit {
           partnersSalary: data.yearTwo.partnersSalary ? data.yearTwo.partnersSalary : '',
           cashGeneration: data.yearTwo.cashGeneration ? data.yearTwo.cashGeneration : '',
           dateOfItrFiling: data.yearTwo.dateOfItrFiling ? this.utilityService.getDateFromString(
-            this.utilityService.convertDateTimeTOUTC(data.yearTwo.dateOfItrFiling,'DD/MM/YYYY')
+            this.utilityService.convertDateTimeTOUTC(data.yearTwo.dateOfItrFiling, 'DD/MM/YYYY')
           ) : '',
         }),
         yearThree: this.formBuilder.group({
@@ -370,7 +370,7 @@ export class IncomeDetailsComponent implements OnInit {
           partnersSalary: data.yearThree.partnersSalary ? data.yearThree.partnersSalary : '',
           cashGeneration: data.yearThree.cashGeneration ? data.yearThree.cashGeneration : '',
           dateOfItrFiling: data.yearThree.dateOfItrFiling ? this.utilityService.getDateFromString(
-            this.utilityService.convertDateTimeTOUTC(data.yearThree.dateOfItrFiling,'DD/MM/YYYY')
+            this.utilityService.convertDateTimeTOUTC(data.yearThree.dateOfItrFiling, 'DD/MM/YYYY')
           ) : '',
         }),
       });
@@ -385,7 +385,7 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < data.length; i++) {
         control.push(this.getKeyFinancialDetails(data[i]));
-        this.onCashGeneration(null,i)
+        this.onCashGeneration(null, i)
       }
     } else {
       control.push(this.getKeyFinancialDetails());
@@ -397,53 +397,53 @@ export class IncomeDetailsComponent implements OnInit {
     const control = this.incomeDetailsForm.controls
       .keyFinanceDetails as FormArray;
     // if (i > 0) {
-      // const body = {
-      //   userId: this.userId,
-      //   leadId: this.leadId,
-      // };
-      control.removeAt(i);
+    // const body = {
+    //   userId: this.userId,
+    //   leadId: this.leadId,
+    // };
+    control.removeAt(i);
 
-      const keyFinancialObj = { keyFinancials: this.incomeDetailsForm.controls.keyFinanceDetails.value }
+    const keyFinancialObj = { keyFinancials: this.incomeDetailsForm.controls.keyFinanceDetails.value }
 
-      const body = {
+    const body = {
 
-        // businessIncomeDetails: this.incomeDetailsForm.controls.businessIncomeDetails.value,
-        otherIncomeDetails: this.incomeDetailsForm.controls.otherIncomeDetails.value,
-        obligationDetails: this.incomeDetailsForm.controls.obligationDetails.value,
-        keyFinanceDetails: JSON.stringify(keyFinancialObj || null),
-        // salariedFOIRasperPolicy: this.incomeDetailsForm.controls.salariedFOIRasperPolicy.value,
-        // salariedFOIRDeviation: this.incomeDetailsForm.controls.salariedFOIRDeviation.value,
-        leadId: this.leadId,
-        userId: this.userId,
+      // businessIncomeDetails: this.incomeDetailsForm.controls.businessIncomeDetails.value,
+      otherIncomeDetails: this.incomeDetailsForm.controls.otherIncomeDetails.value,
+      obligationDetails: this.incomeDetailsForm.controls.obligationDetails.value,
+      keyFinanceDetails: JSON.stringify(keyFinancialObj || null),
+      // salariedFOIRasperPolicy: this.incomeDetailsForm.controls.salariedFOIRasperPolicy.value,
+      // salariedFOIRDeviation: this.incomeDetailsForm.controls.salariedFOIRDeviation.value,
+      leadId: this.leadId,
+      userId: this.userId,
 
-      };
-      console.log(body);
+    };
+    console.log(body);
 
-      this.incomeDetailsService
-        .setAllIncomeDetails(body)
-        .subscribe((res: any) => {
-          if (res && res.ProcessVariables.error.code == '0') {
-            // tslint:disable-next-line: prefer-const
-            let businessControls = this.incomeDetailsForm.controls
-              .businessIncomeDetails as FormArray;
-            businessControls.controls = [];
-            const otherIncomeDetailsControls = this.incomeDetailsForm.controls
-              .otherIncomeDetails as FormArray;
-            otherIncomeDetailsControls.controls = [];
-            const obligationDetailsControls = this.incomeDetailsForm.controls
-              .obligationDetails as FormArray;
-            obligationDetailsControls.controls = [];
-            const keyFinancialCOntrols = this.incomeDetailsForm.controls
-              .keyFinanceDetails as FormArray;
-            keyFinancialCOntrols.controls = [];
-            this.toasterService.showSuccess(
-              'Applicant Income Details Saved Successfully',
-              'Income Details'
-            );
-            this.getAllIncome();
-          }
+    this.incomeDetailsService
+      .setAllIncomeDetails(body)
+      .subscribe((res: any) => {
+        if (res && res.ProcessVariables.error.code == '0') {
+          // tslint:disable-next-line: prefer-const
+          let businessControls = this.incomeDetailsForm.controls
+            .businessIncomeDetails as FormArray;
+          businessControls.controls = [];
+          const otherIncomeDetailsControls = this.incomeDetailsForm.controls
+            .otherIncomeDetails as FormArray;
+          otherIncomeDetailsControls.controls = [];
+          const obligationDetailsControls = this.incomeDetailsForm.controls
+            .obligationDetails as FormArray;
+          obligationDetailsControls.controls = [];
+          const keyFinancialCOntrols = this.incomeDetailsForm.controls
+            .keyFinanceDetails as FormArray;
+          keyFinancialCOntrols.controls = [];
+          this.toasterService.showSuccess(
+            'Applicant Income Details Saved Successfully',
+            'Income Details'
+          );
+          this.getAllIncome();
+        }
 
-        });
+      });
     // }
 
     // else {
@@ -740,10 +740,10 @@ export class IncomeDetailsComponent implements OnInit {
 
         console.log(keyFinancialData, "converted key data");
         const keyFinancialObj = keyFinancialData.keyFinancials
-        if(keyFinancialObj != []) {
+        if (keyFinancialObj != []) {
           this.addKeyFinancialDetails(keyFinancialObj)
         }
-       
+
       });
   }
 
@@ -925,55 +925,55 @@ export class IncomeDetailsComponent implements OnInit {
       // const keyFinanceControl = this.incomeDetailsForm.controls
       // .keyFinanceDetails as FormArray;
       // console.log(keyFinanceControl);
-      
-    // for (let i = 0; i < keyFinanceControl.length; i++) {
-    //   const dateOfItrFiling = keyFinanceControl.at(i).get('dateOfItrFiling').value;
-    //   keyFinanceControl.at(i).get('dateOfItrFiling').setValue(this.utilityService.convertDateTimeTOUTC(
-    //     dateOfItrFiling,
-    //     'DD/MM/YYYY'));
-    // console.log("date.........",dateOfItrFiling);
-      
-    // }
-    
+
+      // for (let i = 0; i < keyFinanceControl.length; i++) {
+      //   const dateOfItrFiling = keyFinanceControl.at(i).get('dateOfItrFiling').value;
+      //   keyFinanceControl.at(i).get('dateOfItrFiling').setValue(this.utilityService.convertDateTimeTOUTC(
+      //     dateOfItrFiling,
+      //     'DD/MM/YYYY'));
+      // console.log("date.........",dateOfItrFiling);
+
+      // }
+
       const keyFinancialObj = { keyFinancials: this.incomeDetailsForm.controls.keyFinanceDetails.value }
 
-     let  productCode = this.productCode;
-     let bodyForm;
-     if(productCode == "UC"){
-      const body = {
+      let productCode = this.productCode;
+      let bodyForm;
+      if (productCode == "UC") {
+        const body = {
 
-        businessIncomeDetails: this.incomeDetailsForm.controls.businessIncomeDetails.value,
-        otherIncomeDetails: this.incomeDetailsForm.controls.otherIncomeDetails.value,
-        obligationDetails: this.incomeDetailsForm.controls.obligationDetails.value,
-        // keyFinanceDetails: JSON.stringify(keyFinancialObj || null),
-        salariedFOIRasperPolicy: this.incomeDetailsForm.controls.salariedFOIRasperPolicy.value,
-        salariedFOIRDeviation: this.incomeDetailsForm.controls.salariedFOIRDeviation.value,
-        leadId: this.leadId,
-        userId: this.userId,
+          businessIncomeDetails: this.incomeDetailsForm.controls.businessIncomeDetails.value,
+          otherIncomeDetails: this.incomeDetailsForm.controls.otherIncomeDetails.value,
+          obligationDetails: this.incomeDetailsForm.controls.obligationDetails.value,
+          // keyFinanceDetails: JSON.stringify(keyFinancialObj || null),
+          salariedFOIRasperPolicy: this.incomeDetailsForm.controls.salariedFOIRasperPolicy.value,
+          salariedFOIRDeviation: this.incomeDetailsForm.controls.salariedFOIRDeviation.value,
+          leadId: this.leadId,
+          userId: this.userId,
 
-      } 
+        }
 
-      bodyForm = body
+        bodyForm = body
 
-    }else if(productCode == "UCV" || productCode == "NCV"){
-      
-      const body = {
+      } else if (productCode == "UCV" || productCode == "NCV") {
 
-        // businessIncomeDetails: this.incomeDetailsForm.controls.businessIncomeDetails.value,
-        otherIncomeDetails: this.incomeDetailsForm.controls.otherIncomeDetails.value,
-        obligationDetails: this.incomeDetailsForm.controls.obligationDetails.value,
-        keyFinanceDetails: JSON.stringify(keyFinancialObj || null),
-        // salariedFOIRasperPolicy: this.incomeDetailsForm.controls.salariedFOIRasperPolicy.value,
-        // salariedFOIRDeviation: this.incomeDetailsForm.controls.salariedFOIRDeviation.value,
-        leadId: this.leadId,
-        userId: this.userId,
+        const body = {
 
-      } 
+          // businessIncomeDetails: this.incomeDetailsForm.controls.businessIncomeDetails.value,
+          otherIncomeDetails: this.incomeDetailsForm.controls.otherIncomeDetails.value,
+          obligationDetails: this.incomeDetailsForm.controls.obligationDetails.value,
+          keyFinanceDetails: JSON.stringify(keyFinancialObj || null),
+          // salariedFOIRasperPolicy: this.incomeDetailsForm.controls.salariedFOIRasperPolicy.value,
+          // salariedFOIRDeviation: this.incomeDetailsForm.controls.salariedFOIRDeviation.value,
+          leadId: this.leadId,
+          userId: this.userId,
 
-      bodyForm = body
+        }
 
-    }
-      
+        bodyForm = body
+
+      }
+
 
       this.incomeDetailsService
         .setAllIncomeDetails(bodyForm)
@@ -1231,35 +1231,74 @@ export class IncomeDetailsComponent implements OnInit {
       this.totalSalariedFOIR = 0;
     }
   }
-  onCashGeneration(event,i:number){
+  onCashGeneration(event, i: number) {
     console.log(event);
-    
+
     const keyFinanceDetails = this.incomeDetailsForm.controls
-    .keyFinanceDetails as FormArray;
+      .keyFinanceDetails as FormArray;
+    // if (keyFinanceDetails && keyFinanceDetails.length > 0) {
+    // for (let i = 0; i < keyFinanceDetails.length; i++) {
+    //   this.cashGeneratedValue = Math.round(
+    //     this.cashGeneratedValue +
+    //     keyFinanceDetails.value.yearThree.netProfitAfterTax
+    //   );
+    // }
+    const netProfitAfterTaxYearOne = keyFinanceDetails.value[i].yearOne.netProfitAfterTax;
+    const depreciationBYearOne = keyFinanceDetails.value[i].yearOne.depreciation;
+    const netProfitAfterTaxYearTwo = keyFinanceDetails.value[i].yearTwo.netProfitAfterTax;
+    const depreciationBYearTwo = keyFinanceDetails.value[i].yearTwo.depreciation;
+    const netProfitAfterTaxYearThree = keyFinanceDetails.value[i].yearThree.netProfitAfterTax;
+    const depreciationBYearThree = keyFinanceDetails.value[i].yearThree.depreciation;
 
-    if (keyFinanceDetails && keyFinanceDetails.length > 0) {
-      // for (let i = 0; i < keyFinanceDetails.length; i++) {
-      //   this.cashGeneratedValue = Math.round(
-      //     this.cashGeneratedValue +
-      //     keyFinanceDetails.value.yearThree.netProfitAfterTax
-      //   );
-      // }
-      const netProfitAfterTaxYearOne = keyFinanceDetails.value[i].yearOne.netProfitAfterTax;
-      const depreciationBYearOne = keyFinanceDetails.value[i].yearOne.depreciation;
-      const netProfitAfterTaxYearTwo = keyFinanceDetails.value[i].yearTwo.netProfitAfterTax;
-      const depreciationBYearTwo = keyFinanceDetails.value[i].yearTwo.depreciation;
-      const netProfitAfterTaxYearThree = keyFinanceDetails.value[i].yearThree.netProfitAfterTax;
-      const depreciationBYearThree = keyFinanceDetails.value[i].yearThree.depreciation;
-     
-      this.cashGeneratedYearOneValue = Number(netProfitAfterTaxYearOne) + Number(depreciationBYearOne);
-      this.cashGeneratedYearTwoValue = Number(netProfitAfterTaxYearTwo) + Number(depreciationBYearTwo);
-      this.cashGeneratedYearThreeValue = Number(netProfitAfterTaxYearThree) + Number(depreciationBYearThree);
+    this.cashGeneratedYearOneValue = Number(netProfitAfterTaxYearOne) + Number(depreciationBYearOne);
+    this.cashGeneratedYearTwoValue = Number(netProfitAfterTaxYearTwo) + Number(depreciationBYearTwo);
+    this.cashGeneratedYearThreeValue = Number(netProfitAfterTaxYearThree) + Number(depreciationBYearThree);
+    // keyFinanceDetails.controls[i].yearOne.patchValue({cashGeneration : this.cashGeneratedYearOneValue})
+    console.log(this.cashGeneratedYearOneValue)
+    console.log(this.cashGeneratedYearTwoValue)
+    console.log(this.cashGeneratedYearThreeValue)
+    const control = this.incomeDetailsForm.controls
+      .keyFinanceDetails['controls'] as FormGroup;
 
-    
-      
-      // keyFinanceDetails.value[i].yearThree.patchValue({ cashGeneration });
-     
-  
+       control[i].controls.yearOne.get('cashGeneration').setValue(this.cashGeneratedYearOneValue);
+       control[i].controls.yearTwo.get('cashGeneration').setValue(this.cashGeneratedYearTwoValue);
+       control[i].controls.yearThree.get('cashGeneration').setValue(this.cashGeneratedYearThreeValue);
+
+
+
+    // }
   }
-  }
+  // onCashGeneration(event,i:number){
+  //   console.log(event);
+
+  //   const keyFinanceDetails = this.incomeDetailsForm.controls
+  //   .keyFinanceDetails as FormArray;
+
+  //   if (keyFinanceDetails && keyFinanceDetails.length > 0) {
+  //     // for (let i = 0; i < keyFinanceDetails.length; i++) {
+  //     //   this.cashGeneratedValue = Math.round(
+  //     //     this.cashGeneratedValue +
+  //     //     keyFinanceDetails.value.yearThree.netProfitAfterTax
+  //     //   );
+  //     // }
+  //     const netProfitAfterTaxYearOne = keyFinanceDetails.value[i].yearOne.netProfitAfterTax;
+  //     const depreciationBYearOne = keyFinanceDetails.value[i].yearOne.depreciation;
+  //     const netProfitAfterTaxYearTwo = keyFinanceDetails.value[i].yearTwo.netProfitAfterTax;
+  //     const depreciationBYearTwo = keyFinanceDetails.value[i].yearTwo.depreciation;
+  //     const netProfitAfterTaxYearThree = keyFinanceDetails.value[i].yearThree.netProfitAfterTax;
+  //     const depreciationBYearThree = keyFinanceDetails.value[i].yearThree.depreciation;
+
+  //     this.cashGeneratedYearOneValue = Number(netProfitAfterTaxYearOne) + Number(depreciationBYearOne);
+  //     this.cashGeneratedYearTwoValue = Number(netProfitAfterTaxYearTwo) + Number(depreciationBYearTwo);
+  //     this.cashGeneratedYearThreeValue = Number(netProfitAfterTaxYearThree) + Number(depreciationBYearThree);
+  //     keyFinanceDetails.controls[i].yearOne.patchValue({cashGeneration : this.cashGeneratedYearOneValue})
+  //   console.log(this.cashGeneratedYearOneValue)
+  //   console.log(this.cashGeneratedYearTwoValue)
+  //   console.log(this.cashGeneratedYearThreeValue)
+
+  //     // keyFinanceDetails.value[i].yearThree.patchValue({ cashGeneration });
+
+
+  // }
+  // }
 }
