@@ -514,7 +514,7 @@
     </table>
     <!--track validation summary-->
     <!-- customer selection criteria -->
-    <table class="cam_table_proposed mt-3">
+    <!-- <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
         labels?.customerSelectionCriteriaTitle
@@ -561,9 +561,35 @@
 
 
         </tbody>
-    </table>
+    </table> -->
     <!-- customer selection criteria -->
+ <!--Auto deviations-->
+ <table class="cam_table_proposed mt-3">
+    <caption class="caption">
+        {{
+    labels?.autoDeviation
+  }}
+    </caption>
 
+    <thead>
+        <tr>
+            <th class="bank_name">{{ labels?.deviation }}</th>
+            <th class="bank_name">{{ labels?.authority }}</th>
+            <th class="bank_name">{{ labels?.justification }}</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let autoDeviation of autoDeviation">
+
+            <td>{{ autoDeviation?.deviation }}</td>
+            <td>{{ autoDeviation?.authority }}</td>
+            <td>{{ autoDeviation?.justification }}</td>
+
+        </tr>
+    </tbody>
+</table>
+<!--Auto deviations-->
     <!---other deviation-->
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
@@ -1955,17 +1981,17 @@
     </table>
     <!--referenceCheck-->
     <!--creditAppraisalSheet-->
-    <table class="cam_table_proposed mt-3">
+    <!-- <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
         labels?.creditAppraisalSheet
       }}
         </caption>
-    </table>
+    </table> -->
     <!--creditAppraisalSheet-->
     <!--customerSelectionCriteriaTitle-->
 
-    <table class="cam_table_proposed mt-3">
+    <!-- <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
         labels?.customerSelectionCriteriaTitle
@@ -1994,8 +2020,35 @@
 
             </tr>
         </tbody>
-    </table>
+    </table> -->
     <!--customerSelectionCriteriaTitle-->
+      <!--Auto deviations-->
+      <table class="cam_table_proposed mt-3">
+        <caption class="caption">
+            {{
+        labels?.autoDeviation
+      }}
+        </caption>
+
+        <thead>
+            <tr>
+                <th class="bank_name">{{ labels?.deviation }}</th>
+                <th class="bank_name">{{ labels?.authority }}</th>
+                <th class="bank_name">{{ labels?.justification }}</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let autoDeviation of autoDeviation">
+
+                <td>{{ autoDeviation?.deviation }}</td>
+                <td>{{ autoDeviation?.authority }}</td>
+                <td>{{ autoDeviation?.justification }}</td>
+
+            </tr>
+        </tbody>
+    </table>
+    <!--Auto deviations-->
     <!--otherDeviationIfAny-->
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
