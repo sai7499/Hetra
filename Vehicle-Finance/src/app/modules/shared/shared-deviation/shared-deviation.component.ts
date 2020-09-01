@@ -8,7 +8,6 @@ import { SharedService } from '../shared-service/shared-service';
 import { LoginStoreService } from '@services/login-store.service';
 import { Router } from '@angular/router';
 import { UtilityService } from '@services/utility.service';
-import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 
 @Component({
   selector: 'app-shared-deviation',
@@ -51,7 +50,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   constructor(private labelsData: LabelsService, private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService,
     private deviationService: DeviationService, private toasterService: ToasterService, private sharedService: SharedService,
-    private loginStoreService: LoginStoreService, private router: Router, private utilityService: UtilityService, private vehicleDataStoreService: VehicleDataStoreService) { }
+    private loginStoreService: LoginStoreService, private router: Router, private utilityService: UtilityService) { }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -122,8 +121,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       "isRevert": Number(obj.value.statusCode) === value ? true : false
     }
 
-    console.log(obj.value.statusCode, 'status code', data)
-
     this.deviationService.approveDeclineDeviation(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         0
@@ -147,8 +144,12 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     let data = [];
 
     if (this.deviationsForm.controls['autoDeviationFormArray'].value.length > 0) {
-      data = data.concat(this.deviationsForm.controls['autoDeviationFormArray'].value);
-      data = data.concat(this.deviationsForm.controls['manualDeviationFormArray'].value);
+      if (this.deviationsForm.controls['manualDeviationFormArray'].value[0].devCode !== "0" || this.deviationsForm.controls['manualDeviationFormArray'].value[0].devDesc !== null || this.deviationsForm.controls['manualDeviationFormArray'].value[0].hierarchy !== "0") {
+        data = data.concat(this.deviationsForm.controls['autoDeviationFormArray'].value);
+        data = data.concat(this.deviationsForm.controls['manualDeviationFormArray'].value);
+      } else {
+        data = data.concat(this.deviationsForm.controls['autoDeviationFormArray'].value);
+      }
     } else {
       data = this.deviationsForm.controls['manualDeviationFormArray'].value
     }
@@ -160,60 +161,17 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         this.isZero = true;
         return;
       } else if (res.statusCode === null || res.statusCode === undefined) {
-        console.log(res.statusCode, 'statuscode')
         this.isSendBacktoCredit = null;
         this.isOne = true;
       }
-      //  else {
-      //   this.isOne = true;
-      // }
-      //   total += Number(res.statusCode)
-      //   if (res.statusCode && res.statusCode === 1) {
-      //     this.isSendBacktoCredit = 1;
-      //   } else {
-      //     console.log(res, 'res')
-      //   }
-      //   return total;
     });
 
-    // for (let i = 0; i < data.length - 1; i++) {
-    //   if (data[i].statusCode === '1') {
-    //     this.isSendBacktoCredit = 1;
-    //   } else {
-    //     console.log(data[i], 'data res')
-    //   }
-    // }
-
-    console.log(this.isOne, 'Vakye', this.isSendBacktoCredit)
     if (this.isZero) {
       this.isSendBacktoCredit = 0;
     }
     if (!this.isOne) {
       this.isSendBacktoCredit = 1;
     }
-
-
-    // data.some((item: any) => {
-    //   if (item.statusCode === null) {
-    //     this.isSendBacktoCredit = null;
-    //   } else if (item.statusCode === 1) {
-    //     this.isSendBacktoCredit = 1;
-    //   } else if (item.statusCode === 0) {
-    //     this.isSendBacktoCredit = 0;
-    //   }
-    //   return item
-    // })
-    console.log(this.isSendBacktoCredit, 'item', total)
-
-    // if (total === NaN) {
-    //   this.isSendBacktoCredit = null;
-    // } else {
-    //   if (total === data.length) {
-    //     this.isSendBacktoCredit = 1;
-    //   } else if (total < data.length) {
-    //     this.isSendBacktoCredit = 0;
-    //   }
-    // }
   }
 
   getDeviationMaster() {
@@ -264,7 +222,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             return data
           })
           this.deviationLov.deviation = deviationArray;
-          console.log(this.deviationLov, 'Lov')
         }
         this.getDeviationDetails();
 
@@ -352,8 +309,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   removeDeviationIndex(id, i?: any) {
     const control = this.deviationsForm.controls.manualDeviationFormArray as FormArray;
 
-    console.log(id, 'id')
-
     if (id && id !== 0) {
 
       this.deviationService.getDeleteDeviation(id).subscribe((res: any) => {
@@ -410,9 +365,9 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   onPatchFormArrayValue(array) {
 
-    const autoDeviationFormArray = (this.deviationsForm.get('autoDeviationFormArray') as FormArray);
+    let autoDeviationFormArray = (this.deviationsForm.get('autoDeviationFormArray') as FormArray);
 
-    const manualDiviationFormArray = (this.deviationsForm.get('manualDeviationFormArray') as FormArray);
+    let manualDiviationFormArray = (this.deviationsForm.get('manualDeviationFormArray') as FormArray);
 
     manualDiviationFormArray.controls = [];
     autoDeviationFormArray.controls = [];
@@ -422,7 +377,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
     array.map((data: any) => {
 
-      let approverRole = data.approverRoles ? data.approverRoles : data.approverRole;
+      let approverRole = data.approverRoles && data.approverRoles !== "undefined" ? data.approverRoles : data.approverRole ? data.approverRole : '';
 
       splitData = approverRole.split('|')
 
@@ -476,13 +431,16 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       isSaveEdit: true
     })
 
+    // setTimeout(() => {
+
+    // })
+
     if (this.deviationsForm.get('manualDeviationFormArray')['controls'].length === 0) {
       manualDiviationFormArray.push(this.getManualDeviations())
     }
     this.sharedService.getFormValidation(this.deviationsForm)
-    setTimeout(() => {
-      this.isApproveDeviation()
-    })
+    this.isApproveDeviation()
+
   }
 
   ReferDeviation() {

@@ -90,7 +90,8 @@
                         </label>
 
                         <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
-                            formControlName="assetVariant" [isRequired]="'Asset Variant Required'" [isDirty]="isDirty">
+                            formControlName="assetVariant" [isRequired]="'Asset Variant Required'" [isDirty]="isDirty"
+                            (change)="getVehicleGridValue(basicVehicleForm.get('vehicleFormArray'))">
                         </app-vf-custom-select>
 
                     </div>
@@ -416,6 +417,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
                                 formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
+                                (change)="getVehicleGridValue(basicVehicleForm.get('vehicleFormArray'))"
                                 [isDirty]="isDirty">
                             </app-vf-custom-select>
 
@@ -642,16 +644,27 @@
 
                         </div>
 
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="gross_vehicle_weight">{{label.grossVehicleWeight}}</label>
+
+                            <app-custom-input formControlName="gorssVehicleWeight"
+                                [type]="label.validationData?.gorssVehicleWeight.type" [id]="'gross_vehicle_weight'"
+                                [className]="'form-control'"
+                                [maxLength]="label.validationData?.gorssVehicleWeight.maxLength"
+                                [placeholder]="'Gross Vehicle Weight'">
+                            </app-custom-input>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
                             <label for="orp_funding">{{label.orpFunding}} </label>
                             <app-vf-custom-select [id]="'orp_funding'" [values]="vehicleLov?.YesORNoValue"
                                 formControlName="isOrpFunding">
                             </app-vf-custom-select>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="insurance">{{label.insurance}} </label>
@@ -675,16 +688,16 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="pac">{{label.pac}} </label>
                             <app-vf-custom-select [id]="'pac'" [values]="vehicleLov?.YesORNoValue"
                                 formControlName="pac">
                             </app-vf-custom-select>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="vas">{{label.vas}} </label>
@@ -700,16 +713,16 @@
                             </app-vf-custom-select>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
                             <label for="fast_tag">{{label.fastTag}} </label>
                             <app-vf-custom-select [id]="'fast_tag'" [values]="vehicleLov?.YesORNoValue"
                                 formControlName="fastTag">
                             </app-vf-custom-select>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
                             <label for="others">{{label.others}} </label>
@@ -797,6 +810,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
                                 formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
+                                (change)="getVehicleGridValue(basicVehicleForm.get('vehicleFormArray'))"
                                 [isDirty]="isDirty">
                             </app-vf-custom-select>
 
@@ -1189,6 +1203,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
                                 formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
+                                (change)="getVehicleGridValue(basicVehicleForm.get('vehicleFormArray'))"
                                 [isDirty]="isDirty">
                             </app-vf-custom-select>
 
@@ -1473,15 +1488,26 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="re_registered_vehicle">{{label.reRegisteredVehicle}} </label>
-                            <app-vf-custom-select [id]="'re_registered_vehicle'" [values]="vehicleLov?.YesORNoValue"
-                                formControlName="reRegVehicle">
-                            </app-vf-custom-select>
+                            <label for="gross_vehicle_weight">{{label.grossVehicleWeight}}</label>
+
+                            <app-custom-input formControlName="gorssVehicleWeight"
+                                [type]="label.validationData?.gorssVehicleWeight.type" [id]="'gross_vehicle_weight'"
+                                [className]="'form-control'"
+                                [maxLength]="label.validationData?.gorssVehicleWeight.maxLength"
+                                [placeholder]="'Gross Vehicle Weight'">
+                            </app-custom-input>
                         </div>
 
                     </div>
 
                     <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="re_registered_vehicle">{{label.reRegisteredVehicle}} </label>
+                            <app-vf-custom-select [id]="'re_registered_vehicle'" [values]="vehicleLov?.YesORNoValue"
+                                formControlName="reRegVehicle">
+                            </app-vf-custom-select>
+                        </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="inter_state_vehicle">{{label.interStateVehicle}} </label>
@@ -1497,6 +1523,10 @@
                             </app-vf-custom-select>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="cubic_capacity">{{label.cubicCapacity}} </label>
                             <app-custom-input formControlName="cubicCapacity"
@@ -1506,10 +1536,6 @@
                             </app-custom-input>
 
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="seating_capacity">{{label.seatingCapacity}}</label>
@@ -1538,6 +1564,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="idv">{{label.idv}} </label>
 
@@ -1547,10 +1577,6 @@
                             </app-custom-input>
 
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="insurance_copy">{{label.uploadInsuranceCopy}} </label>
@@ -1672,6 +1698,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
                                 formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
+                                (change)="getVehicleGridValue(basicVehicleForm.get('vehicleFormArray'))"
                                 [isDirty]="isDirty">
                             </app-vf-custom-select>
 
