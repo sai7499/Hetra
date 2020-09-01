@@ -2289,6 +2289,20 @@
                 "rule": 120
             },
             "type": "alpha-numeric"
+        },
+        "fiCumPDLandlineNumber": {
+            "maxLength": {
+                "rule": 15
+            },
+            "minLength": {
+                "rule": 10,
+                "msg": "Minimum Length 10 digits"
+            },
+            "type": "number",
+            "patternCheck": {
+                "rule": "^[0-9]{15}",
+                "msg": "Number Should be valid and atleast 10 Digits"
+            }
         }
     }
 }
