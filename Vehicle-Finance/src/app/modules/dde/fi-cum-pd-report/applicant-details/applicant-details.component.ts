@@ -44,6 +44,7 @@ export class ApplicantDetailComponent implements OnInit {
   roleId: any;
   roleType: any;
   disableSaveBtn: boolean;
+  operationType: string;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -85,8 +86,8 @@ export class ApplicantDetailComponent implements OnInit {
       this.applicantLov = value ? value[0].applicantDetails[0] : {};
       //  this.setFormValue();
     });
-    const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1') {
+    this.operationType = this.toggleDdeService.getOperationType();
+    if (this.operationType === '1') {
       this.applicantForm.disable();
       this.disableSaveBtn = true;
     }
@@ -225,6 +226,10 @@ export class ApplicantDetailComponent implements OnInit {
   }
 
   onFormSubmit(action) { // fun that submits all the pd data
+    if (this.operationType === '1') {
+      this.onNavigateNext();
+      return;
+    }
     const formModal = this.applicantForm.value;
     const applicantFormModal = { ...formModal };
     // console.log('Form Data', applicantFormModal);
