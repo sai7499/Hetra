@@ -875,7 +875,7 @@
                   <label for="aadharnumber">{{ labels?.tanNumber }} </label>
                   <app-custom-input
                     formControlName="tanNumber"
-                    [maxLength]="validationData?.tanNumber?.max"
+                    [maxLength]="validationData?.tanNumber?.maxLength"
                     [type]="validationData?.tanNumber?.type"
                     [patternCheck]="validationData?.tanNumber?.patternCheck"
                     [inputClass]="'text-uppercase'"
