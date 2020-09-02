@@ -711,13 +711,7 @@ export class IncomeDetailsComponent implements OnInit {
             const keyFinancialObj = null
             this.addKeyFinancialDetails(keyFinancialObj)
           }
-        // if(this.keyFinancialData != []){
-        //   const keyFinancialObj =  this.keyFinancialData.keyFinancials
-        //   this.addKeyFinancialDetails(keyFinancialObj)
-        // } else {
-        //   const keyFinancialObj = null
-        //   this.addKeyFinancialDetails(keyFinancialObj)
-        // }
+      
 
       });
   }
