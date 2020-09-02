@@ -314,7 +314,7 @@ export class ApplicantDetailComponent implements OnInit {
 
   onNavigateBack() {
     console.log('in nav back', this.version);
-    if (this.version) {
+    if (this.version != 'undefined') {
       this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
     } else {
       this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`);
