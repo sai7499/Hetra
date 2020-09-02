@@ -299,17 +299,17 @@
   <!--  -->
   <div class="container-fluid mar-bottom" *ngIf="roleType == '2'">
     <ul class="nav nav-pills nav-justified" id="background_white">
-      <li (click)="onLeads(displayTabs?.DDE, displayTabs?.DDEWithMe)"
+      <li (click)="onLeads(displayTabs?.DDE, displayTabs?.DDEWithMe, 'dde')"
         [ngClass]="{'active':displayTabs?.DDE === activeTab}" routerLinkActive="active" id="leads"><a
           data-toggle="tab">DDE</a></li>
       <li (click)="onLeads(displayTabs?.PD, displayTabs?.MyPD)" [ngClass]="{'active':displayTabs?.PD === activeTab}"
         routerLinkActive="active"><a data-toggle="tab">Personal Discussion</a></li>
       <li (click)="onLeads(displayTabs?.FI, displayTabs?.MyFI)" [ngClass]="{'active':displayTabs?.FI === activeTab}"
         routerLinkActive="active"><a data-toggle="tab">Field Investigation</a></li>
-      <li (click)="onLeads(displayTabs?.Deviation, displayTabs?.DeviationWithMe)"
+      <li (click)="onLeads(displayTabs?.Deviation, displayTabs?.DeviationWithMe, 'deviation')"
         [ngClass]="{'active':displayTabs?.Deviation === activeTab}" routerLinkActive="active"><a
           data-toggle="tab">Deviation</a></li>
-      <li (click)="onLeads(displayTabs?.Decision, displayTabs?.CreditDecisionWithMe)"
+      <li (click)="onLeads(displayTabs?.Decision, displayTabs?.CreditDecisionWithMe, creditDecision)"
         [ngClass]="{'active':displayTabs?.Decision === activeTab}" routerLinkActive="active"><a data-toggle="tab">Credit
           Decision</a></li>
       <li (click)="onLeads(displayTabs?.TermSheet, displayTabs?.TermSheetWithMe)"

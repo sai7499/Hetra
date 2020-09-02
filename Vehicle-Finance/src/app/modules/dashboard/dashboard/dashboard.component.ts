@@ -189,6 +189,13 @@ export class DashboardComponent implements OnInit {
 
     this.dashboardFilter();
     this.loanMaxAmtChange();
+    const currentUrl = this.location.path();
+    const value = localStorage.getItem('ddePath');
+    const currentLabel = JSON.parse(value);
+    if (currentLabel.labelName === 'Back To Deviation') {
+      this.toggleDdeService.setIsDDEClicked('0');
+      this.toggleDdeService.setOperationType('1', 'Deviation', currentUrl);
+    }
   }
 
 
@@ -307,7 +314,7 @@ export class DashboardComponent implements OnInit {
       this.toggleDdeService.setIsDDEClicked('0');
       this.toggleDdeService.setOperationType('1', 'Deviation', currentUrl);
     } else if (tabName === 'creditDecision') {
-      this.toggleDdeService.setOperationType('0');
+      this.toggleDdeService.setIsDDEClicked('0');
       this.toggleDdeService.setOperationType('2', 'Credit Decision', currentUrl);
     } else if (tabName === 'dde') {
       this.toggleDdeService.setOperationType('0');
