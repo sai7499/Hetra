@@ -212,7 +212,7 @@ export class DashboardComponent implements OnInit {
     console.log(data);
     switch (data) {
       case 0:
-        this.sortByLead = true;
+        this.sortByLead = this.sortByLead === false ? true : false;
         this.sortByDate = false;
         this.sortByProduct = false;
         this.sortByLoanAmt = false;
@@ -222,7 +222,7 @@ export class DashboardComponent implements OnInit {
       case 1:
         this.sortByLead = false;
         this.sortByDate = false;
-        this.sortByProduct = true;
+        this.sortByProduct = this.sortByProduct === false ? true : false;
         this.sortByLoanAmt = false;
         this.sortByStage = false;
         this.onTabsLoading(this.subActiveTab);
@@ -231,14 +231,14 @@ export class DashboardComponent implements OnInit {
         this.sortByLead = false;
         this.sortByDate = false;
         this.sortByProduct = false;
-        this.sortByLoanAmt = true;
+        this.sortByLoanAmt = this.sortByLoanAmt === false ? true : false;
         this.sortByStage = false;
         this.onTabsLoading(this.subActiveTab);
         break;
       case 3:
         this.sortByLead = false;
-        this.sortByDate = false;
-        this.sortByProduct = true;
+        this.sortByDate = this.sortByDate === false ? true : false;
+        this.sortByProduct = false;
         this.sortByLoanAmt = false;
         this.sortByStage = false;
         this.onTabsLoading(this.subActiveTab);
@@ -248,7 +248,7 @@ export class DashboardComponent implements OnInit {
         this.sortByDate = false;
         this.sortByProduct = false;
         this.sortByLoanAmt = false;
-        this.sortByStage = true;
+        this.sortByStage = this.sortByStage === false ? true : false;
         this.onTabsLoading(this.subActiveTab);
         break;
 
