@@ -12,6 +12,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToasterService } from '@services/toaster.service';
 import { ApplicantService } from '@services/applicant.service';
 import { map } from 'rxjs/operators';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -22,6 +23,7 @@ import { map } from 'rxjs/operators';
 export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   @Input() id: any;
+  disableSaveBtn: boolean;
 
   addressList: any = [];
   applicantDetails: any = [];
@@ -66,7 +68,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private commonLovService: CommomLovService,
     private vehicleDetailService: VehicleDetailService,
     private vehicleDataService: VehicleDataStoreService,
-    private utilityService: UtilityService,
+    private utilityService: UtilityService, private toggleDdeService: ToggleDdeService,
     private createLeadDataService: CreateLeadDataService,
     public sharedService: SharedService, private toasterService: ToasterService,
     private uiLoader: NgxUiLoaderService, private applicantService: ApplicantService) {
@@ -110,6 +112,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     if (this.id) {
       this.setFormValue();
     };
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      this.basicVehicleForm.disable();
+      this.disableSaveBtn  = true;
+    }
+    console.log(operationType, 'operation type')
   }
 
   onGetDateValue(event) {

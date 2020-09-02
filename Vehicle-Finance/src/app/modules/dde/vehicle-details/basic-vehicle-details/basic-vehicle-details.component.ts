@@ -7,6 +7,7 @@ import { UtilityService } from '@services/utility.service';
 import { ToasterService } from '@services/toaster.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { LabelsService } from '@services/labels.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-basic-vehicle-details',
@@ -19,6 +20,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
   public leadId: number;
   public label: any;
   public routerId: number;
+  disableSaveBtn: boolean;
 
   public formValue: any;
   public isDirty: boolean;
@@ -27,7 +29,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
   constructor(private createLeadDataService: CreateLeadDataService, public vehicleDataStoreService: VehicleDataStoreService, private toasterService: ToasterService,
     private vehicleDetailService: VehicleDetailService, private utilityService: UtilityService, private router: Router,
     private activatedRoute: ActivatedRoute, private sharedService: SharedService, private labelsData: LabelsService,
-  ) { }
+    private toggleDdeService: ToggleDdeService) { }
 
   ngOnInit() {
 
@@ -50,6 +52,11 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
     this.subscription = this.sharedService.vaildateForm$.subscribe((value) => {
       this.formValue = value;
     })
+   
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      this.disableSaveBtn  = true;
+    }
   }
 
   onSubmit() {

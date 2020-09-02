@@ -238,7 +238,7 @@
           [disabled]="!(isSendBacktoCredit === 1)"
           (click)="onPatchRecommendationModal('ApproveDeviations')">{{labels?.approveDeviations}}</button>
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
-          [disabled]="isSendBacktoCredit === 1"
+          [disabled]="!(isSendBacktoCredit !== null && isSendBacktoCredit !== 1)"
           (click)="onPatchRecommendationModal('sendBackToCredit')">{{labels?.sendBackToCredit}}</button>
 
       </div>

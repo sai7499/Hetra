@@ -7,6 +7,7 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { LoginStoreService } from '@services/login-store.service';
 import { DeviationService } from '@services/deviation.service';
 import { ToasterService } from '@services/toaster.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 @Component({
   selector: 'app-deviations',
   templateUrl: './deviations.component.html',
@@ -19,10 +20,11 @@ export class DeviationsComponent implements OnInit, OnDestroy {
   public leadId: number;
   public userId: string;
   public subscription: any;
+  disableSaveBtn: boolean;
 
   constructor(private labelsData: LabelsService, private sharedService: SharedService, private utilityService: UtilityService,
     private createLeadDataService: CreateLeadDataService, private loginStoreService: LoginStoreService, private deviationService: DeviationService,
-    private toasterService: ToasterService) { }
+    private toasterService: ToasterService, private toggleDdeService: ToggleDdeService) { }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -43,6 +45,10 @@ export class DeviationsComponent implements OnInit, OnDestroy {
     this.subscription = this.sharedService.vaildateForm$.subscribe((value) => {
       this.formValue = value;
     })
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '2') {
+      this.disableSaveBtn  = true;
+    }
   }
 
   saveorUpdateDeviationDetails() {
