@@ -119,6 +119,7 @@ export interface ApplicantDetails {
     gender?: string;
     maritalStatus?: string;
     physicallyChallenged?: string;
+    dependants?: string;
     residancePhoneNumber?: string;
     officePhoneNumber?: string;
     mobile?: string;
