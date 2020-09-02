@@ -249,8 +249,8 @@ export class PdcDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (res.ProcessVariables.error.code == '0') {
         // this.getData(res.ProcessVariables);
-        this.getPdcDetails();
         this.toasterService.showSuccess('Record Saved Successfully', '');
+        this.getPdcDetails();  
       } else {
       }
     });
