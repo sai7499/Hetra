@@ -13,6 +13,7 @@ import { UtilityService } from '@services/utility.service';
 import { Location } from '@angular/common';
 import { ToasterService } from '@services/toaster.service';
 import { LabelsService } from '@services/labels.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 // import * as $ from 'jquery';
 
 @Component({
@@ -20,6 +21,7 @@ import { LabelsService } from '@services/labels.service';
   styleUrls: ['./bank-details.component.css'],
 })
 export class BankDetailsComponent implements OnInit {
+  disableSaveBtn: boolean;
   bankDetailsNew: any;
   bankForm: FormGroup;
   lovData: any;
@@ -77,7 +79,8 @@ export class BankDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private location: Location,
     private toasterService: ToasterService,
-    private labelsService: LabelsService
+    private labelsService: LabelsService,
+    private toggleDdeService: ToggleDdeService
   ) {
     this.listArray = this.fb.array([]);
   }
@@ -128,6 +131,8 @@ export class BankDetailsComponent implements OnInit {
       } else {
       }
     });
+
+    
 
     // $('.datepicker').datepicker('update', new Date());
   }
@@ -199,6 +204,11 @@ export class BankDetailsComponent implements OnInit {
         }
         console.log(this.assignedArray, ' on init');
         this.populateData(res);
+        const operationType = this.toggleDdeService.getOperationType();
+        if (operationType === '1') {
+          this.bankForm.disable();
+          this.disableSaveBtn  = true;
+        }
         // }
       });
   }

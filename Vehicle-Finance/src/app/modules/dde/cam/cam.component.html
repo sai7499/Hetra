@@ -563,33 +563,33 @@
         </tbody>
     </table> -->
     <!-- customer selection criteria -->
- <!--Auto deviations-->
- <table class="cam_table_proposed mt-3">
-    <caption class="caption">
-        {{
+    <!--Auto deviations-->
+    <table class="cam_table_proposed mt-3">
+        <caption class="caption">
+            {{
     labels?.autoDeviation
   }}
-    </caption>
+        </caption>
 
-    <thead>
-        <tr>
-            <th class="bank_name">{{ labels?.deviation }}</th>
-            <th class="bank_name">{{ labels?.authority }}</th>
-            <th class="bank_name">{{ labels?.justification }}</th>
+        <thead>
+            <tr>
+                <th class="bank_name">{{ labels?.deviation }}</th>
+                <th class="bank_name">{{ labels?.authority }}</th>
+                <th class="bank_name">{{ labels?.justification }}</th>
 
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let autoDeviation of autoDeviation">
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let autoDeviation of autoDeviation">
 
-            <td>{{ autoDeviation?.deviation }}</td>
-            <td>{{ autoDeviation?.authority }}</td>
-            <td>{{ autoDeviation?.justification }}</td>
+                <td>{{ autoDeviation?.deviation }}</td>
+                <td>{{ autoDeviation?.authority }}</td>
+                <td>{{ autoDeviation?.justification }}</td>
 
-        </tr>
-    </tbody>
-</table>
-<!--Auto deviations-->
+            </tr>
+        </tbody>
+    </table>
+    <!--Auto deviations-->
     <!---other deviation-->
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
@@ -2022,8 +2022,8 @@
         </tbody>
     </table> -->
     <!--customerSelectionCriteriaTitle-->
-      <!--Auto deviations-->
-      <table class="cam_table_proposed mt-3">
+    <!--Auto deviations-->
+    <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
         labels?.autoDeviation
@@ -2286,7 +2286,8 @@
         <button class="btn btn-primary dash_href" type="button" routerLink="../score-card">
             {{ labels?.back }}
         </button>
-        <button *ngIf="usedCvCam" class="btn btn-primary mar-right8" type="button" (click)=onSubmit();>
+        <button *ngIf="usedCvCam" class="btn btn-primary mar-right8" type="button" (click)=onSubmit();
+            [disabled]="disableSaveBtn">
             Save
         </button>
         <button class="btn btn-primary dash_href" type="button" routerLink="../deviations">
