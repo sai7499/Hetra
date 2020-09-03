@@ -627,7 +627,7 @@ export class BasicDetailsComponent implements OnInit {
       creditRiskScore: new FormControl(null, Validators.required),
 
       // added new form controls on 16-07-2020
-      custSegment: new FormControl('', Validators.required),
+      //custSegment: new FormControl('', Validators.required),
       monthlyIncomeAmount: new FormControl(''),
       annualIncomeAmount: new FormControl(''),
       ownHouseProofAvail: new FormControl(''),
@@ -1086,7 +1086,7 @@ export class BasicDetailsComponent implements OnInit {
 
     // added new form controls on 15-07-2020
 
-    applicantDetails.custSegment = formValue.custSegment;
+    //applicantDetails.custSegment = formValue.custSegment;
     applicantDetails.monthlyIncomeAmount = formValue.monthlyIncomeAmount;
     applicantDetails.annualIncomeAmount = formValue.annualIncomeAmount;
     applicantDetails.ownHouseProofAvail = this.isChecked == true ? '1' : '0',

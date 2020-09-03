@@ -849,14 +849,14 @@
             
           </div>
           <div class="row">
-          <div class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco">
+          <!-- <div class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco">
 
             <label for="customer_category">{{ labels?.customerCategory }}
               <sub class="star_red_col">*</sub></label>
             <app-vf-custom-select formControlName="custSegment" [values]="applicantLov?.customerSegment"
               [isRequired]="'Please select one'" [isDirty]="isDirty"></app-vf-custom-select>
 
-          </div>
+          </div> -->
           <div class="form-group col-sm-6 col-md-4 col-lg-4 "
               *ngIf="productCategory=='1003' && (fundingProgram=='24' || fundingProgram=='25')">
               <label for="aadharnumber">{{ labels?.monthlyIncomeAmount }}
