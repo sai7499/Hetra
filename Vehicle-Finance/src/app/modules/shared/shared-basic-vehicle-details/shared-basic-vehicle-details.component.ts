@@ -697,8 +697,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.addControl('vehicleUsage', new FormControl('', Validators.required));
       controls.addControl('category', new FormControl('', Validators.required));
       controls.addControl('manuFacMonthYear', new FormControl('', Validators.required));
-      controls.addControl('ageOfAsset', new FormControl('', Validators.required));
-      controls.addControl('ageAfterTenure', new FormControl('', Validators.required));
+      controls.addControl('ageOfAsset', new FormControl(''));
+      controls.addControl('ageAfterTenure', new FormControl(''));
     } else if (this.productCatoryCode === 'UCV') {
 
       controls.removeControl('vehicleRegNo');
@@ -722,8 +722,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.addControl('address', new FormControl('', Validators.compose([Validators.required, Validators.maxLength(120)])));
       controls.addControl('pincode', new FormControl('', [Validators.required, Validators.pattern('[1-9]{1}[0-9]{5}')]));
       controls.addControl('manuFacMonthYear', new FormControl('', Validators.required));
-      controls.addControl('ageOfAsset', new FormControl('', Validators.required));
-      controls.addControl('ageAfterTenure', new FormControl('', Validators.required));
+      controls.addControl('ageOfAsset', new FormControl(''));
+      controls.addControl('ageAfterTenure', new FormControl(''));
     }
     this.sharedService.getFormValidation(this.basicVehicleForm)
   }
@@ -835,7 +835,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       region: ['', Validators.required],
       manuFacMonthYear: ['', Validators.required],
       ageOfAsset: ['', Validators.required],
-      ageAfterTenure: ['', Validators.required],
+      ageAfterTenure: [''],
       assetCostGrid: ['', Validators.required],
       finalAssetCost: ['', Validators.required],
       fitnessDate: [''],
@@ -887,7 +887,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleUsage: ['', Validators.required],
       category: ['', Validators.required],
       manuFacMonthYear: ['', Validators.required],
-      ageOfAsset: ['', Validators.required],
+      ageOfAsset: [''],
       ageAfterTenure: [''],
       assetCostIBB: ['', Validators.required],
       assetCostCarTrade: ['', Validators.required],
