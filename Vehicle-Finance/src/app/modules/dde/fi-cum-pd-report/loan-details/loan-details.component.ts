@@ -216,7 +216,7 @@ export class LoanDetailsComponent implements OnInit {
     }
 
   }
-  insCopyVerified(event) {
+  insCopyVerified(event: any) {
     this.insuranceStatus = event ? event : event;
     if (this.insuranceStatus === '1') {
       this.insRequired = true;
@@ -719,6 +719,12 @@ export class LoanDetailsComponent implements OnInit {
         selfDrivenOrDriver: loanDetailsModal.selfDrivenOrDriver,
         remarks: loanDetailsModal.remarks
       };
+      if (this.insuranceStatus !== '1') {
+        // tslint:disable-next-line: max-line-length
+        delete this.assetDetailsUsedVehicle['insuranceValidity']; // based on insuranceCopyVerified condition this validity field will exists
+      }
+      console.log('asset details', this.assetDetailsUsedVehicle);
+
 
       const data = {
         leadId: this.leadId,
