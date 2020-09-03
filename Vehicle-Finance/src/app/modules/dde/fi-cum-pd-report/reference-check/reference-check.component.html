@@ -78,7 +78,7 @@
                 <label for="product">{{labels.product}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="product" [className]="'form-control mandatory'" [(ngModel)]="product" [placeholder]="'Product'" [type]="labels?.validationData?.equitasBranchName?.type" [maxLength]="labels?.validationData?.equitasBranchName?.maxLength"
+                <app-custom-input formControlName="product" [className]="'form-control mandatory'"  [placeholder]="'Product'" [type]="labels?.validationData?.equitasBranchName?.type" [maxLength]="labels?.validationData?.equitasBranchName?.maxLength"
                     [isDirty]="isDirty">
                 </app-custom-input>
             </div>
@@ -86,24 +86,24 @@
                 <label for="sourcing_channel"> {{labels.sourcingChannel}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="sourcingChannel" [className]="'form-control mandatory'" [placeholder]="'Sourcing Channel'" [(ngModel)]="sourcingChannel" [type]="labels?.validationData?.equitasBranchName?.type" [maxLength]="labels?.validationData?.equitasBranchName?.maxLength"
+                <app-custom-input formControlName="sourcingChannel" [className]="'form-control mandatory'" [placeholder]="'Sourcing Channel'"  [type]="labels?.validationData?.equitasBranchName?.type" [maxLength]="labels?.validationData?.equitasBranchName?.maxLength"
                     [isDirty]="isDirty">
                 </app-custom-input>
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="mobile">{{ labels.routeMap }}
                     <sub class="star_red_col">*</sub>
                 </label>
 
                 <input type="text" class="form-control" id="negativeProfile" formControlName="routeMap" disabled="true" />
-            </div>
+            </div> -->
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="equitas_branch_name">{{labels.equitasBranchName}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="equitasBranchName" [className]="'form-control mandatory'" [(ngModel)]="equitasBranchName" [placeholder]="'Equitas Branch Name'" [maxLength]="labels?.validationData?.equitasBranchName?.maxLength" [type]="labels?.validationData?.equitasBranchName?.type"
+                <app-custom-input formControlName="equitasBranchName" [className]="'form-control mandatory'" [placeholder]="'Equitas Branch Name'" [maxLength]="labels?.validationData?.equitasBranchName?.maxLength" [type]="labels?.validationData?.equitasBranchName?.type"
                     [isDirty]="isDirty">
                 </app-custom-input>
             </div>
@@ -118,7 +118,7 @@
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="so_name">{{labels.soName}} <sub class="star_red_col">*</sub></label>
 
-                <app-custom-input id="so_name" formControlName="soName" [(ngModel)]="soName" [isDisabled]='true' [maxLength]="maxlength30" [isDirty]="isDirty">
+                <app-custom-input id="so_name" formControlName="soName"  [isDisabled]='true' [maxLength]="maxlength30" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -192,9 +192,9 @@
                 <div class="col-sm-5 text-right" *ngIf="
             roleType == '2' && version != 'undefined' && showReinitiate == true
           ">
-                    <!-- <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
+                    <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
                         {{labels.reinitiate}}
-                    </button>&nbsp; -->
+                    </button>&nbsp;
                     <button class="btn btn-success" (click)="approvePd()">
                         {{ labels.approve }}
                     </button>

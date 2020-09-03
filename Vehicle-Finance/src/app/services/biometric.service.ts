@@ -25,27 +25,33 @@ export class BiometricService {
 
 
     initIdenti5(aadhar: string, applicantId, callBack){
+      aadhar = "9190083092186683";
 
-        // let dInfo = new device();
-        // console.log(dInfo.model);
-        var that = this;
-        this.pid = "";
-    
+      this.applicantService.retrieveAadharNo(aadhar, applicantId).subscribe((res: any) => {
+        let result = JSON.stringify(res);
+        console.log("Aadhar number", result);
+      });
 
-        identi5.getInfo(function(result){
-          console.log("Result&&&&"+ result);
-          if(result["error"]){
-            let result = JSON.stringify({"pidErr": true});
-            callBack(result);
-            return;
-          }
-          that.pid = result["model"];
-          console.log("base64Data"+ that.pid);
-          that.prepareKYCRequest(that.pid, aadhar, applicantId, callBack);
-        },function(error){
-          console.log("Result&&&&"+ error);
-          alert("error"+error);
-        });
+      // let dInfo = new device();
+      // console.log(dInfo.model);
+      var that = this;
+      this.pid = "";
+  
+
+      identi5.getInfo(function(result){
+        console.log("Result&&&&"+ result);
+        if(result["error"]){
+          let result = JSON.stringify({"pidErr": true});
+          callBack(result);
+          return;
+        }
+        that.pid = result["model"];
+        console.log("base64Data"+ that.pid);
+        that.prepareKYCRequest(that.pid, aadhar, applicantId, callBack);
+      },function(error){
+        console.log("Result&&&&"+ error);
+        alert("error"+error);
+      });
       
     }
 
