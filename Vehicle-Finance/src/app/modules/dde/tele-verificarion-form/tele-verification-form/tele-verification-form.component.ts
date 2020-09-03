@@ -9,6 +9,7 @@ import { TvrDetailsService } from '@services/tvr/tvr-details.service';
 import { ToasterService } from '@services/toaster.service';
 import { OtpServiceService } from '@modules/lead-section/services/otp-details.service';
 import { LoginStoreService } from '@services/login-store.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 
 @Component({
@@ -17,6 +18,7 @@ import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
   styleUrls: ['./tele-verification-form.component.css']
 })
 export class TeleVerificationFormComponent implements OnInit {
+  disableSaveBtn: boolean;
   referenceData = [];
   teleVerificationForm: FormGroup;
   otpForm: FormGroup;
@@ -57,10 +59,10 @@ export class TeleVerificationFormComponent implements OnInit {
 
   public dateValue: Date = new Date(2, 10, 2000);
   public toDayDate: Date = new Date();
-  public time: any =  new Date(new Date().getTime()).toLocaleTimeString();
+  public time: any = new Date(new Date().getTime()).toLocaleTimeString();
 
 
-  @ViewChild('closeModal', {static: false}) public closeModal: ElementRef;
+  @ViewChild('closeModal', { static: false }) public closeModal: ElementRef;
 
   regexPattern = {
     amount: {
@@ -82,6 +84,7 @@ export class TeleVerificationFormComponent implements OnInit {
     private toasterService: ToasterService,
     private otpService: OtpServiceService,
     private loginStoreService: LoginStoreService,
+    private toggleDdeService: ToggleDdeService,
     private vehicleStoreService: VehicleDataStoreService
 
   ) {
@@ -120,7 +123,7 @@ export class TeleVerificationFormComponent implements OnInit {
 
   // InitForm for TVR
   initForm() {
-    this.referenceData =  this.referenceData || [];
+    this.referenceData = this.referenceData || [];
     this.teleVerificationForm = this.fb.group({
       leadId: [{ value: this.leadId, disabled: true }],
       applicantName: [{ value: this.applicantName, disabled: true }],
@@ -210,7 +213,7 @@ export class TeleVerificationFormComponent implements OnInit {
 
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.userName = value.userName;
-     });
+    });
 
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
@@ -363,6 +366,12 @@ export class TeleVerificationFormComponent implements OnInit {
         this.teleVerificationForm.get('officePhnNo').setValue(this.mobileNumber);
         this.teleVerificationForm.get('tenureInMonth').setValue(this.tenure);
         this.teleVerificationForm.get('assetCost').setValue(this.assetCost);
+      }
+
+      const operationType = this.toggleDdeService.getOperationType();
+      if (operationType === '1') {
+        this.teleVerificationForm.disable();
+        this.disableSaveBtn = true;
       }
 
     });

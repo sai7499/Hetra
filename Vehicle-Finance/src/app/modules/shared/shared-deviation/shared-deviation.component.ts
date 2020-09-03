@@ -8,6 +8,7 @@ import { SharedService } from '../shared-service/shared-service';
 import { LoginStoreService } from '@services/login-store.service';
 import { Router } from '@angular/router';
 import { UtilityService } from '@services/utility.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-shared-deviation',
@@ -42,6 +43,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   public findIndex;
   isOne: boolean;
   isZero: boolean;
+  disableSaveBtn: boolean;
+  operationType: string = '0';
 
   @Input() isSubmitToCredit: boolean;
   @Input() isDirty: boolean;
@@ -50,7 +53,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   constructor(private labelsData: LabelsService, private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService,
     private deviationService: DeviationService, private toasterService: ToasterService, private sharedService: SharedService,
-    private loginStoreService: LoginStoreService, private router: Router, private utilityService: UtilityService) { }
+    private loginStoreService: LoginStoreService, private router: Router, private utilityService: UtilityService, private toggleDdeService: ToggleDdeService) { }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -83,6 +86,11 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.sharedService.taskId$.subscribe((id) => {
       this.taskId = id ? id : '';
     })
+    this.operationType = this.toggleDdeService.getOperationType();
+    if (this.operationType === '2') {
+      this.deviationsForm.disable();
+      this.disableSaveBtn = true;
+    }
   }
 
   initForms() {
@@ -172,6 +180,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     if (!this.isOne) {
       this.isSendBacktoCredit = 1;
     }
+
   }
 
   getDeviationMaster() {

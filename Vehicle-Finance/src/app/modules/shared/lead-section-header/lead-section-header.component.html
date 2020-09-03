@@ -72,13 +72,25 @@
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-2" style="padding-top: 8px;">
-    <button
-      class="btn btn-primary view-button"
-      [routerLink]="['/pages/document-viewupload', leadId]"
-      type="button"
-      (click)="saveCurrentUrl()"
-    >
-      View/Upload Document
-    </button>
+    <div class="row">
+      <button
+        class="btn btn-primary view-button"
+        [routerLink]="['/pages/document-viewupload', leadId]"
+        type="button"
+        (click)="saveCurrentUrl()"
+      >
+        View/Upload Document
+      </button>
+    </div>
+    <div class="row" *ngIf="isEnableDdeButton">
+      <button
+        class="btn btn-primary view-button"
+        type="button"
+        [routerLink]="['/pages/dde', leadId]"
+        (click)="viewOrEditDde()"
+      >
+        View/Edit DDE
+      </button>
+    </div>
   </div>
 </div>

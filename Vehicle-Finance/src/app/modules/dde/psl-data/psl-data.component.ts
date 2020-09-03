@@ -6,6 +6,7 @@ import { LabelsService } from "@services/labels.service";
 import { CommomLovService } from "@services/commom-lov-service";
 import { PslDataService } from "../services/psl-data.service";
 import { ToasterService } from "@services/toaster.service";
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: "app-psl-data",
@@ -13,6 +14,7 @@ import { ToasterService } from "@services/toaster.service";
   styleUrls: ["./psl-data.component.css"],
 })
 export class PslDataComponent implements OnInit {
+  disableSaveBtn: boolean;
   pslDataForm: FormGroup;
   microSmallAndMediumEnterprises: any;
   agriculture: any;
@@ -86,6 +88,7 @@ export class PslDataComponent implements OnInit {
     private router: Router,
     private aRoute: ActivatedRoute,
     private toasterService: ToasterService,
+    private toggleDdeService: ToggleDdeService
   ) { }
 
   ngOnInit() {
@@ -374,6 +377,13 @@ export class PslDataComponent implements OnInit {
           });
         });
       }
+      setTimeout(() => {
+        const operationType = this.toggleDdeService.getOperationType();
+       if (operationType === '1') {
+           this.pslDataForm.disable();
+           this.disableSaveBtn  = true;
+         }
+      })
     });
   }
 
