@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-
 import { LabelsService } from "src/app/services/labels.service";
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { UtilityService } from '@services/utility.service';
@@ -53,7 +52,7 @@ export class DeviationsComponent implements OnInit, OnDestroy {
 
   saveorUpdateDeviationDetails() {
 
-    if (this.formValue.valid) {
+    if (this.formValue.value.autoDeviationFormArray.length > 0 || this.formValue.vaild) {
       let data = [];
 
       if (this.formValue.value.autoDeviationFormArray.length > 0) {

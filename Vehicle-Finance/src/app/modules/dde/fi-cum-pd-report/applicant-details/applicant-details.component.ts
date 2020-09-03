@@ -159,6 +159,7 @@ export class ApplicantDetailComponent implements OnInit {
       gender: new FormControl('', Validators.required),
       maritalStatus: new FormControl('', Validators.required),
       physicallyChallenged: new FormControl('', Validators.required),
+      // dependants: new FormControl('', Validators.required),
       residancePhoneNumber: new FormControl('', Validators.required),
       officePhoneNumber: new FormControl('', Validators.required),
       // mobile: new FormControl({ value: this.mobileNo, disabled: true }),
@@ -188,6 +189,7 @@ export class ApplicantDetailComponent implements OnInit {
       gender: applicantModal.gender || '',
       maritalStatus: applicantModal.maritalStatus || '',
       physicallyChallenged: applicantModal.physicallyChallenged || '',
+      // dependants: applicantModal.dependants || '',
       residancePhoneNumber: applicantModal.residancePhoneNumber || '',
       officePhoneNumber: applicantModal.officePhoneNumber || '',
       mobile: applicantModal.mobile || this.mobileNo || '',
@@ -246,6 +248,7 @@ export class ApplicantDetailComponent implements OnInit {
       gender: applicantFormModal.gender,
       maritalStatus: applicantFormModal.maritalStatus,
       physicallyChallenged: applicantFormModal.physicallyChallenged,
+      // dependants: applicantFormModal.dependants,
       residancePhoneNumber: applicantFormModal.residancePhoneNumber,
       officePhoneNumber: applicantFormModal.officePhoneNumber,
       mobile: this.mobileNo,
@@ -280,7 +283,7 @@ export class ApplicantDetailComponent implements OnInit {
       if (processVariables.error.code === '0') {
         const message = processVariables.error.message;
         this.toasterService.showSuccess('Record Saved Successfully', '');
-        this.getPdDetails()
+        this.getPdDetails();
         // this.toasterService.showSuccess(message, '');
         if (action === 'save') {
 
@@ -325,7 +328,7 @@ export class ApplicantDetailComponent implements OnInit {
 
   onNavigateBack() {
     console.log('in nav back', this.version);
-    if (this.version) {
+    if (this.version != 'undefined') {
       this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
     } else {
       this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`);

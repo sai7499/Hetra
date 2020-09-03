@@ -89,7 +89,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.operationType = this.toggleDdeService.getOperationType();
     if (this.operationType === '2') {
       this.deviationsForm.disable();
-      this.disableSaveBtn  = true;
+      this.disableSaveBtn = true;
     }
   }
 

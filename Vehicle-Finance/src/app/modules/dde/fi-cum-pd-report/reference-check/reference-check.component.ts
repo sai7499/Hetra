@@ -47,9 +47,8 @@ export class ReferenceCheckComponent implements OnInit {
   selectedDocDetails: DocRequest;
 
   base64Image: any;
-  showModal:boolean;
+  showModal: boolean;
   isMobile: any;
-
 
   PROFILE_TYPE = Constant.PROFILE_ALLOWED_TYPES;
   OTHER_DOCUMENTS_SIZE = Constant.OTHER_DOCUMENTS_SIZE;
@@ -65,54 +64,28 @@ export class ReferenceCheckComponent implements OnInit {
   branchLongitude: string;
   custProfileDetails: {};
   showRouteMap: boolean;
-
-
-
-
-
-  // <-- route map sample url start
-  // routeMapUrl = "https://maps.googleapis.com/maps/api/staticmap?sensor=false
-  // &size=800x400&markers=color:blue%7Clabel:S%7C12.96186,80.20078&&markers=color:red%
-  // 7Clabel:C%7C12.98714,80.17511&&center=12.9982906,80.2009504|12.9618433,80.1750283&zoom=13
-  // &path=color:blue|weight:6|enc:orbnAqfohNiBKQ?ED@zBYnDE%60@MjCGL%7B@B@FI~@k@zCa@lBEHmApBMPK
-  // ?%7BBIAd@QfBKx@Bf@@%5EQ%60Ac@tCG%60BBz@KbAi@lDw@zFgAnJgCw@k@IgBk@mDeAuCkAaCw@cBm@USu@SuAg@%7
-  // DBu@wFkBcEkAwFyAu@UcAa@%7BBmAg@SUKoAs@m@Sy@OaBKeC_@eA%5DsAy@m@e@SYyBiAs@%5BuD%7BAkCqAqAc@YO%
-  // 5BKe@R%7B@TaBTwAHk@?qC?%7B@DyCf@cARkEt@%7DA@mB@iBEsDGa@Hq@b@e@%60@s@dAmClEWZWLYHeBJgAD%7DA?s
-  // KDwFFA@ABEBEBMAGCoAz@mA%60AoB~AHH%60CfDbB%60CfApAxAzAtAjBv@%7CAdAfCx@lB%7C@%60C%60DbI%60DdH%7
-  // CAxC~AdCnErGrCxDrBjCj@~@ID%5BV%7D@v@zEbGlAxANHJLh@v@PTZD%60@ZVTLFLTd@%7C@c@XH%5CJb@&key=AIzaSy
-  // DJ9TZyUZNB2uY_267eIUQCV72YiYmArIw"
-  //  route map sample url ends -->
-
-  namePattern = {
-    rule: '^[A-Za-z ]{0,99}$',
-    msg: 'Invalid Name',
-  };
-  mobileNumberPattern = {
-    rule: '^[6-9][0-9]*$',
-    msg: 'Invalid Mobile Number',
-  };
-  maxlength10 = {
-    rule: 10,
-    msg: 'Max Required Length 10',
-  };
-
-  addressPattern = {
-    rule: '^[A-Za-z ]{0,99}$',
-    msg: 'Invalid Address',
-  };
   version: string;
   show = true;
   taskId: any;
   roleId: any;
   roleType: any;
-  productCat: any;
-  sourcingChannel: any;
   showReinitiate: boolean;
-  equitasBranchName: any;
-  employeeCode: any;
   showSubmit = true;
-  date: Date = new Date();
-  timeOfVerification: any = String(new Date(new Date().getTime()).toLocaleTimeString()).slice(0, 5);
+  productCat: any;
+  serviceProductCat: any;
+  sourcingChannel: any;
+  serviceSourcingChannel: any;
+  equitasBranchName: any;
+  distanceFromEquitas: any;
+  serviceEquitasBranchName: any;
+  soName: any;
+  employeeCode: any;
+  // serviceEmployeeCode: any;
+  sysDate: Date = new Date();
+  date: any;
+  sysTimeOfVerification: any = String(new Date(new Date().getTime()).toLocaleTimeString()).slice(0, 5);
+  time: any;
+
   constructor(
     private labelsData: LabelsService, // service to access labels
     private personalDiscussion: PersonalDiscussionService,
@@ -136,6 +109,7 @@ export class ReferenceCheckComponent implements OnInit {
       console.log('in ref check task id', this.taskId);
     });
     this.isMobile = environment.isMobile;
+    // console.log('systime default', this.sysDate);
 
   }
 
@@ -151,7 +125,7 @@ export class ReferenceCheckComponent implements OnInit {
               console.log("getLatLong", position);
             });
           } else {
-            console.log("error initLatLong",res);
+            console.log("error initLatLong", res);
           }
         });
       });
@@ -197,7 +171,6 @@ export class ReferenceCheckComponent implements OnInit {
             this.showSubmit = false;
           }
           this.getLeadSectiondata();
-          this.getPdDetails();    // for getting the data for pd details on initializing the page
           console.log('Applicant Id In reference Details Component', this.applicantId);
 
         });
@@ -207,8 +180,6 @@ export class ReferenceCheckComponent implements OnInit {
         this.errorMsg = error;
       });
     this.initForm();              // for initializing the form
-
-    this.setFormValue();          // for setting the values what we get when the component gets initialized
 
     this.selectedDocDetails = {
       docsType: this.PROFILE_TYPE,
@@ -257,12 +228,13 @@ export class ReferenceCheckComponent implements OnInit {
       });
     });
   }
-  //GET LEAD SECTION DATA
+  // GET LEAD SECTION DATA
   getLeadSectiondata() {
     const leadData = this.createLeadDataService.getLeadSectionData();
-    this.sourcingChannel = leadData['leadDetails'].sourcingChannelDesc;
-    this.equitasBranchName = leadData['leadDetails'].branchName;
-    this.productCat = leadData['leadDetails'].productCatName;
+    this.serviceSourcingChannel = leadData['leadDetails'].sourcingChannelDesc;
+    this.serviceEquitasBranchName = leadData['leadDetails'].branchName;
+    this.serviceProductCat = leadData['leadDetails'].productCatName;
+    this.getPdDetails();    // for getting the data for pd details on initializing the page
   }
   getApplicantId() { // function to access respective applicant id from the routing
 
@@ -326,16 +298,17 @@ export class ReferenceCheckComponent implements OnInit {
         this.showReinitiate = value.ProcessVariables.showReinitiate;
         // console.log('in ref check show renitiate', this.showReinitiate);
         // console.log('calling get api ', this.refCheckDetails);
-        this.branchLongitude = value.ProcessVariables.customerProfileDetails.branchLongitude
+        this.branchLongitude = value.ProcessVariables.customerProfileDetails.branchLongitude;
         this.branchLatitude = value.ProcessVariables.customerProfileDetails.branchLatitude;
         this.latitude = value.ProcessVariables.customerProfileDetails.latitude;
         this.longitude = value.ProcessVariables.customerProfileDetails.longitude;
         this.SELFIE_IMAGE = value.ProcessVariables.profilePhoto;
 
-        if (this.refCheckDetails && this.otherDetails) {
-          this.setFormValue();
-        }
-        if(this.latitude){
+        // if (this.refCheckDetails && this.otherDetails) {
+        //   this.setFormValue();
+        // }
+        this.setFormValue();
+        if (this.latitude) {
           this.getRouteMap();
         }
       } else {
@@ -347,12 +320,53 @@ export class ReferenceCheckComponent implements OnInit {
   }
   setFormValue() {
 
-    // const customerProfileModal = this.pdDataService.getCustomerProfile() || {};
     const refCheckModel = this.refCheckDetails || {};
     const otherDetailsModel = this.otherDetails || {};
 
-    console.log('in form value', refCheckModel);
-    console.log('in form value other details', otherDetailsModel);
+    // if (this.refCheckDetails.soName && this.refCheckDetails.employeeCode &&
+    //   this.otherDetails.product && this.otherDetails.sourcingChannel &&
+    //   this.otherDetails.equitasBranchName && this.otherDetails.date &&
+    //   this.otherDetails.timeOfVerification) {
+    //   this.productCat = this.otherDetails.product;
+    //   this.sourcingChannel = this.otherDetails.sourcingChannel;
+    //   this.equitasBranchName = this.otherDetails.equitasBranchName;
+    //   // this.distanceFromEquitas = this.otherDetails.distanceFromEquitas;
+    //   this.soName = this.refCheckDetails.soName;
+    //   this.employeeCode = this.refCheckDetails.employeeCode;
+    //   this.date = this.otherDetails.date;
+    //   this.time = this.otherDetails.timeOfVerification;
+    // } else {
+    //   this.productCat = this.serviceProductCat;
+    //   this.sourcingChannel = this.serviceSourcingChannel;
+    //   this.equitasBranchName = this.serviceEquitasBranchName;
+    //   // this.distanceFromEquitas = this.otherDetails.distanceFromEquitas;
+    //   this.soName = this.userName;
+    //   this.employeeCode = this.userId;
+    //   this.date = this.utilityService.convertDateTimeTOUTC(this.sysDate, 'DD/MM/YYYY');
+    //   // formValue.dob = formValue.dob ? this.utilityService.convertDateTimeTOUTC(formValue.dob, 'DD/MM/YYYY') : null;
+    //   this.time = this.sysTimeOfVerification;
+    // }
+    if (this.refCheckDetails) {
+      this.soName = this.refCheckDetails.soName ? this.refCheckDetails.soName : this.userName;
+      this.employeeCode = this.refCheckDetails.employeeCode ? this.refCheckDetails.employeeCode : this.userId;
+    } else {
+      this.soName = this.userName;
+      this.employeeCode = this.userId;
+    }
+    if (this.otherDetails) {
+      this.productCat = this.otherDetails.product ? this.otherDetails.product : this.serviceProductCat;
+      this.sourcingChannel = this.otherDetails.sourcingChannel ? this.otherDetails.sourcingChannel : this.serviceSourcingChannel;
+      this.equitasBranchName = this.otherDetails.equitasBranchName ? this.otherDetails.equitasBranchName : this.serviceEquitasBranchName;
+      this.date = this.otherDetails.date ? this.otherDetails.date : this.utilityService.convertDateTimeTOUTC(this.sysDate, 'DD/MM/YYYY');
+      this.time = this.otherDetails.timeOfVerification ? this.otherDetails.timeOfVerification : this.sysTimeOfVerification;
+    } else {
+      this.productCat = this.serviceProductCat;
+      this.sourcingChannel = this.serviceSourcingChannel;
+      this.equitasBranchName = this.serviceEquitasBranchName;
+      this.date = this.utilityService.convertDateTimeTOUTC(this.sysDate, 'DD/MM/YYYY');
+      this.time = this.sysTimeOfVerification;
+    }
+
 
     this.referenceCheckForm.patchValue({
       nameOfReference: refCheckModel.nameOfReference ? refCheckModel.nameOfReference : null,
@@ -362,37 +376,34 @@ export class ReferenceCheckComponent implements OnInit {
       overallFiReport: refCheckModel.overallFiReport ? refCheckModel.overallFiReport : null,
       pdRemarks: refCheckModel.pdRemarks ? refCheckModel.pdRemarks : null,
       // soName: this.userName ? this.userName : null,
-      soName: refCheckModel.soName ? refCheckModel.soName : null,
-      employeeCode: refCheckModel.employeeCode ? refCheckModel.employeeCode : null,
+      soName: this.soName ? this.soName : null,
+      employeeCode: this.employeeCode ? this.employeeCode : null,
       // patching other details object data from backend
-      product: otherDetailsModel.product ? otherDetailsModel.product : null,
-      sourcingChannel: otherDetailsModel.sourcingChannel ? otherDetailsModel.sourcingChannel : null,
+      product: this.productCat ? this.productCat : null,
+      sourcingChannel: this.sourcingChannel ? this.sourcingChannel : null,
       routeMap: otherDetailsModel.routeMap ? otherDetailsModel.routeMap : null,
-      equitasBranchName: otherDetailsModel.equitasBranchName ? otherDetailsModel.equitasBranchName : null,
+      equitasBranchName: this.equitasBranchName ? this.equitasBranchName : null,
       distanceFromEquitas: otherDetailsModel.distanceFromEquitas ? otherDetailsModel.distanceFromEquitas : null,
-      date: otherDetailsModel.date ? this.utilityService.getDateFromString(otherDetailsModel.date) : null,
+      date: this.date ? this.utilityService.getDateFromString(this.date) : null,
       // date: this.otherDetails.date ? this.utilityService.getDateFromString(this.otherDetails.date) : '',
       area: otherDetailsModel.area ? otherDetailsModel.area : null,
       place: otherDetailsModel.place ? otherDetailsModel.place : null,
-      timeOfVerification: otherDetailsModel.timeOfVerification ? otherDetailsModel.timeOfVerification : null,
+      timeOfVerification: this.time
 
       // time: new Date(refCheckModal.time ? this.getDateFormat(refCheckModal.time) : ""),
-      // latitude: refCheckModal.latitude || '',
-      // longitude: refCheckModal.longitude || '',
     });
     console.log('patched form', this.referenceCheckForm);
   }
 
 
   onFormSubmit() { // function that calls sumbit pd report api to save the respective pd report
-    console.log("latitude::", this.latitude);
-    console.log("longitude::", this.longitude);
+    console.log('latitude::', this.latitude);
+    console.log('longitude::', this.longitude);
 
     this.custProfileDetails = {
       latitude: this.latitude || '',
       longitude: this.longitude || '',
-    }
-    console.log('in save api');
+    };
     const formModel = this.referenceCheckForm.value;
     this.isDirty = true;
     if (this.referenceCheckForm.invalid) {
@@ -400,8 +411,8 @@ export class ReferenceCheckComponent implements OnInit {
       this.toasterService.showWarning('please enter required details', '');
       return;
     }
-    console.log("this product", this.productCat);
-    console.log("this soucing", this.sourcingChannel);
+    // console.log('this product', this.productCat);
+    // console.log("this soucing", this.sourcingChannel);
     const referenceCheckModel = { ...formModel };
     this.refCheckDetails = {
       nameOfReference: referenceCheckModel.nameOfReference ? referenceCheckModel.nameOfReference : null,
@@ -413,20 +424,21 @@ export class ReferenceCheckComponent implements OnInit {
       soName: this.userName ? this.userName : null,
       employeeCode: this.userId ? this.userId : null,
     };
+    // console.log('systime', this.sysTimeOfVerification);
 
     this.otherDetails = {
-      product: this.productCat ? this.productCat : null,
-      sourcingChannel: this.sourcingChannel ? this.sourcingChannel : null,
+      product: referenceCheckModel.productCat ? referenceCheckModel.productCat : null,
+      sourcingChannel: referenceCheckModel.sourcingChannel ? referenceCheckModel.sourcingChannel : null,
       // routeMap: referenceCheckModel.routeMap ? referenceCheckModel.routeMap : null,
       routeMap: referenceCheckModel.routeMap,
-      equitasBranchName: this.equitasBranchName ? this.equitasBranchName : null,
+      equitasBranchName: referenceCheckModel.equitasBranchName ? referenceCheckModel.equitasBranchName : null,
       distanceFromEquitas: referenceCheckModel.distanceFromEquitas ? referenceCheckModel.distanceFromEquitas : null,
       // this.formValues.date = this.formValues.date ? this.utilityService.convertDateTimeTOUTC(this.formValues.date, 'DD/MM/YYYY') : null;
-      date: this.date ? this.utilityService.getDateFormat(this.date) : null,
+      date: this.sysDate ? this.utilityService.getDateFormat(this.sysDate) : null,
       area: referenceCheckModel.area ? referenceCheckModel.area : null,
       place: referenceCheckModel.place ? referenceCheckModel.place : null,
-      timeOfVerification: this.timeOfVerification ? this.timeOfVerification : null,
-      pdOfficerName: this.userName ? this.userName : null,
+      timeOfVerification: this.sysTimeOfVerification ? this.sysTimeOfVerification : null,
+      pdOfficerName: referenceCheckModel.soName ? referenceCheckModel.soName : null,
 
 
     };
@@ -441,7 +453,7 @@ export class ReferenceCheckComponent implements OnInit {
     };
 
     this.personalDiscussion.saveOrUpdatePdData(data).subscribe((res: any) => {
-      console.log('save or update PD Response', res);
+      // console.log('save or update PD Response', res);
       if (res.ProcessVariables.error.code === '0') {
         this.toasterService.showSuccess('Record Saved Successfully', '');
         this.getPdDetails();
@@ -465,7 +477,7 @@ export class ReferenceCheckComponent implements OnInit {
     };
     this.personalDiscussion.approvePd(data).subscribe((res: any) => {
       const processVariables = res.ProcessVariables;
-      console.log('response approve pd', processVariables);
+      // console.log('response approve pd', processVariables);
       const message = processVariables.error.message;
       if (processVariables.error.code === '0') {
 
@@ -489,12 +501,12 @@ export class ReferenceCheckComponent implements OnInit {
     };
     this.personalDiscussion.reinitiatePd(data).subscribe((res: any) => {
       const processVariables = res.ProcessVariables;
-      console.log('response reinitiate pd', processVariables);
+      // console.log('response reinitiate pd', processVariables);
       const message = processVariables.error.message;
       if (processVariables.error.code === '0') {
 
         this.toasterService.showSuccess('pd report reinitiated successfully', '');
-        // this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
+        // this.router.navigate([`/pages/dde/dashboard`]);
       } else {
         this.toasterService.showError('', 'message');
 
@@ -528,13 +540,13 @@ export class ReferenceCheckComponent implements OnInit {
     this.personalDiscussion.submitPdReport(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
-        console.log('message', processVariables.error.message);
+        // console.log('message', processVariables.error.message);
         this.toasterService.showSuccess('submitted to credit successfully', '');
         // this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
         this.router.navigate([`/pages/dashboard`]);
       } else {
         this.toasterService.showError(processVariables.error.message, '');
-        console.log('error', processVariables.error.message);
+        // console.log('error', processVariables.error.message);
 
       }
     });
@@ -545,13 +557,13 @@ export class ReferenceCheckComponent implements OnInit {
   onNavigateToPdSummary() { // fun to navigate to pd summary
 
     if (this.version != 'undefined') {
-      console.log('in routing defined version condition', this.version);
+      // console.log('in routing defined version condition', this.version);
       // http://localhost:4200/#/pages/dashboard/personal-discussion/my-pd-tasks
 
       this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
 
     } else {
-      console.log('in routing undefined version condition', this.version);
+      // console.log('in routing undefined version condition', this.version);
       this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
 
     }
@@ -559,11 +571,11 @@ export class ReferenceCheckComponent implements OnInit {
 
   onNavigateBack() { // fun to navigate to back page
     if (this.version != 'undefined') {
-      console.log('in routing defined version condition', this.version);
+      // console.log('in routing defined version condition', this.version);
       this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/loan-details/${this.version}`]);
 
     } else {
-      console.log('in routing undefined version condition', this.version);
+      // console.log('in routing undefined version condition', this.version);
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/loan-details`]);
       // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
 
@@ -579,24 +591,24 @@ export class ReferenceCheckComponent implements OnInit {
       isPhoto: true,
       applicantId: this.applicantId,
     };
-   //this.uploadPhotoOrSignature(data);
-    
+    // this.uploadPhotoOrSignature(data);
+
     event.imageUrl = '';
 
     let index = 0;
     if (this.documentArr.length === 0) {
       this.documentArr.push(event);
       index = 0;
-    } 
+    }
     console.log('documentArr', this.documentArr);
     this.individualImageUpload(event, index);
 
     let position = await this.getLatLong();
-    if(position["latitude"]){
+    if (position["latitude"]) {
       this.latitude = position["latitude"].toString();
       this.longitude = position["longitude"].toString();
       this.getRouteMap();
-    }else {
+    } else {
       this.latitude = "";
       this.longitude = "";
       this.showRouteMap = false;
@@ -647,7 +659,7 @@ export class ReferenceCheckComponent implements OnInit {
 
   async downloadDocs(documentId: string) {
     console.log(event);
-    
+
     // let el = event.srcElement;
     // const formArray = this.uploadForm.get(formArrayName) as FormArray;
     // const documentId = formArray.at(index).get('file').value;
@@ -711,24 +723,24 @@ export class ReferenceCheckComponent implements OnInit {
 
     return new Promise((resolve, reject) => {
 
-     if (this.isMobile) {
+      if (this.isMobile) {
 
-       this.gpsService.getLatLong().subscribe((position) => {
-         console.log("Mobile position", position);
-         resolve(position);
-       });
+        this.gpsService.getLatLong().subscribe((position) => {
+          console.log("Mobile position", position);
+          resolve(position);
+        });
 
-     } else {
-       this.gpsService.getBrowserLatLong().subscribe((position) => {
-         console.log("Browser position", position);
-         if(position["code"]){
-           this.toasterService.showError(position["message"], "GPS Alert");
-         }
-         resolve(position);
-       });
-     }
-   });
- }
+      } else {
+        this.gpsService.getBrowserLatLong().subscribe((position) => {
+          console.log("Browser position", position);
+          if (position["code"]) {
+            this.toasterService.showError(position["message"], "GPS Alert");
+          }
+          resolve(position);
+        });
+      }
+    });
+  }
 
 
 

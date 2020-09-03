@@ -46,6 +46,7 @@ export class IdentityDetailsComponent implements OnInit {
   isDirty: boolean;
   drivingLicenceDates: boolean;
   passportDates: boolean;
+  referenceNo : string;
 
   panPattern = {
     rule: '[A-Z]{3}(P)[A-Z]{1}[0-9]{4}[A-Z]{1}',
@@ -242,7 +243,7 @@ export class IdentityDetailsComponent implements OnInit {
     this.addNonIndividualFormControls();
   }
 
-  onSave() { }
+  
 
   storeNonIndividualValueInService() {
     const value = this.identityForm.getRawValue();
@@ -343,6 +344,27 @@ export class IdentityDetailsComponent implements OnInit {
     }
     date = date.split('/').reverse().join('-');
     return date;
+  }
+
+  onRetreiveAdhar(){
+    const formArray = this.identityForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    const value = this.indivIdentityInfoDetails;
+    this.referenceNo= value.aadhar;
+    this.applicantService.retreiveAdhar(this.referenceNo).subscribe((res)=>{
+         if(res['ProcessVariables'].error.code=="0"){
+          const uid= res['ProcessVariables'].uid;
+          details.get('aadhar').setValue(uid)
+         }
+    })
+  }
+
+  onRelieve(){
+    const value = this.indivIdentityInfoDetails;
+    this.referenceNo= value.aadhar;
+    const formArray = this.identityForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    details.get('aadhar').setValue(this.referenceNo);
   }
 
   onSubmit() {

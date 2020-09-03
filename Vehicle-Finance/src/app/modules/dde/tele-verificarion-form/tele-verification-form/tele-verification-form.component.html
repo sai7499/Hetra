@@ -26,8 +26,9 @@
                         <div class="row">
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="assetCost">{{labels.assetCost}}</label>
-                                <app-custom-input formControlName="assetCost" [className]="'form-control mandatory'" [patternCheck]="regexPattern.amount" [maxLength]="validationData?.amountValue.maxLength" [isRequired]="'Asset cost is required'" [isDirty]="isDirty" [type]="validationData?.amountValue.type">
-                                </app-custom-input>
+                                <!-- <app-custom-input formControlName="assetCost" [className]="'form-control mandatory'" [patternCheck]="regexPattern.amount" [maxLength]="validationData?.amountValue.maxLength" [isRequired]="'Asset cost is required'" [isDirty]="isDirty" [type]="validationData?.amountValue.type">
+                                </app-custom-input> -->
+                                <input type="text" readonly class="form-control" id="assetCost" name="assetCost" formControlName="assetCost">
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="financeAmount">{{labels.financeAmount}}</label>
@@ -37,9 +38,10 @@
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="tenureInMonths">{{labels.tenureInMonths}}</label>
-                                <app-custom-input id="tenureInMonths" formControlName="tenureInMonth" [className]="'form-control mandatory'" [patternCheck]="regexPattern.amount" [maxLength]="validationData?.percentage.maxLength" [isRequired]="'Tenure months is required'" [isDirty]="isDirty"
+                                <!-- <app-custom-input id="tenureInMonths" formControlName="tenureInMonth" [className]="'form-control mandatory'" [patternCheck]="regexPattern.amount" [maxLength]="validationData?.percentage.maxLength" [isRequired]="'Tenure months is required'" [isDirty]="isDirty"
                                     [type]="validationData?.percentage.type">
-                                </app-custom-input>
+                                </app-custom-input> -->
+                                <input type="text" readonly class="form-control" id="tenureInMonths" name="tenureInMonth" formControlName="tenureInMonth">
                             </div>
                         </div>
                         <div class="row">
@@ -153,9 +155,10 @@
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="mobileNo">{{labels.mobileNo}}</label>
-                                    <app-custom-input id="mobileNo" formControlName="residentPhnNo" [className]="'form-control'" [placeholder]="'Mobile'" [maxLength]="validationData?.mobileNumber.maxLength" [patternCheck]="validationData?.mobileNumber.pattern" [isRequired]="'Mobile Number is required'"
+                                    <!-- <app-custom-input id="mobileNo" formControlName="residentPhnNo" [className]="'form-control'" [placeholder]="'Mobile'" [maxLength]="validationData?.mobileNumber.maxLength" [patternCheck]="validationData?.mobileNumber.pattern" [isRequired]="'Mobile Number is required'"
                                         [isDirty]="isDirty" [type]="validationData?.mobileNumber.type">
-                                    </app-custom-input>
+                                    </app-custom-input> -->
+                                    <input type="text" readonly class="form-control" id="mobileNo" name="residentPhnNo" formControlName="residentPhnNo">
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="address" class="">{{labels.address}}</label>
@@ -281,9 +284,10 @@
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="mobileNo2">{{labels.mobileNo}}</label>
-                                    <app-custom-input id="officePhnNo" formControlName="officePhnNo" [className]="'form-control'" [placeholder]="'Mobile'" [maxLength]="validationData?.mobileNumber.maxLength" [patternCheck]="validationData?.mobileNumber.pattern" [isRequired]="'Mobile Number is required'"
+                                    <!-- <app-custom-input id="officePhnNo" formControlName="officePhnNo" [className]="'form-control'" [placeholder]="'Mobile'" [maxLength]="validationData?.mobileNumber.maxLength" [patternCheck]="validationData?.mobileNumber.pattern" [isRequired]="'Mobile Number is required'"
                                         [isDirty]="isDirty" [type]="validationData?.mobileNumber.type">
-                                    </app-custom-input>
+                                    </app-custom-input> -->
+                                    <input type="text" readonly class="form-control" id="officePhnNo" name="officePhnNo" formControlName="officePhnNo">
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="extn">{{labels.extn}}</label>

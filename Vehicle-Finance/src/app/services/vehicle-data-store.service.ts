@@ -37,7 +37,6 @@ export class VehicleDataStoreService {
   }
 
   getVehicleDetails() {
-    // return this.leadCreation ? this.leadCreation.vehicleDetails : {};
     return this.vehicleList;
   }
 
