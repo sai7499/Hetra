@@ -123,6 +123,9 @@ export class TrackVehicleComponent implements OnInit {
       this.trackVehicleForm.patchValue({ totalDelay: fleetRtr.totalDelay });
       this.trackVehicleForm.patchValue({ peakDelay: fleetRtr.peakDelay });
       this.trackVehicleForm.patchValue({ avgDelay: fleetRtr.avgDelay });
+      
+      this.trackVehicleForm.patchValue({ minDelay: fleetRtr.minDelay ? fleetRtr.minDelay : '' });
+
       this.trackVehicleForm.patchValue({ trackStatus: fleetRtr.trackStatus ? fleetRtr.trackStatus : 0 });
       this.trackVehicleForm.patchValue({ totalAmtPaid: fleetRtr.totalAmtPaid });
       this.trackVehicleForm.patchValue({ emiPaid: fleetRtr.emiPaid });
@@ -168,9 +171,10 @@ export class TrackVehicleComponent implements OnInit {
         totalDelay: new FormControl({ value: 0, disabled: true }),
         peakDelay: new FormControl({ value: 0, disabled: true }),
         avgDelay: new FormControl({ value: 0, disabled: true }),
+        minDelay: new FormControl({ value: 0, disabled: true }),
         trackStatus: new FormControl({ value: 0, disabled: true }),
         totalAmtPaid: new FormControl({ value: 0, disabled: true }),
-        emiPaid: new FormControl(3254),
+       // emiPaid: new FormControl(3254),
         // emiAmount: new FormControl(''),
         installment: this.fb.array([])
       });
@@ -476,13 +480,15 @@ export class TrackVehicleComponent implements OnInit {
       this.totalDelayDays = this.totalDelayDays + parseInt(this.formArr.controls[i]['controls']['delayDays'].value);
       allDelayDays.push(parseInt(this.formArr.controls[i]['controls']['delayDays'].value))
     }
-    let avgDelay = this.totalDelayDays / this.formArr.length;
+    let avgDelay = Number(this.totalDelayDays / this.formArr.length).toFixed(2);
     let peakDelay = Math.max(...allDelayDays);
+    let mindelay = Math.min(...allDelayDays);
     //  this.trackVehicleForm.get('totalDelay').setValue(this.totalDelayDays);
     this.trackVehicleForm.get("peakDelay").setValue(peakDelay)
     this.trackVehicleForm.get("avgDelay").setValue(avgDelay)
     this.trackVehicleForm.get("totalDelay").setValue(this.totalDelayDays)
-    
+    this.trackVehicleForm.get("minDelay").setValue(mindelay)
+
   }
 
   paymentExcessOrShort(event, index) {

@@ -1545,6 +1545,7 @@
     "crossSellOthers": "Cross Sell Others (in INR)",
     "errorCode": "Error Code",
     "errorMsg": "Error Message",
+    "minDelay" : "Min Delay",
     "validationData": {
         "name": {
             "maxLength": {
