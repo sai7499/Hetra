@@ -164,7 +164,7 @@ export class TeleVerificationFormComponent implements OnInit {
       officePhnNo: [''],
       officePhnExt: ['', Validators.required],
       wrkStability: ['', Validators.required],
-      natureOfBusiness: [{ value: '', disabled: true }],
+      natureOfBusiness: ['', Validators.required ],
       typeOfTransaction: ['', Validators.required],
       businessStability: ['', Validators.required],
       compNameAddress: ['', Validators.required],
@@ -334,6 +334,11 @@ export class TeleVerificationFormComponent implements OnInit {
           this.valueChanges.howDidCustomerKnowEquitasBank.forEach(element => {
             if (tvr && element.value === tvr.referredBy) {
               this.teleVerificationForm.get('referredBy').setValue(element.key);
+            }
+          });
+          this.valueChanges.businessType.forEach(element => {
+            if (tvr && element.value === tvr.natureOfBusiness) {
+              this.teleVerificationForm.get('natureOfBusiness').setValue(element.key);
             }
           });
           this.valueChanges.applicationReferenceStatus.forEach(element => {
