@@ -72,6 +72,7 @@ export class CamComponent implements OnInit {
   customerBackgroundSalesRecommendation: any;
   ncmBhRecommendation: any;
   vehicleDeploymentDetails: any;
+  recommendation: any;
 
 
   constructor(private labelsData: LabelsService,
@@ -105,7 +106,7 @@ export class CamComponent implements OnInit {
     } else if (this.productCategoryName == "Used Car") {
       this.usedCarCam = true
       this.getCamUsedCarDetails();
-    }else if (this.productCategoryName == "New Commercial Vehicle") {
+    } else if (this.productCategoryName == "New Commercial Vehicle") {
       this.newCvCam = true
       this.getCamNewCvDetails();
     }
@@ -133,6 +134,20 @@ export class CamComponent implements OnInit {
         ),
       ]),
       fleetRemarks: new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(200),
+        Validators.pattern(
+          /^[a-zA-Z0-9 ]*$/
+        ),
+      ]),
+      concernsAndRisks: new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(200),
+        Validators.pattern(
+          /^[a-zA-Z0-9 ]*$/
+        ),
+      ]),
+      strengthAndMitigates: new FormControl(null, [
         Validators.required,
         Validators.maxLength(200),
         Validators.pattern(
@@ -173,7 +188,7 @@ export class CamComponent implements OnInit {
       this.cmRecommendation = res.ProcessVariables['cmRecommendationObj']
       this.acmRecommendation = res.ProcessVariables['acmRecommendationObj']
       this.ncmBhApprovalRecommendation = res.ProcessVariables['ncmBhApprovalRecommendationObj']
-
+      this.recommendation = res.ProcessVariables['recommendation']
       this.camDetailsForm.patchValue({
         proposedVehicleRemarks: this.camDetails.proposedToAnyOtherRemarks ? this.camDetails.proposedToAnyOtherRemarks : null,
       })
@@ -187,7 +202,13 @@ export class CamComponent implements OnInit {
         fleetRemarks: this.camDetails.fleetSummaryToAnyOtherRemarks ? this.camDetails.fleetSummaryToAnyOtherRemarks : null,
       })
       this.camDetailsForm.patchValue({
-        keyFinancialRemarks: this.camDetails.keyFinancialObjAnyOtherRemarks ? this.camDetails.keyFinancialObjAnyOtherRemarks : null,
+        keyFinancialRemarks: this.camDetails.keyFinancialAnyOtherRemarks ? this.camDetails.keyFinancialAnyOtherRemarks : null,
+      })
+      this.camDetailsForm.patchValue({
+        concernsAndRisks: this.camDetails.concernsAndRisks ? this.camDetails.concernsAndRisks : null,
+      })
+      this.camDetailsForm.patchValue({
+        strengthAndMitigates: this.camDetails.strengthAndMitigates ? this.camDetails.strengthAndMitigates : null,
       })
     })
   }
@@ -245,7 +266,7 @@ export class CamComponent implements OnInit {
       this.ncmBhRecommendation = res.ProcessVariables['ncmBhRecommendation']
       this.vehicleDeploymentDetails = res.ProcessVariables['vehicleDeploymentDetails']
 
-     
+
     })
   }
   onSubmit() {
@@ -256,7 +277,7 @@ export class CamComponent implements OnInit {
     if (this.camDetailsForm.invalid) {
       this.toasterService.showError(
         "Fields Missing Or Invalid Pattern Detected",
-        "OD Details"
+        "UCV Details"
       );
       return;
     } else {
@@ -272,7 +293,10 @@ export class CamComponent implements OnInit {
             .cibilSynopsisRemarks.value,
           trackValidationRemarks: this.camDetailsForm.controls.trackValidationRemarks.value,
           fleetRemarks: this.camDetailsForm.controls.fleetRemarks.value,
-          keyFinancialRemarks: this.camDetailsForm.controls.keyFinancialRemarks.value
+          keyFinancialRemarks: this.camDetailsForm.controls.keyFinancialRemarks.value,
+          concernsAndRisks: this.camDetailsForm.controls.concernsAndRisks.value,
+          strengthAndMitigates: this.camDetailsForm.controls.strengthAndMitigates.value,
+
         }
       };
 

@@ -118,11 +118,14 @@ export class CibilOdListComponent implements OnInit {
 
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
+      console.log("lov values ....>",value)
       this.odListLov.odApplicantType = value.LOVS.odApplicantType;
       this.odListLov.typeOfLoan = value.LOVS.typeOfLoan;
       this.odListLov.clearanceProof = value.LOVS.clearanceProof;
       console.log(this.odListLov.clearanceProof);
       this.odListLov.highestDpd = value.LOVS.highestDpd;
+      this.odListLov.cibilStatus = value.LOVS.cibilStatus;
+      
     });
   }
   getLeadId() {
