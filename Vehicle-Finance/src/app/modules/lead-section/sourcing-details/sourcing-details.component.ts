@@ -139,7 +139,7 @@ export class SourcingDetailsComponent implements OnInit {
     leadHandeledBy: number;
     leadCreatedBy: number;
     leadCreatedOn: string;
-    loanType: string;
+    typeOfLoan: string;
     reqLoanAmt: number;
     reqTenure: number;
     userId: number;
@@ -294,7 +294,7 @@ export class SourcingDetailsComponent implements OnInit {
     const applicationNO = data.leadDetails.applicationNo;
     this.sourcingDetailsForm.patchValue({ applicationNo: applicationNO });
 
-    const loanTypeFromLead = data.leadDetails.loanType;
+    const loanTypeFromLead = data.leadDetails.typeOfLoan;
     this.sourcingDetailsForm.patchValue({ loanType: loanTypeFromLead});
 
     this.getBusinessDivision(businessDivisionFromLead);
@@ -658,7 +658,7 @@ export class SourcingDetailsComponent implements OnInit {
         leadHandeledBy: Number(this.userId),
         leadCreatedBy: Number(this.branchId),
         leadCreatedOn: this.leadCreatedDateFromLead,
-        loanType: saveAndUpdate.loanType,
+        typeOfLoan: saveAndUpdate.loanType,
         reqLoanAmt: saveAndUpdate.reqLoanAmt,
         reqTenure: Number(saveAndUpdate.requestedTenor),
       };
