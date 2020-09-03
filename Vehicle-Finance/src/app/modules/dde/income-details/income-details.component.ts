@@ -701,9 +701,17 @@ export class IncomeDetailsComponent implements OnInit {
         this.addOtherIncomeUnit(res.ProcessVariables.otherIncomeList);
         this.addObligationUnit(res.ProcessVariables.obligationsList);
         this.onSalFoirDeviation(this.applicantResponse.salariedFOIRDeviation);
-        this.keyFinancialData = JSON.parse(res.ProcessVariables.keyFinanceDetails.keyFinancials || null)
-          this.addKeyFinancialDetails(this.keyFinancialData)
-        
+        // this.keyFinancialData = JSON.parse(res.ProcessVariables.keyFinanceDetails.keyFinancials || null)
+        // this.addKeyFinancialDetails(this.keyFinancialData)
+        let keyFinancialData = JSON.parse(res.ProcessVariables.keyFinanceDetails || null)
+        if(keyFinancialData != null){
+        const keyFinancialObj =  keyFinancialData.keyFinancials
+        this.addKeyFinancialDetails(keyFinancialObj)
+        } else {
+            const keyFinancialObj = null
+            this.addKeyFinancialDetails(keyFinancialObj)
+          }
+      
 
       });
   }

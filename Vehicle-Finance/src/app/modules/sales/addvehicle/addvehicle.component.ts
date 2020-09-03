@@ -85,7 +85,13 @@ export class AddvehicleComponent implements OnInit {
           this.toasterService.showError(error, 'Vehicle Details')
         })
       } else {
-        this.toasterService.showError('Please Enter Valid Data', 'Invalid Fields')
+        if (!this.formValue.value.isInvalidMobileNumber) {
+          this.toasterService.showError('applicant and dealer of vehicle owner mobile number both are same', 'Invalid mobile no')
+        } else if (!this.formValue.value.isValidPincode) {
+          this.toasterService.showError('Please enter valid pincode', 'Invalid pincode')
+        } else if (!(this.formValue.value.isValidPincode && this.formValue.value.isInvalidMobileNumber)) {
+          this.toasterService.showError('Please enter valid pincode and mobile no', 'Invalid pincode & mobile no')
+        }
       }
 
     } else {

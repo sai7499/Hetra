@@ -167,6 +167,10 @@ export class ApplicantListComponent implements OnInit {
     }
 
   }
+
+  onNext(){
+    this.router.navigateByUrl(`pages/sales/${this.leadId}/vehicle-list`)
+  }
   destroyImage() {
     if (this.cibilImage) {
       this.cibilImage = null;
