@@ -17,7 +17,7 @@ export class ToggleDdeService {
       return;
     }
     labelName = 'Back To ' + labelName;
-    this.setCurrentPath(labelName, currentUrl);
+    this.setCurrentPath(currentUrl, labelName);
   }
 
   setIsDDEClicked(value?: any) {
@@ -46,7 +46,21 @@ export class ToggleDdeService {
     localStorage.removeItem('isDdeClicked');
   }
 
-  setCurrentPath(labelName: string, currentUrl: string) {
-    localStorage.setItem('ddePath', JSON.stringify({ labelName, currentUrl }));
+  setCurrentPath(currentUrl?: string, labelName?: string) {
+    console.log(currentUrl, 'curreny', labelName)
+
+    if (localStorage.getItem('ddePath')) {
+      let localJson = JSON.parse(localStorage.getItem('ddePath'));
+
+      if (labelName) {
+        localJson.labelName = labelName;
+      }
+      if (currentUrl) {
+        localJson.currentUrl = currentUrl;
+      }
+      localStorage.setItem('ddePath', JSON.stringify(localJson));
+    } else {
+      localStorage.setItem('ddePath', JSON.stringify({ labelName, currentUrl }));
+    }
   }
 }

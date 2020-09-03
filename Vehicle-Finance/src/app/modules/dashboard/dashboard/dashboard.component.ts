@@ -212,9 +212,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onSort(data) {
-    console.log('clicked');
     this.sortTab = data;
-    console.log(data);
     switch (data) {
       case 0:
         this.sortByLead = this.sortByLead === false ? true : false;
@@ -374,7 +372,6 @@ export class DashboardComponent implements OnInit {
   onLeads(data?, subTab?, tabName?: string) {
 
     this.sortTab = '';
-    console.log(this.sortTab)
     this.activeTab = data;
     this.subActiveTab = subTab;
     if (this.sortTab === '') {
@@ -395,6 +392,7 @@ export class DashboardComponent implements OnInit {
       this.toggleDdeService.setIsDDEClicked('0');
       this.toggleDdeService.setOperationType('2', 'Credit Decision', currentUrl);
     } else if (tabName === 'dde') {
+      this.toggleDdeService.setIsDDEClicked('1');
       this.toggleDdeService.setOperationType('0');
     }
 
@@ -440,7 +438,6 @@ export class DashboardComponent implements OnInit {
   // changing sub tabs
   leads(data) {
     this.sortTab = '';
-    console.log(this.sortTab)
     this.subActiveTab = data;
     if (this.subActiveTab === this.displayTabs.NewLeads) {
       this.onReleaseTab = false;
