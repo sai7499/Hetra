@@ -130,7 +130,7 @@ export class BankDetailsComponent implements OnInit {
       this.lovData = res.LOVS;
       // this.formType = this.route.snapshot.queryParams.formType;
       // if (this.formType) {
-      //   
+      //
       // } else {
       // }
     });
@@ -146,7 +146,7 @@ export class BankDetailsComponent implements OnInit {
       }
     });
 
-    
+
 
     // $('.datepicker').datepicker('update', new Date());
   }
@@ -399,7 +399,7 @@ export class BankDetailsComponent implements OnInit {
 
   getMonths() {
     const tempArray: Array<any> = this.listArray.value;
-    console.log("temp array", tempArray);
+    console.log('temp array', tempArray);
     if (this.OldToDate && this.OldFromDate) {
       const txt = confirm('Are You Sure Want To Change Dates ?');
       if (txt === false) {

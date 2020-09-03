@@ -38,8 +38,8 @@ export class BankListComponent {
         console.log(error);
       }
     );
-    const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1') {
+        const operationType = this.toggleDdeService.getOperationType();
+        if (operationType === '1') {
       this.disableAddbankDetailsBtn  = true;
     }
 
