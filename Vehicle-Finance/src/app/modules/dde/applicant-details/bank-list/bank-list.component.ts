@@ -64,7 +64,7 @@ export class BankListComponent {
             formType: 'edit'
         };
         this.route.navigate([`pages/applicant-details/${this.leadId}/bank-details/${this.applicantId}`],
-         { queryParams: id, skipLocationChange: true  });
+         );
     }
     bankDetail() {
             this.route.navigateByUrl(`pages/applicant-details/${this.leadId}/bank-details/${this.applicantId}` );

@@ -95,7 +95,10 @@ export class BankDetailsComponent implements OnInit {
       fromDate: ['', [Validators.required]],
       toDate: ['', [Validators.required]],
       period: ['', { disabled: true }],
-      limit: [0],
+      limit: [''],
+      accountBranch: [''],
+      micrNumber: [''],
+      totalCredits: [''],
       id: this.leadId,
       // transactionDetails: this.fb.array([]),
       transactionDetails: this.listArray,
@@ -122,10 +125,21 @@ export class BankDetailsComponent implements OnInit {
     });
     this.lovService.getLovData().subscribe((res: any) => {
       this.lovData = res.LOVS;
-      this.formType = this.route.snapshot.queryParams.formType;
-      if (this.formType) {
-        this.getBankDetails();
+      // this.formType = this.route.snapshot.queryParams.formType;
+      // if (this.formType) {
+      //   
+      // } else {
+      // }
+    });
+    this.getBankDetails();
+    this.bankForm.get('accountType').valueChanges.subscribe((res: any) => {
+      // tslint:disable-next-line: triple-equals
+      if (res == '4BNKACCTYP') {
+      this.bankForm.get('limit').setValidators(Validators.required);
+      this.bankForm.get('limit').updateValueAndValidity();
       } else {
+      this.bankForm.get('limit').clearValidators();
+      this.bankForm.get('limit').updateValueAndValidity();
       }
     });
 
@@ -192,14 +206,14 @@ export class BankDetailsComponent implements OnInit {
         console.log('res from bank', res);
         this.bankDetailsNew = res.ProcessVariables.transactionDetails;
         console.log(this.bankDetailsNew, ' bank details new');
-        // if (res.error === null) {
+        if (this.bankDetailsNew) {
         // tslint:disable-next-line: prefer-for-of
         for (let i = 0; i < this.bankDetailsNew.length; i++) {
           this.assignedArray[i] = this.bankDetailsNew[i].month.toString();
         }
         console.log(this.assignedArray, ' on init');
         this.populateData(res);
-        // }
+        }
       });
   }
 
@@ -228,7 +242,16 @@ export class BankDetailsComponent implements OnInit {
         : null,
       limit: data.ProcessVariables.limit
         ? Number(data.ProcessVariables.limit)
-        : 0,
+        : null,
+      totalCredits : data.ProcessVariables.totalCredits
+      ? (data.ProcessVariables.totalCredits)
+      : null,
+      micrNumber: data.ProcessVariables.micrNumber
+      ? (data.ProcessVariables.micrNumber)
+      : null,
+      accountBranch: data.ProcessVariables.accountBranch
+      ? (data.ProcessVariables.accountBranch)
+      : null,
     });
     const transactionDetailsList = data.ProcessVariables.transactionDetails;
     // tslint:disable-next-line: prefer-for-of
@@ -278,6 +301,7 @@ export class BankDetailsComponent implements OnInit {
     this.bankForm.value.accountNumber = this.bankForm.value.accountNumber.toString();
     this.bankForm.value.limit = this.bankForm.value.limit.toString();
     this.bankForm.value.period = this.bankForm.value.period.toString();
+    this.bankForm.value.totalCredits = Number(this.bankForm.value.totalCredits);
     this.bankForm.value.applicantId = this.applicantId;
     this.bankForm.value.id = 7;
     const transactionArray = this.bankForm.value
@@ -397,7 +421,7 @@ export class BankDetailsComponent implements OnInit {
     const numberOfMonths = Math.round(
                             (toDate.getFullYear() - fromDate.getFullYear()) * 12 +
                             (toDate.getMonth() - fromDate.getMonth()) + 1);
- 
+
     if (
       diff === undefined ||
       (diff === null && fromDate.getFullYear() > toDate.getFullYear())
@@ -465,7 +489,7 @@ export class BankDetailsComponent implements OnInit {
           this.listArray.push(this.initRows(i));
         }
       }
-    }  
+    }
       // this.assignedArray.forEach(
       //   monName =>
       //     {
@@ -473,11 +497,11 @@ export class BankDetailsComponent implements OnInit {
       //         tempArray.filter(val => val.month == monName)))
       //     }
       // );
-    
+
   }
 
   onBack() {
-    this.location.back();
+    this.router.navigate([`/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`]);
   }
 
   onBackToApplicant() {
