@@ -29,12 +29,13 @@ export class ChequeTrackingComponent implements OnInit {
   index: number;
   disableUpdate: boolean = true;
   showStatusDate: boolean;
-  showChequeNum : boolean;
-  showRemark : boolean;
+  showChequeNum: boolean;
+  showRemark: boolean;
   statusValue: string;
-  
+
   showChequeNumError: boolean;
-  isDirty = false
+  isDirty = false;
+  statusMsg ='Please select one'
 
   constructor(
     private labelsData: LabelsService,
@@ -63,11 +64,10 @@ export class ChequeTrackingComponent implements OnInit {
     this.getLOV();
     this.leadId = (await this.getLeadId()) as number;
     console.log('leadid', this.leadId)
-    this.sharedService.loanNumber$.subscribe((loanNumber) => {
-      console.log('loanNumber', loanNumber)
-      this.loanNumber = loanNumber
-    })
-    console.log('loanNumber', this.loanNumber)
+    // this.sharedService.loanNumber$.subscribe((loanNumber) => {
+    //   console.log('loanNumber', loanNumber)
+    //   this.loanNumber = loanNumber
+    // })
     this.getChequeTrckingData();
 
   }
@@ -111,9 +111,9 @@ export class ChequeTrackingComponent implements OnInit {
         //this.addUnit(data)
         setTimeout(() => {
           this.chequeData = data;
-          
+
         })
-        
+
 
       }
     })
@@ -132,16 +132,16 @@ export class ChequeTrackingComponent implements OnInit {
   // }
 
   // setChequeData(data) {
-    // const chequeDate = data.chequeDate !== null ? new Date(
-    //   this.utilityService.getDateFromString(data.chequeDate)
-    // ) : '';
-    // const statusUpdatedOn = data.statusUpdatedOn !== null ? new Date(
-    //   this.utilityService.getDateFromString(data.statusUpdatedOn)
-    // ) : '';
-    // return new FormGroup({
-    //   chequeNum: new FormControl(data.chequeNum),
-      // chequeDate: new FormControl(chequeDate),
-      // statusUpdatedOn: new FormControl(statusUpdatedOn ),
+  // const chequeDate = data.chequeDate !== null ? new Date(
+  //   this.utilityService.getDateFromString(data.chequeDate)
+  // ) : '';
+  // const statusUpdatedOn = data.statusUpdatedOn !== null ? new Date(
+  //   this.utilityService.getDateFromString(data.statusUpdatedOn)
+  // ) : '';
+  // return new FormGroup({
+  //   chequeNum: new FormControl(data.chequeNum),
+  // chequeDate: new FormControl(chequeDate),
+  // statusUpdatedOn: new FormControl(statusUpdatedOn ),
   //   });
 
   // }
@@ -152,9 +152,9 @@ export class ChequeTrackingComponent implements OnInit {
 
     const value = event.target.value;
 
-    this.showChequeNum= false;
-    this.showRemark= false;
-    this.showStatusDate= false;
+    this.showChequeNum = false;
+    this.showRemark = false;
+    this.showStatusDate = false;
     const status = this.LOV.LOVS.chequeStatus
     const findValue = status.find(element => element.key == value)
     if (this.selectedData) {
@@ -162,16 +162,16 @@ export class ChequeTrackingComponent implements OnInit {
     }
     this.forHandedOver(value);
     this.forBranchReceived(value);
-    this.forOnHold(value);  
+    this.forOnHold(value);
   }
 
-  forHandedOver(value){
+  forHandedOver(value) {
     if (value == 'HANDEDOVERCHEQUESTS') {
       this.chequeForm.get('statusUpdatedOn').setValidators([Validators.required]);
       this.chequeForm.get('statusUpdatedOn').updateValueAndValidity();
       this.showStatusDate = true;
       this.chequeForm.get('statusUpdatedOn').setValue('')
-      
+
     }
     else {
       this.chequeForm.get('statusUpdatedOn').clearValidators();
@@ -180,7 +180,7 @@ export class ChequeTrackingComponent implements OnInit {
       this.showStatusDate = false;
     }
   }
-  forBranchReceived(value){
+  forBranchReceived(value) {
     if (value == 'BRNCHRECEIVEDCHEQUESTS') {
       this.chequeForm.get('chequeNum').setValidators([Validators.required]);
       this.chequeForm.get('chequeNum').updateValueAndValidity();
@@ -195,12 +195,12 @@ export class ChequeTrackingComponent implements OnInit {
     }
   }
 
-  forOnHold(value){
+  forOnHold(value) {
     if (value == 'ONHOLDCHEQUESTS') {
       this.chequeForm.get('remarks').setValidators([Validators.required]);
       this.chequeForm.get('remarks').updateValueAndValidity();
       this.showRemark = true;
-      this.selectedData.remarks='-';
+      this.selectedData.remarks = '-';
       this.chequeForm.get('remarks').setValue('')
     }
     else {
@@ -217,24 +217,35 @@ export class ChequeTrackingComponent implements OnInit {
 
     this.selectedData = data;
     console.log('statusUpdaed', this.selectedData)
-    
+
 
     this.chequeForm.get('status').setValue('')
-    this.showChequeNum= false;
-    this.showRemark= false;
-    this.showStatusDate= false;
-    if(this.selectedData.chequeStatus=="ONHOLDCHEQUESTS"){
-      this.showRemark= true;
-  }
-    
+    this.showChequeNum = false;
+    this.showRemark = false;
+    this.showStatusDate = false;
+    if (this.selectedData.chequeStatus == "ONHOLDCHEQUESTS") {
+      this.showRemark = true;
+    }
+    if(this.selectedData.chequeStatus == "HANDEDOVERCHEQUESTS"){
+      this.chequeForm.get('status').clearValidators();
+      this.chequeForm.get('status').updateValueAndValidity();
+      this.statusMsg=''
+      this.disableUpdate = true;
+    }else{
+      this.chequeForm.get('status').setValidators([Validators.required]);
+      this.chequeForm.get('status').updateValueAndValidity();
+      this.statusMsg='Please Select One'
+      this.disableUpdate = false;
+    }
+
 
   }
 
-  onChangeCheque( event) {
-        this.selectedData.chequeNum = event;
+  onChangeCheque(event) {
+    this.selectedData.chequeNum = event;
   }
 
-  onRemarkValue(event){
+  onRemarkValue(event) {
     //console.log('event', event)
     this.selectedData.remarks = event;
 
@@ -244,11 +255,11 @@ export class ChequeTrackingComponent implements OnInit {
     const value = this.chequeForm.value;
     console.log('value', this.chequeForm)
 
-   // const control = this.chequeForm.controls.details as FormArray;
+    // const control = this.chequeForm.controls.details as FormArray;
     if (this.chequeForm.invalid) {
       this.isDirty = true;
-      this.toasterService.showError( 'Please fill mandatory fields.',
-      'Cheque Tracking')
+      this.toasterService.showError('Please fill mandatory fields.',
+        'Cheque Tracking')
       return;
     }
     // if (this.statusValue == 'BRNCHRECEIVEDCHEQUESTS') {
@@ -263,7 +274,7 @@ export class ChequeTrackingComponent implements OnInit {
     if (!this.selectedData) {
       return null
     }
-  
+
     const chequeData = {
       chequeAmt: this.selectedData.chequeAmt || '',
       chequeDate: this.selectedData.chequeDate || '',
@@ -273,10 +284,10 @@ export class ChequeTrackingComponent implements OnInit {
       favTo: this.selectedData.favTo || '',
       mode: this.selectedData.mode || '',
       payableTo: this.selectedData.payableTo || '',
-      statusUpdatedOn: this.utilityService.getDateFormat(value.statusUpdatedOn ) || "",
+      statusUpdatedOn: this.utilityService.getDateFormat(value.statusUpdatedOn) || "",
       trancheId: this.selectedData.trancheId || '',
       remarks: value.remarks || '',
-      loanAccNo : this.selectedData.loanAccNo || ''
+      loanAccNo: this.selectedData.loanAccNo || ''
 
     }
 

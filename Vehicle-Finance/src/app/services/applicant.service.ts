@@ -60,6 +60,11 @@ export class ApplicantService {
     processId?: string;
     workflowId?: string;
   }
+  private retrieveAadharData : {
+    projectId?: string;
+    processId?: string;
+    workflowId?: string;
+  }
   constructor(
     private httpService: HttpService,
     private apiService: ApiService,
@@ -77,6 +82,7 @@ export class ApplicantService {
     this.addressDetails = this.apiService.api.getAddressDetails; 
     this.panValidation = this.apiService.api.wrapperPanValidation;
     this.biometriceKYC= this.apiService.api.wrapperBiometriceKYC;
+    this.retrieveAadharData= this.apiService.api.retrieveAadharData;
   }
 
   getApplicantList(data) {
@@ -349,20 +355,17 @@ export class ApplicantService {
     return this.httpService.post(url, body);
   }
 
-  retrieveAadharNo(aadharVirtualNo, applicantId){
-    const aadharNoService = this.apiService.api.getAadharNumber;
-    const projectId = aadharNoService.projectId;
-    const processId = aadharNoService.processId;
-    const workflowId = aadharNoService.workflowId;
-    const userId = localStorage.getItem('userId');
+  retreiveAdhar(data){
+    const projectId = this.retrieveAadharData.projectId;
+    const processId = this.retrieveAadharData.processId;
+    const workflowId = this.retrieveAadharData.workflowId;
+    
     const body = {
       processId,
       workflowId,
       projectId,
       ProcessVariables: {
-        applicantId: applicantId,
-        referenceNo: aadharVirtualNo,
-        userId
+        referenceNo: data
       },
     };
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
