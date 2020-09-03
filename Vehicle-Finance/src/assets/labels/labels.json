@@ -2340,6 +2340,18 @@
                 "rule": "^[A-Za-z]{3}[0-9]{6}$",
                 "msg": "Pattern should be ABC123456"
             }
+        },
+        "amountFiveCharc": {
+            "maxLength": {
+                "rule": 5
+            },
+            "type":"number"
+        },
+        "noOfTyres": {
+            "maxLength": {
+                "rule": 2
+            },
+            "type": "number"
         }
     }
 }
