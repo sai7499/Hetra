@@ -662,7 +662,7 @@ export class BasicDetailsComponent implements OnInit {
       // foreignCurrencyDealing: new FormControl(null),
       // exposureBankingSystem: new FormControl(null),
       // creditRiskScore: new FormControl(null),
-      custSegment: new FormControl('', Validators.required),
+      //custSegment: new FormControl('', Validators.required),
       monthlyIncomeAmount: new FormControl(''),
       annualIncomeAmount: new FormControl(''),
       ownHouseProofAvail: new FormControl(''),
@@ -880,7 +880,7 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.entityType = value.entity;
     applicantDetails.bussinessEntityType = value.bussinessEntityType;
 
-    applicantDetails.custSegment = formValue.custSegment;
+   // applicantDetails.custSegment = formValue.custSegment;
     applicantDetails.monthlyIncomeAmount = formValue.monthlyIncomeAmount;
     applicantDetails.annualIncomeAmount = formValue.annualIncomeAmount;
 

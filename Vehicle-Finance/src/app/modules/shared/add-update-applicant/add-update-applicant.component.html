@@ -306,7 +306,7 @@
                 </div>
                 <div
                   class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
-                >
+                  *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="customer_category"
                     >{{ labels?.customerCategory }}
                     <sub class="star_red_col">*</sub></label
@@ -318,26 +318,27 @@
                     [isDirty]="isDirty"
                   ></app-vf-custom-select>
                 </div>
-              </div>
-              <div class="row">
                 <div
-                  class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
-                  *ngIf="applicantType == 'NONINDIVENTTYP'"
+                class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
+                *ngIf="applicantType == 'NONINDIVENTTYP'"
+              >
+                <label for="aadharnumber"
+                  >{{ labels?.contactPerson }}
+                  <sub class="star_red_col">*</sub></label
                 >
-                  <label for="aadharnumber"
-                    >{{ labels?.contactPerson }}
-                    <sub class="star_red_col">*</sub></label
-                  >
-                  <app-custom-input
-                    formControlName="contactPerson"
-                    [maxLength]="validationData?.directorName?.maxLength"
-                    [type]="validationData?.directorName?.type"
-                    [isRequired]="'Contact Person Name is Required'"
-                    [isDirty]="isDirty"
-                  >
-                  </app-custom-input>
-                </div>
+                <app-custom-input
+                  formControlName="contactPerson"
+                  [maxLength]="validationData?.directorName?.maxLength"
+                  [type]="validationData?.directorName?.type"
+                  [isRequired]="'Contact Person Name is Required'"
+                  [isDirty]="isDirty"
+                >
+                </app-custom-input>
               </div>
+              </div>
+              <!-- <div class="row">
+               
+              </div> -->
 
               <div class="row">
                 <div
@@ -584,6 +585,7 @@
                     >{{ labels?.aadharnumber }}
                     <sub class="star_red_col">*</sub></label
                   >
+                  <div class="input-group input-medium">
                   <app-custom-input
                     formControlName="aadhar"
                     [maxLength]="validationData?.adhaarNumber?.maxLength"
@@ -593,12 +595,21 @@
                     [type]="validationData?.adhaarNumber?.type"
                   >
                   </app-custom-input>
+                  <span class="input-group-btn">
+                  <button class="btn btn-default"
+                  (click)="onRetreiveAdhar()"
+                  (mouseleave)="onRelieve()">
+                    <i class="fa fa-credit-card"></i>
+                  </button>
+                </span>
+              </div>
                 </div>
                 <div
                   class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
                   *ngIf="applicantType == 'NONINDIVENTTYP'"
                 >
                   <label for="aadharnumber">{{ labels?.udyogAdhar }} </label>
+                  <div class="input-group input-medium">
                   <app-custom-input
                     formControlName="aadhar"
                     [maxLength]="validationData?.adhaarNumber?.maxLength"
@@ -606,6 +617,14 @@
                     [type]="validationData?.adhaarNumber?.type"
                   >
                   </app-custom-input>
+                  <span class="input-group-btn">
+                    <button class="btn btn-default"
+                    (click)="onRetreiveAdhar()"
+                    (mouseleave)="onRelieve()">
+                      <i class="fa fa-credit-card"></i>
+                    </button>
+                  </span>
+                </div>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="identity_number"

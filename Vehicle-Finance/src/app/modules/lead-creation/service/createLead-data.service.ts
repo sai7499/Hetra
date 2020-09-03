@@ -12,6 +12,7 @@ export class CreateLeadDataService {
     proceedWithSelectedLead = {};
     loanAmountAndTenure = {};
     leadDetailsData = {};
+    
 
     constructor(
         private sharedService: SharedService,
