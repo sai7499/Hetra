@@ -3,6 +3,7 @@ import { BankTransactionsService } from '@services/bank-transactions.service';
 import { Router , ActivatedRoute} from '@angular/router';
 import { Location } from '@angular/common';
 import { LabelsService } from '@services/labels.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
     templateUrl: './bank-list.component.html',
@@ -15,10 +16,12 @@ export class BankListComponent {
     leadId: number;
   userId: string;
   labels: any;
+  disableAddbankDetailsBtn: boolean;
     constructor(private bankService: BankTransactionsService,
                 private route: Router, private activatedRoute: ActivatedRoute,
                 private location: Location,
-                private labelsData: LabelsService) { }
+                private labelsData: LabelsService,
+                private toggleDdeService: ToggleDdeService) { }
     // tslint:disable-next-line: use-lifecycle-interface
    async  ngOnInit() {
         this.userId = localStorage.getItem('userId');
@@ -35,6 +38,10 @@ export class BankListComponent {
         console.log(error);
       }
     );
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      this.disableAddbankDetailsBtn  = true;
+    }
 
     }
     getLeadId() {

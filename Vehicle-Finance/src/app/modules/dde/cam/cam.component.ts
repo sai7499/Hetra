@@ -11,6 +11,7 @@ import {
   FormControl,
 } from "@angular/forms";
 import { ToasterService } from '@services/toaster.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 @Component({
   selector: 'app-cam',
   templateUrl: './cam.component.html',
@@ -72,6 +73,7 @@ export class CamComponent implements OnInit {
   customerBackgroundSalesRecommendation: any;
   ncmBhRecommendation: any;
   vehicleDeploymentDetails: any;
+  disableSaveBtn: boolean;
 
 
   constructor(private labelsData: LabelsService,
@@ -79,7 +81,8 @@ export class CamComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private createLeadDataService: CreateLeadDataService,
     private formBuilder: FormBuilder,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private toggleDdeService: ToggleDdeService
   ) { }
 
   ngOnInit() {
@@ -105,7 +108,7 @@ export class CamComponent implements OnInit {
     } else if (this.productCategoryName == "Used Car") {
       this.usedCarCam = true
       this.getCamUsedCarDetails();
-    }else if (this.productCategoryName == "New Commercial Vehicle") {
+    } else if (this.productCategoryName == "New Commercial Vehicle") {
       this.newCvCam = true
       this.getCamNewCvDetails();
     }
@@ -149,6 +152,12 @@ export class CamComponent implements OnInit {
 
 
     })
+
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      // this.camDetailsForm.disable();
+      this.disableSaveBtn = true;
+    }
   }
   getCamUsedCvDetails() {
     const data = {
@@ -165,6 +174,7 @@ export class CamComponent implements OnInit {
       this.bankingSummary = res.ProcessVariables['bankingSummaryObj']
       this.fleetSummary = res.ProcessVariables['fleetSummaryObj']
       this.trackValidation = res.ProcessVariables['trackValidationObj']
+      this.autoDeviation = res.ProcessVariables['autoDeviation']
       this.customerSelectionCriteria = res.ProcessVariables['customerSelectionCriteriaObj']
       this.otherDeviation = res.ProcessVariables['otherDeviationsObj']
       this.keyFinancial = res.ProcessVariables['keyFinancialObj']
@@ -230,6 +240,7 @@ export class CamComponent implements OnInit {
       this.customerSelectionCriteria = res.ProcessVariables['customerSelectionCriteria']
       this.detailsOfCibilFiPD = res.ProcessVariables['detailsOfCibilFiPD']
       this.existingExposure = res.ProcessVariables['existingExposure']
+      this.autoDeviation = res.ProcessVariables['autoDeviations']
       this.fleetDetails = res.ProcessVariables['fleetDetails']
       this.otherDeviations = res.ProcessVariables['otherDeviations']
       this.proposedVehiclesDetails = res.ProcessVariables['proposedVehiclesDetails']
@@ -243,7 +254,7 @@ export class CamComponent implements OnInit {
       this.ncmBhRecommendation = res.ProcessVariables['ncmBhRecommendation']
       this.vehicleDeploymentDetails = res.ProcessVariables['vehicleDeploymentDetails']
 
-     
+
     })
   }
   onSubmit() {

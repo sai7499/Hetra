@@ -136,10 +136,10 @@
            </div>
            <div class="form-group col-sm-6 col-md-4 col-lg-3" >
             <label for="limit">{{labels?.totalCredits}}</label>
-            <app-custom-input
-            formControlName="totalCredits"
+            <app-custom-input 
+            formControlName="totalCredits" 
             [patternCheck]="limitNumberPattern"
-            [maxLength]="labels?.validationData?.amountValue?.maxLength"
+            [maxLength]="limitLength20"
             [type]="labels?.validationData?.amountValue?.type"
             
             [placeholder]="'Total number of credits'"
@@ -306,7 +306,7 @@
     </div>
     <div class="col-sm-7 text-right">
         <button class="btn btn-primary dash_href" type="button" (click)="onBack()">{{labels?.back}}</button>
-        <button class="btn btn-primary" (click)="onSave()"> {{labels?.save}} </button>
+        <button class="btn btn-primary" (click)="onSave()" *ngIf="!disableSaveBtn"> {{labels?.save}} </button>
         <!-- <button class="btn btn-primary dash_href " type="button" >Next</button> -->
         <!-- (click)="onSave()"  -->
     </div>
