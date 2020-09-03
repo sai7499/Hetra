@@ -1,31 +1,20 @@
 <div class="content">
-  <form
-    class="multisteps-form__form"
-    [formGroup]="sourcingDetailsForm"
-    autocomplete="off"
-  >
+  <form class="multisteps-form__form" [formGroup]="sourcingDetailsForm" autocomplete="off">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="business_division">{{ labels.businessDivision }}</label>
-          <app-vf-custom-select
-            [isDisabled]="isBusinessDivisionEnable"
-            [values]="businessDivisionArray"
-            formControlName="bizDivision"
-            (change)="getProductCategory($event)"
-          >
+          <app-vf-custom-select [isDisabled]="isBusinessDivisionEnable" [values]="businessDivisionArray"
+            formControlName="bizDivision" (change)="getProductCategory($event)">
           </app-vf-custom-select>
-        </div>  
-        
+        </div>
+
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="scheme_type">{{ labels.priority }}</label>
-          <app-vf-custom-select
-            [values]="[
+          <app-vf-custom-select [values]="[
               { key: '1', value: 'Yes' },
               { key: '0', value: 'No' }
-            ]"
-            formControlName="priority"
-          >
+            ]" formControlName="priority">
           </app-vf-custom-select>
         </div>      
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -46,73 +35,41 @@
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="product_type">{{ labels.productCategory }}</label>
-          <app-vf-custom-select
-            [values]="productCategoryData"
-            formControlName="productCategory"
-            (change)="productCategory($event, true)"
-            [isRequired]="'Product Category required'"
-            [isDirty]="isDirty"
-          >
+          <app-vf-custom-select [values]="productCategoryData" formControlName="productCategory"
+            (change)="productCategory($event, true)" [isRequired]="'Product Category required'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
 
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="product_type">{{ labels.product }}</label>
-          <app-vf-custom-select 
-            [values]="productCategorySelectedList" 
-            formControlName="product"
-            (change)="productChange($event)"
-            [isRequired]="'Product required'"
-            [isDirty]="isDirty">
+          <app-vf-custom-select [values]="productCategorySelectedList" formControlName="product"
+            (change)="productChange($event)" [isRequired]="'Product required'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
 
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="fundingProgram">{{ labels.fundingProgram }}</label>
-          <app-vf-custom-select 
-            [values]="fundingProgramData" 
-            formControlName="fundingProgram"
-            [isRequired]="'Funding Program required'"
-            [isDirty]="isDirty">
+          <app-vf-custom-select [values]="fundingProgramData" formControlName="fundingProgram"
+            [isRequired]="'Funding Program required'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
-
       </div>
 
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="lead_number">{{ labels?.leadNumber }}</label>
-          <input
-            formControlName="leadNumber"
-            type="text"
-            class="form-control mandatory"
-            id="lead_number"
-            placeholder="Lead Number"
-            name="lead_number"
-            disabled
-          />
+          <input formControlName="leadNumber" type="text" class="form-control mandatory" id="lead_number"
+            placeholder="Lead Number" name="lead_number" disabled />
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="child_loan">
           <label for="lead_date">Lead Created Date</label>
-          <input
-            formControlName="leadCreatedDate"
-            type="text"
-            class="form-control mandatory"
-            id="lead_date"
-            placeholder="lead Created date"
-            name="lead_date"
-          />
+          <input formControlName="leadCreatedDate" type="text" class="form-control mandatory" id="lead_date"
+            placeholder="lead Created date" name="lead_date" />
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="scheme_type">
           <label for="lead_created_by">{{ labels?.leadCreatedBy }}</label>
-          <input
-            formControlName="leadCreatedBy"
-            type="text"
-            class="form-control mandatory select2"
-            id="lead_created_by"
-            placeholder="Lead Created By"
-            name="lead_created_by"
-          />
+          <input formControlName="leadCreatedBy" type="text" class="form-control mandatory select2" id="lead_created_by"
+            placeholder="Lead Created By" name="lead_created_by" />
         </div>
       </div>
 
@@ -122,20 +79,12 @@
           <!-- <app-vf-custom-select 
                   [values]="values?.leadHandledBY" 
                   formControlName="leadHandledBy"></app-vf-custom-select> -->
-          <input
-            disabled ="true"
-            type="text"
-            class="form-control mandatory"
-            formControlName="leadHandeledBy"
-          />
+          <input disabled="true" type="text" class="form-control mandatory" formControlName="leadHandeledBy" />
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="spoken_code">{{ labels.spokeCodeLocation }}</label>
-          <app-vf-custom-select
-            [values]="spokesCodeLocation"
-            formControlName="spokeCodeLocation"
-            [isRequired]="'spokes Code Location required'"
-          >
+          <app-vf-custom-select [values]="spokesCodeLocation" formControlName="spokeCodeLocation"
+            [isRequired]="'spokes Code Location required'">
           </app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -143,36 +92,22 @@
           <!-- <app-vf-custom-select 
                   [values]="values?.loanAccountBranch" 
                   formControlName="loanAccountBranch"></app-vf-custom-select> -->
-          <input
-            type="text"
-            class="form-control mandatory"
-            formControlName="loanBranch"
-          />
+          <input type="text" class="form-control mandatory" formControlName="loanBranch" />
         </div>
       </div>
 
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="sourcing_channel">{{ labels.sourcingChannel }}</label>
-          <app-vf-custom-select
-            [values]="sourcingChannelData"
-            formControlName="sourcingChannel"
-            (change)="sourcingChannelChange($event, true)"
-            name="sourcingChannel"
-            [isRequired]="'Sourcing Channel required'"
-            [isDirty]="isDirty"
-          >
+          <app-vf-custom-select [values]="sourcingChannelData" formControlName="sourcingChannel"
+            (change)="sourcingChannelChange($event, true)" name="sourcingChannel"
+            [isRequired]="'Sourcing Channel required'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="sourcing_type">{{ labels.sourcingType }}</label>
-          <app-vf-custom-select
-            [values]="sourchingTypeValues"
-            formControlName="sourcingType"
-            (change)="sourchingTypeChange($event)"
-            [isRequired]="'Sourcing Type required'"
-            [isDirty]="isDirty"
-          >
+          <app-vf-custom-select [values]="sourchingTypeValues" formControlName="sourcingType"
+            (change)="sourchingTypeChange($event)" [isRequired]="'Sourcing Type required'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -192,10 +127,10 @@
               [disabled]="isSourchingCode">                                           
             </ng-autocomplete>               
             <ng-template #sourcingCodeTemplate let-item>
-            <a [innerHTML]="item.value"></a>
-            </ng-template>               
+              <a [innerHTML]="item.value"></a>
+            </ng-template>
             <ng-template #notFoundTemplate let-notFound>
-            <div [innerHTML]="notFound"></div>
+              <div [innerHTML]="notFound"></div>
             </ng-template>
           </div>
         </div>
@@ -206,24 +141,19 @@
           <label for="sourcing_code">Dealer Code
             <sub class="star_blue_col">*</sub>
           </label>
-          <div class="ng-autocomplete" style="width:100%">
-            <ng-autocomplete 
-              [data]="dealerCodeData"
-              [searchKeyword]="keyword"
-              (inputChanged)='onDealerCodeSearch($event)'
-              (inputCleared)='onDealerCodeClear($event)'
-              (selected)='selectDealorEvent($event)'
-              [itemTemplate]="dealerCodeTemplate"
-              [notFoundTemplate]="notFoundTemplate"
-              formControlName="dealerCode"
-              [placeHolder]="'Dealer Code'"
-              [debounceTime]="400">                                 
-            </ng-autocomplete>               
+          <div class="ng-autocomplete" style="width: 100%;"
+            [ngClass]="{ 'codeDisable disableCode': isDisabledDealerCode }">
+            <ng-autocomplete [data]="dealerCodeData" [searchKeyword]="keyword"
+              (inputChanged)="onDealerCodeSearch($event)" (inputCleared)="onDealerCodeClear($event)"
+              (selected)="selectDealorEvent($event)" [itemTemplate]="dealerCodeTemplate"
+              [notFoundTemplate]="notFoundTemplate" formControlName="dealerCode" [placeHolder]="'Dealer Code'"
+              [debounceTime]="400" [disabled]="isDisabledDealerCode">
+            </ng-autocomplete>
             <ng-template #dealerCodeTemplate let-item>
-            <a [innerHTML]="item.dealorName"></a>
-            </ng-template>               
+              <a [innerHTML]="item.dealorName"></a>
+            </ng-template>
             <ng-template #notFoundTemplate let-notFound>
-            <div [innerHTML]="notFound"></div>
+              <div [innerHTML]="notFound"></div>
             </ng-template>
           </div>
         </div>
@@ -245,44 +175,32 @@
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="spoken_code">{{ labels.requestedAmount }}</label>
           <sub class="star_red_col">*</sub>
-          <app-custom-input
-              formControlName="reqLoanAmt"
-              [className]="'form-control mandatory'"
-              [placeholder]="'Requested Amount'"
-              [maxLength]="amountLength"
-              [isRequired]="'Required Amount is mandatory'"
-              [patternCheck]="regexPattern.amount"
-              [isDirty]="isDirty"
-              [type]="'number'"
-              [custom]="tenureAmountValidation"
-              >
-            </app-custom-input>
+          <app-custom-input formControlName="reqLoanAmt" [className]="'form-control mandatory'"
+            [placeholder]="'Requested Amount'" [maxLength]="amountLength" [isRequired]="'Required Amount is mandatory'"
+            [patternCheck]="regexPattern.amount" [isDirty]="isDirty" [type]="'number'">
+          </app-custom-input>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_branch">{{ labels.requestedTenor }}</label>
           <sub class="star_red_col">*</sub>
-          <app-custom-input
-              formControlName="requestedTenor"
-              [className]="'form-control mandatory'"
-              [placeholder]="'Requested Tenor'"
-              [maxLength]="tenureMonthLength"
-              [isRequired]="'Required Tenor is mandatory'"
-              [patternCheck]="regexPattern.amount"
-              [isDirty]="isDirty"
-              [type]="'number'"
-              [custom]="tenureMonthlyValidation"
-              >
-            </app-custom-input>
+          <app-custom-input formControlName="requestedTenor" [className]="'form-control mandatory'"
+            [placeholder]="'Requested Tenor'" [maxLength]="tenureMonthLength"
+            [isRequired]="'Required Tenor is mandatory'" [patternCheck]="regexPattern.amount" [isDirty]="isDirty"
+            [type]="'number'" [custom]="tenureMonthlyValidation">
+          </app-custom-input>
         </div>
       </div>
     </div>
   </form>
 </div>
 <div class="btn-sec clear-both row btn-mar-15" id="clickButton">
-    <div class="col-sm-5">
-    </div>
-    <div class="col-sm-7 text-right p-0" style="padding-bottom: 2vw;">
-        <button (click)="saveAndUpdate()" class="btn btn-primary " type="button">Save </button>
-        <button (click)="nextToApplicant()"  class="btn btn-primary -btn-next" type="button"> Next </button>
-    </div>
+  <div class="col-sm-5"></div>
+  <div class="col-sm-7 text-right p-0" style="padding-bottom: 2vw;">
+    <button (click)="saveAndUpdate()" class="btn btn-primary" type="button" *ngIf="!(operationType === '1')">
+      Save
+    </button>
+    <button (click)="nextToApplicant()" class="btn btn-primary -btn-next" type="button">
+      Next
+    </button>
+  </div>
 </div>

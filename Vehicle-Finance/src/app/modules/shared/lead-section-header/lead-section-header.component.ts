@@ -6,6 +6,7 @@ import { SharedService } from '@shared/shared-service/shared-service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 import { LeadStoreService } from '@services/lead-store.service';
 import { Location } from '@angular/common';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-lead-section-header',
@@ -22,6 +23,8 @@ export class LeadSectionHeaderComponent implements OnInit {
   loanAmount: Number;
   stageDescription: string;
 
+  isEnableDdeButton: boolean;
+  isDdeModule: boolean;
   constructor(
     private labelsData: LabelsService,
     public router: Router,
@@ -30,7 +33,8 @@ export class LeadSectionHeaderComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private aRoute: ActivatedRoute,
     private leadStoreService: LeadStoreService,
-    private location: Location
+    private location: Location,
+    private toggleDdeService: ToggleDdeService
   ) {
     // this.aRoute.parent.params.subscribe(value => this.leadId = Number(value.leadId))
     this.leadId = this.aRoute.snapshot.params['leadId'];
@@ -38,6 +42,8 @@ export class LeadSectionHeaderComponent implements OnInit {
 
   ngOnInit() {
     // this.leadId = (await this.getLeadId()) as number;
+    const operationType = this.toggleDdeService.getOperationType()
+    this.isEnableDdeButton = !this.toggleDdeService.getDdeClickedValue() && (operationType === '1' || operationType === '2');
     this.getLabels();
     if (this.leadId) {
       // console.log(this.aRoute.snapshot)
@@ -100,5 +106,10 @@ export class LeadSectionHeaderComponent implements OnInit {
   saveCurrentUrl() {
     const currentUrl = this.location.path();
     localStorage.setItem('currentUrl', currentUrl);
+  }
+
+  viewOrEditDde() {
+    this.toggleDdeService.setIsDDEClicked();
+    this.isEnableDdeButton = false;
   }
 }

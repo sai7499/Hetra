@@ -24,6 +24,7 @@ import { Constant } from '../../../../assets/constants/constant';
 import { UtilityService } from '@services/utility.service';
 import { ToasterService } from '@services/toaster.service'
 import { ControlPosition } from '@agm/core';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-identity-details',
@@ -31,6 +32,7 @@ import { ControlPosition } from '@agm/core';
   styleUrls: ['./identity-details.component.css'],
 })
 export class IdentityDetailsComponent implements OnInit {
+  disableSaveBtn: boolean;
   labels: any = {};
   validationData: any = {}
   lov: any = {};
@@ -44,6 +46,7 @@ export class IdentityDetailsComponent implements OnInit {
   isDirty: boolean;
   drivingLicenceDates: boolean;
   passportDates: boolean;
+  referenceNo : string;
 
   panPattern = {
     rule: '[A-Z]{3}(P)[A-Z]{1}[0-9]{4}[A-Z]{1}',
@@ -64,7 +67,8 @@ export class IdentityDetailsComponent implements OnInit {
     private leadStoreService: LeadStoreService,
     private location: Location,
     private utilityService: UtilityService,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private toggleDdeService: ToggleDdeService
   ) { }
 
   navigateToApplicantList() {
@@ -106,6 +110,11 @@ export class IdentityDetailsComponent implements OnInit {
     });
     this.addIndividualFormControls();
     this.getLov();
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      this.identityForm.disable();
+      this.disableSaveBtn  = true;
+    }
   }
 
   getLeadId() {
@@ -234,7 +243,7 @@ export class IdentityDetailsComponent implements OnInit {
     this.addNonIndividualFormControls();
   }
 
-  onSave() { }
+  
 
   storeNonIndividualValueInService() {
     const value = this.identityForm.getRawValue();
@@ -335,6 +344,27 @@ export class IdentityDetailsComponent implements OnInit {
     }
     date = date.split('/').reverse().join('-');
     return date;
+  }
+
+  onRetreiveAdhar(){
+    const formArray = this.identityForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    const value = this.indivIdentityInfoDetails;
+    this.referenceNo= value.aadhar;
+    this.applicantService.retreiveAdhar(this.referenceNo).subscribe((res)=>{
+         if(res['ProcessVariables'].error.code=="0"){
+          const uid= res['ProcessVariables'].uid;
+          details.get('aadhar').setValue(uid)
+         }
+    })
+  }
+
+  onRelieve(){
+    const value = this.indivIdentityInfoDetails;
+    this.referenceNo= value.aadhar;
+    const formArray = this.identityForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    details.get('aadhar').setValue(this.referenceNo);
   }
 
   onSubmit() {

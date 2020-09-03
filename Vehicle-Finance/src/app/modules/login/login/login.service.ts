@@ -6,6 +6,7 @@ import RequestEntity from '@model/request.entity';
 import { environment } from 'src/environments/environment';
 import { ApiService } from '@services/api.service';
 
+
 declare var google: any;
 
 @Injectable()
@@ -14,7 +15,7 @@ export class LoginService {
   constructor(
     private httpService: HttpService,
     private loginService: LoginStoreService,
-    private apiService: ApiService
+    private apiService: ApiService,
   ) {}
 
   getLogin(data) {
@@ -48,37 +49,35 @@ export class LoginService {
     return this.httpService.post(url, body);
   }
 
-  getPolyLine(fn, origin?, destination?) {
-    // let url = "https://maps.googleapis.com/maps/api/directions/json?origin=12.96186,80.20078&destination=12.98714,80.17511&key=AIzaSyDJ9TZyUZNB2uY_267eIUQCV72YiYmArIw";
-    // return this.httpService.get(url);
+  getPolyLine(fn, origin, destination) {
     let that =  this;
-
-    origin = {
-      lat: 12.96186,
-      lng:  80.20078
-    };
-    destination = {
-      lat: 12.98714,
-      lng: 80.17511
-    };
+  //  let origin = {
+  //     latitude: 12.96186,
+  //     longitude:  80.20078
+  //   };
+  // let  destination = {
+  //     latitude: 12.98714,
+  //     longitude: 80.17511
+  //   };
 
     let directionsService = new google.maps.DirectionsService();
     var request = {
-      origin: new google.maps.LatLng(origin.lat, origin.lng),
-      destination: new google.maps.LatLng(destination.lat, destination.lng),
+      origin: new google.maps.LatLng(origin.latitude, origin.longitude),
+      destination: new google.maps.LatLng(destination.latitude, destination.longitude),
       travelMode: 'DRIVING'
     };
 
     directionsService.route(request, function(result, status) {
       if (status == 'OK') {
-        // console.log(result);
+        console.log(result);
+        console.log("distance",result.routes[0].legs[0].distance.text);
         // console.log(result.routes[0].overview_polyline);
         let polyline = result.routes[0].overview_polyline;
 
         let mapUrl = "https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=400x400"+
-          "&markers=color:blue%7Clabel:S%7C12.96186,80.20078&"+
-          "&markers=color:red%7Clabel:C%7C12.98714,80.17511&"+
-          "&center=12.96186,80.20078"+
+          "&markers=color:blue%7Clabel:S%7C"+origin.latitude+","+origin.longitude+"&"+
+          "&markers=color:red%7Clabel:C%7C"+destination.latitude+","+destination.longitude+"&"+
+          "&center="+origin.latitude+","+origin.longitude+
           "&path=color:red|weight:3|"+
           "enc:"+polyline+
           "&key=AIzaSyDJ9TZyUZNB2uY_267eIUQCV72YiYmArIw";
@@ -88,7 +87,6 @@ export class LoginService {
           this.base64Image = 'data:image/jpg;base64,' + base64data;
           return fn(this.base64Image);
         });
-
 
         // return encodeURI(polyline);
       }

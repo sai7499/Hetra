@@ -10,6 +10,7 @@ import { PdDataService } from '../pd-data.service';
 import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   templateUrl: './applicant-details.component.html',
@@ -42,6 +43,8 @@ export class ApplicantDetailComponent implements OnInit {
   leadData: {};
   roleId: any;
   roleType: any;
+  disableSaveBtn: boolean;
+  operationType: string;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -52,7 +55,9 @@ export class ApplicantDetailComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private pdDataService: PdDataService,
     private toasterService: ToasterService,
-    private createLeadDataService: CreateLeadDataService) { }
+    private createLeadDataService: CreateLeadDataService,
+    private toggleDdeService: ToggleDdeService
+  ) { }
 
   async ngOnInit() {
 
@@ -81,6 +86,11 @@ export class ApplicantDetailComponent implements OnInit {
       this.applicantLov = value ? value[0].applicantDetails[0] : {};
       //  this.setFormValue();
     });
+    this.operationType = this.toggleDdeService.getOperationType();
+    if (this.operationType === '1') {
+      this.applicantForm.disable();
+      this.disableSaveBtn = true;
+    }
 
   }
   getLeadId() {  // fun to get lead id from router
@@ -149,6 +159,7 @@ export class ApplicantDetailComponent implements OnInit {
       gender: new FormControl('', Validators.required),
       maritalStatus: new FormControl('', Validators.required),
       physicallyChallenged: new FormControl('', Validators.required),
+      // dependants: new FormControl('', Validators.required),
       residancePhoneNumber: new FormControl('', Validators.required),
       officePhoneNumber: new FormControl('', Validators.required),
       // mobile: new FormControl({ value: this.mobileNo, disabled: true }),
@@ -178,6 +189,7 @@ export class ApplicantDetailComponent implements OnInit {
       gender: applicantModal.gender || '',
       maritalStatus: applicantModal.maritalStatus || '',
       physicallyChallenged: applicantModal.physicallyChallenged || '',
+      // dependants: applicantModal.dependants || '',
       residancePhoneNumber: applicantModal.residancePhoneNumber || '',
       officePhoneNumber: applicantModal.officePhoneNumber || '',
       mobile: applicantModal.mobile || this.mobileNo || '',
@@ -216,6 +228,10 @@ export class ApplicantDetailComponent implements OnInit {
   }
 
   onFormSubmit(action) { // fun that submits all the pd data
+    if (this.operationType === '1') {
+      this.onNavigateNext();
+      return;
+    }
     const formModal = this.applicantForm.value;
     const applicantFormModal = { ...formModal };
     // console.log('Form Data', applicantFormModal);
@@ -232,6 +248,7 @@ export class ApplicantDetailComponent implements OnInit {
       gender: applicantFormModal.gender,
       maritalStatus: applicantFormModal.maritalStatus,
       physicallyChallenged: applicantFormModal.physicallyChallenged,
+      // dependants: applicantFormModal.dependants,
       residancePhoneNumber: applicantFormModal.residancePhoneNumber,
       officePhoneNumber: applicantFormModal.officePhoneNumber,
       mobile: this.mobileNo,
@@ -266,7 +283,7 @@ export class ApplicantDetailComponent implements OnInit {
       if (processVariables.error.code === '0') {
         const message = processVariables.error.message;
         this.toasterService.showSuccess('Record Saved Successfully', '');
-        this.getPdDetails()
+        this.getPdDetails();
         // this.toasterService.showSuccess(message, '');
         if (action === 'save') {
 
@@ -311,7 +328,7 @@ export class ApplicantDetailComponent implements OnInit {
 
   onNavigateBack() {
     console.log('in nav back', this.version);
-    if (this.version) {
+    if (this.version != 'undefined') {
       this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
     } else {
       this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`);

@@ -252,8 +252,15 @@
                             </td>
                             <td style="min-width: 120px;">
                                 <div>
-                                    <app-custom-input formControlName="paid" [className]="'form-control mandatory'" [placeholder]="'paid'" [maxLength]="validationData?.tenurePaid['maxLength']" [isRequired]="'Paid is mandatory'" [type]="validationData?.tenurePaid['type']" [isDirty]="isDirty"
-                                        (keyup)="checkPaid(event ,i)">
+                                    <app-custom-input formControlName="paid"
+                                     [className]="'form-control mandatory'"
+                                      [placeholder]="'paid'"
+                                       [maxLength]="validationData?.tenurePaid['maxLength']" 
+                                       [isRequired]="'Paid is mandatory'"
+                                        [type]="validationData?.tenurePaid['type']" 
+                                        [isDirty]="isDirty"
+                                        (keyup)="checkPaid(event ,i)"
+                                        (change) = "calcSeasoning(event ,i)">
                                     </app-custom-input>
 
                                     <div class="cus-mandatory-field" *ngIf="itemrow.controls['paid'].errors && itemrow.controls['paid'].errors['incorrect']">
@@ -315,8 +322,8 @@
                                             <i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant"
                                                 (click)="deleteRow(i)"></i></td> -->
                             <td>
-                                <button class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add" (click)="addNewRow()"></button>
-                                <button type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete" (click)="deleteRow(i,fleetForm.value.Rows)"></button>
+                                <button class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add" [disabled]="disableSaveBtn" (click)="addNewRow()"></button>
+                                <button type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" [disabled]="disableSaveBtn" value="Delete" (click)="deleteRow(i,fleetForm.value.Rows)"></button>
                             </td>
                         </tr>
                     </tbody>
@@ -335,7 +342,7 @@
         </div>
         <div class="col-sm-7 text-right ">
             <button class="btn btn-primary " type="button" (click)="toCollaterals()">Back</button>
-            <button class="btn btn-primary " type="button" (click)="onFormSubmit(i)">Save </button>
+            <button class="btn btn-primary " type="button" (click)="onFormSubmit(i)" *ngIf="!disableSaveBtn">Save </button>
             <button class="btn btn-primary js-btn-next" type="button" (click)="onFormSubmit('next')"> Next </button>
         </div>
     </div>

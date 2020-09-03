@@ -16,6 +16,7 @@ import { UtilityService } from '@services/utility.service';
 import { ToasterService } from '@services/toaster.service';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 import { debounce } from 'rxjs/operators';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-sourcing-details',
@@ -23,6 +24,7 @@ import { debounce } from 'rxjs/operators';
   styleUrls: ['./sourcing-details.component.css'],
 })
 export class SourcingDetailsComponent implements OnInit {
+  isDisabledDealerCode: boolean;
   labels: any = {};
   sourcingDetailsForm: FormGroup;
   LOV: any;
@@ -68,7 +70,7 @@ export class SourcingDetailsComponent implements OnInit {
   fundingProgramData = [];
   sourcingChannelData = [];
   socuringTypeData = [];
-  sourcingCodeData: Array<{ key: string, value: string }> = [];
+  sourcingCodeData: Array<{ key: string; value: string }> = [];
   dealerCodeData: Array<any> = [];
   leadData$: BehaviorSubject<any> = new BehaviorSubject([]);
 
@@ -86,8 +88,8 @@ export class SourcingDetailsComponent implements OnInit {
   selectedLoanType: string;
 
   tenureMonthlyValidation: {
-    rule?: any,
-    msg?: string
+    rule?: any;
+    msg?: string;
   }[];
 
   tenureAmountValidation: {
@@ -101,19 +103,19 @@ export class SourcingDetailsComponent implements OnInit {
   sourcingCodeObject: {
     key: string;
     value: string;
-  }
+  };
 
   dealorCodeObject: {
     key: string;
     value: string;
-  }
+  };
 
   regexPattern = {
     amount: {
-      rule: "^[1-9][0-9]*$",
-      msg: 'Invalid Amount / Alphabets and Special Characters not allowed'
-    }
-  }
+      rule: '^[1-9][0-9]*$',
+      msg: 'Invalid Amount / Alphabets and Special Characters not allowed',
+    },
+  };
 
   amountLength: number;
   tenureMonthLength: number;
@@ -129,9 +131,9 @@ export class SourcingDetailsComponent implements OnInit {
     sourcingChannel: string;
     sourcingType: string;
     sourcingCode: string;
-    sourcingCodeDesc?: string,
+    sourcingCodeDesc?: string;
     dealorCode: string;
-    dealorCodeDesc?: string,
+    dealorCodeDesc?: string;
     spokeCode: number;
     loanBranch: number;
     leadHandeledBy: number;
@@ -143,6 +145,7 @@ export class SourcingDetailsComponent implements OnInit {
     userId: number;
     leadId: number;
   };
+  operationType: string;
 
   constructor(
     private leadSectionService: VehicleDetailService,
@@ -158,17 +161,18 @@ export class SourcingDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private location: Location,
     private utilityService: UtilityService,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private toggleDdeService: ToggleDdeService
   ) {
     this.sourcingCodeObject = {
       key: '',
-      value: ''
-    }
+      value: '',
+    };
 
     this.dealorCodeObject = {
       key: '',
-      value: ''
-    }
+      value: '',
+    };
   }
 
   ngOnInit() {
@@ -178,7 +182,14 @@ export class SourcingDetailsComponent implements OnInit {
     this.getSourcingChannel();
 
     this.tenureMonthlyValidation = this.loanTenureMonth();
-    // this.tenureAmountValidation = this.loanTenureAmount();
+
+    this.operationType = this.toggleDdeService.getOperationType();
+
+    // if (operationType === '1') {
+    //   this.sourcingDetailsForm.disable();
+    //   this.isSourchingCode = true;
+    //   this.isDisabledDealerCode = true;
+    // }
   }
 
   getLabels() {
@@ -220,7 +231,9 @@ export class SourcingDetailsComponent implements OnInit {
       ? roleAndUserDetails.userDetails.parentBranch
       : null;
     this.sourcingDetailsForm.patchValue({ loanBranch: this.loanAccountBranch });
-    this.sourcingDetailsForm.patchValue({ leadHandeledBy: this.leadHandeledBy });
+    this.sourcingDetailsForm.patchValue({
+      leadHandeledBy: this.leadHandeledBy,
+    });
   }
 
   async getLeadSectionData() {
@@ -256,7 +269,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.dealorCodeValue = data.leadDetails.dealorCodeDesc;
 
     const priorityFromLead = data.leadDetails.priority;
-    this.leadId = (data.leadId) ? data.leadId : data.leadDetails.leadId;
+    this.leadId = data.leadId ? data.leadId : data.leadDetails.leadId;
 
     const sourchingType = this.leadData.leadDetails.sourcingType;
     this.sourchingTypeFromLead = sourchingType;
@@ -287,18 +300,26 @@ export class SourcingDetailsComponent implements OnInit {
     this.getBusinessDivision(businessDivisionFromLead);
     this.sourcingDetailsForm.patchValue({ priority: priorityFromLead });
     this.sourcingDetailsForm.patchValue({ leadNumber: this.leadId });
-    this.sourcingDetailsForm.patchValue({ leadCreatedDate: this.leadCreatedDateFromLead });
+    this.sourcingDetailsForm.patchValue({
+      leadCreatedDate: this.leadCreatedDateFromLead,
+    });
   }
 
   patchSourcingDetails(data) {
-    this.sourcingDetailsForm.patchValue({ sourcingChannel: this.sourchingChannelFromLead });
+    this.sourcingDetailsForm.patchValue({
+      sourcingChannel: this.sourchingChannelFromLead,
+    });
 
     this.sourchingTypeChange(this.sourchingTypeFromLead);
-    this.sourcingDetailsForm.patchValue({ sourcingType: this.sourchingTypeFromLead });
+    this.sourcingDetailsForm.patchValue({
+      sourcingType: this.sourchingTypeFromLead,
+    });
 
     this.sourcingCodeKey = data.leadDetails.sourcingCode;
     this.sourcingCodeValue = data.leadDetails.sourcingCodeDesc;
-    this.sourcingDetailsForm.patchValue({ sourcingCode: this.sourcingCodeValue });
+    this.sourcingDetailsForm.patchValue({
+      sourcingCode: this.sourcingCodeValue,
+    });
   }
 
   getBusinessDivision(bizDivision) {
@@ -335,7 +356,9 @@ export class SourcingDetailsComponent implements OnInit {
         );
         this.productCategory(this.productCategoryFromLead, false);
       });
-    this.sourcingDetailsForm.patchValue({ productCategory: this.productCategoryFromLead });
+    this.sourcingDetailsForm.patchValue({
+      productCategory: this.productCategoryFromLead,
+    });
     this.sourcingDetailsForm.patchValue({ product: this.productFromLead });
   }
 
@@ -348,15 +371,18 @@ export class SourcingDetailsComponent implements OnInit {
     this.productCategorySelectedList = [];
     const productCategorySelected = isBool ? event.target.value : event;
     this.productCategorySelectedList = this.utilityService.getValueFromJSON(
-      this.productCategoryList.filter(data => data.productCatCode === productCategorySelected),
+      this.productCategoryList.filter(
+        (data) => data.productCatCode === productCategorySelected
+      ),
       'assetProdcutCode',
-      'assetProdutName');
+      'assetProdutName'
+    );
     if (isBool === true) {
       this.sourcingDetailsForm.patchValue({ product: '' });
     }
 
     if (productCategorySelected) {
-      this.productCategoryData.map(data => {
+      this.productCategoryData.map((data) => {
         if (data.key === productCategorySelected) {
           this.productCategoryChanged = data.value;
           this.productCategoryLoanAmount = productCategorySelected;
@@ -369,37 +395,40 @@ export class SourcingDetailsComponent implements OnInit {
 
   productChange(event) {
     this.fundingProgramData = [];
-    const productChange = (event.target) ? event.target.value : event;
+    const productChange = event.target ? event.target.value : event;
     console.log('productChange', productChange);
 
-    this.createLeadService.fundingPrograming(productChange).subscribe((res: any) => {
-      const response = res;
-      const appiyoError = response.Error;
-      const apiError = response.ProcessVariables.error.code;
+    this.createLeadService
+      .fundingPrograming(productChange)
+      .subscribe((res: any) => {
+        const response = res;
+        const appiyoError = response.Error;
+        const apiError = response.ProcessVariables.error.code;
 
-      if (appiyoError === '0' && apiError === '0') {
-        const data = response.ProcessVariables.fpList;
-        this.fundingProgramData = [];
-        if (data) {
-          data.map((ele) => {
-            const datas = {
-              key: ele.fpId,
-              value: ele.fpDescription,
-            };
-            this.fundingProgramData.push(datas);
-          });
-        }
+        if (appiyoError === '0' && apiError === '0') {
+          const data = response.ProcessVariables.fpList;
+          this.fundingProgramData = [];
+          if (data) {
+            data.map((ele) => {
+              const datas = {
+                key: ele.fpId,
+                value: ele.fpDescription,
+              };
+              this.fundingProgramData.push(datas);
+            });
+          }
 
-        console.log('dataa', this.fundingProgramData);
-        console.log('dataaa', this.fundingProgramFromLead);
-        if (!event.target) {
-          this.sourcingDetailsForm.patchValue({ fundingProgram: this.fundingProgramFromLead });
+          console.log('dataa', this.fundingProgramData);
+          console.log('dataaa', this.fundingProgramFromLead);
+          if (!event.target) {
+            this.sourcingDetailsForm.patchValue({
+              fundingProgram: this.fundingProgramFromLead,
+            });
+          }
         }
-      }
-    });
+      });
     this.sourcingDetailsForm.patchValue({ fundingProgram: '' });
   }
-
 
   getSourcingChannel() {
     this.createLeadService.getSourcingChannel().subscribe((res: any) => {
@@ -409,7 +438,8 @@ export class SourcingDetailsComponent implements OnInit {
       this.sourcingChannelData = this.utilityService.getValueFromJSON(
         this.sourcingData,
         'sourcingChannelId',
-        'sourcingChannelDesc');
+        'sourcingChannelDesc'
+      );
       this.sourcingChannelChange(this.sourchingChannelFromLead, false);
       this.patchSourcingDetails(this.leadData);
     });
@@ -419,7 +449,9 @@ export class SourcingDetailsComponent implements OnInit {
     this.sourchingTypeValues = [];
     this.sourcingChange = fromLead ? event.target.value : event;
     this.sourchingTypeValues = this.utilityService.getValueFromJSON(
-      this.sourcingData.filter(data => data.sourcingChannelId === this.sourcingChange),
+      this.sourcingData.filter(
+        (data) => data.sourcingChannelId === this.sourcingChange
+      ),
       'sourcingTypeId',
       'sourcingTypeDesc'
     );
@@ -445,10 +477,14 @@ export class SourcingDetailsComponent implements OnInit {
 
   sourchingTypeChange(event) {
     const sourchingTypeId = event.target ? event.target.value : event;
-    this.socuringTypeData = this.sourcingData.filter(data => data.sourcingTypeId === sourchingTypeId);
-    this.placeholder = this.utilityService.getValueFromJSON(this.socuringTypeData,
+    this.socuringTypeData = this.sourcingData.filter(
+      (data) => data.sourcingTypeId === sourchingTypeId
+    );
+    this.placeholder = this.utilityService.getValueFromJSON(
+      this.socuringTypeData,
       'sourcingCodeType',
-      'sourcingCode');
+      'sourcingCode'
+    );
     console.log('placeholder', this.placeholder);
     this.sourcingDetailsForm.controls.sourcingCode.reset();
     this.sourcingCodePlaceholder = this.placeholder[0].value;
@@ -457,17 +493,21 @@ export class SourcingDetailsComponent implements OnInit {
     } else {
       this.isSourchingCode = false;
     }
+    this.onFormDisable();
   }
 
   onSourcingCodeSearch(event) {
     let inputString = event;
     let sourcingCode = [];
     console.log('inputString', event);
-    sourcingCode = this.socuringTypeData.filter(data => data.sourcingCodeType === this.placeholder[0].key)
+    sourcingCode = this.socuringTypeData.filter(
+      (data) => data.sourcingCodeType === this.placeholder[0].key
+    );
     console.log('sourcingCode', sourcingCode);
     let sourcingCodeType: string = sourcingCode[0].sourcingCodeType;
     let sourcingSubCodeType: string = sourcingCode[0].sourcingSubCodeType;
-    this.createLeadService.sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString)
+    this.createLeadService
+      .sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString)
       .subscribe((res: any) => {
         const response = res;
         const appiyoError = response.Error;
@@ -548,17 +588,17 @@ export class SourcingDetailsComponent implements OnInit {
   loanTenureMonth() {
     const loanTenure = [
       {
-        rule: month => {
+        rule: (month) => {
           return month < 12;
         },
-        msg: 'Month should be greater than or equal to 12'
+        msg: 'Month should be greater than or equal to 12',
       },
       {
-        rule: month => {
+        rule: (month) => {
           return month > 72;
         },
-        msg: 'Month should be lesser than or equal to 72'
-      }
+        msg: 'Month should be lesser than or equal to 72',
+      },
     ];
     return loanTenure;
   }
@@ -579,9 +619,20 @@ export class SourcingDetailsComponent implements OnInit {
     return loanAmount;
   }
 
+  onFormDisable() {
+    if (this.operationType === '1') {
+      this.sourcingDetailsForm.disable();
+      this.isSourchingCode = true;
+      this.isDisabledDealerCode = true;
+    }
+  }
+
   saveAndUpdate() {
     const formValue = this.sourcingDetailsForm.getRawValue();
-    console.log('this.sourcingDetailsForm.value', this.sourcingDetailsForm.valid);
+    console.log(
+      'this.sourcingDetailsForm.value',
+      this.sourcingDetailsForm.valid
+    );
     this.isDirty = true;
     if (this.sourcingDetailsForm.valid === true) {
       const saveAndUpdate: any = { ...formValue };
@@ -636,8 +687,45 @@ export class SourcingDetailsComponent implements OnInit {
           this.toasterService.showError(response.ProcessVariables.error.message, 'Lead Details');
         }
       });
+      this.leadDetail
+        .saveAndUpdateLead(this.saveUpdate)
+        .subscribe((res: any) => {
+          const response = res;
+          console.log('saveUpdate Response', response);
+          const appiyoError = response.Error;
+          const apiError = response.ProcessVariables.error.code;
+
+          if (appiyoError === '0' && apiError === '0') {
+            this.toasterService.showSuccess(
+              'Record Saved Successfully !',
+              'Lead Details'
+            );
+            this.sharedService.changeLoanAmount(
+              Number(saveAndUpdate.reqLoanAmt)
+            );
+            this.sharedService.leadDataToHeader(this.productCategoryChanged);
+            const dataa = {
+              ...this.saveUpdate,
+              sourcingCodeDesc: this.sourcingCodeValue,
+              dealorCodeDesc: this.dealorCodeValue,
+            };
+            const data = {
+              leadDetails: dataa,
+            };
+            this.createLeadDataService.setLeadDetailsData(data);
+            this.isSaved = true;
+          } else {
+            this.toasterService.showError(
+              response.ProcessVariables.error.message,
+              'Lead Details'
+            );
+          }
+        });
     } else {
-      this.toasterService.showError('Please fill all mandatory fields.', 'Lead Details');
+      this.toasterService.showError(
+        'Please fill all mandatory fields.',
+        'Lead Details'
+      );
     }
   }
 
@@ -647,25 +735,37 @@ export class SourcingDetailsComponent implements OnInit {
 
   nextToApplicant() {
     this.isDirty = true;
-    if (this.sourcingDetailsForm.valid === true) {
-      if (!this.isSaved) {
-        this.saveAndUpdate();
-      }
-      const currentUrl = this.location.path();
-      if (currentUrl.includes('sales')) {
-        this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
-        return;
-      }
-      if (currentUrl.includes('dde')) {
-        this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
-        return;
-      }
-      this.router.navigateByUrl(
-        `/pages/lead-section/${this.leadId}/applicant-details`
-      );
-    } else {
-      this.toasterService.showError('Please fill all mandatory fields.', 'Lead Details');
+    console.log('testform', this.sourcingDetailsForm);
+    if(this.operationType === '1'){
+     this.onNavigate(); 
+     return
     }
+    if (this.sourcingDetailsForm.valid === true) {
+      if (!this.isSaved) {       
+          this.saveAndUpdate();
+      }
+      this.onNavigate(); 
+    } else {
+      this.toasterService.showError(
+        'Please fill all mandatory fields.',
+        'Lead Details'
+      );
+    }
+  }
+
+  onNavigate(){
+    const currentUrl = this.location.path();
+    if (currentUrl.includes('sales')) {
+      this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
+      return;
+    }
+    if (currentUrl.includes('dde')) {
+      this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
+      return;
+    }
+    this.router.navigateByUrl(
+      `/pages/lead-section/${this.leadId}/applicant-details`
+    );
   }
 
   getLeadId() {

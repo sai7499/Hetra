@@ -40,6 +40,7 @@ export class CreditConditionsComponent implements OnInit {
         defferedDate: null
   }
   disableControl: boolean;
+  alertMsg;
   roleType: any;
   salesResponse = 'false';
   constructor(
@@ -95,6 +96,9 @@ export class CreditConditionsComponent implements OnInit {
       this.labels = labelsData;
       console.log(this.labels.creditCondition);
     })
+  }
+  alertMessage(data){
+    this.alertMsg =  data
   }
   dateCheck(event, i) {
     // alert(event.target.value)
@@ -329,6 +333,9 @@ export class CreditConditionsComponent implements OnInit {
       console.log(res);
       if(res['ProcessVariables'].error['code'] == 0){
         this.toasterService.showSuccess("Record " + data + " successfully!", '')
+      }else{
+        this.toasterService.showError(res['ProcessVariables'].error['message'], '')
+
       }
     })
   }
@@ -341,6 +348,8 @@ export class CreditConditionsComponent implements OnInit {
       console.log(res);
       if(res['ProcessVariables'].error['code'] == 0){
         this.toasterService.showSuccess("Record Approved successfully!", '')
+      }else{
+        this.toasterService.showError(res['ProcessVariables'].error['message'], '')
       }
     })
   }

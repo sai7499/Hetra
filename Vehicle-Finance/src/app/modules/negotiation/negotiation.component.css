@@ -268,7 +268,9 @@ label{
     color: red;
     font-weight: 600;
 }
-
+::ng-deep .invalid-feedback {
+    padding-top: 0;
+}
 
 
 @media (min-width: 768px) {

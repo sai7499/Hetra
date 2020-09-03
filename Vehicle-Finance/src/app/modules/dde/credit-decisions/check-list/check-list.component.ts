@@ -159,7 +159,7 @@ export class CheckListComponent implements OnInit {
   get f() { return this.checklistForm.controls; }  /// total formcontrols
   get t() { return this.f.checklistArray as FormArray; } // controls of coAwnser array.error
 
-  onSave() {
+  onSave(btnType) {
   console.log(this.checklistForm.status, 'status before add validators');
   this.addValidatorsCO();
 
@@ -214,7 +214,12 @@ export class CheckListComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (res.ProcessVariables.error.code == '0') {
        this.toasterService.showSuccess('Record Saved Successfully', ' ');
-       this.getCheckList();
+       
+       if(btnType == 'submitTocpc'){
+        this.submitTocpc();
+       }else{
+        this.getCheckList(); 
+       }
      } else {
        this.toasterService.showError(res.ProcessVariables.error.message, '');
      }
@@ -322,10 +327,10 @@ onNext()  {
     this.router.navigate([`pages/dashboard`]);
     // tslint:disable-next-line: triple-equals
     } else if (this.roleType == '4') {
-      this.router.navigate([`pages/cpc-maker/${this.leadId}/term-sheet`]);
+      this.router.navigate([`pages/cpc-maker/${this.leadId}/pdc-details`]);
     // tslint:disable-next-line: triple-equals
     } else if ( this.roleType == '5') {
-    this.router.navigate([`pages/cpc-checker/${this.leadId}/term-sheet`]);
+    this.router.navigate([`pages/cpc-checker/${this.leadId}/disbursement`]);
     }
   } else {
     this.toasterService.showError('Select Mandatory Fields', ' ');
@@ -338,10 +343,10 @@ onBack() {
     this.router.navigate([`pages/credit-decisions/${this.leadId}/sanction-details`]);
     // tslint:disable-next-line: triple-equals
     } else if (this.roleType == '4') {
-      this.router.navigate([`pages/dashboard`]);
+      this.router.navigate([`pages/cpc-maker/${this.leadId}/disbursement`]);
     // tslint:disable-next-line: triple-equals
     } else if ( this.roleType == '5') {
-    this.router.navigate([`pages/dashboard`]);
+    this.router.navigate([`pages/cpc-checker/${this.leadId}/negotiation`]);
     }
 
 }
