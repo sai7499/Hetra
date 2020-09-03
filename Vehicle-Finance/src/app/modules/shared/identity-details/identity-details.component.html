@@ -38,7 +38,11 @@
                   name="passport_expiry_date"                                 
                 />
                 <span class="input-group-btn">
-                  <button class="btn btn-default">
+                  <button class="btn btn-default"
+                  (click)="onRetreiveAdhar()"
+                  (mouseleave)="onRelieve()"
+                  >
+                  
                     <i class="fa fa-credit-card"></i>
                   </button>
                 </span>
@@ -463,7 +467,9 @@
                   disabled
                 />
                 <span class="input-group-btn">
-                  <button class="btn btn-default" disabled="">
+                  <button class="btn btn-default" disabled=""
+                  (click)="onRetreiveAdhar()"
+                  (mouseleave)="onRelieve()">
                     <i class="fa fa-credit-card"></i>
                   </button>
                 </span>
@@ -556,6 +562,7 @@
       class="btn btn-primary save"
       id="save_vehicle_details"
       (click)="onSubmit()"
+      *ngIf="!disableSaveBtn"
     >
       Save
     </p>

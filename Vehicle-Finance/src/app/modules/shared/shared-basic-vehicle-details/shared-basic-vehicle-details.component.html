@@ -91,7 +91,7 @@
 
                         <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
                             formControlName="assetVariant" [isRequired]="'Asset Variant Required'" [isDirty]="isDirty"
-                            (change)="getVehicleGridValue(basicVehicleForm.get('vehicleFormArray'))">
+                            (change)="productCatoryCode === 'UCV' ? getVehicleGridValue(basicVehicleForm.get('vehicleFormArray')): ''">
                         </app-vf-custom-select>
 
                     </div>
@@ -138,15 +138,10 @@
                         <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub> </label>
 
                         <app-custom-input formControlName="ageOfAsset" [id]="'age_of_asset'"
-                            [className]="'form-control mandatory'" [placeholder]="'Age of Asset'"
-                            [isRequired]="'Age of Asset Required'" [isDirty]="isDirty" [isDisabled]="true">
+                            [className]="'form-control mandatory'" [placeholder]="'Age of Asset'" [isDisabled]="true">
                         </app-custom-input>
 
                     </div>
-
-                    <!-- </div>
-
-                <div class="row"> -->
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle"
                         *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
@@ -155,7 +150,6 @@
 
                         <app-custom-input formControlName="ageAfterTenure" [className]="'form-control mandatory'"
                             [placeholder]="'Age of vehicle at the end of tenor'" [id]="'age_of_vehicle'"
-                            [isRequired]="'Age of vehicle at the end of tenor Required'" [isDirty]="isDirty"
                             [isDisabled]="true">
                         </app-custom-input>
 
@@ -336,8 +330,6 @@
                         *ngIf="productCatoryCode === 'NCV' || productCatoryCode === 'NC'">
                         <label for="no_vehicle"> {{ label.noVehicle }} <sub class="star_red_col">*</sub> </label>
 
-                        <!-- [patternCheck]="label.validationData?.noOfVehicles.pattern" -->
-
                         <app-custom-input formControlName="noOfVehicles"
                             [type]="label.validationData?.noOfVehicles.type" [id]="'no_vehicle'"
                             [className]="'form-control mandatory'" [placeholder]="'No of vehicles'"
@@ -417,7 +409,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
                                 formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
-                                (change)="getVehicleGridValue(basicVehicleForm.get('vehicleFormArray'))"
+                                (change)="productCatoryCode === 'UCV' ? getVehicleGridValue(basicVehicleForm.get('vehicleFormArray')): ''"
                                 [isDirty]="isDirty">
                             </app-vf-custom-select>
 
@@ -433,59 +425,6 @@
                                 formControlName="assetSubVariant">
                             </app-vf-custom-select>
                         </div>
-
-                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="asset_other">{{label.assetOther}}</label>
-                            <input type="text" class="form-control mandatory " id="asset_other"
-                                placeholder="Asset - Variant - Other" name="asset_other" formControlName="assetOther">
-                        </div> -->
-
-                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} <sub
-                                    class="star_red_col">*</sub>
-                            </label>
-
-                            <kendo-datepicker class="form-control" [id]="'year_month_manufacturing'"
-                                formControlName="manuFacMonthYear" [min]="minDate" ndo-datepicker [bottomView]="'year'"
-                                [topView]="'decade'" [format]="'MMMM yyyy'" [max]="maxDate"
-                                placeholder="Year And Month Manufacturing" (valueChange)="onGetDateValue($event)">
-                            </kendo-datepicker>
-
-                            <div class="invalid-feedback"
-                                *ngIf="obj.controls['manuFacMonthYear'].touched && !obj.controls['manuFacMonthYear'].valid">
-                                <div *ngIf="obj.controls['manuFacMonthYear'].hasError('required')">
-                                    Year and Month Manufacturing Required
-                                </div>
-                            </div>
-
-                            <div class="invalid-feedback"
-                                *ngIf="obj.controls['manuFacMonthYear'].touched && customFutureDate">
-                                Invalid Date
-                            </div>
-
-                        </div> -->
-
-                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
-                            <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub> </label>
-                            <app-custom-input formControlName="ageOfAsset" [className]="'form-control mandatory'"
-                                [placeholder]="'Age of Asset'" [isRequired]="'Age of Asset Required'"
-                                [id]="'age_of_asset'" [isDirty]="isDirty" [isDisabled]="true">
-                            </app-custom-input>
-                        </div> -->
-
-                        <!-- </div>
-
-                    <div class="row"> -->
-
-                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
-                            <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
-                            </label>
-                            <app-custom-input formControlName="ageAfterTenure" [className]="'form-control mandatory'"
-                                [placeholder]="'Age of vehicle at the end of tenor'" [id]="'age_of_vehicle'"
-                                [isRequired]="'Age of vehicle at the end of tenor Required'" [isDirty]="isDirty"
-                                [isDisabled]="true">
-                            </app-custom-input>
-                        </div> -->
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
@@ -810,7 +749,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
                                 formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
-                                (change)="getVehicleGridValue(basicVehicleForm.get('vehicleFormArray'))"
+                                (change)="productCatoryCode === 'UCV' ? getVehicleGridValue(basicVehicleForm.get('vehicleFormArray')): ''"
                                 [isDirty]="isDirty">
                             </app-vf-custom-select>
 
@@ -826,59 +765,6 @@
                                 formControlName="assetSubVariant">
                             </app-vf-custom-select>
                         </div>
-
-                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="asset_other">{{label.assetOther}}</label>
-                            <input type="text" class="form-control mandatory " id="asset_other"
-                                placeholder="Asset - Variant - Other" name="asset_other" formControlName="assetOther">
-                        </div> -->
-
-                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} <sub
-                                    class="star_red_col">*</sub>
-                            </label>
-
-                            <kendo-datepicker class="form-control" [id]="'year_month_manufacturing'"
-                                formControlName="manuFacMonthYear" ndo-datepicker [bottomView]="'year'"
-                                [topView]="'decade'" [format]="'MMMM yyyy'" [min]="minDate" [max]="maxDate"
-                                placeholder="Year And Month Manufacturing" (valueChange)="onGetDateValue($event)">
-                            </kendo-datepicker>
-
-                            <div class="invalid-feedback"
-                                *ngIf="obj.controls['manuFacMonthYear'].touched && !obj.controls['manuFacMonthYear'].valid">
-                                <div *ngIf="obj.controls['manuFacMonthYear'].hasError('required')">
-                                    Year and Month Manufacturing Required
-                                </div>
-                            </div>
-
-                            <div class="invalid-feedback"
-                                *ngIf="obj.controls['manuFacMonthYear'].touched && customFutureDate">
-                                Invalid Date
-                            </div>
-
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
-                            <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub> </label>
-                            <app-custom-input formControlName="ageOfAsset" [className]="'form-control mandatory'"
-                                [placeholder]="'Age of Asset'" [isRequired]="'Age of Asset Required'"
-                                [id]="'age_of_asset'" [isDirty]="isDirty" [isDisabled]="true">
-                            </app-custom-input>
-                        </div> -->
-                        <!-- 
-                    </div>
-
-                    <div class="row"> -->
-
-                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
-                            <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
-                            </label>
-                            <app-custom-input formControlName="ageAfterTenure" [className]="'form-control mandatory'"
-                                [placeholder]="'Age of vehicle at the end of tenor'" [id]="'age_of_vehicle'"
-                                [isRequired]="'Age of vehicle at the end of tenor Required'" [isDirty]="isDirty"
-                                [isDisabled]="true">
-                            </app-custom-input>
-                        </div> -->
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
@@ -1203,7 +1089,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
                                 formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
-                                (change)="getVehicleGridValue(basicVehicleForm.get('vehicleFormArray'))"
+                                (change)="productCatoryCode === 'UCV' ? getVehicleGridValue(basicVehicleForm.get('vehicleFormArray')): ''"
                                 [isDirty]="isDirty">
                             </app-vf-custom-select>
 
@@ -1215,12 +1101,6 @@
                                 formControlName="assetSubVariant">
                             </app-vf-custom-select>
                         </div>
-
-                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="asset_other">{{label.assetOther}}</label>
-                            <input type="text" class="form-control mandatory " id="asset_other"
-                                placeholder="Asset - Variant - Other" name="asset_other" formControlName="assetOther">
-                        </div> -->
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="month_year">{{label.monthYear}} <sub class="star_red_col">*</sub></label>
@@ -1262,7 +1142,6 @@
                             </label>
                             <app-custom-input formControlName="ageAfterTenure" [className]="'form-control mandatory'"
                                 [placeholder]="'Age of vehicle at the end of tenor'" [id]="'age_of_vehicle'"
-                                [isRequired]="'Age of vehicle at the end of tenor Required'" [isDirty]="isDirty"
                                 [isDisabled]="true">
                             </app-custom-input>
                         </div>
@@ -1416,12 +1295,6 @@
                     </div>
 
                     <div class="row">
-
-                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="permit_upload">{{label.permitUpload}} </label>
-                            <input id="permit_upload" type="file" multiple formControlName="permitUpload">
-                            <div id="permit_upload_perview"></div>
-                        </div> -->
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="chassis_number">{{label.chassisNumber}}</label>
@@ -1578,22 +1451,11 @@
 
                         </div>
 
-                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="insurance_copy">{{label.uploadInsuranceCopy}} </label>
-                            <input id="insurance_copy" type="file" multiple formControlName="insuranceCopy">
-                            <div id="insurance_preview"></div>
-                            </div> -->
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 mt">
                             <label for="frsd_required">{{label.frsdRequired}} </label>
 
                             <input class="ml" type="checkbox" formControlName="fsrdFundingReq"
                                 (click)="onChangeFRSD($event)" />
-
-                            <!-- <app-custom-input formControlName="fsrdFundingReq" [id]="'frsd_required'"
-                                [className]="'form-control'" [type]="'checkbox'" [placeholder]="'FRSD Funding Required'"
-                                (click)="onChangeFRSD($event)">
-                            </app-custom-input> -->
 
                         </div>
 
@@ -1698,7 +1560,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
                                 formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
-                                (change)="getVehicleGridValue(basicVehicleForm.get('vehicleFormArray'))"
+                                (change)="productCatoryCode === 'UCV' ? getVehicleGridValue(basicVehicleForm.get('vehicleFormArray')): ''"
                                 [isDirty]="isDirty">
                             </app-vf-custom-select>
 
@@ -1710,12 +1572,6 @@
                                 formControlName="assetSubVariant">
                             </app-vf-custom-select>
                         </div>
-
-                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="asset_other">{{label.assetOther}}</label>
-                            <input type="text" class="form-control mandatory " id="asset_other"
-                                placeholder="Asset - Variant - Other" name="asset_other" formControlName="assetOther">
-                        </div> -->
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_use">
                             <label for="vechical_usage"> {{ label.vechicleUsage }} <sub class="star_red_col">*</sub>
@@ -1778,12 +1634,11 @@
 
                     <div class="row">
 
-                        0 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
                             <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
                             </label>
                             <app-custom-input formControlName="ageAfterTenure" [className]="'form-control mandatory'"
                                 [placeholder]="'Age of vehicle at the end of tenor'" [id]="'age_of_vehicle'"
-                                [isRequired]="'Age of vehicle at the end of tenor Required'" [isDirty]="isDirty"
                                 [isDisabled]="true">
                             </app-custom-input>
                         </div>
@@ -1830,17 +1685,6 @@
                                 [isRequired]="'Final Asset Cost Required'" [isDirty]="isDirty" [isDisabled]="true">
                             </app-custom-input>
                         </div>
-
-                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="asset_cost_least">{{label.assetCostLeast}}</label>
-                            <input type="text" class="form-control mandatory " id="asset_cost_least"
-                                placeholder="Asset Cost Least" name="asset_cost_least" formControlName="assetCostLeast"
-                                maxlength="10" pattern="^[1-9][0-9]*$">
-
-                            <div class="invalid-feedback" *ngIf="obj.controls['assetCostLeast'].hasError('pattern')">
-                                Enter valid asset cost least
-                            </div>
-                        </div> -->
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="chassis_number">{{label.chassisNumber}}</label>
@@ -2002,12 +1846,6 @@
                     </div>
 
                     <div class="row">
-
-                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                        <label for="insurance_copy">{{label.uploadInsuranceCopy}}</label>
-                        <input id="insurance_copy" type="file" multiple formControlName="insuranceCopy">
-                        <div id="insurance_preview"></div>
-                        </div> -->
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 mt">
                             <label for="frsd_required">{{label.frsdRequired}}</label>

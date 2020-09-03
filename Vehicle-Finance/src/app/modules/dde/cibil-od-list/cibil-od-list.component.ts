@@ -15,6 +15,7 @@ import { ApplicantDataStoreService } from '@services/applicant-data-store.servic
 import { UtilityService } from '@services/utility.service';
 import { ApplicantImageService } from '@services/applicant-image.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-cibil-od-list',
@@ -22,6 +23,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./cibil-od-list.component.css'],
 })
 export class CibilOdListComponent implements OnInit {
+  disableSaveBtn: boolean;
   labels: any;
   odDetailsForm: any;
   odAccountDetails: FormGroup;
@@ -65,7 +67,8 @@ export class CibilOdListComponent implements OnInit {
     private applicantDataService: ApplicantDataStoreService,
     private utilityService: UtilityService,
     private applicantImageService: ApplicantImageService,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private toggleDdeService: ToggleDdeService
   ) {
     this.odAccountDetailsArray = this.formBuilder.array([]);
     this.AssetBureauEnquiryArray = this.formBuilder.array([]);
@@ -387,6 +390,11 @@ export class CibilOdListComponent implements OnInit {
         this.odDetailsForm.patchValue({
           justification: this.odDetails.assetAppOdDetails.justification,
         });
+      }
+      const operationType = this.toggleDdeService.getOperationType();
+      if (operationType === '1') {
+        this.odDetailsForm.disable();
+        this.disableSaveBtn  = true;
       }
     });
 

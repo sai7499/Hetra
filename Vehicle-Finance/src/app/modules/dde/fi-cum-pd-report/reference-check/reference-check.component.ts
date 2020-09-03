@@ -18,8 +18,7 @@ import { ApplicantService } from '@services/applicant.service';
 import { GpsService } from './../../../../services/gps.service';
 import { environment } from 'src/environments/environment';
 
-
-
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-reference-check',
@@ -43,6 +42,7 @@ export class ReferenceCheckComponent implements OnInit {
   isSoNameEnable: true;
   userDetails: any;
   leadId: number;
+  disableSaveBtn: boolean;
 
   selectedDocDetails: DocRequest;
 
@@ -101,6 +101,7 @@ export class ReferenceCheckComponent implements OnInit {
     private gpsService: GpsService,
     private utilityService: UtilityService,
     private toasterService: ToasterService, // service for accessing the toaster
+    private toggleDdeService: ToggleDdeService
 
   ) {
     this.sharedSercive.taskId$.subscribe((value) => {
@@ -170,7 +171,6 @@ export class ReferenceCheckComponent implements OnInit {
             this.showSubmit = false;
           }
           this.getLeadSectiondata();
-          this.getPdDetails();    // for getting the data for pd details on initializing the page
           console.log('Applicant Id In reference Details Component', this.applicantId);
 
         });
@@ -207,6 +207,13 @@ export class ReferenceCheckComponent implements OnInit {
       ],
     };
 
+    setTimeout(() => {
+      const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      this.referenceCheckForm.disable();
+      this.disableSaveBtn = true;
+    }
+    });
   }
   getLeadId() { // function to access respective lead id from the routing
     // console.log("in getleadID")
@@ -227,6 +234,7 @@ export class ReferenceCheckComponent implements OnInit {
     this.serviceSourcingChannel = leadData['leadDetails'].sourcingChannelDesc;
     this.serviceEquitasBranchName = leadData['leadDetails'].branchName;
     this.serviceProductCat = leadData['leadDetails'].productCatName;
+    this.getPdDetails();    // for getting the data for pd details on initializing the page
   }
   getApplicantId() { // function to access respective applicant id from the routing
 
@@ -312,32 +320,50 @@ export class ReferenceCheckComponent implements OnInit {
   }
   setFormValue() {
 
-    // const customerProfileModal = this.pdDataService.getCustomerProfile() || {};
     const refCheckModel = this.refCheckDetails || {};
     const otherDetailsModel = this.otherDetails || {};
 
-
-    if (this.refCheckDetails.soName && this.refCheckDetails.employeeCode &&
-      this.otherDetails.product && this.otherDetails.sourcingChannel &&
-      this.otherDetails.equitasBranchName && this.otherDetails.date &&
-      this.otherDetails.timeOfVerification) {
-      this.productCat = this.otherDetails.product;
-      this.sourcingChannel = this.otherDetails.sourcingChannel;
-      this.equitasBranchName = this.otherDetails.equitasBranchName;
-      // this.distanceFromEquitas = this.otherDetails.distanceFromEquitas;
-      this.soName = this.refCheckDetails.soName;
-      this.employeeCode = this.refCheckDetails.employeeCode;
-      this.date = this.otherDetails.date;
-      this.time = this.otherDetails.timeOfVerification;
+    // if (this.refCheckDetails.soName && this.refCheckDetails.employeeCode &&
+    //   this.otherDetails.product && this.otherDetails.sourcingChannel &&
+    //   this.otherDetails.equitasBranchName && this.otherDetails.date &&
+    //   this.otherDetails.timeOfVerification) {
+    //   this.productCat = this.otherDetails.product;
+    //   this.sourcingChannel = this.otherDetails.sourcingChannel;
+    //   this.equitasBranchName = this.otherDetails.equitasBranchName;
+    //   // this.distanceFromEquitas = this.otherDetails.distanceFromEquitas;
+    //   this.soName = this.refCheckDetails.soName;
+    //   this.employeeCode = this.refCheckDetails.employeeCode;
+    //   this.date = this.otherDetails.date;
+    //   this.time = this.otherDetails.timeOfVerification;
+    // } else {
+    //   this.productCat = this.serviceProductCat;
+    //   this.sourcingChannel = this.serviceSourcingChannel;
+    //   this.equitasBranchName = this.serviceEquitasBranchName;
+    //   // this.distanceFromEquitas = this.otherDetails.distanceFromEquitas;
+    //   this.soName = this.userName;
+    //   this.employeeCode = this.userId;
+    //   this.date = this.utilityService.convertDateTimeTOUTC(this.sysDate, 'DD/MM/YYYY');
+    //   // formValue.dob = formValue.dob ? this.utilityService.convertDateTimeTOUTC(formValue.dob, 'DD/MM/YYYY') : null;
+    //   this.time = this.sysTimeOfVerification;
+    // }
+    if (this.refCheckDetails) {
+      this.soName = this.refCheckDetails.soName ? this.refCheckDetails.soName : this.userName;
+      this.employeeCode = this.refCheckDetails.employeeCode ? this.refCheckDetails.employeeCode : this.userId;
+    } else {
+      this.soName = this.userName;
+      this.employeeCode = this.userId;
+    }
+    if (this.otherDetails) {
+      this.productCat = this.otherDetails.product ? this.otherDetails.product : this.serviceProductCat;
+      this.sourcingChannel = this.otherDetails.sourcingChannel ? this.otherDetails.sourcingChannel : this.serviceSourcingChannel;
+      this.equitasBranchName = this.otherDetails.equitasBranchName ? this.otherDetails.equitasBranchName : this.serviceEquitasBranchName;
+      this.date = this.otherDetails.date ? this.otherDetails.date : this.utilityService.convertDateTimeTOUTC(this.sysDate, 'DD/MM/YYYY');
+      this.time = this.otherDetails.timeOfVerification ? this.otherDetails.timeOfVerification : this.sysTimeOfVerification;
     } else {
       this.productCat = this.serviceProductCat;
       this.sourcingChannel = this.serviceSourcingChannel;
       this.equitasBranchName = this.serviceEquitasBranchName;
-      // this.distanceFromEquitas = this.otherDetails.distanceFromEquitas;
-      this.soName = this.userName;
-      this.employeeCode = this.userId;
       this.date = this.utilityService.convertDateTimeTOUTC(this.sysDate, 'DD/MM/YYYY');
-      // formValue.dob = formValue.dob ? this.utilityService.convertDateTimeTOUTC(formValue.dob, 'DD/MM/YYYY') : null;
       this.time = this.sysTimeOfVerification;
     }
 
@@ -371,8 +397,8 @@ export class ReferenceCheckComponent implements OnInit {
 
 
   onFormSubmit() { // function that calls sumbit pd report api to save the respective pd report
-    console.log("latitude::", this.latitude);
-    console.log("longitude::", this.longitude);
+    console.log('latitude::', this.latitude);
+    console.log('longitude::', this.longitude);
 
     this.custProfileDetails = {
       latitude: this.latitude || '',
@@ -480,7 +506,7 @@ export class ReferenceCheckComponent implements OnInit {
       if (processVariables.error.code === '0') {
 
         this.toasterService.showSuccess('pd report reinitiated successfully', '');
-        // this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
+        // this.router.navigate([`/pages/dde/dashboard`]);
       } else {
         this.toasterService.showError('', 'message');
 
