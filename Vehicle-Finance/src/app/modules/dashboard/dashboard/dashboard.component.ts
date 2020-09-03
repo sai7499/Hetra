@@ -169,9 +169,6 @@ export class DashboardComponent implements OnInit {
       }
     }
 
-    console.log('activeTab', this.activeTab, 'subActiveTab', this.subActiveTab);
-
-
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
       this.validationData = res.validationData;
@@ -192,7 +189,7 @@ export class DashboardComponent implements OnInit {
     const currentUrl = this.location.path();
     const value = localStorage.getItem('ddePath');
     const currentLabel = JSON.parse(value);
-    if (currentLabel.labelName === 'Back To Deviation') {
+    if ( currentLabel && currentLabel.labelName &&currentLabel.labelName === 'Back To Deviation') {
       this.toggleDdeService.setIsDDEClicked('0');
       this.toggleDdeService.setOperationType('1', 'Deviation', currentUrl);
     }
@@ -201,7 +198,6 @@ export class DashboardComponent implements OnInit {
 
   loanMaxAmtChange() {
     this.filterForm.get('loanMaxAmt').valueChanges.pipe(debounceTime(600)).subscribe((data) => {
-      // console.log(data);
 
       const minAmt = this.filterForm.get('loanMinAmt').value;
       const minLoanAmt = Number(minAmt || 0);
@@ -322,7 +318,6 @@ export class DashboardComponent implements OnInit {
 
     this.activeTab = data;
     this.subActiveTab = subTab;
-    // console.log('activeTab', this.activeTab, 'subActiveTab', this.subActiveTab);
 
     if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
       this.onReleaseTab = false;
@@ -364,7 +359,6 @@ export class DashboardComponent implements OnInit {
   leads(data) {
 
     this.subActiveTab = data;
-    // console.log('activeTab', this.activeTab, 'subActiveTab', this.subActiveTab);
     if (this.subActiveTab === this.displayTabs.NewLeads) {
       this.onReleaseTab = false;
       this.onAssignTab = false;
@@ -1476,7 +1470,6 @@ export class DashboardComponent implements OnInit {
   }
   getLeadId(item) {
     localStorage.setItem('salesResponse', item.is_sales_response_completed);
-    console.log('isficumPd', item.isFiCumPD);
     localStorage.setItem('isFiCumPd', item.isFiCumPD);
     this.vehicleDataStoreService.setCreditTaskId(item.taskId);
     this.sharedService.getTaskID(item.taskId);

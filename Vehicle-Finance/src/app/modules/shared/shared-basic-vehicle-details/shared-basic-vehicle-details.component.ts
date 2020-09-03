@@ -23,10 +23,10 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   @Input() id: any;
-  disableSaveBtn: boolean;
 
   addressList: any = [];
   applicantDetails: any = [];
+  disableSaveBtn: boolean;
 
   maxDate = new Date();
   initalZeroCheck = [];
@@ -62,13 +62,13 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public leadId: number;
 
   constructor(
-    private _fb: FormBuilder,
+    private _fb: FormBuilder, private toggleDdeService: ToggleDdeService,
     private loginStoreService: LoginStoreService,
     private labelsData: LabelsService,
     private commonLovService: CommomLovService,
     private vehicleDetailService: VehicleDetailService,
     private vehicleDataService: VehicleDataStoreService,
-    private utilityService: UtilityService, private toggleDdeService: ToggleDdeService,
+    private utilityService: UtilityService,
     private createLeadDataService: CreateLeadDataService,
     public sharedService: SharedService, private toasterService: ToasterService,
     private uiLoader: NgxUiLoaderService, private applicantService: ApplicantService) {
@@ -90,14 +90,14 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         console.log('error', error)
       });
 
-    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    let roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.roles = roleAndUserDetails.roles;
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
 
     this.userId = roleAndUserDetails.userDetails.userId;
-    const leadData = this.createLeadDataService.getLeadSectionData();
+    let leadData = this.createLeadDataService.getLeadSectionData();
 
     this.applicantDetails = leadData['applicantDetails']
     this.leadDetails = leadData['leadDetails']
@@ -112,12 +112,13 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     if (this.id) {
       this.setFormValue();
     };
+
     const operationType = this.toggleDdeService.getOperationType();
     if (operationType === '1') {
       this.basicVehicleForm.disable();
       this.disableSaveBtn  = true;
     }
-    console.log(operationType, 'operation type')
+
   }
 
   onGetDateValue(event) {
@@ -143,7 +144,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   getVehicleGridValue(formArray: any) {
 
-    if (formArray.value[0].vehicleId !== 0) {
+    if (formArray.value[0].vehicleId !== 0 && formArray.value[0].manuFacMonthYear) {
 
       const date = this.utilityService.convertDateTimeTOUTC(formArray.value[0].manufactureYear, 'YYYY')
 
@@ -160,7 +161,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         console.log('err', err)
       })
     } else {
-      this.toasterService.showWarning('Please Select Asset Varient', '')
+      this.toasterService.showWarning(formArray.value[0].vehicleId === 0 ? 'Please Select Asset Varient' : 'Please Select Year & Month of Manufacturing ', '')
     }
   }
 
@@ -264,7 +265,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
       this.onPatchArrayValue(formArray, VehicleDetail)
       this.sharedService.getFormValidation(this.basicVehicleForm)
-      this.vehicleDataService.setIndividualVehicleDetails(VehicleDetail);
+      this.vehicleDataService.setIndividualVehicleDetail(VehicleDetail);
     })
 
   }
@@ -525,8 +526,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       isInvalidMobileNumber: true
     })
 
-    console.log(value, 'value')
-    
     if (value.length === 10) {
       if (this.applicantDetails && this.applicantDetails.length > 0) {
         this.applicantDetails.filter((mob: any) => {
@@ -707,8 +706,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.addControl('vehicleUsage', new FormControl('', Validators.required));
       controls.addControl('category', new FormControl('', Validators.required));
       controls.addControl('manuFacMonthYear', new FormControl('', Validators.required));
-      controls.addControl('ageOfAsset', new FormControl('', Validators.required));
-      controls.addControl('ageAfterTenure', new FormControl('', Validators.required));
+      controls.addControl('ageOfAsset', new FormControl(''));
+      controls.addControl('ageAfterTenure', new FormControl(''));
     } else if (this.productCatoryCode === 'UCV') {
 
       controls.removeControl('vehicleRegNo');
@@ -732,8 +731,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.addControl('address', new FormControl('', Validators.compose([Validators.required, Validators.maxLength(120)])));
       controls.addControl('pincode', new FormControl('', [Validators.required, Validators.pattern('[1-9]{1}[0-9]{5}')]));
       controls.addControl('manuFacMonthYear', new FormControl('', Validators.required));
-      controls.addControl('ageOfAsset', new FormControl('', Validators.required));
-      controls.addControl('ageAfterTenure', new FormControl('', Validators.required));
+      controls.addControl('ageOfAsset', new FormControl(''));
+      controls.addControl('ageAfterTenure', new FormControl(''));
     }
     this.sharedService.getFormValidation(this.basicVehicleForm)
   }
@@ -766,6 +765,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       manufactureSubventionAmount: [null],
       manuFactureSubventionPartIRR: [null],
       manufacturesubventionPartFinCharge: [null],
+      gorssVehicleWeight: [''],
       invoiceNumber: [null],
       invoiceDate: [''],
       invoiceAmount: [null],
@@ -844,7 +844,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       region: ['', Validators.required],
       manuFacMonthYear: ['', Validators.required],
       ageOfAsset: ['', Validators.required],
-      ageAfterTenure: ['', Validators.required],
+      ageAfterTenure: [''],
       assetCostGrid: ['', Validators.required],
       finalAssetCost: ['', Validators.required],
       fitnessDate: [''],
@@ -861,6 +861,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       address: ['', Validators.compose([Validators.maxLength(120), Validators.required])],
       pincode: ['', Validators.compose([Validators.maxLength(6), Validators.required])],
       vehicleRegDate: [''],
+      gorssVehicleWeight: [''],
       reRegVehicle: [''],
       interStateVehicle: [''],
       duplicateRC: [''],
@@ -895,7 +896,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleUsage: ['', Validators.required],
       category: ['', Validators.required],
       manuFacMonthYear: ['', Validators.required],
-      ageOfAsset: ['', Validators.required],
+      ageOfAsset: [''],
       ageAfterTenure: [''],
       assetCostIBB: ['', Validators.required],
       assetCostCarTrade: ['', Validators.required],

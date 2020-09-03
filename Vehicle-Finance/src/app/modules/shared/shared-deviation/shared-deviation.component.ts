@@ -44,6 +44,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   isOne: boolean;
   isZero: boolean;
   disableSaveBtn: boolean;
+  operationType: string = '0';
 
   @Input() isSubmitToCredit: boolean;
   @Input() isDirty: boolean;
@@ -85,8 +86,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.sharedService.taskId$.subscribe((id) => {
       this.taskId = id ? id : '';
     })
-    const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '2') {
+    this.operationType = this.toggleDdeService.getOperationType();
+    if (this.operationType === '2') {
       this.deviationsForm.disable();
       this.disableSaveBtn  = true;
     }

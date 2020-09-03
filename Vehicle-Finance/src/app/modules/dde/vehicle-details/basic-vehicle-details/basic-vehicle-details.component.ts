@@ -52,10 +52,10 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
     this.subscription = this.sharedService.vaildateForm$.subscribe((value) => {
       this.formValue = value;
     })
-   
+
     const operationType = this.toggleDdeService.getOperationType();
     if (operationType === '1') {
-      this.disableSaveBtn  = true;
+      this.disableSaveBtn = true;
     }
   }
 
@@ -78,21 +78,27 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
         this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
           const apiError = res.ProcessVariables.error.message;
-  
+
           if (res.Error === '0' && res.Error === '0' && res.ProcessVariables.error.code === '0') {
             this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Vehicle Detail');
             this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
           } else {
             this.toasterService.showError(apiError, 'Vehicle Detail')
           }
-  
+
         }, error => {
           console.log(error, 'error')
           this.toasterService.showError(error, 'Vehicle Detail')
         })
 
       } else {
-        this.toasterService.showError('Please Enter Valid Data', 'Invalid Fields')
+        if (!this.formValue.value.isInvalidMobileNumber) {
+          this.toasterService.showError('applicant and dealer of vehicle owner mobile number both are same', 'Invalid mobile no')
+        } else if (!this.formValue.value.isValidPincode) {
+          this.toasterService.showError('Please enter valid pincode', 'Invalid pincode')
+        } else if (!(this.formValue.value.isValidPincode && this.formValue.value.isInvalidMobileNumber)) {
+          this.toasterService.showError('Please enter valid pincode and mobile no', 'Invalid pincode & mobile no')
+        }
       }
 
     } else {

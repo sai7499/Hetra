@@ -1,7 +1,7 @@
 <form class="multisteps-form__form" [formGroup]="deviationsForm">
   <div class="multisteps-form__panel js-active" data-animation="scaleIn">
 
-    <div class="text-right" id="get_role_details_btn" *ngIf="!isSubmitToCredit">
+    <div class="text-right" id="get_role_details_btn" *ngIf="!isSubmitToCredit || operationType !== '2'">
       <button class="btn mar-right8 btn-primary" type="button"
         (click)="getTrigurePolicy()">{{labels.getTriggerPolicy}}</button>
     </div>
@@ -84,7 +84,7 @@
 
       <h3 class="cus-title margin_zero">{{labels?.manualDeviation}}</h3>
 
-      <div class="text-right" id="add_manual_deviation_btn" *ngIf="!isSubmitToCredit">
+      <div class="text-right" id="add_manual_deviation_btn" *ngIf="!isSubmitToCredit || operationType !== '2'">
         <button class="btn mar-right8 btn-primary" type="button"
           (click)="addDeviationUnit()">{{labels?.addManualDeviation}}</button>
       </div>
@@ -160,7 +160,7 @@
           <div class="form-group col-sm-6 col-md-1 col-lg-1" *ngIf="!isSubmitToCredit">
             <label>{{labels?.more}} </label>
             <div class="row">
-              <div class="col-sm-12 col-md-12 col-lg-12">
+              <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="operationType !== '2'">
                 <label class="image-upload" for="upload_files">
                   <i></i> &nbsp;
                   <a data-toggle="modal" data-target="#exampleModal"
