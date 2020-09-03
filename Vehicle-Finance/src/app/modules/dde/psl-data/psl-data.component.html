@@ -775,6 +775,7 @@
             [isRequired]="'Required Input is mandatory'"
             [type]="labels?.validationData?.amountValue.type"
             [isDirty]="isDirty"
+            [isDisabled]="true"
         >
         </app-custom-input> 
     </div>
@@ -792,6 +793,7 @@
             [isRequired]="'Required Input is mandatory'"
             [type]="labels?.validationData?.amountValue.type"
             [isDirty]="isDirty"
+            [isDisabled]="true"
         >
         </app-custom-input> 
     </div>
@@ -1175,7 +1177,7 @@
         <button class="btn btn-primary" type="button" (click)="onBack()">
             {{labels.back}} </button> 
         <!-- <p class="btn btn-primary save"> Save </p>  -->
-        <button class="btn btn-primary" type="button" (click)="onFormSubmit()"> {{labels.save}} </button>
+        <button class="btn btn-primary" type="button" (click)="onFormSubmit()" *ngIf="!disableSaveBtn"> {{labels.save}} </button>
         
         <button class="btn btn-primary" type="button"  (click)="navigateNext()">
             {{labels.next}} </button>

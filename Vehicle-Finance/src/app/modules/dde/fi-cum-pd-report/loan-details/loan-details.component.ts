@@ -14,6 +14,7 @@ import { valHooks } from 'jquery';
 import { typeWithParameters } from '@angular/compiler/src/render3/util';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-loan-details',
@@ -76,6 +77,8 @@ export class LoanDetailsComponent implements OnInit {
   engChassRequired: boolean;
   insuranceStatus: any;
   insRequired: boolean;
+  disableSaveBtn: boolean;
+  operationType: string;
 
 
 
@@ -89,7 +92,8 @@ export class LoanDetailsComponent implements OnInit {
     private pdDataService: PdDataService,
     private toasterService: ToasterService,
     public sharedService: SharedService,
-    private createLeadDataService: CreateLeadDataService) {
+    private createLeadDataService: CreateLeadDataService,
+    private toggleDdeService: ToggleDdeService) {
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
   }
 
@@ -138,6 +142,11 @@ export class LoanDetailsComponent implements OnInit {
       this.loanDetailsLov = value ? value[0].loanDetail[0] : {};
 
     });
+    this.operationType = this.toggleDdeService.getOperationType();
+    if (this.operationType === '1') {
+      this.loanDetailsForm.disable();
+      this.disableSaveBtn = true;
+    }
   }
 
   getLeadId() {
@@ -749,18 +758,7 @@ export class LoanDetailsComponent implements OnInit {
             this.getPdDetails();
 
           } else if (action === 'next') {
-
-            if (this.version != 'undefined') {
-
-              // tslint:disable-next-line: max-line-length
-              this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/reference-check/${this.version}`]);
-
-            } else {
-
-              this.router.navigate([`/pages/pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/reference-check`]);
-
-            }
-
+            this.onNavigateNext();
           }
 
         } else {
@@ -780,17 +778,16 @@ export class LoanDetailsComponent implements OnInit {
 
   }
   onNavigateNext() {
-    if (this.version !== 'undefined') {
-      // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/reference-check/${this.version}`]);
-      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/reference-check/${this.version}`]);
+    if (this.version != 'undefined') {
+
+      // tslint:disable-next-line: max-line-length
+      this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/reference-check/${this.version}`]);
 
     } else {
-      // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/reference-check`]);
-      // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
-      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/reference-check`]);
+
+      this.router.navigate([`/pages/pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/reference-check`]);
 
     }
-    // /pages/fi-cum-pd-dashboard/1731/fi-cum-pd-list/1974/reference-check
   }
 
   onNavigateBack() {

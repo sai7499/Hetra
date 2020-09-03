@@ -19,12 +19,14 @@ import {
   DirectorDetails
 } from '@model/applicant.model';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   templateUrl: './basic-details.component.html',
   styleUrls: ['./basic-details.component.css'],
 })
 export class BasicDetailsComponent implements OnInit {
+  disableSaveBtn: boolean;
   basicForm: FormGroup;
   isIndividual = false;
   //isSelfEmployed = true;
@@ -78,6 +80,7 @@ export class BasicDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private toasterService: ToasterService,
     private createLeadDataService: CreateLeadDataService,
+    private toggleDdeService: ToggleDdeService
   ) { }
   async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -119,7 +122,11 @@ export class BasicDetailsComponent implements OnInit {
     });
     this.leadId = (await this.getLeadId()) as number;
     //console.log('leadId', this.leadId);
-
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      this.basicForm.disable();
+      this.disableSaveBtn  = true;
+    }
   }
 
   getLeadSectiondata() {
@@ -627,7 +634,7 @@ export class BasicDetailsComponent implements OnInit {
       creditRiskScore: new FormControl(null, Validators.required),
 
       // added new form controls on 16-07-2020
-      custSegment: new FormControl('', Validators.required),
+      //custSegment: new FormControl('', Validators.required),
       monthlyIncomeAmount: new FormControl(''),
       annualIncomeAmount: new FormControl(''),
       ownHouseProofAvail: new FormControl(''),
@@ -1086,7 +1093,7 @@ export class BasicDetailsComponent implements OnInit {
 
     // added new form controls on 15-07-2020
 
-    applicantDetails.custSegment = formValue.custSegment;
+    //applicantDetails.custSegment = formValue.custSegment;
     applicantDetails.monthlyIncomeAmount = formValue.monthlyIncomeAmount;
     applicantDetails.annualIncomeAmount = formValue.annualIncomeAmount;
     applicantDetails.ownHouseProofAvail = this.isChecked == true ? '1' : '0',

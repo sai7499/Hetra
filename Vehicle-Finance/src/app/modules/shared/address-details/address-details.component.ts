@@ -25,6 +25,7 @@ import { map } from 'rxjs/operators';
 import { UtilityService } from '@services/utility.service';
 import { constants } from 'os';
 import { ToasterService } from '@services/toaster.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-address-details',
@@ -32,6 +33,7 @@ import { ToasterService } from '@services/toaster.service';
   styleUrls: ['./address-details.component.css'],
 })
 export class AddressDetailsComponent implements OnInit {
+  disableSaveBtn: boolean;
   isIndividual = true;
   addressForm: FormGroup;
   addressDetailsDataArray: any = [];
@@ -104,7 +106,8 @@ export class AddressDetailsComponent implements OnInit {
     private leadStoreService: LeadStoreService,
     private location: Location,
     private utilityService: UtilityService,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private toggleDdeService: ToggleDdeService
   ) { }
 
   async ngOnInit() {
@@ -130,8 +133,6 @@ export class AddressDetailsComponent implements OnInit {
         //console.log('onperascur', this.onPerAsCurChecked)
       });
     });
-
-
   }
 
   listenerForOfficeAddress() {
@@ -268,27 +269,27 @@ export class AddressDetailsComponent implements OnInit {
           }
           if (!addressList) {
             this.toasterService.showError('Invalid pincode', '');
-            if(id=='permanantPincode'){
-              this.setNullValues('permanantAddress') ;
-              this.permanantPincode={}
+            if (id == 'permanantPincode') {
+              this.setNullValues('permanantAddress');
+              this.permanantPincode = {}
             }
-            if(id=='currentPincode'){
-              this.setNullValues('currentAddress') ;
-              this.currentPincode={}
+            if (id == 'currentPincode') {
+              this.setNullValues('currentAddress');
+              this.currentPincode = {}
             }
-            if(id=='officePincode'){
-              this.setNullValues('officeAddress') ;
-              this.communicationPincode={}
+            if (id == 'officePincode') {
+              this.setNullValues('officeAddress');
+              this.communicationPincode = {}
             }
-            if(id=='registeredPincode'){
-              this.setNullValues('registeredAddress') ;
-              this.registeredPincode={}
+            if (id == 'registeredPincode') {
+              this.setNullValues('registeredAddress');
+              this.registeredPincode = {}
             }
-            if(id=='communicationPincode'){
-              this.setNullValues('communicationAddress') ;
-              this.communicationPincode={}
+            if (id == 'communicationPincode') {
+              this.setNullValues('communicationAddress');
+              this.communicationPincode = {}
             }
-           
+
             return;
           }
 
@@ -399,14 +400,14 @@ export class AddressDetailsComponent implements OnInit {
     }
   }
 
-  setNullValues(control){
+  setNullValues(control) {
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.get(control).patchValue({
-      state : null || '',
-      country : null || '',
-      district : null || '',
-      city : null || ''
+      state: null || '',
+      country: null || '',
+      district: null || '',
+      city: null || ''
     })
   }
 
@@ -559,6 +560,13 @@ export class AddressDetailsComponent implements OnInit {
       this.addNonIndividualFormControls();
       this.setValuesForNonIndividual();
     }
+    setTimeout(() => {
+      const operationType = this.toggleDdeService.getOperationType();
+      if (operationType === '1') {
+        this.addressForm.disable();
+        this.disableSaveBtn = true;
+      }
+    })
   }
 
   setAddressValues(address: AddressDetails) {
@@ -591,8 +599,8 @@ export class AddressDetailsComponent implements OnInit {
     this.showSrField = modifyCurrentAdd == '1' ? true : false;
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
-    
-    
+
+
     const addressObj = this.getAddressObj();
 
     const permanentAddressObj = addressObj[Constant.PERMANENT_ADDRESS];
@@ -1195,10 +1203,10 @@ export class AddressDetailsComponent implements OnInit {
 
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
-    
+
     const permanantData = details.get('permanantAddress')
-    const perAddress={
-         ...this.getAddressValues(permanantData)
+    const perAddress = {
+      ...this.getAddressValues(permanantData)
     }
     this.addressDetailsDataArray.push({
       ...this.getAddressFormValues(perAddress),
@@ -1206,9 +1214,9 @@ export class AddressDetailsComponent implements OnInit {
       nearestLandmark: permanantData.get('nearestLandmark').value,
       isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd || this.onPerAsCurChecked == true ? '1' : '0',
     });
-    
+
     const officeData = details.get('officeAddress');
-    const offAddress={
+    const offAddress = {
       ...this.getAddressValues(officeData)
     }
     this.addressDetailsDataArray.push({
@@ -1232,14 +1240,14 @@ export class AddressDetailsComponent implements OnInit {
       isCurrAddSameAsOffAdd: this.onCurrAsOfficeChecked ? '1' : '0',
       nearestLandmark: currentData.get('nearestLandmark').value,
 
-      periodOfCurrentStay:  Number(currentData.get('periodOfCurrentStay').value) || null,
+      periodOfCurrentStay: Number(currentData.get('periodOfCurrentStay').value) || null,
 
     });
 
     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);
   }
 
-  getAddressValues(values){
+  getAddressValues(values) {
     return {
       pincode: values.get('pincode').value,
       city: values.get('city').value,
@@ -1261,8 +1269,8 @@ export class AddressDetailsComponent implements OnInit {
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
     const registeredAddressObject = value.details[0].registeredAddress;
-    const registeredData= details.get('registeredAddress');
-    const regAddress={
+    const registeredData = details.get('registeredAddress');
+    const regAddress = {
       ...this.getAddressValues(registeredData)
     }
     this.addressDetailsDataArray = [];
@@ -1275,7 +1283,7 @@ export class AddressDetailsComponent implements OnInit {
       nearestLandmark: registeredData.get('nearestLandmark').value,
       isCurrAddSameAsPermAdd: this.onRegAsCommChecked ? '1' : '0',
     });
-     
+
     const communicationData = details.get('communicationAddress')
     const commAddress = {
       ...this.getAddressValues(communicationData)
