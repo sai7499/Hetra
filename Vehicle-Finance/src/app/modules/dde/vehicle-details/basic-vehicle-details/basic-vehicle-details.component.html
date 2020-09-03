@@ -9,7 +9,7 @@
                 To
                 Vehicle Details </button></div>
         <div class="col-sm-7 text-right">
-            <button class="btn btn-primary dash_href" (click)="onSubmit()"> {{label.save}} </button>
+            <button class="btn btn-primary dash_href" (click)="onSubmit()" *ngIf="!disableSaveBtn"> {{label.save}} </button>
         </div>
 
     </div>

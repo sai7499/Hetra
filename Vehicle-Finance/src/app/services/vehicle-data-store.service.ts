@@ -45,7 +45,7 @@ export class VehicleDataStoreService {
   }
 
   getIndividualVehicleDetail() {
-    return this.vehicleData;
+    return this.vehicleData
   }
 
   setCollateralId(Id) {
