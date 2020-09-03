@@ -37,7 +37,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   public businessDivision: string;
   public roleId: number;
   public roleType: number;
-  public hierarchy: any;
+  public hierarchy: number = 0;
 
   public selectDeviationId: number = 0;
   public findIndex;
@@ -71,7 +71,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     let roles = roleAndUserDetails.roles;
     this.roleId = roles[0].roleId;
     this.roleType = roles[0].roleType;
-    this.hierarchy = roles[0].hierarchy;
+    this.hierarchy = Number(roles[0].hierarchy);
     this.userId = roleAndUserDetails.userDetails.userId;
 
     const leadData = this.createLeadDataService.getLeadSectionData();
@@ -86,11 +86,11 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.sharedService.taskId$.subscribe((id) => {
       this.taskId = id ? id : '';
     })
-    this.operationType = this.toggleDdeService.getOperationType();
-    if (this.operationType === '2') {
-      this.deviationsForm.disable();
-      this.disableSaveBtn = true;
-    }
+    // this.operationType = this.toggleDdeService.getOperationType();
+    // if (this.operationType === '2') {
+    //   this.deviationsForm.disable();
+    //   this.disableSaveBtn = true;
+    // }
   }
 
   initForms() {
@@ -152,7 +152,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     let data = [];
 
     if (this.deviationsForm.controls['autoDeviationFormArray'].value.length > 0) {
-      if (this.deviationsForm.controls['manualDeviationFormArray'].value[0].devCode !== "0" || this.deviationsForm.controls['manualDeviationFormArray'].value[0].devDesc !== null || this.deviationsForm.controls['manualDeviationFormArray'].value[0].hierarchy !== "0") {
+      if (this.deviationsForm.controls['manualDeviationFormArray'].value[0].devCode !== "0" || this.deviationsForm.controls['manualDeviationFormArray'].value[0].devDesc !== null || this.deviationsForm.controls['manualDeviationFormArray'].value[0].hierarchy !== 0) {
         data = data.concat(this.deviationsForm.controls['autoDeviationFormArray'].value);
         data = data.concat(this.deviationsForm.controls['manualDeviationFormArray'].value);
       } else {
@@ -292,7 +292,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       devRuleId: 0,
       type: 0,
       isManualDev: '1',
-      hierarchy: ['0'],
+      hierarchy: [0],
       justification: ['', Validators.required],
       statusCode: [{ value: null, disabled: true }],
     });
@@ -400,7 +400,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       })
 
       let type = typeofRole ? Number(typeofRole.type) : 0;
-      let hierarchy = typeofRole ? typeofRole.hierarchy + '' : '0';
+      let hierarchy = typeofRole ? typeofRole.hierarchy : 0;
+
       if (data.isManualDev === '1') {
 
         manualDiviationFormArray.push(
@@ -415,7 +416,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             hierarchy: hierarchy,
             justification: data.justification,
             shortDeDesc: data.short_dev_desc,
-            statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
+            statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= (this.hierarchy)) }]
           }))
       } else if (data.isManualDev === '0') {
 
@@ -439,10 +440,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.deviationsForm.patchValue({
       isSaveEdit: true
     })
-
-    // setTimeout(() => {
-
-    // })
 
     if (this.deviationsForm.get('manualDeviationFormArray')['controls'].length === 0) {
       manualDiviationFormArray.push(this.getManualDeviations())
