@@ -73,11 +73,8 @@ export class CamComponent implements OnInit {
   customerBackgroundSalesRecommendation: any;
   ncmBhRecommendation: any;
   vehicleDeploymentDetails: any;
-<<<<<<< HEAD
   recommendation: any;
-=======
   disableSaveBtn: boolean;
->>>>>>> 90131548cf1071655f302f237add1ed2fa84adfd
 
 
   constructor(private labelsData: LabelsService,
