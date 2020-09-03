@@ -10,6 +10,7 @@ import { ToasterService } from '@services/toaster.service';
 import { OtpServiceService } from '@modules/lead-section/services/otp-details.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 
 @Component({
   selector: 'app-tele-verification-form',
@@ -52,6 +53,9 @@ export class TeleVerificationFormComponent implements OnInit {
   changeLabelsForRoute: any;
   changeLabelsForGoods: any;
   userName: any;
+  mobileNumber: any;
+  tenure: any;
+  assetCost: any;
 
   public dateValue: Date = new Date(2, 10, 2000);
   public toDayDate: Date = new Date();
@@ -65,7 +69,7 @@ export class TeleVerificationFormComponent implements OnInit {
       rule: '^[1-9][0-9]*$',
       msg: 'Invalid Characters not allowed'
     }
-  }
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -80,7 +84,8 @@ export class TeleVerificationFormComponent implements OnInit {
     private toasterService: ToasterService,
     private otpService: OtpServiceService,
     private loginStoreService: LoginStoreService,
-    private toggleDdeService: ToggleDdeService
+    private toggleDdeService: ToggleDdeService,
+    private vehicleStoreService: VehicleDataStoreService
 
   ) {
 
@@ -88,29 +93,45 @@ export class TeleVerificationFormComponent implements OnInit {
 
     this.leadId = this.route.snapshot.params.leadId;
     console.log(this.leadId);
+    // tslint:disable-next-line: radix
     this.applicantId = parseInt(this.route.snapshot.params.applicantId);
     this.applicantType = this.route.snapshot.params.applicantType;
     this.leadDetails = this.route.snapshot.data.leadData;
     this.product = this.leadDetails.ProcessVariables.leadDetails.assetProdutName;
+    this.tenure = this.leadDetails.ProcessVariables.leadDetails.reqTenure;
+
+    // calculating asset cost
+    const vehicleCost = this.leadDetails.ProcessVariables.vehicleCollateral;
+    const sum = a => a.reduce((x, y) => x + y);
+    this.assetCost = sum(vehicleCost.map(x => Number(x.finalAssetCost)));
+    console.log('total amount', this.assetCost);
+
+
+    if (this.applicantType === 'Applicant') {
+      this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[0].mobileNumber;
+    } else if (this.applicantType === 'Co-Applicant') {
+      this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[1].mobileNumber;
+    }
     this.sourcingChannelDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingChannelDesc;
     this.sourcingTypeDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingTypeDesc;
     this.sourcingCodeDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingCodeDesc;
 
     this.sourcingCode = this.sourcingCodeDesc !== '-' ? `- ${this.sourcingCodeDesc}` : '';
+
   }
 
 
-  // InitForm for TVR 
+  // InitForm for TVR
   initForm() {
     this.referenceData =  this.referenceData || [];
     this.teleVerificationForm = this.fb.group({
       leadId: [{ value: this.leadId, disabled: true }],
       applicantName: [{ value: this.applicantName, disabled: true }],
       soName: [{ value: this.soName, disabled: true }],
-      assetCost: ['', Validators.required],
+      assetCost: [''],
       assetType: ['', Validators.required],
       financeAmt: ['', Validators.required],
-      tenureInMonth: ['', Validators.required],
+      tenureInMonth: [''],
       srcOfProposal: [''],
       referredBy: ['', Validators.required],
       product: [''],
@@ -123,7 +144,7 @@ export class TeleVerificationFormComponent implements OnInit {
       fundEndUse: ['', Validators.required],
       tenureRequested: ['', Validators.required],
       otherVehiclesOwned: ['', Validators.required],
-      residentPhnNo: ['', Validators.required],
+      residentPhnNo: [''],
       residentAddress: ['', Validators.required],
       otherLoans: ['', Validators.required],
       otherLoanEmi: ['', Validators.required],
@@ -143,7 +164,7 @@ export class TeleVerificationFormComponent implements OnInit {
       tvrDoneBy: [''],
       eCode: [''],
       wrkExperience: ['', Validators.required],
-      officePhnNo: ['', Validators.required],
+      officePhnNo: [''],
       officePhnExt: ['', Validators.required],
       wrkStability: ['', Validators.required],
       natureOfBusiness: [{ value: '', disabled: true }],
@@ -197,14 +218,14 @@ export class TeleVerificationFormComponent implements OnInit {
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
       this.validationData = res.validationData;
-      if (this.product === 'Used Commercial Vehicle' || this.product === 'New Commercial Vehicle') {
-        this.changeLabelsForProposed = this.labels.needForProposedVehicle + '(applicable for CV)';
-        this.changeLabelsForRoute = this.labels.routeOfOperation + '(applicable for CV)';
-        this.changeLabelsForGoods = this.labels.typeofGoodsCarried + '(applicable for CV)';
-      } else {
+      if (this.product === 'Used Car' || this.product === 'New Car') {
         this.changeLabelsForProposed = this.labels.needForProposedVehicle;
         this.changeLabelsForRoute = this.labels.routeOfOperation;
         this.changeLabelsForGoods = this.labels.typeofGoodsCarried;
+      } else {
+        this.changeLabelsForProposed = this.labels.needForProposedVehicle + '(applicable for CV)';
+        this.changeLabelsForRoute = this.labels.routeOfOperation + '(applicable for CV)';
+        this.changeLabelsForGoods = this.labels.typeofGoodsCarried + '(applicable for CV)';
       }
 
     });
@@ -321,12 +342,14 @@ export class TeleVerificationFormComponent implements OnInit {
           this.valueChanges.applicationReferenceStatus.forEach(element => {
             if (applicationReferences && element.value === applicationReferences.reference1.referenceStatus) {
               // tslint:disable-next-line: max-line-length
+              // tslint:disable-next-line: no-string-literal
               this.teleVerificationForm.controls.applicationReferences['controls'].reference1.get('referenceStatus').setValue(element.key);
             }
           });
           this.valueChanges.applicationReferenceStatus.forEach(element => {
             if (applicationReferences && element.value === applicationReferences.reference2.referenceStatus) {
               // tslint:disable-next-line: max-line-length
+              // tslint:disable-next-line: no-string-literal
               this.teleVerificationForm.controls.applicationReferences['controls'].reference2.get('referenceStatus').setValue(element.key);
             }
           });
@@ -339,6 +362,10 @@ export class TeleVerificationFormComponent implements OnInit {
         this.teleVerificationForm.get('tvrTime').setValue(this.time);
         this.teleVerificationForm.get('tvrDate').setValue(this.toDayDate);
         this.teleVerificationForm.get('product').setValue(this.product);
+        this.teleVerificationForm.get('residentPhnNo').setValue(this.mobileNumber);
+        this.teleVerificationForm.get('officePhnNo').setValue(this.mobileNumber);
+        this.teleVerificationForm.get('tenureInMonth').setValue(this.tenure);
+        this.teleVerificationForm.get('assetCost').setValue(this.assetCost);
       }
 
       const operationType = this.toggleDdeService.getOperationType();

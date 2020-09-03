@@ -519,6 +519,13 @@ export class FleetDetailsComponent implements OnInit {
     const financierName = event.target.value;
   }
 
+  calcSeasoning(event , i){
+    let tenure = parseInt(this.formArr.controls[i]['controls']['tenure'].value);
+    let paid = parseInt(this.formArr.controls[i]['controls']['paid'].value)
+    this.formArr.controls[i]['controls']['seasoning'].patchValue((paid/tenure)*100)   
+
+  }
+
   getDateFormat(date) {
 
     // console.log("in getDateFormat", date)
@@ -579,6 +586,8 @@ export class FleetDetailsComponent implements OnInit {
       this.fleetDetails[i]['tenure'] = parseInt(this.fleetDetails[i]['tenure'])
       this.fleetDetails[i]['paid'] = parseInt(this.fleetDetails[i]['paid'])
       this.fleetDetails[i]['gridValue'] = parseInt(formArray.controls[i]['controls']['gridValue'].value);
+         this.fleetDetails[i]['seasoning'] = parseInt(formArray.controls[i]['controls']['seasoning'].value);
+
     }
     //  this.fleetDetails['purchaseDate'] = this.sendDate(this.fleetDetails['purchaseDate'])
     const data = {
@@ -640,6 +649,9 @@ export class FleetDetailsComponent implements OnInit {
             key: fleets[i].assetModel,
             value: fleets[i].assetModelDesc
           }];
+          if(!fleets[i].seasoning){
+            fleets[i].seasoning = (fleets[i].paid/fleets[i].tenure) * 100
+          }
           if (i == 0) {
             this.formArr.push(this.initRows(fleets[i]))
           }

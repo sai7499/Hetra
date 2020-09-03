@@ -65,18 +65,24 @@ export class CpcMakerDdeComponent implements OnInit {
     }
   }
   getLocationIndex(url: string) {
-    if (url.includes('check-list')) {
+    if (url.includes('term-sheet')) {
       return 0;
-    }  else if (url.includes('term-sheet')) {
+    }  else if (url.includes('sanction-details')) {
       return 1;
-    } else if (url.includes('negotiation')) {
+    } else if (url.includes('pdc-details') && this.roleType == '5') {
       return 2;
-    }  else if (url.includes('disbursement')) {
+    }  else if (url.includes('negotiation')) {
       return 3;
-    } else if (url.includes('sanction-details')) {
+    }  else if (url.includes('disbursement') && this.roleType == '4') {
       return 4;
-    } else if (url.includes('pdc-details')) {
+    } else if (url.includes('check-list') && this.roleType == '4') {
       return 5;
+    } else if (url.includes('check-list') && this.roleType == '5' ) {
+      return 4;
+    } else if (url.includes('disbursement') && this.roleType == '5') {
+      return 5;
+    } else if (url.includes('pdc-details') && this.roleType == '4') {
+      return 6;
     }
   }
 }

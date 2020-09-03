@@ -119,6 +119,7 @@ export interface ApplicantDetails {
     gender?: string;
     maritalStatus?: string;
     physicallyChallenged?: string;
+    dependants?: string;
     residancePhoneNumber?: string;
     officePhoneNumber?: string;
     mobile?: string;
@@ -265,15 +266,21 @@ export interface ReferenceCheck {
     overallFiReport?: string;
     pdRemarks?: string;
     referenceMobile?: string;
+    area?: string;
+    place?: string;
+    routeMap?: any;
+    equitasBranchName?: string;
+    distanceFromBranch?: number;
     soName?: string;
     employeeCode?: string;
     date?: string;
-    place?: string;
     time?: string;
+    product?: string;
+    souringChannel?: string;
     longitude?: number;
     latitude?: number;
     negativeProfile?: string;
-    distanceFromBranch?: number;
+
     // routeMap?:i
 
     // referenceType?: string,
