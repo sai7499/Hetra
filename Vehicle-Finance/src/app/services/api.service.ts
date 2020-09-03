@@ -769,6 +769,12 @@ export class ApiService {
       processId: '12d07096e09411eaaeaa00505695f93b',
       workflowId: '12aa87f0e09411ea900500505695f93b',
       projectId: environment.projectIds.salesProjectId
+    },
+    getAadharNumber: {
+      processId: '81383e76c8c311ea851600505695f93b',
+      workflowId: '8110ed6cc8c311ea873200505695f93b',
+      projectId: environment.projectIds.otpProjectId
     }
+
   };
 }

@@ -348,4 +348,24 @@ export class ApplicantService {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
+
+  retrieveAadharNo(aadharVirtualNo, applicantId){
+    const aadharNoService = this.apiService.api.getAadharNumber;
+    const projectId = aadharNoService.projectId;
+    const processId = aadharNoService.processId;
+    const workflowId = aadharNoService.workflowId;
+    const userId = localStorage.getItem('userId');
+    const body = {
+      processId,
+      workflowId,
+      projectId,
+      ProcessVariables: {
+        applicantId: applicantId,
+        referenceNo: aadharVirtualNo,
+        userId
+      },
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
 }

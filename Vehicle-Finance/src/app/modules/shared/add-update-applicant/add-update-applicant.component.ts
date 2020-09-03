@@ -268,8 +268,17 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.coApplicantForm.get('dedupe').get('pan').disable();
       }
     }
+    let refAadhar = "100006010634";
+    this.applicantService.retrieveAadharNo(refAadhar, this.applicantId).subscribe((res: any) => {
+      let result = res;
+      let processVariables =  result.ProcessVariables;
+      if(processVariables.error.code = "0"){
+        console.log("Aadhar number", processVariables.uid);
+      }
+    });
     
   }
+
   getLeadSectiondata() {
     const leadData = this.createLeadDataService.getLeadSectionData();
     console.log('data-->', leadData);
