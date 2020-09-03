@@ -35,7 +35,7 @@
                   </th>
                   <th role="columnheader">{{ labels?.grossDerivedIncome }}</th>
                   <th role="columnheader">{{ labels?.grossMonthlyIncome }}</th>
-                  <th role="columnheader">{{ labels?.actions }}</th>
+                  <th role="columnheader" *ngIf="!disableSaveBtn">{{ labels?.actions }}</th>
                 </tr>
               </thead>
               <tbody formArrayName="businessIncomeDetails">
@@ -190,7 +190,7 @@
                         labels?.validationData?.amountValue?.maxLength
                       " [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                   </td>
-                  <td data-title="Actions">
+                  <td data-title="Actions" *ngIf="!disableSaveBtn">
                     <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
                       title="Add income" (click)="addBusinessIncomeUnit(null)"></i>&nbsp;
                     <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
@@ -544,24 +544,24 @@
                   <td>
                     <app-custom-input [formControl]="
                         item.controls.yearOne.controls.cashAndBankBalance
-                      " [placeholder]="'Cash and Bank Balance'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                      [maxLength]="
+                      " [placeholder]="'Cash and Bank Balance'"
+                      [type]="labels?.validationData?.keyFinancialAmount?.type" [maxLength]="
                         labels?.validationData?.keyFinancialAmount?.maxLength
                       " [isDirty]="isDirty"></app-custom-input>
                   </td>
                   <td>
                     <app-custom-input [formControl]="
                         item.controls.yearTwo.controls.cashAndBankBalance
-                      " [placeholder]="'Cash and Bank Balance'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                      [maxLength]="
+                      " [placeholder]="'Cash and Bank Balance'"
+                      [type]="labels?.validationData?.keyFinancialAmount?.type" [maxLength]="
                         labels?.validationData?.keyFinancialAmount?.maxLength
                       " [isDirty]="isDirty"></app-custom-input>
                   </td>
                   <td>
                     <app-custom-input [formControl]="
                         item.controls.yearThree.controls.cashAndBankBalance
-                      " [placeholder]="'Cash and Bank Balance'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                      [maxLength]="
+                      " [placeholder]="'Cash and Bank Balance'"
+                      [type]="labels?.validationData?.keyFinancialAmount?.type" [maxLength]="
                         labels?.validationData?.keyFinancialAmount?.maxLength
                       " [isDirty]="isDirty"></app-custom-input>
                   </td>
@@ -603,24 +603,24 @@
                   <td>
                     <app-custom-input [formControl]="
                         item.controls.yearOne.controls.netProfitAfterTax
-                      " [placeholder]="'Net Profit After Tax'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                      [maxLength]="
+                      " [placeholder]="'Net Profit After Tax'"
+                      [type]="labels?.validationData?.keyFinancialAmount?.type" [maxLength]="
                         labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty" (keyup)="onCashGeneration($event.target.value,i)" ></app-custom-input>
+                      " [isDirty]="isDirty" (keyup)="onCashGeneration($event.target.value,i)"></app-custom-input>
                   </td>
                   <td>
                     <app-custom-input [formControl]="
                         item.controls.yearTwo.controls.netProfitAfterTax
-                      " [placeholder]="'Net Profit After Tax'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                      [maxLength]="
+                      " [placeholder]="'Net Profit After Tax'"
+                      [type]="labels?.validationData?.keyFinancialAmount?.type" [maxLength]="
                         labels?.validationData?.keyFinancialAmount?.maxLength
                       " [isDirty]="isDirty" (keyup)="onCashGeneration($event.target.value,i)"></app-custom-input>
                   </td>
                   <td>
                     <app-custom-input [formControl]="
                         item.controls.yearThree.controls.netProfitAfterTax
-                      " [placeholder]="'Net Profit After Tax'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                      [maxLength]="
+                      " [placeholder]="'Net Profit After Tax'"
+                      [type]="labels?.validationData?.keyFinancialAmount?.type" [maxLength]="
                         labels?.validationData?.keyFinancialAmount?.maxLength
                       " [isDirty]="isDirty" (keyup)="onCashGeneration($event.target.value,i)"></app-custom-input>
                   </td>
@@ -783,7 +783,7 @@
                   </th>
                   <th role="columnheader">{{ labels?.factoring }}</th>
                   <th role="columnheader">{{ labels?.factoredIncome }}</th>
-                  <th role="columnheader">{{ labels?.actions }}</th>
+                  <th role="columnheader" *ngIf="!disableSaveBtn">{{ labels?.actions }}</th>
                 </tr>
               </thead>
               <tbody formArrayName="otherIncomeDetails">
@@ -890,7 +890,7 @@
                         labels?.validationData?.amountValue?.maxLength
                       " [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                   </td>
-                  <td data-title="Actions">
+                  <td data-title="Actions" *ngIf="!disableSaveBtn">
                     <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
                       title="Add income" (click)="addOtherIncomeUnit(null)"></i>&nbsp;
                     <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
@@ -940,7 +940,7 @@
                   </th>
                   <th role="columnheader">{{ labels?.balanceTenor }}</th>
                   <th role="columnheader">{{ labels?.obligationAmount }}</th>
-                  <th role="columnheader">{{ labels?.actions }}</th>
+                  <th role="columnheader" *ngIf="!disableSaveBtn">{{ labels?.actions }}</th>
                 </tr>
               </thead>
               <tbody formArrayName="obligationDetails">
@@ -1117,8 +1117,8 @@
                   </td>
                   <td data-title="EMI">
                     <app-custom-input formControlName="emi" [placeholder]="'EMI'"
-                      [type]="labels?.validationData?.distanceEquitasAssetBranch?.type" [className]="'form-control mandatory'"
-                      [maxLength]="
+                      [type]="labels?.validationData?.distanceEquitasAssetBranch?.type"
+                      [className]="'form-control mandatory'" [maxLength]="
                         labels?.validationData?.distanceEquitasAssetBranch?.maxLength
                       " [isRequired]="'EMI mandatory'" [isDirty]="isDirty" (keyup)="onEmi($event.target.value, i)">
                     </app-custom-input>
@@ -1147,7 +1147,7 @@
                         labels?.validationData?.amountValue?.maxLength
                       " [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                   </td>
-                  <td data-title="Actions">
+                  <td data-title="Actions" *ngIf="!disableSaveBtn">
                     <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
                       title="Add obligation" (click)="addObligationUnit(null)"></i>&nbsp;
                     <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
@@ -1261,7 +1261,7 @@
       <button class="btn btn-primary dash_href" type="button" routerLink="../exposure">
         Back
       </button>
-      <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()">
+      <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()" *ngIf="!disableSaveBtn">
         Save
       </button>
       <button class="btn btn-primary dash_href" type="button" routerLink="../psl-data">

@@ -10,10 +10,11 @@ import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
 import { Router } from '@angular/router';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
-import { NumberFormatStyle } from '@angular/common';
+import { NumberFormatStyle, Location } from '@angular/common';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 import { environment } from 'src/environments/environment';
 import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 // for sales
 export enum DisplayTabs {
@@ -66,7 +67,7 @@ export enum sortingTables {
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
   filterForm: FormGroup;
@@ -136,7 +137,9 @@ export class DashboardComponent implements OnInit {
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService,
     private sharedService: SharedService,
-    private applicantStoreService: ApplicantDataStoreService
+    private applicantStoreService: ApplicantDataStoreService,
+    private toggleDdeService: ToggleDdeService,
+    private location: Location
   ) {
     if (environment.isMobile === true) {
       this.itemsPerPage = '5';
@@ -151,7 +154,6 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.branchId = value.branchId;
       this.roleId = value.roleId;
@@ -181,11 +183,7 @@ export class DashboardComponent implements OnInit {
         this.subActiveTab = 34;
         this.onTabsLoading(this.subActiveTab);
       }
-
     }
-
-    console.log('activeTab', this.activeTab, 'subActiveTab', this.subActiveTab);
-
 
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
@@ -204,6 +202,13 @@ export class DashboardComponent implements OnInit {
 
     this.dashboardFilter();
     this.loanMaxAmtChange();
+    const currentUrl = this.location.path();
+    const value = localStorage.getItem('ddePath');
+    const currentLabel = JSON.parse(value);
+    if (currentLabel && currentLabel.labelName && currentLabel.labelName === 'Back To Deviation') {
+      this.toggleDdeService.setIsDDEClicked('0');
+      this.toggleDdeService.setOperationType('1', 'Deviation', currentUrl);
+    }
   }
 
   onSort(data) {
@@ -260,7 +265,6 @@ export class DashboardComponent implements OnInit {
 
   loanMaxAmtChange() {
     this.filterForm.get('loanMaxAmt').valueChanges.pipe(debounceTime(600)).subscribe((data) => {
-      // console.log(data);
 
       const minAmt = this.filterForm.get('loanMinAmt').value;
       const minLoanAmt = Number(minAmt || 0);
@@ -367,7 +371,8 @@ export class DashboardComponent implements OnInit {
     }
   }
   // changing main tabs
-  onLeads(data, subTab) {
+  onLeads(data?, subTab?, tabName?: string) {
+
     this.sortTab = '';
     console.log(this.sortTab)
     this.activeTab = data;
@@ -380,8 +385,21 @@ export class DashboardComponent implements OnInit {
       this.sortByStage = false;
       // this.getSalesFilterLeads(this.itemsPerPage);
       this.onTabsLoading(this.subActiveTab);
-  }
-    // console.log('activeTab', this.activeTab, 'subActiveTab', this.subActiveTab);
+    }
+
+    const currentUrl = this.location.path();
+    if (tabName === 'deviation') {
+      this.toggleDdeService.setIsDDEClicked('0');
+      this.toggleDdeService.setOperationType('1', 'Deviation', currentUrl);
+    } else if (tabName === 'creditDecision') {
+      this.toggleDdeService.setIsDDEClicked('0');
+      this.toggleDdeService.setOperationType('2', 'Credit Decision', currentUrl);
+    } else if (tabName === 'dde') {
+      this.toggleDdeService.setOperationType('0');
+    }
+
+    this.activeTab = data;
+    this.subActiveTab = subTab;
 
     if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
       this.onReleaseTab = false;
@@ -417,7 +435,6 @@ export class DashboardComponent implements OnInit {
     } else if (this.activeTab === this.displayTabs.CPCChecker && this.subActiveTab === this.displayTabs.CPCCheckerWithMe) {
       this.getCheckerLeads(this.itemsPerPage);
     }
-
   }
 
   // changing sub tabs
@@ -425,7 +442,6 @@ export class DashboardComponent implements OnInit {
     this.sortTab = '';
     console.log(this.sortTab)
     this.subActiveTab = data;
-    // console.log('activeTab', this.activeTab, 'subActiveTab', this.subActiveTab);
     if (this.subActiveTab === this.displayTabs.NewLeads) {
       this.onReleaseTab = false;
       this.onAssignTab = false;
@@ -442,18 +458,19 @@ export class DashboardComponent implements OnInit {
       this.sortByStage = false;
       // this.getSalesFilterLeads(this.itemsPerPage);
       this.onTabsLoading(this.subActiveTab);
-  }
+    }
   }
 
   dateToFormate(date) {
-    return date ? `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}` : '';
+    return date
+      ? `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
+      : '';
   }
-
 
   // for getting productCatagory and leadStage
   dashboardFilter() {
     const data = {
-      bizDiv: this.businessDivision
+      bizDiv: this.businessDivision,
     };
     this.dashboardService.dashboardFilter(data).subscribe((res: any) => {
       this.productCategoryList = res.ProcessVariables.productCategory;
@@ -469,7 +486,6 @@ export class DashboardComponent implements OnInit {
         'stageCode',
         'stageValue'
       );
-
     });
   }
 
@@ -479,7 +495,9 @@ export class DashboardComponent implements OnInit {
     this.newArray = response;
     this.limit = res.ProcessVariables.perPage;
     this.pageNumber = res.ProcessVariables.from;
-    this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
+    this.count =
+      Number(res.ProcessVariables.totalPages) *
+      Number(res.ProcessVariables.perPage);
     this.currentPage = res.ProcessVariables.currentPage;
     this.totalItems = res.ProcessVariables.totalPages;
     this.from = res.ProcessVariables.from;
@@ -498,7 +516,9 @@ export class DashboardComponent implements OnInit {
     }
     this.limit = res.ProcessVariables.perPage;
     this.pageNumber = res.ProcessVariables.from;
-    this.count = Number(res.ProcessVariables.totalPages) * Number(res.ProcessVariables.perPage);
+    this.count =
+      Number(res.ProcessVariables.totalPages) *
+      Number(res.ProcessVariables.perPage);
     this.currentPage = res.ProcessVariables.currentPage;
     this.totalItems = res.ProcessVariables.totalPages;
     this.from = res.ProcessVariables.from;
@@ -560,7 +580,6 @@ export class DashboardComponent implements OnInit {
 
   // new leads
   getSalesFilterLeads(perPageCount, pageNumber?) {
-
     // this.filterFormDetails['userId'] = localStorage.getItem('userId');
     // this.filterFormDetails['perPage'] = parseInt(perPageCount);
     // this.filterFormDetails['currentPage'] = parseInt(pageNumber);
@@ -576,7 +595,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -591,7 +612,6 @@ export class DashboardComponent implements OnInit {
   }
 
   getPDDLeads(perPageCount, pageNumber?) {
-
     const data = {
       userId: localStorage.getItem('userId'),
       // tslint:disable-next-line: radix
@@ -603,7 +623,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -618,7 +640,6 @@ export class DashboardComponent implements OnInit {
   }
 
   getChequeTrackingLeads(perPageCount, pageNumber?) {
-
     const data = {
       userId: localStorage.getItem('userId'),
       // tslint:disable-next-line: radix
@@ -631,7 +652,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -646,7 +669,6 @@ export class DashboardComponent implements OnInit {
   }
 
   getProcessLogsLeads(perPageCount, pageNumber?) {
-
     const data = {
       userId: localStorage.getItem('userId'),
       // tslint:disable-next-line: radix
@@ -659,7 +681,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -700,7 +724,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -728,7 +754,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -755,7 +783,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -782,7 +812,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -809,7 +841,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -836,7 +870,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -863,7 +899,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -890,7 +928,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -917,7 +957,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -944,7 +986,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -973,7 +1017,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -1000,7 +1046,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -1027,7 +1075,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -1054,7 +1104,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -1081,7 +1133,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -1108,7 +1162,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -1135,7 +1191,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -1162,7 +1220,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -1189,7 +1249,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -1200,7 +1262,6 @@ export class DashboardComponent implements OnInit {
       sortByStage: this.sortByStage
     };
     this.responseForCredit(data);
-
   }
 
   // for DDE Maker with CPC
@@ -1217,7 +1278,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -1228,7 +1291,6 @@ export class DashboardComponent implements OnInit {
       sortByStage: this.sortByStage
     };
     this.responseForCredit(data);
-
   }
 
   // for DDE Checker with Me
@@ -1245,7 +1307,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -1272,7 +1336,9 @@ export class DashboardComponent implements OnInit {
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      productCategory: this.filterFormDetails
+        ? this.filterFormDetails.product
+        : '',
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
@@ -1407,10 +1473,10 @@ export class DashboardComponent implements OnInit {
         this.router.navigateByUrl(`/pages/credit-decisions/${this.leadId}/new-term-sheet`);
         break;
       case 31: case 32:
-        this.router.navigateByUrl(`/pages/cpc-maker/${this.leadId}/term-sheet`);
+        this.router.navigateByUrl(`/pages/cpc-maker/${this.leadId}/check-list`);
         break;
       case 34: case 35:
-        this.router.navigateByUrl(`/pages/cpc-checker/${this.leadId}/term-sheet`);
+        this.router.navigateByUrl(`/pages/cpc-checker/${this.leadId}/check-list`);
         break;
 
       default:
@@ -1421,7 +1487,7 @@ export class DashboardComponent implements OnInit {
   onRoute(leadId, stageCode?, taskId?) {
     this.dashboardService.routingData = {
       activeTab: this.activeTab,
-      subActiveTab: this.subActiveTab
+      subActiveTab: this.subActiveTab,
     };
     this.leadId = leadId;
     if (!this.onAssignTab && !this.onReleaseTab) {
@@ -1445,9 +1511,13 @@ export class DashboardComponent implements OnInit {
     this.isFilterApplied = true;
     this.filterFormDetails = this.filterForm.value;
     // this.filterFormDetails.fromDate = this.dateToFormate(this.filterFormDetails.fromDate);
-    this.filterFormDetails.fromDate = this.utilityService.getDateFormat(this.filterFormDetails.fromDate);
+    this.filterFormDetails.fromDate = this.utilityService.getDateFormat(
+      this.filterFormDetails.fromDate
+    );
     // this.filterFormDetails.toDate = this.dateToFormate(this.filterFormDetails.toDate);
-    this.filterFormDetails.toDate = this.utilityService.getDateFormat(this.filterFormDetails.toDate);
+    this.filterFormDetails.toDate = this.utilityService.getDateFormat(
+      this.filterFormDetails.toDate
+    );
     this.onTabsLoading(this.subActiveTab);
     // this.dashboardService.filterData(this.filterFormDetails);
   }
@@ -1456,7 +1526,10 @@ export class DashboardComponent implements OnInit {
     this.taskDashboard.releaseTask(taskId).subscribe((res: any) => {
       const response = res;
       if (response.ErrorCode == 0) {
-        this.toasterService.showSuccess('Lead Released Successfully', 'Released');
+        this.toasterService.showSuccess(
+          'Lead Released Successfully',
+          'Released'
+        );
       } else {
         this.toasterService.showError(response.Error, '');
       }
@@ -1466,7 +1539,7 @@ export class DashboardComponent implements OnInit {
   onAssign(taskId, leadId) {
     this.dashboardService.routingData = {
       activeTab: this.activeTab,
-      subActiveTab: this.subActiveTab
+      subActiveTab: this.subActiveTab,
     };
     this.leadId = leadId;
     this.taskDashboard.assignTask(taskId).subscribe((res: any) => {
@@ -1486,16 +1559,14 @@ export class DashboardComponent implements OnInit {
   }
   getLoanNumber(loanNumber) {
     this.dashboardService.routingData = {
-      activeTab: this.activeTab
+      activeTab: this.activeTab,
     };
     this.sharedService.getLoanNumber(loanNumber);
   }
   getLeadId(item) {
     localStorage.setItem('salesResponse', item.is_sales_response_completed);
-    console.log('isficumPd', item.isFiCumPD);
     localStorage.setItem('isFiCumPd', item.isFiCumPD);
     this.vehicleDataStoreService.setCreditTaskId(item.taskId);
     this.sharedService.getTaskID(item.taskId);
   }
-
 }
