@@ -273,15 +273,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.coApplicantForm.get('dedupe').get('pan').disable();
       }
     }
-    // let refAadhar = "100006010634";
-    // this.applicantService.retrieveAadharNo(refAadhar, this.applicantId).subscribe((res: any) => {
-    //   let result = res;
-    //   let processVariables =  result.ProcessVariables;
-    //   if(processVariables.error.code = "0"){
-    //     console.log("Aadhar number", processVariables.uid);
-    //   }
-    // });
-    
+
   }
 
   getLeadSectiondata() {
@@ -1970,6 +1962,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   checkDedupe() {
+
     console.log('dedupeMobileBoolean', this.dedupeMobile);
     const dedupe = this.coApplicantForm.get('dedupe');
     //this.setDedupeValidators();
@@ -1990,74 +1983,86 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         return;
       }
       const applicantDetails = dedupe.value;
-      let companyPhoneNumber = applicantDetails.companyPhoneNumber;
-      this.contactNumber = companyPhoneNumber;
-      // if (this.mobileNumber.length == 10) {
-      this.contactNumber = this.contactNumber;
-      // }
 
-      if (applicantDetails.dateOfIncorporation) {
-        const date = new Date(applicantDetails.dateOfIncorporation);
-        applicantDetails.dateOfIncorporation = this.utilityService.getDateFormat(
-          applicantDetails.dateOfIncorporation
-        );
-      }
+      this.applicantService.retreiveAdhar(applicantDetails.aadhar).subscribe((res: any) => {
+        let result = res;
+        console.log("result aadhar",result);
+        let processVariables =  result.ProcessVariables;
+        if(processVariables.error.code = "0"){
+          console.log("Aadhar number", processVariables.uid);
+          applicantDetails.aadhar = processVariables.uid;
 
-      const data = {
-        leadId: this.leadId,
-        entityType: applicantDetails.entityType || '',
-        bussinessEntityType: applicantDetails.bussinessEntityType || '',
-        ignoreProbablematch: 'false',
-        firstName: applicantDetails.name1,
-        middleName: applicantDetails.name2,
-        lastName: applicantDetails.name3,
-        companyPhoneNumber,
-        contactPerson: applicantDetails.contactPerson,
-        loanApplicationRelation: applicantDetails.loanApplicationRelation,
-        aadhar: applicantDetails.aadhar,
-        dateOfIncorporation: applicantDetails.dateOfIncorporation,
-        voterIdNumber: String(
-          applicantDetails.voterIdNumber || ''
-        ).toUpperCase(),
-        drivingLicenseNumber: String(
-          applicantDetails.drivingLicenseNumber || ''
-        ).toUpperCase(),
-        passportNumber: applicantDetails.passportNumber,
-        pan: String(applicantDetails.pan || '').toUpperCase(),
-        panType: applicantDetails.panType,
-        gstNumber: String(applicantDetails.gstNumber || '').toUpperCase(),
-        tanNumber: String(applicantDetails.tanNumber || '').toUpperCase(),
-        corporateIdentificationNumber: String(
-          applicantDetails.corporateIdentificationNumber || ''
-        ).toUpperCase(),
-        cstVatNumber: String(applicantDetails.cstVatNumber || '').toUpperCase(),
-        applicantId: 0,
-        custSegment: applicantDetails.custSegment || '',
-        monthlyIncomeAmount: applicantDetails.monthlyIncomeAmount || '',
-        annualIncomeAmount: applicantDetails.annualIncomeAmount || '',
-        ownHouseProofAvail: applicantDetails.ownHouseProofAvail || '',
-        houseOwnerProperty: applicantDetails.houseOwnerProperty || '',
-        ownHouseAppRelationship: applicantDetails.ownHouseAppRelationship || '',
-        averageBankBalance: applicantDetails.averageBankBalance || '',
-        rtrType: applicantDetails.rtrType || '',
-        prevLoanAmount: applicantDetails.prevLoanAmount || '',
-        loanTenorServiced: applicantDetails.loanTenorServiced
-          ? Number(applicantDetails.loanTenorServiced)
-          : 0,
-        currentEMILoan: applicantDetails.currentEMILoan || '',
-        agriNoOfAcres: applicantDetails.agriNoOfAcres
-          ? Number(applicantDetails.agriNoOfAcres)
-          : 0,
-        agriOwnerProperty: applicantDetails.agriOwnerProperty || '',
-        agriAppRelationship: applicantDetails.agriAppRelationship || '',
-        grossReceipt: applicantDetails.grossReceipt || '',
-        isMobileNumberChanged: this.dedupeMobile,
-      };
-      if (this.applicantId) {
-        data.applicantId = this.applicantId;
-      }
+          let companyPhoneNumber = applicantDetails.companyPhoneNumber;
+          this.contactNumber = companyPhoneNumber;
+          // if (this.mobileNumber.length == 10) {
+          this.contactNumber = this.contactNumber;
+          // }
 
-      this.onDedupeApiCall(data);
+          if (applicantDetails.dateOfIncorporation) {
+            const date = new Date(applicantDetails.dateOfIncorporation);
+            applicantDetails.dateOfIncorporation = this.utilityService.getDateFormat(
+              applicantDetails.dateOfIncorporation
+            );
+          }
+
+        const data = {
+          leadId: this.leadId,
+          entityType: applicantDetails.entityType || '',
+          bussinessEntityType: applicantDetails.bussinessEntityType || '',
+          ignoreProbablematch: 'false',
+          firstName: applicantDetails.name1,
+          middleName: applicantDetails.name2,
+          lastName: applicantDetails.name3,
+          companyPhoneNumber,
+          contactPerson: applicantDetails.contactPerson,
+          loanApplicationRelation: applicantDetails.loanApplicationRelation,
+          aadhar: applicantDetails.aadhar,
+          dateOfIncorporation: applicantDetails.dateOfIncorporation,
+          voterIdNumber: String(
+            applicantDetails.voterIdNumber || ''
+          ).toUpperCase(),
+          drivingLicenseNumber: String(
+            applicantDetails.drivingLicenseNumber || ''
+          ).toUpperCase(),
+          passportNumber: applicantDetails.passportNumber,
+          pan: String(applicantDetails.pan || '').toUpperCase(),
+          panType: applicantDetails.panType,
+          gstNumber: String(applicantDetails.gstNumber || '').toUpperCase(),
+          tanNumber: String(applicantDetails.tanNumber || '').toUpperCase(),
+          corporateIdentificationNumber: String(
+            applicantDetails.corporateIdentificationNumber || ''
+          ).toUpperCase(),
+          cstVatNumber: String(applicantDetails.cstVatNumber || '').toUpperCase(),
+          applicantId: 0,
+          custSegment: applicantDetails.custSegment || '',
+          monthlyIncomeAmount: applicantDetails.monthlyIncomeAmount || '',
+          annualIncomeAmount: applicantDetails.annualIncomeAmount || '',
+          ownHouseProofAvail: applicantDetails.ownHouseProofAvail || '',
+          houseOwnerProperty: applicantDetails.houseOwnerProperty || '',
+          ownHouseAppRelationship: applicantDetails.ownHouseAppRelationship || '',
+          averageBankBalance: applicantDetails.averageBankBalance || '',
+          rtrType: applicantDetails.rtrType || '',
+          prevLoanAmount: applicantDetails.prevLoanAmount || '',
+          loanTenorServiced: applicantDetails.loanTenorServiced
+            ? Number(applicantDetails.loanTenorServiced)
+            : 0,
+          currentEMILoan: applicantDetails.currentEMILoan || '',
+          agriNoOfAcres: applicantDetails.agriNoOfAcres
+            ? Number(applicantDetails.agriNoOfAcres)
+            : 0,
+          agriOwnerProperty: applicantDetails.agriOwnerProperty || '',
+          agriAppRelationship: applicantDetails.agriAppRelationship || '',
+          grossReceipt: applicantDetails.grossReceipt || '',
+          isMobileNumberChanged: this.dedupeMobile,
+        };
+        if (this.applicantId) {
+          data.applicantId = this.applicantId;
+        }
+
+        this.onDedupeApiCall(data);
+        }
+      });
+      
     } else {
       //this.setDrivingLicenceValidator();
       this.isDirty = true;
@@ -2096,80 +2101,94 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       //console.log('dedupe', dedupe);
 
       const applicantDetails = dedupe.value;
-      let mobileNumber = applicantDetails.mobilePhone;
-      this.mobileNumber = mobileNumber;
-      // if (this.mobileNumber.length == 10) {
-      this.mobileNumber = '91' + this.mobileNumber;
-      // }
 
-      if (applicantDetails.dob) {
-        const date = new Date(applicantDetails.dob);
-        applicantDetails.dob = this.utilityService.getDateFormat(
-          applicantDetails.dob
-        );
-      }
+      this.applicantService.retreiveAdhar(applicantDetails.aadhar).subscribe((res: any) => {
+        let result = res;
+        console.log("result aadhar",result);
+        let processVariables =  result.ProcessVariables;
+        if(processVariables.error.code = "0"){
+          console.log("Aadhar number", processVariables.uid);
+          applicantDetails.aadhar = processVariables.uid;
 
-      const data = {
-        leadId: this.leadId,
-        entityType: applicantDetails.entityType,
-        ignoreProbablematch: 'false',
-        firstName: applicantDetails.name1,
-        middleName: applicantDetails.name2,
-        lastName: applicantDetails.name3,
-        mobileNumber,
-        loanApplicationRelation: applicantDetails.loanApplicationRelation,
-        aadhar: applicantDetails.aadhar,
-        dob: applicantDetails.dob,
-        pan: String(applicantDetails.pan || '').toUpperCase(),
-        panType: applicantDetails.panType,
-        voterIdNumber: String(
-          applicantDetails.voterIdNumber || ''
-        ).toUpperCase(),
-        drivingLicenseNumber: String(
-          applicantDetails.drivingLicenseNumber || ''
-        ).toUpperCase(),
-        drivingLicenseIssueDate: this.utilityService.getDateFormat(
-          applicantDetails.drivingLicenseIssueDate
-        ),
-        drivingLicenseExpiryDate: this.utilityService.getDateFormat(
-          applicantDetails.drivingLicenseExpiryDate
-        ),
-        passportNumber: String(
-          applicantDetails.passportNumber || ''
-        ).toUpperCase(),
-        passportIssueDate: this.utilityService.getDateFormat(
-          applicantDetails.passportIssueDate
-        ),
-        passportExpiryDate: this.utilityService.getDateFormat(
-          applicantDetails.passportExpiryDate
-        ),
-        applicantId: 0,
-        custSegment: applicantDetails.custSegment || '',
-        monthlyIncomeAmount: applicantDetails.monthlyIncomeAmount || '',
-        annualIncomeAmount: applicantDetails.annualIncomeAmount || '',
-        ownHouseProofAvail: applicantDetails.ownHouseProofAvail || '',
-        houseOwnerProperty: applicantDetails.houseOwnerProperty || '',
-        ownHouseAppRelationship: applicantDetails.ownHouseAppRelationship || '',
-        averageBankBalance: applicantDetails.averageBankBalance || '',
-        rtrType: applicantDetails.rtrType || '',
-        prevLoanAmount: applicantDetails.prevLoanAmount || '',
-        loanTenorServiced: applicantDetails.loanTenorServiced
-          ? Number(applicantDetails.loanTenorServiced)
-          : 0,
-        currentEMILoan: applicantDetails.currentEMILoan || '',
-        agriNoOfAcres: applicantDetails.agriNoOfAcres
-          ? Number(applicantDetails.agriNoOfAcres)
-          : 0,
-        agriOwnerProperty: applicantDetails.agriOwnerProperty || '',
-        agriAppRelationship: applicantDetails.agriAppRelationship || '',
-        grossReceipt: applicantDetails.grossReceipt || '',
-        isMobileNumberChanged: this.dedupeMobile,
-      };
-      if (this.applicantId) {
-        data.applicantId = this.applicantId;
-      }
+          let mobileNumber = applicantDetails.mobilePhone;
+          this.mobileNumber = mobileNumber;
+          // if (this.mobileNumber.length == 10) {
+          this.mobileNumber = '91' + this.mobileNumber;
+          // }
+    
+          if (applicantDetails.dob) {
+            const date = new Date(applicantDetails.dob);
+            applicantDetails.dob = this.utilityService.getDateFormat(
+              applicantDetails.dob
+            );
+          }
+    
+          const data = {
+            leadId: this.leadId,
+            entityType: applicantDetails.entityType,
+            ignoreProbablematch: 'false',
+            firstName: applicantDetails.name1,
+            middleName: applicantDetails.name2,
+            lastName: applicantDetails.name3,
+            mobileNumber,
+            loanApplicationRelation: applicantDetails.loanApplicationRelation,
+            aadhar: applicantDetails.aadhar,
+            dob: applicantDetails.dob,
+            pan: String(applicantDetails.pan || '').toUpperCase(),
+            panType: applicantDetails.panType,
+            voterIdNumber: String(
+              applicantDetails.voterIdNumber || ''
+            ).toUpperCase(),
+            drivingLicenseNumber: String(
+              applicantDetails.drivingLicenseNumber || ''
+            ).toUpperCase(),
+            drivingLicenseIssueDate: this.utilityService.getDateFormat(
+              applicantDetails.drivingLicenseIssueDate
+            ),
+            drivingLicenseExpiryDate: this.utilityService.getDateFormat(
+              applicantDetails.drivingLicenseExpiryDate
+            ),
+            passportNumber: String(
+              applicantDetails.passportNumber || ''
+            ).toUpperCase(),
+            passportIssueDate: this.utilityService.getDateFormat(
+              applicantDetails.passportIssueDate
+            ),
+            passportExpiryDate: this.utilityService.getDateFormat(
+              applicantDetails.passportExpiryDate
+            ),
+            applicantId: 0,
+            custSegment: applicantDetails.custSegment || '',
+            monthlyIncomeAmount: applicantDetails.monthlyIncomeAmount || '',
+            annualIncomeAmount: applicantDetails.annualIncomeAmount || '',
+            ownHouseProofAvail: applicantDetails.ownHouseProofAvail || '',
+            houseOwnerProperty: applicantDetails.houseOwnerProperty || '',
+            ownHouseAppRelationship: applicantDetails.ownHouseAppRelationship || '',
+            averageBankBalance: applicantDetails.averageBankBalance || '',
+            rtrType: applicantDetails.rtrType || '',
+            prevLoanAmount: applicantDetails.prevLoanAmount || '',
+            loanTenorServiced: applicantDetails.loanTenorServiced
+              ? Number(applicantDetails.loanTenorServiced)
+              : 0,
+            currentEMILoan: applicantDetails.currentEMILoan || '',
+            agriNoOfAcres: applicantDetails.agriNoOfAcres
+              ? Number(applicantDetails.agriNoOfAcres)
+              : 0,
+            agriOwnerProperty: applicantDetails.agriOwnerProperty || '',
+            agriAppRelationship: applicantDetails.agriAppRelationship || '',
+            grossReceipt: applicantDetails.grossReceipt || '',
+            isMobileNumberChanged: this.dedupeMobile,
+          };
+          if (this.applicantId) {
+            data.applicantId = this.applicantId;
+          }
+    
+          this.onDedupeApiCall(data);
+    
+        }
+      });
 
-      this.onDedupeApiCall(data);
+
     }
   }
 

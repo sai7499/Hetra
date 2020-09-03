@@ -24,33 +24,36 @@ export class BiometricService {
     ){}
 
 
-    initIdenti5(aadhar: string, applicantId, callBack){
-      aadhar = "9190083092186683";
-
-      this.applicantService.retrieveAadharNo(aadhar, applicantId).subscribe((res: any) => {
-        let result = JSON.stringify(res);
-        console.log("Aadhar number", result);
-      });
-
-      // let dInfo = new device();
-      // console.log(dInfo.model);
+    initIdenti5(refAadhar: string, applicantId, callBack){
       var that = this;
       this.pid = "";
-  
 
-      identi5.getInfo(function(result){
-        console.log("Result&&&&"+ result);
-        if(result["error"]){
-          let result = JSON.stringify({"pidErr": true});
-          callBack(result);
-          return;
+
+      //refAadhar = "100006010634";  
+      this.applicantService.retreiveAdhar(refAadhar).subscribe((res: any) => {
+        let result = res;
+        console.log("result aadhar",result);
+        let processVariables =  result.ProcessVariables;
+        if(processVariables.error.code = "0"){
+          console.log("Aadhar number", processVariables.uid);
+          let aadhar = processVariables.uid
+          identi5.getInfo(function(result){
+            console.log("Result&&&&"+ result);
+            if(result["error"]){
+              let result = JSON.stringify({"pidErr": true});
+              callBack(result);
+              return;
+            }
+            that.pid = result["model"];
+            console.log("base64Data"+ that.pid);
+            that.prepareKYCRequest(that.pid, aadhar, applicantId, callBack);
+          },function(error){
+            console.log("Result&&&&"+ error);
+            alert("error"+error);
+          });
+        }else{
+          this.toasterService.showError(res['ProcessVariables'].error.messge, '')
         }
-        that.pid = result["model"];
-        console.log("base64Data"+ that.pid);
-        that.prepareKYCRequest(that.pid, aadhar, applicantId, callBack);
-      },function(error){
-        console.log("Result&&&&"+ error);
-        alert("error"+error);
       });
       
     }
