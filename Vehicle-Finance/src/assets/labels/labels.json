@@ -819,6 +819,10 @@
     "count": "Count on 30's & 90's dpd",
     "totalNoOfEmis": "Total no of emi's",
     "noOfEmisPaid": "NO of emi's paid",
+    "noOfEmisAccrued" : "No Of Emis Accrued",
+    "accrued" : "Accrued",
+    "emistartDate": "Emi start Date",
+    "emiOverdue": "EMI Overdue",
     "totalDelay": "Total Delay",
     "peakDelay": "Peak Delay",
     "avgDelay": "Avg Delay",
@@ -1557,10 +1561,12 @@
     "crossSellOthers": "Cross Sell Others (in INR)",
     "errorCode": "Error Code",
     "errorMsg": "Error Message",
+    "minDelay" : "Min Delay",
     "loanType": "Loan Type",
     "totalCredits": "Total number of credits",
     "micrNo": "MICR No",
     "accountBranchname" : "Account Branchname",
+
     "validationData": {
         "name": {
             "maxLength": {

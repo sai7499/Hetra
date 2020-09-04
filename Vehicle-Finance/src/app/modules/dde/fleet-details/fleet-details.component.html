@@ -23,7 +23,7 @@
                             <td role="columnheader">{{labels.loanNo}} </td>
                             <td role="columnheader">{{labels.purchaseDate}} </td>
                             <td role="columnheader">{{labels.tenure}} </td>
-                            <td role="columnheader">{{labels.paid}} </td>
+                            <td role="columnheader">{{labels.accrued}} </td>
                             <td role="columnheader">{{labels.seasoning}} </td>
                             <td role="columnheader">{{labels.ad}} </td>
                             <td role="columnheader">{{labels.pd}} </td>
@@ -264,7 +264,7 @@
                                     </app-custom-input>
 
                                     <div class="cus-mandatory-field" *ngIf="itemrow.controls['paid'].errors && itemrow.controls['paid'].errors['incorrect']">
-                                        Paid not grater Tenure
+                                        Paid not greater than Tenure
                                     </div>
 
                                     <!-- <input type="number" class="form-control  input_value height" placeholder="Paid" formControlName="paid" max="3">
