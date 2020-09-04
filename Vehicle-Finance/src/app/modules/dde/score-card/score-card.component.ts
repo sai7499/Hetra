@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ScoreCardService } from '../services/score-card.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
     templateUrl: './score-card.component.html',
@@ -20,11 +21,13 @@ export class ScoreCardComponent implements OnInit {
     scoreCard: any;
     userId: string;
     leadId: number;
+    disableSaveBtn: boolean;
 
     constructor(
         private scoreCardService: ScoreCardService,
         private loginStoreService: LoginStoreService,
-        private createLeadDataService: CreateLeadDataService
+        private createLeadDataService: CreateLeadDataService,
+        private toggleDdeService: ToggleDdeService
     ) { }
 
     ngOnInit() {
@@ -35,6 +38,10 @@ export class ScoreCardComponent implements OnInit {
         this.leadId = (leadData as any).leadId;
 
         this.reInitiateCreditScore();
+        const operationType = this.toggleDdeService.getOperationType();
+        if (operationType === '1') {
+            this.disableSaveBtn = true;
+        }
     }
 
     reInitiateCreditScore() {

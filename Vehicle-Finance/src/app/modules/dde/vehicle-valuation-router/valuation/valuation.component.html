@@ -686,7 +686,7 @@
           {{ labels.back }}
         </button>
         &nbsp;
-        <button class="btn btn-primary" (click)="onFormSubmit()">
+        <button class="btn btn-primary" (click)="onFormSubmit()" *ngIf="!disableSaveBtn">
           {{ labels.save }}
         </button>
         &nbsp;
