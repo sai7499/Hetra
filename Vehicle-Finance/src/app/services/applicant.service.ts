@@ -82,7 +82,7 @@ export class ApplicantService {
     this.addressDetails = this.apiService.api.getAddressDetails; 
     this.panValidation = this.apiService.api.wrapperPanValidation;
     this.biometriceKYC= this.apiService.api.wrapperBiometriceKYC;
-    this.retrieveAadharData= this.apiService.api.getAadharNumber;
+    this.retrieveAadharData= this.apiService.api.retrieveAadharData;
   }
 
   getApplicantList(data) {
