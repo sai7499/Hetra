@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-insurance-details',
@@ -15,10 +16,11 @@ export class InsuranceDetailsComponent implements OnInit {
   public label: any = {};
   public labelCreditShield: any = {};
   public labelExistingInsuranceDetails: any = {};
+  disableSaveBtn: boolean;
 
   insuranceType: string = '0';
 
-  constructor(private _fb: FormBuilder, private labelsData: LabelsService) { }
+  constructor(private _fb: FormBuilder, private labelsData: LabelsService, private toggleDdeService: ToggleDdeService) { }
 
   ngOnInit() {
 
@@ -49,6 +51,11 @@ export class InsuranceDetailsComponent implements OnInit {
       },
     ]
     this.createForm();
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      this.InsuranceDetailForm.disable();
+      this.disableSaveBtn  = true;
+    }
   }
 
   selectInsuranceType(value) {

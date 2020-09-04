@@ -33,7 +33,7 @@
                 <h3 class="m-0">{{ labels?.odDetails }}</h3>
               </div>
               <div class="col-md-2 text-right">
-                <button type="button" class="btn caption btn-sm" (click)="addOdDetails()"><i
+                <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addOdDetails()"><i
                     class="fa fa-plus fa-fw"></i> Add Row</button>
               </div>
             </div>
@@ -62,7 +62,7 @@
                   <th role="columnheader" class="caption">
                     {{ labels?.odDpd }}<sub class="star_blue_col">*</sub>
                   </th>
-                  <th role="columnheader" class="caption">{{labels?.action}}</th>
+                  <th *ngIf="!disableSaveBtn" role="columnheader" class="caption">{{labels?.action}}</th>
                 </tr>
               </thead>
               <tbody formArrayName="odAccountDetails">
@@ -118,7 +118,7 @@
                       [isRequired]="'OD DPD mandatory'">
                     </app-custom-input>
                   </td>
-                  <td data-title="Actions">
+                  <td data-title="Actions" *ngIf="!disableSaveBtn">
                     <!-- <i type="button" class="fa fa-trash" aria-hidden="true" id="delPOIbutton" value="Delete"
                       (click)="removeOdDetails(i)"></i> -->
                     <i type="button" class="fa fa-trash" aria-hidden="true" id="delPOIbutton" value="Delete"
@@ -233,7 +233,7 @@
             <hr>
             <div class="table-responsive application mt-3">
               <div class="caption text-left mb-5 text-bold">{{labels?.loanEnquiriesInLast30DaysWithTypeOfLoan}}</div>
-              <div class="text-right"><button type="button" class="btn caption btn-sm"
+              <div class="text-right"><button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm"
                   (click)="addLastThirtyDaysLoan()"><i class="fa fa-plus fa-fw"></i> Add Row</button></div>
               <table id="POITable_other" border="0" class="table">
                 <thead>
@@ -248,7 +248,7 @@
                     <th role="columnheader" class="caption">
                       {{ labels?.enquiryAmount }}<sub class="star_blue_col">*</sub>
                     </th>
-                    <th role="columnheader" class="caption">{{labels?.action}}</th>
+                    <th role="columnheader" class="caption" *ngIf="!disableSaveBtn">{{labels?.action}}</th>
 
                   </tr>
                 </thead>
@@ -283,7 +283,7 @@
                       </app-custom-input>
 
                     </td>
-                    <td data-title="Actions">
+                    <td data-title="Actions" *ngIf="!disableSaveBtn">
 
                       <!-- <i type="button" class="fa fa-trash" aria-hidden="true" id="delPOIbutton" value="Delete"
                         (click)="removeLastThirtyDaysLoan(i)"></i> -->
@@ -297,7 +297,7 @@
             </div>
             <div class="table-responsive application mt-3">
               <div class="caption text-left mb-5 text-bold">{{labels?.loanEnquiriesInLast60DaysWithTypeOfLoan}}</div>
-              <div class="text-right"><button type="button" class="btn caption btn-sm"
+              <div class="text-right"><button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm"
                   (click)="addLastSixtyDaysLoan()"><i class="fa fa-plus fa-fw"></i> Add Row</button></div>
               <table id="POITable_other" border="0" class="table">
                 <thead>
@@ -312,7 +312,7 @@
                     <th role="columnheader" class="caption">
                       {{ labels?.enquiryAmount }}<sub class="star_blue_col">*</sub>
                     </th>
-                    <th role="columnheader" class="caption">{{labels?.action}}</th>
+                    <th role="columnheader" class="caption" *ngIf="!disableSaveBtn">{{labels?.action}}</th>
 
                   </tr>
                 </thead>
@@ -347,7 +347,7 @@
                       </app-custom-input>
 
                     </td>
-                    <td data-title="Actions">
+                    <td data-title="Actions" *ngIf="!disableSaveBtn">
 
                       <i type="button" class="fa fa-trash" aria-hidden="true" id="delPOIbutton" value="Delete"
                         (click)="showSixtyModel(i)"></i>
@@ -373,7 +373,7 @@
         <button class="btn btn-primary dash_href" type="button" routerLink="../exposure">
           Back
         </button>
-        <button class="btn btn-primary mar-right8" type="button" (click)=onSubmit();>
+        <button *ngIf="!disableSaveBtn" class="btn btn-primary mar-right8" type="button" (click)=onSubmit();>
           Save
         </button>
         <button class="btn btn-primary dash_href" type="button" routerLink="../psl-data">

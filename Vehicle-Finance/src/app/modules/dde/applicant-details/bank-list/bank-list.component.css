@@ -40,6 +40,8 @@ table .rowCollapse {
     border-collapse: collapse; 
     margin: 0 auto;
 }
+
+table td { word-wrap:break-word;}
 /* Zebra striping */
 /* tr:nth-of-type(odd) { 
     background: #f2f2f2; 

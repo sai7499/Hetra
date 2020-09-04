@@ -12,6 +12,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToasterService } from '@services/toaster.service';
 import { ApplicantService } from '@services/applicant.service';
 import { map } from 'rxjs/operators';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -25,6 +26,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   addressList: any = [];
   applicantDetails: any = [];
+  disableSaveBtn: boolean;
 
   maxDate = new Date();
   initalZeroCheck = [];
@@ -60,7 +62,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public leadId: number;
 
   constructor(
-    private _fb: FormBuilder,
+    private _fb: FormBuilder, private toggleDdeService: ToggleDdeService,
     private loginStoreService: LoginStoreService,
     private labelsData: LabelsService,
     private commonLovService: CommomLovService,
@@ -110,6 +112,13 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     if (this.id) {
       this.setFormValue();
     };
+
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      this.basicVehicleForm.disable();
+      this.disableSaveBtn  = true;
+    }
+
   }
 
   onGetDateValue(event) {

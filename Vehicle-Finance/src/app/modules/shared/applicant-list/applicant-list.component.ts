@@ -152,9 +152,7 @@ export class ApplicantListComponent implements OnInit {
       this.applicantImageService.getApplicantImageDetails(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
         if (res.ProcessVariables.error.code == '0') {
-          console.log(res);
           const imageUrl = res.ProcessVariables.response;
-          console.log(imageUrl);
           this.imageUrl = imageUrl;
           this.imageUrl = atob(this.imageUrl); // decoding base64 string to get xml file
           this.imageUrl = this.domSanitizer.bypassSecurityTrustHtml(this.imageUrl); // sanitizing xml doc for rendering with proper css
@@ -168,7 +166,7 @@ export class ApplicantListComponent implements OnInit {
 
   }
 
-  onNext(){
+  onNext() {
     this.router.navigateByUrl(`pages/sales/${this.leadId}/vehicle-list`)
   }
   destroyImage() {

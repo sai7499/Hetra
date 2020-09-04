@@ -14,6 +14,7 @@ import { CommomLovService } from '@services/commom-lov-service';
 import { ApplicantService } from '@services/applicant.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ToasterService } from '@services/toaster.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 import { UtilityService } from '@services/utility.service';
 
 @Component({
@@ -22,6 +23,7 @@ import { UtilityService } from '@services/utility.service';
   styleUrls: ['./income-details.component.css'],
 })
 export class IncomeDetailsComponent implements OnInit {
+  disableSaveBtn: boolean;
   labels: any = {};
   incomeDetailsForm: FormGroup;
   otherDetailsForm: FormGroup;
@@ -109,13 +111,12 @@ export class IncomeDetailsComponent implements OnInit {
     private applicantService: ApplicantService,
     private createLeadDataService: CreateLeadDataService,
     private toasterService: ToasterService,
+    private toggleDdeService: ToggleDdeService,
     private utilityService: UtilityService,
-
   ) {
     this.yearOneValue = (this.today - 1).toString() + '-' + (this.today)
     this.yearTwoValue = (this.today - 2).toString() + '-' + (this.today - 1)
     this.yearThreeValue = (this.today - 3).toString() + '-' + (this.today - 2)
-
   }
 
 
@@ -414,7 +415,7 @@ export class IncomeDetailsComponent implements OnInit {
         }
 
       });
-    
+
   }
   private getBusinessIncomeDetails(data?: any) {
     if (data === undefined) {
@@ -701,18 +702,21 @@ export class IncomeDetailsComponent implements OnInit {
         this.addOtherIncomeUnit(res.ProcessVariables.otherIncomeList);
         this.addObligationUnit(res.ProcessVariables.obligationsList);
         this.onSalFoirDeviation(this.applicantResponse.salariedFOIRDeviation);
+        const operationType = this.toggleDdeService.getOperationType();
+        if (operationType === '1') {
+          this.incomeDetailsForm.disable();
+          this.disableSaveBtn = true;
+        }
         // this.keyFinancialData = JSON.parse(res.ProcessVariables.keyFinanceDetails.keyFinancials || null)
         // this.addKeyFinancialDetails(this.keyFinancialData)
         let keyFinancialData = JSON.parse(res.ProcessVariables.keyFinanceDetails || null)
-        if(keyFinancialData != null){
-        const keyFinancialObj =  keyFinancialData.keyFinancials
-        this.addKeyFinancialDetails(keyFinancialObj)
+        if (keyFinancialData != null) {
+          const keyFinancialObj = keyFinancialData.keyFinancials
+          this.addKeyFinancialDetails(keyFinancialObj)
         } else {
-            const keyFinancialObj = null
-            this.addKeyFinancialDetails(keyFinancialObj)
-          }
-      
-
+          const keyFinancialObj = null
+          this.addKeyFinancialDetails(keyFinancialObj)
+        }
       });
   }
 
@@ -805,7 +809,7 @@ export class IncomeDetailsComponent implements OnInit {
   }
   onSubmit() {
     this.submitted = true;
-  
+
     // stop here if form is invalid
     if (this.incomeDetailsForm.invalid) {
       this.toasterService.showError(
@@ -1041,7 +1045,7 @@ export class IncomeDetailsComponent implements OnInit {
       }
     }
     this.getTotalOtherIncome(i)
-    
+
   }
   getTotalOtherIncome(i: number) {
     const incomeArray = this.incomeDetailsForm.controls
@@ -1136,7 +1140,7 @@ export class IncomeDetailsComponent implements OnInit {
 
     const keyFinanceDetails = this.incomeDetailsForm.controls
       .keyFinanceDetails as FormArray;
-   
+
     const netProfitAfterTaxYearOne = keyFinanceDetails.value[i].yearOne.netProfitAfterTax;
     const depreciationBYearOne = keyFinanceDetails.value[i].yearOne.depreciation;
     const netProfitAfterTaxYearTwo = keyFinanceDetails.value[i].yearTwo.netProfitAfterTax;
@@ -1147,13 +1151,13 @@ export class IncomeDetailsComponent implements OnInit {
     this.cashGeneratedYearOneValue = Number(netProfitAfterTaxYearOne) + Number(depreciationBYearOne);
     this.cashGeneratedYearTwoValue = Number(netProfitAfterTaxYearTwo) + Number(depreciationBYearTwo);
     this.cashGeneratedYearThreeValue = Number(netProfitAfterTaxYearThree) + Number(depreciationBYearThree);
- 
+
     const control = this.incomeDetailsForm.controls
       .keyFinanceDetails['controls'] as FormGroup;
 
-       control[i].controls.yearOne.get('cashGeneration').setValue(this.cashGeneratedYearOneValue);
-       control[i].controls.yearTwo.get('cashGeneration').setValue(this.cashGeneratedYearTwoValue);
-       control[i].controls.yearThree.get('cashGeneration').setValue(this.cashGeneratedYearThreeValue);
+    control[i].controls.yearOne.get('cashGeneration').setValue(this.cashGeneratedYearOneValue);
+    control[i].controls.yearTwo.get('cashGeneration').setValue(this.cashGeneratedYearTwoValue);
+    control[i].controls.yearThree.get('cashGeneration').setValue(this.cashGeneratedYearThreeValue);
 
 
 

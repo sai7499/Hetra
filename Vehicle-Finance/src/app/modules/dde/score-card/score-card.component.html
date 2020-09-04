@@ -1,6 +1,7 @@
 <div class="row text-right">
     <div class="form-group col-sm-12 col-md-12 col-lg-12">
         <button 
+            [disabled]="disableSaveBtn"
             type="button" 
             class="btn btn-primary"
             (click)="reInitiateCreditScore()">Re-Evaluation

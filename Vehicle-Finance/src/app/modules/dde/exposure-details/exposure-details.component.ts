@@ -8,6 +8,7 @@ import { Location } from '@angular/common';
 import { ThrowStmt } from '@angular/compiler';
 import { ToasterService } from '@services/toaster.service';
 import { element } from 'protractor';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-exposure-details',
@@ -15,6 +16,7 @@ import { element } from 'protractor';
   styleUrls: ['./exposure-details.component.css']
 })
 export class ExposureDetailsComponent implements OnInit {
+  disableSaveBtn: boolean;
   leadId: number;
   userId: string;
   getExposureDetails: any;
@@ -33,7 +35,8 @@ export class ExposureDetailsComponent implements OnInit {
               private route: Router,
               private activatedRoute: ActivatedRoute,
               private location: Location,
-              private toStarService: ToasterService ) {
+              private toStarService: ToasterService,
+              private toggleDdeService: ToggleDdeService ) {
                 this.yearCheck = [{rule: val => val>this.currentYear,
                                    msg:'Future year not accepted'}];
                 this.labelService.getLabelsData().subscribe(res => {
@@ -89,9 +92,16 @@ export class ExposureDetailsComponent implements OnInit {
         this.addUnit(null);
         // this.addProposedUnit(null);
        }
+       const operationType = this.toggleDdeService.getOperationType();
+       if (operationType === '1') {
+           this.exposureLiveLoan.disable();
+           this.disableSaveBtn  = true;
+         }
     });
     console.log(this.liveloanArray, 'live loan');
     console.log(this.proposedArray, 'proposed');
+
+   
 
   }
   getLeadId() {
