@@ -394,6 +394,9 @@ export class DashboardComponent implements OnInit {
     } else if (tabName === 'dde') {
       this.toggleDdeService.setIsDDEClicked('1');
       this.toggleDdeService.setOperationType('0');
+    } else if(tabName === 'CPC'){
+      this.toggleDdeService.setIsDDEClicked('0');
+      this.toggleDdeService.setOperationType('1', 'CPC', currentUrl);
     }
 
     this.activeTab = data;
