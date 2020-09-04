@@ -1062,6 +1062,7 @@
     "accountNumber": "Account Number",
     "accountHolderName": "Account Holder Name",
     "minimumAverageBalance": "Minimum Average Balance",
+    "average":"Average",
     "micrCode": "MICR Code",
     "ifscCode": "IFSC Code",
     "seniorCitizen": "Senior Citizen?",

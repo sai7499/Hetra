@@ -127,7 +127,8 @@
                 </tr>
                 <tr *ngIf="odAccountDetailsArray.length > 0">
                   <td>{{ labels?.totalODAmount }}</td>
-                  <td>{{totalOdAmount}}</td>
+                  <td>{{totalAmount}}</td>
+                 
                 </tr>
               </tbody>
             </table>
@@ -207,6 +208,21 @@
             </ng-container>
               <div class="clearfix"></div>
             </div>
+            <!-- <div class="form-group od-row">
+              <div class="col-md-2"><label>{{labels?.additionalMatchFound}}</label></div>
+              <div class="col-md-2">
+                <input type="checkbox"  (change)= "onAdditionalMatch($event.target.value)">
+                
+              </div>
+              <div class="col-md-2"><label>{{labels?.cibilScoreIfAdditionalMatchFound}}</label></div>
+              <div class="col-md-2">
+                <app-custom-input  [placeholder]="'Cibil Score'"
+                  [type]="labels?.validationData?.tenurePaid?.type" [className]="'form-control mandatory'"
+                  [maxLength]="labels?.validationData?.tenurePaid?.maxLength" [isDirty]="isDirty">
+                </app-custom-input>
+              </div>
+              <div class="clearfix"></div>
+            </div>
             <div class="form-group od-row">
               <div class="col-md-2"><label>{{labels?.cibilODDPDJustification}}</label></div>
                 <div class="col-md-10">
@@ -229,7 +245,7 @@
               </div>
               </div>
               <div class="clearfix"></div>
-            </div>
+            </div> -->
             <hr>
             <div class="table-responsive application mt-3">
               <div class="caption text-left mb-5 text-bold">{{labels?.loanEnquiriesInLast30DaysWithTypeOfLoan}}</div>
