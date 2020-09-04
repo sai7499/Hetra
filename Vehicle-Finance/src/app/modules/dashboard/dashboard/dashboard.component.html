@@ -214,7 +214,7 @@
   <!-- for CPC Maker and CPC Checker -->
   <div class="container-fluid mar-bottom" *ngIf="roleType == '4'">
     <ul class="nav nav-pills nav-justified" id="background_white">
-      <li (click)="onLeads(displayTabs?.CPCMaker, displayTabs?.CPCMakerWithMe)"
+      <li (click)="onLeads(displayTabs?.CPCMaker, displayTabs?.CPCMakerWithMe,'CPC')"
         [ngClass]="{'active':displayTabs?.CPCMaker === activeTab}" routerLinkActive="active"><a data-toggle="tab">CPC
           Maker</a></li>
     </ul>
@@ -232,7 +232,7 @@
 
   <div class="container-fluid mar-bottom" *ngIf="roleType == '5'">
     <ul class="nav nav-pills nav-justified" id="background_white">
-      <li (click)="onLeads(displayTabs?.CPCChecker, displayTabs?.CPCCheckerWithMe)"
+      <li (click)="onLeads(displayTabs?.CPCChecker, displayTabs?.CPCCheckerWithMe,'CPC')"
         [ngClass]="{'active':displayTabs?.CPCChecker === activeTab}" routerLinkActive="active"><a data-toggle="tab">CPC
           Checker</a></li>
       <li (click)="onLeads(displayTabs?.LoanBooking)" [ngClass]="{'active':displayTabs?.LoanBooking === activeTab}"
