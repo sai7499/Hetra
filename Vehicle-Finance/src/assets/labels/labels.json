@@ -1557,6 +1557,9 @@
     "crossSellOthers": "Cross Sell Others (in INR)",
     "errorCode": "Error Code",
     "errorMsg": "Error Message",
+    "totalCredits": "Total number of credits",
+    "micrNo": "MICR No",
+    "accountBranchname" : "Account Branchname",
     "validationData": {
         "name": {
             "maxLength": {
@@ -2324,6 +2327,29 @@
             "maxLength": {
                 "rule": 6,
                 "msg": "Should be 6 Digits"
+            },
+            "type": "number"
+        },
+        "micrFormat": {
+            "maxLength": {
+                "rule": 9,
+                "msg" : "Should be 9 Digits"
+            },
+            "type": "alpha-numeric",
+            "pattern": {
+                "rule": "^[A-Za-z]{3}[0-9]{6}$",
+                "msg": "Pattern should be ABC123456"
+            }
+        },
+        "amountFiveCharc": {
+            "maxLength": {
+                "rule": 5
+            },
+            "type":"number"
+        },
+        "noOfTyres": {
+            "maxLength": {
+                "rule": 2
             },
             "type": "number"
         }
