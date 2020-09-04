@@ -187,8 +187,9 @@
     <button
       class="btn btn-primary js-btn-next "
       type="button"
-      (click)="onNext()"
+      [routerLink]="['../vehicle-list']"
     >
+    <!--  (click)="onNext()" -->
       Next
     </button>
   </div>

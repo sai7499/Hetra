@@ -367,6 +367,11 @@
                 formControlName="emiAmount"
                 [className]="'form-control mandatory'"
                 (change)="openEmiAmountModal($event)"
+                [isRequired]="'Emi Amount is mandatory'"
+                [maxLength]="validationData?.amountValue.maxLength"
+                [isDirty]="isDirty"
+                [type] = "validationData?.amountValue.type"
+                                    
                 >
               </app-custom-input>
             </div>
