@@ -5,11 +5,12 @@ import * as moment from 'moment';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { DashboardService } from './dashboard/dashboard.service';
+import { ToggleDdeService } from './toggle-dde.service';
 
 @Injectable()
 export class UtilityService {
   constructor(private httpService: HttpService, private router: Router, private dashboardService: DashboardService,
-    private ngxUiLoaderService: NgxUiLoaderService) { }
+    private ngxUiLoaderService: NgxUiLoaderService, private toggleDdeService: ToggleDdeService) { }
 
   logOut() {
     this.httpService.logOut().subscribe(
@@ -26,6 +27,7 @@ export class UtilityService {
     localStorage.removeItem('userId');
     localStorage.removeItem('salesResponse');
     this.dashboardService.routingData = '';
+    this.toggleDdeService.clearToggleData();
     console.clear();
     this.router.navigateByUrl('/login');
   }
