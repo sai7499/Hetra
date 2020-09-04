@@ -46,8 +46,8 @@ export class TrackVehicleComponent implements OnInit {
   disableActionBtn: boolean;
   installment: FormArrayName;
   overdueLov: any = [
-    {key: "YES", value: "Yes"},
-    {key: "NO", value: "No"}
+    {key: "1", value: "YES"},
+    {key: "2", value: "NO"}
   ]
   // regexPattern = {
   //   amount: {
@@ -143,6 +143,8 @@ export class TrackVehicleComponent implements OnInit {
       this.trackVehicleForm.patchValue({ totalAmtPaid: fleetRtr.totalAmtPaid });
       this.trackVehicleForm.patchValue({ emiPaid: fleetRtr.emiPaid });
       this.trackVehicleForm.patchValue({ emiAmount: fleetRtr.emiAmount });
+      this.trackVehicleForm.patchValue({ emiOverdue: fleetRtr.emiOverdue });
+      
       // this.trackVehicleForm = this.fb.group({
       ////  loanMaturityDate: new FormControl(this.getDateFormat(fleetRtr.loanMaturityDate),Validators.required ),
       //   thirtyDpdCount: new FormControl({ value: fleetRtr.thirtyDpdCount ? fleetRtr.thirtyDpdCount : 0, disabled: true }),
@@ -761,7 +763,7 @@ export class TrackVehicleComponent implements OnInit {
       formDetails['financeCharges'] = parseInt(this.trackVehicleForm.controls['financeCharges'].value);
       formDetails['contractValue'] = parseInt(this.trackVehicleForm.controls['contractValue'].value);
       formDetails['financeAmount'] = Number(this.trackVehicleForm.controls['financeAmount'].value);
-     formDetails['emiOverdue'] = "YES"
+    // formDetails['emiOverdue'] = "YES"
       //  formDetails['totalEmi']  = parseInt(this.trackVehicleForm.controls['totalEmi'].value);
       formDetails['noOfEmi'] = parseInt(this.trackVehicleForm.controls['noOfEmi'].value);
       formDetails['emisPaid'] = parseInt(this.trackVehicleForm.controls['emisPaid'].value);
