@@ -64,6 +64,9 @@ export class CustomerProfileDetailsComponent implements OnInit {
   roleType: any;
   disableSaveBtn: boolean;
   operationType: string;
+  addressStatus: any;
+  addressDisabled: boolean;
+  addressRequired: boolean;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -77,7 +80,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
     private pdDataService: PdDataService,
     private personalDiscussion: PersonalDiscussionService,
     private toggleDdeService: ToggleDdeService
-    ) { }
+  ) { }
 
   async ngOnInit() {
 
@@ -182,6 +185,23 @@ export class CustomerProfileDetailsComponent implements OnInit {
       // this.getPdDetails();
 
     }
+  }
+
+  addressMismatch(event: any) { // fun for conditional mandatory for mismatch in off/buss address
+    this.addressStatus = event ? event : event;
+    if (this.addressStatus === '1') {
+      this.addressDisabled = true;
+      this.addressRequired = false;
+      this.customerProfileForm.get('mismatchInAddress').disable();
+      this.customerProfileForm.get('mismatchInAddress').updateValueAndValidity();
+    } else if (this.addressStatus !== '1') {
+      this.addressDisabled = false;
+      this.addressRequired = true;
+      this.customerProfileForm.get('mismatchInAddress').enable();
+      this.customerProfileForm.get('mismatchInAddress').setValidators(Validators.required);
+
+    }
+
   }
 
   getPdDetails() {
