@@ -1546,7 +1546,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.isEnableDedupe= false;
       }
       else{
-        this.toasterService.showError(res['ProcessVariables'].error.messge, '')
+        this.toasterService.showError(res['ProcessVariables'].error.message, '')
       }
     })
   }
@@ -1574,11 +1574,18 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
   storeIndividualValueInService(coApplicantModel) {
     console.log('dedupeVaribles', this.dedupeVaribales)
-    
-    
     const dedupe = coApplicantModel.dedupe;
 
-    
+    if( this.dedupeVaribales){
+      if(this.dedupeVaribales.referenceNo!==''){
+        this.referenceAdharNo= this.dedupeVaribales.referenceNo
+      }else{
+        this.referenceAdharNo=dedupe.aadhar
+      }
+    }
+    else{
+      this.referenceAdharNo=dedupe.aadhar
+    }
     if (dedupe.dob) {
       //const date = new Date(dedupe.dob);
       dedupe.dob = this.utilityService.getDateFormat(dedupe.dob);
@@ -1595,7 +1602,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.indivIdentityInfoDetails = {
       panType: dedupe.panType,
       pan: String(dedupe.pan || '').toUpperCase(),
-      aadhar: dedupe.aadhar || '',
+      aadhar: this.referenceAdharNo,
       passportNumber: String(dedupe.passportNumber || '').toUpperCase(),
       passportIssueDate: this.formatGivenDate(dedupe.passportIssueDate),
       passportExpiryDate: this.formatGivenDate(dedupe.passportExpiryDate),
@@ -1634,13 +1641,23 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   storeNonIndividualValueInService(coApplicantModel) {
     const dedupe = coApplicantModel.dedupe;
+    if( this.dedupeVaribales){
+      if(this.dedupeVaribales.referenceNo!==''){
+        this.referenceAdharNo= this.dedupeVaribales.referenceNo
+      }else{
+        this.referenceAdharNo=dedupe.aadhar
+      }
+    }
+    else{
+      this.referenceAdharNo=dedupe.aadhar
+    }
     
     this.applicantDetails = {
       title: dedupe.title,
       bussinessEntityType: dedupe.bussinessEntityType,
     };
     this.corporateProspectDetails = {
-      aadhar: dedupe.aadhar,
+      aadhar: this.referenceAdharNo,
       gstNumber: dedupe.gstNumber,
       tanNumber: dedupe.tanNumber,
       cstVatNumber: dedupe.cstVatNumber,
@@ -2244,9 +2261,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
 
     this.showDedupeModal = false;
-    this.router.navigateByUrl(
-      `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
-    );
+    // this.router.navigateByUrl(
+    //   `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
+    // );
     this.isEnableDedupe = false;
     this.isMobileChanged = false;
     this.isName1Changed = false;
