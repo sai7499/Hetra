@@ -44,10 +44,10 @@ export class DeviationsComponent implements OnInit, OnDestroy {
     this.subscription = this.sharedService.vaildateForm$.subscribe((value) => {
       this.formValue = value;
     })
-    const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '2') {
-      this.disableSaveBtn  = true;
-    }
+    // const operationType = this.toggleDdeService.getOperationType();
+    // if (operationType === '2') {
+    //   this.disableSaveBtn  = true;
+    // }
   }
 
   saveorUpdateDeviationDetails() {

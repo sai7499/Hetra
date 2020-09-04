@@ -27,7 +27,7 @@ export class BiometricService {
     initIdenti5(aadhar: string, applicantId, callBack){
       aadhar = "9190083092186683";
 
-      this.applicantService.retrieveAadharNo(aadhar, applicantId).subscribe((res: any) => {
+      this.applicantService.retrieveAadharData(aadhar, applicantId).subscribe((res: any) => {
         let result = JSON.stringify(res);
         console.log("Aadhar number", result);
       });

@@ -25,18 +25,18 @@ export const environment = {
     wrapperPanValidation: 'db2732f4ab4811ea82f8f2fa9bec3d63',
     wrapperBiometriceKYC: 'db2732f4ab4811ea82f8f2fa9bec3d63',
     supervisorProId: 'ed58f72ea9a811ea824bf2fa9bec3d63',// supervisorRelated
-    retrieveAadharData : 'db2732f4ab4811ea82f8f2fa9bec3d63'
+    retrieveAadharData: 'db2732f4ab4811ea82f8f2fa9bec3d63'
   },
 
   hostingEnvironment: 'DEV',
   // hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
   // host: 'http://128.199.164.250/appiyo/',
-  host: 'https://hetrauat.equitasbank.com/appiyodev/',
- // host: 'http://10.101.10.153/appiyo/',
+  // host: 'https://hetrauat.equitasbank.com/appiyodev/',
+  // host: 'http://10.101.10.153/appiyo/',
 
   // host: 'https://hetrauat.equitasbank.com/appiyo/',
-  //host: 'http://10.101.10.153/appiyo/',
+  host: 'http://10.101.10.153/appiyo/',
   baseUrl: 'http://10.101.10.153',
   //baseUrl: "https://hetrauat.equitasbank.com",
   // tslint:disable-next-line: max-line-length

@@ -109,7 +109,8 @@ export class PdcDetailsComponent implements OnInit {
     const control = this.pdcForm.controls.spdcList as FormArray;
     control.push(this.initSpdcRows());
   }
-  deleteRows(table: string,index?) {
+  deleteRows(table: string) {
+    // tslint:disable-next-line: prefer-const
     let i = this.rowIndex;
     console.log(table, i);
     const stringValue1 = this.pdcForm.value[table];
@@ -249,8 +250,8 @@ export class PdcDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (res.ProcessVariables.error.code == '0') {
         // this.getData(res.ProcessVariables);
-        this.getPdcDetails();
         this.toasterService.showSuccess('Record Saved Successfully', '');
+        this.getPdcDetails();
       } else {
       }
     });
@@ -268,6 +269,7 @@ export class PdcDetailsComponent implements OnInit {
     }
   }
   onNext() {
+    // tslint:disable-next-line: triple-equals
     if (this.roleType == '4') {
       // this.router.navigate([`pages/cpc-maker/${this.leadId}/check-list`]);
       // tslint:disable-next-line: triple-equals
