@@ -19,10 +19,6 @@ export class DdeComponent implements OnInit {
   fiCumPdStatusString: any;
   fiCumPdStatus: boolean;
 
-  isNeedBackButton: boolean;
-  ddeBackLabel: string;
-  ddeBackRouter: string;
-
   constructor(
     public router: Router,
     private location: Location,
@@ -43,8 +39,6 @@ export class DdeComponent implements OnInit {
   }
 
   ngOnInit() {
-    // console.log('ficumpd', localStorage.getItem('isFiCumPd'));
-    this.setDdeBackButton();
     this.fiCumPdStatusString = localStorage.getItem('isFiCumPd');
     if (this.fiCumPdStatusString == 'false') {
       this.fiCumPdStatus = false;
@@ -96,23 +90,6 @@ export class DdeComponent implements OnInit {
     } else {
       this.showNav = true;
     }
-  }
-
-  setDdeBackButton() {
-    const value = localStorage.getItem('ddePath');
-    if (!value) {
-      this.isNeedBackButton = false;
-      return;
-    }
-    const ddeButton = JSON.parse(value);
-    this.isNeedBackButton = true;
-    this.ddeBackLabel = ddeButton.labelName;
-    this.ddeBackRouter = ddeButton.currentUrl;
-  }
-
-  backFromDde() {
-    this.toggleDdeService.clearToggleData();
-    this.router.navigateByUrl(this.ddeBackRouter);
   }
 
   onPrevious() {
