@@ -23,7 +23,11 @@ export class LeadSectionHeaderComponent implements OnInit {
   loanAmount: Number;
   stageDescription: string;
 
-  isEnableDdeButton: boolean;
+  isNeedBackButton: boolean = false;
+  ddeBackLabel: string;
+  ddeBackRouter: string;
+
+  isEnableDdeButton: boolean = false;
   isDdeModule: boolean;
   constructor(
     private labelsData: LabelsService,
@@ -55,6 +59,10 @@ export class LeadSectionHeaderComponent implements OnInit {
       }
     }
     this.getUserDetails();
+    const value = localStorage.getItem('ddePath');
+    const ddeButton = JSON.parse(value);
+    this.ddeBackLabel = ddeButton.labelName;
+    // this.setDdeBackButton()
   }
 
   getLabels() {
@@ -111,5 +119,29 @@ export class LeadSectionHeaderComponent implements OnInit {
   viewOrEditDde() {
     this.toggleDdeService.setIsDDEClicked();
     this.isEnableDdeButton = false;
+    this.router.navigate(['/pages/dde/' + this.leadId])
+    this.toggleDdeService.setCurrentPath(this.location.path())
+    this.setDdeBackButton()
   }
+
+  setDdeBackButton() {
+    const value = localStorage.getItem('ddePath');
+    if (!value) {
+      this.isNeedBackButton = false;
+      return;
+    }
+    const ddeButton = JSON.parse(value);
+    this.isNeedBackButton = true;
+    this.ddeBackLabel = ddeButton.labelName;
+    this.ddeBackRouter = ddeButton.currentUrl;
+  }
+
+  backFromDde() {
+    const value = localStorage.getItem('ddePath');
+    const ddeButton = JSON.parse(value);
+    this.router.navigateByUrl(ddeButton.currentUrl);
+    this.isEnableDdeButton = true;
+    this.toggleDdeService.clearToggleData();
+  }
+
 }

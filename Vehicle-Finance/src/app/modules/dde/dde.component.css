@@ -514,11 +514,11 @@ th {
   pointer-events: none;
 }
 
-.dde-back-button {
+/* .dde-back-button {
   position: absolute;
   margin-top: -83px;
   margin-left: 15px;
-}
+} */
 
 @media (max-width: 767px) {
   .dde-back-button {
