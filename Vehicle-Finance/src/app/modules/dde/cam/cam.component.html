@@ -692,7 +692,6 @@
                 <th class="bank_name">{{ labels?.irr }}</th>
                 <th class="bank_name">{{ labels?.tenureMonth }}</th>
                 <th class="bank_name">{{ labels?.pf }}</th>
-                <th class="bank_name">{{ labels?.otherRemarks }}</th>
             </tr>
         </thead>
         <tbody>
@@ -706,7 +705,6 @@
                 <td>{{ proposedDetails?.irr }}</td>
                 <td>{{ proposedDetails?.tenureMonth }}</td>
                 <td>{{ proposedDetails?.pf }}</td>
-                <td>{{ proposedDetails?.otherRemarks }}</td>
             </tr>
             <tr>
                 <td colspan="2"></td>
@@ -716,15 +714,15 @@
                 <td class="" colspan="">{{camDetails?.proposedToTotalLoanAmount}}</td>
                 <td class="" colspan="">{{camDetails?.proposedToTotalLTV}}</td>
 
-
+                <td colspan="3"></td>
             </tr>
             <tr>
                 <td colspan="2" class="bank_name">{{ labels?.sourceOfMarginMoney }}</td>
-                <td colspan="9">{{ camDetails?.proposedToSourceOfMarginMoney }}</td>
+                <td colspan="8">{{ camDetails?.proposedToSourceOfMarginMoney }}</td>
             </tr>
             <tr>
                 <td colspan="2" class="bank_name">{{ labels?.anyOtherRemarks }}</td>
-                <td colspan="9"><textarea class="form-control form-control-sm" placeholder="Text Area"
+                <td colspan="8"><textarea class="form-control form-control-sm" placeholder="Text Area"
                         formControlName="proposedVehicleRemarks"></textarea>
                     <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').invalid && (camDetailsForm.get('proposedVehicleRemarks').dirty || camDetailsForm.get('proposedVehicleRemarks').touched)"
                         class="invalid-feedback">
@@ -906,8 +904,7 @@
             <tr class="bank_name">
                 <td rowspan="2" class="bank_name">{{ labels?.entity }}</td>
                 <td colspan="5" class="bank_name">{{ labels?.noOfVehOwned }}</td>
-                <td colspan="3" class="bank_name">{{ labels?.expansionAndFfr }}</td>
-                <td class="bank_name">{{ labels?.remark }}</td>
+                <td colspan="4" class="bank_name">{{ labels?.expansionAndFfr }}</td>
             </tr>
             <tr class="bank_name">
                 <td class="bank_name">{{ labels?.hcv }}</td>
@@ -917,8 +914,7 @@
                 <td class="bank_name">{{ labels?.total }}</td>
                 <td class="bank_name">{{ labels?.addedInLastOneYr }}</td>
                 <td class="bank_name">{{ labels?.freeAsset }}</td>
-                <td class="bank_name">{{ labels?.ffr }}</td>
-                <td></td>
+                <td colspan="2" class="bank_name">{{ labels?.ffr }}</td>
 
             </tr>
 
@@ -932,7 +928,6 @@
                 <td>{{ fleetSummary?.expansionAndFfrAddedInLastOneYr }}</td>
                 <td>{{ fleetSummary?.expansionAndFfrFreeAsset }}</td>
                 <td>{{ fleetSummary?.expansionAndFfrFFR }}</td>
-                <td>{{ fleetSummary?.remarks }}</td>
 
             <tr>
                 <td class="bank_name">{{ labels?.anyOtherRemarks }}</td>
@@ -1307,7 +1302,7 @@
     </table>
     <!--key financial-->
     <!--credity officer remarks-->
-    <table class="cam_table_proposed mt-3">
+    <!-- <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
         labels?.creditOfficersRemarks
@@ -1326,7 +1321,7 @@
                 <td width="200">{{creditOfficersRemarks?.date}}</td>
             </tr>
         </tbody>
-    </table>
+    </table> -->
     <!--credity officer remarks-->
     <!--recommondation-->
     <table class="cam_table_proposed mt-3" *ngFor="let recommendation of recommendation">
