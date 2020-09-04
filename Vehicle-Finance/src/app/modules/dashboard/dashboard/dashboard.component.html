@@ -259,6 +259,7 @@
             <th *ngIf="onReleaseTab || onAssignTab">{{labels?.action}}</th>
             <th>{{labels?.leadID}}<i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLeadId === sortTab}"
                 (click)="onSort(sortTables?.ByLeadId)"> </i> </th>
+            <th>{{labels?.applicantName}} </th>
             <th>{{labels?.product}}<i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByProduct === sortTab}"
                 (click)="onSort(sortTables?.ByProduct)"> </i> </th>
             <th>{{labels?.loanAmount}}<i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}"
@@ -297,6 +298,7 @@
             <td [attr.data-label]="labels?.leadID" *ngIf="!onReleaseTab && onAssignTab">
               {{item.leadId}}</td>
             <!-- <td [attr.data-label]="labels?.leadID" class="text-underline" *ngIf="roleType == '2'"><a (click)="assignTaskId(item.taskId); getLeadId(item)">{{item.leadId}}</a></td> -->
+            <td [attr.data-label]="labels?.applicantName">{{item.applicantName ? item.applicantName : '--'}}</td>
             <td [attr.data-label]="labels?.product">{{item.product ? item.product : '--'}}</td>
             <td [attr.data-label]="labels?.loanAmount">{{item.loanAmt ? item.loanAmt : '--'}}</td>
             <td [attr.data-label]="labels?.applicant">{{item.applicants ? item.applicants : '--'}}</td>
@@ -321,7 +323,8 @@
               <th *ngIf="displayTabs?.LoanBooking === activeTab">{{labels?.leadID}}</th>
               <th>{{labels?.loanNumber}}<i class="fa fa-sort"></i> </th>
               <th>{{labels?.productCategory}}<i class="fa fa-sort"></i> </th>
-              <th>{{labels?.loanAmount}}<i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}" (click)="onSort(sortTables?.ByLoanAmt)"></i> </th>
+              <th>{{labels?.loanAmount}}<i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}"
+                  (click)="onSort(sortTables?.ByLoanAmt)"></i> </th>
               <th *ngIf="displayTabs?.PDD === activeTab || displayTabs?.LoanBooking === activeTab ">
                 {{labels?.applicant+'s'}}<i class="fa fa-sort"></i> </th>
               <th *ngIf="displayTabs?.ChequeTracking === activeTab">{{labels?.applicantName}}<i class="fa fa-sort"></i>
@@ -333,15 +336,18 @@
               *ngFor="let item of pddDetails | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
               <td *ngIf="displayTabs?.LoanBooking === activeTab" [attr.data-label]="labels?.leadID"
                 class="text-underline" (click)="getLoanNumber(item.loanNumber)"><a
-                  [routerLink]="[ '/pages/dde', item.leadId,'loan-status' ]">{{item.leadId}}</a></td>
+                  [routerLink]="[ '/pages/dde', item.leadId,'loan-status' ]">{{item.leadId ? item.leadId : '--'}}</a>
+              </td>
               <td *ngIf="displayTabs?.PDD === activeTab" [attr.data-label]="labels?.loanNumber" class="text-underline"
                 (click)="getLoanNumber(item.loanNumber)"><a
-                  [routerLink]="['/pages/dde', item.leadId,'pdd-details']">{{item.loanNumber}}</a></td>
+                  [routerLink]="['/pages/dde', item.leadId,'pdd-details']">{{item.loanNumber}}</a>
+              </td>
               <td *ngIf="displayTabs?.ChequeTracking === activeTab" [attr.data-label]="labels?.loanNumber"
                 class="text-underline" (click)="getLoanNumber(item.loanNumber)"><a
-                  [routerLink]="[ '/pages/dde', item.leadId,'cheque-tracking' ]">{{item.loanNumber}}</a></td>
-              <td *ngIf="displayTabs?.LoanBooking === activeTab" [attr.data-label]="labels?.loanNumber"
-                class="text-underline"><a>{{item.loanAccountNo}}</a></td>
+                  [routerLink]="[ '/pages/dde', item.leadId,'cheque-tracking' ]">{{item.loanNumber}}</a>
+              </td>
+              <td *ngIf="displayTabs?.LoanBooking === activeTab" [attr.data-label]="labels?.loanNumber">
+                <a>{{item.loanAccountNo ? item.loanAccountNo : '--'}}</a></td>
 
               <td [attr.data-label]="labels?.productCategory">{{item.product ? item.product : '--'}}</td>
               <td [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
