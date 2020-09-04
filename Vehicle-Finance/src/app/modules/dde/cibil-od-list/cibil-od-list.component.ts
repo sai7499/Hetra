@@ -517,7 +517,6 @@ export class CibilOdListComponent implements OnInit {
           this.totalAmount +
           Number(this.odAccountDetailsArray.value[i].odAmount)
         );
-        console.log(this.totalAmount);
         
       }
     }
