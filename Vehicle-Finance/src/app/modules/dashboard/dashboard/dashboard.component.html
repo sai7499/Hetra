@@ -321,7 +321,7 @@
               <th *ngIf="displayTabs?.LoanBooking === activeTab">{{labels?.leadID}}</th>
               <th>{{labels?.loanNumber}}<i class="fa fa-sort"></i> </th>
               <th>{{labels?.productCategory}}<i class="fa fa-sort"></i> </th>
-              <th>{{labels?.loanAmount}}<i class="fa fa-sort"></i> </th>
+              <th>{{labels?.loanAmount}}<i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}" (click)="onSort(sortTables?.ByLoanAmt)"></i> </th>
               <th *ngIf="displayTabs?.PDD === activeTab || displayTabs?.LoanBooking === activeTab ">
                 {{labels?.applicant+'s'}}<i class="fa fa-sort"></i> </th>
               <th *ngIf="displayTabs?.ChequeTracking === activeTab">{{labels?.applicantName}}<i class="fa fa-sort"></i>
