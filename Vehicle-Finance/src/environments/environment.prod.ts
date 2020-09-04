@@ -24,11 +24,11 @@ export const environment = {
     retrieveAadharData : 'db2732f4ab4811ea82f8f2fa9bec3d63'
   },
   hostingEnvironment: 'DEV',
-  // hostingEnvironment: 'UAT',
+  //hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
 
-  host: '/appiyo/',
-  // host:"https://hetrauat.equitasbank.com/appiyodev/",
+  //host: '/appiyo/',
+  host: "https://hetrauat.equitasbank.com/appiyodev/",
   //host: 'http://128.199.164.250/appiyo/',
   // host: 'http://10.101.10.153/appiyo/',
   //host: "https://hetrauat.equitasbank.com/appiyo/",
@@ -41,7 +41,7 @@ export const environment = {
   appiyoDrive: '/d/drive/upload/',
   
   mobileBaseUrl: "https://hetrauat.equitasbank.com",
-  isMobile: false,
+  isMobile: true,
   isMaas360Enabled: false
 };
 
