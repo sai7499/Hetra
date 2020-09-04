@@ -768,7 +768,6 @@
         <app-custom-input
             formControlName="investmentInEquipment"
             [(ngModel)]="investmentInEquipmentValue"
-            (keyup)="onChangeInvestmentInEquipment($event)"
             [className]="'form-control mandatory'"
             [placeholder]="'Investment in Equipment'"
             [maxLength]="labels?.validationData?.amountValue.maxLength"
@@ -778,6 +777,7 @@
             [isDisabled]="true"
         >
         </app-custom-input> 
+        <!-- (keyup)="onChangeInvestmentInEquipment($event)" -->
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="isInvestmentInPlantMachinery">
         <label for="investment_plant_machinery">{{labels.investPlantMachinery}}
@@ -786,7 +786,6 @@
         <app-custom-input
             formControlName="investmentInPlantAndMachinery"
             [(ngModel)]="investmentInPlantMachineryValue"
-            (keyup)="onChangeInvestmentInPlantAndMachinery($event)"
             [className]="'form-control mandatory'"
             [placeholder]="'Investment in Plant and Machinery'"
             [maxLength]="labels?.validationData?.amountValue.maxLength"
@@ -796,6 +795,7 @@
             [isDisabled]="true"
         >
         </app-custom-input> 
+        <!-- (keyup)="onChangeInvestmentInPlantAndMachinery($event)" -->
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
         <label for="psl_category_msme">{{labels.pslCategory}}
