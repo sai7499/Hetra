@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  version: '0.13.1',
-  buildDate: '04/09/2020',
+  version: '0.14',
+  buildDate: '05/09/2020',
   apiVersion: {
     login: 'v3/',
     api: 'v2/',
@@ -25,11 +25,11 @@ export const environment = {
     validateSRNumber : '8bfa8dba945b11eabdcaf2fa9bec3d63'
   },
   hostingEnvironment: 'DEV',
-  //hostingEnvironment: 'UAT',
+  // hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
 
-  //host: '/appiyo/',
-  host: "https://hetrauat.equitasbank.com/appiyodev/",
+  host: '/appiyo/',
+  // host: "https://hetrauat.equitasbank.com/appiyodev/",
   //host: 'http://128.199.164.250/appiyo/',
   // host: 'http://10.101.10.153/appiyo/',
   //host: "https://hetrauat.equitasbank.com/appiyo/",
@@ -42,7 +42,7 @@ export const environment = {
   appiyoDrive: '/d/drive/upload/',
   
   mobileBaseUrl: "https://hetrauat.equitasbank.com",
-  isMobile: true,
+  isMobile: false,
   isMaas360Enabled: false
 };
 
