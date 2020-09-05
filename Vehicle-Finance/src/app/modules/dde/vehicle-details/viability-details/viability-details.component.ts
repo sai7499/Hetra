@@ -91,6 +91,7 @@ export class ViabilityDetailsComponent implements OnInit {
     this.commonlovService.getLovData().subscribe((res: any) => {
       console.log(res.LOVS);
       this.viabilityObj = res.LOVS;
+      console.log(this.viabilityObj.businessType);
     });
     // this.createForm();
     this.viabilityForm = this.fb.group({

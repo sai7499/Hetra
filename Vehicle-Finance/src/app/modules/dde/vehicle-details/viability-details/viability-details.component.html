@@ -54,10 +54,12 @@
                         <td>
                             <!-- <input type="number" name="nature_goods" class="form-control" id="nature_goods"
                                 formControlName="natureOfGoods" /> -->
-                            <app-custom-input formControlName="natureOfGoods" 
+                            <!-- <app-custom-input formControlName="natureOfGoods" 
                                 [maxLength]="label?.validationData?.srNumber?.maxLength" [isRequired]="'Nature Of Goods is Required'"
                                 [placeholder]="'Enter Nature of Goods'" 
-                                [isDirty]="isDirty" [type]="label?.validationData?.srNumber?.type"></app-custom-input>
+                                [isDirty]="isDirty" [type]="label?.validationData?.srNumber?.type"></app-custom-input> -->
+                                <app-vf-custom-select formControlName="natureOfGoods" [values]="viabilityObj?.businessType"
+                                [isRequired]="'Please Nature Of Goods'"></app-vf-custom-select>
                         </td>
                     </tr>
                     <tr>
