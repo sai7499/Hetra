@@ -116,7 +116,7 @@ export class CibilOdListComponent implements OnInit {
     this.getOdDetails();
     this.getOdApplicant();
     console.log(this.odDetailsForm.value.clearanceProof);
-
+    
   }
 
   getLov() {
@@ -357,42 +357,24 @@ export class CibilOdListComponent implements OnInit {
           totalAmount: this.odDetails.assetAppOdDetails.totalAmount
             ? this.odDetails.assetAppOdDetails.totalAmount
             : null,
-        });
-        this.odDetailsForm.patchValue({
           highDpd6m: this.odDetails.assetAppOdDetails.highDpd6m,
-        });
-        this.odDetailsForm.patchValue({
           highDpd12m: this.odDetails.assetAppOdDetails.highDpd12m,
-        });
-        this.odDetailsForm.patchValue({
           writtenOffLoans: this.odDetails.assetAppOdDetails.writtenOffLoans,
-        });
-        this.odDetailsForm.patchValue({
           writtenOffLoansWithSuite: this.odDetails.assetAppOdDetails
-            .writtenOffLoansWithSuite,
-        });
-        this.odDetailsForm.patchValue({
+          .writtenOffLoansWithSuite,
           lossLoans: this.odDetails.assetAppOdDetails.lossLoans,
-        });
-        this.odDetailsForm.patchValue({
           settledLoans: this.odDetails.assetAppOdDetails.settledLoans,
-        });
-        this.odDetailsForm.patchValue({
           clearanceProofCollected: this.odDetails.assetAppOdDetails
-            .clearanceProofCollected,
-        });
-        this.onSelectProof(this.odDetails.assetAppOdDetails.clearanceProofCollected);
-        this.odDetailsForm.patchValue({
+          .clearanceProofCollected,
           clearanceProof: this.odDetails.assetAppOdDetails.clearanceProof,
-        });
-        this.odDetailsForm.patchValue({
           cibilStatus: this.odDetails.assetAppOdDetails.cibilStatus,
-        });
-
-
-        this.odDetailsForm.patchValue({
           justification: this.odDetails.assetAppOdDetails.justification,
+
         });
+        this.onOdAmount(this.odDetails.assetAppOdDetails.totalAmount, 0);
+       
+        this.onSelectProof(this.odDetails.assetAppOdDetails.clearanceProofCollected);
+      
       }
       const operationType = this.toggleDdeService.getOperationType();
       if (operationType === '1') {
