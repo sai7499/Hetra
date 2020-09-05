@@ -59,7 +59,7 @@
                                 [placeholder]="'Enter Nature of Goods'" 
                                 [isDirty]="isDirty" [type]="label?.validationData?.srNumber?.type"></app-custom-input> -->
                                 <app-vf-custom-select formControlName="natureOfGoods" [values]="viabilityObj?.businessType"
-                                [isRequired]="'Please Nature Of Goods'"></app-vf-custom-select>
+                                [isRequired]="'Please Select Nature Of Goods'"></app-vf-custom-select>
                         </td>
                     </tr>
                     <tr>
@@ -846,7 +846,7 @@
                         <td>
                             <!-- <input type="text" class="form-control" name="nature_business" id="nature_business"
                                 formControlName="natureOfBusiness" />-->
-                            <app-custom-input
+                            <!-- <app-custom-input
                             [id]="nature_business"
                             formControlName="natureOfBusiness"
                             [patternCheck]="namePattern"
@@ -855,7 +855,9 @@
                             [isRequired]="'Nature Of business Is Required'"
                             [isDirty]="isDirty"
                             [placeholder]="'Enter Nature of Business'"
-                            ></app-custom-input>
+                            ></app-custom-input> -->
+                            <app-vf-custom-select formControlName="natureOfBusiness" [values]="viabilityObj?.businessType"
+                            [isRequired]="'Please Select Nature Of Business'"></app-vf-custom-select>
                         </td> 
                     </tr>
                     <tr>
