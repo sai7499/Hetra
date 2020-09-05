@@ -26,6 +26,7 @@ import { UtilityService } from '@services/utility.service';
 import { constants } from 'os';
 import { ToasterService } from '@services/toaster.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { AgmFitBounds } from '@agm/core';
 
 @Component({
   selector: 'app-address-details',
@@ -145,6 +146,7 @@ export class AddressDetailsComponent implements OnInit {
     const landlineNumber = officeAddress.get('landlineNumber');
     const mobileNumber = officeAddress.get('mobileNumber');
     const nearestLandmark = officeAddress.get('nearestLandmark');
+    const pobox = officeAddress.get('pobox');
     this.addressCommonListener(addressLineOne);
     this.addressCommonListener(addressLineTwo);
     this.addressCommonListener(addressLineThree);
@@ -152,6 +154,7 @@ export class AddressDetailsComponent implements OnInit {
     this.addressCommonListener(landlineNumber);
     this.addressCommonListener(mobileNumber);
     this.addressCommonListener(nearestLandmark);
+    this.addressCommonListener(pobox);
   }
 
   addressCommonListener(control: AbstractControl) {
@@ -492,7 +495,8 @@ export class AddressDetailsComponent implements OnInit {
         //periodOfCurrentStay: new FormControl(''),
         mobileNumber: new FormControl(''),
         //accommodationType: new FormControl(''),
-        nearestLandmark: new FormControl(null)
+        nearestLandmark: new FormControl(''),
+        pobox : new FormControl('')
       }),
     });
 
@@ -505,7 +509,10 @@ export class AddressDetailsComponent implements OnInit {
         ...this.getAddressFormControls(),
         mobileNumber: new FormControl(null),
       }),
-      communicationAddress: new FormGroup(this.getAddressFormControls()),
+      communicationAddress: new FormGroup({
+        ...this.getAddressFormControls(),
+        pobox: new FormControl('')
+      }),
     });
 
     (this.addressForm.get('details') as FormArray).push(nonIndividual);
@@ -587,7 +594,8 @@ export class AddressDetailsComponent implements OnInit {
       addressLineTwo: address.addressLineTwo,
       addressLineThree: address.addressLineThree,
       landlineNumber: address.landlineNumber,
-      nearestLandmark: address.nearestLandmark
+      nearestLandmark: address.nearestLandmark,
+      pobox : address.pobox
     };
   }
 
@@ -714,6 +722,7 @@ export class AddressDetailsComponent implements OnInit {
       const formArray = this.addressForm.get('details') as FormArray;
       const details = formArray.at(0);
       details.get('officeAddress').disable();
+      details.get('officeAddress').get('pobox').enable();
 
     }
 
@@ -790,6 +799,7 @@ export class AddressDetailsComponent implements OnInit {
         periodOfCurrentStay: officeAddressObj.periodOfCurrentStay,
         mobileNumber: officeAddressObj.mobileNumber,
         nearestLandmark: officeAddressObj.nearestLandmark,
+        pobox : officeAddressObj.pobox
 
       });
     }
@@ -806,7 +816,9 @@ export class AddressDetailsComponent implements OnInit {
       const formArray = this.addressForm.get('details') as FormArray;
       const details = formArray.at(0);
       const communicationAddressVariable = details.get('communicationAddress');
-      communicationAddressVariable.disable()
+      communicationAddressVariable.disable();
+      communicationAddressVariable.get('pobox').enable();
+
     }
     if (registeredAddressObj) {
       this.registeredPincode = {
@@ -840,6 +852,8 @@ export class AddressDetailsComponent implements OnInit {
       registeredAddress.patchValue(this.setAddressValues(registeredAddressObj));
       registeredAddress.patchValue({
         mobileNumber: registeredAddressObj.mobileNumber,
+        nearestLandmark : registeredAddressObj.nearestLandmark
+        
       });
     }
     const valueCheckbox = this.getAddressObj();
@@ -876,8 +890,13 @@ export class AddressDetailsComponent implements OnInit {
 
     const communicationAddress = details.get('communicationAddress');
     communicationAddress.patchValue(
-      this.setAddressValues(commReplaceObj)
+      this.setAddressValues(commReplaceObj),
+
     );
+    communicationAddress.patchValue({
+      pobox: commReplaceObj.pobox,
+      nearestLandmark : commReplaceObj.nearestLandmark
+    });
 
   }
 
@@ -1034,6 +1053,7 @@ export class AddressDetailsComponent implements OnInit {
       mobileNumber: currentAddressValue.mobileNumber.value
     });
     officeAddress.disable();
+    officeAddress.get('pobox').enable();
 
   }
 
@@ -1223,7 +1243,8 @@ export class AddressDetailsComponent implements OnInit {
       ...this.getAddressFormValues(offAddress),
       addressType: Constant.OFFICE_ADDRESS,
       mobileNumber: officeData.get('mobileNumber').value || '',
-      nearestLandmark: officeData.get('nearestLandmark').value || ''
+      nearestLandmark: officeData.get('nearestLandmark').value || '',
+      pobox : officeData.get('pobox').value || ''
     });
     //const initialCurAsPer= this.onPerAsCurChecked== true? '1' : '0'
 
@@ -1292,6 +1313,7 @@ export class AddressDetailsComponent implements OnInit {
       ...this.getAddressFormValues(commAddress),
       nearestLandmark: communicationData.get('nearestLandmark').value,
       addressType: Constant.COMMUNICATION_ADDRESS,
+      pobox : communicationData.get('pobox').value
     });
     // }
     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);

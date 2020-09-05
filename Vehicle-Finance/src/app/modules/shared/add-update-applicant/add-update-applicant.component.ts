@@ -372,7 +372,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.applicantData.forEach((data) => {
       if (data.applicant !== this.applicantId) {
         if (data.applicantTypeKey == "APPAPPRELLEAD" && data.applicantTypeKey === value) {
-          this.toasterService.showError('Only One Applicant is Applicable', '')
+          this.toasterService.showError('There should be only one main applicant for this lead', '')
           this.showNotApplicant = true;
         }
         //  else if (data.applicantTypeKey !== "APPAPPRELLEAD") {
@@ -979,7 +979,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       srNumber: new FormControl(''),
       currentAddress: new FormGroup(this.getAddressFormControls()),
       registeredAddress: new FormGroup(this.getAddressFormControls()),
-      communicationAddress: new FormGroup(this.getAddressFormControls()),
+      communicationAddress: new FormGroup({
+        ...this.getAddressFormControls(),
+        pobox : new FormControl('')
+      }),
     });
     // this.addIndFormControls();
     // this.removeNonIndFormControls();
@@ -1298,12 +1301,19 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.communicationPincode = this.registerPincode;
           this.isCommAddSameAsRegAdd = '1';
           if (registeredAddressObj) {
+            const communicationAddressObj =
+            addressObj[Constant.CURRENT_ADDRESS] ||
+            addressObj[Constant.COMMUNICATION_ADDRESS];
             communicationAddress.patchValue(
               this.createAddressObject(registeredAddressObj)
             );
+            communicationAddress.patchValue({
+              pobox : communicationAddressObj.pobox
+            })
           }
 
           communicationAddress.disable();
+          communicationAddress.get('pobox').enable();
         } else {
           this.isCommAddSameAsRegAdd = '0';
           const communicationAddressObj =
@@ -1317,6 +1327,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
             communicationAddress.patchValue(
               this.createAddressObject(communicationAddressObj)
             );
+            communicationAddress.patchValue({
+              pobox : communicationAddressObj.pobox
+            })
           }
         }
       }
@@ -1678,6 +1691,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         ...addressObject,
         addressType: Constant.COMMUNICATION_ADDRESS,
         isCurrAddSameAsPermAdd: this.isCommAddSameAsRegAdd,
+        pobox : communicationAddress.pobox
       });
     }
     console.log('addressDetails', this.addressDetails);
@@ -1718,7 +1732,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
       if (this.showNotApplicant) {
 
-        this.toasterService.showError('There Should be Only One Main Applicant For This Lead', '');
+        this.toasterService.showError('There should be only one main applicant for this lead', '');
         return;
 
       }
@@ -1745,7 +1759,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         return;
       }
       if (this.showNotApplicant) {
-        this.toasterService.showError('There Should be Only One Main Applicant For This Lead', '');
+        this.toasterService.showError('There should be only one main applicant for this lead', '');
         return;
       }
     
@@ -1889,6 +1903,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         ...formValue,
       });
       communicationAddress.disable();
+      communicationAddress.get('pobox').enable();
     } else if (!eventClicked) {
       communicationAddress.enable();
       communicationAddress.reset();
@@ -1994,7 +2009,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         return;
       }
       if (this.showNotApplicant) {
-        this.toasterService.showError('There Should be Only One Main Applicant For This Lead', '');
+        this.toasterService.showError('There should be only one main applicant for this lead', '');
         return;
       }
       const applicantDetails = dedupe.value;
@@ -2097,7 +2112,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         return;
       }
       if (this.showNotApplicant) {
-        this.toasterService.showError('There Should be Only One Main Applicant For This Lead', '');
+        this.toasterService.showError('There should be only one main applicant for this lead', '');
         return;
       }
 

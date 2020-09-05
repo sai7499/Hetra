@@ -1670,6 +1670,18 @@
                         [patternCheck]="validationData?.phone?.patternCheck"
                       ></app-custom-input>
                     </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                      <label for="reg_mobile">Office Address PO Box</label>
+                      <app-custom-input
+                        formControlName="pobox"
+                        [patternCheck]="validationData?.pobox?.patternCheck"
+                     
+                      [maxLength]="validationData?.pobox?.maxLength"
+                      
+                      [type]="validationData?.pobox?.type"
+                      ></app-custom-input>
+                    </div>
                   </div>
                 </div>
               </div>

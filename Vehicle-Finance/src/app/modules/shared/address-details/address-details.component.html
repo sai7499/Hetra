@@ -417,6 +417,19 @@
                   [type]="validationData?.landlineNumber?.type"></app-custom-input>
               </div>
 
+              <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                <label for="alternate_mobile_num">Office Address PO Box</label>
+                <!-- <input formControlName="mobileNumber" type="text" class="form-control"
+                                    id="alternate_mobile_num" /> -->
+                <app-custom-input formControlName="pobox" 
+                [patternCheck]="validationData?.pobox?.patternCheck"
+                     
+                [maxLength]="validationData?.pobox?.maxLength"
+                
+                [type]="validationData?.pobox?.type"
+                  ></app-custom-input>
+              </div>
+
 
             </div>
           </div>
@@ -629,6 +642,19 @@
                     [maxLength]="validationData?.landlineNumber?.maxLength"
                     [type]="validationData?.landlineNumber?.type" [patternCheck]="validationData?.phone?.patternCheck">
                   </app-custom-input>
+                </div>
+
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                  <label for="alternate_mobile_num">Office Address PO Box</label>
+                  <!-- <input formControlName="mobileNumber" type="text" class="form-control"
+                                      id="alternate_mobile_num" /> -->
+                  <app-custom-input formControlName="pobox" 
+                  [patternCheck]="validationData?.pobox?.patternCheck"
+                     
+                  [maxLength]="validationData?.pobox?.maxLength"
+                  
+                  [type]="validationData?.pobox?.type"
+                    ></app-custom-input>
                 </div>
               </div>
 
