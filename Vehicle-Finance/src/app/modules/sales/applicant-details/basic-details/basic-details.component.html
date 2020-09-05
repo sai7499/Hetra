@@ -44,6 +44,7 @@
           >
           <app-vf-custom-select
             formControlName="applicantRelationshipWithLead"
+           (change)= "selectApplicantType($event)"
             [values]="applicantLov?.applicantRelationshipWithLead"
             [isRequired]="'Please select one'"
             [isDirty]="isDirty"
