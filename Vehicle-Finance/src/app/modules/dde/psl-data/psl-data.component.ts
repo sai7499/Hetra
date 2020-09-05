@@ -1462,7 +1462,7 @@ export class PslDataComponent implements OnInit {
         leadId: this.leadId,
         pslData: {
           ...this.formValues,
-          landArea: Number(this.formValues.landArea),
+          // landArea: Number(this.formValues.landArea),
           // landHolding: Number(this.formValues.landHolding)
         },
       };
