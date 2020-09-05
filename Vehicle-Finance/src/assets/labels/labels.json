@@ -379,6 +379,7 @@
     "coApp1": "COAPP 1",
     "coApplicant2": "CO-APPLICANT 2",
     "coApplicant3": "CO-APPLICANT 3",
+    "cibilStatus":"Cibil status",
     "cibilScore": "CIBIL SCORE",
     "odIndividual": "OD-INDIVIDUAL",
     "odInJointAc": "OD IN JOINT A/C",
@@ -819,6 +820,10 @@
     "count": "Count on 30's & 90's dpd",
     "totalNoOfEmis": "Total no of emi's",
     "noOfEmisPaid": "NO of emi's paid",
+    "noOfEmisAccrued" : "No Of Emis Accrued",
+    "accrued" : "Accrued",
+    "emistartDate": "Emi start Date",
+    "emiOverdue": "EMI Overdue",
     "totalDelay": "Total Delay",
     "peakDelay": "Peak Delay",
     "avgDelay": "Avg Delay",
@@ -1061,6 +1066,7 @@
     "accountNumber": "Account Number",
     "accountHolderName": "Account Holder Name",
     "minimumAverageBalance": "Minimum Average Balance",
+    "average":"Average",
     "micrCode": "MICR Code",
     "ifscCode": "IFSC Code",
     "seniorCitizen": "Senior Citizen?",
@@ -1083,7 +1089,7 @@
     "officeName": "Office Name",
     "noOfyearsInCurrEmployment": "No. of years in curr. Employment",
     "employeeCode": "Employee Code",
-    "employeeType": "Employee Type",
+    "employeeType": "Employment Type",
     "department": "Department",
     "typeOfBusiness": "Type of Business",
     "businessName": "Business Name",
@@ -1249,7 +1255,7 @@
     "annualIncomeAmount": "Annual Income Amount",
     "ownHouseProofAvail": "Own House Proof Available?",
     "houseOwnerProperty": "Owner of the Property",
-    "ownHouseAppRelationship": "Relationship with the Applicant ",
+    "ownHouseAppRelationship": "Owner Relationship with the Applicant ",
     "averageBankBalance": "Average Bank Balance",
     "rtrType": "RTR Type",
     "prevLoanAmount": "Previous Loan Amount",
@@ -1557,10 +1563,12 @@
     "crossSellOthers": "Cross Sell Others (in INR)",
     "errorCode": "Error Code",
     "errorMsg": "Error Message",
+    "minDelay" : "Min Delay",
     "loanType": "Loan Type",
     "totalCredits": "Total number of credits",
     "micrNo": "MICR No",
     "accountBranchname" : "Account Branchname",
+
     "validationData": {
         "name": {
             "maxLength": {
@@ -1675,9 +1683,14 @@
         },
         "srNumber": {
             "maxLength": {
-                "rule": 10
+                "rule": 15,
+                "msg" : "SR Number should be 15 digits"
             },
-            "type": "alpha-numeric"
+            "type": "number",
+            "patternCheck": {
+                "rule": "[0-9]{15}",
+                "msg": "SR Number should be valid & 15 digits"
+            }
         },
         "remark": {
             "maxLength": {
@@ -1883,8 +1896,8 @@
             },
             "type": "alpha-numeric",
             "patternCheck": {
-                "rule": "[A-Z1-9]{1}",
-                "msg": "Should be Valid"
+                "rule": "^([L|U]{1})([0-9]{5})([A-Za-z]{2})([0-9]{4})([A-Za-z]{3})([0-9]{6})$",
+                "msg": "Invalid CIN Number. Valid format-U/L12345AB1234ABC123456"
             }
         },
         "cstVatNumber": {
@@ -2353,6 +2366,16 @@
                 "rule": 2
             },
             "type": "number"
+        },
+        "pobox": {
+            "maxLength": {
+                "rule": 15
+            },
+            "type": "alpha-numeric",
+            "patternCheck": {
+                "rule": "^[0-9A-za-z]{10}",
+                "msg": "Should be atleast 10 Digits"
+            }
         }
     }
 }

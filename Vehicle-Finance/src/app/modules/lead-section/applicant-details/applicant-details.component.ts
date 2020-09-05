@@ -188,7 +188,7 @@ export class ApplicantDetailsComponent implements OnInit {
     // [routerLink]="['../vehicle-details']"
    this.forFindingApplicantType()
     if(this.showNotApplicant){
-      this.toasterService.showError('There Should be One Applicant For this lead','')
+      this.toasterService.showError('There should be one applicant for this lead','')
       return;
     }
     

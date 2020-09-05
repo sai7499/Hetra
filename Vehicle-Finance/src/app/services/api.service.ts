@@ -770,10 +770,16 @@ export class ApiService {
       workflowId: '12aa87f0e09411ea900500505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
-    retrieveAadharData :{
+    retrieveAadharData: {
       processId: '81383e76c8c311ea851600505695f93b',
       workflowId: '8110ed6cc8c311ea873200505695f93b',
       projectId: environment.projectIds.retrieveAadharData
+    },
+    validateSRNumber: {
+      processId: '84fdc0f4edac11eaa7e400505695f93b',
+      workflowId: '84d0b640edac11ea8d3d00505695f93b',
+      projectId: environment.projectIds.validateSRNumber
     }
+
   };
 }
