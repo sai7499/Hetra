@@ -1253,11 +1253,20 @@
                       >SR Number<sub class="star_red_col">*</sub></label>
                     <app-custom-input
                     formControlName="srNumber"
+                    (keyup)="validateSrNumber($event)"
                     [isRequired]="'SR Number is Required'"
                     [isDirty]= "isDirty"
+                    [patternCheck]="validationData.srNumber.patternCheck"
+                    [maxLength]="validationData.srNumber.maxLength"
                     [type]="validationData.srNumber.type"
                       
                     ></app-custom-input>
+
+                    <div class="ShowError" 
+                    *ngIf="!SRNumberValidate &&
+                    coApplicantForm.get('srNumber').value !==''">
+                      Invalid SR Number
+                    </div>
                   </div>
 
                 </div>

@@ -1683,9 +1683,14 @@
         },
         "srNumber": {
             "maxLength": {
-                "rule": 10
+                "rule": 15,
+                "msg" : "SR Number should be 15 digits"
             },
-            "type": "alpha-numeric"
+            "type": "number",
+            "patternCheck": {
+                "rule": "[0-9]{15}",
+                "msg": "SR Number should be valid & 15 digits"
+            }
         },
         "remark": {
             "maxLength": {

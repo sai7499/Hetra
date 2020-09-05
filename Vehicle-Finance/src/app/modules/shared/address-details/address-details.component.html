@@ -128,8 +128,16 @@
 
             <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf="showSrField">
               <label for="line1">SR Number</label>
-              <app-custom-input formControlName="srNumber" [isRequired]="'SR Number is Required'" [isDirty]="isDirty"
+              <app-custom-input formControlName="srNumber"
+              (keyup)="validateSrNumber($event)"
+               [isRequired]="'SR Number is Required'" [isDirty]="isDirty"
                 [type]="validationData.srNumber.type"></app-custom-input>
+
+                <div class="ShowError" 
+                    *ngIf="!SRNumberValidate &&
+                  addressForm.get('details')['controls'][0].get('srNumber') !==''">
+                      Invalid SR Number
+                    </div>
             </div>
           </div>
           <!-- <div class="row">

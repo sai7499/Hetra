@@ -94,6 +94,7 @@ export class AddressDetailsComponent implements OnInit {
   checkedModifyCurrent: boolean;
   disableCurrent: boolean;
   disableRegister: boolean;
+  SRNumberValidate : boolean = true;
 
 
   constructor(
@@ -1131,12 +1132,37 @@ export class AddressDetailsComponent implements OnInit {
     return false;
   }
 
+  validateSrNumber(event) {
+    // console.log('event', event.target.value)
+    this.SRNumberValidate= true;
+    const value = event.target.value;
+    if (value.length === 15) {
+      this.getSRNumberValidation(value)
+    }
+  }
+
+  getSRNumberValidation(value) {
+    this.applicantService.validateSRNumberModification({
+      srNo: value
+    }).subscribe((res) => {
+      const responce = res['ProcessVariables']
+      this.SRNumberValidate=responce.isSrValid? true : false
+
+      if(responce.error.code=='0'){
+        this.toasterService.showSuccess(responce.error.message, 'SR Number validation successful'  )
+      }else{
+        this.toasterService.showError('', responce.error.message )
+      }
+    })
+  }
+
   onSubmit() {
 
     this.isDirty = true;
     console.log('this.addressForm', this.addressForm)
     setTimeout(() => {
-      if (this.addressForm.invalid || this.checkOfficeAddressValidation()) {
+      if (this.addressForm.invalid || this.checkOfficeAddressValidation()
+      || !this.SRNumberValidate) {
         this.toasterService.showError(
           'Please fill all mandatory fields.',
           'Applicant Details'
