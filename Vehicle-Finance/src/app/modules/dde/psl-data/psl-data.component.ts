@@ -51,7 +51,7 @@ export class PslDataComponent implements OnInit {
   pslCertificateValues: any = [];
   weakerSectionValues: any = [];
 
-  landAreaInAcresValue: number;
+  landAreaInAcresValue: any;
   pslLandHoldingChange: string;
   plsLandProofChange: any;
   farmerTypeValues: any = [];
@@ -720,7 +720,7 @@ export class PslDataComponent implements OnInit {
   // Change in PSL_SUBCATEGORY BASED UPON INPUT VALUE IN "LAND AREA IN ACRES"
   setValueForPslCategoryByLandArea() {
     this.weakerSectionValues = [];
-    if (this.landAreaInAcresValue <= 2 && this.landAreaInAcresValue != 0) {
+    if (this.landAreaInAcresValue <= 2.5 && this.landAreaInAcresValue != 0) {
       this.LOV.LOVS.pslSubCategory.filter((element) => {
         if (element.key === "1PSLSUBCAT") {
            this.pslSubCategoryData = [{ key: element.key, value: element.value }];
@@ -743,7 +743,7 @@ export class PslDataComponent implements OnInit {
         });
     }
     else if (
-      this.landAreaInAcresValue > 2 &&
+      this.landAreaInAcresValue > 2.5 &&
       this.landAreaInAcresValue <= 5
     ) {
       this.LOV.LOVS.pslSubCategory.filter((element) => {

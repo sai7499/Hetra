@@ -2000,7 +2000,7 @@
             "maxLength": {
                 "rule": 5
             },
-            "type": "number"
+            "type": "decimal"
         },
         "goodsManufactured": {
             "maxLength": {
