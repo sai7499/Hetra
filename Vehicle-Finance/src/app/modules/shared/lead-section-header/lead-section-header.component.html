@@ -76,7 +76,7 @@
         View/Edit DDE
       </button>
     </div>
-    <div class="row" *ngIf="!isEnableDdeButton">
+    <div class="row" *ngIf="isNeedBackButton">
       <button class="btn btn-primary view-button" type="button" (click)="backFromDde()">
         {{ ddeBackLabel }}
       </button>
