@@ -47,6 +47,7 @@ export class BasicDetailsComponent implements OnInit {
   public toDayDate: Date = new Date();
   setBirthDate: Date = new Date();
   ageMinDate: Date = new Date();
+  businessDate : Date = new Date();
   isRequiredSpouse = 'Spouse Name is Required';
   isRequiredFather = 'Father Name is Required';
   validation: any;
@@ -62,6 +63,8 @@ export class BasicDetailsComponent implements OnInit {
   custCatValue: string;
   occupationValue: string;
   ageOfSeniorCitizen = 65;
+  applicantData = []; 
+  showNotApplicant : boolean;
 
   emailPattern = {
     rule: '^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(\\.\\w{2,10})+$',
@@ -106,6 +109,7 @@ export class BasicDetailsComponent implements OnInit {
 
     this.setBirthDate.setFullYear(this.setBirthDate.getFullYear() - 10)
     this.ageMinDate.setFullYear(this.ageMinDate.getFullYear() - 100)
+    this.businessDate.setDate(this.businessDate.getDate()-1)
 
     this.getLOV();
     this.getCountryList();
@@ -134,9 +138,30 @@ export class BasicDetailsComponent implements OnInit {
     console.log('data-->', leadData);
     this.productCategory = leadData['leadDetails'].productId;
     this.fundingProgram = leadData['leadDetails'].fundingProgram;
-    console.log('prod cat', this.productCategory);
-    console.log('funding prgm cat', this.fundingProgram);
+    // console.log('prod cat', this.productCategory);
+    // console.log('funding prgm cat', this.fundingProgram);
 
+    this.applicantData = leadData['applicantDetails'];
+
+  }
+
+  selectApplicantType(event) {
+    const value = event.target.value;
+    this.showNotApplicant = false;
+  
+
+    this.applicantData.forEach((data) => {
+      if (data.applicant !== this.applicantId) {
+        if (data.applicantTypeKey == "APPAPPRELLEAD" && data.applicantTypeKey === value) {
+          this.toasterService.showError('There should be only one main applicant for this lead', '')
+          this.showNotApplicant = true;
+        }
+        //  else if (data.applicantTypeKey !== "APPAPPRELLEAD") {
+        //   this.toasterService.showInfo('Should One Applicant Is Required', '')
+        // } 
+      }
+
+    })
   }
 
   calculateIncome(value) {
@@ -323,7 +348,7 @@ export class BasicDetailsComponent implements OnInit {
     } else {
       event.target.checked = true;
     }
-    console.log();
+    
   }
 
   setGaurdianFieldMandatory() {
@@ -418,9 +443,10 @@ export class BasicDetailsComponent implements OnInit {
       // this.removeEmployeeValidators()
       this.setSelfEmpValidators()
     }
-    else {
+    else if (this.custCatValue == 'SALCUSTSEG') {
       this.setSalriedValidators()
     }
+    
 
 
     const formArray = this.basicForm.get('details') as FormArray;
@@ -775,6 +801,10 @@ export class BasicDetailsComponent implements OnInit {
       this.setSalriedValidators();
       this.removeSelfEmpValidators()
     }
+    else{
+      this.removeSalariedValidators();
+      this.removeSelfEmpValidators();
+    }
   }
 
   // removeEmployeeValidators() {
@@ -918,6 +948,13 @@ export class BasicDetailsComponent implements OnInit {
         'Applicant Details'
       );
 
+      return;
+
+    }
+
+    if (this.showNotApplicant) {
+
+      this.toasterService.showError('There should be only one main applicant for this lead', '');
       return;
 
     }

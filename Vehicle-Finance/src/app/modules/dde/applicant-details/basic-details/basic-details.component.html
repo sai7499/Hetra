@@ -52,6 +52,7 @@
                         </select> -->
           <app-vf-custom-select
             formControlName="applicantRelationshipWithLead"
+            (change)= "selectApplicantType($event)"
             [values]="LOV?.LOVS?.applicantRelationshipWithLead"
             [isRequired]="'Please select one'"
             [isDirty]="isDirty"
@@ -969,7 +970,7 @@
                 class="form-control"
                 formControlName="businessStartDate"
                 [format]="'dd/MM/yyyy'"
-                [max]="toDayDate"
+                [max]="businessDate"
                 placeholder="Business Start Date"
                 [activeView]="'decade'"
               ></kendo-datepicker>

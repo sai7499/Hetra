@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  version: '0.13',
-  buildDate: '29/08/2020(1)',
+  version: '0.13.1',
+  buildDate: '04/09/2020',
   apiVersion: {
     login: 'v3/',
     api: 'v2/',
@@ -21,7 +21,8 @@ export const environment = {
     wrapperBiometriceKYC : 'db2732f4ab4811ea82f8f2fa9bec3d63',
     supervisorProId:'ed58f72ea9a811ea824bf2fa9bec3d63',//supervisorRelated
     reinititateFiApi: '403a8a12b79511ea8afff2fa9bec3d63',
-    retrieveAadharData : 'db2732f4ab4811ea82f8f2fa9bec3d63'
+    retrieveAadharData : 'db2732f4ab4811ea82f8f2fa9bec3d63',
+    validateSRNumber : '8bfa8dba945b11eabdcaf2fa9bec3d63'
   },
   hostingEnvironment: 'DEV',
   //hostingEnvironment: 'UAT',
