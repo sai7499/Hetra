@@ -1738,6 +1738,12 @@
                 "rule": 50
             }
         },
+        "addressLine": {
+            "maxLength": {
+                "rule": 35
+            }
+        },
+        
         "businessName": {
             "maxLength": {
                 "rule": 50
