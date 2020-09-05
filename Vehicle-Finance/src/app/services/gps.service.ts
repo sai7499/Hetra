@@ -31,7 +31,7 @@ export class GpsService {
   initLatLong() {
     let that = this;
 
-    this.ngxService.start();
+    // this.ngxService.start();
 
     const obs = new Observable(observer => {
 
@@ -49,7 +49,7 @@ export class GpsService {
               }
               observer.next(obj);
               observer.complete();
-              that.ngxService.stop();    
+              // that.ngxService.stop();    
             },
             error => {
               console.log("locationAccuracy", error)
@@ -59,7 +59,7 @@ export class GpsService {
               }
               observer.next(obj);
               observer.complete();  
-              that.ngxService.stop();    
+              // that.ngxService.stop();    
   
             }
           )}
@@ -126,7 +126,7 @@ export class GpsService {
   getLatLong() {
 
     let that = this;
-    this.ngxService.start();
+    // this.ngxService.start();
 
 
     const obs = new Observable(observer => {
@@ -148,10 +148,10 @@ export class GpsService {
           }
           observer.next(gps);
           observer.complete();
-          that.ngxService.stop();
+          // that.ngxService.stop();
         }           
       }).catch((error) => {
-        that.ngxService.stop();
+        // that.ngxService.stop();
 
         console.log("Code", error["code"]);
         let code = error["code"];
@@ -184,7 +184,7 @@ export class GpsService {
   advanceGPSLocation(observer) {
     // Implement this in `deviceready` event callback
     let that = this;
-    this.ngxService.start();
+    //this.ngxService.start();
 
     AdvancedGeolocation.start(function(success){
 
@@ -198,7 +198,7 @@ export class GpsService {
           }
           observer.next(gps);
           observer.complete();
-          that.ngxService.stop();
+          // that.ngxService.stop();
 
           
           AdvancedGeolocation.stop();
@@ -243,7 +243,7 @@ export class GpsService {
       console.log("ERROR! " + JSON.stringify(error));
       observer.next(error);
       observer.complete();  
-      that.ngxService.stop();
+      // that.ngxService.stop();
 
   },
   ////////////////////////////////////////////

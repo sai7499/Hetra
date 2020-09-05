@@ -126,6 +126,7 @@ export interface AddressDetails {
   isCurrAddSameAsPermAdd?: string;
   entityTypeKey?: string;
   nearestLandmark?: string;
+  pobox? : string;
 }
 
 export interface CorporateProspectDetails {
