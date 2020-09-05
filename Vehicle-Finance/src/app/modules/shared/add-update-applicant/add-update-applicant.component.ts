@@ -2304,9 +2304,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
 
     this.showDedupeModal = false;
-    // this.router.navigateByUrl(
-    //   `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
-    // );
+    this.router.navigateByUrl(
+      `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
+    );
     this.isEnableDedupe = false;
     this.isMobileChanged = false;
     this.isName1Changed = false;
