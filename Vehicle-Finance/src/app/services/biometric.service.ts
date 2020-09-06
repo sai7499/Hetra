@@ -34,8 +34,8 @@ export class BiometricService {
         let result = res;
         console.log("result aadhar",result);
         let processVariables =  result.ProcessVariables;
-        if(processVariables.error.code = "0"){
-          console.log("Aadhar number", processVariables.uid);
+        if(processVariables.error.code == "0"){
+          console.log("processVariables Aadhar", processVariables.uid);
           let aadhar = processVariables.uid;
 
           identi5.getInfo(function(result){
@@ -53,6 +53,7 @@ export class BiometricService {
             alert("error"+error);
           });
         }else {
+          console.log("Aadhar number", aadhar);
           identi5.getInfo(function(result){
             console.log("Result&&&&"+ result);
             if(result["error"]){
