@@ -151,7 +151,7 @@ export class BasicDetailsComponent implements OnInit {
   
 
     this.applicantData.forEach((data) => {
-      if (data.applicant !== this.applicantId) {
+      if (data.applicantId !== this.applicantId) {
         if (data.applicantTypeKey == "APPAPPRELLEAD" && data.applicantTypeKey === value) {
           this.toasterService.showError('There should be only one main applicant for this lead', '')
           this.showNotApplicant = true;

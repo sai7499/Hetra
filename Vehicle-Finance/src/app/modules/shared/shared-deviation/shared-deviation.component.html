@@ -1,7 +1,7 @@
 <form class="multisteps-form__form" [formGroup]="deviationsForm">
   <div class="multisteps-form__panel js-active" data-animation="scaleIn">
 
-    <div class="text-right" id="get_role_details_btn" *ngIf="!isSubmitToCredit || operationType !== '2'">
+    <div class="text-right" id="get_role_details_btn" *ngIf="!isSubmitToCredit">
       <button class="btn mar-right8 btn-primary" type="button"
         (click)="getTrigurePolicy()">{{labels.getTriggerPolicy}}</button>
     </div>
@@ -84,7 +84,7 @@
 
       <h3 class="cus-title margin_zero">{{labels?.manualDeviation}}</h3>
 
-      <div class="text-right" id="add_manual_deviation_btn" *ngIf="!isSubmitToCredit || operationType !== '2'">
+      <div class="text-right" id="add_manual_deviation_btn" *ngIf="!isSubmitToCredit">
         <button class="btn mar-right8 btn-primary" type="button"
           (click)="addDeviationUnit()">{{labels?.addManualDeviation}}</button>
       </div>
