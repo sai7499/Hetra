@@ -370,10 +370,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     } else {
       this.showApplicantAddCheckBox = false;
     }
-
+let applicantCount : number = 0;
     this.applicantData.forEach((data) => {
-      if (data.applicant !== this.applicantId) {
-        if (data.applicantTypeKey == "APPAPPRELLEAD" && data.applicantTypeKey === value) {
+      if (data.applicantId !== this.applicantId) {
+        if (data.applicantTypeKey == "APPAPPRELLEAD" && data.applicantTypeKey === value) {          
+          // applicantCount++;
           this.toasterService.showError('There should be only one main applicant for this lead', '')
           this.showNotApplicant = true;
         }
@@ -381,8 +382,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         //   this.toasterService.showInfo('Should One Applicant Is Required', '')
         // } 
       }
+   
 
-    })
+    });
+    // if (applicantCount>0)
+    // {
+    //   this.toasterService.showError('There should be only one main applicant for this lead', '')
+    //   this.showNotApplicant = true;
+    // }
   }
 
   getPanValue(event: any) {
