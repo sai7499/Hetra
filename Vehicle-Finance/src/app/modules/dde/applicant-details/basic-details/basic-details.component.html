@@ -1511,7 +1511,7 @@
                   class="form-control"
                   formControlName="externalRatingExpiryDate"
                   [format]="'dd/MM/yyyy'"
-                  [max]="toDayDate"
+                  [min]="toDayDate"
                   placeholder="Expiry Date"
                   [activeView]="'decade'"
                 ></kendo-datepicker>
