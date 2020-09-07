@@ -104,14 +104,14 @@
                 <label for="period">{{labels?.period}}</label>
                 <input formControlName="period" type="number" class="form-control" name="period" id="period" min= "0" required="required" disabled>
              </div>
-             <div class="form-group col-sm-6 col-md-4 col-lg-3" >
+             <div class="form-group col-sm-6 col-md-4 col-lg-3" *ngIf="isLimitRequire">
                 <label for="limit">{{labels?.limit}}</label>
                 <app-custom-input
                 formControlName="limit"
                 [patternCheck]="limitNumberPattern"
                 [maxLength]="labels?.validationData?.amountValue?.maxLength"
                 [type]="labels?.validationData?.amountValue?.type"
-               
+                [isRequired]="'Limit is required'" 
                 [isDirty]="isDirty"
               ></app-custom-input>
               <!-- [isRequired]="'Limit is required'" -->
@@ -130,6 +130,7 @@
               [isRequired]="'MICR No is required'"
               [placeholder]="'MICR No'"
               [isDirty]="isDirty"
+              [inputClass]="'input-upper'" 
             ></app-custom-input>
             <!-- [isRequired]="'Limit is required'" -->
               <!-- <input formControlName="limit" type="number" class="form-control" name="limit" id="limit"   min= "0"required="required"> -->

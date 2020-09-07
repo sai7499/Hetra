@@ -29,18 +29,11 @@ export class VehicleDetailService {
     }
 
   getVehicleDetailLabels(): Observable<IndivVehicleInfoDetails[]> {
-    // if(this.isMobile) {
       return this.createObservableObj(mUrl).pipe(
         catchError(error => this.errorHandler)
       );
-    // }
-    // return this.http.get<IndivVehicleInfoDetails[]>(this.url)
-    //   .pipe(
-    //     catchError(error => this.errorHandler)
-    //   );
   }
   errorHandler(error: HttpErrorResponse) {
-    // tslint:disable-next-line: deprecation
     return Observable.throw(error.message || 'SERVER Error');
   }
 
@@ -148,6 +141,8 @@ export class VehicleDetailService {
     return this.httpService.post(url, body);
   }
 
+  // 5. method for getting vehicleMasterDetails from asset make
+
   getVehicleMasterFromAssetMake(data) {
 
     const processId = this.apiService.api.getVehicleMasterFromAssetMake.processId;
@@ -166,6 +161,8 @@ export class VehicleDetailService {
     return this.httpService.post(url, body);
   }
 
+  // 6. method for getting vehicleMasterDetails from vehicle type
+
   getVehicleMasterFromVehicleType(data) {
 
     const processId = this.apiService.api.getVehicleMasterFromVehicleType.processId;
@@ -183,6 +180,8 @@ export class VehicleDetailService {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
+
+  // 7. method for getting vehicleMasterDetails from delete
 
   getDeleteVehicleDetails(id, userId) {
 
@@ -205,6 +204,8 @@ export class VehicleDetailService {
     return this.httpService.post(url, body);
 
   }
+
+  // 8. method for getting vehicleMasterDetails from vehicle grid
 
   getVehicleGridValue(data) {
     const processId = this.apiService.api.getVehicleGridValue.processId;
