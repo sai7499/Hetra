@@ -1,0 +1,45 @@
+<div class="content">
+    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+
+        <form class="multisteps-form__form" [formGroup]="collateralForm" *ngIf="label.validationData">
+
+            <div class="row">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="collateral_type">
+                    <label for="collateral_type"> {{ label?.colleteralType }}
+                        <sub class="star_red_col">*</sub>
+                    </label>
+
+                    <app-vf-custom-select [values]="LOV?.collateralType" [id]="'collateral_type'"
+                        formControlName="collateralType" [isRequired]="'Collateral Type Required'"
+                        (change)="selectCollateralType($event.target.value)" [isDirty]="isDirty">
+                    </app-vf-custom-select>
+
+
+                </div>
+            </div>
+
+            <ng-container formArrayName="collateralFormArray">
+
+                <div *ngFor="let obj of collateralForm.get('collateralFormArray')['controls']; let i=index;let l=last"
+                    [formGroupName]="i">
+
+                    <div id="sales_section_start" *ngIf="collateralForm.get('collateralType').value == 1">
+                    </div>
+
+                </div>
+
+            </ng-container>
+
+        </form>
+    </div>
+    <div class="btn-sec clear-both row cst_btm_btns">
+        <div class="col-sm-5"><button class="btn btn-primary dash_href"
+                [routerLink]="['/pages/dde/'+ leadId + '/vehicle-list']">{{label.back}}
+                To
+                Vehicle Details </button></div>
+        <div class="col-sm-7 text-right">
+            <button class="btn btn-primary dash_href"> {{label.save}} </button>
+        </div>
+
+    </div>
+</div>

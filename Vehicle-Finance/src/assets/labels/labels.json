@@ -718,6 +718,7 @@
     "colleteralType": "Colleteral Type",
     "column2": "Column 2",
     "column3": "Column 3",
+    "bodyCost": "Body Cost",
     "passenger": "Passenger",
     "passengerTitle": "VIABILITY/NET CASH FLOW",
     "creditShieldApplicable": "Credit Shield Applicable",
@@ -1740,7 +1741,7 @@
         },
         "vehicleRegNo": {
             "maxLength": {
-                "rule": 11
+                "rule": 10
             },
             "minLength": {
                 "rule": 8,
