@@ -41,9 +41,9 @@ export class ToggleDdeService {
   }
 
   clearToggleData() {
-    // localStorage.removeItem('ddeType');
-    // localStorage.removeItem('ddePath');
-    // localStorage.removeItem('isDdeClicked');
+    localStorage.removeItem('ddeType');
+    localStorage.removeItem('ddePath');
+    localStorage.removeItem('isDdeClicked');
   }
 
   setCurrentPath(currentUrl?: string, labelName?: string) {

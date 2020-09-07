@@ -25,11 +25,20 @@ export class UtilityService {
     localStorage.removeItem('token');
     localStorage.removeItem('roles');
     localStorage.removeItem('userId');
-    localStorage.removeItem('salesResponse');
+    localStorage.removeItem('salesResponse');  
+    localStorage.removeItem('isFiCumPd'); 
+    localStorage.removeItem('lastAction'); 
+    localStorage.removeItem('login_required'); 
+    localStorage.removeItem('branchId'); 
+    localStorage.removeItem('istermSheet');
+    localStorage.removeItem('outputUsers');
+    localStorage.removeItem('outputUsers');
+    localStorage.removeItem('currentUrl');
     this.dashboardService.routingData = '';
     this.toggleDdeService.clearToggleData();
     console.clear();
     this.router.navigateByUrl('/login');
+   
   }
 
   getDateFormat(date) {

@@ -1090,7 +1090,7 @@
     "officeName": "Office Name",
     "noOfyearsInCurrEmployment": "No. of years in curr. Employment",
     "employeeCode": "Employee Code",
-    "employeeType": "Employee Type",
+    "employeeType": "Employment Type",
     "department": "Department",
     "typeOfBusiness": "Type of Business",
     "businessName": "Business Name",
@@ -1193,7 +1193,7 @@
     "cpvAgencyStatus": "CPV Agency Status",
     "generateSanctionLetter": "Generate Sanction Letter",
     "sanctionLetter": "Sanction Letter",
-    "submitToSales": "Send Back to Sales",
+    "submitToSales": "Send to Sales",
     "toSanction": "To",
     "vfSheetTag30": "Further to your application for a finance facility, we are glad to inform you that your loan application has been sanctioned as per the following terms and conditions:",
     "proposalNumber": "Proposal Number",
@@ -1256,7 +1256,7 @@
     "annualIncomeAmount": "Annual Income Amount",
     "ownHouseProofAvail": "Own House Proof Available?",
     "houseOwnerProperty": "Owner of the Property",
-    "ownHouseAppRelationship": "Relationship with the Applicant ",
+    "ownHouseAppRelationship": "Owner Relationship with the Applicant ",
     "averageBankBalance": "Average Bank Balance",
     "rtrType": "RTR Type",
     "prevLoanAmount": "Previous Loan Amount",
@@ -1684,9 +1684,14 @@
         },
         "srNumber": {
             "maxLength": {
-                "rule": 10
+                "rule": 15,
+                "msg" : "SR Number should be 15 digits"
             },
-            "type": "alpha-numeric"
+            "type": "number",
+            "patternCheck": {
+                "rule": "[0-9]{15}",
+                "msg": "SR Number should be valid & 15 digits"
+            }
         },
         "remark": {
             "maxLength": {
@@ -1734,6 +1739,12 @@
                 "rule": 50
             }
         },
+        "addressLine": {
+            "maxLength": {
+                "rule": 35
+            }
+        },
+        
         "businessName": {
             "maxLength": {
                 "rule": 50
@@ -1892,8 +1903,8 @@
             },
             "type": "alpha-numeric",
             "patternCheck": {
-                "rule": "[A-Z1-9]{1}",
-                "msg": "Should be Valid"
+                "rule": "^([L|U]{1})([0-9]{5})([A-Za-z]{2})([0-9]{4})([A-Za-z]{3})([0-9]{6})$",
+                "msg": "Invalid CIN Number. Valid format-U/L12345AB1234ABC123456"
             }
         },
         "cstVatNumber": {
@@ -2009,7 +2020,7 @@
             "maxLength": {
                 "rule": 5
             },
-            "type": "number"
+            "type": "decimal"
         },
         "goodsManufactured": {
             "maxLength": {
@@ -2362,6 +2373,16 @@
                 "rule": 2
             },
             "type": "number"
+        },
+        "pobox": {
+            "maxLength": {
+                "rule": 15
+            },
+            "type": "alpha-numeric",
+            "patternCheck": {
+                "rule": "^[0-9A-za-z]{10}",
+                "msg": "Should be atleast 10 Digits"
+            }
         }
     }
 }

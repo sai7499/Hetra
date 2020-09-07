@@ -327,12 +327,13 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           this.toasterService.showError(res.ErrorMessage, 'Delete Deviation')
         }
       })
-    } else {``
-      if (control.controls.length > 1) {
+    } else {
+      if (control.controls.length > 0) {
         control.removeAt(i);
-      } else {
-        this.toasterService.showInfo("Atleast One Row Required", 'Remove Deviation');
       }
+      //  else {
+      //   this.toasterService.showInfo("Atleast One Row Required", 'Remove Deviation');
+      // }
     }
   }
 
