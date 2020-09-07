@@ -381,8 +381,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         //   this.toasterService.showInfo('Should One Applicant Is Required', '')
         // } 
       }
-
-    })
+    });
+    
   }
 
   getPanValue(event: any) {
