@@ -943,7 +943,7 @@
     "bankName": "Bank Name",
     "accountNo": "Bank Account No",
     "landmark": "Landmark",
-    "locate": "Easy to locate?",
+    "addressAccessibility": " Address Accessibility (Easy to Locate)",
     "locality": "Residential Locality",
     "residentialType": "Residential Type",
     "standardHouse": "Standard House",
