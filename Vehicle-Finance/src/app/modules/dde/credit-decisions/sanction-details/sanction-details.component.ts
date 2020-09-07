@@ -77,7 +77,6 @@ salesResponse: any;
         this.isSanctionDetails = res['ProcessVariables'].isGenerated;
         const response = res;
         this.sanctionDetailsObject = response.ProcessVariables;
-        
         // Filter Out Applicant, Co-Applicant And Guarantor List If ApplicantList_Object Exist
         if (this.sanctionDetailsObject.applicantList) {
           const getApplicantList: Array<any> = this.sanctionDetailsObject.applicantList;

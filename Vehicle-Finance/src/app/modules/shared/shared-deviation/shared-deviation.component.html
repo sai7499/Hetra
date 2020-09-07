@@ -160,7 +160,7 @@
           <div class="form-group col-sm-6 col-md-1 col-lg-1" *ngIf="!isSubmitToCredit">
             <label>{{labels?.more}} </label>
             <div class="row">
-              <div class="col-sm-12 col-md-12 col-lg-12">
+              <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="operationType !== '2'">
                 <label class="image-upload" for="upload_files">
                   <i></i> &nbsp;
                   <a data-toggle="modal" data-target="#exampleModal"
@@ -238,7 +238,7 @@
           [disabled]="!(isSendBacktoCredit === 1)"
           (click)="onPatchRecommendationModal('ApproveDeviations')">{{labels?.approveDeviations}}</button>
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
-          [disabled]="isSendBacktoCredit === 1"
+          [disabled]="!(isSendBacktoCredit !== null && isSendBacktoCredit !== 1)"
           (click)="onPatchRecommendationModal('sendBackToCredit')">{{labels?.sendBackToCredit}}</button>
 
       </div>

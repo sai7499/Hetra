@@ -25,6 +25,8 @@ import { map } from 'rxjs/operators';
 import { UtilityService } from '@services/utility.service';
 import { constants } from 'os';
 import { ToasterService } from '@services/toaster.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
+import { AgmFitBounds } from '@agm/core';
 
 @Component({
   selector: 'app-address-details',
@@ -32,6 +34,7 @@ import { ToasterService } from '@services/toaster.service';
   styleUrls: ['./address-details.component.css'],
 })
 export class AddressDetailsComponent implements OnInit {
+  disableSaveBtn: boolean;
   isIndividual = true;
   addressForm: FormGroup;
   addressDetailsDataArray: any = [];
@@ -91,6 +94,7 @@ export class AddressDetailsComponent implements OnInit {
   checkedModifyCurrent: boolean;
   disableCurrent: boolean;
   disableRegister: boolean;
+  SRNumberValidate : boolean = true;
 
 
   constructor(
@@ -104,7 +108,8 @@ export class AddressDetailsComponent implements OnInit {
     private leadStoreService: LeadStoreService,
     private location: Location,
     private utilityService: UtilityService,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private toggleDdeService: ToggleDdeService
   ) { }
 
   async ngOnInit() {
@@ -130,8 +135,6 @@ export class AddressDetailsComponent implements OnInit {
         //console.log('onperascur', this.onPerAsCurChecked)
       });
     });
-
-
   }
 
   listenerForOfficeAddress() {
@@ -144,6 +147,7 @@ export class AddressDetailsComponent implements OnInit {
     const landlineNumber = officeAddress.get('landlineNumber');
     const mobileNumber = officeAddress.get('mobileNumber');
     const nearestLandmark = officeAddress.get('nearestLandmark');
+    const pobox = officeAddress.get('pobox');
     this.addressCommonListener(addressLineOne);
     this.addressCommonListener(addressLineTwo);
     this.addressCommonListener(addressLineThree);
@@ -151,6 +155,7 @@ export class AddressDetailsComponent implements OnInit {
     this.addressCommonListener(landlineNumber);
     this.addressCommonListener(mobileNumber);
     this.addressCommonListener(nearestLandmark);
+    this.addressCommonListener(pobox);
   }
 
   addressCommonListener(control: AbstractControl) {
@@ -268,27 +273,27 @@ export class AddressDetailsComponent implements OnInit {
           }
           if (!addressList) {
             this.toasterService.showError('Invalid pincode', '');
-            if(id=='permanantPincode'){
-              this.setNullValues('permanantAddress') ;
-              this.permanantPincode={}
+            if (id == 'permanantPincode') {
+              this.setNullValues('permanantAddress');
+              this.permanantPincode = {}
             }
-            if(id=='currentPincode'){
-              this.setNullValues('currentAddress') ;
-              this.currentPincode={}
+            if (id == 'currentPincode') {
+              this.setNullValues('currentAddress');
+              this.currentPincode = {}
             }
-            if(id=='officePincode'){
-              this.setNullValues('officeAddress') ;
-              this.communicationPincode={}
+            if (id == 'officePincode') {
+              this.setNullValues('officeAddress');
+              this.communicationPincode = {}
             }
-            if(id=='registeredPincode'){
-              this.setNullValues('registeredAddress') ;
-              this.registeredPincode={}
+            if (id == 'registeredPincode') {
+              this.setNullValues('registeredAddress');
+              this.registeredPincode = {}
             }
-            if(id=='communicationPincode'){
-              this.setNullValues('communicationAddress') ;
-              this.communicationPincode={}
+            if (id == 'communicationPincode') {
+              this.setNullValues('communicationAddress');
+              this.communicationPincode = {}
             }
-           
+
             return;
           }
 
@@ -399,14 +404,14 @@ export class AddressDetailsComponent implements OnInit {
     }
   }
 
-  setNullValues(control){
+  setNullValues(control) {
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.get(control).patchValue({
-      state : null || '',
-      country : null || '',
-      district : null || '',
-      city : null || ''
+      state: null || '',
+      country: null || '',
+      district: null || '',
+      city: null || ''
     })
   }
 
@@ -491,7 +496,8 @@ export class AddressDetailsComponent implements OnInit {
         //periodOfCurrentStay: new FormControl(''),
         mobileNumber: new FormControl(''),
         //accommodationType: new FormControl(''),
-        nearestLandmark: new FormControl(null)
+        nearestLandmark: new FormControl(''),
+        pobox : new FormControl('')
       }),
     });
 
@@ -504,7 +510,10 @@ export class AddressDetailsComponent implements OnInit {
         ...this.getAddressFormControls(),
         mobileNumber: new FormControl(null),
       }),
-      communicationAddress: new FormGroup(this.getAddressFormControls()),
+      communicationAddress: new FormGroup({
+        ...this.getAddressFormControls(),
+        pobox: new FormControl('')
+      }),
     });
 
     (this.addressForm.get('details') as FormArray).push(nonIndividual);
@@ -559,6 +568,13 @@ export class AddressDetailsComponent implements OnInit {
       this.addNonIndividualFormControls();
       this.setValuesForNonIndividual();
     }
+    setTimeout(() => {
+      const operationType = this.toggleDdeService.getOperationType();
+      if (operationType === '1') {
+        this.addressForm.disable();
+        this.disableSaveBtn = true;
+      }
+    })
   }
 
   setAddressValues(address: AddressDetails) {
@@ -579,7 +595,8 @@ export class AddressDetailsComponent implements OnInit {
       addressLineTwo: address.addressLineTwo,
       addressLineThree: address.addressLineThree,
       landlineNumber: address.landlineNumber,
-      nearestLandmark: address.nearestLandmark
+      nearestLandmark: address.nearestLandmark,
+      pobox : address.pobox
     };
   }
 
@@ -591,8 +608,8 @@ export class AddressDetailsComponent implements OnInit {
     this.showSrField = modifyCurrentAdd == '1' ? true : false;
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
-    
-    
+
+
     const addressObj = this.getAddressObj();
 
     const permanentAddressObj = addressObj[Constant.PERMANENT_ADDRESS];
@@ -706,6 +723,7 @@ export class AddressDetailsComponent implements OnInit {
       const formArray = this.addressForm.get('details') as FormArray;
       const details = formArray.at(0);
       details.get('officeAddress').disable();
+      details.get('officeAddress').get('pobox').enable();
 
     }
 
@@ -782,6 +800,7 @@ export class AddressDetailsComponent implements OnInit {
         periodOfCurrentStay: officeAddressObj.periodOfCurrentStay,
         mobileNumber: officeAddressObj.mobileNumber,
         nearestLandmark: officeAddressObj.nearestLandmark,
+        pobox : officeAddressObj.pobox
 
       });
     }
@@ -798,7 +817,9 @@ export class AddressDetailsComponent implements OnInit {
       const formArray = this.addressForm.get('details') as FormArray;
       const details = formArray.at(0);
       const communicationAddressVariable = details.get('communicationAddress');
-      communicationAddressVariable.disable()
+      communicationAddressVariable.disable();
+      communicationAddressVariable.get('pobox').enable();
+
     }
     if (registeredAddressObj) {
       this.registeredPincode = {
@@ -832,6 +853,8 @@ export class AddressDetailsComponent implements OnInit {
       registeredAddress.patchValue(this.setAddressValues(registeredAddressObj));
       registeredAddress.patchValue({
         mobileNumber: registeredAddressObj.mobileNumber,
+        nearestLandmark : registeredAddressObj.nearestLandmark
+        
       });
     }
     const valueCheckbox = this.getAddressObj();
@@ -868,8 +891,13 @@ export class AddressDetailsComponent implements OnInit {
 
     const communicationAddress = details.get('communicationAddress');
     communicationAddress.patchValue(
-      this.setAddressValues(commReplaceObj)
+      this.setAddressValues(commReplaceObj),
+
     );
+    communicationAddress.patchValue({
+      pobox: commReplaceObj.pobox,
+      nearestLandmark : commReplaceObj.nearestLandmark
+    });
 
   }
 
@@ -1026,6 +1054,7 @@ export class AddressDetailsComponent implements OnInit {
       mobileNumber: currentAddressValue.mobileNumber.value
     });
     officeAddress.disable();
+    officeAddress.get('pobox').enable();
 
   }
 
@@ -1103,12 +1132,37 @@ export class AddressDetailsComponent implements OnInit {
     return false;
   }
 
+  validateSrNumber(event) {
+    // console.log('event', event.target.value)
+    this.SRNumberValidate= true;
+    const value = event.target.value;
+    if (value.length === 15) {
+      this.getSRNumberValidation(value)
+    }
+  }
+
+  getSRNumberValidation(value) {
+    this.applicantService.validateSRNumberModification({
+      srNo: value
+    }).subscribe((res) => {
+      const responce = res['ProcessVariables']
+      this.SRNumberValidate=responce.isSrValid? true : false
+
+      if(responce.error.code=='0'){
+        this.toasterService.showSuccess(responce.error.message, 'SR Number validation successful'  )
+      }else{
+        this.toasterService.showError('', responce.error.message )
+      }
+    })
+  }
+
   onSubmit() {
 
     this.isDirty = true;
     console.log('this.addressForm', this.addressForm)
     setTimeout(() => {
-      if (this.addressForm.invalid || this.checkOfficeAddressValidation()) {
+      if (this.addressForm.invalid || this.checkOfficeAddressValidation()
+      || !this.SRNumberValidate) {
         this.toasterService.showError(
           'Please fill all mandatory fields.',
           'Applicant Details'
@@ -1195,10 +1249,10 @@ export class AddressDetailsComponent implements OnInit {
 
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
-    
+
     const permanantData = details.get('permanantAddress')
-    const perAddress={
-         ...this.getAddressValues(permanantData)
+    const perAddress = {
+      ...this.getAddressValues(permanantData)
     }
     this.addressDetailsDataArray.push({
       ...this.getAddressFormValues(perAddress),
@@ -1206,16 +1260,17 @@ export class AddressDetailsComponent implements OnInit {
       nearestLandmark: permanantData.get('nearestLandmark').value,
       isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd || this.onPerAsCurChecked == true ? '1' : '0',
     });
-    
+
     const officeData = details.get('officeAddress');
-    const offAddress={
+    const offAddress = {
       ...this.getAddressValues(officeData)
     }
     this.addressDetailsDataArray.push({
       ...this.getAddressFormValues(offAddress),
       addressType: Constant.OFFICE_ADDRESS,
       mobileNumber: officeData.get('mobileNumber').value || '',
-      nearestLandmark: officeData.get('nearestLandmark').value || ''
+      nearestLandmark: officeData.get('nearestLandmark').value || '',
+      pobox : officeData.get('pobox').value || ''
     });
     //const initialCurAsPer= this.onPerAsCurChecked== true? '1' : '0'
 
@@ -1232,14 +1287,14 @@ export class AddressDetailsComponent implements OnInit {
       isCurrAddSameAsOffAdd: this.onCurrAsOfficeChecked ? '1' : '0',
       nearestLandmark: currentData.get('nearestLandmark').value,
 
-      periodOfCurrentStay:  Number(currentData.get('periodOfCurrentStay').value) || null,
+      periodOfCurrentStay: Number(currentData.get('periodOfCurrentStay').value) || null,
 
     });
 
     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);
   }
 
-  getAddressValues(values){
+  getAddressValues(values) {
     return {
       pincode: values.get('pincode').value,
       city: values.get('city').value,
@@ -1261,8 +1316,8 @@ export class AddressDetailsComponent implements OnInit {
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
     const registeredAddressObject = value.details[0].registeredAddress;
-    const registeredData= details.get('registeredAddress');
-    const regAddress={
+    const registeredData = details.get('registeredAddress');
+    const regAddress = {
       ...this.getAddressValues(registeredData)
     }
     this.addressDetailsDataArray = [];
@@ -1275,7 +1330,7 @@ export class AddressDetailsComponent implements OnInit {
       nearestLandmark: registeredData.get('nearestLandmark').value,
       isCurrAddSameAsPermAdd: this.onRegAsCommChecked ? '1' : '0',
     });
-     
+
     const communicationData = details.get('communicationAddress')
     const commAddress = {
       ...this.getAddressValues(communicationData)
@@ -1284,6 +1339,7 @@ export class AddressDetailsComponent implements OnInit {
       ...this.getAddressFormValues(commAddress),
       nearestLandmark: communicationData.get('nearestLandmark').value,
       addressType: Constant.COMMUNICATION_ADDRESS,
+      pobox : communicationData.get('pobox').value
     });
     // }
     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);

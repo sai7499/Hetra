@@ -86,6 +86,8 @@ export class BasicDetailsComponent implements OnInit {
   validation: any;
   custCatValue: string;
   ageOfSeniorCitizen = 65;
+  applicantData = [];
+  showNotApplicant : boolean;
 
 
   constructor(
@@ -126,8 +128,9 @@ export class BasicDetailsComponent implements OnInit {
     this.setBirthDate.setFullYear(this.setBirthDate.getFullYear()-10)
     this.ageMinDate.setFullYear(this.ageMinDate.getFullYear()-100)
     //this.addNonIndividualFormControls();
-    this.getLovData();
+    
     this.getLeadSectiondata();
+    this.getLovData();
     this.getCountryList();
     const formArray = this.basicForm.get('details') as FormArray;
     this.validation = formArray.at(0);
@@ -139,9 +142,31 @@ export class BasicDetailsComponent implements OnInit {
     console.log('data-->', leadData);
     this.productCategory = leadData['leadDetails'].productId;
     this.fundingProgram = leadData['leadDetails'].fundingProgram;
+
+    this.applicantData = leadData['applicantDetails'];
     
 
   }
+
+  selectApplicantType(event) {
+    const value = event.target.value;
+    this.showNotApplicant = false;
+  
+
+    this.applicantData.forEach((data) => {
+      if (data.applicantId !== this.applicantId) {
+        if (data.applicantTypeKey == "APPAPPRELLEAD" && data.applicantTypeKey === value) {
+          this.toasterService.showError('There should be only one main applicant for this lead', '')
+          this.showNotApplicant = true;
+        }
+        //  else if (data.applicantTypeKey !== "APPAPPRELLEAD") {
+        //   this.toasterService.showInfo('Should One Applicant Is Required', '')
+        // } 
+      }
+
+    })
+  }
+
   
 
   getCountryList() {
@@ -471,7 +496,7 @@ export class BasicDetailsComponent implements OnInit {
       motherMaidenName: aboutIndivProspectDetails.motherMaidenName || '',
       preferredLanguage: aboutIndivProspectDetails.preferredLanguage || 'ENGPRFLAN',
       occupation: aboutIndivProspectDetails.occupation || '',
-      nationality: aboutIndivProspectDetails.nationality || 'RSDTINDNATIONALITY',
+      nationality: aboutIndivProspectDetails.nationality || 'INDNATIONALITY',
       age: this.showAge,
       gender: aboutIndivProspectDetails.gender || '',
       politicallyExposedPerson:
@@ -673,7 +698,7 @@ export class BasicDetailsComponent implements OnInit {
       // foreignCurrencyDealing: new FormControl(null),
       // exposureBankingSystem: new FormControl(null),
       // creditRiskScore: new FormControl(null),
-      custSegment: new FormControl('', Validators.required),
+      //custSegment: new FormControl('', Validators.required),
       monthlyIncomeAmount: new FormControl(''),
       annualIncomeAmount: new FormControl(''),
       ownHouseProofAvail: new FormControl(''),
@@ -716,6 +741,13 @@ export class BasicDetailsComponent implements OnInit {
         'Applicant Details'
       );
       return;
+    }
+
+    if (this.showNotApplicant) {
+
+      this.toasterService.showError('There should be only one main applicant for this lead', '');
+      return;
+
     }
 
     const rawValue = this.basicForm.getRawValue();
@@ -895,7 +927,7 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.entityType = value.entity;
     applicantDetails.bussinessEntityType = value.bussinessEntityType;
 
-    applicantDetails.custSegment = formValue.custSegment;
+   // applicantDetails.custSegment = formValue.custSegment;
     applicantDetails.monthlyIncomeAmount = formValue.monthlyIncomeAmount;
     applicantDetails.annualIncomeAmount = formValue.annualIncomeAmount;
 

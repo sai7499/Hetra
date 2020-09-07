@@ -25,6 +25,7 @@ export class ApplicantDetailsComponent implements OnInit {
   selectedApplicant: number;
   index: number;
   leadId: number;
+  showNotApplicant : boolean;
 
   constructor(
     private route: Router,
@@ -111,9 +112,18 @@ export class ApplicantDetailsComponent implements OnInit {
       if(this.applicantList[0].entityTypeKey=='INDIVENTTYP' && mobile.length==12){
         this.applicantList[0].mobileNumber= mobile.slice(2,12)
       }
+
+      // this.applicantList.forEach((data)=>{
+      //   if(data.applicantTypeKey=='APPAPPRELLEAD'){
+      //     const applicantBoolean= true;
+      //     console.log('applicantBoolean',applicantBoolean)
+      //   }
+      // })
     });
   }
   navigateAddApplicant(){
+    console.log('applicant list', this.applicantList)
+    //this.findAddressType();
     if(this.applicantList.length > 4){
        this.toasterService.showWarning('Maximum 5 Applicants','')
        return;
@@ -127,6 +137,8 @@ export class ApplicantDetailsComponent implements OnInit {
     }
   }
 
+  
+
   onSubmit() {
     this.isAlert = false;
     setTimeout(() => {
@@ -138,6 +150,7 @@ export class ApplicantDetailsComponent implements OnInit {
   }
 
   editApplicant(index: number) {
+    console.log('applicant list', this.applicantList)
     console.log(index);
     this.route.navigateByUrl(
       `pages/lead-section/${this.leadId}/co-applicant/${index}`
@@ -163,6 +176,24 @@ export class ApplicantDetailsComponent implements OnInit {
       console.log('res', this.selectedApplicant);
       this.applicantList.splice(this.index, 1);
     });
+  }
+
+  forFindingApplicantType(){
+   const findApplicant= this.applicantList.find((data)=>data.applicantTypeKey=="APPAPPRELLEAD")
+   console.log('findApplicant',findApplicant)
+   this.showNotApplicant=findApplicant==undefined? true: false;
+  }
+
+  onNext(){
+    // [routerLink]="['../vehicle-details']"
+   this.forFindingApplicantType()
+    if(this.showNotApplicant){
+      this.toasterService.showError('There should be one applicant for this lead','')
+      return;
+    }
+    
+
+    this.route.navigateByUrl(`pages/lead-section/${this.leadId}/vehicle-details`) 
   }
 
   onBack() {

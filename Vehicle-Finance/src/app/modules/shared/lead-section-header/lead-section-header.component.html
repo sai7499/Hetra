@@ -3,8 +3,7 @@
     <div class="row">
       <div class="row col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
-          <label class="col-form-label" for="lead_created_by"
-            >{{ labels?.leadID }}
+          <label class="col-form-label" for="lead_created_by">{{ labels?.leadID }}
           </label>
           <label for="lead_created_by_name" class="col-form-label-two">{{
             leadId
@@ -45,8 +44,7 @@
       </div>
       <div class="row col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
-          <label class="col-form-label" for="lead_handled_by"
-            >{{ labels?.status }}
+          <label class="col-form-label" for="lead_handled_by">{{ labels?.status }}
           </label>
           <label for="lead_handled_by_name" class="col-form-label-two">{{
             stageDescription
@@ -58,27 +56,30 @@
           <label class="col-form-label" for="lead_handled_by">{{
             labels?.queue
           }}</label>
-          <label for="lead_handled_by_name" class="col-form-label-two"
-            >New Lead &nbsp;&nbsp;<a
-              *ngIf="router.url == '/pages/lead-section'"
-              data-toggle="tooltip"
-              data-placement="bottom"
-              title="Click to View Lead Journey"
-            >
-              <span class="fa fa-history"></span></a
-          ></label>
+          <label for="lead_handled_by_name" class="col-form-label-two">New Lead &nbsp;&nbsp;<a
+              *ngIf="router.url == '/pages/lead-section'" data-toggle="tooltip" data-placement="bottom"
+              title="Click to View Lead Journey">
+              <span class="fa fa-history"></span></a></label>
         </div>
       </div>
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-sm-2" style="padding-top: 8px;">
-    <button
-      class="btn btn-primary view-button"
-      [routerLink]="['/pages/document-viewupload', leadId]"
-      type="button"
-      (click)="saveCurrentUrl()"
-    >
-      View/Upload Document
-    </button>
+    <div class="row">
+      <button class="btn btn-primary view-button" [routerLink]="['/pages/document-viewupload', leadId]" type="button"
+        (click)="saveCurrentUrl()">
+        View/Upload Document
+      </button>
+    </div>
+    <div class="row" *ngIf="isEnableDdeButton">
+      <button class="btn btn-primary view-button" type="button" (click)="viewOrEditDde()">
+        View/Edit DDE
+      </button>
+    </div>
+    <div class="row" *ngIf="isNeedBackButton">
+      <button class="btn btn-primary view-button" type="button" (click)="backFromDde()">
+        {{ ddeBackLabel }}
+      </button>
+    </div>
   </div>
 </div>

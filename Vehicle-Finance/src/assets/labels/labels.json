@@ -288,7 +288,7 @@
     "soName": "SO Name",
     "assetCost": "Asset Cost",
     "financeAmount": "Finance Amount",
-    "tenureInMonths": "TENURE IN MONTHS",
+    "tenureInMonths": "Tenure in Months",
     "sourceOfProposal": "Source of Proposal",
     "assetType": "Asset Type",
     "needForProposedVehicle": "Need for proposed vehicle (In case of addition / expansion)",
@@ -379,6 +379,7 @@
     "coApp1": "COAPP 1",
     "coApplicant2": "CO-APPLICANT 2",
     "coApplicant3": "CO-APPLICANT 3",
+    "cibilStatus":"Cibil status",
     "cibilScore": "CIBIL SCORE",
     "odIndividual": "OD-INDIVIDUAL",
     "odInJointAc": "OD IN JOINT A/C",
@@ -640,11 +641,21 @@
     "basicDetailsTitle": "Basic Details",
     "proposedVehicleDetailsTitle": "Proposed Vehicle Details",
     "partyToAgreementTitle": "PARTY TO AGREEMENT",
-    "cibilSynopsysTitle": "CIBIL SYNOPSYS(ACCOUNT WISE OD DETAILS CAN BE MENTIONED IN SEPAFRATE SHEET)",
+    "cibilSynopsysTitle": "CIBIL SYNOPSYS(ACCOUNT WISE OD DETAILS CAN BE MENTIONED IN SEPARATE SHEET)",
     "bankingSummaryTitle": "BANKING SUMMARY",
     "fleetSummaryTitle": "FLEET SUMMARY",
     "trackValidationSummaryTitle": "TRACK VALIDATION SUMMARY",
     "keyFinancialTitle": "KEY FINANCIAL",
+    "shareCapital": "Share Capital",
+    "lorryHireChargesPaid": "Lorry hire charges paid (Freight charges )",
+    "netProfitAfterTaxA": "Net Profit after Tax (A)",
+    "depreciationB": "Depreciation (B)",
+    "currentLiabilities": "Current Liabilities",
+    "currentAssets": "Current Assets",
+    "revenueFromOperationsOrTopLine": "Revenue From Operations/Top Line",
+    "partnersSalaryC": "Partners Salary (C)",
+    "cashGenerationAB": "Cash Generation (A)+(B)",
+    "dateOfItrFiling": "Date Of ITR Filing",
     "creditCondition": "Credit Condition",
     "salesResponse": "Sales Response",
     "supportDocument": "Support Document",
@@ -809,6 +820,10 @@
     "count": "Count on 30's & 90's dpd",
     "totalNoOfEmis": "Total no of emi's",
     "noOfEmisPaid": "NO of emi's paid",
+    "noOfEmisAccrued" : "No Of Emis Accrued",
+    "accrued" : "Accrued",
+    "emistartDate": "Emi start Date",
+    "emiOverdue": "EMI Overdue",
     "totalDelay": "Total Delay",
     "peakDelay": "Peak Delay",
     "avgDelay": "Avg Delay",
@@ -925,9 +940,11 @@
     "maritalStatus": "Marital Status",
     "weddingAnniversaryDate": "Wedding Anniversary Date",
     "physicallyChallenged": "Physically Challenged",
+    "dependants": "Dependants",
     "residenceNo": "Residence Number(with STD code)",
     "officeNo": "Office Number(with STD code)",
-    "residenceAddress": "Address as per loan application?",
+    "residenceAddress": " Residence Address as per loan application?",
+    "ifNotResidenceAddress": "If residence address not as per records the mention the address",
     "bankName": "Bank Name",
     "accountNo": "Bank Account No",
     "landmark": "Landmark",
@@ -940,13 +957,13 @@
     "houseOwnership": "House Ownership",
     "ratingBySo": "Rating By SO",
     "customerProfileTitle": "Customer Profile Details",
-    "addressRecord": "Office/Business Address as per our records",
+    "addressRecord": "Office / Business Address as per our records",
     "noEmployees": "No of Employees Seen",
     "nameBoardSeen": "Name Board Seen",
     "officePremisesType": "Office Premises Type",
     "sizeOfOffice": "Size of Office",
     "mismatchAddress": "Mis-Match in Address",
-    "mismatchOfficeBusinsessAddress": "Mismatch in Office/Business Address",
+    "mismatchOfficeBusinsessAddress": "Mismatch in Office / Business Address (Mention correct address)",
     "selfieWithHouse": "Selfie with Customer House",
     "ownershipProof": "Proof of Ownership available",
     "metCustomer": "Have you met customer?",
@@ -1049,6 +1066,7 @@
     "accountNumber": "Account Number",
     "accountHolderName": "Account Holder Name",
     "minimumAverageBalance": "Minimum Average Balance",
+    "average":"Average",
     "micrCode": "MICR Code",
     "ifscCode": "IFSC Code",
     "seniorCitizen": "Senior Citizen?",
@@ -1071,7 +1089,7 @@
     "officeName": "Office Name",
     "noOfyearsInCurrEmployment": "No. of years in curr. Employment",
     "employeeCode": "Employee Code",
-    "employeeType": "Employee Type",
+    "employeeType": "Employment Type",
     "department": "Department",
     "typeOfBusiness": "Type of Business",
     "businessName": "Business Name",
@@ -1174,7 +1192,7 @@
     "cpvAgencyStatus": "CPV Agency Status",
     "generateSanctionLetter": "Generate Sanction Letter",
     "sanctionLetter": "Sanction Letter",
-    "submitToSales": "Send Back to Sales",
+    "submitToSales": "Send to Sales",
     "toSanction": "To",
     "vfSheetTag30": "Further to your application for a finance facility, we are glad to inform you that your loan application has been sanctioned as per the following terms and conditions:",
     "proposalNumber": "Proposal Number",
@@ -1237,7 +1255,7 @@
     "annualIncomeAmount": "Annual Income Amount",
     "ownHouseProofAvail": "Own House Proof Available?",
     "houseOwnerProperty": "Owner of the Property",
-    "ownHouseAppRelationship": "Relationship with the Applicant ",
+    "ownHouseAppRelationship": "Owner Relationship with the Applicant ",
     "averageBankBalance": "Average Bank Balance",
     "rtrType": "RTR Type",
     "prevLoanAmount": "Previous Loan Amount",
@@ -1549,6 +1567,11 @@
     "recommendations": "Recommendations",
     "educationalQualification": "Educational Qualification",
     
+    "minDelay" : "Min Delay",
+    "loanType": "Loan Type",
+    "totalCredits": "Total number of credits",
+    "micrNo": "MICR No",
+    "accountBranchname" : "Account Branchname",
 
     "validationData": {
         "name": {
@@ -1664,9 +1687,14 @@
         },
         "srNumber": {
             "maxLength": {
-                "rule": 10
+                "rule": 15,
+                "msg" : "SR Number should be 15 digits"
             },
-            "type": "alpha-numeric"
+            "type": "number",
+            "patternCheck": {
+                "rule": "[0-9]{15}",
+                "msg": "SR Number should be valid & 15 digits"
+            }
         },
         "remark": {
             "maxLength": {
@@ -1714,6 +1742,12 @@
                 "rule": 50
             }
         },
+        "addressLine": {
+            "maxLength": {
+                "rule": 35
+            }
+        },
+        
         "businessName": {
             "maxLength": {
                 "rule": 50
@@ -1813,16 +1847,12 @@
                 "msg": "Aadhar Number Should be Valid"
             }
         },
-
         "turnOver": {
             "maxLength": {
                 "rule": 10
-                
             },
             "type": "number"
         },
-        
-
         "gorssVehicleWeight": {
             "maxLength": {
                 "rule": 5,
@@ -1876,8 +1906,8 @@
             },
             "type": "alpha-numeric",
             "patternCheck": {
-                "rule": "[A-Z1-9]{1}",
-                "msg": "Should be Valid"
+                "rule": "^([L|U]{1})([0-9]{5})([A-Za-z]{2})([0-9]{4})([A-Za-z]{3})([0-9]{6})$",
+                "msg": "Invalid CIN Number. Valid format-U/L12345AB1234ABC123456"
             }
         },
         "cstVatNumber": {
@@ -1993,7 +2023,7 @@
             "maxLength": {
                 "rule": 5
             },
-            "type": "number"
+            "type": "decimal"
         },
         "goodsManufactured": {
             "maxLength": {
@@ -2291,10 +2321,59 @@
             },
             "type": "alpha"
         },
+        "mismatchResidenceAddress": {
+            "maxLenght": {
+                "rule": 120
+            },
+            "type": "alpha-numeric"
+        },
+        "fiCumPDLandlineNumber": {
+            "maxLength": {
+                "rule": 15
+            },
+            "minLength": {
+                "rule": 10,
+                "msg": "Minimum Length 10 digits"
+            },
+            "type": "number",
+            "patternCheck": {
+                "rule": "^[0-9]{15}",
+                "msg": "Number Should be valid and atleast 10 Digits"
+            }
+        },
+        "keyFinancialAmount": {
+            "maxLength": {
+                "rule": 8
+            },
+            "type": "decimal"
+        },
         "chequeNumber": {
             "maxLength": {
                 "rule": 6,
-                "msg" : "Should be 6 Digits"
+                "msg": "Should be 6 Digits"
+            },
+            "type": "number"
+        },
+        "micrFormat": {
+            "maxLength": {
+                "rule": 9,
+                "msg" : "Should be 9 Digits"
+            },
+            "type": "alpha-numeric",
+            "pattern": {
+                "rule": "^[A-Za-z]{3}[0-9]{6}$",
+                "msg": "Pattern should be ABC123456"
+            }
+        },
+        "amountFiveCharc": {
+            "maxLength": {
+                "rule": 5
+            },
+            "type":"number"
+        },
+        "noOfTyres": {
+            "maxLength": {
+                "rule": 2
             },
             "type": "number"
         },
@@ -2327,7 +2406,16 @@
                 "rule": 10
             },
             "type": "number"
+        },
+        "pobox": {
+            "maxLength": {
+                "rule": 15
+            },
+            "type": "alpha-numeric",
+            "patternCheck": {
+                "rule": "^[0-9A-za-z]{10}",
+                "msg": "Should be atleast 10 Digits"
+            }
         }
-
     }
 }

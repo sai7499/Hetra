@@ -54,10 +54,12 @@
                         <td>
                             <!-- <input type="number" name="nature_goods" class="form-control" id="nature_goods"
                                 formControlName="natureOfGoods" /> -->
-                            <app-custom-input formControlName="natureOfGoods" 
-                                [maxLength]="label?.validationData?.name?.maxLength" [isRequired]="'Nature Of Goods is Required'"
+                            <!-- <app-custom-input formControlName="natureOfGoods" 
+                                [maxLength]="label?.validationData?.srNumber?.maxLength" [isRequired]="'Nature Of Goods is Required'"
                                 [placeholder]="'Enter Nature of Goods'" 
-                                [isDirty]="isDirty" [type]="label?.validationData?.name?.type"></app-custom-input>
+                                [isDirty]="isDirty" [type]="label?.validationData?.srNumber?.type"></app-custom-input> -->
+                                <app-vf-custom-select formControlName="natureOfGoods" [values]="viabilityObj?.businessType"
+                                [isRequired]="'Please Select Nature Of Goods'"></app-vf-custom-select>
                         </td>
                     </tr>
                     <tr>
@@ -66,10 +68,10 @@
                             <!-- <input type="number" class="form-control" name="distance_km" id="distance_km"
                                 formControlName="distanceInKm" /> -->
                             <app-custom-input formControlName="distanceInKm" 
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength" [isRequired]="'Distance in kms is Required'"
+                                [maxLength]="label?.validationData?. amountFiveCharc?.maxLength" [isRequired]="'Distance in kms is Required'"
                                 [placeholder]="'Enter Distance In Kms'"
                                 (keyup)="calculatePassenger()"
-                                [isDirty]="isDirty" [type]="label?.validationData?. amountDecimal?.type"></app-custom-input>
+                                [isDirty]="isDirty" [type]="label?.validationData?. amountFiveCharc?.type"></app-custom-input>
 
                         </td>
                     </tr>
@@ -81,11 +83,11 @@
                                 <app-custom-input
                                 formControlName="tripsPerMonth"
                                 [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
                                 [isRequired]="'TripsPerMonth is Required'"
                                 [placeholder]="'Enter Trips Per Month'"
                                 [isDirty]="isDirty"
-                                [type]="label?.validationData?. amountDecimal?.type"
+                                [type]="label?.validationData?. amountFiveCharc?.type"
                                 (keyup)="calculatePassenger()"
                                 ></app-custom-input>
                     </tr>
@@ -98,11 +100,11 @@
                                 <app-custom-input
                                 formControlName="monthlyRunningKm"
                                 [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
                                 [isRequired]="'monthlyRunningKm is Required'"
                                 [isDirty]="isDirty"
                                 [placeholder]="' Monthly Running Kms'"
-                                [type]="label?.validationData?. amountDecimal?.type"
+                                [type]="label?.validationData?. amountFiveCharc?.type"
                                 [isDisabled]=" true"
                                 ></app-custom-input>
                     </tr>
@@ -115,11 +117,11 @@
                                 [id]="average_load_ton"
                                 formControlName="avgLoadPerTon"
                                 [patternCheck]=""
-                                [maxLength]="label?.validationData?.amountDecimal?.maxLength"
+                                [maxLength]="label?.validationData?.amountFiveCharc?.maxLength"
                                 [isRequired]="'Average Load Per Ton is Required'"
                                 [isDirty]="isDirty"
                                 [placeholder]="'Enter Average Load Per Ton'"
-                                [type]="label?.validationData?.amountDecimal?.type"
+                                [type]="label?.validationData?.amountFiveCharc?.type"
                                 (keyup)="calculatePassenger()"
                                 ></app-custom-input>
                             </td>
@@ -133,11 +135,11 @@
                                 [id]="rate_tonne_kl"
                                 formControlName="rateTonne"
                                 [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
                                 [isRequired]="'Tonnage Rate is Required'"
                                 [placeholder]="'Enter Rate of Tonne'"
                                 [isDirty]="isDirty"
-                                [type]="label?.validationData?. amountDecimal?.type"
+                                [type]="label?.validationData?. amountFiveCharc?.type"
                                 (keyup)="calculatePassenger()"
                                 ></app-custom-input>
                         </td>
@@ -228,10 +230,10 @@
                                 [id]="num_tyres"
                                 formControlName="noOfTyres"
                                 [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [maxLength]="label?.validationData?. noOfTyres?.maxLength"
                                 [isRequired]="'No Of Tyres is Required'"
                                 [isDirty]="isDirty"
-                                [type]="label?.validationData?. amountDecimal?.type"
+                                [type]="label?.validationData?. noOfTyres?.type"
                                 [placeholder]="'Enter No of Tyres'"
                                 (keyup)=" calculatePassengerB()"
                                 ></app-custom-input>
@@ -641,8 +643,8 @@
                                 [id]="gross_income_perday"
                                 formControlName="grossIncomePerDay"
                                 [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
-                                [type]="label?.validationData?. amountDecimal?.type"
+                                [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
+                                [type]="label?.validationData?. amountFiveCharc?.type"
                                 [isRequired]="'Gross Income Per Day Is Required'"
                                 [isDirty]="isDirty"
                                 [placeholder]="'Enter Gross Income Per Day'"
@@ -659,8 +661,8 @@
                                 [id]="gross_income_perday"
                                 formControlName="businessEarningPerDay"
                                 [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
-                                [type]="label?.validationData?. amountDecimal?.type"
+                                [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
+                                [type]="label?.validationData?. amountFiveCharc?.type"
                                 [isRequired]="'Earnings Per Day Is Required'"
                                 [isDirty]="isDirty"
                                 (keyup)="calculateStandOperator()"
@@ -844,7 +846,7 @@
                         <td>
                             <!-- <input type="text" class="form-control" name="nature_business" id="nature_business"
                                 formControlName="natureOfBusiness" />-->
-                            <app-custom-input
+                            <!-- <app-custom-input
                             [id]="nature_business"
                             formControlName="natureOfBusiness"
                             [patternCheck]="namePattern"
@@ -853,7 +855,9 @@
                             [isRequired]="'Nature Of business Is Required'"
                             [isDirty]="isDirty"
                             [placeholder]="'Enter Nature of Business'"
-                            ></app-custom-input>
+                            ></app-custom-input> -->
+                            <app-vf-custom-select formControlName="natureOfBusiness" [values]="viabilityObj?.businessType"
+                            [isRequired]="'Please Select Nature Of Business'"></app-vf-custom-select>
                         </td> 
                     </tr>
                     <tr>
@@ -865,8 +869,8 @@
                                 [id]="gross_income_perday_business"
                                 formControlName="businessIncomePerDay"
                                 [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
-                                [type]="label?.validationData?. amountDecimal?.type"
+                                [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
+                                [type]="label?.validationData?. amountFiveCharc?.type"
                                 [isRequired]="'Business Income Per Day Is Required'"
                                 [isDirty]="isDirty"
                         
@@ -884,8 +888,8 @@
                                 [id]="num_earnings_perday"
                                 formControlName="businessEarningPerDay"
                                 [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
-                                [type]="label?.validationData?. amountDecimal?.type"
+                                [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
+                                [type]="label?.validationData?. amountFiveCharc?.type"
                                 [isRequired]="'Business Earning Per Day Is Required'"
                                 [isDirty]="isDirty"
                                 

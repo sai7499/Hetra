@@ -11,6 +11,7 @@ import {
   FormControl,
 } from "@angular/forms";
 import { ToasterService } from '@services/toaster.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 @Component({
   selector: 'app-cam',
   templateUrl: './cam.component.html',
@@ -72,17 +73,31 @@ export class CamComponent implements OnInit {
   customerBackgroundSalesRecommendation: any;
   ncmBhRecommendation: any;
   vehicleDeploymentDetails: any;
-
+  recommendation: any;
+  disableSaveBtn: boolean;
+  // recommend = [{'nameWithEcode': "Janani-co_janani",
+  // "recommendation": "            bcm please approve",
+  // "roleId": "4",
+  // "roleName": "CO"},{'nameWithEcode': "Janani-co_janani",
+  // "recommendation": "            bcm please approve",
+  // "roleId": "4",
+  // "roleName": "CO"},{'nameWithEcode': "Janani-co_janani",
+  // "recommendation": "            bcm please approve",
+  // "roleId": "4",
+  // "roleName": "CO"},]
 
   constructor(private labelsData: LabelsService,
     private camService: CamService,
     private activatedRoute: ActivatedRoute,
     private createLeadDataService: CreateLeadDataService,
     private formBuilder: FormBuilder,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private toggleDdeService: ToggleDdeService
   ) { }
 
   ngOnInit() {
+
+    // console.log(this.recommend)
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
@@ -105,51 +120,99 @@ export class CamComponent implements OnInit {
     } else if (this.productCategoryName == "Used Car") {
       this.usedCarCam = true
       this.getCamUsedCarDetails();
-    }else if (this.productCategoryName == "New Commercial Vehicle") {
+    } else if (this.productCategoryName == "New Commercial Vehicle") {
       this.newCvCam = true
       this.getCamNewCvDetails();
     }
+    if (this.productCategoryName == "Used Commercial Vehicle") {
 
-    this.camDetailsForm = this.formBuilder.group({
-      proposedVehicleRemarks: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(200),
-        Validators.pattern(
-          /^[a-zA-Z0-9 ]*$/
-        ),
-      ]),
-      cibilSynopsisRemarks: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(200),
-        Validators.pattern(
-          /^[a-zA-Z0-9 ]*$/
-        ),
-      ]),
-      trackValidationRemarks: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(200),
-        Validators.pattern(
-          /^[a-zA-Z0-9 ]*$/
-        ),
-      ]),
-      fleetRemarks: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(200),
-        Validators.pattern(
-          /^[a-zA-Z0-9 ]*$/
-        ),
-      ]),
-      keyFinancialRemarks: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(200),
-        Validators.pattern(
-          /^[a-zA-Z0-9 ]*$/
-        ),
-      ]),
+      this.camDetailsForm = this.formBuilder.group({
+        proposedVehicleRemarks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(200),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        cibilSynopsisRemarks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(200),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        trackValidationRemarks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(200),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        fleetRemarks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(200),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        concernsAndRisks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(200),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        strengthAndMitigates: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(200),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        keyFinancialRemarks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(200),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        commentsOnBankingIfAny: new FormControl(),
+        commentsOnRtr: new FormControl(),
+      })
+    } else if (this.productCategoryName == "New Commercial Vehicle") {
+      this.camDetailsForm = this.formBuilder.group({
+        proposedVehicleRemarks: [],
+        cibilSynopsisRemarks: [],
+        trackValidationRemarks: [],
+        fleetRemarks: [],
+        concernsAndRisks: [],
+        strengthAndMitigates: [],
+        keyFinancialRemarks: [],
+        commentsOnBankingIfAny: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(200),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        commentsOnRtr: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(200),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
 
+      })
+    }
 
-    })
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      // this.camDetailsForm.disable();
+      this.disableSaveBtn = true;
+    }
   }
+
   getCamUsedCvDetails() {
     const data = {
       leadId: this.leadId,
@@ -165,6 +228,7 @@ export class CamComponent implements OnInit {
       this.bankingSummary = res.ProcessVariables['bankingSummaryObj']
       this.fleetSummary = res.ProcessVariables['fleetSummaryObj']
       this.trackValidation = res.ProcessVariables['trackValidationObj']
+      this.autoDeviation = res.ProcessVariables['autoDeviation']
       this.customerSelectionCriteria = res.ProcessVariables['customerSelectionCriteriaObj']
       this.otherDeviation = res.ProcessVariables['otherDeviationsObj']
       this.keyFinancial = res.ProcessVariables['keyFinancialObj']
@@ -172,7 +236,7 @@ export class CamComponent implements OnInit {
       this.cmRecommendation = res.ProcessVariables['cmRecommendationObj']
       this.acmRecommendation = res.ProcessVariables['acmRecommendationObj']
       this.ncmBhApprovalRecommendation = res.ProcessVariables['ncmBhApprovalRecommendationObj']
-
+      this.recommendation = res.ProcessVariables['recommendation']
       this.camDetailsForm.patchValue({
         proposedVehicleRemarks: this.camDetails.proposedToAnyOtherRemarks ? this.camDetails.proposedToAnyOtherRemarks : null,
       })
@@ -186,7 +250,13 @@ export class CamComponent implements OnInit {
         fleetRemarks: this.camDetails.fleetSummaryToAnyOtherRemarks ? this.camDetails.fleetSummaryToAnyOtherRemarks : null,
       })
       this.camDetailsForm.patchValue({
-        keyFinancialRemarks: this.camDetails.keyFinancialObjAnyOtherRemarks ? this.camDetails.keyFinancialObjAnyOtherRemarks : null,
+        keyFinancialRemarks: this.camDetails.keyFinancialAnyOtherRemarks ? this.camDetails.keyFinancialAnyOtherRemarks : null,
+      })
+      this.camDetailsForm.patchValue({
+        concernsAndRisks: this.camDetails.concernsAndRisks ? this.camDetails.concernsAndRisks : null,
+      })
+      this.camDetailsForm.patchValue({
+        strengthAndMitigates: this.camDetails.strengthAndMitigates ? this.camDetails.strengthAndMitigates : null,
       })
     })
   }
@@ -212,6 +282,7 @@ export class CamComponent implements OnInit {
       this.autoDeviation = res.ProcessVariables['autoDeviation']
       this.manualDeviation = res.ProcessVariables['manualDeviation']
       this.vehicleDetails = res.ProcessVariables['vehicleDetails']
+      this.recommendation = res.ProcessVariables['recommendation']
 
     })
   }
@@ -230,6 +301,7 @@ export class CamComponent implements OnInit {
       this.customerSelectionCriteria = res.ProcessVariables['customerSelectionCriteria']
       this.detailsOfCibilFiPD = res.ProcessVariables['detailsOfCibilFiPD']
       this.existingExposure = res.ProcessVariables['existingExposure']
+      this.autoDeviation = res.ProcessVariables['autoDeviations']
       this.fleetDetails = res.ProcessVariables['fleetDetails']
       this.otherDeviations = res.ProcessVariables['otherDeviations']
       this.proposedVehiclesDetails = res.ProcessVariables['proposedVehiclesDetails']
@@ -242,21 +314,38 @@ export class CamComponent implements OnInit {
       this.customerBackgroundSalesRecommendation = res.ProcessVariables['customerBackgroundSalesRecommendation']
       this.ncmBhRecommendation = res.ProcessVariables['ncmBhRecommendation']
       this.vehicleDeploymentDetails = res.ProcessVariables['vehicleDeploymentDetails']
+      this.recommendation = res.ProcessVariables['recommendation']
+      this.camDetailsForm.patchValue({
+        commentsOnBankingIfAny: this.camDetails.commentsOnBankingIfAny ? this.camDetails.commentsOnBankingIfAny : null,
+      })
+      this.camDetailsForm.patchValue({
+        commentsOnRtr: this.camDetails.commentsOnRtr ? this.camDetails.commentsOnRtr : null,
+      })
 
-     
     })
   }
   onSubmit() {
+    console.log(this.camDetailsForm);
     console.log(this.camDetailsForm);
 
     this.submitted = true;
     // stop here if form is invalid
     if (this.camDetailsForm.invalid) {
-      this.toasterService.showError(
-        "Fields Missing Or Invalid Pattern Detected",
-        "OD Details"
-      );
-      return;
+      if (this.productCategoryName == "Used Commercial Vehicle") {
+        this.toasterService.showError(
+          "Fields Missing Or Invalid Pattern Detected",
+          "UCV Details"
+        );
+        return;
+      } else
+        if (this.productCategoryName == "New Commercial Vehicle"){
+          this.toasterService.showError(
+            "Fields Missing Or Invalid Pattern Detected",
+            "NCV Details"
+          );
+          return;
+    }
+      
     } else {
       this.submitted = true;
 
@@ -270,7 +359,11 @@ export class CamComponent implements OnInit {
             .cibilSynopsisRemarks.value,
           trackValidationRemarks: this.camDetailsForm.controls.trackValidationRemarks.value,
           fleetRemarks: this.camDetailsForm.controls.fleetRemarks.value,
-          keyFinancialRemarks: this.camDetailsForm.controls.keyFinancialRemarks.value
+          keyFinancialRemarks: this.camDetailsForm.controls.keyFinancialRemarks.value,
+          concernsAndRisks: this.camDetailsForm.controls.concernsAndRisks.value,
+          strengthAndMitigates: this.camDetailsForm.controls.strengthAndMitigates.value,
+          commentsOnBankingIfAny: this.camDetailsForm.controls.commentsOnBankingIfAny.value,
+          commentsOnRtr: this.camDetailsForm.controls.commentsOnRtr.value
         }
       };
 
@@ -284,9 +377,13 @@ export class CamComponent implements OnInit {
             "Saved Successfully",
             "Cam Remarks"
           );
-          this.getCamUsedCvDetails();
-
+          if (this.productCategoryName == "Used Commercial Vehicle") {
+            this.getCamUsedCvDetails();
+          } else
+            if (this.productCategoryName == "New Commercial Vehicle"){
+              this.getCamNewCvDetails();
         }
+      }
       });
     }
   }

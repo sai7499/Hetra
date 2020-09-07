@@ -37,12 +37,15 @@ export class VehicleDataStoreService {
   }
 
   getVehicleDetails() {
-    // return this.leadCreation ? this.leadCreation.vehicleDetails : {};
     return this.vehicleList;
   }
 
-  setIndividualVehicleDetails(vehiceList: IndivVehicleInfoDetails) {
+  setIndividualVehicleDetail(vehiceList: IndivVehicleInfoDetails) {
     this.vehicleData = vehiceList;
+  }
+
+  getIndividualVehicleDetail() {
+    return this.vehicleData
   }
 
   setCollateralId(Id) {

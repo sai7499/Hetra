@@ -175,7 +175,7 @@
                             placeholder="dd/mm/yyyy" 
                             [max]="toDayDate" 
                             [activeView]="'decade'"
-                            (valueChange)="loanStartDate($event)">
+                         >
                         </kendo-datepicker>
                         <div *ngIf="submitted && f.loanStartDate.errors"style= "color:red;" class="invalid-feedback">
                             <span *ngIf="f.loanStartDate.errors.required">loanStartDate is required</span>
@@ -188,6 +188,30 @@
             </div>
         </div>
         <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels?.emistartDate}}<sub class="star_red_col">*</sub></label>
+                <div class="form-group date">
+                    <div class='input-group date' id='loan_start_date'>
+                        <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                        </span> -->
+                        <kendo-datepicker style="width:100%" 
+                            class="form-control mandatory" 
+                            formControlName="emiStartDate"
+                            [format]="'dd/MM/yyyy'" 
+                            placeholder="dd/mm/yyyy" 
+                            [max]="toDayDate" 
+                            [activeView]="'decade'"
+                            (valueChange)="openEmiStartDateModal($event)">
+                        </kendo-datepicker>
+                        <div *ngIf="submitted && f.emiStartDate.errors"style= "color:red;" class="invalid-feedback">
+                            <span *ngIf="f.emiStartDate.errors.required">Emi Start Date is required</span>
+                        </div>
+                        <!-- <input type='date' class="form-control" value="05-01-2018" formControlName="loanStartDate"
+                            (change)="loanStartDate($event)" /> -->
+                    </div>
+                </div>
+
+            </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels?.loanMaturityDate}}<sub class="star_red_col">*</sub></label>
                 <kendo-datepicker width="100%" 
@@ -222,8 +246,11 @@
                   </app-custom-input>
                 </div>
             </div>
+          
+        </div>
+        <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels?.totalNoOfEmis}}<sub class="star_red_col">*</sub></label>
+                <label for="Vechical Type">{{labels?.tenure}}<sub class="star_red_col">*</sub></label>
                 <app-custom-input
                 formControlName="noOfEmi"
                 [className]="'form-control mandatory'"
@@ -235,15 +262,13 @@
                     <span *ngIf="f.noOfEmi.errors.required">{{labels?.totalNoOfEmis}} is required</span>
                 </span> -->
             </div>
-        </div>
-        <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels?.noOfEmisPaid}}<sub class="star_red_col">*</sub></label>
+                <label for="Vechical Type">{{labels?.noOfEmisAccrued}}<sub class="star_red_col">*</sub></label>
                 <app-custom-input
                 formControlName="emisPaid"
                 [className]="'form-control mandatory'"
                 [placeholder]="'Total number of Emis paid'"
-               
+                (change) = "openNoOfEmisAccruedModal($event)"
                 >
               </app-custom-input>
                 <!-- <input type="number" class="form-control" id="no_of_emis_paid" formControlName="emisPaid">
@@ -260,6 +285,9 @@
                 >
               </app-custom-input>
             </div>
+            
+        </div>
+        <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.totalDelay}}</label>
                 <!-- <input type="number" class="form-control" id="total_delay" formControlName="totalDelay"> -->
@@ -269,13 +297,20 @@
                 >
               </app-custom-input>
             </div>
-        </div>
-        <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.peakDelay}}</label>
                 <!-- <input type="number" class="form-control" id="peak_delay" formControlName="peakDelay"> -->
                 <app-custom-input
                 formControlName="peakDelay"
+                [className]="'form-control mandatory'"
+                >
+              </app-custom-input>
+            </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels.minDelay}}</label>
+                <!-- <input type="number" class="form-control" id="avg_delay" formControlName="avgDelay"> -->
+                <app-custom-input
+                formControlName="minDelay"
                 [className]="'form-control mandatory'"
                 >
               </app-custom-input>
@@ -298,6 +333,15 @@
                 >
               </app-custom-input>
             </div>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels?.emiOverdue}}<sub class="star_red_col">*</sub></label>
+               
+                <app-vf-custom-select [values]="overdueLov" formControlName="emiOverdue">
+                </app-vf-custom-select>
+                <span *ngIf="submitted && f.emiOverdue.errors"style= "color:red;" class="invalid-feedback">
+                    <span *ngIf="f.emiOverdue.errors.required">{{labels?.emiOverdue}} is required</span>
+                </span>
+            </div>
         </div>
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -310,9 +354,27 @@
               </app-custom-input>
             </div>
             <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels?.emiAmount}}</label>
-                <input type="text" class="form-control" id="emiAmount" formControlName="emiAmount" (change)="changeEmiAmount($event)">
+                <label for="Vechical Type">{{labels.totalAmtPaid}}</label>
+                <app-custom-input
+                formControlName="installment"
+                [className]="'form-control mandatory'"
+                >
+              </app-custom-input>
             </div> -->
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="Vechical Type">{{labels?.emiAmount}}</label>
+                <app-custom-input
+                formControlName="emiAmount"
+                [className]="'form-control mandatory'"
+                (change)="openEmiAmountModal($event)"
+                [isRequired]="'Emi Amount is mandatory'"
+                [maxLength]="validationData?.amountValue.maxLength"
+                [isDirty]="isDirty"
+                [type] = "validationData?.amountValue.type"
+                                    
+                >
+              </app-custom-input>
+            </div>
         </div>
 
 
@@ -335,7 +397,7 @@
                             <td>{{labels?.action}} </td>
                         </tr>
                     </thead>
-                    <tbody formArrayName="installment">
+                    <tbody formArrayName="installment" >
 
                         <tr id="applicant_1_row"
                             *ngFor="let itemrow of trackVehicleForm.get('installment')['controls']; let i=index;let l=last"
@@ -456,10 +518,12 @@
                                 >
                               </app-custom-input>
                             </td>
-                            <td><i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
-                                    (click)="addNewRow()"></i>&nbsp;
-                                <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
-                                    (click)="deleteRow(i,itemrow)"></i></td>
+                            <td ><button type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"  
+                                    [disabled]="disableActionBtn"                                  
+                                    (click)="addNewRow()"></button>
+                                <button type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete" 
+                                    [disabled]="disableActionBtn"                                   
+                                    (click)="deleteRow(i,itemrow)"></button></td>
                         </tr>
 
                     </tbody>
@@ -483,8 +547,121 @@
             <button class="btn btn-primary js-btn-next" type="button" (click)="onFormSubmit()"> Next </button>
         </div>
     </div>
-
-
-
-
 </form>
+
+<!-- modal popup -->
+<!-- Emi Amount Modal -->
+
+<div class="modal" id="emiAmountModal" [style.display]="showEmiAmountModal ? 'block' : 'none'">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title"></h4>
+          <button type="button" class="close" data-dismiss="modal" (click) = "hideModal('emiAmountModal')">
+            &times;
+          </button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body" style="text-align: center;">
+         <label>Are you sure you want to Change the Emi Amount</label>
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer text-center">
+          
+          <button
+          type="button"
+          class="btn btn-success"
+          id="reject_yes_val"
+          (click) = "changeEmiAmount()"
+        >
+          {{ labels.yes }}
+        </button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click) = "hideModal('emiAmountModal')">
+            {{ labels.cancel }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- NoOfEmisAccruedModal Modal -->
+  <div class="modal" id="noOfEmisPaidModal" [style.display]="showNoOfEmisAccruedModal ? 'block' : 'none'">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title"></h4>
+          <button type="button" class="close" data-dismiss="modal" (click) = "hideModal('noOfEmisAccruedModal')">
+            &times;
+          </button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body" style="text-align: center;">
+         <label>Are you sure you want to Change the No of Emis Accrued</label>
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer text-center">
+          
+          <button
+          type="button"
+          class="btn btn-success"
+          id="reject_yes_val"
+          (click) = "changeAccrued($event)"
+        >
+          {{ labels.yes }}
+        </button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click) = "hideModal('noOfEmisAccruedModal')">
+            {{ labels.cancel }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!-- showEmiStartDateModal Modal -->
+<div class="modal" id="emiStartDateModal" [style.display]="showEmiStartDateModal ? 'block' : 'none'">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title"></h4>
+          <button type="button" class="close" data-dismiss="modal" (click) = "hideModal('emiStartDateModal')">
+            &times;
+          </button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body" style="text-align: center;">
+         <label>Are you sure you want to Change the Emi Start Date</label>
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer text-center">
+          
+          <button
+          type="button"
+          class="btn btn-success"
+          id="reject_yes_val"
+          (click) = "loanStartDate($event)"
+        >
+          {{ labels.yes }}
+        </button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click) = "hideModal('emiStartDateModal')">
+            {{ labels.cancel }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+

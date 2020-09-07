@@ -13,6 +13,7 @@ import { UtilityService } from '@services/utility.service';
 import { Location } from '@angular/common';
 import { ToasterService } from '@services/toaster.service';
 import { LabelsService } from '@services/labels.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 // import * as $ from 'jquery';
 
 @Component({
@@ -20,6 +21,7 @@ import { LabelsService } from '@services/labels.service';
   styleUrls: ['./bank-details.component.css'],
 })
 export class BankDetailsComponent implements OnInit {
+  disableSaveBtn: boolean;
   bankDetailsNew: any;
   bankForm: FormGroup;
   lovData: any;
@@ -54,7 +56,7 @@ export class BankDetailsComponent implements OnInit {
     msg: 'Invalid Limit',
   };
   limitLength20 = {
-    rule: 20,
+    rule: 5,
   };
   inputValidation = {
     rule: '^[0-9]*$',
@@ -68,6 +70,7 @@ export class BankDetailsComponent implements OnInit {
   OldFromDate: Date;
   OldToDate: any;
   todayDateNew: any = new Date();
+  isLimitRequire: boolean = false;
   constructor(
     private fb: FormBuilder,
     private bankTransaction: BankTransactionsService,
@@ -77,7 +80,8 @@ export class BankDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private location: Location,
     private toasterService: ToasterService,
-    private labelsService: LabelsService
+    private labelsService: LabelsService,
+    private toggleDdeService: ToggleDdeService
   ) {
     this.listArray = this.fb.array([]);
   }
@@ -95,7 +99,10 @@ export class BankDetailsComponent implements OnInit {
       fromDate: ['', [Validators.required]],
       toDate: ['', [Validators.required]],
       period: ['', { disabled: true }],
-      limit: [0],
+      limit: [''],
+      accountBranch: [''],
+      micrNumber: [''],
+      totalCredits: [''],
       id: this.leadId,
       // transactionDetails: this.fb.array([]),
       transactionDetails: this.listArray,
@@ -122,12 +129,27 @@ export class BankDetailsComponent implements OnInit {
     });
     this.lovService.getLovData().subscribe((res: any) => {
       this.lovData = res.LOVS;
-      this.formType = this.route.snapshot.queryParams.formType;
-      if (this.formType) {
-        this.getBankDetails();
+      // this.formType = this.route.snapshot.queryParams.formType;
+      // if (this.formType) {
+      //
+      // } else {
+      // }
+    });
+    this.getBankDetails();
+    this.bankForm.get('accountType').valueChanges.subscribe((res: any) => {
+      // tslint:disable-next-line: triple-equals
+      if (res == '4BNKACCTYP') {
+      this.isLimitRequire = true;
+      this.bankForm.get('limit').setValidators(Validators.required);
+      this.bankForm.get('limit').updateValueAndValidity();
       } else {
+      this.isLimitRequire = false;
+      this.bankForm.get('limit').clearValidators();
+      this.bankForm.get('limit').updateValueAndValidity();
       }
     });
+
+
 
     // $('.datepicker').datepicker('update', new Date());
   }
@@ -192,13 +214,19 @@ export class BankDetailsComponent implements OnInit {
         console.log('res from bank', res);
         this.bankDetailsNew = res.ProcessVariables.transactionDetails;
         console.log(this.bankDetailsNew, ' bank details new');
-        // if (res.error === null) {
+        if (this.bankDetailsNew) {
         // tslint:disable-next-line: prefer-for-of
         for (let i = 0; i < this.bankDetailsNew.length; i++) {
           this.assignedArray[i] = this.bankDetailsNew[i].month.toString();
         }
         console.log(this.assignedArray, ' on init');
         this.populateData(res);
+        }
+        const operationType = this.toggleDdeService.getOperationType();
+        if (operationType === '1') {
+          this.bankForm.disable();
+          this.disableSaveBtn  = true;
+        }
         // }
       });
   }
@@ -228,7 +256,16 @@ export class BankDetailsComponent implements OnInit {
         : null,
       limit: data.ProcessVariables.limit
         ? Number(data.ProcessVariables.limit)
-        : 0,
+        : null,
+      totalCredits : data.ProcessVariables.totalCredits
+      ? (data.ProcessVariables.totalCredits)
+      : null,
+      micrNumber: data.ProcessVariables.micrNumber
+      ? (data.ProcessVariables.micrNumber)
+      : null,
+      accountBranch: data.ProcessVariables.accountBranch
+      ? (data.ProcessVariables.accountBranch)
+      : null,
     });
     const transactionDetailsList = data.ProcessVariables.transactionDetails;
     // tslint:disable-next-line: prefer-for-of
@@ -278,6 +315,7 @@ export class BankDetailsComponent implements OnInit {
     this.bankForm.value.accountNumber = this.bankForm.value.accountNumber.toString();
     this.bankForm.value.limit = this.bankForm.value.limit.toString();
     this.bankForm.value.period = this.bankForm.value.period.toString();
+    this.bankForm.value.totalCredits = Number(this.bankForm.value.totalCredits);
     this.bankForm.value.applicantId = this.applicantId;
     this.bankForm.value.id = 7;
     const transactionArray = this.bankForm.value
@@ -364,7 +402,7 @@ export class BankDetailsComponent implements OnInit {
 
   getMonths() {
     const tempArray: Array<any> = this.listArray.value;
-    console.log("temp array", tempArray);
+    console.log('temp array', tempArray);
     if (this.OldToDate && this.OldFromDate) {
       const txt = confirm('Are You Sure Want To Change Dates ?');
       if (txt === false) {
@@ -397,7 +435,7 @@ export class BankDetailsComponent implements OnInit {
     const numberOfMonths = Math.round(
                             (toDate.getFullYear() - fromDate.getFullYear()) * 12 +
                             (toDate.getMonth() - fromDate.getMonth()) + 1);
- 
+
     if (
       diff === undefined ||
       (diff === null && fromDate.getFullYear() > toDate.getFullYear())
@@ -465,7 +503,7 @@ export class BankDetailsComponent implements OnInit {
           this.listArray.push(this.initRows(i));
         }
       }
-    }  
+    }
       // this.assignedArray.forEach(
       //   monName =>
       //     {
@@ -473,11 +511,11 @@ export class BankDetailsComponent implements OnInit {
       //         tempArray.filter(val => val.month == monName)))
       //     }
       // );
-    
+
   }
 
   onBack() {
-    this.location.back();
+    this.router.navigate([`/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`]);
   }
 
   onBackToApplicant() {

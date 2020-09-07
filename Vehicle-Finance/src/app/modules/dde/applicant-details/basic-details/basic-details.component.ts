@@ -19,12 +19,14 @@ import {
   DirectorDetails
 } from '@model/applicant.model';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   templateUrl: './basic-details.component.html',
   styleUrls: ['./basic-details.component.css'],
 })
 export class BasicDetailsComponent implements OnInit {
+  disableSaveBtn: boolean;
   basicForm: FormGroup;
   isIndividual = false;
   //isSelfEmployed = true;
@@ -45,6 +47,7 @@ export class BasicDetailsComponent implements OnInit {
   public toDayDate: Date = new Date();
   setBirthDate: Date = new Date();
   ageMinDate: Date = new Date();
+  businessDate : Date = new Date();
   isRequiredSpouse = 'Spouse Name is Required';
   isRequiredFather = 'Father Name is Required';
   validation: any;
@@ -61,6 +64,8 @@ export class BasicDetailsComponent implements OnInit {
   occupationValue: string;
   ageOfSeniorCitizen = 65;
   isMarried: boolean;
+  applicantData = []; 
+  showNotApplicant : boolean;
 
   emailPattern = {
     rule: '^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(\\.\\w{2,10})+$',
@@ -85,6 +90,7 @@ export class BasicDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private toasterService: ToasterService,
     private createLeadDataService: CreateLeadDataService,
+    private toggleDdeService: ToggleDdeService
   ) { }
   async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -111,6 +117,7 @@ export class BasicDetailsComponent implements OnInit {
 
     this.setBirthDate.setFullYear(this.setBirthDate.getFullYear() - 10)
     this.ageMinDate.setFullYear(this.ageMinDate.getFullYear() - 100)
+    this.businessDate.setDate(this.businessDate.getDate()-1)
 
     this.getLOV();
     this.getCountryList();
@@ -127,7 +134,11 @@ export class BasicDetailsComponent implements OnInit {
     });
     this.leadId = (await this.getLeadId()) as number;
     //console.log('leadId', this.leadId);
-
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      this.basicForm.disable();
+      this.disableSaveBtn  = true;
+    }
   }
 
   setMinorityData() {
@@ -146,9 +157,30 @@ export class BasicDetailsComponent implements OnInit {
     console.log('data-->', leadData);
     this.productCategory = leadData['leadDetails'].productId;
     this.fundingProgram = leadData['leadDetails'].fundingProgram;
-    console.log('prod cat', this.productCategory);
-    console.log('funding prgm cat', this.fundingProgram);
+    // console.log('prod cat', this.productCategory);
+    // console.log('funding prgm cat', this.fundingProgram);
 
+    this.applicantData = leadData['applicantDetails'];
+
+  }
+
+  selectApplicantType(event) {
+    const value = event.target.value;
+    this.showNotApplicant = false;
+  
+
+    this.applicantData.forEach((data) => {
+      if (data.applicantId !== this.applicantId) {
+        if (data.applicantTypeKey == "APPAPPRELLEAD" && data.applicantTypeKey === value) {
+          this.toasterService.showError('There should be only one main applicant for this lead', '')
+          this.showNotApplicant = true;
+        }
+        //  else if (data.applicantTypeKey !== "APPAPPRELLEAD") {
+        //   this.toasterService.showInfo('Should One Applicant Is Required', '')
+        // } 
+      }
+
+    })
   }
 
   calculateIncome(value) {
@@ -335,7 +367,7 @@ export class BasicDetailsComponent implements OnInit {
     } else {
       event.target.checked = true;
     }
-    console.log();
+    
   }
 
   setGaurdianFieldMandatory() {
@@ -438,9 +470,10 @@ export class BasicDetailsComponent implements OnInit {
       // this.removeEmployeeValidators()
       this.setSelfEmpValidators()
     }
-    else {
+    else if (this.custCatValue == 'SALCUSTSEG') {
       this.setSalriedValidators()
     }
+    
 
 
     const formArray = this.basicForm.get('details') as FormArray;
@@ -682,7 +715,7 @@ export class BasicDetailsComponent implements OnInit {
       creditRiskScore: new FormControl(null, Validators.required),
 
       // added new form controls on 16-07-2020
-      custSegment: new FormControl('', Validators.required),
+      //custSegment: new FormControl('', Validators.required),
       monthlyIncomeAmount: new FormControl(''),
       annualIncomeAmount: new FormControl({value: '', disabled: true}),
       ownHouseProofAvail: new FormControl(''),
@@ -974,6 +1007,13 @@ export class BasicDetailsComponent implements OnInit {
 
     }
 
+    if (this.showNotApplicant) {
+
+      this.toasterService.showError('There should be only one main applicant for this lead', '');
+      return;
+
+    }
+
     console.log('GETRAWVALUE', value);
     if (this.isIndividual) {
       this.storeIndividualValueInService(value);
@@ -1165,7 +1205,7 @@ export class BasicDetailsComponent implements OnInit {
 
     // added new form controls on 15-07-2020
 
-    applicantDetails.custSegment = formValue.custSegment;
+    //applicantDetails.custSegment = formValue.custSegment;
     applicantDetails.monthlyIncomeAmount = formValue.monthlyIncomeAmount;
     applicantDetails.annualIncomeAmount = formValue.annualIncomeAmount;
     applicantDetails.ownHouseProofAvail = this.isChecked == true ? '1' : '0',

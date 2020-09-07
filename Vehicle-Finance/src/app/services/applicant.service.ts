@@ -60,6 +60,16 @@ export class ApplicantService {
     processId?: string;
     workflowId?: string;
   }
+  private retrieveAadharData : {
+    projectId?: string;
+    processId?: string;
+    workflowId?: string;
+  }
+  private validateSRNumber : {
+    projectId?: string;
+    processId?: string;
+    workflowId?: string;
+  }
   constructor(
     private httpService: HttpService,
     private apiService: ApiService,
@@ -77,6 +87,8 @@ export class ApplicantService {
     this.addressDetails = this.apiService.api.getAddressDetails; 
     this.panValidation = this.apiService.api.wrapperPanValidation;
     this.biometriceKYC= this.apiService.api.wrapperBiometriceKYC;
+    this.retrieveAadharData= this.apiService.api.retrieveAadharData;
+    this.validateSRNumber = this.apiService.api.validateSRNumber
   }
 
   getApplicantList(data) {
@@ -343,6 +355,39 @@ export class ApplicantService {
         applicantId: applicantId,
         ...data,
         userId
+      },
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+  retreiveAdhar(data){
+    const projectId = this.retrieveAadharData.projectId;
+    const processId = this.retrieveAadharData.processId;
+    const workflowId = this.retrieveAadharData.workflowId;
+    
+    const body = {
+      processId,
+      workflowId,
+      projectId,
+      ProcessVariables: {
+        referenceNo: data
+      },
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+  validateSRNumberModification(data){
+    const projectId = this.validateSRNumber.projectId;
+    const processId = this.validateSRNumber.processId;
+    const workflowId = this.validateSRNumber.workflowId;
+
+    const body={
+      processId,
+      projectId,
+      ProcessVariables: {
+       ... data
       },
     };
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;

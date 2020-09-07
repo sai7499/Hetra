@@ -38,7 +38,12 @@
                   name="passport_expiry_date"                                 
                 />
                 <span class="input-group-btn">
-                  <button class="btn btn-default">
+                  <button class="btn btn-default"
+                  
+                  >
+                  <!-- (click)="onRetreiveAdhar()"
+                  (mouseleave)="onRelieve()" -->
+                  
                     <i class="fa fa-credit-card"></i>
                   </button>
                 </span>
@@ -167,7 +172,7 @@
               />
             </div>
             <div class="form-group  col-sm-4 col-md-4 col-lg-4 col-xs-12 col-xs-12 third_width">
-              <label for="passport_expiry_date">{{labels?.issuanceDate}}</label>
+              <label for="passport_expiry_date">{{labels?.issueDate}}</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
                   <!-- <span class="input-group-addon"
@@ -265,7 +270,7 @@
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
               <label for="issuance_date" class="driving_height"
-                >{{labels?.issuanceDate}}</label
+                >{{labels?.issueDate}}</label
               >
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
@@ -463,8 +468,11 @@
                   disabled
                 />
                 <span class="input-group-btn">
-                  <button class="btn btn-default" disabled="">
+                  <button class="btn btn-default" disabled=""
+                  >
                     <i class="fa fa-credit-card"></i>
+                    <!-- (click)="onRetreiveAdhar()"
+                  (mouseleave)="onRelieve()" -->
                   </button>
                 </span>
               </div>
@@ -556,6 +564,7 @@
       class="btn btn-primary save"
       id="save_vehicle_details"
       (click)="onSubmit()"
+      *ngIf="!disableSaveBtn"
     >
       Save
     </p>

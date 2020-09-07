@@ -15,6 +15,7 @@ import { ApplicantDataStoreService } from '@services/applicant-data-store.servic
 import { UtilityService } from '@services/utility.service';
 import { ApplicantImageService } from '@services/applicant-image.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-cibil-od-list',
@@ -22,6 +23,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./cibil-od-list.component.css'],
 })
 export class CibilOdListComponent implements OnInit {
+  disableSaveBtn: boolean;
   labels: any;
   odDetailsForm: any;
   odAccountDetails: FormGroup;
@@ -33,7 +35,7 @@ export class CibilOdListComponent implements OnInit {
   selctedLoan = [];
   selectedLoanType: any;
   submitted = null;
-  totalOdAmount = 0;
+  totalAmount :any;
   leadId: number;
   userId: string;
   odListLov: any = [];
@@ -65,7 +67,8 @@ export class CibilOdListComponent implements OnInit {
     private applicantDataService: ApplicantDataStoreService,
     private utilityService: UtilityService,
     private applicantImageService: ApplicantImageService,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private toggleDdeService: ToggleDdeService
   ) {
     this.odAccountDetailsArray = this.formBuilder.array([]);
     this.AssetBureauEnquiryArray = this.formBuilder.array([]);
@@ -91,7 +94,7 @@ export class CibilOdListComponent implements OnInit {
       odAccountDetails: this.odAccountDetailsArray,
       AssetBureauEnquiry: this.AssetBureauEnquiryArray,
       AssetBureauEnquirySixtyDays: this.AssetBureauEnquirySixtyDaysArray,
-      totalAmount: this.totalOdAmount,
+      totalAmount: this.totalAmount,
       highDpd6m: [''],
       highDpd12m: [''],
       writtenOffLoans: [''],
@@ -106,23 +109,26 @@ export class CibilOdListComponent implements OnInit {
         Validators.pattern(
           /^[a-zA-Z0-9 ]*$/
               ),
-    ])
-
+    ]),
+    cibilStatus: [''],
       });
     this.getLov();
     this.getOdDetails();
     this.getOdApplicant();
     console.log(this.odDetailsForm.value.clearanceProof);
-
+    
   }
 
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
+      console.log("lov values ....>",value)
       this.odListLov.odApplicantType = value.LOVS.odApplicantType;
       this.odListLov.typeOfLoan = value.LOVS.typeOfLoan;
       this.odListLov.clearanceProof = value.LOVS.clearanceProof;
       console.log(this.odListLov.clearanceProof);
       this.odListLov.highestDpd = value.LOVS.highestDpd;
+      this.odListLov.cibilStatus = value.LOVS.cibilStatus;
+      
     });
   }
   getLeadId() {
@@ -351,39 +357,29 @@ export class CibilOdListComponent implements OnInit {
           totalAmount: this.odDetails.assetAppOdDetails.totalAmount
             ? this.odDetails.assetAppOdDetails.totalAmount
             : null,
-        });
-        this.odDetailsForm.patchValue({
           highDpd6m: this.odDetails.assetAppOdDetails.highDpd6m,
-        });
-        this.odDetailsForm.patchValue({
           highDpd12m: this.odDetails.assetAppOdDetails.highDpd12m,
-        });
-        this.odDetailsForm.patchValue({
           writtenOffLoans: this.odDetails.assetAppOdDetails.writtenOffLoans,
-        });
-        this.odDetailsForm.patchValue({
           writtenOffLoansWithSuite: this.odDetails.assetAppOdDetails
-            .writtenOffLoansWithSuite,
-        });
-        this.odDetailsForm.patchValue({
+          .writtenOffLoansWithSuite,
           lossLoans: this.odDetails.assetAppOdDetails.lossLoans,
-        });
-        this.odDetailsForm.patchValue({
           settledLoans: this.odDetails.assetAppOdDetails.settledLoans,
-        });
-        this.odDetailsForm.patchValue({
           clearanceProofCollected: this.odDetails.assetAppOdDetails
-            .clearanceProofCollected,
-        });
-        this.onSelectProof(this.odDetails.assetAppOdDetails.clearanceProofCollected);
-        this.odDetailsForm.patchValue({
+          .clearanceProofCollected,
           clearanceProof: this.odDetails.assetAppOdDetails.clearanceProof,
-        });
-
-
-        this.odDetailsForm.patchValue({
+          cibilStatus: this.odDetails.assetAppOdDetails.cibilStatus,
           justification: this.odDetails.assetAppOdDetails.justification,
+
         });
+        this.onOdAmount(this.odDetails.assetAppOdDetails.totalAmount, 0);
+       
+        this.onSelectProof(this.odDetails.assetAppOdDetails.clearanceProofCollected);
+      
+      }
+      const operationType = this.toggleDdeService.getOperationType();
+      if (operationType === '1') {
+        this.odDetailsForm.disable();
+        this.disableSaveBtn  = true;
       }
     });
 
@@ -461,11 +457,14 @@ export class CibilOdListComponent implements OnInit {
           writtenOffLoansWithSuite: Number(
             this.odDetailsForm.controls.writtenOffLoansWithSuite.value
           ),
-          totalAmount: this.totalOdAmount.toString(),
+          totalAmount: this.totalAmount.toString(),
+          cibilStatus: this.odDetailsForm.controls.cibilStatus.value,
         },
       };
 
       this.odDetailsService.saveParentOdDetails(body).subscribe((res: any) => {
+        console.log(res);
+        
         // tslint:disable-next-line: triple-equals
         if (res && res.ProcessVariables.error.code == '0') {
           // tslint:disable-next-line: prefer-const
@@ -491,17 +490,22 @@ export class CibilOdListComponent implements OnInit {
   }
   onOdAmount(event: any, i: number) {
     // const odAmount = this.odAccountDetailsArray.value[i].odAmount;
-    // const totalOdAmount = odAmount;
-    // this.odAccountDetailsArray.at(i).patchValue({ totalOdAmount });
+    // const totalAmount = odAmount;
+    // this.odAccountDetailsArray.at(i).patchValue({ totalAmount });
     if (this.odAccountDetailsArray && this.odAccountDetailsArray.length > 0) {
-      this.totalOdAmount = 0;
+      this.totalAmount = 0;
       for (let i = 0; i < this.odAccountDetailsArray.length; i++) {
-        this.totalOdAmount = Math.round(
-          this.totalOdAmount +
+        this.totalAmount = Math.round(
+          this.totalAmount +
           Number(this.odAccountDetailsArray.value[i].odAmount)
         );
+        
       }
     }
+  }
+  onAdditionalMatch(event){
+console.log(event);
+
   }
   onBackToODDetails() {
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/cibil-od`);

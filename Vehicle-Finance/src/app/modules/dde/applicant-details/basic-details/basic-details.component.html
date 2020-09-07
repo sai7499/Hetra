@@ -8,7 +8,6 @@
       <div class="btn-sec clear-both row">
         <div class="col-sm-4 col-md-4 col-lg-4 col-xs-12">
           <label for="entity">{{ labels?.entity }}</label>
-          
           <app-vf-custom-select
             formControlName="entity"
             [values]="LOV?.LOVS?.entityType"
@@ -47,6 +46,7 @@
         <app-vf-custom-select
           formControlName="applicantRelationshipWithLead"
           [values]="LOV?.LOVS?.applicantRelationshipWithLead"
+          (change)= "selectApplicantType($event)"
           [isRequired]="'Please select one'"
           [isDirty]="isDirty"
         ></app-vf-custom-select>
@@ -68,6 +68,7 @@
           <app-vf-custom-select
             formControlName="applicantRelationship"
             [values]="LOV?.LOVS?.relationship"
+            (change)= "selectApplicantType($event)"
             [isRequired]="'Please select one'"
             [isDirty]="isDirty"
           ></app-vf-custom-select>
@@ -194,6 +195,7 @@
                 [maxLength]="validationData?.mobile?.maxLength"
                 [isDirty]="isDirty"
                 [type]="validationData?.mobile?.type"
+                isDisabled
               ></app-custom-input>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -228,6 +230,7 @@
                   placeholder="Date of birth"
                   [activeView]="'decade'"
                   (valueChange)="ageCalculation($event)"
+                  disabled
                 ></kendo-datepicker>
 
                 <div
@@ -1185,14 +1188,14 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="extnl_rating_expiry_date"
               >Business Start Date
-              <sub class="star_red_col">*</sub></label
+              <sub class="star_blue_col">*</sub></label
             >
             <div class="input-group input-medium" id="date_of_birth">
               <kendo-datepicker
                 class="form-control"
                 formControlName="businessStartDate"
                 [format]="'dd/MM/yyyy'"
-                [max]="toDayDate"
+                [max]="businessDate"
                 placeholder="Business Start Date"
                 [activeView]="'decade'"
               ></kendo-datepicker>
@@ -1456,14 +1459,14 @@
             </div>
           </div>
           <div class="row">
-            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 individual_section_leadco">
+            <!-- <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 individual_section_leadco">
   
               <label for="customer_category">{{ labels?.customerCategory }}
                 <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select formControlName="custSegment" [values]="LOV.LOVS?.customerSegment"
                 [isRequired]="'Please select one'" [isDirty]="isDirty"></app-vf-custom-select>
   
-            </div>
+            </div> -->
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 "
                 *ngIf="productCategory=='1003' && (fundingProgram=='24' || fundingProgram=='25')">
                 <label for="aadharnumber">{{ labels?.monthlyIncomeAmount }}
@@ -1731,7 +1734,7 @@
                   class="form-control"
                   formControlName="externalRatingExpiryDate"
                   [format]="'dd/MM/yyyy'"
-                  [max]="toDayDate"
+                  [min]="toDayDate"
                   placeholder="Expiry Date"
                   [activeView]="'decade'"
                 ></kendo-datepicker>
@@ -1881,7 +1884,7 @@
     >
       Back
     </button>
-    <button class="btn btn-primary" (click)="onSubmit()">Save</button>
+    <button class="btn btn-primary" (click)="onSubmit()" *ngIf="!disableSaveBtn">Save</button>
     <button
       class="btn btn-primary dash_href"
       type="button"
