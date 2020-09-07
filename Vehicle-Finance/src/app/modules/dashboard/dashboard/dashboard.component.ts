@@ -115,8 +115,6 @@ export class DashboardComponent implements OnInit {
 
   // roleType;
   isLoadLead = true;
-  leadSection = true;
-  salesLead = true;
   onAssignTab: boolean;
   onReleaseTab: boolean;
 
