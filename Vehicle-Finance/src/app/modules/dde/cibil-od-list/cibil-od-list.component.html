@@ -247,6 +247,12 @@
                     Invalid Message / Special Characters not allowed
 
                   </div>
+                  <div *ngIf="odDetailsForm.get('justification').invalid && submitted == true"
+                  class="invalid-feedback">
+                  <div *ngIf="odDetailsForm.get('justification').errors.required">
+                     Justification is required.
+                  </div>
+                </div>
                   
               </div>
               </div>
@@ -383,6 +389,14 @@
   
                   <app-vf-custom-select [values]="odListLov?.cibilStatus" formControlName="cibilStatus">
                   </app-vf-custom-select>
+                  
+                  <div *ngIf="odDetailsForm.get('cibilStatus').invalid && submitted == true"
+                  class="invalid-feedback">
+                  <div *ngIf="odDetailsForm.get('cibilStatus').errors.required">
+                     Cibil Status is required.
+                  </div>
+                </div>
+
                 </div>
                
                 <div class="clearfix"></div>
@@ -497,4 +511,4 @@
     </div>
   </div>
 </div>
- 
+ </div>

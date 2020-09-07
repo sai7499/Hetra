@@ -50,7 +50,6 @@ export class CibilOdListComponent implements OnInit {
   rowIndex;
   errorMessage;
   isThirtyModelShow: boolean;
-  rowoIndex: any;
   isSixtyModelShow: boolean;
   selctedProof: any;
   unamePattern = '^[a-z0-9_-]{8,15}$';
@@ -111,7 +110,8 @@ export class CibilOdListComponent implements OnInit {
           /^[a-zA-Z0-9 ]*$/
         ),
       ]),
-      cibilStatus: [''],
+      cibilStatus: new FormControl(null, [
+        Validators.required]),
       addMatchFound: [''],
       addCibilScore: ['']
 
@@ -512,8 +512,16 @@ export class CibilOdListComponent implements OnInit {
     }
   }
   onAdditionalMatch(event: any) {
-    console.log("additional change ....>", event.currentTarget.checked);
-    this.addMatchFound = event.currentTarget.checked
+    console.log("additional change ....>", event);
+    console.log(event)
+    if(typeof(event) != 'number') {
+      this.addMatchFound = event.currentTarget.checked
+    } else if (typeof(event) == 'number' && event === 1) {
+      this.addMatchFound = true;
+    } else if (typeof(event) == 'number' && event === 0) {
+      this.addMatchFound = false;
+    }
+    
   }
 
   onBackToODDetails() {
@@ -525,7 +533,7 @@ export class CibilOdListComponent implements OnInit {
     this.errorMessage = 'Are sure to remove row';
   }
   showThirtyModel(i) {
-    this.rowoIndex = i;
+    this.rowIndex = i;
     this.isThirtyModelShow = true;
     this.errorMessage = 'Are sure to remove row';
   }
