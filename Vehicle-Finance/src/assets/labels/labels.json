@@ -363,6 +363,7 @@
     "vfScore": "VF score",
     "fiStatus": "FI Status",
     "proofCollected": "Proof Collected",
+    "nameofProof": "Name of Proof/Proof Name",
     "pdstatus": "PD status",
     "sr": "SR",
     "assetDiscription": "Asset Discription",
@@ -379,7 +380,7 @@
     "coApp1": "COAPP 1",
     "coApplicant2": "CO-APPLICANT 2",
     "coApplicant3": "CO-APPLICANT 3",
-    "cibilStatus":"Cibil status",
+    "cibilStatus": "Cibil status",
     "cibilScore": "CIBIL SCORE",
     "odIndividual": "OD-INDIVIDUAL",
     "odInJointAc": "OD IN JOINT A/C",
@@ -532,7 +533,28 @@
     "agriClassification": "Agri Classification",
     "classifiedBasis": "Classified Basis",
     "branchPendingRcGreaterthanSixtyDays": "Branch Pending RC>  60Day",
+    "surveyNumber": "Survey No. / Patta No.",
+    "landInAcres": "Land in Acres",
+    "propertyOwner": "Property owner",
+    "relatedWithApplicant": "Related to Primary Applicant",
     "totalLoanAmount": "Total Loan Amount",
+    "totalBuildupArea": "Total Built up Area",
+    "marketValueSF": "Market Value / SF",
+    "totalMarketValue": "Total Market Value",
+    "guideLineValue": "Guide line  value / SF",
+    "totalGuideline": "Total Guideline Value",
+    "goldInGMS": "Gold in gms (net weight - excluding stones)",
+    "valueasToday": "Value as of today per gram",
+    "totalValue": "Total Value",
+    "purity": "Purity",
+    "marketValueAcres": "Market Value / Acre",
+    "totalLandMarketValue": "Total Land Market Value",
+    "guideLine": "Guide line  value / Acre",
+    "totalGuideLineValue": "Total Land Guideline Value",
+    "jewelOwner": "Jewel owner",
+    "fdAccountNo": "FD Account number",
+    "fdName": "FD Name",
+    "fdValue": "FD Value",
     "region": "Region",
     "weakerSectionCategory": "Weaker Section Category",
     "soRcGreaterthanSixtyDays": "SO RC >60DAYS",
@@ -715,9 +737,11 @@
     "vehicletitle": "Vehicle Details",
     "registrationNum": "Registration Num",
     "addAdditionalCollaterals": " Add Additional Collaterals",
+    "totalLandArea": "Total Land Area",
     "colleteralType": "Colleteral Type",
     "column2": "Column 2",
     "column3": "Column 3",
+    "bodyCost": "Body Cost",
     "passenger": "Passenger",
     "passengerTitle": "VIABILITY/NET CASH FLOW",
     "creditShieldApplicable": "Credit Shield Applicable",
@@ -820,8 +844,8 @@
     "count": "Count on 30's & 90's dpd",
     "totalNoOfEmis": "Total no of emi's",
     "noOfEmisPaid": "NO of emi's paid",
-    "noOfEmisAccrued" : "No Of Emis Accrued",
-    "accrued" : "Accrued",
+    "noOfEmisAccrued": "No Of Emis Accrued",
+    "accrued": "Accrued",
     "emistartDate": "Emi start Date",
     "emiOverdue": "EMI Overdue",
     "totalDelay": "Total Delay",
@@ -1066,7 +1090,7 @@
     "accountNumber": "Account Number",
     "accountHolderName": "Account Holder Name",
     "minimumAverageBalance": "Minimum Average Balance",
-    "average":"Average",
+    "average": "Average",
     "micrCode": "MICR Code",
     "ifscCode": "IFSC Code",
     "seniorCitizen": "Senior Citizen?",
@@ -1563,12 +1587,11 @@
     "crossSellOthers": "Cross Sell Others (in INR)",
     "errorCode": "Error Code",
     "errorMsg": "Error Message",
-    "minDelay" : "Min Delay",
+    "minDelay": "Min Delay",
     "loanType": "Loan Type",
     "totalCredits": "Total number of credits",
     "micrNo": "MICR No",
-    "accountBranchname" : "Account Branchname",
-
+    "accountBranchname": "Account Branchname",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1684,7 +1707,7 @@
         "srNumber": {
             "maxLength": {
                 "rule": 15,
-                "msg" : "SR Number should be 15 digits"
+                "msg": "SR Number should be 15 digits"
             },
             "type": "number",
             "patternCheck": {
@@ -1743,7 +1766,6 @@
                 "rule": 35
             }
         },
-        
         "businessName": {
             "maxLength": {
                 "rule": 50
@@ -1751,7 +1773,7 @@
         },
         "vehicleRegNo": {
             "maxLength": {
-                "rule": 11
+                "rule": 10
             },
             "minLength": {
                 "rule": 8,
@@ -2353,7 +2375,7 @@
         "micrFormat": {
             "maxLength": {
                 "rule": 9,
-                "msg" : "Should be 9 Digits"
+                "msg": "Should be 9 Digits"
             },
             "type": "alpha-numeric",
             "pattern": {
@@ -2365,7 +2387,7 @@
             "maxLength": {
                 "rule": 5
             },
-            "type":"number"
+            "type": "number"
         },
         "noOfTyres": {
             "maxLength": {
