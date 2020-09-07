@@ -154,11 +154,11 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
-      this.branchId = value.branchId;
-      this.roleId = value.roleId;
-      this.businessDivision = value.businessDivision[0].bizDivId;
-      this.roleType = value.roleType;
+    this.loginStoreService.isCreditDashboard.subscribe((userDetails: any) => {
+      this.branchId = userDetails.branchId;
+      this.roleId = userDetails.roleId;
+      this.businessDivision = userDetails.businessDivision[0].bizDivId;
+      this.roleType = userDetails.roleType;
     });
 
     if (this.dashboardService.routingData) {
@@ -394,10 +394,10 @@ export class DashboardComponent implements OnInit {
     } else if (tabName === 'dde') {
       this.toggleDdeService.setIsDDEClicked('1');
       this.toggleDdeService.setOperationType('0');
-    } else if(tabName === 'CPC'){
+    } else if (tabName === 'CPC') {
       this.toggleDdeService.setIsDDEClicked('0');
       this.toggleDdeService.setOperationType('1', 'CPC', currentUrl);
-    }else{
+    } else {
       this.toggleDdeService.clearToggleData();
     }
 
