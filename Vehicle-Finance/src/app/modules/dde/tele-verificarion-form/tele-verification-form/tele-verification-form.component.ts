@@ -432,7 +432,9 @@ export class TeleVerificationFormComponent implements OnInit {
       this.mobileNo = res.ProcessVariables.mobileNo;
 
       if (
+        // tslint:disable-next-line: triple-equals
         res.ProcessVariables.error.code == '0' &&
+        // tslint:disable-next-line: triple-equals
         res.ProcessVariables.referenceNo != ''
       ) {
         this.toasterService.showSuccess('OTP sent successfully !', '');
@@ -455,6 +457,7 @@ export class TeleVerificationFormComponent implements OnInit {
     this.otpService.validateOtp(data).subscribe((res: any) => {
       const response = res;
       console.log('validate otp', response);
+      // tslint:disable-next-line: triple-equals
       if (res.ProcessVariables.error.code == '0') {
         console.log(res.ProcessVariables.error);
         this.closeModal.nativeElement.click();
