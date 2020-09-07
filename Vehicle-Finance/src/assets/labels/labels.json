@@ -1587,6 +1587,9 @@
     "crossSellOthers": "Cross Sell Others (in INR)",
     "errorCode": "Error Code",
     "errorMsg": "Error Message",
+    "yrsOfResidence": "No. of years residing at present residence",
+    "recommendations": "Recommendations",
+    "educationalQualification": "Educational Qualification",
     "minDelay": "Min Delay",
     "loanType": "Loan Type",
     "totalCredits": "Total number of credits",
@@ -2392,6 +2395,36 @@
         "noOfTyres": {
             "maxLength": {
                 "rule": 2
+            },
+            "type": "number"
+        },
+        "yearsOfResidence": {
+            "maxLength": {
+                "rule": 3
+            },
+            "type": "number"
+        },
+        "noOfAdultDependant": {
+            "maxLength": {
+                "rule": 2
+            },
+            "type": "number"
+        },
+        "noOfChildrenDependant": {
+            "maxLength": {
+                "rule": 2
+            },
+            "type": "number"
+        },
+        "marginMoney": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
+        "emiAffordabilityBasic": {
+            "maxLength": {
+                "rule": 10
             },
             "type": "number"
         },
