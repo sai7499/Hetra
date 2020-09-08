@@ -1,4 +1,4 @@
-import { NgModule ,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule , CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
@@ -11,10 +11,13 @@ import {TermSheetComponent} from './term-sheet/term-sheet.component';
 import { SanctionDetailsComponent } from './sanction-details/sanction-details.component';
 import { CustomerFeedbackComponent } from './customer-feedback/customer-feedback.component';
 import { CheckListComponent } from './check-list/check-list.component';
-import {TermSheetFromDashboardComponent} from './term-sheet-from-dashboard/term-sheet-from-dashboard.component'
+import {TermSheetFromDashboardComponent} from './term-sheet-from-dashboard/term-sheet-from-dashboard.component';
 import { NegotiationComponent } from '@modules/negotiation/negotiation.component';
 import { NegotiationModule } from '@modules/negotiation/negotiation.module';
 import { DisbursementSectionModule } from '@modules/disbursement-section/disbursement-section.module';
+import { DdeModule } from '../dde.module';
+import { CamComponent } from '../cam/cam.component';
+import { DeviationsComponent } from '../deviations/deviations.component';
 @NgModule({
   declarations: [
     CreditDecisionComponent,
@@ -25,6 +28,8 @@ import { DisbursementSectionModule } from '@modules/disbursement-section/disburs
     CheckListComponent,
     TermSheetFromDashboardComponent,
     // NegotiationComponent
+    CamComponent,
+    DeviationsComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +39,8 @@ import { DisbursementSectionModule } from '@modules/disbursement-section/disburs
     SharedModule,
     DdeSharedModule,
     NegotiationModule,
-    DisbursementSectionModule
+    DisbursementSectionModule,
+
   ],
   exports: [
     TermSheetComponent ,

@@ -295,12 +295,16 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       //this.namePattern = this.namePatternNonIdv;
       this.addIndFormControls();
       this.removeNonIndFormControls();
+      dedupe.get('bussinessEntityType').clearValidators();
+      dedupe.get('bussinessEntityType').updateValueAndValidity()
     } else {
       const dedupe = this.coApplicantForm.get('dedupe');
-      dedupe.patchValue({
-        title: 'M/SSALUTATION',
-      });
-      this.coApplicantForm.get('dedupe').get('aadhar').clearValidators();
+      // dedupe.patchValue({
+      //   title: 'M/SSALUTATION',
+      // });
+      dedupe.get('aadhar').clearValidators();
+      dedupe.get('bussinessEntityType').setValidators([Validators.required]);
+      dedupe.get('bussinessEntityType').updateValueAndValidity()
       //this.namePattern = { ...this.namePatternIdv };
       this.addNonIndFormControls();
       this.removeIndFormControls();
@@ -929,7 +933,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     return {
       loanApplicationRelation: new FormControl('', Validators.required),
       entityType: new FormControl('', Validators.required),
-      bussinessEntityType: new FormControl(''),
+      bussinessEntityType: new FormControl('',Validators.required),
       fullName: new FormControl(''),
       name1: new FormControl('', Validators.required),
       name2: new FormControl(''),
@@ -1199,6 +1203,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       ) {
         this.addIndFormControls();
         this.removeNonIndFormControls();
+        dedupe.get('bussinessEntityType').clearValidators()
+
         const modifyaddress = applicantValue.applicantDetails.modifyCurrentAddress
         this.checkedModifyCurrent = modifyaddress == "1" ? true : false;
         this.showSrField = modifyaddress == "1" ? true : false;
@@ -1264,6 +1270,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         // }
       } else {
         this.coApplicantForm.get('dedupe').get('aadhar').clearValidators();
+        this.coApplicantForm.get('dedupe').get('bussinessEntityType').setValidators([Validators.required]);
         this.coApplicantForm
           .get('dedupe')
           .get('aadhar')
