@@ -367,7 +367,7 @@ export class CreditConditionsComponent implements OnInit {
     });
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleType = value.roleType;
-      console.log('role Type', this.roleType);
+    //  console.log('role Type', this.roleType);
     });
     this.getCreditConditions();
     this.salesResponse = localStorage.getItem('salesResponse')

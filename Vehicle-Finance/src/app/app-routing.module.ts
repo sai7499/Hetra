@@ -216,7 +216,14 @@ const routes: Routes = [
           import('./modules/disbursement-section/disbursement-section.module').then(
             (m) => m.DisbursementSectionModule
           ),
-        }
+        },
+        {
+          path: 'pre-disbursement',
+          loadChildren: () =>
+            import('./modules/dde/pre-disbursement/pre-disbursement.module').then(
+              (m) => m.PreDisbursementModule
+            ),
+        },
     ],
   },
 ];

@@ -55,7 +55,7 @@
         <div class="row">
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="minAmount">{{labels.loanMinAmount}}</label>
-            <app-custom-input id="minAmount" formControlName="loanMinAmt" min="minAmount" [className]="'form-control'"
+            <app-custom-input id="minAmount" formControlName="loanMinAmt" [className]="'form-control'"
               [placeholder]="'Enter Loan amount'" [maxLength]="validationData?.amountValue.maxLength"
               [type]="validationData?.amountValue.type">
             </app-custom-input>
@@ -98,6 +98,9 @@
       <li (click)="onLeads(displayTabs?.ChequeTracking)"
         [ngClass]="{'active':displayTabs?.ChequeTracking === activeTab}" routerLinkActive="active"><a
           data-toggle="tab">Cheque Tracking</a></li>
+      <li (click)="onLeads(displayTabs?.PreDisbursementQueue, displayTabs?.PreDisbursementWithMe)"
+        [ngClass]="{'active':displayTabs?.PreDisbursementQueue === activeTab}" routerLinkActive="active"><a
+          data-toggle="tab">Pre Disbursement Queue</a></li>
     </ul>
   </div>
 
@@ -139,6 +142,15 @@
       <li (click)="leads(displayTabs?.ViabilityWithBranch)"
         [ngClass]="{'active':displayTabs?.ViabilityWithBranch === subActiveTab}" routerLinkActive="active"><a
           data-toggle="tab">Viability Checks Pending with Branch</a></li>
+    </ul>
+    <!--  -->
+    <ul *ngIf="displayTabs?.PreDisbursementQueue === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="leads(displayTabs?.PreDisbursementWithMe)"
+        [ngClass]="{'active':displayTabs?.PreDisbursementWithMe === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Leads Pending with Me</a></li>
+      <li (click)="leads(displayTabs?.PreDisbursementWithBranch)"
+        [ngClass]="{'active':displayTabs?.PreDisbursementWithBranch === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Leads Pending with Branch</a></li>
     </ul>
 
   </div>

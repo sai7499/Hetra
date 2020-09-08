@@ -43,8 +43,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   public findIndex;
   isOne: boolean;
   isZero: boolean;
-  disableSaveBtn: boolean;
-  operationType: string = '0';
 
   @Input() isSubmitToCredit: boolean;
   @Input() isDirty: boolean;
@@ -86,11 +84,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.sharedService.taskId$.subscribe((id) => {
       this.taskId = id ? id : '';
     })
-    // this.operationType = this.toggleDdeService.getOperationType();
-    // if (this.operationType === '2') {
-    //   this.deviationsForm.disable();
-    //   this.disableSaveBtn = true;
-    // }
+    this.isApproveDeviation()
   }
 
   initForms() {
@@ -152,6 +146,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     let data = [];
 
     if (this.deviationsForm.controls['autoDeviationFormArray'].value.length > 0) {
+      console.log('jj', this.deviationsForm.controls['manualDeviationFormArray'].value[0].devRuleId !== 0)
       if (this.deviationsForm.controls['manualDeviationFormArray'].value[0].devRuleId !== 0) {
         data = data.concat(this.deviationsForm.controls['autoDeviationFormArray'].value);
         data = data.concat(this.deviationsForm.controls['manualDeviationFormArray'].value);
@@ -161,6 +156,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     } else {
       data = this.deviationsForm.controls['manualDeviationFormArray'].value
     }
+
+    console.log(data, 'data')
 
     data.map((res: any) => {
       if (res.statusCode === '0') {
@@ -180,6 +177,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     if (!this.isOne) {
       this.isSendBacktoCredit = 1;
     }
+
+    console.log(this.isSendBacktoCredit)
 
   }
 

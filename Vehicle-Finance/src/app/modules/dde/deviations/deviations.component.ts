@@ -52,7 +52,7 @@ export class DeviationsComponent implements OnInit, OnDestroy {
 
   saveorUpdateDeviationDetails() {
 
-    if (this.formValue.value.autoDeviationFormArray.length > 0 || this.formValue.vaild) {
+    if (this.formValue.value.autoDeviationFormArray.length > 0 || this.formValue.valid) {
       let data = [];
 
       if (this.formValue.value.autoDeviationFormArray.length > 0) {
