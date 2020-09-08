@@ -6,6 +6,8 @@ import { CommomLovService } from '@services/commom-lov-service';
 import { UtilityService } from '@services/utility.service';
 import { CollateralService } from '@services/collateral.service';
 import { LoginStoreService } from '@services/login-store.service';
+import { ToasterService } from '@services/toaster.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-additional-collateral-details',
@@ -28,7 +30,7 @@ export class AdditionalCollateralComponent implements OnInit {
 
     constructor(private _fb: FormBuilder, private labelsData: LabelsService, private createLeadDataService: CreateLeadDataService,
         private commonLovService: CommomLovService, private utilityService: UtilityService, private collateralService: CollateralService,
-        private loginStoreService: LoginStoreService) { }
+        private loginStoreService: LoginStoreService, private toasterService: ToasterService, private router: Router) { }
 
     ngOnInit() {
 
@@ -160,12 +162,30 @@ export class AdditionalCollateralComponent implements OnInit {
 
             console.log('error', form)
 
+            let additionalCollaterals = form.value.collateralFormArray[0];
+
+            additionalCollaterals.collateralType = form.value.collateralType;
+            additionalCollaterals.nameofProof = form.value.nameofProof;
+            additionalCollaterals.proofCollected = form.value.proofCollected;
+            additionalCollaterals.propertyOwnership = form.value.propertyOwnership;
+
             const data = {
                 "userId": this.userId,
                 "leadId": this.leadId,
-                "additionalCollaterals": {
-                }
+                "additionalCollaterals": additionalCollaterals
             }
+
+            this.collateralService.saveOrUpdateAdditionalCollaterals(data).subscribe((res: any) => {
+                console.log('res', res)
+                let apiError = res.ProcessVariables.error.message;
+
+                if (res.Error === '0' && res.Error === '0' && res.ProcessVariables.error.code === '0') {
+                  this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Additional Collateral Detail');
+                  this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
+                } else {
+                  this.toasterService.showError(apiError, 'Additional Collateral Detail')
+                }
+            })
 
         } else {
             this.isDirty = true;

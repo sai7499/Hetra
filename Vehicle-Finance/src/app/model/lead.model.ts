@@ -191,9 +191,9 @@ export interface VehicleList {
 }
 
 export interface CollateralList {
+  collateralId?: number;
   collateralType?: string;
-  totalMarketValue?: string;
-  relationWithApplicant?: string
+  ownerName?: string;
 }
 
 export interface CoApplicant {

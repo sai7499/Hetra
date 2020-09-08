@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from './http.service';
 import { ApiService } from './api.service';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from '../../environments/environment';
 import RequestEntity from '@model/request.entity';
 
 @Injectable({
@@ -66,7 +66,7 @@ export class CollateralService {
 
       processId: processId,
       ProcessVariables: {
-        "id": id,
+        "collateralId": id,
         "userId": userId
       },
       workflowId: workflowId,
