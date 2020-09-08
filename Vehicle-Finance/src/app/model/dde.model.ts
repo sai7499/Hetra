@@ -134,7 +134,12 @@ export interface ApplicantDetails {
     sizeOfHouse?: string;
     standardOfLiving?: string;
     houseOwnership?: string;
+    ownershipAvailable?: string;
+    dependents?: string;
+    ownerName?: string;
+    propertyArea?: string;
     ratingbySO?: string;
+
 }
 
 export interface CustomerProfile {

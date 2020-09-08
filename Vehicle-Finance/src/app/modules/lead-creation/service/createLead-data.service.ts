@@ -70,6 +70,7 @@ export class CreateLeadDataService {
     leadDetailsDataModified(data) {
         this.leadSectionData['leadDetails']['bizDivision'] = data.leadDetails.bizDivision;
         this.leadSectionData['leadDetails']['priority'] = data.leadDetails.priority;
+        this.leadSectionData['leadDetails']['applicationNo'] = data.leadDetails.applicationNo;
         this.leadSectionData['leadDetails']['productCatCode'] = data.leadDetails.productCatCode;
         this.leadSectionData['leadDetails']['productId'] = data.leadDetails.productId;
         this.leadSectionData['leadDetails']['fundingProgram'] = data.leadDetails.fundingProgram;
@@ -80,6 +81,7 @@ export class CreateLeadDataService {
         this.leadSectionData['leadDetails']['sourcingCodeDesc'] = data.leadDetails.sourcingCodeDesc;
         this.leadSectionData['leadDetails']['dealorCode'] = data.leadDetails.dealorCode;
         this.leadSectionData['leadDetails']['dealorCodeDesc'] = data.leadDetails.dealorCodeDesc;
+        this.leadSectionData['leadDetails']['typeOfLoan'] = data.leadDetails.typeOfLoan;
         this.leadSectionData['leadDetails']['reqLoanAmt'] = data.leadDetails.reqLoanAmt;
         this.leadSectionData['leadDetails']['reqTenure'] = data.leadDetails.reqTenure;
 

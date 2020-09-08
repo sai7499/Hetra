@@ -45,6 +45,11 @@ export class ApplicantDetailComponent implements OnInit {
   roleType: any;
   disableSaveBtn: boolean;
   operationType: string;
+  ownerShipType: any;
+  ownerNamePropertyAreaRequired: boolean;
+  ownerNamePropertyAreaDisabled: boolean;
+  resAddressType: any;
+  addressRequired: boolean;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -151,6 +156,50 @@ export class ApplicantDetailComponent implements OnInit {
       }
     }
   }
+  houseOwnerShip(event: any) {
+    console.log('event', event);
+    this.ownerShipType = event ? event : event;
+    if (this.ownerShipType === '1HOUOWN' || this.ownerShipType === '2HOUOWN' ||
+      this.ownerShipType === '4HOUOWN' || this.ownerShipType === '9HOUOWN' ||
+      this.ownerShipType === '5HOUOWN') {
+      console.log('in owner,property enabled');
+      this.ownerNamePropertyAreaRequired = true;
+      this.ownerNamePropertyAreaDisabled = false;
+      this.applicantForm.get('ownerName').enable();
+      this.applicantForm.get('ownerName').setValidators(Validators.required);
+      this.applicantForm.get('propertyArea').enable();
+      this.applicantForm.get('propertyArea').setValidators(Validators.required);
+
+    } else if (this.ownerShipType !== '1HOUOWN' || this.ownerShipType !== '2HOUOWN' ||
+      this.ownerShipType !== '4HOUOWN' || this.ownerShipType !== '9HOUOWN' ||
+      this.ownerShipType !== '5HOUOWN') {
+      console.log('in owner,property disabled');
+      this.ownerNamePropertyAreaRequired = false;
+      this.ownerNamePropertyAreaDisabled = true;
+      this.applicantForm.get('ownerName').disable();
+      this.applicantForm.get('ownerName').clearValidators();
+      this.applicantForm.get('ownerName').updateValueAndValidity();
+      this.applicantForm.get('propertyArea').disable();
+      this.applicantForm.get('propertyArea').clearValidators();
+      this.applicantForm.get('propertyArea').updateValueAndValidity();
+
+    }
+  }
+  resAddress(event: any) {
+    console.log('event', event);
+    this.resAddressType = event ? event : event;
+    if (this.resAddressType !== '1') {
+      this.addressRequired = true;
+      this.applicantForm.get('mismatchInAddress').enable();
+      this.applicantForm.get('mismatchInAddress').setValidators(Validators.required);
+    } else if (this.resAddressType === '1') {
+      this.addressRequired = false;
+      this.applicantForm.get('mismatchInAddress').disable();
+      this.applicantForm.get('mismatchInAddress').clearValidators();
+      this.applicantForm.get('mismatchInAddress').updateValueAndValidity();
+
+    }
+  }
   initForm() { // initialising the form group
     this.applicantForm = new FormGroup({
       // applicantName: new FormControl({ value: this.applicantFullName, disabled: true }),
@@ -159,12 +208,13 @@ export class ApplicantDetailComponent implements OnInit {
       gender: new FormControl('', Validators.required),
       maritalStatus: new FormControl('', Validators.required),
       physicallyChallenged: new FormControl('', Validators.required),
-      // dependants: new FormControl('', Validators.required),
+      dependants: new FormControl('', Validators.required),
       residancePhoneNumber: new FormControl('', Validators.required),
       officePhoneNumber: new FormControl('', Validators.required),
       // mobile: new FormControl({ value: this.mobileNo, disabled: true }),
       mobile: new FormControl({ value: '', disabled: true }),
       residenceAddressAsPerLoanApplication: new FormControl('', Validators.required),
+      mismatchInAddress: new FormControl(''),
       bankName: new FormControl('', Validators.required),
       accountNumber: new FormControl('', Validators.required),
       landmark: new FormControl('', Validators.required),
@@ -175,6 +225,9 @@ export class ApplicantDetailComponent implements OnInit {
       sizeOfHouse: new FormControl('', Validators.required),
       standardOfLiving: new FormControl('', Validators.required),
       houseOwnership: new FormControl('', Validators.required),
+      ownershipAvailable: new FormControl('', Validators.required),
+      propertyArea: new FormControl(''),
+      ownerName: new FormControl(''),
       ratingbySO: new FormControl('', Validators.required)
     });
   }
@@ -189,7 +242,7 @@ export class ApplicantDetailComponent implements OnInit {
       gender: applicantModal.gender || '',
       maritalStatus: applicantModal.maritalStatus || '',
       physicallyChallenged: applicantModal.physicallyChallenged || '',
-      // dependants: applicantModal.dependants || '',
+      dependants: applicantModal.dependants || '',
       residancePhoneNumber: applicantModal.residancePhoneNumber || '',
       officePhoneNumber: applicantModal.officePhoneNumber || '',
       mobile: applicantModal.mobile || this.mobileNo || '',
@@ -206,6 +259,8 @@ export class ApplicantDetailComponent implements OnInit {
       houseOwnership: applicantModal.houseOwnership || '',
       ratingbySO: applicantModal.ratingbySO || ''
     });
+    this.resAddress(this.applicantForm.get('residenceAddressAsPerLoanApplication').value);
+    this.houseOwnerShip(this.applicantForm.get('houseOwnership').value);
   }
 
   getPdDetails() { // function to get the pd details with respect to applicant id

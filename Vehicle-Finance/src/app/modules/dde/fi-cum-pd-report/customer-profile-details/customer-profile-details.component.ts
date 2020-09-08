@@ -69,17 +69,17 @@ export class CustomerProfileDetailsComponent implements OnInit {
   addressRequired: boolean;
 
   constructor(private labelsData: LabelsService,
-    private lovDataService: LovDataService,
-    private router: Router,
-    private ddeStoreService: DdeStoreService,
-    private personalDiscusion: PersonalDiscussionService,
-    private toasterService: ToasterService,
-    private commonLovService: CommomLovService,
-    private loginStoreService: LoginStoreService,
-    private activatedRoute: ActivatedRoute,
-    private pdDataService: PdDataService,
-    private personalDiscussion: PersonalDiscussionService,
-    private toggleDdeService: ToggleDdeService
+              private lovDataService: LovDataService,
+              private router: Router,
+              private ddeStoreService: DdeStoreService,
+              private personalDiscusion: PersonalDiscussionService,
+              private toasterService: ToasterService,
+              private commonLovService: CommomLovService,
+              private loginStoreService: LoginStoreService,
+              private activatedRoute: ActivatedRoute,
+              private pdDataService: PdDataService,
+              private personalDiscussion: PersonalDiscussionService,
+              private toggleDdeService: ToggleDdeService
   ) { }
 
   async ngOnInit() {
@@ -114,7 +114,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
     this.getLOV();
     // this.commonService()
     this.getPdDetails();
-    this.setFormValue();
+    // this.setFormValue();
 
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.customerProfileLov = value ? value[0].customerProfile[0] : {};
@@ -167,7 +167,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
       mismatchInAddress: new FormControl('', Validators.compose([Validators.maxLength(200),
       Validators.required])),
       customerHouseSelfie: new FormControl('', Validators.required),
-      ownershipAvailable: new FormControl('', Validators.required),
+      // ownershipAvailable: new FormControl('', Validators.required),
       mandatoryCustMeeting: new FormControl('', Validators.required)
     });
     // Validators.pattern(/^[a-zA-Z.-]*$/)
@@ -244,7 +244,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
       customerProfileRatingSo: customerProfileModal.customerProfileRatingSo || '',
       mismatchInAddress: customerProfileModal.mismatchInAddress || '',
       customerHouseSelfie: customerProfileModal.customerHouseSelfie || '',
-      ownershipAvailable: customerProfileModal.ownershipAvailable || '',
+      // ownershipAvailable: customerProfileModal.ownershipAvailable || '',
       mandatoryCustMeeting: customerProfileModal.mandatoryCustMeeting || ''
     });
     console.log('patched form', this.customerProfileForm);
@@ -273,7 +273,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
       customerProfileRatingSo: customerProfileFormModal.customerProfileRatingSo,
       mismatchInAddress: customerProfileFormModal.mismatchInAddress,
       customerHouseSelfie: customerProfileFormModal.customerHouseSelfie,
-      ownershipAvailable: customerProfileFormModal.ownershipAvailable,
+      // ownershipAvailable: customerProfileFormModal.ownershipAvailable,
       mandatoryCustMeeting: customerProfileFormModal.mandatoryCustMeeting,
     };
     const data = {

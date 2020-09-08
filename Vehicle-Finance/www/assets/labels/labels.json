@@ -288,7 +288,7 @@
     "soName": "SO Name",
     "assetCost": "Asset Cost",
     "financeAmount": "Finance Amount",
-    "tenureInMonths": "TENURE IN MONTHS",
+    "tenureInMonths": "Tenure in Months",
     "sourceOfProposal": "Source of Proposal",
     "assetType": "Asset Type",
     "needForProposedVehicle": "Need for proposed vehicle (In case of addition / expansion)",
@@ -640,11 +640,21 @@
     "basicDetailsTitle": "Basic Details",
     "proposedVehicleDetailsTitle": "Proposed Vehicle Details",
     "partyToAgreementTitle": "PARTY TO AGREEMENT",
-    "cibilSynopsysTitle": "CIBIL SYNOPSYS(ACCOUNT WISE OD DETAILS CAN BE MENTIONED IN SEPAFRATE SHEET)",
+    "cibilSynopsysTitle": "CIBIL SYNOPSYS(ACCOUNT WISE OD DETAILS CAN BE MENTIONED IN SEPARATE SHEET)",
     "bankingSummaryTitle": "BANKING SUMMARY",
     "fleetSummaryTitle": "FLEET SUMMARY",
     "trackValidationSummaryTitle": "TRACK VALIDATION SUMMARY",
     "keyFinancialTitle": "KEY FINANCIAL",
+    "shareCapital": "Share Capital",
+    "lorryHireChargesPaid": "Lorry hire charges paid (Freight charges )",
+    "netProfitAfterTaxA": "Net Profit after Tax (A)",
+    "depreciationB": "Depreciation (B)",
+    "currentLiabilities": "Current Liabilities",
+    "currentAssets": "Current Assets",
+    "revenueFromOperationsOrTopLine": "Revenue From Operations/Top Line",
+    "partnersSalaryC": "Partners Salary (C)",
+    "cashGenerationAB": "Cash Generation (A)+(B)",
+    "dateOfItrFiling": "Date Of ITR Filing",
     "creditCondition": "Credit Condition",
     "salesResponse": "Sales Response",
     "supportDocument": "Support Document",
@@ -925,9 +935,11 @@
     "maritalStatus": "Marital Status",
     "weddingAnniversaryDate": "Wedding Anniversary Date",
     "physicallyChallenged": "Physically Challenged",
+    "dependants": "Dependants",
     "residenceNo": "Residence Number(with STD code)",
     "officeNo": "Office Number(with STD code)",
-    "residenceAddress": "Address as per loan application?",
+    "residenceAddress": " Residence Address as per loan application?",
+    "ifNotResidenceAddress": "If residence address not as per records the mention the address",
     "bankName": "Bank Name",
     "accountNo": "Bank Account No",
     "landmark": "Landmark",
@@ -1545,6 +1557,9 @@
     "crossSellOthers": "Cross Sell Others (in INR)",
     "errorCode": "Error Code",
     "errorMsg": "Error Message",
+    "totalCredits": "Total number of credits",
+    "micrNo": "MICR No",
+    "accountBranchname" : "Account Branchname",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1808,6 +1823,12 @@
                 "msg": "Aadhar Number Should be Valid"
             }
         },
+        "turnOver": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
         "gorssVehicleWeight": {
             "maxLength": {
                 "rule": 5,
@@ -2046,7 +2067,7 @@
         },
         "gvw": {
             "maxLength": {
-                "rule": 10
+                "rule": 5
             },
             "type": "number"
         },
@@ -2221,18 +2242,47 @@
             "maxLength": {
                 "rule": 3
             },
-           
-             "minLength": {
+            "minLength": {
                 "rule": 2
             },
             "type": "number"
         },
         "NegotiatedLoanAmount": {
             "maxLength": {
-                "rule": 7
+                "rule": 10
             },
             "minLength": {
                 "rule": 5
+            },
+            "type": "number"
+        },
+        "FASTagAmount": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
+        "lifeCoverPremiumAmount": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
+        "VASPremiumAmount": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
+        "PACPremiumAmount": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
+        "MIPremiumAmount": {
+            "maxLength": {
+                "rule": 10
             },
             "type": "number"
         },
@@ -2246,6 +2296,62 @@
                 "rule": 30
             },
             "type": "alpha"
+        },
+        "mismatchResidenceAddress": {
+            "maxLenght": {
+                "rule": 120
+            },
+            "type": "alpha-numeric"
+        },
+        "fiCumPDLandlineNumber": {
+            "maxLength": {
+                "rule": 15
+            },
+            "minLength": {
+                "rule": 10,
+                "msg": "Minimum Length 10 digits"
+            },
+            "type": "number",
+            "patternCheck": {
+                "rule": "^[0-9]{15}",
+                "msg": "Number Should be valid and atleast 10 Digits"
+            }
+        },
+        "keyFinancialAmount": {
+            "maxLength": {
+                "rule": 8
+            },
+            "type": "decimal"
+        },
+        "chequeNumber": {
+            "maxLength": {
+                "rule": 6,
+                "msg": "Should be 6 Digits"
+            },
+            "type": "number"
+        },
+        "micrFormat": {
+            "maxLength": {
+                "rule": 9,
+                "msg" : "Should be 9 Digits"
+            },
+            "type": "alpha-numeric",
+            "pattern": {
+                "rule": "^[A-Za-z]{3}[0-9]{6}$",
+                "msg": "Pattern should be ABC123456"
+            }
+        },
+        "amountFiveCharc": {
+            "maxLength": {
+                "rule": 5
+            },
+            "type":"number"
+        },
+        "noOfTyres": {
+            "maxLength": {
+                "rule": 2
+            },
+            "type": "number"
         }
     }
 }

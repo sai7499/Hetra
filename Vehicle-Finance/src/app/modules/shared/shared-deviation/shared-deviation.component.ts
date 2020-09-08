@@ -152,7 +152,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     let data = [];
 
     if (this.deviationsForm.controls['autoDeviationFormArray'].value.length > 0) {
-      if (this.deviationsForm.controls['manualDeviationFormArray'].value[0].devCode !== "0" || this.deviationsForm.controls['manualDeviationFormArray'].value[0].devDesc !== null || this.deviationsForm.controls['manualDeviationFormArray'].value[0].hierarchy !== 0) {
+      if (this.deviationsForm.controls['manualDeviationFormArray'].value[0].devRuleId !== 0) {
         data = data.concat(this.deviationsForm.controls['autoDeviationFormArray'].value);
         data = data.concat(this.deviationsForm.controls['manualDeviationFormArray'].value);
       } else {
@@ -329,11 +329,12 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         }
       })
     } else {
-      if (control.controls.length > 1) {
+      if (control.controls.length > 0) {
         control.removeAt(i);
-      } else {
-        this.toasterService.showInfo("Atleast One Row Required", 'Remove Deviation');
       }
+      //  else {
+      //   this.toasterService.showInfo("Atleast One Row Required", 'Remove Deviation');
+      // }
     }
   }
 

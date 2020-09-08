@@ -79,6 +79,7 @@ export class LoanDetailsComponent implements OnInit {
   insRequired: boolean;
   disableSaveBtn: boolean;
   operationType: string;
+  insDisabled: boolean;
 
 
 
@@ -229,10 +230,12 @@ export class LoanDetailsComponent implements OnInit {
     this.insuranceStatus = event ? event : event;
     if (this.insuranceStatus === '1') {
       this.insRequired = true;
+      this.insDisabled = false;
       this.loanDetailsForm.get('insuranceValidity').enable();
       this.loanDetailsForm.get('insuranceValidity').setValidators(Validators.required);
     } else if (this.insuranceStatus !== '1') {
-      this.insRequired = true;
+      this.insRequired = false;
+      this.insDisabled = true;
       this.loanDetailsForm.get('insuranceValidity').disable();
       this.loanDetailsForm.get('insuranceValidity').clearValidators();
       this.loanDetailsForm.get('insuranceValidity').updateValueAndValidity();
@@ -298,7 +301,7 @@ export class LoanDetailsComponent implements OnInit {
       fitnessValidity: new FormControl('', Validators.compose([Validators.required])),
       taxValidity: new FormControl('', Validators.compose([Validators.required])),
       insuranceCopyVerified: new FormControl(''),
-      insuranceValidity: new FormControl('', Validators.compose([Validators.required])),
+      insuranceValidity: new FormControl(''),
       vehiclePhsicallyVerified: new FormControl(''),
       conditionOfVehicle: new FormControl(''),
       vehicleRoute: new FormControl(''),
@@ -464,9 +467,6 @@ export class LoanDetailsComponent implements OnInit {
         // console.log('calling get api ', this.newCvDetails, this.assetDetailsUsedVehicle, this.usedVehicleDetails);
 
         this.setFormValue();
-        // if (this.loanDetails) {
-        // this.setFormValue()
-        // this.pdDataService.setLoanDetails(this.loanDetails)
       }
     });
   }
@@ -556,6 +556,12 @@ export class LoanDetailsComponent implements OnInit {
         remarks: assetDetailsUsedVehicleModel.remarks || ''
       });
       console.log('loan form', this.loanDetailsForm);
+      if (this.loanDetailsForm.get('regCopyVerified') != null &&
+        this.loanDetailsForm.get('insuranceCopyVerified') != null) {
+        this.regCopyVerified(this.loanDetailsForm.get('regCopyVerified').value);
+        this.insCopyVerified(this.loanDetailsForm.get('insuranceCopyVerified').value);
+      }
+
     }
   }
 

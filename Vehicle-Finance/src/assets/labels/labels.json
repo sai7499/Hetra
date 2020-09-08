@@ -379,6 +379,7 @@
     "coApp1": "COAPP 1",
     "coApplicant2": "CO-APPLICANT 2",
     "coApplicant3": "CO-APPLICANT 3",
+    "cibilStatus": "Cibil status",
     "cibilScore": "CIBIL SCORE",
     "odIndividual": "OD-INDIVIDUAL",
     "odInJointAc": "OD IN JOINT A/C",
@@ -819,6 +820,10 @@
     "count": "Count on 30's & 90's dpd",
     "totalNoOfEmis": "Total no of emi's",
     "noOfEmisPaid": "NO of emi's paid",
+    "noOfEmisAccrued": "No Of Emis Accrued",
+    "accrued": "Accrued",
+    "emistartDate": "Emi start Date",
+    "emiOverdue": "EMI Overdue",
     "totalDelay": "Total Delay",
     "peakDelay": "Peak Delay",
     "avgDelay": "Avg Delay",
@@ -939,17 +944,20 @@
     "residenceNo": "Residence Number(with STD code)",
     "officeNo": "Office Number(with STD code)",
     "residenceAddress": " Residence Address as per loan application?",
-    "ifNotResidenceAddress": "If residence address not as per records the mention the address",
+    "ifNotResidenceAddress": "If residence address not as per records then mention the address",
     "bankName": "Bank Name",
     "accountNo": "Bank Account No",
     "landmark": "Landmark",
     "addressAccessibility": " Address Accessibility (Easy to Locate)",
     "locality": "Residential Locality",
     "residentialType": "Residential Type",
-    "standardHouse": "Standard House",
+    "standardHouse": "Standard of House / Type ",
     "sizeOfHouse": "Size of House",
     "stdOfLiving": "Standard of Living",
     "houseOwnership": "House Ownership",
+    "ownerName": "Owner Name",
+    "propertyArea": "Area of the property(sq.feet)",
+    "dependents": "Dependents",
     "ratingBySo": "Rating By SO",
     "customerProfileTitle": "Customer Profile Details",
     "addressRecord": "Office / Business Address as per our records",
@@ -1061,6 +1069,7 @@
     "accountNumber": "Account Number",
     "accountHolderName": "Account Holder Name",
     "minimumAverageBalance": "Minimum Average Balance",
+    "average": "Average",
     "micrCode": "MICR Code",
     "ifscCode": "IFSC Code",
     "seniorCitizen": "Senior Citizen?",
@@ -1083,7 +1092,7 @@
     "officeName": "Office Name",
     "noOfyearsInCurrEmployment": "No. of years in curr. Employment",
     "employeeCode": "Employee Code",
-    "employeeType": "Employee Type",
+    "employeeType": "Employment Type",
     "department": "Department",
     "typeOfBusiness": "Type of Business",
     "businessName": "Business Name",
@@ -1186,7 +1195,7 @@
     "cpvAgencyStatus": "CPV Agency Status",
     "generateSanctionLetter": "Generate Sanction Letter",
     "sanctionLetter": "Sanction Letter",
-    "submitToSales": "Send Back to Sales",
+    "submitToSales": "Send to Sales",
     "toSanction": "To",
     "vfSheetTag30": "Further to your application for a finance facility, we are glad to inform you that your loan application has been sanctioned as per the following terms and conditions:",
     "proposalNumber": "Proposal Number",
@@ -1249,7 +1258,7 @@
     "annualIncomeAmount": "Annual Income Amount",
     "ownHouseProofAvail": "Own House Proof Available?",
     "houseOwnerProperty": "Owner of the Property",
-    "ownHouseAppRelationship": "Relationship with the Applicant ",
+    "ownHouseAppRelationship": "Owner Relationship with the Applicant ",
     "averageBankBalance": "Average Bank Balance",
     "rtrType": "RTR Type",
     "prevLoanAmount": "Previous Loan Amount",
@@ -1557,9 +1566,11 @@
     "crossSellOthers": "Cross Sell Others (in INR)",
     "errorCode": "Error Code",
     "errorMsg": "Error Message",
+    "minDelay": "Min Delay",
+    "loanType": "Loan Type",
     "totalCredits": "Total number of credits",
     "micrNo": "MICR No",
-    "accountBranchname" : "Account Branchname",
+    "accountBranchname": "Account Branchname",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1674,9 +1685,14 @@
         },
         "srNumber": {
             "maxLength": {
-                "rule": 10
+                "rule": 15,
+                "msg": "SR Number should be 15 digits"
             },
-            "type": "alpha-numeric"
+            "type": "number",
+            "patternCheck": {
+                "rule": "[0-9]{15}",
+                "msg": "SR Number should be valid & 15 digits"
+            }
         },
         "remark": {
             "maxLength": {
@@ -1722,6 +1738,11 @@
         "address": {
             "maxLength": {
                 "rule": 50
+            }
+        },
+        "addressLine": {
+            "maxLength": {
+                "rule": 35
             }
         },
         "businessName": {
@@ -1882,8 +1903,8 @@
             },
             "type": "alpha-numeric",
             "patternCheck": {
-                "rule": "[A-Z1-9]{1}",
-                "msg": "Should be Valid"
+                "rule": "^([L|U]{1})([0-9]{5})([A-Za-z]{2})([0-9]{4})([A-Za-z]{3})([0-9]{6})$",
+                "msg": "Invalid CIN Number. Valid format-U/L12345AB1234ABC123456"
             }
         },
         "cstVatNumber": {
@@ -1999,7 +2020,7 @@
             "maxLength": {
                 "rule": 5
             },
-            "type": "number"
+            "type": "decimal"
         },
         "goodsManufactured": {
             "maxLength": {
@@ -2298,7 +2319,7 @@
             "type": "alpha"
         },
         "mismatchResidenceAddress": {
-            "maxLenght": {
+            "maxLength": {
                 "rule": 120
             },
             "type": "alpha-numeric"
@@ -2333,7 +2354,7 @@
         "micrFormat": {
             "maxLength": {
                 "rule": 9,
-                "msg" : "Should be 9 Digits"
+                "msg": "Should be 9 Digits"
             },
             "type": "alpha-numeric",
             "pattern": {
@@ -2345,9 +2366,40 @@
             "maxLength": {
                 "rule": 5
             },
-            "type":"number"
+            "type": "number"
         },
         "noOfTyres": {
+            "maxLength": {
+                "rule": 2
+            },
+            "type": "number"
+        },
+        "pobox": {
+            "maxLength": {
+                "rule": 15
+            },
+            "type": "alpha-numeric",
+            "patternCheck": {
+                "rule": "^[0-9A-za-z]{10}",
+                "msg": "Should be atleast 10 Digits"
+            }
+        },
+        "ownerName": {
+            "maxLength": {
+                "rule": 40
+            },
+            "type": "alpha-numeric"
+        },
+        "propertyArea": {
+            "minLength": {
+                "rule": 2
+            },
+            "maxLength": {
+                "rule": 9
+            },
+            "type": "number"
+        },
+        "dependents": {
             "maxLength": {
                 "rule": 2
             },
