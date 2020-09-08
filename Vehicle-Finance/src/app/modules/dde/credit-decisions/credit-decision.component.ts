@@ -22,6 +22,7 @@ export class CreditDecisionComponent implements OnInit {
     roleType: any;
     salesResponse = 'false';
     istermSheet = 'false';
+    isPreDone: string;
     constructor(
         private router: Router,
         private location: Location,
@@ -31,6 +32,7 @@ export class CreditDecisionComponent implements OnInit {
 
     ngOnInit() {
         this.salesResponse = localStorage.getItem('salesResponse');
+        this.isPreDone = localStorage.getItem('is_pred_done');
         this.istermSheet = localStorage.getItem('istermSheet');
         const button = document.getElementById('checklist_identity_details');
         // tslint:disable-next-line: triple-equals
@@ -73,7 +75,7 @@ export class CreditDecisionComponent implements OnInit {
         }
     getLocationIndex(url: string) {
         // tslint:disable-next-line: triple-equals
-        if (this.roleType == '1') {
+        if (this.roleType == '1' ) {
             if (url.includes('credit-condition')) {
                 return 0;
             // tslint:disable-next-line: triple-equals
@@ -91,6 +93,13 @@ export class CreditDecisionComponent implements OnInit {
                 return 5;
             }
         // tslint:disable-next-line: triple-equals
+        // } else if(this.roleType == '1' && this.istermSheet == 'true') {
+        //     if (url.includes('term-sheet') ) {
+        //         return 0;
+        //     }  else if (url.includes('sanction-details')) {
+        //         return 1;
+        //     }
+
         } else if (this.roleType == '2' && this.salesResponse == 'false') {
             if (url.includes('cam')) {
                 return 0;
@@ -119,7 +128,8 @@ export class CreditDecisionComponent implements OnInit {
                 return 5;
             }   else if (url.includes('sanction-details')) {
                 return 6;
-            } else if (url.includes('check-list')) {
+            // tslint:disable-next-line: triple-equals
+            } else if (url.includes('check-list') && this.isPreDone == 'true') {
                 return 7;
             }
         }

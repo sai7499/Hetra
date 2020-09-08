@@ -27,7 +27,7 @@
                 </button>
                
             </div>
-
+           
             <!-- <div class="content" > -->
                 <router-outlet></router-outlet>
             <!-- </div> -->
@@ -96,7 +96,7 @@
                 
                 <button  class="multisteps-form__progress-btn " 
                     [ngClass]="{'js-active': locationIndex >= 7}"  
-                    type="button" id="checklist_identity_details" (click)="onNavigate('check-list')"  >
+                    type="button" id="checklist_identity_details" (click)="onNavigate('check-list')" *ngIf="isPreDone == 'true'" >
                     Check List 
                 </button>
                 
