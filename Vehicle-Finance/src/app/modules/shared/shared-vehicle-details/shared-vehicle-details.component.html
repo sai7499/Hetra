@@ -46,15 +46,15 @@
                         <a (click)="roleType === 1 ? editVehicle(item.collateralId) : onEditVehicleDetails(item.collateralId)"
                             title="Edit collateral"><i class="fa fa-pencil cursor-pointer" aria-hidden="true"></i></a>
                         <a data-toggle="modal" data-target="#exampleModal"
-                            (click)="softDeleteCollateral(i, item.collateralId)" title="Delete collateral"
-                            *ngIf="roleType === 1"><i class="fa fa-trash cursor-pointer" aria-hidden="true"></i></a>
+                            (click)="softDeleteCollateral(i, item.collateralId)" title="Delete collateral"><i
+                                class="fa fa-trash cursor-pointer" aria-hidden="true"></i></a>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <div *ngIf="roleType === 2">
+    <div style="margin-top: 10px;" *ngIf="roleType === 2">
 
         <div class="container controlWidth">
             <div class="btn-sec clear-both row">
@@ -71,9 +71,11 @@
                 <thead>
                     <tr class=" table-head-bg ">
                         <th>{{label?.colleteralType}}</th>
-                        <th>{{label?.column2}}</th>
-                        <th>{{label?.column3}}</th>
-                        <th>{{label.action}}</th>
+                        <th>{{label?.ownerName}}</th>
+                        <th>{{label?.relationWithLead}}</th>
+                        <th>{{label?.relationWithApplicantStatus}}</th>
+                        <th>{{label?.value}}</th>
+                        <th>{{label?.action}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -87,13 +89,19 @@
                         <td [attr.data-label]="label?.column3" data-title="Column 3">
                             {{obj.column3}}
                         </td>
+                        <td [attr.data-label]="label?.column2" data-title="Column 2">
+                            {{obj.column2}}
+                        </td>
+                        <td [attr.data-label]="label?.column3" data-title="Column 3">
+                            {{obj.column3}}
+                        </td>
                         <td [attr.data-label]="label?.action" data-title="Action">
 
                             <a title="Edit collateral"
                                 [routerLink]="['/pages/vehicle-details/' + leadId + '/additional-collateral-details']"><i
                                     class="fa fa-pencil cursor-pointer" aria-hidden="true"></i></a>
-                            <a data-toggle="modal" data-target="#exampleModal" title="Delete collateral"><i
-                                    class="fa fa-trash cursor-pointer" aria-hidden="true"></i></a>
+                            <a title="Delete collateral"><i class="fa fa-trash cursor-pointer"
+                                    aria-hidden="true"></i></a>
                         </td>
                     </tr>
                 </tbody>

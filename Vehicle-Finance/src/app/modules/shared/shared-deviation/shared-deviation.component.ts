@@ -230,6 +230,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             return data
           })
           this.deviationLov.deviation = deviationArray;
+          console.log(deviationArray, 'Deviation')
+
         }
         this.getDeviationDetails();
 
