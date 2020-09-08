@@ -1499,7 +1499,7 @@ export class DashboardComponent implements OnInit {
         break;
       case 25: case 26:
         localStorage.setItem('istermSheet', 'false');
-        this.router.navigateByUrl(`/pages/credit-decisions/${this.leadId}/credit-condition`);
+        this.router.navigateByUrl(`/pages/credit-decisions/${this.leadId}`);
         break;
       case 28: case 29:
         localStorage.setItem('istermSheet', 'true');
@@ -1603,6 +1603,7 @@ export class DashboardComponent implements OnInit {
   }
   getLeadId(item) {
     localStorage.setItem('salesResponse', item.is_sales_response_completed);
+    localStorage.setItem('is_pred_done', item.is_pred_done);
     localStorage.setItem('isFiCumPd', item.isFiCumPD);
     this.vehicleDataStoreService.setCreditTaskId(item.taskId);
     this.sharedService.getTaskID(item.taskId);
