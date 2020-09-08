@@ -1512,7 +1512,7 @@ export class DashboardComponent implements OnInit {
         this.router.navigateByUrl(`/pages/cpc-checker/${this.leadId}/check-list`);
         break;
       case 37: case 38:
-        // this.router.navigateByUrl(`/pages/cpc-checker/${this.leadId}/check-list`);
+        this.router.navigateByUrl(`/pages/credit-decisions/${this.leadId}/new-term-sheet`);
         break;
 
       default:
