@@ -393,7 +393,7 @@ export class DashboardComponent implements OnInit {
     this.sortTab = '';
     this.activeTab = data;
     this.subActiveTab = subTab;
-    console.log(this.activeTab, this.subActiveTab)
+    // console.log(this.activeTab, this.subActiveTab)
     if (this.sortTab === '') {
       this.sortByLead = false;
       this.sortByDate = false;
