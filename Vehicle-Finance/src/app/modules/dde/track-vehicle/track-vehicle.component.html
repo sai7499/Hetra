@@ -203,8 +203,8 @@
                             [activeView]="'decade'"
                             (valueChange)="openEmiStartDateModal($event)">
                         </kendo-datepicker>
-                        <div *ngIf="submitted && f.loanStartDate.errors"style= "color:red;" class="invalid-feedback">
-                            <span *ngIf="f.loanStartDate.errors.required">Emi Start Date is required</span>
+                        <div *ngIf="submitted && f.emiStartDate.errors"style= "color:red;" class="invalid-feedback">
+                            <span *ngIf="f.emiStartDate.errors.required">Emi Start Date is required</span>
                         </div>
                         <!-- <input type='date' class="form-control" value="05-01-2018" formControlName="loanStartDate"
                             (change)="loanStartDate($event)" /> -->

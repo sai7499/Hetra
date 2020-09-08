@@ -6,7 +6,7 @@
       id="form-class"
     >
       <div class="btn-sec clear-both row">
-        <div class="col-sm-4 col-md-4 col-lg-4 col-xs-12">
+        <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
           <label for="entity">{{ labels?.entity }}</label>
           <app-vf-custom-select
             formControlName="entity"
@@ -37,10 +37,25 @@
             [isDirty]="isDirty"
           ></app-vf-custom-select>
         </div>
+
+        <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+          <label for="applicant_type_lead"
+          >{{labels?.relationshipwithloanapplicant}}
+          <sub class="star_red_col">*</sub></label
+        >
+        <app-vf-custom-select
+          formControlName="applicantRelationshipWithLead"
+          [values]="LOV?.LOVS?.applicantRelationshipWithLead"
+          (change)= "selectApplicantType($event)"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        ></app-vf-custom-select>
+
+        </div>
         
       </div>
       <div class="row">
-        <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+        <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12"  *ngIf="isIndividual">
           <label for="applicant_type"
             >{{ labels?.relationWithApplicant }}
             <sub class="star_red_col">*</sub></label
@@ -51,9 +66,9 @@
                             <option value="Guarantor"> Guarantor </option>
                         </select> -->
           <app-vf-custom-select
-            formControlName="applicantRelationshipWithLead"
+            formControlName="applicantRelationship"
+            [values]="LOV?.LOVS?.relationship"
             (change)= "selectApplicantType($event)"
-            [values]="LOV?.LOVS?.applicantRelationshipWithLead"
             [isRequired]="'Please select one'"
             [isDirty]="isDirty"
           ></app-vf-custom-select>
@@ -246,8 +261,6 @@
               /> -->
               <app-custom-input
                 formControlName="age"
-                
-                isDisabled
               ></app-custom-input>
               
             </div>
@@ -502,8 +515,6 @@
               <label for="aadharnumber">{{labels?.annualIncomeAmount}} </label>
               <app-custom-input
                 formControlName="annualIncomeAmount"
-                
-                isDisabled
               >
               </app-custom-input>
             </div>
@@ -753,10 +764,224 @@
              
             </div>
 
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+              <label for="no_of_yrs_res_at_pres"
+              >{{ labels?.yrsOfResidence }}
+              <sub class="star_red_col">*</sub></label
+            >
+              <app-custom-input
+                formControlName="noOfYrsResidence"
+                [maxLength]="validationData?.yearsOfResidence?.maxLength"
+                [type]="validationData?.yearsOfResidence?.type"
+                [isRequired]="'No of years residence is required'"
+                [isDirty]="isDirty"
+              ></app-custom-input>
+           </div>
+
+           <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+
+            <label for="recommendations">{{ labels?.recommendations }}
+            </label>
+            <textarea class="form-control" id="recommendations"
+                cols="1" rows="3" placeholder="Recommendations" formControlName="recommendations"
+                maxlength="4000" style="resize: none;"></textarea>
+
+            </div>
             
           </div>
 
-          
+          <div class="row">
+
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+
+              <label for="religion"
+                >{{ labels?.religion }}
+                <sub class="star_red_col">*</sub></label
+              >
+              <app-vf-custom-select
+                formControlName="religion"
+                [values]="LOV.LOVS.religion"
+                [isRequired]="'Please Select One'"
+                [isDirty]="isDirty"
+              ></app-vf-custom-select>
+
+            </div>
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+
+              <label for="community"
+              >{{ labels?.community }}
+              <sub class="star_red_col">*</sub></label
+            >
+            <app-vf-custom-select
+              formControlName="community"
+              [values]="LOV.LOVS.community"
+              [isRequired]="'Please Select One'"
+              [isDirty]="isDirty"
+            ></app-vf-custom-select>
+
+            </div>
+
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+
+              <label for="isMinority"
+              >{{ labels?.isMinority }}
+              <sub class="star_red_col">*</sub></label
+            >
+            <app-vf-custom-select
+              formControlName="isMinority"
+              [values]="minorityData"
+              [isRequired]="'Please Select One'"
+              [isDirty]="isDirty"
+            ></app-vf-custom-select>
+
+            </div>
+          </div>
+
+          <div class="row">
+
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+
+              <label for="residentStatus"
+              >{{ labels?.residentStatus }}
+              <sub class="star_red_col">*</sub></label
+            >
+            <app-vf-custom-select
+              formControlName="residentStatus"
+              [values]="LOV.LOVS.residentStatus"
+              [isRequired]="'Please Select One'"
+              [isDirty]="isDirty"
+            ></app-vf-custom-select>
+
+            </div>
+
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+
+              <label for="maritalStatus"
+              >{{ labels?.maritalStatus }}
+              <sub class="star_red_col">*</sub></label
+            >
+            <app-vf-custom-select
+              formControlName="maritalStatus"
+              [values]="LOV.LOVS.maritalStatus"
+              [isRequired]="'Please Select One'"
+              (change)="setMaritalStatusValue($event.target.value)"
+              [isDirty]="isDirty"
+            ></app-vf-custom-select>
+
+            </div>
+
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12" *ngIf="isMarried">
+
+
+              <label for="wedding_anniv_date"
+              >{{ labels?.weddingAnniversaryDate }}<sub class="star_blue_col">*</sub></label>
+
+            <kendo-datepicker class="form-control" 
+            formControlName="weddingAnniversaryDate" 
+            [format]="'dd/MM/yyyy'"
+            placeholder="Select wedding anniversay date"
+            [activeView]="'decade'"
+            [max]="toDayDate"
+            (valueChange)="getAnniversaryDate($event)"
+            
+            ></kendo-datepicker>
+
+            <div
+            class="ShowError"
+            *ngIf="
+            isDirty &&
+            validation.get('weddingAnniversaryDate').errors?.required
+            "
+          >
+          Wedding anniversary date is Mandatory
+          </div>
+
+
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+
+              <label for="educationalQualification"
+              >Educational Qualification
+             </label
+            >
+            <app-vf-custom-select
+              formControlName="educationalQualification"
+              [values]="LOV.LOVS.educationalQualification"
+            ></app-vf-custom-select>
+
+            </div>
+
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+              <label for="no_of_adults_dependant"
+              >{{labels?.noOfAdultsDependant}}
+              <sub class="star_red_col">*</sub></label
+            >
+              <app-custom-input
+                formControlName="noOfAdultsDependant"
+                [maxLength]="validationData?.noOfAdultDependant?.maxLength"
+                [type]="validationData?.noOfAdultDependant?.type"
+                [isRequired]="'No of Adults Dependant is required'"
+                [isDirty]="isDirty"
+              ></app-custom-input>
+           </div>
+
+           <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+            <label for="no_of_children_dependant"
+            >{{labels?.noOfChildrenDependant}}
+            <sub class="star_red_col">*</sub></label
+          >
+            <app-custom-input
+              formControlName="noOfChildrenDependant"
+              [maxLength]="validationData?.noOfChildrenDependant?.maxLength"
+              [type]="validationData?.noOfChildrenDependant?.type"
+              [isRequired]="'No of Children Dependant is required'"
+              [isDirty]="isDirty"
+            ></app-custom-input>
+         </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+
+              <label for="margin_money"
+              >{{labels?.marginMoney}}
+              <sub class="star_red_col">*</sub></label
+            >
+              <app-custom-input
+                formControlName="marginMoney"
+                [maxLength]="validationData?.marginMoney?.maxLength"
+                [type]="validationData?.marginMoney?.type"
+                [isRequired]="'Margin Money is required'"
+                [isDirty]="isDirty"
+              ></app-custom-input>
+
+
+              </div>
+
+              <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+
+                <label for="emi_affordability"
+                >{{labels?.emiAffordability}}
+                <sub class="star_red_col">*</sub></label
+              >
+                <app-custom-input
+                  formControlName="emiAffordability"
+                  [maxLength]="validationData?.emiAffordabilityBasic?.maxLength"
+                  [type]="validationData?.emiAffordabilityBasic?.type"
+                  [isRequired]="'EMI Affordability is required'"
+                  [isDirty]="isDirty"
+                ></app-custom-input>
+
+              </div>
+          </div>
+
           <div *ngIf="custCatValue=='SALCUSTSEG'">      
           <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -779,7 +1004,7 @@
               <app-custom-input
                 formControlName="employerName"
                 [maxLength]="validationData?.name?.maxLength"
-                [isRequired]="'Office Name Is Required'"
+                [isRequired]="'Office Name is Required'"
                 [isDirty]="isDirty"
               ></app-custom-input>
               <!-- [patternCheck]="nameSpacePattern" -->
@@ -953,7 +1178,7 @@
            
             <app-custom-input
             formControlName="businessName"
-            [isRequired]="'Business Name Is Required'"
+            [isRequired]="'Business Name is Required'"
             [isDirty]="isDirty"
             [maxLength]="validationData?.businessName.maxLength"
 
@@ -1011,7 +1236,7 @@
            
             <app-custom-input
             formControlName="turnOver"
-            [isRequired]="'Turn Over Is Required'"
+            [isRequired]="'Turn Over is Required'"
             [isDirty]="isDirty"
             [maxLength]="validationData?.turnOver.maxLength"
             [type]="validationData?.turnOver.type"
@@ -1261,9 +1486,7 @@
                 *ngIf="productCategory=='1003' && (fundingProgram=='24' || fundingProgram=='25')">
                 <label for="aadharnumber">{{labels?.annualIncomeAmount}}
                   </label>
-                <app-custom-input formControlName="annualIncomeAmount"
-                
-                isDisabled>
+                <app-custom-input formControlName="annualIncomeAmount">
                 </app-custom-input>
               </div>
   
@@ -1511,7 +1734,7 @@
                   class="form-control"
                   formControlName="externalRatingExpiryDate"
                   [format]="'dd/MM/yyyy'"
-                  [max]="toDayDate"
+                  [min]="toDayDate"
                   placeholder="Expiry Date"
                   [activeView]="'decade'"
                 ></kendo-datepicker>

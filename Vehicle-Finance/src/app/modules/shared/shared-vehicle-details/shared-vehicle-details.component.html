@@ -1,19 +1,19 @@
+<div class="multisteps-form__panel js-active" data-animation="scaleIn">
 
- <div class="multisteps-form__panel js-active" data-animation="scaleIn">
     <div class="container controlWidth">
         <div class="btn-sec clear-both row">
-          <div class="col-sm-5">
-            <h4 class="cus-title title"><b>{{ roleType === 1 ? label.vehcileDetailsTitle : '' }}</b></h4>
-          </div>
-          <div class=" col-sm-7 text-right" id="add_vehicle_details_btn">
-            <button class="btn btn-primary" type="button"
-                [routerLink]="roleType === 1 ? ['../add-vehicle'] : ['/pages/vehicle-details/' + leadId + '/basic-vehicle-details']">{{label.addVehicle}}</button>
+            <div class="col-sm-5">
+                <h4 class="cus-title title"><b>{{ roleType === 1 ? label.vehcileDetailsTitle : '' }}</b></h4>
+            </div>
+            <div class="col-sm-7 text-right" id="add_vehicle_details_btn">
+                <button class="btn btn-primary" type="button"
+                    [routerLink]="roleType === 1 ? ['../add-vehicle'] : ['/pages/vehicle-details/' + leadId + '/basic-vehicle-details']">{{label.addVehicle}}</button>
+            </div>
         </div>
-        </div>
-      </div>
-    <div id="wrapper">  
-       
-        <table  id="add_vhd_table">
+    </div>
+
+    <div id="wrapper">
+        <table id="add_vhd_table">
             <thead>
                 <tr class=" table-head-bg ">
                     <th>{{label.registrationNo}}</th>
@@ -29,7 +29,7 @@
                     <td [attr.data-label]="label?.registrationNo" data-title="Registration Number">
                         {{item.regNo | uppercase}}
                     </td>
-                    <td [attr.data-label]="label?.make"data-title="Make">
+                    <td [attr.data-label]="label?.make" data-title="Make">
                         {{item.make}}
                     </td>
                     <td [attr.data-label]="label?.model" data-title="Model">
@@ -43,16 +43,63 @@
                     </td>
                     <td [attr.data-label]="label?.action" data-title="Action">
 
-                        <a
-                            (click)="roleType === 1 ? editVehicle(item.collateralId) : onEditVehicleDetails(item.collateralId)" title="Edit collateral"><i
-                                class="fa fa-pencil cursor-pointer" aria-hidden="true" ></i></a>
+                        <a (click)="roleType === 1 ? editVehicle(item.collateralId) : onEditVehicleDetails(item.collateralId)"
+                            title="Edit collateral"><i class="fa fa-pencil cursor-pointer" aria-hidden="true"></i></a>
                         <a data-toggle="modal" data-target="#exampleModal"
-                            (click)="softDeleteCollateral(i, item.collateralId)" title="Delete collateral"><i class="fa fa-trash cursor-pointer"
-                                aria-hidden="true" ></i></a>
+                            (click)="softDeleteCollateral(i, item.collateralId)" title="Delete collateral"
+                            *ngIf="roleType === 1"><i class="fa fa-trash cursor-pointer" aria-hidden="true"></i></a>
                     </td>
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <div *ngIf="roleType === 2">
+
+        <div class="container controlWidth">
+            <div class="btn-sec clear-both row">
+                <div class="col-sm-12 text-right">
+                    <button class="btn btn-primary" type="button"
+                        [routerLink]="['/pages/vehicle-details/' + leadId + '/additional-collateral-details']">
+                        {{label?.addAdditionalCollaterals}} </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="wrapper">
+            <table id="add_vhd_table">
+                <thead>
+                    <tr class=" table-head-bg ">
+                        <th>{{label?.colleteralType}}</th>
+                        <th>{{label?.column2}}</th>
+                        <th>{{label?.column3}}</th>
+                        <th>{{label.action}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="add_vhd_tabletr" *ngFor="let obj of collateralArray; let i = index">
+                        <td [attr.data-label]="label?.colleteralType" data-title="Collateral Type">
+                            {{obj.colleteralType}}
+                        </td>
+                        <td [attr.data-label]="label?.column2" data-title="Column 2">
+                            {{obj.column2}}
+                        </td>
+                        <td [attr.data-label]="label?.column3" data-title="Column 3">
+                            {{obj.column3}}
+                        </td>
+                        <td [attr.data-label]="label?.action" data-title="Action">
+
+                            <a title="Edit collateral"
+                                [routerLink]="['/pages/vehicle-details/' + leadId + '/additional-collateral-details']"><i
+                                    class="fa fa-pencil cursor-pointer" aria-hidden="true"></i></a>
+                            <a data-toggle="modal" data-target="#exampleModal" title="Delete collateral"><i
+                                    class="fa fa-trash cursor-pointer" aria-hidden="true"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 
 </div>

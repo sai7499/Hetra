@@ -4,6 +4,7 @@ import { VehicleDetailsComponent } from './vehicle-details.component';
 import { BasicVehicleDetailsComponent } from './basic-vehicle-details/basic-vehicle-details.component';
 import { RtoDeclarationDetailsComponent } from './rto-declaration-details/rto-declaration-details.component';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
+import { AdditionalCollateralComponent } from './additional-collateral-details/additional-collateral-details.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,10 @@ const routes: Routes = [
       {
         path: "basic-vehicle-details",
         component: BasicVehicleDetailsComponent
+      },
+      {
+        path: "additional-collateral-details",
+        component: AdditionalCollateralComponent,
       },
       {
         path: "rto-details",

@@ -70,6 +70,7 @@ export class BankDetailsComponent implements OnInit {
   OldFromDate: Date;
   OldToDate: any;
   todayDateNew: any = new Date();
+  isLimitRequire: boolean = false;
   constructor(
     private fb: FormBuilder,
     private bankTransaction: BankTransactionsService,
@@ -138,9 +139,11 @@ export class BankDetailsComponent implements OnInit {
     this.bankForm.get('accountType').valueChanges.subscribe((res: any) => {
       // tslint:disable-next-line: triple-equals
       if (res == '4BNKACCTYP') {
+      this.isLimitRequire = true;
       this.bankForm.get('limit').setValidators(Validators.required);
       this.bankForm.get('limit').updateValueAndValidity();
       } else {
+      this.isLimitRequire = false;
       this.bankForm.get('limit').clearValidators();
       this.bankForm.get('limit').updateValueAndValidity();
       }
