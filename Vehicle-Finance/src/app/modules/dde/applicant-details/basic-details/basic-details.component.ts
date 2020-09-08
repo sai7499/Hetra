@@ -421,6 +421,7 @@ export class BasicDetailsComponent implements OnInit {
     const details = formArray.at(0);
 
     this.checkedBoxHouse = applicantDetails.ownHouseProofAvail == '1' ? true : false;
+    this.isChecked= applicantDetails.ownHouseProofAvail == '1' ? true : false;
 
     details.patchValue({
       name1: applicantDetails.name1,
@@ -1124,7 +1125,7 @@ export class BasicDetailsComponent implements OnInit {
       ? aboutIndivProspectDetails.emailId
       : '';
     prospectDetails.alternateEmailId = aboutIndivProspectDetails.alternateEmailId
-      ? aboutIndivProspectDetails.spouseName
+      ? aboutIndivProspectDetails.alternateEmailId
       : '';
     prospectDetails.preferredLanguage =
       aboutIndivProspectDetails.preferredLanguage;
