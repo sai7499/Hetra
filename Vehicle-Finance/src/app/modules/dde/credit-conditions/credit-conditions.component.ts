@@ -270,14 +270,14 @@ export class CreditConditionsComponent implements OnInit {
         })
     }else{
       if(data == 'next' && this.userType == 2 && this.salesResponse == 'true' ){
-        this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/negotiation')
+        this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
       } else if(data == 'next' && this.userType == 2 && this.salesResponse == 'false' ){
         this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
       }else if(data == 'next' && this.userType == 1  ){
         this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet');
       }
-      else if(data == 'back' ){
-        this.router.navigateByUrl('/pages/dashboard')
+      else if(data == 'back' && this.userType == 2 ){
+        this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/deviations')
       }
       else if(data == 'back' ){
         this.router.navigateByUrl('/pages/dashboard')

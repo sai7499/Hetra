@@ -49,40 +49,25 @@ export class PreDisbursementComponent implements OnInit {
             console.log(this.locationIndex);
         });
         this.activatedRoute.params.subscribe((value: any) => {
-            console.log('params', value);
+            console.log(this.activatedRoute['_routerState']['snapshot'].url);
             this.leadId = Number(value.leadId);
         });
-        this.activatedRoute.firstChild.params.subscribe((value: any) => {
-            this.applicantId = value.applicantId;
-            this.version = value.version;
-            console.log('applicant ID', value.applicantId);
-            console.log('version in fi and pd report', this.version);
-        });
+        localStorage.setItem("isPreDisbursement" , "true")
+        // this.activatedRoute.firstChild.params.subscribe((value: any) => {
+        //     this.applicantId = value.applicantId;
+        //     this.version = value.version;
+        //     console.log('applicant ID', value.applicantId);
+        //     console.log('version in fi and pd report', this.version);
+        // });
     }
     onNavigate(url: string) {
-            this.router.navigate([`/pages/credit-decisions/${this.leadId}/${url}`]);
+            this.router.navigate([`/pages/pre-disbursement/${this.leadId}/${url}`]);
         }
     getLocationIndex(url: string) {
-        if (url.includes('credit-condition')) {
+        if (url.includes('term-sheet') && this.roleType == '1') {
             return 0;
-        } else if (url.includes('term-sheet') && this.roleType == '1') {
-            return 1;
-        } else if (url.includes('term-sheet') && this.roleType == '2') {
-            return 3;
-        } else if (url.includes('negotiation') && this.roleType == '2') {
-            return 1;
-        }  else if (url.includes('negotiation') && this.roleType == '1') {
-            return 2;
-        }  else if (url.includes('disbursement') && this.roleType == '1') {
-            return 3;
-        }  else if (url.includes('disbursement') && this.roleType == '2') {
-            return 2;
         } else if (url.includes('sanction-details')) {
-            return 4;
-        } else if (url.includes('customer-feedback')) {
-            return 5;
-        } else if (url.includes('check-list')) {
-            return 6;
+            return 1;
         }
     }
 }

@@ -9,7 +9,7 @@ import { UtilityService } from '@services/utility.service';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
-import { Router } from '@angular/router';
+import { Router  } from '@angular/router';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { NumberFormatStyle, Location } from '@angular/common';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
@@ -162,7 +162,7 @@ export class DashboardComponent implements OnInit {
       this.businessDivision = userDetails.businessDivision[0].bizDivId;
       this.roleType = userDetails.roleType;
     });
-
+    localStorage.setItem("isPreDisbursement" , 'false')
     if (this.dashboardService.routingData) {
       this.activeTab = this.dashboardService.routingData.activeTab;
       this.subActiveTab = this.dashboardService.routingData.subActiveTab;
@@ -1499,7 +1499,7 @@ export class DashboardComponent implements OnInit {
         break;
       case 25: case 26:
         localStorage.setItem('istermSheet', 'false');
-        this.router.navigateByUrl(`/pages/credit-decisions/${this.leadId}/credit-condition`);
+        this.router.navigateByUrl(`/pages/credit-decisions/${this.leadId}`);
         break;
       case 28: case 29:
         localStorage.setItem('istermSheet', 'true');
@@ -1512,7 +1512,7 @@ export class DashboardComponent implements OnInit {
         this.router.navigateByUrl(`/pages/cpc-checker/${this.leadId}/check-list`);
         break;
       case 37: case 38:
-        // this.router.navigateByUrl(`/pages/cpc-checker/${this.leadId}/check-list`);
+        this.router.navigateByUrl(`/pages/pre-disbursement/${this.leadId}/term-sheet`);
         break;
 
       default:
@@ -1603,6 +1603,7 @@ export class DashboardComponent implements OnInit {
   }
   getLeadId(item) {
     localStorage.setItem('salesResponse', item.is_sales_response_completed);
+    localStorage.setItem('is_pred_done', item.is_pred_done);
     localStorage.setItem('isFiCumPd', item.isFiCumPD);
     this.vehicleDataStoreService.setCreditTaskId(item.taskId);
     this.sharedService.getTaskID(item.taskId);
