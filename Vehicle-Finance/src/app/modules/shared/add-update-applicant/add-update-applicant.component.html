@@ -655,6 +655,7 @@
                     [inputClass]="'text-uppercase'"
                     [maxLength]="validationData?.panNumber?.maxLength"
                     [type]="validationData?.panNumber?.type"
+                    (change)="removeErrorMsg()"
                   ></app-custom-input>
 
                   <div class="ShowError" 

@@ -63,6 +63,7 @@ export class BasicDetailsComponent implements OnInit {
   custCatValue: string;
   occupationValue: string;
   ageOfSeniorCitizen = 65;
+  isMarried: boolean;
   applicantData = []; 
   showNotApplicant : boolean;
 
@@ -70,6 +71,12 @@ export class BasicDetailsComponent implements OnInit {
     rule: '^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(\\.\\w{2,10})+$',
     msg: 'Invalid email',
   };
+
+  minorityData: {
+    key: string,
+    value: string
+  }[]
+  
 
   constructor(
     private labelsData: LabelsService,
@@ -97,11 +104,12 @@ export class BasicDetailsComponent implements OnInit {
     );
     this.getLeadSectiondata();  // function call to get the required funding program and product category
 
-
+    this.setMinorityData();
     this.basicForm = new FormGroup({
       entity: new FormControl({ value: '', disabled: true }),
       bussinessEntityType: new FormControl('', Validators.required),
       applicantRelationshipWithLead: new FormControl('', Validators.required),
+      applicantRelationship: new FormControl('', Validators.required),
       title: new FormControl(''),
       details: new FormArray([]),
       directors: new FormArray([this.getDirectorsControls()]),
@@ -131,6 +139,17 @@ export class BasicDetailsComponent implements OnInit {
       this.basicForm.disable();
       this.disableSaveBtn  = true;
     }
+  }
+
+  setMinorityData() {
+    this.minorityData = [{
+      key: '1',
+      value: 'Yes'
+    },
+    {
+      key: '0',
+      value: 'No'
+    }]
   }
 
   getLeadSectiondata() {
@@ -375,6 +394,7 @@ export class BasicDetailsComponent implements OnInit {
       applicantRelationshipWithLead:
         this.applicant.applicantDetails.applicantTypeKey || '',
       title: this.applicant.applicantDetails.title || '',
+      applicantRelationship: this.applicant.aboutIndivProspectDetails.relationWithApplicant || ''
     });
     const applicantDetails = this.applicant.applicantDetails;
 
@@ -385,9 +405,12 @@ export class BasicDetailsComponent implements OnInit {
       this.addIndividualFormControls();
       this.setValuesForIndividual();
       this.initiallayAgecal(dob);
+      this.setMaritalStatusValue(this.applicant.aboutIndivProspectDetails.maritalStatus);
+      this.onCustCategoryChanged(this.custCatValue)
     } else {
       this.addNonIndividualFormControls();
       this.setValuesForNonIndividual();
+      this.removeApplicantRelationControl();
       // setTimeout(() => {
       //   this.listerForDirectors();
       // });
@@ -420,6 +443,10 @@ export class BasicDetailsComponent implements OnInit {
       //customerCategory: applicantDetails.customerCategory || ' ',
       custSegment: applicantDetails.custSegment || ' ',
     });
+  }
+
+  removeApplicantRelationControl() {
+    this.basicForm.removeControl('applicantRelationship');
   }
 
   setValuesForIndividual() {
@@ -464,7 +491,8 @@ export class BasicDetailsComponent implements OnInit {
       motherMaidenName: aboutIndivProspectDetails.motherMaidenName || '',
       preferredLanguage: aboutIndivProspectDetails.preferredLanguage || 'ENGPRFLAN',
       occupation: aboutIndivProspectDetails.occupation || '',
-      nationality: aboutIndivProspectDetails.nationality || 'RSDTINDNATIONALITY',
+      // nationality: aboutIndivProspectDetails.nationality || 'RSDTINDNATIONALITY',
+      nationality: aboutIndivProspectDetails.nationality || 'INDNATIONALITY',
       age: this.showAge,
       gender: aboutIndivProspectDetails.gender || '',
       politicallyExposedPerson:
@@ -485,6 +513,19 @@ export class BasicDetailsComponent implements OnInit {
         this.utilityService.getDateFromString(aboutIndivProspectDetails.businessStartDate) || '',
         currentBusinessYears: aboutIndivProspectDetails.currentBusinessYears || '',
       turnOver: aboutIndivProspectDetails.turnOver || '',
+      noOfYrsResidence: aboutIndivProspectDetails.yearsInCurrentResidence || '',
+      recommendations: aboutIndivProspectDetails.recommendations || '',
+      religion: aboutIndivProspectDetails.religion || '',
+      community: aboutIndivProspectDetails.community || '',
+      isMinority: aboutIndivProspectDetails.isMinority || '',
+      residentStatus: aboutIndivProspectDetails.residentStatus || '',
+      maritalStatus: aboutIndivProspectDetails.maritalStatus || '',
+      weddingAnniversaryDate: this.utilityService.getDateFromString(aboutIndivProspectDetails.weddingAnniversaryDate) || '',
+      educationalQualification: aboutIndivProspectDetails.eduQualification || '',
+      noOfAdultsDependant: aboutIndivProspectDetails.noOfAdultsDependant || '',
+      noOfChildrenDependant:  aboutIndivProspectDetails.noOfChildrenDependant || '',
+      marginMoney: aboutIndivProspectDetails.marginMoney || '',
+      emiAffordability: aboutIndivProspectDetails.emiAffordability || ''
     });
     this.clearFatherOrSpouseValidation();
     this.eitherFathOrspouse();
@@ -573,7 +614,7 @@ export class BasicDetailsComponent implements OnInit {
       name3: new FormControl(null, Validators.required),
       mobilePhone: new FormControl(null, Validators.required),
       dob: new FormControl(null, Validators.required),
-      age: new FormControl(''),
+      age: new FormControl({value: '', disabled: true}),
       gender: new FormControl('', Validators.required),
       isSeniorCitizen: new FormControl(''),
       isMinor: new FormControl(''),
@@ -609,7 +650,7 @@ export class BasicDetailsComponent implements OnInit {
 
       // added new form controls  on 16-07-2020
       monthlyIncomeAmount: new FormControl(''),
-      annualIncomeAmount: new FormControl(''),
+      annualIncomeAmount: new FormControl({value: '', disabled: true}),
       ownHouseProofAvail: new FormControl(''),
       houseOwnerProperty: new FormControl(''),
       ownHouseAppRelationship: new FormControl(''),
@@ -623,6 +664,20 @@ export class BasicDetailsComponent implements OnInit {
       agriAppRelationship: new FormControl(''),
       grossReceipt: new FormControl(''),
 
+      //added new form controls on 04.12.2020
+      noOfYrsResidence: new FormControl('',Validators.required),
+      recommendations: new FormControl(''),
+      religion: new FormControl('',Validators.required),
+      community: new FormControl('',Validators.required),
+      isMinority: new FormControl('',Validators.required),
+      residentStatus: new FormControl('',Validators.required),
+      maritalStatus: new FormControl('',Validators.required),
+      weddingAnniversaryDate: new FormControl('',Validators.required),
+      educationalQualification: new FormControl(''),
+      noOfAdultsDependant: new FormControl('',Validators.required),
+      noOfChildrenDependant: new FormControl('',Validators.required),
+      marginMoney: new FormControl('',Validators.required),
+      emiAffordability: new FormControl('',Validators.required)
     });
     formArray.push(controls);
     // setTimeout(() => {
@@ -662,7 +717,7 @@ export class BasicDetailsComponent implements OnInit {
       // added new form controls on 16-07-2020
       //custSegment: new FormControl('', Validators.required),
       monthlyIncomeAmount: new FormControl(''),
-      annualIncomeAmount: new FormControl(''),
+      annualIncomeAmount: new FormControl({value: '', disabled: true}),
       ownHouseProofAvail: new FormControl(''),
       houseOwnerProperty: new FormControl(''),
       ownHouseAppRelationship: new FormControl(''),
@@ -800,8 +855,7 @@ export class BasicDetailsComponent implements OnInit {
       this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
       this.setSalriedValidators();
       this.removeSelfEmpValidators()
-    }
-    else{
+    }else {
       this.removeSalariedValidators();
       this.removeSelfEmpValidators();
     }
@@ -937,6 +991,7 @@ export class BasicDetailsComponent implements OnInit {
 
   }
 
+
   async onSubmit() {
     this.setValidation();
     const value = this.basicForm.getRawValue();
@@ -975,6 +1030,7 @@ export class BasicDetailsComponent implements OnInit {
       ...applicantData,
       leadId: this.leadId,
     };
+
 
     this.applicantService.saveApplicant(data).subscribe((response: any) => {
       if (response.ProcessVariables.error.code === '0') {
@@ -1097,6 +1153,25 @@ export class BasicDetailsComponent implements OnInit {
 
 
 
+    //adding new fields provided for dde basic details
+
+    prospectDetails.relationWithApplicant = value.applicantRelationship || '';
+     prospectDetails.yearsInCurrentResidence = aboutIndivProspectDetails.noOfYrsResidence || '';
+     prospectDetails.recommendations = aboutIndivProspectDetails.recommendations || '';
+     prospectDetails.religion = aboutIndivProspectDetails.religion || '';
+     prospectDetails.community = aboutIndivProspectDetails.community || '';
+     prospectDetails.isMinority = aboutIndivProspectDetails.isMinority || '';
+     prospectDetails.residentStatus = aboutIndivProspectDetails.residentStatus || '';
+     prospectDetails.maritalStatus = aboutIndivProspectDetails.maritalStatus || '';
+     prospectDetails.weddingAnniversaryDate = this.utilityService.getDateFormat(aboutIndivProspectDetails.weddingAnniversaryDate) || ''
+
+     prospectDetails.eduQualification = aboutIndivProspectDetails.educationalQualification || '';
+     prospectDetails.noOfAdultsDependant = aboutIndivProspectDetails.noOfAdultsDependant || '';
+     prospectDetails.noOfChildrenDependant = aboutIndivProspectDetails.noOfChildrenDependant || '';
+     prospectDetails.marginMoney = aboutIndivProspectDetails.marginMoney || '';
+     prospectDetails.emiAffordability = aboutIndivProspectDetails.emiAffordability || '';
+
+
     this.applicantDataService.setIndividualProspectDetails(prospectDetails);
 
 
@@ -1207,5 +1282,27 @@ export class BasicDetailsComponent implements OnInit {
 
   onBackToApplicant() {
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
+  }
+
+  getAnniversaryDate(event) {
+
+  }
+
+  setMaritalStatusValue(status: string) {
+
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0) as FormGroup;
+    
+    if(status !== '2MRGSTS') {
+      this.isMarried = false;
+      details.removeControl('weddingAnniversaryDate');
+    }else {
+      this.isMarried = true;
+      details.addControl('weddingAnniversaryDate',new FormControl('',Validators.required))
+    }
+
+    console.log("marital status value",status)
+
+
   }
 }

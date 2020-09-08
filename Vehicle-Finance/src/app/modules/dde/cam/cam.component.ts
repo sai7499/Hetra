@@ -12,6 +12,7 @@ import {
 } from "@angular/forms";
 import { ToasterService } from '@services/toaster.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+
 @Component({
   selector: 'app-cam',
   templateUrl: './cam.component.html',
@@ -38,7 +39,7 @@ export class CamComponent implements OnInit {
   acmRecommendation: any;
   ncmBhApprovalRecommendation: any;
   usedCvCam: boolean;
-  productCategoryName: string;
+  productCategoryCode: string;
   otherDeviation: any;
   camDetailsForm: any;
   submitted: boolean;
@@ -75,16 +76,10 @@ export class CamComponent implements OnInit {
   vehicleDeploymentDetails: any;
   recommendation: any;
   disableSaveBtn: boolean;
-  // recommend = [{'nameWithEcode': "Janani-co_janani",
-  // "recommendation": "            bcm please approve",
-  // "roleId": "4",
-  // "roleName": "CO"},{'nameWithEcode': "Janani-co_janani",
-  // "recommendation": "            bcm please approve",
-  // "roleId": "4",
-  // "roleName": "CO"},{'nameWithEcode': "Janani-co_janani",
-  // "recommendation": "            bcm please approve",
-  // "roleId": "4",
-  // "roleName": "CO"},]
+  isCamGeneratedValue;
+  isCamDetails: boolean;
+  generateCam: boolean = false;
+
 
   constructor(private labelsData: LabelsService,
     private camService: CamService,
@@ -110,21 +105,104 @@ export class CamComponent implements OnInit {
     const leadData = this.createLeadDataService.getLeadSectionData();
     const leadSectionData = leadData as any;
     console.log('getting lead data...>', leadSectionData);
-    this.productCategoryName = leadSectionData.leadDetails['productCatName'];
-    console.log('getting productCategoryName...>', this.productCategoryName);
+    this.productCategoryCode = leadSectionData.leadDetails['productCatCode'];
+    console.log('getting productCategoryCode...>', this.productCategoryCode);
+    console.log(this.isCamGeneratedValue)
+    if (this.productCategoryCode == "UC") {
+      const body = {
+        "leadId": this.leadId,
+        "generateCam": this.generateCam
+      }
+      this.camService.getCamUsedCarDetails(body).subscribe((res: any) => {
+        console.log(res);
+        this.isCamGeneratedValue = res.ProcessVariables['isCamGenerated']
+        console.log(this.isCamGeneratedValue);
+        if (this.isCamGeneratedValue == false) {
+          console.log(this.isCamDetails);
 
-    // this.getCamUsedCvDetails();
-    if (this.productCategoryName == "Used Commercial Vehicle") {
-      this.usedCvCam = true;
-      this.getCamUsedCvDetails();
-    } else if (this.productCategoryName == "Used Car") {
-      this.usedCarCam = true
-      this.getCamUsedCarDetails();
-    } else if (this.productCategoryName == "New Commercial Vehicle") {
-      this.newCvCam = true
-      this.getCamNewCvDetails();
+          this.isCamDetails = true
+          console.log(this.isCamDetails);
+
+        } else if (this.isCamGeneratedValue == true) {
+          this.isCamDetails = false
+          this.usedCarCam = true
+          this.generateCam = true
+          this.getCamUsedCarDetails(this.generateCam)
+        }
+      })
     }
-    if (this.productCategoryName == "Used Commercial Vehicle") {
+    if (this.productCategoryCode == "UCV") {
+      const body = {
+        "leadId": this.leadId,
+        "generateCam": this.generateCam
+      }
+      this.camService.getCamUsedCvDetails(body).subscribe((res: any) => {
+        console.log(res);
+        this.isCamGeneratedValue = res.ProcessVariables['isCamGenerated']
+        console.log(this.isCamGeneratedValue);
+        if (this.isCamGeneratedValue == false) {
+          console.log(this.isCamDetails);
+
+          this.isCamDetails = true
+          console.log(this.isCamDetails);
+
+        } else if (this.isCamGeneratedValue == true) {
+          this.isCamDetails = false
+          this.usedCvCam = true
+          this.generateCam = true
+          this.getCamUsedCvDetails(this.generateCam)
+        }
+      })
+    }
+    if (this.productCategoryCode == "NCV") {
+      const body = {
+        "leadId": this.leadId,
+        "generateCam": this.generateCam
+      }
+      this.camService.getCamNewCvDetails(body).subscribe((res: any) => {
+        console.log(res);
+        this.isCamGeneratedValue = res.ProcessVariables['isCamGenerated']
+        console.log(this.isCamGeneratedValue);
+        if (this.isCamGeneratedValue == false) {
+          console.log(this.isCamDetails);
+
+          this.isCamDetails = true
+          console.log(this.isCamDetails);
+
+        } else if (this.isCamGeneratedValue == true) {
+          this.isCamDetails = false
+          this.newCvCam = true
+          this.generateCam = true
+          this.getCamNewCvDetails(this.generateCam)
+        }
+      })
+    }
+    // if (this.isCamGeneratedValue == false) {
+    //   this.isCamDetails = true
+    // } else if(this.isCamGeneratedValue == true){
+    //   this.isCamDetails = false
+    // }
+    // this.getCamUsedCvDetails();
+    // if (this.productCategoryCode == "UCV") {
+    //   this.usedCvCam = true;
+    //   this.getCamUsedCvDetails();
+    // }
+    // // else if (this.productCategoryCode == "UC") {
+    // //   this.usedCarCam = true 
+    // //   // this.getCamUsedCarDetails();
+    // //   console.log(this.isCamGenerated);
+    // //   // if(this.isCamGenerated == false){
+    // //   //   this.isCamDetails = true;
+    // //   // } else {
+    // //   //   this.isCamDetails = false
+    // //   // }
+    // //   // this.showCamDetails()
+    // // }
+    // else if (this.productCategoryCode == "NCV") {
+    //   this.newCvCam = true
+    //   this.getCamNewCvDetails();
+    // }
+    if (this.productCategoryCode == "UCV") {
 
       this.camDetailsForm = this.formBuilder.group({
         proposedVehicleRemarks: new FormControl(null, [
@@ -179,7 +257,7 @@ export class CamComponent implements OnInit {
         commentsOnBankingIfAny: new FormControl(),
         commentsOnRtr: new FormControl(),
       })
-    } else if (this.productCategoryName == "New Commercial Vehicle") {
+    } else if (this.productCategoryCode == "NCV") {
       this.camDetailsForm = this.formBuilder.group({
         proposedVehicleRemarks: [],
         cibilSynopsisRemarks: [],
@@ -212,10 +290,30 @@ export class CamComponent implements OnInit {
       this.disableSaveBtn = true;
     }
   }
-
-  getCamUsedCvDetails() {
+  showCamDetails() {
+    if (this.productCategoryCode == "UC") {
+      this.usedCarCam = true
+      this.isCamDetails = false
+      this.generateCam = true
+      this.getCamUsedCarDetails(this.generateCam)
+    } else
+    if (this.productCategoryCode == "UCV") {
+      this.usedCvCam = true
+      this.isCamDetails = false
+      this.generateCam = true
+      this.getCamUsedCvDetails(this.generateCam)
+    } else
+    if (this.productCategoryCode == "NCV") {
+      this.newCvCam = true
+      this.isCamDetails = false
+      this.generateCam = true
+      this.getCamNewCvDetails(this.generateCam)
+    }
+  }
+  getCamUsedCvDetails(generateCam) {
     const data = {
-      leadId: this.leadId,
+      "leadId": this.leadId,
+      "generateCam": generateCam,
     };
     this.camService.getCamUsedCvDetails(data).subscribe((res: any) => {
       console.log(res)
@@ -261,9 +359,12 @@ export class CamComponent implements OnInit {
     })
   }
 
-  getCamUsedCarDetails() {
+  getCamUsedCarDetails(generateCam) {
+    console.log(generateCam);
+
     const data = {
-      leadId: this.leadId,
+      "leadId": this.leadId,
+      "generateCam": generateCam,
     };
     this.camService.getCamUsedCarDetails(data).subscribe((res: any) => {
       console.log("used car cam", res)
@@ -285,10 +386,17 @@ export class CamComponent implements OnInit {
       this.recommendation = res.ProcessVariables['recommendation']
 
     })
+
+    // if (this.isCamGeneratedValue == false) {
+    //   this.isCamDetails = true
+    // } else if(this.isCamGeneratedValue == true){
+    //   this.isCamDetails = false
+    // }
   }
-  getCamNewCvDetails() {
+  getCamNewCvDetails(generateCam) {
     const data = {
-      leadId: this.leadId,
+      "leadId": this.leadId,
+      "generateCam": generateCam,
     };
     this.camService.getCamNewCvDetails(data).subscribe((res: any) => {
       console.log(res);
@@ -331,21 +439,21 @@ export class CamComponent implements OnInit {
     this.submitted = true;
     // stop here if form is invalid
     if (this.camDetailsForm.invalid) {
-      if (this.productCategoryName == "Used Commercial Vehicle") {
+      if (this.productCategoryCode == "UCV") {
         this.toasterService.showError(
           "Fields Missing Or Invalid Pattern Detected",
           "UCV Details"
         );
         return;
       } else
-        if (this.productCategoryName == "New Commercial Vehicle"){
+        if (this.productCategoryCode == "NCV") {
           this.toasterService.showError(
             "Fields Missing Or Invalid Pattern Detected",
             "NCV Details"
           );
           return;
-    }
-      
+        }
+
     } else {
       this.submitted = true;
 
@@ -377,13 +485,15 @@ export class CamComponent implements OnInit {
             "Saved Successfully",
             "Cam Remarks"
           );
-          if (this.productCategoryName == "Used Commercial Vehicle") {
-            this.getCamUsedCvDetails();
+          if (this.productCategoryCode == "UCV") {
+            this.generateCam = true
+            this.getCamUsedCvDetails(this.generateCam);
           } else
-            if (this.productCategoryName == "New Commercial Vehicle"){
-              this.getCamNewCvDetails();
+            if (this.productCategoryCode == "NCV") {
+            this.generateCam = true
+              this.getCamNewCvDetails(this.generateCam);
+            }
         }
-      }
       });
     }
   }
