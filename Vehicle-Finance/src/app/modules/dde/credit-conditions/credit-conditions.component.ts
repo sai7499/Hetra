@@ -311,7 +311,7 @@ export class CreditConditionsComponent implements OnInit {
       }
       break;
       case 'refered': {
-        console.log(this.referForm);
+      //  console.log(this.referForm);
         this.submitRefer = true;
         if(this.referForm.valid){
           processData["isRefer"]= true;

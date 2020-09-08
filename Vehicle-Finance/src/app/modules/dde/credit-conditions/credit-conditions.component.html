@@ -121,6 +121,13 @@
         data-toggle="modal"
          data-target="#approveModal"
           type="button">Approve</button>
+          <button class="btn btn-primary"
+          *ngIf="userType === 2"        
+            type="button"
+            data-toggle="modal"
+            data-target="#myModal"
+            [disabled] ="disableControl"
+            >Refer</button>
       <!-- <button class="btn btn-primary" *ngIf="userType === 2" 
         (click)="creditConditionActions('approved')" type="button" [disabled] ="disableControl">Approve</button>
       <button class="btn btn-primary"
