@@ -30,6 +30,21 @@ export class SharedVehicleDetailsComponent implements OnInit {
   findInedx: any;
   selectCollateralId: any;
 
+  collateralArray: any =[
+    {
+      colleteralType: 'Colleteral Type-1',
+      column2: '',
+      column3: '',
+      collateralId: 1
+    },
+    {
+      colleteralType: 'Colleteral Type-2',
+      column2: '',
+      column3: '',
+      collateralId: 2
+    }
+  ]
+
   constructor(
     private loginStoreService: LoginStoreService,
     private labelsData: LabelsService,
