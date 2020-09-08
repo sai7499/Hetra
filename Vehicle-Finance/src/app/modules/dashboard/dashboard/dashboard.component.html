@@ -98,6 +98,9 @@
       <li (click)="onLeads(displayTabs?.ChequeTracking)"
         [ngClass]="{'active':displayTabs?.ChequeTracking === activeTab}" routerLinkActive="active"><a
           data-toggle="tab">Cheque Tracking</a></li>
+      <li (click)="onLeads(displayTabs?.PreDisbursementQueue, displayTabs?.PreDisbursementWithMe)"
+        [ngClass]="{'active':displayTabs?.PreDisbursementQueue === activeTab}" routerLinkActive="active"><a
+          data-toggle="tab">Pre Disbursement Queue</a></li>
     </ul>
   </div>
 
@@ -139,6 +142,15 @@
       <li (click)="leads(displayTabs?.ViabilityWithBranch)"
         [ngClass]="{'active':displayTabs?.ViabilityWithBranch === subActiveTab}" routerLinkActive="active"><a
           data-toggle="tab">Viability Checks Pending with Branch</a></li>
+    </ul>
+    <!--  -->
+    <ul *ngIf="displayTabs?.PreDisbursementQueue === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="leads(displayTabs?.PreDisbursementWithMe)"
+        [ngClass]="{'active':displayTabs?.PreDisbursementWithMe === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Leads Pending with Me</a></li>
+      <li (click)="leads(displayTabs?.PreDisbursementWithBranch)"
+        [ngClass]="{'active':displayTabs?.PreDisbursementWithBranch === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Leads Pending with Branch</a></li>
     </ul>
 
   </div>

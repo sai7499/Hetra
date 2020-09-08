@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '@services/dashboard/dashboard.service';
 import { LoginService } from '../../login/login/login.service';
@@ -53,7 +54,10 @@ export enum DisplayTabs {
   CPCMakerWithBranch,
   CPCChecker,
   CPCCheckerWithMe,
-  CPCCheckerWithBranch
+  CPCCheckerWithBranch,
+  PreDisbursementQueue,
+  PreDisbursementWithMe,
+  PreDisbursementWithBranch
 }
 
 export enum sortingTables {
@@ -292,11 +296,11 @@ export class DashboardComponent implements OnInit {
       this.getProcessLogsLeads(this.itemsPerPage);
     }
     switch (data) {
-      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34:
+      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37:
         this.onAssignTab = false;
         this.onReleaseTab = true;
         break;
-      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35:
+      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38:
         this.onAssignTab = true;
         this.onReleaseTab = false;
         break;
@@ -373,6 +377,12 @@ export class DashboardComponent implements OnInit {
       case 35:
         this.getCheckerCPCLeads(this.itemsPerPage);
         break;
+      case 37:
+        this.getPreDisbursementLeads(this.itemsPerPage);
+        break;
+      case 38:
+        this.getPreDisbursementBranchLeads(this.itemsPerPage);
+        break;
       default:
         break;
     }
@@ -383,6 +393,7 @@ export class DashboardComponent implements OnInit {
     this.sortTab = '';
     this.activeTab = data;
     this.subActiveTab = subTab;
+    console.log(this.activeTab, this.subActiveTab)
     if (this.sortTab === '') {
       this.sortByLead = false;
       this.sortByDate = false;
@@ -410,8 +421,9 @@ export class DashboardComponent implements OnInit {
       this.toggleDdeService.clearToggleData();
     }
 
-    this.activeTab = data;
-    this.subActiveTab = subTab;
+    // this.activeTab = data;
+    // this.subActiveTab = subTab;
+    // console.log(this.activeTab, this.subActiveTab)
 
     if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
       this.onReleaseTab = false;
@@ -420,33 +432,35 @@ export class DashboardComponent implements OnInit {
       this.onReleaseTab = true;
       this.onAssignTab = false;
     }
-    if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
-      this.getSalesFilterLeads(this.itemsPerPage);
-    } else if (this.activeTab === this.displayTabs.PD && this.subActiveTab === this.displayTabs.MyPD) {
-      this.getPdMyTask(this.itemsPerPage);
-    } else if (this.activeTab === this.displayTabs.Viability && this.subActiveTab === this.displayTabs.ViabilityWithMe) {
-      this.getViabilityLeads(this.itemsPerPage);
-    } else if (this.activeTab === this.displayTabs.FI && this.subActiveTab === this.displayTabs.MyFI) {
-      this.getMyFITask(this.itemsPerPage);
-    } else if (this.activeTab === this.displayTabs.PDD) {
-      this.getPDDLeads(this.itemsPerPage);
-    } else if (this.activeTab === this.displayTabs.ChequeTracking) {
-      this.getChequeTrackingLeads(this.itemsPerPage);
-    } else if (this.activeTab === this.displayTabs.LoanBooking) {
-      this.getProcessLogsLeads(this.itemsPerPage);
-    } else if (this.activeTab === this.displayTabs.DDE && this.subActiveTab === this.displayTabs.DDEWithMe) {
-      this.getMyDDELeads(this.itemsPerPage);
-    } else if (this.activeTab === this.displayTabs.Deviation && this.subActiveTab === this.displayTabs.DeviationWithMe) {
-      this.getMyDeviationLeads(this.itemsPerPage);
-    } else if (this.activeTab === this.displayTabs.Decision && this.subActiveTab === this.displayTabs.CreditDecisionWithMe) {
-      this.getMyDecisionLeads(this.itemsPerPage);
-    } else if (this.activeTab === this.displayTabs.TermSheet && this.subActiveTab === this.displayTabs.TermSheetWithMe) {
-      this.getMyTermsheetLeads(this.itemsPerPage);
-    } else if (this.activeTab === this.displayTabs.CPCMaker && this.subActiveTab === this.displayTabs.CPCMakerWithMe) {
-      this.getMakerLeads(this.itemsPerPage);
-    } else if (this.activeTab === this.displayTabs.CPCChecker && this.subActiveTab === this.displayTabs.CPCCheckerWithMe) {
-      this.getCheckerLeads(this.itemsPerPage);
-    }
+    // if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
+    //   this.getSalesFilterLeads(this.itemsPerPage);
+    // } else if (this.activeTab === this.displayTabs.PD && this.subActiveTab === this.displayTabs.MyPD) {
+    //   // this.getPdMyTask(this.itemsPerPage);
+    // } else if (this.activeTab === this.displayTabs.Viability && this.subActiveTab === this.displayTabs.ViabilityWithMe) {
+    //   this.getViabilityLeads(this.itemsPerPage);
+    // } else if (this.activeTab === this.displayTabs.FI && this.subActiveTab === this.displayTabs.MyFI) {
+    //   this.getMyFITask(this.itemsPerPage);
+    // } else if (this.activeTab === this.displayTabs.PDD) {
+    //   this.getPDDLeads(this.itemsPerPage);
+    // } else if (this.activeTab === this.displayTabs.ChequeTracking) {
+    //   this.getChequeTrackingLeads(this.itemsPerPage);
+    // } else if (this.activeTab === this.displayTabs.LoanBooking) {
+    //   this.getProcessLogsLeads(this.itemsPerPage);
+    // } else if (this.activeTab === this.displayTabs.DDE && this.subActiveTab === this.displayTabs.DDEWithMe) {
+    //   this.getMyDDELeads(this.itemsPerPage);
+    // } else if (this.activeTab === this.displayTabs.Deviation && this.subActiveTab === this.displayTabs.DeviationWithMe) {
+    //   this.getMyDeviationLeads(this.itemsPerPage);
+    // } else if (this.activeTab === this.displayTabs.Decision && this.subActiveTab === this.displayTabs.CreditDecisionWithMe) {
+    //   this.getMyDecisionLeads(this.itemsPerPage);
+    // } else if (this.activeTab === this.displayTabs.TermSheet && this.subActiveTab === this.displayTabs.TermSheetWithMe) {
+    //   this.getMyTermsheetLeads(this.itemsPerPage);
+    // } else if (this.activeTab === this.displayTabs.CPCMaker && this.subActiveTab === this.displayTabs.CPCMakerWithMe) {
+    //   this.getMakerLeads(this.itemsPerPage);
+    // } else if (this.activeTab === this.displayTabs.CPCChecker && this.subActiveTab === this.displayTabs.CPCCheckerWithMe) {
+    //   this.getCheckerLeads(this.itemsPerPage);
+    // } else if (this.activeTab === this.displayTabs.PreDisbursementQueue && this.subActiveTab === this.displayTabs.PreDisbursementWithMe) {
+    //   this.getPreDisbursementLeads(this.itemsPerPage);
+    // }
   }
 
   // changing sub tabs
@@ -603,6 +617,7 @@ export class DashboardComponent implements OnInit {
       currentPage: parseInt(pageNumber),
       isPDD: false,
       isChequeTracking: false,
+      isLog: false,
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
@@ -629,6 +644,7 @@ export class DashboardComponent implements OnInit {
       currentPage: parseInt(pageNumber),
       isPDD: true,
       isChequeTracking: false,
+      isLog: false,
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
@@ -961,6 +977,58 @@ export class DashboardComponent implements OnInit {
   getViabilityBranchLeads(perPageCount, pageNumber?) {
     const data = {
       taskName: 'Vehicle Viability',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: false,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
+      sortByDate: this.sortByDate,
+      sortByLead: this.sortByLead,
+      sortByLoanAmt: this.sortByLoanAmt,
+      sortByProduct: this.sortByProduct,
+      sortByStage: this.sortByStage
+    };
+    this.responseForCredit(data);
+  }
+
+  getPreDisbursementLeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'Predisbursement',
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: true,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
+      sortByDate: this.sortByDate,
+      sortByLead: this.sortByLead,
+      sortByLoanAmt: this.sortByLoanAmt,
+      sortByProduct: this.sortByProduct,
+      sortByStage: this.sortByStage
+    };
+    this.responseForCredit(data);
+  }
+
+  getPreDisbursementBranchLeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: 'Predisbursement',
       branchId: this.branchId,
       roleId: this.roleId,
       // tslint:disable-next-line: radix
@@ -1389,6 +1457,12 @@ export class DashboardComponent implements OnInit {
       case 35:
         this.getCheckerCPCLeads(this.itemsPerPage, event);
         break;
+      case 37:
+        this.getPreDisbursementLeads(this.itemsPerPage, event);
+        break;
+      case 38:
+        this.getPreDisbursementBranchLeads(this.itemsPerPage, event);
+        break;
       default:
         break;
     }
@@ -1436,6 +1510,9 @@ export class DashboardComponent implements OnInit {
         break;
       case 34: case 35:
         this.router.navigateByUrl(`/pages/cpc-checker/${this.leadId}/check-list`);
+        break;
+      case 37: case 38:
+        this.router.navigateByUrl(`/pages/credit-decisions/${this.leadId}/new-term-sheet`);
         break;
 
       default:
