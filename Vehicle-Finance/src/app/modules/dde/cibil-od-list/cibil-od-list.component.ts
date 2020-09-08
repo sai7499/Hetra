@@ -35,7 +35,7 @@ export class CibilOdListComponent implements OnInit {
   selctedLoan = [];
   selectedLoanType: any;
   submitted = null;
-  totalAmount :any;
+  totalAmount: any;
   leadId: number;
   userId: string;
   odListLov: any = [];
@@ -50,12 +50,12 @@ export class CibilOdListComponent implements OnInit {
   rowIndex;
   errorMessage;
   isThirtyModelShow: boolean;
-  rowoIndex: any;
   isSixtyModelShow: boolean;
   selctedProof: any;
   unamePattern = '^[a-z0-9_-]{8,15}$';
   imageUrl: any;
   cibilImage: any;
+  addMatchFound: any;
   constructor(
     private labelService: LabelsService,
     private formBuilder: FormBuilder,
@@ -108,27 +108,31 @@ export class CibilOdListComponent implements OnInit {
         Validators.maxLength(200),
         Validators.pattern(
           /^[a-zA-Z0-9 ]*$/
-              ),
-    ]),
-    cibilStatus: [''],
-      });
+        ),
+      ]),
+      cibilStatus: new FormControl(null, [
+        Validators.required]),
+      addMatchFound: [''],
+      addCibilScore: ['']
+
+    });
     this.getLov();
     this.getOdDetails();
     this.getOdApplicant();
     console.log(this.odDetailsForm.value.clearanceProof);
-    
+
   }
 
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
-      console.log("lov values ....>",value)
+      console.log("lov values ....>", value)
       this.odListLov.odApplicantType = value.LOVS.odApplicantType;
       this.odListLov.typeOfLoan = value.LOVS.typeOfLoan;
       this.odListLov.clearanceProof = value.LOVS.clearanceProof;
       console.log(this.odListLov.clearanceProof);
       this.odListLov.highestDpd = value.LOVS.highestDpd;
       this.odListLov.cibilStatus = value.LOVS.cibilStatus;
-      
+
     });
   }
   getLeadId() {
@@ -361,25 +365,27 @@ export class CibilOdListComponent implements OnInit {
           highDpd12m: this.odDetails.assetAppOdDetails.highDpd12m,
           writtenOffLoans: this.odDetails.assetAppOdDetails.writtenOffLoans,
           writtenOffLoansWithSuite: this.odDetails.assetAppOdDetails
-          .writtenOffLoansWithSuite,
+            .writtenOffLoansWithSuite,
           lossLoans: this.odDetails.assetAppOdDetails.lossLoans,
           settledLoans: this.odDetails.assetAppOdDetails.settledLoans,
           clearanceProofCollected: this.odDetails.assetAppOdDetails
-          .clearanceProofCollected,
+            .clearanceProofCollected,
           clearanceProof: this.odDetails.assetAppOdDetails.clearanceProof,
           cibilStatus: this.odDetails.assetAppOdDetails.cibilStatus,
           justification: this.odDetails.assetAppOdDetails.justification,
+          addMatchFound: this.odDetails.assetAppOdDetails.addMatchFound,
+          addCibilScore: this.odDetails.assetAppOdDetails.addCibilScore,
 
         });
         this.onOdAmount(this.odDetails.assetAppOdDetails.totalAmount, 0);
-       
+        this.onAdditionalMatch(this.odDetails.assetAppOdDetails.addMatchFound);
         this.onSelectProof(this.odDetails.assetAppOdDetails.clearanceProofCollected);
-      
+
       }
       const operationType = this.toggleDdeService.getOperationType();
       if (operationType === '1') {
         this.odDetailsForm.disable();
-        this.disableSaveBtn  = true;
+        this.disableSaveBtn = true;
       }
     });
 
@@ -459,12 +465,14 @@ export class CibilOdListComponent implements OnInit {
           ),
           totalAmount: this.totalAmount.toString(),
           cibilStatus: this.odDetailsForm.controls.cibilStatus.value,
+          addMatchFound: this.odDetailsForm.controls.addMatchFound.value,
+          addCibilScore: this.odDetailsForm.controls.addCibilScore.value,
         },
       };
 
       this.odDetailsService.saveParentOdDetails(body).subscribe((res: any) => {
         console.log(res);
-        
+
         // tslint:disable-next-line: triple-equals
         if (res && res.ProcessVariables.error.code == '0') {
           // tslint:disable-next-line: prefer-const
@@ -499,14 +507,23 @@ export class CibilOdListComponent implements OnInit {
           this.totalAmount +
           Number(this.odAccountDetailsArray.value[i].odAmount)
         );
-        
+
       }
     }
   }
-  onAdditionalMatch(event){
-console.log(event);
-
+  onAdditionalMatch(event: any) {
+    console.log("additional change ....>", event);
+    console.log(event)
+    if(typeof(event) != 'number') {
+      this.addMatchFound = event.currentTarget.checked
+    } else if (typeof(event) == 'number' && event === 1) {
+      this.addMatchFound = true;
+    } else if (typeof(event) == 'number' && event === 0) {
+      this.addMatchFound = false;
+    }
+    
   }
+
   onBackToODDetails() {
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/cibil-od`);
   }
@@ -516,7 +533,7 @@ console.log(event);
     this.errorMessage = 'Are sure to remove row';
   }
   showThirtyModel(i) {
-    this.rowoIndex = i;
+    this.rowIndex = i;
     this.isThirtyModelShow = true;
     this.errorMessage = 'Are sure to remove row';
   }
@@ -529,34 +546,34 @@ console.log(event);
   getApplicantImage() {
 
     // tslint:disable-next-line: triple-equals
-    if ( this.imageUrl != null) {
-       this.cibilImage = this.imageUrl;
-       return;
+    if (this.imageUrl != null) {
+      this.cibilImage = this.imageUrl;
+      return;
     } else {
-     const body = {
-       applicantId: this.applicantId
-     };
-    //  this.backupApplicantId = applicantID;
-     this.applicantImageService.getApplicantImageDetails(body).subscribe((res: any) => {
-       // tslint:disable-next-line: triple-equals
-       if (res.ProcessVariables.error.code == '0') {
-         console.log(res);
-         const imageUrl = res.ProcessVariables.response;
-         console.log(imageUrl);
-         this.imageUrl = imageUrl;
-         this.imageUrl = atob(this.imageUrl); // decoding base64 string to get xml file
-         this.imageUrl = this.domSanitizer.bypassSecurityTrustHtml(this.imageUrl); // sanitizing xml doc for rendering with proper css
-         this.cibilImage = this.imageUrl;
-       } else {
-         this.imageUrl = res.ProcessVariables.error.message;
-         this.cibilImage = res.ProcessVariables.error.message;
-       }
-     });
+      const body = {
+        applicantId: this.applicantId
+      };
+      //  this.backupApplicantId = applicantID;
+      this.applicantImageService.getApplicantImageDetails(body).subscribe((res: any) => {
+        // tslint:disable-next-line: triple-equals
+        if (res.ProcessVariables.error.code == '0') {
+          console.log(res);
+          const imageUrl = res.ProcessVariables.response;
+          console.log(imageUrl);
+          this.imageUrl = imageUrl;
+          this.imageUrl = atob(this.imageUrl); // decoding base64 string to get xml file
+          this.imageUrl = this.domSanitizer.bypassSecurityTrustHtml(this.imageUrl); // sanitizing xml doc for rendering with proper css
+          this.cibilImage = this.imageUrl;
+        } else {
+          this.imageUrl = res.ProcessVariables.error.message;
+          this.cibilImage = res.ProcessVariables.error.message;
+        }
+      });
     }
-   }
- destroyImage() {
-     if (this.cibilImage) {
+  }
+  destroyImage() {
+    if (this.cibilImage) {
       this.cibilImage = null;
-     }
-   }
+    }
+  }
 }
