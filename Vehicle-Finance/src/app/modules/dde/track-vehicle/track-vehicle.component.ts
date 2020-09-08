@@ -422,6 +422,7 @@ export class TrackVehicleComponent implements OnInit {
     this.paymentExcessOrShort(null, 0)
   }
   changeAccrued(event){
+
     this.showNoOfEmisAccruedModal = false;
     this.fleetDetails['emisPaid'] =  Number(this.trackVehicleForm.value['emisPaid'])
    if(this.formArr['controls'].length > Number(this.trackVehicleForm.value['emisPaid']) ){
@@ -440,8 +441,8 @@ export class TrackVehicleComponent implements OnInit {
      
     }
    }
-   
-   
+   this.paymentExcessOrShort(null, 0)
+   this.delayDaysCalc();
   }
   
   get formArr() {
@@ -560,6 +561,9 @@ export class TrackVehicleComponent implements OnInit {
     let avgDelay = Number(this.totalDelayDays / this.formArr.length).toFixed(2);
     let peakDelay = Math.max(...allDelayDays);
     let mindelay = Math.min(...allDelayDays);
+    if(mindelay < 0){
+      mindelay = 0
+    }
     //  this.trackVehicleForm.get('totalDelay').setValue(this.totalDelayDays);
     this.trackVehicleForm.get("peakDelay").setValue(peakDelay)
     this.trackVehicleForm.get("avgDelay").setValue(avgDelay)
@@ -569,7 +573,7 @@ export class TrackVehicleComponent implements OnInit {
   }
 
   paymentExcessOrShort(event, index) {
-    console.log(event.target.value)
+   // console.log(event.target.value)
     let toalExcess = 0;
     let installmentAmount = 0;
     let receivedAmt = 0;
@@ -716,7 +720,7 @@ export class TrackVehicleComponent implements OnInit {
 
   deleteRow(index: number, item) {
 
-    console.log(item)
+   // console.log(item)
     if (this.trackVehicleForm.get('installment')['controls'].length > 1) {
       if (item.value['id'] != null || item.value['id'] != undefined) {
         //   console.log(item.value);
@@ -775,7 +779,7 @@ export class TrackVehicleComponent implements OnInit {
         // if(this.formArr.value[i].receivedAmt == "0"){
         //   formDetails['installment'][i]['receivedAmt'] = 0
         // }
-    console.log(this.formArr.controls[i]['controls']['receivedAmt']);
+    // console.log(this.formArr.controls[i]['controls']['receivedAmt']);
         formDetails['installment'][i]['receivedDate'] = this.sendDate(this.formArr.controls[i]['controls']['receivedDate'].value);
       }
       this.trackVechileService.saveUpdateFleetRtr(formDetails, this.fleetId, this.leadId).subscribe((res: any) => {

@@ -176,7 +176,9 @@ salesResponse: any;
   }
 
   onBack() {
-    if(this.roleType == '1') {
+    if(this.roleType == '1' && localStorage.getItem('isPreDisbursement') == "true"){
+      this.router.navigate([`pages/pre-disbursement/${this.leadId}/term-sheet`]);
+    } else if(this.roleType == '1') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/disbursement`]);
     } else if (this.roleType == '2' ) {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/term-sheet`]);
