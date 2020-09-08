@@ -228,12 +228,12 @@
                   <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforMI">{{ labels?.fundingRequiredforMI }}
                     <sub class="star_red_col">*</sub>
                   </label>
-                  <div  *ngIf= "this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
+                  <div *ngIf="this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
                     <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforMI" [isDirty]="isDirty" [isRequired]="'Is Funding Required for MI is required'"
                       (change)="calculateTotal(i)">
                     </app-vf-custom-select>
                   </div>
-                  <div *ngIf= "!this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
+                  <div *ngIf="!this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
                     <app-vf-custom-select [values]="tempDataFundingRequiredLOV" formControlName="fundingRequiredforMI" (change)="calculateTotal(i)"
                       [isRequired]="'Is Funding Required for life-cover is required'">
                     </app-vf-custom-select>
@@ -242,7 +242,7 @@
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
                     <app-custom-input formControlName="MIPremiumAmount" type="number" id="MIPremiumAmount" placeholder="MI Premium Amount (in INR)"
-                      name="MIPremiumAmount" [isDirty]="isDirty" [maxLength]="labels?.validationData.MIPremiumAmount.maxLength"  
+                      name="MIPremiumAmount" [isDirty]="isDirty" [maxLength]="labels?.validationData.MIPremiumAmount.maxLength"
                       [isRequired]="'MI Premium Amount is Required'" class="form-control mandatory select2 custom-negotiation-field"
                       (change)="calculateTotal(i)">
                     </app-custom-input>
@@ -268,7 +268,7 @@
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
                     <app-custom-input formControlName="PACPremiumAmount" type="number" id="PACPremiumAmount" placeholder="PAC Premium Amount (in INR)"
-                      name="PACPremiumAmount" [isDirty]="isDirty" [maxLength]="labels?.validationData.MIPremiumAmount.maxLength"  
+                      name="PACPremiumAmount" [isDirty]="isDirty" [maxLength]="labels?.validationData.MIPremiumAmount.maxLength"
                       [isRequired]="'PAC Premium Amount is Required'" class="form-control mandatory select2 custom-negotiation-field"
                       (change)="calculateTotal(i)">
                     </app-custom-input>
@@ -277,12 +277,12 @@
                 <div class="form-group">
                   <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforPAC">{{ labels?.fundingRequiredforPAC }}
                   </label>
-                  <div  *ngIf= "this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
+                  <div *ngIf="this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
                     <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforPAC" [isDirty]="isDirty" (change)="calculateTotal(i)"
                       [isRequired]="'Is Funding Required for PAC is required'">
                     </app-vf-custom-select>
                   </div>
-                  <div *ngIf= "!this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
+                  <div *ngIf="!this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
                     <app-vf-custom-select [values]="tempDataFundingRequiredLOV" formControlName="fundingRequiredforPAC" (change)="calculateTotal(i)"
                       [isRequired]="'Is Funding Required for life-cover is required'">
                     </app-vf-custom-select>
@@ -307,8 +307,8 @@
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
                     <app-custom-input formControlName="VASPremiumAmount" type="number" class="form-control mandatory select2 custom-negotiation-field"
-                      [isDirty]="isDirty" id="VASPremiumAmount" [maxLength]="labels?.validationData.VASPremiumAmount.maxLength"  
-                       placeholder="VAS Premium Amount (in INR)" name="VASPremiumAmount"  [isRequired]="'VAS Premium Amount is Required'" 
+                      [isDirty]="isDirty" id="VASPremiumAmount" [maxLength]="labels?.validationData.VASPremiumAmount.maxLength"
+                      placeholder="VAS Premium Amount (in INR)" name="VASPremiumAmount" [isRequired]="'VAS Premium Amount is Required'"
                       (change)="calculateTotal(i)">
                     </app-custom-input>
                   </div>
@@ -316,12 +316,12 @@
                 <div class="form-group">
                   <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforVAS">{{ labels?.fundingRequiredforVAS }}
                   </label>
-                  <div  *ngIf= "this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
+                  <div *ngIf="this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
                     <app-vf-custom-select [values]="FundingRequiredLOV" [isDirty]="isDirty" formControlName="fundingRequiredforVAS" (change)="calculateTotal(i)"
                       [isRequired]="'Is Funding Required for VAS is required'">
                     </app-vf-custom-select>
                   </div>
-                  <div *ngIf= "!this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
+                  <div *ngIf="!this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
                     <app-vf-custom-select [values]="tempDataFundingRequiredLOV" formControlName="fundingRequiredforVAS" (change)="calculateTotal(i)"
                       [isRequired]="'Is Funding Required for life-cover is required'">
                     </app-vf-custom-select>
@@ -334,8 +334,7 @@
                     <sub class="star_red_col">*</sub>
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3 position-relative">
-                    <app-vf-custom-select [values]="creditShieldInsuranceProvidersLOV" 
-                      formControlName="creditShieldLifeCover" [className]="'form-control mandatory'"
+                    <app-vf-custom-select [values]="creditShieldInsuranceProvidersLOV" formControlName="creditShieldLifeCover" [className]="'form-control mandatory'"
                       [isDirty]="isDirty" [isRequired]="'Credit Shield Life Cover is Required'" (change)="getUIValues($event, true, 'creditShield',i);
                         calculateTotal(i);calculatepremiumAmount($event,3,i)">
                     </app-vf-custom-select>
@@ -344,25 +343,21 @@
                   <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingforLifeCover">{{ labels?.fundingforLifeCover }}
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-vf-custom-select [values]="InsuranceSlabLOV" [isDirty]="isDirty" 
-                      formControlName="fundingforLifeCover" [className]="'form-control mandatory'"
-                      [isRequired]="'Is Funding Required for Lifer Cover is required'" 
-                      (change)="getFundingReq($event,i);fetchPreimumAmount(3,'creditShieldInsurance',i)">
+                    <app-vf-custom-select [values]="InsuranceSlabLOV" [isDirty]="isDirty" formControlName="fundingforLifeCover" [className]="'form-control mandatory'"
+                      [isRequired]="'Is Funding Required for Lifer Cover is required'" (change)="getFundingReq($event,i);fetchPreimumAmount(3,'creditShieldInsurance',i)">
                     </app-vf-custom-select>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforPAC">{{ labels?.fundingRequiredforlifeCover }}
                   </label>
-                  <div *ngIf= "this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
+                  <div *ngIf="this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
                     <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforlifeCover" (change)="calculateTotal(i)"
                       [isRequired]="'Is Funding Required for life-cover is required'">
                     </app-vf-custom-select>
                   </div>
-                  <div *ngIf= "!this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
-                    <app-vf-custom-select [values]="tempDataFundingRequiredLOV" 
-                      formControlName="fundingRequiredforlifeCover" 
-                      (change)="calculateTotal(i)"
+                  <div *ngIf="!this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
+                    <app-vf-custom-select [values]="tempDataFundingRequiredLOV" formControlName="fundingRequiredforlifeCover" (change)="calculateTotal(i)"
                       [isRequired]="'Is Funding Required for life-cover is required'">
                     </app-vf-custom-select>
                   </div>
@@ -370,9 +365,9 @@
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
                     <app-custom-input formControlName="lifeCoverPremiumAmount" type="number" class="form-control mandatory select2 custom-negotiation-field"
-                      id="lifeCoverPremiumAmount" [isDirty]="isDirty" [maxLength]="labels?.validationData.lifeCoverPremiumAmount.maxLength"  
-                       placeholder="Life Cover Premium Amount (in INR)" name="lifeCoverPremiumAmount"
-                      [isRequired]="'Life Cover Premium Amount is required'" (change)="calculateTotal(i)">
+                      id="lifeCoverPremiumAmount" [isDirty]="isDirty" [maxLength]="labels?.validationData.lifeCoverPremiumAmount.maxLength"
+                      placeholder="Life Cover Premium Amount (in INR)" name="lifeCoverPremiumAmount" [isRequired]="'Life Cover Premium Amount is required'"
+                      (change)="calculateTotal(i)">
                     </app-custom-input>
                   </div>
                 </div>
@@ -401,22 +396,21 @@
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
                   <app-custom-input formControlName="FASTagAmount" type="number" class="form-control mandatory select2 custom-negotiation-field"
-                    id="FASTagAmount" placeholder="FASTag Amount (in INR)" name="FASTagAmount" 
-                    (change)="calculateTotal(i)" [maxLength]="labels?.validationData.FASTagAmount.maxLength"  
-                    [isRequired]="'FAST Tag Amount is Required'" [isDirty]="isDirty"></app-custom-input>
+                    id="FASTagAmount" placeholder="FASTag Amount (in INR)" name="FASTagAmount" (change)="calculateTotal(i)"
+                    [maxLength]="labels?.validationData.FASTagAmount.maxLength" [isRequired]="'FAST Tag Amount is Required'"
+                    [isDirty]="isDirty"></app-custom-input>
                 </div>
               </div>
               <div class="form-group">
                 <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforFASTag">{{ labels?.fundingRequiredforFASTag }}
                   <sub class="star_red_col">*</sub>
                 </label>
-                <div *ngIf= "this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
+                <div *ngIf="this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
                   <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforFASTag" (change)="calculateTotal(i)"
                     [isRequired]="'Is Funding Required for FASTag is required'" [isDirty]="isDirty">
                   </app-vf-custom-select>
                 </div>
-
-                <div *ngIf= "!this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
+                <div *ngIf="!this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
                   <app-vf-custom-select [values]="tempDataFundingRequiredLOV" formControlName="fundingRequiredforFASTag" (change)="calculateTotal(i)"
                     [isRequired]="'Is Funding Required for life-cover is required'">
                   </app-vf-custom-select>
@@ -450,9 +444,8 @@
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
               <app-custom-input formControlName="NegotiatedLoanAmount" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
-                [isRequired]="'Negotiated Loan Amount is Required'" [placeholder]="'Negotiated Loan Amount'" 
-                (change)="calculateEMI();calculatededuction()" [maxLength]="labels?.validationData.NegotiatedLoanAmount.maxLength"                      
-                [minLength]="labels?.validationData.NegotiatedLoanAmount.maxLength">
+                [isRequired]="'Negotiated Loan Amount is Required'" [placeholder]="'Negotiated Loan Amount'" (change)="calculateEMI();calculatededuction()"
+                [maxLength]="labels?.validationData.NegotiatedLoanAmount.maxLength" [minLength]="labels?.validationData.NegotiatedLoanAmount.maxLength">
               </app-custom-input>
             </div>
             <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NegotiatedLoanTenor">{{ labels?.NegotiatedLoanTenor }}
@@ -461,9 +454,8 @@
             <div class="col-sm-6 col-md-4 col-lg-3">
               <app-custom-input formControlName="NegotiatedLoanTenor" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
                 (change)="getRepayableMonths()" [placeholder]="'Negotiated Loan Tenor (in Months)'" [isRequired]="'Negotiated Loan Tenor is Required'"
-                (change)="allowSix($event)" (change)="calculateEMI($event)" [maxLength]="labels?.validationData.NegotiatedLoanTenor.maxLength"                      
-                [minLength]="labels?.validationData.NegotiatedLoanTenor.maxLength"                      
-                >
+                (change)="allowSix($event)" (change)="calculateEMI($event)" [maxLength]="labels?.validationData.NegotiatedLoanTenor.maxLength"
+                [minLength]="labels?.validationData.NegotiatedLoanTenor.maxLength">
               </app-custom-input>
             </div>
           </div>
@@ -472,11 +464,9 @@
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input formControlName="NegotiatedIRR" [isDirty]="isDirty" [className]="'form-control mandatory'" 
-              [isRequired]="'Negotiated IRR is Required'"
-                [type]="'decimal'" 
-                [maxLength]="labels?.validationData.NegotiatedIRR.maxLength"                      
-                [placeholder]="'Negotiated IRR (in %)'" step="0.01" (keypress)="isDecimal($event);" (change)="calculateEMI($event)">
+              <app-custom-input formControlName="NegotiatedIRR" [isDirty]="isDirty" [className]="'form-control mandatory'" [isRequired]="'Negotiated IRR is Required'"
+                [type]="'decimal'" [maxLength]="labels?.validationData.NegotiatedIRR.maxLength" [placeholder]="'Negotiated IRR (in %)'"
+                step="0.01" (keypress)="isDecimal($event);" (change)="calculateEMI($event)">
               </app-custom-input>
             </div>
             <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NegotiatedEMI">{{ labels?.NegotiatedEMI }}
@@ -493,8 +483,7 @@
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-vf-custom-select [values]="MoratoriumDaysLOV" [isDirty]="isDirty" formControlName="MoratoriumPeriod" 
-                (change)="getRepayableMonths()"
+              <app-vf-custom-select [values]="MoratoriumDaysLOV" [isDirty]="isDirty" formControlName="MoratoriumPeriod" (change)="getRepayableMonths()"
                 [isRequired]="'Moratorium / Holiday Period is required'">
               </app-vf-custom-select>
             </div>
@@ -566,19 +555,53 @@
             </label> -->
           </div>
         </div>
+        <div>
+          <h4 class="title">{{ labels?.repaymentMode}}</h4>
+          <div class="form-group">
+            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="repaymentMode">{{labels?.repaymentMode}}
+            </label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-vf-custom-select [values]="RepaymentLOV" [isDirty]="isDirty" (change)="calculateMinMax('empty')" [isRequired]="'Repayment Mode is Required'"
+                formControlName="repaymentMode">
+              </app-vf-custom-select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NoofPDC">{{labels?.noOfPdc}}
+            </label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input formControlName="NoofPDC" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
+                [isRequired]="'PDC Value is Required'" [placeholder]="'PDC Value'" 
+                (change)="calculateMinMax($event.target.value)" [custom]="PDCvalueCheck"
+                [minLength]="labels?.validationData.NoofPDC.minLength"
+                [maxLength]="labels?.validationData.NoofPDC.maxLength">
+              
+              </app-custom-input>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NoofSPDC">{{labels?.NoofSPDC}}
+            </label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input formControlName="NoofSPDC" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
+                [isRequired]="'SPDC Value is Required'" [placeholder]="'SPDC Value'" 
+                (change)="calculateMinMax('')" [custom]="SPDCvalueCheck"
+                [minLength]="labels?.validationData.NoofSPDC.minLength"
+                [maxLength]="labels?.validationData.NoofSPDC.maxLength">
+              </app-custom-input>
+            </div>
+          </div>
+        </div>
         <div class="btn-sec button-section clear-both">
           <div class="col-sm-12 text-right">
-            <button type="button" class="btn btn-primary" value="back" 
-            (click)="onBack()">
-            {{ labels?.back }}
-          </button>
+            <button type="button" class="btn btn-primary" value="back" (click)="onBack()">
+              {{ labels?.back }}
+            </button>
             <!-- <button (click)="onBack()" class="btn btn-primary mar-right8" type="button" >Back </button>&nbsp; -->
             <button type="button" class="btn btn-primary" value="cancel" (click)="cancel()">
               {{ labels?.cancel }}
             </button>
-           
-            <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()" 
-              *ngIf="roleType != 4 && roleType != 5">
+            <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()" *ngIf="roleType != 4 && roleType != 5">
               {{ labels?.save }}
             </button>
             <button (click)="onNext()" class="btn btn-primary js-btn-next" type="button"> Next </button>
