@@ -1425,7 +1425,7 @@ export class DashboardComponent implements OnInit {
         break;
       case 25: case 26:
         localStorage.setItem('istermSheet', 'false');
-        this.router.navigateByUrl(`/pages/credit-decisions/${this.leadId}/credit-condition`);
+        this.router.navigateByUrl(`/pages/credit-decisions/${this.leadId}`);
         break;
       case 28: case 29:
         localStorage.setItem('istermSheet', 'true');

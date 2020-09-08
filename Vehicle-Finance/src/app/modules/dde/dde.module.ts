@@ -86,6 +86,6 @@ import { LoanStatusComponent } from './loan-status/loan-status.component';
     ViabilityDashboardModule,
     FiReportModule
   ],
-  exports: [ViabilityDashboardModule, CreditConditionModule, ChequeTrackingComponent]
+  exports: [ViabilityDashboardModule, CreditConditionModule, ChequeTrackingComponent, CamComponent, DeviationsComponent]
 })
 export class DdeModule { }
