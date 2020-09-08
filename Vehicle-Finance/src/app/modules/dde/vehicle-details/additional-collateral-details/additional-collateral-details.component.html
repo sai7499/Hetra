@@ -9,7 +9,7 @@
                         <sub class="star_red_col">*</sub>
                     </label>
 
-                    <app-vf-custom-select [values]="LOV?.collateralType" [id]="'collateral_type'"
+                    <app-vf-custom-select [values]="LOV?.additionalCollateralDetails" [id]="'collateral_type'"
                         formControlName="collateralType" [isRequired]="'Collateral Type Required'"
                         (change)="selectCollateralType($event.target.value)" [isDirty]="isDirty">
                     </app-vf-custom-select>
@@ -31,7 +31,7 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="proof_collected">
                     <label for="proof_collected"> {{ label?.proofCollected }} </label>
 
-                    <app-vf-custom-select [values]="LOV?.YesORNoValue" [id]="'proof_collected'"
+                    <app-vf-custom-select [values]="LOV?.proofCollected" [id]="'proof_collected'"
                         formControlName="proofCollected">
                     </app-vf-custom-select>
 
@@ -49,13 +49,12 @@
 
             </div>
 
-
             <ng-container formArrayName="collateralFormArray">
 
                 <div *ngFor="let obj of collateralForm.get('collateralFormArray')['controls']; let i=index;let l=last"
-                    [formGroupName]="0">
+                    [formGroupName]="i">
 
-                    <div id="agriculture_start" *ngIf="collateralType === '0'">
+                    <div id="agriculture_start" *ngIf="collateralType === 'AGRIADDCOLTYP'">
 
                         <div class="row">
 
@@ -86,12 +85,10 @@
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="property_owner">{{label.propertyOwner}}</label>
 
-                                <app-custom-input formControlName="propertyOwner"
-                                    [type]="label.validationData?.name.type" [id]="'property_owner'"
-                                    [className]="'form-control mandatory'" [placeholder]="'Property owner'"
-                                    [maxLength]="label.validationData?.name.maxLength"
-                                    [isRequired]="'Property owner Required'" [isDirty]="isDirty">
-                                </app-custom-input>
+                                <app-vf-custom-select [values]="LOV?.propertOwner" [id]="'collateral_type'"
+                                    formControlName="propertyOwner" [isRequired]="'Property owner Required'"
+                                    (change)="onFindRelationship($event.target.value)" [isDirty]="isDirty">
+                                </app-vf-custom-select>
 
                             </div>
 
@@ -165,7 +162,7 @@
 
                     </div>
 
-                    <div id="agriculture_start" *ngIf="collateralType === '1'">
+                    <div id="agriculture_start" *ngIf="collateralType === 'FDADDCOLTYP'">
 
                         <div class="row">
 
@@ -184,30 +181,12 @@
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="fd_name">{{label.fdName}}</label>
 
-                                <app-custom-input formControlName="propertyOwner"
-                                    [type]="label.validationData?.name.type" [id]="'fd_name'"
-                                    [className]="'form-control mandatory'" [placeholder]="'FD Name'"
-                                    [maxLength]="label.validationData?.name.maxLength" [isRequired]="'FD Name Required'"
-                                    [isDirty]="isDirty">
-                                </app-custom-input>
+                                <app-vf-custom-select [values]="LOV?.propertOwner" [id]="'collateral_type'"
+                                    formControlName="propertyOwner" [isRequired]="'Property owner Required'"
+                                    (change)="onFindRelationship($event.target.value)" [isDirty]="isDirty">
+                                </app-vf-custom-select>
 
                             </div>
-
-                            <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="fd_value">{{label.fdValue}}</label>
-
-                                <app-custom-input formControlName="fdValue"
-                                    [type]="label.validationData?.amountValue.type" [id]="'fd_value'"
-                                    [className]="'form-control mandatory'" [placeholder]="'FD Value'"
-                                    [maxLength]="label.validationData?.name.maxLength"
-                                    [isRequired]="'FD Value Required'" [isDirty]="isDirty">
-                                </app-custom-input>
-
-                            </div>
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="relation_applicant">{{label.relatedWithApplicant}}</label>
@@ -218,11 +197,28 @@
                                 </app-vf-custom-select>
 
                             </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                                <label for="fd_value">{{label.fdValue}}</label>
+
+                                <app-custom-input formControlName="totalMarketValue"
+                                    [type]="label.validationData?.amountValue.type" [id]="'fd_value'"
+                                    [className]="'form-control mandatory'" [placeholder]="'FD Value'"
+                                    [maxLength]="label.validationData?.name.maxLength"
+                                    [isRequired]="'FD Value Required'" [isDirty]="isDirty">
+                                </app-custom-input>
+
+                            </div>
+
                         </div>
 
                     </div>
 
-                    <div id="gold_loan_start" *ngIf="collateralType === '2'">
+                    <div id="gold_loan_start" *ngIf="collateralType === 'GOLDADDCOLTYP'">
 
                         <div class="row">
 
@@ -255,7 +251,7 @@
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="total_value">{{label.totalValue}}</label>
 
-                                <app-custom-input formControlName="goldTotalValue"
+                                <app-custom-input formControlName="totalMarketValue"
                                     [type]="label.validationData?.amountValue.type" [id]="'total_value'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Value'"
                                     [maxLength]="label.validationData?.amountValue.maxLength"
@@ -271,12 +267,10 @@
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="jewel_owner">{{label.jewelOwner}}</label>
 
-                                <app-custom-input formControlName="propertyOwner"
-                                    [type]="label.validationData?.name.type" [id]="'jewel_owner'"
-                                    [className]="'form-control mandatory'" [placeholder]="'Jewel owner'"
-                                    [maxLength]="label.validationData?.name.maxLength"
-                                    [isRequired]="'Jewel owner Required'" [isDirty]="isDirty">
-                                </app-custom-input>
+                                <app-vf-custom-select [values]="LOV?.propertOwner" [id]="'collateral_type'"
+                                    formControlName="propertyOwner" [isRequired]="'Property owner Required'"
+                                    (change)="onFindRelationship($event.target.value)" [isDirty]="isDirty">
+                                </app-vf-custom-select>
 
                             </div>
 
@@ -296,8 +290,8 @@
                                 <app-custom-input formControlName="purity"
                                     [type]="label.validationData?.amountValue.type" [id]="'purity'"
                                     [className]="'form-control mandatory'" [placeholder]="'Purity'"
-                                    [maxLength]="label.validationData?.amountValue.maxLength" [isRequired]="'Purity Required'"
-                                    [isDirty]="isDirty">
+                                    [maxLength]="label.validationData?.amountValue.maxLength"
+                                    [isRequired]="'Purity Required'" [isDirty]="isDirty">
                                 </app-custom-input>
 
                             </div>
@@ -305,7 +299,7 @@
 
                     </div>
 
-                    <div id="property_start" *ngIf="collateralType === '3'">
+                    <div id="property_start" *ngIf="collateralType === 'PROPADDCOLTYP'">
 
                         <div class="row">
 
@@ -334,19 +328,25 @@
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="property_owner">{{label.propertyOwner}}</label>
-
-                                <app-custom-input formControlName="propertyOwner"
-                                    [type]="label.validationData?.name.type" [id]="'property_owner'"
-                                    [className]="'form-control mandatory'" [placeholder]="'Property Owner'"
-                                    [maxLength]="label.validationData?.name.maxLength" [isRequired]="'Property Owner Required'"
-                                    [isDirty]="isDirty">
-                                </app-custom-input>
+                                <app-vf-custom-select [values]="LOV?.propertOwner" [id]="'collateral_type'"
+                                    formControlName="propertyOwner" [isRequired]="'Property owner Required'"
+                                    (change)="onFindRelationship($event.target.value)" [isDirty]="isDirty">
+                                </app-vf-custom-select>
 
                             </div>
                         </div>
 
-
                         <div class="row">
+
+                            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                                <label for="relation_applicant">{{label.relatedWithApplicant}}</label>
+
+                                <app-vf-custom-select [values]="LOV?.relationship" [id]="'relation_applicant'"
+                                    formControlName="relationWithApplicant"
+                                    [isRequired]="'Related to Primary Applicant Required'" [isDirty]="isDirty">
+                                </app-vf-custom-select>
+
+                            </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="total_land_area">{{label?.totalLandArea}}</label>
@@ -372,6 +372,10 @@
 
                             </div>
 
+                        </div>
+
+                        <div class="row">
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="market_value_sf">{{label?.marketValueSF}}</label>
 
@@ -383,10 +387,6 @@
                                 </app-custom-input>
 
                             </div>
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="total_market_value">{{label?.totalMarketValue}}</label>
@@ -411,6 +411,10 @@
                                 </app-custom-input>
 
                             </div>
+
+                        </div>
+
+                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="total_guide_line">{{label?.totalGuideline}}</label>

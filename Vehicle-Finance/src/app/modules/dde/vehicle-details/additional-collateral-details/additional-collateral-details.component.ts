@@ -17,11 +17,14 @@ export class AdditionalCollateralComponent implements OnInit {
     collateralForm: FormGroup;
     public label: any = {};
     public LOV: any = {};
+    public relationLov: any = [];
 
     public userId: number;
     public leadId: number;
     isDirty: boolean;
-    collateralType: string = '0';
+    leadData: any = {};
+    applicantDetails: any = [];
+    collateralType: string = 'AGRIADDCOLTYP';
 
     constructor(private _fb: FormBuilder, private labelsData: LabelsService, private createLeadDataService: CreateLeadDataService,
         private commonLovService: CommomLovService, private utilityService: UtilityService, private collateralService: CollateralService,
@@ -30,7 +33,7 @@ export class AdditionalCollateralComponent implements OnInit {
     ngOnInit() {
 
         this.collateralForm = this._fb.group({
-            collateralType: ['0', Validators.required],
+            collateralType: ['AGRIADDCOLTYP', Validators.required],
             propertyOwnership: [''],
             proofCollected: [''],
             nameofProof: [''],
@@ -44,12 +47,12 @@ export class AdditionalCollateralComponent implements OnInit {
                 console.log('error', error)
             });
 
-        let leadData = this.createLeadDataService.getLeadSectionData();
-        this.leadId = leadData['leadId'];
+        this.leadData = this.createLeadDataService.getLeadSectionData();
+        this.leadId = this.leadData['leadId'];
+        this.applicantDetails = this.leadData.applicantDetails;
 
         let roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
         this.userId = roleAndUserDetails.userDetails.userId;
-
 
         this.initForm();
         this.getLov();
@@ -63,49 +66,24 @@ export class AdditionalCollateralComponent implements OnInit {
     getLov() {
         this.commonLovService.getLovData().subscribe((value: any) => {
             this.LOV = value.LOVS;
-            this.LOV.collateralType = [
-                {
-                    key: '0',
-                    value: 'Agriculture'
-                },
-                {
-                    key: '1',
-                    value: 'FD'
-                }, {
-                    key: '2',
-                    value: 'Gold Loan'
-                },
-                {
-                    key: '3',
-                    value: 'Property'
-                },
-            ]
-            this.LOV.YesORNoValue = [
-                {
-                    key: "1",
-                    value: "Yes"
-                },
-                {
-                    key: "0",
-                    value: "NO"
-                }
-            ]
-            this.LOV.propertyType = [
-                {
-                    key: "1",
-                    value: "Residence"
-                },
-                {
-                    key: "0",
-                    value: "Commercial"
-                }
-            ]
+            console.log('lls', this.LOV)
+            let propertOwner = [];
+            this.applicantDetails.map((res) => {
+                propertOwner.push({
+                    key: res.applicantId,
+                    value: res.fullName
+                })
+            })
+            this.LOV.propertOwner = propertOwner;
+            this.relationLov = this.LOV.relationship;
         })
     }
 
     initForm() {
-        this.collateralType === '0' ? this.addAgricultureFormControl() : this.collateralType === '1' ?
-            this.addFDFormControl() : this.collateralType === '2' ? this.addGoldLoanFormControl() : this.addPropertyFormControl();
+        const formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
+        formArray.clear();
+        this.collateralType === 'AGRIADDCOLTYP' ? this.addAgricultureFormControl() : this.collateralType === 'FDADDCOLTYP' ?
+            this.addFDFormControl() : this.collateralType === 'GOLDADDCOLTYP' ? this.addGoldLoanFormControl() : this.addPropertyFormControl();
     }
 
     addAgricultureFormControl() {
@@ -130,7 +108,7 @@ export class AdditionalCollateralComponent implements OnInit {
         formArray.push(this._fb.group({
             fdAccountNo: ['', Validators.required],
             propertyOwner: ['', Validators.required],
-            fdValue: ['', Validators.required],
+            totalMarketValue: ['', Validators.required],
             relationWithApplicant: ['', Validators.required]
         }))
     }
@@ -141,7 +119,7 @@ export class AdditionalCollateralComponent implements OnInit {
         formArray.push(this._fb.group({
             goldInGrams: ['', Validators.required],
             currentValuePerGram: ['', Validators.required],
-            goldTotalValue: ['', Validators.required],
+            totalMarketValue: ['', Validators.required],
             purity: ['', Validators.required],
             propertyOwner: ['', Validators.required],
             relationWithApplicant: ['', Validators.required]
@@ -155,6 +133,7 @@ export class AdditionalCollateralComponent implements OnInit {
             propertyType: ['', Validators.required],
             propertyAddress: ['', Validators.required],
             propertyOwner: ['', Validators.required],
+            relationWithApplicant: ['', Validators.required],
             totalLandArea: ['', Validators.required],
             totalBuiltUpArea: ['', Validators.required],
             marketValue: ['', Validators.required],
@@ -164,12 +143,32 @@ export class AdditionalCollateralComponent implements OnInit {
         }))
     }
 
+    onFindRelationship(value) {
+        let typeOfApplicant = this.applicantDetails.find((res => res.applicantId === Number(value)))
+
+        let lovOfSelf = [{
+            key: "5RELATION",
+            value: "Self"
+        }]
+
+        let lovOfRelationship = this.relationLov.filter((data) => data.key !== "5RELATION")
+        this.LOV.relationship = typeOfApplicant['applicantType'] === "Applicant" ? lovOfSelf : lovOfRelationship;
+    }
+
     onFormSubmit(form) {
         if (form.valid) {
 
+            console.log('error', form)
+
+            const data = {
+                "userId": this.userId,
+                "leadId": this.leadId,
+                "additionalCollaterals": {
+                }
+            }
+
         } else {
             this.isDirty = true;
-            console.log('error', form)
             this.utilityService.validateAllFormFields(form)
         }
     }

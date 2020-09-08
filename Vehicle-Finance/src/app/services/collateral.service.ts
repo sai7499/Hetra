@@ -14,27 +14,7 @@ export class CollateralService {
 
   // methods for getting additional collaterals data from api
 
-  // 1.method for getting all additional collaterals list
-
-  getAllAdditionalCollateralsList(leadId) {
-
-    const processId = this.apiService.api.getAdditionalCollateralsList.processId;
-    const workflowId = this.apiService.api.getAdditionalCollateralsList.workflowId;
-    const projectId = environment.projectIds.salesProjectId;
-
-    const body: RequestEntity = {
-      processId: processId,
-      ProcessVariables: {
-        "leadId": leadId
-      },
-      workflowId: workflowId,
-      projectId: projectId
-    }
-    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
-    return this.httpService.post(url, body);
-  }
-
-  // 2.method for getting additional collaterals details
+  // 1.method for getting additional collaterals details
 
   getAdditionalCollateralsDetails(collateralId) {
 
@@ -54,7 +34,7 @@ export class CollateralService {
     return this.httpService.post(url, body);
   }
 
-  // 3.method for Save/Update Additional Collaterals
+  // 2.method for Save/Update Additional Collaterals
 
   saveOrUpdateAdditionalCollaterals(data) {
 

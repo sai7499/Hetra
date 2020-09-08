@@ -8,6 +8,8 @@ import { CreateLeadDataService } from '../../lead-creation/service/createLead-da
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 import { ToasterService } from '@services/toaster.service';
 import { Location } from '@angular/common';
+import { CollateralService } from '@services/collateral.service';
+import { CollateralDataStoreService } from '@services/collateral-data-store.service';
 
 @Component({
   selector: 'app-shared-vehicle-details',
@@ -30,26 +32,13 @@ export class SharedVehicleDetailsComponent implements OnInit {
   findInedx: any;
   selectCollateralId: any;
 
-  collateralArray: any =[
-    {
-      colleteralType: 'Colleteral Type-1',
-      column2: '',
-      column3: '',
-      collateralId: 1
-    },
-    {
-      colleteralType: 'Colleteral Type-2',
-      column2: '',
-      column3: '',
-      collateralId: 2
-    }
-  ]
+  collateralArray: any = [];
 
   constructor(
     private loginStoreService: LoginStoreService,
-    private labelsData: LabelsService,
+    private labelsData: LabelsService, private collateralService: CollateralService,
     private vehicleDetailsService: VehicleDetailService,
-    private router: Router,
+    private router: Router, private collateralDataStoreService: CollateralDataStoreService,
     public vehicleDataStoreService: VehicleDataStoreService,
     public createLeadDataService: CreateLeadDataService,
     private toasterService: ToasterService,
@@ -100,7 +89,9 @@ export class SharedVehicleDetailsComponent implements OnInit {
   getVehicleDetails(id: number) {
     this.vehicleDetailsService.getAllVehicleCollateralDetails(id).subscribe((res: any) => {
       this.vehicleArray = res.ProcessVariables.vehicleDetails ? res.ProcessVariables.vehicleDetails : [];
-      this.vehicleDataStoreService.setVehicleDetails(res.ProcessVariables.vehicleDetails)
+      this.collateralArray = res.ProcessVariables.additionalCollaterals ? res.ProcessVariables.additionalCollaterals : [];
+      this.vehicleDataStoreService.setVehicleDetails(res.ProcessVariables.vehicleDetails);
+      this.collateralDataStoreService.setCollateralDetails(res.ProcessVariables.additionalCollaterals)
     }, error => {
       console.log(error, 'error');
     });
