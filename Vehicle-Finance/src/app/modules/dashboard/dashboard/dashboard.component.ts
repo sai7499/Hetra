@@ -185,9 +185,6 @@ export class DashboardComponent implements OnInit {
       }
     }
 
-    console.log('activeTab', this.activeTab, 'subActiveTab', this.subActiveTab);
-
-
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
       this.validationData = res.validationData;
@@ -199,12 +196,19 @@ export class DashboardComponent implements OnInit {
       leadStage: [''],
       fromDate: [''],
       toDate: [''],
-      loanMinAmt: [''],
-      loanMaxAmt: [''],
+      loanMinAmt: [null],
+      loanMaxAmt: [null]
     });
 
     this.dashboardFilter();
     this.loanMaxAmtChange();
+    const currentUrl = this.location.path();
+    const value = localStorage.getItem('ddePath');
+    const currentLabel = JSON.parse(value);
+    if (currentLabel && currentLabel.labelName && currentLabel.labelName === 'Back To Deviation') {
+      this.toggleDdeService.setIsDDEClicked('0');
+      this.toggleDdeService.setOperationType('1', 'Deviation', currentUrl);
+    }
   }
 
   onSort(data) {
@@ -261,7 +265,6 @@ export class DashboardComponent implements OnInit {
 
   loanMaxAmtChange() {
     this.filterForm.get('loanMaxAmt').valueChanges.pipe(debounceTime(600)).subscribe((data) => {
-      // console.log(data);
 
       const minAmt = this.filterForm.get('loanMinAmt').value;
       const minLoanAmt = Number(minAmt || 0);
@@ -368,7 +371,8 @@ export class DashboardComponent implements OnInit {
     }
   }
   // changing main tabs
-  onLeads(data, subTab) {
+  onLeads(data?, subTab?, tabName?: string) {
+
     this.sortTab = '';
     console.log(this.sortTab)
     this.activeTab = data;
@@ -381,8 +385,21 @@ export class DashboardComponent implements OnInit {
       this.sortByStage = false;
       // this.getSalesFilterLeads(this.itemsPerPage);
       this.onTabsLoading(this.subActiveTab);
-  }
-    // console.log('activeTab', this.activeTab, 'subActiveTab', this.subActiveTab);
+    }
+
+    const currentUrl = this.location.path();
+    if (tabName === 'deviation') {
+      this.toggleDdeService.setIsDDEClicked('0');
+      this.toggleDdeService.setOperationType('1', 'Deviation', currentUrl);
+    } else if (tabName === 'creditDecision') {
+      this.toggleDdeService.setIsDDEClicked('0');
+      this.toggleDdeService.setOperationType('2', 'Credit Decision', currentUrl);
+    } else if (tabName === 'dde') {
+      this.toggleDdeService.setOperationType('0');
+    }
+
+    this.activeTab = data;
+    this.subActiveTab = subTab;
 
     if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
       this.onReleaseTab = false;
@@ -425,7 +442,6 @@ export class DashboardComponent implements OnInit {
     this.sortTab = '';
     console.log(this.sortTab)
     this.subActiveTab = data;
-    // console.log('activeTab', this.activeTab, 'subActiveTab', this.subActiveTab);
     if (this.subActiveTab === this.displayTabs.NewLeads) {
       this.onReleaseTab = false;
       this.onAssignTab = false;
@@ -442,7 +458,7 @@ export class DashboardComponent implements OnInit {
       this.sortByStage = false;
       // this.getSalesFilterLeads(this.itemsPerPage);
       this.onTabsLoading(this.subActiveTab);
-  }
+    }
   }
 
   dateToFormate(date) {
@@ -1457,10 +1473,10 @@ export class DashboardComponent implements OnInit {
         this.router.navigateByUrl(`/pages/credit-decisions/${this.leadId}/new-term-sheet`);
         break;
       case 31: case 32:
-        this.router.navigateByUrl(`/pages/cpc-maker/${this.leadId}/term-sheet`);
+        this.router.navigateByUrl(`/pages/cpc-maker/${this.leadId}/check-list`);
         break;
       case 34: case 35:
-        this.router.navigateByUrl(`/pages/cpc-checker/${this.leadId}/term-sheet`);
+        this.router.navigateByUrl(`/pages/cpc-checker/${this.leadId}/check-list`);
         break;
 
       default:
@@ -1549,7 +1565,6 @@ export class DashboardComponent implements OnInit {
   }
   getLeadId(item) {
     localStorage.setItem('salesResponse', item.is_sales_response_completed);
-    console.log('isficumPd', item.isFiCumPD);
     localStorage.setItem('isFiCumPd', item.isFiCumPD);
     this.vehicleDataStoreService.setCreditTaskId(item.taskId);
     this.sharedService.getTaskID(item.taskId);

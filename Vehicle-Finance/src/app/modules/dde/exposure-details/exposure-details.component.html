@@ -131,9 +131,9 @@
                   <i type="button" class="fa fa-trash" aria-hidden="true" id="remove_item_applicant" 
                     *ngIf= " exposureLiveLoan.get('loanTable')['controls'].length >1"
                     style="color: red;" (click)="showModel(i)" title="Delete exposure"></i>&nbsp;                   
-                    <i type="button" class="fa fa-plus"
+                    <button type="button" class="fa fa-plus" [disabled]="disableSaveBtn" style="margin-top: 6px;"
                         *ngIf="exposureLiveLoan.get('loanTable')['controls'].length == i+1" title="Add exposure"
-                       aria-hidden="true" id="remove_item_applicant" (click)="addUnit()"></i></td>
+                       aria-hidden="true" id="remove_item_applicant" (click)="addUnit()"></button></td>
               </tr>
              
             </tbody>

@@ -59,10 +59,10 @@ export class TeleVerificationFormComponent implements OnInit {
 
   public dateValue: Date = new Date(2, 10, 2000);
   public toDayDate: Date = new Date();
-  public time: any =  new Date(new Date().getTime()).toLocaleTimeString();
+  public time: any = new Date(new Date().getTime()).toLocaleTimeString();
 
 
-  @ViewChild('closeModal', {static: false}) public closeModal: ElementRef;
+  @ViewChild('closeModal', { static: false }) public closeModal: ElementRef;
 
   regexPattern = {
     amount: {
@@ -123,7 +123,7 @@ export class TeleVerificationFormComponent implements OnInit {
 
   // InitForm for TVR
   initForm() {
-    this.referenceData =  this.referenceData || [];
+    this.referenceData = this.referenceData || [];
     this.teleVerificationForm = this.fb.group({
       leadId: [{ value: this.leadId, disabled: true }],
       applicantName: [{ value: this.applicantName, disabled: true }],
@@ -213,7 +213,7 @@ export class TeleVerificationFormComponent implements OnInit {
 
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.userName = value.userName;
-     });
+    });
 
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
@@ -369,10 +369,10 @@ export class TeleVerificationFormComponent implements OnInit {
       }
 
       const operationType = this.toggleDdeService.getOperationType();
-       if (operationType === '1') {
-           this.teleVerificationForm.disable();
-           this.disableSaveBtn  = true;
-         }
+      if (operationType === '1') {
+        this.teleVerificationForm.disable();
+        this.disableSaveBtn = true;
+      }
 
     });
   }

@@ -141,6 +141,7 @@ export class SourcingDetailsComponent implements OnInit {
     userId: number;
     leadId: number;
   };
+  operationType: string;
 
   constructor(
     private leadSectionService: VehicleDetailService,
@@ -178,13 +179,13 @@ export class SourcingDetailsComponent implements OnInit {
 
     this.tenureMonthlyValidation = this.loanTenureMonth();
 
-    const operationType = this.toggleDdeService.getOperationType();
+    this.operationType = this.toggleDdeService.getOperationType();
 
-    if (operationType === '1') {
-      this.sourcingDetailsForm.disable();
-      this.isSourchingCode = true;
-      this.isDisabledDealerCode = true;
-    }
+    // if (operationType === '1') {
+    //   this.sourcingDetailsForm.disable();
+    //   this.isSourchingCode = true;
+    //   this.isDisabledDealerCode = true;
+    // }
   }
 
   getLabels() {
@@ -352,7 +353,7 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   productCategory(event, isBool) {
-    if(!isBool){
+    if (!isBool) {
       this.sourcingDetailsForm.patchValue({ reqLoanAmt: this.reqLoanAmount });
     } else {
       this.sourcingDetailsForm.patchValue({ reqLoanAmt: 0 });
@@ -482,6 +483,7 @@ export class SourcingDetailsComponent implements OnInit {
     } else {
       this.isSourchingCode = false;
     }
+    this.onFormDisable();
   }
 
   onSourcingCodeSearch(event) {
@@ -586,19 +588,27 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   loanTenureAmount(productCategoryChanged?) {
-      const loanAmount = [
-        {
-          rule: amount => {
-            if (productCategoryChanged === 'UC') {
+    const loanAmount = [
+      {
+        rule: amount => {
+          if (productCategoryChanged === 'UC') {
             return amount <= 100000;
-            } else {
-              return null;
-            }
-          },
-          msg: 'Minimum loan amount should be 100000'
-        }
-      ];
-      return loanAmount;
+          } else {
+            return null;
+          }
+        },
+        msg: 'Minimum loan amount should be 100000'
+      }
+    ];
+    return loanAmount;
+  }
+
+  onFormDisable() {
+    if (this.operationType === '1') {
+      this.sourcingDetailsForm.disable();
+      this.isSourchingCode = true;
+      this.isDisabledDealerCode = true;
+    }
   }
 
   saveAndUpdate() {
@@ -635,6 +645,30 @@ export class SourcingDetailsComponent implements OnInit {
         reqTenure: Number(saveAndUpdate.requestedTenor),
       };
       console.log('this.saveUpdate', this.saveUpdate);
+      this.leadDetail.saveAndUpdateLead(this.saveUpdate).subscribe((res: any) => {
+        const response = res;
+        console.log('saveUpdate Response', response);
+        const appiyoError = response.Error;
+        const apiError = response.ProcessVariables.error.code;
+
+        if (appiyoError === '0' && apiError === '0') {
+          this.toasterService.showSuccess('Record Saved Successfully !', 'Lead Details');
+          this.sharedService.changeLoanAmount(Number(saveAndUpdate.reqLoanAmt));
+          this.sharedService.leadDataToHeader(this.productCategoryChanged);
+          const dataa = {
+            ...this.saveUpdate,
+            sourcingCodeDesc: this.sourcingCodeValue,
+            dealorCodeDesc: this.dealorCodeValue
+          };
+          const data = {
+            leadDetails: dataa
+          };
+          this.createLeadDataService.setLeadDetailsData(data);
+          this.isSaved = true;
+        } else {
+          this.toasterService.showError(response.ProcessVariables.error.message, 'Lead Details');
+        }
+      });
       this.leadDetail
         .saveAndUpdateLead(this.saveUpdate)
         .subscribe((res: any) => {
@@ -683,28 +717,37 @@ export class SourcingDetailsComponent implements OnInit {
 
   nextToApplicant() {
     this.isDirty = true;
+    console.log('testform', this.sourcingDetailsForm);
+    if(this.operationType === '1'){
+     this.onNavigate(); 
+     return
+    }
     if (this.sourcingDetailsForm.valid === true) {
-      if (!this.isSaved) {
-        this.saveAndUpdate();
+      if (!this.isSaved) {       
+          this.saveAndUpdate();
       }
-      const currentUrl = this.location.path();
-      if (currentUrl.includes('sales')) {
-        this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
-        return;
-      }
-      if (currentUrl.includes('dde')) {
-        this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
-        return;
-      }
-      this.router.navigateByUrl(
-        `/pages/lead-section/${this.leadId}/applicant-details`
-      );
+      this.onNavigate(); 
     } else {
       this.toasterService.showError(
         'Please fill all mandatory fields.',
         'Lead Details'
       );
     }
+  }
+
+  onNavigate(){
+    const currentUrl = this.location.path();
+    if (currentUrl.includes('sales')) {
+      this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
+      return;
+    }
+    if (currentUrl.includes('dde')) {
+      this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
+      return;
+    }
+    this.router.navigateByUrl(
+      `/pages/lead-section/${this.leadId}/applicant-details`
+    );
   }
 
   getLeadId() {
