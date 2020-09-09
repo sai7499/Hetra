@@ -64,41 +64,41 @@ export class CreditDecisionComponent implements OnInit {
         //     console.log('applicant ID', value.applicantId);
         //     console.log('version in fi and pd report', this.version);
         // });
-        if(this.roleType == '2' && this.salesResponse == 'false') {
+        if (this.roleType == '2' && this.salesResponse == 'false') {
             this.router.navigate([`/pages/credit-decisions/${this.leadId}/cam`]);
-        } else if(this.roleType == '2' && this.salesResponse == 'true') {
+        } else if (this.roleType == '2' && this.salesResponse == 'true') {
             this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
         }
     }
     onNavigate(url: string) {
-            this.router.navigate([`/pages/credit-decisions/${this.leadId}/${url}`]);
-        }
+        this.router.navigate([`/pages/credit-decisions/${this.leadId}/${url}`]);
+    }
     getLocationIndex(url: string) {
         // tslint:disable-next-line: triple-equals
-        if (this.roleType == '1' ) {
+        if (this.roleType == '1') {
             if (url.includes('credit-condition')) {
                 return 0;
-            // tslint:disable-next-line: triple-equals
+                // tslint:disable-next-line: triple-equals
             } else if (url.includes('term-sheet') && this.roleType == '1') {
                 return 1;
-            // tslint:disable-next-line: triple-equals
+                // tslint:disable-next-line: triple-equals
             } else if (url.includes('negotiation') && this.roleType == '1') {
                 return 2;
-            // tslint:disable-next-line: triple-equals
-            }  else if (url.includes('disbursement') && this.roleType == '1') {
+                // tslint:disable-next-line: triple-equals
+            } else if (url.includes('disbursement') && this.roleType == '1') {
                 return 3;
             } else if (url.includes('sanction-details')) {
                 return 4;
             } else if (url.includes('customer-feedback')) {
                 return 5;
             }
-        // tslint:disable-next-line: triple-equals
-        // } else if(this.roleType == '1' && this.istermSheet == 'true') {
-        //     if (url.includes('term-sheet') ) {
-        //         return 0;
-        //     }  else if (url.includes('sanction-details')) {
-        //         return 1;
-        //     }
+            // tslint:disable-next-line: triple-equals
+            // } else if(this.roleType == '1' && this.istermSheet == 'true') {
+            //     if (url.includes('term-sheet') ) {
+            //         return 0;
+            //     }  else if (url.includes('sanction-details')) {
+            //         return 1;
+            //     }
 
         } else if (this.roleType == '2' && this.salesResponse == 'false') {
             if (url.includes('cam')) {
@@ -107,13 +107,13 @@ export class CreditDecisionComponent implements OnInit {
                 return 1;
             } else if (url.includes('credit-condition')) {
                 return 2;
-            }  else if (url.includes('term-sheet') ) {
+            } else if (url.includes('term-sheet')) {
                 return 3;
-            }  else if (url.includes('sanction-details')) {
+            } else if (url.includes('sanction-details')) {
                 return 4;
             }
-        // tslint:disable-next-line: triple-equals
-        } else if (this.roleType == '2'  && this.salesResponse == 'true') {
+            // tslint:disable-next-line: triple-equals
+        } else if (this.roleType == '2' && this.salesResponse == 'true') {
             if (url.includes('negotiation')) {
                 return 0;
             } else if (url.includes('disbursement')) {
@@ -124,11 +124,11 @@ export class CreditDecisionComponent implements OnInit {
                 return 3;
             } else if (url.includes('credit-condition')) {
                 return 4;
-            }  else if (url.includes('term-sheet')) {
+            } else if (url.includes('term-sheet')) {
                 return 5;
-            }   else if (url.includes('sanction-details')) {
+            } else if (url.includes('sanction-details')) {
                 return 6;
-            // tslint:disable-next-line: triple-equals
+                // tslint:disable-next-line: triple-equals
             } else if (url.includes('check-list') && this.isPreDone == 'true') {
                 return 7;
             }
