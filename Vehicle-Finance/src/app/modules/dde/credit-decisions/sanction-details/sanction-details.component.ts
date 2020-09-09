@@ -11,6 +11,9 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import html2canvas from 'html2canvas';
 import html2pdf from 'html2pdf.js';
+import { DocRequest } from '@model/upload-model';
+import { UploadService } from '@services/upload.service';
+import { map } from 'rxjs/operators';
 declare var $;
 @Component({
   selector: 'app-sanction-details',
@@ -34,7 +37,7 @@ roleId: any;
 roleType: any;
 isSanctionDetails: boolean;
 salesResponse: any;
-
+docsDetails: DocRequest
   constructor(
         private labelsData: LabelsService,
         private router: Router,
@@ -43,6 +46,7 @@ salesResponse: any;
         private utilityService: UtilityService,
         private loginStoreService: LoginStoreService,
         private toasterService: ToasterService,
+        private uploadService: UploadService
        ) { }
 
   ngOnInit() {
@@ -204,8 +208,81 @@ downloadpdf()
             image: { type: 'jpeg', quality: 1 },
             jsPDF: { unit: 'in', format: 'a4', orientation: 'p' }
         }
-        html2pdf().from(document.getElementById("vf_sheet_print_starts")).set(options).save();
-    
-                 }
+      // html2pdf().from(document.getElementById("vf_sheet_print_starts")).set(options).save();
+      html2pdf().from(document.getElementById("vf_sheet_print_starts"))
+        .set(options).toPdf().output('datauristring').then(res =>{
+          console.log("file res:", res);
+          this.docsDetails={
+            associatedId: "1496",//String(this.applicantId)
+            associatedWith: '1',
+            bsPyld: "JVBERi0xLjMKJbrfrOAKMyAwIG9iago8PC9UeXBlIC9QYWdlCi",
+            deferredDate: "",
+            docCatg: "VF LOAN DOCS",
+            docCmnts: "Addition of document for Applicant Creation",
+            docCtgryCd: 102,
+            docNm: `SANCTION_LETTER`,
+            docRefId: [
+              {
+                idTp: 'LEDID',
+                id: this.leadId,
+              },
+              {
+                idTp: 'BRNCH',
+                id: Number(localStorage.getItem('branchId')),
+              },
+            ],
+            docSbCtgry: "VF GENERATED DOCS",
+            docSbCtgryCd: 42,
+            docSize: 1097152,
+            docTp: "Lead",
+            docTypCd: 68,
+            docsType: "png/jpg/jpeg/pdf/tiff/xlsx/xls/docx/doc/zip",
+            docsTypeForString: "",
+            documentId: 0,
+            documentNumber: `SD${this.leadId}`,
+            expiryDate: "",
+            formArrayIndex: 0,
+            isDeferred: "0",
+            issueDate: ""
+          }
+          let base64File: string = res.toString()
+          .replace(/^data:application\/[a-z]+;filename=generated.pdf;base64,/, '');  
+          this.docsDetails.bsPyld = base64File;
+          let fileName = this.docsDetails.docSbCtgry.replace(' ', '_');
+          fileName =
+          this.docsDetails.docNm +
+          new Date().getFullYear() +
+          +new Date() +
+          '.pdf';
+          this.docsDetails.docNm = fileName;
+          const addDocReq = [
+          {
+          ...this.docsDetails,
+          },
+        ]; 
+        this.uploadService
+          .constructUploadModel(addDocReq)
+          .pipe(
+            map((value: any) => {
+              if (value.addDocumentRep.msgHdr.rslt === 'OK') {
+                const body = value.addDocumentRep.msgBdy;
+                const docsRes = body.addDocResp[0];
+                const docsDetails = {
+                  ...docsRes,
+                };
+                return docsDetails;
+              }
+              throw new Error('error');
+            })
+          )
+      .subscribe(
+        (value) => {
+          console.log("Response upload")
+        })       
+
+          });
+          
+        
+      }
 
 }
