@@ -835,3 +835,20 @@ html, body { height: 100%; }
 .mat-form-field-appearance-legacy .mat-form-field-underline {
     display:  none;
 }
+
+.mob-font{
+    font-style: 12px;
+}
+
+
+@media (min-width:200px) and (max-width:767px) {
+    .mob-font{
+        font-style: 9px!important;
+    }    
+
+    .footer {
+        
+        font-size: 9px!important;
+        
+    }
+}

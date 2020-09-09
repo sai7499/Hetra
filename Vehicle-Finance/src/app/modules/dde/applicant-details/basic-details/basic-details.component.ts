@@ -19,12 +19,14 @@ import {
   DirectorDetails
 } from '@model/applicant.model';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   templateUrl: './basic-details.component.html',
   styleUrls: ['./basic-details.component.css'],
 })
 export class BasicDetailsComponent implements OnInit {
+  disableSaveBtn: boolean;
   basicForm: FormGroup;
   isIndividual = false;
   //isSelfEmployed = true;
@@ -43,6 +45,9 @@ export class BasicDetailsComponent implements OnInit {
   mobilePhone: string;
   isDirty: boolean;
   public toDayDate: Date = new Date();
+  setBirthDate: Date = new Date();
+  ageMinDate: Date = new Date();
+  businessDate : Date = new Date();
   isRequiredSpouse = 'Spouse Name is Required';
   isRequiredFather = 'Father Name is Required';
   validation: any;
@@ -53,34 +58,25 @@ export class BasicDetailsComponent implements OnInit {
   fundingProgram: string;
   isChecked: boolean;
   ownerPropertyRelation: any;
+  selfEmpBusType : any =[];
   checkedBoxHouse: boolean;
   custCatValue: string;
   occupationValue: string;
   ageOfSeniorCitizen = 65;
-  employerType = 'Please Select One';
-  employeeCode = 'Employee Code is required';
-  employerName = 'Office Name Is Required';
-  designation = 'Please Select One';
-  noOfEmpYears = 'Employeement Year is required';
-
-
-
-
-  // designation = [
-  //   {
-  //     key: 1,
-  //     value: 'Salaried',
-  //   },
-  //   {
-  //     key: 2,
-  //     value: 'Self Employed',
-  //   },
-  // ];
+  isMarried: boolean;
+  applicantData = []; 
+  showNotApplicant : boolean;
 
   emailPattern = {
     rule: '^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(\\.\\w{2,10})+$',
     msg: 'Invalid email',
   };
+
+  minorityData: {
+    key: string,
+    value: string
+  }[]
+  
 
   constructor(
     private labelsData: LabelsService,
@@ -94,6 +90,7 @@ export class BasicDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private toasterService: ToasterService,
     private createLeadDataService: CreateLeadDataService,
+    private toggleDdeService: ToggleDdeService
   ) { }
   async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -107,15 +104,20 @@ export class BasicDetailsComponent implements OnInit {
     );
     this.getLeadSectiondata();  // function call to get the required funding program and product category
 
-
+    this.setMinorityData();
     this.basicForm = new FormGroup({
       entity: new FormControl({ value: '', disabled: true }),
       bussinessEntityType: new FormControl('', Validators.required),
       applicantRelationshipWithLead: new FormControl('', Validators.required),
+      applicantRelationship: new FormControl('', Validators.required),
       title: new FormControl(''),
       details: new FormArray([]),
       directors: new FormArray([this.getDirectorsControls()]),
     });
+
+    this.setBirthDate.setFullYear(this.setBirthDate.getFullYear() - 10)
+    this.ageMinDate.setFullYear(this.ageMinDate.getFullYear() - 100)
+    this.businessDate.setDate(this.businessDate.getDate()-1)
 
     this.getLOV();
     this.getCountryList();
@@ -132,7 +134,22 @@ export class BasicDetailsComponent implements OnInit {
     });
     this.leadId = (await this.getLeadId()) as number;
     //console.log('leadId', this.leadId);
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      this.basicForm.disable();
+      this.disableSaveBtn  = true;
+    }
+  }
 
+  setMinorityData() {
+    this.minorityData = [{
+      key: '1',
+      value: 'Yes'
+    },
+    {
+      key: '0',
+      value: 'No'
+    }]
   }
 
   getLeadSectiondata() {
@@ -140,9 +157,30 @@ export class BasicDetailsComponent implements OnInit {
     console.log('data-->', leadData);
     this.productCategory = leadData['leadDetails'].productId;
     this.fundingProgram = leadData['leadDetails'].fundingProgram;
-    console.log('prod cat', this.productCategory);
-    console.log('funding prgm cat', this.fundingProgram);
+    // console.log('prod cat', this.productCategory);
+    // console.log('funding prgm cat', this.fundingProgram);
 
+    this.applicantData = leadData['applicantDetails'];
+
+  }
+
+  selectApplicantType(event) {
+    const value = event.target.value;
+    this.showNotApplicant = false;
+  
+
+    this.applicantData.forEach((data) => {
+      if (data.applicantId !== this.applicantId) {
+        if (data.applicantTypeKey == "APPAPPRELLEAD" && data.applicantTypeKey === value) {
+          this.toasterService.showError('There should be only one main applicant for this lead', '')
+          this.showNotApplicant = true;
+        }
+        //  else if (data.applicantTypeKey !== "APPAPPRELLEAD") {
+        //   this.toasterService.showInfo('Should One Applicant Is Required', '')
+        // } 
+      }
+
+    })
   }
 
   calculateIncome(value) {
@@ -329,7 +367,7 @@ export class BasicDetailsComponent implements OnInit {
     } else {
       event.target.checked = true;
     }
-    console.log();
+    
   }
 
   setGaurdianFieldMandatory() {
@@ -356,29 +394,34 @@ export class BasicDetailsComponent implements OnInit {
       applicantRelationshipWithLead:
         this.applicant.applicantDetails.applicantTypeKey || '',
       title: this.applicant.applicantDetails.title || '',
+      applicantRelationship: this.applicant.aboutIndivProspectDetails.relationWithApplicant || ''
     });
     const applicantDetails = this.applicant.applicantDetails;
-  
+
     this.custCatValue = applicantDetails.custSegment;
-    this.ageOfSeniorCitizen= this.custCatValue !== "SEMCUSTSEG"? 60 : 65;
+    this.ageOfSeniorCitizen = this.custCatValue !== "SEMCUSTSEG" ? 60 : 65;
     if (this.isIndividual) {
       this.clearFormArray();
       this.addIndividualFormControls();
       this.setValuesForIndividual();
       this.initiallayAgecal(dob);
+      this.setMaritalStatusValue(this.applicant.aboutIndivProspectDetails.maritalStatus);
+      this.onCustCategoryChanged(this.custCatValue)
     } else {
       this.addNonIndividualFormControls();
       this.setValuesForNonIndividual();
+      this.removeApplicantRelationControl();
       // setTimeout(() => {
       //   this.listerForDirectors();
       // });
 
     }
-    
+
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
 
     this.checkedBoxHouse = applicantDetails.ownHouseProofAvail == '1' ? true : false;
+    this.isChecked= applicantDetails.ownHouseProofAvail == '1' ? true : false;
 
     details.patchValue({
       name1: applicantDetails.name1,
@@ -403,6 +446,10 @@ export class BasicDetailsComponent implements OnInit {
     });
   }
 
+  removeApplicantRelationControl() {
+    this.basicForm.removeControl('applicantRelationship');
+  }
+
   setValuesForIndividual() {
     const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails
       ? this.applicant.aboutIndivProspectDetails
@@ -417,15 +464,17 @@ export class BasicDetailsComponent implements OnInit {
     } else if (mobile && mobile.length === 10) {
       this.mobilePhone = mobile;
     }
-    const applicantDetails= this.applicant.applicantDetails
-    this.occupationValue = aboutIndivProspectDetails.occupation
+    const applicantDetails = this.applicant.applicantDetails
+    //this.occupationValue = aboutIndivProspectDetails.occupation
     this.custCatValue = applicantDetails.custSegment;
-    if (this.custCatValue === "SEMCUSTSEG" || this.occupationValue === "FAROCPTION") {
-      this.removeEmployeeValidators()
+    if (this.custCatValue === "SEMCUSTSEG") {
+      // this.removeEmployeeValidators()
+      this.setSelfEmpValidators()
     }
-     else {
-      this.setEmployeeValidators()
+    else if (this.custCatValue == 'SALCUSTSEG') {
+      this.setSalriedValidators()
     }
+    
 
 
     const formArray = this.basicForm.get('details') as FormArray;
@@ -443,7 +492,8 @@ export class BasicDetailsComponent implements OnInit {
       motherMaidenName: aboutIndivProspectDetails.motherMaidenName || '',
       preferredLanguage: aboutIndivProspectDetails.preferredLanguage || 'ENGPRFLAN',
       occupation: aboutIndivProspectDetails.occupation || '',
-      nationality: aboutIndivProspectDetails.nationality || 'RSDTINDNATIONALITY',
+      // nationality: aboutIndivProspectDetails.nationality || 'RSDTINDNATIONALITY',
+      nationality: aboutIndivProspectDetails.nationality || 'INDNATIONALITY',
       age: this.showAge,
       gender: aboutIndivProspectDetails.gender || '',
       politicallyExposedPerson:
@@ -454,15 +504,29 @@ export class BasicDetailsComponent implements OnInit {
         aboutIndivProspectDetails.minorGuardianRelation || '',
       employeeCode: aboutIndivProspectDetails.employeeCode || '',
       employerType: aboutIndivProspectDetails.employerType || '',
-      // isSeniorCitizen: aboutIndivProspectDetails.isSeniorCitizen || '',
-      // minorGuardianUcic: aboutIndivProspectDetails.minorGuardianUcic || '',
       designation: aboutIndivProspectDetails.designation || '',
-
       currentEmpYears: aboutIndivProspectDetails.currentEmpYears || '',
-      department: aboutIndivProspectDetails.department || '',
       employerName: aboutIndivProspectDetails.employerName || '',
 
-      // employerType : aboutIndivProspectDetails.employerType,
+      businessType: aboutIndivProspectDetails.businessType || '',
+      businessName: aboutIndivProspectDetails.businessName || '',
+      businessStartDate:
+        this.utilityService.getDateFromString(aboutIndivProspectDetails.businessStartDate) || '',
+        currentBusinessYears: aboutIndivProspectDetails.currentBusinessYears || '',
+      turnOver: aboutIndivProspectDetails.turnOver || '',
+      noOfYrsResidence: aboutIndivProspectDetails.yearsInCurrentResidence || '',
+      recommendations: aboutIndivProspectDetails.recommendations || '',
+      religion: aboutIndivProspectDetails.religion || '',
+      community: aboutIndivProspectDetails.community || '',
+      isMinority: aboutIndivProspectDetails.isMinority || '',
+      residentStatus: aboutIndivProspectDetails.residentStatus || '',
+      maritalStatus: aboutIndivProspectDetails.maritalStatus || '',
+      weddingAnniversaryDate: this.utilityService.getDateFromString(aboutIndivProspectDetails.weddingAnniversaryDate) || '',
+      educationalQualification: aboutIndivProspectDetails.eduQualification || '',
+      noOfAdultsDependant: aboutIndivProspectDetails.noOfAdultsDependant || '',
+      noOfChildrenDependant:  aboutIndivProspectDetails.noOfChildrenDependant || '',
+      marginMoney: aboutIndivProspectDetails.marginMoney || '',
+      emiAffordability: aboutIndivProspectDetails.emiAffordability || ''
     });
     this.clearFatherOrSpouseValidation();
     this.eitherFathOrspouse();
@@ -551,7 +615,7 @@ export class BasicDetailsComponent implements OnInit {
       name3: new FormControl(null, Validators.required),
       mobilePhone: new FormControl(null, Validators.required),
       dob: new FormControl(null, Validators.required),
-      age: new FormControl(''),
+      age: new FormControl({value: '', disabled: true}),
       gender: new FormControl('', Validators.required),
       isSeniorCitizen: new FormControl(''),
       isMinor: new FormControl(''),
@@ -573,15 +637,21 @@ export class BasicDetailsComponent implements OnInit {
       alternateMobileNumber: new FormControl(''),
       preferredLanguage: new FormControl('', Validators.required),
       politicallyExposedPerson: new FormControl(null, Validators.required),
-      designation: new FormControl('', Validators.required),
-      employerName: new FormControl(null, Validators.required),
-      currentEmpYears: new FormControl(null, Validators.required),
-      employeeCode: new FormControl(null, Validators.required),
-      employerType: new FormControl('', Validators.required),
+      designation: new FormControl(''),
+      employerName: new FormControl(null),
+      currentEmpYears: new FormControl(null),
+      employeeCode: new FormControl(null),
+      employerType: new FormControl(''),
+
+      businessType: new FormControl(''),
+      businessName: new FormControl(null),
+      businessStartDate: new FormControl(null),
+      currentBusinessYears: new FormControl(null),
+      turnOver: new FormControl(''),
 
       // added new form controls  on 16-07-2020
       monthlyIncomeAmount: new FormControl(''),
-      annualIncomeAmount: new FormControl(''),
+      annualIncomeAmount: new FormControl({value: '', disabled: true}),
       ownHouseProofAvail: new FormControl(''),
       houseOwnerProperty: new FormControl(''),
       ownHouseAppRelationship: new FormControl(''),
@@ -595,6 +665,20 @@ export class BasicDetailsComponent implements OnInit {
       agriAppRelationship: new FormControl(''),
       grossReceipt: new FormControl(''),
 
+      //added new form controls on 04.12.2020
+      noOfYrsResidence: new FormControl('',Validators.required),
+      recommendations: new FormControl(''),
+      religion: new FormControl('',Validators.required),
+      community: new FormControl('',Validators.required),
+      isMinority: new FormControl('',Validators.required),
+      residentStatus: new FormControl('',Validators.required),
+      maritalStatus: new FormControl('',Validators.required),
+      weddingAnniversaryDate: new FormControl('',Validators.required),
+      educationalQualification: new FormControl(''),
+      noOfAdultsDependant: new FormControl('',Validators.required),
+      noOfChildrenDependant: new FormControl('',Validators.required),
+      marginMoney: new FormControl('',Validators.required),
+      emiAffordability: new FormControl('',Validators.required)
     });
     formArray.push(controls);
     // setTimeout(() => {
@@ -632,9 +716,9 @@ export class BasicDetailsComponent implements OnInit {
       creditRiskScore: new FormControl(null, Validators.required),
 
       // added new form controls on 16-07-2020
-      custSegment: new FormControl('', Validators.required),
+      //custSegment: new FormControl('', Validators.required),
       monthlyIncomeAmount: new FormControl(''),
-      annualIncomeAmount: new FormControl(''),
+      annualIncomeAmount: new FormControl({value: '', disabled: true}),
       ownHouseProofAvail: new FormControl(''),
       houseOwnerProperty: new FormControl(''),
       ownHouseAppRelationship: new FormControl(''),
@@ -707,8 +791,14 @@ export class BasicDetailsComponent implements OnInit {
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => {
       this.LOV = lov;
-      // console.log('lovs', this.LOV)
+      console.log('lovs', this.LOV)
       this.ownerPropertyRelation = this.LOV.LOVS.applicantRelationshipWithLead.filter(data => data.value !== 'Guarantor')
+     const businessTypevalue=  this.LOV.LOVS.businessType
+     businessTypevalue.find((data)=>{
+       if(data.key=="13BIZTYP" || data.key=="14BIZTYP" || data.key=="15BIZTYP" || data.key=="7BIZTYP"){
+          this.selfEmpBusType.push(data)
+       }
+     })
 
       this.applicant = this.applicantDataService.getApplicant(); // To get Applicant details from api
       console.log('DDE COMING APPLICANT DATAS ', this.applicant);
@@ -731,18 +821,18 @@ export class BasicDetailsComponent implements OnInit {
   //     : this.addNonIndividualFormControls();
   // }
 
-  onOccupationChange(event) {
-    this.occupationValue = event.target.value;
-    console.log('occValue', this.occupationValue)
-    if (this.occupationValue === "FAROCPTION") {
-      this.removeEmployeeValidators()
-    } else {
-      this.setEmployeeValidators()
-    }
+  // onOccupationChange(event) {
+  //   this.occupationValue = event.target.value;
+  //   console.log('occValue', this.occupationValue)
+  //   if (this.occupationValue === "FAROCPTION") {
+  //     this.removeEmployeeValidators()
+  //   } else {
+  //     this.setSalriedValidators()
+  //   }
 
-  }
-  onCustCategoryChanged(event) {
-    this.custCatValue = event.target.value;
+  // }
+  onCustCategoryChanged(value) {
+    this.custCatValue = value
     //console.log('custCatValue', this.custCatValue)
     if (this.custCatValue == 'SEMCUSTSEG') {
       this.ageOfSeniorCitizen = 65;
@@ -754,8 +844,9 @@ export class BasicDetailsComponent implements OnInit {
 
       this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
 
-      this.removeEmployeeValidators();
-    } else {
+      this.setSelfEmpValidators();
+      this.removeSalariedValidators()
+    } else if (this.custCatValue == 'SALCUSTSEG') {
       this.ageOfSeniorCitizen = 60
       this.checkingSenior = this.showAge >= this.ageOfSeniorCitizen;
       const formArray = this.basicForm.get('details') as FormArray;
@@ -763,45 +854,49 @@ export class BasicDetailsComponent implements OnInit {
       details.get('isSeniorCitizen').setValue(this.checkingSenior);
 
       this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
-      this.setEmployeeValidators();
+      this.setSalriedValidators();
+      this.removeSelfEmpValidators()
+    }else {
+      this.removeSalariedValidators();
+      this.removeSelfEmpValidators();
     }
   }
 
-  removeEmployeeValidators() {
-    this.employerType = '';
-    this.employeeCode = '';
-    this.employerName = '';
-    this.designation = '';
-    this.noOfEmpYears = '';
+  // removeEmployeeValidators() {
+  //   this.employerType = '';
+  //   this.employeeCode = '';
+  //   this.employerName = '';
+  //   this.designation = '';
+  //   this.noOfEmpYears = '';
 
-   setTimeout(() => {
-    const formArray = this.basicForm.get('details') as FormArray;
-    const details = formArray.at(0);
-    
-    const employerType=details.get('employerType');
-    const designation=details.get('designation');
-    const employerName= details.get('employerName')
-    const employeeCode = details.get('employeeCode')
-    const currentEmpYears= details.get('currentEmpYears')
+  //  setTimeout(() => {
+  //   const formArray = this.basicForm.get('details') as FormArray;
+  //   const details = formArray.at(0);
 
-    this.setControlValues(employerType);
-    this.setControlValues(designation);
-    this.setControlValues(employerName);
-    this.setControlValues(employeeCode);
-    this.setControlValues(currentEmpYears);
-   });
-     
-  }
+  //   const employerType=details.get('employerType');
+  //   const designation=details.get('designation');
+  //   const employerName= details.get('employerName')
+  //   const employeeCode = details.get('employeeCode')
+  //   const currentEmpYears= details.get('currentEmpYears')
 
-  setControlValues(controls : AbstractControl){
-     controls.clearValidators();
-     controls.updateValueAndValidity
-     const value= controls.value;
-     
-     controls.setValue(value || null)
-  }
+  //   this.setControlValues(employerType);
+  //   this.setControlValues(designation);
+  //   this.setControlValues(employerName);
+  //   this.setControlValues(employeeCode);
+  //   this.setControlValues(currentEmpYears);
+  //  });
 
-  setEmployeeValidators() {
+  // }
+
+  // setControlValues(controls : AbstractControl){
+  //    controls.clearValidators();
+  //    controls.updateValueAndValidity
+  //    const value= controls.value;
+
+  //    controls.setValue(value || null)
+  // }
+
+  setSalriedValidators() {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.get('employerType').setValidators([Validators.required]);
@@ -815,12 +910,50 @@ export class BasicDetailsComponent implements OnInit {
     details.get('employeeCode').setValidators([Validators.required]);
     details.get('employeeCode').updateValueAndValidity();
 
-    this.employerType = 'Please Select One';
-    this.employeeCode = 'Employee Code is required';
-    this.employerName = 'Office Name Is Required';
-    this.designation = 'Please Select One';
-    this.noOfEmpYears = 'Employeement Year is required';
   }
+  setSelfEmpValidators() {
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    details.get('businessType').setValidators([Validators.required]);
+    details.get('businessType').updateValueAndValidity();
+    details.get('businessName').setValidators([Validators.required]);
+    details.get('businessName').updateValueAndValidity();
+    details.get('businessStartDate').setValidators([Validators.required]);
+    details.get('businessStartDate').updateValueAndValidity();
+    details.get('currentBusinessYears').setValidators([Validators.required]);
+    details.get('currentBusinessYears').updateValueAndValidity();
+    details.get('turnOver').setValidators([Validators.required]);
+    details.get('turnOver').updateValueAndValidity();
+  }
+  removeSalariedValidators() {
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    details.get('employerType').clearValidators();
+    details.get('employerType').updateValueAndValidity();
+    details.get('designation').clearValidators();
+    details.get('designation').updateValueAndValidity();
+    details.get('employerName').clearValidators();
+    details.get('employerName').updateValueAndValidity();
+    details.get('currentEmpYears').clearValidators();
+    details.get('currentEmpYears').updateValueAndValidity();
+    details.get('employeeCode').clearValidators();
+    details.get('employeeCode').updateValueAndValidity();
+  }
+  removeSelfEmpValidators() {
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    details.get('businessType').clearValidators();
+    details.get('businessType').updateValueAndValidity();
+    details.get('businessName').clearValidators();
+    details.get('businessName').updateValueAndValidity();
+    details.get('businessStartDate').clearValidators();
+    details.get('businessStartDate').updateValueAndValidity();
+    details.get('currentBusinessYears').clearValidators();
+    details.get('currentBusinessYears').updateValueAndValidity();
+    details.get('turnOver').clearValidators();
+    details.get('turnOver').updateValueAndValidity();
+  }
+
 
 
   setValidation() {                    // set validators based upon product aanf funding program
@@ -859,9 +992,11 @@ export class BasicDetailsComponent implements OnInit {
 
   }
 
+
   async onSubmit() {
     this.setValidation();
     const value = this.basicForm.getRawValue();
+    console.log('basicForm', this.basicForm)
     if (this.basicForm.invalid) {
       this.isDirty = true;
       this.toasterService.showError(
@@ -869,6 +1004,13 @@ export class BasicDetailsComponent implements OnInit {
         'Applicant Details'
       );
 
+      return;
+
+    }
+
+    if (this.showNotApplicant) {
+
+      this.toasterService.showError('There should be only one main applicant for this lead', '');
       return;
 
     }
@@ -889,6 +1031,7 @@ export class BasicDetailsComponent implements OnInit {
       ...applicantData,
       leadId: this.leadId,
     };
+
 
     this.applicantService.saveApplicant(data).subscribe((response: any) => {
       if (response.ProcessVariables.error.code === '0') {
@@ -982,7 +1125,7 @@ export class BasicDetailsComponent implements OnInit {
       ? aboutIndivProspectDetails.emailId
       : '';
     prospectDetails.alternateEmailId = aboutIndivProspectDetails.alternateEmailId
-      ? aboutIndivProspectDetails.spouseName
+      ? aboutIndivProspectDetails.alternateEmailId
       : '';
     prospectDetails.preferredLanguage =
       aboutIndivProspectDetails.preferredLanguage;
@@ -994,13 +1137,44 @@ export class BasicDetailsComponent implements OnInit {
       ? aboutIndivProspectDetails.employeeCode
       : '';
 
-    // prospectDetails.department = 'department';
+    prospectDetails.businessType = aboutIndivProspectDetails.businessType
+      ? aboutIndivProspectDetails.businessType
+      : '';
+    prospectDetails.businessName = aboutIndivProspectDetails.businessName
+      ? aboutIndivProspectDetails.businessName
+      : '';
+    prospectDetails.businessStartDate = this.utilityService.getDateFormat(aboutIndivProspectDetails.businessStartDate);
+
+    prospectDetails.currentBusinessYears = aboutIndivProspectDetails.currentBusinessYears
+      ? aboutIndivProspectDetails.currentBusinessYears
+      : '';
+    prospectDetails.turnOver = aboutIndivProspectDetails.turnOver
+      ? aboutIndivProspectDetails.turnOver
+      : '';
+
+
+
+    //adding new fields provided for dde basic details
+
+    prospectDetails.relationWithApplicant = value.applicantRelationship || '';
+     prospectDetails.yearsInCurrentResidence = aboutIndivProspectDetails.noOfYrsResidence || '';
+     prospectDetails.recommendations = aboutIndivProspectDetails.recommendations || '';
+     prospectDetails.religion = aboutIndivProspectDetails.religion || '';
+     prospectDetails.community = aboutIndivProspectDetails.community || '';
+     prospectDetails.isMinority = aboutIndivProspectDetails.isMinority || '';
+     prospectDetails.residentStatus = aboutIndivProspectDetails.residentStatus || '';
+     prospectDetails.maritalStatus = aboutIndivProspectDetails.maritalStatus || '';
+     prospectDetails.weddingAnniversaryDate = this.utilityService.getDateFormat(aboutIndivProspectDetails.weddingAnniversaryDate) || ''
+
+     prospectDetails.eduQualification = aboutIndivProspectDetails.educationalQualification || '';
+     prospectDetails.noOfAdultsDependant = aboutIndivProspectDetails.noOfAdultsDependant || '';
+     prospectDetails.noOfChildrenDependant = aboutIndivProspectDetails.noOfChildrenDependant || '';
+     prospectDetails.marginMoney = aboutIndivProspectDetails.marginMoney || '';
+     prospectDetails.emiAffordability = aboutIndivProspectDetails.emiAffordability || '';
+
 
     this.applicantDataService.setIndividualProspectDetails(prospectDetails);
 
-    // this.applicantDataService.setIndividualProspectDetails(
-    //   ProspectProfileDetails
-    // );
 
     indivProspectProfileDetails.employerType = formValue.employerType
       ? formValue.employerType
@@ -1032,7 +1206,7 @@ export class BasicDetailsComponent implements OnInit {
 
     // added new form controls on 15-07-2020
 
-    applicantDetails.custSegment = formValue.custSegment;
+    //applicantDetails.custSegment = formValue.custSegment;
     applicantDetails.monthlyIncomeAmount = formValue.monthlyIncomeAmount;
     applicantDetails.annualIncomeAmount = formValue.annualIncomeAmount;
     applicantDetails.ownHouseProofAvail = this.isChecked == true ? '1' : '0',
@@ -1109,5 +1283,27 @@ export class BasicDetailsComponent implements OnInit {
 
   onBackToApplicant() {
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
+  }
+
+  getAnniversaryDate(event) {
+
+  }
+
+  setMaritalStatusValue(status: string) {
+
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0) as FormGroup;
+    
+    if(status !== '2MRGSTS') {
+      this.isMarried = false;
+      details.removeControl('weddingAnniversaryDate');
+    }else {
+      this.isMarried = true;
+      details.addControl('weddingAnniversaryDate',new FormControl('',Validators.required))
+    }
+
+    console.log("marital status value",status)
+
+
   }
 }

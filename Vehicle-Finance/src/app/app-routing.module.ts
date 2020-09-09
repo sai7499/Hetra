@@ -210,13 +210,20 @@ const routes: Routes = [
       //   path: ':leadId/new-term-sheet',
       //   component : TermSheetFromDashboardComponent
       // },
- 	{
+      {
         path: 'disbursement-section',
         loadChildren: () =>
           import('./modules/disbursement-section/disbursement-section.module').then(
             (m) => m.DisbursementSectionModule
           ),
-      	}
+        },
+        {
+          path: 'pre-disbursement',
+          loadChildren: () =>
+            import('./modules/dde/pre-disbursement/pre-disbursement.module').then(
+              (m) => m.PreDisbursementModule
+            ),
+        },
     ],
   },
 ];

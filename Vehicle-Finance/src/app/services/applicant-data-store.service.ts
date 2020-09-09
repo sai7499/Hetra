@@ -50,6 +50,7 @@ export class ApplicantDataStoreService {
       indivProspectProfileDetails,
       directorDetails,
       otpVerified: applicant.otpVerified,
+      ucic : applicant.ucic
     };
   }
 
@@ -124,4 +125,5 @@ export class ApplicantDataStoreService {
   getApplicantRelation(){
     return this.applicantRelation;
   }
+
 }

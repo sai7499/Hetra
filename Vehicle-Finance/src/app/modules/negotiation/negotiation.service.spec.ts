@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CreditScoreService } from './credit-score.service';
+import { NegotiationService } from './negotiation.service';
 
-describe('CreditScoreService', () => {
+describe('NegotiationService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: CreditScoreService = TestBed.get(CreditScoreService);
+    const service: NegotiationService = TestBed.get(NegotiationService);
     expect(service).toBeTruthy();
   });
 });

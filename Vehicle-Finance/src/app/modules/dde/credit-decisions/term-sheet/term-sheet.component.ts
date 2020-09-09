@@ -176,28 +176,33 @@ export class TermSheetComponent implements OnInit {
     // this.router.navigate([`/pages/credit-decisions/${this.leadId}/check-list`]);
     if (  this.roleType == '2' ) { 
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/sanction-details`]);
-    } else if (this.roleType == '1' ) {
+    }else if(this.roleType == '1' && localStorage.getItem('isPreDisbursement') == "true"){
+      this.router.navigate([`pages/pre-disbursement/${this.leadId}/sanction-details`]);
+    } 
+    else if (this.roleType == '1' ) {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
       // tslint:disable-next-line: triple-equals
       } else if (this.roleType == '4') {
-        this.router.navigate([`pages/cpc-maker/${this.leadId}/negotiation`]);
+        this.router.navigate([`pages/cpc-maker/${this.leadId}/sanction-details`]);
       // tslint:disable-next-line: triple-equals
       } else if ( this.roleType == '5') {
-      this.router.navigate([`pages/cpc-checker/${this.leadId}/negotiation`]);
+      this.router.navigate([`pages/cpc-checker/${this.leadId}/sanction-details`]);
       }
   }
 
   onBack() {
-    if( this.roleType == '1') {
-      this.router.navigate([`/pages/credit-decisions/${this.leadId}/credit-condition`]);
+    if(this.roleType == '1' && localStorage.getItem('isPreDisbursement') == "true"){
+      this.router.navigate([`pages/dashboard`]);
     } else if (this.roleType == '2' ) {
-      this.router.navigate([`/pages/credit-decisions/${this.leadId}/disbursement`]);
+      this.router.navigate([`/pages/credit-decisions/${this.leadId}/credit-condition`]);
       // tslint:disable-next-line: triple-equals
       } else if (this.roleType == '4') {
-        this.router.navigate([`pages/cpc-maker/${this.leadId}/check-list`]);
+        this.router.navigate([`pages/dashboard`]);
       // tslint:disable-next-line: triple-equals
       } else if ( this.roleType == '5') {
-      this.router.navigate([`pages/cpc-checker/${this.leadId}/check-list`]);
+      this.router.navigate([`pages/dashboard`]);
+      }else  if( this.roleType == '1') {
+        this.router.navigate([`/pages/credit-decisions/${this.leadId}/credit-condition`]);
       }
   }
   downloadpdf()

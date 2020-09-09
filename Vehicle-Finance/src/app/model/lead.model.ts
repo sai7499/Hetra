@@ -190,6 +190,12 @@ export interface VehicleList {
   finalAssetCost?: string;
 }
 
+export interface CollateralList {
+  collateralId?: number;
+  collateralType?: string;
+  ownerName?: string;
+}
+
 export interface CoApplicant {
   entity?: number;
   firstName?: string;

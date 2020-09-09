@@ -40,6 +40,7 @@ export class CreditConditionsComponent implements OnInit {
         defferedDate: null
   }
   disableControl: boolean;
+  alertMsg;
   roleType: any;
   salesResponse = 'false';
   constructor(
@@ -95,6 +96,9 @@ export class CreditConditionsComponent implements OnInit {
       this.labels = labelsData;
       console.log(this.labels.creditCondition);
     })
+  }
+  alertMessage(data){
+    this.alertMsg =  data
   }
   dateCheck(event, i) {
     // alert(event.target.value)
@@ -266,15 +270,18 @@ export class CreditConditionsComponent implements OnInit {
         })
     }else{
       if(data == 'next' && this.userType == 2 && this.salesResponse == 'true' ){
-        this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/negotiation')
+        this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
       } else if(data == 'next' && this.userType == 2 && this.salesResponse == 'false' ){
         this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
       }else if(data == 'next' && this.userType == 1  ){
         this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet');
       }
+      else if(data == 'back' && this.userType == 2 ){
+        this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/deviations')
+      }
       else if(data == 'back' ){
         this.router.navigateByUrl('/pages/dashboard')
-      }
+        }
     }
    
   }
@@ -293,19 +300,6 @@ export class CreditConditionsComponent implements OnInit {
   creditConditionActions(data){
     let processData = {};
     switch(data) {
-      // case 'approved':
-      //   {
-      //     processData["isApprove"]= true;
-      //     processData["userId"]= this.userId;
-      //     processData["leadId"]= this.leadId;
-      //     this.creditConditionService.approveCreditConditions(processData).subscribe(res=> {
-      //       console.log(res);
-      //       if(res['ProcessVariables'].error['code'] == 0){
-      //         this.toasterService.showSuccess("Record " + data + " successfully!", '')
-      //       }
-      //     })
-      //   }
-      //   break;
       case 'submited':
         {
           processData["onSubmit"]= true;
@@ -317,7 +311,7 @@ export class CreditConditionsComponent implements OnInit {
       }
       break;
       case 'refered': {
-        console.log(this.referForm);
+      //  console.log(this.referForm);
         this.submitRefer = true;
         if(this.referForm.valid){
           processData["isRefer"]= true;
@@ -335,10 +329,13 @@ export class CreditConditionsComponent implements OnInit {
     }
     processData["userId"]= this.userId;
     processData["leadId"]= this.leadId;
-      this.creditConditionService.submitApproveReferDeclineCreditConditions(processData).subscribe(res=> {
+      this.creditConditionService.submitReferDeclineCreditConditions(processData).subscribe(res=> {
       console.log(res);
       if(res['ProcessVariables'].error['code'] == 0){
         this.toasterService.showSuccess("Record " + data + " successfully!", '')
+      }else{
+        this.toasterService.showError(res['ProcessVariables'].error['message'], '')
+
       }
     })
   }
@@ -351,6 +348,8 @@ export class CreditConditionsComponent implements OnInit {
       console.log(res);
       if(res['ProcessVariables'].error['code'] == 0){
         this.toasterService.showSuccess("Record Approved successfully!", '')
+      }else{
+        this.toasterService.showError(res['ProcessVariables'].error['message'], '')
       }
     })
   }
@@ -368,7 +367,7 @@ export class CreditConditionsComponent implements OnInit {
     });
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleType = value.roleType;
-      console.log('role Type', this.roleType);
+    //  console.log('role Type', this.roleType);
     });
     this.getCreditConditions();
     this.salesResponse = localStorage.getItem('salesResponse')

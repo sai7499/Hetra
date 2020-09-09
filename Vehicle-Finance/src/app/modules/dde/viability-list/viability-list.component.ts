@@ -5,6 +5,7 @@ import { ViabilityServiceService } from '@services/viability-service.service';
 import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { Location } from '@angular/common';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   templateUrl: './viability-list.component.html',
@@ -30,7 +31,9 @@ export class ViabilityListComponent {
     private viabilityService: ViabilityServiceService,
     private toasterService: ToasterService,
     private loginStoreService: LoginStoreService,
-    private location: Location) {
+    private location: Location,
+    private toggleDdeService: ToggleDdeService
+    ) {
   }
 
   // tslint:disable-next-line: use-lifecycle-interface
@@ -66,6 +69,11 @@ export class ViabilityListComponent {
       this.showNext = false;
     }
     console.log(this.route, 'queryParams Check');
+    // const operationType = this.toggleDdeService.getOperationType();
+    // if (operationType === '1') {
+    //   this.modalDataForm.disable();
+    //   this.disableSaveBtn = true;
+    // }
   }
   getViability(data: any, make: any, model: any, applicantName: any) {
     const body = {

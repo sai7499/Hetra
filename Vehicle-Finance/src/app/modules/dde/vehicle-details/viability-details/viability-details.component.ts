@@ -91,6 +91,7 @@ export class ViabilityDetailsComponent implements OnInit {
     this.commonlovService.getLovData().subscribe((res: any) => {
       console.log(res.LOVS);
       this.viabilityObj = res.LOVS;
+      console.log(this.viabilityObj.businessType);
     });
     // this.createForm();
     this.viabilityForm = this.fb.group({
@@ -155,7 +156,7 @@ export class ViabilityDetailsComponent implements OnInit {
         busMonthlyIncome: [],
         totalExpenses: [],
         netCashFlowEmi: [],
-        emi: Number([])
+        emi: ([])
       }),
     });
     this.leadId = (await this.getLeadId()) as number;
@@ -429,7 +430,8 @@ onSave() {
         if ( res.ProcessVariables.error.code === '0') {
           this.toasterService.showSuccess('Record Saved Successfully', 'Viability');
           if (this.router.url.includes('/dde')) {
-            this.router.navigateByUrl(`/pages/dde/${this.leadId}/viability-list`);
+            // this.router.navigateByUrl(`/pages/dde/${this.leadId}/viability-list`);
+               this.getViability();
           } else {
             // this.router.navigateByUrl(`/pages/viability-list/${this.leadId}/viability-list`);
           }
@@ -450,6 +452,7 @@ onSave() {
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
         if ( res.ProcessVariables.error.code === '0') {
           this.toasterService.showSuccess('Record Saved Successfully', 'Viability');
+          this.getViability();
          } else {
        this.toasterService.showError(res.ProcessVariables.error.message, 'Viability');
       }
@@ -467,6 +470,7 @@ onSave() {
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
         if ( res.ProcessVariables.error.code === '0') {
            this.toasterService.showSuccess('Record Saved Successfully', 'Viability');
+           this.getViability();
           } else {
         this.toasterService.showError(res.ProcessVariables.error.message, 'Viability');
        }
@@ -714,10 +718,15 @@ if (this.router.url.includes('/dde')) {
  calculatePassengerD() {
   const passengerGroup = this.viabilityForm.controls.passanger as FormGroup ;
   const totalExpenses = passengerGroup.value.totalExpenses ? Number(passengerGroup.value.totalExpenses) : 0;
-  const emi = passengerGroup.value.emi ? Number(passengerGroup.value.emi) : 0;
+  const emi = passengerGroup.value.emi ? Number(passengerGroup.value.emi) : '';
   const netFlow = this.monthlyIncome - totalExpenses;
-  const emiCal = (netFlow / emi).toFixed(2);
-  this.netCashFlowEmiPassenger = Number(emiCal);
+  // tslint:disable-next-line: triple-equals
+  if (emi != '') {
+    const emiCal = (netFlow / emi).toFixed(2);
+    this.netCashFlowEmiPassenger = Number(emiCal);
+  }
+  // const emiCal = (netFlow / emi).toFixed(2);
+
   // this.calculatePassenger();
   // this.calculatePassengerB();
   // this.calculatePassengerC();
@@ -761,13 +770,16 @@ if (this.router.url.includes('/dde')) {
 }
 calculateStandOperatorC() {
   const passengerStandGroup = this.viabilityForm.controls.passangerStandOperator;
-  const emi = passengerStandGroup.value.emi ? Number(passengerStandGroup.value.emi) : 0;
+  const emi = passengerStandGroup.value.emi ? Number(passengerStandGroup.value.emi) : '';
   const ncf = passengerStandGroup.value.netCashFlow ? Number(passengerStandGroup.value.netCashFlow) : 0;
-
+  // tslint:disable-next-line: triple-equals
+  if (emi != '') {
   const calEMI: number = Number( ncf / emi);
   const emiCal = Number(calEMI.toFixed(2));
   console.log(calEMI);
   this.standOperatorEmi = (emiCal);
+ }
+
   // this.calculateStandOperator();
   // this.calculateStandOperatorB();
   // this.calculateStandOperatorC();
@@ -796,7 +808,7 @@ calculateCaptive() {
   const miscellaneousExpenses = passengerStandGroup.value.busMiscellaneousExpenses ? Number(passengerStandGroup.value.busMiscellaneousExpenses) : 0;
   const oblicationsPerMonth = passengerStandGroup.value.oblicationsPerMonth ? Number(passengerStandGroup.value.oblicationsPerMonth) : 0;
   // tslint:disable-next-line: max-line-length
-  this.captiveExpense = (businessIncomePerDay * businessEarningPerDay) + avgTyreExpenses + insuranceExpenses + miscellaneousExpenses + oblicationsPerMonth;
+  this.captiveExpense = (businessIncomePerDay * businessEarningPerDay) + avgTyreExpenses + insuranceExpenses + miscellaneousExpenses ;
   passengerStandGroup.patchValue({
     totalExpenses : this.captiveExpense
   });
@@ -811,11 +823,14 @@ calculateCaptive() {
 calculateCaptiveC() {
   this.captiveEmi = 0;
   const passengerStandGroup = this.viabilityForm.controls.captive;
-  const emi = passengerStandGroup.value.emi ? Number(passengerStandGroup.value.emi) : 0;
+  const emi = passengerStandGroup.value.emi ? Number(passengerStandGroup.value.emi) : '';
   const ncf = passengerStandGroup.value.netCashFlowEmi ? Number(passengerStandGroup.value.netCashFlowEmi) : 0;
+  // tslint:disable-next-line: triple-equals
+  if (emi != '') {
+    const calEMi = ncf / emi;
+    this.captiveEmi = Number(calEMi.toFixed(2));
+  }
 
-  const calEMi = ncf / emi;
-  this.captiveEmi = Number(calEMi.toFixed(2));
   // this.calculateCaptive();
   // this.calculateCaptiveB();
   // this.calculateCaptiveC();

@@ -1,128 +1,181 @@
 <div class="content">
-    <form class="multisteps-form__form" [formGroup]="InsuranceDetailForm">
+    <form class="multisteps-form__form" [formGroup]="InsuranceDetailForm" *ngIf="label">
 
-        <!-- <div class="multisteps-form__panel js-active" data-animation="scaleIn"> -->
         <div class="btn-sec clear-both row">
             <div class="col-sm-5">
-                <select id="select_main_button" class="dropdown_individual" (change)="select_main_button($event)">
-                    <option value="individual"> {{labelCreditShield.title}} </option>
-                    <option value="non-individual">{{labelExistingInsuranceDetails.title}}</option>
+                <select [disabled]="disableSaveBtn" id="select_main_button" class="dropdown_individual"
+                    (change)="selectInsuranceType($event.target.value)" formControlName="insuranceType">
+                    <option [value]="ins.key" *ngFor="let ins of LOV?.insuranceType"> {{ins.value}}</option>
                 </select>
             </div>
         </div>
 
-        <!-- <form [formGroup]="creditShieldForm" *ngIf="select_main_button_value === 'individual'"> -->
-        <div id="individual_section_start" formGroupName="creditShield"
-            *ngIf="select_main_button_value === 'individual'">
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="credit_shield_applicable">{{labelCreditShield.creditShieldApplicable}}</label>
-                    <input type="text" class="form-control" name="credit_shield_applicable"
-                        id="credit_shield_applicable" formControlName="creditShieldApplicable" />
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="insurance_company_name">{{labelCreditShield.insuranceCompanyName}}</label>
-                    <select class="form-control" id="insurance_company_name" name="insurance_company_name"
-                        formControlName="insuranceCompanyName">
-                        <option value="">Select</option>
-                    </select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="credit_shield_coverage_amount">{{labelCreditShield.creditShieldCoverageAmount}}</label>
-                    <input type="text" class="form-control" name="credit_shield_coverage_amount"
-                        id="credit_shield_coverage_amount" formControlName="creditShieldCoverageAmount" />
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="credit_shield_premium">{{labelCreditShield.creditShieldPremium}}</label>
-                    <input type="text" class="form-control" name="credit_shield_premium" id="credit_shield_premium"
-                        formControlName="creditShieldPremium" />
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="credit_shield_nominee">{{labelCreditShield.creditShieldNominee}}</label>
-                    <input type="text" class="form-control" name="credit_shield_nominee" id="credit_shield_nominee"
-                        formControlName="creditShieldNominee" />
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="credit_shield_nominee_age">{{labelCreditShield.creditShieldNomineeAge}}</label>
-                    <input type="text" class="form-control" name="credit_shield_nominee_age"
-                        id="credit_shield_nominee_age" formControlName="creditShieldNomineeAge" />
+        <ng-container formArrayName="InsuranceFormArray">
+
+            <div *ngFor="let obj of InsuranceDetailForm.get('InsuranceFormArray')['controls']; let i=index;let l=last"
+                [formGroupName]="0">
+
+                <br /> <br />
+
+                <div id="credit_shield_section_start" *ngIf="insuranceType == 0">
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="credit_shield_applicable">{{labelCreditShield.creditShieldApplicable}}</label>
+                            <app-custom-input formControlName="creditShieldApplicable" [type]="'text'"
+                                [id]="'credit_shield_applicable'" [className]="'form-control mandatory'"
+                                [placeholder]="'Credit Shield Applicable'">
+                            </app-custom-input>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="insurance_company_name">{{labelCreditShield.insuranceCompanyName}}</label>
+                            <app-vf-custom-select [values]="" [id]="'insurance_company_name'"
+                                formControlName="insuranceCompanyName">
+                            </app-vf-custom-select>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+
+                            <label
+                                for="credit_shield_coverage_amount">{{labelCreditShield.creditShieldCoverageAmount}}</label>
+
+                            <app-custom-input formControlName="creditShieldCoverageAmount" [type]="'text'"
+                                [id]="'credit_shield_coverage_amount'" [className]="'form-control mandatory'"
+                                [placeholder]="'Credit Shield Coverage Amount'">
+                            </app-custom-input>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="credit_shield_premium">{{labelCreditShield.creditShieldPremium}}</label>
+
+                            <app-custom-input formControlName="creditShieldPremium" [type]="'text'"
+                                [id]="'credit_shield_premium'" [className]="'form-control mandatory'"
+                                [placeholder]="'Credit Shield Premium'">
+                            </app-custom-input>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="credit_shield_nominee">{{labelCreditShield.creditShieldNominee}}</label>
+                            <app-custom-input formControlName="creditShieldNominee" [type]="'text'"
+                                [id]="'credit_shield_nominee'" [className]="'form-control mandatory'"
+                                [placeholder]="'Credit Shield Nominee'">
+                            </app-custom-input>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="credit_shield_nominee_age">{{labelCreditShield.creditShieldNomineeAge}}</label>
+
+                            <app-custom-input formControlName="creditShieldNomineeAge" [type]="'text'"
+                                [id]="'credit_shield_nominee_age'" [className]="'form-control mandatory'"
+                                [placeholder]="'Credit Shield Nominee Age'">
+                            </app-custom-input>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="credit_shield_nominee_relationship">
+                                {{labelCreditShield.creditShieldNomineeRelationship}}</label>
+                            <app-vf-custom-select [values]="" [id]="'credit_shield_nominee_relationship'"
+                                formControlName="creditShieldNomineeRelationship">
+                            </app-vf-custom-select>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="credit_shield_added">{{labelCreditShield.creditShieldaddedtoLoanAmount}}</label>
+
+                            <app-custom-input formControlName="creditShieldaddedtoLoanAmount" [type]="'text'"
+                                [id]="'credit_shield_added'" [className]="'form-control mandatory'"
+                                [placeholder]="'Credit Shield added to Loan Amount'">
+                            </app-custom-input>
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="credit_shield_nominee_relationship">
-                        {{labelCreditShield.creditShieldNomineeRelationship}}</label>
-                    <select class="form-control" id="credit_shield_nominee_relationship"
-                        name="credit_shield_nominee_relationship" formControlName="creditShieldNomineeRelationship">
-                        <option value="">Select</option>
-                    </select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="credit_shield_added">{{labelCreditShield.creditShieldaddedtoLoanAmount}}</label>
-                    <input type="text" class="form-control" name="credit_shield_added" id="credit_shield_added"
-                        formControlName="creditShieldaddedtoLoanAmount" />
+                <div id="existing_insurance_section_start" *ngIf="insuranceType == 1">
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label
+                                for="insurance_company_name">{{labelExistingInsuranceDetails.insuranceCompanyName}}</label>
+                            <app-custom-input formControlName="insuranceCompanyName" [type]="'text'"
+                                [id]="'insurance_company_name'" [className]="'form-control mandatory'"
+                                [placeholder]="'Insurance Company Name'">
+                            </app-custom-input>
+
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label
+                                for="date_current_policy">{{labelExistingInsuranceDetails?.expiryDateofCurrentpolicy}}</label>
+                            <app-custom-input formControlName="expiryDateofCurrentpolicy" [type]="'text'"
+                                [id]="'date_current_policy'" [className]="'form-control mandatory'"
+                                [placeholder]="'Expiry Date of Current Policy'">
+                            </app-custom-input>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+
+                            <label for="no_claim_bonus">{{labelExistingInsuranceDetails.noClaimBonus}}</label>
+
+                            <app-custom-input formControlName="noClaimBonus" [type]="'text'" [id]="'no_claim_bonus'"
+                                [className]="'form-control mandatory'" [placeholder]="'No Claim Bonus'">
+                            </app-custom-input>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="own_damage_discount">{{labelExistingInsuranceDetails.ownDamageDiscount}}</label>
+
+                            <app-custom-input formControlName="ownDamageDiscount" [type]="'text'"
+                                [id]="'own_damage_discount'" [className]="'form-control mandatory'"
+                                [placeholder]="'Own Damage Discount'">
+                            </app-custom-input>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="comprehensive">{{labelExistingInsuranceDetails.comprehensive}}</label>
+
+                            <app-vf-custom-select [values]="" [id]="'comprehensive'" formControlName="comprehensive">
+                            </app-vf-custom-select>
+
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="insurance_type">{{labelExistingInsuranceDetails.insuranceType}}
+                            </label>
+                            <app-vf-custom-select [values]="" [id]="'insurance_type'" formControlName="insuranceType">
+                            </app-vf-custom-select>
+                        </div>
+
+                    </div>
                 </div>
 
             </div>
-
-        </div>
-        <!-- </form> -->
-
-        <!-- <form [formGroup]="existingInsuranceDetailForm" *ngIf="select_main_button_value === 'non-individual'"> -->
-        <div id="non_individual_section_start" formGroupName="existingInsuranceDetails"
-            *ngIf="select_main_button_value === 'non-individual'">
-            <br /> <br />
-            <!-- <h4 class="title">Existing Insurance Details</h4> -->
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="insurance_company_name">{{labelExistingInsuranceDetails.insuranceCompanyName}}</label>
-                    <input type="text" class="form-control" name="insurance_company_name" id="insurance_company_name"
-                        formControlName="insuranceCompanyName" />
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label
-                        for="date_current_policy">{{labelExistingInsuranceDetails?.expiryDateofCurrentpolicy}}</label>
-                    <input type="text" class="form-control" name="date_current_policy" id="date_current_policy"
-                        formControlName="expiryDateofCurrentpolicy" />
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="no_claim_bonus">{{labelExistingInsuranceDetails.noClaimBonus}}</label>
-                    <input type="text" class="form-control" name="no_claim_bonus" id="no_claim_bonus"
-                        formControlName="noClaimBonus" />
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="own_damage_discount">{{labelExistingInsuranceDetails.ownDamageDiscount}}</label>
-                    <input type="text" class="form-control" name="own_damage_discount" id="own_damage_discount"
-                        formControlName="ownDamageDiscount" />
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="comprehensive">{{labelExistingInsuranceDetails.comprehensive}}</label>
-                    <select class="form-control" id="comprehensive" name="comprehensive "
-                        formControlName="comprehensive">
-                        <option value="">Select</option>
-                    </select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="insurance_type">{{labelExistingInsuranceDetails.insuranceType}}
-                    </label>
-                    <select class="form-control" id="insurance_type" name="insurance_type"
-                        formControlName="insuranceType">
-                        <option value="">Select</option>
-                    </select>
-                </div>
-
-            </div>
-        </div>
-        <!-- </form> -->
-
-        <!-- </div> -->
+        </ng-container>
 
     </form>
 </div>
 
 <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn text-right">
     <div class="col-sm-12">
-        <button class="btn btn-primary cus-btn-sty" type="button" [routerLink]="['../deviations']">{{label.back}}</button> 
-        <p class="btn btn-primary save cus-btn-sty"> {{label.save}} </p>
-        <!-- <button class="btn btn-primary cus-btn-sty" type="button">{{label.next}}</button>&nbsp; -->
+        <button class="btn btn-primary cus-btn-sty" type="button"
+            [routerLink]="['../deviations']">{{label.back}}</button>
+        <button class="btn btn-primary save cus-btn-sty" *ngIf="!disableSaveBtn"> {{label.save}} </button>
     </div>
 </div>

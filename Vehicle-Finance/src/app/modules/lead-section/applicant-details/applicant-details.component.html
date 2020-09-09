@@ -102,7 +102,6 @@
             <button
               class="btn btn-primary mar-right8"
               type="button"
-              [routerLink]="['/pages/lead-section/', leadId, 'co-applicant']"
               (click)="navigateAddApplicant()"
             >
               {{ labels.addApplicantTitle }}
@@ -143,12 +142,12 @@
                     <td [attr.data-label]="labels?.dobDoi">{{ item.dob ? item.dob : '-' }}</td>
                   </ng-container>
                   <ng-container *ngIf="item.entityTypeKey == 'NONINDIVENTTYP'">
-                    <td [attr.data-label]="labels?.entityTypeKey">
+                    <td [attr.data-label]="labels?.mobile">
                       {{
                         item.companyPhoneNumber ? item.companyPhoneNumber : '-'
                       }}
                     </td>
-                    <td [attr.data-label]="labels?.doi">{{ item.doi ? item.doi : '-' }}</td>
+                    <td [attr.data-label]="labels?.dobDoi">{{ item.doi ? item.doi : '-' }}</td>
                   </ng-container>
                   <td [attr.data-label]="labels?.applicantType">{{ item.applicantType ? item.applicantType : '-' }}</td>
                   <td [attr.data-label]="labels?.action">
@@ -271,7 +270,8 @@
       &nbsp; -->
       <button
         class="btn btn-primary js-btn-next"
-        [routerLink]="['../vehicle-details']"
+        
+        (click)="onNext()"
         type="button"
       >
         Next
@@ -297,7 +297,7 @@
 <br />
 
 <!-- Footer -->
-<footer class="footer">
+<footer class="footer mob-font ">
   <div class="container">
     <p>© Equitas Small Finance Bank Limited. All Rights Reserved.</p>
   </div>

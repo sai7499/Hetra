@@ -8,6 +8,9 @@ import { ApplicantList } from '@model/applicant.model';
 import { LeadStoreService } from '../../sales/services/lead.store.service';
 import { ApplicantImageService } from '@services/applicant-image.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ToasterService } from '@services/toaster.service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+
 
 @Component({
   templateUrl: './applicant-list.component.html',
@@ -26,6 +29,7 @@ export class ApplicantListComponent implements OnInit {
   showModal = false;
   backupApplicantId: any;
   cibilImage: any;
+  showNotApplicant : boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -34,8 +38,10 @@ export class ApplicantListComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private applicantImageService: ApplicantImageService,
-    private domSanitizer: DomSanitizer
-  ) {}
+    private domSanitizer: DomSanitizer,
+    private toasterService: ToasterService,
+    private createLeadDataService : CreateLeadDataService,
+  ) { }
 
   async ngOnInit() {
     const currentUrl = this.location.path();
@@ -76,6 +82,12 @@ export class ApplicantListComponent implements OnInit {
   }
 
   navigateAddapplicant() {
+
+
+    if (this.applicantList.length > 4) {
+      this.toasterService.showWarning('Maximum 5 Applicants', '')
+      return;
+    }
     this.router.navigateByUrl(`/pages/sales-applicant-details/${this.leadId}/add-applicant`);
   }
 
@@ -104,7 +116,7 @@ export class ApplicantListComponent implements OnInit {
   isShowAddaApplicant(currentUrl: string) {
     this.showAddApplicant = !currentUrl.includes('dde');
   }
-  onApplicantClick(item) {}
+  onApplicantClick(item) { }
 
   softDeleteApplicant(index: number, applicantId: number) {
     const findIndex = this.p === 1 ? index : (this.p - 1) * 5 + index;
@@ -132,36 +144,55 @@ export class ApplicantListComponent implements OnInit {
 
   getApplicantImage(applicantID: any) {
 
-   // tslint:disable-next-line: triple-equals
-   if ( this.backupApplicantId == applicantID) {
+    // tslint:disable-next-line: triple-equals
+    if (this.backupApplicantId == applicantID) {
       this.cibilImage = this.imageUrl;
       return;
-   } else {
-    const body = {
-      applicantId: applicantID
-    };
-    this.backupApplicantId = applicantID;
-    this.applicantImageService.getApplicantImageDetails(body).subscribe((res: any) => {
-      // tslint:disable-next-line: triple-equals
-      if (res.ProcessVariables.error.code == '0') {
-        console.log(res);
-        const imageUrl = res.ProcessVariables.response;
-        console.log(imageUrl);
-        this.imageUrl = imageUrl;
-        this.imageUrl = atob(this.imageUrl); // decoding base64 string to get xml file
-        this.imageUrl = this.domSanitizer.bypassSecurityTrustHtml(this.imageUrl); // sanitizing xml doc for rendering with proper css
-        this.cibilImage = this.imageUrl;
-      } else {
-        this.imageUrl = res.ProcessVariables.error.message;
-        this.cibilImage = res.ProcessVariables.error.message;
-      }
-    });
-   }
+    } else {
+      const body = {
+        applicantId: applicantID
+      };
+      this.backupApplicantId = applicantID;
+      this.applicantImageService.getApplicantImageDetails(body).subscribe((res: any) => {
+        // tslint:disable-next-line: triple-equals
+        if (res.ProcessVariables.error.code == '0') {
+          const imageUrl = res.ProcessVariables.response;
+          this.imageUrl = imageUrl;
+          this.imageUrl = atob(this.imageUrl); // decoding base64 string to get xml file
+          this.imageUrl = this.domSanitizer.bypassSecurityTrustHtml(this.imageUrl); // sanitizing xml doc for rendering with proper css
+          this.cibilImage = this.imageUrl;
+        } else {
+          this.imageUrl = res.ProcessVariables.error.message;
+          this.cibilImage = res.ProcessVariables.error.message;
+        }
+      });
+    }
 
   }
-destroyImage() {
+
+  forFindingApplicantType(){
+    const findApplicant= this.applicantList.find((data)=>data.applicantTypeKey=="APPAPPRELLEAD")
+    console.log('findApplicant',findApplicant)
+    this.showNotApplicant=findApplicant==undefined? true: false;
+   }
+
+  onNext() {
+
+    this.forFindingApplicantType()
+    if(this.showNotApplicant){
+      this.toasterService.showError('There should be one applicant for this lead','')
+      return;
+    }
+    if(this.router.url.includes('sales')){
+      this.router.navigateByUrl(`pages/sales/${this.leadId}/vehicle-list`)
+    }else{
+      this.router.navigateByUrl(`pages/dde/${this.leadId}/vehicle-list`)
+    }
+    
+  }
+  destroyImage() {
     if (this.cibilImage) {
-     this.cibilImage = null;
+      this.cibilImage = null;
     }
   }
 }

@@ -10,6 +10,7 @@ import { CustomerProfile } from '@model/dde.model';
 import { CommomLovService } from '@services/commom-lov-service';
 import { PdDataService } from '../pd-data.service';
 import { LoginStoreService } from '@services/login-store.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 // import { MessageService } from '@progress/kendo-angular-l10n';
 @Component({
@@ -61,6 +62,11 @@ export class CustomerProfileDetailsComponent implements OnInit {
   userName: any;
   roleId: any;
   roleType: any;
+  disableSaveBtn: boolean;
+  operationType: string;
+  addressStatus: any;
+  addressDisabled: boolean;
+  addressRequired: boolean;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -72,7 +78,9 @@ export class CustomerProfileDetailsComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private activatedRoute: ActivatedRoute,
     private pdDataService: PdDataService,
-    private personalDiscussion: PersonalDiscussionService) { }
+    private personalDiscussion: PersonalDiscussionService,
+    private toggleDdeService: ToggleDdeService
+  ) { }
 
   async ngOnInit() {
 
@@ -113,6 +121,11 @@ export class CustomerProfileDetailsComponent implements OnInit {
       // console.log("lov customer", this.customerProfileLov)
 
     });
+    this.operationType = this.toggleDdeService.getOperationType();
+    if (this.operationType === '1') {
+      this.customerProfileForm.disable();
+      this.disableSaveBtn = true;
+    }
 
   }
   getLeadId() {
@@ -174,6 +187,23 @@ export class CustomerProfileDetailsComponent implements OnInit {
     }
   }
 
+  addressMismatch(event: any) { // fun for conditional mandatory for mismatch in off/buss address
+    this.addressStatus = event ? event : event;
+    if (this.addressStatus === '1') {
+      this.addressDisabled = true;
+      this.addressRequired = false;
+      this.customerProfileForm.get('mismatchInAddress').disable();
+      this.customerProfileForm.get('mismatchInAddress').updateValueAndValidity();
+    } else if (this.addressStatus !== '1') {
+      this.addressDisabled = false;
+      this.addressRequired = true;
+      this.customerProfileForm.get('mismatchInAddress').enable();
+      this.customerProfileForm.get('mismatchInAddress').setValidators(Validators.required);
+
+    }
+
+  }
+
   getPdDetails() {
     console.log('pd version', this.version);
 
@@ -221,6 +251,10 @@ export class CustomerProfileDetailsComponent implements OnInit {
   }
 
   onFormSubmit(action) {
+    if (this.operationType === '1') {
+      this.onNavigateNext();
+      return;
+    }
     const formModal = this.customerProfileForm.value;
     let customerProfileModel = { ...formModal };
     this.isDirty = true;
@@ -259,18 +293,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
           this.getPdDetails();
 
         } else if (action === 'next') {
-
-          if (this.version != 'undefined') {
-
-            // tslint:disable-next-line: max-line-length
-            this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/loan-details/${this.version}`]);
-
-          } else {
-
-            this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/loan-details`]);
-
-          }
-
+          this.onNavigateNext();
         }
 
 
@@ -284,16 +307,18 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
   }
 
-  // onNavigateNext() {
-  //   if (this.version !== 'undefined') {
-  //     this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/loan-details/${this.version}`]);
+  onNavigateNext() {
+    if (this.version != 'undefined') {
 
-  //   } else {
-  //     this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/loan-details`]);
-  //     // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
+      // tslint:disable-next-line: max-line-length
+      this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/loan-details/${this.version}`]);
 
-  //   }
-  // }
+    } else {
+
+      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/loan-details`]);
+
+    }
+  }
   onNavigateBack() {
     if (this.version != 'undefined') {
       console.log('in  routing defined version condition', this.version);

@@ -7,6 +7,7 @@ import { ToasterService } from '@services/toaster.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { VehicleValuationService } from '@modules/dde/services/vehicle-valuation.service';
 import { UtilityService } from '@services/utility.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-valuation',
@@ -24,10 +25,11 @@ export class ValuationComponent implements OnInit {
   labels: any = {};
   vehicleValuationDetails: any = {};
   isInputField: boolean = false;
-  isDirty : boolean;
+  isDirty: boolean;
+  customFutureDate: boolean;
   public toDayDate: Date = new Date();
-  // public minDate = new Date('01/01/2010');
-
+  currentYear = new Date().getFullYear();
+  yearCheck = [];
   valuatorType: string;
   valuatorCode: string;
   valuatorName: string;
@@ -36,14 +38,15 @@ export class ValuationComponent implements OnInit {
   vehicleAddress: string;
   vehiclePincode: string;
   assetCostGrid: string;
+  disableSaveBtn: boolean;
 
-  valuesToYesNo: any = [{key: 1, value: 'Yes'}, {key: 0, value: 'No'}];
+  valuesToYesNo: any = [{ key: 1, value: 'Yes' }, { key: 0, value: 'No' }];
   monthsLOVS: any = [
-    {key: "January", value: "January"}, {key: "February", value: "February"}, 
-    {key: "March", value: "March"}, {key: "April", value: "April"}, {key: "May", value: "May"},
-    {key: "June", value: "June"}, {key: "July", value: "July"}, {key: "August", value: "August"},
-    {key: "September", value: "September"}, {key: "October", value: "October"}, 
-    {key: "November", value: "November"}, {key: "December", value: "December"},
+    { key: "January", value: "January" }, { key: "February", value: "February" },
+    { key: "March", value: "March" }, { key: "April", value: "April" }, { key: "May", value: "May" },
+    { key: "June", value: "June" }, { key: "July", value: "July" }, { key: "August", value: "August" },
+    { key: "September", value: "September" }, { key: "October", value: "October" },
+    { key: "November", value: "November" }, { key: "December", value: "December" },
   ];
 
   constructor(
@@ -54,7 +57,8 @@ export class ValuationComponent implements OnInit {
     private aRoute: ActivatedRoute,
     private vehicleValuationService: VehicleValuationService,
     private toasterService: ToasterService,
-    private utilityService: UtilityService) { }
+    private utilityService: UtilityService,
+    private toggleDdeService: ToggleDdeService) { }
 
   async ngOnInit() {
     this.getLabels();
@@ -67,6 +71,14 @@ export class ValuationComponent implements OnInit {
     // this.getCollateralId();
     console.log("COLLATERALID::::", this.colleteralId);
     this.getVehicleValuation();
+    this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
+    setTimeout(() => {
+      const operationType = this.toggleDdeService.getOperationType();
+      if (operationType === '1') {
+        this.vehicleValuationForm.disable();
+        this.disableSaveBtn = true;
+      }
+    });
   }
 
   getLabels() {
@@ -114,15 +126,20 @@ export class ValuationComponent implements OnInit {
   }
 
   //CHANGE_YEAR
-  // onChangeYearOfManufacturer(event: any) {
-  //   const yearOfManufacturer = event.target.value;
-  //   console.log("YEAR_OF_MANUFACTURER::", yearOfManufacturer);
-  // }
+  onGetDateValue(event: any) {
+    const yearOfManufacturer = event.target.value;
+    console.log("YEAR_OF_MANUFACTURER::", yearOfManufacturer);
+    if (yearOfManufacturer > this.toDayDate) {
+      this.customFutureDate = true;
+    } else {
+      this.customFutureDate = false;
+    }
+  }
 
   getVehicleValuation() {
     const data = this.colleteralId;
     console.log("DATA::::", data);
-    this.vehicleValuationService.getVehicleValuation(data).subscribe( (res: any) => { 
+    this.vehicleValuationService.getVehicleValuation(data).subscribe((res: any) => {
       const response = res;
       // console.log("RESPONSE_FROM_GET_VEHICLE_VALUATION_API", response);
       this.vehicleValuationDetails = response.ProcessVariables.vehicleValutionDetails;
@@ -142,14 +159,14 @@ export class ValuationComponent implements OnInit {
 
   initForm() {
     this.vehicleValuationForm = this.formBuilder.group({
-      valuatorType: [{value: '', disabled: true}],
-      valuatorCode: [{value: '', disabled: true}],
-      valuatorName: [{value: '', disabled: true}],
-      vehicleOwnerName:  [{value: '', disabled: true}],
-      vehicleOwnerMobile: [{value: '', disabled: true}],
-      vehicleAddress: [{value: '', disabled: true}],
-      pincode: [{value: '', disabled: true}],
-      gridAmt: [{value: '', disabled: true}],
+      valuatorType: [{ value: '', disabled: true }],
+      valuatorCode: [{ value: '', disabled: true }],
+      valuatorName: [{ value: '', disabled: true }],
+      vehicleOwnerName: [{ value: '', disabled: true }],
+      vehicleOwnerMobile: [{ value: '', disabled: true }],
+      vehicleAddress: [{ value: '', disabled: true }],
+      pincode: [{ value: '', disabled: true }],
+      gridAmt: [{ value: '', disabled: true }],
       valuationAmt: ["", Validators.required],
       valuationDate: ["", Validators.required],
       idv: ["", Validators.required],
@@ -248,8 +265,6 @@ export class ValuationComponent implements OnInit {
       // vehicleNumber: this.vehicleValuationDetails.vehicleNumber || '',
       // costOfVehicle: this.vehicleValuationDetails.costOfVehicle || '',
     });
-    console.log("DATE VALUE::::", this.vehicleValuationForm.value.yearOfManufacturer);
-    
   }
 
   saveUpdateVehicleValuation() {
@@ -262,14 +277,13 @@ export class ValuationComponent implements OnInit {
       ...formValues,
       valuationDate: this.utilityService.convertDateTimeTOUTC(formValues.valuationDate, 'DD/MM/YYYY'),
       idvValidityDate: this.utilityService.convertDateTimeTOUTC(formValues.idvValidityDate, 'DD/MM/YYYY'),
-      // yearOfManufacturer: this.utilityService.convertDateTimeTOUTC(formValues.yearOfManufacturer, 'DD/MM/YYYY'),
       fcExpiryDate: this.utilityService.convertDateTimeTOUTC(formValues.fcExpiryDate, 'DD/MM/YYYY'),
       dateofReg: this.utilityService.convertDateTimeTOUTC(formValues.dateofReg, 'DD/MM/YYYY'),
     };
     // console.log("VALUATION DATE****", formValues.valuationDate);
-    
-    if(this.vehicleValuationForm.valid === true) {
-      this.vehicleValuationService.saveUpdateVehicleValuation(data).subscribe( (res: any) => {
+
+    if (this.vehicleValuationForm.valid === true) {
+      this.vehicleValuationService.saveUpdateVehicleValuation(data).subscribe((res: any) => {
         const response = res;
         console.log("VEHICLE_VALUATION_RESPONSE_SAVE_OR_UPDATE_API", response);
         if (response["Error"] == 0) {
@@ -282,7 +296,7 @@ export class ValuationComponent implements OnInit {
   }
 
   onFormSubmit() {
-    this.isDirty= true
+    this.isDirty = true
     this.saveUpdateVehicleValuation();
   }
 

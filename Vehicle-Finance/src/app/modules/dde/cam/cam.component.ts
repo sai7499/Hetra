@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
 import { CamService } from '@services/cam.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import {
   FormGroup,
@@ -11,6 +11,9 @@ import {
   FormControl,
 } from "@angular/forms";
 import { ToasterService } from '@services/toaster.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
+import { LoginStoreService } from '@services/login-store.service';
+
 @Component({
   selector: 'app-cam',
   templateUrl: './cam.component.html',
@@ -37,7 +40,7 @@ export class CamComponent implements OnInit {
   acmRecommendation: any;
   ncmBhApprovalRecommendation: any;
   usedCvCam: boolean;
-  productCategoryName: string;
+  productCategoryCode: string;
   otherDeviation: any;
   camDetailsForm: any;
   submitted: boolean;
@@ -72,17 +75,39 @@ export class CamComponent implements OnInit {
   customerBackgroundSalesRecommendation: any;
   ncmBhRecommendation: any;
   vehicleDeploymentDetails: any;
-
+  recommendation: any;
+  disableSaveBtn: boolean;
+  isCamGeneratedValue;
+  isCamDetails: boolean;
+  generateCam: boolean = false;
+  roleId: any;
+  roleType: any;
+  salesResponse = 'false';
 
   constructor(private labelsData: LabelsService,
     private camService: CamService,
     private activatedRoute: ActivatedRoute,
     private createLeadDataService: CreateLeadDataService,
     private formBuilder: FormBuilder,
-    private toasterService: ToasterService
-  ) { }
+    private toasterService: ToasterService,
+    private toggleDdeService: ToggleDdeService,
+    private loginStoreService: LoginStoreService,
+    private router: Router,
+
+
+  ) { 
+    this.salesResponse = localStorage.getItem('salesResponse');
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+      this.roleId = value.roleId;
+      this.roleType = value.roleType;
+      console.log('role Type', this.roleType);
+    });
+
+  }
 
   ngOnInit() {
+
+    // console.log(this.recommend)
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
@@ -95,64 +120,194 @@ export class CamComponent implements OnInit {
     const leadData = this.createLeadDataService.getLeadSectionData();
     const leadSectionData = leadData as any;
     console.log('getting lead data...>', leadSectionData);
-    this.productCategoryName = leadSectionData.leadDetails['productCatName'];
-    console.log('getting productCategoryName...>', this.productCategoryName);
+    this.productCategoryCode = leadSectionData.leadDetails['productCatCode'];
+    console.log('getting productCategoryCode...>', this.productCategoryCode);
+    console.log(this.isCamGeneratedValue)
+    if (this.productCategoryCode == "UC") {
+      const body = {
+        "leadId": this.leadId,
+        "generateCam": this.generateCam
+      }
+      this.camService.getCamUsedCarDetails(body).subscribe((res: any) => {
+        console.log(res);
+        this.isCamGeneratedValue = res.ProcessVariables['isCamGenerated']
+        console.log(this.isCamGeneratedValue);
+        if (this.isCamGeneratedValue == false) {
+          console.log(this.isCamDetails);
 
-    // this.getCamUsedCvDetails();
-    if (this.productCategoryName == "Used Commercial Vehicle") {
-      this.usedCvCam = true;
-      this.getCamUsedCvDetails();
-    } else if (this.productCategoryName == "Used Car") {
-      this.usedCarCam = true
-      this.getCamUsedCarDetails();
-    }else if (this.productCategoryName == "New Commercial Vehicle") {
-      this.newCvCam = true
-      this.getCamNewCvDetails();
+          this.isCamDetails = true
+          console.log(this.isCamDetails);
+
+        } else if (this.isCamGeneratedValue == true) {
+          this.isCamDetails = false
+          this.usedCarCam = true
+          this.generateCam = true
+          this.getCamUsedCarDetails(this.generateCam)
+        }
+      })
+    }
+    if (this.productCategoryCode == "UCV") {
+      const body = {
+        "leadId": this.leadId,
+        "generateCam": this.generateCam
+      }
+      this.camService.getCamUsedCvDetails(body).subscribe((res: any) => {
+        console.log(res);
+        this.isCamGeneratedValue = res.ProcessVariables['isCamGenerated']
+        console.log(this.isCamGeneratedValue);
+        if (this.isCamGeneratedValue == false) {
+          console.log(this.isCamDetails);
+
+          this.isCamDetails = true
+          console.log(this.isCamDetails);
+
+        } else if (this.isCamGeneratedValue == true) {
+          this.isCamDetails = false
+          this.usedCvCam = true
+          this.generateCam = true
+          this.getCamUsedCvDetails(this.generateCam)
+        }
+      })
+    }
+    if (this.productCategoryCode == "NCV") {
+      const body = {
+        "leadId": this.leadId,
+        "generateCam": this.generateCam
+      }
+      this.camService.getCamNewCvDetails(body).subscribe((res: any) => {
+        console.log(res);
+        this.isCamGeneratedValue = res.ProcessVariables['isCamGenerated']
+        console.log(this.isCamGeneratedValue);
+        if (this.isCamGeneratedValue == false) {
+          console.log(this.isCamDetails);
+
+          this.isCamDetails = true
+          console.log(this.isCamDetails);
+
+        } else if (this.isCamGeneratedValue == true) {
+          this.isCamDetails = false
+          this.newCvCam = true
+          this.generateCam = true
+          this.getCamNewCvDetails(this.generateCam)
+        }
+      })
+    }
+    
+    if (this.productCategoryCode == "UCV") {
+
+      this.camDetailsForm = this.formBuilder.group({
+        proposedVehicleRemarks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(200),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        cibilSynopsisRemarks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(200),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        trackValidationRemarks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(200),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        fleetRemarks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(200),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        concernsAndRisks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(200),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        strengthAndMitigates: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(200),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        keyFinancialRemarks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(200),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        commentsOnBankingIfAny: new FormControl(),
+        commentsOnRtr: new FormControl(),
+      })
+    } else if (this.productCategoryCode == "NCV") {
+      this.camDetailsForm = this.formBuilder.group({
+        proposedVehicleRemarks: [],
+        cibilSynopsisRemarks: [],
+        trackValidationRemarks: [],
+        fleetRemarks: [],
+        concernsAndRisks: [],
+        strengthAndMitigates: [],
+        keyFinancialRemarks: [],
+        commentsOnBankingIfAny: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(200),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        commentsOnRtr: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(200),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+
+      })
     }
 
-    this.camDetailsForm = this.formBuilder.group({
-      proposedVehicleRemarks: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(200),
-        Validators.pattern(
-          /^[a-zA-Z0-9 ]*$/
-        ),
-      ]),
-      cibilSynopsisRemarks: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(200),
-        Validators.pattern(
-          /^[a-zA-Z0-9 ]*$/
-        ),
-      ]),
-      trackValidationRemarks: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(200),
-        Validators.pattern(
-          /^[a-zA-Z0-9 ]*$/
-        ),
-      ]),
-      fleetRemarks: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(200),
-        Validators.pattern(
-          /^[a-zA-Z0-9 ]*$/
-        ),
-      ]),
-      keyFinancialRemarks: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(200),
-        Validators.pattern(
-          /^[a-zA-Z0-9 ]*$/
-        ),
-      ]),
-
-
-    })
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      // this.camDetailsForm.disable();
+      this.disableSaveBtn = true;
+    }
+    if (this.roleType != '1' ){
+      this.camDetailsForm.disable();
+    }
   }
-  getCamUsedCvDetails() {
+  showCamDetails() {
+    if (this.productCategoryCode == "UC") {
+      this.usedCarCam = true
+      this.isCamDetails = false
+      this.generateCam = true
+      this.getCamUsedCarDetails(this.generateCam)
+    } else
+    if (this.productCategoryCode == "UCV") {
+      this.usedCvCam = true
+      this.isCamDetails = false
+      this.generateCam = true
+      this.getCamUsedCvDetails(this.generateCam)
+    } else
+    if (this.productCategoryCode == "NCV") {
+      this.newCvCam = true
+      this.isCamDetails = false
+      this.generateCam = true
+      this.getCamNewCvDetails(this.generateCam)
+    }
+  }
+  getCamUsedCvDetails(generateCam) {
     const data = {
-      leadId: this.leadId,
+      "leadId": this.leadId,
+      "generateCam": generateCam,
     };
     this.camService.getCamUsedCvDetails(data).subscribe((res: any) => {
       console.log(res)
@@ -165,6 +320,7 @@ export class CamComponent implements OnInit {
       this.bankingSummary = res.ProcessVariables['bankingSummaryObj']
       this.fleetSummary = res.ProcessVariables['fleetSummaryObj']
       this.trackValidation = res.ProcessVariables['trackValidationObj']
+      this.autoDeviation = res.ProcessVariables['autoDeviation']
       this.customerSelectionCriteria = res.ProcessVariables['customerSelectionCriteriaObj']
       this.otherDeviation = res.ProcessVariables['otherDeviationsObj']
       this.keyFinancial = res.ProcessVariables['keyFinancialObj']
@@ -172,7 +328,7 @@ export class CamComponent implements OnInit {
       this.cmRecommendation = res.ProcessVariables['cmRecommendationObj']
       this.acmRecommendation = res.ProcessVariables['acmRecommendationObj']
       this.ncmBhApprovalRecommendation = res.ProcessVariables['ncmBhApprovalRecommendationObj']
-
+      this.recommendation = res.ProcessVariables['recommendation']
       this.camDetailsForm.patchValue({
         proposedVehicleRemarks: this.camDetails.proposedToAnyOtherRemarks ? this.camDetails.proposedToAnyOtherRemarks : null,
       })
@@ -186,14 +342,23 @@ export class CamComponent implements OnInit {
         fleetRemarks: this.camDetails.fleetSummaryToAnyOtherRemarks ? this.camDetails.fleetSummaryToAnyOtherRemarks : null,
       })
       this.camDetailsForm.patchValue({
-        keyFinancialRemarks: this.camDetails.keyFinancialObjAnyOtherRemarks ? this.camDetails.keyFinancialObjAnyOtherRemarks : null,
+        keyFinancialRemarks: this.camDetails.keyFinancialAnyOtherRemarks ? this.camDetails.keyFinancialAnyOtherRemarks : null,
+      })
+      this.camDetailsForm.patchValue({
+        concernsAndRisks: this.camDetails.concernsAndRisks ? this.camDetails.concernsAndRisks : null,
+      })
+      this.camDetailsForm.patchValue({
+        strengthAndMitigates: this.camDetails.strengthAndMitigates ? this.camDetails.strengthAndMitigates : null,
       })
     })
   }
 
-  getCamUsedCarDetails() {
+  getCamUsedCarDetails(generateCam) {
+    console.log(generateCam);
+
     const data = {
-      leadId: this.leadId,
+      "leadId": this.leadId,
+      "generateCam": generateCam,
     };
     this.camService.getCamUsedCarDetails(data).subscribe((res: any) => {
       console.log("used car cam", res)
@@ -212,12 +377,20 @@ export class CamComponent implements OnInit {
       this.autoDeviation = res.ProcessVariables['autoDeviation']
       this.manualDeviation = res.ProcessVariables['manualDeviation']
       this.vehicleDetails = res.ProcessVariables['vehicleDetails']
+      this.recommendation = res.ProcessVariables['recommendation']
 
     })
+
+    // if (this.isCamGeneratedValue == false) {
+    //   this.isCamDetails = true
+    // } else if(this.isCamGeneratedValue == true){
+    //   this.isCamDetails = false
+    // }
   }
-  getCamNewCvDetails() {
+  getCamNewCvDetails(generateCam) {
     const data = {
-      leadId: this.leadId,
+      "leadId": this.leadId,
+      "generateCam": generateCam,
     };
     this.camService.getCamNewCvDetails(data).subscribe((res: any) => {
       console.log(res);
@@ -230,6 +403,7 @@ export class CamComponent implements OnInit {
       this.customerSelectionCriteria = res.ProcessVariables['customerSelectionCriteria']
       this.detailsOfCibilFiPD = res.ProcessVariables['detailsOfCibilFiPD']
       this.existingExposure = res.ProcessVariables['existingExposure']
+      this.autoDeviation = res.ProcessVariables['autoDeviations']
       this.fleetDetails = res.ProcessVariables['fleetDetails']
       this.otherDeviations = res.ProcessVariables['otherDeviations']
       this.proposedVehiclesDetails = res.ProcessVariables['proposedVehiclesDetails']
@@ -242,21 +416,38 @@ export class CamComponent implements OnInit {
       this.customerBackgroundSalesRecommendation = res.ProcessVariables['customerBackgroundSalesRecommendation']
       this.ncmBhRecommendation = res.ProcessVariables['ncmBhRecommendation']
       this.vehicleDeploymentDetails = res.ProcessVariables['vehicleDeploymentDetails']
+      this.recommendation = res.ProcessVariables['recommendation']
+      this.camDetailsForm.patchValue({
+        commentsOnBankingIfAny: this.camDetails.commentsOnBankingIfAny ? this.camDetails.commentsOnBankingIfAny : null,
+      })
+      this.camDetailsForm.patchValue({
+        commentsOnRtr: this.camDetails.commentsOnRtr ? this.camDetails.commentsOnRtr : null,
+      })
 
-     
     })
   }
   onSubmit() {
+    console.log(this.camDetailsForm);
     console.log(this.camDetailsForm);
 
     this.submitted = true;
     // stop here if form is invalid
     if (this.camDetailsForm.invalid) {
-      this.toasterService.showError(
-        "Fields Missing Or Invalid Pattern Detected",
-        "OD Details"
-      );
-      return;
+      if (this.productCategoryCode == "UCV") {
+        this.toasterService.showError(
+          "Fields Missing Or Invalid Pattern Detected",
+          "UCV Details"
+        );
+        return;
+      } else
+        if (this.productCategoryCode == "NCV") {
+          this.toasterService.showError(
+            "Fields Missing Or Invalid Pattern Detected",
+            "NCV Details"
+          );
+          return;
+        }
+
     } else {
       this.submitted = true;
 
@@ -270,7 +461,11 @@ export class CamComponent implements OnInit {
             .cibilSynopsisRemarks.value,
           trackValidationRemarks: this.camDetailsForm.controls.trackValidationRemarks.value,
           fleetRemarks: this.camDetailsForm.controls.fleetRemarks.value,
-          keyFinancialRemarks: this.camDetailsForm.controls.keyFinancialRemarks.value
+          keyFinancialRemarks: this.camDetailsForm.controls.keyFinancialRemarks.value,
+          concernsAndRisks: this.camDetailsForm.controls.concernsAndRisks.value,
+          strengthAndMitigates: this.camDetailsForm.controls.strengthAndMitigates.value,
+          commentsOnBankingIfAny: this.camDetailsForm.controls.commentsOnBankingIfAny.value,
+          commentsOnRtr: this.camDetailsForm.controls.commentsOnRtr.value
         }
       };
 
@@ -284,8 +479,14 @@ export class CamComponent implements OnInit {
             "Saved Successfully",
             "Cam Remarks"
           );
-          this.getCamUsedCvDetails();
-
+          if (this.productCategoryCode == "UCV") {
+            this.generateCam = true
+            this.getCamUsedCvDetails(this.generateCam);
+          } else
+            if (this.productCategoryCode == "NCV") {
+            this.generateCam = true
+              this.getCamNewCvDetails(this.generateCam);
+            }
         }
       });
     }
@@ -301,4 +502,23 @@ export class CamComponent implements OnInit {
       });
     });
   }
+  onBack() {
+    if (this.roleType == '1') {
+      this.router.navigate([`pages/dde/${this.leadId}/score-card`]);
+    } else if (this.roleType == '2' && this.salesResponse == 'true') {
+      this.router.navigate([`pages/credit-decisions/${this.leadId}/disbursement`]);
+    } else if (this.roleType == '2' && this.salesResponse == 'false') {
+      this.router.navigate([`pages/dashboard`]);
+    }
+  }
+  onNext(){
+    if (this.roleType == '1') {
+      this.router.navigate([`pages/dde/${this.leadId}/deviations`]);
+    } else if (this.roleType == '2' && this.salesResponse == 'true') {
+      this.router.navigate([`pages/credit-decisions/${this.leadId}/deviations`]);
+    } else if (this.roleType == '2' && this.salesResponse == 'false') {
+      this.router.navigate([`pages/credit-decisions/${this.leadId}/deviations`]);
+    }
+  }
+
 }

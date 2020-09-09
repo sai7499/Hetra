@@ -4,11 +4,21 @@ import { PersonalDiscussionService } from '@services/personal-discussion.service
 import { LabelsService } from '@services/labels.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PdDataService } from '../pd-data.service';
 import { ToasterService } from '@services/toaster.service';
 import { SharedModule } from '@modules/shared/shared.module';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { Constant } from '../../../../../assets/constants/constant';
+import { UtilityService } from '@services/utility.service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { DocRequest, DocumentDetails } from '@model/upload-model';
+import { Base64StorageService } from '@services/base64-storage.service';
+import { UploadService } from './../../../../services/upload.service';
+import { LoginService } from '@modules/login/login/login.service';
+import { ApplicantService } from '@services/applicant.service';
+import { GpsService } from './../../../../services/gps.service';
+import { environment } from 'src/environments/environment';
+
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-reference-check',
@@ -27,41 +37,33 @@ export class ReferenceCheckComponent implements OnInit {
   errorMsg: any;
   applicantId: number;
   refCheckDetails: any = {};
+  otherDetails: any = {};
   isDirty: boolean;
   isSoNameEnable: true;
   userDetails: any;
   leadId: number;
+  disableSaveBtn: boolean;
 
-  // <-- route map sample url start
-  // routeMapUrl = "https://maps.googleapis.com/maps/api/staticmap?sensor=false
-  // &size=800x400&markers=color:blue%7Clabel:S%7C12.96186,80.20078&&markers=color:red%
-  // 7Clabel:C%7C12.98714,80.17511&&center=12.9982906,80.2009504|12.9618433,80.1750283&zoom=13
-  // &path=color:blue|weight:6|enc:orbnAqfohNiBKQ?ED@zBYnDE%60@MjCGL%7B@B@FI~@k@zCa@lBEHmApBMPK
-  // ?%7BBIAd@QfBKx@Bf@@%5EQ%60Ac@tCG%60BBz@KbAi@lDw@zFgAnJgCw@k@IgBk@mDeAuCkAaCw@cBm@USu@SuAg@%7
-  // DBu@wFkBcEkAwFyAu@UcAa@%7BBmAg@SUKoAs@m@Sy@OaBKeC_@eA%5DsAy@m@e@SYyBiAs@%5BuD%7BAkCqAqAc@YO%
-  // 5BKe@R%7B@TaBTwAHk@?qC?%7B@DyCf@cARkEt@%7DA@mB@iBEsDGa@Hq@b@e@%60@s@dAmClEWZWLYHeBJgAD%7DA?s
-  // KDwFFA@ABEBEBMAGCoAz@mA%60AoB~AHH%60CfDbB%60CfApAxAzAtAjBv@%7CAdAfCx@lB%7C@%60C%60DbI%60DdH%7
-  // CAxC~AdCnErGrCxDrBjCj@~@ID%5BV%7D@v@zEbGlAxANHJLh@v@PTZD%60@ZVTLFLTd@%7C@c@XH%5CJb@&key=AIzaSy
-  // DJ9TZyUZNB2uY_267eIUQCV72YiYmArIw"
-  //  route map sample url ends -->
+  selectedDocDetails: DocRequest;
 
-  namePattern = {
-    rule: '^[A-Za-z ]{0,99}$',
-    msg: 'Invalid Name',
-  };
-  mobileNumberPattern = {
-    rule: '^[6-9][0-9]*$',
-    msg: 'Invalid Mobile Number',
-  };
-  maxlength10 = {
-    rule: 10,
-    msg: 'Max Required Length 10',
-  };
+  base64Image: any;
+  showModal: boolean;
+  isMobile: any;
 
-  addressPattern = {
-    rule: '^[A-Za-z ]{0,99}$',
-    msg: 'Invalid Address',
-  };
+  PROFILE_TYPE = Constant.PROFILE_ALLOWED_TYPES;
+  OTHER_DOCUMENTS_SIZE = Constant.OTHER_DOCUMENTS_SIZE;
+  OTHER_DOCS_TYPE = Constant.OTHER_DOCUMENTS_ALLOWED_TYPES;
+
+  SELFIE_IMAGE: string;
+
+  documentArr: DocumentDetails[] = [];
+
+  latitude: string = null;
+  longitude: string = null;
+  branchLatitude: string;
+  branchLongitude: string;
+  custProfileDetails: {};
+  showRouteMap: boolean;
   version: string;
   show = true;
   taskId: any;
@@ -69,6 +71,21 @@ export class ReferenceCheckComponent implements OnInit {
   roleType: any;
   showReinitiate: boolean;
   showSubmit = true;
+  productCat: any;
+  serviceProductCat: any;
+  sourcingChannel: any;
+  serviceSourcingChannel: any;
+  equitasBranchName: any;
+  distanceFromEquitas: any;
+  serviceEquitasBranchName: any;
+  soName: any;
+  employeeCode: any;
+  // serviceEmployeeCode: any;
+  sysDate: Date = new Date();
+  date: any;
+  sysTimeOfVerification: any = String(new Date(new Date().getTime()).toLocaleTimeString()).slice(0, 5);
+  time: any;
+
   constructor(
     private labelsData: LabelsService, // service to access labels
     private personalDiscussion: PersonalDiscussionService,
@@ -76,18 +93,43 @@ export class ReferenceCheckComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private sharedSercive: SharedService,
-    private pdDataService: PdDataService,
+    private createLeadDataService: CreateLeadDataService,
+    private uploadService: UploadService,
+    private base64StorageService: Base64StorageService,
+    private loginService: LoginService,
+    private applicantService: ApplicantService,
+    private gpsService: GpsService,
+    private utilityService: UtilityService,
     private toasterService: ToasterService, // service for accessing the toaster
+    private toggleDdeService: ToggleDdeService
 
   ) {
     this.sharedSercive.taskId$.subscribe((value) => {
       this.taskId = value;
       console.log('in ref check task id', this.taskId);
     });
+    this.isMobile = environment.isMobile;
+    // console.log('systime default', this.sysDate);
+
   }
 
   async ngOnInit() {
 
+    if (this.isMobile) {
+      this.gpsService.getLatLong().subscribe((position) => {
+        console.log("getLatLong", position);
+        this.gpsService.initLatLong().subscribe((res) => {
+          console.log("gpsService", res);
+          if (res) {
+            this.gpsService.getLatLong().subscribe((position) => {
+              console.log("getLatLong", position);
+            });
+          } else {
+            console.log("error initLatLong", res);
+          }
+        });
+      });
+    }
 
     if (this.router.url.includes('/pd-dashboard')) {
 
@@ -107,10 +149,12 @@ export class ReferenceCheckComponent implements OnInit {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     this.roles = roleAndUserDetails.roles;
+    this.userDetails = roleAndUserDetails.userDetails;
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
-    console.log('user details ==> ', this.userDetails);
+    this.userName = this.userDetails.firstName;
+    console.log('user details ==> ', roleAndUserDetails);
     console.log('user id ==>', this.userId);
     console.log('user name', this.userName);
 
@@ -126,8 +170,7 @@ export class ReferenceCheckComponent implements OnInit {
           if (this.version !== 'undefined') {
             this.showSubmit = false;
           }
-
-          this.getPdDetails();    // for getting the data for pd details on initializing the page
+          this.getLeadSectiondata();
           console.log('Applicant Id In reference Details Component', this.applicantId);
 
         });
@@ -138,7 +181,39 @@ export class ReferenceCheckComponent implements OnInit {
       });
     this.initForm();              // for initializing the form
 
-    this.setFormValue();          // for setting the values what we get when the component gets initialized
+    this.selectedDocDetails = {
+      docsType: this.PROFILE_TYPE,
+      docSize: this.OTHER_DOCUMENTS_SIZE,
+      docTp: "LEAD",
+      docSbCtgry: "ACCOUNT OPENING FORM",
+      docNm: "ACCOUNT_OPENING_FORM20206216328474448.pdf",
+      docCtgryCd: 70,
+      docCatg: "KYC - I",
+      docTypCd: 276,
+      flLoc: "",
+      docCmnts: "Addition of document for Lead Creation",
+      bsPyld: "Base64 data of the image",
+      docSbCtgryCd: 204,
+      docsTypeForString: "selfie",
+      docRefId: [
+        {
+          idTp: 'LEDID',
+          id: this.leadId,
+        },
+        {
+          idTp: 'BRNCH',
+          id: Number(localStorage.getItem('branchId')),
+        },
+      ],
+    };
+
+    setTimeout(() => {
+      const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      this.referenceCheckForm.disable();
+      this.disableSaveBtn = true;
+    }
+    });
   }
   getLeadId() { // function to access respective lead id from the routing
     // console.log("in getleadID")
@@ -153,6 +228,14 @@ export class ReferenceCheckComponent implements OnInit {
       });
     });
   }
+  // GET LEAD SECTION DATA
+  getLeadSectiondata() {
+    const leadData = this.createLeadDataService.getLeadSectionData();
+    this.serviceSourcingChannel = leadData['leadDetails'].sourcingChannelDesc;
+    this.serviceEquitasBranchName = leadData['leadDetails'].branchName;
+    this.serviceProductCat = leadData['leadDetails'].productCatName;
+    this.getPdDetails();    // for getting the data for pd details on initializing the page
+  }
   getApplicantId() { // function to access respective applicant id from the routing
 
     this.activatedRoute.params.subscribe((value) => {
@@ -164,26 +247,35 @@ export class ReferenceCheckComponent implements OnInit {
     });
   }
 
-  initForm() {  // fun that intializes the form group
+  initForm() {  // function that intializes the form group
+
     this.referenceCheckForm = new FormGroup({
       nameOfReference: new FormControl('', Validators.required),
       addressOfReference: new FormControl('', Validators.required),
       referenceMobile: new FormControl('', Validators.required),
-      // soName: new FormControl('', Validators.required),
-      // employeeCode: new FormControl('', Validators.required),
-      // date: new FormControl('', Validators.required),
-      // place: new FormControl('', Validators.required),
-      // time: new FormControl('', Validators.required),
-      // pdRemarks: new FormControl('', Validators.required),
+      overallFiReport: new FormControl('', Validators.required),
       negativeProfile: new FormControl('', Validators.required),
-      latitude: new FormControl({ value: '', disabled: true }),
-      longitude: new FormControl({ value: '', disabled: true }),
-      distanceFromBranch: new FormControl({ value: '', disabled: true }),
-      routeMap: new FormControl(''),
+      // pdRemarks: new FormControl('', Validators.required),
       pdRemarks: new FormControl('', Validators.compose
         ([Validators.maxLength(200), Validators.pattern(/^[a-zA-Z .:,]*$/), Validators.required])),
-      overallFiReport: new FormControl('', Validators.required)
-
+      product: new FormControl({ value: '', disabled: true }),
+      sourcingChannel: new FormControl({ value: '', disabled: true }),
+      routeMap: new FormControl(''),
+      equitasBranchName: new FormControl({ value: '', disabled: true }),
+      distanceFromEquitas: new FormControl({ value: '', disabled: true }),
+      // soName: new FormControl('', Validators.required),
+      soName: new FormControl({ value: '', disabled: true }),
+      // employeeCode: new FormControl('', Validators.required),
+      employeeCode: new FormControl({ value: '', disabled: true }),
+      area: new FormControl('', Validators.required),
+      // date: new FormControl('', Validators.required),
+      date: new FormControl({ value: '', disabled: true }),
+      // place: new FormControl('', Validators.required),
+      place: new FormControl({ value: '', disabled: true }),
+      // time: new FormControl('', Validators.required),
+      timeOfVerification: new FormControl({ value: '', disabled: true }),
+      // latitude: new FormControl({ value: '', disabled: true }),
+      // longitude: new FormControl({ value: '', disabled: true }),
     });
   }
 
@@ -191,27 +283,33 @@ export class ReferenceCheckComponent implements OnInit {
 
     const data = {
 
-      // applicantId: 6,
       applicantId: this.applicantId,
       pdVersion: this.version,
 
-
-      /* Uncomment this after getting applicant Id from Lead */
     };
     console.log('applicant id in get detaisl', this.applicantId);
-
 
     this.personalDiscussion.getPdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
 
         this.refCheckDetails = value.ProcessVariables.referenceCheck;
+        this.otherDetails = value.ProcessVariables.otherDetails;
         this.showReinitiate = value.ProcessVariables.showReinitiate;
-        console.log('in ref check show renitiate', this.showReinitiate);
-        console.log('calling get api ', this.refCheckDetails);
-        if (this.refCheckDetails) {
-          this.setFormValue();
-          this.pdDataService.setCustomerProfile(this.refCheckDetails);
+        // console.log('in ref check show renitiate', this.showReinitiate);
+        // console.log('calling get api ', this.refCheckDetails);
+        this.branchLongitude = value.ProcessVariables.customerProfileDetails.branchLongitude;
+        this.branchLatitude = value.ProcessVariables.customerProfileDetails.branchLatitude;
+        this.latitude = value.ProcessVariables.customerProfileDetails.latitude;
+        this.longitude = value.ProcessVariables.customerProfileDetails.longitude;
+        this.SELFIE_IMAGE = value.ProcessVariables.profilePhoto;
+
+        // if (this.refCheckDetails && this.otherDetails) {
+        //   this.setFormValue();
+        // }
+        this.setFormValue();
+        if (this.latitude) {
+          this.getRouteMap();
         }
       } else {
         console.log('error', processVariables.error.message);
@@ -222,72 +320,140 @@ export class ReferenceCheckComponent implements OnInit {
   }
   setFormValue() {
 
-    // const customerProfileModal = this.pdDataService.getCustomerProfile() || {};
-    const refCheckModal = this.refCheckDetails || {};
+    const refCheckModel = this.refCheckDetails || {};
+    const otherDetailsModel = this.otherDetails || {};
 
-    console.log('in form value', refCheckModal);
+    // if (this.refCheckDetails.soName && this.refCheckDetails.employeeCode &&
+    //   this.otherDetails.product && this.otherDetails.sourcingChannel &&
+    //   this.otherDetails.equitasBranchName && this.otherDetails.date &&
+    //   this.otherDetails.timeOfVerification) {
+    //   this.productCat = this.otherDetails.product;
+    //   this.sourcingChannel = this.otherDetails.sourcingChannel;
+    //   this.equitasBranchName = this.otherDetails.equitasBranchName;
+    //   // this.distanceFromEquitas = this.otherDetails.distanceFromEquitas;
+    //   this.soName = this.refCheckDetails.soName;
+    //   this.employeeCode = this.refCheckDetails.employeeCode;
+    //   this.date = this.otherDetails.date;
+    //   this.time = this.otherDetails.timeOfVerification;
+    // } else {
+    //   this.productCat = this.serviceProductCat;
+    //   this.sourcingChannel = this.serviceSourcingChannel;
+    //   this.equitasBranchName = this.serviceEquitasBranchName;
+    //   // this.distanceFromEquitas = this.otherDetails.distanceFromEquitas;
+    //   this.soName = this.userName;
+    //   this.employeeCode = this.userId;
+    //   this.date = this.utilityService.convertDateTimeTOUTC(this.sysDate, 'DD/MM/YYYY');
+    //   // formValue.dob = formValue.dob ? this.utilityService.convertDateTimeTOUTC(formValue.dob, 'DD/MM/YYYY') : null;
+    //   this.time = this.sysTimeOfVerification;
+    // }
+    if (this.refCheckDetails) {
+      this.soName = this.refCheckDetails.soName ? this.refCheckDetails.soName : this.userName;
+      this.employeeCode = this.refCheckDetails.employeeCode ? this.refCheckDetails.employeeCode : this.userId;
+    } else {
+      this.soName = this.userName;
+      this.employeeCode = this.userId;
+    }
+    if (this.otherDetails) {
+      this.productCat = this.otherDetails.product ? this.otherDetails.product : this.serviceProductCat;
+      this.sourcingChannel = this.otherDetails.sourcingChannel ? this.otherDetails.sourcingChannel : this.serviceSourcingChannel;
+      this.equitasBranchName = this.otherDetails.equitasBranchName ? this.otherDetails.equitasBranchName : this.serviceEquitasBranchName;
+      this.date = this.otherDetails.date ? this.otherDetails.date : this.utilityService.convertDateTimeTOUTC(this.sysDate, 'DD/MM/YYYY');
+      this.time = this.otherDetails.timeOfVerification ? this.otherDetails.timeOfVerification : this.sysTimeOfVerification;
+    } else {
+      this.productCat = this.serviceProductCat;
+      this.sourcingChannel = this.serviceSourcingChannel;
+      this.equitasBranchName = this.serviceEquitasBranchName;
+      this.date = this.utilityService.convertDateTimeTOUTC(this.sysDate, 'DD/MM/YYYY');
+      this.time = this.sysTimeOfVerification;
+    }
+
 
     this.referenceCheckForm.patchValue({
-      nameOfReference: refCheckModal.nameOfReference || '',
-      addressOfReference: refCheckModal.addressOfReference || '',
-      referenceMobile: refCheckModal.referenceMobile || '',
-      // soName: refCheckModal.soName || '',
-      // soName: this.userName,
-      // employeeCode: refCheckModal.employeeCode || '',
-      // date: refCheckModal.date || '',
-      // place: refCheckModal.place || '',
+      nameOfReference: refCheckModel.nameOfReference ? refCheckModel.nameOfReference : null,
+      addressOfReference: refCheckModel.addressOfReference ? refCheckModel.addressOfReference : null,
+      referenceMobile: refCheckModel.referenceMobile ? refCheckModel.referenceMobile : null,
+      negativeProfile: refCheckModel.negativeProfile ? refCheckModel.negativeProfile : null,
+      overallFiReport: refCheckModel.overallFiReport ? refCheckModel.overallFiReport : null,
+      pdRemarks: refCheckModel.pdRemarks ? refCheckModel.pdRemarks : null,
+      // soName: this.userName ? this.userName : null,
+      soName: this.soName ? this.soName : null,
+      employeeCode: this.employeeCode ? this.employeeCode : null,
+      // patching other details object data from backend
+      product: this.productCat ? this.productCat : null,
+      sourcingChannel: this.sourcingChannel ? this.sourcingChannel : null,
+      routeMap: otherDetailsModel.routeMap ? otherDetailsModel.routeMap : null,
+      equitasBranchName: this.equitasBranchName ? this.equitasBranchName : null,
+      distanceFromEquitas: otherDetailsModel.distanceFromEquitas ? otherDetailsModel.distanceFromEquitas : null,
+      date: this.date ? this.utilityService.getDateFromString(this.date) : null,
+      // date: this.otherDetails.date ? this.utilityService.getDateFromString(this.otherDetails.date) : '',
+      area: otherDetailsModel.area ? otherDetailsModel.area : null,
+      place: otherDetailsModel.place ? otherDetailsModel.place : null,
+      timeOfVerification: this.time
+
       // time: new Date(refCheckModal.time ? this.getDateFormat(refCheckModal.time) : ""),
-      // time: refCheckModal.time || '',
-      negativeProfile: refCheckModal.negativeProfile || '',
-      latitude: refCheckModal.latitude || '',
-      longitude: refCheckModal.longitude || '',
-      pdRemarks: refCheckModal.pdRemarks || '',
-      distanceFromBranch: refCheckModal.distanceFromBranch || '',
-      overallFiReport: refCheckModal.overallFiReport || ''
     });
     console.log('patched form', this.referenceCheckForm);
   }
 
 
   onFormSubmit() { // function that calls sumbit pd report api to save the respective pd report
-    console.log('in save api');
-    const formModal = this.referenceCheckForm.value;
+    console.log('latitude::', this.latitude);
+    console.log('longitude::', this.longitude);
+
+    this.custProfileDetails = {
+      latitude: this.latitude || '',
+      longitude: this.longitude || '',
+    };
+    const formModel = this.referenceCheckForm.value;
     this.isDirty = true;
     if (this.referenceCheckForm.invalid) {
       console.log('in invalid ref checkform', this.referenceCheckForm);
       this.toasterService.showWarning('please enter required details', '');
       return;
     }
-    const refCheckModal = { ...formModal };
-    console.log('profile form', refCheckModal);
+    // console.log('this product', this.productCat);
+    // console.log("this soucing", this.sourcingChannel);
+    const referenceCheckModel = { ...formModel };
     this.refCheckDetails = {
-      nameOfReference: refCheckModal.nameOfReference || '',
-      addressOfReference: refCheckModal.addressOfReference || '',
-      referenceMobile: refCheckModal.referenceMobile || '',
-      // soName: this.userName || '',
-      // employeeCode: refCheckModal.employeeCode || '',
-      // date: refCheckModal.date || '',
-      // place: refCheckModal.place || '',
-      // time: this.sendDate(refCheckModal.time),
-      // time: refCheckModal.time || '',
-      negativeProfile: refCheckModal.negativeProfile || '',
-      latitude: refCheckModal.latitude || '',
-      longitude: refCheckModal.longitude || '',
-      distanceFromBranch: refCheckModal.distanceFromBranch || '',
-      pdRemarks: refCheckModal.pdRemarks || '',
-      overallFiReport: refCheckModal.overallFiReport || '',
+      nameOfReference: referenceCheckModel.nameOfReference ? referenceCheckModel.nameOfReference : null,
+      addressOfReference: referenceCheckModel.addressOfReference ? referenceCheckModel.addressOfReference : null,
+      referenceMobile: referenceCheckModel.referenceMobile ? referenceCheckModel.referenceMobile : null,
+      negativeProfile: referenceCheckModel.negativeProfile ? referenceCheckModel.negativeProfile : null,
+      overallFiReport: referenceCheckModel.overallFiReport ? referenceCheckModel.overallFiReport : null,
+      pdRemarks: referenceCheckModel.pdRemarks ? referenceCheckModel.pdRemarks : null,
+      soName: this.userName ? this.userName : null,
+      employeeCode: this.userId ? this.userId : null,
+    };
+    // console.log('systime', this.sysTimeOfVerification);
+
+    this.otherDetails = {
+      product: referenceCheckModel.productCat ? referenceCheckModel.productCat : null,
+      sourcingChannel: referenceCheckModel.sourcingChannel ? referenceCheckModel.sourcingChannel : null,
+      // routeMap: referenceCheckModel.routeMap ? referenceCheckModel.routeMap : null,
+      routeMap: referenceCheckModel.routeMap,
+      equitasBranchName: referenceCheckModel.equitasBranchName ? referenceCheckModel.equitasBranchName : null,
+      distanceFromEquitas: referenceCheckModel.distanceFromEquitas ? referenceCheckModel.distanceFromEquitas : null,
+      // this.formValues.date = this.formValues.date ? this.utilityService.convertDateTimeTOUTC(this.formValues.date, 'DD/MM/YYYY') : null;
+      date: this.sysDate ? this.utilityService.getDateFormat(this.sysDate) : null,
+      area: referenceCheckModel.area ? referenceCheckModel.area : null,
+      place: referenceCheckModel.place ? referenceCheckModel.place : null,
+      timeOfVerification: this.sysTimeOfVerification ? this.sysTimeOfVerification : null,
+      pdOfficerName: referenceCheckModel.soName ? referenceCheckModel.soName : null,
+
+
     };
     const data = {
       leadId: this.leadId,
-      // applicantId: 6,
-      applicantId: this.applicantId, /* Uncomment this after getting applicant Id from Lead */
+      applicantId: this.applicantId,
       userId: this.userId,
-
-      referenceCheck: this.refCheckDetails
+      referenceCheck: this.refCheckDetails,
+      otherDetails: this.otherDetails,
+      customerProfileDetails: this.custProfileDetails,
+      profilePhoto: this.SELFIE_IMAGE
     };
 
     this.personalDiscussion.saveOrUpdatePdData(data).subscribe((res: any) => {
-      console.log('save or update PD Response', res);
+      // console.log('save or update PD Response', res);
       if (res.ProcessVariables.error.code === '0') {
         this.toasterService.showSuccess('Record Saved Successfully', '');
         this.getPdDetails();
@@ -311,7 +477,7 @@ export class ReferenceCheckComponent implements OnInit {
     };
     this.personalDiscussion.approvePd(data).subscribe((res: any) => {
       const processVariables = res.ProcessVariables;
-      console.log('response approve pd', processVariables);
+      // console.log('response approve pd', processVariables);
       const message = processVariables.error.message;
       if (processVariables.error.code === '0') {
 
@@ -335,12 +501,12 @@ export class ReferenceCheckComponent implements OnInit {
     };
     this.personalDiscussion.reinitiatePd(data).subscribe((res: any) => {
       const processVariables = res.ProcessVariables;
-      console.log('response reinitiate pd', processVariables);
+      // console.log('response reinitiate pd', processVariables);
       const message = processVariables.error.message;
       if (processVariables.error.code === '0') {
 
         this.toasterService.showSuccess('pd report reinitiated successfully', '');
-        // this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
+        // this.router.navigate([`/pages/dde/dashboard`]);
       } else {
         this.toasterService.showError('', 'message');
 
@@ -374,13 +540,13 @@ export class ReferenceCheckComponent implements OnInit {
     this.personalDiscussion.submitPdReport(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
-        console.log('message', processVariables.error.message);
+        // console.log('message', processVariables.error.message);
         this.toasterService.showSuccess('submitted to credit successfully', '');
         // this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
         this.router.navigate([`/pages/dashboard`]);
       } else {
         this.toasterService.showError(processVariables.error.message, '');
-        console.log('error', processVariables.error.message);
+        // console.log('error', processVariables.error.message);
 
       }
     });
@@ -391,13 +557,13 @@ export class ReferenceCheckComponent implements OnInit {
   onNavigateToPdSummary() { // fun to navigate to pd summary
 
     if (this.version != 'undefined') {
-      console.log('in routing defined version condition', this.version);
+      // console.log('in routing defined version condition', this.version);
       // http://localhost:4200/#/pages/dashboard/personal-discussion/my-pd-tasks
 
       this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
 
     } else {
-      console.log('in routing undefined version condition', this.version);
+      // console.log('in routing undefined version condition', this.version);
       this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
 
     }
@@ -405,16 +571,177 @@ export class ReferenceCheckComponent implements OnInit {
 
   onNavigateBack() { // fun to navigate to back page
     if (this.version != 'undefined') {
-      console.log('in routing defined version condition', this.version);
+      // console.log('in routing defined version condition', this.version);
       this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/loan-details/${this.version}`]);
 
     } else {
-      console.log('in routing undefined version condition', this.version);
+      // console.log('in routing undefined version condition', this.version);
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/loan-details`]);
       // this.router.navigate([`/pages/fl-and-pd-report/${this.leadId}/loan-details/${this.applicantId}/${this.version}`]);
 
     }
   }
+
+  async onUploadSuccess(event: DocumentDetails) {
+    // this.toasterService.showSuccess('Document uploaded successfully', '');
+    this.showModal = false;
+    this.SELFIE_IMAGE = 'data:image/jpeg;base64,' + event.imageUrl;
+    const data = {
+      inputValue: event.imageUrl,
+      isPhoto: true,
+      applicantId: this.applicantId,
+    };
+    // this.uploadPhotoOrSignature(data);
+
+    event.imageUrl = '';
+
+    let index = 0;
+    if (this.documentArr.length === 0) {
+      this.documentArr.push(event);
+      index = 0;
+    }
+    console.log('documentArr', this.documentArr);
+    this.individualImageUpload(event, index);
+
+    let position = await this.getLatLong();
+    if (position["latitude"]) {
+      this.latitude = position["latitude"].toString();
+      this.longitude = position["longitude"].toString();
+      this.getRouteMap();
+    } else {
+      this.latitude = "";
+      this.longitude = "";
+      this.showRouteMap = false;
+    }
+
+  }
+
+  uploadPhotoOrSignature(data) {
+    this.applicantService.uploadPhotoOrSignature(data).subscribe((value) => {
+      console.log('uploadPhotoOrSignature', value, 'data', data);
+    });
+  }
+
+
+  individualImageUpload(request: DocumentDetails, index: number) {
+    this.uploadService
+      .saveOrUpdateDocument([request])
+      .subscribe((value: any) => {
+        if (value.Error !== '0') {
+          return;
+        }
+        this.toasterService.showSuccess('Document uploaded successfully', '');
+        console.log('saveOrUpdateDocument', value);
+        const processVariables = value.ProcessVariables;
+        const documentId = processVariables.documentIds[0];
+        console.log("documentId******", documentId);
+        this.documentArr[index].documentId = documentId;
+        const subCategoryCode = this.documentArr[index].subCategoryCode;
+      });
+  }
+
+  getRouteMap() {
+    var that = this;
+    let branchPos = {
+      latitude: this.branchLatitude,
+      longitude: this.branchLongitude
+    };
+    let currentPos = {
+      latitude: this.latitude,
+      longitude: this.longitude
+    }
+    this.loginService.getPolyLine(function (result) {
+      that.base64Image = result;
+      that.showRouteMap = true;
+      // console.log("getPolyLine", that.base64Image);
+    }, currentPos, branchPos);
+  }
+
+  async downloadDocs(documentId: string) {
+    console.log(event);
+
+    // let el = event.srcElement;
+    // const formArray = this.uploadForm.get(formArrayName) as FormArray;
+    // const documentId = formArray.at(index).get('file').value;
+    if (!documentId) {
+      return;
+    }
+    const bas64String = this.base64StorageService.getString(
+      this.applicantId + documentId
+    );
+    if (bas64String) {
+      // this.setContainerPosition(el);
+      // this.showDraggableContainer = {
+      //   imageUrl: bas64String.imageUrl,
+      //   imageType: bas64String.imageType,
+      // };
+      // this.draggableContainerService.setContainerValue({
+      //   image: this.showDraggableContainer,
+      //   css: this.setCss,
+      // });
+      this.SELFIE_IMAGE = 'data:image/jpeg;base64,' + bas64String.imageUrl;
+      return;
+    }
+    const imageValue: any = await this.getBase64String(documentId);
+    // this.setContainerPosition(el);
+    // this.showDraggableContainer = {
+    //   imageUrl: imageValue.imageUrl,
+    //   imageType: imageValue.imageType,
+    // };
+    // this.draggableContainerService.setContainerValue({
+    //   image: this.showDraggableContainer,
+    //   css: this.setCss,
+    // });
+    // this.base64StorageService.storeString(this.applicantId + documentId, {
+    //   imageUrl: imageValue.imageUrl,
+    //   imageType: imageValue.imageType,
+    // });
+    this.SELFIE_IMAGE = 'data:image/jpeg;base64,' + imageValue.imageUrl;
+
+  }
+
+  getBase64String(documentId) {
+    return new Promise((resolve, reject) => {
+      this.uploadService
+        .getDocumentBase64String(documentId)
+        .subscribe((value) => {
+          const imageUrl = value['dwnldDocumentRep'].msgBdy.bsPyld;
+          const documentName = value['dwnldDocumentRep'].msgBdy.docNm || '';
+          const imageType = documentName.split('.')[1].toLowerCase();
+
+          resolve({
+            imageUrl,
+            imageType,
+          });
+          console.log('downloadDocs', value);
+        });
+    });
+  }
+
+  async getLatLong() {
+    /* Get latitude and longitude from mobile */
+
+    return new Promise((resolve, reject) => {
+
+      if (this.isMobile) {
+
+        this.gpsService.getLatLong().subscribe((position) => {
+          console.log("Mobile position", position);
+          resolve(position);
+        });
+
+      } else {
+        this.gpsService.getBrowserLatLong().subscribe((position) => {
+          console.log("Browser position", position);
+          if (position["code"]) {
+            this.toasterService.showError(position["message"], "GPS Alert");
+          }
+          resolve(position);
+        });
+      }
+    });
+  }
+
 
 
 

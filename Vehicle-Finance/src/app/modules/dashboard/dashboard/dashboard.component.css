@@ -2,6 +2,10 @@
     padding: 20px 0 0 200px
 }
 
+.disablField {
+    pointer-events: none;
+}
+
 
 /* li:active {
     background-color: #272264;
@@ -109,8 +113,7 @@ h3.dedupe_head {
     text-align: center;
 }
 
-
-.text-right{
+.text-right {
     text-align: right;
 }
 
@@ -362,6 +365,9 @@ th {
         color: white;
         height: 40px;
         padding: 10px;
+    }
+    .filter-disable {
+        display: none;
     }
 }
 

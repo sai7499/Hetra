@@ -5,11 +5,12 @@ import * as moment from 'moment';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { DashboardService } from './dashboard/dashboard.service';
+import { ToggleDdeService } from './toggle-dde.service';
 
 @Injectable()
 export class UtilityService {
-  constructor(private httpService: HttpService, private router: Router, private dashboardServiec: DashboardService,
-    private ngxUiLoaderService: NgxUiLoaderService) { }
+  constructor(private httpService: HttpService, private router: Router, private dashboardService: DashboardService,
+    private ngxUiLoaderService: NgxUiLoaderService, private toggleDdeService: ToggleDdeService) { }
 
   logOut() {
     this.httpService.logOut().subscribe(
@@ -24,10 +25,21 @@ export class UtilityService {
     localStorage.removeItem('token');
     localStorage.removeItem('roles');
     localStorage.removeItem('userId');
-    localStorage.removeItem('salesResponse');
-    this.dashboardServiec.routingData = '';
+    localStorage.removeItem('salesResponse');  
+    localStorage.removeItem('isFiCumPd'); 
+    localStorage.removeItem('lastAction'); 
+    localStorage.removeItem('login_required'); 
+    localStorage.removeItem('branchId'); 
+    localStorage.removeItem('istermSheet');
+    localStorage.removeItem('outputUsers');
+    localStorage.removeItem('outputUsers');
+    localStorage.removeItem('currentUrl');
+    localStorage.removeItem('is_pred_done');
+    this.dashboardService.routingData = '';
+    this.toggleDdeService.clearToggleData();
     console.clear();
     this.router.navigateByUrl('/login');
+   
   }
 
   getDateFormat(date) {
@@ -64,7 +76,11 @@ export class UtilityService {
   }
 
   convertDateTimeTOUTC(date, format) {
+    console.log(date);
+    console.log(format);
+
     return moment.utc(date).local().format(format);
+    
   }
 
   converDateToUTC(date) {

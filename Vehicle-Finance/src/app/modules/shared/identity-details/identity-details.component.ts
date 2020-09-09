@@ -24,6 +24,7 @@ import { Constant } from '../../../../assets/constants/constant';
 import { UtilityService } from '@services/utility.service';
 import { ToasterService } from '@services/toaster.service'
 import { ControlPosition } from '@agm/core';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-identity-details',
@@ -31,8 +32,9 @@ import { ControlPosition } from '@agm/core';
   styleUrls: ['./identity-details.component.css'],
 })
 export class IdentityDetailsComponent implements OnInit {
+  disableSaveBtn: boolean;
   labels: any = {};
-  validationData : any ={}
+  validationData: any = {}
   lov: any = {};
   applicant: Applicant;
   applicantId: number;
@@ -41,18 +43,19 @@ export class IdentityDetailsComponent implements OnInit {
   corporateProspectDetails: CorporateProspectDetails;
   isIndividual = true;
   identityForm: FormGroup;
-  isDirty : boolean;
-  drivingLicenceDates : boolean;
-  passportDates : boolean;
+  isDirty: boolean;
+  drivingLicenceDates: boolean;
+  passportDates: boolean;
+  referenceNo : string;
 
   panPattern = {
     rule: '[A-Z]{3}(P)[A-Z]{1}[0-9]{4}[A-Z]{1}',
     msg: 'Invalid Pan',
   };
   public toDayDate: Date = new Date();
-  convertPassportDate : any;
-  convertDrivingDate : Date
- 
+  convertPassportDate: any;
+  convertDrivingDate: Date;
+
 
   constructor(
     private labelsData: LabelsService,
@@ -63,29 +66,30 @@ export class IdentityDetailsComponent implements OnInit {
     private router: Router,
     private leadStoreService: LeadStoreService,
     private location: Location,
-    private utilityService : UtilityService,
-    private toasterService : ToasterService
-  ) {}
+    private utilityService: UtilityService,
+    private toasterService: ToasterService,
+    private toggleDdeService: ToggleDdeService
+  ) { }
 
   navigateToApplicantList() {
     const url = this.location.path();
     if (url.includes('sales')) {
       this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
-      
-    }else{
-    this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
+
+    } else {
+      this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
+    }
   }
-}
 
   onBack() {
     //this.location.back();
     const url = this.location.path();
     if (url.includes('sales')) {
       this.router.navigateByUrl(`/pages/sales-applicant-details/${this.leadId}/basic-details/${this.applicantId}`);
-      
-    }else{
-    this.router.navigateByUrl(`/pages/applicant-details/${this.leadId}/basic-data/${this.applicantId}`);
-  }
+
+    } else {
+      this.router.navigateByUrl(`/pages/applicant-details/${this.leadId}/basic-data/${this.applicantId}`);
+    }
   }
 
   async ngOnInit() {
@@ -98,7 +102,7 @@ export class IdentityDetailsComponent implements OnInit {
         console.log(error);
       }
     );
-    
+
 
     this.identityForm = new FormGroup({
       entity: new FormControl(''),
@@ -106,6 +110,11 @@ export class IdentityDetailsComponent implements OnInit {
     });
     this.addIndividualFormControls();
     this.getLov();
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1') {
+      this.identityForm.disable();
+      this.disableSaveBtn  = true;
+    }
   }
 
   getLeadId() {
@@ -171,8 +180,8 @@ export class IdentityDetailsComponent implements OnInit {
   }
   addIndividualFormControls() {
     const controls = new FormGroup({
-      aadhar: new FormControl({value:null,disabled: true}),
-      panType: new FormControl({value :'', disabled : true}),
+      aadhar: new FormControl({ value: null, disabled: true }),
+      panType: new FormControl({ value: '', disabled: true }),
       pan: new FormControl(null),
       passportNumber: new FormControl(null),
       passportIssueDate: new FormControl(null),
@@ -186,13 +195,13 @@ export class IdentityDetailsComponent implements OnInit {
     });
     (this.identityForm.get('details') as FormArray).push(controls);
   }
-  
+
   addNonIndividualFormControls() {
     const controls = new FormGroup({
-      aadhar: new FormControl({value :'', disabled : true}),
-      panType: new FormControl({value :'', disabled : true}),
+      aadhar: new FormControl({ value: '', disabled: true }),
+      panType: new FormControl({ value: '', disabled: true }),
       panNumber: new FormControl(null),
-      
+
       corporateIdentificationNumber: new FormControl(null),
       cstVatNumber: new FormControl(null),
       gstNumber: new FormControl(null),
@@ -201,17 +210,21 @@ export class IdentityDetailsComponent implements OnInit {
     (this.identityForm.get('details') as FormArray).push(controls);
   }
 
-  datePassportChange(event){
+  datePassportChange(event) {
     this.convertPassportDate = new Date(event)
+    this.convertPassportDate.setDate(this.convertPassportDate.getDate() + 1 )
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
-     details.get('passportExpiryDate').setValue(null)
+    details.get('passportExpiryDate').setValue(null)
   }
-  dateDrivingChange(event){
+  dateDrivingChange(event) {
+    
      this.convertDrivingDate= new Date(event)
-     const formArray = this.identityForm.get('details') as FormArray;
+    this.convertDrivingDate.setDate(this.convertDrivingDate.getDate() + 1 )
+    console.log('Date', this.convertDrivingDate)
+    const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
-     details.get('drivingLicenseExpiryDate').setValue(null)
+    details.get('drivingLicenseExpiryDate').setValue(null)
   }
 
   onIndividualChange(event) {
@@ -230,7 +243,7 @@ export class IdentityDetailsComponent implements OnInit {
     this.addNonIndividualFormControls();
   }
 
-  onSave() {}
+  
 
   storeNonIndividualValueInService() {
     const value = this.identityForm.getRawValue();
@@ -258,11 +271,11 @@ export class IdentityDetailsComponent implements OnInit {
     identityDetails.passportIssueDate = this.utilityService.getDateFormat(
       formValue.passportIssueDate
     );
-    identityDetails.passportExpiryDate =this.utilityService.getDateFormat( 
+    identityDetails.passportExpiryDate = this.utilityService.getDateFormat(
       formValue.passportExpiryDate
     );
     identityDetails.drivingLicenseNumber = formValue.drivingLicenseNumber;
-    identityDetails.drivingLicenseIssueDate =this.utilityService.getDateFormat( 
+    identityDetails.drivingLicenseIssueDate = this.utilityService.getDateFormat(
       formValue.drivingLicenseIssueDate
     );
     identityDetails.drivingLicenseExpiryDate = this.utilityService.getDateFormat(
@@ -294,29 +307,29 @@ export class IdentityDetailsComponent implements OnInit {
       cstVatNumber: value.cstVatNumber,
       corporateIdentificationNumber: value.corporateIdentificationNumber,
       gstNumber: value.gstNumber,
-      aadhar : value.aadhar
+      aadhar: value.aadhar
     });
   }
 
   setIndividualValue() {
     const value = this.indivIdentityInfoDetails;
 
-    this.convertPassportDate= this.utilityService.getDateFromString(value.passportIssueDate);
+    this.convertPassportDate = this.utilityService.getDateFromString(value.passportIssueDate);
     this.convertDrivingDate = this.utilityService.getDateFromString(value.drivingLicenseIssueDate);
-    this.drivingLicenceDates= value.drivingLicenseNumber? false : true;
-    this.passportDates = value.passportNumber? false: true;
+    this.drivingLicenceDates = value.drivingLicenseNumber ? false : true;
+    this.passportDates = value.passportNumber ? false : true;
 
 
     //console.log('individual', value)
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
-    
+
     details.patchValue({
       passportIssueDate: this.utilityService.getDateFromString(value.passportIssueDate),
       passportExpiryDate: this.utilityService.getDateFromString(value.passportExpiryDate),
       drivingLicenseIssueDate: this.utilityService.getDateFromString(value.drivingLicenseIssueDate),
       drivingLicenseExpiryDate: this.utilityService.getDateFromString(value.drivingLicenseExpiryDate),
-      aadhar : value.aadhar,
+      aadhar: value.aadhar,
       pan: value.pan,
       panType: value.panType,
       passportNumber: value.passportNumber,
@@ -333,10 +346,31 @@ export class IdentityDetailsComponent implements OnInit {
     return date;
   }
 
+  onRetreiveAdhar(){
+    const formArray = this.identityForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    const value = this.indivIdentityInfoDetails;
+    this.referenceNo= value.aadhar;
+    this.applicantService.retreiveAdhar(this.referenceNo).subscribe((res)=>{
+         if(res['ProcessVariables'].error.code=="0"){
+          const uid= res['ProcessVariables'].uid;
+          details.get('aadhar').setValue(uid)
+         }
+    })
+  }
+
+  onRelieve(){
+    const value = this.indivIdentityInfoDetails;
+    this.referenceNo= value.aadhar;
+    const formArray = this.identityForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    details.get('aadhar').setValue(this.referenceNo);
+  }
+
   onSubmit() {
-    this.isDirty= true;
-    if(this.identityForm.invalid){
-       return
+    this.isDirty = true;
+    if (this.identityForm.invalid) {
+      return
     }
     if (this.isIndividual) {
       this.storeIndividualValueInService();

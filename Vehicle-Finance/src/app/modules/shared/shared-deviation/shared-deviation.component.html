@@ -1,9 +1,14 @@
 <form class="multisteps-form__form" [formGroup]="deviationsForm">
   <div class="multisteps-form__panel js-active" data-animation="scaleIn">
 
-    <div class="text-right" id="get_role_details_btn">
+    <div class="text-right" id="get_role_details_btn" *ngIf="!isSubmitToCredit">
       <button class="btn mar-right8 btn-primary" type="button"
         (click)="getTrigurePolicy()">{{labels.getTriggerPolicy}}</button>
+    </div>
+
+    <div class="text-right" id="get_role_details_btn" *ngIf="isSendBacktoCredit">
+      <button class="btn mar-right8 btn-primary" type="button"
+        (click)="getTrigurePolicy()">Trigger Waiver Norms</button>
     </div>
 
     <ng-container formArrayName="autoDeviationFormArray">
@@ -22,7 +27,7 @@
           <div class="form-group col-sm-6 col-md-5 col-lg-5">
             <label for="activity">Justification</label>
           </div>
-          
+
           <div class="form-group col-sm-6 col-md-2 col-lg-2">
             <label for="end" class="action">{{labels?.action}}</label>
           </div>
@@ -103,9 +108,6 @@
               (change)="onGetDeviationCode($event, j)">
             </app-vf-custom-select>
 
-            <div class="invalid-feedback" *ngIf="findDuplicate(item.controls['devCode'].value, j) && j > 0">
-              Duplicate Deviation
-            </div>
           </div>
 
           <div class="form-group col-sm-6 col-md-3 col-lg-2">
@@ -114,7 +116,6 @@
             <p>
               {{item.controls['devDesc'].value}}
             </p>
-            <!-- <textarea class="form-control" formControlName="devDesc" readonly style="resize: none;"></textarea> -->
           </div>
 
           <div class="form-group col-sm-6 col-md-2 col-lg-2">
@@ -164,7 +165,7 @@
           <div class="form-group col-sm-6 col-md-1 col-lg-1" *ngIf="!isSubmitToCredit">
             <label>{{labels?.more}} </label>
             <div class="row">
-              <div class="col-sm-12 col-md-12 col-lg-12">
+              <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="operationType !== '2'">
                 <label class="image-upload" for="upload_files">
                   <i></i> &nbsp;
                   <a data-toggle="modal" data-target="#exampleModal"
@@ -239,10 +240,10 @@
       <div class="col-sm-3 row text-right" *ngIf="isSubmitToCredit">
 
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
-          [disabled]="!(isSendBacktoCredit === 1)"
+          [disabled]="!deviationsForm.get('enableApprove').value"
           (click)="onPatchRecommendationModal('ApproveDeviations')">{{labels?.approveDeviations}}</button>
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
-          [disabled]="!(isSendBacktoCredit === 0)"
+          [disabled]="!deviationsForm.get('enableSendBack').value"
           (click)="onPatchRecommendationModal('sendBackToCredit')">{{labels?.sendBackToCredit}}</button>
 
       </div>
@@ -296,12 +297,12 @@
         </div>
         <div class="modal-body">
           <textarea class="form-control" rows="10" cols="5" formControlName="recommendation"
-            placeholder="{{modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendation' : 'Commend'}}"></textarea>
+            placeholder="{{modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendation' : 'Comments'}}"></textarea>
 
           <div class="invalid-feedback"
             *ngIf="modalForm.controls['recommendation'].touched && !modalForm.controls['recommendation'].valid">
             <div *ngIf="modalForm.controls['recommendation'].hasError('required')">
-              {{ modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendation ' : 'Commend '}}
+              {{ modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendation ' : 'Comments '}}
               Required
             </div>
           </div>

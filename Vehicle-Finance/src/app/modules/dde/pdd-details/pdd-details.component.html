@@ -54,9 +54,7 @@
                                 </div>
                                 <div class="form-group col-sm-3 col-md-2">
                                     <div class="input-group input-medium">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" aria-readonly="true"> <i class="fa fa-calendar"></i> </button>
-                                        </span>
+                                        
                                         <app-custom-input formControlName="expectedDate"
                                             [className]="'form-control mandatory'"
                                             [maxLength]="labels?.validationData?.chasisNo?.maxLength"
@@ -122,18 +120,18 @@
         </div>
     </div>
     <!--mobile view end-->
-    <div class="btn-sec clear-both row cst_btm_btns">
+    <div class="btn-sec clear-both row cst_btm_btns mar-bot">
         <div class="col-sm-5"></div>
-        <div class="col-sm-7 text-right">
+        <div class="col-sm-7">
             <button class="btn btn-primary dash_href" type="button" (click)="onBack()">
                 Back
             </button>
-            <button class="btn btn-primary mar-right8" type="button" (click)="onUpdate()">
+            <button class="btn btn-primary" type="button" (click)="onUpdate()">
                 Update
             </button>
-            <button class="btn btn-primary dash_href" type="button" routerLink="">
+            <!-- <button class="btn btn-primary dash_href" type="button" routerLink="">
                 Next
-            </button>
+            </button> -->
         </div>
     </div>
 </form>

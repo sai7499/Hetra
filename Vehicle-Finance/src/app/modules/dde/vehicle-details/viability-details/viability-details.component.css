@@ -17,3 +17,30 @@
 .table tbody tr td {
     text-align: left !important;
  }
+
+
+.btn-mar{
+    margin:auto;
+}
+
+.heading-mar{
+    margin:auto;
+    padding:8px;
+}
+
+.heading-align{
+    margin:15px 0px 10px 0px ;
+}
+
+.wrd-brk{
+    word-break: break-all;
+}
+
+
+
+@media (min-width:200px) and (max-width:767px) {
+    .mar-bot{
+        margin-bottom:20px;
+    }
+    
+}

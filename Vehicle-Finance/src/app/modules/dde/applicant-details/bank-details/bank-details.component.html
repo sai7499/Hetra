@@ -20,8 +20,23 @@
                 <app-vf-custom-select formControlName="bankId" [values]="lovData?.bankMaster"
                  [isRequired]="'Please Select Bank Name'"></app-vf-custom-select>
         </div>
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="account_number">{{labels?.accountBranchname}}</label>
          
-             <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <app-custom-input
+              formControlName="accountBranch"
+              
+              [maxLength]="labels?.validationData?.accountNumber?.maxLength"
+              [type]="labels?.validationData?.accountNumber?.type"
+              [isRequired]="'Account Number is required'"
+              [isDirty]="isDirty"
+              [inputClass]="'input-upper'" 
+        ></app-custom-input>
+        <!-- [patternCheck]="labels?.validationData?.accountNumber?.pattern" -->
+       </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="account_number">{{labels?.accountNo}}</label>
                
                 <app-custom-input
@@ -35,8 +50,6 @@
               ></app-custom-input>
               <!-- [patternCheck]="labels?.validationData?.accountNumber?.pattern" -->
              </div>
-            </div>
-            <div class="row">
              <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="account_type">{{labels?.accountType}}</label>
                
@@ -63,7 +76,10 @@
                    </div>
                 </div>
              </div>
-             <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            
+        </div>
+            <div class="row">
+              <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="to_date">{{labels?.toDate}}</label>
                 <div class="form-group date">
                    <div class="input-group date" id="datetimepicker1">
@@ -84,26 +100,55 @@
                 </div>
              </div>
             </div>
-        </div>
-            <div class="row">
              <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="period">{{labels?.period}}</label>
                 <input formControlName="period" type="number" class="form-control" name="period" id="period" min= "0" required="required" disabled>
              </div>
-             <div class="form-group col-sm-6 col-md-4 col-lg-3" style="display: none;">
+             <div class="form-group col-sm-6 col-md-4 col-lg-3" *ngIf="isLimitRequire">
                 <label for="limit">{{labels?.limit}}</label>
                 <app-custom-input
                 formControlName="limit"
                 [patternCheck]="limitNumberPattern"
                 [maxLength]="labels?.validationData?.amountValue?.maxLength"
                 [type]="labels?.validationData?.amountValue?.type"
-               
+                [isRequired]="'Limit is required'" 
                 [isDirty]="isDirty"
               ></app-custom-input>
               <!-- [isRequired]="'Limit is required'" -->
                 <!-- <input formControlName="limit" type="number" class="form-control" name="limit" id="limit"   min= "0"required="required"> -->
              </div>
-             <div class="form-group col-sm-6 col-md-4 col-lg-3"></div>
+             
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3" >
+              <label for="limit">{{labels?.micrNo}}</label>
+              <app-custom-input
+              formControlName="micrNumber"
+              [patternCheck]="labels?.validationData?.micrFormat?.pattern"
+              [maxLength]="labels?.validationData?.micrFormat?.maxLength"
+              [type]="labels?.validationData?.micrFormat?.type"
+              [isRequired]="'MICR No is required'"
+              [placeholder]="'MICR No'"
+              [isDirty]="isDirty"
+              [inputClass]="'input-upper'" 
+            ></app-custom-input>
+            <!-- [isRequired]="'Limit is required'" -->
+              <!-- <input formControlName="limit" type="number" class="form-control" name="limit" id="limit"   min= "0"required="required"> -->
+           </div>
+           <div class="form-group col-sm-6 col-md-4 col-lg-3" >
+            <label for="limit">{{labels?.totalCredits}}</label>
+            <app-custom-input 
+            formControlName="totalCredits" 
+            [patternCheck]="limitNumberPattern"
+            [maxLength]="limitLength20"
+            [type]="labels?.validationData?.amountValue?.type"
+            
+            [placeholder]="'Total number of credits'"
+            
+          ></app-custom-input>
+          <!-- [isRequired]="'Limit is required'" -->
+            <!-- <input formControlName="limit" type="number" class="form-control" name="limit" id="limit"   min= "0"required="required"> -->
+         </div>
           </div>
           <div class="">
           <div class="table-responsive application">
@@ -262,7 +307,7 @@
     </div>
     <div class="col-sm-7 text-right">
         <button class="btn btn-primary dash_href" type="button" (click)="onBack()">{{labels?.back}}</button>
-        <button class="btn btn-primary" (click)="onSave()"> {{labels?.save}} </button>
+        <button class="btn btn-primary" (click)="onSave()" *ngIf="!disableSaveBtn"> {{labels?.save}} </button>
         <!-- <button class="btn btn-primary dash_href " type="button" >Next</button> -->
         <!-- (click)="onSave()"  -->
     </div>

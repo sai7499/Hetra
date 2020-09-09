@@ -11,6 +11,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '../service/createLead-data.service';
 import { UtilityService } from '@services/utility.service';
 import { ToastrService } from 'ngx-toastr';
+import { AgeValidationService } from '@services/age-validation.service';
 // import Qde from '@model/lead.model';
 @Component({
   selector: 'app-lead-creation',
@@ -77,13 +78,16 @@ export class LeadCreationComponent implements OnInit {
   obj = {};
   test = [];
 
-  public dateValue: Date = new Date(2000, 2, 10);
-  public toDayDate: Date = new Date();
+  public maxAge: Date = new Date();
+  public minAge: Date = new Date();
+  ageCount: number = 0;
 
   namePattern: string;
   nameLength: number;
   mobileLength: number;
-  fullName: string;
+  firstName: string = '';
+  middleName: string = '';
+  lastName: string = '';
 
   loanLeadDetails: {
     bizDivision: string;
@@ -118,7 +122,8 @@ export class LeadCreationComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private createLeadDataService: CreateLeadDataService,
     private utilityService: UtilityService,
-    private toasterService: ToastrService
+    private toasterService: ToastrService,
+    private ageValidationService: AgeValidationService
   ) { }
 
   ngOnInit() {
@@ -130,6 +135,9 @@ export class LeadCreationComponent implements OnInit {
     this.getSourcingChannel();
     this.createLeadForm.patchValue({ entity: 'INDIVENTTYP' });
     this.selectApplicantType('INDIVENTTYP', true);
+    // this.getAgeValidation();
+    // this.minAge.setFullYear(this.minAge.getFullYear() - 100);
+    // this.maxAge.setFullYear(this.maxAge.getFullYear() - 10);
   }
 
   getLabels() {
@@ -140,6 +148,24 @@ export class LeadCreationComponent implements OnInit {
         this.mobileLength = this.labels.validationData.mobileNumber.maxLength;
       },
       (error) => console.log('Lead Creation Label Error', error)
+    );
+  }
+
+  getAgeValidation() {
+    this.ageValidationService.getAgeValidationData().subscribe(
+      data => {       
+        const minAge = data.ages.applicant.minAge;
+        const maxAge = data.ages.applicant.maxAge;
+        if (this.applicantType === 'INDIVENTTYP' ) {
+          this.maxAge = new Date();
+          this.minAge = new Date();
+          this.minAge.setFullYear(this.minAge.getFullYear() - minAge);
+          this.maxAge.setFullYear(this.maxAge.getFullYear() - maxAge);
+        } else {
+          this.minAge = null;
+          this.maxAge = new Date();
+        }
+      }
     );
   }
 
@@ -154,9 +180,9 @@ export class LeadCreationComponent implements OnInit {
       sourcingType: new FormControl('', Validators.required),
       sourcingCode: new FormControl(''),
       dealerCode: new FormControl('', Validators.required),
-      rcLimit: new FormControl('', Validators.required),
-      rcUtilizedLimit: new FormControl('', Validators.required),
-      rcUnutilizedLimit: new FormControl('', Validators.required),
+      rcLimit: new FormControl({ value: '', disabled: true }, Validators.required),
+      rcUtilizedLimit: new FormControl({ value: '', disabled: true }, Validators.required),
+      rcUnutilizedLimit: new FormControl({ value: '', disabled: true }, Validators.required),
       spokeCodeLocation: new FormControl({
         value: '',
         disabled: !this.isSpoke,
@@ -413,6 +439,8 @@ export class LeadCreationComponent implements OnInit {
       const nameThree = this.createLeadForm.controls['nameThree'].value;
       this.createLeadForm.controls['nameThree'].setValue(nameThree || '');
     });
+    this.ageCount++;
+    this.getAgeValidation();
   }
 
   onIndividual() {
@@ -453,6 +481,18 @@ export class LeadCreationComponent implements OnInit {
         this.labels = data;
       });
     }
+  }
+
+  onFirstName(event) {
+    this.firstName = event.target.value;
+  }
+
+  onMiddleName(event) {
+    this.middleName = event.target.value;
+  }
+
+  onLastName(event) {
+    this.lastName = event.target.value;
   }
 
   onSubmit() {
@@ -496,7 +536,7 @@ export class LeadCreationComponent implements OnInit {
       this.applicantDetails = {
         entity: leadModel.entity,
         nameOne: leadModel.nameOne,
-        nameTwo: leadModel.nameTwo,
+        nameTwo: leadModel.nameTwo ? leadModel.nameTwo : null,
         nameThree: leadModel.nameThree,
         mobileNumber: `91${leadModel.mobile}`,
         dobOrDoc: this.utilityService.getDateFormat(leadModel.dateOfBirth),

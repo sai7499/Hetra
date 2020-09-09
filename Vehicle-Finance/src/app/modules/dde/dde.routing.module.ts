@@ -23,7 +23,8 @@ import { CibilOdListComponent } from './cibil-od-list/cibil-od-list.component';
 import { FiListComponent } from './fi-list/fi-list.component';
 import { PdListComponent } from './pd-list/pd-list.component';
 import { PddDetailsComponent } from './pdd-details/pdd-details.component';
-import { ChequeTrackingComponent} from './cheque-tracking/cheque-tracking.component'
+import { ChequeTrackingComponent } from './cheque-tracking/cheque-tracking.component';
+import { LoanStatusComponent } from './loan-status/loan-status.component';
 
 const routes: Routes = [
   {
@@ -34,8 +35,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: SourcingDetailsComponent,
+        // component: SourcingDetailsComponent,
+        redirectTo: 'lead-details',
+        pathMatch: 'full',
       },
+
       {
         path: 'applicant-list',
         component: ApplicantListComponent,
@@ -70,11 +74,11 @@ const routes: Routes = [
       },
       {
         path: 'fi-list',
-        component: FiListComponent
+        component: FiListComponent,
       },
       {
         path: 'pd-list',
-        component: PdListComponent
+        component: PdListComponent,
       },
       {
         path: 'vehicle-valuation',
@@ -124,14 +128,16 @@ const routes: Routes = [
         path: 'cheque-tracking',
         component: ChequeTrackingComponent,
       },
-
+      {
+        path: 'loan-status',
+        component: LoanStatusComponent,
+      },
     ],
   },
-  
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class DdeRoutingModule { }
+export class DdeRoutingModule {}

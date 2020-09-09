@@ -112,8 +112,22 @@
        *ngIf="userType !== 2" 
        (click)="assignCDTaskFromSales()"
         type="button">Submit</button> -->
+        <!-- <button class="btn btn-primary"
+       *ngIf="userType == 2" 
+       (click)="creditConditionActions('submited')"
+        type="button">Submit</button> -->
       <button class="btn btn-primary" *ngIf="userType === 2" 
-        (click)="approveCreditCondition()" type="button">Approve</button>
+       (click) = "alertMessage('Approve')"
+        data-toggle="modal"
+         data-target="#approveModal"
+          type="button">Approve</button>
+          <button class="btn btn-primary"
+          *ngIf="userType === 2"        
+            type="button"
+            data-toggle="modal"
+            data-target="#myModal"
+            [disabled] ="disableControl"
+            >Refer</button>
       <!-- <button class="btn btn-primary" *ngIf="userType === 2" 
         (click)="creditConditionActions('approved')" type="button" [disabled] ="disableControl">Approve</button>
       <button class="btn btn-primary"
@@ -125,6 +139,12 @@
          >Refer</button>
       <button class="btn btn-primary" *ngIf="userType === 2" 
         (click) ="creditConditionActions('declined')" type="button" [disabled] ="disableControl">Decline</button> -->
+
+        <button class="btn btn-primary" *ngIf="userType === 2" 
+        (click) = "alertMessage('Decline')"
+        data-toggle="modal"
+         data-target="#approveModal"
+       type="button" [disabled] ="disableControl">Decline</button>
       <button class="btn btn-primary" (click)="saveUpdate('next')"  type="button">Next</button>
     </div>
   </div>
@@ -171,6 +191,55 @@
         >
           {{ labels.yes }}
         </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+          {{ labels.cancel }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="approveModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title"></h4>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body" style="text-align: center;">
+       <label>Are you sure you want to {{alertMsg}} the Record</label>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-success"
+          id="reject_yes_val"
+          *ngIf = "alertMsg == 'Approve'"
+          value="Yes"
+          (click)="approveCreditCondition()"
+          data-dismiss="modal"
+        >
+          {{ labels.yes }}
+        </button>
+        <button
+        type="button"
+        class="btn btn-success"
+        id="reject_yes_val"
+        *ngIf = "alertMsg == 'Decline'"
+        value="Yes"
+        data-dismiss="modal"
+        (click)="creditConditionActions('declined')"
+      >
+        {{ labels.yes }}
+      </button>
         <button type="button" class="btn btn-danger" data-dismiss="modal">
           {{ labels.cancel }}
         </button>

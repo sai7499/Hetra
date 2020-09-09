@@ -5,6 +5,7 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { LeadStoreService } from '@services/lead-store.service';
 import { CommonDataService } from '@services/common-data.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   templateUrl: './dde.component.html',
@@ -27,9 +28,9 @@ export class DdeComponent implements OnInit {
     private cds: CommonDataService,
     private renderer: Renderer2,
     private elementRef: ElementRef,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private toggleDdeService: ToggleDdeService
   ) {
-
     this.leadId = this.route.snapshot.params['leadId'];
   }
 
@@ -38,12 +39,11 @@ export class DdeComponent implements OnInit {
   }
 
   ngOnInit() {
-    // console.log('ficumpd', localStorage.getItem('isFiCumPd')); 
-    this.fiCumPdStatusString = (localStorage.getItem('isFiCumPd'));
+    this.fiCumPdStatusString = localStorage.getItem('isFiCumPd');
     if (this.fiCumPdStatusString == 'false') {
-      this.fiCumPdStatus = false
+      this.fiCumPdStatus = false;
     } else if (this.fiCumPdStatusString == 'true') {
-      this.fiCumPdStatus = true
+      this.fiCumPdStatus = true;
     }
 
     console.log('ficumpd status', this.fiCumPdStatus);
@@ -79,10 +79,13 @@ export class DdeComponent implements OnInit {
       this.show = true;
     }
 
-    if (this.router.url.includes('/fi-cum-pd-dashboard')
-     || this.router.url.includes('/fi-dashboard') ||
-      this.router.url.includes('/cheque-tracking') 
-    || this.router.url.includes('/pdd-details')) {
+    if (
+      this.router.url.includes('/fi-cum-pd-dashboard') ||
+      this.router.url.includes('/fi-dashboard') ||
+      this.router.url.includes('/cheque-tracking') ||
+      this.router.url.includes('/pdd-details') ||
+      this.router.url.includes('/loan-status')
+    ) {
       this.showNav = false;
     } else {
       this.showNav = true;
