@@ -430,6 +430,7 @@ export class BasicDetailsComponent implements OnInit {
     const details = formArray.at(0);
 
     this.checkedBoxHouse = applicantDetails.ownHouseProofAvail == '1' ? true : false;
+    this.isChecked= applicantDetails.ownHouseProofAvail == '1' ? true : false;
 
     details.patchValue({
       name1: applicantDetails.name1,
