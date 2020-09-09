@@ -69,17 +69,17 @@ export class CustomerProfileDetailsComponent implements OnInit {
   addressRequired: boolean;
 
   constructor(private labelsData: LabelsService,
-              private lovDataService: LovDataService,
-              private router: Router,
-              private ddeStoreService: DdeStoreService,
-              private personalDiscusion: PersonalDiscussionService,
-              private toasterService: ToasterService,
-              private commonLovService: CommomLovService,
-              private loginStoreService: LoginStoreService,
-              private activatedRoute: ActivatedRoute,
-              private pdDataService: PdDataService,
-              private personalDiscussion: PersonalDiscussionService,
-              private toggleDdeService: ToggleDdeService
+    private lovDataService: LovDataService,
+    private router: Router,
+    private ddeStoreService: DdeStoreService,
+    private personalDiscusion: PersonalDiscussionService,
+    private toasterService: ToasterService,
+    private commonLovService: CommomLovService,
+    private loginStoreService: LoginStoreService,
+    private activatedRoute: ActivatedRoute,
+    private pdDataService: PdDataService,
+    private personalDiscussion: PersonalDiscussionService,
+    private toggleDdeService: ToggleDdeService
   ) { }
 
   async ngOnInit() {
@@ -164,11 +164,11 @@ export class CustomerProfileDetailsComponent implements OnInit {
       officePremises: new FormControl('', Validators.required),
       sizeofOffice: new FormControl('', Validators.required),
       customerProfileRatingSo: new FormControl('', Validators.required),
-      mismatchInAddress: new FormControl('', Validators.compose([Validators.maxLength(200),
-      Validators.required])),
+      mismatchInAddress: new FormControl('', Validators.compose([Validators.maxLength(200)])),
       customerHouseSelfie: new FormControl('', Validators.required),
       // ownershipAvailable: new FormControl('', Validators.required),
-      mandatoryCustMeeting: new FormControl('', Validators.required)
+      mandatoryCustMeeting: new FormControl('', Validators.required),
+      locality: new FormControl('', Validators.required)
     });
     // Validators.pattern(/^[a-zA-Z.-]*$/)
   }
@@ -189,6 +189,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
   addressMismatch(event: any) { // fun for conditional mandatory for mismatch in off/buss address
     this.addressStatus = event ? event : event;
+    console.log('in address mismatch', this.addressStatus);
     if (this.addressStatus === '1') {
       this.addressDisabled = true;
       this.addressRequired = false;
@@ -221,7 +222,10 @@ export class CustomerProfileDetailsComponent implements OnInit {
         console.log('calling get api ', this.custProfDetails);
         if (this.custProfDetails) {
           this.setFormValue();
-          this.pdDataService.setCustomerProfile(this.custProfDetails);
+          // this.pdDataService.setCustomerProfile(this.custProfDetails);
+        }
+        if (this.customerProfileForm.get('offAddSameAsRecord') != null) {
+          this.addressMismatch(this.customerProfileForm.get('offAddSameAsRecord').value);
         }
       }
     });
@@ -245,7 +249,8 @@ export class CustomerProfileDetailsComponent implements OnInit {
       mismatchInAddress: customerProfileModal.mismatchInAddress || '',
       customerHouseSelfie: customerProfileModal.customerHouseSelfie || '',
       // ownershipAvailable: customerProfileModal.ownershipAvailable || '',
-      mandatoryCustMeeting: customerProfileModal.mandatoryCustMeeting || ''
+      mandatoryCustMeeting: customerProfileModal.mandatoryCustMeeting || '',
+      locality: customerProfileModal.locality || ''
     });
     console.log('patched form', this.customerProfileForm);
   }
@@ -275,6 +280,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
       customerHouseSelfie: customerProfileFormModal.customerHouseSelfie,
       // ownershipAvailable: customerProfileFormModal.ownershipAvailable,
       mandatoryCustMeeting: customerProfileFormModal.mandatoryCustMeeting,
+      locality: customerProfileFormModal.locality
     };
     const data = {
       leadId: this.leadId,

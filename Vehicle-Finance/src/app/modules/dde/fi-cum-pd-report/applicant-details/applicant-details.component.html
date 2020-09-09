@@ -151,7 +151,7 @@
           <app-custom-input
             id="bank_name"
             [placeholder]="'Enter residence address'"
-            formControlName="mismatchInAddress"
+            formControlName="alternateAddr"
             [type]="labels?.validationData?.mismatchResidenceAddress?.type"
             [isRequired]="addressRequired ? 'Residence Address is required':''"
             [maxLength]="
@@ -323,7 +323,7 @@
           <app-custom-input
             id="owner_name"
             [placeholder]="'Enter owner name'"
-            formControlName="ownerName"
+            formControlName="owner"
             [type]="labels?.validationData?.ownerName?.type"
             [isRequired]="
               ownerNamePropertyAreaRequired ? 'owner name is required' : ''
@@ -341,7 +341,7 @@
           <app-custom-input
             id="property_area"
             [placeholder]="'Enter area of  property'"
-            formControlName="propertyArea"
+            formControlName="areaOfProperty"
             [type]="labels?.validationData?.propertyArea?.type"
             [isRequired]="ownerNamePropertyAreaRequired ? 'Area of property is required':''"
             [maxLength]="labels?.validationData?.propertyArea?.maxLength"
@@ -359,7 +359,7 @@
           >
           <app-vf-custom-select
             [values]="applicantLov?.commonLov"
-            formControlName="ownershipAvailable"
+            formControlName="ownerProofAvail"
             [isRequired]="'Please select one'"
             [isDirty]="isDirty"
           >

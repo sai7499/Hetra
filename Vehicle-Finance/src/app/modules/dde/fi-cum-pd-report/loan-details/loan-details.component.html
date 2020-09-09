@@ -220,7 +220,9 @@
           placeholder="source of vehicle purchase"
           [type]="labels?.validationData?.sourceOfMarginMoneyPaid?.type"
           [isRequired]="' source of purchase is required'"
-          [maxLength]="labels?.validationData?.sourceOfMarginMoneyPaid?.maxLength"
+          [maxLength]="
+            labels?.validationData?.sourceOfMarginMoneyPaid?.maxLength
+          "
           [isDirty]="isDirty"
         >
         </app-custom-input>
@@ -253,7 +255,9 @@
           placeholder="source of margin money"
           [type]="labels?.validationData?.sourceOfMarginMoneyPaid?.type"
           [isRequired]="' source of margin money is required'"
-          [maxLength]="labels?.validationData?.sourceOfMarginMoneyPaid?.maxLength"
+          [maxLength]="
+            labels?.validationData?.sourceOfMarginMoneyPaid?.maxLength
+          "
           [isDirty]="isDirty"
         >
         </app-custom-input>
@@ -354,7 +358,9 @@
           placeholder="how do you know about proposed vehilcle"
           [type]="labels?.validationData?.sourceOfMarginMoneyPaid?.type"
           [isRequired]="' know about proposed vehicle is required'"
-          [maxLength]="labels?.validationData?.sourceOfMarginMoneyPaid?.maxLength"
+          [maxLength]="
+            labels?.validationData?.sourceOfMarginMoneyPaid?.maxLength
+          "
           [isDirty]="isDirty"
         >
         </app-custom-input>
@@ -575,7 +581,7 @@
           placeholder="other remarks"
           formControlName="othersRemarks"
           maxlength="300"
-          style="resize: none;"
+          style="resize: none"
         ></textarea>
 
         <div
@@ -868,7 +874,8 @@
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="insurance_copy"
-          >{{ labels.insuranceCopyVerfied }} <sub class="star_red_col">*</sub></label
+          >{{ labels.insuranceCopyVerfied }}
+          <sub class="star_red_col">*</sub></label
         >
         <!-- <select class="form-control">
                     <option>Select</option>
@@ -904,7 +911,6 @@
           placeholder="dd/mm/yyyy"
           [activeView]="'decade'"
           [min]="toDayDate"
-          
         >
         </kendo-datepicker>
         <div
@@ -942,6 +948,7 @@
           formControlName="vehiclePhsicallyVerified"
           [isRequired]="'Please select one'"
           [isDirty]="isDirty"
+          (change)="vehCondVerified($event.target.value)"
         >
         </app-vf-custom-select>
       </div>
@@ -958,7 +965,7 @@
         <app-vf-custom-select
           [values]="loanDetailsLov?.physicalCondition"
           formControlName="conditionOfVehicle"
-          [isRequired]="'Please select one'"
+          [isRequired]="vehCondRequired ? 'Please select one' : ''"
           [isDirty]="isDirty"
         >
         </app-vf-custom-select>
@@ -1031,6 +1038,20 @@
       *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'"
     >
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="prev_exp"
+          >{{ labels.isPrevExpMatched }}
+          <sub class="star_red_col">*</sub></label
+        >
+        <app-vf-custom-select
+          [values]="loanDetailsLov?.commonLov"
+          formControlName="isPrevExpMatched"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
+      </div>
+
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="remarks"
           >{{ labels.remarks }} <sub class="star_red_col">*</sub></label
         >
@@ -1044,7 +1065,7 @@
           placeholder="remarks"
           formControlName="remarks"
           maxlength="300"
-          style="resize: none;"
+          style="resize: none"
         ></textarea>
 
         <div
@@ -1075,7 +1096,11 @@
           >
             {{ labels.back }}
           </button>
-          <button class="btn btn-primary" (click)="onFormSubmit('save')" *ngIf="!disableSaveBtn">
+          <button
+            class="btn btn-primary"
+            (click)="onFormSubmit('save')"
+            *ngIf="!disableSaveBtn"
+          >
             {{ labels.save }}
           </button>
           <button

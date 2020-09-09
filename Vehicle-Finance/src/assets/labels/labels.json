@@ -959,6 +959,7 @@
     "propertyArea": "Area of the property(sq.feet)",
     "dependents": "Dependents",
     "ratingBySo": "Rating By SO",
+    "customerLocality": "Locality",
     "customerProfileTitle": "Customer Profile Details",
     "addressRecord": "Office / Business Address as per our records",
     "noEmployees": "No of Employees Seen",
@@ -1012,6 +1013,7 @@
     "tripAmt": "Amount Received per trip",
     "selfDriver": "Self Driven or Driver",
     "remarks": "Remarks-Not in running condition",
+    "isPrevExpMatched":"Customer previous experience matched with proposed vehicle",
     "permanentAddress": "Permanent Address",
     "currentAddress": "Current Address",
     "isItSameAsYourPermanentAddress": "Is it same as your permanent Address?",
@@ -2404,6 +2406,12 @@
                 "rule": 2
             },
             "type": "number"
+        },
+        "locality": {
+            "maxLength": {
+                "rule": 30
+            },
+            "type": "alpha"
         }
     }
 }

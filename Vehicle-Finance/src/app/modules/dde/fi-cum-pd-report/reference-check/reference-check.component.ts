@@ -209,10 +209,10 @@ export class ReferenceCheckComponent implements OnInit {
 
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1') {
-      this.referenceCheckForm.disable();
-      this.disableSaveBtn = true;
-    }
+      if (operationType === '1') {
+        this.referenceCheckForm.disable();
+        this.disableSaveBtn = true;
+      }
     });
   }
   getLeadId() { // function to access respective lead id from the routing
@@ -322,30 +322,6 @@ export class ReferenceCheckComponent implements OnInit {
 
     const refCheckModel = this.refCheckDetails || {};
     const otherDetailsModel = this.otherDetails || {};
-
-    // if (this.refCheckDetails.soName && this.refCheckDetails.employeeCode &&
-    //   this.otherDetails.product && this.otherDetails.sourcingChannel &&
-    //   this.otherDetails.equitasBranchName && this.otherDetails.date &&
-    //   this.otherDetails.timeOfVerification) {
-    //   this.productCat = this.otherDetails.product;
-    //   this.sourcingChannel = this.otherDetails.sourcingChannel;
-    //   this.equitasBranchName = this.otherDetails.equitasBranchName;
-    //   // this.distanceFromEquitas = this.otherDetails.distanceFromEquitas;
-    //   this.soName = this.refCheckDetails.soName;
-    //   this.employeeCode = this.refCheckDetails.employeeCode;
-    //   this.date = this.otherDetails.date;
-    //   this.time = this.otherDetails.timeOfVerification;
-    // } else {
-    //   this.productCat = this.serviceProductCat;
-    //   this.sourcingChannel = this.serviceSourcingChannel;
-    //   this.equitasBranchName = this.serviceEquitasBranchName;
-    //   // this.distanceFromEquitas = this.otherDetails.distanceFromEquitas;
-    //   this.soName = this.userName;
-    //   this.employeeCode = this.userId;
-    //   this.date = this.utilityService.convertDateTimeTOUTC(this.sysDate, 'DD/MM/YYYY');
-    //   // formValue.dob = formValue.dob ? this.utilityService.convertDateTimeTOUTC(formValue.dob, 'DD/MM/YYYY') : null;
-    //   this.time = this.sysTimeOfVerification;
-    // }
     if (this.refCheckDetails) {
       this.soName = this.refCheckDetails.soName ? this.refCheckDetails.soName : this.userName;
       this.employeeCode = this.refCheckDetails.employeeCode ? this.refCheckDetails.employeeCode : this.userId;
@@ -434,10 +410,10 @@ export class ReferenceCheckComponent implements OnInit {
       equitasBranchName: referenceCheckModel.equitasBranchName ? referenceCheckModel.equitasBranchName : null,
       distanceFromEquitas: referenceCheckModel.distanceFromEquitas ? referenceCheckModel.distanceFromEquitas : null,
       // this.formValues.date = this.formValues.date ? this.utilityService.convertDateTimeTOUTC(this.formValues.date, 'DD/MM/YYYY') : null;
-      date: this.sysDate ? this.utilityService.getDateFormat(this.sysDate) : null,
+      date: referenceCheckModel.date ? this.utilityService.convertDateTimeTOUTC(referenceCheckModel.date, 'DD/MM/YYYY') : null,
       area: referenceCheckModel.area ? referenceCheckModel.area : null,
       place: referenceCheckModel.place ? referenceCheckModel.place : null,
-      timeOfVerification: this.sysTimeOfVerification ? this.sysTimeOfVerification : null,
+      timeOfVerification: referenceCheckModel.timeOfVerification ? referenceCheckModel.timeOfVerification : null,
       pdOfficerName: referenceCheckModel.soName ? referenceCheckModel.soName : null,
 
 

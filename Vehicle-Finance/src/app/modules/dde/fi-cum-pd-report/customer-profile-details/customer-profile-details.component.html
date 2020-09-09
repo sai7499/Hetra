@@ -117,18 +117,23 @@
       </div>
     </div>
     <div class="row">
-      <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="ownership_proof"
-          >{{ labels.ownershipProof }} <sub class="star_red_col">*</sub></label
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="locality"
+          >{{ labels.customerLocality }}
+          <sub class="star_red_col">*</sub></label
         >
-        <app-vf-custom-select
-          [values]="customerProfileLov?.commonLov"
-          formControlName="ownershipAvailable"
-          [isRequired]="'Please select one'"
+        <!-- <input type="number" class="form-control" id="no_employees" formControlName="noOfEmployeesSeen"> -->
+        <app-custom-input
+          id="locality"
+          formControlName="locality"
+          placeholder="Enter locality"
+          [type]="labels?.validationData?.locality?.type"
+          [isRequired]="'locality is required'"
+          [maxLength]="labels?.validationData?.locality?.maxLength"
           [isDirty]="isDirty"
         >
-        </app-vf-custom-select>
-      </div> -->
+        </app-custom-input>
+      </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="met_customer"
           >{{ labels.metCustomer }} <sub class="star_red_col">*</sub></label
@@ -165,11 +170,12 @@
         >
         </app-vf-custom-select>
       </div>
-
+    </div>
+    <div class="row">
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="mismatch_address"
           >{{ labels.mismatchOfficeBusinsessAddress }}
-          <sub class="star_red_col">*</sub></label
+          <sub class="star_blue_col">*</sub></label
         >
         <!-- <textarea class="form-control" rows="1" id="mismatch_address" formControlName="mismatchAddress"></textarea> -->
         <!-- <app-custom-input id="mismatch_address" formControlName="mismatchInAddress" placeholder="mismatch in address" [patternCheck]="labels?.validationData?.landMark?.pattern" [isRequired]="'Input is required'" [maxLength]="labels?.validationData?.landMark?.maxLength"
@@ -214,48 +220,46 @@
           </div>
         </div>
       </div>
-    </div>
-    <!-- <div class="row"> -->
-    <div class="btn-sec clear-both">
-      <div class="col-sm-4"></div>
-      <div class="col-sm-8 text-right">
-        <!-- <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../applicant-detail',applicantId,version]">
+      <div class="btn-sec clear-both">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-8 text-right">
+          <!-- <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../applicant-detail',applicantId,version]">
                         {{labels.back}} </button> &nbsp;
                     <button class="btn btn-primary" type="button" *ngIf="roleName === 'Sales Officer'" [routerLink]="['../../applicant-detail',applicantId]">
                         {{labels.back}} </button> &nbsp; -->
-        <button
-          class="btn btn-primary"
-          type="button"
-          (click)="onNavigateBack()"
-        >
-          {{ labels.back }}
-        </button>
-        <button
-          class="btn btn-primary"
-          (click)="onFormSubmit('save')"
-          *ngIf="!disableSaveBtn"
-        >
-          {{ labels.save }}
-        </button>
+          <button
+            class="btn btn-primary"
+            type="button"
+            (click)="onNavigateBack()"
+          >
+            {{ labels.back }}
+          </button>
+          <button
+            class="btn btn-primary"
+            (click)="onFormSubmit('save')"
+            *ngIf="!disableSaveBtn"
+          >
+            {{ labels.save }}
+          </button>
 
-        <!-- <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../loan-details',applicantId,version]"> {{labels.next}} </button>
+          <!-- <button class="btn btn-primary" type="button" *ngIf="roleName === 'Credit Officer'" [routerLink]="['../../../loan-details',applicantId,version]"> {{labels.next}} </button>
                     <button class="btn btn-primary" type="button" *ngIf="roleName === 'Sales Officer'" [routerLink]="['../../loan-details',applicantId]"> {{labels.next}} </button> -->
-        <!-- <button
+          <!-- <button
             class="btn btn-primary"
             type="button"
             (click)="onNavigateNext()"
           >
             {{ labels.next }}
           </button> -->
-        <button
-          class="btn btn-primary"
-          type="button"
-          (click)="onFormSubmit('next')"
-        >
-          {{ labels.next }}
-        </button>
+          <button
+            class="btn btn-primary"
+            type="button"
+            (click)="onFormSubmit('next')"
+          >
+            {{ labels.next }}
+          </button>
+        </div>
       </div>
     </div>
-    <!-- </div> -->
   </div>
 </form>
