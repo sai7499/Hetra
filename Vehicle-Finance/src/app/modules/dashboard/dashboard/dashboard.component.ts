@@ -432,35 +432,6 @@ export class DashboardComponent implements OnInit {
       this.onReleaseTab = true;
       this.onAssignTab = false;
     }
-    // if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
-    //   this.getSalesFilterLeads(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.PD && this.subActiveTab === this.displayTabs.MyPD) {
-    //   // this.getPdMyTask(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.Viability && this.subActiveTab === this.displayTabs.ViabilityWithMe) {
-    //   this.getViabilityLeads(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.FI && this.subActiveTab === this.displayTabs.MyFI) {
-    //   this.getMyFITask(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.PDD) {
-    //   this.getPDDLeads(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.ChequeTracking) {
-    //   this.getChequeTrackingLeads(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.LoanBooking) {
-    //   this.getProcessLogsLeads(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.DDE && this.subActiveTab === this.displayTabs.DDEWithMe) {
-    //   this.getMyDDELeads(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.Deviation && this.subActiveTab === this.displayTabs.DeviationWithMe) {
-    //   this.getMyDeviationLeads(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.Decision && this.subActiveTab === this.displayTabs.CreditDecisionWithMe) {
-    //   this.getMyDecisionLeads(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.TermSheet && this.subActiveTab === this.displayTabs.TermSheetWithMe) {
-    //   this.getMyTermsheetLeads(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.CPCMaker && this.subActiveTab === this.displayTabs.CPCMakerWithMe) {
-    //   this.getMakerLeads(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.CPCChecker && this.subActiveTab === this.displayTabs.CPCCheckerWithMe) {
-    //   this.getCheckerLeads(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.PreDisbursementQueue && this.subActiveTab === this.displayTabs.PreDisbursementWithMe) {
-    //   this.getPreDisbursementLeads(this.itemsPerPage);
-    // }
   }
 
   // changing sub tabs
