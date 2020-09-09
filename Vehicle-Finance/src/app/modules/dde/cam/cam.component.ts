@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
 import { CamService } from '@services/cam.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import {
   FormGroup,
@@ -12,6 +12,8 @@ import {
 } from "@angular/forms";
 import { ToasterService } from '@services/toaster.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { LoginStoreService } from '@services/login-store.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-cam',
@@ -79,16 +81,36 @@ export class CamComponent implements OnInit {
   isCamGeneratedValue;
   isCamDetails: boolean;
   generateCam: boolean = false;
-
-
+  roleId: any;
+  roleType: any;
+  salesResponse = 'false';
+  currentUrl: string;
+  showSave: boolean = false;
   constructor(private labelsData: LabelsService,
     private camService: CamService,
     private activatedRoute: ActivatedRoute,
     private createLeadDataService: CreateLeadDataService,
     private formBuilder: FormBuilder,
     private toasterService: ToasterService,
-    private toggleDdeService: ToggleDdeService
-  ) { }
+    private toggleDdeService: ToggleDdeService,
+    private loginStoreService: LoginStoreService,
+    private router: Router,
+    private location: Location,
+
+
+
+  ) {
+    this.salesResponse = localStorage.getItem('salesResponse');
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+      this.roleId = value.roleId;
+      this.roleType = value.roleType;
+
+      console.log('role Type', this.roleType);
+     
+
+    });
+
+  }
 
   ngOnInit() {
 
@@ -177,31 +199,7 @@ export class CamComponent implements OnInit {
         }
       })
     }
-    // if (this.isCamGeneratedValue == false) {
-    //   this.isCamDetails = true
-    // } else if(this.isCamGeneratedValue == true){
-    //   this.isCamDetails = false
-    // }
-    // this.getCamUsedCvDetails();
-    // if (this.productCategoryCode == "UCV") {
-    //   this.usedCvCam = true;
-    //   this.getCamUsedCvDetails();
-    // }
-    // // else if (this.productCategoryCode == "UC") {
-    // //   this.usedCarCam = true 
-    // //   // this.getCamUsedCarDetails();
-    // //   console.log(this.isCamGenerated);
-    // //   // if(this.isCamGenerated == false){
-    // //   //   this.isCamDetails = true;
-    // //   // } else {
-    // //   //   this.isCamDetails = false
-    // //   // }
-    // //   // this.showCamDetails()
-    // // }
-    // else if (this.productCategoryCode == "NCV") {
-    //   this.newCvCam = true
-    //   this.getCamNewCvDetails();
-    // }
+
     if (this.productCategoryCode == "UCV") {
 
       this.camDetailsForm = this.formBuilder.group({
@@ -286,10 +284,20 @@ export class CamComponent implements OnInit {
 
     const operationType = this.toggleDdeService.getOperationType();
     if (operationType === '1') {
-      // this.camDetailsForm.disable();
       this.disableSaveBtn = true;
     }
+    
+    this.currentUrl = this.location.path();
+    if (this.currentUrl.includes('credit-decisions')  ) {
+      this.camDetailsForm.disable();
+      this.showSave = false
+      console.log(this.showSave);
+    }else if(this.currentUrl.includes('dde')){
+      this.showSave = true
+
+    }
   }
+
   showCamDetails() {
     if (this.productCategoryCode == "UC") {
       this.usedCarCam = true
@@ -297,18 +305,18 @@ export class CamComponent implements OnInit {
       this.generateCam = true
       this.getCamUsedCarDetails(this.generateCam)
     } else
-    if (this.productCategoryCode == "UCV") {
-      this.usedCvCam = true
-      this.isCamDetails = false
-      this.generateCam = true
-      this.getCamUsedCvDetails(this.generateCam)
-    } else
-    if (this.productCategoryCode == "NCV") {
-      this.newCvCam = true
-      this.isCamDetails = false
-      this.generateCam = true
-      this.getCamNewCvDetails(this.generateCam)
-    }
+      if (this.productCategoryCode == "UCV") {
+        this.usedCvCam = true
+        this.isCamDetails = false
+        this.generateCam = true
+        this.getCamUsedCvDetails(this.generateCam)
+      } else
+        if (this.productCategoryCode == "NCV") {
+          this.newCvCam = true
+          this.isCamDetails = false
+          this.generateCam = true
+          this.getCamNewCvDetails(this.generateCam)
+        }
   }
   getCamUsedCvDetails(generateCam) {
     const data = {
@@ -386,12 +394,7 @@ export class CamComponent implements OnInit {
       this.recommendation = res.ProcessVariables['recommendation']
 
     })
-
-    // if (this.isCamGeneratedValue == false) {
-    //   this.isCamDetails = true
-    // } else if(this.isCamGeneratedValue == true){
-    //   this.isCamDetails = false
-    // }
+    
   }
   getCamNewCvDetails(generateCam) {
     const data = {
@@ -490,7 +493,7 @@ export class CamComponent implements OnInit {
             this.getCamUsedCvDetails(this.generateCam);
           } else
             if (this.productCategoryCode == "NCV") {
-            this.generateCam = true
+              this.generateCam = true
               this.getCamNewCvDetails(this.generateCam);
             }
         }
@@ -508,4 +511,23 @@ export class CamComponent implements OnInit {
       });
     });
   }
+  onBack() {
+    if (this.roleType == '2' && this.currentUrl.includes('dde')) {
+      this.router.navigate([`pages/dde/${this.leadId}/score-card`]);
+    } else if (this.roleType == '2' && this.salesResponse == 'true' ) {
+      this.router.navigate([`pages/credit-decisions/${this.leadId}/disbursement`]);
+    } else if (this.roleType == '2' && this.salesResponse == 'false') {
+      this.router.navigate([`pages/dashboard`]);
+    }
+  }
+  onNext() {
+    if (this.roleType == '2' && this.currentUrl.includes('dde')) {
+      this.router.navigate([`pages/dde/${this.leadId}/deviations`]);
+    } else if (this.roleType == '2' && this.salesResponse == 'true') {
+      this.router.navigate([`pages/credit-decisions/${this.leadId}/deviations`]);
+    } else if (this.roleType == '2' && this.salesResponse == 'false') {
+      this.router.navigate([`pages/credit-decisions/${this.leadId}/deviations`]);
+    }
+  }
+ 
 }

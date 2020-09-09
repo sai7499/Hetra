@@ -2404,14 +2404,14 @@
 <div class="btn-sec clear-both row">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right">
-        <button class="btn btn-primary dash_href" type="button" routerLink="../score-card">
+        <button  (click)="onBack()" class="btn btn-primary dash_href" type="button" >
             {{ labels?.back }}
         </button>
-        <button *ngIf="usedCvCam || newCvCam" class="btn btn-primary mar-right8" type="button" (click)=onSubmit();
+        <button *ngIf="usedCvCam || newCvCam && showSave == true" class="btn btn-primary mar-right8" type="button" (click)=onSubmit();
             [disabled]="disableSaveBtn">
             Save
         </button>
-        <button class="btn btn-primary dash_href" type="button" routerLink="../deviations">
+        <button (click)="onNext()" class="btn btn-primary dash_href" type="button" >
             {{ labels?.next }}
         </button>
     </div>

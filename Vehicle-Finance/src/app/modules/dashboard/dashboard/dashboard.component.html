@@ -93,6 +93,9 @@
       <li (click)="onLeads(displayTabs?.Viability, displayTabs?.ViabilityWithMe)"
         [ngClass]="{'active':displayTabs?.Viability === activeTab}" routerLinkActive="active"><a
           data-toggle="tab">Vehicle Viability</a></li>
+      <li (click)="onLeads(displayTabs?.Deviation, displayTabs?.DeviationWithMe, 'deviation')"
+        [ngClass]="{'active':displayTabs?.Deviation === activeTab}" routerLinkActive="active"><a
+          data-toggle="tab">Deviation</a></li>
       <li (click)="onLeads(displayTabs?.PDD)" [ngClass]="{'active':displayTabs?.PDD === activeTab}"
         routerLinkActive="active"><a data-toggle="tab">PDD</a></li>
       <li (click)="onLeads(displayTabs?.ChequeTracking)"
@@ -144,7 +147,17 @@
           data-toggle="tab">Viability Checks Pending with Branch</a></li>
     </ul>
     <!--  -->
-    <ul *ngIf="displayTabs?.PreDisbursementQueue === activeTab" class="nav nav-pills nav-justified" id="background_white">
+    <ul *ngIf="displayTabs?.Deviation === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="leads(displayTabs?.DeviationWithMe)"
+        [ngClass]="{'active':displayTabs?.DeviationWithMe === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Deviation Pending With Me</a></li>
+      <li (click)="leads(displayTabs?.DeviationWithBranch)"
+        [ngClass]="{'active':displayTabs?.DeviationWithBranch === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Deviation Pending With Branch</a></li>
+    </ul>
+    <!--  -->
+    <ul *ngIf="displayTabs?.PreDisbursementQueue === activeTab" class="nav nav-pills nav-justified"
+      id="background_white">
       <li (click)="leads(displayTabs?.PreDisbursementWithMe)"
         [ngClass]="{'active':displayTabs?.PreDisbursementWithMe === subActiveTab}" routerLinkActive="active"><a
           data-toggle="tab">Leads Pending with Me</a></li>
@@ -291,13 +304,14 @@
           <tr
             *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
             <td [attr.data-label]="labels?.action" *ngIf="onReleaseTab">
-              <input type="button" class="btn btn-primary" (click)="onRelase(item.taskId); onClick()" value="Release"
+              <input type="button" class="btn btn-primary"
+                (click)="onRelase(item.taskId); assignTaskId(item.taskId); onClick()" value="Release"
                 data-toggle="modal" data-target="#releaseModal">
             </td>
             <td [attr.data-label]="labels?.action" *ngIf="onAssignTab">
               <input type="button" class="btn btn-primary"
-                (click)="onAssign(item.taskId, item.leadId); onClick(); getLeadId(item)" value="Assign"
-                data-toggle="modal" data-target="#assignModel" />
+                (click)="onAssign(item.taskId, item.leadId);  assignTaskId(item.taskId); onClick(); getLeadId(item)"
+                value="Assign" data-toggle="modal" data-target="#assignModel" />
             </td>
             <td [attr.data-label]="labels?.leadID" *ngIf="!onReleaseTab && !onAssignTab" class="text-underline"
               (click)="onRoute(item.leadId,item.stageCode,item.taskId); assignTaskId(item.taskId); getLeadId(item)"

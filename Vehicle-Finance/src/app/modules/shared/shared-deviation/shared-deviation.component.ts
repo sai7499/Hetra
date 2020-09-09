@@ -8,7 +8,7 @@ import { SharedService } from '../shared-service/shared-service';
 import { LoginStoreService } from '@services/login-store.service';
 import { Router } from '@angular/router';
 import { UtilityService } from '@services/utility.service';
-import { ToggleDdeService } from '@services/toggle-dde.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-shared-deviation',
@@ -47,11 +47,12 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   @Input() isSubmitToCredit: boolean;
   @Input() isDirty: boolean;
 
-  public isSendBacktoCredit = null;
+  public isSendBacktoCredit = false;
+  locationIndex: string = '';
 
   constructor(private labelsData: LabelsService, private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService,
     private deviationService: DeviationService, private toasterService: ToasterService, private sharedService: SharedService,
-    private loginStoreService: LoginStoreService, private router: Router, private utilityService: UtilityService, private toggleDdeService: ToggleDdeService) { }
+    private loginStoreService: LoginStoreService, private router: Router, private utilityService: UtilityService, private location: Location) { }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -79,12 +80,37 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.businessDivision = this.leadDetails['bizDivision']
     this.productCatoryId = this.leadDetails['productId'];
 
+    let currentUrl = this.location.path();
+    this.locationIndex = this.getLocationIndex(currentUrl);
+
+    this.location.onUrlChange((url: string) => {
+      this.locationIndex = this.getLocationIndex(url);
+    });
+
+
     this.getDeviationMaster();
 
     this.sharedService.taskId$.subscribe((id) => {
       this.taskId = id ? id : '';
     })
-    this.isApproveDeviation()
+
+    let salesResponse = localStorage.getItem('salesResponse');
+    let isPreDone = localStorage.getItem('is_pred_done')
+
+    console.log(salesResponse, 'Fhsh', isPreDone, 'dgdh', this.locationIndex)
+
+
+    if (this.locationIndex === 'credit-decisions') {
+      if (localStorage.getItem('salesResponse') === 'false' || localStorage.getItem('is_pred_done') === 'true') {
+        this.deviationsForm.disable()
+      }
+
+      if (localStorage.getItem('salesResponse') === 'true' && localStorage.getItem('is_pred_done') === 'false') {
+        this.isSendBacktoCredit = true;
+      }
+    }
+    console.log(this.isSendBacktoCredit, 'Fhsh', this.isSubmitToCredit)
+
   }
 
   initForms() {
@@ -92,8 +118,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.deviationsForm = this._fb.group({
       approverRole: [''],
       isSaveEdit: false,
-      isAutoModalName: 'None',
-      isManualModalName: 'None',
+      enableApprove: false,
+      enableSendBack: false,
       autoDeviationFormArray: this._fb.array([]),
       manualDeviationFormArray: this._fb.array([this.getManualDeviations()])
     })
@@ -120,7 +146,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       "userId": this.userId,
       "devRuleId": obj.value.devRuleId,
       "statusCode": value + '',
-      "isRevert": Number(obj.value.statusCode) === value ? true : false
+      "isRevert": false
     }
 
     this.deviationService.approveDeclineDeviation(data).subscribe((res: any) => {
@@ -136,50 +162,61 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   }
 
-  isApproveDeviation() {
+  // isApproveDeviation() {
 
-    this.isSendBacktoCredit = null;
+  //   this.isSendBacktoCredit = null;
 
-    let total = null;
-    this.isOne = false;
-    this.isZero = false;
-    let data = [];
+  //   let total = null;
+  //   this.isOne = false;
+  //   this.isZero = false;
+  //   let data = [];
 
-    if (this.deviationsForm.controls['autoDeviationFormArray'].value.length > 0) {
-      console.log('jj', this.deviationsForm.controls['manualDeviationFormArray'].value[0].devRuleId !== 0)
-      if (this.deviationsForm.controls['manualDeviationFormArray'].value[0].devRuleId !== 0) {
-        data = data.concat(this.deviationsForm.controls['autoDeviationFormArray'].value);
-        data = data.concat(this.deviationsForm.controls['manualDeviationFormArray'].value);
-      } else {
-        data = data.concat(this.deviationsForm.controls['autoDeviationFormArray'].value);
-      }
-    } else {
-      data = this.deviationsForm.controls['manualDeviationFormArray'].value
+  //   if (this.deviationsForm.controls['autoDeviationFormArray'].value.length > 0) {
+  //     if (this.deviationsForm.controls['manualDeviationFormArray'].value[0].devRuleId !== 0) {
+  //       data = data.concat(this.deviationsForm.controls['autoDeviationFormArray'].value);
+  //       data = data.concat(this.deviationsForm.controls['manualDeviationFormArray'].value);
+  //     } else {
+  //       data = data.concat(this.deviationsForm.controls['autoDeviationFormArray'].value);
+  //     }
+  //   } else {
+  //     data = this.deviationsForm.controls['manualDeviationFormArray'].value
+  //   }
+
+  //   data.map((res: any) => {
+  //     if (res.statusCode === '0') {
+  //       this.isSendBacktoCredit = 0;
+  //       this.isOne = true;
+  //       this.isZero = true;
+  //       return;
+  //     } else if (res.statusCode === null || res.statusCode === undefined) {
+  //       this.isSendBacktoCredit = null;
+  //       this.isOne = true;
+  //     }
+  //   });
+
+  //   if (this.isZero) {
+  //     this.isSendBacktoCredit = 0;
+  //   }
+  //   if (!this.isOne) {
+  //     this.isSendBacktoCredit = 1;
+  //   }
+
+  // }
+
+  getLocationIndex(url) {
+    if (url.includes('dde')) {
+      this.isSubmitToCredit = false;
+      this.isSendBacktoCredit = false;
+      return 'dde';
+    } else if (url.includes('credit-decisions')) {
+      this.isSubmitToCredit = true;
+      this.isSendBacktoCredit = true;
+      return 'credit-decisions';
+    } else if (url.includes('deviation-dashboard')) {
+      this.isSubmitToCredit = true;
+      this.isSendBacktoCredit = false;
+      return 'deviation-dashboard';
     }
-
-    console.log(data, 'data')
-
-    data.map((res: any) => {
-      if (res.statusCode === '0') {
-        this.isSendBacktoCredit = 0;
-        this.isOne = true;
-        this.isZero = true;
-        return;
-      } else if (res.statusCode === null || res.statusCode === undefined) {
-        this.isSendBacktoCredit = null;
-        this.isOne = true;
-      }
-    });
-
-    if (this.isZero) {
-      this.isSendBacktoCredit = 0;
-    }
-    if (!this.isOne) {
-      this.isSendBacktoCredit = 1;
-    }
-
-    console.log(this.isSendBacktoCredit)
-
   }
 
   getDeviationMaster() {
@@ -331,9 +368,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       if (control.controls.length > 0) {
         control.removeAt(i);
       }
-      //  else {
-      //   this.toasterService.showInfo("Atleast One Row Required", 'Remove Deviation');
-      // }
     }
   }
 
@@ -343,6 +377,10 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         if (res.ProcessVariables.deviation && res.ProcessVariables.deviation.length > 0) {
           this.autoDeviationArray = res.ProcessVariables.deviation ? res.ProcessVariables.deviation : [];
           this.recommendationArray = res.ProcessVariables.recommendation ? res.ProcessVariables.recommendation : [];
+          this.deviationsForm.patchValue({
+            enableApprove: res.ProcessVariables.enableApprove ? res.ProcessVariables.enableApprove : false,
+            enableSendBack: res.ProcessVariables.enableSendBack ? res.ProcessVariables.enableSendBack : false,
+          })
           this.onPatchFormArrayValue(this.autoDeviationArray)
         }
       } else {
@@ -445,8 +483,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       manualDiviationFormArray.push(this.getManualDeviations())
     }
     this.sharedService.getFormValidation(this.deviationsForm)
-    this.isApproveDeviation()
-
+    // this.isApproveDeviation()
   }
 
   ReferDeviation() {

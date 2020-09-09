@@ -53,4 +53,34 @@ export class SanctionDetailsService {
       const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
       return this.httpService.post(url, body);
     }
+
+    assignTaskToTSAndCPC(data){
+      const processData = data;
+      const processId = this.apiService.api.assignTaskToTSAndCPC.processId;
+      const workflowId = this.apiService.api.assignTaskToTSAndCPC.workflowId;
+      const projectId = this.apiService.api.assignTaskToTSAndCPC.projectId;
+      const body: RequestEntity = {
+        processId: processId,
+        ProcessVariables: processData,
+        workflowId: workflowId,
+        projectId: projectId
+      };
+      const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+      return this.httpService.post(url, body);
+    }
+
+    submitToCC(data) {
+      const processData = data;
+      const processId = this.apiService.api.submitToCC.processId;
+      const workflowId = this.apiService.api.submitToCC.workflowId;
+      const projectId = this.apiService.api.submitToCC.projectId;
+      const body: RequestEntity = {
+        processId: processId,
+        ProcessVariables: processData,
+        workflowId: workflowId,
+        projectId: projectId
+      };
+      const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+      return this.httpService.post(url, body);
+    }
 }

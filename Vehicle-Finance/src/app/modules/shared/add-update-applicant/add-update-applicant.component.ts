@@ -279,7 +279,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
   getLeadSectiondata() {
     const leadData = this.createLeadDataService.getLeadSectionData();
-    console.log('data-->', leadData);
     this.productCategory = leadData['leadDetails'].productId;
     this.fundingProgram = leadData['leadDetails'].fundingProgram;
 
@@ -295,12 +294,16 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       //this.namePattern = this.namePatternNonIdv;
       this.addIndFormControls();
       this.removeNonIndFormControls();
+      dedupe.get('bussinessEntityType').clearValidators();
+      dedupe.get('bussinessEntityType').updateValueAndValidity()
     } else {
       const dedupe = this.coApplicantForm.get('dedupe');
-      dedupe.patchValue({
-        title: 'M/SSALUTATION',
-      });
-      this.coApplicantForm.get('dedupe').get('aadhar').clearValidators();
+      // dedupe.patchValue({
+      //   title: 'M/SSALUTATION',
+      // });
+      dedupe.get('aadhar').clearValidators();
+      dedupe.get('bussinessEntityType').setValidators([Validators.required]);
+      dedupe.get('bussinessEntityType').updateValueAndValidity()
       //this.namePattern = { ...this.namePatternIdv };
       this.addNonIndFormControls();
       this.removeIndFormControls();
@@ -929,7 +932,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     return {
       loanApplicationRelation: new FormControl('', Validators.required),
       entityType: new FormControl('', Validators.required),
-      bussinessEntityType: new FormControl(''),
+      bussinessEntityType: new FormControl('',Validators.required),
       fullName: new FormControl(''),
       name1: new FormControl('', Validators.required),
       name2: new FormControl(''),
@@ -1137,6 +1140,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         applicantValue.applicantDetails.ownHouseProofAvail == '1'
           ? true
           : false;
+          
+          this.isChecked =
+        applicantValue.applicantDetails.ownHouseProofAvail == '1'
+          ? true
+          : false;
       //const monthlyIncome = applicantValue.applicantDetails.monthlyIncome;
       //console.log('this.checkedBoxHouse', this.checkedBoxHouse);
 
@@ -1199,6 +1207,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       ) {
         this.addIndFormControls();
         this.removeNonIndFormControls();
+        dedupe.get('bussinessEntityType').clearValidators()
+        dedupe.get('bussinessEntityType').updateValueAndValidity()
+
         const modifyaddress = applicantValue.applicantDetails.modifyCurrentAddress
         this.checkedModifyCurrent = modifyaddress == "1" ? true : false;
         this.showSrField = modifyaddress == "1" ? true : false;
@@ -1264,10 +1275,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         // }
       } else {
         this.coApplicantForm.get('dedupe').get('aadhar').clearValidators();
-        this.coApplicantForm
-          .get('dedupe')
-          .get('aadhar')
-          .updateValueAndValidity();
+        this.coApplicantForm.get('dedupe').get('aadhar').updateValueAndValidity();
+        this.coApplicantForm.get('dedupe').get('bussinessEntityType').setValidators([Validators.required]);
+        this.coApplicantForm.get('dedupe').get('bussinessEntityType').updateValueAndValidity();
+        
         this.addNonIndFormControls();
         this.removeIndFormControls();
         if (mobile && mobile.length === 12) {
@@ -2095,7 +2106,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         custSegment: applicantDetails.custSegment || '',
         monthlyIncomeAmount: applicantDetails.monthlyIncomeAmount || '',
         annualIncomeAmount: applicantDetails.annualIncomeAmount || '',
-        ownHouseProofAvail: applicantDetails.ownHouseProofAvail || '',
+        ownHouseProofAvail: this.isChecked == true ? '1' : '0',
         houseOwnerProperty: applicantDetails.houseOwnerProperty || '',
         ownHouseAppRelationship: applicantDetails.ownHouseAppRelationship || '',
         averageBankBalance: applicantDetails.averageBankBalance || '',
@@ -2207,7 +2218,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         custSegment: applicantDetails.custSegment || '',
         monthlyIncomeAmount: applicantDetails.monthlyIncomeAmount || '',
         annualIncomeAmount: applicantDetails.annualIncomeAmount || '',
-        ownHouseProofAvail: applicantDetails.ownHouseProofAvail || '',
+        ownHouseProofAvail: this.isChecked == true ? '1' : '0',
         houseOwnerProperty: applicantDetails.houseOwnerProperty || '',
         ownHouseAppRelationship: applicantDetails.ownHouseAppRelationship || '',
         averageBankBalance: applicantDetails.averageBankBalance || '',
