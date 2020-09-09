@@ -137,7 +137,12 @@ export class UploadService {
         },
       },
     };
-    const url = environment.baseUrl + '/downloadDigiDocument/';
+    let url;
+    if (this.isMobile) {
+      url = environment.mobileBaseUrl + '/downloadDigiDocument/';
+    } else {
+      url = environment.baseUrl + '/downloadDigiDocument/';
+    }
     // 'http://10.101.10.153/downloadDigiDocument/',
 
     return this.httpService.docUpload(url, data);

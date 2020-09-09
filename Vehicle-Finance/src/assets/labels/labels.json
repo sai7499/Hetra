@@ -991,6 +991,7 @@
     "mismatchAddress": "Mis-Match in Address",
     "mismatchOfficeBusinsessAddress": "Mismatch in Office / Business Address (Mention correct address)",
     "selfieWithHouse": "Selfie with Customer House",
+    "selfieWithVehicle": "Selfie with Customer Vehicle",
     "ownershipProof": "Proof of Ownership available",
     "metCustomer": "Have you met customer?",
     "modelType": "Type",
