@@ -93,9 +93,24 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.sharedService.taskId$.subscribe((id) => {
       this.taskId = id ? id : '';
     })
-    // this.isApproveDeviation()
-    // is_pred_done
-    console.log()
+
+    let salesResponse = localStorage.getItem('salesResponse');
+    let isPreDone = localStorage.getItem('is_pred_done')
+
+    console.log(salesResponse, 'Fhsh', isPreDone, 'dgdh', this.locationIndex)
+
+
+    if (this.locationIndex === 'credit-decisions') {
+      if (localStorage.getItem('salesResponse') === 'false' || localStorage.getItem('is_pred_done') === 'true') {
+        this.deviationsForm.disable()
+      }
+
+      if (localStorage.getItem('salesResponse') === 'true' && localStorage.getItem('is_pred_done') === 'false') {
+        this.isSendBacktoCredit = true;
+      }
+    }
+    console.log(this.isSendBacktoCredit, 'Fhsh', this.isSubmitToCredit)
+
   }
 
   initForms() {
@@ -192,19 +207,15 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     if (url.includes('dde')) {
       this.isSubmitToCredit = false;
       this.isSendBacktoCredit = false;
-      return 'lead-section';
+      return 'dde';
     } else if (url.includes('credit-decisions')) {
       this.isSubmitToCredit = true;
-      if (!localStorage.getItem('salesResponse') || localStorage.getItem('is_pred_done')) {
-        this.deviationsForm.disable()
-      } 
-      if (localStorage.getItem('salesResponse') && !localStorage.getItem('is_pred_done')) {
-        this.isSendBacktoCredit = true;
-      }
-      return 'sales';
+      this.isSendBacktoCredit = true;
+      return 'credit-decisions';
     } else if (url.includes('deviation-dashboard')) {
       this.isSubmitToCredit = true;
       this.isSendBacktoCredit = false;
+      return 'deviation-dashboard';
     }
   }
 
