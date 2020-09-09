@@ -196,110 +196,16 @@ salesResponse: any;
       this.router.navigate([`pages/cpc-checker/${this.leadId}/term-sheet`]);
       }
   }
-//   downloadpdf(){
-//     const htmlWidth = $("#contentToConvert").width();
-//     const htmlHeight = $("#contentToConvert").height();
-    
-//     const pdfWidth = htmlWidth;
-//     const pdfHeight = 1500;
-//       // tslint:disable-next-line: variable-name
-//     const canvasImageWidth = htmlWidth;
-//       // tslint:disable-next-line: variable-name
-//     const canvas_image_height = htmlHeight;
-
-//     const totalPDFPages = Math.ceil(htmlHeight / pdfHeight) - 1;
-
-//     html2canvas($("#contentToConvert")[0], {
-//       allowTaint: false,
-//       useCORS: true
-//     }).then(canvas => {
-//       canvas.getContext("2d");
-
-//       const imgData = canvas.toDataURL("image/jpeg", 1.0);
-      
-//       const pdf = new jspdf.jsPDF("p", "pt", [pdfWidth, pdfHeight]);
-//       pdf.addImage(imgData,"JPEG",10,10,canvasImageWidth,canvas_image_height)
-//       // pdf.addImage(
-//       //   imgData,
-//       //   "png",
-//       //   topLeftMargin,
-//       //   topLeftMargin,
-//       //   canvasImageWidth,
-//       //   canvas_image_height,
-//       //   bottomMargin
-//       // );
-      
-// for (let i = 1; i <= totalPDFPages; i++) {
-//         pdf.addPage("a4");
-//         pdf.addImage(
-//           imgData,
-//           "png",
-//           canvasImageWidth,
-//           -(pdfHeight * i) +canvas_image_height  * 4,
-//           canvasImageWidth,
-//           canvas_image_height
-//         );
-//       }
-
-//       pdf.save( "termsheet.pdf");
-//     });
-
-//   }
 downloadpdf()
         { 
           var options = {
             margin:.25,
-            filename: "file.pdf",
+            filename: `SanctionDetail${this.leadId}.pdf`,
             image: { type: 'jpeg', quality: 1 },
             jsPDF: { unit: 'in', format: 'a4', orientation: 'p' }
         }
         html2pdf().from(document.getElementById("vf_sheet_print_starts")).set(options).save();
     
-            // var pdf = new jsPDF('p', 'pt', 'a4')
-
-            // // source can be HTML-formatted string, or a reference
-            // // to an actual DOM element from which the text will be scraped.
-            // , source = $('#contentToConvert')[0]
-
-            // // we support special element handlers. Register them with jQuery-style
-            // // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
-            // // There is no support for any other type of selectors
-            // // (class, of compound) at this time.
-            // , specialElementHandlers = {
-            //      // element with id of "bypass" - jQuery style selector
-            //     '#bypassme': function(element, renderer)
-            //     {
-            //         // true = "handled elsewhere, bypass text extraction"
-            //         return true
-            //     }
-            // }
-
-            // const margins = {
-            //     top: 40,
-            //     bottom: 40,
-            //     left: 30,
-            //     right: 30,
-            //     width: 522
-            // };
-            // // all coords and widths are in jsPDF instance's declared units
-            // // 'inches' in this case
-            // pdf.fromHTML
-            // (
-            //     source // HTML string or DOM elem ref.
-            //   , margins.left // x coord
-            //   , margins.top // y coord
-            //   , {'width': margins.width // max width of content on PDF
-            //      , 'elementHandlers': specialElementHandlers
-            //     }
-            //   , function (dispose) 
-
-            //     {
-            //        // dispose: object with X, Y of the last line add to the PDF
-            //        // this allow the insertion of new lines after html
-            //        pdf.save('Mypdf.pdf');
-            //     }
-            //   , margins
-            // )
                  }
 
 }
