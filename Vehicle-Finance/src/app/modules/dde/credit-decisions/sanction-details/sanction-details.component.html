@@ -6,7 +6,7 @@
     </div>
 </div>
 
-<main class="content" style="background: #f5f5f5; border: none;" >
+<main class="content" id="contentToConvert" style="background: #f5f5f5; border: none;" >
     <div class="container-fluid print_top " id="vf_sheet_print_starts" *ngIf="isSanctionDetails">
         <div class="row">
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" style="text-align: left;" id="vf_sheet_tag8">
@@ -289,9 +289,17 @@
                 *ngIf="roleType != '2' && isPreDisbursement == 'true'"><a data-toggle="modal" 
                 data-target="#myModalSubmitToCD">Submit to CD</a></button>
             <button class="btn btn-primary btn_div" type="button" 
-                [disabled]="salesResponse == 'false'" *ngIf="roleType == '2'" (click)="onNext()" >{{labels?.next}}</button>
+                [disabled]="salesResponse == 'false'" 
+                *ngIf="roleType != '2' && isPreDisbursement == 'false'" (click)="onNext()"                
+                (click)="onNext()" >{{labels?.next}}</button>
             <button class="btn btn-primary btn_div" type="button" 
-                *ngIf="roleType != '2' && isPreDisbursement == 'false'" (click)="onNext()" >{{labels?.next}}</button>
+                *ngIf="roleType != '2'" (click)="onNext()" >{{labels?.next}}</button>
+            <button class="btn btn-primary btn_div"  *ngIf="roleType == '2'"
+                data-toggle="modal" data-target="#myModal" type="button" 
+                >{{labels?.submit}}</button>
+                <button class="btn btn-primary btn_div" (click)="downloadpdf()" type="button" 
+                >{{'Download'}}</button>
+               
         
         </div>
     </div>

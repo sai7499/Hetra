@@ -970,18 +970,22 @@
     "residenceNo": "Residence Number(with STD code)",
     "officeNo": "Office Number(with STD code)",
     "residenceAddress": " Residence Address as per loan application?",
-    "ifNotResidenceAddress": "If residence address not as per records the mention the address",
+    "ifNotResidenceAddress": "If residence address not as per records then mention the address",
     "bankName": "Bank Name",
     "accountNo": "Bank Account No",
     "landmark": "Landmark",
-    "locate": "Easy to locate?",
+    "addressAccessibility": " Address Accessibility (Easy to Locate)",
     "locality": "Residential Locality",
     "residentialType": "Residential Type",
-    "standardHouse": "Standard House",
+    "standardHouse": "Standard of House / Type ",
     "sizeOfHouse": "Size of House",
     "stdOfLiving": "Standard of Living",
     "houseOwnership": "House Ownership",
+    "ownerName": "Owner Name",
+    "propertyArea": "Area of the property(sq.feet)",
+    "dependents": "Dependents",
     "ratingBySo": "Rating By SO",
+    "customerLocality": "Locality",
     "customerProfileTitle": "Customer Profile Details",
     "addressRecord": "Office / Business Address as per our records",
     "noEmployees": "No of Employees Seen",
@@ -991,6 +995,7 @@
     "mismatchAddress": "Mis-Match in Address",
     "mismatchOfficeBusinsessAddress": "Mismatch in Office / Business Address (Mention correct address)",
     "selfieWithHouse": "Selfie with Customer House",
+    "selfieWithVehicle": "Selfie with Customer Vehicle",
     "ownershipProof": "Proof of Ownership available",
     "metCustomer": "Have you met customer?",
     "modelType": "Type",
@@ -1035,6 +1040,7 @@
     "tripAmt": "Amount Received per trip",
     "selfDriver": "Self Driven or Driver",
     "remarks": "Remarks-Not in running condition",
+    "isPrevExpMatched":"Customer previous experience matched with proposed vehicle",
     "permanentAddress": "Permanent Address",
     "currentAddress": "Current Address",
     "isItSameAsYourPermanentAddress": "Is it same as your permanent Address?",
@@ -2345,7 +2351,7 @@
             "type": "alpha"
         },
         "mismatchResidenceAddress": {
-            "maxLenght": {
+            "maxLength": {
                 "rule": 120
             },
             "type": "alpha-numeric"
@@ -2439,6 +2445,33 @@
                 "rule": "^[0-9A-za-z]{10}",
                 "msg": "Should be atleast 10 Digits"
             }
+        },
+        "ownerName": {
+            "maxLength": {
+                "rule": 40
+            },
+            "type": "alpha-numeric"
+        },
+        "propertyArea": {
+            "minLength": {
+                "rule": 2
+            },
+            "maxLength": {
+                "rule": 9
+            },
+            "type": "number"
+        },
+        "dependents": {
+            "maxLength": {
+                "rule": 2
+            },
+            "type": "number"
+        },
+        "locality": {
+            "maxLength": {
+                "rule": 30
+            },
+            "type": "alpha"
         }
     }
 }
