@@ -364,7 +364,7 @@ export class ReferenceCheckComponent implements OnInit {
       // date: this.otherDetails.date ? this.utilityService.getDateFromString(this.otherDetails.date) : '',
       area: otherDetailsModel.area ? otherDetailsModel.area : null,
       place: otherDetailsModel.place ? otherDetailsModel.place : null,
-      timeOfVerification: this.time
+      timeOfVerification: this.time ? this.time : null
 
       // time: new Date(refCheckModal.time ? this.getDateFormat(refCheckModal.time) : ""),
     });
@@ -403,18 +403,18 @@ export class ReferenceCheckComponent implements OnInit {
     // console.log('systime', this.sysTimeOfVerification);
 
     this.otherDetails = {
-      product: referenceCheckModel.productCat ? referenceCheckModel.productCat : null,
-      sourcingChannel: referenceCheckModel.sourcingChannel ? referenceCheckModel.sourcingChannel : null,
+      product: this.productCat ? this.productCat : null,
+      sourcingChannel: this.sourcingChannel ? this.sourcingChannel : null,
       // routeMap: referenceCheckModel.routeMap ? referenceCheckModel.routeMap : null,
       routeMap: referenceCheckModel.routeMap,
-      equitasBranchName: referenceCheckModel.equitasBranchName ? referenceCheckModel.equitasBranchName : null,
-      distanceFromEquitas: referenceCheckModel.distanceFromEquitas ? referenceCheckModel.distanceFromEquitas : null,
+      equitasBranchName: this.equitasBranchName ? this.equitasBranchName : null,
+      distanceFromEquitas: this.distanceFromEquitas ? this.distanceFromEquitas : null,
       // this.formValues.date = this.formValues.date ? this.utilityService.convertDateTimeTOUTC(this.formValues.date, 'DD/MM/YYYY') : null;
-      date: referenceCheckModel.date ? this.utilityService.convertDateTimeTOUTC(referenceCheckModel.date, 'DD/MM/YYYY') : null,
+      date: this.date ? this.utilityService.convertDateTimeTOUTC(this.date, 'DD/MM/YYYY') : null,
       area: referenceCheckModel.area ? referenceCheckModel.area : null,
       place: referenceCheckModel.place ? referenceCheckModel.place : null,
-      timeOfVerification: referenceCheckModel.timeOfVerification ? referenceCheckModel.timeOfVerification : null,
-      pdOfficerName: referenceCheckModel.soName ? referenceCheckModel.soName : null,
+      timeOfVerification: this.time ? this.time : null,
+      pdOfficerName: this.soName ? this.soName : null,
 
 
     };
