@@ -21,6 +21,7 @@ export class AdditionalCollateralComponent implements OnInit {
     public label: any = {};
     public LOV: any = {};
     public relationLov: any = [];
+    initalZeroCheck: any = [];
 
     public userId: number;
     public leadId: number;
@@ -31,7 +32,11 @@ export class AdditionalCollateralComponent implements OnInit {
 
     constructor(private _fb: FormBuilder, private labelsData: LabelsService, private createLeadDataService: CreateLeadDataService, private collateralDataService: CollateralDataStoreService,
         private commonLovService: CommomLovService, private utilityService: UtilityService, private collateralService: CollateralService,
-        private loginStoreService: LoginStoreService, private toasterService: ToasterService, private router: Router, private activatedRoute: ActivatedRoute) { }
+        private loginStoreService: LoginStoreService, private toasterService: ToasterService, private router: Router, private activatedRoute: ActivatedRoute) {
+
+        this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
+
+    }
 
     ngOnInit() {
 
