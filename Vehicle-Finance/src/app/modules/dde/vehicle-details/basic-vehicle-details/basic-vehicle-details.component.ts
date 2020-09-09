@@ -42,7 +42,6 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
       },
         error => {
           console.log('error', error)
-          // this.errorMsg = error;
         });
 
     this.activatedRoute.params.subscribe((value) => {

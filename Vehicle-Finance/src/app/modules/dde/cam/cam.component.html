@@ -1,4 +1,10 @@
-    <div class="container overflow-hidden" *ngIf="usedCarCam">
+<div style="text-align: center;">
+    <button class="btn btn-primary btn_div " 
+    *ngIf = "isCamDetails" (click)= "showCamDetails()" 
+    type="button">Generate Cam</button>
+</div>
+
+ <div class="container overflow-hidden" *ngIf="usedCarCam && !isCamDetails ">
 
         <!---sourcing table starts here-->
         <table class="cam_table mt-3">
@@ -557,7 +563,7 @@
     </div>
 <form class="multisteps-form__form" >
 
-    <div class="container overflow-hidden" [formGroup]="camDetailsForm" *ngIf="usedCvCam">
+    <div class="container overflow-hidden" [formGroup]="camDetailsForm" *ngIf="usedCvCam && !isCamDetails">
     <!--basic table starts here-->
 
     <table class="cam_table">
@@ -1407,7 +1413,7 @@
     </table> -->
 </div>
 
-<div class="container overflow-hidden" [formGroup]="camDetailsForm" *ngIf="newCvCam">
+<div class="container overflow-hidden" [formGroup]="camDetailsForm" *ngIf="newCvCam && !isCamDetails">
 
     <!---sourcing table starts here-->
     <table class="cam_table mt-3">
@@ -2398,14 +2404,14 @@
 <div class="btn-sec clear-both row">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right">
-        <button class="btn btn-primary dash_href" type="button" routerLink="../score-card">
+        <button  (click)="onBack()" class="btn btn-primary dash_href" type="button" >
             {{ labels?.back }}
         </button>
-        <button *ngIf="usedCvCam || newCvCam" class="btn btn-primary mar-right8" type="button" (click)=onSubmit();
+        <button *ngIf="usedCvCam || newCvCam && showSave == true" class="btn btn-primary mar-right8" type="button" (click)=onSubmit();
             [disabled]="disableSaveBtn">
             Save
         </button>
-        <button class="btn btn-primary dash_href" type="button" routerLink="../deviations">
+        <button (click)="onNext()" class="btn btn-primary dash_href" type="button" >
             {{ labels?.next }}
         </button>
     </div>

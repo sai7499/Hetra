@@ -9,8 +9,9 @@
   </div>
   <div class="col-sm-7 text-right">
     <button class="btn btn-primary dash_href" type="button" routerLink="../cam">{{labels?.back}}</button>
-    <button class="btn btn-primary dash_href" type="button"
-      (click)="saveorUpdateDeviationDetails()" *ngIf="!disableSaveBtn">{{labels?.save}}</button>
-    <!-- <button class="btn btn-primary dash_href" type="button" routerLink="../insurance-details">{{labels?.next}}</button> -->
+    <button class="btn btn-primary dash_href" type="button" *ngIf="isSubmitToCredit"
+      (click)="saveorUpdateDeviationDetails()">{{labels?.save}}</button>
+    <button class="btn btn-primary dash_href" type="button" routerLink="../credit-condition"
+      *ngIf="isSendBacktoCredit">{{labels?.next}}</button>
   </div>
 </div>

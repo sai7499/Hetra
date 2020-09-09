@@ -6,6 +6,11 @@
         (click)="getTrigurePolicy()">{{labels.getTriggerPolicy}}</button>
     </div>
 
+    <div class="text-right" id="get_role_details_btn" *ngIf="isSendBacktoCredit">
+      <button class="btn mar-right8 btn-primary" type="button" (click)="getTrigurePolicy()">Trigger Waiver
+        Norms</button>
+    </div>
+
     <ng-container formArrayName="autoDeviationFormArray">
 
       <div *ngIf="deviationsForm.get('autoDeviationFormArray')['controls'].length > 0">
@@ -157,7 +162,7 @@
             </div>
           </div>
 
-          <div class="form-group col-sm-6 col-md-1 col-lg-1" *ngIf="!isSubmitToCredit">
+          <div class="form-group col-sm-6 col-md-1 col-lg-1" *ngIf="isSendBacktoCredit && !isSubmitToCredit">
             <label>{{labels?.more}} </label>
             <div class="row">
               <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="operationType !== '2'">
@@ -232,13 +237,13 @@
           [disabled]="!deviationsForm.controls['approverRole'].value"
           (click)="onPatchRecommendationModal('Recommendation')">{{labels?.refer}}</button>
       </div>
-      <div class="col-sm-3 row text-right" *ngIf="isSubmitToCredit">
+      <div class="col-sm-3 row text-right" *ngIf="isSubmitToCredit && !isSendBacktoCredit">
 
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
-          [disabled]="!(isSendBacktoCredit === 1)"
+          [disabled]="!deviationsForm.get('enableApprove').value"
           (click)="onPatchRecommendationModal('ApproveDeviations')">{{labels?.approveDeviations}}</button>
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
-          [disabled]="!(isSendBacktoCredit !== null && isSendBacktoCredit !== 1)"
+          [disabled]="!deviationsForm.get('enableSendBack').value"
           (click)="onPatchRecommendationModal('sendBackToCredit')">{{labels?.sendBackToCredit}}</button>
 
       </div>

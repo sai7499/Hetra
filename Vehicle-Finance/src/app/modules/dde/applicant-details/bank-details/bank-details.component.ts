@@ -313,7 +313,7 @@ export class BankDetailsComponent implements OnInit {
     );
     // this.bankForm.value.year = Number(this.bankForm.value.year);
     this.bankForm.value.accountNumber = this.bankForm.value.accountNumber.toString();
-    this.bankForm.value.limit = this.bankForm.value.limit.toString();
+    this.bankForm.value.limit = this.bankForm.value.limit;
     this.bankForm.value.period = this.bankForm.value.period.toString();
     this.bankForm.value.totalCredits = Number(this.bankForm.value.totalCredits);
     this.bankForm.value.applicantId = this.applicantId;
@@ -348,7 +348,7 @@ export class BankDetailsComponent implements OnInit {
     // console.log(this.bankForm.value.transactionDetails);
     if (this.bankForm.invalid) {
       this.toasterService.showWarning(
-        'Mandatory Fields Missing Or Invalid Pattern Detected',
+        'Mandatory Fields Missing ',
         'Bank Transactions'
       );
       console.log(this.bankForm.value, 'Invalid Form');

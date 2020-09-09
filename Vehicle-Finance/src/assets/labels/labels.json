@@ -363,6 +363,7 @@
     "vfScore": "VF score",
     "fiStatus": "FI Status",
     "proofCollected": "Proof Collected",
+    "nameofProof": "Name of Proof/Proof Name",
     "pdstatus": "PD status",
     "sr": "SR",
     "assetDiscription": "Asset Discription",
@@ -532,7 +533,28 @@
     "agriClassification": "Agri Classification",
     "classifiedBasis": "Classified Basis",
     "branchPendingRcGreaterthanSixtyDays": "Branch Pending RC>  60Day",
+    "surveyNumber": "Survey No. / Patta No.",
+    "landInAcres": "Land in Acres",
+    "propertyOwner": "Property owner",
+    "relatedWithApplicant": "Related to Primary Applicant",
     "totalLoanAmount": "Total Loan Amount",
+    "totalBuildupArea": "Total Built up Area",
+    "marketValueSF": "Market Value(Square Feet)",
+    "totalMarketValue": "Total Market Value",
+    "guideLineValue": "Guide line  value(Square Feet)",
+    "totalGuideline": "Total Guideline Value",
+    "goldInGMS": "Gold in gms (net weight - excluding stones)",
+    "valueasToday": "Value as of today per gram",
+    "totalValue": "Total Value",
+    "purity": "Purity",
+    "marketValueAcres": "Market Value(Acre)",
+    "totalLandMarketValue": "Total Land Market Value",
+    "guideLine": "Guide line  value(Acre)",
+    "totalGuideLineValue": "Total Land Guideline Value",
+    "jewelOwner": "Jewel owner",
+    "fdAccountNo": "FD Account number",
+    "fdName": "FD Name",
+    "fdValue": "FD Value",
     "region": "Region",
     "weakerSectionCategory": "Weaker Section Category",
     "soRcGreaterthanSixtyDays": "SO RC >60DAYS",
@@ -715,9 +737,12 @@
     "vehicletitle": "Vehicle Details",
     "registrationNum": "Registration Num",
     "addAdditionalCollaterals": " Add Additional Collaterals",
-    "colleteralType": "Colleteral Type",
-    "column2": "Column 2",
-    "column3": "Column 3",
+    "totalLandArea": "Total Land Area",
+    "collateralType": "Colleteral Type",
+    "ownerName": "Owner Name",
+    "relationWithLead": "Relation with Lead ",
+    "relationWithApplicantStatus": "Relation with Applicant – Self/Brother",
+    "bodyCost": "Body Cost",
     "passenger": "Passenger",
     "passengerTitle": "VIABILITY/NET CASH FLOW",
     "creditShieldApplicable": "Credit Shield Applicable",
@@ -876,6 +901,7 @@
     "pslDataTitle": "PSL Data",
     "activity": "Activity",
     "propertyType": "Property Type",
+    "propertyAddress": "Property Address",
     "detailActivity": "Detail Activity",
     "goodsManufactured": "Goods Manufactured",
     "typeOfService": "Type of Service",
@@ -1568,6 +1594,9 @@
     "crossSellOthers": "Cross Sell Others (in INR)",
     "errorCode": "Error Code",
     "errorMsg": "Error Message",
+    "yrsOfResidence": "No. of years residing at present residence",
+    "recommendations": "Recommendations",
+    "educationalQualification": "Educational Qualification",
     "minDelay": "Min Delay",
     "loanType": "Loan Type",
     "totalCredits": "Total number of credits",
@@ -2373,6 +2402,36 @@
         "noOfTyres": {
             "maxLength": {
                 "rule": 2
+            },
+            "type": "number"
+        },
+        "yearsOfResidence": {
+            "maxLength": {
+                "rule": 3
+            },
+            "type": "number"
+        },
+        "noOfAdultDependant": {
+            "maxLength": {
+                "rule": 2
+            },
+            "type": "number"
+        },
+        "noOfChildrenDependant": {
+            "maxLength": {
+                "rule": 2
+            },
+            "type": "number"
+        },
+        "marginMoney": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
+        "emiAffordabilityBasic": {
+            "maxLength": {
+                "rule": 10
             },
             "type": "number"
         },

@@ -7,9 +7,10 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DdeSharedModule } from '../shared/shared.module';
 import { RtoDeclarationDetailsComponent } from './rto-declaration-details/rto-declaration-details.component';
 import { SharedModule } from '@shared/shared.module';
+import { AdditionalCollateralComponent } from './additional-collateral-details/additional-collateral-details.component';
 
 @NgModule({
-  declarations: [VehicleDetailsComponent, BasicVehicleDetailsComponent, RtoDeclarationDetailsComponent],
+  declarations: [VehicleDetailsComponent, BasicVehicleDetailsComponent, RtoDeclarationDetailsComponent, AdditionalCollateralComponent],
   imports: [
     CommonModule,
     VehicleDetailsRoutingModule,

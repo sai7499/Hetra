@@ -279,7 +279,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
   getLeadSectiondata() {
     const leadData = this.createLeadDataService.getLeadSectionData();
-    console.log('data-->', leadData);
     this.productCategory = leadData['leadDetails'].productId;
     this.fundingProgram = leadData['leadDetails'].fundingProgram;
 
@@ -295,12 +294,16 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       //this.namePattern = this.namePatternNonIdv;
       this.addIndFormControls();
       this.removeNonIndFormControls();
+      dedupe.get('bussinessEntityType').clearValidators();
+      dedupe.get('bussinessEntityType').updateValueAndValidity()
     } else {
       const dedupe = this.coApplicantForm.get('dedupe');
-      dedupe.patchValue({
-        title: 'M/SSALUTATION',
-      });
-      this.coApplicantForm.get('dedupe').get('aadhar').clearValidators();
+      // dedupe.patchValue({
+      //   title: 'M/SSALUTATION',
+      // });
+      dedupe.get('aadhar').clearValidators();
+      dedupe.get('bussinessEntityType').setValidators([Validators.required]);
+      dedupe.get('bussinessEntityType').updateValueAndValidity()
       //this.namePattern = { ...this.namePatternIdv };
       this.addNonIndFormControls();
       this.removeIndFormControls();
@@ -370,11 +373,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     } else {
       this.showApplicantAddCheckBox = false;
     }
-let applicantCount : number = 0;
+
     this.applicantData.forEach((data) => {
       if (data.applicantId !== this.applicantId) {
-        if (data.applicantTypeKey == "APPAPPRELLEAD" && data.applicantTypeKey === value) {          
-          // applicantCount++;
+        if (data.applicantTypeKey == "APPAPPRELLEAD" && data.applicantTypeKey === value) {
           this.toasterService.showError('There should be only one main applicant for this lead', '')
           this.showNotApplicant = true;
         }
@@ -382,14 +384,8 @@ let applicantCount : number = 0;
         //   this.toasterService.showInfo('Should One Applicant Is Required', '')
         // } 
       }
-   
-
     });
-    // if (applicantCount>0)
-    // {
-    //   this.toasterService.showError('There should be only one main applicant for this lead', '')
-    //   this.showNotApplicant = true;
-    // }
+    
   }
 
   getPanValue(event: any) {
@@ -936,7 +932,7 @@ let applicantCount : number = 0;
     return {
       loanApplicationRelation: new FormControl('', Validators.required),
       entityType: new FormControl('', Validators.required),
-      bussinessEntityType: new FormControl(''),
+      bussinessEntityType: new FormControl('',Validators.required),
       fullName: new FormControl(''),
       name1: new FormControl('', Validators.required),
       name2: new FormControl(''),
@@ -1144,6 +1140,11 @@ let applicantCount : number = 0;
         applicantValue.applicantDetails.ownHouseProofAvail == '1'
           ? true
           : false;
+          
+          this.isChecked =
+        applicantValue.applicantDetails.ownHouseProofAvail == '1'
+          ? true
+          : false;
       //const monthlyIncome = applicantValue.applicantDetails.monthlyIncome;
       //console.log('this.checkedBoxHouse', this.checkedBoxHouse);
 
@@ -1206,6 +1207,9 @@ let applicantCount : number = 0;
       ) {
         this.addIndFormControls();
         this.removeNonIndFormControls();
+        dedupe.get('bussinessEntityType').clearValidators()
+        dedupe.get('bussinessEntityType').updateValueAndValidity()
+
         const modifyaddress = applicantValue.applicantDetails.modifyCurrentAddress
         this.checkedModifyCurrent = modifyaddress == "1" ? true : false;
         this.showSrField = modifyaddress == "1" ? true : false;
@@ -1271,10 +1275,10 @@ let applicantCount : number = 0;
         // }
       } else {
         this.coApplicantForm.get('dedupe').get('aadhar').clearValidators();
-        this.coApplicantForm
-          .get('dedupe')
-          .get('aadhar')
-          .updateValueAndValidity();
+        this.coApplicantForm.get('dedupe').get('aadhar').updateValueAndValidity();
+        this.coApplicantForm.get('dedupe').get('bussinessEntityType').setValidators([Validators.required]);
+        this.coApplicantForm.get('dedupe').get('bussinessEntityType').updateValueAndValidity();
+        
         this.addNonIndFormControls();
         this.removeIndFormControls();
         if (mobile && mobile.length === 12) {
@@ -2102,7 +2106,7 @@ let applicantCount : number = 0;
         custSegment: applicantDetails.custSegment || '',
         monthlyIncomeAmount: applicantDetails.monthlyIncomeAmount || '',
         annualIncomeAmount: applicantDetails.annualIncomeAmount || '',
-        ownHouseProofAvail: applicantDetails.ownHouseProofAvail || '',
+        ownHouseProofAvail: this.isChecked == true ? '1' : '0',
         houseOwnerProperty: applicantDetails.houseOwnerProperty || '',
         ownHouseAppRelationship: applicantDetails.ownHouseAppRelationship || '',
         averageBankBalance: applicantDetails.averageBankBalance || '',
@@ -2214,7 +2218,7 @@ let applicantCount : number = 0;
         custSegment: applicantDetails.custSegment || '',
         monthlyIncomeAmount: applicantDetails.monthlyIncomeAmount || '',
         annualIncomeAmount: applicantDetails.annualIncomeAmount || '',
-        ownHouseProofAvail: applicantDetails.ownHouseProofAvail || '',
+        ownHouseProofAvail: this.isChecked == true ? '1' : '0',
         houseOwnerProperty: applicantDetails.houseOwnerProperty || '',
         ownHouseAppRelationship: applicantDetails.ownHouseAppRelationship || '',
         averageBankBalance: applicantDetails.averageBankBalance || '',
@@ -2281,6 +2285,10 @@ let applicantCount : number = 0;
           );
         }
       });
+  }
+
+  removeErrorMsg(){
+    this.panValidate= false;
   }
 
   navigateToSamePage() {
