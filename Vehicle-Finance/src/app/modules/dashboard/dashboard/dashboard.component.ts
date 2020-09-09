@@ -9,7 +9,7 @@ import { UtilityService } from '@services/utility.service';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
-import { Router } from '@angular/router';
+import { Router  } from '@angular/router';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { NumberFormatStyle, Location } from '@angular/common';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
@@ -162,7 +162,7 @@ export class DashboardComponent implements OnInit {
       this.businessDivision = userDetails.businessDivision[0].bizDivId;
       this.roleType = userDetails.roleType;
     });
-
+    localStorage.setItem("isPreDisbursement" , 'false')
     if (this.dashboardService.routingData) {
       this.activeTab = this.dashboardService.routingData.activeTab;
       this.subActiveTab = this.dashboardService.routingData.subActiveTab;
@@ -393,7 +393,7 @@ export class DashboardComponent implements OnInit {
     this.sortTab = '';
     this.activeTab = data;
     this.subActiveTab = subTab;
-    console.log(this.activeTab, this.subActiveTab)
+    // console.log(this.activeTab, this.subActiveTab)
     if (this.sortTab === '') {
       this.sortByLead = false;
       this.sortByDate = false;
@@ -1512,7 +1512,7 @@ export class DashboardComponent implements OnInit {
         this.router.navigateByUrl(`/pages/cpc-checker/${this.leadId}/check-list`);
         break;
       case 37: case 38:
-        this.router.navigateByUrl(`/pages/credit-decisions/${this.leadId}/new-term-sheet`);
+        this.router.navigateByUrl(`/pages/pre-disbursement/${this.leadId}/term-sheet`);
         break;
 
       default:
