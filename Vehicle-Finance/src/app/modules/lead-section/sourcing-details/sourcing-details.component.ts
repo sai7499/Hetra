@@ -569,7 +569,7 @@ export class SourcingDetailsComponent implements OnInit {
       leadHandeledBy: new FormControl('', Validators.required),
       productCategory: new FormControl('', Validators.required),
       priority: new FormControl(''),
-      applicationNo: new FormControl('', Validators.required),
+      applicationNo: new FormControl(''),
       product: new FormControl('', Validators.required),
       fundingProgram: new FormControl('', Validators.required),
       bizDivision: new FormControl('', Validators.required),
