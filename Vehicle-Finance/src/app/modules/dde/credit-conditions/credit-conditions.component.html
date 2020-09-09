@@ -147,7 +147,10 @@
         data-toggle="modal"
          data-target="#approveModal"
        type="button" [disabled] ="!isDeclineEnable">Decline</button>
-       <button class="btn btn-primary" *ngIf="userType === 2"   type="button">Send Back to DDE </button>
+       <button class="btn btn-primary" *ngIf="userType === 2" 
+       (click) = "alertMessage('Send Back to DDE')"
+       data-toggle="modal"
+        data-target="#approveModal"  type="button">Send Back to DDE </button>
 
       <button class="btn btn-primary" (click)="saveUpdate('next')"  type="button">Next</button>
     </div>
@@ -244,6 +247,17 @@
       >
         {{ labels.yes }}
       </button>
+      <button
+      type="button"
+      class="btn btn-success"
+      id="reject_yes_val"
+      *ngIf = "alertMsg == 'Send Back to DDE'"
+      value="Yes"
+      data-dismiss="modal"
+      (click)="creditConditionActions('Send Back to DDE')"
+    >
+      {{ labels.yes }}
+    </button>
         <button type="button" class="btn btn-danger" data-dismiss="modal">
           {{ labels.cancel }}
         </button>

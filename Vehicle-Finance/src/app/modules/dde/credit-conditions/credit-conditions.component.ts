@@ -256,19 +256,16 @@ export class CreditConditionsComponent implements OnInit {
               });
               this.getCreditConditions();
             }else if(data == 'next' && this.userType == 2 && this.salesResponse == 'true' ){
-              this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/negotiation')
+              this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
             } else if(data == 'next' && this.userType == 2 && this.salesResponse == 'false' ){
               this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
             } else if(data == 'next' && this.userType == 1){
               this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
-            }else{
-              if(this.userType == 2){
-                this.router.navigateByUrl('/pages/dashboard')
-              }else{
-                this.router.navigateByUrl('/pages/dashboard')
-              }
+            }else if(data == 'back' && this.userType == 2 && this.salesResponse == 'true' ){
+              this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/deviations')
+            }else if(data == 'back' && this.userType == 2 && this.salesResponse == 'false' ){
+              this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/deviations')
             }
-    
           }else {
             this.toasterService.showError(res['ProcessVariables'].error['message'], '');
           }
@@ -314,6 +311,10 @@ export class CreditConditionsComponent implements OnInit {
       case 'declined':
       {
         processData["isDecline"]= true;
+      }
+      break;
+      case 'Send Back to DDE':{
+        processData["sendBackToCredit"]= true;
       }
       break;
       case 'refered': {
