@@ -1458,6 +1458,7 @@
     "RTOCharges": "RTO Charges (in INR)",
     "NetDisbursementAmount": "Net Disbursement Amount (in INR)",
     "LoanAmountincludingCrossSellofalltheassets": "Loan Amount including CrossSell of all the assets",
+    "NoofSPDC": "No. of SPDC",
     "otherDetailsTitle": "Other Details",
     "genericDetails": "Generic Details",
     "loanDetails": "Loan Details",
@@ -1777,6 +1778,7 @@
                 "rule": 35
             }
         },
+        
         "businessName": {
             "maxLength": {
                 "rule": 50
@@ -2340,6 +2342,24 @@
         "MIPremiumAmount": {
             "maxLength": {
                 "rule": 10
+            },
+            "type": "number"
+        },
+        "NoofPDC": {
+            "maxLength": {
+                "rule": 3
+            },
+            "minLength": {
+                "rule": 1
+            },
+            "type": "number"
+        },
+        "NoofSPDC": {
+            "maxLength": {
+                "rule": 1
+            },
+            "minLength": {
+                "rule": 1
             },
             "type": "number"
         },
