@@ -41,6 +41,9 @@ export class CreditConditionsComponent implements OnInit {
   }
   disableControl: boolean;
   alertMsg;
+  isApproveEnable: boolean;
+  isDeclineEnable: boolean;
+  isRejectEnable: boolean;
   roleType: any;
   salesResponse = 'false';
   constructor(
@@ -159,14 +162,17 @@ export class CreditConditionsComponent implements OnInit {
     }
     this.creditConditionService.getCreditConditions(data).subscribe(res => {
       console.log(res);
+      this.isApproveEnable = res['ProcessVariables']['isApproveEnable'];
+      this.isDeclineEnable = res['ProcessVariables']['isDeclineEnable'];
+      this.isRejectEnable = res['ProcessVariables']['isRejectEnable'];
+     
       if (res['ProcessVariables'].error['code'] == "0" && res['ProcessVariables'].creditConditions != null) {
         const creditConditions:Array<dataObject> = res['ProcessVariables'].creditConditions;
         this.creditConditions = res['ProcessVariables'].creditConditions;
         this.roleList = res['ProcessVariables']['roleList'];
        
           this.disableControl = false;
-        
-        console.log("disable control",this.disableControl)
+       console.log("disable control",this.disableControl)
 
         for (let i = 0; i < creditConditions.length; i++) {
 
