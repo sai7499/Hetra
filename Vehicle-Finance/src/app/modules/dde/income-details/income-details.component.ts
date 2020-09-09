@@ -101,6 +101,17 @@ export class IncomeDetailsComponent implements OnInit {
   cashGeneratedYearThreeValue: number;
   keyFinancialObj: any;
   keyFinancialData: any;
+  rowIndex;
+  isModelShow: boolean;
+  errorMessage;
+  isbusinessIncomeShow: boolean;
+  isOtherIncomeShow: boolean;
+  isObligationIncomeShow: boolean;
+  isKeyFinancialShow: boolean;
+  public yearOneMinDate = new Date(new Date().setFullYear(new Date().getFullYear() - 1))
+  public yearTwoMinDate = new Date(new Date().setFullYear(new Date().getFullYear() - 2))
+  public yearThreeMinDate = new Date(new Date().setFullYear(new Date().getFullYear() - 3))
+
   constructor(
     private router: Router,
     private labelsData: LabelsService,
@@ -117,6 +128,11 @@ export class IncomeDetailsComponent implements OnInit {
     this.yearOneValue = (this.today - 1).toString() + '-' + (this.today)
     this.yearTwoValue = (this.today - 2).toString() + '-' + (this.today - 1)
     this.yearThreeValue = (this.today - 3).toString() + '-' + (this.today - 2)
+    console.log(this.yearOneMinDate);
+    console.log(this.yearTwoMinDate);
+    console.log(this.yearThreeMinDate);
+
+
   }
 
 
@@ -179,11 +195,13 @@ export class IncomeDetailsComponent implements OnInit {
     this.businessIncomeValidators()
   }
   businessIncomeValidators() {
+
     if (this.productCode == "NCV" || this.productCode == "UCV") {
       this.incomeDetailsForm.get('salariedFOIRDeviation').clearValidators();
       this.incomeDetailsForm.get('salariedFOIRDeviation').updateValueAndValidity();
 
     }
+
   }
 
   getLov() {
@@ -225,6 +243,13 @@ export class IncomeDetailsComponent implements OnInit {
           yearValue: this.yearOneValue,
           applicantId: [''],
           applicantType: [''],
+          // shareCapital:new FormControl(null, [
+          //   Validators.required,
+          //   Validators.maxLength(200),
+          //   Validators.pattern(
+          //     /^[a-zA-Z0-9 ]*$/
+          //   ),
+          // ]),
           shareCapital: [''],
           lorryHireChargesPaid: [''],
           securedLoans: [''],
@@ -378,7 +403,7 @@ export class IncomeDetailsComponent implements OnInit {
     const control = this.incomeDetailsForm.controls
       .keyFinanceDetails as FormArray;
     control.removeAt(i);
-
+    this.isKeyFinancialShow = false;
     const keyFinancialObj = { keyFinancials: this.incomeDetailsForm.controls.keyFinanceDetails.value }
 
     const body = {
@@ -408,7 +433,7 @@ export class IncomeDetailsComponent implements OnInit {
             .keyFinanceDetails as FormArray;
           keyFinancialCOntrols.controls = [];
           this.toasterService.showSuccess(
-            'Applicant Income Details Saved Successfully',
+            'Key Financial Details Deleted Successfully',
             'Income Details'
           );
           this.getAllIncome();
@@ -447,7 +472,7 @@ export class IncomeDetailsComponent implements OnInit {
           ],
         });
       }
-      else {
+      else if (this.productCode == "UCV" || this.productCode == "NCV") {
         return this.formBuilder.group({
           applicantId: [],
           applicantType: [],
@@ -489,6 +514,7 @@ export class IncomeDetailsComponent implements OnInit {
     }
   }
   private getOtherIncomeDetails(data?: any) {
+
     if (data === undefined) {
       return this.formBuilder.group({
         applicantId: ['', Validators.required],
@@ -518,21 +544,37 @@ export class IncomeDetailsComponent implements OnInit {
   }
   private getObligationDetails(data?: any) {
     if (data === undefined) {
-      return this.formBuilder.group({
-        applicantId: ['', Validators.required],
-        applicantType: [''],
-        loanType: ['', Validators.required],
-        financier: ['', Validators.required],
-        loanAmount: [
-          null,
-          [Validators.required, Validators.pattern('^[0-9]*$')],
-        ],
-        tenure: [null, [Validators.required, Validators.pattern('^[0-9]*$')]],
-        mob: [null, [Validators.required, Validators.pattern('^[0-9]*$')]],
-        emi: [null, [Validators.required, Validators.pattern('^[0-9]*$')]],
-        balanceTenure: Number(null),
-        obligationAmount: Number(null),
-      });
+      if (this.productCode == "UC") {
+        return this.formBuilder.group({
+          applicantId: [''],
+          applicantType: [''],
+          loanType: [''],
+          financier: [''],
+          loanAmount: [
+          ],
+          tenure: [null],
+          mob: [null],
+          emi: [null],
+          balanceTenure: Number(null),
+          obligationAmount: Number(null),
+        });
+      } else {
+        return this.formBuilder.group({
+          applicantId: ['', Validators.required],
+          applicantType: [''],
+          loanType: ['', Validators.required],
+          financier: ['', Validators.required],
+          loanAmount: [
+            null,
+            [Validators.required, Validators.pattern('^[0-9]*$')],
+          ],
+          tenure: [null, [Validators.required, Validators.pattern('^[0-9]*$')]],
+          mob: [null, [Validators.required, Validators.pattern('^[0-9]*$')]],
+          emi: [null, [Validators.required, Validators.pattern('^[0-9]*$')]],
+          balanceTenure: Number(null),
+          obligationAmount: Number(null),
+        });
+      }
     } else {
       return this.formBuilder.group({
         id: data.id ? data.id : null,
@@ -576,6 +618,8 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         control.removeAt(i);
+        this.toasterService.showInfo('Row is Removed', 'OD Details');
+        this.isbusinessIncomeShow = false;
         this.onIncome(null, i)
       } else {
         const body = {
@@ -586,6 +630,7 @@ export class IncomeDetailsComponent implements OnInit {
           .softDeleteIncomeDetails(body)
           .subscribe((res: any) => {
             control.removeAt(i);
+            this.isbusinessIncomeShow = false;
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, '');
             this.onIncome(null, i)
@@ -618,10 +663,12 @@ export class IncomeDetailsComponent implements OnInit {
       .otherIncomeDetails as FormArray;
     const id = control.at(i).value.id;
 
-    if (control.controls.length > 1) {
+    if (control.controls.length > 0) {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         control.removeAt(i);
+        this.toasterService.showInfo('Row is Removed', 'OD Details');
+        this.isOtherIncomeShow = false;
         this.getTotalOtherIncome(i);
       } else {
         const body = {
@@ -632,6 +679,8 @@ export class IncomeDetailsComponent implements OnInit {
           .softDeleteIncomeDetails(body)
           .subscribe((res: any) => {
             control.removeAt(i);
+            this.isOtherIncomeShow = false;
+
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, '');
             this.getTotalOtherIncome(i);
@@ -663,6 +712,8 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         control.removeAt(i);
+        this.toasterService.showInfo('Row is Removed', 'OD Details');
+        this.isObligationIncomeShow = false;
         this.onEmi(null, i);
 
       } else {
@@ -674,6 +725,8 @@ export class IncomeDetailsComponent implements OnInit {
           .softDeleteIncomeDetails(body)
           .subscribe((res: any) => {
             control.removeAt(i);
+            this.isObligationIncomeShow = false;
+
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, '');
             this.onEmi(null, i);
@@ -753,6 +806,7 @@ export class IncomeDetailsComponent implements OnInit {
     control.at(i).get('applicantType').setValue(applicantType);
   }
   onKeyFinancialApplicantChangeYearOne(event, i?: number) {
+    // this.resetApplicantValues(i)
     // tslint:disable-next-line: triple-equals
     const applicantType = this.applicantDetails.find(
       // tslint:disable-next-line: triple-equals
@@ -770,6 +824,7 @@ export class IncomeDetailsComponent implements OnInit {
     ).fullName;
     control[i].controls.yearTwo.get('applicantId').setValue(applicantName);
     control[i].controls.yearThree.get('applicantId').setValue(applicantName);
+
   }
   onKeyFinancialApplicantChangeYearTwo(event, i?: number) {
     // tslint:disable-next-line: triple-equals
@@ -807,8 +862,27 @@ export class IncomeDetailsComponent implements OnInit {
     control[i].controls.yearThree.get('applicantId').setValue(applicantName);
 
   }
+  // resetApplicantValues(i: number) {
+  //   const control: any = this.incomeDetailsForm.controls
+  //     .keyFinanceDetails['controls'] as FormGroup;
+  //   console.log(control)
+  //   const val =control[i].controls.yearOne.value
+  // for(var key in val) {
+  //  if(key !== 'applicantType' ) { 
+  //    if( key !== 'applicantId' ) {
+  //     control[i].controls.yearOne.controls[key].reset();
+  //     control[i].controls.yearTwo.controls[key].reset();
+  //     control[i].controls.yearThree.controls[key].reset();
+  //    } 
+  // }
+  // }
+  // console.log(val);
+  
+  
+  // }
   onSubmit() {
     this.submitted = true;
+    // console.log(this.incomeDetailsForm);
 
     // stop here if form is invalid
     if (this.incomeDetailsForm.invalid) {
@@ -1158,8 +1232,26 @@ export class IncomeDetailsComponent implements OnInit {
     control[i].controls.yearOne.get('cashGeneration').setValue(this.cashGeneratedYearOneValue);
     control[i].controls.yearTwo.get('cashGeneration').setValue(this.cashGeneratedYearTwoValue);
     control[i].controls.yearThree.get('cashGeneration').setValue(this.cashGeneratedYearThreeValue);
-
-
-
   }
+  showBusinessIncome(i) {
+    this.rowIndex = i;
+    this.isbusinessIncomeShow = true;
+    this.errorMessage = 'Are sure to remove row';
+  }
+  showOtherIncome(i) {
+    this.rowIndex = i;
+    this.isOtherIncomeShow = true;
+    this.errorMessage = 'Are sure to remove row';
+  }
+  showObligationIncome(i) {
+    this.rowIndex = i;
+    this.isObligationIncomeShow = true;
+    this.errorMessage = 'Are sure to remove row';
+  }
+  showKeyFinancial(i) {
+    this.rowIndex = i;
+    this.isKeyFinancialShow = true;
+    this.errorMessage = 'Are sure to remove row';
+  }
+
 }
