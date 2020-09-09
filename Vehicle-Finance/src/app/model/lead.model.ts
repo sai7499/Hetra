@@ -194,6 +194,34 @@ export interface CollateralList {
   collateralId?: number;
   collateralType?: string;
   ownerName?: string;
+  applicantId?: number;
+  applicantType?: string;
+  relationship?: string;
+  value?: string;
+}
+
+export interface AdditionalCollateralDetails {
+  collateralId?: number;
+  collateralType?: string;
+  currentValuePerGram?: number;
+  fdAccountNo?: string;
+  fdName?: string;
+  goldInGrams?: number;
+  guideLineValue?: number;
+  landInAcres?: number;
+  marketValue?: number;
+  proofCollected?: string;
+  proofName?: string;
+  propertyAddress?: string;
+  propertyOwner?: string;
+  propertyType?: string;
+  purity?: number;
+  relationWithApplicant?: string;
+  surveyNumber?: number;
+  totalBuiltUpArea?: number;
+  totalGuideLineValue?: number;
+  totalLandArea?: number;
+  totalMarketValue?: number;
 }
 
 export interface CoApplicant {
@@ -254,14 +282,14 @@ export interface BasicVehicleDetails {
 }
 export interface CibilData {
   ageOfAsset?: number;
-// applicantList: [ApplicantDetails]
-customerSegment?: string;
-eligibleAmount?: number;
-leadId?: string;
-loanAmount?: number;
-loanTenure?: number;
-productCategoryCode?: string;
-productCategoryName?: string;
-productId?: string;
-totalAmount?: number;
+  // applicantList: [ApplicantDetails]
+  customerSegment?: string;
+  eligibleAmount?: number;
+  leadId?: string;
+  loanAmount?: number;
+  loanTenure?: number;
+  productCategoryCode?: string;
+  productCategoryName?: string;
+  productId?: string;
+  totalAmount?: number;
 }

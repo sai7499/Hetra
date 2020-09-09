@@ -7,7 +7,8 @@ import { UtilityService } from '@services/utility.service';
 import { CollateralService } from '@services/collateral.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { ToasterService } from '@services/toaster.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { CollateralDataStoreService } from '@services/collateral-data-store.service';
 
 @Component({
     selector: 'app-additional-collateral-details',
@@ -28,9 +29,9 @@ export class AdditionalCollateralComponent implements OnInit {
     applicantDetails: any = [];
     collateralType: string = 'AGRIADDCOLTYP';
 
-    constructor(private _fb: FormBuilder, private labelsData: LabelsService, private createLeadDataService: CreateLeadDataService,
+    constructor(private _fb: FormBuilder, private labelsData: LabelsService, private createLeadDataService: CreateLeadDataService, private collateralDataService: CollateralDataStoreService,
         private commonLovService: CommomLovService, private utilityService: UtilityService, private collateralService: CollateralService,
-        private loginStoreService: LoginStoreService, private toasterService: ToasterService, private router: Router) { }
+        private loginStoreService: LoginStoreService, private toasterService: ToasterService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
     ngOnInit() {
 
@@ -38,7 +39,7 @@ export class AdditionalCollateralComponent implements OnInit {
             collateralType: ['AGRIADDCOLTYP', Validators.required],
             propertyOwnership: [''],
             proofCollected: [''],
-            nameofProof: [''],
+            proofName: [''],
             collateralFormArray: this._fb.array([])
         })
 
@@ -53,11 +54,16 @@ export class AdditionalCollateralComponent implements OnInit {
         this.leadId = this.leadData['leadId'];
         this.applicantDetails = this.leadData.applicantDetails;
 
+        let collateralId = this.activatedRoute.snapshot.params['collateralId'];
+
         let roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
         this.userId = roleAndUserDetails.userDetails.userId;
 
         this.initForm();
         this.getLov();
+        if (collateralId) {
+            this.setFormValue(collateralId);
+        }
     }
 
     selectCollateralType(value) {
@@ -68,14 +74,16 @@ export class AdditionalCollateralComponent implements OnInit {
     getLov() {
         this.commonLovService.getLovData().subscribe((value: any) => {
             this.LOV = value.LOVS;
-            console.log('lls', this.LOV)
             let propertOwner = [];
-            this.applicantDetails.map((res) => {
-                propertOwner.push({
-                    key: res.applicantId,
-                    value: res.fullName
+            if (this.applicantDetails && this.applicantDetails.length > 0) {
+                this.applicantDetails.map((res) => {
+                    propertOwner.push({
+                        key: res.applicantId,
+                        value: res.fullName
+                    })
                 })
-            })
+            }
+
             this.LOV.propertOwner = propertOwner;
             this.relationLov = this.LOV.relationship;
         })
@@ -157,17 +165,65 @@ export class AdditionalCollateralComponent implements OnInit {
         this.LOV.relationship = typeOfApplicant['applicantType'] === "Applicant" ? lovOfSelf : lovOfRelationship;
     }
 
+    setFormValue(id) {
+        this.collateralService.getAdditionalCollateralsDetails(Number(id)).subscribe((res: any) => {
+
+            let apiError = res.ProcessVariables.error.message;
+            if (res.Error === '0' && res.Error === '0' && res.ProcessVariables.error.code === '0') {
+                let collateralDetail = res.ProcessVariables.aAdditionalCollaterals ? res.ProcessVariables.aAdditionalCollaterals : {};
+                this.collateralDataService.setAdditionalCollateralList(collateralDetail);
+
+                const formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
+
+                this.collateralType = collateralDetail.collateralType;
+
+                this.collateralForm.patchValue({
+                    collateralType: collateralDetail.collateralType || '',
+                    proofCollected: collateralDetail.proofCollected || '',
+                    proofName: collateralDetail.proofName || ''
+                })
+
+                formArray.clear();
+
+                formArray.controls.push(
+                    this._fb.group({
+                        collateralId: collateralDetail.collateralId || null,
+                        currentValuePerGram: collateralDetail.currentValuePerGram || null,
+                        fdAccountNo: collateralDetail.fdAccountNo || '',
+                        fdName: collateralDetail.fdName || '',
+                        goldInGrams: collateralDetail.goldInGrams || null,
+                        guideLineValue: collateralDetail.guideLineValue || null,
+                        landInAcres: collateralDetail.landInAcres || null,
+                        marketValue: collateralDetail.marketValue || null,
+                        propertyAddress: collateralDetail.propertyAddress || '',
+                        propertyOwner: collateralDetail.propertyOwner || '',
+                        propertyType: collateralDetail.propertyType || '',
+                        purity: collateralDetail.purity || null,
+                        relationWithApplicant: collateralDetail.relationWithApplicant || '',
+                        surveyNumber: collateralDetail.surveyNumber || null,
+                        totalBuiltUpArea: collateralDetail.totalBuiltUpArea || null,
+                        totalGuideLineValue: collateralDetail.totalGuideLineValue || null,
+                        totalLandArea: collateralDetail.totalLandArea || null,
+                        totalMarketValue: collateralDetail.totalMarketValue || null,
+                    })
+                )
+            }
+        })
+    }
+
     onFormSubmit(form) {
         if (form.valid) {
 
-            console.log('error', form)
+            let additionalCollaterals = {}
 
-            let additionalCollaterals = form.value.collateralFormArray[0];
+            let formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
 
-            additionalCollaterals.collateralType = form.value.collateralType;
-            additionalCollaterals.nameofProof = form.value.nameofProof;
-            additionalCollaterals.proofCollected = form.value.proofCollected;
-            additionalCollaterals.propertyOwnership = form.value.propertyOwnership;
+            additionalCollaterals = formArray.controls[0].value;
+
+            additionalCollaterals['collateralType'] = form.value.collateralType;
+            additionalCollaterals['proofName'] = form.value.proofName;
+            additionalCollaterals['proofCollected'] = form.value.proofCollected;
+            additionalCollaterals['propertyOwnership'] = form.value.propertyOwnership;
 
             const data = {
                 "userId": this.userId,
@@ -176,14 +232,12 @@ export class AdditionalCollateralComponent implements OnInit {
             }
 
             this.collateralService.saveOrUpdateAdditionalCollaterals(data).subscribe((res: any) => {
-                console.log('res', res)
                 let apiError = res.ProcessVariables.error.message;
-
                 if (res.Error === '0' && res.Error === '0' && res.ProcessVariables.error.code === '0') {
-                  this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Additional Collateral Detail');
-                  this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
+                    this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Additional Collateral Detail');
+                    this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
                 } else {
-                  this.toasterService.showError(apiError, 'Additional Collateral Detail')
+                    this.toasterService.showError(apiError, 'Additional Collateral Detail')
                 }
             })
 

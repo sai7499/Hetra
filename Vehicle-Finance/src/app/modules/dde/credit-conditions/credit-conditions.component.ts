@@ -41,6 +41,9 @@ export class CreditConditionsComponent implements OnInit {
   }
   disableControl: boolean;
   alertMsg;
+  isApproveEnable: boolean;
+  isDeclineEnable: boolean;
+  isRejectEnable: boolean;
   roleType: any;
   salesResponse = 'false';
   constructor(
@@ -159,14 +162,17 @@ export class CreditConditionsComponent implements OnInit {
     }
     this.creditConditionService.getCreditConditions(data).subscribe(res => {
       console.log(res);
+      this.isApproveEnable = res['ProcessVariables']['isApproveEnable'];
+      this.isDeclineEnable = res['ProcessVariables']['isDeclineEnable'];
+      this.isRejectEnable = res['ProcessVariables']['isRejectEnable'];
+     
       if (res['ProcessVariables'].error['code'] == "0" && res['ProcessVariables'].creditConditions != null) {
         const creditConditions:Array<dataObject> = res['ProcessVariables'].creditConditions;
         this.creditConditions = res['ProcessVariables'].creditConditions;
         this.roleList = res['ProcessVariables']['roleList'];
        
           this.disableControl = false;
-        
-        console.log("disable control",this.disableControl)
+       console.log("disable control",this.disableControl)
 
         for (let i = 0; i < creditConditions.length; i++) {
 
@@ -250,19 +256,16 @@ export class CreditConditionsComponent implements OnInit {
               });
               this.getCreditConditions();
             }else if(data == 'next' && this.userType == 2 && this.salesResponse == 'true' ){
-              this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/negotiation')
+              this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
             } else if(data == 'next' && this.userType == 2 && this.salesResponse == 'false' ){
               this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
             } else if(data == 'next' && this.userType == 1){
               this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
-            }else{
-              if(this.userType == 2){
-                this.router.navigateByUrl('/pages/dashboard')
-              }else{
-                this.router.navigateByUrl('/pages/dashboard')
-              }
+            }else if(data == 'back' && this.userType == 2 && this.salesResponse == 'true' ){
+              this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/deviations')
+            }else if(data == 'back' && this.userType == 2 && this.salesResponse == 'false' ){
+              this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/deviations')
             }
-    
           }else {
             this.toasterService.showError(res['ProcessVariables'].error['message'], '');
           }
@@ -308,6 +311,10 @@ export class CreditConditionsComponent implements OnInit {
       case 'declined':
       {
         processData["isDecline"]= true;
+      }
+      break;
+      case 'Send Back to DDE':{
+        processData["sendBackToCredit"]= true;
       }
       break;
       case 'refered': {
