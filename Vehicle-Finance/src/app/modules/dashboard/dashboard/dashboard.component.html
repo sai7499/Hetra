@@ -93,6 +93,9 @@
       <li (click)="onLeads(displayTabs?.Viability, displayTabs?.ViabilityWithMe)"
         [ngClass]="{'active':displayTabs?.Viability === activeTab}" routerLinkActive="active"><a
           data-toggle="tab">Vehicle Viability</a></li>
+      <li (click)="onLeads(displayTabs?.Deviation, displayTabs?.DeviationWithMe, 'deviation')"
+        [ngClass]="{'active':displayTabs?.Deviation === activeTab}" routerLinkActive="active"><a
+          data-toggle="tab">Deviation</a></li>
       <li (click)="onLeads(displayTabs?.PDD)" [ngClass]="{'active':displayTabs?.PDD === activeTab}"
         routerLinkActive="active"><a data-toggle="tab">PDD</a></li>
       <li (click)="onLeads(displayTabs?.ChequeTracking)"
@@ -144,7 +147,17 @@
           data-toggle="tab">Viability Checks Pending with Branch</a></li>
     </ul>
     <!--  -->
-    <ul *ngIf="displayTabs?.PreDisbursementQueue === activeTab" class="nav nav-pills nav-justified" id="background_white">
+    <ul *ngIf="displayTabs?.Deviation === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="leads(displayTabs?.DeviationWithMe)"
+        [ngClass]="{'active':displayTabs?.DeviationWithMe === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Deviation Pending With Me</a></li>
+      <li (click)="leads(displayTabs?.DeviationWithBranch)"
+        [ngClass]="{'active':displayTabs?.DeviationWithBranch === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Deviation Pending With Branch</a></li>
+    </ul>
+    <!--  -->
+    <ul *ngIf="displayTabs?.PreDisbursementQueue === activeTab" class="nav nav-pills nav-justified"
+      id="background_white">
       <li (click)="leads(displayTabs?.PreDisbursementWithMe)"
         [ngClass]="{'active':displayTabs?.PreDisbursementWithMe === subActiveTab}" routerLinkActive="active"><a
           data-toggle="tab">Leads Pending with Me</a></li>
