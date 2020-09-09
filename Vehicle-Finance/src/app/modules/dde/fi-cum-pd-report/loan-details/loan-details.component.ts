@@ -79,6 +79,9 @@ export class LoanDetailsComponent implements OnInit {
   insRequired: boolean;
   disableSaveBtn: boolean;
   operationType: string;
+  insDisabled: boolean;
+  vehCondStatus: any;
+  vehCondRequired: boolean;
 
 
 
@@ -229,13 +232,30 @@ export class LoanDetailsComponent implements OnInit {
     this.insuranceStatus = event ? event : event;
     if (this.insuranceStatus === '1') {
       this.insRequired = true;
+      this.insDisabled = false;
       this.loanDetailsForm.get('insuranceValidity').enable();
       this.loanDetailsForm.get('insuranceValidity').setValidators(Validators.required);
     } else if (this.insuranceStatus !== '1') {
-      this.insRequired = true;
+      this.insRequired = false;
+      this.insDisabled = true;
       this.loanDetailsForm.get('insuranceValidity').disable();
       this.loanDetailsForm.get('insuranceValidity').clearValidators();
       this.loanDetailsForm.get('insuranceValidity').updateValueAndValidity();
+
+    }
+
+  }
+  vehCondVerified(event: any) {
+    this.vehCondStatus = event ? event : event;
+    if (this.vehCondStatus === '1') {
+      this.vehCondRequired = true;
+      this.loanDetailsForm.get('conditionOfVehicle').enable();
+      this.loanDetailsForm.get('conditionOfVehicle').setValidators(Validators.required);
+    } else if (this.vehCondStatus !== '1') {
+      this.vehCondRequired = false;
+      this.loanDetailsForm.get('conditionOfVehicle').disable();
+      this.loanDetailsForm.get('conditionOfVehicle').clearValidators();
+      this.loanDetailsForm.get('conditionOfVehicle').updateValueAndValidity();
 
     }
 
@@ -298,13 +318,14 @@ export class LoanDetailsComponent implements OnInit {
       fitnessValidity: new FormControl('', Validators.compose([Validators.required])),
       taxValidity: new FormControl('', Validators.compose([Validators.required])),
       insuranceCopyVerified: new FormControl(''),
-      insuranceValidity: new FormControl('', Validators.compose([Validators.required])),
+      insuranceValidity: new FormControl(''),
       vehiclePhsicallyVerified: new FormControl(''),
       conditionOfVehicle: new FormControl(''),
       vehicleRoute: new FormControl(''),
       noOfTrips: new FormControl(''),
       amtPerTrip: new FormControl(''),
       selfDrivenOrDriver: new FormControl(''),
+      isPrevExpMatched: new FormControl('', Validators.required),
       // remarks: new FormControl('')
       remarks: new FormControl('', Validators.compose([Validators.maxLength(300),
       Validators.pattern(/^[a-zA-Z0-9 ]*$/), Validators.required])),
@@ -424,6 +445,7 @@ export class LoanDetailsComponent implements OnInit {
       controls.removeControl('selfDrivenOrDriver');
       controls.removeControl('remarks');
       controls.removeControl('vehicleContract');
+      controls.removeControl('isPrevExpMatched');
 
       console.log('in remove controls', controls);
 
@@ -464,9 +486,15 @@ export class LoanDetailsComponent implements OnInit {
         // console.log('calling get api ', this.newCvDetails, this.assetDetailsUsedVehicle, this.usedVehicleDetails);
 
         this.setFormValue();
-        // if (this.loanDetails) {
-        // this.setFormValue()
-        // this.pdDataService.setLoanDetails(this.loanDetails)
+        if (this.loanDetailsForm.get('regCopVfd') != null) {
+          this.regCopyVerified(this.loanDetailsForm.get('regCopVfd').value);
+        }
+        if (this.loanDetailsForm.get('insuranceCopyVerified') != null) {
+          this.insCopyVerified(this.loanDetailsForm.get('insuranceCopyVerified').value);
+        }
+        if (this.loanDetailsForm.get('vehiclePhsicallyVerified') != null) {
+          this.vehCondVerified(this.loanDetailsForm.get('vehiclePhsicallyVerified').value);
+        }
       }
     });
   }
@@ -553,9 +581,16 @@ export class LoanDetailsComponent implements OnInit {
         noOfTrips: assetDetailsUsedVehicleModel.noOfTrips || '',
         amtPerTrip: assetDetailsUsedVehicleModel.amtPerTrip || '',
         selfDrivenOrDriver: assetDetailsUsedVehicleModel.selfDrivenOrDriver || '',
-        remarks: assetDetailsUsedVehicleModel.remarks || ''
+        remarks: assetDetailsUsedVehicleModel.remarks || '',
+        isPrevExpMatched: assetDetailsUsedVehicleModel.isPrevExpMatched || ''
       });
       console.log('loan form', this.loanDetailsForm);
+      if (this.loanDetailsForm.get('regCopyVerified') != null &&
+        this.loanDetailsForm.get('insuranceCopyVerified') != null) {
+        this.regCopyVerified(this.loanDetailsForm.get('regCopyVerified').value);
+        this.insCopyVerified(this.loanDetailsForm.get('insuranceCopyVerified').value);
+      }
+
     }
   }
 
@@ -726,6 +761,7 @@ export class LoanDetailsComponent implements OnInit {
         noOfTrips: loanDetailsModal.noOfTrips,
         amtPerTrip: loanDetailsModal.amtPerTrip,
         selfDrivenOrDriver: loanDetailsModal.selfDrivenOrDriver,
+        isPrevExpMatched: loanDetailsModal.isPrevExpMatched,
         remarks: loanDetailsModal.remarks
       };
       if (this.insuranceStatus !== '1') {
