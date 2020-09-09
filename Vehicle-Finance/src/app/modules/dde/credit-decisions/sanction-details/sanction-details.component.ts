@@ -38,6 +38,9 @@ roleType: any;
 isSanctionDetails: boolean;
 salesResponse: any;
 docsDetails: DocRequest
+isPreDisbursement: any;
+isPreDone: any;
+
   constructor(
         private labelsData: LabelsService,
         private router: Router,
@@ -54,6 +57,11 @@ docsDetails: DocRequest
     this.getLeadId();
     // this.getSanctionDetails();
     this.salesResponse = localStorage.getItem('salesResponse');
+    console.log("SALESRESPONSE::", this.salesResponse);
+    this.isPreDisbursement = localStorage.getItem('isPreDisbursement');
+    console.log("ISPREDISBURSEMENT::", this.isPreDisbursement);
+    this.isPreDone = localStorage.getItem('is_pred_done');
+    console.log("IS_PRE_DONE::", this.isPreDone);
     this.todayDate = this.utilityService.convertDateTimeTOUTC(this.date, 'DD/MM/YYYY');
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
@@ -170,10 +178,50 @@ docsDetails: DocRequest
     });
   }
 
+  //SUBMIT FOR APPROVAL
+  submitForApproval() {
+    const data = {
+      leadId: this.leadId,
+      userId: localStorage.getItem('userId'),
+      isCPCMaker: true,
+      isCPCChecker: false,
+      sendBackToCredit: false
+    };
+    this.sanctionDetailsService.assignTaskToTSAndCPC(data).subscribe( (res: any) => { 
+      const response = res;
+      // console.log("RESPONSE_SUBMIT_FOR_APPROVAL::", response);
+      if (response["Error"] == 0) {
+        this.toasterService.showSuccess("Sanctioned Leads Submitted Successfully", "Sanction Details");
+        this.router.navigateByUrl('/pages/dashboard');
+      } else {
+        this.toasterService.showError(res['ProcessVariables'].error['message'], 'Sanction Details');
+      }
+    });
+  }
+
+  //SUNMIT_TO_CREDIT_DECISIONS
+  submitToCD() {
+    const data = {
+      leadId: this.leadId,
+      userId: localStorage.getItem('userId')
+    };
+    this.sanctionDetailsService.submitToCC(data).subscribe((res: any) => {
+      const response = res;
+      console.log("RESPONSE_SUMIT_TO_CREDIT_DECISION::", response);
+      if(response["Error"] == 0) {
+        this.toasterService.showSuccess("Sanctioned Leads Submitted Successfully", "Sanction Details");
+        this.router.navigateByUrl('/pages/dashboard');
+      } else {
+        this.toasterService.showError(res['ProcessVariables'].error['message'], 'Sanction Details');
+      }
+    });
+  }
+
   onNext() {
-    
     if ( this.roleType == '1' ) { 
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/customer-feedback`]);
+    } else if(this.roleType == '2' && this.isPreDone == "true" && this.salesResponse == "true" ) {
+      this.router.navigate([`/pages/credit-decisions/${this.leadId}/check-list`]);
     } else if (this.roleType == '2') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/check-list`]);
       // tslint:disable-next-line: triple-equals
@@ -182,11 +230,11 @@ docsDetails: DocRequest
       // tslint:disable-next-line: triple-equals
       } else if ( this.roleType == '5') {
       this.router.navigate([`pages/cpc-checker/${this.leadId}/pdc-details`]);
-      }
+      } 
   }
 
   onBack() {
-    if(this.roleType == '1' && localStorage.getItem('isPreDisbursement') == "true"){
+    if(this.roleType == '1' && this.isPreDisbursement == "true"){
       this.router.navigate([`pages/pre-disbursement/${this.leadId}/term-sheet`]);
     } else if(this.roleType == '1') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/disbursement`]);

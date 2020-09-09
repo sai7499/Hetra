@@ -282,10 +282,16 @@
             <button class="btn btn-primary btn_div " type="button" (click)="onBack()">{{labels?.back}}</button>
             <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
             <button class="btn btn-primary btn_div"  *ngIf="roleType == '2'"
-            data-toggle="modal" data-target="#myModal" type="button" 
-            >{{labels?.submitToSales}}</button>
+                data-toggle="modal" data-target="#myModal" type="button">{{labels?.submitToSales}}</button>
+            <button class="btn btn-primary dash_href adjustMargins" type="button" *ngIf="roleType == '2' && salesResponse == 'true'"><a
+                data-toggle="modal" data-target="#myModalForApproval">Submit for Approval</a></button>
+            <button class="btn btn-primary dash_href adjustMargins" type="button" 
+                *ngIf="roleType != '2' && isPreDisbursement == 'true'"><a data-toggle="modal" 
+                data-target="#myModalSubmitToCD">Submit to CD</a></button>
             <button class="btn btn-primary btn_div" type="button" 
-                [disabled]="salesResponse == 'false'" *ngIf="roleType == '2'" (click)="onNext()" >{{labels?.next}}</button>
+                [disabled]="salesResponse == 'false'" 
+                *ngIf="roleType != '2' && isPreDisbursement == 'false'" (click)="onNext()"                
+                (click)="onNext()" >{{labels?.next}}</button>
             <button class="btn btn-primary btn_div" type="button" 
                 *ngIf="roleType != '2'" (click)="onNext()" >{{labels?.next}}</button>
             <button class="btn btn-primary btn_div"  *ngIf="roleType == '2'"
@@ -293,12 +299,14 @@
                 >{{labels?.submit}}</button>
                 <button class="btn btn-primary btn_div" (click)="downloadpdf()" type="button" 
                 >{{'Download'}}</button>
+               
+        
         </div>
     </div>
 </main>
+<!-- SEND BACK TO SALES-->
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -323,7 +331,6 @@
 
 <div class="modal fade" id="noModal" role="dialog" *ngIf="salesResponse == 'true'">
     <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -334,7 +341,89 @@
                 <p>Please click on NEXT to proceed further</p>              
             </div>
             <div class="modal-footer">                
-                <button type="button" class="btn btn-primary" data-dismiss="modal">ok</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- SUBMIT_FOR_APPROVAL -->
+<div class="modal fade" id="myModalForApproval" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <!-- <h4 class="modal-title">Submit Record</h4> -->
+            </div>
+            <div class="modal-body">
+                <p>Do you want to submit record ?</p>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-primary" (click)="submitTocpc()" data-dismiss="modal">Yes</button> -->
+                <button type="button" class="btn btn-primary" (click)="submitForApproval()"
+                     data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="myModaltwo" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <!-- <h4 class="modal-title">Submit Record</h4> -->
+            </div>
+            <div class="modal-body">
+                <p>Lead {{leadId}} is submitted successfully</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-dismiss="modal">OK</button>
+                <!-- <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button> -->
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- SUBMIT_TO_CREDIT_DECISIONS-->
+<div class="modal fade" id="myModalSubmitToCD" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <!-- <h4 class="modal-title">Submit Record</h4> -->
+            </div>
+            <div class="modal-body">
+                <p>Do you want to submit record ?</p>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-primary" (click)="submitTocpc()" data-dismiss="modal">Yes</button> -->
+                <button type="button" class="btn btn-primary" (click)="submitToCD()"
+                     data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="myModaltwo" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <!-- <h4 class="modal-title">Submit Record</h4> -->
+            </div>
+            <div class="modal-body">
+                <p>Lead {{leadId}} is submitted successfully</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-dismiss="modal">OK</button>
+                <!-- <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button> -->
             </div>
         </div>
 

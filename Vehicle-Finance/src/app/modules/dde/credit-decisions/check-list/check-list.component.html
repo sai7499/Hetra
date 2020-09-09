@@ -137,6 +137,8 @@
                         </button>
                         <button class="btn btn-primary dash_href adjustMargins" type="button" *ngIf="roleType == '2'"><a
                                 data-toggle="modal" data-target="#myModal">Submit for Approval</a></button>
+                        <button class="btn btn-primary dash_href adjustMargins" type="button" *ngIf="roleType == '2'"><a
+                        data-toggle="modal" data-target="#myModaltwo">Submit To CPC</a></button>
                     </div>
 
                 </div>
@@ -178,11 +180,11 @@
                 <!-- <h4 class="modal-title">Submit Record</h4> -->
             </div>
             <div class="modal-body">
-                <p>Lead {{leadId}} is submited successful</p>
+                <p>Do you want to submit record ?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" data-dismiss="modal">OK</button>
-                <!-- <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button> -->
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-dismiss="modal" (click)="onSave('bcm')">Yes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>
 

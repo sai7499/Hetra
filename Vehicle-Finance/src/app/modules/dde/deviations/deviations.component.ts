@@ -7,6 +7,8 @@ import { LoginStoreService } from '@services/login-store.service';
 import { DeviationService } from '@services/deviation.service';
 import { ToasterService } from '@services/toaster.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { Location } from '@angular/common';
+
 @Component({
   selector: 'app-deviations',
   templateUrl: './deviations.component.html',
@@ -21,9 +23,13 @@ export class DeviationsComponent implements OnInit, OnDestroy {
   public subscription: any;
   disableSaveBtn: boolean;
 
+  isSendBacktoCredit: boolean;
+  isSubmitToCredit: boolean;
+  locationIndex: string = '';
+
   constructor(private labelsData: LabelsService, private sharedService: SharedService, private utilityService: UtilityService,
     private createLeadDataService: CreateLeadDataService, private loginStoreService: LoginStoreService, private deviationService: DeviationService,
-    private toasterService: ToasterService, private toggleDdeService: ToggleDdeService) { }
+    private toasterService: ToasterService, private toggleDdeService: ToggleDdeService, private location: Location) { }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -44,10 +50,30 @@ export class DeviationsComponent implements OnInit, OnDestroy {
     this.subscription = this.sharedService.vaildateForm$.subscribe((value) => {
       this.formValue = value;
     })
-    // const operationType = this.toggleDdeService.getOperationType();
-    // if (operationType === '2') {
-    //   this.disableSaveBtn  = true;
-    // }
+
+    let currentUrl = this.location.path();
+    this.locationIndex = this.getLocationIndex(currentUrl);
+
+    this.location.onUrlChange((url: string) => {
+      this.locationIndex = this.getLocationIndex(url);
+    });
+
+  }
+
+  getLocationIndex(url) {
+    if (url.includes('dde')) {
+      this.isSubmitToCredit = true;
+      this.isSendBacktoCredit = false;
+      return 'dde';
+    } else if (url.includes('credit-decisions')) {
+      this.isSubmitToCredit = false;
+      this.isSendBacktoCredit = true;
+      return 'credit-decisions';
+    } else if (url.includes('deviation-dashboard')) {
+      // this.isSubmitToCredit = false;
+      this.isSendBacktoCredit = false;
+      return 'deviation-dashboard';
+    }
   }
 
   saveorUpdateDeviationDetails() {
