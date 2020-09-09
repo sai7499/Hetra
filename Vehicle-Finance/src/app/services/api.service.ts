@@ -81,11 +81,6 @@ export class ApiService {
       processId: 'c7df01d6ac8811ea83def2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
-    getAdditionalCollateralsList: {
-      workflowId: 'cc1368caeead11ea8ecc00505695f93b',
-      processId: 'ce4ea4a0eeae11eabb4b00505695f93b',
-      projectId: environment.projectIds.salesProjectId,
-    },
     getAdditionalCollateralsDetails: {
       workflowId: 'cc1368caeead11ea8ecc00505695f93b',
       processId: '95c08818ef4b11eaafa600505695f93b',
