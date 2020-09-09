@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 @Component({
     templateUrl: './vehicle-list.component.html',
     styleUrls: ['./vehicle-list.component.css']
 })
 export class VehicleListComponent {
-    public labels: any = {};
+    public label: any = {};
+    leadId: number;
 
     public colleteralArray = [
         {
@@ -22,14 +23,17 @@ export class VehicleListComponent {
         }
     ]
 
-    constructor(private labelsData: LabelsService, private _fb: FormBuilder) { }
+    constructor(private labelsData: LabelsService, private createLeadDataService: CreateLeadDataService) { }
 
     ngOnInit() {
         this.labelsData.getLabelsOfDDEData()
             .subscribe(data => {
-                this.labels = data.vehicleDetailsTable[0];
+                this.label = data.vehicleDetailsTable[0];
             }, error => {
                 console.log('error')
             });
+
+        let leadData = this.createLeadDataService.getLeadSectionData();
+        this.leadId = leadData['leadId'];
     }
 }

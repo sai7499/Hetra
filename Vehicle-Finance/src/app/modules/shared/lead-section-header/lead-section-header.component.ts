@@ -121,7 +121,7 @@ export class LeadSectionHeaderComponent implements OnInit {
   viewOrEditDde() {
     this.toggleDdeService.setIsDDEClicked();
     this.isEnableDdeButton = false;
-    this.isNeedBackButton = true
+    this.isNeedBackButton = true;
     this.router.navigate(['/pages/dde/' + this.leadId])
     this.toggleDdeService.setCurrentPath(this.location.path())
     this.setDdeBackButton()
