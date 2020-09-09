@@ -279,7 +279,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
   getLeadSectiondata() {
     const leadData = this.createLeadDataService.getLeadSectionData();
-    console.log('data-->', leadData);
     this.productCategory = leadData['leadDetails'].productId;
     this.fundingProgram = leadData['leadDetails'].fundingProgram;
 

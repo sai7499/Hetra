@@ -40,7 +40,7 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="name_proof">
                     <label for="name_proof"> {{ label?.nameofProof }} </label>
 
-                    <app-custom-input formControlName="nameofProof" [type]="label.validationData?.name.type"
+                    <app-custom-input formControlName="proofName" [type]="label.validationData?.name.type"
                         [id]="'name_proof'" [className]="'form-control mandatory'"
                         [placeholder]="'Name of Proof/Proof Name'" [maxLength]="label.validationData?.name.maxLength">
                     </app-custom-input>
