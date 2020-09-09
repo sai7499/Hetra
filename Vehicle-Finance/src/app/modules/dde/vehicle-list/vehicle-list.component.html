@@ -2,6 +2,55 @@
 
     <div class="container cus-wid-sty">
         <app-shared-vehicle-details></app-shared-vehicle-details>
+
+        <!-- <div style="margin-top: 10px;" *ngIf="roleType === 2">
+
+            <div class="container controlWidth">
+                <div class="btn-sec clear-both row">
+                    <div class="col-sm-12 text-right">
+                        <button class="btn btn-primary" type="button"
+                            [routerLink]="['/pages/vehicle-details/' + leadId + '/additional-collateral-details']">
+                            {{label?.addAdditionalCollaterals}} </button>
+                    </div>
+                </div>
+            </div>
+    
+            <div id="wrapper">
+                <table id="add_vhd_table">
+                    <thead>
+                        <tr class=" table-head-bg ">
+                            <th>{{label?.colleteralType}}</th>
+                            <th>{{label?.column2}}</th>
+                            <th>{{label?.column3}}</th>
+                            <th>{{label.action}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="add_vhd_tabletr" *ngFor="let obj of collateralArray; let i = index">
+                            <td [attr.data-label]="label?.colleteralType" data-title="Collateral Type">
+                                {{obj.colleteralType}}
+                            </td>
+                            <td [attr.data-label]="label?.column2" data-title="Column 2">
+                                {{obj.column2}}
+                            </td>
+                            <td [attr.data-label]="label?.column3" data-title="Column 3">
+                                {{obj.column3}}
+                            </td>
+                            <td [attr.data-label]="label?.action" data-title="Action">
+    
+                                <a title="Edit collateral"
+                                    [routerLink]="['/pages/vehicle-details/' + leadId + '/additional-collateral-details']"><i
+                                        class="fa fa-pencil cursor-pointer" aria-hidden="true"></i></a>
+                                <a data-toggle="modal" data-target="#exampleModal" title="Delete collateral"><i
+                                        class="fa fa-trash cursor-pointer" aria-hidden="true"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    
+        </div> -->
+
     </div>
 
 </div>
@@ -9,7 +58,7 @@
 <div class="btn-sec clear-both btn-mar-15" id="clickButton">
     <div class="col-sm-4"> </div>
     <div class="col-sm-8 text-right">
-        <button class="btn btn-primary" type="button" [routerLink]="['../applicant-list']">{{labels.back}}</button>
-        <button class="btn btn-primary" type="button" [routerLink]="['../fleet-details']">{{labels.next}}</button>
+        <button class="btn btn-primary" type="button" [routerLink]="['../applicant-list']">{{label.back}}</button>
+        <button class="btn btn-primary" type="button" [routerLink]="['../fleet-details']">{{label.next}}</button>
     </div>
 </div>
