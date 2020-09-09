@@ -8,7 +8,7 @@
 
 <main class="content" style="padding-bottom: 50px;" *ngIf = "isTermSheet">
     <div class="container overflow-hidden">
-        <div class="multisteps-form">
+        <div class="multisteps-form" id="ContentToConvert">
             <div class="print_top">
                 <div class="row">
                     <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6">
@@ -838,6 +838,8 @@
                 <button class="btn btn-primary btn_div " (click)= "onBack()" type="button">Back</button>
                 <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
                 <button class="btn btn-primary btn_div" (click)= "onNext()" type="button">Next</button>
+                <button class="btn btn-primary btn_div" (click)= "downloadpdf()" type="button">Donwload</button>
+            
             </div>
         </div>
 

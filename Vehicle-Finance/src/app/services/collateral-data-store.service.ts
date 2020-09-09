@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CollateralList } from '@model/lead.model';
+import { CollateralList, AdditionalCollateralDetails } from '@model/lead.model';
 
 @Injectable({
   providedIn: 'root'
@@ -7,10 +7,24 @@ import { CollateralList } from '@model/lead.model';
 export class CollateralDataStoreService {
 
   collateralList: any = [];
+  IndividualColateralList: any = {};
 
   constructor() { }
 
   setCollateralDetails(collateralDetails: CollateralList) {
     this.collateralList.push(collateralDetails);
   }
+
+  getCollateralDetails() {
+    return this.collateralList
+  }
+
+  setAdditionalCollateralList(collateralList: AdditionalCollateralDetails) {
+    this.IndividualColateralList = collateralList
+  }
+  
+  getAdditionalCollateralList() {
+    return this.IndividualColateralList
+  }
+
 }

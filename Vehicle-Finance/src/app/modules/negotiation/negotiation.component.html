@@ -594,7 +594,7 @@
         </div>
         <div class="btn-sec button-section clear-both">
           <div class="col-sm-12 text-right">
-            <button type="button" class="btn btn-primary" value="back" (click)="onBack()">
+            <button type="button" class="btn btn-primary" value="back" *ngIf="roleType == '1'" (click)="onBack()">
               {{ labels?.back }}
             </button>
             <!-- <button (click)="onBack()" class="btn btn-primary mar-right8" type="button" >Back </button>&nbsp; -->

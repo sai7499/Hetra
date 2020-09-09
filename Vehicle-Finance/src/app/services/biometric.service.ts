@@ -30,20 +30,47 @@ export class BiometricService {
 
       console.log("initIdenti5 aadhar", aadhar);
 
-      identi5.getInfo(function(result){
-        console.log("Result&&&&"+ result);
-        if(result["error"]){
-          let result = JSON.stringify({"pidErr": true});
-          callBack(result);
-          return;
+      this.applicantService.retreiveAdhar(aadhar).subscribe((res: any) => {
+        let result = res;
+        console.log("result aadhar",result);
+        let processVariables =  result.ProcessVariables;
+        if(processVariables.error.code == "0"){
+          console.log("processVariables Aadhar", processVariables.uid);
+          let aadhar = processVariables.uid;
+
+          identi5.getInfo(function(result){
+            console.log("Result&&&&"+ result);
+            if(result["error"]){
+              let result = JSON.stringify({"pidErr": true});
+              callBack(result);
+              return;
+            }
+            that.pid = result["model"];
+            console.log("base64Data"+ that.pid);
+            that.prepareKYCRequest(that.pid, aadhar, applicantId, callBack);
+          },function(error){
+            console.log("Result&&&&"+ error);
+            alert("error"+error);
+          });
+        }else {
+          console.log("Aadhar number", aadhar);
+          identi5.getInfo(function(result){
+            console.log("Result&&&&"+ result);
+            if(result["error"]){
+              let result = JSON.stringify({"pidErr": true});
+              callBack(result);
+              return;
+            }
+            that.pid = result["model"];
+            console.log("base64Data"+ that.pid);
+            that.prepareKYCRequest(that.pid, aadhar, applicantId, callBack);
+          },function(error){
+            console.log("Result&&&&"+ error);
+            alert("error"+error);
+          });
         }
-        that.pid = result["model"];
-        console.log("base64Data"+ that.pid);
-        that.prepareKYCRequest(that.pid, aadhar, applicantId, callBack);
-      },function(error){
-        console.log("Result&&&&"+ error);
-        alert("error"+error);
-      });
+
+    });
       
     }
 

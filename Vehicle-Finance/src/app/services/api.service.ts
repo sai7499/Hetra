@@ -794,6 +794,11 @@ export class ApiService {
       processId: '84fdc0f4edac11eaa7e400505695f93b',
       workflowId: '84d0b640edac11ea8d3d00505695f93b',
       projectId: environment.projectIds.validateSRNumber
+    },
+    submitToCC: {
+      processId: '47d4c4a8f19d11eaa89a00505695f93b',
+      workflowId: '4794bf2af19d11ea880700505695f93b',
+      projectId: environment.projectIds.submitToCredit
     }
 
   };
