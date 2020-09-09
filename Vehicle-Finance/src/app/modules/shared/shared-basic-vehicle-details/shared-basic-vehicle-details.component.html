@@ -19,6 +19,7 @@
                             [type]="label.validationData?.vehicleRegNo.type" [id]="'vechical_reg'"
                             [className]="'form-control mandatory'" [placeholder]="'Vechical Registration No'"
                             [minLength]="label.validationData?.vehicleRegNo.minLength"
+                            [patternCheck]="label.validationData?.vehicleRegNo.patternCheck"
                             [inputClass]="'input-upper'" [maxLength]="label.validationData?.vehicleRegNo.maxLength"
                             [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
                         </app-custom-input>
@@ -1078,6 +1079,7 @@
                                 [placeholder]="'Vechical Registration No'"
                                 [minLength]="label.validationData?.vehicleRegNo.minLength"
                                 [maxLength]="label.validationData?.vehicleRegNo.maxLength"
+                                [patternCheck]="label.validationData?.vehicleRegNo.patternCheck"
                                 [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
                             </app-custom-input>
 
@@ -1574,6 +1576,7 @@
                                 [placeholder]="'Vechical Registration No'"
                                 [minLength]="label.validationData?.vehicleRegNo.minLength"
                                 [maxLength]="label.validationData?.vehicleRegNo.maxLength"
+                                [patternCheck]="label.validationData?.vehicleRegNo.patternCheck"
                                 [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
                             </app-custom-input>
 
