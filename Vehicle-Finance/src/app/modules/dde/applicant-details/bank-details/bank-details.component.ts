@@ -305,6 +305,14 @@ export class BankDetailsComponent implements OnInit {
     return Number(year[1]);
       }
   onSave() {
+    if (this.bankForm.invalid) {
+      this.toasterService.showWarning(
+        'Mandatory Fields Missing ',
+        'Bank Transactions'
+      );
+      console.log(this.bankForm.value, 'Invalid Form');
+      return;
+    }
     this.bankForm.value.fromDate = this.bankForm.value.fromDate
       ? this.utilityService.getDateFormat(this.bankForm.value.fromDate)
       : this.bankForm.value.fromDate;
@@ -312,9 +320,9 @@ export class BankDetailsComponent implements OnInit {
       this.bankForm.value.toDate
     );
     // this.bankForm.value.year = Number(this.bankForm.value.year);
-    this.bankForm.value.accountNumber = this.bankForm.value.accountNumber.toString();
+    this.bankForm.value.accountNumber = this.bankForm.value.accountNumber;
     this.bankForm.value.limit = this.bankForm.value.limit;
-    this.bankForm.value.period = this.bankForm.value.period.toString();
+    this.bankForm.value.period = this.bankForm.value.period;
     this.bankForm.value.totalCredits = Number(this.bankForm.value.totalCredits);
     this.bankForm.value.applicantId = this.applicantId;
     this.bankForm.value.id = 7;
@@ -346,14 +354,7 @@ export class BankDetailsComponent implements OnInit {
       ].abbOfTheMonth.toString();
     }
     // console.log(this.bankForm.value.transactionDetails);
-    if (this.bankForm.invalid) {
-      this.toasterService.showWarning(
-        'Mandatory Fields Missing ',
-        'Bank Transactions'
-      );
-      console.log(this.bankForm.value, 'Invalid Form');
-      return;
-    }
+   
     this.bankTransaction
       .setTransactionDetails(this.bankForm.value)
       .subscribe((res: any) => {
