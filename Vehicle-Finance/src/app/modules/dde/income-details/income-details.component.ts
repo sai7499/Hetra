@@ -618,7 +618,7 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         control.removeAt(i);
-        this.toasterService.showInfo('Row is Removed', 'OD Details');
+        this.toasterService.showInfo('Row is Removed', 'Income Details');
         this.isbusinessIncomeShow = false;
         this.onIncome(null, i)
       } else {
@@ -667,7 +667,7 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         control.removeAt(i);
-        this.toasterService.showInfo('Row is Removed', 'OD Details');
+        this.toasterService.showInfo('Row is Removed', 'Income Details');
         this.isOtherIncomeShow = false;
         this.getTotalOtherIncome(i);
       } else {
@@ -712,7 +712,7 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         control.removeAt(i);
-        this.toasterService.showInfo('Row is Removed', 'OD Details');
+        this.toasterService.showInfo('Row is Removed', 'Income Details');
         this.isObligationIncomeShow = false;
         this.onEmi(null, i);
 
@@ -1200,15 +1200,17 @@ export class IncomeDetailsComponent implements OnInit {
   onSalFoirDeviation(event: any) {
     const salariedFOIRasperPolicy = this.incomeDetailsForm.controls
       .salariedFOIRasperPolicy.value;
-
-    if (Number(event) + Number(salariedFOIRasperPolicy) <= 150) {
-      this.SalariedFOIRDeviation = Math.round(Number(event));
-      this.totalSalariedFOIR =
-        this.SalariedFOIRDeviation + salariedFOIRasperPolicy;
-    } else {
-      this.toasterService.showWarning('should not exceed 150', '');
-      this.totalSalariedFOIR = 0;
-    }
+if(this.productCode == "UC"){
+  if (Number(event) + Number(salariedFOIRasperPolicy) <= 150) {
+    this.SalariedFOIRDeviation = Math.round(Number(event));
+    this.totalSalariedFOIR =
+      this.SalariedFOIRDeviation + salariedFOIRasperPolicy;
+  } else {
+    this.toasterService.showWarning('should not exceed 150', '');
+    this.totalSalariedFOIR = 0;
+  }
+}
+   
   }
   onCashGeneration(event, i: number) {
 
@@ -1236,22 +1238,22 @@ export class IncomeDetailsComponent implements OnInit {
   showBusinessIncome(i) {
     this.rowIndex = i;
     this.isbusinessIncomeShow = true;
-    this.errorMessage = 'Are sure to remove row';
+    this.errorMessage = 'Are you sure Want to remove this row ?';
   }
   showOtherIncome(i) {
     this.rowIndex = i;
     this.isOtherIncomeShow = true;
-    this.errorMessage = 'Are sure to remove row';
+    this.errorMessage = 'Are you sure Want to remove this row ?';
   }
   showObligationIncome(i) {
     this.rowIndex = i;
     this.isObligationIncomeShow = true;
-    this.errorMessage = 'Are sure to remove row';
+    this.errorMessage = 'Are you sure Want to remove this row ?';
   }
   showKeyFinancial(i) {
     this.rowIndex = i;
     this.isKeyFinancialShow = true;
-    this.errorMessage = 'Are sure to remove row';
+    this.errorMessage = 'Are you sure Want to remove this row ?';
   }
 
 }

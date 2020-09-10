@@ -339,7 +339,8 @@ export class CreditConditionsComponent implements OnInit {
       this.creditConditionService.submitReferDeclineCreditConditions(processData).subscribe(res=> {
       console.log(res);
       if(res['ProcessVariables'].error['code'] == 0){
-        this.toasterService.showSuccess("Record " + data + " successfully!", '')
+        this.toasterService.showSuccess("Record " + data + " successfully!", '');
+        this.router.navigate([`pages/dashboard`]);
       }else{
         this.toasterService.showError(res['ProcessVariables'].error['message'], '')
 

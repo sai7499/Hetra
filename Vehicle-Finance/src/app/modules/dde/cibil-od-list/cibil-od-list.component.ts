@@ -55,7 +55,7 @@ export class CibilOdListComponent implements OnInit {
   unamePattern = '^[a-z0-9_-]{8,15}$';
   imageUrl: any;
   cibilImage: any;
-  addMatchFound: any;
+  addMatchFound  : boolean = false;
   constructor(
     private labelService: LabelsService,
     private formBuilder: FormBuilder,
@@ -112,7 +112,7 @@ export class CibilOdListComponent implements OnInit {
       ]),
       cibilStatus: new FormControl(null, [
         Validators.required]),
-      addMatchFound: [''],
+      addMatchFound:  this.addMatchFound,
       addCibilScore: ['']
 
     });
@@ -463,7 +463,7 @@ export class CibilOdListComponent implements OnInit {
           writtenOffLoansWithSuite: Number(
             this.odDetailsForm.controls.writtenOffLoansWithSuite.value
           ),
-          totalAmount: this.totalAmount.toString(),
+          totalAmount: this.totalAmount,
           cibilStatus: this.odDetailsForm.controls.cibilStatus.value,
           addMatchFound: this.odDetailsForm.controls.addMatchFound.value,
           addCibilScore: this.odDetailsForm.controls.addCibilScore.value,
@@ -514,6 +514,7 @@ export class CibilOdListComponent implements OnInit {
   onAdditionalMatch(event: any) {
     console.log("additional change ....>", event);
     console.log(event)
+   
     if(typeof(event) != 'number') {
       this.addMatchFound = event.currentTarget.checked
     } else if (typeof(event) == 'number' && event === 1) {
@@ -530,17 +531,17 @@ export class CibilOdListComponent implements OnInit {
   showOdModel(i) {
     this.rowIndex = i;
     this.isODModelShow = true;
-    this.errorMessage = 'Are sure to remove row';
+    this.errorMessage = 'Are you sure Want to remove this row ?';
   }
   showThirtyModel(i) {
     this.rowIndex = i;
     this.isThirtyModelShow = true;
-    this.errorMessage = 'Are sure to remove row';
+    this.errorMessage = 'Are you sure Want to remove this row ?';
   }
   showSixtyModel(i) {
     this.rowIndex = i;
     this.isSixtyModelShow = true;
-    this.errorMessage = 'Are sure to remove row';
+    this.errorMessage = 'Are you sure Want to remove this row ?';
   }
   //  logic to get cibil response
   getApplicantImage() {
