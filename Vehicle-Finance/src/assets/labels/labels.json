@@ -1606,6 +1606,7 @@
     "totalCredits": "Total number of credits",
     "micrNo": "MICR No",
     "accountBranchname": "Account Branchname",
+    "termsheetGeneratedDate" : "Termsheet Generated Date",
     "validationData": {
         "name": {
             "maxLength": {
