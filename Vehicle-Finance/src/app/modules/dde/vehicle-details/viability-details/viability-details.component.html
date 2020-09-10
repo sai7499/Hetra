@@ -1,6 +1,7 @@
  <div class="text-left" *ngIf="label">
 
     <form [formGroup]="viabilityForm">
+
         <div class="row">
             <select class="btn btn-primary col-lg-2 col-md-2 col-sm-2 col-xs-12 btn-mar" id="vehicle_viability_navigate" formControlName="type"
             (change)="vehicle_viability_navigate($event.target.value)" *ngIf="hideSubmit">
@@ -11,6 +12,7 @@
         <!-- <app-vf-custom-select class="btn" id="vehicle_viability_navigate" [values]="viabilityObj?.vehicleViability"
             formControlName="type" (change)="vehicle_viability_navigate($event.target.value)">
         </app-vf-custom-select> -->
+
         <div id="passanger" *ngIf="vehicle_viability_value === '1VHCLVBTY'" formGroupName="passanger">
             <h3 class="title heading-align">{{label?.passengerTitle}}</h3>
              
@@ -20,6 +22,21 @@
             
             
             <!-- <form action="" method="POST"> -->
+            <div class="selfie_margin_l form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="sourceOf_margin_money">{{label.selfieWithVehicle}}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <div class="photo">
+                    <img [src]="
+                            SELFIE_IMAGE ||
+                                '../../../../assets/images/user.jpg'
+                            " alt="[Image: Photo]" width="100" />
+                </div>
+                <span> <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie
+                    </button></span>
+                <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails"></app-upload-modal>
+            </div>
+
             <table
                 class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
                 <tr class="table-head-bg m-0 p-02 text-left">
@@ -608,6 +625,21 @@
                 <p id="" >{{label?.vehicleModel}}:{{ viabilityDataObj?.model}}</p>
             <!---	<h4 class="table-head-bg m-0 p-02">INCOME</h4> ---->
             <!-- <form action="" method="POST"> -->
+            <div class="selfie_margin_l form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="sourceOf_margin_money">{{label.selfieWithVehicle}}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <div class="photo">
+                    <img [src]="
+                            SELFIE_IMAGE ||
+                                '../../../../assets/images/user.jpg'
+                            " alt="[Image: Photo]" width="100" />
+                </div>
+                <span> <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie
+                    </button></span>
+                <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails"></app-upload-modal>
+            </div>
+    
             <table
                 class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
                 <tr class="table-head-bg m-0 p-02">
@@ -832,6 +864,22 @@
                 <p id="" >{{label?.vehicleModel}}:{{ viabilityDataObj?.model}}</p>
             <!---- <h4 class="table-head-bg m-0 p-02">INCOME</h4> ---->
             <!-- <form action="" method="POST"> -->
+            
+            <div class="selfie_margin_l form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="sourceOf_margin_money">{{label.selfieWithVehicle}}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <div class="photo">
+                    <img [src]="
+                            SELFIE_IMAGE ||
+                                '../../../../assets/images/user.jpg'
+                            " alt="[Image: Photo]" width="100" />
+                </div>
+                <span> <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie
+                    </button></span>
+                <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails"></app-upload-modal>
+            </div>
+    
             <table
                 class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
                 <tr class="table-head-bg m-0 p-02">
@@ -1070,6 +1118,14 @@
             <!-- </form> -->
 
         </div>
+
+        <div *ngIf="showRouteMap" class="form-group col-sm-6 col-md-4 col-lg-3 hide">
+            <label for="timeOf_verification">{{label.routeMap}}
+            </label>
+            <div class="photo">
+                <img src="{{base64Image}}" width="235" />
+            </div>
+        </div>
     </form>
 </div>
 
@@ -1078,12 +1134,12 @@
         <button class="btn btn-primary cus-btn-sty" type="button" (click)="onBack()">{{label?.back}}</button> 
         <p class="btn btn-primary save cus-btn-sty" (click)="onSave()"> {{label?.save}} </p>
         <!-- <button class="btn btn-primary cus-btn-sty" type="button" (click)="submitViability()">{{label.submit}}</button>&nbsp; -->
-        <a data-toggle="modal" data-target="#myModal" id="reject_credit" *ngIf="hideSubmit">
+        <a data-toggle="modal" data-target="#myModalCredit" id="reject_credit" *ngIf="hideSubmit">
             <p type="button" class="btn btn-primary">{{label?.submit}}</p>
         </a>
     </div>
 </div>
-<div class="modal" id="myModal">
+<div class="modal" id="myModalCredit">
     <div class="modal-dialog">
         <div class="modal-content">
 
