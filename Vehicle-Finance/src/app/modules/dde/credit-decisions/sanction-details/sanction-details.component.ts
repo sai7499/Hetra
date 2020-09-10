@@ -151,7 +151,7 @@ export class SanctionDetailsComponent implements OnInit {
         this.loanApprovedDetails = this.sanctionDetailsObject.loanApprovedDetails;
         this.generalTermsAndConditions = this.sanctionDetailsObject.generalTermsAndConditions;
         if (isUpload === 'isUpload') {
-          this.uploafPdf()
+          this.uploadPdf()
         }
       } else {
         this.toasterService.showError(res['ProcessVariables'].error['message'], 'Sanction Details');
@@ -264,7 +264,7 @@ export class SanctionDetailsComponent implements OnInit {
 
   }
 
-  uploafPdf() {
+  uploadPdf() {
 
     var options = {
       margin: .25,
