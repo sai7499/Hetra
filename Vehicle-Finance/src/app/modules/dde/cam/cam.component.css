@@ -98,3 +98,12 @@ font-size: 16px;
 .dispNone{
 display: none;
 }
+.errText{
+    text-align: justify;
+    font-size: 16px;
+}
+.errHead h3{
+    text-align: center;
+    font-size: 18px;
+    color: #0e0d25;
+}
