@@ -88,6 +88,8 @@ export class CamComponent implements OnInit {
   showSave: boolean = false;
   newCamHtml: boolean;
   showCamHtml: boolean;
+  errorGenerated: boolean = false;
+  errorMessage: string;
   constructor(private labelsData: LabelsService,
     private camService: CamService,
     private activatedRoute: ActivatedRoute,
@@ -353,8 +355,10 @@ export class CamComponent implements OnInit {
       })
      } else if(res && res.ProcessVariables.error.code == '1'){
         this.showCamHtml == false
-        const message = res.ProcessVariables.error.message;
-        this.toasterService.showError(message, '');
+        this.errorGenerated = true;
+      const message = res.ProcessVariables.mandatoryFields;
+      this.errorMessage = message;
+      this.isCamDetails =true
       }
     })
     
@@ -388,8 +392,11 @@ export class CamComponent implements OnInit {
  
     } else if(res && res.ProcessVariables.error.code == '1'){
       this.showCamHtml == false
-      const message = res.ProcessVariables.error.message;
-      this.toasterService.showError(message, '');
+      this.errorGenerated = true;
+      const message = res.ProcessVariables.mandatoryFields;
+      this.errorMessage = message;
+      this.isCamDetails =true
+
     }
     })
     
@@ -433,8 +440,11 @@ export class CamComponent implements OnInit {
       })
     } else if(res && res.ProcessVariables.error.code == '1'){
       this.showCamHtml == false
-      const message = res.ProcessVariables.error.message;
-      this.toasterService.showError(message, '');
+      this.errorGenerated = true;
+      const message = res.ProcessVariables.mandatoryFields;
+      this.errorMessage = message;
+      this.isCamDetails =true
+
     }
     })
   }

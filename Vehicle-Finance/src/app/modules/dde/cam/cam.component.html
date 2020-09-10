@@ -2417,3 +2417,31 @@
     </div>
 </div>
 </form>
+<div id="overlay" *ngIf="errorGenerated">
+    <div id="text">
+      <div class="panel">
+        <div class="panel-body">        
+          <button type="button" class="close" aria-label="Close" (click)="errorGenerated = false" >
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="modal-dialog" >
+            <div class="modal-body" style="text-align:center;">
+              <!-- <p *ngFor="let item of errorMessage">{{item}}</p> -->
+              <div  class="errHead">
+                <h3 class="m-0">{{labels?.missingMandatoryFields}}</h3>
+              </div>
+              <div class="row" *ngFor="let item of errorMessage; let i = index ;">
+                  <div class="col-md-12">
+                  
+                        <div class="errText" >{{i + 1+'.'+''+item}}</div>
+                  </div>
+              </div>
+              <div class="btn-wrap">
+                <button class="btn btn-danger" (click)="errorGenerated = false">OK</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
