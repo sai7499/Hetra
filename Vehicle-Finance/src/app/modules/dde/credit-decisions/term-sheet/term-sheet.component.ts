@@ -6,6 +6,8 @@ import { ToasterService } from '@services/toaster.service';
 
 import {TermSheetService} from '../../services/terms-sheet.service';
 import { LoginStoreService } from '@services/login-store.service';
+import html2pdf from 'html2pdf.js';
+declare var $;
 @Component({
   selector: 'app-term-sheet',
   templateUrl: './term-sheet.component.html',
@@ -133,13 +135,11 @@ export class TermSheetComponent implements OnInit {
         this.toasterService.showSuccess("Record Assigned Successfuly", '');
         this.router.navigateByUrl("/pages/dashboard");
 
-      }else{
-        if(this.roleType == '2' && !this.isApprove){
+      }else if(this.roleType == '2' && !this.isApprove){
           this.toasterService.showSuccess(res['ProcessVariables'].error['message'], '');
-
+        }else {
+          this.toasterService.showSuccess(res['ProcessVariables'].error['message'], '');
         }
-
-      }
     })
   }
   async ngOnInit() {
@@ -203,6 +203,15 @@ export class TermSheetComponent implements OnInit {
         this.router.navigate([`/pages/credit-decisions/${this.leadId}/credit-condition`]);
       }
   }
+  downloadpdf()
+  { 
+    var options = {
+      margin:.25,
+      filename: `TermSheeet_${this.leadId}.pdf`,
+      image: { type: 'jpeg', quality: 1 },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'p' }
+  }
+  html2pdf().from(document.getElementById("ContentToConvert")).set(options).save();
 
-
+  }
 }

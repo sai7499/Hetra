@@ -27,7 +27,9 @@ export class TermSheetFromDashboardComponent implements OnInit {
      private toasterService: ToasterService,
      public termSheetService : TermSheetService,
      private loginStoreService: LoginStoreService,
-    ) { }
+    ) {
+      this.isApprove = true;
+     }
   getLabelData() {
     this.labelsService.getLabelsData().subscribe(labelsData => {
       this.labels = labelsData;

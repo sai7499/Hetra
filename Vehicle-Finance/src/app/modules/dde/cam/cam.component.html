@@ -1,10 +1,10 @@
 <div style="text-align: center;">
     <button class="btn btn-primary btn_div " 
     *ngIf = "isCamDetails" (click)= "showCamDetails()" 
-    type="button">Generate Cam</button>
+    type="button">{{labels?.generateCam}}</button>
 </div>
 
- <div class="container overflow-hidden" *ngIf="usedCarCam && !isCamDetails ">
+ <div class="container overflow-hidden" *ngIf="usedCarCam && !isCamDetails  && showCamHtml == true">
 
         <!---sourcing table starts here-->
         <table class="cam_table mt-3">
@@ -563,7 +563,7 @@
     </div>
 <form class="multisteps-form__form" >
 
-    <div class="container overflow-hidden" [formGroup]="camDetailsForm" *ngIf="usedCvCam && !isCamDetails">
+    <div class="container overflow-hidden" [formGroup]="camDetailsForm" *ngIf="usedCvCam && !isCamDetails  && showCamHtml == true">
     <!--basic table starts here-->
 
     <table class="cam_table">
@@ -1413,7 +1413,7 @@
     </table> -->
 </div>
 
-<div class="container overflow-hidden" [formGroup]="camDetailsForm" *ngIf="newCvCam && !isCamDetails">
+<div class="container overflow-hidden" [formGroup]="camDetailsForm" *ngIf="newCvCam && !isCamDetails && showCamHtml == true">
 
     <!---sourcing table starts here-->
     <table class="cam_table mt-3">
