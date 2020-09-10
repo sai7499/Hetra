@@ -167,6 +167,20 @@ export class HttpService {
             data = JSON.parse(decritedData);
           }
 
+          /* When request Timeout */
+          // if(data['responseStatus'] == '400'){
+          //   let cdsData = data['ProcessVariables']['errorCode'];
+          //   let msg = data['ProcessVariables']['errorMessage'];
+          //   this.errorListenerService.setError({
+          //     msg,
+          //     errorCode: cdsData,
+          //   });
+          //   this.activeRequests--;
+          //   if (this.activeRequests === 0) {
+          //     this.ngxService.stop();
+          //   }
+          // }
+
           if (
             data['Error'] == '0' &&
             data['Error'] != undefined &&
@@ -237,6 +251,7 @@ export class HttpService {
           observer.next(data);
           observer.complete();
 
+          /* Authentication token expired */
           if (data && data['login_required']) {
             // storage.removeToken();
             // storage.removeToken();
@@ -261,14 +276,18 @@ export class HttpService {
         .catch((error) => {
           console.log('~~~***Response error***~~~', error);
 
-          if (error['headers']['content-type'] == 'text/plain') {
+          if (error['status'] == '-3') {
+            data = JSON.parse(error['error']);
+          }
+
+          if (error['headers']['content-type'] && error['headers']['content-type'] == 'text/plain') {
             let decritedData = that.encrytionService.decryptMobileResponse(
               error
             );
             data = JSON.parse(decritedData);
           }
 
-          if (
+          if (error['headers']['content-type'] &&
             error['headers']['content-type'] != 'text/plain' &&
             typeof (error['data'] != 'object')
           ) {

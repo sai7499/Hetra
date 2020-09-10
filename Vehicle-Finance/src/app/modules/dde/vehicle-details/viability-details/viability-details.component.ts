@@ -117,21 +117,21 @@ export class ViabilityDetailsComponent implements OnInit {
 
   async ngOnInit() {
 
-    if (this.isMobile) {
-      this.gpsService.getLatLong().subscribe((position) => {
-        console.log("getLatLong", position);
-        this.gpsService.initLatLong().subscribe((res) => {
-          console.log("gpsService", res);
-          if (res) {
-            this.gpsService.getLatLong().subscribe((position) => {
-              console.log("getLatLong", position);
-            });
-          } else {
-            console.log("error initLatLong", res);
-          }
-        });
-      });
-    }
+    // if (this.isMobile) {
+    //   this.gpsService.getLatLong().subscribe((position) => {
+    //     console.log("getLatLong", position);
+    //     this.gpsService.initLatLong().subscribe((res) => {
+    //       console.log("gpsService", res);
+    //       if (res) {
+    //         this.gpsService.getLatLong().subscribe((position) => {
+    //           console.log("getLatLong", position);
+    //         });
+    //       } else {
+    //         console.log("error initLatLong", res);
+    //       }
+    //     });
+    //   });
+    // }
 
     this.userId = localStorage.getItem('userId');
     this.roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -967,16 +967,16 @@ calculateCaptiveC() {
     console.log('documentArr', this.documentArr);
     this.individualImageUpload(event, index);
 
-    let position = await this.getLatLong();
-    if (position["latitude"]) {
-      this.latitude = position["latitude"].toString();
-      this.longitude = position["longitude"].toString();
-      this.getRouteMap();
-    } else {
-      this.latitude = "";
-      this.longitude = "";
-      this.showRouteMap = false;
-    }
+    // let position = await this.getLatLong();
+    // if (position["latitude"]) {
+    //   this.latitude = position["latitude"].toString();
+    //   this.longitude = position["longitude"].toString();
+    //   this.getRouteMap();
+    // } else {
+    //   this.latitude = "";
+    //   this.longitude = "";
+    //   this.showRouteMap = false;
+    // }
 
   }
 

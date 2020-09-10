@@ -88,6 +88,10 @@ export class DeviationsComponent implements OnInit, OnDestroy {
         data = this.formValue.value.manualDeviationFormArray
       }
 
+      if (this.formValue.value.waiverNormsFormArray.length > 0) {
+        data = data.concat(this.formValue.value.waiverNormsFormArray);
+      }
+
       this.deviationService.saveOrUpdateDeviations(this.leadId, data, this.userId).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           let updateDevision = res.ProcessVariables.updatedDev ? res.ProcessVariables.updatedDev : []

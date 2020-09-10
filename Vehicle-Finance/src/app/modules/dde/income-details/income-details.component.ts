@@ -618,7 +618,7 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         control.removeAt(i);
-        this.toasterService.showInfo('Row is Removed', 'OD Details');
+        this.toasterService.showInfo('Row is Removed', 'Income Details');
         this.isbusinessIncomeShow = false;
         this.onIncome(null, i)
       } else {
@@ -667,7 +667,7 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         control.removeAt(i);
-        this.toasterService.showInfo('Row is Removed', 'OD Details');
+        this.toasterService.showInfo('Row is Removed', 'Income Details');
         this.isOtherIncomeShow = false;
         this.getTotalOtherIncome(i);
       } else {
@@ -712,7 +712,7 @@ export class IncomeDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         control.removeAt(i);
-        this.toasterService.showInfo('Row is Removed', 'OD Details');
+        this.toasterService.showInfo('Row is Removed', 'Income Details');
         this.isObligationIncomeShow = false;
         this.onEmi(null, i);
 
@@ -1238,22 +1238,22 @@ if(this.productCode == "UC"){
   showBusinessIncome(i) {
     this.rowIndex = i;
     this.isbusinessIncomeShow = true;
-    this.errorMessage = 'Are sure to remove row';
+    this.errorMessage = 'Are you sure Want to remove this row ?';
   }
   showOtherIncome(i) {
     this.rowIndex = i;
     this.isOtherIncomeShow = true;
-    this.errorMessage = 'Are sure to remove row';
+    this.errorMessage = 'Are you sure Want to remove this row ?';
   }
   showObligationIncome(i) {
     this.rowIndex = i;
     this.isObligationIncomeShow = true;
-    this.errorMessage = 'Are sure to remove row';
+    this.errorMessage = 'Are you sure Want to remove this row ?';
   }
   showKeyFinancial(i) {
     this.rowIndex = i;
     this.isKeyFinancialShow = true;
-    this.errorMessage = 'Are sure to remove row';
+    this.errorMessage = 'Are you sure Want to remove this row ?';
   }
 
 }

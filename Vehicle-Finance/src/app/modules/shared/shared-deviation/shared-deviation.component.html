@@ -81,8 +81,10 @@
 
       </div>
     </ng-container>
-    
-    <hr>
+
+    <div *ngIf="isSendBacktoCredit && isZero || deviationsForm.get('waiverNormsFormArray')['controls'].length > 0">
+      <hr>
+    </div>
 
     <ng-container formArrayName="autoDeviationFormArray">
 
@@ -156,7 +158,9 @@
 
     </ng-container>
 
-    <hr>
+    <div *ngIf="!isSubmitToCredit || deviationsForm.get('autoDeviationFormArray')['controls'].length > 0">
+      <hr>
+    </div>
 
     <ng-container formArrayName="manualDeviationFormArray">
 
