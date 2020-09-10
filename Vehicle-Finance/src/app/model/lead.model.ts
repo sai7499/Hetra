@@ -171,6 +171,8 @@ export interface IndivVehicleInfoDetails {
   fitnessDate?: string;
   fitnessCopy?: string;
   noOfVehicle?: string;
+  loanAmount?: string;
+  bodyCost?: string;
 }
 
 export interface LoanDetails {
@@ -188,6 +190,7 @@ export interface VehicleList {
   collateralId?: number;
   variant?: string;
   finalAssetCost?: string;
+  eligibleLoanAmount?: string;
 }
 
 export interface CollateralList {
