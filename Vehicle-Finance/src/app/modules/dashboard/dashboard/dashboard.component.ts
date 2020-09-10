@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '@services/dashboard/dashboard.service';
 import { LoginService } from '../../login/login/login.service';
@@ -162,7 +161,7 @@ export class DashboardComponent implements OnInit {
       this.businessDivision = userDetails.businessDivision[0].bizDivId;
       this.roleType = userDetails.roleType;
     });
-    localStorage.setItem("isPreDisbursement" , 'false')
+    localStorage.setItem('isPreDisbursement' , 'false');
     if (this.dashboardService.routingData) {
       this.activeTab = this.dashboardService.routingData.activeTab;
       this.subActiveTab = this.dashboardService.routingData.subActiveTab;
@@ -180,12 +179,12 @@ export class DashboardComponent implements OnInit {
         this.activeTab = 30;
         this.subActiveTab = 31;
         this.onTabsLoading(this.subActiveTab);
-        this.onLeads(this.displayTabs.CPCMaker, this.displayTabs.CPCMakerWithMe,'CPC')
+        this.onLeads(this.displayTabs.CPCMaker, this.displayTabs.CPCMakerWithMe, 'CPC');
       } else if (this.roleType === 5) {
         this.activeTab = 33;
         this.subActiveTab = 34;
         this.onTabsLoading(this.subActiveTab);
-        this.onLeads(this.displayTabs.CPCChecker, this.displayTabs.CPCCheckerWithMe,'CPC')
+        this.onLeads(this.displayTabs.CPCChecker, this.displayTabs.CPCCheckerWithMe, 'CPC');
       }
     }
 
@@ -434,35 +433,6 @@ export class DashboardComponent implements OnInit {
       this.onReleaseTab = true;
       this.onAssignTab = false;
     }
-    // if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
-    //   this.getSalesFilterLeads(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.PD && this.subActiveTab === this.displayTabs.MyPD) {
-    //   // this.getPdMyTask(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.Viability && this.subActiveTab === this.displayTabs.ViabilityWithMe) {
-    //   this.getViabilityLeads(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.FI && this.subActiveTab === this.displayTabs.MyFI) {
-    //   this.getMyFITask(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.PDD) {
-    //   this.getPDDLeads(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.ChequeTracking) {
-    //   this.getChequeTrackingLeads(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.LoanBooking) {
-    //   this.getProcessLogsLeads(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.DDE && this.subActiveTab === this.displayTabs.DDEWithMe) {
-    //   this.getMyDDELeads(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.Deviation && this.subActiveTab === this.displayTabs.DeviationWithMe) {
-    //   this.getMyDeviationLeads(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.Decision && this.subActiveTab === this.displayTabs.CreditDecisionWithMe) {
-    //   this.getMyDecisionLeads(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.TermSheet && this.subActiveTab === this.displayTabs.TermSheetWithMe) {
-    //   this.getMyTermsheetLeads(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.CPCMaker && this.subActiveTab === this.displayTabs.CPCMakerWithMe) {
-    //   this.getMakerLeads(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.CPCChecker && this.subActiveTab === this.displayTabs.CPCCheckerWithMe) {
-    //   this.getCheckerLeads(this.itemsPerPage);
-    // } else if (this.activeTab === this.displayTabs.PreDisbursementQueue && this.subActiveTab === this.displayTabs.PreDisbursementWithMe) {
-    //   this.getPreDisbursementLeads(this.itemsPerPage);
-    // }
   }
 
   // changing sub tabs

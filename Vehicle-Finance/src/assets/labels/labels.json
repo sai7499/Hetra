@@ -346,6 +346,7 @@
     "appno": "App no",
     "generateCam":"Generate CAM",
     "camDate": "CAM Date",
+    "missingMandatoryFields":"Missing Mandatory Fields",
     "existingExposure": "Existing Exposure",
     "areaName": "Area Name",
     "branchName": "Branch Name",

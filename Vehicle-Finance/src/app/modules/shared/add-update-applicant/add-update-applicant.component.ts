@@ -2340,73 +2340,88 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   calleKYC() {
 
     let that = this;
-    this.ngxService.start();
+    
     let applicantId = this.applicantId;
     let aadhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
-    this.biometricService.initIdenti5(aadhar, applicantId, function (result) {
 
-      that.ngxService.stop();
-      let res = JSON.parse(result);
+    this.applicantService.retreiveAdhar(aadhar).subscribe((res: any) => {
+      let result = res;
+      console.log("result aadhar",result);
+      let processVariables =  result.ProcessVariables;
+      if(processVariables.error.code == "0"){
+        console.log("processVariables Aadhar", processVariables.uid);
+        aadhar = processVariables.uid;
+      }
 
-      if (res.pidErr) {
-        that.pTag.nativeElement.click();
+      setTimeout(function(){ 
+        that.ngxService.start();
+       }, 1000);
+
+      that.biometricService.initIdenti5(aadhar, applicantId, function (result) {
+
         that.ngxService.stop();
-        return;
-      }
-      let processVariables = res.ProcessVariables;
-      // value = JSON.parse(value).ProcessVariables;
-
-      console.log("KYC result&&&&@@@" + processVariables);
-
-      if (processVariables.error.code == '0') {
-        console.log("KYC success" + processVariables.error.code);
-
-        // that.isAlertSuccess = false;
-        // setTimeout(() => {
-        //   that.isAlertSuccess = true;
-        // }, 1500);
-
-        alert("e-KYC successful");
-        that.toasterService.showSuccess(
-          "e-KYC Successful",
-          'eKYC Success'
-        );
-
-      }
-      else {
-        console.log("KYC failure" + processVariables.error.code);
-        // that.isAlertDanger = false;
-        // setTimeout(() => {
-        //   that.isAlertDanger = true;
-        // }, 1500);
-        alert(processVariables.error.message);
-
-        that.toasterService.showError(
-          processVariables.error.message,
-          'eKYC Failed'
-        );
-
-        return;
-      }
-
-      //const processVariables= this.biometricResponce;
-      that.setBiometricValues(that, processVariables);
-
-
-      that.showEkycbutton = false;
-      that.isEnableDedupe = false;
-      that.isMobileChanged = false;
-      that.isName1Changed = false;
-      that.isPanChanged = false;
-      that.isAadharChanged = false;
-      that.isPassportChanged = false;
-      that.isDrivingLicenseChanged = false;
-      that.isVoterIdChanged = false;
-      that.isContactNumberChanged = false;
-      that.isCstNumberChanged = false;
-      that.isCinNumberChanged = false;
-      that.isGstNumberChanged = false;
-      that.isTanNumberChanged = false;
+        let res = JSON.parse(result);
+  
+        if (res.pidErr) {
+          that.pTag.nativeElement.click();
+          that.ngxService.stop();
+          return;
+        }
+        let processVariables = res.ProcessVariables;
+        // value = JSON.parse(value).ProcessVariables;
+  
+        console.log("KYC result&&&&@@@" + processVariables);
+  
+        if (processVariables.error.code == '0') {
+          console.log("KYC success" + processVariables.error.code);
+  
+          // that.isAlertSuccess = false;
+          // setTimeout(() => {
+          //   that.isAlertSuccess = true;
+          // }, 1500);
+  
+          alert("e-KYC successful");
+          that.toasterService.showSuccess(
+            "e-KYC Successful",
+            'eKYC Success'
+          );
+  
+        }
+        else {
+          console.log("KYC failure" + processVariables.error.code);
+          // that.isAlertDanger = false;
+          // setTimeout(() => {
+          //   that.isAlertDanger = true;
+          // }, 1500);
+          alert(processVariables.error.message);
+  
+          that.toasterService.showError(
+            processVariables.error.message,
+            'eKYC Failed'
+          );
+  
+          return;
+        }
+  
+        //const processVariables= this.biometricResponce;
+        that.setBiometricValues(that, processVariables);
+  
+  
+        that.showEkycbutton = false;
+        that.isEnableDedupe = false;
+        that.isMobileChanged = false;
+        that.isName1Changed = false;
+        that.isPanChanged = false;
+        that.isAadharChanged = false;
+        that.isPassportChanged = false;
+        that.isDrivingLicenseChanged = false;
+        that.isVoterIdChanged = false;
+        that.isContactNumberChanged = false;
+        that.isCstNumberChanged = false;
+        that.isCinNumberChanged = false;
+        that.isGstNumberChanged = false;
+        that.isTanNumberChanged = false;
+      });
     });
 
   }

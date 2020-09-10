@@ -14,7 +14,7 @@ import { ToasterService } from '@services/toaster.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { Location } from '@angular/common';
-
+import html2pdf from 'html2pdf.js';
 @Component({
   selector: 'app-cam',
   templateUrl: './cam.component.html',
@@ -86,8 +86,11 @@ export class CamComponent implements OnInit {
   salesResponse = 'false';
   currentUrl: string;
   showSave: boolean = false;
+  pdfId:string;
   newCamHtml: boolean;
   showCamHtml: boolean;
+  errorGenerated: boolean = false;
+  errorMessage: string;
   constructor(private labelsData: LabelsService,
     private camService: CamService,
     private activatedRoute: ActivatedRoute,
@@ -290,18 +293,21 @@ export class CamComponent implements OnInit {
       this.isCamDetails = false
       this.generateCam = true
       this.getCamUsedCarDetails(this.generateCam)
+      this.pdfId="UCpdfgeneration" // pdf generation 
     } else
       if (this.productCategoryCode == "UCV") {
         this.usedCvCam = true
         this.isCamDetails = false
         this.generateCam = true
         this.getCamUsedCvDetails(this.generateCam)
+        this.pdfId="UCVpdfgeneration" // pdf generation
       } else
         if (this.productCategoryCode == "NCV") {
           this.newCvCam = true
           this.isCamDetails = false
           this.generateCam = true
           this.getCamNewCvDetails(this.generateCam)
+         this.pdfId="NCVpdfgeneration" // pdf generation
         }
   }
   getCamUsedCvDetails(generateCam) {
@@ -353,8 +359,10 @@ export class CamComponent implements OnInit {
       })
      } else if(res && res.ProcessVariables.error.code == '1'){
         this.showCamHtml == false
-        const message = res.ProcessVariables.error.message;
-        this.toasterService.showError(message, '');
+        this.errorGenerated = true;
+      const message = res.ProcessVariables.mandatoryFields;
+      this.errorMessage = message;
+      this.isCamDetails =true
       }
     })
     
@@ -388,8 +396,11 @@ export class CamComponent implements OnInit {
  
     } else if(res && res.ProcessVariables.error.code == '1'){
       this.showCamHtml == false
-      const message = res.ProcessVariables.error.message;
-      this.toasterService.showError(message, '');
+      this.errorGenerated = true;
+      const message = res.ProcessVariables.mandatoryFields;
+      this.errorMessage = message;
+      this.isCamDetails =true
+
     }
     })
     
@@ -433,8 +444,11 @@ export class CamComponent implements OnInit {
       })
     } else if(res && res.ProcessVariables.error.code == '1'){
       this.showCamHtml == false
-      const message = res.ProcessVariables.error.message;
-      this.toasterService.showError(message, '');
+      this.errorGenerated = true;
+      const message = res.ProcessVariables.mandatoryFields;
+      this.errorMessage = message;
+      this.isCamDetails =true
+
     }
     })
   }
@@ -530,5 +544,15 @@ export class CamComponent implements OnInit {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/deviations`]);
     }
   }
- 
+  downloadpdf()
+  { 
+    var options = {
+      margin:.25,
+      filename: `CamDetails_${this.leadId}.pdf`,
+      image: { type: 'jpeg', quality: 1 },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
+  }
+  html2pdf().from(document.getElementById(this.pdfId)).set(options).save();
+
+  }
 }
