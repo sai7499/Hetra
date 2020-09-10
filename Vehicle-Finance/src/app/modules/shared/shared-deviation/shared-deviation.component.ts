@@ -164,47 +164,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   }
 
-  // isApproveDeviation() {
-
-  //   this.isSendBacktoCredit = null;
-
-  //   let total = null;
-  //   this.isOne = false;
-  //   this.isZero = false;
-  //   let data = [];
-
-  //   if (this.deviationsForm.controls['autoDeviationFormArray'].value.length > 0) {
-  //     if (this.deviationsForm.controls['manualDeviationFormArray'].value[0].devRuleId !== 0) {
-  //       data = data.concat(this.deviationsForm.controls['autoDeviationFormArray'].value);
-  //       data = data.concat(this.deviationsForm.controls['manualDeviationFormArray'].value);
-  //     } else {
-  //       data = data.concat(this.deviationsForm.controls['autoDeviationFormArray'].value);
-  //     }
-  //   } else {
-  //     data = this.deviationsForm.controls['manualDeviationFormArray'].value
-  //   }
-
-  //   data.map((res: any) => {
-  //     if (res.statusCode === '0') {
-  //       this.isSendBacktoCredit = 0;
-  //       this.isOne = true;
-  //       this.isZero = true;
-  //       return;
-  //     } else if (res.statusCode === null || res.statusCode === undefined) {
-  //       this.isSendBacktoCredit = null;
-  //       this.isOne = true;
-  //     }
-  //   });
-
-  //   if (this.isZero) {
-  //     this.isSendBacktoCredit = 0;
-  //   }
-  //   if (!this.isOne) {
-  //     this.isSendBacktoCredit = 1;
-  //   }
-
-  // }
-
   getLocationIndex(url) {
     if (url.includes('dde')) {
       this.isSubmitToCredit = false;
@@ -441,6 +400,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
     manualDiviationFormArray.controls = [];
     autoDeviationFormArray.controls = [];
+    waiverNormsFormArray.controls = [];
 
     let typeofRole;
     let splitData = [];
@@ -548,7 +508,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             this.router.navigate(['pages/dashboard'])
             this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Leads Refer Deviation')
           } else {
-            this.toasterService.showError(res.ErrorMessage, 'Refer Deviation Error')
+            this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Leads Refer Deviation')
           }
         }, err => {
           console.log('err', err)
@@ -567,7 +527,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Approve Deviation')
             this.router.navigateByUrl('/pages/dashboard')
           } else {
-            this.toasterService.showError(res.ErrorMessage, 'Approve Deviation Error')
+            this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Approve Deviation Error')
           }
         }, err => {
           console.log('err', err)
@@ -586,7 +546,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Send Back to Credit')
             this.router.navigate(['pages/dashboard'])
           } else {
-            this.toasterService.showError(res.ErrorMessage, 'Send Back to Credit')
+            this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Send Back to Credit')
           }
         }, err => {
           console.log('err', err)

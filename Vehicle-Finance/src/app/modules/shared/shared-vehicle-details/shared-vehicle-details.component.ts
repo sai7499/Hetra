@@ -99,8 +99,8 @@ export class SharedVehicleDetailsComponent implements OnInit {
     this.router.navigate(['/pages/vehicle-details/' + this.leadId + '/additional-collateral-details', { collateralId: collateralId }]);
   }
 
-  onEditVehicleDetails(collateralId: number) {
-    this.router.navigate(['/pages/vehicle-details/' + this.leadId + '/basic-vehicle-details', { vehicleId: collateralId }]);
+  onEditVehicleDetails(collateralId: number, loanAmount: any) {
+    this.router.navigate(['/pages/vehicle-details/' + this.leadId + '/basic-vehicle-details', { vehicleId: collateralId, eligibleLoanAmount: loanAmount }]);
   }
 
   getVehicleDetails(id: number) {
