@@ -114,6 +114,7 @@ export class DashboardComponent implements OnInit {
   sortByLoanAmt = false;
   sortByProduct = false;
   sortByStage = false;
+  salesResponse;
 
 
   // roleType;
@@ -1470,8 +1471,11 @@ export class DashboardComponent implements OnInit {
         this.router.navigateByUrl(`/pages/deviation-dashboard/${this.leadId}/dashboard-deviation-details`);
         break;
       case 25: case 26:
-        localStorage.setItem('istermSheet', 'false');
-        this.router.navigateByUrl(`/pages/credit-decisions/${this.leadId}`);
+        if (this.salesResponse == false) {
+          this.router.navigate([`/pages/credit-decisions/${this.leadId}/cam`]);
+      }  else if (this.salesResponse == true) {
+          this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
+      }
         break;
       case 28: case 29:
         localStorage.setItem('istermSheet', 'true');
@@ -1575,6 +1579,7 @@ export class DashboardComponent implements OnInit {
   }
   getLeadId(item) {
     localStorage.setItem('salesResponse', item.is_sales_response_completed);
+    this.salesResponse = item.is_sales_response_completed;
     localStorage.setItem('is_pred_done', item.is_pred_done);
     localStorage.setItem('isFiCumPd', item.isFiCumPD);
     this.vehicleDataStoreService.setCreditTaskId(item.taskId);
