@@ -86,6 +86,8 @@ export class CamComponent implements OnInit {
   salesResponse = 'false';
   currentUrl: string;
   showSave: boolean = false;
+  newCamHtml: boolean;
+  showCamHtml: boolean;
   constructor(private labelsData: LabelsService,
     private camService: CamService,
     private activatedRoute: ActivatedRoute,
@@ -183,6 +185,7 @@ export class CamComponent implements OnInit {
       }
       this.camService.getCamNewCvDetails(body).subscribe((res: any) => {
         console.log(res);
+        
         this.isCamGeneratedValue = res.ProcessVariables['isCamGenerated']
         console.log(this.isCamGeneratedValue);
         if (this.isCamGeneratedValue == false) {
@@ -325,6 +328,8 @@ export class CamComponent implements OnInit {
     };
     this.camService.getCamUsedCvDetails(data).subscribe((res: any) => {
       console.log(res)
+      if(res && res.ProcessVariables.error.code == '0'){
+        this.showCamHtml == true
       this.camDetails = res.ProcessVariables
       this.basicDetails = res.ProcessVariables['basicDetailsObj'];
       this.sourcingDetails = res.ProcessVariables['sourcingObj'];
@@ -364,7 +369,13 @@ export class CamComponent implements OnInit {
       this.camDetailsForm.patchValue({
         strengthAndMitigates: this.camDetails.strengthAndMitigates ? this.camDetails.strengthAndMitigates : null,
       })
+     } else if(res && res.ProcessVariables.error.code == '1'){
+        this.showCamHtml == false
+        const message = res.ProcessVariables.error.message;
+        this.toasterService.showError(message, '');
+      }
     })
+    
   }
 
   getCamUsedCarDetails(generateCam) {
@@ -376,6 +387,8 @@ export class CamComponent implements OnInit {
     };
     this.camService.getCamUsedCarDetails(data).subscribe((res: any) => {
       console.log("used car cam", res)
+      if(res && res.ProcessVariables.error.code == '0'){
+        this.showCamHtml == true
       this.camDetails = res.ProcessVariables
       this.applicantDetails = res.ProcessVariables['applicantDetails'];
       this.bankingDetails = res.ProcessVariables['bankingDetails'];
@@ -392,7 +405,12 @@ export class CamComponent implements OnInit {
       this.manualDeviation = res.ProcessVariables['manualDeviation']
       this.vehicleDetails = res.ProcessVariables['vehicleDetails']
       this.recommendation = res.ProcessVariables['recommendation']
-
+ 
+    } else if(res && res.ProcessVariables.error.code == '1'){
+      this.showCamHtml == false
+      const message = res.ProcessVariables.error.message;
+      this.toasterService.showError(message, '');
+    }
     })
     
   }
@@ -403,6 +421,8 @@ export class CamComponent implements OnInit {
     };
     this.camService.getCamNewCvDetails(data).subscribe((res: any) => {
       console.log(res);
+      if(res && res.ProcessVariables.error.code == '0'){
+      this.showCamHtml == true
       this.camDetails = res.ProcessVariables
       this.applicantDetails = res.ProcessVariables['applicantDetails'];
       this.bankingSummary = res.ProcessVariables['bankingSummary']
@@ -432,7 +452,11 @@ export class CamComponent implements OnInit {
       this.camDetailsForm.patchValue({
         commentsOnRtr: this.camDetails.commentsOnRtr ? this.camDetails.commentsOnRtr : null,
       })
-
+    } else if(res && res.ProcessVariables.error.code == '1'){
+      this.showCamHtml == false
+      const message = res.ProcessVariables.error.message;
+      this.toasterService.showError(message, '');
+    }
     })
   }
   onSubmit() {
