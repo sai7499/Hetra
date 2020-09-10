@@ -530,17 +530,17 @@ export class CibilOdListComponent implements OnInit {
   showOdModel(i) {
     this.rowIndex = i;
     this.isODModelShow = true;
-    this.errorMessage = 'Are sure to remove row';
+    this.errorMessage = 'Are you sure Want to remove this row ?';
   }
   showThirtyModel(i) {
     this.rowIndex = i;
     this.isThirtyModelShow = true;
-    this.errorMessage = 'Are sure to remove row';
+    this.errorMessage = 'Are you sure Want to remove this row ?';
   }
   showSixtyModel(i) {
     this.rowIndex = i;
     this.isSixtyModelShow = true;
-    this.errorMessage = 'Are sure to remove row';
+    this.errorMessage = 'Are you sure Want to remove this row ?';
   }
   //  logic to get cibil response
   getApplicantImage() {
