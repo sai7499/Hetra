@@ -121,6 +121,7 @@
                 formControlName="contNo"
                 [className]="'form-control mandatory'"
                 [placeholder]="'Contract Number'"
+                [inputClass]="'input-upper'"
                 [isDirty]="isDirty"
                 >
               </app-custom-input>
@@ -137,6 +138,7 @@
                 formControlName="vehicleNo"
                 [className]="'form-control mandatory'"
                 [placeholder]="'Vehicle Number'"
+                [inputClass]="'input-upper'"
                 >
               </app-custom-input>
                 <!-- <input type="text" class="form-control" id="vehicle_no" formControlName="vehicleNo">
@@ -442,7 +444,7 @@
                                     [placeholder]="'Receipt No'"
                                     [maxLength]="validationData?.receiptNo.maxLength"
                                     [isRequired]="'Receipt No is mandatory'"
-                                   
+                                    [inputClass]="'input-upper'"
                                     [isDirty]="isDirty"
                                     [type] = "validationData?.receiptNo.type"
                                     (change)="receiptNumber($event ,i)"
