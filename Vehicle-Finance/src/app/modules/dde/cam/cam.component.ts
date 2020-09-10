@@ -86,7 +86,7 @@ export class CamComponent implements OnInit {
   salesResponse = 'false';
   currentUrl: string;
   showSave: boolean = false;
-  pdfId:string;
+  pdfId: string;
   newCamHtml: boolean;
   showCamHtml: boolean;
   errorGenerated: boolean = false;
@@ -111,7 +111,7 @@ export class CamComponent implements OnInit {
       this.roleType = value.roleType;
 
       console.log('role Type', this.roleType);
-     
+
 
     });
 
@@ -175,7 +175,7 @@ export class CamComponent implements OnInit {
         "generateCam": this.generateCam
       }
       this.camService.getCamNewCvDetails(body).subscribe((res: any) => {
-        
+
         this.isCamGeneratedValue = res.ProcessVariables['isCamGenerated']
         if (this.isCamGeneratedValue == false) {
 
@@ -276,12 +276,12 @@ export class CamComponent implements OnInit {
     if (operationType === '1') {
       this.disableSaveBtn = true;
     }
-    
+
     this.currentUrl = this.location.path();
-    if (this.currentUrl.includes('credit-decisions')  ) {
+    if (this.currentUrl.includes('credit-decisions')) {
       this.camDetailsForm.disable();
       this.showSave = false
-    }else if(this.currentUrl.includes('dde')){
+    } else if (this.currentUrl.includes('dde')) {
       this.showSave = true
 
     }
@@ -293,21 +293,21 @@ export class CamComponent implements OnInit {
       this.isCamDetails = false
       this.generateCam = true
       this.getCamUsedCarDetails(this.generateCam)
-      this.pdfId="UCpdfgeneration" // pdf generation 
+      this.pdfId = "UCpdfgeneration" // pdf generation 
     } else
       if (this.productCategoryCode == "UCV") {
         this.usedCvCam = true
         this.isCamDetails = false
         this.generateCam = true
         this.getCamUsedCvDetails(this.generateCam)
-        this.pdfId="UCVpdfgeneration" // pdf generation
+        this.pdfId = "UCVpdfgeneration" // pdf generation
       } else
         if (this.productCategoryCode == "NCV") {
           this.newCvCam = true
           this.isCamDetails = false
           this.generateCam = true
           this.getCamNewCvDetails(this.generateCam)
-         this.pdfId="NCVpdfgeneration" // pdf generation
+          this.pdfId = "NCVpdfgeneration" // pdf generation
         }
   }
   getCamUsedCvDetails(generateCam) {
@@ -316,56 +316,56 @@ export class CamComponent implements OnInit {
       "generateCam": generateCam,
     };
     this.camService.getCamUsedCvDetails(data).subscribe((res: any) => {
-      if(res && res.ProcessVariables.error.code == '0'){
+      if (res && res.ProcessVariables.error.code == '0') {
         this.showCamHtml == true
-      this.camDetails = res.ProcessVariables
-      this.basicDetails = res.ProcessVariables['basicDetailsObj'];
-      this.sourcingDetails = res.ProcessVariables['sourcingObj'];
-      this.proposedVehicleDetails = res.ProcessVariables['proposedVehiclesObj'];
-      this.partyToAgreement = res.ProcessVariables['partyToAgreementObj'];
-      this.cibilSynopsys = res.ProcessVariables['cibilSynopsysObj'];
-      this.bankingSummary = res.ProcessVariables['bankingSummaryObj']
-      this.fleetSummary = res.ProcessVariables['fleetSummaryObj']
-      this.trackValidation = res.ProcessVariables['trackValidationObj']
-      this.autoDeviation = res.ProcessVariables['autoDeviation']
-      this.customerSelectionCriteria = res.ProcessVariables['customerSelectionCriteriaObj']
-      this.otherDeviation = res.ProcessVariables['otherDeviationsObj']
-      this.keyFinancial = res.ProcessVariables['keyFinancialObj']
-      this.creditOfficersRemarks = res.ProcessVariables['creditOfficersRemarksObj']
-      this.cmRecommendation = res.ProcessVariables['cmRecommendationObj']
-      this.acmRecommendation = res.ProcessVariables['acmRecommendationObj']
-      this.ncmBhApprovalRecommendation = res.ProcessVariables['ncmBhApprovalRecommendationObj']
-      this.recommendation = res.ProcessVariables['recommendation']
-      this.camDetailsForm.patchValue({
-        proposedVehicleRemarks: this.camDetails.proposedToAnyOtherRemarks ? this.camDetails.proposedToAnyOtherRemarks : null,
-      })
-      this.camDetailsForm.patchValue({
-        cibilSynopsisRemarks: this.camDetails.cibilSynopsysToAnyOtherRemark ? this.camDetails.cibilSynopsysToAnyOtherRemark : null,
-      })
-      this.camDetailsForm.patchValue({
-        trackValidationRemarks: this.camDetails.trackValidationToAnyOtherRemarks ? this.camDetails.trackValidationToAnyOtherRemarks : null,
-      })
-      this.camDetailsForm.patchValue({
-        fleetRemarks: this.camDetails.fleetSummaryToAnyOtherRemarks ? this.camDetails.fleetSummaryToAnyOtherRemarks : null,
-      })
-      this.camDetailsForm.patchValue({
-        keyFinancialRemarks: this.camDetails.keyFinancialAnyOtherRemarks ? this.camDetails.keyFinancialAnyOtherRemarks : null,
-      })
-      this.camDetailsForm.patchValue({
-        concernsAndRisks: this.camDetails.concernsAndRisks ? this.camDetails.concernsAndRisks : null,
-      })
-      this.camDetailsForm.patchValue({
-        strengthAndMitigates: this.camDetails.strengthAndMitigates ? this.camDetails.strengthAndMitigates : null,
-      })
-     } else if(res && res.ProcessVariables.error.code == '1'){
+        this.camDetails = res.ProcessVariables
+        this.basicDetails = res.ProcessVariables['basicDetailsObj'];
+        this.sourcingDetails = res.ProcessVariables['sourcingObj'];
+        this.proposedVehicleDetails = res.ProcessVariables['proposedVehiclesObj'];
+        this.partyToAgreement = res.ProcessVariables['partyToAgreementObj'];
+        this.cibilSynopsys = res.ProcessVariables['cibilSynopsysObj'];
+        this.bankingSummary = res.ProcessVariables['bankingSummaryObj']
+        this.fleetSummary = res.ProcessVariables['fleetSummaryObj']
+        this.trackValidation = res.ProcessVariables['trackValidationObj']
+        this.autoDeviation = res.ProcessVariables['autoDeviation']
+        this.customerSelectionCriteria = res.ProcessVariables['customerSelectionCriteriaObj']
+        this.otherDeviation = res.ProcessVariables['otherDeviationsObj']
+        this.keyFinancial = res.ProcessVariables['keyFinancialObj']
+        this.creditOfficersRemarks = res.ProcessVariables['creditOfficersRemarksObj']
+        this.cmRecommendation = res.ProcessVariables['cmRecommendationObj']
+        this.acmRecommendation = res.ProcessVariables['acmRecommendationObj']
+        this.ncmBhApprovalRecommendation = res.ProcessVariables['ncmBhApprovalRecommendationObj']
+        this.recommendation = res.ProcessVariables['recommendation']
+        this.camDetailsForm.patchValue({
+          proposedVehicleRemarks: this.camDetails.proposedToAnyOtherRemarks ? this.camDetails.proposedToAnyOtherRemarks : null,
+        })
+        this.camDetailsForm.patchValue({
+          cibilSynopsisRemarks: this.camDetails.cibilSynopsysToAnyOtherRemark ? this.camDetails.cibilSynopsysToAnyOtherRemark : null,
+        })
+        this.camDetailsForm.patchValue({
+          trackValidationRemarks: this.camDetails.trackValidationToAnyOtherRemarks ? this.camDetails.trackValidationToAnyOtherRemarks : null,
+        })
+        this.camDetailsForm.patchValue({
+          fleetRemarks: this.camDetails.fleetSummaryToAnyOtherRemarks ? this.camDetails.fleetSummaryToAnyOtherRemarks : null,
+        })
+        this.camDetailsForm.patchValue({
+          keyFinancialRemarks: this.camDetails.keyFinancialAnyOtherRemarks ? this.camDetails.keyFinancialAnyOtherRemarks : null,
+        })
+        this.camDetailsForm.patchValue({
+          concernsAndRisks: this.camDetails.concernsAndRisks ? this.camDetails.concernsAndRisks : null,
+        })
+        this.camDetailsForm.patchValue({
+          strengthAndMitigates: this.camDetails.strengthAndMitigates ? this.camDetails.strengthAndMitigates : null,
+        })
+      } else if (res && res.ProcessVariables.error.code == '1') {
         this.showCamHtml == false
         this.errorGenerated = true;
-      const message = res.ProcessVariables.mandatoryFields;
-      this.errorMessage = message;
-      this.isCamDetails =true
+        const message = res.ProcessVariables.mandatoryFields;
+        this.errorMessage = message;
+        this.isCamDetails = true
       }
     })
-    
+
   }
 
   getCamUsedCarDetails(generateCam) {
@@ -375,35 +375,39 @@ export class CamComponent implements OnInit {
       "generateCam": generateCam,
     };
     this.camService.getCamUsedCarDetails(data).subscribe((res: any) => {
-      if(res && res.ProcessVariables.error.code == '0'){
-        this.showCamHtml == true
-      this.camDetails = res.ProcessVariables
-      this.applicantDetails = res.ProcessVariables['applicantDetails'];
-      this.bankingDetails = res.ProcessVariables['bankingDetails'];
-      this.businessIncomeDetails = res.ProcessVariables['businessIncomeDetails'];
-      this.decisionSheet = res.ProcessVariables['decisionSheet'];
-      // this.deviation = res.ProcessVariables['deviation']
-      this.finalLoanDetails = res.ProcessVariables['finalLoanDetails']
-      this.finalLoanEligibility = res.ProcessVariables['finalLoanEligibility']
-      this.loanEligibilityBasedOnInc = res.ProcessVariables['loanEligibilityBasedOnInc']
-      this.obligationDetails = res.ProcessVariables['obligationDetails']
-      this.otherIncomeDetails = res.ProcessVariables['otherIncomeDetails']
-      this.sourcingObj = res.ProcessVariables['sourcingObj']
-      this.autoDeviation = res.ProcessVariables['autoDeviations']
-      this.manualDeviation = res.ProcessVariables['manualDeviation']
-      this.vehicleDetails = res.ProcessVariables['vehicleDetails']
-      this.recommendation = res.ProcessVariables['recommendation']
- 
-    } else if(res && res.ProcessVariables.error.code == '1'){
-      this.showCamHtml == false
-      this.errorGenerated = true;
-      const message = res.ProcessVariables.mandatoryFields;
-      this.errorMessage = message;
-      this.isCamDetails =true
+      if (res && res.ProcessVariables.error.code == '0') {
+        // this.showCamHtml == true
+        this.camDetails = res.ProcessVariables
+        this.applicantDetails = res.ProcessVariables['applicantDetails'];
+        this.bankingDetails = res.ProcessVariables['bankingDetails'];
+        this.businessIncomeDetails = res.ProcessVariables['businessIncomeDetails'];
+        this.decisionSheet = res.ProcessVariables['decisionSheet'];
+        // this.deviation = res.ProcessVariables['deviation']
+        this.finalLoanDetails = res.ProcessVariables['finalLoanDetails']
+        this.finalLoanEligibility = res.ProcessVariables['finalLoanEligibility']
+        this.loanEligibilityBasedOnInc = res.ProcessVariables['loanEligibilityBasedOnInc']
+        this.obligationDetails = res.ProcessVariables['obligationDetails']
+        this.otherIncomeDetails = res.ProcessVariables['otherIncomeDetails']
+        this.sourcingObj = res.ProcessVariables['sourcingObj']
+        this.autoDeviation = res.ProcessVariables['autoDeviations']
+        this.manualDeviation = res.ProcessVariables['manualDeviation']
+        this.vehicleDetails = res.ProcessVariables['vehicleDetails']
+        this.recommendation = res.ProcessVariables['recommendation']
 
-    }
+        // if () {
+        //   this.uploafPdf
+        // }
+
+      } else if (res && res.ProcessVariables.error.code == '1') {
+        this.showCamHtml == false
+        this.errorGenerated = true;
+        const message = res.ProcessVariables.mandatoryFields;
+        this.errorMessage = message;
+        this.isCamDetails = true
+
+      }
     })
-    
+
   }
   getCamNewCvDetails(generateCam) {
     const data = {
@@ -411,49 +415,49 @@ export class CamComponent implements OnInit {
       "generateCam": generateCam,
     };
     this.camService.getCamNewCvDetails(data).subscribe((res: any) => {
-      if(res && res.ProcessVariables.error.code == '0'){
-      this.showCamHtml == true
-      this.camDetails = res.ProcessVariables
-      this.applicantDetails = res.ProcessVariables['applicantDetails'];
-      this.bankingSummary = res.ProcessVariables['bankingSummary']
-      this.bankingTxnDetails = res.ProcessVariables['bankingTxnDetails']
-      this.cibilEnquiries = res.ProcessVariables['cibilEnquiries']
-      this.cibilJustification = res.ProcessVariables['cibilJustification']
-      this.customerSelectionCriteria = res.ProcessVariables['customerSelectionCriteria']
-      this.detailsOfCibilFiPD = res.ProcessVariables['detailsOfCibilFiPD']
-      this.existingExposure = res.ProcessVariables['existingExposure']
-      this.autoDeviation = res.ProcessVariables['autoDeviations']
-      this.fleetDetails = res.ProcessVariables['fleetDetails']
-      this.otherDeviations = res.ProcessVariables['otherDeviations']
-      this.proposedVehiclesDetails = res.ProcessVariables['proposedVehiclesDetails']
-      this.referenceCheck = res.ProcessVariables['referenceCheck']
-      this.repaymentTrackRecord = res.ProcessVariables['repaymentTrackRecord']
-      this.sourcingDetails = res.ProcessVariables['sourcingDetails']
-      this.acmRecommendation = res.ProcessVariables['acmRecommendation']
-      this.cmRecommendation = res.ProcessVariables['cmRecommendation']
-      this.coRecommendationTvrDetails = res.ProcessVariables['coRecommendationTvrDetails']
-      this.customerBackgroundSalesRecommendation = res.ProcessVariables['customerBackgroundSalesRecommendation']
-      this.ncmBhRecommendation = res.ProcessVariables['ncmBhRecommendation']
-      this.vehicleDeploymentDetails = res.ProcessVariables['vehicleDeploymentDetails']
-      this.recommendation = res.ProcessVariables['recommendation']
-      this.camDetailsForm.patchValue({
-        commentsOnBankingIfAny: this.camDetails.commentsOnBankingIfAny ? this.camDetails.commentsOnBankingIfAny : null,
-      })
-      this.camDetailsForm.patchValue({
-        commentsOnRtr: this.camDetails.commentsOnRtr ? this.camDetails.commentsOnRtr : null,
-      })
-    } else if(res && res.ProcessVariables.error.code == '1'){
-      this.showCamHtml == false
-      this.errorGenerated = true;
-      const message = res.ProcessVariables.mandatoryFields;
-      this.errorMessage = message;
-      this.isCamDetails =true
+      if (res && res.ProcessVariables.error.code == '0') {
+        this.showCamHtml == true
+        this.camDetails = res.ProcessVariables
+        this.applicantDetails = res.ProcessVariables['applicantDetails'];
+        this.bankingSummary = res.ProcessVariables['bankingSummary']
+        this.bankingTxnDetails = res.ProcessVariables['bankingTxnDetails']
+        this.cibilEnquiries = res.ProcessVariables['cibilEnquiries']
+        this.cibilJustification = res.ProcessVariables['cibilJustification']
+        this.customerSelectionCriteria = res.ProcessVariables['customerSelectionCriteria']
+        this.detailsOfCibilFiPD = res.ProcessVariables['detailsOfCibilFiPD']
+        this.existingExposure = res.ProcessVariables['existingExposure']
+        this.autoDeviation = res.ProcessVariables['autoDeviations']
+        this.fleetDetails = res.ProcessVariables['fleetDetails']
+        this.otherDeviations = res.ProcessVariables['otherDeviations']
+        this.proposedVehiclesDetails = res.ProcessVariables['proposedVehiclesDetails']
+        this.referenceCheck = res.ProcessVariables['referenceCheck']
+        this.repaymentTrackRecord = res.ProcessVariables['repaymentTrackRecord']
+        this.sourcingDetails = res.ProcessVariables['sourcingDetails']
+        this.acmRecommendation = res.ProcessVariables['acmRecommendation']
+        this.cmRecommendation = res.ProcessVariables['cmRecommendation']
+        this.coRecommendationTvrDetails = res.ProcessVariables['coRecommendationTvrDetails']
+        this.customerBackgroundSalesRecommendation = res.ProcessVariables['customerBackgroundSalesRecommendation']
+        this.ncmBhRecommendation = res.ProcessVariables['ncmBhRecommendation']
+        this.vehicleDeploymentDetails = res.ProcessVariables['vehicleDeploymentDetails']
+        this.recommendation = res.ProcessVariables['recommendation']
+        this.camDetailsForm.patchValue({
+          commentsOnBankingIfAny: this.camDetails.commentsOnBankingIfAny ? this.camDetails.commentsOnBankingIfAny : null,
+        })
+        this.camDetailsForm.patchValue({
+          commentsOnRtr: this.camDetails.commentsOnRtr ? this.camDetails.commentsOnRtr : null,
+        })
+      } else if (res && res.ProcessVariables.error.code == '1') {
+        this.showCamHtml == false
+        this.errorGenerated = true;
+        const message = res.ProcessVariables.mandatoryFields;
+        this.errorMessage = message;
+        this.isCamDetails = true
 
-    }
+      }
     })
   }
   onSubmit() {
-  
+
 
     this.submitted = true;
     // stop here if form is invalid
@@ -529,7 +533,7 @@ export class CamComponent implements OnInit {
   onBack() {
     if (this.roleType == '2' && this.currentUrl.includes('dde')) {
       this.router.navigate([`pages/dde/${this.leadId}/score-card`]);
-    } else if (this.roleType == '2' && this.salesResponse == 'true' ) {
+    } else if (this.roleType == '2' && this.salesResponse == 'true') {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/disbursement`]);
     } else if (this.roleType == '2' && this.salesResponse == 'false') {
       this.router.navigate([`pages/dashboard`]);
@@ -544,15 +548,140 @@ export class CamComponent implements OnInit {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/deviations`]);
     }
   }
-  downloadpdf()
-  { 
+  downloadpdf() {
     var options = {
-      margin:.25,
+      margin: .25,
       filename: `CamDetails_${this.leadId}.pdf`,
       image: { type: 'jpeg', quality: 1 },
       jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
-  }
-  html2pdf().from(document.getElementById(this.pdfId)).set(options).save();
+    }
+    html2pdf().from(document.getElementById(this.pdfId)).set(options).save();
 
   }
+
+  // uploafPdf() {
+
+  //   var options = {
+  //     margin: .25,
+  //     filename: `CamDetails_${this.leadId}.pdf`,
+  //     image: { type: 'jpeg', quality: 1 },
+  //     jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
+  //   }
+
+  //   html2pdf().from(document.getElementById("vf_sheet_print_starts"))
+  //     .set(options).toPdf().output('datauristring').then(res => {
+  //       console.log("file res:", res);
+  //       this.docsDetails = {
+  //         associatedId: this.vehicleDetailsArray[0].collateralId.toString(),//"1496",
+  //         associatedWith: '1',
+  //         bsPyld: "JVBERi0xLjMKJbrfrOAKMyAwIG9iago8PC9UeXBlIC9QYWdlCi",
+  //         deferredDate: "",
+  //         docCatg: "VF LOAN DOCS",
+  //         docCmnts: "Addition of document for Applicant Creation",
+  //         docCtgryCd: 102,
+  //         docNm: `SANCTION_LETTER`,
+  //         docRefId: [
+  //           {
+  //             idTp: 'LEDID',
+  //             id: this.leadId,
+  //           },
+  //           {
+  //             idTp: 'BRNCH',
+  //             id: Number(localStorage.getItem('branchId')),
+  //           },
+  //         ],
+  //         docSbCtgry: "VF GENERATED DOCS",
+  //         docSbCtgryCd: 42,
+  //         docSize: 1097152,
+  //         docTp: "Lead",
+  //         docTypCd: 68,
+  //         docsType: "png/jpg/jpeg/pdf/tiff/xlsx/xls/docx/doc/zip",
+  //         docsTypeForString: "",
+  //         documentId: this.isDocumentId ? this.docsDetails.documentId : 0,
+  //         documentNumber: `SD${this.leadId}`,
+  //         expiryDate: "",
+  //         formArrayIndex: 0,
+  //         isDeferred: "0",
+  //         issueDate: ""
+  //       }
+  //       let base64File: string = res.toString()
+  //         .replace(/^data:application\/[a-z]+;filename=generated.pdf;base64,/, '');
+  //       this.docsDetails.bsPyld = base64File;
+  //       let fileName = this.docsDetails.docSbCtgry.replace(' ', '_');
+  //       fileName =
+  //         this.docsDetails.docNm +
+  //         new Date().getFullYear() +
+  //         +new Date() +
+  //         '.pdf';
+  //       this.docsDetails.docNm = fileName;
+  //       const addDocReq = [
+  //         {
+  //           ...this.docsDetails,
+  //         },
+  //       ];
+  //       this.uploadService
+  //         .constructUploadModel(addDocReq)
+  //         .pipe(
+  //           map((value: any) => {
+  //             if (value.addDocumentRep.msgHdr.rslt === 'OK') {
+  //               const body = value.addDocumentRep.msgBdy;
+  //               const docsRes = body.addDocResp[0];
+  //               const docsDetails = {
+  //                 ...docsRes,
+  //               };
+  //               return docsDetails;
+  //             }
+  //             throw new Error('error');
+  //           })
+  //         )
+  //         .subscribe(
+  //           (value) => {
+  //             console.log("Response upload", value)
+  //             // html2pdf().from(document.getElementById("vf_sheet_print_starts")).set(options).save();
+  //             let documentDetails: DocumentDetails = {
+  //               documentId: this.docsDetails.documentId,
+  //               documentType: String(this.docsDetails.docTypCd),
+  //               documentName: String(this.docsDetails.docTypCd),
+  //               documentNumber: this.docsDetails.documentNumber,
+  //               dmsDocumentId: value.docIndx,
+  //               categoryCode: String(this.docsDetails.docCtgryCd),
+  //               issuedAt: 'check',
+  //               subCategoryCode: String(this.docsDetails.docSbCtgryCd),
+  //               issueDate:
+  //                 this.utilityService.getDateFormat(this.docsDetails.issueDate) ||
+  //                 '',
+  //               expiryDate:
+  //                 this.utilityService.getDateFormat(this.docsDetails.expiryDate) ||
+  //                 '',
+  //               associatedId: this.docsDetails.associatedId,
+  //               associatedWith: this.docsDetails.associatedWith,
+  //               formArrayIndex: this.docsDetails.formArrayIndex,
+  //               deferredDate:
+  //                 this.utilityService.getDateFormat(
+  //                   this.docsDetails.deferredDate
+  //                 ) || '',
+  //               isDeferred: this.docsDetails.isDeferred,
+  //             };
+
+  //             console.log(this.isDocumentId, 'document Details', this.docsDetails.documentId)
+
+  //             this.uploadService.saveOrUpdateDocument([documentDetails]).subscribe((file: any) => {
+  //               console.log('file', file)
+
+  //               if (file.Error === '0' && file.ProcessVariables.error.code === '0') {
+
+  //                 if (file.ProcessVariables.documentIds && file.ProcessVariables.documentIds.length > 0) {
+  //                   this.docsDetails.documentId = file.ProcessVariables.documentIds[0];
+  //                   this.isDocumentId = true;
+  //                 } else {
+  //                   this.isDocumentId = false;
+  //                 }
+  //               }
+  //             })
+
+  //           })
+
+  //     });
+  // }
+
 }
