@@ -55,7 +55,7 @@ export class CibilOdListComponent implements OnInit {
   unamePattern = '^[a-z0-9_-]{8,15}$';
   imageUrl: any;
   cibilImage: any;
-  addMatchFound: boolean = false;
+  addMatchFound  : boolean = false;
   constructor(
     private labelService: LabelsService,
     private formBuilder: FormBuilder,
@@ -112,7 +112,7 @@ export class CibilOdListComponent implements OnInit {
       ]),
       cibilStatus: new FormControl(null, [
         Validators.required]),
-      addMatchFound: [''],
+      addMatchFound:  this.addMatchFound,
       addCibilScore: ['']
 
     });
@@ -514,6 +514,7 @@ export class CibilOdListComponent implements OnInit {
   onAdditionalMatch(event: any) {
     console.log("additional change ....>", event);
     console.log(event)
+   
     if(typeof(event) != 'number') {
       this.addMatchFound = event.currentTarget.checked
     } else if (typeof(event) == 'number' && event === 1) {
