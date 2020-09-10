@@ -265,6 +265,8 @@ export class CreditConditionsComponent implements OnInit {
               this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/deviations')
             }else if(data == 'back' && this.userType == 2 && this.salesResponse == 'false' ){
               this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/deviations')
+            }else if(data == 'back' && this.userType == 1){
+              this.router.navigate([`pages/dashboard`]);
             }
           }else {
             this.toasterService.showError(res['ProcessVariables'].error['message'], '');
