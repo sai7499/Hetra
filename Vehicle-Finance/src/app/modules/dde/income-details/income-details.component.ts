@@ -1,3 +1,26 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -87,7 +110,7 @@ export class IncomeDetailsComponent implements OnInit {
   salariedFOIRasperPolicy: number;
   isDirty = false;
   incomeTypeValue: any;
-  SalariedFOIRDeviation: number;
+  SalariedFOIRDeviation: number = 0;
   usedCar: boolean;
   NewOrUsedComercialVehicle: boolean;
   today: any = new Date().getFullYear();
@@ -111,6 +134,9 @@ export class IncomeDetailsComponent implements OnInit {
   public yearOneMinDate = new Date(new Date().setFullYear(new Date().getFullYear() - 1))
   public yearTwoMinDate = new Date(new Date().setFullYear(new Date().getFullYear() - 2))
   public yearThreeMinDate = new Date(new Date().setFullYear(new Date().getFullYear() - 3))
+  businessIncomeDetailsArray: FormArray;
+  otherIncomeDetailsArray: FormArray;
+  obligationDetailsArray: FormArray;
 
   constructor(
     private router: Router,
@@ -131,7 +157,9 @@ export class IncomeDetailsComponent implements OnInit {
     console.log(this.yearOneMinDate);
     console.log(this.yearTwoMinDate);
     console.log(this.yearThreeMinDate);
-
+    this.businessIncomeDetailsArray = this.formBuilder.array([]);
+    this.otherIncomeDetailsArray = this.formBuilder.array([]);
+    this.obligationDetailsArray  = this.formBuilder.array([]);
 
   }
 
@@ -162,9 +190,9 @@ export class IncomeDetailsComponent implements OnInit {
       // keyFinanceDetails: this.formBuilder.group({
       //   keyFinancials: this.formBuilder.array([this.getKeyFinancialDetails()])
       //   }),
-      businessIncomeDetails: this.formBuilder.array([]),
-      otherIncomeDetails: this.formBuilder.array([]),
-      obligationDetails: this.formBuilder.array([]),
+      businessIncomeDetails:  this.businessIncomeDetailsArray,
+      otherIncomeDetails:this.otherIncomeDetailsArray,
+      obligationDetails:  this.obligationDetailsArray,
       salariedFOIRasperPolicy: Number(70),
       salariedFOIRDeviation: [
         ,
@@ -422,13 +450,13 @@ export class IncomeDetailsComponent implements OnInit {
           // tslint:disable-next-line: prefer-const
           let businessControls = this.incomeDetailsForm.controls
             .businessIncomeDetails as FormArray;
-          businessControls.controls = [];
+            this.businessIncomeDetailsArray.controls = [];
           const otherIncomeDetailsControls = this.incomeDetailsForm.controls
             .otherIncomeDetails as FormArray;
-          otherIncomeDetailsControls.controls = [];
+            this.otherIncomeDetailsArray .controls = [];
           const obligationDetailsControls = this.incomeDetailsForm.controls
             .obligationDetails as FormArray;
-          obligationDetailsControls.controls = [];
+            this.obligationDetailsArray.controls = [];
           const keyFinancialCOntrols = this.incomeDetailsForm.controls
             .keyFinanceDetails as FormArray;
           keyFinancialCOntrols.controls = [];
@@ -603,21 +631,21 @@ export class IncomeDetailsComponent implements OnInit {
     if (data && data.length > 0) {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < data.length; i++) {
-        control.push(this.getBusinessIncomeDetails(data[i]));
+        this.businessIncomeDetailsArray.push(this.getBusinessIncomeDetails(data[i]));
         this.onIncome(null, i);
       }
-    } else {
-      control.push(this.getBusinessIncomeDetails());
+    } else if(data == null){
+      this.businessIncomeDetailsArray.push(this.getBusinessIncomeDetails());
     }
   }
   removeBusinessIncomeIndex(i?: any) {
     const control = this.incomeDetailsForm.controls
       .businessIncomeDetails as FormArray;
-    const id = control.at(i).value.id;
-    if (control.controls.length > 1) {
+    const id = this.businessIncomeDetailsArray.at(i).value.id;
+    if (this.businessIncomeDetailsArray.controls.length > 0) {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
-        control.removeAt(i);
+        this.businessIncomeDetailsArray.removeAt(i);
         this.toasterService.showInfo('Row is Removed', 'Income Details');
         this.isbusinessIncomeShow = false;
         this.onIncome(null, i)
@@ -629,7 +657,7 @@ export class IncomeDetailsComponent implements OnInit {
         this.incomeDetailsService
           .softDeleteIncomeDetails(body)
           .subscribe((res: any) => {
-            control.removeAt(i);
+            this.businessIncomeDetailsArray.removeAt(i);
             this.isbusinessIncomeShow = false;
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, '');
@@ -638,9 +666,9 @@ export class IncomeDetailsComponent implements OnInit {
           });
       }
     } else {
-      if (this.productCode == 'UC') {
-        this.toasterService.showError('Atleast One Row Required', '');
-      }
+      // if (this.productCode == 'UC') {
+      //   this.toasterService.showError('Atleast One Row Required', '');
+      // }
 
     }
   }
@@ -651,22 +679,22 @@ export class IncomeDetailsComponent implements OnInit {
     if (data && data.length > 0) {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < data.length; i++) {
-        control.push(this.getOtherIncomeDetails(data[i]));
+        this.otherIncomeDetailsArray.push(this.getOtherIncomeDetails(data[i]));
         this.getTotalOtherIncome(i);
       }
-    } else {
-      control.push(this.getOtherIncomeDetails());
+    } else if(data == null){
+      this.otherIncomeDetailsArray.push(this.getOtherIncomeDetails());
     }
   }
   removeOtherIncomeIndex(i?: any) {
     const control = this.incomeDetailsForm.controls
       .otherIncomeDetails as FormArray;
-    const id = control.at(i).value.id;
+    const id = this.otherIncomeDetailsArray.at(i).value.id;
 
-    if (control.controls.length > 0) {
+    if (this.otherIncomeDetailsArray.controls.length > 0) {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
-        control.removeAt(i);
+        this.otherIncomeDetailsArray.removeAt(i);
         this.toasterService.showInfo('Row is Removed', 'Income Details');
         this.isOtherIncomeShow = false;
         this.getTotalOtherIncome(i);
@@ -678,7 +706,7 @@ export class IncomeDetailsComponent implements OnInit {
         this.incomeDetailsService
           .softDeleteIncomeDetails(body)
           .subscribe((res: any) => {
-            control.removeAt(i);
+            this.otherIncomeDetailsArray.removeAt(i);
             this.isOtherIncomeShow = false;
 
             const message = res.ProcessVariables.error.message;
@@ -688,7 +716,7 @@ export class IncomeDetailsComponent implements OnInit {
           });
       }
     } else {
-      this.toasterService.showError('Atleast One Row Required', '');
+      // this.toasterService.showError('Atleast One Row Required', '');
     }
   }
   addObligationUnit(data?: any) {
@@ -697,21 +725,21 @@ export class IncomeDetailsComponent implements OnInit {
     if (data && data.length > 0) {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < data.length; i++) {
-        control.push(this.getObligationDetails(data[i]));
+        this.obligationDetailsArray.push(this.getObligationDetails(data[i]));
         this.onEmi(null, i);
       }
-    } else {
-      control.push(this.getObligationDetails());
+    } else if(data == null){
+      this.obligationDetailsArray.push(this.getObligationDetails());
     }
   }
   removeObligationIndex(i?: any) {
     const control = this.incomeDetailsForm.controls
       .obligationDetails as FormArray;
-    const id = control.at(i).value.id;
-    if (control.controls.length > 0) {
+    const id =  this.obligationDetailsArray.at(i).value.id;
+    if ( this.obligationDetailsArray.controls.length > 0) {
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
-        control.removeAt(i);
+        this.obligationDetailsArray.removeAt(i);
         this.toasterService.showInfo('Row is Removed', 'Income Details');
         this.isObligationIncomeShow = false;
         this.onEmi(null, i);
@@ -724,7 +752,7 @@ export class IncomeDetailsComponent implements OnInit {
         this.incomeDetailsService
           .softDeleteIncomeDetails(body)
           .subscribe((res: any) => {
-            control.removeAt(i);
+            this.obligationDetailsArray.removeAt(i);
             this.isObligationIncomeShow = false;
 
             const message = res.ProcessVariables.error.message;
@@ -734,7 +762,7 @@ export class IncomeDetailsComponent implements OnInit {
           });
       }
     } else {
-      this.toasterService.showError('Atleast One Row Required', '');
+      // this.toasterService.showError('Atleast One Row Required', '');
     }
 
   }
@@ -749,11 +777,17 @@ export class IncomeDetailsComponent implements OnInit {
         this.applicantResponse = res.ProcessVariables;
 
         this.incomeDetailsForm.patchValue({
-          salariedFOIRDeviation: this.applicantResponse.salariedFOIRDeviation,
+          salariedFOIRDeviation: this.applicantResponse.salariedFOIRDeviation || "0",
         });
-        this.addBusinessIncomeUnit(res.ProcessVariables.businessIncomeList);
-        this.addOtherIncomeUnit(res.ProcessVariables.otherIncomeList);
-        this.addObligationUnit(res.ProcessVariables.obligationsList);
+        if(res.ProcessVariables.businessIncomeList != null){
+          this.addBusinessIncomeUnit(res.ProcessVariables.businessIncomeList);
+        }
+        if(res.ProcessVariables.otherIncomeList != null){
+          this.addOtherIncomeUnit(res.ProcessVariables.otherIncomeList);
+        }
+        if(res.ProcessVariables.obligationsList != null){
+          this.addObligationUnit(res.ProcessVariables.obligationsList);
+        } 
         this.onSalFoirDeviation(this.applicantResponse.salariedFOIRDeviation);
         const operationType = this.toggleDdeService.getOperationType();
         if (operationType === '1') {
@@ -781,7 +815,7 @@ export class IncomeDetailsComponent implements OnInit {
     ).applicantType;
     const control = this.incomeDetailsForm.controls
       .businessIncomeDetails as FormArray;
-    control.at(i).get('applicantType').setValue(applicantType);
+      this.businessIncomeDetailsArray.at(i).get('applicantType').setValue(applicantType);
   }
 
   onOtherApplicantChange(event, i?: number) {
@@ -792,7 +826,7 @@ export class IncomeDetailsComponent implements OnInit {
     ).applicantType;
     const control = this.incomeDetailsForm.controls
       .otherIncomeDetails as FormArray;
-    control.at(i).get('applicantType').setValue(applicantType);
+      this.otherIncomeDetailsArray.at(i).get('applicantType').setValue(applicantType);
   }
 
   onObligationApplicantChange(event, i?: number) {
@@ -803,7 +837,7 @@ export class IncomeDetailsComponent implements OnInit {
     ).applicantType;
     const control = this.incomeDetailsForm.controls
       .obligationDetails as FormArray;
-    control.at(i).get('applicantType').setValue(applicantType);
+      this.obligationDetailsArray.at(i).get('applicantType').setValue(applicantType);
   }
   onKeyFinancialApplicantChangeYearOne(event, i?: number) {
     // this.resetApplicantValues(i)
@@ -882,8 +916,20 @@ export class IncomeDetailsComponent implements OnInit {
   // }
   onSubmit() {
     this.submitted = true;
-    // console.log(this.incomeDetailsForm);
-
+   
+if(this.productCode == "UC" && this.businessIncomeDetailsArray.length == 0 && this.otherIncomeDetailsArray.length == 0  ){
+  this.toasterService.showError(
+    'Add atleast one entry in Business income or Other income Details',
+    'Income Details'
+  );
+  return;
+}else if(this.productCode == "UCV" || this.productCode == "NCV" && this.businessIncomeDetailsArray.length == 0 && this.otherIncomeDetailsArray.length == 0  ){
+  this.toasterService.showError(
+    'Add atleast one entry in Key Financials or Other income Details',
+    'Income Details'
+  );
+  return;
+}
     // stop here if form is invalid
     if (this.incomeDetailsForm.invalid) {
       this.toasterService.showError(
@@ -894,45 +940,45 @@ export class IncomeDetailsComponent implements OnInit {
     } else {
       const businessControl = this.incomeDetailsForm.controls
         .businessIncomeDetails as FormArray;
-      for (let i = 0; i < businessControl.length; i++) {
-        const depreciation = (businessControl.at(i).get('depreciation').value);
-        businessControl.at(i).get('depreciation').setValue(depreciation);
-        const directorSalary = businessControl.at(i).get('directorSalary').value;
-        businessControl.at(i).get('directorSalary').setValue(directorSalary);
-        const netProfit = businessControl.at(i).get('netProfit').value;
-        businessControl.at(i).get('netProfit').setValue(netProfit);
-        businessControl.at(i).get('grossDerivedIncome').setValue(
-          businessControl.at(i).get('grossDerivedIncome').value);
-        businessControl.at(i).get('grossMonthlyIncome').setValue(
-          businessControl.at(i).get('grossMonthlyIncome').value);
-        businessControl.at(i).get('applicantId').setValue(
-          (businessControl.at(i).get('applicantId').value));
+      for (let i = 0; i < this.businessIncomeDetailsArray.length; i++) {
+        const depreciation = (this.businessIncomeDetailsArray.at(i).get('depreciation').value);
+        this.businessIncomeDetailsArray.at(i).get('depreciation').setValue(depreciation);
+        const directorSalary = this.businessIncomeDetailsArray.at(i).get('directorSalary').value;
+        this.businessIncomeDetailsArray.at(i).get('directorSalary').setValue(directorSalary);
+        const netProfit = this.businessIncomeDetailsArray.at(i).get('netProfit').value;
+        this.businessIncomeDetailsArray.at(i).get('netProfit').setValue(netProfit);
+        this.businessIncomeDetailsArray.at(i).get('grossDerivedIncome').setValue(
+          this.businessIncomeDetailsArray.at(i).get('grossDerivedIncome').value);
+        this.businessIncomeDetailsArray.at(i).get('grossMonthlyIncome').setValue(
+          this.businessIncomeDetailsArray.at(i).get('grossMonthlyIncome').value);
+        this.businessIncomeDetailsArray.at(i).get('applicantId').setValue(
+          (this.businessIncomeDetailsArray.at(i).get('applicantId').value));
       }
       const otherIncomeControl = this.incomeDetailsForm.controls
         .otherIncomeDetails as FormArray;
-      for (let i = 0; i < otherIncomeControl.length; i++) {
-        const grossIncome = otherIncomeControl.at(i).get('grossIncome').value;
-        otherIncomeControl.at(i).get('grossIncome').setValue(grossIncome.toString());
-        otherIncomeControl.at(i).get('factoredIncome').setValue(
-          otherIncomeControl.at(i).get('factoredIncome').value.toString());
-        otherIncomeControl.at(i).get('applicantId').setValue(
-          Number(otherIncomeControl.at(i).get('applicantId').value))
+      for (let i = 0; i < this.otherIncomeDetailsArray.length; i++) {
+        const grossIncome = this.otherIncomeDetailsArray.at(i).get('grossIncome').value;
+        this.otherIncomeDetailsArray.at(i).get('grossIncome').setValue(grossIncome.toString());
+        this.otherIncomeDetailsArray.at(i).get('factoredIncome').setValue(
+          this.otherIncomeDetailsArray.at(i).get('factoredIncome').value.toString());
+        this.otherIncomeDetailsArray.at(i).get('applicantId').setValue(
+          Number(this.otherIncomeDetailsArray.at(i).get('applicantId').value))
       }
       const obligationControl = this.incomeDetailsForm.controls
         .obligationDetails as FormArray;
-      for (let i = 0; i < obligationControl.length; i++) {
-        const loanAmount = obligationControl.at(i).get('loanAmount').value;
-        obligationControl.at(i).get('loanAmount').setValue(loanAmount.toString());
-        const tenure = Number(obligationControl.at(i).get('tenure').value);
-        obligationControl.at(i).get('tenure').setValue(tenure);
-        const mob = Number(obligationControl.at(i).get('mob').value);
-        obligationControl.at(i).get('mob').setValue(mob);
-        const emi = Number(obligationControl.at(i).get('emi').value);
-        obligationControl.at(i).get('emi').setValue(emi);
-        obligationControl.at(i).get('obligationAmount').setValue(
-          obligationControl.at(i).get('obligationAmount').value.toString());
-        obligationControl.at(i).get('applicantId').setValue(
-          Number(obligationControl.at(i).get('applicantId').value));
+      for (let i = 0; i < this.obligationDetailsArray.length; i++) {
+        const loanAmount = this.obligationDetailsArray.at(i).get('loanAmount').value;
+        this.obligationDetailsArray.at(i).get('loanAmount').setValue(loanAmount.toString());
+        const tenure = Number(this.obligationDetailsArray.at(i).get('tenure').value);
+        this.obligationDetailsArray.at(i).get('tenure').setValue(tenure);
+        const mob = Number(this.obligationDetailsArray.at(i).get('mob').value);
+        this.obligationDetailsArray.at(i).get('mob').setValue(mob);
+        const emi = Number(this.obligationDetailsArray.at(i).get('emi').value);
+        this.obligationDetailsArray.at(i).get('emi').setValue(emi);
+        this.obligationDetailsArray.at(i).get('obligationAmount').setValue(
+          this.obligationDetailsArray.at(i).get('obligationAmount').value.toString());
+        this.obligationDetailsArray.at(i).get('applicantId').setValue(
+          Number(this.obligationDetailsArray.at(i).get('applicantId').value));
       }
       const salaryContol = this.incomeDetailsForm.controls
         .salariedFOIRDeviation as FormControl;
@@ -988,13 +1034,13 @@ export class IncomeDetailsComponent implements OnInit {
             // tslint:disable-next-line: prefer-const
             let businessControls = this.incomeDetailsForm.controls
               .businessIncomeDetails as FormArray;
-            businessControls.controls = [];
+              this.businessIncomeDetailsArray.controls = [];
             const otherIncomeDetailsControls = this.incomeDetailsForm.controls
               .otherIncomeDetails as FormArray;
-            otherIncomeDetailsControls.controls = [];
+              this.otherIncomeDetailsArray.controls = [];
             const obligationDetailsControls = this.incomeDetailsForm.controls
               .obligationDetails as FormArray;
-            obligationDetailsControls.controls = [];
+              this.obligationDetailsArray.controls = [];
             const keyFinancialCOntrols = this.incomeDetailsForm.controls
               .keyFinanceDetails as FormArray;
             keyFinancialCOntrols.controls = [];
@@ -1012,31 +1058,31 @@ export class IncomeDetailsComponent implements OnInit {
     if (event === this.incomeTypeResponse[0].incomeTypeUniqueValue) {
       const incomeArray = this.incomeDetailsForm.controls
         .otherIncomeDetails as FormArray;
-      incomeArray
+        this.otherIncomeDetailsArray
         .at(i)
         .patchValue({ factoring: this.incomeTypeResponse[0].factoring });
     } else if (event === this.incomeTypeResponse[1].incomeTypeUniqueValue) {
       const incomeArray = this.incomeDetailsForm.controls
         .otherIncomeDetails as FormArray;
-      incomeArray
+        this.otherIncomeDetailsArray
         .at(i)
         .patchValue({ factoring: this.incomeTypeResponse[1].factoring });
     } else if (event === this.incomeTypeResponse[2].incomeTypeUniqueValue) {
       const incomeArray = this.incomeDetailsForm.controls
         .otherIncomeDetails as FormArray;
-      incomeArray
+        this.otherIncomeDetailsArray
         .at(i)
         .patchValue({ factoring: this.incomeTypeResponse[2].factoring });
     } else if (event === this.incomeTypeResponse[3].incomeTypeUniqueValue) {
       const incomeArray = this.incomeDetailsForm.controls
         .otherIncomeDetails as FormArray;
-      incomeArray
+        this.otherIncomeDetailsArray
         .at(i)
         .patchValue({ factoring: this.incomeTypeResponse[3].factoring });
     } else if (event === this.incomeTypeResponse[4].incomeTypeUniqueValue) {
       const incomeArray = this.incomeDetailsForm.controls
         .otherIncomeDetails as FormArray;
-      incomeArray
+        this.otherIncomeDetailsArray
         .at(i)
         .patchValue({ factoring: this.incomeTypeResponse[4].factoring });
     }
@@ -1045,73 +1091,73 @@ export class IncomeDetailsComponent implements OnInit {
   getOtherFactoredIncome(i: number) {
     const incomeArray = this.incomeDetailsForm.controls
       .otherIncomeDetails as FormArray;
-    const factoringPerc = incomeArray.at(i).value.factoring;
-    const grossIncome = incomeArray.at(i).value.grossIncome;
+    const factoringPerc = this.otherIncomeDetailsArray.at(i).value.factoring;
+    const grossIncome = this.otherIncomeDetailsArray.at(i).value.grossIncome;
     const value = Math.round(grossIncome * (factoringPerc / 100));
-    incomeArray.at(i).patchValue({ factoredIncome: value });
+    this.otherIncomeDetailsArray.at(i).patchValue({ factoredIncome: value });
 
-    if (incomeArray.at(i).value.incomeType === 'SALRINCTYP') {
-      if (incomeArray && incomeArray.length > 0) {
+    if (this.otherIncomeDetailsArray.at(i).value.incomeType === 'SALRINCTYP') {
+      if (this.otherIncomeDetailsArray && this.otherIncomeDetailsArray.length > 0) {
         this.totalMonthlySalaryIncome = 0;
-        for (let i = 0; i < incomeArray.length; i++) {
-          if (incomeArray.at(i).value.incomeType === 'SALRINCTYP') {
+        for (let i = 0; i < this.otherIncomeDetailsArray.length; i++) {
+          if (this.otherIncomeDetailsArray.at(i).value.incomeType === 'SALRINCTYP') {
             this.totalMonthlySalaryIncome = Math.round(
               this.totalMonthlySalaryIncome +
-              incomeArray.value[i].factoredIncome
+              this.otherIncomeDetailsArray.value[i].factoredIncome
             );
             this.salArray.push(this.totalMonthlySalaryIncome);
           }
         }
       }
     }
-    if (incomeArray.at(i).value.incomeType === 'RENINCTYP') {
-      if (incomeArray && incomeArray.length > 0) {
+    if (this.otherIncomeDetailsArray.at(i).value.incomeType === 'RENINCTYP') {
+      if (this.otherIncomeDetailsArray && this.otherIncomeDetailsArray.length > 0) {
         this.totalMonthlyRentalIncome = 0;
-        for (let i = 0; i < incomeArray.length; i++) {
-          if (incomeArray.at(i).value.incomeType === 'RENINCTYP') {
+        for (let i = 0; i < this.otherIncomeDetailsArray.length; i++) {
+          if (this.otherIncomeDetailsArray.at(i).value.incomeType === 'RENINCTYP') {
             this.totalMonthlyRentalIncome = Math.round(
               this.totalMonthlyRentalIncome +
-              incomeArray.value[i].factoredIncome
+              this.otherIncomeDetailsArray.value[i].factoredIncome
             );
             this.rentArray.push(this.totalMonthlyRentalIncome);
           }
         }
       }
     }
-    if (incomeArray.at(i).value.incomeType === 'PENINCTYP') {
-      if (incomeArray && incomeArray.length > 0) {
+    if (this.otherIncomeDetailsArray.at(i).value.incomeType === 'PENINCTYP') {
+      if (this.otherIncomeDetailsArray && this.otherIncomeDetailsArray.length > 0) {
         this.totalMonthlyPensionIncome = 0;
-        for (let i = 0; i < incomeArray.length; i++) {
-          if (incomeArray.at(i).value.incomeType === 'PENINCTYP') {
+        for (let i = 0; i < this.otherIncomeDetailsArray.length; i++) {
+          if (this.otherIncomeDetailsArray.at(i).value.incomeType === 'PENINCTYP') {
             this.totalMonthlyPensionIncome = Math.round(
               this.totalMonthlyPensionIncome +
-              incomeArray.value[i].factoredIncome
+              this.otherIncomeDetailsArray.value[i].factoredIncome
             );
             this.pensionArray.push(this.totalMonthlyPensionIncome);
           }
         }
       }
     }
-    if (incomeArray.at(i).value.incomeType === 'AGRIINCINCTYP') {
-      if (incomeArray && incomeArray.length > 0) {
+    if (this.otherIncomeDetailsArray.at(i).value.incomeType === 'AGRIINCINCTYP') {
+      if (this.otherIncomeDetailsArray && this.otherIncomeDetailsArray.length > 0) {
         this.totalMonthlyAgriIncome = 0;
-        for (let i = 0; i < incomeArray.length; i++) {
-          if (incomeArray.at(i).value.incomeType === 'AGRIINCINCTYP') {
+        for (let i = 0; i < this.otherIncomeDetailsArray.length; i++) {
+          if (this.otherIncomeDetailsArray.at(i).value.incomeType === 'AGRIINCINCTYP') {
             this.totalMonthlyAgriIncome = Math.round(
-              this.totalMonthlyAgriIncome + incomeArray.value[i].factoredIncome
+              this.totalMonthlyAgriIncome + this.otherIncomeDetailsArray.value[i].factoredIncome
             );
             this.agriArray.push(this.totalMonthlyAgriIncome);
           }
         }
       }
     }
-    if (incomeArray.at(i).value.incomeType === 'OTHRINCTYP') {
-      if (incomeArray && incomeArray.length > 0) {
+    if (this.otherIncomeDetailsArray.at(i).value.incomeType === 'OTHRINCTYP') {
+      if (this.otherIncomeDetailsArray && this.otherIncomeDetailsArray.length > 0) {
         this.totalMonthlyOtherIncomeOfOthers = 0;
-        for (let i = 0; i < incomeArray.length; i++) {
-          if (incomeArray.at(i).value.incomeType === 'OTHRINCTYP') {
+        for (let i = 0; i < this.otherIncomeDetailsArray.length; i++) {
+          if (this.otherIncomeDetailsArray.at(i).value.incomeType === 'OTHRINCTYP') {
             this.totalMonthlyOtherIncomeOfOthers = Math.round(
-              this.totalMonthlyOtherIncomeOfOthers + incomeArray.value[i].factoredIncome
+              this.totalMonthlyOtherIncomeOfOthers + this.otherIncomeDetailsArray.value[i].factoredIncome
             );
             this.otherArray.push(this.totalMonthlyOtherIncomeOfOthers);
           }
@@ -1125,16 +1171,16 @@ export class IncomeDetailsComponent implements OnInit {
     const incomeArray = this.incomeDetailsForm.controls
       .otherIncomeDetails as FormArray;
 
-    if (incomeArray && incomeArray.length > 0) {
+    if (this.otherIncomeDetailsArray && this.otherIncomeDetailsArray.length > 0) {
       this.totalMonthlyOtherIncome = 0;
-      for (let i = 0; i < incomeArray.length; i++) {
+      for (let i = 0; i < this.otherIncomeDetailsArray.length; i++) {
         this.totalMonthlyOtherIncome = Math.round(
-          this.totalMonthlyOtherIncome + incomeArray.value[i].factoredIncome
+          this.totalMonthlyOtherIncome + this.otherIncomeDetailsArray.value[i].factoredIncome
         );
-        const factoringPerc = incomeArray.at(i).value.factoring;
-        const grossIncome = incomeArray.at(i).value.grossIncome;
+        const factoringPerc = this.otherIncomeDetailsArray.at(i).value.factoring;
+        const grossIncome = this.otherIncomeDetailsArray.at(i).value.grossIncome;
         const value = Math.round(grossIncome * (factoringPerc / 100));
-        incomeArray.at(i).patchValue({ factoredIncome: value });
+        this.otherIncomeDetailsArray.at(i).patchValue({ factoredIncome: value });
 
       }
     }
@@ -1144,57 +1190,57 @@ export class IncomeDetailsComponent implements OnInit {
     let mob = 0;
     const obligationArray = this.incomeDetailsForm.controls
       .obligationDetails as FormArray;
-    tenure = Number(obligationArray.value[i].tenure);
+    tenure = Number(this.obligationDetailsArray.value[i].tenure);
 
-    mob = Number(obligationArray.value[i].mob);
+    mob = Number(this.obligationDetailsArray.value[i].mob);
 
     if (tenure < mob) {
       this.toasterService.showError('Mob should not exceed tenure', '');
-      obligationArray.at(i).patchValue({ mob: 0 });
-      obligationArray.at(i).patchValue({ balanceTenure: tenure });
+      this.obligationDetailsArray.at(i).patchValue({ mob: 0 });
+      this.obligationDetailsArray.at(i).patchValue({ balanceTenure: tenure });
     } else {
       const balanceTenor = Math.abs(Number(tenure) - Number(mob));
 
-      obligationArray.at(i).patchValue({ balanceTenure: balanceTenor });
+      this.obligationDetailsArray.at(i).patchValue({ balanceTenure: balanceTenor });
     }
   }
   onEmi(event: any, i: number) {
     const obligationArray = this.incomeDetailsForm.controls
       .obligationDetails as FormArray;
-    if (obligationArray && obligationArray.length > 0) {
+    if (this.obligationDetailsArray && this.obligationDetailsArray.length > 0) {
       this.totalObligationAmount = 0;
-      for (let i = 0; i < obligationArray.length; i++) {
+      for (let i = 0; i < this.obligationDetailsArray.length; i++) {
         this.totalObligationAmount = Math.round(
-          this.totalObligationAmount + Number(obligationArray.value[i].emi)
+          this.totalObligationAmount + Number(this.obligationDetailsArray.value[i].emi)
 
         );
-        const emi = obligationArray.value[i].emi;
+        const emi = this.obligationDetailsArray.value[i].emi;
         const obligationAmount = emi;
-        obligationArray.at(i).patchValue({ obligationAmount });
+        this.obligationDetailsArray.at(i).patchValue({ obligationAmount });
       }
     }
   }
   onIncome(event: any, i: number) {
     const businessIncomeArray = this.incomeDetailsForm.controls
       .businessIncomeDetails as FormArray;
-    if (businessIncomeArray && businessIncomeArray.length > 0) {
+    if (this.businessIncomeDetailsArray && this.businessIncomeDetailsArray.length > 0) {
       this.totalBusinessIncomeAmount = 0;
-      for (let i = 0; i < businessIncomeArray.length; i++) {
+      for (let i = 0; i < this.businessIncomeDetailsArray.length; i++) {
         this.totalBusinessIncomeAmount = Math.round(
           this.totalBusinessIncomeAmount +
-          businessIncomeArray.value[i].grossMonthlyIncome
+          this.businessIncomeDetailsArray.value[i].grossMonthlyIncome
         );
       }
-      const netProfit = businessIncomeArray.value[i].netProfit;
-      const depreciation = businessIncomeArray.value[i].depreciation;
-      const directorSalary = businessIncomeArray.value[i].directorSalary;
+      const netProfit = this.businessIncomeDetailsArray.value[i].netProfit;
+      const depreciation = this.businessIncomeDetailsArray.value[i].depreciation;
+      const directorSalary = this.businessIncomeDetailsArray.value[i].directorSalary;
 
       const grossDerivedIncome = Math.round(
         Number(netProfit * 3) + Number(depreciation) + Number(directorSalary)
       );
-      businessIncomeArray.at(i).patchValue({ grossDerivedIncome });
+      this.businessIncomeDetailsArray.at(i).patchValue({ grossDerivedIncome });
       const grossMonthlyIncome = Math.round(grossDerivedIncome / 12);
-      businessIncomeArray.at(i).patchValue({ grossMonthlyIncome });
+      this.businessIncomeDetailsArray.at(i).patchValue({ grossMonthlyIncome });
     }
   }
   onSalFoirDeviation(event: any) {
