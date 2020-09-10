@@ -161,7 +161,7 @@ export class DashboardComponent implements OnInit {
       this.businessDivision = userDetails.businessDivision[0].bizDivId;
       this.roleType = userDetails.roleType;
     });
-    localStorage.setItem("isPreDisbursement" , 'false')
+    localStorage.setItem('isPreDisbursement' , 'false');
     if (this.dashboardService.routingData) {
       this.activeTab = this.dashboardService.routingData.activeTab;
       this.subActiveTab = this.dashboardService.routingData.subActiveTab;
@@ -179,12 +179,12 @@ export class DashboardComponent implements OnInit {
         this.activeTab = 30;
         this.subActiveTab = 31;
         this.onTabsLoading(this.subActiveTab);
-        this.onLeads(this.displayTabs.CPCMaker, this.displayTabs.CPCMakerWithMe,'CPC')
+        this.onLeads(this.displayTabs.CPCMaker, this.displayTabs.CPCMakerWithMe, 'CPC');
       } else if (this.roleType === 5) {
         this.activeTab = 33;
         this.subActiveTab = 34;
         this.onTabsLoading(this.subActiveTab);
-        this.onLeads(this.displayTabs.CPCChecker, this.displayTabs.CPCCheckerWithMe,'CPC')
+        this.onLeads(this.displayTabs.CPCChecker, this.displayTabs.CPCCheckerWithMe, 'CPC');
       }
     }
 
