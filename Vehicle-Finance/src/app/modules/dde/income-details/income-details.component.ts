@@ -1200,15 +1200,17 @@ export class IncomeDetailsComponent implements OnInit {
   onSalFoirDeviation(event: any) {
     const salariedFOIRasperPolicy = this.incomeDetailsForm.controls
       .salariedFOIRasperPolicy.value;
-
-    if (Number(event) + Number(salariedFOIRasperPolicy) <= 150) {
-      this.SalariedFOIRDeviation = Math.round(Number(event));
-      this.totalSalariedFOIR =
-        this.SalariedFOIRDeviation + salariedFOIRasperPolicy;
-    } else {
-      this.toasterService.showWarning('should not exceed 150', '');
-      this.totalSalariedFOIR = 0;
-    }
+if(this.productCode == "UC"){
+  if (Number(event) + Number(salariedFOIRasperPolicy) <= 150) {
+    this.SalariedFOIRDeviation = Math.round(Number(event));
+    this.totalSalariedFOIR =
+      this.SalariedFOIRDeviation + salariedFOIRasperPolicy;
+  } else {
+    this.toasterService.showWarning('should not exceed 150', '');
+    this.totalSalariedFOIR = 0;
+  }
+}
+   
   }
   onCashGeneration(event, i: number) {
 

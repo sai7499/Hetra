@@ -11,7 +11,7 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import html2canvas from 'html2canvas';
 import html2pdf from 'html2pdf.js';
-import { DocRequest } from '@model/upload-model';
+import { DocRequest, DocumentDetails } from '@model/upload-model';
 import { UploadService } from '@services/upload.service';
 import { map } from 'rxjs/operators';
 declare var $;
@@ -261,7 +261,7 @@ downloadpdf()
         .set(options).toPdf().output('datauristring').then(res =>{
           console.log("file res:", res);
           this.docsDetails={
-            associatedId: "1496",//String(this.applicantId)
+            associatedId: this.vehicleDetailsArray[0].collateralId.toString(),//"1496",
             associatedWith: '1',
             bsPyld: "JVBERi0xLjMKJbrfrOAKMyAwIG9iago8PC9UeXBlIC9QYWdlCi",
             deferredDate: "",
@@ -325,7 +325,33 @@ downloadpdf()
           )
       .subscribe(
         (value) => {
-          console.log("Response upload")
+          console.log("Response upload",value)
+          html2pdf().from(document.getElementById("vf_sheet_print_starts")).set(options).save();
+          const documentDetails: DocumentDetails = {
+            documentId: this.docsDetails.documentId,
+            documentType: String(this.docsDetails.docTypCd),
+            documentName: String(this.docsDetails.docTypCd),
+            documentNumber: this.docsDetails.documentNumber,
+            dmsDocumentId: value.docIndx,
+            categoryCode: String(this.docsDetails.docCtgryCd),
+            issuedAt: 'check',
+            subCategoryCode: String(this.docsDetails.docSbCtgryCd),
+            issueDate:
+              this.utilityService.getDateFormat(this.docsDetails.issueDate) ||
+              '',
+            expiryDate:
+              this.utilityService.getDateFormat(this.docsDetails.expiryDate) ||
+              '',
+            associatedId: this.docsDetails.associatedId,
+            associatedWith: this.docsDetails.associatedWith,
+            formArrayIndex: this.docsDetails.formArrayIndex,
+            deferredDate:
+              this.utilityService.getDateFormat(
+                this.docsDetails.deferredDate
+              ) || '',
+            isDeferred: this.docsDetails.isDeferred,
+          };
+
         })       
 
           });
