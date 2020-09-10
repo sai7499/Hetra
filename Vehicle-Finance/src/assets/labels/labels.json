@@ -344,6 +344,7 @@
     "customerType": "Customer Type",
     "entityType": "Entity Type",
     "appno": "App no",
+    "generateCam":"Generate CAM",
     "camDate": "CAM Date",
     "existingExposure": "Existing Exposure",
     "areaName": "Area Name",

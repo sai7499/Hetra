@@ -86,6 +86,8 @@ export class CamComponent implements OnInit {
   salesResponse = 'false';
   currentUrl: string;
   showSave: boolean = false;
+  newCamHtml: boolean;
+  showCamHtml: boolean;
   constructor(private labelsData: LabelsService,
     private camService: CamService,
     private activatedRoute: ActivatedRoute,
@@ -126,24 +128,17 @@ export class CamComponent implements OnInit {
     this.userId = localStorage.getItem("userId");
     const leadData = this.createLeadDataService.getLeadSectionData();
     const leadSectionData = leadData as any;
-    console.log('getting lead data...>', leadSectionData);
     this.productCategoryCode = leadSectionData.leadDetails['productCatCode'];
-    console.log('getting productCategoryCode...>', this.productCategoryCode);
-    console.log(this.isCamGeneratedValue)
     if (this.productCategoryCode == "UC") {
       const body = {
         "leadId": this.leadId,
         "generateCam": this.generateCam
       }
       this.camService.getCamUsedCarDetails(body).subscribe((res: any) => {
-        console.log(res);
         this.isCamGeneratedValue = res.ProcessVariables['isCamGenerated']
-        console.log(this.isCamGeneratedValue);
         if (this.isCamGeneratedValue == false) {
-          console.log(this.isCamDetails);
 
           this.isCamDetails = true
-          console.log(this.isCamDetails);
 
         } else if (this.isCamGeneratedValue == true) {
           this.isCamDetails = false
@@ -159,14 +154,9 @@ export class CamComponent implements OnInit {
         "generateCam": this.generateCam
       }
       this.camService.getCamUsedCvDetails(body).subscribe((res: any) => {
-        console.log(res);
         this.isCamGeneratedValue = res.ProcessVariables['isCamGenerated']
-        console.log(this.isCamGeneratedValue);
         if (this.isCamGeneratedValue == false) {
-          console.log(this.isCamDetails);
-
           this.isCamDetails = true
-          console.log(this.isCamDetails);
 
         } else if (this.isCamGeneratedValue == true) {
           this.isCamDetails = false
@@ -182,14 +172,11 @@ export class CamComponent implements OnInit {
         "generateCam": this.generateCam
       }
       this.camService.getCamNewCvDetails(body).subscribe((res: any) => {
-        console.log(res);
+        
         this.isCamGeneratedValue = res.ProcessVariables['isCamGenerated']
-        console.log(this.isCamGeneratedValue);
         if (this.isCamGeneratedValue == false) {
-          console.log(this.isCamDetails);
 
           this.isCamDetails = true
-          console.log(this.isCamDetails);
 
         } else if (this.isCamGeneratedValue == true) {
           this.isCamDetails = false
@@ -291,7 +278,6 @@ export class CamComponent implements OnInit {
     if (this.currentUrl.includes('credit-decisions')  ) {
       this.camDetailsForm.disable();
       this.showSave = false
-      console.log(this.showSave);
     }else if(this.currentUrl.includes('dde')){
       this.showSave = true
 
@@ -324,7 +310,8 @@ export class CamComponent implements OnInit {
       "generateCam": generateCam,
     };
     this.camService.getCamUsedCvDetails(data).subscribe((res: any) => {
-      console.log(res)
+      if(res && res.ProcessVariables.error.code == '0'){
+        this.showCamHtml == true
       this.camDetails = res.ProcessVariables
       this.basicDetails = res.ProcessVariables['basicDetailsObj'];
       this.sourcingDetails = res.ProcessVariables['sourcingObj'];
@@ -364,18 +351,24 @@ export class CamComponent implements OnInit {
       this.camDetailsForm.patchValue({
         strengthAndMitigates: this.camDetails.strengthAndMitigates ? this.camDetails.strengthAndMitigates : null,
       })
+     } else if(res && res.ProcessVariables.error.code == '1'){
+        this.showCamHtml == false
+        const message = res.ProcessVariables.error.message;
+        this.toasterService.showError(message, '');
+      }
     })
+    
   }
 
   getCamUsedCarDetails(generateCam) {
-    console.log(generateCam);
 
     const data = {
       "leadId": this.leadId,
       "generateCam": generateCam,
     };
     this.camService.getCamUsedCarDetails(data).subscribe((res: any) => {
-      console.log("used car cam", res)
+      if(res && res.ProcessVariables.error.code == '0'){
+        this.showCamHtml == true
       this.camDetails = res.ProcessVariables
       this.applicantDetails = res.ProcessVariables['applicantDetails'];
       this.bankingDetails = res.ProcessVariables['bankingDetails'];
@@ -392,7 +385,12 @@ export class CamComponent implements OnInit {
       this.manualDeviation = res.ProcessVariables['manualDeviation']
       this.vehicleDetails = res.ProcessVariables['vehicleDetails']
       this.recommendation = res.ProcessVariables['recommendation']
-
+ 
+    } else if(res && res.ProcessVariables.error.code == '1'){
+      this.showCamHtml == false
+      const message = res.ProcessVariables.error.message;
+      this.toasterService.showError(message, '');
+    }
     })
     
   }
@@ -402,7 +400,8 @@ export class CamComponent implements OnInit {
       "generateCam": generateCam,
     };
     this.camService.getCamNewCvDetails(data).subscribe((res: any) => {
-      console.log(res);
+      if(res && res.ProcessVariables.error.code == '0'){
+      this.showCamHtml == true
       this.camDetails = res.ProcessVariables
       this.applicantDetails = res.ProcessVariables['applicantDetails'];
       this.bankingSummary = res.ProcessVariables['bankingSummary']
@@ -432,12 +431,15 @@ export class CamComponent implements OnInit {
       this.camDetailsForm.patchValue({
         commentsOnRtr: this.camDetails.commentsOnRtr ? this.camDetails.commentsOnRtr : null,
       })
-
+    } else if(res && res.ProcessVariables.error.code == '1'){
+      this.showCamHtml == false
+      const message = res.ProcessVariables.error.message;
+      this.toasterService.showError(message, '');
+    }
     })
   }
   onSubmit() {
-    console.log(this.camDetailsForm);
-    console.log(this.camDetailsForm);
+  
 
     this.submitted = true;
     // stop here if form is invalid
@@ -479,7 +481,6 @@ export class CamComponent implements OnInit {
       };
 
       this.camService.saveCamRemarks(body).subscribe((res: any) => {
-        console.log(res);
 
         // tslint:disable-next-line: triple-equals
         if (res && res.ProcessVariables.error.code == "0") {
