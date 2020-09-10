@@ -164,99 +164,101 @@
 
     <ng-container formArrayName="manualDeviationFormArray">
 
-      <h3 class="cus-title margin_zero">{{labels?.manualDeviation}}</h3>
-
       <div class="text-right" id="add_manual_deviation_btn" *ngIf="!isSubmitToCredit">
         <button class="btn mar-right8 btn-primary" type="button"
           (click)="addDeviationUnit()">{{labels?.addManualDeviation}}</button>
       </div>
 
-      <div class="panel-body row" id="show_1_div_identity"
-        *ngFor="let item of deviationsForm.get('manualDeviationFormArray')['controls']; let j = index"
-        [formGroupName]="j">
+      <div *ngIf="deviationsForm.get('manualDeviationFormArray')['controls'].length > 0">
 
-        <div class="row">
+        <h3 class="cus-title margin_zero">{{labels?.manualDeviation}}</h3>
 
-          <div class="form-group col-sm-6 col-md-2 col-lg-2">
+        <div class="panel-body row" id="show_1_div_identity"
+          *ngFor="let item of deviationsForm.get('manualDeviationFormArray')['controls']; let j = index"
+          [formGroupName]="j">
 
-            <label for="deviation">{{labels?.deviation}}</label>
-            <app-vf-custom-select [values]="deviationLov?.deviation" [id]="'deviation'" formControlName="devCode"
-              [isRequired]="'Deviation Required'" [isDisabled]="isSubmitToCredit" [isDirty]="isDirty"
-              (change)="onGetDeviationCode($event, j)">
-            </app-vf-custom-select>
+          <div class="row">
 
-          </div>
+            <div class="form-group col-sm-6 col-md-2 col-lg-2">
 
-          <div class="form-group col-sm-6 col-md-3 col-lg-2">
+              <label for="deviation">{{labels?.deviation}}</label>
+              <app-vf-custom-select [values]="deviationLov?.deviation" [id]="'deviation'" formControlName="devCode"
+                [isRequired]="'Deviation Required'" [isDisabled]="isSubmitToCredit" [isDirty]="isDirty"
+                (change)="onGetDeviationCode($event, j)">
+              </app-vf-custom-select>
 
-            <label for="deviation">{{labels?.description}}</label>
-            <p>
-              {{item.controls['devDesc'].value}}
-            </p>
-          </div>
+            </div>
 
-          <div class="form-group col-sm-6 col-md-2 col-lg-2">
-            <label for="approval_level"> {{labels?.approvalLevel}}</label>
+            <div class="form-group col-sm-6 col-md-3 col-lg-2">
 
-            <app-vf-custom-select [values]="deviationLov?.approvalLevel" [id]="'approval_level'"
-              formControlName="approverRole" [isRequired]="'Approver Level Required'" [isDirty]="isDirty"
-              (change)="onGetApprovalLevel($event, j)" [isDisabled]="isSubmitToCredit">
-            </app-vf-custom-select>
-          </div>
+              <label for="deviation">{{labels?.description}}</label>
+              <p>
+                {{item.controls['devDesc'].value}}
+              </p>
+            </div>
 
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
-            <label for="activity">{{labels?.justification}}</label>
-            <textarea class="form-control" formControlName="justification" [readonly]="isSubmitToCredit"
-              style="resize: none;"></textarea>
+            <div class="form-group col-sm-6 col-md-2 col-lg-2">
+              <label for="approval_level"> {{labels?.approvalLevel}}</label>
 
-            <div class="invalid-feedback"
-              *ngIf="item.controls['justification'].touched && !item.controls['justification'].valid">
-              <div *ngIf="item.controls['justification'].hasError('required')">
-                Manual Justfication Required
+              <app-vf-custom-select [values]="deviationLov?.approvalLevel" [id]="'approval_level'"
+                formControlName="approverRole" [isRequired]="'Approver Level Required'" [isDirty]="isDirty"
+                (change)="onGetApprovalLevel($event, j)" [isDisabled]="isSubmitToCredit">
+              </app-vf-custom-select>
+            </div>
+
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="activity">{{labels?.justification}}</label>
+              <textarea class="form-control" formControlName="justification" [readonly]="isSubmitToCredit"
+                style="resize: none;"></textarea>
+
+              <div class="invalid-feedback"
+                *ngIf="item.controls['justification'].touched && !item.controls['justification'].valid">
+                <div *ngIf="item.controls['justification'].hasError('required')">
+                  Manual Justfication Required
+                </div>
               </div>
+
             </div>
 
-          </div>
+            <div class="form-group col-sm-6 col-md-2 col-lg-2">
 
-          <div class="form-group col-sm-6 col-md-2 col-lg-2">
+              <label for="end" class="action">{{labels?.action}} </label>
+              <div class="row m-0 radio-inline"
+                [ngClass]="{'disabled': !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}">
 
-            <label for="end" class="action">{{labels?.action}} </label>
-            <div class="row m-0 radio-inline"
-              [ngClass]="{'disabled': !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}">
-
-              <label for="approve_action">
-                <input type="radio" id="approve_action_manual_{{j}}" formControlName="statusCode" value="1"
-                  (click)="onApproveDeclineAction(1, item)">{{labels?.approve}}
-              </label>
-              <label for=" refer_action">
-                <input type="radio" id="refer_action_manual_{{j}}" formControlName="statusCode" value="2"
-                  (click)="onApproveDeclineAction(2, item)">{{labels?.referToNextLevel}}
-              </label>
-              <label for="decline_action">
-                <input type="radio" id="decline_action_manual_{{j}}" formControlName="statusCode" value="0"
-                  (click)="onApproveDeclineAction(0, item)">{{labels?.decline}}
-              </label>
-            </div>
-          </div>
-
-          <div class="form-group col-sm-6 col-md-1 col-lg-1" *ngIf="isSendBacktoCredit && !isSubmitToCredit">
-            <label>{{labels?.more}} </label>
-            <div class="row">
-              <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="operationType !== '2'">
-                <label class="image-upload" for="upload_files">
-                  <i></i> &nbsp;
-                  <a data-toggle="modal" data-target="#exampleModal"
-                    (click)="softDeleteDeviation(j, item.controls['devRuleId'].value)"><i class="fa fa-trash"
-                      aria-hidden="true"></i></a>
+                <label for="approve_action">
+                  <input type="radio" id="approve_action_manual_{{j}}" formControlName="statusCode" value="1"
+                    (click)="onApproveDeclineAction(1, item)">{{labels?.approve}}
+                </label>
+                <label for=" refer_action">
+                  <input type="radio" id="refer_action_manual_{{j}}" formControlName="statusCode" value="2"
+                    (click)="onApproveDeclineAction(2, item)">{{labels?.referToNextLevel}}
+                </label>
+                <label for="decline_action">
+                  <input type="radio" id="decline_action_manual_{{j}}" formControlName="statusCode" value="0"
+                    (click)="onApproveDeclineAction(0, item)">{{labels?.decline}}
                 </label>
               </div>
             </div>
+
+            <div class="form-group col-sm-6 col-md-1 col-lg-1" *ngIf="isSendBacktoCredit && !isSubmitToCredit">
+              <label>{{labels?.more}} </label>
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="operationType !== '2'">
+                  <label class="image-upload" for="upload_files">
+                    <i></i> &nbsp;
+                    <a data-toggle="modal" data-target="#exampleModal"
+                      (click)="softDeleteDeviation(j, item.controls['devRuleId'].value)"><i class="fa fa-trash"
+                        aria-hidden="true"></i></a>
+                  </label>
+                </div>
+              </div>
+            </div>
+
           </div>
 
         </div>
-
       </div>
-
     </ng-container>
 
     <div class="row" *ngIf="recommendationArray.length > 0">

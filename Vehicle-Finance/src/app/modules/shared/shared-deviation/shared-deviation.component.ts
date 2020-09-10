@@ -123,7 +123,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       enableSendBack: false,
       autoDeviationFormArray: this._fb.array([]),
       waiverNormsFormArray: this._fb.array([]),
-      manualDeviationFormArray: this._fb.array([this.getManualDeviations()])
+      manualDeviationFormArray: this._fb.array([])
     })
 
     this.modalForm = this._fb.group({
@@ -483,11 +483,12 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       isSaveEdit: true
     })
 
-    if (this.deviationsForm.get('manualDeviationFormArray')['controls'].length === 0) {
-      manualDiviationFormArray.push(this.getManualDeviations())
-    }
+    // if (this.deviationsForm.get('manualDeviationFormArray')['controls'].length === 0) {
+    //   manualDiviationFormArray.push(this.getManualDeviations())
+    // }
     this.sharedService.getFormValidation(this.deviationsForm)
     // this.isApproveDeviation()
+    // this.getManualDeviations()
   }
 
   ReferDeviation() {

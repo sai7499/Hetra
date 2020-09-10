@@ -15,6 +15,10 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { Location } from '@angular/common';
 import html2pdf from 'html2pdf.js';
+import { UploadService } from '@services/upload.service';
+import { map } from 'rxjs/operators';
+import { DocumentDetails } from '@model/upload-model';
+import { UtilityService } from '@services/utility.service';
 @Component({
   selector: 'app-cam',
   templateUrl: './cam.component.html',
@@ -91,6 +95,11 @@ export class CamComponent implements OnInit {
   showCamHtml: boolean;
   errorGenerated: boolean = false;
   errorMessage: string;
+
+  docsDetails: any = {};
+  vehicleDetailsArray: any = [];
+  isDocumentId: boolean;
+
   constructor(private labelsData: LabelsService,
     private camService: CamService,
     private activatedRoute: ActivatedRoute,
@@ -99,20 +108,14 @@ export class CamComponent implements OnInit {
     private toasterService: ToasterService,
     private toggleDdeService: ToggleDdeService,
     private loginStoreService: LoginStoreService,
-    private router: Router,
+    private router: Router, private utilityService: UtilityService,
     private location: Location,
-
-
-
+    private uploadService: UploadService
   ) {
     this.salesResponse = localStorage.getItem('salesResponse');
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
       this.roleType = value.roleType;
-
-      console.log('role Type', this.roleType);
-
-
     });
 
   }
@@ -131,6 +134,7 @@ export class CamComponent implements OnInit {
     this.userId = localStorage.getItem("userId");
     const leadData = this.createLeadDataService.getLeadSectionData();
     const leadSectionData = leadData as any;
+    this.vehicleDetailsArray = leadData['vehicleCollateral']
     this.productCategoryCode = leadSectionData.leadDetails['productCatCode'];
     if (this.productCategoryCode == "UC") {
       const body = {
@@ -292,25 +296,25 @@ export class CamComponent implements OnInit {
       this.usedCarCam = true
       this.isCamDetails = false
       this.generateCam = true
-      this.getCamUsedCarDetails(this.generateCam)
+      this.getCamUsedCarDetails(this.generateCam, 'isUpload')
       this.pdfId = "UCpdfgeneration" // pdf generation 
     } else
       if (this.productCategoryCode == "UCV") {
         this.usedCvCam = true
         this.isCamDetails = false
         this.generateCam = true
-        this.getCamUsedCvDetails(this.generateCam)
+        this.getCamUsedCvDetails(this.generateCam, 'isUpload')
         this.pdfId = "UCVpdfgeneration" // pdf generation
       } else
         if (this.productCategoryCode == "NCV") {
           this.newCvCam = true
           this.isCamDetails = false
           this.generateCam = true
-          this.getCamNewCvDetails(this.generateCam)
+          this.getCamNewCvDetails(this.generateCam, 'isUpload')
           this.pdfId = "NCVpdfgeneration" // pdf generation
         }
   }
-  getCamUsedCvDetails(generateCam) {
+  getCamUsedCvDetails(generateCam, isUpload?: string) {
     const data = {
       "leadId": this.leadId,
       "generateCam": generateCam,
@@ -318,7 +322,7 @@ export class CamComponent implements OnInit {
     this.camService.getCamUsedCvDetails(data).subscribe((res: any) => {
       if (res && res.ProcessVariables.error.code == '0') {
         this.showCamHtml == true
-        this.camDetails = res.ProcessVariables
+        this.camDetails = res.ProcessVariables;
         this.basicDetails = res.ProcessVariables['basicDetailsObj'];
         this.sourcingDetails = res.ProcessVariables['sourcingObj'];
         this.proposedVehicleDetails = res.ProcessVariables['proposedVehiclesObj'];
@@ -336,6 +340,11 @@ export class CamComponent implements OnInit {
         this.acmRecommendation = res.ProcessVariables['acmRecommendationObj']
         this.ncmBhApprovalRecommendation = res.ProcessVariables['ncmBhApprovalRecommendationObj']
         this.recommendation = res.ProcessVariables['recommendation']
+
+        if (isUpload === 'isUpload') {
+          this.uploadPdf()
+        }
+
         this.camDetailsForm.patchValue({
           proposedVehicleRemarks: this.camDetails.proposedToAnyOtherRemarks ? this.camDetails.proposedToAnyOtherRemarks : null,
         })
@@ -357,8 +366,9 @@ export class CamComponent implements OnInit {
         this.camDetailsForm.patchValue({
           strengthAndMitigates: this.camDetails.strengthAndMitigates ? this.camDetails.strengthAndMitigates : null,
         })
+
       } else if (res && res.ProcessVariables.error.code == '1') {
-        this.showCamHtml == false
+        this.showCamHtml == false;
         this.errorGenerated = true;
         const message = res.ProcessVariables.mandatoryFields;
         this.errorMessage = message;
@@ -368,7 +378,7 @@ export class CamComponent implements OnInit {
 
   }
 
-  getCamUsedCarDetails(generateCam) {
+  getCamUsedCarDetails(generateCam, isUpload?: string) {
 
     const data = {
       "leadId": this.leadId,
@@ -376,7 +386,7 @@ export class CamComponent implements OnInit {
     };
     this.camService.getCamUsedCarDetails(data).subscribe((res: any) => {
       if (res && res.ProcessVariables.error.code == '0') {
-        // this.showCamHtml == true
+        this.showCamHtml == true
         this.camDetails = res.ProcessVariables
         this.applicantDetails = res.ProcessVariables['applicantDetails'];
         this.bankingDetails = res.ProcessVariables['bankingDetails'];
@@ -394,9 +404,9 @@ export class CamComponent implements OnInit {
         this.vehicleDetails = res.ProcessVariables['vehicleDetails']
         this.recommendation = res.ProcessVariables['recommendation']
 
-        // if () {
-        //   this.uploafPdf
-        // }
+        if (isUpload === 'isUpload') {
+          this.uploadPdf()
+        }
 
       } else if (res && res.ProcessVariables.error.code == '1') {
         this.showCamHtml == false
@@ -409,7 +419,8 @@ export class CamComponent implements OnInit {
     })
 
   }
-  getCamNewCvDetails(generateCam) {
+
+  getCamNewCvDetails(generateCam, isUpload?: string) {
     const data = {
       "leadId": this.leadId,
       "generateCam": generateCam,
@@ -446,6 +457,11 @@ export class CamComponent implements OnInit {
         this.camDetailsForm.patchValue({
           commentsOnRtr: this.camDetails.commentsOnRtr ? this.camDetails.commentsOnRtr : null,
         })
+
+        if (isUpload === 'isUpload') {
+          this.uploadPdf()
+        }
+
       } else if (res && res.ProcessVariables.error.code == '1') {
         this.showCamHtml == false
         this.errorGenerated = true;
@@ -559,129 +575,124 @@ export class CamComponent implements OnInit {
 
   }
 
-  // uploafPdf() {
+  uploadPdf() {
 
-  //   var options = {
-  //     margin: .25,
-  //     filename: `CamDetails_${this.leadId}.pdf`,
-  //     image: { type: 'jpeg', quality: 1 },
-  //     jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
-  //   }
+    var options = {
+      margin: .25,
+      filename: `CamDetails_${this.leadId}.pdf`,
+      image: { type: 'jpeg', quality: 1 },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
+    }
 
-  //   html2pdf().from(document.getElementById("vf_sheet_print_starts"))
-  //     .set(options).toPdf().output('datauristring').then(res => {
-  //       console.log("file res:", res);
-  //       this.docsDetails = {
-  //         associatedId: this.vehicleDetailsArray[0].collateralId.toString(),//"1496",
-  //         associatedWith: '1',
-  //         bsPyld: "JVBERi0xLjMKJbrfrOAKMyAwIG9iago8PC9UeXBlIC9QYWdlCi",
-  //         deferredDate: "",
-  //         docCatg: "VF LOAN DOCS",
-  //         docCmnts: "Addition of document for Applicant Creation",
-  //         docCtgryCd: 102,
-  //         docNm: `SANCTION_LETTER`,
-  //         docRefId: [
-  //           {
-  //             idTp: 'LEDID',
-  //             id: this.leadId,
-  //           },
-  //           {
-  //             idTp: 'BRNCH',
-  //             id: Number(localStorage.getItem('branchId')),
-  //           },
-  //         ],
-  //         docSbCtgry: "VF GENERATED DOCS",
-  //         docSbCtgryCd: 42,
-  //         docSize: 1097152,
-  //         docTp: "Lead",
-  //         docTypCd: 68,
-  //         docsType: "png/jpg/jpeg/pdf/tiff/xlsx/xls/docx/doc/zip",
-  //         docsTypeForString: "",
-  //         documentId: this.isDocumentId ? this.docsDetails.documentId : 0,
-  //         documentNumber: `SD${this.leadId}`,
-  //         expiryDate: "",
-  //         formArrayIndex: 0,
-  //         isDeferred: "0",
-  //         issueDate: ""
-  //       }
-  //       let base64File: string = res.toString()
-  //         .replace(/^data:application\/[a-z]+;filename=generated.pdf;base64,/, '');
-  //       this.docsDetails.bsPyld = base64File;
-  //       let fileName = this.docsDetails.docSbCtgry.replace(' ', '_');
-  //       fileName =
-  //         this.docsDetails.docNm +
-  //         new Date().getFullYear() +
-  //         +new Date() +
-  //         '.pdf';
-  //       this.docsDetails.docNm = fileName;
-  //       const addDocReq = [
-  //         {
-  //           ...this.docsDetails,
-  //         },
-  //       ];
-  //       this.uploadService
-  //         .constructUploadModel(addDocReq)
-  //         .pipe(
-  //           map((value: any) => {
-  //             if (value.addDocumentRep.msgHdr.rslt === 'OK') {
-  //               const body = value.addDocumentRep.msgBdy;
-  //               const docsRes = body.addDocResp[0];
-  //               const docsDetails = {
-  //                 ...docsRes,
-  //               };
-  //               return docsDetails;
-  //             }
-  //             throw new Error('error');
-  //           })
-  //         )
-  //         .subscribe(
-  //           (value) => {
-  //             console.log("Response upload", value)
-  //             // html2pdf().from(document.getElementById("vf_sheet_print_starts")).set(options).save();
-  //             let documentDetails: DocumentDetails = {
-  //               documentId: this.docsDetails.documentId,
-  //               documentType: String(this.docsDetails.docTypCd),
-  //               documentName: String(this.docsDetails.docTypCd),
-  //               documentNumber: this.docsDetails.documentNumber,
-  //               dmsDocumentId: value.docIndx,
-  //               categoryCode: String(this.docsDetails.docCtgryCd),
-  //               issuedAt: 'check',
-  //               subCategoryCode: String(this.docsDetails.docSbCtgryCd),
-  //               issueDate:
-  //                 this.utilityService.getDateFormat(this.docsDetails.issueDate) ||
-  //                 '',
-  //               expiryDate:
-  //                 this.utilityService.getDateFormat(this.docsDetails.expiryDate) ||
-  //                 '',
-  //               associatedId: this.docsDetails.associatedId,
-  //               associatedWith: this.docsDetails.associatedWith,
-  //               formArrayIndex: this.docsDetails.formArrayIndex,
-  //               deferredDate:
-  //                 this.utilityService.getDateFormat(
-  //                   this.docsDetails.deferredDate
-  //                 ) || '',
-  //               isDeferred: this.docsDetails.isDeferred,
-  //             };
+    html2pdf().from(document.getElementById(this.pdfId))
+      .set(options).toPdf().output('datauristring').then(res => {
+        this.docsDetails = {
+          associatedId: this.vehicleDetailsArray[0].collateralId.toString(),//"1496",
+          associatedWith: '1',
+          bsPyld: "JVBERi0xLjMKJbrfrOAKMyAwIG9iago8PC9UeXBlIC9QYWdlCi",
+          deferredDate: "",
+          docCatg: "VF LOAN DOCS",
+          docCmnts: "Addition of document for Applicant Creation",
+          docCtgryCd: 102,
+          docNm: `CAM`,
+          docRefId: [
+            {
+              idTp: 'LEDID',
+              id: this.leadId,
+            },
+            {
+              idTp: 'BRNCH',
+              id: Number(localStorage.getItem('branchId')),
+            },
+          ],
+          docSbCtgry: "VF GENERATED DOCS",
+          docSbCtgryCd: 42,
+          docSize: 1097152,
+          docTp: "Lead",
+          docTypCd: 148,
+          docsType: "png/jpg/jpeg/pdf/tiff/xlsx/xls/docx/doc/zip",
+          docsTypeForString: "",
+          documentId: this.isDocumentId ? this.docsDetails.documentId : 0,
+          documentNumber: `CAM${this.leadId}`,
+          expiryDate: "",
+          formArrayIndex: 0,
+          isDeferred: "0",
+          issueDate: ""
+        }
+        let base64File: string = res.toString()
+          .replace(/^data:application\/[a-z]+;filename=generated.pdf;base64,/, '');
+        this.docsDetails.bsPyld = base64File;
+        let fileName = this.docsDetails.docSbCtgry.replace(' ', '_');
+        fileName =
+          this.docsDetails.docNm +
+          new Date().getFullYear() +
+          +new Date() +
+          '.pdf';
+        this.docsDetails.docNm = fileName;
+        const addDocReq = [
+          {
+            ...this.docsDetails,
+          },
+        ];
+        this.uploadService
+          .constructUploadModel(addDocReq)
+          .pipe(
+            map((value: any) => {
+              if (value.addDocumentRep.msgHdr.rslt === 'OK') {
+                const body = value.addDocumentRep.msgBdy;
+                const docsRes = body.addDocResp[0];
+                const docsDetails = {
+                  ...docsRes,
+                };
+                return docsDetails;
+              }
+              throw new Error('error');
+            })
+          )
+          .subscribe(
+            (value) => {
+              // html2pdf().from(document.getElementById("vf_sheet_print_starts")).set(options).save();
+              let documentDetails: DocumentDetails = {
+                documentId: this.docsDetails.documentId,
+                documentType: String(this.docsDetails.docTypCd),
+                documentName: String(this.docsDetails.docTypCd),
+                documentNumber: this.docsDetails.documentNumber,
+                dmsDocumentId: value.docIndx,
+                categoryCode: String(this.docsDetails.docCtgryCd),
+                issuedAt: 'check',
+                subCategoryCode: String(this.docsDetails.docSbCtgryCd),
+                issueDate:
+                  this.utilityService.getDateFormat(this.docsDetails.issueDate) ||
+                  '',
+                expiryDate:
+                  this.utilityService.getDateFormat(this.docsDetails.expiryDate) ||
+                  '',
+                associatedId: this.docsDetails.associatedId,
+                associatedWith: this.docsDetails.associatedWith,
+                formArrayIndex: this.docsDetails.formArrayIndex,
+                deferredDate:
+                  this.utilityService.getDateFormat(
+                    this.docsDetails.deferredDate
+                  ) || '',
+                isDeferred: this.docsDetails.isDeferred,
+              };
 
-  //             console.log(this.isDocumentId, 'document Details', this.docsDetails.documentId)
+              this.uploadService.saveOrUpdateDocument([documentDetails]).subscribe((file: any) => {
 
-  //             this.uploadService.saveOrUpdateDocument([documentDetails]).subscribe((file: any) => {
-  //               console.log('file', file)
+                if (file.Error === '0' && file.ProcessVariables.error.code === '0') {
 
-  //               if (file.Error === '0' && file.ProcessVariables.error.code === '0') {
+                  if (file.ProcessVariables.documentIds && file.ProcessVariables.documentIds.length > 0) {
+                    this.docsDetails.documentId = file.ProcessVariables.documentIds[0];
+                    this.isDocumentId = true;
+                  } else {
+                    this.isDocumentId = false;
+                  }
+                }
+              })
 
-  //                 if (file.ProcessVariables.documentIds && file.ProcessVariables.documentIds.length > 0) {
-  //                   this.docsDetails.documentId = file.ProcessVariables.documentIds[0];
-  //                   this.isDocumentId = true;
-  //                 } else {
-  //                   this.isDocumentId = false;
-  //                 }
-  //               }
-  //             })
+            })
 
-  //           })
-
-  //     });
-  // }
+      });
+  }
 
 }
