@@ -41,6 +41,8 @@ docsDetails: DocRequest
 isPreDisbursement: any;
 isPreDone: any;
 
+isDocumentId: boolean;
+
   constructor(
         private labelsData: LabelsService,
         private router: Router,
@@ -286,7 +288,7 @@ downloadpdf()
             docTypCd: 68,
             docsType: "png/jpg/jpeg/pdf/tiff/xlsx/xls/docx/doc/zip",
             docsTypeForString: "",
-            documentId: 0,
+            documentId: this.isDocumentId ? this.docsDetails.documentId : 0,
             documentNumber: `SD${this.leadId}`,
             expiryDate: "",
             formArrayIndex: 0,
@@ -327,7 +329,7 @@ downloadpdf()
         (value) => {
           console.log("Response upload",value)
           html2pdf().from(document.getElementById("vf_sheet_print_starts")).set(options).save();
-          const documentDetails: DocumentDetails = {
+          let documentDetails: DocumentDetails = {
             documentId: this.docsDetails.documentId,
             documentType: String(this.docsDetails.docTypCd),
             documentName: String(this.docsDetails.docTypCd),
@@ -351,6 +353,22 @@ downloadpdf()
               ) || '',
             isDeferred: this.docsDetails.isDeferred,
           };
+
+          console.log(this.isDocumentId, 'document Details', this.docsDetails.documentId)
+
+          this.uploadService.saveOrUpdateDocument([documentDetails]).subscribe((file: any) => {
+            console.log('file', file)
+
+            if (file.Error === '0' && file.ProcessVariables.error.code === '0') {
+
+              if (file.ProcessVariables.documentIds && file.ProcessVariables.documentIds.length > 0) {
+                this.docsDetails.documentId = file.ProcessVariables.documentIds[0];
+                this.isDocumentId = true;
+              } else {
+                this.isDocumentId = false;
+              }
+            }
+          })
 
         })       
 
