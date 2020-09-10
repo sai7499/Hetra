@@ -135,13 +135,11 @@ export class TermSheetComponent implements OnInit {
         this.toasterService.showSuccess("Record Assigned Successfuly", '');
         this.router.navigateByUrl("/pages/dashboard");
 
-      }else{
-        if(this.roleType == '2' && !this.isApprove){
+      }else if(this.roleType == '2' && !this.isApprove){
           this.toasterService.showSuccess(res['ProcessVariables'].error['message'], '');
-
+        }else {
+          this.toasterService.showSuccess(res['ProcessVariables'].error['message'], '');
         }
-
-      }
     })
   }
   async ngOnInit() {
