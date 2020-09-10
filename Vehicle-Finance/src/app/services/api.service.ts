@@ -415,6 +415,11 @@ export class ApiService {
       workflowId: '6a6dec02d7a711eabfa200505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
+    getTriggerWaiverNorms: {
+      processId: '2c38d6b0f20311ea8e0700505695f93b',
+      workflowId: '2c1225cef20311eaa59400505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
     saveorUpdateDeviation: {
       processId: '0e3ffa76b13f11ea86b8f2fa9bec3d63',
       workflowId: '0e10bb58b13f11ea86b8f2fa9bec3d63',
