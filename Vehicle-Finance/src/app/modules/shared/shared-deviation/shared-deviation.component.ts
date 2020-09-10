@@ -87,15 +87,31 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       this.locationIndex = this.getLocationIndex(url);
     });
 
-
     this.getDeviationMaster();
 
     this.sharedService.taskId$.subscribe((id) => {
       this.taskId = id ? id : '';
     })
-    // this.isApproveDeviation()
-    // is_pred_done
-    console.log()
+
+    if (this.locationIndex === 'credit-decisions') {
+      if (localStorage.getItem('salesResponse') === 'false' || localStorage.getItem('is_pred_done') === 'true') {
+        this.deviationsForm.disable();
+      }
+
+      if (localStorage.getItem('salesResponse') === 'true' && localStorage.getItem('is_pred_done') === 'false' &&
+        localStorage.getItem('isPreDisbursement') === 'false') {
+        this.isSendBacktoCredit = true;
+        this.isZero = true;
+      }
+
+      if (localStorage.getItem('salesResponse') === 'true' && localStorage.getItem('is_pred_done') === 'false' &&
+        localStorage.getItem('isPreDisbursement') === 'true') {
+        this.isZero = false;
+        this.deviationsForm.disable();
+      }
+
+    }
+
   }
 
   initForms() {
@@ -106,6 +122,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       enableApprove: false,
       enableSendBack: false,
       autoDeviationFormArray: this._fb.array([]),
+      waiverNormsFormArray: this._fb.array([]),
       manualDeviationFormArray: this._fb.array([this.getManualDeviations()])
     })
 
@@ -192,19 +209,15 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     if (url.includes('dde')) {
       this.isSubmitToCredit = false;
       this.isSendBacktoCredit = false;
-      return 'lead-section';
+      return 'dde';
     } else if (url.includes('credit-decisions')) {
       this.isSubmitToCredit = true;
-      if (!localStorage.getItem('salesResponse') || localStorage.getItem('is_pred_done')) {
-        this.deviationsForm.disable()
-      } 
-      if (localStorage.getItem('salesResponse') && !localStorage.getItem('is_pred_done')) {
-        this.isSendBacktoCredit = true;
-      }
-      return 'sales';
+      this.isSendBacktoCredit = true;
+      return 'credit-decisions';
     } else if (url.includes('deviation-dashboard')) {
       this.isSubmitToCredit = true;
       this.isSendBacktoCredit = false;
+      return 'deviation-dashboard';
     }
   }
 
@@ -396,6 +409,25 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     }, err => {
       this.toasterService.showError(err, 'Auto Deviation')
     })
+  }
+
+  getTriggerWaiverNorms() {
+
+    const data = {
+      leadId: this.leadId,
+      userId: this.userId,
+      productCategory: this.productCatoryCode
+    }
+
+    this.deviationService.getTriggerWaiverNorms(data).subscribe((res: any) => {
+      if (res.Error === '0' && res.ProcessVariables.error.code === "0") {
+        this.getDeviationDetails();
+      } else {
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Waiver Norms')
+      }
+    }, err => {
+      this.toasterService.showError(err, 'Waiver Norms')
+    })
 
   }
 
@@ -404,6 +436,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     let autoDeviationFormArray = (this.deviationsForm.get('autoDeviationFormArray') as FormArray);
 
     let manualDiviationFormArray = (this.deviationsForm.get('manualDeviationFormArray') as FormArray);
+
+    let waiverNormsFormArray = (this.deviationsForm.get('waiverNormsFormArray') as FormArray);
 
     manualDiviationFormArray.controls = [];
     autoDeviationFormArray.controls = [];
@@ -429,9 +463,9 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       let type = typeofRole ? Number(typeofRole.type) : 0;
       let hierarchy = typeofRole ? typeofRole.hierarchy : 0;
 
-      if (data.isManualDev === '1') {
+      if (data.isWaiverNormsDev !== null && data.isWaiverNormsDev) {
 
-        manualDiviationFormArray.push(
+        waiverNormsFormArray.push(
           this._fb.group({
             approverRole: data.approverRole,
             approverRoleName: data.approverRoleName,
@@ -441,26 +475,47 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             devRuleId: data.devRuleId,
             isManualDev: data.isManualDev,
             hierarchy: hierarchy,
+            isWaiverNormsDev: data.isWaiverNormsDev,
             justification: data.justification,
             shortDeDesc: data.short_dev_desc,
             statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= (this.hierarchy)) }]
           }))
-      } else if (data.isManualDev === '0') {
+      } else if (data.isWaiverNormsDev === null || data.isWaiverNormsDev === false) {
+        if (data.isManualDev === '1') {
 
-        autoDeviationFormArray.push(
-          this._fb.group({
-            approverRole: data.approverRole,
-            approverRoleName: data.approverRoleName,
-            devCode: data.devCode,
-            devDesc: data.devDesc,
-            devRuleId: data.devRuleId,
-            isManualDev: data.isManualDev,
-            shortDeDesc: data.short_dev_desc,
-            type: type,
-            hierarchy: hierarchy,
-            justification: data.justification,
-            statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
-          }))
+          manualDiviationFormArray.push(
+            this._fb.group({
+              approverRole: data.approverRole,
+              approverRoleName: data.approverRoleName,
+              devCode: data.devCode,
+              devDesc: data.devDesc,
+              type: type,
+              devRuleId: data.devRuleId,
+              isManualDev: data.isManualDev,
+              hierarchy: hierarchy,
+              justification: data.justification,
+              isWaiverNormsDev: data.isWaiverNormsDev,
+              shortDeDesc: data.short_dev_desc,
+              statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= (this.hierarchy)) }]
+            }))
+        } else if (data.isManualDev === '0') {
+
+          autoDeviationFormArray.push(
+            this._fb.group({
+              approverRole: data.approverRole,
+              approverRoleName: data.approverRoleName,
+              devCode: data.devCode,
+              devDesc: data.devDesc,
+              devRuleId: data.devRuleId,
+              isManualDev: data.isManualDev,
+              shortDeDesc: data.short_dev_desc,
+              type: type,
+              isWaiverNormsDev: data.isWaiverNormsDev,
+              hierarchy: hierarchy,
+              justification: data.justification,
+              statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
+            }))
+        }
       }
     })
 

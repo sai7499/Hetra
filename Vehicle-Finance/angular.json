@@ -35,10 +35,10 @@
               "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
               "node_modules/font-awesome/css/font-awesome.min.css"
        
-            ],
+            ],  
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js"
-            ]
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jspdf/dist/jspdf.min.js"        ]
           },
           "configurations": {
             "production": {

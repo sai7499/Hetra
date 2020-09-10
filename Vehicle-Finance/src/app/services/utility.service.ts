@@ -35,6 +35,7 @@ export class UtilityService {
     localStorage.removeItem('outputUsers');
     localStorage.removeItem('currentUrl');
     localStorage.removeItem('is_pred_done');
+    localStorage.removeItem('isPreDisbursement');
     this.dashboardService.routingData = '';
     this.toggleDdeService.clearToggleData();
     console.clear();

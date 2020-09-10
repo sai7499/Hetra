@@ -27,6 +27,8 @@ export class CheckListComponent implements OnInit {
   roleType: any;
   coAnswerFlag = true;
   cpcMakerFlag = true;
+  salesResponse: any;
+  isPreDone: any;
   constructor(
     private commonLovService: CommomLovService,
     private checkListService: ChecklistService,
@@ -69,6 +71,8 @@ export class CheckListComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.salesResponse = localStorage.getItem('salesResponse');
+    this.isPreDone = localStorage.getItem('is_pred_done');
     this.commonLovService.getLovData().subscribe((res: any) => {
       console.log(res, 'cmn lov service');
       this.checklistObject = res.LOVS.checklistans;
@@ -214,11 +218,15 @@ export class CheckListComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (res.ProcessVariables.error.code == '0') {
        this.toasterService.showSuccess('Record Saved Successfully', ' ');
-       
-       if(btnType == 'submitTocpc'){
-        this.submitTocpc();
-       }else{
-        this.getCheckList(); 
+
+       // tslint:disable-next-line: triple-equals
+       if (btnType == 'submitTocpc') {
+        this.submitTocpc('submitTocpc');
+       // tslint:disable-next-line: triple-equals
+       } else if (btnType == 'bcm') {
+       this.submitTocpc('bcm');
+       } else {
+        this.getCheckList();
        }
      } else {
        this.toasterService.showError(res.ProcessVariables.error.message, '');
@@ -260,14 +268,15 @@ export class CheckListComponent implements OnInit {
 
   }
 
-  submitTocpc() {
+  submitTocpc(data: string) {
+    const verifyString = data;
     if ( this.checklistForm.invalid) {
       console.log(this.checklistForm);
       this.toasterService.showError('Select Mandatory Fields', 'Save Checklist ');
       return ;
     }
     // tslint:disable-next-line: triple-equals
-    if (this.roleType == '2') {
+    if (this.roleType == '2' && verifyString == 'bcm') {
       const body = {
         leadId: this.leadId,
         userId: localStorage.getItem('userId'),
@@ -285,7 +294,26 @@ export class CheckListComponent implements OnInit {
      }
         });
     // tslint:disable-next-line: triple-equals
-    } else if (this.roleType == '4') {
+    } else if (this.roleType == '2' && verifyString == 'submitTocpc') {
+      const body = {
+        leadId: this.leadId,
+        userId: localStorage.getItem('userId'),
+        isCPCMaker: true,
+        isCPCChecker: false,
+        sendBackToCredit: false
+        };
+      this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
+        // tslint:disable-next-line: triple-equals
+        if (res.ProcessVariables.error.code == '0') {
+          this.toasterService.showSuccess('Record Saved Successfully', '');
+          this.router.navigate([`pages/dashboard`]);
+        } else {
+          this.toasterService.showError(res.ProcessVariables.error.message, '');
+        }
+
+        });
+    // tslint:disable-next-line: triple-equals
+    }  else if (this.roleType == '4') {
       const body = {
         leadId: this.leadId,
         userId: localStorage.getItem('userId'),
@@ -339,7 +367,7 @@ onNext()  {
 
 onBack() {
   // tslint:disable-next-line: triple-equals
-  if (this.roleType == '2') {
+  if (this.roleType == '2' ) {
     this.router.navigate([`pages/credit-decisions/${this.leadId}/sanction-details`]);
     // tslint:disable-next-line: triple-equals
     } else if (this.roleType == '4') {

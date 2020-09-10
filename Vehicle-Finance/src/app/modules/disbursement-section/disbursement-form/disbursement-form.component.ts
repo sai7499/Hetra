@@ -2744,7 +2744,8 @@ export class DisbursementFormComponent implements OnInit {
   if(this.roleType == '1') {
     this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/sanction-details`]);
   } else if (this.roleType == '2' ) {
-    this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/term-sheet`]);
+    // this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/term-sheet`]);
+    this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/cam`]);
   } else if( this.roleType == '4' ) {
     this.router.navigate([`pages/cpc-maker/${this.disbLeadId}/check-list`]);
   } else if(  this.roleType == '5') {
