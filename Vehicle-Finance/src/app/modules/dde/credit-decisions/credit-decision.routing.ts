@@ -14,6 +14,7 @@ import { DisbursementFormComponent } from '@modules/disbursement-section/disburs
 import { CamComponent } from '../cam/cam.component';
 import { DeviationComponent } from '@modules/dashboard/deviation/deviation.component';
 import { DeviationsComponent } from '../deviations/deviations.component';
+
 const routes: Routes = [
     {
         path: ':leadId',
