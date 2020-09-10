@@ -43,7 +43,7 @@
                     </td>
                     <td [attr.data-label]="label?.action" data-title="Action">
 
-                        <a (click)="roleType === 1 ? editVehicle(item.collateralId) : onEditVehicleDetails(item.collateralId)"
+                        <a (click)="roleType === 1 ? editVehicle(item.collateralId) : onEditVehicleDetails(item.collateralId, item.eligibleLoanAmount)"
                             title="Edit collateral"><i class="fa fa-pencil cursor-pointer" aria-hidden="true"></i></a>
                         <a data-toggle="modal" data-target="#exampleModal"
                             (click)="softDeleteCollateral(i, item.collateralId, 'Collateral')"
@@ -59,7 +59,7 @@
         <div class="container controlWidth">
             <div class="btn-sec clear-both row">
                 <div class="col-sm-12 text-right">
-                    <button class="btn btn-primary" type="button"
+                    <button class="btn btn-color" type="button"
                         [routerLink]="['/pages/vehicle-details/' + leadId + '/additional-collateral-details']">
                         {{label?.addAdditionalCollaterals}} </button>
                 </div>

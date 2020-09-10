@@ -66,7 +66,7 @@ export class CreditDecisionComponent implements OnInit {
         // });
         if (this.roleType == '2' && this.salesResponse == 'false') {
             this.router.navigate([`/pages/credit-decisions/${this.leadId}/cam`]);
-        } else if (this.roleType == '2' && this.istermSheet  ) {
+        } else if (this.roleType == '2' && this.istermSheet == 'true' ) {
             this.router.navigate([`/pages/credit-decisions/${this.leadId}/new-term-sheet`]);
         } else if (this.roleType == '2' && this.salesResponse == 'true') {
             this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);

@@ -12,6 +12,11 @@ h3.dedupe_head {
     margin: 15px 0;
 }
 
+.btn-color {
+    color: #fff;
+    background-color: #1d1a4b;
+    border-color: #161338;
+}
 
 /* footer */
 

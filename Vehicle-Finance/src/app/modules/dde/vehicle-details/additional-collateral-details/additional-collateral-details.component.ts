@@ -109,10 +109,10 @@ export class AdditionalCollateralComponent implements OnInit {
             landInAcres: ['', Validators.required],
             propertyOwner: ['', Validators.required],
             relationWithApplicant: ['', Validators.required],
-            marketValue: ['', Validators.required],
-            totalMarketValue: ['', Validators.required],
-            guideLineValue: ['', Validators.required],
-            totalGuideLineValue: ['', Validators.required]
+            marketValue: [null, Validators.required],
+            totalMarketValue: [null, Validators.required],
+            guideLineValue: [null, Validators.required],
+            totalGuideLineValue: [null]
         }))
 
     }
@@ -123,7 +123,7 @@ export class AdditionalCollateralComponent implements OnInit {
         formArray.push(this._fb.group({
             fdAccountNo: ['', Validators.required],
             propertyOwner: ['', Validators.required],
-            totalMarketValue: ['', Validators.required],
+            totalMarketValue: [null, Validators.required],
             relationWithApplicant: ['', Validators.required]
         }))
     }
@@ -132,10 +132,10 @@ export class AdditionalCollateralComponent implements OnInit {
         const formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
         formArray.clear();
         formArray.push(this._fb.group({
-            goldInGrams: ['', Validators.required],
-            currentValuePerGram: ['', Validators.required],
-            totalMarketValue: ['', Validators.required],
-            purity: ['', Validators.required],
+            goldInGrams: [null, Validators.required],
+            currentValuePerGram: [null, Validators.required],
+            totalMarketValue: [null],
+            purity: [null, Validators.required],
             propertyOwner: ['', Validators.required],
             relationWithApplicant: ['', Validators.required]
         }))
@@ -149,12 +149,12 @@ export class AdditionalCollateralComponent implements OnInit {
             propertyAddress: ['', Validators.required],
             propertyOwner: ['', Validators.required],
             relationWithApplicant: ['', Validators.required],
-            totalLandArea: ['', Validators.required],
-            totalBuiltUpArea: ['', Validators.required],
-            marketValue: ['', Validators.required],
-            totalMarketValue: ['', Validators.required],
-            guideLineValue: ['', Validators.required],
-            totalGuideLineValue: ['', Validators.required],
+            totalLandArea: [null, Validators.required],
+            totalBuiltUpArea: [null, Validators.required],
+            marketValue: [null, Validators.required],
+            totalMarketValue: [null, Validators.required],
+            guideLineValue: [null, Validators.required],
+            totalGuideLineValue: [null],
         }))
     }
 
@@ -229,6 +229,14 @@ export class AdditionalCollateralComponent implements OnInit {
             additionalCollaterals['proofName'] = form.value.proofName;
             additionalCollaterals['proofCollected'] = form.value.proofCollected;
             additionalCollaterals['propertyOwnership'] = form.value.propertyOwnership;
+
+            if (this.collateralType === 'GOLDADDCOLTYP') {
+                additionalCollaterals['totalMarketValue'] = additionalCollaterals['currentValuePerGram'] * additionalCollaterals['goldInGrams']
+            } else if (this.collateralType === 'AGRIADDCOLTYP' || this.collateralType === 'PROPADDCOLTYP') {
+                additionalCollaterals['totalGuideLineValue'] = additionalCollaterals['totalMarketValue'] * additionalCollaterals['guideLineValue']
+            } 
+
+            console.log(additionalCollaterals, 'co')
 
             const data = {
                 "userId": this.userId,
