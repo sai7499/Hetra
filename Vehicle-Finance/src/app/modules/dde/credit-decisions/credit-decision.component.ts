@@ -64,13 +64,13 @@ export class CreditDecisionComponent implements OnInit {
         //     console.log('applicant ID', value.applicantId);
         //     console.log('version in fi and pd report', this.version);
         // });
-        if (this.roleType == '2' && this.salesResponse == 'false') {
-            this.router.navigate([`/pages/credit-decisions/${this.leadId}/cam`]);
-        } else if (this.roleType == '2' && this.istermSheet == 'true' ) {
-            this.router.navigate([`/pages/credit-decisions/${this.leadId}/new-term-sheet`]);
-        } else if (this.roleType == '2' && this.salesResponse == 'true') {
-            this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
-        }
+        // if (this.roleType == '2' && this.salesResponse == 'false') {
+        //     this.router.navigate([`/pages/credit-decisions/${this.leadId}/cam`]);
+        // } else if (this.roleType == '2' && this.istermSheet  ) {
+        //     this.router.navigate([`/pages/credit-decisions/${this.leadId}/new-term-sheet`]);
+        // } else if (this.roleType == '2' && this.salesResponse == 'true') {
+        //     this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
+        // }
     }
     onNavigate(url: string) {
         this.router.navigate([`/pages/credit-decisions/${this.leadId}/${url}`]);

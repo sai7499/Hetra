@@ -116,4 +116,18 @@ export class CreditConditionService {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
+  rejectCreditCondition(data){
+    const processData = data;
+    const processId = this.apiService.api.rejectCreditCondition.processId;
+    const workflowId = this.apiService.api.rejectCreditCondition.workflowId;
+    const projectId = environment.projectIds.submitToCredit;
+    const body: RequestEntity = {
+      processId: processId,
+      ProcessVariables: processData,
+      workflowId: workflowId,
+      projectId: projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
 }

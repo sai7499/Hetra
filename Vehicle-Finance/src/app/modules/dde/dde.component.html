@@ -40,7 +40,7 @@
               [routerLink]="['./psl-data']" [ngClass]="{ 'js-active': locationIndex >= 6 }">
               PSL Data
             </button>
-            <button class="multisteps-form__progress-btn first-row" type="button" id="credit_vehicle_valuation"
+            <button *ngIf="productCatCode != 'NCV'" class="multisteps-form__progress-btn first-row" type="button" id="credit_vehicle_valuation"
               [routerLink]="['./vehicle-valuation']" [ngClass]="{ 'js-active': locationIndex >= 7 }">
               Vehicle Valuation
             </button>
@@ -66,7 +66,7 @@
             <button class="multisteps-form__progress-btn second-row" type="button" id="pd-report"
               [routerLink]="['./pd-list']" [ngClass]="{ 'js-active': locationIndex >= 10 }"
               *ngIf="fiCumPdStatus == true">
-              Fi Cum PD Report
+              FI Cum PD Report
             </button>
 
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_vehicle_viability"

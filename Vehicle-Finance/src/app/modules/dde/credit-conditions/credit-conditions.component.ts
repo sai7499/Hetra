@@ -44,6 +44,7 @@ export class CreditConditionsComponent implements OnInit {
   isApproveEnable: boolean;
   isDeclineEnable: boolean;
   isRejectEnable: boolean;
+  selectAction;
   roleType: any;
   salesResponse = 'false';
   constructor(
@@ -165,17 +166,13 @@ export class CreditConditionsComponent implements OnInit {
       this.isApproveEnable = res['ProcessVariables']['isApproveEnable'];
       this.isDeclineEnable = res['ProcessVariables']['isDeclineEnable'];
       this.isRejectEnable = res['ProcessVariables']['isRejectEnable'];
-     
+      this.roleList = res['ProcessVariables']['roleList'];
       if (res['ProcessVariables'].error['code'] == "0" && res['ProcessVariables'].creditConditions != null) {
         const creditConditions:Array<dataObject> = res['ProcessVariables'].creditConditions;
         this.creditConditions = res['ProcessVariables'].creditConditions;
-        this.roleList = res['ProcessVariables']['roleList'];
        
           this.disableControl = false;
-       console.log("disable control",this.disableControl)
-
         for (let i = 0; i < creditConditions.length; i++) {
-
       //    this.formArr.push(this.getcreditConditionControls())
           creditConditions[i]['defferedDate'] = creditConditions[i]['defferedDate'] ? this.getDateFormat(creditConditions[i]['defferedDate']) : null;
           this.formArr.push(this.getcreditConditionControls(creditConditions[i]))
@@ -265,6 +262,8 @@ export class CreditConditionsComponent implements OnInit {
               this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/deviations')
             }else if(data == 'back' && this.userType == 2 && this.salesResponse == 'false' ){
               this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/deviations')
+            }else if(data == 'back' && this.userType == 1){
+              this.router.navigate([`pages/dashboard`]);
             }
           }else {
             this.toasterService.showError(res['ProcessVariables'].error['message'], '');
@@ -299,6 +298,27 @@ export class CreditConditionsComponent implements OnInit {
         this.toasterService.showSuccess("Record Submitted successfully!", '')
       }
     })
+  }
+  // selectedEvent(data){
+  //   this.selectAction = data;
+  // }
+  rejectCreditiCondition(){
+    let processData = {};
+  
+      processData["roleId"] =this.referForm.value['roleId'];
+      processData["userId"]= this.userId;
+      processData["leadId"]= this.leadId;
+        this.creditConditionService.rejectCreditCondition(processData).subscribe(res=> {
+        console.log(res);
+        if(res['ProcessVariables'].error['code'] == 0){
+          this.toasterService.showSuccess("Record Rejected successfully!", '');
+          this.router.navigate([`pages/dashboard`]);
+        }else{
+          this.toasterService.showError(res['ProcessVariables'].error['message'], '')
+  
+        }
+      })
+    
   }
   creditConditionActions(data){
     let processData = {};

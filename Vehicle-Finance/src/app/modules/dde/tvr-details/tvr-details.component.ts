@@ -3,6 +3,7 @@ import { LabelsService } from '@services/labels.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TvrDetailsService } from '@services/tvr/tvr-details.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 @Component({
   selector: 'app-tvr-details',
@@ -19,12 +20,16 @@ export class TvrDetailsComponent implements OnInit {
   applicantId;
   fiCumPdStatusString: string;
   fiCumPdStatus: boolean;
+  productCatCode: string;
+
   constructor(
     private labelDetails: LabelsService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private tvrService: TvrDetailsService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private createLeadDataService: CreateLeadDataService,
+
   ) { }
 
   async ngOnInit() {
@@ -43,6 +48,7 @@ export class TvrDetailsComponent implements OnInit {
     this.leadId = (await this.getLeadId()) as number;
     console.log(this.leadId);
     this.getTvrDetailsList();
+    this.getLeadSectiondata();
   }
 
   getLeadId() {
@@ -75,9 +81,21 @@ export class TvrDetailsComponent implements OnInit {
     this.router.navigateByUrl(`pages/tvr-details/${leadId}/tele-verification-form/${applicantType}/${applicantId}`);
   }
 
+  //GET LEAD SECTION DATA
+  getLeadSectiondata() {
+    const leadData = this.createLeadDataService.getLeadSectionData();
+    this.productCatCode = leadData['leadDetails'].productCatCode;
+    console.log("PRODUCT_CODE::", this.productCatCode);
+  }
+
   onBack() {
-    this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-valuation']);
-    this.sharedService.getTvrDetailsPrevious(true);
+    if(this.productCatCode != 'NCV') {
+      this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-valuation']);
+      this.sharedService.getTvrDetailsPrevious(true);
+    } else if(this.productCatCode == 'NCV') {
+      this.router.navigate(['pages/dde/' + this.leadId + '/psl-data']);
+      this.sharedService.getTvrDetailsPrevious(true);
+    }
   }
 
   onNext() {
