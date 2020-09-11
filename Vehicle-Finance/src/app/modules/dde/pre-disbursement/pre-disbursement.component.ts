@@ -33,7 +33,7 @@ export class PreDisbursementComponent implements OnInit {
         this.salesResponse = localStorage.getItem('salesResponse');
         this.istermSheet = localStorage.getItem('istermSheet');
         const button = document.getElementById('checklist_identity_details');
-        
+
         const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
         this.userId = roleAndUserDetails.userDetails.userId;
         this.roles = roleAndUserDetails.roles;
@@ -64,10 +64,12 @@ export class PreDisbursementComponent implements OnInit {
             this.router.navigate([`/pages/pre-disbursement/${this.leadId}/${url}`]);
         }
     getLocationIndex(url: string) {
-        if (url.includes('term-sheet') && this.roleType == '1') {
+        if (url.includes('credit-condition')) {
             return 0;
-        } else if (url.includes('sanction-details')) {
+        } else if (url.includes('term-sheet')) {
             return 1;
+        } else if (url.includes('sanction-details')) {
+            return 2;
         }
     }
 }
