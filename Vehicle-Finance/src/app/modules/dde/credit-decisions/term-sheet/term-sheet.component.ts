@@ -127,10 +127,11 @@ export class TermSheetComponent implements OnInit {
         this.assetLoanDetails = res['ProcessVariables'].assetLoanDetails;
         this.coAppIndentityDetails = res['ProcessVariables'].coAppIndentityDetails;
         this.guaIdentityDetails = res['ProcessVariables'].guaIdentityDetails;
+        setTimeout(() => {
         if (isUpload == 'isUpload'){
           this.uploadDoc();
         }
-
+      });
       } else {
         this.isTermSheet = res['ProcessVariables'].isGenerated;
         this.toasterService.showError(res['ProcessVariables'].error['message'], '');
@@ -191,7 +192,7 @@ export class TermSheetComponent implements OnInit {
     // this.router.navigate([`/pages/credit-decisions/${this.leadId}/check-list`]);
     if (this.roleType == '2') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/sanction-details`]);
-    } else if (this.roleType == '1' && localStorage.getItem('isPreDisbursement') == "true") {
+    } else if (this.roleType == '1' && localStorage.getItem('is_pred_done') == "true") {
       this.router.navigate([`pages/pre-disbursement/${this.leadId}/sanction-details`]);
     }
     else if (this.roleType == '1') {
@@ -206,7 +207,7 @@ export class TermSheetComponent implements OnInit {
   }
 
   onBack() {
-    if (this.roleType == '1' && localStorage.getItem('isPreDisbursement') == "true") {
+    if (this.roleType == '1' && localStorage.getItem('is_pred_done') == "true") {
       this.router.navigate([`pages/pre-disbursement/${this.leadId}/credit-condition`]);
     } else if (this.roleType == '2') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/credit-condition`]);
