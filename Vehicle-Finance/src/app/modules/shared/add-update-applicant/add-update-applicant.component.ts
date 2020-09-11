@@ -14,6 +14,10 @@ import { ApplicantService } from '@services/applicant.service';
 import { formatDate, Location } from '@angular/common';
 
 import { ViewChild, ElementRef, } from '@angular/core';
+import { Plugins } from '@capacitor/core';
+
+const { Modals } = Plugins;
+
 
 import {
   Applicant,
@@ -2380,7 +2384,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           //   that.isAlertSuccess = true;
           // }, 1500);
   
-          alert("e-KYC successful");
+          // alert("e-KYC successful");
+
+          let alertRet = Modals.alert({
+            title: 'Success',
+            message: "e-KYC Successful"
+          });
           that.toasterService.showSuccess(
             "e-KYC Successful",
             'eKYC Success'
@@ -2393,7 +2402,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           // setTimeout(() => {
           //   that.isAlertDanger = true;
           // }, 1500);
-          alert(processVariables.error.message);
+          // alert(processVariables.error.message);
+
+          let alertRet = Modals.alert({
+            title: 'Failure',
+            message: "processVariables.error.message"
+          });
   
           that.toasterService.showError(
             processVariables.error.message,
