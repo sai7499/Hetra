@@ -8,9 +8,18 @@
           <div class="table-responsive application" *ngIf="usedCar">
             <table id="POITable" border="1" class="table">
               <caption class="caption">
-                {{
+                <div class="income-row">
+                  <div class="col-md-10">
+                    <span class="caption">{{ labels?.businessIncomeDetailsTitle }}</span>
+                  </div>
+                  <div class="col-md-2 text-right">
+                    <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addBusinessIncomeUnit(null)"><i
+                        class="fa fa-plus fa-fw"></i> Add Row</button>
+                  </div>
+                  </div>
+                <!-- {{
                   labels?.businessIncomeDetailsTitle
-                }}
+                }} -->
               </caption>
               <thead>
                 <tr class="">
@@ -190,9 +199,10 @@
                         labels?.validationData?.amountValue?.maxLength
                       " [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                   </td>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
+
                   <td data-title="Actions" *ngIf="!disableSaveBtn">
+
                     <i
                       type="button"
                       class="fa fa-plus"
@@ -225,6 +235,12 @@
 >>>>>>> bd8471d1992081d3cb4b437064c2294083297d67
 =======
 >>>>>>> 90131548cf1071655f302f237add1ed2fa84adfd
+=======
+                    <!-- <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
+                      title="Add income" (click)="addBusinessIncomeUnit(null)"></i>&nbsp; -->
+                    <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
+                      title="Delete income" (click)="showBusinessIncome(i)"></i>
+>>>>>>> acefa28bce3328985791304524bc6aac7bd56d1a
                   </td>
                 </tr>
               </tbody>
@@ -240,9 +256,18 @@
           <div class="table-responsive application" *ngIf="NewOrUsedComercialVehicle" formArrayName="keyFinanceDetails">
             <table id="POITable" border="1" class="table">
               <caption class="caption">
-                {{
+                <div class="income-row">
+                  <div class="col-md-10">
+                    <span class="caption">{{ labels?.keyFinancialTitle }}</span>
+                  </div>
+                  <div class="col-md-2 text-right">
+                    <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addKeyFinancialDetails(null)"><i
+                        class="fa fa-plus fa-fw"></i> Add Row</button>
+                  </div>
+                  </div>
+                <!-- {{
                   labels?.keyFinancialTitle
-                }}
+                }} -->
               </caption>
               <tbody class="text-center" *ngFor="
                   let item of incomeDetailsForm.get('keyFinanceDetails')[
@@ -307,10 +332,10 @@
                     </app-custom-input>
                   </td>
                   <td data-title="Actions">
-                    <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
-                      title="Add income" (click)="addKeyFinancialDetails(null)"></i>&nbsp;
+                    <!-- <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
+                      title="Add income" (click)="addKeyFinancialDetails(null)"></i>&nbsp; -->
                     <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
-                      title="Delete income" (click)="removeKeyFinancialDetails(i)"></i>
+                      title="Delete income" (click)="showKeyFinancial(i)"></i>
                   </td>
                 </tr>
 
@@ -349,6 +374,10 @@
                       [maxLength]="
                         labels?.validationData?.keyFinancialAmount?.maxLength
                       " [isDirty]="isDirty"></app-custom-input>
+                      <!-- <input type="text" [formControl]="
+                      item.controls.yearOne.controls.shareCapital
+                    " [placeholder]="'Share Capital'" 
+                     > -->
                   </td>
                   <td>
                     <app-custom-input [formControl]="
@@ -736,54 +765,24 @@
                 <tr>
                   <td class="bank_name">{{ labels?.dateOfItrFiling }}</td>
                   <td>
-                    <!-- <app-custom-input
-                      [formControl]="
-                        item.controls.yearOne.controls.dateOfItrFiling
-                      "
-                      [placeholder]="'dateOfItrFiling'"
-                      [type]="labels?.validationData?.keyFinancialAmount?.type"
-                      [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      "
-                      [isDirty]="isDirty"
-                    ></app-custom-input> -->
+                  
                     <kendo-datepicker class="form-control" [formControl]="
                     item.controls.yearOne.controls.dateOfItrFiling
-                  " [activeView]="'decade'" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="ITR Filing Date ">
+                  " [activeView]="'decade'" [format]="'dd/MM/yyyy'" [min]="yearOneMinDate" [max]="toDayDate" placeholder="ITR Filing Date ">
                     </kendo-datepicker>
                   </td>
                   <td>
-                    <!-- <app-custom-input
-                      [formControl]="
-                        item.controls.yearTwo.controls.dateOfItrFiling
-                      "
-                      [placeholder]="'dateOfItrFiling'"
-                      [type]="labels?.validationData?.keyFinancialAmount?.type"
-                      [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      "
-                      [isDirty]="isDirty"
-                    ></app-custom-input> -->
+                   
                     <kendo-datepicker class="form-control" [formControl]="
                     item.controls.yearTwo.controls.dateOfItrFiling
-                  " [activeView]="'decade'" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="ITR Filing Date ">
+                  " [activeView]="'decade'" [format]="'dd/MM/yyyy'" [min]="yearTwoMinDate" [max]="yearOneMinDate" placeholder="ITR Filing Date ">
                     </kendo-datepicker>
                   </td>
                   <td>
-                    <!-- <app-custom-input
-                      [formControl]="
-                        item.controls.yearThree.controls.dateOfItrFiling
-                      "
-                      [placeholder]="'dateOfItrFiling'"
-                      [type]="labels?.validationData?.keyFinancialAmount?.type"
-                      [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      "
-                      [isDirty]="isDirty"
-                    ></app-custom-input> -->
+                  
                     <kendo-datepicker class="form-control" [formControl]="
                     item.controls.yearThree.controls.dateOfItrFiling
-                  " [activeView]="'decade'" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="ITR Filing Date ">
+                  " [activeView]="'decade'" [format]="'dd/MM/yyyy'" [min]="yearThreeMinDate" [max]="yearTwoMinDate" placeholder="ITR Filing Date ">
                     </kendo-datepicker>
                   </td>
                 </tr>
@@ -793,9 +792,18 @@
           <div class="table-responsive application mt-3">
             <table id="POITable_other" border="1" class="table">
               <caption class="caption">
-                {{
+                <div class="income-row">
+                  <div class="col-md-10">
+                    <span class="caption">{{ labels?.otherIncomeDetailsTitle }}</span>
+                  </div>
+                  <div class="col-md-2 text-right">
+                    <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addOtherIncomeUnit(null)"><i
+                        class="fa fa-plus fa-fw"></i> Add Row</button>
+                  </div>
+                  </div>
+                <!-- {{
                   labels?.otherIncomeDetailsTitle
-                }}
+                }} -->
               </caption>
               <thead>
                 <tr class="">
@@ -946,6 +954,7 @@
                   <td data-title="Actions">
 =======
                   <td data-title="Actions" *ngIf="!disableSaveBtn">
+<<<<<<< HEAD
 >>>>>>> 90131548cf1071655f302f237add1ed2fa84adfd
                     <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
                       title="Add income" (click)="addOtherIncomeUnit(null)"></i>&nbsp;
@@ -955,6 +964,12 @@
 >>>>>>> bd8471d1992081d3cb4b437064c2294083297d67
 =======
 >>>>>>> 90131548cf1071655f302f237add1ed2fa84adfd
+=======
+                    <!-- <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
+                      title="Add income" (click)="addOtherIncomeUnit(null)"></i>&nbsp; -->
+                    <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
+                      title="Delete income" (click)="showOtherIncome(i)"></i>
+>>>>>>> acefa28bce3328985791304524bc6aac7bd56d1a
                   </td>
                 </tr>
               </tbody>
@@ -969,9 +984,18 @@
           <div class="table-responsive application mt-3">
             <table id="POITable_obligation" border="1" class="table">
               <caption class="caption">
-                {{
+                <div class="income-row">
+                  <div class="col-md-10">
+                    <span class="caption">{{ labels?.obligationDetailsTitle }}</span>
+                  </div>
+                  <div class="col-md-2 text-right">
+                    <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addObligationUnit(null)"><i
+                        class="fa fa-plus fa-fw"></i> Add Row</button>
+                  </div>
+                  </div>
+                <!-- {{
                   labels?.obligationDetailsTitle
-                }}
+                }} -->
               </caption>
               <thead>
                 <tr class="">
@@ -1208,6 +1232,7 @@
                       " [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                   </td>
                   <td data-title="Actions" *ngIf="!disableSaveBtn">
+<<<<<<< HEAD
                     <i
                       type="button"
                       class="fa fa-plus"
@@ -1234,6 +1259,12 @@
                     <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
                       title="Delete obligation" (click)="removeObligationIndex(i)"></i>
 
+=======
+                    <!-- <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
+                      title="Add obligation" (click)="addObligationUnit(null)"></i>&nbsp; -->
+                    <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
+                      title="Delete obligation" (click)="showObligationIncome(i)"></i>
+>>>>>>> acefa28bce3328985791304524bc6aac7bd56d1a
                   </td>
                 </tr>
               </tbody>
@@ -1246,14 +1277,14 @@
             </div>
           </div>
           <div class="table-responsive application mt-3 oblig p-0" *ngIf="usedCar">
-            <table id="POITable" border="1" class="table income_obli">
-              <tr>
+            <table id="POITable" border="0" class="table income_obli">
+              
                 <caption class="caption">
                   {{
                     labels?.incomeObligationSummaryTitle
                   }}
                 </caption>
-              </tr>
+              
 
               <tr>
                 <td>{{ labels?.totalMonthlySalaryIncome }}</td>
@@ -1360,3 +1391,90 @@
     </div>
   </div>
 </form>
+
+<div id="overlay" *ngIf="isbusinessIncomeShow">
+  <div id="text">
+    <div class="panel">
+      <div class="panel-body">        
+        <button type="button" class="close" aria-label="Close" (click)="isbusinessIncomeShow = false" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="modal-dialog" >
+          <div class="modal-body" style="text-align:center;">
+            <p>{{errorMessage}}</p>
+            <div class="btn-wrap">
+              <button class="btn btn-success" (click)="removeBusinessIncomeIndex(rowIndex)">Yes</button>&nbsp;
+              <button class="btn btn-danger" (click)="isbusinessIncomeShow = false">No</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="overlay" *ngIf="isOtherIncomeShow">
+  <div id="text">
+    <div class="panel">
+      <div class="panel-body">        
+        <button type="button" class="close" aria-label="Close" (click)="isOtherIncomeShow = false" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="modal-dialog" >
+          <div class="modal-body" style="text-align:center;">
+            <p>{{errorMessage}}</p>
+            <div class="btn-wrap">
+              <button class="btn btn-success" (click)="removeOtherIncomeIndex(rowIndex)">Yes</button>&nbsp;
+              <button class="btn btn-danger" (click)="isOtherIncomeShow = false">No</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="overlay" *ngIf="isObligationIncomeShow">
+  <div id="text">
+    <div class="panel">
+      <div class="panel-body">        
+        <button type="button" class="close" aria-label="Close" (click)="isObligationIncomeShow = false" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="modal-dialog" >
+          <div class="modal-body" style="text-align:center;">
+            <p>{{errorMessage}}</p>
+            <div class="btn-wrap">
+              <button class="btn btn-success" (click)="removeObligationIndex(rowIndex)">Yes</button>&nbsp;
+              <button class="btn btn-danger" (click)="isObligationIncomeShow = false">No</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="overlay" *ngIf="isKeyFinancialShow">
+  <div id="text">
+    <div class="panel">
+      <div class="panel-body">        
+        <button type="button" class="close" aria-label="Close" (click)="isKeyFinancialShow = false" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="modal-dialog" >
+          <div class="modal-body" style="text-align:center;">
+            <p>{{errorMessage}}</p>
+            <div class="btn-wrap">
+              <button class="btn btn-success" (click)="removeKeyFinancialDetails(rowIndex)">Yes</button>&nbsp;
+              <button class="btn btn-danger" (click)="isKeyFinancialShow = false">No</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+

@@ -4,6 +4,7 @@ import { Router , ActivatedRoute} from '@angular/router';
 import { Location } from '@angular/common';
 import { LabelsService } from '@services/labels.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
     templateUrl: './bank-list.component.html',
@@ -21,7 +22,8 @@ export class BankListComponent {
                 private route: Router, private activatedRoute: ActivatedRoute,
                 private location: Location,
                 private labelsData: LabelsService,
-                private toggleDdeService: ToggleDdeService) { }
+                private toggleDdeService: ToggleDdeService,
+                private toasterService: ToasterService) { }
     // tslint:disable-next-line: use-lifecycle-interface
    async  ngOnInit() {
         this.userId = localStorage.getItem('userId');
@@ -38,8 +40,8 @@ export class BankListComponent {
         console.log(error);
       }
     );
-    const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1') {
+        const operationType = this.toggleDdeService.getOperationType();
+        if (operationType === '1') {
       this.disableAddbankDetailsBtn  = true;
     }
 
@@ -71,7 +73,7 @@ export class BankListComponent {
             formType: 'edit'
         };
         this.route.navigate([`pages/applicant-details/${this.leadId}/bank-details/${this.applicantId}`],
-         { queryParams: id, skipLocationChange: true  });
+         );
     }
     bankDetail() {
             this.route.navigateByUrl(`pages/applicant-details/${this.leadId}/bank-details/${this.applicantId}` );
@@ -90,7 +92,17 @@ export class BankListComponent {
      applicantId : this.applicantId,
       userId : this.userId
     };
-    this.bankService.deleteBankList(body).subscribe((res: any) => { console.log(res); });
+    this.bankService.deleteBankList(body).subscribe((res: any) => {
+      // tslint:disable-next-line: triple-equals
+      if (res.ProcessVariables.error.code == '0') {
+        this.toasterService.showSuccess('Record Saved Succesfully', '');
+        this.bankService.getBankList({ applicantId: this.applicantId }).subscribe((resVar: any) => {
+          this.bankDetails = resVar.ProcessVariables.applicantBankDetails;
+      });
+      } else {
+        this.toasterService.showWarning(res.ProcessVariables.error.message, '');
+      }
+     });
     }
 
 }

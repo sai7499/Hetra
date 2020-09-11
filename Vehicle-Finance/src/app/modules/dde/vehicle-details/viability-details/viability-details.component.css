@@ -36,6 +36,10 @@
     word-break: break-all;
 }
 
+.selfie_margin_l{
+    margin-left: -13px;
+}
+
 
 
 @media (min-width:200px) and (max-width:767px) {

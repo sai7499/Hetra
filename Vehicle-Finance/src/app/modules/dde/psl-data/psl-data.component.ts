@@ -51,7 +51,7 @@ export class PslDataComponent implements OnInit {
   pslCertificateValues: any = [];
   weakerSectionValues: any = [];
 
-  landAreaInAcresValue: number;
+  landAreaInAcresValue: any;
   pslLandHoldingChange: string;
   plsLandProofChange: any;
   farmerTypeValues: any = [];
@@ -66,24 +66,19 @@ export class PslDataComponent implements OnInit {
   isInvestmentInEquipment: boolean;
   isInvestmentInPlantMachinery: boolean;
   isGoosManufactured: boolean;
-
-  investmentInEquipmentValue: number;
-  investmentInPlantMachineryValue: number;
-
-  caRegistrationNumber: string = "";
-  nameOfCA: string;
-  nameOfCAFirm: string;
-  udinNo: number;
-  caCertifiedAmount: number;
-  otherInvestmentCost: number;
-  totalInvestmentCost: number;
-
   isDirty: boolean;
 
-  pslLandHolding: any = [
-    { key: 1, value: "Yes" },
-    { key: 0, value: "No" },
-  ];
+  // caRegistrationNumber: string;
+  // nameOfCA: string;
+  // nameOfCAFirm: string;
+  // udinNo: any;
+  // loanAmount: any;
+  // caCertifiedAmount: any;
+  otherInvestmentCost: any;
+  totalInvestmentCost: any;
+  investmentInEquipmentValue: any;
+  investmentInPlantMachineryValue: any;
+  pslLandHolding: any = [{ key: 1, value: "Yes" }, { key: 0, value: "No" }];
   businessActivity: any = [{ key: "Not Applicable", value: "Not Applicable" }];
 
   constructor(
@@ -168,14 +163,14 @@ export class PslDataComponent implements OnInit {
         typeOfService: ["", Validators.required],
         purposeOfLoan: ["", Validators.required],
         businessActivity: [{ value: "", disabled: true }],
-        loanAmount: [""],
+        // loanAmount: [""],
         proofOfInvestment: ["", Validators.required],
         // proofOfInvestmentUpload: [{ value: "", disabled: true }],
-        nameOfCA: [""],
-        nameOfCAFirm: [""],
-        caRegistrationNumber: [""],
-        udinNo: [""],
-        caCertifiedAmount: [""],
+        // nameOfCA: [""],
+        // nameOfCAFirm: [""],
+        // caRegistrationNumber: [""],
+        // udinNo: [""],
+        // caCertifiedAmount: [""],
         otherInvestmentCost: [""],
         totalInvestmentCost: [{ value: this.totalInvestmentCost, disabled: true }],
         investmentInEquipment: [""],
@@ -342,18 +337,18 @@ export class PslDataComponent implements OnInit {
         setTimeout(() => {
           this.proofOfInvestmentChange = this.pslData.proofOfInvestment;
           this.setValueForProofOfInvetment();
-          this.caRegistrationNumber = this.pslData.caRegistrationNumber;
+          // this.caRegistrationNumber = this.pslData.caRegistrationNumber;
           // this.caCertifiedAmount = this.pslData.caCertifiedAmount;
           // this.setValueForCaCertifiedAmount();
           this.otherInvestmentCost = this.pslData.otherInvestmentCost;
           this.setValueForOtherInvestmentCost();
           // this.totalInvestmentCost = this.pslData.totalInvestmentCost;
-          this.investmentInEquipmentValue = this.pslData.investmentInEquipment;
-          this.setValueForPslSubCategoryByInvestmentInEquipment();
-          if (this.investmentInEquipmentValue == 0) {
-            this.investmentInPlantMachineryValue = this.pslData.investmentInPlantAndMachinery;
-            this.setValueForPslSubCategoryByInvestmentInPlantAndMacinery();
-          }
+          // this.investmentInEquipmentValue = this.pslData.investmentInEquipment;
+          // this.setValueForPslSubCategoryByInvestmentInEquipment();
+          // if (this.investmentInEquipmentValue == 0) {
+          //   this.investmentInPlantMachineryValue = this.pslData.investmentInPlantAndMachinery;
+          //   this.setValueForPslSubCategoryByInvestmentInPlantAndMacinery();
+          // }
           this.pslDataForm.patchValue({
             activity: this.pslData.activity,
             microSmallAndMediumEnterprises: {
@@ -363,14 +358,14 @@ export class PslDataComponent implements OnInit {
               typeOfService: this.pslData.typeOfService,
               purposeOfLoan: this.pslData.purposeOfLoan,
               businessActivity: this.pslData.businessActivity,
-              loanAmount: this.pslData.loanAmount,
+              // loanAmount: this.pslData.loanAmount,
               proofOfInvestment: this.pslData.proofOfInvestment,
               // proofOfInvestmentUpload: this.pslData.proofOfInvestmentUpload,
-              nameOfCA: this.pslData.nameOfCA,
-              nameOfCAFirm: this.pslData.nameOfCAFirm,
-              caRegistrationNumber: this.pslData.caRegistrationNumber,
-              udinNo: this.pslData.udinNo,
-              caCertifiedAmount: this.pslData.caCertifiedAmount,
+              // nameOfCA: this.pslData.nameOfCA,
+              // nameOfCAFirm: this.pslData.nameOfCAFirm,
+              // caRegistrationNumber: this.pslData.caRegistrationNumber,
+              // udinNo: this.pslData.udinNo,
+              // caCertifiedAmount: this.pslData.caCertifiedAmount,
               otherInvestmentCost: this.pslData.otherInvestmentCost,
               totalInvestmentCost: this.pslData.totalInvestmentCost,
               investmentInEquipment: this.pslData.investmentInEquipment,
@@ -466,7 +461,7 @@ export class PslDataComponent implements OnInit {
       purposeOfLoan: "",
       landHolding: "",
       landOwner: "",
-      landArea: 0,
+      // landArea: 0,
       relationshipWithLandOwner: "",
       farmerType: "",
       landProof: "",
@@ -474,6 +469,7 @@ export class PslDataComponent implements OnInit {
       pslCCertificate: "",
       weakerSection: "",
     });
+    this.pslDataForm.get('agriculture.landArea').reset();
     this.pslDataForm.get('microSmallAndMediumEnterprises').patchValue({
       detailActivity: "",
       pslCategory: "",
@@ -481,13 +477,17 @@ export class PslDataComponent implements OnInit {
       goodsManufactured: "",
       typeOfService: "",
       proofOfInvestment: "",
-      otherInvestmentCost: 0,
-      totalInvestmentCost: 0,
-      investmentInEquipment: 0,
-      investmentInPlantAndMachinery: 0,
+      // otherInvestmentCost: 0,
+      // totalInvestmentCost: 0,
+      // investmentInEquipment: 0,
+      // investmentInPlantAndMachinery: 0,
       pslSubCategory: "",
       pslCCertificate: "",
     });
+    this.pslDataForm.get("microSmallAndMediumEnterprises.otherInvestmentCost").reset();
+    this.pslDataForm.get("microSmallAndMediumEnterprises.totalInvestmentCost").reset();
+    this.pslDataForm.get("microSmallAndMediumEnterprises.investmentInEquipment").reset();
+    this.pslDataForm.get("microSmallAndMediumEnterprises.investmentInPlantAndMachinery").reset();
   }
 
   // GET ALL LOV  FOR "DETAIL-ACIVITY DROPDOWN" WHICH IS BASED ON IT
@@ -497,7 +497,7 @@ export class PslDataComponent implements OnInit {
       purposeOfLoan: "",
       landHolding: "",
       landOwner: "",
-      landArea: 0,
+      // landArea: 0,
       relationshipWithLandOwner: "",
       farmerType: "",
       landProof: "",
@@ -505,18 +505,19 @@ export class PslDataComponent implements OnInit {
       pslCCertificate: "",
       weakerSection: "",
     });
+    this.pslDataForm.get("agriculture.landArea").reset();
     this.pslDataForm.get("microSmallAndMediumEnterprises").patchValue({
       purposeOfLoan: "",
       goodsManufactured: "",
       typeOfService: "",
       proofOfInvestment: "",
-      otherInvestmentCost: 0,
-      totalInvestmentCost: 0,
-      investmentInEquipment: 0,
-      investmentInPlantAndMachinery: 0,
       pslSubCategory: "",
       pslCCertificate: "",
     });
+    //WHEN DETAIL-ACTIVITY CHANGES RESET VALUES
+    this.pslDataForm.get("microSmallAndMediumEnterprises.otherInvestmentCost").reset();
+    this.pslDataForm.get("microSmallAndMediumEnterprises.totalInvestmentCost").reset();
+    //PSL_DEPENDENT_LOV_OPERATION_DETAIL-ACTIVITY
     this.pslDependentLOVSData.map((element) => {
       if (element.dltActivityId === this.detailActivityChange) {
         // console.log("RELATED_ENDUSE_NAME --", element.endUseName);
@@ -530,7 +531,8 @@ export class PslDataComponent implements OnInit {
     //If DETAIL_ACTIVITY AS ALLIED ACTIVITY
     if (this.detailActivityChange === "2PSLDTLACTVTY") {
       this.pslLandHolding = [{ key: 0, value: "No" }];
-      this.landAreaInAcresValue = 0;
+      // this.landAreaInAcresValue = 0;
+      this.pslDataForm.get("agriculture.landArea").reset();
       this.isLandHoldingYes = false; //When selected "Allied Activities" in Detail_Activity
       //IF_DETAILS-ACTIVITY-ALLIED ACTIVITIES--> AUTOMATICALLY PSLSUBCATEGORY AS OTHER-FARMER
       this.LOV.LOVS.pslSubCategory.filter((element) => {
@@ -606,7 +608,8 @@ export class PslDataComponent implements OnInit {
     // IF DETAIL-ACTIVITY AS "MANUFACTURING"
     if (this.detailActivityChange === "5PSLDTLACTVTY") {
       this.isInvestmentInPlantMachinery = true;
-      this.investmentInEquipmentValue = 0;
+      // this.investmentInEquipmentValue = 0;
+      this.pslDataForm.get("microSmallAndMediumEnterprises.investmentInEquipment").reset();
       this.LOV.LOVS.pslCategory.filter((element) => {
         if (element.key === "3PSLCAT") {
           this.pslCategoryData = [{ key: element.key, value: element.value }];
@@ -648,7 +651,8 @@ export class PslDataComponent implements OnInit {
       this.typeOfService = data;
       this.isGoosManufactured = false;
       this.isInvestmentInEquipment = true;
-      this.investmentInPlantMachineryValue = 0;
+      // this.investmentInPlantMachineryValue = 0;
+      this.pslDataForm.get("microSmallAndMediumEnterprises.investmentInPlantAndMachinery").reset();
       this.LOV.LOVS.pslCategory.filter((element) => {
         if (element.key === "2PSLCAT") {
           this.pslCategoryData = [{ key: element.key, value: element.value }];
@@ -716,7 +720,7 @@ export class PslDataComponent implements OnInit {
   // Change in PSL_SUBCATEGORY BASED UPON INPUT VALUE IN "LAND AREA IN ACRES"
   setValueForPslCategoryByLandArea() {
     this.weakerSectionValues = [];
-    if (this.landAreaInAcresValue <= 2 && this.landAreaInAcresValue != 0) {
+    if (this.landAreaInAcresValue <= 2.5 && this.landAreaInAcresValue != 0) {
       this.LOV.LOVS.pslSubCategory.filter((element) => {
         if (element.key === "1PSLSUBCAT") {
            this.pslSubCategoryData = [{ key: element.key, value: element.value }];
@@ -739,7 +743,7 @@ export class PslDataComponent implements OnInit {
         });
     }
     else if (
-      this.landAreaInAcresValue > 2 &&
+      this.landAreaInAcresValue > 2.5 &&
       this.landAreaInAcresValue <= 5
     ) {
       this.LOV.LOVS.pslSubCategory.filter((element) => {
@@ -828,15 +832,16 @@ export class PslDataComponent implements OnInit {
   }
 
   // CHANGE IN VALUE FOR "INVESTMENT IN EQUIPMENT"
-  onChangeInvestmentInEquipment(event: any) {
-    const investmentInEquipmentChange = event.target.value;
-    this.investmentInEquipmentValue = this.totalInvestmentCost;
-    // console.log("this.investmentInEquipmentValue", this.investmentInEquipmentValue);
-    this.setValueForPslSubCategoryByInvestmentInEquipment();
-  }
+  // onChangeInvestmentInEquipment(event: any) {
+  //   const investmentInEquipmentChange = event.target.value;
+  //   this.investmentInEquipmentValue = this.totalInvestmentCost;
+  //   // console.log("this.investmentInEquipmentValue", this.investmentInEquipmentValue);
+  //   this.setValueForPslSubCategoryByInvestmentInEquipment();
+  // }
 
   //Change in PSL_SUBCATEGORY BASED UPON INPUT VALUE IN "INVESTMENT IN EQUIPMENT"
   setValueForPslSubCategoryByInvestmentInEquipment() {
+    console.log("Investment_In_Equipment_Value::", this.investmentInEquipmentValue);
     if (this.investmentInEquipmentValue <= 1000000 && this.investmentInEquipmentValue != 0) {
       this.LOV.LOVS.pslSubCategory.filter((element) => {
         if (element.key === "4PSLSUBCAT") {
@@ -940,15 +945,16 @@ export class PslDataComponent implements OnInit {
   }
 
   // CHANGE IN VALUE OF INVESTMENT IN PLANT AND MACHINERY
-  onChangeInvestmentInPlantAndMachinery(event: any) {
-    const investmentInPlantMachineryChange = event.target.value;
-    this.investmentInPlantMachineryValue = this.totalInvestmentCost;
-    // console.log("this.investmentInPlantMachineryValue", this.investmentInPlantMachineryValue);
-    this.setValueForPslSubCategoryByInvestmentInPlantAndMacinery();
-  }
+  // onChangeInvestmentInPlantAndMachinery(event: any) {
+  //   const investmentInPlantMachineryChange = event.target.value;
+  //   this.investmentInPlantMachineryValue = this.totalInvestmentCost;
+  //   // console.log("this.investmentInPlantMachineryValue", this.investmentInPlantMachineryValue);
+  //   this.setValueForPslSubCategoryByInvestmentInPlantAndMacinery();
+  // }
 
   //Change in PSL_SUBCATEGORY BASED UPON INPUT VALUE IN "INVESTMENT IN PLANT AND MACHINERY"
   setValueForPslSubCategoryByInvestmentInPlantAndMacinery() {
+    console.log("Investment_In_Plant_And_Machinery_Value::", this.investmentInPlantMachineryValue);
     if (this.investmentInPlantMachineryValue <= 2500000 && this.investmentInPlantMachineryValue != 0) {
       this.LOV.LOVS.pslSubCategory.filter((element) => {
         if (element.key === "7PSLSUBCAT") {
@@ -1185,11 +1191,12 @@ export class PslDataComponent implements OnInit {
       relationshipWithLandOwner: "",
       landProof: "",
       farmerType: "",
-      landArea: 0,
+      // landArea: 0,
       pslSubCategory: "",
       pslCCertificate: "",
       weakerSection: "",
     });
+    this.pslDataForm.get("agriculture.landArea").reset();
     this.farmerTypeValues = [];
     this.weakerSectionValues = [];
     if (this.pslLandHoldingChange === "1") {
@@ -1248,7 +1255,8 @@ export class PslDataComponent implements OnInit {
         }
       }); 
       this.isLandHoldingYes = false;
-      this.landAreaInAcresValue = 0;
+      // this.landAreaInAcresValue = 0;
+      this.pslDataForm.get("agriculture.landArea").reset();
       this.plsLandProofChange = "";
       this.landOwnerChange = "";
       this.relationshipWithLandOwnerChange = "";
@@ -1337,7 +1345,19 @@ export class PslDataComponent implements OnInit {
   //SET VALUE FOR OTHER INVESTMENT COST
   setValueForOtherInvestmentCost() {
     if (this.otherInvestmentCost) {
+      console.log("OTHER_INVESTMENT_COST::", this.otherInvestmentCost);
       this.totalInvestmentCost = this.otherInvestmentCost;
+      console.log("TOTAL_INVESTMENT_COST::", this.totalInvestmentCost);
+      if(this.detailActivityChange === "6PSLDTLACTVTY") {
+        this.investmentInEquipmentValue = this.totalInvestmentCost;
+        this.setValueForPslSubCategoryByInvestmentInEquipment();
+        // console.log("INVESTMENT_IN_EQUIPMENT_VALUE::", this.investmentInEquipmentValue);
+      }
+      if(this.detailActivityChange === "5PSLDTLACTVTY") {
+        this.investmentInPlantMachineryValue = this.totalInvestmentCost;
+        this.setValueForPslSubCategoryByInvestmentInPlantAndMacinery();
+        // console.log("INVESTMENT_IN_PLANT_AND_MACHINERY_VALUE::", this.investmentInPlantMachineryValue);
+      }
     }
     // this.caCertifiedAmount = 0;
     // if (this.caCertifiedAmount && this.otherInvestmentCost) {
@@ -1409,7 +1429,7 @@ export class PslDataComponent implements OnInit {
   //   let totalInvestmentChange = event.target.value;
   //   this.totalInvestmentCost = this.otherInvestmentCost;
   //   if (this.caCertifiedAmount) {
-  //     this.totalInvestmentCost = +this.caCertifiedAmount;
+  //     this.totalInvestmentCost = this.caCertifiedAmount;
   //   } else 
   //   if (this.otherInvestmentCost) {
   //     this.totalInvestmentCost =  this.otherInvestmentCost;
@@ -1442,7 +1462,7 @@ export class PslDataComponent implements OnInit {
         leadId: this.leadId,
         pslData: {
           ...this.formValues,
-          landArea: Number(this.formValues.landArea),
+          // landArea: Number(this.formValues.landArea),
           // landHolding: Number(this.formValues.landHolding)
         },
       };
@@ -1480,13 +1500,13 @@ export class PslDataComponent implements OnInit {
         leadId: this.leadId,
         pslData: {
           ...this.formValues,
-          loanAmount: Number(this.formValues.loanAmount),
-          udinNo: Number(this.formValues.udinNo),
-          caCertifiedAmount: Number(this.formValues.caCertifiedAmount),
-          otherInvestmentCost: Number(this.formValues.otherInvestmentCost),
-          totalInvestmentCost: Number(this.formValues.totalInvestmentCost),
-          investmentInEquipment: Number(this.formValues.investmentInEquipment),
-          investmentInPlantAndMachinery: Number(this.formValues.investmentInPlantAndMachinery)
+          // loanAmount: Number(this.formValues.loanAmount),
+          // udinNo: Number(this.formValues.udinNo),
+          // caCertifiedAmount: Number(this.formValues.caCertifiedAmount),
+          // otherInvestmentCost: Number(this.formValues.otherInvestmentCost),
+          // totalInvestmentCost: Number(this.formValues.totalInvestmentCost),
+          // investmentInEquipment: Number(this.formValues.investmentInEquipment),
+          // investmentInPlantAndMachinery: Number(this.formValues.investmentInPlantAndMachinery)
         },
       };
 

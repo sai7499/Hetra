@@ -204,8 +204,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   applicantData = [];
   applicationRelationWithLead = [];
   showNotApplicant = false;
-  dedupeVaribales : any;
-  referenceAdharNo : string;
+  dedupeVaribales: any;
+  referenceAdharNo: string;
+  SRNumberValidate : boolean = true;
 
 
   isMobile: any;
@@ -268,6 +269,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.isEnableDedupe = false;
         this.getApplicantDetails();
       } else {
+        this.dedupeMobile = true;
         this.isMobileChanged = true; // for enable check dedupe button
         this.isContactNumberChanged = true;
         this.coApplicantForm.get('dedupe').get('pan').disable();
@@ -277,7 +279,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
   getLeadSectiondata() {
     const leadData = this.createLeadDataService.getLeadSectionData();
-    console.log('data-->', leadData);
     this.productCategory = leadData['leadDetails'].productId;
     this.fundingProgram = leadData['leadDetails'].fundingProgram;
 
@@ -293,12 +294,16 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       //this.namePattern = this.namePatternNonIdv;
       this.addIndFormControls();
       this.removeNonIndFormControls();
+      dedupe.get('bussinessEntityType').clearValidators();
+      dedupe.get('bussinessEntityType').updateValueAndValidity()
     } else {
       const dedupe = this.coApplicantForm.get('dedupe');
-      dedupe.patchValue({
-        title: 'M/SSALUTATION',
-      });
-      this.coApplicantForm.get('dedupe').get('aadhar').clearValidators();
+      // dedupe.patchValue({
+      //   title: 'M/SSALUTATION',
+      // });
+      dedupe.get('aadhar').clearValidators();
+      dedupe.get('bussinessEntityType').setValidators([Validators.required]);
+      dedupe.get('bussinessEntityType').updateValueAndValidity()
       //this.namePattern = { ...this.namePatternIdv };
       this.addNonIndFormControls();
       this.removeIndFormControls();
@@ -370,17 +375,17 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     }
 
     this.applicantData.forEach((data) => {
-      if (data.applicant !== this.applicantId) {
+      if (data.applicantId !== this.applicantId) {
         if (data.applicantTypeKey == "APPAPPRELLEAD" && data.applicantTypeKey === value) {
-          this.toasterService.showError('Only One Applicant is Applicable', '')
+          this.toasterService.showError('There should be only one main applicant for this lead', '')
           this.showNotApplicant = true;
         }
         //  else if (data.applicantTypeKey !== "APPAPPRELLEAD") {
         //   this.toasterService.showInfo('Should One Applicant Is Required', '')
         // } 
       }
-
-    })
+    });
+    
   }
 
   getPanValue(event: any) {
@@ -927,7 +932,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     return {
       loanApplicationRelation: new FormControl('', Validators.required),
       entityType: new FormControl('', Validators.required),
-      bussinessEntityType: new FormControl(''),
+      bussinessEntityType: new FormControl('',Validators.required),
       fullName: new FormControl(''),
       name1: new FormControl('', Validators.required),
       name2: new FormControl(''),
@@ -979,7 +984,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       srNumber: new FormControl(''),
       currentAddress: new FormGroup(this.getAddressFormControls()),
       registeredAddress: new FormGroup(this.getAddressFormControls()),
-      communicationAddress: new FormGroup(this.getAddressFormControls()),
+      communicationAddress: new FormGroup({
+        ...this.getAddressFormControls(),
+        pobox: new FormControl('')
+      }),
     });
     // this.addIndFormControls();
     // this.removeNonIndFormControls();
@@ -1132,6 +1140,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         applicantValue.applicantDetails.ownHouseProofAvail == '1'
           ? true
           : false;
+          
+          this.isChecked =
+        applicantValue.applicantDetails.ownHouseProofAvail == '1'
+          ? true
+          : false;
       //const monthlyIncome = applicantValue.applicantDetails.monthlyIncome;
       //console.log('this.checkedBoxHouse', this.checkedBoxHouse);
 
@@ -1194,6 +1207,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       ) {
         this.addIndFormControls();
         this.removeNonIndFormControls();
+        dedupe.get('bussinessEntityType').clearValidators()
+        dedupe.get('bussinessEntityType').updateValueAndValidity()
+
         const modifyaddress = applicantValue.applicantDetails.modifyCurrentAddress
         this.checkedModifyCurrent = modifyaddress == "1" ? true : false;
         this.showSrField = modifyaddress == "1" ? true : false;
@@ -1259,10 +1275,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         // }
       } else {
         this.coApplicantForm.get('dedupe').get('aadhar').clearValidators();
-        this.coApplicantForm
-          .get('dedupe')
-          .get('aadhar')
-          .updateValueAndValidity();
+        this.coApplicantForm.get('dedupe').get('aadhar').updateValueAndValidity();
+        this.coApplicantForm.get('dedupe').get('bussinessEntityType').setValidators([Validators.required]);
+        this.coApplicantForm.get('dedupe').get('bussinessEntityType').updateValueAndValidity();
+        
         this.addNonIndFormControls();
         this.removeIndFormControls();
         if (mobile && mobile.length === 12) {
@@ -1298,12 +1314,19 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.communicationPincode = this.registerPincode;
           this.isCommAddSameAsRegAdd = '1';
           if (registeredAddressObj) {
+            const communicationAddressObj =
+              addressObj[Constant.CURRENT_ADDRESS] ||
+              addressObj[Constant.COMMUNICATION_ADDRESS];
             communicationAddress.patchValue(
               this.createAddressObject(registeredAddressObj)
             );
+            communicationAddress.patchValue({
+              pobox: communicationAddressObj.pobox
+            })
           }
 
           communicationAddress.disable();
+          communicationAddress.get('pobox').enable();
         } else {
           this.isCommAddSameAsRegAdd = '0';
           const communicationAddressObj =
@@ -1317,6 +1340,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
             communicationAddress.patchValue(
               this.createAddressObject(communicationAddressObj)
             );
+            communicationAddress.patchValue({
+              pobox: communicationAddressObj.pobox
+            })
           }
         }
       }
@@ -1484,11 +1510,19 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   }
   onNext() {
+
+    console.log('Form', this.coApplicantForm);
+    const formValue = this.coApplicantForm.getRawValue();
     if (this.applicantType === 'INDIVENTTYP') {
       if (
         this.coApplicantForm.get('dedupe').invalid ||
-        this.coApplicantForm.get('currentAddress').invalid ||
-        this.coApplicantForm.get('permentAddress').invalid
+        // 
+        formValue.permentAddress.addressLineOne == '' ||
+        formValue.permentAddress.pincode == '' ||
+        formValue.permentAddress.city == '' ||
+        formValue.currentAddress.addressLineOne == '' ||
+        formValue.currentAddress.pincode == '' ||
+        formValue.currentAddress.city == ''
       ) {
         this.toasterService.showInfo(
           'Please fill all mandatory fields.',
@@ -1525,35 +1559,61 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     }
   }
 
-  onRetreiveAdhar(){
-     const referenceNo = this.coApplicantForm.get('dedupe').get('aadhar').value;
+  onRetreiveAdhar() {
+    const referenceNo = this.coApplicantForm.get('dedupe').get('aadhar').value;
     //const referenceNo="100006010628"
-    this.applicantService.retreiveAdhar(referenceNo).subscribe((res)=>{
+    this.applicantService.retreiveAdhar(referenceNo).subscribe((res) => {
       console.log('res', res)
-      if(res['ProcessVariables'].error.code=="0"){
-        const uid= res['ProcessVariables'].uid
+      if (res['ProcessVariables'].error.code == "0") {
+        const uid = res['ProcessVariables'].uid
         this.coApplicantForm.get('dedupe').get('aadhar').setValue(uid)
-        this.isAadharChanged= false;
-        this.isEnableDedupe= false;
+        this.isAadharChanged = false;
+        this.isEnableDedupe = false;
       }
-      else{
-        this.toasterService.showError(res['ProcessVariables'].error.messge, '')
+      else {
+        this.toasterService.showError(res['ProcessVariables'].error.message, '')
       }
     })
   }
 
-  onRelieve(){
-    
-    if(this.applicant== undefined){
-      
+  onRelieve() {
+
+    if (this.applicant == undefined) {
+
       const adhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
       this.coApplicantForm.get('dedupe').get('aadhar').setValue(adhar)
     }
-    else{
-      const referenceNo=this.applicant.indivIdentityInfoDetails.aadhar;
+    else {
+      const referenceNo = this.applicant.indivIdentityInfoDetails.aadhar;
       this.coApplicantForm.get('dedupe').get('aadhar').setValue(referenceNo)
     }
-    
+
+  }
+
+
+  validateSrNumber(event) {
+    // console.log('event', event.target.value)
+  
+    this.SRNumberValidate= true;
+    const value = event.target.value;
+    if (value.length === 15) {
+      this.getSRNumberValidation(value)
+    }
+  }
+
+  getSRNumberValidation(value) {
+    this.applicantService.validateSRNumberModification({
+      srNo: value
+    }).subscribe((res) => {
+      const responce = res['ProcessVariables']
+      this.SRNumberValidate=responce.isSrValid? true : false
+
+      if(responce.error.code=='0'){
+        this.toasterService.showSuccess(responce.error.message, 'SR Number validation successful'  )
+      }else{
+        this.toasterService.showError('', responce.error.message )
+      }
+    })
   }
 
   getEntityObject(key: string) {
@@ -1565,11 +1625,18 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
   storeIndividualValueInService(coApplicantModel) {
     console.log('dedupeVaribles', this.dedupeVaribales)
-    
-    
     const dedupe = coApplicantModel.dedupe;
 
-    
+    if (this.dedupeVaribales) {
+      if (this.dedupeVaribales.referenceNo !== '') {
+        this.referenceAdharNo = this.dedupeVaribales.referenceNo
+      } else {
+        this.referenceAdharNo = dedupe.aadhar
+      }
+    }
+    else {
+      this.referenceAdharNo = dedupe.aadhar
+    }
     if (dedupe.dob) {
       //const date = new Date(dedupe.dob);
       dedupe.dob = this.utilityService.getDateFormat(dedupe.dob);
@@ -1586,7 +1653,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.indivIdentityInfoDetails = {
       panType: dedupe.panType,
       pan: String(dedupe.pan || '').toUpperCase(),
-      aadhar: dedupe.aadhar || '',
+      aadhar: this.referenceAdharNo,
       passportNumber: String(dedupe.passportNumber || '').toUpperCase(),
       passportIssueDate: this.formatGivenDate(dedupe.passportIssueDate),
       passportExpiryDate: this.formatGivenDate(dedupe.passportExpiryDate),
@@ -1625,13 +1692,23 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   storeNonIndividualValueInService(coApplicantModel) {
     const dedupe = coApplicantModel.dedupe;
-    
+    if (this.dedupeVaribales) {
+      if (this.dedupeVaribales.referenceNo !== '') {
+        this.referenceAdharNo = this.dedupeVaribales.referenceNo
+      } else {
+        this.referenceAdharNo = dedupe.aadhar
+      }
+    }
+    else {
+      this.referenceAdharNo = dedupe.aadhar
+    }
+
     this.applicantDetails = {
       title: dedupe.title,
       bussinessEntityType: dedupe.bussinessEntityType,
     };
     this.corporateProspectDetails = {
-      aadhar: dedupe.aadhar,
+      aadhar: this.referenceAdharNo,
       gstNumber: dedupe.gstNumber,
       tanNumber: dedupe.tanNumber,
       cstVatNumber: dedupe.cstVatNumber,
@@ -1661,6 +1738,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         ...addressObject,
         addressType: Constant.COMMUNICATION_ADDRESS,
         isCurrAddSameAsPermAdd: this.isCommAddSameAsRegAdd,
+        pobox: communicationAddress.pobox
       });
     }
     console.log('addressDetails', this.addressDetails);
@@ -1687,7 +1765,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         formValue.currentAddress.city == '' ||
 
         this.coApplicantForm.get('srNumber').invalid ||
-        this.panValidate
+        this.panValidate ||
+        !this.SRNumberValidate
 
 
       ) {
@@ -1701,7 +1780,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
       if (this.showNotApplicant) {
 
-        this.toasterService.showError('There Should be Only One Main Applicant For This Lead', '');
+        this.toasterService.showError('There should be only one main applicant for this lead', '');
         return;
 
       }
@@ -1718,7 +1797,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         formValue.communicationAddress.addressLineOne == '' ||
         formValue.communicationAddress.pincode == '' ||
         formValue.communicationAddress.city == '' ||
-        this.panValidate
+        this.panValidate 
       ) {
         this.isDirty = true;
         this.toasterService.showError(
@@ -1728,10 +1807,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         return;
       }
       if (this.showNotApplicant) {
-        this.toasterService.showError('There Should be Only One Main Applicant For This Lead', '');
+        this.toasterService.showError('There should be only one main applicant for this lead', '');
         return;
       }
-    
+
       // else if (this.panValidate) {
       //   this.toasterService.showError(
       //     'Invalid Pan Number.',
@@ -1872,6 +1951,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         ...formValue,
       });
       communicationAddress.disable();
+      communicationAddress.get('pobox').enable();
     } else if (!eventClicked) {
       communicationAddress.enable();
       communicationAddress.reset();
@@ -1977,7 +2057,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         return;
       }
       if (this.showNotApplicant) {
-        this.toasterService.showError('There Should be Only One Main Applicant For This Lead', '');
+        this.toasterService.showError('There should be only one main applicant for this lead', '');
         return;
       }
       const applicantDetails = dedupe.value;
@@ -2026,7 +2106,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         custSegment: applicantDetails.custSegment || '',
         monthlyIncomeAmount: applicantDetails.monthlyIncomeAmount || '',
         annualIncomeAmount: applicantDetails.annualIncomeAmount || '',
-        ownHouseProofAvail: applicantDetails.ownHouseProofAvail || '',
+        ownHouseProofAvail: this.isChecked == true ? '1' : '0',
         houseOwnerProperty: applicantDetails.houseOwnerProperty || '',
         ownHouseAppRelationship: applicantDetails.ownHouseAppRelationship || '',
         averageBankBalance: applicantDetails.averageBankBalance || '',
@@ -2080,7 +2160,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         return;
       }
       if (this.showNotApplicant) {
-        this.toasterService.showError('There Should be Only One Main Applicant For This Lead', '');
+        this.toasterService.showError('There should be only one main applicant for this lead', '');
         return;
       }
 
@@ -2138,7 +2218,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         custSegment: applicantDetails.custSegment || '',
         monthlyIncomeAmount: applicantDetails.monthlyIncomeAmount || '',
         annualIncomeAmount: applicantDetails.annualIncomeAmount || '',
-        ownHouseProofAvail: applicantDetails.ownHouseProofAvail || '',
+        ownHouseProofAvail: this.isChecked == true ? '1' : '0',
         houseOwnerProperty: applicantDetails.houseOwnerProperty || '',
         ownHouseAppRelationship: applicantDetails.ownHouseAppRelationship || '',
         averageBankBalance: applicantDetails.averageBankBalance || '',
@@ -2170,7 +2250,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       .subscribe((value: any) => {
         if (value.Error === '0' && value.ProcessVariables.error.code == '0') {
           const processVariables = value.ProcessVariables;
-          this.dedupeVaribales= value.ProcessVariables
+          this.dedupeVaribales = value.ProcessVariables
           if (!processVariables.dedupeFound) {
             this.applicantId = processVariables.applicantId;
             this.showNegativeListModal = true;
@@ -2205,6 +2285,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           );
         }
       });
+  }
+
+  removeErrorMsg(){
+    this.panValidate= false;
   }
 
   navigateToSamePage() {
@@ -2256,73 +2340,88 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   calleKYC() {
 
     let that = this;
-    this.ngxService.start();
+    
     let applicantId = this.applicantId;
     let aadhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
-    this.biometricService.initIdenti5(aadhar, applicantId, function (result) {
 
-      that.ngxService.stop();
-      let res = JSON.parse(result);
+    this.applicantService.retreiveAdhar(aadhar).subscribe((res: any) => {
+      let result = res;
+      console.log("result aadhar",result);
+      let processVariables =  result.ProcessVariables;
+      if(processVariables.error.code == "0"){
+        console.log("processVariables Aadhar", processVariables.uid);
+        aadhar = processVariables.uid;
+      }
 
-      if (res.pidErr) {
-        that.pTag.nativeElement.click();
+      setTimeout(function(){ 
+        that.ngxService.start();
+       }, 1000);
+
+      that.biometricService.initIdenti5(aadhar, applicantId, function (result) {
+
         that.ngxService.stop();
-        return;
-      }
-      let processVariables = res.ProcessVariables;
-      // value = JSON.parse(value).ProcessVariables;
-
-      console.log("KYC result&&&&@@@" + processVariables);
-
-      if (processVariables.error.code == '0') {
-        console.log("KYC success" + processVariables.error.code);
-
-        // that.isAlertSuccess = false;
-        // setTimeout(() => {
-        //   that.isAlertSuccess = true;
-        // }, 1500);
-
-        alert("e-KYC successful");
-        that.toasterService.showSuccess(
-          "e-KYC Successful",
-          'eKYC Success'
-        );
-
-      }
-      else {
-        console.log("KYC failure" + processVariables.error.code);
-        // that.isAlertDanger = false;
-        // setTimeout(() => {
-        //   that.isAlertDanger = true;
-        // }, 1500);
-        alert(processVariables.error.message);
-
-        that.toasterService.showError(
-          processVariables.error.message,
-          'eKYC Failed'
-        );
-
-        return;
-      }
-
-      //const processVariables= this.biometricResponce;
-      that.setBiometricValues(that, processVariables);
-
-
-      that.showEkycbutton = false;
-      that.isEnableDedupe = false;
-      that.isMobileChanged = false;
-      that.isName1Changed = false;
-      that.isPanChanged = false;
-      that.isAadharChanged = false;
-      that.isPassportChanged = false;
-      that.isDrivingLicenseChanged = false;
-      that.isVoterIdChanged = false;
-      that.isContactNumberChanged = false;
-      that.isCstNumberChanged = false;
-      that.isCinNumberChanged = false;
-      that.isGstNumberChanged = false;
-      that.isTanNumberChanged = false;
+        let res = JSON.parse(result);
+  
+        if (res.pidErr) {
+          that.pTag.nativeElement.click();
+          that.ngxService.stop();
+          return;
+        }
+        let processVariables = res.ProcessVariables;
+        // value = JSON.parse(value).ProcessVariables;
+  
+        console.log("KYC result&&&&@@@" + processVariables);
+  
+        if (processVariables.error.code == '0') {
+          console.log("KYC success" + processVariables.error.code);
+  
+          // that.isAlertSuccess = false;
+          // setTimeout(() => {
+          //   that.isAlertSuccess = true;
+          // }, 1500);
+  
+          alert("e-KYC successful");
+          that.toasterService.showSuccess(
+            "e-KYC Successful",
+            'eKYC Success'
+          );
+  
+        }
+        else {
+          console.log("KYC failure" + processVariables.error.code);
+          // that.isAlertDanger = false;
+          // setTimeout(() => {
+          //   that.isAlertDanger = true;
+          // }, 1500);
+          alert(processVariables.error.message);
+  
+          that.toasterService.showError(
+            processVariables.error.message,
+            'eKYC Failed'
+          );
+  
+          return;
+        }
+  
+        //const processVariables= this.biometricResponce;
+        that.setBiometricValues(that, processVariables);
+  
+  
+        that.showEkycbutton = false;
+        that.isEnableDedupe = false;
+        that.isMobileChanged = false;
+        that.isName1Changed = false;
+        that.isPanChanged = false;
+        that.isAadharChanged = false;
+        that.isPassportChanged = false;
+        that.isDrivingLicenseChanged = false;
+        that.isVoterIdChanged = false;
+        that.isContactNumberChanged = false;
+        that.isCstNumberChanged = false;
+        that.isCinNumberChanged = false;
+        that.isGstNumberChanged = false;
+        that.isTanNumberChanged = false;
+      });
     });
 
   }
@@ -2422,7 +2521,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const dedupe = this.coApplicantForm.get('dedupe');
     if (this.applicantType == 'INDIVENTTYP') {
       // console.log('dedube Mobile', dedupe.get('mobilePhone').value)
-      console.log('mobiel no');
       dedupe.get('mobilePhone').valueChanges.subscribe((value) => {
         if (!dedupe.get('mobilePhone').invalid) {
           console.log('mobiel no', this.mobileNumber);

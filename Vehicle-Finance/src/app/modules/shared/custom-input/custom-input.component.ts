@@ -49,6 +49,8 @@ export class CustomInputComponent
   @Input() labelName: string;
   @Input() id: string;
 
+  @Input() step: string;
+
   @Input() patternCheck;
   @Input() custom: {
     rule?: Function;

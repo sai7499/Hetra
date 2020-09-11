@@ -9,18 +9,22 @@ import { SanctionDetailsComponent } from './sanction-details/sanction-details.co
 import { CustomerFeedbackComponent } from './customer-feedback/customer-feedback.component';
 import { CheckListComponent } from './check-list/check-list.component';
 import { NegotiationComponent } from '@modules/negotiation/negotiation.component';
-import{TermSheetFromDashboardComponent} from './term-sheet-from-dashboard/term-sheet-from-dashboard.component'
+import {TermSheetFromDashboardComponent} from './term-sheet-from-dashboard/term-sheet-from-dashboard.component';
 import { DisbursementFormComponent } from '@modules/disbursement-section/disbursement-form/disbursement-form.component';
+import { CamComponent } from '../cam/cam.component';
+import { DeviationComponent } from '@modules/dashboard/deviation/deviation.component';
+import { DeviationsComponent } from '../deviations/deviations.component';
+
 const routes: Routes = [
     {
         path: ':leadId',
         component: CreditDecisionComponent,
         resolve: { leadData: LeadDataResolverService },
         children: [
-            {
-                path: '',
-                component: CreditConditionsComponent
-            },
+            // {
+            //     path: '',
+            //     component: CreditConditionsComponent
+            // },
             {
                 path: 'credit-condition',
                 component: CreditConditionsComponent
@@ -53,6 +57,14 @@ const routes: Routes = [
             {
                 path: 'disbursement',
                 component: DisbursementFormComponent
+            },
+            {
+                path: 'cam',
+                component: CamComponent
+            },
+            {
+                path: 'deviations',
+                component: DeviationsComponent
             }
         ]
     }

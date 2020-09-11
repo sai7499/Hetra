@@ -107,6 +107,23 @@ export interface IndividualProspectDetails {
   currentBusinessYears? : string;
   turnOver? : string;
 
+  relationWithApplicant?: string;
+  recommendations?: string;
+  yearsInCurrentResidence?: string;
+  religion?: string;
+  community?: string;
+  isMinority ?: string;
+  residentStatus?: string;
+  maritalStatus?: string;
+  weddingAnniversaryDate?: string;
+  eduQualification?: string;
+  noOfAdultsDependant?: string;
+  noOfChildrenDependant?: string;
+  marginMoney?: string;
+  emiAffordability?: string;
+  addressDetails?: string;
+  pobox?: string;
+
 }
 
 export interface AddressDetails {
@@ -126,6 +143,7 @@ export interface AddressDetails {
   isCurrAddSameAsPermAdd?: string;
   entityTypeKey?: string;
   nearestLandmark?: string;
+  pobox? : string;
 }
 
 export interface CorporateProspectDetails {

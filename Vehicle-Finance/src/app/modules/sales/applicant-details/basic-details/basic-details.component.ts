@@ -86,6 +86,8 @@ export class BasicDetailsComponent implements OnInit {
   validation: any;
   custCatValue: string;
   ageOfSeniorCitizen = 65;
+  applicantData = [];
+  showNotApplicant : boolean;
 
 
   constructor(
@@ -120,13 +122,15 @@ export class BasicDetailsComponent implements OnInit {
       entity: new FormControl({ value: '', disabled: true }),
       bussinessEntityType: new FormControl('', Validators.required),
       applicantRelationshipWithLead: new FormControl(''),
+      applicantRelationship: new FormControl('', Validators.required),
       details: new FormArray([]),
     });
     this.setBirthDate.setFullYear(this.setBirthDate.getFullYear()-10)
     this.ageMinDate.setFullYear(this.ageMinDate.getFullYear()-100)
     //this.addNonIndividualFormControls();
-    this.getLovData();
+    
     this.getLeadSectiondata();
+    this.getLovData();
     this.getCountryList();
     const formArray = this.basicForm.get('details') as FormArray;
     this.validation = formArray.at(0);
@@ -138,9 +142,31 @@ export class BasicDetailsComponent implements OnInit {
     console.log('data-->', leadData);
     this.productCategory = leadData['leadDetails'].productId;
     this.fundingProgram = leadData['leadDetails'].fundingProgram;
+
+    this.applicantData = leadData['applicantDetails'];
     
 
   }
+
+  selectApplicantType(event) {
+    const value = event.target.value;
+    this.showNotApplicant = false;
+  
+
+    this.applicantData.forEach((data) => {
+      if (data.applicantId !== this.applicantId) {
+        if (data.applicantTypeKey == "APPAPPRELLEAD" && data.applicantTypeKey === value) {
+          this.toasterService.showError('There should be only one main applicant for this lead', '')
+          this.showNotApplicant = true;
+        }
+        //  else if (data.applicantTypeKey !== "APPAPPRELLEAD") {
+        //   this.toasterService.showInfo('Should One Applicant Is Required', '')
+        // } 
+      }
+
+    })
+  }
+
   
 
   getCountryList() {
@@ -381,6 +407,7 @@ export class BasicDetailsComponent implements OnInit {
       title: this.applicant.applicantDetails.title || '',
       bussinessEntityType:
         this.applicant.applicantDetails.bussinessEntityType || '',
+      applicantRelationship: this.applicant.aboutIndivProspectDetails.relationWithApplicant || ''
     });
     const applicantDetails = this.applicant.applicantDetails;
   
@@ -396,12 +423,14 @@ export class BasicDetailsComponent implements OnInit {
     } else {
       this.addNonIndividualFormControls();
       this.setValuesForNonIndividual();
+      this.removeApplicantRelationControl();
     }
 
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
 
     this.checkedBoxHouse = applicantDetails.ownHouseProofAvail == '1' ? true : false;
+    this.isChecked= applicantDetails.ownHouseProofAvail == '1' ? true : false;
 
     details.patchValue({
       name1: applicantDetails.name1,
@@ -428,6 +457,10 @@ export class BasicDetailsComponent implements OnInit {
     
     
     
+  }
+
+  removeApplicantRelationControl() {
+    this.basicForm.removeControl('applicantRelationship');
   }
 
   
@@ -464,7 +497,7 @@ export class BasicDetailsComponent implements OnInit {
       motherMaidenName: aboutIndivProspectDetails.motherMaidenName || '',
       preferredLanguage: aboutIndivProspectDetails.preferredLanguage || 'ENGPRFLAN',
       occupation: aboutIndivProspectDetails.occupation || '',
-      nationality: aboutIndivProspectDetails.nationality || 'RSDTINDNATIONALITY',
+      nationality: aboutIndivProspectDetails.nationality || 'INDNATIONALITY',
       age: this.showAge,
       gender: aboutIndivProspectDetails.gender || '',
       politicallyExposedPerson:
@@ -473,6 +506,7 @@ export class BasicDetailsComponent implements OnInit {
         aboutIndivProspectDetails.alternateMobileNumber || '',
       minorGuardianRelation:
         aboutIndivProspectDetails.minorGuardianRelation || '',
+      recommendations: aboutIndivProspectDetails.recommendations || ''
     });
     this.clearFatherOrSpouseValidation();
     this.eitherFathOrspouse();
@@ -618,6 +652,9 @@ export class BasicDetailsComponent implements OnInit {
       agriOwnerProperty: new FormControl(''),
       agriAppRelationship: new FormControl(''),
       grossReceipt: new FormControl(''),
+
+      //new formcontrol added for new fields
+      recommendations: new FormControl('')
     });
 
     formArray.push(controls);
@@ -705,6 +742,13 @@ export class BasicDetailsComponent implements OnInit {
         'Applicant Details'
       );
       return;
+    }
+
+    if (this.showNotApplicant) {
+
+      this.toasterService.showError('There should be only one main applicant for this lead', '');
+      return;
+
     }
 
     const rawValue = this.basicForm.getRawValue();
@@ -860,6 +904,10 @@ export class BasicDetailsComponent implements OnInit {
       formValue.politicallyExposedPerson;
     prospectDetails.isSeniorCitizen = this.isSeniorCitizen;
     prospectDetails.isMinor = this.isMinor;
+
+    //adding new fields
+    prospectDetails.relationWithApplicant = value.applicantRelationship || '';
+    prospectDetails.recommendations = formValue.recommendations || '';
 
     this.applicantDataService.setIndividualProspectDetails(prospectDetails);
   }

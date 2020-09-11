@@ -585,7 +585,7 @@
                     >{{ labels?.aadharnumber }}
                     <sub class="star_red_col">*</sub></label
                   >
-                  <div class="input-group input-medium">
+                  <!-- <div class="input-group input-medium"> -->
                   <app-custom-input
                     formControlName="aadhar"
                     [maxLength]="validationData?.adhaarNumber?.maxLength"
@@ -595,21 +595,21 @@
                     [type]="validationData?.adhaarNumber?.type"
                   >
                   </app-custom-input>
-                  <span class="input-group-btn">
+                  <!-- <span class="input-group-btn">
                   <button class="btn btn-default"
                   (click)="onRetreiveAdhar()"
                   (mouseleave)="onRelieve()">
                     <i class="fa fa-credit-card"></i>
                   </button>
-                </span>
-              </div>
+                </span> -->
+              <!-- </div> -->
                 </div>
                 <div
                   class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
                   *ngIf="applicantType == 'NONINDIVENTTYP'"
                 >
                   <label for="aadharnumber">{{ labels?.udyogAdhar }} </label>
-                  <div class="input-group input-medium">
+                  <!-- <div class="input-group input-medium"> -->
                   <app-custom-input
                     formControlName="aadhar"
                     [maxLength]="validationData?.adhaarNumber?.maxLength"
@@ -617,14 +617,14 @@
                     [type]="validationData?.adhaarNumber?.type"
                   >
                   </app-custom-input>
-                  <span class="input-group-btn">
+                  <!-- <span class="input-group-btn">
                     <button class="btn btn-default"
                     (click)="onRetreiveAdhar()"
                     (mouseleave)="onRelieve()">
                       <i class="fa fa-credit-card"></i>
                     </button>
-                  </span>
-                </div>
+                  </span> -->
+                <!-- </div> -->
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="identity_number"
@@ -655,6 +655,7 @@
                     [inputClass]="'text-uppercase'"
                     [maxLength]="validationData?.panNumber?.maxLength"
                     [type]="validationData?.panNumber?.type"
+                    (change)="removeErrorMsg()"
                   ></app-custom-input>
 
                   <div class="ShowError" 
@@ -707,7 +708,7 @@
                     [type]="validationData?.cinRegNumber?.type"
                     [patternCheck]="validationData?.cinRegNumber?.patternCheck"
                     [inputClass]="'text-uppercase'"
-                    [isRequired]="'Cin/Reg Number is Required'"
+                    [isRequired]="'CIN/Reg Number is Required'"
                     [isDirty]="isDirty"
                   >
                   </app-custom-input>
@@ -1104,7 +1105,7 @@
                       >
                       <app-custom-input
                         formControlName="addressLineOne"
-                        [maxLength]="validationData?.address?.maxLength"
+                        [maxLength]="validationData?.addressLine?.maxLength"
                         [isRequired]="'Address is required'"
                         [isDirty]="isDirty"
                       ></app-custom-input>
@@ -1113,14 +1114,14 @@
                       <label for="address2">{{ labels?.addressline2 }}</label>
                       <app-custom-input
                         formControlName="addressLineTwo"
-                        [maxLength]="validationData?.address?.maxLength"
+                        [maxLength]="validationData?.addressLine?.maxLength"
                       ></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="address3">{{ labels?.addressline3 }}</label>
                       <app-custom-input
                         formControlName="addressLineThree"
-                        [maxLength]="validationData?.address?.maxLength"
+                        [maxLength]="validationData?.addressLine?.maxLength"
                       ></app-custom-input>
                     </div>
                   </div>
@@ -1250,15 +1251,23 @@
                   <div class="form-group col-sm-6 col-md-3 col-lg-3"
                   *ngIf="showSrField">
                     <label for="line1"
-                      >SR Number</label
-                    >
+                      >SR Number<sub class="star_red_col">*</sub></label>
                     <app-custom-input
                     formControlName="srNumber"
+                    (keyup)="validateSrNumber($event)"
                     [isRequired]="'SR Number is Required'"
                     [isDirty]= "isDirty"
+                    [patternCheck]="validationData.srNumber.patternCheck"
+                    [maxLength]="validationData.srNumber.maxLength"
                     [type]="validationData.srNumber.type"
                       
                     ></app-custom-input>
+
+                    <div class="ShowError" 
+                    *ngIf="!SRNumberValidate &&
+                    coApplicantForm.get('srNumber').value !==''">
+                      Invalid SR Number
+                    </div>
                   </div>
 
                 </div>
@@ -1275,7 +1284,7 @@
                       >
                       <app-custom-input
                         formControlName="addressLineOne"
-                        [maxLength]="validationData?.address?.maxLength"
+                        [maxLength]="validationData?.addressLine?.maxLength"
                         [isRequired]="'Address is required'"
                         [isDirty]="isDirty"
                       ></app-custom-input>
@@ -1284,14 +1293,14 @@
                       <label for="line2">{{ labels?.addressline2 }}</label>
                       <app-custom-input
                         formControlName="addressLineTwo"
-                        [maxLength]="validationData?.address?.maxLength"
+                        [maxLength]="validationData?.addressLine?.maxLength"
                       ></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="line3">{{ labels?.addressline3 }}</label>
                       <app-custom-input
                         formControlName="addressLineThree"
-                        [maxLength]="validationData?.address?.maxLength"
+                        [maxLength]="validationData?.addressLine?.maxLength"
                       ></app-custom-input>
                     </div>
                   </div>
@@ -1409,7 +1418,7 @@
                       >
                       <app-custom-input
                         formControlName="addressLineOne"
-                        [maxLength]="validationData?.address?.maxLength"
+                        [maxLength]="validationData?.addressLine?.maxLength"
                         [isRequired]="'Address is required'"
                         [isDirty]="isDirty"
                       ></app-custom-input>
@@ -1421,7 +1430,7 @@
 
                       <app-custom-input
                         formControlName="addressLineTwo"
-                        [maxLength]="validationData?.address?.maxLength"
+                        [maxLength]="validationData?.addressLine?.maxLength"
                       ></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -1430,7 +1439,7 @@
                       }}</label>
                       <app-custom-input
                         formControlName="addressLineThree"
-                        [maxLength]="validationData?.address?.maxLength"
+                        [maxLength]="validationData?.addressLine?.maxLength"
                       ></app-custom-input>
                     </div>
                   </div>
@@ -1554,7 +1563,7 @@
                       >
                       <app-custom-input
                         formControlName="addressLineOne"
-                        [maxLength]="validationData?.address?.maxLength"
+                        [maxLength]="validationData?.addressLine?.maxLength"
                         [isRequired]="'Address is required'"
                         [isDirty]="isDirty"
                       ></app-custom-input>
@@ -1566,7 +1575,7 @@
 
                       <app-custom-input
                         formControlName="addressLineTwo"
-                        [maxLength]="validationData?.address?.maxLength"
+                        [maxLength]="validationData?.addressLine?.maxLength"
                       ></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -1575,7 +1584,7 @@
                       }}</label>
                       <app-custom-input
                         formControlName="addressLineThree"
-                        [maxLength]="validationData?.address?.maxLength"
+                        [maxLength]="validationData?.addressLine?.maxLength"
                       ></app-custom-input>
                     </div>
                   </div>
@@ -1669,6 +1678,18 @@
                         [maxLength]="validationData?.landlineNumber?.maxLength"
                         [type]="validationData?.landlineNumber?.type"
                         [patternCheck]="validationData?.phone?.patternCheck"
+                      ></app-custom-input>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                      <label for="reg_mobile">Office Address PO Box</label>
+                      <app-custom-input
+                        formControlName="pobox"
+                        [patternCheck]="validationData?.pobox?.patternCheck"
+                     
+                      [maxLength]="validationData?.pobox?.maxLength"
+                      
+                      [type]="validationData?.pobox?.type"
                       ></app-custom-input>
                     </div>
                   </div>

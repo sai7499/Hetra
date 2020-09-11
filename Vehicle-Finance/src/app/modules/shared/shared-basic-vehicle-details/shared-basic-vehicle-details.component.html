@@ -18,6 +18,8 @@
                         <app-custom-input formControlName="vehicleRegNo"
                             [type]="label.validationData?.vehicleRegNo.type" [id]="'vechical_reg'"
                             [className]="'form-control mandatory'" [placeholder]="'Vechical Registration No'"
+                            [minLength]="label.validationData?.vehicleRegNo.minLength"
+                            [patternCheck]="label.validationData?.vehicleRegNo.patternCheck"
                             [inputClass]="'input-upper'" [maxLength]="label.validationData?.vehicleRegNo.maxLength"
                             [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
                         </app-custom-input>
@@ -682,6 +684,31 @@
                         </div>
                     </div>
 
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="loan_amount">
+
+                            <label for="loan_amount">{{label.loanAmount}}</label>
+
+                            <app-custom-input formControlName="loanAmount" [className]="'form-control mandatory'"
+                                [placeholder]="'Loan Amount'" [id]="'loan_amount'" [isDirty]="isDirty"
+                                [isDisabled]="true">
+                            </app-custom-input>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="body_cost">
+
+                            <label for="body_cost">{{label.bodyCost}}</label>
+
+                            <app-custom-input formControlName="bodyCost" [className]="'form-control mandatory'"
+                                [type]="label.validationData?.amountValue.type"
+                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Body Cost'"
+                                [id]="'body_cost'" [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+
+                    </div>
+
                 </div>
 
                 <div class="" id="new_car_show" *ngIf="productCatoryCode === 'NC'">
@@ -1006,6 +1033,31 @@
                         </div>
                     </div>
 
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="loan_amount">
+
+                            <label for="loan_amount">{{label.loanAmount}}</label>
+
+                            <app-custom-input formControlName="loanAmount" [className]="'form-control mandatory'"
+                                [placeholder]="'Loan Amount'" [id]="'loan_amount'" [isDirty]="isDirty"
+                                [isDisabled]="true">
+                            </app-custom-input>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="body_cost">
+
+                            <label for="body_cost">{{label.bodyCost}}</label>
+
+                            <app-custom-input formControlName="bodyCost" [className]="'form-control mandatory'"
+                                [type]="label.validationData?.amountValue.type"
+                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Body Cost'"
+                                [id]="'body_cost'" [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+
+                    </div>
+
                 </div>
 
                 <div class="" id="used_cv_show" *ngIf="productCatoryCode == 'UCV'">
@@ -1021,7 +1073,9 @@
                                 [type]="label.validationData?.vehicleRegNo.type" [id]="'vechical_reg'"
                                 [className]="'form-control mandatory'" [inputClass]="'input-upper'"
                                 [placeholder]="'Vechical Registration No'"
+                                [minLength]="label.validationData?.vehicleRegNo.minLength"
                                 [maxLength]="label.validationData?.vehicleRegNo.maxLength"
+                                [patternCheck]="label.validationData?.vehicleRegNo.patternCheck"
                                 [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
                             </app-custom-input>
 
@@ -1474,6 +1528,31 @@
 
                     </div>
 
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="loan_amount">
+
+                            <label for="loan_amount">{{label.loanAmount}}</label>
+
+                            <app-custom-input formControlName="loanAmount" [className]="'form-control mandatory'"
+                                [placeholder]="'Loan Amount'" [id]="'loan_amount'" [isDirty]="isDirty"
+                                [isDisabled]="true">
+                            </app-custom-input>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="body_cost">
+
+                            <label for="body_cost">{{label.bodyCost}}</label>
+
+                            <app-custom-input formControlName="bodyCost" [className]="'form-control mandatory'"
+                                [type]="label.validationData?.amountValue.type"
+                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Body Cost'"
+                                [id]="'body_cost'" [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+
+                    </div>
+
                 </div>
 
                 <div class="" id="used_car_show" *ngIf="productCatoryCode === 'UC'">
@@ -1489,7 +1568,9 @@
                                 [type]="label.validationData?.vehicleRegNo.type" [id]="'vechical_reg'"
                                 [className]="'form-control mandatory'" [inputClass]="'input-upper'"
                                 [placeholder]="'Vechical Registration No'"
+                                [minLength]="label.validationData?.vehicleRegNo.minLength"
                                 [maxLength]="label.validationData?.vehicleRegNo.maxLength"
+                                [patternCheck]="label.validationData?.vehicleRegNo.patternCheck"
                                 [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
                             </app-custom-input>
 
@@ -1862,6 +1943,31 @@
                                 [className]="'form-control mandatory'" [isRequired]="'FRSD Premium Amount Required'"
                                 [isDirty]="isDirty" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'FRSD Premium Amount'">
+                            </app-custom-input>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="loan_amount">
+
+                            <label for="loan_amount">{{label.loanAmount}}</label>
+
+                            <app-custom-input formControlName="loanAmount" [className]="'form-control mandatory'"
+                                [placeholder]="'Loan Amount'" [id]="'loan_amount'" [isDirty]="isDirty"
+                                [isDisabled]="true">
+                            </app-custom-input>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="body_cost">
+
+                            <label for="body_cost">{{label.bodyCost}}</label>
+
+                            <app-custom-input formControlName="bodyCost" [className]="'form-control mandatory'"
+                                [type]="label.validationData?.amountValue.type"
+                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Body Cost'"
+                                [id]="'body_cost'" [isDirty]="isDirty">
                             </app-custom-input>
                         </div>
 

@@ -81,6 +81,21 @@ export class ApiService {
       processId: 'c7df01d6ac8811ea83def2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
+    getAdditionalCollateralsDetails: {
+      workflowId: 'cc1368caeead11ea8ecc00505695f93b',
+      processId: '95c08818ef4b11eaafa600505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    saveOrUpdateAdditionalCollaterals: {
+      workflowId: 'cc1368caeead11ea8ecc00505695f93b',
+      processId: 'cc61a9cceead11eaac8b00505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    getDeleteAdditionalCollaterals: {
+      workflowId: 'cc1368caeead11ea8ecc00505695f93b',
+      processId: '824fe97eeeae11ea9d1000505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
     saveUpdateFleetDetails: {
       workflowId: '05f4baea998511eabdcff2fa9bec3d63',
       processId: '0620e32c998511eabdcff2fa9bec3d63',
@@ -398,6 +413,11 @@ export class ApiService {
     autoDeviation: {
       processId: '2ddfa32cd8b311ea8ba800505695f93b',
       workflowId: '6a6dec02d7a711eabfa200505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    getTriggerWaiverNorms: {
+      processId: '2c38d6b0f20311ea8e0700505695f93b',
+      workflowId: '2c1225cef20311eaa59400505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
     saveorUpdateDeviation: {
@@ -770,10 +790,21 @@ export class ApiService {
       workflowId: '12aa87f0e09411ea900500505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
-    retrieveAadharData :{
+    retrieveAadharData: {
       processId: '81383e76c8c311ea851600505695f93b',
       workflowId: '8110ed6cc8c311ea873200505695f93b',
       projectId: environment.projectIds.retrieveAadharData
+    },
+    validateSRNumber: {
+      processId: '84fdc0f4edac11eaa7e400505695f93b',
+      workflowId: '84d0b640edac11ea8d3d00505695f93b',
+      projectId: environment.projectIds.validateSRNumber
+    },
+    submitToCC: {
+      processId: '47d4c4a8f19d11eaa89a00505695f93b',
+      workflowId: '4794bf2af19d11ea880700505695f93b',
+      projectId: environment.projectIds.submitToCredit
     }
+
   };
 }

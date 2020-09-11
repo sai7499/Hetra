@@ -127,7 +127,8 @@
                 </tr>
                 <tr *ngIf="odAccountDetailsArray.length > 0">
                   <td>{{ labels?.totalODAmount }}</td>
-                  <td>{{totalOdAmount}}</td>
+                  <td>{{totalAmount}}</td>
+                 
                 </tr>
               </tbody>
             </table>
@@ -188,8 +189,9 @@
                 <app-vf-custom-select [values]="odListLov?.clearanceProof" formControlName="clearanceProofCollected" (change)="onSelectProof($event.target.value)">
                 </app-vf-custom-select >
               </div>
-              <div class="col-md-2"><label>{{labels?.clearanceProof}}</label></div>
+             
               <ng-container *ngIf="selctedProof === 'ODCLCLDODCLRPRF' || selctedProof === 'ODCLPRTCLDODCLRPRF' || selctedProof === 'null'" >
+                <div class="col-md-2"><label>{{labels?.clearanceProof}}</label></div>
               <div class="col-md-2">
                 <app-custom-input formControlName="clearanceProof" [placeholder]="'Clearence Proof'"
                   [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
@@ -198,10 +200,30 @@
               </div>
             </ng-container>
             <ng-container *ngIf="selctedProof == 'ODCLNAODCLRPRF' || selctedProof == 'ODCLNTCLDODCLRPRF' || selctedProof == 'ODCLNTCLRODCLRPRF'|| selctedProof === 'null'">
+              <div class="col-md-2"><label>{{labels?.clearanceProof}}</label></div>
               <div class="col-md-2">
                 <app-custom-input formControlName="clearanceProof" [placeholder]="'Clearence Proof'"
                   [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
                   [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength" [isDirty]="isDirty" [isDisabled]="'true'">
+                </app-custom-input>
+              </div>
+            </ng-container>
+              <div class="clearfix"></div>
+            </div>
+            <div class="form-group od-row">
+              <div class="col-md-2"><label>{{labels?.additionalMatchFound}}</label></div>
+              <div class="col-md-2">
+                <input type="checkbox"  formControlName="addMatchFound" (change)= "onAdditionalMatch($event)" >
+                <!-- <input type="checkbox"   (change)="FieldsChange($event)" > -->
+                
+              </div>
+              <ng-container *ngIf="addMatchFound == true">
+              
+              <div class="col-md-2"><label>{{labels?.cibilScoreIfAdditionalMatchFound}}</label></div>
+              <div class="col-md-2">
+                <app-custom-input  [placeholder]="'Cibil Score'" formControlName="addCibilScore"
+                  [type]="labels?.validationData?.tenurePaid?.type" [className]="'form-control mandatory'"
+                  [maxLength]="labels?.validationData?.tenurePaid?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
               </div>
             </ng-container>
@@ -213,11 +235,15 @@
 
                 <textarea class="form-control form-control-sm" placeholder="Text Area" formControlName="justification"
                   ></textarea>
-                  <div *ngIf="odDetailsForm.get('justification').invalid && (odDetailsForm.get('justification').dirty || odDetailsForm.get('justification').touched)"
+                  <div *ngIf="odDetailsForm.get('justification').invalid && submitted == true"
                   class="invalid-feedback">
                   <div *ngIf="odDetailsForm.get('justification').errors.required">
-                     justification is required.
+                     Justification is required.
                   </div>
+                </div>
+                  <div *ngIf="odDetailsForm.get('justification').invalid && (odDetailsForm.get('justification').dirty || odDetailsForm.get('justification').touched)"
+                  class="invalid-feedback">
+                  
                   <div *ngIf="odDetailsForm.get('justification').errors.maxlength">
                      justification cannot be more than 200 characters long.
                   </div>
@@ -225,6 +251,7 @@
                     Invalid Message / Special Characters not allowed
 
                   </div>
+                 
                   
               </div>
               </div>
@@ -355,7 +382,24 @@
                   </tr>
                 </tbody>
               </table>
+              <div class="form-group od-row">
+                <div class="col-md-2"><label>{{labels?.cibilStatus}}</label></div>
+                <div class="col-md-2">
+  
+                  <app-vf-custom-select [values]="odListLov?.cibilStatus" formControlName="cibilStatus">
+                  </app-vf-custom-select>
+                  
+                  <div *ngIf="odDetailsForm.get('cibilStatus').invalid && submitted == true"
+                  class="invalid-feedback">
+                  <div *ngIf="odDetailsForm.get('cibilStatus').errors.required">
+                     Cibil Status is required.
+                  </div>
+                </div>
 
+                </div>
+               
+                <div class="clearfix"></div>
+              </div>
             </div>
 
           </div>
@@ -370,15 +414,11 @@
         </button>
       </div>
       <div class="col-sm-7 text-right">
-        <button class="btn btn-primary dash_href" type="button" routerLink="../exposure">
-          Back
-        </button>
+        
         <button *ngIf="!disableSaveBtn" class="btn btn-primary mar-right8" type="button" (click)=onSubmit();>
           Save
         </button>
-        <button class="btn btn-primary dash_href" type="button" routerLink="../psl-data">
-          Next
-        </button>
+        
       </div>
     </div>
   </div>
@@ -466,4 +506,4 @@
     </div>
   </div>
 </div>
- 
+ </div>

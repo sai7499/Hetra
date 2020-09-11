@@ -84,6 +84,8 @@ export class SourcingDetailsComponent implements OnInit {
   isSaved: boolean;
   amountTenureData: any;
   leadSectionData: any;
+  loanTypeValues: any = [];
+  selectedLoanType: string;
 
   tenureMonthlyValidation: {
     rule?: any;
@@ -124,6 +126,7 @@ export class SourcingDetailsComponent implements OnInit {
     productCatCode?: string;
     productId: any;
     priority: number;
+    applicationNo: number;
     fundingProgram: string;
     sourcingChannel: string;
     sourcingType: string;
@@ -136,6 +139,7 @@ export class SourcingDetailsComponent implements OnInit {
     leadHandeledBy: number;
     leadCreatedBy: number;
     leadCreatedOn: string;
+    typeOfLoan: string;
     reqLoanAmt: number;
     reqTenure: number;
     userId: number;
@@ -286,6 +290,12 @@ export class SourcingDetailsComponent implements OnInit {
 
     const leadCreatedby = data.leadDetails.leadCreatedBy;
     this.sourcingDetailsForm.patchValue({ leadCreatedBy: leadCreatedby });
+
+    const applicationNO = data.leadDetails.applicationNo;
+    this.sourcingDetailsForm.patchValue({ applicationNo: applicationNO });
+
+    const loanTypeFromLead = data.leadDetails.typeOfLoan;
+    this.sourcingDetailsForm.patchValue({ loanType: loanTypeFromLead});
 
     this.getBusinessDivision(businessDivisionFromLead);
     this.sourcingDetailsForm.patchValue({ priority: priorityFromLead });
@@ -547,6 +557,10 @@ export class SourcingDetailsComponent implements OnInit {
     this.dealorCodeKey = '';
   }
 
+  onLoanTypeTypeChange(event) {
+    this.selectedLoanType = event.target.value;
+  }
+
   initForm() {
     this.sourcingDetailsForm = new FormGroup({
       leadNumber: new FormControl({ value: '', disabled: true }),
@@ -555,6 +569,7 @@ export class SourcingDetailsComponent implements OnInit {
       leadHandeledBy: new FormControl('', Validators.required),
       productCategory: new FormControl('', Validators.required),
       priority: new FormControl(''),
+      applicationNo: new FormControl('', Validators.required),
       product: new FormControl('', Validators.required),
       fundingProgram: new FormControl('', Validators.required),
       bizDivision: new FormControl('', Validators.required),
@@ -564,6 +579,7 @@ export class SourcingDetailsComponent implements OnInit {
       dealerCode: new FormControl('', Validators.required),
       spokeCodeLocation: new FormControl({ value: '', disabled: true }),
       loanBranch: new FormControl({ value: '', disabled: true }),
+      loanType: new FormControl('', Validators.required),
       reqLoanAmt: new FormControl('', Validators.required),
       requestedTenor: new FormControl('', Validators.required),
     });
@@ -631,6 +647,7 @@ export class SourcingDetailsComponent implements OnInit {
         productId: Number(saveAndUpdate.product),
         fundingProgram: saveAndUpdate.fundingProgram,
         priority: Number(saveAndUpdate.priority),
+        applicationNo: Number(saveAndUpdate.applicationNo),
         sourcingChannel: saveAndUpdate.sourcingChannel,
         sourcingType: saveAndUpdate.sourcingType,
         sourcingCode: this.sourcingCodeKey,
@@ -641,6 +658,7 @@ export class SourcingDetailsComponent implements OnInit {
         leadHandeledBy: Number(this.userId),
         leadCreatedBy: Number(this.branchId),
         leadCreatedOn: this.leadCreatedDateFromLead,
+        typeOfLoan: saveAndUpdate.loanType,
         reqLoanAmt: saveAndUpdate.reqLoanAmt,
         reqTenure: Number(saveAndUpdate.requestedTenor),
       };

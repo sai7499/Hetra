@@ -1,39 +1,47 @@
 <div class="">
-    <form class="multisteps-form__form">
-        <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-            <!-- <h4 class="title">Bank Details</h4> -->
-            <!-- Individual Section Starts Here -->
+  <form class="multisteps-form__form">
+    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+      <!-- <h4 class="title">Bank Details</h4> -->
+      <!-- Individual Section Starts Here -->
 
-            <div class="controlWidth container">
-                <div class="btn-sec clear-both row">
-                    <!-- <div class="col-sm-5">
+      <div class="controlWidth container">
+        <div class="btn-sec clear-both row">
+          <!-- <div class="col-sm-5">
                            <h4 class="title">Vehicle Details</h4> 
                        </div> -->
-                    <div class="col-sm-12 text-right">
-                        <button class="btn btn-secondary mar-right8 table-head-bg " id="btnColor" type="button"
-                            [disabled]="disableAddbankDetailsBtn"
-                            (click)="bankDetail()"> Add Bank
-                            Details </button>
-                        <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
-                    </div>
-                </div>
-                <div class="row">
-                    <div class=" application" id="applicantTable">
-                        <table class="">
-                            <thead>
-                                <tr class="table-head-bg">
-
-                                    <td class="text-center">{{ labels?.accountHolderName }} <i class="fa fa-sort"></i></td>
-                                    <td class="text-center">{{ labels?.bankName }}</td>
-                                    <td class="text-center">{{ labels?.accountNumber | uppercase }}</td>
-                                    <td class="text-center">{{ labels?.accountType }}</td>
-                                    <td class="text-center">{{ labels?.fromDate }}</td>
-                                    <td class="text-center">{{ labels?.toDate }}</td>
-                                    <td class="text-center">{{ labels?.period }}</td>
-                                    <td class="text-center">{{ labels?.action }}</td>
-                                </tr>
-                            </thead>
-                            <!-- <tbody class=" rowCollapse" *ngIf="bankDetails === null">
+          <div class="col-sm-12 text-right">
+            <button
+              class="btn btn-secondary mar-right8 table-head-bg"
+              id="btnColor"
+              type="button"
+              [disabled]="disableAddbankDetailsBtn"
+              (click)="bankDetail()"
+            >
+              Add Bank Details
+            </button>
+            <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
+          </div>
+        </div>
+        <div class="row">
+          <div class="application" id="applicantTable">
+            <table class="">
+              <thead>
+                <tr class="table-head-bg">
+                  <td class="text-center">
+                    {{ labels?.accountHolderName }} <i class="fa fa-sort"></i>
+                  </td>
+                  <td class="text-center">{{ labels?.bankName }}</td>
+                  <td class="text-center">
+                    {{ labels?.accountNumber | uppercase }}
+                  </td>
+                  <td class="text-center">{{ labels?.accountType }}</td>
+                  <td class="text-center">{{ labels?.fromDate }}</td>
+                  <td class="text-center">{{ labels?.toDate }}</td>
+                  <td class="text-center">{{ labels?.period }}</td>
+                  <td class="text-center">{{ labels?.action }}</td>
+                </tr>
+              </thead>
+              <!-- <tbody class=" rowCollapse" *ngIf="bankDetails === null">
                                  <div  >
                                     <p> No records found...</p> 
                                 </div> 
@@ -41,63 +49,103 @@
                                     <td colspan="8">NO RECORDS FOUND</td>
                                 </tr>
                             </tbody> -->
-                            
-                            <tbody>
-                               
-                                <tr id="applicant_1_row" *ngFor="let item of bankDetails">
 
-                                    <td [attr.data-label]="labels?.accountHolderName">{{ item.accountHolderName ? item.accountHolderName : '-' }}</td>
-                                    <td [attr.data-label]="labels?.bankName">{{item?.bankName}}</td>
-                                    <td [attr.data-label]="labels?.accountNumber">{{item?.accountNumber ? item?.accountNumber: '-' | uppercase}}</td>
-                                    <td [attr.data-label]="labels?.accountType">{{item?.accountType}}</td>
-                                    <td [attr.data-label]="labels?.fromDate">{{item?.fromDate }}</td>
-                                    <td [attr.data-label]="labels?.toDate">{{item?.toDate }}</td>
-                                    <td [attr.data-label]="labels?.period">{{item?.period}}</td>
-                                    <td class="cursor-pointer" [attr.data-label]="labels?.action"><i class="fa fa-pencil"
-                                            (click)="routeDetails(item.applicantId);"
-                                            aria-hidden="true"></i>&nbsp;&nbsp;<i class="fa fa-minus cursor-pointer" aria-hidden="true"
-                                            id="remove_item_applicant" (click)="onDelete()"></i></td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-
-                    </div>
-
-
-
-                </div>
-
-
-            </div>
-
-
-
-
-            <div class="row">
-
-            </div>
-            <div id="add_multiple_banks"></div>
-
-            <div class="form-group col-sm-6 col-md-4 col-lg-3">
-
-            </div>
-
-
+              <tbody>
+                <tr id="applicant_1_row" *ngFor="let item of bankDetails">
+                  <td [attr.data-label]="labels?.accountHolderName">
+                    {{ item.accountHolderName ? item.accountHolderName : "-" }}
+                  </td>
+                  <td [attr.data-label]="labels?.bankName">
+                    {{ item?.bankName }}
+                  </td>
+                  <td [attr.data-label]="labels?.accountNumber">
+                    {{
+                      item?.accountNumber
+                        ? item?.accountNumber
+                        : ("-" | uppercase)
+                    }}
+                  </td>
+                  <td [attr.data-label]="labels?.accountType">
+                    {{ item?.accountType }}
+                  </td>
+                  <td [attr.data-label]="labels?.fromDate">
+                    {{ item?.fromDate }}
+                  </td>
+                  <td [attr.data-label]="labels?.toDate">{{ item?.toDate }}</td>
+                  <td [attr.data-label]="labels?.period">{{ item?.period }}</td>
+                  <td class="cursor-pointer" [attr.data-label]="labels?.action">
+                    <i
+                      class="fa fa-pencil"
+                      (click)="routeDetails(item.applicantId)"
+                      aria-hidden="true"
+                    ></i
+                    >&nbsp;&nbsp;<i
+                      class="fa fa-minus cursor-pointer"
+                      aria-hidden="true"
+                      id="remove_item_applicant"
+                      data-toggle="modal"
+                      data-target="#myModal"
+                    ></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-       
-    </form>
-    <div class="btn-sec clear-both row cst_btm_btns">
+      </div>
 
-        <div class="col-sm-5">
-            <button class="btn btn-primary dash_href " (click)=loadAppplicant()> Back To Applicant
-                Details </button>
-        </div>
-        <div class="col-sm-7 text-right">
-            <button class="btn btn-primary dash_href" type="button" (click)="onBack()">Back</button>
-            <!-- <button class="btn btn-primary" (click)="onSave()"> Save </button> -->
-            <!-- <button class="btn btn-primary dash_href " type="button" (click)="onNext()" >Next</button> -->
-        </div>
-    
+      <div class="row"></div>
+      <div id="add_multiple_banks"></div>
+
+      <div class="form-group col-sm-6 col-md-4 col-lg-3"></div>
     </div>
+  </form>
+  <div class="btn-sec clear-both row cst_btm_btns">
+    <div class="col-sm-5">
+      <button class="btn btn-primary dash_href" (click)="loadAppplicant()">
+        Back To Applicant Details
+      </button>
+    </div>
+    <div class="col-sm-7 text-right">
+      <button
+        class="btn btn-primary dash_href"
+        type="button"
+        (click)="onBack()"
+      >
+        Back
+      </button>
+      <!-- <button class="btn btn-primary" (click)="onSave()"> Save </button> -->
+      <!-- <button class="btn btn-primary dash_href " type="button" (click)="onNext()" >Next</button> -->
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+        <!-- <h4 class="modal-title">Submit Record</h4> -->
+      </div>
+      <div class="modal-body">
+        <p>Do you want to delete record ?</p>
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-primary" (click)="submitTocpc()" data-dismiss="modal">Yes</button> -->
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="onDelete()"
+          data-dismiss="modal"
+        >
+          Yes
+        </button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

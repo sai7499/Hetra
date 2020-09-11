@@ -1,6 +1,7 @@
  <div class="text-left" *ngIf="label">
 
     <form [formGroup]="viabilityForm">
+
         <div class="row">
             <select class="btn btn-primary col-lg-2 col-md-2 col-sm-2 col-xs-12 btn-mar" id="vehicle_viability_navigate" formControlName="type"
             (change)="vehicle_viability_navigate($event.target.value)" *ngIf="hideSubmit">
@@ -11,15 +12,32 @@
         <!-- <app-vf-custom-select class="btn" id="vehicle_viability_navigate" [values]="viabilityObj?.vehicleViability"
             formControlName="type" (change)="vehicle_viability_navigate($event.target.value)">
         </app-vf-custom-select> -->
+
         <div id="passanger" *ngIf="vehicle_viability_value === '1VHCLVBTY'" formGroupName="passanger">
+            <div class=" form-group col-sm-6 col-lg-6 col-md-6 col-xs-12 ">
             <h3 class="title heading-align">{{label?.passengerTitle}}</h3>
              
             
                 <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName  }} </p> 
                 <p id="" >{{label?.vehicleModel}}:{{ viabilityDataObj?.model}}</p>
             
-            
+            </div>
             <!-- <form action="" method="POST"> -->
+            <div class="selfie_margin_l form-group col-sm-6 col-lg-6 col-md-6 col-xs-12 text-center">
+                <label for="sourceOf_margin_money">{{label.selfieWithVehicle}}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <div class="photo">
+                    <img [src]="
+                            SELFIE_IMAGE ||
+                                '../../../../assets/images/user.jpg'
+                            " alt="[Image: Photo]" width="100" />
+                </div>
+                <span *ngIf = "isMobile"> <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie
+                    </button></span>
+                <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails" ></app-upload-modal>
+            </div>
+
             <table
                 class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
                 <tr class="table-head-bg m-0 p-02 text-left">
@@ -54,10 +72,12 @@
                         <td>
                             <!-- <input type="number" name="nature_goods" class="form-control" id="nature_goods"
                                 formControlName="natureOfGoods" /> -->
-                            <app-custom-input formControlName="natureOfGoods" 
-                                [maxLength]="label?.validationData?.name?.maxLength" [isRequired]="'Nature Of Goods is Required'"
+                            <!-- <app-custom-input formControlName="natureOfGoods" 
+                                [maxLength]="label?.validationData?.srNumber?.maxLength" [isRequired]="'Nature Of Goods is Required'"
                                 [placeholder]="'Enter Nature of Goods'" 
-                                [isDirty]="isDirty" [type]="label?.validationData?.name?.type"></app-custom-input>
+                                [isDirty]="isDirty" [type]="label?.validationData?.srNumber?.type"></app-custom-input> -->
+                                <app-vf-custom-select formControlName="natureOfGoods" [values]="viabilityObj?.businessType"
+                                [isRequired]="'Please Select Nature Of Goods'"></app-vf-custom-select>
                         </td>
                     </tr>
                     <tr>
@@ -66,10 +86,10 @@
                             <!-- <input type="number" class="form-control" name="distance_km" id="distance_km"
                                 formControlName="distanceInKm" /> -->
                             <app-custom-input formControlName="distanceInKm" 
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength" [isRequired]="'Distance in kms is Required'"
+                                [maxLength]="label?.validationData?. amountFiveCharc?.maxLength" [isRequired]="'Distance in kms is Required'"
                                 [placeholder]="'Enter Distance In Kms'"
                                 (keyup)="calculatePassenger()"
-                                [isDirty]="isDirty" [type]="label?.validationData?. amountDecimal?.type"></app-custom-input>
+                                [isDirty]="isDirty" [type]="label?.validationData?. amountFiveCharc?.type"></app-custom-input>
 
                         </td>
                     </tr>
@@ -81,11 +101,11 @@
                                 <app-custom-input
                                 formControlName="tripsPerMonth"
                                 [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
                                 [isRequired]="'TripsPerMonth is Required'"
                                 [placeholder]="'Enter Trips Per Month'"
                                 [isDirty]="isDirty"
-                                [type]="label?.validationData?. amountDecimal?.type"
+                                [type]="label?.validationData?. amountFiveCharc?.type"
                                 (keyup)="calculatePassenger()"
                                 ></app-custom-input>
                     </tr>
@@ -98,11 +118,11 @@
                                 <app-custom-input
                                 formControlName="monthlyRunningKm"
                                 [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
                                 [isRequired]="'monthlyRunningKm is Required'"
                                 [isDirty]="isDirty"
                                 [placeholder]="' Monthly Running Kms'"
-                                [type]="label?.validationData?. amountDecimal?.type"
+                                [type]="label?.validationData?. amountFiveCharc?.type"
                                 [isDisabled]=" true"
                                 ></app-custom-input>
                     </tr>
@@ -115,11 +135,11 @@
                                 [id]="average_load_ton"
                                 formControlName="avgLoadPerTon"
                                 [patternCheck]=""
-                                [maxLength]="label?.validationData?.amountDecimal?.maxLength"
+                                [maxLength]="label?.validationData?.amountFiveCharc?.maxLength"
                                 [isRequired]="'Average Load Per Ton is Required'"
                                 [isDirty]="isDirty"
                                 [placeholder]="'Enter Average Load Per Ton'"
-                                [type]="label?.validationData?.amountDecimal?.type"
+                                [type]="label?.validationData?.amountFiveCharc?.type"
                                 (keyup)="calculatePassenger()"
                                 ></app-custom-input>
                             </td>
@@ -133,11 +153,11 @@
                                 [id]="rate_tonne_kl"
                                 formControlName="rateTonne"
                                 [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
                                 [isRequired]="'Tonnage Rate is Required'"
                                 [placeholder]="'Enter Rate of Tonne'"
                                 [isDirty]="isDirty"
-                                [type]="label?.validationData?. amountDecimal?.type"
+                                [type]="label?.validationData?. amountFiveCharc?.type"
                                 (keyup)="calculatePassenger()"
                                 ></app-custom-input>
                         </td>
@@ -228,10 +248,10 @@
                                 [id]="num_tyres"
                                 formControlName="noOfTyres"
                                 [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [maxLength]="label?.validationData?. noOfTyres?.maxLength"
                                 [isRequired]="'No Of Tyres is Required'"
                                 [isDirty]="isDirty"
-                                [type]="label?.validationData?. amountDecimal?.type"
+                                [type]="label?.validationData?. noOfTyres?.type"
                                 [placeholder]="'Enter No of Tyres'"
                                 (keyup)=" calculatePassengerB()"
                                 ></app-custom-input>
@@ -606,6 +626,21 @@
                 <p id="" >{{label?.vehicleModel}}:{{ viabilityDataObj?.model}}</p>
             <!---	<h4 class="table-head-bg m-0 p-02">INCOME</h4> ---->
             <!-- <form action="" method="POST"> -->
+            <div class="selfie_margin_l form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="sourceOf_margin_money">{{label.selfieWithVehicle}}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <div class="photo">
+                    <img [src]="
+                            SELFIE_IMAGE ||
+                                '../../../../assets/images/user.jpg'
+                            " alt="[Image: Photo]" width="100" />
+                </div>
+                <span *ngIf="isMobile"> <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie
+                    </button></span>
+                <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails"></app-upload-modal>
+            </div>
+    
             <table
                 class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
                 <tr class="table-head-bg m-0 p-02">
@@ -641,8 +676,8 @@
                                 [id]="gross_income_perday"
                                 formControlName="grossIncomePerDay"
                                 [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
-                                [type]="label?.validationData?. amountDecimal?.type"
+                                [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
+                                [type]="label?.validationData?. amountFiveCharc?.type"
                                 [isRequired]="'Gross Income Per Day Is Required'"
                                 [isDirty]="isDirty"
                                 [placeholder]="'Enter Gross Income Per Day'"
@@ -659,8 +694,8 @@
                                 [id]="gross_income_perday"
                                 formControlName="businessEarningPerDay"
                                 [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
-                                [type]="label?.validationData?. amountDecimal?.type"
+                                [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
+                                [type]="label?.validationData?. amountFiveCharc?.type"
                                 [isRequired]="'Earnings Per Day Is Required'"
                                 [isDirty]="isDirty"
                                 (keyup)="calculateStandOperator()"
@@ -830,6 +865,22 @@
                 <p id="" >{{label?.vehicleModel}}:{{ viabilityDataObj?.model}}</p>
             <!---- <h4 class="table-head-bg m-0 p-02">INCOME</h4> ---->
             <!-- <form action="" method="POST"> -->
+            
+            <div class="selfie_margin_l form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="sourceOf_margin_money">{{label.selfieWithVehicle}}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <div class="photo">
+                    <img [src]="
+                            SELFIE_IMAGE ||
+                                '../../../../assets/images/user.jpg'
+                            " alt="[Image: Photo]" width="100" />
+                </div>
+                <span *ngIf="isMobile"> <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie
+                    </button></span>
+                <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails"></app-upload-modal>
+            </div>
+    
             <table
                 class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
                 <tr class="table-head-bg m-0 p-02">
@@ -844,7 +895,7 @@
                         <td>
                             <!-- <input type="text" class="form-control" name="nature_business" id="nature_business"
                                 formControlName="natureOfBusiness" />-->
-                            <app-custom-input
+                            <!-- <app-custom-input
                             [id]="nature_business"
                             formControlName="natureOfBusiness"
                             [patternCheck]="namePattern"
@@ -853,7 +904,9 @@
                             [isRequired]="'Nature Of business Is Required'"
                             [isDirty]="isDirty"
                             [placeholder]="'Enter Nature of Business'"
-                            ></app-custom-input>
+                            ></app-custom-input> -->
+                            <app-vf-custom-select formControlName="natureOfBusiness" [values]="viabilityObj?.businessType"
+                            [isRequired]="'Please Select Nature Of Business'"></app-vf-custom-select>
                         </td> 
                     </tr>
                     <tr>
@@ -865,8 +918,8 @@
                                 [id]="gross_income_perday_business"
                                 formControlName="businessIncomePerDay"
                                 [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
-                                [type]="label?.validationData?. amountDecimal?.type"
+                                [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
+                                [type]="label?.validationData?. amountFiveCharc?.type"
                                 [isRequired]="'Business Income Per Day Is Required'"
                                 [isDirty]="isDirty"
                         
@@ -884,8 +937,8 @@
                                 [id]="num_earnings_perday"
                                 formControlName="businessEarningPerDay"
                                 [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
-                                [type]="label?.validationData?. amountDecimal?.type"
+                                [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
+                                [type]="label?.validationData?. amountFiveCharc?.type"
                                 [isRequired]="'Business Earning Per Day Is Required'"
                                 [isDirty]="isDirty"
                                 
@@ -1066,6 +1119,14 @@
             <!-- </form> -->
 
         </div>
+
+        <div *ngIf="showRouteMap" class="form-group col-sm-6 col-md-4 col-lg-3 hide">
+            <label for="timeOf_verification">{{label.routeMap}}
+            </label>
+            <div class="photo">
+                <img src="{{base64Image}}" width="235" />
+            </div>
+        </div>
     </form>
 </div>
 
@@ -1074,12 +1135,12 @@
         <button class="btn btn-primary cus-btn-sty" type="button" (click)="onBack()">{{label?.back}}</button> 
         <p class="btn btn-primary save cus-btn-sty" (click)="onSave()"> {{label?.save}} </p>
         <!-- <button class="btn btn-primary cus-btn-sty" type="button" (click)="submitViability()">{{label.submit}}</button>&nbsp; -->
-        <a data-toggle="modal" data-target="#myModal" id="reject_credit" *ngIf="hideSubmit">
+        <a data-toggle="modal" data-target="#myModalCredit" id="reject_credit" *ngIf="hideSubmit">
             <p type="button" class="btn btn-primary">{{label?.submit}}</p>
         </a>
     </div>
 </div>
-<div class="modal" id="myModal">
+<div class="modal" id="myModalCredit">
     <div class="modal-dialog">
         <div class="modal-content">
 

@@ -23,7 +23,11 @@ export class LeadSectionHeaderComponent implements OnInit {
   loanAmount: Number;
   stageDescription: string;
 
-  isEnableDdeButton: boolean;
+  isNeedBackButton: boolean = false;
+  ddeBackLabel: string;
+  ddeBackRouter: string;
+
+  isEnableDdeButton: boolean = false;
   isDdeModule: boolean;
   constructor(
     private labelsData: LabelsService,
@@ -43,7 +47,7 @@ export class LeadSectionHeaderComponent implements OnInit {
   ngOnInit() {
     // this.leadId = (await this.getLeadId()) as number;
     const operationType = this.toggleDdeService.getOperationType()
-    this.isEnableDdeButton = !this.toggleDdeService.getDdeClickedValue() && (operationType === '1' || operationType === '2');
+    this.isEnableDdeButton = !this.toggleDdeService.getDdeClickedValue() && (operationType === '1' || operationType === '2' );
     this.getLabels();
     if (this.leadId) {
       // console.log(this.aRoute.snapshot)
@@ -55,6 +59,12 @@ export class LeadSectionHeaderComponent implements OnInit {
       }
     }
     this.getUserDetails();
+    const value = localStorage.getItem('ddePath');
+    if(value){
+    const ddeButton = JSON.parse(value);
+    this.ddeBackLabel = ddeButton.labelName;
+    this.setDdeBackButton();
+    }
   }
 
   getLabels() {
@@ -111,5 +121,37 @@ export class LeadSectionHeaderComponent implements OnInit {
   viewOrEditDde() {
     this.toggleDdeService.setIsDDEClicked();
     this.isEnableDdeButton = false;
+    this.isNeedBackButton = true;
+    this.router.navigate(['/pages/dde/' + this.leadId])
+    this.toggleDdeService.setCurrentPath(this.location.path())
+    this.setDdeBackButton()
   }
+
+  setDdeBackButton() {
+    const value = localStorage.getItem('ddePath');
+    if (!value) {
+      this.isNeedBackButton = false;
+      return;
+    }
+    const ddeButton = JSON.parse(value);
+    if(this.toggleDdeService.getDdeClickedValue()){
+      this.isNeedBackButton = true;
+    }
+    
+    this.ddeBackLabel = ddeButton.labelName;
+    this.ddeBackRouter = ddeButton.currentUrl;
+  }
+
+  backFromDde() {
+    const value = localStorage.getItem('ddePath');
+    const ddeButton = JSON.parse(value);
+    this.router.navigateByUrl(ddeButton.currentUrl);
+    localStorage.removeItem('isDdeClicked');
+    // this.toggleDdeService.clearToggleData();
+    // this.toggleDdeService.setIsDDEClicked(0);
+    // this.isEnableDdeButton = false;
+    this.isNeedBackButton = false
+    
+  }
+
 }

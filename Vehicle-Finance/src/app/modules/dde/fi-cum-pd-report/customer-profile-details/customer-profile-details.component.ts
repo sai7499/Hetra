@@ -64,6 +64,9 @@ export class CustomerProfileDetailsComponent implements OnInit {
   roleType: any;
   disableSaveBtn: boolean;
   operationType: string;
+  addressStatus: any;
+  addressDisabled: boolean;
+  addressRequired: boolean;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -77,7 +80,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
     private pdDataService: PdDataService,
     private personalDiscussion: PersonalDiscussionService,
     private toggleDdeService: ToggleDdeService
-    ) { }
+  ) { }
 
   async ngOnInit() {
 
@@ -111,7 +114,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
     this.getLOV();
     // this.commonService()
     this.getPdDetails();
-    this.setFormValue();
+    // this.setFormValue();
 
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.customerProfileLov = value ? value[0].customerProfile[0] : {};
@@ -161,11 +164,11 @@ export class CustomerProfileDetailsComponent implements OnInit {
       officePremises: new FormControl('', Validators.required),
       sizeofOffice: new FormControl('', Validators.required),
       customerProfileRatingSo: new FormControl('', Validators.required),
-      mismatchInAddress: new FormControl('', Validators.compose([Validators.maxLength(200),
-      Validators.required])),
+      mismatchInAddress: new FormControl('', Validators.compose([Validators.maxLength(200)])),
       customerHouseSelfie: new FormControl('', Validators.required),
-      ownershipAvailable: new FormControl('', Validators.required),
-      mandatoryCustMeeting: new FormControl('', Validators.required)
+      // ownershipAvailable: new FormControl('', Validators.required),
+      mandatoryCustMeeting: new FormControl('', Validators.required),
+      locality: new FormControl('', Validators.required)
     });
     // Validators.pattern(/^[a-zA-Z.-]*$/)
   }
@@ -182,6 +185,24 @@ export class CustomerProfileDetailsComponent implements OnInit {
       // this.getPdDetails();
 
     }
+  }
+
+  addressMismatch(event: any) { // fun for conditional mandatory for mismatch in off/buss address
+    this.addressStatus = event ? event : event;
+    console.log('in address mismatch', this.addressStatus);
+    if (this.addressStatus === '1') {
+      this.addressDisabled = true;
+      this.addressRequired = false;
+      this.customerProfileForm.get('mismatchInAddress').disable();
+      this.customerProfileForm.get('mismatchInAddress').updateValueAndValidity();
+    } else if (this.addressStatus !== '1') {
+      this.addressDisabled = false;
+      this.addressRequired = true;
+      this.customerProfileForm.get('mismatchInAddress').enable();
+      this.customerProfileForm.get('mismatchInAddress').setValidators(Validators.required);
+
+    }
+
   }
 
   getPdDetails() {
@@ -201,7 +222,10 @@ export class CustomerProfileDetailsComponent implements OnInit {
         console.log('calling get api ', this.custProfDetails);
         if (this.custProfDetails) {
           this.setFormValue();
-          this.pdDataService.setCustomerProfile(this.custProfDetails);
+          // this.pdDataService.setCustomerProfile(this.custProfDetails);
+        }
+        if (this.customerProfileForm.get('offAddSameAsRecord') != null) {
+          this.addressMismatch(this.customerProfileForm.get('offAddSameAsRecord').value);
         }
       }
     });
@@ -224,8 +248,9 @@ export class CustomerProfileDetailsComponent implements OnInit {
       customerProfileRatingSo: customerProfileModal.customerProfileRatingSo || '',
       mismatchInAddress: customerProfileModal.mismatchInAddress || '',
       customerHouseSelfie: customerProfileModal.customerHouseSelfie || '',
-      ownershipAvailable: customerProfileModal.ownershipAvailable || '',
-      mandatoryCustMeeting: customerProfileModal.mandatoryCustMeeting || ''
+      // ownershipAvailable: customerProfileModal.ownershipAvailable || '',
+      mandatoryCustMeeting: customerProfileModal.mandatoryCustMeeting || '',
+      locality: customerProfileModal.locality || ''
     });
     console.log('patched form', this.customerProfileForm);
   }
@@ -253,8 +278,9 @@ export class CustomerProfileDetailsComponent implements OnInit {
       customerProfileRatingSo: customerProfileFormModal.customerProfileRatingSo,
       mismatchInAddress: customerProfileFormModal.mismatchInAddress,
       customerHouseSelfie: customerProfileFormModal.customerHouseSelfie,
-      ownershipAvailable: customerProfileFormModal.ownershipAvailable,
+      // ownershipAvailable: customerProfileFormModal.ownershipAvailable,
       mandatoryCustMeeting: customerProfileFormModal.mandatoryCustMeeting,
+      locality: customerProfileFormModal.locality
     };
     const data = {
       leadId: this.leadId,

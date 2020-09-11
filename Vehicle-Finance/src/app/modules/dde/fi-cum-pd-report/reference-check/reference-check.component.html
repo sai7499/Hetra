@@ -102,14 +102,13 @@
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="mobile">{{ labels.routeMap }}
                     <sub class="star_red_col">*</sub>
                 </label>
 
-                <input type="text" class="form-control" id="negativeProfile" formControlName="routeMap"
-                    disabled="true" />
-            </div>
+                <input type="text" class="form-control" id="negativeProfile" formControlName="routeMap" disabled="true" />
+            </div> -->
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="equitas_branch_name">{{labels.equitasBranchName}}
                     <sub class="star_red_col">*</sub>
@@ -217,9 +216,9 @@
                     <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
                         {{labels.reinitiate}}
                     </button>&nbsp;
-                    <button class="btn btn-success" (click)="approvePd()" [disabled]="disableSaveBtn">
+                    <!-- <button class="btn btn-success" (click)="approvePd()" [disabled]="disableSaveBtn">
                         {{ labels.approve }}
-                    </button>
+                    </button> -->
                 </div>
             </div>
 

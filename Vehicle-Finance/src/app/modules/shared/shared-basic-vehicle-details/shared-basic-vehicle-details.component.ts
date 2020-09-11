@@ -13,6 +13,7 @@ import { ToasterService } from '@services/toaster.service';
 import { ApplicantService } from '@services/applicant.service';
 import { map } from 'rxjs/operators';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -23,7 +24,6 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   @Input() id: any;
-
   addressList: any = [];
   applicantDetails: any = [];
   disableSaveBtn: boolean;
@@ -31,6 +31,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   maxDate = new Date();
   initalZeroCheck = [];
   customFutureDate: boolean;
+  eligibleLoanAmount: any;
 
   public basicVehicleForm: FormGroup;
   public vehicleLov: any = {};
@@ -63,15 +64,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   constructor(
     private _fb: FormBuilder, private toggleDdeService: ToggleDdeService,
-    private loginStoreService: LoginStoreService,
-    private labelsData: LabelsService,
-    private commonLovService: CommomLovService,
-    private vehicleDetailService: VehicleDetailService,
-    private vehicleDataService: VehicleDataStoreService,
-    private utilityService: UtilityService,
-    private createLeadDataService: CreateLeadDataService,
-    public sharedService: SharedService, private toasterService: ToasterService,
-    private uiLoader: NgxUiLoaderService, private applicantService: ApplicantService) {
+    private loginStoreService: LoginStoreService, private labelsData: LabelsService,
+    private commonLovService: CommomLovService, private utilityService: UtilityService,
+    private vehicleDetailService: VehicleDetailService, private activedRoute: ActivatedRoute,
+    private vehicleDataService: VehicleDataStoreService, private uiLoader: NgxUiLoaderService,
+    private createLeadDataService: CreateLeadDataService, private toasterService: ToasterService,
+    public sharedService: SharedService, private applicantService: ApplicantService) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
   }
 
@@ -106,6 +104,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.productCatoryId = this.leadDetails['productId'];
     this.loanTenor = this.leadDetails['reqTenure'];
 
+    this.eligibleLoanAmount = this.activedRoute.snapshot.params['eligibleLoanAmount'];
+
     this.initForms();
     this.getLov();
 
@@ -116,7 +116,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const operationType = this.toggleDdeService.getOperationType();
     if (operationType === '1') {
       this.basicVehicleForm.disable();
-      this.disableSaveBtn  = true;
+      this.disableSaveBtn = true;
     }
 
   }
@@ -328,6 +328,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       oneTimeTax: VehicleDetail.oneTimeTax || '',
       orpValue: VehicleDetail.orpValue || '',
       others: VehicleDetail.others || '',
+      loanAmount: VehicleDetail.loanAmount ? VehicleDetail.loanAmount : this.eligibleLoanAmount || null,
+      bodyCost: VehicleDetail.bodyCost || null,
       pac: VehicleDetail.pac || '',
       pacAmount: VehicleDetail.pacAmount || null,
       permitExpiryDate: VehicleDetail.permitExpiryDate ? this.utilityService.getDateFromString(VehicleDetail.permitExpiryDate) : '',
@@ -772,6 +774,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       isOrpFunding: [''],
       insurance: [''],
       oneTimeTax: [''],
+      loanAmount: [''],
+      bodyCost: [''],
       pac: [''],
       vas: [''],
       emiProtect: [''],
@@ -817,6 +821,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       pac: [''],
       vas: [''],
       emiProtect: [''],
+      loanAmount: [''],
+      bodyCost: [''],
       fastTag: [''],
       others: [''],
       discount: [''],
@@ -867,6 +873,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       duplicateRC: [''],
       cubicCapacity: [''],
       seatingCapacity: [''],
+      loanAmount: [''],
+      bodyCost: [''],
       insuranceValidity: [''],
       idv: [''],
       insuranceCopy: [''],
@@ -904,6 +912,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       finalAssetCost: ['', Validators.required],
       chasisNumber: [''],
       engineNumber: [''],
+      loanAmount: [''],
+      bodyCost: [''],
       vehiclePurchasedCost: [''],
       vehicleOwnerShipNumber: null,
       rcOwnerName: ['', Validators.pattern('^[A-Za-z ]{0,99}$')],
