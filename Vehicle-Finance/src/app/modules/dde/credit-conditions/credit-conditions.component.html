@@ -103,7 +103,7 @@
     <div class="col-sm-4">
     </div>
     <div class="col-sm-8 text-right">
-      <button class="btn btn-primary" (click)="saveUpdate('back')" type="button">Back</button>
+      <button class="btn btn-primary" (click)="onBack()" type="button">Back</button>
       <button class="btn btn-primary" (click)="saveUpdate('save')" type="button">Save</button>
       <!-- <button class="btn btn-primary"
        *ngIf="userType !== 2" 
@@ -140,7 +140,7 @@
       <button class="btn btn-primary" *ngIf="userType === 2" (click)="alertMessage('Send Back to DDE')"
         data-toggle="modal" data-target="#approveModal" type="button">Send Back to DDE </button>
 
-      <button class="btn btn-primary" (click)="saveUpdate('next')" type="button">Next</button>
+      <button class="btn btn-primary" (click)="onNext()" type="button">Next</button>
     </div>
   </div>
 </div>

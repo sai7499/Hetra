@@ -252,18 +252,6 @@ export class CreditConditionsComponent implements OnInit {
                 Rows: this.formBuilder.array([])
               });
               this.getCreditConditions();
-            }else if(data == 'next' && this.userType == 2 && this.salesResponse == 'true' ){
-              this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
-            } else if(data == 'next' && this.userType == 2 && this.salesResponse == 'false' ){
-              this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
-            } else if(data == 'next' && this.userType == 1){
-              this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
-            }else if(data == 'back' && this.userType == 2 && this.salesResponse == 'true' ){
-              this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/deviations')
-            }else if(data == 'back' && this.userType == 2 && this.salesResponse == 'false' ){
-              this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/deviations')
-            }else if(data == 'back' && this.userType == 1){
-              this.router.navigate([`pages/dashboard`]);
             }
           }else {
             this.toasterService.showError(res['ProcessVariables'].error['message'], '');
@@ -404,10 +392,18 @@ export class CreditConditionsComponent implements OnInit {
   onNext()  {
     // this.onSave();
     // tslint:disable-next-line: triple-equals
-    if (this.roleType == '2' || this.roleType == '1') {
+    if(this.roleType == 1 && localStorage.getItem('isPreDisbursement') == 'true'){
+      this.router.navigate([`pages/pre-disbursement/${this.leadId}/term-sheet`]);
+    }else if( this.userType == 2 && this.salesResponse == 'true' ){
+      this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
+    } else if( this.userType == 2 && this.salesResponse == 'false' ){
+      this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
+    } else if( this.userType == 1 && localStorage.getItem('isPreDisbursement') != 'true'){
+      this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
+    }
+     if (this.roleType == '2' || this.roleType == '1' && localStorage.getItem('isPreDisbursement') != 'true') {
     this.router.navigate([`pages/credit-decisions/${this.leadId}/term-sheet`]);
-    // tslint:disable-next-line: triple-equals
-    // tslint:disable-next-line: align
+    
     } else if (this.roleType == '4') {
       this.router.navigate([`pages/cpc-maker/${this.leadId}/term-sheet`]);
     // tslint:disable-next-line: triple-equals
@@ -417,7 +413,15 @@ export class CreditConditionsComponent implements OnInit {
   }
   
   onBack() {
-    if (this.roleType == '2' || this.roleType == '1') {
+    if(this.roleType == '1' && localStorage.getItem('isPreDisbursement') == 'true'){
+      this.router.navigate([`pages/dashboard`]);
+    }else  if( this.userType == 2 && this.salesResponse == 'true' ){
+      this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/deviations')
+    }else if(this.userType == 2 && this.salesResponse == 'false' ){
+      this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/deviations')
+    }else if(this.userType == 1){
+      this.router.navigate([`pages/dashboard`]);
+    }else if (this.roleType == '2' || this.roleType == '1') {
       this.router.navigate([`pages/dashboard`]);
       // tslint:disable-next-line: triple-equals
       } 

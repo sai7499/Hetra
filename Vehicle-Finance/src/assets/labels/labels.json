@@ -344,9 +344,9 @@
     "customerType": "Customer Type",
     "entityType": "Entity Type",
     "appno": "App no",
-    "generateCam":"Generate CAM",
+    "generateCam": "Generate CAM",
     "camDate": "CAM Date",
-    "missingMandatoryFields":"Missing Mandatory Fields",
+    "missingMandatoryFields": "Missing Mandatory Fields",
     "existingExposure": "Existing Exposure",
     "areaName": "Area Name",
     "branchName": "Branch Name",
@@ -540,7 +540,7 @@
     "propertyOwner": "Property owner",
     "relatedWithApplicant": "Related to Primary Applicant",
     "totalLoanAmount": "Total Loan Amount",
-    "totalBuildupArea": "Total Built up Area",
+    "totalBuildupArea": "Total Built up Area (in sqft)",
     "marketValueSF": "Market Value(Square Feet)",
     "totalMarketValue": "Total Market Value",
     "guideLineValue": "Guide line  value(Square Feet)",
@@ -549,9 +549,9 @@
     "valueasToday": "Value as of today per gram",
     "totalValue": "Total Value",
     "purity": "Purity",
-    "marketValueAcres": "Market Value(Acre)",
+    "marketValueAcres": "Market Value (Acre)",
     "totalLandMarketValue": "Total Land Market Value",
-    "guideLine": "Guide line  value(Acre)",
+    "guideLine": "Guide line  value (Acre)",
     "totalGuideLineValue": "Total Land Guideline Value",
     "jewelOwner": "Jewel owner",
     "fdAccountNo": "FD Account number",
@@ -740,7 +740,7 @@
     "vehicletitle": "Vehicle Details",
     "registrationNum": "Registration Num",
     "addAdditionalCollaterals": " Add Additional Collaterals",
-    "totalLandArea": "Total Land Area",
+    "totalLandArea": "Total Land Area (in sqft)",
     "collateralType": "Colleteral Type",
     "relationWithLead": "Relationship with Lead ",
     "relationWithApplicantStatus": "Relationship with Applicant",
@@ -1042,7 +1042,7 @@
     "tripAmt": "Amount Received per trip",
     "selfDriver": "Self Driven or Driver",
     "remarks": "Remarks-Not in running condition",
-    "isPrevExpMatched":"Customer previous experience matched with proposed vehicle",
+    "isPrevExpMatched": "Customer previous experience matched with proposed vehicle",
     "permanentAddress": "Permanent Address",
     "currentAddress": "Current Address",
     "isItSameAsYourPermanentAddress": "Is it same as your permanent Address?",
@@ -1606,7 +1606,7 @@
     "totalCredits": "Total number of credits",
     "micrNo": "MICR No",
     "accountBranchname": "Account Branchname",
-    "termsheetGeneratedDate" : "Termsheet Generated Date",
+    "termsheetGeneratedDate": "Termsheet Generated Date",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1669,6 +1669,12 @@
                 "rule": "^[0-9A-Za-z]{9,15}$",
                 "msg": "Invalid account Number"
             }
+        },
+        "goldInGrams": {
+            "maxLength": {
+                "rule": 5
+            },
+            "type": "decimal"
         },
         "bankName": {
             "maxLength": {
@@ -1781,7 +1787,6 @@
                 "rule": 35
             }
         },
-        
         "businessName": {
             "maxLength": {
                 "rule": 50
@@ -2063,6 +2068,12 @@
             },
             "type": "decimal"
         },
+        "pattaNo": {
+            "maxLength": {
+                "rule": 20
+            },
+            "type": "alpha-numeric-slash"
+        },
         "goodsManufactured": {
             "maxLength": {
                 "rule": 50
@@ -2176,7 +2187,7 @@
         },
         "applicationNo": {
             "maxLength": {
-                "rule": 10
+                "rule": 20
             },
             "type": "alpha-numeric"
         },
