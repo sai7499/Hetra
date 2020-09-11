@@ -22,19 +22,31 @@
             
             
             <!-- <form action="" method="POST"> -->
-            <div class="selfie_margin_l form-group col-sm-6 col-md-4 col-lg-3">
+            <div *ngIf="isMobile" class="selfie_margin_l form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="sourceOf_margin_money">{{label.selfieWithVehicle}}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <div class="photo">
+                    <img [src]="
+                        SELFIE_IMAGE ||
+                                'assets/images/user.jpg'
+                            " alt="[Image: Photo]" width="100" />
+                </div>
+                <span *ngIf = "isMobile"> <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie
+                    </button></span>
+                <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails" ></app-upload-modal>
+            </div>
+
+            <div *ngIf="!isMobile" class="selfie_margin_l form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="sourceOf_margin_money">{{label.selfieWithVehicle}}
                     <!-- <sub class="star_red_col">*</sub> -->
                 </label>
                 <div class="photo">
                     <img [src]="
                             SELFIE_IMAGE ||
-                                '../../../../assets/images/user.jpg'
+                                'assets/images/user.jpg'
                             " alt="[Image: Photo]" width="100" />
                 </div>
-                <span> <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie
-                    </button></span>
-                <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails"></app-upload-modal>
             </div>
 
             <table
@@ -631,13 +643,25 @@
                 </label>
                 <div class="photo">
                     <img [src]="
-                            SELFIE_IMAGE ||
-                                '../../../../assets/images/user.jpg'
+                        SELFIE_IMAGE ||
+                                'assets/images/user.jpg'
                             " alt="[Image: Photo]" width="100" />
                 </div>
-                <span> <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie
+                <span *ngIf="isMobile"> <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie
                     </button></span>
                 <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails"></app-upload-modal>
+            </div>
+
+            <div *ngIf="!isMobile" class="selfie_margin_l form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="sourceOf_margin_money">{{label.selfieWithVehicle}}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <div class="photo">
+                    <img [src]="
+                            SELFIE_IMAGE ||
+                                'assets/images/user.jpg'
+                            " alt="[Image: Photo]" width="100" />
+                </div>
             </div>
     
             <table
@@ -865,19 +889,31 @@
             <!---- <h4 class="table-head-bg m-0 p-02">INCOME</h4> ---->
             <!-- <form action="" method="POST"> -->
             
-            <div class="selfie_margin_l form-group col-sm-6 col-md-4 col-lg-3">
+            <div *ngIf="isMobile" class="selfie_margin_l form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="sourceOf_margin_money">{{label.selfieWithVehicle}}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <div class="photo">
+                    <img [src]="
+                        SELFIE_IMAGE ||
+                                'assets/images/user.jpg'
+                            " alt="[Image: Photo]" width="100" />
+                </div>
+                <span *ngIf="isMobile"> <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie
+                    </button></span>
+                <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails"></app-upload-modal>
+            </div>
+
+            <div *ngIf="!isMobile" class="selfie_margin_l form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="sourceOf_margin_money">{{label.selfieWithVehicle}}
                     <!-- <sub class="star_red_col">*</sub> -->
                 </label>
                 <div class="photo">
                     <img [src]="
                             SELFIE_IMAGE ||
-                                '../../../../assets/images/user.jpg'
+                                'assets/images/user.jpg'
                             " alt="[Image: Photo]" width="100" />
                 </div>
-                <span> <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie
-                    </button></span>
-                <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails"></app-upload-modal>
             </div>
     
             <table
