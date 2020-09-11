@@ -42,7 +42,6 @@ export class AdditionalCollateralComponent implements OnInit {
 
         this.collateralForm = this._fb.group({
             collateralType: ['AGRIADDCOLTYP', Validators.required],
-            propertyOwnership: [''],
             proofCollected: [''],
             proofName: [''],
             collateralFormArray: this._fb.array([])
@@ -254,7 +253,6 @@ export class AdditionalCollateralComponent implements OnInit {
             additionalCollaterals['collateralType'] = form.value.collateralType;
             additionalCollaterals['proofName'] = form.value.proofName;
             additionalCollaterals['proofCollected'] = form.value.proofCollected;
-            additionalCollaterals['propertyOwnership'] = form.value.propertyOwnership;
 
             if (this.collateralType === 'GOLDADDCOLTYP') {
 
