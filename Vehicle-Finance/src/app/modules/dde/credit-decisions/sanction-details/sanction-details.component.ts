@@ -61,7 +61,7 @@ export class SanctionDetailsComponent implements OnInit {
     // this.getSanctionDetails();
     this.salesResponse = localStorage.getItem('salesResponse');
     console.log("SALESRESPONSE::", this.salesResponse);
-    this.isPreDisbursement = localStorage.getItem('is_pred_done');
+    this.isPreDisbursement = localStorage.getItem('isPreDisbursement');
     console.log("ISPREDISBURSEMENT::", this.isPreDisbursement);
     this.isPreDone = localStorage.getItem('is_pred_done');
     console.log("IS_PRE_DONE::", this.isPreDone);
