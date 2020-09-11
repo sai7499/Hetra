@@ -310,7 +310,7 @@ export class BankDetailsComponent implements OnInit {
         'Mandatory Fields Missing ',
         'Bank Transactions'
       );
-      console.log(this.bankForm.value, 'Invalid Form');
+      console.log(this.bankForm, 'Invalid Form');
       return;
     }
     this.bankForm.value.fromDate = this.bankForm.value.fromDate
