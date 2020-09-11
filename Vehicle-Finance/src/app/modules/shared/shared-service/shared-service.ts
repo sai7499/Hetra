@@ -38,6 +38,11 @@ export class SharedService {
         this.taskId$.next(data)
     }
 
+    pslDataNext$: BehaviorSubject<any> = new BehaviorSubject(false);
+    getPslDataNext(data) {
+        this.pslDataNext$.next(data);
+    }
+    
     vehicleValuationNext$: BehaviorSubject<any> = new BehaviorSubject(false);
     getVehicleValuationNext(data) {
         this.vehicleValuationNext$.next(data);
