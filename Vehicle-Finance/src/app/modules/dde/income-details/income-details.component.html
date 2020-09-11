@@ -8,9 +8,18 @@
           <div class="table-responsive application" *ngIf="usedCar">
             <table id="POITable" border="1" class="table">
               <caption class="caption">
-                {{
+                <div class="income-row">
+                  <div class="col-md-10">
+                    <span class="caption">{{ labels?.businessIncomeDetailsTitle }}</span>
+                  </div>
+                  <div class="col-md-2 text-right">
+                    <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addBusinessIncomeUnit(null)"><i
+                        class="fa fa-plus fa-fw"></i> Add Row</button>
+                  </div>
+                  </div>
+                <!-- {{
                   labels?.businessIncomeDetailsTitle
-                }}
+                }} -->
               </caption>
               <thead>
                 <tr class="">
@@ -191,8 +200,8 @@
                       " [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                   </td>
                   <td data-title="Actions" *ngIf="!disableSaveBtn">
-                    <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
-                      title="Add income" (click)="addBusinessIncomeUnit(null)"></i>&nbsp;
+                    <!-- <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
+                      title="Add income" (click)="addBusinessIncomeUnit(null)"></i>&nbsp; -->
                     <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
                       title="Delete income" (click)="showBusinessIncome(i)"></i>
                   </td>
@@ -210,9 +219,18 @@
           <div class="table-responsive application" *ngIf="NewOrUsedComercialVehicle" formArrayName="keyFinanceDetails">
             <table id="POITable" border="1" class="table">
               <caption class="caption">
-                {{
+                <div class="income-row">
+                  <div class="col-md-10">
+                    <span class="caption">{{ labels?.keyFinancialTitle }}</span>
+                  </div>
+                  <div class="col-md-2 text-right">
+                    <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addKeyFinancialDetails(null)"><i
+                        class="fa fa-plus fa-fw"></i> Add Row</button>
+                  </div>
+                  </div>
+                <!-- {{
                   labels?.keyFinancialTitle
-                }}
+                }} -->
               </caption>
               <tbody class="text-center" *ngFor="
                   let item of incomeDetailsForm.get('keyFinanceDetails')[
@@ -277,8 +295,8 @@
                     </app-custom-input>
                   </td>
                   <td data-title="Actions">
-                    <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
-                      title="Add income" (click)="addKeyFinancialDetails(null)"></i>&nbsp;
+                    <!-- <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
+                      title="Add income" (click)="addKeyFinancialDetails(null)"></i>&nbsp; -->
                     <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
                       title="Delete income" (click)="showKeyFinancial(i)"></i>
                   </td>
@@ -737,9 +755,18 @@
           <div class="table-responsive application mt-3">
             <table id="POITable_other" border="1" class="table">
               <caption class="caption">
-                {{
+                <div class="income-row">
+                  <div class="col-md-10">
+                    <span class="caption">{{ labels?.otherIncomeDetailsTitle }}</span>
+                  </div>
+                  <div class="col-md-2 text-right">
+                    <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addOtherIncomeUnit(null)"><i
+                        class="fa fa-plus fa-fw"></i> Add Row</button>
+                  </div>
+                  </div>
+                <!-- {{
                   labels?.otherIncomeDetailsTitle
-                }}
+                }} -->
               </caption>
               <thead>
                 <tr class="">
@@ -865,8 +892,8 @@
                       " [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                   </td>
                   <td data-title="Actions" *ngIf="!disableSaveBtn">
-                    <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
-                      title="Add income" (click)="addOtherIncomeUnit(null)"></i>&nbsp;
+                    <!-- <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
+                      title="Add income" (click)="addOtherIncomeUnit(null)"></i>&nbsp; -->
                     <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
                       title="Delete income" (click)="showOtherIncome(i)"></i>
                   </td>
@@ -883,9 +910,18 @@
           <div class="table-responsive application mt-3">
             <table id="POITable_obligation" border="1" class="table">
               <caption class="caption">
-                {{
+                <div class="income-row">
+                  <div class="col-md-10">
+                    <span class="caption">{{ labels?.obligationDetailsTitle }}</span>
+                  </div>
+                  <div class="col-md-2 text-right">
+                    <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addObligationUnit(null)"><i
+                        class="fa fa-plus fa-fw"></i> Add Row</button>
+                  </div>
+                  </div>
+                <!-- {{
                   labels?.obligationDetailsTitle
-                }}
+                }} -->
               </caption>
               <thead>
                 <tr class="">
@@ -1122,8 +1158,8 @@
                       " [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                   </td>
                   <td data-title="Actions" *ngIf="!disableSaveBtn">
-                    <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
-                      title="Add obligation" (click)="addObligationUnit(null)"></i>&nbsp;
+                    <!-- <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
+                      title="Add obligation" (click)="addObligationUnit(null)"></i>&nbsp; -->
                     <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
                       title="Delete obligation" (click)="showObligationIncome(i)"></i>
                   </td>
@@ -1138,14 +1174,14 @@
             </div>
           </div>
           <div class="table-responsive application mt-3 oblig p-0" *ngIf="usedCar">
-            <table id="POITable" border="1" class="table income_obli">
-              <tr>
+            <table id="POITable" border="0" class="table income_obli">
+              
                 <caption class="caption">
                   {{
                     labels?.incomeObligationSummaryTitle
                   }}
                 </caption>
-              </tr>
+              
 
               <tr>
                 <td>{{ labels?.totalMonthlySalaryIncome }}</td>
@@ -1325,3 +1361,9 @@
     </div>
   </div>
 </div>
+
+
+
+
+
+
