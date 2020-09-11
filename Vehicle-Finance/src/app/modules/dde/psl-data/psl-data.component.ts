@@ -7,6 +7,8 @@ import { CommomLovService } from "@services/commom-lov-service";
 import { PslDataService } from "../services/psl-data.service";
 import { ToasterService } from "@services/toaster.service";
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: "app-psl-data",
@@ -21,27 +23,24 @@ export class PslDataComponent implements OnInit {
 
   // pslId: number;
   leadId;
+  productCatCode: string;
 
   labels: any = {};
   LOV: any = [];
-
   formValues: any = {};
   pslData: any = [];
   pslDataObj: any = {};
   data: any = [];
-
   activityLOVS: any = [];
   activityChange: string = "";
   detailActivityChange: string;
   proofOfInvestmentChange: string = "";
   proofOfInvsetmentLOVS: any = [];
-
   pslDependentLOVSData: any = [];
   detailActivityValues: any = [];
   detailActivityChangeValues: any = [];
   endUseValues: any = [];
   typeOfService: any = [];
-
   purposeOfLoanChange: any;
   pslCategoryValues: any = [];
   pslSubCategoryValues: any = [];
@@ -84,18 +83,21 @@ export class PslDataComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private labelsData: LabelsService,
+    private createLeadDataService: CreateLeadDataService,
     private commomLovService: CommomLovService,
     private pslDataService: PslDataService,
     private router: Router,
     private aRoute: ActivatedRoute,
     private toasterService: ToasterService,
-    private toggleDdeService: ToggleDdeService
+    private toggleDdeService: ToggleDdeService,
+    private sharedService: SharedService,
   ) { }
 
   ngOnInit() {
     this.initForm();
     this.getLabels();
     this.getLOV();
+    this.getLeadSectiondata();
   }
 
   getLabels() {
@@ -120,6 +122,13 @@ export class PslDataComponent implements OnInit {
       this.getProofOfInvestmentLOVS();
     });
     console.log("PSL-DATA_LOV::", this.LOV);
+  }
+
+  //GET LEAD SECTION DATA
+  getLeadSectiondata() {
+    const leadData = this.createLeadDataService.getLeadSectionData();
+    this.productCatCode = leadData['leadDetails'].productCatCode;
+    console.log("PRODUCT_CODE::", this.productCatCode);
   }
 
   //Get Dependent API LOV for Activity, Detail Activity & Purpose of Loan
@@ -1525,13 +1534,19 @@ export class PslDataComponent implements OnInit {
     }
   }
 
-  //FORM SUBMIT FUNCTION
+  //FORM_SUBMIT_FUNCTION
   onFormSubmit() {
     this.saveOrUpdatePslData();
   }
 
+  //NAVIGATE_NEXT_BASED_ON_PRODUCT_CODE
   navigateNext() {
-    this.router.navigate([`/pages/dde/${this.leadId}/vehicle-valuation`]);
+    if(this.productCatCode != 'NCV') {
+      this.router.navigate([`/pages/dde/${this.leadId}/vehicle-valuation`]);
+    } else if(this.productCatCode == 'NCV'){
+      this.router.navigate([`/pages/dde/${this.leadId}/tvr-details`]);
+      this.sharedService.getPslDataNext(true);
+    }
   }
 
   onBack() {

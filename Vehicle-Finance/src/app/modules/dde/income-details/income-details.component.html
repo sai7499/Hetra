@@ -199,11 +199,48 @@
                         labels?.validationData?.amountValue?.maxLength
                       " [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                   </td>
+
+
                   <td data-title="Actions" *ngIf="!disableSaveBtn">
+
+                    <i
+                      type="button"
+                      class="fa fa-plus"
+                      aria-hidden="true"
+                      id="addmorePOIbutton"
+                      value="Add"
+                      title="Add income"
+                      (click)="addBusinessIncomeUnit(null)"
+                    ></i
+                    >&nbsp;
+                    <i
+                      type="button"
+                      class="fa fa-minus"
+                      aria-hidden="true"
+                      id="delPOIbutton"
+                      value="Delete"
+                      title="Delete income"
+                      (click)="removeBusinessIncomeIndex(i)"
+                    ></i>
+=======
+                  <td data-title="Actions">
+=======
+                  <td data-title="Actions" *ngIf="!disableSaveBtn">
+>>>>>>> 90131548cf1071655f302f237add1ed2fa84adfd
+                    <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
+                      title="Add income" (click)="addBusinessIncomeUnit(null)"></i>&nbsp;
+                    <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
+                      title="Delete income" (click)="removeBusinessIncomeIndex(i)"></i>
+<<<<<<< HEAD
+>>>>>>> bd8471d1992081d3cb4b437064c2294083297d67
+=======
+>>>>>>> 90131548cf1071655f302f237add1ed2fa84adfd
+=======
                     <!-- <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
                       title="Add income" (click)="addBusinessIncomeUnit(null)"></i>&nbsp; -->
                     <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
                       title="Delete income" (click)="showBusinessIncome(i)"></i>
+>>>>>>> acefa28bce3328985791304524bc6aac7bd56d1a
                   </td>
                 </tr>
               </tbody>
@@ -891,11 +928,48 @@
                         labels?.validationData?.amountValue?.maxLength
                       " [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                   </td>
+<<<<<<< HEAD
+<<<<<<< HEAD
                   <td data-title="Actions" *ngIf="!disableSaveBtn">
+                    <i
+                      type="button"
+                      class="fa fa-plus"
+                      aria-hidden="true"
+                      id="addmorePOIbutton"
+                      value="Add"
+                      title="Add income"
+                      (click)="addOtherIncomeUnit(null)"
+                    ></i
+                    >&nbsp;
+                    <i
+                      type="button"
+                      class="fa fa-minus"
+                      aria-hidden="true"
+                      id="delPOIbutton"
+                      value="Delete"
+                      title="Delete income"
+                      (click)="removeOtherIncomeIndex(i)"
+                    ></i>
+=======
+                  <td data-title="Actions">
+=======
+                  <td data-title="Actions" *ngIf="!disableSaveBtn">
+<<<<<<< HEAD
+>>>>>>> 90131548cf1071655f302f237add1ed2fa84adfd
+                    <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
+                      title="Add income" (click)="addOtherIncomeUnit(null)"></i>&nbsp;
+                    <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
+                      title="Delete income" (click)="removeOtherIncomeIndex(i)"></i>
+<<<<<<< HEAD
+>>>>>>> bd8471d1992081d3cb4b437064c2294083297d67
+=======
+>>>>>>> 90131548cf1071655f302f237add1ed2fa84adfd
+=======
                     <!-- <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
                       title="Add income" (click)="addOtherIncomeUnit(null)"></i>&nbsp; -->
                     <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
                       title="Delete income" (click)="showOtherIncome(i)"></i>
+>>>>>>> acefa28bce3328985791304524bc6aac7bd56d1a
                   </td>
                 </tr>
               </tbody>
@@ -1158,10 +1232,39 @@
                       " [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                   </td>
                   <td data-title="Actions" *ngIf="!disableSaveBtn">
+<<<<<<< HEAD
+                    <i
+                      type="button"
+                      class="fa fa-plus"
+                      aria-hidden="true"
+                      id="addmorePOIbutton"
+                      value="Add"
+                      title="Add obligation"
+                      (click)="addObligationUnit(null)"
+                    ></i
+                    >&nbsp;
+                    <i
+                      type="button"
+                      class="fa fa-minus"
+                      aria-hidden="true"
+                      id="delPOIbutton"
+                      value="Delete"
+                      title="Delete obligation"
+                      (click)="removeObligationIndex(i)"
+                    ></i>
+                  <td data-title="Actions">
+                  <td data-title="Actions" *ngIf="!disableSaveBtn">
+                    <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
+                      title="Add obligation" (click)="addObligationUnit(null)"></i>&nbsp;
+                    <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
+                      title="Delete obligation" (click)="removeObligationIndex(i)"></i>
+
+=======
                     <!-- <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
                       title="Add obligation" (click)="addObligationUnit(null)"></i>&nbsp; -->
                     <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
                       title="Delete obligation" (click)="showObligationIncome(i)"></i>
+>>>>>>> acefa28bce3328985791304524bc6aac7bd56d1a
                   </td>
                 </tr>
               </tbody>
@@ -1271,7 +1374,15 @@
       <button class="btn btn-primary dash_href" type="button" routerLink="../exposure">
         Back
       </button>
+      <button
+        class="btn btn-primary mar-right8"
+        type="button"
+        (click)="onSubmit()"
+        *ngIf="!disableSaveBtn"
+      >
+      <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()">
       <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()" *ngIf="!disableSaveBtn">
+
         Save
       </button>
       <button class="btn btn-primary dash_href" type="button" routerLink="../psl-data">
