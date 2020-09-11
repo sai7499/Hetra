@@ -1534,11 +1534,12 @@ export class PslDataComponent implements OnInit {
     }
   }
 
-  //FORM SUBMIT FUNCTION
+  //FORM_SUBMIT_FUNCTION
   onFormSubmit() {
     this.saveOrUpdatePslData();
   }
 
+  //NAVIGATE_NEXT_BASED_ON_PRODUCT_CODE
   navigateNext() {
     if(this.productCatCode != 'NCV') {
       this.router.navigate([`/pages/dde/${this.leadId}/vehicle-valuation`]);
