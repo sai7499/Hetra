@@ -103,13 +103,14 @@ export class CibilOdListComponent implements OnInit {
       settledLoans: [''],
       clearanceProofCollected: [''],
       clearanceProof: [null],
-      justification: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(200),
-        Validators.pattern(
-          /^[a-zA-Z0-9 ]*$/
-        ),
-      ]),
+      // justification: new FormControl(null, [
+      //   Validators.required,
+      //   Validators.maxLength(200),
+      //   Validators.pattern(
+      //     /^[a-zA-Z0-9 ]*$/
+      //   ),
+      // ]),
+      justification: [''],
       cibilStatus: new FormControl(null, [
         Validators.required]),
       addMatchFound:  this.addMatchFound,

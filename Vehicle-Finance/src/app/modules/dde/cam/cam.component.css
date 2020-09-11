@@ -10,15 +10,19 @@
 .table.mb-0 {
     margin-bottom: 0px;
 }
-td{border:1px solid #ddd;}
-th{border:1px solid #ddd;}
+td{border:1px solid #b9b6b675;}
+th{border:1px solid #d6d0d0f5;}
 .readonly {
     background: #ddd;
     text-align: center;
 }
 .bank_name {
-    background-color: #f7f7f7;
+    background-color: #d3d3d64d;
 }
+.termHead {
+    padding:5px 0px 5px 0; 
+}
+
 .col-sm-7.text-right.mb-low_other{margin-top:80px !important;}
 #cam_recommendation {
     word-wrap: break-word;
@@ -106,4 +110,7 @@ display: none;
     text-align: center;
     font-size: 18px;
     color: #0e0d25;
+}
+.terms{
+    margin-top: 10px;
 }
