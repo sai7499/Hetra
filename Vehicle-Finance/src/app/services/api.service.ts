@@ -490,6 +490,11 @@ export class ApiService {
       workflowId: '3ea13662c66611eaa13a00505695f93b',
       projectId: environment.projectIds.submitToCredit,
     },
+    rejectCreditCondition : {
+      processId: '94c162c0f38d11eabae500505695f93b',
+      workflowId: '3ea13662c66611eaa13a00505695f93b',
+      projectId: environment.projectIds.submitToCredit,
+    },
     getCountryList: {
       processId: '6c3f2eb0c1d611ea80d600505695f93b',
       workflowId: '6c1d6dd4c1d611eaa89700505695f93b',
