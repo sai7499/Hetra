@@ -15,6 +15,7 @@ import { DocRequest, DocumentDetails } from '@model/upload-model';
 import { UploadService } from '@services/upload.service';
 import { map } from 'rxjs/operators';
 declare var $;
+
 @Component({
   selector: 'app-sanction-details',
   templateUrl: './sanction-details.component.html',
