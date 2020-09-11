@@ -742,8 +742,8 @@
     "addAdditionalCollaterals": " Add Additional Collaterals",
     "totalLandArea": "Total Land Area",
     "collateralType": "Colleteral Type",
-    "relationWithLead": "Relation with Lead ",
-    "relationWithApplicantStatus": "Relation with Applicant – Self/Brother",
+    "relationWithLead": "Relationship with Lead ",
+    "relationWithApplicantStatus": "Relationship with Applicant",
     "bodyCost": "Body Cost",
     "passenger": "Passenger",
     "passengerTitle": "VIABILITY/NET CASH FLOW",
@@ -1606,6 +1606,7 @@
     "totalCredits": "Total number of credits",
     "micrNo": "MICR No",
     "accountBranchname": "Account Branchname",
+    "termsheetGeneratedDate" : "Termsheet Generated Date",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1795,7 +1796,7 @@
                 "msg": "Minimum Length 8 digits"
             },
             "patternCheck": {
-                "rule": "[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}",
+                "rule": "[A-Z-a-z]{2}[0-9]{2}[A-Z-a-z]{2}[0-9]{4}",
                 "msg": "Invalid Vehicle Registration Number. Valid format-TN45FG1234"
             },
             "type": "alpha-numeric"

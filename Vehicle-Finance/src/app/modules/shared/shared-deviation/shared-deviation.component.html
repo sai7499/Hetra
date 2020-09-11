@@ -81,8 +81,10 @@
 
       </div>
     </ng-container>
-    
-    <hr>
+
+    <div *ngIf="isSendBacktoCredit && isZero || deviationsForm.get('waiverNormsFormArray')['controls'].length > 0">
+      <hr>
+    </div>
 
     <ng-container formArrayName="autoDeviationFormArray">
 
@@ -156,16 +158,20 @@
 
     </ng-container>
 
-    <hr>
+    <div *ngIf="!isSubmitToCredit || deviationsForm.get('autoDeviationFormArray')['controls'].length > 0">
+      <hr>
+    </div>
 
     <ng-container formArrayName="manualDeviationFormArray">
-
-      <h3 class="cus-title margin_zero">{{labels?.manualDeviation}}</h3>
 
       <div class="text-right" id="add_manual_deviation_btn" *ngIf="!isSubmitToCredit">
         <button class="btn mar-right8 btn-primary" type="button"
           (click)="addDeviationUnit()">{{labels?.addManualDeviation}}</button>
       </div>
+
+      <div *ngIf="deviationsForm.get('manualDeviationFormArray')['controls'].length > 0">
+
+      <h3 class="cus-title margin_zero">{{labels?.manualDeviation}}</h3>
 
       <div class="panel-body row" id="show_1_div_identity"
         *ngFor="let item of deviationsForm.get('manualDeviationFormArray')['controls']; let j = index"
@@ -250,6 +256,8 @@
           </div>
 
         </div>
+
+      </div>
 
       </div>
 
