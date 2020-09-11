@@ -2387,12 +2387,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           // alert("e-KYC successful");
 
           let alertRet = Modals.alert({
-            title: 'Success',
-            message: "e-KYC Successful"
+            title: 'e-KYC Success',
+            message: "You have successfully verified your KYC"
           });
+          
           that.toasterService.showSuccess(
-            "e-KYC Successful",
-            'eKYC Success'
+            "You have successfully verified your KYC",
+            'e-KYC Success'
           );
   
         }
@@ -2405,13 +2406,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           // alert(processVariables.error.message);
 
           let alertRet = Modals.alert({
-            title: 'Failure',
-            message: "processVariables.error.message"
+            title: 'e-KYC Failed',
+            message: processVariables.error.message
           });
   
           that.toasterService.showError(
             processVariables.error.message,
-            'eKYC Failed'
+            'e-KYC Failed'
           );
   
           return;
