@@ -198,7 +198,7 @@ export class TermSheetComponent implements OnInit {
 
   onBack() {
     if (this.roleType == '1' && localStorage.getItem('isPreDisbursement') == "true") {
-      this.router.navigate([`pages/dashboard`]);
+      this.router.navigate([`pages/pre-disbursement/${this.leadId}/credit-condition`]);
     } else if (this.roleType == '2') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/credit-condition`]);
       // tslint:disable-next-line: triple-equals

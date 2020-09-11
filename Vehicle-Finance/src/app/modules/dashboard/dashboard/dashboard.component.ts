@@ -1471,6 +1471,7 @@ export class DashboardComponent implements OnInit {
         this.router.navigateByUrl(`/pages/deviation-dashboard/${this.leadId}/dashboard-deviation-details`);
         break;
       case 25: case 26:
+        localStorage.setItem('istermSheet', 'false');
         if (this.salesResponse == false) {
           this.router.navigate([`/pages/credit-decisions/${this.leadId}/cam`]);
       }  else if (this.salesResponse == true) {
