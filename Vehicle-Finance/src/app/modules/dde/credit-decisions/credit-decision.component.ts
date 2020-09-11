@@ -58,6 +58,13 @@ export class CreditDecisionComponent implements OnInit {
             console.log('params', value);
             this.leadId = Number(value.leadId);
         });
+        // if (this.roleType == '2' && this.salesResponse == 'false'){
+        //     this.istermSheet = 'false';
+        //     localStorage.setItem('istermSheet' , 'false');
+        // }else if (this.roleType == '2' && this.salesResponse == 'true'){
+        //     this.istermSheet = 'false';
+        //     localStorage.setItem('istermSheet' , 'false');
+        // }
         // this.activatedRoute.firstChild.params.subscribe((value: any) => {
         //     this.applicantId = value.applicantId;
         //     this.version = value.version;

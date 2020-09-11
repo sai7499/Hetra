@@ -1,26 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -137,6 +114,7 @@ export class IncomeDetailsComponent implements OnInit {
   businessIncomeDetailsArray: FormArray;
   otherIncomeDetailsArray: FormArray;
   obligationDetailsArray: FormArray;
+  KeyFinancialDetailsArray: FormArray;
 
   constructor(
     private router: Router,
@@ -160,7 +138,7 @@ export class IncomeDetailsComponent implements OnInit {
     this.businessIncomeDetailsArray = this.formBuilder.array([]);
     this.otherIncomeDetailsArray = this.formBuilder.array([]);
     this.obligationDetailsArray  = this.formBuilder.array([]);
-
+    this.KeyFinancialDetailsArray =this.formBuilder.array([]);
   }
 
 
@@ -186,7 +164,7 @@ export class IncomeDetailsComponent implements OnInit {
     });
 
     this.incomeDetailsForm = this.formBuilder.group({
-      keyFinanceDetails: this.formBuilder.array([]),
+      keyFinanceDetails: this.KeyFinancialDetailsArray,
       // keyFinanceDetails: this.formBuilder.group({
       //   keyFinancials: this.formBuilder.array([this.getKeyFinancialDetails()])
       //   }),
@@ -923,7 +901,13 @@ if(this.productCode == "UC" && this.businessIncomeDetailsArray.length == 0 && th
     'Income Details'
   );
   return;
-}else if(this.productCode == "UCV" || this.productCode == "NCV" && this.businessIncomeDetailsArray.length == 0 && this.otherIncomeDetailsArray.length == 0  ){
+}else if(this.productCode == "UCV" && this.KeyFinancialDetailsArray.length == 0 && this.otherIncomeDetailsArray.length == 0  ){
+  this.toasterService.showError(
+    'Add atleast one entry in Key Financials or Other income Details',
+    'Income Details'
+  );
+  return;
+}else if(this.productCode == "NCV" && this.KeyFinancialDetailsArray.length == 0 && this.otherIncomeDetailsArray.length == 0  ){
   this.toasterService.showError(
     'Add atleast one entry in Key Financials or Other income Details',
     'Income Details'
