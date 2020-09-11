@@ -6,6 +6,7 @@ import {TermSheetComponent} from '../credit-decisions/term-sheet/term-sheet.comp
 // import {CreditConditionsComponent} from '../credit-conditions/credit-conditions.component';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 import { SanctionDetailsComponent } from '../credit-decisions/sanction-details/sanction-details.component';
+import { CreditConditionsComponent } from '../credit-conditions/credit-conditions.component';
 
 const routes: Routes = [
     {
@@ -15,7 +16,11 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                component: TermSheetComponent
+                component: CreditConditionsComponent
+            },
+            {
+                path: 'credit-condition',
+                component: CreditConditionsComponent
             },
             {
                 path: 'term-sheet',
@@ -25,7 +30,7 @@ const routes: Routes = [
                 path: 'sanction-details',
                 component: SanctionDetailsComponent
             },
-            
+
         ]
     }
 ];
