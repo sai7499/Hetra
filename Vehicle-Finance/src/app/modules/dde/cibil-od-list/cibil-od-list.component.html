@@ -235,11 +235,15 @@
 
                 <textarea class="form-control form-control-sm" placeholder="Text Area" formControlName="justification"
                   ></textarea>
-                  <div *ngIf="odDetailsForm.get('justification').invalid && (odDetailsForm.get('justification').dirty || odDetailsForm.get('justification').touched)"
+                  <div *ngIf="odDetailsForm.get('justification').invalid && submitted == true"
                   class="invalid-feedback">
                   <div *ngIf="odDetailsForm.get('justification').errors.required">
-                     justification is required.
+                     Justification is required.
                   </div>
+                </div>
+                  <div *ngIf="odDetailsForm.get('justification').invalid && (odDetailsForm.get('justification').dirty || odDetailsForm.get('justification').touched)"
+                  class="invalid-feedback">
+                  
                   <div *ngIf="odDetailsForm.get('justification').errors.maxlength">
                      justification cannot be more than 200 characters long.
                   </div>
@@ -247,12 +251,7 @@
                     Invalid Message / Special Characters not allowed
 
                   </div>
-                  <div *ngIf="odDetailsForm.get('justification').invalid && submitted == true"
-                  class="invalid-feedback">
-                  <div *ngIf="odDetailsForm.get('justification').errors.required">
-                     Justification is required.
-                  </div>
-                </div>
+                 
                   
               </div>
               </div>
@@ -415,15 +414,11 @@
         </button>
       </div>
       <div class="col-sm-7 text-right">
-        <button class="btn btn-primary dash_href" type="button" routerLink="../exposure">
-          Back
-        </button>
+        
         <button *ngIf="!disableSaveBtn" class="btn btn-primary mar-right8" type="button" (click)=onSubmit();>
           Save
         </button>
-        <button class="btn btn-primary dash_href" type="button" routerLink="../psl-data">
-          Next
-        </button>
+        
       </div>
     </div>
   </div>
