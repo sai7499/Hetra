@@ -2816,7 +2816,7 @@ sendLoanCreationWrapper() {
       this.toasterService.showSuccess('Lead submitted For Loan Creation', '');
       this.router.navigate([`pages/dashboard`]);
     } else {
-      this.toasterService.showSuccess(res.ProcessVariables.error.message, '');
+      this.toasterService.showError(res.ProcessVariables.error.message, '');
     }
   });
 }
