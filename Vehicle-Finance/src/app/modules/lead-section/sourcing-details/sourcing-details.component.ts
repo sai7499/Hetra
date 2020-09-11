@@ -120,6 +120,7 @@ export class SourcingDetailsComponent implements OnInit {
   amountLength: number;
   tenureMonthLength: number;
   productCategoryLoanAmount: any;
+  applicationNo: any;
 
   saveUpdate: {
     bizDivision: string;
@@ -198,6 +199,7 @@ export class SourcingDetailsComponent implements OnInit {
         this.labels = data;
         this.amountLength = this.labels.validationData.amountValue.maxLength;
         this.tenureMonthLength = this.labels.validationData.tenurePaid.maxLength;
+        this.applicationNo = this.labels.validationData.applicationNo.maxLength;
       },
       (error) => console.log('Sourcing details Label Error', error)
     );
