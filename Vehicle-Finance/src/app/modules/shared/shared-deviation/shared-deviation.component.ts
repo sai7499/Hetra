@@ -9,6 +9,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { Router } from '@angular/router';
 import { UtilityService } from '@services/utility.service';
 import { Location } from '@angular/common';
+import { group } from 'console';
 
 @Component({
   selector: 'app-shared-deviation',
@@ -80,6 +81,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.businessDivision = this.leadDetails['bizDivision']
     this.productCatoryId = this.leadDetails['productId'];
 
+    this.getDeviationMaster();
+
     let currentUrl = this.location.path();
     this.locationIndex = this.getLocationIndex(currentUrl);
 
@@ -87,31 +90,26 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       this.locationIndex = this.getLocationIndex(url);
     });
 
-    this.getDeviationMaster();
-
     this.sharedService.taskId$.subscribe((id) => {
       this.taskId = id ? id : '';
     })
 
-    if (this.locationIndex === 'credit-decisions') {
-      if (localStorage.getItem('salesResponse') === 'false' || localStorage.getItem('is_pred_done') === 'true') {
-        this.deviationsForm.disable();
-      }
+  }
 
-      if (localStorage.getItem('salesResponse') === 'true' && localStorage.getItem('is_pred_done') === 'false' &&
-        localStorage.getItem('isPreDisbursement') === 'false') {
-        this.isSendBacktoCredit = true;
-        this.isZero = true;
-      }
+  disableInputs() {
+    (<FormArray>this.deviationsForm.get('manualDeviationFormArray'))
+      .controls
+      .forEach(control => {
+        control.disable();
+      })
+  }
 
-      if (localStorage.getItem('salesResponse') === 'true' && localStorage.getItem('is_pred_done') === 'false' &&
-        localStorage.getItem('isPreDisbursement') === 'true') {
-        this.isZero = false;
-        this.deviationsForm.disable();
-      }
-
-    }
-
+  disableAutoDeviation() {
+    (<FormArray>this.deviationsForm.get('autoDeviationFormArray'))
+      .controls
+      .forEach(control => {
+        control.disable();
+      })
   }
 
   initForms() {
@@ -153,7 +151,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
     this.deviationService.approveDeclineDeviation(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        0
         let DevisionApproveDecline = res.ProcessVariables ? res.ProcessVariables : {};
         this.toasterService.showSuccess('Deviation status updated successfully', 'Deviation approval')
         this.getDeviationDetails()
@@ -459,7 +456,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
               statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= (this.hierarchy)) }]
             }))
         } else if (data.isManualDev === '0') {
-
           autoDeviationFormArray.push(
             this._fb.group({
               approverRole: data.approverRole,
@@ -477,17 +473,46 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             }))
         }
       }
+
+      if (this.locationIndex === 'credit-decisions') {
+        if (localStorage.getItem('salesResponse') === 'false' || localStorage.getItem('is_pred_done') === 'true') {
+          this.deviationsForm.disable();
+        }
+
+        if (localStorage.getItem('salesResponse') === 'true' && localStorage.getItem('is_pred_done') === 'false' &&
+          localStorage.getItem('isPreDisbursement') === 'false') {
+          this.isSendBacktoCredit = true;
+          this.isZero = true;
+
+          let autoDeviationFormArray = (this.deviationsForm.get('autoDeviationFormArray') as FormArray);
+
+          let manualDiviationFormArray = (this.deviationsForm.get('manualDeviationFormArray') as FormArray);
+
+          let waiverNormsFormArray = (this.deviationsForm.get('waiverNormsFormArray') as FormArray);
+
+          setTimeout(() => {
+            this.disableInputs();
+            this.disableAutoDeviation()
+          })
+
+        }
+
+        if (localStorage.getItem('salesResponse') === 'true' && localStorage.getItem('is_pred_done') === 'false' &&
+          localStorage.getItem('isPreDisbursement') === 'true') {
+          this.isZero = false;
+          this.deviationsForm.disable();
+        }
+
+      }
+
     })
 
     this.deviationsForm.patchValue({
       isSaveEdit: true
     })
 
-    // if (this.deviationsForm.get('manualDeviationFormArray')['controls'].length === 0) {
-    //   manualDiviationFormArray.push(this.getManualDeviations())
-    // }
     this.sharedService.getFormValidation(this.deviationsForm)
-    // this.isApproveDeviation()
+
   }
 
   ReferDeviation() {

@@ -31,7 +31,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   maxDate = new Date();
   initalZeroCheck = [];
   customFutureDate: boolean;
-  eligibleLoanAmount: any;
+  eligibleLoanAmount: any = 0;
 
   public basicVehicleForm: FormGroup;
   public vehicleLov: any = {};
@@ -104,7 +104,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.productCatoryId = this.leadDetails['productId'];
     this.loanTenor = this.leadDetails['reqTenure'];
 
-    this.eligibleLoanAmount = this.activedRoute.snapshot.params['eligibleLoanAmount'];
+    this.eligibleLoanAmount = this.activedRoute.snapshot.params['eligibleLoanAmount'] ? this.activedRoute.snapshot.params['eligibleLoanAmount'] : 0;
 
     this.initForms();
     this.getLov();
@@ -328,7 +328,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       oneTimeTax: VehicleDetail.oneTimeTax || '',
       orpValue: VehicleDetail.orpValue || '',
       others: VehicleDetail.others || '',
-      loanAmount: VehicleDetail.loanAmount ? VehicleDetail.loanAmount : this.eligibleLoanAmount || null,
+      loanAmount: VehicleDetail.loanAmount ? VehicleDetail.loanAmount : this.eligibleLoanAmount || 0,
       bodyCost: VehicleDetail.bodyCost || null,
       pac: VehicleDetail.pac || '',
       pacAmount: VehicleDetail.pacAmount || null,
@@ -774,7 +774,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       isOrpFunding: [''],
       insurance: [''],
       oneTimeTax: [''],
-      loanAmount: [''],
+      loanAmount: [0],
       bodyCost: [''],
       pac: [''],
       vas: [''],
@@ -821,7 +821,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       pac: [''],
       vas: [''],
       emiProtect: [''],
-      loanAmount: [''],
+      loanAmount: [0],
       bodyCost: [''],
       fastTag: [''],
       others: [''],
@@ -873,7 +873,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       duplicateRC: [''],
       cubicCapacity: [''],
       seatingCapacity: [''],
-      loanAmount: [''],
+      loanAmount: [0],
       bodyCost: [''],
       insuranceValidity: [''],
       idv: [''],
@@ -912,7 +912,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       finalAssetCost: ['', Validators.required],
       chasisNumber: [''],
       engineNumber: [''],
-      loanAmount: [''],
+      loanAmount: [0],
       bodyCost: [''],
       vehiclePurchasedCost: [''],
       vehicleOwnerShipNumber: null,

@@ -49,7 +49,7 @@ export class CustomInputComponent
   @Input() labelName: string;
   @Input() id: string;
 
-  @Input() step: string;
+  @Input() step: number;
 
   @Input() patternCheck;
   @Input() custom: {
@@ -91,7 +91,7 @@ export class CustomInputComponent
 
   decimalTimeOut;
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef) { }
 
   ngAfterViewInit() {
     this.htmlInputElement = this.customInput;
@@ -128,14 +128,14 @@ export class CustomInputComponent
     return !this.inputError
       ? null
       : {
-          customError: {
-            valid: false,
-          },
-        };
+        customError: {
+          valid: false,
+        },
+      };
   }
 
   // not used, used for touch input
-  public registerOnTouched() {}
+  public registerOnTouched() { }
 
   updateChanges() {
     this.checkValidation(this.data);
@@ -242,14 +242,19 @@ export class CustomInputComponent
         break;
       case 'percent':
         this.allowPercentageFormat(event);
-      break;
+        break;
+      case 'alpha-numeric-slash':
+        this.allowAlphaNumericWithSlashOnly(event)
+        break;
     }
     this.propagateChange(this.inputValue);
     this.checkValidation(this.inputValue);
   }
 
   allowDecimal(event, type: string) {
-    const decimalPoints = type.split('-')[1] || 2;
+    const decimalPoints = type.split('-')[1] || this.step ? this.step : 2;
+    console.log(decimalPoints, 'on', this.step)
+
     let zeros = '';
     for (let i = 0; i < decimalPoints; i++) {
       zeros += '0';
@@ -277,6 +282,12 @@ export class CustomInputComponent
     this.inputValue = initialValue.replace(/[^a-zA-Z0-9 ]/g, '');
   }
 
+  allowAlphaNumericWithSlashOnly(event) {
+    const initialValue = event.target.value;
+    this.inputValue = initialValue.replace(/[^a-zA-Z0-9/]/g, '');
+  }
+
+
   allowAlphaOnly(event) {
     const initialValue = event.target.value;
     this.inputValue = initialValue.replace(/[^a-zA-Z ]/g, '');
@@ -296,10 +307,10 @@ export class CustomInputComponent
   allowPercentageFormat(event) {
     const initialValue = event.target.value;
     this.inputValue = initialValue
-          .replace(/[^\d.]/g, '')             // numbers and decimals only
-          .replace(/(^[\d]{2})[\d]/g, '$1')   // not more than 2 digits at the beginning
-          .replace(/(\..*)\./g, '$1')         // decimal can't exist more than once
-          .replace(/(\.[\d]{2})./g, '$1');    // not more than 2 digits after decimal
-   // this.inputValue = initialValue.replace(/[^a-zA-Z0-9 ]/g, '');
+      .replace(/[^\d.]/g, '')             // numbers and decimals only
+      .replace(/(^[\d]{2})[\d]/g, '$1')   // not more than 2 digits at the beginning
+      .replace(/(\..*)\./g, '$1')         // decimal can't exist more than once
+      .replace(/(\.[\d]{2})./g, '$1');    // not more than 2 digits after decimal
+    // this.inputValue = initialValue.replace(/[^a-zA-Z0-9 ]/g, '');
   }
 }
