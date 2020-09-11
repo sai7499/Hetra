@@ -519,13 +519,37 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
     if (this.modalForm.valid) {
 
+      let data = {};
+
       if (this.modalForm.controls['typeOfModal'].value === 'Recommendation') {
-        const data = {
-          "leadId": this.leadId,
-          "userId": this.userId,
-          "approverRole": this.deviationsForm.controls['approverRole'].value,
-          "recommendation": this.modalForm.controls['recommendation'].value,
-          "taskId": this.taskId
+
+        if (this.locationIndex === 'dde') {
+          data = {
+            "leadId": this.leadId,
+            "userId": this.userId,
+            "approverRole": this.deviationsForm.controls['approverRole'].value,
+            "recommendation": this.modalForm.controls['recommendation'].value,
+            "taskId": this.taskId,
+            "isDDE": true
+          }
+        } else if (this.locationIndex === 'deviation-dashboard') {
+          data = {
+            "leadId": this.leadId,
+            "userId": this.userId,
+            "approverRole": this.deviationsForm.controls['approverRole'].value,
+            "recommendation": this.modalForm.controls['recommendation'].value,
+            "taskId": this.taskId,
+            "isDeviation": true
+          }
+        } else if (this.locationIndex === 'credit-decisions') {
+          data = {
+            "leadId": this.leadId,
+            "userId": this.userId,
+            "approverRole": this.deviationsForm.controls['approverRole'].value,
+            "recommendation": this.modalForm.controls['recommendation'].value,
+            "taskId": this.taskId,
+            "isCC": true
+          }
         }
 
         this.deviationService.getReferNextLevel(data).subscribe((res: any) => {
@@ -539,9 +563,10 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           console.log('err', err)
           this.toasterService.showError(err, 'Refer Error')
         })
+
       } else if (this.modalForm.controls['typeOfModal'].value === 'ApproveDeviations') {
 
-        const data = {
+        data = {
           "leadId": this.leadId,
           "userId": this.userId,
           "recommendation": this.modalForm.controls['recommendation'].value
@@ -560,7 +585,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         })
       } else if (this.modalForm.controls['typeOfModal'].value === 'sendBackToCredit') {
 
-        const data = {
+        data = {
           "leadId": this.leadId,
           "userId": this.userId,
           "recommendation": this.modalForm.controls['recommendation'].value
