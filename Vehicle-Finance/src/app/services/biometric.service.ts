@@ -29,7 +29,7 @@ export class BiometricService {
       this.pid = "";
 
       console.log("initIdenti5 aadhar", aadhar);
-
+     
       identi5.getInfo(function(result){
         console.log("Result&&&&"+ result);
         if(result["error"]){
@@ -44,7 +44,7 @@ export class BiometricService {
         console.log("Result&&&&"+ error);
         alert("error"+error);
       });
-      
+
     }
 
     prepareKYCRequest(pid, aadharStr, applicantId, callBack) {

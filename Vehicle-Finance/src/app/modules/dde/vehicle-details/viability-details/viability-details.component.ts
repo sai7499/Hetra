@@ -1,3 +1,8 @@
+import { Base64StorageService } from './../../../../services/base64-storage.service';
+import { LoginService } from '@modules/login/login/login.service';
+import { ApplicantService } from '@services/applicant.service';
+import { UploadService } from '@services/upload.service';
+import { GpsService } from 'src/app/services/gps.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
@@ -7,6 +12,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToasterService } from '@services/toaster.service';
 import { Location } from '@angular/common';
 import { LoginStoreService } from '@services/login-store.service';
+
+import { Constant } from '../../../../../assets/constants/constant';
+import { DocRequest, DocumentDetails } from '@model/upload-model';
+import { environment } from 'src/environments/environment';
+
+
 
 @Component({
   selector: 'app-viability-details',
@@ -61,6 +72,28 @@ export class ViabilityDetailsComponent implements OnInit {
   viabilityDataObj = {};
   viabilityDataObjArray: any;
 
+  base64Image: any;
+  showModal: boolean;
+  isMobile: any;
+
+  PROFILE_TYPE = Constant.PROFILE_ALLOWED_TYPES;
+  OTHER_DOCUMENTS_SIZE = Constant.OTHER_DOCUMENTS_SIZE;
+  OTHER_DOCS_TYPE = Constant.OTHER_DOCUMENTS_ALLOWED_TYPES;
+
+  SELFIE_IMAGE: string;
+
+  documentArr: DocumentDetails[] = [];
+  latitude: string = null;
+  longitude: string = null;
+  branchLatitude: string;
+  branchLongitude: string;
+  custProfileDetails: {};
+  showRouteMap: boolean;
+
+  selectedDocDetails: DocRequest;
+  dmsDocumentId: string;
+
+
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
               private viabilityService: ViabilityServiceService,
               private commonlovService: CommomLovService,
@@ -68,13 +101,38 @@ export class ViabilityDetailsComponent implements OnInit {
               private toasterService: ToasterService,
               private router: Router,
               private location: Location,
-              private loginStoreService: LoginStoreService) {
+              private loginStoreService: LoginStoreService,
+              private gpsService: GpsService,
+              private uploadService: UploadService,
+              private applicantService: ApplicantService,
+              private loginService: LoginService,
+              private base64StorageService: Base64StorageService,
+              ) {
                 this.route.queryParams.subscribe((res: any) => {
                   this.taskId = res.taskId;
                 });
+                this.isMobile = environment.isMobile;
+
                }
 
   async ngOnInit() {
+
+    // if (this.isMobile) {
+    //   this.gpsService.getLatLong().subscribe((position) => {
+    //     console.log("getLatLong", position);
+    //     this.gpsService.initLatLong().subscribe((res) => {
+    //       console.log("gpsService", res);
+    //       if (res) {
+    //         this.gpsService.getLatLong().subscribe((position) => {
+    //           console.log("getLatLong", position);
+    //         });
+    //       } else {
+    //         console.log("error initLatLong", res);
+    //       }
+    //     });
+    //   });
+    // }
+
     this.userId = localStorage.getItem('userId');
     this.roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     console.log(this.roleAndUserDetails);
@@ -187,7 +245,34 @@ export class ViabilityDetailsComponent implements OnInit {
     //      }
     //   }, 500);
     // });
+    this.selectedDocDetails = {
+      docsType: this.PROFILE_TYPE,
+      docSize: this.OTHER_DOCUMENTS_SIZE,
+      docTp: "LEAD",
+      docSbCtgry: "ACCOUNT OPENING FORM",
+      docNm: "ACCOUNT_OPENING_FORM20206216328474448.pdf",
+      docCtgryCd: 70,
+      docCatg: "KYC - I",
+      docTypCd: 276,
+      flLoc: "",
+      docCmnts: "Addition of document for Lead Creation",
+      bsPyld: "Base64 data of the image",
+      docSbCtgryCd: 204,
+      docsTypeForString: "selfie",
+      docRefId: [
+        {
+          idTp: 'LEDID',
+          id: this.leadId,
+        },
+        {
+          idTp: 'BRNCH',
+          id: Number(localStorage.getItem('branchId')),
+        },
+      ],
+    };
+
   }
+
   getLeadId() {
     return new Promise((resolve, reject) => {
       this.route.parent.params.subscribe((value) => {
@@ -368,6 +453,20 @@ getViability() {
     this.viabilityService.getViabilityDetails(body).subscribe((res: any) => {
       if (res.ProcessVariables.error.code === '0' && res.ProcessVariables.vehicleViability != null) {
       this.viabliityDataToPatch = res.ProcessVariables.vehicleViability;
+
+      this.latitude = this.viabliityDataToPatch.latitude;
+      this.longitude = this.viabliityDataToPatch.longitude;
+      this.branchLatitude = this.viabliityDataToPatch.brLatitude;
+      this.branchLongitude = this.viabliityDataToPatch.brLongitude;
+      this.dmsDocumentId = this.viabliityDataToPatch.selfiePhoto
+
+      if(this.dmsDocumentId){
+        this.downloadDocs(this.dmsDocumentId);
+      }
+      if(this.latitude){
+        this.getRouteMap();
+      }
+      
       if (this.viabliityDataToPatch && this.viabliityDataToPatch.type === '1VHCLVBTY') {
         this.viabilityForm.value.type = this.viabliityDataToPatch.type;
         this.vehicleModel = this.viabliityDataToPatch.vehicleModel;
@@ -420,6 +519,9 @@ onSave() {
       const body = {
         userId: this.userId,
         vehicleViabilityDetails : {
+          longitude: this.longitude,
+          latitude: this.latitude,
+          selfiePhoto: this.dmsDocumentId,
           collateralId: this.collataralId,
           type: this.viabilityForm.value.type,
           ...this.convertPassenger(this.viabilityForm.value.passanger)
@@ -443,6 +545,9 @@ onSave() {
       const body = {
         userId: this.userId,
         vehicleViabilityDetails : {
+          longitude: this.longitude,
+          latitude: this.latitude,
+          selfiePhoto: this.dmsDocumentId,
           collateralId: this.collataralId,
           type: this.viabilityForm.value.type,
           ...this.convertStandOperative(this.viabilityForm.value.passangerStandOperator)
@@ -461,6 +566,9 @@ onSave() {
       const body = {
         userId: this.userId,
         vehicleViabilityDetails : {
+          longitude: this.longitude,
+          latitude: this.latitude,
+          selfiePhoto: this.dmsDocumentId,
           collateralId: this.collataralId,
           type: this.viabilityForm.value.type,
           ...this.convertCapitve(this.viabilityForm.value.captive)
@@ -835,4 +943,139 @@ calculateCaptiveC() {
   // this.calculateCaptiveB();
   // this.calculateCaptiveC();
 }
+  async onUploadSuccess(event: DocumentDetails) {
+    // this.toasterService.showSuccess('Document uploaded successfully', '');
+
+    console.log('onUploadSuccess', event);
+    this.showModal = false;
+    this.SELFIE_IMAGE = 'data:image/jpeg;base64,' + event.imageUrl;
+    this.dmsDocumentId = event.dmsDocumentId;
+    // const data = {
+    //   inputValue: event.imageUrl,
+    //   isPhoto: true,
+    //   applicantId: this.applicantId,
+    // };
+    // this.uploadPhotoOrSignature(data);
+
+    event.imageUrl = '';
+
+    let index = 0;
+    if (this.documentArr.length === 0) {
+      this.documentArr.push(event);
+      index = 0;
+    }
+    console.log('documentArr', this.documentArr);
+    this.individualImageUpload(event, index);
+
+    // let position = await this.getLatLong();
+    // if (position["latitude"]) {
+    //   this.latitude = position["latitude"].toString();
+    //   this.longitude = position["longitude"].toString();
+    //   this.getRouteMap();
+    // } else {
+    //   this.latitude = "";
+    //   this.longitude = "";
+    //   this.showRouteMap = false;
+    // }
+
+  }
+
+  uploadPhotoOrSignature(data) {
+    this.applicantService.uploadPhotoOrSignature(data).subscribe((value) => {
+      console.log('uploadPhotoOrSignature', value, 'data', data);
+    });
+  }
+
+
+  individualImageUpload(request: DocumentDetails, index: number) {
+    this.uploadService
+      .saveOrUpdateDocument([request])
+      .subscribe((value: any) => {
+        if (value.Error !== '0') {
+          return;
+        }
+        this.toasterService.showSuccess('Document uploaded successfully', '');
+        console.log('saveOrUpdateDocument', value);
+        const processVariables = value.ProcessVariables;
+        const documentId = processVariables.documentIds[0];
+        console.log("documentId******", documentId);
+        this.documentArr[index].documentId = documentId;
+        const subCategoryCode = this.documentArr[index].subCategoryCode;
+      });
+  }
+
+  getRouteMap() {
+    var that = this;
+    let branchPos = {
+      latitude: this.branchLatitude,
+      longitude: this.branchLongitude
+    };
+    let currentPos = {
+      latitude: this.latitude,
+      longitude: this.longitude
+    }
+    this.loginService.getPolyLine(function (result) {
+      that.base64Image = result;
+      that.showRouteMap = true;
+      // console.log("getPolyLine", that.base64Image);
+    }, currentPos, branchPos);
+  }
+
+  async getLatLong() {
+    /* Get latitude and longitude from mobile */
+
+    return new Promise((resolve, reject) => {
+
+      if (this.isMobile) {
+
+        this.gpsService.getLatLong().subscribe((position) => {
+          console.log("Mobile position", position);
+          resolve(position);
+        });
+
+      } else {
+        this.gpsService.getBrowserLatLong().subscribe((position) => {
+          console.log("Browser position", position);
+          if (position["code"]) {
+            this.toasterService.showError(position["message"], "GPS Alert");
+          }
+          resolve(position);
+        });
+      }
+    });
+  }
+
+  async downloadDocs(documentId: string) {
+    console.log(event);
+    
+    // let el = event.srcElement;
+    // const formArray = this.uploadForm.get(formArrayName) as FormArray;
+    // const documentId = formArray.at(index).get('file').value;
+    if (!documentId) {
+      return;
+    }
+   
+    const imageValue: any = await this.getBase64String(documentId);
+    this.SELFIE_IMAGE = 'data:image/jpeg;base64,' + imageValue.imageUrl;
+
+  }
+
+  getBase64String(documentId) {
+    return new Promise((resolve, reject) => {
+      this.uploadService
+        .getDocumentBase64String(documentId)
+        .subscribe((value) => {
+          const imageUrl = value['dwnldDocumentRep'].msgBdy.bsPyld;
+          const documentName = value['dwnldDocumentRep'].msgBdy.docNm || '';
+          const imageType = documentName.split('.')[1].toLowerCase();
+
+          resolve({
+            imageUrl,
+            imageType,
+          });
+          console.log('downloadDocs', value);
+        });
+    });
+  }
+
 }

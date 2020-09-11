@@ -134,7 +134,14 @@ export interface ApplicantDetails {
     sizeOfHouse?: string;
     standardOfLiving?: string;
     houseOwnership?: string;
+    ownershipAvailable?: string;
+    ownerProofAvail?: string;
+    dependents?: string;
+    owner?: string;
+    areaOfProperty?: string;
     ratingbySO?: string;
+    alternateAddr?: string;
+
 }
 
 export interface CustomerProfile {
@@ -148,6 +155,7 @@ export interface CustomerProfile {
     customerHouseSelfie?: string;
     ownershipAvailable?: string;
     mandatoryCustMeeting?: string;
+    locality?: string;
 }
 
 export interface LoanDetails {
@@ -208,6 +216,7 @@ export interface LoanDetails {
     amtPerTrip?: string;
     selfDrivenOrDriver?: string;
     remarks?: string;
+    isPrevExpMatched?: string;
 }
 
 export interface FleetDetails {

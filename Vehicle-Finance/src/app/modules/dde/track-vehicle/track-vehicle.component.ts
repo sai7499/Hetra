@@ -683,7 +683,7 @@ export class TrackVehicleComponent implements OnInit {
         dueDate: [rowData.dueDate ? rowData.dueDate : ''],
         receiptNo: [rowData.receiptNo ? rowData.receiptNo : ''],
         receivedDate: [rowData.receivedDate ? rowData.receivedDate : '', Validators.required],
-        receivedAmt: [rowData.receivedAmt],
+        receivedAmt: [rowData.receivedAmt ? rowData.receivedAmt : 0],
         delayDays: [{ value: rowData.delayDays ? rowData.delayDays : 0, disabled: true }],
         payment: [{ value: rowData.payment ? rowData.payment : 0, disabled: true }]
 

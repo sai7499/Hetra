@@ -415,6 +415,11 @@ export class ApiService {
       workflowId: '6a6dec02d7a711eabfa200505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
+    getTriggerWaiverNorms: {
+      processId: '2c38d6b0f20311ea8e0700505695f93b',
+      workflowId: '2c1225cef20311eaa59400505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
     saveorUpdateDeviation: {
       processId: '0e3ffa76b13f11ea86b8f2fa9bec3d63',
       workflowId: '0e10bb58b13f11ea86b8f2fa9bec3d63',
@@ -794,6 +799,11 @@ export class ApiService {
       processId: '84fdc0f4edac11eaa7e400505695f93b',
       workflowId: '84d0b640edac11ea8d3d00505695f93b',
       projectId: environment.projectIds.validateSRNumber
+    },
+    submitToCC: {
+      processId: '47d4c4a8f19d11eaa89a00505695f93b',
+      workflowId: '4794bf2af19d11ea880700505695f93b',
+      projectId: environment.projectIds.submitToCredit
     }
 
   };

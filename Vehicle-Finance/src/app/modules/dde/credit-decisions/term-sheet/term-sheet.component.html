@@ -8,7 +8,7 @@
 
 <main class="content" style="padding-bottom: 50px;" *ngIf = "isTermSheet">
     <div class="container overflow-hidden">
-        <div class="multisteps-form">
+        <div class="multisteps-form" id="ContentToConvert">
             <div class="print_top">
                 <div class="row">
                     <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6">
@@ -125,7 +125,7 @@
                             <tr>
                                 <td>{{labels.vehicleRegistrationDate}}</td>
                                 <td>:</td>
-                                <td>{{assetDetailsData.regDate | date: 'dd/MM/yyyy'}}</td>
+                                <td>{{assetDetailsData.regDate }}</td>
                                 <td>{{labels.fcExpiryGapDays}}</td>
                                 <td>: </td>
                                 <td> {{assetDetailsData.fcExpGapDays}}</td>
@@ -235,7 +235,7 @@
                             <tr>
                                 <td>{{labels.customerCibilStatus}}</td>
                                 <td>:</td>
-                                <td>{{commonAppDetails?.cibilStatus}}</td>
+                                <td>{{commonAppDetails?.cibilStatus ? commonAppDetails?.cibilStatus : "-"}}</td>
                                 <td>{{labels.cibilScore}}</td>
                                 <td>:</td>
                                 <td>{{commonAppDetails?.cibilScore}}</td>
@@ -262,7 +262,7 @@
                                 <td>{{commonAppDetails?.businessStab}}</td>
                                 <td>{{labels.residenceStability2}}</td>
                                 <td>: </td>
-                                <td>{{commonAppDetails?.residenceStab}}</td>
+                                <td>{{commonAppDetails?.residenceStab ? commonAppDetails?.residenceStab  : "-" }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -302,16 +302,16 @@
                 <div id="tearms_sheet_header4">
                     <p id="tearms_sheet_header4_tag">
                         <span id="tearms_sheet_header4_tag1">
-                            {{labels.applicantBankName}} &nbsp;: &nbsp; {{bankDetails?.bankName}}</span>
+                            {{labels.applicantBankName}} &nbsp;: &nbsp; {{bankDetails?.bankName ? bankDetails?.bankName : '-'}}</span>
                         <span id="tearms_sheet_header4_ta2">
-                            {{labels.MICRNO}} : <span>{{bankDetails?.MICR}}</span>
+                            {{labels.MICRNO}} : <span>{{bankDetails?.MICR ? bankDetails?.MICR : '-'}}</span>
                         </span>
                     </p>
                     <p id="tearms_sheet_header4_tag3">
                         <span id="tearms_sheet_header4_tag4">
-                            {{labels.applicantBankBranch}} &nbsp;: &nbsp;{{bankDetails?.branchName}} </span>
+                            {{labels.applicantBankBranch}} &nbsp;: &nbsp;{{bankDetails?.branchName ? bankDetails?.branchName : '-'}} </span>
                         <span id="tearms_sheet_header4_tag5">
-                            {{labels.accNo}}. &nbsp;:&nbsp;{{bankDetails?.accNum}}
+                            {{labels.accNo}}. &nbsp;:&nbsp;{{bankDetails?.accNum ? bankDetails?.accNum : '-'}}
                         </span>
                     </p>
                 </div>
@@ -550,7 +550,7 @@
                                 <td>{{assetLoanDetails?.brokerage}}</td>
                             </tr>
                             <tr>
-                                <td>{{labels.efftDisbDt}}</td>
+                                <td>{{labels.termsheetGeneratedDate}}</td>
                                 <td>:</td>
                                 <td>{{assetLoanDetails?.effDisbDt}}</td>
                                 <td>{{labels.fundingLtv}}</td>
@@ -693,7 +693,7 @@
                     <table class="table table-responsive table-borderless">
                         <thead>
                             <tr id="table_header_top">
-                                <th id="table_header_top_tag1">{{labels.factor}}</th>
+                                <th id="table_header_top_tag1" style="max-width: 25%;">{{labels.factor}}</th>
                                 <th id="table_header_top_tag1">{{labels.minValue}}</th>
                                 <th id="table_header_top_tag1">{{labels.maxValue}}</th>
                                 <th id="table_header_top_tag1">{{labels.actualValue}}</th>
@@ -703,7 +703,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor = "let creditApprovalData of creditApprovalDev ; let i= index">
-                                <td>{{creditApprovalHeader[i]}}</td>
+                                <td style="max-width: 25%;">{{creditApprovalData.factor}}</td>
                                 <td>{{creditApprovalData.minVal}}</td>
                                 <td>{{creditApprovalData.maxVal}}</td>
                                 <td>{{creditApprovalData.actualVal}}</td>
@@ -838,6 +838,8 @@
                 <button class="btn btn-primary btn_div " (click)= "onBack()" type="button">Back</button>
                 <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
                 <button class="btn btn-primary btn_div" (click)= "onNext()" type="button">Next</button>
+                <button class="btn btn-primary btn_div" (click)= "downloadpdf()" type="button">Download</button>
+            
             </div>
         </div>
 

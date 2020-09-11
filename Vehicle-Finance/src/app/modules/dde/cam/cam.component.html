@@ -1,10 +1,10 @@
 <div style="text-align: center;">
     <button class="btn btn-primary btn_div " 
     *ngIf = "isCamDetails" (click)= "showCamDetails()" 
-    type="button">Generate Cam</button>
+    type="button">{{labels?.generateCam}}</button>
 </div>
 
- <div class="container overflow-hidden" *ngIf="usedCarCam && !isCamDetails ">
+ <div id="{{pdfId}}" class="container overflow-hidden" *ngIf="usedCarCam && !isCamDetails  && showCamHtml == true">
 
         <!---sourcing table starts here-->
         <table class="cam_table mt-3">
@@ -563,7 +563,7 @@
     </div>
 <form class="multisteps-form__form" >
 
-    <div class="container overflow-hidden" [formGroup]="camDetailsForm" *ngIf="usedCvCam && !isCamDetails">
+    <div id="{{pdfId}}" class="container overflow-hidden" [formGroup]="camDetailsForm" *ngIf="usedCvCam && !isCamDetails  && showCamHtml == true">
     <!--basic table starts here-->
 
     <table class="cam_table">
@@ -1413,7 +1413,7 @@
     </table> -->
 </div>
 
-<div class="container overflow-hidden" [formGroup]="camDetailsForm" *ngIf="newCvCam && !isCamDetails">
+<div  id="{{pdfId}}"class="container overflow-hidden" [formGroup]="camDetailsForm" *ngIf="newCvCam && !isCamDetails && showCamHtml == true">
 
     <!---sourcing table starts here-->
     <table class="cam_table mt-3">
@@ -2399,6 +2399,7 @@
     <!--ncmBhApprovalRecommendation-->
 
 </div>
+
 <div class="for_space"></div>
 
 <div class="btn-sec clear-both row">
@@ -2407,13 +2408,44 @@
         <button  (click)="onBack()" class="btn btn-primary dash_href" type="button" >
             {{ labels?.back }}
         </button>
-        <button *ngIf="usedCvCam || newCvCam" class="btn btn-primary mar-right8" type="button" (click)=onSubmit();
+        <button *ngIf="usedCvCam || newCvCam && showSave == true" class="btn btn-primary mar-right8" type="button" (click)=onSubmit();
             [disabled]="disableSaveBtn">
             Save
         </button>
         <button (click)="onNext()" class="btn btn-primary dash_href" type="button" >
             {{ labels?.next }}
         </button>
+        <button *ngIf="!isCamDetails" (click)="downloadpdf()" class="btn btn-primary dash_href" type="button" >
+            {{ 'Download' }}
+        </button>
     </div>
 </div>
 </form>
+<div id="overlay" *ngIf="errorGenerated">
+    <div id="text">
+      <div class="panel">
+        <div class="panel-body">        
+          <button type="button" class="close" aria-label="Close" (click)="errorGenerated = false" >
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="modal-dialog" >
+            <div class="modal-body" style="text-align:center;">
+              <!-- <p *ngFor="let item of errorMessage">{{item}}</p> -->
+              <div  class="errHead">
+                <h3 class="m-0">{{labels?.missingMandatoryFields}}</h3>
+              </div>
+              <div class="row" *ngFor="let item of errorMessage; let i = index ;">
+                  <div class="col-md-12">
+                  
+                        <div class="errText" >{{i + 1+'.'+''+item}}</div>
+                  </div>
+              </div>
+              <div class="btn-wrap">
+                <button class="btn btn-danger" (click)="errorGenerated = false">OK</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

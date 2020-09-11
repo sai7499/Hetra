@@ -11,6 +11,9 @@ export class DeviationService {
 
   constructor(private apiService: ApiService, private httpService: HttpService) { }
 
+  // methods for getting additional collaterals data from api
+
+  // 1.method for getting deviation details
 
   getDeviationsDetails(leadId) {
 
@@ -34,7 +37,6 @@ export class DeviationService {
   }
 
   autoDeviationDetails(data) {
-    // 
 
     const processId = this.apiService.api.autoDeviation.processId;
     const workflowId = this.apiService.api.autoDeviation.workflowId;
@@ -188,6 +190,27 @@ export class DeviationService {
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
+  }
+
+  getTriggerWaiverNorms(data) {
+
+    const processId = this.apiService.api.getTriggerWaiverNorms.processId;
+    const workflowId = this.apiService.api.getTriggerWaiverNorms.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
+
+    const body: RequestEntity = {
+
+      processId: processId,
+      ProcessVariables: data,
+      workflowId: workflowId,
+      projectId: projectId
+
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+
+
   }
 
 }
