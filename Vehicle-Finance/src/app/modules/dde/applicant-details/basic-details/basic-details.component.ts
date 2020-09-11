@@ -76,8 +76,10 @@ export class BasicDetailsComponent implements OnInit {
     key: string,
     value: string
   }[]
-  
 
+  externalExpiryDate : any;
+  externalIssueDate : any;
+  
   constructor(
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,
@@ -992,6 +994,13 @@ export class BasicDetailsComponent implements OnInit {
 
   }
 
+  updateExternalExpiryDate (event){
+    this.externalExpiryDate= event;
+  }
+
+  updateExternalIssueDate(event){
+     this.externalIssueDate= event;
+  }
 
   async onSubmit() {
     this.setValidation();

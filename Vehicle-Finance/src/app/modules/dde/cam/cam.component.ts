@@ -384,7 +384,7 @@ export class CamComponent implements OnInit {
     };
     this.camService.getCamUsedCarDetails(data).subscribe((res: any) => {
       if (res && res.ProcessVariables.error.code == '0') {
-        // this.showCamHtml == true
+        this.showCamHtml == true
         this.camDetails = res.ProcessVariables
         this.applicantDetails = res.ProcessVariables['applicantDetails'];
         this.bankingDetails = res.ProcessVariables['bankingDetails'];
