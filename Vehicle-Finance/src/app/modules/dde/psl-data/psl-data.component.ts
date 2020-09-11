@@ -1542,7 +1542,7 @@ export class PslDataComponent implements OnInit {
   navigateNext() {
     if(this.productCatCode != 'NCV') {
       this.router.navigate([`/pages/dde/${this.leadId}/vehicle-valuation`]);
-    } else {
+    } else if(this.productCatCode == 'NCV'){
       this.router.navigate([`/pages/dde/${this.leadId}/tvr-details`]);
       this.sharedService.getPslDataNext(true);
     }
