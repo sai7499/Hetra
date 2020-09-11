@@ -18,6 +18,7 @@ export class DdeComponent implements OnInit {
   showNav: boolean = false;
   fiCumPdStatusString: any;
   fiCumPdStatus: boolean;
+  productCatCode: string;
 
   constructor(
     public router: Router,
@@ -52,9 +53,17 @@ export class DdeComponent implements OnInit {
       const gotLeadData = this.route.snapshot.data.leadData;
       if (gotLeadData.Error === '0') {
         const leadData = gotLeadData.ProcessVariables;
+        // console.log("LEAD_SECTION_DATA::", leadData);
+        this.productCatCode = leadData.leadDetails.productCatCode;
+        console.log("ProductCODE::", this.productCatCode);
         this.createLeadDataService.setLeadSectionData(leadData);
         this.leadStoreService.setLeadCreation(leadData);
       }
+      this.sharedService.pslDataNext$.subscribe((val) => {
+        if(val === true) {
+          this.onNext();
+        }
+      });
       this.sharedService.vehicleValuationNext$.subscribe((val) => {
         if (val === true) {
           this.onNext();
@@ -94,7 +103,11 @@ export class DdeComponent implements OnInit {
 
   onPrevious() {
     this.show = true;
-    this.router.navigateByUrl(`/pages/dde/${this.leadId}/vehicle-valuation`);
+    if(this.productCatCode != 'NCV') {
+      this.router.navigateByUrl(`/pages/dde/${this.leadId}/vehicle-valuation`);
+    } else if(this.productCatCode == 'NCV') {
+      this.router.navigateByUrl(`/pages/dde/${this.leadId}/psl-data`);
+    }
   }
   onNext() {
     this.show = false;
