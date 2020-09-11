@@ -2187,7 +2187,7 @@
         },
         "applicationNo": {
             "maxLength": {
-                "rule": 10
+                "rule": 20
             },
             "type": "alpha-numeric"
         },
