@@ -104,6 +104,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
       this.isDirty = true;
       console.log('error', this.formValue)
       this.utilityService.validateAllFormFields(this.formValue)
+      this.toasterService.showError('Please enter all mandatory field', 'Vehicle Detail')
     }
   }
 

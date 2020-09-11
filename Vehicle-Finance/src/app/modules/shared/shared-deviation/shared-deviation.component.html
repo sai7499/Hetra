@@ -61,15 +61,15 @@
               <div class="row m-0 radio-inline"
                 [ngClass]="{'disabled': !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}">
                 <label for="approve_action">
-                  <input type="radio" id="approve_action_{{i}}" formControlName="statusCode" value="1"
+                  <input type="radio" id="approve_action_waiver_{{i}}" formControlName="statusCode" value="1"
                     (click)="onApproveDeclineAction(1, waiver)">{{labels?.approve}}
                 </label>
                 <label for=" refer_action">
-                  <input type="radio" id="refer_actionn_{{i}}" formControlName="statusCode" value="2"
+                  <input type="radio" id="refer_action_waiver_{{i}}" formControlName="statusCode" value="2"
                     (click)="onApproveDeclineAction(2, waiver)">{{labels?.referToNextLevel}}
                 </label>
                 <label for="decline_action">
-                  <input type="radio" id="decline_actionn_{{i}}" formControlName="statusCode" value="0"
+                  <input type="radio" id="decline_action_waiver_{{i}}" formControlName="statusCode" value="0"
                     (click)="onApproveDeclineAction(0, waiver)">{{labels?.decline}}
                 </label>
               </div>
@@ -140,11 +140,11 @@
                     (click)="onApproveDeclineAction(1, obj)">{{labels?.approve}}
                 </label>
                 <label for=" refer_action">
-                  <input type="radio" id="refer_actionn_{{i}}" formControlName="statusCode" value="2"
+                  <input type="radio" id="refer_action_{{i}}" formControlName="statusCode" value="2"
                     (click)="onApproveDeclineAction(2, obj)">{{labels?.referToNextLevel}}
                 </label>
                 <label for="decline_action">
-                  <input type="radio" id="decline_actionn_{{i}}" formControlName="statusCode" value="0"
+                  <input type="radio" id="decline_action_{{i}}" formControlName="statusCode" value="0"
                     (click)="onApproveDeclineAction(0, obj)">{{labels?.decline}}
                 </label>
               </div>
@@ -171,93 +171,93 @@
 
       <div *ngIf="deviationsForm.get('manualDeviationFormArray')['controls'].length > 0">
 
-      <h3 class="cus-title margin_zero">{{labels?.manualDeviation}}</h3>
+        <h3 class="cus-title margin_zero">{{labels?.manualDeviation}}</h3>
 
-      <div class="panel-body row" id="show_1_div_identity"
-        *ngFor="let item of deviationsForm.get('manualDeviationFormArray')['controls']; let j = index"
-        [formGroupName]="j">
+        <div class="panel-body row" id="show_1_div_identity"
+          *ngFor="let item of deviationsForm.get('manualDeviationFormArray')['controls']; let j = index"
+          [formGroupName]="j">
 
-        <div class="row">
+          <div class="row">
 
-          <div class="form-group col-sm-6 col-md-2 col-lg-2">
+            <div class="form-group col-sm-6 col-md-2 col-lg-2">
 
-            <label for="deviation">{{labels?.deviation}}</label>
-            <app-vf-custom-select [values]="deviationLov?.deviation" [id]="'deviation'" formControlName="devCode"
-              [isRequired]="'Deviation Required'" [isDisabled]="isSubmitToCredit" [isDirty]="isDirty"
-              (change)="onGetDeviationCode($event, j)">
-            </app-vf-custom-select>
+              <label for="deviation">{{labels?.deviation}}</label>
+              <app-vf-custom-select [values]="deviationLov?.deviation" [id]="'deviation'" formControlName="devCode"
+                [isRequired]="'Deviation Required'" [isDisabled]="isSubmitToCredit" [isDirty]="isDirty"
+                (change)="onGetDeviationCode($event, j)">
+              </app-vf-custom-select>
 
-          </div>
+            </div>
 
-          <div class="form-group col-sm-6 col-md-3 col-lg-2">
+            <div class="form-group col-sm-6 col-md-3 col-lg-2">
 
-            <label for="deviation">{{labels?.description}}</label>
-            <p>
-              {{item.controls['devDesc'].value}}
-            </p>
-          </div>
+              <label for="deviation">{{labels?.description}}</label>
+              <p>
+                {{item.controls['devDesc'].value}}
+              </p>
+            </div>
 
-          <div class="form-group col-sm-6 col-md-2 col-lg-2">
-            <label for="approval_level"> {{labels?.approvalLevel}}</label>
+            <div class="form-group col-sm-6 col-md-2 col-lg-2">
+              <label for="approval_level"> {{labels?.approvalLevel}}</label>
 
-            <app-vf-custom-select [values]="deviationLov?.approvalLevel" [id]="'approval_level'"
-              formControlName="approverRole" [isRequired]="'Approver Level Required'" [isDirty]="isDirty"
-              (change)="onGetApprovalLevel($event, j)" [isDisabled]="isSubmitToCredit">
-            </app-vf-custom-select>
-          </div>
+              <app-vf-custom-select [values]="deviationLov?.approvalLevel" [id]="'approval_level'"
+                formControlName="approverRole" [isRequired]="'Approver Level Required'" [isDirty]="isDirty"
+                (change)="onGetApprovalLevel($event, j)" [isDisabled]="isSubmitToCredit">
+              </app-vf-custom-select>
+            </div>
 
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
-            <label for="activity">{{labels?.justification}}</label>
-            <textarea class="form-control" formControlName="justification" [readonly]="isSubmitToCredit"
-              style="resize: none;"></textarea>
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+              <label for="activity">{{labels?.justification}}</label>
+              <textarea class="form-control" formControlName="justification" [readonly]="isSubmitToCredit"
+                style="resize: none;"></textarea>
 
-            <div class="invalid-feedback"
-              *ngIf="item.controls['justification'].touched && !item.controls['justification'].valid">
-              <div *ngIf="item.controls['justification'].hasError('required')">
-                Manual Justfication Required
+              <div class="invalid-feedback"
+                *ngIf="item.controls['justification'].touched && !item.controls['justification'].valid">
+                <div *ngIf="item.controls['justification'].hasError('required')">
+                  Manual Justfication Required
+                </div>
               </div>
+
             </div>
 
-          </div>
+            <div class="form-group col-sm-6 col-md-2 col-lg-2">
 
-          <div class="form-group col-sm-6 col-md-2 col-lg-2">
+              <label for="end" class="action">{{labels?.action}} </label>
+              <div class="row m-0 radio-inline"
+                [ngClass]="{'disabled': !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}">
 
-            <label for="end" class="action">{{labels?.action}} </label>
-            <div class="row m-0 radio-inline"
-              [ngClass]="{'disabled': !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}">
-
-              <label for="approve_action">
-                <input type="radio" id="approve_action_manual_{{j}}" formControlName="statusCode" value="1"
-                  (click)="onApproveDeclineAction(1, item)">{{labels?.approve}}
-              </label>
-              <label for=" refer_action">
-                <input type="radio" id="refer_action_manual_{{j}}" formControlName="statusCode" value="2"
-                  (click)="onApproveDeclineAction(2, item)">{{labels?.referToNextLevel}}
-              </label>
-              <label for="decline_action">
-                <input type="radio" id="decline_action_manual_{{j}}" formControlName="statusCode" value="0"
-                  (click)="onApproveDeclineAction(0, item)">{{labels?.decline}}
-              </label>
-            </div>
-          </div>
-
-          <div class="form-group col-sm-6 col-md-1 col-lg-1" *ngIf="isSendBacktoCredit && !isSubmitToCredit">
-            <label>{{labels?.more}} </label>
-            <div class="row">
-              <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="operationType !== '2'">
-                <label class="image-upload" for="upload_files">
-                  <i></i> &nbsp;
-                  <a data-toggle="modal" data-target="#exampleModal"
-                    (click)="softDeleteDeviation(j, item.controls['devRuleId'].value)"><i class="fa fa-trash"
-                      aria-hidden="true"></i></a>
+                <label for="approve_action">
+                  <input type="radio" id="approve_action_manual_{{j}}" formControlName="statusCode" value="1"
+                    (click)="onApproveDeclineAction(1, item)">{{labels?.approve}}
+                </label>
+                <label for=" refer_action">
+                  <input type="radio" id="refer_action_manual_{{j}}" formControlName="statusCode" value="2"
+                    (click)="onApproveDeclineAction(2, item)">{{labels?.referToNextLevel}}
+                </label>
+                <label for="decline_action">
+                  <input type="radio" id="decline_action_manual_{{j}}" formControlName="statusCode" value="0"
+                    (click)="onApproveDeclineAction(0, item)">{{labels?.decline}}
                 </label>
               </div>
             </div>
+
+            <div class="form-group col-sm-6 col-md-1 col-lg-1" *ngIf="isSendBacktoCredit && !isSubmitToCredit">
+              <label>{{labels?.more}} </label>
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="operationType !== '2'">
+                  <label class="image-upload" for="upload_files">
+                    <i></i> &nbsp;
+                    <a data-toggle="modal" data-target="#exampleModal"
+                      (click)="softDeleteDeviation(j, item.controls['devRuleId'].value)"><i class="fa fa-trash"
+                        aria-hidden="true"></i></a>
+                  </label>
+                </div>
+              </div>
+            </div>
+
           </div>
 
         </div>
-
-      </div>
 
       </div>
 
