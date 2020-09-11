@@ -153,7 +153,7 @@ export class CamComponent implements OnInit {
           this.generateCam = true
           this.getCamUsedCarDetails(this.generateCam)
           this.showCamHtml = true
-          this.showSave = true
+          this.showSave = false
 
         }
       })
@@ -176,9 +176,9 @@ export class CamComponent implements OnInit {
           this.generateCam = true
           this.getCamUsedCvDetails(this.generateCam)
           this.showCamHtml = true
+         if(this.currentUrl.includes('dde')){
           this.showSave = true
-
-
+         } 
         }
       })
     }
@@ -202,8 +202,9 @@ export class CamComponent implements OnInit {
           this.generateCam = true
           this.getCamNewCvDetails(this.generateCam)
           this.showCamHtml = true
-          this.showSave = true
-
+          if(this.currentUrl.includes('dde')){
+            this.showSave = true
+           } 
 
         }
       })
@@ -297,9 +298,7 @@ export class CamComponent implements OnInit {
     }
 
     this.currentUrl = this.location.path();
-    if (this.currentUrl.includes('credit-decisions') && this.productCategoryCode != "UC") {
-      console.log(this.camDetailsForm.status, '');
-      
+    if (this.currentUrl.includes('credit-decisions')) {
       this.camDetailsForm.disable();
       this.showSave = false
     } else if (this.currentUrl.includes('dde') ) {
