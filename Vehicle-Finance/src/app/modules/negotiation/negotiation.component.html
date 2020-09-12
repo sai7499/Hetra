@@ -397,7 +397,9 @@
                 <div class="col-sm-6 col-md-4 col-lg-3">
                   <app-custom-input formControlName="FASTagAmount" type="number" class="form-control mandatory select2 custom-negotiation-field"
                     id="FASTagAmount" placeholder="FASTag Amount (in INR)" name="FASTagAmount" (change)="calculateTotal(i)"
-                    [maxLength]="labels?.validationData.FASTagAmount.maxLength" [isRequired]="'FAST Tag Amount is Required'"
+                    [maxLength]="labels?.validationData.FASTagAmount.maxLength"
+                     [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].
+                     fastTag['controls'].EquitasFASTagRequired.value == '2')? null :'FAST Tag Amount is Required'"
                     [isDirty]="isDirty"></app-custom-input>
                 </div>
               </div>
@@ -444,7 +446,7 @@
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
               <app-custom-input formControlName="NegotiatedLoanAmount" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
-                [isRequired]="'Negotiated Loan Amount is Required'" [placeholder]="'Negotiated Loan Amount'" (change)="calculateEMI();calculatededuction()"
+                [isRequired]="'Negotiated Loan Amount is Required'" [placeholder]="'Negotiated Loan Amount'" (change)="allowvaluesforNegoAmount($event);calculateEMI();calculatededuction()"
                 [maxLength]="labels?.validationData.NegotiatedLoanAmount.maxLength" [minLength]="labels?.validationData.NegotiatedLoanAmount.maxLength">
               </app-custom-input>
             </div>
@@ -466,7 +468,8 @@
             <div class="col-sm-6 col-md-4 col-lg-3">
               <app-custom-input formControlName="NegotiatedIRR" [isDirty]="isDirty" [className]="'form-control mandatory'" [isRequired]="'Negotiated IRR is Required'"
                 [type]="'decimal'" [maxLength]="labels?.validationData.NegotiatedIRR.maxLength" [placeholder]="'Negotiated IRR (in %)'"
-                step="0.01" (keypress)="isDecimal($event);" (change)="calculateEMI($event)">
+                step="0.01" (keypress)="isDecimal($event);" (change)="allowValuesforNegoIRR($event)
+                ">
               </app-custom-input>
             </div>
             <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NegotiatedEMI">{{ labels?.NegotiatedEMI }}

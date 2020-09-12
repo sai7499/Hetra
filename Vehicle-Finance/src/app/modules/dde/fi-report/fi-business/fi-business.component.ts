@@ -473,6 +473,11 @@ export class FiBusinessComponent implements OnInit {
     });
   }
   submitFiReportDetails() {
+    this.isDirty = true;
+    if (this.fieldReportForm.invalid) {
+      this.toasterService.showWarning('please enter required details', '');
+      return;
+    }
     const data = {
       applicantId: this.applicantId,
       leadId: this.leadId

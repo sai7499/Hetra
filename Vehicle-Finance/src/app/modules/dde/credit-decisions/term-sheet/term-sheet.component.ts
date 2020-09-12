@@ -10,6 +10,7 @@ import html2pdf from 'html2pdf.js';
 import { UploadService } from '@services/upload.service';
 import { DocumentDetails } from '@model/upload-model';
 import { map } from 'rxjs/operators';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 declare var $;
 @Component({
   selector: 'app-term-sheet',
@@ -64,6 +65,7 @@ export class TermSheetComponent implements OnInit {
     private toasterService: ToasterService,
     public termSheetService: TermSheetService,
     private loginStoreService: LoginStoreService,
+    private createLeadDataService: CreateLeadDataService
   ) {
 
   }
@@ -90,9 +92,13 @@ export class TermSheetComponent implements OnInit {
   }
 
   showTermSheet() {
-    this.getTermSheet(this.leadId);
+    const leadData = this.createLeadDataService.getLeadSectionData();
+    this.vehicleDetailsArray = leadData['vehicleCollateral']
+    // this.isTermSheet= true;
+    this.getTermSheet(this.leadId,"isUpload");
+    
   }
-  getTermSheet(leadId) {
+  getTermSheet(leadId,isUpload?) {
     const ProcessVariables = {
       "leadId": leadId
     };
@@ -121,7 +127,11 @@ export class TermSheetComponent implements OnInit {
         this.assetLoanDetails = res['ProcessVariables'].assetLoanDetails;
         this.coAppIndentityDetails = res['ProcessVariables'].coAppIndentityDetails;
         this.guaIdentityDetails = res['ProcessVariables'].guaIdentityDetails;
-
+        setTimeout(() => {
+        if (isUpload == 'isUpload'){
+          this.uploadDoc();
+        }
+      });
       } else {
         this.isTermSheet = res['ProcessVariables'].isGenerated;
         this.toasterService.showError(res['ProcessVariables'].error['message'], '');
@@ -182,7 +192,7 @@ export class TermSheetComponent implements OnInit {
     // this.router.navigate([`/pages/credit-decisions/${this.leadId}/check-list`]);
     if (this.roleType == '2') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/sanction-details`]);
-    } else if (this.roleType == '1' && localStorage.getItem('isPreDisbursement') == "true") {
+    } else if (this.roleType == '1' && localStorage.getItem('is_pred_done') == "true") {
       this.router.navigate([`pages/pre-disbursement/${this.leadId}/sanction-details`]);
     }
     else if (this.roleType == '1') {
@@ -197,7 +207,7 @@ export class TermSheetComponent implements OnInit {
   }
 
   onBack() {
-    if (this.roleType == '1' && localStorage.getItem('isPreDisbursement') == "true") {
+    if (this.roleType == '1' && localStorage.getItem('is_pred_done') == "true") {
       this.router.navigate([`pages/pre-disbursement/${this.leadId}/credit-condition`]);
     } else if (this.roleType == '2') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/credit-condition`]);
@@ -218,21 +228,31 @@ export class TermSheetComponent implements OnInit {
       image: { type: 'jpeg', quality: 1 },
       jsPDF: { unit: 'in', format: 'a4', orientation: 'p' }
     }
-    // html2pdf().from(document.getElementById("ContentToConvert")).set(options).save();
+    html2pdf().from(document.getElementById("ContentToConvert")).set(options).save();
 
     // }
-    html2pdf().from(document.getElementById("vf_sheet_print_starts"))
+    
+
+  }
+uploadDoc(){
+  var options = {
+    margin: .25,
+    filename: `TermSheeet_${this.leadId}.pdf`,
+    image: { type: 'jpeg', quality: 1 },
+    jsPDF: { unit: 'in', format: 'a4', orientation: 'p' }
+  }
+  html2pdf().from(document.getElementById("ContentToConvert"))
       .set(options).toPdf().output('datauristring').then(res => {
         console.log("file res:", res);
         this.docsDetails = {
-          associatedId: this.vehicleDetailsArray[0].collateralId.toString(),//"1496",
+          associatedId: this.vehicleDetailsArray[0].collateralId.toString(),//" 1513",
           associatedWith: '1',
           bsPyld: "JVBERi0xLjMKJbrfrOAKMyAwIG9iago8PC9UeXBlIC9QYWdlCi",
           deferredDate: "",
           docCatg: "VF LOAN DOCS",
           docCmnts: "Addition of document for Applicant Creation",
           docCtgryCd: 102,
-          docNm: `SANCTION_LETTER`,
+          docNm: `TERM_SHEET`,
           docRefId: [
             {
               idTp: 'LEDID',
@@ -247,11 +267,11 @@ export class TermSheetComponent implements OnInit {
           docSbCtgryCd: 42,
           docSize: 1097152,
           docTp: "Lead",
-          docTypCd: 68,
+          docTypCd: 150,
           docsType: "png/jpg/jpeg/pdf/tiff/xlsx/xls/docx/doc/zip",
           docsTypeForString: "",
           documentId: this.isDocumentId ? this.docsDetails.documentId : 0,
-          documentNumber: `SD${this.leadId}`,
+          documentNumber: `TERM_SHEET${this.leadId}`,
           expiryDate: "",
           formArrayIndex: 0,
           isDeferred: "0",
@@ -289,8 +309,7 @@ export class TermSheetComponent implements OnInit {
           )
           .subscribe(
             (value: any) => {
-              console.log("Response upload", value)
-              html2pdf().from(document.getElementById("vf_sheet_print_starts")).set(options).save();
+              console.log("Response upload", value)              
               let documentDetails: DocumentDetails = {
                 documentId: this.docsDetails.documentId,
                 documentType: String(this.docsDetails.docTypCd),
@@ -335,6 +354,5 @@ export class TermSheetComponent implements OnInit {
             })
 
       });
-
-  }
+    }
 }

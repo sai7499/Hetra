@@ -167,7 +167,6 @@ export class DisbursementFormComponent implements OnInit {
   dealerDetailsData: any;
   applicantDetailsData: any;
   dealerCode: any;
-  duplicateDealerDetails: any;
   disbursementDetailsData: any;
   leadID: any;
   //disburseTo: any;
@@ -197,6 +196,14 @@ export class DisbursementFormComponent implements OnInit {
   showcoApp2IntDetails: boolean;
   showcoApp3IntDetails: boolean;
   flag: boolean;
+  dealerDisbursementID: any;
+  applicantDisbursementID: any;
+  coApp1DisbursementID: any;
+  coApp2DisbursementID: any;
+  coApp3DisbursementID: any;
+  bankerDisbursementID: any;
+  finDisbursementID: any;
+  tpDisbursementID: any;
 
 
   constructor(
@@ -703,8 +710,29 @@ export class DisbursementFormComponent implements OnInit {
 
       });
   }
-  onDealerCodeSearch(event: any) {
+  onDealerCodeSearch(event,flag) {
     let inputString = event;
+    console.log('inputStringDelr', event);
+    this.disbursementService.dealerCode(inputString).subscribe((res: any) => {
+      const response = res;
+      const appiyoError = response.Error;
+      const apiError = response.ProcessVariables.error.code;
+      if (appiyoError === '0' && apiError === '0') {
+        this.dealerCodeData = response.ProcessVariables.dealorDetails;
+        if(this.dealerCodeData && flag){
+          this.dealerCode  = this.dealerCodeData.find(({ dealorCode }) => dealorCode == this.dealerCode).dealorName;
+        }
+        this.keyword = 'dealorName';
+        console.log('this.dealerCodeData', this.dealerCodeData);
+        if(!this.dealerCodeData && !flag){
+          this.dealerObjInfo = {};
+        }
+        this.dealerObjInfo['dealerCode'] = event;
+      }
+    });
+  }
+  selectDealerEvent(event: any) {
+    let inputString = event.dealorCode;
     //console.log('inputStringDelr', event);
     this.disbursementService.getDealerDetails(inputString).subscribe((res: any) => {
       const response = res;
@@ -715,9 +743,7 @@ export class DisbursementFormComponent implements OnInit {
         console.log('dealerCodeData', response)
         const dealerDetailsData = response.ProcessVariables.DealerDetails;
         if (dealerDetailsData) {
-          this.duplicateDealerDetails = dealerDetailsData
-          this.dealerObjInfo = this.duplicateDealerDetails;
-          //this.dealerDetailsForm.patchValue({ address: (this.duplicateDealerDetails)? this.duplicateDealerDetails.beneficiaryAddress1 +','+  this.duplicateDealerDetails.beneficiaryAddress2 + ',' + this.duplicateDealerDetails.beneficiaryAddress3: null });
+          this.dealerObjInfo = dealerDetailsData;
         } else {
           this.dealerObjInfo = {};
           this.showTrancheTable = false;
@@ -2013,7 +2039,7 @@ export class DisbursementFormComponent implements OnInit {
     }
     this.ReqDealerDetails = {
       leadID: this.disbLeadId,
-      disbursementID: this.dealerObjInfo['disbursementID'] ? this.dealerObjInfo['disbursementID'] : null,
+      disbursementID: this.dealerDisbursementID ? this.dealerDisbursementID : null,
       payableTo: '1DISBURSETO',
       favouring: 'Dealer',
       dealerCode: this.dealerObjInfo['dealerCode'],
@@ -2049,7 +2075,7 @@ export class DisbursementFormComponent implements OnInit {
     }
     this.ReqApplicantDetails = {
       leadID: this.disbLeadId,
-      disbursementID: this.applicantObjInfo['disbursementID'] ? this.applicantObjInfo['disbursementID'] : null,
+      disbursementID: this.applicantDisbursementID ? this.applicantDisbursementID : null,
       payableTo: '2DISBURSETO',
       favouring: 'Applicant',
       beneficiaryName: this.applicantObjInfo['beneficiaryName'],
@@ -2084,7 +2110,7 @@ export class DisbursementFormComponent implements OnInit {
     }
     this.ReqCoApp1Details = {
       leadID: this.disbLeadId,
-      disbursementID: this.coApplicant1['disbursementID'] ? this.coApplicant1['disbursementID'] : null,
+      disbursementID: this.coApp1DisbursementID ? this.coApp1DisbursementID : null,
       payableTo: '3DISBURSETO',
       favouring: 'Co Applicant',
       applicantId: this.coApplicant1['applicantId'],
@@ -2115,7 +2141,7 @@ export class DisbursementFormComponent implements OnInit {
     coApp2FormValue.trancheDisbursementJson = this.trancheCoApp2Form ? JSON.stringify(this.trancheCoApp2Form.value.trancheCoApp2Array) : '';
     this.ReqCoApp2Details = {
       leadID: this.disbLeadId,
-      disbursementID: this.coApplicant2['disbursementID'] ? this.coApplicant2['disbursementID'] : null,
+      disbursementID: this.coApp2DisbursementID ? this.coApp2DisbursementID : null,
       payableTo: "3DISBURSETO",
       favouring: "Co Applicant",
       applicantId: this.coApplicant2['applicantId'],
@@ -2146,7 +2172,7 @@ export class DisbursementFormComponent implements OnInit {
     coApp3FormValue.trancheDisbursementJson = this.trancheCoApp3Form ? JSON.stringify(this.trancheCoApp3Form.value.trancheCoApp3Array) : '';
     this.ReqCoApp3Details = {
       leadID: this.disbLeadId,
-      disbursementID: this.coApplicant3['disbursementID'] ? this.coApplicant3['disbursementID'] : null,
+      disbursementID: this.coApp3DisbursementID ? this.coApp3DisbursementID : null,
       payableTo: "3DISBURSETO",
       favouring: "Co Applicant",
       applicantId: this.coApplicant3['applicantId'],
@@ -2178,7 +2204,7 @@ export class DisbursementFormComponent implements OnInit {
     bankerFormValue.trancheDisbursementJson = this.trancheBankerForm ? JSON.stringify(this.trancheBankerForm.value.trancheBankerArray) : '';
     this.ReqBankerDetails = {
       leadID: this.disbLeadId,
-      disbursementID: this.bankerObjInfo['disbursementID'] ? this.bankerObjInfo['disbursementID'] : null,
+      disbursementID: this.bankerDisbursementID ? this.bankerDisbursementID : null,
       payableTo: '4DISBURSETO',
       favouring: 'Banker',
       bankerId: this.bankerObjInfo['bankerId'],
@@ -2210,7 +2236,7 @@ export class DisbursementFormComponent implements OnInit {
     financierFormValue.trancheDisbursementJson = this.trancheFinancierForm ? JSON.stringify(this.trancheFinancierForm.value.trancheFinancierArray) : '';
     this.ReqFinancierDetails = {
       leadID: this.disbLeadId,
-      disbursementID: this.financierObjInfo['disbursementID'] ? this.financierObjInfo['disbursementID'] : null,
+      disbursementID: this.finDisbursementID ? this.finDisbursementID : null,
       payableTo: '5DISBURSETO',
       favouring: 'Financier',
       financierId: this.financierObjInfo['financierId'],
@@ -2242,7 +2268,7 @@ export class DisbursementFormComponent implements OnInit {
     thirdPartyFormValue.trancheDisbursementJson = this.trancheTPForm ? JSON.stringify(this.trancheTPForm.value.trancheTpArray) : '';
     this.ReqTPDetails = {
       leadID: this.disbLeadId,
-      disbursementID: this.thirdPartyObjInfo['disbursementID'] ? this.thirdPartyObjInfo['disbursementID'] : null,
+      disbursementID: this.tpDisbursementID ? this.tpDisbursementID : null,
       payableTo: '6DISBURSETO',
       favouring: 'Third Party',
       beneficiaryName: this.thirdPartyObjInfo['beneficiaryName'],
@@ -2415,7 +2441,11 @@ export class DisbursementFormComponent implements OnInit {
         }
         if (this.disbursementDetailsData.DealerDetails) {
           this.dealerObjInfo = this.disbursementDetailsData.DealerDetails;
+          this.dealerDisbursementID = this.dealerObjInfo['disbursementID'];
           this.dealerCode = this.disbursementDetailsData.DealerDetails.dealerCode;
+          if(this.dealerCode){
+          this.onDealerCodeSearch(this.dealerCode,true);
+          }
           this.dealerObjInfo['instrumentDate'] = this.disbursementDetailsData.DealerDetails.instrumentDate;
           this.dealerDetailsForm.patchValue({ instrumentDate: (this.dealerObjInfo['instrumentDate']) ? new Date(this.utilityService.getDateFromString(this.dealerObjInfo['instrumentDate'])) : '' });
           this.dealerObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.DealerDetails.trancheDisbursementFlag == 'Y') ? true : false;
@@ -2457,6 +2487,7 @@ export class DisbursementFormComponent implements OnInit {
 
         if (this.disbursementDetailsData.ApplicantDetails) {
           this.applicantObjInfo = this.disbursementDetailsData.ApplicantDetails;
+          this.applicantDisbursementID = this.applicantObjInfo['disbursementID'];
           this.applicantObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.ApplicantDetails.trancheDisbursementFlag == 'Y') ? true : false;
           this.applicantObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.ApplicantDetails.deductChargesFlag == 'Y') ? true : false;
           this.applicantObjInfo['disbursementAmount'] = (this.disbursementDetailsData.ApplicantDetails.disbursementAmount) ? parseInt(this.disbursementDetailsData.ApplicantDetails.disbursementAmount) : null;
@@ -2532,6 +2563,7 @@ export class DisbursementFormComponent implements OnInit {
           //console.log('fetchedCoApp',this.coAppName)  
         }
         if (this.coApplicant1) {
+          this.coApp1DisbursementID = this.coApplicant1['disbursementID'];
           this.coApplicant1['trancheDisbursementFlag'] = (this.coApplicant1['trancheDisbursementFlag'] == 'Y') ? true : false;
           this.coApplicant1['deductChargesFlag'] = (this.coApplicant1['deductChargesFlag'] == 'Y') ? true : false;
           if (this.coApplicant1['paymentMethod'] == '7MODEOFPAYMENT' || this.coApplicant1['paymentMethod'] == '8MODEOFPAYMENT') {
@@ -2562,6 +2594,7 @@ export class DisbursementFormComponent implements OnInit {
           }
         }
         if (this.coApplicant2) {
+          this.coApp2DisbursementID = this.coApplicant2['disbursementID'];
           this.coApplicant2['trancheDisbursementFlag'] = (this.coApplicant2['trancheDisbursementFlag'] == 'Y') ? true : false;
           this.coApplicant2['deductChargesFlag'] = (this.coApplicant2['deductChargesFlag'] == 'Y') ? true : false;
           if (this.coApplicant2['paymentMethod'] == '7MODEOFPAYMENT' || this.coApplicant2['paymentMethod'] == '8MODEOFPAYMENT') {
@@ -2593,6 +2626,7 @@ export class DisbursementFormComponent implements OnInit {
           }
         }
         if (this.coApplicant3) {
+          this.coApp3DisbursementID = this.coApplicant3['disbursementID'];
           this.coApplicant3['trancheDisbursementFlag'] = (this.coApplicant3['trancheDisbursementFlag'] == 'Y') ? true : false;
           this.coApplicant3['deductChargesFlag'] = (this.coApplicant3['deductChargesFlag'] == 'Y') ? true : false;
           if (this.coApplicant3['paymentMethod'] == '7MODEOFPAYMENT' || this.coApplicant3['paymentMethod'] == '8MODEOFPAYMENT') {
@@ -2625,6 +2659,7 @@ export class DisbursementFormComponent implements OnInit {
 
         if (this.disbursementDetailsData.BankerDetails) {
           this.bankerObjInfo = this.disbursementDetailsData.BankerDetails;
+          this.bankerDisbursementID = this.bankerObjInfo['disbursementID'];
           this.bankerObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.BankerDetails.trancheDisbursementFlag == 'Y') ? true : false;
           this.bankerObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.BankerDetails.deductChargesFlag == 'Y') ? true : false;
           this.bankerObjInfo['disbursementAmount'] = (this.disbursementDetailsData.BankerDetails.disbursementAmount) ? parseInt(this.disbursementDetailsData.BankerDetails.disbursementAmount) : null;
@@ -2660,6 +2695,7 @@ export class DisbursementFormComponent implements OnInit {
 
         if (this.disbursementDetailsData.FinancierDetails) {
           this.financierObjInfo = this.disbursementDetailsData.FinancierDetails;
+          this.finDisbursementID = this.financierObjInfo['disbursementID'];
           this.financierObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.FinancierDetails.trancheDisbursementFlag == 'Y') ? true : false;
           this.financierObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.FinancierDetails.deductChargesFlag == 'Y') ? true : false;
           this.financierObjInfo['disbursementAmount'] = (this.disbursementDetailsData.FinancierDetails.disbursementAmount) ? parseInt(this.disbursementDetailsData.FinancierDetails.disbursementAmount) : null;
@@ -2695,6 +2731,7 @@ export class DisbursementFormComponent implements OnInit {
 
         if (this.disbursementDetailsData.ThirdPartyDetails) {
           this.thirdPartyObjInfo = this.disbursementDetailsData.ThirdPartyDetails;
+          this.tpDisbursementID = this.thirdPartyObjInfo['disbursementID'];
           this.thirdPartyObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.ThirdPartyDetails.trancheDisbursementFlag == 'Y') ? true : false;
           this.thirdPartyObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.ThirdPartyDetails.deductChargesFlag == 'Y') ? true : false;
           this.thirdPartyObjInfo['disbursementAmount'] = (this.disbursementDetailsData.ThirdPartyDetails.disbursementAmount) ? parseInt(this.disbursementDetailsData.ThirdPartyDetails.disbursementAmount) : null;
@@ -2779,7 +2816,7 @@ sendLoanCreationWrapper() {
       this.toasterService.showSuccess('Lead submitted For Loan Creation', '');
       this.router.navigate([`pages/dashboard`]);
     } else {
-      this.toasterService.showSuccess(res.ProcessVariables.error.message, '');
+      this.toasterService.showError(res.ProcessVariables.error.message, '');
     }
   });
 }

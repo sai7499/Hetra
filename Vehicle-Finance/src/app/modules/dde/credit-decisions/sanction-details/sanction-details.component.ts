@@ -151,9 +151,12 @@ export class SanctionDetailsComponent implements OnInit {
         this.vehicleDetailsArray = this.sanctionDetailsObject.vehicleDetails;
         this.loanApprovedDetails = this.sanctionDetailsObject.loanApprovedDetails;
         this.generalTermsAndConditions = this.sanctionDetailsObject.generalTermsAndConditions;
-        if (isUpload === 'isUpload') {
-          this.uploadPdf()
-        }
+        setTimeout(() => {
+          if (isUpload === 'isUpload') {
+            // this.uploadPdf()
+          }
+        });
+        
       } else {
         this.toasterService.showError(res['ProcessVariables'].error['message'], 'Sanction Details');
       }
@@ -214,7 +217,7 @@ export class SanctionDetailsComponent implements OnInit {
     this.sanctionDetailsService.submitToCC(data).subscribe((res: any) => {
       const response = res;
       console.log("RESPONSE_SUMIT_TO_CREDIT_DECISION::", response);
-      if (response["Error"] == 0) {
+      if (response["Error"] == 0 && response["ProcessVariables"].error["code"]== 0) {
         this.toasterService.showSuccess("Sanctioned Leads Submitted Successfully", "Sanction Details");
         this.router.navigateByUrl('/pages/dashboard');
       } else {
