@@ -172,6 +172,7 @@ export class WelomceLetterComponent implements OnInit {
     this.labelsData.getWelcomeDataenglish().subscribe(
       (data) => {
         this.labels = data;
+        console.log('english labels',data);
         // this.nameLength = this.labels.validationData.name.maxLength;
         // this.mobileLength = this.labels.validationData.mobileNumber.maxLength;
       },

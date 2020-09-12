@@ -83,6 +83,7 @@ export class CpcMakerDdeComponent implements OnInit {
       return 5;
     } else if (url.includes('pdc-details') && this.roleType == '4') {
       return 6;
-    }
+    } else if (url.includes('welomce-letter') ) {
+      return 7;
   }
-}
+}}
