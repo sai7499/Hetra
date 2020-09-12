@@ -809,6 +809,11 @@ export class ApiService {
       processId: '47d4c4a8f19d11eaa89a00505695f93b',
       workflowId: '4794bf2af19d11ea880700505695f93b',
       projectId: environment.projectIds.submitToCredit
+    },
+    welcomeLetter: {
+      processId: 'd358b542f28911ea82f100505695f93b',
+      workflowId: 'd33a101af28911ea9cda00505695f93b',
+      projectId: environment.projectIds.salesProjectId
     }
 
   };
