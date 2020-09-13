@@ -127,8 +127,9 @@ export class NegotiationComponent implements OnInit {
   valid: boolean;
   IRRValueCheck: { rule: (variance: any) => boolean; msg: string; }[];
   baseInterest: any;
-  maxInterst: any;
+  maxInterest: any;
   minInterest: any;
+  varianceIRR : any;
   constructor(
     private labelsData: LabelsService,
     private NegotiationService: NegotiationService,
@@ -165,7 +166,7 @@ export class NegotiationComponent implements OnInit {
     setTimeout(() => {
       this.getAssetDetails();//enable this to fetch data,redirects fro dashboard
     }, 1000);
-    
+   
   }
   getFundingReq(event, i) {
     this.showapplicable = false;
@@ -247,7 +248,7 @@ export class NegotiationComponent implements OnInit {
       NoofPDC: ['', [Validators.minLength(1), Validators.maxLength(1)]],
       NoofSPDC: ['', [Validators.minLength(1), Validators.maxLength(1)]],
     })
-   
+  
   }
   calculatepremiumAmount(event, ins_type_id, i) {
     const value = event.target.value;
@@ -587,18 +588,7 @@ export class NegotiationComponent implements OnInit {
     this.SPDCvalueCheck = [{ rule: spdcvalue => Number(spdcvalue) > Number(this.maxValueSPDC), msg: 'value should be between 5 and 8' },
     { rule: spdcvalue => Number(spdcvalue) < Number(this.minValueSPDC), msg: 'value should be between 5 and 8' }];
   }
-  // Added BY Anandakumar S. -- Start
-  // validateIRR() {
-  //   let IRRValue = this.createNegotiationForm.controls.NegotiatedIRR.value;
-  //   let variance = parseFloat(IRRValue)- parseFloat(this.baseInterest);
-  //   this.IRRValueCheck = [{ rule: variance => parseFloat(variance) > Number(this.minInterest), msg: 'Invalid Value' },
-  //   { rule: variance => parseFloat(variance) < parseFloat(this.maxInterst), msg: 'Invalid value' }];
-  //   console.log(this.IRRValueCheck)
-  //   if(this.IRRValueCheck.length === 0){
-  //     this.calculateEMI();
-  //   }
-  // }
-  // Added BY Anandakumar S. -- End
+ 
   getLOV() {
     this.NegotiationService
       .getmotorInsuranceData().subscribe((res: any) => {
@@ -756,7 +746,7 @@ export class NegotiationComponent implements OnInit {
           this.DeductionDetails = res.ProcessVariables.DeductionDetails ? res.ProcessVariables.DeductionDetails : [];
           var LMSScheduletemp = res.ProcessVariables.LMSSchedule ? res.ProcessVariables.LMSSchedule : [];
           this.minInterest = res.ProcessVariables.ratMinVar;
-          this.maxInterst = res.ProcessVariables.ratMaxVar;
+          this.maxInterest = res.ProcessVariables.ratMaxVar;
           this.baseInterest = res.ProcessVariables.baseInterest;
           // this.DeductionDetails
           if (LMSScheduletemp.length != 0) {
@@ -902,11 +892,11 @@ export class NegotiationComponent implements OnInit {
   }
   allowValuesforNegoIRR(event) {
     let negoIRRValue = event.target.value;
-    let variance = parseFloat(negoIRRValue) - parseFloat(this.baseInterest);
-    if (variance > Number(this.maxInterst) || variance < Number(this.minInterest)) {
+    this.varianceIRR = (parseFloat(negoIRRValue) - parseFloat(this.baseInterest)).toFixed(2);
+    if (this.varianceIRR > Number(this.maxInterest) || this.varianceIRR < Number(this.minInterest)) {
       this.createNegotiationForm.controls.NegotiatedIRR.setValue(null);
       this.toasterService.showError(
-        'Invalid Value.',
+        'IRR should be between '+ (Number(this.minInterest) + Number(this.baseInterest)) +' and '+(Number(this.maxInterest) + Number(this.baseInterest)) +'.',
         'Create Negotiation'
       );
     }
@@ -1021,7 +1011,8 @@ export class NegotiationComponent implements OnInit {
         NoofSPDC: this.createNegotiationForm.controls.NoofSPDC.value,
         deductions: this.Deductions,
         processingFee: this.processingFee,
-        serviceCharge: this.serviceCharge
+        serviceCharge: this.serviceCharge,
+        variance:this.varianceIRR
       };
       this.CrossSellInsurance = [];
       this.CrossSellOthers = [];
@@ -1219,7 +1210,7 @@ export class NegotiationComponent implements OnInit {
     }
     const data = {
       insuranceProvider: Number(insuranceProviderName),// Number(this.valueSelected.motorInsurance),//icic chola
-      insuranceType: insuranceType, // motor 
+      insuranceType: insuranceType, // motor
       // applicantId: this.LeadReferenceDetails[0].ApplicationId,
       leadId: Number(this.leadId),
       collateralId: Number(this.AssetDetailsList[i].CollateralId),
