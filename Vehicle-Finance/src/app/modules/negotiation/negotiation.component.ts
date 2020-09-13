@@ -925,9 +925,9 @@ export class NegotiationComponent implements OnInit {
         'Negotiated Loan Amount should be less than twice of Cross Sell Amount.',
         'Create Negotiation'
       );
-    }
-    else
+    }else{
       this.createNegotiationForm.controls.NegotiatedLoanAmount.setValue(negoLoanValue)
+    }
   }
   onSubmit() {
     // this.getLeadId();

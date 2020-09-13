@@ -3,7 +3,10 @@
     <div class="text-center">
         <button class="btn btn-primary view-button" 
             type="button" id="" tabindex="7" *ngIf="!showWelcomeLetter"
-            (click)="showWelcomeLetter=true">View Welcome Letter</button><br>
+            (click)="viweWelcomeLetter()">View Welcome Letter</button>&nbsp;
+            <button class="btn btn-primary view-button" 
+            type="button" id="" tabindex="7" *ngIf="!showWelcomeLetter"
+            routerLink="../disbursement">Back</button><br> 
     </div>
 
         <div *ngIf="showWelcomeLetter" >
@@ -38,7 +41,7 @@
                         {{applicantList?.country}}
                     </div>
                 </div>
-                <div class="col-md-4" *ngIf="coApplicantList.length>0">
+                <div class="col-md-4" *ngIf="coApplicantList?.length>0">
                     <div *ngFor="let coAppliacnt of coApplicantList; let i=index">
                         <strong>Co-Borrower{{i+1}}</strong> <br>
                         <strong>{{coAppliacnt?.name}}</strong><br>
@@ -178,7 +181,7 @@ Equitas Finance Private Limited<br />
                     <td>Loan Agreement No.</td>
                     <td>{{isWelcomeDetails?.agreementNo}} </td>
                     <td>Agreement Date</td>
-                    <td>{{isWelcomeDetails?.agreementDate | date:'dd/MM/yyyy'}}</td>
+                    <td>{{isWelcomeDetails?.agreementDate}}</td>
                 </tr>
                 <tr class="top-border">
                     <td>Name and Address of the Borrower</td>
@@ -445,6 +448,11 @@ Care Unit at Tollfree No.: 1800 3000 506, to help us serve you better.</li>
             </div>
 
             <div class="margin-add" [innerHTML]="div2Data"></div>
+            <div class="margin-add">
+                <p class="style-strong text-center">EQUITAS FINANCE PRIVATE LIMITED</p>
+                <p class="text-center">(Wholly owned subsidiary of Equitas Holding Private Limited)</p>
+            </div>
+            <div class="margin-add" [innerHTML]="div3Data"></div>
             <p class="text-center style-strong">RE-PAYMENT SCHEDULE - Agreement No: {{isWelcomeDetails?.agreementNo}}
             </p>
             <table cellspacing="0" cellpadding="0" dir="ltr" border="1">
@@ -493,6 +501,12 @@ Care Unit at Tollfree No.: 1800 3000 506, to help us serve you better.</li>
 
                 </tbody>
             </table>
+            <div class="margin-add">
+                <strong>
+                <p class="\&quot;author_style\&quot;">For Equitas Finance Pvt Ltd</p><br>
+                <p class="\&quot;author_style\&quot;">Authorised Signatory</p>
+                </strong>
+            </div>
 
             <!-- <p class="style-strong">For Equitas Finance Pvt Ltd</p>
 <p class="style-strong">Authorised Signatory</p>
@@ -570,17 +584,20 @@ giving a mutually agreed and fair solution.</p>
 <p>Company will send you a Statement of Account every year, which is free of cost. If you need a statement in
 the interim period please contact your service branch with a written request; you will be required to pay
 Rs.500/- for every such request.</p>
-
-<p class="text-center font-small">Regd. Office: No. 769, 4th Floor, Phase - 2,F39, Spencer Plaza, Anna Salai,
-Chennai - 600 002.
+-->
+<p class="text-right font-small">Regd. Office: No. 769, 4th Floor, Phase - 2,F39, Spencer Plaza, Anna Salai,
+Chennai - 600 002.<br>
 Ph: 044-4299 5000 Customer Care Toll-free: 1800 3000 5060 Fax: 044-42995050 E-mail: corporate@equitas.in
-</p> -->
+</p> 
 
-            <div class="margin-add" [innerHTML]="div3Data"></div>
+           
             </div>
             <div class="text-right">
             <button class="btn btn-primary view-button text-center" type="button" id="" tabindex="7"
-                (click)="downloadpdf()">DownLoad</button>
+                (click)="downloadpdf()">DownLoad</button>&nbsp;
+            <button class="btn btn-primary view-button" 
+                type="button" id="" tabindex="7" *ngIf="showWelcomeLetter"
+                routerLink="../disbursement">Back</button><br> 
             </div>
 
         </div>
