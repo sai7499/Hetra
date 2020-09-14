@@ -112,9 +112,9 @@
               [activeView]="'decade'"
               [format]="'dd/MM/yyyy'"
               [max]="toDayDate"
-              [min]="leadCreatedDate"
+              [min]="leadCreatedDate"              
               placeholder="Valuation Date"
-            >
+            >           
             </kendo-datepicker>
             <div class="invalid-feedback" >
               <div *ngIf="isDirty && !vehicleValuationForm.controls.valuationDate.value">

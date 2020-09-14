@@ -299,8 +299,10 @@ export class ValuationComponent implements OnInit {
       this.vehicleValuationService.saveUpdateVehicleValuation(data).subscribe((res: any) => {
         const response = res;
         console.log("VEHICLE_VALUATION_RESPONSE_SAVE_OR_UPDATE_API", response);
-        if (response["Error"] == 0) {
+        if (response["Error"] == 0 && response['ProcessVariables'].error['code'] == "0") {
           this.toasterService.showSuccess("Record Saved Successfully", "Valuation");
+        }else {
+          this.toasterService.showError(response['ProcessVariables'].error['message'], "Valuation");
         }
       });
     } else {
