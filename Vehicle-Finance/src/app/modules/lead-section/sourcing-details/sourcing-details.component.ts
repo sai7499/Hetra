@@ -577,7 +577,7 @@ export class SourcingDetailsComponent implements OnInit {
       bizDivision: new FormControl('', Validators.required),
       sourcingChannel: new FormControl('', Validators.required),
       sourcingType: new FormControl('', Validators.required),
-      sourcingCode: new FormControl('', Validators.required),
+      sourcingCode: new FormControl(''),
       dealerCode: new FormControl('', Validators.required),
       spokeCodeLocation: new FormControl({ value: '', disabled: true }),
       loanBranch: new FormControl({ value: '', disabled: true }),
