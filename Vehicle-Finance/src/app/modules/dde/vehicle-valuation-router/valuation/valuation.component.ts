@@ -8,6 +8,7 @@ import { CommomLovService } from '@services/commom-lov-service';
 import { VehicleValuationService } from '@modules/dde/services/vehicle-valuation.service';
 import { UtilityService } from '@services/utility.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 @Component({
   selector: 'app-valuation',
@@ -39,6 +40,7 @@ export class ValuationComponent implements OnInit {
   vehiclePincode: string;
   assetCostGrid: string;
   disableSaveBtn: boolean;
+  leadCreatedDate: any;
 
   valuesToYesNo: any = [{ key: 1, value: 'Yes' }, { key: 0, value: 'No' }];
   monthsLOVS: any = [
@@ -58,6 +60,7 @@ export class ValuationComponent implements OnInit {
     private vehicleValuationService: VehicleValuationService,
     private toasterService: ToasterService,
     private utilityService: UtilityService,
+    private createLeadDataService: CreateLeadDataService,
     private toggleDdeService: ToggleDdeService) { }
 
   async ngOnInit() {
@@ -71,6 +74,7 @@ export class ValuationComponent implements OnInit {
     // this.getCollateralId();
     console.log("COLLATERALID::::", this.colleteralId);
     this.getVehicleValuation();
+    this.getLeadSectiondata();
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
@@ -119,12 +123,21 @@ export class ValuationComponent implements OnInit {
     });
   }
 
+  //GET LEAD SECTION DATA
+  getLeadSectiondata() {
+    const leadData = this.createLeadDataService.getLeadSectionData();
+    // this.leadCreatedDate = new Date(leadData['leadDetails'].leadCreatedOn);
+    this.leadCreatedDate = this.utilityService.getDateFromString(leadData['leadDetails'].leadCreatedOn);
+    // console.log("LEAD_CREATED_DATE::", this.vehicleValuationForm.get('valuationDate').value >= this.leadCreatedDate);
+    console.log("LEAD_CREATED_DATE::", this.leadCreatedDate);
+  }
+
   //CHANGE EVENT FUNCTION FOR monthLOVS
   onChangeMonthValues(event: any) {
     const monthChange = event.target.value;
     console.log("CHANGE_IN_MONTH::", monthChange);
   }
-
+  
   //CHANGE_YEAR
   onGetDateValue(event: any) {
     const yearOfManufacturer = event.target.value;
@@ -183,12 +196,12 @@ export class ValuationComponent implements OnInit {
       yearOfManufacturer: ["", Validators.required],
       monthOfManufacturer: ["", Validators.required],
       ageOfAsset: ["", Validators.required],
-      sellerShortDesc: ["", Validators.required],
-      secondAsset: ["", Validators.required],
-      secondVehiclePrefixNo: ["", Validators.required],
-      reRegNumber: ["", Validators.required],
-      regChasisNo: ["", Validators.required],
-      agricultureProof: ["", Validators.required],
+      sellerShortDesc: [""],
+      secondAsset: [""],
+      secondVehiclePrefixNo: [""],
+      reRegNumber: [""],
+      regChasisNo: [""],
+      // agricultureProof: ["", Validators.required],
       fcExpiryDate: ["", Validators.required],
       dateofReg: ["", Validators.required],
       gvw: ["", Validators.required],
@@ -243,7 +256,7 @@ export class ValuationComponent implements OnInit {
       secondVehiclePrefixNo: this.vehicleValuationDetails.secondVehiclePrefixNo || '',
       reRegNumber: this.vehicleValuationDetails.reRegNumber || '',
       regChasisNo: this.vehicleValuationDetails.regChasisNo || '',
-      agricultureProof: this.vehicleValuationDetails.agricultureProof || '',
+      // agricultureProof: this.vehicleValuationDetails.agricultureProof || '',
       fcExpiryDate: this.vehicleValuationDetails.fcExpiryDate ? this.utilityService.getDateFromString(this.vehicleValuationDetails.fcExpiryDate) : '',
       dateofReg: this.vehicleValuationDetails.dateofReg ? this.utilityService.getDateFromString(this.vehicleValuationDetails.dateofReg) : '',
       gvw: this.vehicleValuationDetails.gvw || '',

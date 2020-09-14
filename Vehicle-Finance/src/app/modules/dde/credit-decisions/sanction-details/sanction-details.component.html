@@ -302,14 +302,16 @@
                 *ngIf="roleType == '2' && salesResponse == 'true'"><a data-toggle="modal"
                     data-target="#myModalForApproval">Submit for Approval</a></button>
             <button class="btn btn-primary dash_href adjustMargins" type="button"
-                *ngIf="roleType != '2' && isPreDisbursement == 'true'"><a data-toggle="modal"
+                *ngIf="roleType != '2' && isPreDisbursement == 'true'">
+                    <a data-toggle="modal"
                     data-target="#myModalSubmitToCD">{{labels?.submit}}</a></button>
             <button class="btn btn-primary btn_div" type="button"
                 [disabled]="roleType != '1' && roleType != '4' && roleType != '5'"
                 *ngIf="roleType != '2' && isPreDisbursement == 'false'" (click)="onNext()"
                 (click)="onNext()">{{labels?.next}}</button>
-            <!-- <button class="btn btn-primary btn_div" type="button" 
-                *ngIf="roleType != '2'" (click)="onNext()" >{{labels?.next}}</button> -->
+            <button class="btn btn-primary btn_div" type="button" 
+            *ngIf="roleType == '2' && isPreDisbursement == 'true' && salesResponse == 'true' " 
+            (click)="onNext()" >{{labels?.next}}</button>
             <!-- <button class="btn btn-primary btn_div" *ngIf="roleType == '2'" data-toggle="modal" data-target="#myModal"
                 type="button">{{labels?.submit}}</button> -->
             <button class="btn btn-primary btn_div" (click)="downloadpdf()" type="button">{{'Download'}}</button>

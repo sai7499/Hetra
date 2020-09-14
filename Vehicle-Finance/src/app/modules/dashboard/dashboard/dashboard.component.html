@@ -104,6 +104,9 @@
       <li (click)="onLeads(displayTabs?.PreDisbursementQueue, displayTabs?.PreDisbursementWithMe)"
         [ngClass]="{'active':displayTabs?.PreDisbursementQueue === activeTab}" routerLinkActive="active"><a
           data-toggle="tab">Pre-Disbursement</a></li>
+          <li (click)="onLeads(displayTabs?.TermSheet, displayTabs?.TermSheetWithMe)"
+          [ngClass]="{'active':displayTabs?.TermSheet === activeTab}" 
+          routerLinkActive="active"><a data-toggle="tab">Term Sheet</a></li>
     </ul>
   </div>
 
@@ -164,6 +167,14 @@
       <li (click)="leads(displayTabs?.PreDisbursementWithBranch)"
         [ngClass]="{'active':displayTabs?.PreDisbursementWithBranch === subActiveTab}" routerLinkActive="active"><a
           data-toggle="tab">Leads Pending with Branch</a></li>
+    </ul>
+    <ul *ngIf="displayTabs?.TermSheet === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="leads(displayTabs?.TermSheetWithMe)"
+        [ngClass]="{'active':displayTabs?.TermSheetWithMe === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Termsheet Pending with Me</a></li>
+      <li (click)="leads(displayTabs?.TermSheetWithBranch)"
+        [ngClass]="{'active':displayTabs?.TermSheetWithBranch === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Termsheet Pending With Branch</a></li>
     </ul>
 
   </div>
