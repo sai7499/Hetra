@@ -1,0 +1,589 @@
+<main>
+    <div class="container-fluid content">
+    <div class="text-center">
+        <button class="btn btn-primary view-button" 
+            type="button" id="" tabindex="7" *ngIf="!showWelcomeLetter"
+            (click)="showWelcomeLetter=true">View Welcome Letter</button><br>
+    </div>
+
+        <div *ngIf="showWelcomeLetter" >
+            <div id="ContentToConvert">
+
+            <p class="style-strong text-center">EQUITAS FINANCE PRIVATE LIMITED</p>
+            <p class="text-center">(Wholly owned subsidiary of Equitas Holding Private Limited)</p>
+
+
+            <table class="margin-add">
+                <tbody>
+                    <tr>
+                        <td width="60%" class='style-strong'>Agreement No: {{isWelcomeDetails?.agreementNo}} </td>
+                        <td width="40%" class='style-strong text-right'>{{labels?.Date}} : {{date | date :'dd/MM/yyyy'}}
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="row margtin_buttom">
+                <div class="col-md-4">
+                    <strong>Customer</strong>
+                    <div>
+                        <strong>{{applicantList?.name}}</strong><br>
+                        {{applicantList?.addressLine1}}<br>
+                        {{applicantList?.addressLine2}}<br>
+                        {{applicantList?.addressLine3}}<br>
+                        {{applicantList?.city}}<br>
+                        {{applicantList?.district}}<br>
+                        {{applicantList?.state +'-'+applicantList?.pincode}}<br>
+                        {{applicantList?.country}}
+                    </div>
+                </div>
+                <div class="col-md-4" *ngIf="coApplicantList.length>0">
+                    <div *ngFor="let coAppliacnt of coApplicantList; let i=index">
+                        <strong>Co-Borrower{{i+1}}</strong> <br>
+                        <strong>{{coAppliacnt?.name}}</strong><br>
+                        {{coAppliacnt?.addressLine1}}<br>
+                        {{coAppliacnt?.addressLine2}}<br>
+                        {{coAppliacnt?.addressLine3}}<br>
+                        {{coAppliacnt?.city}}<br>
+                        {{coAppliacnt?.district}}<br>
+                        {{coAppliacnt?.state +'-'+coAppliacnt?.pincode}}<br>
+                        {{coAppliacnt?.country}}
+                    </div>
+                </div>
+                <div class="col-md-4" *ngIf="guarantorList?.length>0">
+
+                    <div *ngFor="let guarantor of guarantorList; let i=index">
+                        <strong>Guarantor{{i+1}}</strong> <br>
+                        <strong>{{guarantor?.name}}</strong><br>
+                        {{guarantor?.addressLine1}}<br>
+                        {{guarantor?.addressLine2}}<br>
+                        {{guarantor?.addressLine3}}<br>
+                        {{guarantor?.city}}<br>
+                        {{guarantor?.district}}<br>
+                        {{guarantor?.state +'-'+guarantor?.pincode}}<br>
+                        {{guarantor?.country}}
+                    </div>
+                </div>
+            </div>
+            <!-- <table>
+            <tbody>
+                <tr>
+                    <td colspan="2">To,</td>
+                </tr>
+                <tr class="tab_wid">
+                    <td>Customer</td>
+                    <td>Co-Borrower 1</td>
+                    <td>Co-Borrower 2</td>
+                </tr>
+                <tr class="">
+                    <td>{{applicantList?.name}}</td>
+                    <td>{{applicantList?.addressLine1}}city</td>
+                    <td>#co_borrower_2</td>
+                </tr>
+                <tr class="tab_wid">
+                    <td></td>
+                    <td>Guarantor 1</td>
+                    <td>Guarantor 2</td>
+                </tr>
+                <tr class="">
+                    <td></td>
+                    <td>#guarantor_name_1 </td>
+                    <td>#guarantor_name_2</td>
+                </tr>
+            </tbody>
+        </table> -->
+            <div class="margin-add" [innerHTML]="div1Data"></div>
+
+            <!-- <p>Dear Sir/Madam,
+
+We thank you for choosing us as your preferred financial partner. We welcome you to the family of Equitas. Equitas
+is a Latin word which means equitable, i.e. fair & transparent. We are proud to reiterate our commitment to fairness
+& transparency:
+</p>
+<ol>
+
+<li>All charges are clearly communicated to every customer in a written format.</li>
+<li>No charge or installment will be collected by Equitas personnel, without providing a corresponding
+transaction receipt. </li>
+<li>Vehicle Insurance: You have indicated that you will obtain comprehensive insurance for the financed vehicle
+through the loan tenure. On annual renewal of this comprehensive policy, you will need to submit a policy
+copy to the branch before the expiry date. If this copy is not submitted to the branch, Equitas will charge
+Rs.250 per month till such time you submit the renewed comprehensive insurance policy. </li>
+<li>Your mobile number is very important for receiving timely intimation from our Company in respect of dues,
+receipt of collections, settlement of contracts etc. It is suggested that you retain the same number or in
+the event of change in the number kindly keep us updated in order to ensure that you continue to receive
+timely intimation from our Company in future as well.</li>
+<li>If you so desire, we would be happy to assist you for your insurance needs relating to the hypothecated
+vehicle at a competitive insurance premium beneficial to you through a renowned insurance company and you
+may also avail insurance finance from us for renewing the insurance policy of the vehicle, you may approach
+our branch for all the details. </li>
+
+</ol>
+
+<p>
+In case of any queries, you may get in touch with either our branch or our central Customer Care Unit. We guarantee
+prompt resolution of your queries. To help us resolve your issue, request you to please quote your Agreement Number
+in your communication with us.
+</p>
+
+<table class="style-strong">
+<tbody>
+<tr>
+<td></td>
+<td>Customer Care Unit,</td>
+</tr>
+<tr>
+<td></td>
+<td>Equitas Finance Private Limited,</td>
+</tr>
+<tr>
+<td></td>
+<td>No. 769, 4th Floor, Phase - 2,</td>
+</tr>
+<tr>
+<td></td>
+<td>F39, Spencer Plaza, Anna Salai,</td>
+</tr>
+<tr>
+<td></td>
+<td>Chennai - 600 002</td>
+</tr>
+<tr>
+<td></td>
+<td>Board No.: + 91 44 4299 5000</td>
+</tr>
+<tr>
+<td></td>
+<td>Toll Free No.: 1800 3000 5060</td>
+</tr>
+</tbody>
+</table>
+
+<p class="author_style">Please find enclosed the terms & conditions of your loan.<p>
+
+<p>With best regards,<br />
+
+Equitas Finance Private Limited<br />
+
+(Please note this is a computer generated letter and hence requires no signature)<br />
+
+</p> -->
+            <div class="margin-add">
+                <p class="style-strong text-center">EQUITAS FINANCE PRIVATE LIMITED</p>
+                <p class="text-center">(Wholly owned subsidiary of Equitas Holding Private Limited)</p>
+            </div>
+            <table class="table">
+                <tr class="top-border">
+                    <td>Loan Agreement No.</td>
+                    <td>{{isWelcomeDetails?.agreementNo}} </td>
+                    <td>Agreement Date</td>
+                    <td>{{isWelcomeDetails?.agreementDate | date:'dd/MM/yyyy'}}</td>
+                </tr>
+                <tr class="top-border">
+                    <td>Name and Address of the Borrower</td>
+                    <td colspan="3">{{applicantList?.name}}<br />
+                        <!-- 418 MAHADEV NAGAR TAL-KOPARGAON DIST-AHMED NAGAR KOPERGAON AHMED NAGAR - 423601<br />
+                    MAHARASHTRA -->
+                        {{applicantList?.addressLine1 +', '
+                    +applicantList?.addressLine2+', '
+                    +applicantList?.addressLine3}}
+                    </td>
+                </tr>
+                <tr class="top-border">
+                    <td>Name and Address of the Co-Borrower</td>
+                    <td colspan="3">
+                        <div class="margin-add" *ngFor="let coAppliacnt of coApplicantList; let i=index">
+                            {{coAppliacnt?.name}}<br />
+                            <!-- 418 MAHADEV NAGAR TAL-KOPARGAON DIST-AHMED NAGAR KOPERGAON AHMED NAGAR - 423601<br />
+                    MAHARASHTRA -->
+                            {{coAppliacnt?.addressLine1}},
+                            {{coAppliacnt?.addressLine2}},
+                            {{coAppliacnt?.addressLine3}}</div>
+                    </td>
+                </tr>
+                <tr class="top-border ">
+                    <td>Name and Address of the Guarantor </td>
+                    <td colspan="3">
+                        <div *ngFor="let guarantor of guarantorList;"><br />
+
+                            {{guarantor?.name}}<br />
+                            {{guarantor?.addressLine1}},
+                            {{guarantor?.addressLine2}},
+                            {{guarantor?.addressLine3}}</div>
+                        <div *ngIf="guarantorList?.length <= 0">NOT APPLICABLE</div>
+                    </td>
+                </tr>
+            </table>
+
+            <p class='text-center' id='vech_tab'><strong>VEHICLE DETAILS</strong></p>
+            <table cellspacing="0" cellpadding="0" dir="ltr" border="1"
+                *ngFor="let vechicleList of vehicleDetailsArray">
+                <tr>
+                    <td class="vech_tab">Vehicle Make</td>
+                    <td class="vech_tab">{{vechicleList?.vehMake}}</td>
+                    <td class="vech_tab">Vehicle Model</td>
+                    <td class="vech_tab">{{vechicleList?.vehModel}}</td>
+                </tr>
+                <tr>
+                    <td class="vech_tab">Year of Manufacture</td>
+                    <td class="vech_tab">{{vechicleList?.manufacYear}}</td>
+                    <td class="vech_tab">Vehicle Registration No.</td>
+                    <td class="vech_tab">{{vechicleList?.vehRegNo}}</td>
+                </tr>
+                <tr>
+                    <td class="vech_tab">Engine No.</td>
+                    <td class="vech_tab">{{vechicleList?.engineNo}}</td>
+                    <td class="vech_tab">Chassis No.</td>
+                    <td class="vech_tab">{{vechicleList?.chassisNo}}</td>
+                </tr>
+            </table>
+
+            <div class="margin-add" id='vf_sheet_second_table'>
+                <p id='vf_sheet_tag33' class='text-center'><strong>LOAN APPROVED DETAILS</strong></p>
+                <table cellspacing="0" cellpadding="0" dir="ltr" border="1"
+                    *ngFor="let loanData of loanApprovedDetails">
+                    <tr>
+                        <td class="vech_tab">Asset Cost (Rs.)</td>
+                        <td class="vech_tab">{{loanData?.assetCost | currency: 'INR'}}</td>
+                        <td class="vech_tab">Loan Amount (Rs.) </td>
+                        <td class="vech_tab">{{loanData?.loanAmt | currency: 'INR'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Loan Tenor (Months)</td>
+                        <td>{{loanData?.loanTenor}}</td>
+                        <td>Repay (Months)</td>
+                        <td>{{loanData?.repay}}</td>
+                    </tr>
+                    <tr>
+                        <td>Interest Rate (%) </td>
+                        <td>{{loanData?.interestRate}}</td>
+                        <td>All-inclusive IRR (%)</td>
+                        <td>{{loanData?.allIncIRR}}</td>
+                    </tr>
+                    <tr>
+                        <td>No of Adv. EMI</td>
+                        <td>{{loanData?.noOfAdvEmi}}</td>
+                        <td>Adv. EMI Amount (Rs.) </td>
+                        <td>{{loanData?.advEmiAmt | currency: 'INR'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Processing Charges (Rs.)</td>
+                        <td>{{loanData?.processingCharges}}</td>
+                        <td>Credit Shield Charges (Rs.)</td>
+                        <td>{{loanData?.creditShield | currency: 'INR'}}</td>
+                    </tr>
+                    <tr>
+                        <td>NPDC Charges (Rs.)</td>
+                        <td>{{loanData?.npdcCharges}}</td>
+                        <td>Roll Over PDC Charges (Rs.)</td>
+                        <td>{{loanData?.rollOverPdc | currency: 'INR'}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Insurance Premium (Rs.)</td>
+                        <td>{{loanData?.insPremium | currency: 'INR'}}</td>
+                        <td>Rate of penalty interest for delay in
+                            repayment (%)</td>
+                        <td>{{loanData?.penalInterest}}</td>
+                    </tr>
+                    <tr>
+                        <td>EMI Due Date </td>
+                        <td>{{loanData?.emiDueDt}}</td>
+                        <td>EMI Amount (Rs.)</td>
+                        <td>{{loanData?.emiAmt | currency: 'INR'}}</td>
+                    </tr>
+                    <tr>
+                        <td>EMI Start Date</td>
+                        <td>{{loanData?.emiStartDt}}</td>
+                        <!-- | date: 'dd/MM/yyyy' -->
+                        <td>EMI End Date</td>
+                        <td>{{loanData?.emiEndDt}}</td>
+                    </tr>
+                    <tr>
+                        <td>Mode of Payment</td>
+                        <td>{{loanData?.modeOfPayment}}</td>
+                        <td>Field Visit Charges Applicable</td>
+                        <td>{{loanData?.fieldVisitChargesApplicable | currency: 'INR'}}</td>
+                    </tr>
+                </table>
+            </div>
+
+
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="style-strong">Accepted:</td>
+                    </tr>
+                    <tr>
+                        <td class="style-strong tab_wid">Customer, {{applicantList?.name}}</td>
+                        <td class="style-strong">Signature</td>
+                        <td class="style-strong">Date</td>
+                    </tr>
+                    <!-- <tr>
+                    <td class=""></td>
+                    <td></td>
+                    <td></td>
+                </tr> -->
+                    <tr *ngFor="let coAppliacnt of coApplicantList; let i=index">
+                        <td class="style-strong tab_wid">Co-Borrower{{i+1}}, {{coAppliacnt?.name}}</td>
+                        <td class="style-strong">Signature</td>
+                        <td class="style-strong">Date</td>
+                    </tr>
+                    <!-- <tr >
+                    <td class="tab_wid">{{coAppliacnt?.name+'('+'Co-Borrower'}})</td>
+                    <td></td>
+                    <td></td>
+                </tr> -->
+                    <!-- <tr>
+                    <td class="style-strong tab_wid">Co-Borrower 2, Name</td>
+                    <td class="style-strong">Signature</td>
+                    <td class="style-strong">Date</td>
+                </tr> -->
+                    <!-- <tr>
+                    <td class="">#co_borrower_2</td>
+                    <td></td>
+                    <td>#date</td>
+                </tr> -->
+                    <tr *ngFor="let guarantor of guarantorList; let i=index">
+                        <td class="style-strong tab_wid">Guarantor{{i+1}}, {{guarantor?.name}}</td>
+                        <td class="style-strong">Signature</td>
+                        <td class="style-strong">Date</td>
+                    </tr>
+                    <!-- <tr >
+                    <td class="">{{guarantor?.name+'('+'Guarantor'}}{{i+1}})</td>
+                    <td></td>
+                    <td></td>
+                </tr> -->
+                    <!-- <tr>
+                    <td class="style-strong tab_wid">Guarantor 2, Name</td>
+                    <td class="style-strong">Signature</td>
+                    <td class="style-strong">Date</td>
+                </tr>
+                <tr>
+                    <td class="">#guarantor_name_2</td>
+                    <td></td>
+                    <td>#date</td>
+                </tr> -->
+                </tbody>
+            </table>
+
+            <!-- <ol>
+<li>All Payments should be made promptly on the due dates. Please note that any delay from the due date to
+date of actual payment would attract an interest at the rate of 3% per month.</li>
+<li>The borrower can opt for repayment of the loan thorough PDC / ECS / NPDC [Non PDC] / RPDC [Rolling PDC]
+or any other new mode, as may be required by the Company from time-to-time, in line with the prevalent
+business and banking practices.</li>
+
+<li>If you opt for charging of upfront fees, disbursement amount under the loan contract is liable for the
+following deductions:</li>
+<ul>
+<li>Rs.2500/- in case your account remains under Non-PDC category which means no PDC is provided by you
+towards the instalments under the loan contract. </li>
+
+<li>Rs.1500/- in case your account remains under R-PDC category which means PDCs are provided by you
+only in part covering not less than 10 instalments under the loan contract. PDCs covering less than
+10 instalments will be construed as Non-PDC category. </li>
+
+</ul>
+
+<li>In relation to the above, you also become eligible for the following: </li>
+
+<ul>
+<li>The upfront fees earlier collected for Non-PDC category, will be refunded to you in an event of your
+providing PDCs towards instalments covering the entire repayment period within 30 days from the date
+of disbursement which means converting your loan account from one of Non-PDC to full PDC. </li>
+
+<li>The upfront fees earlier collected for R-PDC category, will be refunded to you in case of your
+converting your loan contract from R-PDC to full PDC within 30 days from the date of disbursement.
+</li>
+
+</ul>
+
+<li>In the case of NPDC customers, who have paid upfront fees, if customer pays in first visit, no charge is
+applicable. If subsequent visits are required, Rs.250/- per visit will be charged. </li>
+
+<li>In the case of RPDC customers, who have paid upfront fees, in the event of bounce of cheque, Rs.250/-
+will be charged for every field visit. </li>
+
+<li>In the case of NPDC customers, who have not paid upfront fees, field visit of Rs.150/- per visit is
+charged for the first visit every month. If subsequent visits are required for that month, Rs.250/- per
+visit will be charged. </li>
+
+<li>In the case of RPDC customers, who have not paid upfront fees, or, PDC / ECS customers, in the event of
+bounce of cheque / mandate, field visit charge of Rs.250/- per visit will be levied. </li>
+
+<li>Post - dated cheques may be swapped at no additional charge. However, since the PDCs are stored in a
+centralised location in Head Office of EFPL, 15 working days are required to facilitate the process of
+retrieval and sending the same to concerned Branch</li>
+
+<li>Statement of Account can be obtained from the branch annually without any charge. For any subsequent
+request within the year, Rs.500/- will be charged for every instance. </li>
+
+<li>For customers opting to renew vehicle insurance on their own, are requested to submit copy of insurance
+policy at the branch before the existing policy expiry date, failure to submit the copy of the renewed
+policy before policy expiry date will attract a monthly charge of Rs.250 till such time the copy is
+submitted. </li>
+
+<li>Any cost incurred towards legal, seizure, parking etc will be charged at actuals. </li>
+<li>Pre-closure (Part or Full) charges will be 4% on future principal. </li>
+<li>Issue of Duplicate NOC will attract a charge of Rs.500/- for every instance. </li>
+<li>Cheque dishonour charges of Rs.500 /- per bounce. </li>
+<li>In case of any queries on your loan agreement, you may contact either our branch or our Central Customer
+Care Unit at Tollfree No.: 1800 3000 506, to help us serve you better.</li>
+
+</ol>
+
+<p class="author_style"><i>**All Charges will attract applicable Service Tax and other Taxes</i> </p>
+
+<p class="author_style">For Equitas Finance Pvt Ltd</p>
+
+<p class="author_style">Authorised Signatory</p> -->
+            <div class="margin-add">
+                <p class="style-strong text-center">EQUITAS FINANCE PRIVATE LIMITED</p>
+                <p class="text-center">(Wholly owned subsidiary of Equitas Holding Private Limited)</p>
+            </div>
+
+            <div class="margin-add" [innerHTML]="div2Data"></div>
+            <p class="text-center style-strong">RE-PAYMENT SCHEDULE - Agreement No: {{isWelcomeDetails?.agreementNo}}
+            </p>
+            <table cellspacing="0" cellpadding="0" dir="ltr" border="1">
+                <colgroup>
+                    <col width="100" />
+                    <col width="100" />
+                    <col width="100" />
+                    <col width="100" />
+                    <col width="100" />
+                    <col width="100" />
+                    <col width="100" />
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td class="text-center style-strong">
+                            Instalment No.
+                        </td>
+                        <td class="text-center style-strong">
+                            Due Date
+                        </td>
+                        <td class="text-center style-strong">
+                            Total Instalment Amount (Rs.)
+                        </td>
+                        <td class="text-center style-strong">
+                            Motor Insurance(Rs.)
+                        </td>
+                        <td class="text-center style-strong">
+                            Principle(Rs.)
+                        </td>
+                        <td class="text-center style-strong">
+                            Interest(Rs.)
+                        </td>
+                        <td class="text-center style-strong">
+                            Principle Out Standing(Rs.)
+                        </td>
+                    </tr>
+                    <tr *ngFor="let repaymentData of repaymentDetails; let i = index">
+                        <td class="text-center">{{i+1}}</td>
+                        <td class="text-center">{{repaymentData?.dueDate}}</td>
+                        <td class="text-right">{{repaymentData?.instalmentAmt | currency: 'INR'}}</td>
+                        <td class="text-right">{{repaymentData?.motorIns | currency: 'INR'}}</td>
+                        <td class="text-right">{{repaymentData?.principleAmt | currency: 'INR'}}</td>
+                        <td class="text-right">{{repaymentData?.interestAmt | currency: 'INR'}}</td>
+                        <td class="text-right">{{repaymentData?.pricipleOutstanding | currency: 'INR'}}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <!-- <p class="style-strong">For Equitas Finance Pvt Ltd</p>
+<p class="style-strong">Authorised Signatory</p>
+
+<p class="style-strong">ANNEXURE 1 - FAQ’s</p>
+<p class="style-strong">1. What happens if my cheque does not get cleared? </p>
+
+<p> The following charges will have to be borne by you: </p>
+<ul>
+<li>Cheque dishonour charges of Rs.500 for every instance of dishonour. </li>
+<li>Additional finance charges @ 3% per month calculated up to the date of repayment. </li>
+<li>If you visit any nearest Equitas Branch for making the payment, you will not be charged with Field Visit
+Charges.</li>
+<li>If our executive visits you for collecting over dues, you will be charged a sum of Rs.250 as Field Visit
+Charges. </li>
+</ul>
+<p class="style-strong">2. Can I exchange or swap my cheques? </p>
+
+<p>Yes, you can exchange or swap cheques if you have changed your bank or you want your loan to be paid out from
+a different account you hold. In such cases you will have to send us the following, 15 days before the next
+cheque is due for clearing:</p>
+
+<ul>
+<li>A request with the reason for exchange of cheques. </li>
+<li>Fresh cheques filled and signed by you for the remaining tenure of the loan. </li>
+</ul>
+
+<p>Please note that this service attracts fee as per rules of the company, in force from time to time. This fee
+may be paid by way of demand draft / cash in favour of Equitas Finance Private Limited to the nearest branch
+office.</p>
+
+<p class="style-strong">3. Can I Pre-Pay or foreclose my loan? </p>
+
+<p>Yes, you can. The outstanding loan amount, with pre-payment charges on the principal outstanding and overdue
+if any, can be settled at least 15 days before your next cheque is due for clearing. The termination papers
+and unused cheques will be sent to you after the closure of the loan.</p>
+
+<p class="style-strong">4. What do I do if there is a change in address or I am transferred? </p>
+<ul>
+<li>If the address change / transfer is within the State you are residing in, please send a written request
+with proof such as:
+
+Ration card, Voter ID, Telephone Bill, Electricity Bill etc., to our Head office at Chennai or our
+branch closest to you, to update our records. In case of change in your bank, please follow instructions
+as per item no.2.</li>
+
+<li>If the address change / transfer is outside the state you are currently residing in, then you will have
+to contact our branch nearest to you for completing the formalities related to your vehicle registration
+etc. In case of a change in your bank, please follow instructions as per item no.2. </li>
+</ul>
+
+<p class="style-strong">5. Do I get receipts for all the payments made? </p>
+
+<p>Since the cheques are cleared through the normal banking system no receipts are issued. However, if cash
+payments are made by you due to certain unavoidable circumstances, please insist and ensure that you collect
+a receipt for such payments made to the company.</p>
+
+<p class="style-strong">6. I am an NPDC customer. Do I get a receipt for all the EMI’s paid? </p>
+
+<ul>
+<li>Yes. You will get receipts for all the EMI’s paid by you. </li>
+<li>If paid on due date at the branch as agreed, you need not pay any field visit charges. However, if you
+have opted for our Relationship Officer / Field Staff visiting you, Rs.150/- will be charged towards
+field visit charges. Further, for every visit beyond the due date Rs.250/- will be charged towards Field
+Visit Charges. </li>
+
+</ul>
+<p class="style-strong">7. What do I do if I have a problem in repaying the EMI? </p>
+
+<p>Be in touch with the branch and discuss about your problem with the Branch Manager who will help you in
+giving a mutually agreed and fair solution.</p>
+
+<p class="style-strong">8. How do I get a statement of account? </p>
+
+<p>Company will send you a Statement of Account every year, which is free of cost. If you need a statement in
+the interim period please contact your service branch with a written request; you will be required to pay
+Rs.500/- for every such request.</p>
+
+<p class="text-center font-small">Regd. Office: No. 769, 4th Floor, Phase - 2,F39, Spencer Plaza, Anna Salai,
+Chennai - 600 002.
+Ph: 044-4299 5000 Customer Care Toll-free: 1800 3000 5060 Fax: 044-42995050 E-mail: corporate@equitas.in
+</p> -->
+
+            <div class="margin-add" [innerHTML]="div3Data"></div>
+            </div>
+            <div class="text-right">
+            <button class="btn btn-primary view-button text-center" type="button" id="" tabindex="7"
+                (click)="downloadpdf()">DownLoad</button>
+            </div>
+
+        </div>
+    </div>
+
+</main>
