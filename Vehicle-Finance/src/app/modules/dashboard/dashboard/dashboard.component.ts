@@ -1471,6 +1471,7 @@ export class DashboardComponent implements OnInit {
         this.router.navigateByUrl(`/pages/deviation-dashboard/${this.leadId}/dashboard-deviation-details`);
         break;
       case 25: case 26:
+        localStorage.setItem('istermSheet', 'false');
         if (this.salesResponse == false) {
           this.router.navigate([`/pages/credit-decisions/${this.leadId}/cam`]);
       }  else if (this.salesResponse == true) {
@@ -1482,10 +1483,10 @@ export class DashboardComponent implements OnInit {
         this.router.navigateByUrl(`/pages/credit-decisions/${this.leadId}/new-term-sheet`);
         break;
       case 31: case 32:
-        this.router.navigateByUrl(`/pages/cpc-maker/${this.leadId}/check-list`);
+        this.router.navigateByUrl(`/pages/cpc-maker/${this.leadId}/term-sheet`);
         break;
       case 34: case 35:
-        this.router.navigateByUrl(`/pages/cpc-checker/${this.leadId}/check-list`);
+        this.router.navigateByUrl(`/pages/cpc-checker/${this.leadId}/term-sheet`);
         break;
       case 37: case 38:
         this.router.navigateByUrl(`/pages/pre-disbursement/${this.leadId}/credit-condition`);

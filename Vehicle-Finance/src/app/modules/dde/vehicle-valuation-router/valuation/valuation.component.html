@@ -112,9 +112,20 @@
               [activeView]="'decade'"
               [format]="'dd/MM/yyyy'"
               [max]="toDayDate"
+              [min]="leadCreatedDate"              
               placeholder="Valuation Date"
-            >
+            >           
             </kendo-datepicker>
+            <div class="invalid-feedback" >
+              <div *ngIf="isDirty && !vehicleValuationForm.controls.valuationDate.value">
+                Date is mandatory
+              </div>
+              <div *ngIf="vehicleValuationForm.controls.valuationDate.value && vehicleValuationForm.controls.valuationDate.errors">
+                Invalid date
+              </div>
+            </div>
+            <!-- <div class="invalid-feedback" *ngIf="vehicleValuationForm.get('valuationDate').value < this.leadCreatedDat">
+            </div> -->
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="idv"
@@ -143,9 +154,18 @@
               formControlName="idvValidityDate"
               [activeView]="'decade'"
               [format]="'dd/MM/yyyy'"
+              [min]="toDayDate"
               placeholder="IDV Validity Date"
             >
             </kendo-datepicker>
+            <div class="invalid-feedback" >
+              <div *ngIf="isDirty && !vehicleValuationForm.controls.idvValidityDate.value">
+                Date is mandatory
+              </div>
+              <div *ngIf="vehicleValuationForm.controls.idvValidityDate.value && vehicleValuationForm.controls.idvValidityDate.errors">
+                Invalid date
+              </div>
+            </div>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="vehicle_available_in_grid"
@@ -291,6 +311,8 @@
             >
             </app-custom-input>
           </div>
+        </div>
+          <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="reg_of_asset"
               >{{ labels.yearRegOfAsset }}
@@ -361,93 +383,23 @@
             >
             </app-custom-input>
           </div>
+        </div>
+        <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="seller_short_descr"
               >{{ labels.sellerShortDescr }}
-              <sub class="star_red_col">*</sub>
+              <!-- <sub class="star_red_col">*</sub> -->
             </label>
             <app-custom-input
               formControlName="sellerShortDesc"
               [className]="'form-control mandatory'"
               [placeholder]="'Seller Short Descr'"
               [maxLength]="labels?.validationData?.sellerShortDesc.maxLength"
-              [isRequired]="'Required Input is mandatory'"
               [type]="labels?.validationData?.sellerShortDesc.type"
-              [isDirty]="isDirty"
             >
             </app-custom-input>
           </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="second_asset"
-              >{{ labels.secondAsset }}
-              <sub class="star_red_col">*</sub>
-            </label>
-            <app-custom-input
-              formControlName="secondAsset"
-              [className]="'form-control mandatory'"
-              [placeholder]="'Second Asset'"
-              [maxLength]="labels?.validationData?.makeModel.maxLength"
-              [isRequired]="'Required Input is mandatory'"
-              [type]="labels?.validationData?.makeModel.type"
-              [isDirty]="isDirty"
-            >
-            </app-custom-input>
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="second_vechicle_no_prefix"
-              >{{ labels.secondVechicleNoPrefix }}
-              <sub class="star_red_col">*</sub>
-            </label>
-            <app-custom-input
-              formControlName="secondVehiclePrefixNo"
-              [className]="'form-control mandatory'"
-              [inputClass]="'text-uppercase'"
-              [placeholder]="'Second Vehicle No Prefix'"
-              [maxLength]="labels?.validationData?.vehiclePrefixNo.maxLength"
-              [isRequired]="'Required Input is mandatory'"
-              [type]="labels?.validationData?.vehiclePrefixNo.type"
-              [isDirty]="isDirty"
-            >
-            </app-custom-input>
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="second_vechicle_no"
-              >{{ labels.secondVechicleNo }}
-              <sub class="star_red_col">*</sub>
-            </label>
-            <app-custom-input
-              formControlName="reRegNumber"
-              [className]="'form-control mandatory'"
-              [inputClass]="'text-uppercase'"
-              [placeholder]="'Second Vehicle No'"
-              [maxLength]="labels?.validationData?.registrationNo.maxLength"
-              [isRequired]="'Required Input is mandatory'"
-              [patternCheck]="
-                labels?.validationData?.registrationNo.registrationPattern
-              "
-              [type]="labels?.validationData?.registrationNo.type"
-              [isDirty]="isDirty"
-            >
-            </app-custom-input>
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="second_chassis_number"
-              >{{ labels.secondChassisNumber }}
-              <sub class="star_red_col">*</sub>
-            </label>
-            <app-custom-input
-              formControlName="regChasisNo"
-              [className]="'form-control mandatory'"
-              [inputClass]="'text-uppercase'"
-              [placeholder]="'Second Chassis Number'"
-              [maxLength]="labels?.validationData?.chasisEngineNo.maxLength"
-              [isRequired]="'Required Input is mandatory'"
-              [type]="labels?.validationData?.chasisEngineNo.type"
-              [isDirty]="isDirty"
-            >
-            </app-custom-input>
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="agriculture_proof"
               >{{ labels.agricultureProof }}
               <sub class="star_red_col">*</sub>
@@ -459,7 +411,7 @@
               [isDirty]="isDirty"
             >
             </app-vf-custom-select>
-          </div>
+          </div> -->
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="fc_expiry_date"
               >{{ labels.fcExpiryDate }}
@@ -471,9 +423,18 @@
               formControlName="fcExpiryDate"
               [activeView]="'decade'"
               [format]="'dd/MM/yyyy'"
+              [min]="toDayDate"
               placeholder="FC Expiry Date"
             >
             </kendo-datepicker>
+            <div class="invalid-feedback" >
+              <div *ngIf="isDirty && !vehicleValuationForm.controls.fcExpiryDate.value">
+                Date is mandatory
+              </div>
+              <div *ngIf="vehicleValuationForm.controls.fcExpiryDate.value && vehicleValuationForm.controls.fcExpiryDate.errors">
+                Invalid date
+              </div>
+            </div>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="vechicle_reg_date"
@@ -490,6 +451,14 @@
               placeholder="Vehicle Reg.Date"
             >
             </kendo-datepicker>
+            <div class="invalid-feedback" >
+              <div *ngIf="isDirty && !vehicleValuationForm.controls.dateofReg.value">
+                Date is mandatory
+              </div>
+              <div *ngIf="vehicleValuationForm.controls.dateofReg.value && vehicleValuationForm.controls.dateofReg.errors">
+                Invalid date
+              </div>
+            </div>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="gvw"
@@ -589,6 +558,78 @@
               [isDirty]="isDirty"
             >
             </app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="second_asset"
+              >{{ labels.secondAsset }}
+              <!-- <sub class="star_red_col">*</sub> -->
+            </label>
+            <app-custom-input
+              formControlName="secondAsset"
+              [className]="'form-control mandatory'"
+              [placeholder]="'Second Asset'"
+              [maxLength]="labels?.validationData?.makeModel.maxLength"
+              [type]="labels?.validationData?.makeModel.type"
+            >
+            </app-custom-input>
+            <!--
+              [isRequired]="'Required Input is mandatory'"
+              [isDirty]="isDirty"-->
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="second_vechicle_no_prefix"
+              >{{ labels.secondVechicleNoPrefix }}
+              <!-- <sub class="star_red_col">*</sub> -->
+            </label>
+            <app-custom-input
+              formControlName="secondVehiclePrefixNo"
+              [className]="'form-control mandatory'"
+              [inputClass]="'text-uppercase'"
+              [placeholder]="'Second Vehicle No Prefix'"
+              [maxLength]="labels?.validationData?.vehiclePrefixNo.maxLength"
+              [type]="labels?.validationData?.vehiclePrefixNo.type"
+            >
+            </app-custom-input>
+            <!--
+              [isRequired]="'Required Input is mandatory'"
+              [isDirty]="isDirty"-->
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="second_vechicle_no"
+              >{{ labels.secondVechicleNo }}
+              <!-- <sub class="star_red_col">*</sub> -->
+            </label>
+            <app-custom-input
+              formControlName="reRegNumber"
+              [className]="'form-control mandatory'"
+              [inputClass]="'text-uppercase'"
+              [placeholder]="'Second Vehicle No'"
+              [maxLength]="labels?.validationData?.registrationNo.maxLength"
+              [patternCheck]="labels?.validationData?.registrationNo.registrationPattern"
+              [type]="labels?.validationData?.registrationNo.type"
+            >
+            </app-custom-input>
+            <!--
+              [isRequired]="'Required Input is mandatory'"
+              [isDirty]="isDirty"-->
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="second_chassis_number"
+              >{{ labels.secondChassisNumber }}
+              <!-- <sub class="star_red_col">*</sub> -->
+            </label>
+            <app-custom-input
+              formControlName="regChasisNo"
+              [className]="'form-control mandatory'"
+              [inputClass]="'text-uppercase'"
+              [placeholder]="'Second Chassis Number'"
+              [maxLength]="labels?.validationData?.chasisEngineNo.maxLength"
+              [type]="labels?.validationData?.chasisEngineNo.type"
+            >
+            </app-custom-input>
+            <!--
+              [isRequired]="'Required Input is mandatory'"
+              [isDirty]="isDirty"-->
           </div>
           <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3" *ngIf="isInputField">
                         <label for="existing_vechicle_owned">{{labels.existingVechicleOwned}} 

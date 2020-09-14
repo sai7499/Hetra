@@ -52,6 +52,7 @@ export class PdcDetailsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate ));
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
       this.roleType = value.roleType;
@@ -253,6 +254,7 @@ export class PdcDetailsComponent implements OnInit {
         this.toasterService.showSuccess('Record Saved Successfully', '');
         this.getPdcDetails();
       } else {
+        this.toasterService.showError(res.ProcessVariables.error.message, '');
       }
     });
     //  this.router.navigate([`pages/dashboard`]);

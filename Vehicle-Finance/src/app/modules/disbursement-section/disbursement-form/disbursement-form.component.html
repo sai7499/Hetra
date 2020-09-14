@@ -106,14 +106,26 @@
               <sub class="star_red_col">*</sub>
             </label>
             <div class="ng-autocomplete col-sm-6 col-md-4 col-lg-3">
-              <ng-autocomplete [data]="dealerCodeData" [(ngModel)]="dealerCode" (inputChanged)='onDealerCodeSearch($event)' formControlName="dealerCode" [placeHolder]="'Dealer Code'" [minQueryLength]="2">
-              </ng-autocomplete>
-              <!-- <ng-template #dealerCodeTemplate let-item>
-                <a [innerHTML]="item.dealerName"></a>
-              </ng-template>-->
-              <!-- <ng-template #notFoundTemplate let-notFound>
+              <!-- <ng-autocomplete [data]="dealerCodeData" [(ngModel)]="dealerCode" (inputChanged)='onDealerCodeSearch($event)' formControlName="dealerCode" [placeHolder]="'Dealer Code'" [minQueryLength]="2">
+              </ng-autocomplete> -->
+              <ng-autocomplete 
+                  [data]="dealerCodeData"
+                  [(ngModel)]="dealerCode"
+                  [searchKeyword]="keyword"
+                  (selected)='selectDealerEvent($event)'
+                  (inputChanged)='onDealerCodeSearch($event,false)'
+                  [itemTemplate]="dealerCodeTemplate"
+                  [notFoundTemplate]="notFoundTemplate"
+                  formControlName="dealerCode"
+                  [placeHolder]="'Dealer Code'"
+                  [minQueryLength]="2">                                 
+                </ng-autocomplete>               
+                <ng-template #dealerCodeTemplate let-item>
+                <a [innerHTML]="item.dealorName"></a>
+                </ng-template>               
+                <ng-template #notFoundTemplate let-notFound>
                 <div [innerHTML]="notFound"></div>
-              </ng-template>  -->
+                </ng-template>
             </div>
           </div>
           <div class="form-group">
@@ -232,7 +244,7 @@
                 <!-- <app-custom-input id="dealerFavBankOfDraw" [(ngModel)]="dealerObjInfo['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
                   [isDirty]="isDirty" [type]="'alpha'">
                 </app-custom-input>       -->
-                <app-vf-custom-select [values]="bankerLov" [(ngModel)]="dealerObjInfo['favouringBankOfDraw']" formControlName="favouringBankBranch" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
+                <app-vf-custom-select [values]="bankerLov" [(ngModel)]="dealerObjInfo['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
                 </app-vf-custom-select>         
               </div>
             </div>
@@ -2215,7 +2227,7 @@
       <button (click)="saveAndUpdate()" class="btn btn-primary " type="button" *ngIf="roleType != 4 && roleType != 5" >Save </button>
       
       <button data-toggle="modal" data-target="#myModal" class="btn btn-primary " type="button" *ngIf="roleType == '5'">Book Loan </button>
-      <button (click)="onNext()" class="btn btn-primary js-btn-next" type="button" *ngIf="roleType != '5'" > Next </button>
+      <button (click)="onNext()" class="btn btn-primary js-btn-next" type="button" > Next </button>
     </div>
   </div>
 </div>
