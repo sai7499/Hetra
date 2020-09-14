@@ -93,7 +93,8 @@ export class TermSheetComponent implements OnInit {
 
   showTermSheet() {
     const leadData = this.createLeadDataService.getLeadSectionData();
-    this.vehicleDetailsArray = leadData['vehicleCollateral']
+    this.vehicleDetailsArray = [];
+    this.vehicleDetailsArray = leadData['vehicleCollateral'];
     // this.isTermSheet= true;
     this.getTermSheet(this.leadId,"isUpload");
     
