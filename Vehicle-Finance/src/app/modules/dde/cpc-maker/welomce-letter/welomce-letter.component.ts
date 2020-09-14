@@ -84,7 +84,7 @@ export class WelomceLetterComponent implements OnInit {
     this.getLabels();
     this.getLeadId();
     console.log(this.getLeadId())
-    this.getWelcomeLetterDetails();
+   
     
   }
   
@@ -104,61 +104,11 @@ export class WelomceLetterComponent implements OnInit {
         this.div2Data = this.isWelcomeDetails["div2Data"];
         this.div3Data = this.isWelcomeDetails["div3Data"];
         this.vehicleDetailsArray = this.isWelcomeDetails["vehicleDetails"];
-        // const validData = res['ProcessVariables'];
-          // this.agreementNo = res['ProcessVariables'].agreementNo;
-          // this.name = res['ProcessVariables'].applicantDetails.name,
-          // this.addressLine1 = res['ProcessVariables'].applicantDetails.addressLine1,
-          // this.addressLine2 = res['ProcessVariables'].addressLine2,
-          // this.addressLine3 = res['ProcessVariables'].applicantDetails.addressLine3,
-          // this.district = res['ProcessVariables'].applicantDetails.district,
-          // this.country = res['ProcessVariables'].applicantDetails.country,
-          // this.pincode = res['ProcessVariables'].applicantDetails.pincode,
-          // this.mobileNo = res['ProcessVariables'].applicantDetails.mobileNo,
-          // this.div1Data = res['ProcessVariables'].div1Data,
-          // this.div2Data = res['ProcessVariables'].div2Data,
-          // this.div3Data = res['ProcessVariables'].div3Data,
-          // this.emiSheduleQuery = res['ProcessVariables'].emiSheduleQuery,
-          // this.collateralId = res['ProcessVariables'].applicantDetails.advEmiAmt,
-          // this.documentationCharges = res['ProcessVariables'].applicantDetails.allIncIRR,
-          // this.advEmiAmt = res['ProcessVariables'].loanApprovedDetails.advEmiAmt,
-          // this.allIncIRR = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
-          // this.assetCost = res['ProcessVariables'].loanApprovedDetails.assetCost,
-          // this.collateralId = res['ProcessVariables'].loanApprovedDetails.collateralId,
-          // this.creditShield = res['ProcessVariables'].loanApprovedDetails.creditShield,
-          // this.documentationCharges = res['ProcessVariables'].loanApprovedDetails.documentationCharges,
-          // this.emiAmt = res['ProcessVariables'].loanApprovedDetails.emiAmt,
-          // this.emiDueDt = res['ProcessVariables'].loanApprovedDetails.emiDueDt,
-          // this.emiCovPremiumAmt = res['ProcessVariables'].loanApprovedDetails.emiCovPremiumAmt,
-          // this.emiEndDt = res['ProcessVariables'].loanApprovedDetails.emiEndDt,
-          // this.emiStartDt = res['ProcessVariables'].loanApprovedDetails.emiStartDt,
-          // this.fieldVisitChargesApplicable = res['ProcessVariables'].loanApprovedDetails.fieldVisitChargesApplicable,
-          // this.emiStartDt = res['ProcessVariables'].loanApprovedDetails.emiStartDt,
-          // this.emiStartDt = res['ProcessVariables'].loanApprovedDetails.emiStartDt,
-          // this.insPremium = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
-          // this.interestRate = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
-          // this.loanAmt = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
-          // this.loanTenor = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
-          // this.modeOfPayment = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
-          // this.noOfAdvEmi = res['ProcessVariables'].loanApprovedDetails.emiSheduleQuery,
-          // this.npdcCharges = res['ProcessVariables'].loanApprovedDetails.npdcCharges,
-          // this.penalInterest = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
-          // this.personalAccidentCover = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
-          // this.repay = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
-          // this.rollOverPdc = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
-          // this.valueAddedServices = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
-          // this.prefLanQuery = res['ProcessVariables'].prefLanQuery,
-          // this.preferredLan = res['ProcessVariables'].preferredLan,
-          this.repaymentDetails = res['ProcessVariables'].repaymentDetails
-          // this.chassisNo = res['ProcessVariables'].vehicleDetails.chassisNo,
-          // this.collateralId = res['ProcessVariables'].vehicleDetails.collateralId,
-          // this.engineNo = res['ProcessVariables'].vehicleDetails.engineNo,
-          // this.manufacMonthYr = res['ProcessVariables'].vehicleDetails.manufacMonthYr,
-          // this.vehMake = res['ProcessVariables'].vehicleDetails.vehMake,
-          // this.vehRegNo = res['ProcessVariables'].vehicleDetails.vehRegNo
-      
+        this.repaymentDetails = res['ProcessVariables'].repaymentDetails          
+        this.showWelcomeLetter= true;
       
     }else {
-      this.toasterService.showError(res['ProcessVariables'].error["mesage"],'')
+      this.toasterService.showError(res['ProcessVariables'].error["message"],'')
     }
   });
 } 
@@ -204,6 +154,9 @@ export class WelomceLetterComponent implements OnInit {
       });
     }
   }
-
+  viweWelcomeLetter(){
+    this.getWelcomeLetterDetails();
+  }
+  
 
 }

@@ -2786,7 +2786,7 @@ export class DisbursementFormComponent implements OnInit {
   } else if( this.roleType == '4' ) {
     this.router.navigate([`pages/cpc-maker/${this.disbLeadId}/check-list`]);
   } else if(  this.roleType == '5') {
-    this.router.navigate([`pages/cpc-checker/${this.disbLeadId}/sanction-details`]);
+    this.router.navigate([`pages/cpc-checker/${this.disbLeadId}/welomce-letter`]);
   }
 }
   routerUrlIdentifier() {
