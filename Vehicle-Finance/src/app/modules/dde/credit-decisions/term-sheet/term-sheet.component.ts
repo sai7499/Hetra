@@ -193,7 +193,7 @@ export class TermSheetComponent implements OnInit {
     // this.router.navigate([`/pages/credit-decisions/${this.leadId}/check-list`]);
     if (this.roleType == '2') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/sanction-details`]);
-    } else if (this.roleType == '1' && localStorage.getItem('is_pred_done') == "true") {
+    } else if (this.roleType == '1' && localStorage.getItem('isPreDisbursement') == "true") {
       this.router.navigate([`pages/pre-disbursement/${this.leadId}/sanction-details`]);
     }
     else if (this.roleType == '1') {

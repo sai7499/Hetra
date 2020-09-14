@@ -644,7 +644,7 @@ export class CamComponent implements OnInit {
           docsType: "png/jpg/jpeg/pdf/tiff/xlsx/xls/docx/doc/zip",
           docsTypeForString: "",
           documentId: this.isDocumentId ? this.docsDetails.documentId : 0,
-          documentNumber: `SD${this.leadId}`,
+          documentNumber: `CAM${this.leadId}`,
           expiryDate: "",
           formArrayIndex: 0,
           isDeferred: "0",
