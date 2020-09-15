@@ -160,10 +160,10 @@
             </kendo-datepicker>
             <div class="invalid-feedback" >
               <div *ngIf="isDirty && !vehicleValuationForm.controls.idvValidityDate.value">
-                Date is mandatory
+                IDV Valididty Date is mandatory
               </div>
               <div *ngIf="vehicleValuationForm.controls.idvValidityDate.value && vehicleValuationForm.controls.idvValidityDate.errors">
-                Invalid date
+                Invalid IDV Valididty Date
               </div>
             </div>
           </div>
@@ -294,7 +294,8 @@
             >
             </app-custom-input>
           </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="engine_number">
               {{ labels.engineNumber }}
               <sub class="star_red_col">*</sub>
@@ -311,61 +312,26 @@
             >
             </app-custom-input>
           </div>
-        </div>
-          <div class="row">
+       
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="reg_of_asset"
-              >{{ labels.yearRegOfAsset }}
+            <label for="year_month_manufacturing">
+              {{ labels?.yearAndMonthManufacturing }}
               <sub class="star_red_col">*</sub>
             </label>
-            <!-- <kendo-datepicker
-              class="form-control"
-              [id]="'year_of_manufacturing'"
-              formControlName="yearOfManufacturer"
-              [max]="toDayDate"
-              [bottomView]="'year'"
-              [topView]="'decade'"
-              [format]="'yyyy'"
-              placeholder="Year of Manufacturing"
-            >
-            </kendo-datepicker> -->
-            <app-custom-input 
-                formControlName="yearOfManufacturer" 
-                (change)="onGetDateValue($event)"
-                [className]="'form-control mandatory'"
-                [placeholder]="'Year of Manuf/Reg. of Asset'" 
-                [maxLength]="labels?.validationData?.yom.maxLength"
-                [isRequired]="'Required Input is mandatory'" 
-                [type]="labels?.validationData?.yom.type" 
-                [custom]="yearCheck"
-                [isDirty]="isDirty"
-                >
-            </app-custom-input>
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="month_reg_of_asset"
-              >{{ labels.monthRegOfAsset }}
-              <sub class="star_red_col">*</sub>
-            </label>
-            <app-vf-custom-select
-              [values]="monthsLOVS"
-              (change)="onChangeMonthValues($event)"
-              [className]="'form-control mandatory'"
-              formControlName="monthOfManufacturer"
-              [isRequired]="'Please Select One Option'"
-              [isDirty]="isDirty"
-            >
-            </app-vf-custom-select>
-            <!-- <app-custom-input
-                            formControlName="monthOfManufacturer"
-                            [className]="'form-control mandatory'"
-                            [placeholder]="'Month of Manuf/Reg. of Asset'"
-                            [maxLength]="labels?.validationData?.monthOfManuf.maxLength"
-                            [isRequired]="'Required Input is mandatory'"
-                            [type]="labels?.validationData?.monthOfManuf.type"
-                            [isDirty]="isDirty"
-                        >
-                        </app-custom-input> -->
+
+            <kendo-datepicker class="form-control" [id]="'year_month_manufacturing'" formControlName="yearAndMonthOfManufacturer"
+              ndo-datepicker="ndo-datepicker" [bottomView]="'year'" [topView]="'decade'" [format]="'MMMM yyyy'" [min]="minDate"
+              [max]="maxDate" placeholder="Year And Month Manufacturing" (valueChange)="onGetDateValue($event)">
+            </kendo-datepicker>
+
+            <div class="invalid-feedback" >
+              <div *ngIf="isDirty && !vehicleValuationForm.controls.yearAndMonthOfManufacturer.value">
+                FC Expiry Date is mandatory
+              </div>
+              <div *ngIf="vehicleValuationForm.controls.yearAndMonthOfManufacturer.value && vehicleValuationForm.controls.yearAndMonthOfManufacturer.errors">
+                Invalid FC Expiry Date
+              </div>
+            </div>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="age_of_asset"
@@ -382,7 +348,7 @@
               [isDirty]="isDirty"
             >
             </app-custom-input>
-          </div>
+          </div>       
         </div>
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -399,19 +365,7 @@
             >
             </app-custom-input>
           </div>
-          <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="agriculture_proof"
-              >{{ labels.agricultureProof }}
-              <sub class="star_red_col">*</sub>
-            </label>
-            <app-vf-custom-select
-              [values]="valuesToYesNo"
-              formControlName="agricultureProof"
-              [isRequired]="'Please Select One Option'"
-              [isDirty]="isDirty"
-            >
-            </app-vf-custom-select>
-          </div> -->
+          
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="fc_expiry_date"
               >{{ labels.fcExpiryDate }}
@@ -429,10 +383,10 @@
             </kendo-datepicker>
             <div class="invalid-feedback" >
               <div *ngIf="isDirty && !vehicleValuationForm.controls.fcExpiryDate.value">
-                Date is mandatory
+                FC Expiry Date is mandatory
               </div>
               <div *ngIf="vehicleValuationForm.controls.fcExpiryDate.value && vehicleValuationForm.controls.fcExpiryDate.errors">
-                Invalid date
+                Invalid FC Expiry Date
               </div>
             </div>
           </div>
@@ -448,18 +402,19 @@
               [activeView]="'decade'"
               [format]="'dd/MM/yyyy'"
               [max]="toDayDate"
-              placeholder="Vehicle Reg.Date"
+              placeholder="Vehicle Reg. Date"
             >
             </kendo-datepicker>
             <div class="invalid-feedback" >
               <div *ngIf="isDirty && !vehicleValuationForm.controls.dateofReg.value">
-                Date is mandatory
+                Vehicle Reg. Date is mandatory
               </div>
               <div *ngIf="vehicleValuationForm.controls.dateofReg.value && vehicleValuationForm.controls.dateofReg.errors">
-                Invalid date
+                Invalid vehicle Reg. Date
               </div>
             </div>
           </div>
+        
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="gvw"
               >{{ labels.gvw }}
