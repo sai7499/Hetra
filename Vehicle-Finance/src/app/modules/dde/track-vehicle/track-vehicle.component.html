@@ -177,6 +177,7 @@
                             placeholder="dd/mm/yyyy" 
                             [max]="toDayDate" 
                             [activeView]="'decade'"
+                            (valueChange) = "setMinEmiStartDate($event)"
                          >
                         </kendo-datepicker>
                         <div *ngIf="submitted && f.loanStartDate.errors"style= "color:red;" class="invalid-feedback">
@@ -202,6 +203,7 @@
                             [format]="'dd/MM/yyyy'" 
                             placeholder="dd/mm/yyyy" 
                             [max]="toDayDate" 
+                            [min]= "minEmiStartDate ? minEmiStartDate : null"
                             [activeView]="'decade'"
                             (valueChange)="openEmiStartDateModal($event)">
                         </kendo-datepicker>
