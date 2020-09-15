@@ -37,8 +37,8 @@ export class WelomceLetterComponent implements OnInit {
   country: any;
   pincode: any;
   mobileNo: any;
-  name:any;
-  addressLine1:any
+  name: any;
+  addressLine1: any
   div2Data: any;
   div3Data: any;
   emiSheduleQuery: any;
@@ -75,27 +75,28 @@ export class WelomceLetterComponent implements OnInit {
   creditShield: any;
   assetCost: any;
   showWelcomeLetter: boolean = false;
-  
+
   constructor(private activatedRoute: ActivatedRoute, private labelsData: LabelsService, private commonLovService: CommomLovService, private WelcomeService: WelcomeService
     , private toasterService: ToasterService,) { }
 
   ngOnInit() {
-   
-    this.getLabels();
+
+    //this.getLabels();
     this.getLeadId();
     console.log(this.getLeadId())
     this.getWelcomeLetterDetails();
-    
+    // this.onChangeLanguage(ENGPRFLAN);
+
   }
-  
-  
+
+
   getWelcomeLetterDetails() {
     const data = this.leadId;
     this.WelcomeService.getwelcomeLetterDetails(data).subscribe((res: any) => {
       console.log(res)
       if (res['ProcessVariables'] && res['ProcessVariables'].error['code'] == "0") {
         this.isWelcomeDetails = res['ProcessVariables'];
-        console.log("welcome leter details",this.isWelcomeDetails)
+        console.log("welcome leter details", this.isWelcomeDetails)
         this.applicantList = this.isWelcomeDetails["applicantDetails"]
         this.coApplicantList = this.isWelcomeDetails["coAppDetails"];
         this.guarantorList = this.isWelcomeDetails["guarantorDetails"];
@@ -105,64 +106,65 @@ export class WelomceLetterComponent implements OnInit {
         this.div3Data = this.isWelcomeDetails["div3Data"];
         this.vehicleDetailsArray = this.isWelcomeDetails["vehicleDetails"];
         // const validData = res['ProcessVariables'];
-          // this.agreementNo = res['ProcessVariables'].agreementNo;
-          // this.name = res['ProcessVariables'].applicantDetails.name,
-          // this.addressLine1 = res['ProcessVariables'].applicantDetails.addressLine1,
-          // this.addressLine2 = res['ProcessVariables'].addressLine2,
-          // this.addressLine3 = res['ProcessVariables'].applicantDetails.addressLine3,
-          // this.district = res['ProcessVariables'].applicantDetails.district,
-          // this.country = res['ProcessVariables'].applicantDetails.country,
-          // this.pincode = res['ProcessVariables'].applicantDetails.pincode,
-          // this.mobileNo = res['ProcessVariables'].applicantDetails.mobileNo,
-          // this.div1Data = res['ProcessVariables'].div1Data,
-          // this.div2Data = res['ProcessVariables'].div2Data,
-          // this.div3Data = res['ProcessVariables'].div3Data,
-          // this.emiSheduleQuery = res['ProcessVariables'].emiSheduleQuery,
-          // this.collateralId = res['ProcessVariables'].applicantDetails.advEmiAmt,
-          // this.documentationCharges = res['ProcessVariables'].applicantDetails.allIncIRR,
-          // this.advEmiAmt = res['ProcessVariables'].loanApprovedDetails.advEmiAmt,
-          // this.allIncIRR = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
-          // this.assetCost = res['ProcessVariables'].loanApprovedDetails.assetCost,
-          // this.collateralId = res['ProcessVariables'].loanApprovedDetails.collateralId,
-          // this.creditShield = res['ProcessVariables'].loanApprovedDetails.creditShield,
-          // this.documentationCharges = res['ProcessVariables'].loanApprovedDetails.documentationCharges,
-          // this.emiAmt = res['ProcessVariables'].loanApprovedDetails.emiAmt,
-          // this.emiDueDt = res['ProcessVariables'].loanApprovedDetails.emiDueDt,
-          // this.emiCovPremiumAmt = res['ProcessVariables'].loanApprovedDetails.emiCovPremiumAmt,
-          // this.emiEndDt = res['ProcessVariables'].loanApprovedDetails.emiEndDt,
-          // this.emiStartDt = res['ProcessVariables'].loanApprovedDetails.emiStartDt,
-          // this.fieldVisitChargesApplicable = res['ProcessVariables'].loanApprovedDetails.fieldVisitChargesApplicable,
-          // this.emiStartDt = res['ProcessVariables'].loanApprovedDetails.emiStartDt,
-          // this.emiStartDt = res['ProcessVariables'].loanApprovedDetails.emiStartDt,
-          // this.insPremium = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
-          // this.interestRate = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
-          // this.loanAmt = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
-          // this.loanTenor = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
-          // this.modeOfPayment = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
-          // this.noOfAdvEmi = res['ProcessVariables'].loanApprovedDetails.emiSheduleQuery,
-          // this.npdcCharges = res['ProcessVariables'].loanApprovedDetails.npdcCharges,
-          // this.penalInterest = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
-          // this.personalAccidentCover = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
-          // this.repay = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
-          // this.rollOverPdc = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
-          // this.valueAddedServices = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
-          // this.prefLanQuery = res['ProcessVariables'].prefLanQuery,
-          // this.preferredLan = res['ProcessVariables'].preferredLan,
-          this.repaymentDetails = res['ProcessVariables'].repaymentDetails
-          // this.chassisNo = res['ProcessVariables'].vehicleDetails.chassisNo,
-          // this.collateralId = res['ProcessVariables'].vehicleDetails.collateralId,
-          // this.engineNo = res['ProcessVariables'].vehicleDetails.engineNo,
-          // this.manufacMonthYr = res['ProcessVariables'].vehicleDetails.manufacMonthYr,
-          // this.vehMake = res['ProcessVariables'].vehicleDetails.vehMake,
-          // this.vehRegNo = res['ProcessVariables'].vehicleDetails.vehRegNo
-      
-      
-    }else {
-      this.toasterService.showError(res['ProcessVariables'].error["mesage"],'')
-    }
-  });
-} 
-    
+        // this.agreementNo = res['ProcessVariables'].agreementNo;
+        // this.name = res['ProcessVariables'].applicantDetails.name,
+        // this.addressLine1 = res['ProcessVariables'].applicantDetails.addressLine1,
+        // this.addressLine2 = res['ProcessVariables'].addressLine2,
+        // this.addressLine3 = res['ProcessVariables'].applicantDetails.addressLine3,
+        // this.district = res['ProcessVariables'].applicantDetails.district,
+        // this.country = res['ProcessVariables'].applicantDetails.country,
+        // this.pincode = res['ProcessVariables'].applicantDetails.pincode,
+        // this.mobileNo = res['ProcessVariables'].applicantDetails.mobileNo,
+        // this.div1Data = res['ProcessVariables'].div1Data,
+        // this.div2Data = res['ProcessVariables'].div2Data,
+        // this.div3Data = res['ProcessVariables'].div3Data,
+        // this.emiSheduleQuery = res['ProcessVariables'].emiSheduleQuery,
+        // this.collateralId = res['ProcessVariables'].applicantDetails.advEmiAmt,
+        // this.documentationCharges = res['ProcessVariables'].applicantDetails.allIncIRR,
+        // this.advEmiAmt = res['ProcessVariables'].loanApprovedDetails.advEmiAmt,
+        // this.allIncIRR = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
+        // this.assetCost = res['ProcessVariables'].loanApprovedDetails.assetCost,
+        // this.collateralId = res['ProcessVariables'].loanApprovedDetails.collateralId,
+        // this.creditShield = res['ProcessVariables'].loanApprovedDetails.creditShield,
+        // this.documentationCharges = res['ProcessVariables'].loanApprovedDetails.documentationCharges,
+        // this.emiAmt = res['ProcessVariables'].loanApprovedDetails.emiAmt,
+        // this.emiDueDt = res['ProcessVariables'].loanApprovedDetails.emiDueDt,
+        // this.emiCovPremiumAmt = res['ProcessVariables'].loanApprovedDetails.emiCovPremiumAmt,
+        // this.emiEndDt = res['ProcessVariables'].loanApprovedDetails.emiEndDt,
+        // this.emiStartDt = res['ProcessVariables'].loanApprovedDetails.emiStartDt,
+        // this.fieldVisitChargesApplicable = res['ProcessVariables'].loanApprovedDetails.fieldVisitChargesApplicable,
+        // this.emiStartDt = res['ProcessVariables'].loanApprovedDetails.emiStartDt,
+        // this.emiStartDt = res['ProcessVariables'].loanApprovedDetails.emiStartDt,
+        // this.insPremium = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
+        // this.interestRate = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
+        // this.loanAmt = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
+        // this.loanTenor = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
+        // this.modeOfPayment = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
+        // this.noOfAdvEmi = res['ProcessVariables'].loanApprovedDetails.emiSheduleQuery,
+        // this.npdcCharges = res['ProcessVariables'].loanApprovedDetails.npdcCharges,
+        // this.penalInterest = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
+        // this.personalAccidentCover = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
+        // this.repay = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
+        // this.rollOverPdc = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
+        // this.valueAddedServices = res['ProcessVariables'].loanApprovedDetails.allIncIRR,
+        // this.prefLanQuery = res['ProcessVariables'].prefLanQuery,
+        // this.preferredLan = res['ProcessVariables'].preferredLan,
+        this.repaymentDetails = res['ProcessVariables'].repaymentDetails
+        // this.chassisNo = res['ProcessVariables'].vehicleDetails.chassisNo,
+        // this.collateralId = res['ProcessVariables'].vehicleDetails.collateralId,
+        // this.engineNo = res['ProcessVariables'].vehicleDetails.engineNo,
+        // this.manufacMonthYr = res['ProcessVariables'].vehicleDetails.manufacMonthYr,
+        // this.vehMake = res['ProcessVariables'].vehicleDetails.vehMake,
+        // this.vehRegNo = res['ProcessVariables'].vehicleDetails.vehRegNo
+        this.onChangeLanguage(res["ProcessVariables"].preferredLan)
+
+
+      } else {
+        this.toasterService.showError(res['ProcessVariables'].error["mesage"], '')
+      }
+    });
+  }
+
   getLeadId() {
     this.activatedRoute.parent.params.subscribe((val) => {
       this.leadId = Number(val.leadId);
@@ -182,28 +184,58 @@ export class WelomceLetterComponent implements OnInit {
   }
 
   getLabels() {
-    this.labelsData.getWelcomeDataenglish().subscribe(
-      (data) => {
-        this.labels = data[0];
-        console.log('english labels', this.labels);
-        // this.nameLength = this.labels.validationData.name.maxLength;
-        // this.mobileLength = this.labels.validationData.mobileNumber.maxLength;
-      },
-      // (error) => console.log('Lead Creation Label Error', error)
-    );
+
+    if (this.labels === 'TELPRFLAN') {
+      this.labelsData.getWelcomeDatatelugu().subscribe(
+        (data) => {
+          this.labels = data[0];
+          console.log('marati labels', this.labels);
+        },
+      );
+    } else if (this.labels === 'MARPRFLAN') {
+      this.labelsData.getWelcomeDatatelugu().subscribe(
+        (data) => {
+          this.labels = data[0];
+          console.log('telugu labels', this.labels);
+        },
+      );
+    } else if (this.labels === 'KANPRFLAN') {
+      this.labelsData.getWelcomeDatakanada().subscribe(
+        (data) => {
+          this.labels = data[0];
+          console.log('kanada labels', this.labels);
+        },
+      );
+    } else {
+      this.labelsData.getWelcomeDataenglish().subscribe(
+        (data) => {
+          this.labels = data[0];
+          console.log('english labels', this.labels);
+        },
+      );
+    }
+
   }
 
   onChangeLanguage(labels: string) {
-    if (labels === 'Hindi') {
-      this.labelsData.getWelcomeDataenglish().subscribe((data) => {
+    if (labels == 'TELPRFLAN') {
+    this.labelsData.getWelcomeDatatelugu().subscribe((data) => {
+      this.labels = data[0];
+    });
+    } else if(labels == 'MARPRFLAN'){
+      this.labelsData.getWelcomeDatamarati().subscribe((data) => {
+        this.labels = data[0];
+      });
+    } 
+    else if(labels == 'KANPRFLAN'){
+      this.labelsData.getWelcomeDatakanada().subscribe((data) => {
         this.labels = data[0];
       });
     } else {
+    //if(labels === 'TAMPRELAN'){
       this.labelsData.getWelcomeDataenglish().subscribe((data) => {
-        this.labels = data;
+        this.labels = data[0];
       });
     }
   }
-
-
 }
