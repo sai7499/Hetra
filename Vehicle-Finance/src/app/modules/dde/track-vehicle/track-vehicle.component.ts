@@ -33,6 +33,7 @@ export class TrackVehicleComponent implements OnInit {
   fleetRtrLov: any = {};
   totalDelayDays: number;
   public toDayDate: Date = new Date();
+  minEmiStartDate: Date = new Date();
   public trackVehicleForm: FormGroup;
   leadId: number;
   isDirty: boolean;
@@ -227,7 +228,7 @@ export class TrackVehicleComponent implements OnInit {
       });
     //  this.addRows(null);
     //  this.emiAmount = this.trackVehicleForm.controls['emiAmount'].value;
-    this.loanEmiDate = this.trackVehicleForm.controls['loanStartDate'].value;
+    // this.loanEmiDate = this.trackVehicleForm.controls['loanStartDate'].value;
     this.noOfEmi = this.trackVehicleForm.controls['emisPaid'].value;
 
 
@@ -252,7 +253,18 @@ export class TrackVehicleComponent implements OnInit {
     this.showNoOfEmisAccruedModal = true;
   }
   openEmiStartDateModal(event){
-    this.showEmiStartDateModal = true;
+    if(this.trackVehicleForm.controls['loanStartDate'].value){
+      if(this.fleetDetails['emiStartDate']){
+        this.showEmiStartDateModal = true;
+      }else{
+        this.loanStartDate(event);
+      }
+    }else{
+      this.trackVehicleForm.controls['emiStartDate'].patchValue('')
+      this.toasterService.showError("please enter loan start date" , '')
+    }
+    
+   
   }
   hideModal(data){
     switch(data) {
@@ -314,7 +326,7 @@ export class TrackVehicleComponent implements OnInit {
     const startDate = this.trackVehicleForm.value['emiStartDate'];
     this.fleetDetails['emiStartDate'] = startDate;
     this.focusedDate = []
-    this.loanEmiDate = this.dateDbFormat(startDate);
+    // this.loanEmiDate = this.dateDbFormat(startDate);
     this.focusedDate.push(startDate)
     this.formArr.controls = [];
     let addDueDate = this.dateDbFormat(startDate);
@@ -465,7 +477,9 @@ export class TrackVehicleComponent implements OnInit {
       FormArray;
   }
   get f() { return this.trackVehicleForm.controls; }
-
+  setMinEmiStartDate(event){
+    this.minEmiStartDate = event;
+  }
   getFleetRtr(fleetId) {
     this.trackVechileService.getFleetRtr(fleetId).subscribe((res) => {
 
@@ -475,7 +489,8 @@ export class TrackVehicleComponent implements OnInit {
         const fleetRtr = res['ProcessVariables'].fleetRtr;
         if (fleetRtr) {
           this.fleetRtrForm(fleetRtr)
-          this.loanEmiDate = this.getDateFormat(fleetRtr['loanStartDate'])
+          // this.loanEmiDate = this.getDateFormat(fleetRtr['loanStartDate'])
+          this.minEmiStartDate = this.getDateFormat(fleetRtr['loanStartDate']);
           this.fleetDetails = fleetRtr;
         }
         if (installments) {
@@ -770,6 +785,7 @@ export class TrackVehicleComponent implements OnInit {
 
     // stop here if form is invalid
     if (this.trackVehicleForm.invalid) {
+      this.toasterService.showError("Please Enter Required Fields" , '')
       return;
     } else {
 
@@ -800,13 +816,10 @@ export class TrackVehicleComponent implements OnInit {
       this.trackVechileService.saveUpdateFleetRtr(formDetails, this.fleetId, this.leadId).subscribe((res: any) => {
         console.log(res);
         if (res['ProcessVariables']['error'].code == "0") {
-          // alert("Saved Success");
           this.toasterService.showSuccess('Record saved successfully!', '');
-
           this.router.navigate(['/pages/dde/' + this.leadId + '/fleet-details']);
         }else {
           this.toasterService.showError(res['ProcessVariables']['error'].message, '');
-
         }
       });
     }
