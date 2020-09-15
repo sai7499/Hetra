@@ -56,6 +56,7 @@ export class TeleVerificationFormComponent implements OnInit {
   mobileNumber: any;
   tenure: any;
   assetCost: any;
+  eCode: string;
 
   public dateValue: Date = new Date(2, 10, 2000);
   public toDayDate: Date = new Date();
@@ -103,9 +104,7 @@ export class TeleVerificationFormComponent implements OnInit {
     // calculating asset cost
     const vehicleCost = this.leadDetails.ProcessVariables.vehicleCollateral;
     const sum = a => a.reduce((x, y) => x + y);
-    this.assetCost = sum(vehicleCost.map(x => Number(x.finalAssetCost)));
-    console.log('total amount', this.assetCost);
-
+    this.assetCost = vehicleCost ? sum(vehicleCost.map(x => Number(x.finalAssetCost))) : '';
 
     if (this.applicantType === 'Applicant') {
       this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[0].mobileNumber;
@@ -214,6 +213,8 @@ export class TeleVerificationFormComponent implements OnInit {
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.userName = value.userName;
     });
+    this.eCode = localStorage.getItem('userId');
+    console.log('E Code', this.eCode);
 
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
@@ -310,7 +311,7 @@ export class TeleVerificationFormComponent implements OnInit {
 
       // tslint:disable-next-line: max-line-length
       this.teleVerificationForm.get('srcOfProposal').setValue(`${this.sourcingChannelDesc} - ${this.sourcingTypeDesc} ${this.sourcingCode}`);
-
+      this.teleVerificationForm.get('eCode').setValue(this.eCode);
       if (tvr.dob) {
         this.teleVerificationForm.patchValue(tvr);
         if (this.valueChanges) {

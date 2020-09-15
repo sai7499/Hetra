@@ -1,22 +1,25 @@
-    <main>
+<main>
     <div class="container-fluid content">
     <div class="text-center">
         <button class="btn btn-primary view-button" 
             type="button" id="" tabindex="7" *ngIf="!showWelcomeLetter"
-            (click)="showWelcomeLetter=true">View Welcome Letter</button><br>
+            (click)="viweWelcomeLetter()">View Welcome Letter</button>&nbsp;
+            <button class="btn btn-primary view-button" 
+            type="button" id="" tabindex="7" *ngIf="!showWelcomeLetter"
+            routerLink="../disbursement">Back</button><br> 
     </div>
 
         <div *ngIf="showWelcomeLetter" >
             <div id="ContentToConvert">
 
-                <p class="style-strong text-center">{{labels?.EQUITASFINANCEPRIVATELIMITED}}</p>
-                <p class="text-center">{{labels?.WhollyownedsubsidiaryofEquitasHoldingPrivateLimited}}</p>
+            <p class="style-strong text-center">{{labels?.EQUITASFINANCEPRIVATELIMITED}}</p>
+            <p class="text-center">{{labels?.WhollyownedsubsidiaryofEquitasHoldingPrivateLimited}}</p>
 
 
             <table class="margin-add">
                 <tbody>
                     <tr>
-                        <td width="60%" class='style-strong'>{{labels?.AgreementNo}}: {{isWelcomeDetails?.agreementNo}} </td>
+                    <td width="60%" class='style-strong'>{{labels?.AgreementNo}}: {{isWelcomeDetails?.agreementNo}} </td>
                         <td width="40%" class='style-strong text-right'>{{labels?.Date}} : {{date | date :'dd/MM/yyyy'}}
                         </td>
 
@@ -175,9 +178,9 @@ Equitas Finance Private Limited<br />
             </div>
             <table class="table">
                 <tr class="top-border">
-                    <td>{{labels?.LoanAgreementNo}}.</td>
+                    <td>{{labels?.LoanAgreementNo}}</td>
                     <td>{{isWelcomeDetails?.agreementNo}} </td>
-                    <td>{{labels?.AgreementDate }}</td>
+                    <td>{{labels?.AgreementDate}}</td>
                     <td>{{isWelcomeDetails?.agreementDate}}</td>
                 </tr>
                 <tr class="top-border">
@@ -232,9 +235,9 @@ Equitas Finance Private Limited<br />
                     <td class="vech_tab">{{vechicleList?.vehRegNo}}</td>
                 </tr>
                 <tr>
-                    <td class="vech_tab">{{labels?.EngineNo}}</td>
+                    <td class="vech_tab">{{labels?.EngineNo}}.</td>
                     <td class="vech_tab">{{vechicleList?.engineNo}}</td>
-                    <td class="vech_tab">{{labels?.ChassisNo}}</td>
+                    <td class="vech_tab">{{labels?.ChassisNo}}.</td>
                     <td class="vech_tab">{{vechicleList?.chassisNo}}</td>
                 </tr>
             </table>
@@ -252,7 +255,7 @@ Equitas Finance Private Limited<br />
                     <tr>
                         <td>{{labels?.LoanTenorMonths}}</td>
                         <td>{{loanData?.loanTenor}}</td>
-                        <td>{{loanData?.repay}}</td>
+                        <td>{{labels?.RepayMonths}}</td>
                         <td>{{loanData?.repay}}</td>
                     </tr>
                     <tr>
@@ -267,11 +270,12 @@ Equitas Finance Private Limited<br />
                         <td>{{labels?.AdvEMIAmount}}</td>
                         <td>{{loanData?.advEmiAmt | currency: 'INR'}}</td>
                     </tr>
-                    <!-- Reshma -->
-                    <td>{{labels?.ProcessingCharges}}</td>
+                    <tr>
+                        <td>{{labels?.ProcessingCharges}}</td>
                         <td>{{loanData?.processingCharges}}</td>
                         <td>{{labels?.CreditShieldCharges}}</td>
                         <td>{{loanData?.creditShield | currency: 'INR'}}</td>
+                    </tr>
                     <tr>
                         <td>{{labels?.NPDCCharges}}</td>
                         <td>{{loanData?.npdcCharges}}</td>
@@ -323,11 +327,12 @@ Equitas Finance Private Limited<br />
                     <td></td>
                     <td></td>
                 </tr> -->
+                <!-- reshma -->
                     <tr *ngFor="let coAppliacnt of coApplicantList; let i=index">
-                        <td class="style-strong tab_wid">{{labels?.Guarantor}} {{i+1}}, {{guarantor?.name}}</td>
-                        <td class="style-strong">{{labels?.Signature}}</td>
-                        <td class="style-strong">{{labels?.Date}}</td>
-                    </tr>
+                        <td class="style-strong tab_wid">{{labels?.CoBorrower}}{{i+1}}, {{coAppliacnt?.name}}</td>
+                        <td class="style-strong">{{labels?.Signature}}</td> 
+                        <td class="style-strong">{{labels?.Date}}</td> 
+                    </tr> 
                     <!-- <tr >
                     <td class="tab_wid">{{coAppliacnt?.name+'('+'Co-Borrower'}})</td>
                     <td></td>
@@ -344,7 +349,7 @@ Equitas Finance Private Limited<br />
                     <td>#date</td>
                 </tr> -->
                     <tr *ngFor="let guarantor of guarantorList; let i=index">
-                        <td class="style-strong tab_wid">{{labels?.Guarantor}}{{i+1}}, {{guarantor?.name}}</td>
+                        <td class="style-strong tab_wid">{{labels?.Guarantor}} {{i+1}}, {{guarantor?.name}}</td>
                         <td class="style-strong">{{labels?.Signature}}</td>
                         <td class="style-strong">{{labels?.Date}}</td>
                     </tr>
@@ -491,7 +496,12 @@ Care Unit at Tollfree No.: 1800 3000 506, to help us serve you better.</li>
 
                 </tbody>
             </table>
-
+			<div class="margin-add">
+                <strong>
+                <p class="\&quot;author_style\&quot;">For Equitas Finance Pvt Ltd</p><br>
+                <p class="\&quot;author_style\&quot;">Authorised Signatory</p>
+                </strong>
+            </div>
             <!-- <p class="style-strong">For Equitas Finance Pvt Ltd</p>
 <p class="style-strong">Authorised Signatory</p>
 
@@ -575,13 +585,21 @@ Ph: 044-4299 5000 Customer Care Toll-free: 1800 3000 5060 Fax: 044-42995050 E-ma
 </p> -->
 
             <div class="margin-add" [innerHTML]="div3Data"></div>
+			<p class="text-right font-small">Regd. Office: No. 769, 4th Floor, Phase - 2,F39, Spencer Plaza, Anna Salai,
+					Chennai - 600 002.<br>
+				Ph: 044-4299 5000 Customer Care Toll-free: 1800 3000 5060 Fax: 044-42995050 E-mail: corporate@equitas.in
+			</p> 
             </div>
+			
             <div class="text-right">
             <button class="btn btn-primary view-button text-center" type="button" id="" tabindex="7"
-                (click)="downloadpdf()">DownLoad</button>
+                (click)="downloadpdf()">DownLoad</button>&nbsp;
+            <button class="btn btn-primary view-button" 
+                type="button" id="" tabindex="7" *ngIf="showWelcomeLetter"
+                routerLink="../disbursement">Back</button><br> 
             </div>
+
 
         </div>
     </div>
-
 </main>

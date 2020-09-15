@@ -43,10 +43,12 @@
                  
              
               <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 6}"
-                type="button" id="applicant_basic_details" (click)="onNavigate('pdc-details')" *ngIf="roleType == '4'">
+                type="button" id="applicant_basic_details" (click)="onNavigate('pdc-details')" 
+                *ngIf="roleType == '4'">
                 PDC Details </button>
                 <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 7}"
-                  type="button" id="applicant_identity_details" (click)="onNavigate('welomce-letter')" >
+                  type="button" id="applicant_identity_details" (click)="onNavigate('welomce-letter')" 
+                  *ngIf="roleType == '5'">
                   Welcome Letter
               </button>
 

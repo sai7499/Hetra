@@ -76,6 +76,7 @@ export class ValuationComponent implements OnInit {
     this.getVehicleValuation();
     this.getLeadSectiondata();
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
+    // this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
       if (operationType === '1') {
@@ -195,6 +196,7 @@ export class ValuationComponent implements OnInit {
       engineNumber: ["", Validators.required],
       yearOfManufacturer: ["", Validators.required],
       monthOfManufacturer: ["", Validators.required],
+      yearAndMonthOfManufacturer: ["", Validators.required],
       ageOfAsset: ["", Validators.required],
       sellerShortDesc: [""],
       secondAsset: [""],
@@ -299,8 +301,10 @@ export class ValuationComponent implements OnInit {
       this.vehicleValuationService.saveUpdateVehicleValuation(data).subscribe((res: any) => {
         const response = res;
         console.log("VEHICLE_VALUATION_RESPONSE_SAVE_OR_UPDATE_API", response);
-        if (response["Error"] == 0) {
+        if (response["Error"] == 0 && response['ProcessVariables'].error['code'] == "0") {
           this.toasterService.showSuccess("Record Saved Successfully", "Valuation");
+        }else {
+          this.toasterService.showError(response['ProcessVariables'].error['message'], "Valuation");
         }
       });
     } else {

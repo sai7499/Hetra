@@ -333,13 +333,13 @@ export class ReferenceCheckComponent implements OnInit {
       this.productCat = this.otherDetails.product ? this.otherDetails.product : this.serviceProductCat;
       this.sourcingChannel = this.otherDetails.sourcingChannel ? this.otherDetails.sourcingChannel : this.serviceSourcingChannel;
       this.equitasBranchName = this.otherDetails.equitasBranchName ? this.otherDetails.equitasBranchName : this.serviceEquitasBranchName;
-      this.date = this.otherDetails.date ? this.otherDetails.date : this.utilityService.convertDateTimeTOUTC(this.sysDate, 'DD/MM/YYYY');
+      this.date = this.otherDetails.date ? this.utilityService.getDateFromString(this.otherDetails.date) : this.sysDate;
       this.time = this.otherDetails.timeOfVerification ? this.otherDetails.timeOfVerification : this.sysTimeOfVerification;
     } else {
       this.productCat = this.serviceProductCat;
       this.sourcingChannel = this.serviceSourcingChannel;
       this.equitasBranchName = this.serviceEquitasBranchName;
-      this.date = this.utilityService.convertDateTimeTOUTC(this.sysDate, 'DD/MM/YYYY');
+      this.date = this.sysDate;
       this.time = this.sysTimeOfVerification;
     }
 
@@ -360,7 +360,7 @@ export class ReferenceCheckComponent implements OnInit {
       routeMap: otherDetailsModel.routeMap ? otherDetailsModel.routeMap : null,
       equitasBranchName: this.equitasBranchName ? this.equitasBranchName : null,
       distanceFromEquitas: otherDetailsModel.distanceFromEquitas ? otherDetailsModel.distanceFromEquitas : null,
-      date: this.date ? this.utilityService.getDateFromString(this.date) : null,
+      date: this.date ? this.date : null,
       // date: this.otherDetails.date ? this.utilityService.getDateFromString(this.otherDetails.date) : '',
       area: otherDetailsModel.area ? otherDetailsModel.area : null,
       place: otherDetailsModel.place ? otherDetailsModel.place : null,
@@ -410,7 +410,7 @@ export class ReferenceCheckComponent implements OnInit {
       equitasBranchName: this.equitasBranchName ? this.equitasBranchName : null,
       distanceFromEquitas: this.distanceFromEquitas ? this.distanceFromEquitas : null,
       // this.formValues.date = this.formValues.date ? this.utilityService.convertDateTimeTOUTC(this.formValues.date, 'DD/MM/YYYY') : null;
-      date: this.date ? this.utilityService.convertDateTimeTOUTC(this.date, 'DD/MM/YYYY') : null,
+      date: this.date ? this.utilityService.getDateFormat(this.date) : null,
       area: referenceCheckModel.area ? referenceCheckModel.area : null,
       place: referenceCheckModel.place ? referenceCheckModel.place : null,
       timeOfVerification: this.time ? this.time : null,
