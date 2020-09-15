@@ -76,6 +76,7 @@ export class ValuationComponent implements OnInit {
     this.getVehicleValuation();
     this.getLeadSectiondata();
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
+    // this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
       if (operationType === '1') {
@@ -195,6 +196,7 @@ export class ValuationComponent implements OnInit {
       engineNumber: ["", Validators.required],
       yearOfManufacturer: ["", Validators.required],
       monthOfManufacturer: ["", Validators.required],
+      yearAndMonthOfManufacturer: ["", Validators.required],
       ageOfAsset: ["", Validators.required],
       sellerShortDesc: [""],
       secondAsset: [""],
