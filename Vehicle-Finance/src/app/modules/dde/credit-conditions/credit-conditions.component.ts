@@ -184,10 +184,11 @@ export class CreditConditionsComponent implements OnInit {
           // creditConditions[i]['creditAction']  = creditConditions[i]['creditAction'] ? creditConditions[i]['creditAction'] : '2';
         }
       //  this.formArr.setValue(creditConditions);
-      } else {
-        
-          this.disableControl = true;
-          
+      } else if(res['ProcessVariables'].error['code'] == "1") {
+        this.toasterService.showError(res['ProcessVariables'].error['message'], '');
+        this.disableControl = true;
+      }else if(res['Error'] == "1"){
+        this.toasterService.showError(res['ErrorMessage'], '');
       }
     })
   }
@@ -253,25 +254,29 @@ export class CreditConditionsComponent implements OnInit {
               });
               this.getCreditConditions();
             }
-          }else {
+          }else if(res['ProcessVariables'].error['code'] == "1") {
             this.toasterService.showError(res['ProcessVariables'].error['message'], '');
+           
+          }else if(res['Error'] == "1"){
+            this.toasterService.showError(res['ErrorMessage'], '');
           }
         
         })
     }else{
-      if(data == 'next' && this.userType == 2 && this.salesResponse == 'true' ){
-        this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
-      } else if(data == 'next' && this.userType == 2 && this.salesResponse == 'false' ){
-        this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
-      }else if(data == 'next' && this.userType == 1  ){
-        this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet');
-      }
-      else if(data == 'back' && this.userType == 2 ){
-        this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/deviations')
-      }
-      else if(data == 'back' ){
-        this.router.navigateByUrl('/pages/dashboard')
-        }
+      this.toasterService.showError("Please Enter atleast one record" , '');
+      // if(data == 'next' && this.userType == 2 && this.salesResponse == 'true' ){
+      //   this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
+      // } else if(data == 'next' && this.userType == 2 && this.salesResponse == 'false' ){
+      //   this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
+      // }else if(data == 'next' && this.userType == 1  ){
+      //   this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet');
+      // }
+      // else if(data == 'back' && this.userType == 2 ){
+      //   this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/deviations')
+      // }
+      // else if(data == 'back' ){
+      //   this.router.navigateByUrl('/pages/dashboard')
+      //   }
     }
    
   }
@@ -284,6 +289,11 @@ export class CreditConditionsComponent implements OnInit {
       console.log(res);
       if(res['ProcessVariables'].error['code'] == 0){
         this.toasterService.showSuccess("Record Submitted successfully!", '')
+      }else if(res['ProcessVariables'].error['code'] == "1") {
+        this.toasterService.showError(res['ProcessVariables'].error['message'], '');
+       
+      }else if(res['Error'] == "1"){
+        this.toasterService.showError(res['ErrorMessage'], '');
       }
     })
   }
@@ -301,9 +311,11 @@ export class CreditConditionsComponent implements OnInit {
         if(res['ProcessVariables'].error['code'] == 0){
           this.toasterService.showSuccess("Record Rejected successfully!", '');
           this.router.navigate([`pages/dashboard`]);
-        }else{
-          this.toasterService.showError(res['ProcessVariables'].error['message'], '')
-  
+        }else if(res['ProcessVariables'].error['code'] == "1") {
+          this.toasterService.showError(res['ProcessVariables'].error['message'], '');
+         
+        }else if(res['Error'] == "1"){
+          this.toasterService.showError(res['ErrorMessage'], '');
         }
       })
     
@@ -349,9 +361,11 @@ export class CreditConditionsComponent implements OnInit {
       if(res['ProcessVariables'].error['code'] == 0){
         this.toasterService.showSuccess("Record " + data + " successfully!", '');
         this.router.navigate([`pages/dashboard`]);
-      }else{
-        this.toasterService.showError(res['ProcessVariables'].error['message'], '')
-
+      }else if(res['ProcessVariables'].error['code'] == "1") {
+        this.toasterService.showError(res['ProcessVariables'].error['message'], '');
+       
+      }else if(res['Error'] == "1"){
+        this.toasterService.showError(res['ErrorMessage'], '');
       }
     })
   }
@@ -364,8 +378,11 @@ export class CreditConditionsComponent implements OnInit {
       console.log(res);
       if(res['ProcessVariables'].error['code'] == 0){
         this.toasterService.showSuccess("Record Approved successfully!", '')
-      }else{
-        this.toasterService.showError(res['ProcessVariables'].error['message'], '')
+      }else if(res['ProcessVariables'].error['code'] == "1") {
+        this.toasterService.showError(res['ProcessVariables'].error['message'], '');
+       
+      }else if(res['Error'] == "1"){
+        this.toasterService.showError(res['ErrorMessage'], '');
       }
     })
   }
