@@ -157,7 +157,7 @@
     "dateOfIncorporation": "Date Of Incorporation",
     "aadharnumber": "Aadhaar Number",
     "panform": "PAN / Form 60",
-    "pannumber": "PAN Number ",
+    "pannumber": "PAN",
     "drivingLicenseNumber": "Driving Licence Number",
     "passportNumber": "Passport Number",
     "drivingLicenceIssueDate": "Driving Licence Issue Date",
@@ -2100,9 +2100,9 @@
         },
         "vehiclePrefixNo": {
             "maxLength": {
-                "rule": 40
+                "rule": 3
             },
-            "type": "alpha-numeric"
+            "type": "alpha"
         },
         "registrationNo": {
             "maxLength": {
@@ -2110,7 +2110,7 @@
             },
             "registrationPattern": {
                 "rule": "^[A-Za-z][A-Za-z0-9]+$",
-                "msg": "Invalid Name /  Special Characters not allowed"
+                "msg": "Invalid registration number"
             },
             "type": "alpha-numeric"
         },
