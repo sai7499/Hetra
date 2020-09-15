@@ -490,6 +490,11 @@ export class ApiService {
       workflowId: '3ea13662c66611eaa13a00505695f93b',
       projectId: environment.projectIds.submitToCredit,
     },
+    rejectCreditCondition : {
+      processId: '94c162c0f38d11eabae500505695f93b',
+      workflowId: '3ea13662c66611eaa13a00505695f93b',
+      projectId: environment.projectIds.submitToCredit,
+    },
     getCountryList: {
       processId: '6c3f2eb0c1d611ea80d600505695f93b',
       workflowId: '6c1d6dd4c1d611eaa89700505695f93b',
@@ -804,6 +809,11 @@ export class ApiService {
       processId: '47d4c4a8f19d11eaa89a00505695f93b',
       workflowId: '4794bf2af19d11ea880700505695f93b',
       projectId: environment.projectIds.submitToCredit
+    },
+    welcomeLetter: {
+      processId: 'd358b542f28911ea82f100505695f93b',
+      workflowId: 'd33a101af28911ea9cda00505695f93b',
+      projectId: environment.projectIds.salesProjectId
     }
 
   };

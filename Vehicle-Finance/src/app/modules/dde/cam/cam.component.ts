@@ -82,7 +82,7 @@ export class CamComponent implements OnInit {
   vehicleDeploymentDetails: any;
   recommendation: any;
   disableSaveBtn: boolean;
-  isCamGeneratedValue;
+  isCamGeneratedValue:boolean;
   isCamDetails: boolean;
   generateCam: boolean = false;
   roleId: any;
@@ -145,12 +145,16 @@ export class CamComponent implements OnInit {
         if (this.isCamGeneratedValue == false) {
 
           this.isCamDetails = true
+          this.showSave = false
 
         } else if (this.isCamGeneratedValue == true) {
           this.isCamDetails = false
           this.usedCarCam = true
           this.generateCam = true
           this.getCamUsedCarDetails(this.generateCam)
+          this.showCamHtml = true
+          this.showSave = false
+
         }
       })
     }
@@ -163,12 +167,18 @@ export class CamComponent implements OnInit {
         this.isCamGeneratedValue = res.ProcessVariables['isCamGenerated']
         if (this.isCamGeneratedValue == false) {
           this.isCamDetails = true
+          this.showSave = false
+
 
         } else if (this.isCamGeneratedValue == true) {
           this.isCamDetails = false
           this.usedCvCam = true
           this.generateCam = true
           this.getCamUsedCvDetails(this.generateCam)
+          this.showCamHtml = true
+         if(this.currentUrl.includes('dde')){
+          this.showSave = true
+         } 
         }
       })
     }
@@ -183,12 +193,19 @@ export class CamComponent implements OnInit {
         if (this.isCamGeneratedValue == false) {
 
           this.isCamDetails = true
+          this.showSave = false
+
 
         } else if (this.isCamGeneratedValue == true) {
           this.isCamDetails = false
           this.newCvCam = true
           this.generateCam = true
           this.getCamNewCvDetails(this.generateCam)
+          this.showCamHtml = true
+          if(this.currentUrl.includes('dde')){
+            this.showSave = true
+           } 
+
         }
       })
     }
@@ -284,7 +301,7 @@ export class CamComponent implements OnInit {
     if (this.currentUrl.includes('credit-decisions')) {
       this.camDetailsForm.disable();
       this.showSave = false
-    } else if (this.currentUrl.includes('dde')) {
+    } else if (this.currentUrl.includes('dde') ) {
       this.showSave = true
 
     }
@@ -296,6 +313,8 @@ export class CamComponent implements OnInit {
       this.isCamDetails = false
       this.generateCam = true
       this.getCamUsedCarDetails(this.generateCam, 'isUpload')
+      this.showCamHtml = true
+
       this.pdfId = "UCpdfgeneration" // pdf generation 
     } else
       if (this.productCategoryCode == "UCV") {
@@ -303,6 +322,8 @@ export class CamComponent implements OnInit {
         this.isCamDetails = false
         this.generateCam = true
         this.getCamUsedCvDetails(this.generateCam, 'isUpload')
+        this.showCamHtml = true
+
         this.pdfId = "UCVpdfgeneration" // pdf generation
       } else
         if (this.productCategoryCode == "NCV") {
@@ -310,6 +331,8 @@ export class CamComponent implements OnInit {
           this.isCamDetails = false
           this.generateCam = true
           this.getCamNewCvDetails(this.generateCam, 'isUpload')
+          this.showCamHtml = true
+
           this.pdfId = "NCVpdfgeneration" // pdf generation
         }
   }
@@ -340,10 +363,6 @@ export class CamComponent implements OnInit {
         this.ncmBhApprovalRecommendation = res.ProcessVariables['ncmBhApprovalRecommendationObj']
         this.recommendation = res.ProcessVariables['recommendation']
 
-        if (isUpload === 'isUpload') {
-          this.uploadPdf()
-        }
-
         this.camDetailsForm.patchValue({
           proposedVehicleRemarks: this.camDetails.proposedToAnyOtherRemarks ? this.camDetails.proposedToAnyOtherRemarks : null,
         })
@@ -365,12 +384,20 @@ export class CamComponent implements OnInit {
         this.camDetailsForm.patchValue({
           strengthAndMitigates: this.camDetails.strengthAndMitigates ? this.camDetails.strengthAndMitigates : null,
         })
+        setTimeout(() => {
+        if (isUpload === 'isUpload') {
+          this.uploadPdf()
+        }
+      });
+
       } else if (res && res.ProcessVariables.error.code == '1') {
         this.showCamHtml == false
         this.errorGenerated = true;
         const message = res.ProcessVariables.mandatoryFields;
         this.errorMessage = message;
         this.isCamDetails = true
+        this.showSave = false
+
       }
     })
 
@@ -384,7 +411,7 @@ export class CamComponent implements OnInit {
     };
     this.camService.getCamUsedCarDetails(data).subscribe((res: any) => {
       if (res && res.ProcessVariables.error.code == '0') {
-        // this.showCamHtml == true
+        this.showCamHtml == true
         this.camDetails = res.ProcessVariables
         this.applicantDetails = res.ProcessVariables['applicantDetails'];
         this.bankingDetails = res.ProcessVariables['bankingDetails'];
@@ -401,10 +428,11 @@ export class CamComponent implements OnInit {
         this.manualDeviation = res.ProcessVariables['manualDeviation']
         this.vehicleDetails = res.ProcessVariables['vehicleDetails']
         this.recommendation = res.ProcessVariables['recommendation']
-
+        setTimeout(() => {
         if (isUpload === 'isUpload') {
           this.uploadPdf()
         }
+      });
 
       } else if (res && res.ProcessVariables.error.code == '1') {
         this.showCamHtml == false
@@ -412,6 +440,8 @@ export class CamComponent implements OnInit {
         const message = res.ProcessVariables.mandatoryFields;
         this.errorMessage = message;
         this.isCamDetails = true
+        this.showSave = false
+
 
       }
     })
@@ -449,9 +479,7 @@ export class CamComponent implements OnInit {
         this.vehicleDeploymentDetails = res.ProcessVariables['vehicleDeploymentDetails']
         this.recommendation = res.ProcessVariables['recommendation']
 
-        if (isUpload === 'isUpload') {
-          this.uploadPdf()
-        }
+        
 
         this.camDetailsForm.patchValue({
           commentsOnBankingIfAny: this.camDetails.commentsOnBankingIfAny ? this.camDetails.commentsOnBankingIfAny : null,
@@ -459,12 +487,17 @@ export class CamComponent implements OnInit {
         this.camDetailsForm.patchValue({
           commentsOnRtr: this.camDetails.commentsOnRtr ? this.camDetails.commentsOnRtr : null,
         })
+        setTimeout(() => {
+        if (isUpload === 'isUpload') {
+          this.uploadPdf()
+        }});
       } else if (res && res.ProcessVariables.error.code == '1') {
         this.showCamHtml == false
         this.errorGenerated = true;
         const message = res.ProcessVariables.mandatoryFields;
         this.errorMessage = message;
         this.isCamDetails = true
+        this.showSave = false
 
       }
     })
@@ -611,7 +644,7 @@ export class CamComponent implements OnInit {
           docsType: "png/jpg/jpeg/pdf/tiff/xlsx/xls/docx/doc/zip",
           docsTypeForString: "",
           documentId: this.isDocumentId ? this.docsDetails.documentId : 0,
-          documentNumber: `SD${this.leadId}`,
+          documentNumber: `CAM${this.leadId}`,
           expiryDate: "",
           formArrayIndex: 0,
           isDeferred: "0",

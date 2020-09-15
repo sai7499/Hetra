@@ -4,7 +4,7 @@
     type="button">{{labels?.generateCam}}</button>
 </div>
 
- <div id="{{pdfId}}" class="container overflow-hidden" *ngIf="usedCarCam && !isCamDetails  && showCamHtml == true">
+ <div [id]="pdfId" class="container overflow-hidden" *ngIf="usedCarCam && !isCamDetails  && showCamHtml == true">
 
         <!---sourcing table starts here-->
         <table class="cam_table mt-3">
@@ -563,7 +563,7 @@
     </div>
 <form class="multisteps-form__form" >
 
-    <div id="{{pdfId}}" class="container overflow-hidden" [formGroup]="camDetailsForm" *ngIf="usedCvCam && !isCamDetails  && showCamHtml == true">
+    <div [id]="pdfId" class="container overflow-hidden" [formGroup]="camDetailsForm" *ngIf="usedCvCam && !isCamDetails  && showCamHtml == true">
     <!--basic table starts here-->
 
     <table class="cam_table">
@@ -730,11 +730,17 @@
                 <td colspan="2" class="bank_name">{{ labels?.anyOtherRemarks }}</td>
                 <td colspan="8"><textarea class="form-control form-control-sm" placeholder="Text Area"
                         formControlName="proposedVehicleRemarks"></textarea>
-                    <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').invalid && (camDetailsForm.get('proposedVehicleRemarks').dirty || camDetailsForm.get('proposedVehicleRemarks').touched)"
+                        <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').invalid && submitted == true"
                         class="invalid-feedback">
                         <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').errors.required">
-                            proposedVehicleRemarks is required.
+                           proposed vehicle Remarks is required
                         </div>
+                      </div>
+                    <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').invalid && (camDetailsForm.get('proposedVehicleRemarks').dirty || camDetailsForm.get('proposedVehicleRemarks').touched)"
+                        class="invalid-feedback">
+                        <!-- <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').errors.required">
+                            proposedVehicleRemarks is required.
+                        </div> -->
                         <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').errors.maxlength">
                             proposedVehicleRemarks cannot be more than 200 characters long.
                         </div>
@@ -816,6 +822,12 @@
                 <td colspan="1" class="bank_name">{{ labels?.anyOtherRemarks }}</td>
                 <td colspan="7" class=""><textarea class="form-control form-control-sm" placeholder="Text Area"
                         formControlName="cibilSynopsisRemarks"></textarea>
+                        <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').invalid && submitted == true"
+                        class="invalid-feedback">
+                        <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.required">
+                           cibile synopsis Remarks is required
+                        </div>
+                      </div>
                     <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').invalid && (camDetailsForm.get('cibilSynopsisRemarks').dirty || camDetailsForm.get('cibilSynopsisRemarks').touched)"
                         class="invalid-feedback">
                         <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.required">
@@ -939,6 +951,12 @@
                 <td class="bank_name">{{ labels?.anyOtherRemarks }}</td>
                 <td colspan="9"><textarea class="form-control form-control-sm" placeholder="Text Area"
                         formControlName="fleetRemarks"></textarea>
+                        <div *ngIf="camDetailsForm.get('fleetRemarks').invalid && submitted == true"
+                        class="invalid-feedback">
+                        <div *ngIf="camDetailsForm.get('fleetRemarks').errors.required">
+                           Fleet Remarks is required
+                        </div>
+                      </div>
                     <div *ngIf="camDetailsForm.get('fleetRemarks').invalid && (camDetailsForm.get('fleetRemarks').dirty || camDetailsForm.get('fleetRemarks').touched)"
                         class="invalid-feedback">
                         <div *ngIf="camDetailsForm.get('fleetRemarks').errors.required">
@@ -1051,6 +1069,12 @@
                 </td>
                 <td colspan="11"><textarea class="form-control form-control-sm" placeholder="Text Area"
                         formControlName="trackValidationRemarks"></textarea>
+                        <div *ngIf="camDetailsForm.get('trackValidationRemarks').invalid && submitted == true"
+                        class="invalid-feedback">
+                        <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.required">
+                           Track validation Remarks is required
+                        </div>
+                      </div>
                     <div *ngIf="camDetailsForm.get('trackValidationRemarks').invalid && (camDetailsForm.get('trackValidationRemarks').dirty || camDetailsForm.get('trackValidationRemarks').touched)"
                         class="invalid-feedback">
                         <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.required">
@@ -1211,6 +1235,12 @@
             <tr>
                 <td rowspan="6"><textarea class="form-control form-control-sm textKey" placeholder="Text Area"
                     formControlName="concernsAndRisks"></textarea>
+                    <div *ngIf="camDetailsForm.get('concernsAndRisks').invalid && submitted == true"
+                    class="invalid-feedback">
+                    <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.required">
+                       Concern and risks  Remarks is required
+                    </div>
+                  </div>
                 <div *ngIf="camDetailsForm.get('concernsAndRisks').invalid && (camDetailsForm.get('concernsAndRisks').dirty || camDetailsForm.get('concernsAndRisks').touched)"
                     class="invalid-feedback">
                     <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.required">
@@ -1227,6 +1257,12 @@
             </td>
                 <td rowspan="6"><textarea class="form-control form-control-sm textKey" placeholder="Text Area"
                         formControlName="strengthAndMitigates"></textarea>
+                        <div *ngIf="camDetailsForm.get('strengthAndMitigates').invalid && submitted == true"
+                        class="invalid-feedback">
+                        <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.required">
+                            Strength And Mitigates  Remarks is required
+                        </div>
+                      </div>
                     <div *ngIf="camDetailsForm.get('strengthAndMitigates').invalid && (camDetailsForm.get('strengthAndMitigates').dirty || camDetailsForm.get('strengthAndMitigates').touched)"
                         class="invalid-feedback">
                         <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.required">
@@ -1268,6 +1304,12 @@
                 <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.turnOver}}</td>
                 <td rowspan="6"><textarea class="form-control form-control-sm textKey" placeholder="Text Area"
                         formControlName="keyFinancialRemarks"></textarea>
+                        <div *ngIf="camDetailsForm.get('keyFinancialRemarks').invalid && submitted == true"
+                        class="invalid-feedback">
+                        <div *ngIf="camDetailsForm.get('keyFinancialRemarks').errors.required">
+                            Key Financial Remarks is required
+                        </div>
+                      </div>
                     <div *ngIf="camDetailsForm.get('keyFinancialRemarks').invalid && (camDetailsForm.get('keyFinancialRemarks').dirty || camDetailsForm.get('keyFinancialRemarks').touched)"
                         class="invalid-feedback">
                         <div *ngIf="camDetailsForm.get('keyFinancialRemarks').errors.required">
@@ -1334,12 +1376,12 @@
         <caption class="caption">
             {{ recommendation?.roleName }}  {{labels?.recommendation}}
         </caption>
-        <caption class="caption">
+        <!-- <caption class="caption">
             {{ recommendation?.recommendation }}
-        </caption>
+        </caption> -->
         <tbody>
             <tr>
-                <td colspan="6" height="80"></td>
+                <td colspan="6" height="80">{{ recommendation?.recommendation }}</td>
             </tr>
             <tr>
                 <td width="100" class="bank_name">{{ labels?.name }}</td>
@@ -1413,7 +1455,7 @@
     </table> -->
 </div>
 
-<div  id="{{pdfId}}"class="container overflow-hidden" [formGroup]="camDetailsForm" *ngIf="newCvCam && !isCamDetails && showCamHtml == true">
+<div  [id]="pdfId"class="container overflow-hidden" [formGroup]="camDetailsForm" *ngIf="newCvCam && !isCamDetails && showCamHtml == true">
 
     <!---sourcing table starts here-->
     <table class="cam_table mt-3">
@@ -1523,15 +1565,15 @@
     <!--sourcing table ends here--->
 
     <!--applicantDetails-->
-    <table class="cam_table_proposed mt-3">
+    <table class="cam_table_proposed mt-3 terms">
         <!-- <caption class="caption">
             {{
     labels?.applicantDetailsTitle
   }}
         </caption> -->
         <thead>
-            <tr>
-                <th class="bank_name">{{ labels?.terms }}</th>
+            <tr class="termHead">
+                <th class="bank_name termHead">{{ labels?.terms }}</th>
                 <th *ngFor="let applicantDetails of applicantDetails">{{applicantDetails?.applicantType}}</th>
             </tr>
         </thead>
@@ -1816,6 +1858,12 @@
                 <td class="bank_name">{{ labels?.commentsOnRtrIfAny }}</td>
                 <td colspan="9"><textarea class="form-control form-control-sm" placeholder="Text Area"
                     formControlName="commentsOnRtr"></textarea>
+                    <div *ngIf="camDetailsForm.get('commentsOnRtr').invalid && submitted == true"
+                    class="invalid-feedback">
+                    <div *ngIf="camDetailsForm.get('commentsOnRtr').errors.required">
+                        Comments On Rtr is required
+                    </div>
+                  </div>
                 <div *ngIf="camDetailsForm.get('commentsOnRtr').invalid && (camDetailsForm.get('commentsOnRtr').dirty || camDetailsForm.get('commentsOnRtr').touched)"
                 class="invalid-feedback">
                 <div *ngIf="camDetailsForm.get('commentsOnRtr').errors.required">
@@ -1974,6 +2022,12 @@
             <td colspan="2" class="bank_name">{{ labels?.commentsOnBankingIfAny }}</td>
             <td colspan="10"><textarea class="form-control form-control-sm" placeholder="Text Area"
                 formControlName="commentsOnBankingIfAny"></textarea>
+                <div *ngIf="camDetailsForm.get('commentsOnBankingIfAny').invalid && submitted == true"
+                class="invalid-feedback">
+                <div *ngIf="camDetailsForm.get('commentsOnBankingIfAny').errors.required">
+                    Comments On Banking is required
+                </div>
+              </div>
             <div *ngIf="camDetailsForm.get('commentsOnBankingIfAny').invalid && (camDetailsForm.get('commentsOnBankingIfAny').dirty || camDetailsForm.get('commentsOnBankingIfAny').touched)"
                 class="invalid-feedback">
                 <div *ngIf="camDetailsForm.get('commentsOnBankingIfAny').errors.required">
@@ -2327,7 +2381,7 @@
             <tr>
                 <td colspan="6" height="80"></td>
             </tr>
-            <tr>
+            <tr >
                 <td width="100" class="bank_name">{{ labels?.nameWithECode }}</td>
                 <td width="500">{{ coRecommendationTvrDetails?.nameWithEcode }}</td>
                 <td width="100" class="bank_name">{{ labels?.date }}</td>
@@ -2343,12 +2397,12 @@
         <caption class="caption">
             {{ recommendation?.roleName }}  {{labels?.recommendation}}
         </caption>
-        <caption class="caption">
-            {{ recommendation?.recommendation }}
-        </caption>
+        <!-- <caption class="caption">
+            
+        </caption> -->
         <tbody>
             <tr>
-                <td colspan="6" height="80"></td>
+                <td colspan="6" height="80">{{ recommendation?.recommendation }}</td>
             </tr>
             <tr>
                 <td width="100" class="bank_name">{{ labels?.nameWithECode }}</td>
@@ -2408,7 +2462,9 @@
         <button  (click)="onBack()" class="btn btn-primary dash_href" type="button" >
             {{ labels?.back }}
         </button>
-        <button *ngIf="usedCvCam || newCvCam && showSave == true" class="btn btn-primary mar-right8" type="button" (click)=onSubmit();
+        <button *ngIf="(usedCvCam || newCvCam) && showSave == true" 
+            class="btn btn-primary mar-right8" 
+            type="button" (click)=onSubmit();
             [disabled]="disableSaveBtn">
             Save
         </button>

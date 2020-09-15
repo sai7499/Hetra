@@ -11,6 +11,7 @@ import { CpcMakerDdeComponent } from './cpc-maker-dde/cpc-maker-dde.component';
 import { PdcDetailsComponent } from './pdc-details/pdc-details.component';
 import { NegotiationComponent } from '@modules/negotiation/negotiation.component';
 import { DisbursementFormComponent } from '@modules/disbursement-section/disbursement-form/disbursement-form.component';
+import { WelomceLetterComponent } from './welomce-letter/welomce-letter.component';
 
 const routes: Routes = [
   {
@@ -53,6 +54,10 @@ const routes: Routes = [
         {
             path: 'disbursement',
             component: DisbursementFormComponent
+        },
+		{
+            path: 'welomce-letter',
+            component: WelomceLetterComponent
         }
     ]
 }

@@ -78,8 +78,10 @@ export class BasicDetailsComponent implements OnInit {
     key: string,
     value: string
   }[]
-  
 
+  externalExpiryDate : any;
+  externalIssueDate : any;
+  
   constructor(
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,

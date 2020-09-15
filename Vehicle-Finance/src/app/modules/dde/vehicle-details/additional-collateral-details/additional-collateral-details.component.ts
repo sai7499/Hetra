@@ -42,7 +42,6 @@ export class AdditionalCollateralComponent implements OnInit {
 
         this.collateralForm = this._fb.group({
             collateralType: ['AGRIADDCOLTYP', Validators.required],
-            propertyOwnership: [''],
             proofCollected: [''],
             proofName: [''],
             collateralFormArray: this._fb.array([])
@@ -91,6 +90,26 @@ export class AdditionalCollateralComponent implements OnInit {
 
             this.LOV.propertOwner = propertOwner;
             this.relationLov = this.LOV.relationship;
+
+            this.LOV.purity = [
+                {
+                    key: '0',
+                    value: '24'
+                },
+                {
+                    key: '1',
+                    value: '22'
+                },
+                {
+                    key: '3',
+                    value: '18'
+                },
+                {
+                    key: '4',
+                    value: '14'
+                }
+            ]
+
         })
     }
 
@@ -110,7 +129,7 @@ export class AdditionalCollateralComponent implements OnInit {
             propertyOwner: ['', Validators.required],
             relationWithApplicant: ['', Validators.required],
             marketValue: [null, Validators.required],
-            totalMarketValue: [null, Validators.required],
+            totalMarketValue: [null],
             guideLineValue: [null, Validators.required],
             totalGuideLineValue: [null]
         }))
@@ -135,7 +154,7 @@ export class AdditionalCollateralComponent implements OnInit {
             goldInGrams: [null, Validators.required],
             currentValuePerGram: [null, Validators.required],
             totalMarketValue: [null],
-            purity: [null, Validators.required],
+            purity: ['', Validators.required],
             propertyOwner: ['', Validators.required],
             relationWithApplicant: ['', Validators.required]
         }))
@@ -152,14 +171,18 @@ export class AdditionalCollateralComponent implements OnInit {
             totalLandArea: [null, Validators.required],
             totalBuiltUpArea: [null, Validators.required],
             marketValue: [null, Validators.required],
-            totalMarketValue: [null, Validators.required],
+            totalMarketValue: [null],
             guideLineValue: [null, Validators.required],
             totalGuideLineValue: [null],
         }))
     }
 
+    // Validators.pattern('/[^a-zA-Z0-9/,]/g')
+
     onFindRelationship(value) {
         let typeOfApplicant = this.applicantDetails.find((res => res.applicantId === Number(value)))
+
+        console.log(typeOfApplicant, this.applicantDetails)
 
         let lovOfSelf = [{
             key: "5RELATION",
@@ -167,6 +190,8 @@ export class AdditionalCollateralComponent implements OnInit {
         }]
 
         let lovOfRelationship = this.relationLov.filter((data) => data.key !== "5RELATION")
+        console.log(typeOfApplicant, lovOfRelationship)
+
         this.LOV.relationship = typeOfApplicant['applicantType'] === "Applicant" ? lovOfSelf : lovOfRelationship;
     }
 
@@ -203,7 +228,7 @@ export class AdditionalCollateralComponent implements OnInit {
                         propertyAddress: collateralDetail.propertyAddress || '',
                         propertyOwner: collateralDetail.propertyOwner || '',
                         propertyType: collateralDetail.propertyType || '',
-                        purity: collateralDetail.purity || null,
+                        purity: collateralDetail.purity || '',
                         relationWithApplicant: collateralDetail.relationWithApplicant || '',
                         surveyNumber: collateralDetail.surveyNumber || null,
                         totalBuiltUpArea: collateralDetail.totalBuiltUpArea || null,
@@ -228,13 +253,21 @@ export class AdditionalCollateralComponent implements OnInit {
             additionalCollaterals['collateralType'] = form.value.collateralType;
             additionalCollaterals['proofName'] = form.value.proofName;
             additionalCollaterals['proofCollected'] = form.value.proofCollected;
-            additionalCollaterals['propertyOwnership'] = form.value.propertyOwnership;
 
             if (this.collateralType === 'GOLDADDCOLTYP') {
+
                 additionalCollaterals['totalMarketValue'] = additionalCollaterals['currentValuePerGram'] * additionalCollaterals['goldInGrams']
-            } else if (this.collateralType === 'AGRIADDCOLTYP' || this.collateralType === 'PROPADDCOLTYP') {
-                additionalCollaterals['totalGuideLineValue'] = additionalCollaterals['totalMarketValue'] * additionalCollaterals['guideLineValue']
-            } 
+
+            } else if (this.collateralType === 'AGRIADDCOLTYP') {
+
+                additionalCollaterals['totalMarketValue'] = additionalCollaterals['marketValue'] * additionalCollaterals['landInAcres'];
+                additionalCollaterals['totalGuideLineValue'] = additionalCollaterals['guideLineValue'] * additionalCollaterals['landInAcres']
+
+            } else if (this.collateralType === 'PROPADDCOLTYP') {
+                
+                additionalCollaterals['totalMarketValue'] = additionalCollaterals['marketValue'] * additionalCollaterals['totalLandArea'];
+                additionalCollaterals['totalGuideLineValue'] = additionalCollaterals['guideLineValue'] * additionalCollaterals['totalLandArea']
+            }
 
             console.log(additionalCollaterals, 'co')
 
@@ -250,13 +283,14 @@ export class AdditionalCollateralComponent implements OnInit {
                     this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Additional Collateral Detail');
                     this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
                 } else {
-                    this.toasterService.showError(apiError, 'Additional Collateral Detail')
+                    this.toasterService.showError(apiError, 'Additional CollateralAdditional Collateral Detail')
                 }
             })
 
         } else {
             this.isDirty = true;
             this.utilityService.validateAllFormFields(form)
+            this.toasterService.showError('Please enter all mandatory field', 'Additional Collateral Detail')
         }
     }
 }

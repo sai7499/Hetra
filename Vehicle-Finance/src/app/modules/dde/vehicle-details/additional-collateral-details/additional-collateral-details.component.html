@@ -15,7 +15,8 @@
                     </app-vf-custom-select>
 
                 </div>
-            </div>
+            
+            <!-- </div>
 
             <div class="row">
 
@@ -26,7 +27,7 @@
                         formControlName="propertyOwnership">
                     </app-vf-custom-select>
 
-                </div>
+                </div> -->
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="proof_collected">
                     <label for="proof_collected"> {{ label?.proofCollected }} </label>
@@ -62,9 +63,9 @@
                                 <label for="survey_number">{{label.surveyNumber}}</label>
 
                                 <app-custom-input formControlName="surveyNumber"
-                                    [type]="label.validationData?.disburseAmountType.type" [id]="'survey_number'"
+                                    [type]="label.validationData?.pattaNo.type" [id]="'survey_number'"
                                     [className]="'form-control mandatory'" [placeholder]="'Survey No. / Patta No.'"
-                                    [maxLength]="label.validationData?.disburseAmountType.maxLength"
+                                    [maxLength]="label.validationData?.pattaNo.maxLength"
                                     [isRequired]="'Survey No. / Patta No. Required'" [isDirty]="isDirty">
                                 </app-custom-input>
 
@@ -74,7 +75,7 @@
                                 <label for="land_in_acres">{{label.landInAcres}}</label>
 
                                 <app-custom-input formControlName="landInAcres"
-                                    [type]="label.validationData?.amountValue.type" [id]="'land_in_acres'"
+                                    [type]="label.validationData?.landArea.type" [id]="'land_in_acres'"
                                     [className]="'form-control mandatory'" [placeholder]="'Land in Acres'"
                                     [maxLength]="label.validationData?.amountValue.maxLength"
                                     [isRequired]="'Land in Acres Required'" [isDirty]="isDirty">
@@ -124,8 +125,8 @@
                                 <app-custom-input formControlName="totalMarketValue"
                                     [type]="label.validationData?.amountValue.type" [id]="'total_land'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Land Market Value'"
-                                    [maxLength]="label.validationData?.amountValue.maxLength"
-                                    [isRequired]="'Total Land Market Value Required'" [isDirty]="isDirty">
+                                    [value]="obj.controls['marketValue'].value * obj.controls['landInAcres'].value"
+                                    [isDisabled]="true">
                                 </app-custom-input>
 
                             </div>
@@ -153,7 +154,7 @@
                                     [type]="label.validationData?.amountValue.type" [id]="'total_guide_line_value'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Land Guideline Value'"
                                     [maxLength]="label.validationData?.amountValue.maxLength"
-                                    [value]="obj.controls['totalMarketValue'].value * obj.controls['guideLineValue'].value"
+                                    [value]="obj.controls['landInAcres'].value * obj.controls['guideLineValue'].value"
                                     [isDisabled]="true">
                                 </app-custom-input>
 
@@ -227,10 +228,10 @@
                                 <label for="gold_in_gms">{{label.goldInGMS}}</label>
 
                                 <app-custom-input formControlName="goldInGrams"
-                                    [type]="label.validationData?.amountValue.type" [id]="'gold_in_gms'"
-                                    [className]="'form-control mandatory'"
+                                    [type]="label.validationData?.goldInGrams.type" [id]="'gold_in_gms'"
+                                    [className]="'form-control mandatory'" [step]="4"
                                     [placeholder]="'Gold in gms (net weight - excluding stones)'"
-                                    [maxLength]="label.validationData?.amountValue.maxLength"
+                                    [maxLength]="label.validationData?.goldInGrams.maxLength"
                                     [isRequired]="'Gold in gms (net weight - excluding stones) Required'"
                                     [isDirty]="isDirty">
                                 </app-custom-input>
@@ -241,9 +242,9 @@
                                 <label for="value_as_today">{{label.valueasToday}}</label>
 
                                 <app-custom-input formControlName="currentValuePerGram"
-                                    [type]="label.validationData?.amountValue.type" [id]="'value_as_today'"
+                                    [type]="label.validationData?.goldInGrams.type" [id]="'value_as_today'"
                                     [className]="'form-control mandatory'" [placeholder]="'Value as of today per gram'"
-                                    [maxLength]="label.validationData?.amountValue.maxLength"
+                                    [maxLength]="label.validationData?.amountValue.maxLength" [step]="4"
                                     [isRequired]="'Value as of today per gram Required'" [isDirty]="isDirty">
                                 </app-custom-input>
 
@@ -258,8 +259,6 @@
                                     [value]="obj.controls['currentValuePerGram'].value * obj.controls['goldInGrams'].value"
                                     [maxLength]="label.validationData?.amountValue.maxLength" [isDisabled]="true">
                                 </app-custom-input>
-
-                                <!-- [isRequired]="'Total Value Required'" [isDirty]="isDirty" -->
 
                             </div>
 
@@ -290,12 +289,9 @@
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="purity">{{label.purity}}</label>
 
-                                <app-custom-input formControlName="purity"
-                                    [type]="label.validationData?.amountValue.type" [id]="'purity'"
-                                    [className]="'form-control mandatory'" [placeholder]="'Purity'"
-                                    [maxLength]="label.validationData?.amountValue.maxLength"
+                                <app-vf-custom-select [values]="LOV?.purity" [id]="'purity'" formControlName="purity"
                                     [isRequired]="'Purity Required'" [isDirty]="isDirty">
-                                </app-custom-input>
+                                </app-vf-custom-select>
 
                             </div>
                         </div>
@@ -317,19 +313,6 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="property_address">{{label.propertyAddress}}</label>
-
-                                <app-custom-input formControlName="propertyAddress"
-                                    [type]="label.validationData?.address.type" [id]="'property_address'"
-                                    [className]="'form-control mandatory'" [placeholder]="'Property Address'"
-                                    [maxLength]="label.validationData?.address.maxLength"
-                                    [isRequired]="'Property Address Required'" [isDirty]="isDirty">
-                                </app-custom-input>
-
-
-                            </div>
-
-                            <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="property_owner">{{label.propertyOwner}}</label>
                                 <app-vf-custom-select [values]="LOV?.propertOwner" [id]="'collateral_type'"
                                     formControlName="propertyOwner" [isRequired]="'Property owner Required'"
@@ -337,9 +320,6 @@
                                 </app-vf-custom-select>
 
                             </div>
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="relation_applicant">{{label.relatedWithApplicant}}</label>
@@ -350,6 +330,10 @@
                                 </app-vf-custom-select>
 
                             </div>
+
+                        </div>
+
+                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="total_land_area">{{label?.totalLandArea}}</label>
@@ -375,10 +359,6 @@
 
                             </div>
 
-                        </div>
-
-                        <div class="row">
-
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="market_value_sf">{{label?.marketValueSF}}</label>
 
@@ -391,14 +371,18 @@
 
                             </div>
 
+                        </div>
+
+                        <div class="row">
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="total_market_value">{{label?.totalMarketValue}}</label>
 
                                 <app-custom-input formControlName="totalMarketValue"
                                     [type]="label.validationData?.amountValue.type" [id]="'total_market_value'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Market Value'"
-                                    [maxLength]="label.validationData?.amountValue.maxLength"
-                                    [isRequired]="'Total Market Value Required'" [isDirty]="isDirty">
+                                    [value]="obj.controls['marketValue'].value * obj.controls['totalLandArea'].value "
+                                    [isDisabled]="true">
                                 </app-custom-input>
 
                             </div>
@@ -415,20 +399,35 @@
 
                             </div>
 
-                        </div>
-
-                        <div class="row">
-
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="total_guide_line">{{label?.totalGuideline}}</label>
 
                                 <app-custom-input formControlName="totalGuideLineValue"
                                     [type]="label.validationData?.amountValue.type" [id]="'total_guide_line'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Guideline Value'"
-                                    [value]="obj.controls['totalMarketValue'].value * obj.controls['guideLineValue'].value "
+                                    [value]="obj.controls['totalLandArea'].value * obj.controls['guideLineValue'].value "
                                     [maxLength]="label.validationData?.amountValue.maxLength" [isDisabled]="true">
                                 </app-custom-input>
 
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                                <label for="property_address">{{label.propertyAddress}}</label>
+
+                                <textarea class="form-control mandatory" name="property_address" id="property_address"
+                                    cols="1" rows="3" placeholder="Property Address" formControlName="propertyAddress"
+                                    maxlength="500" style="resize: none;" ></textarea>
+
+                                <div class="invalid-feedback"
+                                    *ngIf="obj.controls['propertyAddress'].touched && !obj.controls['propertyAddress'].valid">
+                                    <div *ngIf="obj.controls['propertyAddress'].hasError('required')">
+                                        Property Address Required
+                                    </div>
+                                </div>
                             </div>
 
                         </div>

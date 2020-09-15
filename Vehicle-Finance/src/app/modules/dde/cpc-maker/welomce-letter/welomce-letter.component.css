@@ -1,0 +1,133 @@
+body{
+font-family:arial, sans-serif;
+text-align:justify;
+font-size:12px;
+line-height:2em;
+padding:15px;
+margin:20px;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  font-size:12px!important;
+}
+
+td, th {
+  
+  text-align: left;
+  padding: 2px;
+}
+
+.text-center
+{
+text-align:center;
+}
+
+.font-small{
+font-size:10px;
+}
+
+.style-strong{
+font-weight:bold;
+}
+
+.author_style{
+font-weight:bold;
+padding-top:30px;
+padding-bottom:30px;
+
+}
+
+#sold_tab tr
+{
+line-height:2em;
+
+}
+
+
+@media print {
+	body{
+font-family:arial, sans-serif;
+text-align:justify;
+font-size:12px;
+line-height:2em;
+padding:15px;
+margin:20px;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  font-size:12px!important;
+}
+
+td, th {
+  
+  text-align: left;
+  padding: 2px;
+}
+
+.text-center
+{
+text-align:center;
+}
+
+.font-small{
+font-size:10px;
+}
+
+.style-strong{
+font-weight:bold;
+}
+
+.author_style{
+font-weight:bold;
+padding-top:30px;
+padding-bottom:30px;
+
+}
+
+.author_wid{
+padding-top:30px;
+padding-bottom:30px;
+
+}
+
+#sold_tab tr
+{
+line-height:2em;
+
+}
+}
+
+.tab_wid{
+width:40%;
+line-height:5em;
+}
+
+.text-right{
+text-align:right;
+}
+
+.table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+    border: 1px solid #ddd;
+}
+
+.vech_tab 
+{
+width:25%;
+}
+
+.margtin_buttom{
+  margin-bottom: 20px;
+}
+.margin-add{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.top-border{
+border-top: 1px solid #ddd;
+}

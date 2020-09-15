@@ -54,7 +54,7 @@ export class FiResidenceComponent implements OnInit {
   resedenceType: string;
   rentRequired: boolean;
   invalidPincode = false;
-
+  
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,

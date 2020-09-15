@@ -104,7 +104,7 @@ export class DeviationsComponent implements OnInit, OnDestroy {
 
     } else {
       this.isDirty = true;
-      console.log('error', this.formValue)
+      this.toasterService.showError('Please enter all mandatory field', 'Deviation Save/Update')
       this.utilityService.validateAllFormFields(this.formValue)
     }
   }
