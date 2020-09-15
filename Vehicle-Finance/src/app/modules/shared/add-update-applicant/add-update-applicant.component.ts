@@ -384,10 +384,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.toasterService.showError('There should be only one main applicant for this lead', '')
           this.showNotApplicant = true;
         }
-        //  else if (data.applicantTypeKey !== "APPAPPRELLEAD") {
-        //   this.toasterService.showInfo('Should One Applicant Is Required', '')
-        // } 
+       
       }
+      // else if (this.applicantData.length==1){
+      //      if (value !== "APPAPPRELLEAD") {
+      //     this.toasterService.showError('There should be one applicant for this lead','')
+      //   } 
+      // }
     });
     
   }
@@ -530,38 +533,31 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   onDrvingLisenseChange(formCtrl) {
 
-    console.log(
-      this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').value
-    );
+    // console.log(
+    //   this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').value
+    // );
     if (
       this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').status ===
       'VALID' && this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').value !== ''
     ) {
       this.disabledDrivingDates = false;
-      this.coApplicantForm
-        .get('dedupe')
-        .get('drivingLicenseIssueDate')
-        .setValidators([Validators.required]);
-      this.coApplicantForm
-        .get('dedupe')
-        .get('drivingLicenseExpiryDate')
-        .setValidators([Validators.required]);
+      this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').setValidators([Validators.required]);
+      this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').updateValueAndValidity();
 
-      this.coApplicantForm.get('dedupe').updateValueAndValidity();
+      this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').setValidators([Validators.required]);
+      this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').updateValueAndValidity();
+      //this.coApplicantForm.get('dedupe').updateValueAndValidity();
       this.mandatory['drivingLicenseIssueDate'] = true;
       this.mandatory['drivingLicenseExpiryDate'] = true;
     } else {
       //this.disabledDrivingDates = true;
 
-      this.coApplicantForm
-        .get('dedupe')
-        .get('drivingLicenseIssueDate')
-        .clearValidators();
-      this.coApplicantForm
-        .get('dedupe')
-        .get('drivingLicenseExpiryDate')
-        .clearValidators();
-      this.coApplicantForm.get('dedupe').updateValueAndValidity();
+      this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').clearValidators();
+      this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').updateValueAndValidity();
+
+      this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').clearValidators();
+      this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').updateValueAndValidity();
+      //this.coApplicantForm.get('dedupe').updateValueAndValidity();
 
       this.mandatory['drivingLicenseIssueDate'] = false;
       this.mandatory['drivingLicenseExpiryDate'] = false;
@@ -577,39 +573,37 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   onPassportNumberChange($formCtrl) {
+    
     if (
       this.coApplicantForm.get('dedupe').get('passportNumber').status ===
-      'VALID' && this.coApplicantForm.get('dedupe').get('passportNumber').value !== ''
+      'VALID' && this.coApplicantForm.get('dedupe').get('passportNumber').value !== '' &&
+      this.coApplicantForm.get('dedupe').get('passportNumber').value !== null
     ) {
       this.disabledPassportDates = false;
-      this.coApplicantForm
-        .get('dedupe')
-        .get('passportIssueDate')
-        .setValidators([Validators.required]);
-      this.coApplicantForm
-        .get('dedupe')
-        .get('passportExpiryDate')
-        .setValidators([Validators.required]);
-      this.coApplicantForm.get('dedupe').updateValueAndValidity();
-      console.log('todate', this.toDayDate)
+      this.coApplicantForm.get('dedupe').get('passportIssueDate').setValidators([Validators.required]);
+      this.coApplicantForm.get('dedupe').get('passportIssueDate').updateValueAndValidity();
+
+      this.coApplicantForm.get('dedupe').get('passportExpiryDate').setValidators([Validators.required]);
+      this.coApplicantForm.get('dedupe').get('passportExpiryDate').updateValueAndValidity();
+      //this.coApplicantForm.get('dedupe').updateValueAndValidity();
+
       this.passportMandatory['passportIssueDate'] = true;
       this.passportMandatory['passportExpiryDate'] = true;
     } else {
 
-      if (this.coApplicantForm.get('dedupe').get('passportNumber').value == '') {
+      if (this.coApplicantForm.get('dedupe').get('passportNumber').value == '' 
+      ) {
         this.disabledPassportDates = true;
         this.coApplicantForm.get('dedupe').get('passportIssueDate').setValue(null);
         this.coApplicantForm.get('dedupe').get('passportExpiryDate').setValue(null);
       }
-      this.coApplicantForm
-        .get('dedupe')
-        .get('passportIssueDate')
-        .clearValidators();
-      this.coApplicantForm
-        .get('dedupe')
-        .get('passportExpiryDate')
-        .clearValidators();
-      this.coApplicantForm.get('dedupe').updateValueAndValidity();
+      this.coApplicantForm.get('dedupe').get('passportIssueDate').clearValidators();
+      this.coApplicantForm.get('dedupe').get('passportIssueDate').updateValueAndValidity();
+
+      this.coApplicantForm.get('dedupe').get('passportExpiryDate').clearValidators();
+      this.coApplicantForm.get('dedupe').get('passportExpiryDate').updateValueAndValidity();
+      //this.coApplicantForm.get('dedupe').updateValueAndValidity();
+     
       this.passportMandatory['passportIssueDate'] = false;
       this.passportMandatory['passportExpiryDate'] = false;
     }
@@ -2064,7 +2058,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.toasterService.showError('There should be only one main applicant for this lead', '');
         return;
       }
+      
       const applicantDetails = dedupe.value;
+      
       let companyPhoneNumber = applicantDetails.companyPhoneNumber;
       this.contactNumber = companyPhoneNumber;
       // if (this.mobileNumber.length == 10) {
@@ -2167,10 +2163,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.toasterService.showError('There should be only one main applicant for this lead', '');
         return;
       }
+      // this.toasterService.showSuccess('saved', '');
+      // return;
 
       //console.log('dedupe', dedupe);
 
       const applicantDetails = dedupe.value;
+      
       let mobileNumber = applicantDetails.mobilePhone;
       this.mobileNumber = mobileNumber;
       // if (this.mobileNumber.length == 10) {
