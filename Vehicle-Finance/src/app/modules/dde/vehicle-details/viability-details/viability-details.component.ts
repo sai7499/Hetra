@@ -310,10 +310,11 @@ export class ViabilityDetailsComponent implements OnInit {
 
   }
   submitViability() {
+    this.isDirty = true;
     if (this.viabilityForm.invalid) {
-      this.toasterService.showError('Details Not Saved', 'Please Save');
+      this.toasterService.showError('Details Not Saved', 'Please Save before submitting');
       return;
-    }
+    } else { this.onSave(); }
     const body = {
       leadId : this.leadId,
       collateralId: this.collataralId,
@@ -349,16 +350,17 @@ vehicle_viability_navigate(event) {
       this.passengerViability();
       this.removeStandOverValidators();
       this.removeCaptiveValidators();
-
+      
     } else if (this.vehicle_viability_value === '2VHCLVBTY') {
       this.StandOverViability();
       this.removePassengerValidators();
       this.removeCaptiveValidators();
+      
     } else if (this.vehicle_viability_value === '3VHCLVBTY') {
       this.captiveViability();
       this.removePassengerValidators();
       this.removeStandOverValidators();
-
+     
     }
   }
   private  passengerViability() {
@@ -510,9 +512,11 @@ getViability() {
 
   }
 onSave() {
+    this.isDirty = true;
     this.vehicle_viability_navigate(this.viabilityForm.value.type);
     if (this.viabilityForm.invalid) {
-      console.log(this.viabilityForm.value);
+      console.log(this.viabilityForm);
+      this.toasterService.showError('Mandatory fields missing', '');
       return;
     }
     if (this.viabilityForm.value.type === '1VHCLVBTY') {
@@ -916,7 +920,7 @@ calculateCaptive() {
   const miscellaneousExpenses = passengerStandGroup.value.busMiscellaneousExpenses ? Number(passengerStandGroup.value.busMiscellaneousExpenses) : 0;
   const oblicationsPerMonth = passengerStandGroup.value.oblicationsPerMonth ? Number(passengerStandGroup.value.oblicationsPerMonth) : 0;
   // tslint:disable-next-line: max-line-length
-  this.captiveExpense = (businessIncomePerDay * businessEarningPerDay) + avgTyreExpenses + insuranceExpenses + miscellaneousExpenses ;
+  this.captiveExpense = (businessIncomePerDay * businessEarningPerDay) + avgTyreExpenses + insuranceExpenses + miscellaneousExpenses + oblicationsPerMonth;
   passengerStandGroup.patchValue({
     totalExpenses : this.captiveExpense
   });

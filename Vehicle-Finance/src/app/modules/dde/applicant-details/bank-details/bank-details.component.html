@@ -11,7 +11,7 @@
                   [patternCheck]="namePattern"
                   [maxLength]="labels?.validationData?.name?.maxLength"
                     [type]="labels?.validationData?.name?.type"
-                  [isRequired]="'Account Holder Name is required'"
+                  [isRequired]="'Account Holdername is required '"
                   [isDirty]="isDirty"
                 ></app-custom-input>
              </div>
@@ -24,8 +24,7 @@
           <label for="account_number">{{labels?.accountBranchname}}</label>
          
           <app-custom-input
-              formControlName="accountBranch"
-              
+              formControlName="accountBranch"              
               [maxLength]="labels?.validationData?.accountNumber?.maxLength"
               [type]="labels?.validationData?.accountNumber?.type"
               [isRequired]="'Account Number is required'"
