@@ -79,8 +79,7 @@ export class BasicDetailsComponent implements OnInit {
     value: string
   }[]
 
-  externalExpiryDate : any;
-  externalIssueDate : any;
+  
   
   constructor(
     private labelsData: LabelsService,
