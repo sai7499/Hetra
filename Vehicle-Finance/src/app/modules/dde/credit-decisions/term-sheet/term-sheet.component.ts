@@ -133,10 +133,13 @@ export class TermSheetComponent implements OnInit {
           this.uploadDoc();
         }
       });
-      } else {
+      } else if(res['ProcessVariables'].error['code'] == "1") {
         this.isTermSheet = res['ProcessVariables'].isGenerated;
         this.toasterService.showError(res['ProcessVariables'].error['message'], '');
-
+       
+      }else if(res['Error'] == "1"){
+        this.isTermSheet = res['ProcessVariables'].isGenerated;
+        this.toasterService.showError(res['ErrorMessage'], '');
       }
     });
   }
@@ -156,8 +159,11 @@ export class TermSheetComponent implements OnInit {
 
       } else if (this.roleType == '2' && !this.isApprove) {
         this.toasterService.showSuccess(res['ProcessVariables'].error['message'], '');
-      } else {
-        this.toasterService.showSuccess(res['ProcessVariables'].error['message'], '');
+      } else if(res['ProcessVariables'].error['code'] == "1") {
+        this.toasterService.showError(res['ProcessVariables'].error['message'], '');
+       
+      }else if(res['Error'] == "1"){
+        this.toasterService.showError(res['ErrorMessage'], '');
       }
     })
   }
