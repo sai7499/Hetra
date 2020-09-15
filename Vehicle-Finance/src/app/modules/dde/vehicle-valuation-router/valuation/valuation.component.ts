@@ -76,6 +76,7 @@ export class ValuationComponent implements OnInit {
     this.getVehicleValuation();
     this.getLeadSectiondata();
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
+    // this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
       if (operationType === '1') {
@@ -194,7 +195,7 @@ export class ValuationComponent implements OnInit {
       chasisNumber: ["", Validators.required],
       engineNumber: ["", Validators.required],
       yearOfManufacturer: ["", Validators.required],
-      monthOfManufacturer: ["", Validators.required],
+      // monthOfManufacturer: ["", Validators.required],
       ageOfAsset: ["", Validators.required],
       sellerShortDesc: [""],
       secondAsset: [""],
@@ -248,8 +249,8 @@ export class ValuationComponent implements OnInit {
       registrationNo: this.vehicleValuationDetails.registrationNo || '',
       chasisNumber: this.vehicleValuationDetails.chasisNumber || '',
       engineNumber: this.vehicleValuationDetails.engineNumber || '',
-      yearOfManufacturer: this.vehicleValuationDetails.yearOfManufacturer || '',
-      monthOfManufacturer: this.vehicleValuationDetails.monthOfManufacturer || '',
+      yearOfManufacturer: this.vehicleValuationDetails.yearOfManufacturer ? this.utilityService.getDateFromString(this.vehicleValuationDetails.yearOfManufacturer) : '',
+      // monthOfManufacturer: this.vehicleValuationDetails.monthOfManufacturer || '',
       ageOfAsset: this.vehicleValuationDetails.ageOfAsset || '',
       sellerShortDesc: this.vehicleValuationDetails.sellerShortDesc || '',
       secondAsset: this.vehicleValuationDetails.secondAsset || '',
@@ -290,6 +291,7 @@ export class ValuationComponent implements OnInit {
       ...formValues,
       valuationDate: this.utilityService.convertDateTimeTOUTC(formValues.valuationDate, 'DD/MM/YYYY'),
       idvValidityDate: this.utilityService.convertDateTimeTOUTC(formValues.idvValidityDate, 'DD/MM/YYYY'),
+      yearOfManufacturer: this.utilityService.convertDateTimeTOUTC(formValues.yearOfManufacturer, 'MM/YYYY'),
       fcExpiryDate: this.utilityService.convertDateTimeTOUTC(formValues.fcExpiryDate, 'DD/MM/YYYY'),
       dateofReg: this.utilityService.convertDateTimeTOUTC(formValues.dateofReg, 'DD/MM/YYYY'),
     };
