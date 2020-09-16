@@ -21,6 +21,8 @@ export class ValuationComponent implements OnInit {
 
   leadId;
   colleteralId;
+  public minDate = new Date(new Date().setFullYear(new Date().getFullYear() - 15))
+  maxDate = new Date()
 
   LOV: any = [];
   labels: any = {};
