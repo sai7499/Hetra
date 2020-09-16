@@ -29,6 +29,7 @@
 
             <div class="row margtin_buttom">
                 <div class="col-md-4">
+                    <strong>{{labels?.To}}</strong><br>
                     <strong>{{labels?.Customer}}</strong>
                     <div>
                         <strong>{{applicantList?.name}}</strong><br>
@@ -235,9 +236,9 @@ Equitas Finance Private Limited<br />
                     <td class="vech_tab">{{vechicleList?.vehRegNo}}</td>
                 </tr>
                 <tr>
-                    <td class="vech_tab">{{labels?.EngineNo}}.</td>
+                    <td class="vech_tab">{{labels?.EngineNo}}</td>
                     <td class="vech_tab">{{vechicleList?.engineNo}}</td>
-                    <td class="vech_tab">{{labels?.ChassisNo}}.</td>
+                    <td class="vech_tab">{{labels?.ChassisNo}}</td>
                     <td class="vech_tab">{{vechicleList?.chassisNo}}</td>
                 </tr>
             </table>
@@ -463,7 +464,7 @@ Care Unit at Tollfree No.: 1800 3000 506, to help us serve you better.</li>
                 <tbody>
                     <tr>
                         <td class="text-center style-strong">
-                            {{labels?.InstalmentNo}}.
+                            {{labels?.InstalmentNo}}
                         </td>
                         <td class="text-center style-strong">
                             {{labels?.DueDate}}
@@ -481,7 +482,7 @@ Care Unit at Tollfree No.: 1800 3000 506, to help us serve you better.</li>
                             {{labels?.Interest}}
                         </td>
                         <td class="text-center style-strong">
-                            {{PrincipleOutStanding}}
+                            {{labels?.PrincipleOutStanding}}
                         </td>
                     </tr>
                     <tr *ngFor="let repaymentData of repaymentDetails; let i = index">

@@ -54,7 +54,7 @@
         "GuaSignature": "Signature",
         "Date": "Date",
         "AuthorisedSignatory" : "Authorised Signatory",
-        "InstalmentNo." : "Instalment No.",
+        "InstalmentNo" : "Instalment No.",
         "DueDate" : "Due Date",
         "TotalInstalmentAmount" : "Total Instalment Amount (Rs.)",
         "MotorInsurance": "Motor Insurance(Rs.)",

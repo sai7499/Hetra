@@ -146,7 +146,7 @@ export class WelomceLetterComponent implements OnInit {
         },
       );
     } else if (this.labels === 'MARPRFLAN') {
-      this.labelsData.getWelcomeDatatelugu().subscribe(
+      this.labelsData.getWelcomeDatamarati().subscribe(
         (data) => {
           this.labels = data[0];
           console.log('telugu labels', this.labels);

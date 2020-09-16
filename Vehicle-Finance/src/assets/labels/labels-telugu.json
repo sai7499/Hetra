@@ -52,7 +52,7 @@
         "Signature": "సంతకం",
         "Date": "తేదీ",
         "AuthorisedSignatory" : "సంతకాధికారం గల వ్యక్తి",
-        "InstalmentNo." : "వాయిదా సం.",
+        "InstalmentNo" : "వాయిదా సం.",
         "DueDate" : "గడువు తేదీ",
         "TotalInstalmentAmount" : "మొత్తం వాయిదా సొమ్ము (రూ.)",
         "MotorInsurance": "వాహన బీమా (రూ.)",
