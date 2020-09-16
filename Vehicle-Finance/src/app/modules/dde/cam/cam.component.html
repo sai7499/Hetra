@@ -169,7 +169,7 @@
                     <td class="bank_name">{{ applicantDetails?.applicantType }}</td>
                     <td>{{ applicantDetails?.name }}</td>
                     <td>{{ applicantDetails?.dobDoi }}</td>
-                    <td>{{ applicantDetails?.relationshipToApplicant}}</td>
+                    <td>{{ applicantDetails?.relationship}}</td>
                     <td>{{ applicantDetails?.cibilScore }}</td>
                 </tr>
                 <tr>
@@ -517,9 +517,9 @@
             labels?.creditConditions
           }}
             </caption>
-            <tbody>
-                <tr>
-                    <td colspan="6" height="80"></td>
+            <tbody >
+                <tr *ngFor="let creditConditions of creditConditions">
+                    <td colspan="6" >{{creditConditions}}</td>
                 </tr>
     
             </tbody>
@@ -1866,9 +1866,6 @@
                   </div>
                 <div *ngIf="camDetailsForm.get('commentsOnRtr').invalid && (camDetailsForm.get('commentsOnRtr').dirty || camDetailsForm.get('commentsOnRtr').touched)"
                 class="invalid-feedback">
-                <div *ngIf="camDetailsForm.get('commentsOnRtr').errors.required">
-                    commentsOnRtr is required.
-                </div>
                 <div *ngIf="camDetailsForm.get('commentsOnRtr').errors.maxlength">
                     commentsOnRtr cannot be more than 200 characters long.
                 </div>

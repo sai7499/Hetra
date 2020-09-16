@@ -99,6 +99,7 @@ export class CamComponent implements OnInit {
   docsDetails: any = {};
   vehicleDetailsArray: any = [];
   isDocumentId: boolean;
+  creditConditions: any;
 
   constructor(private labelsData: LabelsService,
     private camService: CamService,
@@ -417,6 +418,8 @@ export class CamComponent implements OnInit {
         this.businessIncomeDetails = res.ProcessVariables['businessIncomeDetails'];
         this.decisionSheet = res.ProcessVariables['decisionSheet'];
         // this.deviation = res.ProcessVariables['deviation']
+        this.creditConditions = res.ProcessVariables['creditConditions']
+
         this.finalLoanDetails = res.ProcessVariables['finalLoanDetails']
         this.finalLoanEligibility = res.ProcessVariables['finalLoanEligibility']
         this.loanEligibilityBasedOnInc = res.ProcessVariables['loanEligibilityBasedOnInc']
