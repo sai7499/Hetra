@@ -12,6 +12,8 @@ import  mLanguageLabelsurl  from '../../assets/labels/labels-hindi.json';
 
 import  mLanguageLabelsurltelugu  from '../../assets/labels/labels-telugu.json';
 import  mLanguageLabelsurlenglish  from '../../assets/labels/label_english.json';
+import  mLanguageLabelsurlkanada  from '../../assets/labels/labels_kanada.json';
+import  mLanguageLabelsurlmarati  from '../../assets/labels/labels_marathi.json';
 
 
 
@@ -59,6 +61,21 @@ export class LabelsService {
     // return this.httpService.get(this.labelsurl);
     }
 
+    getWelcomeDatakanada(): Observable<any> {
+      // if(this.isMobile) {
+      //   return this.createObservableObj(mLabelsurl);
+      // }
+      return this.createObservableObj(mLanguageLabelsurlkanada);
+      // return this.httpService.get(this.labelsurl);
+      }
+
+      getWelcomeDatamarati(): Observable<any> {
+        // if(this.isMobile) {
+        //   return this.createObservableObj(mLabelsurl);
+        // }
+        return this.createObservableObj(mLanguageLabelsurlmarati);
+        // return this.httpService.get(this.labelsurl);
+        }
 
 
   getLabelsOfDDEData(): Observable<any> {
