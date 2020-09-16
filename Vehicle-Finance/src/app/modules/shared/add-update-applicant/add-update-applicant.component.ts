@@ -384,10 +384,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.toasterService.showError('There should be only one main applicant for this lead', '')
           this.showNotApplicant = true;
         }
-        //  else if (data.applicantTypeKey !== "APPAPPRELLEAD") {
-        //   this.toasterService.showInfo('Should One Applicant Is Required', '')
-        // } 
+       
       }
+      // else if (this.applicantData.length==1){
+      //      if (value !== "APPAPPRELLEAD") {
+      //     this.toasterService.showError('There should be one applicant for this lead','')
+      //   } 
+      // }
     });
     
   }
@@ -530,9 +533,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   onDrvingLisenseChange(formCtrl) {
 
-    console.log(
-      this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').value
-    );
+    // console.log(
+    //   this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').value
+    // );
     if (
       this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').status ===
       'VALID' && this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').value !== ''
@@ -577,9 +580,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   onPassportNumberChange($formCtrl) {
+    console.log('passport', this.coApplicantForm.get('dedupe').get('passportNumber').value)
     if (
       this.coApplicantForm.get('dedupe').get('passportNumber').status ===
-      'VALID' && this.coApplicantForm.get('dedupe').get('passportNumber').value !== ''
+      'VALID' && this.coApplicantForm.get('dedupe').get('passportNumber').value !== '' &&
+      this.coApplicantForm.get('dedupe').get('passportNumber').value !== null
     ) {
       this.disabledPassportDates = false;
       this.coApplicantForm
@@ -596,7 +601,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.passportMandatory['passportExpiryDate'] = true;
     } else {
 
-      if (this.coApplicantForm.get('dedupe').get('passportNumber').value == '') {
+      if (this.coApplicantForm.get('dedupe').get('passportNumber').value == '' 
+      ) {
         this.disabledPassportDates = true;
         this.coApplicantForm.get('dedupe').get('passportIssueDate').setValue(null);
         this.coApplicantForm.get('dedupe').get('passportExpiryDate').setValue(null);
