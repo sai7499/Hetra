@@ -740,7 +740,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           // this.setDefaultValueForAddress(value, formGroupName);
         });
       });
-    console.log(this.currentPincode)
   }
 
   setDefaultValueForAddress(value, formGroupName: string) {
@@ -911,7 +910,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   onOwnHouseAvailable(event) {
-    console.log('event', event);
+    //console.log('event', event);
     this.isChecked = event.target.checked;
     if (this.isChecked === true) {
       this.coApplicantForm.get('dedupe').get('houseOwnerProperty').setValidators([Validators.required]);
@@ -931,7 +930,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       loanApplicationRelation: new FormControl('', Validators.required),
       entityType: new FormControl('', Validators.required),
       bussinessEntityType: new FormControl('',Validators.required),
-      fullName: new FormControl(''),
+      fullName: new FormControl({value :'', disabled: true}),
       name1: new FormControl('', Validators.required),
       name2: new FormControl(''),
       name3: new FormControl(''),
@@ -950,7 +949,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
       custSegment: new FormControl('', Validators.required),
       monthlyIncomeAmount: new FormControl(''),
-      annualIncomeAmount: new FormControl(''),
+      annualIncomeAmount: new FormControl({value :'', disabled: true}),
       ownHouseProofAvail: new FormControl(''),
       houseOwnerProperty: new FormControl(''),
       ownHouseAppRelationship: new FormControl(''),
@@ -1441,7 +1440,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         leadId: this.leadId
       }
       this.applicantService.getAddressDetails(data).subscribe((res) => {
-        console.log('responce Address Details', res)
+       // console.log('responce Address Details', res)
         if (res['ProcessVariables'].error.code == '0') {
           this.leadAddressDetails = res['ProcessVariables'].addressDetails;
           if (this.leadAddressDetails !== null) {
@@ -1509,7 +1508,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
   onNext() {
 
-    console.log('Form', this.coApplicantForm);
+    //console.log('Form', this.coApplicantForm);
     const formValue = this.coApplicantForm.getRawValue();
     if (this.applicantType === 'INDIVENTTYP') {
       if (
@@ -1561,7 +1560,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const referenceNo = this.coApplicantForm.get('dedupe').get('aadhar').value;
     //const referenceNo="100006010628"
     this.applicantService.retreiveAdhar(referenceNo).subscribe((res) => {
-      console.log('res', res)
       if (res['ProcessVariables'].error.code == "0") {
         const uid = res['ProcessVariables'].uid
         this.coApplicantForm.get('dedupe').get('aadhar').setValue(uid)
@@ -1622,7 +1620,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     return date ? formatDate(date, 'dd/MM/yyyy', 'en-us') : '';
   }
   storeIndividualValueInService(coApplicantModel) {
-    console.log('dedupeVaribles', this.dedupeVaribales)
+    //console.log('dedupeVaribles', this.dedupeVaribales)
     const dedupe = coApplicantModel.dedupe;
 
     if (this.dedupeVaribales) {
@@ -1722,7 +1720,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     if (registerAddress) {
       this.addressDetails = [];
       const addressObject = this.createAddressObject(registerAddress);
-      console.log('addressObject', addressObject);
+      //console.log('addressObject', addressObject);
       this.addressDetails.push({
         ...addressObject,
         addressType: Constant.REGISTER_ADDRESS,
@@ -1739,7 +1737,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         pobox: communicationAddress.pobox
       });
     }
-    console.log('addressDetails', this.addressDetails);
+    //console.log('addressDetails', this.addressDetails);
   }
   onFormSubmit() {
     console.log('Form', this.coApplicantForm);
@@ -1922,7 +1920,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     if (eventClicked) {
       const formValue: AddressDetails = this.coApplicantForm.get('permentAddress').value
 
-      console.log('formvalue permanent', formValue)
+     // console.log('formvalue permanent', formValue)
       this.currentPincode = this.permanentPincode;
       //const permanentAddress = this.coApplicantForm.get('currentAddress');
       currentAddress.patchValue({
@@ -2042,7 +2040,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     console.log('dedupeMobileBoolean', this.dedupeMobile);
     const dedupe = this.coApplicantForm.get('dedupe');
     //this.setDedupeValidators();
-    console.log('dedupe', dedupe);
     if (this.applicantType == 'NONINDIVENTTYP') {
       this.addNonIndFormControls();
       this.removeIndFormControls();
@@ -2349,10 +2346,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     this.applicantService.retreiveAdhar(aadhar).subscribe((res: any) => {
       let result = res;
-      console.log("result aadhar",result);
       let processVariables =  result.ProcessVariables;
       if(processVariables.error.code == "0"){
-        console.log("processVariables Aadhar", processVariables.uid);
         aadhar = processVariables.uid;
       }
 
@@ -2376,7 +2371,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         console.log("KYC result&&&&@@@" + processVariables);
   
         if (processVariables.error.code == '0') {
-          console.log("KYC success" + processVariables.error.code);
+          
   
           // that.isAlertSuccess = false;
           // setTimeout(() => {
@@ -2397,7 +2392,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   
         }
         else {
-          console.log("KYC failure" + processVariables.error.code);
           // that.isAlertDanger = false;
           // setTimeout(() => {
           //   that.isAlertDanger = true;
@@ -2443,7 +2437,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   setBiometricValues(ctx, value) {
 
     const dedupe = ctx.coApplicantForm.get('dedupe');
-    console.log("dedupe-element", dedupe);
     const dob = value.dobFromResponse;
     value.dobFromResponse = dob.split('-').join('/');
 
@@ -2610,7 +2603,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
             this.isContactNumberChanged = true;
             this.isEnableDedupe = true;
             this.dedupeMobile = true;
-            console.log('dedupe hiiii')
           } else {
             this.isEnableDedupe = false;
             this.isContactNumberChanged = false;
@@ -2723,7 +2715,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.applicantService
       .applicantNLUpdatingRemarks(data)
       .subscribe((value) => {
-        console.log('remarks value', value);
         this.showNegativeListModal = false;
         if (isProceed) {
           this.showDedupeModal = true;
@@ -2740,12 +2731,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         }
       });
 
-    console.log('negativeListModalListener', event);
+    //console.log('negativeListModalListener', event);
   }
-
-
-
-
-
 
 }
