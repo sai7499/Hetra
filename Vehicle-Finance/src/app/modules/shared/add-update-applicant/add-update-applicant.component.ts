@@ -2039,7 +2039,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   checkDedupe() {
     console.log('dedupeMobileBoolean', this.dedupeMobile);
     const dedupe = this.coApplicantForm.get('dedupe');
-    //this.setDedupeValidators();
     if (this.applicantType == 'NONINDIVENTTYP') {
       this.addNonIndFormControls();
       this.removeIndFormControls();
@@ -2056,7 +2055,48 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         return;
       }
       
-      const applicantDetails = dedupe.value;
+      this.storeNonIndividualDedupeValue();
+    } else {
+      this.isDirty = true;
+      if (dedupe.invalid ||
+        this.showMessage['drivinglicenseIssue'] ||
+        this.showMessage['passportIssue'] ||
+        this.showMessage['drivingLicenseExpiry'] ||
+        this.showMessage['passportExpiry']) {
+        this.toasterService.showError(
+          'Please fill all mandatory fields.',
+          'Applicant Details'
+        );
+        return;
+      }
+
+      if (
+        this.passportMandatory['passportIssueDate'] &&
+        !this.passportIssueDate &&
+        !this.passportExpiryDate
+      ) {
+        return;
+      }
+
+      if (
+        this.mandatory['drivingLicenseIssueDate'] &&
+        !this.drivingLicenseIssueDate &&
+        !this.drivingLicenseExpiryDate
+      ) {
+        return;
+      }
+      if (this.showNotApplicant) {
+        this.toasterService.showError('There should be only one main applicant for this lead', '');
+        return;
+      }
+     this.storeIndividualDedupeValues();
+      
+    }
+  }
+
+  storeNonIndividualDedupeValue(){
+    const dedupe = this.coApplicantForm.get('dedupe');
+    const applicantDetails = dedupe.value;
       
       let companyPhoneNumber = applicantDetails.companyPhoneNumber;
       this.contactNumber = companyPhoneNumber;
@@ -2126,52 +2166,15 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       }
 
       this.onDedupeApiCall(data);
-    } else {
-      //this.setDrivingLicenceValidator();
-      this.isDirty = true;
-      if (dedupe.invalid ||
-        this.showMessage['drivinglicenseIssue'] ||
-        this.showMessage['passportIssue'] ||
-        this.showMessage['drivingLicenseExpiry'] ||
-        this.showMessage['passportExpiry']) {
-        this.toasterService.showError(
-          'Please fill all mandatory fields.',
-          'Applicant Details'
-        );
-        return;
-      }
+  }
 
-      if (
-        this.passportMandatory['passportIssueDate'] &&
-        !this.passportIssueDate &&
-        !this.passportExpiryDate
-      ) {
-        return;
-      }
-
-      if (
-        this.mandatory['drivingLicenseIssueDate'] &&
-        !this.drivingLicenseIssueDate &&
-        !this.drivingLicenseExpiryDate
-      ) {
-        return;
-      }
-      if (this.showNotApplicant) {
-        this.toasterService.showError('There should be only one main applicant for this lead', '');
-        return;
-      }
-      // this.toasterService.showSuccess('saved', '');
-      // return;
-
-      //console.log('dedupe', dedupe);
-
-      const applicantDetails = dedupe.value;
+  storeIndividualDedupeValues(){
+    const dedupe = this.coApplicantForm.get('dedupe');
+    const applicantDetails = dedupe.value;
       
       let mobileNumber = applicantDetails.mobilePhone;
       this.mobileNumber = mobileNumber;
-      // if (this.mobileNumber.length == 10) {
       this.mobileNumber = '91' + this.mobileNumber;
-      // }
 
       if (applicantDetails.dob) {
         const date = new Date(applicantDetails.dob);
@@ -2241,7 +2244,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       }
 
       this.onDedupeApiCall(data);
-    }
   }
 
   onDedupeApiCall(data) {
