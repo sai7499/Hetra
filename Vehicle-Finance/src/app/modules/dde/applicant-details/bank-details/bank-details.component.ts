@@ -310,7 +310,7 @@ export class BankDetailsComponent implements OnInit {
     this.submitForm = true;
     this.isDirty = true;
     if (this.bankForm.invalid) {
-      this.toasterService.showWarning(
+      this.toasterService.showError(
         'Mandatory Fields Missing ',
         'Bank Transactions'
       );
@@ -357,6 +357,7 @@ export class BankDetailsComponent implements OnInit {
         i
       ].abbOfTheMonth.toString();
     }
+    this.bankForm.value.transactionDetails = transactionArray;
     // console.log(this.bankForm.value.transactionDetails);
 
     this.bankTransaction

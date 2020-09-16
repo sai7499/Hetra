@@ -2301,7 +2301,7 @@
         },
         "amountDecimal": {
             "maxLength": {
-                "rule": 10
+                "rule": 12
             },
             "type": "decimal"
         },
@@ -2510,6 +2510,18 @@
                 "rule": 30
             },
             "type": "alpha"
+        },
+        "limitAmount": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
+        "branchName": {
+            "maxLength": {
+                "rule": 50
+            },
+            "type": "special-alpha-numeric"
         }
     }
 }

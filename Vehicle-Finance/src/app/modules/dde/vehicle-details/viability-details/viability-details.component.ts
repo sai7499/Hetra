@@ -350,17 +350,16 @@ vehicle_viability_navigate(event) {
       this.passengerViability();
       this.removeStandOverValidators();
       this.removeCaptiveValidators();
-      
     } else if (this.vehicle_viability_value === '2VHCLVBTY') {
       this.StandOverViability();
       this.removePassengerValidators();
       this.removeCaptiveValidators();
-      
+
     } else if (this.vehicle_viability_value === '3VHCLVBTY') {
       this.captiveViability();
       this.removePassengerValidators();
       this.removeStandOverValidators();
-     
+
     }
   }
   private  passengerViability() {
@@ -468,7 +467,7 @@ getViability() {
       if(this.latitude){
         this.getRouteMap();
       }
-      
+
       if (this.viabliityDataToPatch && this.viabliityDataToPatch.type === '1VHCLVBTY') {
         this.viabilityForm.value.type = this.viabliityDataToPatch.type;
         this.vehicleModel = this.viabliityDataToPatch.vehicleModel;
@@ -1051,14 +1050,14 @@ calculateCaptiveC() {
 
   async downloadDocs(documentId: string) {
     console.log(event);
-    
+
     // let el = event.srcElement;
     // const formArray = this.uploadForm.get(formArrayName) as FormArray;
     // const documentId = formArray.at(index).get('file').value;
     if (!documentId) {
       return;
     }
-   
+
     const imageValue: any = await this.getBase64String(documentId);
     this.SELFIE_IMAGE = 'data:image/jpeg;base64,' + imageValue.imageUrl;
 
