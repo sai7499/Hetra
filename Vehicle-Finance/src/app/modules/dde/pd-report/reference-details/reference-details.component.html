@@ -1,12 +1,13 @@
 <form class="multisteps-form__form" [formGroup]="referenceDetailsForm" *ngIf="labels?.validationData">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn" *ngIf="LOV.LOVS">
         <h3 class="cus-title title">{{ labels.referrerDetails }}</h3>
+
         <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="referrer_first_name"> {{ labels.referrerFirstName }}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input id="referrer_first_name" formControlName="referrerFirstName"
+                <app-custom-input id="referrer_first_name" formControlName="refererFirstName"
                     [className]="'form-control mandatory'" [placeholder]="'Referrer First Name'"
                     [isRequired]="'Referrer First Name is required'" [type]="labels?.validationData?.referrerName?.type"
                     [maxLength]="labels?.validationData?.referrerName?.maxLength" [isDirty]="isDirty">
@@ -26,22 +27,25 @@
                 <label for="referrer_last_name"> {{ labels.referrerLastName }}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input id="referrer_last_name" formControlName="referrerThirdName"
+                <app-custom-input id="referrer_last_name" formControlName="refererThirdName"
                     [className]="'form-control mandatory'" [placeholder]="'Referrer Last Name'"
                     [isRequired]="'Referrer Last Name is required'" [type]="labels?.validationData?.referrerName?.type"
                     [maxLength]="labels?.validationData?.referrerName?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
+        </div>
+
+        <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="referrer_full_name"> {{ labels.referrerFullName }}
                     <!-- <sub class="star_red_col">*</sub> -->
                 </label>
-                <app-custom-input id="referrer_full_name" formControlName="referrerFullName"
+                <app-custom-input id="referrer_full_name" formControlName="refererFullName"
                     [className]="'form-control mandatory'" [placeholder]="'Referrer Full Name'"
                     [type]="labels?.validationData?.referrerFullName?.type"
                     [maxLength]="labels?.validationData?.referrerFullName?.maxLength"
-                    [value]="(referenceDetailsForm.get('referrerFirstName').value || '') + ' ' +
-                    (referenceDetailsForm.get('refererSecondName').value || '') + ' ' + (referenceDetailsForm.get('referrerThirdName').value || '')">
+                    [value]="(referenceDetailsForm.get('refererFirstName').value || '') + ' ' +
+                    (referenceDetailsForm.get('refererSecondName').value || '') + ' ' + (referenceDetailsForm.get('refererThirdName').value || '')">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -63,6 +67,9 @@
                     [maxLength]="labels?.validationData?.referrerOfficePhoneNo?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
+        </div>
+
+        <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="referrer_address_line1"> {{ labels.referrerAddressLine1 }}
                     <sub class="star_red_col">*</sub>
@@ -94,6 +101,9 @@
                     [maxLength]="labels?.validationData?.referrerAddress?.maxLength">
                 </app-custom-input>
             </div>
+        </div>
+
+        <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="pincode"> {{ labels.pincode }}
                     <sub class="star_red_col">*</sub>
@@ -125,6 +135,9 @@
                     [placeholder]="'District'">
                 </app-custom-input>
             </div>
+        </div>
+
+        <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="state"> {{ labels.state }}
                     <sub class="star_red_col">*</sub>
@@ -150,7 +163,9 @@
                 </app-vf-custom-select>
             </div>
         </div>
+
         <h3 class="cus-title title"> {{labels?.applicationReference}} </h3>
+
         <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="reference_info_first_name"> {{ labels.referenceInfoFirstName }}
@@ -182,6 +197,9 @@
                     [maxLength]="labels?.validationData?.referrerName?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
+        </div>
+
+        <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="reference_info_full_name"> {{ labels.referenceInfoFullName }}
                     <!-- <sub class="star_red_col">*</sub> -->
@@ -215,6 +233,9 @@
                     [maxLength]="labels?.validationData?.referrerAddress?.maxLength">
                 </app-custom-input>
             </div>
+        </div>
+
+        <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="reference_info_address_line3"> {{ labels.referenceInfoAddressLine3 }}
                     <!-- <sub class="star_red_col">*</sub> -->
@@ -246,6 +267,9 @@
                     [placeholder]="'City'">
                 </app-custom-input>
             </div>
+        </div>
+
+        <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="district"> {{ labels.district }}
                     <sub class="star_red_col">*</sub>
@@ -270,6 +294,9 @@
                     [placeholder]="'Country'">
                 </app-custom-input>
             </div>
+        </div>
+
+        <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="referenece_info_office_phone_no"> {{ labels.referenceInfoOfficeNo }}
                     <sub class="star_red_col">*</sub>
@@ -314,6 +341,7 @@
             </div>
         </div> -->
         <h3 class="cus-title title"> {{labels?.pdStatus}} </h3>
+        
         <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="pd_status"> {{ labels.pdStatus }}
