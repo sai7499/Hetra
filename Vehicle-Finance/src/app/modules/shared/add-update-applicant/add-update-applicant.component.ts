@@ -949,7 +949,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
       custSegment: new FormControl('', Validators.required),
       monthlyIncomeAmount: new FormControl(''),
-      annualIncomeAmount: new FormControl({value :'', disabled: true}),
+      annualIncomeAmount: new FormControl(''),
       ownHouseProofAvail: new FormControl(''),
       houseOwnerProperty: new FormControl(''),
       ownHouseAppRelationship: new FormControl(''),
