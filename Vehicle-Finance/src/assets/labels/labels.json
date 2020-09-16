@@ -1645,7 +1645,7 @@
         },
         "amountValue": {
             "maxLength": {
-                "rule": 10
+                "rule": 12
             },
             "type": "number"
         },
