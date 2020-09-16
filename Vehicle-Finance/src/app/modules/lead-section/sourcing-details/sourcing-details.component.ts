@@ -141,7 +141,7 @@ export class SourcingDetailsComponent implements OnInit {
     leadCreatedBy: number;
     leadCreatedOn: string;
     typeOfLoan: string;
-    reqLoanAmt: string;
+    reqLoanAmt: number;
     reqTenure: number;
     userId: number;
     leadId: number;
