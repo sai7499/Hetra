@@ -959,8 +959,8 @@
             >
               <app-custom-input
                 formControlName="marginMoney"
-                [maxLength]="validationData?.marginMoney?.maxLength"
-                [type]="validationData?.marginMoney?.type"
+                [maxLength]="validationData?.amountValue?.maxLength"
+                [type]="validationData?.amountValue?.type"
                 [isRequired]="'Margin Money is required'"
                 [isDirty]="isDirty"
               ></app-custom-input>
@@ -976,8 +976,8 @@
               >
                 <app-custom-input
                   formControlName="emiAffordability"
-                  [maxLength]="validationData?.emiAffordabilityBasic?.maxLength"
-                  [type]="validationData?.emiAffordabilityBasic?.type"
+                  [maxLength]="validationData?.amountValue?.maxLength"
+                  [type]="validationData?.amountValue?.type"
                   [isRequired]="'EMI Affordability is required'"
                   [isDirty]="isDirty"
                 ></app-custom-input>
