@@ -325,7 +325,7 @@ export class OtherDetailsComponent implements OnInit {
     console.log("longitude::", this.longitude);
 
     this.formValues = this.otherDetailsForm.getRawValue();
-    console.log("FORMVALUES::", this.formValues);
+    console.log("FORMVALUES::", this.otherDetailsForm);
     this.formValues.date = this.formValues.date ? this.utilityService.convertDateTimeTOUTC(this.formValues.date, 'DD/MM/YYYY') : null;
 
     this.custProfileDetails = {

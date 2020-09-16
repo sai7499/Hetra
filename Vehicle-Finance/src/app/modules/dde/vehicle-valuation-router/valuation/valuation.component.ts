@@ -45,7 +45,14 @@ export class ValuationComponent implements OnInit {
   leadCreatedDate: any;
 
   valuesToYesNo: any = [{ key: 1, value: 'Yes' }, { key: 0, value: 'No' }];
-
+  monthsLOVS: any = [
+    { key: "January", value: "January" }, { key: "February", value: "February" },
+    { key: "March", value: "March" }, { key: "April", value: "April" }, { key: "May", value: "May" },
+    { key: "June", value: "June" }, { key: "July", value: "July" }, { key: "August", value: "August" },
+    { key: "September", value: "September" }, { key: "October", value: "October" },
+    { key: "November", value: "November" }, { key: "December", value: "December" },
+  ];
+  
   constructor(
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,
