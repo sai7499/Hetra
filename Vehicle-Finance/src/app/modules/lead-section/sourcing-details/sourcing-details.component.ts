@@ -181,16 +181,8 @@ export class SourcingDetailsComponent implements OnInit {
     this.getLabels();
     this.getLOV();
     this.getSourcingChannel();
-
     this.tenureMonthlyValidation = this.loanTenureMonth();
-
     this.operationType = this.toggleDdeService.getOperationType();
-
-    // if (operationType === '1') {
-    //   this.sourcingDetailsForm.disable();
-    //   this.isSourchingCode = true;
-    //   this.isDisabledDealerCode = true;
-    // }
   }
 
   getLabels() {
@@ -297,7 +289,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.sourcingDetailsForm.patchValue({ applicationNo: applicationNO });
 
     const loanTypeFromLead = data.leadDetails.typeOfLoan;
-    this.sourcingDetailsForm.patchValue({ loanType: loanTypeFromLead});
+    this.sourcingDetailsForm.patchValue({ loanType: loanTypeFromLead });
 
     this.getBusinessDivision(businessDivisionFromLead);
     this.sourcingDetailsForm.patchValue({ priority: priorityFromLead });
@@ -577,7 +569,7 @@ export class SourcingDetailsComponent implements OnInit {
       bizDivision: new FormControl('', Validators.required),
       sourcingChannel: new FormControl('', Validators.required),
       sourcingType: new FormControl('', Validators.required),
-      sourcingCode: new FormControl('', Validators.required),
+      sourcingCode: new FormControl(''),
       dealerCode: new FormControl('', Validators.required),
       spokeCodeLocation: new FormControl({ value: '', disabled: true }),
       loanBranch: new FormControl({ value: '', disabled: true }),
@@ -605,7 +597,7 @@ export class SourcingDetailsComponent implements OnInit {
     return loanTenure;
   }
 
-  loanTenureAmount(productCategoryChanged?) {
+  loanTenureAmount(productCategoryChanged?: string) {
     const loanAmount = [
       {
         rule: amount => {
@@ -738,15 +730,15 @@ export class SourcingDetailsComponent implements OnInit {
   nextToApplicant() {
     this.isDirty = true;
     console.log('testform', this.sourcingDetailsForm);
-    if(this.operationType === '1'){
-     this.onNavigate(); 
-     return
+    if (this.operationType === '1') {
+      this.onNavigate();
+      return
     }
     if (this.sourcingDetailsForm.valid === true) {
-      if (!this.isSaved) {       
-          this.saveAndUpdate();
+      if (!this.isSaved) {
+        this.saveAndUpdate();
       }
-      this.onNavigate(); 
+      this.onNavigate();
     } else {
       this.toasterService.showError(
         'Please fill all mandatory fields.',
@@ -755,7 +747,7 @@ export class SourcingDetailsComponent implements OnInit {
     }
   }
 
-  onNavigate(){
+  onNavigate() {
     const currentUrl = this.location.path();
     if (currentUrl.includes('sales')) {
       this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);

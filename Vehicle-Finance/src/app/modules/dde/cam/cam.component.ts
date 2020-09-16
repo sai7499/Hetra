@@ -385,10 +385,11 @@ export class CamComponent implements OnInit {
         this.camDetailsForm.patchValue({
           strengthAndMitigates: this.camDetails.strengthAndMitigates ? this.camDetails.strengthAndMitigates : null,
         })
-        
+        setTimeout(() => {
         if (isUpload === 'isUpload') {
           this.uploadPdf()
         }
+      });
 
       } else if (res && res.ProcessVariables.error.code == '1') {
         this.showCamHtml == false
@@ -430,10 +431,11 @@ export class CamComponent implements OnInit {
         this.manualDeviation = res.ProcessVariables['manualDeviation']
         this.vehicleDetails = res.ProcessVariables['vehicleDetails']
         this.recommendation = res.ProcessVariables['recommendation']
-
+        setTimeout(() => {
         if (isUpload === 'isUpload') {
           this.uploadPdf()
         }
+      });
 
       } else if (res && res.ProcessVariables.error.code == '1') {
         this.showCamHtml == false
@@ -488,9 +490,10 @@ export class CamComponent implements OnInit {
         this.camDetailsForm.patchValue({
           commentsOnRtr: this.camDetails.commentsOnRtr ? this.camDetails.commentsOnRtr : null,
         })
+        setTimeout(() => {
         if (isUpload === 'isUpload') {
           this.uploadPdf()
-        }
+        }});
       } else if (res && res.ProcessVariables.error.code == '1') {
         this.showCamHtml == false
         this.errorGenerated = true;
@@ -644,7 +647,7 @@ export class CamComponent implements OnInit {
           docsType: "png/jpg/jpeg/pdf/tiff/xlsx/xls/docx/doc/zip",
           docsTypeForString: "",
           documentId: this.isDocumentId ? this.docsDetails.documentId : 0,
-          documentNumber: `SD${this.leadId}`,
+          documentNumber: `CAM${this.leadId}`,
           expiryDate: "",
           formArrayIndex: 0,
           isDeferred: "0",

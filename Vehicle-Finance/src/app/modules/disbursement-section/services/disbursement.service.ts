@@ -127,4 +127,20 @@ fetchDisbursement(leadId) {
       const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
       return this.httpService.post(url, body);
       }
+      dealerCode(code) {
+        const processId = this.apiService.api.dealerCode.processId;
+        const workflowId = this.apiService.api.dealerCode.workflowId;
+        const projectId = this.apiService.api.dealerCode.projectId;
+
+        const body: RequestEntity = {
+            processId: processId,
+            ProcessVariables: {
+                "code": code
+            },
+            workflowId: workflowId,
+            projectId: projectId
+        };
+        const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        return this.httpService.post(url, body);
+    }
 }

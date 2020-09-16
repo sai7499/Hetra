@@ -10,6 +10,8 @@ import  mLabelDDEsurl  from '../../assets/labels/label_credit_vehicle_details.js
 import  mLabelFleetUrl  from '../../assets/labels/labelFleetDetails.json';
 import  mLanguageLabelsurl  from '../../assets/labels/labels-hindi.json';
 
+import  mLanguageLabelsurltelugu  from '../../assets/labels/labels-telugu.json';
+import  mLanguageLabelsurlenglish  from '../../assets/labels/label_english.json';
 
 
 
@@ -39,6 +41,25 @@ export class LabelsService {
     return this.createObservableObj(mLabelsurl);
     // return this.httpService.get(this.labelsurl);
     }
+
+ getWelcomeDatatelugu(): Observable<any> {
+    // if(this.isMobile) {
+    //   return this.createObservableObj(mLabelsurl);
+    // }
+    return this.createObservableObj(mLanguageLabelsurltelugu);
+    // return this.httpService.get(this.labelsurl);
+    }
+
+    
+  getWelcomeDataenglish(): Observable<any> {
+    // if(this.isMobile) {
+    //   return this.createObservableObj(mLabelsurl);
+    // }
+    return this.createObservableObj(mLanguageLabelsurlenglish);
+    // return this.httpService.get(this.labelsurl);
+    }
+
+
 
   getLabelsOfDDEData(): Observable<any> {
     // if(this.isMobile) {

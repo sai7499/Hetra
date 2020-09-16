@@ -66,6 +66,8 @@ export class BasicDetailsComponent implements OnInit {
   isMarried: boolean;
   applicantData = []; 
   showNotApplicant : boolean;
+  externalExpiryDate : any;
+  externalIssueDate : any;
 
   emailPattern = {
     rule: '^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(\\.\\w{2,10})+$',
@@ -77,8 +79,7 @@ export class BasicDetailsComponent implements OnInit {
     value: string
   }[]
 
-  externalExpiryDate : any;
-  externalIssueDate : any;
+  
   
   constructor(
     private labelsData: LabelsService,
@@ -141,6 +142,8 @@ export class BasicDetailsComponent implements OnInit {
       this.basicForm.disable();
       this.disableSaveBtn  = true;
     }
+
+    console.log('externalExpiry Date', this.externalExpiryDate)
   }
 
   setMinorityData() {
@@ -771,10 +774,7 @@ export class BasicDetailsComponent implements OnInit {
     }
     if (remainingCount > 0) {
       for (let i = this.directorCount - 1; i >= directorValue; i--) {
-        // form.push(this.getDirectorsControls())
-        //console.log('value', form.at(i), 'index', i)
         form.removeAt(i);
-
       }
     }
     this.directorCount = directorValue;
