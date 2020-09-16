@@ -30,6 +30,7 @@ export class ValuationComponent implements OnInit {
   customFutureDate: boolean;
   public toDayDate: Date = new Date();
   currentYear = new Date().getFullYear();
+  public minDate = new Date(new Date().setFullYear(new Date().getFullYear() - 15));
   yearCheck = [];
   valuatorType: string;
   valuatorCode: string;
@@ -127,26 +128,35 @@ export class ValuationComponent implements OnInit {
   //GET LEAD SECTION DATA
   getLeadSectiondata() {
     const leadData = this.createLeadDataService.getLeadSectionData();
-    // this.leadCreatedDate = new Date(leadData['leadDetails'].leadCreatedOn);
-    this.leadCreatedDate = this.utilityService.getDateFromString(leadData['leadDetails'].leadCreatedOn);
+    this.leadCreatedDate = new Date(leadData['leadDetails'].leadCreatedOn);
+    // this.leadCreatedDate = this.utilityService.getDateFromString(leadData['leadDetails'].leadCreatedOn);
     // console.log("LEAD_CREATED_DATE::", this.vehicleValuationForm.get('valuationDate').value >= this.leadCreatedDate);
     console.log("LEAD_CREATED_DATE::", this.leadCreatedDate);
   }
 
   //CHANGE EVENT FUNCTION FOR monthLOVS
-  onChangeMonthValues(event: any) {
-    const monthChange = event.target.value;
-    console.log("CHANGE_IN_MONTH::", monthChange);
-  }
-  
+  // onChangeMonthValues(event: any) {
+  //   const monthChange = event.target.value;
+  //   console.log("CHANGE_IN_MONTH::", monthChange);
+  // }
+
   //CHANGE_YEAR
-  onGetDateValue(event: any) {
-    const yearOfManufacturer = event.target.value;
-    console.log("YEAR_OF_MANUFACTURER::", yearOfManufacturer);
-    if (yearOfManufacturer > this.toDayDate) {
+  onGetDateValue(event) {
+    //  const yearOfManufacturer = event;
+    // console.log("YEAR_OF_MANUFACTURER::", yearOfManufacturer);
+    // if (yearOfManufacturer > this.toDayDate) {
+    //   this.customFutureDate = true;
+    // } else {
+    //   this.customFutureDate = false;
+    // }
+    this.customFutureDate = false;
+    if (event > this.toDayDate) {
       this.customFutureDate = true;
     } else {
       this.customFutureDate = false;
+      this.vehicleValuationForm.patchValue({
+        ageOfAsset: Number(this.utilityService.ageFromAsset(event))
+      });
     }
   }
 
@@ -195,8 +205,7 @@ export class ValuationComponent implements OnInit {
       chasisNumber: ["", Validators.required],
       engineNumber: ["", Validators.required],
       yearOfManufacturer: ["", Validators.required],
-      monthOfManufacturer: ["", Validators.required],
-      yearAndMonthOfManufacturer: ["", Validators.required],
+      // monthOfManufacturer: ["", Validators.required],
       ageOfAsset: ["", Validators.required],
       sellerShortDesc: [""],
       secondAsset: [""],
@@ -250,8 +259,8 @@ export class ValuationComponent implements OnInit {
       registrationNo: this.vehicleValuationDetails.registrationNo || '',
       chasisNumber: this.vehicleValuationDetails.chasisNumber || '',
       engineNumber: this.vehicleValuationDetails.engineNumber || '',
-      yearOfManufacturer: this.vehicleValuationDetails.yearOfManufacturer || '',
-      monthOfManufacturer: this.vehicleValuationDetails.monthOfManufacturer || '',
+      yearOfManufacturer: this.vehicleValuationDetails.yearOfManufacturer ? this.utilityService.getDateFromString(this.vehicleValuationDetails.yearOfManufacturer) : '',
+      // monthOfManufacturer: this.vehicleValuationDetails.monthOfManufacturer || '',
       ageOfAsset: this.vehicleValuationDetails.ageOfAsset || '',
       sellerShortDesc: this.vehicleValuationDetails.sellerShortDesc || '',
       secondAsset: this.vehicleValuationDetails.secondAsset || '',
@@ -292,6 +301,7 @@ export class ValuationComponent implements OnInit {
       ...formValues,
       valuationDate: this.utilityService.convertDateTimeTOUTC(formValues.valuationDate, 'DD/MM/YYYY'),
       idvValidityDate: this.utilityService.convertDateTimeTOUTC(formValues.idvValidityDate, 'DD/MM/YYYY'),
+      yearOfManufacturer: this.utilityService.convertDateTimeTOUTC(formValues.yearOfManufacturer, 'DD/MM/YYYY'),
       fcExpiryDate: this.utilityService.convertDateTimeTOUTC(formValues.fcExpiryDate, 'DD/MM/YYYY'),
       dateofReg: this.utilityService.convertDateTimeTOUTC(formValues.dateofReg, 'DD/MM/YYYY'),
     };

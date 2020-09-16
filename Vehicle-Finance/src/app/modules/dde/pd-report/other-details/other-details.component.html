@@ -2,6 +2,7 @@
 <form class="multisteps-form__form" [formGroup]="otherDetailsForm">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
         <h3 class="cus-title title"> {{ labels.otherDetailsTitle }} </h3>
+
         <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="agriculture_proof">{{labels.agricultureProof}}
@@ -27,6 +28,9 @@
                     [isDirty]="isDirty">
                 </app-custom-input>
             </div>
+        </div>
+
+        <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="unSecured_Loans">{{labels.unSecuredLoans}}
                     <sub class="star_red_col">*</sub>
@@ -51,6 +55,9 @@
                     [isDirty]="isDirty">
                 </app-custom-input>
             </div>
+        </div>
+
+        <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="fixed_assets">{{labels.fixedAssets}}
                     <sub class="star_red_col">*</sub>
@@ -60,7 +67,9 @@
                 </app-custom-input>
             </div>
         </div>
+
         <h3 class="cus-title title"> {{labels?.genericDetails}} </h3>
+
         <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="application_no">{{labels?.applicationNo}}
@@ -84,6 +93,9 @@
                 <app-custom-input formControlName="place" [className]="'form-control mandatory'" [placeholder]="'Place'" [isRequired]="' Place is required'" [type]="labels?.validationData?.area?.type" [maxLength]="labels?.validationData?.area?.maxLength" [isDirty]="isDirty">
                 </app-custom-input>
             </div>
+        </div>
+
+        <div class="row">
             <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3"> -->
             <!-- <label for="geoTag_information">{{labels.geotagInformation}} -->
             <!-- <sub class="star_red_col">*</sub> -->
@@ -141,6 +153,9 @@
                     [isDirty]="isDirty">
                 </app-custom-input>
             </div>
+        </div>
+
+        <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="employee_code">{{labels.employeeCode}}
                     <sub class="star_red_col">*</sub>
@@ -169,6 +184,9 @@
                     [isDirty]="isDirty">
                 </app-custom-input>
             </div>
+        </div>
+
+        <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="sourcing_channel"> {{labels.sourcingChannel}}
                     <sub class="star_red_col">*</sub>
@@ -186,7 +204,9 @@
                 </app-custom-input>
             </div>
         </div>
+
         <h3 class="cus-title title"> {{labels?.loanDetails}} </h3>
+
         <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="loan_amount_required">{{labels.loanAmount}}
@@ -212,6 +232,9 @@
                     [isDirty]="isDirty">
                 </app-custom-input>
             </div>
+        </div>
+
+        <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="sourceOf_margin_money">{{labels.sourceOfMarginMoney1}}
                     <!-- <sub class="star_red_col">*</sub> -->
@@ -241,6 +264,7 @@
                 </div>
             </div>
         </div>
+        
     </div>
     &nbsp;
     <div class="btn-sec clear-both row cst_btm_btns">
