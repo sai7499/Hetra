@@ -234,6 +234,7 @@ export class CustomInputComponent
         break;
       case 'special-alpha-numeric':
         this.allowSpecialAlphaNumericOnly(event);
+        break;
       case 'alpha-numeric-nospace':
         this.allowAlphaNumericNoSpace(event);
         break;
@@ -295,9 +296,13 @@ export class CustomInputComponent
   allowSpecialAlphaNumericOnly(event) {
     const initialValue = event.target.value;
     this.inputValue = initialValue.replace(
-      /[^0-9a-zA-Z\s\r\n@!#\$\^%&*()+=\-\[\]\\\';,\.\/\{\}\|\":<>\?]+$/,
+      /[^0-9a-zA-Z\s\r\n@!#\$\^%&*()+=\-\[\]\\\';,\.\/\{\}\|\":<>\?]+$/g,
       ''
     );
+    // this.inputValue = initialValue.replace(
+    //   /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]+$/g, ''
+    //   );
+    
   }
   allowAlphaNumericNoSpace(event) {
     const initialValue = event.target.value;
