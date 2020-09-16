@@ -1675,7 +1675,7 @@
             "maxLength": {
                 "rule": 5
             },
-            "type": "decimal"
+            "type": "decimal-4"
         },
         "bankName": {
             "maxLength": {
@@ -2067,7 +2067,7 @@
             "maxLength": {
                 "rule": 5
             },
-            "type": "decimal"
+            "type": "decimal-2"
         },
         "pattaNo": {
             "maxLength": {

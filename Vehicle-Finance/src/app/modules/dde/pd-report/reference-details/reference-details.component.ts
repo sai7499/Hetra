@@ -315,7 +315,7 @@ export class ReferenceDetailsComponent implements OnInit {
 
     let formValue = this.referenceDetailsForm.getRawValue();
 
-    formValue.referrerFullName = formValue.referrerFirstName || '' + ' ' + formValue.refererSecondName || '' + ' ' + (formValue.referrerThirdName || '');
+    formValue.refererFullName = formValue.refererFirstName || '' + ' ' + formValue.refererSecondName || '' + ' ' + (formValue.refererThirdName || '');
     formValue.referenceFullName = formValue.referenceFirstName || '' + ' ' + formValue.referenceSecondName || '' + ' ' + formValue.referenceThirdName || '';
 
     if (this.referenceDetailsForm.valid) {
