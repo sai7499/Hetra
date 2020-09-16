@@ -214,10 +214,10 @@
                                 [id]="fuel_average_km"
                                 formControlName="fuelAvgPerKm"
                                 [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [maxLength]="label?.validationData?. goldInGrams?.maxLength"
                                 [isRequired]="'Fuel Avg Per Km is Required'"
                                 [isDirty]="isDirty"
-                                [type]="label?.validationData?. amountDecimal?.type"
+                                [type]="label?.validationData?. goldInGrams?.type"
                                 [placeholder]="'Enter Fuel Avg Per Km'"
                                 (keyup)=" calculatePassengerB()"
                                 ></app-custom-input>
@@ -500,7 +500,7 @@
                                 [maxLength]="inputLength10"
                                 [isRequired]="'Insurance Expenses Is Required'"
                                 [isDirty]="isDirty"
-                                [type]="'number'"
+                                [type]="'decimal'"
                                 [placeholder]="'Enter Insurance Expenses'"
                                 (keyup)="calculatePassengerC()"
                                 ></app-custom-input>

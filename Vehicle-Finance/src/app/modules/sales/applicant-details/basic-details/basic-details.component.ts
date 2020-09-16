@@ -866,7 +866,7 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.agriNoOfAcres = Number(formValue.agriNoOfAcres);
     applicantDetails.agriOwnerProperty = formValue.agriOwnerProperty;
     applicantDetails.agriAppRelationship = formValue.agriAppRelationship;
-    applicantDetails.grossReceipt = Number(formValue.grossReceipt);
+    applicantDetails.grossReceipt = formValue.grossReceipt;
 
 
     this.applicantDataService.setApplicantDetails(applicantDetails);
@@ -943,7 +943,7 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.agriNoOfAcres = Number(formValue.agriNoOfAcres);
     applicantDetails.agriOwnerProperty = formValue.agriOwnerProperty;
     applicantDetails.agriAppRelationship = formValue.agriAppRelationship;
-    applicantDetails.grossReceipt = Number(formValue.grossReceipt);
+    applicantDetails.grossReceipt = formValue.grossReceipt;
 
     //applicantDetails.customerCategory = formValue.customerCategory;
 
