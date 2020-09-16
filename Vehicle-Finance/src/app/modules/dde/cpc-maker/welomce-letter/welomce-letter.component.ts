@@ -127,7 +127,7 @@ export class WelomceLetterComponent implements OnInit {
 
   downloadpdf() {
     var options = {
-      margin: .25,
+      margin: .50,
       filename: `WelcomeLetter_${this.leadId}.pdf`,
       image: { type: 'jpeg', quality: 1 },
       jsPDF: { unit: 'in', format: 'b4', orientation: 'p' }
