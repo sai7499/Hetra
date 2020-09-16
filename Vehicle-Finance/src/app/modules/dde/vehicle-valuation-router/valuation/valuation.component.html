@@ -319,9 +319,15 @@
               <sub class="star_red_col">*</sub>
             </label>
 
-            <kendo-datepicker class="form-control" [id]="'year_month_manufacturing'" formControlName="yearAndMonthOfManufacturer"
-              ndo-datepicker="ndo-datepicker" [bottomView]="'year'" [topView]="'decade'" [format]="'MMMM yyyy'" [min]="minDate"
-              [max]="maxDate" placeholder="Year And Month Manufacturing" (valueChange)="onGetDateValue($event)">
+            <kendo-datepicker class="form-control" 
+              [id]="'year_month_manufacturing'" 
+              formControlName="yearAndMonthOfManufacturer"
+              ndo-datepicker="ndo-datepicker" 
+              [bottomView]="'year'" 
+              [topView]="'decade'" [format]="'MMMM yyyy'" 
+              [min]="minDate"
+              [max]="toDayDate" 
+              placeholder="Year And Month Manufacturing" (valueChange)="onGetDateValue($event)">
             </kendo-datepicker>
 
             <div class="invalid-feedback" >

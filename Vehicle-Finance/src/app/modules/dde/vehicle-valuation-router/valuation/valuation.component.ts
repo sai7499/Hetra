@@ -50,7 +50,7 @@ export class ValuationComponent implements OnInit {
     { key: "September", value: "September" }, { key: "October", value: "October" },
     { key: "November", value: "November" }, { key: "December", value: "December" },
   ];
-
+  
   constructor(
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,
