@@ -346,17 +346,20 @@ export class OtherDetailsComponent implements OnInit {
           // console.log("RESPONSE_SAVEUPDATE_API::", response)
           if (res['ProcessVariables'] && res['ProcessVariables'].error['code'] == "0") {
             this.toasterService.showSuccess("Record Saved Successfully", "Other Details");
+            } else {
+              this.toasterService.showError(response['ProcessVariables'].error['message'], "Other Details");
             }
         });
     } else {
+      this.isDirty = true;
       this.toasterService.showError("Please fill all mandatory fields.", "Other Details");
+      this.utilityService.validateAllFormFields(this.otherDetailsForm);
     }
 
   }
   
   // SUBMIT FORM
   onFormSubmit() {
-    this.isDirty = true;
     this.saveOrUpdateOtherDetails();
   }
 

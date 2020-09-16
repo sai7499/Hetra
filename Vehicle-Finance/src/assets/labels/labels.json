@@ -313,7 +313,7 @@
     "workExperience": "Work Experience",
     "extn": "Extn",
     "workStability": "Work Stability",
-    "natureOfBusiness": "Nature of Business",
+    "natureOfBusiness": "Nature of Goods",
     "educationalBackground": "Educational Background Type",
     "isMinority": "Is Minority?",
     "community": "Community",
@@ -794,7 +794,7 @@
     "emiFull": "Equated Monthly Instalments (EMI)",
     "netEmi": "Net Cash flow (NCF)/ EMI",
     "vehicleModel": "Vehicle Model",
-    "application": "Application",
+    "application": "Application / Area of Operation",
     "grossIncomePerDay": "Gross income per day",
     "noOfEarningDays": "No. of earnings per day (No of days)",
     "expensesPerDay": "Expenses per day",
@@ -1607,6 +1607,7 @@
     "micrNo": "MICR No",
     "accountBranchname": "Account Branchname",
     "termsheetGeneratedDate": "Termsheet Generated Date",
+    "loanAccNumber": "Loan Account Number",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1645,7 +1646,7 @@
         },
         "amountValue": {
             "maxLength": {
-                "rule": 10
+                "rule": 12
             },
             "type": "number"
         },
@@ -1674,7 +1675,7 @@
             "maxLength": {
                 "rule": 5
             },
-            "type": "decimal"
+            "type": "decimal-4"
         },
         "bankName": {
             "maxLength": {
@@ -2066,7 +2067,7 @@
             "maxLength": {
                 "rule": 5
             },
-            "type": "decimal"
+            "type": "decimal-2"
         },
         "pattaNo": {
             "maxLength": {
@@ -2301,7 +2302,7 @@
         },
         "amountDecimal": {
             "maxLength": {
-                "rule": 10
+                "rule": 12
             },
             "type": "decimal"
         },
@@ -2510,6 +2511,18 @@
                 "rule": 30
             },
             "type": "alpha"
+        },
+        "limitAmount": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
+        "branchName": {
+            "maxLength": {
+                "rule": 50
+            },
+            "type": "special-alpha-numeric"
         }
     }
 }
