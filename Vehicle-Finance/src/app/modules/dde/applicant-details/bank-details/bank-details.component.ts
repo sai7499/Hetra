@@ -70,7 +70,8 @@ export class BankDetailsComponent implements OnInit {
   OldFromDate: Date;
   OldToDate: any;
   todayDateNew: any = new Date();
-  isLimitRequire: boolean = false;
+  isLimitRequire = false;
+  submitForm = false;
   constructor(
     private fb: FormBuilder,
     private bankTransaction: BankTransactionsService,
@@ -148,10 +149,11 @@ export class BankDetailsComponent implements OnInit {
       this.bankForm.get('limit').updateValueAndValidity();
       }
     });
-
-
-
-    // $('.datepicker').datepicker('update', new Date());
+    console.log(this.f);
+  }
+  get f() {
+    console.log(this.bankForm.controls, ' contrl f');
+    return this.bankForm.controls;
   }
   getApplicantId() {
     return new Promise((resolve, reject) => {
@@ -305,8 +307,10 @@ export class BankDetailsComponent implements OnInit {
     return Number(year[1]);
       }
   onSave() {
+    this.submitForm = true;
+    this.isDirty = true;
     if (this.bankForm.invalid) {
-      this.toasterService.showWarning(
+      this.toasterService.showError(
         'Mandatory Fields Missing ',
         'Bank Transactions'
       );
@@ -353,8 +357,9 @@ export class BankDetailsComponent implements OnInit {
         i
       ].abbOfTheMonth.toString();
     }
+    this.bankForm.value.transactionDetails = transactionArray;
     // console.log(this.bankForm.value.transactionDetails);
-   
+
     this.bankTransaction
       .setTransactionDetails(this.bankForm.value)
       .subscribe((res: any) => {
