@@ -121,21 +121,21 @@ export class ValuationComponent implements OnInit {
   //GET LEAD SECTION DATA
   getLeadSectiondata() {
     const leadData = this.createLeadDataService.getLeadSectionData();
-    // this.leadCreatedDate = new Date(leadData['leadDetails'].leadCreatedOn);
-    this.leadCreatedDate = this.utilityService.getDateFromString(leadData['leadDetails'].leadCreatedOn);
+    this.leadCreatedDate = new Date(leadData['leadDetails'].leadCreatedOn);
+    // this.leadCreatedDate = this.utilityService.getDateFromString(leadData['leadDetails'].leadCreatedOn);
     // console.log("LEAD_CREATED_DATE::", this.vehicleValuationForm.get('valuationDate').value >= this.leadCreatedDate);
     console.log("LEAD_CREATED_DATE::", this.leadCreatedDate);
   }
 
   //CHANGE EVENT FUNCTION FOR monthLOVS
-  onChangeMonthValues(event: any) {
-    const monthChange = event.target.value;
-    console.log("CHANGE_IN_MONTH::", monthChange);
-  }
-  
+  // onChangeMonthValues(event: any) {
+  //   const monthChange = event.target.value;
+  //   console.log("CHANGE_IN_MONTH::", monthChange);
+  // }
+
   //CHANGE_YEAR
   onGetDateValue(event) {
-    // const yearOfManufacturer = event.target.value;
+    //  const yearOfManufacturer = event;
     // console.log("YEAR_OF_MANUFACTURER::", yearOfManufacturer);
     // if (yearOfManufacturer > this.toDayDate) {
     //   this.customFutureDate = true;
