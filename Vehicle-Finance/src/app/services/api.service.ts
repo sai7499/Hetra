@@ -814,6 +814,11 @@ export class ApiService {
       processId: 'd358b542f28911ea82f100505695f93b',
       workflowId: 'd33a101af28911ea9cda00505695f93b',
       projectId: environment.projectIds.salesProjectId
+    },
+    saveTaskLogs: {
+      processId: '34408268f75811eab4f500505695f93b',
+      workflowId: '340d11b2f75811eab78c00505695f93b',
+      projectId: '403a8a12b79511ea8afff2fa9bec3d63'
     }
 
   };
