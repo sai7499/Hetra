@@ -1788,8 +1788,8 @@
                 formControlName="foreignCurrencyDealing"
                 [isRequired]="'Foriegn Currency Dealing is Required'"
                 [isDirty]="isDirty"
-                [maxLength]="validationData?.externalRating?.maxLength"
-                [type]="validationData?.externalRating?.type"
+                [maxLength]="validationData?.amountValue?.maxLength"
+                [type]="validationData?.amountValue?.type"
               ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -1808,8 +1808,8 @@
                 formControlName="exposureBankingSystem"
                 [isRequired]="'Exposure Banking System is Required'"
                 [isDirty]="isDirty"
-                [maxLength]="validationData?.totalExposure?.maxLength"
-                [type]="validationData?.totalExposure?.type"
+                [maxLength]="validationData?.amountValue?.maxLength"
+                [type]="validationData?.amountValue?.type"
               ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
