@@ -1607,6 +1607,7 @@
     "micrNo": "MICR No",
     "accountBranchname": "Account Branchname",
     "termsheetGeneratedDate": "Termsheet Generated Date",
+    "loanAccNumber": "Loan Account Number",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1674,7 +1675,7 @@
             "maxLength": {
                 "rule": 5
             },
-            "type": "decimal"
+            "type": "decimal-4"
         },
         "bankName": {
             "maxLength": {
@@ -2066,7 +2067,7 @@
             "maxLength": {
                 "rule": 5
             },
-            "type": "decimal"
+            "type": "decimal-2"
         },
         "pattaNo": {
             "maxLength": {
