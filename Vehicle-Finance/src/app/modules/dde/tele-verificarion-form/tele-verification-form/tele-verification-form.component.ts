@@ -405,6 +405,8 @@ export class TeleVerificationFormComponent implements OnInit {
 
   // Submitting TVR Form Method
   async onSave() {
+    console.log(this.teleVerificationForm);
+
     const tvrDetails = this.teleVerificationForm.getRawValue();
     this.isDirty = true;
     if (this.teleVerificationForm.valid === true) {
