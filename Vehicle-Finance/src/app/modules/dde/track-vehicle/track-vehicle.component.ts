@@ -46,6 +46,7 @@ export class TrackVehicleComponent implements OnInit {
   dateExceeded: boolean = false;
   disableActionBtn: boolean;
   installment: FormArrayName;
+  deletedInstallments : any = [];
   overdueLov: any = [
     {key: "1", value: "YES"},
     {key: "2", value: "NO"}
@@ -454,8 +455,22 @@ export class TrackVehicleComponent implements OnInit {
     this.fleetDetails['emisPaid'] =  this.trackVehicleForm.value['emisPaid'] ? Number(this.trackVehicleForm.value['emisPaid']) : '';
    if(this.formArr['controls'].length > Number(this.trackVehicleForm.value['emisPaid']) ){
     let removedIndex = this.formArr['controls'].length -  Number(this.trackVehicleForm.value['emisPaid']);
+    // let removiedElements = this.fleetRtrDetails;
+    // let removiedData;
+    // if(Number(this.trackVehicleForm.value['emisPaid']) > 1){
+    //    removiedData = removiedElements.slice(Number(this.trackVehicleForm.value['emisPaid']) , removiedElements.length )
+
+    // }else {
+    //   removiedData = removiedElements.slice(Number(this.trackVehicleForm.value['emisPaid']) , removiedElements.length )
+
+    // }
+    // console.log(removiedData);
+    // for(let i=0 ; i< removiedData.length ; i++){
+    //   this.deleteRow(removiedData[i])
+    // }
     this.formArr['controls'].splice(Number(this.trackVehicleForm.value['emisPaid']) ,removedIndex)
-    this.fleetRtrDetails.splice(Number(this.trackVehicleForm.value['emisPaid']) ,removedIndex)
+    this.fleetRtrDetails.splice(Number(this.trackVehicleForm.value['emisPaid']) ,removedIndex);
+    console.log(this.fleetRtrDetails);
    }else{
     let addIndex = Number(this.trackVehicleForm.value['emisPaid']) - this.formArr['controls'].length;
     for(let i=0 ; i<addIndex; i++){
@@ -528,11 +543,12 @@ export class TrackVehicleComponent implements OnInit {
             this.formArr.push(this.initRows(null));
             
           }
-          this.fleetRtrDetails = this.formArr.value;
+          this.fleetRtrDetails = this.formArr.getRawValue();
         }
       } else {
         this.formArr.push(this.initRows(null));
       }
+      this.fleetRtrDetails = this.formArr.getRawValue();
       const operationType = this.toggleDdeService.getOperationType();
       if (operationType === '1') {
         this.trackVehicleForm.disable();
@@ -756,27 +772,27 @@ export class TrackVehicleComponent implements OnInit {
     }
   }
 
-  deleteRow(index: number, item) {
+  deleteRow( item) {
 
    // console.log(item)
     if (this.trackVehicleForm.get('installment')['controls'].length > 1) {
-      if (item.value['id'] != null || item.value['id'] != undefined) {
+      if (item['id'] != null || item['id'] != undefined) {
         //   console.log(item.value);
-        this.trackVechileService.deleteFleetRtr(item.value['id']).subscribe((res) => {
+        this.trackVechileService.deleteFleetRtr(item['id']).subscribe((res) => {
           console.log(res);
-          this.formArr.removeAt(index);
-          this.fleetRtrDetails.splice(index, 1)
-          this.paymentCalc(0, 0);
-          this.delayDaysCalc();
+          // this.formArr.removeAt(index);
+          // this.fleetRtrDetails.splice(index, 1)
+          // this.paymentCalc(0, 0);
+          // this.delayDaysCalc();
           this.toasterService.showSuccess('Record deleted successfully!', '');
 
         })
         // this.formArr.removeAt(index);
       } else {
-        this.formArr.removeAt(index);
-        this.fleetRtrDetails.splice(index, 1)
-        this.paymentCalc(0, 0);
-        this.delayDaysCalc();
+        // this.formArr.removeAt(index);
+        // this.fleetRtrDetails.splice(index, 1)
+        // this.paymentCalc(0, 0);
+        // this.delayDaysCalc();
 
       }
     } else {
