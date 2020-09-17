@@ -112,9 +112,10 @@ export class VehicleValuationComponent implements OnInit {
             this.make = element.make;
             this.model = element.model;
             this.address = element.address;
+            console.log("COLLETERALID::", this.colleteralId);
           });
         }
-        console.log("COLLETERALID::", this.colleteralId);
+        // console.log("COLLETERALID::", this.colleteralId);
         console.log("COLLATERALDETAILSDATA::", this.collateralDetailsData);
         // this.getModalData();
         this.getValuatorStatus();
@@ -222,9 +223,19 @@ export class VehicleValuationComponent implements OnInit {
 
   }
 
-  onClickValuationReport(status) {
+  onClickValuationReport(status, collateralId) {
+    console.log("COLLATERAL_ID::", collateralId);
     console.log("vStatus", status);
+    let data = this.collateralDetailsData.find((element) => {
+      console.log("Element::", element.collateralId === collateralId);
+      return element.collateralId === collateralId;
+    });
+    console.log("DATA::", data);
     if (status == 'NOT INITIATED') {
+      this.regNo= data.regNo;
+      this.make = data.make;
+      this.model = data.model;
+      this.address = data.address;
       this.isModal = true;
     }
     else {
