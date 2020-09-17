@@ -311,9 +311,8 @@ export class SourcingDetailsComponent implements OnInit {
 
     this.sourcingCodeKey = data.leadDetails.sourcingCode;
     this.sourcingCodeValue = data.leadDetails.sourcingCodeDesc;
-    this.sourcingDetailsForm.patchValue({
-      sourcingCode: this.sourcingCodeValue,
-    });
+    const sourceCodeKey = (this.sourcingCodeKey == null) ? 'Not Applicable' : this.sourcingCodeValue;
+    this.sourcingDetailsForm.patchValue({ sourcingCode: sourceCodeKey });
   }
 
   getBusinessDivision(bizDivision) {
@@ -484,6 +483,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.sourcingCodePlaceholder = this.placeholder[0].value;
     if (this.sourcingCodePlaceholder === 'Not Applicable') {
       this.isSourchingCode = true;
+      this.sourcingCodeKey = null;
     } else {
       this.isSourchingCode = false;
     }

@@ -37,8 +37,8 @@ export class WelomceLetterComponent implements OnInit {
   country: any;
   pincode: any;
   mobileNo: any;
-  name:any;
-  addressLine1:any
+  name: any;
+  addressLine1: any
   div2Data: any;
   div3Data: any;
   emiSheduleQuery: any;
@@ -75,27 +75,28 @@ export class WelomceLetterComponent implements OnInit {
   creditShield: any;
   assetCost: any;
   showWelcomeLetter: boolean = false;
-  
+
   constructor(private activatedRoute: ActivatedRoute, private labelsData: LabelsService, private commonLovService: CommomLovService, private WelcomeService: WelcomeService
     , private toasterService: ToasterService,) { }
 
   ngOnInit() {
-   
-    this.getLabels();
+
+    //this.getLabels();
     this.getLeadId();
     console.log(this.getLeadId())
-   
-    
+   // this.getWelcomeLetterDetails();
+    // this.onChangeLanguage(ENGPRFLAN);
+    //this.viweWelcomeLetter();
   }
-  
-  
+
+
   getWelcomeLetterDetails() {
     const data = this.leadId;
     this.WelcomeService.getwelcomeLetterDetails(data).subscribe((res: any) => {
       console.log(res)
       if (res['ProcessVariables'] && res['ProcessVariables'].error['code'] == "0") {
         this.isWelcomeDetails = res['ProcessVariables'];
-        console.log("welcome leter details",this.isWelcomeDetails)
+        console.log("welcome leter details", this.isWelcomeDetails)
         this.applicantList = this.isWelcomeDetails["applicantDetails"]
         this.coApplicantList = this.isWelcomeDetails["coAppDetails"];
         this.guarantorList = this.isWelcomeDetails["guarantorDetails"];
@@ -104,15 +105,19 @@ export class WelomceLetterComponent implements OnInit {
         this.div2Data = this.isWelcomeDetails["div2Data"];
         this.div3Data = this.isWelcomeDetails["div3Data"];
         this.vehicleDetailsArray = this.isWelcomeDetails["vehicleDetails"];
-        this.repaymentDetails = res['ProcessVariables'].repaymentDetails          
+        
+        this.repaymentDetails = res['ProcessVariables'].repaymentDetails;         
         this.showWelcomeLetter= true;
-      
-    }else {
-      this.toasterService.showError(res['ProcessVariables'].error["message"],'')
-    }
-  });
-} 
-    
+        
+        this.onChangeLanguage(res["ProcessVariables"].preferredLan)
+
+
+      } else {
+        this.toasterService.showError(res['ProcessVariables'].error["message"], '')
+      }
+    });
+  }
+
   getLeadId() {
     this.activatedRoute.parent.params.subscribe((val) => {
       this.leadId = Number(val.leadId);
@@ -122,7 +127,7 @@ export class WelomceLetterComponent implements OnInit {
 
   downloadpdf() {
     var options = {
-      margin: .25,
+      margin: .50,
       filename: `WelcomeLetter_${this.leadId}.pdf`,
       image: { type: 'jpeg', quality: 1 },
       jsPDF: { unit: 'in', format: 'b4', orientation: 'p' }
@@ -132,31 +137,61 @@ export class WelomceLetterComponent implements OnInit {
   }
 
   getLabels() {
-    this.labelsData.getWelcomeDataenglish().subscribe(
-      (data) => {
-        this.labels = data[0];
-        console.log('english labels', this.labels);
-        // this.nameLength = this.labels.validationData.name.maxLength;
-        // this.mobileLength = this.labels.validationData.mobileNumber.maxLength;
-      },
-      // (error) => console.log('Lead Creation Label Error', error)
-    );
+
+    if (this.labels === 'TELPRFLAN') {
+      this.labelsData.getWelcomeDatatelugu().subscribe(
+        (data) => {
+          this.labels = data[0];
+          console.log('marati labels', this.labels);
+        },
+      );
+    } else if (this.labels === 'MARPRFLAN') {
+      this.labelsData.getWelcomeDatamarati().subscribe(
+        (data) => {
+          this.labels = data[0];
+          console.log('telugu labels', this.labels);
+        },
+      );
+    } else if (this.labels === 'KANPRFLAN') {
+      this.labelsData.getWelcomeDatakanada().subscribe(
+        (data) => {
+          this.labels = data[0];
+          console.log('kanada labels', this.labels);
+        },
+      );
+    } else {
+      this.labelsData.getWelcomeDataenglish().subscribe(
+        (data) => {
+          this.labels = data[0];
+          console.log('english labels', this.labels);
+        },
+      );
+    }
+
   }
 
   onChangeLanguage(labels: string) {
-    if (labels === 'Hindi') {
-      this.labelsData.getWelcomeDataenglish().subscribe((data) => {
+    if (labels == 'TELPRFLAN') {
+    this.labelsData.getWelcomeDatatelugu().subscribe((data) => {
+      this.labels = data[0];
+    });
+    } else if(labels == 'MARPRFLAN'){
+      this.labelsData.getWelcomeDatamarati().subscribe((data) => {
+        this.labels = data[0];
+      });
+    } 
+    else if(labels == 'KANPRFLAN'){
+      this.labelsData.getWelcomeDatakanada().subscribe((data) => {
         this.labels = data[0];
       });
     } else {
+    //if(labels === 'TAMPRELAN'){
       this.labelsData.getWelcomeDataenglish().subscribe((data) => {
-        this.labels = data;
+        this.labels = data[0];
       });
     }
   }
   viweWelcomeLetter(){
     this.getWelcomeLetterDetails();
   }
-  
-
 }

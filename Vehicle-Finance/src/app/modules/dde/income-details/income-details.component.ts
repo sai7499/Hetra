@@ -456,7 +456,7 @@ export class IncomeDetailsComponent implements OnInit {
           applicantType: [''],
           businessEnterpriseName: [
             null,
-            [Validators.required],
+            [Validators.required,],
           ],
           depreciation: [
             null,
@@ -894,7 +894,7 @@ export class IncomeDetailsComponent implements OnInit {
   // }
   onSubmit() {
     this.submitted = true;
-   
+   console.log(this.incomeDetailsForm)
 if(this.productCode == "UC" && this.businessIncomeDetailsArray.length == 0 && this.otherIncomeDetailsArray.length == 0  ){
   this.toasterService.showError(
     'Add atleast one entry in Business income or Other income Details',
