@@ -311,9 +311,6 @@ export class SourcingDetailsComponent implements OnInit {
 
     this.sourcingCodeKey = data.leadDetails.sourcingCode;
     this.sourcingCodeValue = data.leadDetails.sourcingCodeDesc;
-    // this.sourcingDetailsForm.patchValue({
-    //   sourcingCode: this.sourcingCodeValue,
-    // });
     const sourceCodeKey = (this.sourcingCodeKey == null) ? 'Not Applicable' : this.sourcingCodeValue;
     this.sourcingDetailsForm.patchValue({ sourcingCode: sourceCodeKey });
   }
