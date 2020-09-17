@@ -313,7 +313,7 @@
     "workExperience": "Work Experience",
     "extn": "Extn",
     "workStability": "Work Stability",
-    "natureOfBusiness": "Nature of Goods",
+    "natureOfBusiness": "Nature of Business",
     "educationalBackground": "Educational Background Type",
     "isMinority": "Is Minority?",
     "community": "Community",
@@ -1608,6 +1608,7 @@
     "accountBranchname": "Account Branchname",
     "termsheetGeneratedDate": "Termsheet Generated Date",
     "loanAccNumber": "Loan Account Number",
+    "natureOfGoods" : "Nature of Goods",
     "validationData": {
         "name": {
             "maxLength": {
