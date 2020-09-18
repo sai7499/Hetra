@@ -623,6 +623,7 @@
     "abbEmi": "ABB/EMI",
     "abb": "ABB",
     "customerBackgroundSalesRecommendation": "Customer Background/Sales Recommendation",
+    "backgroundSalesRecommendation":"Background/Sales Recommendation",
     "recommendedBySoSmBm": "Recommended By SO/SM/BM",
     "nameWithECode": "Name with E Code",
     "CoApplicantBackground": "Co Applicant Background",
