@@ -68,6 +68,9 @@ export class BasicDetailsComponent implements OnInit {
   showNotApplicant : boolean;
   externalExpiryDate : any;
   externalIssueDate : any;
+  showEmployeeNo: boolean = false;
+  checkedEquitasEmployee: string= '0';
+  checkedRelativeEquitas: string = '0'
 
   emailPattern = {
     rule: '^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(\\.\\w{2,10})+$',
@@ -428,6 +431,8 @@ export class BasicDetailsComponent implements OnInit {
     this.checkedBoxHouse = applicantDetails.ownHouseProofAvail == '1' ? true : false;
     this.isChecked= applicantDetails.ownHouseProofAvail == '1' ? true : false;
 
+
+
     details.patchValue({
       name1: applicantDetails.name1,
       name2: applicantDetails.name2,
@@ -480,10 +485,20 @@ export class BasicDetailsComponent implements OnInit {
       this.setSalriedValidators()
     }
     
-
-
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
+
+    this.checkedEquitasEmployee= aboutIndivProspectDetails.isEquitasEmployee;
+    this.checkedRelativeEquitas= aboutIndivProspectDetails.isEquitasEmployeeRelative;
+    if(this.checkedEquitasEmployee=='1'){
+       this.setEmployeeNoValidation(details)
+       this.showEmployeeNo= true;
+    }else{
+      this.removeEmployeeNoValidation(details)
+      this.showEmployeeNo= false;
+    }
+
+
     details.patchValue({
       emailId: aboutIndivProspectDetails.emailId || '',
       alternateEmailId: aboutIndivProspectDetails.alternateEmailId || '',
@@ -531,7 +546,8 @@ export class BasicDetailsComponent implements OnInit {
       noOfAdultsDependant: aboutIndivProspectDetails.noOfAdultsDependant || '',
       noOfChildrenDependant:  aboutIndivProspectDetails.noOfChildrenDependant || '',
       marginMoney: aboutIndivProspectDetails.marginMoney || '',
-      emiAffordability: aboutIndivProspectDetails.emiAffordability || ''
+      emiAffordability: aboutIndivProspectDetails.emiAffordability || '',
+      equitasEmployeeNumber: aboutIndivProspectDetails.equitasEmployeeNumber || ''
     });
     this.clearFatherOrSpouseValidation();
     this.eitherFathOrspouse();
@@ -610,6 +626,36 @@ export class BasicDetailsComponent implements OnInit {
   }
 
 
+  isEquitasEmployee(event){
+    const value= event.target.checked;
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    if(value){
+      this.showEmployeeNo=true;
+      this.checkedEquitasEmployee= '1'
+      this.setEmployeeNoValidation(details);
+    }else{
+      this.showEmployeeNo=false;
+      this.checkedEquitasEmployee= '0'
+      this.removeEmployeeNoValidation(details);
+      details.get('equitasEmployeeNumber').setValue('');
+    }
+  }
+
+  setEmployeeNoValidation(details){
+    details.get('equitasEmployeeNumber').setValidators([Validators.required]);
+    details.get('equitasEmployeeNumber').updateValueAndValidity();
+  }
+
+  removeEmployeeNoValidation(details){ 
+    details.get('equitasEmployeeNumber').clearValidators();
+    details.get('equitasEmployeeNumber').updateValueAndValidity();
+  }
+
+  isRelativeequitas(event){
+    const value=event.target.checked
+    this.checkedRelativeEquitas= value? '1' : '0';
+  }
 
 
   addIndividualFormControls() {
@@ -683,7 +729,11 @@ export class BasicDetailsComponent implements OnInit {
       noOfAdultsDependant: new FormControl('',Validators.required),
       noOfChildrenDependant: new FormControl('',Validators.required),
       marginMoney: new FormControl('',Validators.required),
-      emiAffordability: new FormControl('',Validators.required)
+      emiAffordability: new FormControl('',Validators.required),
+      isEquitasEmployeeRelative: new FormControl(''),
+      isEquitasEmployee: new FormControl(''),
+      equitasEmployeeNumber: new FormControl(''),
+
     });
     formArray.push(controls);
     // setTimeout(() => {
@@ -1180,7 +1230,9 @@ export class BasicDetailsComponent implements OnInit {
      prospectDetails.noOfChildrenDependant = aboutIndivProspectDetails.noOfChildrenDependant || '';
      prospectDetails.marginMoney = aboutIndivProspectDetails.marginMoney || '';
      prospectDetails.emiAffordability = aboutIndivProspectDetails.emiAffordability || '';
-
+     prospectDetails.isEquitasEmployeeRelative= this.checkedRelativeEquitas;
+     prospectDetails.isEquitasEmployee= this.checkedEquitasEmployee;
+     prospectDetails.equitasEmployeeNumber= aboutIndivProspectDetails.equitasEmployeeNumber || '';
 
     this.applicantDataService.setIndividualProspectDetails(prospectDetails);
 

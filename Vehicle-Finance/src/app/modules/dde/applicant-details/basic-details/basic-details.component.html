@@ -985,6 +985,57 @@
               </div>
           </div>
 
+          <div class="row">
+
+            <div
+              class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12"
+              id="align_this_checkbox"
+            >
+              <input
+                type="checkbox"
+                id=""
+                (click)="isRelativeequitas($event)"
+                [checked]="checkedRelativeEquitas=='1'"
+                formControlName="isEquitasEmployeeRelative"
+                class="senior_minor"
+              />
+              <span class="is_senior">{{labels?.equitasEmployeesRelative}}</span>
+            </div>
+
+            <div
+            class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12"
+            id="align_this_checkbox"
+          >
+            <input
+              type="checkbox"
+              id=""
+              (click)="isEquitasEmployee($event)"
+              [checked]="checkedEquitasEmployee=='1'"
+              formControlName="isEquitasEmployee"
+              class="senior_minor"
+            />
+            <span class="is_senior">{{labels?.equitasEmployee}}</span>
+          </div>
+              <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12"
+              *ngIf="showEmployeeNo">
+
+                <label for="margin_money"
+                >{{labels?.employeeNo}}
+                <sub class="star_red_col">*</sub></label
+              >
+                <app-custom-input
+                  formControlName="equitasEmployeeNumber"
+                  [maxLength]="validationData?.employeeNo?.maxLength"
+                  [type]="validationData?.employeeNo?.type"
+                  [isRequired]="'Employee Number is required'"
+                  [isDirty]="isDirty"
+                ></app-custom-input>
+  
+  
+                </div>
+          </div>
+
+
           <div *ngIf="custCatValue=='SALCUSTSEG'">      
           <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
