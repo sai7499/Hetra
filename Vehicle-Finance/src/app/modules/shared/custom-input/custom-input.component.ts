@@ -144,11 +144,11 @@ export class CustomInputComponent
 
   checkValidation(value) {
     const newValue = value;
-    if (!newValue && !this.isRequired) {
-      this.inputError = false;
+    if (!newValue && !this.isRequired )
+   {  this.inputError = false;
       return;
     }
-    if (!newValue && this.isRequired) {
+    if ((newValue === null || newValue == undefined || newValue === "") && this.isRequired) {
       this.displayError(this.checkIsFirst ? '' : this.isRequired);
       this.checkIsFirst = false;
       return;
