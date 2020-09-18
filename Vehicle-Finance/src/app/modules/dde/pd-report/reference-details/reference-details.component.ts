@@ -129,10 +129,10 @@ export class ReferenceDetailsComponent implements OnInit {
   setFormValue(referenceDetails) {
 
     this.referenceDetailsForm.patchValue({
-      referrerFirstName: referenceDetails.referrerFirstName || '',
+      refererFirstName: referenceDetails.refererFirstName || '',
       refererSecondName: referenceDetails.refererSecondName || '',
-      referrerThirdName: referenceDetails.referrerThirdName || '',
-      referrerFullName: referenceDetails.referrerFullName || '',
+      refererThirdName: referenceDetails.refererThirdName || '',
+      refererFullName: referenceDetails.refererFullName || '',
       refererRelationship: referenceDetails.refererRelationship || '',
       refererOfficePhoneNo: referenceDetails.refererOfficePhoneNo || '',
       refererAddressLine1: referenceDetails.refererAddressLine1 || '',
@@ -170,10 +170,10 @@ export class ReferenceDetailsComponent implements OnInit {
   //FORMGROUP
   initForm() {
     this.referenceDetailsForm = this.formBuilder.group({
-      referrerFirstName: ["", Validators.required],
+      refererFirstName: ["", Validators.required],
       refererSecondName: [""],
-      referrerThirdName: ["", Validators.required],
-      referrerFullName: [{ value: '', disabled: true }],
+      refererThirdName: ["", Validators.required],
+      refererFullName: [{ value: '', disabled: true }],
       refererRelationship: ["", Validators.required],
       refererOfficePhoneNo: ["", Validators.required],
       refererAddressLine1: ["", Validators.required],
@@ -315,7 +315,7 @@ export class ReferenceDetailsComponent implements OnInit {
 
     let formValue = this.referenceDetailsForm.getRawValue();
 
-    formValue.referrerFullName = formValue.referrerFirstName || '' + ' ' + formValue.refererSecondName || '' + ' ' + (formValue.referrerThirdName || '');
+    formValue.refererFullName = formValue.refererFirstName || '' + ' ' + formValue.refererSecondName || '' + ' ' + (formValue.refererThirdName || '');
     formValue.referenceFullName = formValue.referenceFirstName || '' + ' ' + formValue.referenceSecondName || '' + ' ' + formValue.referenceThirdName || '';
 
     if (this.referenceDetailsForm.valid) {

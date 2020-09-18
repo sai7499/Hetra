@@ -20,7 +20,7 @@ export class LeadSectionHeaderComponent implements OnInit {
   productId: any;
   productIdFromLead: any;
   applicantName: string;
-  loanAmount: Number;
+  loanAmount: number;
   stageDescription: string;
 
   isNeedBackButton: boolean = false;
@@ -97,7 +97,8 @@ export class LeadSectionHeaderComponent implements OnInit {
     this.sharedService.loanAmount$.subscribe(
       (value) => (this.loanAmount = value)
     );
-
+    // Number(value).toLocaleString('en-IN')
+    'en-IN'
     this.loanAmount = leadSectionData['leadDetails']['reqLoanAmt']
       ? leadSectionData['leadDetails']['reqLoanAmt']
       : 0;

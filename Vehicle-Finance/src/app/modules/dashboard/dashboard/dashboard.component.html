@@ -316,7 +316,7 @@
             *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
             <td [attr.data-label]="labels?.action" *ngIf="onReleaseTab">
               <input type="button" class="btn btn-primary"
-                (click)="onRelase(item.taskId); assignTaskId(item.taskId); onClick()" value="Release"
+                (click)="onRelase(item.taskId, item.leadId); assignTaskId(item.taskId, item.leadId); onClick()" value="Release"
                 data-toggle="modal" data-target="#releaseModal">
             </td>
             <td [attr.data-label]="labels?.action" *ngIf="onAssignTab">
@@ -358,7 +358,8 @@
           <thead>
             <tr class="table-head-bg">
               <th *ngIf="displayTabs?.LoanBooking === activeTab">{{labels?.leadID}}</th>
-              <th>{{labels?.loanNumber}}<i class="fa fa-sort"></i> </th>
+              <th *ngIf="displayTabs?.LoanBooking === activeTab">{{labels?.loanAccNumber}}<i class="fa fa-sort"></i> </th>
+              <th *ngIf="displayTabs?.LoanBooking !== activeTab">{{labels?.loanNumber}}<i class="fa fa-sort"></i> </th>
               <th>{{labels?.productCategory}}<i class="fa fa-sort"></i> </th>
               <th>{{labels?.loanAmount}}<i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}"
                   (click)="onSort(sortTables?.ByLoanAmt)"></i> </th>

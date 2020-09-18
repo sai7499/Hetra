@@ -588,6 +588,10 @@ export class FleetDetailsComponent implements OnInit {
       this.fleetDetails[i]['paid'] = parseInt(this.fleetDetails[i]['paid'])
       this.fleetDetails[i]['gridValue'] = parseInt(formArray.controls[i]['controls']['gridValue'].value);
          this.fleetDetails[i]['seasoning'] = parseInt(formArray.controls[i]['controls']['seasoning'].value);
+         this.fleetDetails[i]['ad'] = formArray.controls[i]['controls']['ad'].value;
+         this.fleetDetails[i]['pd'] = formArray.controls[i]['controls']['pd'].value;
+
+
 
     }
     //  this.fleetDetails['purchaseDate'] = this.sendDate(this.fleetDetails['purchaseDate'])

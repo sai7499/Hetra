@@ -313,7 +313,7 @@
     "workExperience": "Work Experience",
     "extn": "Extn",
     "workStability": "Work Stability",
-    "natureOfBusiness": "Nature of Goods",
+    "natureOfBusiness": "Nature of Business",
     "educationalBackground": "Educational Background Type",
     "isMinority": "Is Minority?",
     "community": "Community",
@@ -1608,6 +1608,8 @@
     "micrNo": "MICR No",
     "accountBranchname": "Account Branchname",
     "termsheetGeneratedDate": "Termsheet Generated Date",
+    "natureOfGoods" : "Nature Of Goods",
+    "loanAccNumber": "Loan Account Number",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1675,7 +1677,7 @@
             "maxLength": {
                 "rule": 5
             },
-            "type": "decimal"
+            "type": "decimal-4"
         },
         "bankName": {
             "maxLength": {
@@ -2067,7 +2069,7 @@
             "maxLength": {
                 "rule": 5
             },
-            "type": "decimal"
+            "type": "decimal-2"
         },
         "pattaNo": {
             "maxLength": {
@@ -2517,6 +2519,12 @@
                 "rule": 10
             },
             "type": "number"
+        },
+        "newlimitAmount": {
+            "maxLength": {
+                "rule": 30
+            },
+            "type": "alpha-numeric"
         },
         "branchName": {
             "maxLength": {
