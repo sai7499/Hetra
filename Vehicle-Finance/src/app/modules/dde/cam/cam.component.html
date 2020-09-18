@@ -1459,11 +1459,11 @@
 
     <!---sourcing table starts here-->
     <table class="cam_table mt-3">
-        <!-- <caption class="caption">
+        <caption class="caption">
             {{
     labels?.sourceDetailsTitle
   }}
-        </caption> -->
+        </caption>
         <tr>
             <td class="bank_name">{{ labels?.customerType }}</td>
             <td>{{ sourcingDetails?.customerType }}</td>
@@ -1565,12 +1565,12 @@
     <!--sourcing table ends here--->
 
     <!--applicantDetails-->
-    <table class="cam_table_proposed mt-3 terms">
-        <!-- <caption class="caption">
+    <table class="cam_table_proposed mt-3">
+        <caption class="caption">
             {{
     labels?.applicantDetailsTitle
   }}
-        </caption> -->
+        </caption>
         <thead>
             <tr class="termHead">
                 <th class="bank_name termHead">{{ labels?.terms }}</th>
@@ -2045,22 +2045,20 @@
 
 
     <!--customerBackgroundSalesRecommendation-->
-    <table class="cam_table_proposed mt-3">
+    <table class="cam_table_proposed mt-3"  *ngFor="let appRecommendation of appRecommendation">
         <caption class="caption">
-            {{
-        labels?.customerBackgroundSalesRecommendation
-      }}
+            {{ appRecommendation?.applicantType }} {{labels?.backgroundSalesRecommendation}}
         </caption>
         <tbody>
 
             <tr>
-                <td colspan="6" height="80"></td>
+                <td colspan="6">{{ appRecommendation?.recommendation }}</td>
             </tr>
             <tr>
-                <td width="100" class="bank_name">{{ labels?.recommendedBy }}</td>
-                <td width="500">{{ customerBackgroundSalesRecommendation?.recommendedBy }}</td>
+                <!-- <td width="100" class="bank_name">{{ labels?.recommendedBy }}</td> -->
+                <!-- <td width="500"></td> -->
                 <td width="100" class="bank_name">{{ labels?.nameWithECode }}</td>
-                <td width="200">{{ customerBackgroundSalesRecommendation?.nameWithEcode }}</td>
+                <td width="200">{{ appRecommendation?.nameWithEcode }}</td>
 
             </tr>
         </tbody>
@@ -2068,23 +2066,21 @@
     <!--customerBackgroundSalesRecommendation-->
 
     <!--CoApplicantBackground-->
-    <table class="cam_table_proposed mt-3">
+    <!-- <table class="cam_table_proposed mt-3" *ngFor="let appRecommendation of appRecommendation">
         <caption class="caption">
-            {{
-        labels?.CoApplicantBackground
-      }}
+            {{ appRecommendation?.applicantType }} {{labels?.backgroundSalesRecommendation}}
         </caption>
         <tbody>
             <tr>
-                <td colspan="6" height="80"></td>
+                <td colspan="6" >{{appRecommendation?.recommendation}}</td>
             </tr>
 
         </tbody>
-    </table>
+    </table> -->
     <!--CoApplicantBackground-->
 
     <!--guarantorDetails-->
-    <table class="cam_table_proposed mt-3">
+    <!-- <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
         labels?.guarantorDetails
@@ -2096,7 +2092,7 @@
             </tr>
 
         </tbody>
-    </table>
+    </table> -->
     <!--guarantorDetails-->
 
     <!--vehicleDeploymentDetails-->
@@ -2374,9 +2370,9 @@
         labels?.coRecommendationAndTvrDetailsMandatory
       }}
         </caption>
-        <tbody>
+        <tbody *ngFor="let coRecommendationTvrDetails of coRecommendationTvrDetails"> 
             <tr>
-                <td colspan="6" height="80"></td>
+                <td colspan="6" >{{ coRecommendationTvrDetails?.recommendation }}</td>
             </tr>
             <tr >
                 <td width="100" class="bank_name">{{ labels?.nameWithECode }}</td>
