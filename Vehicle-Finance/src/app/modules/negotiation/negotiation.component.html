@@ -218,9 +218,9 @@
                   <label class="control-label col-sm-5 col-md-4 col-lg-3" for="MITenure">{{ labels?.MITenure }}
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-custom-input formControlName="MITenure" type="text" class="form-control mandatory select2 custom-negotiation-field"
+                    <app-custom-input formControlName="MITenure" type="number" class="form-control mandatory select2 custom-negotiation-field"
                       id="MITenure" placeholder="Eligible LTV (in %)" [isDirty]="isDirty" [isRequired]="'MI Tenure is Required'"
-                      name="MITenure" (change)="fetchPreimumAmount(1,'motor',i)">
+                      name="MITenure" (change)="fetchPreimumAmount(1,'motor',i)" [maxLength]="labels?.validationData.MITenure.maxLength">
                     </app-custom-input>
                   </div>
                 </div>
@@ -397,10 +397,8 @@
                 <div class="col-sm-6 col-md-4 col-lg-3">
                   <app-custom-input formControlName="FASTagAmount" type="number" class="form-control mandatory select2 custom-negotiation-field"
                     id="FASTagAmount" placeholder="FASTag Amount (in INR)" name="FASTagAmount" (change)="calculateTotal(i)"
-                    [maxLength]="labels?.validationData.FASTagAmount.maxLength"
-                     [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].
-                     fastTag['controls'].EquitasFASTagRequired.value == '2')? null :'FAST Tag Amount is Required'"
-                    [isDirty]="isDirty"></app-custom-input>
+                    [maxLength]="labels?.validationData.FASTagAmount.maxLength" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].
+                     fastTag['controls'].EquitasFASTagRequired.value == '2')? null :'FAST Tag Amount is Required'" [isDirty]="isDirty"></app-custom-input>
                 </div>
               </div>
               <div class="form-group">
@@ -541,7 +539,7 @@
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3 label-space ">
                 <app-custom-input formControlName="DeductionChargefixedRate" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
-                  (change)="getNetDisbursementAmount()" [placeholder]="'Credit Shield Charges (in INR)'">
+                  (change)="getNetDisbursementAmount()" [placeholder]="'Credit Shield Charges (in INR)'" [maxLength]="labels?.validationData.DeductionChargefixedRate.maxLength">
                 </app-custom-input>
               </div>
             </div>
@@ -574,11 +572,8 @@
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
               <app-custom-input formControlName="NoofPDC" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
-                [isRequired]="'PDC Value is Required'" [placeholder]="'PDC Value'" 
-                (change)="calculateMinMax($event.target.value)" [custom]="PDCvalueCheck"
-                [minLength]="labels?.validationData.NoofPDC.minLength"
-                [maxLength]="labels?.validationData.NoofPDC.maxLength">
-              
+                [isRequired]="'PDC Value is Required'" [placeholder]="'PDC Value'" (change)="calculateMinMax($event.target.value)"
+                [custom]="PDCvalueCheck" [minLength]="labels?.validationData.NoofPDC.minLength" [maxLength]="labels?.validationData.NoofPDC.maxLength">
               </app-custom-input>
             </div>
           </div>
@@ -587,10 +582,8 @@
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
               <app-custom-input formControlName="NoofSPDC" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
-                [isRequired]="'SPDC Value is Required'" [placeholder]="'SPDC Value'" 
-                (change)="calculateMinMax('')" [custom]="SPDCvalueCheck"
-                [minLength]="labels?.validationData.NoofSPDC.minLength"
-                [maxLength]="labels?.validationData.NoofSPDC.maxLength">
+                [isRequired]="'SPDC Value is Required'" [placeholder]="'SPDC Value'" (change)="calculateMinMax('')" [custom]="SPDCvalueCheck"
+                [minLength]="labels?.validationData.NoofSPDC.minLength" [maxLength]="labels?.validationData.NoofSPDC.maxLength">
               </app-custom-input>
             </div>
           </div>
