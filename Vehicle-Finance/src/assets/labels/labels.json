@@ -1679,6 +1679,12 @@
             },
             "type": "decimal-4"
         },
+        "valueasToday": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "decimal-4"
+        },
         "bankName": {
             "maxLength": {
                 "rule": 25
