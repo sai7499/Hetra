@@ -129,7 +129,7 @@ export class NegotiationComponent implements OnInit {
   baseInterest: any;
   maxInterest: any;
   minInterest: any;
-  varianceIRR : any;
+  varianceIRR: any;
   constructor(
     private labelsData: LabelsService,
     private NegotiationService: NegotiationService,
@@ -166,7 +166,6 @@ export class NegotiationComponent implements OnInit {
     setTimeout(() => {
       this.getAssetDetails();//enable this to fetch data,redirects fro dashboard
     }, 1000);
-   
   }
   getFundingReq(event, i) {
     this.showapplicable = false;
@@ -248,7 +247,6 @@ export class NegotiationComponent implements OnInit {
       NoofPDC: ['', [Validators.minLength(1), Validators.maxLength(1)]],
       NoofSPDC: ['', [Validators.minLength(1), Validators.maxLength(1)]],
     })
-  
   }
   calculatepremiumAmount(event, ins_type_id, i) {
     const value = event.target.value;
@@ -588,7 +586,6 @@ export class NegotiationComponent implements OnInit {
     this.SPDCvalueCheck = [{ rule: spdcvalue => Number(spdcvalue) > Number(this.maxValueSPDC), msg: 'value should be between 5 and 8' },
     { rule: spdcvalue => Number(spdcvalue) < Number(this.minValueSPDC), msg: 'value should be between 5 and 8' }];
   }
- 
   getLOV() {
     this.NegotiationService
       .getmotorInsuranceData().subscribe((res: any) => {
@@ -896,7 +893,7 @@ export class NegotiationComponent implements OnInit {
     if (this.varianceIRR > Number(this.maxInterest) || this.varianceIRR < Number(this.minInterest)) {
       this.createNegotiationForm.controls.NegotiatedIRR.setValue(null);
       this.toasterService.showError(
-        'IRR should be between '+ (Number(this.minInterest) + Number(this.baseInterest)) +' and '+(Number(this.maxInterest) + Number(this.baseInterest)) +'.',
+        'IRR should be between ' + (Number(this.minInterest) + Number(this.baseInterest)) + ' and ' + (Number(this.maxInterest) + Number(this.baseInterest)) + '.',
         'Create Negotiation'
       );
     }
@@ -1012,7 +1009,7 @@ export class NegotiationComponent implements OnInit {
         deductions: this.Deductions,
         processingFee: this.processingFee,
         serviceCharge: this.serviceCharge,
-        variance:this.varianceIRR
+        variance: this.varianceIRR
       };
       this.CrossSellInsurance = [];
       this.CrossSellOthers = [];

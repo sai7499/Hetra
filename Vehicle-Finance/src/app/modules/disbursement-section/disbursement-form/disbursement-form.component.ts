@@ -46,6 +46,7 @@ export class DisbursementFormComponent implements OnInit {
   isAlert: boolean;
   alertTimeOut: any;
   keyword: string;
+  dealerkeyword: string;
   placeholder = [];
   dealerCodeData: Array<any> = [];
   leadData$: BehaviorSubject<any> = new BehaviorSubject([]);
@@ -145,7 +146,7 @@ export class DisbursementFormComponent implements OnInit {
   coApplicant3: Object = {};
   bankdetailsformArray = ['beneficiaryAccountNo', 'beneficiaryBank', 'ifscCode', 'beneficiaryBranch']
   chequeDDformArray = ['instrumentType', 'favouringBankOfDraw', 'favouringBankBranch']
-  casaformArray = ['beneficiaryAccountNo']
+  //casaformArray = ['beneficiaryAccountNo']
   intTypeformArray = ['instrumentNumber', 'instrumentDate']
   bankcasaformArray = ['beneficiaryBank', 'ifscCode', 'beneficiaryBranch']
 
@@ -204,6 +205,57 @@ export class DisbursementFormComponent implements OnInit {
   bankerDisbursementID: any;
   finDisbursementID: any;
   tpDisbursementID: any;
+  dealerBankListData: Array<any> = [];
+  bankDealerDetailsData: Array<any> = [];
+  bankAppDetailsData: any[];
+  bankCoApp1DetailsData: any[];
+  bankCoApp2DetailsData: any[];
+  bankCoApp3DetailsData: any[];
+  bankBankerDetailsData: any[];
+  bankFinDetailsData: any[];
+  bankTPDetailsData: any[];
+  bankDetailsData: any;
+  appBankListData: any;
+  appkeyword: string;
+  coApp1BankListData: any;
+  coApp1keyword: string;
+  coApp2BankListData: any;
+  coApp2keyword: string;
+  coApp3BankListData: any;
+  coApp3keyword: string;
+  bankerBankListData: any;
+  bankerkeyword: string;
+  finBankListData: any;
+  finkeyword: string;
+  thirdPartyBankListData: any;
+  thirdPartykeyword: string;
+  selectBankerListData: any;
+  selectBankerkeyword: string;
+  dealerfavBODListData: any;
+  dealerFavkeyword: string;
+  dealerfavBODListDatadealerfavBODListData: any[];
+  bankDealerFavBODDetailsData: any[];
+  appfavBODListData: any;
+  appFavFavkeyword: string;
+  bankAppFavBODDetailsData: any[];
+  coApp1favBODListData: any;
+  coApp1Favkeyword: string;
+  bankCoApp1FavBODDetailsData: any[];
+  coApp2favBODListData: any;
+  coApp2Favkeyword: string;
+  bankCoApp2FavBODDetailsData: any[];
+  coApp3favBODListData: any;
+  coApp3Favkeyword: string;
+  bankCoApp3FavBODDetailsData: any[];
+  bankerfavBODListData: any;
+  bankerFavkeyword: string;
+  bankBankerFavBODDetailsData: any[];
+  finfavBODListData: any;
+  finFavkeyword: string;
+  bankFinFavBODDetailsData: any[];
+  thirdPartyfavBODListData: any;
+  thirdPartyFavkeyword: string;
+  bankTPFavBODDetailsData: any[];
 
 
   constructor(
@@ -744,6 +796,12 @@ export class DisbursementFormComponent implements OnInit {
         const dealerDetailsData = response.ProcessVariables.DealerDetails;
         if (dealerDetailsData) {
           this.dealerObjInfo = dealerDetailsData;
+          if(this.dealerObjInfo['beneficiaryBank']){
+            this.onBankNameSearch(this.dealerObjInfo['beneficiaryBank'],'1');
+            if(this.dealerObjInfo['beneficiaryBranch']){
+            this.setIFSC(this.dealerObjInfo['beneficiaryBranch'],'dealer');
+            }
+          }
         } else {
           this.dealerObjInfo = {};
           this.showTrancheTable = false;
@@ -753,11 +811,277 @@ export class DisbursementFormComponent implements OnInit {
       }
     });
   }
-  // selectDealerEvent(event) {
-  //   this.isNgAutoCompleteDealer = event ? true : false;
-  //   const dealerData = event;
-  //   this.dealerDetailsForm.patchValue({ rcLimit: dealerData.rcLimit });
-  // }
+  onBankNameSearch(event,val) {
+    let inputString = event;
+    console.log('inputStringBank', event);
+    this.disbursementService.BnfBankName(inputString).subscribe((res: any) => {
+      const response = res;
+      const appiyoError = response.Error;
+      //const apiError = response.ProcessVariables.error.code;
+      if (appiyoError === '0') {
+        if(val == '1'){
+          if(inputString.length >= 3 && response.ProcessVariables.bankList){
+            this.dealerBankListData = response.ProcessVariables.bankList;
+            this.dealerkeyword = 'dealerBankListData';
+          } else {
+            this.dealerBankListData = [];
+            this.bankDealerDetailsData = [];
+            this.dealerDetailsForm.controls['ifscCode'].reset();
+            this.dealerDetailsForm.controls['beneficiaryBranch'].reset();
+          }
+        }
+        if(val == '2'){
+          if(inputString.length >= 3 && response.ProcessVariables.bankList){
+            this.appBankListData = response.ProcessVariables.bankList;
+            this.appkeyword = 'appBankListData';
+          } else {
+            this.appBankListData = [];
+            this.bankAppDetailsData = [];
+            this.appDetailsForm.controls['ifscCode'].reset();
+            this.appDetailsForm.controls['beneficiaryBranch'].reset();
+          }
+        }
+        if(val == '3'){
+          if(inputString.length >= 3 && response.ProcessVariables.bankList){
+            this.coApp1BankListData = response.ProcessVariables.bankList;
+            this.coApp1keyword = 'coApp1BankListData';
+          } else {
+            this.coApp1BankListData = [];
+            this.bankCoApp1DetailsData = [];
+            this.coApp1Form.controls['ifscCode'].reset();
+            this.coApp1Form.controls['beneficiaryBranch'].reset();
+          }
+        }
+        if(val == '4'){
+          if(inputString.length >= 3 && response.ProcessVariables.bankList){
+            this.coApp2BankListData = response.ProcessVariables.bankList;
+            this.coApp2keyword = 'coApp2BankListData';
+          } else {
+            this.coApp2BankListData = [];
+            this.bankCoApp2DetailsData = [];
+            this.coApp2Form.controls['ifscCode'].reset();
+            this.coApp2Form.controls['beneficiaryBranch'].reset();
+          }
+        }
+        if(val == '5'){
+          if(inputString.length >= 3 && response.ProcessVariables.bankList){
+            this.coApp3BankListData = response.ProcessVariables.bankList;
+            this.coApp3keyword = 'coApp3BankListData';
+          } else {
+            this.coApp3BankListData = [];
+            this.bankCoApp3DetailsData = [];
+            this.coApp3Form.controls['ifscCode'].reset();
+            this.coApp3Form.controls['beneficiaryBranch'].reset();
+          }
+        }
+        if(val == '6'){
+          if(inputString.length >= 3 && response.ProcessVariables.bankList){
+            this.bankerBankListData = response.ProcessVariables.bankList;
+            this.bankerkeyword = 'bankerBankListData';
+          } else {
+            this.bankerBankListData = [];
+            this.bankBankerDetailsData = [];
+            this.bankerDetailsForm.controls['ifscCode'].reset();
+            this.bankerDetailsForm.controls['beneficiaryBranch'].reset();
+          }
+        }
+        if(val == '7'){
+          if(inputString.length >= 3 && response.ProcessVariables.bankList){
+            this.finBankListData = response.ProcessVariables.bankList;
+            this.finkeyword = 'finBankListData';
+          } else {
+            this.finBankListData = [];
+            this.bankFinDetailsData = [];
+            this.financierDetailsForm.controls['ifscCode'].reset();
+            this.financierDetailsForm.controls['beneficiaryBranch'].reset();
+          }
+        }
+        if(val == '8'){
+          if(inputString.length >= 3 && response.ProcessVariables.bankList){
+            this.thirdPartyBankListData = response.ProcessVariables.bankList;
+            this.thirdPartykeyword = 'thirdPartyBankListData';
+          } else {
+            this.thirdPartyBankListData = [];
+            this.bankTPDetailsData = [];
+            this.thirdPartyDetailsForm.controls['ifscCode'].reset();
+            this.thirdPartyDetailsForm.controls['beneficiaryBranch'].reset();
+          }
+        }
+        if(val == '9'){
+          if(inputString.length >= 3 && response.ProcessVariables.bankList){
+            this.selectBankerListData = response.ProcessVariables.bankList;
+            this.selectBankerkeyword = 'selectBankerListData';
+          } else {
+            this.selectBankerListData = [];
+          }
+        }
+        if(val == '10'){
+          if(inputString.length >= 3 && response.ProcessVariables.bankList){
+            this.dealerfavBODListData = response.ProcessVariables.bankList;
+            this.dealerFavkeyword = 'dealerfavBODListData';
+          } else {
+            this.dealerfavBODListDatadealerfavBODListData = [];
+            this.bankDealerFavBODDetailsData = [];
+            this.dealerDetailsForm.controls['favouringBankBranch'].reset();
+          }
+        }
+        if(val == '11'){
+          if(inputString.length >= 3 && response.ProcessVariables.bankList){
+            this.appfavBODListData = response.ProcessVariables.bankList;
+            this.appFavFavkeyword = 'appfavBODListData';
+          } else {
+            this.appfavBODListData = [];
+            this.bankAppFavBODDetailsData = [];
+            this.appDetailsForm.controls['favouringBankBranch'].reset();
+          }
+        }
+        if(val == '12'){
+          if(inputString.length >= 3 && response.ProcessVariables.bankList){
+            this.coApp1favBODListData = response.ProcessVariables.bankList;
+            this.coApp1Favkeyword = 'coApp1favBODListData';
+          } else {
+            this.coApp1favBODListData = [];
+            this.bankCoApp1FavBODDetailsData = [];
+            this.coApp1Form.controls['favouringBankBranch'].reset();
+          }
+        }
+        if(val == '13'){
+          if(inputString.length >= 3 && response.ProcessVariables.bankList){
+            this.coApp2favBODListData = response.ProcessVariables.bankList;
+            this.coApp2Favkeyword = 'coApp2favBODListData';
+          } else {
+            this.coApp2favBODListData = [];
+            this.bankCoApp2FavBODDetailsData = [];
+            this.coApp2Form.controls['favouringBankBranch'].reset();
+          }
+        }
+        if(val == '14'){
+          if(inputString.length >= 3 && response.ProcessVariables.bankList){
+            this.coApp3favBODListData = response.ProcessVariables.bankList;
+            this.coApp3Favkeyword = 'coApp3favBODListData';
+          } else {
+            this.coApp3favBODListData = [];
+            this.bankCoApp3FavBODDetailsData = [];
+            this.coApp3Form.controls['favouringBankBranch'].reset();
+          }
+        }
+        if(val == '15'){
+          if(inputString.length >= 3 && response.ProcessVariables.bankList){
+            this.bankerfavBODListData = response.ProcessVariables.bankList;
+            this.bankerFavkeyword = 'bankerfavBODListData';
+          } else {
+            this.bankerfavBODListData = [];
+            this.bankBankerFavBODDetailsData = [];
+            this.bankerDetailsForm.controls['favouringBankBranch'].reset();
+          }
+        }
+        if(val == '16'){
+          if(inputString.length >= 3 && response.ProcessVariables.bankList){
+            this.finfavBODListData = response.ProcessVariables.bankList;
+            this.finFavkeyword = 'finfavBODListData';
+          } else {
+            this.finfavBODListData = [];
+            this.bankFinFavBODDetailsData = [];
+            this.financierDetailsForm.controls['favouringBankBranch'].reset();
+          }
+        }
+        if(val == '17'){
+          if(inputString.length >= 3 && response.ProcessVariables.bankList){
+            this.thirdPartyfavBODListData = response.ProcessVariables.bankList;
+            this.thirdPartyFavkeyword = 'thirdPartyfavBODListData';
+          } else {
+            this.thirdPartyfavBODListData = [];
+            this.bankTPFavBODDetailsData = [];
+            this.thirdPartyDetailsForm.controls['favouringBankBranch'].reset();
+          }
+        }
+      }
+    });
+  }
+  selectBankNameEvent(event: any,val) {
+    let inputString = event;
+    this.disbursementService.getBankNameDetails(inputString).subscribe((res: any) => {
+      const response = res;
+      const appiyoError = response.Error;
+      if (appiyoError === '0') {
+        if(val == '1'){
+          this.bankDealerDetailsData = response.ProcessVariables.BankDetails;
+        }
+        if(val == '2') {
+          this.bankAppDetailsData = response.ProcessVariables.BankDetails;
+        }
+        if(val == '3'){
+          this.bankCoApp1DetailsData = response.ProcessVariables.BankDetails;
+        }
+        if(val == '4'){
+          this.bankCoApp2DetailsData = response.ProcessVariables.BankDetails;
+        }
+        if(val == '5'){
+          this.bankCoApp3DetailsData = response.ProcessVariables.BankDetails;
+        }
+        if(val == '6'){
+          this.bankBankerDetailsData = response.ProcessVariables.BankDetails;
+        }
+        if(val == '7'){
+          this.bankFinDetailsData = response.ProcessVariables.BankDetails;
+        }
+        if(val == '8'){
+          this.bankTPDetailsData = response.ProcessVariables.BankDetails;
+        } 
+        if(val == '10'){
+          this.bankDealerFavBODDetailsData = response.ProcessVariables.BankDetails;
+        }
+        if(val == '11') {
+          this.bankAppFavBODDetailsData = response.ProcessVariables.BankDetails;
+        }
+        if(val == '12'){
+          this.bankCoApp1FavBODDetailsData = response.ProcessVariables.BankDetails;
+        }
+        if(val == '13'){
+          this.bankCoApp2FavBODDetailsData = response.ProcessVariables.favBankDetails;
+        }
+        if(val == '14'){
+          this.bankCoApp3FavBODDetailsData = response.ProcessVariables.BankDetails;
+        }
+        if(val == '15'){
+          this.bankBankerFavBODDetailsData = response.ProcessVariables.BankDetails;
+        }
+        if(val == '16'){
+          this.bankFinFavBODDetailsData = response.ProcessVariables.BankDetails;
+        }
+        if(val == '17'){
+          this.bankTPFavBODDetailsData = response.ProcessVariables.BankDetails;
+        }    
+      }
+    });
+  }
+  setIFSC(event,val){
+    if(val == 'dealer'){
+      let dealerIFSCCode  = event ? this.bankDealerDetailsData.find(({ externalBankCode }) => externalBankCode == event).ifscCode : '';
+      this.dealerDetailsForm.patchValue({ ifscCode: dealerIFSCCode ? dealerIFSCCode : '' });
+    } else if(val == 'applicant'){
+      let appIFSCCode  = event ? this.bankAppDetailsData.find(({ externalBankCode }) => externalBankCode == event).ifscCode : '';
+      this.appDetailsForm.patchValue({ ifscCode: appIFSCCode ? appIFSCCode : '' });
+    } else if(val == 'coApp1'){
+      let coApp1IFSCCode  = event ? this.bankCoApp1DetailsData.find(({ externalBankCode }) => externalBankCode == event).ifscCode : '';
+      this.coApp1Form.patchValue({ ifscCode: coApp1IFSCCode ? coApp1IFSCCode : '' });
+    } else if(val == 'coApp2'){
+      let coApp2IFSCCode  = event ? this.bankCoApp2DetailsData.find(({ externalBankCode }) => externalBankCode == event).ifscCode : '';
+      this.coApp2Form.patchValue({ ifscCode: coApp2IFSCCode ? coApp2IFSCCode : '' });
+    } else if(val == 'coApp3'){
+      let coApp3IFSCCode  = event ? this.bankCoApp3DetailsData.find(({ externalBankCode }) => externalBankCode == event).ifscCode : '';
+      this.coApp3Form.patchValue({ ifscCode: coApp3IFSCCode ? coApp3IFSCCode : '' });
+    } else if(val == 'banker'){
+      let bankerIFSCCode  = event ? this.bankBankerDetailsData.find(({ externalBankCode }) => externalBankCode == event).ifscCode : '';
+      this.bankerDetailsForm.patchValue({ ifscCode: bankerIFSCCode ? bankerIFSCCode : '' });
+    } else if(val == 'financier'){
+      let finIFSCCode  = event ? this.bankFinDetailsData.find(({ externalBankCode }) => externalBankCode == event).ifscCode : '';
+      this.financierDetailsForm.patchValue({ ifscCode: finIFSCCode ? finIFSCCode : '' });
+    } else if(val == 'thirdParty'){
+      let thirdPartyIFSCCode  = event ? this.bankTPDetailsData.find(({ externalBankCode }) => externalBankCode == event).ifscCode : '';
+      this.thirdPartyDetailsForm.patchValue({ ifscCode: thirdPartyIFSCCode ? thirdPartyIFSCCode : '' });
+    } 
+  }
   getApplicantDetails() {
     this.disbursementService.getApplicantDetails(this.disbLeadId).subscribe((res: any) => {
       const response = res;
@@ -770,6 +1094,12 @@ export class DisbursementFormComponent implements OnInit {
         this.applicantDetailsData = response.ProcessVariables.ApplicantDetails;
         const duplicateAppDetails: any = { ...this.applicantDetailsData };
         this.applicantObjInfo = duplicateAppDetails;
+        if(this.applicantObjInfo['beneficiaryBank']){
+          this.onBankNameSearch(this.applicantObjInfo['beneficiaryBank'],'2');
+          if(this.applicantObjInfo['beneficiaryBranch']){
+          this.setIFSC(this.applicantObjInfo['beneficiaryBranch'],'applicant');
+          }
+        }
         //this.dealerDetailsForm.patchValue({ address: (this.dealerDetailsData)? this.dealerDetailsData.addressLine1 +','+  this.dealerDetailsData.addressLine2 + ',' + this.dealerDetailsData.addressLine3: null });
       }
     });
@@ -907,6 +1237,7 @@ export class DisbursementFormComponent implements OnInit {
     this.mopVal = event.target.value;
     if (val == 'dealer') {
       if(this.mopVal == '1MODEOFPAYMENT' || this.mopVal == '2MODEOFPAYMENT'){
+        this.bankDealerDetailsData = [];
         if(this.mopVal == '2MODEOFPAYMENT'){
           this.showBankDetails = false;
         if (!this.showBankDetails) {
@@ -945,21 +1276,11 @@ export class DisbursementFormComponent implements OnInit {
           this.setIntType(null, 'dealer');
         }
       }
-      if(this.mopVal == '1MODEOFPAYMENT'){
-        this.showCASADetails = false;
-        if (!this.showCASADetails) {
-          this.casaformArray.forEach(key => {
-            this.dealerDetailsForm.get(key).reset();
-          });
-          this.casaformArray.forEach(key => {
-            this.dealerDetailsForm.get(key).clearValidators()
-            this.dealerDetailsForm.get(key).setErrors(null);
-          });
-        }
-      }
+      
     }
     if (val == 'applicant') {
       if(this.mopVal == '1MODEOFPAYMENT' || this.mopVal == '2MODEOFPAYMENT'){
+        this.bankAppDetailsData = [];
         if(this.mopVal == '2MODEOFPAYMENT'){
           this.showAppBankDetails = false;
           if (!this.showAppBankDetails) {
@@ -998,21 +1319,10 @@ export class DisbursementFormComponent implements OnInit {
           this.setIntType(null, 'applicant');
         }
       }
-      if(this.mopVal == '1MODEOFPAYMENT'){
-        this.showAppCASADetails = false;
-        if (!this.showAppCASADetails) {
-          this.casaformArray.forEach(key => {
-            this.appDetailsForm.get(key).reset();
-          });
-          this.casaformArray.forEach(key => {
-            this.appDetailsForm.get(key).clearValidators();
-            this.appDetailsForm.get(key).setErrors(null);
-          });
-        }
-      }
     }
     if (val == 'banker') {
       if(this.mopVal == '1MODEOFPAYMENT' || this.mopVal == '2MODEOFPAYMENT'){
+        this.bankBankerDetailsData = [];
         if(this.mopVal == '2MODEOFPAYMENT'){
           this.showBankerBankDetails = false;
           if (!this.showBankerBankDetails) {
@@ -1050,22 +1360,11 @@ export class DisbursementFormComponent implements OnInit {
           this.setIntType(null, 'banker');
         }
       }
-      if(this.mopVal == '1MODEOFPAYMENT'){
-        this.showBankerCASADetails = false;
-        if (!this.showBankerCASADetails) {
-          this.casaformArray.forEach(key => {
-            this.bankerDetailsForm.get(key).reset();
-          });
-          this.casaformArray.forEach(key => {
-            this.bankerDetailsForm.get(key).clearValidators();
-            this.bankerDetailsForm.get(key).setErrors(null);
-          });
-        }
-      }
       
     }
     if (val == 'financier') {
       if(this.mopVal == '1MODEOFPAYMENT' || this.mopVal == '2MODEOFPAYMENT'){
+        this.bankFinDetailsData = [];
         if(this.mopVal == '2MODEOFPAYMENT'){
           this.showFinBankDetails = false;
           if (!this.showFinBankDetails) {
@@ -1104,22 +1403,11 @@ export class DisbursementFormComponent implements OnInit {
           this.setIntType(null, 'financier');
         }
       }
-      if(this.mopVal == '1MODEOFPAYMENT'){
-        this.showFinCASADetails = false;
-        if (!this.showFinCASADetails) {
-          this.casaformArray.forEach(key => {
-            this.financierDetailsForm.get(key).reset();
-          });
-          this.casaformArray.forEach(key => {
-            this.financierDetailsForm.get(key).clearValidators();
-            this.financierDetailsForm.get(key).setErrors(null);
-          });
-        }
-      }
       
     }
     if (val == 'thirdParty') {
       if(this.mopVal == '1MODEOFPAYMENT' || this.mopVal == '2MODEOFPAYMENT'){
+        this.bankTPDetailsData = [];
         if(this.mopVal == '2MODEOFPAYMENT'){
           this.showTPBankDetails = false;
           if (!this.showTPBankDetails) {
@@ -1157,19 +1445,6 @@ export class DisbursementFormComponent implements OnInit {
           this.setIntType(null, 'thirdParty');
         }
       }
-      if(this.mopVal == '1MODEOFPAYMENT'){
-        this.showTPCASADetails = false;
-      if (!this.showTPCASADetails) {
-        this.casaformArray.forEach(key => {
-          this.thirdPartyDetailsForm.get(key).reset();
-        });
-        this.casaformArray.forEach(key => {
-          this.thirdPartyDetailsForm.get(key).clearValidators();
-          this.thirdPartyDetailsForm.get(key).setErrors(null);
-        });
-      }
-      }
-      
     }
 
     if (this.mopVal == '7MODEOFPAYMENT' || this.mopVal == '8MODEOFPAYMENT') {// NEFT &  RTGS
@@ -1265,18 +1540,6 @@ export class DisbursementFormComponent implements OnInit {
           this.setIntType(null, 'coApp1');
         }
       }
-      if(coAppMopValue == '1MODEOFPAYMENT'){
-        this.showCoApp1CASADetails = false;
-        if (!this.showCoApp1CASADetails) {
-          this.casaformArray.forEach(key => {
-            this.coApp1Form.get(key).reset();
-          });
-          this.casaformArray.forEach(key => {
-            this.coApp1Form.get(key).clearValidators();
-            this.coApp1Form.get(key).setErrors(null);
-          });
-        }
-      }
     }
     if (val == 'coApp2') {
       if(coAppMopValue == '1MODEOFPAYMENT' || coAppMopValue == '2MODEOFPAYMENT'){
@@ -1316,18 +1579,6 @@ export class DisbursementFormComponent implements OnInit {
             this.coApp2Form.get(key).setErrors(null);
           });
           this.setIntType(null, 'coApp2');
-        }
-      }
-      if(coAppMopValue == '1MODEOFPAYMENT'){
-        this.showCoApp2CASADetails = false;
-        if (!this.showCoApp2CASADetails) {
-          this.casaformArray.forEach(key => {
-            this.coApp2Form.get(key).reset();
-          });
-          this.casaformArray.forEach(key => {
-            this.coApp2Form.get(key).clearValidators();
-            this.coApp2Form.get(key).setErrors(null);
-          });
         }
       }
     }
@@ -1371,20 +1622,6 @@ export class DisbursementFormComponent implements OnInit {
           this.setIntType(null, 'coApp3');
         }
       }
-   
-      if(coAppMopValue == '1MODEOFPAYMENT'){
-        this.showCoApp3CASADetails = false;
-        if (!this.showCoApp3CASADetails) {
-          this.casaformArray.forEach(key => {
-            this.coApp3Form.get(key).reset();
-          });
-          this.casaformArray.forEach(key => {
-            this.coApp3Form.get(key).clearValidators();
-            this.coApp3Form.get(key).setErrors(null);
-          });
-        }
-      }
-      
     }
     
     if (coAppMopValue == '7MODEOFPAYMENT' || coAppMopValue == '8MODEOFPAYMENT') {// NEFT &  RTGS
@@ -1817,7 +2054,7 @@ export class DisbursementFormComponent implements OnInit {
       beneficiaryName: new FormControl({ value: this.dealerObjInfo['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.dealerObjInfo['beneficiaryAccountNo'] }, Validators.required),
       beneficiaryBank: new FormControl({ value: this.dealerObjInfo['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.dealerObjInfo['ifscCode'] }, Validators.required),
+      ifscCode: new FormControl({ value: this.dealerObjInfo['ifscCode'],disabled:true }, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.dealerObjInfo['beneficiaryBranch'] }, Validators.required),
       instrumentType: new FormControl({ value: this.dealerObjInfo['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.dealerObjInfo['instrumentNumber'] }, Validators.required),
@@ -2456,8 +2693,10 @@ export class DisbursementFormComponent implements OnInit {
           this.dealerObjInfo['paymentMethod'] = this.disbursementDetailsData.DealerDetails.paymentMethod;
           if (this.dealerObjInfo['paymentMethod'] == '7MODEOFPAYMENT' || this.dealerObjInfo['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showBankDetails = true;
+            this.selectBankNameEvent(this.dealerObjInfo['beneficiaryBank'],'1')
           } else if (this.dealerObjInfo['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showDDDetails = true;
+            this.selectBankNameEvent(this.dealerObjInfo['favouringBankOfDraw'],'10')
           } else if (this.dealerObjInfo['paymentMethod'] == '2MODEOFPAYMENT') {
             this.showCASADetails = true;
           }
@@ -2496,8 +2735,10 @@ export class DisbursementFormComponent implements OnInit {
           this.applicantObjInfo['paymentMethod'] = this.disbursementDetailsData.ApplicantDetails.paymentMethod;
           if (this.applicantObjInfo['paymentMethod'] == '7MODEOFPAYMENT' || this.applicantObjInfo['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showAppBankDetails = true;
+            this.selectBankNameEvent(this.applicantObjInfo['beneficiaryBank'],'2')
           } else if (this.applicantObjInfo['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showAppDDDetails = true;
+            this.selectBankNameEvent(this.applicantObjInfo['favouringBankOfDraw'],'11')
           } else if (this.applicantObjInfo['paymentMethod'] == '2MODEOFPAYMENT') {
             this.showAppCASADetails = true;
           }
@@ -2568,8 +2809,10 @@ export class DisbursementFormComponent implements OnInit {
           this.coApplicant1['deductChargesFlag'] = (this.coApplicant1['deductChargesFlag'] == 'Y') ? true : false;
           if (this.coApplicant1['paymentMethod'] == '7MODEOFPAYMENT' || this.coApplicant1['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showCoApp1BankDetails = true;
+            this.selectBankNameEvent(this.coApplicant1['beneficiaryBank'],'3')
           } else if (this.coApplicant1['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showCoApp1DDDetails = true;
+            this.selectBankNameEvent(this.coApplicant1['favouringBankOfDraw'],'12')
           } else if (this.coApplicant1['paymentMethod'] == '2MODEOFPAYMENT') {
             this.showCoApp1CASADetails = true;
           }
@@ -2599,8 +2842,10 @@ export class DisbursementFormComponent implements OnInit {
           this.coApplicant2['deductChargesFlag'] = (this.coApplicant2['deductChargesFlag'] == 'Y') ? true : false;
           if (this.coApplicant2['paymentMethod'] == '7MODEOFPAYMENT' || this.coApplicant2['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showCoApp2BankDetails = true;
+            this.selectBankNameEvent(this.coApplicant2['beneficiaryBank'],'4')
           } else if (this.coApplicant2['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showCoApp2DDDetails = true;
+            this.selectBankNameEvent(this.coApplicant2['favouringBankOfDraw'],'13')
           } else if (this.coApplicant2['paymentMethod'] == '2MODEOFPAYMENT') {
             this.showCoApp2CASADetails = true;
           }
@@ -2631,8 +2876,10 @@ export class DisbursementFormComponent implements OnInit {
           this.coApplicant3['deductChargesFlag'] = (this.coApplicant3['deductChargesFlag'] == 'Y') ? true : false;
           if (this.coApplicant3['paymentMethod'] == '7MODEOFPAYMENT' || this.coApplicant3['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showCoApp3BankDetails = true;
+            this.selectBankNameEvent(this.coApplicant3['beneficiaryBank'],'5')
           } else if (this.coApplicant3['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showCoApp3DDDetails = true;
+            this.selectBankNameEvent(this.coApplicant3['favouringBankOfDraw'],'14')
           } else if (this.coApplicant3['paymentMethod'] == '2MODEOFPAYMENT') {
             this.showCoApp3CASADetails = true;
           }
@@ -2667,8 +2914,10 @@ export class DisbursementFormComponent implements OnInit {
           this.bankerObjInfo['paymentMethod'] = this.disbursementDetailsData.BankerDetails.paymentMethod;
           if (this.bankerObjInfo['paymentMethod'] == '7MODEOFPAYMENT' || this.bankerObjInfo['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showBankerBankDetails = true;
+            this.selectBankNameEvent(this.bankerObjInfo['beneficiaryBank'],'6')
           } else if (this.bankerObjInfo['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showBankerDDDetails = true;
+            this.selectBankNameEvent(this.bankerObjInfo['favouringBankOfDraw'],'15')
           } else if (this.bankerObjInfo['paymentMethod'] == '2MODEOFPAYMENT') {
             this.showBankerCASADetails = true;
           }
@@ -2703,8 +2952,10 @@ export class DisbursementFormComponent implements OnInit {
           this.financierObjInfo['paymentMethod'] = this.disbursementDetailsData.FinancierDetails.paymentMethod;
           if (this.financierObjInfo['paymentMethod'] == '7MODEOFPAYMENT' || this.financierObjInfo['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showFinBankDetails = true;
+            this.selectBankNameEvent(this.financierObjInfo['beneficiaryBank'],'7')
           } else if (this.financierObjInfo['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showFinDDDetails = true;
+            this.selectBankNameEvent(this.financierObjInfo['favouringBankOfDraw'],'16')
           } else if (this.financierObjInfo['paymentMethod'] == '2MODEOFPAYMENT') {
             this.showFinCASADetails = true;
           }
@@ -2739,8 +2990,10 @@ export class DisbursementFormComponent implements OnInit {
           this.thirdPartyObjInfo['paymentMethod'] = this.disbursementDetailsData.ThirdPartyDetails.paymentMethod;
           if (this.thirdPartyObjInfo['paymentMethod'] == '7MODEOFPAYMENT' || this.thirdPartyObjInfo['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showTPBankDetails = true;
+            this.selectBankNameEvent(this.thirdPartyObjInfo['beneficiaryBank'],'8')
           } else if (this.thirdPartyObjInfo['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showTPDDDetails = true;
+            this.selectBankNameEvent(this.thirdPartyObjInfo['favouringBankOfDraw'],'17')
           } else if (this.thirdPartyObjInfo['paymentMethod'] == '2MODEOFPAYMENT') {
             this.showTPCASADetails = true;
           }
