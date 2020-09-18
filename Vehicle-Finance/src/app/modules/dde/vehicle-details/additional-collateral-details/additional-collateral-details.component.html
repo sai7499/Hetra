@@ -229,9 +229,9 @@
                                 <label for="value_as_today">{{label.valueasToday}}</label>
 
                                 <app-custom-input formControlName="currentValuePerGram"
-                                    [type]="label.validationData?.goldInGrams.type" [id]="'value_as_today'"
+                                    [type]="label.validationData?.valueasToday.type" [id]="'value_as_today'"
                                     [className]="'form-control mandatory'" [placeholder]="'Value as of today per gram'"
-                                    [maxLength]="label.validationData?.amountValue.maxLength" [step]="4"
+                                    [maxLength]="label.validationData?.valueasToday.maxLength" [step]="4"
                                     [isRequired]="'Value as of today per gram Required'" [isDirty]="isDirty">
                                 </app-custom-input>
 
