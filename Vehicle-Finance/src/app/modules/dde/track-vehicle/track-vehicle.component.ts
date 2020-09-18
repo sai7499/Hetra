@@ -822,9 +822,9 @@ export class TrackVehicleComponent implements OnInit {
       formDetails['loanMaturityDate'] = this.sendDate(this.trackVehicleForm.controls['loanMaturityDate'].value);
       // formDetails['minDelay'] = this.trackVehicleForm.controls['minDelay'].value;
       
-      formDetails['financeCharges'] = parseInt(this.trackVehicleForm.controls['financeCharges'].value);
-       formDetails['contractValue'] = parseInt(this.trackVehicleForm.controls['contractValue'].value);
-       formDetails['financeAmount'] = parseInt(this.trackVehicleForm.controls['financeAmount'].value);
+      // formDetails['financeCharges'] = parseInt(this.trackVehicleForm.controls['financeCharges'].value);
+      //  formDetails['contractValue'] = parseInt(this.trackVehicleForm.controls['contractValue'].value);
+      //  formDetails['financeAmount'] = parseInt(this.trackVehicleForm.controls['financeAmount'].value);
     // formDetails['emiOverdue'] = "YES"
       //  formDetails['totalEmi']  = parseInt(this.trackVehicleForm.controls['totalEmi'].value);
       // formDetails['noOfEmi'] = parseInt(this.trackVehicleForm.controls['noOfEmi'].value);
@@ -832,8 +832,8 @@ export class TrackVehicleComponent implements OnInit {
      // formDetails['contNo'] = this.trackVehicleForm.controls['contNo'].value.toString();
       for (let i = 0; i < this.formArr.length; i++) {
         formDetails['installment'][i]['dueDate'] = this.sendDate(this.formArr.controls[i]['controls']['dueDate'].value);
-         formDetails['installment'][i]['receivedAmt'] = Number(this.formArr.value[i].receivedAmt);
-        formDetails['installment'][i]['installmentAmt'] = Number(this.formArr.value[i].installmentAmt);
+        //  formDetails['installment'][i]['receivedAmt'] = Number(this.formArr.value[i].receivedAmt);
+        // formDetails['installment'][i]['installmentAmt'] = Number(this.formArr.value[i].installmentAmt);
         // formDetails['installment'][i]['payment'] = this.formArr.controls[i]['controls']['payment'].value.toString();
 
         // formDetails['installment'][i]['delayDays'] = this.formArr.controls[i]['controls']['delayDays'].value.toString();
