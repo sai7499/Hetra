@@ -187,7 +187,8 @@ export class ViabilityDetailsComponent implements OnInit {
         otherIncomeRemarks: [],
         otherExpenses: [],
         otherExpensesRemarks: [],
-        operationsExpenses: []
+        operationsExpenses: [],
+        netCashFlowEmi: this.netCashFlowEmiPassenger
 
       }),
       passangerStandOperator: this.fb.group({
@@ -200,7 +201,8 @@ export class ViabilityDetailsComponent implements OnInit {
         miscellaneousExpenses: [],
         totalExpenses: [],
         netCashFlow: [this.montlyStandOperatorIncome],
-        emi: []
+        emi: [],
+        netCashFlowEmi: this.standOperatorEmi
       }),
       captive: this.fb.group({
         natureOfBusiness: [],
@@ -214,7 +216,8 @@ export class ViabilityDetailsComponent implements OnInit {
         busMonthlyIncome: [this.montlyCaptiveIncome],
         totalExpenses: [],
         netCashFlow: [],
-        emi: ([])
+        emi: ([]),
+        netCashFlowEmi: this.captiveEmi
       }),
     });
     this.leadId = (await this.getLeadId()) as number;
@@ -668,7 +671,8 @@ patchViability(data: any) {
        totalExpenses: data.totalExpenses ? Number(data.totalExpenses) : null,
        otherExpenses: data.otherExpenses ? data.otherExpenses : null,
        otherExpensesRemarks: data.otherExpensesRemarks ? data.otherExpensesRemarks : null,
-       operationsExpenses: data.operationsExpenses ? data.operationsExpenses : null
+       operationsExpenses: data.operationsExpenses ? data.operationsExpenses : null,
+       netCashFlowEmi : this.netCashFlowEmiPassenger ? this.netCashFlowEmiPassenger : null
    };
    return body;
  }
@@ -700,7 +704,8 @@ setPassangetStandOperator(data: any) {
     miscellaneousExpenses : data.miscellaneousExpenses ? Number(data.miscellaneousExpenses)  : null,
     totalExpenses : data.totalExpenses ? Number (data.totalExpenses) : null,
     netCashFlow : data.netCashFlow  ? data.netCashFlow : null,
-    emi : data.emi ? Number (data.emi) : null
+    emi : data.emi ? Number (data.emi) : null,
+    netCashFlowEmi : this.standOperatorEmi ? this.standOperatorEmi : null
    };
    return body;
  }
@@ -736,7 +741,8 @@ convertCapitve(dataCaptive) {
     busMonthlyIncome:  this.montlyCaptiveIncome ? Number(this.montlyCaptiveIncome) : null ,
     totalExpenses: dataCaptive.totalExpenses ? Number(dataCaptive.totalExpenses) : null,
     netCashFlow: dataCaptive.netCashFlow ? dataCaptive.netCashFlow : null,
-    emi: dataCaptive.emi ? Number(dataCaptive.emi) : null
+    emi: dataCaptive.emi ? Number(dataCaptive.emi) : null,
+    netCashFlowEmi : this.captiveEmi   ? this.captiveEmi : null
   };
   return body;
  }
