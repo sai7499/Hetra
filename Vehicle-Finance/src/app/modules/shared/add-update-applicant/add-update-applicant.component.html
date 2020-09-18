@@ -227,12 +227,12 @@
                   <app-custom-input
                     formControlName="companyPhoneNumber"
                     [patternCheck]="
-                      validationData?.landlineNumber?.patternCheck
+                      validationData?.mobileNumber?.patternCheck
                     "
                     [isRequired]="'Contact Number is required'"
-                    [maxLength]="validationData?.landlineNumber?.maxLength"
+                    [maxLength]="validationData?.mobileNumber?.maxLength"
                     [isDirty]="isDirty"
-                    [type]="validationData?.landlineNumber?.type"
+                    [type]="validationData?.mobileNumber?.type"
                   >
                   </app-custom-input>
                 </div>
