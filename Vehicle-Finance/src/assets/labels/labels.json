@@ -1681,6 +1681,12 @@
             },
             "type": "decimal-4"
         },
+        "valueasToday": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "decimal-4"
+        },
         "bankName": {
             "maxLength": {
                 "rule": 25
@@ -2288,7 +2294,7 @@
         },
         "disburseAmountType": {
             "maxLength": {
-                "rule": 20
+                "rule": 12
             },
             "type": "number"
         },
@@ -2364,6 +2370,12 @@
             },
             "type": "number"
         },
+        "MITenure": {
+            "maxLength": {
+                "rule": 4
+            },
+            "type": "number"
+        },
         "NoofPDC": {
             "maxLength": {
                 "rule": 3
@@ -2386,6 +2398,12 @@
             "maxLength": {
                 "rule": 6
             }
+        },
+        "DeductionChargefixedRate": {
+            "maxLength": {
+                "rule": 5
+            },
+            "type": "number"
         },
         "beneficiaryBranch": {
             "maxLength": {

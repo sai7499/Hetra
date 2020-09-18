@@ -174,11 +174,47 @@
                 <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-vf-custom-select [values]="bankerLov" [(ngModel)]="dealerObjInfo['beneficiaryBank']" formControlName="beneficiaryBank" [isRequired]="'Beneficiary Bank is required'" [isDirty]="isDirty">
-                </app-vf-custom-select>
+                <ng-autocomplete 
+                  class="custom-select-box"
+                  [data]="dealerBankListData"
+                  [(ngModel)]="dealerObjInfo['beneficiaryBank']"
+                  [searchKeyword]="dealerkeyword"
+                  (selected)='selectBankNameEvent($event,1)'
+                  (inputChanged)='onBankNameSearch($event,1)'
+                  [itemTemplate]="bankNameTemplate"
+                  [notFoundTemplate]="notFoundTemplate"
+                  formControlName="beneficiaryBank"
+                  [placeHolder]="'Beneficiary Bank'"
+                  [minQueryLength]="3">                                 
+                </ng-autocomplete>               
+                <ng-template #bankNameTemplate let-item>
+                <a [innerHTML]="item"></a>
+                </ng-template>               
+                <ng-template #notFoundTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+                </ng-template>
               </div>
             </div>
-
+            <div class="form-group">
+              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBranch}}
+                <sub class="star_red_col">*</sub>
+              </label>
+              <div class="col-sm-6 col-md-4 col-lg-3">
+                <!-- <app-custom-input id="dealerBenBranch" [(ngModel)]="dealerObjInfo['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="bnfBranchLength"
+                  [isDirty]="isDirty" [type]="'alpha'">
+                </app-custom-input> -->
+                <!-- <app-vf-custom-select [values]="bankDealerDetailsData" [(ngModel)]="dealerObjInfo['beneficiaryBranch']" formControlName="beneficiaryBranch" (change)="setIFSC($event.target.value,'dealer')" [isRequired]="'Beneficiary Branch is required'" [isDirty]="isDirty">
+                </app-vf-custom-select> -->
+                <select class="form-control" [(ngModel)]="dealerObjInfo['beneficiaryBranch']" formControlName="beneficiaryBranch" (change)="setIFSC($event.target.value,'dealer')">
+                  <option value=''>-- select one --</option>
+                  <option *ngFor="let item of bankDealerDetailsData" [value]="item.externalBankCode">{{item.externalBankBranch}}</option>
+                </select>
+                <div *ngIf="dealerDetailsForm.controls.beneficiaryBranch.invalid && (dealerDetailsForm.controls.beneficiaryBranch.dirty || dealerDetailsForm.controls.beneficiaryBranch.touched)"
+                  class="invalid-feedback-disburse">
+                  Beneficiary Branch is required
+                </div>
+              </div>
+            </div>
             <div class="form-group">
               <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.ifscCode}}
                 <sub class="star_red_col">*</sub>
@@ -189,16 +225,7 @@
                 </app-custom-input>
               </div>
             </div>
-            <div class="form-group">
-              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBranch}}
-                <sub class="star_red_col">*</sub>
-              </label>
-              <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input id="dealerBenBranch" [(ngModel)]="dealerObjInfo['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="bnfBranchLength"
-                  [isDirty]="isDirty" [type]="'alpha'">
-                </app-custom-input>
-              </div>
-            </div>
+            
           </div>
           <div *ngIf="showDDDetails">
             <div class="form-group">
@@ -241,11 +268,20 @@
                 <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <!-- <app-custom-input id="dealerFavBankOfDraw" [(ngModel)]="dealerObjInfo['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
-                  [isDirty]="isDirty" [type]="'alpha'">
-                </app-custom-input>       -->
-                <app-vf-custom-select [values]="bankerLov" [(ngModel)]="dealerObjInfo['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
-                </app-vf-custom-select>         
+                <!-- <app-vf-custom-select [values]="bankerLov" [(ngModel)]="dealerObjInfo['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
+                </app-vf-custom-select>          -->
+                <ng-autocomplete 
+                  class="custom-select-box" [data]="dealerfavBODListData" [(ngModel)]="dealerObjInfo['favouringBankOfDraw']"
+                  [searchKeyword]="dealerFavkeyword" (selected)='selectBankNameEvent($event,10)' (inputChanged)='onBankNameSearch($event,10)'
+                  [itemTemplate]="favBankNameTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="favouringBankOfDraw"
+                  [placeHolder]="'Favouring Bank of Drawee'" [minQueryLength]="3">                                 
+                </ng-autocomplete>               
+                <ng-template #favBankNameTemplate let-item>
+                <a [innerHTML]="item"></a>
+                </ng-template>               
+                <ng-template #notFoundTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+                </ng-template>
               </div>
             </div>
             <div class="form-group">
@@ -253,9 +289,17 @@
                 <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input id="dealerFavBankBranch" [(ngModel)]="dealerObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
+                <!-- <app-custom-input id="dealerFavBankBranch" [(ngModel)]="dealerObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
                   [isDirty]="isDirty" [type]="'alpha'">
-                </app-custom-input>
+                </app-custom-input> -->
+                <select class="form-control" [(ngModel)]="dealerObjInfo['favouringBankBranch']" formControlName="favouringBankBranch">
+                  <option value=''>-- select one --</option>
+                  <option *ngFor="let item of bankDealerFavBODDetailsData" [value]="item.externalBankCode">{{item.externalBankBranch}}</option>
+                </select>
+                <div *ngIf="dealerDetailsForm.controls.favouringBankBranch.invalid && (dealerDetailsForm.controls.favouringBankBranch.dirty || dealerDetailsForm.controls.favouringBankBranch.touched)"
+                  class="invalid-feedback-disburse">
+                  Favouring Bank Branch is required
+                </div>
               </div>
             </div>
           </div>
@@ -429,11 +473,46 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-vf-custom-select [values]="bankerLov" [(ngModel)]="applicantObjInfo['beneficiaryBank']" formControlName="beneficiaryBank" [isRequired]="'Beneficiary Bank is required'" [isDirty]="isDirty">
-              </app-vf-custom-select>
+              <ng-autocomplete
+                class="custom-select-box" 
+                [data]="appBankListData"
+                [(ngModel)]="applicantObjInfo['beneficiaryBank']"
+                [searchKeyword]="appkeyword"
+                (selected)='selectBankNameEvent($event,2)'
+                (inputChanged)='onBankNameSearch($event,2)'
+                [itemTemplate]="bankNameTemplate"
+                [notFoundTemplate]="notFoundTemplate"
+                formControlName="beneficiaryBank"
+                [placeHolder]="'Beneficiary Bank'"
+                [minQueryLength]="3">                                 
+              </ng-autocomplete>               
+              <ng-template #bankNameTemplate let-item>
+              <a [innerHTML]="item"></a>
+              </ng-template>               
+              <ng-template #notFoundTemplate let-notFound>
+              <div [innerHTML]="notFound"></div>
+              </ng-template>
             </div>
           </div>
-
+          <div class="form-group">
+            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBranch}}
+            <sub class="star_red_col">*</sub></label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <!-- <app-custom-input id="appBenBranch" [(ngModel)]="applicantObjInfo['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="bnfBranchLength"
+                [isDirty]="isDirty" [type]="'alpha'">
+              </app-custom-input> -->
+              <!-- <app-vf-custom-select [values]="bankAppDetailsData" [(ngModel)]="applicantObjInfo['beneficiaryBranch']" formControlName="beneficiaryBranch" (change)="setIFSC($event.target.value,'applicant')" [isRequired]="'Beneficiary Branch is required'" [isDirty]="isDirty">
+              </app-vf-custom-select> -->
+              <select class="form-control" [(ngModel)]="applicantObjInfo['beneficiaryBranch']" formControlName="beneficiaryBranch" (change)="setIFSC($event.target.value,'applicant')">
+                <option value=''>-- select one --</option>
+                <option *ngFor="let item of bankAppDetailsData" [value]="item.externalBankCode">{{item.externalBankBranch}}</option>
+              </select>
+              <div *ngIf="appDetailsForm.controls.beneficiaryBranch.invalid && (appDetailsForm.controls.beneficiaryBranch.dirty || appDetailsForm.controls.beneficiaryBranch.touched)"
+                  class="invalid-feedback-disburse">
+                  Beneficiary Branch is required
+                </div>
+            </div>
+          </div>
           <div class="form-group">
             <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.ifscCode}}
             <sub class="star_red_col">*</sub>
@@ -441,15 +520,6 @@
             <div class="col-sm-6 col-md-4 col-lg-3">
               <app-custom-input id="appIFSC" [(ngModel)]="applicantObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                 [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
-              </app-custom-input>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBranch}}
-            <sub class="star_red_col">*</sub></label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input id="appBenBranch" [(ngModel)]="applicantObjInfo['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="bnfBranchLength"
-                [isDirty]="isDirty" [type]="'alpha'">
               </app-custom-input>
             </div>
           </div>
@@ -491,11 +561,20 @@
               <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <!-- <app-custom-input id="appFavBankOfDraw" [(ngModel)]="applicantObjInfo['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
-                  [isDirty]="isDirty" [type]="'alpha'">
-                </app-custom-input>   -->
-                <app-vf-custom-select [values]="bankerLov" [(ngModel)]="applicantObjInfo['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
-                </app-vf-custom-select>              
+                <!-- <app-vf-custom-select [values]="bankerLov" [(ngModel)]="applicantObjInfo['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
+                </app-vf-custom-select>               -->
+                <ng-autocomplete 
+                  class="custom-select-box" [data]="appfavBODListData" [(ngModel)]="applicantObjInfo['favouringBankOfDraw']"
+                  [searchKeyword]="appFavFavkeyword" (selected)='selectBankNameEvent($event,11)' (inputChanged)='onBankNameSearch($event,11)'
+                  [itemTemplate]="favAppBankNameTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="favouringBankOfDraw"
+                  [placeHolder]="'Favouring Bank of Drawee'" [minQueryLength]="3">                                 
+                </ng-autocomplete>               
+                <ng-template #favAppBankNameTemplate let-item>
+                <a [innerHTML]="item"></a>
+                </ng-template>               
+                <ng-template #notFoundTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+                </ng-template>
               </div>
             </div>
             <div class="form-group">
@@ -503,9 +582,17 @@
               <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input id="appFavBankBranch" [(ngModel)]="applicantObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
+                <!-- <app-custom-input id="appFavBankBranch" [(ngModel)]="applicantObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
                   [isDirty]="isDirty" [type]="'alpha'">
-                </app-custom-input>
+                </app-custom-input> -->
+                <select class="form-control" [(ngModel)]="applicantObjInfo['favouringBankBranch']" formControlName="favouringBankBranch">
+                  <option value=''>-- select one --</option>
+                  <option *ngFor="let item of bankAppFavBODDetailsData" [value]="item.externalBankCode">{{item.externalBankBranch}}</option>
+                </select>
+                <div *ngIf="appDetailsForm.controls.favouringBankBranch.invalid && (appDetailsForm.controls.favouringBankBranch.dirty || appDetailsForm.controls.favouringBankBranch.touched)"
+                  class="invalid-feedback-disburse">
+                  Favouring Bank Branch is required
+                </div>
               </div>
             </div>
           </div>
@@ -699,11 +786,46 @@
                 <sub class="star_red_col">*</sub>
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <app-vf-custom-select [values]="bankerLov" [(ngModel)]="coApplicant1['beneficiaryBank']" formControlName="beneficiaryBank" [isRequired]="'Beneficiary Bank is required'" [isDirty]="isDirty">
-                  </app-vf-custom-select>
+                  <ng-autocomplete 
+                      class="custom-select-box"
+                      [data]="coApp1BankListData"
+                      [(ngModel)]="coApplicant1['beneficiaryBank']"
+                      [searchKeyword]="coApp1keyword"
+                      (selected)='selectBankNameEvent($event,3)'
+                      (inputChanged)='onBankNameSearch($event,3)'
+                      [itemTemplate]="coApp1NameTemplate"
+                      [notFoundTemplate]="notFoundTemplate"
+                      formControlName="beneficiaryBank"
+                      [placeHolder]="'Beneficiary Bank'"
+                      [minQueryLength]="3">                                 
+                    </ng-autocomplete>               
+                    <ng-template #coApp1NameTemplate let-item>
+                    <a [innerHTML]="item"></a>
+                    </ng-template>               
+                    <ng-template #notFoundTemplate let-notFound>
+                    <div [innerHTML]="notFound"></div>
+                    </ng-template>
                 </div>
               </div>
-          
+              <div class="form-group">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBranch}}
+                <sub class="star_red_col">*</sub></label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <!-- <app-custom-input id="coApp1BenBranch" [(ngModel)]="coApplicant1['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="bnfBranchLength"
+                    [isDirty]="isDirty" [type]="'alpha'">
+                  </app-custom-input> -->
+                  <!-- <app-vf-custom-select [values]="bankCoApp1DetailsData" [(ngModel)]="coApplicant1['beneficiaryBranch']" formControlName="beneficiaryBranch" (change)="setIFSC($event.target.value,'coApp1')" [isRequired]="'Beneficiary Branch is required'" [isDirty]="isDirty">
+                  </app-vf-custom-select> -->
+                  <select class="form-control" [(ngModel)]="coApplicant1['beneficiaryBranch']" formControlName="beneficiaryBranch" (change)="setIFSC($event.target.value,'coApp1')">
+                    <option value=''>-- select one --</option>
+                    <option *ngFor="let item of bankCoApp1DetailsData" [value]="item.externalBankCode">{{item.externalBankBranch}}</option>
+                  </select>
+                  <div *ngIf="coApp1Form.controls.beneficiaryBranch.invalid && (coApp1Form.controls.beneficiaryBranch.dirty || coApp1Form.controls.beneficiaryBranch.touched)"
+                    class="invalid-feedback-disburse">
+                    Beneficiary Branch is required
+                  </div>
+                </div>
+              </div>
               <div class="form-group">
                 <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.ifscCode}}
                 <sub class="star_red_col">*</sub>
@@ -711,15 +833,6 @@
                 <div class="col-sm-6 col-md-4 col-lg-3">
                   <app-custom-input id="coApp1IFSC" [(ngModel)]="coApplicant1['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                     [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
-                  </app-custom-input>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBranch}}
-                <sub class="star_red_col">*</sub></label>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                  <app-custom-input id="coApp1BenBranch" [(ngModel)]="coApplicant1['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="bnfBranchLength"
-                    [isDirty]="isDirty" [type]="'alpha'">
                   </app-custom-input>
                 </div>
               </div>
@@ -758,11 +871,20 @@
                   <sub class="star_red_col">*</sub>
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
-                    <!-- <app-custom-input id="coApp1FavBankOfDraw" [(ngModel)]="coApplicant1['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
-                      [isDirty]="isDirty" [type]="'alpha'">
-                    </app-custom-input>      -->
-                    <app-vf-custom-select [values]="bankerLov" [(ngModel)]="coApplicant1['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
-                    </app-vf-custom-select>               
+                    <!-- <app-vf-custom-select [values]="bankerLov" [(ngModel)]="coApplicant1['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
+                    </app-vf-custom-select>                -->
+                    <ng-autocomplete 
+                      class="custom-select-box" [data]="coApp1favBODListData" [(ngModel)]="coApplicant1['favouringBankOfDraw']"
+                      [searchKeyword]="coApp1Favkeyword" (selected)='selectBankNameEvent($event,12)' (inputChanged)='onBankNameSearch($event,12)'
+                      [itemTemplate]="favCoApp1BankNameTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="favouringBankOfDraw"
+                      [placeHolder]="'Favouring Bank of Drawee'" [minQueryLength]="3">                                 
+                    </ng-autocomplete>               
+                    <ng-template #favCoApp1BankNameTemplate let-item>
+                    <a [innerHTML]="item"></a>
+                    </ng-template>               
+                    <ng-template #notFoundTemplate let-notFound>
+                    <div [innerHTML]="notFound"></div>
+                    </ng-template>
                   </div>
                 </div>
                 <div class="form-group">
@@ -770,9 +892,17 @@
                   <sub class="star_red_col">*</sub>
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-custom-input id="coApp1FavBankBranch" [(ngModel)]="coApplicant1['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
+                    <!-- <app-custom-input id="coApp1FavBankBranch" [(ngModel)]="coApplicant1['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
                       [isDirty]="isDirty" [type]="'alpha'">
-                    </app-custom-input>                   
+                    </app-custom-input>                    -->
+                    <select class="form-control" [(ngModel)]="coApplicant1['favouringBankBranch']" formControlName="favouringBankBranch">
+                      <option value=''>-- select one --</option>
+                      <option *ngFor="let item of bankCoApp1FavBODDetailsData" [value]="item.externalBankCode">{{item.externalBankBranch}}</option>
+                    </select>
+                    <div *ngIf="coApp1Form.controls.favouringBankBranch.invalid && (coApp1Form.controls.favouringBankBranch.dirty || coApp1Form.controls.favouringBankBranch.touched)"
+                      class="invalid-feedback-disburse">
+                      Favouring Bank Branch is required
+                    </div>
                   </div>
                 </div>
               </div>
@@ -946,11 +1076,46 @@
                 <sub class="star_red_col">*</sub>
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <app-vf-custom-select [values]="bankerLov" [(ngModel)]="coApplicant2['beneficiaryBank']" formControlName="beneficiaryBank" [isRequired]="'Beneficiary Bank is required'" [isDirty]="isDirty">
-                  </app-vf-custom-select>
+                  <ng-autocomplete 
+                      class="custom-select-box"
+                      [data]="coApp2BankListData"
+                      [(ngModel)]="coApplicant2['beneficiaryBank']"
+                      [searchKeyword]="coApp2keyword"
+                      (selected)='selectBankNameEvent($event,4)'
+                      (inputChanged)='onBankNameSearch($event,4)'
+                      [itemTemplate]="coApp2NameTemplate"
+                      [notFoundTemplate]="notFoundTemplate"
+                      formControlName="beneficiaryBank"
+                      [placeHolder]="'Beneficiary Bank'"
+                      [minQueryLength]="3">                                 
+                    </ng-autocomplete>               
+                    <ng-template #coApp2NameTemplate let-item>
+                    <a [innerHTML]="item"></a>
+                    </ng-template>               
+                    <ng-template #notFoundTemplate let-notFound>
+                    <div [innerHTML]="notFound"></div>
+                    </ng-template>
                 </div>
               </div>
-          
+              <div class="form-group">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBranch}}
+                <sub class="star_red_col">*</sub></label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <!-- <app-custom-input id="coApp2BenBranch" [(ngModel)]="coApplicant2['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="bnfBranchLength"
+                    [isDirty]="isDirty" [type]="'alpha'">
+                  </app-custom-input> -->
+                  <!-- <app-vf-custom-select [values]="bankCoApp2DetailsData" [(ngModel)]="coApplicant2['beneficiaryBranch']" formControlName="beneficiaryBranch" (change)="setIFSC($event.target.value,'coApp2')" [isRequired]="'Beneficiary Branch is required'" [isDirty]="isDirty">
+                  </app-vf-custom-select> -->
+                  <select class="form-control" [(ngModel)]="coApplicant2['beneficiaryBranch']" formControlName="beneficiaryBranch" (change)="setIFSC($event.target.value,'coApp2')">
+                    <option value=''>-- select one --</option>
+                    <option *ngFor="let item of bankCoApp2DetailsData" [value]="item.externalBankCode">{{item.externalBankBranch}}</option>
+                  </select>
+                  <div *ngIf="coApp2Form.controls.beneficiaryBranch.invalid && (coApp2Form.controls.beneficiaryBranch.dirty || coApp2Form.controls.beneficiaryBranch.touched)"
+                    class="invalid-feedback-disburse">
+                    Beneficiary Branch is required
+                  </div>
+                </div>
+              </div>
               <div class="form-group">
                 <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.ifscCode}}
                 <sub class="star_red_col">*</sub>
@@ -958,15 +1123,6 @@
                 <div class="col-sm-6 col-md-4 col-lg-3">
                   <app-custom-input id="coApp2IFSC" [(ngModel)]="coApplicant2['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                     [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
-                  </app-custom-input>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBranch}}
-                <sub class="star_red_col">*</sub></label>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                  <app-custom-input id="coApp2BenBranch" [(ngModel)]="coApplicant2['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="bnfBranchLength"
-                    [isDirty]="isDirty" [type]="'alpha'">
                   </app-custom-input>
                 </div>
               </div>
@@ -1005,11 +1161,20 @@
                   <sub class="star_red_col">*</sub>
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
-                    <!-- <app-custom-input id="coApp2FavBankOfDraw" [(ngModel)]="coApplicant2['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
-                      [isDirty]="isDirty" [type]="'alpha'">
-                    </app-custom-input> -->
-                    <app-vf-custom-select [values]="bankerLov" [(ngModel)]="coApplicant2['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
-                    </app-vf-custom-select>                   
+                    <!-- <app-vf-custom-select [values]="bankerLov" [(ngModel)]="coApplicant2['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
+                    </app-vf-custom-select>                    -->
+                    <ng-autocomplete 
+                      class="custom-select-box" [data]="coApp2favBODListData" [(ngModel)]="coApplicant2['favouringBankOfDraw']"
+                      [searchKeyword]="coApp2Favkeyword" (selected)='selectBankNameEvent($event,13)' (inputChanged)='onBankNameSearch($event,13)'
+                      [itemTemplate]="favCoApp2BankNameTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="favouringBankOfDraw"
+                      [placeHolder]="'Favouring Bank of Drawee'" [minQueryLength]="3">                                 
+                    </ng-autocomplete>               
+                    <ng-template #favCoApp2BankNameTemplate let-item>
+                    <a [innerHTML]="item"></a>
+                    </ng-template>               
+                    <ng-template #notFoundTemplate let-notFound>
+                    <div [innerHTML]="notFound"></div>
+                    </ng-template>
                   </div>
                 </div>
                 <div class="form-group">
@@ -1017,9 +1182,17 @@
                   <sub class="star_red_col">*</sub>
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-custom-input id="coApp2FavBankBranch" [(ngModel)]="coApplicant2['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
+                    <!-- <app-custom-input id="coApp2FavBankBranch" [(ngModel)]="coApplicant2['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
                       [isDirty]="isDirty" [type]="'alpha'">
-                    </app-custom-input>                    
+                    </app-custom-input>                     -->
+                    <select class="form-control" [(ngModel)]="coApplicant2['favouringBankBranch']" formControlName="favouringBankBranch">
+                      <option value=''>-- select one --</option>
+                      <option *ngFor="let item of bankCoApp2FavBODDetailsData" [value]="item.externalBankCode">{{item.externalBankBranch}}</option>
+                    </select>
+                    <div *ngIf="coApp2Form.controls.favouringBankBranch.invalid && (coApp2Form.controls.favouringBankBranch.dirty || coApp2Form.controls.favouringBankBranch.touched)"
+                      class="invalid-feedback-disburse">
+                      Favouring Bank Branch is required
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1193,11 +1366,46 @@
                 <sub class="star_red_col">*</sub>
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <app-vf-custom-select [values]="bankerLov" [(ngModel)]="coApplicant3['beneficiaryBank']" formControlName="beneficiaryBank" [isRequired]="'Beneficiary Bank is required'" [isDirty]="isDirty">
-                  </app-vf-custom-select>
+                  <ng-autocomplete 
+                      class="custom-select-box"
+                      [data]="coApp3BankListData"
+                      [(ngModel)]="coApplicant3['beneficiaryBank']"
+                      [searchKeyword]="coApp3keyword"
+                      (selected)='selectBankNameEvent($event,5)'
+                      (inputChanged)='onBankNameSearch($event,5)'
+                      [itemTemplate]="coApp3NameTemplate"
+                      [notFoundTemplate]="notFoundTemplate"
+                      formControlName="beneficiaryBank"
+                      [placeHolder]="'Beneficiary Bank'"
+                      [minQueryLength]="3">                                 
+                    </ng-autocomplete>               
+                    <ng-template #coApp3NameTemplate let-item>
+                    <a [innerHTML]="item"></a>
+                    </ng-template>               
+                    <ng-template #notFoundTemplate let-notFound>
+                    <div [innerHTML]="notFound"></div>
+                    </ng-template>
                 </div>
               </div>
-          
+              <div class="form-group">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBranch}}
+                <sub class="star_red_col">*</sub></label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                  <!-- <app-custom-input id="coApp3BenBranch" [(ngModel)]="coApplicant3['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="bnfBranchLength"
+                    [isDirty]="isDirty" [type]="'alpha'">
+                  </app-custom-input> -->
+                  <!-- <app-vf-custom-select [values]="bankCoApp3DetailsData" [(ngModel)]="coApplicant3['beneficiaryBranch']" formControlName="beneficiaryBranch" (change)="setIFSC($event.target.value,'coApp3')" [isRequired]="'Beneficiary Branch is required'" [isDirty]="isDirty">
+                  </app-vf-custom-select> -->
+                  <select class="form-control" [(ngModel)]="coApplicant3['beneficiaryBranch']" formControlName="beneficiaryBranch" (change)="setIFSC($event.target.value,'coApp3')">
+                    <option value=''>-- select one --</option>
+                    <option *ngFor="let item of bankCoApp3DetailsData" [value]="item.externalBankCode">{{item.externalBankBranch}}</option>
+                  </select>
+                  <div *ngIf="coApp3Form.controls.beneficiaryBranch.invalid && (coApp3Form.controls.beneficiaryBranch.dirty || coApp3Form.controls.beneficiaryBranch.touched)"
+                    class="invalid-feedback-disburse">
+                    Beneficiary Branch is required
+                  </div>
+                </div>
+              </div>
               <div class="form-group">
                 <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.ifscCode}}
                 <sub class="star_red_col">*</sub>
@@ -1205,15 +1413,6 @@
                 <div class="col-sm-6 col-md-4 col-lg-3">
                   <app-custom-input id="coApp3IFSC" [(ngModel)]="coApplicant3['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                     [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
-                  </app-custom-input>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBranch}}
-                <sub class="star_red_col">*</sub></label>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                  <app-custom-input id="coApp3BenBranch" [(ngModel)]="coApplicant3['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="bnfBranchLength"
-                    [isDirty]="isDirty" [type]="'alpha'">
                   </app-custom-input>
                 </div>
               </div>
@@ -1252,11 +1451,20 @@
                   <sub class="star_red_col">*</sub>
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
-                    <!-- <app-custom-input id="coApp3FavBankOfDraw" [(ngModel)]="coApplicant3['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
-                      [isDirty]="isDirty" [type]="'alpha'">
-                    </app-custom-input>    -->
-                    <app-vf-custom-select [values]="bankerLov" [(ngModel)]="coApplicant3['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
-                    </app-vf-custom-select>                 
+                    <!-- <app-vf-custom-select [values]="bankerLov" [(ngModel)]="coApplicant3['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
+                    </app-vf-custom-select>                  -->
+                    <ng-autocomplete 
+                      class="custom-select-box" [data]="coApp3favBODListData" [(ngModel)]="coApplicant3['favouringBankOfDraw']"
+                      [searchKeyword]="coApp3Favkeyword" (selected)='selectBankNameEvent($event,14)' (inputChanged)='onBankNameSearch($event,14)'
+                      [itemTemplate]="favCoApp3BankNameTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="favouringBankOfDraw"
+                      [placeHolder]="'Favouring Bank of Drawee'" [minQueryLength]="3">                                 
+                    </ng-autocomplete>               
+                    <ng-template #favCoApp3BankNameTemplate let-item>
+                    <a [innerHTML]="item"></a>
+                    </ng-template>               
+                    <ng-template #notFoundTemplate let-notFound>
+                    <div [innerHTML]="notFound"></div>
+                    </ng-template>
                   </div>
                 </div>
                 <div class="form-group">
@@ -1264,10 +1472,17 @@
                   <sub class="star_red_col">*</sub>
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-custom-input id="coApp3FavBankBranch" [(ngModel)]="coApplicant3['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
+                    <!-- <app-custom-input id="coApp3FavBankBranch" [(ngModel)]="coApplicant3['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
                       [isDirty]="isDirty" [type]="'alpha'">
-                    </app-custom-input>
-                    
+                    </app-custom-input> -->
+                    <select class="form-control" [(ngModel)]="coApplicant3['favouringBankBranch']" formControlName="favouringBankBranch">
+                      <option value=''>-- select one --</option>
+                      <option *ngFor="let item of bankCoApp3FavBODDetailsData" [value]="item.externalBankCode">{{item.externalBankBranch}}</option>
+                    </select>
+                    <div *ngIf="coApp3Form.controls.favouringBankBranch.invalid && (coApp3Form.controls.favouringBankBranch.dirty || coApp3Form.controls.favouringBankBranch.touched)"
+                      class="invalid-feedback-disburse">
+                      Favouring Bank Branch is required
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1400,8 +1615,26 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-vf-custom-select [values]="bankerLov" [(ngModel)]="bankerObjInfo['bankerId']" [isRequired]="'Select Banker is required'" formControlName="bankerId"  [isDirty]="isDirty">
-              </app-vf-custom-select>
+              <!-- <app-vf-custom-select [values]="bankerLov" [(ngModel)]="bankerObjInfo['bankerId']" [isRequired]="'Select Banker is required'" formControlName="bankerId"  [isDirty]="isDirty">
+              </app-vf-custom-select> -->
+              <ng-autocomplete 
+                  class="custom-select-box"
+                  [data]="selectBankerListData"
+                  [(ngModel)]="bankerObjInfo['bankerId']"
+                  [searchKeyword]="dealerkeyword"
+                  (inputChanged)='onBankNameSearch($event,9)'
+                  [itemTemplate]="bankerTemplate"
+                  [notFoundTemplate]="notFoundTemplate"
+                  formControlName="bankerId"
+                  [placeHolder]="'Select Banker'"
+                  [minQueryLength]="3">                                 
+                </ng-autocomplete>               
+                <ng-template #bankerTemplate let-item>
+                <a [innerHTML]="item"></a>
+                </ng-template>               
+                <ng-template #notFoundTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+                </ng-template>
             </div>
           </div>
 
@@ -1451,19 +1684,25 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-vf-custom-select [values]="bankerLov" [isRequired]="'Beneficiary Bank is required'" [(ngModel)]="bankerObjInfo['beneficiaryBank']" formControlName="beneficiaryBank" [isRequired]="'Beneficiary Bank is required'" [isDirty]="isDirty">
-              </app-vf-custom-select>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.ifscCode}}
-            <sub class="star_red_col">*</sub>
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input id="bankerIFSC" [(ngModel)]="bankerObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
-                [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
-              </app-custom-input>
+              <ng-autocomplete 
+                      class="custom-select-box"
+                      [data]="bankerBankListData"
+                      [(ngModel)]="bankerObjInfo['beneficiaryBank']"
+                      [searchKeyword]="bankerkeyword"
+                      (selected)='selectBankNameEvent($event,6)'
+                      (inputChanged)='onBankNameSearch($event,6)'
+                      [itemTemplate]="bankerTemplate"
+                      [notFoundTemplate]="notFoundTemplate"
+                      formControlName="beneficiaryBank"
+                      [placeHolder]="'Beneficiary Bank'"
+                      [minQueryLength]="3">                                 
+                    </ng-autocomplete>               
+                    <ng-template #bankerTemplate let-item>
+                    <a [innerHTML]="item"></a>
+                    </ng-template>               
+                    <ng-template #notFoundTemplate let-notFound>
+                    <div [innerHTML]="notFound"></div>
+                    </ng-template>
             </div>
           </div>
           <div class="form-group">
@@ -1471,8 +1710,28 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input id="bankerBenBranch" [(ngModel)]="bankerObjInfo['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="bnfBranchLength"
+              <!-- <app-custom-input id="bankerBenBranch" [(ngModel)]="bankerObjInfo['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="bnfBranchLength"
                 [isDirty]="isDirty" [type]="'alpha'">
+              </app-custom-input> -->
+              <!-- <app-vf-custom-select [values]="bankBankerDetailsData" [(ngModel)]="bankerObjInfo['beneficiaryBranch']" formControlName="beneficiaryBranch" (change)="setIFSC($event.target.value,'banker')" [isRequired]="'Beneficiary Branch is required'" [isDirty]="isDirty">
+              </app-vf-custom-select> -->
+              <select class="form-control" [(ngModel)]="bankerObjInfo['beneficiaryBranch']" formControlName="beneficiaryBranch" (change)="setIFSC($event.target.value,'banker')">
+                <option value=''>-- select one --</option>
+                <option *ngFor="let item of bankBankerDetailsData" [value]="item.externalBankCode">{{item.externalBankBranch}}</option>
+              </select>
+              <div *ngIf="bankerDetailsForm.controls.beneficiaryBranch.invalid && (bankerDetailsForm.controls.beneficiaryBranch.dirty || bankerDetailsForm.controls.beneficiaryBranch.touched)"
+                  class="invalid-feedback-disburse">
+                  Beneficiary Branch is required
+                </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.ifscCode}}
+            <sub class="star_red_col">*</sub>
+            </label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="bankerIFSC" [(ngModel)]="bankerObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
+                [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
               </app-custom-input>
             </div>
           </div>
@@ -1511,11 +1770,20 @@
               <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <!-- <app-custom-input id="bankerFavBankOfDraw" [(ngModel)]="bankerObjInfo['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
-                  [isDirty]="isDirty" [type]="'alpha'">
-                </app-custom-input>   -->
-                <app-vf-custom-select [values]="bankerLov" [(ngModel)]="bankerObjInfo['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
-                </app-vf-custom-select>              
+                <!-- <app-vf-custom-select [values]="bankerLov" [(ngModel)]="bankerObjInfo['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
+                </app-vf-custom-select>               -->
+                <ng-autocomplete 
+                      class="custom-select-box" [data]="bankerfavBODListData" [(ngModel)]="bankerObjInfo['favouringBankOfDraw']"
+                      [searchKeyword]="bankerFavkeyword" (selected)='selectBankNameEvent($event,15)' (inputChanged)='onBankNameSearch($event,15)'
+                      [itemTemplate]="favBankerBankNameTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="favouringBankOfDraw"
+                      [placeHolder]="'Favouring Bank of Drawee'" [minQueryLength]="3">                                 
+                    </ng-autocomplete>               
+                    <ng-template #favBankerBankNameTemplate let-item>
+                    <a [innerHTML]="item"></a>
+                    </ng-template>               
+                    <ng-template #notFoundTemplate let-notFound>
+                    <div [innerHTML]="notFound"></div>
+                    </ng-template>
               </div>
             </div>
             <div class="form-group">
@@ -1523,9 +1791,17 @@
               <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input id="bankerFavBankBranch" [(ngModel)]="bankerObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
+                <!-- <app-custom-input id="bankerFavBankBranch" [(ngModel)]="bankerObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
                   [isDirty]="isDirty" [type]="'alpha'">
-                </app-custom-input>              
+                </app-custom-input>               -->
+                <select class="form-control" [(ngModel)]="bankerObjInfo['favouringBankBranch']" formControlName="favouringBankBranch">
+                  <option value=''>-- select one --</option>
+                  <option *ngFor="let item of bankBankerFavBODDetailsData" [value]="item.externalBankCode">{{item.externalBankBranch}}</option>
+                </select>
+                <div *ngIf="bankerDetailsForm.controls.favouringBankBranch.invalid && (bankerDetailsForm.controls.favouringBankBranch.dirty || bankerDetailsForm.controls.favouringBankBranch.touched)"
+                  class="invalid-feedback-disburse">
+                  Favouring Bank Branch is required
+                </div>
               </div>
             </div>
           </div>
@@ -1710,19 +1986,25 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-vf-custom-select [values]="bankerLov" [(ngModel)]="financierObjInfo['beneficiaryBank']" [isRequired]="'Beneficiary Bank is required'" formControlName="beneficiaryBank" [isRequired]="'Beneficiary Bank is required'" [isDirty]="isDirty">
-              </app-vf-custom-select>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.ifscCode}}
-            <sub class="star_red_col">*</sub>
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input id="finIFSC" [(ngModel)]="financierObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
-                [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
-              </app-custom-input>
+              <ng-autocomplete 
+                      class="custom-select-box"
+                      [data]="finBankListData"
+                      [(ngModel)]="financierObjInfo['beneficiaryBank']"
+                      [searchKeyword]="finkeyword"
+                      (selected)='selectBankNameEvent($event,7)'
+                      (inputChanged)='onBankNameSearch($event,7)'
+                      [itemTemplate]="financierTemplate"
+                      [notFoundTemplate]="notFoundTemplate"
+                      formControlName="beneficiaryBank"
+                      [placeHolder]="'Beneficiary Bank'"
+                      [minQueryLength]="3">                                 
+                    </ng-autocomplete>               
+                    <ng-template #financierTemplate let-item>
+                    <a [innerHTML]="item"></a>
+                    </ng-template>               
+                    <ng-template #notFoundTemplate let-notFound>
+                    <div [innerHTML]="notFound"></div>
+                    </ng-template>
             </div>
           </div>
           <div class="form-group">
@@ -1730,8 +2012,28 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input id="finBenBranch" [(ngModel)]="financierObjInfo['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="bnfBranchLength"
+              <!-- <app-custom-input id="finBenBranch" [(ngModel)]="financierObjInfo['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="bnfBranchLength"
                 [isDirty]="isDirty" [type]="'alpha'">
+              </app-custom-input> -->
+              <!-- <app-vf-custom-select [values]="bankFinDetailsData" [(ngModel)]="financierObjInfo['beneficiaryBranch']" formControlName="beneficiaryBranch" (change)="setIFSC($event.target.value,'financier')" [isRequired]="'Beneficiary Branch is required'" [isDirty]="isDirty">
+              </app-vf-custom-select> -->
+              <select class="form-control" [(ngModel)]="financierObjInfo['beneficiaryBranch']" formControlName="beneficiaryBranch" (change)="setIFSC($event.target.value,'financier')">
+                <option value=''>-- select one --</option>
+                <option *ngFor="let item of bankFinDetailsData" [value]="item.externalBankCode">{{item.externalBankBranch}}</option>
+              </select>
+              <div *ngIf="financierDetailsForm.controls.beneficiaryBranch.invalid && (financierDetailsForm.controls.beneficiaryBranch.dirty || financierDetailsForm.controls.beneficiaryBranch.touched)"
+                  class="invalid-feedback-disburse">
+                  Beneficiary Branch is required
+                </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.ifscCode}}
+            <sub class="star_red_col">*</sub>
+            </label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="finIFSC" [(ngModel)]="financierObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
+                [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
               </app-custom-input>
             </div>
           </div>
@@ -1770,11 +2072,20 @@
               <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <!-- <app-custom-input id="finFavBankOfDraw" [(ngModel)]="financierObjInfo['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
-                  [isDirty]="isDirty" [type]="'alpha'">
-                </app-custom-input>  -->
-                <app-vf-custom-select [values]="bankerLov" [(ngModel)]="financierObjInfo['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
-                </app-vf-custom-select>               
+                <!-- <app-vf-custom-select [values]="bankerLov" [(ngModel)]="financierObjInfo['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
+                </app-vf-custom-select>                -->
+                <ng-autocomplete 
+                      class="custom-select-box" [data]="finfavBODListData" [(ngModel)]="financierObjInfo['favouringBankOfDraw']"
+                      [searchKeyword]="finFavkeyword" (selected)='selectBankNameEvent($event,16)' (inputChanged)='onBankNameSearch($event,16)'
+                      [itemTemplate]="favFinBankNameTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="favouringBankOfDraw"
+                      [placeHolder]="'Favouring Bank of Drawee'" [minQueryLength]="3">                                 
+                    </ng-autocomplete>               
+                    <ng-template #favFinBankNameTemplate let-item>
+                    <a [innerHTML]="item"></a>
+                    </ng-template>               
+                    <ng-template #notFoundTemplate let-notFound>
+                    <div [innerHTML]="notFound"></div>
+                    </ng-template>
               </div>
             </div>
             <div class="form-group">
@@ -1782,9 +2093,17 @@
               <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input id="finFavBankBranch" [(ngModel)]="financierObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
+                <!-- <app-custom-input id="finFavBankBranch" [(ngModel)]="financierObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
                   [isDirty]="isDirty" [type]="'alpha'">
-                </app-custom-input>                
+                </app-custom-input>                 -->
+                <select class="form-control" [(ngModel)]="financierObjInfo['favouringBankBranch']" formControlName="favouringBankBranch">
+                  <option value=''>-- select one --</option>
+                  <option *ngFor="let item of bankFinFavBODDetailsData" [value]="item.externalBankCode">{{item.externalBankBranch}}</option>
+                </select>
+                <div *ngIf="financierDetailsForm.controls.favouringBankBranch.invalid && (financierDetailsForm.controls.favouringBankBranch.dirty || financierDetailsForm.controls.favouringBankBranch.touched)"
+                  class="invalid-feedback-disburse">
+                  Favouring Bank Branch is required
+                </div>
               </div>
             </div>
           </div>
@@ -1975,19 +2294,25 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-vf-custom-select [values]="bankerLov" [(ngModel)]="thirdPartyObjInfo['beneficiaryBank']" [isRequired]="'Beneficiary Bank is required'" formControlName="beneficiaryBank" [isRequired]="'Beneficiary Bank is required'" [isDirty]="isDirty">
-              </app-vf-custom-select>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.ifscCode}}
-            <sub class="star_red_col">*</sub>
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input id="tpIFSC" [(ngModel)]="thirdPartyObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
-                [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
-              </app-custom-input>
+              <ng-autocomplete 
+                      class="custom-select-box"
+                      [data]="thirdPartyBankListData"
+                      [(ngModel)]="thirdPartyObjInfo['beneficiaryBank']"
+                      [searchKeyword]="thirdPartykeyword"
+                      (selected)='selectBankNameEvent($event,8)'
+                      (inputChanged)='onBankNameSearch($event,8)'
+                      [itemTemplate]="thirdPartyTemplate"
+                      [notFoundTemplate]="notFoundTemplate"
+                      formControlName="beneficiaryBank"
+                      [placeHolder]="'Beneficiary Bank'"
+                      [minQueryLength]="3">                                 
+                    </ng-autocomplete>               
+                    <ng-template #thirdPartyTemplate let-item>
+                    <a [innerHTML]="item"></a>
+                    </ng-template>               
+                    <ng-template #notFoundTemplate let-notFound>
+                    <div [innerHTML]="notFound"></div>
+                    </ng-template>
             </div>
           </div>
           <div class="form-group">
@@ -1995,8 +2320,28 @@
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input id="tpBenBranch" [(ngModel)]="thirdPartyObjInfo['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="bnfBranchLength"
+              <!-- <app-custom-input id="tpBenBranch" [(ngModel)]="thirdPartyObjInfo['beneficiaryBranch']" [isRequired]="'Beneficiary Branch is required'" formControlName="beneficiaryBranch" [className]="'form-control mandatory'" [placeholder]="'Branch'" [maxLength]="bnfBranchLength"
                 [isDirty]="isDirty" [type]="'alpha'">
+              </app-custom-input> -->
+              <!-- <app-vf-custom-select [values]="bankTPDetailsData" [(ngModel)]="thirdPartyObjInfo['beneficiaryBranch']" formControlName="beneficiaryBranch" (change)="setIFSC($event.target.value,'thirdParty')" [isRequired]="'Beneficiary Branch is required'" [isDirty]="isDirty">
+              </app-vf-custom-select> -->
+              <select class="form-control" [(ngModel)]="thirdPartyObjInfo['beneficiaryBranch']" formControlName="beneficiaryBranch" (change)="setIFSC($event.target.value,'thirdParty')">
+                <option value=''>-- select one --</option>
+                <option *ngFor="let item of bankTPDetailsData" [value]="item.externalBankCode">{{item.externalBankBranch}}</option>
+              </select>
+              <div *ngIf="thirdPartyDetailsForm.controls.beneficiaryBranch.invalid && (thirdPartyDetailsForm.controls.beneficiaryBranch.dirty || thirdPartyDetailsForm.controls.beneficiaryBranch.touched)"
+                  class="invalid-feedback-disburse">
+                  Beneficiary Branch is required
+                </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.ifscCode}}
+            <sub class="star_red_col">*</sub>
+            </label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="tpIFSC" [(ngModel)]="thirdPartyObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
+                [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
               </app-custom-input>
             </div>
           </div>
@@ -2035,11 +2380,20 @@
               <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <!-- <app-custom-input id="tpFavBankOfDraw" [(ngModel)]="thirdPartyObjInfo['favouringBankOfDraw']" [isRequired]="'Favouring Bank of Drawee is required'" formControlName="favouringBankOfDraw" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank of Drawee'"
-                  [isDirty]="isDirty" [type]="'alpha'">
-                </app-custom-input>    -->
-                <app-vf-custom-select [values]="bankerLov" [(ngModel)]="thirdPartyObjInfo['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
-                </app-vf-custom-select>           
+                <!-- <app-vf-custom-select [values]="bankerLov" [(ngModel)]="thirdPartyObjInfo['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
+                </app-vf-custom-select>            -->
+                <ng-autocomplete 
+                      class="custom-select-box" [data]="thirdPartyfavBODListData" [(ngModel)]="thirdPartyObjInfo['favouringBankOfDraw']"
+                      [searchKeyword]="thirdPartyFavkeyword" (selected)='selectBankNameEvent($event,17)' (inputChanged)='onBankNameSearch($event,17)'
+                      [itemTemplate]="favTPBankNameTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="favouringBankOfDraw"
+                      [placeHolder]="'Favouring Bank of Drawee'" [minQueryLength]="3">                                 
+                    </ng-autocomplete>               
+                    <ng-template #favTPBankNameTemplate let-item>
+                    <a [innerHTML]="item"></a>
+                    </ng-template>               
+                    <ng-template #notFoundTemplate let-notFound>
+                    <div [innerHTML]="notFound"></div>
+                    </ng-template>
               </div>
             </div>
             <div class="form-group">
@@ -2047,9 +2401,17 @@
               <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input id="tpFavBankBranch" [(ngModel)]="thirdPartyObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
+                <!-- <app-custom-input id="tpFavBankBranch" [(ngModel)]="thirdPartyObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
                   [isDirty]="isDirty" [type]="'alpha'">
-                </app-custom-input>                
+                </app-custom-input>                 -->
+                <select class="form-control" [(ngModel)]="thirdPartyObjInfo['favouringBankBranch']" formControlName="favouringBankBranch">
+                  <option value=''>-- select one --</option>
+                  <option *ngFor="let item of bankTPFavBODDetailsData" [value]="item.externalBankCode">{{item.externalBankBranch}}</option>
+                </select>
+                <div *ngIf="thirdPartyDetailsForm.controls.favouringBankBranch.invalid && (thirdPartyDetailsForm.controls.favouringBankBranch.dirty || thirdPartyDetailsForm.controls.favouringBankBranch.touched)"
+                  class="invalid-feedback-disburse">
+                  Favouring Bank Branch is required
+                </div>
               </div>
             </div>
           </div>
