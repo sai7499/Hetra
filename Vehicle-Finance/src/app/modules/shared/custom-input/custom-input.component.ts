@@ -61,8 +61,6 @@ export class CustomInputComponent
   @Input() labelName: string;
   @Input() id: string;
 
-  @Input() step: number;
-
   @Input() patternCheck;
   @Input() custom: {
     rule?: Function;
@@ -157,10 +155,13 @@ export class CustomInputComponent
           this.maxLengthValidation.rule = length;
           const roundValue = value.split('.')[0]; 
           const decimalValues = value.split('.')[1].slice(0, decimalLength);
-          setTimeout(() => {
-            this.inputValue = roundValue + '.' + decimalValues;
-          })
-       } else {
+            setTimeout(() => {
+              this.inputValue = roundValue + '.' + decimalValues;
+            })
+          
+       } 
+       
+       else {
           this.maxLengthValidation = {
              rule: this.defaultMaxLength
           };
@@ -237,6 +238,9 @@ export class CustomInputComponent
 
   onBlurMethod(event) {
     const newValue = event.target.value;
+    if(this.type.includes('decimal')) {
+      this.allowDecimal(event, this.type);
+    }
 
     if (!newValue && this.isRequired) {
       this.displayError(this.isRequired);
@@ -283,30 +287,38 @@ export class CustomInputComponent
     //   this.allowDecimal(event, this.type);
     //   break;
 
-    if(this.type.includes('decimal')) {
-      this.allowDecimal(event, this.type);
-    }
+    // if(this.type.includes('decimal')) {
+    //   this.allowDecimal(event, this.type);
+    // }
     this.propagateChange(this.inputValue);
     this.checkValidation(this.inputValue);
   }
 
   allowDecimal(event, type: string) {
-    const decimalPoints = type.split('-')[1] || this.step ? this.step : 2;
-    console.log(decimalPoints, 'on', this.step)
+    const decimalPoints = type.split('-')[1] ||  2;
+    //console.log(decimalPoints, 'on', this.step)
 
     let zeros = '';
     for (let i = 0; i < decimalPoints; i++) {
       zeros += '0';
     }
     const initialValue = event.target.value;
+    const secondValue = initialValue.split('.')[1]
     if (this.decimalTimeOut) {
       clearTimeout(this.decimalTimeOut);
     }
     this.decimalTimeOut = setTimeout(() => {
       if (!initialValue.includes('.') && this.inputValue) {
         this.inputValue += '.' + zeros;
+      } else if(initialValue.includes('.') && this.inputValue ){
+        if(secondValue==''){
+          this.inputValue += zeros;
+        }else {
+          this.inputValue = this.inputValue;
+        }
+        
       }
-    }, 1000);
+    });
 
     this.inputValue = initialValue.replace(/[^0-9 .]*/g, '');
   }
