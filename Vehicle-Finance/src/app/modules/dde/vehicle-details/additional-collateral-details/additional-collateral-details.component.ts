@@ -108,6 +108,16 @@ export class AdditionalCollateralComponent implements OnInit {
                     key: '4',
                     value: '14'
                 }
+            ],
+            this.LOV.propertyOwnerType=[
+                {
+                    key: '0',
+                    value: 'Sole'
+                },
+                {
+                    key: '1',
+                    value: 'Joined'
+                }
             ]
 
         })
@@ -174,6 +184,7 @@ export class AdditionalCollateralComponent implements OnInit {
             totalMarketValue: [null],
             guideLineValue: [null, Validators.required],
             totalGuideLineValue: [null],
+            propertyOwnerType : [null]
         }))
     }
 
@@ -228,6 +239,7 @@ export class AdditionalCollateralComponent implements OnInit {
                         propertyAddress: collateralDetail.propertyAddress || '',
                         propertyOwner: collateralDetail.propertyOwner || '',
                         propertyType: collateralDetail.propertyType || '',
+                        propertyOwnerType: collateralDetail.propertyOwnerType || '',
                         purity: collateralDetail.purity || '',
                         relationWithApplicant: collateralDetail.relationWithApplicant || '',
                         surveyNumber: collateralDetail.surveyNumber || null,
@@ -235,6 +247,7 @@ export class AdditionalCollateralComponent implements OnInit {
                         totalGuideLineValue: collateralDetail.totalGuideLineValue || null,
                         totalLandArea: collateralDetail.totalLandArea || null,
                         totalMarketValue: collateralDetail.totalMarketValue || null,
+
                     })
                 )
             }
