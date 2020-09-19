@@ -110,10 +110,10 @@
                                 <label for="total_land">{{label.totalLandMarketValue}}</label>
 
                                 <app-custom-input formControlName="totalMarketValue"
-                                    [type]="label.validationData?.amountValue.type" [id]="'total_land'"
+                                     [id]="'total_land'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Land Market Value'"
                                     [value]="obj.controls['marketValue'].value * obj.controls['landInAcres'].value"
-                                    [maxLength]="label.validationData?.amountValue.maxLength" [isDisabled]="true">
+                                    [isDisabled]="true">
                                 </app-custom-input>
 
                             </div>
@@ -138,11 +138,11 @@
                                 <label for="total_guide_line_value">{{label.totalGuideLineValue}}</label>
 
                                 <app-custom-input formControlName="totalGuideLineValue"
-                                    [type]="label.validationData?.amountValue.type" [id]="'total_guide_line_value'"
+                                     [id]="'total_guide_line_value'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Land Guideline Value'"
                                     [maxLength]="label.validationData?.amountValue.maxLength"
                                     [value]="obj.controls['landInAcres'].value * obj.controls['guideLineValue'].value"
-                                    [maxLength]="label.validationData?.amountValue.maxLength" [isDisabled]="true">
+                                     [isDisabled]="true">
                                 </app-custom-input>
 
                             </div>
@@ -241,10 +241,10 @@
                                 <label for="total_value">{{label.totalValue}}</label>
 
                                 <app-custom-input formControlName="totalMarketValue"
-                                    [type]="label.validationData?.amountValue.type" [id]="'total_value'"
+                                     [id]="'total_value'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Value'"
                                     [value]="obj.controls['currentValuePerGram'].value * obj.controls['goldInGrams'].value"
-                                    [maxLength]="label.validationData?.amountValue.maxLength" [isDisabled]="true">
+                                     [isDisabled]="true">
                                 </app-custom-input>
 
                             </div>
@@ -366,10 +366,10 @@
                                 <label for="total_market_value">{{label?.totalMarketValue}}</label>
 
                                 <app-custom-input formControlName="totalMarketValue"
-                                    [type]="label.validationData?.amountValue.type" [id]="'total_market_value'"
+                                    [id]="'total_market_value'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Market Value'"
                                     [value]="obj.controls['marketValue'].value * obj.controls['totalLandArea'].value"
-                                    [maxLength]="label.validationData?.amountValue.maxLength" [isDisabled]="true">
+                                     [isDisabled]="true">
                                 </app-custom-input>
 
                             </div>
@@ -390,10 +390,10 @@
                                 <label for="total_guide_line">{{label?.totalGuideline}}</label>
 
                                 <app-custom-input formControlName="totalGuideLineValue"
-                                    [type]="label.validationData?.amountValue.type" [id]="'total_guide_line'"
+                                    [id]="'total_guide_line'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Guideline Value'"
                                     [value]="obj.controls['totalLandArea'].value * obj.controls['guideLineValue'].value "
-                                    [maxLength]="label.validationData?.amountValue.maxLength" [isDisabled]="true">
+                                    [isDisabled]="true">
                                 </app-custom-input>
 
                             </div>
