@@ -584,10 +584,10 @@ export class FleetDetailsComponent implements OnInit {
 
     for (let i = 0; i < this.fleetDetails.length; i++) {
       this.fleetDetails[i]['purchaseDate'] = this.sendDate(this.fleetDetails[i]['purchaseDate'])
-      this.fleetDetails[i]['tenure'] = parseInt(this.fleetDetails[i]['tenure'])
-      this.fleetDetails[i]['paid'] = parseInt(this.fleetDetails[i]['paid'])
-      this.fleetDetails[i]['gridValue'] = parseInt(formArray.controls[i]['controls']['gridValue'].value);
-         this.fleetDetails[i]['seasoning'] = parseInt(formArray.controls[i]['controls']['seasoning'].value);
+      this.fleetDetails[i]['tenure'] = this.fleetDetails[i]['tenure']
+      this.fleetDetails[i]['paid'] = this.fleetDetails[i]['paid']
+      this.fleetDetails[i]['gridValue'] = formArray.controls[i]['controls']['gridValue'].value;
+         this.fleetDetails[i]['seasoning'] = formArray.controls[i]['controls']['seasoning'].value;
          this.fleetDetails[i]['ad'] = formArray.controls[i]['controls']['ad'].value;
          this.fleetDetails[i]['pd'] = formArray.controls[i]['controls']['pd'].value;
 

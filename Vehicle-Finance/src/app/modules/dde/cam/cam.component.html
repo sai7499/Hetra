@@ -129,13 +129,13 @@
                 <tr>
                     <td class="bank_name">{{ labels?.ltvAsPerPolicy }}</td>
                     <td>{{ vehicleDetails?.ltvAsPerPolicy }}</td>
-                    <td>{{labels?.ltvDeviaton}}</td>
+                    <td class="bank_name">{{labels?.ltvDeviaton}}</td>
                     <td>{{ vehicleDetails?.ltvDeviation }}</td>
                 </tr>
                 <tr>
                     <td class="bank_name">{{ labels?.finalLtv }}</td>
                     <td>{{ vehicleDetails?.finalLtv }}</td>
-                    <td>{{labels?.loanEligibilityAsPerLtv}}</td>
+                    <td class="bank_name">{{labels?.loanEligibilityAsPerLtv}}</td>
                     <td>{{ vehicleDetails?.loanEligibilityAsPerLtv }}</td>
                 </tr>
                 <tr>
@@ -166,7 +166,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let applicantDetails of applicantDetails">
-                    <td class="bank_name">{{ applicantDetails?.applicantType }}</td>
+                    <td>{{ applicantDetails?.applicantType }}</td>
                     <td>{{ applicantDetails?.name }}</td>
                     <td>{{ applicantDetails?.dobDoi }}</td>
                     <td>{{ applicantDetails?.relationship}}</td>
@@ -351,7 +351,7 @@
             <tr>
                 <td class="bank_name">{{ labels?.totalMontlyObligations }}</td>
                 <td>{{ loanEligibilityBasedOnInc?.totalMontlyObligations }}</td>
-                <td>{{labels?.ltvDeviaton}}</td>
+                <td class="bank_name">{{labels?.ltvDeviaton}}</td>
                 <td>{{ loanEligibilityBasedOnInc?.loanEligibilityAsPerLTV }}</td>
             </tr>
         </table>
@@ -404,6 +404,56 @@
             <tr>
                 <td class="bank_name">{{ labels?.abbRatio }}</td>
                 <td>{{ bankingDetails?.abbRatio }}</td>
+            </tr>
+        </table>
+        <!--Banking details -->
+         <!--CoApp-Banking details -->
+         <table class="cam_table_proposed mt-3" *ngIf="coAppBankingDetails != null || coAppBankingDetails != undefined">
+            <caption class="caption">
+                {{
+            labels?.coApplicantBankingDetails
+          }}
+            </caption>
+            <tr>
+                <td class="bank_name">{{ labels?.bankName }}</td>
+                <td>{{ coAppBankingDetails?.bankName }}</td>
+                <td class="bank_name">{{ labels?.accountHolderName }}</td>
+                <td>{{ coAppBankingDetails?.name }}</td>
+            </tr>
+            <tr>
+                <td class="bank_name">{{ labels?.totalNoOfCredits }}</td>
+                <td>{{ coAppBankingDetails?.totalNoOfCredit }}</td>
+                <td class="bank_name">{{ labels?.totalValueOfCredits }}</td>
+                <td>{{ coAppBankingDetails?.totalValueOfCredit }}</td>
+            </tr>
+            <tr>
+                <td class="bank_name">{{ labels?.noOfInwardsChequeBounces }}</td>
+                <td>{{ coAppBankingDetails?.noOfInwardBounce }}</td>
+                <td class="bank_name">{{ labels?.noOfOutwardChequeBounces }}</td>
+                <td>{{ coAppBankingDetails?.noOfOutwardBounce }}</td>
+            </tr>
+    
+            <tr>
+                <td class="bank_name">{{ labels?.balanceasOnFifth }}</td>
+                <td>{{ coAppBankingDetails?.balanceAsOn5th }}</td>
+    
+            </tr>
+            <tr>
+                <td class="bank_name">{{ labels?.balanceasOnTenth }}</td>
+                <td>{{ coAppBankingDetails?.balanceAsOn15th }}</td>
+    
+            </tr>
+            <tr>
+                <td class="bank_name">{{ labels?.balanceasOnTewntieth }}</td>
+                <td>{{ coAppBankingDetails?.balanceAsOn20th }}</td>
+            </tr>
+            <tr>
+                <td class="bank_name">{{ labels?.averageBalanceForTheMonth }}</td>
+                <td>{{ coAppBankingDetails?.averageAccountBalance }}</td>
+            </tr>
+            <tr>
+                <td class="bank_name">{{ labels?.abbRatio }}</td>
+                <td>{{ coAppBankingDetails?.abbRatio }}</td>
             </tr>
         </table>
         <!--Banking details -->
@@ -475,7 +525,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let autoDeviation of autoDeviation">
-                    <td class="bank_name">{{ autoDeviation?.deviation }}</td>
+                    <td>{{ autoDeviation?.deviation }}</td>
                     <td>{{ autoDeviation?.justification }}</td>
                     <td>{{ autoDeviation?.authority }}</td>
                     <td>{{ autoDeviation?.status}}</td>
@@ -773,7 +823,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let partyToAgreement of partyToAgreement">
-                <td class="bank_name">{{ partyToAgreement?.applicantType }}</td>
+                <td>{{ partyToAgreement?.applicantType }}</td>
                 <td>{{ partyToAgreement?.name }}</td>
                 <td>{{ partyToAgreement?.entity }}</td>
                 <td>{{ partyToAgreement?.dobDoi}}</td>
@@ -808,7 +858,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let cibleSynopsis of cibilSynopsys">
-                <td class="bank_name">{{ cibleSynopsis?.entity }}</td>
+                <td>{{ cibleSynopsis?.entity }}</td>
                 <td>{{ cibleSynopsis?.cibilScore }}</td>
                 <td>{{ cibleSynopsis?.odIndividual }}</td>
                 <td>{{ cibleSynopsis?.odInJointAc }}</td>
@@ -855,7 +905,7 @@
       }}
         </caption>
 
-        <tbody *ngFor="let bankingSummary of bankingSummary">
+        <tbody>
             <tr>
                 <td class="bank_name">{{ labels?.bankName }}</td>
                 <td>{{ bankingSummary?.bankName }}</td>
@@ -902,7 +952,61 @@
         </tbody>
     </table>
     <!--banking synopsis-->
+ <!--banking synopsis-->
+ <table class="cam_table_proposed mt-3" *ngIf="coAppBankingSummaryObj != null || coAppBankingSummaryObj != undefined">
+    <caption class="caption">
+        {{
+    labels?.coApplicantBankingDetails
+  }}
+    </caption>
 
+    <tbody>
+        <tr>
+            <td class="bank_name">{{ labels?.bankName }}</td>
+            <td>{{ coAppBankingSummaryObj?.bankName }}</td>
+            <td class="bank_name">
+                {{ labels?.accountType }}
+            </td>
+            <td>{{ coAppBankingSummaryObj?.accountType }}</td>
+
+            <td class="bank_name">{{ labels?.limitIfAny }}</td>
+            <td>{{ coAppBankingSummaryObj?.limitIfAny }}</td>
+
+        </tr>
+        <tr>
+            <td class="bank_name">{{ labels?.from }}</td>
+            <td>{{ coAppBankingSummaryObj?.from }}</td>
+            <td class="bank_name">
+                {{ labels?.averageCredit }}
+            </td>
+            <td>{{ coAppBankingSummaryObj?.averageCredit }}</td>
+            <td class="bank_name">{{ labels?.averageDebit }}</td>
+            <td>{{ coAppBankingSummaryObj?.averageDebit }}</td>
+
+        </tr>
+        <tr>
+            <td class="bank_name">{{ labels?.averageAccountBalance }}</td>
+            <td>{{ coAppBankingSummaryObj?.averageAccountBalance }}</td>
+            <td class="bank_name">{{ labels?.noOfInwardBounce }}</td>
+            <td>{{ coAppBankingSummaryObj?.noOfInwardBounce }}</td>
+            <td class="bank_name">{{ labels?.noOfOutwardBounce }}</td>
+            <td>{{ coAppBankingSummaryObj?.noOfOutwardBounce }}</td>
+
+            <!-- <td colspan="1" width="50"></td>
+            <td colspan="7"></td> -->
+        </tr>
+        <tr>
+            <td class="bank_name">{{ labels?.to }}</td>
+            <td>{{ coAppBankingSummaryObj?.to }}</td>
+            <td class="bank_name">{{ labels?.noOfMonth }}</td>
+            <td>{{ coAppBankingSummaryObj?.noOfMonth }}</td>
+            <td colspan="2"></td>
+            <!-- <td colspan="1"></td>
+            <td colspan="7"></td> -->
+        </tr>
+    </tbody>
+</table>
+<!--banking synopsis-->
     <!---fleet summary-->
     <table class="cam_table_proposed mt-3">
         <caption class="caption">
@@ -987,31 +1091,31 @@
         </caption>
         <thead>
             <tr class="">
-                <th>
+                <th class="bank_name">
                     {{ labels?.trackValidated }}
                 </th>
-                <th>
+                <th class="bank_name">
                     {{labels?.five}}
                 </th>
-                <th>
+                <th class="bank_name">
                     {{ labels?.financier }}
                 </th>
-                <th>
+                <th class="bank_name">
                     {{ labels?.asset }}
                 </th>
-                <th>
+                <th class="bank_name">
                     {{ labels?.vehRegNo }}
                 </th>
-                <th>
+                <th class="bank_name">
                     {{ labels?.seasoning }}
                 </th>
-                <th colspan="2">
+                <th colspan="2" class="bank_name">
                     {{ labels?.overAll }}
                 </th>
-                <th colspan="2">
+                <th colspan="2" class="bank_name">
                     {{ labels?.lastSixMonth }}
                 </th>
-                <th colspan="2">
+                <th colspan="2" class="bank_name">
                     {{ labels?.lastTwelveMonth }}
                 </th>
                 <!-- <th colspan="2">
@@ -1020,22 +1124,22 @@
             </tr>
             <tr>
                 <td colspan="6"></td>
-                <td>
+                <td class="bank_name">
                     {{ labels?.ad }}
                 </td>
-                <td>
+                <td class="bank_name">
                     {{ labels?.pd }}
                 </td>
-                <td>
+                <td class="bank_name">
                     {{ labels?.ad }}
                 </td>
-                <td>
+                <td class="bank_name">
                     {{ labels?.pd }}
                 </td>
-                <td>
+                <td class="bank_name">
                     {{ labels?.ad }}
                 </td>
-                <td>
+                <td class="bank_name">
                     {{ labels?.pd }}
                 </td>
                 <!-- <td colspan="2"></td> -->
@@ -1183,16 +1287,16 @@
         </caption>
         <thead>
             <tr class="">
-                <th>
+                <th class="bank_name">
                     {{ labels?.sNo }}
                 </th>
-                <th>
+                <th class="bank_name">
                     {{labels?.deviation}}
                 </th>
-                <th>
+                <th class="bank_name">
                     {{ labels?.authority }}
                 </th>
-                <th>
+                <th class="bank_name">
                     {{ labels?.justification }}
                 </th>
 
@@ -1226,8 +1330,8 @@
 </tr> -->
         <caption class="caption">
             <div class="row">
-                <div class="col-md-6"> {{ labels?.concernsOrRisks }}</div>
-                <div class="col-md-6"> {{ labels?.strengthsOrMitigates }}</div>
+                <div class="col-md-6"  class="bank_name"> {{ labels?.concernsOrRisks }}</div>
+                <div class="col-md-6"  class="bank_name"> {{ labels?.strengthsOrMitigates }}</div>
             </div>
         </caption>
         <tbody>
@@ -1459,11 +1563,11 @@
 
     <!---sourcing table starts here-->
     <table class="cam_table mt-3">
-        <!-- <caption class="caption">
+        <caption class="caption">
             {{
     labels?.sourceDetailsTitle
   }}
-        </caption> -->
+        </caption>
         <tr>
             <td class="bank_name">{{ labels?.customerType }}</td>
             <td>{{ sourcingDetails?.customerType }}</td>
@@ -1565,12 +1669,12 @@
     <!--sourcing table ends here--->
 
     <!--applicantDetails-->
-    <table class="cam_table_proposed mt-3 terms">
-        <!-- <caption class="caption">
+    <table class="cam_table_proposed mt-3">
+        <caption class="caption">
             {{
     labels?.applicantDetailsTitle
   }}
-        </caption> -->
+        </caption>
         <thead>
             <tr class="termHead">
                 <th class="bank_name termHead">{{ labels?.terms }}</th>
@@ -1991,7 +2095,7 @@
             <td colspan="2">{{bankingTxnDetails?.averageAccountBalance}}</td>
         </tr>
         <tr>
-            <td>{{labels?.total}}</td>
+            <td class="bank_name">{{labels?.total}}</td>
             <td>{{ camDetails?.totalInflow }}</td>
             <td>{{ camDetails?.totalOutflow }}</td>
             <td>{{ camDetails?.totalNoOfInwardbounces }}</td>
@@ -2003,7 +2107,7 @@
             <td>{{camDetails?.emi}}</td>
         </tr>
         <tr>
-            <td>{{labels?.average}}</td>
+            <td class="bank_name">{{labels?.average}}</td>
             <td>{{ camDetails?.avgInflow }}</td>
             <td>{{ camDetails?.avgOutflow }}</td>
             <td>{{ camDetails?.avgNoOfInwardbounces }}</td>
@@ -2043,24 +2147,111 @@
     </table>
     <!--bankingHistory--->
 
-
-    <!--customerBackgroundSalesRecommendation-->
-    <table class="cam_table_proposed mt-3">
+    <!---CoAPPbankingHistory-->
+    <table class="cam_table_proposed mt-3" *ngIf="coAppBankingSummary != null || coAppBankingSummary != undefined">
         <caption class="caption">
             {{
-        labels?.customerBackgroundSalesRecommendation
+        labels?.coApplicantBankingHistory
       }}
+        </caption>
+        <tr>
+            <td class="bank_name">{{ labels?.bankName  }}</td>
+            <td colspan="2">{{ coAppBankingSummary?.bankName }}</td>
+            <td class="bank_name" colspan="3">{{ labels?.noOfInwardBounces }}</td>
+            <td colspan="6">{{ coAppBankingSummary?.noOfInwardBounce }}</td>
+        </tr>
+        <tr>
+            <td class="bank_name">{{ labels?.accountHolderName }}</td>
+            <td colspan="4">{{ coAppBankingSummary?.name }}</td>
+            <td colspan="1" class="bank_name">{{ labels?.abb }}</td>
+            <td colspan="6">{{ coAppBankingSummary?.averageAccountBalance }}</td>
+        </tr>
+        <tr>
+            <td class="bank_name">{{ labels?.acNo }}</td>
+            <td colspan="3">{{ coAppBankingSummary?.accountNo }}</td>
+            <td class="bank_name">{{ labels?.fromDate }}</td>
+            <td class="bank_name">{{ labels?.toDate }}</td>
+            <td colspan="2" class="bank_name">{{ labels?.periodInMonths }}</td>
+            <td colspan="4" ></td>
+
+        </tr>
+
+        <tr>
+            <td class="bank_name">{{ labels?.accountType }}</td>
+            <td colspan="3">{{ coAppBankingSummary?.accountType }}</td>
+            <td>{{ coAppBankingSummary?.from }}</td>
+            <td>{{ coAppBankingSummary?.to }}</td>
+            <td colspan="6">{{ coAppBankingSummary?.period }}</td>
+
+
+        </tr>
+        <tr>
+            <td class="bank_name">{{ labels?.month }}</td>
+            <td class="bank_name">{{ labels?.inflow }}</td>
+            <td class="bank_name">{{ labels?.outflow }}</td>
+            <td class="bank_name">{{ labels?.noOfInwardBounces }}</td>
+            <td class="bank_name">{{ labels?.balanceOn5th }}</td>
+            <td class="bank_name">{{ labels?.balanceOn15th }}</td>
+            <td class="bank_name">{{ labels?.balanceOn20th }}</td>
+            <td class="bank_name">{{ labels?.abbOfMonth }}</td>
+
+            <td colspan="2"></td>
+
+        </tr>
+        <tr *ngFor="let coAppBankingTxnDetails of coAppBankingTxnDetails">
+            <td>{{ coAppBankingTxnDetails?.month }}</td>
+            <td>{{ coAppBankingTxnDetails?.inflow }}</td>
+            <td>{{ coAppBankingTxnDetails?.outflow }}</td>
+            <td>{{ coAppBankingTxnDetails?.noOfInwardBounce }}</td>
+            <td>{{ coAppBankingTxnDetails?.balanceAsOn5th }}</td>
+            <td>{{ coAppBankingTxnDetails?.balanceAsOn15th }}</td>
+            <td>{{ coAppBankingTxnDetails?.balanceAsOn20th }}</td>
+            <td colspan="2">{{coAppBankingTxnDetails?.averageAccountBalance}}</td>
+        </tr>
+        <tr>
+            <td class="bank_name">{{labels?.total}}</td>
+            <td>{{ camDetails?.cptotalInflow }}</td>
+            <td>{{ camDetails?.cptotalOutflow }}</td>
+            <td>{{ camDetails?.cptotalNoOfInwardbounces }}</td>
+            <td>{{ camDetails?.cptotalBalanceAsOn5th }}</td>
+            <td>{{ camDetails?.cptotalBalanceAsOn15th }}</td>
+            <td>{{ camDetails?.cptotalBalanceAsOn20th }}</td>
+            <td>{{ camDetails?.cptotalAbb }}</td>
+            <td class="bank_name">{{ labels?.emi }}</td>
+            <td>{{camDetails?.cpemi}}</td>
+        </tr>
+        <tr>
+            <td class="bank_name">{{labels?.average}}</td>
+            <td>{{ camDetails?.cpavgInflow }}</td>
+            <td>{{ camDetails?.cpavgOutflow }}</td>
+            <td>{{ camDetails?.cpavgNoOfInwardbounces }}</td>
+            <td>{{ camDetails?.cpavgBalanceAsOn5th }}</td>
+            <td>{{ camDetails?.cpavgBalanceAsOn15th }}</td>
+            <td>{{ camDetails?.cpavgBalanceAsOn20th }}</td>
+            <td>{{ camDetails?.cpavgAbb }}</td>
+            <td class="bank_name">{{ labels?.abbEmi }}</td>
+            <td>{{camDetails?.cpabbEmi}}</td>
+
+        </tr>
+       
+    </table>
+    <!--bankingHistory--->
+
+    <!--customerBackgroundSalesRecommendation-->
+    <table class="cam_table_proposed mt-3"  *ngFor="let appRecommendation of appRecommendation">
+        <caption class="caption">
+            {{ appRecommendation?.applicantType }} {{labels?.backgroundSalesRecommendation}}
         </caption>
         <tbody>
 
             <tr>
-                <td colspan="6" height="80"></td>
+                <td colspan="6">{{ appRecommendation?.recommendation }}</td>
             </tr>
             <tr>
-                <td width="100" class="bank_name">{{ labels?.recommendedBy }}</td>
-                <td width="500">{{ customerBackgroundSalesRecommendation?.recommendedBy }}</td>
+                <!-- <td width="100" class="bank_name">{{ labels?.recommendedBy }}</td> -->
+                <!-- <td width="500"></td> -->
                 <td width="100" class="bank_name">{{ labels?.nameWithECode }}</td>
-                <td width="200">{{ customerBackgroundSalesRecommendation?.nameWithEcode }}</td>
+                <td width="200">{{ appRecommendation?.nameWithEcode }}</td>
 
             </tr>
         </tbody>
@@ -2068,23 +2259,21 @@
     <!--customerBackgroundSalesRecommendation-->
 
     <!--CoApplicantBackground-->
-    <table class="cam_table_proposed mt-3">
+    <!-- <table class="cam_table_proposed mt-3" *ngFor="let appRecommendation of appRecommendation">
         <caption class="caption">
-            {{
-        labels?.CoApplicantBackground
-      }}
+            {{ appRecommendation?.applicantType }} {{labels?.backgroundSalesRecommendation}}
         </caption>
         <tbody>
             <tr>
-                <td colspan="6" height="80"></td>
+                <td colspan="6" >{{appRecommendation?.recommendation}}</td>
             </tr>
 
         </tbody>
-    </table>
+    </table> -->
     <!--CoApplicantBackground-->
 
     <!--guarantorDetails-->
-    <table class="cam_table_proposed mt-3">
+    <!-- <table class="cam_table_proposed mt-3">
         <caption class="caption">
             {{
         labels?.guarantorDetails
@@ -2096,7 +2285,7 @@
             </tr>
 
         </tbody>
-    </table>
+    </table> -->
     <!--guarantorDetails-->
 
     <!--vehicleDeploymentDetails-->
@@ -2106,7 +2295,7 @@
         labels?.vehicleDeploymentDetails
       }}
         </caption>
-        <tbody>
+        <tbody *ngFor="let vehicleDeploymentDetails of vehicleDeploymentDetails">
             <tr>
                 <td class="bank_name">{{ labels?.routeOfOpertaionOutward }}</td>
                 <td>{{ vehicleDeploymentDetails?.routeOfOperationInward }}</td>
@@ -2114,7 +2303,7 @@
                 <td>{{ vehicleDeploymentDetails?.routeOfOperationOutward }}</td>
             </tr>
             <tr>
-                <td colspan="6" height="60"></td>
+                <td colspan="6" height="60">{{ vehicleDeploymentDetails?.assetDescription }}</td>
             </tr>
 
         </tbody>
@@ -2374,9 +2563,9 @@
         labels?.coRecommendationAndTvrDetailsMandatory
       }}
         </caption>
-        <tbody>
+        <tbody *ngFor="let coRecommendationTvrDetails of coRecommendationTvrDetails"> 
             <tr>
-                <td colspan="6" height="80"></td>
+                <td colspan="6" >{{ coRecommendationTvrDetails?.recommendation }}</td>
             </tr>
             <tr >
                 <td width="100" class="bank_name">{{ labels?.nameWithECode }}</td>

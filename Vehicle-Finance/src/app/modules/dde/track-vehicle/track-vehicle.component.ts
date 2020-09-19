@@ -573,7 +573,7 @@ export class TrackVehicleComponent implements OnInit {
       rowData.value['dueDate'] = this.formArr.controls[i]['controls']['dueDate'].value
 
       rowData.value['delayDays'] = delayedDays;
-      this.fleetRtrDetails[i]['receivedDate'] = event ;
+      this.fleetRtrDetails[i]['receivedDate'] = rowData.value['receivedDate']  ;
       // this.fleetRtrDetails[i] = {
       //   'receivedDate': this.dateDbFormat(rowData.value['receivedDate']),
       //   "delayDays": delayedDays
