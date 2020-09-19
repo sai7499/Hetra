@@ -5,6 +5,7 @@ import { LabelsService } from 'src/app/services/labels.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { WelcomeService } from "../welomce-letter/welcome.service";
 import { ToasterService } from "@services/toaster.service"
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 @Component({
   selector: 'app-welomce-letter',
@@ -75,9 +76,14 @@ export class WelomceLetterComponent implements OnInit {
   creditShield: any;
   assetCost: any;
   showWelcomeLetter: boolean = false;
+  private productCatCode;
 
-  constructor(private activatedRoute: ActivatedRoute, private labelsData: LabelsService, private commonLovService: CommomLovService, private WelcomeService: WelcomeService
-    , private toasterService: ToasterService,) { }
+  constructor(private activatedRoute: ActivatedRoute,
+              private labelsData: LabelsService, 
+              private commonLovService: CommomLovService, 
+              private WelcomeService: WelcomeService, 
+              private toasterService: ToasterService,
+              private createLeadDataService: CreateLeadDataService) { }
 
   ngOnInit() {
 
@@ -116,6 +122,7 @@ export class WelomceLetterComponent implements OnInit {
         this.toasterService.showError(res['ProcessVariables'].error["message"], '')
       }
     });
+    this.getLeadSectiondata()
   }
 
   getLeadId() {
@@ -193,5 +200,11 @@ export class WelomceLetterComponent implements OnInit {
   }
   viweWelcomeLetter(){
     this.getWelcomeLetterDetails();
+  }
+
+  getLeadSectiondata() {
+    const leadData = this.createLeadDataService.getLeadSectionData();
+    this.productCatCode = leadData['leadDetails'].productCatCode;
+    console.log("PRODUCT_CODE:", this.productCatCode);
   }
 }

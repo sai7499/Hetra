@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 // import { PersonalDiscussionService } from '@services/personal-discussion.service';
 
 import { LoginStoreService } from '@services/login-store.service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 
 @Component({
@@ -22,11 +23,13 @@ export class CpcMakerDdeComponent implements OnInit {
   roles: any = [];
   roleId: any;
   roleType: any;
+  private productCatCode;
   constructor(
     private router: Router,
     private location: Location,
     private loginStoreService: LoginStoreService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private createLeadDataService: CreateLeadDataService
   ) {}
 
   ngOnInit() {
@@ -54,6 +57,7 @@ export class CpcMakerDdeComponent implements OnInit {
       console.log('applicant ID', value.applicantId);
       console.log('version in fi and pd report', this.version);
     });
+   
   }
   onNavigate(url: string) {
     // tslint:disable-next-line: triple-equals
@@ -85,5 +89,16 @@ export class CpcMakerDdeComponent implements OnInit {
       return 6;
     } else if (url.includes('welomce-letter') ) {
       return 7;
-  }
-}}
+    } else if (url.includes('delivery-order') ) {
+      return 8;
+    }
+
+}
+
+getLeadSectiondata() {
+  const leadData = this.createLeadDataService.getLeadSectionData();
+  this.productCatCode = leadData['leadDetails'].productCatCode;
+  console.log("PRODUCT_CODE::", this.productCatCode);
+}
+
+}
