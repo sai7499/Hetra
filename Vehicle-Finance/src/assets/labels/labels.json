@@ -539,6 +539,7 @@
     "surveyNumber": "Survey No. / Patta No.",
     "landInAcres": "Land in Acres",
     "propertyOwner": "Property Owner Name",
+    "propertyOwnerType" : "Property Owner Type",
     "relatedWithApplicant": "Relationship with Primary Applicant",
     "totalLoanAmount": "Total Loan Amount",
     "totalBuildupArea": "Total Built up Area (in Sq. Ft)",

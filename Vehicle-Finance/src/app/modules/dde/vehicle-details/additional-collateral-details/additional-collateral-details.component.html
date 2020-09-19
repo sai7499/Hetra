@@ -300,6 +300,16 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                                <label for="property_type">{{label.propertyOwnerType}}</label>
+
+                                <app-vf-custom-select [values]="LOV?.propertyOwnerType" [id]="'property_type'"
+                                    formControlName="propertyOwnerType" [isRequired]="'Property Owner Type Required'"
+                                    [isDirty]="isDirty">
+                                </app-vf-custom-select>
+
+                            </div>
+
+                            <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="property_owner">{{label.propertyOwner}}</label>
                                 <app-vf-custom-select [values]="LOV?.propertOwner" [id]="'collateral_type'"
                                     formControlName="propertyOwner" [isRequired]="'Property owner Required'"
@@ -307,6 +317,12 @@
                                 </app-vf-custom-select>
 
                             </div>
+
+                            
+
+                        </div>
+
+                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="relation_applicant">{{label.relatedWithApplicant}}</label>
@@ -317,10 +333,6 @@
                                 </app-vf-custom-select>
 
                             </div>
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="total_land_area">{{label?.totalLandArea}}</label>
@@ -346,6 +358,12 @@
 
                             </div>
 
+                            
+
+                        </div>
+
+                        <div class="row">
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="market_value_sf">{{label?.marketValueSF}}</label>
 
@@ -357,10 +375,6 @@
                                 </app-custom-input>
 
                             </div>
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="total_market_value">{{label?.totalMarketValue}}</label>
@@ -386,6 +400,12 @@
 
                             </div>
 
+                            
+
+                        </div>
+
+                        <div class="row">
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="total_guide_line">{{label?.totalGuideline}}</label>
 
@@ -397,10 +417,6 @@
                                 </app-custom-input>
 
                             </div>
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="property_address">{{label.propertyAddress}}</label>
