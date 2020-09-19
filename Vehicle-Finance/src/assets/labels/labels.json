@@ -2568,6 +2568,12 @@
                 "rule": 5
             },
             "type": "number"
+        },
+        "yearsOfMonths": {
+            "maxLength": {
+                "rule": 2
+            },
+            "type": "number"
         }
     }
 }
