@@ -143,4 +143,36 @@ fetchDisbursement(leadId) {
         const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
         return this.httpService.post(url, body);
     }
+    BnfBankName(name) {
+      const processId = this.apiService.api.disbBankName.processId;
+      const workflowId = this.apiService.api.disbBankName.workflowId;
+      const projectId = this.apiService.api.disbBankName.projectId;
+
+      const body: RequestEntity = {
+          processId: processId,
+          ProcessVariables: {
+              "bankName": name
+          },
+          workflowId: workflowId,
+          projectId: projectId
+      };
+      const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+      return this.httpService.post(url, body);
+  }
+  getBankNameDetails(bankName) {
+    const processId = this.apiService.api.disbBankDetails.processId;
+      const workflowId = this.apiService.api.disbBankDetails.workflowId;
+      const projectId = this.apiService.api.disbBankDetails.projectId;
+
+      const body: RequestEntity = {
+          processId: processId,
+          ProcessVariables: {
+              "bankName": bankName
+          },
+          workflowId: workflowId,
+          projectId: projectId
+      };
+      const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+      return this.httpService.post(url, body);
+  }
 }

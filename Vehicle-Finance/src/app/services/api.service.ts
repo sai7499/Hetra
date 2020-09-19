@@ -819,6 +819,16 @@ export class ApiService {
       processId: '34408268f75811eab4f500505695f93b',
       workflowId: '340d11b2f75811eab78c00505695f93b',
       projectId: '403a8a12b79511ea8afff2fa9bec3d63'
+    },
+    disbBankName: {
+      processId: 'f9fcc4a6f3ef11eaaeda00505695f93b',
+      workflowId: '08905702d7b811eab3fc00505695f93b',
+      projectId: environment.projectIds.camProjectId,
+    },
+    disbBankDetails: {
+      processId: '049cafbef3f211ea894a00505695f93b',
+      workflowId: '08905702d7b811eab3fc00505695f93b',
+      projectId: environment.projectIds.camProjectId,
     }
 
   };

@@ -493,6 +493,7 @@
     "businessIncomeThree": "Business Income-3",
     "loanEligibilityBasedOnIncome": "Loan Eligibility based on Income",
     "bankingDetails": "Banking details",
+    "coApplicantBankingDetails": "Co-Applicant Banking details",
     "bankStatement": "Bank statement",
     "totalNoOfCredits": "Total No. of Credits",
     "totalValueOfCredits": "Total Value of Credits",
@@ -617,6 +618,7 @@
     "totalFleetValue": "Total Fleet Value",
     "IfMoreThanAboveToBeAttachSeparteExcel": "if more than above to be attach separte excel",
     "bankingHistory": "Banking History (with main banker) ___*ABB calculation is mandatory in case of CAPTIVE",
+    "coApplicantBankingHistory":"Co-Applicant Banking History",
     "periodInMonths": "Period in Months",
     "commentsOnBankingIfAny": "Comments on banking  if any",
     "abbOfTheMonth": "ABB of the month",
@@ -2296,7 +2298,7 @@
         },
         "disburseAmountType": {
             "maxLength": {
-                "rule": 20
+                "rule": 12
             },
             "type": "number"
         },
@@ -2372,6 +2374,12 @@
             },
             "type": "number"
         },
+        "MITenure": {
+            "maxLength": {
+                "rule": 4
+            },
+            "type": "number"
+        },
         "NoofPDC": {
             "maxLength": {
                 "rule": 3
@@ -2394,6 +2402,12 @@
             "maxLength": {
                 "rule": 6
             }
+        },
+        "DeductionChargefixedRate": {
+            "maxLength": {
+                "rule": 5
+            },
+            "type": "number"
         },
         "beneficiaryBranch": {
             "maxLength": {
