@@ -65,16 +65,14 @@ getDealerDetails(dealerCode) {
   const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
   return this.httpService.post(url, body);
 }
-getApplicantDetails(leadID) { 
+getApplicantDetails(data) { 
   const processId = this.apiService.api.fetchApplicantDetails.processId;
   const workflowId = this.apiService.api.fetchApplicantDetails.workflowId;
   const projectId = this.apiService.api.fetchApplicantDetails.projectId;
 
   const body: RequestEntity = {
       processId: processId,
-      ProcessVariables: {
-        "LeadID":leadID          
-      },
+      ProcessVariables: data,
       workflowId: workflowId,
       projectId: projectId
   };

@@ -172,14 +172,14 @@ export class DisbursementFormComponent implements OnInit {
   leadID: any;
   //disburseTo: any;
   loanDetailsData: Object = {};
-  ReqDealerDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; dealerCode: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
-  ReqApplicantDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
+  ReqDealerDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; dealerCode: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone:Number; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
+  ReqApplicantDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone:Number; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
   ReqBankerDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; bankerId: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
   ReqFinancierDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; financierId: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
   ReqTPDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
-  ReqCoApp1Details: { leadID: any; disbursementID: any; payableTo: String; favouring: String; applicantId: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
-  ReqCoApp2Details: { leadID: any; disbursementID: any; payableTo: String; favouring: String; applicantId: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
-  ReqCoApp3Details: { leadID: any; disbursementID: any; payableTo: String; favouring: String; applicantId: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
+  ReqCoApp1Details: { leadID: any; disbursementID: any; payableTo: String; favouring: String; applicantId: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone:Number; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
+  ReqCoApp2Details: { leadID: any; disbursementID: any; payableTo: String; favouring: String; applicantId: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone:Number; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
+  ReqCoApp3Details: { leadID: any; disbursementID: any; payableTo: String; favouring: String; applicantId: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone:Number; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
   ReqCoAppDetailsArray: any = [];
   roleId: any;
   roleType: any;
@@ -256,7 +256,10 @@ export class DisbursementFormComponent implements OnInit {
   thirdPartyfavBODListData: any;
   thirdPartyFavkeyword: string;
   bankTPFavBODDetailsData: any[];
-
+  mobileLength : number;
+  fetchedCoApp1Data: boolean=false;
+  fetchedCoApp2Data: boolean=false;
+  fetchedCoApp3Data: boolean=false;
 
   constructor(
     private fb: FormBuilder,
@@ -720,6 +723,7 @@ export class DisbursementFormComponent implements OnInit {
         this.amountLength = this.labels.validationData.disburseAmountType.maxLength;
         this.ifscLength = this.labels.validationData.disburseIfsc.maxLength;
         this.bnfBranchLength = this.labels.validationData.beneficiaryBranch.maxLength;
+        this.mobileLength = this.labels.validationData.mobileNumber.maxLength;
       },
       (error) => console.log('Sourcing details Label Error', error)
     );
@@ -1082,8 +1086,53 @@ export class DisbursementFormComponent implements OnInit {
       this.thirdPartyDetailsForm.patchValue({ ifscCode: thirdPartyIFSCCode ? thirdPartyIFSCCode : '' });
     } 
   }
+  getCoApplicantDetails(appID,val) {
+    let ReqCoAppData = {
+      "LeadID":this.disbLeadId,
+      "ApplicantID": appID
+      }
+    this.disbursementService.getApplicantDetails(ReqCoAppData).subscribe((res: any) => {
+      const response = res;
+      const appiyoError = response.Error;
+      if (appiyoError === '0') {
+        if(val == 'coApp1'){
+          this.coApplicant1 = response.ProcessVariables.ApplicantDetails;
+          this.fetchedCoApp1Data=this.coApplicant1?true:false;
+            if(this.coApplicant1['beneficiaryBank']){
+            this.onBankNameSearch(this.coApplicant1['beneficiaryBank'],'3');
+            if(this.coApplicant1['beneficiaryBranch']){
+            this.setIFSC(this.coApplicant1['beneficiaryBranch'],'coApp1');
+            }
+          }
+        }
+        if(val == 'coApp2'){
+          this.coApplicant2 = response.ProcessVariables.ApplicantDetails;
+          this.fetchedCoApp2Data=this.coApplicant2?true:false;
+          if(this.coApplicant2['beneficiaryBank']){
+            this.onBankNameSearch(this.coApplicant2['beneficiaryBank'],'4');
+            if(this.coApplicant2['beneficiaryBranch']){
+            this.setIFSC(this.coApplicant2['beneficiaryBranch'],'coApp2');
+            }
+          }
+        }
+        if(val == 'coApp3'){
+          this.coApplicant3 = response.ProcessVariables.ApplicantDetails;
+          this.fetchedCoApp3Data=this.coApplicant3?true:false;
+          if(this.coApplicant3['beneficiaryBank']){
+            this.onBankNameSearch(this.coApplicant3['beneficiaryBank'],'5');
+            if(this.coApplicant3['beneficiaryBranch']){
+            this.setIFSC(this.coApplicant3['beneficiaryBranch'],'coApp3');
+            }
+          }
+        }   
+        }
+    });
+  }
   getApplicantDetails() {
-    this.disbursementService.getApplicantDetails(this.disbLeadId).subscribe((res: any) => {
+      let ReqAppData = {
+      "LeadID":this.disbLeadId          
+      }
+      this.disbursementService.getApplicantDetails(ReqAppData).subscribe((res: any) => {
       const response = res;
       const appiyoError = response.Error;
       // const apiError = response.ProcessVariables.error.code;
@@ -1785,6 +1834,9 @@ export class DisbursementFormComponent implements OnInit {
     this.coApp1 = false;
     this.coApp2 = false;
     this.coApp3 = false;
+    this.fetchedCoApp1Data = this.fetchedCoApp1Data?true:false;
+    this.fetchedCoApp2Data = this.fetchedCoApp2Data?true:false;
+    this.fetchedCoApp3Data = this.fetchedCoApp3Data?true:false;
     if (this.coAppNamesLov) {
       for (let i = 0; i < this.coAppNamesLov.length; i++) {
         for (let j = 0; j < sNo.length; j++) {
@@ -1820,13 +1872,14 @@ export class DisbursementFormComponent implements OnInit {
         }
       }
     }
-
+    
     if (!this.coApp1) {
       this.coApp1Form.reset();
       this.showCoApp1TrancheTable = false;
       this.showCoApp1BankDetails = false;
       this.showCoApp1DDDetails = false;
       this.showCoApp1CASADetails = false;
+      this.fetchedCoApp1Data = false;
       this.trancheCoApp1List = [];
       this.commonFormArray.forEach(key => {
         this.coApp1Form.get(key).clearValidators();
@@ -1840,6 +1893,7 @@ export class DisbursementFormComponent implements OnInit {
       this.showCoApp2BankDetails = false;
       this.showCoApp2DDDetails = false;
       this.showCoApp2CASADetails = false;
+      this.fetchedCoApp2Data = false;
       this.trancheCoApp2List = [];
       this.commonFormArray.forEach(key => {
         this.coApp2Form.get(key).clearValidators();
@@ -1853,11 +1907,24 @@ export class DisbursementFormComponent implements OnInit {
       this.showCoApp3BankDetails = false;
       this.showCoApp3DDDetails = false;
       this.showCoApp3CASADetails = false;
+      this.fetchedCoApp3Data = false;
       this.trancheCoApp3List = [];
       this.commonFormArray.forEach(key => {
         this.coApp3Form.get(key).clearValidators();
         this.coApp3Form.get(key).setErrors(null);
       });
+    }
+   if(this.coApp1){
+      if(!this.fetchedCoApp1Data)
+      this.getCoApplicantDetails(this.coApplicant1['applicantId'],'coApp1');
+    }
+    if(this.coApp2){
+      if(!this.fetchedCoApp2Data)
+      this.getCoApplicantDetails(this.coApplicant2['applicantId'],'coApp2');
+    }
+    if(this.coApp3){
+      if(!this.fetchedCoApp3Data)
+      this.getCoApplicantDetails(this.coApplicant3['applicantId'],'coApp3');
     }
   }
 
@@ -2056,6 +2123,7 @@ export class DisbursementFormComponent implements OnInit {
       beneficiaryBank: new FormControl({ value: this.dealerObjInfo['beneficiaryBank'] }, Validators.required),
       ifscCode: new FormControl({ value: this.dealerObjInfo['ifscCode'],disabled:true }, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.dealerObjInfo['beneficiaryBranch'] }, Validators.required),
+      mobilePhone: new FormControl(''),
       instrumentType: new FormControl({ value: this.dealerObjInfo['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.dealerObjInfo['instrumentNumber'] }, Validators.required),
       instrumentDate: new FormControl('', Validators.required),
@@ -2077,6 +2145,7 @@ export class DisbursementFormComponent implements OnInit {
       beneficiaryBank: new FormControl({ value: this.applicantObjInfo['beneficiaryBank'] }, Validators.required),
       ifscCode: new FormControl({ value: this.applicantObjInfo['ifscCode'] }, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.applicantObjInfo['beneficiaryBranch'] }, Validators.required),
+      mobilePhone: new FormControl(''),
       instrumentType: new FormControl({ value: this.applicantObjInfo['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.applicantObjInfo['instrumentNumber'] }, Validators.required),
       instrumentDate: new FormControl('', Validators.required),
@@ -2103,6 +2172,7 @@ export class DisbursementFormComponent implements OnInit {
       beneficiaryBank: new FormControl({ value: this.coApplicant1['beneficiaryBank'] }, Validators.required),
       ifscCode: new FormControl({ value: this.coApplicant1['ifscCode'] }, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.coApplicant1['beneficiaryBranch'] }, Validators.required),
+      mobilePhone: new FormControl(''),
       instrumentType: new FormControl({ value: this.coApplicant1['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.coApplicant1['instrumentNumber'] }, Validators.required),
       instrumentDate: new FormControl('', Validators.required),
@@ -2125,6 +2195,7 @@ export class DisbursementFormComponent implements OnInit {
       beneficiaryBank: new FormControl({ value: this.coApplicant2['beneficiaryBank'] }, Validators.required),
       ifscCode: new FormControl({ value: this.coApplicant2['ifscCode'] }, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.coApplicant2['beneficiaryBranch'] }, Validators.required),
+      mobilePhone: new FormControl(''),
       instrumentType: new FormControl({ value: this.coApplicant2['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.coApplicant2['instrumentNumber'] }, Validators.required),
       instrumentDate: new FormControl('', Validators.required),
@@ -2147,6 +2218,7 @@ export class DisbursementFormComponent implements OnInit {
       beneficiaryBank: new FormControl({ value: this.coApplicant3['beneficiaryBank'] }, Validators.required),
       ifscCode: new FormControl({ value: this.coApplicant3['ifscCode'] }, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.coApplicant3['beneficiaryBranch'] }, Validators.required),
+      mobilePhone: new FormControl(''),
       instrumentType: new FormControl({ value: this.coApplicant3['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.coApplicant3['instrumentNumber'] }, Validators.required),
       instrumentDate: new FormControl('', Validators.required),
@@ -2287,6 +2359,7 @@ export class DisbursementFormComponent implements OnInit {
       beneficiaryBank: this.dealerObjInfo['beneficiaryBank'],
       ifscCode: this.dealerObjInfo['ifscCode'],
       beneficiaryBranch: this.dealerObjInfo['beneficiaryBranch'],
+      mobilePhone: this.dealerObjInfo['mobilePhone'],
       instrumentType: this.dealerObjInfo['instrumentType'],
       instrumentNumber: this.dealerObjInfo['instrumentNumber'],
       instrumentDate: dealerFormValue.instrumentDate ? this.utilityService.getDateFormat(dealerFormValue.instrumentDate) : '',
@@ -2322,6 +2395,7 @@ export class DisbursementFormComponent implements OnInit {
       beneficiaryBank: this.applicantObjInfo['beneficiaryBank'],
       ifscCode: this.applicantObjInfo['ifscCode'],
       beneficiaryBranch: this.applicantObjInfo['beneficiaryBranch'],
+      mobilePhone: this.applicantObjInfo['mobilePhone'],
       instrumentType: this.applicantObjInfo['instrumentType'],
       instrumentNumber: this.applicantObjInfo['instrumentNumber'],
       instrumentDate: appFormValue.instrumentDate ? this.utilityService.getDateFormat(appFormValue.instrumentDate) : '',
@@ -2358,6 +2432,7 @@ export class DisbursementFormComponent implements OnInit {
       beneficiaryBank: this.coApplicant1['beneficiaryBank'],
       ifscCode: this.coApplicant1['ifscCode'],
       beneficiaryBranch: this.coApplicant1['beneficiaryBranch'],
+      mobilePhone: this.coApplicant1['mobilePhone'],
       instrumentType: this.coApplicant1['instrumentType'],
       instrumentNumber: this.coApplicant1['instrumentNumber'],
       instrumentDate: coApp1FormValue.instrumentDate ? this.utilityService.getDateFormat(coApp1FormValue.instrumentDate) : '',
@@ -2389,6 +2464,7 @@ export class DisbursementFormComponent implements OnInit {
       beneficiaryBank: this.coApplicant2['beneficiaryBank'],
       ifscCode: this.coApplicant2['ifscCode'],
       beneficiaryBranch: this.coApplicant2['beneficiaryBranch'],
+      mobilePhone: this.coApplicant2['mobilePhone'],
       instrumentType: this.coApplicant2['instrumentType'],
       instrumentNumber: this.coApplicant2['instrumentNumber'],
       instrumentDate: coApp2FormValue.instrumentDate ? this.utilityService.getDateFormat(coApp2FormValue.instrumentDate) : '',
@@ -2420,6 +2496,7 @@ export class DisbursementFormComponent implements OnInit {
       beneficiaryBank: this.coApplicant3['beneficiaryBank'],
       ifscCode: this.coApplicant3['ifscCode'],
       beneficiaryBranch: this.coApplicant3['beneficiaryBranch'],
+      mobilePhone: this.coApplicant3['mobilePhone'],
       instrumentType: this.coApplicant3['instrumentType'],
       instrumentNumber: this.coApplicant3['instrumentNumber'],
       instrumentDate: coApp3FormValue.instrumentDate ? this.utilityService.getDateFormat(coApp3FormValue.instrumentDate) : '',
@@ -2803,8 +2880,9 @@ export class DisbursementFormComponent implements OnInit {
           }
           //console.log('fetchedCoApp',this.coAppName)  
         }
-        if (this.coApplicant1) {
+        if (this.coApplicant1) {     
           this.coApp1DisbursementID = this.coApplicant1['disbursementID'];
+          this.fetchedCoApp1Data = this.coApp1DisbursementID ? true : false;
           this.coApplicant1['trancheDisbursementFlag'] = (this.coApplicant1['trancheDisbursementFlag'] == 'Y') ? true : false;
           this.coApplicant1['deductChargesFlag'] = (this.coApplicant1['deductChargesFlag'] == 'Y') ? true : false;
           if (this.coApplicant1['paymentMethod'] == '7MODEOFPAYMENT' || this.coApplicant1['paymentMethod'] == '8MODEOFPAYMENT') {
@@ -2838,6 +2916,7 @@ export class DisbursementFormComponent implements OnInit {
         }
         if (this.coApplicant2) {
           this.coApp2DisbursementID = this.coApplicant2['disbursementID'];
+          this.fetchedCoApp2Data = this.coApp2DisbursementID ? true : false;
           this.coApplicant2['trancheDisbursementFlag'] = (this.coApplicant2['trancheDisbursementFlag'] == 'Y') ? true : false;
           this.coApplicant2['deductChargesFlag'] = (this.coApplicant2['deductChargesFlag'] == 'Y') ? true : false;
           if (this.coApplicant2['paymentMethod'] == '7MODEOFPAYMENT' || this.coApplicant2['paymentMethod'] == '8MODEOFPAYMENT') {
@@ -2870,8 +2949,9 @@ export class DisbursementFormComponent implements OnInit {
             });
           }
         }
-        if (this.coApplicant3) {
+        if (this.coApplicant3) { 
           this.coApp3DisbursementID = this.coApplicant3['disbursementID'];
+          this.fetchedCoApp3Data = this.coApp3DisbursementID ? true : false;
           this.coApplicant3['trancheDisbursementFlag'] = (this.coApplicant3['trancheDisbursementFlag'] == 'Y') ? true : false;
           this.coApplicant3['deductChargesFlag'] = (this.coApplicant3['deductChargesFlag'] == 'Y') ? true : false;
           if (this.coApplicant3['paymentMethod'] == '7MODEOFPAYMENT' || this.coApplicant3['paymentMethod'] == '8MODEOFPAYMENT') {
