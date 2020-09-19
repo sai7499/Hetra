@@ -1610,6 +1610,10 @@
     "termsheetGeneratedDate": "Termsheet Generated Date",
     "natureOfGoods" : "Nature Of Goods",
     "loanAccNumber": "Loan Account Number",
+    "equitasEmployee" : "Equitas Employee",
+    "equitasEmployeesRelative" : "Equitas Employees Relative",
+    "employeeNo" : "Employee Number",
+
     "validationData": {
         "name": {
             "maxLength": {
@@ -2531,6 +2535,12 @@
                 "rule": 50
             },
             "type": "special-alpha-numeric"
+        },
+        "employeeNo": {
+            "maxLength": {
+                "rule": 5
+            },
+            "type": "number"
         }
     }
 }
