@@ -20,7 +20,7 @@
                             <th>{{labels?.registrationNum }}<i class="fa fa-sort"></i> </th>
                             <th>{{labels?.make}}<i class="fa fa-sort"></i> </th>
                             <th>{{labels?.model}} <i class="fa fa-sort"></i></th>
-                            <th>{{labels?.viabilityStatus}}<i class="fa fa-sort"></i> </th>
+                            <th >{{labels?.viabilityStatus}}<i class="fa fa-sort"></i> </th>
                             <th>{{labels?.action}} <i class="fa fa-sort"></i></th>
                         </tr>
                     </thead>
@@ -29,13 +29,15 @@
                             <td [attr.data-label]="labels?.registrationNum" >{{viability?.registerNo | uppercase}}</td>
                             <td [attr.data-label]="labels?.make" >{{viability?.make}}</td>
                             <td [attr.data-label]="labels?.model">{{viability?.model}}</td>
-                            <td [attr.data-label]="labels?.viabilityStatus">{{viability?.viabilityStatus}}</td>
+                            <td [attr.data-label]="labels?.viabilityStatus" *ngIf=" showNext == false || showNext == true && viability?.viabilityStatus !== 'Started'">{{viability?.viabilityStatus}}</td>
+                            <!-- <td [attr.data-label]="labels?.viabilityStatus" *ngIf=" showNext == true && viability?.viabilityStatus !== 'Started' ">{{viability?.viabilityStatus}}</td> -->
+                            <td [attr.data-label]="labels?.viabilityStatus" *ngIf=" showNext == true && viability?.viabilityStatus == 'Started' ">Pending</td>
                             <td [attr.data-label]="labels?.action"><u><a class="a_tag" style="cursor:pointer"
                                         (click)="getViability(viability?.collateralId, viability?.make,viability?.model, viability?.applicantName)"
-                                        *ngIf="(viability?.viabilityStatus !== 'Submitted' && viability?.viabilityStatus !== 'Completed')&& showNext == false">Start</a>
+                                        *ngIf="(viability?.viabilityStatus !== 'Submitted' && viability?.viabilityStatus !== 'Completed' && viability?.viabilityStatus !== 'Started')&& showNext == false">Start</a>
                                     <a class="a_tag" style="cursor:pointer"
                                         (click)="getViability(viability?.collateralId )"
-                                        *ngIf="(viability?.viabilityStatus == 'Completed' || viability?.viabilityStatus == 'Submitted') && showNext == false">View</a>
+                                        *ngIf="(viability?.viabilityStatus == 'Completed' || viability?.viabilityStatus == 'Submitted' || viability?.viabilityStatus == 'Started') && showNext == false">View</a>
                                     <a class="a_tag" style="cursor:pointer"
                                         (click)="getViability(viability?.collateralId )"
                                         *ngIf="(viability?.viabilityStatus == 'Submitted' || viability?.viabilityStatus == 'Completed') && showNext == true">View</a></u>
