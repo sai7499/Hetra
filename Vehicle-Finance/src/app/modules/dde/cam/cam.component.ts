@@ -101,6 +101,10 @@ export class CamComponent implements OnInit {
   isDocumentId: boolean;
   creditConditions: any;
   appRecommendation: any;
+  coAppBankingSummary: any;
+  coAppBankingTxnDetails: any;
+  coAppBankingDetails: any;
+  coAppBankingSummaryObj: any;
 
   constructor(private labelsData: LabelsService,
     private camService: CamService,
@@ -353,6 +357,7 @@ export class CamComponent implements OnInit {
         this.partyToAgreement = res.ProcessVariables['partyToAgreementObj'];
         this.cibilSynopsys = res.ProcessVariables['cibilSynopsysObj'];
         this.bankingSummary = res.ProcessVariables['bankingSummaryObj']
+        this.coAppBankingSummaryObj = res.ProcessVariables['coAppBankingSummaryObj']
         this.fleetSummary = res.ProcessVariables['fleetSummaryObj']
         this.trackValidation = res.ProcessVariables['trackValidationObj']
         this.autoDeviation = res.ProcessVariables['autoDeviation']
@@ -417,6 +422,7 @@ export class CamComponent implements OnInit {
         this.camDetails = res.ProcessVariables
         this.applicantDetails = res.ProcessVariables['applicantDetails'];
         this.bankingDetails = res.ProcessVariables['bankingDetails'];
+        this.coAppBankingDetails = res.ProcessVariables['coAppBankingDetails'];
         this.businessIncomeDetails = res.ProcessVariables['businessIncomeDetails'];
         this.decisionSheet = res.ProcessVariables['decisionSheet'];
         // this.deviation = res.ProcessVariables['deviation']
@@ -463,6 +469,8 @@ export class CamComponent implements OnInit {
         this.applicantDetails = res.ProcessVariables['applicantDetails'];
         this.bankingSummary = res.ProcessVariables['bankingSummary']
         this.bankingTxnDetails = res.ProcessVariables['bankingTxnDetails']
+        this.coAppBankingSummary = res.ProcessVariables['coAppBankingSummary']
+        this.coAppBankingTxnDetails = res.ProcessVariables['coAppBankingTxnDetails']
         this.cibilEnquiries = res.ProcessVariables['cibilEnquiries']
         this.cibilJustification = res.ProcessVariables['cibilJustification']
         this.customerSelectionCriteria = res.ProcessVariables['customerSelectionCriteria']

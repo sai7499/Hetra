@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
+import { Component, OnInit, Renderer2, ElementRef, OnChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
@@ -11,7 +11,7 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
   templateUrl: './dde.component.html',
   styleUrls: ['./dde.component.css'],
 })
-export class DdeComponent implements OnInit {
+export class DdeComponent implements OnInit, OnChanges {
   locationIndex: number;
   leadId: number;
   show: boolean;
@@ -61,20 +61,28 @@ export class DdeComponent implements OnInit {
       }
       this.sharedService.pslDataNext$.subscribe((val) => {
         if(val === true) {
-          this.onNext();
+          // this.onNext();
+          this.show = false;
+          // this.location.onUrlChange((url: string) => {
+          //   this.locationIndex = this.getLocationIndex(url);
+          // });
+        } else {
+          this.show = true;
         }
       });
-      this.sharedService.vehicleValuationNext$.subscribe((val) => {
-        if (val === true) {
-          this.onNext();
-        }
-      });
-      this.sharedService.tvrDetailsPrevious$.subscribe((val) => {
-        if (val === true) {
-          this.onPrevious();
-        }
-      });
+      // this.sharedService.vehicleValuationNext$.subscribe((val) => {
+      //   if (val === true) {
+      //     this.onNext();
+      //   }
+      // });
+      // this.sharedService.tvrDetailsPrevious$.subscribe((val) => {
+      //   if (val === true) {
+      //     this.onPrevious();
+      //   }
+      // });
     }
+
+
 
     const currentUrl = this.location.path();
     this.locationIndex = this.getLocationIndex(currentUrl);
@@ -82,7 +90,9 @@ export class DdeComponent implements OnInit {
       this.locationIndex = this.getLocationIndex(url);
     });
 
+
     if (this.locationIndex >= 8) {
+
       this.show = false;
     } else {
       this.show = true;
@@ -100,6 +110,15 @@ export class DdeComponent implements OnInit {
       this.showNav = true;
     }
   }
+
+  ngOnChanges() {
+    console.log('on change');
+    this.location.onUrlChange((url: string) => {
+      this.locationIndex = this.getLocationIndex(url);
+    });
+  }
+
+
 
   onPrevious() {
     this.show = true;

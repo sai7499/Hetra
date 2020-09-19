@@ -258,7 +258,8 @@ export class VehicleValuationComponent implements OnInit {
 
   onNext() {
     this.router.navigate([`/pages/dde/${this.leadId}/tvr-details`]);
-    this.sharedService.getVehicleValuationNext(true);
+    // this.sharedService.getVehicleValuationNext(true);
+    this.sharedService.getPslDataNext(true);
   }
 
   onBack() {
