@@ -146,11 +146,17 @@ export class UtilityService {
 
     return this.getUiquJson(arrayList, 'key');
   }
-  getDateFromString(date) {
+  getDateFromString(date: string) {
     if (!date) {
       return;
     }
-    let dateArray = date.split('/');
+    let dateArray: Array<any> = [];
+    if(date.includes('/')) {
+       dateArray = date.split('/');
+    } else if(date.includes('-')) {
+      dateArray = date.split('-');
+    }
+    //  dateArray = date.split('/');
     let getDate = new Date(
       dateArray[1] + '-' + dateArray[0] + '-' + dateArray[2]
     );
