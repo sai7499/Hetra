@@ -1796,7 +1796,8 @@
         "address": {
             "maxLength": {
                 "rule": 50
-            }
+            },
+            "type": "alpha-numeric"
         },
         "addressLine": {
             "maxLength": {

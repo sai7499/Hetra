@@ -9,25 +9,45 @@
 
     <div *ngIf="showDeliveryOrder">
       <div id="ContentToConvert">
-
+      
+        <!-- <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" style="text-align: right;" id="vf_sheet_tag8">
+          <img class="img-style" src="assets\images\equitas-logo.png">
+          </div>
+      </div> -->
+      <div class="text-right style-strong">
+        Date : {{toDayDate | date: 'dd/MM/yyyy'}}
+      </div>
         <table>
 
           <tbody>
             <tr>
-              <td class="style-strong">BHAGWAT ASSOCIATES</td>
-              <td class="style-strong">Date : #date</td>
+              <td  width="70%" class="style-strong">{{dealerDetails?.dealerName}}</td>
+              <!-- <td  width="30%" class="style-strong text-right">Date : {{toDayDate | date: 'dd/MM/yyyy'}}</td> -->
 
             </tr>
             <tr>
-              <td colspan="2">30/1 BALE NEAR POLICE STATION SOLAPUR TAL-SOALPUR SOLAPUR SOLAPUR
-                MAHARASHTRA - 413001.</td>
+              <td >{{dealerDetails?.address}}<br>
+                {{dealerDetails?.city}} <br>
+                {{dealerDetails?.state}}-{{pincode}}
+              </td>
 
             </tr>
 
           </tbody>
         </table>
-        <p><span class="style-strong">Sub :</span> Delivery Order - 1 No. <span class="style-strong">ASHOK LEYLAND AL
-            DOST</span> - Customer Name : <span class="style-strong">#customer_name</span></p>
+        
+        <p><span class="style-strong">Sub :</span> 
+          
+          <span *ngFor="let vehicleData of vehicleDetails; let i= index;">
+            Delivery Order - {{vehicleData?.sno}} No. 
+            <span class="style-strong">{{vehicleData?.type}} {{vehicleData?.model}} </span>      
+            - Customer Name : <span class="style-strong">{{applicantDetails?.name}}</span>
+          </span>
+         
+           <!-- <span class="style-strong">ASHOK LEYLAND AL  DOST</span> - Customer Name : <span class="style-strong">#customer_name</span> -->
+          
+          </p>
         <p><span class="style-strong">Dear Sir,</span><br>
           We hereby request you to deliver the following vehicle as per your Proforma Invoice.</p>
 
@@ -36,15 +56,15 @@
             <tr>
               <td>Vehicle Details</td>
               <td>:</td>
-              <td>1 No. <span class="style-strong"> ASHOK LEYLAND AL DOST</span></td>
+              <td *ngFor="let vehicleData of vehicleDetails; let i= index;">
+                {{vehicleData?.sno}}No. <span class="style-strong"> {{vehicleData?.type}} {{vehicleData?.model}}</span></td>
             </tr>
           </tbody>
         </table>
 
-        <p>to<span class="style-strong"> Mr./Mrs./Messrs. #customer_name</span> based on his request for finance with
+        <p>to<span class="style-strong"> Mr./Mrs./Messrs. {{applicantDetails?.name}}</span> based on his request for finance with
           us.
-          In this regard, an amount of <span class="style-strong">Rs. 690,206 (Rupees Six Lakh Ninety Thousand Two
-            Hundred and Six only)</span> would be paid by us to you within 4 working days from
+          In this regard, an amount of <span class="style-strong">Rs. {{loanAmount}}({{loanAmountText}})</span> would be paid by us to you within 4 working days from
           the date of this letter and validity of the delivery order is for 15 working days from issuance date. Kindly
           arrange to have the invoice raised in
           the following manner:</p>
@@ -52,35 +72,35 @@
         <table id="sold_tab">
           <tbody>
             <tr>
-              <td>Sold to :</td>
-              <td class="style-strong">#customer_name</td>
+              <td>Sold to :</td>             
+              <td class="style-strong">{{applicantDetails?.name}}</td>
             </tr>
 
             <tr>
               <td></td>
-              <td class="style-strong">#address_line_1</td>
+              <td class="style-strong">{{applicantDetails?.addressLine1}}</td>
             </tr>
 
             <tr>
               <td></td>
-              <td class="style-strong">#address_line_2</td>
+              <td class="style-strong">{{applicantDetails?.addressLine2}}</td>
             </tr>
 
             <tr>
               <td></td>
-              <td class="style-strong">#address_line_3</td>
+              <td class="style-strong">{{applicantDetails?.addressLine3}}</td>
               <td>
               </td>
             </tr>
 
             <tr>
               <td></td>
-              <td class="style-strong">#pincode</td>
+              <td class="style-strong">{{applicantDetails?.city}}-{{applicantDetails?.pincode}}</td>
             </tr>
 
             <tr>
               <td></td>
-              <td class="style-strong">#mobile_number</td>
+              <td class="style-strong">{{applicantDetails?.mobileNo}}</td>
             </tr>
 
             <tr>
