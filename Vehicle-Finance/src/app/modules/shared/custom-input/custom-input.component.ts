@@ -80,6 +80,7 @@ export class CustomInputComponent
   @Input() placeholder = '';
 
   htmlInputElement: any;
+  isDecimal : any;
 
   @ViewChild('customInput', { static: false }) customInput: ElementRef;
 
@@ -258,6 +259,7 @@ export class CustomInputComponent
   }
 
   @HostListener('input', ['$event']) onInputChange(event) {
+    this.isDecimal= event
     switch (this.type) {
       case 'number':
         this.allowNumberOnly(event);
@@ -281,6 +283,7 @@ export class CustomInputComponent
       case 'alpha-numeric-slash':
         this.allowAlphaNumericWithSlashOnly(event)
         break;
+
     }
 
     // case 'decimal':
@@ -320,7 +323,7 @@ export class CustomInputComponent
       }
     });
 
-    this.inputValue = initialValue.replace(/[^0-9 .]*/g, '');
+    this.inputValue = initialValue.replace(/[^0-9]*/g, '');
   }
 
   allowNumberOnly(event) {

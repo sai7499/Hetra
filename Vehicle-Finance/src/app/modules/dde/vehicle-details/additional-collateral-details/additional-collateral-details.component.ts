@@ -242,6 +242,8 @@ export class AdditionalCollateralComponent implements OnInit {
                 })
 
                 formArray.clear();
+                this.currentValue=collateralDetail.currentValuePerGram
+                this.goldGramsValue=collateralDetail.goldInGrams
 
                 formArray.controls.push(
                     this._fb.group({
@@ -284,11 +286,12 @@ export class AdditionalCollateralComponent implements OnInit {
             additionalCollaterals['proofName'] = form.value.proofName;
             additionalCollaterals['proofCollected'] = form.value.proofCollected;
 
-            if (this.collateralType === 'GOLDADDCOLTYP') {
+            // if (this.collateralType === 'GOLDADDCOLTYP') {
 
-                additionalCollaterals['totalMarketValue'] = additionalCollaterals['currentValuePerGram'] * additionalCollaterals['goldInGrams']
+            //     additionalCollaterals['totalMarketValue'] = additionalCollaterals['currentValuePerGram'] * additionalCollaterals['goldInGrams']
 
-            } else if (this.collateralType === 'AGRIADDCOLTYP') {
+            // } 
+            if (this.collateralType === 'AGRIADDCOLTYP') {
 
                 additionalCollaterals['totalMarketValue'] = additionalCollaterals['marketValue'] * additionalCollaterals['landInAcres'];
                 additionalCollaterals['totalGuideLineValue'] = additionalCollaterals['guideLineValue'] * additionalCollaterals['landInAcres']

@@ -242,6 +242,7 @@
 
                                 <app-custom-input formControlName="goldInGrams"
                                     [type]="label.validationData?.goldInGrams.type" [id]="'gold_in_gms'"
+                                    [patternCheck]="label.validationData?.goldInGrams.patternCheck"
                                     [className]="'form-control mandatory'" 
                                     [placeholder]="'Gold in gms (net weight - excluding stones)'"
                                     [maxLength]="label.validationData?.goldInGrams.maxLength"
