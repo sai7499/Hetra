@@ -77,7 +77,7 @@ export class WelomceLetterComponent implements OnInit {
   creditShield: any;
   assetCost: any;
   showWelcomeLetter: boolean = false;
-  private productCatCode;
+  productCatCode;
 
   constructor(private activatedRoute: ActivatedRoute,
               private labelsData: LabelsService, 

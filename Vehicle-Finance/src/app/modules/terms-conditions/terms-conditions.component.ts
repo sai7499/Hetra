@@ -17,8 +17,8 @@ export class TermsConditionsComponent implements OnInit {
   leadId: any;
   userId: any;
   processData: any;
-  private loanAmount;
-  private eligibleAmount;
+  loanAmount;
+  eligibleAmount;
   constructor(
     private labelsData: LabelsService,
     private createLeadDataService: CreateLeadDataService,

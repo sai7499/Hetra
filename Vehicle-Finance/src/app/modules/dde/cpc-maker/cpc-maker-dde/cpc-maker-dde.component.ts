@@ -24,7 +24,7 @@ export class CpcMakerDdeComponent implements OnInit {
   roles: any = [];
   roleId: any;
   roleType: any;
-  private productCatCode;
+  productCatCode;
   constructor(
     private router: Router,
     private location: Location,

@@ -34,8 +34,8 @@ export class CreditScoreComponent implements OnInit {
   leadData: any;
   variable: CibilData;
   userId: any;
-  private loanAmount;
-  private eligibleAmount;
+  loanAmount;
+  eligibleAmount;
 
   constructor(
     private aRoute: ActivatedRoute,
