@@ -110,10 +110,10 @@
                                 <label for="total_land">{{label.totalLandMarketValue}}</label>
 
                                 <app-custom-input formControlName="totalMarketValue"
-                                    [type]="label.validationData?.amountValue.type" [id]="'total_land'"
+                                     [id]="'total_land'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Land Market Value'"
                                     [value]="obj.controls['marketValue'].value * obj.controls['landInAcres'].value"
-                                    [maxLength]="label.validationData?.amountValue.maxLength" [isDisabled]="true">
+                                    [isDisabled]="true">
                                 </app-custom-input>
 
                             </div>
@@ -138,11 +138,11 @@
                                 <label for="total_guide_line_value">{{label.totalGuideLineValue}}</label>
 
                                 <app-custom-input formControlName="totalGuideLineValue"
-                                    [type]="label.validationData?.amountValue.type" [id]="'total_guide_line_value'"
+                                     [id]="'total_guide_line_value'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Land Guideline Value'"
                                     [maxLength]="label.validationData?.amountValue.maxLength"
                                     [value]="obj.controls['landInAcres'].value * obj.controls['guideLineValue'].value"
-                                    [maxLength]="label.validationData?.amountValue.maxLength" [isDisabled]="true">
+                                     [isDisabled]="true">
                                 </app-custom-input>
 
                             </div>
@@ -229,9 +229,9 @@
                                 <label for="value_as_today">{{label.valueasToday}}</label>
 
                                 <app-custom-input formControlName="currentValuePerGram"
-                                    [type]="label.validationData?.goldInGrams.type" [id]="'value_as_today'"
+                                    [type]="label.validationData?.valueasToday.type" [id]="'value_as_today'"
                                     [className]="'form-control mandatory'" [placeholder]="'Value as of today per gram'"
-                                    [maxLength]="label.validationData?.amountValue.maxLength" [step]="4"
+                                    [maxLength]="label.validationData?.valueasToday.maxLength" [step]="4"
                                     [isRequired]="'Value as of today per gram Required'" [isDirty]="isDirty">
                                 </app-custom-input>
 
@@ -241,10 +241,10 @@
                                 <label for="total_value">{{label.totalValue}}</label>
 
                                 <app-custom-input formControlName="totalMarketValue"
-                                    [type]="label.validationData?.amountValue.type" [id]="'total_value'"
+                                     [id]="'total_value'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Value'"
                                     [value]="obj.controls['currentValuePerGram'].value * obj.controls['goldInGrams'].value"
-                                    [maxLength]="label.validationData?.amountValue.maxLength" [isDisabled]="true">
+                                     [isDisabled]="true">
                                 </app-custom-input>
 
                             </div>
@@ -300,6 +300,16 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                                <label for="property_type">{{label.propertyOwnerType}}</label>
+
+                                <app-vf-custom-select [values]="LOV?.propertyOwnerType" [id]="'property_type'"
+                                    formControlName="propertyOwnerType" [isRequired]="'Property Owner Type Required'"
+                                    [isDirty]="isDirty">
+                                </app-vf-custom-select>
+
+                            </div>
+
+                            <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="property_owner">{{label.propertyOwner}}</label>
                                 <app-vf-custom-select [values]="LOV?.propertOwner" [id]="'collateral_type'"
                                     formControlName="propertyOwner" [isRequired]="'Property owner Required'"
@@ -307,6 +317,12 @@
                                 </app-vf-custom-select>
 
                             </div>
+
+                            
+
+                        </div>
+
+                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="relation_applicant">{{label.relatedWithApplicant}}</label>
@@ -317,10 +333,6 @@
                                 </app-vf-custom-select>
 
                             </div>
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="total_land_area">{{label?.totalLandArea}}</label>
@@ -346,6 +358,12 @@
 
                             </div>
 
+                            
+
+                        </div>
+
+                        <div class="row">
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="market_value_sf">{{label?.marketValueSF}}</label>
 
@@ -358,18 +376,14 @@
 
                             </div>
 
-                        </div>
-
-                        <div class="row">
-
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="total_market_value">{{label?.totalMarketValue}}</label>
 
                                 <app-custom-input formControlName="totalMarketValue"
-                                    [type]="label.validationData?.amountValue.type" [id]="'total_market_value'"
+                                    [id]="'total_market_value'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Market Value'"
                                     [value]="obj.controls['marketValue'].value * obj.controls['totalLandArea'].value"
-                                    [maxLength]="label.validationData?.amountValue.maxLength" [isDisabled]="true">
+                                     [isDisabled]="true">
                                 </app-custom-input>
 
                             </div>
@@ -386,21 +400,23 @@
 
                             </div>
 
-                            <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="total_guide_line">{{label?.totalGuideline}}</label>
-
-                                <app-custom-input formControlName="totalGuideLineValue"
-                                    [type]="label.validationData?.amountValue.type" [id]="'total_guide_line'"
-                                    [className]="'form-control mandatory'" [placeholder]="'Total Guideline Value'"
-                                    [value]="obj.controls['totalLandArea'].value * obj.controls['guideLineValue'].value "
-                                    [maxLength]="label.validationData?.amountValue.maxLength" [isDisabled]="true">
-                                </app-custom-input>
-
-                            </div>
+                            
 
                         </div>
 
                         <div class="row">
+
+                            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                                <label for="total_guide_line">{{label?.totalGuideline}}</label>
+
+                                <app-custom-input formControlName="totalGuideLineValue"
+                                    [id]="'total_guide_line'"
+                                    [className]="'form-control mandatory'" [placeholder]="'Total Guideline Value'"
+                                    [value]="obj.controls['totalLandArea'].value * obj.controls['guideLineValue'].value "
+                                    [isDisabled]="true">
+                                </app-custom-input>
+
+                            </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="property_address">{{label.propertyAddress}}</label>

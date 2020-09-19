@@ -40,6 +40,7 @@ export class TermSheetComponent implements OnInit {
   date: Date = new Date();
   todayDate;
   assetLoanDetails: any;
+  fleetDetails: any;
   isTermSheet: boolean = false;
   creditApprovalHeader = ['CIBIL score', 'Marital (0-Single and 1 Married)'];
   leadId;
@@ -120,6 +121,7 @@ export class TermSheetComponent implements OnInit {
         this.creditApprovalDev = res['ProcessVariables'].creditApprovalDev;
         this.deductionDetails = res['ProcessVariables'].deductionDetails;
         this.ecsDetails = res['ProcessVariables'].ecsDetails;
+        this.fleetDetails = res['ProcessVariables'].fleetDetails;
         this.guarantorDetails = res['ProcessVariables'].guarantorDetails;
         this.identityDetails = res['ProcessVariables'].identityDetails;
         this.loanDetails = res['ProcessVariables'].loanDetails;
