@@ -23,3 +23,20 @@
        width:100%;
     }
 }
+
+.table tbody tr td{
+    text-align:left!important;
+}
+
+.mar-bot{
+    margin-bottom:8%;
+}
+
+.table-borderless{
+    border:none!important;
+    background-color:#f6f6f6!important;
+}
+
+.v-align{
+    vertical-align: top!important;
+}

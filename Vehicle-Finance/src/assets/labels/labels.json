@@ -2108,6 +2108,15 @@
             },
             "type": "alpha-numeric"
         },
+        "assetModel": {
+            "maxLength": {
+                "rule": 40
+            },
+            "patternCheck": {
+                "rule": "^[ A-Za-z0-9.]*$",
+                "msg": "Only alphabets, numbers and decimal allowed"
+            }        
+        },
         "pdIncomeAccountNumber": {
             "maxLength": {
                 "rule": 15
