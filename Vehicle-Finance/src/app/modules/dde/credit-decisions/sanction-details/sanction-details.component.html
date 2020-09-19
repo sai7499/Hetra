@@ -22,16 +22,28 @@
         <div class="row">
             <h4 id="vf_sheet_tag4" class="text-center head-tag"><i>{{labels?.sanctionLetter}}</i></h4>
         </div>
-
-        <div id="vf_sheet_tag5">
-
+        <!-- <div id="vf_sheet_tag5">
             <p id="vf_sheet_tag6" class="text-right"><strong>{{labels?.date}}</strong> &nbsp; :{{todayDate}}</p>
             <p id="vf_sheet_tag7" class="text-right"><strong>{{labels?.place}}</strong> :{{sanctionDetailsObject.Place}}
             </p>
+        </div> -->
+        <div id="vf_sheet_tag5">
+            <table class="table table-borderless">
+                <tr>
+                    <td width="70%">&nbsp;</td>
+                    <td width="5%"><strong>{{labels?.date}}</strong></td>                    
+                    <td width="15%">:{{todayDate}}</td>
+                </tr>
+                <tr>
+                    <td width="70%">&nbsp;</td>
+                    <td class="v-align" width="5%"><strong>{{labels?.place}}</strong></td>
+                    <td width="15%">:{{sanctionDetailsObject.Place}}</td>
+                </tr>
+            </table>
         </div>
         <p id="vf_sheet_tag8"><strong>{{labels?.toSanction}}</strong>,</p>
         <div class="row">
-            <div class="col-lg-4 col-sm-4 col-xs-12 col-md-4">
+            <div class="col-lg-4 col-sm-4 col-xs-12 col-md-4" *ngIf="applicantType === 'Applicant'">
                 <div *ngFor="let applicant of applicantList; let i = index">
                     <p id="vf_sheet_tag9"><strong>{{applicant?.applicantType}} {{i+1}}</strong></p>
                     <p id="vf_sheet_tag10"><strong>{{applicant?.name}}</strong></p>
@@ -44,7 +56,7 @@
                     <p id="vf_sheet_tag17">{{applicant?.mobileNo}}</p>
                 </div>
             </div>
-            <div class="col-lg-4 col-sm-4 col-xs-12 col-md-4">
+            <div class="col-lg-4 col-sm-4 col-xs-12 col-md-4" *ngIf="applicantType === 'Co-Applicant'">
                 <div *ngFor="let coApplicant of coApplicantList; let i = index">
                     <p id="vf_sheet_tag18"><strong> {{coApplicant?.applicantType}} {{i+1}}</strong></p>
                     <p id="vf_sheet_tag19"><strong>{{coApplicant?.name}}</strong></p>
@@ -79,7 +91,7 @@
         <div id="">
             <div id="" class="table-responsive">
                 <p id=" " class="text-center"><strong>{{labels?.vehicleDetails}}</strong></p>
-                <table class="table">
+                <table class="table table-align">
                     <tbody *ngFor="let vehicleDetails of vehicleDetailsArray">
                         <tr class="top-border">
                             <td> {{labels?.vehicleMake}} </td>
@@ -105,7 +117,7 @@
             </div>
             <div class="align-justify table-responsive" id="vf_sheet_second_table">
                 <p id="vf_sheet_tag33" class="text-center"><strong> {{labels?.loanApprovedDetails}} </strong></p>
-                <table class="table">
+                <table class="table " id="table-align">
                     <tbody>
                         <tr>
                             <td id="table_column_width15"> {{labels?.assetCostRs}} </td>
@@ -176,8 +188,9 @@
                         <tr>
                             <td> {{labels?.modeOfPayment}} </td>
                             <td>{{loanApprovedDetails?.modeOfPayment}}</td>
-                            <td> {{labels?.fieldVisitCharges}} </td>
-                            <td>{{loanApprovedDetails?.fieldVisitChargesApplicable}}</td>
+                            <td></td> <td></td>
+                            <!-- <td> {{labels?.fieldVisitCharges}} </td>
+                            <td>{{loanApprovedDetails?.fieldVisitChargesApplicable}}</td> -->
                         </tr>
                     </tbody>
                 </table>
@@ -187,26 +200,26 @@
         <p id="vf_sheet_tag35"> {{labels?.vfSheetTag35}} </p>
         <p id="vf_sheet_tag36"> {{labels?.vfSheetTag36}} </p>
         <p id="vf_sheet_tag37"> {{labels?.vfSheetTag37}} </p>
-        <p id="vf_sheet_tag38"> {{labels?.vfSheetTag38}} </p>
+        <p class="mar-bot" id="vf_sheet_tag38"> {{labels?.vfSheetTag38}} </p>
         <p id="vf_sheet_tag39"> {{labels?.vfSheetTag39}} </p>
-        <p id="vf_sheet_tag40"> {{labels?.vfSheetTag40}} </p>
+        <p class="mar-bot" id="vf_sheet_tag40"> {{labels?.vfSheetTag40}} </p>
         <div class="align-justify" id="vf_sheet_row_space">
             <div class="row">
-                <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
-                    <div *ngFor="let applicant of applicantList; let i = index">
+                <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4" *ngIf="applicantType === 'Applicant'">
+                    <div class="mar-bot" *ngFor="let applicant of applicantList; let i = index">
                         <p id="vf_sheet_tag41"><strong> {{applicant?.applicantType}} {{i+1}} {{labels?.signature}}
                             </strong></p>
                     </div>
                 </div>
-                <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
-                    <div *ngFor="let coApplicant of coApplicantList; let i = index">
+                <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4" *ngIf="applicantType === 'Co-Applicant'">
+                    <div class="mar-bot" *ngFor="let coApplicant of coApplicantList; let i = index">
                         <p id="vf_sheet_tag42"><strong> {{coApplicant?.applicantType}} {{i+1}} {{labels?.signature}}
                             </strong></p>
                         <!-- <p id="vf_sheet_tag43"><strong> {{labels?.coBorrower2Signature}} </strong></p> -->
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
-                    <div *ngFor="let guarantor of guarantorList; let i = index">
+                    <div class="mar-bot" *ngFor="let guarantor of guarantorList; let i = index">
                         <p id="vf_sheet_tag44"><strong> {{guarantor?.applicantType}} {{i+1}} {{labels?.signature}}
                             </strong></p>
                     </div>
@@ -215,23 +228,23 @@
             </div>
         </div>
         <p class="align-justify" id="vf_sheet_text_tag"> {{labels?.generalTermsAndConditions}} </p>
-        <div [innerHTML]="generalTermsAndConditions"></div>
+        <div class="mar-bot" [innerHTML]="generalTermsAndConditions"></div>
         <div class="align-justify" id="vf_sheet_row_space">
             <div class="row">
-                <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
-                    <div *ngFor="let applicant of applicantList; let i = index">
+                <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4" *ngIf="applicantType === 'Applicant'">
+                    <div class="mar-bot" *ngFor="let applicant of applicantList; let i = index">
                         <p id="vf_sheet_tag41"><strong> {{applicant?.applicantType}} {{i+1}} {{labels?.signature}}
                             </strong></p>
                     </div>
                 </div>
-                <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
-                    <div *ngFor="let coApplicant of coApplicantList; let i = index">
+                <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4" *ngIf="applicantType === 'Co-Applicant'">
+                    <div class="mar-bot" *ngFor="let coApplicant of coApplicantList; let i = index">
                         <p id="vf_sheet_tag42"><strong> {{coApplicant?.applicantType}} {{i+1}} {{labels?.signature}}
                             </strong></p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
-                    <div *ngFor="let guarantor of guarantorList; let i = index">
+                    <div class="mar-bot" *ngFor="let guarantor of guarantorList; let i = index">
                         <p id="vf_sheet_tag44"><strong> {{guarantor?.applicantType}} {{i+1}} {{labels?.signature}}
                             </strong></p>
                     </div>
@@ -250,7 +263,7 @@
             <p id="81"> {{labels?.vfSheetTag81}} </p>
             <p id="82"> {{labels?.vfSheetTag82}} {{sanctionDetailsObject.employeeName}}.
                 ({{sanctionDetailsObject.employeeId}}){{labels?.vfSheetTag82A}} </p>
-            <table class="table">
+            <table class="table table-align table-bordered mar-bot">
                 <tbody>
                     <tr>
                         <td [attr.data-label]="labels?.paymentType"><strong> {{labels?.paymentType}} </strong></td>
@@ -266,20 +279,20 @@
 
             <div id="vf_sheet_row_space">
                 <div class="row">
-                    <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
-                        <div *ngFor="let applicant of applicantList; let i = index">
+                    <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4" *ngIf="applicantType === 'Applicant'">
+                        <div class="mar-bot" *ngFor="let applicant of applicantList; let i = index">
                             <p id="vf_sheet_tag41"><strong> {{applicant?.applicantType}} {{i+1}} {{labels?.signature}}
                                 </strong></p>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
-                        <div *ngFor="let coApplicant of coApplicantList; let i = index">
+                    <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4" *ngIf="applicantType === 'Co-Applicant'">
+                        <div class="mar-bot" *ngFor="let coApplicant of coApplicantList; let i = index">
                             <p id="vf_sheet_tag42"><strong> {{coApplicant?.applicantType}} {{i+1}} {{labels?.signature}}
                                 </strong></p>
                         </div>
                     </div>
                     <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
-                        <div *ngFor="let guarantor of guarantorList; let i = index">
+                        <div class="mar-bot" *ngFor="let guarantor of guarantorList; let i = index">
                             <p id="vf_sheet_tag44"><strong> {{guarantor?.applicantType}} {{i+1}} {{labels?.signature}}
                                 </strong></p>
                         </div>

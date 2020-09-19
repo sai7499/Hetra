@@ -2295,7 +2295,7 @@
         labels?.vehicleDeploymentDetails
       }}
         </caption>
-        <tbody>
+        <tbody *ngFor="let vehicleDeploymentDetails of vehicleDeploymentDetails">
             <tr>
                 <td class="bank_name">{{ labels?.routeOfOpertaionOutward }}</td>
                 <td>{{ vehicleDeploymentDetails?.routeOfOperationInward }}</td>
@@ -2303,7 +2303,7 @@
                 <td>{{ vehicleDeploymentDetails?.routeOfOperationOutward }}</td>
             </tr>
             <tr>
-                <td colspan="6" height="60"></td>
+                <td colspan="6" height="60">{{ vehicleDeploymentDetails?.assetDescription }}</td>
             </tr>
 
         </tbody>

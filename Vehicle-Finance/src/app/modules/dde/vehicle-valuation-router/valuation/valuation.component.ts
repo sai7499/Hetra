@@ -129,10 +129,12 @@ export class ValuationComponent implements OnInit {
   //GET LEAD SECTION DATA
   getLeadSectiondata() {
     const leadData = this.createLeadDataService.getLeadSectionData();
-    this.leadCreatedDate = new Date(leadData['leadDetails'].leadCreatedOn);
-    // this.leadCreatedDate = this.utilityService.getDateFromString(leadData['leadDetails'].leadCreatedOn);
+    // this.leadCreatedDate = new Date(leadData['leadDetails'].leadCreatedOn);
+    this.leadCreatedDate = this.utilityService.getDateFromString(leadData['leadDetails'].leadCreatedOn);
     // console.log("LEAD_CREATED_DATE::", this.vehicleValuationForm.get('valuationDate').value >= this.leadCreatedDate);
     console.log("LEAD_CREATED_DATE::", this.leadCreatedDate);
+    console.log("MAX_DATE::", this.toDayDate);
+
   }
 
   //CHANGE EVENT FUNCTION FOR monthLOVS
