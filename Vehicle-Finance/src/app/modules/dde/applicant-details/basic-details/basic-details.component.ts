@@ -1133,22 +1133,28 @@ export class BasicDetailsComponent implements OnInit {
 
     }
 
-    const formValueData = value.details[0];
-
-    if(formValueData.noOfYears === '0' && formValueData.noOfMonths === '0') {
-
-      this.toasterService.showError('Please fill any one of the no of years or months','No of years residing at present residence')
-      return;
-    }
-
-    if(formValueData.noOfYearsBussiness === '0' && formValueData.noOfMonthsBussiness === '0') {
-
-      this.toasterService.showError('Please fill any one of the no of years or months','No of years in current business')
-      return;
-    }
-
+  
     console.log('GETRAWVALUE', value);
     if (this.isIndividual) {
+
+      const formValueData = value.details[0];
+
+      if(Number(formValueData.noOfYears) == 0 && Number(formValueData.noOfMonths) == 0) {
+  
+        this.toasterService.showError('Please fill any one of the no of years or months','No of years residing at present residence')
+        return;
+      }
+  
+      if (this.custCatValue === "SEMCUSTSEG") {
+  
+        if(Number(formValueData.noOfYearsBussiness) == 0 && Number(formValueData.noOfMonthsBussiness) == 0) {
+  
+          this.toasterService.showError('Please fill any one of the no of years or months','No of years in current business')
+          return;
+        }
+  
+      }
+
       this.storeIndividualValueInService(value);
     } else {
       this.storeNonIndividualValueInService(value);
