@@ -20,7 +20,7 @@ export class LeadSectionHeaderComponent implements OnInit {
   productId: any;
   productIdFromLead: any;
   applicantName: string;
-  loanAmount: number;
+  loanAmount: string;
   stageDescription: string;
 
   isNeedBackButton: boolean = false;
@@ -65,6 +65,8 @@ export class LeadSectionHeaderComponent implements OnInit {
     this.ddeBackLabel = ddeButton.labelName;
     this.setDdeBackButton();
     }
+    this.sharedService.productCatName$.subscribe(val =>
+      this.productId = val)
   }
 
   getLabels() {
@@ -95,13 +97,13 @@ export class LeadSectionHeaderComponent implements OnInit {
       this.productId = leadSectionData['leadDetails']['productCatName'];
     }
     this.sharedService.loanAmount$.subscribe(
-      (value) => (this.loanAmount = value)
+      (value) => (this.loanAmount =  Number(value).toLocaleString('en-IN'))
     );
     // Number(value).toLocaleString('en-IN')
-    'en-IN'
+    // 'en-IN'
     this.loanAmount = leadSectionData['leadDetails']['reqLoanAmt']
-      ? leadSectionData['leadDetails']['reqLoanAmt']
-      : 0;
+      ?  Number(leadSectionData['leadDetails']['reqLoanAmt']).toLocaleString('en-IN')
+      : '0';
   }
   getLeadId() {
     return new Promise((resolve, reject) => {
