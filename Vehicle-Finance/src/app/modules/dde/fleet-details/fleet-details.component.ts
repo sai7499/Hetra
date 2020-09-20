@@ -588,6 +588,10 @@ export class FleetDetailsComponent implements OnInit {
       this.fleetDetails[i]['paid'] = parseInt(this.fleetDetails[i]['paid'])
       this.fleetDetails[i]['gridValue'] = parseInt(formArray.controls[i]['controls']['gridValue'].value);
          this.fleetDetails[i]['seasoning'] = parseInt(formArray.controls[i]['controls']['seasoning'].value);
+         this.fleetDetails[i]['ad'] = formArray.controls[i]['controls']['ad'].value;
+         this.fleetDetails[i]['pd'] = formArray.controls[i]['controls']['pd'].value;
+
+
 
     }
     //  this.fleetDetails['purchaseDate'] = this.sendDate(this.fleetDetails['purchaseDate'])
@@ -598,34 +602,43 @@ export class FleetDetailsComponent implements OnInit {
     }
     //  console.log("in save fleet", this.fleetDetails)
     this.fleetDetailsService.saveOrUpdateFleetDetails(data).subscribe((res: any) => {
-      console.log("saveFleetDetailsResponse", res.ProcessVariables.ids)
-      this.fleetIDs = res.ProcessVariables.ids
-      console.log("saveFleetDetailsResponse", this.fleetIDs)
-      this.toasterService.showSuccess('Record saved successfully!', '');
-      const fleetList: Array<any> = res.ProcessVariables.fleets;
-      this.fleetArrayList.controls = [];
-      fleetList.forEach(val =>
-        this.fleetArrayList.push(this.initRows(val)));
-
-      console.log("fletds", this.fleetArrayList);
-      if (index != null && index != 'next') {
-        console.log(" in rtr function index", index);
-        // console.log("fletds", this.fleetIDs)
-
-        this.fleetId = this.fleetIDs[index];
-        console.log("this fleet id", this.fleetId);
-        this.router.navigate(['pages/dde/' + this.leadId + '/track-vehicle/' + this.fleetId]);
-
+      if(res['ProcessVariables'].error['code'] == "0"){
+        console.log("saveFleetDetailsResponse", res.ProcessVariables.ids)
+        this.fleetIDs = res.ProcessVariables.ids
+        console.log("saveFleetDetailsResponse", this.fleetIDs)
+        this.toasterService.showSuccess('Record saved successfully!', '');
+        const fleetList: Array<any> = res.ProcessVariables.fleets;
+        this.fleetArrayList.controls = [];
+        fleetList.forEach(val =>
+          this.fleetArrayList.push(this.initRows(val)));
+  
+        console.log("fletds", this.fleetArrayList);
+        if (index != null && index != 'next') {
+          console.log(" in rtr function index", index);
+          // console.log("fletds", this.fleetIDs)
+  
+          this.fleetId = this.fleetIDs[index];
+          console.log("this fleet id", this.fleetId);
+          this.router.navigate(['pages/dde/' + this.leadId + '/track-vehicle/' + this.fleetId]);
+  
+        }
+        else if (index == 'next') {
+  
+          this.router.navigate(['pages/dde/' + this.leadId + '/exposure'])
+  
+        }
+        else {
+          console.log("in save function")
+        }
+  
       }
-      else if (index == 'next') {
-
-        this.router.navigate(['pages/dde/' + this.leadId + '/exposure'])
-
+      else if(res['ProcessVariables'].error['code'] == "1") {
+        this.toasterService.showError(res['ProcessVariables'].error['message'], '');
+       
+      }else if(res['Error'] == "1"){
+        this.toasterService.showError(res['ErrorMessage'], '');
       }
-      else {
-        console.log("in save function")
-      }
-
+   
     });
   }
 
@@ -661,6 +674,9 @@ export class FleetDetailsComponent implements OnInit {
           }
         }
       } else {
+        if(res['Error'] == "1"){
+          this.toasterService.showError(res['ErrorMessage'], '');
+        }
         this.vehicleTypeLov[0] = this.allLovs.vehicleType;
         this.regionLov[0] = this.allLovs.assetRegion;
         this.vehicleManufacturer[0] = this.allLovs.vehicleManufacturer;

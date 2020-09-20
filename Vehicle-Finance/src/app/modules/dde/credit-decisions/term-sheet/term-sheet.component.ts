@@ -40,6 +40,7 @@ export class TermSheetComponent implements OnInit {
   date: Date = new Date();
   todayDate;
   assetLoanDetails: any;
+  fleetDetails: any;
   isTermSheet: boolean = false;
   creditApprovalHeader = ['CIBIL score', 'Marital (0-Single and 1 Married)'];
   leadId;
@@ -93,7 +94,8 @@ export class TermSheetComponent implements OnInit {
 
   showTermSheet() {
     const leadData = this.createLeadDataService.getLeadSectionData();
-    this.vehicleDetailsArray = leadData['vehicleCollateral']
+    this.vehicleDetailsArray = [];
+    this.vehicleDetailsArray = leadData['vehicleCollateral'];
     // this.isTermSheet= true;
     this.getTermSheet(this.leadId,"isUpload");
     
@@ -119,6 +121,7 @@ export class TermSheetComponent implements OnInit {
         this.creditApprovalDev = res['ProcessVariables'].creditApprovalDev;
         this.deductionDetails = res['ProcessVariables'].deductionDetails;
         this.ecsDetails = res['ProcessVariables'].ecsDetails;
+        this.fleetDetails = res['ProcessVariables'].fleetDetails;
         this.guarantorDetails = res['ProcessVariables'].guarantorDetails;
         this.identityDetails = res['ProcessVariables'].identityDetails;
         this.loanDetails = res['ProcessVariables'].loanDetails;
@@ -132,10 +135,13 @@ export class TermSheetComponent implements OnInit {
           this.uploadDoc();
         }
       });
-      } else {
+      } else if(res['ProcessVariables'].error['code'] == "1") {
         this.isTermSheet = res['ProcessVariables'].isGenerated;
         this.toasterService.showError(res['ProcessVariables'].error['message'], '');
-
+       
+      }else if(res['Error'] == "1"){
+        this.isTermSheet = res['ProcessVariables'].isGenerated;
+        this.toasterService.showError(res['ErrorMessage'], '');
       }
     });
   }
@@ -155,8 +161,11 @@ export class TermSheetComponent implements OnInit {
 
       } else if (this.roleType == '2' && !this.isApprove) {
         this.toasterService.showSuccess(res['ProcessVariables'].error['message'], '');
-      } else {
-        this.toasterService.showSuccess(res['ProcessVariables'].error['message'], '');
+      } else if(res['ProcessVariables'].error['code'] == "1") {
+        this.toasterService.showError(res['ProcessVariables'].error['message'], '');
+       
+      }else if(res['Error'] == "1"){
+        this.toasterService.showError(res['ErrorMessage'], '');
       }
     })
   }

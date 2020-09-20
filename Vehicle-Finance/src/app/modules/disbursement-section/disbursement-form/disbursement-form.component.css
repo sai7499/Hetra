@@ -364,6 +364,13 @@ select#select_main_button_leadco {
   color: red;
   padding-top: 0.5vw;
 }
+.invalid-feedback-disburse {
+  padding-top: 0.5vw;
+  font-size: 12px;
+  font-family: zurich-bold;
+  letter-spacing: 0.5px;
+  color: red;
+}
 
 #disbursement-memo .title {
 	background: #272264;
@@ -437,6 +444,13 @@ select#select_main_button_leadco {
   display: inline-block;
 }
 
+::ng-deep .custom-select-box .autocomplete-container .suggestions-container ul {
+  min-width: 500px;
+  background: #fff;
+}
+::ng-deep .custom-select-box .autocomplete-container .suggestions-container ul li a {
+  padding: 5px;
+}
 
 
 
@@ -480,6 +494,9 @@ select#select_main_button_leadco {
     }
     .hide-label {
         display:  none;
+    }
+    ::ng-deep .custom-select-box .autocomplete-container .suggestions-container ul {
+      min-width: auto;
     }
 }
 

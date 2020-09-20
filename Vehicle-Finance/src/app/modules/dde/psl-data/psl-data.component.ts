@@ -1480,8 +1480,10 @@ export class PslDataComponent implements OnInit {
           const response = res;
           // this.pslId = response.ProcessVariables.pslId;
           // console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);
-          if (response["Error"] == 0) {
+          if (response["Error"] == 0 && response['ProcessVariables'].error['code'] == "0") {
             this.toasterService.showSuccess("Record Saved Successfully", "PSL DATA");
+          } else {
+            this.toasterService.showError(response['ProcessVariables'].error['message'], "PSL DATA");
           }
         });
       } else {
@@ -1524,8 +1526,10 @@ export class PslDataComponent implements OnInit {
         this.pslDataService.saveOrUpadtePslData(data).subscribe((res: any) => {
           const response = res;
           // console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);
-          if (response["Error"] == 0) {
+          if (response["Error"] == 0 && response['ProcessVariables'].error['code'] == "0") {
             this.toasterService.showSuccess("Record Saved Successfully", "PSL DATA");
+          } else {
+            this.toasterService.showError(response['ProcessVariables'].error['message'], "PSL DATA");
           }
         });
       } else {
@@ -1543,9 +1547,11 @@ export class PslDataComponent implements OnInit {
   navigateNext() {
     if(this.productCatCode != 'NCV') {
       this.router.navigate([`/pages/dde/${this.leadId}/vehicle-valuation`]);
+      this.sharedService.getPslDataNext(false);
     } else if(this.productCatCode == 'NCV'){
       this.router.navigate([`/pages/dde/${this.leadId}/tvr-details`]);
       this.sharedService.getPslDataNext(true);
+
     }
   }
 

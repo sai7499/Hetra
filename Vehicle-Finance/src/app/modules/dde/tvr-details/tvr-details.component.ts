@@ -91,10 +91,12 @@ export class TvrDetailsComponent implements OnInit {
   onBack() {
     if(this.productCatCode != 'NCV') {
       this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-valuation']);
-      this.sharedService.getTvrDetailsPrevious(true);
+      // this.sharedService.getTvrDetailsPrevious(true);
+      this.sharedService.getPslDataNext(false);
     } else if(this.productCatCode == 'NCV') {
       this.router.navigate(['pages/dde/' + this.leadId + '/psl-data']);
-      this.sharedService.getTvrDetailsPrevious(true);
+      // this.sharedService.getTvrDetailsPrevious(true);
+      this.sharedService.getPslDataNext(false);
     }
   }
 

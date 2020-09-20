@@ -6,20 +6,28 @@
             (click)="viweWelcomeLetter()">View Welcome Letter</button>&nbsp;
             <button class="btn btn-primary view-button" 
             type="button" id="" tabindex="7" *ngIf="!showWelcomeLetter"
-            routerLink="../disbursement">Back</button><br> 
+            routerLink="../disbursement">Back</button>&nbsp;
+            <button class="btn btn-primary view-button" 
+                type="button" id="" tabindex="8" *ngIf="!showWelcomeLetter && productCatCode =='NCV'"
+                routerLink="../delivery-order">Next</button><br> 
     </div>
 
         <div *ngIf="showWelcomeLetter" >
             <div id="ContentToConvert">
 
-            <p class="style-strong text-center">EQUITAS FINANCE PRIVATE LIMITED</p>
-            <p class="text-center">(Wholly owned subsidiary of Equitas Holding Private Limited)</p>
+            <p class="style-strong text-center">{{labels?.EQUITASFINANCEPRIVATELIMITED}}</p>
+            <p class="text-center">{{labels?.WhollyownedsubsidiaryofEquitasHoldingPrivateLimited}}</p>
 
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-right" style="text-align: right;" id="vf_sheet_tag8">
+                <img class="img-style" src="assets\images\equitas-logo.png">
+                </div>
+            </div>
 
             <table class="margin-add">
                 <tbody>
                     <tr>
-                        <td width="60%" class='style-strong'>Agreement No: {{isWelcomeDetails?.agreementNo}} </td>
+                    <td width="60%" class='style-strong'>{{labels?.AgreementNo}}: {{isWelcomeDetails?.agreementNo}} </td>
                         <td width="40%" class='style-strong text-right'>{{labels?.Date}} : {{date | date :'dd/MM/yyyy'}}
                         </td>
 
@@ -29,7 +37,8 @@
 
             <div class="row margtin_buttom">
                 <div class="col-md-4">
-                    <strong>Customer</strong>
+                    <strong>{{labels?.To}}</strong><br>
+                    <strong>{{labels?.Customer}}</strong>
                     <div>
                         <strong>{{applicantList?.name}}</strong><br>
                         {{applicantList?.addressLine1}}<br>
@@ -41,9 +50,9 @@
                         {{applicantList?.country}}
                     </div>
                 </div>
-                <div class="col-md-4" *ngIf="coApplicantList?.length>0">
+                <div class="col-md-4" *ngIf="coApplicantList.length>0">
                     <div *ngFor="let coAppliacnt of coApplicantList; let i=index">
-                        <strong>Co-Borrower{{i+1}}</strong> <br>
+                        <strong>{{labels?.CoBorrower}} {{i+1}}</strong> <br>
                         <strong>{{coAppliacnt?.name}}</strong><br>
                         {{coAppliacnt?.addressLine1}}<br>
                         {{coAppliacnt?.addressLine2}}<br>
@@ -57,7 +66,7 @@
                 <div class="col-md-4" *ngIf="guarantorList?.length>0">
 
                     <div *ngFor="let guarantor of guarantorList; let i=index">
-                        <strong>Guarantor{{i+1}}</strong> <br>
+                        <strong>{{labels?.Guarantor}} {{i+1}}</strong> <br>
                         <strong>{{guarantor?.name}}</strong><br>
                         {{guarantor?.addressLine1}}<br>
                         {{guarantor?.addressLine2}}<br>
@@ -173,18 +182,18 @@ Equitas Finance Private Limited<br />
 
 </p> -->
             <div class="margin-add">
-                <p class="style-strong text-center">EQUITAS FINANCE PRIVATE LIMITED</p>
-                <p class="text-center">(Wholly owned subsidiary of Equitas Holding Private Limited)</p>
+                <p class="style-strong text-center">{{labels?.EQUITASFINANCEPRIVATELIMITED}}</p>
+                <p class="text-center">{{labels?.WhollyownedsubsidiaryofEquitasHoldingPrivateLimited}}</p>
             </div>
             <table class="table">
                 <tr class="top-border">
-                    <td>Loan Agreement No.</td>
+                    <td>{{labels?.LoanAgreementNo}}</td>
                     <td>{{isWelcomeDetails?.agreementNo}} </td>
-                    <td>Agreement Date</td>
+                    <td>{{labels?.AgreementDate}}</td>
                     <td>{{isWelcomeDetails?.agreementDate}}</td>
                 </tr>
                 <tr class="top-border">
-                    <td>Name and Address of the Borrower</td>
+                    <td>{{labels?.NameandAddressoftheBorrower}}</td>
                     <td colspan="3">{{applicantList?.name}}<br />
                         <!-- 418 MAHADEV NAGAR TAL-KOPARGAON DIST-AHMED NAGAR KOPERGAON AHMED NAGAR - 423601<br />
                     MAHARASHTRA -->
@@ -194,7 +203,7 @@ Equitas Finance Private Limited<br />
                     </td>
                 </tr>
                 <tr class="top-border">
-                    <td>Name and Address of the Co-Borrower</td>
+                    <td>{{labels?.NameandAddressoftheCoBorrower}}</td>
                     <td colspan="3">
                         <div class="margin-add" *ngFor="let coAppliacnt of coApplicantList; let i=index">
                             {{coAppliacnt?.name}}<br />
@@ -206,7 +215,7 @@ Equitas Finance Private Limited<br />
                     </td>
                 </tr>
                 <tr class="top-border ">
-                    <td>Name and Address of the Guarantor </td>
+                    <td>{{labels?.NameandAddressoftheGuarantor}}</td>
                     <td colspan="3">
                         <div *ngFor="let guarantor of guarantorList;"><br />
 
@@ -219,94 +228,93 @@ Equitas Finance Private Limited<br />
                 </tr>
             </table>
 
-            <p class='text-center' id='vech_tab'><strong>VEHICLE DETAILS</strong></p>
+            <p class='text-center' id='vech_tab'><strong>{{labels?.VEHICLEDETAILS}}</strong></p>
             <table cellspacing="0" cellpadding="0" dir="ltr" border="1"
                 *ngFor="let vechicleList of vehicleDetailsArray">
                 <tr>
-                    <td class="vech_tab">Vehicle Make</td>
+                    <td class="vech_tab">{{labels?.VehicleMake}}</td>
                     <td class="vech_tab">{{vechicleList?.vehMake}}</td>
-                    <td class="vech_tab">Vehicle Model</td>
+                    <td class="vech_tab">{{labels?.VehicleModel}}</td>
                     <td class="vech_tab">{{vechicleList?.vehModel}}</td>
                 </tr>
                 <tr>
-                    <td class="vech_tab">Year of Manufacture</td>
+                    <td class="vech_tab">{{labels?.YearofManufacture}}</td>
                     <td class="vech_tab">{{vechicleList?.manufacYear}}</td>
-                    <td class="vech_tab">Vehicle Registration No.</td>
+                    <td class="vech_tab">{{labels?.VehicleRegistrationNo}}.</td>
                     <td class="vech_tab">{{vechicleList?.vehRegNo}}</td>
                 </tr>
                 <tr>
-                    <td class="vech_tab">Engine No.</td>
+                    <td class="vech_tab">{{labels?.EngineNo}}</td>
                     <td class="vech_tab">{{vechicleList?.engineNo}}</td>
-                    <td class="vech_tab">Chassis No.</td>
+                    <td class="vech_tab">{{labels?.ChassisNo}}</td>
                     <td class="vech_tab">{{vechicleList?.chassisNo}}</td>
                 </tr>
             </table>
 
             <div class="margin-add" id='vf_sheet_second_table'>
-                <p id='vf_sheet_tag33' class='text-center'><strong>LOAN APPROVED DETAILS</strong></p>
+                <p id='vf_sheet_tag33' class='text-center'><strong>{{labels?.LOANAPPROVEDDETAILS}}</strong></p>
                 <table cellspacing="0" cellpadding="0" dir="ltr" border="1"
                     *ngFor="let loanData of loanApprovedDetails">
                     <tr>
-                        <td class="vech_tab">Asset Cost (Rs.)</td>
+                        <td class="vech_tab">{{labels?.AssetCost}}</td>
                         <td class="vech_tab">{{loanData?.assetCost | currency: 'INR'}}</td>
-                        <td class="vech_tab">Loan Amount (Rs.) </td>
+                        <td class="vech_tab">{{labels?.LoanAmount}}</td>
                         <td class="vech_tab">{{loanData?.loanAmt | currency: 'INR'}}</td>
                     </tr>
                     <tr>
-                        <td>Loan Tenor (Months)</td>
+                        <td>{{labels?.LoanTenorMonths}}</td>
                         <td>{{loanData?.loanTenor}}</td>
-                        <td>Repay (Months)</td>
+                        <td>{{labels?.RepayMonths}}</td>
                         <td>{{loanData?.repay}}</td>
                     </tr>
                     <tr>
-                        <td>Interest Rate (%) </td>
+                        <td>{{labels?.InterestRate}}</td>
                         <td>{{loanData?.interestRate}}</td>
-                        <td>All-inclusive IRR (%)</td>
+                        <td>{{labels?.AllinclusiveIRR}}</td>
                         <td>{{loanData?.allIncIRR}}</td>
                     </tr>
                     <tr>
-                        <td>No of Adv. EMI</td>
+                        <td>{{labels?.NoofAdvMI}}</td>
                         <td>{{loanData?.noOfAdvEmi}}</td>
-                        <td>Adv. EMI Amount (Rs.) </td>
+                        <td>{{labels?.AdvEMIAmount}}</td>
                         <td>{{loanData?.advEmiAmt | currency: 'INR'}}</td>
                     </tr>
                     <tr>
-                        <td>Processing Charges (Rs.)</td>
+                        <td>{{labels?.ProcessingCharges}}</td>
                         <td>{{loanData?.processingCharges}}</td>
-                        <td>Credit Shield Charges (Rs.)</td>
+                        <td>{{labels?.CreditShieldCharges}}</td>
                         <td>{{loanData?.creditShield | currency: 'INR'}}</td>
                     </tr>
                     <tr>
-                        <td>NPDC Charges (Rs.)</td>
+                        <td>{{labels?.NPDCCharges}}</td>
                         <td>{{loanData?.npdcCharges}}</td>
-                        <td>Roll Over PDC Charges (Rs.)</td>
+                        <td>{{labels?.RollOverPDCCharges}}</td>
                         <td>{{loanData?.rollOverPdc | currency: 'INR'}}</td>
                     </tr>
 
                     <tr>
-                        <td>Insurance Premium (Rs.)</td>
+                        <td>{{labels?.InsurancePremium}}</td>
                         <td>{{loanData?.insPremium | currency: 'INR'}}</td>
-                        <td>Rate of penalty interest for delay in
-                            repayment (%)</td>
+                        <td>{{labels?.Rateofpenalinterestfordelayinrepayment}}</td>
                         <td>{{loanData?.penalInterest}}</td>
                     </tr>
                     <tr>
-                        <td>EMI Due Date </td>
+                        <td>{{labels?.EMIDueDate}} </td>
                         <td>{{loanData?.emiDueDt}}</td>
-                        <td>EMI Amount (Rs.)</td>
+                        <td>{{labels?.EMIAmount}}</td>
                         <td>{{loanData?.emiAmt | currency: 'INR'}}</td>
                     </tr>
                     <tr>
-                        <td>EMI Start Date</td>
+                        <td>{{labels?.EMIStartDate}}</td>
                         <td>{{loanData?.emiStartDt}}</td>
                         <!-- | date: 'dd/MM/yyyy' -->
-                        <td>EMI End Date</td>
+                        <td>{{labels?.EMIEndDate}}</td>
                         <td>{{loanData?.emiEndDt}}</td>
                     </tr>
                     <tr>
-                        <td>Mode of Payment</td>
+                        <td>{{labels?.ModeofPayment}}</td>
                         <td>{{loanData?.modeOfPayment}}</td>
-                        <td>Field Visit Charges Applicable</td>
+                        <td>{{labels?.FieldVisitChargesApplicable}}</td>
                         <td>{{loanData?.fieldVisitChargesApplicable | currency: 'INR'}}</td>
                     </tr>
                 </table>
@@ -316,23 +324,24 @@ Equitas Finance Private Limited<br />
             <table>
                 <tbody>
                     <tr>
-                        <td class="style-strong">Accepted:</td>
+                        <td class="style-strong">{{labels?.Accepted}}:</td>
                     </tr>
                     <tr>
-                        <td class="style-strong tab_wid">Customer, {{applicantList?.name}}</td>
-                        <td class="style-strong">Signature</td>
-                        <td class="style-strong">Date</td>
+                        <td class="style-strong tab_wid">{{labels?.Customer}}, {{applicantList?.name}}</td>
+                        <td class="style-strong">{{labels?.Signature}}</td>
+                        <td class="style-strong">{{labels?.Date}}</td>
                     </tr>
                     <!-- <tr>
                     <td class=""></td>
                     <td></td>
                     <td></td>
                 </tr> -->
+                <!-- reshma -->
                     <tr *ngFor="let coAppliacnt of coApplicantList; let i=index">
-                        <td class="style-strong tab_wid">Co-Borrower{{i+1}}, {{coAppliacnt?.name}}</td>
-                        <td class="style-strong">Signature</td>
-                        <td class="style-strong">Date</td>
-                    </tr>
+                        <td class="style-strong tab_wid">{{labels?.CoBorrower}}{{i+1}}, {{coAppliacnt?.name}}</td>
+                        <td class="style-strong">{{labels?.Signature}}</td> 
+                        <td class="style-strong">{{labels?.Date}}</td> 
+                    </tr> 
                     <!-- <tr >
                     <td class="tab_wid">{{coAppliacnt?.name+'('+'Co-Borrower'}})</td>
                     <td></td>
@@ -349,9 +358,9 @@ Equitas Finance Private Limited<br />
                     <td>#date</td>
                 </tr> -->
                     <tr *ngFor="let guarantor of guarantorList; let i=index">
-                        <td class="style-strong tab_wid">Guarantor{{i+1}}, {{guarantor?.name}}</td>
-                        <td class="style-strong">Signature</td>
-                        <td class="style-strong">Date</td>
+                        <td class="style-strong tab_wid">{{labels?.Guarantor}} {{i+1}}, {{guarantor?.name}}</td>
+                        <td class="style-strong">{{labels?.Signature}}</td>
+                        <td class="style-strong">{{labels?.Date}}</td>
                     </tr>
                     <!-- <tr >
                     <td class="">{{guarantor?.name+'('+'Guarantor'}}{{i+1}})</td>
@@ -371,6 +380,14 @@ Equitas Finance Private Limited<br />
                 </tbody>
             </table>
 
+            <p class="text-right font-small">Regd. Office: No. 769, 4th Floor, Phase - 2,F39, Spencer Plaza, Anna Salai,
+                Chennai - 600 002.<br>
+            Ph: 044-4299 5000 Customer Care Toll-free: 1800 3000 5060</p> 
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-right" style="text-align: right;" id="vf_sheet_tag8">
+                <img class="img-style" src="assets\images\equitas-logo.png">
+                </div>
+            </div>
             <!-- <ol>
 <li>All Payments should be made promptly on the due dates. Please note that any delay from the due date to
 date of actual payment would attract an interest at the rate of 3% per month.</li>
@@ -443,17 +460,21 @@ Care Unit at Tollfree No.: 1800 3000 506, to help us serve you better.</li>
 
 <p class="author_style">Authorised Signatory</p> -->
             <div class="margin-add">
-                <p class="style-strong text-center">EQUITAS FINANCE PRIVATE LIMITED</p>
-                <p class="text-center">(Wholly owned subsidiary of Equitas Holding Private Limited)</p>
+                <p class="style-strong text-center">{{labels?.EQUITASFINANCEPRIVATELIMITED}}</p>
+            <p class="text-center">{{labels?.WhollyownedsubsidiaryofEquitasHoldingPrivateLimited}}</p>
             </div>
 
             <div class="margin-add" [innerHTML]="div2Data"></div>
-            <div class="margin-add">
-                <p class="style-strong text-center">EQUITAS FINANCE PRIVATE LIMITED</p>
-                <p class="text-center">(Wholly owned subsidiary of Equitas Holding Private Limited)</p>
+            <!-- logo -->
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-right" style="text-align: right;" id="vf_sheet_tag8">
+                <img class="img-style" src="assets\images\equitas-logo.png">
+                </div>
             </div>
+
             <div class="margin-add" [innerHTML]="div3Data"></div>
-            <p class="text-center style-strong">RE-PAYMENT SCHEDULE - Agreement No: {{isWelcomeDetails?.agreementNo}}
+
+            <p class="text-center style-strong">{{labels?.REPAYMENTSCHEDULE}} - {{labels?.AgreementNo}}: {{isWelcomeDetails?.agreementNo}}
             </p>
             <table cellspacing="0" cellpadding="0" dir="ltr" border="1">
                 <colgroup>
@@ -468,25 +489,25 @@ Care Unit at Tollfree No.: 1800 3000 506, to help us serve you better.</li>
                 <tbody>
                     <tr>
                         <td class="text-center style-strong">
-                            Instalment No.
+                            {{labels?.InstalmentNo}}
                         </td>
                         <td class="text-center style-strong">
-                            Due Date
+                            {{labels?.DueDate}}
                         </td>
                         <td class="text-center style-strong">
-                            Total Instalment Amount (Rs.)
+                            {{labels?.TotalInstalmentAmount}}
                         </td>
                         <td class="text-center style-strong">
-                            Motor Insurance(Rs.)
+                            {{labels?.MotorInsurance}}
                         </td>
                         <td class="text-center style-strong">
-                            Principle(Rs.)
+                            {{labels?.Principle}}
                         </td>
                         <td class="text-center style-strong">
-                            Interest(Rs.)
+                            {{labels?.Interest}}
                         </td>
                         <td class="text-center style-strong">
-                            Principle Out Standing(Rs.)
+                            {{labels?.PrincipleOutStanding}}
                         </td>
                     </tr>
                     <tr *ngFor="let repaymentData of repaymentDetails; let i = index">
@@ -501,13 +522,12 @@ Care Unit at Tollfree No.: 1800 3000 506, to help us serve you better.</li>
 
                 </tbody>
             </table>
-            <div class="margin-add">
+			<div class="margin-add">
                 <strong>
                 <p class="\&quot;author_style\&quot;">For Equitas Finance Pvt Ltd</p><br>
                 <p class="\&quot;author_style\&quot;">Authorised Signatory</p>
                 </strong>
             </div>
-
             <!-- <p class="style-strong">For Equitas Finance Pvt Ltd</p>
 <p class="style-strong">Authorised Signatory</p>
 
@@ -584,23 +604,31 @@ giving a mutually agreed and fair solution.</p>
 <p>Company will send you a Statement of Account every year, which is free of cost. If you need a statement in
 the interim period please contact your service branch with a written request; you will be required to pay
 Rs.500/- for every such request.</p>
--->
-<p class="text-right font-small">Regd. Office: No. 769, 4th Floor, Phase - 2,F39, Spencer Plaza, Anna Salai,
-Chennai - 600 002.<br>
-Ph: 044-4299 5000 Customer Care Toll-free: 1800 3000 5060 Fax: 044-42995050 E-mail: corporate@equitas.in
-</p> 
 
-           
+<p class="text-center font-small">Regd. Office: No. 769, 4th Floor, Phase - 2,F39, Spencer Plaza, Anna Salai,
+Chennai - 600 002.
+Ph: 044-4299 5000 Customer Care Toll-free: 1800 3000 5060 Fax: 044-42995050 E-mail: corporate@equitas.in
+</p> -->
+
+            <!-- <div class="margin-add" [innerHTML]="div3Data"></div> -->
+			<p class="text-right font-small">Regd. Office: No. 769, 4th Floor, Phase - 2,F39, Spencer Plaza, Anna Salai,
+					Chennai - 600 002.<br>
+				Ph: 044-4299 5000 Customer Care Toll-free: 1800 3000 5060 Fax: 044-42995050 E-mail: corporate@equitas.in
+			</p> 
             </div>
+			
             <div class="text-right">
             <button class="btn btn-primary view-button text-center" type="button" id="" tabindex="7"
                 (click)="downloadpdf()">DownLoad</button>&nbsp;
             <button class="btn btn-primary view-button" 
                 type="button" id="" tabindex="7" *ngIf="showWelcomeLetter"
-                routerLink="../disbursement">Back</button><br> 
+                routerLink="../disbursement">Back</button>&nbsp;
+                <button class="btn btn-primary view-button" 
+                type="button" id="" tabindex="8" *ngIf="showWelcomeLetter && productCatCode=='NCV'"
+                routerLink="../delivery-order">Next</button><br> 
             </div>
+
 
         </div>
     </div>
-
 </main>

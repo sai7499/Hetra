@@ -36,12 +36,12 @@
                                     {{data.valuatorStatus == 0 ? 'Offline': 'Online' }} </span></td>
                                 <td>
                                     <u>
-                                        <a class="a_tag" *ngIf="data.valuatorStatus == 1" (click)="onClickValuationReport(data.valuationStatus)" data-toggle="modal"
+                                        <a class="a_tag" *ngIf="data.valuatorStatus == 1" (click)="onClickValuationReport(data.valuationStatus, data.collateralId)" data-toggle="modal"
                                            data-target="#myModal"> {{data.valuationStatus == 'INITIATED'? '------': 'View'}} </a>
-                                        <a class="a_tag" *ngIf="data.valuatorStatus == 0"  (click)="onClickValuationReport(data.valuationStatus)" data-toggle="modal"
+                                        <a class="a_tag" *ngIf="data.valuatorStatus == 0"  (click)="onClickValuationReport(data.valuationStatus, data.collateralId)" data-toggle="modal"
                                            data-target="#myModal"> {{data.valuationStatus == 'NOT INITIATED'? 'Initiate' :'View' }} </a>
                                            <!-- {{data.valuationStatus == 'INITIATED'? 'View' :}} -->
-                                        <a class="a_tag" *ngIf="data.valuatorStatus == null"  (click)="onClickValuationReport(data.valuationStatus)" data-toggle="modal"
+                                        <a class="a_tag" *ngIf="data.valuatorStatus == null"  (click)="onClickValuationReport(data.valuationStatus, data.collateralId)" data-toggle="modal"
                                            data-target="#myModal"> {{data.valuationStatus == 'NOT INITIATED'? 'Initiate' :''}} </a>
                                     </u>
                                 </td>
