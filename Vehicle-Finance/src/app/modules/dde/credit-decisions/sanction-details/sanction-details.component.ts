@@ -26,6 +26,7 @@ export class SanctionDetailsComponent implements OnInit {
   leadId;
   labels: any = {};
   sanctionDetailsObject: any = {};
+  applicantType: string;
   applicantList: any = [];
   coApplicantList: any = [];
   guarantorList: any = [];
@@ -90,6 +91,7 @@ export class SanctionDetailsComponent implements OnInit {
     });
     console.log('LEADID::', this.leadId);
   }
+
   // FUNCTION FOR GET API of SANCTION-DETAILS
   getSanctionDetails(isUpload?: string) {
     const data = this.leadId;
@@ -106,6 +108,8 @@ export class SanctionDetailsComponent implements OnInit {
           this.guarantorList = [];
           // this.sanctionDetailsObject.applicantList.filter((element) => {
           getApplicantList.forEach((element) => {
+            this.applicantType = element.applicantType;
+            console.log("Applicant_Type::", this.applicantType);
             if (element.applicantType === 'Applicant') {
               const data = {
                 applicantType: element.applicantType,

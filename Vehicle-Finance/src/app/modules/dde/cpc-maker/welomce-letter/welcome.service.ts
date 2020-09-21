@@ -43,4 +43,24 @@ export class WelcomeService {
 //   "projectId": "8bfa8dba945b11eabdcaf2fa9bec3d63"
 // }
 
+getDeliveryLetterDetails(leadId) {
+
+  const processId = this.apiService.api.deliveryLetter.processId;
+  const workflowId = this.apiService.api.deliveryLetter.workflowId;
+  const projectId = environment.projectIds.salesProjectId;
+
+  const body: RequestEntity = {
+    processId: processId,
+    ProcessVariables: {
+      "leadId": leadId
+  },
+
+    workflowId: workflowId,
+    projectId: projectId
+  }
+  //const test = body;
+  const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+  return this.httpService.post(url, body);
+}
+
 }

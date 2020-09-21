@@ -325,7 +325,7 @@ export class OtherDetailsComponent implements OnInit {
     console.log("longitude::", this.longitude);
 
     this.formValues = this.otherDetailsForm.getRawValue();
-    console.log("FORMVALUES::", this.formValues);
+    console.log("FORMVALUES::", this.otherDetailsForm);
     this.formValues.date = this.formValues.date ? this.utilityService.convertDateTimeTOUTC(this.formValues.date, 'DD/MM/YYYY') : null;
 
     this.custProfileDetails = {
@@ -346,17 +346,20 @@ export class OtherDetailsComponent implements OnInit {
           // console.log("RESPONSE_SAVEUPDATE_API::", response)
           if (res['ProcessVariables'] && res['ProcessVariables'].error['code'] == "0") {
             this.toasterService.showSuccess("Record Saved Successfully", "Other Details");
+            } else {
+              this.toasterService.showError(response['ProcessVariables'].error['message'], "Other Details");
             }
         });
     } else {
+      this.isDirty = true;
       this.toasterService.showError("Please fill all mandatory fields.", "Other Details");
+      this.utilityService.validateAllFormFields(this.otherDetailsForm);
     }
 
   }
   
   // SUBMIT FORM
   onFormSubmit() {
-    this.isDirty = true;
     this.saveOrUpdateOtherDetails();
   }
 

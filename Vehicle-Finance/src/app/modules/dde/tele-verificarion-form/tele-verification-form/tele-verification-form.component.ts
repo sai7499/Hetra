@@ -108,8 +108,10 @@ export class TeleVerificationFormComponent implements OnInit {
 
     if (this.applicantType === 'Applicant') {
       this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[0].mobileNumber;
-    } else if (this.applicantType === 'Co-Applicant') {
+    } else if (this.applicantType === 'Co-Applicant' || this.applicantType === 'Guarantor') {
       this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[1].mobileNumber;
+    } else if (this.applicantType === 'Guarantor' || this.applicantType === 'Co-Applicant') {
+      this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[2].mobileNumber;
     }
     this.sourcingChannelDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingChannelDesc;
     this.sourcingTypeDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingTypeDesc;
@@ -405,6 +407,8 @@ export class TeleVerificationFormComponent implements OnInit {
 
   // Submitting TVR Form Method
   async onSave() {
+    console.log(this.teleVerificationForm);
+
     const tvrDetails = this.teleVerificationForm.getRawValue();
     this.isDirty = true;
     if (this.teleVerificationForm.valid === true) {
