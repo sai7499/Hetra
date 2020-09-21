@@ -2463,11 +2463,8 @@
                 "rule": 9,
                 "msg": "Should be 9 Digits"
             },
-            "type": "alpha-numeric",
-            "pattern": {
-                "rule": "^[A-Za-z]{3}[0-9]{6}$",
-                "msg": "Pattern should be ABC123456"
-            }
+            "type": "number"
+            
         },
         "amountFiveCharc": {
             "maxLength": {
@@ -2569,6 +2566,12 @@
         "employeeNo": {
             "maxLength": {
                 "rule": 5
+            },
+            "type": "number"
+        },
+        "yearsOfMonths": {
+            "maxLength": {
+                "rule": 2
             },
             "type": "number"
         }

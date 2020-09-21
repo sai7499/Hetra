@@ -83,6 +83,15 @@ export class BasicDetailsComponent implements OnInit {
   }[]
   hideMsgForOwner: boolean = false;
 
+  monthValidation: {
+    rule?: any;
+    msg?: string;
+  }[];
+
+  yearValidation: {
+    rule?: any;
+    msg?: string;
+  }[];
   
   
   constructor(
@@ -147,6 +156,8 @@ export class BasicDetailsComponent implements OnInit {
       this.disableSaveBtn  = true;
     }
 
+    this.monthValidation = this.monthValiationCheck();
+
     console.log('externalExpiry Date', this.externalExpiryDate)
   }
 
@@ -171,6 +182,24 @@ export class BasicDetailsComponent implements OnInit {
 
     this.applicantData = leadData['applicantDetails'];
 
+  }
+
+  monthValiationCheck() {
+    const monthData = [
+      {
+        rule: (month) => {
+          return month < 0;
+        },
+        msg: 'Month should be greater than or equal to 0',
+      },
+      {
+        rule: (month) => {
+          return month > 11;
+        },
+        msg: 'Month should be less than or equal to 11',
+      },
+    ];
+    return monthData;
   }
 
   selectApplicantType(event) {
@@ -519,6 +548,22 @@ export class BasicDetailsComponent implements OnInit {
       this.showEmployeeNo= false;
     }
 
+    let noofmonths = '';
+    let noofyears = ''
+    if(aboutIndivProspectDetails.yearsInCurrentResidence) {
+
+      noofmonths = String(Number(aboutIndivProspectDetails.yearsInCurrentResidence) % 12 ) || '';
+      noofyears = String(Math.floor(Number(aboutIndivProspectDetails.yearsInCurrentResidence) / 12 )) || '';
+    }
+
+    let noofmonthsInBusiness = '';
+    let noofyearsInBusiness = ''
+
+    if(aboutIndivProspectDetails.currentBusinessYears) {
+
+      noofmonthsInBusiness = String(Number(aboutIndivProspectDetails.currentBusinessYears) % 12 ) || '';
+      noofyearsInBusiness = String(Math.floor(Number(aboutIndivProspectDetails.currentBusinessYears) / 12 )) || '';
+    }
 
 
 
@@ -556,8 +601,12 @@ export class BasicDetailsComponent implements OnInit {
       businessStartDate:
         this.utilityService.getDateFromString(aboutIndivProspectDetails.businessStartDate) || '',
         currentBusinessYears: aboutIndivProspectDetails.currentBusinessYears || '',
+        noOfMonthsBussiness: noofmonthsInBusiness,
+        noOfYearsBussiness: noofyearsInBusiness,
       turnOver: aboutIndivProspectDetails.turnOver || '',
       noOfYrsResidence: aboutIndivProspectDetails.yearsInCurrentResidence || '',
+      noOfMonths: noofmonths,
+      noOfYears: noofyears,
       recommendations: aboutIndivProspectDetails.recommendations || '',
       religion: aboutIndivProspectDetails.religion || '',
       community: aboutIndivProspectDetails.community || '',
@@ -736,6 +785,8 @@ export class BasicDetailsComponent implements OnInit {
       businessName: new FormControl(null),
       businessStartDate: new FormControl(null),
       currentBusinessYears: new FormControl(null),
+      noOfYearsBussiness: new FormControl(null),
+      noOfMonthsBussiness: new FormControl(null),
       turnOver: new FormControl(''),
 
       // added new form controls  on 16-07-2020
@@ -755,7 +806,9 @@ export class BasicDetailsComponent implements OnInit {
       grossReceipt: new FormControl(''),
 
       //added new form controls on 04.12.2020
-      noOfYrsResidence: new FormControl('',Validators.required),
+      noOfYrsResidence: new FormControl(''),
+      noOfYears: new FormControl('',Validators.required),
+      noOfMonths: new FormControl('',Validators.required),
       recommendations: new FormControl(''),
       religion: new FormControl('',Validators.required),
       community: new FormControl('',Validators.required),
@@ -1010,8 +1063,10 @@ export class BasicDetailsComponent implements OnInit {
     details.get('businessName').updateValueAndValidity();
     details.get('businessStartDate').setValidators([Validators.required]);
     details.get('businessStartDate').updateValueAndValidity();
-    details.get('currentBusinessYears').setValidators([Validators.required]);
-    details.get('currentBusinessYears').updateValueAndValidity();
+    details.get('noOfYearsBussiness').setValidators([Validators.required]);
+    details.get('noOfYearsBussiness').updateValueAndValidity();
+    details.get('noOfMonthsBussiness').setValidators([Validators.required]);
+    details.get('noOfMonthsBussiness').updateValueAndValidity();
     details.get('turnOver').setValidators([Validators.required]);
     details.get('turnOver').updateValueAndValidity();
   }
@@ -1040,6 +1095,10 @@ export class BasicDetailsComponent implements OnInit {
     details.get('businessStartDate').updateValueAndValidity();
     details.get('currentBusinessYears').clearValidators();
     details.get('currentBusinessYears').updateValueAndValidity();
+    details.get('noOfYearsBussiness').clearValidators();
+    details.get('noOfYearsBussiness').updateValueAndValidity();
+    details.get('noOfMonthsBussiness').clearValidators();
+    details.get('noOfMonthsBussiness').updateValueAndValidity();
     details.get('turnOver').clearValidators();
     details.get('turnOver').updateValueAndValidity();
   }
@@ -1123,8 +1182,28 @@ export class BasicDetailsComponent implements OnInit {
 
     }
 
+  
     console.log('GETRAWVALUE', value);
     if (this.isIndividual) {
+
+      const formValueData = value.details[0];
+
+      if(Number(formValueData.noOfYears) == 0 && Number(formValueData.noOfMonths) == 0) {
+  
+        this.toasterService.showError('Please fill any one of the no of years or months','No of years residing at present residence')
+        return;
+      }
+  
+      if (this.custCatValue === "SEMCUSTSEG") {
+  
+        if(Number(formValueData.noOfYearsBussiness) == 0 && Number(formValueData.noOfMonthsBussiness) == 0) {
+  
+          this.toasterService.showError('Please fill any one of the no of years or months','No of years in current business')
+          return;
+        }
+  
+      }
+
       this.storeIndividualValueInService(value);
     } else {
       this.storeNonIndividualValueInService(value);
@@ -1253,6 +1332,9 @@ export class BasicDetailsComponent implements OnInit {
       : '';
     prospectDetails.businessStartDate = this.utilityService.getDateFormat(aboutIndivProspectDetails.businessStartDate);
 
+
+    aboutIndivProspectDetails.currentBusinessYears = String((Number(aboutIndivProspectDetails.noOfYearsBussiness) * 12 ) + Number(aboutIndivProspectDetails.noOfMonthsBussiness)) || '';
+
     prospectDetails.currentBusinessYears = aboutIndivProspectDetails.currentBusinessYears
       ? aboutIndivProspectDetails.currentBusinessYears
       : '';
@@ -1263,6 +1345,12 @@ export class BasicDetailsComponent implements OnInit {
 
 
     //adding new fields provided for dde basic details
+
+    
+
+
+    aboutIndivProspectDetails.noOfYrsResidence = String((Number(aboutIndivProspectDetails.noOfYears) * 12 ) + Number(aboutIndivProspectDetails.noOfMonths)) || '';
+
 
     prospectDetails.relationWithApplicant = value.applicantRelationship || '';
      prospectDetails.yearsInCurrentResidence = aboutIndivProspectDetails.noOfYrsResidence || '';
