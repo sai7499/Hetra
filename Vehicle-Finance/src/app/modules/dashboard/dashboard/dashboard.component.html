@@ -186,7 +186,7 @@
         [ngClass]="{'active':displayTabs?.DDE === activeTab}" routerLinkActive="active" id="leads"><a
           data-toggle="tab">DDE</a></li>
       <li (click)="onLeads(displayTabs?.PD, displayTabs?.MyPD)" [ngClass]="{'active':displayTabs?.PD === activeTab}"
-        routerLinkActive="active"><a data-toggle="tab">Personal Discussion</a></li>
+        routerLinkActive="active"><a data-toggle="tab">PD / FI cum PD</a></li>
       <li (click)="onLeads(displayTabs?.FI, displayTabs?.MyFI)" [ngClass]="{'active':displayTabs?.FI === activeTab}"
         routerLinkActive="active"><a data-toggle="tab">Field Investigation</a></li>
       <li (click)="onLeads(displayTabs?.Deviation, displayTabs?.DeviationWithMe, 'deviation')"
@@ -210,9 +210,9 @@
     </ul>
     <ul *ngIf="displayTabs?.PD === activeTab" class="nav nav-pills nav-justified" id="background_white">
       <li (click)="leads(displayTabs?.MyPD)" [ngClass]="{'active':displayTabs?.MyPD === subActiveTab}"
-        routerLinkActive="active"><a data-toggle="tab">My PD Tasks</a></li>
+        routerLinkActive="active"><a data-toggle="tab">My Tasks</a></li>
       <li (click)="leads(displayTabs?.BranchPd)" [ngClass]="{'active':displayTabs?.BranchPd === subActiveTab}"
-        routerLinkActive="active"><a data-toggle="tab">Branch PD Tasks</a></li>
+        routerLinkActive="active"><a data-toggle="tab">Branch Tasks</a></li>
     </ul>
     <ul *ngIf="displayTabs?.FI === activeTab" class="nav nav-pills nav-justified" id="background_white">
       <li (click)="leads(displayTabs?.MyFI)" [ngClass]="{'active':displayTabs?.MyFI === subActiveTab}"

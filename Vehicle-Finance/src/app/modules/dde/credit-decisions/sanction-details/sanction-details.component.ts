@@ -41,7 +41,8 @@ export class SanctionDetailsComponent implements OnInit {
   docsDetails: DocRequest
   isPreDisbursement: any;
   isPreDone: any;
-
+  isApplicant: boolean = false;
+  isCoApplicant: boolean = false;
   isDocumentId: boolean;
 
   constructor(
@@ -90,6 +91,7 @@ export class SanctionDetailsComponent implements OnInit {
     });
     console.log('LEADID::', this.leadId);
   }
+
   // FUNCTION FOR GET API of SANCTION-DETAILS
   getSanctionDetails(isUpload?: string) {
     const data = this.leadId;
@@ -106,7 +108,10 @@ export class SanctionDetailsComponent implements OnInit {
           this.guarantorList = [];
           // this.sanctionDetailsObject.applicantList.filter((element) => {
           getApplicantList.forEach((element) => {
+            console.log("APPLICANT_TYPE::", element.applicantType);
             if (element.applicantType === 'Applicant') {
+              this.isApplicant = true;
+              console.log("IsApplicant:", this.isApplicant);
               const data = {
                 applicantType: element.applicantType,
                 name: element.name,
@@ -120,6 +125,8 @@ export class SanctionDetailsComponent implements OnInit {
               };
               this.applicantList.push(data);
             } else if (element.applicantType === 'Co-Applicant') {
+              this.isCoApplicant = true;
+              console.log("IsCoApplicant::", this.isCoApplicant);
               const data = {
                 applicantType: element.applicantType,
                 name: element.name,

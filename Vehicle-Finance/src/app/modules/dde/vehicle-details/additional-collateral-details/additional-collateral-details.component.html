@@ -47,7 +47,9 @@
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="survey_number">{{label.surveyNumber}}</label>
+                                <label for="survey_number">{{label.surveyNumber}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="surveyNumber"
                                     [type]="label.validationData?.pattaNo.type" [id]="'survey_number'"
@@ -59,7 +61,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="land_in_acres">{{label.landInAcres}}</label>
+                                <label for="land_in_acres">{{label.landInAcres}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="landInAcres"
                                     [type]="label.validationData?.landArea.type" [id]="'land_in_acres'"
@@ -71,7 +75,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="property_owner">{{label.propertyOwner}}</label>
+                                <label for="property_owner">{{label.propertyOwner}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-vf-custom-select [values]="LOV?.propertOwner" [id]="'collateral_type'"
                                     formControlName="propertyOwner" [isRequired]="'Property owner Required'"
@@ -85,7 +91,9 @@
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="relation_applicant">{{label.relatedWithApplicant}}</label>
+                                <label for="relation_applicant">{{label.relatedWithApplicant}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-vf-custom-select [values]="LOV?.relationship" [id]="'relation_applicant'"
                                     formControlName="relationWithApplicant"
@@ -95,7 +103,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="market_value_acre">{{label.marketValueAcres}}</label>
+                                <label for="market_value_acre">{{label.marketValueAcres}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="marketValue"
                                     [type]="label.validationData?.amountValue.type" [id]="'market_value_acre'"
@@ -107,7 +117,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="total_land">{{label.totalLandMarketValue}}</label>
+                                <label for="total_land">{{label.totalLandMarketValue}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="totalMarketValue"
                                      [id]="'total_land'"
@@ -123,7 +135,9 @@
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="guide_line">{{label.guideLine}}</label>
+                                <label for="guide_line">{{label.guideLine}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="guideLineValue"
                                     [type]="label.validationData?.amountValue.type" [id]="'guide_line'"
@@ -135,7 +149,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="total_guide_line_value">{{label.totalGuideLineValue}}</label>
+                                <label for="total_guide_line_value">{{label.totalGuideLineValue}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="totalGuideLineValue"
                                      [id]="'total_guide_line_value'"
@@ -156,7 +172,9 @@
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="fd_account_no">{{label.fdAccountNo}}</label>
+                                <label for="fd_account_no">{{label.fdAccountNo}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="fdAccountNo"
                                     [type]="label.validationData?.accountNumber.type" [id]="'fd_account_no'"
@@ -168,7 +186,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="fd_name">{{label.fdName}}</label>
+                                <label for="fd_name">{{label.fdName}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-vf-custom-select [values]="LOV?.propertOwner" [id]="'collateral_type'"
                                     formControlName="propertyOwner" [isRequired]="'Property owner Required'"
@@ -178,7 +198,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="relation_applicant">{{label.relatedWithApplicant}}</label>
+                                <label for="relation_applicant">{{label.relatedWithApplicant}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-vf-custom-select [values]="LOV?.relationship" [id]="'relation_applicant'"
                                     formControlName="relationWithApplicant"
@@ -192,7 +214,9 @@
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="fd_value">{{label.fdValue}}</label>
+                                <label for="fd_value">{{label.fdValue}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="totalMarketValue"
                                     [type]="label.validationData?.amountValue.type" [id]="'fd_value'"
@@ -212,38 +236,46 @@
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="gold_in_gms">{{label.goldInGMS}}</label>
+                                <label for="gold_in_gms">{{label.goldInGMS}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="goldInGrams"
                                     [type]="label.validationData?.goldInGrams.type" [id]="'gold_in_gms'"
-                                    [className]="'form-control mandatory'" [step]="4"
+                                    [patternCheck]="label.validationData?.goldInGrams.patternCheck"
+                                    [className]="'form-control mandatory'" 
                                     [placeholder]="'Gold in gms (net weight - excluding stones)'"
                                     [maxLength]="label.validationData?.goldInGrams.maxLength"
                                     [isRequired]="'Gold in gms (net weight - excluding stones) Required'"
+                                    (ngModelChange)="goldGrams($event)"
                                     [isDirty]="isDirty">
                                 </app-custom-input>
 
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="value_as_today">{{label.valueasToday}}</label>
+                                <label for="value_as_today">{{label.valueasToday}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="currentValuePerGram"
                                     [type]="label.validationData?.valueasToday.type" [id]="'value_as_today'"
                                     [className]="'form-control mandatory'" [placeholder]="'Value as of today per gram'"
-                                    [maxLength]="label.validationData?.valueasToday.maxLength" [step]="4"
+                                    [maxLength]="label.validationData?.valueasToday.maxLength" 
+                                    (ngModelChange)="currentValueGrams($event)"
                                     [isRequired]="'Value as of today per gram Required'" [isDirty]="isDirty">
                                 </app-custom-input>
 
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="total_value">{{label.totalValue}}</label>
+                                <label for="total_value">{{label.totalValue}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="totalMarketValue"
                                      [id]="'total_value'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Value'"
-                                    [value]="obj.controls['currentValuePerGram'].value * obj.controls['goldInGrams'].value"
                                      [isDisabled]="true">
                                 </app-custom-input>
 
@@ -254,7 +286,9 @@
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="jewel_owner">{{label.jewelOwner}}</label>
+                                <label for="jewel_owner">{{label.jewelOwner}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-vf-custom-select [values]="LOV?.propertOwner" [id]="'collateral_type'"
                                     formControlName="propertyOwner" [isRequired]="'Property owner Required'"
@@ -264,7 +298,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="relation_applicant">{{label.relatedWithApplicant}}</label>
+                                <label for="relation_applicant">{{label.relatedWithApplicant}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-vf-custom-select [values]="LOV?.relationship" [id]="'relation_applicant'"
                                     formControlName="relationWithApplicant"
@@ -274,9 +310,11 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="purity">{{label.purity}}</label>
+                                <label for="purity">{{label.purity}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
-                                <app-vf-custom-select [values]="LOV?.purity" [id]="'purity'" formControlName="purity"
+                                <app-vf-custom-select [values]="LOV?.goldPurity" [id]="'purity'" formControlName="purity"
                                     [isRequired]="'Purity Required'" [isDirty]="isDirty">
                                 </app-vf-custom-select>
 
@@ -290,7 +328,9 @@
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="property_type">{{label.propertyType}}</label>
+                                <label for="property_type">{{label.propertyType}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-vf-custom-select [values]="LOV?.propertyType" [id]="'property_type'"
                                     formControlName="propertyType" [isRequired]="'Property Type Required'"
@@ -300,7 +340,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="property_type">{{label.propertyOwnerType}}</label>
+                                <label for="property_type">{{label.propertyOwnerType}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-vf-custom-select [values]="LOV?.propertyOwnerType" [id]="'property_type'"
                                     formControlName="propertyOwnerType" [isRequired]="'Property Owner Type Required'"
@@ -310,7 +352,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="property_owner">{{label.propertyOwner}}</label>
+                                <label for="property_owner">{{label.propertyOwner}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
                                 <app-vf-custom-select [values]="LOV?.propertOwner" [id]="'collateral_type'"
                                     formControlName="propertyOwner" [isRequired]="'Property owner Required'"
                                     (change)="onFindRelationship($event.target.value)" [isDirty]="isDirty">
@@ -325,7 +369,9 @@
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="relation_applicant">{{label.relatedWithApplicant}}</label>
+                                <label for="relation_applicant">{{label.relatedWithApplicant}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-vf-custom-select [values]="LOV?.relationship" [id]="'relation_applicant'"
                                     formControlName="relationWithApplicant"
@@ -335,7 +381,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="total_land_area">{{label?.totalLandArea}}</label>
+                                <label for="total_land_area">{{label?.totalLandArea}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="totalLandArea"
                                     [type]="label.validationData?.amountValue.type" [id]="'total_land_area'"
@@ -347,7 +395,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="total_build_up_area">{{label?.totalBuildupArea}}</label>
+                                <label for="total_build_up_area">{{label?.totalBuildupArea}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="totalBuiltUpArea"
                                     [type]="label.validationData?.amountValue.type" [id]="'total_build_up_area'"
@@ -365,7 +415,9 @@
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="market_value_sf">{{label?.marketValueSF}}</label>
+                                <label for="market_value_sf">{{label?.marketValueSF}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="marketValue"
                                     [type]="label.validationData?.amountValue.type" [id]="'market_value_sf'"
@@ -377,7 +429,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="total_market_value">{{label?.totalMarketValue}}</label>
+                                <label for="total_market_value">{{label?.totalMarketValue}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="totalMarketValue"
                                     [id]="'total_market_value'"
@@ -389,7 +443,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="guide_line_value">{{label?.guideLineValue}}</label>
+                                <label for="guide_line_value">{{label?.guideLineValue}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="guideLineValue"
                                     [type]="label.validationData?.amountValue.type" [id]="'guide_line_value'"
@@ -407,7 +463,9 @@
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="total_guide_line">{{label?.totalGuideline}}</label>
+                                <label for="total_guide_line">{{label?.totalGuideline}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="totalGuideLineValue"
                                     [id]="'total_guide_line'"
@@ -419,7 +477,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="property_address">{{label.propertyAddress}}</label>
+                                <label for="property_address">{{label.propertyAddress}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <textarea class="form-control mandatory" name="property_address" id="property_address"
                                     cols="1" rows="3" placeholder="Property Address" formControlName="propertyAddress"

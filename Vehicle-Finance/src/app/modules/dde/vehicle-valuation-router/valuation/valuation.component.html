@@ -238,9 +238,9 @@
               [className]="'form-control mandatory'"
               [inputClass]="'text-uppercase'"
               [placeholder]="'Asset Model'"
-              [maxLength]="labels?.validationData?.makeModel.maxLength"
+              [maxLength]="labels?.validationData?.assetModel.maxLength"
               [isRequired]="'Required Input is mandatory'"
-              [type]="labels?.validationData?.makeModel.type"
+              [patternCheck]="labels?.validationData?.assetModel.patternCheck"
               [isDirty]="isDirty"
             >
             </app-custom-input>

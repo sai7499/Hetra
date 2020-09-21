@@ -1796,7 +1796,8 @@
         "address": {
             "maxLength": {
                 "rule": 50
-            }
+            },
+            "type": "alpha-numeric"
         },
         "addressLine": {
             "maxLength": {
@@ -2107,6 +2108,15 @@
                 "rule": 40
             },
             "type": "alpha-numeric"
+        },
+        "assetModel": {
+            "maxLength": {
+                "rule": 40
+            },
+            "patternCheck": {
+                "rule": "^[ A-Za-z0-9.]*$",
+                "msg": "Only alphabets, numbers and decimal allowed"
+            }        
         },
         "pdIncomeAccountNumber": {
             "maxLength": {
@@ -2454,11 +2464,8 @@
                 "rule": 9,
                 "msg": "Should be 9 Digits"
             },
-            "type": "alpha-numeric",
-            "pattern": {
-                "rule": "^[A-Za-z]{3}[0-9]{6}$",
-                "msg": "Pattern should be ABC123456"
-            }
+            "type": "number"
+            
         },
         "amountFiveCharc": {
             "maxLength": {
@@ -2560,6 +2567,12 @@
         "employeeNo": {
             "maxLength": {
                 "rule": 5
+            },
+            "type": "number"
+        },
+        "yearsOfMonths": {
+            "maxLength": {
+                "rule": 2
             },
             "type": "number"
         }

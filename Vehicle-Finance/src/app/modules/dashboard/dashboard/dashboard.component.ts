@@ -990,5 +990,7 @@ export class DashboardComponent implements OnInit {
     localStorage.setItem('isFiCumPd', item.isFiCumPD);
     this.vehicleDataStoreService.setCreditTaskId(item.taskId);
     this.sharedService.getTaskID(item.taskId);
+    this.sharedService.setProductCatCode(item.productCatCode);
+    this.sharedService.setProductCatName(item.productCatName);
   }
 }

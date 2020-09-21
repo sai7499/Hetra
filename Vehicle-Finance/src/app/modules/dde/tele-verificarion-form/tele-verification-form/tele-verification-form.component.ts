@@ -108,9 +108,20 @@ export class TeleVerificationFormComponent implements OnInit {
 
     if (this.applicantType === 'Applicant') {
       this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[0].mobileNumber;
-    } else if (this.applicantType === 'Co-Applicant') {
+    } else if (this.applicantType === 'Co-Applicant' || this.applicantType === 'Guarantor') {
       this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[1].mobileNumber;
+    } else if (this.applicantType === 'Guarantor' || this.applicantType === 'Co-Applicant') {
+      this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[2].mobileNumber;
+    } else if (this.applicantType === 'Guarantor' || this.applicantType === 'Co-Applicant') {
+      this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[3].mobileNumber;
+    } else if (this.applicantType === 'Guarantor' || this.applicantType === 'Co-Applicant') {
+      this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[4].mobileNumber;
+    } else if (this.applicantType === 'Guarantor' || this.applicantType === 'Co-Applicant') {
+      this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[5].mobileNumber;
+    } else if (this.applicantType === 'Guarantor' || this.applicantType === 'Co-Applicant') {
+      this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[6].mobileNumber;
     }
+
     this.sourcingChannelDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingChannelDesc;
     this.sourcingTypeDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingTypeDesc;
     this.sourcingCodeDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingCodeDesc;
@@ -166,7 +177,7 @@ export class TeleVerificationFormComponent implements OnInit {
       officePhnNo: [''],
       officePhnExt: ['', Validators.required],
       wrkStability: ['', Validators.required],
-      natureOfBusiness: ['', Validators.required ],
+      natureOfBusiness: ['', Validators.required],
       typeOfTransaction: ['', Validators.required],
       businessStability: ['', Validators.required],
       compNameAddress: ['', Validators.required],

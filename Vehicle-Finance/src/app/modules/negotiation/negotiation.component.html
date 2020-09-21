@@ -353,12 +353,12 @@
                   </label>
                   <div *ngIf="this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
                     <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforlifeCover" (change)="calculateTotal(i)"
-                      [isRequired]="'Is Funding Required for life-cover is required'">
+                    [isDirty]="isDirty"  [isRequired]="'Is Funding Required for life-cover is required'">
                     </app-vf-custom-select>
                   </div>
                   <div *ngIf="!this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
                     <app-vf-custom-select [values]="tempDataFundingRequiredLOV" formControlName="fundingRequiredforlifeCover" (change)="calculateTotal(i)"
-                      [isRequired]="'Is Funding Required for life-cover is required'">
+                      [isRequired]="'Is Funding Required for life-cover is required'" [isDirty]="isDirty" >
                     </app-vf-custom-select>
                   </div>
                   <label class="control-label col-sm-5 col-md-4 col-lg-3" for="lifeCoverPremiumAmount">{{ labels?.lifeCoverPremiumAmount }}
@@ -412,14 +412,14 @@
                 </div>
                 <div *ngIf="!this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
                   <app-vf-custom-select [values]="tempDataFundingRequiredLOV" formControlName="fundingRequiredforFASTag" (change)="calculateTotal(i)"
-                    [isRequired]="'Is Funding Required for life-cover is required'">
+                    [isRequired]="'Is Funding Required for life-cover is required'" [isDirty]="isDirty" >
                   </app-vf-custom-select>
                 </div>
                 <label class="control-label col-sm-5 col-md-4 col-lg-3" for="LoanAmountincludingCrossSell">{{ labels?.LoanAmountincludingCrossSell }}
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
                   <input formControlName="LoanAmountincludingCrossSell" type="text" class="form-control mandatory select2" id="LoanAmountincludingCrossSell"
-                    placeholder="Loan Amount including Cross Sell (in INR)" name="LoanAmountincludingCrossSell" />
+                    placeholder="Loan Amount including Cross Sell (in INR)"  name="LoanAmountincludingCrossSell" />
                 </div>
               </div>
               <!-- </div>
@@ -484,7 +484,7 @@
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-vf-custom-select [values]="MoratoriumDaysLOV" [isDirty]="isDirty" formControlName="MoratoriumPeriod" (change)="getRepayableMonths()"
+              <app-vf-custom-select [values]="MoratoriumDaysLOV" [isDirty]="isDirty" formControlName="MoratoriumPeriod" (change)="getRepayableMonths();getEMIDate()"
                 [isRequired]="'Moratorium / Holiday Period is required'">
               </app-vf-custom-select>
             </div>
@@ -500,18 +500,9 @@
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-vf-custom-select [values]="EMICycleDaysLOV" [isDirty]="isDirty" [isRequired]="'EMI Cycle is Required'" formControlName="EMICycle">
+              <app-vf-custom-select [values]="EMICycleDaysLOV" [isDirty]="isDirty" [isRequired]="'EMI Date is Required'" formControlName="EMICycle">
               </app-vf-custom-select>
             </div>
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="EMIStartDateAfterDisbursement">{{ labels?.EMIStartDateAfterDisbursement }}
-            </label>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-vf-custom-select [values]="EMIStartDateLOV" [isDirty]="isDirty" [isRequired]="'EMI Start Date After Disbursement is Required'"
-                formControlName="EMIStartDateAfterDisbursement">
-              </app-vf-custom-select>
-            </div>
-          </div>
-          <div class="form-group">
             <label class="control-label col-sm-5 col-md-4 col-lg-3" for="PaymentModeforGapDaysInterest">{{ labels?.PaymentModeforGapDaysInterest }}
               <sub class="star_red_col">*</sub>
             </label>
@@ -519,12 +510,24 @@
               <app-vf-custom-select [values]="GapDaysIntPayMode" [isDirty]="isDirty" [isRequired]="'Payment Mode is Required'" formControlName="PaymentModeforGapDaysInterest">
               </app-vf-custom-select>
             </div>
+            <!-- <label class="control-label col-sm-5 col-md-4 col-lg-3" for="EMIStartDateAfterDisbursement">{{ labels?.EMIStartDateAfterDisbursement }}
+            </label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-vf-custom-select [values]="EMIStartDateLOV" [isDirty]="isDirty" [isRequired]="'EMI Start Date After Disbursement is Required'"
+                formControlName="EMIStartDateAfterDisbursement">
+              </app-vf-custom-select>
+            </div> -->
+          </div>
+          <div class="form-group">
+
             <label class="control-label col-sm-5 col-md-4 col-lg-3" for="SelectAppropriateLMSScheduleCode">{{ labels?.SelectAppropriateLMSScheduleCode }}
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
               <app-vf-custom-select [values]="LMSSchedule" [isDirty]="isDirty" [isRequired]="'LMS LMSSchedule Code is Required'" formControlName="SelectAppropriateLMSScheduleCode">
               </app-vf-custom-select>
             </div>
+          </div>
+          <div class="form-group">
             <label class="control-label col-sm-5 note-field col-md-6 col-lg-6">
               Note: Upfront deduction of Gap Days Interest is not supported for cheque mode of disbursement. So verify your option once
               Deductions & Charges
@@ -539,7 +542,8 @@
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3 label-space ">
                 <app-custom-input formControlName="DeductionChargefixedRate" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
-                  (change)="getNetDisbursementAmount()" [placeholder]="'Credit Shield Charges (in INR)'" [maxLength]="labels?.validationData.DeductionChargefixedRate.maxLength">
+                  (change)="getNetDisbursementAmount()" [placeholder]="'Credit Shield Charges (in INR)'"
+                  [isRequired]="'Deduction Charges is Required'" [maxLength]="labels?.validationData.DeductionChargefixedRate.maxLength">
                 </app-custom-input>
               </div>
             </div>
