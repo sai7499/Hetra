@@ -280,14 +280,14 @@ data-animation="scaleIn"
       <app-custom-input
       id="creditCardLastName"
       [placeholder]="'Enter Credit Card Last Name'"
-      [type]="labels?.creditCardLastName?.name?.type"
+      [type]="labels?.validationData?.name?.type"
       formControlName="ccHolderThirdName"
       [patternCheck]="labels?.validationData?.name?.pattern"
       [isRequired]="'Credit Card Last Name is required'"
       [maxLength]="labels?.validationData?.name?.maxLength"
       [isDirty]="isDirty"
   >
-    </app-custom-input>
+    </app-custom-input>    
   </div>
 </div>
 
