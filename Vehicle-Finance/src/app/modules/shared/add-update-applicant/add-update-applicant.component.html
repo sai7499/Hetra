@@ -410,6 +410,7 @@
                     [values]="ownerPropertyRelation"
                     formControlName="houseOwnerProperty"
                     [isDirty]="isDirty"
+                    [isRequired]="hideMsgForOwner? 'Owner Of the Property is Required' : ''"
                   >
                   </app-vf-custom-select>
                 </div>
@@ -422,6 +423,7 @@
                     [values]="LOV?.LOVS?.relationship"
                     formControlName="ownHouseAppRelationship"
                     [isDirty]="isDirty"
+                    [isRequired]="hideMsgForOwner? 'Owner Relationship is Required' : ''"
                   >
                   </app-vf-custom-select>
                 </div>
@@ -585,46 +587,80 @@
                     >{{ labels?.aadharnumber }}
                     <sub class="star_red_col">*</sub></label
                   >
-                  <!-- <div class="input-group input-medium"> -->
+                  <div class="input-group input-medium">
                   <app-custom-input
                     formControlName="aadhar"
-                    [maxLength]="validationData?.adhaarNumber?.maxLength"
-                    [patternCheck]="validationData?.adhaarNumber?.patternCheck"
-                    [isRequired]="'Aadhaar number is required'"
-                    [isDirty]="isDirty"
+                    (keyup)="storeAdhar($event)"
                     [type]="validationData?.adhaarNumber?.type"
-                  >
+                    [maxLength]="validationData?.adhaarNumber?.maxLength"
+                    >
+                  <!-- maxlength="12" -->
+                  <!-- [maxLength]="validationData?.adhaarNumber?.maxLength"
+                  [patternCheck]="validationData?.adhaarNumber?.patternCheck"
+                  [isRequired]="'Aadhaar number is required'"
+                  [isDirty]="isDirty" -->
+                  
                   </app-custom-input>
-                  <!-- <span class="input-group-btn">
+                  <span class="input-group-btn pad-zero">
                   <button class="btn btn-default"
                   (click)="onRetreiveAdhar()"
-                  (mouseleave)="onRelieve()">
+                  (mouseleave)="onRelieve()"
+                  (blur)="onRelieve()">
                     <i class="fa fa-credit-card"></i>
                   </button>
-                </span> -->
-              <!-- </div> -->
+                </span>
+                
+               </div> 
+               <div *ngIf="
+               coApplicantForm.get('dedupe').get('aadhar').touched ||
+               isDirty
+             " class="ShowError">
+                <div *ngIf="coApplicantForm.get('dedupe').get('aadhar').value == '' 
+                  ">Adhar Number is required</div>
+            </div>
+          
+            <div *ngIf="coApplicantForm.get('dedupe').get('aadhar').value.length < 12 && coApplicantForm.get('dedupe').get('aadhar').value.length != 0" class="ShowError">
+              Adhar Number must be at 12 characters
+            </div>
+            
                 </div>
                 <div
                   class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
                   *ngIf="applicantType == 'NONINDIVENTTYP'"
                 >
                   <label for="aadharnumber">{{ labels?.udyogAdhar }} </label>
-                  <!-- <div class="input-group input-medium"> -->
+                  <div class="input-group input-medium">
                   <app-custom-input
                     formControlName="aadhar"
+                    (keyup)="storeAdhar($event)"
                     [maxLength]="validationData?.adhaarNumber?.maxLength"
-                    [patternCheck]="validationData?.adhaarNumber?.patternCheck"
+                    
                     [type]="validationData?.adhaarNumber?.type"
                   >
                   </app-custom-input>
-                  <!-- <span class="input-group-btn">
+                  <!-- [patternCheck]="validationData?.adhaarNumber?.patternCheck" -->
+                  <span class="input-group-btn">
                     <button class="btn btn-default"
                     (click)="onRetreiveAdhar()"
-                    (mouseleave)="onRelieve()">
+                    (mouseleave)="onRelieve()"
+                    (blur)="onRelieve()">
                       <i class="fa fa-credit-card"></i>
                     </button>
-                  </span> -->
-                <!-- </div> -->
+                  </span>
+                </div> 
+
+                <!-- <div *ngIf="
+               coApplicantForm.get('dedupe').get('aadhar').touched ||
+               isDirty
+             " class="ShowError">
+                <div *ngIf="coApplicantForm.get('dedupe').get('aadhar').value == '' 
+                  ">Adhar Number is required</div>
+            </div> -->
+          
+            <div *ngIf="coApplicantForm.get('dedupe').get('aadhar').value.length < 12 && coApplicantForm.get('dedupe').get('aadhar').value.length != 0" class="ShowError">
+              Adhar Number must be at 12 characters
+            </div>
+
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="identity_number"
@@ -745,8 +781,7 @@
                     [max]="toDayDate"
                     [activeView]="'decade'"
                     [(ngModel)]="drivingLicenseIssueDate"
-                    (ngModelChange)="dateSelected()"
-                    (valueChange)="clearDrivingExpiryDate()"
+                    (valueChange)="drivingIssueDateShowError()"
                     [disabled]='disabledDrivingDates'
                     placeholder="Driving License Issue Date"
                   >
@@ -815,10 +850,9 @@
                     class="form-control mandatory"
                     formControlName="drivingLicenseExpiryDate"
                     [format]="'dd/MM/yyyy'"
-                    [min]="drivingLicenseIssueDate"
+                    [min]="toDayDate"
                     [activeView]="'decade'"
                     [(ngModel)]="drivingLicenseExpiryDate"
-                    (ngModelChange)="expiryDateSelected()"
                     (valueChange)="drivingLicenceExpiryShowError()"
                     [disabled]='disabledDrivingDates'
                     placeholder="Driving License Expiry Date"
@@ -915,8 +949,7 @@
                     [max]="toDayDate"
                     [activeView]="'decade'"
                     [(ngModel)]="passportIssueDate"
-                    (ngModelChange)="passportDateSelected()"
-                    (valueChange)="clearPassportExpiryDate()"
+                    (valueChange)="passportIssueDateShowError()"
                     [disabled]="disabledPassportDates"
                     placeholder="Passport Issue Date"
                   >
@@ -950,10 +983,9 @@
                     class="form-control mandatory"
                     formControlName="passportExpiryDate"
                     [format]="'dd/MM/yyyy'"
-                    [min]="passportIssueDate"
+                    [min]="toDayDate"
                     [activeView]="'decade'"
                     [(ngModel)]="passportExpiryDate"
-                    (ngModelChange)="passportExpiryDateSelected()"
                     (valueChange)="passportExpiryShowError()"
                     [disabled]="disabledPassportDates"
                     placeholder="Passport Expiry Date"
@@ -1769,7 +1801,9 @@
           data-dismiss="modal"
           id="reject_dlead"
           (click)="navigateToSamePage()"
+          
         >
+        <!-- [routerLink]="['/pages/lead-section/',leadId,'/co-applicant/',applicantId]" -->
           OK
         </button>
         <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">

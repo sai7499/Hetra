@@ -5,6 +5,7 @@
       data-animation="scaleIn"
       id="form-class"
     >
+
       <div class="btn-sec clear-both row">
         <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
           <label for="entity">{{ labels?.entity }}</label>
@@ -135,10 +136,11 @@
               <app-custom-input
                 formControlName="name1"
                 [maxLength]="validationData?.name?.maxLength"
-                [isRequired]="'First Name is required'"
-                [isDirty]="isDirty"
+                
                 [type]="validationData?.name?.type"
               ></app-custom-input>
+              <!-- [isRequired]="'First Name is required'"
+                [isDirty]="isDirty" -->
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="name">{{ labels?.middleName }}</label>
@@ -167,10 +169,11 @@
               <app-custom-input
                 formControlName="name3"
                 [maxLength]="validationData?.name?.maxLength"
-                [isRequired]="'Last Name is required'"
-                [isDirty]="isDirty"
+                
                 [type]="validationData?.name?.type"
               ></app-custom-input>
+              <!-- [isRequired]="'Last Name is required'"
+                [isDirty]="isDirty" -->
             </div>
           </div>
           <div class="row">
@@ -545,7 +548,9 @@
               <app-vf-custom-select
                 [values]="ownerPropertyRelation"
                 formControlName="houseOwnerProperty"
-                [isDirty]="isDirty"                
+                [isDirty]="isDirty"     
+                [isRequired]="hideMsgForOwner? 'Owner Of the Property is Required' : ''" 
+                
               >
               </app-vf-custom-select>
             </div>
@@ -558,6 +563,7 @@
                 [values]="LOV?.LOVS?.relationship"
                 formControlName="ownHouseAppRelationship"
                 [isDirty]="isDirty"
+                [isRequired]="hideMsgForOwner? 'Owner Relationship is Required' : ''"
               >
               </app-vf-custom-select>
             </div>
@@ -1006,7 +1012,8 @@
               </div>
           </div>
 
-          <div class="row">
+          <div class="row"
+          *ngIf="custCatValue=='SALCUSTSEG'">
 
             <div
               class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12"
@@ -1015,7 +1022,7 @@
               <input
                 type="checkbox"
                 id=""
-                (click)="isRelativeequitas($event)"
+                (click)="isRelativeEquitas($event)"
                 [checked]="checkedRelativeEquitas=='1'"
                 formControlName="isEquitasEmployeeRelative"
                 class="senior_minor"
@@ -1027,11 +1034,13 @@
             class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12"
             id="align_this_checkbox"
           >
+          <!-- {{disableEquitasEmployee}} -->
             <input
               type="checkbox"
               id=""
               (click)="isEquitasEmployee($event)"
               [checked]="checkedEquitasEmployee=='1'"
+              
               formControlName="isEquitasEmployee"
               class="senior_minor"
             />
@@ -1624,7 +1633,8 @@
               *ngIf="productCategory=='1003' && fundingProgram=='26'">
                 <label for="Vechical Type">{{labels?.houseOwnerProperty}} <sub class="star_blue_col">*</sub></label>
                 <app-vf-custom-select [values]="ownerPropertyRelation"
-                  formControlName="houseOwnerProperty"  [isDirty]="isDirty">
+                  formControlName="houseOwnerProperty"  [isDirty]="isDirty"
+                  [isRequired]="hideMsgForOwner? 'Owner Of the Property is Required' : ''" >
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12"
@@ -1633,7 +1643,8 @@
                 <app-vf-custom-select [values]="LOV.LOVS?.relationship"
                   formControlName="ownHouseAppRelationship" 
                    
-                  [isDirty]="isDirty">
+                  [isDirty]="isDirty"
+                  [isRequired]="hideMsgForOwner? 'Owner Relationship is Required' : ''" >
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 "
