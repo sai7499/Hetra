@@ -29,7 +29,15 @@
 }
 
 .mar-bot{
-    margin-bottom:8%;
+    margin-bottom:9%;
+}
+
+/* .mar-bot1{
+    margin-bottom:20%;
+}  */
+
+.mar-top{
+    margin-top: 25%;
 }
 
 .table-borderless{
