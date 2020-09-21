@@ -70,4 +70,12 @@ export class SharedService {
     getSearchBarActivity() {
         return this.searchbarRoleActivityList$;
     }
+    productCatCode$: BehaviorSubject<string> = new BehaviorSubject(null);
+    setProductCatCode(data){
+        this.productCatCode$.next(data);
+    }
+    productCatName$:BehaviorSubject<string> = new BehaviorSubject(null);
+    setProductCatName(data){
+        this.productCatName$.next(data);
+    }
 }
