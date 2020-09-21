@@ -26,7 +26,6 @@ export class SanctionDetailsComponent implements OnInit {
   leadId;
   labels: any = {};
   sanctionDetailsObject: any = {};
-  applicantType: string;
   applicantList: any = [];
   coApplicantList: any = [];
   guarantorList: any = [];
@@ -109,8 +108,7 @@ export class SanctionDetailsComponent implements OnInit {
           this.guarantorList = [];
           // this.sanctionDetailsObject.applicantList.filter((element) => {
           getApplicantList.forEach((element) => {
-            this.applicantType = element.applicantType;
-            console.log("Applicant_Type::", this.applicantType);
+            console.log("APPLICANT_TYPE::", element.applicantType);
             if (element.applicantType === 'Applicant') {
               this.isApplicant = true;
               console.log("IsApplicant:", this.isApplicant);
