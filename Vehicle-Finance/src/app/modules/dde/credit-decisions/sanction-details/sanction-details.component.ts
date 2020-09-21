@@ -42,7 +42,8 @@ export class SanctionDetailsComponent implements OnInit {
   docsDetails: DocRequest
   isPreDisbursement: any;
   isPreDone: any;
-
+  isApplicant: boolean = false;
+  isCoApplicant: boolean = false;
   isDocumentId: boolean;
 
   constructor(
@@ -111,6 +112,8 @@ export class SanctionDetailsComponent implements OnInit {
             this.applicantType = element.applicantType;
             console.log("Applicant_Type::", this.applicantType);
             if (element.applicantType === 'Applicant') {
+              this.isApplicant = true;
+              console.log("IsApplicant:", this.isApplicant);
               const data = {
                 applicantType: element.applicantType,
                 name: element.name,
@@ -124,6 +127,8 @@ export class SanctionDetailsComponent implements OnInit {
               };
               this.applicantList.push(data);
             } else if (element.applicantType === 'Co-Applicant') {
+              this.isCoApplicant = true;
+              console.log("IsCoApplicant::", this.isCoApplicant);
               const data = {
                 applicantType: element.applicantType,
                 name: element.name,
