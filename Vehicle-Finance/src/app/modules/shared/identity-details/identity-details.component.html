@@ -39,13 +39,14 @@
                 />
                 <span class="input-group-btn">
                   <button class="btn btn-default"
-                  
+                  (click)="onRetreiveAdhar()"
+                  (mouseleave)="onRelieve()"
+                  (blur)="onRelieve()"
                   >
-                  <!-- (click)="onRetreiveAdhar()"
-                  (mouseleave)="onRelieve()" -->
-                  
+                
                     <i class="fa fa-credit-card"></i>
                   </button>
+                 
                 </span>
               </div>
             </div>
@@ -464,16 +465,19 @@
                   class="form-control date_caps"
                   id="passport_expiry_date"
                   name="passport_expiry_date"
-                  value="3456 1239 0987"
+                  value=""
                   disabled
                 />
                 <span class="input-group-btn">
-                  <button class="btn btn-default" disabled=""
+                  <button class="btn btn-default" 
+                  (click)="onRetreiveAdhar()"
+                  (mouseleave)="onRelieve()"
+                  (blur)="onRelieve()"
                   >
                     <i class="fa fa-credit-card"></i>
-                    <!-- (click)="onRetreiveAdhar()"
-                  (mouseleave)="onRelieve()" -->
+                    
                   </button>
+                 
                 </span>
               </div>
             </div>

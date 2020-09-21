@@ -70,7 +70,7 @@ export class BasicDetailsComponent implements OnInit {
   externalIssueDate : any;
   showEmployeeNo: boolean = false;
   checkedEquitasEmployee: string= '0';
-  checkedRelativeEquitas: string = '0'
+  checkedRelativeEquitas: string = '0';
 
   emailPattern = {
     rule: '^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(\\.\\w{2,10})+$',
@@ -81,6 +81,7 @@ export class BasicDetailsComponent implements OnInit {
     key: string,
     value: string
   }[]
+  hideMsgForOwner: boolean = false;
 
   
   
@@ -209,17 +210,28 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     if (this.isChecked === true) {
-
+      this.hideMsgForOwner = true;
       details.get('houseOwnerProperty').setValidators([Validators.required]);
       details.get('ownHouseAppRelationship').setValidators([Validators.required]);
       details.get('houseOwnerProperty').updateValueAndValidity();
       details.get('ownHouseAppRelationship').updateValueAndValidity();
+      const houseOwner = details.get('houseOwnerProperty').value;
+      const ownHouseAppRelationship= details.get('ownHouseAppRelationship').value
+      details.patchValue({
+        houseOwnerProperty : houseOwner,
+        ownHouseAppRelationship : ownHouseAppRelationship
+      })
 
     } else {
+      this.hideMsgForOwner = false;
       details.get('houseOwnerProperty').clearValidators();
       details.get('ownHouseAppRelationship').clearValidators();
       details.get('houseOwnerProperty').updateValueAndValidity();
       details.get('ownHouseAppRelationship').updateValueAndValidity();
+      // details.patchValue({
+      //   houseOwnerProperty : '',
+      //   ownHouseAppRelationship : ''
+      // })
     }
   }
 
@@ -427,9 +439,17 @@ export class BasicDetailsComponent implements OnInit {
 
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
-
-    this.checkedBoxHouse = applicantDetails.ownHouseProofAvail == '1' ? true : false;
-    this.isChecked= applicantDetails.ownHouseProofAvail == '1' ? true : false;
+  if( applicantDetails.ownHouseProofAvail=='1'){
+    this.checkedBoxHouse = true;
+    this.isChecked= true;
+    this.hideMsgForOwner = true;
+  }else{
+    this.checkedBoxHouse = false;
+    this.isChecked= false;
+    this.hideMsgForOwner = false;
+  }
+    // this.checkedBoxHouse = applicantDetails.ownHouseProofAvail == '1' ? true : false;
+    // this.isChecked= applicantDetails.ownHouseProofAvail == '1' ? true : false;
 
 
 
@@ -490,6 +510,7 @@ export class BasicDetailsComponent implements OnInit {
 
     this.checkedEquitasEmployee= aboutIndivProspectDetails.isEquitasEmployee;
     this.checkedRelativeEquitas= aboutIndivProspectDetails.isEquitasEmployeeRelative;
+    this.checkedRelativeEquitas=='1'? details.get('isEquitasEmployee').disable() : details.get('isEquitasEmployee').enable() 
     if(this.checkedEquitasEmployee=='1'){
        this.setEmployeeNoValidation(details)
        this.showEmployeeNo= true;
@@ -497,6 +518,8 @@ export class BasicDetailsComponent implements OnInit {
       this.removeEmployeeNoValidation(details)
       this.showEmployeeNo= false;
     }
+
+
 
 
     details.patchValue({
@@ -634,6 +657,7 @@ export class BasicDetailsComponent implements OnInit {
       this.showEmployeeNo=true;
       this.checkedEquitasEmployee= '1'
       this.setEmployeeNoValidation(details);
+      
     }else{
       this.showEmployeeNo=false;
       this.checkedEquitasEmployee= '0'
@@ -645,16 +669,30 @@ export class BasicDetailsComponent implements OnInit {
   setEmployeeNoValidation(details){
     details.get('equitasEmployeeNumber').setValidators([Validators.required]);
     details.get('equitasEmployeeNumber').updateValueAndValidity();
+    details.get('isEquitasEmployeeRelative').disable();
   }
 
   removeEmployeeNoValidation(details){ 
     details.get('equitasEmployeeNumber').clearValidators();
     details.get('equitasEmployeeNumber').updateValueAndValidity();
+    details.get('isEquitasEmployeeRelative').enable()
   }
 
-  isRelativeequitas(event){
-    const value=event.target.checked
-    this.checkedRelativeEquitas= value? '1' : '0';
+  isRelativeEquitas(event){
+    const value=event.target.checked;
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    
+    if(value){
+      this.checkedRelativeEquitas='1';
+      // this.disableEquitasEmployee=true;
+      details.get('isEquitasEmployee').disable()
+
+    }else{
+      this.checkedRelativeEquitas='0'
+      details.get('isEquitasEmployee').enable()
+      
+    }
   }
 
 
@@ -1055,6 +1093,17 @@ export class BasicDetailsComponent implements OnInit {
   async onSubmit() {
     this.setValidation();
     const value = this.basicForm.getRawValue();
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    
+    if(this.hideMsgForOwner){
+      const houseOwner = details.get('houseOwnerProperty').value;
+      const ownHouseAppRelationship= details.get('ownHouseAppRelationship').value
+      details.patchValue({
+        houseOwnerProperty : houseOwner,
+        ownHouseAppRelationship : ownHouseAppRelationship
+      })
+    }
     console.log('basicForm', this.basicForm)
     if (this.basicForm.invalid) {
       this.isDirty = true;
