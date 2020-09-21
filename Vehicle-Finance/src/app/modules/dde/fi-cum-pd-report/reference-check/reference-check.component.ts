@@ -85,6 +85,8 @@ export class ReferenceCheckComponent implements OnInit {
   date: any;
   sysTimeOfVerification: any = String(new Date(new Date().getTime()).toLocaleTimeString()).slice(0, 5);
   time: any;
+  totalApplicantCount: number;
+  submittedApplicantCount: number;
 
   constructor(
     private labelsData: LabelsService, // service to access labels
@@ -482,7 +484,8 @@ export class ReferenceCheckComponent implements OnInit {
       if (processVariables.error.code === '0') {
 
         this.toasterService.showSuccess('pd report reinitiated successfully', '');
-        // this.router.navigate([`/pages/dde/dashboard`]);
+        // this.router.navigate([`/pages/dashboard`]);
+        this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
       } else {
         this.toasterService.showError('', 'message');
 
@@ -518,8 +521,19 @@ export class ReferenceCheckComponent implements OnInit {
       if (processVariables.error.code === '0') {
         // console.log('message', processVariables.error.message);
         this.toasterService.showSuccess('submitted to credit successfully', '');
-        // this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
-        this.router.navigate([`/pages/dashboard`]);
+        this.totalApplicantCount = processVariables.applicantCount;
+        this.submittedApplicantCount = processVariables.notSubmittedApplicantId;
+
+        if (this.totalApplicantCount && this.submittedApplicantCount) {
+          console.log('no of applicants', this.totalApplicantCount);
+          console.log('no of applicants submitted', this.submittedApplicantCount);
+          if (this.totalApplicantCount === this.submittedApplicantCount) {
+            this.router.navigate([`/pages/dashboard`]);
+
+          } else {
+            this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
+          }
+        }
       } else {
         this.toasterService.showError(processVariables.error.message, '');
         // console.log('error', processVariables.error.message);
