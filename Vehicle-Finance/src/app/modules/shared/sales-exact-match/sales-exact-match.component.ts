@@ -40,6 +40,7 @@ export class SalesExactMatchComponent implements OnInit {
     this.dedupeParameter = this.salesDedupeService.getDedupeParameter();
     this.isExactAvailable = !!this.dedupeDetails.deduIndExctMatch;
     this.isIndividual = this.dedupeDetails.entityType === 'INDIVENTTYP';
+    console.log('dedupeDetails', this.dedupeDetails)
   }
 
   rejectLead() {}

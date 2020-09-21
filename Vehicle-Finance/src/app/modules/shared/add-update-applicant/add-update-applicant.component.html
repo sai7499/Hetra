@@ -592,8 +592,9 @@
                     formControlName="aadhar"
                     (keyup)="storeAdhar($event)"
                     [type]="validationData?.adhaarNumber?.type"
+                    [maxLength]="validationData?.adhaarNumber?.maxLength"
+                    maxlength="12"
                     
-                    [maxLength]="validationData?.adhaarNumber?.maxLength.rule"
                   >
                   <!-- maxlength="12" -->
                   <!-- [maxLength]="validationData?.adhaarNumber?.maxLength"

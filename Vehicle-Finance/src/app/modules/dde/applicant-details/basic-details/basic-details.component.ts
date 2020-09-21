@@ -748,9 +748,9 @@ export class BasicDetailsComponent implements OnInit {
   addIndividualFormControls() {
     const formArray = this.basicForm.get('details') as FormArray;
     const controls = new FormGroup({
-      name1: new FormControl(null, Validators.required),
-      name2: new FormControl(null),
-      name3: new FormControl(null, Validators.required),
+      name1: new FormControl({value : '', disabled : true}),
+      name2: new FormControl({value : '', disabled : true}),
+      name3: new FormControl({value : '', disabled : true}),
       mobilePhone: new FormControl(null, Validators.required),
       dob: new FormControl(null, Validators.required),
       age: new FormControl({value: '', disabled: true}),

@@ -1898,8 +1898,7 @@
         },
         "adhaarNumber": {
             "maxLength": {
-                "rule": 12,
-                "msg": "Aadhar Number Should be 12 Digit"
+                "rule": 12
             },
             "type": "number",
             "patternCheck": {
