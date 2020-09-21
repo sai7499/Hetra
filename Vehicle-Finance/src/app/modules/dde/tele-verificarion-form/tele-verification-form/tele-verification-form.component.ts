@@ -108,8 +108,10 @@ export class TeleVerificationFormComponent implements OnInit {
 
     if (this.applicantType === 'Applicant') {
       this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[0].mobileNumber;
-    } else if (this.applicantType === 'Co-Applicant') {
+    } else if (this.applicantType === 'Co-Applicant' || this.applicantType === 'Guarantor') {
       this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[1].mobileNumber;
+    } else if (this.applicantType === 'Guarantor' || this.applicantType === 'Co-Applicant') {
+      this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[2].mobileNumber;
     }
     this.sourcingChannelDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingChannelDesc;
     this.sourcingTypeDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingTypeDesc;

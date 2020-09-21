@@ -79,7 +79,13 @@
         <div class="row">
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="residenceAddressline2">{{ labels?.addressline2 }} <sub class="star_red_col">*</sub></label>
-                <app-custom-input id="residenceAddressline2" [placeholder]="'Enter address'" [type]="labels?.validationData?.address?.type" formControlName="addressLine2" [isRequired]="'Address is required'" [maxLength]="labels?.validationData?.address?.maxLength" [isDirty]="isDirty">
+                <app-custom-input id="residenceAddressline2" 
+                  [placeholder]="'Enter address'" 
+                  [type]="labels?.validationData?.address?.type" 
+                  formControlName="addressLine2" 
+                  [isRequired]="'Address is required'" 
+                  [maxLength]="labels?.validationData?.address?.maxLength" 
+                  [isDirty]="isDirty">
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-3 col-lg-3">

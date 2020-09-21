@@ -493,6 +493,7 @@
     "businessIncomeThree": "Business Income-3",
     "loanEligibilityBasedOnIncome": "Loan Eligibility based on Income",
     "bankingDetails": "Banking details",
+    "coApplicantBankingDetails": "Co-Applicant Banking details",
     "bankStatement": "Bank statement",
     "totalNoOfCredits": "Total No. of Credits",
     "totalValueOfCredits": "Total Value of Credits",
@@ -537,24 +538,25 @@
     "branchPendingRcGreaterthanSixtyDays": "Branch Pending RC>  60Day",
     "surveyNumber": "Survey No. / Patta No.",
     "landInAcres": "Land in Acres",
-    "propertyOwner": "Property owner",
-    "relatedWithApplicant": "Related to Primary Applicant",
+    "propertyOwner": "Property Owner Name",
+    "propertyOwnerType" : "Property Owner Type",
+    "relatedWithApplicant": "Relationship with Primary Applicant",
     "totalLoanAmount": "Total Loan Amount",
-    "totalBuildupArea": "Total Built up Area (in sqft)",
-    "marketValueSF": "Market Value(Square Feet)",
+    "totalBuildupArea": "Total Built up Area (in Sq. Ft)",
+    "marketValueSF": "Market Value(Sq. Ft)",
     "totalMarketValue": "Total Market Value",
-    "guideLineValue": "Guide line  value(Square Feet)",
+    "guideLineValue": "Guideline  Value(Sq. Ft)",
     "totalGuideline": "Total Guideline Value",
     "goldInGMS": "Gold in gms (net weight - excluding stones)",
     "valueasToday": "Value as of today per gram",
     "totalValue": "Total Value",
     "purity": "Purity",
-    "marketValueAcres": "Market Value (Acre)",
+    "marketValueAcres": "Market Value / Acre",
     "totalLandMarketValue": "Total Land Market Value",
-    "guideLine": "Guide line  value (Acre)",
+    "guideLine": "Guideline  Value / Acre",
     "totalGuideLineValue": "Total Land Guideline Value",
-    "jewelOwner": "Jewel owner",
-    "fdAccountNo": "FD Account number",
+    "jewelOwner": "Jewel Owner",
+    "fdAccountNo": "FD Account Number",
     "fdName": "FD Name",
     "fdValue": "FD Value",
     "region": "Region",
@@ -617,6 +619,7 @@
     "totalFleetValue": "Total Fleet Value",
     "IfMoreThanAboveToBeAttachSeparteExcel": "if more than above to be attach separte excel",
     "bankingHistory": "Banking History (with main banker) ___*ABB calculation is mandatory in case of CAPTIVE",
+    "coApplicantBankingHistory":"Co-Applicant Banking History",
     "periodInMonths": "Period in Months",
     "commentsOnBankingIfAny": "Comments on banking  if any",
     "abbOfTheMonth": "ABB of the month",
@@ -741,7 +744,7 @@
     "vehicletitle": "Vehicle Details",
     "registrationNum": "Registration Num",
     "addAdditionalCollaterals": " Add Additional Collaterals",
-    "totalLandArea": "Total Land Area (in sqft)",
+    "totalLandArea": "Total Land Area (in Sq. Ft)",
     "collateralType": "Colleteral Type",
     "relationWithLead": "Relationship with Lead ",
     "relationWithApplicantStatus": "Relationship with Applicant",
@@ -1610,6 +1613,10 @@
     "termsheetGeneratedDate": "Termsheet Generated Date",
     "natureOfGoods" : "Nature Of Goods",
     "loanAccNumber": "Loan Account Number",
+    "equitasEmployee" : "Equitas Employee",
+    "equitasEmployeesRelative" : "Equitas Employees Relative",
+    "employeeNo" : "Employee Number",
+
     "validationData": {
         "name": {
             "maxLength": {
@@ -1789,7 +1796,8 @@
         "address": {
             "maxLength": {
                 "rule": 50
-            }
+            },
+            "type": "alpha-numeric"
         },
         "addressLine": {
             "maxLength": {
@@ -2101,6 +2109,15 @@
             },
             "type": "alpha-numeric"
         },
+        "assetModel": {
+            "maxLength": {
+                "rule": 40
+            },
+            "patternCheck": {
+                "rule": "^[ A-Za-z0-9.]*$",
+                "msg": "Only alphabets, numbers and decimal allowed"
+            }        
+        },
         "pdIncomeAccountNumber": {
             "maxLength": {
                 "rule": 15
@@ -2292,7 +2309,7 @@
         },
         "disburseAmountType": {
             "maxLength": {
-                "rule": 20
+                "rule": 12
             },
             "type": "number"
         },
@@ -2368,6 +2385,12 @@
             },
             "type": "number"
         },
+        "MITenure": {
+            "maxLength": {
+                "rule": 4
+            },
+            "type": "number"
+        },
         "NoofPDC": {
             "maxLength": {
                 "rule": 3
@@ -2390,6 +2413,12 @@
             "maxLength": {
                 "rule": 6
             }
+        },
+        "DeductionChargefixedRate": {
+            "maxLength": {
+                "rule": 5
+            },
+            "type": "number"
         },
         "beneficiaryBranch": {
             "maxLength": {
@@ -2435,11 +2464,8 @@
                 "rule": 9,
                 "msg": "Should be 9 Digits"
             },
-            "type": "alpha-numeric",
-            "pattern": {
-                "rule": "^[A-Za-z]{3}[0-9]{6}$",
-                "msg": "Pattern should be ABC123456"
-            }
+            "type": "number"
+            
         },
         "amountFiveCharc": {
             "maxLength": {
@@ -2537,6 +2563,18 @@
                 "rule": 50
             },
             "type": "special-alpha-numeric"
+        },
+        "employeeNo": {
+            "maxLength": {
+                "rule": 5
+            },
+            "type": "number"
+        },
+        "yearsOfMonths": {
+            "maxLength": {
+                "rule": 2
+            },
+            "type": "number"
         }
     }
 }

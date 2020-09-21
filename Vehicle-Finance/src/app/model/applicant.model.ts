@@ -124,6 +124,10 @@ export interface IndividualProspectDetails {
   addressDetails?: string;
   pobox?: string;
 
+  isEquitasEmployee? : string;
+  isEquitasEmployeeRelative? : string;
+  equitasEmployeeNumber? : string;
+
 }
 
 export interface AddressDetails {

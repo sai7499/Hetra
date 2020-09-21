@@ -118,6 +118,7 @@ export class DashboardComponent implements OnInit {
   myLeads: boolean;
   isClaim: boolean;
   isRelease: boolean;
+  isDisable = true;
 
 
   // roleType;
@@ -268,7 +269,6 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-
   loanMaxAmtChange() {
     this.filterForm.get('loanMaxAmt').valueChanges.pipe(debounceTime(800)).subscribe((data) => {
 
@@ -290,6 +290,56 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+
+
+  // loanMaxAmtChange() {
+  //     this.filterForm.get('loanMaxAmt').valueChanges.pipe(debounceTime(1000)).subscribe((data) => {
+
+  //       const minAmt = this.filterForm.get('loanMinAmt').value;
+  //       const minLoanAmt = Number(minAmt || 0);
+  //       if ((data && minLoanAmt >= data)) {
+  //         // this.filterForm.get('loanMaxAmt').setValue(null);
+  //         this.toasterService.showWarning('Invalid Amount', '');
+  //         this.isDisable = false;
+  //         console.log('min');
+  //       } else if (data) {
+  //         this.isDisable = true;
+  //       }
+  //     });
+  // }
+
+  // loanMinAmtChange() {
+  //     this.filterForm.get('loanMinAmt').valueChanges.pipe(debounceTime(300)).subscribe((data) => {
+  //       const maxAmt = this.filterForm.get('loanMaxAmt').value;
+  //       const minAmt = this.filterForm.get('loanMinAmt').value;
+  //       console.log(data);
+  //       if(data != "" || data != undefined){
+  //       if (parseFloat(maxAmt) <= parseFloat(data)) {
+  //         // this.filterForm.get('loanMaxAmt').setValue(null);
+  //         this.isDisable = false;
+  //         console.log('max')
+  //       }
+  //     } else if (maxAmt > data) {
+  //         this.isDisable = true;
+  //       }
+  //     });
+  // }
+
+  // loanMinAmtChange() {
+  //   setTimeout(() => {
+  //       const maxAmt = this.filterForm.value.loanMaxAmt;
+  //       const minAmt = this.filterForm.value.loanMinAmt;
+  //       console.log(minAmt);
+  //       if(minAmt != "" && minAmt != undefined){
+  //       if (parseFloat(maxAmt) <= parseFloat(minAmt)) {
+  //         this.isDisable = false;
+  //       }
+  //     }else{
+  //         this.isDisable = true;
+  //       }
+  //   }, 0);
+
+  // }
 
   // Loading dashboard pages
   onTabsLoading(data) {
@@ -940,5 +990,7 @@ export class DashboardComponent implements OnInit {
     localStorage.setItem('isFiCumPd', item.isFiCumPD);
     this.vehicleDataStoreService.setCreditTaskId(item.taskId);
     this.sharedService.getTaskID(item.taskId);
+    this.sharedService.setProductCatCode(item.productCatCode);
+    this.sharedService.setProductCatName(item.productCatName);
   }
 }

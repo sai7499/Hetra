@@ -23,3 +23,28 @@
        width:100%;
     }
 }
+
+.table tbody tr td{
+    text-align:left!important;
+}
+
+.mar-bot{
+    margin-bottom:9%;
+}
+
+/* .mar-bot1{
+    margin-bottom:20%;
+}  */
+
+.mar-top{
+    margin-top: 25%;
+}
+
+.table-borderless{
+    border:none!important;
+    background-color:#f6f6f6!important;
+}
+
+.v-align{
+    vertical-align: top!important;
+}
