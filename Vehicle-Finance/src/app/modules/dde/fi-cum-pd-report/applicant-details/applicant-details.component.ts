@@ -152,265 +152,270 @@ export class ApplicantDetailComponent implements OnInit {
 
         const applicantDetailsFromLead = value;
         this.applicantFullName = applicantDetailsFromLead['fullName'];
+        if (applicantDetailsFromLead['entityTypeKey'] === "NONINDIVENTTYP") {
+          this.mobileNo = applicantDetailsFromLead['companyPhoneNumber'];
+
+      } else if (applicantDetailsFromLead['entityTypeKey'] === "INDIVENTTYP") {
         this.mobileNo = applicantDetailsFromLead['mobileNumber'];
       }
     }
   }
-  houseOwnerShip(event: any) {
-    console.log('event', event);
-    this.ownerShipType = event ? event : event;
-    if (this.ownerShipType === '1HOUOWN' || this.ownerShipType === '2HOUOWN' ||
-      this.ownerShipType === '4HOUOWN' || this.ownerShipType === '9HOUOWN' ||
-      this.ownerShipType === '5HOUOWN') {
-      console.log('in owner,property enabled');
-      this.ownerNamePropertyAreaRequired = true;
-      this.ownerNamePropertyAreaDisabled = false;
-      this.applicantForm.get('owner').enable();
-      this.applicantForm.get('owner').setValidators(Validators.required);
-      this.applicantForm.get('areaOfProperty').enable();
-      this.applicantForm.get('areaOfProperty').setValidators(Validators.required);
+}
+houseOwnerShip(event: any) {
+  console.log('event', event);
+  this.ownerShipType = event ? event : event;
+  if (this.ownerShipType === '1HOUOWN' || this.ownerShipType === '2HOUOWN' ||
+    this.ownerShipType === '4HOUOWN' || this.ownerShipType === '9HOUOWN' ||
+    this.ownerShipType === '5HOUOWN') {
+    console.log('in owner,property enabled');
+    this.ownerNamePropertyAreaRequired = true;
+    this.ownerNamePropertyAreaDisabled = false;
+    this.applicantForm.get('owner').enable();
+    this.applicantForm.get('owner').setValidators(Validators.required);
+    this.applicantForm.get('areaOfProperty').enable();
+    this.applicantForm.get('areaOfProperty').setValidators(Validators.required);
 
-    } else if (this.ownerShipType !== '1HOUOWN' || this.ownerShipType !== '2HOUOWN' ||
-      this.ownerShipType !== '4HOUOWN' || this.ownerShipType !== '9HOUOWN' ||
-      this.ownerShipType !== '5HOUOWN') {
-      console.log('in owner,property disabled');
-      this.ownerNamePropertyAreaRequired = false;
-      this.ownerNamePropertyAreaDisabled = true;
-      this.applicantForm.get('owner').disable();
-      this.applicantForm.get('owner').clearValidators();
-      this.applicantForm.get('owner').updateValueAndValidity();
-      this.applicantForm.get('areaOfProperty').disable();
-      this.applicantForm.get('areaOfProperty').clearValidators();
-      this.applicantForm.get('areaOfProperty').updateValueAndValidity();
+  } else if (this.ownerShipType !== '1HOUOWN' || this.ownerShipType !== '2HOUOWN' ||
+    this.ownerShipType !== '4HOUOWN' || this.ownerShipType !== '9HOUOWN' ||
+    this.ownerShipType !== '5HOUOWN') {
+    console.log('in owner,property disabled');
+    this.ownerNamePropertyAreaRequired = false;
+    this.ownerNamePropertyAreaDisabled = true;
+    this.applicantForm.get('owner').disable();
+    this.applicantForm.get('owner').clearValidators();
+    this.applicantForm.get('owner').updateValueAndValidity();
+    this.applicantForm.get('areaOfProperty').disable();
+    this.applicantForm.get('areaOfProperty').clearValidators();
+    this.applicantForm.get('areaOfProperty').updateValueAndValidity();
 
-    }
   }
-  resAddress(event: any) {
-    console.log('event', event);
-    this.resAddressType = event ? event : event;
-    if (this.resAddressType !== '1') {
-      this.addressRequired = true;
-      this.applicantForm.get('alternateAddr').enable();
-      this.applicantForm.get('alternateAddr').setValidators(Validators.required);
-    } else if (this.resAddressType === '1') {
-      this.addressRequired = false;
-      this.applicantForm.get('alternateAddr').disable();
-      this.applicantForm.get('alternateAddr').clearValidators();
-      this.applicantForm.get('alternateAddr').updateValueAndValidity();
+}
+resAddress(event: any) {
+  console.log('event', event);
+  this.resAddressType = event ? event : event;
+  if (this.resAddressType !== '1') {
+    this.addressRequired = true;
+    this.applicantForm.get('alternateAddr').enable();
+    this.applicantForm.get('alternateAddr').setValidators(Validators.required);
+  } else if (this.resAddressType === '1') {
+    this.addressRequired = false;
+    this.applicantForm.get('alternateAddr').disable();
+    this.applicantForm.get('alternateAddr').clearValidators();
+    this.applicantForm.get('alternateAddr').updateValueAndValidity();
 
-    }
   }
-  initForm() { // initialising the form group
-    this.applicantForm = new FormGroup({
-      // applicantName: new FormControl({ value: this.applicantFullName, disabled: true }),
-      applicantName: new FormControl({ value: '', disabled: true }),
-      fatherFullName: new FormControl('', Validators.required),
-      gender: new FormControl('', Validators.required),
-      maritalStatus: new FormControl('', Validators.required),
-      physicallyChallenged: new FormControl('', Validators.required),
-      dependants: new FormControl('', Validators.required),
-      residancePhoneNumber: new FormControl('', Validators.required),
-      officePhoneNumber: new FormControl('', Validators.required),
-      // mobile: new FormControl({ value: this.mobileNo, disabled: true }),
-      mobile: new FormControl({ value: '', disabled: true }),
-      residenceAddressAsPerLoanApplication: new FormControl('', Validators.required),
-      alternateAddr: new FormControl(''),
-      bankName: new FormControl('', Validators.required),
-      accountNumber: new FormControl('', Validators.required),
-      landmark: new FormControl('', Validators.required),
-      addressAccessibility: new FormControl('', Validators.required),
-      residentialLocality: new FormControl('', Validators.required),
-      residentialType: new FormControl('', Validators.required),
-      houseType: new FormControl('', Validators.required),
-      sizeOfHouse: new FormControl('', Validators.required),
-      standardOfLiving: new FormControl('', Validators.required),
-      houseOwnership: new FormControl('', Validators.required),
-      ownerProofAvail: new FormControl('', Validators.required),
-      areaOfProperty: new FormControl(''),
-      owner: new FormControl(''),
-      ratingbySO: new FormControl('', Validators.required)
-    });
-  }
+}
+initForm() { // initialising the form group
+  this.applicantForm = new FormGroup({
+    // applicantName: new FormControl({ value: this.applicantFullName, disabled: true }),
+    applicantName: new FormControl({ value: '', disabled: true }),
+    fatherFullName: new FormControl('', Validators.required),
+    gender: new FormControl('', Validators.required),
+    maritalStatus: new FormControl('', Validators.required),
+    physicallyChallenged: new FormControl('', Validators.required),
+    dependants: new FormControl('', Validators.required),
+    residancePhoneNumber: new FormControl('', Validators.required),
+    officePhoneNumber: new FormControl('', Validators.required),
+    // mobile: new FormControl({ value: this.mobileNo, disabled: true }),
+    mobile: new FormControl({ value: '', disabled: true }),
+    residenceAddressAsPerLoanApplication: new FormControl('', Validators.required),
+    alternateAddr: new FormControl(''),
+    bankName: new FormControl('', Validators.required),
+    accountNumber: new FormControl('', Validators.required),
+    landmark: new FormControl('', Validators.required),
+    addressAccessibility: new FormControl('', Validators.required),
+    residentialLocality: new FormControl('', Validators.required),
+    residentialType: new FormControl('', Validators.required),
+    houseType: new FormControl('', Validators.required),
+    sizeOfHouse: new FormControl('', Validators.required),
+    standardOfLiving: new FormControl('', Validators.required),
+    houseOwnership: new FormControl('', Validators.required),
+    ownerProofAvail: new FormControl('', Validators.required),
+    areaOfProperty: new FormControl(''),
+    owner: new FormControl(''),
+    ratingbySO: new FormControl('', Validators.required)
+  });
+}
 
-  setFormValue() { // patching the form values
-    // console.log("in set form value")
-    // const applicantModal = this.ddeStoreService.getApplicantDetails() || {};
-    const applicantModal = this.applicantPdDetails || {};
-    this.applicantForm.patchValue({
-      applicantName: applicantModal.applicantName || this.applicantFullName || '',
-      fatherFullName: applicantModal.fatherFullName || '',
-      gender: applicantModal.gender || '',
-      maritalStatus: applicantModal.maritalStatus || '',
-      physicallyChallenged: applicantModal.physicallyChallenged || '',
-      dependants: applicantModal.dependants || '',
-      residancePhoneNumber: applicantModal.residancePhoneNumber || '',
-      officePhoneNumber: applicantModal.officePhoneNumber || '',
-      mobile: applicantModal.mobile || this.mobileNo || '',
-      residenceAddressAsPerLoanApplication: applicantModal.residenceAddressAsPerLoanApplication || '',
-      bankName: applicantModal.bankName || '',
-      accountNumber: applicantModal.accountNumber || '',
-      landmark: applicantModal.landmark || '',
-      addressAccessibility: applicantModal.addressAccessibility || '',
-      residentialLocality: applicantModal.residentialLocality || '',
-      residentialType: applicantModal.residentialType || '',
-      houseType: applicantModal.houseType || '',
-      sizeOfHouse: applicantModal.sizeOfHouse || '',
-      standardOfLiving: applicantModal.standardOfLiving || '',
-      houseOwnership: applicantModal.houseOwnership || '',
-      ownerProofAvail: applicantModal.ownerProofAvail || '',
-      owner: applicantModal.owner || '',
-      areaOfProperty: applicantModal.areaOfProperty || '',
-      ratingbySO: applicantModal.ratingbySO || '',
-      alternateAddr: applicantModal.alternateAddr || ''
-    });
-    // 0 this.resAddress(this.applicantForm.get('residenceAddressAsPerLoanApplication').value);
-    // this.houseOwnerShip(this.applicantForm.get('houseOwnership').value);
-  }
+setFormValue() { // patching the form values
+  // console.log("in set form value")
+  // const applicantModal = this.ddeStoreService.getApplicantDetails() || {};
+  const applicantModal = this.applicantPdDetails || {};
+  this.applicantForm.patchValue({
+    applicantName: applicantModal.applicantName || this.applicantFullName || '',
+    fatherFullName: applicantModal.fatherFullName || '',
+    gender: applicantModal.gender || '',
+    maritalStatus: applicantModal.maritalStatus || '',
+    physicallyChallenged: applicantModal.physicallyChallenged || '',
+    dependants: applicantModal.dependants || '',
+    residancePhoneNumber: applicantModal.residancePhoneNumber || '',
+    officePhoneNumber: applicantModal.officePhoneNumber || '',
+    mobile: applicantModal.mobile || this.mobileNo || '',
+    residenceAddressAsPerLoanApplication: applicantModal.residenceAddressAsPerLoanApplication || '',
+    bankName: applicantModal.bankName || '',
+    accountNumber: applicantModal.accountNumber || '',
+    landmark: applicantModal.landmark || '',
+    addressAccessibility: applicantModal.addressAccessibility || '',
+    residentialLocality: applicantModal.residentialLocality || '',
+    residentialType: applicantModal.residentialType || '',
+    houseType: applicantModal.houseType || '',
+    sizeOfHouse: applicantModal.sizeOfHouse || '',
+    standardOfLiving: applicantModal.standardOfLiving || '',
+    houseOwnership: applicantModal.houseOwnership || '',
+    ownerProofAvail: applicantModal.ownerProofAvail || '',
+    owner: applicantModal.owner || '',
+    areaOfProperty: applicantModal.areaOfProperty || '',
+    ratingbySO: applicantModal.ratingbySO || '',
+    alternateAddr: applicantModal.alternateAddr || ''
+  });
+  // 0 this.resAddress(this.applicantForm.get('residenceAddressAsPerLoanApplication').value);
+  // this.houseOwnerShip(this.applicantForm.get('houseOwnership').value);
+}
 
-  getPdDetails() { // function to get the pd details with respect to applicant id
-    const data = {
-      applicantId: this.applicantId,
-      pdVersion: this.version,
-    };
+getPdDetails() { // function to get the pd details with respect to applicant id
+  const data = {
+    applicantId: this.applicantId,
+    pdVersion: this.version,
+  };
 
-    this.personaldiscussion.getPdData(data).subscribe((value: any) => {
-      const processVariables = value.ProcessVariables;
-      if (processVariables.error.code === '0') {
+  this.personaldiscussion.getPdData(data).subscribe((value: any) => {
+    const processVariables = value.ProcessVariables;
+    if (processVariables.error.code === '0') {
 
-        this.applicantPdDetails = value.ProcessVariables.applicantPersonalDiscussionDetails;
-        if (this.applicantPdDetails) {
-          this.setFormValue();
-          // this.pdDataService.setCustomerProfile(this.applicantPdDetails);
-        }
-        if (this.applicantForm.get('residenceAddressAsPerLoanApplication') != null) {
-          this.resAddress(this.applicantForm.get('residenceAddressAsPerLoanApplication').value);
-        }
-        if (this.applicantForm.get('houseOwnership') != null) {
-          this.houseOwnerShip(this.applicantForm.get('houseOwnership').value);
-        }
+      this.applicantPdDetails = value.ProcessVariables.applicantPersonalDiscussionDetails;
+      if (this.applicantPdDetails) {
+        this.setFormValue();
+        // this.pdDataService.setCustomerProfile(this.applicantPdDetails);
       }
-    });
+      if (this.applicantForm.get('residenceAddressAsPerLoanApplication') != null) {
+        this.resAddress(this.applicantForm.get('residenceAddressAsPerLoanApplication').value);
+      }
+      if (this.applicantForm.get('houseOwnership') != null) {
+        this.houseOwnerShip(this.applicantForm.get('houseOwnership').value);
+      }
+    }
+  });
+}
+
+onFormSubmit(action) { // fun that submits all the pd data
+  if (this.operationType === '1') {
+    this.onNavigateNext();
+    return;
+  }
+  const formModal = this.applicantForm.value;
+  const applicantFormModal = { ...formModal };
+  // console.log('Form Data', applicantFormModal);
+  // console.log('Status', this.applicantForm.get('physicallyChallenged').invalid);
+  this.isDirty = true;
+  if (this.applicantForm.invalid) {
+    this.toasterService.showWarning('please enter required details', '');
+    return;
   }
 
-  onFormSubmit(action) { // fun that submits all the pd data
-    if (this.operationType === '1') {
-      this.onNavigateNext();
-      return;
-    }
-    const formModal = this.applicantForm.value;
-    const applicantFormModal = { ...formModal };
-    // console.log('Form Data', applicantFormModal);
-    // console.log('Status', this.applicantForm.get('physicallyChallenged').invalid);
-    this.isDirty = true;
-    if (this.applicantForm.invalid) {
-      this.toasterService.showWarning('please enter required details', '');
-      return;
-    }
+  this.applicantDetails = {
+    applicantName: this.applicantFullName,
+    fatherFullName: applicantFormModal.fatherFullName,
+    gender: applicantFormModal.gender,
+    maritalStatus: applicantFormModal.maritalStatus,
+    physicallyChallenged: applicantFormModal.physicallyChallenged,
+    dependants: applicantFormModal.dependants,
+    residancePhoneNumber: applicantFormModal.residancePhoneNumber,
+    officePhoneNumber: applicantFormModal.officePhoneNumber,
+    mobile: this.mobileNo,
+    residenceAddressAsPerLoanApplication: applicantFormModal.residenceAddressAsPerLoanApplication,
+    bankName: applicantFormModal.bankName,
+    accountNumber: applicantFormModal.accountNumber,
+    landmark: applicantFormModal.landmark,
+    addressAccessibility: applicantFormModal.addressAccessibility,
+    residentialLocality: applicantFormModal.residentialLocality,
+    residentialType: applicantFormModal.residentialType,
+    houseType: applicantFormModal.houseType,
+    sizeOfHouse: applicantFormModal.sizeOfHouse,
+    standardOfLiving: applicantFormModal.standardOfLiving,
+    houseOwnership: applicantFormModal.houseOwnership,
+    owner: applicantFormModal.owner,
+    areaOfProperty: applicantFormModal.areaOfProperty,
+    ownerProofAvail: applicantFormModal.ownerProofAvail,
+    ratingbySO: applicantFormModal.ratingbySO,
+    alternateAddr: applicantFormModal.alternateAddr
+  };
+  // if (this.resAddressType === '1') {
+  //   delete this.applicantDetails['alternateAddr'];
+  // }
+  // if (this.ownerShipType !== '1HOUOWN' || this.ownerShipType !== '2HOUOWN' ||
+  //   this.ownerShipType !== '4HOUOWN' || this.ownerShipType !== '9HOUOWN' ||
+  //   this.ownerShipType !== '5HOUOWN') {
+  //   delete this.applicantDetails['owner'];
+  //   delete this.applicantDetails['areaOfProperty'];
+  // }
+  const data = {
+    leadId: this.leadId,
+    applicantId: this.applicantId,
+    userId: this.userId,
+    applicantPersonalDiscussionDetails: this.applicantDetails,
+    // customerProfileDetails: null,
+    // loanDetailsForNewCv: null,
+    // applicableForUsedVehicle: null,
+    // applicableForAssetDetailsUsedVehicle: null,
 
-    this.applicantDetails = {
-      applicantName: this.applicantFullName,
-      fatherFullName: applicantFormModal.fatherFullName,
-      gender: applicantFormModal.gender,
-      maritalStatus: applicantFormModal.maritalStatus,
-      physicallyChallenged: applicantFormModal.physicallyChallenged,
-      dependants: applicantFormModal.dependants,
-      residancePhoneNumber: applicantFormModal.residancePhoneNumber,
-      officePhoneNumber: applicantFormModal.officePhoneNumber,
-      mobile: this.mobileNo,
-      residenceAddressAsPerLoanApplication: applicantFormModal.residenceAddressAsPerLoanApplication,
-      bankName: applicantFormModal.bankName,
-      accountNumber: applicantFormModal.accountNumber,
-      landmark: applicantFormModal.landmark,
-      addressAccessibility: applicantFormModal.addressAccessibility,
-      residentialLocality: applicantFormModal.residentialLocality,
-      residentialType: applicantFormModal.residentialType,
-      houseType: applicantFormModal.houseType,
-      sizeOfHouse: applicantFormModal.sizeOfHouse,
-      standardOfLiving: applicantFormModal.standardOfLiving,
-      houseOwnership: applicantFormModal.houseOwnership,
-      owner: applicantFormModal.owner,
-      areaOfProperty: applicantFormModal.areaOfProperty,
-      ownerProofAvail: applicantFormModal.ownerProofAvail,
-      ratingbySO: applicantFormModal.ratingbySO,
-      alternateAddr: applicantFormModal.alternateAddr
-    };
-    // if (this.resAddressType === '1') {
-    //   delete this.applicantDetails['alternateAddr'];
-    // }
-    // if (this.ownerShipType !== '1HOUOWN' || this.ownerShipType !== '2HOUOWN' ||
-    //   this.ownerShipType !== '4HOUOWN' || this.ownerShipType !== '9HOUOWN' ||
-    //   this.ownerShipType !== '5HOUOWN') {
-    //   delete this.applicantDetails['owner'];
-    //   delete this.applicantDetails['areaOfProperty'];
-    // }
-    const data = {
-      leadId: this.leadId,
-      applicantId: this.applicantId,
-      userId: this.userId,
-      applicantPersonalDiscussionDetails: this.applicantDetails,
-      // customerProfileDetails: null,
-      // loanDetailsForNewCv: null,
-      // applicableForUsedVehicle: null,
-      // applicableForAssetDetailsUsedVehicle: null,
+  };
 
-    };
+  this.personaldiscussion.saveOrUpdatePdData(data).subscribe((value: any) => {
+    const processVariables = value.ProcessVariables;
+    // console.log(processVariables)
+    if (processVariables.error.code === '0') {
+      const message = processVariables.error.message;
+      this.toasterService.showSuccess('Record Saved Successfully', '');
+      this.getPdDetails();
+      // this.toasterService.showSuccess(message, '');
+      if (action === 'save') {
 
-    this.personaldiscussion.saveOrUpdatePdData(data).subscribe((value: any) => {
-      const processVariables = value.ProcessVariables;
-      // console.log(processVariables)
-      if (processVariables.error.code === '0') {
-        const message = processVariables.error.message;
-        this.toasterService.showSuccess('Record Saved Successfully', '');
-        this.getPdDetails();
-        // this.toasterService.showSuccess(message, '');
-        if (action === 'save') {
+      } else if (action === 'next') {
 
-        } else if (action === 'next') {
+        if (this.version != 'undefined') {
 
-          if (this.version != 'undefined') {
+          // tslint:disable-next-line: max-line-length
+          this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
 
-            // tslint:disable-next-line: max-line-length
-            this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
+        } else {
 
-          } else {
-
-            this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile`]);
-
-          }
+          this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile`]);
 
         }
-
-      } else {
-        // console.log('error', processVariables.error.message);
-        this.toasterService.showError('ivalid save', 'message');
 
       }
-    });
-  }
-  onNavigateNext() {
-
-
-    if (this.version != 'undefined') {
-      console.log('in  routing defined version condition', this.version);
-      // tslint:disable-next-line: max-line-length
-      this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
 
     } else {
-
-      console.log('in routing undefined version condition', this.version);
-      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile`]);
+      // console.log('error', processVariables.error.message);
+      this.toasterService.showError('ivalid save', 'message');
 
     }
-  }
+  });
+}
+onNavigateNext() {
 
 
-  onNavigateBack() {
-    console.log('in nav back', this.version);
-    if (this.version != 'undefined') {
-      this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
-    } else {
-      this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`);
-    }
+  if (this.version != 'undefined') {
+    console.log('in  routing defined version condition', this.version);
+    // tslint:disable-next-line: max-line-length
+    this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
+
+  } else {
+
+    console.log('in routing undefined version condition', this.version);
+    this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile`]);
+
   }
+}
+
+
+onNavigateBack() {
+  console.log('in nav back', this.version);
+  if (this.version != 'undefined') {
+    this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
+  } else {
+    this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`);
+  }
+}
 
 }
