@@ -565,7 +565,14 @@ export class BasicDetailsComponent implements OnInit {
       noofyearsInBusiness = String(Math.floor(Number(aboutIndivProspectDetails.currentBusinessYears) / 12 )) || '';
     }
 
+    let noofmonthsInCurrEmp = '';
+    let noofyearsInCurrEmp = ''
 
+    if(aboutIndivProspectDetails.currentEmpYears) {
+
+      noofmonthsInCurrEmp = String(Number(aboutIndivProspectDetails.currentEmpYears) % 12 ) || '';
+      noofyearsInCurrEmp = String(Math.floor(Number(aboutIndivProspectDetails.currentEmpYears) / 12 )) || '';
+    }
 
     details.patchValue({
       emailId: aboutIndivProspectDetails.emailId || '',
@@ -594,6 +601,9 @@ export class BasicDetailsComponent implements OnInit {
       employerType: aboutIndivProspectDetails.employerType || '',
       designation: aboutIndivProspectDetails.designation || '',
       currentEmpYears: aboutIndivProspectDetails.currentEmpYears || '',
+      noOfYearsCurrEmp: noofyearsInCurrEmp || '',
+      noOfMonthsCurrEmp: noofmonthsInCurrEmp || '',
+
       employerName: aboutIndivProspectDetails.employerName || '',
 
       businessType: aboutIndivProspectDetails.businessType || '',
@@ -778,6 +788,8 @@ export class BasicDetailsComponent implements OnInit {
       designation: new FormControl(''),
       employerName: new FormControl(null),
       currentEmpYears: new FormControl(null),
+      noOfYearsCurrEmp: new FormControl(null),
+      noOfMonthsCurrEmp: new FormControl(null),
       employeeCode: new FormControl(null),
       employerType: new FormControl(''),
 
@@ -1048,8 +1060,14 @@ export class BasicDetailsComponent implements OnInit {
     details.get('designation').updateValueAndValidity();
     details.get('employerName').setValidators([Validators.required]);
     details.get('employerName').updateValueAndValidity();
-    details.get('currentEmpYears').setValidators([Validators.required]);
-    details.get('currentEmpYears').updateValueAndValidity();
+
+    details.get('noOfYearsCurrEmp').setValidators([Validators.required]);
+    details.get('noOfYearsCurrEmp').updateValueAndValidity();
+    
+    details.get('noOfMonthsCurrEmp').setValidators([Validators.required]);
+    details.get('noOfMonthsCurrEmp').updateValueAndValidity();
+    
+
     details.get('employeeCode').setValidators([Validators.required]);
     details.get('employeeCode').updateValueAndValidity();
 
@@ -1081,8 +1099,23 @@ export class BasicDetailsComponent implements OnInit {
     details.get('employerName').updateValueAndValidity();
     details.get('currentEmpYears').clearValidators();
     details.get('currentEmpYears').updateValueAndValidity();
+    details.get('noOfYearsCurrEmp').clearValidators();
+    details.get('noOfYearsCurrEmp').updateValueAndValidity();
+    details.get('noOfMonthsCurrEmp').clearValidators();
+    details.get('noOfMonthsCurrEmp').updateValueAndValidity();
+
     details.get('employeeCode').clearValidators();
     details.get('employeeCode').updateValueAndValidity();
+
+    details.patchValue({
+      employerType: '',
+      designation: '',
+      employerName: '',
+      currentEmpYears: '',
+      noOfYearsCurrEmp: '',
+      noOfMonthsCurrEmp: '',
+      employeeCode: ''
+    })
   }
   removeSelfEmpValidators() {
     const formArray = this.basicForm.get('details') as FormArray;
@@ -1101,6 +1134,16 @@ export class BasicDetailsComponent implements OnInit {
     details.get('noOfMonthsBussiness').updateValueAndValidity();
     details.get('turnOver').clearValidators();
     details.get('turnOver').updateValueAndValidity();
+
+    details.patchValue({
+      businessType: '',
+      businessName: '',
+      businessStartDate:'',
+      currentBusinessYears: '',
+      noOfYearsBussiness: '',
+      noOfMonthsBussiness: '',
+      turnOver: ''
+    })
   }
 
 
@@ -1202,6 +1245,14 @@ export class BasicDetailsComponent implements OnInit {
           return;
         }
   
+      }
+
+      if(this.custCatValue === 'SALCUSTSEG') {
+        if(Number(formValueData.noOfYearsCurrEmp) == 0 && Number(formValueData.noOfMonthsCurrEmp) == 0) {
+  
+          this.toasterService.showError('Please fill any one of the no of years or months','No of years in current employment')
+          return;
+        }
       }
 
       this.storeIndividualValueInService(value);
@@ -1317,9 +1368,9 @@ export class BasicDetailsComponent implements OnInit {
     prospectDetails.preferredLanguage =
       aboutIndivProspectDetails.preferredLanguage;
     prospectDetails.designation = aboutIndivProspectDetails.designation;
-    prospectDetails.currentEmpYears = aboutIndivProspectDetails.currentEmpYears
-      ? aboutIndivProspectDetails.currentEmpYears
-      : '';
+
+    prospectDetails.currentEmpYears = String((Number(aboutIndivProspectDetails.noOfYearsCurrEmp) * 12 ) + Number(aboutIndivProspectDetails.noOfMonthsCurrEmp)) || '';
+
     prospectDetails.employeeCode = aboutIndivProspectDetails.employeeCode
       ? aboutIndivProspectDetails.employeeCode
       : '';

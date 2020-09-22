@@ -1093,8 +1093,30 @@
               ></app-custom-input>
               <!-- [patternCheck]="nameSpacePattern" -->
             </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="yr_curr_employment"
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 pad-zero">
+
+
+              <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+                <label for="yr_curr_employment"
+                >{{ labels?.noOfyearsInCurrEmployment }}
+                </label>
+            </div>
+            
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                <label for="no_of_year">Years
+                    <sub class="star_red_col">*</sub></label>
+                <app-custom-input formControlName="noOfYearsCurrEmp" [id]="'no_of_emp_year'" [type]="labels.validationData?.yearsOfMonths.type" [maxLength]="labels.validationData?.yearsOfMonths.maxLength"  [isRequired]="'No. of Years is Required'"  [placeholder]="'No of Years'" [custom]="yearValidation" [isDirty]="isDirty">
+                </app-custom-input>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                <label for="no_of_month">Months
+                    <sub class="star_red_col">*</sub></label>
+                <app-custom-input formControlName="noOfMonthsCurrEmp" [isRequired]="'No. of Months is Required'" [id]="'no_of_emp_month'" [type]="labels.validationData?.yearsOfMonths.type" [maxLength]="labels.validationData?.yearsOfMonths.maxLength" [placeholder]="'No of Months'" [custom]="monthValidation" [isDirty]="isDirty">
+                </app-custom-input>
+            </div>
+
+
+              <!-- <label for="yr_curr_employment"
                 >{{ labels?.noOfyearsInCurrEmployment }}
                 <sub class="star_blue_col">*</sub></label
               >
@@ -1105,7 +1127,7 @@
                 [isRequired]="'Employeement Year is required'"
                 [isDirty]="isDirty"
                 [type]="validationData?.numberOfYears?.type"
-              ></app-custom-input>
+              ></app-custom-input> -->
             </div>
           </div>
           <div class="row">
@@ -1300,7 +1322,7 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3 pad-zero">
 
             <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
-              <label for="employee_code">Number Of years In Current business
+              <label for="employee_code">Number of years In Current business
               </label>
           </div>
           
