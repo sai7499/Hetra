@@ -399,7 +399,7 @@
                 <label for="cbs">{{ labels.cbs }} <sub class="star_red_col">*</sub></label>
                 <app-custom-input id="cbs" [placeholder]="'Enter Credit Bureau Score'"
                     formControlName="creditBureauScore" [type]="labels?.validationData?.pdBankName?.type"
-                    [isRequired]="'Credit Bureau Score is required'" [isDirty]="isDirty">
+                    [isRequired]="'Credit Bureau Score is required'" [isDirty]="isDirty" [isDisabled]="true">
                 </app-custom-input>
             </div>
 
