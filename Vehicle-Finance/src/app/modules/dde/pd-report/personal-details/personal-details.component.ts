@@ -328,7 +328,7 @@ export class PersonalDetailsComponent implements OnInit {
     formValue.dob = formValue.dob ? this.utilityService.convertDateTimeTOUTC(formValue.dob, 'DD/MM/YYYY') : null;
     formValue.weddingAnniversaryDate = formValue.weddingAnniversaryDate ? this.utilityService.convertDateTimeTOUTC(formValue.weddingAnniversaryDate, 'DD/MM/YYYY') : null;
 
-    if(formValue.noOfYears === '0' && formValue.noOfMonths === '0') {
+    if(Number(formValue.noOfYears) == 0 && Number(formValue.noOfMonths) == 0) {
         this.toasterService.showError('Please fill any one of the no of years or months','No of years residing at present residence')
         return;
     }

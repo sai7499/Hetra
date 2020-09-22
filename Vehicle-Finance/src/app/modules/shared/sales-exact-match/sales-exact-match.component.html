@@ -166,16 +166,16 @@
               {{ isIndividual ? exactMatch.aadhar : exactMatch.udhyogAadhar }}
             </td>
             <ng-container *ngIf="isIndividual">
-              <td>{{ exactMatch.passport }}</td>
-              <td>{{ exactMatch.voterIdNumber }}</td>
-              <td>{{ exactMatch.prospectDrivingLicense }}</td>
+              <td>{{ exactMatch.passport=="undefined"? '' :exactMatch.passport }}</td>
+              <td>{{ exactMatch.voterIdNumber=="undefined"? '' :exactMatch.voterIdNumber }}</td>
+              <td>{{ exactMatch.prospectDrivingLicense=="undefined"? '' :exactMatch.prospectDrivingLicense }}</td>
             </ng-container>
 
             <ng-container *ngIf="!isIndividual">
-              <td>{{ exactMatch?.cinOrRegNo }}</td>
-              <td>{{ exactMatch?.cstOrVatNo }}</td>
-              <td>{{ exactMatch?.gst }}</td>
-              <td>{{ exactMatch?.tan }}</td>
+              <td>{{ exactMatch?.cinOrRegNo=="undefined"? '' :exactMatch.cinOrRegNo  }}</td>
+              <td>{{ exactMatch?.cstOrVatNo=="undefined"? '' :exactMatch.cstOrVatNo  }}</td>
+              <td>{{ exactMatch?.gst=="undefined"? '' :exactMatch.gst  }}</td>
+              <td>{{ exactMatch?.tan=="undefined"? '' :exactMatch.tan  }}</td>
             </ng-container>
             <td *ngIf="isIndividual">{{ exactMatch.prospectCkycNumber }}</td>
           </tr>
@@ -236,23 +236,23 @@
               <td *ngIf="isIndividual"></td>
               <td>{{ probable.mobile }}</td>
               <td>{{ probable.pan }}</td>
-              <td>{{ probable.aadhar }}</td>
+              <!-- <td>{{ probable.aadhar }}</td> -->
               <td>
                 {{ isIndividual ? probable.aadhar : probable.udhyogAadhar }}
               </td>
               <ng-container *ngIf="isIndividual">
-                <td>{{ probable.passport }}</td>
-                <td>{{ probable.voterID }}</td>
-                <td>{{ probable.prospectDrivingLicense }}</td>
+                <td>{{ probable.passport=='undefined'?'' : probable.passport }}</td>
+                <td>{{ probable.voterID=='undefined'?'' : probable.voterID  }}</td>
+                <td>{{ probable.prospectDrivingLicense=='undefined'?'' : probable.prospectDrivingLicense }}</td>
               </ng-container>
 
               <ng-container *ngIf="!isIndividual">
                 <td>{{ probable?.cinOrRegNo }}</td>
-                <td>{{ probable?.cstOrVatNo }}</td>
-                <td>{{ probable?.gst }}</td>
-                <td>{{ probable?.tan }}</td>
+                <td>{{ probable?.cstOrVatNo=='undefined'?'' : probable.cstOrVatNo }}</td>
+                <td>{{ probable?.gst=='undefined'?'' : probable.gst }}</td>
+                <td>{{ probable?.tan=='undefined'?'' : probable.tan }}</td>
               </ng-container>
-              <td *ngIf="isIndividual">{{ probable.prospectCkycNumber }}</td>
+              <td *ngIf="isIndividual">{{ probable.prospectCkycNumber=='undefined'?'' : probable.prospectCkycNumber }}</td>
             </tr>
           </tbody>
         </table>
