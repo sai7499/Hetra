@@ -192,9 +192,13 @@
                 [max]="toDayDate"
                  placeholder="Issue Date"
                 [activeView]="'decade'"
-                (valueChange)="datePassportChange($event)"
+                (valueChange)="passportIssueDateChange($event)"
                 [disabled]="passportDates"
                 ></kendo-datepicker>
+                </div>
+
+                <div class="ShowError" *ngIf="showInvalidMsg['passportIssue']" >
+                    Invalid Date
                 </div>
               </div>
             </div>
@@ -214,12 +218,16 @@
                   /> -->
                   <kendo-datepicker class="form-control" 
                 formControlName="passportExpiryDate" [format]="'dd/MM/yyyy'"
-                [min]="convertPassportDate"
+                [min]="toDayDate"
                  placeholder="Expriy Date"
                  [disabled]="passportDates"
                 [activeView]="'decade'"
+                (valueChange)="PassportExpiryDateChange($event)"
                 
                 ></kendo-datepicker>
+                <div class="ShowError" *ngIf="showInvalidMsg['passportExpiry']" >
+                  Invalid Date
+              </div>
                 </div>
               </div>
             </div>
@@ -291,9 +299,12 @@
                  placeholder="Issue Date"
                 [activeView]="'decade'"
                 [disabled]="drivingLicenceDates"
-                (valueChange)="dateDrivingChange($event)"
+                (valueChange)="drivingIssueDateChange($event)"
                 
                 ></kendo-datepicker>
+                <div class="ShowError" *ngIf="showInvalidMsg['drivingIssue']" >
+                  Invalid Date
+              </div>
                   
                 </div>
               </div>
@@ -316,12 +327,16 @@
                   /> -->
                   <kendo-datepicker class="form-control" 
                 formControlName="drivingLicenseExpiryDate" [format]="'dd/MM/yyyy'"
-                [min]="convertDrivingDate"
+                [min]="toDayDate"
                  placeholder="Expiry Date"
                  [disabled]="drivingLicenceDates"
                 [activeView]="'decade'"
+                (valueChange)="drivingExpiryDateChange($event)"
                 
                 ></kendo-datepicker>
+                <div class="ShowError" *ngIf="showInvalidMsg['drivingExpiry']" >
+                  Invalid Date
+              </div>
                 </div>
               </div>
             </div>

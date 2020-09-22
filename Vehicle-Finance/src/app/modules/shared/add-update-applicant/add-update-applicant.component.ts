@@ -1621,7 +1621,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       }
 
 
-      console.log('Adhar test', this.coApplicantForm.get('dedupe').get('aadhar').value)
+      // console.log('Adhar test', this.coApplicantForm.get('dedupe').get('aadhar').value)
     } else {
       if (this.applicant == undefined) {
         const adhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
@@ -2104,14 +2104,15 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     console.log('dedupeMobileBoolean', this.coApplicantForm.get('dedupe'));
 
-    // if(this.hideMsgForOwner){
-    //   const houseOwner = this.coApplicantForm.get('dedupe').get('houseOwnerProperty').value;
-    //   const ownHouseAppRelationship= this.coApplicantForm.get('dedupe').get('ownHouseAppRelationship').value
-    //   this.coApplicantForm.get('dedupe').patchValue({
-    //     houseOwnerProperty : houseOwner,
-    //     ownHouseAppRelationship : ownHouseAppRelationship
-    //   })
-    // }
+    if(this.hideMsgForOwner){
+      const houseOwner = this.coApplicantForm.get('dedupe').get('houseOwnerProperty').value;
+      const ownHouseAppRelationship= this.coApplicantForm.get('dedupe').get('ownHouseAppRelationship').value
+      this.coApplicantForm.get('dedupe').patchValue({
+        houseOwnerProperty : houseOwner,
+        ownHouseAppRelationship : ownHouseAppRelationship
+      })
+    }
+    this.storeAdharFlag= false;
     const dedupe = this.coApplicantForm.get('dedupe');
     if (this.applicantType == 'NONINDIVENTTYP') {
       this.addNonIndFormControls();
@@ -2164,6 +2165,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         return;
       }
       this.storeIndividualDedupeValues();
+      
 
     }
   }
