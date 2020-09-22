@@ -213,6 +213,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   SRNumberValidate: boolean = true;
   storeAdharValue: any;
   hideMsgForOwner: boolean = false;
+  storeAdharFlag: boolean = false;
 
 
   isMobile: any;
@@ -1593,6 +1594,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   storeAdhar(event) {
+    this.storeAdharFlag= true;
     this.storeAdharValue = event.target.value;
   }
 
@@ -1603,31 +1605,39 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.coApplicantForm.get('dedupe').get('aadhar').setValue(adhar)
       }
       else {
-        const referenceNo = this.applicant.indivIdentityInfoDetails.aadhar;
-        if (this.storeAdharValue) {
-          this.coApplicantForm.get('dedupe').get('aadhar').setValue(this.storeAdharValue)
+        const referenceNo = this.applicant.indivIdentityInfoDetails.aadhar || '';
+        const storeData = this.storeAdharValue || ''
+        if(storeData) {
+          this.coApplicantForm.get('dedupe').get('aadhar').setValue(storeData)
         }
-        else if (this.storeAdharValue == '') {
-          this.coApplicantForm.get('dedupe').get('aadhar').setValue(this.storeAdharValue)
-        } else {
+        else if(storeData == '' && this.storeAdharFlag) {
+          this.coApplicantForm.get('dedupe').get('aadhar').setValue(storeData)
+        }else if(referenceNo.length == 12) {
+          this.coApplicantForm.get('dedupe').get('aadhar').setValue(referenceNo)
+        }else {
           this.coApplicantForm.get('dedupe').get('aadhar').setValue(referenceNo)
         }
 
       }
+
+
+      console.log('Adhar test', this.coApplicantForm.get('dedupe').get('aadhar').value)
     } else {
       if (this.applicant == undefined) {
         const adhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
         this.coApplicantForm.get('dedupe').get('aadhar').setValue(adhar);
       }
       else {
-        const referenceNo = this.applicant.corporateProspectDetails.aadhar;
-        if (this.storeAdharValue) {
-          this.coApplicantForm.get('dedupe').get('aadhar').setValue(this.storeAdharValue)
+         const referenceNo = this.applicant.corporateProspectDetails.aadhar || '';
+        const storeData = this.storeAdharValue || ''
+        if(storeData) {
+          this.coApplicantForm.get('dedupe').get('aadhar').setValue(storeData)
         }
-        else if (this.storeAdharValue == '') {
-          this.coApplicantForm.get('dedupe').get('aadhar').setValue(this.storeAdharValue)
-        }
-        else {
+        else if(storeData == '' && this.storeAdharFlag) {
+          this.coApplicantForm.get('dedupe').get('aadhar').setValue(storeData)
+        }else if(referenceNo.length == 12) {
+          this.coApplicantForm.get('dedupe').get('aadhar').setValue(referenceNo)
+        }else {
           this.coApplicantForm.get('dedupe').get('aadhar').setValue(referenceNo)
         }
 
