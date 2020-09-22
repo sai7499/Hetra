@@ -53,7 +53,7 @@
                                     {{ item.applicantName ? item.applicantName : "-" }}
                                 </td>
                                 <td [attr.data-label]="labels?.mobileNumber">
-                                    {{ item.mobileNumber ? item.mobileNumber : "-" }}
+                                    {{ item.mobileNumber ? item.mobileNumber : item.companyPhoneNo }}
                                 </td>
                                 <td [attr.data-label]="labels?.applicantType">
                                     {{ item.applicantType ? item.applicantType : "-" }}

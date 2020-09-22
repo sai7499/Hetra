@@ -232,15 +232,15 @@ export class VehicleValuationComponent implements OnInit {
     });
     console.log("DATA::", data);
     if (status == 'NOT INITIATED') {
+      this.isModal = true;
       this.regNo= data.regNo;
       this.make = data.make;
       this.model = data.model;
       this.address = data.address;
-      this.isModal = true;
     }
     else {
       this.isModal = false;
-      this.router.navigateByUrl(`/pages/vehicle-valuation/${this.leadId}/valuation/${this.colleteralId}`);
+      this.router.navigateByUrl(`/pages/vehicle-valuation/${this.leadId}/valuation/${collateralId}`);
     }
   }
 

@@ -47,7 +47,7 @@ export class LeadSectionHeaderComponent implements OnInit {
   ngOnInit() {
     // this.leadId = (await this.getLeadId()) as number;
     const operationType = this.toggleDdeService.getOperationType()
-    this.isEnableDdeButton = !this.toggleDdeService.getDdeClickedValue() && (operationType === '1' || operationType === '2' );
+    this.isEnableDdeButton = !this.toggleDdeService.getDdeClickedValue() && (operationType === '1' || operationType === '2');
     this.getLabels();
     if (this.leadId) {
       // console.log(this.aRoute.snapshot)
@@ -60,10 +60,10 @@ export class LeadSectionHeaderComponent implements OnInit {
     }
     this.getUserDetails();
     const value = localStorage.getItem('ddePath');
-    if(value){
-    const ddeButton = JSON.parse(value);
-    this.ddeBackLabel = ddeButton.labelName;
-    this.setDdeBackButton();
+    if (value) {
+      const ddeButton = JSON.parse(value);
+      this.ddeBackLabel = ddeButton.labelName;
+      this.setDdeBackButton();
     }
     this.sharedService.productCatName$.subscribe(val =>
       this.productId = val)
@@ -83,10 +83,17 @@ export class LeadSectionHeaderComponent implements OnInit {
     this.leadId = leadSectionData.leadId;
     // this.loanAmount = leadSectionData.leadDetails?.reqLoanAmt;
     // leadSectionData.leadDetails.reqLoanAmt : 0;
-    const applicantDetails = leadSectionData.applicantDetails
-      ? leadSectionData.applicantDetails[0]
-      : '';
-    this.applicantName = applicantDetails.fullName;
+    const applicantDetails = leadSectionData.applicantDetails;
+    // ? leadSectionData.applicantDetails[0]
+    // : '';
+    setTimeout(() => {
+      applicantDetails.map((data: any) => {
+        if (data.applicantTypeKey === 'APPAPPRELLEAD') {
+          this.applicantName = data.fullName ? data.fullName : '';
+          console.log('applicant', this.applicantName);
+        }
+      });
+    });
 
     this.stageDescription = leadSectionData.leadDetails.stageDesc;
 
@@ -97,12 +104,12 @@ export class LeadSectionHeaderComponent implements OnInit {
       this.productId = leadSectionData['leadDetails']['productCatName'];
     }
     this.sharedService.loanAmount$.subscribe(
-      (value) => (this.loanAmount =  Number(value).toLocaleString('en-IN'))
+      (value) => (this.loanAmount = Number(value).toLocaleString('en-IN'))
     );
     // Number(value).toLocaleString('en-IN')
     // 'en-IN'
     this.loanAmount = leadSectionData['leadDetails']['reqLoanAmt']
-      ?  Number(leadSectionData['leadDetails']['reqLoanAmt']).toLocaleString('en-IN')
+      ? Number(leadSectionData['leadDetails']['reqLoanAmt']).toLocaleString('en-IN')
       : '0';
   }
   getLeadId() {
@@ -137,10 +144,10 @@ export class LeadSectionHeaderComponent implements OnInit {
       return;
     }
     const ddeButton = JSON.parse(value);
-    if(this.toggleDdeService.getDdeClickedValue()){
+    if (this.toggleDdeService.getDdeClickedValue()) {
       this.isNeedBackButton = true;
     }
-    
+
     this.ddeBackLabel = ddeButton.labelName;
     this.ddeBackRouter = ddeButton.currentUrl;
   }
@@ -154,7 +161,7 @@ export class LeadSectionHeaderComponent implements OnInit {
     // this.toggleDdeService.setIsDDEClicked(0);
     // this.isEnableDdeButton = false;
     this.isNeedBackButton = false
-    
+
   }
 
 }

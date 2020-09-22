@@ -331,6 +331,7 @@ export class ReferenceDetailsComponent implements OnInit {
           this.refCheckDetails = value.ProcessVariables.referenceCheck ? value.ProcessVariables.referenceCheck : {};
           this.getLOV();
           this.toastrService.showSuccess('Successfully Save Reference Details', 'Save/Update Reference Details');
+          this.getReferenceDetails()
         } else {
           this.toastrService.showSuccess(value.ErrorMessage, 'Error Reference Details');
         }

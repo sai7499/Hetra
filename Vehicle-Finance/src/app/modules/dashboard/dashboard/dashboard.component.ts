@@ -3,12 +3,12 @@ import { DashboardService } from '@services/dashboard/dashboard.service';
 import { LoginService } from '../../login/login/login.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UtilityService } from '@services/utility.service';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
-import { Router  } from '@angular/router';
+import { Router } from '@angular/router';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { NumberFormatStyle, Location } from '@angular/common';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
@@ -119,6 +119,10 @@ export class DashboardComponent implements OnInit {
   isClaim: boolean;
   isRelease: boolean;
   isDisable = true;
+  isFromDate: boolean;
+  fromDateChange;
+  minLoanAmtChange;
+  maxLoanAmtChange;
 
 
   // roleType;
@@ -166,7 +170,7 @@ export class DashboardComponent implements OnInit {
       this.businessDivision = userDetails.businessDivision[0].bizDivId;
       this.roleType = userDetails.roleType;
     });
-    localStorage.setItem('isPreDisbursement' , 'false');
+    localStorage.setItem('isPreDisbursement', 'false');
     if (this.dashboardService.routingData) {
       this.activeTab = this.dashboardService.routingData.activeTab;
       this.subActiveTab = this.dashboardService.routingData.subActiveTab;
@@ -270,85 +274,65 @@ export class DashboardComponent implements OnInit {
   }
 
   loanMaxAmtChange() {
-    this.filterForm.get('loanMaxAmt').valueChanges.pipe(debounceTime(800)).subscribe((data) => {
+    this.filterForm.get('loanMaxAmt').valueChanges.pipe(debounceTime(0)).subscribe((data) => {
 
       const minAmt = this.filterForm.get('loanMinAmt').value;
       const minLoanAmt = Number(minAmt || 0);
-      if (minAmt != null && !minAmt || (data && minLoanAmt >= data)) {
-        this.filterForm.get('loanMaxAmt').setValue(null);
-        this.toasterService.showWarning('Invalid Amount', '');
+      if (data && minLoanAmt >= data) {
+        this.isFromDate = true;
+        // this.toasterService.showWarning('Invalid Amount', '');
       }
     });
   }
 
   loanMinAmtChange() {
-    this.filterForm.get('loanMinAmt').valueChanges.pipe(debounceTime(500)).subscribe((data) => {
-      const maxTime = this.filterForm.get('loanMaxAmt').value;
-      const minAmt = this.filterForm.get('loanMinAmt').value;
-      if (data && maxTime <= data) {
+    this.filterForm.get('loanMinAmt').valueChanges.pipe(debounceTime(0)).subscribe((data) => {
+      if (data) {
+        this.isFromDate = true;
         this.filterForm.get('loanMaxAmt').setValue(null);
+      } else {
+        this.isFromDate = false;
       }
     });
   }
 
+  onChangeFromDate(event) {
+    this.fromDateChange = this.utilityService.getDateFormat(event);
+    if (this.fromDateChange) {
+      this.isFromDate = true;
+    }
+  }
+  onChangeEndDate(event) {
+    const endDateChange = this.utilityService.getDateFormat(event);
+    if (endDateChange) {
+      this.isFromDate = false;
+    }
+  }
 
-  // loanMaxAmtChange() {
-  //     this.filterForm.get('loanMaxAmt').valueChanges.pipe(debounceTime(1000)).subscribe((data) => {
+  onMinAmtChange(event) {
+    this.minLoanAmtChange = event;
+    if (this.minLoanAmtChange) {
+      this.isFromDate = true;
+    }
+  }
 
-  //       const minAmt = this.filterForm.get('loanMinAmt').value;
-  //       const minLoanAmt = Number(minAmt || 0);
-  //       if ((data && minLoanAmt >= data)) {
-  //         // this.filterForm.get('loanMaxAmt').setValue(null);
-  //         this.toasterService.showWarning('Invalid Amount', '');
-  //         this.isDisable = false;
-  //         console.log('min');
-  //       } else if (data) {
-  //         this.isDisable = true;
-  //       }
-  //     });
-  // }
-
-  // loanMinAmtChange() {
-  //     this.filterForm.get('loanMinAmt').valueChanges.pipe(debounceTime(300)).subscribe((data) => {
-  //       const maxAmt = this.filterForm.get('loanMaxAmt').value;
-  //       const minAmt = this.filterForm.get('loanMinAmt').value;
-  //       console.log(data);
-  //       if(data != "" || data != undefined){
-  //       if (parseFloat(maxAmt) <= parseFloat(data)) {
-  //         // this.filterForm.get('loanMaxAmt').setValue(null);
-  //         this.isDisable = false;
-  //         console.log('max')
-  //       }
-  //     } else if (maxAmt > data) {
-  //         this.isDisable = true;
-  //       }
-  //     });
-  // }
-
-  // loanMinAmtChange() {
-  //   setTimeout(() => {
-  //       const maxAmt = this.filterForm.value.loanMaxAmt;
-  //       const minAmt = this.filterForm.value.loanMinAmt;
-  //       console.log(minAmt);
-  //       if(minAmt != "" && minAmt != undefined){
-  //       if (parseFloat(maxAmt) <= parseFloat(minAmt)) {
-  //         this.isDisable = false;
-  //       }
-  //     }else{
-  //         this.isDisable = true;
-  //       }
-  //   }, 0);
-
-  // }
+  onMaxAmtChange(event) {
+    this.maxLoanAmtChange = event;
+    if (this.maxLoanAmtChange) {
+      this.isFromDate = false;
+    } else if (this.minLoanAmtChange && !this.maxLoanAmtChange) {
+      this.isFromDate = true;
+    }
+  }
 
   // Loading dashboard pages
-  onTabsLoading(data) {
+  onTabsLoading(data, event?) {
     if (this.activeTab === this.displayTabs.PDD) {
-      this.getPDDLeads(this.itemsPerPage);
+      this.getPDDLeads(this.itemsPerPage, event);
     } else if (this.activeTab === this.displayTabs.ChequeTracking) {
-      this.getChequeTrackingLeads(this.itemsPerPage);
+      this.getChequeTrackingLeads(this.itemsPerPage, event);
     } else if (this.activeTab === this.displayTabs.LoanBooking) {
-      this.getProcessLogsLeads(this.itemsPerPage);
+      this.getProcessLogsLeads(this.itemsPerPage, event);
     }
     switch (data) {
       case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37:
@@ -366,55 +350,55 @@ export class DashboardComponent implements OnInit {
     }
     switch (data) {
       case 3:
-        this.getSalesFilterLeads(this.itemsPerPage);
+        this.getSalesFilterLeads(this.itemsPerPage, event);
         break;
       case 4: case 5:
         this.taskName = 'Sanctioned Leads';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 6: case 7:
         this.taskName = 'Declined Leads';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 8: case 9:
         this.taskName = 'Personal Discussion';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 10: case 11:
         this.taskName = 'Vehicle Viability';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 13: case 14:
         this.taskName = 'Field Investigation';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 21: case 22:
         this.taskName = 'DDE';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 23: case 24:
         this.taskName = 'Deviation';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 25: case 26:
         this.taskName = 'Credit Decision';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 28: case 29:
         this.taskName = 'TermSheet';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 31: case 32:
         this.taskName = 'CPC Maker';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 34: case 35:
         this.taskName = 'CPC Checker';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 37: case 38:
         this.taskName = 'Predisbursement';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       default:
         break;
@@ -760,70 +744,7 @@ export class DashboardComponent implements OnInit {
   }
 
   setPage(event) {
-
-    if (this.displayTabs.PDD === this.activeTab) {
-      this.getPDDLeads(this.itemsPerPage, event);
-    } else if (this.displayTabs.ChequeTracking === this.activeTab) {
-      this.getChequeTrackingLeads(this.itemsPerPage, event);
-    } else if (this.displayTabs.LoanBooking === this.activeTab) {
-      this.getProcessLogsLeads(this.itemsPerPage, event);
-    }
-    switch (this.subActiveTab) {
-      case 3:
-        this.getSalesFilterLeads(this.itemsPerPage, event);
-        break;
-      case 4: case 5:
-        this.taskName = 'Sanctioned Leads';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      case 6: case 7:
-        this.taskName = 'Declined Leads';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      case 8: case 9:
-        this.taskName = 'Personal Discussion';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      case 10: case 11:
-        this.taskName = 'Vehicle Viability';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      case 13: case 14:
-        this.taskName = 'Field Investigation';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      case 21: case 22:
-        this.taskName = 'DDE';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      case 23: case 24:
-        this.taskName = 'Deviation';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      case 25: case 26:
-        this.taskName = 'Credit Decision';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      case 28: case 29:
-        this.taskName = 'TermSheet';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      case 31: case 32:
-        this.taskName = 'CPC Maker';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      case 34: case 35:
-        this.taskName = 'CPC Checker';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      case 37: case 38:
-        this.taskName = 'Predisbursement';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      default:
-        break;
-    }
-
+    this.onTabsLoading(this.subActiveTab, event);
   }
 
   onClick() {
@@ -858,9 +779,9 @@ export class DashboardComponent implements OnInit {
         localStorage.setItem('istermSheet', 'false');
         if (this.salesResponse == false) {
           this.router.navigate([`/pages/credit-decisions/${this.leadId}/cam`]);
-      }  else if (this.salesResponse == true) {
+        } else if (this.salesResponse == true) {
           this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
-      }
+        }
         break;
       case 28: case 29:
         localStorage.setItem('istermSheet', 'true');
@@ -905,18 +826,21 @@ export class DashboardComponent implements OnInit {
   }
 
   onApply() {
-    this.isFilterApplied = true;
-    this.filterFormDetails = this.filterForm.value;
-    // this.filterFormDetails.fromDate = this.dateToFormate(this.filterFormDetails.fromDate);
-    this.filterFormDetails.fromDate = this.utilityService.getDateFormat(
-      this.filterFormDetails.fromDate
-    );
-    // this.filterFormDetails.toDate = this.dateToFormate(this.filterFormDetails.toDate);
-    this.filterFormDetails.toDate = this.utilityService.getDateFormat(
-      this.filterFormDetails.toDate
-    );
-    this.onTabsLoading(this.subActiveTab);
-    // this.dashboardService.filterData(this.filterFormDetails);
+    console.log(this.filterForm.controls);
+    if (this.filterForm.dirty) {
+      this.showFilter = !this.showFilter;
+      this.isFilterApplied = true;
+      this.filterFormDetails = this.filterForm.value;
+      this.filterFormDetails.fromDate = this.utilityService.getDateFormat(
+        this.filterFormDetails.fromDate
+      );
+      this.filterFormDetails.toDate = this.utilityService.getDateFormat(
+        this.filterFormDetails.toDate
+      );
+      this.onTabsLoading(this.subActiveTab);
+    } else {
+      this.toasterService.showError('Please fill atleast one field.', 'Filter Details');
+    }
   }
 
   onRelase(taskId, leadId) {
@@ -960,17 +884,17 @@ export class DashboardComponent implements OnInit {
   }
 
   saveTaskLogs() {
-   const data = {
-    userId: localStorage.getItem('userId'),
-    leadId: this.leadId,
-    isClaim: this.isClaim,
-    isRelease: this.isRelease,
-    taskName: this.taskName
-   };
-   console.log(data);
-   this.taskDashboard.saveTaskLogs(data).subscribe((res: any) => {
-    console.log('save task response', res);
-   });
+    const data = {
+      userId: localStorage.getItem('userId'),
+      leadId: this.leadId,
+      isClaim: this.isClaim,
+      isRelease: this.isRelease,
+      taskName: this.taskName
+    };
+    console.log(data);
+    this.taskDashboard.saveTaskLogs(data).subscribe((res: any) => {
+      console.log('save task response', res);
+    });
   }
 
   // external methods

@@ -40,6 +40,7 @@ export class SalesExactMatchComponent implements OnInit {
     this.dedupeParameter = this.salesDedupeService.getDedupeParameter();
     this.isExactAvailable = !!this.dedupeDetails.deduIndExctMatch;
     this.isIndividual = this.dedupeDetails.entityType === 'INDIVENTTYP';
+    console.log('dedupeDetails', this.dedupeDetails)
   }
 
   rejectLead() {}
@@ -104,7 +105,7 @@ export class SalesExactMatchComponent implements OnInit {
           if (processVariables.isNLFound) {
             nlRemarks = processVariables.dedupeCustomerNL.remarks;
           }
-          if (processVariables.dedupeCustomerNLTR.isNLTRFound) {
+          if (processVariables.isNLTRFound) {
             nlTrRemarks = processVariables.dedupeCustomerNLTR.remarks;
           }
 
@@ -114,6 +115,8 @@ export class SalesExactMatchComponent implements OnInit {
             nlRemarks,
             nlTrRemarks,
           };
+        }else{
+          this.toasterService.showError(value.ProcessVariables.code.message, '')
         }
       });
   }

@@ -49,7 +49,8 @@ export class CustomInputComponent
 
     this.defaultMaxLength = value.rule;
     this.maxLengthValidation = {
-      rule: value.rule
+      rule: value.rule,
+      msg : value.msg
     };
   };
   @Input() className = 'form-control';
@@ -149,31 +150,45 @@ export class CustomInputComponent
   public registerOnTouched() { }
 
   updateChanges(value: string) {
-    if (this.type.includes('decimal')) {
-      const decimalLength = Number(this.type.split('-')[1] || 2);
-      if (value.includes('.')) {
-        const length = this.defaultMaxLength + decimalLength + 1;
-        this.maxLengthValidation.rule = length;
-        const roundValue = value.split('.')[0];
-        const decimalValues = value.split('.')[1].slice(0, decimalLength);
-        setTimeout(() => {
-          this.inputValue = roundValue + '.' + decimalValues;
-        })
+    setTimeout(()=>{
+      if (this.type.includes('decimal')) {
+        const decimalLength = Number(this.type.split('-')[1] || 2);
+        if (value.includes('.')) {
+          const length = this.defaultMaxLength + decimalLength + 1;
+          this.maxLengthValidation.rule = length;
+          const roundValue = value.split('.')[0];
+          const decimalValues = value.split('.')[1].slice(0, decimalLength);
+          const formatedValue=  roundValue + '.' + decimalValues;
+          
+          this.data= formatedValue;
+          setTimeout(() => {
+            
+            //this.value= formatedValue;
+            this.inputValue = formatedValue;
+          })
+  
+        }
+  
+        else {
+          this.maxLengthValidation = {
+            ...this.maxLengthValidation,
+            rule: this.defaultMaxLength
 
-      }
-
-      else {
+          };
+        }
+      } else {
         this.maxLengthValidation = {
+          ...this.maxLengthValidation,
           rule: this.defaultMaxLength
         };
       }
-    } else {
-      this.maxLengthValidation = {
-        rule: this.defaultMaxLength
-      };
-    }
-    this.checkValidation(this.data);
-    this.propagateChange(this.data);
+      setTimeout(()=>{
+        this.checkValidation(this.data);
+        this.propagateChange(this.data);
+      })
+    })
+    
+    
   }
 
   checkValidation(value) {
@@ -209,11 +224,11 @@ export class CustomInputComponent
     }
 
     if (
-      this.maxLength &&
-      newValue.length < this.maxLength.rule &&
-      this.maxLength.msg
+      this.maxLengthValidation &&
+      newValue.length < this.maxLengthValidation.rule &&
+      this.maxLengthValidation.msg
     ) {
-      this.displayError(this.maxLength.msg);
+      this.displayError(this.maxLengthValidation.msg);
       return;
     }
 
@@ -291,9 +306,12 @@ export class CustomInputComponent
     //   break;
 
     if(this.type.includes('decimal')) {
-      //this.allowDecimal(event, this.type);
+      this.allowDecimal(event, this.type);
       const initialValue= event.target.value;
-      this.inputValue = initialValue.replace(/[^0-9 .]*/g, '');
+      setTimeout(()=>{
+        this.inputValue = initialValue.replace(/[^0-9 .]*/g, '');
+      })
+     
     }
     this.propagateChange(this.inputValue);
     this.checkValidation(this.inputValue);
@@ -325,7 +343,7 @@ export class CustomInputComponent
 
       }
     });
-
+   
     this.inputValue = initialValue.replace(/[^0-9 .]*/g, '');
   }
 
