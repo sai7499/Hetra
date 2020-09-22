@@ -17,7 +17,6 @@ import { LoginService } from '@modules/login/login/login.service';
 import { ApplicantService } from '@services/applicant.service';
 import { GpsService } from './../../../../services/gps.service';
 import { environment } from 'src/environments/environment';
-
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
@@ -85,7 +84,12 @@ export class ReferenceCheckComponent implements OnInit {
   date: any;
   sysTimeOfVerification: any = String(new Date(new Date().getTime()).toLocaleTimeString()).slice(0, 5);
   time: any;
-
+  totalApplicantCount: number;
+  submittedApplicantCount: number;
+  pdList: [];
+  pdStatusValue: any;
+  serviceAppNo: any;
+  applicationNo: any;
   constructor(
     private labelsData: LabelsService, // service to access labels
     private personalDiscussion: PersonalDiscussionService,
@@ -234,6 +238,7 @@ export class ReferenceCheckComponent implements OnInit {
     this.serviceSourcingChannel = leadData['leadDetails'].sourcingChannelDesc;
     this.serviceEquitasBranchName = leadData['leadDetails'].branchName;
     this.serviceProductCat = leadData['leadDetails'].productCatName;
+    this.serviceAppNo = leadData['leadDetails'].applicationNo;
     this.getPdDetails();    // for getting the data for pd details on initializing the page
   }
   getApplicantId() { // function to access respective applicant id from the routing
@@ -258,6 +263,7 @@ export class ReferenceCheckComponent implements OnInit {
       // pdRemarks: new FormControl('', Validators.required),
       pdRemarks: new FormControl('', Validators.compose
         ([Validators.maxLength(200), Validators.pattern(/^[a-zA-Z .:,]*$/), Validators.required])),
+      applicationNo: new FormControl({ value: '', disabled: true }),
       product: new FormControl({ value: '', disabled: true }),
       sourcingChannel: new FormControl({ value: '', disabled: true }),
       routeMap: new FormControl(''),
@@ -288,6 +294,7 @@ export class ReferenceCheckComponent implements OnInit {
 
     };
     console.log('applicant id in get detaisl', this.applicantId);
+    console.log('version in get pd', this.version);
 
     this.personalDiscussion.getPdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
@@ -330,12 +337,14 @@ export class ReferenceCheckComponent implements OnInit {
       this.employeeCode = this.userId;
     }
     if (this.otherDetails) {
+      this.applicationNo = this.otherDetails.applicationNo ? this.otherDetails.applicationNo : this.serviceAppNo;
       this.productCat = this.otherDetails.product ? this.otherDetails.product : this.serviceProductCat;
       this.sourcingChannel = this.otherDetails.sourcingChannel ? this.otherDetails.sourcingChannel : this.serviceSourcingChannel;
       this.equitasBranchName = this.otherDetails.equitasBranchName ? this.otherDetails.equitasBranchName : this.serviceEquitasBranchName;
       this.date = this.otherDetails.date ? this.utilityService.getDateFromString(this.otherDetails.date) : this.sysDate;
       this.time = this.otherDetails.timeOfVerification ? this.otherDetails.timeOfVerification : this.sysTimeOfVerification;
     } else {
+      this.applicationNo = this.serviceAppNo;
       this.productCat = this.serviceProductCat;
       this.sourcingChannel = this.serviceSourcingChannel;
       this.equitasBranchName = this.serviceEquitasBranchName;
@@ -403,6 +412,8 @@ export class ReferenceCheckComponent implements OnInit {
     // console.log('systime', this.sysTimeOfVerification);
 
     this.otherDetails = {
+      
+      applicationNo: this.applicationNo ? this.applicationNo : null,
       product: this.productCat ? this.productCat : null,
       sourcingChannel: this.sourcingChannel ? this.sourcingChannel : null,
       // routeMap: referenceCheckModel.routeMap ? referenceCheckModel.routeMap : null,
@@ -482,7 +493,8 @@ export class ReferenceCheckComponent implements OnInit {
       if (processVariables.error.code === '0') {
 
         this.toasterService.showSuccess('pd report reinitiated successfully', '');
-        // this.router.navigate([`/pages/dde/dashboard`]);
+        // this.router.navigate([`/pages/dashboard`]);
+        this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
       } else {
         this.toasterService.showError('', 'message');
 
@@ -518,8 +530,22 @@ export class ReferenceCheckComponent implements OnInit {
       if (processVariables.error.code === '0') {
         // console.log('message', processVariables.error.message);
         this.toasterService.showSuccess('submitted to credit successfully', '');
-        // this.router.navigate([`/pages/dde/${this.leadId}/pd-report`]);
-        this.router.navigate([`/pages/dashboard`]);
+        this.totalApplicantCount = processVariables.applicantCount;
+        this.submittedApplicantCount = processVariables.notSubmittedApplicantId;
+        this.getPdList();
+
+        // if (this.totalApplicantCount && this.submittedApplicantCount) {
+        //   console.log('no of applicants', this.totalApplicantCount);
+        //   console.log('no of applicants submitted', this.submittedApplicantCount);
+        //   if (this.totalApplicantCount === this.submittedApplicantCount) {
+        //     this.router.navigate([`/pages/dashboard`]);
+
+        //   } else {
+        //     this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
+        //   }
+        // }
+
+
       } else {
         this.toasterService.showError(processVariables.error.message, '');
         // console.log('error', processVariables.error.message);
@@ -528,10 +554,40 @@ export class ReferenceCheckComponent implements OnInit {
     });
 
   }
+  getPdList() { // function to get all the pd report list respect to particular lead
+    const data = {
+      // leadId: 153,
+      //  uncomment this once get proper Pd data for perticular
+      leadId: this.leadId,
+      userId: this.userId
+    };
+    this.personalDiscussion.getPdList(data).subscribe((value: any) => {
+      const processvariables = value.ProcessVariables;
+      // this.isFiCumPD = processvariables.isFiCumPD;
+      this.pdList = processvariables.finalPDList;
+      const arrayLength = this.pdList.length;
+      let n = 0;
+      for (var i in this.pdList) {
+        this.pdStatusValue = this.pdList[i]['pdStatusValue']
+        if (this.pdList[i]['pdStatusValue'] == "Submitted") {
+          n = n + 1;
+        }
+        console.log('number n ', n);
+        console.log('length', arrayLength);
+
+      }
+      if (n === arrayLength) {
+        this.router.navigate([`/pages/dashboard`]);
+      } else {
+        this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
+      }
+    });
+  }
+
 
 
   onNavigateToPdSummary() { // fun to navigate to pd summary
-
+    this.getPdList();
     if (this.version != 'undefined') {
       // console.log('in routing defined version condition', this.version);
       // http://localhost:4200/#/pages/dashboard/personal-discussion/my-pd-tasks

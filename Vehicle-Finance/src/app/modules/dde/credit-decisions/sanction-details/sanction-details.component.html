@@ -37,7 +37,7 @@
                 <tr>
                     <td width="70%">&nbsp;</td>
                     <td class="v-align" width="5%"><strong>{{labels?.place}}</strong></td>
-                    <td width="15%">:{{sanctionDetailsObject.Place}}</td>
+                    <td width="15%">:{{sanctionDetailsObject.branchName}}</td>
                 </tr>
             </table>
         </div>
@@ -106,7 +106,7 @@
                             <td>{{vehicleDetails?.vehicleRegNo | uppercase}}</td>
                         </tr>
                         <tr
-                            *ngIf="sanctionDetailsObject.productCode !== 'NCV' && sanctionDetailsObject.productCode !== 'NC' ">
+                            *ngIf="sanctionDetailsObject.productCode != 'NCV' && sanctionDetailsObject.productCode != 'NC' ">
                             <td> {{labels?.engineNo}} </td>
                             <td>{{vehicleDetails?.engineNo | uppercase}}</td>
                             <td> {{labels?.chasisNo}} </td>
