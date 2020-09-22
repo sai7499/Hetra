@@ -30,11 +30,16 @@ export class FiReportComponent implements OnInit {
     private ddeStoreService: DdeStoreService,
     private activatedRoute: ActivatedRoute) {
     this.leadId = Number(this.activatedRoute.snapshot.params.leadId);
-    // this.applicantId = Number(this.activatedRoute.snapshot.parent.params.applicantId);
     console.log(this.leadId);
+    this.activatedRoute.firstChild.params.subscribe((value: any) => {
+      this.applicantId = value.applicantId;
+      this.version = value.version;
+      console.log('applicant ID', value.applicantId);
+      console.log('version in fi and pd report', this.version);
+  });
 
   }
-
+  lead
   ngOnInit() {
 
     const currentUrl = this.location.path();
@@ -61,24 +66,24 @@ export class FiReportComponent implements OnInit {
   onNavigate(url: string) {
     if (this.router.url.includes('/fi-dashboard')) {
 
-      if (this.version) {
+      if (this.version !== undefined) {
         console.log('in defined progress bar routing', this.version);
         // tslint:disable-next-line: max-line-length
         this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-report/${this.applicantId}/${url}/${this.version}`]);
         // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${applicantId}/applicant-details/${version}`]);
 
-      } else {
+      } else if (this.version === undefined) {
         console.log('in undefined progress bar routing', this.version);
         this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-report/${this.applicantId}/${url}`]);
         // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/${url}/${this.version}`]);
       }
     } else if (this.router.url.includes('/dde')) {
       console.log('in defined progress bar routing', this.version);
-      if (this.version) {
-      this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${this.applicantId}/${url}/${this.version}`]);
+      if (this.version !== undefined) {
+        this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${this.applicantId}/${url}/${this.version}`]);
         // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${applicantId}/applicant-details/${version}`]);
 
-      } else {
+      } else if (this.version === undefined) {
         console.log('in undefined progress bar routing', this.version);
         this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${this.applicantId}/${url}`]);
         // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/${this.applicantId}/${url}/${this.version}`]);

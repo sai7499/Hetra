@@ -17,7 +17,6 @@ import { LoginService } from '@modules/login/login/login.service';
 import { ApplicantService } from '@services/applicant.service';
 import { GpsService } from './../../../../services/gps.service';
 import { environment } from 'src/environments/environment';
-
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
@@ -87,7 +86,8 @@ export class ReferenceCheckComponent implements OnInit {
   time: any;
   totalApplicantCount: number;
   submittedApplicantCount: number;
-
+  pdList: [];
+  pdStatusValue: any;
   constructor(
     private labelsData: LabelsService, // service to access labels
     private personalDiscussion: PersonalDiscussionService,
@@ -290,6 +290,7 @@ export class ReferenceCheckComponent implements OnInit {
 
     };
     console.log('applicant id in get detaisl', this.applicantId);
+    console.log('version in get pd', this.version);
 
     this.personalDiscussion.getPdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
@@ -523,17 +524,20 @@ export class ReferenceCheckComponent implements OnInit {
         this.toasterService.showSuccess('submitted to credit successfully', '');
         this.totalApplicantCount = processVariables.applicantCount;
         this.submittedApplicantCount = processVariables.notSubmittedApplicantId;
+        this.getPdList();
 
-        if (this.totalApplicantCount && this.submittedApplicantCount) {
-          console.log('no of applicants', this.totalApplicantCount);
-          console.log('no of applicants submitted', this.submittedApplicantCount);
-          if (this.totalApplicantCount === this.submittedApplicantCount) {
-            this.router.navigate([`/pages/dashboard`]);
+        // if (this.totalApplicantCount && this.submittedApplicantCount) {
+        //   console.log('no of applicants', this.totalApplicantCount);
+        //   console.log('no of applicants submitted', this.submittedApplicantCount);
+        //   if (this.totalApplicantCount === this.submittedApplicantCount) {
+        //     this.router.navigate([`/pages/dashboard`]);
 
-          } else {
-            this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
-          }
-        }
+        //   } else {
+        //     this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
+        //   }
+        // }
+
+
       } else {
         this.toasterService.showError(processVariables.error.message, '');
         // console.log('error', processVariables.error.message);
@@ -542,6 +546,36 @@ export class ReferenceCheckComponent implements OnInit {
     });
 
   }
+  getPdList() { // function to get all the pd report list respect to particular lead
+    const data = {
+      // leadId: 153,
+      //  uncomment this once get proper Pd data for perticular
+      leadId: this.leadId,
+      userId: this.userId
+    };
+    this.personalDiscussion.getPdList(data).subscribe((value: any) => {
+      const processvariables = value.ProcessVariables;
+      // this.isFiCumPD = processvariables.isFiCumPD;
+      this.pdList = processvariables.finalPDList;
+      const arrayLength = this.pdList.length;
+      var n = 0;
+      for (var i in this.pdList) {
+        this.pdStatusValue = this.pdList[i]['pdStatusValue']
+        if (this.pdList[i]['pdStatusValue'] == "Submitted" ) {
+          n = n + 1;
+        }
+        console.log('number n ', n);
+        console.log('length', arrayLength);
+
+      }
+      if (n === arrayLength) {
+        this.router.navigate([`/pages/dashboard`]);
+      } else {
+        this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
+      }
+    });
+  }
+
 
 
   onNavigateToPdSummary() { // fun to navigate to pd summary

@@ -54,6 +54,7 @@ export class FiBusinessComponent implements OnInit {
   custSegment: any;
   concernLov: any;
   showTypeOfConcern: boolean;
+  showSubmit = true;
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -70,7 +71,7 @@ export class FiBusinessComponent implements OnInit {
     this.leadId = Number(this.activatedRoute.snapshot.parent.params.leadId);
     // this.applicantId = Number(this.activatedRoute.parent)
     this.applicantId = Number(this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
-    this.version = Number(this.activatedRoute.snapshot.parent.firstChild.params.version);
+    this.version = String(this.activatedRoute.snapshot.parent.firstChild.params.version);
     console.log('version', this.version);
     console.log('in construc app id', this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
     console.log('leadid', this.leadId);
@@ -155,12 +156,15 @@ export class FiBusinessComponent implements OnInit {
     this.commonLovService.getLovData().subscribe((value) => {
       this.LOV = value;
       console.log('in get lov app id', this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
+      console.log('version', this.version);
+      if (this.version !== 'undefined') {
+        this.showSubmit = false;
+      }
       this.getLeadSectionData();
       this.getFiReportDetails();
+      console.log(this.LOV);
+      console.log('in on init', this.city);
     });
-
-    console.log(this.LOV);
-    console.log('in on init', this.city);
   }
   getLeadSectionData() { // fun to get all data related to a particular lead from create lead service
     console.log('in get lead sec app id', this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
@@ -464,8 +468,8 @@ export class FiBusinessComponent implements OnInit {
   getFiReportDetails() { // fun to call get fi report details api field investigation service
     const data = {
       applicantId: this.applicantId,
-      // applicantId: 1177,  // hardcoded as per backend
-      userId: this.userId
+      userId: this.userId,
+      fiVersion: this.version
     };
     console.log('in get fi report', this.applicantId);
     this.fieldInvestigationService.getFiReportDetails(data).subscribe(async (res: any) => {
@@ -629,10 +633,8 @@ export class FiBusinessComponent implements OnInit {
 
   }
 
-
-
   onNavigateBack() {
-    if (this.version) {
+    if (this.version != 'undefined') {
       console.log('in routing defined version condition', this.version);
       this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${this.applicantId}/fi-residence/${this.version}`]);
 
