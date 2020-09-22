@@ -670,7 +670,7 @@
                   <app-vf-custom-select
                     [values]="LOV?.LOVS?.applicantPanType"
                     formControlName="panType"
-                    (change)="getPanValue($event)"
+                    (change)="getPanValue($event.target.value)"
                     [isRequired]="'Please select one'"
                     [isDirty]="isDirty"
                   >
