@@ -64,7 +64,7 @@ export class ViabilityDetailsComponent implements OnInit {
   captiveExpense = 0;
   captiveEmi = 0;
   netCashFlowEmiPassenger = 0;
-  netFlowCash = 0;
+  netFlowCash = 0;  // netcashflow for passengar group
   roleAndUserDetails: any;
   routerUrl: any;
   hideSubmit = true;
@@ -180,14 +180,15 @@ export class ViabilityDetailsComponent implements OnInit {
         busMiscellaneousExpenses: [],
         busInsurenceExpenses: [],
         busMonthlyIncome: [this.monthlyIncome],
-        netCashFlow: [],
+        netCashFlow: [this.netFlowCash],
         emi: [],
         totalExpenses: [],
         otherIncome: [],
         otherIncomeRemarks: [],
         otherExpenses: [],
         otherExpensesRemarks: [],
-        operationsExpenses: []
+        operationsExpenses: [],
+        netCashFlowEmi: this.netCashFlowEmiPassenger
 
       }),
       passangerStandOperator: this.fb.group({
@@ -199,8 +200,9 @@ export class ViabilityDetailsComponent implements OnInit {
         insuranceExpenses: [],
         miscellaneousExpenses: [],
         totalExpenses: [],
-        netCashFlow: [],
-        emi: []
+        netCashFlow: [this.montlyStandOperatorIncome],
+        emi: [],
+        netCashFlowEmi: this.standOperatorEmi
       }),
       captive: this.fb.group({
         natureOfBusiness: [],
@@ -211,10 +213,11 @@ export class ViabilityDetailsComponent implements OnInit {
         busTyreAvgExpenses: [],
         busInsurenceExpenses: [],
         busMiscellaneousExpenses: [],
-        busMonthlyIncome: [],
+        busMonthlyIncome: [this.montlyCaptiveIncome],
         totalExpenses: [],
-        netCashFlowEmi: [],
-        emi: ([])
+        netCashFlow: [],
+        emi: ([]),
+        netCashFlowEmi: this.captiveEmi
       }),
     });
     this.leadId = (await this.getLeadId()) as number;
@@ -419,7 +422,7 @@ vehicle_viability_navigate(event) {
     captive.get('busMiscellaneousExpenses').setValidators(Validators.required);
     captive.get('busMonthlyIncome').setValidators(null);
     captive.get('totalExpenses').setValidators(Validators.required);
-    captive.get('netCashFlowEmi').setValidators(Validators.required);
+    captive.get('netCashFlow').setValidators(Validators.required);
     captive.get('emi').setValidators(Validators.required);
    }
    public removePassengerValidators() {
@@ -534,9 +537,10 @@ onSave() {
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
         if ( res.ProcessVariables.error.code === '0') {
           this.toasterService.showSuccess('Record Saved Successfully', 'Viability');
+          this.getViability();
           if (this.router.url.includes('/dde')) {
             // this.router.navigateByUrl(`/pages/dde/${this.leadId}/viability-list`);
-               this.getViability();
+              //  this.getViability();
           } else {
             // this.router.navigateByUrl(`/pages/viability-list/${this.leadId}/viability-list`);
           }
@@ -662,12 +666,13 @@ patchViability(data: any) {
        busMiscellaneousExpenses: data.busMiscellaneousExpenses ? Number(data.busMiscellaneousExpenses) : null,
        busInsurenceExpenses: data.busInsurenceExpenses ? Number(data.busInsurenceExpenses) : null,
        busMonthlyIncome: data.busMonthlyIncome ? Number(data.busMonthlyIncome) : null,
-       netCashFlow: data.netCashFlow ? Number(data.netCashFlow) : null,
+       netCashFlow: this.netFlowCash ? this.netFlowCash : null,
        emi: data.emi ? Number(data.emi) : null,
        totalExpenses: data.totalExpenses ? Number(data.totalExpenses) : null,
        otherExpenses: data.otherExpenses ? data.otherExpenses : null,
        otherExpensesRemarks: data.otherExpensesRemarks ? data.otherExpensesRemarks : null,
-       operationsExpenses: data.operationsExpenses ? data.operationsExpenses : null
+       operationsExpenses: data.operationsExpenses ? data.operationsExpenses : null,
+       netCashFlowEmi : this.netCashFlowEmiPassenger ? this.netCashFlowEmiPassenger : null
    };
    return body;
  }
@@ -683,7 +688,7 @@ setPassangetStandOperator(data: any) {
     insuranceExpenses : data.insuranceExpenses ? data.insuranceExpenses : null,
     miscellaneousExpenses : data.miscellaneousExpenses ? data.miscellaneousExpenses  : null,
     totalExpenses : data.totalExpenses ? data.totalExpenses : null,
-    netCashFlow : data.netCashFlow ? data.netCashFlow : null,
+    netCashFlow : data.netCashFlow  ? data.netCashFlow : null,
     emi : data.emi ?  data.emi : null
   });
  }
@@ -698,8 +703,9 @@ setPassangetStandOperator(data: any) {
     insuranceExpenses : data.insuranceExpenses ? Number(data.insuranceExpenses) : null,
     miscellaneousExpenses : data.miscellaneousExpenses ? Number(data.miscellaneousExpenses)  : null,
     totalExpenses : data.totalExpenses ? Number (data.totalExpenses) : null,
-    netCashFlow : data.netCashFlow ? Number(data.netCashFlow) : null,
-    emi : data.emi ? Number (data.emi) : null
+    netCashFlow : data.netCashFlow  ? data.netCashFlow : null,
+    emi : data.emi ? Number (data.emi) : null,
+    netCashFlowEmi : this.standOperatorEmi ? this.standOperatorEmi : null
    };
    return body;
  }
@@ -716,12 +722,13 @@ setPassangetStandOperator(data: any) {
     busMiscellaneousExpenses:  dataCaptive.busMiscellaneousExpenses ? dataCaptive.busMiscellaneousExpenses : null ,
     busMonthlyIncome:  dataCaptive.busMonthlyIncome ? Number(this.montlyCaptiveIncome) : null ,
     totalExpenses: dataCaptive.totalExpenses ? dataCaptive.totalExpenses : null,
-    netCashFlowEmi: dataCaptive.netCashFlowEmi ? dataCaptive.netCashFlowEmi : null,
+    netCashFlow: dataCaptive.netCashFlow ? dataCaptive.netCashFlow : null,
     emi: dataCaptive.emi ? dataCaptive.emi : null
   });
  }
 
 convertCapitve(dataCaptive) {
+  console.log(this.montlyCaptiveIncome, 'this.montlyCaptiveIncome', this.netFlowCash, 'this.netFlowCash');
   const body = {
     natureOfBusiness: dataCaptive.natureOfBusiness ? dataCaptive.natureOfBusiness : null ,
     businessIncomePerDay:  dataCaptive.businessIncomePerDay ? Number(dataCaptive.businessIncomePerDay) : null ,
@@ -731,10 +738,11 @@ convertCapitve(dataCaptive) {
     busTyreAvgExpenses:  dataCaptive.busTyreAvgExpenses ? Number(dataCaptive.busTyreAvgExpenses) : null ,
     busInsurenceExpenses:  dataCaptive.busInsurenceExpenses ? Number(dataCaptive.busInsurenceExpenses) : null ,
     busMiscellaneousExpenses:  dataCaptive.busMiscellaneousExpenses ? Number(dataCaptive.busMiscellaneousExpenses) : null ,
-    busMonthlyIncome:  dataCaptive.busMonthlyIncome ? Number(dataCaptive.busMonthlyIncome) : null ,
+    busMonthlyIncome:  this.montlyCaptiveIncome ? Number(this.montlyCaptiveIncome) : null ,
     totalExpenses: dataCaptive.totalExpenses ? Number(dataCaptive.totalExpenses) : null,
-    netCashFlowEmi: dataCaptive.netCashFlowEmi ? Number (dataCaptive.netCashFlowEmi) : null,
-    emi: dataCaptive.emi ? Number(dataCaptive.emi) : null
+    netCashFlow: dataCaptive.netCashFlow ? dataCaptive.netCashFlow : null,
+    emi: dataCaptive.emi ? Number(dataCaptive.emi) : null,
+    netCashFlowEmi : this.captiveEmi   ? this.captiveEmi : null
   };
   return body;
  }
@@ -925,7 +933,7 @@ calculateCaptive() {
   });
   const ncf = this.montlyCaptiveIncome - this.captiveExpense;
   passengerStandGroup.patchValue({
-    netCashFlowEmi : ncf
+    netCashFlow : ncf
   });
   // this.calculateCaptive();
   // this.calculateCaptiveB();
@@ -935,7 +943,7 @@ calculateCaptiveC() {
   this.captiveEmi = 0;
   const passengerStandGroup = this.viabilityForm.controls.captive;
   const emi = passengerStandGroup.value.emi ? Number(passengerStandGroup.value.emi) : '';
-  const ncf = passengerStandGroup.value.netCashFlowEmi ? Number(passengerStandGroup.value.netCashFlowEmi) : 0;
+  const ncf = passengerStandGroup.value.netCashFlow ? Number(passengerStandGroup.value.netCashFlow) : 0;
   // tslint:disable-next-line: triple-equals
   if (emi != '') {
     const calEMi = ncf / emi;

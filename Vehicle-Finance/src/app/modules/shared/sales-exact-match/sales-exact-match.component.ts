@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { SalesDedupeService } from '@services/sales-dedupe.service';
 import { ApplicantService } from '@services/applicant.service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   templateUrl: './sales-exact-match.component.html',
@@ -30,7 +31,8 @@ export class SalesExactMatchComponent implements OnInit {
   constructor(
     private salesDedupeService: SalesDedupeService,
     private applicantService: ApplicantService,
-    private router: Router
+    private router: Router,
+    private toasterService: ToasterService,
   ) {}
 
   ngOnInit() {
@@ -38,6 +40,7 @@ export class SalesExactMatchComponent implements OnInit {
     this.dedupeParameter = this.salesDedupeService.getDedupeParameter();
     this.isExactAvailable = !!this.dedupeDetails.deduIndExctMatch;
     this.isIndividual = this.dedupeDetails.entityType === 'INDIVENTTYP';
+    console.log('dedupeDetails', this.dedupeDetails)
   }
 
   rejectLead() {}
@@ -102,7 +105,7 @@ export class SalesExactMatchComponent implements OnInit {
           if (processVariables.isNLFound) {
             nlRemarks = processVariables.dedupeCustomerNL.remarks;
           }
-          if (processVariables.dedupeCustomerNLTR.isNLTRFound) {
+          if (processVariables.isNLTRFound) {
             nlTrRemarks = processVariables.dedupeCustomerNLTR.remarks;
           }
 
@@ -112,6 +115,8 @@ export class SalesExactMatchComponent implements OnInit {
             nlRemarks,
             nlTrRemarks,
           };
+        }else{
+          this.toasterService.showError(value.ProcessVariables.code.message, '')
         }
       });
   }
@@ -141,6 +146,8 @@ export class SalesExactMatchComponent implements OnInit {
           // this.router.navigateByUrl(
           //   `/pages/lead-section/${leadId}/co-applicant/${processVariables.applicantId}`
           // );
+        }else {
+          this.toasterService.showError(data.ProcessVariables.error.message, '');
         }
       });
   }

@@ -11,6 +11,9 @@
                     <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
                 </div>
             </div>
+            <div>
+                <h3>{{fiCumPdStatusString == 'true' ? 'FI cum PD Dashboard' : 'PD Dashboard'}}</h3>
+            </div>
             <div class="row">
                 <div id="applicantTable">
                     <table>
@@ -62,7 +65,7 @@
                                     *ngIf="show && pdStatusValue != 'Submitted'"
                                     (click)="navigatePage(item.applicantId, item.cibilScore)">
                                     <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
-                                   
+
                                 </td>
                                 <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;"
                                     *ngIf="show && pdStatusValue === 'Submitted'">
@@ -153,7 +156,7 @@
         <br />
         <br />
         <button class="btn btn-primary" type="button" (click)="onNavigateToPdSummary()">
-            Back to PD Summary
+            {{fiCumPdStatusString == 'true' ? 'Back to FI cum PD Summary' : 'Back to PD Summary'}}
         </button>
         <!-- <button class="btn btn-primary " type="button " (click)=onNavigateBack()> {{labels.back}} </button> &nbsp; -->
         <!-- <p class="btn btn-primary save "> Save </p> -->

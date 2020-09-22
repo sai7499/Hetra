@@ -34,6 +34,8 @@ export class CreditScoreComponent implements OnInit {
   leadData: any;
   variable: CibilData;
   userId: any;
+  loanAmount;
+  eligibleAmount;
 
   constructor(
     private aRoute: ActivatedRoute,
@@ -68,6 +70,8 @@ export class CreditScoreComponent implements OnInit {
       ) {
         this.applicantList = this.creditScore.ProcessVariables.applicantList;
         this.variable = this.creditScore.ProcessVariables;
+        this.loanAmount = Number(this.variable.loanAmount ).toLocaleString('en-IN');
+        this.eligibleAmount = Number(this.variable.eligibleAmount ).toLocaleString('en-IN');
         console.log(this.creditScore);
       } else {
         this.router.navigate([

@@ -82,7 +82,7 @@ export class CamComponent implements OnInit {
   vehicleDeploymentDetails: any;
   recommendation: any;
   disableSaveBtn: boolean;
-  isCamGeneratedValue:boolean;
+  isCamGeneratedValue: boolean;
   isCamDetails: boolean;
   generateCam: boolean = false;
   roleId: any;
@@ -100,6 +100,11 @@ export class CamComponent implements OnInit {
   vehicleDetailsArray: any = [];
   isDocumentId: boolean;
   creditConditions: any;
+  appRecommendation: any;
+  coAppBankingSummary: any;
+  coAppBankingTxnDetails: any;
+  coAppBankingDetails: any;
+  coAppBankingSummaryObj: any;
 
   constructor(private labelsData: LabelsService,
     private camService: CamService,
@@ -177,9 +182,9 @@ export class CamComponent implements OnInit {
           this.generateCam = true
           this.getCamUsedCvDetails(this.generateCam)
           this.showCamHtml = true
-         if(this.currentUrl.includes('dde')){
-          this.showSave = true
-         } 
+          if (this.currentUrl.includes('dde')) {
+            this.showSave = true
+          }
         }
       })
     }
@@ -203,9 +208,9 @@ export class CamComponent implements OnInit {
           this.generateCam = true
           this.getCamNewCvDetails(this.generateCam)
           this.showCamHtml = true
-          if(this.currentUrl.includes('dde')){
+          if (this.currentUrl.includes('dde')) {
             this.showSave = true
-           } 
+          }
 
         }
       })
@@ -302,7 +307,7 @@ export class CamComponent implements OnInit {
     if (this.currentUrl.includes('credit-decisions')) {
       this.camDetailsForm.disable();
       this.showSave = false
-    } else if (this.currentUrl.includes('dde') ) {
+    } else if (this.currentUrl.includes('dde')) {
       this.showSave = true
 
     }
@@ -352,6 +357,7 @@ export class CamComponent implements OnInit {
         this.partyToAgreement = res.ProcessVariables['partyToAgreementObj'];
         this.cibilSynopsys = res.ProcessVariables['cibilSynopsysObj'];
         this.bankingSummary = res.ProcessVariables['bankingSummaryObj']
+        this.coAppBankingSummaryObj = res.ProcessVariables['coAppBankingSummaryObj']
         this.fleetSummary = res.ProcessVariables['fleetSummaryObj']
         this.trackValidation = res.ProcessVariables['trackValidationObj']
         this.autoDeviation = res.ProcessVariables['autoDeviation']
@@ -386,10 +392,10 @@ export class CamComponent implements OnInit {
           strengthAndMitigates: this.camDetails.strengthAndMitigates ? this.camDetails.strengthAndMitigates : null,
         })
         setTimeout(() => {
-        if (isUpload === 'isUpload') {
-          this.uploadPdf()
-        }
-      });
+          if (isUpload === 'isUpload') {
+            this.uploadPdf()
+          }
+        });
 
       } else if (res && res.ProcessVariables.error.code == '1') {
         this.showCamHtml == false
@@ -416,6 +422,7 @@ export class CamComponent implements OnInit {
         this.camDetails = res.ProcessVariables
         this.applicantDetails = res.ProcessVariables['applicantDetails'];
         this.bankingDetails = res.ProcessVariables['bankingDetails'];
+        this.coAppBankingDetails = res.ProcessVariables['coAppBankingDetails'];
         this.businessIncomeDetails = res.ProcessVariables['businessIncomeDetails'];
         this.decisionSheet = res.ProcessVariables['decisionSheet'];
         // this.deviation = res.ProcessVariables['deviation']
@@ -432,10 +439,10 @@ export class CamComponent implements OnInit {
         this.vehicleDetails = res.ProcessVariables['vehicleDetails']
         this.recommendation = res.ProcessVariables['recommendation']
         setTimeout(() => {
-        if (isUpload === 'isUpload') {
-          this.uploadPdf()
-        }
-      });
+          if (isUpload === 'isUpload') {
+            this.uploadPdf()
+          }
+        });
 
       } else if (res && res.ProcessVariables.error.code == '1') {
         this.showCamHtml == false
@@ -462,6 +469,8 @@ export class CamComponent implements OnInit {
         this.applicantDetails = res.ProcessVariables['applicantDetails'];
         this.bankingSummary = res.ProcessVariables['bankingSummary']
         this.bankingTxnDetails = res.ProcessVariables['bankingTxnDetails']
+        this.coAppBankingSummary = res.ProcessVariables['coAppBankingSummary']
+        this.coAppBankingTxnDetails = res.ProcessVariables['coAppBankingTxnDetails']
         this.cibilEnquiries = res.ProcessVariables['cibilEnquiries']
         this.cibilJustification = res.ProcessVariables['cibilJustification']
         this.customerSelectionCriteria = res.ProcessVariables['customerSelectionCriteria']
@@ -481,8 +490,8 @@ export class CamComponent implements OnInit {
         this.ncmBhRecommendation = res.ProcessVariables['ncmBhRecommendation']
         this.vehicleDeploymentDetails = res.ProcessVariables['vehicleDeploymentDetails']
         this.recommendation = res.ProcessVariables['recommendation']
+        this.appRecommendation = res.ProcessVariables['appRecommendation']
 
-        
 
         this.camDetailsForm.patchValue({
           commentsOnBankingIfAny: this.camDetails.commentsOnBankingIfAny ? this.camDetails.commentsOnBankingIfAny : null,
@@ -491,9 +500,10 @@ export class CamComponent implements OnInit {
           commentsOnRtr: this.camDetails.commentsOnRtr ? this.camDetails.commentsOnRtr : null,
         })
         setTimeout(() => {
-        if (isUpload === 'isUpload') {
-          this.uploadPdf()
-        }});
+          if (isUpload === 'isUpload') {
+            this.uploadPdf()
+          }
+        });
       } else if (res && res.ProcessVariables.error.code == '1') {
         this.showCamHtml == false
         this.errorGenerated = true;

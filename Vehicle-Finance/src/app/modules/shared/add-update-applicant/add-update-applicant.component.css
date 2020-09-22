@@ -289,3 +289,7 @@ margin-right: 15px!important;
 .btn-mar-bot{
   margin-bottom: 80px;
 }
+
+.pad-zero{
+  padding:0px!important;
+}

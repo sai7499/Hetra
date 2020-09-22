@@ -275,7 +275,7 @@
                             [placeholder]="'Mobile Number of Vehicle Owner/Dealer'"
                             [maxLength]="label.validationData?.mobileNumber.maxLength"
                             [patternCheck]="label.validationData?.mobileNumber.pattern"
-                            (change)="onChangeMobileNumber($event.target.value)"
+                            (change)="onChangeMobileNumber($event.target.value)" 
                             (keyUp)="onChangeMobileNumber($event.target.value)"
                             [isRequired]="'Mobile Number of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                         </app-custom-input>
@@ -1179,7 +1179,7 @@
                     <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="age_vehicle">{{label.ageVehicle}} <sub class="star_red_col">*</sub> </label>
+                            <label for="age_vehicle">{{label.ageOfAsset}} <sub class="star_red_col">*</sub> </label>
                             <app-custom-input formControlName="ageOfAsset" [className]="'form-control mandatory'"
                                 [placeholder]="'Age of Asset'" [isRequired]="'Age of Asset Required'"
                                 [id]="'age_of_asset'" [isDirty]="isDirty" [isDisabled]="true">

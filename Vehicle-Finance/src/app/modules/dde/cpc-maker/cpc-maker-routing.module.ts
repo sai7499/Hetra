@@ -12,6 +12,7 @@ import { PdcDetailsComponent } from './pdc-details/pdc-details.component';
 import { NegotiationComponent } from '@modules/negotiation/negotiation.component';
 import { DisbursementFormComponent } from '@modules/disbursement-section/disbursement-form/disbursement-form.component';
 import { WelomceLetterComponent } from './welomce-letter/welomce-letter.component';
+import { DeliveryOrderComponent } from './delivery-order/delivery-order.component';
 
 const routes: Routes = [
   {
@@ -58,6 +59,10 @@ const routes: Routes = [
 		{
             path: 'welomce-letter',
             component: WelomceLetterComponent
+        },
+        {
+            path: 'delivery-order',
+            component: DeliveryOrderComponent
         }
     ]
 }
