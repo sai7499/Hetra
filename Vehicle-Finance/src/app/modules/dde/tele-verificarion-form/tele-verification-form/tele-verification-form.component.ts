@@ -421,7 +421,7 @@ export class TeleVerificationFormComponent implements OnInit {
     const tvrDetails = this.teleVerificationForm.getRawValue();
     this.isDirty = true;
     if (this.teleVerificationForm.valid === true) {
-      console.log('success');
+      // console.log('success');
       this.tvrDetails = this.teleVerificationForm.value;
       this.tvrDetails.dob = this.dateToFormate(this.tvrDetails.dob);
       this.tvrDetails.tvrDate = this.dateToFormate(this.tvrDetails.tvrDate);

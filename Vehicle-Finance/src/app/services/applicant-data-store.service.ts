@@ -69,7 +69,7 @@ export class ApplicantDataStoreService {
 
   setindivProspectProfileDetails(value) {
     // this.applicant.corporateProspectDetails = value;
-    const details = this.applicant.indivIdentityInfoDetails;
+    const details = this.applicant.indivProspectProfileDetails;
     const newDetails = {
       ...details,
       ...value,

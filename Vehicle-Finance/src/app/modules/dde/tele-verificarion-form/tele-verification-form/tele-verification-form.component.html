@@ -206,7 +206,7 @@
                             <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="dob">{{labels.dob}}</label>
-                                    <kendo-datepicker class=" mandatory" formControlName="dob" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Date of birth" [activeView]="'decade'"></kendo-datepicker>
+                                    <kendo-datepicker class=" form-control mandatory" formControlName="dob" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Date of birth" [activeView]="'decade'"></kendo-datepicker>
                                     <div *ngIf="isDirty || teleVerificationForm.get('dob').touched">
                                         <div style="color:red" *ngIf="teleVerificationForm.get('dob').errors?.required">
                                             Date is mandatory

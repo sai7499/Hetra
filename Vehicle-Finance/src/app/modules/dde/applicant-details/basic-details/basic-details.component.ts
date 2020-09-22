@@ -513,6 +513,7 @@ export class BasicDetailsComponent implements OnInit {
     const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails
       ? this.applicant.aboutIndivProspectDetails
       : {};
+      const indivProspectProfileDetails = this.applicant.indivProspectProfileDetails
     this.basicForm.get('title').setValidators([Validators.required]);
     this.basicForm.get('bussinessEntityType').clearValidators();
     this.basicForm.updateValueAndValidity();
@@ -1421,20 +1422,24 @@ export class BasicDetailsComponent implements OnInit {
      prospectDetails.isEquitasEmployeeRelative= this.checkedRelativeEquitas;
      prospectDetails.isEquitasEmployee= this.checkedEquitasEmployee;
      prospectDetails.equitasEmployeeNumber= aboutIndivProspectDetails.equitasEmployeeNumber || '';
+     prospectDetails.employerType = formValue.employerType|| '';
+     prospectDetails.employerName = formValue.employerName|| '';
+
+     
 
     this.applicantDataService.setIndividualProspectDetails(prospectDetails);
 
 
-    indivProspectProfileDetails.employerType = formValue.employerType
-      ? formValue.employerType
-      : '';
-    indivProspectProfileDetails.employerName = formValue.employerName
-      ? formValue.employerName
-      : '';
+    // indivProspectProfileDetails.employerType = formValue.employerType
+    //   ? formValue.employerType
+    //   : '';
+    // indivProspectProfileDetails.employerName = formValue.employerName
+    //   ? formValue.employerName
+    //   : '';
     // console.log('indivProspectProfileDetails',indivProspectProfileDetails)
-    this.applicantDataService.setindivProspectProfileDetails(
-      indivProspectProfileDetails
-    );
+    // this.applicantDataService.setindivProspectProfileDetails(
+    //   indivProspectProfileDetails
+    // );
   }
 
   storeNonIndividualValueInService(value) {

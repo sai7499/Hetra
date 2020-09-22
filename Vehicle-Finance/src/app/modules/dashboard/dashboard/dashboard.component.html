@@ -42,14 +42,23 @@
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="startDate">{{labels.leadCreatedOnStartDate}}</label>
             <kendo-datepicker class="form-control" formControlName="fromDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
-              placeholder="Start Date" [activeView]="'decade'"></kendo-datepicker>
+              placeholder="Start Date" (ngModelChange)="onChange($event)" [activeView]="'decade'"></kendo-datepicker>
+              
           </div>
           <div [ngClass]="{'disablField': !filterForm.get('fromDate').value}"
             class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="endDate">{{labels.leadCreatedOnEndDate}}</label>
             <kendo-datepicker class="form-control" formControlName="toDate" [format]="'dd/MM/yyyy'"
-              [min]="filterForm.get('fromDate').value" [max]="toDayDate" placeholder="End Date" [activeView]="'decade'">
+              [min]="filterForm.get('fromDate').value" (ngModelChange)="onChangeEndDate($event)" [max]="toDayDate" placeholder="End Date" [activeView]="'decade'">
             </kendo-datepicker>
+            <!-- <div *ngIf="isFromDate">
+                End Date is required
+            </div> -->
+            <div *ngIf="fromDateChange && isFromDate">
+              <div style="color:red">
+                  End Date is required
+              </div>
+          </div>
           </div>
         </div>
         <div class="row">
@@ -71,7 +80,7 @@
           <div class="actionbtn col-sm-6 col-md-3 col-lg-3">
             <button class="btn btn-default mar-right8" type="button" id="clearbtn"
               (click)="onClear(); showFilter=!showFilter"> Clear </button>
-            <button class="btn btn-primary" type="submit" (click)="onApply(); showFilter=!showFilter"> Apply </button>
+            <button class="btn btn-primary" [disabled]="isFromDate" type="submit" (click)="onApply()"> Apply </button>
           </div>
         </div>
       </form>
