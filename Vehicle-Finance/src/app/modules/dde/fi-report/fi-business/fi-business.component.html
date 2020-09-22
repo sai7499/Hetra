@@ -61,6 +61,15 @@
           [activeView]="'decade'"
           [min]="leadCreatedDateFromLead"
         ></kendo-datepicker>
+        <div
+        class="invalid-feedback"
+        *ngIf="!fieldReportForm.controls['cpvInitiatedDate'].vaild">
+        <div
+          *ngIf="
+          fieldReportForm.controls['cpvInitiatedDate'].hasError('required')">
+          CPV initiated date is required
+        </div>
+        </div>
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="cpv_time"
@@ -83,6 +92,32 @@
           [isDirty]="isDirty"
         >
         </app-custom-input> -->
+        <div
+        class="invalid-feedback"
+        *ngIf="!fieldReportForm.controls['cpvInitiatedTime'].vaild">
+        <div
+          *ngIf="
+          fieldReportForm.controls['cpvInitiatedTime'].hasError('required')">
+          CPV initiated time is required
+        </div>
+        </div>
+    
+        <!-- <div
+          class="invalid-feedback"
+          *ngIf="
+          fieldReportForm.controls['cpvInitiatedTime'].touched &&
+            !fieldReportForm.controls['cpvInitiatedTime'].vaild
+          "
+        >
+          <div
+            *ngIf="
+            fieldReportForm.controls['cpvInitiatedTime'].hasError('required')
+            "
+          >
+            CPV initiated time is required
+          </div>
+
+        </div> -->
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="report_date"
@@ -98,6 +133,15 @@
           [activeView]="'decade'"
           (valueChange)="getMonths()"
         ></kendo-datepicker>
+        <div
+        class="invalid-feedback"
+        *ngIf="!fieldReportForm.controls['reportSubmitDate'].vaild">
+        <div
+          *ngIf="
+          fieldReportForm.controls['reportSubmitDate'].hasError('required')">
+          Report submit date is required
+        </div>
+        </div>
       </div>
     </div>
     <div class="row">
@@ -123,6 +167,15 @@
           [isDirty]="isDirty"
         >
         </app-custom-input> -->
+        <div
+        class="invalid-feedback"
+        *ngIf="!fieldReportForm.controls['reportSubmitTime'].vaild">
+        <div
+          *ngIf="
+          fieldReportForm.controls['reportSubmitTime'].hasError('required')">
+          Report submit time is required
+        </div>
+        </div>
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="applicantsName"

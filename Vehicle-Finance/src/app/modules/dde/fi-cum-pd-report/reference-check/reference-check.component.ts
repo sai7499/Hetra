@@ -558,7 +558,7 @@ export class ReferenceCheckComponent implements OnInit {
       // this.isFiCumPD = processvariables.isFiCumPD;
       this.pdList = processvariables.finalPDList;
       const arrayLength = this.pdList.length;
-      var n = 0;
+      let n = 0;
       for (var i in this.pdList) {
         this.pdStatusValue = this.pdList[i]['pdStatusValue']
         if (this.pdList[i]['pdStatusValue'] == "Submitted" ) {
@@ -579,7 +579,7 @@ export class ReferenceCheckComponent implements OnInit {
 
 
   onNavigateToPdSummary() { // fun to navigate to pd summary
-
+    this.getPdList();
     if (this.version != 'undefined') {
       // console.log('in routing defined version condition', this.version);
       // http://localhost:4200/#/pages/dashboard/personal-discussion/my-pd-tasks

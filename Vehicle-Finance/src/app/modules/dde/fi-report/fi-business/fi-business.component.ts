@@ -55,6 +55,9 @@ export class FiBusinessComponent implements OnInit {
   concernLov: any;
   showTypeOfConcern: boolean;
   showSubmit = true;
+  fiList: Array<any>;
+  fiStatusValue: any;
+
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -514,7 +517,7 @@ export class FiBusinessComponent implements OnInit {
         console.log('result', processvariables.error.message);
         this.toasterService.showSuccess('Report Submitted Successfully', '');
         // this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
-        this.router.navigate([`/pages/dashboard`]);
+        this.getFiList();
 
       } else {
         this.toasterService.showError('', message);
@@ -522,6 +525,37 @@ export class FiBusinessComponent implements OnInit {
     });
 
   }
+  getFiList() {
+
+    const data = {
+      applicantId: this.applicantId, // uncomment when we get proper applicant ID
+      // applicantId: 1177, // hardCoded for testing purpose
+      userId: this.userId,
+    };
+    this.fieldInvestigationService.getFiList(data).subscribe((value: any) => {
+      const processvariables = value.ProcessVariables;
+      // console.log('in get fi list', processvariables);
+      this.fiList = processvariables.finalFIList;
+      console.log('fi List', this.fiList);
+      const arrayLength = this.fiList.length;
+      let n = 0;
+      for (var i in this.fiList) {
+        this.fiStatusValue = this.fiList[i]['fiStatus']
+        if (this.fiList[i]['fiStatusValue'] == "Submitted") {
+          n = n + 1;
+        }
+        console.log('number n ', n);
+        console.log('length array', arrayLength);
+      }
+      if (n === arrayLength) {
+        this.router.navigate([`/pages/dashboard`]);
+      } else {
+        this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-list`]);
+      }
+
+    });
+  }
+
 
 
   onFormSubmit() { // fun that submits all the pd data

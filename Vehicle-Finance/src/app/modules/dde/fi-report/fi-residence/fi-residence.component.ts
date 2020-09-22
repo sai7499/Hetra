@@ -71,11 +71,10 @@ export class FiResidenceComponent implements OnInit {
     this.leadId = Number(this.activatedRoute.snapshot.parent.params.leadId);
     // this.applicantId = Number(this.activatedRoute.parent)
     this.applicantId = Number(this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
-    this.version = Number(this.activatedRoute.snapshot.parent.firstChild.params.version);
+    this.version = String(this.activatedRoute.snapshot.parent.firstChild.params.version);
     console.log('in construc app id', this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
     console.log('leadid', this.leadId);
     console.log('now  fi date', this.fiDate);
-    console.log('router', this.activatedRoute.snapshot);
     console.log('version', this.version);
 
   }
