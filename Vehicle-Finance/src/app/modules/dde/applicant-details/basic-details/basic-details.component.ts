@@ -68,6 +68,9 @@ export class BasicDetailsComponent implements OnInit {
   showNotApplicant : boolean;
   externalExpiryDate : any;
   externalIssueDate : any;
+  showEmployeeNo: boolean = false;
+  checkedEquitasEmployee: string= '0';
+  checkedRelativeEquitas: string = '0';
 
   emailPattern = {
     rule: '^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(\\.\\w{2,10})+$',
@@ -78,7 +81,17 @@ export class BasicDetailsComponent implements OnInit {
     key: string,
     value: string
   }[]
+  hideMsgForOwner: boolean = false;
 
+  monthValidation: {
+    rule?: any;
+    msg?: string;
+  }[];
+
+  yearValidation: {
+    rule?: any;
+    msg?: string;
+  }[];
   
   
   constructor(
@@ -143,6 +156,8 @@ export class BasicDetailsComponent implements OnInit {
       this.disableSaveBtn  = true;
     }
 
+    this.monthValidation = this.monthValiationCheck();
+
     console.log('externalExpiry Date', this.externalExpiryDate)
   }
 
@@ -167,6 +182,24 @@ export class BasicDetailsComponent implements OnInit {
 
     this.applicantData = leadData['applicantDetails'];
 
+  }
+
+  monthValiationCheck() {
+    const monthData = [
+      {
+        rule: (month) => {
+          return month < 0;
+        },
+        msg: 'Month should be greater than or equal to 0',
+      },
+      {
+        rule: (month) => {
+          return month > 11;
+        },
+        msg: 'Month should be less than or equal to 11',
+      },
+    ];
+    return monthData;
   }
 
   selectApplicantType(event) {
@@ -206,17 +239,28 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     if (this.isChecked === true) {
-
+      this.hideMsgForOwner = true;
       details.get('houseOwnerProperty').setValidators([Validators.required]);
       details.get('ownHouseAppRelationship').setValidators([Validators.required]);
       details.get('houseOwnerProperty').updateValueAndValidity();
       details.get('ownHouseAppRelationship').updateValueAndValidity();
+      const houseOwner = details.get('houseOwnerProperty').value;
+      const ownHouseAppRelationship= details.get('ownHouseAppRelationship').value
+      details.patchValue({
+        houseOwnerProperty : houseOwner,
+        ownHouseAppRelationship : ownHouseAppRelationship
+      })
 
     } else {
+      this.hideMsgForOwner = false;
       details.get('houseOwnerProperty').clearValidators();
       details.get('ownHouseAppRelationship').clearValidators();
       details.get('houseOwnerProperty').updateValueAndValidity();
       details.get('ownHouseAppRelationship').updateValueAndValidity();
+      // details.patchValue({
+      //   houseOwnerProperty : '',
+      //   ownHouseAppRelationship : ''
+      // })
     }
   }
 
@@ -424,9 +468,19 @@ export class BasicDetailsComponent implements OnInit {
 
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
+  if( applicantDetails.ownHouseProofAvail=='1'){
+    this.checkedBoxHouse = true;
+    this.isChecked= true;
+    this.hideMsgForOwner = true;
+  }else{
+    this.checkedBoxHouse = false;
+    this.isChecked= false;
+    this.hideMsgForOwner = false;
+  }
+    // this.checkedBoxHouse = applicantDetails.ownHouseProofAvail == '1' ? true : false;
+    // this.isChecked= applicantDetails.ownHouseProofAvail == '1' ? true : false;
 
-    this.checkedBoxHouse = applicantDetails.ownHouseProofAvail == '1' ? true : false;
-    this.isChecked= applicantDetails.ownHouseProofAvail == '1' ? true : false;
+
 
     details.patchValue({
       name1: applicantDetails.name1,
@@ -480,10 +534,39 @@ export class BasicDetailsComponent implements OnInit {
       this.setSalriedValidators()
     }
     
-
-
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
+
+    this.checkedEquitasEmployee= aboutIndivProspectDetails.isEquitasEmployee;
+    this.checkedRelativeEquitas= aboutIndivProspectDetails.isEquitasEmployeeRelative;
+    this.checkedRelativeEquitas=='1'? details.get('isEquitasEmployee').disable() : details.get('isEquitasEmployee').enable() 
+    if(this.checkedEquitasEmployee=='1'){
+       this.setEmployeeNoValidation(details)
+       this.showEmployeeNo= true;
+    }else{
+      this.removeEmployeeNoValidation(details)
+      this.showEmployeeNo= false;
+    }
+
+    let noofmonths = '';
+    let noofyears = ''
+    if(aboutIndivProspectDetails.yearsInCurrentResidence) {
+
+      noofmonths = String(Number(aboutIndivProspectDetails.yearsInCurrentResidence) % 12 ) || '';
+      noofyears = String(Math.floor(Number(aboutIndivProspectDetails.yearsInCurrentResidence) / 12 )) || '';
+    }
+
+    let noofmonthsInBusiness = '';
+    let noofyearsInBusiness = ''
+
+    if(aboutIndivProspectDetails.currentBusinessYears) {
+
+      noofmonthsInBusiness = String(Number(aboutIndivProspectDetails.currentBusinessYears) % 12 ) || '';
+      noofyearsInBusiness = String(Math.floor(Number(aboutIndivProspectDetails.currentBusinessYears) / 12 )) || '';
+    }
+
+
+
     details.patchValue({
       emailId: aboutIndivProspectDetails.emailId || '',
       alternateEmailId: aboutIndivProspectDetails.alternateEmailId || '',
@@ -518,8 +601,12 @@ export class BasicDetailsComponent implements OnInit {
       businessStartDate:
         this.utilityService.getDateFromString(aboutIndivProspectDetails.businessStartDate) || '',
         currentBusinessYears: aboutIndivProspectDetails.currentBusinessYears || '',
+        noOfMonthsBussiness: noofmonthsInBusiness,
+        noOfYearsBussiness: noofyearsInBusiness,
       turnOver: aboutIndivProspectDetails.turnOver || '',
       noOfYrsResidence: aboutIndivProspectDetails.yearsInCurrentResidence || '',
+      noOfMonths: noofmonths,
+      noOfYears: noofyears,
       recommendations: aboutIndivProspectDetails.recommendations || '',
       religion: aboutIndivProspectDetails.religion || '',
       community: aboutIndivProspectDetails.community || '',
@@ -531,7 +618,8 @@ export class BasicDetailsComponent implements OnInit {
       noOfAdultsDependant: aboutIndivProspectDetails.noOfAdultsDependant || '',
       noOfChildrenDependant:  aboutIndivProspectDetails.noOfChildrenDependant || '',
       marginMoney: aboutIndivProspectDetails.marginMoney || '',
-      emiAffordability: aboutIndivProspectDetails.emiAffordability || ''
+      emiAffordability: aboutIndivProspectDetails.emiAffordability || '',
+      equitasEmployeeNumber: aboutIndivProspectDetails.equitasEmployeeNumber || ''
     });
     this.clearFatherOrSpouseValidation();
     this.eitherFathOrspouse();
@@ -610,14 +698,59 @@ export class BasicDetailsComponent implements OnInit {
   }
 
 
+  isEquitasEmployee(event){
+    const value= event.target.checked;
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    if(value){
+      this.showEmployeeNo=true;
+      this.checkedEquitasEmployee= '1'
+      this.setEmployeeNoValidation(details);
+      
+    }else{
+      this.showEmployeeNo=false;
+      this.checkedEquitasEmployee= '0'
+      this.removeEmployeeNoValidation(details);
+      details.get('equitasEmployeeNumber').setValue('');
+    }
+  }
+
+  setEmployeeNoValidation(details){
+    details.get('equitasEmployeeNumber').setValidators([Validators.required]);
+    details.get('equitasEmployeeNumber').updateValueAndValidity();
+    details.get('isEquitasEmployeeRelative').disable();
+  }
+
+  removeEmployeeNoValidation(details){ 
+    details.get('equitasEmployeeNumber').clearValidators();
+    details.get('equitasEmployeeNumber').updateValueAndValidity();
+    details.get('isEquitasEmployeeRelative').enable()
+  }
+
+  isRelativeEquitas(event){
+    const value=event.target.checked;
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    
+    if(value){
+      this.checkedRelativeEquitas='1';
+      // this.disableEquitasEmployee=true;
+      details.get('isEquitasEmployee').disable()
+
+    }else{
+      this.checkedRelativeEquitas='0'
+      details.get('isEquitasEmployee').enable()
+      
+    }
+  }
 
 
   addIndividualFormControls() {
     const formArray = this.basicForm.get('details') as FormArray;
     const controls = new FormGroup({
-      name1: new FormControl(null, Validators.required),
-      name2: new FormControl(null),
-      name3: new FormControl(null, Validators.required),
+      name1: new FormControl({value : '', disabled : true}),
+      name2: new FormControl({value : '', disabled : true}),
+      name3: new FormControl({value : '', disabled : true}),
       mobilePhone: new FormControl(null, Validators.required),
       dob: new FormControl(null, Validators.required),
       age: new FormControl({value: '', disabled: true}),
@@ -652,6 +785,8 @@ export class BasicDetailsComponent implements OnInit {
       businessName: new FormControl(null),
       businessStartDate: new FormControl(null),
       currentBusinessYears: new FormControl(null),
+      noOfYearsBussiness: new FormControl(null),
+      noOfMonthsBussiness: new FormControl(null),
       turnOver: new FormControl(''),
 
       // added new form controls  on 16-07-2020
@@ -671,7 +806,9 @@ export class BasicDetailsComponent implements OnInit {
       grossReceipt: new FormControl(''),
 
       //added new form controls on 04.12.2020
-      noOfYrsResidence: new FormControl('',Validators.required),
+      noOfYrsResidence: new FormControl(''),
+      noOfYears: new FormControl('',Validators.required),
+      noOfMonths: new FormControl('',Validators.required),
       recommendations: new FormControl(''),
       religion: new FormControl('',Validators.required),
       community: new FormControl('',Validators.required),
@@ -683,7 +820,11 @@ export class BasicDetailsComponent implements OnInit {
       noOfAdultsDependant: new FormControl('',Validators.required),
       noOfChildrenDependant: new FormControl('',Validators.required),
       marginMoney: new FormControl('',Validators.required),
-      emiAffordability: new FormControl('',Validators.required)
+      emiAffordability: new FormControl('',Validators.required),
+      isEquitasEmployeeRelative: new FormControl(''),
+      isEquitasEmployee: new FormControl(''),
+      equitasEmployeeNumber: new FormControl(''),
+
     });
     formArray.push(controls);
     // setTimeout(() => {
@@ -922,8 +1063,10 @@ export class BasicDetailsComponent implements OnInit {
     details.get('businessName').updateValueAndValidity();
     details.get('businessStartDate').setValidators([Validators.required]);
     details.get('businessStartDate').updateValueAndValidity();
-    details.get('currentBusinessYears').setValidators([Validators.required]);
-    details.get('currentBusinessYears').updateValueAndValidity();
+    details.get('noOfYearsBussiness').setValidators([Validators.required]);
+    details.get('noOfYearsBussiness').updateValueAndValidity();
+    details.get('noOfMonthsBussiness').setValidators([Validators.required]);
+    details.get('noOfMonthsBussiness').updateValueAndValidity();
     details.get('turnOver').setValidators([Validators.required]);
     details.get('turnOver').updateValueAndValidity();
   }
@@ -952,6 +1095,10 @@ export class BasicDetailsComponent implements OnInit {
     details.get('businessStartDate').updateValueAndValidity();
     details.get('currentBusinessYears').clearValidators();
     details.get('currentBusinessYears').updateValueAndValidity();
+    details.get('noOfYearsBussiness').clearValidators();
+    details.get('noOfYearsBussiness').updateValueAndValidity();
+    details.get('noOfMonthsBussiness').clearValidators();
+    details.get('noOfMonthsBussiness').updateValueAndValidity();
     details.get('turnOver').clearValidators();
     details.get('turnOver').updateValueAndValidity();
   }
@@ -1005,6 +1152,17 @@ export class BasicDetailsComponent implements OnInit {
   async onSubmit() {
     this.setValidation();
     const value = this.basicForm.getRawValue();
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    
+    if(this.hideMsgForOwner){
+      const houseOwner = details.get('houseOwnerProperty').value;
+      const ownHouseAppRelationship= details.get('ownHouseAppRelationship').value
+      details.patchValue({
+        houseOwnerProperty : houseOwner,
+        ownHouseAppRelationship : ownHouseAppRelationship
+      })
+    }
     console.log('basicForm', this.basicForm)
     if (this.basicForm.invalid) {
       this.isDirty = true;
@@ -1024,8 +1182,28 @@ export class BasicDetailsComponent implements OnInit {
 
     }
 
+  
     console.log('GETRAWVALUE', value);
     if (this.isIndividual) {
+
+      const formValueData = value.details[0];
+
+      if(Number(formValueData.noOfYears) == 0 && Number(formValueData.noOfMonths) == 0) {
+  
+        this.toasterService.showError('Please fill any one of the no of years or months','No of years residing at present residence')
+        return;
+      }
+  
+      if (this.custCatValue === "SEMCUSTSEG") {
+  
+        if(Number(formValueData.noOfYearsBussiness) == 0 && Number(formValueData.noOfMonthsBussiness) == 0) {
+  
+          this.toasterService.showError('Please fill any one of the no of years or months','No of years in current business')
+          return;
+        }
+  
+      }
+
       this.storeIndividualValueInService(value);
     } else {
       this.storeNonIndividualValueInService(value);
@@ -1154,6 +1332,9 @@ export class BasicDetailsComponent implements OnInit {
       : '';
     prospectDetails.businessStartDate = this.utilityService.getDateFormat(aboutIndivProspectDetails.businessStartDate);
 
+
+    aboutIndivProspectDetails.currentBusinessYears = String((Number(aboutIndivProspectDetails.noOfYearsBussiness) * 12 ) + Number(aboutIndivProspectDetails.noOfMonthsBussiness)) || '';
+
     prospectDetails.currentBusinessYears = aboutIndivProspectDetails.currentBusinessYears
       ? aboutIndivProspectDetails.currentBusinessYears
       : '';
@@ -1164,6 +1345,12 @@ export class BasicDetailsComponent implements OnInit {
 
 
     //adding new fields provided for dde basic details
+
+    
+
+
+    aboutIndivProspectDetails.noOfYrsResidence = String((Number(aboutIndivProspectDetails.noOfYears) * 12 ) + Number(aboutIndivProspectDetails.noOfMonths)) || '';
+
 
     prospectDetails.relationWithApplicant = value.applicantRelationship || '';
      prospectDetails.yearsInCurrentResidence = aboutIndivProspectDetails.noOfYrsResidence || '';
@@ -1180,7 +1367,9 @@ export class BasicDetailsComponent implements OnInit {
      prospectDetails.noOfChildrenDependant = aboutIndivProspectDetails.noOfChildrenDependant || '';
      prospectDetails.marginMoney = aboutIndivProspectDetails.marginMoney || '';
      prospectDetails.emiAffordability = aboutIndivProspectDetails.emiAffordability || '';
-
+     prospectDetails.isEquitasEmployeeRelative= this.checkedRelativeEquitas;
+     prospectDetails.isEquitasEmployee= this.checkedEquitasEmployee;
+     prospectDetails.equitasEmployeeNumber= aboutIndivProspectDetails.equitasEmployeeNumber || '';
 
     this.applicantDataService.setIndividualProspectDetails(prospectDetails);
 

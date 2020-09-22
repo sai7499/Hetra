@@ -51,4 +51,21 @@ export class TaskDashboard {
     return this.http.put(url, requestBody);
   }
 
+  saveTaskLogs(data) {
+    const processData = data;
+    const processId = this.apiService.api.saveTaskLogs.processId;
+    const workflowId = this.apiService.api.saveTaskLogs.workflowId;
+    const projectId = this.apiService.api.saveTaskLogs.projectId;
+
+    const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId,
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, requestEntity);
+  }
+
 }

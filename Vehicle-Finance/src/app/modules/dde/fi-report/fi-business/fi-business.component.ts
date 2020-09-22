@@ -53,6 +53,7 @@ export class FiBusinessComponent implements OnInit {
   invalidPincode: boolean;
   custSegment: any;
   concernLov: any;
+  showTypeOfConcern: boolean;
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -103,6 +104,7 @@ export class FiBusinessComponent implements OnInit {
     this.getLabels();
     this.initForm();
     this.isDirty = true;
+    this.showTypeOfConcern = true;
   }
   getLeadId() {
     return new Promise((resolve, reject) => {
@@ -123,17 +125,22 @@ export class FiBusinessComponent implements OnInit {
     });
   }
   getConcernType() {
-    if (this.custSegment == "SALCUSTSEG") {
-      this.concernLov = this.LOV.LOVS['concernType-Salaried']
+    if (this.custSegment == "SALCUSTSEG" && this.custSegment != null) {
+      this.concernLov = this.LOV.LOVS['concernType-Salaried'];
       this.concernType(this.custSegment);
-    } else if (this.custSegment == "SEMCUSTSEG") {
-      this.concernLov = this.LOV.LOVS['concernType-SelfEmployed']
+    } else if (this.custSegment == "SEMCUSTSEG" && this.custSegment != null) {
+      this.concernLov = this.LOV.LOVS['concernType-SelfEmployed'];
       this.concernType(this.custSegment);
+    } else {
+      this.showTypeOfConcern = false;
+      this.removeTypeOfConcerValidators();
     }
+
   }
   concernType(event) {
     console.log('in concern event');
     console.log(event);
+    this.addTypeOfConcernValidators();
     this.typeOfConcernValue = event ? event : event;
     if (this.typeOfConcernValue === 'SALCUSTSEG') {
       this.removeAddressValidators();
@@ -377,6 +384,16 @@ export class FiBusinessComponent implements OnInit {
 
     });
   }
+  removeTypeOfConcerValidators() {
+    console.log('in remove type of concern validtors');
+    this.fieldReportForm.get('typeOfConcern').clearValidators();
+    this.fieldReportForm.get('typeOfConcern').updateValueAndValidity();
+  }
+  addTypeOfConcernValidators() {
+    console.log('in adding type of concern valodator');
+    this.fieldReportForm.get('typeOfConcern').setValidators(Validators.required);
+
+  }
 
   removeAddressValidators() {
     console.log('in remove address validators');
@@ -480,7 +497,8 @@ export class FiBusinessComponent implements OnInit {
     }
     const data = {
       applicantId: this.applicantId,
-      leadId: this.leadId
+      leadId: this.leadId,
+      userId: this.userId
     };
     console.log('in submit fi report app id', this.applicantId);
     console.log('in submit fi report lead id', this.leadId);

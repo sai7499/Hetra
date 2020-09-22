@@ -29,6 +29,10 @@ export class AdditionalCollateralComponent implements OnInit {
     leadData: any = {};
     applicantDetails: any = [];
     collateralType: string = 'AGRIADDCOLTYP';
+    currentValue: any
+    goldGramsValue: any
+
+
 
     constructor(private _fb: FormBuilder, private labelsData: LabelsService, private createLeadDataService: CreateLeadDataService, private collateralDataService: CollateralDataStoreService,
         private commonLovService: CommomLovService, private utilityService: UtilityService, private collateralService: CollateralService,
@@ -90,25 +94,6 @@ export class AdditionalCollateralComponent implements OnInit {
 
             this.LOV.propertOwner = propertOwner;
             this.relationLov = this.LOV.relationship;
-
-            this.LOV.purity = [
-                {
-                    key: '0',
-                    value: '24'
-                },
-                {
-                    key: '1',
-                    value: '22'
-                },
-                {
-                    key: '3',
-                    value: '18'
-                },
-                {
-                    key: '4',
-                    value: '14'
-                }
-            ]
 
         })
     }
@@ -174,10 +159,53 @@ export class AdditionalCollateralComponent implements OnInit {
             totalMarketValue: [null],
             guideLineValue: [null, Validators.required],
             totalGuideLineValue: [null],
+            propertyOwnerType: [null]
         }))
     }
 
     // Validators.pattern('/[^a-zA-Z0-9/,]/g')
+
+    currentValueGrams(value) {
+        const formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
+        const details = formArray.at(0)
+        this.currentValue = value;
+        if (this.goldGramsValue) {
+            const totalValue = this.currentValue * this.goldGramsValue;
+            this.convertTotalValue(totalValue)
+            
+        }else{
+            details.get('totalMarketValue').setValue(null)
+        }
+
+    }
+
+    goldGrams(value) {
+        const formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
+        const details = formArray.at(0)
+        this.goldGramsValue = value;
+        if (this.currentValue) {
+            const totalValue = this.currentValue * this.goldGramsValue;
+            this.convertTotalValue(totalValue)
+        }
+        else{
+            details.get('totalMarketValue').setValue(null)
+        }
+    }
+
+    convertTotalValue(totalValue){
+        const formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
+        const details = formArray.at(0)
+        const totalValueString= totalValue.toString();
+            if(totalValueString.includes('.')){
+               const secondIndexValue=totalValueString.split('.')[1]
+               const firstIndexValue=totalValueString.split('.')[0]
+               const sliceValue= secondIndexValue.slice(0,4) 
+               const finalValue= firstIndexValue + '.' + sliceValue;
+               details.get('totalMarketValue').setValue(finalValue)
+            }else{
+                details.get('totalMarketValue').setValue(totalValue)
+            }
+    }
 
     onFindRelationship(value) {
         let typeOfApplicant = this.applicantDetails.find((res => res.applicantId === Number(value)))
@@ -214,6 +242,8 @@ export class AdditionalCollateralComponent implements OnInit {
                 })
 
                 formArray.clear();
+                this.currentValue=collateralDetail.currentValuePerGram
+                this.goldGramsValue=collateralDetail.goldInGrams
 
                 formArray.controls.push(
                     this._fb.group({
@@ -228,6 +258,7 @@ export class AdditionalCollateralComponent implements OnInit {
                         propertyAddress: collateralDetail.propertyAddress || '',
                         propertyOwner: collateralDetail.propertyOwner || '',
                         propertyType: collateralDetail.propertyType || '',
+                        propertyOwnerType: collateralDetail.propertyOwnerType || '',
                         purity: collateralDetail.purity || '',
                         relationWithApplicant: collateralDetail.relationWithApplicant || '',
                         surveyNumber: collateralDetail.surveyNumber || null,
@@ -235,6 +266,7 @@ export class AdditionalCollateralComponent implements OnInit {
                         totalGuideLineValue: collateralDetail.totalGuideLineValue || null,
                         totalLandArea: collateralDetail.totalLandArea || null,
                         totalMarketValue: collateralDetail.totalMarketValue || null,
+
                     })
                 )
             }
@@ -254,17 +286,18 @@ export class AdditionalCollateralComponent implements OnInit {
             additionalCollaterals['proofName'] = form.value.proofName;
             additionalCollaterals['proofCollected'] = form.value.proofCollected;
 
-            if (this.collateralType === 'GOLDADDCOLTYP') {
+            // if (this.collateralType === 'GOLDADDCOLTYP') {
 
-                additionalCollaterals['totalMarketValue'] = additionalCollaterals['currentValuePerGram'] * additionalCollaterals['goldInGrams']
+            //     additionalCollaterals['totalMarketValue'] = additionalCollaterals['currentValuePerGram'] * additionalCollaterals['goldInGrams']
 
-            } else if (this.collateralType === 'AGRIADDCOLTYP') {
+            // } 
+            if (this.collateralType === 'AGRIADDCOLTYP') {
 
                 additionalCollaterals['totalMarketValue'] = additionalCollaterals['marketValue'] * additionalCollaterals['landInAcres'];
                 additionalCollaterals['totalGuideLineValue'] = additionalCollaterals['guideLineValue'] * additionalCollaterals['landInAcres']
 
             } else if (this.collateralType === 'PROPADDCOLTYP') {
-                
+
                 additionalCollaterals['totalMarketValue'] = additionalCollaterals['marketValue'] * additionalCollaterals['totalLandArea'];
                 additionalCollaterals['totalGuideLineValue'] = additionalCollaterals['guideLineValue'] * additionalCollaterals['totalLandArea']
             }

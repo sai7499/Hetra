@@ -5,6 +5,7 @@
       data-animation="scaleIn"
       id="form-class"
     >
+
       <div class="btn-sec clear-both row">
         <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
           <label for="entity">{{ labels?.entity }}</label>
@@ -135,10 +136,11 @@
               <app-custom-input
                 formControlName="name1"
                 [maxLength]="validationData?.name?.maxLength"
-                [isRequired]="'First Name is required'"
-                [isDirty]="isDirty"
+                
                 [type]="validationData?.name?.type"
               ></app-custom-input>
+              <!-- [isRequired]="'First Name is required'"
+                [isDirty]="isDirty" -->
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="name">{{ labels?.middleName }}</label>
@@ -167,10 +169,11 @@
               <app-custom-input
                 formControlName="name3"
                 [maxLength]="validationData?.name?.maxLength"
-                [isRequired]="'Last Name is required'"
-                [isDirty]="isDirty"
+                
                 [type]="validationData?.name?.type"
               ></app-custom-input>
+              <!-- [isRequired]="'Last Name is required'"
+                [isDirty]="isDirty" -->
             </div>
           </div>
           <div class="row">
@@ -545,7 +548,9 @@
               <app-vf-custom-select
                 [values]="ownerPropertyRelation"
                 formControlName="houseOwnerProperty"
-                [isDirty]="isDirty"                
+                [isDirty]="isDirty"     
+                [isRequired]="hideMsgForOwner? 'Owner Of the Property is Required' : ''" 
+                
               >
               </app-vf-custom-select>
             </div>
@@ -558,6 +563,7 @@
                 [values]="LOV?.LOVS?.relationship"
                 formControlName="ownHouseAppRelationship"
                 [isDirty]="isDirty"
+                [isRequired]="hideMsgForOwner? 'Owner Relationship is Required' : ''"
               >
               </app-vf-custom-select>
             </div>
@@ -775,8 +781,29 @@
   
               </div>
 
-            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
-              <label for="no_of_yrs_res_at_pres"
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 pad-zero">
+
+
+              <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+                <label for="no_of_years_residing">{{ labels?.yrsOfResidence }}
+                </label>
+            </div>
+            
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                <label for="no_of_year">Years
+                    <sub class="star_red_col">*</sub></label>
+                <app-custom-input formControlName="noOfYears" [id]="'no_of_year'" [type]="labels.validationData?.yearsOfMonths.type" [maxLength]="labels.validationData?.yearsOfMonths.maxLength"  [isRequired]="'No. of Years is Required'"  [placeholder]="'No of Years'" [custom]="yearValidation" [isDirty]="isDirty">
+                </app-custom-input>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                <label for="no_of_month">Months
+                    <sub class="star_red_col">*</sub></label>
+                <app-custom-input formControlName="noOfMonths" [isRequired]="'No. of Months is Required'" [id]="'no_of_month'" [type]="labels.validationData?.yearsOfMonths.type" [maxLength]="labels.validationData?.yearsOfMonths.maxLength" [placeholder]="'No of Months'" [custom]="monthValidation" [isDirty]="isDirty">
+                </app-custom-input>
+            </div>
+
+
+              <!-- <label for="no_of_yrs_res_at_pres"
               >{{ labels?.yrsOfResidence }}
               <sub class="star_red_col">*</sub></label
             >
@@ -786,7 +813,7 @@
                 [type]="validationData?.yearsOfResidence?.type"
                 [isRequired]="'No of years residence is required'"
                 [isDirty]="isDirty"
-              ></app-custom-input>
+              ></app-custom-input> -->
            </div>
 
           
@@ -984,6 +1011,60 @@
 
               </div>
           </div>
+
+          <div class="row"
+          *ngIf="custCatValue=='SALCUSTSEG'">
+
+            <div
+              class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12"
+              id="align_this_checkbox"
+            >
+              <input
+                type="checkbox"
+                id=""
+                (click)="isRelativeEquitas($event)"
+                [checked]="checkedRelativeEquitas=='1'"
+                formControlName="isEquitasEmployeeRelative"
+                class="senior_minor"
+              />
+              <span class="is_senior">{{labels?.equitasEmployeesRelative}}</span>
+            </div>
+
+            <div
+            class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12"
+            id="align_this_checkbox"
+          >
+          <!-- {{disableEquitasEmployee}} -->
+            <input
+              type="checkbox"
+              id=""
+              (click)="isEquitasEmployee($event)"
+              [checked]="checkedEquitasEmployee=='1'"
+              
+              formControlName="isEquitasEmployee"
+              class="senior_minor"
+            />
+            <span class="is_senior">{{labels?.equitasEmployee}}</span>
+          </div>
+              <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12"
+              *ngIf="showEmployeeNo">
+
+                <label for="margin_money"
+                >{{labels?.employeeNo}}
+                <sub class="star_red_col">*</sub></label
+              >
+                <app-custom-input
+                  formControlName="equitasEmployeeNumber"
+                  [maxLength]="validationData?.employeeNo?.maxLength"
+                  [type]="validationData?.employeeNo?.type"
+                  [isRequired]="'Employee Number is required'"
+                  [isDirty]="isDirty"
+                ></app-custom-input>
+  
+  
+                </div>
+          </div>
+
 
           <div *ngIf="custCatValue=='SALCUSTSEG'">      
           <div class="row">
@@ -1216,8 +1297,27 @@
 
         </div>
         <div class="row">
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="employee_code"
+          <div class="form-group col-sm-6 col-md-4 col-lg-3 pad-zero">
+
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+              <label for="employee_code">Number Of years In Current business
+              </label>
+          </div>
+          
+          <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+              <label for="no_of_year">Years
+                  <sub class="star_red_col">*</sub></label>
+              <app-custom-input formControlName="noOfYearsBussiness" [id]="'no_of_year'" [type]="labels.validationData?.yearsOfMonths.type" [maxLength]="labels.validationData?.yearsOfMonths.maxLength"  [isRequired]="'No. of Years is Required'"  [placeholder]="'No of Years'" [custom]="yearValidation" [isDirty]="isDirty">
+              </app-custom-input>
+          </div>
+          <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+              <label for="no_of_month">Months
+                  <sub class="star_red_col">*</sub></label>
+              <app-custom-input formControlName="noOfMonthsBussiness" [isRequired]="'No. of Months is Required'" [id]="'no_of_month'" [type]="labels.validationData?.yearsOfMonths.type" [maxLength]="labels.validationData?.yearsOfMonths.maxLength" [placeholder]="'No of Months'" [custom]="monthValidation" [isDirty]="isDirty">
+              </app-custom-input>
+          </div>
+
+            <!-- <label for="employee_code"
               >Number Of years In Current business
               <sub class="star_blue_col">*</sub></label
             >
@@ -1229,7 +1329,9 @@
             [maxLength]="validationData?.noOfBusinessYears.maxLength"
             [type]="validationData?.noOfBusinessYears.type"
 
-            ></app-custom-input>
+            ></app-custom-input> -->
+
+
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="employee_code"
@@ -1335,9 +1437,9 @@
                 formControlName="companyPhoneNumber"
                 [isRequired]="'Contact Number is required'"
                 [isDirty]="isDirty"
-                [maxLength]="validationData?.landlineNumber?.maxLength"
-                [type]="validationData?.landlineNumber?.type"
-                [patternCheck]="validationData?.landlineNumber?.patternCheck"
+                [maxLength]="validationData?.mobileNumber?.maxLength"
+                [type]="validationData?.mobileNumber?.type"
+                [patternCheck]="validationData?.mobileNumber?.patternCheck"
               ></app-custom-input>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -1531,7 +1633,8 @@
               *ngIf="productCategory=='1003' && fundingProgram=='26'">
                 <label for="Vechical Type">{{labels?.houseOwnerProperty}} <sub class="star_blue_col">*</sub></label>
                 <app-vf-custom-select [values]="ownerPropertyRelation"
-                  formControlName="houseOwnerProperty"  [isDirty]="isDirty">
+                  formControlName="houseOwnerProperty"  [isDirty]="isDirty"
+                  [isRequired]="hideMsgForOwner? 'Owner Of the Property is Required' : ''" >
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12"
@@ -1540,7 +1643,8 @@
                 <app-vf-custom-select [values]="LOV.LOVS?.relationship"
                   formControlName="ownHouseAppRelationship" 
                    
-                  [isDirty]="isDirty">
+                  [isDirty]="isDirty"
+                  [isRequired]="hideMsgForOwner? 'Owner Relationship is Required' : ''" >
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 "

@@ -51,6 +51,12 @@
                   *ngIf="roleType == '5'">
                   Welcome Letter
               </button>
+              <!-- {{productCatCode}}test -->
+              <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 8}"
+                type="button" id="applicant_identity_details" (click)="onNavigate('delivery-order')" 
+                *ngIf="roleType == '5' && productCatCode == 'NCV'">
+                Delivery Order
+            </button>
 
              
               

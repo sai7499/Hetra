@@ -17,7 +17,8 @@ export class TermsConditionsComponent implements OnInit {
   leadId: any;
   userId: any;
   processData: any;
-
+  loanAmount;
+  eligibleAmount;
   constructor(
     private labelsData: LabelsService,
     private createLeadDataService: CreateLeadDataService,
@@ -89,6 +90,8 @@ export class TermsConditionsComponent implements OnInit {
        res.ProcessVariables.error.code === '0'
       ) {
         this.processData = res.ProcessVariables;
+        this.loanAmount = Number(this.processData.loanAmount ).toLocaleString('en-IN');
+        this.eligibleAmount = Number(this.processData.eligibleAmount ).toLocaleString('en-IN');
       }
       //  else {
       //   this.router.navigate([
