@@ -607,7 +607,7 @@
                   <button class="btn btn-default"
                   (click)="onRetreiveAdhar()"
                   (mouseleave)="onRelieve()"
-                  (blur)="onRelieve()">
+                  (mousemove)="onRelieve()">
                     <i class="fa fa-credit-card"></i>
                   </button>
                 </span>
@@ -763,8 +763,7 @@
                     [max]="toDayDate"
                     [activeView]="'decade'"
                     [(ngModel)]="drivingLicenseIssueDate"
-                    (ngModelChange)="dateSelected()"
-                    (valueChange)="clearDrivingExpiryDate()"
+                    (valueChange)="drivingIssueDateShowError()"
                     [disabled]='disabledDrivingDates'
                     placeholder="Driving License Issue Date"
                   >
@@ -833,10 +832,9 @@
                     class="form-control mandatory"
                     formControlName="drivingLicenseExpiryDate"
                     [format]="'dd/MM/yyyy'"
-                    [min]="drivingLicenseIssueDate"
+                    [min]="toDayDate"
                     [activeView]="'decade'"
                     [(ngModel)]="drivingLicenseExpiryDate"
-                    (ngModelChange)="expiryDateSelected()"
                     (valueChange)="drivingLicenceExpiryShowError()"
                     [disabled]='disabledDrivingDates'
                     placeholder="Driving License Expiry Date"
@@ -933,8 +931,7 @@
                     [max]="toDayDate"
                     [activeView]="'decade'"
                     [(ngModel)]="passportIssueDate"
-                    (ngModelChange)="passportDateSelected()"
-                    (valueChange)="clearPassportExpiryDate()"
+                    (valueChange)="passportIssueDateShowError()"
                     [disabled]="disabledPassportDates"
                     placeholder="Passport Issue Date"
                   >
@@ -968,10 +965,9 @@
                     class="form-control mandatory"
                     formControlName="passportExpiryDate"
                     [format]="'dd/MM/yyyy'"
-                    [min]="passportIssueDate"
+                    [min]="toDayDate"
                     [activeView]="'decade'"
                     [(ngModel)]="passportExpiryDate"
-                    (ngModelChange)="passportExpiryDateSelected()"
                     (valueChange)="passportExpiryShowError()"
                     [disabled]="disabledPassportDates"
                     placeholder="Passport Expiry Date"

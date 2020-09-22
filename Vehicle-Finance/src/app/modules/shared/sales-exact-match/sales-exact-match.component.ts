@@ -105,7 +105,7 @@ export class SalesExactMatchComponent implements OnInit {
           if (processVariables.isNLFound) {
             nlRemarks = processVariables.dedupeCustomerNL.remarks;
           }
-          if (processVariables.dedupeCustomerNLTR.isNLTRFound) {
+          if (processVariables.isNLTRFound) {
             nlTrRemarks = processVariables.dedupeCustomerNLTR.remarks;
           }
 
@@ -115,6 +115,8 @@ export class SalesExactMatchComponent implements OnInit {
             nlRemarks,
             nlTrRemarks,
           };
+        }else{
+          this.toasterService.showError(value.ProcessVariables.code.message, '')
         }
       });
   }
