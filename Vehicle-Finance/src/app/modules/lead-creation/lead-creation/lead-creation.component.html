@@ -112,7 +112,7 @@
                 [notFoundTemplate]="notFoundTemplate"
                 formControlName="sourcingCode"
                 [placeHolder]="sourcingCodePlaceholder"
-                [debounceTime]="400"
+                [minQueryLength]="2"
                 [disabled]="isSourchingCode">                                 
               </ng-autocomplete>               
               <ng-template #sourcingCodeTemplate let-item>
@@ -139,7 +139,7 @@
                   [notFoundTemplate]="notFoundTemplate"
                   formControlName="dealerCode"
                   [placeHolder]="'Dealer Code'"
-                  [debounceTime]="400">                                 
+                  [minQueryLength]="2">                                 
                 </ng-autocomplete>               
                 <ng-template #dealerCodeTemplate let-item>
                 <a [innerHTML]="item.dealorName"></a>
