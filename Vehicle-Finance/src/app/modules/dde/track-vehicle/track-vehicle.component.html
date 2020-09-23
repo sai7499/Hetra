@@ -275,6 +275,10 @@
                 (change) = "openNoOfEmisAccruedModal($event)"
                 >
               </app-custom-input>
+
+              <div class="cus-mandatory-field" *ngIf="f.emisPaid.errors && f.emisPaid.errors['incorrect']">
+                Accrued not greater than Tenure
+            </div>
                 <!-- <input type="number" class="form-control" id="no_of_emis_paid" formControlName="emisPaid">
                 <span *ngIf="submitted && f.emisPaid.errors"style= "color:red;" class="invalid-feedback">
                     <span *ngIf="f.emisPaid.errors.required">{{labels?.noOfEmisPaid}} is required</span>
@@ -478,7 +482,7 @@
                                                </div>
                                         </div>
                                        
-                                        <div class="isDirty" *ngIf="submitted && !itemrow.controls['receivedDate'].vaild">
+                                        <div class="isDirty" *ngIf="submitted && !itemrow.controls['receivedDate'].vaild && !itemrow.controls['receivedDate'].touched">
                                             <div class="cus-mandatory-field" *ngIf="itemrow.controls['receivedDate'].hasError('required')">
                                                 Received date is mandatory
                                             </div>
