@@ -1141,7 +1141,7 @@ export class NegotiationComponent implements OnInit {
         "ApplicantJson": JSON.stringify(this.Applicants),
         "CombinedLoanJson": JSON.stringify(this.CombinedLoan),
         "AssetsJson": JSON.stringify(this.finalAsset),
-        "IsCombinedLoan": "N"
+        "IsCombinedLoan": "Y"
       }
       this.NegotiationService
         .submitNegotiation(NegotiationDetails

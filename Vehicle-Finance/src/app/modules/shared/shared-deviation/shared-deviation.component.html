@@ -6,7 +6,7 @@
         (click)="getTrigurePolicy()">{{labels.getTriggerPolicy}}</button>
     </div>
 
-    <div class="text-right" id="get_role_details_btn" *ngIf="isSendBacktoCredit && isZero">
+    <div class="text-right" id="get_role_details_btn" *ngIf="isSendBacktoCredit && isWaiverTrigger">
       <button class="btn mar-right8 btn-primary" type="button" (click)="getTriggerWaiverNorms()">Trigger Waiver
         Norms</button>
     </div>
@@ -82,7 +82,8 @@
       </div>
     </ng-container>
 
-    <div *ngIf="isSendBacktoCredit && isZero || deviationsForm.get('waiverNormsFormArray')['controls'].length > 0">
+    <div
+      *ngIf="isSendBacktoCredit && isWaiverTrigger || deviationsForm.get('waiverNormsFormArray')['controls'].length > 0">
       <hr>
     </div>
 
@@ -318,14 +319,16 @@
           [disabled]="!deviationsForm.controls['approverRole'].value"
           (click)="onPatchRecommendationModal('Recommendation')">{{labels?.refer}}</button>
       </div>
-      <div class="col-sm-3 row text-right" *ngIf="isSubmitToCredit && !isSendBacktoCredit">
+      <div class="col-sm-3 row text-right">
 
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
           [disabled]="!deviationsForm.get('enableApprove').value"
-          (click)="onPatchRecommendationModal('ApproveDeviations')">{{labels?.approveDeviations}}</button>
+          (click)="onPatchRecommendationModal('ApproveDeviations')"
+          *ngIf="isApprove">{{labels?.approveDeviations}}</button>
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
           [disabled]="!deviationsForm.get('enableSendBack').value"
-          (click)="onPatchRecommendationModal('sendBackToCredit')">{{labels?.sendBackToCredit}}</button>
+          (click)="onPatchRecommendationModal('sendBackToCredit')"
+          *ngIf="isSubmitToCredit && !isSendBacktoCredit">{{labels?.sendBackToCredit}}</button>
 
       </div>
     </div>
