@@ -2284,9 +2284,13 @@
         },
         "timeOfVerification": {
             "maxLength": {
-                "rule": 10
+                "rule": 5
             },
-            "type": "alpha-numeric"
+            "patternCheck": {
+                "rule": "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$", 
+                "msg": "Invalid format/ Time of Verification format should be HH:MM"
+            },
+            "type": ""
         },
         "emiAffordability": {
             "maxLength": {
