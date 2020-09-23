@@ -385,7 +385,7 @@
           </thead>
           <tbody>
             <tr
-              *ngFor="let item of pddDetails | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
+              *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
               <td *ngIf="displayTabs?.LoanBooking === activeTab" [attr.data-label]="labels?.leadID"
                 class="text-underline" (click)="getLoanNumber(item.loanNumber)"><a
                   [routerLink]="[ '/pages/dde', item.leadId,'loan-status' ]">{{item.leadId ? item.leadId : '--'}}</a>
