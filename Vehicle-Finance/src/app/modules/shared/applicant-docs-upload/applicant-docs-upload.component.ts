@@ -40,10 +40,14 @@ export class ApplicantDocsUploadComponent implements OnInit {
     this.DEFAULT_PROFILE_IMAGE = '';
     this.DEFAULT_SIGNATURE_IMAGE = '';
   }
+  @Input() set docSize(value) {
+      this.OTHER_DOCUMENTS_SIZE = value;
+  };
   associatedWith;
   PROFILE_SIZE = Constant.PROFILE_IMAGE_SIZE;
   PROFILE_TYPE = Constant.PROFILE_ALLOWED_TYPES;
-  OTHER_DOCUMENTS_SIZE = Constant.OTHER_DOCUMENTS_SIZE;
+  OTHER_DOCUMENTS_SIZE: number; 
+  // = Constant.OTHER_DOCUMENTS_SIZE;
   OTHER_DOCS_TYPE = Constant.OTHER_DOCUMENTS_ALLOWED_TYPES;
   DEFAULT_PROFILE_IMAGE: string;
   DEFAULT_SIGNATURE_IMAGE: string;
@@ -117,6 +121,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   getApplicantDocumentCategory(applicantId) {
+    console.log('this.subCategories', this.subCategories);
     this.subCategories.forEach((val) => {
       const formArray = this.uploadForm.get(
         `${this.FORM_ARRAY_NAME}_${val.code}`
@@ -155,6 +160,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   getCategoriesDetails(categoryCode: any[]) {
+    console.log('categoryCode', categoryCode);
     const categories = this.lovService.getDocumentCategories();
     // this.categories = categories.filter((category) => {
     //   return category.code === 50 || category.code === 70;
@@ -169,6 +175,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
         this.categories.push(category);
       }
     });
+    console.log('this.categories', this.categories);
     const subCategories = this.categories.map((category) => {
       return category.subcategories;
     });
