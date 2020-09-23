@@ -57,7 +57,7 @@
               <td *ngIf="isIndividual">Mother Maiden Name</td>
               <td>Mobile Number</td>
               <td>PAN</td>
-              <td>{{ isIndividual ? 'Adhaar' : 'Udyog Adhaar' }}</td>
+              <td>{{ isIndividual ? 'Adhaar Ref' : 'Udyog Adhaar Ref' }}</td>
               <ng-container *ngIf="isIndividual">
                 <td>Passport</td>
                 <td>Voter ID</td>
@@ -123,7 +123,7 @@
             <td *ngIf="isIndividual">Mother Maiden Name</td>
             <td>Mobile Number</td>
             <td>PAN</td>
-            <td>{{ isIndividual ? 'Adhaar' : 'Udyog Adhaar' }}</td>
+            <td>{{ isIndividual ? 'Adhaar Ref' : 'Udyog Adhaar Ref' }}</td>
             <ng-container *ngIf="isIndividual">
               <td>Passport</td>
               <td>Voter ID</td>
@@ -177,7 +177,7 @@
               <td>{{ exactMatch?.gst=="undefined"? '' :exactMatch.gst  }}</td>
               <td>{{ exactMatch?.tan=="undefined"? '' :exactMatch.tan  }}</td>
             </ng-container>
-            <td *ngIf="isIndividual">{{ exactMatch.prospectCkycNumber }}</td>
+            <td *ngIf="isIndividual">{{ exactMatch.prospectCkycNumber=="undefined"? '' :exactMatch.prospectCkycNumber}}</td>
           </tr>
         </tbody>
       </table>
@@ -197,7 +197,7 @@
               <td *ngIf="isIndividual">Mother Maiden Name</td>
               <td>Mobile Number</td>
               <td>PAN</td>
-              <td>{{ isIndividual ? 'Adhaar' : 'Udyog Adhaar' }}</td>
+              <td>{{ isIndividual ? 'Adhaar Ref' : 'Udyog Adhaar Ref' }}</td>
               <ng-container *ngIf="isIndividual">
                 <td>Passport</td>
                 <td>Voter ID</td>
@@ -302,6 +302,13 @@
         Reject Lead
       </button></a
     > -->
+    <button
+    class="btn btn-primary save"
+    id="save_vehicle_details"
+    (click)="onBack()"
+  >
+    Review Applicant Details
+  </button>
     <button
       class="btn btn-primary save"
       id="save_vehicle_details"
