@@ -70,7 +70,7 @@ export class BasicDetailsComponent implements OnInit {
   externalIssueDate : any;
   showEmployeeNo: boolean = false;
   checkedEquitasEmployee: string= '0';
-  checkedRelativeEquitas: string = '0'
+  checkedRelativeEquitas: string = '0';
 
   emailPattern = {
     rule: '^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(\\.\\w{2,10})+$',
@@ -81,6 +81,7 @@ export class BasicDetailsComponent implements OnInit {
     key: string,
     value: string
   }[]
+  hideMsgForOwner: boolean = false;
 
   monthValidation: {
     rule?: any;
@@ -238,17 +239,28 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     if (this.isChecked === true) {
-
+      this.hideMsgForOwner = true;
       details.get('houseOwnerProperty').setValidators([Validators.required]);
       details.get('ownHouseAppRelationship').setValidators([Validators.required]);
       details.get('houseOwnerProperty').updateValueAndValidity();
       details.get('ownHouseAppRelationship').updateValueAndValidity();
+      const houseOwner = details.get('houseOwnerProperty').value;
+      const ownHouseAppRelationship= details.get('ownHouseAppRelationship').value
+      details.patchValue({
+        houseOwnerProperty : houseOwner,
+        ownHouseAppRelationship : ownHouseAppRelationship
+      })
 
     } else {
+      this.hideMsgForOwner = false;
       details.get('houseOwnerProperty').clearValidators();
       details.get('ownHouseAppRelationship').clearValidators();
       details.get('houseOwnerProperty').updateValueAndValidity();
       details.get('ownHouseAppRelationship').updateValueAndValidity();
+      // details.patchValue({
+      //   houseOwnerProperty : '',
+      //   ownHouseAppRelationship : ''
+      // })
     }
   }
 
@@ -456,9 +468,17 @@ export class BasicDetailsComponent implements OnInit {
 
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
-
-    this.checkedBoxHouse = applicantDetails.ownHouseProofAvail == '1' ? true : false;
-    this.isChecked= applicantDetails.ownHouseProofAvail == '1' ? true : false;
+  if( applicantDetails.ownHouseProofAvail=='1'){
+    this.checkedBoxHouse = true;
+    this.isChecked= true;
+    this.hideMsgForOwner = true;
+  }else{
+    this.checkedBoxHouse = false;
+    this.isChecked= false;
+    this.hideMsgForOwner = false;
+  }
+    // this.checkedBoxHouse = applicantDetails.ownHouseProofAvail == '1' ? true : false;
+    // this.isChecked= applicantDetails.ownHouseProofAvail == '1' ? true : false;
 
 
 
@@ -493,6 +513,7 @@ export class BasicDetailsComponent implements OnInit {
     const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails
       ? this.applicant.aboutIndivProspectDetails
       : {};
+      const indivProspectProfileDetails = this.applicant.indivProspectProfileDetails
     this.basicForm.get('title').setValidators([Validators.required]);
     this.basicForm.get('bussinessEntityType').clearValidators();
     this.basicForm.updateValueAndValidity();
@@ -519,6 +540,7 @@ export class BasicDetailsComponent implements OnInit {
 
     this.checkedEquitasEmployee= aboutIndivProspectDetails.isEquitasEmployee;
     this.checkedRelativeEquitas= aboutIndivProspectDetails.isEquitasEmployeeRelative;
+    this.checkedRelativeEquitas=='1'? details.get('isEquitasEmployee').disable() : details.get('isEquitasEmployee').enable() 
     if(this.checkedEquitasEmployee=='1'){
        this.setEmployeeNoValidation(details)
        this.showEmployeeNo= true;
@@ -542,6 +564,15 @@ export class BasicDetailsComponent implements OnInit {
 
       noofmonthsInBusiness = String(Number(aboutIndivProspectDetails.currentBusinessYears) % 12 ) || '';
       noofyearsInBusiness = String(Math.floor(Number(aboutIndivProspectDetails.currentBusinessYears) / 12 )) || '';
+    }
+
+    let noofmonthsInCurrEmp = '';
+    let noofyearsInCurrEmp = ''
+
+    if(aboutIndivProspectDetails.currentEmpYears) {
+
+      noofmonthsInCurrEmp = String(Number(aboutIndivProspectDetails.currentEmpYears) % 12 ) || '';
+      noofyearsInCurrEmp = String(Math.floor(Number(aboutIndivProspectDetails.currentEmpYears) / 12 )) || '';
     }
 
     details.patchValue({
@@ -571,6 +602,9 @@ export class BasicDetailsComponent implements OnInit {
       employerType: aboutIndivProspectDetails.employerType || '',
       designation: aboutIndivProspectDetails.designation || '',
       currentEmpYears: aboutIndivProspectDetails.currentEmpYears || '',
+      noOfYearsCurrEmp: noofyearsInCurrEmp || '',
+      noOfMonthsCurrEmp: noofmonthsInCurrEmp || '',
+
       employerName: aboutIndivProspectDetails.employerName || '',
 
       businessType: aboutIndivProspectDetails.businessType || '',
@@ -683,6 +717,7 @@ export class BasicDetailsComponent implements OnInit {
       this.showEmployeeNo=true;
       this.checkedEquitasEmployee= '1'
       this.setEmployeeNoValidation(details);
+      
     }else{
       this.showEmployeeNo=false;
       this.checkedEquitasEmployee= '0'
@@ -694,25 +729,39 @@ export class BasicDetailsComponent implements OnInit {
   setEmployeeNoValidation(details){
     details.get('equitasEmployeeNumber').setValidators([Validators.required]);
     details.get('equitasEmployeeNumber').updateValueAndValidity();
+    details.get('isEquitasEmployeeRelative').disable();
   }
 
   removeEmployeeNoValidation(details){ 
     details.get('equitasEmployeeNumber').clearValidators();
     details.get('equitasEmployeeNumber').updateValueAndValidity();
+    details.get('isEquitasEmployeeRelative').enable()
   }
 
-  isRelativeequitas(event){
-    const value=event.target.checked
-    this.checkedRelativeEquitas= value? '1' : '0';
+  isRelativeEquitas(event){
+    const value=event.target.checked;
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    
+    if(value){
+      this.checkedRelativeEquitas='1';
+      // this.disableEquitasEmployee=true;
+      details.get('isEquitasEmployee').disable()
+
+    }else{
+      this.checkedRelativeEquitas='0'
+      details.get('isEquitasEmployee').enable()
+      
+    }
   }
 
 
   addIndividualFormControls() {
     const formArray = this.basicForm.get('details') as FormArray;
     const controls = new FormGroup({
-      name1: new FormControl(null, Validators.required),
-      name2: new FormControl(null),
-      name3: new FormControl(null, Validators.required),
+      name1: new FormControl({value : '', disabled : true}),
+      name2: new FormControl({value : '', disabled : true}),
+      name3: new FormControl({value : '', disabled : true}),
       mobilePhone: new FormControl(null, Validators.required),
       dob: new FormControl(null, Validators.required),
       age: new FormControl({value: '', disabled: true}),
@@ -740,6 +789,8 @@ export class BasicDetailsComponent implements OnInit {
       designation: new FormControl(''),
       employerName: new FormControl(null),
       currentEmpYears: new FormControl(null),
+      noOfYearsCurrEmp: new FormControl(null),
+      noOfMonthsCurrEmp: new FormControl(null),
       employeeCode: new FormControl(null),
       employerType: new FormControl(''),
 
@@ -1010,8 +1061,14 @@ export class BasicDetailsComponent implements OnInit {
     details.get('designation').updateValueAndValidity();
     details.get('employerName').setValidators([Validators.required]);
     details.get('employerName').updateValueAndValidity();
-    details.get('currentEmpYears').setValidators([Validators.required]);
-    details.get('currentEmpYears').updateValueAndValidity();
+
+    details.get('noOfYearsCurrEmp').setValidators([Validators.required]);
+    details.get('noOfYearsCurrEmp').updateValueAndValidity();
+    
+    details.get('noOfMonthsCurrEmp').setValidators([Validators.required]);
+    details.get('noOfMonthsCurrEmp').updateValueAndValidity();
+    
+
     details.get('employeeCode').setValidators([Validators.required]);
     details.get('employeeCode').updateValueAndValidity();
 
@@ -1043,8 +1100,23 @@ export class BasicDetailsComponent implements OnInit {
     details.get('employerName').updateValueAndValidity();
     details.get('currentEmpYears').clearValidators();
     details.get('currentEmpYears').updateValueAndValidity();
+    details.get('noOfYearsCurrEmp').clearValidators();
+    details.get('noOfYearsCurrEmp').updateValueAndValidity();
+    details.get('noOfMonthsCurrEmp').clearValidators();
+    details.get('noOfMonthsCurrEmp').updateValueAndValidity();
+
     details.get('employeeCode').clearValidators();
     details.get('employeeCode').updateValueAndValidity();
+
+    details.patchValue({
+      employerType: '',
+      designation: '',
+      employerName: '',
+      currentEmpYears: '',
+      noOfYearsCurrEmp: '',
+      noOfMonthsCurrEmp: '',
+      employeeCode: ''
+    })
   }
   removeSelfEmpValidators() {
     const formArray = this.basicForm.get('details') as FormArray;
@@ -1063,6 +1135,16 @@ export class BasicDetailsComponent implements OnInit {
     details.get('noOfMonthsBussiness').updateValueAndValidity();
     details.get('turnOver').clearValidators();
     details.get('turnOver').updateValueAndValidity();
+
+    details.patchValue({
+      businessType: '',
+      businessName: '',
+      businessStartDate:'',
+      currentBusinessYears: '',
+      noOfYearsBussiness: '',
+      noOfMonthsBussiness: '',
+      turnOver: ''
+    })
   }
 
 
@@ -1114,6 +1196,17 @@ export class BasicDetailsComponent implements OnInit {
   async onSubmit() {
     this.setValidation();
     const value = this.basicForm.getRawValue();
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    
+    if(this.hideMsgForOwner){
+      const houseOwner = details.get('houseOwnerProperty').value;
+      const ownHouseAppRelationship= details.get('ownHouseAppRelationship').value
+      details.patchValue({
+        houseOwnerProperty : houseOwner,
+        ownHouseAppRelationship : ownHouseAppRelationship
+      })
+    }
     console.log('basicForm', this.basicForm)
     if (this.basicForm.invalid) {
       this.isDirty = true;
@@ -1133,22 +1226,36 @@ export class BasicDetailsComponent implements OnInit {
 
     }
 
-    const formValueData = value.details[0];
-
-    if(formValueData.noOfYears === '0' && formValueData.noOfMonths === '0') {
-
-      this.toasterService.showError('Please fill any one of the no of years or months','No of years residing at present residence')
-      return;
-    }
-
-    if(formValueData.noOfYearsBussiness === '0' && formValueData.noOfMonthsBussiness === '0') {
-
-      this.toasterService.showError('Please fill any one of the no of years or months','No of years in current business')
-      return;
-    }
-
+  
     console.log('GETRAWVALUE', value);
     if (this.isIndividual) {
+
+      const formValueData = value.details[0];
+
+      if(Number(formValueData.noOfYears) == 0 && Number(formValueData.noOfMonths) == 0) {
+  
+        this.toasterService.showError('Please fill any one of the no of years or months','No of years residing at present residence')
+        return;
+      }
+  
+      if (this.custCatValue === "SEMCUSTSEG") {
+  
+        if(Number(formValueData.noOfYearsBussiness) == 0 && Number(formValueData.noOfMonthsBussiness) == 0) {
+  
+          this.toasterService.showError('Please fill any one of the no of years or months','No of years in current business')
+          return;
+        }
+  
+      }
+
+      if(this.custCatValue === 'SALCUSTSEG') {
+        if(Number(formValueData.noOfYearsCurrEmp) == 0 && Number(formValueData.noOfMonthsCurrEmp) == 0) {
+  
+          this.toasterService.showError('Please fill any one of the no of years or months','No of years in current employment')
+          return;
+        }
+      }
+
       this.storeIndividualValueInService(value);
     } else {
       this.storeNonIndividualValueInService(value);
@@ -1262,9 +1369,9 @@ export class BasicDetailsComponent implements OnInit {
     prospectDetails.preferredLanguage =
       aboutIndivProspectDetails.preferredLanguage;
     prospectDetails.designation = aboutIndivProspectDetails.designation;
-    prospectDetails.currentEmpYears = aboutIndivProspectDetails.currentEmpYears
-      ? aboutIndivProspectDetails.currentEmpYears
-      : '';
+
+    prospectDetails.currentEmpYears = String((Number(aboutIndivProspectDetails.noOfYearsCurrEmp) * 12 ) + Number(aboutIndivProspectDetails.noOfMonthsCurrEmp)) || '';
+
     prospectDetails.employeeCode = aboutIndivProspectDetails.employeeCode
       ? aboutIndivProspectDetails.employeeCode
       : '';
@@ -1315,20 +1422,24 @@ export class BasicDetailsComponent implements OnInit {
      prospectDetails.isEquitasEmployeeRelative= this.checkedRelativeEquitas;
      prospectDetails.isEquitasEmployee= this.checkedEquitasEmployee;
      prospectDetails.equitasEmployeeNumber= aboutIndivProspectDetails.equitasEmployeeNumber || '';
+     prospectDetails.employerType = formValue.employerType|| '';
+     prospectDetails.employerName = formValue.employerName|| '';
+
+     
 
     this.applicantDataService.setIndividualProspectDetails(prospectDetails);
 
 
-    indivProspectProfileDetails.employerType = formValue.employerType
-      ? formValue.employerType
-      : '';
-    indivProspectProfileDetails.employerName = formValue.employerName
-      ? formValue.employerName
-      : '';
+    // indivProspectProfileDetails.employerType = formValue.employerType
+    //   ? formValue.employerType
+    //   : '';
+    // indivProspectProfileDetails.employerName = formValue.employerName
+    //   ? formValue.employerName
+    //   : '';
     // console.log('indivProspectProfileDetails',indivProspectProfileDetails)
-    this.applicantDataService.setindivProspectProfileDetails(
-      indivProspectProfileDetails
-    );
+    // this.applicantDataService.setindivProspectProfileDetails(
+    //   indivProspectProfileDetails
+    // );
   }
 
   storeNonIndividualValueInService(value) {

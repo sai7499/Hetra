@@ -73,6 +73,7 @@ export class LeadCreationComponent implements OnInit {
   isFirstNameRequired: boolean;
   isLastNameRequired: boolean;
   dob: any;
+  isSourceCode: boolean;
 
 
   obj = {};
@@ -373,8 +374,10 @@ export class LeadCreationComponent implements OnInit {
     this.sourcingCodePlaceholder = this.placeholder[0].value;
     if (this.sourcingCodePlaceholder === 'Not Applicable') {
       this.isSourchingCode = true;
+      this.isSourceCode = true;
     } else {
       this.isSourchingCode = false;
+      this.isSourceCode = false;
     }
   }
 
@@ -404,6 +407,11 @@ export class LeadCreationComponent implements OnInit {
       });
   }
 
+  selectSourcingEvent(event){
+    const sourcingEvent = event;
+    this.isSourceCode = sourcingEvent.key ? true : false;
+  }
+
   onDealerCodeSearch(event) {
     let inputString = event;
     console.log('inputStringDelr', event);
@@ -420,14 +428,12 @@ export class LeadCreationComponent implements OnInit {
   }
 
   selectDealerEvent(event) {
-    this.isNgAutoCompleteDealer = event ? true : false;
+    this.isNgAutoCompleteDealer = event.dealorCode ? true : false;
     const rcData = event;
     this.createLeadForm.patchValue({ rcLimit: rcData.rcLimit });
     this.createLeadForm.patchValue({ rcUtilizedLimit: rcData.rcUtilized });
     this.createLeadForm.patchValue({ rcUnutilizedLimit: rcData.rcUnutilized });
   }
-
-  onFocused($event) { }
 
   selectApplicantType(event: any, bool) {
     this.applicantType = bool ? event : event.target.value;
@@ -501,15 +507,16 @@ export class LeadCreationComponent implements OnInit {
     console.log('isNgAutoCompleteDealer', this.createLeadForm.controls.dealerCode.value);
     console.log('isNgAutoCompleteSourcing', this.createLeadForm.controls.sourcingCode.value);
 
-    this.isNgAutoCompleteSourcing = this.createLeadForm.controls.sourcingCode.value;
-    this.isNgAutoCompleteDealer = this.createLeadForm.controls.dealerCode.value;
+    // this.isNgAutoCompleteSourcing = this.createLeadForm.controls.sourcingCode.value;
+    // this.isNgAutoCompleteDealer = this.createLeadForm.controls.dealerCode.value;
     this.isMobile = this.createLeadForm.controls.mobile.value;
     this.isDirty = true;
 
     if (
       this.createLeadForm.valid === true &&
-      this.isNgAutoCompleteDealer !== '' &&
-      this.isNgAutoCompleteSourcing !== '' &&
+      this.isNgAutoCompleteDealer &&
+      // this.isNgAutoCompleteSourcing !== '' &&
+      this.isSourceCode &&
       this.isMobile !== ''
     ) {
       const leadModel: any = { ...formValue };

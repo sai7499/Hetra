@@ -82,7 +82,8 @@ export class OtherDetailsComponent implements OnInit {
   branchLongitude: string;
   custProfileDetails: {};
   showRouteMap: boolean;
-
+  pdList: [];
+  pdStatusValue: any;
 
   constructor(
               private labelsData: LabelsService,
@@ -376,7 +377,8 @@ export class OtherDetailsComponent implements OnInit {
         const processVariables = value.ProcessVariables;
         if (processVariables.error.code === '0') {
           this.toasterService.showSuccess('submitted to credit successfully', '');
-          this.router.navigate([`/pages/dashboard`]);
+          this.getPdList();
+          // this.router.navigate([`/pages/dashboard`]);
         } else {
           this.toasterService.showError(processVariables.error.message, '');
         }
@@ -384,8 +386,37 @@ export class OtherDetailsComponent implements OnInit {
     } else {
       this.isDirty = true;
       this.toasterService.showError('please enter required details', '');
-      this.utilityService.validateAllFormFields(this.otherDetailsForm)
+      this.utilityService.validateAllFormFields(this.otherDetailsForm);
     }
+  }
+  getPdList() { // function to get all the pd report list respect to particular lead
+    const data = {
+      // leadId: 153,
+      //  uncomment this once get proper Pd data for perticular
+      leadId: this.leadId,
+      userId: this.userId
+    };
+    this.personalDiscussionService.getPdList(data).subscribe((value: any) => {
+      const processvariables = value.ProcessVariables;
+      // this.isFiCumPD = processvariables.isFiCumPD;
+      this.pdList = processvariables.finalPDList;
+      const arrayLength = this.pdList.length;
+      let n = 0;
+      for (var i in this.pdList) {
+        this.pdStatusValue = this.pdList[i]['pdStatusValue']
+        if (this.pdList[i]['pdStatusValue'] == "Submitted" ) {
+          n = n + 1;
+        }
+        console.log('number n ', n);
+        console.log('length', arrayLength);
+
+      }
+      if (n === arrayLength) {
+        this.router.navigate([`/pages/dashboard`]);
+      } else {
+        this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
+      }
+    });
   }
 
   reinitiatePd() {  // fun calling reinitiate fi report  api for reinitiating the respective fi report
