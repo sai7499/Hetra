@@ -42,7 +42,7 @@
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="startDate">{{labels.leadCreatedOnStartDate}}</label>
             <kendo-datepicker class="form-control" formControlName="fromDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
-              placeholder="Start Date" (ngModelChange)="onChange($event)" [activeView]="'decade'"></kendo-datepicker>
+              placeholder="Start Date" (ngModelChange)="onChangeFromDate($event)" [activeView]="'decade'"></kendo-datepicker>
               
           </div>
           <div [ngClass]="{'disablField': !filterForm.get('fromDate').value}"
@@ -65,7 +65,7 @@
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="minAmount">{{labels.loanMinAmount}}</label>
             <app-custom-input id="minAmount" formControlName="loanMinAmt" [className]="'form-control'"
-              [placeholder]="'Enter Loan amount'" [maxLength]="validationData?.amountValue.maxLength"
+              [placeholder]="'Enter Loan amount'" (ngModelChange)="onMinAmtChange($event)" [maxLength]="validationData?.amountValue.maxLength"
               [type]="validationData?.amountValue.type">
             </app-custom-input>
           </div>
@@ -73,9 +73,14 @@
             class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="maxAmount">{{labels.loanMaxAmount}}</label>
             <app-custom-input id="maxAmount" formControlName="loanMaxAmt" [className]="'form-control'"
-              [placeholder]="'Enter Loan amount'" [maxLength]="validationData?.amountValue.maxLength"
+              [placeholder]="'Enter Loan amount'" (ngModelChange)="onMaxAmtChange($event)" [maxLength]="validationData?.amountValue.maxLength"
               [type]="validationData?.amountValue.type">
             </app-custom-input>
+            <div *ngIf="minLoanAmtChange && isFromDate">
+              <div style="color:red">
+                  Amount should be grater then min amount is required
+              </div>
+          </div>
           </div>
           <div class="actionbtn col-sm-6 col-md-3 col-lg-3">
             <button class="btn btn-default mar-right8" type="button" id="clearbtn"

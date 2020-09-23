@@ -121,6 +121,8 @@ export class DashboardComponent implements OnInit {
   isDisable = true;
   isFromDate: boolean;
   fromDateChange;
+  minLoanAmtChange;
+  maxLoanAmtChange;
 
 
   // roleType;
@@ -272,26 +274,21 @@ export class DashboardComponent implements OnInit {
   }
 
   loanMaxAmtChange() {
-    this.filterForm.get('loanMaxAmt').valueChanges.pipe(debounceTime(300)).subscribe((data) => {
+    this.filterForm.get('loanMaxAmt').valueChanges.pipe(debounceTime(0)).subscribe((data) => {
 
       const minAmt = this.filterForm.get('loanMinAmt').value;
       const minLoanAmt = Number(minAmt || 0);
-      if (minAmt != null && !minAmt || (data && minLoanAmt >= data)) {
-        // this.filterForm.get('loanMaxAmt').setValue(null);
+      if (data && minLoanAmt >= data) {
         this.isFromDate = true;
-        this.toasterService.showWarning('Invalid Amount', '');
-      } else {
-        this.isFromDate = false;
+        // this.toasterService.showWarning('Invalid Amount', '');
       }
     });
   }
 
   loanMinAmtChange() {
-    this.filterForm.get('loanMinAmt').valueChanges.pipe(debounceTime(200)).subscribe((data) => {
-      const maxTime = this.filterForm.get('loanMaxAmt').value;
-      const minAmt = this.filterForm.get('loanMinAmt').value;
+    this.filterForm.get('loanMinAmt').valueChanges.pipe(debounceTime(0)).subscribe((data) => {
       if (data) {
-        // this.isFromDate = true;
+        this.isFromDate = true;
         this.filterForm.get('loanMaxAmt').setValue(null);
       } else {
         this.isFromDate = false;
@@ -299,12 +296,11 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  onChange(event) {
+  onChangeFromDate(event) {
     this.fromDateChange = this.utilityService.getDateFormat(event);
     if (this.fromDateChange) {
       this.isFromDate = true;
     }
-    console.log(this.fromDateChange);
   }
   onChangeEndDate(event) {
     const endDateChange = this.utilityService.getDateFormat(event);
@@ -313,64 +309,30 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  onMinAmtChange(event) {
+    this.minLoanAmtChange = event;
+    if (this.minLoanAmtChange) {
+      this.isFromDate = true;
+    }
+  }
 
-  // loanMaxAmtChange() {
-  //     this.filterForm.get('loanMaxAmt').valueChanges.pipe(debounceTime(1000)).subscribe((data) => {
-
-  //       const minAmt = this.filterForm.get('loanMinAmt').value;
-  //       const minLoanAmt = Number(minAmt || 0);
-  //       if ((data && minLoanAmt >= data)) {
-  //         // this.filterForm.get('loanMaxAmt').setValue(null);
-  //         this.toasterService.showWarning('Invalid Amount', '');
-  //         this.isDisable = false;
-  //         console.log('min');
-  //       } else if (data) {
-  //         this.isDisable = true;
-  //       }
-  //     });
-  // }
-
-  // loanMinAmtChange() {
-  //     this.filterForm.get('loanMinAmt').valueChanges.pipe(debounceTime(300)).subscribe((data) => {
-  //       const maxAmt = this.filterForm.get('loanMaxAmt').value;
-  //       const minAmt = this.filterForm.get('loanMinAmt').value;
-  //       console.log(data);
-  //       if(data != "" || data != undefined){
-  //       if (parseFloat(maxAmt) <= parseFloat(data)) {
-  //         // this.filterForm.get('loanMaxAmt').setValue(null);
-  //         this.isDisable = false;
-  //         console.log('max')
-  //       }
-  //     } else if (maxAmt > data) {
-  //         this.isDisable = true;
-  //       }
-  //     });
-  // }
-
-  // loanMinAmtChange() {
-  //   setTimeout(() => {
-  //       const maxAmt = this.filterForm.value.loanMaxAmt;
-  //       const minAmt = this.filterForm.value.loanMinAmt;
-  //       console.log(minAmt);
-  //       if(minAmt != "" && minAmt != undefined){
-  //       if (parseFloat(maxAmt) <= parseFloat(minAmt)) {
-  //         this.isDisable = false;
-  //       }
-  //     }else{
-  //         this.isDisable = true;
-  //       }
-  //   }, 0);
-
-  // }
+  onMaxAmtChange(event) {
+    this.maxLoanAmtChange = event;
+    if (this.maxLoanAmtChange) {
+      this.isFromDate = false;
+    } else if (this.minLoanAmtChange && !this.maxLoanAmtChange) {
+      this.isFromDate = true;
+    }
+  }
 
   // Loading dashboard pages
-  onTabsLoading(data) {
+  onTabsLoading(data, event?) {
     if (this.activeTab === this.displayTabs.PDD) {
-      this.getPDDLeads(this.itemsPerPage);
+      this.getPDDLeads(this.itemsPerPage, event);
     } else if (this.activeTab === this.displayTabs.ChequeTracking) {
-      this.getChequeTrackingLeads(this.itemsPerPage);
+      this.getChequeTrackingLeads(this.itemsPerPage, event);
     } else if (this.activeTab === this.displayTabs.LoanBooking) {
-      this.getProcessLogsLeads(this.itemsPerPage);
+      this.getProcessLogsLeads(this.itemsPerPage, event);
     }
     switch (data) {
       case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37:
@@ -388,55 +350,55 @@ export class DashboardComponent implements OnInit {
     }
     switch (data) {
       case 3:
-        this.getSalesFilterLeads(this.itemsPerPage);
+        this.getSalesFilterLeads(this.itemsPerPage, event);
         break;
       case 4: case 5:
         this.taskName = 'Sanctioned Leads';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 6: case 7:
         this.taskName = 'Declined Leads';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 8: case 9:
         this.taskName = 'Personal Discussion';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 10: case 11:
         this.taskName = 'Vehicle Viability';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 13: case 14:
         this.taskName = 'Field Investigation';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 21: case 22:
         this.taskName = 'DDE';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 23: case 24:
         this.taskName = 'Deviation';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 25: case 26:
         this.taskName = 'Credit Decision';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 28: case 29:
         this.taskName = 'TermSheet';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 31: case 32:
         this.taskName = 'CPC Maker';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 34: case 35:
         this.taskName = 'CPC Checker';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 37: case 38:
         this.taskName = 'Predisbursement';
-        this.getTaskDashboardLeads(this.itemsPerPage);
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       default:
         break;
@@ -782,70 +744,7 @@ export class DashboardComponent implements OnInit {
   }
 
   setPage(event) {
-
-    if (this.displayTabs.PDD === this.activeTab) {
-      this.getPDDLeads(this.itemsPerPage, event);
-    } else if (this.displayTabs.ChequeTracking === this.activeTab) {
-      this.getChequeTrackingLeads(this.itemsPerPage, event);
-    } else if (this.displayTabs.LoanBooking === this.activeTab) {
-      this.getProcessLogsLeads(this.itemsPerPage, event);
-    }
-    switch (this.subActiveTab) {
-      case 3:
-        this.getSalesFilterLeads(this.itemsPerPage, event);
-        break;
-      case 4: case 5:
-        this.taskName = 'Sanctioned Leads';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      case 6: case 7:
-        this.taskName = 'Declined Leads';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      case 8: case 9:
-        this.taskName = 'Personal Discussion';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      case 10: case 11:
-        this.taskName = 'Vehicle Viability';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      case 13: case 14:
-        this.taskName = 'Field Investigation';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      case 21: case 22:
-        this.taskName = 'DDE';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      case 23: case 24:
-        this.taskName = 'Deviation';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      case 25: case 26:
-        this.taskName = 'Credit Decision';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      case 28: case 29:
-        this.taskName = 'TermSheet';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      case 31: case 32:
-        this.taskName = 'CPC Maker';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      case 34: case 35:
-        this.taskName = 'CPC Checker';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      case 37: case 38:
-        this.taskName = 'Predisbursement';
-        this.getTaskDashboardLeads(this.itemsPerPage, event);
-        break;
-      default:
-        break;
-    }
-
+    this.onTabsLoading(this.subActiveTab, event);
   }
 
   onClick() {
@@ -928,7 +827,7 @@ export class DashboardComponent implements OnInit {
 
   onApply() {
     console.log(this.filterForm.controls);
-    if (this.filterForm.valid === true) {
+    if (this.filterForm.dirty) {
       this.showFilter = !this.showFilter;
       this.isFilterApplied = true;
       this.filterFormDetails = this.filterForm.value;
@@ -940,7 +839,7 @@ export class DashboardComponent implements OnInit {
       );
       this.onTabsLoading(this.subActiveTab);
     } else {
-      this.toasterService.showError('Please fill mandatory fields.', 'Filter Details');
+      this.toasterService.showError('Please fill atleast one field.', 'Filter Details');
     }
   }
 
