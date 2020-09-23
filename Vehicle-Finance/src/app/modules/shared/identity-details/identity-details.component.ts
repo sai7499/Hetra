@@ -53,8 +53,11 @@ export class IdentityDetailsComponent implements OnInit {
     msg: 'Invalid Pan',
   };
   public toDayDate: Date = new Date();
-  convertPassportDate: any;
-  convertDrivingDate: Date;
+  passportIssueDate: any;
+  passportExpiryDate : any;
+  drivingIssueDate: any;
+  drivingExpiryDate : any;
+  showInvalidMsg = {}
 
 
   constructor(
@@ -210,21 +213,47 @@ export class IdentityDetailsComponent implements OnInit {
     (this.identityForm.get('details') as FormArray).push(controls);
   }
 
-  datePassportChange(event) {
-    this.convertPassportDate = new Date(event)
-    this.convertPassportDate.setDate(this.convertPassportDate.getDate() + 1 )
+  passportIssueDateChange(event) {
+    this.passportIssueDate = new Date(event)
+    this.passportIssueDate.setDate(this.passportIssueDate.getDate() + 1 )
+    if(this.passportIssueDate > this.toDayDate){
+      this.showInvalidMsg['passportIssue']= true;
+    }else{
+      this.showInvalidMsg['passportIssue']= false;
+    }
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.get('passportExpiryDate').setValue(null)
   }
-  dateDrivingChange(event) {
+  PassportExpiryDateChange(event){
+    this.passportExpiryDate = new Date(event)
+    if(this.passportExpiryDate < this.toDayDate){
+      this.showInvalidMsg['passportExpiry']= true;
+    }else{
+      this.showInvalidMsg['passportExpiry']= false;
+    }
+  }
+  drivingIssueDateChange(event) {
     
-     this.convertDrivingDate= new Date(event)
-    this.convertDrivingDate.setDate(this.convertDrivingDate.getDate() + 1 )
-    console.log('Date', this.convertDrivingDate)
+     this.drivingIssueDate= new Date(event)
+    this.drivingIssueDate.setDate(this.drivingIssueDate.getDate() + 1 )
+    if(this.drivingIssueDate > this.toDayDate){
+      this.showInvalidMsg['drivingIssue']= true;
+    }else{
+      this.showInvalidMsg['drivingIssue']= false;
+    }
+    console.log('Date', this.drivingIssueDate)
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.get('drivingLicenseExpiryDate').setValue(null)
+  }
+  drivingExpiryDateChange(event){
+    this.drivingExpiryDate = new Date(event)
+    if(this.drivingExpiryDate < this.toDayDate){
+      this.showInvalidMsg['drivingExpiry']= true;
+    }else{
+      this.showInvalidMsg['drivingExpiry']= false;
+    }
   }
 
   onIndividualChange(event) {
@@ -314,8 +343,8 @@ export class IdentityDetailsComponent implements OnInit {
   setIndividualValue() {
     const value = this.indivIdentityInfoDetails;
 
-    this.convertPassportDate = this.utilityService.getDateFromString(value.passportIssueDate);
-    this.convertDrivingDate = this.utilityService.getDateFromString(value.drivingLicenseIssueDate);
+    this.passportIssueDate = this.utilityService.getDateFromString(value.passportIssueDate);
+    this.drivingIssueDate = this.utilityService.getDateFromString(value.drivingLicenseIssueDate);
     this.drivingLicenceDates = value.drivingLicenseNumber ? false : true;
     this.passportDates = value.passportNumber ? false : true;
 

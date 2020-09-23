@@ -80,7 +80,13 @@ export class PersonalDetailsComponent implements OnInit {
     });
 
     this.monthValidation = this.monthValiationCheck();
-    // this.yearVa
+
+    this.activatedRoute.params.subscribe((value) => {
+      let score = value ? value.score : 0;
+      this.personalDetailsForm.patchValue({
+        creditBureauScore: score
+      })
+    })
   }
 
   monthValiationCheck() {
@@ -152,8 +158,8 @@ export class PersonalDetailsComponent implements OnInit {
       email: ['', Validators.required],
       residentStatus: ['', Validators.required],
       accomodationType: ['', Validators.required],
-      noOfYears: ['',Validators.required],
-      noOfMonths: ['',Validators.required],
+      noOfYears: ['', Validators.required],
+      noOfMonths: ['', Validators.required],
       noOfYearsResidingInCurrResidence: [''],
       noOfAdultDependant: ['', Validators.compose([Validators.maxLength(2), Validators.required])],
       noOfChildrenDependant: ['', Validators.compose([Validators.maxLength(2), Validators.required])],
@@ -225,10 +231,10 @@ export class PersonalDetailsComponent implements OnInit {
 
     let noofmonths = '';
     let noofyears = ''
-    if(personalPDDetais.noOfYearsResidingInCurrResidence) {
+    if (personalPDDetais.noOfYearsResidingInCurrResidence) {
 
-      noofmonths = String(Number(personalPDDetais.noOfYearsResidingInCurrResidence) % 12 ) || '';
-      noofyears = String(Math.floor(Number(personalPDDetais.noOfYearsResidingInCurrResidence) / 12 )) || '';
+      noofmonths = String(Number(personalPDDetais.noOfYearsResidingInCurrResidence) % 12) || '';
+      noofyears = String(Math.floor(Number(personalPDDetais.noOfYearsResidingInCurrResidence) / 12)) || '';
     }
 
     this.personalDetailsForm.patchValue({
@@ -328,12 +334,12 @@ export class PersonalDetailsComponent implements OnInit {
     formValue.dob = formValue.dob ? this.utilityService.convertDateTimeTOUTC(formValue.dob, 'DD/MM/YYYY') : null;
     formValue.weddingAnniversaryDate = formValue.weddingAnniversaryDate ? this.utilityService.convertDateTimeTOUTC(formValue.weddingAnniversaryDate, 'DD/MM/YYYY') : null;
 
-    if(formValue.noOfYears === '0' && formValue.noOfMonths === '0') {
-        this.toasterService.showError('Please fill any one of the no of years or months','No of years residing at present residence')
-        return;
+    if (Number(formValue.noOfYears) == 0 && Number(formValue.noOfMonths) == 0) {
+      this.toasterService.showError('Please fill any one of the no of years or months', 'No of years residing at present residence')
+      return;
     }
 
-    formValue.noOfYearsResidingInCurrResidence = String((Number(formValue.noOfYears) * 12 ) + Number(formValue.noOfMonths)) || '';
+    formValue.noOfYearsResidingInCurrResidence = String((Number(formValue.noOfYears) * 12) + Number(formValue.noOfMonths)) || '';
 
     if (this.personalDetailsForm.valid) {
 

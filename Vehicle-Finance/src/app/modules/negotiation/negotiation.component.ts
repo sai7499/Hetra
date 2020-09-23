@@ -130,6 +130,15 @@ export class NegotiationComponent implements OnInit {
   maxInterest: any;
   minInterest: any;
   varianceIRR: any;
+  premiumAmtvalidation: boolean;
+  eligibleamount: any;
+  onformsubmit: boolean;
+  maxLoanAmount: number;
+  minLoanAmount: number;
+  maxLoanTenor: number;
+  minLoanTenor: number;
+  minEMIAmount: number;
+  maxEMIAmount: number;
   constructor(
     private labelsData: LabelsService,
     private NegotiationService: NegotiationService,
@@ -249,45 +258,44 @@ export class NegotiationComponent implements OnInit {
     })
   }
   calculatepremiumAmount(event, ins_type_id, i) {
-    const value = event.target.value;
-    this.productCategoryList.forEach(product => {
-      if (Number(product.insurance_type_id) === ins_type_id) {
-        if (ins_type_id == 1) {
-          if (Number(product.calculate_premium_api) && product.insurance_provider_id === value)
-            this.motarButtonFlag[i] = false;
-          else if ((Number(product.calculate_premium_api) && product.insurance_provider_id != value))
-            this.motarButtonFlag[i] = true;
-        }
-      }
-      if (Number(product.insurance_type_id) === ins_type_id) {
-        if (ins_type_id == 2) {
-          if (Number(product.calculate_premium_api) && product.insurance_provider_id === value)
-            this.PACButtonFlag[i] = false;
-          else if ((Number(product.calculate_premium_api) && product.insurance_provider_id != value))
-            this.PACButtonFlag[i] = true;
-        }
-      }
-      if (Number(product.insurance_type_id) === ins_type_id) {
-        if (ins_type_id == 3) {
-          if (Number(product.calculate_premium_api) && product.insurance_provider_id === value)
-            this.lifeButtonFlag[i] = false;
-          else if ((Number(product.calculate_premium_api) && product.insurance_provider_id != value))
-            this.lifeButtonFlag[i] = true;
-        }
-      }
-      if (Number(product.insurance_type_id) === ins_type_id) {
-        if (ins_type_id == 4) {
-          if (Number(product.calculate_premium_api) && product.insurance_provider_id === value)
-            this.VASButtonFlag[i] = false;
-          else if ((Number(product.calculate_premium_api) && product.insurance_provider_id != value))
-            this.VASButtonFlag[i] = true;
-        }
-      }
-    });
+    // const value = event.target.value;
+    // this.productCategoryList.forEach(product => {
+    //   if (Number(product.insurance_type_id) === ins_type_id) {
+    //     if (ins_type_id == 1) {
+    //       if (Number(product.calculate_premium_api) && product.insurance_provider_id === value)
+    //         this.motarButtonFlag[i] = false;
+    //       else if ((Number(product.calculate_premium_api) && product.insurance_provider_id != value))
+    //         this.motarButtonFlag[i] = true;
+    //     }
+    //   }
+    //   if (Number(product.insurance_type_id) === ins_type_id) {
+    //     if (ins_type_id == 2) {
+    //       if (Number(product.calculate_premium_api) && product.insurance_provider_id === value)
+    //         this.PACButtonFlag[i] = false;
+    //       else if ((Number(product.calculate_premium_api) && product.insurance_provider_id != value))
+    //         this.PACButtonFlag[i] = true;
+    //     }
+    //   }
+    //   if (Number(product.insurance_type_id) === ins_type_id) {
+    //     if (ins_type_id == 3) {
+    //       if (Number(product.calculate_premium_api) && product.insurance_provider_id === value)
+    //         this.lifeButtonFlag[i] = false;
+    //       else if ((Number(product.calculate_premium_api) && product.insurance_provider_id != value))
+    //         this.lifeButtonFlag[i] = true;
+    //     }
+    //   }
+    //   if (Number(product.insurance_type_id) === ins_type_id) {
+    //     if (ins_type_id == 4) {
+    //       if (Number(product.calculate_premium_api) && product.insurance_provider_id === value)
+    //         this.VASButtonFlag[i] = false;
+    //       else if ((Number(product.calculate_premium_api) && product.insurance_provider_id != value))
+    //         this.VASButtonFlag[i] = true;
+    //     }
+    //   }
+    // });
   }
   calculateTotal(i) {
     this.valueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['motor']
-    console.log("vale", this.valueSelected)
     this.PACvalueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['pac']
     this.lifecovervalueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['life']
     this.VASvalueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['vas']
@@ -646,6 +654,14 @@ export class NegotiationComponent implements OnInit {
         'Create Negotiation'
       );
     }
+    for (let i = 0; i < this.AssetDetailsList.length; i++) {
+      this.lifecovervalueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['life']
+      let lifecoveramount = this.lifecovervalueSelected['controls'].lifeCoverPremiumAmount.value;
+      if (lifecoveramount && Number(valueEntered) < 24) {
+        this.createNegotiationForm.controls.NegotiatedLoanTenor.setValue(null);
+        this.toasterService.showError('Negotiated Loan Tenor should be minimum of 2 Years for credit shield Life Cover', '');
+      }
+    }
   }
   calculateEMI(event?) {
     this.createNegotiationForm.controls.NegotiatedEMI.value ? this.createNegotiationForm.controls.NegotiatedEMI.setValue(0) : 0;
@@ -745,6 +761,12 @@ export class NegotiationComponent implements OnInit {
           this.LeadReferenceDetails = res.ProcessVariables.LeadReferenceDetails ? res.ProcessVariables.LeadReferenceDetails : [];
           this.DeductionDetails = res.ProcessVariables.DeductionDetails ? res.ProcessVariables.DeductionDetails : [];
           var LMSScheduletemp = res.ProcessVariables.LMSSchedule ? res.ProcessVariables.LMSSchedule : [];
+          this.minLoanAmount = res.ProcessVariables.ProductLoanDetails.amtMinLoan;
+          this.maxLoanAmount = res.ProcessVariables.ProductLoanDetails.amtMaxLoan;
+          this.minEMIAmount = res.ProcessVariables.ProductLoanDetails.amtMinInstal;
+          this.maxEMIAmount = res.ProcessVariables.ProductLoanDetails.amtMaxInstal;
+          this.minLoanTenor = res.ProcessVariables.ProductLoanDetails.ctrMinTerm;
+          this.maxLoanTenor = res.ProcessVariables.ProductLoanDetails.ctrMaxTerm;
           this.minInterest = res.ProcessVariables.ratMinVar;
           this.maxInterest = res.ProcessVariables.ratMaxVar;
           this.baseInterest = res.ProcessVariables.baseInterest;
@@ -959,7 +981,27 @@ export class NegotiationComponent implements OnInit {
   onSubmit() {
     // this.getLeadId();
     this.isDirty = true;
-    if (this.createNegotiationForm.valid == true) {
+    if ((this.createNegotiationForm.controls.NegotiatedLoanAmount.value.toString().indexOf('-') != -1) ||
+      (this.createNegotiationForm.controls.NetDisbursementAmount.value.toString().indexOf('-') != -1)) {
+      this.toasterService.showError("Amount Field should not be Negative", ''),
+        this.onformsubmit = false;
+    }
+    else if ((Number(this.createNegotiationForm.controls.NegotiatedLoanAmount.value) < this.minLoanAmount) ||
+      (Number(this.createNegotiationForm.controls.NegotiatedLoanAmount.value) > this.maxLoanAmount)) {
+      this.toasterService.showError("Negotiated Loan Amount should be within the specified Limit", ''),
+        this.onformsubmit = false;
+    }
+    else if ((Number(this.createNegotiationForm.controls.NegotiatedLoanTenor.value) < this.minLoanTenor) ||
+      (Number(this.createNegotiationForm.controls.NegotiatedLoanTenor.value) > this.maxLoanTenor)) {
+      this.toasterService.showError(" Negotiated Loan Tenor should be within the specified Limit", ''),
+        this.onformsubmit = false;
+    }
+    else if ((Number(this.createNegotiationForm.controls.NegotiatedEMI.value) < this.minEMIAmount) ||
+      (Number(this.createNegotiationForm.controls.NegotiatedEMI.value) > this.maxEMIAmount)) {
+      this.toasterService.showError(" Negotiated EMI Amount should be within the specified Limit", ''),
+        this.onformsubmit = false;
+    }
+    else if (this.onformsubmit == true && this.createNegotiationForm.valid === true) {
       this.getLeadId();
       const formData = this.createNegotiationForm.getRawValue();
       this.LeadReferenceDetails.forEach((element) => {
@@ -1099,7 +1141,7 @@ export class NegotiationComponent implements OnInit {
         "ApplicantJson": JSON.stringify(this.Applicants),
         "CombinedLoanJson": JSON.stringify(this.CombinedLoan),
         "AssetsJson": JSON.stringify(this.finalAsset),
-        "IsCombinedLoan": "N"
+        "IsCombinedLoan": "Y"
       }
       this.NegotiationService
         .submitNegotiation(NegotiationDetails
@@ -1155,7 +1197,6 @@ export class NegotiationComponent implements OnInit {
             repaymentMode: this.CombinedLoan.repaymentMode,
             NoofPDC: this.CombinedLoan.NoofPDC,
             NoofSPDC: this.CombinedLoan.NoofSPDC,
-
           });
           this.varianceIRR = this.CombinedLoan.variance
           this.calculateMinMax(this.CombinedLoan.repaymentMode)
@@ -1197,6 +1238,79 @@ export class NegotiationComponent implements OnInit {
         }
       });
   }
+  validateTenure(event, i) {
+    this.valueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['motor']
+    this.PACvalueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['pac']
+    this.lifecovervalueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['life']
+    this.VASvalueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['vas']
+    if (event == 'motor') {
+      if (this.createNegotiationForm.controls.NegotiatedLoanTenor.value == '') {
+        this.toasterService.showError('Enter Negotiated Loan Tenor', '');
+        this.valueSelected['controls'].MIPremiumAmount.setValue(null);
+        this.premiumAmtvalidation = false;
+      }
+      else if (this.valueSelected['controls'].MITenure.value == '') {
+        this.toasterService.showError('Enter MI Loan Tenor', '');
+        this.valueSelected['controls'].MIPremiumAmount.setValue(null);
+        this.premiumAmtvalidation = false;
+      }
+      else if (Number(this.valueSelected['controls'].MITenure.value) < 0 || Number(this.valueSelected['controls'].MITenure.value) > Number(this.createNegotiationForm.controls.NegotiatedLoanTenor.value)) {
+        this.toasterService.showError('MI Insurance tenor should be >= 1 and <= negotiated loan tenor', '');
+        this.valueSelected['controls'].MIPremiumAmount.setValue(null);
+        this.premiumAmtvalidation = false;
+      }
+    }
+    else if (event == 'creditShieldInsurance') {
+      if (this.createNegotiationForm.controls.NegotiatedLoanTenor.value == '') {
+        this.toasterService.showError('Enter Negotiated Loan Tenor', '');
+        this.lifecovervalueSelected['controls'].lifeCoverPremiumAmount.setValue(null);
+        this.premiumAmtvalidation = false;
+      }
+      else if (this.createNegotiationForm.controls.NegotiatedLoanTenor.value < '24') {
+        this.toasterService.showError('Negotiated Loan Tenor should be minimum of 2 Years for credit shield Life Cover', '');
+        this.lifecovervalueSelected['controls'].lifeCoverPremiumAmount.setValue(null);
+        this.premiumAmtvalidation = false;
+      }
+    }
+  }
+  validateAmount(value, i) {
+    this.eligibleamount = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].eligibleLoanAmount.value
+    this.valueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['motor']
+    this.PACvalueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['pac']
+    this.lifecovervalueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['life']
+    this.VASvalueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['vas']
+    this.fastTagvalueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].fastTag
+    if (value == 'MIPremiumAmount') {
+      if (Number(this.valueSelected['controls'].MIPremiumAmount.value) > Number(this.eligibleamount)) {
+        this.toasterService.showError("MI Premium Amount should be less than Eligible Loan Amount", '');
+        this.valueSelected['controls'].MIPremiumAmount.setValue(null);
+      }
+    }
+    else if (value == 'PACPremiumAmount') {
+      if (Number(this.PACvalueSelected['controls'].PACPremiumAmount.value) > Number(this.eligibleamount)) {
+        this.toasterService.showError("PAC Premium Amount should be less than Eligible Loan Amount", '');
+        this.PACvalueSelected['controls'].PACPremiumAmount.setValue(null);
+      }
+    }
+    else if (value == 'VASPremiumAmount') {
+      if (Number(this.VASvalueSelected['controls'].VASPremiumAmount.value) > Number(this.eligibleamount)) {
+        this.toasterService.showError("VAS Premium Amount should be less than Eligible Loan Amount", '');
+        this.VASvalueSelected['controls'].VASPremiumAmount.setValue(null);
+      }
+    }
+    else if (value == 'lifeCoverPremiumAmount') {
+      if (Number(this.lifecovervalueSelected['controls'].lifeCoverPremiumAmount.value) > Number(this.eligibleamount)) {
+        this.toasterService.showError("Life cover Premium Amount should be less than Eligible Loan Amount", '');
+        this.lifecovervalueSelected['controls'].lifeCoverPremiumAmount.setValue(null);
+      }
+    }
+    else if (value == 'fastTag') {
+      if (Number(this.fastTagvalueSelected['controls'].FASTagAmount.value) > Number(this.eligibleamount)) {
+        this.toasterService.showError("FASTag Amount should be less than Eligible Loan Amount", '');
+        this.fastTagvalueSelected['controls'].FASTagAmount.setValue(null);
+      }
+    }
+  }
   fetchPreimumAmount(insuranceType, event, i) {
     const crossSellIns = this.createNegotiationForm.controls.tickets['controls'].forEach((ticket, index) => {
       // this.CrossSellIns.forEach(key => {
@@ -1205,75 +1319,103 @@ export class NegotiationComponent implements OnInit {
       this.PACvalueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['pac']
       this.lifecovervalueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['life']
       this.VASvalueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['vas']
-      console.log("VALUE0", this.valueSelected)
     });
-    // this.valueSelected['controls'].MIPremiumAmount? this.valueSelected['controls'].MIPremiumAmount = "" : "";
-    // this.PACvalueSelected['controls'].PACPremiumAmount? this.valueSelected['controls'].PACPremiumAmount = "":"";
-    // this.VASvalueSelected['controls'].VASPremiumAmount? this.valueSelected['controls'].VASPremiumAmount = "":"";
     let x = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']
     let insuranceProviderName: String;
     let insurancePercentage: number;
     let insuranceTenor: number;
     if (event == 'motor') {
-      insuranceProviderName = this.valueSelected['controls'].motorInsurance.value;
-      insuranceTenor = Number(this.valueSelected['controls'].MITenure.value);
-      let PACProvider = this.PACInsuranceProvidersLOV.filter(val =>
-        val.key == this.PACvalueSelected['controls'].creditShieldPAC.value)
-      if (PACProvider[0].key == "4")
-        this.isPac = false;
-      else
-        this.isPac = true;
-      let VASProvider = this.VASInsuranceProvidersLOV.filter(val =>
-        val.key == this.VASvalueSelected['controls'].VAS.value)
-      if (VASProvider[0].key == "4")
-        this.isVas = false;
-      else
-        this.isVas = true;
+      if (this.createNegotiationForm.controls.NegotiatedLoanTenor.value == '') {
+        this.toasterService.showError('Enter Negotiated Loan Tenor', '');
+        this.premiumAmtvalidation = false;
+      }
+      else if (this.valueSelected['controls'].MITenure.value == '') {
+        this.toasterService.showError('Enter MI Loan Tenor', '');
+        this.premiumAmtvalidation = false;
+      }
+      else if (Number(this.valueSelected['controls'].MITenure.value) < 0 || Number(this.valueSelected['controls'].MITenure.value) > Number(this.createNegotiationForm.controls.NegotiatedLoanTenor.value)) {
+        this.toasterService.showError('MI Insurance tenor should be >= 1 and <= negotiated loan tenor', '');
+        this.valueSelected['controls'].MITenure.setValue(null);
+        this.valueSelected['controls'].MIPremiumAmount.setValue(null);
+        this.premiumAmtvalidation = false;
+      }
+      else {
+        this.premiumAmtvalidation = true;
+        insuranceProviderName = this.valueSelected['controls'].motorInsurance.value;
+        insuranceTenor = Number(this.valueSelected['controls'].MITenure.value);
+        let PACProvider = this.PACInsuranceProvidersLOV.filter(val =>
+          val.key == this.PACvalueSelected['controls'].creditShieldPAC.value)
+        if (PACProvider[0].key == "4")
+          this.isPac = false;
+        else
+          this.isPac = true;
+        let VASProvider = this.VASInsuranceProvidersLOV.filter(val =>
+          val.key == this.VASvalueSelected['controls'].VAS.value)
+        if (VASProvider[0].key == "4")
+          this.isVas = false;
+        else
+          this.isVas = true;
+      }
     }
     else if (event == 'creditShieldInsurance') {
-      insuranceProviderName = this.lifecovervalueSelected['controls'].creditShieldLifeCover.value;
-      let percentage = this.InsuranceSlabLOV.filter(val =>
-        val.key == this.lifecovervalueSelected['controls'].fundingforLifeCover.value)
-      insurancePercentage = Number(percentage[0].value.replace('%', ''));
-      insuranceTenor =
-        Number(this.AssetDetailsList[i].EligibleTenorMax);
+      if (this.createNegotiationForm.controls.NegotiatedLoanTenor.value == '') {
+        this.toasterService.showError('Enter Negotiated Loan Tenor', '');
+        this.lifecovervalueSelected['controls'].lifeCoverPremiumAmount.setValue(null);
+        this.premiumAmtvalidation = false;
+      }
+      else if (Number(this.createNegotiationForm.controls.NegotiatedLoanTenor.value) < 24) {
+        this.toasterService.showError('Negotiated Loan Tenor should be minimum of 2 Years for credit shield Life Cover', '');
+        this.lifecovervalueSelected['controls'].lifeCoverPremiumAmount.setValue(null);
+        this.premiumAmtvalidation = false;
+      }
+      else {
+        this.premiumAmtvalidation == true;
+        insuranceProviderName = this.lifecovervalueSelected['controls'].creditShieldLifeCover.value;
+        let percentage = this.InsuranceSlabLOV.filter(val =>
+          val.key == this.lifecovervalueSelected['controls'].fundingforLifeCover.value)
+        insurancePercentage = Number(percentage[0].value.replace('%', ''));
+        insuranceTenor =
+          Number(this.AssetDetailsList[i].EligibleTenorMax);
+      }
     }
-    const data = {
-      insuranceProvider: Number(insuranceProviderName),// Number(this.valueSelected.motorInsurance),//icic chola
-      insuranceType: insuranceType, // motor
-      // applicantId: this.LeadReferenceDetails[0].ApplicationId,
-      leadId: Number(this.leadId),
-      collateralId: Number(this.AssetDetailsList[i].CollateralId),
-      loanAmount: Number(this.AssetDetailsList[i].EligibleLoanAmnt),
-      loanTenure: insuranceTenor,
-      loanPercentage: insurancePercentage,
-      isVas: this.isVas,
-      isPac: this.isPac,
+    if (this.premiumAmtvalidation == true) {
+      const data = {
+        insuranceProvider: Number(insuranceProviderName),// Number(this.valueSelected.motorInsurance),//icic chola
+        insuranceType: insuranceType, // motor
+        // applicantId: this.LeadReferenceDetails[0].ApplicationId,
+        leadId: Number(this.leadId),
+        collateralId: Number(this.AssetDetailsList[i].CollateralId),
+        loanAmount: Number(this.AssetDetailsList[i].EligibleLoanAmnt),
+        loanTenure: insuranceTenor,
+        loanPercentage: insurancePercentage,
+        isVas: this.isVas,
+        isPac: this.isPac,
+      }
+      this.NegotiationService
+        .fetchPreimumAmount(data)
+        .subscribe((res: any) => {
+          if (res.Error == 0 && (!res.ProcessVariables.error || res.ProcessVariables.error.code == 0)) {
+            if (event == 'motor') {
+              this.valueSelected['controls'].MIPremiumAmount.setValue(res.ProcessVariables.miPremiumAmount);
+              x.motor['controls'].MIPremiumAmount.disable();
+              this.PACvalueSelected['controls'].PACPremiumAmount.setValue
+                (res.ProcessVariables.pacPremiumAmount);
+              x.pac['controls'].PACPremiumAmount.disable();
+              this.VASvalueSelected['controls'].VASPremiumAmount.setValue
+                (res.ProcessVariables.vasPremiumAmount);
+              x.vas['controls'].VASPremiumAmount.disable();
+            }
+            else if (event == 'creditShieldInsurance') {
+              this.lifecovervalueSelected['controls'].lifeCoverPremiumAmount.setValue(res.ProcessVariables.premiumAmount);
+              x.life['controls'].lifeCoverPremiumAmount.disable();
+            }
+            this.calculateTotal(i)
+          }
+          else if (res.ProcessVariables.error || res.ProcessVariables.error.code == 1) {
+            this.toasterService.showError(res.ProcessVariables.error.message, '');
+          }
+        });
     }
-    this.NegotiationService
-      .fetchPreimumAmount(data)
-      .subscribe((res: any) => {
-        if (res.Error == 0 && (!res.ProcessVariables.error || res.ProcessVariables.error.code == 0)) {
-          if (event == 'motor') {
-            this.valueSelected['controls'].MIPremiumAmount.setValue(res.ProcessVariables.miPremiumAmount);
-            x.motor['controls'].MIPremiumAmount.disable();
-            this.PACvalueSelected['controls'].PACPremiumAmount.setValue
-              (res.ProcessVariables.pacPremiumAmount);
-            x.pac['controls'].PACPremiumAmount.disable();
-            this.VASvalueSelected['controls'].VASPremiumAmount.setValue
-              (res.ProcessVariables.vasPremiumAmount);
-            x.vas['controls'].VASPremiumAmount.disable();
-          }
-          else if (event == 'creditShieldInsurance') {
-            this.lifecovervalueSelected['controls'].lifeCoverPremiumAmount.setValue(res.ProcessVariables.premiumAmount);
-            x.life['controls'].lifeCoverPremiumAmount.disable();
-          }
-          this.calculateTotal(i)
-        }
-        else if (res.ProcessVariables.error || res.ProcessVariables.error.code == 1) {
-          this.toasterService.showError(res.ProcessVariables.error.message, '');
-        }
-      });
   }
   onNext() {
     if (this.roleType == '1') {
