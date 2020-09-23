@@ -251,17 +251,17 @@ export class ViabilityDetailsComponent implements OnInit {
     this.selectedDocDetails = {
       docsType: this.PROFILE_TYPE,
       docSize: this.OTHER_DOCUMENTS_SIZE,
-      docTp: "LEAD",
-      docSbCtgry: "ACCOUNT OPENING FORM",
-      docNm: "ACCOUNT_OPENING_FORM20206216328474448.pdf",
+      docTp: 'LEAD',
+      docSbCtgry: 'ACCOUNT OPENING FORM',
+      docNm: 'ACCOUNT_OPENING_FORM20206216328474448.pdf',
       docCtgryCd: 70,
-      docCatg: "KYC - I",
+      docCatg: 'KYC - I',
       docTypCd: 276,
-      flLoc: "",
-      docCmnts: "Addition of document for Lead Creation",
-      bsPyld: "Base64 data of the image",
+      flLoc: '',
+      docCmnts: 'Addition of document for Lead Creation',
+      bsPyld: 'Base64 data of the image',
       docSbCtgryCd: 204,
-      docsTypeForString: "selfie",
+      docsTypeForString: 'selfie',
       docRefId: [
         {
           idTp: 'LEDID',
@@ -633,7 +633,6 @@ patchViability(data: any) {
         otherExpensesRemarks:  data.otherExpensesRemarks ,
         operationsExpenses: data.operationsExpenses ? data.operationsExpenses : null
 
-
     });
  }
  // tslint:disable-next-line: no-shadowed-variable
@@ -673,7 +672,7 @@ patchViability(data: any) {
        otherExpenses: data.otherExpenses ? data.otherExpenses : null,
        otherExpensesRemarks:  data.otherExpensesRemarks,
        operationsExpenses: data.operationsExpenses ? data.operationsExpenses : null,
-       netCashFlowEmi : this.netCashFlowEmiPassenger ? this.netCashFlowEmiPassenger : null
+       netCashFlowEmi : this.netCashFlowEmiPassenger
    };
    return body;
  }
@@ -1010,7 +1009,7 @@ calculateCaptiveC() {
         console.log('saveOrUpdateDocument', value);
         const processVariables = value.ProcessVariables;
         const documentId = processVariables.documentIds[0];
-        console.log("documentId******", documentId);
+        console.log('documentId******', documentId);
         this.documentArr[index].documentId = documentId;
         const subCategoryCode = this.documentArr[index].subCategoryCode;
       });
@@ -1041,15 +1040,15 @@ calculateCaptiveC() {
       if (this.isMobile) {
 
         this.gpsService.getLatLong().subscribe((position) => {
-          console.log("Mobile position", position);
+          console.log('Mobile position', position);
           resolve(position);
         });
 
       } else {
         this.gpsService.getBrowserLatLong().subscribe((position) => {
-          console.log("Browser position", position);
-          if (position["code"]) {
-            this.toasterService.showError(position["message"], "GPS Alert");
+          console.log('Browser position', position);
+          if (position['code']) {
+            this.toasterService.showError(position['message'], 'GPS Alert');
           }
           resolve(position);
         });
