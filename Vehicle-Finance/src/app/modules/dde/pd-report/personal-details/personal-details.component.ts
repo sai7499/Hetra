@@ -164,7 +164,6 @@ export class PersonalDetailsComponent implements OnInit {
       noOfAdultDependant: ['', Validators.compose([Validators.maxLength(2), Validators.required])],
       noOfChildrenDependant: ['', Validators.compose([Validators.maxLength(2), Validators.required])],
       bankAccHolderName: ['', Validators.required],
-      branch: ['', Validators.required],
       creditBureauScore: [{ value: '-1', disabled: true }]
     })
 
@@ -241,7 +240,6 @@ export class PersonalDetailsComponent implements OnInit {
       accomodationType: personalPDDetais.accomodationType || '',
       applicantName: personalPDDetais.applicantName || '',
       bankAccHolderName: personalPDDetais.bankAccHolderName || '',
-      branch: personalPDDetais.branch === 'T Nagar' ? '1' : '2' || '',
       category: personalPDDetais.category || '',
       community: personalPDDetais.community || '',
       creditBureauScore: personalPDDetais.creditBureauScore || '',
