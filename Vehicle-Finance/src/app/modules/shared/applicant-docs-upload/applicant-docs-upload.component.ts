@@ -555,7 +555,12 @@ export class ApplicantDocsUploadComponent implements OnInit {
     const imageValue: any = await this.getBase64String(documentId);
     if (imageValue.imageType.includes('xls')) {
       console.log('xls', imageValue.imageUrl);
-      this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName);
+      this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/vnd.ms-excel');
+      return;
+    }
+    if (imageValue.imageType.includes('doc')) {
+      console.log('xls', imageValue.imageUrl);
+      this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/msword');
       return;
     }
     this.setContainerPosition(el);
@@ -573,8 +578,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
     });
   }
 
-  getDownloadXlsFile(base64: string, fileName: string) {
-    const contentType = 'application/vnd.ms-excel';
+  getDownloadXlsFile(base64: string, fileName: string, type) {
+    const contentType = type;
     const blob1 = this.base64ToBlob(base64, contentType);
     const blobUrl1 = URL.createObjectURL(blob1);
     console.log('blobUrl1', blobUrl1);
