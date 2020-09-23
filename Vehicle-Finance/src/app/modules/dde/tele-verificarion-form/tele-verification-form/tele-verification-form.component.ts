@@ -72,6 +72,7 @@ export class TeleVerificationFormComponent implements OnInit {
       msg: 'Invalid Characters not allowed'
     }
   };
+  sourcingType: string;
 
   constructor(
     private fb: FormBuilder,
@@ -116,7 +117,7 @@ export class TeleVerificationFormComponent implements OnInit {
     this.sourcingCodeDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingCodeDesc;
 
     this.sourcingCode = this.sourcingCodeDesc !== '-' ? `- ${this.sourcingCodeDesc}` : '';
-
+    this.sourcingType = this.sourcingTypeDesc === 'Not Applicable' ? '' : `- ${this.sourcingTypeDesc}`
   }
 
   // InitForm for TVR
@@ -310,7 +311,7 @@ export class TeleVerificationFormComponent implements OnInit {
       tvr.applicationReferences = applicationReferences ? applicationReferences : '';
 
       // tslint:disable-next-line: max-line-length
-      this.teleVerificationForm.get('srcOfProposal').setValue(`${this.sourcingChannelDesc} - ${this.sourcingTypeDesc} ${this.sourcingCode}`);
+      this.teleVerificationForm.get('srcOfProposal').setValue(`${this.sourcingChannelDesc} ${this.sourcingType} ${this.sourcingCode}`);
       this.teleVerificationForm.get('eCode').setValue(this.eCode);
       if (tvr.dob) {
         this.teleVerificationForm.patchValue(tvr);
