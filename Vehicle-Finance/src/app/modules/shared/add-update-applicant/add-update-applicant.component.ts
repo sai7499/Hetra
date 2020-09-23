@@ -268,10 +268,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       if (isNaN(this.applicantId)) {
         this.applicantId = null;
       }
-      if (this.applicantId) {
+      const dedupeFlag = this.applicantDataService.getDedupeFlag()
+      if (this.applicantId && !dedupeFlag) {
         this.isEnableDedupe = false;
         this.getApplicantDetails();
         this.storeAdharValue = '';
+        //this.applicantDataService.setDedupeFlag(true);
       } else {
         this.dedupeMobile = true;
         this.isMobileChanged = true; // for enable check dedupe button
@@ -437,7 +439,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       });
       if (dedupeValues.panType === '2PANTYPE') {
         this.coApplicantForm.get('dedupe').get('pan').disable();
-        //this.getPanValue(dedupeValues.panType);
+        
       } else {
         dedupe.patchValue({
           pan: dedupeValues.pan || '',
@@ -447,6 +449,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     }
       if (dedupeValues.entityType == 'INDIVENTTYP') {
         this.setDedupeForIndividual()
+        if(dedupeValues.panType === '2PANTYPE'){
+          this.getPanValue(dedupeValues.panType);
+        }
+        
       } else {
         this.setDedupeForNonIndividual()
       }
@@ -666,8 +672,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         if (!passportValue) {
           this.isVoterRequired = true;
         }
-        const dedupeFlag= this.applicantDataService.getDedupeFlag()
-        if(!dedupeFlag){
+        const dedupeFlag= this.applicantDataService.getDedupeFlag();
+         
+        if(!dedupeFlag && !voterId && !passportValue ){
           this.toasterService.showInfo(
             'You should enter either passport or voter id',
             ''
@@ -1477,6 +1484,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           passportIssueDate: details.passportIssueDate || '',
           passportExpiryDate: details.passportExpiryDate || '',
         });
+        if(applicantValue.indivIdentityInfoDetails.panType === '2PANTYPE'){
+          this.getPanValue(applicantValue.indivIdentityInfoDetails.panType);
+        }
 
         const permentAddress = this.coApplicantForm.get('permentAddress');
         const currentAddress = this.coApplicantForm.get('currentAddress');
