@@ -507,14 +507,14 @@ export class LeadCreationComponent implements OnInit {
     console.log('isNgAutoCompleteDealer', this.createLeadForm.controls.dealerCode.value);
     console.log('isNgAutoCompleteSourcing', this.createLeadForm.controls.sourcingCode.value);
 
-    this.isNgAutoCompleteSourcing = this.createLeadForm.controls.sourcingCode.value;
-    this.isNgAutoCompleteDealer = this.createLeadForm.controls.dealerCode.value;
+    // this.isNgAutoCompleteSourcing = this.createLeadForm.controls.sourcingCode.value;
+    // this.isNgAutoCompleteDealer = this.createLeadForm.controls.dealerCode.value;
     this.isMobile = this.createLeadForm.controls.mobile.value;
     this.isDirty = true;
 
     if (
       this.createLeadForm.valid === true &&
-      // this.isNgAutoCompleteDealer !== '' &&
+      this.isNgAutoCompleteDealer &&
       // this.isNgAutoCompleteSourcing !== '' &&
       this.isSourceCode &&
       this.isMobile !== ''

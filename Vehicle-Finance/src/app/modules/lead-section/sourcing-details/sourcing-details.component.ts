@@ -291,7 +291,7 @@ export class SourcingDetailsComponent implements OnInit {
     const applicationNO = data.leadDetails.applicationNo;
     this.sourcingDetailsForm.patchValue({ applicationNo: applicationNO });
 
-    const loanTypeFromLead = data.leadDetails.typeOfLoan;
+    const loanTypeFromLead = (data.leadDetails.typeOfLoan) ? data.leadDetails.typeOfLoan : '';
     this.sourcingDetailsForm.patchValue({ loanType: loanTypeFromLead });
 
     this.getBusinessDivision(businessDivisionFromLead);
@@ -316,7 +316,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.sourcingCodeValue = data.leadDetails.sourcingCodeDesc;
     const sourceCodeKey = (this.sourcingCodeKey == null) ? 'Not Applicable' : this.sourcingCodeValue;
     this.sourcingDetailsForm.patchValue({ sourcingCode: sourceCodeKey });
-    this.isSourceCode = this.sourcingCodeKey ? true : false;
+    this.isSourceCode = true;
   }
 
   getBusinessDivision(bizDivision) {
@@ -647,7 +647,7 @@ export class SourcingDetailsComponent implements OnInit {
         productId: Number(saveAndUpdate.product),
         fundingProgram: saveAndUpdate.fundingProgram,
         priority: Number(saveAndUpdate.priority),
-        applicationNo: Number(saveAndUpdate.applicationNo),
+        applicationNo: saveAndUpdate.applicationNo,
         sourcingChannel: saveAndUpdate.sourcingChannel,
         sourcingType: saveAndUpdate.sourcingType,
         sourcingCode: this.sourcingCodeKey,
