@@ -202,6 +202,10 @@ export class TrackVehicleComponent implements OnInit {
 
   }
   async ngOnInit() {
+    // let today = new Date();
+    // let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+     this.maturedDate = new Date(this.maturedDate.getFullYear() , (this.maturedDate.getMonth() ) , this.maturedDate.getDate() )
+
     this.getLov();
     let state = this.location.getState();
     this.getId();

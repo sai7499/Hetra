@@ -482,7 +482,7 @@
                                                </div>
                                         </div>
                                        
-                                        <div class="isDirty" *ngIf="submitted && !itemrow.controls['receivedDate'].vaild">
+                                        <div class="isDirty" *ngIf="submitted && !itemrow.controls['receivedDate'].vaild && !itemrow.controls['receivedDate'].touched">
                                             <div class="cus-mandatory-field" *ngIf="itemrow.controls['receivedDate'].hasError('required')">
                                                 Received date is mandatory
                                             </div>
