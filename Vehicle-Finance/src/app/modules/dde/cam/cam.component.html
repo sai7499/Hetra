@@ -36,8 +36,8 @@
             <tr>
                 <td class="bank_name">{{ labels?.rcLimitCategory }}</td>
                 <td>{{ sourcingObj?.rcCategory }}</td>
-                <td class="bank_name">{{ labels?.distancefrombranch }}</td>
-                <td>{{ sourcingObj?.distanceFromBranch }}</td>
+                <td class="bank_name">{{ labels?.distanceFrombranch }}</td>
+                <td>{{ sourcingObj?.distanceFrombranch }}</td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.rcLimit }}</td>
@@ -301,7 +301,7 @@
                 <tr>
                     <td></td>
                     <td></td>
-                    <td class="bank_name">{{ labels?.totalMontlyObligations }}</td>
+                    <td class="bank_name">{{ labels?.totalMonthlyObligations }}</td>
                     <td>{{camDetails?.totalObligationAmount}}</td>
                 </tr>
     
@@ -349,11 +349,12 @@
     
             </tr>
             <tr>
-                <td class="bank_name">{{ labels?.totalMontlyObligations }}</td>
-                <td>{{ loanEligibilityBasedOnInc?.totalMontlyObligations }}</td>
-                <td class="bank_name">{{labels?.ltvDeviaton}}</td>
-                <td>{{ loanEligibilityBasedOnInc?.loanEligibilityAsPerLTV }}</td>
+                <td class="bank_name">{{ labels?.totalMonthlyObligations }}</td>
+                <td>{{ loanEligibilityBasedOnInc?.totalMonthlyObligations }}</td>
+                <td class="bank_name">{{ labels?.loanEligibilityAsPerFOIR }}</td>
+                <td>{{ loanEligibilityBasedOnInc?.loanEligibilityAsPerFOIR }}</td>
             </tr>
+
         </table>
         <!--loan eligibility based on income--->
     
@@ -692,8 +693,8 @@
         <tr>
             <td class="bank_name">{{ labels?.payout }}</td>
             <td>{{ sourcingDetails?.payout }}</td>
-            <td class="bank_name">{{ labels?.distancefrombranch }}</td>
-            <td>{{ sourcingDetails?.distanceFromBranch }}</td>
+            <td class="bank_name">{{ labels?.distanceFrombranch }}</td>
+            <td>{{ sourcingDetails?.distanceFrombranch }}</td>
             <td class="bank_name">{{ labels?.creditApproval }}</td>
             <td colspan="2">{{ sourcingDetails?.creditApproval }}</td>
         </tr>
@@ -1654,8 +1655,8 @@
             <td>{{ sourcingDetails?.finalApprovingAuthority }}</td>
             <td class="bank_name">{{ labels?.fundingUnder }}</td>
             <td>{{ sourcingDetails?.fundingUnder }}</td>
-            <td class="bank_name">{{ labels?.distFromBranch }}</td>
-            <td>{{ sourcingDetails?.distanceFromBranch }}</td>
+            <td class="bank_name">{{ labels?.distanceFrombranch }}</td>
+            <td>{{ sourcingDetails?.distanceFrombranch }}</td>
             <td class="bank_name">{{ labels?.tenure }}</td>
             <td>{{ sourcingDetails?.tenure }}</td>
             <td class="bank_name">{{ labels?.assetType }}</td>
