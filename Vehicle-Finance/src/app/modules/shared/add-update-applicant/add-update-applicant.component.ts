@@ -1710,6 +1710,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.leadAddressDetails = res['ProcessVariables'].addressDetails;
           if (this.leadAddressDetails !== null) {
             this.setLeadAddressDetails();
+          }else{
+            this.toasterService.showInfo(
+              'There is no main applicant address datas',''
+            );
+            this.checkedAddressLead = '0';
           }
         } else {
           this.toasterService.showError(
