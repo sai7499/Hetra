@@ -110,6 +110,8 @@ export class UploadModalComponent {
             .replace(/^data:application\/[a-z]+;base64,/, '');
         } else if (this.fileType.includes('xls')) {
           result = reader.result.toString().split(',')[1];
+        } else if (this.fileType === 'docx') {
+          result = reader.result.toString().split(',')[1];
         } else {
           result = reader.result.toString();
         }
@@ -151,6 +153,7 @@ export class UploadModalComponent {
       'application/pdf': 'pdf',
       'image/png': 'png',
       'image/jpeg': 'jpeg',
+      'application/msword': 'docx'
     };
     return types[type] || type;
   }

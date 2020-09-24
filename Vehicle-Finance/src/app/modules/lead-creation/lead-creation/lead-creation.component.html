@@ -105,14 +105,14 @@
             <div class="ng-autocomplete" style="width:100%" [ngClass]="{'codeDisable disableCode': isSourchingCode}">
               <ng-autocomplete 
                 [data]="sourcingCodeData"
-                [searchKeyword]="keyword"
+                [searchKeyword]="'value'"
                 (selected)='selectSourcingEvent($event)'
                 (inputChanged)='onSourcingCodeSearch($event)'
                 [itemTemplate]="sourcingCodeTemplate"
                 [notFoundTemplate]="notFoundTemplate"
                 formControlName="sourcingCode"
                 [placeHolder]="sourcingCodePlaceholder"
-                [debounceTime]="400"
+                [minQueryLength]="2"
                 [disabled]="isSourchingCode">                                 
               </ng-autocomplete>               
               <ng-template #sourcingCodeTemplate let-item>
@@ -132,14 +132,14 @@
               <div class="ng-autocomplete" style="width:100%" >
                 <ng-autocomplete 
                   [data]="dealerCodeData"
-                  [searchKeyword]="keyword"
+                  [searchKeyword]="'dealorName'"
                   (selected)='selectDealerEvent($event)'
                   (inputChanged)='onDealerCodeSearch($event)'
                   [itemTemplate]="dealerCodeTemplate"
                   [notFoundTemplate]="notFoundTemplate"
                   formControlName="dealerCode"
                   [placeHolder]="'Dealer Code'"
-                  [debounceTime]="400">                                 
+                  [minQueryLength]="2">                                 
                 </ng-autocomplete>               
                 <ng-template #dealerCodeTemplate let-item>
                 <a [innerHTML]="item.dealorName"></a>

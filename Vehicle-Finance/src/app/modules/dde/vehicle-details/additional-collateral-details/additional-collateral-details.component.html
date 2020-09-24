@@ -508,7 +508,7 @@
                 [routerLink]="['/pages/dde/'+ leadId + '/vehicle-list']">{{label.back}}
                 To Collateral Details </button></div>
         <div class="col-sm-7 text-right">
-            <button class="btn btn-primary dash_href" (click)="onFormSubmit(collateralForm)"> {{label.save}} </button>
+            <button class="btn btn-primary dash_href" (click)="onFormSubmit(collateralForm)" *ngIf="!disableSaveBtn"> {{label.save}} </button>
         </div>
 
     </div>
