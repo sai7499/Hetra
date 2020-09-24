@@ -32,6 +32,15 @@
           <kendo-datepicker id="cpv_date" class="form-control mandatory" formControlName="cpvInitiatedDate"
             [format]="'dd/MM/yyyy'" [placeholder]="'Enter initiated date'" [activeView]="'decade'"
             [min]="leadCreatedDateFromLead"></kendo-datepicker>
+            <div
+            class="invalid-feedback"
+            *ngIf="!fieldReportForm.controls['cpvInitiatedDate'].vaild">
+            <div
+              *ngIf="
+              fieldReportForm.controls['cpvInitiatedDate'].hasError('required')">
+              CPV initiated date is required
+            </div>
+            </div>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="cpv_time">{{ labels?.cpvIntiatedTime }}
@@ -55,6 +64,16 @@
           placeholder=" cpv initiated time"
         >
         </kendo-timepicker> -->
+        <div
+        class="invalid-feedback"
+        *ngIf="!fieldReportForm.controls['cpvInitiatedTime'].vaild">
+        <div
+          *ngIf="
+          fieldReportForm.controls['cpvInitiatedTime'].hasError('required')">
+          CPV initiated time is required
+        </div>
+        </div>
+
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="report_date">{{ labels?.reportSubmitDate }}
@@ -62,6 +81,15 @@
           <kendo-datepicker id="cpv_date" class="form-control mandatory" formControlName="reportSubmitDate"
             [format]="'dd/MM/yyyy'" placeholder="Enter submit date" [activeView]="'decade'" (valueChange)="getMonths()">
           </kendo-datepicker>
+          <div
+            class="invalid-feedback"
+            *ngIf="!fieldReportForm.controls['reportSubmitDate'].vaild">
+            <div
+              *ngIf="
+              fieldReportForm.controls['reportSubmitDate'].hasError('required')">
+              Report submitted date is required
+            </div>
+            </div>
         </div>
       </div>
       <div class="row">
@@ -87,6 +115,16 @@
         </kendo-timepicker> -->
           <input type="time" class="form-control mandatory" placeholder="'Enter submit time'"
             formControlName="reportSubmitTime" />
+            <div
+            class="invalid-feedback"
+            *ngIf="!fieldReportForm.controls['reportSubmitTime'].vaild">
+            <div
+              *ngIf="
+              fieldReportForm.controls['reportSubmitTime'].hasError('required')">
+              Report submitted time is required
+            </div>
+            </div>
+
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="applicantsName">{{ labels?.applicantsName }} <sub class="star_red_col">*</sub></label>

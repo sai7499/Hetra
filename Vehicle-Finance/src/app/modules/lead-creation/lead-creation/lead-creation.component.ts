@@ -23,7 +23,6 @@ export class LeadCreationComponent implements OnInit {
   createLeadForm: FormGroup;
   lovLabels: any = [];
   labels: any = {};
-  keyword: any;
   leadId: number;
 
   applicantType: string;
@@ -73,6 +72,7 @@ export class LeadCreationComponent implements OnInit {
   isFirstNameRequired: boolean;
   isLastNameRequired: boolean;
   dob: any;
+  isSourceCode: boolean;
 
 
   obj = {};
@@ -135,9 +135,6 @@ export class LeadCreationComponent implements OnInit {
     this.getSourcingChannel();
     this.createLeadForm.patchValue({ entity: 'INDIVENTTYP' });
     this.selectApplicantType('INDIVENTTYP', true);
-    // this.getAgeValidation();
-    // this.minAge.setFullYear(this.minAge.getFullYear() - 100);
-    // this.maxAge.setFullYear(this.maxAge.getFullYear() - 10);
   }
 
   getLabels() {
@@ -153,10 +150,10 @@ export class LeadCreationComponent implements OnInit {
 
   getAgeValidation() {
     this.ageValidationService.getAgeValidationData().subscribe(
-      data => {       
+      data => {
         const minAge = data.ages.applicant.minAge;
         const maxAge = data.ages.applicant.maxAge;
-        if (this.applicantType === 'INDIVENTTYP' ) {
+        if (this.applicantType === 'INDIVENTTYP') {
           this.maxAge = new Date();
           this.minAge = new Date();
           this.minAge.setFullYear(this.minAge.getFullYear() - minAge);
@@ -373,8 +370,10 @@ export class LeadCreationComponent implements OnInit {
     this.sourcingCodePlaceholder = this.placeholder[0].value;
     if (this.sourcingCodePlaceholder === 'Not Applicable') {
       this.isSourchingCode = true;
+      this.isSourceCode = true;
     } else {
       this.isSourchingCode = false;
+      this.isSourceCode = false;
     }
   }
 
@@ -399,9 +398,13 @@ export class LeadCreationComponent implements OnInit {
         const apiError = response.ProcessVariables.error.code;
         if (appiyoError === '0' && apiError === '0') {
           this.sourcingCodeData = response.ProcessVariables.codeList;
-          this.keyword = 'value';
         }
       });
+  }
+
+  selectSourcingEvent(event) {
+    const sourcingEvent = event;
+    this.isSourceCode = sourcingEvent.key ? true : false;
   }
 
   onDealerCodeSearch(event) {
@@ -413,21 +416,18 @@ export class LeadCreationComponent implements OnInit {
       const apiError = response.ProcessVariables.error.code;
       if (appiyoError === '0' && apiError === '0') {
         this.dealerCodeData = response.ProcessVariables.dealorDetails;
-        this.keyword = 'dealorName';
         console.log('this.dealerCodeData', this.dealerCodeData);
       }
     });
   }
 
   selectDealerEvent(event) {
-    this.isNgAutoCompleteDealer = event ? true : false;
+    this.isNgAutoCompleteDealer = event.dealorCode ? true : false;
     const rcData = event;
     this.createLeadForm.patchValue({ rcLimit: rcData.rcLimit });
     this.createLeadForm.patchValue({ rcUtilizedLimit: rcData.rcUtilized });
     this.createLeadForm.patchValue({ rcUnutilizedLimit: rcData.rcUnutilized });
   }
-
-  onFocused($event) { }
 
   selectApplicantType(event: any, bool) {
     this.applicantType = bool ? event : event.target.value;
@@ -501,15 +501,16 @@ export class LeadCreationComponent implements OnInit {
     console.log('isNgAutoCompleteDealer', this.createLeadForm.controls.dealerCode.value);
     console.log('isNgAutoCompleteSourcing', this.createLeadForm.controls.sourcingCode.value);
 
-    this.isNgAutoCompleteSourcing = this.createLeadForm.controls.sourcingCode.value;
-    this.isNgAutoCompleteDealer = this.createLeadForm.controls.dealerCode.value;
+    // this.isNgAutoCompleteSourcing = this.createLeadForm.controls.sourcingCode.value;
+    // this.isNgAutoCompleteDealer = this.createLeadForm.controls.dealerCode.value;
     this.isMobile = this.createLeadForm.controls.mobile.value;
     this.isDirty = true;
 
     if (
       this.createLeadForm.valid === true &&
-      this.isNgAutoCompleteDealer !== '' &&
-      this.isNgAutoCompleteSourcing !== '' &&
+      this.isNgAutoCompleteDealer &&
+      // this.isNgAutoCompleteSourcing !== '' &&
+      this.isSourceCode &&
       this.isMobile !== ''
     ) {
       const leadModel: any = { ...formValue };

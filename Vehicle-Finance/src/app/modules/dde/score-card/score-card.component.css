@@ -68,8 +68,13 @@
         text-align: center !important;
     }
 
+    .veryLowRisk {
+        background-color: #388e3c;
+        color:white;
+    }
+
     .lowRisk {
-        background-color: #8bc34a;
+        background-color: #9ccc65;
         color:white;
     }
 
@@ -82,4 +87,16 @@
         background-color: #c62828;
         color:white;
     }
+
+    .veryhighRisk {
+        background-color: #8b0000;
+        color:white;
+    }
+
+    .highestRisk {
+        background-color: #6a0000;
+        color:white;
+    }
+
+    
     

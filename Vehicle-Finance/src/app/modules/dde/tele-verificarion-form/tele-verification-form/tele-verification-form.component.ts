@@ -11,6 +11,7 @@ import { OtpServiceService } from '@modules/lead-section/services/otp-details.se
 import { LoginStoreService } from '@services/login-store.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-tele-verification-form',
@@ -71,6 +72,7 @@ export class TeleVerificationFormComponent implements OnInit {
       msg: 'Invalid Characters not allowed'
     }
   };
+  sourcingType: string;
 
   constructor(
     private fb: FormBuilder,
@@ -86,12 +88,12 @@ export class TeleVerificationFormComponent implements OnInit {
     private otpService: OtpServiceService,
     private loginStoreService: LoginStoreService,
     private toggleDdeService: ToggleDdeService,
-    private vehicleStoreService: VehicleDataStoreService
+    private vehicleStoreService: VehicleDataStoreService,
+    private sharedService: SharedService
 
   ) {
 
     this.getLOV();
-
     this.leadId = this.route.snapshot.params.leadId;
     console.log(this.leadId);
     // tslint:disable-next-line: radix
@@ -105,31 +107,23 @@ export class TeleVerificationFormComponent implements OnInit {
     const vehicleCost = this.leadDetails.ProcessVariables.vehicleCollateral;
     const sum = a => a.reduce((x, y) => x + y);
     this.assetCost = vehicleCost ? sum(vehicleCost.map(x => Number(x.finalAssetCost))) : '';
-
-    if (this.applicantType === 'Applicant') {
-      this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[0].mobileNumber;
-    } else if (this.applicantType === 'Co-Applicant' || this.applicantType === 'Guarantor') {
-      this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[1].mobileNumber;
-    } else if (this.applicantType === 'Guarantor' || this.applicantType === 'Co-Applicant') {
-      this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[2].mobileNumber;
-    } else if (this.applicantType === 'Guarantor' || this.applicantType === 'Co-Applicant') {
-      this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[3].mobileNumber;
-    } else if (this.applicantType === 'Guarantor' || this.applicantType === 'Co-Applicant') {
-      this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[4].mobileNumber;
-    } else if (this.applicantType === 'Guarantor' || this.applicantType === 'Co-Applicant') {
-      this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[5].mobileNumber;
-    } else if (this.applicantType === 'Guarantor' || this.applicantType === 'Co-Applicant') {
-      this.mobileNumber = this.leadDetails.ProcessVariables.applicantDetails[6].mobileNumber;
+    // mobilenumber
+    const applicantDetails = this.leadDetails.ProcessVariables.applicantDetails;
+    const mobile = applicantDetails.find(ele => ele.applicantId === this.applicantId);
+    const entity = mobile.entity;
+    if (entity === 'Individual') {
+      this.mobileNumber = mobile.mobileNumber;
+    } else {
+      this.mobileNumber = mobile.companyPhoneNumber;
     }
-
+    // sourcing
     this.sourcingChannelDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingChannelDesc;
     this.sourcingTypeDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingTypeDesc;
     this.sourcingCodeDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingCodeDesc;
 
     this.sourcingCode = this.sourcingCodeDesc !== '-' ? `- ${this.sourcingCodeDesc}` : '';
-
+    this.sourcingType = this.sourcingTypeDesc === 'Not Applicable' ? '' : `- ${this.sourcingTypeDesc}`;
   }
-
 
   // InitForm for TVR
   initForm() {
@@ -220,6 +214,7 @@ export class TeleVerificationFormComponent implements OnInit {
 
   // ------NgOnInit-------
   ngOnInit() {
+
 
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.userName = value.userName;
@@ -321,7 +316,7 @@ export class TeleVerificationFormComponent implements OnInit {
       tvr.applicationReferences = applicationReferences ? applicationReferences : '';
 
       // tslint:disable-next-line: max-line-length
-      this.teleVerificationForm.get('srcOfProposal').setValue(`${this.sourcingChannelDesc} - ${this.sourcingTypeDesc} ${this.sourcingCode}`);
+      this.teleVerificationForm.get('srcOfProposal').setValue(`${this.sourcingChannelDesc} ${this.sourcingType} ${this.sourcingCode}`);
       this.teleVerificationForm.get('eCode').setValue(this.eCode);
       if (tvr.dob) {
         this.teleVerificationForm.patchValue(tvr);
@@ -421,7 +416,7 @@ export class TeleVerificationFormComponent implements OnInit {
     const tvrDetails = this.teleVerificationForm.getRawValue();
     this.isDirty = true;
     if (this.teleVerificationForm.valid === true) {
-      console.log('success');
+      // console.log('success');
       this.tvrDetails = this.teleVerificationForm.value;
       this.tvrDetails.dob = this.dateToFormate(this.tvrDetails.dob);
       this.tvrDetails.tvrDate = this.dateToFormate(this.tvrDetails.tvrDate);

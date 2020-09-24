@@ -90,7 +90,7 @@ export class CustomSelectComponent
       this.inputError = false;
       return;
     }
-    if (this.isRequired) {
+    if ( this.isRequired) {
       this.inputError = true;
     } else {
       this.inputError = false;
@@ -113,6 +113,7 @@ export class CustomSelectComponent
     if (!this.val) {
       this.checkValidation();
       this.isFirst = false;
+      //this.inputError = false;
     } else {
       this.inputError = false;
     }
