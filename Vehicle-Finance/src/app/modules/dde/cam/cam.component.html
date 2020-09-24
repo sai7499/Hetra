@@ -128,9 +128,9 @@
                 </tr>
                 <tr>
                     <td class="bank_name">{{ labels?.ltvAsPerPolicy }}</td>
-                    <td>{{ vehicleDetails?.ltvAsPerPolicy }}</td>
+                    <td>{{ vehicleDetails?.ltvAsPerPolicy }}<span *ngIf="vehicleDetails?.ltvAsPerPolicy != null ">%</span></td>
                     <td class="bank_name">{{labels?.ltvDeviaton}}</td>
-                    <td>{{ vehicleDetails?.ltvDeviation }}</td>
+                    <td>{{ vehicleDetails?.ltvDeviation }}<span *ngIf="vehicleDetails?.ltvDeviation != null ">%</span></td>
                 </tr>
                 <tr>
                     <td class="bank_name">{{ labels?.finalLtv }}</td>
@@ -671,7 +671,7 @@
             <td class="bank_name">{{ labels?.camDate }}</td>
             <td>{{ sourcingDetails?.camDate }}</td>
             <td class="bank_name">{{ labels?.existingExposure }}</td>
-            <td colspan="2">{{ sourcingDetails?.existingExposure }}</td>
+            <td colspan="2">{{ sourcingDetails?.existingExposure }}<span *ngIf=" sourcingDetails?.existingExposure != null ">%</span></td>
         </tr>
         <tr>
             <td class="bank_name">{{ labels?.areaName }}</td>
@@ -679,7 +679,7 @@
             <td class="bank_name">{{ labels?.branchName }}</td>
             <td>{{ sourcingDetails?.branchName }}</td>
             <td class="bank_name">{{ labels?.proposedExposure }}</td>
-            <td colspan="2">{{ sourcingDetails?.proposedExposure }}</td>
+            <td colspan="2">{{ sourcingDetails?.proposedExposure }}<span *ngIf=" sourcingDetails?.proposedExposure != null ">%</span></td>
         </tr>
         <tr>
             <td class="bank_name">{{ labels?.sourcingChannel }}</td>
@@ -687,7 +687,7 @@
             <td class="bank_name">{{ labels?.sourcingSoName }}</td>
             <td>{{ sourcingDetails?.sourcingSoName }}</td>
             <td class="bank_name">{{ labels?.overallExposure }}</td>
-            <td colspan="2">{{ sourcingDetails?.overallExposure }}</td>
+            <td colspan="2">{{ sourcingDetails?.overallExposure }}<span *ngIf=" sourcingDetails?.overallExposure != null ">%</span></td>
         </tr>
 
         <tr>
@@ -717,7 +717,7 @@
         </tr>
         <tr>
             <td class="bank_name">{{ labels?.vfScore }}</td>
-            <td>{{ sourcingDetails?.VFScore }}</td>
+            <td>{{ sourcingDetails?.VFScore }} <span *ngIf=" sourcingDetails?.VFScore != null ">%</span> </td>
             <td class="bank_name">{{ labels?.fiStatus }}</td>
             <td>{{ sourcingDetails?.FIStatus }}</td>
             <td class="bank_name">{{ labels?.proofCollected }}</td>
@@ -758,8 +758,8 @@
                 <td>{{ proposedDetails?.model }}</td>
                 <td>{{ proposedDetails?.netAssetCost }}</td>
                 <td>{{ proposedDetails?.loanAmount }}</td>
-                <td>{{ proposedDetails?.ltv }}</td>
-                <td>{{ proposedDetails?.irr }}</td>
+                <td>{{ proposedDetails?.ltv }}<span *ngIf=" proposedDetails?.ltv != null ">%</span></td>
+                <td>{{ proposedDetails?.irr }}<span *ngIf="proposedDetails?.irr != null ">%</span></td>
                 <td>{{ proposedDetails?.tenureMonth }}</td>
                 <td>{{ proposedDetails?.pf }}</td>
             </tr>
@@ -1573,7 +1573,7 @@
             <td class="bank_name">{{ labels?.proposed }}</td>
             <td class="bank_name">{{ labels?.total }}</td>
             <td class="bank_name">{{ labels?.vfScore }}</td>
-            <td>{{ sourcingDetails?.VFScore }}</td>
+            <td>{{ sourcingDetails?.VFScore }}<span *ngIf=" sourcingDetails?.VFScore  != null ">%</span></td>
             <td class="bank_name">{{ labels?.viability }}</td>
             <td>{{ sourcingDetails?.viability }}</td>
             <td class="bank_name">{{ labels?.applicationNumber }}</td>
@@ -1632,7 +1632,7 @@
             <td class="bank_name">{{ labels?.soRcGreaterthanSixtyDays }}</td>
             <td>{{ sourcingDetails?.soRc }}</td>
             <td class="bank_name">{{ labels?.ltv }}</td>
-            <td>{{ sourcingDetails?.ltv }}</td>
+            <td>{{ sourcingDetails?.ltv }}<span *ngIf="sourcingDetails?.ltv != null ">%</span></td>
         </tr>
         <tr>
             <td class="bank_name">{{ labels?.zone }}</td>
@@ -1642,7 +1642,7 @@
             <td class="bank_name">{{ labels?.caste }}</td>
             <td>{{ sourcingDetails?.caste }}</td>
             <td class="bank_name">{{ labels?.irr }}</td>
-            <td>{{ sourcingDetails?.irr }}</td>
+            <td>{{ sourcingDetails?.irr }}<span *ngIf="sourcingDetails?.irr != null ">%</span></td>
             <td class="bank_name">{{ labels?.scheme }}</td>
             <td>{{ sourcingDetails?.scheme }}</td>
             <td class="bank_name">{{ labels?.noOfUnits }}</td>
@@ -1867,8 +1867,8 @@
             <tr>
                 <td class="bank_name">{{ labels?.ltv }}</td>
                 <td *ngFor="let existingExposure of existingExposure">
-                    {{existingExposure?.ltv}}</td>
-                <td>{{camDetails?.totalLtv}}
+                    {{existingExposure?.ltv}}<span *ngIf="existingExposure?.ltv != null ">%</span></td>
+                <td>{{camDetails?.totalLtv}}<span *ngIf="camDetails?.totalLtv != null ">%</span>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.currentPos }}</td>
