@@ -1710,6 +1710,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.leadAddressDetails = res['ProcessVariables'].addressDetails;
           if (this.leadAddressDetails !== null) {
             this.setLeadAddressDetails();
+          }else{
+            this.toasterService.showInfo(
+              'There is no main applicant address datas',''
+            );
+            this.checkedAddressLead = '0';
           }
         } else {
           this.toasterService.showError(
@@ -2773,7 +2778,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       dob: new Date(ctx.utilityService.getDateFromString(value.dobFromResponse))
     })
 
-    // dedupe.updateValueAndValidity();
+    // dedupe.get('name1').disable();
+    // dedupe.get('name2').disable();
+    // dedupe.get('name3').disable();
+    // dedupe.get('dob').disable();
+
 
     const currentAddress = ctx.coApplicantForm.get('currentAddress');
     const permanantAddress = ctx.coApplicantForm.get('permentAddress');
