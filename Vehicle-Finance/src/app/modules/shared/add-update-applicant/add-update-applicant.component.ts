@@ -2773,7 +2773,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       dob: new Date(ctx.utilityService.getDateFromString(value.dobFromResponse))
     })
 
-    // dedupe.updateValueAndValidity();
+    // dedupe.get('name1').disable();
+    // dedupe.get('name2').disable();
+    // dedupe.get('name3').disable();
+    // dedupe.get('dob').disable();
+
 
     const currentAddress = ctx.coApplicantForm.get('currentAddress');
     const permanantAddress = ctx.coApplicantForm.get('permentAddress');
