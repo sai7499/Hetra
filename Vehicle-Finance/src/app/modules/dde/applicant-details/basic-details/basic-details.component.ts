@@ -92,6 +92,10 @@ export class BasicDetailsComponent implements OnInit {
     rule?: any;
     msg?: string;
   }[];
+
+
+  showSalaried: boolean = false;
+  showSelfEmp: boolean = false;
   
   
   constructor(
@@ -1000,6 +1004,7 @@ export class BasicDetailsComponent implements OnInit {
 
       this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
 
+      this.showSelfEmp = true;
       this.setSelfEmpValidators();
       this.removeSalariedValidators()
     } else if (this.custCatValue == 'SALCUSTSEG') {
@@ -1010,9 +1015,12 @@ export class BasicDetailsComponent implements OnInit {
       details.get('isSeniorCitizen').setValue(this.checkingSenior);
 
       this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
+      this.showSalaried = true;
       this.setSalriedValidators();
       this.removeSelfEmpValidators()
     }else {
+      this.showSalaried = false;
+      this.showSelfEmp = false;
       this.removeSalariedValidators();
       this.removeSelfEmpValidators();
     }
@@ -1207,6 +1215,21 @@ export class BasicDetailsComponent implements OnInit {
         ownHouseAppRelationship : ownHouseAppRelationship
       })
     }
+    if(this.showSalaried) {
+      const designation = details.get('designation').value;
+      const employerType= details.get('employerType').value
+      details.patchValue({
+        designation : designation,
+        employerType : employerType
+      })
+    }
+    if(this.showSelfEmp) {
+      const businessType = details.get('businessType').value;
+      details.patchValue({
+        businessType : businessType
+      })
+    }
+
     console.log('basicForm', this.basicForm)
     if (this.basicForm.invalid) {
       this.isDirty = true;
