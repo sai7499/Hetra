@@ -6,7 +6,7 @@
                 <h4 class="cus-title title"><b>{{ roleType === 1 ? label.vehcileDetailsTitle : '' }}</b></h4>
             </div>
             <div class="col-sm-7 text-right" id="add_vehicle_details_btn">
-                <button class="btn btn-primary" type="button" *ngIf="disableSaveBtn"
+                <button class="btn btn-primary" type="button" *ngIf="!disableSaveBtn"
                     [routerLink]="roleType === 1 ? ['../add-vehicle'] : ['/pages/vehicle-details/' + leadId + '/basic-vehicle-details']">{{label.addVehicle}}</button>
             </div>
         </div>
@@ -61,7 +61,7 @@
                 <div class="col-sm-12 text-right">
                     <button class="btn btn-color" type="button"
                         [routerLink]="['/pages/vehicle-details/' + leadId + '/additional-collateral-details']"
-                        *ngIf="disableSaveBtn">
+                        *ngIf="!disableSaveBtn">
                         {{label?.addAdditionalCollaterals}} </button>
                 </div>
             </div>
