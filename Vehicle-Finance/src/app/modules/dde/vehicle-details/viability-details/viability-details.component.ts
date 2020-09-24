@@ -251,17 +251,17 @@ export class ViabilityDetailsComponent implements OnInit {
     this.selectedDocDetails = {
       docsType: this.PROFILE_TYPE,
       docSize: this.OTHER_DOCUMENTS_SIZE,
-      docTp: "LEAD",
-      docSbCtgry: "ACCOUNT OPENING FORM",
-      docNm: "ACCOUNT_OPENING_FORM20206216328474448.pdf",
+      docTp: 'LEAD',
+      docSbCtgry: 'ACCOUNT OPENING FORM',
+      docNm: 'ACCOUNT_OPENING_FORM20206216328474448.pdf',
       docCtgryCd: 70,
-      docCatg: "KYC - I",
+      docCatg: 'KYC - I',
       docTypCd: 276,
-      flLoc: "",
-      docCmnts: "Addition of document for Lead Creation",
-      bsPyld: "Base64 data of the image",
+      flLoc: '',
+      docCmnts: 'Addition of document for Lead Creation',
+      bsPyld: 'Base64 data of the image',
       docSbCtgryCd: 204,
-      docsTypeForString: "selfie",
+      docsTypeForString: 'selfie',
       docRefId: [
         {
           idTp: 'LEDID',
@@ -462,12 +462,12 @@ getViability() {
       this.longitude = this.viabliityDataToPatch.longitude;
       this.branchLatitude = this.viabliityDataToPatch.brLatitude;
       this.branchLongitude = this.viabliityDataToPatch.brLongitude;
-      this.dmsDocumentId = this.viabliityDataToPatch.selfiePhoto
+      this.dmsDocumentId = this.viabliityDataToPatch.selfiePhoto;
 
-      if(this.dmsDocumentId){
+      if (this.dmsDocumentId) {
         this.downloadDocs(this.dmsDocumentId);
       }
-      if(this.latitude){
+      if (this.latitude) {
         this.getRouteMap();
       }
 
@@ -598,7 +598,7 @@ onSave() {
 patchViability(data: any) {
    const passanger = this.viabilityForm.controls.passanger as FormGroup;
    passanger.patchValue({
-    //  route: data.route ? data.route : null,
+     route: data.route ? data.route : null,
         onwardRoute : data.onwardRoute ? data.onwardRoute : null,
         returnRoute: data.returnRoute ?  data.returnRoute : null,
         natureOfGoods: data.natureOfGoods ? data.natureOfGoods : null ,
@@ -618,10 +618,10 @@ patchViability(data: any) {
         cleanersSalary: data.cleanersSalary ? data.cleanersSalary : null,
         permitCost: data.permitCost ? data.permitCost : null,
         fcCharge: data.fcCharge ? data.fcCharge : null,
-        paidTollTax: data.paidTollTax ? data.paidTollTax : null,
+        paidTollTax:  Number(data.paidTollTax),
         taxes: data.taxes ? data.taxes : null,
         maintanence: data.maintanence ? data.maintanence : null,
-        busMiscellaneousExpenses: data.busMiscellaneousExpenses ? data.busMiscellaneousExpenses : null,
+        busMiscellaneousExpenses:  data.busMiscellaneousExpenses ,
         busInsurenceExpenses: data.busInsurenceExpenses ? data.busInsurenceExpenses : null,
         busMonthlyIncome: data.busMonthlyIncome ? data.busMonthlyIncome : null,
         netCashFlow: data.netCashFlow ? data.netCashFlow : null,
@@ -630,14 +630,14 @@ patchViability(data: any) {
         otherIncome: data.otherIncome ? data.otherIncome : null,
         otherIncomeRemarks: data.otherIncomeRemarks ? data.otherIncomeRemarks : null,
         otherExpenses: data.otherExpenses ? data.otherExpenses : null,
-        otherExpensesRemarks: data.otherExpensesRemarks ? data.otherExpensesRemarks : null,
+        otherExpensesRemarks:  data.otherExpensesRemarks ,
         operationsExpenses: data.operationsExpenses ? data.operationsExpenses : null
-
 
     });
  }
  // tslint:disable-next-line: no-shadowed-variable
  convertPassenger(data: any) {
+   console.log(data, 'passenger group');
    const body = {
        otherIncome: data.otherIncome ? data.otherIncome : null,
        otherIncomeRemarks: data.otherIncomeRemarks ? data.otherIncomeRemarks : '',
@@ -660,19 +660,19 @@ patchViability(data: any) {
        cleanersSalary: data.cleanersSalary ? Number(data.cleanersSalary) : null,
        permitCost: data.permitCost ? Number(data.permitCost) : null,
        fcCharge: data.fcCharge ? Number(data.fcCharge) : null,
-       paidTollTax: data.paidTollTax ? Number(data.paidTollTax) : null,
+       paidTollTax:  Number(data.paidTollTax),
        taxes: data.taxes ? Number(data.taxes) : null,
        maintanence: data.maintanence ? Number(data.maintanence) : null,
-       busMiscellaneousExpenses: data.busMiscellaneousExpenses ? Number(data.busMiscellaneousExpenses) : null,
+       busMiscellaneousExpenses:  Number(data.busMiscellaneousExpenses) ,
        busInsurenceExpenses: data.busInsurenceExpenses ? Number(data.busInsurenceExpenses) : null,
-       busMonthlyIncome: data.busMonthlyIncome ? Number(data.busMonthlyIncome) : null,
-       netCashFlow: this.netFlowCash ? this.netFlowCash : null,
+       busMonthlyIncome:  Number(this.monthlyIncome) ,
+       netCashFlow:  this.netFlowCash ,
        emi: data.emi ? Number(data.emi) : null,
        totalExpenses: data.totalExpenses ? Number(data.totalExpenses) : null,
        otherExpenses: data.otherExpenses ? data.otherExpenses : null,
-       otherExpensesRemarks: data.otherExpensesRemarks ? data.otherExpensesRemarks : null,
+       otherExpensesRemarks:  data.otherExpensesRemarks,
        operationsExpenses: data.operationsExpenses ? data.operationsExpenses : null,
-       netCashFlowEmi : this.netCashFlowEmiPassenger ? this.netCashFlowEmiPassenger : null
+       netCashFlowEmi : this.netCashFlowEmiPassenger
    };
    return body;
  }
@@ -1009,7 +1009,7 @@ calculateCaptiveC() {
         console.log('saveOrUpdateDocument', value);
         const processVariables = value.ProcessVariables;
         const documentId = processVariables.documentIds[0];
-        console.log("documentId******", documentId);
+        console.log('documentId******', documentId);
         this.documentArr[index].documentId = documentId;
         const subCategoryCode = this.documentArr[index].subCategoryCode;
       });
@@ -1024,7 +1024,7 @@ calculateCaptiveC() {
     let currentPos = {
       latitude: this.latitude,
       longitude: this.longitude
-    }
+    };
     this.loginService.getPolyLine(function (result) {
       that.base64Image = result;
       that.showRouteMap = true;
@@ -1040,15 +1040,15 @@ calculateCaptiveC() {
       if (this.isMobile) {
 
         this.gpsService.getLatLong().subscribe((position) => {
-          console.log("Mobile position", position);
+          console.log('Mobile position', position);
           resolve(position);
         });
 
       } else {
         this.gpsService.getBrowserLatLong().subscribe((position) => {
-          console.log("Browser position", position);
-          if (position["code"]) {
-            this.toasterService.showError(position["message"], "GPS Alert");
+          console.log('Browser position', position);
+          if (position['code']) {
+            this.toasterService.showError(position['message'], 'GPS Alert');
           }
           resolve(position);
         });
