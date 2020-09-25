@@ -1010,8 +1010,8 @@ export class BasicDetailsComponent implements OnInit {
       const formArray = this.basicForm.get('details') as FormArray;
       const details = formArray.at(0);
       details.get('isSeniorCitizen').setValue(this.checkingSenior);
-      this.showSalaried = true;
       this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
+      this.showSalaried = true;
       this.setSalriedValidators();
       this.removeSelfEmpValidators()
     } else {
