@@ -377,7 +377,12 @@ export class OtherDetailsComponent implements OnInit {
         const processVariables = value.ProcessVariables;
         if (processVariables.error.code === '0') {
           this.toasterService.showSuccess('submitted to credit successfully', '');
-          this.getPdList();
+          // this.getPdList();
+          if (processVariables.goToDashboard) {
+            this.router.navigate([`/pages/dashboard`]);
+          } else {
+            this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
+          }
           // this.router.navigate([`/pages/dashboard`]);
         } else {
           this.toasterService.showError(processVariables.error.message, '');

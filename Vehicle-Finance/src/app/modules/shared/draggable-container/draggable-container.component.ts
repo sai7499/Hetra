@@ -21,14 +21,23 @@ export class DraggableComponent implements OnInit {
           'data:image/jpeg;base64,' + value.imageUrl
         );
       } else if (this.imageType === 'pdf') {
-        this.src = this.sanitizer.bypassSecurityTrustResourceUrl(
-          'data:application/pdf;base64,' + value.imageUrl
-        );
+        // this.src = this.sanitizer.bypassSecurityTrustResourceUrl(
+        //   'data:application/pdf;base64,' + value.imageUrl
+        // );
+        const blob = this.base64ToBlob( value.imageUrl, 'application/pdf' );
+        const url = URL.createObjectURL( blob );
+        this.src = this.sanitizer.bypassSecurityTrustResourceUrl(url);
       } else if (this.imageType === 'xls') {
         this.src = this.sanitizer.bypassSecurityTrustResourceUrl(
           'data:application/vnd.ms-excel;base64' + value.imageUrl
         );
-        console.log('this.src', this.src);
+        // console.log('this.src', this.src);
+      } else if (this.imageType.includes('doc')) {
+        // application/vnd.openxmlformats-officedocument.wordprocessingml.document
+        // 'application/msword'
+        const blob = this.base64ToBlob( value.imageUrl,  'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        const url = URL.createObjectURL( blob );
+        this.src = this.sanitizer.bypassSecurityTrustResourceUrl(url);
       }
       console.log('setCss', this.setCss);
       setTimeout(() => {
@@ -37,6 +46,21 @@ export class DraggableComponent implements OnInit {
     }
   }
   constructor(private sanitizer: DomSanitizer) {}
+
+
+  overSizePdf() {
+
+  }
+
+  base64ToBlob(base64, type = 'application/octet-stream') {
+    const binStr = atob( base64 );
+    const len = binStr.length;
+    const arr = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      arr[ i ] = binStr.charCodeAt( i );
+    }
+    return new Blob( [ arr ], { type} );
+  }
 
   ngOnInit() {
     this.setCss = {

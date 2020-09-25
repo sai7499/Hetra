@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { SalesDedupeService } from '@services/sales-dedupe.service';
 import { ApplicantService } from '@services/applicant.service';
 import { ToasterService } from '@services/toaster.service';
+import { Location} from '@angular/common'
+import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 
 @Component({
   templateUrl: './sales-exact-match.component.html',
@@ -33,6 +35,8 @@ export class SalesExactMatchComponent implements OnInit {
     private applicantService: ApplicantService,
     private router: Router,
     private toasterService: ToasterService,
+    private location: Location,
+    private applicantDataStoreService : ApplicantDataStoreService
   ) {}
 
   ngOnInit() {
@@ -92,7 +96,7 @@ export class SalesExactMatchComponent implements OnInit {
       .checkSalesApplicantDedupe(data)
       .subscribe((value: any) => {
         const leadId = this.dedupeParameter.leadId;
-        if (value.Error === '0') {
+        if (value.ProcessVariables.error.code === '0') {
           const processVariables = value.ProcessVariables;
           // this.checkNegativeList(processVariables.applicantId);
           // this.router.navigateByUrl(
@@ -116,7 +120,7 @@ export class SalesExactMatchComponent implements OnInit {
             nlTrRemarks,
           };
         }else{
-          this.toasterService.showError(value.ProcessVariables.code.message, '')
+          this.toasterService.showError(value.ProcessVariables.error.message, '')
         }
       });
   }
@@ -154,6 +158,11 @@ export class SalesExactMatchComponent implements OnInit {
 
   onCancel() {
     this.modalName = '';
+  }
+
+  onBack(){
+    this.applicantDataStoreService.setDedupeFlag(true)
+    this.location.back()
   }
 
   async negativeListModalListener(event) {

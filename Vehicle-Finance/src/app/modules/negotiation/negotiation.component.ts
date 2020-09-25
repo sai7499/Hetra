@@ -132,7 +132,7 @@ export class NegotiationComponent implements OnInit {
   varianceIRR: any;
   premiumAmtvalidation: boolean;
   eligibleamount: any;
-  onformsubmit: boolean;
+  onformsubmit: boolean = true;
   maxLoanAmount: number;
   minLoanAmount: number;
   maxLoanTenor: number;
@@ -247,7 +247,7 @@ export class NegotiationComponent implements OnInit {
       NegotiatedEMI: ['', [Validators.required]],
       MoratoriumPeriod: ['', [Validators.required]],
       EMICycle: ['', [Validators.required]],
-      EMIStartDateAfterDisbursement: [''],
+      // EMIStartDateAfterDisbursement: [''],
       PaymentModeforGapDaysInterest: ['', [Validators.required]],
       SelectAppropriateLMSScheduleCode: ['', [Validators.required]],
       NoofRepayableMonthsafterMoratorium: [{ value: '', disabled: true }],
@@ -558,36 +558,42 @@ export class NegotiationComponent implements OnInit {
       spdcvalue.setErrors(null);
     }
     if ((minmax == '1LOSREPAY') || (minmax == '2LOSREPAY')) {
+      this.minValuePDC = "1"
+      this.maxValuePDC = "4"
+      this.PDCvalueCheck = [{ rule: pdcvalue => Number(pdcvalue) > Number(this.maxValuePDC), msg: 'Invalid Value' },
+      { rule: pdcvalue => Number(pdcvalue) < Number(this.minValuePDC), msg: 'Invalid value' }];
       if (value == 'empty') {
         pdcvalue.setValue("1");
         spdcvalue.setValue("5");
+        pdcvalue.setErrors(null);
+        spdcvalue.setErrors(null);
       }
-      this.minValuePDC = "1"
-      this.maxValuePDC = "4"
-      this.PDCvalueCheck = [{ rule: pdcvalue => Number(pdcvalue) > Number(this.maxValuePDC), msg: 'Invalid Value' }]
-      // { rule: pdcvalue => Number(pdcvalue) < Number(this.minValuePDC), msg: 'Invalid value' }];
     }
     else if (minmax == '4LOSREPAY') {
-      if (value == 'empty') {
-        pdcvalue.setValue("0");
-        spdcvalue.setValue("5");
-      }
       this.minValuePDC = "0"
       this.maxValuePDC = "4"
       this.PDCvalueCheck = [{ rule: pdcvalue => Number(pdcvalue) > Number(this.maxValuePDC), msg: 'Invalid Value' },
       { rule: pdcvalue => Number(pdcvalue) < Number(this.minValuePDC), msg: 'Invalid value' }];
+      if (value == 'empty') {
+        pdcvalue.setValue("0");
+        spdcvalue.setValue("5");
+        pdcvalue.setErrors(null);
+        spdcvalue.setErrors(null);
+      }
     }
     else if (minmax == '3LOSREPAY') {
       let minvalue = this.createNegotiationForm.controls.NegotiatedLoanTenor.value;
       let maxvalue = (Number(this.createNegotiationForm.controls.NegotiatedLoanTenor.value) + 5).toString();
-      if (value == 'empty') {
-        pdcvalue.setValue(minvalue);
-        spdcvalue.setValue("5");
-      }
       this.minValuePDC = minvalue;
       this.maxValuePDC = maxvalue;
       this.PDCvalueCheck = [{ rule: pdcvalue => Number(pdcvalue) > Number(this.maxValuePDC), msg: 'Invalid Value' },
       { rule: pdcvalue => Number(pdcvalue) < Number(this.minValuePDC), msg: 'Invalid value' }];
+      if (value == 'empty') {
+        pdcvalue.setValue(minvalue);
+        spdcvalue.setValue("5");
+        pdcvalue.setErrors(null);
+        spdcvalue.setErrors(null);
+      }
     }
     this.minValueSPDC = "5"
     this.maxValueSPDC = "8"
@@ -849,7 +855,7 @@ export class NegotiationComponent implements OnInit {
                   NegotiatedEMI: ['',],
                   MoratoriumPeriod: ['',],
                   EMICycle: ['',],
-                  EMIStartDateAfterDisbursement: ['',],
+                  // EMIStartDateAfterDisbursement: ['',],
                   PaymentModeforGapDaysInterest: ['',],
                   SelectAppropriateLMSScheduleCode: ['',],
                   NoofRepayableMonthsafterMoratorium: [{ value: '', disabled: true }],
@@ -1141,8 +1147,9 @@ export class NegotiationComponent implements OnInit {
         "ApplicantJson": JSON.stringify(this.Applicants),
         "CombinedLoanJson": JSON.stringify(this.CombinedLoan),
         "AssetsJson": JSON.stringify(this.finalAsset),
-        "IsCombinedLoan": "N"
+        "IsCombinedLoan": "Y"
       }
+      console.log("negotiationformvalues",this.createNegotiationForm)
       this.NegotiationService
         .submitNegotiation(NegotiationDetails
         )
@@ -1170,7 +1177,7 @@ export class NegotiationComponent implements OnInit {
     this.createNegotiationForm.controls.NegotiatedEMI.setValue(null);
     this.createNegotiationForm.controls.MoratoriumPeriod.setValue(null);
     this.createNegotiationForm.controls.NoofRepayableMonthsafterMoratorium.setValue(null);
-    this.createNegotiationForm.controls.EMIStartDateAfterDisbursement.setValue(null);
+    // this.createNegotiationForm.controls.EMIStartDateAfterDisbursement.setValue(null);
     this.createNegotiationForm.controls.PaymentModeforGapDaysInterest.setValue(null);
     this.createNegotiationForm.controls.SelectAppropriateLMSScheduleCode.setValue(null);
   }
@@ -1189,7 +1196,7 @@ export class NegotiationComponent implements OnInit {
             NegotiatedLoanTenor: this.CombinedLoan.negotiated_tenor_months,
             NegotiatedEMI: this.CombinedLoan.negotiated_emi,
             NoofRepayableMonthsafterMoratorium: this.CombinedLoan.mor_repay_month,
-            EMIStartDateAfterDisbursement: this.CombinedLoan.emi_cycle_start,
+            // EMIStartDateAfterDisbursement: this.CombinedLoan.emi_cycle_start,
             PaymentModeforGapDaysInterest: this.CombinedLoan.gap_days_payment_mode,
             SelectAppropriateLMSScheduleCode: this.CombinedLoan.lms_schedule_code,
             NetDisbursementAmount: this.CombinedLoan.net_disbursement_amnt,
@@ -1266,7 +1273,7 @@ export class NegotiationComponent implements OnInit {
         this.lifecovervalueSelected['controls'].lifeCoverPremiumAmount.setValue(null);
         this.premiumAmtvalidation = false;
       }
-      else if (this.createNegotiationForm.controls.NegotiatedLoanTenor.value < '24') {
+      else if (Number(this.createNegotiationForm.controls.NegotiatedLoanTenor.value) < 24) {
         this.toasterService.showError('Negotiated Loan Tenor should be minimum of 2 Years for credit shield Life Cover', '');
         this.lifecovervalueSelected['controls'].lifeCoverPremiumAmount.setValue(null);
         this.premiumAmtvalidation = false;
