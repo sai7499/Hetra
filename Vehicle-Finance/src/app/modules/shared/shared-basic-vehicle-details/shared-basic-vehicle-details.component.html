@@ -18,9 +18,8 @@
                         <app-custom-input formControlName="vehicleRegNo"
                             [type]="label.validationData?.vehicleRegNo.type" [id]="'vechical_reg'"
                             [className]="'form-control mandatory'" [placeholder]="'Vechical Registration No'"
-                            [minLength]="label.validationData?.vehicleRegNo.minLength"
-                            [patternCheck]="label.validationData?.vehicleRegNo.patternCheck"
-                            [inputClass]="'input-upper'" [maxLength]="label.validationData?.vehicleRegNo.maxLength"
+                            [minLength]="label.validationData?.vehicleRegNo.minLength" [inputClass]="'input-upper'"
+                            [maxLength]="label.validationData?.vehicleRegNo.maxLength" [custom]="vehicleRegPattern"
                             [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
                         </app-custom-input>
 
@@ -140,7 +139,7 @@
                         <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub> </label>
 
                         <app-custom-input formControlName="ageOfAsset" [id]="'age_of_asset'"
-                            [className]="'form-control mandatory'" [placeholder]="'Age of Asset'" [isDisabled]="true">
+                            [className]="'form-control mandatory'" [placeholder]="'Age of Vehicle'" [isDisabled]="true">
                         </app-custom-input>
 
                     </div>
@@ -275,7 +274,7 @@
                             [placeholder]="'Mobile Number of Vehicle Owner/Dealer'"
                             [maxLength]="label.validationData?.mobileNumber.maxLength"
                             [patternCheck]="label.validationData?.mobileNumber.pattern"
-                            (change)="onChangeMobileNumber($event.target.value)" 
+                            (change)="onChangeMobileNumber($event.target.value)"
                             (keyUp)="onChangeMobileNumber($event.target.value)"
                             [isRequired]="'Mobile Number of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                         </app-custom-input>
@@ -1070,8 +1069,7 @@
                                 [className]="'form-control mandatory'" [inputClass]="'input-upper'"
                                 [placeholder]="'Vechical Registration No'"
                                 [minLength]="label.validationData?.vehicleRegNo.minLength"
-                                [maxLength]="label.validationData?.vehicleRegNo.maxLength"
-                                [patternCheck]="label.validationData?.vehicleRegNo.patternCheck"
+                                [maxLength]="label.validationData?.vehicleRegNo.maxLength" [custom]="vehicleRegPattern"
                                 [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
                             </app-custom-input>
 
@@ -1181,7 +1179,7 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="age_vehicle">{{label.ageOfAsset}} <sub class="star_red_col">*</sub> </label>
                             <app-custom-input formControlName="ageOfAsset" [className]="'form-control mandatory'"
-                                [placeholder]="'Age of Asset'" [isRequired]="'Age of Asset Required'"
+                                [placeholder]="'Age of Vehicle'" [isRequired]="'Age of Asset Required'"
                                 [id]="'age_of_asset'" [isDirty]="isDirty" [isDisabled]="true">
                             </app-custom-input>
 
@@ -1565,8 +1563,7 @@
                                 [className]="'form-control mandatory'" [inputClass]="'input-upper'"
                                 [placeholder]="'Vechical Registration No'"
                                 [minLength]="label.validationData?.vehicleRegNo.minLength"
-                                [maxLength]="label.validationData?.vehicleRegNo.maxLength"
-                                [patternCheck]="label.validationData?.vehicleRegNo.patternCheck"
+                                [maxLength]="label.validationData?.vehicleRegNo.maxLength" [custom]="vehicleRegPattern"
                                 [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
                             </app-custom-input>
 

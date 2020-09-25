@@ -23,7 +23,6 @@ export class LeadCreationComponent implements OnInit {
   createLeadForm: FormGroup;
   lovLabels: any = [];
   labels: any = {};
-  keyword: any;
   leadId: number;
 
   applicantType: string;
@@ -136,9 +135,6 @@ export class LeadCreationComponent implements OnInit {
     this.getSourcingChannel();
     this.createLeadForm.patchValue({ entity: 'INDIVENTTYP' });
     this.selectApplicantType('INDIVENTTYP', true);
-    // this.getAgeValidation();
-    // this.minAge.setFullYear(this.minAge.getFullYear() - 100);
-    // this.maxAge.setFullYear(this.maxAge.getFullYear() - 10);
   }
 
   getLabels() {
@@ -154,10 +150,10 @@ export class LeadCreationComponent implements OnInit {
 
   getAgeValidation() {
     this.ageValidationService.getAgeValidationData().subscribe(
-      data => {       
+      data => {
         const minAge = data.ages.applicant.minAge;
         const maxAge = data.ages.applicant.maxAge;
-        if (this.applicantType === 'INDIVENTTYP' ) {
+        if (this.applicantType === 'INDIVENTTYP') {
           this.maxAge = new Date();
           this.minAge = new Date();
           this.minAge.setFullYear(this.minAge.getFullYear() - minAge);
@@ -402,12 +398,11 @@ export class LeadCreationComponent implements OnInit {
         const apiError = response.ProcessVariables.error.code;
         if (appiyoError === '0' && apiError === '0') {
           this.sourcingCodeData = response.ProcessVariables.codeList;
-          this.keyword = 'value';
         }
       });
   }
 
-  selectSourcingEvent(event){
+  selectSourcingEvent(event) {
     const sourcingEvent = event;
     this.isSourceCode = sourcingEvent.key ? true : false;
   }
@@ -421,7 +416,6 @@ export class LeadCreationComponent implements OnInit {
       const apiError = response.ProcessVariables.error.code;
       if (appiyoError === '0' && apiError === '0') {
         this.dealerCodeData = response.ProcessVariables.dealorDetails;
-        this.keyword = 'dealorName';
         console.log('this.dealerCodeData', this.dealerCodeData);
       }
     });
