@@ -10,6 +10,9 @@ import { PdcServiceService } from '@services/pdc-service.service';
 import { UtilityService } from '@services/utility.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { LoanCreationService } from '@services/loan-creation.service';
+import { LeadStoreService } from '@modules/sales/services/lead.store.service';
+import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 @Component({
   selector: 'app-pdc-details',
@@ -32,6 +35,9 @@ export class PdcDetailsComponent implements OnInit {
   showSpdc = false;
   lovData: any;
   rowIndex: number;
+  leadData: any;
+  acceptanceDate: any;
+  submitted = false;
 
   constructor(
     private loginStoreService: LoginStoreService,
@@ -45,14 +51,23 @@ export class PdcDetailsComponent implements OnInit {
     private pdcService: PdcServiceService,
     private utilityService: UtilityService,
     private lovService: CommomLovService,
-    private loanCreationService: LoanCreationService
+    private loanCreationService: LoanCreationService,
+    private leadDataService: CreateLeadDataService
   ) {
     this.pdcArray = this.fb.array([]);
     this.spdcArray = this.fb.array([]);
   }
 
   async ngOnInit() {
-    this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate ));
+    this.leadData = (this.leadDataService.getLeadSectionData());
+    this.acceptanceDate = this.leadData.leadDetails.custAcceptedDate;
+    if (!this.acceptanceDate) {
+     this.toDayDate =  this.utilityService.getDateFromString(this.leadData.leadDetails.leadCreatedOn);
+    } else {
+      this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate ));
+    }
+    console.log(this.toDayDate, ' lead Data onit', );
+
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
       this.roleType = value.roleType;
@@ -76,6 +91,7 @@ export class PdcDetailsComponent implements OnInit {
       this.lovData = res.LOVS;
     });
   }
+  get f() { return this.pdcForm.controls; }
   private initRows() {
     return this.fb.group({
       pdcId: [null],
@@ -217,6 +233,7 @@ export class PdcDetailsComponent implements OnInit {
     });
   }
   onSave() {
+    this.submitted = true;
     //  localStorage.setItem('pdcData', JSON.stringify(this.pdcForm.value));
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.pdcForm.controls.pdcList.length; i++) {
