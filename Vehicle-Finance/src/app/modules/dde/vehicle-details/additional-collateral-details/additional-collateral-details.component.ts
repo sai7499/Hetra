@@ -74,7 +74,7 @@ export class AdditionalCollateralComponent implements OnInit {
         }
 
         const operationType = this.toggleDdeService.getOperationType();
-        if (operationType === '1') {
+        if (operationType === '1' || operationType === '2') {
             this.disableSaveBtn = true;
             this.collateralForm.disable()
         }
