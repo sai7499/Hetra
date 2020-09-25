@@ -52,7 +52,7 @@ export class ValuationComponent implements OnInit {
     { key: "September", value: "September" }, { key: "October", value: "October" },
     { key: "November", value: "November" }, { key: "December", value: "December" },
   ];
-  
+
   constructor(
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,
@@ -81,7 +81,7 @@ export class ValuationComponent implements OnInit {
     // this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
-      if (operationType === '1') {
+      if (operationType === '1' || operationType === '2') {
         this.vehicleValuationForm.disable();
         this.disableSaveBtn = true;
       }
@@ -316,7 +316,7 @@ export class ValuationComponent implements OnInit {
         console.log("VEHICLE_VALUATION_RESPONSE_SAVE_OR_UPDATE_API", response);
         if (response["Error"] == 0 && response['ProcessVariables'].error['code'] == "0") {
           this.toasterService.showSuccess("Record Saved Successfully", "Valuation");
-        }else {
+        } else {
           this.toasterService.showError(response['ProcessVariables'].error['message'], "Valuation");
         }
       });
