@@ -147,7 +147,6 @@
             >{{ labels.ifNotResidenceAddress }}
             <sub class="star_blue_col">*</sub></label
           >
-          <!-- <input type="text" class="form-control" id="bank_name" formControlName="bankName"> -->
           <app-custom-input
             id="bank_name"
             [placeholder]="'Enter residence address'"
@@ -160,6 +159,29 @@
             [isDirty]="isDirty"
           >
           </app-custom-input>
+          <!-- <input
+          class="form-control mandatory"
+            type="labels?.validationData?.mismatchResidenceAddress?.type"
+            formControlName="alternateAddr"
+            [maxLength]="
+              labels?.validationData?.mismatchResidenceAddress?.maxLength
+            "
+            [placeholder]="'Enter residence address'"
+            
+
+          /> -->
+          <!-- <div
+            class="invalid-feedback"
+            *ngIf="!applicantForm.controls['alternateAddr'].vaild"
+          >
+            <div
+              *ngIf="
+                applicantForm.controls['alternateAddr'].hasError('required')
+              "
+            >
+              Residence Address is required
+            </div>
+          </div> -->
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="landmark"
@@ -343,7 +365,11 @@
             [placeholder]="'Enter area of  property'"
             formControlName="areaOfProperty"
             [type]="labels?.validationData?.propertyArea?.type"
-            [isRequired]="ownerNamePropertyAreaRequired ? 'Area of property is required':''"
+            [isRequired]="
+              ownerNamePropertyAreaRequired
+                ? 'Area of property is required'
+                : ''
+            "
             [maxLength]="labels?.validationData?.propertyArea?.maxLength"
             [minLength]="labels?.validationData?.propertyArea.minLength"
             [isDirty]="isDirty"
@@ -401,6 +427,23 @@
       </div>
       <div class="row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="date_of_birth"
+            >{{ labels.dateOfBirth }} <sub class="star_red_col">*</sub></label
+          >
+
+          <!-- <kendo-datepicker class="form-control mandatory" formControlName="dob" [format]="'dd/MM/yyyy'"
+               [activeView]="'decade'" placeholder="Date of Birth">
+          </kendo-datepicker> -->
+          <input
+            formControlName="dob"
+            type="text"
+            class="form-control mandatory"
+            id="date_of_birth"
+            placeholder="Date of Birth"
+            name="date_of_birth"
+          />
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="marital_status">
             {{ labels.maritalStatus }} <sub class="star_red_col">*</sub></label
           >
@@ -413,6 +456,7 @@
           >
           </app-vf-custom-select>
         </div>
+
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="physically_challenged"
             >{{ labels.physicallyChallenged }}
@@ -427,6 +471,8 @@
           >
           </app-vf-custom-select>
         </div>
+      </div>
+      <div class="row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="owner_name"
             >{{ labels.dependents }} <sub class="star_red_col">*</sub></label
@@ -443,8 +489,6 @@
           >
           </app-custom-input>
         </div>
-      </div>
-      <div class="row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="rating_by_so"
             >{{ labels.ratingBySo }} <sub class="star_red_col">*</sub></label

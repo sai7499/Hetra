@@ -118,6 +118,7 @@ export interface ApplicantDetails {
     fatherFullName?: string;
     gender?: string;
     maritalStatus?: string;
+    dob?: string;
     physicallyChallenged?: string;
     dependants?: string;
     residancePhoneNumber?: string;
