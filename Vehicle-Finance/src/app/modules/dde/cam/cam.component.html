@@ -160,6 +160,7 @@
                     <th class="bank_name">{{ labels?.applicantType }}</th>
                     <th class="bank_name">{{ labels?.name }}</th>
                     <th class="bank_name">{{ labels?.dobDoi }}</th>
+                    <th class="bank_name">{{ labels?.age }}</th>
                     <th class="bank_name">{{ labels?.relationshipToApplicant }}</th>
                     <th class="bank_name">{{ labels?.cibilScore }}</th>
                 </tr>
@@ -169,6 +170,7 @@
                     <td>{{ applicantDetails?.applicantType }}</td>
                     <td>{{ applicantDetails?.name }}</td>
                     <td>{{ applicantDetails?.dobDoi }}</td>
+                    <td>{{ applicantDetails?.age }}</td>
                     <td>{{ applicantDetails?.relationship}}</td>
                     <td>{{ applicantDetails?.cibilScore }}</td>
                 </tr>
@@ -740,8 +742,8 @@
         </caption>
         <thead>
             <tr class="">
-                <th class="bank_name">{{ labels?.sr }}</th>
-            <th class="bank_name">{{ labels?.assetDiscription }}</th>
+                <th class="bank_name">{{ labels?.sNo }}</th>
+            <th class="bank_name">{{ labels?.assetDescription }}</th>
                 <th class="bank_name">{{ labels?.model }}</th>
                 <th class="bank_name">{{ labels?.netAssetCost }}</th>
                 <th class="bank_name">{{ labels?.loanAmount }}</th>
@@ -819,6 +821,7 @@
                 <th class="bank_name">{{ labels?.name }}</th>
                 <th class="bank_name">{{ labels?.entity }}</th>
                 <th class="bank_name">{{ labels?.dobDoi }}</th>
+                <th class="bank_name">{{ labels?.age }}</th>
                 <th class="bank_name">{{ labels?.relationShip }}</th>
             </tr>
         </thead>
@@ -828,6 +831,7 @@
                 <td>{{ partyToAgreement?.name }}</td>
                 <td>{{ partyToAgreement?.entity }}</td>
                 <td>{{ partyToAgreement?.dobDoi}}</td>
+                <td>{{ partyToAgreement?.age}}</td>
                 <td>{{ partyToAgreement?.relationship }}</td>
             </tr>
             <!-- <tr>
@@ -1994,7 +1998,7 @@
                 <th class="bank_name dispNone">{{ labels?.relationWithHirer }}</th>
                 <th class="bank_name">{{ labels?.make }}</th>
                 <th class="bank_name">{{ labels?.model }}</th>
-                <th class="bank_name dispNone">{{ labels?.owningSince }}</th>
+                <th class="bank_name">{{ labels?.owningSince }}</th>
                 <th class="bank_name">{{ labels?.financeOrFree }}</th>
                 <th class="bank_name">{{ labels?.loanAmt }}</th>
                 <th class="bank_name">{{ labels?.tenure }}</th>
@@ -2012,7 +2016,7 @@
                 <td class="dispNone">{{ fleetDetails?.relationWithHirer }}</td>
                 <td>{{ fleetDetails?.make }}</td>
                 <td>{{ fleetDetails?.model }}</td>
-                <td class="dispNone">{{ fleetDetails?.owningSince}}</td>
+                <td>{{ fleetDetails?.owningSince}}</td>
                 <td>{{ fleetDetails?.financeFree }}</td>
                 <td>{{ fleetDetails?.loanAmt }}</td>
                 <td>{{ fleetDetails?.tenure }}</td>
