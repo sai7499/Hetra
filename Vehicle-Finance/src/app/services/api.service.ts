@@ -495,6 +495,11 @@ export class ApiService {
       workflowId: '3ea13662c66611eaa13a00505695f93b',
       projectId: environment.projectIds.submitToCredit,
     },
+    getLeadRejectReason : {
+      processId: '94b7bcfeff1611eaa2fe00505695f93b',
+      workflowId: '94987e52ff1611eab52100505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
     getCountryList: {
       processId: '6c3f2eb0c1d611ea80d600505695f93b',
       workflowId: '6c1d6dd4c1d611eaa89700505695f93b',

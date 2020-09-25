@@ -481,11 +481,18 @@ export class TrackVehicleComponent implements OnInit {
     console.log(this.fleetRtrDetails);
    }else{
     let addIndex = Number(this.trackVehicleForm.value['emisPaid']) - this.formArr['controls'].length;
+    let receivedDate = this.addingReceviedDate();
     for(let i=0 ; i<addIndex; i++){
-      let addDueDate2 = this.trackVehicleForm.value['emiStartDate'] ? this.addMonth(this.fleetRtrDetails[(this.formArr['controls'].length -1)]['dueDate'], 1) : null
+      let addDueDate2 = this.trackVehicleForm.value['emiStartDate'] ? this.addMonth(this.fleetRtrDetails[(this.formArr['controls'].length -1)]['dueDate'], 1) : null;
+      const dueDate = new Date(addDueDate2);
+      const recDate = new Date(receivedDate);
+      let delayedDays = (recDate.getTime() - dueDate.getTime()) / (1000 * 3600 * 24);
+
       this.fleetRtrDetails.push({
         installmentAmt: this.trackVehicleForm.controls['emiAmount'].value,
         'dueDate': addDueDate2,
+        'receivedDate': receivedDate,
+        'delayDays' : delayedDays
       })
       this.addNewRow(this.fleetRtrDetails[this.fleetRtrDetails.length -1]);
       
@@ -540,19 +547,19 @@ export class TrackVehicleComponent implements OnInit {
             } else {
               let Receiveddate = new Date();
               let dueDate = this.addMonth(this.trackVehicleForm.value['emiStartDate'] , i) 
-              // if(Receiveddate > this.trackVehicleForm.value['loanMaturityDate'] && dueDate < Receiveddate ){
-              //   Receiveddate = this.trackVehicleForm.value['loanMaturityDate'];
-              // }else if(dueDate > Receiveddate){
-              //   Receiveddate = new Date();
-              // }else if(dueDate < Receiveddate){
-              //   Receiveddate = null;
-              // }
+              if(Receiveddate > this.trackVehicleForm.value['loanMaturityDate'] && dueDate < Receiveddate ){
+                Receiveddate = this.trackVehicleForm.value['loanMaturityDate'];
+              }else if(dueDate > Receiveddate){
+                Receiveddate = new Date();
+              }else if(dueDate < Receiveddate){
+                Receiveddate = null;
+              }
               let delayDays = this.dateDiff(dueDate,Receiveddate).toFixed(0);
               let rowData = {
                 installmentAmt: this.trackVehicleForm.value['emiAmount'],
                 dueDate: dueDate,
-                // delayDays : delayDays,
-                // receivedDate : Receiveddate
+                delayDays : delayDays,
+                receivedDate : Receiveddate
               }
               this.formArr.push(this.initRows(rowData));
             }
@@ -576,7 +583,7 @@ export class TrackVehicleComponent implements OnInit {
         this.trackVehicleForm.disable();
         this.disableActionBtn = true;
       }
-      // this.delayDaysCalc();
+      this.delayDaysCalc();
       this.paymentExcessOrShort(null, 0)
     })
   }
