@@ -96,7 +96,7 @@ export class SalesExactMatchComponent implements OnInit {
       .checkSalesApplicantDedupe(data)
       .subscribe((value: any) => {
         const leadId = this.dedupeParameter.leadId;
-        if (value.Error === '0') {
+        if (value.ProcessVariables.error.code === '0') {
           const processVariables = value.ProcessVariables;
           // this.checkNegativeList(processVariables.applicantId);
           // this.router.navigateByUrl(
@@ -120,7 +120,7 @@ export class SalesExactMatchComponent implements OnInit {
             nlTrRemarks,
           };
         }else{
-          this.toasterService.showError(value.ProcessVariables.code.message, '')
+          this.toasterService.showError(value.ProcessVariables.error.message, '')
         }
       });
   }
