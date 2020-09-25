@@ -35,6 +35,7 @@ import { setTheme } from 'ngx-bootstrap/utils';
 import { SharedDeviationComponent } from './shared-deviation/shared-deviation.component';
 import { NegativeListModalComponent } from './negative-list-modal/negative-list.modal.component';
 import { MatTreeModule, MatIconModule } from '@angular/material';
+import { RejectReasonModalComponent } from './reject-reason-modal/reject-reason-modal.component';
 setTheme('bs4');
 
 @NgModule({
@@ -59,6 +60,7 @@ setTheme('bs4');
     DocsUploadPipe,
     DraggableComponent,
     ApplicantDocsUploadComponent,
+    RejectReasonModalComponent,
   ],
   imports: [
     CommonModule,
@@ -93,7 +95,8 @@ setTheme('bs4');
     DraggableComponent,
     ApplicantDocsUploadComponent,
     MatTreeModule,
-    MatIconModule
+    MatIconModule,
+    RejectReasonModalComponent
   ],
 })
 export class SharedModule { }
