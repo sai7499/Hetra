@@ -77,8 +77,6 @@ export class UtilityService {
   }
 
   convertDateTimeTOUTC(date, format) {
-    console.log(date);
-    console.log(format);
 
     return moment.utc(date).local().format(format);
 
@@ -129,7 +127,7 @@ export class UtilityService {
       ...new Map(dataJosn.map((data) => [data[key], data])).values(),
     ];
     console.log(arrayUniqueByKey, 'Var')
-    return arrayUniqueByKey;
+    return arrayUniqueByKey.filter((keyValue) => keyValue.value !== null);
   }
 
   getValueFromJSON(JsonObj, key1, value1) {
@@ -156,16 +154,25 @@ export class UtilityService {
       return;
     }
     let date: string = dateIn;
+
     let dateArray: Array<any> = [];
+
+    console.log(date, 'Nana', dateIn)
+
+
     if (date.includes('/')) {
       dateArray = date.split('/');
     } else if (date.includes('-')) {
       dateArray = date.split('-');
     }
+    console.log(dateArray, 'dateArray')
+
     //  dateArray = date.split('/');
     let getDate = new Date(
       dateArray[1] + '-' + dateArray[0] + '-' + dateArray[2]
     );
+    console.log(getDate, 'getDate')
+
     return getDate;
   }
 

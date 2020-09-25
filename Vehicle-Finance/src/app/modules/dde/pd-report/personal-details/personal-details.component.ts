@@ -87,7 +87,6 @@ export class PersonalDetailsComponent implements OnInit {
     });
 
     this.monthValidation = this.monthValiationCheck();
-    console.log('Test', this.personalDetailsForm)
   }
 
   monthValiationCheck() {
@@ -191,20 +190,39 @@ export class PersonalDetailsComponent implements OnInit {
     this.personaldiscussion.getPdData(data).subscribe((value: any) => {
       if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
         this.personalPDDetais = value.ProcessVariables.applicantPersonalDiscussionDetails ? value.ProcessVariables.applicantPersonalDiscussionDetails : {};
-        if (this.personalPDDetais) {
+
+        if (this.personalPDDetais.applicantName) {
           this.setFormValue(this.personalPDDetais);
           this.pdDataService.setCustomerProfile(this.personalPDDetais);
         } else {
+
           this.applicantDetails.filter((val: any) => {
-            const splitName = val.fullName.split(' ')
+
+            const splitName = val.fullName.split(' ');
+
+            let firstName, middleName, lastName = '';
+
+            firstName = splitName[0] ? splitName[0] : '';
+
+            if (splitName && splitName.length >= 3) {
+              middleName = splitName[1] ? splitName[1] : '';
+              lastName = splitName[2] ? splitName[2] : '';
+            } else if (splitName && splitName.length === 2) {
+              middleName = '';
+              lastName = splitName[1] ? splitName[1] : '';
+            }
+
             if (val.applicantId === this.applicantId) {
               this.personalDetailsForm.patchValue({
-                firstName: splitName ? splitName[0] : '',
-                middleName: '',
-                lastName: splitName && splitName.length > 1 ? splitName[1] : '',
-                fullName: val.fullName || '',
-                contactNo: val.mobileNumber || ''
+                firstName: firstName,
+                middleName: middleName,
+                lastName: lastName,
+                applicantName: val.fullName ? val.fullName : '',
+                contactNo: val.mobileNumber ? val.mobileNumber.length === 12 ?
+                  val.mobileNumber.slice(2, 12) : val.mobileNumber : '',
+                dob: val.dob ? new Date(val.dob) : '',
               })
+
             }
             return val
           })
@@ -282,7 +300,6 @@ export class PersonalDetailsComponent implements OnInit {
       noOfYears: noofyears,
       noOfMonths: noofmonths
     })
-    console.log(personalPDDetais, 'this.personalDetailsForm', this.personalDetailsForm)
   }
 
   onValidateWeddingDate(event) {
