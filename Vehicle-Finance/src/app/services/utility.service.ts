@@ -25,11 +25,11 @@ export class UtilityService {
     localStorage.removeItem('token');
     localStorage.removeItem('roles');
     localStorage.removeItem('userId');
-    localStorage.removeItem('salesResponse');  
-    localStorage.removeItem('isFiCumPd'); 
-    localStorage.removeItem('lastAction'); 
-    localStorage.removeItem('login_required'); 
-    localStorage.removeItem('branchId'); 
+    localStorage.removeItem('salesResponse');
+    localStorage.removeItem('isFiCumPd');
+    localStorage.removeItem('lastAction');
+    localStorage.removeItem('login_required');
+    localStorage.removeItem('branchId');
     localStorage.removeItem('istermSheet');
     localStorage.removeItem('outputUsers');
     localStorage.removeItem('outputUsers');
@@ -40,7 +40,7 @@ export class UtilityService {
     this.toggleDdeService.clearToggleData();
     console.clear();
     this.router.navigateByUrl('/login');
-   
+
   }
 
   getDateFormat(date) {
@@ -81,7 +81,7 @@ export class UtilityService {
     console.log(format);
 
     return moment.utc(date).local().format(format);
-    
+
   }
 
   converDateToUTC(date) {
@@ -123,9 +123,12 @@ export class UtilityService {
   getUiquJson(jsonAry: Array<any>, keyValue) {
     let dataJosn: Array<any> = jsonAry;
     const key = keyValue;
+    console.log(new Map(dataJosn.map((data) => data.value ? [data[key], data] : data)).values(), 'data')
+
     const arrayUniqueByKey = [
       ...new Map(dataJosn.map((data) => [data[key], data])).values(),
     ];
+    console.log(arrayUniqueByKey, 'Var')
     return arrayUniqueByKey;
   }
 
@@ -144,17 +147,19 @@ export class UtilityService {
       });
     }
 
+    console.log(arrayList, 'arrayList')
+
     return this.getUiquJson(arrayList, 'key');
   }
   getDateFromString(dateIn) {
     if (!dateIn) {
       return;
     }
-    let date: string  = dateIn;
+    let date: string = dateIn;
     let dateArray: Array<any> = [];
-    if(date.includes('/')) {
-       dateArray = date.split('/');
-    } else if(date.includes('-')) {
+    if (date.includes('/')) {
+      dateArray = date.split('/');
+    } else if (date.includes('-')) {
       dateArray = date.split('-');
     }
     //  dateArray = date.split('/');
@@ -185,7 +190,7 @@ export class UtilityService {
     'Seventeen ',
     'Eighteen ',
     'Nineteen '];
-b = [
+  b = [
     '',
     '',
     'Twenty',
@@ -197,29 +202,29 @@ b = [
     'Eighty',
     'Ninety'];
 
-numberToText(value: any): any {
+  numberToText(value: any): any {
     if (value) {
-        let number = parseFloat(value).toFixed(2).split(".")
-        let num = parseInt(number[0]);
-        let digit = parseInt(number[1]);
-        if (num) {
-            if ((num.toString()).length > 9)  { return ''; }
-            const n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
-            const d = ('00' + digit).substr(-2).match(/^(\d{2})$/);
-            if (!n) {return ''; }
-            let str = '';
-            str += (Number(n[1]) !== 0) ? (this.a[Number(n[1])] || this.b[n[1][0]] + ' ' + this.a[n[1][1]]) + 'Crore ' : '';
-            str += (Number(n[2]) !== 0) ? (this.a[Number(n[2])] || this.b[n[2][0]] + ' ' + this.a[n[2][1]]) + 'Lakh ' : '';
-            str += (Number(n[3]) !== 0) ? (this.a[Number(n[3])] || this.b[n[3][0]] + ' ' + this.a[n[3][1]]) + 'Thousand ' : '';
-            str += (Number(n[4]) !== 0) ? (this.a[Number(n[4])] || this.b[n[4][0]] + ' ' + this.a[n[4][1]]) + 'Hundred ' : '';
-            str += (Number(n[5]) !== 0) ? (this.a[Number(n[5])] || this.b[n[5][0]] + ' ' + this.a[n[5][1]]) + 'Rupees ' : '';        
-            str += (Number(d[1]) !== 0) ? ((str !== '' ) ? "and " : '') + (this.a[Number(d[1])] || this.b[d[1][0]] + ' ' + this.a[d[1][1]]) + 'Paise Only' : 'Only';
-            return str;
-        } else {
-            return '';
-        }
-    } else {
+      let number = parseFloat(value).toFixed(2).split(".")
+      let num = parseInt(number[0]);
+      let digit = parseInt(number[1]);
+      if (num) {
+        if ((num.toString()).length > 9) { return ''; }
+        const n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+        const d = ('00' + digit).substr(-2).match(/^(\d{2})$/);
+        if (!n) { return ''; }
+        let str = '';
+        str += (Number(n[1]) !== 0) ? (this.a[Number(n[1])] || this.b[n[1][0]] + ' ' + this.a[n[1][1]]) + 'Crore ' : '';
+        str += (Number(n[2]) !== 0) ? (this.a[Number(n[2])] || this.b[n[2][0]] + ' ' + this.a[n[2][1]]) + 'Lakh ' : '';
+        str += (Number(n[3]) !== 0) ? (this.a[Number(n[3])] || this.b[n[3][0]] + ' ' + this.a[n[3][1]]) + 'Thousand ' : '';
+        str += (Number(n[4]) !== 0) ? (this.a[Number(n[4])] || this.b[n[4][0]] + ' ' + this.a[n[4][1]]) + 'Hundred ' : '';
+        str += (Number(n[5]) !== 0) ? (this.a[Number(n[5])] || this.b[n[5][0]] + ' ' + this.a[n[5][1]]) + 'Rupees ' : '';
+        str += (Number(d[1]) !== 0) ? ((str !== '') ? "and " : '') + (this.a[Number(d[1])] || this.b[d[1][0]] + ' ' + this.a[d[1][1]]) + 'Paise Only' : 'Only';
+        return str;
+      } else {
         return '';
+      }
+    } else {
+      return '';
     }
-}
+  }
 }

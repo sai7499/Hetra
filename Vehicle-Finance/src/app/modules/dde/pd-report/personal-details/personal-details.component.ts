@@ -65,6 +65,13 @@ export class PersonalDetailsComponent implements OnInit {
       });
     this.initForm();
 
+    this.activatedRoute.params.subscribe((value) => {
+      let score = value ? value.score : 0;
+      this.personalDetailsForm.patchValue({
+        cibilScore: score
+      })
+    })
+
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
     this.userId = roleAndUserDetails.userDetails.userId;
 
@@ -80,13 +87,7 @@ export class PersonalDetailsComponent implements OnInit {
     });
 
     this.monthValidation = this.monthValiationCheck();
-
-    this.activatedRoute.params.subscribe((value) => {
-      let score = value ? value.score : 0;
-      this.personalDetailsForm.patchValue({
-        creditBureauScore: score
-      })
-    })
+    console.log('Test', this.personalDetailsForm)
   }
 
   monthValiationCheck() {
@@ -164,9 +165,8 @@ export class PersonalDetailsComponent implements OnInit {
       noOfAdultDependant: ['', Validators.compose([Validators.maxLength(2), Validators.required])],
       noOfChildrenDependant: ['', Validators.compose([Validators.maxLength(2), Validators.required])],
       bankAccHolderName: ['', Validators.required],
-      creditBureauScore: [{ value: '-1', disabled: true }]
+      cibilScore: ['', Validators.required]
     })
-
   }
 
   getLOV() { // fun call to get all lovs
@@ -242,7 +242,7 @@ export class PersonalDetailsComponent implements OnInit {
       bankAccHolderName: personalPDDetais.bankAccHolderName || '',
       category: personalPDDetais.category || '',
       community: personalPDDetais.community || '',
-      creditBureauScore: personalPDDetais.creditBureauScore || '',
+      cibilScore: personalPDDetais.cibilScore || '',
       dob: personalPDDetais.dob ? this.utilityService.getDateFromString(personalPDDetais.dob) : '',
       email: personalPDDetais.email || '',
       fatherFullName: personalPDDetais.fatherFullName || '',
@@ -282,6 +282,7 @@ export class PersonalDetailsComponent implements OnInit {
       noOfYears: noofyears,
       noOfMonths: noofmonths
     })
+    console.log(personalPDDetais, 'this.personalDetailsForm', this.personalDetailsForm)
   }
 
   onValidateWeddingDate(event) {
