@@ -134,9 +134,9 @@
                 </tr>
                 <tr>
                     <td class="bank_name">{{ labels?.finalLtv }}</td>
-                    <td>{{ vehicleDetails?.finalLtv }}</td>
+                    <td>{{ vehicleDetails?.finalLtv }}<span *ngIf="vehicleDetails?.finalLtv != null ">%</span></td>
                     <td class="bank_name">{{labels?.loanEligibilityAsPerLtv}}</td>
-                    <td>{{ vehicleDetails?.loanEligibilityAsPerLtv }}</td>
+                    <td>{{ vehicleDetails?.loanEligibilityAsPerLtv }} <span *ngIf="vehicleDetails?.loanEligibilityAsPerLtv != null ">%</span></td>
                 </tr>
                 <tr>
                     <td class="bank_name">{{ labels?.vehicleOwnershipPrevious }}</td>
@@ -469,7 +469,7 @@
                 <td class="bank_name">{{ labels?.loanEligibilityasperFOIR }}</td>
                 <td>{{ finalLoanEligibility?.loanEligibilityAsPerFOIR }}</td>
                 <td class="bank_name">{{ labels?.loanEligibilityAsPerLtv }}</td>
-                <td>{{ finalLoanEligibility?.loanEligibilityAsPerLTV }}</td>
+                <td>{{ finalLoanEligibility?.loanEligibilityAsPerLTV }}<span *ngIf="finalLoanEligibility?.loanEligibilityAsPerLTV != null">%</span></td>
             </tr>
             <tr>
                 <td class="bank_name">{{ labels?.finalLoanEligibility }}</td>
@@ -503,7 +503,7 @@
                 <td class="bank_name">{{ labels?.approvedFoir }}</td>
                 <td>{{ finalLoanDetails?.approvedFoirPercent }}</td>
                 <td class="bank_name">{{ labels?.approvedLtv }}</td>
-                <td>{{ finalLoanDetails?.approvedLtvPercent }}</td>
+                <td>{{ finalLoanDetails?.approvedLtvPercent }}<span *ngIf="finalLoanDetails?.approvedLtvPercent != null">%</span></td>
             </tr>
         </table>
         <!---other deviation-->
@@ -671,7 +671,7 @@
             <td class="bank_name">{{ labels?.camDate }}</td>
             <td>{{ sourcingDetails?.camDate }}</td>
             <td class="bank_name">{{ labels?.existingExposure }}</td>
-            <td colspan="2">{{ sourcingDetails?.existingExposure }}<span *ngIf=" sourcingDetails?.existingExposure != null ">%</span></td>
+            <td colspan="2"><span *ngIf=" sourcingDetails?.existingExposure != null "><i class="fa fa-inr"></i></span> {{ sourcingDetails?.existingExposure }}</td>
         </tr>
         <tr>
             <td class="bank_name">{{ labels?.areaName }}</td>
@@ -679,7 +679,7 @@
             <td class="bank_name">{{ labels?.branchName }}</td>
             <td>{{ sourcingDetails?.branchName }}</td>
             <td class="bank_name">{{ labels?.proposedExposure }}</td>
-            <td colspan="2">{{ sourcingDetails?.proposedExposure }}<span *ngIf=" sourcingDetails?.proposedExposure != null ">%</span></td>
+            <td colspan="2"><span *ngIf=" sourcingDetails?.proposedExposure != null "><i class="fa fa-inr"></i></span> {{ sourcingDetails?.proposedExposure }}</td>
         </tr>
         <tr>
             <td class="bank_name">{{ labels?.sourcingChannel }}</td>
@@ -687,7 +687,7 @@
             <td class="bank_name">{{ labels?.sourcingSoName }}</td>
             <td>{{ sourcingDetails?.sourcingSoName }}</td>
             <td class="bank_name">{{ labels?.overallExposure }}</td>
-            <td colspan="2">{{ sourcingDetails?.overallExposure }}<span *ngIf=" sourcingDetails?.overallExposure != null ">%</span></td>
+            <td colspan="2"><span *ngIf=" sourcingDetails?.overallExposure != null "><i class="fa fa-inr"></i></span> {{ sourcingDetails?.overallExposure }}</td>
         </tr>
 
         <tr>
@@ -1804,7 +1804,7 @@
                 <td>{{ proposedVehiclesDetails?.ott }}</td>
                 <td>{{ proposedVehiclesDetails?.totalAssetCost }}</td>
                 <td>{{ proposedVehiclesDetails?.proposedAmt }}</td>
-                <td>{{ proposedVehiclesDetails?.proposedLtv }}</td>
+                <td>{{ proposedVehiclesDetails?.proposedLtv }} <span *ngIf="proposedVehiclesDetails?.proposedLtv != null">%</span></td>
                 <td>{{ proposedVehiclesDetails?.noOfUnits }}</td>
                 <td>{{ proposedVehiclesDetails?.tenureMonth }}</td>
                 <td>{{ proposedVehiclesDetails?.totalExpo }}</td>
