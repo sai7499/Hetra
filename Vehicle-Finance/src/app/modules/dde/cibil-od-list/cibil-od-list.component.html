@@ -12,11 +12,12 @@
         <td>{{ labels?.bureauScore }}</td>
         <td>{{odApplicantData?.bureauScore}}</td> 
         <td colspan="1"> 
-          <button  class = "btn btn-primary" type="button" >
+          <!-- <button  class = "btn btn-primary" type="button" >
             <a (click)="getApplicantImage()" data-toggle="modal"
             data-target="#myModalApplicantImage"><strong>View Report</strong>
             </a>
-          </button>
+          </button> -->
+          <button class = "btn btn-primary" type="button" > <a (click)="getApplicantImage()">View Report</a></button>
         </td>
       </tr>
      
@@ -507,3 +508,9 @@
   </div>
 </div>
  </div>
+ <div id="mydiv" *ngIf="cibilImage" class="card" class="center">
+  <button type="button" class="close" (click)="destroyImage()">×</button>
+    <!-- Header -->
+<div class="image-content"   [innerHTML]="cibilImage" > </div>    
+ 
+</div>
