@@ -143,9 +143,13 @@
                                 <td>{{labels.gvw}}</td>
                                 <td>:</td>
                                 <td>{{assetDetailsData.gvw}}</td>
-                                <td>{{labels.advAdjustmentIMC}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.advAdjIMC}}</td>
+                                <td>
+                                    <!-- {{labels.advAdjustmentIMC}} -->
+                                </td>
+                                <td></td>
+                                <td>
+                                    <!-- {{assetDetailsData.advAdjIMC}} -->
+                                </td>
                             </tr>
                             <tr>
                                 <td>{{labels.collateralApplicable}}</td>
@@ -229,9 +233,13 @@
                                 <td>{{labels.customerType}}</td>
                                 <td>:</td>
                                 <td>{{applicantDetails?.type}}</td>
-                                <td>{{labels.registrationType}}</td>
+                                <td>
+                                    <!-- {{labels.registrationType}} -->
+                                </td>
                                 <td>:</td>
-                                <td>{{commonAppDetails?.registrationType}}</td>
+                                <td>
+                                    <!-- {{commonAppDetails?.registrationType}} -->
+                                </td>
                             </tr>
                             <tr>
                                 <td>{{labels.customerCibilStatus}}</td>
@@ -300,7 +308,7 @@
                         </p>
                     </div>
                 </div>
-                <div id="tearms_sheet_header4">
+                <div id="tearms_sheet_header4" *ngFor = "let bankDetails of bankDetails">
                     <p id="tearms_sheet_header4_tag">
                         <span id="tearms_sheet_header4_tag1">
                             {{labels.applicantBankName}} &nbsp;: &nbsp; {{bankDetails?.bankName ? bankDetails?.bankName : '-'}}</span>
@@ -420,9 +428,13 @@
                                 <td>{{labels.emiAmount}}</td>
                                 <td>:</td>
                                 <td>{{assValuationData.emiAmount}}</td>
-                                <td>{{labels.fieldVisitCharges2}}</td>
-                                <td>:</td>
-                                <td>{{assValuationData.fieldVisitChrgs}}</td>
+                                <td>
+                                    <!-- {{labels.fieldVisitCharges2}} -->
+                                </td>
+                                <td></td>
+                                <td>
+                                    <!-- {{assValuationData.fieldVisitChrgs}} -->
+                                </td>
                             </tr>
                             <tr>
                                 <td>{{labels.insPremium}}</td>
@@ -449,17 +461,26 @@
                                 <td>{{assValuationData.processFeePercent}}</td>
                             </tr>
                             <tr>
-                                <td>{{labels.vintageDeviation}}</td>
-                                <td>:</td>
-                                <td>{{assValuationData.vintageDev}}</td>
+                                <td>
+                                    <!-- {{labels.vintageDeviation}} -->
+                                </td>
+                                <td></td>
+                                <td>
+                                    <!-- {{assValuationData.vintageDev}} -->
+
+                                </td>
                                 <td>{{labels.assetAge}}</td>
                                 <td>:</td>
                                 <td>{{assValuationData.assetAge}}</td>
                             </tr>
                             <tr>
-                                <td>{{labels.vintageDeviationClassification}} </td>
+                                <td>
+                                    <!-- {{labels.vintageDeviationClassification}}  -->
+                                </td>
                                 <td>:</td>
-                                <td>{{assValuationData.vintageDevClassification}}</td>
+                                <td>
+                                    <!-- {{assValuationData.vintageDevClassification}} -->
+                                </td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -469,7 +490,7 @@
                 </div>
 
                 <div id="tearms_sheet_header8" class="table-responsive">
-                    <table class="table table-responsive table-borderless">
+                    <table class="table table-responsive table-borderless" *ngFor = "let assetLoanDetails of assetLoanDetails">
                         <thead>
                         </thead>
                         <tbody>
@@ -592,7 +613,7 @@
                         {{labels.termSheetTag3}}</p>
                     <p id="terms_sheet_headline10_tag1">
                         <span id="terms_sheet_headline10_tag2">
-                            {{labels.processingFee}}: {{deductionDetails?.processingFee}}
+                            {{labels.processingFee}}: {{deductionDetails?.vfProcessingFee}}
                         </span>
                         <span id="terms_sheet_headline10_tag3">
                             {{labels.advEmiAmt}} : {{deductionDetails?.advEmiAmt}}
@@ -627,7 +648,7 @@
                 </div> -->
 
                 <div id="terms_sheet_headline11_header" class="table-responsive">
-                    <table class="table table-responsive table-borderless">
+                    <!-- <table class="table table-responsive table-borderless">
                         <thead>
                             <tr id="table_header_top">
                                 <th id="table_header_top_tag3">{{labels.applicationNo}}. : 109555</th>
@@ -638,7 +659,8 @@
                                 <th id="table_header_top_tag2">{{labels.scheme}} : MCATC</th>
                             </tr>
                         </thead>
-                    </table>
+                    </table> -->
+                    <div *ngFor = "let paymentDetails of paymentDetails">
                     <p id="terms_sheet_headline11">{{labels.paymentDetails}}</p>
                     <p id="terms_sheet_headline11_tag">
                         <span id="terms_sheet_headline11_tag1">{{labels.paymentTo}} : {{paymentDetails?.paymentTo}}</span>
@@ -654,6 +676,9 @@
                         <span id="terms_sheet_headline11_tag7">{{labels.mode}} :  {{paymentDetails?.mode}}</span>
                         <span id="terms_sheet_headline11_tag8"></span>
                     </p>
+                    </div>
+
+
                 </div>
                 <div id="terms_sheet_headline12" class="table-responsive">
 
@@ -675,20 +700,42 @@
                             <span id="terms_sheet_headline12_tag5"></span>
                         </p>
                     </div>
-                    <!-- <p id="terms_sheet_headline12_tag6">
-                        <span id="terms_sheet_headline12_tag7">
-              {{labels.employeeCode}} : eqs3987
-            </span>
-                        <span id="terms_sheet_headline12_tag10">
-              {{labels.executiveName}} : SANKAR.V
-            </span>
-                    </p>
-                    <p id="terms_sheet_headline12_tag8">
-                        <span id="terms_sheet_headline12_tag9">
-              {{labels.remark}} : CASE IS APPROVED
-            </span>
-                    </p> -->
-                </div>
+                   </div>
+                   <!-- <div id="terms_sheet_headline12" class="table-responsive">
+
+                    <p id="terms_sheet_headline12_tag">Fleet Details</p>
+                    <hr id="terms_sheet_headline12_tag0" />
+                    <div *ngFor="let fleetDetails of fleetDetails">
+                        <p id="terms_sheet_headline12_tag1">
+                            <span id="terms_sheet_headline12_tag2">
+                                {{labels.assetCost}} : {{fleetDetails.assetCost}}
+                            </span>
+                            <span id="terms_sheet_headline12_tag3">
+                                {{labels.make}} : {{fleetDetails.make}}
+                            </span>
+                        </p>
+                        <p id="terms_sheet_headline12_tag4">
+                            <span id="terms_sheet_headline12_tag5">
+                                {{labels.modal}} : {{fleetDetails.modal}}
+                            </span>
+                            <span id="terms_sheet_headline12_tag5"></span>
+                        </p>
+                        <p id="terms_sheet_headline12_tag1">
+                            <span id="terms_sheet_headline12_tag2">
+                                {{labels.regdOwner}} : {{fleetDetails.regdOwner}}
+                            </span>
+                            <span id="terms_sheet_headline12_tag3">
+                                {{labels.regdNo}} : {{fleetDetails.regdNo}}
+                            </span>
+                        </p>
+                        <p id="terms_sheet_headline12_tag4">
+                            <span id="terms_sheet_headline12_tag5">
+                                {{labels.year}} : {{fleetDetails.year}}
+                            </span>
+                            <span id="terms_sheet_headline12_tag5"></span>
+                        </p>
+                    </div>
+                   </div> -->
                 <div id="terms_sheet_headline13" class="table-responsive">
                     <p id="terms_sheet_headline13_tag">{{labels.creditApprovalDeviation}}</p>
                     <table class="table table-responsive table-borderless">

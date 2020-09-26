@@ -338,6 +338,10 @@ h3.dedupe_head {
 
 /* Lead dedupe*/
 
+.pointerEvent {
+  pointer-events: none;
+}
+
 .dedupe_head {
   font-size: 14px;
   /* padding: 20px; */

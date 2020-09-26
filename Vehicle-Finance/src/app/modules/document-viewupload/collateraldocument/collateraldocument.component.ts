@@ -46,9 +46,20 @@ export class CollateraldocumentComponent implements OnInit {
           const processVariables = value.ProcessVariables;
           const vehicleList = processVariables.vehicleDetails || [];
           return vehicleList.map((val) => {
+            let collateralValue = '';
+            if (!val.regNo) {
+              if (val.make) {
+                collateralValue += val.make;
+              }
+              if (val.model) {
+                collateralValue += ' '+ val.model;
+              }
+            } else {
+              collateralValue = val.regNo;
+            }
             return {
               key: val.collateralId,
-              value: val.regNo,
+              value: collateralValue,
             };
           });
         })

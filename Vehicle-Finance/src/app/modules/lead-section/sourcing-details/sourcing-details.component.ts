@@ -78,8 +78,10 @@ export class SourcingDetailsComponent implements OnInit {
   sourcingCodeValue: string;
   dealorCodeKey: string;
   dealorCodeValue: string;
+  isSourceCode: boolean;
 
   isSourchingCode: boolean;
+  isDealorCode: boolean;
   isDirty: boolean;
   isSaved: boolean;
   amountTenureData: any;
@@ -281,6 +283,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.sourcingDetailsForm.patchValue({ requestedTenor: requiredLoanTenor });
 
     this.sourcingDetailsForm.patchValue({ dealerCode: this.dealorCodeValue });
+    this.isDealorCode = this.dealorCodeKey ? true : false;
 
     const leadCreatedby = data.leadDetails.leadCreatedBy;
     this.sourcingDetailsForm.patchValue({ leadCreatedBy: leadCreatedby });
@@ -288,7 +291,7 @@ export class SourcingDetailsComponent implements OnInit {
     const applicationNO = data.leadDetails.applicationNo;
     this.sourcingDetailsForm.patchValue({ applicationNo: applicationNO });
 
-    const loanTypeFromLead = data.leadDetails.typeOfLoan;
+    const loanTypeFromLead = (data.leadDetails.typeOfLoan) ? data.leadDetails.typeOfLoan : '';
     this.sourcingDetailsForm.patchValue({ loanType: loanTypeFromLead });
 
     this.getBusinessDivision(businessDivisionFromLead);
@@ -311,9 +314,9 @@ export class SourcingDetailsComponent implements OnInit {
 
     this.sourcingCodeKey = data.leadDetails.sourcingCode;
     this.sourcingCodeValue = data.leadDetails.sourcingCodeDesc;
-    this.sourcingDetailsForm.patchValue({
-      sourcingCode: this.sourcingCodeValue,
-    });
+    const sourceCodeKey = (this.sourcingCodeKey == null) ? 'Not Applicable' : this.sourcingCodeValue;
+    this.sourcingDetailsForm.patchValue({ sourcingCode: sourceCodeKey });
+    this.isSourceCode = true;
   }
 
   getBusinessDivision(bizDivision) {
@@ -484,8 +487,11 @@ export class SourcingDetailsComponent implements OnInit {
     this.sourcingCodePlaceholder = this.placeholder[0].value;
     if (this.sourcingCodePlaceholder === 'Not Applicable') {
       this.isSourchingCode = true;
+      this.sourcingCodeKey = null;
+      this.isSourceCode = true;
     } else {
       this.isSourchingCode = false;
+      this.isSourceCode = false;
     }
     this.onFormDisable();
   }
@@ -516,6 +522,7 @@ export class SourcingDetailsComponent implements OnInit {
   selectSourcingEvent(event) {
     const sourcingEvent = event;
     console.log('sourcingEvent', sourcingEvent);
+    this.isSourceCode = sourcingEvent.key ? true : false;
     this.sourcingCodeKey = sourcingEvent.key;
     this.sourcingCodeValue = sourcingEvent.value;
   }
@@ -543,6 +550,7 @@ export class SourcingDetailsComponent implements OnInit {
   selectDealorEvent(event) {
     const dealorEvent = event;
     console.log('dealorEvent', dealorEvent);
+    this.isDealorCode = dealorEvent.dealorCode ? true : false;
     this.dealorCodeKey = dealorEvent.dealorCode;
     this.dealorCodeValue = dealorEvent.dealorName;
   }
@@ -614,7 +622,7 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   onFormDisable() {
-    if (this.operationType === '1') {
+    if (this.operationType === '1' || this.operationType === '2') {
       this.sourcingDetailsForm.disable();
       this.isSourchingCode = true;
       this.isDisabledDealerCode = true;
@@ -628,11 +636,9 @@ export class SourcingDetailsComponent implements OnInit {
       this.sourcingDetailsForm.valid
     );
     this.isDirty = true;
-    if (this.sourcingDetailsForm.valid === true) {
+    if (this.sourcingDetailsForm.valid === true && this.isSourceCode && this.isDealorCode) {
       const saveAndUpdate: any = { ...formValue };
-
       console.log(formValue, 'FormValue');
-
       this.saveUpdate = {
         userId: Number(this.userId),
         leadId: Number(this.leadId),
@@ -641,7 +647,7 @@ export class SourcingDetailsComponent implements OnInit {
         productId: Number(saveAndUpdate.product),
         fundingProgram: saveAndUpdate.fundingProgram,
         priority: Number(saveAndUpdate.priority),
-        applicationNo: Number(saveAndUpdate.applicationNo),
+        applicationNo: saveAndUpdate.applicationNo,
         sourcingChannel: saveAndUpdate.sourcingChannel,
         sourcingType: saveAndUpdate.sourcingType,
         sourcingCode: this.sourcingCodeKey,
@@ -730,7 +736,7 @@ export class SourcingDetailsComponent implements OnInit {
   nextToApplicant() {
     this.isDirty = true;
     console.log('testform', this.sourcingDetailsForm);
-    if (this.operationType === '1') {
+    if (this.operationType === '1' || this.operationType === '2') {
       this.onNavigate();
       return
     }

@@ -16,17 +16,11 @@
               { key: '0', value: 'No' }
             ]" formControlName="priority">
           </app-vf-custom-select>
-        </div>      
+        </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_branch">{{ labels.applicationNo }}</label>
-          <app-custom-input
-            formControlName="applicationNo"
-            [className]="'form-control mandatory'"
-            [placeholder]="'Application No.'"
-            [isDirty]="isDirty"
-            [type]="'number'"
-            [maxLength]="applicationNo"
-          >
+          <app-custom-input formControlName="applicationNo" [className]="'form-control mandatory'"
+            [placeholder]="'Application No.'" [isDirty]="isDirty" [type]="'number'" [maxLength]="applicationNo">
           </app-custom-input>
         </div>
       </div>
@@ -112,19 +106,12 @@
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="sourcing_code">{{ labels.sourcingCode }}</label>
           <div class="ng-autocomplete" style="width:100%" [ngClass]="{'codeDisable disableCode': isSourchingCode}">
-            <ng-autocomplete #autocomplete
-              [data]="sourcingCodeData"
-              [searchKeyword]="keyword"
-              (selected)='selectSourcingEvent($event)'
-              (inputChanged)='onSourcingCodeSearch($event)'
-              (inputCleared)='onSourcingCodeClear($event)'
-              [itemTemplate]="sourcingCodeTemplate"
-              [notFoundTemplate]="notFoundTemplate"
-              formControlName="sourcingCode"
-              [placeHolder]="sourcingCodePlaceholder"
-              [debounceTime]="400"
-              [disabled]="isSourchingCode">                                           
-            </ng-autocomplete>               
+            <ng-autocomplete #autocomplete [data]="sourcingCodeData" [searchKeyword]="keyword"
+              (selected)='selectSourcingEvent($event)' (inputChanged)='onSourcingCodeSearch($event)'
+              (inputCleared)='onSourcingCodeClear($event)' [itemTemplate]="sourcingCodeTemplate"
+              [notFoundTemplate]="notFoundTemplate" formControlName="sourcingCode"
+              [placeHolder]="sourcingCodePlaceholder" [debounceTime]="400" [disabled]="isSourchingCode">
+            </ng-autocomplete>
             <ng-template #sourcingCodeTemplate let-item>
               <a [innerHTML]="item.value"></a>
             </ng-template>
@@ -162,13 +149,8 @@
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="sourcing_type">{{ labels.loanType }}</label>
           <sub class="star_red_col">*</sub>
-          <app-vf-custom-select
-            [values]="LOV.LOVS.loanType"
-            formControlName="loanType"
-            (change)="onLoanTypeTypeChange($event)"
-            [isRequired]="'Loan Type required'"
-            [isDirty]="isDirty"
-          >
+          <app-vf-custom-select [values]="LOV.LOVS.loanType" formControlName="loanType"
+            (change)="onLoanTypeTypeChange($event)" [isRequired]="'Loan Type required'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -195,7 +177,8 @@
 <div class="btn-sec clear-both row btn-mar-15" id="clickButton">
   <div class="col-sm-5"></div>
   <div class="col-sm-7 text-right p-0" style="padding-bottom: 2vw;">
-    <button (click)="saveAndUpdate()" class="btn btn-primary" type="button" *ngIf="!(operationType === '1')">
+    <button (click)="saveAndUpdate()" class="btn btn-primary" type="button"
+      *ngIf="!(operationType === '1'  || operationType === '2')">
       Save
     </button>
     <button (click)="nextToApplicant()" class="btn btn-primary -btn-next" type="button">

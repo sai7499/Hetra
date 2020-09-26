@@ -35,6 +35,9 @@ export class LeadDedupeComponent implements OnInit {
   userName: string;
   selectedIndex: number;
   isSelectedLead: boolean;
+  isNewLead: boolean;
+  isRejectLead: boolean;
+  isRadioDisable: boolean;
 
   @ViewChild('radioSelect', { static: true }) radioButtonSelected: ElementRef;
 
@@ -91,7 +94,8 @@ export class LeadDedupeComponent implements OnInit {
   }
 
   OnReject() {
-    this.createLeadService.rejectLead(this.productCode).subscribe((res: any) => {
+    this.createLeadService.rejectLead(this.productCode, '12').subscribe((res: any) => {
+      // this.createLeadService.rejectLead(this.productCode, '12').subscribe((res: any) => {
       const response = res;
       console.log('Reject Lead', response);
       const appiyoError = response.Error;
@@ -102,6 +106,10 @@ export class LeadDedupeComponent implements OnInit {
         this.isSubmit = true;
         this.showModal = 'rejectModal';
         this.modalMessage = 'Your lead creation will be aborted !';
+        this.isRadioDisable = true;
+        this.isSelectedLead = false;
+        this.isNewLead = true;
+        this.isRejectLead = true;
       }
     });
   }
@@ -205,9 +213,13 @@ export class LeadDedupeComponent implements OnInit {
     if (this.selectedIndex === index) {
       this.selectedIndex = -1;
       this.isSelectedLead = false;
+      this.isNewLead = false;
+      this.isRejectLead = false;
     } else {
       this.selectedIndex = index;
       this.isSelectedLead = true;
+      this.isNewLead = true;
+      this.isRejectLead = true;
     }
   }
 
@@ -221,5 +233,12 @@ export class LeadDedupeComponent implements OnInit {
 
   closeModal() {
     this.isModal = false;
+  }
+
+  onCancelReject() {
+    this.isNewLead = false;
+    this.isRejectLead = false;
+    this.isReason = false;
+    this.isRadioDisable = false;
   }
 }

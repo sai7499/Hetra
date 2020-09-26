@@ -9,7 +9,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { Router } from '@angular/router';
 import { UtilityService } from '@services/utility.service';
 import { Location } from '@angular/common';
-import { group } from 'console';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-shared-deviation',
@@ -42,17 +42,18 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   public selectDeviationId: number = 0;
   public findIndex;
-  isOne: boolean;
-  isZero: boolean;
+  isApprove: boolean;
+  isWaiverTrigger: boolean;
 
   @Input() isSubmitToCredit: boolean;
   @Input() isDirty: boolean;
+  disableSaveBtn: boolean;
 
   public isSendBacktoCredit = false;
   locationIndex: string = '';
 
   constructor(private labelsData: LabelsService, private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService,
-    private deviationService: DeviationService, private toasterService: ToasterService, private sharedService: SharedService,
+    private deviationService: DeviationService, private toasterService: ToasterService, private sharedService: SharedService, private toggleDdeService: ToggleDdeService,
     private loginStoreService: LoginStoreService, private router: Router, private utilityService: UtilityService, private location: Location) { }
 
   ngOnInit() {
@@ -93,6 +94,12 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.sharedService.taskId$.subscribe((id) => {
       this.taskId = id ? id : '';
     })
+
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1' || operationType === '2') {
+      this.deviationsForm.disable();
+      this.disableSaveBtn = true;
+    }
 
   }
 
@@ -172,6 +179,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       return 'credit-decisions';
     } else if (url.includes('deviation-dashboard')) {
       this.isSubmitToCredit = true;
+      this.isApprove = true;
       this.isSendBacktoCredit = false;
       return 'deviation-dashboard';
     }
@@ -339,6 +347,9 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             enableApprove: res.ProcessVariables.enableApprove ? res.ProcessVariables.enableApprove : false,
             enableSendBack: res.ProcessVariables.enableSendBack ? res.ProcessVariables.enableSendBack : false,
           })
+          if (this.locationIndex === 'dde' && this.deviationsForm.get('enableApprove').value === true) {
+            this.isApprove = true;
+          }
           this.onPatchFormArrayValue(this.autoDeviationArray)
         }
       } else {
@@ -475,6 +486,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       }
 
       if (this.locationIndex === 'credit-decisions') {
+        this.isApprove = false;
+
         if (localStorage.getItem('salesResponse') === 'false' || localStorage.getItem('is_pred_done') === 'true') {
           this.deviationsForm.disable();
         }
@@ -482,7 +495,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         if (localStorage.getItem('salesResponse') === 'true' && localStorage.getItem('is_pred_done') === 'false' &&
           localStorage.getItem('isPreDisbursement') === 'false') {
           this.isSendBacktoCredit = true;
-          this.isZero = true;
+          this.isWaiverTrigger = true;
 
           let autoDeviationFormArray = (this.deviationsForm.get('autoDeviationFormArray') as FormArray);
 
@@ -499,7 +512,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
         if (localStorage.getItem('salesResponse') === 'true' && localStorage.getItem('is_pred_done') === 'false' &&
           localStorage.getItem('isPreDisbursement') === 'true') {
-          this.isZero = false;
+          this.isWaiverTrigger = false;
           this.deviationsForm.disable();
         }
 

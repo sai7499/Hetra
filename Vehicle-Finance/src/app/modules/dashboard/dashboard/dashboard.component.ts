@@ -3,12 +3,12 @@ import { DashboardService } from '@services/dashboard/dashboard.service';
 import { LoginService } from '../../login/login/login.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UtilityService } from '@services/utility.service';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
-import { Router  } from '@angular/router';
+import { Router } from '@angular/router';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { NumberFormatStyle, Location } from '@angular/common';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
@@ -87,11 +87,6 @@ export class DashboardComponent implements OnInit {
   stageData: any;
   OldFromDate: Date;
   newArray;
-  pddDetails;
-  chequeTrackingDetails;
-  processLogs;
-  salesLeads;
-  creditLeads;
   itemsPerPage = '25';
   totalItems;
   lovData: any;
@@ -100,7 +95,6 @@ export class DashboardComponent implements OnInit {
   limit;
   pageNumber;
   from;
-  isCreditShow;
   branchId;
   roleId;
   activeTab;
@@ -115,6 +109,17 @@ export class DashboardComponent implements OnInit {
   sortByProduct = false;
   sortByStage = false;
   salesResponse;
+  taskName: string;
+  myLeads: boolean;
+  isClaim: boolean;
+  isRelease: boolean;
+  isFromDate: boolean;
+  fromDateChange;
+  minLoanAmtChange;
+  maxLoanAmtChange;
+  isPDD;
+  isChequeTracking;
+  isLog;
 
 
   // roleType;
@@ -162,7 +167,7 @@ export class DashboardComponent implements OnInit {
       this.businessDivision = userDetails.businessDivision[0].bizDivId;
       this.roleType = userDetails.roleType;
     });
-    localStorage.setItem('isPreDisbursement' , 'false');
+    localStorage.setItem('isPreDisbursement', 'false');
     if (this.dashboardService.routingData) {
       this.activeTab = this.dashboardService.routingData.activeTab;
       this.subActiveTab = this.dashboardService.routingData.subActiveTab;
@@ -207,6 +212,7 @@ export class DashboardComponent implements OnInit {
     this.dashboardFilter();
     this.loanMaxAmtChange();
     this.loanMinAmtChange();
+    this.onFromDateChange();
     const currentUrl = this.location.path();
     const value = localStorage.getItem('ddePath');
     const currentLabel = JSON.parse(value);
@@ -265,125 +271,161 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-
   loanMaxAmtChange() {
-    this.filterForm.get('loanMaxAmt').valueChanges.pipe(debounceTime(800)).subscribe((data) => {
+    this.filterForm.get('loanMaxAmt').valueChanges.pipe(debounceTime(0)).subscribe((data) => {
 
       const minAmt = this.filterForm.get('loanMinAmt').value;
       const minLoanAmt = Number(minAmt || 0);
-      if (minAmt != null && !minAmt || (data && minLoanAmt >= data)) {
-        this.filterForm.get('loanMaxAmt').setValue(null);
-        this.toasterService.showWarning('Invalid Amount', '');
+      if (data && minLoanAmt >= data) {
+        this.isFromDate = true;
+        // this.toasterService.showWarning('Invalid Amount', '');
       }
     });
   }
 
   loanMinAmtChange() {
-    this.filterForm.get('loanMinAmt').valueChanges.pipe(debounceTime(500)).subscribe((data) => {
-      const maxTime = this.filterForm.get('loanMaxAmt').value;
-      const minAmt = this.filterForm.get('loanMinAmt').value;
-      if (data && maxTime <= data) {
+    this.filterForm.get('loanMinAmt').valueChanges.pipe(debounceTime(0)).subscribe((data) => {
+      if (data) {
+        this.isFromDate = true;
         this.filterForm.get('loanMaxAmt').setValue(null);
+      } else {
+        this.isFromDate = false;
+      }
+    });
+  }
+
+  onChangeFromDate(event) {
+    this.fromDateChange = this.utilityService.getDateFormat(event);
+    if (this.fromDateChange) {
+      this.isFromDate = true;
+    }
+  }
+  onChangeEndDate(event) {
+    const endDateChange = this.utilityService.getDateFormat(event);
+    if (endDateChange) {
+      this.isFromDate = false;
+    }
+  }
+
+  onMinAmtChange(event) {
+    this.minLoanAmtChange = event;
+    if (this.minLoanAmtChange) {
+      this.isFromDate = true;
+    }
+  }
+
+  onMaxAmtChange(event) {
+    this.maxLoanAmtChange = event;
+    if (this.maxLoanAmtChange) {
+      this.isFromDate = false;
+    } else if (this.minLoanAmtChange && !this.maxLoanAmtChange) {
+      this.isFromDate = true;
+    }
+  }
+
+  onFromDateChange() {
+    this.filterForm.get('fromDate').valueChanges.pipe(debounceTime(0)).subscribe((data) => {
+      if (data) {
+        this.isFromDate = true;
+        this.filterForm.get('toDate').setValue(null);
+      } else {
+        this.isFromDate = false;
       }
     });
   }
 
   // Loading dashboard pages
-  onTabsLoading(data) {
-    if (this.activeTab === this.displayTabs.PDD) {
-      this.getPDDLeads(this.itemsPerPage);
-    } else if (this.activeTab === this.displayTabs.ChequeTracking) {
-      this.getChequeTrackingLeads(this.itemsPerPage);
-    } else if (this.activeTab === this.displayTabs.LoanBooking) {
-      this.getProcessLogsLeads(this.itemsPerPage);
+  onTabsLoading(data, event?) {
+    switch (this.activeTab) {
+      case 15:
+        this.isPDD = false;
+        this.isChequeTracking = false;
+        this.isLog = true;
+        this.getSalesLeads(this.itemsPerPage, event);
+        break;
+      case 16:
+        this.isPDD = true;
+        this.isChequeTracking = false;
+        this.isLog = false;
+        this.getSalesLeads(this.itemsPerPage, event);
+        break;
+      case 17:
+        this.isPDD = false;
+        this.isChequeTracking = true;
+        this.isLog = false;
+        this.getSalesLeads(this.itemsPerPage, event);
+        break;
+      default:
+        break;
     }
     switch (data) {
       case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37:
         this.onAssignTab = false;
         this.onReleaseTab = true;
+        this.myLeads = true;
         break;
       case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38:
         this.onAssignTab = true;
         this.onReleaseTab = false;
+        this.myLeads = false;
         break;
       default:
         break;
     }
     switch (data) {
       case 3:
-        this.getSalesFilterLeads(this.itemsPerPage);
+        this.isPDD = false;
+        this.isChequeTracking = false;
+        this.isLog = false;
+        this.getSalesLeads(this.itemsPerPage, event);
         break;
-      case 4:
-        this.getSanctionedLeads(this.itemsPerPage);
+      case 4: case 5:
+        this.taskName = 'Sanctioned Leads';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
-      case 5:
-        this.getSanctionedBranchLeads(this.itemsPerPage);
+      case 6: case 7:
+        this.taskName = 'Declined Leads';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
-      case 6:
-        this.getDeclinedLeads(this.itemsPerPage);
+      case 8: case 9:
+        this.taskName = 'Personal Discussion';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
-      case 7:
-        this.getDeclinedBranchLeads(this.itemsPerPage);
+      case 10: case 11:
+        this.taskName = 'Vehicle Viability';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
-      case 8:
-        this.getPdMyTask(this.itemsPerPage);
+      case 13: case 14:
+        this.taskName = 'Field Investigation';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
-      case 9:
-        this.getPdBranchTask(this.itemsPerPage);
+      case 21: case 22:
+        this.taskName = 'DDE';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
-      case 10:
-        this.getViabilityLeads(this.itemsPerPage);
+      case 23: case 24:
+        this.taskName = 'Deviation';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
-      case 11:
-        this.getViabilityBranchLeads(this.itemsPerPage);
+      case 25: case 26:
+        this.taskName = 'Credit Decision';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
-      case 13:
-        this.getMyFITask(this.itemsPerPage);
+      case 28: case 29:
+        this.taskName = 'TermSheet';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
-      case 14:
-        this.getBranchFITask(this.itemsPerPage);
+      case 31: case 32:
+        this.taskName = 'CPC Maker';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
-      case 21:
-        this.getMyDDELeads(this.itemsPerPage);
+      case 34: case 35:
+        this.taskName = 'CPC Checker';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
-      case 22:
-        this.getBranchDDELeads(this.itemsPerPage);
-        break;
-      case 23:
-        this.getMyDeviationLeads(this.itemsPerPage);
-        break;
-      case 24:
-        this.getBranchDeviationLeads(this.itemsPerPage);
-        break;
-      case 25:
-        this.getMyDecisionLeads(this.itemsPerPage);
-        break;
-      case 26:
-        this.getBranchDecisionLeads(this.itemsPerPage);
-        break;
-      case 28:
-        this.getMyTermsheetLeads(this.itemsPerPage);
-        break;
-      case 29:
-        this.getBranchTermsheetLeads(this.itemsPerPage);
-        break;
-      case 31:
-        this.getMakerLeads(this.itemsPerPage);
-        break;
-      case 32:
-        this.getMakerCPCLeads(this.itemsPerPage);
-        break;
-      case 34:
-        this.getCheckerLeads(this.itemsPerPage);
-        break;
-      case 35:
-        this.getCheckerCPCLeads(this.itemsPerPage);
-        break;
-      case 37:
-        this.getPreDisbursementLeads(this.itemsPerPage);
-        break;
-      case 38:
-        this.getPreDisbursementBranchLeads(this.itemsPerPage);
+      case 37: case 38:
+        this.taskName = 'Predisbursement';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       default:
         break;
@@ -395,14 +437,12 @@ export class DashboardComponent implements OnInit {
     this.sortTab = '';
     this.activeTab = data;
     this.subActiveTab = subTab;
-    // console.log(this.activeTab, this.subActiveTab)
     if (this.sortTab === '') {
       this.sortByLead = false;
       this.sortByDate = false;
       this.sortByProduct = false;
       this.sortByLoanAmt = false;
       this.sortByStage = false;
-      // this.getSalesFilterLeads(this.itemsPerPage);
       this.onTabsLoading(this.subActiveTab);
     }
 
@@ -422,10 +462,6 @@ export class DashboardComponent implements OnInit {
     } else {
       this.toggleDdeService.clearToggleData();
     }
-
-    // this.activeTab = data;
-    // this.subActiveTab = subTab;
-    // console.log(this.activeTab, this.subActiveTab)
 
     if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
       this.onReleaseTab = false;
@@ -454,7 +490,6 @@ export class DashboardComponent implements OnInit {
       this.sortByProduct = false;
       this.sortByLoanAmt = false;
       this.sortByStage = false;
-      // this.getSalesFilterLeads(this.itemsPerPage);
       this.onTabsLoading(this.subActiveTab);
     }
   }
@@ -489,29 +524,22 @@ export class DashboardComponent implements OnInit {
 
   // getting response Data for all tabs
   setPageData(res) {
-    const response = res.ProcessVariables.loanLead;
-    this.newArray = response;
-    this.limit = res.ProcessVariables.perPage;
-    this.pageNumber = res.ProcessVariables.from;
-    this.count =
-      Number(res.ProcessVariables.totalPages) *
-      Number(res.ProcessVariables.perPage);
-    this.currentPage = res.ProcessVariables.currentPage;
-    this.totalItems = res.ProcessVariables.totalPages;
-    this.from = res.ProcessVariables.from;
-  }
+    this.newArray = res.ProcessVariables.loanLead;
+    switch (this.activeTab) {
+      case 15:
+        this.newArray = res.ProcessVariables.processLogs;
+        break;
+      case 16:
+        this.newArray = res.ProcessVariables.pddDetails;
+        break;
+      case 17:
+        this.newArray = res.ProcessVariables.chequeTrackingDetails;
+        break;
 
-  setPDDPageData(res) {
-    if (this.activeTab === this.displayTabs.PDD) {
-      const response = res.ProcessVariables.pddDetails;
-      this.pddDetails = response;
-    } else if (this.activeTab === this.displayTabs.ChequeTracking) {
-      const response = res.ProcessVariables.chequeTrackingDetails;
-      this.pddDetails = response;
-    } else if (this.activeTab === this.displayTabs.LoanBooking) {
-      const response = res.ProcessVariables.processLogs;
-      this.pddDetails = response;
+      default:
+        break;
     }
+    // this.newArray = response;
     this.limit = res.ProcessVariables.perPage;
     this.pageNumber = res.ProcessVariables.from;
     this.count =
@@ -526,71 +554,59 @@ export class DashboardComponent implements OnInit {
   responseForSales(data) {
     this.dashboardService.myLeads(data).subscribe((res: any) => {
       this.setPageData(res);
-      if (res.ProcessVariables.loanLead != null) {
-        this.isLoadLead = true;
+      if (this.subActiveTab === this.displayTabs.NewLeads) {
+        if (res.ProcessVariables.loanLead != null) {
+          this.isLoadLead = true;
+        } else {
+          this.isLoadLead = false;
+          this.newArray = [];
+        }
       } else {
-        this.isLoadLead = false;
-        this.newArray = [];
-      }
-    });
-  }
+        switch (this.activeTab) {
+          case 15:
+            if (res.ProcessVariables.processLogs != null) {
+              this.isLoadLead = true;
+            } else {
+              this.isLoadLead = false;
+              this.newArray = [];
+            }
+            break;
+          case 16:
+            if (res.ProcessVariables.pddDetails != null) {
+              this.isLoadLead = true;
+            } else {
+              this.isLoadLead = false;
+              this.newArray = [];
+            }
+            break;
+          case 17:
+            if (res.ProcessVariables.chequeTrackingDetails != null) {
+              this.isLoadLead = true;
+            } else {
+              this.isLoadLead = false;
+              this.newArray = [];
+            }
+            break;
 
-  // for PDD Leads
-  responseForPDD(data) {
-    this.dashboardService.myLeads(data).subscribe((res: any) => {
-      this.setPDDPageData(res);
-      if (res.ProcessVariables.pddDetails != null) {
-        this.isLoadLead = true;
-      } else {
-        this.isLoadLead = false;
-        this.pddDetails = [];
+          default:
+            break;
+        }
       }
-    });
-  }
 
-  // for Cheque tracking
-  responseForChequeTracking(data) {
-    this.dashboardService.myLeads(data).subscribe((res: any) => {
-      // this.setChequeTrackingPageData(res);
-      this.setPDDPageData(res);
-      if (res.ProcessVariables.chequeTrackingDetails != null) {
-        this.isLoadLead = true;
-      } else {
-        this.isLoadLead = false;
-        this.chequeTrackingDetails = [];
-      }
-    });
-  }
-
-  // for process logs
-  responseForProcessLogs(data) {
-    this.dashboardService.myLeads(data).subscribe((res: any) => {
-      // this.setProcessLogsPageData(res);
-      this.setPDDPageData(res);
-      if (res.ProcessVariables.processLogs != null) {
-        this.isLoadLead = true;
-      } else {
-        this.isLoadLead = false;
-        this.processLogs = [];
-      }
     });
   }
 
   // new leads
-  getSalesFilterLeads(perPageCount, pageNumber?) {
-    // this.filterFormDetails['userId'] = localStorage.getItem('userId');
-    // this.filterFormDetails['perPage'] = parseInt(perPageCount);
-    // this.filterFormDetails['currentPage'] = parseInt(pageNumber);
-    // const data = this.filterFormDetails;
+  getSalesLeads(perPageCount, pageNumber?) {
     const data = {
       userId: localStorage.getItem('userId'),
       // tslint:disable-next-line: radix
       perPage: parseInt(perPageCount),
       // tslint:disable-next-line: radix
       currentPage: parseInt(pageNumber),
-      isPDD: false,
-      isChequeTracking: false,
-      isLog: false,
+      isPDD: this.isPDD,
+      isChequeTracking: this.isChequeTracking,
+      isLog: this.isLog,
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
@@ -608,87 +624,6 @@ export class DashboardComponent implements OnInit {
     this.responseForSales(data);
   }
 
-  getPDDLeads(perPageCount, pageNumber?) {
-    const data = {
-      userId: localStorage.getItem('userId'),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      isPDD: true,
-      isChequeTracking: false,
-      isLog: false,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-
-    this.responseForPDD(data);
-  }
-
-  getChequeTrackingLeads(perPageCount, pageNumber?) {
-    const data = {
-      userId: localStorage.getItem('userId'),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      isPDD: false,
-      isChequeTracking: true,
-      isLog: false,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-
-    this.responseForChequeTracking(data);
-  }
-
-  getProcessLogsLeads(perPageCount, pageNumber?) {
-    const data = {
-      userId: localStorage.getItem('userId'),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      isPDD: false,
-      isChequeTracking: false,
-      isLog: true,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-
-    this.responseForProcessLogs(data);
-  }
-
   // For TaskDashboard Api
   responseForCredit(data) {
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
@@ -702,17 +637,16 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  // for Sanctioned Leads with Me
-  getSanctionedLeads(perPageCount, pageNumber?) {
+  getTaskDashboardLeads(perPageCount, pageNumber?) {
     const data = {
-      taskName: 'Sanctioned Leads',
+      taskName: this.taskName,
       branchId: this.branchId,
       roleId: this.roleId,
       // tslint:disable-next-line: radix
       currentPage: parseInt(pageNumber),
       // tslint:disable-next-line: radix
       perPage: parseInt(perPageCount),
-      myLeads: true,
+      myLeads: this.myLeads,
       leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
       fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
       toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
@@ -727,719 +661,11 @@ export class DashboardComponent implements OnInit {
       sortByStage: this.sortByStage
     };
 
-    this.responseForCredit(data);
-  }
-
-  // for Sanctioned Leads with Branch
-  getSanctionedBranchLeads(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'Sanctioned Leads',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: false,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-    this.responseForCredit(data);
-  }
-
-  // for Declined Leads with Me
-  getDeclinedLeads(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'Declined Leads',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: true,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-    this.responseForCredit(data);
-  }
-
-  // for Declined Leads with Branch
-  getDeclinedBranchLeads(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'Declined Leads',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: false,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-    this.responseForCredit(data);
-  }
-
-  // for PD with Me
-  getPdMyTask(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'Personal Discussion',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: true,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-    this.responseForCredit(data);
-  }
-
-  // for PD with Branch
-  getPdBranchTask(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'Personal Discussion',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: false,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-    this.responseForCredit(data);
-  }
-
-  // for FI with Me
-  getMyFITask(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'Field Investigation',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: true,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-    this.responseForCredit(data);
-  }
-
-  // for FI with Branch
-  getBranchFITask(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'Field Investigation',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: false,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-    this.responseForCredit(data);
-  }
-
-  // for Viability with Me
-  getViabilityLeads(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'Vehicle Viability',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: true,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-    this.responseForCredit(data);
-  }
-
-  // for Viability with Branch
-  getViabilityBranchLeads(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'Vehicle Viability',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: false,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-    this.responseForCredit(data);
-  }
-
-  getPreDisbursementLeads(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'Predisbursement',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: true,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-    this.responseForCredit(data);
-  }
-
-  getPreDisbursementBranchLeads(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'Predisbursement',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: false,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-    this.responseForCredit(data);
-  }
-
-  // for credit flow dashboard
-
-  // for DDE leads with me
-  getMyDDELeads(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'DDE',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: true,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-    this.responseForCredit(data);
-  }
-
-  // for DDE leads with Branch
-  getBranchDDELeads(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'DDE',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: false,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-    this.responseForCredit(data);
-  }
-
-  // for DDE Deviation leads with Me
-  getMyDeviationLeads(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'Deviation',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: true,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-    this.responseForCredit(data);
-  }
-
-  // for DDE Deviation leads with Branch
-  getBranchDeviationLeads(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'Deviation',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: false,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-    this.responseForCredit(data);
-  }
-
-  // for DDE Decision leads with Me
-  getMyDecisionLeads(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'Credit Decision',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: true,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-    this.responseForCredit(data);
-  }
-
-  // for DDE Decision leads with Branch
-  getBranchDecisionLeads(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'Credit Decision',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: false,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-    this.responseForCredit(data);
-  }
-
-  // for Termsheet leads with Me
-  getMyTermsheetLeads(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'TermSheet',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: true,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-    this.responseForCredit(data);
-  }
-
-  // for Termsheet leads with Branch
-  getBranchTermsheetLeads(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'TermSheet',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: false,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-    this.responseForCredit(data);
-  }
-
-  // for DDE Maker with Me
-  getMakerLeads(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'CPC Maker',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: true,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-    this.responseForCredit(data);
-  }
-
-  // for DDE Maker with CPC
-  getMakerCPCLeads(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'CPC Maker',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: false,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-    this.responseForCredit(data);
-  }
-
-  // for DDE Checker with Me
-  getCheckerLeads(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'CPC Checker',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: true,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
-    this.responseForCredit(data);
-  }
-
-  // for DDE Checker with CPC
-  getCheckerCPCLeads(perPageCount, pageNumber?) {
-    const data = {
-      taskName: 'CPC Checker',
-      branchId: this.branchId,
-      roleId: this.roleId,
-      // tslint:disable-next-line: radix
-      currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
-      perPage: parseInt(perPageCount),
-      myLeads: false,
-      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
-      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
-      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
-      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
-      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
-      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
-      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
-      sortByDate: this.sortByDate,
-      sortByLead: this.sortByLead,
-      sortByLoanAmt: this.sortByLoanAmt,
-      sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
-    };
     this.responseForCredit(data);
   }
 
   setPage(event) {
-
-    if (this.displayTabs.PDD === this.activeTab) {
-      this.getPDDLeads(this.itemsPerPage, event);
-    } else if (this.displayTabs.ChequeTracking === this.activeTab) {
-      this.getChequeTrackingLeads(this.itemsPerPage, event);
-    } else if (this.displayTabs.LoanBooking === this.activeTab) {
-      this.getProcessLogsLeads(this.itemsPerPage, event);
-    }
-    switch (this.subActiveTab) {
-      case 3:
-        this.getSalesFilterLeads(this.itemsPerPage, event);
-        break;
-      case 4:
-        this.getSanctionedLeads(this.itemsPerPage, event);
-        break;
-      case 5:
-        this.getSanctionedBranchLeads(this.itemsPerPage, event);
-        break;
-      case 6:
-        this.getDeclinedLeads(this.itemsPerPage, event);
-        break;
-      case 7:
-        this.getDeclinedBranchLeads(this.itemsPerPage, event);
-        break;
-      case 8:
-        this.getPdMyTask(this.itemsPerPage, event);
-        break;
-      case 9:
-        this.getPdBranchTask(this.itemsPerPage, event);
-        break;
-      case 10:
-        this.getViabilityLeads(this.itemsPerPage, event);
-        break;
-      case 11:
-        this.getViabilityBranchLeads(this.itemsPerPage, event);
-        break;
-      case 13:
-        this.getMyFITask(this.itemsPerPage, event);
-        break;
-      case 14:
-        this.getBranchFITask(this.itemsPerPage, event);
-        break;
-      case 21:
-        this.getMyDDELeads(this.itemsPerPage, event);
-        break;
-      case 22:
-        this.getBranchDDELeads(this.itemsPerPage, event);
-        break;
-      case 23:
-        this.getMyDeviationLeads(this.itemsPerPage, event);
-        break;
-      case 24:
-        this.getBranchDeviationLeads(this.itemsPerPage, event);
-        break;
-      case 25:
-        this.getMyDecisionLeads(this.itemsPerPage, event);
-        break;
-      case 26:
-        this.getBranchDecisionLeads(this.itemsPerPage, event);
-        break;
-      case 28:
-        this.getMyTermsheetLeads(this.itemsPerPage, event);
-        break;
-      case 29:
-        this.getBranchTermsheetLeads(this.itemsPerPage, event);
-        break;
-      case 31:
-        this.getMakerLeads(this.itemsPerPage, event);
-        break;
-      case 32:
-        this.getMakerCPCLeads(this.itemsPerPage, event);
-        break;
-      case 34:
-        this.getCheckerLeads(this.itemsPerPage, event);
-        break;
-      case 35:
-        this.getCheckerCPCLeads(this.itemsPerPage, event);
-        break;
-      case 37:
-        this.getPreDisbursementLeads(this.itemsPerPage, event);
-        break;
-      case 38:
-        this.getPreDisbursementBranchLeads(this.itemsPerPage, event);
-        break;
-      default:
-        break;
-    }
-
+    this.onTabsLoading(this.subActiveTab, event);
   }
 
   onClick() {
@@ -1472,11 +698,13 @@ export class DashboardComponent implements OnInit {
         break;
       case 25: case 26:
         localStorage.setItem('istermSheet', 'false');
+        // tslint:disable-next-line: triple-equals
         if (this.salesResponse == false) {
           this.router.navigate([`/pages/credit-decisions/${this.leadId}/cam`]);
-      }  else if (this.salesResponse == true) {
+          // tslint:disable-next-line: triple-equals
+        } else if (this.salesResponse == true) {
           this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
-      }
+        }
         break;
       case 28: case 29:
         localStorage.setItem('istermSheet', 'true');
@@ -1521,21 +749,27 @@ export class DashboardComponent implements OnInit {
   }
 
   onApply() {
-    this.isFilterApplied = true;
-    this.filterFormDetails = this.filterForm.value;
-    // this.filterFormDetails.fromDate = this.dateToFormate(this.filterFormDetails.fromDate);
-    this.filterFormDetails.fromDate = this.utilityService.getDateFormat(
-      this.filterFormDetails.fromDate
-    );
-    // this.filterFormDetails.toDate = this.dateToFormate(this.filterFormDetails.toDate);
-    this.filterFormDetails.toDate = this.utilityService.getDateFormat(
-      this.filterFormDetails.toDate
-    );
-    this.onTabsLoading(this.subActiveTab);
-    // this.dashboardService.filterData(this.filterFormDetails);
+    console.log(this.filterForm.controls);
+    if (this.filterForm.dirty) {
+      this.showFilter = !this.showFilter;
+      this.isFilterApplied = true;
+      this.filterFormDetails = this.filterForm.value;
+      this.filterFormDetails.fromDate = this.utilityService.getDateFormat(
+        this.filterFormDetails.fromDate
+      );
+      this.filterFormDetails.toDate = this.utilityService.getDateFormat(
+        this.filterFormDetails.toDate
+      );
+      this.onTabsLoading(this.subActiveTab);
+    } else {
+      this.toasterService.showError('Please fill atleast one field.', 'Filter Details');
+    }
   }
 
-  onRelase(taskId) {
+  onRelase(taskId, leadId) {
+    this.isRelease = true;
+    this.isClaim = false;
+    this.leadId = leadId;
     this.taskDashboard.releaseTask(taskId).subscribe((res: any) => {
       const response = res;
       // tslint:disable-next-line: triple-equals
@@ -1544,6 +778,7 @@ export class DashboardComponent implements OnInit {
           'Lead Released Successfully',
           'Released'
         );
+        this.saveTaskLogs();
       } else {
         this.toasterService.showError(response.Error, '');
       }
@@ -1551,20 +786,37 @@ export class DashboardComponent implements OnInit {
   }
 
   onAssign(taskId, leadId) {
+    this.isClaim = true;
+    this.isRelease = false;
+    this.leadId = leadId;
     this.dashboardService.routingData = {
       activeTab: this.activeTab,
       subActiveTab: this.subActiveTab,
     };
-    this.leadId = leadId;
     this.taskDashboard.assignTask(taskId).subscribe((res: any) => {
       const response = JSON.parse(res);
       // tslint:disable-next-line: triple-equals
       if (response.ErrorCode == 0) {
         this.toasterService.showSuccess('Assigned Successfully', 'Assigned');
         this.onRoutingTabs(this.subActiveTab);
+        this.saveTaskLogs();
       } else {
         this.toasterService.showError(response.Error, '');
       }
+    });
+  }
+
+  saveTaskLogs() {
+    const data = {
+      userId: localStorage.getItem('userId'),
+      leadId: this.leadId,
+      isClaim: this.isClaim,
+      isRelease: this.isRelease,
+      taskName: this.taskName
+    };
+    console.log(data);
+    this.taskDashboard.saveTaskLogs(data).subscribe((res: any) => {
+      console.log('save task response', res);
     });
   }
 
@@ -1585,5 +837,7 @@ export class DashboardComponent implements OnInit {
     localStorage.setItem('isFiCumPd', item.isFiCumPD);
     this.vehicleDataStoreService.setCreditTaskId(item.taskId);
     this.sharedService.getTaskID(item.taskId);
+    this.sharedService.setProductCatCode(item.productCatCode);
+    this.sharedService.setProductCatName(item.productCatName);
   }
 }

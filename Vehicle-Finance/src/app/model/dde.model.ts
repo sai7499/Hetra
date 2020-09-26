@@ -279,7 +279,7 @@ export interface ReferenceCheck {
     place?: string;
     routeMap?: any;
     equitasBranchName?: string;
-    distanceFromBranch?: number;
+    distanceFrombranch?: number;
     soName?: string;
     employeeCode?: string;
     date?: string;

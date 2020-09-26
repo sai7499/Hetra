@@ -17,6 +17,7 @@ import { DocRequest } from '@model/upload-model';
 import { DocumentDetails } from '@model/upload-model';
 import { Constant } from '@assets/constants/constant';
 import { environment } from 'src/environments/environment';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-upload-modal',
@@ -41,6 +42,7 @@ export class UploadModalComponent {
   constructor(
     private uploadService: UploadService,
     private utilityService: UtilityService,
+    private toasterService: ToasterService,
     private camera: Camera
   ) {
     this.isMobile = environment.isMobile;
@@ -106,10 +108,10 @@ export class UploadModalComponent {
           result = reader.result
             .toString()
             .replace(/^data:application\/[a-z]+;base64,/, '');
-        } else if (this.fileType === 'xls') {
-          // data:image/jpeg;base64,data:application/vnd.ms-excel;base64,
+        } else if (this.fileType.includes('xls')) {
           result = reader.result.toString().split(',')[1];
-          // .replace(/^data:application\/[a-z]+;base64,/, '');
+        } else if (this.fileType === 'docx') {
+          result = reader.result.toString().split(',')[1];
         } else {
           result = reader.result.toString();
         }
@@ -151,6 +153,7 @@ export class UploadModalComponent {
       'application/pdf': 'pdf',
       'image/png': 'png',
       'image/jpeg': 'jpeg',
+      'application/msword': 'docx'
     };
     return types[type] || type;
   }
@@ -158,8 +161,9 @@ export class UploadModalComponent {
   uploadFile() {
     this.docsDetails.bsPyld = this.imageUrl;
     let fileName = this.docsDetails.docSbCtgry.replace(' ', '_');
+    const name = this.docsDetails.docNm.replace('/', '_OR_');
     fileName =
-      this.docsDetails.docNm +
+      name +
       new Date().getFullYear() +
       +new Date() +
       '.' +
@@ -174,15 +178,21 @@ export class UploadModalComponent {
       .constructUploadModel(addDocReq)
       .pipe(
         map((value: any) => {
-          if (value.addDocumentRep.msgHdr.rslt === 'OK') {
+          const msgHdr = value.addDocumentRep.msgHdr;
+          if (msgHdr.rslt === 'OK') {
             const body = value.addDocumentRep.msgBdy;
             const docsRes = body.addDocResp[0];
             const docsDetails = {
               ...docsRes,
             };
             return docsDetails;
+          } else if (msgHdr.rslt === 'ERROR') {
+            const error = msgHdr.error[0].rsn;
+            this.toasterService.showError(error, 'Upload Error');
+
+            throw new Error(error);
           }
-          throw new Error('error');
+          // throw new Error('error');
         })
       )
       .subscribe(

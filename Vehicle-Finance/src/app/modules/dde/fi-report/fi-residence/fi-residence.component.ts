@@ -54,7 +54,7 @@ export class FiResidenceComponent implements OnInit {
   resedenceType: string;
   rentRequired: boolean;
   invalidPincode = false;
-  
+
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -71,11 +71,10 @@ export class FiResidenceComponent implements OnInit {
     this.leadId = Number(this.activatedRoute.snapshot.parent.params.leadId);
     // this.applicantId = Number(this.activatedRoute.parent)
     this.applicantId = Number(this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
-    this.version = Number(this.activatedRoute.snapshot.parent.firstChild.params.version);
+    this.version = String(this.activatedRoute.snapshot.parent.firstChild.params.version);
     console.log('in construc app id', this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
     console.log('leadid', this.leadId);
     console.log('now  fi date', this.fiDate);
-    console.log('router', this.activatedRoute.snapshot);
     console.log('version', this.version);
 
   }
@@ -406,8 +405,9 @@ export class FiResidenceComponent implements OnInit {
   getFiReportDetails() { // fun to call get fi report details api field investigation service
     const data = {
       applicantId: this.applicantId,
-      // applicantId: 1177,  // hardcoded as per backend
-      userId: this.userId
+      userId: this.userId,
+      fiVersion: this.version
+
     };
     console.log('in get fi report', this.applicantId);
     this.fieldInvestigationService.getFiReportDetails(data).subscribe(async (res: any) => {
@@ -553,7 +553,7 @@ export class FiResidenceComponent implements OnInit {
 
 
     } else if (action === 'next') {
-      if (this.version) {
+      if (this.version != 'undefined') {
         console.log('in  routing defined version condition', this.version);
         // tslint:disable-next-line: max-line-length
         this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${this.applicantId}/fi-business/${this.version}`]);

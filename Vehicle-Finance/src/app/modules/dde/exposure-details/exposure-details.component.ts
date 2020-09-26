@@ -93,16 +93,11 @@ export class ExposureDetailsComponent implements OnInit {
         // this.addProposedUnit(null);
        }
        const operationType = this.toggleDdeService.getOperationType();
-       if (operationType === '1') {
+       if (operationType === '1' || operationType === '2') {
            this.exposureLiveLoan.disable();
            this.disableSaveBtn  = true;
          }
     });
-    console.log(this.liveloanArray, 'live loan');
-    console.log(this.proposedArray, 'proposed');
-
-   
-
   }
   getLeadId() {
     return new Promise((resolve, reject) => {

@@ -1,5 +1,5 @@
 <div class="row top_bar">
-  <div class="col-lg-10 col-md-10 col-sm-10">
+  <div class="col-lg-10 col-md-10 col-sm-10 pad-allside">
     <div class="row">
       <div class="row col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
@@ -23,11 +23,13 @@
       <div class="row col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
           <label class="col-form-label" for="customer_name_label">{{
-            labels?.loanAmount
+            labels?.loanAmount 
           }}</label>
           <label for="customer_name" class="col-form-label-two">{{
-            loanAmount
+            loanAmount    
+            
           }}</label>
+          <!-- : 'symbol':'1.0':'en-IN' -->
         </div>
       </div>
     </div>
@@ -64,14 +66,14 @@
       </div>
     </div>
   </div>
-  <div class="col-lg-2 col-md-2 col-sm-2" style="padding-top: 8px;">
-    <div class="row">
+  <div class="col-lg-2 col-md-2 col-sm-2" >
+    <div class="row view-pad-top">
       <button class="btn btn-primary view-button" [routerLink]="['/pages/document-viewupload', leadId]" type="button"
         (click)="saveCurrentUrl()">
         View/Upload Document
       </button>
     </div>
-    <div class="row" *ngIf="isEnableDdeButton">
+    <div class="row view-pad-bottom" *ngIf="isEnableDdeButton">
       <button class="btn btn-primary view-button" type="button" (click)="viewOrEditDde()">
         View/Edit DDE
       </button>

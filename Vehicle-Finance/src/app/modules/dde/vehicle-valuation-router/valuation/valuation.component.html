@@ -238,9 +238,9 @@
               [className]="'form-control mandatory'"
               [inputClass]="'text-uppercase'"
               [placeholder]="'Asset Model'"
-              [maxLength]="labels?.validationData?.makeModel.maxLength"
+              [maxLength]="labels?.validationData?.assetModel.maxLength"
               [isRequired]="'Required Input is mandatory'"
-              [type]="labels?.validationData?.makeModel.type"
+              [patternCheck]="labels?.validationData?.assetModel.patternCheck"
               [isDirty]="isDirty"
             >
             </app-custom-input>
@@ -359,7 +359,7 @@
             <app-custom-input
               formControlName="ageOfAsset"
               [className]="'form-control mandatory'"
-              [placeholder]="'Age of Asset'"
+              [placeholder]="'Age of Vehicle'"
               [maxLength]="labels?.validationData?.ageOfAsset.maxLength"
               [isRequired]="'Required Input is mandatory'"
               [type]="labels?.validationData?.ageOfAsset.type"
@@ -420,8 +420,8 @@
               formControlName="dateofReg"
               [activeView]="'decade'"
               [format]="'dd/MM/yyyy'"
-              [min]="toDayDate"
-              [max]=""
+              [min]="minDate"
+              [max]="toDayDate"
               placeholder="Vehicle Reg. Date"
             >
             </kendo-datepicker>

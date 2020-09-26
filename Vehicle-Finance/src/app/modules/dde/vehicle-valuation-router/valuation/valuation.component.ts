@@ -45,6 +45,13 @@ export class ValuationComponent implements OnInit {
   leadCreatedDate: any;
 
   valuesToYesNo: any = [{ key: 1, value: 'Yes' }, { key: 0, value: 'No' }];
+  monthsLOVS: any = [
+    { key: "January", value: "January" }, { key: "February", value: "February" },
+    { key: "March", value: "March" }, { key: "April", value: "April" }, { key: "May", value: "May" },
+    { key: "June", value: "June" }, { key: "July", value: "July" }, { key: "August", value: "August" },
+    { key: "September", value: "September" }, { key: "October", value: "October" },
+    { key: "November", value: "November" }, { key: "December", value: "December" },
+  ];
 
   constructor(
     private labelsData: LabelsService,
@@ -74,7 +81,7 @@ export class ValuationComponent implements OnInit {
     // this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
-      if (operationType === '1') {
+      if (operationType === '1' || operationType === '2') {
         this.vehicleValuationForm.disable();
         this.disableSaveBtn = true;
       }
@@ -122,10 +129,12 @@ export class ValuationComponent implements OnInit {
   //GET LEAD SECTION DATA
   getLeadSectiondata() {
     const leadData = this.createLeadDataService.getLeadSectionData();
-    this.leadCreatedDate = new Date(leadData['leadDetails'].leadCreatedOn);
-    // this.leadCreatedDate = this.utilityService.getDateFromString(leadData['leadDetails'].leadCreatedOn);
+    // this.leadCreatedDate = new Date(leadData['leadDetails'].leadCreatedOn);
+    this.leadCreatedDate = this.utilityService.getDateFromString(leadData['leadDetails'].leadCreatedOn);
     // console.log("LEAD_CREATED_DATE::", this.vehicleValuationForm.get('valuationDate').value >= this.leadCreatedDate);
     console.log("LEAD_CREATED_DATE::", this.leadCreatedDate);
+    console.log("MAX_DATE::", this.toDayDate);
+
   }
 
   //CHANGE EVENT FUNCTION FOR monthLOVS
@@ -307,7 +316,7 @@ export class ValuationComponent implements OnInit {
         console.log("VEHICLE_VALUATION_RESPONSE_SAVE_OR_UPDATE_API", response);
         if (response["Error"] == 0 && response['ProcessVariables'].error['code'] == "0") {
           this.toasterService.showSuccess("Record Saved Successfully", "Valuation");
-        }else {
+        } else {
           this.toasterService.showError(response['ProcessVariables'].error['message'], "Valuation");
         }
       });

@@ -44,13 +44,13 @@
               <td [attr.data-label]="labels?.name">{{ item.fullName ? item.fullName : '-' }}</td>
               <ng-container *ngIf="item.entityTypeKey !== 'NONINDIVENTTYP'">
                 <td [attr.data-label]="labels?.mobileNumber">{{ item.mobileNumber ? item.mobileNumber : '-' }}</td>
-                <td [attr.data-label]="labels?.dateOfBirth">{{ item.dob ? item.dob : '-' }}</td>
+                <td [attr.data-label]="labels?.dobDoi">{{ item.dob ? item.dob : '-' }}</td>
               </ng-container>
               <ng-container *ngIf="item.entityTypeKey == 'NONINDIVENTTYP'">
                 <td [attr.data-label]="labels?.mobileNumber">
                   {{ item.companyPhoneNumber ? item.companyPhoneNumber : '-' }}
                 </td>
-                <td [attr.data-label]="labels?.dateOfBirth">{{ item.doi ? item.doi : '-' }}</td>
+                <td [attr.data-label]="labels?.dobDoi">{{ item.doi ? item.doi : '-' }}</td>
               </ng-container>
               <td [attr.data-label]="labels?.applicantType">{{ item.applicantType ? item.applicantType : '-' }}</td>
               <td [attr.data-label]="labels?.action">

@@ -16,12 +16,14 @@ import { PdcDetailsComponent } from './pdc-details/pdc-details.component';
 import { NegotiationModule } from '@modules/negotiation/negotiation.module';
 import { DisbursementSectionModule } from '@modules/disbursement-section/disbursement-section.module';
 import { WelomceLetterComponent } from './welomce-letter/welomce-letter.component';
+import { DeliveryOrderComponent } from './delivery-order/delivery-order.component';
 
 @NgModule({
   declarations: [
     CpcMakerDdeComponent,
     PdcDetailsComponent,
-    WelomceLetterComponent
+    WelomceLetterComponent,
+    DeliveryOrderComponent
     // CreditConditionsComponent,
     // TermSheetComponent,
     // SanctionDetailsComponent,

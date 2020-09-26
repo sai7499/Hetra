@@ -68,16 +68,15 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left">{{label?.natureOfBusiness}}</td>
+                        <td class="text-left">{{label?.natureOfGoods}}</td>
                         <td>
                             <!-- <input type="number" name="nature_goods" class="form-control" id="nature_goods"
                                 formControlName="natureOfGoods" /> -->
-                            <!-- <app-custom-input formControlName="natureOfGoods" 
-                                [maxLength]="label?.validationData?.srNumber?.maxLength" [isRequired]="'Nature Of Goods is Required'"
-                                [placeholder]="'Enter Nature of Goods'" 
-                                [isDirty]="isDirty" [type]="label?.validationData?.srNumber?.type"></app-custom-input> -->
-                                <app-vf-custom-select formControlName="natureOfGoods" [values]="viabilityObj?.businessType"
-                                [isRequired]="'Please Select Nature Of Goods'"></app-vf-custom-select>
+                            <app-custom-input formControlName="natureOfGoods" [maxLength]="label?.validationData?.newlimitAmount?.maxLength"
+                                [isRequired]="'Nature Of Goods is Required'" [placeholder]="'Enter Nature of Goods'" [isDirty]="isDirty"
+                                [type]="label?.validationData?.newlimitAmount?.type"></app-custom-input>
+                                <!-- <app-vf-custom-select formControlName="natureOfGoods" [values]="viabilityObj?.businessType"
+                                [isRequired]="'Please Select Nature Of Goods'"></app-vf-custom-select> -->
                         </td>
                     </tr>
                     <tr>
@@ -536,7 +535,7 @@
                                 
                                 [maxLength]="label?.validationData?.remark?.maxLength"
                                 
-                                [type]="label?.validationData?.landMark?.type"
+                                [type]="'alpha-numeric'"
                                 [placeholder]="'Enter Other Expenses Remarks If Any'"
                                 
                                 ></app-custom-input>
@@ -586,7 +585,7 @@
                     </tr>
                     <tr>
                         <td>{{label?.netCashFlow}}</td>
-                        <td class="wrd-brk" ><strong>{{netFlowCash}}</strong></td>
+                        <td class="wrd-brk"><strong>{{netFlowCash}}</strong></td>
                     </tr>
                     <tr>
                         <td>{{label?.emiFull}}</td>
@@ -1079,7 +1078,7 @@
                                 formControlName="netCashFlowEmi" /> -->
                                 <app-custom-input
                                 [id]="net_cash_flow"
-                                formControlName="netCashFlowEmi"
+                                formControlName="netCashFlow"
                                 [patternCheck]=" "
                                 [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
