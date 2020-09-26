@@ -381,7 +381,7 @@ export class TeleVerificationFormComponent implements OnInit {
       }
 
       const operationType = this.toggleDdeService.getOperationType();
-      if (operationType === '1') {
+      if (operationType === '1' || operationType === '2') {
         this.teleVerificationForm.disable();
         this.disableSaveBtn = true;
       }

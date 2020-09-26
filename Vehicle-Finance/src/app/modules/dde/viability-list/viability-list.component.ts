@@ -72,7 +72,7 @@ export class ViabilityListComponent {
     }
     console.log(this.route, 'queryParams Check');
     // const operationType = this.toggleDdeService.getOperationType();
-    // if (operationType === '1') {
+    // if (operationType === '1' || operationType === '2') {
     //   this.modalDataForm.disable();
     //   this.disableSaveBtn = true;
     // }
