@@ -124,13 +124,12 @@ export class NegotiationComponent implements OnInit {
   PDCvalueCheck: { rule: (val: any) => boolean; msg: string; }[];
   RepaymentLOV = [];
   isSecured: boolean;
-  valid: boolean;
   IRRValueCheck: { rule: (variance: any) => boolean; msg: string; }[];
   baseInterest: any;
   maxInterest: any;
   minInterest: any;
   varianceIRR: any;
-  premiumAmtvalidation: boolean;
+  premiumAmtvalidation: boolean = true;
   eligibleamount: any;
   onformsubmit: boolean = true;
   maxLoanAmount: number;
@@ -560,8 +559,8 @@ export class NegotiationComponent implements OnInit {
     if ((minmax == '1LOSREPAY') || (minmax == '2LOSREPAY')) {
       this.minValuePDC = "1"
       this.maxValuePDC = "4"
-      this.PDCvalueCheck = [{ rule: pdcvalue => Number(pdcvalue) > Number(this.maxValuePDC), msg: 'Invalid Value' },
-      { rule: pdcvalue => Number(pdcvalue) < Number(this.minValuePDC), msg: 'Invalid value' }];
+      this.PDCvalueCheck = [{ rule: pdcvalue => Number(pdcvalue) > Number(this.maxValuePDC), msg: 'Value should be between 1 and 4' },
+      { rule: pdcvalue => Number(pdcvalue) < Number(this.minValuePDC), msg: 'Value should be between 1 and 4' }];
       if (value == 'empty') {
         pdcvalue.setValue("1");
         spdcvalue.setValue("5");
@@ -572,8 +571,8 @@ export class NegotiationComponent implements OnInit {
     else if (minmax == '4LOSREPAY') {
       this.minValuePDC = "0"
       this.maxValuePDC = "4"
-      this.PDCvalueCheck = [{ rule: pdcvalue => Number(pdcvalue) > Number(this.maxValuePDC), msg: 'Invalid Value' },
-      { rule: pdcvalue => Number(pdcvalue) < Number(this.minValuePDC), msg: 'Invalid value' }];
+      this.PDCvalueCheck = [{ rule: pdcvalue => Number(pdcvalue) > Number(this.maxValuePDC), msg: 'Value should be between 0 and 4' },
+      { rule: pdcvalue => Number(pdcvalue) < Number(this.minValuePDC), msg: 'Value should be between 0 and 4' }];
       if (value == 'empty') {
         pdcvalue.setValue("0");
         spdcvalue.setValue("5");
@@ -586,8 +585,11 @@ export class NegotiationComponent implements OnInit {
       let maxvalue = (Number(this.createNegotiationForm.controls.NegotiatedLoanTenor.value) + 5).toString();
       this.minValuePDC = minvalue;
       this.maxValuePDC = maxvalue;
-      this.PDCvalueCheck = [{ rule: pdcvalue => Number(pdcvalue) > Number(this.maxValuePDC), msg: 'Invalid Value' },
-      { rule: pdcvalue => Number(pdcvalue) < Number(this.minValuePDC), msg: 'Invalid value' }];
+      this.PDCvalueCheck = [{
+        rule: pdcvalue => Number(pdcvalue) > Number(this.maxValuePDC), msg: 'Value should be between' +
+          ' ' + minvalue + ' ' + 'to' + ' ' + maxvalue
+      },
+      { rule: pdcvalue => Number(pdcvalue) < Number(this.minValuePDC), msg: 'Value should be between' + ' ' + minvalue + ' ' + 'to' + ' ' + maxvalue }];
       if (value == 'empty') {
         pdcvalue.setValue(minvalue);
         spdcvalue.setValue("5");
@@ -597,8 +599,8 @@ export class NegotiationComponent implements OnInit {
     }
     this.minValueSPDC = "5"
     this.maxValueSPDC = "8"
-    this.SPDCvalueCheck = [{ rule: spdcvalue => Number(spdcvalue) > Number(this.maxValueSPDC), msg: 'value should be between 5 and 8' },
-    { rule: spdcvalue => Number(spdcvalue) < Number(this.minValueSPDC), msg: 'value should be between 5 and 8' }];
+    this.SPDCvalueCheck = [{ rule: spdcvalue => Number(spdcvalue) > Number(this.maxValueSPDC), msg: 'Value should be between 5 and 8' },
+    { rule: spdcvalue => Number(spdcvalue) < Number(this.minValueSPDC), msg: 'Value should be between 5 and 8' }];
   }
   getLOV() {
     this.NegotiationService
@@ -1149,7 +1151,7 @@ export class NegotiationComponent implements OnInit {
         "AssetsJson": JSON.stringify(this.finalAsset),
         "IsCombinedLoan": "Y"
       }
-      console.log("negotiationformvalues",this.createNegotiationForm)
+      console.log("negotiationformvalues", this.createNegotiationForm)
       this.NegotiationService
         .submitNegotiation(NegotiationDetails
         )
@@ -1376,7 +1378,7 @@ export class NegotiationComponent implements OnInit {
         this.premiumAmtvalidation = false;
       }
       else {
-        this.premiumAmtvalidation == true;
+        this.premiumAmtvalidation = true;
         insuranceProviderName = this.lifecovervalueSelected['controls'].creditShieldLifeCover.value;
         let percentage = this.InsuranceSlabLOV.filter(val =>
           val.key == this.lifecovervalueSelected['controls'].fundingforLifeCover.value)

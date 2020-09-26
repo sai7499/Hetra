@@ -294,6 +294,10 @@ th {
   margin: 30px 0;
 }
 
+.first-box > .multisteps-form__progress-btn:first-child:after {
+  display: none;
+}
+
 .second-box > .multisteps-form__progress-btn:first-child:after {
   display: none;
 }
@@ -455,7 +459,7 @@ th {
 #credit_income_details:after,
 #credit_psl_data:after {
   width: 100% !important;
-  left: 70px;
+  /* left: 70px; */
 }
 
 #credit_fi_pd:after,

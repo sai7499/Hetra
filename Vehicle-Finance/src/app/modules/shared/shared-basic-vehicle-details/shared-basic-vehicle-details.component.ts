@@ -76,7 +76,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService, private toasterService: ToasterService,
     public sharedService: SharedService, private applicantService: ApplicantService) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
-    console.log('Zero', this.initalZeroCheck)
   }
 
   ngOnInit() {
@@ -122,7 +121,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.vehicleRegPattern = this.validateCustomPattern()
 
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1') {
+    if (operationType === '1' || operationType === '2') {
       this.basicVehicleForm.disable();
       this.disableSaveBtn = true;
     }
@@ -541,11 +540,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     })
 
     this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVariant,
-      0, "vehicleVariant")
-
-    // this.vehicleLov.assetVariant = this.assetVariant
-
-    console.log(this.assetVariant, 'vehicleVariant', this.vehicleLov)
+      'vehicleCode', "vehicleVariant")
 
     obj.patchValue({
       assetVariant: ''

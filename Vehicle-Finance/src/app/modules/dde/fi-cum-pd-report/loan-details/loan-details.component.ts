@@ -143,7 +143,7 @@ export class LoanDetailsComponent implements OnInit {
 
     });
     this.operationType = this.toggleDdeService.getOperationType();
-    if (this.operationType === '1') {
+    if (this.operationType === '1' || this.operationType === '2') {
       this.loanDetailsForm.disable();
       this.disableSaveBtn = true;
     }
