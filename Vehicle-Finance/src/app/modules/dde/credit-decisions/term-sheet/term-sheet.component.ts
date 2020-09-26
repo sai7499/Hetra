@@ -165,7 +165,7 @@ export class TermSheetComponent implements OnInit {
         // const message = res['ProcessVariables'].rctaMessage;
         this.errorMessage = res['ProcessVariables'].rctaMessage;
       }
-        // this.router.navigateByUrl("/pages/dashboard");
+        this.router.navigateByUrl("/pages/dashboard");
 
       } else if (this.roleType == '2' && !this.isApprove) {
         this.toasterService.showSuccess(res['ProcessVariables'].error['message'], '');
