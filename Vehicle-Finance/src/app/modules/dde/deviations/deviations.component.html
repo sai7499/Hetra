@@ -9,7 +9,7 @@
   </div>
   <div class="col-sm-7 text-right">
     <button class="btn btn-primary dash_href" type="button" routerLink="../cam">{{labels?.back}}</button>
-    <button class="btn btn-primary dash_href" type="button" *ngIf="isSubmitToCredit && !disableSaveBtn"
+    <button class="btn btn-primary dash_href" type="button" *ngIf="isSubmitToCredit"
       (click)="saveorUpdateDeviationDetails()">{{labels?.save}}</button>
     <button class="btn btn-primary dash_href" type="button" routerLink="../credit-condition"
       *ngIf="isSendBacktoCredit">{{labels?.next}}</button>
