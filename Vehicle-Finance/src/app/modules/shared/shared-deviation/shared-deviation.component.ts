@@ -47,13 +47,12 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   @Input() isSubmitToCredit: boolean;
   @Input() isDirty: boolean;
-  disableSaveBtn: boolean;
 
   public isSendBacktoCredit = false;
   locationIndex: string = '';
 
   constructor(private labelsData: LabelsService, private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService,
-    private deviationService: DeviationService, private toasterService: ToasterService, private sharedService: SharedService, private toggleDdeService: ToggleDdeService,
+    private deviationService: DeviationService, private toasterService: ToasterService, private sharedService: SharedService,
     private loginStoreService: LoginStoreService, private router: Router, private utilityService: UtilityService, private location: Location) { }
 
   ngOnInit() {
@@ -94,13 +93,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.sharedService.taskId$.subscribe((id) => {
       this.taskId = id ? id : '';
     })
-
-    const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1' || operationType === '2') {
-      this.deviationsForm.disable();
-      this.disableSaveBtn = true;
-    }
-
   }
 
   disableInputs() {

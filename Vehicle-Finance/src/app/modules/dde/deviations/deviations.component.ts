@@ -6,7 +6,6 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { LoginStoreService } from '@services/login-store.service';
 import { DeviationService } from '@services/deviation.service';
 import { ToasterService } from '@services/toaster.service';
-import { ToggleDdeService } from '@services/toggle-dde.service';
 import { Location } from '@angular/common';
 
 @Component({
@@ -21,7 +20,6 @@ export class DeviationsComponent implements OnInit, OnDestroy {
   public leadId: number;
   public userId: string;
   public subscription: any;
-  disableSaveBtn: boolean;
 
   isSendBacktoCredit: boolean;
   isSubmitToCredit: boolean;
@@ -29,7 +27,7 @@ export class DeviationsComponent implements OnInit, OnDestroy {
 
   constructor(private labelsData: LabelsService, private sharedService: SharedService, private utilityService: UtilityService,
     private createLeadDataService: CreateLeadDataService, private loginStoreService: LoginStoreService, private deviationService: DeviationService,
-    private toasterService: ToasterService, private toggleDdeService: ToggleDdeService, private location: Location) { }
+    private toasterService: ToasterService, private location: Location) { }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -57,11 +55,6 @@ export class DeviationsComponent implements OnInit, OnDestroy {
     this.location.onUrlChange((url: string) => {
       this.locationIndex = this.getLocationIndex(url);
     });
-
-    const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1' || operationType === '2') {
-        this.disableSaveBtn = true;
-    }
 
   }
 
