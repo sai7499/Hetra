@@ -33,6 +33,8 @@ export class CreditConditionsComponent implements OnInit {
   submitReject:boolean = false;
   leadDetails: any;
   userId;
+  errorGenerated: boolean = false;
+  errorMessage : any = [];
   roleList : any = [];
   formData = {
     'creditId' : '',
@@ -113,7 +115,7 @@ export class CreditConditionsComponent implements OnInit {
   }
   alertMessage(data){
     if(data == "Reject"){
-      this.getLeadRejectReason();
+     // this.getLeadRejectReason();
     }
     this.alertMsg =  data
   }
@@ -319,17 +321,17 @@ export class CreditConditionsComponent implements OnInit {
   // }
   rejectCreditiCondition(){
     this.submitReject = true;
-        if(this.rejectReasonForm.valid){
+       // if(this.rejectReasonForm.valid){
           // processData["isRefer"]= true;
           let processData = {};
-          processData['rejectReason'] =this.rejectReasonForm.value['rejectReason'];
+       //   processData['rejectReason'] =this.rejectReasonForm.value['rejectReason'];
           
   
       // processData["roleId"] =this.referForm.value['roleId'];
       processData["userId"]= this.userId;
       processData["leadId"]= this.leadId;
         this.creditConditionService.rejectCreditCondition(processData).subscribe(res=> {
-        console.log(res);
+      //  console.log(res);
 
         if(res['ProcessVariables'].error['code'] == 0){
           this.toasterService.showSuccess("Record Rejected successfully!", '');
@@ -341,40 +343,40 @@ export class CreditConditionsComponent implements OnInit {
           this.toasterService.showError(res['ErrorMessage'], '');
         }
       })
-        }else{
-          return
-        }
+        // }else{
+        //   return
+        // }
     
     
   }
-  getLeadRejectReason(){
-    let data = {
-      "flowStage": this.leadDetails['stage'],
-      "productCode": this.leadDetails['productCatCode']
-      // flowStage:'12',
-      // "productCode" : "UC"
-    }
-    this.creditConditionService.getLeadRejectReason(data).subscribe(res=> {
-      console.log(res);
-      if(res['ProcessVariables'].error['code'] == 0){
-        console.log(res);
-        if(res['ProcessVariables']['assetRejectReason']){
-          let assetRejectReason = res['ProcessVariables']['assetRejectReason'];
-           for(let i=0 ; i< assetRejectReason.length ;i++){
-             this.submitReferLov.push({
-               key : assetRejectReason[i]['reasonCode'],
-               value : assetRejectReason[i]['reasonDesc']
-             })
-           }
-        }
-      }else if(res['ProcessVariables'].error['code'] == "1") {
-        this.toasterService.showError(res['ProcessVariables'].error['message'], '');
+  // getLeadRejectReason(){
+  //   let data = {
+  //     "flowStage": this.leadDetails['stage'],
+  //     "productCode": this.leadDetails['productCatCode']
+  //     // flowStage:'12',
+  //     // "productCode" : "UC"
+  //   }
+  //   this.creditConditionService.getLeadRejectReason(data).subscribe(res=> {
+  //     console.log(res);
+  //     if(res['ProcessVariables'].error['code'] == 0){
+  //       console.log(res);
+  //       if(res['ProcessVariables']['assetRejectReason']){
+  //         let assetRejectReason = res['ProcessVariables']['assetRejectReason'];
+  //          for(let i=0 ; i< assetRejectReason.length ;i++){
+  //            this.submitReferLov.push({
+  //              key : assetRejectReason[i]['reasonCode'],
+  //              value : assetRejectReason[i]['reasonDesc']
+  //            })
+  //          }
+  //       }
+  //     }else if(res['ProcessVariables'].error['code'] == "1") {
+  //       this.toasterService.showError(res['ProcessVariables'].error['message'], '');
        
-      }else if(res['Error'] == "1"){
-        this.toasterService.showError(res['ErrorMessage'], '');
-      }
-    })
-  }
+  //     }else if(res['Error'] == "1"){
+  //       this.toasterService.showError(res['ErrorMessage'], '');
+  //     }
+  //   })
+  // }
   creditConditionActions(data){
     let processData = {};
     switch(data) {
@@ -432,7 +434,12 @@ export class CreditConditionsComponent implements OnInit {
     this.creditConditionService.approveCreditConditions(processData).subscribe(res=> {
       console.log(res);
       if(res['ProcessVariables'].error['code'] == 0){
-        this.toasterService.showSuccess("Record Approved successfully!", '')
+          if(res['ProcessVariables'].rctaAlert = true){
+            this.errorGenerated = true;
+            // const message = res['ProcessVariables'].rctaMessage;
+            this.errorMessage = res['ProcessVariables'].rctaMessage;
+          }
+        // this.toasterService.showSuccess("Record Approved successfully!", '')
       }else if(res['ProcessVariables'].error['code'] == "1") {
         this.toasterService.showError(res['ProcessVariables'].error['message'], '');
        
