@@ -460,8 +460,8 @@ input[type=number] {
   background-color: #ffff;
   border: 1px solid #d3d3d3;
   text-align: center;
-  height: 300px;
-  width: 600px;
+  height: 400px;
+  width: 1024px;
   padding: 10px;
   border-radius: 5px;
   overflow: scroll
