@@ -257,9 +257,8 @@
               <h3 class="m-0">RC and TA Limit Check</h3>
             </div>
             <div class="row" *ngFor="let item of errorMessage; let i = index ;">
-                <div class="col-md-12">
-                
-                      <div class="errText" >{{i + 1+'.'+''+item}}</div>
+                <div class="col-md-12">                
+                      <div class="errText" ><strong>*</strong>{{' '+item}}</div>
                 </div>
             </div>
             <div class="btn-wrap">
