@@ -97,7 +97,7 @@ export class ApplicantDetailComponent implements OnInit {
       //  this.setFormValue();
     });
     this.operationType = this.toggleDdeService.getOperationType();
-    if (this.operationType === '1') {
+    if (this.operationType === '1' || this.operationType === '2') {
       this.applicantForm.disable();
       this.disableSaveBtn = true;
     }

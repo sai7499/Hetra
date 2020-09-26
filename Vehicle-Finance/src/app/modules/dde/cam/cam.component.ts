@@ -299,7 +299,7 @@ export class CamComponent implements OnInit {
     }
 
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1') {
+    if (operationType === '1' || operationType === '2') {
       this.disableSaveBtn = true;
     }
 
@@ -320,7 +320,9 @@ export class CamComponent implements OnInit {
       this.generateCam = true
       this.getCamUsedCarDetails(this.generateCam, 'isUpload')
       this.showCamHtml = true
-
+      if (this.currentUrl.includes('dde')) {
+        this.showSave = true
+      }
       this.pdfId = "UCpdfgeneration" // pdf generation 
     } else
       if (this.productCategoryCode == "UCV") {
@@ -329,7 +331,9 @@ export class CamComponent implements OnInit {
         this.generateCam = true
         this.getCamUsedCvDetails(this.generateCam, 'isUpload')
         this.showCamHtml = true
-
+        if (this.currentUrl.includes('dde')) {
+          this.showSave = true
+        }
         this.pdfId = "UCVpdfgeneration" // pdf generation
       } else
         if (this.productCategoryCode == "NCV") {
@@ -338,7 +342,9 @@ export class CamComponent implements OnInit {
           this.generateCam = true
           this.getCamNewCvDetails(this.generateCam, 'isUpload')
           this.showCamHtml = true
-
+          if (this.currentUrl.includes('dde')) {
+            this.showSave = true
+          }
           this.pdfId = "NCVpdfgeneration" // pdf generation
         }
   }

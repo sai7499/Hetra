@@ -61,10 +61,14 @@
                                 <td [attr.data-label]="labels?.pdStatus" *ngIf="showStatus">
                                     <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
                                 </td>
-                                <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;" *ngIf="show && pdStatusValue != 'Submitted'" (click)="navigatePage(item.applicantId)">
+                                <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;"
+                                    *ngIf="show && pdStatusValue != 'Submitted'"
+                                    (click)="navigatePage(item.applicantId, item.cibilScore)">
                                     <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
+
                                 </td>
-                                <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;" *ngIf="show && pdStatusValue === 'Submitted'">
+                                <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;"
+                                    *ngIf="show && pdStatusValue === 'Submitted'">
                                     <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
                                 </td>
                                 <!-- <ng-container *ngIf='item.pdReportValue'> -->
@@ -72,11 +76,12 @@
                                     <td [attr.data-label]="labels?.ucicId">
                                         <ng-container *ngFor="let version of item.pdReportValue.split(',')">
                                             <u><a class="a_tag" style="cursor: pointer;"
-                          (click)="navigatePage(item.applicantId, version)">Version - {{ version }}</a></u><span>&nbsp;<br class="filter-display"/></span>
+                                                    (click)="navigatePage(item.applicantId, item.cibilScore, version)">Version
+                                                    - {{ version }}</a></u><span>&nbsp;<br
+                                                    class="filter-display" /></span>
                                         </ng-container>
                                     </td>
                                 </ng-container>
-
                                 <!-- <td>
                   <u
                     ><a
@@ -151,8 +156,8 @@
         <br />
         <br />
         <button class="btn btn-primary" type="button" (click)="onNavigateToPdSummary()">
-      {{fiCumPdStatusString == 'true' ? 'Back to FI cum PD Summary' : 'Back to PD Summary'}}
-    </button>
+            {{fiCumPdStatusString == 'true' ? 'Back to FI cum PD Summary' : 'Back to PD Summary'}}
+        </button>
         <!-- <button class="btn btn-primary " type="button " (click)=onNavigateBack()> {{labels.back}} </button> &nbsp; -->
         <!-- <p class="btn btn-primary save "> Save </p> -->
         <!-- <button class="btn btn-primary " type="button " (click)="onNavigateNext() "> {{labels.next}} </button> -->
@@ -165,10 +170,10 @@
         <br />
 
         <button class="btn btn-primary" type="button " (click)="onNavigateBack()">
-      {{ labels.back }}
-    </button>
+            {{ labels.back }}
+        </button>
         <button class="btn btn-primary" type="button " (click)="onNavigateNext()">
-      {{ labels.next }}
-    </button>
+            {{ labels.next }}
+        </button>
     </div>
 </div>

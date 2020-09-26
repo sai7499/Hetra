@@ -58,6 +58,11 @@ export class DeviationsComponent implements OnInit, OnDestroy {
       this.locationIndex = this.getLocationIndex(url);
     });
 
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1' || operationType === '2') {
+        this.disableSaveBtn = true;
+    }
+
   }
 
   getLocationIndex(url) {

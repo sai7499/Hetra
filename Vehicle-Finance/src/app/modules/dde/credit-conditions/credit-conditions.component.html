@@ -201,7 +201,20 @@
 
       <!-- Modal body -->
       <div class="modal-body" style="text-align: center;">
-        <label>Are you sure you want to {{alertMsg}} the Record</label>
+        <label *ngIf="alertMsg != 'Reject'">Are you sure you want to {{alertMsg}} the Record</label>
+        <div *ngIf="alertMsg == 'Reject'">
+          <form [formGroup]="rejectReasonForm" *ngIf="rejectReasonForm">
+            <label>
+              Please Select Reason :
+            </label>
+            <app-vf-custom-select [values]="submitReferLov" formControlName="rejectReason"
+              [isRequired]="'Please select alteast one '">
+            </app-vf-custom-select>
+            <span *ngIf="submitRefer && rejectReasonF.rejectReason.errors" style="color:red;" class="invalid-feedback">
+              <span *ngIf="rejectReasonF.rejectReason.errors.required">Please select atleast one role</span>
+            </span>
+          </form>
+        </div>
       </div>
 
       <!-- Modal footer -->

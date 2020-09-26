@@ -46,7 +46,7 @@ export class IdentityDetailsComponent implements OnInit {
   isDirty: boolean;
   drivingLicenceDates: boolean;
   passportDates: boolean;
-  referenceNo : string;
+  referenceNo: string;
 
   panPattern = {
     rule: '[A-Z]{3}(P)[A-Z]{1}[0-9]{4}[A-Z]{1}',
@@ -54,9 +54,9 @@ export class IdentityDetailsComponent implements OnInit {
   };
   public toDayDate: Date = new Date();
   passportIssueDate: any;
-  passportExpiryDate : any;
+  passportExpiryDate: any;
   drivingIssueDate: any;
-  drivingExpiryDate : any;
+  drivingExpiryDate: any;
   showInvalidMsg = {}
 
 
@@ -114,9 +114,9 @@ export class IdentityDetailsComponent implements OnInit {
     this.addIndividualFormControls();
     this.getLov();
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1') {
+    if (operationType === '1' || operationType === '2') {
       this.identityForm.disable();
-      this.disableSaveBtn  = true;
+      this.disableSaveBtn = true;
     }
   }
 
@@ -215,44 +215,44 @@ export class IdentityDetailsComponent implements OnInit {
 
   passportIssueDateChange(event) {
     this.passportIssueDate = new Date(event)
-    this.passportIssueDate.setDate(this.passportIssueDate.getDate() + 1 )
-    if(this.passportIssueDate > this.toDayDate){
-      this.showInvalidMsg['passportIssue']= true;
-    }else{
-      this.showInvalidMsg['passportIssue']= false;
+    this.passportIssueDate.setDate(this.passportIssueDate.getDate() + 1)
+    if (this.passportIssueDate > this.toDayDate) {
+      this.showInvalidMsg['passportIssue'] = true;
+    } else {
+      this.showInvalidMsg['passportIssue'] = false;
     }
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.get('passportExpiryDate').setValue(null)
   }
-  PassportExpiryDateChange(event){
+  PassportExpiryDateChange(event) {
     this.passportExpiryDate = new Date(event)
-    if(this.passportExpiryDate < this.toDayDate){
-      this.showInvalidMsg['passportExpiry']= true;
-    }else{
-      this.showInvalidMsg['passportExpiry']= false;
+    if (this.passportExpiryDate < this.toDayDate) {
+      this.showInvalidMsg['passportExpiry'] = true;
+    } else {
+      this.showInvalidMsg['passportExpiry'] = false;
     }
   }
   drivingIssueDateChange(event) {
-    
-     this.drivingIssueDate= new Date(event)
-    this.drivingIssueDate.setDate(this.drivingIssueDate.getDate() + 1 )
-    if(this.drivingIssueDate > this.toDayDate){
-      this.showInvalidMsg['drivingIssue']= true;
-    }else{
-      this.showInvalidMsg['drivingIssue']= false;
+
+    this.drivingIssueDate = new Date(event)
+    this.drivingIssueDate.setDate(this.drivingIssueDate.getDate() + 1)
+    if (this.drivingIssueDate > this.toDayDate) {
+      this.showInvalidMsg['drivingIssue'] = true;
+    } else {
+      this.showInvalidMsg['drivingIssue'] = false;
     }
     console.log('Date', this.drivingIssueDate)
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.get('drivingLicenseExpiryDate').setValue(null)
   }
-  drivingExpiryDateChange(event){
+  drivingExpiryDateChange(event) {
     this.drivingExpiryDate = new Date(event)
-    if(this.drivingExpiryDate < this.toDayDate){
-      this.showInvalidMsg['drivingExpiry']= true;
-    }else{
-      this.showInvalidMsg['drivingExpiry']= false;
+    if (this.drivingExpiryDate < this.toDayDate) {
+      this.showInvalidMsg['drivingExpiry'] = true;
+    } else {
+      this.showInvalidMsg['drivingExpiry'] = false;
     }
   }
 
@@ -272,7 +272,7 @@ export class IdentityDetailsComponent implements OnInit {
     this.addNonIndividualFormControls();
   }
 
-  
+
 
   storeNonIndividualValueInService() {
     const value = this.identityForm.getRawValue();
@@ -375,22 +375,22 @@ export class IdentityDetailsComponent implements OnInit {
     return date;
   }
 
-  onRetreiveAdhar(){
+  onRetreiveAdhar() {
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
     const value = this.indivIdentityInfoDetails;
-    this.referenceNo= value.aadhar;
-    this.applicantService.retreiveAdhar(this.referenceNo).subscribe((res)=>{
-         if(res['ProcessVariables'].error.code=="0"){
-          const uid= res['ProcessVariables'].uid;
-          details.get('aadhar').setValue(uid)
-         }
+    this.referenceNo = value.aadhar;
+    this.applicantService.retreiveAdhar(this.referenceNo).subscribe((res) => {
+      if (res['ProcessVariables'].error.code == "0") {
+        const uid = res['ProcessVariables'].uid;
+        details.get('aadhar').setValue(uid)
+      }
     })
   }
 
-  onRelieve(){
+  onRelieve() {
     const value = this.indivIdentityInfoDetails;
-    this.referenceNo= value.aadhar;
+    this.referenceNo = value.aadhar;
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.get('aadhar').setValue(this.referenceNo);
