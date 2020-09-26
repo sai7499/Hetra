@@ -520,10 +520,10 @@ export class FleetDetailsComponent implements OnInit {
     const financierName = event.target.value;
   }
 
-  calcSeasoning(event , i){
+  calcSeasoning(event, i) {
     let tenure = parseInt(this.formArr.controls[i]['controls']['tenure'].value);
     let paid = parseInt(this.formArr.controls[i]['controls']['paid'].value)
-    this.formArr.controls[i]['controls']['seasoning'].patchValue((paid/tenure)*100)   
+    this.formArr.controls[i]['controls']['seasoning'].patchValue((paid / tenure) * 100)
 
   }
 
@@ -587,10 +587,10 @@ export class FleetDetailsComponent implements OnInit {
       this.fleetDetails[i]['tenure'] = Number(this.fleetDetails[i]['tenure'])
       this.fleetDetails[i]['paid'] = Number(this.fleetDetails[i]['paid'])
       this.fleetDetails[i]['gridValue'] = Number(formArray.controls[i]['controls']['gridValue'].value);
-         this.fleetDetails[i]['seasoning'] = formArray.controls[i]['controls']['seasoning'].value;
-         this.fleetDetails[i]['ad'] = formArray.controls[i]['controls']['ad'].value;
-         this.fleetDetails[i]['pd'] = formArray.controls[i]['controls']['pd'].value;
-        //  this.fleetDetails[i]['gridValue'] = formArray.controls[i]['controls']['pd'].value;
+      this.fleetDetails[i]['seasoning'] = formArray.controls[i]['controls']['seasoning'].value;
+      this.fleetDetails[i]['ad'] = formArray.controls[i]['controls']['ad'].value;
+      this.fleetDetails[i]['pd'] = formArray.controls[i]['controls']['pd'].value;
+      //  this.fleetDetails[i]['gridValue'] = formArray.controls[i]['controls']['pd'].value;
 
 
 
@@ -603,7 +603,7 @@ export class FleetDetailsComponent implements OnInit {
     }
     //  console.log("in save fleet", this.fleetDetails)
     this.fleetDetailsService.saveOrUpdateFleetDetails(data).subscribe((res: any) => {
-      if(res['ProcessVariables'].error['code'] == "0"){
+      if (res['ProcessVariables'].error['code'] == "0") {
         console.log("saveFleetDetailsResponse", res.ProcessVariables.ids)
         this.fleetIDs = res.ProcessVariables.ids
         console.log("saveFleetDetailsResponse", this.fleetIDs)
@@ -612,34 +612,34 @@ export class FleetDetailsComponent implements OnInit {
         this.fleetArrayList.controls = [];
         fleetList.forEach(val =>
           this.fleetArrayList.push(this.initRows(val)));
-  
+
         console.log("fletds", this.fleetArrayList);
         if (index != null && index != 'next') {
           console.log(" in rtr function index", index);
           // console.log("fletds", this.fleetIDs)
-  
+
           this.fleetId = this.fleetIDs[index];
           console.log("this fleet id", this.fleetId);
           this.router.navigate(['pages/dde/' + this.leadId + '/track-vehicle/' + this.fleetId]);
-  
+
         }
         else if (index == 'next') {
-  
+
           this.router.navigate(['pages/dde/' + this.leadId + '/exposure'])
-  
+
         }
         else {
           console.log("in save function")
         }
-  
+
       }
-      else if(res['ProcessVariables'].error['code'] == "1") {
+      else if (res['ProcessVariables'].error['code'] == "1") {
         this.toasterService.showError(res['ProcessVariables'].error['message'], '');
-       
-      }else if(res['Error'] == "1"){
+
+      } else if (res['Error'] == "1") {
         this.toasterService.showError(res['ErrorMessage'], '');
       }
-   
+
     });
   }
 
@@ -664,8 +664,8 @@ export class FleetDetailsComponent implements OnInit {
             key: fleets[i].assetModel,
             value: fleets[i].assetModelDesc
           }];
-          if(!fleets[i].seasoning){
-            fleets[i].seasoning = (fleets[i].paid/fleets[i].tenure) * 100
+          if (!fleets[i].seasoning) {
+            fleets[i].seasoning = (fleets[i].paid / fleets[i].tenure) * 100
           }
           if (i == 0) {
             this.formArr.push(this.initRows(fleets[i]))
@@ -675,7 +675,7 @@ export class FleetDetailsComponent implements OnInit {
           }
         }
       } else {
-        if(res['Error'] == "1"){
+        if (res['Error'] == "1") {
           this.toasterService.showError(res['ErrorMessage'], '');
         }
         this.vehicleTypeLov[0] = this.allLovs.vehicleType;
@@ -684,7 +684,7 @@ export class FleetDetailsComponent implements OnInit {
         this.formArr.push(this.initRows(null));
       }
       this.operationType = this.toggleDdeService.getOperationType();
-      if (this.operationType === '1') {
+      if (this.operationType === '1' || this.operationType === '2') {
         this.fleetForm.disable();
         this.disableSaveBtn = true;
       }
@@ -767,7 +767,7 @@ export class FleetDetailsComponent implements OnInit {
     console.log("fleet form value", this.fleetForm)
 
     this.isDirty = true;
-    if (this.operationType === '1' && index === 'next') {
+    if (this.operationType === '1' || this.operationType === '2' && index === 'next') {
       this.router.navigate(['pages/dde/' + this.leadId + '/exposure']);
       return;
     } else {

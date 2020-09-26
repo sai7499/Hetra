@@ -122,7 +122,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
     });
     this.operationType = this.toggleDdeService.getOperationType();
-    if (this.operationType === '1') {
+    if (this.operationType === '1' || this.operationType === '2') {
       this.customerProfileForm.disable();
       this.disableSaveBtn = true;
     }
@@ -256,7 +256,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
   }
 
   onFormSubmit(action) {
-    if (this.operationType === '1') {
+    if (this.operationType === '1' || this.operationType === '2') {
       this.onNavigateNext();
       return;
     }

@@ -213,7 +213,7 @@ export class ReferenceCheckComponent implements OnInit {
 
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
-      if (operationType === '1') {
+      if (operationType === '1' || operationType === '2') {
         this.referenceCheckForm.disable();
         this.disableSaveBtn = true;
       }
@@ -412,7 +412,7 @@ export class ReferenceCheckComponent implements OnInit {
     // console.log('systime', this.sysTimeOfVerification);
 
     this.otherDetails = {
-      
+
       applicationNo: this.applicationNo ? this.applicationNo : null,
       product: this.productCat ? this.productCat : null,
       sourcingChannel: this.sourcingChannel ? this.sourcingChannel : null,

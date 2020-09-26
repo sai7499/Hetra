@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CreditConditionService } from '../services/credit-condition.service';
 import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 interface dataObject{ 
       creditId: string;
@@ -29,7 +30,11 @@ export class CreditConditionsComponent implements OnInit {
   userType: number;
   creditConditions: any;
   roleAndUserDetails: any;
+  submitReject:boolean = false;
+  leadDetails: any;
   userId;
+  errorGenerated: boolean = false;
+  errorMessage : any = [];
   roleList : any = [];
   formData = {
     'creditId' : '',
@@ -43,9 +48,11 @@ export class CreditConditionsComponent implements OnInit {
   alertMsg;
   isApproveEnable: boolean;
   isDeclineEnable: boolean;
+  submitReferLov : any = [];
   isRejectEnable: boolean;
   selectAction;
   roleType: any;
+  productCatCode;
   salesResponse = 'false';
   constructor(
     public labelsService: LabelsService,
@@ -54,8 +61,13 @@ export class CreditConditionsComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private toasterService: ToasterService,
+    private sharedService: SharedService,
     private creditConditionService: CreditConditionService
-  ) { }
+  ) { 
+    this.sharedService.productCatCode$.subscribe((value) => {
+      this.productCatCode = value;
+    });  
+  }
 
   addOtherUnit() {
     this.formArr.push(this.getcreditConditionControls(this.formData))
@@ -102,6 +114,9 @@ export class CreditConditionsComponent implements OnInit {
     })
   }
   alertMessage(data){
+    if(data == "Reject"){
+     // this.getLeadRejectReason();
+    }
     this.alertMsg =  data
   }
   dateCheck(event, i) {
@@ -147,11 +162,15 @@ export class CreditConditionsComponent implements OnInit {
   referForm = new FormGroup({
     roleId: new FormControl( '' , [Validators.required]),
   });
+  rejectReasonForm = new FormGroup({
+    rejectReason: new FormControl( '' , [Validators.required]),
+  });
   get formArr() {
     return this.creditConditionForm.get('Rows') as
       FormArray;
   }
   get f() { return this.referForm.controls; }
+  get rejectReasonF() { return this.rejectReasonForm.controls; }
 
   initRows() {
 
@@ -301,13 +320,19 @@ export class CreditConditionsComponent implements OnInit {
   //   this.selectAction = data;
   // }
   rejectCreditiCondition(){
-    let processData = {};
+    this.submitReject = true;
+       // if(this.rejectReasonForm.valid){
+          // processData["isRefer"]= true;
+          let processData = {};
+       //   processData['rejectReason'] =this.rejectReasonForm.value['rejectReason'];
+          
   
-      processData["roleId"] =this.referForm.value['roleId'];
+      // processData["roleId"] =this.referForm.value['roleId'];
       processData["userId"]= this.userId;
       processData["leadId"]= this.leadId;
         this.creditConditionService.rejectCreditCondition(processData).subscribe(res=> {
-        console.log(res);
+      //  console.log(res);
+
         if(res['ProcessVariables'].error['code'] == 0){
           this.toasterService.showSuccess("Record Rejected successfully!", '');
           this.router.navigate([`pages/dashboard`]);
@@ -318,8 +343,40 @@ export class CreditConditionsComponent implements OnInit {
           this.toasterService.showError(res['ErrorMessage'], '');
         }
       })
+        // }else{
+        //   return
+        // }
+    
     
   }
+  // getLeadRejectReason(){
+  //   let data = {
+  //     "flowStage": this.leadDetails['stage'],
+  //     "productCode": this.leadDetails['productCatCode']
+  //     // flowStage:'12',
+  //     // "productCode" : "UC"
+  //   }
+  //   this.creditConditionService.getLeadRejectReason(data).subscribe(res=> {
+  //     console.log(res);
+  //     if(res['ProcessVariables'].error['code'] == 0){
+  //       console.log(res);
+  //       if(res['ProcessVariables']['assetRejectReason']){
+  //         let assetRejectReason = res['ProcessVariables']['assetRejectReason'];
+  //          for(let i=0 ; i< assetRejectReason.length ;i++){
+  //            this.submitReferLov.push({
+  //              key : assetRejectReason[i]['reasonCode'],
+  //              value : assetRejectReason[i]['reasonDesc']
+  //            })
+  //          }
+  //       }
+  //     }else if(res['ProcessVariables'].error['code'] == "1") {
+  //       this.toasterService.showError(res['ProcessVariables'].error['message'], '');
+       
+  //     }else if(res['Error'] == "1"){
+  //       this.toasterService.showError(res['ErrorMessage'], '');
+  //     }
+  //   })
+  // }
   creditConditionActions(data){
     let processData = {};
     switch(data) {
@@ -377,7 +434,12 @@ export class CreditConditionsComponent implements OnInit {
     this.creditConditionService.approveCreditConditions(processData).subscribe(res=> {
       console.log(res);
       if(res['ProcessVariables'].error['code'] == 0){
-        this.toasterService.showSuccess("Record Approved successfully!", '')
+          if(res['ProcessVariables'].rctaAlert = true){
+            this.errorGenerated = true;
+            // const message = res['ProcessVariables'].rctaMessage;
+            this.errorMessage = res['ProcessVariables'].rctaMessage;
+          }
+        // this.toasterService.showSuccess("Record Approved successfully!", '')
       }else if(res['ProcessVariables'].error['code'] == "1") {
         this.toasterService.showError(res['ProcessVariables'].error['message'], '');
        
@@ -390,6 +452,15 @@ export class CreditConditionsComponent implements OnInit {
     this.getLabelData();
     this.roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     console.log(this.roleAndUserDetails)
+    // this.leadDetails = this.activatedRoute.snapshot.data.leadData;
+    this.activatedRoute.parent.data
+    .subscribe((data) => {
+      if(data['leadData']['ProcessVariables']){
+        this.leadDetails = data['leadData']['ProcessVariables']['leadDetails'];
+      }
+    });
+
+
     if (this.roleAndUserDetails) {
       this.userId = this.roleAndUserDetails['userDetails'].userId;
       this.userType = this.roleAndUserDetails['roles'][0].roleType;

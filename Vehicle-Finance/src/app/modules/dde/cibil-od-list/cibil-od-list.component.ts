@@ -384,7 +384,7 @@ export class CibilOdListComponent implements OnInit {
 
       }
       const operationType = this.toggleDdeService.getOperationType();
-      if (operationType === '1') {
+      if (operationType === '1' || operationType === '2') {
         this.odDetailsForm.disable();
         this.disableSaveBtn = true;
       }
