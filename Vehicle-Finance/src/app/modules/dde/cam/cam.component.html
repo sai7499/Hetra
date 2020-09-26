@@ -1679,7 +1679,24 @@
         <thead>
             <tr class="termHead">
                 <th class="bank_name termHead">{{ labels?.terms }}</th>
-                <th *ngFor="let applicantDetails of applicantDetails">{{applicantDetails?.applicantType}}</th>
+                <ng-container  *ngFor="let applicantDetails of applicantDetails; let i = index">
+                    <th  *ngIf="applicantDetails?.applicantType == 'Applicant'">{{applicantDetails?.applicantType}}</th>
+                    <th *ngIf="applicantDetails?.applicantType == 'Co-Applicant'">{{applicantDetails?.applicantType}} {{i}}</th>
+                </ng-container>
+                
+                
+                <!-- <th *ngFor="let applicantDetails of applicantDetails" *ngIf="applicantDetails?.applicantType == 'Applicant'">{{applicantDetails?.applicantType}}</th> -->
+                
+                <!-- <td colspan="3" *ngIf="detailsOfCibilFiPD?.applicantType == 'Applicant'" class="bank_name">
+                    {{ labels?.shellDeudupeStatusMatchFound }}</td>
+                <td *ngIf="detailsOfCibilFiPD?.applicantType == 'Applicant'">
+                    {{ detailsOfCibilFiPD?.shellDedupeStatus }}</td>
+                <td colspan="4" height="62" *ngIf="detailsOfCibilFiPD?.applicantType == 'Co-Applicant'"></td>
+
+                <td colspan="3" *ngIf="detailsOfCibilFiPD?.applicantType == 'Guarantor'" class="bank_name">
+                    {{ labels?.internalDeudupeStatusMatchFound }}</td>
+                <td *ngIf="detailsOfCibilFiPD?.applicantType == 'Guarantor'">
+                    {{ detailsOfCibilFiPD?.internalDedupeStatus }}</td> -->
             </tr>
         </thead>
         <tbody>
