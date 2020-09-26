@@ -454,12 +454,13 @@ input[type=number] {
 .center-align{
   text-align: center;
 }
+/* overlay css */
 #mydiv {
   /* position: absolute; */
   z-index: 9999;
   background-color: #ffff;
   border: 1px solid #d3d3d3;
-  text-align: center;
+  text-align:center;
   height: 400px;
   width: 1024px;
   padding: 10px;
