@@ -159,7 +159,8 @@ export class TermSheetComponent implements OnInit {
     this.termSheetService.assignTaskToTSAndCPC(ProcessVariables).subscribe((res) => {
       if (res['ProcessVariables'].error['code'] == "0") {
        // this.toasterService.showSuccess("Record Assigned Successfuly", '');
-       if(res['ProcessVariables'].rctaAlert = true){
+       console.log("get response ", res);
+       if(res['ProcessVariables'].rctaAlert ==  true){
         this.errorGenerated = true;
         // const message = res['ProcessVariables'].rctaMessage;
         this.errorMessage = res['ProcessVariables'].rctaMessage;
