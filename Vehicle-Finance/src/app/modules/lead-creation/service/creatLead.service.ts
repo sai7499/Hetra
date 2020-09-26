@@ -71,7 +71,7 @@ export class CreateLeadService {
 
     }
 
-    rejectLead(productCode) {
+    rejectLead(productCode, flowStage) {
         const processId = this.apiService.api.rejectLead.processId;
         const workflowId = this.apiService.api.rejectLead.workflowId;
         const projectId = this.apiService.api.rejectLead.projectId;
@@ -79,7 +79,8 @@ export class CreateLeadService {
         const body: RequestEntity = {
             processId: processId,
             ProcessVariables: {
-                "productCode": productCode
+                productCode,
+                flowStage
             },
             workflowId: workflowId,
             projectId: projectId

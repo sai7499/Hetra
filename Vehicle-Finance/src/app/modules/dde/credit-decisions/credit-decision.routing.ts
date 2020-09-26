@@ -27,7 +27,8 @@ const routes: Routes = [
             // },
             {
                 path: 'credit-condition',
-                component: CreditConditionsComponent
+                component: CreditConditionsComponent,
+                resolve: { leadData: LeadDataResolverService },
             },
             {
                 path: 'term-sheet',
