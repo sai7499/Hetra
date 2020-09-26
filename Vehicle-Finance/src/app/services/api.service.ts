@@ -300,8 +300,8 @@ export class ApiService {
       projectId: 'd627fff49e5011eabde0f2fa9bec3d63',
     },
     rejectLead: {
-      processId: '41f8884eb08e11ea8668f2fa9bec3d63',
-      workflowId: '41d97b66b08e11ea8668f2fa9bec3d63',
+      processId: '94b7bcfeff1611eaa2fe00505695f93b',
+      workflowId: '94987e52ff1611eab52100505695f93b',
       projectId: environment.projectIds.salesProjectId,
     },
     getPdData: {
