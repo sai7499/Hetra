@@ -355,7 +355,7 @@
     "sourcingSoName": "Sourcing SO Name",
     "overallExposure": "Overall Exposure",
     "payout": "Payout %",
-    "distancefrombranch": "Distance from branch",
+    "distanceFrombranch": "Distance from branch",
     "creditApproval": "Credit Approval",
     "loanamount": "Loan amount",
     "rateApproval": "Rate Approval",
@@ -465,7 +465,7 @@
     "program": "Program",
     "contactNo": "Contact No",
     "customerRequestedAmount": "Customer Requested Amount",
-    "roi": "roi",
+    "roi": "ROI",
     "loanTenure": "Loan Tenure",
     "loanTenureInMonths": "Loan Tenure (In Months)",
     "profile": "profile",
@@ -488,6 +488,7 @@
     "internalDedupeStatus": "Internal De-dupe Status",
     "relationshipToApplicant": "Relationship to Applicant",
     "relationshipWithApplicant":"Relationship with Applicant",
+    "loanEligibilityAsPerFOIR":"Loan Eligibility As Per FOIR",
     "incomeDetails": "Income Details",
     "businessIncomeOne": "Business Income-1",
     "businessIncomeTwo": "Business Income-2",
@@ -501,8 +502,8 @@
     "noOfInwardsChequeBounces": "No. of Inwards Cheque bounces",
     "noOfOutwardChequeBounces": "No. of Outward Cheque bounces",
     "balanceasOnFifth": "Balance as on 5th",
-    "balanceasOnTenth": "Balance as on 5th",
-    "balanceasOnTewntieth": "Balance as on 5th",
+    "balanceasOnTenth": "Balance as on 10th",
+    "balanceasOnTewntieth": "Balance as on 15th",
     "averageBalanceForTheMonth": "Average Balance for the month",
     "abbRatio": "ABB Ratio",
     "finalLoanEligibility": "Final Loan Eligibility",
@@ -540,7 +541,7 @@
     "surveyNumber": "Survey No. / Patta No.",
     "landInAcres": "Land in Acres",
     "propertyOwner": "Property Owner Name",
-    "propertyOwnerType" : "Property Owner Type",
+    "propertyOwnerType": "Property Owner Type",
     "relatedWithApplicant": "Relationship with Primary Applicant",
     "totalLoanAmount": "Total Loan Amount",
     "totalBuildupArea": "Total Built up Area (in Sq. Ft)",
@@ -620,14 +621,14 @@
     "totalFleetValue": "Total Fleet Value",
     "IfMoreThanAboveToBeAttachSeparteExcel": "if more than above to be attach separte excel",
     "bankingHistory": "Banking History (with main banker) ___*ABB calculation is mandatory in case of CAPTIVE",
-    "coApplicantBankingHistory":"Co-Applicant Banking History",
+    "coApplicantBankingHistory": "Co-Applicant Banking History",
     "periodInMonths": "Period in Months",
     "commentsOnBankingIfAny": "Comments on banking  if any",
     "abbOfTheMonth": "ABB of the month",
     "abbEmi": "ABB/EMI",
     "abb": "ABB",
     "customerBackgroundSalesRecommendation": "Customer Background/Sales Recommendation",
-    "backgroundSalesRecommendation":"Background/Sales Recommendation",
+    "backgroundSalesRecommendation": "Background/Sales Recommendation",
     "recommendedBySoSmBm": "Recommended By SO/SM/BM",
     "nameWithECode": "Name with E Code",
     "CoApplicantBackground": "Co Applicant Background",
@@ -1096,7 +1097,7 @@
     "totalMonthlyOtherIncomeOfOthers": "Total Monthly Other Income Of Others",
     "totalMonthlyOtherIncome": "Total Monthly Other Income",
     "totalMonthlyIncome": "Total Monthly Income",
-    "totalMontlyObligations": "Total Montly Obligations",
+    "totalMonthlyObligations": "Total Monthly Obligations",
     "loanEligibilityasperFOIR": "Loan Eligibility as per FOIR",
     "customerBankName": "Customer Bank Name",
     "bankBranch": "Bank Branch",
@@ -1612,12 +1613,11 @@
     "micrNo": "MICR No",
     "accountBranchname": "Account Branchname",
     "termsheetGeneratedDate": "Termsheet Generated Date",
-    "natureOfGoods" : "Nature Of Goods",
+    "natureOfGoods": "Nature Of Goods",
     "loanAccNumber": "Loan Account Number",
-    "equitasEmployee" : "Equitas Employee",
-    "equitasEmployeesRelative" : "Equitas Employees Relative",
-    "employeeNo" : "Employee Number",
-
+    "equitasEmployee": "Equitas Employee",
+    "equitasEmployeesRelative": "Equitas Employees Relative",
+    "employeeNo": "Employee Number",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1818,9 +1818,9 @@
                 "rule": 8,
                 "msg": "Minimum Length 8 digits"
             },
-            "patternCheck": {
+            "pattern": {
                 "rule": "[A-Z-a-z]{2}[0-9]{2}[A-Z-a-z]{2}[0-9]{4}",
-                "msg": "Invalid Vehicle Registration Number. Valid format-TN45FG1234"
+                "msg": "Invalid Registration Number, valid format : TN34FG3333"
             },
             "type": "alpha-numeric"
         },
@@ -2116,7 +2116,7 @@
             "patternCheck": {
                 "rule": "^[ A-Za-z0-9.]*$",
                 "msg": "Only alphabets, numbers and decimal allowed"
-            }        
+            }
         },
         "pdIncomeAccountNumber": {
             "maxLength": {
@@ -2288,7 +2288,7 @@
                 "rule": 5
             },
             "patternCheck": {
-                "rule": "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$", 
+                "rule": "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$",
                 "msg": "Invalid format/ Time of Verification format should be HH:MM"
             },
             "type": ""
@@ -2475,7 +2475,6 @@
                 "msg": "Should be 9 Digits"
             },
             "type": "number"
-            
         },
         "amountFiveCharc": {
             "maxLength": {
