@@ -56,7 +56,7 @@ export class PdListComponent implements OnInit {
     this.leadId = (await this.getLeadId()) as number;
     this.getLabels = this.labelsData.getLabelsData()
       .subscribe(data => {
-        this.labels = data;
+        this.labels = data.default;
       },
         error => {
           this.errorMsg = error;

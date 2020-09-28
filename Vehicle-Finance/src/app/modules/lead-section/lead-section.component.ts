@@ -42,7 +42,7 @@ export class LeadSectionComponent implements OnInit {
     }
 
     this.labelsData.getLabelsData().subscribe((data) => {
-      this.labels = data;
+      this.labels = data.default;
     });
 
     const leadValue = this.leadStoreService.getLeadCreation();

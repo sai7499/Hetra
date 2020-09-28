@@ -20,7 +20,7 @@ export class DashboardDeviationDetailsComponent implements OnInit {
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
       data => {
-        this.labels = data;
+        this.labels = data.default;
       },
       error => {
         console.log(error);

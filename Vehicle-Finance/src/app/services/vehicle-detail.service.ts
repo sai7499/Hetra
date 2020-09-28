@@ -9,7 +9,7 @@ import { HttpService } from './http.service';
 import { ApiService } from '@services/api.service';
 import { IndivVehicleInfoDetails } from '@model/lead.model';
 
-import  mUrl  from '../../assets/vehicle-details-data/vehicle-details-label.json';
+import * as mUrl  from '../../assets/vehicle-details-data/vehicle-details-label.json';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +28,7 @@ export class VehicleDetailService {
       this.isMobile = environment.isMobile;
     }
 
-  getVehicleDetailLabels(): Observable<IndivVehicleInfoDetails[]> {
+  getVehicleDetailLabels(): Observable<any> {
       return this.createObservableObj(mUrl).pipe(
         catchError(error => this.errorHandler)
       );
@@ -223,8 +223,8 @@ export class VehicleDetailService {
     return this.httpService.post(url, body);
   }
 
-  createObservableObj(labelsurl: IndivVehicleInfoDetails[]){
-    const obs = new Observable<IndivVehicleInfoDetails[]>(observer => {
+  createObservableObj(labelsurl: object){
+    const obs = new Observable(observer => {
       observer.next(labelsurl);
       observer.complete();
     });

@@ -52,7 +52,7 @@ export class FiListComponent implements OnInit {
     this.userId = roleAndUserDetails.userDetails.userId;
     this.labelDetails.getLabelsData().subscribe(
       data => {
-        this.labels = data;
+        this.labels = data.default;
       }
     );
     this.leadId = (await this.getLeadId()) as number;

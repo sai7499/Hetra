@@ -25,7 +25,7 @@ export class CibilOdComponent implements OnInit {
 
   ngOnInit() {
     this.labelService.getLabelsData().subscribe(res => {
-      this.labels = res;
+      this.labels = res.default;
     });
     this.getLeadId()
     this.applicantUrl = `/pages/dde/${this.leadId}/cibil-od-list`

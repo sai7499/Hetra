@@ -120,7 +120,7 @@ export class LoanDetailsComponent implements OnInit {
 
     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
-        this.labels = data;
+        this.labels = data.default;
       },
       error => {
         this.errorMsg = error;
@@ -129,7 +129,7 @@ export class LoanDetailsComponent implements OnInit {
 
     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
-        this.labels = data;
+        this.labels = data.default;
       },
       error => {
         this.errorMsg = error;

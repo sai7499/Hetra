@@ -62,7 +62,7 @@ export class ViabilityChecksComponent implements OnInit {
 
     this.labelsData.getLabelsData().subscribe(
       data => {
-        this.labels = data;
+        this.labels = data.default;
       }
     );
   //   this.loginStoreService.isCreditDashboard.subscribe((value: any) => {

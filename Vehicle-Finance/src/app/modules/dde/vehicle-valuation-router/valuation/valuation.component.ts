@@ -90,7 +90,7 @@ export class ValuationComponent implements OnInit {
 
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
-      (data: any) => (this.labels = data),
+      (data: any) => (this.labels = data.default),
       // (error) => console.log("Vehicle Valuation Label Error", error)
     );
   }

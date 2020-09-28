@@ -25,7 +25,7 @@ export class IdentityDetailsComponent implements OnInit {
 
         this.labelsData.getLabelsData().subscribe(
             data => {
-                this.labels = data;
+                this.labels = data.default;
             },
             error => {
                 console.log(error);

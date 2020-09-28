@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import ageValidationUrl from '../../assets/jsonData/age-validation.json';
+import * as ageValidationUrl from '../../assets/jsonData/age-validation.json';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +12,7 @@ export class AgeValidationService {
         return this.createObservableObj(ageValidationUrl);
     }
 
-    createObservableObj(ageValidationurl: string) {
+    createObservableObj(ageValidationurl: object) {
         const ageData = new Observable(observer => {
             observer.next(ageValidationurl);
             observer.complete();

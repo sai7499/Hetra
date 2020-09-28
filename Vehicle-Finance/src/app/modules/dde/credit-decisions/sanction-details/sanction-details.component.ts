@@ -80,7 +80,7 @@ export class SanctionDetailsComponent implements OnInit {
 
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
-      (data) => (this.labels = data),
+      (data) => (this.labels = data.default),
       // (error) => console.log("Sanction-Details Label Error", error)
     );
   }

@@ -51,8 +51,8 @@ export class CreditScoreComponent implements OnInit {
   async ngOnInit() {
     this.userId = localStorage.getItem('userId');
     this.labelService.getLabelsData().subscribe((res: any) => {
-      console.log('ress----.>', res);
-      this.labels = res;
+      console.log('ress----.>', res.default);
+      this.labels = res.default;
     });
     this.leadId = (await this.getLeadId()) as number;
 

@@ -141,7 +141,7 @@ export class ViabilityDetailsComponent implements OnInit {
     this.labelsData.getLabelsData()
       // tslint:disable-next-line: no-shadowed-variable
       .subscribe(data => {
-        this.label = data;
+        this.label = data.default;
       },
         error => {
           console.log(error, 'error');

@@ -60,7 +60,7 @@ export class PddDetailsComponent implements OnInit {
     this.labelsData.getLabelsData().subscribe(
       // tslint:disable-next-line: no-shadowed-variable
       (data) => {
-        this.labels = data;
+        this.labels = data.default;
       },
       (error) => { }
     );

@@ -190,7 +190,7 @@ export class SourcingDetailsComponent implements OnInit {
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
-        this.labels = data;
+        this.labels = data.default;
         this.amountLength = this.labels.validationData.amountValue.maxLength;
         this.tenureMonthLength = this.labels.validationData.tenurePaid.maxLength;
         this.applicationNo = this.labels.validationData.applicationNo.maxLength;

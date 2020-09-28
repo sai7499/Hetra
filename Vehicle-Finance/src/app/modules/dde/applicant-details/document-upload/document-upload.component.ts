@@ -32,7 +32,7 @@ export class DocumentUploadComponent implements OnInit {
 
   getLabelData() {
     this.labelsService.getLabelsData().subscribe(labelsData => {
-      this.labels = labelsData;
+      this.labels = labelsData.default;
     })
   }
 

@@ -50,7 +50,7 @@ export class DecisionWithMeComponent implements OnInit {
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
       data => {
-        this.labels = data;
+        this.labels = data.default;
       }
     );
 

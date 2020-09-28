@@ -1292,8 +1292,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     this.labelsData.getLabelsData().subscribe(
       (data) => {
-        this.labels = data;
-        this.validationData = data.validationData;
+        this.labels = data.default;
+        this.validationData = data.default.validationData;
       },
       (error) => {
         console.log(error);

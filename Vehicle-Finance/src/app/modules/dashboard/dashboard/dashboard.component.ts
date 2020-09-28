@@ -195,8 +195,8 @@ export class DashboardComponent implements OnInit {
     }
 
     this.labelService.getLabelsData().subscribe(res => {
-      this.labels = res;
-      this.validationData = res.validationData;
+      this.labels = res.default;
+      this.validationData = res.default.validationData;
     });
 
     this.filterForm = this.fb.group({

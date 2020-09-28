@@ -76,7 +76,7 @@ export class ApplicantDetailComponent implements OnInit {
     // console.log('this user roleType', this.roleType);
     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
-        this.labels = data;
+        this.labels = data.default;
         // console.log('in labels data', this.labels);
       },
       error => {

@@ -40,7 +40,7 @@ export class ExposureDetailsComponent implements OnInit {
                 this.yearCheck = [{rule: val => val>this.currentYear,
                                    msg:'Future year not accepted'}];
                 this.labelService.getLabelsData().subscribe(res => {
-                  this.labels = res;
+                  this.labels = res.default;
                 });
                 this.commonservice.getLovData().subscribe((res: any) => {
                   console.log(res.LOVS);

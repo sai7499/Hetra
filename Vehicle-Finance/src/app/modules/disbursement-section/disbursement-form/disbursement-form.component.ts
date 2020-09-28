@@ -720,7 +720,7 @@ export class DisbursementFormComponent implements OnInit {
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
-        this.labels = data;
+        this.labels = data.default;
         this.amountLength = this.labels.validationData.disburseAmountType.maxLength;
         this.ifscLength = this.labels.validationData.disburseIfsc.maxLength;
         this.bnfBranchLength = this.labels.validationData.beneficiaryBranch.maxLength;

@@ -126,7 +126,7 @@ export class BankDetailsComponent implements OnInit {
     this.applicantId = (await this.getApplicantId()) as number;
     this.leadId = (await this.getLeadId()) as number;
     this.labelsService.getLabelsData().subscribe((res: any) => {
-      this.labels = res;
+      this.labels = res.default;
     });
     this.lovService.getLovData().subscribe((res: any) => {
       this.lovData = res.LOVS;

@@ -125,7 +125,7 @@ export class FiBusinessComponent implements OnInit {
 
   getLabels() {
     this.labelService.getLabelsData().subscribe(async (value) => {
-      this.labels = value;
+      this.labels = value.default;
     });
   }
   getConcernType() {

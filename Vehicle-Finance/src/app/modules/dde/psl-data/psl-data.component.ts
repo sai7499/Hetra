@@ -102,7 +102,7 @@ export class PslDataComponent implements OnInit {
 
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
-      (data) => (this.labels = data),
+      (data) => (this.labels = data.default),
       // (error) => console.log("PSL_DATA Label Error", error)
     );
   }

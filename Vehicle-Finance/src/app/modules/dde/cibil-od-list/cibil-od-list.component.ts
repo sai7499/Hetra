@@ -77,7 +77,7 @@ export class CibilOdListComponent implements OnInit {
 
   ngOnInit() {
     this.labelService.getLabelsData().subscribe((res) => {
-      this.labels = res;
+      this.labels = res.default;
     });
     this.getLeadId();
     this.userId = localStorage.getItem('userId');

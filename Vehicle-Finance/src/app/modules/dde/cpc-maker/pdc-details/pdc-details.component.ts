@@ -79,7 +79,7 @@ export class PdcDetailsComponent implements OnInit {
     });
     this.leadId = (await this.getLeadId()) as number;
     this.labelsService.getLabelsData().subscribe((res: any) => {
-      this.labels = res;
+      this.labels = res.default;
     });
     this.getPdcDetails();
     // if (this.pdcForm.controls.pdcList.controls.length === 0) {

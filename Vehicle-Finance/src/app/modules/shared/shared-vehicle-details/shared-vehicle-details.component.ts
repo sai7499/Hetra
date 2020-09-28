@@ -70,7 +70,7 @@ export class SharedVehicleDetailsComponent implements OnInit {
     this.getLov();
 
     this.labelsData.getLabelsData().subscribe(data => {
-      this.label = data;
+      this.label = data.default;
     }, error => {
       console.log('error', error);
     });

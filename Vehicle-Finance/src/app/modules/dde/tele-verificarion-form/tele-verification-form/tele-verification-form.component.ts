@@ -215,7 +215,6 @@ export class TeleVerificationFormComponent implements OnInit {
   // ------NgOnInit-------
   ngOnInit() {
 
-
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.userName = value.userName;
     });
@@ -223,7 +222,7 @@ export class TeleVerificationFormComponent implements OnInit {
     console.log('E Code', this.eCode);
 
     this.labelService.getLabelsData().subscribe(res => {
-      this.labels = res;
+      this.labels = res.default;
       this.validationData = res.validationData;
       if (this.product === 'Used Car' || this.product === 'New Car') {
         this.changeLabelsForProposed = this.labels.needForProposedVehicle;

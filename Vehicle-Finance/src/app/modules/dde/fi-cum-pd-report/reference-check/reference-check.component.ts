@@ -164,7 +164,7 @@ export class ReferenceCheckComponent implements OnInit {
 
     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
-        this.labels = data;
+        this.labels = data.default;
         this.activatedRoute.params.subscribe((value) => {// calling get lead section data function in line 174
           if (!value && !value.applicantId) {
             return;

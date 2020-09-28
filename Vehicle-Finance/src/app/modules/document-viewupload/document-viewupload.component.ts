@@ -21,7 +21,7 @@ export class DocumentViewuploadComponent implements OnInit {
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe((data) => {
-      this.labels = data;
+      this.labels = data.default;
     });
 
     // this.location.onUrlChange((url, state) => {

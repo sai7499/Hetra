@@ -109,7 +109,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
     this.uploadForm = new FormGroup({});
     this.labelsData.getLabelsData().subscribe(
       (data) => {
-        this.labels = data;
+        this.labels = data.default;
       },
       (error) => {
         console.log(error);

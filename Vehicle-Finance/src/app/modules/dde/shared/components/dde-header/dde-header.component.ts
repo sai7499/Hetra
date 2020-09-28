@@ -15,7 +15,7 @@ export class DdeHeaderComponent  implements OnInit{
     ngOnInit() {
       this.labelsData.getLabelsData().subscribe(
         data => {
-          this.labels = data;
+          this.labels = data.default;
           // console.log(this.labels)
         },
         error => {

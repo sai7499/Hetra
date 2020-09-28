@@ -35,8 +35,8 @@ export class LoanStatusComponent implements OnInit {
   async ngOnInit() {
     this.leadId = (await this.getLeadId()) as number;
     this.labelService.getLabelsData().subscribe(res => {
-      this.labels = res;
-      this.validationData = res.validationData;
+      this.labels = res.default;
+      this.validationData = res.default.validationData;
     });
     this.getLoanProcessLogs();
   }

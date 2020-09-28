@@ -191,18 +191,18 @@ export class NegotiationComponent implements OnInit {
   onChangeLanguage(labels: string) {
     if (labels === 'Hindi') {
       this.labelsData.getLanguageLabelData().subscribe((data) => {
-        this.labels = data[0];
+        this.labels = data.default[0];
       });
     } else {
       this.labelsData.getLabelsData().subscribe((data) => {
-        this.labels = data;
+        this.labels = data.default;
       });
     }
   }
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
-        this.labels = data;
+        this.labels = data.default;
         this.nameLength = this.labels.validationData.name.maxLength;
         this.mobileLength = this.labels.validationData.mobileNumber.maxLength;
       },

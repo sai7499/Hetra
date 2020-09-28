@@ -61,7 +61,7 @@ export class MyTasksComponent implements OnInit {
     console.log('this user roleType', this.roleType);
     this.labelsData.getLabelsData().subscribe(
       data => {
-        this.labels = data;
+        this.labels = data.default;
       }
     );
 

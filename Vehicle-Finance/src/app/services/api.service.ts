@@ -1,10 +1,16 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
+  constructor(private configService: ConfigService) {
+    this.configService.getConfig().subscribe((res: any) => {
+      
+    });
+  }
   api = {
     getUserDetails: {
       workflowId: '7fde429c82ea11eabdc2f2fa9bec3d63',

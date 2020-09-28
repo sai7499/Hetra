@@ -41,7 +41,7 @@ export class TvrDetailsComponent implements OnInit {
     }
     this.labelDetails.getLabelsData().subscribe(
       data => {
-        this.labels = data;
+        this.labels = data.default;
       }
     );
     this.getLeadId();

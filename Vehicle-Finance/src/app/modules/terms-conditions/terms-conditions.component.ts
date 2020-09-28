@@ -32,7 +32,7 @@ export class TermsConditionsComponent implements OnInit {
     this.userId = localStorage.getItem('userId');
     this.labelsData.getLabelsData().subscribe(
       (data) => {
-        this.labels = data;
+        this.labels = data.default;
       },
       (error) => {
         console.log(error);

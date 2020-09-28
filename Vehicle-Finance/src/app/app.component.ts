@@ -9,6 +9,7 @@ declare var cordova:any;
 
 import { DraggableContainerService } from '@services/draggable.service';
 import { Router } from '@angular/router';
+import { ConfigService } from '@services/config.service';
 
 @Component({
   selector: 'app-root',
@@ -194,8 +195,15 @@ export class AppComponent implements OnInit {
     left: '',
   };
 
+ configData;
+
   constructor(private draggableContainerService: DraggableContainerService,
-              private router: Router) {}
+              private router: Router, private configService: ConfigService) {
+                const hostUrl = this.configService.getConfig().subscribe((data: any) => {
+                  this.configData = data;
+                });
+
+              }
 
   ngOnInit() {
 

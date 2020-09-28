@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 
-import  mLabelURL  from '../../assets/jsonData/label.json';
-import  mLovURL  from '../../assets/jsonData/lov.json';
+import * as  mLabelURL  from '../../assets/jsonData/label.json';
+import * as  mLovURL  from '../../assets/jsonData/lov.json';
 import { environment } from './../../environments/environment';
 
 
@@ -31,7 +31,7 @@ export class LeadSectionService {
     // if(this.isMobile) {
       return this.createObservableObj(mLabelURL).pipe(
         catchError(error => this.errorHandler)
-      );;
+      );
     // }
     // return this.http.get<any>(this.labelURL)
     //   .pipe(
@@ -43,7 +43,7 @@ export class LeadSectionService {
     // if(this.isMobile) {
       return this.createObservableObj(mLovURL).pipe(
         catchError(error => this.errorHandler)
-      );;
+      );
     // }
     // return this.http.get<any>(this.lovURL)
     //   .pipe(
@@ -64,7 +64,7 @@ export class LeadSectionService {
     return this.currentPage$;
   }
 
-  createObservableObj(labelsurl:string){
+  createObservableObj(labelsurl: object){
     const obs = new Observable(observer => {
       observer.next(labelsurl);
       observer.complete();

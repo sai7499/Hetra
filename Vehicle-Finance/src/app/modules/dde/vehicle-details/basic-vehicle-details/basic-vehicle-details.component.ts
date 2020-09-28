@@ -38,7 +38,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
     this.labelsData.getLabelsData()
       .subscribe(data => {
-        this.label = data;
+        this.label = data.default;
       },
         error => {
           console.log('error', error)

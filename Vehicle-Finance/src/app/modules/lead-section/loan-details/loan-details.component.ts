@@ -61,7 +61,7 @@ export class LoanDetailsComponent implements OnInit {
   getLabel() {
     this.labelsData.getLabelsData().subscribe(
       data => {
-        this.labels = data;
+        this.labels = data.default;
       },
       error => {
         this.errorMsg = error;

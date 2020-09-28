@@ -1,0 +1,6 @@
+ {
+    "hostUrl": "http://10.101.10.153/appiyo/",
+    "hostEnvironment": "DEV",
+    "userConfig": "@equitasbank.in",
+    "useADAuth": true
+}

@@ -5,15 +5,15 @@ import { HttpService } from '@services/http.service';
 import { environment } from './../../environments/environment';
 
 
-import  mLabelsurl  from '../../assets/labels/labels.json';
-import  mLabelDDEsurl  from '../../assets/labels/label_credit_vehicle_details.json';
-import  mLabelFleetUrl  from '../../assets/labels/labelFleetDetails.json';
-import  mLanguageLabelsurl  from '../../assets/labels/labels-hindi.json';
+import * as  mLabelsurl from '../../assets/labels/labels.json';
+import * as mLabelDDEsurl from '../../assets/labels/label_credit_vehicle_details.json';
+import * as mLabelFleetUrl from '../../assets/labels/labelFleetDetails.json';
+import * as mLanguageLabelsurl from '../../assets/labels/labels-hindi.json';
 
-import  mLanguageLabelsurltelugu  from '../../assets/labels/labels-telugu.json';
-import  mLanguageLabelsurlenglish  from '../../assets/labels/label_english.json';
-import  mLanguageLabelsurlkanada  from '../../assets/labels/labels_kanada.json';
-import  mLanguageLabelsurlmarati  from '../../assets/labels/labels_marathi.json';
+import * as mLanguageLabelsurltelugu from '../../assets/labels/labels-telugu.json';
+import * as mLanguageLabelsurlenglish from '../../assets/labels/label_english.json';
+import * as mLanguageLabelsurlkanada from '../../assets/labels/labels_kanada.json';
+import * as mLanguageLabelsurlmarati from '../../assets/labels/labels_marathi.json';
 
 
 
@@ -32,7 +32,7 @@ export class LabelsService {
   // private labelFleetUrl = '../../../../../assets/labels/labelFleetDetails.json';
   // private languageLabelsurl = '../../../../../assets/labels/labels-hindi.json';
 
-  constructor( private httpService: HttpService) { 
+  constructor(private httpService: HttpService) {
     this.isMobile = environment.isMobile;
   }
 
@@ -42,40 +42,40 @@ export class LabelsService {
     // }
     return this.createObservableObj(mLabelsurl);
     // return this.httpService.get(this.labelsurl);
-    }
+  }
 
- getWelcomeDatatelugu(): Observable<any> {
+  getWelcomeDatatelugu(): Observable<any> {
     // if(this.isMobile) {
     //   return this.createObservableObj(mLabelsurl);
     // }
     return this.createObservableObj(mLanguageLabelsurltelugu);
     // return this.httpService.get(this.labelsurl);
-    }
+  }
 
-    
+
   getWelcomeDataenglish(): Observable<any> {
     // if(this.isMobile) {
     //   return this.createObservableObj(mLabelsurl);
     // }
     return this.createObservableObj(mLanguageLabelsurlenglish);
     // return this.httpService.get(this.labelsurl);
-    }
+  }
 
-    getWelcomeDatakanada(): Observable<any> {
-      // if(this.isMobile) {
-      //   return this.createObservableObj(mLabelsurl);
-      // }
-      return this.createObservableObj(mLanguageLabelsurlkanada);
-      // return this.httpService.get(this.labelsurl);
-      }
+  getWelcomeDatakanada(): Observable<any> {
+    // if(this.isMobile) {
+    //   return this.createObservableObj(mLabelsurl);
+    // }
+    return this.createObservableObj(mLanguageLabelsurlkanada);
+    // return this.httpService.get(this.labelsurl);
+  }
 
-      getWelcomeDatamarati(): Observable<any> {
-        // if(this.isMobile) {
-        //   return this.createObservableObj(mLabelsurl);
-        // }
-        return this.createObservableObj(mLanguageLabelsurlmarati);
-        // return this.httpService.get(this.labelsurl);
-        }
+  getWelcomeDatamarati(): Observable<any> {
+    // if(this.isMobile) {
+    //   return this.createObservableObj(mLabelsurl);
+    // }
+    return this.createObservableObj(mLanguageLabelsurlmarati);
+    // return this.httpService.get(this.labelsurl);
+  }
 
 
   getLabelsOfDDEData(): Observable<any> {
@@ -103,7 +103,7 @@ export class LabelsService {
     //return this.httpService.get(this.languageLabelsurl);
   }
 
-  createObservableObj(labelsurl:string){
+  createObservableObj(labelsurl: object) {
     const obs = new Observable(observer => {
       observer.next(labelsurl);
       observer.complete();

@@ -175,7 +175,7 @@ export class OtherDetailsComponent implements OnInit {
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
-        this.labels = data;
+        this.labels = data.default;
         this.aRoute.params.subscribe((value) => {    //GETTING APPLICANT_ID FROM ROUTES
           if (!value && !value.applicantId) {
             return;

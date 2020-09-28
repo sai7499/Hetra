@@ -163,9 +163,9 @@ export class FleetDetailsComponent implements OnInit {
 
     this.labelsData.getLabelsData().subscribe(
       data => {
-        this.labels = data;
-        this.formValidation = data;
-        this.validationData = data.validationData
+        this.labels = data.default;
+        this.formValidation = data.default;
+        this.validationData = data.default.validationData;
       },
       error => {
         console.log(error);

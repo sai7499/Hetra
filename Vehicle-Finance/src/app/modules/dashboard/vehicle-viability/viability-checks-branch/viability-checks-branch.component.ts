@@ -59,7 +59,7 @@ export class ViabilityChecksBranchComponent implements OnInit {
     this.roleType = this.roles[0].roleType;
     this.labelsData.getLabelsData().subscribe(
       data => {
-        this.labels = data;
+        this.labels = data.default;
       }
     );
 

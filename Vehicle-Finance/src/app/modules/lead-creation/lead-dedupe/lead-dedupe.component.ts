@@ -59,7 +59,7 @@ export class LeadDedupeComponent implements OnInit {
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
-        this.labels = data;
+        this.labels = data.default;
         console.log('labels', this.labels);
       },
       (error) => console.log(error)

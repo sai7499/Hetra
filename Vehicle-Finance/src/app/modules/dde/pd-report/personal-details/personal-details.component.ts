@@ -58,7 +58,7 @@ export class PersonalDetailsComponent implements OnInit {
   async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
       data => {
-        this.labels = data;
+        this.labels = data.default;
       },
       error => {
         this.errorMsg = error;
