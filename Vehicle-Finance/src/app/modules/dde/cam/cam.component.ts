@@ -105,7 +105,10 @@ export class CamComponent implements OnInit {
   coAppBankingTxnDetails: any;
   coAppBankingDetails: any;
   coAppBankingSummaryObj: any;
-
+  guarantorDetails: number;
+  appArray : any = []
+  coAppArray : any = []
+  guarntorArray : any = []
   constructor(private labelsData: LabelsService,
     private camService: CamService,
     private activatedRoute: ActivatedRoute,
@@ -311,6 +314,7 @@ export class CamComponent implements OnInit {
       this.showSave = true
 
     }
+   
   }
 
   showCamDetails() {
@@ -497,8 +501,58 @@ export class CamComponent implements OnInit {
         this.vehicleDeploymentDetails = res.ProcessVariables['vehicleDeploymentDetails']
         this.recommendation = res.ProcessVariables['recommendation']
         this.appRecommendation = res.ProcessVariables['appRecommendation']
+    
+        // this.selectedDateCheapestHotels.forEach(hotels => {
+        //   this.staticHotels.forEach((element, index) => {
+        //     if (hotels.HTLName.toLowerCase() == element.name.toLowerCase()) {
+        //       this.destArray.push(element)
+        //       this.staticHotelName = this.destArray
+        //       this.loading = false;
+        //     $('body').css({
+        //       overflow: 'auto',
+        //       height: 'auto'
+        //     });
+  
+  
+        //     }
+  
+        //   })
+        // });
+       this.applicantDetails.forEach(ele => {
+        if(ele.applicantType == "Applicant" ){
+          console.log("applicant type....>",ele.applicantType);
+          console.log("app-array....>",ele)
+      this.appArray.push(ele)
+      console.log("final Array....>",this.appArray);
+      
+        }
+        if(ele.applicantType == "Co-Applicant" ){
+          console.log("applicant type....>",ele.applicantType);
+          console.log("app-array....>",ele)
+      this.coAppArray.push(ele)
+      console.log("final Array....>",this.coAppArray);
+      
+        }
+        if(ele.applicantType == 'Guarantor' ){
+          console.log("applicant type....>",ele.applicantType);
+          console.log("app-array....>",ele)
 
-
+      this.guarantorDetails =  this.guarntorArray.push(ele)
+      console.log("final Array....>",this.guarntorArray);
+      console.log(this.guarntorArray);
+      
+        }
+       });
+        //   for (let i = 0; i < this.applicantDetails.length; i++) {
+        //     console.log(this.applicantDetails[i].applicantType);
+        //     if(this.applicantDetails[i].applicantType === 'Guarantor' ){
+        //     console.log(this.applicantDetails[i].applicantType);
+        //  let coAppArray=[]
+        // coAppArray.push(this.applicantDetails)
+        // console.log(coAppArray);
+        
+        //   }
+        // }
         this.camDetailsForm.patchValue({
           commentsOnBankingIfAny: this.camDetails.commentsOnBankingIfAny ? this.camDetails.commentsOnBankingIfAny : null,
         })
