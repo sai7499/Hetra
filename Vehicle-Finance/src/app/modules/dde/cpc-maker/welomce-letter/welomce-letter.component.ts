@@ -140,10 +140,13 @@ export class WelomceLetterComponent implements OnInit {
 
   downloadpdf() {
     var options = {
-      margin: .50,
+      margin:[0.5, 0.5, 0.65, 0.5],
+      //margin: 0.5,
       filename: `WelcomeLetter_${this.leadId}.pdf`,
       image: { type: 'jpeg', quality: 1 },
-      jsPDF: { unit: 'in', format: 'b4', orientation: 'p' }
+      jsPDF: { unit: 'in', format: 'b4', orientation: 'p' },
+      html2canvas: {scale:1.5, logging:true}
+      //pagebreak: { mode: 'css', after:'.break-page'},
     }
     html2pdf().from(document.getElementById("ContentToConvert")).set(options).save();
     // this.getWelcomeLetterDetails();
