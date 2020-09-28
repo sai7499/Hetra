@@ -39,6 +39,8 @@ export class TermSheetComponent implements OnInit {
   pslDetails: any;
   date: Date = new Date();
   todayDate;
+  errorGenerated: boolean = false;
+  errorMessage : any = [];
   assetLoanDetails: any;
   fleetDetails: any;
   isTermSheet: boolean = false;
@@ -156,8 +158,15 @@ export class TermSheetComponent implements OnInit {
     };
     this.termSheetService.assignTaskToTSAndCPC(ProcessVariables).subscribe((res) => {
       if (res['ProcessVariables'].error['code'] == "0") {
-        this.toasterService.showSuccess("Record Assigned Successfuly", '');
+       // this.toasterService.showSuccess("Record Assigned Successfuly", '');
+       console.log("get response ", res);
+       if(res['ProcessVariables'].rctaAlert ==  true){
+        this.errorGenerated = true;
+        // const message = res['ProcessVariables'].rctaMessage;
+        this.errorMessage = res['ProcessVariables'].rctaMessage;
+      }else{
         this.router.navigateByUrl("/pages/dashboard");
+      }      
 
       } else if (this.roleType == '2' && !this.isApprove) {
         this.toasterService.showSuccess(res['ProcessVariables'].error['message'], '');
