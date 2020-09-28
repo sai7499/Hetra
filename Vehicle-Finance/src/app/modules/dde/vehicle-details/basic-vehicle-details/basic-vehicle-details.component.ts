@@ -53,7 +53,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
     })
 
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1') {
+    if (operationType === '1' || operationType === '2') {
       this.disableSaveBtn = true;
     }
   }
