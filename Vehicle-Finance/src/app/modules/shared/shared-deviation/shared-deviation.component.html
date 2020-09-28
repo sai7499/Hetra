@@ -2,13 +2,12 @@
   <div class="multisteps-form__panel js-active" data-animation="scaleIn">
 
     <div class="text-right" id="get_role_details_btn" *ngIf="!isSubmitToCredit">
-      <button class="btn mar-right8 btn-primary" type="button" [disabled]="disableSaveBtn"
+      <button class="btn mar-right8 btn-primary" type="button"
         (click)="getTrigurePolicy()">{{labels.getTriggerPolicy}}</button>
     </div>
 
     <div class="text-right" id="get_role_details_btn" *ngIf="isSendBacktoCredit && isWaiverTrigger">
-      <button class="btn mar-right8 btn-primary" type="button" (click)="getTriggerWaiverNorms()"
-        [disabled]="disableSaveBtn">Trigger Waiver
+      <button class="btn mar-right8 btn-primary" type="button" (click)="getTriggerWaiverNorms()">Trigger Waiver
         Norms</button>
     </div>
 
@@ -167,7 +166,7 @@
     <ng-container formArrayName="manualDeviationFormArray">
 
       <div class="text-right" id="add_manual_deviation_btn" *ngIf="!isSubmitToCredit">
-        <button class="btn mar-right8 btn-primary" type="button" [disabled]="disableSaveBtn"
+        <button class="btn mar-right8 btn-primary" type="button"
           (click)="addDeviationUnit()">{{labels?.addManualDeviation}}</button>
       </div>
 
@@ -312,8 +311,7 @@
 
           <div class="form-group col-sm-8 col-md-8">
             <app-vf-custom-select [values]="deviationLov?.approverRole" [id]="'approval_level'"
-              formControlName="approverRole"
-              [isDisabled]="!(deviationsForm.controls['isSaveEdit'].value && !disableSaveBtn)">
+              formControlName="approverRole" [isDisabled]="!deviationsForm.controls['isSaveEdit'].value">
             </app-vf-custom-select>
           </div>
         </div>

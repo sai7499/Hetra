@@ -195,6 +195,10 @@ export class ApplicantDetailComponent implements OnInit {
       console.log('in owner,property disabled');
       this.ownerNamePropertyAreaRequired = false;
       this.ownerNamePropertyAreaDisabled = true;
+      setTimeout(() => {
+        this.applicantForm.get('owner').setValue(null);
+        this.applicantForm.get('areaOfProperty').setValue(null);
+      });
       this.applicantForm.get('owner').disable();
       this.applicantForm.get('owner').clearValidators();
       this.applicantForm.get('owner').updateValueAndValidity();
@@ -207,17 +211,26 @@ export class ApplicantDetailComponent implements OnInit {
   resAddress(event: any) {
     console.log('event', event);
     this.resAddressType = event ? event : event;
-    if (this.resAddressType !== '1') {
+    if (this.resAddressType === '2') {
       this.addressRequired = true;
+      console.log('in enable', this.addressRequired);
       this.applicantForm.get('alternateAddr').enable();
       this.applicantForm.get('alternateAddr').setValidators(Validators.required);
-    } else  {
+      this.applicantForm.get('alternateAddr').updateValueAndValidity();
+
+    } else {
       this.addressRequired = false;
+      setTimeout(() => {
+        this.applicantForm.get('alternateAddr').setValue(null);
+      });
+
+      // console.log('in disable', this.addressRequired);
       this.applicantForm.get('alternateAddr').disable();
       this.applicantForm.get('alternateAddr').clearValidators();
       this.applicantForm.get('alternateAddr').updateValueAndValidity();
 
     }
+    // console.log('in res address', this.addressRequired);
   }
   initForm() { // initialising the form group
     this.applicantForm = new FormGroup({

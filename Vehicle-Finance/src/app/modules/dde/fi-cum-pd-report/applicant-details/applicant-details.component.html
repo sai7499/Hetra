@@ -152,7 +152,7 @@
             [placeholder]="'Enter residence address'"
             formControlName="alternateAddr"
             [type]="labels?.validationData?.mismatchResidenceAddress?.type"
-            [isRequired]="addressRequired ? 'Residence Address is required':''"
+            [isRequired]="addressRequired? 'Residence Address is required' : ''"
             [maxLength]="
               labels?.validationData?.mismatchResidenceAddress?.maxLength
             "

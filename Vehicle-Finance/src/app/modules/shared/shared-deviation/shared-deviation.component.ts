@@ -47,13 +47,12 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   @Input() isSubmitToCredit: boolean;
   @Input() isDirty: boolean;
-  disableSaveBtn: boolean;
 
   public isSendBacktoCredit = false;
   locationIndex: string = '';
 
   constructor(private labelsData: LabelsService, private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService,
-    private deviationService: DeviationService, private toasterService: ToasterService, private sharedService: SharedService, private toggleDdeService: ToggleDdeService,
+    private deviationService: DeviationService, private toasterService: ToasterService, private sharedService: SharedService,
     private loginStoreService: LoginStoreService, private router: Router, private utilityService: UtilityService, private location: Location) { }
 
   ngOnInit() {
@@ -94,13 +93,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.sharedService.taskId$.subscribe((id) => {
       this.taskId = id ? id : '';
     })
-
-    const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1' || operationType === '2') {
-      this.deviationsForm.disable();
-      this.disableSaveBtn = true;
-    }
-
   }
 
   disableInputs() {
@@ -141,7 +133,10 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   ngOnChanges() {
     this.sharedService.updateDev$.subscribe((value: any) => {
       if (value && value.length > 0) {
+        // setTimeout(() => {
         this.getDeviationDetails()
+
+        // })
       }
     })
   }
@@ -234,7 +229,12 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           })
           this.deviationLov.deviation = deviationArray;
         }
-        this.getDeviationDetails();
+        // this.getDeviationDetails();
+
+        // setTimeout(() => {
+        this.getDeviationDetails()
+
+        // })
 
       } else {
         this.toasterService.showError(res.ErrorMessage, 'Get Deviation Master')
@@ -339,6 +339,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   getDeviationDetails() {
     this.deviationService.getDeviationsDetails(this.leadId).subscribe((res: any) => {
+      console.log(res.ErrorMessage, 'Eror', res.ProcessVariables)
       if (res.Error === '0' && res.ProcessVariables && res.ProcessVariables.error.code === '0') {
         if (res.ProcessVariables.deviation && res.ProcessVariables.deviation.length > 0) {
           this.autoDeviationArray = res.ProcessVariables.deviation ? res.ProcessVariables.deviation : [];
@@ -357,7 +358,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       }
     }, err => {
       console.log('err', err)
-      this.toasterService.showError(err, 'Get Deviation Details')
+      this.toasterService.showError(err, 'Get Deviation')
     })
   }
 
@@ -417,7 +418,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
       let approverRole = data.approverRoles && data.approverRoles !== "undefined" ? data.approverRoles : data.approverRole ? data.approverRole : '';
 
-      splitData = approverRole.split('|')
+      splitData = approverRole.split('|');
 
       splitData.find((role: any) => {
         typeofRole = this.creditRoles.find((res: any) => {
@@ -436,7 +437,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         waiverNormsFormArray.push(
           this._fb.group({
             approverRole: data.approverRole,
-            approverRoleName: data.approverRoleName,
+            approverRoleName: typeofRole.name,
             devCode: data.devCode,
             devDesc: data.devDesc,
             type: type,
@@ -446,7 +447,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             isWaiverNormsDev: data.isWaiverNormsDev,
             justification: data.justification,
             shortDeDesc: data.short_dev_desc,
-            statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= (this.hierarchy)) }]
+            statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
           }))
       } else if (data.isWaiverNormsDev === null || data.isWaiverNormsDev === false) {
         if (data.isManualDev === '1') {
@@ -454,7 +455,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           manualDiviationFormArray.push(
             this._fb.group({
               approverRole: data.approverRole,
-              approverRoleName: data.approverRoleName,
+              approverRoleName: typeofRole.name,
               devCode: data.devCode,
               devDesc: data.devDesc,
               type: type,
@@ -464,13 +465,13 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
               justification: data.justification,
               isWaiverNormsDev: data.isWaiverNormsDev,
               shortDeDesc: data.short_dev_desc,
-              statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= (this.hierarchy)) }]
+              statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
             }))
         } else if (data.isManualDev === '0') {
           autoDeviationFormArray.push(
             this._fb.group({
               approverRole: data.approverRole,
-              approverRoleName: data.approverRoleName,
+              approverRoleName: typeofRole.name,
               devCode: data.devCode,
               devDesc: data.devDesc,
               devRuleId: data.devRuleId,
