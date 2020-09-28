@@ -260,6 +260,7 @@ export class DisbursementFormComponent implements OnInit {
   fetchedCoApp1Data: boolean=false;
   fetchedCoApp2Data: boolean=false;
   fetchedCoApp3Data: boolean=false;
+  cumulativeAmount: any;
 
   constructor(
     private fb: FormBuilder,
@@ -804,6 +805,8 @@ export class DisbursementFormComponent implements OnInit {
             this.onBankNameSearch(this.dealerObjInfo['beneficiaryBank'],'1');
             if(this.dealerObjInfo['beneficiaryBranch']){
             this.setIFSC(this.dealerObjInfo['beneficiaryBranch'],'dealer');
+            } else{
+              this.setIFSC('','dealer');
             }
           }
         } else {
@@ -1062,28 +1065,38 @@ export class DisbursementFormComponent implements OnInit {
   setIFSC(event,val){
     if(val == 'dealer'){
       let dealerIFSCCode  = event ? this.bankDealerDetailsData.find(({ externalBankCode }) => externalBankCode == event).ifscCode : '';
-      this.dealerDetailsForm.patchValue({ ifscCode: dealerIFSCCode ? dealerIFSCCode : '' });
+      this.dealerDetailsForm.patchValue({ ifscCode: dealerIFSCCode ? dealerIFSCCode : null });
+      if(!dealerIFSCCode)
+      this.dealerObjInfo['ifscCode'] = '';
     } else if(val == 'applicant'){
       let appIFSCCode  = event ? this.bankAppDetailsData.find(({ externalBankCode }) => externalBankCode == event).ifscCode : '';
-      this.appDetailsForm.patchValue({ ifscCode: appIFSCCode ? appIFSCCode : '' });
+      this.appDetailsForm.patchValue({ ifscCode: appIFSCCode ? appIFSCCode : null });
+      if(!appIFSCCode)
+      this.applicantObjInfo['ifscCode'] = '';
     } else if(val == 'coApp1'){
       let coApp1IFSCCode  = event ? this.bankCoApp1DetailsData.find(({ externalBankCode }) => externalBankCode == event).ifscCode : '';
-      this.coApp1Form.patchValue({ ifscCode: coApp1IFSCCode ? coApp1IFSCCode : '' });
+      this.coApp1Form.patchValue({ ifscCode: coApp1IFSCCode ? coApp1IFSCCode : null });
+      if(!coApp1IFSCCode)
+      this.coApp1Form['ifscCode'] = '';
     } else if(val == 'coApp2'){
       let coApp2IFSCCode  = event ? this.bankCoApp2DetailsData.find(({ externalBankCode }) => externalBankCode == event).ifscCode : '';
-      this.coApp2Form.patchValue({ ifscCode: coApp2IFSCCode ? coApp2IFSCCode : '' });
+      this.coApp2Form.patchValue({ ifscCode: coApp2IFSCCode ? coApp2IFSCCode : null });
+      if(!coApp2IFSCCode)
+      this.coApp2Form['ifscCode'] = '';
     } else if(val == 'coApp3'){
       let coApp3IFSCCode  = event ? this.bankCoApp3DetailsData.find(({ externalBankCode }) => externalBankCode == event).ifscCode : '';
-      this.coApp3Form.patchValue({ ifscCode: coApp3IFSCCode ? coApp3IFSCCode : '' });
+      this.coApp3Form.patchValue({ ifscCode: coApp3IFSCCode ? coApp3IFSCCode : null });
+      if(!coApp3IFSCCode)
+      this.coApp3Form['ifscCode'] = '';
     } else if(val == 'banker'){
       let bankerIFSCCode  = event ? this.bankBankerDetailsData.find(({ externalBankCode }) => externalBankCode == event).ifscCode : '';
-      this.bankerDetailsForm.patchValue({ ifscCode: bankerIFSCCode ? bankerIFSCCode : '' });
+      this.bankerDetailsForm.patchValue({ ifscCode: bankerIFSCCode ? bankerIFSCCode : null });
     } else if(val == 'financier'){
       let finIFSCCode  = event ? this.bankFinDetailsData.find(({ externalBankCode }) => externalBankCode == event).ifscCode : '';
-      this.financierDetailsForm.patchValue({ ifscCode: finIFSCCode ? finIFSCCode : '' });
+      this.financierDetailsForm.patchValue({ ifscCode: finIFSCCode ? finIFSCCode : null });
     } else if(val == 'thirdParty'){
       let thirdPartyIFSCCode  = event ? this.bankTPDetailsData.find(({ externalBankCode }) => externalBankCode == event).ifscCode : '';
-      this.thirdPartyDetailsForm.patchValue({ ifscCode: thirdPartyIFSCCode ? thirdPartyIFSCCode : '' });
+      this.thirdPartyDetailsForm.patchValue({ ifscCode: thirdPartyIFSCCode ? thirdPartyIFSCCode : null });
     } 
   }
   getCoApplicantDetails(appID,val) {
@@ -1102,6 +1115,8 @@ export class DisbursementFormComponent implements OnInit {
             this.onBankNameSearch(this.coApplicant1['beneficiaryBank'],'3');
             if(this.coApplicant1['beneficiaryBranch']){
             this.setIFSC(this.coApplicant1['beneficiaryBranch'],'coApp1');
+            } else {
+              this.setIFSC('','coApp1');
             }
           }
         }
@@ -1112,6 +1127,8 @@ export class DisbursementFormComponent implements OnInit {
             this.onBankNameSearch(this.coApplicant2['beneficiaryBank'],'4');
             if(this.coApplicant2['beneficiaryBranch']){
             this.setIFSC(this.coApplicant2['beneficiaryBranch'],'coApp2');
+            } else {
+              this.setIFSC('','coApp2');
             }
           }
         }
@@ -1122,6 +1139,8 @@ export class DisbursementFormComponent implements OnInit {
             this.onBankNameSearch(this.coApplicant3['beneficiaryBank'],'5');
             if(this.coApplicant3['beneficiaryBranch']){
             this.setIFSC(this.coApplicant3['beneficiaryBranch'],'coApp3');
+            } else {
+              this.setIFSC('','coApp3');
             }
           }
         }   
@@ -1147,6 +1166,8 @@ export class DisbursementFormComponent implements OnInit {
           this.onBankNameSearch(this.applicantObjInfo['beneficiaryBank'],'2');
           if(this.applicantObjInfo['beneficiaryBranch']){
           this.setIFSC(this.applicantObjInfo['beneficiaryBranch'],'applicant');
+          } else {
+            this.setIFSC('','applicant');
           }
         }
         //this.dealerDetailsForm.patchValue({ address: (this.dealerDetailsData)? this.dealerDetailsData.addressLine1 +','+  this.dealerDetailsData.addressLine2 + ',' + this.dealerDetailsData.addressLine3: null });
@@ -1300,6 +1321,7 @@ export class DisbursementFormComponent implements OnInit {
         }
         } else {
           this.showBankDetails = false;
+          this.showCASADetails = false; 
           if (!this.showBankDetails) {
             this.bankdetailsformArray.forEach(key => {
               this.dealerDetailsForm.get(key).reset();
@@ -1309,8 +1331,10 @@ export class DisbursementFormComponent implements OnInit {
               this.dealerDetailsForm.get(key).setErrors(null);
             });
           }
-        }
-        
+          this.chequeDDformArray.forEach(key => {
+            this.dealerDetailsForm.get(key).setValidators([Validators.required])
+          });
+        } 
       }
       if(this.mopVal == '2MODEOFPAYMENT' || this.mopVal == '7MODEOFPAYMENT' || this.mopVal == '8MODEOFPAYMENT'){
         this.showDDDetails = false;
@@ -1323,6 +1347,11 @@ export class DisbursementFormComponent implements OnInit {
             this.dealerDetailsForm.get(key).setErrors(null);
           });
           this.setIntType(null, 'dealer');
+        }
+        if(this.mopVal == '7MODEOFPAYMENT' || this.mopVal == '8MODEOFPAYMENT'){
+          this.bankdetailsformArray.forEach(key => {
+            this.dealerDetailsForm.get(key).setValidators([Validators.required])
+          });
         }
       }
       
@@ -1343,6 +1372,7 @@ export class DisbursementFormComponent implements OnInit {
           }
         }else{
           this.showAppBankDetails = false;
+          this.showAppCASADetails = false; 
           if (!this.showAppBankDetails) {
             this.bankdetailsformArray.forEach(key => {
               this.appDetailsForm.get(key).reset();
@@ -1352,6 +1382,9 @@ export class DisbursementFormComponent implements OnInit {
               this.appDetailsForm.get(key).setErrors(null);
             });
           }
+          this.chequeDDformArray.forEach(key => {
+            this.appDetailsForm.get(key).setValidators([Validators.required])
+          });
         }
       }
       
@@ -1366,6 +1399,11 @@ export class DisbursementFormComponent implements OnInit {
             this.appDetailsForm.get(key).setErrors(null);
           });
           this.setIntType(null, 'applicant');
+        }
+        if(this.mopVal == '7MODEOFPAYMENT' || this.mopVal == '8MODEOFPAYMENT'){
+          this.bankdetailsformArray.forEach(key => {
+            this.appDetailsForm.get(key).setValidators([Validators.required])
+          });
         }
       }
     }
@@ -1385,6 +1423,7 @@ export class DisbursementFormComponent implements OnInit {
           }
         }else {
           this.showBankerBankDetails = false;
+          this.showBankerCASADetails = false;
           if (!this.showBankerBankDetails) {
             this.bankdetailsformArray.forEach(key => {
               this.bankerDetailsForm.get(key).reset();
@@ -1394,6 +1433,9 @@ export class DisbursementFormComponent implements OnInit {
               this.bankerDetailsForm.get(key).setErrors(null);
             });
           }
+          this.chequeDDformArray.forEach(key => {
+            this.bankerDetailsForm.get(key).setValidators([Validators.required])
+          });
         }
       }
       if(this.mopVal == '2MODEOFPAYMENT' || this.mopVal == '7MODEOFPAYMENT' || this.mopVal == '8MODEOFPAYMENT'){
@@ -1407,6 +1449,11 @@ export class DisbursementFormComponent implements OnInit {
             this.bankerDetailsForm.get(key).setErrors(null);
           });
           this.setIntType(null, 'banker');
+        }
+        if(this.mopVal == '7MODEOFPAYMENT' || this.mopVal == '8MODEOFPAYMENT'){
+          this.bankdetailsformArray.forEach(key => {
+            this.bankerDetailsForm.get(key).setValidators([Validators.required])
+          });
         }
       }
       
@@ -1427,6 +1474,7 @@ export class DisbursementFormComponent implements OnInit {
           }
         }else {
           this.showFinBankDetails = false;
+          this.showFinCASADetails = false;
           if (!this.showFinBankDetails) {
             this.bankdetailsformArray.forEach(key => {
               this.financierDetailsForm.get(key).reset();
@@ -1434,8 +1482,11 @@ export class DisbursementFormComponent implements OnInit {
             this.bankdetailsformArray.forEach(key => {
               this.financierDetailsForm.get(key).clearValidators();
               this.financierDetailsForm.get(key).setErrors(null);
-            });
+            }); 
           }
+          this.chequeDDformArray.forEach(key => {
+            this.financierDetailsForm.get(key).setValidators([Validators.required])
+          });
         }
       }
       
@@ -1450,6 +1501,11 @@ export class DisbursementFormComponent implements OnInit {
             this.financierDetailsForm.get(key).setErrors(null);
           });
           this.setIntType(null, 'financier');
+        }
+        if(this.mopVal == '7MODEOFPAYMENT' || this.mopVal == '8MODEOFPAYMENT'){
+          this.bankdetailsformArray.forEach(key => {
+            this.financierDetailsForm.get(key).setValidators([Validators.required])
+          });
         }
       }
       
@@ -1470,6 +1526,7 @@ export class DisbursementFormComponent implements OnInit {
           }
         }else {
           this.showTPBankDetails = false;
+          this.showTPCASADetails = false;
           if (!this.showTPBankDetails) {
             this.bankdetailsformArray.forEach(key => {
               this.thirdPartyDetailsForm.get(key).reset();
@@ -1479,6 +1536,9 @@ export class DisbursementFormComponent implements OnInit {
               this.thirdPartyDetailsForm.get(key).setErrors(null);
             });
           }
+          this.chequeDDformArray.forEach(key => {
+            this.thirdPartyDetailsForm.get(key).setValidators([Validators.required])
+          });
         }
       }
       if(this.mopVal == '2MODEOFPAYMENT' || this.mopVal == '7MODEOFPAYMENT' || this.mopVal == '8MODEOFPAYMENT'){
@@ -1492,6 +1552,11 @@ export class DisbursementFormComponent implements OnInit {
             this.thirdPartyDetailsForm.get(key).setErrors(null);
           });
           this.setIntType(null, 'thirdParty');
+        }
+        if(this.mopVal == '7MODEOFPAYMENT' || this.mopVal == '8MODEOFPAYMENT'){
+          this.bankdetailsformArray.forEach(key => {
+            this.thirdPartyDetailsForm.get(key).setValidators([Validators.required])
+          });
         }
       }
     }
@@ -1515,18 +1580,23 @@ export class DisbursementFormComponent implements OnInit {
     } else if (this.mopVal == '1MODEOFPAYMENT') {// cheque or dd
       if (val == 'dealer') {
         this.showDDDetails = true;
+        this.dealerObjInfo['instrumentType'] = '2INSTYPE';
       }
       if (val == 'applicant') {
         this.showAppDDDetails = true;
+        this.applicantObjInfo['instrumentType'] = '2INSTYPE';
       }
       if (val == 'banker') {
         this.showBankerDDDetails = true;
+        this.bankerObjInfo['instrumentType'] = '2INSTYPE';
       }
       if (val == 'financier') {
         this.showFinDDDetails = true;
+        this.financierObjInfo['instrumentType'] = '2INSTYPE';
       }
       if (val == 'thirdParty') {
         this.showTPDDDetails = true;
+        this.thirdPartyObjInfo['instrumentType'] = '2INSTYPE';
       }
     } else if (this.mopVal == '2MODEOFPAYMENT') {// casa
       if (val == 'dealer') {
@@ -1564,6 +1634,7 @@ export class DisbursementFormComponent implements OnInit {
           }
         }else {
           this.showCoApp1BankDetails = false;
+          this.showCoApp1CASADetails = false;
           if (!this.showCoApp1BankDetails) {
             this.bankdetailsformArray.forEach(key => {
               this.coApp1Form.get(key).reset();
@@ -1573,6 +1644,9 @@ export class DisbursementFormComponent implements OnInit {
               this.coApp1Form.get(key).setErrors(null);
             });
           }
+          this.chequeDDformArray.forEach(key => {
+            this.coApp1Form.get(key).setValidators([Validators.required])
+          });
         }
       }
       
@@ -1587,6 +1661,11 @@ export class DisbursementFormComponent implements OnInit {
             this.coApp1Form.get(key).setErrors(null);
           });
           this.setIntType(null, 'coApp1');
+        }
+        if(coAppMopValue == '7MODEOFPAYMENT' || coAppMopValue == '8MODEOFPAYMENT'){
+          this.bankdetailsformArray.forEach(key => {
+            this.coApp1Form.get(key).setValidators([Validators.required])
+          });
         }
       }
     }
@@ -1605,6 +1684,7 @@ export class DisbursementFormComponent implements OnInit {
           }
         }else {
           this.showCoApp2BankDetails = false;
+          this.showCoApp2CASADetails = false;
           if (!this.showCoApp2BankDetails) {
             this.bankdetailsformArray.forEach(key => {
               this.coApp2Form.get(key).reset();
@@ -1614,6 +1694,9 @@ export class DisbursementFormComponent implements OnInit {
               this.coApp2Form.get(key).setErrors(null);
             });
           }
+          this.chequeDDformArray.forEach(key => {
+            this.coApp2Form.get(key).setValidators([Validators.required])
+          });
         }
       }
       
@@ -1628,6 +1711,11 @@ export class DisbursementFormComponent implements OnInit {
             this.coApp2Form.get(key).setErrors(null);
           });
           this.setIntType(null, 'coApp2');
+        }
+        if(coAppMopValue == '7MODEOFPAYMENT' || coAppMopValue == '8MODEOFPAYMENT'){
+          this.bankdetailsformArray.forEach(key => {
+            this.coApp2Form.get(key).setValidators([Validators.required])
+          });
         }
       }
     }
@@ -1646,6 +1734,7 @@ export class DisbursementFormComponent implements OnInit {
           }
         }else {
           this.showCoApp3BankDetails = false;
+          this.showCoApp3CASADetails = false;
           if (!this.showCoApp3BankDetails) {
             this.bankdetailsformArray.forEach(key => {
               this.coApp3Form.get(key).reset();
@@ -1655,6 +1744,9 @@ export class DisbursementFormComponent implements OnInit {
               this.coApp3Form.get(key).setErrors(null);
             });
           }
+          this.chequeDDformArray.forEach(key => {
+            this.coApp3Form.get(key).setValidators([Validators.required])
+          });
         }
       }
       
@@ -1670,6 +1762,11 @@ export class DisbursementFormComponent implements OnInit {
           });
           this.setIntType(null, 'coApp3');
         }
+        if(coAppMopValue == '7MODEOFPAYMENT' || coAppMopValue == '8MODEOFPAYMENT'){
+          this.bankdetailsformArray.forEach(key => {
+            this.coApp3Form.get(key).setValidators([Validators.required])
+          });
+        }
       }
     }
     
@@ -1683,10 +1780,13 @@ export class DisbursementFormComponent implements OnInit {
     } else if (coAppMopValue == '1MODEOFPAYMENT') {//cheque or dd
       if (val == 'coApp1')
         this.showCoApp1DDDetails = true;
+        this.coApplicant1['instrumentType'] = '2INSTYPE';
       if (val == 'coApp2')
         this.showCoApp2DDDetails = true;
+        this.coApplicant2['instrumentType'] = '2INSTYPE';
       if (val == 'coApp3')
         this.showCoApp3DDDetails = true;
+        this.coApplicant3['instrumentType'] = '2INSTYPE';
     } else if (coAppMopValue == '2MODEOFPAYMENT') {//casa
       if (val == 'coApp1')
         this.showCoApp1CASADetails = true;
@@ -2143,7 +2243,7 @@ export class DisbursementFormComponent implements OnInit {
       beneficiaryName: new FormControl({ value: this.applicantObjInfo['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.applicantObjInfo['beneficiaryAccountNo'] }, Validators.required),
       beneficiaryBank: new FormControl({ value: this.applicantObjInfo['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.applicantObjInfo['ifscCode'] }, Validators.required),
+      ifscCode: new FormControl({ value: this.applicantObjInfo['ifscCode'],disabled:true }, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.applicantObjInfo['beneficiaryBranch'] }, Validators.required),
       mobilePhone: new FormControl(''),
       instrumentType: new FormControl({ value: this.applicantObjInfo['instrumentType'] }, Validators.required),
@@ -2170,7 +2270,7 @@ export class DisbursementFormComponent implements OnInit {
       beneficiaryName: new FormControl({ value: this.coApplicant1['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.coApplicant1['beneficiaryAccountNo'] }, Validators.required),
       beneficiaryBank: new FormControl({ value: this.coApplicant1['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.coApplicant1['ifscCode'] }, Validators.required),
+      ifscCode: new FormControl({ value: this.coApplicant1['ifscCode'],disabled:true }, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.coApplicant1['beneficiaryBranch'] }, Validators.required),
       mobilePhone: new FormControl(''),
       instrumentType: new FormControl({ value: this.coApplicant1['instrumentType'] }, Validators.required),
@@ -2193,7 +2293,7 @@ export class DisbursementFormComponent implements OnInit {
       beneficiaryName: new FormControl({ value: this.coApplicant2['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.coApplicant2['beneficiaryAccountNo'] }, Validators.required),
       beneficiaryBank: new FormControl({ value: this.coApplicant2['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.coApplicant2['ifscCode'] }, Validators.required),
+      ifscCode: new FormControl({ value: this.coApplicant2['ifscCode'],disabled:true }, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.coApplicant2['beneficiaryBranch'] }, Validators.required),
       mobilePhone: new FormControl(''),
       instrumentType: new FormControl({ value: this.coApplicant2['instrumentType'] }, Validators.required),
@@ -2216,7 +2316,7 @@ export class DisbursementFormComponent implements OnInit {
       beneficiaryName: new FormControl({ value: this.coApplicant3['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.coApplicant3['beneficiaryAccountNo'] }, Validators.required),
       beneficiaryBank: new FormControl({ value: this.coApplicant3['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.coApplicant3['ifscCode'] }, Validators.required),
+      ifscCode: new FormControl({ value: this.coApplicant3['ifscCode'],disabled:true }, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.coApplicant3['beneficiaryBranch'] }, Validators.required),
       mobilePhone: new FormControl(''),
       instrumentType: new FormControl({ value: this.coApplicant3['instrumentType'] }, Validators.required),
@@ -2240,7 +2340,7 @@ export class DisbursementFormComponent implements OnInit {
       beneficiaryName: new FormControl({ value: this.bankerObjInfo['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.bankerObjInfo['beneficiaryAccountNo'] }, Validators.required),
       beneficiaryBank: new FormControl({ value: this.bankerObjInfo['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.bankerObjInfo['ifscCode'] }, Validators.required),
+      ifscCode: new FormControl({ value: this.bankerObjInfo['ifscCode'],disabled:true }, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.bankerObjInfo['beneficiaryBranch'] }, Validators.required),
       instrumentType: new FormControl({ value: this.bankerObjInfo['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.bankerObjInfo['instrumentNumber'] }, Validators.required),
@@ -2262,7 +2362,7 @@ export class DisbursementFormComponent implements OnInit {
       beneficiaryName: new FormControl({ value: this.financierObjInfo['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.financierObjInfo['beneficiaryAccountNo'] }, Validators.required),
       beneficiaryBank: new FormControl({ value: this.financierObjInfo['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.financierObjInfo['ifscCode'] }, Validators.required),
+      ifscCode: new FormControl({ value: this.financierObjInfo['ifscCode'],disabled:true }, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.financierObjInfo['beneficiaryBranch'] }, Validators.required),
       instrumentType: new FormControl({ value: this.financierObjInfo['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.financierObjInfo['instrumentNumber'] }, Validators.required),
@@ -2284,7 +2384,7 @@ export class DisbursementFormComponent implements OnInit {
       beneficiaryName: new FormControl({ value: this.thirdPartyObjInfo['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.thirdPartyObjInfo['beneficiaryAccountNo'] }, Validators.required),
       beneficiaryBank: new FormControl({ value: this.thirdPartyObjInfo['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.thirdPartyObjInfo['ifscCode'] }, Validators.required),
+      ifscCode: new FormControl({ value: this.thirdPartyObjInfo['ifscCode'],disabled:true }, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.thirdPartyObjInfo['beneficiaryBranch'] }, Validators.required),
       instrumentType: new FormControl({ value: this.thirdPartyObjInfo['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.thirdPartyObjInfo['instrumentNumber'] }, Validators.required),
@@ -2707,6 +2807,20 @@ export class DisbursementFormComponent implements OnInit {
 
           if (!trancheFlag) {
             this.toasterService.showError('Please fill mandatory fields in Tranche Disbursement grid', '');
+            return;
+          }
+          let a = this.dealerObjInfo['disbursementAmount'] ? parseInt(this.dealerObjInfo['disbursementAmount']) : 0;
+          let b = this.applicantObjInfo['disbursementAmount'] ? parseInt(this.applicantObjInfo['disbursementAmount']) : 0;
+          let d = this.bankerObjInfo['disbursementAmount'] ? parseInt(this.bankerObjInfo['disbursementAmount']) : 0;
+          let e = this.financierObjInfo['disbursementAmount'] ? parseInt(this.financierObjInfo['disbursementAmount']) : 0;
+          let f = this.thirdPartyObjInfo['disbursementAmount'] ? parseInt(this.thirdPartyObjInfo['disbursementAmount']) : 0;
+          let g = this.coApplicant1['disbursementAmount'] ? parseInt(this.coApplicant1['disbursementAmount']) : 0;
+          let h = this.coApplicant2['disbursementAmount'] ? parseInt(this.coApplicant2['disbursementAmount']) : 0;
+          let i = this.coApplicant3['disbursementAmount'] ? parseInt(this.coApplicant3['disbursementAmount']) : 0;
+          
+          this.cumulativeAmount = a + b + d + e + f + g + h + i;
+          if (this.totalDisbursementAmount > this.cumulativeAmount ) {
+            this.toasterService.showError('Total Disbursement Amount should be equal to Approved Loan Amount', '');
             return;
           }
           console.log('Req:', inputData);

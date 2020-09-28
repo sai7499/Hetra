@@ -2,7 +2,7 @@
   border: 1px solid #ddd;
   font-weight: 100;
   border-radius: 6px;
-  padding-top: 5px;
+  /* padding-top: 5px; */
   padding-bottom: 0px;
   background: white;
  margin : 0 15px;
@@ -40,6 +40,28 @@
     width:100%;
     font-size:12px;
     padding: 8px 8px!important;
-    margin-bottom: 12px;
+    /* margin-bottom: 12px; */
    
   }
+
+  .view-pad-top{
+    padding: 8px 8px 2px 8px;
+  }
+
+  .view-pad-bottom{
+    padding: 2px 8px 8px 8px;
+  }
+
+.pad-allside{
+  padding: 8px;
+}
+
+@media (min-width:200px) and (max-width:767px) {
+  .view-pad-top{
+    padding: 8px 8px 8px 8px;
+  }
+
+  .view-pad-bottom{
+    padding: 8px 8px 8px 8px;
+  }
+}

@@ -1,5 +1,5 @@
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { UtilityService } from '@services/utility.service';
@@ -128,6 +128,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   values: any = [];
   labels: any = {};
   validationData: any;
+
   LOV: any = [];
   coApplicantForm: FormGroup;
   isCurrAddSameAsPermAdd: any = '0';
@@ -210,7 +211,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   showNotApplicant = false;
   dedupeVaribales: any;
   referenceAdharNo: string;
-  SRNumberValidate : boolean = true;
+  SRNumberValidate: boolean = true;
+  storeAdharValue: any;
+  hideMsgForOwner: boolean = false;
+  storeAdharFlag: boolean = false;
+  eKYCChecked: boolean = false;
+  ekycDone: string = '0';
+  ekycBuutonAdharBased: boolean = false;
+  apiReferenceNo: string;
 
 
   isMobile: any;
@@ -236,51 +244,289 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     private ngxService: NgxUiLoaderService,
 
   ) {
-    this.leadId = this.activatedRoute.snapshot.params['leadId'];
-    this.isMobile = environment.isMobile;
 
-
+    this.setBirthDate.setFullYear(this.setBirthDate.getFullYear() - 10)
+    this.ageMinDate.setFullYear(this.ageMinDate.getFullYear() - 100)
   }
 
   async ngOnInit() {
-
+    this.leadId = this.activatedRoute.snapshot.params['leadId'];
+    this.isMobile = environment.isMobile;
     this.initForm();
-    this.setBirthDate.setFullYear(this.setBirthDate.getFullYear() - 10)
-    this.ageMinDate.setFullYear(this.ageMinDate.getFullYear() - 100)
-
-
+    console.log('this.coapplicantFDor,', this.coApplicantForm)
     // if (this.leadId) {
-    const gotLeadData = this.activatedRoute.snapshot.data.leadData;
-    if (gotLeadData.Error === '0') {
-      const leadData = gotLeadData.ProcessVariables;
-      this.createLeadDataService.setLeadSectionData(leadData);
-      //this.leadStoreService.setLeadCreation(leadData);
-    }
-    this.getLeadSectiondata();
-    // }
-    this.lovData.getLovData().subscribe((res: any) => {
-      this.values = res[0].addApplicant[0];
-    });
-    this.leadId = (await this.getLeadId()) as number;
-    if (!this.leadId) {
-      const id: any = await this.getLeadIdAndApplicantId();
-      this.leadId = id.leadId;
-      this.applicantId = id.applicantId;
-      if (isNaN(this.applicantId)) {
-        this.applicantId = null;
+    setTimeout(async () => {
+      const gotLeadData = this.activatedRoute.snapshot.data.leadData;
+      if (gotLeadData.Error === '0') {
+        const leadData = gotLeadData.ProcessVariables;
+        this.createLeadDataService.setLeadSectionData(leadData);
+        //this.leadStoreService.setLeadCreation(leadData);
       }
-      if (this.applicantId) {
-        this.isEnableDedupe = false;
-        this.getApplicantDetails();
-      } else {
-        this.dedupeMobile = true;
-        this.isMobileChanged = true; // for enable check dedupe button
-        this.isContactNumberChanged = true;
-        this.coApplicantForm.get('dedupe').get('pan').disable();
+      this.getLeadSectiondata();
+      // }
+      this.lovData.getLovData().subscribe((res: any) => {
+        this.values = res[0].addApplicant[0];
+      });
+      this.leadId = (await this.getLeadId()) as number;
+      if (!this.leadId) {
+        const id: any = await this.getLeadIdAndApplicantId();
+        this.leadId = id.leadId;
+        this.applicantId = id.applicantId;
+        if (isNaN(this.applicantId)) {
+          this.applicantId = null;
+        }
+        const dedupeFlag = this.applicantDataService.getDedupeFlag()
+        if (this.applicantId && !dedupeFlag) {
+          this.isEnableDedupe = false;
+          this.getApplicantDetails();
+          this.storeAdharValue = '';
+          //this.applicantDataService.setDedupeFlag(true);
+        } else {
+          this.dedupeMobile = true;
+          this.isMobileChanged = true; // for enable check dedupe button
+          this.isContactNumberChanged = true;
+          this.coApplicantForm.get('dedupe').get('pan').disable();
+          this.getDedupeStoredValues();
+          this.applicantDataService.setDedupeFlag(false);
+        }
       }
-    }
+
+
+    })
 
   }
+
+
+  getDedupeDetails() {
+    let dedupeValues: any = {};
+    const details: any = {};
+    dedupeValues = this.applicantDataService.getDedupeValues();
+    if (this.applicantType === Constant.ENTITY_INDIVIDUAL_TYPE) {
+      if (dedupeValues.panType === '1PANTYPE') {
+        this.isPanDisabled = true;
+      }
+      details.pan = dedupeValues.pan;
+      details.aadhar = dedupeValues.aadhar;
+      details.mobile = dedupeValues.mobileNumber;
+      details.panType = dedupeValues.panType;
+      details.voterIdNumber = dedupeValues.voterIdNumber;
+      if (dedupeValues.dob) {
+        details.dob = dedupeValues.dob;
+        // .split('/')
+        // .reverse()
+        // .join('-');
+        details.dob = new Date(
+          this.utilityService.getDateFromString(details.dob)
+        );
+      }
+      details.passportNumber = dedupeValues.passportNumber;
+      details.passportIssueDate = this.utilityService.getDateFromString(
+        dedupeValues.passportIssueDate
+      );
+      details.passportExpiryDate = this.utilityService.getDateFromString(
+        dedupeValues.passportExpiryDate
+      );
+      details.drivingLicenseNumber =
+        dedupeValues.drivingLicenseNumber;
+      details.drivingLicenseIssueDate = this.utilityService.getDateFromString(
+        dedupeValues.drivingLicenseIssueDate
+      );
+      details.drivingLicenseExpiryDate = this.utilityService.getDateFromString(
+        dedupeValues.drivingLicenseExpiryDate
+      );
+    } else {
+
+      if (dedupeValues.panType === '1PANTYPE') {
+        //this.panPattern = this.panFormPattern;
+        this.isPanDisabled = true;
+      }
+      details.tanNumber = dedupeValues.tanNumber;
+      details.gstNumber = dedupeValues.gstNumber;
+      details.cstVatNumber = dedupeValues.cstVatNumber;
+      details.pan = dedupeValues.panNumber;
+      details.aadhar = dedupeValues.aadhar;
+      details.companyPhoneNumber = dedupeValues.companyPhoneNumber;
+      details.panType = dedupeValues.panType;
+      details.corporateIdentificationNumber =
+        dedupeValues.corporateIdentificationNumber;
+      details.contactPerson = dedupeValues.contactPerson;
+
+      if (dedupeValues.dateOfIncorporation) {
+        details.dateOfIncorporation =
+          dedupeValues.dateOfIncorporation;
+        details.dateOfIncorporation = new Date(
+          this.utilityService.getDateFromString(details.dateOfIncorporation)
+        );
+      }
+    }
+
+    return details;
+  }
+
+  getDedupeStoredValues() {
+
+    const dedupeFlag = this.applicantDataService.getDedupeFlag();
+    let dedupeValues: any = {};
+
+    if (dedupeFlag) {
+      dedupeValues = this.applicantDataService.getDedupeValues();
+      this.applicantType = dedupeValues.entityType;
+      console.log('dedupeValues', dedupeValues)
+      const details = this.getDedupeDetails()
+      this.firstName = dedupeValues.name1 || '';
+      this.aadhar = details.aadhar || '';
+      this.drivingLicenseNumber = details.drivingLicenseNumber
+        ? details.drivingLicenseNumber
+        : '';
+      this.passportNumber = details.passportNumber
+        ? details.passportNumber
+        : '';
+      this.pan = details.pan || '';
+      let mobile = details.mobile ? details.mobile : '';
+      if (mobile && mobile.length === 12) {
+        mobile = mobile.slice(2, 12);
+      }
+      this.mobileNumber = mobile;
+      let companyPhoneNumber = details.companyPhoneNumber
+        ? details.companyPhoneNumber
+        : '';
+      if (companyPhoneNumber && companyPhoneNumber.length == 12) {
+        //companyPhoneNumber = companyPhoneNumber.slice(2, 12);
+        if (companyPhoneNumber.slice(0, 2) == '91') {
+          companyPhoneNumber = companyPhoneNumber.slice(2, 12);
+        }
+      }
+      this.disabledPassportDates = details.passportNumber ? false : true;
+      this.disabledDrivingDates = details.drivingLicenseNumber ? false : true;
+      this.contactNumber = companyPhoneNumber;
+      //this.setValueForFormControl('pan', details.pan);
+      const dedupe = this.coApplicantForm.get('dedupe');
+      if (dedupeValues.ownHouseProofAvail == '1') {
+        this.checkedBoxHouse = true;
+        this.isChecked = true;
+        this.hideMsgForOwner = true;
+      } else {
+        this.checkedBoxHouse = false;
+        this.isChecked = false;
+        this.hideMsgForOwner = false;
+      }
+
+      dedupe.patchValue({
+        //title: 'M/SSALUTATION',
+        entityType: dedupeValues.entityType || '',
+        loanApplicationRelation:
+          dedupeValues.loanApplicationRelation || '',
+        name1: dedupeValues.firstName || '',
+        name2: dedupeValues.middleName || '',
+        name3: dedupeValues.lastName || '',
+        panType: dedupeValues.panType || '',
+        aadhar: dedupeValues.aadhar || '',
+        bussinessEntityType:
+          dedupeValues.bussinessEntityType || '',
+        monthlyIncomeAmount:
+          dedupeValues.monthlyIncomeAmount || '',
+        annualIncomeAmount:
+          dedupeValues.annualIncomeAmount || '',
+        houseOwnerProperty:
+          dedupeValues.houseOwnerProperty || '',
+        ownHouseAppRelationship:
+          dedupeValues.ownHouseAppRelationship || '',
+        averageBankBalance:
+          dedupeValues.averageBankBalance || '',
+        rtrType: dedupeValues.rtrType || '',
+        prevLoanAmount: dedupeValues.prevLoanAmount || '',
+        loanTenorServiced:
+          dedupeValues.loanTenorServiced || '',
+        currentEMILoan: dedupeValues.currentEMILoan || '',
+        agriNoOfAcres: dedupeValues.agriNoOfAcres || '',
+        agriOwnerProperty:
+          dedupeValues.agriOwnerProperty || '',
+        agriAppRelationship:
+          dedupeValues.agriAppRelationship || '',
+        grossReceipt: dedupeValues.grossReceipt || '',
+        custSegment: dedupeValues.custSegment || '',
+      });
+      if (dedupeValues.panType === '2PANTYPE') {
+        this.coApplicantForm.get('dedupe').get('pan').disable();
+
+      } else {
+        dedupe.patchValue({
+          pan: dedupeValues.pan || '',
+        });
+        this.coApplicantForm.get('dedupe').get('pan').enable();
+
+      }
+      if (dedupeValues.entityType == 'INDIVENTTYP') {
+        this.setDedupeForIndividual()
+        if (dedupeValues.panType === '2PANTYPE') {
+          this.getPanValue(dedupeValues.panType);
+        }
+
+      } else {
+        this.setDedupeForNonIndividual()
+      }
+    }
+  }
+
+  setDedupeForIndividual() {
+    const details = this.getDedupeDetails()
+    let mobile = details.mobile ? details.mobile : '';
+    if (mobile && mobile.length === 12) {
+      mobile = mobile.slice(2, 12);
+    }
+    this.addIndFormControls();
+    this.removeNonIndFormControls();
+    const dedupe = this.coApplicantForm.get('dedupe')
+    dedupe.get('bussinessEntityType').clearValidators()
+    dedupe.get('bussinessEntityType').updateValueAndValidity()
+
+
+    dedupe.patchValue({
+      mobilePhone: mobile || '',
+      dob: details.dob || '',
+      //identity_type: applicantValue.identity_type || '',
+      //aadhar: details.aadhar || '',
+      voterIdNumber: details.voterIdNumber,
+      drivingLicenseNumber: details.drivingLicenseNumber || '',
+      drivingLicenseIssueDate: details.drivingLicenseIssueDate || '',
+      drivingLicenseExpiryDate: details.drivingLicenseExpiryDate || '',
+      passportNumber: details.passportNumber || '',
+      passportIssueDate: details.passportIssueDate || '',
+      passportExpiryDate: details.passportExpiryDate || '',
+    });
+
+  }
+  setDedupeForNonIndividual() {
+    this.coApplicantForm.get('dedupe').get('aadhar').clearValidators();
+    this.coApplicantForm.get('dedupe').get('aadhar').updateValueAndValidity();
+    this.coApplicantForm.get('dedupe').get('bussinessEntityType').setValidators([Validators.required]);
+    this.coApplicantForm.get('dedupe').get('bussinessEntityType').updateValueAndValidity();
+    const dedupe = this.coApplicantForm.get('dedupe')
+    const details = this.getDedupeDetails()
+    //let mobile = details.mobile ? details.mobile : '';
+
+    this.addNonIndFormControls();
+    this.removeIndFormControls();
+    // if (mobile && mobile.length === 12) {
+    //   mobile = mobile.slice(2, 12);
+    // }
+    let companyPhoneNumber = details.companyPhoneNumber
+    if (companyPhoneNumber && companyPhoneNumber.length === 12) {
+      companyPhoneNumber = companyPhoneNumber.slice(2, 12);
+    }
+    dedupe.patchValue({
+      //aadhar : details.aadhar,
+      companyPhoneNumber: companyPhoneNumber,
+      dateOfIncorporation: details.dateOfIncorporation,
+      contactPerson: details.contactPerson,
+      corporateIdentificationNumber: details.corporateIdentificationNumber,
+      cstVatNumber: details.cstVatNumber,
+      gstNumber: details.gstNumber,
+      tanNumber: details.tanNumber,
+    });
+  }
+
+
   getLeadSectiondata() {
     const leadData = this.createLeadDataService.getLeadSectionData();
     this.productCategory = leadData['leadDetails'].productId;
@@ -384,7 +630,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.toasterService.showError('There should be only one main applicant for this lead', '')
           this.showNotApplicant = true;
         }
-       
       }
       // else if (this.applicantData.length==1){
       //      if (value !== "APPAPPRELLEAD") {
@@ -392,11 +637,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       //   } 
       // }
     });
-    
+
   }
 
-  getPanValue(event: any) {
-    this.panValue = event.target.value;
+  getPanValue(event?: any) {
+    this.panValue = event;
     this.isPanDisabled = this.panValue === '1PANTYPE';
     this.panValidate = false;
     const dedupe = this.coApplicantForm.get('dedupe');
@@ -435,10 +680,15 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         if (!passportValue) {
           this.isVoterRequired = true;
         }
-        this.toasterService.showInfo(
-          'You should enter either passport or voter id',
-          ''
-        );
+        const dedupeFlag = this.applicantDataService.getDedupeFlag();
+
+        if (!dedupeFlag && !voterId && !passportValue) {
+          this.toasterService.showInfo(
+            'You should enter either passport or voter id',
+            ''
+          );
+        }
+
 
         this.voterIdListener = this.listenerVoterId();
         this.passportListener = this.listenerPassport();
@@ -496,6 +746,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         return;
       }
       dedupe.get('passportNumber').setValue(passportNumber);
+      dedupe.get('passportNumber').updateValueAndValidity()
       // });
     });
   }
@@ -564,16 +815,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     }
   }
 
-  dateSelected() {
-    this.mandatory['drivingLicenseIssueDate'] = false;
-  }
 
-  expiryDateSelected() {
-    this.mandatory['drivingLicenseExpiryDate'] = false;
-  }
 
   onPassportNumberChange($formCtrl) {
-    
     if (
       this.coApplicantForm.get('dedupe').get('passportNumber').status ===
       'VALID' && this.coApplicantForm.get('dedupe').get('passportNumber').value !== '' &&
@@ -591,7 +835,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.passportMandatory['passportExpiryDate'] = true;
     } else {
 
-      if (this.coApplicantForm.get('dedupe').get('passportNumber').value == '' 
+      if (this.coApplicantForm.get('dedupe').get('passportNumber').value == ''
       ) {
         this.disabledPassportDates = true;
         this.coApplicantForm.get('dedupe').get('passportIssueDate').setValue(null);
@@ -603,20 +847,15 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.coApplicantForm.get('dedupe').get('passportExpiryDate').clearValidators();
       this.coApplicantForm.get('dedupe').get('passportExpiryDate').updateValueAndValidity();
       //this.coApplicantForm.get('dedupe').updateValueAndValidity();
-     
       this.passportMandatory['passportIssueDate'] = false;
       this.passportMandatory['passportExpiryDate'] = false;
     }
 
   }
 
-  passportDateSelected() {
-    this.passportMandatory['passportIssueDate'] = false;
-  }
 
-  passportExpiryDateSelected() {
-    this.passportMandatory['passportExpiryDate'] = false;
-  }
+
+
 
   drvingLisenseValidation(event) {
     const licenseNumber = event.target.value;
@@ -828,13 +1067,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         ...processVariables,
       };
 
-      // const addressDetails: Array<any> = processVariables.addressDetails || [];
-      // console.log('addressDetails', addressDetails);
-      // const addressStatus = addressDetails.find(
-      //   (val) => val.addressType === 'PERMADDADDTYP'
-      // );
-
-      // if (processVariables.ucic) {isCurrAddSameAsPermAdd: "0"
       if (processVariables.ucic) {
         this.isPermanantAddressSame = true;
         this.isDisabledCheckbox = true;
@@ -849,7 +1081,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.disableCommunicationAddress();
         //}
         this.showModifyCurrCheckBox = true;
-
+        // const applicant= processVariables.applicantDetails; 
       }
 
       this.applicantDataService.setApplicant(applicant);
@@ -887,20 +1119,68 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     });
 
-    // const relation = this.LOV.LOVS.applicantRelationshipWithLead;
-    // this.applicantData.forEach((data)=>{
-    //  if(data.applicantTypeKey=="APPAPPRELLEAD"){
-    //  this.applicationRelationWithLead= relation.filter(element=> element.key !=='APPAPPRELLEAD')
-    // }
-    // })
+  }
 
-    // console.log('applicationRelationWithLead', this.applicationRelationWithLead)
+  disableEKYCDetails() {
+    const dedupe = this.coApplicantForm.get('dedupe');
+    dedupe.get('name1').disable();
+    dedupe.get('name2').disable();
+    dedupe.get('name3').disable();
+    dedupe.get('dob').disable();
+  }
 
-    // else{
-    //   this.applicationRelationWithLead=this.LOV.LOVS.applicantRelationshipWithLead;
-    // }
+  disableUCICIndividualDetails(indivIdentityInfoDetails) {
+    const dedupe = this.coApplicantForm.get('dedupe');
+    dedupe.get('name1').disable();
+    dedupe.get('name2').disable();
+    dedupe.get('name3').disable();
+    dedupe.get('dob').disable();
+    dedupe.get('mobilePhone').disable();
+    indivIdentityInfoDetails.aadhar ? dedupe.get('aadhar').disable() : null;
+    indivIdentityInfoDetails.pan ? dedupe.get('pan').disable() : null;
+    indivIdentityInfoDetails.panType ? dedupe.get('panType').disable() : null;
+    indivIdentityInfoDetails.drivingLicenseNumber ? dedupe.get('drivingLicenseNumber').disable() : null;
+    indivIdentityInfoDetails.drivingLicenseIssueDate ? dedupe.get('drivingLicenseIssueDate').disable() : null;
+    indivIdentityInfoDetails.drivingLicenseExpiryDate ? dedupe.get('drivingLicenseExpiryDate').disable() : null;
+    indivIdentityInfoDetails.passportNumber ? dedupe.get('passportNumber').disable() : null;
+    indivIdentityInfoDetails.passportIssueDate ? dedupe.get('passportIssueDate').disable() : null;
+    indivIdentityInfoDetails.passportExpiryDate ? dedupe.get('passportExpiryDate').disable() : null;
+    indivIdentityInfoDetails.voterIdNumber ? dedupe.get('voterIdNumber').disable() : null;
+  }
+
+  disableUCICNonIndividualDetails(corporateProspectDetails) {
+    const dedupe = this.coApplicantForm.get('dedupe');
+    dedupe.get('name1').disable();
+    dedupe.get('name2').disable();
+    dedupe.get('name3').disable();
+    dedupe.get('dateOfIncorporation').disable();
+    dedupe.get('companyPhoneNumber').disable();
+    corporateProspectDetails.aadhar ? dedupe.get('aadhar').disable() : null;
+    corporateProspectDetails.panType ? dedupe.get('panType').disable() : null;
+    corporateProspectDetails.panNumber ? dedupe.get('pan').disable() : null;
+    corporateProspectDetails.corporateIdentificationNumber ? dedupe.get('corporateIdentificationNumber').disable() : null;
+    corporateProspectDetails.cstVatNumber ? dedupe.get('cstVatNumber').disable() : null;
+    corporateProspectDetails.gstNumber ? dedupe.get('gstNumber').disable() : null;
+    corporateProspectDetails.tanNumber ? dedupe.get('tanNumber').disable() : null;
 
   }
+
+  disablePermanentAddress() {
+    this.coApplicantForm.get('permentAddress').disable();
+  }
+
+  disableCurrentAddress() {
+    this.coApplicantForm.get('currentAddress').disable();
+  }
+
+  disableCommunicationAddress() {
+    this.coApplicantForm.get('communicationAddress').disable();
+  }
+
+  disableRegisteredAddress() {
+    this.coApplicantForm.get('registeredAddress').disable();
+  }
+
 
   calculateIncome(value) {
     const annualIncome = 12 * value;
@@ -913,15 +1193,31 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     //console.log('event', event);
     this.isChecked = event.target.checked;
     if (this.isChecked === true) {
+      this.hideMsgForOwner = true;
       this.coApplicantForm.get('dedupe').get('houseOwnerProperty').setValidators([Validators.required]);
       this.coApplicantForm.get('dedupe').get('ownHouseAppRelationship').setValidators([Validators.required]);
       this.coApplicantForm.get('dedupe').get('houseOwnerProperty').updateValueAndValidity();
       this.coApplicantForm.get('dedupe').get('ownHouseAppRelationship').updateValueAndValidity();
+
+
+      const houseOwner = this.coApplicantForm.get('dedupe').get('houseOwnerProperty').value;
+      const ownHouseAppRelationship = this.coApplicantForm.get('dedupe').get('ownHouseAppRelationship').value
+      this.coApplicantForm.get('dedupe').patchValue({
+        houseOwnerProperty: houseOwner,
+        ownHouseAppRelationship: ownHouseAppRelationship
+      })
+
     } else {
+      this.hideMsgForOwner = false;
       this.coApplicantForm.get('dedupe').get('houseOwnerProperty').clearValidators();
       this.coApplicantForm.get('dedupe').get('ownHouseAppRelationship').clearValidators();
       this.coApplicantForm.get('dedupe').get('houseOwnerProperty').updateValueAndValidity();
       this.coApplicantForm.get('dedupe').get('ownHouseAppRelationship').updateValueAndValidity();
+
+      // this.coApplicantForm.get('dedupe').patchValue({
+      //   houseOwnerProperty : '',
+      //   ownHouseAppRelationship : ''
+      // })
     }
   }
 
@@ -929,21 +1225,22 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     return {
       loanApplicationRelation: new FormControl('', Validators.required),
       entityType: new FormControl('', Validators.required),
-      bussinessEntityType: new FormControl('',Validators.required),
-      fullName: new FormControl({value :'', disabled: true}),
+      bussinessEntityType: new FormControl('', Validators.required),
+      fullName: new FormControl({ value: '', disabled: true }),
       name1: new FormControl('', Validators.required),
       name2: new FormControl(''),
       name3: new FormControl(''),
       mobilePhone: new FormControl('', Validators.required),
       dob: new FormControl('', Validators.required),
       voterIdNumber: new FormControl(null),
-      aadhar: new FormControl('', Validators.required),
+      aadhar: new FormControl('', [Validators.required, Validators.maxLength(12)]),
       panType: new FormControl('', Validators.required),
       pan: new FormControl(''),
-      passportNumber: new FormControl(null),
+
       drivingLicenseNumber: new FormControl(''),
       drivingLicenseIssueDate: new FormControl(''),
       drivingLicenseExpiryDate: new FormControl(''),
+      passportNumber: new FormControl(null),
       passportIssueDate: new FormControl(''),
       passportExpiryDate: new FormControl(''),
 
@@ -1119,9 +1416,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         mobile = mobile.slice(2, 12);
       }
       this.mobileNumber = mobile;
-      let companyPhoneNumber = details.companyPhoneNumber
-        ? details.companyPhoneNumber
-        : '';
+      let companyPhoneNumber = details.companyPhoneNumber || '';
+      if (companyPhoneNumber && companyPhoneNumber.length === 12) {
+        companyPhoneNumber = companyPhoneNumber.slice(2, 12);
+      }
       if (companyPhoneNumber && companyPhoneNumber.length == 12) {
         //companyPhoneNumber = companyPhoneNumber.slice(2, 12);
         if (companyPhoneNumber.slice(0, 2) == '91') {
@@ -1132,16 +1430,25 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.disabledDrivingDates = details.drivingLicenseNumber ? false : true;
       this.contactNumber = companyPhoneNumber;
       this.setValueForFormControl('pan', details.pan);
+      if (applicantValue.applicantDetails.ownHouseProofAvail == '1') {
+        this.checkedBoxHouse = true;
+        this.isChecked = true;
+        this.hideMsgForOwner = true;
+      } else {
+        this.checkedBoxHouse = false;
+        this.isChecked = false;
+        this.hideMsgForOwner = false;
+      }
 
-      this.checkedBoxHouse =
-        applicantValue.applicantDetails.ownHouseProofAvail == '1'
-          ? true
-          : false;
-          
-          this.isChecked =
-        applicantValue.applicantDetails.ownHouseProofAvail == '1'
-          ? true
-          : false;
+      // this.checkedBoxHouse =
+      //   applicantValue.applicantDetails.ownHouseProofAvail == '1'
+      //     ? true
+      //     : false;
+
+      //     this.isChecked =
+      //   applicantValue.applicantDetails.ownHouseProofAvail == '1'
+      //     ? true
+      //     : false;
       //const monthlyIncome = applicantValue.applicantDetails.monthlyIncome;
       //console.log('this.checkedBoxHouse', this.checkedBoxHouse);
 
@@ -1205,7 +1512,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.addIndFormControls();
         this.removeNonIndFormControls();
         dedupe.get('bussinessEntityType').clearValidators()
-        dedupe.get('bussinessEntityType').updateValueAndValidity()
+        dedupe.get('bussinessEntityType').updateValueAndValidity();
+        //dedupe.get('passportNumber').updateValueAndValidity();
+
 
         const modifyaddress = applicantValue.applicantDetails.modifyCurrentAddress
         this.checkedModifyCurrent = modifyaddress == "1" ? true : false;
@@ -1226,6 +1535,15 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           passportIssueDate: details.passportIssueDate || '',
           passportExpiryDate: details.passportExpiryDate || '',
         });
+        if (applicantValue.indivIdentityInfoDetails.panType === '2PANTYPE') {
+          this.getPanValue(applicantValue.indivIdentityInfoDetails.panType);
+        }
+        // setTimeout(()=>{
+        //   dedupe.patchValue({
+        //     passportNumber: details.passportNumber || '',
+        //   })
+        // })
+
 
         const permentAddress = this.coApplicantForm.get('permentAddress');
         const currentAddress = this.coApplicantForm.get('currentAddress');
@@ -1275,7 +1593,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.coApplicantForm.get('dedupe').get('aadhar').updateValueAndValidity();
         this.coApplicantForm.get('dedupe').get('bussinessEntityType').setValidators([Validators.required]);
         this.coApplicantForm.get('dedupe').get('bussinessEntityType').updateValueAndValidity();
-        
+
         this.addNonIndFormControls();
         this.removeIndFormControls();
         if (mobile && mobile.length === 12) {
@@ -1409,7 +1727,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     return addressObj;
   }
 
-  clearDrivingExpiryDate() {
+  get validation() {
+    return
+  }
+
+  drivingIssueDateShowError() {
+    this.mandatory['drivingLicenseIssueDate'] = false;
     const valueChecked = this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').value > this.toDayDate;
     this.showMessage['drivinglicenseIssue'] = valueChecked ? true : false;
     this.drivingLicenseIssueDate.setDate(this.drivingLicenseIssueDate.getDate() + 1)
@@ -1417,18 +1740,21 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   }
 
-  clearPassportExpiryDate() {
+  passportIssueDateShowError() {
+    this.passportMandatory['passportIssueDate'] = false;
     const valueChecked = this.coApplicantForm.get('dedupe').get('passportIssueDate').value > this.toDayDate;
     this.showMessage['passportIssue'] = valueChecked ? true : false;
     this.passportIssueDate.setDate(this.passportIssueDate.getDate() + 1)
     this.coApplicantForm.get('dedupe').get('passportExpiryDate').setValue(null);
   }
   drivingLicenceExpiryShowError() {
-    const valueChecked = this.drivingLicenseIssueDate > this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').value;
+    this.mandatory['drivingLicenseExpiryDate'] = false;
+    const valueChecked = this.toDayDate > this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').value;
     this.showMessage['drivingLicenseExpiry'] = valueChecked ? true : false;
   }
   passportExpiryShowError() {
-    const valueChecked = this.passportIssueDate > this.coApplicantForm.get('dedupe').get('passportExpiryDate').value;
+    this.passportMandatory['passportExpiryDate'] = false;
+    const valueChecked = this.toDayDate > this.coApplicantForm.get('dedupe').get('passportExpiryDate').value;
     this.showMessage['passportExpiry'] = valueChecked ? true : false;
   }
 
@@ -1440,11 +1766,16 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         leadId: this.leadId
       }
       this.applicantService.getAddressDetails(data).subscribe((res) => {
-       // console.log('responce Address Details', res)
+        // console.log('responce Address Details', res)
         if (res['ProcessVariables'].error.code == '0') {
           this.leadAddressDetails = res['ProcessVariables'].addressDetails;
           if (this.leadAddressDetails !== null) {
             this.setLeadAddressDetails();
+          } else {
+            this.toasterService.showInfo(
+              'There is no main applicant address datas', ''
+            );
+            this.checkedAddressLead = '0';
           }
         } else {
           this.toasterService.showError(
@@ -1455,6 +1786,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
       })
     } else if (!checked) {
+      this.checkedAddressLead = '0';
       const currentAddress = this.coApplicantForm.get('currentAddress');
       const permenantAddress = this.coApplicantForm.get('permentAddress');
 
@@ -1557,7 +1889,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   onRetreiveAdhar() {
-    const referenceNo = this.coApplicantForm.get('dedupe').get('aadhar').value;
+    const referenceNo = this.coApplicantForm.get('dedupe').get('aadhar').value || this.apiReferenceNo;
     //const referenceNo="100006010628"
     this.applicantService.retreiveAdhar(referenceNo).subscribe((res) => {
       if (res['ProcessVariables'].error.code == "0") {
@@ -1572,25 +1904,82 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     })
   }
 
-  onRelieve() {
+  storeAdhar(event) {
+    this.storeAdharFlag = true;
+    this.storeAdharValue = event.target.value;
+    const dedupe = this.coApplicantForm.get('dedupe');
 
-    if (this.applicant == undefined) {
-
-      const adhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
-      this.coApplicantForm.get('dedupe').get('aadhar').setValue(adhar)
-    }
-    else {
-      const referenceNo = this.applicant.indivIdentityInfoDetails.aadhar;
-      this.coApplicantForm.get('dedupe').get('aadhar').setValue(referenceNo)
+    if (!dedupe.get('aadhar').invalid) {
+      this.enableDedupeBasedOnChanges(this.storeAdharValue !== this.aadhar);
+      this.isAadharChanged = this.storeAdharValue !== this.aadhar;
+      if (this.storeAdharValue !== this.aadhar) {
+        this.ekycBuutonAdharBased = true;
+      }
+      // this.showEkycbutton = false
+    } else {
+      this.isEnableDedupe = true;
     }
 
   }
 
+  onRelieve() {
+    if (this.applicantType == 'INDIVENTTYP') {
+
+      if (this.applicant == undefined) {
+        const adhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
+        this.coApplicantForm.get('dedupe').get('aadhar').setValue(adhar)
+      }
+      else {
+        const referenceNo = this.apiReferenceNo || this.applicant.indivIdentityInfoDetails.aadhar;
+        const storeData = this.storeAdharValue || ''
+        if (storeData) {
+          this.coApplicantForm.get('dedupe').get('aadhar').setValue(storeData)
+        }
+        else if (storeData == '' && this.storeAdharFlag) {
+          this.coApplicantForm.get('dedupe').get('aadhar').setValue(storeData)
+        } else if (referenceNo && referenceNo.length == 12) {
+          this.coApplicantForm.get('dedupe').get('aadhar').setValue(referenceNo)
+        } else {
+          this.coApplicantForm.get('dedupe').get('aadhar').setValue(referenceNo)
+        }
+
+
+      }
+
+
+      // console.log('Adhar test', this.coApplicantForm.get('dedupe').get('aadhar').value)
+    } else {
+      if (this.applicant == undefined) {
+        const adhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
+        this.coApplicantForm.get('dedupe').get('aadhar').setValue(adhar);
+      }
+      else {
+        const referenceNo = this.applicant.corporateProspectDetails.aadhar || '';
+        const storeData = this.storeAdharValue || ''
+        if (storeData) {
+          this.coApplicantForm.get('dedupe').get('aadhar').setValue(storeData)
+        }
+        else if (storeData == '' && this.storeAdharFlag) {
+          this.coApplicantForm.get('dedupe').get('aadhar').setValue(storeData)
+        } else if (referenceNo && referenceNo.length == 12) {
+          this.coApplicantForm.get('dedupe').get('aadhar').setValue(referenceNo)
+        } else {
+          this.coApplicantForm.get('dedupe').get('aadhar').setValue(referenceNo)
+        }
+
+      }
+    }
+
+
+  }
+
+
+
 
   validateSrNumber(event) {
     // console.log('event', event.target.value)
-  
-    this.SRNumberValidate= true;
+
+    this.SRNumberValidate = true;
     const value = event.target.value;
     if (value.length === 15) {
       this.getSRNumberValidation(value)
@@ -1602,12 +1991,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       srNo: value
     }).subscribe((res) => {
       const responce = res['ProcessVariables']
-      this.SRNumberValidate=responce.isSrValid? true : false
+      this.SRNumberValidate = responce.isSrValid ? true : false
 
-      if(responce.error.code=='0'){
-        this.toasterService.showSuccess(responce.error.message, 'SR Number validation successful'  )
-      }else{
-        this.toasterService.showError('', responce.error.message )
+      if (responce.error.code == '0') {
+        this.toasterService.showSuccess(responce.error.message, 'SR Number validation successful')
+      } else {
+        this.toasterService.showError('', responce.error.message)
       }
     })
   }
@@ -1793,7 +2182,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         formValue.communicationAddress.addressLineOne == '' ||
         formValue.communicationAddress.pincode == '' ||
         formValue.communicationAddress.city == '' ||
-        this.panValidate 
+        this.panValidate
       ) {
         this.isDirty = true;
         this.toasterService.showError(
@@ -1872,7 +2261,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       directorDetails: this.directorDetails,
       applicantId: this.applicantId,
       leadId: this.leadId,
-      isMobileNumberChanged: this.isMobileChanged,
+      isMobileNumberChanged: this.isMobileChanged
     };
 
     this.applicantService.saveApplicant(data).subscribe((res: any) => {
@@ -1910,6 +2299,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       currentAddress.disable();
       this.isPermanantAddressSame = true;
       this.isDisabledCheckbox = true;
+      this.SRNumberValidate = true;
     }
   }
 
@@ -1920,7 +2310,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     if (eventClicked) {
       const formValue: AddressDetails = this.coApplicantForm.get('permentAddress').value
 
-     // console.log('formvalue permanent', formValue)
+      // console.log('formvalue permanent', formValue)
       this.currentPincode = this.permanentPincode;
       //const permanentAddress = this.coApplicantForm.get('currentAddress');
       currentAddress.patchValue({
@@ -1954,21 +2344,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     }
   }
 
-  disablePermanentAddress() {
-    this.coApplicantForm.get('permentAddress').disable();
-  }
-
-  disableCurrentAddress() {
-    this.coApplicantForm.get('currentAddress').disable();
-  }
-
-  disableCommunicationAddress() {
-    this.coApplicantForm.get('communicationAddress').disable();
-  }
-
-  disableRegisteredAddress() {
-    this.coApplicantForm.get('registeredAddress').disable();
-  }
 
   enableDedupeButton() {
     const dedupe = this.coApplicantForm.get('dedupe');
@@ -2037,7 +2412,18 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   checkDedupe() {
-    console.log('dedupeMobileBoolean', this.dedupeMobile);
+    console.log('dedupeMobileBoolean', this.coApplicantForm.get('dedupe'));
+
+    if (this.hideMsgForOwner) {
+      const houseOwner = this.coApplicantForm.get('dedupe').get('houseOwnerProperty').value;
+      const ownHouseAppRelationship = this.coApplicantForm.get('dedupe').get('ownHouseAppRelationship').value
+      this.coApplicantForm.get('dedupe').patchValue({
+        houseOwnerProperty: houseOwner,
+        ownHouseAppRelationship: ownHouseAppRelationship
+      })
+    }
+    this.applicantDataService.setDedupeFlag(false);
+    this.storeAdharFlag = false;
     const dedupe = this.coApplicantForm.get('dedupe');
     if (this.applicantType == 'NONINDIVENTTYP') {
       this.addNonIndFormControls();
@@ -2054,7 +2440,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.toasterService.showError('There should be only one main applicant for this lead', '');
         return;
       }
-      
+
       this.storeNonIndividualDedupeValue();
     } else {
       this.isDirty = true;
@@ -2089,161 +2475,162 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.toasterService.showError('There should be only one main applicant for this lead', '');
         return;
       }
-     this.storeIndividualDedupeValues();
-      
+      this.storeIndividualDedupeValues();
+
+
     }
   }
 
-  storeNonIndividualDedupeValue(){
-    const dedupe = this.coApplicantForm.get('dedupe');
-    const applicantDetails = dedupe.value;
-      
-      let companyPhoneNumber = applicantDetails.companyPhoneNumber;
-      this.contactNumber = companyPhoneNumber;
-      // if (this.mobileNumber.length == 10) {
-      this.contactNumber = this.contactNumber;
-      // }
+  storeNonIndividualDedupeValue() {
+    const values = this.coApplicantForm.getRawValue();
+    const applicantDetails = values.dedupe;
 
-      if (applicantDetails.dateOfIncorporation) {
-        const date = new Date(applicantDetails.dateOfIncorporation);
-        applicantDetails.dateOfIncorporation = this.utilityService.getDateFormat(
-          applicantDetails.dateOfIncorporation
-        );
-      }
+    let companyPhoneNumber = applicantDetails.companyPhoneNumber;
+    this.contactNumber = companyPhoneNumber;
+    // if (this.mobileNumber.length == 10) {
+    this.contactNumber = this.contactNumber;
+    // }
 
-      const data = {
-        leadId: this.leadId,
-        entityType: applicantDetails.entityType || '',
-        bussinessEntityType: applicantDetails.bussinessEntityType || '',
-        ignoreProbablematch: 'false',
-        firstName: applicantDetails.name1,
-        middleName: applicantDetails.name2,
-        lastName: applicantDetails.name3,
-        companyPhoneNumber,
-        contactPerson: applicantDetails.contactPerson,
-        loanApplicationRelation: applicantDetails.loanApplicationRelation,
-        aadhar: applicantDetails.aadhar,
-        dateOfIncorporation: applicantDetails.dateOfIncorporation,
-        voterIdNumber: String(
-          applicantDetails.voterIdNumber || ''
-        ).toUpperCase(),
-        drivingLicenseNumber: String(
-          applicantDetails.drivingLicenseNumber || ''
-        ).toUpperCase(),
-        passportNumber: applicantDetails.passportNumber,
-        pan: String(applicantDetails.pan || '').toUpperCase(),
-        panType: applicantDetails.panType,
-        gstNumber: String(applicantDetails.gstNumber || '').toUpperCase(),
-        tanNumber: String(applicantDetails.tanNumber || '').toUpperCase(),
-        corporateIdentificationNumber: String(
-          applicantDetails.corporateIdentificationNumber || ''
-        ).toUpperCase(),
-        cstVatNumber: String(applicantDetails.cstVatNumber || '').toUpperCase(),
-        applicantId: 0,
-        custSegment: applicantDetails.custSegment || '',
-        monthlyIncomeAmount: applicantDetails.monthlyIncomeAmount || '',
-        annualIncomeAmount: applicantDetails.annualIncomeAmount || '',
-        ownHouseProofAvail: this.isChecked == true ? '1' : '0',
-        houseOwnerProperty: applicantDetails.houseOwnerProperty || '',
-        ownHouseAppRelationship: applicantDetails.ownHouseAppRelationship || '',
-        averageBankBalance: applicantDetails.averageBankBalance || '',
-        rtrType: applicantDetails.rtrType || '',
-        prevLoanAmount: applicantDetails.prevLoanAmount || '',
-        loanTenorServiced: applicantDetails.loanTenorServiced
-          ? Number(applicantDetails.loanTenorServiced)
-          : 0,
-        currentEMILoan: applicantDetails.currentEMILoan || '',
-        agriNoOfAcres: applicantDetails.agriNoOfAcres
-          ? Number(applicantDetails.agriNoOfAcres)
-          : 0,
-        agriOwnerProperty: applicantDetails.agriOwnerProperty || '',
-        agriAppRelationship: applicantDetails.agriAppRelationship || '',
-        grossReceipt: applicantDetails.grossReceipt || '',
-        isMobileNumberChanged: this.dedupeMobile,
-      };
-      if (this.applicantId) {
-        data.applicantId = this.applicantId;
-      }
+    if (applicantDetails.dateOfIncorporation) {
+      const date = new Date(applicantDetails.dateOfIncorporation);
+      applicantDetails.dateOfIncorporation = this.utilityService.getDateFormat(
+        applicantDetails.dateOfIncorporation
+      );
+    }
 
-      this.onDedupeApiCall(data);
+    const data = {
+      leadId: this.leadId,
+      entityType: applicantDetails.entityType || '',
+      bussinessEntityType: applicantDetails.bussinessEntityType || '',
+      ignoreProbablematch: 'false',
+      firstName: applicantDetails.name1,
+      middleName: applicantDetails.name2,
+      lastName: applicantDetails.name3,
+      companyPhoneNumber,
+      contactPerson: applicantDetails.contactPerson,
+      loanApplicationRelation: applicantDetails.loanApplicationRelation,
+      aadhar: applicantDetails.aadhar,
+      dateOfIncorporation: applicantDetails.dateOfIncorporation,
+      voterIdNumber: String(
+        applicantDetails.voterIdNumber || ''
+      ).toUpperCase(),
+      drivingLicenseNumber: String(
+        applicantDetails.drivingLicenseNumber || ''
+      ).toUpperCase(),
+      passportNumber: applicantDetails.passportNumber,
+      pan: String(applicantDetails.pan || '').toUpperCase(),
+      panType: applicantDetails.panType,
+      gstNumber: String(applicantDetails.gstNumber || '').toUpperCase(),
+      tanNumber: String(applicantDetails.tanNumber || '').toUpperCase(),
+      corporateIdentificationNumber: String(
+        applicantDetails.corporateIdentificationNumber || ''
+      ).toUpperCase(),
+      cstVatNumber: String(applicantDetails.cstVatNumber || '').toUpperCase(),
+      applicantId: 0,
+      custSegment: applicantDetails.custSegment || '',
+      monthlyIncomeAmount: applicantDetails.monthlyIncomeAmount || '',
+      annualIncomeAmount: applicantDetails.annualIncomeAmount || '',
+      ownHouseProofAvail: this.isChecked == true ? '1' : '0',
+      houseOwnerProperty: applicantDetails.houseOwnerProperty || '',
+      ownHouseAppRelationship: applicantDetails.ownHouseAppRelationship || '',
+      averageBankBalance: applicantDetails.averageBankBalance || '',
+      rtrType: applicantDetails.rtrType || '',
+      prevLoanAmount: applicantDetails.prevLoanAmount || '',
+      loanTenorServiced: applicantDetails.loanTenorServiced
+        ? Number(applicantDetails.loanTenorServiced)
+        : 0,
+      currentEMILoan: applicantDetails.currentEMILoan || '',
+      agriNoOfAcres: applicantDetails.agriNoOfAcres
+        ? Number(applicantDetails.agriNoOfAcres)
+        : 0,
+      agriOwnerProperty: applicantDetails.agriOwnerProperty || '',
+      agriAppRelationship: applicantDetails.agriAppRelationship || '',
+      grossReceipt: applicantDetails.grossReceipt || '',
+      isMobileNumberChanged: this.dedupeMobile,
+    };
+    if (this.applicantId) {
+      data.applicantId = this.applicantId;
+    }
+    this.applicantDataService.setDedupeValues(data)
+    this.onDedupeApiCall(data);
   }
 
-  storeIndividualDedupeValues(){
-    const dedupe = this.coApplicantForm.get('dedupe');
-    const applicantDetails = dedupe.value;
-      
-      let mobileNumber = applicantDetails.mobilePhone;
-      this.mobileNumber = mobileNumber;
-      this.mobileNumber = '91' + this.mobileNumber;
+  storeIndividualDedupeValues() {
+    const values = this.coApplicantForm.getRawValue();
+    const applicantDetails = values.dedupe;
 
-      if (applicantDetails.dob) {
-        const date = new Date(applicantDetails.dob);
-        applicantDetails.dob = this.utilityService.getDateFormat(
-          applicantDetails.dob
-        );
-      }
+    let mobileNumber = applicantDetails.mobilePhone;
+    this.mobileNumber = mobileNumber;
+    this.mobileNumber = '91' + this.mobileNumber;
 
-      const data = {
-        leadId: this.leadId,
-        entityType: applicantDetails.entityType,
-        ignoreProbablematch: 'false',
-        firstName: applicantDetails.name1,
-        middleName: applicantDetails.name2,
-        lastName: applicantDetails.name3,
-        mobileNumber,
-        loanApplicationRelation: applicantDetails.loanApplicationRelation,
-        aadhar: applicantDetails.aadhar,
-        dob: applicantDetails.dob,
-        pan: String(applicantDetails.pan || '').toUpperCase(),
-        panType: applicantDetails.panType,
-        voterIdNumber: String(
-          applicantDetails.voterIdNumber || ''
-        ).toUpperCase(),
-        drivingLicenseNumber: String(
-          applicantDetails.drivingLicenseNumber || ''
-        ).toUpperCase(),
-        drivingLicenseIssueDate: this.utilityService.getDateFormat(
-          applicantDetails.drivingLicenseIssueDate
-        ),
-        drivingLicenseExpiryDate: this.utilityService.getDateFormat(
-          applicantDetails.drivingLicenseExpiryDate
-        ),
-        passportNumber: String(
-          applicantDetails.passportNumber || ''
-        ).toUpperCase(),
-        passportIssueDate: this.utilityService.getDateFormat(
-          applicantDetails.passportIssueDate
-        ),
-        passportExpiryDate: this.utilityService.getDateFormat(
-          applicantDetails.passportExpiryDate
-        ),
-        applicantId: 0,
-        custSegment: applicantDetails.custSegment || '',
-        monthlyIncomeAmount: applicantDetails.monthlyIncomeAmount || '',
-        annualIncomeAmount: applicantDetails.annualIncomeAmount || '',
-        ownHouseProofAvail: this.isChecked == true ? '1' : '0',
-        houseOwnerProperty: applicantDetails.houseOwnerProperty || '',
-        ownHouseAppRelationship: applicantDetails.ownHouseAppRelationship || '',
-        averageBankBalance: applicantDetails.averageBankBalance || '',
-        rtrType: applicantDetails.rtrType || '',
-        prevLoanAmount: applicantDetails.prevLoanAmount || '',
-        loanTenorServiced: applicantDetails.loanTenorServiced
-          ? Number(applicantDetails.loanTenorServiced)
-          : 0,
-        currentEMILoan: applicantDetails.currentEMILoan || '',
-        agriNoOfAcres: applicantDetails.agriNoOfAcres
-          ? Number(applicantDetails.agriNoOfAcres)
-          : 0,
-        agriOwnerProperty: applicantDetails.agriOwnerProperty || '',
-        agriAppRelationship: applicantDetails.agriAppRelationship || '',
-        grossReceipt: applicantDetails.grossReceipt || '',
-        isMobileNumberChanged: this.dedupeMobile,
-      };
-      if (this.applicantId) {
-        data.applicantId = this.applicantId;
-      }
+    if (applicantDetails.dob) {
+      const date = new Date(applicantDetails.dob);
+      applicantDetails.dob = this.utilityService.getDateFormat(
+        applicantDetails.dob
+      );
+    }
 
-      this.onDedupeApiCall(data);
+    const data = {
+      leadId: this.leadId,
+      entityType: applicantDetails.entityType,
+      ignoreProbablematch: 'false',
+      firstName: applicantDetails.name1,
+      middleName: applicantDetails.name2,
+      lastName: applicantDetails.name3,
+      mobileNumber,
+      loanApplicationRelation: applicantDetails.loanApplicationRelation,
+      aadhar: applicantDetails.aadhar,
+      dob: applicantDetails.dob,
+      pan: String(applicantDetails.pan || '').toUpperCase(),
+      panType: applicantDetails.panType,
+      voterIdNumber: String(
+        applicantDetails.voterIdNumber || ''
+      ).toUpperCase(),
+      drivingLicenseNumber: String(
+        applicantDetails.drivingLicenseNumber || ''
+      ).toUpperCase(),
+      drivingLicenseIssueDate: this.utilityService.getDateFormat(
+        applicantDetails.drivingLicenseIssueDate
+      ),
+      drivingLicenseExpiryDate: this.utilityService.getDateFormat(
+        applicantDetails.drivingLicenseExpiryDate
+      ),
+      passportNumber: String(
+        applicantDetails.passportNumber || ''
+      ).toUpperCase(),
+      passportIssueDate: this.utilityService.getDateFormat(
+        applicantDetails.passportIssueDate
+      ),
+      passportExpiryDate: this.utilityService.getDateFormat(
+        applicantDetails.passportExpiryDate
+      ),
+      applicantId: 0,
+      custSegment: applicantDetails.custSegment || '',
+      monthlyIncomeAmount: applicantDetails.monthlyIncomeAmount || '',
+      annualIncomeAmount: applicantDetails.annualIncomeAmount || '',
+      ownHouseProofAvail: this.isChecked == true ? '1' : '0',
+      houseOwnerProperty: applicantDetails.houseOwnerProperty || '',
+      ownHouseAppRelationship: applicantDetails.ownHouseAppRelationship || '',
+      averageBankBalance: applicantDetails.averageBankBalance || '',
+      rtrType: applicantDetails.rtrType || '',
+      prevLoanAmount: applicantDetails.prevLoanAmount || '',
+      loanTenorServiced: applicantDetails.loanTenorServiced
+        ? Number(applicantDetails.loanTenorServiced)
+        : 0,
+      currentEMILoan: applicantDetails.currentEMILoan || '',
+      agriNoOfAcres: applicantDetails.agriNoOfAcres
+        ? Number(applicantDetails.agriNoOfAcres)
+        : 0,
+      agriOwnerProperty: applicantDetails.agriOwnerProperty || '',
+      agriAppRelationship: applicantDetails.agriAppRelationship || '',
+      grossReceipt: applicantDetails.grossReceipt || '',
+      isMobileNumberChanged: this.dedupeMobile,
+    };
+    if (this.applicantId) {
+      data.applicantId = this.applicantId;
+    }
+    this.applicantDataService.setDedupeValues(data)
+    this.onDedupeApiCall(data);
   }
 
   onDedupeApiCall(data) {
@@ -2261,7 +2648,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
             if (processVariables.isNLFound) {
               nlRemarks = processVariables.dedupeCustomerNL.remarks;
             }
-            if (processVariables.dedupeCustomerNLTR.isNLTRFound) {
+            if (processVariables.isNLTRFound) {
               nlTrRemarks = processVariables.dedupeCustomerNLTR.remarks;
             }
 
@@ -2289,8 +2676,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       });
   }
 
-  removeErrorMsg(){
-    this.panValidate= false;
+  removeErrorMsg() {
+    this.panValidate = false;
   }
 
   navigateToSamePage() {
@@ -2304,7 +2691,15 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         if (responce['ProcessVariables'].error.code == '0') {
           this.toasterService.showSuccess(responce['ProcessVariables'].error.message,
             'PAN Validation Successful');
+          // if(this.applicant.ekycDone=='0'){
+          //   this.showEkycbutton = true;
+          // }else if(this.ekycBuutonAdharBased){
+          //   this.showEkycbutton = true;
+          // }else{
+          //   this.showEkycbutton = false;
+          // }
           this.showEkycbutton = true;
+
         } else {
           this.panValidate = true;
           this.toasterService.showError(
@@ -2321,9 +2716,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
 
     this.showDedupeModal = false;
+
     this.router.navigateByUrl(
       `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
     );
+
     this.isEnableDedupe = false;
     this.isMobileChanged = false;
     this.isName1Changed = false;
@@ -2337,31 +2734,59 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.isCinNumberChanged = false;
     this.isGstNumberChanged = false;
     this.isTanNumberChanged = false;
+
+    const data = {
+      applicantId: this.applicantId,
+    };
+    this.applicantService.getApplicantDetail(data).subscribe((res) => {
+      if (this.applicantType == 'INDIVENTTYP') {
+        const adhar = res['ProcessVariables'].indivIdentityInfoDetails.aadhar;
+        this.coApplicantForm.get('dedupe').get('aadhar').setValue(adhar);
+        this.apiReferenceNo = this.coApplicantForm.get('dedupe').get('aadhar').value;
+
+      } else {
+        const adhar = res['ProcessVariables'].corporateProspectDetails.aadhar;
+        this.coApplicantForm.get('dedupe').get('aadhar').setValue(adhar);
+        this.apiReferenceNo = this.coApplicantForm.get('dedupe').get('aadhar').value;
+      }
+
+    })
+    this.storeAdharValue = '';
+    this.isEnableDedupe = false;
+    // this.getApplicantDetails();
+    // setTimeout(()=>{
+    //   this.ngOnInit()
+
+    // })
   }
 
   calleKYC() {
+    // this.showEkycbutton= false ;
+    // this.eKYCChecked= true;
+    // return
 
     let that = this;
-    
+
     let applicantId = this.applicantId;
     let aadhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
 
     this.applicantService.retreiveAdhar(aadhar).subscribe((res: any) => {
       let result = res;
-      let processVariables =  result.ProcessVariables;
-      if(processVariables.error.code == "0"){
+      let processVariables = result.ProcessVariables;
+      if (processVariables.error.code == "0") {
         aadhar = processVariables.uid;
+        // this.ekycDone = '1'
       }
 
-      setTimeout(function(){ 
+      setTimeout(function () {
         that.ngxService.start();
-       }, 1000);
+      }, 1000);
 
       that.biometricService.initIdenti5(aadhar, applicantId, function (result) {
 
         that.ngxService.stop();
         let res = JSON.parse(result);
-  
+
         if (res.pidErr) {
           that.pTag.nativeElement.click();
           that.ngxService.stop();
@@ -2369,29 +2794,29 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         }
         let processVariables = res.ProcessVariables;
         // value = JSON.parse(value).ProcessVariables;
-  
+
         console.log("KYC result&&&&@@@" + processVariables);
-  
+
         if (processVariables.error.code == '0') {
-          
-  
+
+          // this.ekycDone = '1'
           // that.isAlertSuccess = false;
           // setTimeout(() => {
           //   that.isAlertSuccess = true;
           // }, 1500);
-  
+
           // alert("e-KYC successful");
 
           let alertRet = Modals.alert({
             title: 'e-KYC Success',
             message: "You have successfully verified your KYC"
           });
-          
+
           that.toasterService.showSuccess(
             "You have successfully verified your KYC",
             'e-KYC Success'
           );
-  
+
         }
         else {
           // that.isAlertDanger = false;
@@ -2404,20 +2829,21 @@ export class AddOrUpdateApplicantComponent implements OnInit {
             title: 'e-KYC Failed',
             message: processVariables.error.message
           });
-  
+
           that.toasterService.showError(
             processVariables.error.message,
             'e-KYC Failed'
           );
-  
+
           return;
         }
-  
+
         //const processVariables= this.biometricResponce;
         that.setBiometricValues(that, processVariables);
-  
-  
-        that.showEkycbutton = false;
+        //that.eKYCChecked = true;
+
+
+        // that.showEkycbutton = false;
         that.isEnableDedupe = false;
         that.isMobileChanged = false;
         that.isName1Changed = false;
@@ -2451,7 +2877,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       dob: new Date(ctx.utilityService.getDateFromString(value.dobFromResponse))
     })
 
-    // dedupe.updateValueAndValidity();
+    // dedupe.get('name1').disable();
+    // dedupe.get('name2').disable();
+    // dedupe.get('name3').disable();
+    // dedupe.get('dob').disable();
+
 
     const currentAddress = ctx.coApplicantForm.get('currentAddress');
     const permanantAddress = ctx.coApplicantForm.get('permentAddress');
@@ -2497,32 +2927,15 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       nearestLandmark: value.landmark
     })
 
-    //permanantAddress.disable();
+    // permanantAddress.disable();
     currentAddress.reset();
     currentAddress.enable();
     ctx.isPermanantAddressSame = false
 
     ctx.pTag.nativeElement.click();
-
-
-    // if(value.error.code=='0'){
-    //   console.log("KYC success" + value.error.code);
-    //   alert("e-KYC successful" );
-
-    //   ctx.toasterService.showSuccess(
-    //     value.error.message,
-    //     'eKYC Success'
-    //   );
-    //  }else{
-    //   console.log("KYC failure" + value.error.code);
-    //   alert(value.error.message);
-
-    //   ctx.toasterService.showError(
-    //     value.error.message,
-    //     'eKYC Failed'
-    //   );
-    //   return;
-    //  }
+    const prospectDetails: IndividualProspectDetails = {};
+    prospectDetails.gender = value.genderFromResponce;
+    this.applicantDataService.setIndividualProspectDetails(prospectDetails);
 
   }
 
@@ -2531,18 +2944,24 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     if (this.applicantType == 'INDIVENTTYP') {
       // console.log('dedube Mobile', dedupe.get('mobilePhone').value)
       dedupe.get('mobilePhone').valueChanges.subscribe((value) => {
+
         if (!dedupe.get('mobilePhone').invalid) {
-          console.log('mobiel no', this.mobileNumber);
+          //console.log('mobiel no', this.mobileNumber);
+
           if (value !== this.mobileNumber) {
             this.isMobileChanged = true;
             this.isEnableDedupe = true;
             this.dedupeMobile = true;
+            // this.showEkycbutton = false;
+
           } else {
             this.isEnableDedupe = false;
             this.isMobileChanged = false;
+            // this.showEkycbutton = true;
           }
         } else {
           this.isEnableDedupe = true;
+          //this.showEkycbutton= true;
           // this.isMobileChanged = false;
         }
       });
@@ -2558,41 +2977,49 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.panValidate = false
         value = value || '';
         if (!dedupe.get('pan').invalid) {
-          this.enableDedupeBasedOnChanges(value != this.pan);
-          this.isPanChanged = value != this.pan;
+          const upperCaseValue = value ? value.toUpperCase() : value;
+          this.enableDedupeBasedOnChanges(upperCaseValue !== this.pan);
+          this.isPanChanged = upperCaseValue !== this.pan;
+
 
         } else {
           this.isEnableDedupe = true;
+          //this.showEkycbutton= false;
+
         }
       });
-      dedupe.get('aadhar').valueChanges.subscribe((value) => {
-        if (!dedupe.get('aadhar').invalid) {
-          this.enableDedupeBasedOnChanges(value !== this.aadhar);
-          this.isAadharChanged = value !== this.aadhar;
-        } else {
-          this.isEnableDedupe = true;
-        }
-      });
+      // dedupe.get('aadhar').valueChanges.subscribe((value) => {
+      //   if (!dedupe.get('aadhar').invalid) {
+      //     this.enableDedupeBasedOnChanges(value !== this.aadhar);
+      //     this.isAadharChanged = value !== this.aadhar;
+      //     // this.showEkycbutton = false
+      //   } else {
+      //     this.isEnableDedupe = true;
+      //   }
+      // });
       dedupe.get('passportNumber').valueChanges.subscribe((value) => {
         if (!dedupe.get('passportNumber').invalid) {
-          this.enableDedupeBasedOnChanges(value !== this.passportNumber);
-          this.isPassportChanged = value !== this.passportNumber;
+          const upperCaseValue = value ? value.toUpperCase() : value;
+          this.enableDedupeBasedOnChanges(upperCaseValue !== this.passportNumber);
+          this.isPassportChanged = upperCaseValue !== this.passportNumber;
         } else {
           this.isEnableDedupe = true;
         }
       });
       dedupe.get('drivingLicenseNumber').valueChanges.subscribe((value) => {
         if (!dedupe.get('drivingLicenseNumber').invalid) {
-          this.enableDedupeBasedOnChanges(value !== this.drivingLicenseNumber);
-          this.isDrivingLicenseChanged = value !== this.drivingLicenseNumber;
+          const upperCaseValue = value ? value.toUpperCase() : value;
+          this.enableDedupeBasedOnChanges(upperCaseValue !== this.drivingLicenseNumber);
+          this.isDrivingLicenseChanged = upperCaseValue !== this.drivingLicenseNumber;
         } else {
           this.isEnableDedupe = true;
         }
       });
       dedupe.get('voterIdNumber').valueChanges.subscribe((value) => {
         if (!dedupe.get('voterIdNumber').invalid) {
-          this.enableDedupeBasedOnChanges(value !== this.voterIdNumber);
-          this.isDrivingLicenseChanged = value !== this.voterIdNumber;
+          const upperCaseValue = value ? value.toUpperCase() : value;
+          this.enableDedupeBasedOnChanges(upperCaseValue !== this.voterIdNumber);
+          this.isDrivingLicenseChanged = upperCaseValue !== this.voterIdNumber;
         } else {
           this.isEnableDedupe = true;
         }
@@ -2626,8 +3053,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.panValidate = false;
         value = value || '';
         if (!dedupe.get('pan').invalid) {
-          this.enableDedupeBasedOnChanges(value != this.pan);
-          this.isPanChanged = value != this.pan;
+          const upperCaseValue = value ? value.toUpperCase() : value;
+          this.enableDedupeBasedOnChanges(upperCaseValue !== this.pan);
+          this.isPanChanged = upperCaseValue !== this.pan;
         } else {
           this.isEnableDedupe = true;
         }
@@ -2644,35 +3072,39 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         .get('corporateIdentificationNumber')
         .valueChanges.subscribe((value) => {
           if (!dedupe.get('corporateIdentificationNumber').invalid) {
+            const upperCaseValue = value ? value.toUpperCase() : value;
             this.enableDedupeBasedOnChanges(
-              value !== this.corporateIdentificationNumber
+              upperCaseValue !== this.corporateIdentificationNumber
             );
             this.isCinNumberChanged =
-              value !== this.corporateIdentificationNumber;
+              upperCaseValue !== this.corporateIdentificationNumber;
           } else {
             this.isEnableDedupe = true;
           }
         });
       dedupe.get('cstVatNumber').valueChanges.subscribe((value) => {
         if (!dedupe.get('cstVatNumber').invalid) {
-          this.enableDedupeBasedOnChanges(value !== this.cstVatNumber);
-          this.isCstNumberChanged = value !== this.cstVatNumber;
+          const upperCaseValue = value ? value.toUpperCase() : value;
+          this.enableDedupeBasedOnChanges(upperCaseValue !== this.cstVatNumber);
+          this.isCstNumberChanged = upperCaseValue !== this.cstVatNumber;
         } else {
           this.isEnableDedupe = true;
         }
       });
       dedupe.get('gstNumber').valueChanges.subscribe((value) => {
         if (!dedupe.get('gstNumber').invalid) {
-          this.enableDedupeBasedOnChanges(value !== this.gstNumber);
-          this.isGstNumberChanged = value !== this.gstNumber;
+          const upperCaseValue = value ? value.toUpperCase() : value;
+          this.enableDedupeBasedOnChanges(upperCaseValue !== this.gstNumber);
+          this.isGstNumberChanged = upperCaseValue !== this.gstNumber;
         } else {
           this.isEnableDedupe = true;
         }
       });
       dedupe.get('tanNumber').valueChanges.subscribe((value) => {
         if (!dedupe.get('tanNumber').invalid) {
-          this.enableDedupeBasedOnChanges(value !== this.tanNumber);
-          this.isTanNumberChanged = value !== this.tanNumber;
+          const upperCaseValue = value ? value.toUpperCase() : value;
+          this.enableDedupeBasedOnChanges(upperCaseValue !== this.tanNumber);
+          this.isTanNumberChanged = upperCaseValue !== this.tanNumber;
         } else {
           this.isEnableDedupe = true;
         }
@@ -2683,9 +3115,24 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   enableDedupeBasedOnChanges(condition: boolean) {
     if (condition) {
       this.isEnableDedupe = true;
+      //this.eKYCChecked = true
+      // this.showEkycbutton = false;
+
     } else {
       this.isEnableDedupe = false;
+      // this.showEkycbutton = true;
+
     }
+
+    // if (this.applicantType == 'INDIVENTTYP') {
+    //   if (condition && this.eKYCChecked) {
+    //     this.showEkycbutton = false;
+    //   } 
+    // else {
+    //   this.showEkycbutton = true;
+    // }
+    // }
+
   }
 
   navigateToApplicantList() {
@@ -2697,6 +3144,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       return;
     }
     this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
+    this.applicantDataService.setDedupeFlag(false);
   }
 
   negativeListModalListener(event) {

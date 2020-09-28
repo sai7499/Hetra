@@ -1,13 +1,11 @@
-
 <div style="text-align: center;">
-    <button class="btn btn-primary btn_div " 
-    *ngIf = "roleType == '2' && !isApprove && !isTermSheet"  (click)= "showTermSheet()" 
-    type="button">Generate Term Sheet</button>
+    <button class="btn btn-primary btn_div " *ngIf="roleType == '2' && !isApprove && !isTermSheet"
+        (click)="showTermSheet()" type="button">Generate Term Sheet</button>
 </div>
 <!-- -->
 
 
-<main class="content" style="padding-bottom: 50px;" *ngIf = "isTermSheet">
+<main class="content" style="padding-bottom: 50px;" *ngIf="isTermSheet">
     <div class="container overflow-hidden">
         <div class="multisteps-form" id="ContentToConvert">
             <div class="print_top">
@@ -45,203 +43,212 @@
                                 <td>{{applicationDetails?.product}}</td>
                             </tr>
                         </tbody>
-                    </table>    
+                    </table>
 
                     <div class="table-responsive">
 
-                    
-                    <table class="table-responsive table table-borderless" *ngFor = "let assetDetailsData of assetDetails ; let i=index">
-                        <thead>
-                            <tr id="table_header_top" style="border: none !important">
-                                <th id="table_column_width15"></th>
-                                 <th></th>
-                                <th id="table_column_width10">
-                                    
-                                   </th>
-                                <th id="table_column_width10"></th>
-                                <th></th>
-                                <th id="table_header_top_tag2">
+
+                        <table class="table-responsive table table-borderless"
+                            *ngFor="let assetDetailsData of assetDetails ; let i=index">
+                            <thead>
+                                <tr id="table_header_top" style="border: none !important">
+                                    <th id="table_column_width15"></th>
+                                    <th></th>
+                                    <th id="table_column_width10">
+
                                     </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                    <!-- assetDetails start -->
-                            <tr>
-                                
-                                <td>{{labels.assetType}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.type}}</td>
-                                <td>{{labels.manufacturer}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.manufac}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.termSheetTag2}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.manufacMonthYr}}</td>
-                                <td>{{labels.model}}</td>
-                                <td>: </td>
-                                <td>{{assetDetailsData.model}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.registrationNo}}.</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.regNo}}</td>
-                                <td>{{labels.engineNo}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.engineNo}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.permitStatus}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.permitStatus}}</td>
-                                <td>{{labels.chasisNo}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.chasisNo}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.taxArrears}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.taxArrears}}</td>
-                                <td>{{labels.agreementType}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.agreementType}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.classificationType}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.classificationType}}</td>
-                                <td>{{labels.NoofLIVELoans}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.liveLoans}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.fcExpiryDate}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.fcExpDate}}</td>
-                                <td>{{labels.schemeDescr}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.schemeDesc}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.vehicleRegistrationDate}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.regDate }}</td>
-                                <td>{{labels.fcExpiryGapDays}}</td>
-                                <td>: </td>
-                                <td> {{assetDetailsData.fcExpGapDays}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.cubicCapacity}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.cubicCapacity}}</td>
-                                <td>{{labels.seatingCapacity}}</td>
-                                <td>: </td>
-                                <td>{{assetDetailsData.seatingCapacity}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.gvw}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.gvw}}</td>
-                                <td>{{labels.advAdjustmentIMC}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.advAdjIMC}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.collateralApplicable}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.colApplicable}}</td>
-                                <td>{{labels.collateralName}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.colName}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.spokeLocation}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.spokeLoc}}</td>
-                                <td>{{labels.locationName}}</td>
-                                <td>: </td>
-                                <td>{{assetDetailsData.locName}}</td>
-                            </tr>
-                            <!-- assetDetails end -->
-                        </tbody>
-                    </table>
-                </div>
-                <div class="table-responsive">
-                    <table class="table-responsive  table table-borderless">
-                        <thead>
-                            <tr id="table_header_top" style="border: none !important">
-                                <th id="table_column_width15"></th>
-                                 <th></th>
-                                <th id="table_column_width10">
-                                    
-                                   </th>
-                                <th id="table_column_width10"></th>
-                                <th></th>
-                                <th id="table_header_top_tag2">
+                                    <th id="table_column_width10"></th>
+                                    <th></th>
+                                    <th id="table_header_top_tag2">
                                     </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                 <!-- psl start -->
-                                <td>{{labels.pslCategory}}</td>
-                                <td>:</td>
-                                <td>{{pslDetails?.category}}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.pslSubCategory}}</td>
-                                <td>:</td>
-                                <td>{{pslDetails?.subCategory}}</td>
-                                <td> </td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.folioNumber}}</td>
-                                <td>:</td>
-                                <td>{{pslDetails?.folioNum}}</td>
-                                <td>{{labels.customerCategory}}</td>
-                                <td>:</td>
-                                <td>{{applicantDetails?.category}}</td>
-                            </tr>
-                            <!-- customer Details -->
-                            <tr>
-                                <td>{{labels.nameOfTheCustomer}}</td>
-                                <td>:</td>
-                                <td>{{applicantDetails?.name}}</td>
-                                <td> </td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.customerDOB}}</td>
-                                <td>:</td>
-                                <td>{{applicantDetails?.dob}}</td>
-                                <td>{{labels.customerAge}}</td>
-                                <td>:</td>
-                                <td>{{applicantDetails?.age}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.customerType}}</td>
-                                <td>:</td>
-                                <td>{{applicantDetails?.type}}</td>
-                                <td>{{labels.registrationType}}</td>
-                                <td>:</td>
-                                <td>{{commonAppDetails?.registrationType}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.customerCibilStatus}}</td>
-                                <td>:</td>
-                                <td>{{commonAppDetails?.cibilStatus ? commonAppDetails?.cibilStatus : "-"}}</td>
-                                <td>{{labels.cibilScore}}</td>
-                                <td>:</td>
-                                <td>{{commonAppDetails?.cibilScore}}</td>
-                            </tr>
-                            <!-- <tr>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- assetDetails start -->
+                                <tr>
+
+                                    <td>{{labels.assetType}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.type}}</td>
+                                    <td>{{labels.manufacturer}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.manufac}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.termSheetTag2}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.manufacMonthYr}}</td>
+                                    <td>{{labels.model}}</td>
+                                    <td>: </td>
+                                    <td>{{assetDetailsData.model}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.registrationNo}}.</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.regNo}}</td>
+                                    <td>{{labels.engineNo}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.engineNo}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.permitStatus}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.permitStatus}}</td>
+                                    <td>{{labels.chasisNo}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.chasisNo}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.taxArrears}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.taxArrears}}</td>
+                                    <td>{{labels.agreementType}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.agreementType}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.classificationType}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.classificationType}}</td>
+                                    <td>{{labels.NoofLIVELoans}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.liveLoans}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.fcExpiryDate}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.fcExpDate}}</td>
+                                    <td>{{labels.schemeDescr}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.schemeDesc}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.vehicleRegistrationDate}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.regDate }}</td>
+                                    <td>{{labels.fcExpiryGapDays}}</td>
+                                    <td>: </td>
+                                    <td> {{assetDetailsData.fcExpGapDays}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.cubicCapacity}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.cubicCapacity}}</td>
+                                    <td>{{labels.seatingCapacity}}</td>
+                                    <td>: </td>
+                                    <td>{{assetDetailsData.seatingCapacity}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.gvw}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.gvw}}</td>
+                                    <td>
+                                        <!-- {{labels.advAdjustmentIMC}} -->
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        <!-- {{assetDetailsData.advAdjIMC}} -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.collateralApplicable}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.colApplicable}}</td>
+                                    <td>{{labels.collateralName}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.colName}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.spokeLocation}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.spokeLoc}}</td>
+                                    <td>{{labels.locationName}}</td>
+                                    <td>: </td>
+                                    <td>{{assetDetailsData.locName}}</td>
+                                </tr>
+                                <!-- assetDetails end -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table-responsive  table table-borderless">
+                            <thead>
+                                <tr id="table_header_top" style="border: none !important">
+                                    <th id="table_column_width15"></th>
+                                    <th></th>
+                                    <th id="table_column_width10">
+
+                                    </th>
+                                    <th id="table_column_width10"></th>
+                                    <th></th>
+                                    <th id="table_header_top_tag2">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <!-- psl start -->
+                                    <td>{{labels.pslCategory}}</td>
+                                    <td>:</td>
+                                    <td>{{pslDetails?.category}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.pslSubCategory}}</td>
+                                    <td>:</td>
+                                    <td>{{pslDetails?.subCategory}}</td>
+                                    <td> </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.folioNumber}}</td>
+                                    <td>:</td>
+                                    <td>{{pslDetails?.folioNum}}</td>
+                                    <td>{{labels.customerCategory}}</td>
+                                    <td>:</td>
+                                    <td>{{applicantDetails?.category}}</td>
+                                </tr>
+                                <!-- customer Details -->
+                                <tr>
+                                    <td>{{labels.nameOfTheCustomer}}</td>
+                                    <td>:</td>
+                                    <td>{{applicantDetails?.name}}</td>
+                                    <td> </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.customerDOB}}</td>
+                                    <td>:</td>
+                                    <td>{{applicantDetails?.dob}}</td>
+                                    <td>{{labels.customerAge}}</td>
+                                    <td>:</td>
+                                    <td>{{applicantDetails?.age}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.customerType}}</td>
+                                    <td>:</td>
+                                    <td>{{applicantDetails?.type}}</td>
+                                    <td>
+                                        <!-- {{labels.registrationType}} -->
+                                    </td>
+                                    <td>:</td>
+                                    <td>
+                                        <!-- {{commonAppDetails?.registrationType}} -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.customerCibilStatus}}</td>
+                                    <td>:</td>
+                                    <td>{{commonAppDetails?.cibilStatus ? commonAppDetails?.cibilStatus : "-"}}</td>
+                                    <td>{{labels.cibilScore}}</td>
+                                    <td>:</td>
+                                    <td>{{commonAppDetails?.cibilScore}}</td>
+                                </tr>
+                                <!-- <tr>
                                 <td>{{labels.leadReferenceNumber}}</td>
                                 <td>:</td>
                                 <td>{{commonAppDetails?.leadRefNo}}</td>
@@ -249,40 +256,41 @@
                                 <td>:</td>
                                 <td>{{commonAppDetails?.leadRefDate}}</td>
                             </tr> -->
-                            <tr>
-                                <td>{{labels.genderOfCustomer}}</td>
-                                <td>:</td>
-                                <td>{{applicantDetails?.gender}}</td>
-                                <td>{{labels.distance}}</td>
-                                <td>: </td>
-                                <td>{{commonAppDetails?.distance}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.businessStability}}</td>
-                                <td>:</td>
-                                <td>{{commonAppDetails?.businessStab}}</td>
-                                <td>{{labels.residenceStability2}}</td>
-                                <td>: </td>
-                                <td>{{commonAppDetails?.residenceStab ? commonAppDetails?.residenceStab  : "-" }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                <tr>
+                                    <td>{{labels.genderOfCustomer}}</td>
+                                    <td>:</td>
+                                    <td>{{applicantDetails?.gender}}</td>
+                                    <td>{{labels.distance}}</td>
+                                    <td>: </td>
+                                    <td>{{commonAppDetails?.distance}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.businessStability}}</td>
+                                    <td>:</td>
+                                    <td>{{commonAppDetails?.businessStab}}</td>
+                                    <td>{{labels.residenceStability2}}</td>
+                                    <td>: </td>
+                                    <td>{{commonAppDetails?.residenceStab ? commonAppDetails?.residenceStab  : "-" }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div id="tearms_sheet_header2">
                     <p id="tearms_sheet_header2_top">{{labels.coApplicantDetails}}</p>
-                  <div *ngFor = "let coAppDetailsData of coAppDetails; let i=index">
-                    <p id="tearms_sheet_hdr_left_tag">
-                        {{labels.name}} : {{coAppDetailsData.name}}
-                    </p>
-                    <p id="tearms_sheet_hdr_left_tag">
-                        {{labels.dob}} : {{coAppDetailsData.dob}} &nbsp;
-                        {{labels.age}} : {{coAppDetailsData.age}}&nbsp;
-                        {{labels.type}} : {{coAppDetailsData.type}}&nbsp;
-                        {{labels.gender}} : {{coAppDetailsData.gender}}
-                    </p>
-                  </div> 
-                   
+                    <div *ngFor="let coAppDetailsData of coAppDetails; let i=index">
+                        <p id="tearms_sheet_hdr_left_tag">
+                            {{labels.name}} : {{coAppDetailsData.name}}
+                        </p>
+                        <p id="tearms_sheet_hdr_left_tag">
+                            {{labels.dob}} : {{coAppDetailsData.dob}} &nbsp;
+                            {{labels.age}} : {{coAppDetailsData.age}}&nbsp;
+                            {{labels.type}} : {{coAppDetailsData.type}}&nbsp;
+                            {{labels.gender}} : {{coAppDetailsData.gender}}
+                        </p>
+                    </div>
+
 
                 </div>
                 <div id="tearms_sheet_header3">
@@ -300,17 +308,19 @@
                         </p>
                     </div>
                 </div>
-                <div id="tearms_sheet_header4" *ngFor = "let bankDetails of bankDetails">
+                <div id="tearms_sheet_header4" *ngFor="let bankDetails of bankDetails">
                     <p id="tearms_sheet_header4_tag">
                         <span id="tearms_sheet_header4_tag1">
-                            {{labels.applicantBankName}} &nbsp;: &nbsp; {{bankDetails?.bankName ? bankDetails?.bankName : '-'}}</span>
+                            {{labels.applicantBankName}} &nbsp;: &nbsp;
+                            {{bankDetails?.bankName ? bankDetails?.bankName : '-'}}</span>
                         <span id="tearms_sheet_header4_ta2">
                             {{labels.MICRNO}} : <span>{{bankDetails?.MICR ? bankDetails?.MICR : '-'}}</span>
                         </span>
                     </p>
                     <p id="tearms_sheet_header4_tag3">
                         <span id="tearms_sheet_header4_tag4">
-                            {{labels.applicantBankBranch}} &nbsp;: &nbsp;{{bankDetails?.branchName ? bankDetails?.branchName : '-'}} </span>
+                            {{labels.applicantBankBranch}} &nbsp;:
+                            &nbsp;{{bankDetails?.branchName ? bankDetails?.branchName : '-'}} </span>
                         <span id="tearms_sheet_header4_tag5">
                             {{labels.accNo}}. &nbsp;:&nbsp;{{bankDetails?.accNum ? bankDetails?.accNum : '-'}}
                         </span>
@@ -331,7 +341,7 @@
                     </p>
                 </div>
                 <div id="tearms_sheet_header6">
-                    <div *ngFor = "let identityData of identityDetails">
+                    <div *ngFor="let identityData of identityDetails">
                         <p id="tearms_sheet_header6_tag">
                             <span id="tearms_sheet_header6_tag1">
                                 {{labels.addressCumIdProof}}:&nbsp; {{identityData.addrCumIdProof}}
@@ -341,7 +351,7 @@
                             </span>
                         </p>
                     </div>
-                    <div  *ngFor = "let identityData of coAppIndentityDetails">
+                    <div *ngFor="let identityData of coAppIndentityDetails">
                         <p id="tearms_sheet_header6_tag">
                             <span id="tearms_sheet_header6_tag1">
                                 {{'co-Applicant '+labels.addressCumIdProof}}:&nbsp; {{identityData.addrCumIdProof}}
@@ -351,7 +361,7 @@
                             </span>
                         </p>
                     </div>
-                    <div  *ngFor = "let identityData of guaIdentityDetails">
+                    <div *ngFor="let identityData of guaIdentityDetails">
                         <p id="tearms_sheet_header6_tag">
                             <span id="tearms_sheet_header6_tag1">
                                 {{'Guarantor '+labels.addressCumIdProof}}:&nbsp; {{identityData.addrCumIdProof}}
@@ -363,8 +373,8 @@
                     </div>
                 </div>
                 <div id="tearms_sheet_header7" class="table-responsive">
-                    <table class="table table-responsive  table-borderless"
-                     cellspadding="10" *ngFor = "let assValuationData of assValuationDetails; let i= index;">
+                    <table class="table table-responsive  table-borderless" cellspadding="10"
+                        *ngFor="let assValuationData of assValuationDetails; let i= index;">
                         <thead>
                         </thead>
                         <tbody>
@@ -420,9 +430,13 @@
                                 <td>{{labels.emiAmount}}</td>
                                 <td>:</td>
                                 <td>{{assValuationData.emiAmount}}</td>
-                                <td>{{labels.fieldVisitCharges2}}</td>
-                                <td>:</td>
-                                <td>{{assValuationData.fieldVisitChrgs}}</td>
+                                <td>
+                                    <!-- {{labels.fieldVisitCharges2}} -->
+                                </td>
+                                <td></td>
+                                <td>
+                                    <!-- {{assValuationData.fieldVisitChrgs}} -->
+                                </td>
                             </tr>
                             <tr>
                                 <td>{{labels.insPremium}}</td>
@@ -449,17 +463,26 @@
                                 <td>{{assValuationData.processFeePercent}}</td>
                             </tr>
                             <tr>
-                                <td>{{labels.vintageDeviation}}</td>
-                                <td>:</td>
-                                <td>{{assValuationData.vintageDev}}</td>
+                                <td>
+                                    <!-- {{labels.vintageDeviation}} -->
+                                </td>
+                                <td></td>
+                                <td>
+                                    <!-- {{assValuationData.vintageDev}} -->
+
+                                </td>
                                 <td>{{labels.assetAge}}</td>
                                 <td>:</td>
                                 <td>{{assValuationData.assetAge}}</td>
                             </tr>
                             <tr>
-                                <td>{{labels.vintageDeviationClassification}} </td>
+                                <td>
+                                    <!-- {{labels.vintageDeviationClassification}}  -->
+                                </td>
                                 <td>:</td>
-                                <td>{{assValuationData.vintageDevClassification}}</td>
+                                <td>
+                                    <!-- {{assValuationData.vintageDevClassification}} -->
+                                </td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -469,7 +492,8 @@
                 </div>
 
                 <div id="tearms_sheet_header8" class="table-responsive">
-                    <table class="table table-responsive table-borderless" *ngFor = "let assetLoanDetails of assetLoanDetails">
+                    <table class="table table-responsive table-borderless"
+                        *ngFor="let assetLoanDetails of assetLoanDetails">
                         <thead>
                         </thead>
                         <tbody>
@@ -609,7 +633,7 @@
                         </span>
                         <span id="terms_sheet_headline10_tag7">
                             {{labels.emiCoveragePremium}} : {{deductionDetails?.emiCovPremium}}
-                        </span> 
+                        </span>
                     </p>
                     <p id="terms_sheet_headline10_tag8">
                         {{labels.totalDeductionAmount}}: {{deductionDetails?.totalDeductAmt}}
@@ -639,22 +663,24 @@
                             </tr>
                         </thead>
                     </table> -->
-                    <div *ngFor = "let paymentDetails of paymentDetails">
-                    <p id="terms_sheet_headline11">{{labels.paymentDetails}}</p>
-                    <p id="terms_sheet_headline11_tag">
-                        <span id="terms_sheet_headline11_tag1">{{labels.paymentTo}} : {{paymentDetails?.paymentTo}}</span>
-                        <span id="terms_sheet_headline11_tag2">{{labels.payeeName}}:  {{paymentDetails?.payeeName}}
-                            &nbsp;&nbsp; <span>{{labels.acNo}} : </span>  {{paymentDetails?.accNum}}
-                        </span>
-                    </p>
-                    <p id="terms_sheet_headline11_tag3">
-                        <span id="terms_sheet_headline11_tag4">{{labels.amount}} :  {{paymentDetails?.amount}}</span>
-                        <span id="terms_sheet_headline11_tag5">{{labels.bankAc}} :  {{paymentDetails?.bankAcc}}</span>
-                    </p>
-                    <p id="terms_sheet_headline11_tag6">
-                        <span id="terms_sheet_headline11_tag7">{{labels.mode}} :  {{paymentDetails?.mode}}</span>
-                        <span id="terms_sheet_headline11_tag8"></span>
-                    </p>
+                    <div *ngFor="let paymentDetails of paymentDetails">
+                        <p id="terms_sheet_headline11">{{labels.paymentDetails}}</p>
+                        <p id="terms_sheet_headline11_tag">
+                            <span id="terms_sheet_headline11_tag1">{{labels.paymentTo}} :
+                                {{paymentDetails?.paymentTo}}</span>
+                            <span id="terms_sheet_headline11_tag2">{{labels.payeeName}}: {{paymentDetails?.payeeName}}
+                                &nbsp;&nbsp; <span>{{labels.acNo}} : </span> {{paymentDetails?.accNum}}
+                            </span>
+                        </p>
+                        <p id="terms_sheet_headline11_tag3">
+                            <span id="terms_sheet_headline11_tag4">{{labels.amount}} : {{paymentDetails?.amount}}</span>
+                            <span id="terms_sheet_headline11_tag5">{{labels.bankAc}} :
+                                {{paymentDetails?.bankAcc}}</span>
+                        </p>
+                        <p id="terms_sheet_headline11_tag6">
+                            <span id="terms_sheet_headline11_tag7">{{labels.mode}} : {{paymentDetails?.mode}}</span>
+                            <span id="terms_sheet_headline11_tag8"></span>
+                        </p>
                     </div>
 
 
@@ -679,8 +705,8 @@
                             <span id="terms_sheet_headline12_tag5"></span>
                         </p>
                     </div>
-                   </div>
-                   <!-- <div id="terms_sheet_headline12" class="table-responsive">
+                </div>
+                <!-- <div id="terms_sheet_headline12" class="table-responsive">
 
                     <p id="terms_sheet_headline12_tag">Fleet Details</p>
                     <hr id="terms_sheet_headline12_tag0" />
@@ -729,7 +755,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor = "let creditApprovalData of creditApprovalDev ; let i= index">
+                            <tr *ngFor="let creditApprovalData of creditApprovalDev ; let i= index">
                                 <td style="max-width: 25%;">{{creditApprovalData.factor}}</td>
                                 <td>{{creditApprovalData.minVal}}</td>
                                 <td>{{creditApprovalData.maxVal}}</td>
@@ -737,14 +763,15 @@
                                 <td>{{creditApprovalData.devaited}}</td>
                                 <td>{{creditApprovalData.approver}}</td>
                             </tr>
-                           
+
                         </tbody>
                     </table>
                 </div>
                 <div id="terms_sheet_headline14" class="table-responsive">
                     <p id="terms_sheet_headline14_tag">{{labels.termSheetTag4}}</p>
                     <hr id="terms_sheet_headline12_tag0" />
-                    <table class="table table-responsive table-borderless" *ngFor = "let loanDetailsData of loanDetails; let i = index">
+                    <table class="table table-responsive table-borderless"
+                        *ngFor="let loanDetailsData of loanDetails; let i = index">
                         <!--- <thead>
                     <tr>
                       <th>Application No. : 109555</th>
@@ -857,16 +884,16 @@
 
             </div>
         </div>
-        <div class="btn-sec clear-both row" *ngIf = "!isApprove">
+        <div class="btn-sec clear-both row" *ngIf="!isApprove">
             <div class="col-sm-5">
 
             </div>
             <div class="col-sm-7 text-right">
-                <button class="btn btn-primary btn_div " (click)= "onBack()" type="button">Back</button>
+                <button class="btn btn-primary btn_div " (click)="onBack()" type="button">Back</button>
                 <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
-                <button class="btn btn-primary btn_div" (click)= "onNext()" type="button">Next</button>
-                <button class="btn btn-primary btn_div" (click)= "downloadpdf()" type="button">Download</button>
-            
+                <button class="btn btn-primary btn_div" (click)="onNext()" type="button">Next</button>
+                <button class="btn btn-primary btn_div" (click)="downloadpdf()" type="button">Download</button>
+
             </div>
         </div>
 
@@ -882,50 +909,77 @@
 </main>
 
 
-<div class="btn-sec clear-both row" *ngIf = "roleType == '2' && !isTermSheet && !isApprove" >
+<div class="btn-sec clear-both row" *ngIf="roleType == '2' && !isTermSheet && !isApprove">
     <div class="col-sm-5">
 
     </div>
     <div class="col-sm-7 text-right">
-        <button class="btn btn-primary btn_div " (click)= "onBack()" type="button">Back</button>
+        <button class="btn btn-primary btn_div " (click)="onBack()" type="button">Back</button>
         <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
-        <button class="btn btn-primary btn_div" (click)= "onNext()" type="button">Next</button>
+        <button class="btn btn-primary btn_div" (click)="onNext()" type="button">Next</button>
     </div>
 </div>
-<div class="text-right" style="padding-bottom: 50px;" *ngIf = "isApprove">
-    <button class="btn btn-primary btn_div" data-toggle="modal"
-    data-target="#approveModal" 
-     type="button">Approve</button>
+<div class="text-right" style="padding-bottom: 50px;" *ngIf="isApprove">
+    <button class="btn btn-primary btn_div" data-toggle="modal" data-target="#approveModal"
+        type="button">Approve</button>
 
 </div>
 
 <div class="modal" id="approveModal">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title"></h4>
-          <button type="button" class="close" data-dismiss="modal">
-            &times;
-          </button>
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    &times;
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" style="text-align: center;">
+                <label>Are you sure you want to Approve the Term Sheet</label>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-success" id="reject_yes_val" value="Yes"
+                    (click)="assignTaskToTSAndCPC()" data-dismiss="modal">
+                    {{ labels.yes }}
+                </button>
+
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    {{ labels.cancel }}
+                </button>
+            </div>
         </div>
-  
-        <!-- Modal body -->
-        <div class="modal-body" style="text-align: center;">
-          <label>Are you sure you want to Approve the Term Sheet</label>
-        </div>
-  
-        <!-- Modal footer -->
-        <div class="modal-footer text-center">
-          <button type="button" class="btn btn-success" id="reject_yes_val" value="Yes"
-          (click)= "assignTaskToTSAndCPC()" data-dismiss="modal">
-            {{ labels.yes }}
-          </button>
-        
-          <button type="button" class="btn btn-danger" data-dismiss="modal">
-            {{ labels.cancel }}
-          </button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
+
+<div id="overlay" *ngIf="errorGenerated">
+    <div id="text">
+        <div class="panel">
+            <div class="panel-body">
+                <button type="button" class="close" aria-label="Close" (click)="errorGenerated = false">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="modal-dialog">
+                    <div class="modal-body" style="text-align:center;">
+                        <!-- <p *ngFor="let item of errorMessage">{{item}}</p> -->
+                        <div class="errHead">
+                            <h3 class="m-0">RC and TA Limit Check</h3>
+                        </div>
+                        <div class="row" *ngFor="let item of errorMessage; let i = index ;">
+                            <div class="col-md-12">
+                                <div class="errText"><strong>*</strong>{{' '+item}}</div>
+                            </div>
+                        </div>
+                        <div class="btn-wrap">
+                            <button class="btn btn-danger" routerLink="/pages/dashboard" (click)="errorGenerated = false">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

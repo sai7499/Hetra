@@ -62,6 +62,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public userId: number;
   public leadId: number;
 
+  public vehicleRegPattern: {
+    rule?: any;
+    msg?: string;
+  }[];
+
   constructor(
     private _fb: FormBuilder, private toggleDdeService: ToggleDdeService,
     private loginStoreService: LoginStoreService, private labelsData: LabelsService,
@@ -113,12 +118,33 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.setFormValue();
     };
 
+    this.vehicleRegPattern = this.validateCustomPattern()
+
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1') {
+    if (operationType === '1' || operationType === '2') {
       this.basicVehicleForm.disable();
       this.disableSaveBtn = true;
     }
 
+  }
+
+  validateCustomPattern() {
+    const regPatternData = [
+      {
+        rule: (inputValue) => {
+          let patttern = '^[A-Z]{2}[ -][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$';
+          if (inputValue.length === 10) {
+            return !RegExp(/[A-Z-a-z]{2}[0-9]{2}[A-Z-a-z]{2}[0-9]{4}/).test(inputValue);
+          } else if (inputValue.length === 9) {
+            return !RegExp(/[A-Z-a-z]{2}[0-9]{2}[A-Z-a-z]{1}[0-9]{4}/).test(inputValue)
+          } else {
+            return true
+          }
+        },
+        msg: 'Invalid Vehicle Registration Number, Valid Formats are: TN02AB1234/TN02A1234',
+      }
+    ];
+    return regPatternData;
   }
 
   onGetDateValue(event) {
@@ -514,7 +540,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     })
 
     this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVariant,
-      0, "vehicleVariant")
+      'vehicleCode', "vehicleVariant")
 
     obj.patchValue({
       assetVariant: ''

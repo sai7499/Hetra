@@ -1,0 +1,39 @@
+<div class="modal fade" [id]="modalId">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header ">
+        <button type="button" class="close" data-dismiss="modal" (click)="onCancel()">&times;</button>
+        <h4 class="modal-title text-center ">{{data.title}}</h4>
+      </div>
+      <div class="modal-body ">
+        <div class="">
+          <div class="row">
+            <div class="col-6 p-0 text-center">
+              <!-- <div class="form-group"> -->
+                <!-- <div class="col-12 mx-auto" id="proceed_div">
+                  <div class="col-6 field"><label for="proceed_reason">Select the reason for Rejection</label></div>
+                  <div class="col-6 field"> -->
+                    <select class="form-control reject-wid-mrg" id="reject_reason">
+                      <option disabled value="">-- Select one --</option>
+                      <option value="option1">option1</option>
+                      <option value="option2">option2</option>
+                      <option value="option3">option3</option>
+                      <option value="option4">option4</option>
+                    </select>
+                  <!-- </div>
+                  <button *ngIf="isSubmit || isChecked" class="btn btn-primary mar-right8" id="proceed_with_sumbit"
+                    type="button" data-toggle="modal" data-target="#rejectModal"> Submit</button>
+                </div> -->
+              <!-- </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class=" ok_footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal"
+          (click)='onOkay()'>{{data.okayLabel}}</button>&nbsp;&nbsp;
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onCancel()">{{data.cancelLabel}}</button>
+      </div>
+    </div>
+  </div>
+</div>

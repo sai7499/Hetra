@@ -9,6 +9,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { ToasterService } from '@services/toaster.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CollateralDataStoreService } from '@services/collateral-data-store.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
     selector: 'app-additional-collateral-details',
@@ -30,12 +31,11 @@ export class AdditionalCollateralComponent implements OnInit {
     applicantDetails: any = [];
     collateralType: string = 'AGRIADDCOLTYP';
     currentValue: any
-    goldGramsValue: any
-
-
+    goldGramsValue: any;
+    disableSaveBtn: boolean;
 
     constructor(private _fb: FormBuilder, private labelsData: LabelsService, private createLeadDataService: CreateLeadDataService, private collateralDataService: CollateralDataStoreService,
-        private commonLovService: CommomLovService, private utilityService: UtilityService, private collateralService: CollateralService,
+        private commonLovService: CommomLovService, private utilityService: UtilityService, private collateralService: CollateralService, private toggleDdeService: ToggleDdeService,
         private loginStoreService: LoginStoreService, private toasterService: ToasterService, private router: Router, private activatedRoute: ActivatedRoute) {
 
         this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
@@ -71,6 +71,12 @@ export class AdditionalCollateralComponent implements OnInit {
         this.getLov();
         if (collateralId) {
             this.setFormValue(collateralId);
+        }
+
+        const operationType = this.toggleDdeService.getOperationType();
+        if (operationType === '1' || operationType === '2') {
+            this.disableSaveBtn = true;
+            this.collateralForm.disable()
         }
     }
 
@@ -172,8 +178,8 @@ export class AdditionalCollateralComponent implements OnInit {
         if (this.goldGramsValue) {
             const totalValue = this.currentValue * this.goldGramsValue;
             this.convertTotalValue(totalValue)
-            
-        }else{
+
+        } else {
             details.get('totalMarketValue').setValue(null)
         }
 
@@ -187,24 +193,24 @@ export class AdditionalCollateralComponent implements OnInit {
             const totalValue = this.currentValue * this.goldGramsValue;
             this.convertTotalValue(totalValue)
         }
-        else{
+        else {
             details.get('totalMarketValue').setValue(null)
         }
     }
 
-    convertTotalValue(totalValue){
+    convertTotalValue(totalValue) {
         const formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
         const details = formArray.at(0)
-        const totalValueString= totalValue.toString();
-            if(totalValueString.includes('.')){
-               const secondIndexValue=totalValueString.split('.')[1]
-               const firstIndexValue=totalValueString.split('.')[0]
-               const sliceValue= secondIndexValue.slice(0,4) 
-               const finalValue= firstIndexValue + '.' + sliceValue;
-               details.get('totalMarketValue').setValue(finalValue)
-            }else{
-                details.get('totalMarketValue').setValue(totalValue)
-            }
+        const totalValueString = totalValue.toString();
+        if (totalValueString.includes('.')) {
+            const secondIndexValue = totalValueString.split('.')[1]
+            const firstIndexValue = totalValueString.split('.')[0]
+            const sliceValue = secondIndexValue.slice(0, 4)
+            const finalValue = firstIndexValue + '.' + sliceValue;
+            details.get('totalMarketValue').setValue(finalValue)
+        } else {
+            details.get('totalMarketValue').setValue(totalValue)
+        }
     }
 
     onFindRelationship(value) {
@@ -242,8 +248,8 @@ export class AdditionalCollateralComponent implements OnInit {
                 })
 
                 formArray.clear();
-                this.currentValue=collateralDetail.currentValuePerGram
-                this.goldGramsValue=collateralDetail.goldInGrams
+                this.currentValue = collateralDetail.currentValuePerGram
+                this.goldGramsValue = collateralDetail.goldInGrams
 
                 formArray.controls.push(
                     this._fb.group({

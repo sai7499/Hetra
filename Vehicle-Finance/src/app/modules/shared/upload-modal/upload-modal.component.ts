@@ -108,10 +108,10 @@ export class UploadModalComponent {
           result = reader.result
             .toString()
             .replace(/^data:application\/[a-z]+;base64,/, '');
-        } else if (this.fileType === 'xls') {
-          // data:image/jpeg;base64,data:application/vnd.ms-excel;base64,
+        } else if (this.fileType.includes('xls')) {
           result = reader.result.toString().split(',')[1];
-          // .replace(/^data:application\/[a-z]+;base64,/, '');
+        } else if (this.fileType === 'docx') {
+          result = reader.result.toString().split(',')[1];
         } else {
           result = reader.result.toString();
         }
@@ -153,6 +153,7 @@ export class UploadModalComponent {
       'application/pdf': 'pdf',
       'image/png': 'png',
       'image/jpeg': 'jpeg',
+      'application/msword': 'docx'
     };
     return types[type] || type;
   }

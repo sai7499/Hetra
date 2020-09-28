@@ -28,6 +28,7 @@
                       <td [attr.data-label]="labels?.select">
                         <input 
                           [ngStyle]="{'cursor': 'pointer'}"
+                          [ngClass]="{'pointerEvent':isRadioDisable}"
                           (click)="onLeadSelect($event, i)" 
                           class="checkbox" 
                           type="radio" 
@@ -54,28 +55,29 @@
 
               <div class="text-center">
                 <button (click)="OnCreateNew()" class="btn btn-primary js-btn-next mar-right8" id="reject_button"
-                  type="button" data-toggle="modal" data-target="#proceedModal_without" [disabled]="isSelectedLead">
-                  Proceed as new Lead
+                  type="button" data-toggle="modal" data-target="#proceedModal_without" [disabled]="isNewLead">
+                  Proceed as New Lead
                 </button>
                 <button (click)="OnProceed()" class="btn btn-primary mar-right8" id="proceed_button" type="button"
                   data-toggle="modal" data-target="#proceedModal_with" [disabled]="!isSelectedLead">
-                  Proceed with selected lead
+                  Proceed with Selected Lead
                 </button>
 
-                <button (click)="OnReject()" class="btn btn-primary js-btn-next" id="reject_button" type="button">
-                  Reject lead
+                <button (click)="OnReject()" class="btn btn-primary js-btn-next" id="reject_button" type="button" [disabled]='isRejectLead'>
+                  Reject Lead
                 </button>
                 <div *ngIf="isReason">
                   <div class="col-12 mx-auto" id="proceed_div">
-                    <div class="col-6 field"><label for="proceed_reason">Select the reason for Rejection</label></div>
+                    <div class="col-6 field"><label for="proceed_reason">Select the reason for rejection</label></div>
                     <div class="col-6 field">
                       <select class="form-control " id="proceed_reason" (change)="onSelectRejectReason($event)">
                         <option disabled value="">-- Select one --</option>
                         <option *ngFor="let rejectReason of rejectReasonList" [value]="rejectReason.reasonCode">{{rejectReason.reasonDesc}}</option>
                       </select>
                     </div>
-                    <button *ngIf="isSubmit || isChecked" class="btn btn-primary mar-right8" id="proceed_with_sumbit"
+                    <button *ngIf="isSubmit || isChecked" class="btn btn-danger mar-right8" id="proceed_with_sumbit"
                       type="button" data-toggle="modal" data-target="#rejectModal"> Submit</button>
+                    <button *ngIf="isSubmit || isChecked" class="btn btn-success mar-right8" type="button" (click)='onCancelReject()'> Cancel</button>
                   </div>
                 </div>
                 

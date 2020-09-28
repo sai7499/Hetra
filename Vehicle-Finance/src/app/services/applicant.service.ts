@@ -177,11 +177,13 @@ export class ApplicantService {
     const projectId = this.geoMasterService.projectId;
     const processId = this.geoMasterService.processId;
     const workflowId = this.geoMasterService.workflowId;
+    const userId = localStorage.getItem('userId');
     const body = {
       processId,
       workflowId,
       projectId,
       ProcessVariables: {
+        userId,
         ...data,
       },
     };
@@ -229,11 +231,14 @@ export class ApplicantService {
     const projectId = this.countryList.projectId;
     const processId = this.countryList.processId;
     const workflowId = this.countryList.workflowId;
+    const userId = localStorage.getItem('userId');
     const body = {
       processId,
       workflowId,
       projectId,
-      ProcessVariables: {},
+      ProcessVariables: {
+        userId
+      },
     };
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
@@ -244,12 +249,14 @@ export class ApplicantService {
     const projectId = remarks.projectId;
     const processId = remarks.processId;
     const workflowId = remarks.workflowId;
+    const userId = localStorage.getItem('userId');
     const body = {
       processId,
       workflowId,
       projectId,
       ProcessVariables: {
         ...data,
+        userId
       },
     };
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
@@ -261,11 +268,13 @@ export class ApplicantService {
     const projectId = negativeListWrapper.projectId;
     const processId = negativeListWrapper.processId;
     const workflowId = negativeListWrapper.workflowId;
+    const userId = localStorage.getItem('userId');
     const body = {
       processId,
       workflowId,
       projectId,
       ProcessVariables: {
+        userId,
         ...data,
       },
     };
@@ -295,11 +304,13 @@ export class ApplicantService {
     const projectId = this.panValidation.projectId;
     const processId = this.panValidation.processId;
     const workflowId = this.panValidation.workflowId;
+    const userId = localStorage.getItem('userId');
     const body = {
       processId,
       workflowId,
       projectId,
       ProcessVariables: {
+        userId,
         ...data,
       },
     };
@@ -313,11 +324,13 @@ export class ApplicantService {
     const projectId = negativeListWrapper.projectId;
     const processId = negativeListWrapper.processId;
     const workflowId = negativeListWrapper.workflowId;
+    const userId = localStorage.getItem('userId');
     const body = {
       processId,
       workflowId,
       projectId,
       ProcessVariables: {
+        userId,
         ...data,
       },
     };
@@ -330,11 +343,13 @@ export class ApplicantService {
     const projectId = uploadPhotoOrSignature.projectId;
     const processId = uploadPhotoOrSignature.processId;
     const workflowId = uploadPhotoOrSignature.workflowId;
+    const userId = localStorage.getItem('userId');
     const body = {
       processId,
       workflowId,
       projectId,
       ProcessVariables: {
+        userId,
         ...data,
       },
     };
@@ -365,12 +380,14 @@ export class ApplicantService {
     const projectId = this.retrieveAadharData.projectId;
     const processId = this.retrieveAadharData.processId;
     const workflowId = this.retrieveAadharData.workflowId;
+    const userId = localStorage.getItem('userId');
     
     const body = {
       processId,
       workflowId,
       projectId,
       ProcessVariables: {
+        userId,
         referenceNo: data
       },
     };
@@ -382,11 +399,13 @@ export class ApplicantService {
     const projectId = this.validateSRNumber.projectId;
     const processId = this.validateSRNumber.processId;
     const workflowId = this.validateSRNumber.workflowId;
+    const userId = localStorage.getItem('userId');
 
     const body={
       processId,
       projectId,
       ProcessVariables: {
+        userId,
        ... data
       },
     };

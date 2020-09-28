@@ -3,15 +3,12 @@ import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@ang
 import { Router, ActivatedRoute } from '@angular/router';
 import { LabelsService } from '@services/labels.service';
 import { LovDataService } from '@services/lov-data.service';
-import { DdeStoreService } from '@services/dde-store.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { LoanDetails } from '@model/dde.model';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { PdDataService } from '../pd-data.service';
-import { valHooks } from 'jquery';
-import { typeWithParameters } from '@angular/compiler/src/render3/util';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
@@ -146,7 +143,7 @@ export class LoanDetailsComponent implements OnInit {
 
     });
     this.operationType = this.toggleDdeService.getOperationType();
-    if (this.operationType === '1') {
+    if (this.operationType === '1' || this.operationType === '2') {
       this.loanDetailsForm.disable();
       this.disableSaveBtn = true;
     }
@@ -228,7 +225,7 @@ export class LoanDetailsComponent implements OnInit {
     }
 
   }
-  insCopyVerified(event: any) {
+  insCopyVerified(event: any) { // fun that triggers when insurance copy field get changes
     this.insuranceStatus = event ? event : event;
     if (this.insuranceStatus === '1') {
       this.insRequired = true;
@@ -245,7 +242,7 @@ export class LoanDetailsComponent implements OnInit {
     }
 
   }
-  vehCondVerified(event: any) {
+  vehCondVerified(event: any) { // fun that triggers when vehicle condition verified gets changes
     this.vehCondStatus = event ? event : event;
     if (this.vehCondStatus === '1') {
       this.vehCondRequired = true;
@@ -653,7 +650,7 @@ export class LoanDetailsComponent implements OnInit {
     // working fine now i think
     if (this.loanDetailsForm.invalid) {
       this.toasterService.showWarning('please enter required details', '');
-      console.log(this.loanDetailsForm);
+      console.log(this.loanDetailsForm, 'Loan Form');
       return;
     }
     const loanDetailsModal = { ...formModal };

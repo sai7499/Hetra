@@ -92,7 +92,7 @@ export class ApplicantDetailComponent implements OnInit {
       //  this.setFormValue();
     });
     this.operationType = this.toggleDdeService.getOperationType();
-    if (this.operationType === '1') {
+    if (this.operationType === '1' || this.operationType === '2') {
       this.applicantForm.disable();
       this.disableSaveBtn = true;
     }
@@ -152,7 +152,12 @@ export class ApplicantDetailComponent implements OnInit {
 
         const applicantDetailsFromLead = value;
         this.applicantFullName = applicantDetailsFromLead['fullName'];
-        this.mobileNo = applicantDetailsFromLead['mobileNumber'];
+        if (applicantDetailsFromLead['entityTypeKey'] === "NONINDIVENTTYP") {
+          this.mobileNo = applicantDetailsFromLead['companyPhoneNumber'];
+
+        } else if (applicantDetailsFromLead['entityTypeKey'] === "INDIVENTTYP") {
+          this.mobileNo = applicantDetailsFromLead['mobileNumber'];
+        }
       }
     }
   }
@@ -293,7 +298,7 @@ export class ApplicantDetailComponent implements OnInit {
   }
 
   onFormSubmit(action) { // fun that submits all the pd data
-    if (this.operationType === '1') {
+    if (this.operationType === '1' || this.operationType === '2') {
       this.onNavigateNext();
       return;
     }
