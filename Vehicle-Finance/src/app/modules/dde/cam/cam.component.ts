@@ -105,7 +105,10 @@ export class CamComponent implements OnInit {
   coAppBankingTxnDetails: any;
   coAppBankingDetails: any;
   coAppBankingSummaryObj: any;
-
+  guarantorDetails: number;
+  appArray: any = []
+  coAppArray: any = []
+  guarntorArray: any = []
   constructor(private labelsData: LabelsService,
     private camService: CamService,
     private activatedRoute: ActivatedRoute,
@@ -311,6 +314,7 @@ export class CamComponent implements OnInit {
       this.showSave = true
 
     }
+
   }
 
   showCamDetails() {
@@ -498,7 +502,43 @@ export class CamComponent implements OnInit {
         this.recommendation = res.ProcessVariables['recommendation']
         this.appRecommendation = res.ProcessVariables['appRecommendation']
 
+        // this.selectedDateCheapestHotels.forEach(hotels => {
+        //   this.staticHotels.forEach((element, index) => {
+        //     if (hotels.HTLName.toLowerCase() == element.name.toLowerCase()) {
+        //       this.destArray.push(element)
+        //       this.staticHotelName = this.destArray
+        //       this.loading = false;
+        //     $('body').css({
+        //       overflow: 'auto',
+        //       height: 'auto'
+        //     });
 
+
+        //     }
+
+        //   })
+        // });
+        this.applicantDetails.forEach(ele => {
+          if (ele.applicantType == "Applicant") {
+            this.appArray.push(ele)
+          }
+          if (ele.applicantType == "Co-Applicant") {
+            this.coAppArray.push(ele)
+          }
+          if (ele.applicantType == 'Guarantor') {
+            this.guarntorArray.push(ele)
+          }
+        });
+        //   for (let i = 0; i < this.applicantDetails.length; i++) {
+        //     console.log(this.applicantDetails[i].applicantType);
+        //     if(this.applicantDetails[i].applicantType === 'Guarantor' ){
+        //     console.log(this.applicantDetails[i].applicantType);
+        //  let coAppArray=[]
+        // coAppArray.push(this.applicantDetails)
+        // console.log(coAppArray);
+
+        //   }
+        // }
         this.camDetailsForm.patchValue({
           commentsOnBankingIfAny: this.camDetails.commentsOnBankingIfAny ? this.camDetails.commentsOnBankingIfAny : null,
         })
