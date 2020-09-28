@@ -19,6 +19,15 @@ export class TermsConditionsComponent implements OnInit {
   processData: any;
   loanAmount;
   eligibleAmount;
+
+  rejectData: {
+    title: string,
+    product: any;
+    flowStage: string;
+   
+  }
+  showModal:boolean;
+
   constructor(
     private labelsData: LabelsService,
     private createLeadDataService: CreateLeadDataService,
@@ -100,4 +109,40 @@ export class TermsConditionsComponent implements OnInit {
       // }
     });
   }
+
+  reject() {
+
+    const productId = this.processData.productId || '';
+    this.showModal = true;
+    this.rejectData = {
+      title: 'Select Reject Reason',
+      product:productId,
+      flowStage: '30'
+    }
+    
+
+  }
+
+  onOkay(reasonData) {
+    
+    const body = {
+      leadId : this.leadId,
+      userId:  this.userId,
+      statusType : 'reject',
+      isSoRejected: false,
+      reasonCode: reasonData['reason'].reasonCode
+    };
+    this.termsService.acceptTerms(body).subscribe((res: any) => {
+      if ( res && res.ProcessVariables.error.code === '0') {
+        this.router.navigateByUrl(`/pages/dashboard`);
+      }
+    });
+
+
+  }
+
+  onCancel() {
+    this.showModal = false;
+  }
+  
 }
