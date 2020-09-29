@@ -194,7 +194,7 @@ export class PersonalDetailsComponent implements OnInit {
         if (this.personalPDDetais.applicantName) {
           this.setFormValue(this.personalPDDetais);
           this.pdDataService.setCustomerProfile(this.personalPDDetais);
-        } else {
+        } else if (!this.personalPDDetais.applicantName) {
 
           this.applicantDetails.filter((val: any) => {
 
@@ -345,7 +345,7 @@ export class PersonalDetailsComponent implements OnInit {
 
     let formValue = this.personalDetailsForm.getRawValue();
 
-    formValue.applicantFullName = formValue.firstName + ' ' + formValue.middleName + ' ' + formValue.lastName;
+    formValue.applicantName = formValue.firstName + ' ' + formValue.middleName + ' ' + formValue.lastName;
     formValue.fatherFullName = formValue.fatherFirstName + ' ' + formValue.fatherMiddleName + ' ' + formValue.fatherLastName;
     formValue.dob = formValue.dob ? this.utilityService.convertDateTimeTOUTC(formValue.dob, 'DD/MM/YYYY') : null;
     formValue.weddingAnniversaryDate = formValue.weddingAnniversaryDate ? this.utilityService.convertDateTimeTOUTC(formValue.weddingAnniversaryDate, 'DD/MM/YYYY') : null;
@@ -356,7 +356,7 @@ export class PersonalDetailsComponent implements OnInit {
     }
 
     formValue.noOfYearsResidingInCurrResidence = String((Number(formValue.noOfYears) * 12) + Number(formValue.noOfMonths)) || '';
-
+   
     if (this.personalDetailsForm.valid) {
 
       const data = {
