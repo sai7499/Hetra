@@ -164,10 +164,11 @@ export class TermSheetComponent implements OnInit {
         // const message = res['ProcessVariables'].rctaMessage;
         this.errorMessage = res['ProcessVariables'].rctaMessage;
       }
-        // this.router.navigateByUrl("/pages/dashboard");
+        // this.errorGenerated = true;
+         this.router.navigateByUrl("/pages/dashboard");
 
       } else if (this.roleType == '2' && !this.isApprove) {
-        this.toasterService.showSuccess(res['ProcessVariables'].error['message'], '');
+        this.toasterService.showError(res['ProcessVariables'].error['message'], '');
       } else if(res['ProcessVariables'].error['code'] == "1") {
         this.toasterService.showError(res['ProcessVariables'].error['message'], '');
        
