@@ -21,6 +21,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { UtilityService } from '@services/utility.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Camera } from '@ionic-native/camera/ngx';
+import { ConfigService } from '@services/config.service';
 
 declare var identi5: any;
 declare var cordova: any;
@@ -66,6 +67,7 @@ export class LoginComponent implements OnInit {
 
   isModelShow: boolean;
   errorMessage: string;
+  configUrl;
 
 
 
@@ -83,7 +85,8 @@ export class LoginComponent implements OnInit {
     private camera: Camera,
     private dashboardService: DashboardService,
     private ngxUiLoaderService: NgxUiLoaderService,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private configService: ConfigService
   ) {
     this.isMobile = environment.isMobile;
   }
@@ -143,15 +146,22 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loginData = this.loginForm.value;
-    if (environment.hostingEnvironment === 'DEV') {
-      this.loginData.email = `${this.loginData.email}@equitasbank.in`;
-      this.loginData.useADAuth = false;
-    } else if (environment.hostingEnvironment === 'UAT') {
-      this.loginData.email = `${this.loginData.email}@esfbuat.in`;
-      this.loginData.useADAuth = true;
-    } else {
-      this.loginData.email = `${this.loginData.email}@equitas.in`;
-    }
+    this.configUrl = this.configService.configurationData;
+    console.log(this.configUrl.hostUrl1);
+    
+    
+    // this.loginData.email = this.loginData.email + this.configUrl.userConfig;
+    this.loginData.email = this.loginData.email + window["env"]["userConfig"] || "default";
+    this.loginData.useADAuth = window["env"]["useADAuth"];
+    // if (environment.hostingEnvironment === 'DEV') {
+    //   this.loginData.email = `${this.loginData.email}@equitasbank.in`;
+    //   this.loginData.useADAuth = false;
+    // } else if (environment.hostingEnvironment === 'UAT') {
+    //   this.loginData.email = `${this.loginData.email}@esfbuat.in`;
+    //   this.loginData.useADAuth = true;
+    // } else {
+    //   this.loginData.email = `${this.loginData.email}@equitas.in`;
+    // }
     this.loginService.getLogin(this.loginData).subscribe(
       (res: any) => {
         this.loginForm.reset();

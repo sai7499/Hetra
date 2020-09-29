@@ -1,3 +1,5 @@
+
+import * as  configProd from '../assets/configProd.json';
 export const environment = {
   production: true,
   version: '0.19',
@@ -28,7 +30,7 @@ export const environment = {
   hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
 
-  host: '/appiyo/',
+  host: configProd.hostUrl2,
   // host: "https://hetrauat.equitasbank.com/appiyodev/",
   //host: 'http://128.199.164.250/appiyo/',
   // host: 'http://10.101.10.153/appiyo/',

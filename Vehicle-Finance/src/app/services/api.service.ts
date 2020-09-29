@@ -7,9 +7,6 @@ import { ConfigService } from './config.service';
 })
 export class ApiService {
   constructor(private configService: ConfigService) {
-    this.configService.getConfig().subscribe((res: any) => {
-      
-    });
   }
   api = {
     getUserDetails: {
