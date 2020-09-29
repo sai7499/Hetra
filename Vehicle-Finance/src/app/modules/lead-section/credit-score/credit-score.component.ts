@@ -6,6 +6,7 @@ import { TermAcceptanceService } from '@services/term-acceptance.service';
 import { Lead } from '@model/lead.model';
 import { CommomLovService } from '@services/commom-lov-service';
 import { LeadDetails } from '../services/sourcingLeadDetails.service';
+import { ToasterService } from '@services/toaster.service';
 
 interface CibilData {
   ageOfAsset?: number;
@@ -55,7 +56,8 @@ export class CreditScoreComponent implements OnInit {
     private creditService: CreditScoreService,
     private termsService: TermAcceptanceService,
     private commonLovService: CommomLovService,
-    private createLeadService: LeadDetails
+    private createLeadService: LeadDetails,
+    private toasterService: ToasterService
 
   ) {
   }
@@ -148,7 +150,10 @@ export class CreditScoreComponent implements OnInit {
     this.termsService.acceptTerms(body).subscribe((res: any) => {
       console.log(res);
       if ( res && res.ProcessVariables.error.code === '0') {
+        this.toasterService.showSuccess('Record Rejected successfully!','')
         this.router.navigateByUrl(`/pages/dashboard`);
+      }else {
+        this.toasterService.showError(res.ProcessVariables.error.message,'')
       }
     });
   }
@@ -157,5 +162,5 @@ export class CreditScoreComponent implements OnInit {
     this.showModal = false;
   }
 
-  
+
 }

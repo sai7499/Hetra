@@ -24,9 +24,37 @@
         </div>
       </div>
       <div class=" ok_footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal"
-          (click)='onOkay()' [disabled]="!isReason">Submit</button>&nbsp;&nbsp;
-        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onCancel()">Cancel</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal"
+          (click)='showRejectModal = true' [disabled]="!isReason">Submit</button>&nbsp;&nbsp;
+        <button type="button" class="btn btn-success" data-dismiss="modal" (click)="onCancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal in" id="rejectModal" [ngClass]="{ 'dis-block': showRejectModal }">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header ">
+        <button type="button" class="close" data-dismiss="modal" (click)="showRejectModal = false">&times;</button>
+        <h4 class="modal-title text-center ">Loan Rejection</h4>
+      </div>
+      <div class="modal-body ">
+        <div class="">
+          <div class="row text-center">
+            <div class="col-12 p-0">
+              <div class="form-group">
+                <p>Are you sure want to reject ?</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class=" ok_footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal"
+          (click)='onOkay()'>Yes</button>&nbsp;&nbsp;
+        <button type="button" class="btn btn-success" data-dismiss="modal" (click)="showRejectModal = false">Cancel</button>
       </div>
     </div>
   </div>

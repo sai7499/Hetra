@@ -6,6 +6,7 @@ import { CreateLeadDataService } from '../lead-creation/service/createLead-data.
 import { TermAcceptanceService } from '@services/term-acceptance.service';
 import { CreditScoreService } from '@services/credit-score.service';
 import { ThrowStmt } from '@angular/compiler';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-terms-conditions',
@@ -34,7 +35,8 @@ export class TermsConditionsComponent implements OnInit {
     private router: Router,
     private termsService: TermAcceptanceService,
     private aRoute: ActivatedRoute,
-    private creditService: CreditScoreService
+    private creditService: CreditScoreService,
+    private toasterService: ToasterService
   ) {}
 
   async ngOnInit() {
@@ -134,15 +136,16 @@ export class TermsConditionsComponent implements OnInit {
     };
     this.termsService.acceptTerms(body).subscribe((res: any) => {
       if ( res && res.ProcessVariables.error.code === '0') {
+        this.toasterService.showSuccess('Record Rejected successfully!','')
         this.router.navigateByUrl(`/pages/dashboard`);
+      }else {
+        this.toasterService.showError(res.ProcessVariables.error.message,'')
       }
     });
-
-
   }
 
   onCancel() {
     this.showModal = false;
   }
-  
+
 }

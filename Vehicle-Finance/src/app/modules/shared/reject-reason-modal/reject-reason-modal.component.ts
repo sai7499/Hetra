@@ -22,6 +22,7 @@ export class RejectReasonModalComponent implements OnInit {
 
  isReason: boolean;
  reasonData: any;
+ showRejectModal: boolean;
   constructor(
     private CreateLeadService: CreateLeadService
   ) { 

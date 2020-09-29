@@ -65,7 +65,7 @@ export class CustomerFeedbackComponent implements OnInit {
       this.customerService.sendAcceptanceDetails(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
         if (res.ProcessVariables.error.code == '0') {
-          this.toasterService.showSuccess('Record Saved Succesfully', '');
+          this.toasterService.showSuccess('Record Rejected Succesfully', '');
           this.router.navigate([`pages/dashboard`]);
         } else {
           this.toasterService.showError(res.ProcessVariables.error.message, '');
