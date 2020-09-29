@@ -3,6 +3,7 @@ import { SpawnSyncOptionsWithBufferEncoding } from 'child_process';
 export interface Applicant {
   otpVerified?: boolean;
   ucic? : number ;
+  ekycDone? : string;
   applicantDetails?: ApplicantDetails;
   aboutIndivProspectDetails?: IndividualProspectDetails;
   indivIdentityInfoDetails?: IndivIdentityInfoDetails;
