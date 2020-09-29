@@ -35,6 +35,7 @@ import { setTheme } from 'ngx-bootstrap/utils';
 import { SharedDeviationComponent } from './shared-deviation/shared-deviation.component';
 import { NegativeListModalComponent } from './negative-list-modal/negative-list.modal.component';
 import { MatTreeModule, MatIconModule } from '@angular/material';
+import { WindowModule } from '@progress/kendo-angular-dialog';
 setTheme('bs4');
 
 @NgModule({
@@ -70,7 +71,8 @@ setTheme('bs4');
     NgxPaginationModule,
     DatePickerModule,
     MatTreeModule,
-    MatIconModule
+    MatIconModule,
+    WindowModule
   ],
   exports: [
     CustomSelectComponent,

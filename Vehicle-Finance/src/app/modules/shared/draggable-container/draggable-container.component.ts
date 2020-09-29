@@ -1,14 +1,18 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
+import { DraggableContainerService } from '@services/draggable.service';
+
 @Component({
   selector: 'app-draggable-container',
   templateUrl: './draggable-container.component.html',
   styleUrls: ['./draggable-container.component.css'],
 })
 export class DraggableComponent implements OnInit {
+  windowState = 'default';
   imageType: string;
   src;
+  fileName: string;
   @Input() setCss = {
     top: '50%',
     left: '50%',
@@ -16,6 +20,7 @@ export class DraggableComponent implements OnInit {
   @Input() set imageUrl(value) {
     if (!!value) {
       this.imageType = value.imageType;
+      this.fileName = value.name;
       if (this.imageType === 'jpeg' || this.imageType === 'png') {
         this.src = this.sanitizer.bypassSecurityTrustResourceUrl(
           'data:image/jpeg;base64,' + value.imageUrl
@@ -39,13 +44,13 @@ export class DraggableComponent implements OnInit {
         const url = URL.createObjectURL( blob );
         this.src = this.sanitizer.bypassSecurityTrustResourceUrl(url);
       }
-      console.log('setCss', this.setCss);
-      setTimeout(() => {
-        this.dragElement(document.getElementById('mydiv'));
-      });
+      // console.log('setCss', this.setCss);
+      // setTimeout(() => {
+      //   this.dragElement(document.getElementById('mydiv'));
+      // });
     }
   }
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(private sanitizer: DomSanitizer, private draggableContainerService: DraggableContainerService) {}
 
 
   overSizePdf() {
@@ -114,5 +119,6 @@ export class DraggableComponent implements OnInit {
 
   onClose() {
     this.src = null;
+    this.draggableContainerService.removeImage(this.fileName);
   }
 }

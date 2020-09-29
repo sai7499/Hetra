@@ -73,6 +73,8 @@ export class AuthInterceptor implements HttpInterceptor {
       });
     } else {
       authReq = req;
+    console.log('wizard api', JSON.stringify(req));
+
     }
 
     return next.handle(authReq).pipe(

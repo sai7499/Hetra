@@ -19,6 +19,11 @@ export class AppComponent implements OnInit {
   title = 'vehicle-finance';
   isMaas360Enabled:any;
 
+  // movable image div
+
+  imageList = [];
+  imageObj = {};
+
 
   // Equitas
 
@@ -204,15 +209,7 @@ export class AppComponent implements OnInit {
         that.initMaaS360();
     }
     
-    this.draggableContainerService
-      .getContainerValue()
-      .subscribe((value: any) => {
-        if (!value) {
-          return;
-        }
-        this.showDraggableContainer = value.image;
-        this.setCss = value.css;
-      });
+    this.draggableContainerListener();
     document.addEventListener('backbutton', () => {
       navigator['app'].exitApp();
     });
@@ -225,6 +222,46 @@ export class AppComponent implements OnInit {
       false
     );
     
+  }
+
+
+  draggableContainerListener() {
+    this.draggableContainerService
+      .getContainerValue()
+      .subscribe((value: any) => {
+        if (!value) {
+          return;
+        }
+        // this.imageList.push(value.image);
+        const imageName = value.image.name;
+        if (!this.imageList[imageName]) {
+          this.imageObj[imageName] = {...value.image};
+          this.imageList.push(value.image);
+        }
+        console.log(this.imageObj);
+
+        this.showDraggableContainer = value.image;
+        this.setCss = value.css;
+      });
+
+    this.draggableContainerService
+      .imageRemoveListener()
+      .subscribe((value: any) => {
+        if (value === null) {
+          return;
+        }
+        delete this.imageObj[value];
+
+        console.log(this.imageObj);
+        this.imageList = [];
+        for ( const [key, image] of Object.entries(this.imageObj)) {
+            this.imageList.push(image);
+        }
+
+        console.log('imageList', this.imageList);
+
+        // this.imageList.findIndex(())
+      });
   }
 
   initMaaS360() {

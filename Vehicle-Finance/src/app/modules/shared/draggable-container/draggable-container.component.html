@@ -1,6 +1,5 @@
-<div id="mydiv" *ngIf="src" class="card" class="center">
+<!-- <div id="mydiv" *ngIf="src" class="card" class="center">
   <div class="header">
-    <!-- Header -->
     <button type="button" class="close" (click)="onClose()">×</button>
   </div>
   <div class="image-content">
@@ -15,10 +14,21 @@
       style="height: 100%; width: 100%;"
       *ngIf="imageType === 'pdf'"
     ></iframe>
-    <!-- <embed
+  </div>
+</div> -->
+
+<kendo-window [title]="fileName" [height]="400" [width]="400" [(state)]="windowState" *ngIf="src" (close)="onClose()">
+  <div class="image-content">
+    <img
+      height="100%"
+      width="100%"
+      [src]="src"
+      *ngIf="imageType === 'jpeg' || imageType === 'png'"
+    />
+    <iframe
       [src]="src"
       style="height: 100%; width: 100%;"
       *ngIf="imageType === 'pdf'"
-    >  -->
+    ></iframe>
   </div>
-</div>
+</kendo-window>

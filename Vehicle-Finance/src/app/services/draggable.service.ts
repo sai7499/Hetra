@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class DraggableContainerService {
   draggable$ = new BehaviorSubject<string>(null);
+  removeImage$ = new BehaviorSubject<string>(null);
 
   setContainerValue(value) {
     this.draggable$.next(value);
@@ -13,5 +14,13 @@ export class DraggableContainerService {
 
   getContainerValue() {
     return this.draggable$;
+  }
+
+  imageRemoveListener() {
+    return this.removeImage$;
+  }
+
+  removeImage(name: string) {
+    this.removeImage$.next(name);
   }
 }

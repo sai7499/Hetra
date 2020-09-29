@@ -1,7 +1,9 @@
 <!-- <app-header></app-header> -->
 <router-outlet></router-outlet>
 <ngx-ui-loader></ngx-ui-loader>
-<app-draggable-container
-  [imageUrl]="showDraggableContainer"
-  [setCss]="setCss"
+<ng-container *ngFor="let image of imageList">
+  <app-draggable-container
+  [imageUrl]="image"
 ></app-draggable-container>
+</ng-container>
+
