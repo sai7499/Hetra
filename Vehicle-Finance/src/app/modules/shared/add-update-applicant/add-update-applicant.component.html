@@ -398,15 +398,13 @@
                 <div *ngIf="coApplicantForm.get('dedupe').get('aadhar').value == '' 
                   ">Adhar Number is required</div>
             </div> -->
-                  <div *ngIf=" 
+          <div *ngIf=" 
           coApplicantForm.get('dedupe').get('aadhar').value">
-                    <div
-                      *ngIf="coApplicantForm.get('dedupe').get('aadhar').value.length < 12 && coApplicantForm.get('dedupe').get('aadhar').value.length != 0"
-                      class="ShowError">
-                      Adhar Number must be at 12 characters
-                    </div>
-                  </div>
-
+          <div *ngIf="coApplicantForm.get('dedupe').get('aadhar').value.length < 12 && coApplicantForm.get('dedupe').get('aadhar').value.length != 0" class="ShowError">
+            Adhar Number must be at 12 characters
+          </div>
+          </div>
+            
 
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -424,7 +422,7 @@
                     [patternCheck]="validationData?.panNumber?.patternCheck"
                     [isRequired]="panRequired ? 'Pan is required' : ''" [isDirty]="isDirty"
                     [inputClass]="'text-uppercase'" [maxLength]="validationData?.panNumber?.maxLength"
-                    [type]="validationData?.panNumber?.type" (change)="removeErrorMsg()"></app-custom-input>
+                    [type]="validationData?.panNumber?.type" (keyup)="removeErrorMsg($event)"></app-custom-input>
 
                   <div class="ShowError" *ngIf="panValidate &&
                   coApplicantForm.get('dedupe').get('pan').value !==''">
@@ -619,7 +617,7 @@
                   <kendo-datepicker class="form-control mandatory" formControlName="passportExpiryDate"
                     [format]="'dd/MM/yyyy'" [min]="toDayDate" [activeView]="'decade'" [(ngModel)]="passportExpiryDate"
                     (valueChange)="passportExpiryShowError()" [disabled]="disabledPassportDates"
-                    placeholder="Passport Expiry Date">
+                    placeholder="Passport Expiry Date"> 
                   </kendo-datepicker>
                   <div class="ShowError" *ngIf="
                       !passportExpiryDate &&
@@ -656,6 +654,8 @@
                     isAadharChanged ||
                     isPassportChanged ||
                     isDrivingLicenseChanged ||
+                    isVoterIdChanged ||
+              
                     (applicantType !== 'INDIVENTTYP' &&
                       isContactNumberChanged) ||
                     isGstNumberChanged ||
@@ -674,7 +674,7 @@
                   </button>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4 margin-top-20"
-                  *ngIf="isMobile && showEkycbutton && applicantType=='INDIVENTTYP'">
+                  *ngIf=" isMobile && showEkycbutton && applicantType=='INDIVENTTYP'">
                   <button class="btn btn-primary mar-right8" type="button" (click)="calleKYC()">
                     <a class="back_color">Check e-KYC</a>
                   </button>
@@ -691,6 +691,7 @@
                   !isPanChanged &&
                   !isAadharChanged &&
                   !isPassportChanged &&
+                  !isVoterIdChanged &&
                   !isDrivingLicenseChanged) ||
                 (applicantType !== 'INDIVENTTYP' &&
                   !isContactNumberChanged &&
@@ -1109,6 +1110,7 @@
         !isPanChanged &&
         !isAadharChanged &&
         !isPassportChanged &&
+        !isVoterIdChanged &&
         !isDrivingLicenseChanged) ||
       (applicantType !== 'INDIVENTTYP' &&
         !isContactNumberChanged &&
