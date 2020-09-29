@@ -120,7 +120,7 @@
             <p class="text-center var-lab mar-10" id="credit_score_tag10">{{labels?.eligibleLoanAmount}} : {{eligibleAmount }}</p>
             <div class="text-center var-lab mar-10">
                 <button type="button " class="btn btn-primary ok_button proceed_button mar-right8" id="proceed_button "
-                (click)="navigateUrl()" *ngIf="eligibleAmount > 0 ">{{labels?.proceed}}</button>
+                (click)="navigateUrl()" *ngIf="'eligibleAmount > 0'">{{labels?.proceed}}</button>
             <a id="reject_credit" (click)="reject()">
                 <p type="button" class="btn btn-primary">{{labels?.reject}}</p>
             </a>
