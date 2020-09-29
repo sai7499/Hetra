@@ -2933,7 +2933,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           // alert("e-KYC successful");
           that.setBiometricValues(that, processVariables);
           that.showEkycbutton = false;
-          this.ekycDone = '1'
+          that.ekycDone = '1'
 
           let alertRet = Modals.alert({
             title: 'e-KYC Success',
