@@ -155,13 +155,20 @@
             >
               Customer Accpeted Offer
             </button>
-            <button
+            <!-- <button
               type="button"
               class="btn btn-danger"
               data-toggle="modal"
               data-target="#myModal_cancel"
             >
               Customer Rejected Offer
+            </button> -->
+            <button
+            type="button"
+            class="btn btn-danger"
+            (click)="reject()"
+          >
+            Customer Rejected Offer
             </button>
           </div>
         </div>
@@ -252,6 +259,11 @@
   <br />
   <br />
   <br />
+
+  <!--reject reason modal-->
+<app-reject-reason-modal [data]="rejectData" [showModalPopup]="showModal" *ngIf="showModal" (okay)="onOkay($event)" (cancel)="onCancel()"></app-reject-reason-modal>
+
+
   <!-- Footer -->
   <footer class="footer pf mob-font">
     <div class="container">
