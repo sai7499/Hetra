@@ -5,17 +5,20 @@ import { HttpService } from '@services/http.service';
 import RequestEntity from '@model/request.entity';
 import { environment } from 'src/environments/environment';
 import { ApiService } from '@services/api.service';
+import { ConfigService } from '@services/config.service';
 
 
 declare var google: any;
 
 @Injectable()
 export class LoginService {
+  configUrl;
   generatedImage: string;
   constructor(
     private httpService: HttpService,
     private loginService: LoginStoreService,
     private apiService: ApiService,
+    private configService: ConfigService
   ) {}
 
   getLogin(data) {
@@ -44,7 +47,8 @@ export class LoginService {
       workflowId,
       projectId,
     };
-
+    // this.configUrl = this.configService.configurationData.hostUrl;
+    // let url = `${this.configUrl}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     let url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }

@@ -198,7 +198,10 @@ export class AppComponent implements OnInit {
  configData;
 
   constructor(private draggableContainerService: DraggableContainerService,
-              private router: Router) {               
+              private router: Router) {
+                // const hostUrl = this.configService.getConfig().subscribe((data: any) => {
+                //   this.configData = data;
+                // });
 
               }
 

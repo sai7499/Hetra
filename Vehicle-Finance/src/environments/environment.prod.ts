@@ -1,7 +1,9 @@
 import * as  config from '@assets/config.json';
+
+import * as  configProd from '../assets/configProd.json';
 export const environment = {
   production: true,
-  version: '0.19.2',
+  version: '0.19.3',
   buildDate: '29/09/2020',
   apiVersion: {
     login: 'v3/',
@@ -27,12 +29,11 @@ export const environment = {
   },
   // hostingEnvironment: 'DEV',
   // hostingEnvironment: 'UAT',
-  // hostingEnvironment: 'Production',
-  hostingEnvironment:config.hostEnvironment,
-  userConfig:config.userConfig,
-  useADAuth: config.useADAuth,
-  host: config.hostUrl, 
+  // hostingEnvironment: 'Production',  
+  // host: config.hostUrl, 
   // host: '/appiyo/',
+  host: window["env"]["hostUrl"] || "default",
+  // host: configProd.hostUrl2,
   // host: "https://hetrauat.equitasbank.com/appiyodev/",
   //host: 'http://128.199.164.250/appiyo/',
   // host: 'http://10.101.10.153/appiyo/',
