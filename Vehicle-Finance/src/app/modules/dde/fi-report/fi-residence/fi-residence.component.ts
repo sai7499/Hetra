@@ -215,12 +215,17 @@ export class FiResidenceComponent implements OnInit {
       this.rentRequired = true;
       this.fieldReportForm.get('rentAmt').enable();
       this.fieldReportForm.get('rentAmt').setValidators(Validators.required);
+      this.fieldReportForm.get('rentAmt').updateValueAndValidity();
 
     } else if (this.resedenceType !== '2HOUOWN') {
       console.log('in remove rent amount validator');
       this.fieldReportForm.get('rentAmt').disable();
       this.isRentDisabled = true;
       this.rentRequired = false;
+      setTimeout(() => {
+        this.fieldReportForm.get('rentAmt').patchValue(null);
+
+      });
       this.fieldReportForm.get('rentAmt').clearValidators();
       this.fieldReportForm.get('rentAmt').updateValueAndValidity();
 

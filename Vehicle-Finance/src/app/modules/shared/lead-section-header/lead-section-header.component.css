@@ -14,18 +14,18 @@
   }
   
   label.col-form-label {
-    width: 50%;
-    padding-right: 20px;
+    width:35%;
+    /* padding-right: 20px; */
     padding-left: 20px;
-    font-weight: bolder;
+    font-weight: 550;
     font-size: 14px;
     word-break: break-word;
   }
   
   label.col-form-label-two {
-    width: 50%;
-    padding-right: 20px;
-    padding-left: 20px;
+    width: 65%;
+    /* padding-right: 20px; */
+    padding-left: 15px;
     font-weight: bolder;
     font-size: 14px;
     float: right;
