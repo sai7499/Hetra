@@ -127,14 +127,14 @@
                             </div>
                         </div>
 
-                        <div class="invalid-feedback"
-                            *ngIf="obj.controls['manuFacMonthYear'].touched && customFutureDate">
+                        <div class="invalid-feedback" *ngIf="obj.controls['manuFacMonthYear'].touched && (obj.controls['manuFacMonthYear'].value  > maxDate
+                            ||  obj.controls['manuFacMonthYear'].value < minDate)">
                             Invalid Date
                         </div>
 
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset"
+                    <div class=" form-group col-sm-6 col-md-4 col-lg-3" id="age_asset"
                         *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
                         <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub> </label>
 
@@ -367,7 +367,8 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="vehicle_type">{{label.vehicleType}} <sub class="star_red_col">*</sub> </label>
+                            <label for="vehicle_type">{{label.vehicleType}} <sub class="star_red_col">*</sub>
+                            </label>
 
                             <app-vf-custom-select [values]="vehicleLov?.vehicleType" [id]="'vechical_type'"
                                 formControlName="vehicleType" [isRequired]="'Vehicle Type Required'"
@@ -402,7 +403,8 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="asset_variant">{{label.assetVariant}} <sub class="star_red_col">*</sub> </label>
+                            <label for="asset_variant">{{label.assetVariant}} <sub class="star_red_col">*</sub>
+                            </label>
 
                             <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
                                 formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
@@ -732,7 +734,8 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="vehicle_type">{{label.vehicleType}} <sub class="star_red_col">*</sub> </label>
+                            <label for="vehicle_type">{{label.vehicleType}} <sub class="star_red_col">*</sub>
+                            </label>
 
                             <app-vf-custom-select [values]="vehicleLov?.vehicleType" [id]="'vechical_type'"
                                 formControlName="vehicleType" [isRequired]="'Vehicle Type Required'"
@@ -767,7 +770,8 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="asset_variant">{{label.assetVariant}} <sub class="star_red_col">*</sub> </label>
+                            <label for="asset_variant">{{label.assetVariant}} <sub class="star_red_col">*</sub>
+                            </label>
 
                             <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
                                 formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
@@ -1100,7 +1104,8 @@
                     <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="vehicle_type">{{label.vehicleType}} <sub class="star_red_col">*</sub> </label>
+                            <label for="vehicle_type">{{label.vehicleType}} <sub class="star_red_col">*</sub>
+                            </label>
 
                             <app-vf-custom-select [values]="vehicleLov?.vehicleType" [id]="'vechical_type'"
                                 formControlName="vehicleType" [isRequired]="'Vehicle Type Required'"
@@ -1165,8 +1170,8 @@
                                 </div>
                             </div>
 
-                            <div class="invalid-feedback"
-                                *ngIf="obj.controls['manuFacMonthYear'].touched && customFutureDate">
+                            <div class="invalid-feedback" *ngIf="obj.controls['manuFacMonthYear'].touched && (obj.controls['manuFacMonthYear'].value  > maxDate
+                                ||  obj.controls['manuFacMonthYear'].value < minDate)">
                                 Invalid Date
                             </div>
 
@@ -1217,7 +1222,8 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="rc_owner_name">{{label.rcOwnerName}} <sub class="star_red_col">*</sub> </label>
+                            <label for="rc_owner_name">{{label.rcOwnerName}} <sub class="star_red_col">*</sub>
+                            </label>
 
                             <app-custom-input formControlName="rcOwnerName" [type]="label.validationData?.name.type"
                                 [id]="'name_vehicle_owner'" [className]="'form-control mandatory'"
@@ -1595,7 +1601,8 @@
                     <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="vehicle_type">{{label.vehicleType}} <sub class="star_red_col">*</sub> </label>
+                            <label for="vehicle_type">{{label.vehicleType}} <sub class="star_red_col">*</sub>
+                            </label>
 
                             <app-vf-custom-select [values]="vehicleLov?.vehicleType" [id]="'vechical_type'"
                                 formControlName="vehicleType" [isRequired]="'Vehicle Type Required'"
@@ -1689,15 +1696,16 @@
                                 </div>
                             </div>
 
-                            <div class="invalid-feedback"
-                                *ngIf="obj.controls['manuFacMonthYear'].touched && customFutureDate">
+                            <div class="invalid-feedback" *ngIf="obj.controls['manuFacMonthYear'].touched && (obj.controls['manuFacMonthYear'].value  > maxDate
+                                ||  obj.controls['manuFacMonthYear'].value < minDate)">
                                 Invalid Date
                             </div>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
-                            <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub> </label>
+                            <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub>
+                            </label>
                             <app-custom-input formControlName="ageOfAsset" [className]="'form-control mandatory'"
                                 [placeholder]="'Age of Asset'" [isRequired]="'Age of Asset Required'"
                                 [id]="'age_of_asset'" [isDirty]="isDirty" [isDisabled]="true">
