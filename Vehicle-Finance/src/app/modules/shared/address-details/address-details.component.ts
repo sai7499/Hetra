@@ -1322,7 +1322,7 @@ export class AddressDetailsComponent implements OnInit {
     this.applicantDataService.setApplicantDetails(applicantDetails);
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
-    const registeredAddressObject = value.details[0].registeredAddress;
+    //const registeredAddressObject = value.details[0].registeredAddress;
     const registeredData = details.get('registeredAddress');
     const regAddress = {
       ...this.getAddressValues(registeredData)

@@ -654,6 +654,8 @@
                     isAadharChanged ||
                     isPassportChanged ||
                     isDrivingLicenseChanged ||
+                    isVoterIdChanged ||
+              
                     (applicantType !== 'INDIVENTTYP' &&
                       isContactNumberChanged) ||
                     isGstNumberChanged ||
@@ -689,6 +691,7 @@
                   !isPanChanged &&
                   !isAadharChanged &&
                   !isPassportChanged &&
+                  !isVoterIdChanged &&
                   !isDrivingLicenseChanged) ||
                 (applicantType !== 'INDIVENTTYP' &&
                   !isContactNumberChanged &&
@@ -1107,6 +1110,7 @@
         !isPanChanged &&
         !isAadharChanged &&
         !isPassportChanged &&
+        !isVoterIdChanged &&
         !isDrivingLicenseChanged) ||
       (applicantType !== 'INDIVENTTYP' &&
         !isContactNumberChanged &&
