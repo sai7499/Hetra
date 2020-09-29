@@ -617,7 +617,7 @@
                   <kendo-datepicker class="form-control mandatory" formControlName="passportExpiryDate"
                     [format]="'dd/MM/yyyy'" [min]="toDayDate" [activeView]="'decade'" [(ngModel)]="passportExpiryDate"
                     (valueChange)="passportExpiryShowError()" [disabled]="disabledPassportDates"
-                    placeholder="Passport Expiry Date">
+                    placeholder="Passport Expiry Date"> 
                   </kendo-datepicker>
                   <div class="ShowError" *ngIf="
                       !passportExpiryDate &&

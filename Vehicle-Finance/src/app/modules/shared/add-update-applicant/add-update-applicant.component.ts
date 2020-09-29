@@ -90,9 +90,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   passportNumber: string;
   pan: string;
   drivingLicenseIssueDate: any;
-  drivingLicenseExpiryDate: string;
+  drivingLicenseExpiryDate: any;
   passportIssueDate: any;
-  passportExpiryDate: string;
+  passportExpiryDate: any;
   voterIdNumber: string;
   isPermanantAddressSame: boolean;
   isRegAddressSame: boolean;
@@ -111,7 +111,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   isAlertSuccess: boolean = true;
   isAlertDanger: boolean = true;
 
-
+  defaultExpiryDate: Date = new Date()
   mandatory: any = {};
   expiryMandatory: any = {};
   productCategory: string;
@@ -199,7 +199,15 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   addDisabledCheckBox: boolean;
   panValidate = false;
   showEkycbutton = false;
-  showMessage: any = {};
+  showMessage: any = {
+    passportExpiry: false,
+    passportIssue: false,
+    drivingLicenseExpiry: false,
+    drivinglicenseIssue: false
+
+
+
+  };
   disabledDrivingDates = true;
   disabledPassportDates = true;
   showModifyCurrCheckBox: boolean;
@@ -249,6 +257,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     this.setBirthDate.setFullYear(this.setBirthDate.getFullYear() - 10)
     this.ageMinDate.setFullYear(this.ageMinDate.getFullYear() - 100)
+    this.defaultExpiryDate.setDate(this.defaultExpiryDate.getDate() + 1)
   }
 
   async ngOnInit() {
@@ -1600,7 +1609,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.showSrField = modifyaddress == "1" ? true : false;
 
         this.coApplicantForm.patchValue({ srNumber: applicantValue.applicantDetails.srNumber })
-
         dedupe.patchValue({
           mobilePhone: mobile || '',
           dob: details.dob || '',
@@ -1812,29 +1820,40 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   drivingIssueDateShowError() {
     this.mandatory['drivingLicenseIssueDate'] = false;
-    const valueChecked = this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').value > this.toDayDate;
+    const valueChecked = this.drivingLicenseIssueDate > this.toDayDate;
     this.showMessage['drivinglicenseIssue'] = valueChecked ? true : false;
-    this.drivingLicenseIssueDate.setDate(this.drivingLicenseIssueDate.getDate() + 1)
     this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').setValue(null);
 
   }
 
   passportIssueDateShowError() {
     this.passportMandatory['passportIssueDate'] = false;
-    const valueChecked = this.coApplicantForm.get('dedupe').get('passportIssueDate').value > this.toDayDate;
+    const valueChecked = this.passportIssueDate > this.toDayDate;
     this.showMessage['passportIssue'] = valueChecked ? true : false;
-    this.passportIssueDate.setDate(this.passportIssueDate.getDate() + 1)
+    //this.passportIssueDate.setDate(this.passportIssueDate.getDate() + 1)
     this.coApplicantForm.get('dedupe').get('passportExpiryDate').setValue(null);
   }
   drivingLicenceExpiryShowError() {
     this.mandatory['drivingLicenseExpiryDate'] = false;
-    const valueChecked = this.toDayDate > this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').value;
-    this.showMessage['drivingLicenseExpiry'] = valueChecked ? true : false;
+    //console.log('this.drivingLicenseExpiryDate', this.drivingLicenseExpiryDate)
+    setTimeout(() => {
+      if (this.drivingLicenseExpiryDate <= this.toDayDate) {
+        this.showMessage['drivingLicenseExpiry'] = true;
+      } else {
+        this.showMessage['drivingLicenseExpiry'] = false;
+      }
+    })
   }
   passportExpiryShowError() {
     this.passportMandatory['passportExpiryDate'] = false;
-    const valueChecked = this.toDayDate > this.coApplicantForm.get('dedupe').get('passportExpiryDate').value;
-    this.showMessage['passportExpiry'] = valueChecked ? true : false;
+    setTimeout(() => {
+      if (this.passportExpiryDate <= this.toDayDate) {
+        this.showMessage['passportExpiry'] = true;
+      } else {
+        this.showMessage['passportExpiry'] = false;
+      }
+    })
+
   }
 
   onAddrSameAsApplicant(event) {
@@ -2347,7 +2366,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       applicantId: this.applicantId,
       leadId: this.leadId,
       isMobileNumberChanged: this.isMobileChanged,
-      ekycDone: this.ekycDone=='1' ? '1' : '0'
+      ekycDone: this.ekycDone == '1' ? '1' : '0'
     };
 
     this.applicantService.saveApplicant(data).subscribe((res: any) => {
@@ -2711,7 +2730,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       agriAppRelationship: applicantDetails.agriAppRelationship || '',
       grossReceipt: applicantDetails.grossReceipt || '',
       isMobileNumberChanged: this.dedupeMobile,
-      ekycDone : this.ekycDone=='1'? '1' : '0'
+      ekycDone: this.ekycDone == '1' ? '1' : '0'
     };
     if (this.applicantId) {
       data.applicantId = this.applicantId;
@@ -2779,7 +2798,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         if (responce['ProcessVariables'].error.code == '0') {
           this.toasterService.showSuccess(responce['ProcessVariables'].error.message,
             'PAN Validation Successful');
-          if (this.ekycDone == '0' || !this.ekycDone ) {
+          if (this.ekycDone == '0' || !this.ekycDone) {
             this.showEkycbutton = true;
           } else if (this.ekycBuutonAdharBased) {
             this.showEkycbutton = true;
@@ -2799,7 +2818,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       })
     }
     else {
-      if (this.ekycDone == '0'|| !this.ekycDone) {
+      if (this.ekycDone == '0' || !this.ekycDone) {
         this.showEkycbutton = true;
       } else if (this.ekycBuutonAdharBased) {
         this.showEkycbutton = true;
@@ -3058,7 +3077,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     ctx.pTag.nativeElement.click();
     // const prospectDetails: IndividualProspectDetails = {};
-    
+
     // prospectDetails.gender = this.gender;
     // this.applicantDataService.setIndividualProspectDetails(prospectDetails);
 
@@ -3097,16 +3116,16 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         value = value || '';
         if (!dedupe.get('pan').invalid) {
           const upperCaseValue = value ? value.toUpperCase() : value;
-          if(upperCaseValue){
+          if (upperCaseValue) {
             this.enableDedupeBasedOnChanges(upperCaseValue !== this.pan);
           }
-          
+
           this.isPanChanged = upperCaseValue !== this.pan;
 
 
         } else {
           this.isEnableDedupe = true;
-          
+
 
         }
       });
