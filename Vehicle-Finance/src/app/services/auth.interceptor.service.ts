@@ -13,6 +13,7 @@ import { Observable, throwError } from 'rxjs';
 import { map, tap, first, catchError } from 'rxjs/operators';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { UtilityService } from './utility.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,8 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(
     private encrytionService: EncryptService,
     private ngxUiLoaderService: NgxUiLoaderService,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private toasterService: ToastrService,
   ) { }
 
   intercept(
@@ -82,7 +84,7 @@ export class AuthInterceptor implements HttpInterceptor {
           if (err.status != 200) {
             console.log('httpErr', err);
             this.ngxUiLoaderService.stop();
-            alert(err.statusText);
+            this.toasterService.error(`${err.status}: ${err.statusText}`, 'Technical error..');
           }
         }
         return throwError(err);
