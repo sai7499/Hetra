@@ -7,6 +7,8 @@ import { WelcomeService } from "../welomce-letter/welcome.service";
 import { ToasterService } from "@services/toaster.service"
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { ElementSchemaRegistry } from '@angular/compiler';
 
 @Component({
   selector: 'app-welomce-letter',
@@ -27,7 +29,7 @@ export class WelomceLetterComponent implements OnInit {
   vehicleDetailsArray: any = [];
   loanApprovedDetails: any = [];
   generalTermsAndConditions: string;
-  div1Data: string;
+  div1Data: any;
 
   date: Date = new Date();
   todayDate;
@@ -77,7 +79,11 @@ export class WelomceLetterComponent implements OnInit {
   creditShield: any;
   assetCost: any;
   showWelcomeLetter: boolean = false;
+  imageUrl: any;
+  cibilImage: any;
   productCatCode;
+  doc: any;
+  dummy: string;
 
   constructor(private activatedRoute: ActivatedRoute,
               private labelsData: LabelsService, 
@@ -85,7 +91,8 @@ export class WelomceLetterComponent implements OnInit {
               private WelcomeService: WelcomeService, 
               private toasterService: ToasterService,
               private createLeadDataService: CreateLeadDataService,
-              private sharedService: SharedService) { }
+              private sharedService: SharedService,
+              private domSanitizer: DomSanitizer,) { }
 
   ngOnInit() {
 
@@ -113,8 +120,28 @@ export class WelomceLetterComponent implements OnInit {
         this.guarantorList = this.isWelcomeDetails["guarantorDetails"];
         this.loanApprovedDetails = this.isWelcomeDetails["loanApprovedDetails"];
         this.div1Data = this.isWelcomeDetails["div1Data"];
+        //this.div1Data = decodeURI(this.div1Data);
+        // this.div1Data =this.domSanitizer.bypassSecurityTrustHtml(this.div1Data); 
+        //bypassSecurityTrustHtml(this.div1Data); 
+        //  const doc = document.getElementById("divone")
+        // doc.innerHTML = window.atob(this.div1Data);  
+        //this.div1Data.innerHTML = window.atob(this.div1Data); 
+        // let text =' <p>hii helo bye</p>'
+        // this.dummy = btoa(text);
+        // this.dummy = atob(text);
+
         this.div2Data = this.isWelcomeDetails["div2Data"];
+        //this.div2Data = decodeURI(this.div2Data);
+       
         this.div3Data = this.isWelcomeDetails["div3Data"];
+        //this.div3Data = decodeURI(this.div3Data);
+
+        if(this.preferredLan!== "ENGPRFLAN" ){
+          this.div1Data = decodeURI(this.div1Data);
+          this.div2Data = decodeURI(this.div2Data);
+          this.div3Data = decodeURI(this.div3Data);
+        } 
+
         this.vehicleDetailsArray = this.isWelcomeDetails["vehicleDetails"];
         
         this.repaymentDetails = res['ProcessVariables'].repaymentDetails;         
@@ -126,6 +153,24 @@ export class WelomceLetterComponent implements OnInit {
       } else {
         this.toasterService.showError(res['ProcessVariables'].error["message"], '')
       }
+
+      // this.div1Data = atob(this.div1Data);
+      // this.isWelcomeDetails["div1Data"]= this.domSanitizer.bypassSecurityTrustHtml(this.div1Data); 
+      // this.div2Data = atob(this.div2Data);
+      // this.isWelcomeDetails["div2Data"]= this.domSanitizer.bypassSecurityTrustHtml(this.div2Data); 
+      // this.div3Data = atob(this.div3Data);
+      // this.isWelcomeDetails["div3Data"]= this.domSanitizer.bypassSecurityTrustHtml(this.div3Data); 
+
+      // if (res.ProcessVariables.error.code == '0') {
+      //   const imageUrl = res.ProcessVariables.response;
+      //   this.imageUrl = imageUrl;
+      //   this.imageUrl = atob(this.imageUrl); // decoding base64 string to get xml file
+      //   this.imageUrl = this.domSanitizer.bypassSecurityTrustHtml(this.imageUrl); // sanitizing xml doc for rendering with proper css
+      //   this.cibilImage = this.imageUrl;
+      // } else {
+      //   this.imageUrl = res.ProcessVariables.error.message;
+      //   this.cibilImage = res.ProcessVariables.error.message;
+      // }
     });
     // this.getLeadSectiondata()
       

@@ -14,11 +14,12 @@
 
         <div *ngIf="showWelcomeLetter" >
             <div id="ContentToConvert">
-
-            <p class="style-strong text-center">{{labels?.EQUITASFINANCEPRIVATELIMITED}}</p>
+                <div class="row">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                <p class="style-strong text-center ">{{labels?.EQUITASFINANCEPRIVATELIMITED}}</p>
             <p class="text-center">{{labels?.WhollyownedsubsidiaryofEquitasHoldingPrivateLimited}}</p>
-
-            <div class="row">
+            </div>
+            
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-right" style="text-align: right;" id="vf_sheet_tag8">
                 <img class="img-style" src="assets\images\equitas-logo.png">
                 </div>
@@ -42,8 +43,8 @@
                     <div>
                         <strong>{{applicantList?.name}}</strong><br>
                         {{applicantList?.addressLine1}}<br>
-                        {{applicantList?.addressLine2}}<br>
-                        {{applicantList?.addressLine3}}<br>
+                        <ng-container *ngIf="applicantList?.addressLine2 === 'null' ? true : false ">{{applicantList?.addressLine2}}</ng-container>
+                        <ng-container *ngIf="applicantList?.addressLine3 === 'null' ? true : false ">{{applicantList?.addressLine3}}</ng-container>
                         {{applicantList?.city}}<br>
                         {{applicantList?.district}}<br>
                         {{applicantList?.state +'-'+applicantList?.pincode}}<br>
@@ -55,8 +56,8 @@
                         <strong>{{labels?.CoBorrower}} {{i+1}}</strong> <br>
                         <strong>{{coAppliacnt?.name}}</strong><br>
                         {{coAppliacnt?.addressLine1}}<br>
-                        {{coAppliacnt?.addressLine2}}<br>
-                        {{coAppliacnt?.addressLine3}}<br>
+                        <ng-container *ngIf="coAppliacnt?.addressLine2 === 'null' ? true : false ">{{coAppliacnt?.addressLine2}}</ng-container>
+                        <ng-container *ngIf="coAppliacnt?.addressLine3 === 'null' ? true : false ">{{coAppliacnt?.addressLine3}}</ng-container>
                         {{coAppliacnt?.city}}<br>
                         {{coAppliacnt?.district}}<br>
                         {{coAppliacnt?.state +'-'+coAppliacnt?.pincode}}<br>
@@ -69,8 +70,10 @@
                         <strong>{{labels?.Guarantor}} {{i+1}}</strong> <br>
                         <strong>{{guarantor?.name}}</strong><br>
                         {{guarantor?.addressLine1}}<br>
-                        {{guarantor?.addressLine2}}<br>
-                        {{guarantor?.addressLine3}}<br>
+                        <ng-container *ngIf="guarantor?.addressLine2 === 'null' ? true : false ">{{guarantor?.addressLine2}}</ng-container>
+                        <ng-container *ngIf ="guarantor?.addressLine3 === 'null' ? true : false ">{{guarantor?.addressLine3}}</ng-container>
+                        <!-- {{guarantor?.addressLine2=== 'null' ? true : false }}
+                        {{guarantor?.addressLine3=== 'null' ? true : false }} -->
                         {{guarantor?.city}}<br>
                         {{guarantor?.district}}<br>
                         {{guarantor?.state +'-'+guarantor?.pincode}}<br>
@@ -180,11 +183,17 @@ Equitas Finance Private Limited<br />
 
 (Please note this is a computer generated letter and hence requires no signature)<br />
 
-</p> -->
-            <div class="margin-add">
-                <p class="style-strong text-center">{{labels?.EQUITASFINANCEPRIVATELIMITED}}</p>
-                <p class="text-center">{{labels?.WhollyownedsubsidiaryofEquitasHoldingPrivateLimited}}</p>
-            </div>
+</p> -->    <div class="html2pdf__page-break"></div>
+<div class="row margin-add">
+    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+        <p class="style-strong text-center ">{{labels?.EQUITASFINANCEPRIVATELIMITED}}</p>
+    <p class="text-center">{{labels?.WhollyownedsubsidiaryofEquitasHoldingPrivateLimited}}</p>
+    </div>
+    
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-right" style="text-align: right;" id="vf_sheet_tag8">
+        <img class="img-style" src="assets\images\equitas-logo.png">
+        </div>
+    </div>
             <table class="table">
                 <tr class="top-border">
                     <td>{{labels?.LoanAgreementNo}}</td>
@@ -240,7 +249,7 @@ Equitas Finance Private Limited<br />
                 <tr>
                     <td class="vech_tab">{{labels?.YearofManufacture}}</td>
                     <td class="vech_tab">{{vechicleList?.manufacYear}}</td>
-                    <td class="vech_tab">{{labels?.VehicleRegistrationNo}}.</td>
+                    <td class="vech_tab">{{labels?.VehicleRegistrationNo}}</td>
                     <td class="vech_tab">{{vechicleList?.vehRegNo}}</td>
                 </tr>
                 <tr>
@@ -384,9 +393,9 @@ Equitas Finance Private Limited<br />
                 Chennai - 600 002.<br>
             Ph: 044-4299 5000 Customer Care Toll-free: 1800 3000 5060</p> 
             <div class="row">
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-right" style="text-align: right;" id="vf_sheet_tag8">
+                <!-- <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-right" style="text-align: right;" id="vf_sheet_tag8">
                 <img class="img-style" src="assets\images\equitas-logo.png">
-                </div>
+                </div> -->
             </div>
             <!-- <ol>
 <li>All Payments should be made promptly on the due dates. Please note that any delay from the due date to
@@ -459,23 +468,40 @@ Care Unit at Tollfree No.: 1800 3000 506, to help us serve you better.</li>
 <p class="author_style">For Equitas Finance Pvt Ltd</p>
 
 <p class="author_style">Authorised Signatory</p> -->
-            <div class="margin-add">
-                <p class="style-strong text-center">{{labels?.EQUITASFINANCEPRIVATELIMITED}}</p>
-            <p class="text-center">{{labels?.WhollyownedsubsidiaryofEquitasHoldingPrivateLimited}}</p>
-            </div>
-
+<div class="html2pdf__page-break"></div>
+<div class="row ">
+    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+        <p class="style-strong text-center ">{{labels?.EQUITASFINANCEPRIVATELIMITED}}</p>
+    <p class="text-center">{{labels?.WhollyownedsubsidiaryofEquitasHoldingPrivateLimited}}</p>
+    </div>
+    
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-right" style="text-align: right;" id="vf_sheet_tag8">
+        <img class="img-style" src="assets\images\equitas-logo.png">
+        </div>
+    </div>
             <div class="margin-add" [innerHTML]="div2Data"></div>
             <!-- logo -->
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-right" style="text-align: right;" id="vf_sheet_tag8">
                 <img class="img-style" src="assets\images\equitas-logo.png">
                 </div>
             </div>
             <div class="html2pdf__page-break"></div>
             <p class="style-strong text-center">{{labels?.EQUITASFINANCEPRIVATELIMITED}}</p>
-            <p class="text-center">{{labels?.WhollyownedsubsidiaryofEquitasHoldingPrivateLimited}}</p>
+            <p class="text-center">{{labels?.WhollyownedsubsidiaryofEquitasHoldingPrivateLimited}}</p> -->
+            <div class="html2pdf__page-break"></div>
+            <div class="row ">
+                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                    <p class="style-strong text-center ">{{labels?.EQUITASFINANCEPRIVATELIMITED}}</p>
+                <p class="text-center">{{labels?.WhollyownedsubsidiaryofEquitasHoldingPrivateLimited}}</p>
+                </div>
+                
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-right" style="text-align: right;" id="vf_sheet_tag8">
+                    <img class="img-style" src="assets\images\equitas-logo.png">
+                    </div>
+                </div>
 
-            <div class="margin-add" [innerHTML]="div3Data"></div>
+            <div class="" [innerHTML]="div3Data"></div>
             <p class="text-center style-strong">{{labels?.REPAYMENTSCHEDULE}} - {{labels?.AgreementNo}}: {{isWelcomeDetails?.agreementNo}}
             </p>
             <table cellspacing="0" cellpadding="0" dir="ltr" border="1">
@@ -526,8 +552,8 @@ Care Unit at Tollfree No.: 1800 3000 506, to help us serve you better.</li>
             </table>
 			<div class="margin-add">
                 <strong>
-                <p class="\&quot;author_style\&quot;">For Equitas Finance Pvt Ltd</p><br>
-                <p class="\&quot;author_style\&quot;">Authorised Signatory</p>
+                <p class="\&quot;author_style\&quot;">{{labels?.ForEquitasFinancePvtLtd}}</p><br>
+                <p class="\&quot;author_style\&quot;">{{labels?.AuthorisedSignatory}}</p>
                 </strong>
             </div>
             <!-- <p class="style-strong">For Equitas Finance Pvt Ltd</p>
