@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CustomerAcceptanceServiceService } from '@services/customer-acceptance-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToasterService } from '@services/toaster.service';
+import { SharedService } from '../../../shared/shared-service/shared-service'
+
 
 @Component({
   selector: 'app-customer-feedback',
@@ -11,8 +13,18 @@ import { ToasterService } from '@services/toaster.service';
 export class CustomerFeedbackComponent implements OnInit {
   leadId: number;
 
+  rejectData: {
+    title: string,
+    product: any;
+    flowStage: string;
+    productCode: any;
+   
+  }
+
+  showModal: boolean;
+
   constructor(private customerService: CustomerAcceptanceServiceService, private route: ActivatedRoute,
-              private router: Router, private toasterService: ToasterService) { }
+              private router: Router, private toasterService: ToasterService, private sharedService: SharedService) { }
 
   async ngOnInit() {
     this.leadId = (await this.getLeadId()) as number;
@@ -27,7 +39,7 @@ export class CustomerFeedbackComponent implements OnInit {
       });
     });
   }
-  customerAcceptance(data: string) {
+  customerAcceptance(data: string,reasonCode?:string) {
     if (data === 'accepted') {
       const body = {
         leadId: this.leadId,
@@ -47,12 +59,13 @@ export class CustomerFeedbackComponent implements OnInit {
       const body = {
         leadId: this.leadId,
         userId: localStorage.getItem('userId'),
-        isAccepted: false
+        isAccepted: false,
+        reasonCode: reasonCode
       };
       this.customerService.sendAcceptanceDetails(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
         if (res.ProcessVariables.error.code == '0') {
-          this.toasterService.showSuccess('Record Saved Succesfully', '');
+          this.toasterService.showSuccess('Record Rejected Succesfully', '');
           this.router.navigate([`pages/dashboard`]);
         } else {
           this.toasterService.showError(res.ProcessVariables.error.message, '');
@@ -60,6 +73,33 @@ export class CustomerFeedbackComponent implements OnInit {
       });
     }
    
+  }
+
+  reject() {
+
+    let productCode = ''
+    this.sharedService.productCatCode$.subscribe((value)=> {
+
+      productCode = value;
+    })
+    const productId = productCode || '';
+    this.showModal = true;
+    this.rejectData = {
+      title: 'Select Reject Reason',
+      product:'',
+      productCode: productId,
+      flowStage: '130'
+    }
+    
+  }
+
+  onOkay(reasonData) {
+    
+    this.customerAcceptance('rejected',reasonData['reason'].reasonCode)
+  }
+
+  onCancel() {
+    this.showModal = false;
   }
 
 }

@@ -119,10 +119,13 @@
       <button class="btn btn-primary" *ngIf="userType === 2" type="button"
        data-toggle="modal" data-target="#myModal"
         >Refer</button>
-      <button class="btn btn-primary" *ngIf="userType === 2" type="button" 
+      <!-- <button class="btn btn-primary" *ngIf="userType === 2" type="button" 
       (click)="alertMessage('Reject')" data-toggle="modal"
       data-target="#approveModal"  [disabled]="!isRejectEnable"
-        >Reject</button>
+        >Reject</button> -->
+        <button class="btn btn-primary" *ngIf="userType === 2" type="button" 
+        (click)="reject()"  [disabled]="!isRejectEnable"
+          >Reject</button>
       <!-- <button class="btn btn-primary" *ngIf="userType === 2" 
         (click)="creditConditionActions('approved')" type="button" [disabled] ="disableControl">Approve</button>
       <button class="btn btn-primary"
@@ -257,9 +260,8 @@
               <h3 class="m-0">RC and TA Limit Check</h3>
             </div>
             <div class="row" *ngFor="let item of errorMessage; let i = index ;">
-                <div class="col-md-12">
-                
-                      <div class="errText" >{{i + 1+'.'+''+item}}</div>
+                <div class="col-md-12">                
+                      <div class="errText" ><strong>*</strong>{{' '+item}}</div>
                 </div>
             </div>
             <div class="btn-wrap">
@@ -271,3 +273,5 @@
     </div>
   </div>
 </div>
+
+<app-reject-reason-modal [data]="rejectData" [showModalPopup]="showModal" *ngIf="showModal" (okay)="onOkay($event)" (cancel)="onCancel()"></app-reject-reason-modal>
