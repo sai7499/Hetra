@@ -9,7 +9,7 @@ declare var cordova:any;
 
 import { DraggableContainerService } from '@services/draggable.service';
 import { Router } from '@angular/router';
-import { ConfigService } from '@services/config.service';
+
 
 @Component({
   selector: 'app-root',
@@ -183,6 +183,9 @@ export class AppComponent implements OnInit {
     }
   };
 
+
+   
+
   showDraggableContainer: {
     imageUrl: string;
     imageType: string;
@@ -193,14 +196,13 @@ export class AppComponent implements OnInit {
   };
 
  configData;
+
   constructor(private draggableContainerService: DraggableContainerService,
-              private router: Router, private configService: ConfigService) {
-                const hostUrl = this.configService.getConfig().subscribe((data: any) => {
-                  this.configData = data;
-                  this.configService.setConfig(data);
-                  const hostData = this.configService.configurationData;
-                  console.log('URL', hostData.hostUrl1);
-                });
+              private router: Router) {
+                // const hostUrl = this.configService.getConfig().subscribe((data: any) => {
+                //   this.configData = data;
+                // });
+
               }
 
   ngOnInit() {

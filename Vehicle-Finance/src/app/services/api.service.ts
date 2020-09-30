@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { ConfigService } from './config.service';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  constructor(private configService: ConfigService) {
+  constructor() {   
   }
   api = {
     getUserDetails: {

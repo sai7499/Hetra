@@ -47,7 +47,7 @@ export class LoginService {
       workflowId,
       projectId,
     };
-    this.configUrl = this.configService.configurationData.hostUrl1;
+    // this.configUrl = this.configService.configurationData.hostUrl;
     // let url = `${this.configUrl}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     let url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);

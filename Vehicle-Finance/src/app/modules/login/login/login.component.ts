@@ -145,13 +145,10 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.loginData = this.loginForm.value;
-    this.configUrl = this.configService.configurationData;
-    console.log(this.configUrl.hostUrl1);
-    
+    this.loginData = this.loginForm.value; 
     
     // this.loginData.email = this.loginData.email + this.configUrl.userConfig;
-    this.loginData.email = this.loginData.email + window["env"]["userConfig"] || "default";
+    this.loginData.email = this.loginData.email + window["env"]["userConfig"];
     this.loginData.useADAuth = window["env"]["useADAuth"];
     // if (environment.hostingEnvironment === 'DEV') {
     //   this.loginData.email = `${this.loginData.email}@equitasbank.in`;
