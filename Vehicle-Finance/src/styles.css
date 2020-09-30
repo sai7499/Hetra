@@ -877,5 +877,7 @@ html, body { height: 100%; }
     background-color: #ffffff;
 }
 
-
+.k-dateinput .k-dateinput-wrap .k-input, .k-datepicker .k-dateinput-wrap .k-input {
+    padding: 0px 3px !important;
+}
 
