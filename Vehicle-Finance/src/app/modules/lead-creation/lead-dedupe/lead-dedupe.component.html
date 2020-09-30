@@ -75,11 +75,11 @@
                         <option *ngFor="let rejectReason of rejectReasonList" [value]="rejectReason.reasonCode">{{rejectReason.reasonDesc}}</option>
                       </select>
 
-                      <div class="col-12 mx-auto" id="proceed_div">
+                      <!-- <div class="col-12 mx-auto" id="proceed_div">
                         <div>---Select one ----</div>
                         <div>reason - 1</div>
                         <div>reason - 2</div>
-                      </div>
+                      </div> -->
                     </div>
                     <button *ngIf="isSubmit || isChecked" class="btn btn-danger mar-right8" id="proceed_with_sumbit"
                       type="button" data-toggle="modal" data-target="#rejectModal"> Submit</button>
