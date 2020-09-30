@@ -1691,7 +1691,7 @@
             "maxLength": {
                 "rule": 10
             },
-            "type": "decimal-4"
+            "type": "decimal-2"
         },
         "bankName": {
             "maxLength": {
