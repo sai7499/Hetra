@@ -19,7 +19,8 @@
                                     <span class="input-group-btn">
                                         <button class="btn btn-default" disabled><i class="fa fa-user"></i></button>
                                     </span>
-                                    <input type="text" class="form-control" id="username" placeholder="AD Username" formControlName="email">
+                                    <input type="text" class="form-control" id="username" placeholder="AD Username"
+                                        formControlName="email">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -28,16 +29,17 @@
                                     <span class="input-group-btn">
                                         <button class="btn btn-default" disabled><i class="fa fa-lock"></i></button>
                                     </span>
-                                    <input type="password" class="form-control" id="pswd" placeholder="AD Password" formControlName="password" (keyup)="enter($event)">
+                                    <input type="password" class="form-control" id="pswd" placeholder="AD Password"
+                                        formControlName="password" (keyup)="enter($event)">
                                 </div>
                             </div>
                             <button (click)="login()" [disabled]="loginForm.invalid" class="btn btn-primary">Sign
                                 In</button>
                             <!-- <button (click)="initIdenti5()"> Identi5</button>
                         <div class="base_data" >{{base64Data}}</div> -->
-                        <!-- <button (click)="initMaaS360()"> Maas360</button> -->
-                    </form>		
-                    
+                            <!-- <button (click)="initMaaS360()"> Maas360</button> -->
+                        </form>
+
                     </div>
 
                 </div>
@@ -45,30 +47,24 @@
         </div>
     </div>
 
-    <!-- <div>
-        <img src="{{base64Image}}" alt="Red dot" />
-      </div> -->
-      <div id="overlay" *ngIf="isModelShow">
+    <!-- <div id="overlay" *ngIf="isModelShow">
         <div id="text">
-          <div class="panel">
-            <div class="panel-body">
-              <!-- <button type="button" class="close" aria-label="Close" (click)="isModelShow = false" >
-                <span aria-hidden="true">&times;</span>
-              </button> -->
-              <div class="modal-dialog">
-                <div class="modal-body" style="text-align: center;">
-                  <h2>{{ errorMessage }}</h2>
-                  <div class="btn-wrap">
-                    <button class="btn btn-primary" (click)="isModelShow = false">
-                      OK
-                    </button>
-                  </div>
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="modal-dialog">
+                        <div class="modal-body" style="text-align: center;">
+                            <h2>{{ errorMessage }}</h2>
+                            <div class="btn-wrap">
+                                <button class="btn btn-primary" (click)="isModelShow = false">
+                                    OK
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
+    </div> -->
 
 
 
@@ -99,4 +95,3 @@
     </div>
 
 </footer>
-
