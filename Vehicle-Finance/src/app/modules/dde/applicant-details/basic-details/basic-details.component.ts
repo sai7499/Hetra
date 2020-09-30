@@ -982,11 +982,13 @@ export class BasicDetailsComponent implements OnInit {
   disableEKYDetails(){
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
-    details.get('name1').disable();
-    details.get('name2').disable();
-    details.get('name3').disable();
-    details.get('dob').disable();
-    details.get('gender').disable();
+    const applicantDetails = this.applicant.applicantDetails;
+    const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails;
+    applicantDetails.name1? details.get('name1').disable() : details.get('name1').enable();
+    details.get('name2').disable() 
+    applicantDetails.name3 ? details.get('name3').disable() : details.get('name3').enable();
+    aboutIndivProspectDetails.dob? details.get('dob').disable() : details.get('dob').enable();
+    aboutIndivProspectDetails.gender ? details.get('gender').disable() :  details.get('gender').enable() ;
   }
 
   disableUCICIndividualDetails(){

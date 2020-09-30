@@ -2347,7 +2347,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       applicantId: this.applicantId,
       leadId: this.leadId,
       isMobileNumberChanged: this.isMobileChanged,
-      ekycDone: this.ekycDone
+      ekycDone: this.ekycDone=='1' ? '1' : '0'
     };
 
     this.applicantService.saveApplicant(data).subscribe((res: any) => {
@@ -2711,6 +2711,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       agriAppRelationship: applicantDetails.agriAppRelationship || '',
       grossReceipt: applicantDetails.grossReceipt || '',
       isMobileNumberChanged: this.dedupeMobile,
+      ekycDone : this.ekycDone=='1'? '1' : '0'
     };
     if (this.applicantId) {
       data.applicantId = this.applicantId;
@@ -2778,7 +2779,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         if (responce['ProcessVariables'].error.code == '0') {
           this.toasterService.showSuccess(responce['ProcessVariables'].error.message,
             'PAN Validation Successful');
-          if (this.ekycDone == '0') {
+          if (this.ekycDone == '0' || !this.ekycDone ) {
             this.showEkycbutton = true;
           } else if (this.ekycBuutonAdharBased) {
             this.showEkycbutton = true;
@@ -2798,7 +2799,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       })
     }
     else {
-      if (this.ekycDone == '0') {
+      if (this.ekycDone == '0'|| !this.ekycDone) {
         this.showEkycbutton = true;
       } else if (this.ekycBuutonAdharBased) {
         this.showEkycbutton = true;
@@ -2988,6 +2989,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     const dedupe = ctx.coApplicantForm.get('dedupe');
     const dob = value.dobFromResponse;
+    this.gender = value.genderFromResponse;
     value.dobFromResponse = dob.split('-').join('/');
 
     dedupe.get('name1').setValue(value.firstName);
@@ -3056,7 +3058,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     ctx.pTag.nativeElement.click();
     // const prospectDetails: IndividualProspectDetails = {};
-    this.gender = value.genderFromResponce
+    
     // prospectDetails.gender = this.gender;
     // this.applicantDataService.setIndividualProspectDetails(prospectDetails);
 
@@ -3080,8 +3082,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           }
         } else {
           this.isEnableDedupe = true;
-          //this.showEkycbutton= true;
-          // this.isMobileChanged = false;
         }
       });
       dedupe.get('name1').valueChanges.subscribe((value) => {
@@ -3097,13 +3097,16 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         value = value || '';
         if (!dedupe.get('pan').invalid) {
           const upperCaseValue = value ? value.toUpperCase() : value;
-          this.enableDedupeBasedOnChanges(upperCaseValue !== this.pan);
+          if(upperCaseValue){
+            this.enableDedupeBasedOnChanges(upperCaseValue !== this.pan);
+          }
+          
           this.isPanChanged = upperCaseValue !== this.pan;
 
 
         } else {
           this.isEnableDedupe = true;
-          //this.showEkycbutton= false;
+          
 
         }
       });

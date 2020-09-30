@@ -422,7 +422,7 @@
                     [patternCheck]="validationData?.panNumber?.patternCheck"
                     [isRequired]="panRequired ? 'Pan is required' : ''" [isDirty]="isDirty"
                     [inputClass]="'text-uppercase'" [maxLength]="validationData?.panNumber?.maxLength"
-                    [type]="validationData?.panNumber?.type" (change)="removeErrorMsg()"></app-custom-input>
+                    [type]="validationData?.panNumber?.type" (keyup)="removeErrorMsg($event)"></app-custom-input>
 
                   <div class="ShowError" *ngIf="panValidate &&
                   coApplicantForm.get('dedupe').get('pan').value !==''">
@@ -674,7 +674,7 @@
                   </button>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4 margin-top-20"
-                  *ngIf="isMobile && showEkycbutton && applicantType=='INDIVENTTYP'">
+                  *ngIf=" showEkycbutton && applicantType=='INDIVENTTYP'">
                   <button class="btn btn-primary mar-right8" type="button" (click)="calleKYC()">
                     <a class="back_color">Check e-KYC</a>
                   </button>
