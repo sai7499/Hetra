@@ -143,15 +143,17 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loginData = this.loginForm.value;
-    if (environment.hostingEnvironment === 'DEV') {
-      this.loginData.email = `${this.loginData.email}@equitasbank.in`;
-      this.loginData.useADAuth = false;
-    } else if (environment.hostingEnvironment === 'UAT') {
-      this.loginData.email = `${this.loginData.email}@esfbuat.in`;
-      this.loginData.useADAuth = true;
-    } else {
-      this.loginData.email = `${this.loginData.email}@equitas.in`;
-    }
+    this.loginData.email = this.loginData.email + window["env"]["userConfig"];
+    this.loginData.useADAuth = window["env"]["useADAuth"];
+    // if (environment.hostingEnvironment === 'DEV') {
+    //   this.loginData.email = `${this.loginData.email}@equitasbank.in`;
+    //   this.loginData.useADAuth = false;
+    // } else if (environment.hostingEnvironment === 'UAT') {
+    //   this.loginData.email = `${this.loginData.email}@esfbuat.in`;
+    //   this.loginData.useADAuth = true;
+    // } else {
+    //   this.loginData.email = `${this.loginData.email}@equitas.in`;
+    // }
     this.loginService.getLogin(this.loginData).subscribe(
       (res: any) => {
         this.loginForm.reset();
