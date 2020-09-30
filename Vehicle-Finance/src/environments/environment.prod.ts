@@ -92,7 +92,7 @@ export const environment = {
   // hostingEnvironment: 'Production',  
   // host: config.hostUrl, 
   // host: '/appiyo/',
-  host: window['env'].hostUrl || "default",
+  host: window['env']['hostUrl'] || "default",
   // host: configProd.hostUrl2,
   // host: "https://hetrauat.equitasbank.com/appiyodev/",
   //host: 'http://128.199.164.250/appiyo/',
