@@ -50,7 +50,7 @@ export class CustomInputComponent
     this.defaultMaxLength = value.rule;
     this.maxLengthValidation = {
       rule: value.rule,
-      msg : value.msg
+      msg: value.msg
     };
   };
   @Input() className = 'form-control';
@@ -81,7 +81,7 @@ export class CustomInputComponent
   @Input() placeholder = '';
 
   htmlInputElement: any;
-  
+
 
   @ViewChild('customInput', { static: false }) customInput: ElementRef;
 
@@ -107,7 +107,6 @@ export class CustomInputComponent
 
   ngAfterViewInit() {
     this.htmlInputElement = this.customInput;
-    // console.log('inputError', this.customInput)
   }
 
   // this is the initial value set to the component
@@ -150,45 +149,65 @@ export class CustomInputComponent
   public registerOnTouched() { }
 
   updateChanges(value: string) {
-    setTimeout(()=>{
+
+    setTimeout(() => {
       if (this.type.includes('decimal')) {
         const decimalLength = Number(this.type.split('-')[1] || 2);
+
+        if (value.length >= this.defaultMaxLength) {
+          this.maxLengthValidation = {
+            ...this.maxLengthValidation,
+            rule: this.defaultMaxLength + 1
+
+          }
+
+          if (value.charCodeAt(this.defaultMaxLength) === 46) {
+            this.maxLengthValidation = {
+              ...this.maxLengthValidation,
+              rule: this.defaultMaxLength + 1 + decimalLength
+            }
+
+            if (value.split('.').length > 2) {
+              this.displayError('Invalid Number')
+            }
+          } else {
+            setTimeout(() => {
+              this.inputValue = value.slice(0, this.defaultMaxLength)
+            })
+          }
+
+        }
+
         if (value.includes('.')) {
           const length = this.defaultMaxLength + decimalLength + 1;
           this.maxLengthValidation.rule = length;
           const roundValue = value.split('.')[0];
           const decimalValues = value.split('.')[1].slice(0, decimalLength);
-          const formatedValue=  roundValue + '.' + decimalValues;
-          
-          this.data= formatedValue;
+          const formatedValue = roundValue + '.' + decimalValues;
+
+
+
+          this.data = formatedValue;
           setTimeout(() => {
-            
+
             //this.value= formatedValue;
             this.inputValue = formatedValue;
           })
-  
         }
-  
-        else {
-          this.maxLengthValidation = {
-            ...this.maxLengthValidation,
-            rule: this.defaultMaxLength
 
-          };
-        }
       } else {
         this.maxLengthValidation = {
           ...this.maxLengthValidation,
           rule: this.defaultMaxLength
         };
       }
-      setTimeout(()=>{
+      setTimeout(() => {
         this.checkValidation(this.data);
         this.propagateChange(this.data);
       })
     })
-    
-    
+
+
   }
 
   checkValidation(value) {
@@ -254,9 +273,9 @@ export class CustomInputComponent
 
   onBlurMethod(event) {
     const newValue = event.target.value;
-    if (this.type.includes('decimal')) {
-      this.allowDecimal(event, this.type);
-    }
+    // if (this.type.includes('decimal')) {
+    //   this.allowDecimal(event, this.type);
+    // }
 
     if (!newValue && this.isRequired) {
       this.displayError(this.isRequired);
@@ -290,28 +309,25 @@ export class CustomInputComponent
       case 'alpha-numeric-nospace':
         this.allowAlphaNumericNoSpace(event);
         break;
-
       case 'percent':
         this.allowPercentageFormat(event);
         break;
       case 'alpha-numeric-slash':
         this.allowAlphaNumericWithSlashOnly(event)
         break;
-  
-
     }
 
     // case 'decimal':
     //   this.allowDecimal(event, this.type);
     //   break;
 
-    if(this.type.includes('decimal')) {
+    if (this.type.includes('decimal')) {
       this.allowDecimal(event, this.type);
-      const initialValue= event.target.value;
-      setTimeout(()=>{
+      const initialValue = event.target.value;
+      setTimeout(() => {
         this.inputValue = initialValue.replace(/[^0-9 .]*/g, '');
       })
-     
+
     }
     this.propagateChange(this.inputValue);
     this.checkValidation(this.inputValue);
@@ -320,7 +336,6 @@ export class CustomInputComponent
 
   allowDecimal(event, type: string) {
     const decimalPoints = type.split('-')[1] || 2;
-    //console.log(decimalPoints, 'on', this.step)
 
     let zeros = '';
     for (let i = 0; i < decimalPoints; i++) {
@@ -343,7 +358,7 @@ export class CustomInputComponent
 
       }
     });
-   
+
     this.inputValue = initialValue.replace(/[^0-9 .]*/g, '');
   }
 

@@ -120,10 +120,10 @@
             <p class="text-center var-lab mar-10" id="credit_score_tag10">{{labels?.eligibleLoanAmount}} : {{eligibleAmount }}</p>
             <div class="text-center var-lab mar-10">
                 <button type="button " class="btn btn-primary ok_button proceed_button mar-right8" id="proceed_button "
-                    (click)="navigateUrl()">{{labels?.proceed}}</button>
-                <a data-toggle="modal" data-target="#myModal" id="reject_credit">
-                    <p type="button" class="btn btn-primary">{{labels?.reject}}</p>
-                </a>
+                (click)="navigateUrl()" *ngIf="'eligibleAmount > 0'">{{labels?.proceed}}</button>
+            <a id="reject_credit" (click)="reject()">
+                <p type="button" class="btn btn-primary">{{labels?.reject}}</p>
+            </a>
             </div>
 
         </div>
@@ -160,6 +160,10 @@
         </div>
     </div>
 </div>
+
+<!--reject reason modal-->
+<app-reject-reason-modal [data]="rejectData" [showModalPopup]="showModal" *ngIf="showModal" (okay)="onOkay($event)" (cancel)="onCancel()"></app-reject-reason-modal>
+
 <!-- Footer -->
 <footer class="footer mob-font ">
     <div class="container ">
