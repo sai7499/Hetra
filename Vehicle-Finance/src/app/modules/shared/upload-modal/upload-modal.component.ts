@@ -35,7 +35,7 @@ export class UploadModalComponent {
   @Output() close = new EventEmitter();
   @Output() uploadSuccess = new EventEmitter();
 
-  @ViewChild('fileInput', { static: false })
+  @ViewChild('fileInput')
   fileInput: ElementRef;
   isMobile: any;
 

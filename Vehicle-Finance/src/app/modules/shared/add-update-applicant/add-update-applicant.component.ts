@@ -223,7 +223,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   isMobile: any;
 
-  @ViewChild('pTag', { static: false }) pTag: ElementRef<HTMLElement>;
+  @ViewChild('pTag') pTag: ElementRef<HTMLElement>;
 
 
   constructor(

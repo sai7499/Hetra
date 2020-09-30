@@ -6,6 +6,7 @@ import { Categories } from '@model/upload-model';
 Injectable({
   providedIn: 'root',
 });
+@Injectable()
 export class CommomLovService {
   lovData: any;
   documentCategories: Categories[];

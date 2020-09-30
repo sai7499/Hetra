@@ -83,7 +83,7 @@ export class CustomInputComponent
   htmlInputElement: any;
   
 
-  @ViewChild('customInput', { static: false }) customInput: ElementRef;
+  @ViewChild('customInput') customInput: ElementRef;
 
   errorMsg: string;
   inputError = false;

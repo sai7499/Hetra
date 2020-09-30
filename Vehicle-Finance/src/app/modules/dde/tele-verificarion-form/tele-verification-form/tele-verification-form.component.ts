@@ -64,7 +64,7 @@ export class TeleVerificationFormComponent implements OnInit {
   public time: any = new Date(new Date().getTime()).toLocaleTimeString();
 
 
-  @ViewChild('closeModal', { static: false }) public closeModal: ElementRef;
+  @ViewChild('closeModal') public closeModal: ElementRef;
 
   regexPattern = {
     amount: {
