@@ -422,7 +422,7 @@
                     [patternCheck]="validationData?.panNumber?.patternCheck"
                     [isRequired]="panRequired ? 'Pan is required' : ''" [isDirty]="isDirty"
                     [inputClass]="'text-uppercase'" [maxLength]="validationData?.panNumber?.maxLength"
-                    [type]="validationData?.panNumber?.type" (keyup)="removeErrorMsg($event)"></app-custom-input>
+                    [type]="validationData?.panNumber?.type" (keyup)="removeErrorMsg()"></app-custom-input>
 
                   <div class="ShowError" *ngIf="panValidate &&
                   coApplicantForm.get('dedupe').get('pan').value !==''">
@@ -617,7 +617,7 @@
                   <kendo-datepicker class="form-control mandatory" formControlName="passportExpiryDate"
                     [format]="'dd/MM/yyyy'" [min]="toDayDate" [activeView]="'decade'" [(ngModel)]="passportExpiryDate"
                     (valueChange)="passportExpiryShowError()" [disabled]="disabledPassportDates"
-                    placeholder="Passport Expiry Date">
+                    placeholder="Passport Expiry Date"> 
                   </kendo-datepicker>
                   <div class="ShowError" *ngIf="
                       !passportExpiryDate &&
