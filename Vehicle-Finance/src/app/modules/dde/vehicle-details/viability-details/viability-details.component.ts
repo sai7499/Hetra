@@ -598,40 +598,40 @@ onSave() {
 patchViability(data: any) {
    const passanger = this.viabilityForm.controls.passanger as FormGroup;
    passanger.patchValue({
-     route: data.route ? data.route : null,
-        onwardRoute : data.onwardRoute ? data.onwardRoute : null,
-        returnRoute: data.returnRoute ?  data.returnRoute : null,
-        natureOfGoods: data.natureOfGoods ? data.natureOfGoods : null ,
-        distanceInKm: data.distanceInKm ? data.distanceInKm : 45,
-        tripsPerMonth: data.tripsPerMonth ? data.tripsPerMonth : null,
-        monthlyRunningKm: data.monthlyRunningKm ? data.monthlyRunningKm : null,
-        avgLoadPerTon: data.avgLoadPerTon ? data.avgLoadPerTon : null,
-        rateTonne: data.rateTonne ? data.rateTonne : null,
-        fuelAvgPerKm: data.fuelAvgPerKm ? data.fuelAvgPerKm : null,
-        costPerLtr: data.costPerLtr ? data.costPerLtr : null,
-        noOfTyres: data.noOfTyres ? data.noOfTyres : null,
-        perTyreCost: data.perTyreCost ? data.perTyreCost : null,
-        newTyreLifeKm: data.newTyreLifeKm ? data.newTyreLifeKm : null,
-        fuelCost: data.fuelCost ? data.fuelCost : null,
-        tyreCost: data.tyreCost ? data.tyreCost : null,
-        driversSalary: data.driversSalary ? data.driversSalary : null,
-        cleanersSalary: data.cleanersSalary ? data.cleanersSalary : null,
-        permitCost: data.permitCost ? data.permitCost : null,
-        fcCharge: data.fcCharge ? data.fcCharge : null,
+     route: data.route ,
+        onwardRoute : data.onwardRoute ,
+        returnRoute: data.returnRoute ,
+        natureOfGoods: data.natureOfGoods  ,
+        distanceInKm: Number(data.distanceInKm) ,
+        tripsPerMonth: Number(data.tripsPerMonth) ,
+        monthlyRunningKm:  Number(data.monthlyRunningKm) ,
+        avgLoadPerTon: Number(data.avgLoadPerTon) ,
+        rateTonne: Number(data.rateTonne) ,
+        fuelAvgPerKm: Number(data.fuelAvgPerKm) ,
+        costPerLtr: Number(data.costPerLtr) ,
+        noOfTyres: Number(data.noOfTyres) ,
+        perTyreCost: Number(data.perTyreCost) ,
+        newTyreLifeKm: Number(data.newTyreLifeKm) ,
+        fuelCost: Number(data.fuelCost) ,
+        tyreCost: Number(data.tyreCost) ,
+        driversSalary: Number(data.driversSalary) ,
+        cleanersSalary: Number(data.cleanersSalary) ,
+        permitCost: Number(data.permitCost) ,
+        fcCharge: Number(data.fcCharge) ,
         paidTollTax:  Number(data.paidTollTax),
-        taxes: data.taxes ? data.taxes : null,
-        maintanence: data.maintanence ? data.maintanence : null,
-        busMiscellaneousExpenses:  data.busMiscellaneousExpenses ,
-        busInsurenceExpenses: data.busInsurenceExpenses ? data.busInsurenceExpenses : null,
-        busMonthlyIncome: data.busMonthlyIncome ? data.busMonthlyIncome : null,
-        netCashFlow: data.netCashFlow ? data.netCashFlow : null,
-        emi: data.emi ? data.emi : null,
-        totalExpenses: data.totalExpenses ? data.totalExpenses : null,
-        otherIncome: data.otherIncome ? data.otherIncome : null,
-        otherIncomeRemarks: data.otherIncomeRemarks ? data.otherIncomeRemarks : null,
-        otherExpenses: data.otherExpenses ? data.otherExpenses : null,
+        taxes: Number(data.taxes) ,
+        maintanence: Number(data.maintanence) ,
+        busMiscellaneousExpenses:  Number(data.busMiscellaneousExpenses) ,
+        busInsurenceExpenses: Number(data.busInsurenceExpenses) ,
+        busMonthlyIncome: Number(data.busMonthlyIncome) ,
+        netCashFlow: data.netCashFlow ,
+        emi: Number(data.emi) ,
+        totalExpenses: Number(data.totalExpenses) ,
+        otherIncome: Number(data.otherIncome) ,
+        otherIncomeRemarks: data.otherIncomeRemarks ,
+        otherExpenses: Number(data.otherExpenses) ,
         otherExpensesRemarks:  data.otherExpensesRemarks ,
-        operationsExpenses: data.operationsExpenses ? data.operationsExpenses : null
+        operationsExpenses: Number(data.operationsExpenses)
 
     });
  }
@@ -680,16 +680,16 @@ patchViability(data: any) {
 setPassangetStandOperator(data: any) {
   const passangerStandOperator = this.viabilityForm.controls.passangerStandOperator as FormGroup;
   passangerStandOperator.patchValue({
-    application: data.application ? data.application : null,
-    grossIncomePerDay: data.grossIncomePerDay ? data.grossIncomePerDay : null,
-    businessEarningPerDay : data.businessEarningPerDay ? data.businessEarningPerDay : null,
-    businessIncomePerDay : data.businessIncomePerDay ? data.businessIncomePerDay : null,
-    avgTyreExpenses : data.avgTyreExpenses ? data.avgTyreExpenses : null,
-    insuranceExpenses : data.insuranceExpenses ? data.insuranceExpenses : null,
-    miscellaneousExpenses : data.miscellaneousExpenses ? data.miscellaneousExpenses  : null,
-    totalExpenses : data.totalExpenses ? data.totalExpenses : null,
-    netCashFlow : data.netCashFlow  ? data.netCashFlow : null,
-    emi : data.emi ?  data.emi : null
+    application: data.application ,
+    grossIncomePerDay: Number(data.grossIncomePerDay) ,
+    businessEarningPerDay : Number(data.businessEarningPerDay ),
+    businessIncomePerDay :  Number(data.businessIncomePerDay) ,
+    avgTyreExpenses :  Number(data.avgTyreExpenses) ,
+    insuranceExpenses :  Number(data.insuranceExpenses) ,
+    miscellaneousExpenses :  Number(data.miscellaneousExpenses)  ,
+    totalExpenses : Number(data.totalExpenses)  ,
+    netCashFlow : Number(data.netCashFlow) ,
+    emi : Number(data.emi)
   });
  }
  // tslint:disable-next-line: no-shadowed-variable
@@ -712,18 +712,18 @@ setPassangetStandOperator(data: any) {
  setCapative(dataCaptive: any) {
   const captive = this.viabilityForm.controls.captive as FormGroup;
   captive.patchValue({
-    natureOfBusiness: dataCaptive.natureOfBusiness ? dataCaptive.natureOfBusiness : null ,
-    businessIncomePerDay:  dataCaptive.businessIncomePerDay ? dataCaptive.businessIncomePerDay : null ,
-    businessEarningPerDay:  dataCaptive.businessEarningPerDay ? dataCaptive.businessEarningPerDay : null ,
-    busExpensesPerDay:  dataCaptive.busExpensesPerDay ? dataCaptive.busExpensesPerDay : null ,
-    oblicationsPerMonth:  dataCaptive.oblicationsPerMonth ? dataCaptive.oblicationsPerMonth : null ,
-    busTyreAvgExpenses:  dataCaptive.busTyreAvgExpenses ? dataCaptive.busTyreAvgExpenses : null ,
-    busInsurenceExpenses:  dataCaptive.busInsurenceExpenses ? dataCaptive.busInsurenceExpenses : null ,
-    busMiscellaneousExpenses:  dataCaptive.busMiscellaneousExpenses ? dataCaptive.busMiscellaneousExpenses : null ,
-    busMonthlyIncome:  dataCaptive.busMonthlyIncome ? Number(this.montlyCaptiveIncome) : null ,
-    totalExpenses: dataCaptive.totalExpenses ? dataCaptive.totalExpenses : null,
-    netCashFlow: dataCaptive.netCashFlow ? dataCaptive.netCashFlow : null,
-    emi: dataCaptive.emi ? dataCaptive.emi : null
+    natureOfBusiness:  dataCaptive.natureOfBusiness  ,
+    businessIncomePerDay:  Number(dataCaptive.businessIncomePerDay)  ,
+    businessEarningPerDay:   Number(dataCaptive.businessEarningPerDay)  ,
+    busExpensesPerDay:  Number(dataCaptive.busExpensesPerDay)  ,
+    oblicationsPerMonth:   Number(dataCaptive.oblicationsPerMonth)  ,
+    busTyreAvgExpenses:   Number(dataCaptive.busTyreAvgExpenses) ,
+    busInsurenceExpenses:   Number(dataCaptive.busInsurenceExpenses)  ,
+    busMiscellaneousExpenses:   Number(dataCaptive.busMiscellaneousExpenses) ,
+    busMonthlyIncome:   Number(this.montlyCaptiveIncome)  ,
+    totalExpenses:  Number(dataCaptive.totalExpenses) ,
+    netCashFlow:  Number(dataCaptive.netCashFlow),
+    emi:  Number(dataCaptive.emi)
   });
  }
 

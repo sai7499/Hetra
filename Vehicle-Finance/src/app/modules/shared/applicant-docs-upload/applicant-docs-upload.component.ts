@@ -760,69 +760,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   onSubmit() {
-    // const requestArr = [];
-    // // if (this.documentArr.length === 0) {
-    // console.log('form value', this.uploadForm.value);
-    // const formValue = this.uploadForm.value;
-    // for (const key in formValue) {
-    //   if (formValue[key]) {
-    //     const subCategoryCode = Number(key.split('_')[1]);
-    //     let category: Categories;
-
-    //     this.categories.forEach((val) => {
-    //       val.subcategories.forEach((subCat) => {
-    //         if (subCat.code === subCategoryCode) {
-    //           category = val;
-    //         }
-    //       });
-    //     });
-    //     (formValue[key] || []).forEach((value) => {
-    //       requestArr.push({
-    //         deferredDate:
-    //           this.utilityService.getDateFormat(value.deferredDate) || '',
-    //         documentId: value.documentId,
-    //         documentName: value.documentName,
-    //         documentNumber: value.documentNumber,
-    //         expiryDate:
-    //           this.utilityService.getDateFormat(value.expiryDate) || '',
-    //         dmsDocumentId: value.file,
-    //         isDeferred: value.isDeferred,
-    //         issueDate: this.utilityService.getDateFormat(value.issueDate) || '',
-    //         subCategoryCode: subCategoryCode,
-    //         issuedAt: 'check',
-    //         categoryCode: category.code,
-    //         // associatedId: this.applicantId,
-    //         // associatedWith: this.associatedWith
-    //       });
-    //     });
-    //   }
-    // }
-
-    // // this.documentArr = requestArr;
-    // console.log('this.documentArr', this.documentArr);
-    // //   return;
-    // // }
-
-    // this.documentArr.forEach((value, index) => {
-    //   const formArray = this.uploadForm.get(
-    //     `${this.FORM_ARRAY_NAME}_${value.subCategoryCode}`
-    //   ) as FormArray;
-    //   const rawValue = formArray.getRawValue();
-    //   rawValue.forEach((formValue) => {
-    //     if (formValue.file === value.dmsDocumentId) {
-    //       this.documentArr[index] = {
-    //         ...this.documentArr[index],
-    //         expiryDate:
-    //           this.utilityService.getDateFormat(formValue.expiryDate) || '',
-    //         issueDate:
-    //           this.utilityService.getDateFormat(formValue.issueDate) || '',
-    //         documentNumber: formValue.documentNumber,
-    //       };
-    //     }
-    //   });
-    // });
-
-    // if (this.documentArr.length === 0) {
     const formValue = this.uploadForm.value;
     const requestArr = [];
     for (const key in formValue) {
@@ -839,10 +776,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
         });
         (formValue[key] || []).forEach((value, index) => {
           const documentName = value.documentName;
-          // const expiryDate =
-          // this.utilityService.getDateFormat(value.expiryDate) || '';
-          // const issueDate =
-          // this.utilityService.getDateFormat(value.issueDate) || '';
           const deferredDate =
             this.utilityService.getDateFormat(value.deferredDate) || '';
           if (documentName || deferredDate) {
@@ -873,9 +806,27 @@ export class ApplicantDocsUploadComponent implements OnInit {
     this.documentArr = requestArr;
     // }
 
-    // console.log('documentArr', requestArr);
+    // check defer past date
 
-    // return;
+    const checkAnyPast = this.documentArr.some((docs) => {
+      const now = new Date();
+      now.setHours(0, 0, 0, 0);
+      const deferDate = new Date(docs.deferredDate);
+      deferDate.setHours(0, 0, 0, 0);
+      return docs.isDeferred === '1' && deferDate < now;
+    });
+
+    if (checkAnyPast) {
+      this.toasterService.showError('Deferral date should be future date', '');
+      return;
+    }
+
+
+    if (this.documentArr.length === 0) {
+      this.toasterService.showWarning('No documents uploaded to save', '');
+      return;
+    }
+
 
     this.uploadService
       .saveOrUpdateDocument(this.documentArr)

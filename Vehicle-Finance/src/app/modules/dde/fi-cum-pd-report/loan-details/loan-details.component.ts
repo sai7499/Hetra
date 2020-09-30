@@ -209,17 +209,25 @@ export class LoanDetailsComponent implements OnInit {
       this.engChassDisabled = false;
       this.engChassRequired = true;
       this.loanDetailsForm.get('engineNumber').enable();
-      this.loanDetailsForm.get('chasisNumber').setValidators(Validators.required);
+      this.loanDetailsForm.get('engineNumber').setValidators(Validators.required);
+      this.loanDetailsForm.get('engineNumber').updateValueAndValidity();
       this.loanDetailsForm.get('chasisNumber').enable();
       this.loanDetailsForm.get('chasisNumber').setValidators(Validators.required);
+      this.loanDetailsForm.get('chasisNumber').updateValueAndValidity();
 
     } else if (this.regStatus !== '1') {
       this.engChassDisabled = true;
       this.engChassRequired = false;
+      setTimeout(() => {
+        this.loanDetailsForm.get('engineNumber').patchValue(null);
+        this.loanDetailsForm.get('chasisNumber').patchValue(null);
+
+      });
       this.loanDetailsForm.get('engineNumber').disable();
-      this.loanDetailsForm.get('chasisNumber').clearValidators();
-      this.loanDetailsForm.get('chasisNumber').updateValueAndValidity();
+      this.loanDetailsForm.get('engineNumber').clearValidators();
+      this.loanDetailsForm.get('engineNumber').updateValueAndValidity();
       this.loanDetailsForm.get('chasisNumber').disable();
+      this.loanDetailsForm.get('chasisNumber').clearValidators();
       this.loanDetailsForm.get('chasisNumber').updateValueAndValidity();
 
     }
@@ -235,6 +243,10 @@ export class LoanDetailsComponent implements OnInit {
     } else if (this.insuranceStatus !== '1') {
       this.insRequired = false;
       this.insDisabled = true;
+      setTimeout(() => {
+        this.loanDetailsForm.get('insuranceValidity').patchValue(null);
+
+      });
       this.loanDetailsForm.get('insuranceValidity').disable();
       this.loanDetailsForm.get('insuranceValidity').clearValidators();
       this.loanDetailsForm.get('insuranceValidity').updateValueAndValidity();

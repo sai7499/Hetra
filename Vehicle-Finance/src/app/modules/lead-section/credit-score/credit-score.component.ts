@@ -5,6 +5,9 @@ import { CreditScoreService } from '@services/credit-score.service';
 import { TermAcceptanceService } from '@services/term-acceptance.service';
 import { Lead } from '@model/lead.model';
 import { CommomLovService } from '@services/commom-lov-service';
+import { LeadDetails } from '../services/sourcingLeadDetails.service';
+import { ToasterService } from '@services/toaster.service';
+
 interface CibilData {
   ageOfAsset?: number;
 // applicantList: [ApplicantDetails]
@@ -37,6 +40,15 @@ export class CreditScoreComponent implements OnInit {
   loanAmount;
   eligibleAmount;
 
+  rejectData: {
+    title: string,
+    product: any;
+    flowStage: string;
+   
+  }
+
+  showModal: boolean;
+
   constructor(
     private aRoute: ActivatedRoute,
     private router: Router,
@@ -44,6 +56,8 @@ export class CreditScoreComponent implements OnInit {
     private creditService: CreditScoreService,
     private termsService: TermAcceptanceService,
     private commonLovService: CommomLovService,
+    private createLeadService: LeadDetails,
+    private toasterService: ToasterService
 
   ) {
   }
@@ -111,4 +125,42 @@ export class CreditScoreComponent implements OnInit {
       }
     });
   }
+
+
+  reject() {
+    const productId = this.variable.productId || '';
+    this.showModal = true;
+    this.rejectData = {
+      title: 'Select Reject Reason',
+      product:productId,
+      flowStage: '15'
+    }
+  }
+
+  onOkay(reasonData) {
+    
+
+    const body = {
+      leadId : this.leadId,
+      userId:  this.userId,
+      statusType : 'reject',
+      isSoRejected: true,
+      reasonCode: reasonData['reason'].reasonCode
+    };
+    this.termsService.acceptTerms(body).subscribe((res: any) => {
+      console.log(res);
+      if ( res && res.ProcessVariables.error.code === '0') {
+        this.toasterService.showSuccess('Record Rejected successfully!','')
+        this.router.navigateByUrl(`/pages/dashboard`);
+      }else {
+        this.toasterService.showError(res.ProcessVariables.error.message,'')
+      }
+    });
+  }
+
+  onCancel() {
+    this.showModal = false;
+  }
+
+
 }

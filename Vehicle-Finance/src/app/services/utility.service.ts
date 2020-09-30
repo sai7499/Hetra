@@ -121,12 +121,10 @@ export class UtilityService {
   getUiquJson(jsonAry: Array<any>, keyValue) {
     let dataJosn: Array<any> = jsonAry;
     const key = keyValue;
-    console.log(new Map(dataJosn.map((data) => data.value ? [data[key], data] : data)).values(), 'data')
 
     const arrayUniqueByKey = [
       ...new Map(dataJosn.map((data) => [data[key], data])).values(),
     ];
-    console.log(arrayUniqueByKey, 'Var')
     return arrayUniqueByKey.filter((keyValue) => keyValue.value !== null);
   }
 
@@ -145,8 +143,6 @@ export class UtilityService {
       });
     }
 
-    console.log(arrayList, 'arrayList')
-
     return this.getUiquJson(arrayList, 'key');
   }
   getDateFromString(dateIn) {
@@ -156,22 +152,15 @@ export class UtilityService {
     let date: string = dateIn;
 
     let dateArray: Array<any> = [];
-
-    console.log(date, 'Nana', dateIn)
-
-
     if (date.includes('/')) {
       dateArray = date.split('/');
     } else if (date.includes('-')) {
       dateArray = date.split('-');
     }
-    console.log(dateArray, 'dateArray')
-
     //  dateArray = date.split('/');
     let getDate = new Date(
       dateArray[1] + '-' + dateArray[0] + '-' + dateArray[2]
     );
-    console.log(getDate, 'getDate')
 
     return getDate;
   }
