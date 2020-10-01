@@ -55,8 +55,9 @@
 }
 
 .reject-wid-mrg{
-    width: 40%;
-    margin: auto;
+    width: 75%;
+    margin: 35px 20px 35px 72px;
+    padding: 8px;
 }
 
 .wrapper{
@@ -69,4 +70,33 @@
   .dis-block {
     display: block;
   }
+
+  .option-style{
+    padding: 8px;
+    font-size: 16px;
+  }
   
+  .top-modal {
+    top: 30%;
+  }
+
+
+  @media (min-width:300px) and (max-width:767px) {
+    .top-modal {
+      top: 40%;
+      width: 90%;
+      margin: auto;
+    }
+
+    .modal-box{
+      width: 85%;
+      margin: auto;
+    }
+
+    .reject-wid-mrg{
+      width: 90%;
+      margin: auto;
+      padding: 8px;
+    }
+
+  }
