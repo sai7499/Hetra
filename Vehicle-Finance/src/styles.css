@@ -285,12 +285,12 @@ h3 {
 @media (min-width:300px) and (max-width:767px) {
     .content {
         background: #fff;
-        /* padding: 5px 0px 0px 0px!important; */
+        padding: 18px!important; 
         border-radius: 8px;
         border: 1px solid #ddd;
         margin-bottom: 20px;
-         margin-right: 8px;
-        margin-left: 8px;
+         /* margin-right: 8px;
+        margin-left: 8px; */
     }
 }
 
@@ -851,6 +851,13 @@ html, body { height: 100%; }
         font-size: 9px!important;
         
     }
+
+    .container {
+        padding-right: 3px;
+        padding-left: 3px;
+        margin-right: auto;
+        margin-left: auto;
+    }
 }
 
 .k-picker-wrap{
@@ -877,5 +884,7 @@ html, body { height: 100%; }
     background-color: #ffffff;
 }
 
-
+.k-dateinput .k-dateinput-wrap .k-input, .k-datepicker .k-dateinput-wrap .k-input {
+    padding: 0px 3px !important;
+}
 
