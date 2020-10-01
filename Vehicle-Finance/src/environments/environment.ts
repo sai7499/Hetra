@@ -32,16 +32,11 @@ export const environment = {
   // hostingEnvironment: 'UAT', 
   // hostingEnvironment: 'Production',
   // host: 'http://128.199.164.250/appiyo/',
-<<<<<<< HEAD
-   host: 'https://hetrauat.equitasbank.com/appiyodev/',
- //  host: 'http://10.101.10.153/appiyo/',
-=======
   // host: 'https://hetrauat.equitasbank.com/appiyodev/',
   //  host: 'http://10.101.10.153/appiyo/',
   // host: environmentProd.host,
   //  host: config.hostUrl1,
   // host: window["env"]["hostUrl"] || "default",
->>>>>>> dev
   // host: 'https://hetrauat.equitasbank.com/appiyo/',
   host: 'http://10.101.10.153/appiyo/',
   baseUrl: 'http://10.101.10.153',
