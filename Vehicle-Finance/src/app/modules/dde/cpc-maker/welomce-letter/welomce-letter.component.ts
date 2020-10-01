@@ -111,10 +111,11 @@ export class WelomceLetterComponent implements OnInit {
   getWelcomeLetterDetails() {
     const data = this.leadId;
     this.WelcomeService.getwelcomeLetterDetails(data).subscribe((res: any) => {
-      console.log(res)
+      // console.log(res)
       if (res['ProcessVariables'] && res['ProcessVariables'].error['code'] == "0") {
         this.isWelcomeDetails = res['ProcessVariables'];
-        console.log("welcome leter details", this.isWelcomeDetails)
+        // console.log("welcome leter details", this.isWelcomeDetails);
+        this.onChangeLanguage(res["ProcessVariables"].preferredLan);
         this.applicantList = this.isWelcomeDetails["applicantDetails"]
         this.coApplicantList = this.isWelcomeDetails["coAppDetails"];
         this.guarantorList = this.isWelcomeDetails["guarantorDetails"];
@@ -141,15 +142,10 @@ export class WelomceLetterComponent implements OnInit {
           this.div2Data = decodeURI(this.div2Data);
           this.div3Data = decodeURI(this.div3Data);
         } 
-
         this.vehicleDetailsArray = this.isWelcomeDetails["vehicleDetails"];
         
         this.repaymentDetails = res['ProcessVariables'].repaymentDetails;         
         this.showWelcomeLetter= true;
-        
-        this.onChangeLanguage(res["ProcessVariables"].preferredLan)
-
-
       } else {
         this.toasterService.showError(res['ProcessVariables'].error["message"], '')
       }
@@ -232,6 +228,7 @@ export class WelomceLetterComponent implements OnInit {
   }
 
   onChangeLanguage(labels: string) {
+    this.preferredLan = labels;
     if (labels == 'TELPRFLAN') {
     this.labelsData.getWelcomeDatatelugu().subscribe((data) => {
       this.labels = data[0];
