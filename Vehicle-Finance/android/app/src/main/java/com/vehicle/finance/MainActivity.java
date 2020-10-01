@@ -40,12 +40,16 @@ public class MainActivity extends BridgeActivity {
 
   private String licenseKey = "7669E-A668C-99CJ8-B9EJJ-JJJJJ-J3C42";
 
-  private boolean isMaas360Enable = true;
+  private boolean isMaas360Enable = false;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
+    if(RootUtil.isDeviceRooted()){
+      System.out.println("Rooted");
+    }else {
+      System.out.println("Not rooted");
+    }
     // Initializes the Bridge
     this.init(savedInstanceState, new ArrayList<Class<? extends Plugin>>() {{
 
