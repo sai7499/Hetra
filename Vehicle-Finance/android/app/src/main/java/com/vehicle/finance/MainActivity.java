@@ -40,7 +40,7 @@ public class MainActivity extends BridgeActivity {
 
   private String licenseKey = "7669E-A668C-99CJ8-B9EJJ-JJJJJ-J3C42";
 
-  private boolean isMaas360Enable = false;
+  private boolean isMaas360Enable = true;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
