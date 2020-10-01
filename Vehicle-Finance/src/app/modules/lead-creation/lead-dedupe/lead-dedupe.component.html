@@ -4,7 +4,7 @@
     <div class="">
       <div class="container-fluid">
         <div class="row">
-          <div id="wrapper">  
+          <div id="wrapper">
             <table>
               <thead>
                 <tr class="table-head-bg">
@@ -24,18 +24,14 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let dedupe of (dedupeArray | paginate: { itemsPerPage: perPage, currentPage: p }); let i = index">    
-                      <td [attr.data-label]="labels?.select">
-                        <input 
-                          [ngStyle]="{'cursor': 'pointer'}"
-                          [ngClass]="{'pointerEvent':isRadioDisable}"
-                          (click)="onLeadSelect($event, i)" 
-                          class="checkbox" 
-                          type="radio" 
-                          name="selectLead"
-                          [checked]="selectedIndex === i"
-                          [disabled]="(dedupe.createdBy === userName) && (dedupe.stage === 'Lead Created') && (dedupe.status === 'Lead Created')? false : true"/>
-                      </td>
+                <tr
+                  *ngFor="let dedupe of (dedupeArray | paginate: { itemsPerPage: perPage, currentPage: p }); let i = index">
+                  <td [attr.data-label]="labels?.select">
+                    <input [ngStyle]="{'cursor': 'pointer'}" [ngClass]="{'pointerEvent':isRadioDisable}"
+                      (click)="onLeadSelect($event, i)" class="checkbox" type="radio" name="selectLead"
+                      [checked]="selectedIndex === i"
+                      [disabled]="(dedupe.createdBy === userName) && (dedupe.stage === 'Lead Created') && (dedupe.status === 'Lead Created')? false : true" />
+                  </td>
                   <td [attr.data-label]="labels?.leadID">{{ dedupe.leadID }}</td>
                   <td [attr.data-label]="labels?.branch">{{ dedupe.branch }}</td>
                   <td [attr.data-label]="labels?.loanCreatedDate">{{ dedupe.createdDate | date: 'dd/MM/yyyy' }}</td>
@@ -46,7 +42,8 @@
                   <td [attr.data-label]="labels?.applicantName">{{ dedupe.Applicant }}</td>
                   <td [attr.data-label]="labels?.mobile">{{ dedupe.individualMobile }}</td>
                   <td [attr.data-label]="labels?.stage">{{ dedupe.stage }}</td>
-                  <td [attr.data-label]="labels?.status" [ngClass]="{'reject_reason':dedupe.status === 'Rejected'}">{{ dedupe.status }}</td>
+                  <td [attr.data-label]="labels?.status" [ngClass]="{'reject_reason':dedupe.status === 'Rejected'}">
+                    {{ dedupe.status }}</td>
                   <td [attr.data-label]="labels?.reasonForRejection">{{ dedupe.reasonForRejection }}</td>
                 </tr>
               </tbody>
@@ -63,7 +60,8 @@
                   Proceed with Selected Lead
                 </button>
 
-                <button (click)="OnReject()" class="btn btn-primary js-btn-next" id="reject_button" type="button" [disabled]='isRejectLead'>
+                <button (click)="OnReject()" class="btn btn-primary js-btn-next" id="reject_button" type="button"
+                  [disabled]='isRejectLead'>
                   Reject Lead
                 </button>
                 <div *ngIf="isReason">
@@ -72,7 +70,8 @@
                     <div class="col-6 field">
                       <select class="form-control " id="proceed_reason" (change)="onSelectRejectReason($event)">
                         <option disabled value="">-- Select one --</option>
-                        <option *ngFor="let rejectReason of rejectReasonList" [value]="rejectReason.reasonCode">{{rejectReason.reasonDesc}}</option>
+                        <option *ngFor="let rejectReason of rejectReasonList" [value]="rejectReason.reasonCode">
+                          {{rejectReason.reasonDesc}}</option>
                       </select>
 
                       <!-- <div class="col-12 mx-auto" id="proceed_div">
@@ -83,10 +82,11 @@
                     </div>
                     <button *ngIf="isSubmit || isChecked" class="btn btn-danger mar-right8" id="proceed_with_sumbit"
                       type="button" data-toggle="modal" data-target="#rejectModal"> Submit</button>
-                    <button *ngIf="isSubmit || isChecked" class="btn btn-success mar-right8" type="button" (click)='onCancelReject()'> Cancel</button>
+                    <button *ngIf="isSubmit || isChecked" class="btn btn-success mar-right8" type="button"
+                      (click)='onCancelReject()'> Cancel</button>
                   </div>
                 </div>
-                
+
               </div>
             </div>
           </div>

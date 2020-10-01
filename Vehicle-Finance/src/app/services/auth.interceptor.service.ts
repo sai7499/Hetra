@@ -5,13 +5,15 @@ import {
   HttpEvent,
   HttpHandler,
   HttpResponse,
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { EncryptService } from './encrypt.service';
 import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { map, tap, first, catchError } from 'rxjs/operators';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { UtilityService } from './utility.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +24,8 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(
     private encrytionService: EncryptService,
     private ngxUiLoaderService: NgxUiLoaderService,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private toasterService: ToastrService,
   ) { }
 
   intercept(
@@ -74,14 +77,23 @@ export class AuthInterceptor implements HttpInterceptor {
     } else {
       authReq = req;
     }
-
+    console.log('authReq', req);
     return next.handle(authReq).pipe(
+      catchError((err: any) => {
+        if (err instanceof HttpErrorResponse) {
+          if (err.status != 200) {
+            console.log('httpErr', err);
+            this.ngxUiLoaderService.stop();
+            this.toasterService.error(`${err.status}: ${err.statusText}`, 'Technical error..');
+          }
+        }
+        return throwError(err);
+      }),
       map(
         (event: HttpEvent<any>) => {
           let res;
           this.apiCount--;
           if (event instanceof HttpResponse) {
-
             if (event.headers.get('content-type') == 'text/plain') {
               event = event.clone({
                 body: JSON.parse(this.encrytionService.decryptResponse(event)),
@@ -108,10 +120,11 @@ export class AuthInterceptor implements HttpInterceptor {
             return event;
           } else {
             // this.ngxUiLoaderService.stop();
+            console.log('authenticateErrorevent', event);
           }
         },
         (err: any) => {
-          console.log('err', err);
+          console.log('authenticateError', err);
           this.checkApiCount();
         }
       )
@@ -123,6 +136,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   checkApiCount() {
     if (this.apiCount <= 0) {
+      console.log('this.apiCount', this.apiCount)
       this.ngxUiLoaderService.stop();
     }
   }
