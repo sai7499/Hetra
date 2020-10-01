@@ -25,10 +25,15 @@ export const environment = {
     validateSRNumber : '8bfa8dba945b11eabdcaf2fa9bec3d63'
   },
   // hostingEnvironment: 'DEV',
-  hostingEnvironment: 'UAT',
+  // hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
 
+<<<<<<< HEAD
   //host: '/appiyo/',
+=======
+  // host: '/appiyo/',
+  host: window["env"]["hostUrl"] || "default",
+>>>>>>> dbad139f1c9126993d0cb054b29e0ca904a15383
   // host: "https://hetrauat.equitasbank.com/appiyodev/",
   //host: 'http://128.199.164.250/appiyo/',
   // host: 'http://10.101.10.153/appiyo/',
