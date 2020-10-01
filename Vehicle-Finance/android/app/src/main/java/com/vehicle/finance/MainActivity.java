@@ -45,7 +45,8 @@ public class MainActivity extends BridgeActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if(RootUtil.isDeviceRooted()){
+
+    if(RootUtil.isDeviceRooted(this)){
       System.out.println("Rooted");
     }else {
       System.out.println("Not rooted");
