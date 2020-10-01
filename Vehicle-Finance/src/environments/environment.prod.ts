@@ -24,20 +24,16 @@ export const environment = {
     retrieveAadharData : 'db2732f4ab4811ea82f8f2fa9bec3d63',
     validateSRNumber : '8bfa8dba945b11eabdcaf2fa9bec3d63'
   },
-  // hostingEnvironment: 'DEV',
+  hostingEnvironment: 'DEV',
   // hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
 
-<<<<<<< HEAD
-  //host: '/appiyo/',
-=======
   // host: '/appiyo/',
-  host: window["env"]["hostUrl"] || "default",
->>>>>>> dbad139f1c9126993d0cb054b29e0ca904a15383
-  // host: "https://hetrauat.equitasbank.com/appiyodev/",
+  //host: window["env"]["hostUrl"] || "default",
+  host: "https://hetrauat.equitasbank.com/appiyodev/",
   //host: 'http://128.199.164.250/appiyo/',
   // host: 'http://10.101.10.153/appiyo/',
-  host: "https://hetrauat.equitasbank.com/appiyo/",
+  //host: "https://hetrauat.equitasbank.com/appiyo/",
 
   baseUrl: window.location.origin,
   // tslint:disable-next-line: max-line-length
@@ -48,7 +44,7 @@ export const environment = {
   
   mobileBaseUrl: "https://hetrauat.equitasbank.com",
   isMobile: true,
-  isMaas360Enabled: true
+  isMaas360Enabled: false
 };
 
 /*
