@@ -73,7 +73,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   isAadharChanged: boolean = false;
   isPassportChanged: boolean = false;
   isDrivingLicenseChanged: boolean = false;
-  isVoterIdChanged: boolean;
+  isVoterIdChanged: boolean = false;
 
   isContactNumberChanged: boolean = false;
   isCinNumberChanged: boolean = false;
@@ -90,9 +90,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   passportNumber: string;
   pan: string;
   drivingLicenseIssueDate: any;
-  drivingLicenseExpiryDate: string;
+  drivingLicenseExpiryDate: any;
   passportIssueDate: any;
-  passportExpiryDate: string;
+  passportExpiryDate: any;
   voterIdNumber: string;
   isPermanantAddressSame: boolean;
   isRegAddressSame: boolean;
@@ -111,7 +111,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   isAlertSuccess: boolean = true;
   isAlertDanger: boolean = true;
 
-
+  defaultExpiryDate: Date = new Date()
   mandatory: any = {};
   expiryMandatory: any = {};
   productCategory: string;
@@ -199,7 +199,15 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   addDisabledCheckBox: boolean;
   panValidate = false;
   showEkycbutton = false;
-  showMessage: any = {};
+  showMessage: any = {
+    passportExpiry: false,
+    passportIssue: false,
+    drivingLicenseExpiry: false,
+    drivinglicenseIssue: false
+
+
+
+  };
   disabledDrivingDates = true;
   disabledPassportDates = true;
   showModifyCurrCheckBox: boolean;
@@ -219,6 +227,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   ekycDone: string = '0';
   ekycBuutonAdharBased: boolean = false;
   apiReferenceNo: string;
+  backupRefNo: string;
+  gender: any;
 
 
   isMobile: any;
@@ -247,6 +257,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     this.setBirthDate.setFullYear(this.setBirthDate.getFullYear() - 10)
     this.ageMinDate.setFullYear(this.ageMinDate.getFullYear() - 100)
+    this.defaultExpiryDate.setDate(this.defaultExpiryDate.getDate() + 1)
   }
 
   async ngOnInit() {
@@ -279,6 +290,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         if (this.applicantId && !dedupeFlag) {
           this.isEnableDedupe = false;
           this.getApplicantDetails();
+
           this.storeAdharValue = '';
           //this.applicantDataService.setDedupeFlag(true);
         } else {
@@ -287,7 +299,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.isContactNumberChanged = true;
           this.coApplicantForm.get('dedupe').get('pan').disable();
           this.getDedupeStoredValues();
-          this.applicantDataService.setDedupeFlag(false);
+          //this.applicantDataService.setDedupeFlag(false);
         }
       }
 
@@ -375,12 +387,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       const details = this.getDedupeDetails()
       this.firstName = dedupeValues.name1 || '';
       this.aadhar = details.aadhar || '';
-      this.drivingLicenseNumber = details.drivingLicenseNumber
-        ? details.drivingLicenseNumber
-        : '';
-      this.passportNumber = details.passportNumber
-        ? details.passportNumber
-        : '';
+      this.drivingLicenseNumber = details.drivingLicenseNumber || '';
+      this.voterIdNumber = details.voterIdNumber || '';
+
+      this.passportNumber = details.passportNumber || '';
+
       this.pan = details.pan || '';
       let mobile = details.mobile ? details.mobile : '';
       if (mobile && mobile.length === 12) {
@@ -456,6 +467,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.coApplicantForm.get('dedupe').get('pan').enable();
 
       }
+
+      if (this.applicantId) {
+
+        this.getApiForDedupeDetails();
+
+      }
       if (dedupeValues.entityType == 'INDIVENTTYP') {
         this.setDedupeForIndividual()
         if (dedupeValues.panType === '2PANTYPE') {
@@ -466,6 +483,51 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.setDedupeForNonIndividual()
       }
     }
+  }
+
+  getApiForDedupeDetails() {
+    const data = {
+      applicantId: this.applicantId,
+    };
+    this.applicantService.getApplicantDetail(data).subscribe((res: any) => {
+      const processVariables = res.ProcessVariables;
+      const applicant: Applicant = {
+        ...processVariables,
+      };
+
+      if (processVariables.ucic) {
+        // this.isPermanantAddressSame = true;
+        // this.isDisabledCheckbox = true;
+        // this.isRegAddressSame = true;
+        // this.addDisabledCheckBox = true;
+
+        //if(processVariables.addressDetails){
+        // this.disablePermanentAddress();
+        // this.disableCurrentAddress();
+
+        // this.disableRegisteredAddress();
+        // this.disableCommunicationAddress();
+        //}
+        // this.showModifyCurrCheckBox = true;
+        // const applicant= processVariables.applicantDetails; 
+        const indivIdentityInfoDetails = processVariables.indivIdentityInfoDetails;
+        const corporateProspectDetails = processVariables.corporateProspectDetails;
+
+        if (processVariables.applicantDetails.entityTypeKey == "INDIVENTTYP") {
+          this.disableUCICIndividualDetails(indivIdentityInfoDetails)
+        } else {
+          this.disableUCICNonIndividualDetails(corporateProspectDetails)
+        }
+      }
+      if (processVariables.ekycDone == '1') {
+        if (processVariables.applicantDetails.entityTypeKey == "INDIVENTTYP") {
+          //this.disablePermanentAddress();
+          this.disableEKYCDetails()
+        }
+      }
+
+
+    });
   }
 
   setDedupeForIndividual() {
@@ -1085,6 +1147,27 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         //}
         this.showModifyCurrCheckBox = true;
         // const applicant= processVariables.applicantDetails; 
+        const indivIdentityInfoDetails = processVariables.indivIdentityInfoDetails;
+        const corporateProspectDetails = processVariables.corporateProspectDetails;
+
+        if (processVariables.applicantDetails.entityTypeKey == "INDIVENTTYP") {
+          this.disableUCICIndividualDetails(indivIdentityInfoDetails)
+        } else {
+          this.disableUCICNonIndividualDetails(corporateProspectDetails)
+        }
+      }
+      this.ekycDone = processVariables.ekycDone;
+
+      if (this.ekycDone == '1') {
+        if (processVariables.applicantDetails.entityTypeKey == "INDIVENTTYP") {
+          this.disablePermanentAddress();
+          this.disableEKYCDetails();
+          this.showEkycbutton = false;
+        }
+
+      }
+      else if (this.ekycDone == "0") {
+        this.showEkycbutton = true;
       }
 
       this.applicantDataService.setApplicant(applicant);
@@ -1407,18 +1490,20 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       const details = this.getDetails();
       this.firstName = applicantValue.applicantDetails.name1 || '';
       this.aadhar = details.aadhar || '';
-      this.drivingLicenseNumber = details.drivingLicenseNumber
-        ? details.drivingLicenseNumber
-        : '';
-      this.passportNumber = details.passportNumber
-        ? details.passportNumber
-        : '';
+      this.gender = applicantValue.aboutIndivProspectDetails.gender
+      this.drivingLicenseNumber = details.drivingLicenseNumber || '';
+      this.passportNumber = details.passportNumber || '';
+      this.voterIdNumber = details.voterIdNumber || '';
       this.pan = details.pan || '';
       let mobile = details.mobile ? details.mobile : '';
       if (mobile && mobile.length === 12) {
         mobile = mobile.slice(2, 12);
       }
       this.mobileNumber = mobile;
+      this.tanNumber = details.tanNumber || '';
+      this.corporateIdentificationNumber = details.corporateIdentificationNumber || '';
+      this.gstNumber = details.gstNumber || '';
+      this.cstVatNumber = details.cstVatNumber || '';
       let companyPhoneNumber = details.companyPhoneNumber || '';
       if (companyPhoneNumber && companyPhoneNumber.length === 12) {
         companyPhoneNumber = companyPhoneNumber.slice(2, 12);
@@ -1524,7 +1609,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.showSrField = modifyaddress == "1" ? true : false;
 
         this.coApplicantForm.patchValue({ srNumber: applicantValue.applicantDetails.srNumber })
-
         dedupe.patchValue({
           mobilePhone: mobile || '',
           dob: details.dob || '',
@@ -1736,29 +1820,40 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   drivingIssueDateShowError() {
     this.mandatory['drivingLicenseIssueDate'] = false;
-    const valueChecked = this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').value > this.toDayDate;
+    const valueChecked = this.drivingLicenseIssueDate > this.toDayDate;
     this.showMessage['drivinglicenseIssue'] = valueChecked ? true : false;
-    this.drivingLicenseIssueDate.setDate(this.drivingLicenseIssueDate.getDate() + 1)
     this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').setValue(null);
 
   }
 
   passportIssueDateShowError() {
     this.passportMandatory['passportIssueDate'] = false;
-    const valueChecked = this.coApplicantForm.get('dedupe').get('passportIssueDate').value > this.toDayDate;
+    const valueChecked = this.passportIssueDate > this.toDayDate;
     this.showMessage['passportIssue'] = valueChecked ? true : false;
-    this.passportIssueDate.setDate(this.passportIssueDate.getDate() + 1)
+    //this.passportIssueDate.setDate(this.passportIssueDate.getDate() + 1)
     this.coApplicantForm.get('dedupe').get('passportExpiryDate').setValue(null);
   }
   drivingLicenceExpiryShowError() {
     this.mandatory['drivingLicenseExpiryDate'] = false;
-    const valueChecked = this.toDayDate > this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').value;
-    this.showMessage['drivingLicenseExpiry'] = valueChecked ? true : false;
+    //console.log('this.drivingLicenseExpiryDate', this.drivingLicenseExpiryDate)
+    setTimeout(() => {
+      if (this.drivingLicenseExpiryDate <= this.toDayDate) {
+        this.showMessage['drivingLicenseExpiry'] = true;
+      } else {
+        this.showMessage['drivingLicenseExpiry'] = false;
+      }
+    })
   }
   passportExpiryShowError() {
     this.passportMandatory['passportExpiryDate'] = false;
-    const valueChecked = this.toDayDate > this.coApplicantForm.get('dedupe').get('passportExpiryDate').value;
-    this.showMessage['passportExpiry'] = valueChecked ? true : false;
+    setTimeout(() => {
+      if (this.passportExpiryDate <= this.toDayDate) {
+        this.showMessage['passportExpiry'] = true;
+      } else {
+        this.showMessage['passportExpiry'] = false;
+      }
+    })
+
   }
 
   onAddrSameAsApplicant(event) {
@@ -1893,6 +1988,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   onRetreiveAdhar() {
     const referenceNo = this.coApplicantForm.get('dedupe').get('aadhar').value || this.apiReferenceNo;
+    this.backupRefNo = this.coApplicantForm.get('dedupe').get('aadhar').value;
     //const referenceNo="100006010628"
     this.applicantService.retreiveAdhar(referenceNo).subscribe((res) => {
       if (res['ProcessVariables'].error.code == "0") {
@@ -1918,7 +2014,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       if (this.storeAdharValue !== this.aadhar) {
         this.ekycBuutonAdharBased = true;
       }
-      // this.showEkycbutton = false
     } else {
       this.isEnableDedupe = true;
     }
@@ -1928,9 +2023,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   onRelieve() {
     if (this.applicantType == 'INDIVENTTYP') {
 
-      if (this.applicant == undefined) {
+      if (!this.applicant) {
         const adhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
-        this.coApplicantForm.get('dedupe').get('aadhar').setValue(adhar)
+        this.coApplicantForm.get('dedupe').get('aadhar').setValue(adhar);
+        const dedupeFlag = this.applicantDataService.getDedupeFlag();
+        if (dedupeFlag) {
+          this.coApplicantForm.get('dedupe').get('aadhar').setValue(this.backupRefNo || adhar);
+        }
       }
       else {
         const referenceNo = this.apiReferenceNo || this.applicant.indivIdentityInfoDetails.aadhar;
@@ -1955,6 +2054,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       if (this.applicant == undefined) {
         const adhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
         this.coApplicantForm.get('dedupe').get('aadhar').setValue(adhar);
+        const dedupeFlag = this.applicantDataService.getDedupeFlag();
+
+        if (dedupeFlag) {                                        //when come from review applicant button, storing adhar no
+          this.coApplicantForm.get('dedupe').get('aadhar').setValue(this.backupRefNo || adhar);
+        }
       }
       else {
         const referenceNo = this.applicant.corporateProspectDetails.aadhar || '';
@@ -2036,6 +2140,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.aboutIndivProspectDetails = {
       dob: dedupe.dob,
       mobilePhone: mobileNumber,
+      gender: this.gender
     };
 
     this.indivIdentityInfoDetails = {
@@ -2249,11 +2354,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     };
     const DOB = this.utilityService.getDateFormat(coApplicantModel.dedupe.dob);
 
-    // this.indivProspectProfileDetails = {
-    //   employerType: 'test',
-    //   employerName: 'Appiyo Technologies',
-    //   workplaceAddress: 'test',
-    // };
+
     const data = {
       applicantDetails: this.applicantDetails,
       aboutIndivProspectDetails: this.aboutIndivProspectDetails,
@@ -2264,7 +2365,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       directorDetails: this.directorDetails,
       applicantId: this.applicantId,
       leadId: this.leadId,
-      isMobileNumberChanged: this.isMobileChanged
+      isMobileNumberChanged: this.isMobileChanged,
+      ekycDone: this.ekycDone == '1' ? '1' : '0'
     };
 
     this.applicantService.saveApplicant(data).subscribe((res: any) => {
@@ -2628,6 +2730,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       agriAppRelationship: applicantDetails.agriAppRelationship || '',
       grossReceipt: applicantDetails.grossReceipt || '',
       isMobileNumberChanged: this.dedupeMobile,
+      ekycDone: this.ekycDone == '1' ? '1' : '0'
     };
     if (this.applicantId) {
       data.applicantId = this.applicantId;
@@ -2637,6 +2740,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   onDedupeApiCall(data) {
+    this.applicantDataService.setDedupeFlag(false)
     this.applicantService
       .checkSalesApplicantDedupe(data)
       .subscribe((value: any) => {
@@ -2694,14 +2798,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         if (responce['ProcessVariables'].error.code == '0') {
           this.toasterService.showSuccess(responce['ProcessVariables'].error.message,
             'PAN Validation Successful');
-          // if(this.applicant.ekycDone=='0'){
-          //   this.showEkycbutton = true;
-          // }else if(this.ekycBuutonAdharBased){
-          //   this.showEkycbutton = true;
-          // }else{
-          //   this.showEkycbutton = false;
-          // }
-          this.showEkycbutton = true;
+          if (this.ekycDone == '0' || !this.ekycDone) {
+            this.showEkycbutton = true;
+          } else if (this.ekycBuutonAdharBased) {
+            this.showEkycbutton = true;
+          } else {
+            this.showEkycbutton = false;
+          }
+          //this.showEkycbutton = true;
 
         } else {
           this.panValidate = true;
@@ -2714,7 +2818,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       })
     }
     else {
-      this.showEkycbutton = true;
+      if (this.ekycDone == '0' || !this.ekycDone) {
+        this.showEkycbutton = true;
+      } else if (this.ekycBuutonAdharBased) {
+        this.showEkycbutton = true;
+      } else {
+        this.showEkycbutton = false;
+      }
     }
 
 
@@ -2723,6 +2833,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.router.navigateByUrl(
       `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
     );
+
+
 
     this.isEnableDedupe = false;
     this.isMobileChanged = false;
@@ -2738,29 +2850,59 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.isGstNumberChanged = false;
     this.isTanNumberChanged = false;
 
+
+    this.restoreDatas();
+    this.storeAdharValue = '';
+  }
+
+  restoreDatas() {
     const data = {
       applicantId: this.applicantId,
     };
     this.applicantService.getApplicantDetail(data).subscribe((res) => {
+      const applicant = res['ProcessVariables'];
       if (this.applicantType == 'INDIVENTTYP') {
         const adhar = res['ProcessVariables'].indivIdentityInfoDetails.aadhar;
         this.coApplicantForm.get('dedupe').get('aadhar').setValue(adhar);
         this.apiReferenceNo = this.coApplicantForm.get('dedupe').get('aadhar').value;
 
+        this.firstName = applicant.applicantDetails.name1 || '';
+        this.aadhar = applicant.indivIdentityInfoDetails.aadhar || '';
+        this.drivingLicenseNumber = applicant.indivIdentityInfoDetails.drivingLicenseNumber || '';
+        this.passportNumber = applicant.indivIdentityInfoDetails.passportNumber || '';
+        this.voterIdNumber = applicant.indivIdentityInfoDetails.voterIdNumber || '';
+
+        this.pan = applicant.indivIdentityInfoDetails.pan || '';
+        let mobile = applicant.indivIdentityInfoDetails.mobile || '';
+        if (mobile && mobile.length === 12) {
+          mobile = mobile.slice(2, 12);
+        }
+        this.mobileNumber = mobile;
+
+
       } else {
         const adhar = res['ProcessVariables'].corporateProspectDetails.aadhar;
         this.coApplicantForm.get('dedupe').get('aadhar').setValue(adhar);
         this.apiReferenceNo = this.coApplicantForm.get('dedupe').get('aadhar').value;
+
+
+        this.firstName = applicant.applicantDetails.name1 || '';
+        this.aadhar = applicant.corporateProspectDetails.aadhar || '';
+        this.pan = applicant.corporateProspectDetails.panNumber || '';
+        this.tanNumber = applicant.corporateProspectDetails.tanNumber || '';
+        this.corporateIdentificationNumber = applicant.corporateProspectDetails.corporateIdentificationNumber || '';
+        this.gstNumber = applicant.corporateProspectDetails.gstNumber || '';
+        this.cstVatNumber = applicant.corporateProspectDetails.cstVatNumber || '';
+        let companyPhoneNumber = applicant.corporateProspectDetails.companyPhoneNumber || '';
+        if (companyPhoneNumber && companyPhoneNumber.length === 12) {
+          companyPhoneNumber = companyPhoneNumber.slice(2, 12);
+        }
+        this.contactNumber = companyPhoneNumber;
+
       }
 
-    })
-    this.storeAdharValue = '';
-    this.isEnableDedupe = false;
-    // this.getApplicantDetails();
-    // setTimeout(()=>{
-    //   this.ngOnInit()
+    });
 
-    // })
   }
 
   calleKYC() {
@@ -2778,7 +2920,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       let processVariables = result.ProcessVariables;
       if (processVariables.error.code == "0") {
         aadhar = processVariables.uid;
-        // this.ekycDone = '1'
+        //this.ekycDone = '1'
       }
 
       setTimeout(function () {
@@ -2802,13 +2944,16 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
         if (processVariables.error.code == '0') {
 
-          // this.ekycDone = '1'
+
           // that.isAlertSuccess = false;
           // setTimeout(() => {
           //   that.isAlertSuccess = true;
           // }, 1500);
 
           // alert("e-KYC successful");
+          that.setBiometricValues(that, processVariables);
+          that.showEkycbutton = false;
+          that.ekycDone = '1'
 
           let alertRet = Modals.alert({
             title: 'e-KYC Success',
@@ -2840,13 +2985,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
           return;
         }
-
-        //const processVariables= this.biometricResponce;
-        that.setBiometricValues(that, processVariables);
-        //that.eKYCChecked = true;
-
-
-        // that.showEkycbutton = false;
+        that.showEkycbutton = false;
         that.isEnableDedupe = false;
         that.isMobileChanged = false;
         that.isName1Changed = false;
@@ -2869,6 +3008,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     const dedupe = ctx.coApplicantForm.get('dedupe');
     const dob = value.dobFromResponse;
+    this.gender = value.genderFromResponse;
     value.dobFromResponse = dob.split('-').join('/');
 
     dedupe.get('name1').setValue(value.firstName);
@@ -2880,10 +3020,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       dob: new Date(ctx.utilityService.getDateFromString(value.dobFromResponse))
     })
 
-    // dedupe.get('name1').disable();
-    // dedupe.get('name2').disable();
-    // dedupe.get('name3').disable();
-    // dedupe.get('dob').disable();
+    dedupe.get('name1').disable();
+    dedupe.get('name2').disable();
+    dedupe.get('name3').disable();
+    dedupe.get('dob').disable();
 
 
     const currentAddress = ctx.coApplicantForm.get('currentAddress');
@@ -2930,15 +3070,16 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       nearestLandmark: value.landmark
     })
 
-    // permanantAddress.disable();
+    permanantAddress.disable();
     currentAddress.reset();
     currentAddress.enable();
     ctx.isPermanantAddressSame = false
 
     ctx.pTag.nativeElement.click();
-    const prospectDetails: IndividualProspectDetails = {};
-    prospectDetails.gender = value.genderFromResponce;
-    this.applicantDataService.setIndividualProspectDetails(prospectDetails);
+    // const prospectDetails: IndividualProspectDetails = {};
+
+    // prospectDetails.gender = this.gender;
+    // this.applicantDataService.setIndividualProspectDetails(prospectDetails);
 
   }
 
@@ -2950,22 +3091,16 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
         if (!dedupe.get('mobilePhone').invalid) {
           //console.log('mobiel no', this.mobileNumber);
-
+          this.enableDedupeBasedOnChanges(value !== this.mobileNumber)
           if (value !== this.mobileNumber) {
             this.isMobileChanged = true;
-            this.isEnableDedupe = true;
             this.dedupeMobile = true;
-            // this.showEkycbutton = false;
 
           } else {
-            this.isEnableDedupe = false;
             this.isMobileChanged = false;
-            // this.showEkycbutton = true;
           }
         } else {
           this.isEnableDedupe = true;
-          //this.showEkycbutton= true;
-          // this.isMobileChanged = false;
         }
       });
       dedupe.get('name1').valueChanges.subscribe((value) => {
@@ -2981,13 +3116,16 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         value = value || '';
         if (!dedupe.get('pan').invalid) {
           const upperCaseValue = value ? value.toUpperCase() : value;
-          this.enableDedupeBasedOnChanges(upperCaseValue !== this.pan);
+          if (upperCaseValue) {
+            this.enableDedupeBasedOnChanges(upperCaseValue !== this.pan);
+          }
+
           this.isPanChanged = upperCaseValue !== this.pan;
 
 
         } else {
           this.isEnableDedupe = true;
-          //this.showEkycbutton= false;
+
 
         }
       });
@@ -3005,6 +3143,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           const upperCaseValue = value ? value.toUpperCase() : value;
           this.enableDedupeBasedOnChanges(upperCaseValue !== this.passportNumber);
           this.isPassportChanged = upperCaseValue !== this.passportNumber;
+          console.log('this.isPassportChanged', this.isPassportChanged)
         } else {
           this.isEnableDedupe = true;
         }
@@ -3022,7 +3161,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         if (!dedupe.get('voterIdNumber').invalid) {
           const upperCaseValue = value ? value.toUpperCase() : value;
           this.enableDedupeBasedOnChanges(upperCaseValue !== this.voterIdNumber);
-          this.isDrivingLicenseChanged = upperCaseValue !== this.voterIdNumber;
+          this.isVoterIdChanged = upperCaseValue !== this.voterIdNumber;
         } else {
           this.isEnableDedupe = true;
         }
@@ -3031,12 +3170,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       dedupe.get('companyPhoneNumber').valueChanges.subscribe((value) => {
         //this.dedupeMobile= true;
         if (!dedupe.get('companyPhoneNumber').invalid) {
+          this.enableDedupeBasedOnChanges(value !== this.contactNumber)
           if (value !== this.contactNumber) {
             this.isContactNumberChanged = true;
-            this.isEnableDedupe = true;
             this.dedupeMobile = true;
           } else {
-            this.isEnableDedupe = false;
+
             this.isContactNumberChanged = false;
           }
         } else {
@@ -3044,14 +3183,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         }
       });
 
-      dedupe.get('aadhar').valueChanges.subscribe((value) => {
-        if (!dedupe.get('aadhar').invalid) {
-          this.enableDedupeBasedOnChanges(value !== this.aadhar);
-          this.isAadharChanged = value !== this.aadhar;
-        } else {
-          this.isEnableDedupe = true;
-        }
-      });
+      // dedupe.get('aadhar').valueChanges.subscribe((value) => {
+      //   if (!dedupe.get('aadhar').invalid) {
+      //     this.enableDedupeBasedOnChanges(value !== this.aadhar);
+      //     this.isAadharChanged = value !== this.aadhar;
+      //   } else {
+      //     this.isEnableDedupe = true;
+      //   }
+      // });
       dedupe.get('pan').valueChanges.subscribe((value) => {
         this.panValidate = false;
         value = value || '';
@@ -3118,14 +3257,29 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   enableDedupeBasedOnChanges(condition: boolean) {
     if (condition) {
       this.isEnableDedupe = true;
+      this.showEkycbutton = false;
       //this.eKYCChecked = true
-      // this.showEkycbutton = false;
+
 
     } else {
-      this.isEnableDedupe = false;
-      // this.showEkycbutton = true;
+
+      if (this.applicantType == 'INDIVENTTYP') {
+        if (this.ekycDone == '1') {
+          this.showEkycbutton = false;
+        } else {
+          this.showEkycbutton = true;
+        }
+      }
+      setTimeout(() => {
+        this.isEnableDedupe = false;
+      })
+
 
     }
+
+    // else{
+    //   this.showEkycbutton = true;
+    // }
 
     // if (this.applicantType == 'INDIVENTTYP') {
     //   if (condition && this.eKYCChecked) {

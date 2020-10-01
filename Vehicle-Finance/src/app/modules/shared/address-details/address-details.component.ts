@@ -528,14 +528,16 @@ export class AddressDetailsComponent implements OnInit {
   getAddressDetails() {
     this.address = this.applicantDataService.getApplicant();
     console.log('COMING ADDRES VALUES', this.address);
+    this.setAddressData();
     if (this.address.ucic) {
       if (this.address.applicantDetails.entityTypeKey === 'INDIVENTTYP') {
         this.disableCurrent = true;
         this.onPerAsCurChecked = true;
         this.disableAddress('permanantAddress');
         this.disableAddress('currentAddress');
-      }
-      if (this.address.applicantDetails.entityTypeKey === 'NONINDIVENTTYP') {
+      } else {
+        const formArray = this.addressForm.get('details') as FormArray;
+        const details = formArray.at(0);
         this.disableRegister = true;
         this.onRegAsCommChecked = true;
         this.disableAddress('registeredAddress');
@@ -544,7 +546,12 @@ export class AddressDetailsComponent implements OnInit {
 
       this.showModCurrCheckBox = true;
     }
-    this.setAddressData();
+    if(this.address.ekycDone=='1'){
+      if (this.address.applicantDetails.entityTypeKey === 'INDIVENTTYP'){
+        this.disableAddress('permanantAddress');
+      }
+    }
+    
   }
 
   disableAddress(addressType) {
@@ -1315,7 +1322,7 @@ export class AddressDetailsComponent implements OnInit {
     this.applicantDataService.setApplicantDetails(applicantDetails);
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
-    const registeredAddressObject = value.details[0].registeredAddress;
+    //const registeredAddressObject = value.details[0].registeredAddress;
     const registeredData = details.get('registeredAddress');
     const regAddress = {
       ...this.getAddressValues(registeredData)

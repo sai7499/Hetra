@@ -49,14 +49,14 @@
             <button
               class="upload-btn"
               (click)="removeFile()"
-              *ngIf="imageUrl && isMobile"
+              *ngIf="imageUrl && !isMobile"
             >
-              Change</button
+              Change Document</button
             >
             <button
               class="upload-btn"
               (click)="openCamera()"
-              *ngIf="imageUrl && !isMobile"
+              *ngIf="imageUrl && isMobile"
             >
               Retake photo</button
             >&nbsp;
