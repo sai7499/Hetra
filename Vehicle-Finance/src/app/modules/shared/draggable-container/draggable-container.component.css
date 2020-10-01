@@ -1,11 +1,11 @@
 #mydiv {
   /* position: absolute; */
   z-index: 9999;
-  background-color: #ffff;
+  background-color: #1d1d1d61;
   border: 1px solid #d3d3d3;
   text-align: center;
   height: 600px;
-  width: 600px;
+  width: 100%;
   padding: 10px;
   border-radius: 5px;
 }
@@ -37,7 +37,8 @@
 
 .image-content {
   height: 90%;
-  width: 100%;
+  width: 50%;
+  margin: auto;
 }
 
 .center {
@@ -45,4 +46,18 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.cls-btn{
+  background-color: #0a0a0a61;
+  color: #f7f5f5;
+  opacity:1;
+}
+
+@media (min-width:300px) and (max-width:767px) {
+  .image-content {
+    height: 90%;
+    width: 90%;
+    margin: auto;
+  }
 }
