@@ -222,55 +222,13 @@ export class CamComponent implements OnInit {
     if (this.productCategoryCode == "UCV") {
 
       this.camDetailsForm = this.formBuilder.group({
-        proposedVehicleRemarks: new FormControl(null, [
-          Validators.required,
-          Validators.maxLength(200),
-          Validators.pattern(
-            /^[a-zA-Z0-9 ]*$/
-          ),
-        ]),
-        cibilSynopsisRemarks: new FormControl(null, [
-          Validators.required,
-          Validators.maxLength(200),
-          Validators.pattern(
-            /^[a-zA-Z0-9 ]*$/
-          ),
-        ]),
-        trackValidationRemarks: new FormControl(null, [
-          Validators.required,
-          Validators.maxLength(200),
-          Validators.pattern(
-            /^[a-zA-Z0-9 ]*$/
-          ),
-        ]),
-        fleetRemarks: new FormControl(null, [
-          Validators.required,
-          Validators.maxLength(200),
-          Validators.pattern(
-            /^[a-zA-Z0-9 ]*$/
-          ),
-        ]),
-        concernsAndRisks: new FormControl(null, [
-          Validators.required,
-          Validators.maxLength(200),
-          Validators.pattern(
-            /^[a-zA-Z0-9 ]*$/
-          ),
-        ]),
-        strengthAndMitigates: new FormControl(null, [
-          Validators.required,
-          Validators.maxLength(200),
-          Validators.pattern(
-            /^[a-zA-Z0-9 ]*$/
-          ),
-        ]),
-        keyFinancialRemarks: new FormControl(null, [
-          Validators.required,
-          Validators.maxLength(200),
-          Validators.pattern(
-            /^[a-zA-Z0-9 ]*$/
-          ),
-        ]),
+        proposedVehicleRemarks: [],
+        cibilSynopsisRemarks: [],
+        trackValidationRemarks: [],
+        fleetRemarks: [],
+        concernsAndRisks: [],
+        strengthAndMitigates: [],
+        keyFinancialRemarks: [],
         commentsOnBankingIfAny: new FormControl(),
         commentsOnRtr: new FormControl(),
       })
@@ -283,20 +241,15 @@ export class CamComponent implements OnInit {
         concernsAndRisks: [],
         strengthAndMitigates: [],
         keyFinancialRemarks: [],
-        commentsOnBankingIfAny: new FormControl(null, [
-          Validators.required,
-          Validators.maxLength(200),
-          Validators.pattern(
-            /^[a-zA-Z0-9 ]*$/
-          ),
-        ]),
-        commentsOnRtr: new FormControl(null, [
-          Validators.required,
-          Validators.maxLength(200),
-          Validators.pattern(
-            /^[a-zA-Z0-9 ]*$/
-          ),
-        ]),
+        commentsOnBankingIfAny:[],
+        // commentsOnBankingIfAny: new FormControl(null, [
+        //   Validators.required,
+        //   Validators.maxLength(200),
+        //   Validators.pattern(
+        //     /^[a-zA-Z0-9 ]*$/
+        //   ),
+        // ]),
+        commentsOnRtr: []
 
       })
     }
@@ -562,28 +515,29 @@ export class CamComponent implements OnInit {
     })
   }
   onSubmit() {
+console.log(this.camDetailsForm);
 
 
-    this.submitted = true;
+    // this.submitted = true;
     // stop here if form is invalid
-    if (this.camDetailsForm.invalid) {
-      if (this.productCategoryCode == "UCV") {
-        this.toasterService.showError(
-          "Fields Missing Or Invalid Pattern Detected",
-          "UCV Details"
-        );
-        return;
-      } else
-        if (this.productCategoryCode == "NCV") {
-          this.toasterService.showError(
-            "Fields Missing Or Invalid Pattern Detected",
-            "NCV Details"
-          );
-          return;
-        }
+    // if (this.camDetailsForm.invalid) {
+    //   if (this.productCategoryCode == "UCV") {
+    //     this.toasterService.showError(
+    //       "Fields Missing Or Invalid Pattern Detected",
+    //       "UCV Details"
+    //     );
+    //     return;
+    //   } else
+    //     if (this.productCategoryCode == "NCV") {
+    //       this.toasterService.showError(
+    //         "Fields Missing Or Invalid Pattern Detected",
+    //         "NCV Details"
+    //       );
+    //       return;
+    //     }
 
-    } else {
-      this.submitted = true;
+    // } else {
+      // this.submitted = true;
 
       const body = {
         leadId: this.leadId,
@@ -622,7 +576,7 @@ export class CamComponent implements OnInit {
             }
         }
       });
-    }
+    // }
   }
   getLeadId() {
     return new Promise((resolve, reject) => {
