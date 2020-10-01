@@ -1,4 +1,4 @@
-<div class="modal in" id="modalReject" [ngClass]="{ 'dis-block': showModalPopup }">
+<div class="modal in top-modal modal-box" id="modalReject" [ngClass]="{ 'dis-block': showModalPopup }">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header ">
@@ -10,16 +10,12 @@
           <div class="row">
             <div class="col-6 p-0 text-center">
                     <div class=""  *ngIf="data?.rejectReasonList">
-                      <select name="reject_reason" id="reject_reason" class="form-control reject-wid-mrg" onfocus='this.size=6;' onblur='this.size=1;' onchange='this.size=1; this.blur();'>
-                      <option disabled value="">-- Select one --</option>
-                      <option disabled value="">-- Select one --</option>
-                      <option disabled value="">-- Select one --</option>
-                      <option disabled value="">-- Select one --</option>
-                      <option disabled value="">-- Select one --</option>
-                      <option value="{{reason.reasonCode}}" (click)="getReason(reason)" *ngFor="let reason of data.rejectReasonList">{{reason.reasonDesc}}</option>
+                      <select name="reject_reason" id="reject_reason" class="form-control reject-wid-mrg" onfocus='this.size=4;' onblur='this.size=1;' onchange='this.size=1; this.blur();'>
+                      <option class="option-style" disabled value="">-- Select one --</option>
+                      <option class="option-style" value="{{reason.reasonCode}}" (click)="getReason(reason)" *ngFor="let reason of data.rejectReasonList">{{reason.reasonDesc}}</option>
                     </select>
                   </div>
-                  <div class="" style="text-align:center"  *ngIf="!data?.rejectReasonList">
+                  <div class="reject-wid-mrg" style="text-align:center"  *ngIf="!data?.rejectReasonList">
                     <p>No reject reason found...</p>
                   </div>
                  
@@ -29,7 +25,7 @@
       </div>
       <div class=" ok_footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal"
-          (click)='showRejectModal = true' [disabled]="!isReason">Submit</button>&nbsp;&nbsp;
+          (click)='showRejectModal = true;showModalPopup = false' [disabled]="!isReason">Submit</button>&nbsp;&nbsp;
         <button type="button" class="btn btn-success" data-dismiss="modal" (click)="onCancel()">Cancel</button>
       </div>
     </div>
@@ -37,19 +33,19 @@
 </div>
 
 
-<div class="modal in" id="rejectModal" [ngClass]="{ 'dis-block': showRejectModal }">
+<div class="modal in top-modal" id="rejectModal" [ngClass]="{ 'dis-block': showRejectModal }">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header ">
-        <button type="button" class="close" data-dismiss="modal" (click)="showRejectModal = false">&times;</button>
-        <h4 class="modal-title text-center ">Loan Rejection</h4>
+        <button type="button" class="close" data-dismiss="modal" (click)="showRejectModal = false;showModalPopup = true">&times;</button>
+        <h4 class="modal-title text-center ">Confirmation</h4>
       </div>
       <div class="modal-body ">
         <div class="">
           <div class="row text-center">
             <div class="col-12 p-0">
               <div class="form-group">
-                <p>Are you sure want to reject ?</p>
+                <p>Are you sure you want to reject this lead?</p>
               </div>
             </div>
           </div>
@@ -57,8 +53,8 @@
       </div>
       <div class=" ok_footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal"
-          (click)='onOkay()'>Yes</button>&nbsp;&nbsp;
-        <button type="button" class="btn btn-success" data-dismiss="modal" (click)="showRejectModal = false">Cancel</button>
+          (click)="onOkay()">Yes</button>&nbsp;&nbsp;
+        <button type="button" class="btn btn-success" data-dismiss="modal" (click)="showRejectModal = false;showModalPopup = true">Cancel</button>
       </div>
     </div>
   </div>
