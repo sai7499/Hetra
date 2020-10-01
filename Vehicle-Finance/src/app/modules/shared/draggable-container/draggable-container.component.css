@@ -52,6 +52,7 @@
   background-color: #0a0a0a61;
   color: #f7f5f5;
   opacity:1;
+  font-size: 38px!important;
 }
 
 @media (min-width:300px) and (max-width:767px) {
@@ -66,10 +67,10 @@
     background-color: #1d1d1d61;
     border: 1px solid #d3d3d3;
     text-align: center;
-    height: 100%;
+    height: 85%;
     width: 100%;
     /* padding: 10px; */
     border-radius: 5px;
-    margin-top:72px;
+    margin-top:20px;
 }
 }
