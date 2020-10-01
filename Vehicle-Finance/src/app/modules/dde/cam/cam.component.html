@@ -322,13 +322,16 @@
             <td class="bank_name">{{ labels?.totalMonthlySalaryIncome  }}</td>
             <td>{{ loanEligibilityBasedOnInc?.totalMonthlySalaryIncome }}</td>
             <td class="bank_name">{{ labels?.salariedFOIRasperPolicy }}</td>
-            <td>{{ loanEligibilityBasedOnInc?.salariedFOIRPercentAsPerPolicy }}</td>
+            <td>{{ loanEligibilityBasedOnInc?.salariedFOIRPercentAsPerPolicy }}<span
+                *ngIf="loanEligibilityBasedOnInc?.salariedFOIRPercentAsPerPolicy != null">%</span></td>
         </tr>
         <tr>
             <td class="bank_name">{{ labels?.salariedFOIRDeviation }}</td>
-            <td>{{ loanEligibilityBasedOnInc?.salariedFOIRDeviationPercent }}</td>
+            <td>{{ loanEligibilityBasedOnInc?.salariedFOIRDeviationPercent }}<span
+                *ngIf="loanEligibilityBasedOnInc?.salariedFOIRDeviationPercent != null">%</span></td>
             <td class="bank_name">{{ labels?.totalSalariedFOIR }}</td>
-            <td>{{ loanEligibilityBasedOnInc?.totalSalariedFOIRPercent }}</td>
+            <td>{{ loanEligibilityBasedOnInc?.totalSalariedFOIRPercent }}<span
+                *ngIf="loanEligibilityBasedOnInc?.totalSalariedFOIRPercent != null">%</span></td>
         </tr>
         <tr>
             <td class="bank_name">{{ labels?.consideredSalaryIncome }}</td>
@@ -494,7 +497,8 @@
             <td class="bank_name">{{ labels?.finalLoanAmount }}</td>
             <td>{{ finalLoanDetails?.finalLoanAmount }}</td>
             <td class="bank_name">{{ labels?.roi }}</td>
-            <td>{{ finalLoanDetails?.roi }}</td>
+            <td>{{ finalLoanDetails?.roi }}<span
+                *ngIf="finalLoanDetails?.roi != null">%</span></td>
         </tr>
         <tr>
             <td class="bank_name">{{ labels?.loanTenureInMonths }}</td>
@@ -504,7 +508,8 @@
         </tr>
         <tr>
             <td class="bank_name">{{ labels?.approvedFoir }}</td>
-            <td>{{ finalLoanDetails?.approvedFoirPercent }}</td>
+            <td>{{ finalLoanDetails?.approvedFoirPercent }}<span
+                *ngIf="finalLoanDetails?.approvedFoirPercent != null">%</span></td>
             <td class="bank_name">{{ labels?.approvedLtv }}</td>
             <td>{{ finalLoanDetails?.approvedLtvPercent }}<span
                     *ngIf="finalLoanDetails?.approvedLtvPercent != null">%</span></td>
@@ -1061,7 +1066,8 @@
                     <td>{{ fleetSummary?.total }}</td>
                     <td>{{ fleetSummary?.expansionAndFfrAddedInLastOneYr }}</td>
                     <td>{{ fleetSummary?.expansionAndFfrFreeAsset }}</td>
-                    <td>{{ fleetSummary?.expansionAndFfrFFR }}</td>
+                    <td>{{ fleetSummary?.expansionAndFfrFFR }}<span
+                        *ngIf="fleetSummary?.expansionAndFfrFFR != null">%</span></td>
 
                 <tr>
                     <td class="bank_name">{{ labels?.anyOtherRemarks }}</td>
@@ -1613,7 +1619,7 @@
                 <td class="bank_name">{{ labels?.sourcingName }}</td>
                 <td>{{ sourcingDetails?.sourcingName }}</td>
                 <td class="bank_name">{{ labels?.soEd }}</td>
-                <td>{{ sourcingDetails?.soEd }}</td>
+                <td>{{ sourcingDetails?.soEd }} <span *ngIf="sourcingDetails?.soEd != null ">%</span></td>
                 <td class="bank_name">{{ labels?.propsoedAsset }}</td>
                 <td>{{ sourcingDetails?.proposedAsset }}</td>
 
