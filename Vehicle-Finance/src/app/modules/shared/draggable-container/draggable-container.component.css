@@ -5,7 +5,7 @@
   border: 1px solid #d3d3d3;
   text-align: center;
   height: 600px;
-  width: 100%;
+  width: 600px;
   padding: 10px;
   border-radius: 5px;
 }
@@ -37,7 +37,7 @@
 
 .image-content {
   height: 90%;
-  width: 50%;
+  /* width: 50%; */
   margin: auto;
 }
 
@@ -60,4 +60,16 @@
     width: 90%;
     margin: auto;
   }
+
+  #mydiv {
+    z-index: 9999;
+    background-color: #1d1d1d61;
+    border: 1px solid #d3d3d3;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    /* padding: 10px; */
+    border-radius: 5px;
+    margin-top:72px;
+}
 }
