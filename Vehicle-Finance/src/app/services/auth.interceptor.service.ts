@@ -82,9 +82,11 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((err: any) => {
         if (err instanceof HttpErrorResponse) {
           if (err.status != 200) {
-            console.log('httpErr', err);
-            this.ngxUiLoaderService.stop();
-            this.toasterService.error(`${err.status}: ${err.statusText}`, 'Technical error..');
+            if (err.status != 401) {
+              console.log('httpErr', err);
+              this.ngxUiLoaderService.stop();
+              this.toasterService.error(`${err.status}: ${err.statusText}`, 'Technical error..');
+            }
           }
         }
         return throwError(err);
@@ -107,7 +109,8 @@ export class AuthInterceptor implements HttpInterceptor {
                 res = JSON.parse(event.body);
               }
               if (res && res['login_required']) {
-                this.utilityService.logOut();
+                // this.utilityService.logOut();
+                this.utilityService.removeAllLocalStorage();
               }
             }
             console.log('after Encryption: ', event.body);
