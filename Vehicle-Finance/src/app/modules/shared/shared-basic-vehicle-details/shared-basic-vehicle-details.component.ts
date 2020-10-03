@@ -677,7 +677,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.removeControl('noOfVehicles');
       controls.removeControl('ageAfterTenure');
 
-      controls.addControl('exShowRoomCost', new FormControl('', [Validators.required, Validators.maxLength(10)]));
+      controls.addControl('exShowRoomCost', new FormControl('', [Validators.required]));
       controls.addControl('noOfVehicles', new FormControl('', [Validators.required]));
 
     } else if (this.productCatoryCode === 'NC') {
