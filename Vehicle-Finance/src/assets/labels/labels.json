@@ -98,7 +98,7 @@
     "proformaInvoiceDate": "Proforma Invoice Date",
     "proformaInvoiceAmount": "Proforma Invoice Amount",
     "insurance": "Insurance",
-    "ageOfAsset": "Age of vehicle",
+    "ageOfAsset": "Age of Asset",
     "ageOfVehicle": "Age of vehicle at the end of tenor",
     "assetCostGrid": "Asset cost basis Grid",
     "vechicleUsage": "Vehicle Usage",
@@ -1912,7 +1912,7 @@
             },
             "type": "number"
         },
-        "gorssVehicleWeight": {
+        "grossVehicleWeight": {
             "maxLength": {
                 "rule": 5,
                 "msg": ""
