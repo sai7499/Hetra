@@ -315,7 +315,7 @@ th {
   outline: none !important;
   cursor: pointer;
 }
-@media (min-width: 500px) {
+@media (min-width: 200px) {
   .multisteps-form__progress-btn {
     text-indent: 0;
   }
@@ -524,10 +524,36 @@ th {
   margin-left: 15px;
 } */
 
-@media (max-width: 767px) {
+.scrollmenu{
+    display:none;
+  }
+
+@media (min-width:200px) and (max-width:767px) {
   .dde-back-button {
     margin-top: 0px;
     position: static;
     width: 100%;
   }
+
+  .scrollmenu{
+    display:block;
+  }
+
+  .main-tab{
+    display:none;
+  }
+
+.multisteps-form__progress-btn{
+  color: #272264;
+  font-weight: 600;
+  width:35%;
+}
+
+ .multisteps-form__progress-btn:first-child:after {
+  display: none!important;
+}
+
+.second-box > .multisteps-form__progress-btn:first-child:after {
+  display: none;
+}
 }
