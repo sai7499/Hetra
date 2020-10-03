@@ -3,8 +3,9 @@
 }
 
 .upload-btn {
-  border: 1px solid #dc1818;
-  background: none;
+  border: 1px solid #1d1a4b;
+  background-color: #1d1a4b;
+  color:#fff;
   margin: 10px 0;
   padding: 4px;
   border-radius: 5px;
@@ -32,4 +33,22 @@
 
 .show-error {
   color: red;
+}
+
+.mid-half{
+  width:50%;
+  margin:auto;
+}
+
+.mid-mar{
+  margin: 0 25%;
+}
+
+.mid-text{
+  text-align: center;
+  margin: 0 15%;
+}
+
+.top-space{
+  top:10%;
 }
