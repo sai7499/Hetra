@@ -14,7 +14,7 @@
   }
   
   label.col-form-label {
-    width:35%;
+    width:50%;
     /* padding-right: 20px; */
     padding-left: 20px;
     font-weight: 550;
@@ -23,7 +23,7 @@
   }
   
   label.col-form-label-two {
-    width: 65%;
+    width:50%;
     /* padding-right: 20px; */
     padding-left: 15px;
     font-weight: bolder;
@@ -46,15 +46,54 @@
 
   .view-pad-top{
     padding: 8px 8px 2px 8px;
+    width:100%;
+    margin: auto;
   }
 
   .view-pad-bottom{
     padding: 2px 8px 8px 8px;
+    width:100%;
+    margin: auto;
   }
 
 .pad-allside{
   padding: 8px;
+  width: 80%;
+  margin:auto;
 }
+
+.btn-width{
+  width:20%;
+}
+
+.mob-view{
+  display:none;
+}
+
+
+.tab-border{
+  border:none!important;
+  margin:0%!important;
+}
+
+.lab-bold{
+  width:4% ;
+  font-weight:600;
+}
+
+.lab-bold-1{
+  width:1% ;
+  font-weight:600;
+}
+
+.lab-small{
+  width:8% ;
+}
+
+.lab-colan{
+  width:1%;
+}
+
 
 @media (min-width:200px) and (max-width:767px) {
   .view-pad-top{
@@ -63,5 +102,17 @@
 
   .view-pad-bottom{
     padding: 8px 8px 8px 8px;
+  }
+
+  .tab-view{
+    display:none;
+  }
+
+  .mob-view{
+    display:block;
+  }
+
+  .btn-width{
+    width:100%;
   }
 }

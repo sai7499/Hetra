@@ -677,7 +677,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.removeControl('noOfVehicles');
       controls.removeControl('ageAfterTenure');
 
-      controls.addControl('exShowRoomCost', new FormControl('', [Validators.required, Validators.maxLength(10)]));
+      controls.addControl('exShowRoomCost', new FormControl('', [Validators.required]));
       controls.addControl('noOfVehicles', new FormControl('', [Validators.required]));
 
     } else if (this.productCatoryCode === 'NC') {
@@ -725,6 +725,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.addControl('category', new FormControl('', Validators.required));
       controls.addControl('manuFacMonthYear', new FormControl('', Validators.required));
       controls.addControl('ageOfAsset', new FormControl(''));
+      controls.addControl('rcOwnerName', new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z ]{0,99}$')]));
+      controls.addControl('ownerMobileNo', new FormControl('', [Validators.required, Validators.pattern('[6-9]{1}[0-9]{9}')]));
+      controls.addControl('address', new FormControl('', Validators.compose([Validators.required, Validators.maxLength(120)])));
+      controls.addControl('pincode', new FormControl('', [Validators.required, Validators.pattern('[1-9]{1}[0-9]{5}')]));
       controls.addControl('ageAfterTenure', new FormControl(''));
     } else if (this.productCatoryCode === 'UCV') {
 
@@ -933,6 +937,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehiclePurchasedCost: [''],
       vehicleOwnerShipNumber: null,
       rcOwnerName: ['', Validators.pattern('^[A-Za-z ]{0,99}$')],
+      ownerMobileNo: ['', [Validators.required, Validators.pattern('[6-9]{1}[0-9]{9}')]],
+      address: ['', Validators.compose([Validators.maxLength(120), Validators.required])],
+      pincode: ['', Validators.compose([Validators.maxLength(6), Validators.required])],
       vehicleRegDate: '',
       gorssVehicleWeight: [''],
       reRegVehicle: ['1'],

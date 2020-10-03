@@ -7,10 +7,9 @@
                 <label for="first_name">{{ labels?.firstName }}
                     <sub class="star_red_col">*</sub></label>
 
-                <app-custom-input formControlName="firstName" [isRequired]="'First Name is Required'"
-                    [type]="labels.validationData?.name.type" [id]="'first_name'" [className]="'form-control'"
-                    [maxLength]="labels.validationData?.name.maxLength" [placeholder]="'Enter First Name'"
-                    [isDirty]="isDirty">
+                <app-custom-input formControlName="firstName" [type]="labels.validationData?.name.type"
+                    [id]="'first_name'" [className]="'form-control'" [maxLength]="labels.validationData?.name.maxLength"
+                    [placeholder]="'Enter First Name'">
                 </app-custom-input>
 
             </div>
@@ -28,9 +27,9 @@
                 <label for="last_name">{{ labels?.lastName }}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="lastName" [isRequired]="'Last Name is Required'" [isDirty]="isDirty"
-                    [id]="'last_name'" [className]="'form-control'" [placeholder]="'Enter Last Name'"
-                    [maxLength]="labels.validationData?.name.maxLength" [type]="labels.validationData?.name.type">
+                <app-custom-input formControlName="lastName" [id]="'last_name'" [className]="'form-control'"
+                    [placeholder]="'Enter Last Name'" [maxLength]="labels.validationData?.name.maxLength"
+                    [type]="labels.validationData?.name.type">
                 </app-custom-input>
             </div>
         </div>
