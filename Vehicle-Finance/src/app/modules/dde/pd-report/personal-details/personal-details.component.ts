@@ -128,10 +128,10 @@ export class PersonalDetailsComponent implements OnInit {
   initForm() {
 
     this.personalDetailsForm = this._fb.group({
-      firstName: ['', Validators.required],
-      middleName: [''],
-      lastName: ['', Validators.required],
-      applicantName: [{ value: '', disabled: true }, Validators.required],
+      firstName: [{ value: '', disabled: true }],
+      middleName: [{ value: '', disabled: true }],
+      lastName: [{ value: '', disabled: true }],
+      applicantName: [{ value: '', disabled: true }],
       fatherFirstName: ['', Validators.required],
       fatherMiddleName: [''],
       fatherLastName: ['', Validators.required],
@@ -356,7 +356,7 @@ export class PersonalDetailsComponent implements OnInit {
     }
 
     formValue.noOfYearsResidingInCurrResidence = String((Number(formValue.noOfYears) * 12) + Number(formValue.noOfMonths)) || '';
-   
+
     if (this.personalDetailsForm.valid) {
 
       const data = {
