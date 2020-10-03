@@ -77,7 +77,6 @@
     "assetSubVariant": "Asset Sub-Variant",
     "assetOther": "Asset Variant - Other",
     "monthYear": "Month and Year",
-    "ageVehicle": "Age of Vehicle",
     "assetCostIndian": "Asset Cost basis Indian Bluebook",
     "assetCostCarwale": "Asset Cost basis Carwale",
     "assetCostCar": "Asset Cost basis Car Trade",
@@ -1691,7 +1690,7 @@
             "maxLength": {
                 "rule": 10
             },
-            "type": "decimal-4"
+            "type": "decimal-2"
         },
         "bankName": {
             "maxLength": {

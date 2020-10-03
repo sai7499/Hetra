@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  version: '0.19',
-  buildDate: '26/09/2020',
+  version: '0.20',
+  buildDate: '30/09/2020',
   apiVersion: {
     login: 'v3/',
     api: 'v2/',
@@ -25,10 +25,11 @@ export const environment = {
     validateSRNumber : '8bfa8dba945b11eabdcaf2fa9bec3d63'
   },
   // hostingEnvironment: 'DEV',
-  hostingEnvironment: 'UAT',
+  // hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
 
-  host: '/appiyo/',
+  // host: '/appiyo/',
+  host: window["env"]["hostUrl"] || "default",
   // host: "https://hetrauat.equitasbank.com/appiyodev/",
   //host: 'http://128.199.164.250/appiyo/',
   // host: 'http://10.101.10.153/appiyo/',

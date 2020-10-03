@@ -85,18 +85,16 @@ h3.dedupe_head {
   border: 1px solid #1d1a4b47;
 }
 
-#proceed_reason {
+/* #proceed_reason {
   width: 350px;
   border-radius: 1.5em;
   margin: auto;
-  /* background-color: #f58733; */
-  /* color: white; */
   margin-bottom: 12px;
   border: 1px solid #1d1a4b47;
-}
+} */
 
 .reject_reason {
-  color: #f58733;
+  color: #1d1a4b;
   font-weight: bolder;
 }
 
@@ -200,13 +198,12 @@ select#select_main_button_match {
 }
 
 
-#proceed_reason {
+/* #proceed_reason {
   border: 1px solid #1d1a4b47;
   width: 350px;
-  border-radius: 1.5em;
   margin: auto;
   margin-bottom: 12px;
-}
+} */
 
 .showModal{
   display: block;
@@ -353,7 +350,7 @@ h3.dedupe_head {
   width: 150px;
   border-radius: 1.5em;
   margin: auto;
-  background-color: #f58733;
+  background-color: #1d1a4b;
   color: white;
   margin-bottom: 12px;
 }
@@ -361,15 +358,15 @@ h3.dedupe_head {
 #proceed_reason {
   border: 1px solid #0006ff00;
   width: 150px;
-  border-radius: 1.5em;
   margin: auto;
-  background-color: #f58733;
+  background-color: #1d1a4b;
+
   color: white;
   margin-bottom: 12px;
 }
 
 .reject_reason {
-  color: #f58733;
+  color: #1d1a4b;
   font-weight: bolder;
 }
 

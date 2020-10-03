@@ -318,8 +318,54 @@ export class BasicDetailsComponent implements OnInit {
 
     this.applicant = this.applicantDataService.getApplicant();
     console.log('applicant', this.applicant);
+    
 
     this.setBasicData();
+    if(this.applicant.ucic){
+      if(this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP'){
+         this.disableUCICIndividualDetails();
+      }else{
+        this.disableUCICNonIndividualDetails();
+      }
+    }
+    if(this.applicant.ekycDone=='1'){
+      if(this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP'){
+        this.disableEKYDetails();
+      }
+    }
+  }
+
+  disableEKYDetails(){
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    const applicantDetails = this.applicant.applicantDetails;
+    const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails;
+    applicantDetails.name1? details.get('name1').disable() : details.get('name1').enable();
+    details.get('name2').disable() ;
+    applicantDetails.name3 ? details.get('name3').disable() : details.get('name3').enable();
+    aboutIndivProspectDetails.dob? details.get('dob').disable() : details.get('dob').enable();
+    aboutIndivProspectDetails.gender ? details.get('gender').disable() :  details.get('gender').enable() ;
+  }
+
+  disableUCICIndividualDetails(){
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    details.get('name1').disable();
+    details.get('name2').disable();
+    details.get('name3').disable();
+    details.get('dob').disable();
+    details.get('mobilePhone').disable();
+    details.get('gender').disable();
+
+  }
+  disableUCICNonIndividualDetails(){
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    details.get('name1').disable();
+    details.get('name2').disable();
+    details.get('name3').disable();
+    details.get('dateOfIncorporation').disable();
+    details.get('companyPhoneNumber').disable();
   }
   initiallayAgecal(dob) {
     const convertDate = new Date(this.utilityService.getDateFromString(dob));

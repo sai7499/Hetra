@@ -19,7 +19,7 @@
 	"YearofManufacture": "उत्पादन वर्ष",
 	"EngineNo": "इंजिन क्रमांक.",
 	"VehicleModel": "वाहन मॉडेल",
-	"VehicleRegistrationNo.": "वाहन नोंदणी क्रमांक .",
+	"VehicleRegistrationNo": "वाहन नोंदणी क्रमांक .",
 	"ChassisNo": "चेसिस क्रमांक",
 	"LOANAPPROVEDDETAILS": "कर्ज तपशील",
 	"AssetCost": "मालमत्ता खर्च (रु.)",
@@ -61,6 +61,7 @@
 	"Interest": "व्याज (रु.)",
 	"PrincipleOutStanding": "मुद्दल बाकी (रु.)",
 	"EQUITASFINANCEPRIVATELIMITED": "इक्विटास फायनान्स प्रायव्हेट लिमिटेड",
-	"REPAYMENTSCHEDULE" : "परतफेड अनुसूची"
+	"REPAYMENTSCHEDULE" : "परतफेड अनुसूची",
+	"ForEquitasFinancePvtLtd" : "इक्विटास फायनान्सన"
 
 }]

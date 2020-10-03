@@ -24,13 +24,11 @@ import { ActivatedRoute } from '@angular/router';
 export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   @Input() id: any;
-  addressList: any = [];
   applicantDetails: any = [];
   disableSaveBtn: boolean;
 
   maxDate = new Date();
   initalZeroCheck = [];
-  customFutureDate: boolean;
   eligibleLoanAmount: any = 0;
 
   public basicVehicleForm: FormGroup;
@@ -41,11 +39,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   roles: any = [];
   LOV: any = [];
   public label: any = {};
-  regionDataArray = [];
   public productCatoryCode: string;
   public leadDetails: any = {};
   public loanTenor: number = 0;
-  public productCatoryId: any;
 
   @Input() isDirty: boolean;
   isDisabled: boolean = true;
@@ -54,8 +50,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public isInvalidMobileNumber: boolean;
 
   // LovData
-  public assetMake: any = [];
-  public vehicleType: any = [];
   public assetBodyType: any = [];
   public assetModelType: any = [];
   public assetVariant: any = [];
@@ -106,7 +100,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.leadDetails = leadData['leadDetails']
     this.leadId = leadData['leadId'];
     this.productCatoryCode = this.leadDetails['productCatCode'];
-    this.productCatoryId = this.leadDetails['productId'];
     this.loanTenor = this.leadDetails['reqTenure'];
 
     this.eligibleLoanAmount = this.activedRoute.snapshot.params['eligibleLoanAmount'] ? this.activedRoute.snapshot.params['eligibleLoanAmount'] : 0;
@@ -148,11 +141,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   }
 
   onGetDateValue(event) {
-    this.customFutureDate = false;
-    if (event > this.maxDate) {
-      this.customFutureDate = true;
-    } else {
-      this.customFutureDate = false;
+
+    if (!(event > this.maxDate || event < this.minDate)) {
       const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
       formArray.controls[0].patchValue({
         ageOfAsset: Number(this.utilityService.ageFromAsset(event))
