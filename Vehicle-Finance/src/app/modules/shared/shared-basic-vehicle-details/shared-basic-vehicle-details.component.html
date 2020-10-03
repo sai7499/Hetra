@@ -249,7 +249,7 @@
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="name_vehicle_owner"
-                        *ngIf="productCatoryCode === 'UCV'">
+                        *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
                         <label for="name_vehicle_owner"> {{ label.nameOfVehicleOwner }} <sub
                                 class="star_red_col">*</sub>
                         </label>
@@ -264,7 +264,7 @@
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="mobile_vehicle_owner"
-                        *ngIf="productCatoryCode === 'UCV'">
+                        *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
                         <label for="mobile_vehicle_owner"> {{ label.mobileNumberOfVehicle }} <sub
                                 class="star_red_col">*</sub> </label>
 
@@ -287,7 +287,7 @@
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vehicle_address"
-                        *ngIf="productCatoryCode === 'UCV'">
+                        *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
                         <label for="vehicle_address"> {{ label.vehicleAddress }} <sub class="star_red_col">*</sub>
                         </label>
                         <textarea class="form-control mandatory" name="vehicle_address" id="vehicle_address" cols="1"
@@ -304,7 +304,7 @@
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vehicle_pincode"
-                        *ngIf="productCatoryCode === 'UCV'">
+                        *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
                         <label for="vehicle_pincode"> {{ label.vehiclePinCode }} <sub class="star_red_col">*</sub>
                         </label>
 
@@ -1768,6 +1768,79 @@
                             </app-custom-input>
                         </div>
 
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="rc_owner_name">{{label.rcOwnerName}} <sub class="star_red_col">*</sub>
+                            </label>
+
+                            <app-custom-input formControlName="rcOwnerName" [type]="label.validationData?.name.type"
+                                [id]="'name_vehicle_owner'" [className]="'form-control mandatory'"
+                                [placeholder]="'Name of Vehicle Owner/Dealer'"
+                                [maxLength]="label.validationData?.name.maxLength"
+                                [isRequired]="'Name of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
+                            </app-custom-input>
+
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="mobile_vehicle_owner">
+                            <label for="mobile_vehicle_owner"> {{ label.mobileNumberOfVehicle }} <sub
+                                    class="star_red_col">*</sub> </label>
+
+                            <app-custom-input formControlName="ownerMobileNo"
+                                [type]="label.validationData?.mobileNumber.type" [id]="'mobile_vehicle_owner'"
+                                [className]="'form-control mandatory'"
+                                [placeholder]="'Mobile Number of Vehicle Owner/Dealer'"
+                                [maxLength]="label.validationData?.mobileNumber.maxLength"
+                                [patternCheck]="label.validationData?.mobileNumber.pattern"
+                                (keyUp)="onChangeMobileNumber($event.target.value)"
+                                (change)="onChangeMobileNumber($event.target.value)"
+                                [isRequired]="'Mobile Number of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
+                            </app-custom-input>
+
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['ownerMobileNo'].touched && basicVehicleForm.controls['isInvalidMobileNumber'].value === false">
+                                Invalid Mobile Number of Vehicle Owner/Dealer
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vehicle_address">
+                            <label for="vehicle_address"> {{ label.vehicleAddress }} <sub class="star_red_col">*</sub>
+                            </label>
+                            <textarea class="form-control mandatory" name="vehicle_address" id="vehicle_address"
+                                cols="1" rows="3" placeholder="Vehicle Address" formControlName="address"
+                                maxlength="120" style="resize: none;"></textarea>
+
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['address'].touched && !obj.controls['address'].valid">
+                                <div *ngIf="obj.controls['address'].hasError('required')">
+                                    Vehicle Address Required
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vehicle_pincode">
+                            <label for="vehicle_pincode"> {{ label.vehiclePinCode }} <sub class="star_red_col">*</sub>
+                            </label>
+
+                            <app-custom-input formControlName="pincode" [type]="label.validationData?.pincode.type"
+                                [id]="'vehicle_pincode'" [className]="'form-control mandatory'"
+                                [placeholder]="'Vehicle Address PINCODE'"
+                                (keyup)="getPincode(obj.controls['pincode'].value)"
+                                [maxLength]="label.validationData?.pincode.maxLength" [custom]="initalZeroCheck"
+                                [isRequired]="'Vehicle Address PINCODE Required'" [isDirty]="isDirty">
+                            </app-custom-input>
+                            <div class="invalid-feedback"
+                                *ngIf="basicVehicleForm.controls['isValidPincode'].value === false">
+                                Invalid Pincode
+                            </div>
+
+                        </div>
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="chassis_number">{{label.chassisNumber}}</label>
                             <app-custom-input formControlName="chasisNumber"
@@ -1779,6 +1852,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="engine_number">{{label.engineNumber}}</label>
                             <app-custom-input formControlName="engineNumber"
@@ -1788,10 +1865,6 @@
                                 [maxLength]="label.validationData?.chasisEngineNo.maxLength">
                             </app-custom-input>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_purchased_cost">{{label.vehiclePurchasedCost}}</label>
@@ -1811,7 +1884,7 @@
                             </app-custom-input>
                         </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="rc_owner_name">{{label.rcOwnerName}}</label>
 
                             <app-custom-input formControlName="rcOwnerName" [type]="label.validationData?.name.type"
@@ -1821,7 +1894,7 @@
                                 [isRequired]="'Name of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                             </app-custom-input>
 
-                        </div>
+                        </div> -->
 
                     </div>
 
