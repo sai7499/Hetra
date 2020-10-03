@@ -169,6 +169,7 @@ export class CustomInputComponent
 
             if (value.split('.').length > 2) {
               this.displayError('Invalid Number')
+              return
             }
           } else {
             setTimeout(() => {
@@ -183,14 +184,16 @@ export class CustomInputComponent
           this.maxLengthValidation.rule = length;
           const roundValue = value.split('.')[0];
           const decimalValues = value.split('.')[1].slice(0, decimalLength);
+
+          if (!decimalValues) {
+            this.displayError('Invalid Number')
+            return
+          }
+
           const formatedValue = roundValue + '.' + decimalValues;
-
-
 
           this.data = formatedValue;
           setTimeout(() => {
-
-            //this.value= formatedValue;
             this.inputValue = formatedValue;
           })
         }
