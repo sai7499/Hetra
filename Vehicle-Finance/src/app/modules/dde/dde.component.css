@@ -528,6 +528,30 @@ th {
     display:none;
   }
 
+  div.scrollmenu {
+  overflow: auto;
+    white-space: nowrap;
+    width: 80%;
+    margin: auto;
+    padding: 15px 0px 0px 0px;
+}
+
+
+body{ overflow:hidden}
+
+div.scrollmenu a {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+}
+
+div.scrollmenu a:hover {
+  background-color: #777;
+}
+
+
 @media (min-width:200px) and (max-width:767px) {
   .dde-back-button {
     margin-top: 0px;
