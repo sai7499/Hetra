@@ -58,14 +58,17 @@ export class RejectReasonModalComponent implements OnInit {
 
 
   getReason(reason) {
+    console.log('reason',reason.target.value)
     this.isReason = true;
-    this.reasonData = reason;
-    console.log(reason)
+    this.reasonData = reason.target.value;
+    
   }
 
   onOkay() {
     this.okay.emit({
-      reason: this.reasonData
+      reason: {
+        reasonCode: this.reasonData
+      }
     });
   }
   onCancel() {
