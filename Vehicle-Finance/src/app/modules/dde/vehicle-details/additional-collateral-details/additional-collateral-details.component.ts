@@ -165,7 +165,7 @@ export class AdditionalCollateralComponent implements OnInit {
             totalMarketValue: [null],
             guideLineValue: [null, Validators.required],
             totalGuideLineValue: [null],
-            propertyOwnerType: [null]
+            propertyOwnerType: ['', Validators.required]
         }))
     }
 
@@ -292,11 +292,6 @@ export class AdditionalCollateralComponent implements OnInit {
             additionalCollaterals['proofName'] = form.value.proofName;
             additionalCollaterals['proofCollected'] = form.value.proofCollected;
 
-            // if (this.collateralType === 'GOLDADDCOLTYP') {
-
-            //     additionalCollaterals['totalMarketValue'] = additionalCollaterals['currentValuePerGram'] * additionalCollaterals['goldInGrams']
-
-            // } 
             if (this.collateralType === 'AGRIADDCOLTYP') {
 
                 additionalCollaterals['totalMarketValue'] = additionalCollaterals['marketValue'] * additionalCollaterals['landInAcres'];
@@ -307,8 +302,6 @@ export class AdditionalCollateralComponent implements OnInit {
                 additionalCollaterals['totalMarketValue'] = additionalCollaterals['marketValue'] * additionalCollaterals['totalLandArea'];
                 additionalCollaterals['totalGuideLineValue'] = additionalCollaterals['guideLineValue'] * additionalCollaterals['totalLandArea']
             }
-
-            console.log(additionalCollaterals, 'co')
 
             const data = {
                 "userId": this.userId,
