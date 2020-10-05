@@ -164,7 +164,7 @@ export class FiResidenceComponent implements OnInit {
     const yearData = [
       {
         rule: (year) => {
-          return year < 1;
+          return year < 0;
         },
         msg: 'Year should be greater than 0',
       },
