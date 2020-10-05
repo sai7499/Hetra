@@ -2583,6 +2583,12 @@
                 "rule": 2
             },
             "type": "number"
+        },
+        "viabilityFiveDigit": {
+            "maxLength": {
+                "rule": 5
+            },
+            "type": "decimal"
         }
     }
 }
