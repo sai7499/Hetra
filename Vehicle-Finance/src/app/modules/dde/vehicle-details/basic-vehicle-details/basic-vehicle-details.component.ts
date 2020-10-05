@@ -69,9 +69,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
       if (this.formValue.value.isValidPincode && this.formValue.value.isInvalidMobileNumber) {
         let data = this.formValue.value.vehicleFormArray[0];
 
-        if(this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
-           data.manuFacMonthYear = data.manuFacMonthYear ? this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY') : null;
-        }
+        data.manuFacMonthYear = data.manuFacMonthYear ? this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY') : null;
         data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : null;
 
         data.fitnessDate = data.fitnessDate ? this.utilityService.convertDateTimeTOUTC(data.fitnessDate, 'DD/MM/YYYY') : null;
