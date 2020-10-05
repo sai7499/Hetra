@@ -199,7 +199,7 @@
                     <label for="timeOf_verification">{{labels.tomeOfVerification}}
                         <sub class="star_red_col">*</sub>
                     </label>
-                    <app-custom-input 
+                    <!-- <app-custom-input 
                         formControlName="timeOfVerification" 
                         [className]="'form-control mandatory'" 
                         [placeholder]="'Time of Verification'" 
@@ -208,7 +208,20 @@
                         [maxLength]="labels?.validationData?.timeOfVerification?.maxLength"
                         [patternCheck]="labels?.validationData?.timeOfVerification?.patternCheck"
                         [isDirty]="isDirty">
-                    </app-custom-input>
+                    </app-custom-input> -->
+                    <input
+                    type="time"
+                    class="form-control mandatory"
+                    placeholder="'Time of Verification'"
+                    formControlName="timeOfVerification"
+                  />
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="otherDetailsForm.controls['timeOfVerification'].invalid && (otherDetailsForm.controls['timeOfVerification'].dirty || otherDetailsForm.controls['timeOfVerification'].touched)" >
+                  <div *ngIf="otherDetailsForm.controls['timeOfVerification'].hasError('required')">
+                    Time of Verification is required
+                  </div>
+                </div>
                 </div>
             </div>
     
