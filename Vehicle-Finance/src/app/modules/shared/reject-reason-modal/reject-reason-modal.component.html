@@ -10,9 +10,9 @@
           <div class="row">
             <div class="col-6 p-0 text-center">
                     <div class=""  *ngIf="data?.rejectReasonList">
-                      <select name="reject_reason" id="reject_reason" class="form-control reject-wid-mrg" onfocus='this.size=4;' onblur='this.size=1;' onchange='this.size=1; this.blur();'>
+                      <select name="reject_reason" id="reject_reason" class="form-control reject-wid-mrg" onfocus='this.size=4;' onblur='this.size=1;' onchange='this.size=1; this.blur();' (change)="getReason($event)">
                       <option class="option-style" disabled value="">-- Select one --</option>
-                      <option class="option-style" value="{{reason.reasonCode}}" (click)="getReason(reason)" *ngFor="let reason of data.rejectReasonList">{{reason.reasonDesc}}</option>
+                      <option class="option-style" value="{{reason.reasonCode}}"  *ngFor="let reason of data.rejectReasonList">{{reason.reasonDesc}}</option>
                     </select>
                   </div>
                   <div class="reject-wid-mrg" style="text-align:center"  *ngIf="!data?.rejectReasonList">

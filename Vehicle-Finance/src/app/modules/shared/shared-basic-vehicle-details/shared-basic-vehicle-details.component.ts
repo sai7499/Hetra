@@ -322,7 +322,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       fitnessDate: VehicleDetail.fitnessDate ? this.utilityService.getDateFromString(VehicleDetail.fitnessDate) : '',
       fsrdFundingReq: VehicleDetail.fsrdFundingReq === '1' ? true : false || '',
       fsrdPremiumAmount: VehicleDetail.fsrdPremiumAmount || null,
-      gorssVehicleWeight: VehicleDetail.gorssVehicleWeight || '',
+      grossVehicleWeight: VehicleDetail.grossVehicleWeight || '',
       idv: VehicleDetail.idv || null,
       insurance: VehicleDetail.insurance || null,
       insuranceValidity: VehicleDetail.insuranceValidity ? this.utilityService.getDateFromString(VehicleDetail.insuranceValidity) : '',
@@ -623,139 +623,99 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   addSalesFormControls() {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-    const controls = this._fb.group({
-      vehicleRegNo: [''],
-      region: ['', Validators.required],
-      assetMake: ['', Validators.required],
-      vehicleType: ['', Validators.required],
-      assetBodyType: ['', Validators.required],
-      assetModel: ['', Validators.required],
-      assetVariant: ['', Validators.required],
-      assetSubVariant: [''],
-      manuFacMonthYear: [''],
-      ageOfAsset: [''],
-      ageAfterTenure: [''],
-      assetCostGrid: [''],
-      assetCostIBB: [''],
-      assetCostCarTrade: [''],
-      exShowRoomCost: [''],
-      finalAssetCost: ['', Validators.required],
-      vehicleUsage: [''],
-      category: [''],
-      rcOwnerName: [''],
-      ownerMobileNo: [''],
-      address: ['', Validators.maxLength(120)],
-      pincode: ['', Validators.maxLength(6)],
-      noOfVehicles: [''],
-      vehicleId: 0,
-      collateralId: 0,
-      leadId: this.leadId,
-      userId: this.userId
-    });
-    formArray.push(controls);
-    this.changeSalesForm()
-  }
-
-  changeSalesForm() {
-    const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-    const controls = formArray.at(0) as FormGroup;
+    let controls = this._fb.group({
+    })
 
     if (this.productCatoryCode === 'NCV') {
-      controls.removeControl('vehicleRegNo');
-      controls.removeControl('assetCostGrid');
-      controls.removeControl('assetCostIBB');
-      controls.removeControl('assetCostCarTrade');
-      controls.removeControl('vehicleUsage');
-      controls.removeControl('rcOwnerName');
-      controls.removeControl('ownerMobileNo');
-      controls.removeControl('address');
-      controls.removeControl('pincode');
-      controls.removeControl('exShowRoomCost');
-      controls.removeControl('category');
-      controls.removeControl('manuFacMonthYear');
-      controls.removeControl('ageOfAsset');
-      controls.removeControl('noOfVehicles');
-      controls.removeControl('ageAfterTenure');
-
-      controls.addControl('exShowRoomCost', new FormControl('', [Validators.required]));
-      controls.addControl('noOfVehicles', new FormControl('', [Validators.required]));
+      controls = this._fb.group({
+        region: ['', Validators.required],
+        assetMake: ['', Validators.required],
+        vehicleType: ['', Validators.required],
+        assetBodyType: ['', Validators.required],
+        assetModel: ['', Validators.required],
+        assetVariant: ['', Validators.required],
+        assetSubVariant: [''],
+        exShowRoomCost: ['', Validators.required],
+        finalAssetCost: [''],
+        noOfVehicles: ['', Validators.required],
+        vehicleId: 0,
+        collateralId: 0,
+        leadId: this.leadId,
+        userId: this.userId
+      });
 
     } else if (this.productCatoryCode === 'NC') {
-      controls.removeControl('vehicleRegNo');
-      controls.removeControl('assetCostGrid');
-      controls.removeControl('assetCostIBB');
-      controls.removeControl('assetCostCarTrade');
-      controls.removeControl('vehicleUsage');
-      controls.removeControl('rcOwnerName');
-      controls.removeControl('ownerMobileNo');
-      controls.removeControl('address');
-      controls.removeControl('pincode');
-      controls.removeControl('category');
-      controls.removeControl('exShowRoomCost');
-      controls.removeControl('manuFacMonthYear');
-      controls.removeControl('ageOfAsset');
-      controls.removeControl('ageAfterTenure');
-      controls.removeControl('noOfVehicles');
+      controls = this._fb.group({
+        region: ['', Validators.required],
+        assetMake: ['', Validators.required],
+        vehicleType: ['', Validators.required],
+        assetBodyType: ['', Validators.required],
+        assetModel: ['', Validators.required],
+        assetVariant: ['', Validators.required],
+        assetSubVariant: [''],
+        vehicleUsage: ['', Validators.required],
+        exShowRoomCost: ['', Validators.required],
+        finalAssetCost: [''],
+        noOfVehicles: ['', Validators.required],
+        vehicleId: 0,
+        collateralId: 0,
+        leadId: this.leadId,
+        userId: this.userId
+      });
 
-      controls.addControl('vehicleUsage', new FormControl('', Validators.required));
-      controls.addControl('exShowRoomCost', new FormControl('', Validators.required));
-      controls.addControl('noOfVehicles', new FormControl('', [Validators.required]));
-    } else if (this.productCatoryCode === 'UC') {
-
-      controls.removeControl('vehicleRegNo');
-      controls.removeControl('assetCostGrid');
-      controls.removeControl('assetCostIBB');
-      controls.removeControl('assetCostCarTrade');
-      controls.removeControl('vehicleUsage');
-      controls.removeControl('rcOwnerName');
-      controls.removeControl('ownerMobileNo');
-      controls.removeControl('address');
-      controls.removeControl('pincode');
-      controls.removeControl('exShowRoomCost');
-      controls.removeControl('category');
-      controls.removeControl('manuFacMonthYear');
-      controls.removeControl('ageOfAsset');
-      controls.removeControl('ageAfterTenure');
-      controls.removeControl('noOfVehicles');
-
-      controls.addControl('assetCostIBB', new FormControl('', Validators.required));
-      controls.addControl('assetCostCarTrade', new FormControl('', Validators.required));
-      controls.addControl('vehicleRegNo', new FormControl('', Validators.required));
-      controls.addControl('vehicleUsage', new FormControl('', Validators.required));
-      controls.addControl('category', new FormControl('', Validators.required));
-      controls.addControl('manuFacMonthYear', new FormControl('', Validators.required));
-      controls.addControl('ageOfAsset', new FormControl(''));
-      controls.addControl('rcOwnerName', new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z ]{0,99}$')]));
-      controls.addControl('ownerMobileNo', new FormControl('', [Validators.required, Validators.pattern('[6-9]{1}[0-9]{9}')]));
-      controls.addControl('address', new FormControl('', Validators.compose([Validators.required, Validators.maxLength(120)])));
-      controls.addControl('pincode', new FormControl('', [Validators.required, Validators.pattern('[1-9]{1}[0-9]{5}')]));
-      controls.addControl('ageAfterTenure', new FormControl(''));
     } else if (this.productCatoryCode === 'UCV') {
-
-      controls.removeControl('vehicleRegNo');
-      controls.removeControl('assetCostGrid');
-      controls.removeControl('vehicleUsage');
-      controls.removeControl('rcOwnerName');
-      controls.removeControl('ownerMobileNo');
-      controls.removeControl('address');
-      controls.removeControl('noOfVehicles');
-      controls.removeControl('pincode');
-      controls.removeControl('exShowRoomCost');
-      controls.removeControl('category');
-      controls.removeControl('manuFacMonthYear');
-      controls.removeControl('ageOfAsset');
-      controls.removeControl('ageAfterTenure');
-
-      controls.addControl('vehicleRegNo', new FormControl('', Validators.required));
-      controls.addControl('assetCostGrid', new FormControl('', Validators.required));
-      controls.addControl('rcOwnerName', new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z ]{0,99}$')]));
-      controls.addControl('ownerMobileNo', new FormControl('', [Validators.required, Validators.pattern('[6-9]{1}[0-9]{9}')]));
-      controls.addControl('address', new FormControl('', Validators.compose([Validators.required, Validators.maxLength(120)])));
-      controls.addControl('pincode', new FormControl('', [Validators.required, Validators.pattern('[1-9]{1}[0-9]{5}')]));
-      controls.addControl('manuFacMonthYear', new FormControl('', Validators.required));
-      controls.addControl('ageOfAsset', new FormControl(''));
-      controls.addControl('ageAfterTenure', new FormControl(''));
+      controls = this._fb.group({
+        vehicleRegNo: ['', Validators.required],
+        region: ['', Validators.required],
+        assetMake: ['', Validators.required],
+        vehicleType: ['', Validators.required],
+        assetBodyType: ['', Validators.required],
+        assetModel: ['', Validators.required],
+        assetVariant: ['', Validators.required],
+        assetSubVariant: [''],
+        manuFacMonthYear: ['', Validators.required],
+        ageOfAsset: ['', Validators.required],
+        ageAfterTenure: ['', Validators.required],
+        assetCostGrid: ['', Validators.required],
+        finalAssetCost: [''],
+        rcOwnerName: ['', Validators.required],
+        ownerMobileNo: ['', Validators.required],
+        address: ['', Validators.maxLength(120)],
+        pincode: ['', Validators.maxLength(6)],
+        vehicleId: 0,
+        collateralId: 0,
+        leadId: this.leadId,
+        userId: this.userId
+      });
+    } else if (this.productCatoryCode === 'UC') {
+      controls = this._fb.group({
+        vehicleRegNo: ['', Validators.required],
+        region: ['', Validators.required],
+        assetMake: ['', Validators.required],
+        vehicleType: ['', Validators.required],
+        assetBodyType: ['', Validators.required],
+        assetModel: ['', Validators.required],
+        assetVariant: ['', Validators.required],
+        assetSubVariant: [''],
+        manuFacMonthYear: ['', Validators.required],
+        ageOfAsset: ['', Validators.required],
+        ageAfterTenure: ['', Validators.required],
+        assetCostIBB: ['', Validators.required],
+        assetCostCarTrade: ['', Validators.required],
+        finalAssetCost: [''],
+        rcOwnerName: ['', Validators.required],
+        ownerMobileNo: ['', Validators.required],
+        address: ['', Validators.maxLength(120)],
+        pincode: ['', Validators.maxLength(6)],
+        vehicleUsage: ['', Validators.required],
+        category: ['', Validators.required],
+        vehicleId: 0,
+        collateralId: 0,
+        leadId: this.leadId,
+        userId: this.userId
+      });
     }
+    formArray.push(controls)
     this.sharedService.getFormValidation(this.basicVehicleForm)
   }
 
@@ -787,7 +747,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       manufactureSubventionAmount: [null],
       manuFactureSubventionPartIRR: [null],
       manufacturesubventionPartFinCharge: [null],
-      gorssVehicleWeight: [''],
+      grossVehicleWeight: [''],
       invoiceNumber: [null],
       invoiceDate: [''],
       invoiceAmount: [null],
@@ -887,7 +847,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       address: ['', Validators.compose([Validators.maxLength(120), Validators.required])],
       pincode: ['', Validators.compose([Validators.maxLength(6), Validators.required])],
       vehicleRegDate: [''],
-      gorssVehicleWeight: [''],
+      grossVehicleWeight: [''],
       reRegVehicle: [''],
       interStateVehicle: [''],
       duplicateRC: [''],
@@ -941,7 +901,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       address: ['', Validators.compose([Validators.maxLength(120), Validators.required])],
       pincode: ['', Validators.compose([Validators.maxLength(6), Validators.required])],
       vehicleRegDate: '',
-      gorssVehicleWeight: [''],
+      grossVehicleWeight: [''],
       reRegVehicle: ['1'],
       interStateVehicle: ['1'],
       duplicateRC: ['1'],
