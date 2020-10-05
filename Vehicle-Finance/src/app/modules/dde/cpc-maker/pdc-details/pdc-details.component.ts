@@ -172,6 +172,10 @@ export class PdcDetailsComponent implements OnInit {
     });
   }
   submitTocpc() {
+    // if (this.pdcForm.invalid) {
+    //   this.toasterService.showError('Save before Submitting', '');
+    //   return;
+    // }
     // tslint:disable-next-line: triple-equals
     if (this.roleType == '4') {
       const body = {
@@ -213,6 +217,7 @@ export class PdcDetailsComponent implements OnInit {
   sendBackToCredit() {
     if (this.pdcForm.invalid) {
       this.toasterService.showError('Save before Submitting', '');
+      return;
     }
     const body = {
       leadId: this.leadId,
@@ -508,5 +513,23 @@ export class PdcDetailsComponent implements OnInit {
   getIndex(i: number) {
     this.rowIndex = null;
     this.rowIndex = i;
+  }
+  sendBackToMaker() {
+    const body = {
+      leadId: this.leadId,
+      userId: localStorage.getItem('userId'),
+      isCPCMaker: true,
+      isCPCChecker: false,
+      sendBackToCredit: false,
+    };
+    this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
+      // tslint:disable-next-line: triple-equals
+      if (res.ProcessVariables.error.code == '0') {
+        this.toasterService.showSuccess('Submitted Suucessfully', '');
+        this.router.navigate([`pages/dashboard`]);
+      } else {
+        this.toasterService.showError(res.Processvariables.error.message, '');
+      }
+    });
   }
 }
