@@ -130,7 +130,6 @@ export class CamComponent implements OnInit {
 
   ngOnInit() {
 
-    // console.log(this.recommend)
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
