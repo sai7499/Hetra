@@ -4,9 +4,15 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -26,6 +32,8 @@ import com.fiberlink.maas360sdk.external.MaaS360SDK;
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.Plugin;
 
+import java.io.IOException;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,6 +100,8 @@ public class MainActivity extends BridgeActivity {
         }
       }
 
+      checkTamperedApk();
+
       if(RootUtil.isDeviceRooted(MainActivity.this)){
         System.out.println("Rooted");
         showAlertDialog();
@@ -122,6 +132,45 @@ public class MainActivity extends BridgeActivity {
     alertDialog.show();
 
   }
+
+  public  void checkTamperedApk() {
+//    // Keep dexCrc in resources (strings.xml) or in JNI code. Don't hardcode it in java classes, because it's changes checksum.
+//    String dexCrcStr = this.getResources().getString(R.string.dexCrc);
+//    System.out.println("DexCrc"+ dexCrcStr );
+//    long dexCrc = Long.parseLong(dexCrcStr);
+//
+//    TamperingProtection protection = new TamperingProtection(this);
+//    protection.setAcceptedDexCrcs(dexCrc);
+//   // protection.setAcceptedStores(false); // apps installed only from google play
+//    protection.setAcceptedPackageNames("com.vehicle.finance"); // lite and pro package names
+//    protection.setAcceptedSignatures("F1:4F:77:53:D0:C5:24:27:09:3B:A7:21:F0:C9:6C:23"); // only release md5 fingerprint
+////    protection.setAcceptStartOnEmulator(false); // not allowed for emulators
+//    protection.setAcceptStartInDebugMode(true); // not allowed run in debug mode
+
+//    try {
+//      long dexCrc = TamperingProtection.getDexCRC(this);
+//      System.out.println("dexCrc****"+dexCrc);
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
+
+    System.out.println("Changed in Java file");
+    TamperingProtection protection = new TamperingProtection(this);
+
+    String dexCrcStr = this.getResources().getString(R.string.dexCrc);
+    System.out.println("DexCrc" + dexCrcStr);
+    long dexCrc = Long.parseLong(dexCrcStr);
+
+    protection.setAcceptedDexCrcs(dexCrc);
+    protection.setAcceptedPackageNames("com.vehicle.finance"); // your package name
+    protection.setAcceptedSignatures("F1:4F:77:53:D0:C5:24:27:09:3B:A7:21:F0:C9:6C:23"); // MD5 fingerprint
+    //protection.setAcceptedSignatures("72:51:A2:45:5D:A4:48:08:9A:27:8D:29:AD:D1:2F:10");
+    protection.setAcceptStartInDebugMode(true);
+    protection.setAcceptStartOnEmulator(false);
+
+    protection.validateAll();// <- bool is valid or tampered.
+  }
+
 
   /**
    * {@inheritDoc}
