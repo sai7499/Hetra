@@ -28,7 +28,7 @@ export class LeadDedupeComponent implements OnInit {
   leadId: string;
   isWithLead: boolean;
   status: string;
-  productCode: string;
+  product: string;
   rejectReasonList = [];
   rejectReasonCode: number;
   createdBy: string;
@@ -38,6 +38,7 @@ export class LeadDedupeComponent implements OnInit {
   isNewLead: boolean;
   isRejectLead: boolean;
   isRadioDisable: boolean;
+  flowStage: string;
 
   @ViewChild('radioSelect', { static: true }) radioButtonSelected: ElementRef;
 
@@ -48,7 +49,9 @@ export class LeadDedupeComponent implements OnInit {
     private createLeadService: CreateLeadService,
     private createLeadDataService: CreateLeadDataService,
     private loginStoreService: LoginStoreService
-  ) { }
+  ) {
+    this.flowStage = '12';
+   }
 
   ngOnInit() {
     this.getLabels();
@@ -81,7 +84,7 @@ export class LeadDedupeComponent implements OnInit {
     }
     this.dedupeArray = dedupeData.leadDedupeResults;
     this.leadId = dedupeData.leadDedupeResults[0].leadID;
-    this.productCode = dedupeData.loanLeadDetails.product;
+    this.product = dedupeData.loanLeadDetails.product;
     console.log('dedupeData', dedupeData.leadDedupeResults);
   }
 
@@ -94,8 +97,7 @@ export class LeadDedupeComponent implements OnInit {
   }
 
   OnReject() {
-    this.createLeadService.rejectLead(this.productCode, '12').subscribe((res: any) => {
-      // this.createLeadService.rejectLead(this.productCode, '12').subscribe((res: any) => {
+    this.createLeadService.rejectLead( this.flowStage, Number(this.product)).subscribe((res: any) => {
       const response = res;
       console.log('Reject Lead', response);
       const appiyoError = response.Error;
