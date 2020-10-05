@@ -51,7 +51,12 @@ export class UploadModalComponent {
   async onFileSelect(event) {
     this.showError = '';
     const files: File = event.target.files[0];
-    this.fileType = this.getFileType(files.type);
+    if (!files.type) {
+      const type = files.name.split('.')[1];
+      this.fileType = this.getFileType(type);
+    } else {
+      this.fileType = this.getFileType(files.type);
+    }
     if (this.checkFileType(this.fileType)) {
       this.showError = `Only files with following extensions are allowed: ${this.docsDetails.docsType}`;
       return;
