@@ -73,9 +73,7 @@ export class AddvehicleComponent implements OnInit {
       let data = this.formValue.value.vehicleFormArray[0];
 
       if (this.formValue.value.isValidPincode && this.formValue.value.isInvalidMobileNumber) {
-        if(this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
         data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
-        }
         this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
           const apiError = res.ProcessVariables.error.message;
 
