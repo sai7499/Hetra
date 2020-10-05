@@ -147,28 +147,28 @@ public class MainActivity extends BridgeActivity {
 ////    protection.setAcceptStartOnEmulator(false); // not allowed for emulators
 //    protection.setAcceptStartInDebugMode(true); // not allowed run in debug mode
 
-//    try {
-//      long dexCrc = TamperingProtection.getDexCRC(this);
-//      System.out.println("dexCrc****"+dexCrc);
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
+    try {
+      long dexCrc = TamperingProtection.getDexCRC(this);
+      System.out.println("dexCrc****"+dexCrc);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
     System.out.println("Changed in Java file");
-    TamperingProtection protection = new TamperingProtection(this);
-
-    String dexCrcStr = this.getResources().getString(R.string.dexCrc);
-    System.out.println("DexCrc" + dexCrcStr);
-    long dexCrc = Long.parseLong(dexCrcStr);
-
-    protection.setAcceptedDexCrcs(dexCrc);
-    protection.setAcceptedPackageNames("com.vehicle.finance"); // your package name
-    protection.setAcceptedSignatures("F1:4F:77:53:D0:C5:24:27:09:3B:A7:21:F0:C9:6C:23"); // MD5 fingerprint
-    //protection.setAcceptedSignatures("72:51:A2:45:5D:A4:48:08:9A:27:8D:29:AD:D1:2F:10");
-    protection.setAcceptStartInDebugMode(true);
-    protection.setAcceptStartOnEmulator(false);
-
-    protection.validateAll();// <- bool is valid or tampered.
+//    TamperingProtection protection = new TamperingProtection(this);
+//
+//    String dexCrcStr = this.getResources().getString(R.string.dexCrc);
+//    System.out.println("DexCrc" + dexCrcStr);
+//    long dexCrc = Long.parseLong(dexCrcStr);
+//
+//    protection.setAcceptedDexCrcs(dexCrc);
+//    protection.setAcceptedPackageNames("com.vehicle.finance"); // your package name
+//    protection.setAcceptedSignatures("F1:4F:77:53:D0:C5:24:27:09:3B:A7:21:F0:C9:6C:23"); // MD5 fingerprint
+//    //protection.setAcceptedSignatures("72:51:A2:45:5D:A4:48:08:9A:27:8D:29:AD:D1:2F:10");
+//    protection.setAcceptStartInDebugMode(true);
+//    protection.setAcceptStartOnEmulator(false);
+//
+//    protection.validateAll();// <- bool is valid or tampered.
   }
 
 
