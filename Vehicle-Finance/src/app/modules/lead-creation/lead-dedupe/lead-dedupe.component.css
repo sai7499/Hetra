@@ -484,12 +484,18 @@ th {
   font-weight: 600; 
 }
 td, th { 
-  padding: 12px; 
+  padding: 12px 5px; 
   border: 1px solid #ccc; 
   text-align: left; 
   text-align: center
 }
 
+.radio, .checkbox {
+  position: relative;
+  display: inline-block!important;
+  /* margin-top: 10px;
+  margin-bottom: 10px; */
+}
 
 /*Mobile View*/
 @media 
@@ -533,11 +539,20 @@ td {
       text-align: left;
       /* padding: 1px;*/
       border: 1px solid #929294;
+      word-break: break-all;
   }
  
 
-  
-  
+ td{
+  word-break: break-all!important;
+ }
+
+ .radio, .checkbox {
+  position: relative;
+  display: inline-block!important;
+  /* margin-top: 10px;
+  margin-bottom: 10px; */
+}
 
 td:before { 
       content: attr(data-label);
@@ -551,6 +566,7 @@ td:before {
       color:white;
       height: 40px;
       padding: 10px;
+      
   }
   
  
@@ -559,6 +575,13 @@ td:before {
  @media (min-width:300px) and (max-width:760px){
   .btn-mar-reject{
   margin-bottom: 50px;
+}
+
+.radio, .checkbox {
+  position: relative;
+  display: inline-block!important;
+  /* margin-top: 10px;
+  margin-bottom: 10px; */
 }
 } 
 
