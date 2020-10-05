@@ -198,17 +198,19 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     if (formArray.value[0].assetCostCarTrade < formArray.value[0].assetCostIBB) {
       formArray.controls[0].patchValue({
-        finalAssetCost: formArray.value[0].assetCostCarTrade
-      })
-    } else if (formArray.value[0].assetCostCarTrade === formArray.value[0].assetCostIBB) {
-      formArray.controls[0].patchValue({
-        finalAssetCost: formArray.value[0].assetCostIBB
+        finalAssetCost: event.target.value
       })
     } else if (formArray.value[0].assetCostIBB < formArray.value[0].assetCostCarTrade) {
       formArray.controls[0].patchValue({
-        finalAssetCost: formArray.value[0].assetCostIBB
+        finalAssetCost: event.target.value
       })
     }
+    else if (formArray.value[0].assetCostCarTrade === formArray.value[0].assetCostIBB) {
+      formArray.controls[0].patchValue({
+        finalAssetCost: event.target.value
+      })
+    }
+
   }
 
   onChangeFRSD(event) {
@@ -220,7 +222,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     } else {
       controls.removeControl('fsrdPremiumAmount');
     }
-
   }
 
   initForms() {
