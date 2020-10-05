@@ -36,7 +36,7 @@
             <td class="bank_name">{{ labels?.rcLimitCategory }}</td>
             <td>{{ sourcingObj?.rcCategory }}</td>
             <td class="bank_name">{{ labels?.distanceFrombranch }}</td>
-            <td>{{ sourcingObj?.distanceFrombranch }}</td>
+            <td>{{ sourcingObj?.distanceFromBranch }}</td>
         </tr>
         <tr>
             <td class="bank_name">{{ labels?.rcLimit }}</td>
@@ -774,7 +774,7 @@
                     <td>{{ proposedDetails?.ltv }}<span *ngIf=" proposedDetails?.ltv != null ">%</span></td>
                     <td>{{ proposedDetails?.irr }}<span *ngIf="proposedDetails?.irr != null ">%</span></td>
                     <td>{{ proposedDetails?.tenureMonth }}</td>
-                    <td>{{ proposedDetails?.pf }}</td>
+                    <td>{{ proposedDetails?.pf }}<span *ngIf="proposedDetails?.pf != null ">%</span></td>
                 </tr>
                 <tr>
                     <td colspan="2"></td>
@@ -1643,7 +1643,7 @@
                 <td class="bank_name">{{ labels?.weakerSectionCategory }}</td>
                 <td>{{ sourcingDetails?.weakerSectionCategory }}</td>
                 <td class="bank_name">{{ labels?.pf }}</td>
-                <td>{{ sourcingDetails?.pf }}</td>
+                <td>{{ sourcingDetails?.pf }}<span *ngIf="sourcingDetails?.pf != null ">%</span></td>
                 <td class="bank_name">{{ labels?.soRcGreaterthanSixtyDays }}</td>
                 <td>{{ sourcingDetails?.soRc }}</td>
                 <td class="bank_name">{{ labels?.ltv }}</td>
