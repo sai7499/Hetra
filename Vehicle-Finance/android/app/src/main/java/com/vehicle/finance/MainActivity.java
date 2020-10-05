@@ -1,11 +1,14 @@
 package com.vehicle.finance;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.fiberlink.maas360.android.dlpsdk.CopyPasteRestrictionChecker;
 import com.fiberlink.maas360.android.dlpsdk.MaaS360DLPSDK;
@@ -13,7 +16,6 @@ import com.fiberlink.maas360.android.dlpsdk.MaaS360DLPSDKUtils;
 import com.fiberlink.maas360.android.dlpsdk.MaaS360SecureApplication;
 import com.fiberlink.maas360.android.dlpsdk.MaaS360SystemServiceUtils;
 import com.fiberlink.maas360.util.Maas360Logger;
-import com.fiberlink.maas360sdk.cordova.MaaS360CordovaSDKListener;
 import com.fiberlink.maas360sdk.core.MaaS360SDKContextWrapper;
 import com.fiberlink.maas360sdk.exception.MaaS360SDKInitializationException;
 import com.fiberlink.maas360sdk.exception.MaaS360SDKNotActivatedException;
@@ -46,11 +48,7 @@ public class MainActivity extends BridgeActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    if(RootUtil.isDeviceRooted(this)){
-      System.out.println("Rooted");
-    }else {
-      System.out.println("Not rooted");
-    }
+
     // Initializes the Bridge
     this.init(savedInstanceState, new ArrayList<Class<? extends Plugin>>() {{
 
@@ -94,7 +92,34 @@ public class MainActivity extends BridgeActivity {
         }
       }
 
+      if(RootUtil.isDeviceRooted(MainActivity.this)){
+        System.out.println("Rooted");
+        showAlertDialog();
+      }else {
+        System.out.println("Not rooted");
+      }
+
     }});
+
+  }
+
+  public void showAlertDialog(){
+    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+    alertDialogBuilder.setTitle("Rooted Device Alert");
+
+    alertDialogBuilder.setMessage("This App cannot run either on Rooted device or Emulator");
+    alertDialogBuilder.setPositiveButton("Okay",
+      new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface arg0, int arg1) {
+          Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+          homeIntent.addCategory( Intent.CATEGORY_HOME );
+          homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+          startActivity(homeIntent);
+        }
+      });
+    AlertDialog alertDialog = alertDialogBuilder.create();
+    alertDialog.show();
 
   }
 
@@ -104,6 +129,13 @@ public class MainActivity extends BridgeActivity {
   @Override
   public void onResume() {
     super.onResume();
+
+    if(RootUtil.isDeviceRooted(MainActivity.this)){
+      System.out.println("Rooted");
+      showAlertDialog();
+    }else {
+      System.out.println("Not rooted");
+    }
 
     if(isMaas360Enable) {
       try {
