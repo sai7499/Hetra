@@ -219,7 +219,6 @@ export class CustomInputComponent
   // }
 
   checkValidation(value) {
-  
     const newValue = value;
     if (!newValue && !this.isRequired) {
       this.inputError = false;
@@ -338,7 +337,6 @@ export class CustomInputComponent
         break;
     }
     if (this.type.includes('decimal')) {
-    //  this.allowDecimal(event, this.type);
       const initialValue = event.target.value;
       // setTimeout(() => {
         // this.inputValue = initialValue.replace(/[^0-9 .]*/g, '');
@@ -347,38 +345,38 @@ export class CustomInputComponent
       .replace(/[^\d.]/g, '')
       .replace(/(\..*)\./g, '$1');  // decimal can't exist more than once
     }
-    this.propagateChange(this.inputValue);
     this.checkValidation(this.inputValue);
+    this.propagateChange(this.inputValue);
   }
 
 
-  allowDecimal(event, type: string) {
-    const decimalPoints = type.split('-')[1] || 2;
+  // allowDecimal(event, type: string) {
+  //   const decimalPoints = type.split('-')[1] || 2;
 
-    let zeros = '';
-    for (let i = 0; i < decimalPoints; i++) {
-      zeros += '0';
-    }
-    const initialValue = event.target.value;
-    const secondValue = initialValue.split('.')[1]
-    if (this.decimalTimeOut) {
-      clearTimeout(this.decimalTimeOut);
-    }
-    this.decimalTimeOut = setTimeout(() => {
-      if (!initialValue.includes('.') && this.inputValue) {
-        this.inputValue += '.' + zeros;
-      } else if (initialValue.includes('.') && this.inputValue) {
-        if (secondValue == '') {
-          this.inputValue += zeros;
-        } else {
-          this.inputValue = this.inputValue;
-        }
+  //   let zeros = '';
+  //   for (let i = 0; i < decimalPoints; i++) {
+  //     zeros += '0';
+  //   }
+  //   const initialValue = event.target.value;
+  //   const secondValue = initialValue.split('.')[1]
+  //   if (this.decimalTimeOut) {
+  //     clearTimeout(this.decimalTimeOut);
+  //   }
+  //   this.decimalTimeOut = setTimeout(() => {
+  //     if (!initialValue.includes('.') && this.inputValue) {
+  //       this.inputValue += '.' + zeros;
+  //     } else if (initialValue.includes('.') && this.inputValue) {
+  //       if (secondValue == '') {
+  //         this.inputValue += zeros;
+  //       } else {
+  //         this.inputValue = this.inputValue;
+  //       }
 
-      }
-    });
+  //     }
+  //   });
 
-    this.inputValue = initialValue.replace(/[^0-9 .]*/g, '');
-  }
+  //   this.inputValue = initialValue.replace(/[^0-9 .]*/g, '');
+  // }
 
   valuePatternCheck(event, pattern) {
    const initialValue = event.target.value;
@@ -475,7 +473,7 @@ export class CustomInputComponent
 
         //   //this.value= formatedValue;
         this.inputValue = formatedValue;
-        this.propagateChange(this.inputValue);
+        // this.propagateChange(this.inputValue);
         // })
       }
 
