@@ -130,7 +130,6 @@ export class CamComponent implements OnInit {
 
   ngOnInit() {
 
-    // console.log(this.recommend)
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
@@ -261,11 +260,12 @@ export class CamComponent implements OnInit {
 
     this.currentUrl = this.location.path();
     if (this.currentUrl.includes('credit-decisions')) {
-      this.camDetailsForm.disable();
       this.showSave = false
+      if(this.productCategoryCode == "UCV" || this.productCategoryCode == "NCV"){
+        this.camDetailsForm.disable();
+      }
     } else if (this.currentUrl.includes('dde')) {
       this.showSave = true
-
     }
 
   }
