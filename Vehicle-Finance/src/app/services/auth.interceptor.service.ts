@@ -82,7 +82,7 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((err: any) => {
         if (err instanceof HttpErrorResponse) {
           if (err.status != 200) {
-            if (err.status != 401) {
+            if (err.status != 401 && err.status != 500) {
               console.log('httpErr', err);
               this.ngxUiLoaderService.stop();
               this.toasterService.error(`${err.status}: ${err.statusText}`, 'Technical error..');
