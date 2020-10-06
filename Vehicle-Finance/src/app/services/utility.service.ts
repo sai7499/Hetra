@@ -166,7 +166,9 @@ export class UtilityService {
       dateArray[1] + '-' + dateArray[0] + '-' + dateArray[2]
     );
 
+    console.log('GETdATE', getDate)
     return getDate;
+    
   }
 
   a = [
