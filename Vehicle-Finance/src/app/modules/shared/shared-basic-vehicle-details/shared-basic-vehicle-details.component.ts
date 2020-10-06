@@ -200,7 +200,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       formArray.controls[0].patchValue({
         finalAssetCost: formArray.value[0].assetCostCarTrade
       })
-      return
     } else {
       formArray.controls[0].patchValue({
         finalAssetCost: formArray.value[0].assetCostIBB
