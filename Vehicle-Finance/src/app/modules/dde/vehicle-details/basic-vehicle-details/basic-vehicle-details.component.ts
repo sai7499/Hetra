@@ -26,6 +26,8 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
   public isDirty: boolean;
   public subscription: any;
 
+  productCatoryCode: string;
+
   constructor(private createLeadDataService: CreateLeadDataService, public vehicleDataStoreService: VehicleDataStoreService, private toasterService: ToasterService,
     private vehicleDetailService: VehicleDetailService, private utilityService: UtilityService, private router: Router,
     private activatedRoute: ActivatedRoute, private sharedService: SharedService, private labelsData: LabelsService,
@@ -52,8 +54,10 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
       this.formValue = value;
     })
 
+    this.productCatoryCode = this.leadData['productCatCode'];
+
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1') {
+    if (operationType === '1' || operationType === '2') {
       this.disableSaveBtn = true;
     }
   }

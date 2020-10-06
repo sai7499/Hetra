@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  version: '0.17.2',
-  buildDate: '22/09/2020',
+  version: window["env"]["version"],
+  buildDate: '03/10/2020',
   apiVersion: {
     login: 'v3/',
     api: 'v2/',
@@ -24,11 +24,12 @@ export const environment = {
     retrieveAadharData : 'db2732f4ab4811ea82f8f2fa9bec3d63',
     validateSRNumber : '8bfa8dba945b11eabdcaf2fa9bec3d63'
   },
-  hostingEnvironment: 'DEV',
+  // hostingEnvironment: 'DEV',
   // hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
 
-  host: '/appiyo/',
+  // host: '/appiyo/',
+  host: window["env"]["hostUrl"] || "default",
   // host: "https://hetrauat.equitasbank.com/appiyodev/",
   //host: 'http://128.199.164.250/appiyo/',
   // host: 'http://10.101.10.153/appiyo/',

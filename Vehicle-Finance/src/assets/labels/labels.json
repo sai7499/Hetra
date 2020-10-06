@@ -77,7 +77,6 @@
     "assetSubVariant": "Asset Sub-Variant",
     "assetOther": "Asset Variant - Other",
     "monthYear": "Month and Year",
-    "ageVehicle": "Age of Vehicle",
     "assetCostIndian": "Asset Cost basis Indian Bluebook",
     "assetCostCarwale": "Asset Cost basis Carwale",
     "assetCostCar": "Asset Cost basis Car Trade",
@@ -355,7 +354,7 @@
     "sourcingSoName": "Sourcing SO Name",
     "overallExposure": "Overall Exposure",
     "payout": "Payout %",
-    "distancefrombranch": "Distance from branch",
+    "distanceFrombranch": "Distance from branch",
     "creditApproval": "Credit Approval",
     "loanamount": "Loan amount",
     "rateApproval": "Rate Approval",
@@ -368,14 +367,14 @@
     "nameofProof": "Name of Proof/Proof Name",
     "pdstatus": "PD status",
     "sr": "SR",
-    "assetDiscription": "Asset Discription",
+    "assetDescription": "Asset Description",
     "netAssetCost": "Net Asset Cost",
     "irr": "IRR",
     "tenureMonth": "Tenure Month",
     "pf": "PF",
     "otherRemarks": "Other Remarks",
     "sourceOfMarginMoney": "SOURCE OF MARGIN MONEY",
-    "anyOtherRemarks": "Any Other Remarks",
+    "anyOtherRemarks": "ANY OTHER REMARKS",
     "remark": "REMARKS",
     "age": "AGE",
     "relationShip": "RELATIONSHIP",
@@ -465,7 +464,7 @@
     "program": "Program",
     "contactNo": "Contact No",
     "customerRequestedAmount": "Customer Requested Amount",
-    "roi": "roi",
+    "roi": "ROI",
     "loanTenure": "Loan Tenure",
     "loanTenureInMonths": "Loan Tenure (In Months)",
     "profile": "profile",
@@ -487,6 +486,8 @@
     "overAllFiStatus": "Over All FI status",
     "internalDedupeStatus": "Internal De-dupe Status",
     "relationshipToApplicant": "Relationship to Applicant",
+    "relationshipWithApplicant":"Relationship with Applicant",
+    "loanEligibilityAsPerFOIR":"Loan Eligibility As Per FOIR",
     "incomeDetails": "Income Details",
     "businessIncomeOne": "Business Income-1",
     "businessIncomeTwo": "Business Income-2",
@@ -500,8 +501,8 @@
     "noOfInwardsChequeBounces": "No. of Inwards Cheque bounces",
     "noOfOutwardChequeBounces": "No. of Outward Cheque bounces",
     "balanceasOnFifth": "Balance as on 5th",
-    "balanceasOnTenth": "Balance as on 5th",
-    "balanceasOnTewntieth": "Balance as on 5th",
+    "balanceasOnTenth": "Balance as on 10th",
+    "balanceasOnTewntieth": "Balance as on 15th",
     "averageBalanceForTheMonth": "Average Balance for the month",
     "abbRatio": "ABB Ratio",
     "finalLoanEligibility": "Final Loan Eligibility",
@@ -539,7 +540,7 @@
     "surveyNumber": "Survey No. / Patta No.",
     "landInAcres": "Land in Acres",
     "propertyOwner": "Property Owner Name",
-    "propertyOwnerType" : "Property Owner Type",
+    "propertyOwnerType": "Property Owner Type",
     "relatedWithApplicant": "Relationship with Primary Applicant",
     "totalLoanAmount": "Total Loan Amount",
     "totalBuildupArea": "Total Built up Area (in Sq. Ft)",
@@ -619,14 +620,14 @@
     "totalFleetValue": "Total Fleet Value",
     "IfMoreThanAboveToBeAttachSeparteExcel": "if more than above to be attach separte excel",
     "bankingHistory": "Banking History (with main banker) ___*ABB calculation is mandatory in case of CAPTIVE",
-    "coApplicantBankingHistory":"Co-Applicant Banking History",
+    "coApplicantBankingHistory": "Co-Applicant Banking History",
     "periodInMonths": "Period in Months",
     "commentsOnBankingIfAny": "Comments on banking  if any",
     "abbOfTheMonth": "ABB of the month",
     "abbEmi": "ABB/EMI",
     "abb": "ABB",
     "customerBackgroundSalesRecommendation": "Customer Background/Sales Recommendation",
-    "backgroundSalesRecommendation":"Background/Sales Recommendation",
+    "backgroundSalesRecommendation": "Background/Sales Recommendation",
     "recommendedBySoSmBm": "Recommended By SO/SM/BM",
     "nameWithECode": "Name with E Code",
     "CoApplicantBackground": "Co Applicant Background",
@@ -1095,7 +1096,7 @@
     "totalMonthlyOtherIncomeOfOthers": "Total Monthly Other Income Of Others",
     "totalMonthlyOtherIncome": "Total Monthly Other Income",
     "totalMonthlyIncome": "Total Monthly Income",
-    "totalMontlyObligations": "Total Montly Obligations",
+    "totalMonthlyObligations": "Total Monthly Obligations",
     "loanEligibilityasperFOIR": "Loan Eligibility as per FOIR",
     "customerBankName": "Customer Bank Name",
     "bankBranch": "Bank Branch",
@@ -1133,7 +1134,7 @@
     "businessName": "Business Name",
     "businessStartDate": "Business Start Date",
     "numberOfYearsInCurrentBusiness": "Number of Years in current Business",
-    "turnOver": "Turn Over",
+    "turnOver": "TURN OVER",
     "annualIncome": "Annual Income",
     "numberOfDirectors": "Number Of Directors",
     "nameofDirector": "Name of Director",
@@ -1611,12 +1612,11 @@
     "micrNo": "MICR No",
     "accountBranchname": "Account Branchname",
     "termsheetGeneratedDate": "Termsheet Generated Date",
-    "natureOfGoods" : "Nature Of Goods",
+    "natureOfGoods": "Nature Of Goods",
     "loanAccNumber": "Loan Account Number",
-    "equitasEmployee" : "Equitas Employee",
-    "equitasEmployeesRelative" : "Equitas Employees Relative",
-    "employeeNo" : "Employee Number",
-
+    "equitasEmployee": "Equitas Employee",
+    "equitasEmployeesRelative": "Equitas Employees Relative",
+    "employeeNo": "Employee Number",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1690,7 +1690,7 @@
             "maxLength": {
                 "rule": 10
             },
-            "type": "decimal-4"
+            "type": "decimal-2"
         },
         "bankName": {
             "maxLength": {
@@ -1817,9 +1817,9 @@
                 "rule": 8,
                 "msg": "Minimum Length 8 digits"
             },
-            "patternCheck": {
+            "pattern": {
                 "rule": "[A-Z-a-z]{2}[0-9]{2}[A-Z-a-z]{2}[0-9]{4}",
-                "msg": "Invalid Vehicle Registration Number. Valid format-TN45FG1234"
+                "msg": "Invalid Registration Number, valid format : TN34FG3333"
             },
             "type": "alpha-numeric"
         },
@@ -1912,7 +1912,7 @@
             },
             "type": "number"
         },
-        "gorssVehicleWeight": {
+        "grossVehicleWeight": {
             "maxLength": {
                 "rule": 5,
                 "msg": ""
@@ -2115,7 +2115,7 @@
             "patternCheck": {
                 "rule": "^[ A-Za-z0-9.]*$",
                 "msg": "Only alphabets, numbers and decimal allowed"
-            }        
+            }
         },
         "pdIncomeAccountNumber": {
             "maxLength": {
@@ -2287,7 +2287,7 @@
                 "rule": 5
             },
             "patternCheck": {
-                "rule": "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$", 
+                "rule": "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$",
                 "msg": "Invalid format/ Time of Verification format should be HH:MM"
             },
             "type": ""
@@ -2474,7 +2474,6 @@
                 "msg": "Should be 9 Digits"
             },
             "type": "number"
-            
         },
         "amountFiveCharc": {
             "maxLength": {
@@ -2584,6 +2583,12 @@
                 "rule": 2
             },
             "type": "number"
+        },
+        "viabilityFiveDigit": {
+            "maxLength": {
+                "rule": 5
+            },
+            "type": "decimal"
         }
     }
 }

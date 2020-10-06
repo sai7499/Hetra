@@ -74,7 +74,7 @@ export class AdditionalCollateralComponent implements OnInit {
         }
 
         const operationType = this.toggleDdeService.getOperationType();
-        if (operationType === '1') {
+        if (operationType === '1' || operationType === '2') {
             this.disableSaveBtn = true;
             this.collateralForm.disable()
         }
@@ -281,7 +281,6 @@ export class AdditionalCollateralComponent implements OnInit {
 
     onFormSubmit(form) {
         if (form.valid) {
-
             let additionalCollaterals = {}
 
             let formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
@@ -315,6 +314,9 @@ export class AdditionalCollateralComponent implements OnInit {
                 "leadId": this.leadId,
                 "additionalCollaterals": additionalCollaterals
             }
+
+            return;
+
 
             this.collateralService.saveOrUpdateAdditionalCollaterals(data).subscribe((res: any) => {
                 let apiError = res.ProcessVariables.error.message;

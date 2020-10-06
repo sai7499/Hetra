@@ -3,32 +3,16 @@
   [ngClass]="{ 'typ-optional': optional, focused: isNonEmpty }"
   [class]="className"
 > -->
-<input
-  #customInput
-  name="input"
-  type="text"
-  class="form-control"
-  [(ngModel)]="inputValue"
-  [ngClass]="inputClass"
-  [id]="id"
-  (blur)="onBlurMethod($event)"
-  [minLength]="minLength?.rule"
-  [maxlength]="maxLengthValidation?.rule"
-  (ngModelChange)="updateChanges($event)"
-  autocomplete="off"
-  [disabled]="isDisabled"
-  autocomplete="off"
-  autocorrect="off"
-  autocapitalize="off"
-  [value]="value"
-  spellcheck="false"
-  [placeholder]="placeholder"
-  autocomplete="off"
-/>
+<input #customInput name="input" type="text" class="form-control" [(ngModel)]="inputValue" [ngClass]="inputClass"
+  [id]="id" (blur)="onBlurMethod($event)" [minLength]="minLength?.rule" [maxlength]="maxLengthValidation?.rule"
+   autocomplete="off" [disabled]="isDisabled" autocomplete="off"
+  autocorrect="off" autocapitalize="off" [value]="value" spellcheck="false" [placeholder]="placeholder"
+  autocomplete="off" />
 <div class="invalid-feedback" *ngIf="inputError">
   <div>
     {{ errorMsg }}
   </div>
 </div>
+<!-- (ngModelChange)="updateChanges($event)" -->
 <!-- <ng-content></ng-content>
 </div> -->

@@ -1,3 +1,6 @@
+body{
+	overflow:hidden!important;
+}
 .row.top_bar {
     margin: 0px;
     border: 1px solid #ddd;
@@ -27,7 +30,16 @@
     .prev-first-data {
       display: flex-end;
       /* justify-content: end; */
-    }
+	}
+	.errHead h3{
+		text-align: center;
+		font-size: 18px;
+		color: #0e0d25;
+	}
+	.errText{
+		text-align: justify;
+		font-size: 16px;
+	}
     
     
     
@@ -84,7 +96,7 @@
 {
 	margin-top: -20px;
 }
-#table_header_top
+.table_header_top
 {
 	font-weight: inherit;
 	border-top: 2px dashed #c6c2c2;	
@@ -341,3 +353,26 @@ border: none !important;
 }
 
 }
+
+/* .td-wid-25{
+	width:25%;
+}
+
+.td-wid-5{
+	width:5%;
+} */
+
+table {
+	table-layout: fixed;
+	border:none;
+  }
+  
+  td {
+	width: calc(100%/3);
+  }
+
+  th{
+	  text-align:left!important;
+  }
+
+ 

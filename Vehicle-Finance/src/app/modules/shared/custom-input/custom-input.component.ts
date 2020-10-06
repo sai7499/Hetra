@@ -50,7 +50,7 @@ export class CustomInputComponent
     this.defaultMaxLength = value.rule;
     this.maxLengthValidation = {
       rule: value.rule,
-      msg : value.msg
+      msg: value.msg
     };
   };
   @Input() className = 'form-control';
@@ -81,7 +81,7 @@ export class CustomInputComponent
   @Input() placeholder = '';
 
   htmlInputElement: any;
-  
+
 
   @ViewChild('customInput', { static: false }) customInput: ElementRef;
 
@@ -107,7 +107,6 @@ export class CustomInputComponent
 
   ngAfterViewInit() {
     this.htmlInputElement = this.customInput;
-    // console.log('inputError', this.customInput)
   }
 
   // this is the initial value set to the component
@@ -149,49 +148,78 @@ export class CustomInputComponent
   // not used, used for touch input
   public registerOnTouched() { }
 
-  updateChanges(value: string) {
-    setTimeout(()=>{
-      if (this.type.includes('decimal')) {
-        const decimalLength = Number(this.type.split('-')[1] || 2);
-        if (value.includes('.')) {
-          const length = this.defaultMaxLength + decimalLength + 1;
-          this.maxLengthValidation.rule = length;
-          const roundValue = value.split('.')[0];
-          const decimalValues = value.split('.')[1].slice(0, decimalLength);
-          const formatedValue=  roundValue + '.' + decimalValues;
-          
-          this.data= formatedValue;
-          setTimeout(() => {
-            
-            //this.value= formatedValue;
-            this.inputValue = formatedValue;
-          })
-  
-        }
-  
-        else {
-          this.maxLengthValidation = {
-            ...this.maxLengthValidation,
-            rule: this.defaultMaxLength
+  // updateChanges(value: string) {
 
-          };
-        }
-      } else {
-        this.maxLengthValidation = {
-          ...this.maxLengthValidation,
-          rule: this.defaultMaxLength
-        };
-      }
-      setTimeout(()=>{
-        this.checkValidation(this.data);
-        this.propagateChange(this.data);
-      })
-    })
-    
-    
-  }
+
+
+  //   setTimeout(() => {
+  //     if (this.type.includes('decimal')) {
+  //       const decimalLength = Number(this.type.split('-')[1] || 2);
+
+  //       if (value.length >= this.defaultMaxLength) {
+  //         this.maxLengthValidation = {
+  //           ...this.maxLengthValidation,
+  //           rule: this.defaultMaxLength + 1
+
+  //         }
+
+  //         if (value.charCodeAt(this.defaultMaxLength) === 46) {
+  //           this.maxLengthValidation = {
+  //             ...this.maxLengthValidation,
+  //             rule: this.defaultMaxLength + 1 + decimalLength
+  //           }
+
+  //           if (value.split('.').length > 2) {
+  //             this.displayError('Invalid Number');
+  //             this.propagateChange(this.inputValue);
+  //           }
+  //         } else {
+  //           setTimeout(() => {
+  //             this.inputValue = value.slice(0, this.defaultMaxLength)
+  //           })
+  //         }
+
+  //       }
+
+  //       if (value.includes('.')) {
+  //         const length = this.defaultMaxLength + decimalLength + 1;
+  //         this.maxLengthValidation.rule = length;
+  //         const roundValue = value.split('.')[0];
+  //         const afterDecimal = value.split('.')[1];
+  //         if (afterDecimal === '') {
+  //           this.displayError('Invalid number');
+  //           return;
+  //         }
+  //         const decimalValues = value.split('.')[1].slice(0, decimalLength);
+  //         const formatedValue = roundValue + '.' + decimalValues;
+
+
+
+  //         this.data = formatedValue;
+  //         setTimeout(() => {
+
+  //           //this.value= formatedValue;
+  //           this.inputValue = formatedValue;
+  //         })
+  //       }
+
+  //     } else {
+  //       this.maxLengthValidation = {
+  //         ...this.maxLengthValidation,
+  //         rule: this.defaultMaxLength
+  //       };
+  //     }
+  //     setTimeout(() => {
+  //       this.checkValidation(this.data);
+  //       this.propagateChange(this.data);
+  //     })
+  //   })
+
+
+  // }
 
   checkValidation(value) {
+  
     const newValue = value;
     if (!newValue && !this.isRequired) {
       this.inputError = false;
@@ -249,14 +277,20 @@ export class CustomInputComponent
         }
       }
     }
+
+    if (this.type.includes('decimal')) {
+      this.checkDecimalValidation(this.inputValue);
+      return;
+    }
+
     this.inputError = false;
   }
 
   onBlurMethod(event) {
     const newValue = event.target.value;
-    if (this.type.includes('decimal')) {
-      this.allowDecimal(event, this.type);
-    }
+    // if (this.type.includes('decimal')) {
+    //   this.allowDecimal(event, this.type);
+    // }
 
     if (!newValue && this.isRequired) {
       this.displayError(this.isRequired);
@@ -276,42 +310,42 @@ export class CustomInputComponent
   @HostListener('input', ['$event']) onInputChange(event) {
     switch (this.type) {
       case 'number':
-        this.allowNumberOnly(event);
+        this.valuePatternCheck(event, /[^0-9]*/g);
+        // this.allowNumberOnly(event);
         break;
       case 'alpha-numeric':
-        this.allowAlphaNumericOnly(event);
+        this.valuePatternCheck(event, /[^a-zA-Z0-9 ]/g);
+        // this.allowAlphaNumericOnly(event);
         break;
       case 'alpha':
-        this.allowAlphaOnly(event);
+        this.valuePatternCheck(event, /[^a-zA-Z ]/g);
+        // this.allowAlphaOnly(event);
         break;
       case 'special-alpha-numeric':
-        this.allowSpecialAlphaNumericOnly(event);
+        this.valuePatternCheck(event, /[^0-9a-zA-Z\s\r\n@!#\$\^%&*()+=\-\[\]\\\';,\.\/\{\}\|\":<>\?]+$/g);
+        // this.allowSpecialAlphaNumericOnly(event);
         break;
       case 'alpha-numeric-nospace':
-        this.allowAlphaNumericNoSpace(event);
+        this.valuePatternCheck(event, /[^a-zA-Z0-9]/g);
+        // this.allowAlphaNumericNoSpace(event);
         break;
-
       case 'percent':
         this.allowPercentageFormat(event);
         break;
       case 'alpha-numeric-slash':
-        this.allowAlphaNumericWithSlashOnly(event)
+        this.valuePatternCheck(event, /[^a-zA-Z0-9/]/g);
+        // this.allowAlphaNumericWithSlashOnly(event)
         break;
-  
-
     }
-
-    // case 'decimal':
-    //   this.allowDecimal(event, this.type);
-    //   break;
-
-    if(this.type.includes('decimal')) {
-      this.allowDecimal(event, this.type);
-      const initialValue= event.target.value;
-      setTimeout(()=>{
-        this.inputValue = initialValue.replace(/[^0-9 .]*/g, '');
-      })
-     
+    if (this.type.includes('decimal')) {
+    //  this.allowDecimal(event, this.type);
+      const initialValue = event.target.value;
+      // setTimeout(() => {
+        // this.inputValue = initialValue.replace(/[^0-9 .]*/g, '');
+      // });
+      this.inputValue = initialValue
+      .replace(/[^\d.]/g, '')
+      .replace(/(\..*)\./g, '$1');  // decimal can't exist more than once
     }
     this.propagateChange(this.inputValue);
     this.checkValidation(this.inputValue);
@@ -320,7 +354,6 @@ export class CustomInputComponent
 
   allowDecimal(event, type: string) {
     const decimalPoints = type.split('-')[1] || 2;
-    //console.log(decimalPoints, 'on', this.step)
 
     let zeros = '';
     for (let i = 0; i < decimalPoints; i++) {
@@ -343,45 +376,50 @@ export class CustomInputComponent
 
       }
     });
-   
+
     this.inputValue = initialValue.replace(/[^0-9 .]*/g, '');
   }
 
-  allowNumberOnly(event) {
-    const initialValue = event.target.value;
-    this.inputValue = initialValue.replace(/[^0-9]*/g, '');
+  valuePatternCheck(event, pattern) {
+   const initialValue = event.target.value;
+   this.inputValue = initialValue.replace(pattern, '');
   }
 
-  allowAlphaNumericOnly(event) {
-    const initialValue = event.target.value;
-    this.inputValue = initialValue.replace(/[^a-zA-Z0-9 ]/g, '');
-  }
+  // allowNumberOnly(event) {
+  //   const initialValue = event.target.value;
+  //   this.inputValue = initialValue.replace(/[^0-9]*/g, '');
+  // }
 
-  allowAlphaNumericWithSlashOnly(event) {
-    const initialValue = event.target.value;
-    this.inputValue = initialValue.replace(/[^a-zA-Z0-9/]/g, '');
-  }
+  // allowAlphaNumericOnly(event) {
+  //   const initialValue = event.target.value;
+  //   this.inputValue = initialValue.replace(/[^a-zA-Z0-9 ]/g, '');
+  // }
+
+  // allowAlphaNumericWithSlashOnly(event) {
+  //   const initialValue = event.target.value;
+  //   this.inputValue = initialValue.replace(/[^a-zA-Z0-9/]/g, '');
+  // }
 
 
-  allowAlphaOnly(event) {
-    const initialValue = event.target.value;
-    this.inputValue = initialValue.replace(/[^a-zA-Z ]/g, '');
-  }
-  allowSpecialAlphaNumericOnly(event) {
-    const initialValue = event.target.value;
-    this.inputValue = initialValue.replace(
-      /[^0-9a-zA-Z\s\r\n@!#\$\^%&*()+=\-\[\]\\\';,\.\/\{\}\|\":<>\?]+$/g,
-      ''
-    );
-    // this.inputValue = initialValue.replace(
-    //   /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]+$/g, ''
-    //   );
+  // allowAlphaOnly(event) {
+  //   const initialValue = event.target.value;
+  //   this.inputValue = initialValue.replace(/[^a-zA-Z ]/g, '');
+  // }
+  // allowSpecialAlphaNumericOnly(event) {
+  //   const initialValue = event.target.value;
+  //   this.inputValue = initialValue.replace(
+  //     /[^0-9a-zA-Z\s\r\n@!#\$\^%&*()+=\-\[\]\\\';,\.\/\{\}\|\":<>\?]+$/g,
+  //     ''
+  //   );
+  //   // this.inputValue = initialValue.replace(
+  //   //   /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]+$/g, ''
+  //   //   );
 
-  }
-  allowAlphaNumericNoSpace(event) {
-    const initialValue = event.target.value;
-    this.inputValue = initialValue.replace(/[^a-zA-Z0-9]/g, '');
-  }
+  // }
+  // allowAlphaNumericNoSpace(event) {
+  //   const initialValue = event.target.value;
+  //   this.inputValue = initialValue.replace(/[^a-zA-Z0-9]/g, '');
+  // }
 
   allowPercentageFormat(event) {
     const initialValue = event.target.value;
@@ -391,5 +429,63 @@ export class CustomInputComponent
       .replace(/(\..*)\./g, '$1')         // decimal can't exist more than once
       .replace(/(\.[\d]{2})./g, '$1');    // not more than 2 digits after decimal
     // this.inputValue = initialValue.replace(/[^a-zA-Z0-9 ]/g, '');
+  }
+
+  checkDecimalValidation(value) {
+    if (this.type.includes('decimal')) {
+      const decimalLength = Number(this.type.split('-')[1] || 2);
+      if (value.length >= this.defaultMaxLength) {
+        this.maxLengthValidation = { // increase length by 1 to enter dot('.')
+          ...this.maxLengthValidation,
+          rule: this.defaultMaxLength + 1
+        };
+        if (value.charCodeAt(this.defaultMaxLength) === 46) { // check entered value is dot
+          this.maxLengthValidation = {
+            ...this.maxLengthValidation,
+            rule: this.defaultMaxLength + 1 + decimalLength // increase length to enter decimal value
+          };
+          // if (value.split('.').length > 2) {
+          //   this.displayError('Invalid Number');
+          //   this.propagateChange(this.inputValue);
+          // }
+        } else {
+          // setTimeout(() => {
+            this.inputValue = value.slice(0, this.defaultMaxLength);
+          // })
+        }
+
+      }
+
+      if (value.includes('.')) {
+        // const length = this.defaultMaxLength + decimalLength + 1;
+        // this.maxLengthValidation.rule = length;
+        const roundValue = value.split('.')[0];
+        const afterDecimal = value.split('.')[1];
+        if (afterDecimal === '') {
+          this.displayError('Invalid number');
+          return;
+        }
+        const decimalValues = value.split('.')[1].slice(0, decimalLength);
+        const formatedValue = roundValue + '.' + decimalValues;
+
+
+
+        this.data = formatedValue;
+        // setTimeout(() => {
+
+        //   //this.value= formatedValue;
+        this.inputValue = formatedValue;
+        this.propagateChange(this.inputValue);
+        // })
+      }
+
+    } else {
+      this.maxLengthValidation = {
+        ...this.maxLengthValidation,
+        rule: this.defaultMaxLength
+      };
+    }
+
+    this.inputError = false;
   }
 }

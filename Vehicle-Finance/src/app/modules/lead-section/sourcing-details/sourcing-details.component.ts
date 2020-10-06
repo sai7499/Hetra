@@ -622,7 +622,7 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   onFormDisable() {
-    if (this.operationType === '1') {
+    if (this.operationType === '1' || this.operationType === '2') {
       this.sourcingDetailsForm.disable();
       this.isSourchingCode = true;
       this.isDisabledDealerCode = true;
@@ -736,7 +736,7 @@ export class SourcingDetailsComponent implements OnInit {
   nextToApplicant() {
     this.isDirty = true;
     console.log('testform', this.sourcingDetailsForm);
-    if (this.operationType === '1') {
+    if (this.operationType === '1' || this.operationType === '2') {
       this.onNavigate();
       return
     }

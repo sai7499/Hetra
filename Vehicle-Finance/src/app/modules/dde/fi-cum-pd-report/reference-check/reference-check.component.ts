@@ -213,7 +213,7 @@ export class ReferenceCheckComponent implements OnInit {
 
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
-      if (operationType === '1') {
+      if (operationType === '1' || operationType === '2') {
         this.referenceCheckForm.disable();
         this.disableSaveBtn = true;
       }
@@ -412,7 +412,7 @@ export class ReferenceCheckComponent implements OnInit {
     // console.log('systime', this.sysTimeOfVerification);
 
     this.otherDetails = {
-      
+
       applicationNo: this.applicationNo ? this.applicationNo : null,
       product: this.productCat ? this.productCat : null,
       sourcingChannel: this.sourcingChannel ? this.sourcingChannel : null,
@@ -532,7 +532,12 @@ export class ReferenceCheckComponent implements OnInit {
         this.toasterService.showSuccess('submitted to credit successfully', '');
         this.totalApplicantCount = processVariables.applicantCount;
         this.submittedApplicantCount = processVariables.notSubmittedApplicantId;
-        this.getPdList();
+        // this.getPdList();
+        if (processVariables.goToDashboard) {
+          this.router.navigate([`/pages/dashboard`]);
+        } else {
+          this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
+        }
 
         // if (this.totalApplicantCount && this.submittedApplicantCount) {
         //   console.log('no of applicants', this.totalApplicantCount);
@@ -587,7 +592,7 @@ export class ReferenceCheckComponent implements OnInit {
 
 
   onNavigateToPdSummary() { // fun to navigate to pd summary
-    this.getPdList();
+    // this.getPdList();
     if (this.version != 'undefined') {
       // console.log('in routing defined version condition', this.version);
       // http://localhost:4200/#/pages/dashboard/personal-discussion/my-pd-tasks

@@ -26,6 +26,8 @@ export class AddvehicleComponent implements OnInit {
   userId: number;
   leadId: number;
 
+  productCatoryCode: string;
+
   constructor(
     private labelsData: LabelsService,
     private router: Router,
@@ -61,6 +63,8 @@ export class AddvehicleComponent implements OnInit {
       this.formValue = value;
     })
 
+    this.productCatoryCode = leadData['productCatCode'];
+
   }
 
   onFormSubmit() {
@@ -70,7 +74,6 @@ export class AddvehicleComponent implements OnInit {
 
       if (this.formValue.value.isValidPincode && this.formValue.value.isInvalidMobileNumber) {
         data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
-
         this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
           const apiError = res.ProcessVariables.error.message;
 

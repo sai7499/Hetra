@@ -140,13 +140,13 @@ export class BankDetailsComponent implements OnInit {
     this.bankForm.get('accountType').valueChanges.subscribe((res: any) => {
       // tslint:disable-next-line: triple-equals
       if (res == '4BNKACCTYP') {
-      this.isLimitRequire = true;
-      this.bankForm.get('limit').setValidators(Validators.required);
-      this.bankForm.get('limit').updateValueAndValidity();
+        this.isLimitRequire = true;
+        this.bankForm.get('limit').setValidators(Validators.required);
+        this.bankForm.get('limit').updateValueAndValidity();
       } else {
-      this.isLimitRequire = false;
-      this.bankForm.get('limit').clearValidators();
-      this.bankForm.get('limit').updateValueAndValidity();
+        this.isLimitRequire = false;
+        this.bankForm.get('limit').clearValidators();
+        this.bankForm.get('limit').updateValueAndValidity();
       }
     });
     console.log(this.f);
@@ -217,17 +217,17 @@ export class BankDetailsComponent implements OnInit {
         this.bankDetailsNew = res.ProcessVariables.transactionDetails;
         console.log(this.bankDetailsNew, ' bank details new');
         if (this.bankDetailsNew) {
-        // tslint:disable-next-line: prefer-for-of
-        for (let i = 0; i < this.bankDetailsNew.length; i++) {
-          this.assignedArray[i] = this.bankDetailsNew[i].month.toString();
-        }
-        console.log(this.assignedArray, ' on init');
-        this.populateData(res);
+          // tslint:disable-next-line: prefer-for-of
+          for (let i = 0; i < this.bankDetailsNew.length; i++) {
+            this.assignedArray[i] = this.bankDetailsNew[i].month.toString();
+          }
+          console.log(this.assignedArray, ' on init');
+          this.populateData(res);
         }
         const operationType = this.toggleDdeService.getOperationType();
-        if (operationType === '1') {
+        if (operationType === '1' || operationType === '2') {
           this.bankForm.disable();
-          this.disableSaveBtn  = true;
+          this.disableSaveBtn = true;
         }
         // }
       });
@@ -259,15 +259,15 @@ export class BankDetailsComponent implements OnInit {
       limit: data.ProcessVariables.limit
         ? Number(data.ProcessVariables.limit)
         : null,
-      totalCredits : data.ProcessVariables.totalCredits
-      ? (data.ProcessVariables.totalCredits)
-      : null,
+      totalCredits: data.ProcessVariables.totalCredits
+        ? (data.ProcessVariables.totalCredits)
+        : null,
       micrNumber: data.ProcessVariables.micrNumber
-      ? (data.ProcessVariables.micrNumber)
-      : null,
+        ? (data.ProcessVariables.micrNumber)
+        : null,
       accountBranch: data.ProcessVariables.accountBranch
-      ? (data.ProcessVariables.accountBranch)
-      : null,
+        ? (data.ProcessVariables.accountBranch)
+        : null,
     });
     const transactionDetailsList = data.ProcessVariables.transactionDetails;
     // tslint:disable-next-line: prefer-for-of
@@ -302,10 +302,10 @@ export class BankDetailsComponent implements OnInit {
     this.savetransactionData();
   }
   fetchYear(event: any) {
-    const year  = event.split('-');
+    const year = event.split('-');
     console.log('Year Spliting', year);
     return Number(year[1]);
-      }
+  }
   onSave() {
     this.submitForm = true;
     this.isDirty = true;
@@ -439,8 +439,8 @@ export class BankDetailsComponent implements OnInit {
     this.OldToDate = toDateNew;
     const diff = toDate.getMonth() - fromDate.getMonth();
     const numberOfMonths = Math.round(
-                            (toDate.getFullYear() - fromDate.getFullYear()) * 12 +
-                            (toDate.getMonth() - fromDate.getMonth()) + 1);
+      (toDate.getFullYear() - fromDate.getFullYear()) * 12 +
+      (toDate.getMonth() - fromDate.getMonth()) + 1);
 
     if (
       diff === undefined ||
@@ -466,7 +466,7 @@ export class BankDetailsComponent implements OnInit {
         console.log('start monthy', stratMonth);
         // tslint:disable-next-line: one-variable-per-declaration
         const array = this.monthArray[count];
-        if ( stratMonth <= 12) {
+        if (stratMonth <= 12) {
           const fullMonth = array + '-' + startYear;
           this.assignedArray.push(fullMonth);
         } else {
@@ -483,11 +483,11 @@ export class BankDetailsComponent implements OnInit {
           this.listArray.push(this.initRows(i));
         }
         // tslint:disable-next-line: prefer-for-of
-        for (let i = 0 ; i < this.listArray.controls.length; i++) {
-           // tslint:disable-next-line: prefer-const
-           for ( let j = 0 ; j < this.transactionData.length;  j++) {
-             if (this.listArray.controls[i].value.month === this.transactionData[j].month) {
-              console.log( i , j, 'indexes of arrays');
+        for (let i = 0; i < this.listArray.controls.length; i++) {
+          // tslint:disable-next-line: prefer-const
+          for (let j = 0; j < this.transactionData.length; j++) {
+            if (this.listArray.controls[i].value.month === this.transactionData[j].month) {
+              console.log(i, j, 'indexes of arrays');
               this.listArray.controls[i].patchValue({
                 // month: ,
                 // year: [2020],
@@ -500,23 +500,23 @@ export class BankDetailsComponent implements OnInit {
                 balanceOn20th: this.transactionData[j].balanceOn20th,
                 abbOfTheMonth: this.transactionData[j].abbOfTheMonth,
               });
-             }
-           }
+            }
+          }
         }
       } else {
-      this.listArray.controls = [];
-      for (let i = 0; i <= numberOfMonths - 1; i++) {
+        this.listArray.controls = [];
+        for (let i = 0; i <= numberOfMonths - 1; i++) {
           this.listArray.push(this.initRows(i));
         }
       }
     }
-      // this.assignedArray.forEach(
-      //   monName =>
-      //     {
-      //       this.listArray.push( this.initRows(
-      //         tempArray.filter(val => val.month == monName)))
-      //     }
-      // );
+    // this.assignedArray.forEach(
+    //   monName =>
+    //     {
+    //       this.listArray.push( this.initRows(
+    //         tempArray.filter(val => val.month == monName)))
+    //     }
+    // );
 
   }
 

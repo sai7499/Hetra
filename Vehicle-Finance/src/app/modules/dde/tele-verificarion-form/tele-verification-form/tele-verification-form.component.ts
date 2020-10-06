@@ -110,14 +110,19 @@ export class TeleVerificationFormComponent implements OnInit {
     // mobilenumber
     const applicantDetails = this.leadDetails.ProcessVariables.applicantDetails;
     const mobile = applicantDetails.find(ele => ele.applicantId === this.applicantId);
-    this.mobileNumber = mobile.mobileNumber;
+    const entity = mobile.entity;
+    if (entity === 'Individual') {
+      this.mobileNumber = mobile.mobileNumber;
+    } else {
+      this.mobileNumber = mobile.companyPhoneNumber;
+    }
     // sourcing
     this.sourcingChannelDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingChannelDesc;
     this.sourcingTypeDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingTypeDesc;
     this.sourcingCodeDesc = this.leadDetails.ProcessVariables.leadDetails.sourcingCodeDesc;
 
     this.sourcingCode = this.sourcingCodeDesc !== '-' ? `- ${this.sourcingCodeDesc}` : '';
-    this.sourcingType = this.sourcingTypeDesc === 'Not Applicable' ? '' : `- ${this.sourcingTypeDesc}`
+    this.sourcingType = this.sourcingTypeDesc === 'Not Applicable' ? '' : `- ${this.sourcingTypeDesc}`;
   }
 
   // InitForm for TVR
@@ -376,7 +381,7 @@ export class TeleVerificationFormComponent implements OnInit {
       }
 
       const operationType = this.toggleDdeService.getOperationType();
-      if (operationType === '1') {
+      if (operationType === '1' || operationType === '2') {
         this.teleVerificationForm.disable();
         this.disableSaveBtn = true;
       }

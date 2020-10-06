@@ -26,6 +26,8 @@ export class AddvehicleComponent implements OnInit {
   userId: number;
   leadId: number;
 
+  productCatoryCode: string;
+
   constructor(
     private labelsData: LabelsService,
     private router: Router,
@@ -60,6 +62,8 @@ export class AddvehicleComponent implements OnInit {
     this.sharedService.vaildateForm$.subscribe((value) => {
       this.formValue = value;
     })
+
+    this.productCatoryCode = leadData['productCatCode'];
 
   }
 
