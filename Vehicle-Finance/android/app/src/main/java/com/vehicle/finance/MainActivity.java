@@ -1,11 +1,20 @@
 package com.vehicle.finance;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.fiberlink.maas360.android.dlpsdk.CopyPasteRestrictionChecker;
 import com.fiberlink.maas360.android.dlpsdk.MaaS360DLPSDK;
@@ -13,7 +22,6 @@ import com.fiberlink.maas360.android.dlpsdk.MaaS360DLPSDKUtils;
 import com.fiberlink.maas360.android.dlpsdk.MaaS360SecureApplication;
 import com.fiberlink.maas360.android.dlpsdk.MaaS360SystemServiceUtils;
 import com.fiberlink.maas360.util.Maas360Logger;
-import com.fiberlink.maas360sdk.cordova.MaaS360CordovaSDKListener;
 import com.fiberlink.maas360sdk.core.MaaS360SDKContextWrapper;
 import com.fiberlink.maas360sdk.exception.MaaS360SDKInitializationException;
 import com.fiberlink.maas360sdk.exception.MaaS360SDKNotActivatedException;
@@ -24,6 +32,11 @@ import com.fiberlink.maas360sdk.external.MaaS360SDK;
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.Plugin;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +58,7 @@ public class MainActivity extends BridgeActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
 
     // Initializes the Bridge
     this.init(savedInstanceState, new ArrayList<Class<? extends Plugin>>() {{
@@ -89,9 +103,78 @@ public class MainActivity extends BridgeActivity {
         }
       }
 
+      checkTamperedApk();
+
+      if(RootUtil.isDeviceRooted(MainActivity.this)){
+        System.out.println("Rooted");
+        showAlertDialog("Rooted Device Alert", "This App cannot run either on Rooted device or Emulator");
+      }else {
+        System.out.println("Not rooted");
+      }
+
     }});
 
   }
+
+  public void showAlertDialog(String title, String message){
+    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+    alertDialogBuilder.setTitle(title);
+    alertDialogBuilder.setCancelable(false);
+
+    alertDialogBuilder.setMessage(message);
+    alertDialogBuilder.setPositiveButton("Okay",
+      new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface arg0, int arg1) {
+          Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+          homeIntent.addCategory( Intent.CATEGORY_HOME );
+          homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+          startActivity(homeIntent);
+        }
+      });
+    AlertDialog alertDialog = alertDialogBuilder.create();
+    alertDialog.show();
+
+  }
+
+  public  void checkTamperedApk() {
+//    // Keep dexCrc in resources (strings.xml) or in JNI code. Don't hardcode it in java classes, because it's changes checksum.
+    TamperingProtection protection = new TamperingProtection(this);
+
+    String dexCrcStr = this.getResources().getString(R.string.dexCrc);
+    long dexCrc = Long.parseLong(dexCrcStr);
+
+    protection.setAcceptedDexCrcs(dexCrc);
+    protection.setAcceptedPackageNames("com.vehicle.finance"); // your package name
+    //protection.setAcceptedSignatures("F1:4F:77:53:D0:C5:24:27:09:3B:A7:21:F0:C9:6C:23"); // MD5 fingerprint - Debug key
+    protection.setAcceptedSignatures("72:51:A2:45:5D:A4:48:08:9A:27:8D:29:AD:D1:2F:10");
+    protection.setAcceptStartInDebugMode(false);
+    protection.setAcceptStartOnEmulator(false);
+
+    JSONObject obj = protection.validateAll();// <- bool is valid or tampered.
+    boolean isValid = false;
+    String exception = null;
+    try {
+      isValid = (boolean) obj.get("isValid");
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+
+    if(isValid){
+
+    }else {
+
+      try {
+        exception = (String) obj.get("exception");
+      } catch (JSONException e) {
+        e.printStackTrace();
+      }
+
+      showAlertDialog("Alert", "This application got tampered, so it cannot able to proceed"+"\n"+ exception);
+    }
+
+  }
+
 
   /**
    * {@inheritDoc}
@@ -99,6 +182,13 @@ public class MainActivity extends BridgeActivity {
   @Override
   public void onResume() {
     super.onResume();
+
+    if(RootUtil.isDeviceRooted(MainActivity.this)){
+      System.out.println("Rooted");
+      showAlertDialog("Rooted Device Alert", "This App cannot run either on Rooted device or Emulator");
+    }else {
+      System.out.println("Not rooted");
+    }
 
     if(isMaas360Enable) {
       try {

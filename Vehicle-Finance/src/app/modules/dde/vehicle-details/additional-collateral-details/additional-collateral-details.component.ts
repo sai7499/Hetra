@@ -170,7 +170,7 @@ export class AdditionalCollateralComponent implements OnInit {
             totalMarketValue: [null],
             guideLineValue: [null, Validators.required],
             totalGuideLineValue: [null],
-            propertyOwnerType: [null],
+            propertyOwnerType: ['', Validators.required],
             collateralId: this.id
         }))
     }
