@@ -11,6 +11,10 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.fiberlink.maas360sdk.BuildConfig;
+import com.getcapacitor.ui.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -280,12 +284,25 @@ public class TamperingProtection {
      *
      * @return - True if valid. False if tampered.
      */
-    public boolean validateAll() {
+    public JSONObject validateAll() {
+        JSONObject json = new JSONObject();
         try {
             validateAllOrThrowException();
-            return true;
+            try {
+                json.put("isValid", true);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return json;
         } catch (ValidationException exception) {
-            return false;
+            System.out.println("Exception"+ exception);
+            try {
+                json.put("isValid", false);
+                json.put("exception", exception.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return json;
         }
     }
 
@@ -364,7 +381,7 @@ public class TamperingProtection {
             for (long allowedDexCrc : dexCrcs) {
                 if (allowedDexCrc == crc) return;// validation success
             }
-            throw new ValidationException(ValidationException.ERROR_CODE_CRC_NOT_VALID, "Crc code of .dex not valid. CurrentDexCrc=" + crc + "  acceptedDexCrcs=" + Arrays.toString(dexCrcs) + ";");
+            throw new ValidationException(ValidationException.ERROR_CODE_CRC_NOT_VALID, "Crc code of .dex not valid. error=" + crc );
         } catch (IOException e) {
             e.printStackTrace();
             throw new ValidationException(ValidationException.ERROR_CODE_CRC_UNKNOWN_EXCEPTION, "Exception on .dex CNC validation.", e);

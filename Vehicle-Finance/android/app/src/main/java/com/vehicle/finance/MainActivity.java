@@ -32,6 +32,9 @@ import com.fiberlink.maas360sdk.external.MaaS360SDK;
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.Plugin;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.util.ArrayList;
@@ -104,7 +107,7 @@ public class MainActivity extends BridgeActivity {
 
       if(RootUtil.isDeviceRooted(MainActivity.this)){
         System.out.println("Rooted");
-        showAlertDialog();
+        showAlertDialog("Rooted Device Alert", "This App cannot run either on Rooted device or Emulator");
       }else {
         System.out.println("Not rooted");
       }
@@ -113,11 +116,11 @@ public class MainActivity extends BridgeActivity {
 
   }
 
-  public void showAlertDialog(){
+  public void showAlertDialog(String title, String message){
     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-    alertDialogBuilder.setTitle("Rooted Device Alert");
+    alertDialogBuilder.setTitle(title);
 
-    alertDialogBuilder.setMessage("This App cannot run either on Rooted device or Emulator");
+    alertDialogBuilder.setMessage(message);
     alertDialogBuilder.setPositiveButton("Okay",
       new DialogInterface.OnClickListener() {
         @Override
@@ -146,29 +149,50 @@ public class MainActivity extends BridgeActivity {
 //    protection.setAcceptedSignatures("F1:4F:77:53:D0:C5:24:27:09:3B:A7:21:F0:C9:6C:23"); // only release md5 fingerprint
 ////    protection.setAcceptStartOnEmulator(false); // not allowed for emulators
 //    protection.setAcceptStartInDebugMode(true); // not allowed run in debug mode
-
+    long dexCRC = 0;
     try {
-      long dexCrc = TamperingProtection.getDexCRC(this);
-      System.out.println("dexCrc****"+dexCrc);
+      dexCRC = TamperingProtection.getDexCRC(this);
+      System.out.println("dexCrc****"+dexCRC);
     } catch (IOException e) {
       e.printStackTrace();
     }
 
+  //  showAlertDialog("Title DexCRC", Long.toString(dexCRC));
     System.out.println("Changed in Java file");
-//    TamperingProtection protection = new TamperingProtection(this);
-//
-//    String dexCrcStr = this.getResources().getString(R.string.dexCrc);
-//    System.out.println("DexCrc" + dexCrcStr);
-//    long dexCrc = Long.parseLong(dexCrcStr);
-//
-//    protection.setAcceptedDexCrcs(dexCrc);
-//    protection.setAcceptedPackageNames("com.vehicle.finance"); // your package name
-//    protection.setAcceptedSignatures("F1:4F:77:53:D0:C5:24:27:09:3B:A7:21:F0:C9:6C:23"); // MD5 fingerprint
-//    //protection.setAcceptedSignatures("72:51:A2:45:5D:A4:48:08:9A:27:8D:29:AD:D1:2F:10");
-//    protection.setAcceptStartInDebugMode(true);
-//    protection.setAcceptStartOnEmulator(false);
-//
-//    protection.validateAll();// <- bool is valid or tampered.
+    TamperingProtection protection = new TamperingProtection(this);
+
+    String dexCrcStr = this.getResources().getString(R.string.dexCrc);
+    long dexCrc = Long.parseLong(dexCrcStr);
+
+    protection.setAcceptedDexCrcs(dexCrc);
+    protection.setAcceptedPackageNames("com.vehicle.finance"); // your package name
+    //protection.setAcceptedSignatures("F1:4F:77:53:D0:C5:24:27:09:3B:A7:21:F0:C9:6C:23"); // MD5 fingerprint - Debug key
+    protection.setAcceptedSignatures("72:51:A2:45:5D:A4:48:08:9A:27:8D:29:AD:D1:2F:10");
+    protection.setAcceptStartInDebugMode(false);
+    protection.setAcceptStartOnEmulator(false);
+
+    JSONObject obj = protection.validateAll();// <- bool is valid or tampered.
+    boolean isValid = false;
+    String exception = null;
+    try {
+      isValid = (boolean) obj.get("isValid");
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+
+    if(isValid){
+
+    }else {
+
+      try {
+        exception = (String) obj.get("exception");
+      } catch (JSONException e) {
+        e.printStackTrace();
+      }
+
+      showAlertDialog("Alert", "This application got tampered, so it cannot able to proceed"+"\n"+ exception);
+    }
+
   }
 
 
@@ -181,7 +205,7 @@ public class MainActivity extends BridgeActivity {
 
     if(RootUtil.isDeviceRooted(MainActivity.this)){
       System.out.println("Rooted");
-      showAlertDialog();
+      showAlertDialog("Rooted Device Alert", "This App cannot run either on Rooted device or Emulator");
     }else {
       System.out.println("Not rooted");
     }
