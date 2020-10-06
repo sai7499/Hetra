@@ -85,22 +85,6 @@ export class FiListComponent implements OnInit {
 
   }
 
-  getPdList() { // function to get all the pd report list respect to particular lead
-    const data = {
-      // leadId: 153,
-      //  uncomment this once get proper Pd data for perticular
-      applicantId: this.applicantId,
-      userId: this.userId,
-    };
-    this.personalDiscussionService.getPdList(data).subscribe((value: any) => {
-      const processvariables = value.ProcessVariables;
-      this.fiList = processvariables.finalPDList;
-      console.log('PD List', this.fiList);
-
-    }
-    );
-  }
-
   getFiList() {
 
     const data = {
@@ -121,12 +105,12 @@ export class FiListComponent implements OnInit {
           this.fiStatus[this.fiList[i]['applicantId']] = this.fiList[i]['fiStatusValue']
           // this.sharedService.getPdStatus(this.pdStatus)
         }
-        if (this.fiList[i]['fiReportValue']!=null){
+        if (this.fiList[i]['fiReportValue'] != null) {
           this.fiList[i]['fiReportValue'] = this.fiList[i]['fiReportValue'].split(',');
-        }else{
-          this.fiList[i]['fiReportValue']=[];
+        } else {
+          this.fiList[i]['fiReportValue'] = [];
         }
-        
+
 
       }
     });
