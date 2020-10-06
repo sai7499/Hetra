@@ -280,7 +280,9 @@ export class AdditionalCollateralComponent implements OnInit {
     }
 
     onFormSubmit(form) {
-        if (form.valid) {
+        let formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
+
+        if (form.valid && formArray.valid) {
 
             let additionalCollaterals = {}
 
