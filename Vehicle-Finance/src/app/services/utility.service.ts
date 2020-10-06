@@ -22,6 +22,15 @@ export class UtilityService {
       }
 
     );
+    this.removeAllLocalStorage();
+    this.dashboardService.routingData = '';
+    this.toggleDdeService.clearToggleData();
+    console.clear();
+    this.router.navigateByUrl('/login');
+
+  }
+
+  removeAllLocalStorage() {
     localStorage.removeItem('token');
     localStorage.removeItem('roles');
     localStorage.removeItem('userId');
@@ -36,11 +45,6 @@ export class UtilityService {
     localStorage.removeItem('currentUrl');
     localStorage.removeItem('is_pred_done');
     localStorage.removeItem('isPreDisbursement');
-    this.dashboardService.routingData = '';
-    this.toggleDdeService.clearToggleData();
-    console.clear();
-    this.router.navigateByUrl('/login');
-
   }
 
   getDateFormat(date) {

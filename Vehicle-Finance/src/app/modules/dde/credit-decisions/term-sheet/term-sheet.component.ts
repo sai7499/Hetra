@@ -169,7 +169,7 @@ export class TermSheetComponent implements OnInit {
       }      
 
       } else if (this.roleType == '2' && !this.isApprove) {
-        this.toasterService.showSuccess(res['ProcessVariables'].error['message'], '');
+        this.toasterService.showError(res['ProcessVariables'].error['message'], '');
       } else if(res['ProcessVariables'].error['code'] == "1") {
         this.toasterService.showError(res['ProcessVariables'].error['message'], '');
        
