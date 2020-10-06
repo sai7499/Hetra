@@ -123,17 +123,17 @@
                 <label for="city"> {{ labels.city }}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input id="city" formControlName="refererCity" [className]="'form-control mandatory'"
-                    [placeholder]="'City'">
-                </app-custom-input>
+                <app-vf-custom-select [values]="refererPincode?.city" formControlName="refererCity" [isDirty]="isDirty"
+                    [isRequired]="'City is required'">
+                </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="district"> {{ labels.district }}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input id="district" formControlName="refererDistrict" [className]="'form-control mandatory'"
-                    [placeholder]="'District'">
-                </app-custom-input>
+                <app-vf-custom-select [values]="refererPincode?.district" formControlName="refererDistrict"
+                    [isDirty]="isDirty" [isRequired]="'District is required'">
+                </app-vf-custom-select>
             </div>
         </div>
 
@@ -142,17 +142,17 @@
                 <label for="state"> {{ labels.state }}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input id="state" formControlName="refererState" [className]="'form-control mandatory'"
-                    [placeholder]="'State'">
-                </app-custom-input>
+                <app-vf-custom-select [values]="refererPincode?.state" formControlName="refererState"
+                    [isDirty]="isDirty" [isRequired]="'State is required'">
+                </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="country"> {{ labels.country }}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input id="country" formControlName="refererCountry" [className]="'form-control mandatory'"
-                    [placeholder]="'Country'">
-                </app-custom-input>
+                <app-vf-custom-select [values]="refererPincode?.country" formControlName="refererCountry"
+                    [isDirty]="isDirty" [isRequired]="'Country is required'">
+                </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="referrer_asset_name"> {{ labels.referrerAssetName }}
@@ -263,9 +263,9 @@
                 <label for="city"> {{ labels.city }}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input id="city" formControlName="referenceCity" [className]="'form-control mandatory'"
-                    [placeholder]="'City'">
-                </app-custom-input>
+                <app-vf-custom-select [values]="referencePincode?.city" formControlName="referenceCity"
+                    [isDirty]="isDirty" [isRequired]="'City is required'">
+                </app-vf-custom-select>
             </div>
         </div>
 
@@ -274,25 +274,25 @@
                 <label for="district"> {{ labels.district }}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input id="district" formControlName="referenceDistrict"
-                    [className]="'form-control mandatory'" [placeholder]="'District'">
-                </app-custom-input>
+                <app-vf-custom-select [values]="referencePincode?.district" formControlName="referenceDistrict"
+                    [isDirty]="isDirty" [isRequired]="'District is required'">
+                </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="state"> {{ labels.state }}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input id="state" formControlName="referenceState" [className]="'form-control mandatory'"
-                    [placeholder]="'State'">
-                </app-custom-input>
+                <app-vf-custom-select [values]="referencePincode?.state" formControlName="referenceState"
+                    [isDirty]="isDirty" [isRequired]="'State is required'">
+                </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="country"> {{ labels.country }}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input id="country" formControlName="referenceCountry" [className]="'form-control mandatory'"
-                    [placeholder]="'Country'">
-                </app-custom-input>
+                <app-vf-custom-select [values]="referencePincode?.country" formControlName="referenceCountry"
+                    [isDirty]="isDirty" [isRequired]="'Country is required'">
+                </app-vf-custom-select>
             </div>
         </div>
 
@@ -341,7 +341,7 @@
             </div>
         </div> -->
         <h3 class="cus-title title"> {{labels?.pdStatus}} </h3>
-        
+
         <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="pd_status"> {{ labels.pdStatus }}
@@ -366,7 +366,7 @@
             <div class="col-sm-5"></div>
             <div class="col-sm-7 text-right">
                 <button class="btn btn-primary js-btn-prev" type="button" (click)="onBack()"> {{labels.back}} </button>
-                
+
                 <button class="btn btn-primary" (click)="onFormSubmit()"> {{labels.save}} </button>
                 <button class="btn btn-primary " type="button" (click)="onNext()"> {{labels.next}} </button>
             </div>
