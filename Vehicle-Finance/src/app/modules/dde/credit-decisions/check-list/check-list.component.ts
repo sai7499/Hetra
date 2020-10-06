@@ -380,5 +380,22 @@ onBack() {
 }
 
 // tslint:disable-next-line: adjacent-overload-signatures
-
+sendBackToMaker() {
+  const body = {
+    leadId: this.leadId,
+    userId: localStorage.getItem('userId'),
+    isCPCMaker: true,
+    isCPCChecker: false,
+    sendBackToCredit: false,
+  };
+  this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
+    // tslint:disable-next-line: triple-equals
+    if (res.ProcessVariables.error.code == '0') {
+      this.toasterService.showSuccess('Submitted Suucessfully', '');
+      this.router.navigate([`pages/dashboard`]);
+    } else {
+      this.toasterService.showError(res.Processvariables.error.message, '');
+    }
+  });
+}
 }
