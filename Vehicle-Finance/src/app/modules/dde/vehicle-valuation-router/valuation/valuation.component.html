@@ -286,7 +286,7 @@
               [minLength]="labels.validationData?.vehicleRegNo.minLength"
               [maxLength]="labels?.validationData?.vehicleRegNo.maxLength"
               [type]="labels?.validationData?.vehicleRegNo.type"
-              [patternCheck]="labels?.validationData?.vehicleRegNo.pattern"
+              [custom]="vehicleRegPattern"
               [isRequired]="'Required Input is mandatory'"
               [isDirty]="isDirty"
             >

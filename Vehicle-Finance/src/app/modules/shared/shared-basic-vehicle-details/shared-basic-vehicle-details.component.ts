@@ -198,16 +198,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     if (formArray.value[0].assetCostCarTrade < formArray.value[0].assetCostIBB) {
       formArray.controls[0].patchValue({
-        finalAssetCost: event.target.value
+        finalAssetCost: formArray.value[0].assetCostCarTrade
       })
-    } else if (formArray.value[0].assetCostIBB < formArray.value[0].assetCostCarTrade) {
+    } else {
       formArray.controls[0].patchValue({
-        finalAssetCost: event.target.value
-      })
-    }
-    else if (formArray.value[0].assetCostCarTrade === formArray.value[0].assetCostIBB) {
-      formArray.controls[0].patchValue({
-        finalAssetCost: event.target.value
+        finalAssetCost: formArray.value[0].assetCostIBB
       })
     }
 

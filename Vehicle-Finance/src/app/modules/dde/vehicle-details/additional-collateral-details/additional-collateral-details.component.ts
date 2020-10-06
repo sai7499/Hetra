@@ -23,6 +23,7 @@ export class AdditionalCollateralComponent implements OnInit {
     public LOV: any = {};
     public relationLov: any = [];
     initalZeroCheck: any = [];
+    id: number = 0;
 
     public userId: number;
     public leadId: number;
@@ -70,6 +71,7 @@ export class AdditionalCollateralComponent implements OnInit {
         this.initForm();
         this.getLov();
         if (collateralId) {
+            this.id = Number(collateralId);
             this.setFormValue(collateralId);
         }
 
@@ -122,7 +124,8 @@ export class AdditionalCollateralComponent implements OnInit {
             marketValue: [null, Validators.required],
             totalMarketValue: [null],
             guideLineValue: [null, Validators.required],
-            totalGuideLineValue: [null]
+            totalGuideLineValue: [null],
+            collateralId: this.id
         }))
 
     }
@@ -134,7 +137,8 @@ export class AdditionalCollateralComponent implements OnInit {
             fdAccountNo: ['', Validators.required],
             propertyOwner: ['', Validators.required],
             totalMarketValue: [null, Validators.required],
-            relationWithApplicant: ['', Validators.required]
+            relationWithApplicant: ['', Validators.required],
+            collateralId: this.id
         }))
     }
 
@@ -147,7 +151,8 @@ export class AdditionalCollateralComponent implements OnInit {
             totalMarketValue: [null],
             purity: ['', Validators.required],
             propertyOwner: ['', Validators.required],
-            relationWithApplicant: ['', Validators.required]
+            relationWithApplicant: ['', Validators.required],
+            collateralId: this.id
         }))
     }
 
@@ -165,11 +170,10 @@ export class AdditionalCollateralComponent implements OnInit {
             totalMarketValue: [null],
             guideLineValue: [null, Validators.required],
             totalGuideLineValue: [null],
-            propertyOwnerType: ['', Validators.required]
+            propertyOwnerType: ['', Validators.required],
+            collateralId: this.id
         }))
     }
-
-    // Validators.pattern('/[^a-zA-Z0-9/,]/g')
 
     currentValueGrams(value) {
         const formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
@@ -216,16 +220,12 @@ export class AdditionalCollateralComponent implements OnInit {
     onFindRelationship(value) {
         let typeOfApplicant = this.applicantDetails.find((res => res.applicantId === Number(value)))
 
-        console.log(typeOfApplicant, this.applicantDetails)
-
         let lovOfSelf = [{
             key: "5RELATION",
             value: "Self"
         }]
 
         let lovOfRelationship = this.relationLov.filter((data) => data.key !== "5RELATION")
-        console.log(typeOfApplicant, lovOfRelationship)
-
         this.LOV.relationship = typeOfApplicant['applicantType'] === "Applicant" ? lovOfSelf : lovOfRelationship;
     }
 
@@ -272,7 +272,6 @@ export class AdditionalCollateralComponent implements OnInit {
                         totalGuideLineValue: collateralDetail.totalGuideLineValue || null,
                         totalLandArea: collateralDetail.totalLandArea || null,
                         totalMarketValue: collateralDetail.totalMarketValue || null,
-
                     })
                 )
             }
@@ -280,11 +279,12 @@ export class AdditionalCollateralComponent implements OnInit {
     }
 
     onFormSubmit(form) {
-        if (form.valid) {
 
+        let formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
+
+
+        if (form.valid && formArray.controls[0].valid) {
             let additionalCollaterals = {}
-
-            let formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
 
             additionalCollaterals = formArray.controls[0].value;
 
