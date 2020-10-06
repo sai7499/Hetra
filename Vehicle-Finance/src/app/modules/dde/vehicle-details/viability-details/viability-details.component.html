@@ -18,8 +18,8 @@
             <h3 class="title heading-align">{{label?.passengerTitle}}</h3>
              
             
-                <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName  }} </p> 
-                <p id="" >{{label?.vehicleModel}}:{{ viabilityDataObj?.model}}</p>
+                <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName ? viabilityDataObj?.applicantName  : viabliityDataToPatch?.applicantName }} </p> 
+                <p id="" >{{label?.vehicleModel}}:{{ viabilityDataObj?.model ? viabilityDataObj?.model : viabliityDataToPatch?.vehicleModel }}</p>
             
             </div>
             <!-- <form action="" method="POST"> -->
