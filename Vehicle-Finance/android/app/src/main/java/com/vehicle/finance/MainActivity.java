@@ -119,6 +119,7 @@ public class MainActivity extends BridgeActivity {
   public void showAlertDialog(String title, String message){
     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
     alertDialogBuilder.setTitle(title);
+    alertDialogBuilder.setCancelable(false);
 
     alertDialogBuilder.setMessage(message);
     alertDialogBuilder.setPositiveButton("Okay",
@@ -138,27 +139,6 @@ public class MainActivity extends BridgeActivity {
 
   public  void checkTamperedApk() {
 //    // Keep dexCrc in resources (strings.xml) or in JNI code. Don't hardcode it in java classes, because it's changes checksum.
-//    String dexCrcStr = this.getResources().getString(R.string.dexCrc);
-//    System.out.println("DexCrc"+ dexCrcStr );
-//    long dexCrc = Long.parseLong(dexCrcStr);
-//
-//    TamperingProtection protection = new TamperingProtection(this);
-//    protection.setAcceptedDexCrcs(dexCrc);
-//   // protection.setAcceptedStores(false); // apps installed only from google play
-//    protection.setAcceptedPackageNames("com.vehicle.finance"); // lite and pro package names
-//    protection.setAcceptedSignatures("F1:4F:77:53:D0:C5:24:27:09:3B:A7:21:F0:C9:6C:23"); // only release md5 fingerprint
-////    protection.setAcceptStartOnEmulator(false); // not allowed for emulators
-//    protection.setAcceptStartInDebugMode(true); // not allowed run in debug mode
-    long dexCRC = 0;
-    try {
-      dexCRC = TamperingProtection.getDexCRC(this);
-      System.out.println("dexCrc****"+dexCRC);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-  //  showAlertDialog("Title DexCRC", Long.toString(dexCRC));
-    System.out.println("Changed in Java file");
     TamperingProtection protection = new TamperingProtection(this);
 
     String dexCrcStr = this.getResources().getString(R.string.dexCrc);
