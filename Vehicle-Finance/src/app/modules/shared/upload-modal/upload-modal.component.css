@@ -36,27 +36,40 @@
 }
 
 .mid-half{
-  width:50%;
-  margin:auto;
+  /* width:50%;
+  margin:auto; */
 }
 
 .mid-mar{
-  margin: 0 25%;
-  text-align:center;
+  margin: 0 8%;
+  /* text-align:center; */
 }
 
 .mid-text{
-  text-align: center;
-  margin: 0 15%;
+  /* text-align: center; */
+  margin: 0 20%;
 }
 
 .top-space{
   top:10%;
 }
+
+.wid-30{
+  width:30%;
+}
+
+.wid-70{
+  width:70%;
+}
 @media (min-width:200px) and (max-width:767px) {
   .mid-mar{
   margin: 0 auto;
   text-align:center;
+}
+
+.mid-text{
+  text-align: center;
+  margin: 0 20%;
 }
 }
 
