@@ -18,8 +18,8 @@
             <h3 class="title heading-align">{{label?.passengerTitle}}</h3>
              
             
-                <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName  }} </p> 
-                <p id="" >{{label?.vehicleModel}}:{{ viabilityDataObj?.model}}</p>
+                <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName ? viabilityDataObj?.applicantName  : applicantName }} </p> 
+                <p id="" >{{label?.vehicleModel}}:{{ viabilityDataObj?.model ? viabilityDataObj?.model : vehicleModelMake }}</p>
             
             </div>
             <!-- <form action="" method="POST"> -->
@@ -213,10 +213,10 @@
                                 [id]="fuel_average_km"
                                 formControlName="fuelAvgPerKm"
                                 [patternCheck]=" "
-                                [maxLength]="label?.validationData?. goldInGrams?.maxLength"
+                                [maxLength]="label?.validationData?. viabilityFiveDigit?.maxLength"
                                 [isRequired]="'Fuel Avg Per Km is Required'"
                                 [isDirty]="isDirty"
-                                [type]="label?.validationData?. goldInGrams?.type"
+                                [type]="label?.validationData?. viabilityFiveDigit?.type"
                                 [placeholder]="'Enter Fuel Avg Per Km'"
                                 (keyup)=" calculatePassengerB()"
                                 ></app-custom-input>
@@ -230,10 +230,10 @@
                                 [id]="cost_litre_fuel"
                                 formControlName="costPerLtr"
                                 [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [maxLength]="label?.validationData?. viabilityFiveDigit?.maxLength"
                                 [isRequired]="'Cost Per Litre is Required'"
                                 [isDirty]="isDirty"
-                                [type]="label?.validationData?. amountDecimal?.type"
+                                [type]="label?.validationData?. viabilityFiveDigit?.type"
                                 [placeholder]="'Enter Cost Per Litre'"
                                 (keyup) = " calculatePassengerB()"
                                 ></app-custom-input>

@@ -283,12 +283,11 @@
               [className]="'form-control mandatory'"
               [inputClass]="'text-uppercase'"
               [placeholder]="'Vehicle Number'"
-              [maxLength]="labels?.validationData?.registrationNo.maxLength"
+              [minLength]="labels.validationData?.vehicleRegNo.minLength"
+              [maxLength]="labels?.validationData?.vehicleRegNo.maxLength"
+              [type]="labels?.validationData?.vehicleRegNo.type"
+              [custom]="vehicleRegPattern"
               [isRequired]="'Required Input is mandatory'"
-              [patternCheck]="
-                labels?.validationData?.registrationNo.registrationPattern
-              "
-              [type]="labels?.validationData?.registrationNo.type"
               [isDirty]="isDirty"
             >
             </app-custom-input>

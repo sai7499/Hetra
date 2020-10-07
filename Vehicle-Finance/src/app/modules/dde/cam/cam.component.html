@@ -36,7 +36,7 @@
             <td class="bank_name">{{ labels?.rcLimitCategory }}</td>
             <td>{{ sourcingObj?.rcCategory }}</td>
             <td class="bank_name">{{ labels?.distanceFrombranch }}</td>
-            <td>{{ sourcingObj?.distanceFrombranch }}</td>
+            <td>{{ sourcingObj?.distanceFromBranch }}</td>
         </tr>
         <tr>
             <td class="bank_name">{{ labels?.rcLimit }}</td>
@@ -774,7 +774,7 @@
                     <td>{{ proposedDetails?.ltv }}<span *ngIf=" proposedDetails?.ltv != null ">%</span></td>
                     <td>{{ proposedDetails?.irr }}<span *ngIf="proposedDetails?.irr != null ">%</span></td>
                     <td>{{ proposedDetails?.tenureMonth }}</td>
-                    <td>{{ proposedDetails?.pf }}</td>
+                    <td>{{ proposedDetails?.pf }}<span *ngIf="proposedDetails?.pf != null ">%</span></td>
                 </tr>
                 <tr>
                     <td colspan="2"></td>
@@ -1643,7 +1643,7 @@
                 <td class="bank_name">{{ labels?.weakerSectionCategory }}</td>
                 <td>{{ sourcingDetails?.weakerSectionCategory }}</td>
                 <td class="bank_name">{{ labels?.pf }}</td>
-                <td>{{ sourcingDetails?.pf }}</td>
+                <td>{{ sourcingDetails?.pf }}<span *ngIf="sourcingDetails?.pf != null ">%</span></td>
                 <td class="bank_name">{{ labels?.soRcGreaterthanSixtyDays }}</td>
                 <td>{{ sourcingDetails?.soRc }}</td>
                 <td class="bank_name">{{ labels?.ltv }}</td>
@@ -2168,7 +2168,7 @@
                     <th class="bank_name">{{ labels?.sNo }}</th>
                     <th class="bank_name">{{ labels?.regdNumber }}</th>
                     <th class="bank_name">{{ labels?.regdOwner }}</th>
-                    <th class="bank_name dispNone">{{ labels?.relationWithHirer }}</th>
+                    <th class="bank_name">{{ labels?.relationWithHirer }}</th>
                     <th class="bank_name">{{ labels?.make }}</th>
                     <th class="bank_name">{{ labels?.model }}</th>
                     <th class="bank_name">{{ labels?.owningSince }}</th>
@@ -2186,7 +2186,7 @@
                     <td>{{i+1}}</td>
                     <td>{{ fleetDetails?.regdNo }}</td>
                     <td>{{ fleetDetails?.regdOwner}}</td>
-                    <td class="dispNone">{{ fleetDetails?.relationWithHirer }}</td>
+                    <td>{{ fleetDetails?.relationWithHirer }}</td>
                     <td>{{ fleetDetails?.make }}</td>
                     <td>{{ fleetDetails?.model }}</td>
                     <td>{{ fleetDetails?.owningSince}}</td>
@@ -2266,7 +2266,9 @@
                 <td>{{ bankingTxnDetails?.balanceAsOn5th }}</td>
                 <td>{{ bankingTxnDetails?.balanceAsOn15th }}</td>
                 <td>{{ bankingTxnDetails?.balanceAsOn20th }}</td>
-                <td colspan="2">{{bankingTxnDetails?.averageAccountBalance}}</td>
+                <td>{{bankingTxnDetails?.averageAccountBalance}}</td>
+                <td colspan="2"></td>
+                
             </tr>
             <tr>
                 <td class="bank_name">{{labels?.total}}</td>
@@ -2380,7 +2382,9 @@
                 <td>{{ coAppBankingTxnDetails?.balanceAsOn5th }}</td>
                 <td>{{ coAppBankingTxnDetails?.balanceAsOn15th }}</td>
                 <td>{{ coAppBankingTxnDetails?.balanceAsOn20th }}</td>
-                <td colspan="2">{{coAppBankingTxnDetails?.averageAccountBalance}}</td>
+                <td>{{coAppBankingTxnDetails?.averageAccountBalance}}</td>
+                <td colspan="2"></td>
+
             </tr>
             <tr>
                 <td class="bank_name">{{labels?.total}}</td>

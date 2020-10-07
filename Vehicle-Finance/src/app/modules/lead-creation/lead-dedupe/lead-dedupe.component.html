@@ -26,12 +26,13 @@
               <tbody>
                 <tr
                   *ngFor="let dedupe of (dedupeArray | paginate: { itemsPerPage: perPage, currentPage: p }); let i = index">
-                  <td [attr.data-label]="labels?.select">
+                  <td align="center" [attr.data-label]="labels?.select">
                     <input [ngStyle]="{'cursor': 'pointer'}" [ngClass]="{'pointerEvent':isRadioDisable}"
                       (click)="onLeadSelect($event, i)" class="checkbox" type="radio" name="selectLead"
                       [checked]="selectedIndex === i"
-                      [disabled]="(dedupe.createdBy === userName) && (dedupe.stage === 'Lead Created') && (dedupe.status === 'Lead Created')? false : true" />
+                      [disabled]="(dedupe.createdBy === userName) && (dedupe.stage === 'Lead Created') && (dedupe.status === 'Lead Created')? false : true" style="botton:0px" />
                   </td>
+                  <!-- <td align="center"><input type="radio" name="radio-207" value="howtomeasure" style="botton:0px"> </td> -->
                   <td [attr.data-label]="labels?.leadID">{{ dedupe.leadID }}</td>
                   <td [attr.data-label]="labels?.branch">{{ dedupe.branch }}</td>
                   <td [attr.data-label]="labels?.loanCreatedDate">{{ dedupe.createdDate | date: 'dd/MM/yyyy' }}</td>

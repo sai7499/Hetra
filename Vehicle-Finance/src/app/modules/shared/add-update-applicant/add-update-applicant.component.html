@@ -661,6 +661,7 @@
                     isGstNumberChanged ||
                     isTanNumberChanged ||
                     isCinNumberChanged ||
+                    isCstNumberChanged ||
                     isAadharChanged ||
                     isPanChanged ||
                     isName1Changed
@@ -674,7 +675,7 @@
                   </button>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4 margin-top-20"
-                  *ngIf=" isMobile && showEkycbutton && applicantType=='INDIVENTTYP'">
+                  *ngIf="isMobile && showEkycbutton && applicantType=='INDIVENTTYP'">
                   <button class="btn btn-primary mar-right8" type="button" (click)="calleKYC()">
                     <a class="back_color">Check e-KYC</a>
                   </button>
@@ -698,6 +699,7 @@
                   !isGstNumberChanged &&
                   !isTanNumberChanged &&
                   !isCinNumberChanged &&
+                  !isCstNumberChanged &&
                   !isAadharChanged &&
                   !isPanChanged &&
                   !isName1Changed)">
@@ -1117,6 +1119,7 @@
         !isGstNumberChanged &&
         !isTanNumberChanged &&
         !isCinNumberChanged &&
+        !isCstNumberChanged &&
         !isAadharChanged &&
         !isPanChanged &&
         !isName1Changed)

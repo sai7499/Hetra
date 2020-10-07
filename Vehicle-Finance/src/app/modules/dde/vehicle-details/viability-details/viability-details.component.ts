@@ -32,6 +32,7 @@ export class ViabilityDetailsComponent implements OnInit {
   public labelCaptive: any = {};
   public viabilityData: any;
   public vehicleModel = '';
+  public vehicleModelMake : any;
   // tslint:disable-next-line: variable-name
   public vehicle_viability_value = '1VHCLVBTY';
   isDirty = false;
@@ -55,7 +56,7 @@ export class ViabilityDetailsComponent implements OnInit {
   collataralId: any;
   leadId: number;
   userId: string;
-  monthlyIncome = 0;
+  monthlyIncome: any = 0;
   monthlyRunningKm = 0;
   montlyStandOperatorIncome = 0;
   standoperatorExpense: number;
@@ -92,6 +93,7 @@ export class ViabilityDetailsComponent implements OnInit {
 
   selectedDocDetails: DocRequest;
   dmsDocumentId: string;
+  applicantName: any;
 
 
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
@@ -286,15 +288,16 @@ export class ViabilityDetailsComponent implements OnInit {
       });
     });
   }
-  getCollateralId() {
+  async getCollateralId() {
     return new Promise((resolve, reject) => {
-      this.route.parent.firstChild.params.subscribe((value) => {
+      this.route.parent.firstChild.params.subscribe(async (value) => {
         if (value && value.collateralId) {
           resolve(Number(value.collateralId));
-          this.viabilityDataObj = this.viabilityService.getCollateralId();
-          console.log(this.viabilityDataObj);
-          if (this.viabilityDataObj === null || this.viabilityDataObj === undefined) {
-             this.viabilityService.getViabilityList({leadId: this.leadId}).subscribe((res: any) => {
+          // this.viabilityDataObj = await this.viabilityService.getCollateralId();
+          // console.log(this.viabilityDataObj);
+          // if (this.viabilityDataObj === null || this.viabilityDataObj === undefined) {
+          this.viabilityService.getViabilityList({leadId: this.leadId}).subscribe((res: any) => {
+              console.log(res, 'colleteral response');
               res.ProcessVariables.vehicleViabilityDashboardList.filter((dataRes: any) => {
               if ( dataRes.collateralId === value.collateralId) {
                 this.viabilityDataObj = dataRes;
@@ -304,7 +307,7 @@ export class ViabilityDetailsComponent implements OnInit {
              }
              );
 
-          }
+          // }
         }
         resolve(null);
       });
@@ -455,9 +458,11 @@ getViability() {
       collateralId: this.collataralId
     };
     this.viabilityService.getViabilityDetails(body).subscribe((res: any) => {
-      if (res.ProcessVariables.error.code === '0' && res.ProcessVariables.vehicleViability != null) {
+      // tslint:disable-next-line: triple-equals
+      if (res.ProcessVariables.error.code == '0' && res.ProcessVariables.vehicleViability != null) {
       this.viabliityDataToPatch = res.ProcessVariables.vehicleViability;
-
+      this.applicantName = res.ProcessVariables.vehicleViability.applicantName;
+      this.vehicleModelMake = res.ProcessVariables.vehicleViability.vehicleModel;
       this.latitude = this.viabliityDataToPatch.latitude;
       this.longitude = this.viabliityDataToPatch.longitude;
       this.branchLatitude = this.viabliityDataToPatch.brLatitude;
@@ -767,37 +772,92 @@ if (this.router.url.includes('/dde')) {
    const otherIncome = passengerGroup.value.otherIncome ? Number(passengerGroup.value.otherIncome) : 0;
    const monthlyRunningKm = distanceInKm * tripsPerMonth;
    this.monthlyRunningKm = monthlyRunningKm ;
-   const avgLoadPerTon = passengerGroup.value.avgLoadPerTon ? Number(passengerGroup.value.avgLoadPerTon) : 0;
-   const rateTonne = (passengerGroup.value.rateTonne) ? Number(passengerGroup.value.rateTonne) : 0;
-   const tonnageCalc =  avgLoadPerTon * rateTonne;
-   this.monthlyIncome = tripsPerMonth * tonnageCalc + otherIncome;
-   passengerGroup.value.busMonthlyIncome = this.monthlyIncome;
-  //  this.viabilityForm.value.passanger.patchValue({
-  //   busMonthlyIncome : this.monthlyIncome
-  //  });
    passengerGroup.patchValue({
     monthlyRunningKm : this.monthlyRunningKm
   });
-   this.calculatePassengerB();
+   const avgLoadPerTon = passengerGroup.value.avgLoadPerTon ? Number(passengerGroup.value.avgLoadPerTon) : 0;
+   const rateTonne = (passengerGroup.value.rateTonne) ? Number(passengerGroup.value.rateTonne) : 0;
+
+  //  this.viabilityForm.value.passanger.patchValue({
+  //   busMonthlyIncome : this.monthlyIncome
+  //  });
+   setTimeout(() => {
+    if((avgLoadPerTon != null && avgLoadPerTon !== 0) && (rateTonne != null && rateTonne !== 0)) {
+      const tonnageCalc =  avgLoadPerTon * rateTonne;
+      this.monthlyIncome = tripsPerMonth * tonnageCalc + otherIncome;
+      passengerGroup.controls.busMonthlyIncome = this.monthlyIncome;
+      
+      this.calculatePassengerB();
+    }
+
+  }, 2000);
+
   //  this.calculatePassengerC();
   //  this.calculatePassengerD();
+   console.log(passengerGroup, 'passenger goods group');
  }
  calculatePassengerB() {
   const passengerGroup = this.viabilityForm.controls.passanger as FormGroup ;
+  console.log(passengerGroup);
+  passengerGroup.controls.fuelCost.reset();
+  passengerGroup.controls.tyreCost.reset();
   const monthlyRunningKm = passengerGroup.value.monthlyRunningKm ? Number(passengerGroup.value.monthlyRunningKm) : 0;
-  const costPerLtr = passengerGroup.value.costPerLtr ? Number(passengerGroup.value.costPerLtr) : 0;
-  const fuelAvgPerKm = passengerGroup.value.fuelAvgPerKm ? Number(passengerGroup.value.fuelAvgPerKm) : 0;
-  const fuelCostPass = Math.round( (monthlyRunningKm * costPerLtr) / fuelAvgPerKm) ;
-  passengerGroup.patchValue({
-    fuelCost : fuelCostPass
-  });
-  const noOfTyres = passengerGroup.value.noOfTyres ? Number(passengerGroup.value.noOfTyres) : 0;
-  const newTyreLifeKm = passengerGroup.value.newTyreLifeKm ? Number(passengerGroup.value.newTyreLifeKm) : 0;
-  const perTyreCost = passengerGroup.value.perTyreCost ? Number(passengerGroup.value.perTyreCost) : 0;
-  const tyreCostPass = Math.round ((noOfTyres * perTyreCost * monthlyRunningKm) / newTyreLifeKm);
-  passengerGroup.patchValue( {
-    tyreCost : tyreCostPass
-  });
+  const costPerLtr: any = passengerGroup.value.costPerLtr ? Number(passengerGroup.value.costPerLtr) : 0;
+  const fuelAvgPerKm: any = passengerGroup.value.fuelAvgPerKm ? Number(passengerGroup.value.fuelAvgPerKm) : '';
+  if (monthlyRunningKm != null && (costPerLtr != null && costPerLtr !== 0) && (fuelAvgPerKm != null && fuelAvgPerKm !== 0 )) {
+    const fuelCostPass: any = ( (monthlyRunningKm * costPerLtr) / fuelAvgPerKm).toFixed(4) ;
+    // tslint:disable-next-line: triple-equals
+    if (fuelCostPass != undefined && fuelCostPass != 0 && fuelCostPass  != Infinity &&
+      // tslint:disable-next-line: triple-equals
+      isNaN(fuelCostPass) == false && fuelAvgPerKm != ''  ) {
+      passengerGroup.patchValue({
+        fuelCost : fuelCostPass
+      });
+    }
+
+  }
+  //  else {
+  //   // tslint:disable-next-line: triple-equals
+  //   if (fuelAvgPerKm == '0') {
+  //   this.toasterService.showError('Fuel Average cannot be 0', '');
+  //   passengerGroup.controls.fuelAvgPerKm.reset();
+    
+  //   } else if (costPerLtr == '0') {
+  //     this.toasterService.showError('Cost Per Litre cannot be 0', '');
+  //     passengerGroup.controls.costPerLtr.reset();
+  //   }
+  // }
+  const noOfTyres: any = passengerGroup.value.noOfTyres ? Number(passengerGroup.value.noOfTyres) : 0;
+  const newTyreLifeKm: any = passengerGroup.value.newTyreLifeKm ? Number(passengerGroup.value.newTyreLifeKm) : 0;
+  const perTyreCost: any = passengerGroup.value.perTyreCost ? Number(passengerGroup.value.perTyreCost) : 0;
+  if ( (noOfTyres != null && noOfTyres !== 0) && (newTyreLifeKm != null && newTyreLifeKm !== 0 && newTyreLifeKm != '') &&
+   (perTyreCost != null && perTyreCost !== 0)) {
+    const tyreCostPass: any =  ((noOfTyres * perTyreCost * monthlyRunningKm) / newTyreLifeKm).toFixed(4);
+    // tslint:disable-next-line: triple-equals
+    if (tyreCostPass != undefined && tyreCostPass != 0 && tyreCostPass  != Infinity &&
+      // tslint:disable-next-line: triple-equals
+      isNaN(tyreCostPass) == false && newTyreLifeKm != ''  ) {
+    passengerGroup.patchValue( {
+      tyreCost : tyreCostPass
+    });
+  }
+}
+  // else {
+
+  //   if (noOfTyres == '0') {
+  //     this.toasterService.showError('No of tyres cannot be 0', '');
+  //     passengerGroup.controls.noOfTyres.reset();
+
+  //   } else if (newTyreLifeKm == '0' ) {
+  //     this.toasterService.showError('Life of new tyres in kms cannot be 0', '');
+  //     passengerGroup.controls.newTyreLifeKm.reset();
+
+  //   } else if (perTyreCost == '0') {
+  //     this.toasterService.showError('Cost per tyre cannot be 0', '');
+  //     passengerGroup.controls.perTyreCost.reset();
+  //   }
+  // }
+
   // this.calculatePassenger();
   // this.calculatePassengerB();
   this.calculatePassengerC();
@@ -828,7 +888,7 @@ if (this.router.url.includes('/dde')) {
   // passengerGroup.patchValue({
   //   netCashFlow : this.monthlyIncome - expense
   // });
-  this.netFlowCash = this.monthlyIncome - expense;
+  this.netFlowCash = Number((this.monthlyIncome - expense).toFixed(4));
   // this.calculatePassenger();
   // this.calculatePassengerB();
   // this.calculatePassengerC();

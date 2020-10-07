@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { SalesDedupeService } from '@services/sales-dedupe.service';
 import { ApplicantService } from '@services/applicant.service';
 import { ToasterService } from '@services/toaster.service';
-import { Location} from '@angular/common'
+import { Location } from '@angular/common'
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 
 @Component({
@@ -29,6 +29,7 @@ export class SalesExactMatchComponent implements OnInit {
   selectedDetails;
   isExactAvailable: boolean;
   isIndividual: boolean;
+  panValidate: boolean = false;
   applicantId;
   constructor(
     private salesDedupeService: SalesDedupeService,
@@ -36,8 +37,8 @@ export class SalesExactMatchComponent implements OnInit {
     private router: Router,
     private toasterService: ToasterService,
     private location: Location,
-    private applicantDataStoreService : ApplicantDataStoreService
-  ) {}
+    private applicantDataStoreService: ApplicantDataStoreService
+  ) { }
 
   ngOnInit() {
     this.dedupeDetails = this.salesDedupeService.getDedupeDetails();
@@ -47,7 +48,7 @@ export class SalesExactMatchComponent implements OnInit {
     console.log('dedupeDetails', this.dedupeDetails)
   }
 
-  rejectLead() {}
+  rejectLead() { }
 
   continueAsNewApplicant() {
     this.currentAction = 'new';
@@ -89,8 +90,8 @@ export class SalesExactMatchComponent implements OnInit {
       ignoreProbablematch: true,
       isIndividual: !(this.dedupeDetails.entityType !== 'INDIVENTTYP'),
       loanApplicationRelation: this.dedupeDetails.loanApplicationRelation,
-      custSegment : this.dedupeDetails.custSegment,
-      contactPerson : this.dedupeDetails.contactPerson
+      custSegment: this.dedupeDetails.custSegment,
+      contactPerson: this.dedupeDetails.contactPerson
     };
     this.applicantService
       .checkSalesApplicantDedupe(data)
@@ -119,7 +120,7 @@ export class SalesExactMatchComponent implements OnInit {
             nlRemarks,
             nlTrRemarks,
           };
-        }else{
+        } else {
           this.toasterService.showError(value.ProcessVariables.error.message, '')
         }
       });
@@ -136,8 +137,8 @@ export class SalesExactMatchComponent implements OnInit {
       loanApplicationRelation: this.dedupeDetails.loanApplicationRelation,
       isIndividual: !(this.dedupeDetails.entityType !== 'INDIVENTTYP'),
       isMobileNumberChanged: this.dedupeDetails.isMobileNumberChanged,
-      custSegment : this.dedupeDetails.custSegment,
-      contactPerson : this.dedupeDetails.contactPerson,
+      custSegment: this.dedupeDetails.custSegment,
+      contactPerson: this.dedupeDetails.contactPerson,
       // entityType : this.dedupeDetails.entityType
     };
 
@@ -150,17 +151,44 @@ export class SalesExactMatchComponent implements OnInit {
           // this.router.navigateByUrl(
           //   `/pages/lead-section/${leadId}/co-applicant/${processVariables.applicantId}`
           // );
-        }else {
+        } else {
           this.toasterService.showError(data.ProcessVariables.error.message, '');
         }
       });
+  }
+
+  getPanValidation() {
+    const data = {
+      applicantId: this.applicantId
+    }
+    const leadId = this.dedupeParameter.leadId;
+    this.applicantService.wrapperPanValidaion(data).subscribe((responce) => {
+      if (responce['ProcessVariables'].error.code == '0') {
+        this.toasterService.showSuccess(responce['ProcessVariables'].error.message,
+          'PAN Validation Successful');
+        
+        this.router.navigateByUrl(
+          `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
+        );
+
+      } else {
+        //this.panValidate = true;
+        this.toasterService.showError(
+          responce['ProcessVariables'].error.message,
+          'PAN Validation Error'
+        );
+        this.modalName=''
+        this.showNegativeListModal = false;
+
+      }
+    })
   }
 
   onCancel() {
     this.modalName = '';
   }
 
-  onBack(){
+  onBack() {
     this.applicantDataStoreService.setDedupeFlag(true)
     this.location.back()
   }
@@ -174,12 +202,20 @@ export class SalesExactMatchComponent implements OnInit {
       await this.storeRemarks(isProceed, remarks);
     }
 
-    if (event.name === 'proceed' || event.name === 'next') {
+    // if (event.name === 'proceed' || event.name === 'next') {
+    if (event.name === 'proceed') {
       // if (this.currentAction === 'new') {
       //   // this.callApiForNewApplicant();
       // } else {
       //   this.callApiForSelectedUcic();
       // }
+      this.router.navigateByUrl(
+        `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
+      );
+    }
+    else if (event.name === 'next' && this.currentAction === 'new') {
+      this.getPanValidation();
+    } else if (event.name === 'next') {
       this.router.navigateByUrl(
         `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
       );
