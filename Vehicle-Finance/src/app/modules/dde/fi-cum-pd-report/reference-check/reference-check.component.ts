@@ -280,8 +280,10 @@ export class ReferenceCheckComponent implements OnInit {
       place: new FormControl({ value: '', disabled: true }),
       // time: new FormControl('', Validators.required),
       timeOfVerification: new FormControl({ value: '', disabled: true }),
-      // latitude: new FormControl({ value: '', disabled: true }),
-      // longitude: new FormControl({ value: '', disabled: true }),
+      latitude: new FormControl({ value: '', disabled: true }),
+      longitude: new FormControl({ value: '', disabled: true }),
+      bLatitude: new FormControl({ value: '', disabled: true }),
+      bLongitude: new FormControl({ value: '', disabled: true })
     });
   }
 
@@ -373,7 +375,12 @@ export class ReferenceCheckComponent implements OnInit {
       // date: this.otherDetails.date ? this.utilityService.getDateFromString(this.otherDetails.date) : '',
       area: otherDetailsModel.area ? otherDetailsModel.area : null,
       place: otherDetailsModel.place ? otherDetailsModel.place : null,
-      timeOfVerification: this.time ? this.time : null
+      timeOfVerification: this.time ? this.time : null,
+      latitude: this.latitude || "",
+      longitude: this.longitude || "",
+      bLatitude: this.branchLatitude || "",
+      bLongitude: this.branchLongitude || ""
+
 
       // time: new Date(refCheckModal.time ? this.getDateFormat(refCheckModal.time) : ""),
     });

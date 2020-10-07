@@ -1033,16 +1033,16 @@ calculateCaptiveC() {
     console.log('documentArr', this.documentArr);
     this.individualImageUpload(event, index);
 
-    // let position = await this.getLatLong();
-    // if (position["latitude"]) {
-    //   this.latitude = position["latitude"].toString();
-    //   this.longitude = position["longitude"].toString();
-    //   this.getRouteMap();
-    // } else {
-    //   this.latitude = "";
-    //   this.longitude = "";
-    //   this.showRouteMap = false;
-    // }
+    let position = await this.getLatLong();
+    if (position["latitude"]) {
+      this.latitude = position["latitude"].toString();
+      this.longitude = position["longitude"].toString();
+      this.getRouteMap();
+    } else {
+      this.latitude = "";
+      this.longitude = "";
+      this.showRouteMap = false;
+    }
 
   }
 

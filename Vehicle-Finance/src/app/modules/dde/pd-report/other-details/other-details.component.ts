@@ -255,6 +255,10 @@ export class OtherDetailsComponent implements OnInit {
       marginMoney: ["", Validators.required],
       emiAffordability: ["", Validators.required],
       sourceOfMarginMoney: [{ value: '', disabled: true }],
+      bLatitude: [{ value: '', disabled: true }],
+      bLongitude: [{ value: '', disabled: true }],
+      latitude: [{ value: '', disabled: true }],
+      longitude: [{ value: '', disabled: true }],
     });
   }
 
@@ -317,6 +321,10 @@ export class OtherDetailsComponent implements OnInit {
       marginMoney: this.otherDetails.marginMoney || '',
       emiAffordability: this.otherDetails.emiAffordability || '',
       sourceOfMarginMoney: this.otherDetails.sourceOfMarginMoney || '',
+      latitude: this.latitude || "",
+      longitude: this.longitude || "",
+      bLatitude: this.branchLatitude || "",
+      bLongitude: this.branchLongitude || ""
     });
   }
 
