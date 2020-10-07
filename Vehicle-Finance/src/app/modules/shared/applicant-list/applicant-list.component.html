@@ -63,8 +63,8 @@
                   (click)="softDeleteApplicant(i, item.applicantId)"
                   title="Delete applicant"><i  class="fa fa-trash" aria-hidden="true"></i
                 ></a> &nbsp;
-                <a (click)="getApplicantImage(item.applicantId)" data-toggle="modal"
-                data-target="#myModalApplicantImage"  
+                <a (click)="getApplicantImage(item.applicantId)" 
+               
                 title="View Bureau Report"> <strong>CB</strong></a>
               </td>
              
@@ -195,4 +195,10 @@
       Next
     </button>
   </div>
+</div>
+<div id="mydiv" *ngIf="cibilImage" class="card" class="center">
+  <button type="button" class="close" (click)="destroyImage()" *ngIf="cibilImage" style="overflow: auto;">×</button>
+    <!-- Header -->
+<div class="image-content"   [innerHTML]="cibilImage" > </div>  
+ 
 </div>
