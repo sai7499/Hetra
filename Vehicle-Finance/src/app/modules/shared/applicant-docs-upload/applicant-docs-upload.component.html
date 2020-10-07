@@ -6,6 +6,7 @@
         <div
           class="panel panel-default"
           *ngFor="let subCat of subCategories; let i = index"
+          
         >
           <div
             class="panel-heading"
@@ -38,6 +39,7 @@
                 )['controls'];
                 let i = index
               "
+              (click)="onPanelClick(subCat.code, i)"
             >
               <ng-container *ngIf="subCat.code === 1">
                 <div class="panel-body" [formGroupName]="i">
@@ -107,137 +109,142 @@
               </ng-container>
 
               <ng-container *ngIf="subCat.code !== 1 && subCat.code !== 2">
-                <div class="panel-body" id="show_1st_diva" [formGroupName]="i">
-                  <div class="form-group col-sm-3 col-md-2">
-                    <label for="document">Document Name</label>
-                    <app-vf-custom-select
-                      formControlName="documentName"
-                      [values]="subCat.docList"
-                      [keyField]="'code'"
-                      [valueField]="'displayName'"
-                      (valueChange)="onDocumentSelect($event, subCat.code, i)"
-                    ></app-vf-custom-select>
-                  </div>
-                  <div
-                    class="form-group col-sm-3 col-md-2"
-                    *ngIf="subCat.code !== 3"
-                  >
-                    <label for="documentnumber">Document Number</label>
-                    <app-custom-input
-                      formControlName="documentNumber"
-                      [maxLength]="documentMaxLength"
-                    ></app-custom-input>
-                  </div>
-
-                  <div
-                    class="form-group col-sm-3 col-md-2"
-                    *ngIf="subCat.code !== 3"
-                  >
-                    <label for="idate">Issue Date</label>
-                    <div class="input-group input-medium">
-                      <kendo-datepicker
-                        class="form-control mandatory"
-                        formControlName="issueDate"
-                        [format]="'dd/MM/yyyy'"
-                        [max]="toDayDate"
-                        [activeView]="'decade'"
-                        placeholder="Issue Date"
-                        formControlName="issueDate"
-                      >
-                      </kendo-datepicker>
-                      <div class="invalid-feedback">
-                        <div *ngIf="checkDate(subCat.code, i, 'issueDate')">
-                          Invalid date
+                <div class="panel-body" id="show_1st_diva" [formGroupName]="i" >
+                  <div class="row">
+                    <div class="form-group col-sm-3 col-md-2">
+                      <label for="document">Document Name</label>
+                      <app-vf-custom-select
+                        formControlName="documentName"
+                        [values]="subCat.docList"
+                        [keyField]="'code'"
+                        [valueField]="'displayName'"
+                        (valueChange)="onDocumentSelect($event, subCat.code, i)"
+                      ></app-vf-custom-select>
+                    </div>
+                    <div
+                      class="form-group col-sm-3 col-md-2"
+                      *ngIf="subCat.code !== 3"
+                    >
+                      <label for="documentnumber">Document Number</label>
+                      <input formControlName="documentNumber" class="form-control" [pattern]="docsValidation[selectedCode]?.pattern || ''"/>
+                      <div class="invalid-feedback" *ngIf="docsList?.controls[i]?.get('documentNumber').invalid && (docsList?.controls[i]?.get('documentNumber').touched  || docsList.controls[i]?.get('documentNumber').dirty)">
+                        <div *ngIf="docsList?.controls[i]?.get('documentNumber').errors?.pattern">
+                          {{docsValidation[selectedCode].patternMsg}}
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="form-group col-sm-3 col-md-2"
-                    *ngIf="subCat.code !== 3"
-                  >
-                    <label for="edate">Expiry Date</label>
-                    <div class="input-group input-medium">
-                      <kendo-datepicker
-                        class="form-control mandatory"
-                        formControlName="dob"
-                        [format]="'dd/MM/yyyy'"
-                        [activeView]="'decade'"
-                        placeholder="Expiry Date"
-                        formControlName="expiryDate"
-                        [min]="
-                          (uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)
-                            .value | docsUpload: i) || toDayDate
-                        "
-                      >
-                      </kendo-datepicker>
-                      <div class="invalid-feedback">
-                        <div *ngIf="checkDate(subCat.code, i, 'expiryDate')">
-                          Invalid date
+  
+                    <div
+                      class="form-group col-sm-3 col-md-2"
+                      *ngIf="subCat.code !== 3"
+                    >
+                      <label for="idate">Issue Date</label>
+                      <div class="input-group input-medium">
+                        <kendo-datepicker
+                          class="form-control mandatory"
+                          formControlName="issueDate"
+                          [format]="'dd/MM/yyyy'"
+                          [max]="toDayDate"
+                          [activeView]="'decade'"
+                          placeholder="Issue Date"
+                          formControlName="issueDate"
+                        >
+                        </kendo-datepicker>
+                        <div class="invalid-feedback">
+                          <div *ngIf="checkDate(subCat.code, i, 'issueDate')">
+                            Invalid date
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="form-group col-sm-3 col-md-2">
-                    <label>File</label>
-                    <input
-                      formControlName="file"
-                      name="input"
-                      type="text"
-                      class="form-control file-input"
-                      readonly
-                      (click)="
-                        downloadDocs(
-                          FORM_ARRAY_NAME + '_' + subCat.code,
-                          i,
-                          $event
-                        )
-                      "
-                    />
-                  </div>
-                  <div class="form-group col-sm-3 col-md-2">
-                    <label>Actions </label>
-                    <p>
-                      <label
-                        ><i
-                          class="fa fa-upload fa-3 custom-file-label"
-                          aria-hidden="true"
-                          id="add_more_documents_upload1a"
-                          (click)="
-                            uploadDocument(
-                              FORM_ARRAY_NAME + '_' + subCat.code,
-                              i,
-                              subCat,
-                              OTHER_DOCUMENTS_SIZE,
-                              OTHER_DOCS_TYPE,
-                              subCat.code !== 3 ? '' : 'biometric'
-                            )
+                    <div
+                      class="form-group col-sm-3 col-md-2"
+                      *ngIf="subCat.code !== 3"
+                    >
+                      <label for="edate">Expiry Date</label>
+                      <div class="input-group input-medium">
+                        <kendo-datepicker
+                          class="form-control mandatory"
+                          formControlName="dob"
+                          [format]="'dd/MM/yyyy'"
+                          [activeView]="'decade'"
+                          placeholder="Expiry Date"
+                          formControlName="expiryDate"
+                          [min]="
+                            (uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)
+                              .value | docsUpload: i) || toDayDate
                           "
-                        ></i></label
-                      >&nbsp;
-                      <i
-                        class="fa fa-plus fa-3"
-                        aria-hidden="true"
-                        id="add_more_documents1a"
-                        (click)="addDocumentFormControls(subCat.code)"
-                        *ngIf="subCat.code !== 3"
-                      ></i>
-                      &nbsp;
-                      <i
-                        class="fa fa-minus fa-3"
-                        aria-hidden="true"
-                        id="add_more_documents_remove1a"
+                        >
+                        </kendo-datepicker>
+                        <div class="invalid-feedback">
+                          <div *ngIf="checkDate(subCat.code, i, 'expiryDate')">
+                            Invalid date
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group col-sm-3 col-md-2">
+                      <label>File</label>
+                      <input
+                        formControlName="file"
+                        name="input"
+                        type="text"
+                        class="form-control file-input"
+                        readonly
                         (click)="
-                          removeDocumentFormControls(
+                          downloadDocs(
                             FORM_ARRAY_NAME + '_' + subCat.code,
-                            i
+                            i,
+                            $event
                           )
                         "
-                        *ngIf="subCat.code !== 3"
-                      ></i>
-                    </p>
+                      />
+                    </div>
+                    <div class="form-group col-sm-3 col-md-2">
+                      <label>Actions </label>
+                      <p>
+                        <label
+                          ><i
+                            class="fa fa-upload fa-3 custom-file-label"
+                            aria-hidden="true"
+                            id="add_more_documents_upload1a"
+                            (click)="
+                              uploadDocument(
+                                FORM_ARRAY_NAME + '_' + subCat.code,
+                                i,
+                                subCat,
+                                OTHER_DOCUMENTS_SIZE,
+                                OTHER_DOCS_TYPE,
+                                subCat.code !== 3 ? '' : 'biometric'
+                              )
+                            "
+                          ></i></label
+                        >&nbsp;
+                        <i
+                          class="fa fa-plus fa-3"
+                          aria-hidden="true"
+                          id="add_more_documents1a"
+                          (click)="addDocumentFormControls(subCat.code)"
+                          *ngIf="subCat.code !== 3"
+                        ></i>
+                        &nbsp;
+                        <i
+                          class="fa fa-minus fa-3"
+                          aria-hidden="true"
+                          id="add_more_documents_remove1a"
+                          (click)="
+                            removeDocumentFormControls(
+                              FORM_ARRAY_NAME + '_' + subCat.code,
+                              i
+                            )
+                          "
+                          *ngIf="subCat.code !== 3"
+                        ></i>
+                      </p>
+                    </div>
                   </div>
-                  <div
+                  <div class="row">
+                    <div
                     class="col-sm-3 col-md-2"
                     *ngIf="subCat.code !== 3"
                     style="margin-top: 15px;"
@@ -277,6 +284,7 @@
                         </div>
                       </div>
                     </div>
+                  </div>
                   </div>
                 </div>
               </ng-container>

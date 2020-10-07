@@ -503,6 +503,9 @@ export class OtherDetailsComponent implements OnInit {
       latitude: this.latitude,
       longitude: this.longitude
     }
+
+    console.log("branchPos", branchPos);
+    console.log("currentPos", currentPos);
     this.loginService.getPolyLine(function (result) {
       that.base64Image = result;
       that.showRouteMap = true;

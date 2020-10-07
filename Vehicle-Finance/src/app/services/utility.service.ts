@@ -24,9 +24,7 @@ export class UtilityService {
     );
     this.removeAllLocalStorage();
     this.dashboardService.routingData = '';
-    this.toggleDdeService.clearToggleData();
-    console.clear();
-    this.router.navigateByUrl('/login');
+    this.toggleDdeService.clearToggleData();   
 
   }
 
@@ -45,6 +43,8 @@ export class UtilityService {
     localStorage.removeItem('currentUrl');
     localStorage.removeItem('is_pred_done');
     localStorage.removeItem('isPreDisbursement');
+    this.router.navigateByUrl('/login');
+    console.clear();  
   }
 
   getDateFormat(date) {
@@ -166,7 +166,9 @@ export class UtilityService {
       dateArray[1] + '-' + dateArray[0] + '-' + dateArray[2]
     );
 
+    console.log('GETdATE', getDate)
     return getDate;
+    
   }
 
   a = [
