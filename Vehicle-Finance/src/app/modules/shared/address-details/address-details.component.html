@@ -13,7 +13,20 @@
       <ng-container formArrayName="details">
         <div id="individual_section_start" *ngIf="isIndividual" [formGroupName]="0">
           <!-- <h4 class="title">individual</h4> -->
-          <h4 class="title">Permanent Address</h4>
+          <div class="btn-sec clear-both row">
+            <div class="col-lg-3 col-sm-5">
+              <h3 class="title">Permanent Address</h3>
+            </div>
+            <div class="col-lg-3 text-left" id="Same_AppAddress" 
+            *ngIf="!showAppAddressCheckBox">
+              <input type="checkbox" id="address_section_checkbox" 
+                (click)="onAddSameAsApplicant($event)" 
+                [checked]="sameAsAppAddress"
+                [disabled]="disableSameAppAddress"/>
+              <span id="address_section_checkbox_text"> Address From Main Applicant?
+              </span>
+            </div>
+          </div>
           <div formGroupName="permanantAddress">
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -564,7 +577,7 @@
               </div>
               <div class="col-sm-7" id="align_this_texbox">
                 <input type="checkbox" id="address_section_checkbox" (change)="onSameRegistered($event)"
-                  [checked]="onRegAsCommChecked" [disabled]="disableRegister || disableSaveBtn />
+                  [checked]="onRegAsCommChecked" [disabled]="disableRegister || disableSaveBtn" />
                 <span id="address_section_checkbox_text">Is it same as your Registered Address?
                 </span>
               </div>
