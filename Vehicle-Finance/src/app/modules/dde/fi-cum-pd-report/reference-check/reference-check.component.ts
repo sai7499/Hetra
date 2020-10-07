@@ -90,6 +90,7 @@ export class ReferenceCheckComponent implements OnInit {
   pdStatusValue: any;
   serviceAppNo: any;
   applicationNo: any;
+  distanceFromBranch: any;
   constructor(
     private labelsData: LabelsService, // service to access labels
     private personalDiscussion: PersonalDiscussionService,
@@ -269,16 +270,11 @@ export class ReferenceCheckComponent implements OnInit {
       routeMap: new FormControl(''),
       equitasBranchName: new FormControl({ value: '', disabled: true }),
       distanceFromEquitas: new FormControl({ value: '', disabled: true }),
-      // soName: new FormControl('', Validators.required),
       soName: new FormControl({ value: '', disabled: true }),
-      // employeeCode: new FormControl('', Validators.required),
       employeeCode: new FormControl({ value: '', disabled: true }),
       area: new FormControl('', Validators.required),
-      // date: new FormControl('', Validators.required),
       date: new FormControl({ value: '', disabled: true }),
-      // place: new FormControl('', Validators.required),
       place: new FormControl({ value: '', disabled: true }),
-      // time: new FormControl('', Validators.required),
       timeOfVerification: new FormControl({ value: '', disabled: true }),
       // latitude: new FormControl({ value: '', disabled: true }),
       // longitude: new FormControl({ value: '', disabled: true }),
@@ -343,13 +339,16 @@ export class ReferenceCheckComponent implements OnInit {
       this.equitasBranchName = this.otherDetails.equitasBranchName ? this.otherDetails.equitasBranchName : this.serviceEquitasBranchName;
       this.date = this.otherDetails.date ? this.utilityService.getDateFromString(this.otherDetails.date) : this.sysDate;
       this.time = this.otherDetails.timeOfVerification ? this.otherDetails.timeOfVerification : this.sysTimeOfVerification;
+      // this.distanceFromEquitas = this.otherDetails.distanceFromEquitas ? this.otherDetails.distanceFromEquitas : this.distanceFromBranch;
     } else {
       this.applicationNo = this.serviceAppNo;
       this.productCat = this.serviceProductCat;
       this.sourcingChannel = this.serviceSourcingChannel;
       this.equitasBranchName = this.serviceEquitasBranchName;
+      // this.distanceFromEquitas = this.distanceFromBranch;
       this.date = this.sysDate;
       this.time = this.sysTimeOfVerification;
+
     }
 
 
@@ -419,7 +418,7 @@ export class ReferenceCheckComponent implements OnInit {
       // routeMap: referenceCheckModel.routeMap ? referenceCheckModel.routeMap : null,
       routeMap: referenceCheckModel.routeMap,
       equitasBranchName: this.equitasBranchName ? this.equitasBranchName : null,
-      distanceFromEquitas: this.distanceFromEquitas ? this.distanceFromEquitas : null,
+      distanceFromEquitas: referenceCheckModel.distanceFromEquitas ? referenceCheckModel.distanceFromEquitas : null,
       // this.formValues.date = this.formValues.date ? this.utilityService.convertDateTimeTOUTC(this.formValues.date, 'DD/MM/YYYY') : null;
       date: this.date ? this.utilityService.getDateFormat(this.date) : null,
       area: referenceCheckModel.area ? referenceCheckModel.area : null,
@@ -687,9 +686,18 @@ export class ReferenceCheckComponent implements OnInit {
       latitude: this.latitude,
       longitude: this.longitude
     }
-    this.loginService.getPolyLine(function (result) {
+    this.loginService.getPolyLine(function (result, distance) {
       that.base64Image = result;
+      that.distanceFromBranch = distance;
       that.showRouteMap = true;
+      console.log('distance from bank', that.distanceFromBranch);
+      if (that.distanceFromBranch) {
+        that.referenceCheckForm.get('distanceFromEquitas').setValue(that.distanceFromBranch);
+        that.referenceCheckForm.get('distanceFromEquitas').updateValueAndValidity;
+      } else {
+        that.referenceCheckForm.get('distanceFromEquitas').setValue(null);
+        that.referenceCheckForm.get('distanceFromEquitas').updateValueAndValidity;
+      }
       // console.log("getPolyLine", that.base64Image);
     }, currentPos, branchPos);
   }
