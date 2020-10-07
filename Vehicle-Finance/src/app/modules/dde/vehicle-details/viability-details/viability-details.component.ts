@@ -32,6 +32,7 @@ export class ViabilityDetailsComponent implements OnInit {
   public labelCaptive: any = {};
   public viabilityData: any;
   public vehicleModel = '';
+  public vehicleModelMake : any;
   // tslint:disable-next-line: variable-name
   public vehicle_viability_value = '1VHCLVBTY';
   isDirty = false;
@@ -92,6 +93,7 @@ export class ViabilityDetailsComponent implements OnInit {
 
   selectedDocDetails: DocRequest;
   dmsDocumentId: string;
+  applicantName: any;
 
 
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
@@ -286,15 +288,16 @@ export class ViabilityDetailsComponent implements OnInit {
       });
     });
   }
-  getCollateralId() {
+  async getCollateralId() {
     return new Promise((resolve, reject) => {
-      this.route.parent.firstChild.params.subscribe((value) => {
+      this.route.parent.firstChild.params.subscribe(async (value) => {
         if (value && value.collateralId) {
           resolve(Number(value.collateralId));
-          this.viabilityDataObj = this.viabilityService.getCollateralId();
-          console.log(this.viabilityDataObj);
-          if (this.viabilityDataObj === null || this.viabilityDataObj === undefined) {
-             this.viabilityService.getViabilityList({leadId: this.leadId}).subscribe((res: any) => {
+          // this.viabilityDataObj = await this.viabilityService.getCollateralId();
+          // console.log(this.viabilityDataObj);
+          // if (this.viabilityDataObj === null || this.viabilityDataObj === undefined) {
+          this.viabilityService.getViabilityList({leadId: this.leadId}).subscribe((res: any) => {
+              console.log(res, 'colleteral response');
               res.ProcessVariables.vehicleViabilityDashboardList.filter((dataRes: any) => {
               if ( dataRes.collateralId === value.collateralId) {
                 this.viabilityDataObj = dataRes;
@@ -304,7 +307,7 @@ export class ViabilityDetailsComponent implements OnInit {
              }
              );
 
-          }
+          // }
         }
         resolve(null);
       });
@@ -455,9 +458,11 @@ getViability() {
       collateralId: this.collataralId
     };
     this.viabilityService.getViabilityDetails(body).subscribe((res: any) => {
-      if (res.ProcessVariables.error.code === '0' && res.ProcessVariables.vehicleViability != null) {
+      // tslint:disable-next-line: triple-equals
+      if (res.ProcessVariables.error.code == '0' && res.ProcessVariables.vehicleViability != null) {
       this.viabliityDataToPatch = res.ProcessVariables.vehicleViability;
-
+      this.applicantName = res.ProcessVariables.vehicleViability.applicantName;
+      this.vehicleModelMake = res.ProcessVariables.vehicleViability.vehicleModel;
       this.latitude = this.viabliityDataToPatch.latitude;
       this.longitude = this.viabliityDataToPatch.longitude;
       this.branchLatitude = this.viabliityDataToPatch.brLatitude;
@@ -800,16 +805,16 @@ if (this.router.url.includes('/dde')) {
   const costPerLtr: any = passengerGroup.value.costPerLtr ? Number(passengerGroup.value.costPerLtr) : 0;
   const fuelAvgPerKm: any = passengerGroup.value.fuelAvgPerKm ? Number(passengerGroup.value.fuelAvgPerKm) : '';
   if (monthlyRunningKm != null && (costPerLtr != null && costPerLtr !== 0) && (fuelAvgPerKm != null && fuelAvgPerKm !== 0 )) {
-    const fuelCostPass = Math.round( (monthlyRunningKm * costPerLtr) / fuelAvgPerKm) ;
+    const fuelCostPass: any = ( (monthlyRunningKm * costPerLtr) / fuelAvgPerKm).toFixed(4) ;
     // tslint:disable-next-line: triple-equals
-    if (fuelCostPass != undefined && fuelCostPass !== 0 && fuelCostPass  != Infinity &&
+    if (fuelCostPass != undefined && fuelCostPass != 0 && fuelCostPass  != Infinity &&
       // tslint:disable-next-line: triple-equals
       isNaN(fuelCostPass) == false && fuelAvgPerKm != ''  ) {
       passengerGroup.patchValue({
         fuelCost : fuelCostPass
       });
     }
-   
+
   }
   //  else {
   //   // tslint:disable-next-line: triple-equals
@@ -827,9 +832,9 @@ if (this.router.url.includes('/dde')) {
   const perTyreCost: any = passengerGroup.value.perTyreCost ? Number(passengerGroup.value.perTyreCost) : 0;
   if ( (noOfTyres != null && noOfTyres !== 0) && (newTyreLifeKm != null && newTyreLifeKm !== 0 && newTyreLifeKm != '') &&
    (perTyreCost != null && perTyreCost !== 0)) {
-    const tyreCostPass = Math.round ((noOfTyres * perTyreCost * monthlyRunningKm) / newTyreLifeKm);
+    const tyreCostPass: any =  ((noOfTyres * perTyreCost * monthlyRunningKm) / newTyreLifeKm).toFixed(4);
     // tslint:disable-next-line: triple-equals
-    if (tyreCostPass != undefined && tyreCostPass !== 0 && tyreCostPass  != Infinity &&
+    if (tyreCostPass != undefined && tyreCostPass != 0 && tyreCostPass  != Infinity &&
       // tslint:disable-next-line: triple-equals
       isNaN(tyreCostPass) == false && newTyreLifeKm != ''  ) {
     passengerGroup.patchValue( {
@@ -883,7 +888,7 @@ if (this.router.url.includes('/dde')) {
   // passengerGroup.patchValue({
   //   netCashFlow : this.monthlyIncome - expense
   // });
-  this.netFlowCash = this.monthlyIncome - expense;
+  this.netFlowCash = Number((this.monthlyIncome - expense).toFixed(4));
   // this.calculatePassenger();
   // this.calculatePassengerB();
   // this.calculatePassengerC();

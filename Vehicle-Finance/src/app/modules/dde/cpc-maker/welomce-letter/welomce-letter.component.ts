@@ -121,7 +121,7 @@ export class WelomceLetterComponent implements OnInit {
         this.guarantorList = this.isWelcomeDetails["guarantorDetails"];
         this.loanApprovedDetails = this.isWelcomeDetails["loanApprovedDetails"];
         this.div1Data = this.isWelcomeDetails["div1Data"];
-        //this.div1Data = decodeURI(this.div1Data);
+        this.div1Data = decodeURI(this.div1Data);
         // this.div1Data =this.domSanitizer.bypassSecurityTrustHtml(this.div1Data); 
         //bypassSecurityTrustHtml(this.div1Data); 
         //  const doc = document.getElementById("divone")
@@ -132,16 +132,25 @@ export class WelomceLetterComponent implements OnInit {
         // this.dummy = atob(text);
 
         this.div2Data = this.isWelcomeDetails["div2Data"];
-        //this.div2Data = decodeURI(this.div2Data);
+        this.div2Data = decodeURI(this.div2Data);
        
         this.div3Data = this.isWelcomeDetails["div3Data"];
-        //this.div3Data = decodeURI(this.div3Data);
+        this.div3Data = decodeURI(this.div3Data);
+        //console.log("reshma"+this.div1Data);
+        //console.log(this.div2Data);
+        //console.log(this.div3Data);
 
-        if(this.preferredLan!== "ENGPRFLAN" ){
-          this.div1Data = decodeURI(this.div1Data);
-          this.div2Data = decodeURI(this.div2Data);
-          this.div3Data = decodeURI(this.div3Data);
-        } 
+        // if(this.preferredLan!== "ENGPRFLAN" ){
+        //   this.div1Data = decodeURI(this.div1Data);
+        //   this.div2Data = decodeURI(this.div2Data);
+        //   this.div3Data = decodeURI(this.div3Data);
+        // } 
+
+        // if(this.preferredLan!== "ENGPRFLAN" ){
+          // this.div1Data = decodeURI(this.div1Data);
+          // this.div2Data = decodeURI(this.div2Data);
+          // this.div3Data = decodeURI(this.div3Data);
+        // } 
         this.vehicleDetailsArray = this.isWelcomeDetails["vehicleDetails"];
         
         this.repaymentDetails = res['ProcessVariables'].repaymentDetails;         
@@ -181,7 +190,7 @@ export class WelomceLetterComponent implements OnInit {
 
   downloadpdf() {
     var options = {
-      margin:[0.5, 0.5, 0.65, 0.5],
+      margin:[0.5, 0.5, 0.5, 0.5],
       //margin: 0.5,
       filename: `WelcomeLetter_${this.leadId}.pdf`,
       image: { type: 'jpeg', quality: 1 },
