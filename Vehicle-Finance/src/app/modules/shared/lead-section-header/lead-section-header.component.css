@@ -2,7 +2,7 @@
   border: 1px solid #ddd;
   font-weight: 100;
   border-radius: 6px;
-  padding-top: 5px;
+  /* padding-top: 5px; */
   padding-bottom: 0px;
   background: white;
  margin : 0 15px;
@@ -14,18 +14,18 @@
   }
   
   label.col-form-label {
-    width: 50%;
-    padding-right: 20px;
+    width:50%;
+    /* padding-right: 20px; */
     padding-left: 20px;
-    font-weight: bolder;
+    font-weight: 550;
     font-size: 14px;
     word-break: break-word;
   }
   
   label.col-form-label-two {
-    width: 50%;
-    padding-right: 20px;
-    padding-left: 20px;
+    width:50%;
+    /* padding-right: 20px; */
+    padding-left: 15px;
     font-weight: bolder;
     font-size: 14px;
     float: right;
@@ -40,6 +40,79 @@
     width:100%;
     font-size:12px;
     padding: 8px 8px!important;
-    margin-bottom: 12px;
+    /* margin-bottom: 12px; */
    
   }
+
+  .view-pad-top{
+    padding: 8px 8px 2px 8px;
+    width:100%;
+    margin: auto;
+  }
+
+  .view-pad-bottom{
+    padding: 2px 8px 8px 8px;
+    width:100%;
+    margin: auto;
+  }
+
+.pad-allside{
+  padding: 8px;
+  width: 80%;
+  margin:auto;
+}
+
+.btn-width{
+  width:20%;
+}
+
+.mob-view{
+  display:none;
+}
+
+
+.tab-border{
+  border:none!important;
+  margin:0%!important;
+}
+
+.lab-bold{
+  width:4% ;
+  font-weight:600;
+}
+
+.lab-bold-1{
+  width:1% ;
+  font-weight:600;
+}
+
+.lab-small{
+  width:8% ;
+}
+
+.lab-colan{
+  width:1%;
+}
+
+
+@media (min-width:200px) and (max-width:767px) {
+  .view-pad-top{
+    padding: 8px 8px 8px 8px;
+  }
+
+  .view-pad-bottom{
+    padding: 8px 8px 8px 8px;
+  }
+
+  .tab-view{
+    display:none;
+  }
+
+  .mob-view{
+    display:block;
+  }
+
+  .btn-width{
+    width:100%;
+  }
+}

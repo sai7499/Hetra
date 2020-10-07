@@ -1,28 +1,34 @@
-
 <div style="text-align: center;">
-    <button class="btn btn-primary btn_div " 
-    *ngIf = "roleType == '2' && !isApprove && !isTermSheet"  (click)= "showTermSheet()" 
-    type="button">Generate Term Sheet</button>
+    <button class="btn btn-primary btn_div " *ngIf="roleType == '2' && !isApprove && !isTermSheet"
+        (click)="showTermSheet()" type="button">Generate Term Sheet</button>
 </div>
 <!-- -->
 
 
-<main class="content" style="padding-bottom: 50px;" *ngIf = "isTermSheet">
+<main class="content" style="padding-bottom: 50px;" *ngIf="isTermSheet">
     <div class="container overflow-hidden">
         <div class="multisteps-form" id="ContentToConvert">
             <div class="print_top">
                 <div class="row">
-                    <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6">
+                    <div class="col-lg-12 col-sm-12 col-xs-12 col-md-12">
                         <p id="terms_sheet_headline">{{labels.termSheetTag1}}</p>
                         <p id="terms_sheet_headline"> {{labels.termSheet}}</p>
                     </div>
-                    <div class="col-lg-6 col-sm-6 col-xs- col-md-6">
+                    <div class="col-lg-9 col-sm-9 col-xs-9 col-md-9">
+                        &nbsp;
+                    </div>
+                    <div class="col-lg-2 col-sm-2 col-xs-2 col-md-2">
                         <p id="terms_sheet_headline_right">{{labels.date}} : {{todayDate}}</p>
                         <p id="terms_sheet_headline_right"> {{labels.page}} : 1</p>
                     </div>
                 </div>
                 <div id="table_section_bottom">
-                    <table class="table-responsive  table table-borderless">
+                    <div class="row text-center table_header_top"> 
+                        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4">{{labels.applicationNo}}. : {{applicationDetails?.applicantionNum}}</div>
+                        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4">{{labels.proposalNo}}. : {{applicationDetails?.proposalNum}}</div>
+                        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4">{{labels.scheme}} : {{applicationDetails?.scheme}}</div>
+                    </div>
+                    <!-- <table class="table-responsive  table table-borderless">
                         <thead>
                             <tr id="table_header_top">
                                 <th id="table_header_top_tag3"> {{labels.applicationNo}}. :
@@ -45,203 +51,212 @@
                                 <td>{{applicationDetails?.product}}</td>
                             </tr>
                         </tbody>
-                    </table>    
+                    </table> -->
 
                     <div class="table-responsive">
 
-                    
-                    <table class="table-responsive table table-borderless" *ngFor = "let assetDetailsData of assetDetails ; let i=index">
-                        <thead>
-                            <tr id="table_header_top" style="border: none !important">
-                                <th id="table_column_width15"></th>
-                                 <th></th>
-                                <th id="table_column_width10">
-                                    
-                                   </th>
-                                <th id="table_column_width10"></th>
-                                <th></th>
-                                <th id="table_header_top_tag2">
+
+                        <table class="table-responsive table table-borderless"
+                            *ngFor="let assetDetailsData of assetDetails ; let i=index">
+                            <thead>
+                                <tr id="table_header_top" style="border: none !important">
+                                    <th id="table_column_width15"></th>
+                                    <th></th>
+                                    <th id="table_column_width10">
+
                                     </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                    <!-- assetDetails start -->
-                            <tr>
-                                
-                                <td>{{labels.assetType}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.type}}</td>
-                                <td>{{labels.manufacturer}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.manufac}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.termSheetTag2}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.manufacMonthYr}}</td>
-                                <td>{{labels.model}}</td>
-                                <td>: </td>
-                                <td>{{assetDetailsData.model}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.registrationNo}}.</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.regNo}}</td>
-                                <td>{{labels.engineNo}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.engineNo}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.permitStatus}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.permitStatus}}</td>
-                                <td>{{labels.chasisNo}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.chasisNo}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.taxArrears}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.taxArrears}}</td>
-                                <td>{{labels.agreementType}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.agreementType}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.classificationType}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.classificationType}}</td>
-                                <td>{{labels.NoofLIVELoans}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.liveLoans}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.fcExpiryDate}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.fcExpDate}}</td>
-                                <td>{{labels.schemeDescr}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.schemeDesc}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.vehicleRegistrationDate}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.regDate }}</td>
-                                <td>{{labels.fcExpiryGapDays}}</td>
-                                <td>: </td>
-                                <td> {{assetDetailsData.fcExpGapDays}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.cubicCapacity}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.cubicCapacity}}</td>
-                                <td>{{labels.seatingCapacity}}</td>
-                                <td>: </td>
-                                <td>{{assetDetailsData.seatingCapacity}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.gvw}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.gvw}}</td>
-                                <td>{{labels.advAdjustmentIMC}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.advAdjIMC}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.collateralApplicable}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.colApplicable}}</td>
-                                <td>{{labels.collateralName}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.colName}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.spokeLocation}}</td>
-                                <td>:</td>
-                                <td>{{assetDetailsData.spokeLoc}}</td>
-                                <td>{{labels.locationName}}</td>
-                                <td>: </td>
-                                <td>{{assetDetailsData.locName}}</td>
-                            </tr>
-                            <!-- assetDetails end -->
-                        </tbody>
-                    </table>
-                </div>
-                <div class="table-responsive">
-                    <table class="table-responsive  table table-borderless">
-                        <thead>
-                            <tr id="table_header_top" style="border: none !important">
-                                <th id="table_column_width15"></th>
-                                 <th></th>
-                                <th id="table_column_width10">
-                                    
-                                   </th>
-                                <th id="table_column_width10"></th>
-                                <th></th>
-                                <th id="table_header_top_tag2">
+                                    <th id="table_column_width10"></th>
+                                    <th></th>
+                                    <th id="table_header_top_tag2">
                                     </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                 <!-- psl start -->
-                                <td>{{labels.pslCategory}}</td>
-                                <td>:</td>
-                                <td>{{pslDetails?.category}}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.pslSubCategory}}</td>
-                                <td>:</td>
-                                <td>{{pslDetails?.subCategory}}</td>
-                                <td> </td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.folioNumber}}</td>
-                                <td>:</td>
-                                <td>{{pslDetails?.folioNum}}</td>
-                                <td>{{labels.customerCategory}}</td>
-                                <td>:</td>
-                                <td>{{applicantDetails?.category}}</td>
-                            </tr>
-                            <!-- customer Details -->
-                            <tr>
-                                <td>{{labels.nameOfTheCustomer}}</td>
-                                <td>:</td>
-                                <td>{{applicantDetails?.name}}</td>
-                                <td> </td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.customerDOB}}</td>
-                                <td>:</td>
-                                <td>{{applicantDetails?.dob}}</td>
-                                <td>{{labels.customerAge}}</td>
-                                <td>:</td>
-                                <td>{{applicantDetails?.age}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.customerType}}</td>
-                                <td>:</td>
-                                <td>{{applicantDetails?.type}}</td>
-                                <td>{{labels.registrationType}}</td>
-                                <td>:</td>
-                                <td>{{commonAppDetails?.registrationType}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.customerCibilStatus}}</td>
-                                <td>:</td>
-                                <td>{{commonAppDetails?.cibilStatus ? commonAppDetails?.cibilStatus : "-"}}</td>
-                                <td>{{labels.cibilScore}}</td>
-                                <td>:</td>
-                                <td>{{commonAppDetails?.cibilScore}}</td>
-                            </tr>
-                            <!-- <tr>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- assetDetails start -->
+                                <tr>
+
+                                    <td class="td-wid-25">{{labels.assetType}}</td>
+                                    <td class="td-wid-5">:</td>
+                                    <td class="td-wid-25">{{assetDetailsData.type}}</td>
+                                    <td class="td-wid-25">{{labels.manufacturer}}</td>
+                                    <td class="td-wid-5">:</td>
+                                    <td class="td-wid-25">{{assetDetailsData.manufac}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.termSheetTag2}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.manufacMonthYr}}</td>
+                                    <td>{{labels.model}}</td>
+                                    <td>: </td>
+                                    <td>{{assetDetailsData.model}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.registrationNo}}.</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.regNo}}</td>
+                                    <td>{{labels.engineNo}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.engineNo}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.permitStatus}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.permitStatus}}</td>
+                                    <td>{{labels.chasisNo}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.chasisNo}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.taxArrears}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.taxArrears}}</td>
+                                    <td>{{labels.agreementType}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.agreementType}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.classificationType}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.classificationType}}</td>
+                                    <td>{{labels.NoofLIVELoans}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.liveLoans}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.fcExpiryDate}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.fcExpDate}}</td>
+                                    <td>{{labels.schemeDescr}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.schemeDesc}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.vehicleRegistrationDate}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.regDate }}</td>
+                                    <td>{{labels.fcExpiryGapDays}}</td>
+                                    <td>: </td>
+                                    <td> {{assetDetailsData.fcExpGapDays}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.cubicCapacity}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.cubicCapacity}}</td>
+                                    <td>{{labels.seatingCapacity}}</td>
+                                    <td>: </td>
+                                    <td>{{assetDetailsData.seatingCapacity}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.gvw}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.gvw}}</td>
+                                    <td>
+                                        <!-- {{labels.advAdjustmentIMC}} -->
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        <!-- {{assetDetailsData.advAdjIMC}} -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.collateralApplicable}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.colApplicable}}</td>
+                                    <td>{{labels.collateralName}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.colName}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.spokeLocation}}</td>
+                                    <td>:</td>
+                                    <td>{{assetDetailsData.spokeLoc}}</td>
+                                    <td>{{labels.locationName}}</td>
+                                    <td>: </td>
+                                    <td>{{assetDetailsData.locName}}</td>
+                                </tr>
+                                <!-- assetDetails end -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table-responsive  table table-borderless">
+                            <thead>
+                                <tr id="table_header_top" style="border: none !important">
+                                    <th id="table_column_width15"></th>
+                                    <th></th>
+                                    <th id="table_column_width10">
+
+                                    </th>
+                                    <th id="table_column_width10"></th>
+                                    <th></th>
+                                    <th id="table_header_top_tag2">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <!-- psl start -->
+                                    <td class="td-wid-25">{{labels.pslCategory}}</td>
+                                    <td class="td-wid-5">:</td>
+                                    <td class="td-wid-25">{{pslDetails?.category}}</td>
+                                    <td class="td-wid-25"></td>
+                                    <td class="td-wid-5"></td>
+                                    <td class="td-wid-25"></td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.pslSubCategory}}</td>
+                                    <td>:</td>
+                                    <td>{{pslDetails?.subCategory}}</td>
+                                    <td> </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.folioNumber}}</td>
+                                    <td>:</td>
+                                    <td>{{pslDetails?.folioNum}}</td>
+                                    <td>{{labels.customerCategory}}</td>
+                                    <td>:</td>
+                                    <td>{{applicantDetails?.category}}</td>
+                                </tr>
+                                <!-- customer Details -->
+                                <tr>
+                                    <td>{{labels.nameOfTheCustomer}}</td>
+                                    <td>:</td>
+                                    <td>{{applicantDetails?.name}}</td>
+                                    <td> </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.customerDOB}}</td>
+                                    <td>:</td>
+                                    <td>{{applicantDetails?.dob}}</td>
+                                    <td>{{labels.customerAge}}</td>
+                                    <td>:</td>
+                                    <td>{{applicantDetails?.age}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.customerType}}</td>
+                                    <td>:</td>
+                                    <td>{{applicantDetails?.type}}</td>
+                                    <td>
+                                        <!-- {{labels.registrationType}} -->
+                                    </td>
+                                    <td>:</td>
+                                    <td>
+                                        <!-- {{commonAppDetails?.registrationType}} -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.customerCibilStatus}}</td>
+                                    <td>:</td>
+                                    <td>{{commonAppDetails?.cibilStatus ? commonAppDetails?.cibilStatus : "-"}}</td>
+                                    <td>{{labels.cibilScore}}</td>
+                                    <td>:</td>
+                                    <td>{{commonAppDetails?.cibilScore}}</td>
+                                </tr>
+                                <!-- <tr>
                                 <td>{{labels.leadReferenceNumber}}</td>
                                 <td>:</td>
                                 <td>{{commonAppDetails?.leadRefNo}}</td>
@@ -249,89 +264,185 @@
                                 <td>:</td>
                                 <td>{{commonAppDetails?.leadRefDate}}</td>
                             </tr> -->
-                            <tr>
-                                <td>{{labels.genderOfCustomer}}</td>
-                                <td>:</td>
-                                <td>{{applicantDetails?.gender}}</td>
-                                <td>{{labels.distance}}</td>
-                                <td>: </td>
-                                <td>{{commonAppDetails?.distance}}</td>
-                            </tr>
-                            <tr>
-                                <td>{{labels.businessStability}}</td>
-                                <td>:</td>
-                                <td>{{commonAppDetails?.businessStab}}</td>
-                                <td>{{labels.residenceStability2}}</td>
-                                <td>: </td>
-                                <td>{{commonAppDetails?.residenceStab ? commonAppDetails?.residenceStab  : "-" }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                <tr>
+                                    <td>{{labels.genderOfCustomer}}</td>
+                                    <td>:</td>
+                                    <td>{{applicantDetails?.gender}}</td>
+                                    <td>{{labels.distance}}</td>
+                                    <td>: </td>
+                                    <td>{{commonAppDetails?.distance}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{labels.businessStability}}</td>
+                                    <td>:</td>
+                                    <td>{{commonAppDetails?.businessStab}}</td>
+                                    <td>{{labels.residenceStability2}}</td>
+                                    <td>: </td>
+                                    <td>{{commonAppDetails?.residenceStab ? commonAppDetails?.residenceStab  : "-" }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div id="tearms_sheet_header2">
-                    <p id="tearms_sheet_header2_top">{{labels.coApplicantDetails}}</p>
-                  <div *ngFor = "let coAppDetailsData of coAppDetails; let i=index">
-                    <p id="tearms_sheet_hdr_left_tag">
-                        {{labels.name}} : {{coAppDetailsData.name}}
-                    </p>
-                    <p id="tearms_sheet_hdr_left_tag">
-                        {{labels.dob}} : {{coAppDetailsData.dob}} &nbsp;
-                        {{labels.age}} : {{coAppDetailsData.age}}&nbsp;
-                        {{labels.type}} : {{coAppDetailsData.type}}&nbsp;
-                        {{labels.gender}} : {{coAppDetailsData.gender}}
-                    </p>
-                  </div> 
-                   
+                    <p class="text-center">{{labels.coApplicantDetails}}</p>
+                    <div *ngFor="let coAppDetailsData of coAppDetails; let i=index">
+                        <p class="text-left">
+                            {{labels.name}} : {{coAppDetailsData.name}}
+                        </p>
+                        <table class="table-responsive  table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td class="tab-wid-25">{{labels.dob}}</td>
+                                    <td class="tab-wid-5">:</td>
+                                    <td class="tab-wid-25" >{{coAppDetailsData.dob}}</td>
+                                    <td class="tab-wid-25">{{labels.age}} </td>
+                                    <td class="tab-wid-5">:</td>
+                                    <td class="tab-wid-25" >{{coAppDetailsData.age}}</td>
+                                    <td class="tab-wid-25">{{labels.type}}</td>
+                                    <td class="tab-wid-5">:</td>
+                                    <td class="tab-wid-25" >{{coAppDetailsData.type}}</td>
+                                    <td class="tab-wid-25">{{labels.gender}}</td>
+                                    <td class="tab-wid-5">:</td>
+                                    <td class="tab-wid-25" >{{coAppDetailsData.gender}}</td>
+                                    <td class="tab-wid-25">{{labels.dob}}</td>
+                                    <td class="tab-wid-5">:</td>
+                                    <td class="tab-wid-25" >{{coAppDetailsData.dob}}</td>
+                                </tr>
+                                
+                            </tbody>
+                            </table>
+
+                    </div>
+
 
                 </div>
                 <div id="tearms_sheet_header3">
 
-                    <p id="tearms_sheet_header3_top">{{labels.guarantorDetails}}</p>
+                    <p class="text-center" >{{labels.guarantorDetails}}</p>
                     <div *ngFor="let guarantorData of guarantorDetails">
-                        <p id="tearms_sheet_hdr_left_tag">
+                        <p >
                             {{labels.name}} : {{guarantorData.name}}
                         </p>
-                        <p id="tearms_sheet_hdr_left_tag">
-                            {{labels.dob}} : {{guarantorData.dob}} &nbsp;
-                            {{labels.age}} : {{guarantorData.age}}&nbsp;
-                            {{labels.type}} : {{guarantorData.type}}&nbsp;
-                            {{labels.gender}} : {{guarantorData.gender}}
-                        </p>
+                       
+                        <table class="table-responsive  table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td class="tab-wid-25">{{labels.dob}}</td>
+                                    <td class="tab-wid-5">:</td>
+                                    <td class="tab-wid-25" >{{guarantorData.dob}}</td>
+                                    <td class="tab-wid-25">{{labels.age}} </td>
+                                    <td class="tab-wid-5">:</td>
+                                    <td class="tab-wid-25" >{{guarantorData.age}}</td>
+                                    <td class="tab-wid-25">{{labels.type}}</td>
+                                    <td class="tab-wid-5">:</td>
+                                    <td class="tab-wid-25" >{{guarantorData.type}}</td>
+                                    <td class="tab-wid-25">{{labels.gender}}</td>
+                                    <td class="tab-wid-5">:</td>
+                                    <td class="tab-wid-25" >{{guarantorData.gender}}</td>
+                                    <td class="tab-wid-25">{{labels.dob}}</td>
+                                    <td class="tab-wid-5">:</td>
+                                    <td class="tab-wid-25" >{{guarantorData.dob}}</td>
+                                </tr>
+                                
+                            </tbody>
+                            </table>
                     </div>
                 </div>
-                <div id="tearms_sheet_header4">
-                    <p id="tearms_sheet_header4_tag">
+                <div id="tearms_sheet_header4" *ngFor="let bankDetails of bankDetails">
+                    <table class="table-responsive  table table-borderless">
+                        <tbody>
+                            <tr>
+                                <td class="tab-wid-25">{{labels.applicantBankName}}</td>
+                                <td class="tab-wid-5">:</td>
+                                <td class="tab-wid-25" ></td>
+                                <td class="tab-wid-25">{{bankDetails?.bankName ? bankDetails?.bankName : '-'}}</td>
+                               
+                                <td class="tab-wid-25">{{labels.MICRNO}}</td>
+                                <td class="tab-wid-5">:</td>
+                                <td class="tab-wid-25" >{{bankDetails?.MICR ? bankDetails?.MICR : '-'}}</td>
+                               
+                            </tr>
+                            
+                        </tbody>
+                        </table>
+                    <!-- <p id="tearms_sheet_header4_tag">
                         <span id="tearms_sheet_header4_tag1">
-                            {{labels.applicantBankName}} &nbsp;: &nbsp; {{bankDetails?.bankName ? bankDetails?.bankName : '-'}}</span>
+                            {{labels.applicantBankName}} &nbsp;: &nbsp;
+                            {{bankDetails?.bankName ? bankDetails?.bankName : '-'}}</span>
                         <span id="tearms_sheet_header4_ta2">
                             {{labels.MICRNO}} : <span>{{bankDetails?.MICR ? bankDetails?.MICR : '-'}}</span>
                         </span>
-                    </p>
-                    <p id="tearms_sheet_header4_tag3">
+                    </p> -->
+
+                    <table class="table-responsive  table table-borderless">
+                        <tbody>
+                            <tr>
+                                <td class="tab-wid-25">{{labels.applicantBankBranch}}</td>
+                                <td class="tab-wid-5">:</td>
+                                <td class="tab-wid-25" ></td>
+                                <td class="tab-wid-25">{{bankDetails?.branchName ? bankDetails?.branchName : '-'}}</td>
+                               
+                                <td class="tab-wid-25">{{labels.accNo}}</td>
+                                <td class="tab-wid-5">:</td>
+                                <td class="tab-wid-25" >{{bankDetails?.accNum ? bankDetails?.accNum : '-'}}</td>
+                               
+                            </tr>
+                            
+                        </tbody>
+                        </table>
+
+
+                    <!-- <p id="tearms_sheet_header4_tag3">
                         <span id="tearms_sheet_header4_tag4">
-                            {{labels.applicantBankBranch}} &nbsp;: &nbsp;{{bankDetails?.branchName ? bankDetails?.branchName : '-'}} </span>
+                            {{labels.applicantBankBranch}} &nbsp;:
+                            &nbsp;{{bankDetails?.branchName ? bankDetails?.branchName : '-'}} </span>
                         <span id="tearms_sheet_header4_tag5">
                             {{labels.accNo}}. &nbsp;:&nbsp;{{bankDetails?.accNum ? bankDetails?.accNum : '-'}}
                         </span>
-                    </p>
+                    </p> -->
                 </div>
                 <div id="tearms_sheet_header5">
-                    <p id="tearms_sheet_header5_tag">
+                    <!-- <p id="tearms_sheet_header5_tag">
                         <span id="tearms_sheet_header5_tag1">
                             {{labels.sourcedBy}} &nbsp;: &nbsp;{{agentDetails?.sourcedBy}}</span>
                         <span id="tearms_sheet_header5_tag2">
                             {{labels.name}} &nbsp;:&nbsp;{{agentDetails?.name}}</span>
-                    </p>
-                    <p id="tearms_sheet_header5_tag3">
+                    </p> -->
+                    <!-- <p id="tearms_sheet_header5_tag3">
                         <span id="tearms_sheet_header5_tag4">{{labels.agentCode}} &nbsp;:
                             {{agentDetails?.agentCode}}</span>
                         <span id="tearms_sheet_header5_tag5">{{labels.name}} &nbsp;:&nbsp;
                             {{agentDetails?.agentName}}</span>
-                    </p>
+                    </p> -->
+                    <table class="table-responsive  table table-borderless">
+                        <tbody>
+                            <tr>
+                                <td class="tab-wid-25">{{labels.sourcedBy}}</td>
+                                <td class="tab-wid-5">:</td>
+                                <td class="tab-wid-25" >{{agentDetails?.sourcedBy}}</td>
+                                <td class="tab-wid-25">{{labels.name}}</td>
+                                <td class="tab-wid-5">:</td>
+                                <td class="tab-wid-25" >{{agentDetails?.name}}</td>
+                               
+                            </tr>                           
+                       
+                            <tr>
+                                <td class="tab-wid-25">{{labels.agentCode}}</td>
+                                <td class="tab-wid-5">:</td>
+                                <td class="tab-wid-25" >{{agentDetails?.agentCode}}</td>
+                                <td class="tab-wid-25">{{labels.name}}</td>
+                                <td class="tab-wid-5">:</td>
+                                <td class="tab-wid-25" >{{agentDetails?.name}}</td>
+                               
+                            </tr>
+                            
+                        </tbody>
+                        </table>
                 </div>
-                <div id="tearms_sheet_header6">
-                    <div *ngFor = "let identityData of identityDetails">
+                <div id="">
+                    <div *ngFor="let identityData of identityDetails">
                         <p id="tearms_sheet_header6_tag">
                             <span id="tearms_sheet_header6_tag1">
                                 {{labels.addressCumIdProof}}:&nbsp; {{identityData.addrCumIdProof}}
@@ -341,7 +452,7 @@
                             </span>
                         </p>
                     </div>
-                    <div  *ngFor = "let identityData of coAppIndentityDetails">
+                    <div *ngFor="let identityData of coAppIndentityDetails">
                         <p id="tearms_sheet_header6_tag">
                             <span id="tearms_sheet_header6_tag1">
                                 {{'co-Applicant '+labels.addressCumIdProof}}:&nbsp; {{identityData.addrCumIdProof}}
@@ -351,7 +462,7 @@
                             </span>
                         </p>
                     </div>
-                    <div  *ngFor = "let identityData of guaIdentityDetails">
+                    <div *ngFor="let identityData of guaIdentityDetails">
                         <p id="tearms_sheet_header6_tag">
                             <span id="tearms_sheet_header6_tag1">
                                 {{'Guarantor '+labels.addressCumIdProof}}:&nbsp; {{identityData.addrCumIdProof}}
@@ -363,26 +474,26 @@
                     </div>
                 </div>
                 <div id="tearms_sheet_header7" class="table-responsive">
-                    <table class="table table-responsive  table-borderless"
-                     cellspadding="10" *ngFor = "let assValuationData of assValuationDetails; let i= index;">
+                    <table class="table table-responsive  table-borderless" cellspadding="10"
+                        *ngFor="let assValuationData of assValuationDetails; let i= index;">
                         <thead>
                         </thead>
                         <tbody>
                             <tr>
-                                <td id="table_column_width15">{{labels.valuationValue}}</td>
-                                <td>:</td>
-                                <td id="table_column_width10">{{assValuationData.valuationAmount}}</td>
-                                <td id="table_column_width10">{{labels.gridValueMRP}}</td>
-                                <td>:</td>
-                                <td>{{assValuationData.gridAmount}}</td>
+                                <td class="tab-wid-25">{{labels.valuationValue}}</td>
+                                <td class="tab-wid-5">:</td>
+                                <td class="tab-wid-25">{{assValuationData.valuationAmount}}</td>
+                                <td class="tab-wid-25">{{labels.gridValueMRP}}</td>
+                                <td class="tab-wid-5">:</td>
+                                <td class="tab-wid-25">{{assValuationData.gridAmount}}</td>
                             </tr>
                             <tr>
-                                <td>{{labels.valuationDate}}</td>
-                                <td>:</td>
-                                <td>{{assValuationData.valDate}}</td>
-                                <td>{{labels.modelNotInGrid}}</td>
-                                <td>:</td>
-                                <td>{{assValuationData.vehicleAvailGrid}}</td>
+                                <td class="tab-wid-25" >{{labels.valuationDate}}</td>
+                                <td class="tab-wid-5">:</td>
+                                <td class="tab-wid-25">{{assValuationData.valDate}}</td>
+                                <td class="tab-wid-25">{{labels.modelNotInGrid}}</td>
+                                <td class="tab-wid-5">:</td>
+                                <td class="tab-wid-25">{{assValuationData.vehicleAvailGrid}}</td>
                             </tr>
                             <tr>
                                 <td>{{labels.valuatorName}}</td>
@@ -420,9 +531,13 @@
                                 <td>{{labels.emiAmount}}</td>
                                 <td>:</td>
                                 <td>{{assValuationData.emiAmount}}</td>
-                                <td>{{labels.fieldVisitCharges2}}</td>
-                                <td>:</td>
-                                <td>{{assValuationData.fieldVisitChrgs}}</td>
+                                <td>
+                                    <!-- {{labels.fieldVisitCharges2}} -->
+                                </td>
+                                <td></td>
+                                <td>
+                                    <!-- {{assValuationData.fieldVisitChrgs}} -->
+                                </td>
                             </tr>
                             <tr>
                                 <td>{{labels.insPremium}}</td>
@@ -449,17 +564,26 @@
                                 <td>{{assValuationData.processFeePercent}}</td>
                             </tr>
                             <tr>
-                                <td>{{labels.vintageDeviation}}</td>
-                                <td>:</td>
-                                <td>{{assValuationData.vintageDev}}</td>
+                                <td>
+                                    <!-- {{labels.vintageDeviation}} -->
+                                </td>
+                                <td></td>
+                                <td>
+                                    <!-- {{assValuationData.vintageDev}} -->
+
+                                </td>
                                 <td>{{labels.assetAge}}</td>
                                 <td>:</td>
                                 <td>{{assValuationData.assetAge}}</td>
                             </tr>
                             <tr>
-                                <td>{{labels.vintageDeviationClassification}} </td>
+                                <td>
+                                    <!-- {{labels.vintageDeviationClassification}}  -->
+                                </td>
                                 <td>:</td>
-                                <td>{{assValuationData.vintageDevClassification}}</td>
+                                <td>
+                                    <!-- {{assValuationData.vintageDevClassification}} -->
+                                </td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -469,20 +593,21 @@
                 </div>
 
                 <div id="tearms_sheet_header8" class="table-responsive">
-                    <table class="table table-responsive table-borderless">
+                    <table class="table table-responsive table-borderless"
+                        *ngFor="let assetLoanDetails of assetLoanDetails">
                         <thead>
                         </thead>
                         <tbody>
                             <tr>
-                                <td id="table_column_width10">{{labels.processingFee}}</td>
-                                <td>:</td>
-                                <td id="table_column_width10">{{assetLoanDetails?.processFee}}</td>
-                                <td id="table_column_width10">{{labels.tenure}}</td>
-                                <td>:</td>
-                                <td id="table_column_width10">{{assetLoanDetails?.tenure}}</td>
-                                <td id="table_column_width10">{{labels.repayableMonths}}</td>
-                                <td>:</td>
-                                <td>{{assetLoanDetails?.repayableMon}}</td>
+                                <td class="tab-wid-25">{{labels.processingFee}}</td>
+                                <td class="tab-wid-5">:</td>
+                                <td class="tab-wid-25">{{assetLoanDetails?.processFee}}</td>
+                                <td class="tab-wid-25">{{labels.tenure}}</td>
+                                <td class="tab-wid-5">:</td>
+                                <td class="tab-wid-25">{{assetLoanDetails?.tenure}}</td>
+                                <td class="tab-wid-25">{{labels.repayableMonths}}</td>
+                                <td class="tab-wid-5">:</td>
+                                <td class="tab-wid-25">{{assetLoanDetails?.repayableMon}}</td>
                             </tr>
                             <tr>
                                 <td>{{labels.grossIrr}}</td>
@@ -575,150 +700,110 @@
 
                         </tbody>
                     </table>
+                </div>""
+                <div class="row" id="terms_sheet_headline9" class="table-responsive">
+                   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                    {{labels.ecsMandate}} :
+                   </div>
+                   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                    {{ecsDetails?.ecs_mandate}}
+                   </div>
+                   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                    {{labels.ecsBankName}} :
+                   </div>
+                   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                    {{ecsDetails?.ecs_bank}}
+                    </div>
+                    
                 </div>
-                <div id="terms_sheet_headline9" class="table-responsive">
-                    <p id="terms_sheet_headline9_tag">
-                        <span id="terms_sheet_headline9_tag1">
-                            {{labels.ecsMandate}} :&nbsp;
-                        </span>
-                        <span>{{ecsDetails?.ecs_mandate}}</span>
-                        <span id="terms_sheet_headline9_tag2">{{labels.ecsBankName}} :</span>
-                        <span id=""> {{ecsDetails?.ecs_bank}}</span>
-                    </p>
-                </div>
-                <div id="terms_sheet_headline10" class="table-responsive">
+                <div id="terms_sheet_headline10" class="">
                     <!-- Deduction Charges from Loan Amount -->
-                    <p id="terms_sheet_headline10_tag">
+                    <p class="text-center">
                         {{labels.termSheetTag3}}</p>
-                    <p id="terms_sheet_headline10_tag1">
-                        <span id="terms_sheet_headline10_tag2">
-                            {{labels.processingFee}}: {{deductionDetails?.processingFee}}
-                        </span>
-                        <span id="terms_sheet_headline10_tag3">
-                            {{labels.advEmiAmt}} : {{deductionDetails?.advEmiAmt}}
-                        </span>
-                        <span id="terms_sheet_headline10_tag3a">
-                            {{labels.npdeOrRpdcAmount}} : {{deductionDetails?.npdc_rpdc_amt}}
-                        </span>
-                    </p>
-                    <p id="terms_sheet_headline10_tag4">
-                        <span id="terms_sheet_headline10_tag5">
-                            {{labels.creditShield}} : {{deductionDetails?.creditShield}}</span>
-                        <span id="terms_sheet_headline10_tag6">
-                            {{labels.insPremiumAmt}}: {{deductionDetails?.insPremiumAmt}}
-                        </span>
-                        <span id="terms_sheet_headline10_tag7">
-                            {{labels.emiCoveragePremium}} : {{deductionDetails?.emiCovPremium}}
-                        </span> 
-                    </p>
-                    <p id="terms_sheet_headline10_tag8">
-                        {{labels.totalDeductionAmount}}: {{deductionDetails?.totalDeductAmt}}
-                    </p>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.processingFee}}: {{deductionDetails?.vfProcessingFee}}</div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.advEmiAmt}} : {{deductionDetails?.advEmiAmt}}</div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.npdeOrRpdcAmount}} : {{deductionDetails?.npdc_rpdc_amt}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.creditShield}} : {{deductionDetails?.creditShield}}</div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.insPremiumAmt}}: {{deductionDetails?.insPremiumAmt}}</div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.emiCoveragePremium}} : {{deductionDetails?.emiCovPremium}}</div>
+                            
+                        
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right" style="overflow: hidden;">
+                            {{labels.totalDeductionAmount}}: {{deductionDetails?.totalDeductAmt}}
+                        </div>
+                        </div>
+                   
                 </div>
-                <!-- <div class="row">
-                    <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6">
-                        <p id="terms_sheet_headline">{{labels.termSheetTag1}}</p>
-                        <p id="terms_sheet_headline"> {{labels.termSheet}}</p>
-                    </div>
-                    <div class="col-lg-6 col-sm-6 col-xs- col-md-6">
-                        <p id="terms_sheet_headline_right">{{labels.date}} : 08/09/2017</p>
-                        <p id="terms_sheet_headline_right"> {{labels.page}} : 2</p>
-                    </div>
-                </div> -->
-
+               
                 <div id="terms_sheet_headline11_header" class="table-responsive">
-                    <table class="table table-responsive table-borderless">
-                        <thead>
-                            <tr id="table_header_top">
-                                <th id="table_header_top_tag3">{{labels.applicationNo}}. : 109555</th>
-                                <th></th>
-                                <th id="table_header_top_tag1">{{labels.proposalNo}} : ERODE0000123</th>
-                                <th></th>
-                                <th></th>
-                                <th id="table_header_top_tag2">{{labels.scheme}} : MCATC</th>
-                            </tr>
-                        </thead>
-                    </table>
-                    <p id="terms_sheet_headline11">{{labels.paymentDetails}}</p>
-                    <p id="terms_sheet_headline11_tag">
-                        <span id="terms_sheet_headline11_tag1">{{labels.paymentTo}} : {{paymentDetails?.paymentTo}}</span>
-                        <span id="terms_sheet_headline11_tag2">{{labels.payeeName}}:  {{paymentDetails?.payeeName}}
-                            &nbsp;&nbsp; <span>{{labels.acNo}} : </span>  {{paymentDetails?.accNum}}
-                        </span>
-                    </p>
-                    <p id="terms_sheet_headline11_tag3">
-                        <span id="terms_sheet_headline11_tag4">{{labels.amount}} :  {{paymentDetails?.amount}}</span>
-                        <span id="terms_sheet_headline11_tag5">{{labels.bankAc}} :  {{paymentDetails?.bankAcc}}</span>
-                    </p>
-                    <p id="terms_sheet_headline11_tag6">
-                        <span id="terms_sheet_headline11_tag7">{{labels.mode}} :  {{paymentDetails?.mode}}</span>
-                        <span id="terms_sheet_headline11_tag8"></span>
-                    </p>
+                   
+                    <div *ngFor="let paymentDetails of paymentDetails">
+                        <p id="terms_sheet_headline11">{{labels.paymentDetails}}</p>
+                        <p id="terms_sheet_headline11_tag">
+                            <span id="terms_sheet_headline11_tag1">{{labels.paymentTo}} :
+                                {{paymentDetails?.paymentTo}}</span>
+                            <span id="terms_sheet_headline11_tag2">{{labels.payeeName}}: {{paymentDetails?.payeeName}}
+                                &nbsp;&nbsp; <span>{{labels.acNo}} : </span> {{paymentDetails?.accNum}}
+                            </span>
+                        </p>
+                        <p id="terms_sheet_headline11_tag3">
+                            <span id="terms_sheet_headline11_tag4">{{labels.amount}} : {{paymentDetails?.amount}}</span>
+                            <span id="terms_sheet_headline11_tag5">{{labels.bankAc}} :
+                                {{paymentDetails?.bankAcc}}</span>
+                        </p>
+                        <p id="terms_sheet_headline11_tag6">
+                            <span id="terms_sheet_headline11_tag7">{{labels.mode}} : {{paymentDetails?.mode}}</span>
+                            <span id="terms_sheet_headline11_tag8"></span>
+                        </p>
+                    </div>
+
+
                 </div>
                 <div id="terms_sheet_headline12" class="table-responsive">
-
-                    <p id="terms_sheet_headline12_tag">{{labels.approvalDetails}}</p>
+                    <p class="text-center">{{labels.approvalDetails}}</p>
+                   
                     <hr id="terms_sheet_headline12_tag0" />
-                    <div *ngFor="let approvalData of approvalDetails">
-                        <p id="terms_sheet_headline12_tag1">
-                            <span id="terms_sheet_headline12_tag2">
-                                {{labels.employeeCode}} : {{approvalData.empCode}}
-                            </span>
-                            <span id="terms_sheet_headline12_tag3">
-                                {{labels.executiveName}} : {{approvalData.executiveName}}
-                            </span>
-                        </p>
-                        <p id="terms_sheet_headline12_tag4">
-                            <span id="terms_sheet_headline12_tag5">
-                                {{labels.remark}} : {{approvalData.remarks}}
-                            </span>
-                            <span id="terms_sheet_headline12_tag5"></span>
-                        </p>
+                    <div *ngFor="let approvalData of approvalDetails row">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">{{labels.employeeCode}} : {{approvalData.empCode}}</div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">{{labels.executiveName}} : {{approvalData.executiveName}}</div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">{{labels.remark}} : {{approvalData.remarks}}</div>
                     </div>
-                    <!-- <p id="terms_sheet_headline12_tag6">
-                        <span id="terms_sheet_headline12_tag7">
-              {{labels.employeeCode}} : eqs3987
-            </span>
-                        <span id="terms_sheet_headline12_tag10">
-              {{labels.executiveName}} : SANKAR.V
-            </span>
-                    </p>
-                    <p id="terms_sheet_headline12_tag8">
-                        <span id="terms_sheet_headline12_tag9">
-              {{labels.remark}} : CASE IS APPROVED
-            </span>
-                    </p> -->
                 </div>
+                
                 <div id="terms_sheet_headline13" class="table-responsive">
-                    <p id="terms_sheet_headline13_tag">{{labels.creditApprovalDeviation}}</p>
+                    <p class="text-center">{{labels.creditApprovalDeviation}}</p>
                     <table class="table table-responsive table-borderless">
                         <thead>
                             <tr id="table_header_top">
-                                <th id="table_header_top_tag1" style="max-width: 25%;">{{labels.factor}}</th>
-                                <th id="table_header_top_tag1">{{labels.minValue}}</th>
-                                <th id="table_header_top_tag1">{{labels.maxValue}}</th>
-                                <th id="table_header_top_tag1">{{labels.actualValue}}</th>
-                                <th id="table_header_top_tag1">{{labels.deviated}}</th>
-                                <th id="table_header_top_tag1">{{labels.approver}}</th>
+                                <th class="tab-wid-25">{{labels.factor}}</th>
+                                <th class="tab-wid-25">{{labels.minValue}}</th>
+                                <th class="tab-wid-25">{{labels.maxValue}}</th>
+                                <th class="tab-wid-25">{{labels.actualValue}}</th>
+                                <th class="tab-wid-25">{{labels.deviated}}</th>
+                                <th class="tab-wid-25">{{labels.approver}}</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor = "let creditApprovalData of creditApprovalDev ; let i= index">
-                                <td style="max-width: 25%;">{{creditApprovalData.factor}}</td>
-                                <td>{{creditApprovalData.minVal}}</td>
-                                <td>{{creditApprovalData.maxVal}}</td>
-                                <td>{{creditApprovalData.actualVal}}</td>
-                                <td>{{creditApprovalData.devaited}}</td>
-                                <td>{{creditApprovalData.approver}}</td>
+                            <tr *ngFor="let creditApprovalData of creditApprovalDev ; let i= index">
+                                <td class="tab-wid-25">{{creditApprovalData.factor}}</td>
+                                <td class="tab-wid-25">{{creditApprovalData.minVal}}</td>
+                                <td class="tab-wid-25">{{creditApprovalData.maxVal}}</td>
+                                <td class="tab-wid-25">{{creditApprovalData.actualVal}}</td>
+                                <td class="tab-wid-25">{{creditApprovalData.devaited}}</td>
+                                <td class="tab-wid-25">{{creditApprovalData.approver}}</td>
                             </tr>
-                           
+
                         </tbody>
                     </table>
                 </div>
                 <div id="terms_sheet_headline14" class="table-responsive">
-                    <p id="terms_sheet_headline14_tag">{{labels.termSheetTag4}}</p>
+                    <p class="text-center">{{labels.termSheetTag4}}</p>
                     <hr id="terms_sheet_headline12_tag0" />
-                    <table class="table table-responsive table-borderless" *ngFor = "let loanDetailsData of loanDetails; let i = index">
+                    <table class="table table-responsive table-borderless"
+                        *ngFor="let loanDetailsData of loanDetails; let i = index">
                         <!--- <thead>
                     <tr>
                       <th>Application No. : 109555</th>
@@ -728,12 +813,12 @@
                   </thead> ---->
                         <tbody>
                             <tr>
-                                <td id="table_column_width15">{{labels.particulars}}</td>
-                                <td>:</td>
-                                <td id="table_column_width10">Vehicle No</td>
-                                <td id="table_column_width15">{{labels.number}}</td>
-                                <td>:</td>
-                                <td>{{loanDetailsData.number}}</td>
+                                <td class="tab-wid-25">{{labels.particulars}}</td>
+                                <td class="tab-wid-25">:</td>
+                                <td class="tab-wid-25">Vehicle No</td>
+                                <td class="tab-wid-25">{{labels.number}}</td>
+                                <td class="tab-wid-25">:</td>
+                                <td class="tab-wid-25">{{loanDetailsData.number}}</td>
                             </tr>
                             <tr>
                                 <td>{{labels.branch}}</td>
@@ -825,22 +910,22 @@
                             <span id="">{{labels.dateTime}} : </span>
                         </p>
                     </div>
-                    <div id="" class="col-lg-6 col-sm-6 col-xs-6 col-md-6">
+                    <div  class="col-lg-6 col-sm-6 col-xs-6 col-md-6 text-right">
                         <span id=""> {{labels.signature}} : </span></div>
                 </div>
 
             </div>
         </div>
-        <div class="btn-sec clear-both row" *ngIf = "!isApprove">
+        <div class="btn-sec clear-both row" *ngIf="!isApprove">
             <div class="col-sm-5">
 
             </div>
             <div class="col-sm-7 text-right">
-                <button class="btn btn-primary btn_div " (click)= "onBack()" type="button">Back</button>
+                <button class="btn btn-primary btn_div " (click)="onBack()" type="button">Back</button>
                 <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
-                <button class="btn btn-primary btn_div" (click)= "onNext()" type="button">Next</button>
-                <button class="btn btn-primary btn_div" (click)= "downloadpdf()" type="button">Download</button>
-            
+                <button class="btn btn-primary btn_div" (click)="onNext()" type="button">Next</button>
+                <button class="btn btn-primary btn_div" (click)="downloadpdf()" type="button">Download</button>
+
             </div>
         </div>
 
@@ -856,50 +941,77 @@
 </main>
 
 
-<div class="btn-sec clear-both row" *ngIf = "roleType == '2' && !isTermSheet && !isApprove" >
+<div class="btn-sec clear-both row" *ngIf="roleType == '2' && !isTermSheet && !isApprove">
     <div class="col-sm-5">
 
     </div>
     <div class="col-sm-7 text-right">
-        <button class="btn btn-primary btn_div " (click)= "onBack()" type="button">Back</button>
+        <button class="btn btn-primary btn_div " (click)="onBack()" type="button">Back</button>
         <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
-        <button class="btn btn-primary btn_div" (click)= "onNext()" type="button">Next</button>
+        <button class="btn btn-primary btn_div" (click)="onNext()" type="button">Next</button>
     </div>
 </div>
-<div class="text-right" style="padding-bottom: 50px;" *ngIf = "isApprove">
-    <button class="btn btn-primary btn_div" data-toggle="modal"
-    data-target="#approveModal" 
-     type="button">Approve</button>
+<div class="text-right" style="padding-bottom: 50px;" *ngIf="isApprove">
+    <button class="btn btn-primary btn_div" data-toggle="modal" data-target="#approveModal"
+        type="button">Approve</button>
 
 </div>
 
 <div class="modal" id="approveModal">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title"></h4>
-          <button type="button" class="close" data-dismiss="modal">
-            &times;
-          </button>
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    &times;
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" style="text-align: center;">
+                <label>Are you sure you want to Approve the Term Sheet</label>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-success" id="reject_yes_val" value="Yes"
+                    (click)="assignTaskToTSAndCPC()" data-dismiss="modal">
+                    {{ labels.yes }}
+                </button>
+
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    {{ labels.cancel }}
+                </button>
+            </div>
         </div>
-  
-        <!-- Modal body -->
-        <div class="modal-body" style="text-align: center;">
-          <label>Are you sure you want to Approve the Term Sheet</label>
-        </div>
-  
-        <!-- Modal footer -->
-        <div class="modal-footer text-center">
-          <button type="button" class="btn btn-success" id="reject_yes_val" value="Yes"
-          (click)= "assignTaskToTSAndCPC()" data-dismiss="modal">
-            {{ labels.yes }}
-          </button>
-        
-          <button type="button" class="btn btn-danger" data-dismiss="modal">
-            {{ labels.cancel }}
-          </button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
+
+<div id="overlay" *ngIf="errorGenerated">
+    <div id="text">
+        <div class="panel">
+            <div class="panel-body">
+                <button type="button" class="close" aria-label="Close" (click)="errorGenerated = false">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="modal-dialog">
+                    <div class="modal-body" style="text-align:center;">
+                        <!-- <p *ngFor="let item of errorMessage">{{item}}</p> -->
+                        <div class="errHead">
+                            <h3 class="m-0">RC and TA Limit Check</h3>
+                        </div>
+                        <div class="row" *ngFor="let item of errorMessage; let i = index ;">
+                            <div class="col-md-12">
+                                <div class="errText"><strong>*</strong>{{' '+item}}</div>
+                            </div>
+                        </div>
+                        <div class="btn-wrap">
+                            <button class="btn btn-danger" routerLink="/pages/dashboard" (click)="errorGenerated = false">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

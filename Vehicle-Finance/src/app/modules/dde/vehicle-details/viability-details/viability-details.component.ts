@@ -32,6 +32,7 @@ export class ViabilityDetailsComponent implements OnInit {
   public labelCaptive: any = {};
   public viabilityData: any;
   public vehicleModel = '';
+  public vehicleModelMake : any;
   // tslint:disable-next-line: variable-name
   public vehicle_viability_value = '1VHCLVBTY';
   isDirty = false;
@@ -55,7 +56,7 @@ export class ViabilityDetailsComponent implements OnInit {
   collataralId: any;
   leadId: number;
   userId: string;
-  monthlyIncome = 0;
+  monthlyIncome: any = 0;
   monthlyRunningKm = 0;
   montlyStandOperatorIncome = 0;
   standoperatorExpense: number;
@@ -64,7 +65,7 @@ export class ViabilityDetailsComponent implements OnInit {
   captiveExpense = 0;
   captiveEmi = 0;
   netCashFlowEmiPassenger = 0;
-  netFlowCash = 0;
+  netFlowCash = 0;  // netcashflow for passengar group
   roleAndUserDetails: any;
   routerUrl: any;
   hideSubmit = true;
@@ -92,6 +93,7 @@ export class ViabilityDetailsComponent implements OnInit {
 
   selectedDocDetails: DocRequest;
   dmsDocumentId: string;
+  applicantName: any;
 
 
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
@@ -180,14 +182,15 @@ export class ViabilityDetailsComponent implements OnInit {
         busMiscellaneousExpenses: [],
         busInsurenceExpenses: [],
         busMonthlyIncome: [this.monthlyIncome],
-        netCashFlow: [],
+        netCashFlow: [this.netFlowCash],
         emi: [],
         totalExpenses: [],
         otherIncome: [],
         otherIncomeRemarks: [],
         otherExpenses: [],
         otherExpensesRemarks: [],
-        operationsExpenses: []
+        operationsExpenses: [],
+        netCashFlowEmi: this.netCashFlowEmiPassenger
 
       }),
       passangerStandOperator: this.fb.group({
@@ -199,8 +202,9 @@ export class ViabilityDetailsComponent implements OnInit {
         insuranceExpenses: [],
         miscellaneousExpenses: [],
         totalExpenses: [],
-        netCashFlow: [],
-        emi: []
+        netCashFlow: [this.montlyStandOperatorIncome],
+        emi: [],
+        netCashFlowEmi: this.standOperatorEmi
       }),
       captive: this.fb.group({
         natureOfBusiness: [],
@@ -211,10 +215,11 @@ export class ViabilityDetailsComponent implements OnInit {
         busTyreAvgExpenses: [],
         busInsurenceExpenses: [],
         busMiscellaneousExpenses: [],
-        busMonthlyIncome: [],
+        busMonthlyIncome: [this.montlyCaptiveIncome],
         totalExpenses: [],
-        netCashFlowEmi: [],
-        emi: ([])
+        netCashFlow: [],
+        emi: ([]),
+        netCashFlowEmi: this.captiveEmi
       }),
     });
     this.leadId = (await this.getLeadId()) as number;
@@ -248,17 +253,17 @@ export class ViabilityDetailsComponent implements OnInit {
     this.selectedDocDetails = {
       docsType: this.PROFILE_TYPE,
       docSize: this.OTHER_DOCUMENTS_SIZE,
-      docTp: "LEAD",
-      docSbCtgry: "ACCOUNT OPENING FORM",
-      docNm: "ACCOUNT_OPENING_FORM20206216328474448.pdf",
+      docTp: 'LEAD',
+      docSbCtgry: 'ACCOUNT OPENING FORM',
+      docNm: 'ACCOUNT_OPENING_FORM20206216328474448.pdf',
       docCtgryCd: 70,
-      docCatg: "KYC - I",
+      docCatg: 'KYC - I',
       docTypCd: 276,
-      flLoc: "",
-      docCmnts: "Addition of document for Lead Creation",
-      bsPyld: "Base64 data of the image",
+      flLoc: '',
+      docCmnts: 'Addition of document for Lead Creation',
+      bsPyld: 'Base64 data of the image',
       docSbCtgryCd: 204,
-      docsTypeForString: "selfie",
+      docsTypeForString: 'selfie',
       docRefId: [
         {
           idTp: 'LEDID',
@@ -283,15 +288,16 @@ export class ViabilityDetailsComponent implements OnInit {
       });
     });
   }
-  getCollateralId() {
+  async getCollateralId() {
     return new Promise((resolve, reject) => {
-      this.route.parent.firstChild.params.subscribe((value) => {
+      this.route.parent.firstChild.params.subscribe(async (value) => {
         if (value && value.collateralId) {
           resolve(Number(value.collateralId));
-          this.viabilityDataObj = this.viabilityService.getCollateralId();
-          console.log(this.viabilityDataObj);
-          if (this.viabilityDataObj === null || this.viabilityDataObj === undefined) {
-             this.viabilityService.getViabilityList({leadId: this.leadId}).subscribe((res: any) => {
+          // this.viabilityDataObj = await this.viabilityService.getCollateralId();
+          // console.log(this.viabilityDataObj);
+          // if (this.viabilityDataObj === null || this.viabilityDataObj === undefined) {
+          this.viabilityService.getViabilityList({leadId: this.leadId}).subscribe((res: any) => {
+              console.log(res, 'colleteral response');
               res.ProcessVariables.vehicleViabilityDashboardList.filter((dataRes: any) => {
               if ( dataRes.collateralId === value.collateralId) {
                 this.viabilityDataObj = dataRes;
@@ -301,7 +307,7 @@ export class ViabilityDetailsComponent implements OnInit {
              }
              );
 
-          }
+          // }
         }
         resolve(null);
       });
@@ -419,7 +425,7 @@ vehicle_viability_navigate(event) {
     captive.get('busMiscellaneousExpenses').setValidators(Validators.required);
     captive.get('busMonthlyIncome').setValidators(null);
     captive.get('totalExpenses').setValidators(Validators.required);
-    captive.get('netCashFlowEmi').setValidators(Validators.required);
+    captive.get('netCashFlow').setValidators(Validators.required);
     captive.get('emi').setValidators(Validators.required);
    }
    public removePassengerValidators() {
@@ -452,19 +458,21 @@ getViability() {
       collateralId: this.collataralId
     };
     this.viabilityService.getViabilityDetails(body).subscribe((res: any) => {
-      if (res.ProcessVariables.error.code === '0' && res.ProcessVariables.vehicleViability != null) {
+      // tslint:disable-next-line: triple-equals
+      if (res.ProcessVariables.error.code == '0' && res.ProcessVariables.vehicleViability != null) {
       this.viabliityDataToPatch = res.ProcessVariables.vehicleViability;
-
+      this.applicantName = res.ProcessVariables.vehicleViability.applicantName;
+      this.vehicleModelMake = res.ProcessVariables.vehicleViability.vehicleModel;
       this.latitude = this.viabliityDataToPatch.latitude;
       this.longitude = this.viabliityDataToPatch.longitude;
       this.branchLatitude = this.viabliityDataToPatch.brLatitude;
       this.branchLongitude = this.viabliityDataToPatch.brLongitude;
-      this.dmsDocumentId = this.viabliityDataToPatch.selfiePhoto
+      this.dmsDocumentId = this.viabliityDataToPatch.selfiePhoto;
 
-      if(this.dmsDocumentId){
+      if (this.dmsDocumentId) {
         this.downloadDocs(this.dmsDocumentId);
       }
-      if(this.latitude){
+      if (this.latitude) {
         this.getRouteMap();
       }
 
@@ -534,9 +542,10 @@ onSave() {
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
         if ( res.ProcessVariables.error.code === '0') {
           this.toasterService.showSuccess('Record Saved Successfully', 'Viability');
+          this.getViability();
           if (this.router.url.includes('/dde')) {
             // this.router.navigateByUrl(`/pages/dde/${this.leadId}/viability-list`);
-               this.getViability();
+              //  this.getViability();
           } else {
             // this.router.navigateByUrl(`/pages/viability-list/${this.leadId}/viability-list`);
           }
@@ -594,46 +603,46 @@ onSave() {
 patchViability(data: any) {
    const passanger = this.viabilityForm.controls.passanger as FormGroup;
    passanger.patchValue({
-    //  route: data.route ? data.route : null,
-        onwardRoute : data.onwardRoute ? data.onwardRoute : null,
-        returnRoute: data.returnRoute ?  data.returnRoute : null,
-        natureOfGoods: data.natureOfGoods ? data.natureOfGoods : null ,
-        distanceInKm: data.distanceInKm ? data.distanceInKm : 45,
-        tripsPerMonth: data.tripsPerMonth ? data.tripsPerMonth : null,
-        monthlyRunningKm: data.monthlyRunningKm ? data.monthlyRunningKm : null,
-        avgLoadPerTon: data.avgLoadPerTon ? data.avgLoadPerTon : null,
-        rateTonne: data.rateTonne ? data.rateTonne : null,
-        fuelAvgPerKm: data.fuelAvgPerKm ? data.fuelAvgPerKm : null,
-        costPerLtr: data.costPerLtr ? data.costPerLtr : null,
-        noOfTyres: data.noOfTyres ? data.noOfTyres : null,
-        perTyreCost: data.perTyreCost ? data.perTyreCost : null,
-        newTyreLifeKm: data.newTyreLifeKm ? data.newTyreLifeKm : null,
-        fuelCost: data.fuelCost ? data.fuelCost : null,
-        tyreCost: data.tyreCost ? data.tyreCost : null,
-        driversSalary: data.driversSalary ? data.driversSalary : null,
-        cleanersSalary: data.cleanersSalary ? data.cleanersSalary : null,
-        permitCost: data.permitCost ? data.permitCost : null,
-        fcCharge: data.fcCharge ? data.fcCharge : null,
-        paidTollTax: data.paidTollTax ? data.paidTollTax : null,
-        taxes: data.taxes ? data.taxes : null,
-        maintanence: data.maintanence ? data.maintanence : null,
-        busMiscellaneousExpenses: data.busMiscellaneousExpenses ? data.busMiscellaneousExpenses : null,
-        busInsurenceExpenses: data.busInsurenceExpenses ? data.busInsurenceExpenses : null,
-        busMonthlyIncome: data.busMonthlyIncome ? data.busMonthlyIncome : null,
-        netCashFlow: data.netCashFlow ? data.netCashFlow : null,
-        emi: data.emi ? data.emi : null,
-        totalExpenses: data.totalExpenses ? data.totalExpenses : null,
-        otherIncome: data.otherIncome ? data.otherIncome : null,
-        otherIncomeRemarks: data.otherIncomeRemarks ? data.otherIncomeRemarks : null,
-        otherExpenses: data.otherExpenses ? data.otherExpenses : null,
-        otherExpensesRemarks: data.otherExpensesRemarks ? data.otherExpensesRemarks : null,
-        operationsExpenses: data.operationsExpenses ? data.operationsExpenses : null
-
+     route: data.route ,
+        onwardRoute : data.onwardRoute ,
+        returnRoute: data.returnRoute ,
+        natureOfGoods: data.natureOfGoods  ,
+        distanceInKm: Number(data.distanceInKm) ,
+        tripsPerMonth: Number(data.tripsPerMonth) ,
+        monthlyRunningKm:  Number(data.monthlyRunningKm) ,
+        avgLoadPerTon: Number(data.avgLoadPerTon) ,
+        rateTonne: Number(data.rateTonne) ,
+        fuelAvgPerKm: Number(data.fuelAvgPerKm) ,
+        costPerLtr: Number(data.costPerLtr) ,
+        noOfTyres: Number(data.noOfTyres) ,
+        perTyreCost: Number(data.perTyreCost) ,
+        newTyreLifeKm: Number(data.newTyreLifeKm) ,
+        fuelCost: Number(data.fuelCost) ,
+        tyreCost: Number(data.tyreCost) ,
+        driversSalary: Number(data.driversSalary) ,
+        cleanersSalary: Number(data.cleanersSalary) ,
+        permitCost: Number(data.permitCost) ,
+        fcCharge: Number(data.fcCharge) ,
+        paidTollTax:  Number(data.paidTollTax),
+        taxes: Number(data.taxes) ,
+        maintanence: Number(data.maintanence) ,
+        busMiscellaneousExpenses:  Number(data.busMiscellaneousExpenses) ,
+        busInsurenceExpenses: Number(data.busInsurenceExpenses) ,
+        busMonthlyIncome: Number(data.busMonthlyIncome) ,
+        netCashFlow: data.netCashFlow ,
+        emi: Number(data.emi) ,
+        totalExpenses: Number(data.totalExpenses) ,
+        otherIncome: Number(data.otherIncome) ,
+        otherIncomeRemarks: data.otherIncomeRemarks ,
+        otherExpenses: Number(data.otherExpenses) ,
+        otherExpensesRemarks:  data.otherExpensesRemarks ,
+        operationsExpenses: Number(data.operationsExpenses)
 
     });
  }
  // tslint:disable-next-line: no-shadowed-variable
  convertPassenger(data: any) {
+   console.log(data, 'passenger group');
    const body = {
        otherIncome: data.otherIncome ? data.otherIncome : null,
        otherIncomeRemarks: data.otherIncomeRemarks ? data.otherIncomeRemarks : '',
@@ -656,18 +665,19 @@ patchViability(data: any) {
        cleanersSalary: data.cleanersSalary ? Number(data.cleanersSalary) : null,
        permitCost: data.permitCost ? Number(data.permitCost) : null,
        fcCharge: data.fcCharge ? Number(data.fcCharge) : null,
-       paidTollTax: data.paidTollTax ? Number(data.paidTollTax) : null,
+       paidTollTax:  Number(data.paidTollTax),
        taxes: data.taxes ? Number(data.taxes) : null,
        maintanence: data.maintanence ? Number(data.maintanence) : null,
-       busMiscellaneousExpenses: data.busMiscellaneousExpenses ? Number(data.busMiscellaneousExpenses) : null,
+       busMiscellaneousExpenses:  Number(data.busMiscellaneousExpenses) ,
        busInsurenceExpenses: data.busInsurenceExpenses ? Number(data.busInsurenceExpenses) : null,
-       busMonthlyIncome: data.busMonthlyIncome ? Number(data.busMonthlyIncome) : null,
-       netCashFlow: data.netCashFlow ? Number(data.netCashFlow) : null,
+       busMonthlyIncome:  Number(this.monthlyIncome) ,
+       netCashFlow:  this.netFlowCash ,
        emi: data.emi ? Number(data.emi) : null,
        totalExpenses: data.totalExpenses ? Number(data.totalExpenses) : null,
        otherExpenses: data.otherExpenses ? data.otherExpenses : null,
-       otherExpensesRemarks: data.otherExpensesRemarks ? data.otherExpensesRemarks : null,
-       operationsExpenses: data.operationsExpenses ? data.operationsExpenses : null
+       otherExpensesRemarks:  data.otherExpensesRemarks,
+       operationsExpenses: data.operationsExpenses ? data.operationsExpenses : null,
+       netCashFlowEmi : this.netCashFlowEmiPassenger
    };
    return body;
  }
@@ -675,16 +685,16 @@ patchViability(data: any) {
 setPassangetStandOperator(data: any) {
   const passangerStandOperator = this.viabilityForm.controls.passangerStandOperator as FormGroup;
   passangerStandOperator.patchValue({
-    application: data.application ? data.application : null,
-    grossIncomePerDay: data.grossIncomePerDay ? data.grossIncomePerDay : null,
-    businessEarningPerDay : data.businessEarningPerDay ? data.businessEarningPerDay : null,
-    businessIncomePerDay : data.businessIncomePerDay ? data.businessIncomePerDay : null,
-    avgTyreExpenses : data.avgTyreExpenses ? data.avgTyreExpenses : null,
-    insuranceExpenses : data.insuranceExpenses ? data.insuranceExpenses : null,
-    miscellaneousExpenses : data.miscellaneousExpenses ? data.miscellaneousExpenses  : null,
-    totalExpenses : data.totalExpenses ? data.totalExpenses : null,
-    netCashFlow : data.netCashFlow ? data.netCashFlow : null,
-    emi : data.emi ?  data.emi : null
+    application: data.application ,
+    grossIncomePerDay: Number(data.grossIncomePerDay) ,
+    businessEarningPerDay : Number(data.businessEarningPerDay ),
+    businessIncomePerDay :  Number(data.businessIncomePerDay) ,
+    avgTyreExpenses :  Number(data.avgTyreExpenses) ,
+    insuranceExpenses :  Number(data.insuranceExpenses) ,
+    miscellaneousExpenses :  Number(data.miscellaneousExpenses)  ,
+    totalExpenses : Number(data.totalExpenses)  ,
+    netCashFlow : Number(data.netCashFlow) ,
+    emi : Number(data.emi)
   });
  }
  // tslint:disable-next-line: no-shadowed-variable
@@ -698,30 +708,32 @@ setPassangetStandOperator(data: any) {
     insuranceExpenses : data.insuranceExpenses ? Number(data.insuranceExpenses) : null,
     miscellaneousExpenses : data.miscellaneousExpenses ? Number(data.miscellaneousExpenses)  : null,
     totalExpenses : data.totalExpenses ? Number (data.totalExpenses) : null,
-    netCashFlow : data.netCashFlow ? Number(data.netCashFlow) : null,
-    emi : data.emi ? Number (data.emi) : null
+    netCashFlow : data.netCashFlow  ? data.netCashFlow : null,
+    emi : data.emi ? Number (data.emi) : null,
+    netCashFlowEmi : this.standOperatorEmi ? this.standOperatorEmi : null
    };
    return body;
  }
  setCapative(dataCaptive: any) {
   const captive = this.viabilityForm.controls.captive as FormGroup;
   captive.patchValue({
-    natureOfBusiness: dataCaptive.natureOfBusiness ? dataCaptive.natureOfBusiness : null ,
-    businessIncomePerDay:  dataCaptive.businessIncomePerDay ? dataCaptive.businessIncomePerDay : null ,
-    businessEarningPerDay:  dataCaptive.businessEarningPerDay ? dataCaptive.businessEarningPerDay : null ,
-    busExpensesPerDay:  dataCaptive.busExpensesPerDay ? dataCaptive.busExpensesPerDay : null ,
-    oblicationsPerMonth:  dataCaptive.oblicationsPerMonth ? dataCaptive.oblicationsPerMonth : null ,
-    busTyreAvgExpenses:  dataCaptive.busTyreAvgExpenses ? dataCaptive.busTyreAvgExpenses : null ,
-    busInsurenceExpenses:  dataCaptive.busInsurenceExpenses ? dataCaptive.busInsurenceExpenses : null ,
-    busMiscellaneousExpenses:  dataCaptive.busMiscellaneousExpenses ? dataCaptive.busMiscellaneousExpenses : null ,
-    busMonthlyIncome:  dataCaptive.busMonthlyIncome ? Number(this.montlyCaptiveIncome) : null ,
-    totalExpenses: dataCaptive.totalExpenses ? dataCaptive.totalExpenses : null,
-    netCashFlowEmi: dataCaptive.netCashFlowEmi ? dataCaptive.netCashFlowEmi : null,
-    emi: dataCaptive.emi ? dataCaptive.emi : null
+    natureOfBusiness:  dataCaptive.natureOfBusiness  ,
+    businessIncomePerDay:  Number(dataCaptive.businessIncomePerDay)  ,
+    businessEarningPerDay:   Number(dataCaptive.businessEarningPerDay)  ,
+    busExpensesPerDay:  Number(dataCaptive.busExpensesPerDay)  ,
+    oblicationsPerMonth:   Number(dataCaptive.oblicationsPerMonth)  ,
+    busTyreAvgExpenses:   Number(dataCaptive.busTyreAvgExpenses) ,
+    busInsurenceExpenses:   Number(dataCaptive.busInsurenceExpenses)  ,
+    busMiscellaneousExpenses:   Number(dataCaptive.busMiscellaneousExpenses) ,
+    busMonthlyIncome:   Number(this.montlyCaptiveIncome)  ,
+    totalExpenses:  Number(dataCaptive.totalExpenses) ,
+    netCashFlow:  Number(dataCaptive.netCashFlow),
+    emi:  Number(dataCaptive.emi)
   });
  }
 
 convertCapitve(dataCaptive) {
+  console.log(this.montlyCaptiveIncome, 'this.montlyCaptiveIncome', this.netFlowCash, 'this.netFlowCash');
   const body = {
     natureOfBusiness: dataCaptive.natureOfBusiness ? dataCaptive.natureOfBusiness : null ,
     businessIncomePerDay:  dataCaptive.businessIncomePerDay ? Number(dataCaptive.businessIncomePerDay) : null ,
@@ -731,10 +743,11 @@ convertCapitve(dataCaptive) {
     busTyreAvgExpenses:  dataCaptive.busTyreAvgExpenses ? Number(dataCaptive.busTyreAvgExpenses) : null ,
     busInsurenceExpenses:  dataCaptive.busInsurenceExpenses ? Number(dataCaptive.busInsurenceExpenses) : null ,
     busMiscellaneousExpenses:  dataCaptive.busMiscellaneousExpenses ? Number(dataCaptive.busMiscellaneousExpenses) : null ,
-    busMonthlyIncome:  dataCaptive.busMonthlyIncome ? Number(dataCaptive.busMonthlyIncome) : null ,
+    busMonthlyIncome:  this.montlyCaptiveIncome ? Number(this.montlyCaptiveIncome) : null ,
     totalExpenses: dataCaptive.totalExpenses ? Number(dataCaptive.totalExpenses) : null,
-    netCashFlowEmi: dataCaptive.netCashFlowEmi ? Number (dataCaptive.netCashFlowEmi) : null,
-    emi: dataCaptive.emi ? Number(dataCaptive.emi) : null
+    netCashFlow: dataCaptive.netCashFlow ? dataCaptive.netCashFlow : null,
+    emi: dataCaptive.emi ? Number(dataCaptive.emi) : null,
+    netCashFlowEmi : this.captiveEmi   ? this.captiveEmi : null
   };
   return body;
  }
@@ -759,37 +772,92 @@ if (this.router.url.includes('/dde')) {
    const otherIncome = passengerGroup.value.otherIncome ? Number(passengerGroup.value.otherIncome) : 0;
    const monthlyRunningKm = distanceInKm * tripsPerMonth;
    this.monthlyRunningKm = monthlyRunningKm ;
-   const avgLoadPerTon = passengerGroup.value.avgLoadPerTon ? Number(passengerGroup.value.avgLoadPerTon) : 0;
-   const rateTonne = (passengerGroup.value.rateTonne) ? Number(passengerGroup.value.rateTonne) : 0;
-   const tonnageCalc =  avgLoadPerTon * rateTonne;
-   this.monthlyIncome = tripsPerMonth * tonnageCalc + otherIncome;
-   passengerGroup.value.busMonthlyIncome = this.monthlyIncome;
-  //  this.viabilityForm.value.passanger.patchValue({
-  //   busMonthlyIncome : this.monthlyIncome
-  //  });
    passengerGroup.patchValue({
     monthlyRunningKm : this.monthlyRunningKm
   });
-   this.calculatePassengerB();
+   const avgLoadPerTon = passengerGroup.value.avgLoadPerTon ? Number(passengerGroup.value.avgLoadPerTon) : 0;
+   const rateTonne = (passengerGroup.value.rateTonne) ? Number(passengerGroup.value.rateTonne) : 0;
+
+  //  this.viabilityForm.value.passanger.patchValue({
+  //   busMonthlyIncome : this.monthlyIncome
+  //  });
+   setTimeout(() => {
+    if((avgLoadPerTon != null && avgLoadPerTon !== 0) && (rateTonne != null && rateTonne !== 0)) {
+      const tonnageCalc =  avgLoadPerTon * rateTonne;
+      this.monthlyIncome = tripsPerMonth * tonnageCalc + otherIncome;
+      passengerGroup.controls.busMonthlyIncome = this.monthlyIncome;
+      
+      this.calculatePassengerB();
+    }
+
+  }, 2000);
+
   //  this.calculatePassengerC();
   //  this.calculatePassengerD();
+   console.log(passengerGroup, 'passenger goods group');
  }
  calculatePassengerB() {
   const passengerGroup = this.viabilityForm.controls.passanger as FormGroup ;
+  console.log(passengerGroup);
+  passengerGroup.controls.fuelCost.reset();
+  passengerGroup.controls.tyreCost.reset();
   const monthlyRunningKm = passengerGroup.value.monthlyRunningKm ? Number(passengerGroup.value.monthlyRunningKm) : 0;
-  const costPerLtr = passengerGroup.value.costPerLtr ? Number(passengerGroup.value.costPerLtr) : 0;
-  const fuelAvgPerKm = passengerGroup.value.fuelAvgPerKm ? Number(passengerGroup.value.fuelAvgPerKm) : 0;
-  const fuelCostPass = Math.round( (monthlyRunningKm * costPerLtr) / fuelAvgPerKm) ;
-  passengerGroup.patchValue({
-    fuelCost : fuelCostPass
-  });
-  const noOfTyres = passengerGroup.value.noOfTyres ? Number(passengerGroup.value.noOfTyres) : 0;
-  const newTyreLifeKm = passengerGroup.value.newTyreLifeKm ? Number(passengerGroup.value.newTyreLifeKm) : 0;
-  const perTyreCost = passengerGroup.value.perTyreCost ? Number(passengerGroup.value.perTyreCost) : 0;
-  const tyreCostPass = Math.round ((noOfTyres * perTyreCost * monthlyRunningKm) / newTyreLifeKm);
-  passengerGroup.patchValue( {
-    tyreCost : tyreCostPass
-  });
+  const costPerLtr: any = passengerGroup.value.costPerLtr ? Number(passengerGroup.value.costPerLtr) : 0;
+  const fuelAvgPerKm: any = passengerGroup.value.fuelAvgPerKm ? Number(passengerGroup.value.fuelAvgPerKm) : '';
+  if (monthlyRunningKm != null && (costPerLtr != null && costPerLtr !== 0) && (fuelAvgPerKm != null && fuelAvgPerKm !== 0 )) {
+    const fuelCostPass: any = ( (monthlyRunningKm * costPerLtr) / fuelAvgPerKm).toFixed(4) ;
+    // tslint:disable-next-line: triple-equals
+    if (fuelCostPass != undefined && fuelCostPass != 0 && fuelCostPass  != Infinity &&
+      // tslint:disable-next-line: triple-equals
+      isNaN(fuelCostPass) == false && fuelAvgPerKm != ''  ) {
+      passengerGroup.patchValue({
+        fuelCost : fuelCostPass
+      });
+    }
+
+  }
+  //  else {
+  //   // tslint:disable-next-line: triple-equals
+  //   if (fuelAvgPerKm == '0') {
+  //   this.toasterService.showError('Fuel Average cannot be 0', '');
+  //   passengerGroup.controls.fuelAvgPerKm.reset();
+    
+  //   } else if (costPerLtr == '0') {
+  //     this.toasterService.showError('Cost Per Litre cannot be 0', '');
+  //     passengerGroup.controls.costPerLtr.reset();
+  //   }
+  // }
+  const noOfTyres: any = passengerGroup.value.noOfTyres ? Number(passengerGroup.value.noOfTyres) : 0;
+  const newTyreLifeKm: any = passengerGroup.value.newTyreLifeKm ? Number(passengerGroup.value.newTyreLifeKm) : 0;
+  const perTyreCost: any = passengerGroup.value.perTyreCost ? Number(passengerGroup.value.perTyreCost) : 0;
+  if ( (noOfTyres != null && noOfTyres !== 0) && (newTyreLifeKm != null && newTyreLifeKm !== 0 && newTyreLifeKm != '') &&
+   (perTyreCost != null && perTyreCost !== 0)) {
+    const tyreCostPass: any =  ((noOfTyres * perTyreCost * monthlyRunningKm) / newTyreLifeKm).toFixed(4);
+    // tslint:disable-next-line: triple-equals
+    if (tyreCostPass != undefined && tyreCostPass != 0 && tyreCostPass  != Infinity &&
+      // tslint:disable-next-line: triple-equals
+      isNaN(tyreCostPass) == false && newTyreLifeKm != ''  ) {
+    passengerGroup.patchValue( {
+      tyreCost : tyreCostPass
+    });
+  }
+}
+  // else {
+
+  //   if (noOfTyres == '0') {
+  //     this.toasterService.showError('No of tyres cannot be 0', '');
+  //     passengerGroup.controls.noOfTyres.reset();
+
+  //   } else if (newTyreLifeKm == '0' ) {
+  //     this.toasterService.showError('Life of new tyres in kms cannot be 0', '');
+  //     passengerGroup.controls.newTyreLifeKm.reset();
+
+  //   } else if (perTyreCost == '0') {
+  //     this.toasterService.showError('Cost per tyre cannot be 0', '');
+  //     passengerGroup.controls.perTyreCost.reset();
+  //   }
+  // }
+
   // this.calculatePassenger();
   // this.calculatePassengerB();
   this.calculatePassengerC();
@@ -820,7 +888,7 @@ if (this.router.url.includes('/dde')) {
   // passengerGroup.patchValue({
   //   netCashFlow : this.monthlyIncome - expense
   // });
-  this.netFlowCash = this.monthlyIncome - expense;
+  this.netFlowCash = Number((this.monthlyIncome - expense).toFixed(4));
   // this.calculatePassenger();
   // this.calculatePassengerB();
   // this.calculatePassengerC();
@@ -925,7 +993,7 @@ calculateCaptive() {
   });
   const ncf = this.montlyCaptiveIncome - this.captiveExpense;
   passengerStandGroup.patchValue({
-    netCashFlowEmi : ncf
+    netCashFlow : ncf
   });
   // this.calculateCaptive();
   // this.calculateCaptiveB();
@@ -935,7 +1003,7 @@ calculateCaptiveC() {
   this.captiveEmi = 0;
   const passengerStandGroup = this.viabilityForm.controls.captive;
   const emi = passengerStandGroup.value.emi ? Number(passengerStandGroup.value.emi) : '';
-  const ncf = passengerStandGroup.value.netCashFlowEmi ? Number(passengerStandGroup.value.netCashFlowEmi) : 0;
+  const ncf = passengerStandGroup.value.netCashFlow ? Number(passengerStandGroup.value.netCashFlow) : 0;
   // tslint:disable-next-line: triple-equals
   if (emi != '') {
     const calEMi = ncf / emi;
@@ -1001,7 +1069,7 @@ calculateCaptiveC() {
         console.log('saveOrUpdateDocument', value);
         const processVariables = value.ProcessVariables;
         const documentId = processVariables.documentIds[0];
-        console.log("documentId******", documentId);
+        console.log('documentId******', documentId);
         this.documentArr[index].documentId = documentId;
         const subCategoryCode = this.documentArr[index].subCategoryCode;
       });
@@ -1016,7 +1084,7 @@ calculateCaptiveC() {
     let currentPos = {
       latitude: this.latitude,
       longitude: this.longitude
-    }
+    };
     this.loginService.getPolyLine(function (result) {
       that.base64Image = result;
       that.showRouteMap = true;
@@ -1032,15 +1100,15 @@ calculateCaptiveC() {
       if (this.isMobile) {
 
         this.gpsService.getLatLong().subscribe((position) => {
-          console.log("Mobile position", position);
+          console.log('Mobile position', position);
           resolve(position);
         });
 
       } else {
         this.gpsService.getBrowserLatLong().subscribe((position) => {
-          console.log("Browser position", position);
-          if (position["code"]) {
-            this.toasterService.showError(position["message"], "GPS Alert");
+          console.log('Browser position', position);
+          if (position['code']) {
+            this.toasterService.showError(position['message'], 'GPS Alert');
           }
           resolve(position);
         });

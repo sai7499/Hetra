@@ -103,9 +103,9 @@ export class PdListComponent implements OnInit {
 
   }
 
-  navigatePage(applicantId: string, version?: any) {
+  navigatePage(applicantId: string, cibilScore?: any, version?: any) {
 
-    console.log('in navigate page', version);
+    console.log('in navigate page', cibilScore);
 
     if (this.isFiCumPD === true) { // for routing to fi cum pd screens
 
@@ -134,11 +134,11 @@ export class PdListComponent implements OnInit {
         // this.show = true;
         if (version !== null && version !== undefined) {
           // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
-          this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
+          this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`, { score: cibilScore}]);
           // right now version not available so
 
         } else if (version === undefined || version === null) {
-          this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details`]);
+          this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details`, { score: cibilScore}]);
         }
 
       } else if (this.router.url.includes('/dde')) {

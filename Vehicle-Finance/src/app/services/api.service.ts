@@ -300,8 +300,8 @@ export class ApiService {
       projectId: 'd627fff49e5011eabde0f2fa9bec3d63',
     },
     rejectLead: {
-      processId: '41f8884eb08e11ea8668f2fa9bec3d63',
-      workflowId: '41d97b66b08e11ea8668f2fa9bec3d63',
+      processId: '94b7bcfeff1611eaa2fe00505695f93b',
+      workflowId: '94987e52ff1611eab52100505695f93b',
       projectId: environment.projectIds.salesProjectId,
     },
     getPdData: {
@@ -494,6 +494,11 @@ export class ApiService {
       processId: '94c162c0f38d11eabae500505695f93b',
       workflowId: '3ea13662c66611eaa13a00505695f93b',
       projectId: environment.projectIds.submitToCredit,
+    },
+    getLeadRejectReason : {
+      processId: '94b7bcfeff1611eaa2fe00505695f93b',
+      workflowId: '94987e52ff1611eab52100505695f93b',
+      projectId: environment.projectIds.salesProjectId,
     },
     getCountryList: {
       processId: '6c3f2eb0c1d611ea80d600505695f93b',
@@ -814,7 +819,27 @@ export class ApiService {
       processId: 'd358b542f28911ea82f100505695f93b',
       workflowId: 'd33a101af28911ea9cda00505695f93b',
       projectId: environment.projectIds.salesProjectId
-    }
+    },
+    saveTaskLogs: {
+      processId: '34408268f75811eab4f500505695f93b',
+      workflowId: '340d11b2f75811eab78c00505695f93b',
+      projectId: '403a8a12b79511ea8afff2fa9bec3d63'
+    },
+    disbBankName: {
+      processId: 'f9fcc4a6f3ef11eaaeda00505695f93b',
+      workflowId: '08905702d7b811eab3fc00505695f93b',
+      projectId: environment.projectIds.camProjectId,
+    },
+    disbBankDetails: {
+      processId: '049cafbef3f211ea894a00505695f93b',
+      workflowId: '08905702d7b811eab3fc00505695f93b',
+      projectId: environment.projectIds.camProjectId,
+    },
+    deliveryLetter: {
+      processId: '8b8d05e0f2bd11eab9aa00505695f93b',
+      workflowId: '8b6e5f64f2bd11ea8ac000505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
 
   };
 }

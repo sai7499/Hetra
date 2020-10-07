@@ -42,21 +42,30 @@
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="startDate">{{labels.leadCreatedOnStartDate}}</label>
             <kendo-datepicker class="form-control" formControlName="fromDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
-              placeholder="Start Date" [activeView]="'decade'"></kendo-datepicker>
+              placeholder="Start Date" (ngModelChange)="onChangeFromDate($event)" [activeView]="'decade'"></kendo-datepicker>
+              
           </div>
           <div [ngClass]="{'disablField': !filterForm.get('fromDate').value}"
             class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="endDate">{{labels.leadCreatedOnEndDate}}</label>
             <kendo-datepicker class="form-control" formControlName="toDate" [format]="'dd/MM/yyyy'"
-              [min]="filterForm.get('fromDate').value" [max]="toDayDate" placeholder="End Date" [activeView]="'decade'">
+              [min]="filterForm.get('fromDate').value" (ngModelChange)="onChangeEndDate($event)" [max]="toDayDate" placeholder="End Date" [activeView]="'decade'">
             </kendo-datepicker>
+            <!-- <div *ngIf="isFromDate">
+                End Date is required
+            </div> -->
+            <div *ngIf="fromDateChange && isFromDate">
+              <div style="color:red">
+                  End Date is required
+              </div>
+          </div>
           </div>
         </div>
         <div class="row">
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="minAmount">{{labels.loanMinAmount}}</label>
             <app-custom-input id="minAmount" formControlName="loanMinAmt" [className]="'form-control'"
-              [placeholder]="'Enter Loan amount'" [maxLength]="validationData?.amountValue.maxLength"
+              [placeholder]="'Enter Loan amount'" (ngModelChange)="onMinAmtChange($event)" [maxLength]="validationData?.amountValue.maxLength"
               [type]="validationData?.amountValue.type">
             </app-custom-input>
           </div>
@@ -64,14 +73,19 @@
             class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="maxAmount">{{labels.loanMaxAmount}}</label>
             <app-custom-input id="maxAmount" formControlName="loanMaxAmt" [className]="'form-control'"
-              [placeholder]="'Enter Loan amount'" [maxLength]="validationData?.amountValue.maxLength"
+              [placeholder]="'Enter Loan amount'" (ngModelChange)="onMaxAmtChange($event)" [maxLength]="validationData?.amountValue.maxLength"
               [type]="validationData?.amountValue.type">
             </app-custom-input>
+            <div *ngIf="minLoanAmtChange && isFromDate">
+              <div style="color:red">
+                  Amount should be grater then min amount is required
+              </div>
+          </div>
           </div>
           <div class="actionbtn col-sm-6 col-md-3 col-lg-3">
             <button class="btn btn-default mar-right8" type="button" id="clearbtn"
               (click)="onClear(); showFilter=!showFilter"> Clear </button>
-            <button class="btn btn-primary" type="submit" (click)="onApply(); showFilter=!showFilter"> Apply </button>
+            <button class="btn btn-primary" [disabled]="isFromDate" type="submit" (click)="onApply()"> Apply </button>
           </div>
         </div>
       </form>
@@ -186,7 +200,7 @@
         [ngClass]="{'active':displayTabs?.DDE === activeTab}" routerLinkActive="active" id="leads"><a
           data-toggle="tab">DDE</a></li>
       <li (click)="onLeads(displayTabs?.PD, displayTabs?.MyPD)" [ngClass]="{'active':displayTabs?.PD === activeTab}"
-        routerLinkActive="active"><a data-toggle="tab">Personal Discussion</a></li>
+        routerLinkActive="active"><a data-toggle="tab">PD / FI cum PD</a></li>
       <li (click)="onLeads(displayTabs?.FI, displayTabs?.MyFI)" [ngClass]="{'active':displayTabs?.FI === activeTab}"
         routerLinkActive="active"><a data-toggle="tab">Field Investigation</a></li>
       <li (click)="onLeads(displayTabs?.Deviation, displayTabs?.DeviationWithMe, 'deviation')"
@@ -210,9 +224,9 @@
     </ul>
     <ul *ngIf="displayTabs?.PD === activeTab" class="nav nav-pills nav-justified" id="background_white">
       <li (click)="leads(displayTabs?.MyPD)" [ngClass]="{'active':displayTabs?.MyPD === subActiveTab}"
-        routerLinkActive="active"><a data-toggle="tab">My PD Tasks</a></li>
+        routerLinkActive="active"><a data-toggle="tab">My Tasks</a></li>
       <li (click)="leads(displayTabs?.BranchPd)" [ngClass]="{'active':displayTabs?.BranchPd === subActiveTab}"
-        routerLinkActive="active"><a data-toggle="tab">Branch PD Tasks</a></li>
+        routerLinkActive="active"><a data-toggle="tab">Branch Tasks</a></li>
     </ul>
     <ul *ngIf="displayTabs?.FI === activeTab" class="nav nav-pills nav-justified" id="background_white">
       <li (click)="leads(displayTabs?.MyFI)" [ngClass]="{'active':displayTabs?.MyFI === subActiveTab}"
@@ -316,7 +330,7 @@
             *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
             <td [attr.data-label]="labels?.action" *ngIf="onReleaseTab">
               <input type="button" class="btn btn-primary"
-                (click)="onRelase(item.taskId); assignTaskId(item.taskId); onClick()" value="Release"
+                (click)="onRelase(item.taskId, item.leadId); assignTaskId(item.taskId, item.leadId); onClick()" value="Release"
                 data-toggle="modal" data-target="#releaseModal">
             </td>
             <td [attr.data-label]="labels?.action" *ngIf="onAssignTab">
@@ -371,7 +385,7 @@
           </thead>
           <tbody>
             <tr
-              *ngFor="let item of pddDetails | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
+              *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
               <td *ngIf="displayTabs?.LoanBooking === activeTab" [attr.data-label]="labels?.leadID"
                 class="text-underline" (click)="getLoanNumber(item.loanNumber)"><a
                   [routerLink]="[ '/pages/dde', item.leadId,'loan-status' ]">{{item.leadId ? item.leadId : '--'}}</a>

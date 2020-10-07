@@ -83,6 +83,15 @@
         <h4 class="title">{{ labels.genericDetails }}</h4>
         <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="application_no">{{labels?.applicationNo}}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input formControlName="applicationNo" [className]="'form-control mandatory'" [(ngModel)]="applicationNo" [placeholder]="'Application No'" 
+                [isDirty]="isDirty">
+                </app-custom-input>
+            </div>
+
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="product">{{labels.product}}
                     <sub class="star_red_col">*</sub>
                 </label>
@@ -121,7 +130,7 @@
             </div>
 
             <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="mobile">{{ labels.distanceAssetBranch }}
+                <label for="mobile">{{ labels.distanceEquitasAssetBranch }}
                     <sub class="star_red_col">*</sub></label>
                 <input type="text" class="form-control" id="negativeProfile" formControlName="distanceFromEquitas" />
             </div>

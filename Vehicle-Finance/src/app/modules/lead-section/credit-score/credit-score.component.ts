@@ -5,6 +5,9 @@ import { CreditScoreService } from '@services/credit-score.service';
 import { TermAcceptanceService } from '@services/term-acceptance.service';
 import { Lead } from '@model/lead.model';
 import { CommomLovService } from '@services/commom-lov-service';
+import { LeadDetails } from '../services/sourcingLeadDetails.service';
+import { ToasterService } from '@services/toaster.service';
+
 interface CibilData {
   ageOfAsset?: number;
 // applicantList: [ApplicantDetails]
@@ -34,6 +37,17 @@ export class CreditScoreComponent implements OnInit {
   leadData: any;
   variable: CibilData;
   userId: any;
+  loanAmount;
+  eligibleAmount;
+
+  rejectData: {
+    title: string,
+    product: any;
+    flowStage: string;
+   
+  }
+
+  showModal: boolean;
 
   constructor(
     private aRoute: ActivatedRoute,
@@ -42,6 +56,8 @@ export class CreditScoreComponent implements OnInit {
     private creditService: CreditScoreService,
     private termsService: TermAcceptanceService,
     private commonLovService: CommomLovService,
+    private createLeadService: LeadDetails,
+    private toasterService: ToasterService
 
   ) {
   }
@@ -68,6 +84,8 @@ export class CreditScoreComponent implements OnInit {
       ) {
         this.applicantList = this.creditScore.ProcessVariables.applicantList;
         this.variable = this.creditScore.ProcessVariables;
+        this.loanAmount = Number(this.variable.loanAmount ).toLocaleString('en-IN');
+        this.eligibleAmount = Number(this.variable.eligibleAmount ).toLocaleString('en-IN');
         console.log(this.creditScore);
       } else {
         this.router.navigate([
@@ -107,4 +125,42 @@ export class CreditScoreComponent implements OnInit {
       }
     });
   }
+
+
+  reject() {
+    const productId = this.variable.productId || '';
+    this.showModal = true;
+    this.rejectData = {
+      title: 'Select Reject Reason',
+      product:productId,
+      flowStage: '15'
+    }
+  }
+
+  onOkay(reasonData) {
+    
+
+    const body = {
+      leadId : this.leadId,
+      userId:  this.userId,
+      statusType : 'reject',
+      isSoRejected: true,
+      reasonCode: reasonData['reason'].reasonCode
+    };
+    this.termsService.acceptTerms(body).subscribe((res: any) => {
+      console.log(res);
+      if ( res && res.ProcessVariables.error.code === '0') {
+        this.toasterService.showSuccess('Record Rejected successfully!','')
+        this.router.navigateByUrl(`/pages/dashboard`);
+      }else {
+        this.toasterService.showError(res.ProcessVariables.error.message,'')
+      }
+    });
+  }
+
+  onCancel() {
+    this.showModal = false;
+  }
+
+
 }

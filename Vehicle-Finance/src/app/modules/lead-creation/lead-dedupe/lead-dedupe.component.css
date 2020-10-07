@@ -85,18 +85,16 @@ h3.dedupe_head {
   border: 1px solid #1d1a4b47;
 }
 
-#proceed_reason {
+/* #proceed_reason {
   width: 350px;
   border-radius: 1.5em;
   margin: auto;
-  /* background-color: #f58733; */
-  /* color: white; */
   margin-bottom: 12px;
   border: 1px solid #1d1a4b47;
-}
+} */
 
 .reject_reason {
-  color: #f58733;
+  color: #1d1a4b;
   font-weight: bolder;
 }
 
@@ -200,13 +198,12 @@ select#select_main_button_match {
 }
 
 
-#proceed_reason {
+/* #proceed_reason {
   border: 1px solid #1d1a4b47;
   width: 350px;
-  border-radius: 1.5em;
   margin: auto;
   margin-bottom: 12px;
-}
+} */
 
 .showModal{
   display: block;
@@ -338,6 +335,10 @@ h3.dedupe_head {
 
 /* Lead dedupe*/
 
+.pointerEvent {
+  pointer-events: none;
+}
+
 .dedupe_head {
   font-size: 14px;
   /* padding: 20px; */
@@ -349,7 +350,7 @@ h3.dedupe_head {
   width: 150px;
   border-radius: 1.5em;
   margin: auto;
-  background-color: #f58733;
+  background-color: #1d1a4b;
   color: white;
   margin-bottom: 12px;
 }
@@ -357,15 +358,15 @@ h3.dedupe_head {
 #proceed_reason {
   border: 1px solid #0006ff00;
   width: 150px;
-  border-radius: 1.5em;
   margin: auto;
-  background-color: #f58733;
+  background-color: #1d1a4b;
+
   color: white;
   margin-bottom: 12px;
 }
 
 .reject_reason {
-  color: #f58733;
+  color: #1d1a4b;
   font-weight: bolder;
 }
 
@@ -483,12 +484,18 @@ th {
   font-weight: 600; 
 }
 td, th { 
-  padding: 12px; 
+  padding: 12px 5px; 
   border: 1px solid #ccc; 
   text-align: left; 
   text-align: center
 }
 
+.radio, .checkbox {
+  position: relative;
+  display: inline-block!important;
+  /* margin-top: 10px;
+  margin-bottom: 10px; */
+}
 
 /*Mobile View*/
 @media 
@@ -532,11 +539,20 @@ td {
       text-align: left;
       /* padding: 1px;*/
       border: 1px solid #929294;
+      word-break: break-all;
   }
  
 
-  
-  
+ td{
+  word-break: break-all!important;
+ }
+
+ .radio, .checkbox {
+  position: relative;
+  display: inline-block!important;
+  /* margin-top: 10px;
+  margin-bottom: 10px; */
+}
 
 td:before { 
       content: attr(data-label);
@@ -550,6 +566,7 @@ td:before {
       color:white;
       height: 40px;
       padding: 10px;
+      
   }
   
  
@@ -558,6 +575,13 @@ td:before {
  @media (min-width:300px) and (max-width:760px){
   .btn-mar-reject{
   margin-bottom: 50px;
+}
+
+.radio, .checkbox {
+  position: relative;
+  display: inline-block!important;
+  /* margin-top: 10px;
+  margin-bottom: 10px; */
 }
 } 
 

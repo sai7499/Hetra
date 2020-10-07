@@ -39,7 +39,10 @@ export class TermSheetComponent implements OnInit {
   pslDetails: any;
   date: Date = new Date();
   todayDate;
+  errorGenerated: boolean = false;
+  errorMessage : any = [];
   assetLoanDetails: any;
+  fleetDetails: any;
   isTermSheet: boolean = false;
   creditApprovalHeader = ['CIBIL score', 'Marital (0-Single and 1 Married)'];
   leadId;
@@ -120,6 +123,7 @@ export class TermSheetComponent implements OnInit {
         this.creditApprovalDev = res['ProcessVariables'].creditApprovalDev;
         this.deductionDetails = res['ProcessVariables'].deductionDetails;
         this.ecsDetails = res['ProcessVariables'].ecsDetails;
+        this.fleetDetails = res['ProcessVariables'].fleetDetails;
         this.guarantorDetails = res['ProcessVariables'].guarantorDetails;
         this.identityDetails = res['ProcessVariables'].identityDetails;
         this.loanDetails = res['ProcessVariables'].loanDetails;
@@ -154,11 +158,18 @@ export class TermSheetComponent implements OnInit {
     };
     this.termSheetService.assignTaskToTSAndCPC(ProcessVariables).subscribe((res) => {
       if (res['ProcessVariables'].error['code'] == "0") {
-        this.toasterService.showSuccess("Record Assigned Successfuly", '');
+       // this.toasterService.showSuccess("Record Assigned Successfuly", '');
+       console.log("get response ", res);
+       if(res['ProcessVariables'].rctaAlert ==  true){
+        this.errorGenerated = true;
+        // const message = res['ProcessVariables'].rctaMessage;
+        this.errorMessage = res['ProcessVariables'].rctaMessage;
+      }else{
         this.router.navigateByUrl("/pages/dashboard");
+      }      
 
       } else if (this.roleType == '2' && !this.isApprove) {
-        this.toasterService.showSuccess(res['ProcessVariables'].error['message'], '');
+        this.toasterService.showError(res['ProcessVariables'].error['message'], '');
       } else if(res['ProcessVariables'].error['code'] == "1") {
         this.toasterService.showError(res['ProcessVariables'].error['message'], '');
        

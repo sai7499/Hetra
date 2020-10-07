@@ -18,6 +18,8 @@ export class ApplicantDataStoreService {
   applicantRelation : any;
   applicant: Applicant = {};
   applicantId = '';
+  dedupeValues={};
+  dedupeFlag : boolean= false;
   setApplicant(applicant: Applicant) {
     const aboutIndivProspectDetails = applicant.aboutIndivProspectDetails
       ? applicant.aboutIndivProspectDetails
@@ -50,7 +52,8 @@ export class ApplicantDataStoreService {
       indivProspectProfileDetails,
       directorDetails,
       otpVerified: applicant.otpVerified,
-      ucic : applicant.ucic
+      ucic : applicant.ucic,
+      ekycDone : applicant.ekycDone
     };
   }
 
@@ -69,7 +72,7 @@ export class ApplicantDataStoreService {
 
   setindivProspectProfileDetails(value) {
     // this.applicant.corporateProspectDetails = value;
-    const details = this.applicant.indivIdentityInfoDetails;
+    const details = this.applicant.indivProspectProfileDetails;
     const newDetails = {
       ...details,
       ...value,
@@ -124,6 +127,21 @@ export class ApplicantDataStoreService {
   }
   getApplicantRelation(){
     return this.applicantRelation;
+  }
+
+  setDedupeValues(data){
+    this.dedupeValues={
+      ...data
+    }
+  }
+  getDedupeValues(){
+    return this.dedupeValues
+  }
+  setDedupeFlag(value : boolean){
+     this.dedupeFlag = value;
+  }
+  getDedupeFlag(){
+    return this.dedupeFlag;
   }
 
 }

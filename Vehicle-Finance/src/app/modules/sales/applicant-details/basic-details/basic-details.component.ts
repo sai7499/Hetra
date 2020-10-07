@@ -88,6 +88,7 @@ export class BasicDetailsComponent implements OnInit {
   ageOfSeniorCitizen = 65;
   applicantData = [];
   showNotApplicant : boolean;
+  hideMsgForOwner: boolean = false;
 
 
   constructor(
@@ -204,13 +205,20 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     if (this.isChecked === true) {
-
+      this.hideMsgForOwner = true;
       details.get('houseOwnerProperty').setValidators([Validators.required]);
       details.get('ownHouseAppRelationship').setValidators([Validators.required]);
       details.get('houseOwnerProperty').updateValueAndValidity();
       details.get('ownHouseAppRelationship').updateValueAndValidity();
+      const houseOwner = details.get('houseOwnerProperty').value;
+      const ownHouseAppRelationship= details.get('ownHouseAppRelationship').value
+      details.patchValue({
+        houseOwnerProperty : houseOwner,
+        ownHouseAppRelationship : ownHouseAppRelationship
+      })
 
     } else {
+      this.hideMsgForOwner = false;
       details.get('houseOwnerProperty').clearValidators();
       details.get('ownHouseAppRelationship').clearValidators();
       details.get('houseOwnerProperty').updateValueAndValidity();
@@ -310,8 +318,54 @@ export class BasicDetailsComponent implements OnInit {
 
     this.applicant = this.applicantDataService.getApplicant();
     console.log('applicant', this.applicant);
+    
 
     this.setBasicData();
+    if(this.applicant.ucic){
+      if(this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP'){
+         this.disableUCICIndividualDetails();
+      }else{
+        this.disableUCICNonIndividualDetails();
+      }
+    }
+    if(this.applicant.ekycDone=='1'){
+      if(this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP'){
+        this.disableEKYDetails();
+      }
+    }
+  }
+
+  disableEKYDetails(){
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    const applicantDetails = this.applicant.applicantDetails;
+    const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails;
+    applicantDetails.name1? details.get('name1').disable() : details.get('name1').enable();
+    details.get('name2').disable() ;
+    applicantDetails.name3 ? details.get('name3').disable() : details.get('name3').enable();
+    aboutIndivProspectDetails.dob? details.get('dob').disable() : details.get('dob').enable();
+    aboutIndivProspectDetails.gender ? details.get('gender').disable() :  details.get('gender').enable() ;
+  }
+
+  disableUCICIndividualDetails(){
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    details.get('name1').disable();
+    details.get('name2').disable();
+    details.get('name3').disable();
+    details.get('dob').disable();
+    details.get('mobilePhone').disable();
+    details.get('gender').disable();
+
+  }
+  disableUCICNonIndividualDetails(){
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    details.get('name1').disable();
+    details.get('name2').disable();
+    details.get('name3').disable();
+    details.get('dateOfIncorporation').disable();
+    details.get('companyPhoneNumber').disable();
   }
   initiallayAgecal(dob) {
     const convertDate = new Date(this.utilityService.getDateFromString(dob));
@@ -429,8 +483,18 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
 
-    this.checkedBoxHouse = applicantDetails.ownHouseProofAvail == '1' ? true : false;
-    this.isChecked= applicantDetails.ownHouseProofAvail == '1' ? true : false;
+    if( applicantDetails.ownHouseProofAvail=='1'){
+      this.checkedBoxHouse = true;
+      this.isChecked= true;
+      this.hideMsgForOwner = true;
+    }else{
+      this.checkedBoxHouse = false;
+      this.isChecked= false;
+      this.hideMsgForOwner = false;
+    }
+
+    // this.checkedBoxHouse = applicantDetails.ownHouseProofAvail == '1' ? true : false;
+    // this.isChecked= applicantDetails.ownHouseProofAvail == '1' ? true : false;
 
     details.patchValue({
       name1: applicantDetails.name1,
@@ -734,6 +798,16 @@ export class BasicDetailsComponent implements OnInit {
 
   async onSave() {
     this.setFormsValidators();
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    if(this.hideMsgForOwner){
+      const houseOwner = details.get('houseOwnerProperty').value;
+      const ownHouseAppRelationship= details.get('ownHouseAppRelationship').value
+      details.patchValue({
+        houseOwnerProperty : houseOwner,
+        ownHouseAppRelationship : ownHouseAppRelationship
+      })
+    }
     this.isDirty = true;
     console.log('basicForm', this.basicForm);
     if (this.basicForm.invalid) {

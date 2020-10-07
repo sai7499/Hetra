@@ -1,6 +1,6 @@
 <div class="row top_bar">
-  <div class="col-lg-10 col-md-10 col-sm-10">
-    <div class="row">
+  <div class="col-lg-9 col-md-9 col-sm-9 pad-allside ">
+    <div class="row mob-view" >
       <div class="row col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
           <label class="col-form-label" for="lead_created_by">{{ labels?.leadID }}
@@ -26,14 +26,14 @@
             labels?.loanAmount 
           }}</label>
           <label for="customer_name" class="col-form-label-two">{{
-            loanAmount |  currency: 'INR'      
+            loanAmount    
             
           }}</label>
           <!-- : 'symbol':'1.0':'en-IN' -->
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row mob-view">
       <div class="row col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
           <label class="col-form-label" for="roi">{{
@@ -65,15 +65,42 @@
         </div>
       </div>
     </div>
+    <table class="table table-responsive table-borderless tab-border tab-view">
+      <tr style="line-height:2">
+        <td class="lab-bold-1">{{ labels?.leadID }}</td>
+        <td class="lab-colan">:</td>
+        <td class="lab-small">{{ leadId }}</td>
+        <td class="lab-bold-1">{{ labels?.product }}</td>
+        <td class="lab-colan">:</td>
+        <td class="lab-small">{{ productId }}</td>
+        <td class="lab-bold">{{ labels?.loanAmount }}</td>
+        <td class="lab-colan">:</td>
+        <td class="lab-small">{{ loanAmount }}</td>
+  
+      </tr>
+      
+      <tr style="line-height:2">
+        <td class="lab-bold-1">{{ labels?.applicant  }}</td>
+        <td class="lab-colan">:</td>
+        <td class="lab-small">{{ applicantName }}</td>
+        <td class="lab-bold-1">{{ labels?.status }}</td>
+        <td class="lab-colan">:</td>
+        <td class="lab-small">{{ stageDescription }}</td>
+        <td class="lab-bold">{{ labels?.queue }}</td>
+        <td class="lab-colan">:</td>
+        <td class="lab-small">New Lead</td>
+      </tr>
+      
+    </table>
   </div>
-  <div class="col-lg-2 col-md-2 col-sm-2" style="padding-top: 8px;">
-    <div class="row">
+  <div class="col-lg-2 col-md-2 col-sm-2 btn-width" >
+    <div class="row view-pad-top">
       <button class="btn btn-primary view-button" [routerLink]="['/pages/document-viewupload', leadId]" type="button"
         (click)="saveCurrentUrl()">
         View/Upload Document
       </button>
     </div>
-    <div class="row" *ngIf="isEnableDdeButton">
+    <div class="row view-pad-bottom" *ngIf="isEnableDdeButton">
       <button class="btn btn-primary view-button" type="button" (click)="viewOrEditDde()">
         View/Edit DDE
       </button>
@@ -85,3 +112,5 @@
     </div>
   </div>
 </div>
+
+

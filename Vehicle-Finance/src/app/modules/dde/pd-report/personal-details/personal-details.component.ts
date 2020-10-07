@@ -35,6 +35,16 @@ export class PersonalDetailsComponent implements OnInit {
   version: any;
   userId: any;
 
+  monthValidation: {
+    rule?: any;
+    msg?: string;
+  }[];
+
+  yearValidation: {
+    rule?: any;
+    msg?: string;
+  }[];
+
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
     private router: Router, private createLeadDataService: CreateLeadDataService,
@@ -55,6 +65,13 @@ export class PersonalDetailsComponent implements OnInit {
       });
     this.initForm();
 
+    this.activatedRoute.params.subscribe((value) => {
+      let score = value ? value.score : 0;
+      this.personalDetailsForm.patchValue({
+        cibilScore: score
+      })
+    })
+
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
     this.userId = roleAndUserDetails.userDetails.userId;
 
@@ -68,15 +85,53 @@ export class PersonalDetailsComponent implements OnInit {
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.applicantLov = value ? value[0].applicantDetails[0] : {};
     });
+
+    this.monthValidation = this.monthValiationCheck();
+  }
+
+  monthValiationCheck() {
+    const monthData = [
+      {
+        rule: (month) => {
+          return month < 0;
+        },
+        msg: 'Month should be greater than or equal to 0',
+      },
+      {
+        rule: (month) => {
+          return month > 11;
+        },
+        msg: 'Month should be less than or equal to 11',
+      },
+    ];
+    return monthData;
+  }
+
+  yearValiationCheck() {
+    const yearData = [
+      {
+        rule: (year) => {
+          return year < 0;
+        },
+        msg: 'Year should be greater than or equal to 0',
+      },
+      {
+        rule: (year) => {
+          return year > 99;
+        },
+        msg: 'Month should be less than or equal to 99',
+      },
+    ];
+    return yearData;
   }
 
   initForm() {
 
     this.personalDetailsForm = this._fb.group({
-      firstName: ['', Validators.required],
-      middleName: [''],
-      lastName: ['', Validators.required],
-      applicantName: [{ value: '', disabled: true }, Validators.required],
+      firstName: [{ value: '', disabled: true }],
+      middleName: [{ value: '', disabled: true }],
+      lastName: [{ value: '', disabled: true }],
+      applicantName: [{ value: '', disabled: true }],
       fatherFirstName: ['', Validators.required],
       fatherMiddleName: [''],
       fatherLastName: ['', Validators.required],
@@ -103,14 +158,14 @@ export class PersonalDetailsComponent implements OnInit {
       email: ['', Validators.required],
       residentStatus: ['', Validators.required],
       accomodationType: ['', Validators.required],
-      noOfYearsResidingInCurrResidence: ['', Validators.required],
+      noOfYears: ['', Validators.required],
+      noOfMonths: ['', Validators.required],
+      noOfYearsResidingInCurrResidence: [''],
       noOfAdultDependant: ['', Validators.compose([Validators.maxLength(2), Validators.required])],
       noOfChildrenDependant: ['', Validators.compose([Validators.maxLength(2), Validators.required])],
       bankAccHolderName: ['', Validators.required],
-      branch: ['', Validators.required],
-      creditBureauScore: [{ value: '-1', disabled: true }]
+      cibilScore: ['', Validators.required]
     })
-
   }
 
   getLOV() { // fun call to get all lovs
@@ -135,20 +190,39 @@ export class PersonalDetailsComponent implements OnInit {
     this.personaldiscussion.getPdData(data).subscribe((value: any) => {
       if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
         this.personalPDDetais = value.ProcessVariables.applicantPersonalDiscussionDetails ? value.ProcessVariables.applicantPersonalDiscussionDetails : {};
-        if (this.personalPDDetais) {
+
+        if (this.personalPDDetais.applicantName) {
           this.setFormValue(this.personalPDDetais);
           this.pdDataService.setCustomerProfile(this.personalPDDetais);
-        } else {
+        } else if (!this.personalPDDetais.applicantName) {
+
           this.applicantDetails.filter((val: any) => {
-            const splitName = val.fullName.split(' ')
+
+            const splitName = val.fullName.split(' ');
+
+            let firstName, middleName, lastName = '';
+
+            firstName = splitName[0] ? splitName[0] : '';
+
+            if (splitName && splitName.length >= 3) {
+              middleName = splitName[1] ? splitName[1] : '';
+              lastName = splitName[2] ? splitName[2] : '';
+            } else if (splitName && splitName.length === 2) {
+              middleName = '';
+              lastName = splitName[1] ? splitName[1] : '';
+            }
+
             if (val.applicantId === this.applicantId) {
               this.personalDetailsForm.patchValue({
-                firstName: splitName ? splitName[0] : '',
-                middleName: '',
-                lastName: splitName && splitName.length > 1 ? splitName[1] : '',
-                fullName: val.fullName || '',
-                contactNo: val.mobileNumber || ''
+                firstName: firstName,
+                middleName: middleName,
+                lastName: lastName,
+                applicantName: val.fullName ? val.fullName : '',
+                contactNo: val.mobileNumber ? val.mobileNumber.length === 12 ?
+                  val.mobileNumber.slice(2, 12) : val.mobileNumber : '',
+                dob: val.dob ? new Date(val.dob) : '',
               })
+
             }
             return val
           })
@@ -172,14 +246,21 @@ export class PersonalDetailsComponent implements OnInit {
       third = nameOfSplit[2] ? nameOfSplit[2] : '';
     }
 
+    let noofmonths = '';
+    let noofyears = ''
+    if (personalPDDetais.noOfYearsResidingInCurrResidence) {
+
+      noofmonths = String(Number(personalPDDetais.noOfYearsResidingInCurrResidence) % 12) || '';
+      noofyears = String(Math.floor(Number(personalPDDetais.noOfYearsResidingInCurrResidence) / 12)) || '';
+    }
+
     this.personalDetailsForm.patchValue({
       accomodationType: personalPDDetais.accomodationType || '',
       applicantName: personalPDDetais.applicantName || '',
       bankAccHolderName: personalPDDetais.bankAccHolderName || '',
-      branch: personalPDDetais.branch === 'T Nagar' ? '1' : '2' || '',
       category: personalPDDetais.category || '',
       community: personalPDDetais.community || '',
-      creditBureauScore: personalPDDetais.creditBureauScore || '',
+      cibilScore: personalPDDetais.cibilScore || '',
       dob: personalPDDetais.dob ? this.utilityService.getDateFromString(personalPDDetais.dob) : '',
       email: personalPDDetais.email || '',
       fatherFullName: personalPDDetais.fatherFullName || '',
@@ -216,6 +297,8 @@ export class PersonalDetailsComponent implements OnInit {
       natureOfBusiness: personalPDDetais.natureOfBusiness || '',
       educationalBackground: personalPDDetais.educationalBackground || '',
       weddingAnniversaryDate: personalPDDetais.weddingAnniversaryDate ? this.utilityService.getDateFromString(personalPDDetais.weddingAnniversaryDate) : '',
+      noOfYears: noofyears,
+      noOfMonths: noofmonths
     })
   }
 
@@ -262,10 +345,17 @@ export class PersonalDetailsComponent implements OnInit {
 
     let formValue = this.personalDetailsForm.getRawValue();
 
-    formValue.applicantFullName = formValue.firstName + ' ' + formValue.middleName + ' ' + formValue.lastName;
+    formValue.applicantName = formValue.firstName + ' ' + formValue.middleName + ' ' + formValue.lastName;
     formValue.fatherFullName = formValue.fatherFirstName + ' ' + formValue.fatherMiddleName + ' ' + formValue.fatherLastName;
     formValue.dob = formValue.dob ? this.utilityService.convertDateTimeTOUTC(formValue.dob, 'DD/MM/YYYY') : null;
     formValue.weddingAnniversaryDate = formValue.weddingAnniversaryDate ? this.utilityService.convertDateTimeTOUTC(formValue.weddingAnniversaryDate, 'DD/MM/YYYY') : null;
+
+    if (Number(formValue.noOfYears) == 0 && Number(formValue.noOfMonths) == 0) {
+      this.toasterService.showError('Please fill any one of the no of years or months', 'No of years residing at present residence')
+      return;
+    }
+
+    formValue.noOfYearsResidingInCurrResidence = String((Number(formValue.noOfYears) * 12) + Number(formValue.noOfMonths)) || '';
 
     if (this.personalDetailsForm.valid) {
 

@@ -68,22 +68,56 @@ export class CreateLeadService {
         }
         const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
         return this.httpService.post(url, body);
-
     }
 
-    rejectLead(productCode) {
+    rejectLead(flowStage: string, product?, productCode?) {
+        // let body;
         const processId = this.apiService.api.rejectLead.processId;
         const workflowId = this.apiService.api.rejectLead.workflowId;
         const projectId = this.apiService.api.rejectLead.projectId;
 
+        // if (product) {
+        //     body = {
+        //         processId: processId,
+        //         ProcessVariables: {
+        //             product,
+        //             flowStage
+        //         },
+        //         workflowId: workflowId,
+        //         projectId: projectId
+        //     };
+        // }
+
+        // if (productCode) {
+        //     body = {
+        //         processId: processId,
+        //         ProcessVariables: {
+        //             productCode,
+        //             flowStage
+        //         },
+        //         workflowId: workflowId,
+        //         projectId: projectId
+        //     };
+        // }
+
         const body: RequestEntity = {
-            processId: processId,
-            ProcessVariables: {
-                "productCode": productCode
-            },
-            workflowId: workflowId,
-            projectId: projectId
+            processId,
+            workflowId,
+            projectId,
+            ProcessVariables: {}
         };
+        if (product) {
+            body['ProcessVariables'] = {
+                product,
+                flowStage
+            }
+        } else if (productCode) {
+            body['ProcessVariables'] = {
+                productCode,
+                flowStage
+            }
+        }
+
         const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
         return this.httpService.post(url, body);
     }

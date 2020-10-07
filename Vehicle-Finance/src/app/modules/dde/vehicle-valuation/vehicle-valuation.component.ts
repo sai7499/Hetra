@@ -63,7 +63,7 @@ export class VehicleValuationComponent implements OnInit {
     this.getCollateralDetailsForVehicleValuation();
     this.getVendorCode();
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1') {
+    if (operationType === '1' || operationType === '2') {
       this.modalDataForm.disable();
       this.disableSaveBtn = true;
     }
@@ -92,7 +92,7 @@ export class VehicleValuationComponent implements OnInit {
 
   initForm() {
     this.modalDataForm = this.formBuilder.group({
-      remarks: ["",[Validators.required, Validators.pattern('^[a-zA-Z0-9 ]*$')]],
+      remarks: ["", [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]*$')]],
       valuatorCode: ["", [Validators.required]]
     });
   }
@@ -103,8 +103,8 @@ export class VehicleValuationComponent implements OnInit {
       subscribe((res: any) => {
         const response = res;
         this.collateralDetailsData = response.ProcessVariables.collateralDetails;
-        if(this.collateralDetailsData) {
-          this.collateralDetailsData.forEach( (element) => {            
+        if (this.collateralDetailsData) {
+          this.collateralDetailsData.forEach((element) => {
             this.colleteralId = element.collateralId;
             this.apiValuatorStatus = element.valuatorStatus;
             this.apiValuationStatus = element.valuationStatus;
@@ -166,7 +166,7 @@ export class VehicleValuationComponent implements OnInit {
 
   getVendorCode() {
     this.vehicleValuationService.getVendorCode().subscribe((res: any) => {
-        // const response = res;
+      // const response = res;
       this.vendorDetails = res.ProcessVariables.vendorDetails;
       this.vendorDetails.filter((element) => {
         const data = {
@@ -232,15 +232,15 @@ export class VehicleValuationComponent implements OnInit {
     });
     console.log("DATA::", data);
     if (status == 'NOT INITIATED') {
-      this.regNo= data.regNo;
+      this.isModal = true;
+      this.regNo = data.regNo;
       this.make = data.make;
       this.model = data.model;
       this.address = data.address;
-      this.isModal = true;
     }
     else {
       this.isModal = false;
-      this.router.navigateByUrl(`/pages/vehicle-valuation/${this.leadId}/valuation/${this.colleteralId}`);
+      this.router.navigateByUrl(`/pages/vehicle-valuation/${this.leadId}/valuation/${collateralId}`);
     }
   }
 
@@ -258,7 +258,8 @@ export class VehicleValuationComponent implements OnInit {
 
   onNext() {
     this.router.navigate([`/pages/dde/${this.leadId}/tvr-details`]);
-    this.sharedService.getVehicleValuationNext(true);
+    // this.sharedService.getVehicleValuationNext(true);
+    this.sharedService.getPslDataNext(true);
   }
 
   onBack() {

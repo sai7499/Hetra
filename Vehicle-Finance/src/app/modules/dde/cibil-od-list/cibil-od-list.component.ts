@@ -120,17 +120,14 @@ export class CibilOdListComponent implements OnInit {
     this.getLov();
     this.getOdDetails();
     this.getOdApplicant();
-    console.log(this.odDetailsForm.value.clearanceProof);
 
   }
 
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
-      console.log("lov values ....>", value)
       this.odListLov.odApplicantType = value.LOVS.odApplicantType;
       this.odListLov.typeOfLoan = value.LOVS.typeOfLoan;
       this.odListLov.clearanceProof = value.LOVS.clearanceProof;
-      console.log(this.odListLov.clearanceProof);
       this.odListLov.highestDpd = value.LOVS.highestDpd;
       this.odListLov.cibilStatus = value.LOVS.cibilStatus;
 
@@ -150,13 +147,11 @@ export class CibilOdListComponent implements OnInit {
 
   onSelectLoan(event, i) {
     this.selctedLoan[i] = event;
-    console.log(this.selctedLoan);
     this.selectedLoanType = this.selctedLoan[i];
   }
   onSelectProof(event) {
     this.selctedProof = null;
     this.selctedProof = event;
-    console.log(event);
 
   }
   private getodListDetails(data?: any) {
@@ -351,7 +346,6 @@ export class CibilOdListComponent implements OnInit {
     };
     this.odDetailsService.getOdDetails(body).subscribe((res: any) => {
       this.odDetails = res.ProcessVariables;
-      console.log(this.odDetails);
 
       this.addLastThirtyDaysLoan(res.ProcessVariables.bureauEnq30days);
       this.addLastSixtyDaysLoan(res.ProcessVariables.bureauEnq60days);
@@ -384,7 +378,7 @@ export class CibilOdListComponent implements OnInit {
 
       }
       const operationType = this.toggleDdeService.getOperationType();
-      if (operationType === '1') {
+      if (operationType === '1' || operationType === '2') {
         this.odDetailsForm.disable();
         this.disableSaveBtn = true;
       }
@@ -401,8 +395,6 @@ export class CibilOdListComponent implements OnInit {
     });
   }
   onSubmit() {
-    console.log(this.odDetailsForm);
-
     this.submitted = true;
     // stop here if form is invalid
     if (this.odDetailsForm.invalid) {
@@ -472,7 +464,6 @@ export class CibilOdListComponent implements OnInit {
       };
 
       this.odDetailsService.saveParentOdDetails(body).subscribe((res: any) => {
-        console.log(res);
 
         // tslint:disable-next-line: triple-equals
         if (res && res.ProcessVariables.error.code == '0') {
@@ -513,8 +504,6 @@ export class CibilOdListComponent implements OnInit {
     }
   }
   onAdditionalMatch(event: any) {
-    console.log("additional change ....>", event);
-    console.log(event)
    
     if(typeof(event) != 'number') {
       this.addMatchFound = event.currentTarget.checked
@@ -559,13 +548,14 @@ export class CibilOdListComponent implements OnInit {
       this.applicantImageService.getApplicantImageDetails(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
         if (res.ProcessVariables.error.code == '0') {
-          console.log(res);
           const imageUrl = res.ProcessVariables.response;
-          console.log(imageUrl);
           this.imageUrl = imageUrl;
           this.imageUrl = atob(this.imageUrl); // decoding base64 string to get xml file
           this.imageUrl = this.domSanitizer.bypassSecurityTrustHtml(this.imageUrl); // sanitizing xml doc for rendering with proper css
           this.cibilImage = this.imageUrl;
+          setTimeout(() => {
+            this.dragElement(document.getElementById('mydiv'));
+          });
         } else {
           this.imageUrl = res.ProcessVariables.error.message;
           this.cibilImage = res.ProcessVariables.error.message;
@@ -576,6 +566,50 @@ export class CibilOdListComponent implements OnInit {
   destroyImage() {
     if (this.cibilImage) {
       this.cibilImage = null;
+    }
+  }
+  private dragElement(elmnt) {
+    let pos1 = 0;
+    let pos2 = 0;
+    let pos3 = 0;
+    let pos4 = 0;
+    if (document.getElementById(elmnt.id + 'mydiv')) {
+      // if present, the header is where you move the DIV from:
+      document.getElementById(elmnt.id + 'mydiv').onmousedown = dragMouseDown;
+    } else {
+      // otherwise, move the DIV from anywhere inside the DIV:
+      elmnt.onmousedown = dragMouseDown;
+    }
+
+    function dragMouseDown(e) {
+      e = e || window.event;
+      e.preventDefault();
+      // get the mouse cursor position at startup:
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      document.onmouseup = closeDragElement;
+      // call a function whenever the cursor moves:
+      document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+      // tslint:disable-next-line: deprecation
+      e = e || window.event;
+      e.preventDefault();
+      // calculate the new cursor position:
+      pos1 = pos3 - e.clientX;
+      pos2 = pos4 - e.clientY;
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      // set the element's new position:
+      elmnt.style.top = elmnt.offsetTop - pos2 + 'px';
+      elmnt.style.left = elmnt.offsetLeft - pos1 + 'px';
+    }
+
+    function closeDragElement() {
+      // stop moving when mouse button is released:
+      document.onmouseup = null;
+      document.onmousemove = null;
     }
   }
 }

@@ -9,6 +9,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { ToasterService } from '@services/toaster.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CollateralDataStoreService } from '@services/collateral-data-store.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
     selector: 'app-additional-collateral-details',
@@ -22,6 +23,7 @@ export class AdditionalCollateralComponent implements OnInit {
     public LOV: any = {};
     public relationLov: any = [];
     initalZeroCheck: any = [];
+    id: number = 0;
 
     public userId: number;
     public leadId: number;
@@ -29,9 +31,12 @@ export class AdditionalCollateralComponent implements OnInit {
     leadData: any = {};
     applicantDetails: any = [];
     collateralType: string = 'AGRIADDCOLTYP';
+    currentValue: any
+    goldGramsValue: any;
+    disableSaveBtn: boolean;
 
     constructor(private _fb: FormBuilder, private labelsData: LabelsService, private createLeadDataService: CreateLeadDataService, private collateralDataService: CollateralDataStoreService,
-        private commonLovService: CommomLovService, private utilityService: UtilityService, private collateralService: CollateralService,
+        private commonLovService: CommomLovService, private utilityService: UtilityService, private collateralService: CollateralService, private toggleDdeService: ToggleDdeService,
         private loginStoreService: LoginStoreService, private toasterService: ToasterService, private router: Router, private activatedRoute: ActivatedRoute) {
 
         this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
@@ -66,7 +71,14 @@ export class AdditionalCollateralComponent implements OnInit {
         this.initForm();
         this.getLov();
         if (collateralId) {
+            this.id = Number(collateralId);
             this.setFormValue(collateralId);
+        }
+
+        const operationType = this.toggleDdeService.getOperationType();
+        if (operationType === '1' || operationType === '2') {
+            this.disableSaveBtn = true;
+            this.collateralForm.disable()
         }
     }
 
@@ -91,25 +103,6 @@ export class AdditionalCollateralComponent implements OnInit {
             this.LOV.propertOwner = propertOwner;
             this.relationLov = this.LOV.relationship;
 
-            this.LOV.purity = [
-                {
-                    key: '0',
-                    value: '24'
-                },
-                {
-                    key: '1',
-                    value: '22'
-                },
-                {
-                    key: '3',
-                    value: '18'
-                },
-                {
-                    key: '4',
-                    value: '14'
-                }
-            ]
-
         })
     }
 
@@ -131,7 +124,8 @@ export class AdditionalCollateralComponent implements OnInit {
             marketValue: [null, Validators.required],
             totalMarketValue: [null],
             guideLineValue: [null, Validators.required],
-            totalGuideLineValue: [null]
+            totalGuideLineValue: [null],
+            collateralId: this.id
         }))
 
     }
@@ -143,7 +137,8 @@ export class AdditionalCollateralComponent implements OnInit {
             fdAccountNo: ['', Validators.required],
             propertyOwner: ['', Validators.required],
             totalMarketValue: [null, Validators.required],
-            relationWithApplicant: ['', Validators.required]
+            relationWithApplicant: ['', Validators.required],
+            collateralId: this.id
         }))
     }
 
@@ -156,7 +151,8 @@ export class AdditionalCollateralComponent implements OnInit {
             totalMarketValue: [null],
             purity: ['', Validators.required],
             propertyOwner: ['', Validators.required],
-            relationWithApplicant: ['', Validators.required]
+            relationWithApplicant: ['', Validators.required],
+            collateralId: this.id
         }))
     }
 
@@ -174,15 +170,55 @@ export class AdditionalCollateralComponent implements OnInit {
             totalMarketValue: [null],
             guideLineValue: [null, Validators.required],
             totalGuideLineValue: [null],
+            propertyOwnerType: ['', Validators.required],
+            collateralId: this.id
         }))
     }
 
-    // Validators.pattern('/[^a-zA-Z0-9/,]/g')
+    currentValueGrams(value) {
+        const formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
+        const details = formArray.at(0)
+        this.currentValue = value;
+        if (this.goldGramsValue) {
+            const totalValue = this.currentValue * this.goldGramsValue;
+            this.convertTotalValue(totalValue)
+
+        } else {
+            details.get('totalMarketValue').setValue(null)
+        }
+
+    }
+
+    goldGrams(value) {
+        const formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
+        const details = formArray.at(0)
+        this.goldGramsValue = value;
+        if (this.currentValue) {
+            const totalValue = this.currentValue * this.goldGramsValue;
+            this.convertTotalValue(totalValue)
+        }
+        else {
+            details.get('totalMarketValue').setValue(null)
+        }
+    }
+
+    convertTotalValue(totalValue) {
+        const formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
+        const details = formArray.at(0)
+        const totalValueString = totalValue.toString();
+        if (totalValueString.includes('.')) {
+            const secondIndexValue = totalValueString.split('.')[1]
+            const firstIndexValue = totalValueString.split('.')[0]
+            const sliceValue = secondIndexValue.slice(0, 4)
+            const finalValue = firstIndexValue + '.' + sliceValue;
+            details.get('totalMarketValue').setValue(finalValue)
+        } else {
+            details.get('totalMarketValue').setValue(totalValue)
+        }
+    }
 
     onFindRelationship(value) {
         let typeOfApplicant = this.applicantDetails.find((res => res.applicantId === Number(value)))
-
-        console.log(typeOfApplicant, this.applicantDetails)
 
         let lovOfSelf = [{
             key: "5RELATION",
@@ -190,8 +226,6 @@ export class AdditionalCollateralComponent implements OnInit {
         }]
 
         let lovOfRelationship = this.relationLov.filter((data) => data.key !== "5RELATION")
-        console.log(typeOfApplicant, lovOfRelationship)
-
         this.LOV.relationship = typeOfApplicant['applicantType'] === "Applicant" ? lovOfSelf : lovOfRelationship;
     }
 
@@ -214,6 +248,8 @@ export class AdditionalCollateralComponent implements OnInit {
                 })
 
                 formArray.clear();
+                this.currentValue = collateralDetail.currentValuePerGram
+                this.goldGramsValue = collateralDetail.goldInGrams
 
                 formArray.controls.push(
                     this._fb.group({
@@ -228,6 +264,7 @@ export class AdditionalCollateralComponent implements OnInit {
                         propertyAddress: collateralDetail.propertyAddress || '',
                         propertyOwner: collateralDetail.propertyOwner || '',
                         propertyType: collateralDetail.propertyType || '',
+                        propertyOwnerType: collateralDetail.propertyOwnerType || '',
                         purity: collateralDetail.purity || '',
                         relationWithApplicant: collateralDetail.relationWithApplicant || '',
                         surveyNumber: collateralDetail.surveyNumber || null,
@@ -242,11 +279,12 @@ export class AdditionalCollateralComponent implements OnInit {
     }
 
     onFormSubmit(form) {
-        if (form.valid) {
 
+        let formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
+
+
+        if (form.valid && formArray.controls[0].valid) {
             let additionalCollaterals = {}
-
-            let formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
 
             additionalCollaterals = formArray.controls[0].value;
 
@@ -254,22 +292,16 @@ export class AdditionalCollateralComponent implements OnInit {
             additionalCollaterals['proofName'] = form.value.proofName;
             additionalCollaterals['proofCollected'] = form.value.proofCollected;
 
-            if (this.collateralType === 'GOLDADDCOLTYP') {
-
-                additionalCollaterals['totalMarketValue'] = additionalCollaterals['currentValuePerGram'] * additionalCollaterals['goldInGrams']
-
-            } else if (this.collateralType === 'AGRIADDCOLTYP') {
+            if (this.collateralType === 'AGRIADDCOLTYP') {
 
                 additionalCollaterals['totalMarketValue'] = additionalCollaterals['marketValue'] * additionalCollaterals['landInAcres'];
                 additionalCollaterals['totalGuideLineValue'] = additionalCollaterals['guideLineValue'] * additionalCollaterals['landInAcres']
 
             } else if (this.collateralType === 'PROPADDCOLTYP') {
-                
+
                 additionalCollaterals['totalMarketValue'] = additionalCollaterals['marketValue'] * additionalCollaterals['totalLandArea'];
                 additionalCollaterals['totalGuideLineValue'] = additionalCollaterals['guideLineValue'] * additionalCollaterals['totalLandArea']
             }
-
-            console.log(additionalCollaterals, 'co')
 
             const data = {
                 "userId": this.userId,

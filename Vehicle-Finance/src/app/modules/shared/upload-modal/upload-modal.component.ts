@@ -17,6 +17,7 @@ import { DocRequest } from '@model/upload-model';
 import { DocumentDetails } from '@model/upload-model';
 import { Constant } from '@assets/constants/constant';
 import { environment } from 'src/environments/environment';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-upload-modal',
@@ -41,6 +42,7 @@ export class UploadModalComponent {
   constructor(
     private uploadService: UploadService,
     private utilityService: UtilityService,
+    private toasterService: ToasterService,
     private camera: Camera
   ) {
     this.isMobile = environment.isMobile;
@@ -49,7 +51,12 @@ export class UploadModalComponent {
   async onFileSelect(event) {
     this.showError = '';
     const files: File = event.target.files[0];
-    this.fileType = this.getFileType(files.type);
+    if (!files.type) {
+      const type = files.name.split('.')[1];
+      this.fileType = this.getFileType(type);
+    } else {
+      this.fileType = this.getFileType(files.type);
+    }
     if (this.checkFileType(this.fileType)) {
       this.showError = `Only files with following extensions are allowed: ${this.docsDetails.docsType}`;
       return;
@@ -61,7 +68,7 @@ export class UploadModalComponent {
       return;
     }
 
-    const base64: any = await this.toBase64(files);
+    const base64: any = await this.toBase64(event);
     this.imageUrl = base64;
     this.fileSize = this.bytesToSize(files.size);
     this.fileName = files.name;
@@ -91,32 +98,59 @@ export class UploadModalComponent {
     // return false;
   }
 
-  toBase64(file) {
+  toBase64(evt) {
     return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        let result = '';
+      // const reader = new FileReader();
+      // reader.readAsDataURL(file);
+      // reader.onload = (function(theFile) {
+      //   return function(e) {
+      //     const binaryData = e.target.result;
+      //     const base64String = window.btoa(binaryData);
+      //     console.log('base64String', base64String);
+      //     resolve(base64String)
+      //   };
+      // })(file);
+      var f = evt.target.files[0]; // FileList object
+      var reader = new FileReader();
+      // Closure to capture the file information.
+      reader.onload = (function (theFile) {
+        return function (e) {
+          var binaryData = e.target.result;
+          //Converting Binary Data to base 64
+          var base64String = window.btoa(binaryData);
+          console.log('base64String', base64String);
+          resolve(base64String)
+          //showing file converted to base64
+          // document.getElementById('base64').value = base64String;
+          // alert('File converted to base64 successfuly!\nCheck in Textarea');
+        };
+      })(f);
+      // Read in the image file as a data URL.
+      reader.readAsBinaryString(f);
+      // Read in the image file as a data URL.
+      // reader.readAsBinaryString(file);
+      // reader.onloadend = () => {
+      //   let result = '';
 
-        if (this.fileType === 'jpeg' || this.fileType === 'png') {
-          result = reader.result
-            .toString()
-            .replace(/^data:image\/[a-z]+;base64,/, '');
-        } else if (this.fileType === 'pdf') {
-          result = reader.result
-            .toString()
-            .replace(/^data:application\/[a-z]+;base64,/, '');
-        } else if (this.fileType === 'xls') {
-          // data:image/jpeg;base64,data:application/vnd.ms-excel;base64,
-          result = reader.result.toString().split(',')[1];
-          // .replace(/^data:application\/[a-z]+;base64,/, '');
-        } else {
-          result = reader.result.toString();
-        }
-        resolve(result);
-      };
+      //   if (this.fileType === 'jpeg' || this.fileType === 'png') {
+      //     result = reader.result
+      //       .toString()
+      //       .replace(/^data:image\/[a-z]+;base64,/, '');
+      //   } else if (this.fileType === 'pdf') {
+      //     result = reader.result
+      //       .toString()
+      //       .replace(/^data:application\/[a-z]+;base64,/, '');
+      //   } else if (this.fileType.includes('xls')) {
+      //     result = reader.result.toString().split(',')[1];
+      //   } else if (this.fileType === 'docx') {
+      //     result = reader.result.toString().split(',')[1];
+      //   } else {
+      //     result = reader.result.toString();
+      //   }
+      //   resolve(result);
+      // };
 
-      reader.onerror = (error) => reject(error);
+      // reader.onerror = (error) => reject(error);
     });
   }
 
@@ -151,6 +185,7 @@ export class UploadModalComponent {
       'application/pdf': 'pdf',
       'image/png': 'png',
       'image/jpeg': 'jpeg',
+      'application/msword': 'docx'
     };
     return types[type] || type;
   }
@@ -158,8 +193,9 @@ export class UploadModalComponent {
   uploadFile() {
     this.docsDetails.bsPyld = this.imageUrl;
     let fileName = this.docsDetails.docSbCtgry.replace(' ', '_');
+    const name = this.docsDetails.docNm.replace('/', '_OR_');
     fileName =
-      this.docsDetails.docNm +
+      name +
       new Date().getFullYear() +
       +new Date() +
       '.' +
@@ -174,15 +210,21 @@ export class UploadModalComponent {
       .constructUploadModel(addDocReq)
       .pipe(
         map((value: any) => {
-          if (value.addDocumentRep.msgHdr.rslt === 'OK') {
+          const msgHdr = value.addDocumentRep.msgHdr;
+          if (msgHdr.rslt === 'OK') {
             const body = value.addDocumentRep.msgBdy;
             const docsRes = body.addDocResp[0];
             const docsDetails = {
               ...docsRes,
             };
             return docsDetails;
+          } else if (msgHdr.rslt === 'ERROR') {
+            const error = msgHdr.error[0].rsn;
+            this.toasterService.showError(error, 'Upload Error');
+
+            throw new Error(error);
           }
-          throw new Error('error');
+          // throw new Error('error');
         })
       )
       .subscribe(

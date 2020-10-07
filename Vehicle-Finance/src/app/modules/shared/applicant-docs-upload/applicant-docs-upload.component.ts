@@ -40,10 +40,14 @@ export class ApplicantDocsUploadComponent implements OnInit {
     this.DEFAULT_PROFILE_IMAGE = '';
     this.DEFAULT_SIGNATURE_IMAGE = '';
   }
+  @Input() set docSize(value) {
+      this.OTHER_DOCUMENTS_SIZE = value;
+  };
   associatedWith;
   PROFILE_SIZE = Constant.PROFILE_IMAGE_SIZE;
   PROFILE_TYPE = Constant.PROFILE_ALLOWED_TYPES;
-  OTHER_DOCUMENTS_SIZE = Constant.OTHER_DOCUMENTS_SIZE;
+  OTHER_DOCUMENTS_SIZE: number; 
+  // = Constant.OTHER_DOCUMENTS_SIZE;
   OTHER_DOCS_TYPE = Constant.OTHER_DOCUMENTS_ALLOWED_TYPES;
   DEFAULT_PROFILE_IMAGE: string;
   DEFAULT_SIGNATURE_IMAGE: string;
@@ -117,6 +121,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   getApplicantDocumentCategory(applicantId) {
+    console.log('this.subCategories', this.subCategories);
     this.subCategories.forEach((val) => {
       const formArray = this.uploadForm.get(
         `${this.FORM_ARRAY_NAME}_${val.code}`
@@ -155,6 +160,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   getCategoriesDetails(categoryCode: any[]) {
+    console.log('categoryCode', categoryCode);
     const categories = this.lovService.getDocumentCategories();
     // this.categories = categories.filter((category) => {
     //   return category.code === 50 || category.code === 70;
@@ -169,6 +175,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
         this.categories.push(category);
       }
     });
+    console.log('this.categories', this.categories);
     const subCategories = this.categories.map((category) => {
       return category.subcategories;
     });
@@ -546,6 +553,16 @@ export class ApplicantDocsUploadComponent implements OnInit {
       return;
     }
     const imageValue: any = await this.getBase64String(documentId);
+    if (imageValue.imageType.includes('xls')) {
+      console.log('xls', imageValue.imageUrl);
+      this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/vnd.ms-excel');
+      return;
+    }
+    if (imageValue.imageType.includes('doc')) {
+      console.log('xls', imageValue.imageUrl);
+      this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/msword');
+      return;
+    }
     this.setContainerPosition(el);
     this.showDraggableContainer = {
       imageUrl: imageValue.imageUrl,
@@ -561,6 +578,43 @@ export class ApplicantDocsUploadComponent implements OnInit {
     });
   }
 
+  getDownloadXlsFile(base64: string, fileName: string, type) {
+    const contentType = type;
+    const blob1 = this.base64ToBlob(base64, contentType);
+    const blobUrl1 = URL.createObjectURL(blob1);
+    console.log('blobUrl1', blobUrl1);
+    
+    setTimeout(() => {
+
+      const a: any = document.createElement('a');
+      document.body.appendChild(a);
+      a.style = "display: none";
+      a.href = blobUrl1;
+      a.download = fileName;
+      a.click();
+      window.URL.revokeObjectURL(blobUrl1);
+      // window.open(blobUrl1);
+    });
+  }
+
+  base64ToBlob(b64Data, contentType, sliceSize?: any) {
+      contentType = contentType || '';
+      sliceSize = sliceSize || 512;
+      const byteCharacters = atob(b64Data);
+      const byteArrays = [];
+      for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        const slice = byteCharacters.slice(offset, offset + sliceSize);
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        byteArrays.push(byteArray);
+      }
+      const blob = new Blob(byteArrays, {type: contentType});
+      return blob;
+    }
+
   getBase64String(documentId) {
     return new Promise((resolve, reject) => {
       this.uploadService
@@ -573,6 +627,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
           resolve({
             imageUrl,
             imageType,
+            documentName
           });
           console.log('downloadDocs', value);
         });
@@ -705,69 +760,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   onSubmit() {
-    // const requestArr = [];
-    // // if (this.documentArr.length === 0) {
-    // console.log('form value', this.uploadForm.value);
-    // const formValue = this.uploadForm.value;
-    // for (const key in formValue) {
-    //   if (formValue[key]) {
-    //     const subCategoryCode = Number(key.split('_')[1]);
-    //     let category: Categories;
-
-    //     this.categories.forEach((val) => {
-    //       val.subcategories.forEach((subCat) => {
-    //         if (subCat.code === subCategoryCode) {
-    //           category = val;
-    //         }
-    //       });
-    //     });
-    //     (formValue[key] || []).forEach((value) => {
-    //       requestArr.push({
-    //         deferredDate:
-    //           this.utilityService.getDateFormat(value.deferredDate) || '',
-    //         documentId: value.documentId,
-    //         documentName: value.documentName,
-    //         documentNumber: value.documentNumber,
-    //         expiryDate:
-    //           this.utilityService.getDateFormat(value.expiryDate) || '',
-    //         dmsDocumentId: value.file,
-    //         isDeferred: value.isDeferred,
-    //         issueDate: this.utilityService.getDateFormat(value.issueDate) || '',
-    //         subCategoryCode: subCategoryCode,
-    //         issuedAt: 'check',
-    //         categoryCode: category.code,
-    //         // associatedId: this.applicantId,
-    //         // associatedWith: this.associatedWith
-    //       });
-    //     });
-    //   }
-    // }
-
-    // // this.documentArr = requestArr;
-    // console.log('this.documentArr', this.documentArr);
-    // //   return;
-    // // }
-
-    // this.documentArr.forEach((value, index) => {
-    //   const formArray = this.uploadForm.get(
-    //     `${this.FORM_ARRAY_NAME}_${value.subCategoryCode}`
-    //   ) as FormArray;
-    //   const rawValue = formArray.getRawValue();
-    //   rawValue.forEach((formValue) => {
-    //     if (formValue.file === value.dmsDocumentId) {
-    //       this.documentArr[index] = {
-    //         ...this.documentArr[index],
-    //         expiryDate:
-    //           this.utilityService.getDateFormat(formValue.expiryDate) || '',
-    //         issueDate:
-    //           this.utilityService.getDateFormat(formValue.issueDate) || '',
-    //         documentNumber: formValue.documentNumber,
-    //       };
-    //     }
-    //   });
-    // });
-
-    // if (this.documentArr.length === 0) {
     const formValue = this.uploadForm.value;
     const requestArr = [];
     for (const key in formValue) {
@@ -784,10 +776,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
         });
         (formValue[key] || []).forEach((value, index) => {
           const documentName = value.documentName;
-          // const expiryDate =
-          // this.utilityService.getDateFormat(value.expiryDate) || '';
-          // const issueDate =
-          // this.utilityService.getDateFormat(value.issueDate) || '';
           const deferredDate =
             this.utilityService.getDateFormat(value.deferredDate) || '';
           if (documentName || deferredDate) {
@@ -818,9 +806,27 @@ export class ApplicantDocsUploadComponent implements OnInit {
     this.documentArr = requestArr;
     // }
 
-    // console.log('documentArr', requestArr);
+    // check defer past date
 
-    // return;
+    const checkAnyPast = this.documentArr.some((docs) => {
+      const now = new Date();
+      now.setHours(0, 0, 0, 0);
+      const deferDate = new Date(docs.deferredDate);
+      deferDate.setHours(0, 0, 0, 0);
+      return docs.isDeferred === '1' && deferDate < now;
+    });
+
+    if (checkAnyPast) {
+      this.toasterService.showError('Deferral date should be future date', '');
+      return;
+    }
+
+
+    if (this.documentArr.length === 0) {
+      this.toasterService.showWarning('No documents uploaded to save', '');
+      return;
+    }
+
 
     this.uploadService
       .saveOrUpdateDocument(this.documentArr)

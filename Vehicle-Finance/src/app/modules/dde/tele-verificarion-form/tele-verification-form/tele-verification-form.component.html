@@ -181,7 +181,7 @@
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="emi">{{labels.noOfEmi}}</label>
-                                    <app-custom-input id="noOfEmi" formControlName="otherLoanNoOfEmi" [className]="'form-control mandatory'" [patternCheck]="regexPattern.amount" [maxLength]="validationData?.percentage.maxLength" [isRequired]="'Number of years is required'" [isDirty]="isDirty"
+                                    <app-custom-input id="noOfEmi" formControlName="otherLoanNoOfEmi" [className]="'form-control mandatory'" [patternCheck]="regexPattern.amount" [maxLength]="validationData?.percentage.maxLength" [isRequired]="'Number of EMI is required'" [isDirty]="isDirty"
                                         [type]="validationData?.percentage.type">
                                     </app-custom-input>
                                 </div>
@@ -190,7 +190,7 @@
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="noOfYears">{{labels.noOfYears}}</label>
                                     <app-custom-input id="noOfYears" formControlName="residentNoOfYrs" [className]="'form-control mandatory'" [patternCheck]="regexPattern.amount" [maxLength]="validationData?.percentage.maxLength" [isRequired]="'Number of years is required'" [isDirty]="isDirty"
-                                        [type]="validationData?.percentage.type">
+                                        [type]="validationData?.amountValue.type">
                                     </app-custom-input>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -206,7 +206,7 @@
                             <div class="row">
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="dob">{{labels.dob}}</label>
-                                    <kendo-datepicker class=" mandatory" formControlName="dob" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Date of birth" [activeView]="'decade'"></kendo-datepicker>
+                                    <kendo-datepicker class=" form-control mandatory" formControlName="dob" [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Date of birth" [activeView]="'decade'"></kendo-datepicker>
                                     <div *ngIf="isDirty || teleVerificationForm.get('dob').touched">
                                         <div style="color:red" *ngIf="teleVerificationForm.get('dob').errors?.required">
                                             Date is mandatory

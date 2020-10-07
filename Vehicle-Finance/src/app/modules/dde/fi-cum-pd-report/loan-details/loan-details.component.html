@@ -102,13 +102,17 @@
           >
             {{ labels.back }}
           </button>
-          <button class="btn btn-primary" (click)="onFormSubmit()">
+          <button
+            class="btn btn-primary"
+            (click)="onFormSubmit('save')"
+            *ngIf="!disableSaveBtn"
+          >
             {{ labels.save }}
           </button>
           <button
             class="btn btn-primary"
             type="button"
-            (click)="onNavigateNext()"
+            (click)="onNavigateNext('next')"
           >
             {{ labels.next }}
           </button>
@@ -936,7 +940,8 @@
     >
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="vehicle_verified"
-          >{{ labels.vehicleVerified }} <sub class="star_blue_col">*</sub></label
+          >{{ labels.vehicleVerified }}
+          <sub class="star_red_col">*</sub></label
         >
         <!-- <select class="form-control">
                     <option>Select</option>
@@ -955,7 +960,7 @@
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="physical_condition"
           >{{ labels.physicalCondition }}
-          <sub class="star_red_col">*</sub></label
+          <sub class="star_blue_col">*</sub></label
         >
         <!-- <select class="form-control">
                     <option>Select</option>
@@ -977,7 +982,7 @@
         <app-custom-input
           formControlName="vehicleRoute"
           placeholder="vehicle route"
-          [isRequired]="'required'"
+          [isRequired]="'vehicle condition is required'"
           [maxLength]="maxlength30"
           [isDirty]="isDirty"
         >

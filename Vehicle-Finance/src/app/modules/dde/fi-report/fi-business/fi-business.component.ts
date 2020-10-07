@@ -53,6 +53,11 @@ export class FiBusinessComponent implements OnInit {
   invalidPincode: boolean;
   custSegment: any;
   concernLov: any;
+  showTypeOfConcern: boolean;
+  showSubmit = true;
+  fiList: Array<any>;
+  fiStatusValue: any;
+
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -69,7 +74,7 @@ export class FiBusinessComponent implements OnInit {
     this.leadId = Number(this.activatedRoute.snapshot.parent.params.leadId);
     // this.applicantId = Number(this.activatedRoute.parent)
     this.applicantId = Number(this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
-    this.version = Number(this.activatedRoute.snapshot.parent.firstChild.params.version);
+    this.version = String(this.activatedRoute.snapshot.parent.firstChild.params.version);
     console.log('version', this.version);
     console.log('in construc app id', this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
     console.log('leadid', this.leadId);
@@ -103,6 +108,7 @@ export class FiBusinessComponent implements OnInit {
     this.getLabels();
     this.initForm();
     this.isDirty = true;
+    this.showTypeOfConcern = true;
   }
   getLeadId() {
     return new Promise((resolve, reject) => {
@@ -123,17 +129,25 @@ export class FiBusinessComponent implements OnInit {
     });
   }
   getConcernType() {
-    if (this.custSegment == "SALCUSTSEG") {
-      this.concernLov = this.LOV.LOVS['concernType-Salaried']
+    if (this.custSegment == "SALCUSTSEG" && this.custSegment != null) {
+      this.concernLov = this.LOV.LOVS['concernType-Salaried'];
       this.concernType(this.custSegment);
-    } else if (this.custSegment == "SEMCUSTSEG") {
-      this.concernLov = this.LOV.LOVS['concernType-SelfEmployed']
+      console.log('in sal type cust seg');
+    } else if (this.custSegment == "SEMCUSTSEG" && this.custSegment != null) {
+      this.concernLov = this.LOV.LOVS['concernType-SelfEmployed'];
       this.concernType(this.custSegment);
+      console.log('in self-employ type cust seg');
+    } else {
+      this.showTypeOfConcern = false;
+      this.removeTypeOfConcerValidators();
+      console.log('in hidden type of concern')
     }
+
   }
   concernType(event) {
     console.log('in concern event');
     console.log(event);
+    this.addTypeOfConcernValidators();
     this.typeOfConcernValue = event ? event : event;
     if (this.typeOfConcernValue === 'SALCUSTSEG') {
       this.removeAddressValidators();
@@ -148,12 +162,15 @@ export class FiBusinessComponent implements OnInit {
     this.commonLovService.getLovData().subscribe((value) => {
       this.LOV = value;
       console.log('in get lov app id', this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
+      console.log('version', this.version);
+      if (this.version !== 'undefined') {
+        this.showSubmit = false;
+      }
       this.getLeadSectionData();
       this.getFiReportDetails();
+      console.log(this.LOV);
+      console.log('in on init', this.city);
     });
-
-    console.log(this.LOV);
-    console.log('in on init', this.city);
   }
   getLeadSectionData() { // fun to get all data related to a particular lead from create lead service
     console.log('in get lead sec app id', this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
@@ -377,6 +394,16 @@ export class FiBusinessComponent implements OnInit {
 
     });
   }
+  removeTypeOfConcerValidators() {
+    console.log('in remove type of concern validtors');
+    this.fieldReportForm.get('typeOfConcern').clearValidators();
+    this.fieldReportForm.get('typeOfConcern').updateValueAndValidity();
+  }
+  addTypeOfConcernValidators() {
+    console.log('in adding type of concern valodator');
+    this.fieldReportForm.get('typeOfConcern').setValidators(Validators.required);
+
+  }
 
   removeAddressValidators() {
     console.log('in remove address validators');
@@ -447,8 +474,8 @@ export class FiBusinessComponent implements OnInit {
   getFiReportDetails() { // fun to call get fi report details api field investigation service
     const data = {
       applicantId: this.applicantId,
-      // applicantId: 1177,  // hardcoded as per backend
-      userId: this.userId
+      userId: this.userId,
+      fiVersion: this.version
     };
     console.log('in get fi report', this.applicantId);
     this.fieldInvestigationService.getFiReportDetails(data).subscribe(async (res: any) => {
@@ -456,7 +483,15 @@ export class FiBusinessComponent implements OnInit {
       console.log('get fi report response', processVariables);
       const message = processVariables.error.message;
       if (processVariables.error.code === '0') {
-        this.custSegment = res.ProcessVariables.getFIBusinessDetails.custSegment;
+        if (processVariables.getFIBusinessDetails) {
+          this.custSegment = processVariables.getFIBusinessDetails.custSegment;
+          console.log('in cust segment not null condition');
+          console.log('cust segment', this.custSegment)
+        } else {
+          this.custSegment == null;
+          console.log('in cust segment null condition');
+          console.log('cust segment', this.custSegment)
+        }
         // this.custSegment = "SEMCUSTSEG"
         this.applicantFullName = res.ProcessVariables.applicantName;
         console.log('in get fi applicant name', this.applicantFullName);
@@ -480,7 +515,8 @@ export class FiBusinessComponent implements OnInit {
     }
     const data = {
       applicantId: this.applicantId,
-      leadId: this.leadId
+      leadId: this.leadId,
+      userId: this.userId
     };
     console.log('in submit fi report app id', this.applicantId);
     console.log('in submit fi report lead id', this.leadId);
@@ -492,7 +528,7 @@ export class FiBusinessComponent implements OnInit {
         console.log('result', processvariables.error.message);
         this.toasterService.showSuccess('Report Submitted Successfully', '');
         // this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
-        this.router.navigate([`/pages/dashboard`]);
+        this.getFiList();
 
       } else {
         this.toasterService.showError('', message);
@@ -500,6 +536,37 @@ export class FiBusinessComponent implements OnInit {
     });
 
   }
+  getFiList() {
+
+    const data = {
+      applicantId: this.applicantId, // uncomment when we get proper applicant ID
+      // applicantId: 1177, // hardCoded for testing purpose
+      userId: this.userId,
+    };
+    this.fieldInvestigationService.getFiList(data).subscribe((value: any) => {
+      const processvariables = value.ProcessVariables;
+      // console.log('in get fi list', processvariables);
+      this.fiList = processvariables.finalFIList;
+      console.log('fi List', this.fiList);
+      const arrayLength = this.fiList.length;
+      let n = 0;
+      for (var i in this.fiList) {
+        this.fiStatusValue = this.fiList[i]['fiStatus']
+        if (this.fiList[i]['fiStatusValue'] == "Submitted") {
+          n = n + 1;
+        }
+        console.log('number n ', n);
+        console.log('length array', arrayLength);
+      }
+      if (n === arrayLength) {
+        this.router.navigate([`/pages/dashboard`]);
+      } else {
+        this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-list`]);
+      }
+
+    });
+  }
+
 
 
   onFormSubmit() { // fun that submits all the pd data
@@ -611,10 +678,8 @@ export class FiBusinessComponent implements OnInit {
 
   }
 
-
-
   onNavigateBack() {
-    if (this.version) {
+    if (this.version != 'undefined') {
       console.log('in routing defined version condition', this.version);
       this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${this.applicantId}/fi-residence/${this.version}`]);
 

@@ -22,6 +22,8 @@ export class ScoreCardComponent implements OnInit {
     userId: string;
     leadId: number;
     disableSaveBtn: boolean;
+    riskLevel: number;
+    risk: string;
 
     constructor(
         private scoreCardService: ScoreCardService,
@@ -39,7 +41,7 @@ export class ScoreCardComponent implements OnInit {
 
         this.reInitiateCreditScore();
         const operationType = this.toggleDdeService.getOperationType();
-        if (operationType === '1') {
+        if (operationType === '1' || operationType === '2') {
             this.disableSaveBtn = true;
         }
     }
@@ -53,6 +55,7 @@ export class ScoreCardComponent implements OnInit {
             if (appiyoError === '0' && apiError === '0') {
                 this.scoreCard = JSON.parse(response.ProcessVariables.resultJson);
                 console.log('ScoreCard', this.scoreCard);
+                this.riskLevel = this.scoreCard.totalScore;
                 this.borrowerAttributes = this.scoreCard.borrowerAttribute;
                 this.borrowerAssessments = this.scoreCard.borrowerAssessment;
                 this.fieldVerifications = this.scoreCard.fieldVerification;
@@ -65,6 +68,23 @@ export class ScoreCardComponent implements OnInit {
                     this.borrowerAssessments.length +
                     this.fieldVerifications.length + 1;
             }
+            this.levelOfRisk(this.riskLevel);
         });
+
+    }
+    levelOfRisk(riskLevel: number) {
+        if (riskLevel <= 50) {
+            this.risk = 'Higest Risk';
+        } else if (riskLevel > 50 && riskLevel <= 60) {
+            this.risk = 'Very High Risk';
+        } else if (riskLevel > 60 && riskLevel <= 70) {
+            this.risk = 'High Risk';
+        } else if (riskLevel > 70 && riskLevel <= 75) {
+            this.risk = 'Medium Risk';
+        } else if (riskLevel > 75 && riskLevel <= 85) {
+            this.risk = 'Low Risk';
+        } else if (riskLevel > 85) {
+            this.risk = 'Very Low Risk ';
+        }
     }
 }

@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  version: '0.16',
-  buildDate: '16/09/2020',
+  version: window["env"]["version"],
+  buildDate:  window["env"]["buildDate"],
   apiVersion: {
     login: 'v3/',
     api: 'v2/',
@@ -28,7 +28,8 @@ export const environment = {
   // hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
 
-  host: '/appiyo/',
+  // host: '/appiyo/',
+  host: window["env"]["hostUrl"] || "default",
   // host: "https://hetrauat.equitasbank.com/appiyodev/",
   //host: 'http://128.199.164.250/appiyo/',
   // host: 'http://10.101.10.153/appiyo/',

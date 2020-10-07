@@ -45,7 +45,6 @@ export class ReferenceDetailsComponent implements OnInit {
   isDirty = false;
   userId: any;
   isValidPincode: boolean;
-  //valuesToYesNo: any = [{ key: 1, value: 'Yes' }, { key: 0, value: 'No' }];
 
   constructor(private labelsData: LabelsService, private lovDataService: LovDataService,
     private formBuilder: FormBuilder, private pdDataService: PdDataService, private applicantService: ApplicantService,
@@ -289,19 +288,19 @@ export class ReferenceDetailsComponent implements OnInit {
         if (id === 'refererPincode') {
           this.refererPincode = value;
           this.referenceDetailsForm.patchValue({
-            refererCity: value.city[0].value,
-            refererDistrict: value.district[0].value,
-            refererState: value.state[0].value,
-            refererCountry: value.country[0].value
+            refererCity: value.city[0].key,
+            refererDistrict: value.district[0].key,
+            refererState: value.state[0].key,
+            refererCountry: value.country[0].key
           })
         } else if (id === 'referencePincode') {
 
           this.referencePincode = value;
           this.referenceDetailsForm.patchValue({
-            referenceCity: value.city[0].value,
-            referenceDistrict: value.district[0].value,
-            referenceState: value.state[0].value,
-            referenceCountry: value.country[0].value
+            referenceCity: value.city[0].key,
+            referenceDistrict: value.district[0].key,
+            referenceState: value.state[0].key,
+            referenceCountry: value.country[0].key
           })
         }
 
@@ -331,6 +330,7 @@ export class ReferenceDetailsComponent implements OnInit {
           this.refCheckDetails = value.ProcessVariables.referenceCheck ? value.ProcessVariables.referenceCheck : {};
           this.getLOV();
           this.toastrService.showSuccess('Successfully Save Reference Details', 'Save/Update Reference Details');
+          this.getReferenceDetails()
         } else {
           this.toastrService.showSuccess(value.ErrorMessage, 'Error Reference Details');
         }

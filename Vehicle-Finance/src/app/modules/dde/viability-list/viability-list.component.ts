@@ -26,23 +26,25 @@ export class ViabilityListComponent {
   fiCumPdStatus: boolean;
 
   constructor(private labelsData: LabelsService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private viabilityService: ViabilityServiceService,
-    private toasterService: ToasterService,
-    private loginStoreService: LoginStoreService,
-    private location: Location,
-    private toggleDdeService: ToggleDdeService
+              private router: Router,
+              private route: ActivatedRoute,
+              private viabilityService: ViabilityServiceService,
+              private toasterService: ToasterService,
+              private loginStoreService: LoginStoreService,
+              private location: Location,
+              private toggleDdeService: ToggleDdeService
     ) {
   }
 
   // tslint:disable-next-line: use-lifecycle-interface
   async ngOnInit() {
     this.fiCumPdStatusString = (localStorage.getItem('isFiCumPd'));
+    // tslint:disable-next-line: triple-equals
     if (this.fiCumPdStatusString == 'false') {
-      this.fiCumPdStatus = false
+      this.fiCumPdStatus = false;
+    // tslint:disable-next-line: triple-equals
     } else if (this.fiCumPdStatusString == 'true') {
-      this.fiCumPdStatus = true
+      this.fiCumPdStatus = true;
     }
     console.log(this.taskId, 'task id onInit');
     this.leadId = (await this.getLeadId()) as number;
@@ -70,7 +72,7 @@ export class ViabilityListComponent {
     }
     console.log(this.route, 'queryParams Check');
     // const operationType = this.toggleDdeService.getOperationType();
-    // if (operationType === '1') {
+    // if (operationType === '1' || operationType === '2') {
     //   this.modalDataForm.disable();
     //   this.disableSaveBtn = true;
     // }
@@ -94,11 +96,15 @@ export class ViabilityListComponent {
   }
   onBack() {
     // this.location.back();
-    if (this.fiCumPdStatus == false) {
+    // tslint:disable-next-line: triple-equals
+    if (this.fiCumPdStatus == false && this.roleType == '2') {
       this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
-    } else if (this.fiCumPdStatus == true) {
+    // tslint:disable-next-line: triple-equals
+    } else if (this.fiCumPdStatus == true && this.roleType == '2') {
       this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
-
+    // tslint:disable-next-line: triple-equals
+    } else if (this.roleType == '1') {
+      this.router.navigate(['pages/dashboard']);
     }
   }
   getLeadId() {

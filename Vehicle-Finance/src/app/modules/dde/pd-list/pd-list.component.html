@@ -11,6 +11,9 @@
                     <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
                 </div>
             </div>
+            <div>
+                <h3>{{fiCumPdStatusString == 'true' ? 'FI cum PD Dashboard' : 'PD Dashboard'}}</h3>
+            </div>
             <div class="row">
                 <div id="applicantTable">
                     <table>
@@ -50,7 +53,7 @@
                                     {{ item.applicantName ? item.applicantName : "-" }}
                                 </td>
                                 <td [attr.data-label]="labels?.mobileNumber">
-                                    {{ item.mobileNumber ? item.mobileNumber : "-" }}
+                                    {{ item.mobileNumber ? item.mobileNumber : item.companyPhoneNo }}
                                 </td>
                                 <td [attr.data-label]="labels?.applicantType">
                                     {{ item.applicantType ? item.applicantType : "-" }}
@@ -58,22 +61,24 @@
                                 <td [attr.data-label]="labels?.pdStatus" *ngIf="showStatus">
                                     <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
                                 </td>
-                                <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;" *ngIf="show && pdStatusValue != 'Submitted'" (click)="navigatePage(item.applicantId)">
+                                <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;" *ngIf="show && pdStatusValue != 'Submitted'" (click)="navigatePage(item.applicantId, item.cibilScore)">
                                     <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
+
                                 </td>
                                 <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;" *ngIf="show && pdStatusValue === 'Submitted'">
                                     <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
                                 </td>
                                 <!-- <ng-container *ngIf='item.pdReportValue'> -->
                                 <ng-container *ngIf="pdStatusValue === 'Submitted'">
-                                    <td [attr.data-label]="labels?.ucicId">
+                                    <td [attr.data-label]="labels?.pdReport">
                                         <ng-container *ngFor="let version of item.pdReportValue.split(',')">
                                             <u><a class="a_tag" style="cursor: pointer;"
-                          (click)="navigatePage(item.applicantId, version)">Version - {{ version }}</a></u><span>&nbsp;<br class="filter-display"/></span>
+                                                    (click)="navigatePage(item.applicantId, item.cibilScore, version)">Version
+                                                    - {{ version }}</a></u><span>&nbsp;<br
+                                                    class="filter-display" /></span>
                                         </ng-container>
                                     </td>
                                 </ng-container>
-
                                 <!-- <td>
                   <u
                     ><a
@@ -148,8 +153,8 @@
         <br />
         <br />
         <button class="btn btn-primary" type="button" (click)="onNavigateToPdSummary()">
-      Back to PD Summary
-    </button>
+            {{fiCumPdStatusString == 'true' ? 'Back to FI cum PD Summary' : 'Back to PD Summary'}}
+        </button>
         <!-- <button class="btn btn-primary " type="button " (click)=onNavigateBack()> {{labels.back}} </button> &nbsp; -->
         <!-- <p class="btn btn-primary save "> Save </p> -->
         <!-- <button class="btn btn-primary " type="button " (click)="onNavigateNext() "> {{labels.next}} </button> -->
@@ -162,10 +167,10 @@
         <br />
 
         <button class="btn btn-primary" type="button " (click)="onNavigateBack()">
-      {{ labels.back }}
-    </button>
+            {{ labels.back }}
+        </button>
         <button class="btn btn-primary" type="button " (click)="onNavigateNext()">
-      {{ labels.next }}
-    </button>
+            {{ labels.next }}
+        </button>
     </div>
 </div>

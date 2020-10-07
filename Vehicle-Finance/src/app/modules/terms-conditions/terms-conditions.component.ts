@@ -6,6 +6,7 @@ import { CreateLeadDataService } from '../lead-creation/service/createLead-data.
 import { TermAcceptanceService } from '@services/term-acceptance.service';
 import { CreditScoreService } from '@services/credit-score.service';
 import { ThrowStmt } from '@angular/compiler';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-terms-conditions',
@@ -17,6 +18,16 @@ export class TermsConditionsComponent implements OnInit {
   leadId: any;
   userId: any;
   processData: any;
+  loanAmount;
+  eligibleAmount;
+
+  rejectData: {
+    title: string,
+    product: any;
+    flowStage: string;
+   
+  }
+  showModal:boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -24,7 +35,8 @@ export class TermsConditionsComponent implements OnInit {
     private router: Router,
     private termsService: TermAcceptanceService,
     private aRoute: ActivatedRoute,
-    private creditService: CreditScoreService
+    private creditService: CreditScoreService,
+    private toasterService: ToasterService
   ) {}
 
   async ngOnInit() {
@@ -89,6 +101,8 @@ export class TermsConditionsComponent implements OnInit {
        res.ProcessVariables.error.code === '0'
       ) {
         this.processData = res.ProcessVariables;
+        this.loanAmount = Number(this.processData.loanAmount ).toLocaleString('en-IN');
+        this.eligibleAmount = Number(this.processData.eligibleAmount ).toLocaleString('en-IN');
       }
       //  else {
       //   this.router.navigate([
@@ -97,4 +111,41 @@ export class TermsConditionsComponent implements OnInit {
       // }
     });
   }
+
+  reject() {
+
+    const productId = this.processData.productId || '';
+    this.showModal = true;
+    this.rejectData = {
+      title: 'Select Reject Reason',
+      product:productId,
+      flowStage: '30'
+    }
+    
+
+  }
+
+  onOkay(reasonData) {
+    
+    const body = {
+      leadId : this.leadId,
+      userId:  this.userId,
+      statusType : 'reject',
+      isSoRejected: false,
+      reasonCode: reasonData['reason'].reasonCode
+    };
+    this.termsService.acceptTerms(body).subscribe((res: any) => {
+      if ( res && res.ProcessVariables.error.code === '0') {
+        this.toasterService.showSuccess('Record Rejected successfully!','')
+        this.router.navigateByUrl(`/pages/dashboard`);
+      }else {
+        this.toasterService.showError(res.ProcessVariables.error.message,'')
+      }
+    });
+  }
+
+  onCancel() {
+    this.showModal = false;
+  }
+
 }

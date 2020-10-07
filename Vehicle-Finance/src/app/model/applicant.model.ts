@@ -3,6 +3,7 @@ import { SpawnSyncOptionsWithBufferEncoding } from 'child_process';
 export interface Applicant {
   otpVerified?: boolean;
   ucic? : number ;
+  ekycDone? : string;
   applicantDetails?: ApplicantDetails;
   aboutIndivProspectDetails?: IndividualProspectDetails;
   indivIdentityInfoDetails?: IndivIdentityInfoDetails;
@@ -123,6 +124,10 @@ export interface IndividualProspectDetails {
   emiAffordability?: string;
   addressDetails?: string;
   pobox?: string;
+
+  isEquitasEmployee? : string;
+  isEquitasEmployeeRelative? : string;
+  equitasEmployeeNumber? : string;
 
 }
 

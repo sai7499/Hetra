@@ -122,7 +122,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
     });
     this.operationType = this.toggleDdeService.getOperationType();
-    if (this.operationType === '1') {
+    if (this.operationType === '1' || this.operationType === '2') {
       this.customerProfileForm.disable();
       this.disableSaveBtn = true;
     }
@@ -164,7 +164,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
       officePremises: new FormControl('', Validators.required),
       sizeofOffice: new FormControl('', Validators.required),
       customerProfileRatingSo: new FormControl('', Validators.required),
-      mismatchInAddress: new FormControl('', Validators.compose([Validators.maxLength(200)])),
+      mismatchInAddress: new FormControl(''),
       customerHouseSelfie: new FormControl('', Validators.required),
       // ownershipAvailable: new FormControl('', Validators.required),
       mandatoryCustMeeting: new FormControl('', Validators.required),
@@ -256,7 +256,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
   }
 
   onFormSubmit(action) {
-    if (this.operationType === '1') {
+    if (this.operationType === '1' || this.operationType === '2') {
       this.onNavigateNext();
       return;
     }

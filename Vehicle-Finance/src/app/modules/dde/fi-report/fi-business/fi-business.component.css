@@ -21,3 +21,7 @@ cus-mandatory-field {
         margin-bottom: 0px;
     }
 }
+.modal-center{
+    margin: 0 auto;
+    top: 30%;
+}

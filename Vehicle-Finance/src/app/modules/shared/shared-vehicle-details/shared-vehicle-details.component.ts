@@ -11,6 +11,7 @@ import { Location } from '@angular/common';
 import { CollateralService } from '@services/collateral.service';
 import { CollateralDataStoreService } from '@services/collateral-data-store.service';
 import { CommomLovService } from '@services/commom-lov-service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-shared-vehicle-details',
@@ -29,6 +30,8 @@ export class SharedVehicleDetailsComponent implements OnInit {
   public leadData: any = {};
   public userId: number;
 
+  disableSaveBtn: boolean;
+
   locationIndex: any;
   findInedx: any;
   selectCollateralId: any;
@@ -38,7 +41,7 @@ export class SharedVehicleDetailsComponent implements OnInit {
   isCollateralSrting: string = 'Collateral';
 
   constructor(
-    private loginStoreService: LoginStoreService,
+    private loginStoreService: LoginStoreService, private toggleDdeService: ToggleDdeService,
     private labelsData: LabelsService, private collateralService: CollateralService,
     private vehicleDetailsService: VehicleDetailService, private commonLovService: CommomLovService,
     private router: Router, private collateralDataStoreService: CollateralDataStoreService,
@@ -71,6 +74,11 @@ export class SharedVehicleDetailsComponent implements OnInit {
     }, error => {
       console.log('error', error);
     });
+
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1' || operationType === '2') {
+        this.disableSaveBtn = true;
+    }
 
   }
 

@@ -92,7 +92,16 @@
     <tbody>
         <tr>
             <td class="actionTable"><strong>Action</strong></td>
-            <td class="actionTable" [ngClass]="{'mediumRisk': true}"><strong>Medium Risk</strong></td>
+            <td 
+                class="actionTable" 
+                [ngClass]="{'highestRisk': riskLevel <= 50,
+                            'veryhighRisk': riskLevel > 50 && riskLevel <= 60,
+                            'highRisk': riskLevel > 50 && riskLevel <= 60,
+                            'mediumRisk': riskLevel > 70 && riskLevel <= 75,
+                            'lowRisk': riskLevel > 75 && riskLevel <= 85,
+                            'veryLowRisk': riskLevel > 85 }">
+                <strong>{{risk}}</strong>
+            </td>
         </tr>
     </tbody>
 </table>

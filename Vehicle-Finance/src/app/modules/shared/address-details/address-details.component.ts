@@ -94,7 +94,7 @@ export class AddressDetailsComponent implements OnInit {
   checkedModifyCurrent: boolean;
   disableCurrent: boolean;
   disableRegister: boolean;
-  SRNumberValidate : boolean = true;
+  SRNumberValidate: boolean = true;
 
 
   constructor(
@@ -497,7 +497,7 @@ export class AddressDetailsComponent implements OnInit {
         mobileNumber: new FormControl(''),
         //accommodationType: new FormControl(''),
         nearestLandmark: new FormControl(''),
-        pobox : new FormControl('')
+        pobox: new FormControl('')
       }),
     });
 
@@ -528,14 +528,16 @@ export class AddressDetailsComponent implements OnInit {
   getAddressDetails() {
     this.address = this.applicantDataService.getApplicant();
     console.log('COMING ADDRES VALUES', this.address);
+    this.setAddressData();
     if (this.address.ucic) {
       if (this.address.applicantDetails.entityTypeKey === 'INDIVENTTYP') {
         this.disableCurrent = true;
         this.onPerAsCurChecked = true;
         this.disableAddress('permanantAddress');
         this.disableAddress('currentAddress');
-      }
-      if (this.address.applicantDetails.entityTypeKey === 'NONINDIVENTTYP') {
+      } else {
+        const formArray = this.addressForm.get('details') as FormArray;
+        const details = formArray.at(0);
         this.disableRegister = true;
         this.onRegAsCommChecked = true;
         this.disableAddress('registeredAddress');
@@ -544,7 +546,12 @@ export class AddressDetailsComponent implements OnInit {
 
       this.showModCurrCheckBox = true;
     }
-    this.setAddressData();
+    if(this.address.ekycDone=='1'){
+      if (this.address.applicantDetails.entityTypeKey === 'INDIVENTTYP'){
+        this.disableAddress('permanantAddress');
+      }
+    }
+    
   }
 
   disableAddress(addressType) {
@@ -570,7 +577,7 @@ export class AddressDetailsComponent implements OnInit {
     }
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
-      if (operationType === '1') {
+      if (operationType === '1' || operationType === '2') {
         this.addressForm.disable();
         this.disableSaveBtn = true;
       }
@@ -596,7 +603,7 @@ export class AddressDetailsComponent implements OnInit {
       addressLineThree: address.addressLineThree,
       landlineNumber: address.landlineNumber,
       nearestLandmark: address.nearestLandmark,
-      pobox : address.pobox
+      pobox: address.pobox
     };
   }
 
@@ -800,7 +807,7 @@ export class AddressDetailsComponent implements OnInit {
         periodOfCurrentStay: officeAddressObj.periodOfCurrentStay,
         mobileNumber: officeAddressObj.mobileNumber,
         nearestLandmark: officeAddressObj.nearestLandmark,
-        pobox : officeAddressObj.pobox
+        pobox: officeAddressObj.pobox
 
       });
     }
@@ -853,8 +860,8 @@ export class AddressDetailsComponent implements OnInit {
       registeredAddress.patchValue(this.setAddressValues(registeredAddressObj));
       registeredAddress.patchValue({
         mobileNumber: registeredAddressObj.mobileNumber,
-        nearestLandmark : registeredAddressObj.nearestLandmark
-        
+        nearestLandmark: registeredAddressObj.nearestLandmark
+
       });
     }
     const valueCheckbox = this.getAddressObj();
@@ -896,7 +903,7 @@ export class AddressDetailsComponent implements OnInit {
     );
     communicationAddress.patchValue({
       pobox: commReplaceObj.pobox,
-      nearestLandmark : commReplaceObj.nearestLandmark
+      nearestLandmark: commReplaceObj.nearestLandmark
     });
 
   }
@@ -1134,7 +1141,7 @@ export class AddressDetailsComponent implements OnInit {
 
   validateSrNumber(event) {
     // console.log('event', event.target.value)
-    this.SRNumberValidate= true;
+    this.SRNumberValidate = true;
     const value = event.target.value;
     if (value.length === 15) {
       this.getSRNumberValidation(value)
@@ -1146,12 +1153,12 @@ export class AddressDetailsComponent implements OnInit {
       srNo: value
     }).subscribe((res) => {
       const responce = res['ProcessVariables']
-      this.SRNumberValidate=responce.isSrValid? true : false
+      this.SRNumberValidate = responce.isSrValid ? true : false
 
-      if(responce.error.code=='0'){
-        this.toasterService.showSuccess(responce.error.message, 'SR Number validation successful'  )
-      }else{
-        this.toasterService.showError('', responce.error.message )
+      if (responce.error.code == '0') {
+        this.toasterService.showSuccess(responce.error.message, 'SR Number validation successful')
+      } else {
+        this.toasterService.showError('', responce.error.message)
       }
     })
   }
@@ -1162,7 +1169,7 @@ export class AddressDetailsComponent implements OnInit {
     console.log('this.addressForm', this.addressForm)
     setTimeout(() => {
       if (this.addressForm.invalid || this.checkOfficeAddressValidation()
-      || !this.SRNumberValidate) {
+        || !this.SRNumberValidate) {
         this.toasterService.showError(
           'Please fill all mandatory fields.',
           'Applicant Details'
@@ -1270,7 +1277,7 @@ export class AddressDetailsComponent implements OnInit {
       addressType: Constant.OFFICE_ADDRESS,
       mobileNumber: officeData.get('mobileNumber').value || '',
       nearestLandmark: officeData.get('nearestLandmark').value || '',
-      pobox : officeData.get('pobox').value || ''
+      pobox: officeData.get('pobox').value || ''
     });
     //const initialCurAsPer= this.onPerAsCurChecked== true? '1' : '0'
 
@@ -1315,7 +1322,7 @@ export class AddressDetailsComponent implements OnInit {
     this.applicantDataService.setApplicantDetails(applicantDetails);
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
-    const registeredAddressObject = value.details[0].registeredAddress;
+    //const registeredAddressObject = value.details[0].registeredAddress;
     const registeredData = details.get('registeredAddress');
     const regAddress = {
       ...this.getAddressValues(registeredData)
@@ -1339,7 +1346,7 @@ export class AddressDetailsComponent implements OnInit {
       ...this.getAddressFormValues(commAddress),
       nearestLandmark: communicationData.get('nearestLandmark').value,
       addressType: Constant.COMMUNICATION_ADDRESS,
-      pobox : communicationData.get('pobox').value
+      pobox: communicationData.get('pobox').value
     });
     // }
     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);

@@ -11,7 +11,7 @@ import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
-
+import { UtilityService } from '@services/utility.service';
 @Component({
   templateUrl: './applicant-details.component.html',
   styleUrls: ['./applicant-details.component.css']
@@ -33,6 +33,8 @@ export class ApplicantDetailComponent implements OnInit {
   applicantData: any;
   applicantFullName: any;
   mobileNo: any;
+  serviceApplicantFullName: string;
+  serviceMoblieNo: string;
   standardOfLiving: any;
   version: any;
   roleName: string;
@@ -50,6 +52,8 @@ export class ApplicantDetailComponent implements OnInit {
   ownerNamePropertyAreaDisabled: boolean;
   resAddressType: any;
   addressRequired: boolean;
+  dobOrDio: any;
+  serviceDobOrDio: any;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -61,7 +65,8 @@ export class ApplicantDetailComponent implements OnInit {
     private pdDataService: PdDataService,
     private toasterService: ToasterService,
     private createLeadDataService: CreateLeadDataService,
-    private toggleDdeService: ToggleDdeService
+    private toggleDdeService: ToggleDdeService,
+    private utilityService: UtilityService,
   ) { }
 
   async ngOnInit() {
@@ -92,7 +97,7 @@ export class ApplicantDetailComponent implements OnInit {
       //  this.setFormValue();
     });
     this.operationType = this.toggleDdeService.getOperationType();
-    if (this.operationType === '1') {
+    if (this.operationType === '1' || this.operationType === '2') {
       this.applicantForm.disable();
       this.disableSaveBtn = true;
     }
@@ -151,11 +156,25 @@ export class ApplicantDetailComponent implements OnInit {
       if (value['applicantId'] === this.applicantId) {
 
         const applicantDetailsFromLead = value;
-        this.applicantFullName = applicantDetailsFromLead['fullName'];
-        this.mobileNo = applicantDetailsFromLead['mobileNumber'];
+        this.serviceApplicantFullName = applicantDetailsFromLead['fullName'];
+        if (applicantDetailsFromLead['entityTypeKey'] === "NONINDIVENTTYP") {
+          this.serviceMoblieNo = applicantDetailsFromLead['companyPhoneNumber'];
+          this.serviceDobOrDio = this.reformatDate((applicantDetailsFromLead['doi']).slice(0, 10));
+
+        } else if (applicantDetailsFromLead['entityTypeKey'] === "INDIVENTTYP") {
+          this.serviceMoblieNo = applicantDetailsFromLead['mobileNumber'];
+          this.serviceDobOrDio = this.reformatDate((applicantDetailsFromLead['dob']).slice(0, 10));
+        }
       }
+      console.log('applicant dob', this.serviceDobOrDio);
+      console.log('appplicant mobile no', this.serviceMoblieNo);
     }
   }
+  reformatDate(oldDate) {
+    return oldDate.toString().split('-').reverse().join('/');
+  }
+
+
   houseOwnerShip(event: any) {
     console.log('event', event);
     this.ownerShipType = event ? event : event;
@@ -176,6 +195,10 @@ export class ApplicantDetailComponent implements OnInit {
       console.log('in owner,property disabled');
       this.ownerNamePropertyAreaRequired = false;
       this.ownerNamePropertyAreaDisabled = true;
+      setTimeout(() => {
+        this.applicantForm.get('owner').setValue(null);
+        this.applicantForm.get('areaOfProperty').setValue(null);
+      });
       this.applicantForm.get('owner').disable();
       this.applicantForm.get('owner').clearValidators();
       this.applicantForm.get('owner').updateValueAndValidity();
@@ -188,17 +211,26 @@ export class ApplicantDetailComponent implements OnInit {
   resAddress(event: any) {
     console.log('event', event);
     this.resAddressType = event ? event : event;
-    if (this.resAddressType !== '1') {
+    if (this.resAddressType === '2') {
       this.addressRequired = true;
+      console.log('in enable', this.addressRequired);
       this.applicantForm.get('alternateAddr').enable();
       this.applicantForm.get('alternateAddr').setValidators(Validators.required);
-    } else if (this.resAddressType === '1') {
+      this.applicantForm.get('alternateAddr').updateValueAndValidity();
+
+    } else {
       this.addressRequired = false;
+      setTimeout(() => {
+        this.applicantForm.get('alternateAddr').setValue(null);
+      });
+
+      // console.log('in disable', this.addressRequired);
       this.applicantForm.get('alternateAddr').disable();
       this.applicantForm.get('alternateAddr').clearValidators();
       this.applicantForm.get('alternateAddr').updateValueAndValidity();
 
     }
+    // console.log('in res address', this.addressRequired);
   }
   initForm() { // initialising the form group
     this.applicantForm = new FormGroup({
@@ -207,6 +239,7 @@ export class ApplicantDetailComponent implements OnInit {
       fatherFullName: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
       maritalStatus: new FormControl('', Validators.required),
+      dob: new FormControl({ value: '', disabled: true }),
       physicallyChallenged: new FormControl('', Validators.required),
       dependants: new FormControl('', Validators.required),
       residancePhoneNumber: new FormControl('', Validators.required),
@@ -236,16 +269,34 @@ export class ApplicantDetailComponent implements OnInit {
     // console.log("in set form value")
     // const applicantModal = this.ddeStoreService.getApplicantDetails() || {};
     const applicantModal = this.applicantPdDetails || {};
+    console.log(' db applicant details', this.applicantDetails);
+
+    if (this.applicantDetails) {
+      this.dobOrDio = this.applicantDetails.dob ? this.applicantDetails.dob : this.serviceDobOrDio;
+      // this.doi = this.applicantDetails.doi ? this.utilityService.getDateFromString(this.applicantDetails.doi) : this.doi;
+      this.applicantFullName = this.applicantDetails.applicantName ? this.applicantDetails.applicantName : this.serviceApplicantFullName;
+      this.mobileNo = this.applicantDetails.mobile ? this.applicantDetails.mobile : this.serviceMoblieNo;
+      console.log('in set form db mobile number', this.mobileNo);
+      console.log('in set form db dob/doi', this.dobOrDio);
+    } else {
+      this.dobOrDio = this.serviceDobOrDio;
+      // this.dob = this.serviceDob;
+      this.mobileNo = this.serviceMoblieNo;
+      console.log('in service mobile number', this.mobileNo);
+      console.log('in service dob/doi', this.dobOrDio);
+    }
+
     this.applicantForm.patchValue({
-      applicantName: applicantModal.applicantName || this.applicantFullName || '',
+      applicantName: this.serviceApplicantFullName ? this.serviceApplicantFullName : null,
       fatherFullName: applicantModal.fatherFullName || '',
       gender: applicantModal.gender || '',
       maritalStatus: applicantModal.maritalStatus || '',
+      dob: this.dobOrDio ? this.dobOrDio : null,
       physicallyChallenged: applicantModal.physicallyChallenged || '',
       dependants: applicantModal.dependants || '',
       residancePhoneNumber: applicantModal.residancePhoneNumber || '',
       officePhoneNumber: applicantModal.officePhoneNumber || '',
-      mobile: applicantModal.mobile || this.mobileNo || '',
+      mobile: this.mobileNo ? this.mobileNo : null,
       residenceAddressAsPerLoanApplication: applicantModal.residenceAddressAsPerLoanApplication || '',
       bankName: applicantModal.bankName || '',
       accountNumber: applicantModal.accountNumber || '',
@@ -313,6 +364,7 @@ export class ApplicantDetailComponent implements OnInit {
       gender: applicantFormModal.gender,
       maritalStatus: applicantFormModal.maritalStatus,
       physicallyChallenged: applicantFormModal.physicallyChallenged,
+      dob: this.dobOrDio ? this.dobOrDio : null,
       dependants: applicantFormModal.dependants,
       residancePhoneNumber: applicantFormModal.residancePhoneNumber,
       officePhoneNumber: applicantFormModal.officePhoneNumber,
