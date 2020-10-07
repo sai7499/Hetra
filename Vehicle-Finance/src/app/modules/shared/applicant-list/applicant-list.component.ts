@@ -30,6 +30,7 @@ export class ApplicantListComponent implements OnInit {
   backupApplicantId: any;
   cibilImage: any;
   showNotApplicant : boolean;
+  hideDraggableContainer = false;
 
   constructor(
     private labelsData: LabelsService,
@@ -161,7 +162,12 @@ export class ApplicantListComponent implements OnInit {
           this.imageUrl = atob(this.imageUrl); // decoding base64 string to get xml file
           this.imageUrl = this.domSanitizer.bypassSecurityTrustHtml(this.imageUrl); // sanitizing xml doc for rendering with proper css
           this.cibilImage = this.imageUrl;
+          setTimeout(() => {
+            this.dragElement(document.getElementById('mydiv'));
+          });
+          this.hideDraggableContainer = true;
         } else {
+          this.hideDraggableContainer = true;
           this.imageUrl = res.ProcessVariables.error.message;
           this.cibilImage = res.ProcessVariables.error.message;
         }
@@ -169,7 +175,51 @@ export class ApplicantListComponent implements OnInit {
     }
 
   }
+  private dragElement(elmnt) {
+    let pos1 = 0;
+    let pos2 = 0;
+    let pos3 = 0;
+    let pos4 = 0;
+    if (document.getElementById(elmnt.id + 'mydiv')) {
+      // if present, the header is where you move the DIV from:
+      document.getElementById(elmnt.id + 'mydiv').onmousedown = dragMouseDown;
+    } else {
+      // otherwise, move the DIV from anywhere inside the DIV:
+      elmnt.onmousedown = dragMouseDown;
+    }
 
+    function dragMouseDown(e) {
+      // tslint:disable-next-line: deprecation
+      e = e || window.event;
+      e.preventDefault();
+      // get the mouse cursor position at startup:
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      document.onmouseup = closeDragElement;
+      // call a function whenever the cursor moves:
+      document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+      // tslint:disable-next-line: deprecation
+      e = e || window.event;
+      e.preventDefault();
+      // calculate the new cursor position:
+      pos1 = pos3 - e.clientX;
+      pos2 = pos4 - e.clientY;
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      // set the element's new position:
+      elmnt.style.top = elmnt.offsetTop - pos2 + 'px';
+      elmnt.style.left = elmnt.offsetLeft - pos1 + 'px';
+    }
+
+    function closeDragElement() {
+      // stop moving when mouse button is released:
+      document.onmouseup = null;
+      document.onmousemove = null;
+    }
+  }
   forFindingApplicantType(){
     const findApplicant= this.applicantList.find((data)=>data.applicantTypeKey=="APPAPPRELLEAD")
     console.log('findApplicant',findApplicant)
