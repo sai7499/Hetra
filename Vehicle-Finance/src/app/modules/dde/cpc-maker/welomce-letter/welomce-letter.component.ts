@@ -137,11 +137,11 @@ export class WelomceLetterComponent implements OnInit {
         this.div3Data = this.isWelcomeDetails["div3Data"];
         //this.div3Data = decodeURI(this.div3Data);
 
-        if(this.preferredLan!== "ENGPRFLAN" ){
+        // if(this.preferredLan!== "ENGPRFLAN" ){
           this.div1Data = decodeURI(this.div1Data);
           this.div2Data = decodeURI(this.div2Data);
           this.div3Data = decodeURI(this.div3Data);
-        } 
+        // } 
         this.vehicleDetailsArray = this.isWelcomeDetails["vehicleDetails"];
         
         this.repaymentDetails = res['ProcessVariables'].repaymentDetails;         

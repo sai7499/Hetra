@@ -172,6 +172,10 @@ export class PdcDetailsComponent implements OnInit {
     });
   }
   submitTocpc() {
+    // if (this.pdcForm.invalid) {
+    //   this.toasterService.showError('Save before Submitting', '');
+    //   return;
+    // }
     // tslint:disable-next-line: triple-equals
     if (this.roleType == '4') {
       const body = {
@@ -213,6 +217,7 @@ export class PdcDetailsComponent implements OnInit {
   sendBackToCredit() {
     if (this.pdcForm.invalid) {
       this.toasterService.showError('Save before Submitting', '');
+      return;
     }
     const body = {
       leadId: this.leadId,
@@ -509,4 +514,5 @@ export class PdcDetailsComponent implements OnInit {
     this.rowIndex = null;
     this.rowIndex = i;
   }
+
 }

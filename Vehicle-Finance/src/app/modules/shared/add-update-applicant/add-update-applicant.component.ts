@@ -290,16 +290,21 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         if (this.applicantId && !dedupeFlag) {
           this.isEnableDedupe = false;
           this.getApplicantDetails();
-
           this.storeAdharValue = '';
-          //this.applicantDataService.setDedupeFlag(true);
+          setTimeout(()=>{
+            const panFlag= this.applicantDataService.getPanValidate()
+            console.log('panFlag', panFlag)
+            if(panFlag){
+              this.panValidate= true;
+            }
+          })
+          
         } else {
           this.dedupeMobile = true;
           this.isMobileChanged = true; // for enable check dedupe button
           this.isContactNumberChanged = true;
           this.coApplicantForm.get('dedupe').get('pan').disable();
           this.getDedupeStoredValues();
-          //this.applicantDataService.setDedupeFlag(false);
         }
       }
 
@@ -1544,6 +1549,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.showApplicantAddCheckBox = applicantType !== "APPAPPRELLEAD" ? true : false;
       const isAddrSameAsApplicant = applicantValue.applicantDetails.isAddrSameAsApplicant;
       this.checkedAddressLead = isAddrSameAsApplicant;
+      
 
       const dedupe = this.coApplicantForm.get('dedupe');
 
@@ -1634,6 +1640,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
         const permentAddress = this.coApplicantForm.get('permentAddress');
         const currentAddress = this.coApplicantForm.get('currentAddress');
+        if(this.checkedAddressLead=='1'){
+          permentAddress.disable();
+          currentAddress.disable();
+          this.isDisabledCheckbox= true;
+        }
         const addressObj = this.getAddressObj();
         const permenantAddressObj = addressObj[Constant.PERMANENT_ADDRESS];
         if (!!permenantAddressObj) {
@@ -1887,7 +1898,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.checkedAddressLead = '0';
       const currentAddress = this.coApplicantForm.get('currentAddress');
       const permenantAddress = this.coApplicantForm.get('permentAddress');
-
+      this.isDisabledCheckbox= false;
+      currentAddress.enable();
+      permenantAddress.enable();
       currentAddress.reset();
       permenantAddress.reset();
     }
@@ -1931,9 +1944,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.createAddressObject(currentAddressObj)
       );
     }
-
+    this.isDisabledCheckbox= true
     this.isPermanantAddressSame = false;
-    currentAddress.enable();
+    permentAddress.disable();
+    currentAddress.disable();
 
   }
   onNext() {
@@ -2740,7 +2754,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   onDedupeApiCall(data) {
-    this.applicantDataService.setDedupeFlag(false)
+    this.applicantDataService.setDedupeFlag(false);
+    this.applicantDataService.setPanValidate(false);
     this.applicantService
       .checkSalesApplicantDedupe(data)
       .subscribe((value: any) => {
@@ -2771,9 +2786,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           }
           this.salesDedupeService.setDedupeParameter(data);
           this.salesDedupeService.setDedupeDetails(value.ProcessVariables);
-          this.router.navigateByUrl(
-            `/pages/lead-section/${this.leadId}/sales-exact-match`
-          );
+         
+            this.router.navigateByUrl(
+              `/pages/lead-section/${this.leadId}/sales-exact-match`
+            );
+          
         } else {
           this.toasterService.showError(
             value.ProcessVariables.error.message,
@@ -2806,13 +2823,19 @@ export class AddOrUpdateApplicantComponent implements OnInit {
             this.showEkycbutton = false;
           }
           //this.showEkycbutton = true;
+          this.applicantDataService.setPanValidate(false);
 
         } else {
           this.panValidate = true;
-          this.toasterService.showError(
-            responce['ProcessVariables'].error.message,
-            'PAN Validation Error'
-          );
+         
+            this.applicantDataService.setPanValidate(true);
+            console.log('getPanFalg', this.applicantDataService.getPanValidate())
+            this.toasterService.showError(
+              responce['ProcessVariables'].error.message,
+              'PAN Validation Error'
+            );
+         
+          
 
         }
       })
