@@ -350,6 +350,7 @@
               
                     <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '4'"><a data-toggle="modal"
                             data-target="#myModal">Submit to CPC Checker</a></button>
+                   
                     <button class="btn btn-primary dash_href marginAdd" (click)="sendBackToCredit()"
                         *ngIf="roleType == '4'"> Send Back To Credit </button>
                     <!-- <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '5'"><a data-toggle="modal" -->
@@ -427,6 +428,27 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteRows('pdcList')">Yes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="myModalfour" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Submit</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure want to submit record ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" >Yes</button>
+                <!-- (click)="sendBackToMaker()" -->
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>
