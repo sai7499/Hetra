@@ -1162,7 +1162,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         }
       }
       this.ekycDone = processVariables.ekycDone;
-
+     if(!processVariables.ucic){
       if (this.ekycDone == '1') {
         if (processVariables.applicantDetails.entityTypeKey == "INDIVENTTYP") {
           this.disablePermanentAddress();
@@ -1174,6 +1174,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       else if (this.ekycDone == "0") {
         this.showEkycbutton = true;
       }
+     }
+     
 
       this.applicantDataService.setApplicant(applicant);
       this.applicant = this.applicantDataService.getApplicant();
@@ -1409,8 +1411,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     if (!date) {
       return '';
     }
-    date = date.split('/').reverse().join('-');
-    return date;
+    date = date.split('/').reverse().join('/');
+    return new Date(date);
   }
 
   getDetails() {
@@ -1432,27 +1434,24 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       details.panType = indivIdentityInfoDetails.panType;
       details.voterIdNumber = indivIdentityInfoDetails.voterIdNumber;
       if (aboutIndivProspectDetails.dob) {
-        details.dob = aboutIndivProspectDetails.dob;
-        // .split('/')
-        // .reverse()
-        // .join('-');
-        details.dob = new Date(
-          this.utilityService.getDateFromString(details.dob)
-        );
+        //const dob =aboutIndivProspectDetails.dob.split('/').reverse().join('/');
+        details.dob = this.getFormateDate(aboutIndivProspectDetails.dob)
+        
       }
       details.passportNumber = indivIdentityInfoDetails.passportNumber;
-      details.passportIssueDate = this.utilityService.getDateFromString(
+      details.passportIssueDate = this.getFormateDate(
         indivIdentityInfoDetails.passportIssueDate
       );
-      details.passportExpiryDate = this.utilityService.getDateFromString(
+      
+      details.passportExpiryDate = this.getFormateDate(
         indivIdentityInfoDetails.passportExpiryDate
       );
       details.drivingLicenseNumber =
         indivIdentityInfoDetails.drivingLicenseNumber;
-      details.drivingLicenseIssueDate = this.utilityService.getDateFromString(
+      details.drivingLicenseIssueDate = this.getFormateDate(
         indivIdentityInfoDetails.drivingLicenseIssueDate
       );
-      details.drivingLicenseExpiryDate = this.utilityService.getDateFromString(
+      details.drivingLicenseExpiryDate = this.getFormateDate(
         indivIdentityInfoDetails.drivingLicenseExpiryDate
       );
     } else {
@@ -1477,9 +1476,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       if (corporateProspectDetails.dateOfIncorporation) {
         details.dateOfIncorporation =
           corporateProspectDetails.dateOfIncorporation;
-        details.dateOfIncorporation = new Date(
-          this.utilityService.getDateFromString(details.dateOfIncorporation)
-        );
+        details.dateOfIncorporation = 
+          this.getFormateDate(details.dateOfIncorporation);
       }
     }
 
@@ -1618,6 +1616,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         dedupe.patchValue({
           mobilePhone: mobile || '',
           dob: details.dob || '',
+          //dob : new Date('2020/01/20'),
           identity_type: applicantValue.identity_type || '',
           //aadhar: details.aadhar || '',
           voterIdNumber: details.voterIdNumber,
@@ -2009,7 +2008,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         const uid = res['ProcessVariables'].uid
         this.coApplicantForm.get('dedupe').get('aadhar').setValue(uid)
         this.isAadharChanged = false;
-        this.isEnableDedupe = false;
+        //this.isEnableDedupe = false;
       }
       else {
         this.toasterService.showError(res['ProcessVariables'].error.message, '')
@@ -2028,9 +2027,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       if (this.storeAdharValue !== this.aadhar) {
         this.ekycBuutonAdharBased = true;
       }
-    } else {
-      this.isEnableDedupe = true;
-    }
+    } 
+    // else {
+    //   this.isEnableDedupe = true;
+    // }
 
   }
 
@@ -2859,7 +2859,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
 
 
-    this.isEnableDedupe = false;
+    //this.isEnableDedupe = false;
     this.isMobileChanged = false;
     this.isName1Changed = false;
     this.isPanChanged = false;
@@ -3009,7 +3009,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           return;
         }
         that.showEkycbutton = false;
-        that.isEnableDedupe = false;
+        //that.isEnableDedupe = false;
         that.isMobileChanged = false;
         that.isName1Changed = false;
         that.isPanChanged = false;
@@ -3099,10 +3099,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     ctx.isPermanantAddressSame = false
 
     ctx.pTag.nativeElement.click();
-    // const prospectDetails: IndividualProspectDetails = {};
-
-    // prospectDetails.gender = this.gender;
-    // this.applicantDataService.setIndividualProspectDetails(prospectDetails);
 
   }
 
@@ -3122,17 +3118,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           } else {
             this.isMobileChanged = false;
           }
-        } else {
-          this.isEnableDedupe = true;
-        }
+        } 
+        
       });
       dedupe.get('name1').valueChanges.subscribe((value) => {
         if (!dedupe.get('name1').invalid) {
           this.enableDedupeBasedOnChanges(value !== this.firstName);
           this.isName1Changed = value !== this.firstName;
-        } else {
-          this.isEnableDedupe = true;
-        }
+        } 
       });
       dedupe.get('pan').valueChanges.subscribe((value) => {
         this.panValidate = false
@@ -3146,11 +3139,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.isPanChanged = upperCaseValue !== this.pan;
 
 
-        } else {
-          this.isEnableDedupe = true;
-
-
-        }
+        } 
       });
       // dedupe.get('aadhar').valueChanges.subscribe((value) => {
       //   if (!dedupe.get('aadhar').invalid) {
@@ -3167,27 +3156,22 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.enableDedupeBasedOnChanges(upperCaseValue !== this.passportNumber);
           this.isPassportChanged = upperCaseValue !== this.passportNumber;
           console.log('this.isPassportChanged', this.isPassportChanged)
-        } else {
-          this.isEnableDedupe = true;
-        }
+        } 
       });
       dedupe.get('drivingLicenseNumber').valueChanges.subscribe((value) => {
         if (!dedupe.get('drivingLicenseNumber').invalid) {
           const upperCaseValue = value ? value.toUpperCase() : value;
           this.enableDedupeBasedOnChanges(upperCaseValue !== this.drivingLicenseNumber);
           this.isDrivingLicenseChanged = upperCaseValue !== this.drivingLicenseNumber;
-        } else {
-          this.isEnableDedupe = true;
-        }
+        } 
       });
       dedupe.get('voterIdNumber').valueChanges.subscribe((value) => {
         if (!dedupe.get('voterIdNumber').invalid) {
           const upperCaseValue = value ? value.toUpperCase() : value;
           this.enableDedupeBasedOnChanges(upperCaseValue !== this.voterIdNumber);
+          
           this.isVoterIdChanged = upperCaseValue !== this.voterIdNumber;
-        } else {
-          this.isEnableDedupe = true;
-        }
+        } 
       });
     } else {
       dedupe.get('companyPhoneNumber').valueChanges.subscribe((value) => {
@@ -3201,9 +3185,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
             this.isContactNumberChanged = false;
           }
-        } else {
-          this.isEnableDedupe = true;
-        }
+        } 
       });
 
       // dedupe.get('aadhar').valueChanges.subscribe((value) => {
@@ -3221,17 +3203,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           const upperCaseValue = value ? value.toUpperCase() : value;
           this.enableDedupeBasedOnChanges(upperCaseValue !== this.pan);
           this.isPanChanged = upperCaseValue !== this.pan;
-        } else {
-          this.isEnableDedupe = true;
-        }
+        } 
       });
       dedupe.get('name1').valueChanges.subscribe((value) => {
         if (!dedupe.get('name1').invalid) {
           this.enableDedupeBasedOnChanges(value !== this.firstName);
           this.isName1Changed = value !== this.firstName;
-        } else {
-          this.isEnableDedupe = true;
-        }
+        } 
       });
       dedupe
         .get('corporateIdentificationNumber')
@@ -3243,49 +3221,40 @@ export class AddOrUpdateApplicantComponent implements OnInit {
             );
             this.isCinNumberChanged =
               upperCaseValue !== this.corporateIdentificationNumber;
-          } else {
-            this.isEnableDedupe = true;
-          }
+          } 
         });
       dedupe.get('cstVatNumber').valueChanges.subscribe((value) => {
         if (!dedupe.get('cstVatNumber').invalid) {
           const upperCaseValue = value ? value.toUpperCase() : value;
           this.enableDedupeBasedOnChanges(upperCaseValue !== this.cstVatNumber);
           this.isCstNumberChanged = upperCaseValue !== this.cstVatNumber;
-        } else {
-          this.isEnableDedupe = true;
-        }
+        } 
       });
       dedupe.get('gstNumber').valueChanges.subscribe((value) => {
         if (!dedupe.get('gstNumber').invalid) {
           const upperCaseValue = value ? value.toUpperCase() : value;
           this.enableDedupeBasedOnChanges(upperCaseValue !== this.gstNumber);
           this.isGstNumberChanged = upperCaseValue !== this.gstNumber;
-        } else {
-          this.isEnableDedupe = true;
-        }
+        } 
       });
       dedupe.get('tanNumber').valueChanges.subscribe((value) => {
         if (!dedupe.get('tanNumber').invalid) {
           const upperCaseValue = value ? value.toUpperCase() : value;
           this.enableDedupeBasedOnChanges(upperCaseValue !== this.tanNumber);
           this.isTanNumberChanged = upperCaseValue !== this.tanNumber;
-        } else {
-          this.isEnableDedupe = true;
-        }
+        } 
       });
     }
   }
 
   enableDedupeBasedOnChanges(condition: boolean) {
     if (condition) {
-      this.isEnableDedupe = true;
+      //this.isEnableDedupe = true;
       this.showEkycbutton = false;
-      //this.eKYCChecked = true
 
 
     } else {
-
+      //this.isEnableDedupe = false;
       if (this.applicantType == 'INDIVENTTYP') {
         if (this.ekycDone == '1') {
           this.showEkycbutton = false;
@@ -3293,25 +3262,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.showEkycbutton = true;
         }
       }
-      setTimeout(() => {
-        this.isEnableDedupe = false;
-      })
-
-
     }
-
-    // else{
-    //   this.showEkycbutton = true;
-    // }
-
-    // if (this.applicantType == 'INDIVENTTYP') {
-    //   if (condition && this.eKYCChecked) {
-    //     this.showEkycbutton = false;
-    //   } 
-    // else {
-    //   this.showEkycbutton = true;
-    // }
-    // }
 
   }
 
