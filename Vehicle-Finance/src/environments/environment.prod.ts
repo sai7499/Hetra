@@ -30,11 +30,7 @@ export const environment = {
 
   // host: '/appiyo/',
   //host: window["env"]["hostUrl"] || "default",
-<<<<<<< HEAD
   host: "https://hetrauat.equitasbank.com/appiyodev/",
-=======
-   host: "https://hetrauat.equitasbank.com/appiyodev/",
->>>>>>> dev
   //host: 'http://128.199.164.250/appiyo/',
   // host: 'http://10.101.10.153/appiyo/',
   //host: "https://hetrauat.equitasbank.com/appiyo/",
