@@ -609,9 +609,11 @@ console.log(this.camDetailsForm);
   }
   downloadpdf() {
     var options = {
-      margin: .25,
+      margin: [0.5,0.3,0.5,0.3],
       filename: `CamDetails_${this.leadId}.pdf`,
-      image: { type: 'jpeg', quality: 1 },
+      image: { type: 'jpeg', quality: 0.99 },
+      html2canvas:{scale:3, logging: true},   
+      pagebreak: { before:"#page_break" },
       jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
     }
     html2pdf().from(document.getElementById(this.pdfId)).set(options).save();
@@ -619,14 +621,14 @@ console.log(this.camDetailsForm);
   }
 
   uploadPdf() {
-
     var options = {
-      margin: .25,
+      margin: [0.5,0.3,0.5,0.3],
       filename: `CamDetails_${this.leadId}.pdf`,
-      image: { type: 'jpeg', quality: 1 },
+      image: { type: 'jpeg', quality: 0.99 },
+      html2canvas:{scale:3, logging: true},   
+      pagebreak: { before:"#page_break" },
       jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
     }
-
     html2pdf().from(document.getElementById(this.pdfId))
       .set(options).toPdf().output('datauristring').then(res => {
         console.log("file res:", res);
