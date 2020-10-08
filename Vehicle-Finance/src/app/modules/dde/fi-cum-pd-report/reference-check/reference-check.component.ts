@@ -119,21 +119,7 @@ export class ReferenceCheckComponent implements OnInit {
 
   async ngOnInit() {
 
-    if (this.isMobile) {
-      this.gpsService.getLatLong().subscribe((position) => {
-        console.log("getLatLong", position);
-        this.gpsService.initLatLong().subscribe((res) => {
-          console.log("gpsService", res);
-          if (res) {
-            this.gpsService.getLatLong().subscribe((position) => {
-              console.log("getLatLong", position);
-            });
-          } else {
-            console.log("error initLatLong", res);
-          }
-        });
-      });
-    }
+    this.checkGpsEnabled();
 
     if (this.router.url.includes('/pd-dashboard')) {
 
@@ -219,6 +205,23 @@ export class ReferenceCheckComponent implements OnInit {
       }
     });
   }
+
+  checkGpsEnabled(){
+    this.gpsService.getLatLong().subscribe((position) => {
+      console.log("getLatLong", position);
+      this.gpsService.initLatLong().subscribe((res) => {
+        console.log("gpsService", res);
+        if (res) {
+          this.gpsService.getLatLong().subscribe((position) => {
+            console.log("getLatLong", position);
+          });
+        } else {
+          console.log("error initLatLong",res);
+        }
+      });
+    });
+  }
+
   getLeadId() { // function to access respective lead id from the routing
     // console.log("in getleadID")
     return new Promise((resolve, reject) => {
@@ -628,6 +631,7 @@ export class ReferenceCheckComponent implements OnInit {
 
   async onUploadSuccess(event: DocumentDetails) {
     // this.toasterService.showSuccess('Document uploaded successfully', '');
+    this.checkGpsEnabled();
     this.showModal = false;
     this.SELFIE_IMAGE = 'data:image/jpeg;base64,' + event.imageUrl;
     const data = {
