@@ -474,7 +474,13 @@ getViability() {
       this.branchLatitude = this.viabliityDataToPatch.brLatitude;
       this.branchLongitude = this.viabliityDataToPatch.brLongitude;
       this.dmsDocumentId = this.viabliityDataToPatch.selfiePhoto;
-
+      const gpsPos = this.viabilityForm.controls.gpsPosition as FormGroup;
+      gpsPos.patchValue({
+        latitude: this.latitude,
+        longitude: this.longitude,
+        bLongitude: this.branchLongitude,
+        bLatitude: this.branchLatitude
+      });
       if (this.dmsDocumentId) {
         this.downloadDocs(this.dmsDocumentId);
       }
@@ -522,7 +528,7 @@ getViability() {
       }) ;
     }
     });
-    this.patchGpsposition();
+    // this.patchGpsposition();
   }
 onSave() {
     this.isDirty = true;
@@ -602,16 +608,6 @@ onSave() {
        }
     });
      }
-  }
-
-  patchGpsposition() {
-    const gpsPos = this.viabilityForm.controls.gpsPosition as FormGroup;
-    gpsPos.patchValue({
-      latitude: this.latitude,
-      longitude: this.longitude,
-      brLongitude: this.branchLongitude,
-      brLatitude: this.branchLatitude
-    });
   }
 
  // tslint:disable-next-line: no-shadowed-variable
