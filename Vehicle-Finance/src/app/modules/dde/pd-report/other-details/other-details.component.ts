@@ -115,19 +115,7 @@ export class OtherDetailsComponent implements OnInit {
    async ngOnInit() {
 
     if (this.isMobile) {
-      this.gpsService.getLatLong().subscribe((position) => {
-        console.log("getLatLong", position);
-        this.gpsService.initLatLong().subscribe((res) => {
-          console.log("gpsService", res);
-          if (res) {
-            this.gpsService.getLatLong().subscribe((position) => {
-              console.log("getLatLong", position);
-            });
-          } else {
-            console.log("error initLatLong",res);
-          }
-        });
-      });
+      this.checkGpsEnabled();
     }
 
     this.initForm();
@@ -170,6 +158,22 @@ export class OtherDetailsComponent implements OnInit {
     // let documentId = "537402";
     // this.downloadDocs(documentId);
 
+  }
+
+  async checkGpsEnabled(){
+    this.gpsService.getLatLong().subscribe((position) => {
+      console.log("getLatLong", position);
+      this.gpsService.initLatLong().subscribe((res) => {
+        console.log("gpsService", res);
+        if (res) {
+          this.gpsService.getLatLong().subscribe((position) => {
+            console.log("getLatLong", position);
+          });
+        } else {
+          console.log("error initLatLong",res);
+        }
+      });
+    });
   }
 
   getLabels() {
@@ -255,6 +259,10 @@ export class OtherDetailsComponent implements OnInit {
       marginMoney: ["", Validators.required],
       emiAffordability: ["", Validators.required],
       sourceOfMarginMoney: [{ value: '', disabled: true }],
+      bLatitude: [{ value: '', disabled: true }],
+      bLongitude: [{ value: '', disabled: true }],
+      latitude: [{ value: '', disabled: true }],
+      longitude: [{ value: '', disabled: true }],
     });
   }
 
@@ -317,6 +325,10 @@ export class OtherDetailsComponent implements OnInit {
       marginMoney: this.otherDetails.marginMoney || '',
       emiAffordability: this.otherDetails.emiAffordability || '',
       sourceOfMarginMoney: this.otherDetails.sourceOfMarginMoney || '',
+      latitude: this.latitude || "",
+      longitude: this.longitude || "",
+      bLatitude: this.branchLatitude || "",
+      bLongitude: this.branchLongitude || ""
     });
   }
 
@@ -605,10 +617,13 @@ export class OtherDetailsComponent implements OnInit {
       this.latitude = position["latitude"].toString();
       this.longitude = position["longitude"].toString();
       this.getRouteMap();
+      this.otherDetails.get("latitude").patchValue(this.latitude);
+      this.otherDetails.get("longitude").patchValue(this.longitude);
     }else {
       this.latitude = "";
       this.longitude = "";
       this.showRouteMap = false;
+      this.toasterService.showError(position["message"], "GPS Alert");
     }
 
   }

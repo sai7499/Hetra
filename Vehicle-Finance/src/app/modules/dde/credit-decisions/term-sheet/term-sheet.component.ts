@@ -241,10 +241,12 @@ export class TermSheetComponent implements OnInit {
   }
   downloadpdf() {
     var options = {
-      margin: .25,
+      margin:[0.60,0.75,0.80,0.75],
       filename: `TermSheeet_${this.leadId}.pdf`,
-      image: { type: 'jpeg', quality: 1 },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'p' }
+      image: { type: 'jpeg', quality: 0.99 },
+      html2canvas:{scale:3, logging: true},   
+      pagebreak: { before:["#tearms_sheet_header2","#terms_sheet_headline12"] },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
     }
     html2pdf().from(document.getElementById("ContentToConvert")).set(options).save();
 
@@ -254,10 +256,12 @@ export class TermSheetComponent implements OnInit {
   }
 uploadDoc(){
   var options = {
-    margin: .25,
+    margin:[0.60,0.75,0.80,0.75],
     filename: `TermSheeet_${this.leadId}.pdf`,
-    image: { type: 'jpeg', quality: 1 },
-    jsPDF: { unit: 'in', format: 'a4', orientation: 'p' }
+    image: { type: 'jpeg', quality: 0.99 },
+    html2canvas:{scale:3, logging: true},   
+    pagebreak: { before:["#tearms_sheet_header2","#terms_sheet_headline12"] },
+    jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
   }
   html2pdf().from(document.getElementById("ContentToConvert"))
       .set(options).toPdf().output('datauristring').then(res => {
