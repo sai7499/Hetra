@@ -688,7 +688,8 @@ export class ReferenceCheckComponent implements OnInit {
     }
     this.loginService.getPolyLine(function (result, distance) {
       that.base64Image = result;
-      that.distanceFromBranch = distance;
+      // that.distanceFromBranch = distance;
+      // that.distanceFromBranch = distance.slice(0, 4);
       that.showRouteMap = true;
       console.log('distance from bank', that.distanceFromBranch);
       if (that.distanceFromBranch) {

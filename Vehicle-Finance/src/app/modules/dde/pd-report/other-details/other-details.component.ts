@@ -510,14 +510,16 @@ export class OtherDetailsComponent implements OnInit {
     this.loginService.getPolyLine(function (result, distance) {
       that.base64Image = result;
       that.showRouteMap = true;
-      // that.distanceFromBranch = distance;
-      // if (that.distanceFromBranch) {
-      //   that.otherDetailsForm.get('distanceFromEquitas').setValue(that.distanceFromBranch);
-      //   that.otherDetailsForm.get('distanceFromEquitas').updateValueAndValidity;
-      // } else {
-      //   that.otherDetailsForm.get('distanceFromEquitas').setValue(null);
-      //   that.otherDetailsForm.get('distanceFromEquitas').updateValueAndValidity;
-      // }
+      that.distanceFromBranch = distance;
+
+      console.log('distance from bank', that.distanceFromBranch);
+      if (that.distanceFromBranch) {
+        that.otherDetailsForm.get('distanceFromEquitas').setValue(that.distanceFromBranch);
+        that.otherDetailsForm.get('distanceFromEquitas').updateValueAndValidity;
+      } else {
+        that.otherDetailsForm.get('distanceFromEquitas').setValue(null);
+        that.otherDetailsForm.get('distanceFromEquitas').updateValueAndValidity;
+      }
       // console.log("getPolyLine", that.base64Image);
     }, currentPos, branchPos);
   }

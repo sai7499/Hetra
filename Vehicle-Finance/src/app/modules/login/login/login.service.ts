@@ -70,15 +70,16 @@ export class LoginService {
     directionsService.route(request, function (result, status) {
       if (status == 'OK') {
         console.log(result);
-        console.log("distance", result.routes[0].legs[0].distance.text);
+        console.log("distance", result.routes[0].legs[0].distance.value);
         // console.log(result.routes[0].overview_polyline);
         let polyline = result.routes[0].overview_polyline;
-        let distance = result.routes[0].legs[0].distance.text;
-
+        // let distance = result.routes[0].legs[0].distance.value;
+        // let distance = ((result.routes[0].legs[0].distance.value) / 1000);
+        let distance = Number((result.routes[0].legs[0].distance.value / 1000).toFixed(2));
         let mapUrl = "https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=400x400" +
           "&markers=color:blue%7Clabel:S%7C" + origin.latitude + "," + origin.longitude + "&" +
           "&markers=color:red%7Clabel:C%7C" + destination.latitude + "," + destination.longitude + "&" +
-          "&center=" + origin.latitude + "," + origin.longitude +
+          "&center=" + origin.latitude + "," + origin.longitudes +
           "&path=color:red|weight:3|" +
           "enc:" + polyline +
           "&key=AIzaSyDJ9TZyUZNB2uY_267eIUQCV72YiYmArIw";

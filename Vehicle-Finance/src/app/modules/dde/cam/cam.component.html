@@ -187,7 +187,7 @@
     <!---Applicant details-->
 
     <!---income Details--->
-    <table class="cam_table_proposed mt-3">
+    <table class="cam_table_proposed mt-3" id="page_break">
         <caption class="caption">
             {{
             labels?.incomeDetails
@@ -364,7 +364,7 @@
     <!--loan eligibility based on income--->
 
     <!--Banking details -->
-    <table class="cam_table_proposed mt-3">
+    <table class="cam_table_proposed mt-3" id="page_break">
         <caption class="caption">
             {{
             labels?.bankingDetails
@@ -518,7 +518,7 @@
     <!---other deviation-->
 
     <!--Auto deviations-->
-    <table class="cam_table_proposed mt-3">
+    <table class="cam_table_proposed mt-3" id="page_break">
         <caption class="caption">
             {{
             labels?.autoDeviation
@@ -911,7 +911,7 @@
         <!--cibil synopsis-->
 
         <!--banking synopsis-->
-        <table class="cam_table_proposed mt-3">
+        <table class="cam_table_proposed mt-3" id="page_break">
             <caption class="caption">
                 {{
         labels?.bankingSummaryTitle
@@ -1326,7 +1326,7 @@
         </table>
         <!---other deviation-->
         <!--concern Risks / strengths mitigates-->
-        <table class="cam_table_proposed mt-3 text-center">
+        <table class="cam_table_proposed mt-3 text-center" id="page_break">
             <!-- <tr>
   <td class="caption"> <caption class="caption">
         {{
@@ -1888,7 +1888,7 @@
                     <td *ngFor="let guarntorArray of guarntorArray">{{guarntorArray?.dlNo}}</td>
 
                 </tr>
-                <tr>
+                <tr id="page_break">
                     <td class="bank_name">{{ labels?.panCardNo }}</td>
                     <td *ngFor="let appArray of appArray">{{appArray?.panNo}}</td>
                     <td *ngFor="let coAppArray of coAppArray">{{coAppArray?.panNo}}</td>
@@ -2110,7 +2110,7 @@
                         {{repaymentTrackRecord?.emiPaid}}
                     </td>
                 </tr>
-                <tr>
+                <tr id="page_break">
                     <td class="bank_name">{{ labels?.totalDelay }}</td>
                     <td *ngFor="let repaymentTrackRecord of repaymentTrackRecord">
                         {{repaymentTrackRecord?.totalDelay}}</td>
@@ -2467,7 +2467,7 @@
         <!--guarantorDetails-->
 
         <!--vehicleDeploymentDetails-->
-        <table class="cam_table_proposed mt-3">
+        <table class="cam_table_proposed mt-3" id="page_break">
             <caption class="caption">
                 {{
         labels?.vehicleDeploymentDetails
@@ -2687,7 +2687,7 @@
         </table>
         <!--detailsOfCibilPdFiDedupe-->
         <!--cibilJustificationIfAny-->
-        <table class="cam_table_proposed mt-3">
+        <table class="cam_table_proposed mt-3" id="page_break">
             <caption class="caption">
                 {{
         labels?.cibilJustificationIfAny
