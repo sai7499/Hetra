@@ -554,6 +554,8 @@ export class AddressDetailsComponent implements OnInit {
     if(this.address.ekycDone=='1'){
       if (this.address.applicantDetails.entityTypeKey === 'INDIVENTTYP'){
         this.disableAddress('permanantAddress');
+        this.disableSameAppAddress= true;
+
       }
     }
     
