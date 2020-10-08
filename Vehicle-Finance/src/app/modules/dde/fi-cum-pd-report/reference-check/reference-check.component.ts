@@ -120,21 +120,7 @@ export class ReferenceCheckComponent implements OnInit {
 
   async ngOnInit() {
 
-    if (this.isMobile) {
-      this.gpsService.getLatLong().subscribe((position) => {
-        console.log("getLatLong", position);
-        this.gpsService.initLatLong().subscribe((res) => {
-          console.log("gpsService", res);
-          if (res) {
-            this.gpsService.getLatLong().subscribe((position) => {
-              console.log("getLatLong", position);
-            });
-          } else {
-            console.log("error initLatLong", res);
-          }
-        });
-      });
-    }
+    this.checkGpsEnabled();
 
     if (this.router.url.includes('/pd-dashboard')) {
 
@@ -220,6 +206,23 @@ export class ReferenceCheckComponent implements OnInit {
       }
     });
   }
+
+  async checkGpsEnabled() {
+    this.gpsService.getLatLong().subscribe((position) => {
+      console.log("getLatLong", position);
+      this.gpsService.initLatLong().subscribe((res) => {
+        console.log("gpsService", res);
+        if (res) {
+          this.gpsService.getLatLong().subscribe((position) => {
+            console.log("getLatLong", position);
+          });
+        } else {
+          console.log("error initLatLong", res);
+        }
+      });
+    });
+  }
+
   getLeadId() { // function to access respective lead id from the routing
     // console.log("in getleadID")
     return new Promise((resolve, reject) => {
@@ -276,8 +279,10 @@ export class ReferenceCheckComponent implements OnInit {
       date: new FormControl({ value: '', disabled: true }),
       place: new FormControl({ value: '', disabled: true }),
       timeOfVerification: new FormControl({ value: '', disabled: true }),
-      // latitude: new FormControl({ value: '', disabled: true }),
-      // longitude: new FormControl({ value: '', disabled: true }),
+      latitude: new FormControl({ value: '', disabled: true }),
+      longitude: new FormControl({ value: '', disabled: true }),
+      bLatitude: new FormControl({ value: '', disabled: true }),
+      bLongitude: new FormControl({ value: '', disabled: true })
     });
   }
 
@@ -372,8 +377,11 @@ export class ReferenceCheckComponent implements OnInit {
       // date: this.otherDetails.date ? this.utilityService.getDateFromString(this.otherDetails.date) : '',
       area: otherDetailsModel.area ? otherDetailsModel.area : null,
       place: otherDetailsModel.place ? otherDetailsModel.place : null,
-      timeOfVerification: this.time ? this.time : null
-
+      timeOfVerification: this.time ? this.time : null,
+      latitude: this.latitude || "",
+      longitude: this.longitude || "",
+      bLatitude: this.branchLatitude || "",
+      bLongitude: this.branchLongitude || ""
       // time: new Date(refCheckModal.time ? this.getDateFormat(refCheckModal.time) : ""),
     });
     console.log('patched form', this.referenceCheckForm);
@@ -389,6 +397,7 @@ export class ReferenceCheckComponent implements OnInit {
       longitude: this.longitude || '',
     };
     const formModel = this.referenceCheckForm.value;
+    console.log('form model', formModel);
     this.isDirty = true;
     if (this.referenceCheckForm.invalid) {
       console.log('in invalid ref checkform', this.referenceCheckForm);
@@ -415,10 +424,9 @@ export class ReferenceCheckComponent implements OnInit {
       applicationNo: this.applicationNo ? this.applicationNo : null,
       product: this.productCat ? this.productCat : null,
       sourcingChannel: this.sourcingChannel ? this.sourcingChannel : null,
-      // routeMap: referenceCheckModel.routeMap ? referenceCheckModel.routeMap : null,
-      routeMap: referenceCheckModel.routeMap,
+      routeMap: referenceCheckModel.routeMap ? referenceCheckModel.routeMap : null,
       equitasBranchName: this.equitasBranchName ? this.equitasBranchName : null,
-      distanceFromEquitas: referenceCheckModel.distanceFromEquitas ? referenceCheckModel.distanceFromEquitas : null,
+      distanceFromEquitas: this.distanceFromBranch ? this.distanceFromBranch : null,
       // this.formValues.date = this.formValues.date ? this.utilityService.convertDateTimeTOUTC(this.formValues.date, 'DD/MM/YYYY') : null;
       date: this.date ? this.utilityService.getDateFormat(this.date) : null,
       area: referenceCheckModel.area ? referenceCheckModel.area : null,
@@ -644,10 +652,14 @@ export class ReferenceCheckComponent implements OnInit {
       this.latitude = position["latitude"].toString();
       this.longitude = position["longitude"].toString();
       this.getRouteMap();
+      this.otherDetails.get("latitude").patchValue(this.latitude);
+      this.otherDetails.get("longitude").patchValue(this.longitude);
+
     } else {
       this.latitude = "";
       this.longitude = "";
       this.showRouteMap = false;
+      this.toasterService.showError(position["message"], "GPS Alert");
     }
 
   }
@@ -688,8 +700,7 @@ export class ReferenceCheckComponent implements OnInit {
     }
     this.loginService.getPolyLine(function (result, distance) {
       that.base64Image = result;
-      // that.distanceFromBranch = distance;
-      // that.distanceFromBranch = distance.slice(0, 4);
+      that.distanceFromBranch = distance;
       that.showRouteMap = true;
       console.log('distance from bank', that.distanceFromBranch);
       if (that.distanceFromBranch) {
