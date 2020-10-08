@@ -16,7 +16,7 @@ export class LoginService {
     private httpService: HttpService,
     private loginService: LoginStoreService,
     private apiService: ApiService,
-  ) {}
+  ) { }
 
   getLogin(data) {
     const url =
@@ -24,7 +24,7 @@ export class LoginService {
     let body = {
       email: data.email,
       password: data.password,
-      useADAuth : data.useADAuth
+      useADAuth: data.useADAuth
     };
     return this.httpService.post(url, body);
   }
@@ -50,15 +50,15 @@ export class LoginService {
   }
 
   getPolyLine(fn, origin, destination) {
-    let that =  this;
-  //  let origin = {
-  //     latitude: 12.96186,
-  //     longitude:  80.20078
-  //   };
-  // let  destination = {
-  //     latitude: 12.98714,
-  //     longitude: 80.17511
-  //   };
+    let that = this;
+    //  let origin = {
+    //     latitude: 12.96186,
+    //     longitude:  80.20078
+    //   };
+    // let  destination = {
+    //     latitude: 12.98714,
+    //     longitude: 80.17511
+    //   };
 
     let directionsService = new google.maps.DirectionsService();
     var request = {
@@ -67,25 +67,27 @@ export class LoginService {
       travelMode: 'DRIVING'
     };
 
-    directionsService.route(request, function(result, status) {
+    directionsService.route(request, function (result, status) {
       if (status == 'OK') {
         console.log(result);
-        console.log("distance",result.routes[0].legs[0].distance.text);
+        console.log("distance", result.routes[0].legs[0].distance.value);
         // console.log(result.routes[0].overview_polyline);
         let polyline = result.routes[0].overview_polyline;
-
-        let mapUrl = "https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=400x400"+
-          "&markers=color:blue%7Clabel:S%7C"+origin.latitude+","+origin.longitude+"&"+
-          "&markers=color:red%7Clabel:C%7C"+destination.latitude+","+destination.longitude+"&"+
-          "&center="+origin.latitude+","+origin.longitude+
-          "&path=color:red|weight:3|"+
-          "enc:"+polyline+
+        // let distance = result.routes[0].legs[0].distance.value;
+        // let distance = ((result.routes[0].legs[0].distance.value) / 1000);
+        let distance = Number((result.routes[0].legs[0].distance.value / 1000).toFixed(2));
+        let mapUrl = "https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=400x400" +
+          "&markers=color:blue%7Clabel:S%7C" + origin.latitude + "," + origin.longitude + "&" +
+          "&markers=color:red%7Clabel:C%7C" + destination.latitude + "," + destination.longitude + "&" +
+          "&center=" + origin.latitude + "," + origin.longitudes +
+          "&path=color:red|weight:3|" +
+          "enc:" + polyline +
           "&key=AIzaSyDJ9TZyUZNB2uY_267eIUQCV72YiYmArIw";
-        that.getBase64ImageFromURL(mapUrl).subscribe(base64data => {    
+        that.getBase64ImageFromURL(mapUrl).subscribe(base64data => {
           //console.log(base64data);
           // this is the image as dataUrl
           this.base64Image = 'data:image/jpg;base64,' + base64data;
-          return fn(this.base64Image);
+          return fn(this.base64Image, distance);
         });
 
         // return encodeURI(polyline);
@@ -101,33 +103,33 @@ export class LoginService {
       img.crossOrigin = 'Anonymous';
       img.src = url;
       if (!img.complete) {
-          // This will call another method that will create image from url
-          img.onload = () => {
+        // This will call another method that will create image from url
+        img.onload = () => {
           observer.next(this.getBase64Image(img));
           observer.complete();
         };
         img.onerror = (err) => {
-           observer.error(err);
+          observer.error(err);
         };
       } else {
-          observer.next(this.getBase64Image(img));
-          observer.complete();
+        observer.next(this.getBase64Image(img));
+        observer.complete();
       }
     });
   }
 
- getBase64Image(img: HTMLImageElement) {
-  // We create a HTML canvas object that will create a 2d image
-  var canvas = document.createElement("canvas");
-  canvas.width = img.width;
-  canvas.height = img.height;
-  var ctx = canvas.getContext("2d");
-  // This will draw image    
-  ctx.drawImage(img, 0, 0);
-  // Convert the drawn image to Data URL
-  var dataURL = canvas.toDataURL("image/png");
-  return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-}
+  getBase64Image(img: HTMLImageElement) {
+    // We create a HTML canvas object that will create a 2d image
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext("2d");
+    // This will draw image    
+    ctx.drawImage(img, 0, 0);
+    // Convert the drawn image to Data URL
+    var dataURL = canvas.toDataURL("image/png");
+    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+  }
 
 
 }

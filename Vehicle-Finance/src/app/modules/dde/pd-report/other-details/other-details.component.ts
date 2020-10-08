@@ -29,7 +29,7 @@ import { StringifyOptions } from 'querystring';
   styleUrls: ['./other-details.component.css']
 })
 export class OtherDetailsComponent implements OnInit {
-  
+
   otherDetailsForm: FormGroup;
   fundingProgram: any;
   leadId;
@@ -51,7 +51,7 @@ export class OtherDetailsComponent implements OnInit {
   roles: any;
   roleType: any;
   selectedDocDetails: DocRequest;
-  showModal:boolean;
+  showModal: boolean;
   isMobile: any;
   base64Image: any;
 
@@ -71,7 +71,7 @@ export class OtherDetailsComponent implements OnInit {
     imageUrl: string;
     imageType: string;
   };
-  
+
 
   documentArr: DocumentDetails[] = [];
 
@@ -84,35 +84,36 @@ export class OtherDetailsComponent implements OnInit {
   showRouteMap: boolean;
   pdList: [];
   pdStatusValue: any;
+  distanceFromBranch: any;
 
   constructor(
-              private labelsData: LabelsService,
-              private formBuilder: FormBuilder, 
-              private loginStoreService: LoginStoreService,
-              private router: Router, 
-              private createLeadDataService: CreateLeadDataService,
-              private aRoute: ActivatedRoute,
-              private commomLovService: CommomLovService,
-              private toasterService: ToasterService,
-              private utilityService: UtilityService,
-              private personalDiscussionService: PersonalDiscussionService,
-              private pdDataService: PdDataService,
-              private sharedSercive: SharedService,
-              private gpsService: GpsService,
-              private loginService: LoginService,
-              private uploadService: UploadService,
-              private base64StorageService: Base64StorageService,
-              private draggableContainerService: DraggableContainerService,
-              private applicantService: ApplicantService
+    private labelsData: LabelsService,
+    private formBuilder: FormBuilder,
+    private loginStoreService: LoginStoreService,
+    private router: Router,
+    private createLeadDataService: CreateLeadDataService,
+    private aRoute: ActivatedRoute,
+    private commomLovService: CommomLovService,
+    private toasterService: ToasterService,
+    private utilityService: UtilityService,
+    private personalDiscussionService: PersonalDiscussionService,
+    private pdDataService: PdDataService,
+    private sharedSercive: SharedService,
+    private gpsService: GpsService,
+    private loginService: LoginService,
+    private uploadService: UploadService,
+    private base64StorageService: Base64StorageService,
+    private draggableContainerService: DraggableContainerService,
+    private applicantService: ApplicantService
 
-          ) {
-              this.sharedSercive.taskId$.subscribe((value) => {
-                this.taskId = value;
-              });
-              this.isMobile = environment.isMobile;
-          }
+  ) {
+    this.sharedSercive.taskId$.subscribe((value) => {
+      this.taskId = value;
+    });
+    this.isMobile = environment.isMobile;
+  }
 
-   async ngOnInit() {
+  async ngOnInit() {
 
     if (this.isMobile) {
       this.checkGpsEnabled();
@@ -160,7 +161,7 @@ export class OtherDetailsComponent implements OnInit {
 
   }
 
-  async checkGpsEnabled(){
+  async checkGpsEnabled() {
     this.gpsService.getLatLong().subscribe((position) => {
       console.log("getLatLong", position);
       this.gpsService.initLatLong().subscribe((res) => {
@@ -170,7 +171,7 @@ export class OtherDetailsComponent implements OnInit {
             console.log("getLatLong", position);
           });
         } else {
-          console.log("error initLatLong",res);
+          console.log("error initLatLong", res);
         }
       });
     });
@@ -287,20 +288,20 @@ export class OtherDetailsComponent implements OnInit {
         this.SELFIE_IMAGE = value.ProcessVariables.profilePhoto;
         console.log('GET_OTHER_DETAILS:: ', this.otherDetails);
       }
-        if(this.otherDetails) {
-          this.setFormValue(); //SsaveOrUpdateOtherDetailsET_FORM_VALUES_ON_INITIALISATION
-          this.pdDataService.setCustomerProfile(this.otherDetails);
-        }
-        if(this.latitude){
-          this.getRouteMap();
-        }
+      if (this.otherDetails) {
+        this.setFormValue(); //SsaveOrUpdateOtherDetailsET_FORM_VALUES_ON_INITIALISATION
+        this.pdDataService.setCustomerProfile(this.otherDetails);
+      }
+      if (this.latitude) {
+        this.getRouteMap();
+      }
     });
   }
 
   //PATCH_FORM_VALUES
   setFormValue() {
     // const otherDetailsFormModal = this.otherDetails || {};
-    this.otherDetailsForm.patchValue({ 
+    this.otherDetailsForm.patchValue({
       agricultureProof: this.otherDetails.agricultureProof || '',
       income: this.otherDetails.income || '',
       securedLoans: this.otherDetails.securedLoans || '',
@@ -346,23 +347,23 @@ export class OtherDetailsComponent implements OnInit {
       longitude: this.longitude || '',
     }
     if (this.otherDetailsForm.valid === true) {
-    const data = {
-      leadId: this.leadId,
-      applicantId: this.applicantId,
-      userId: this.userId,
-      otherDetails: this.formValues,
-      customerProfileDetails: this.custProfileDetails,
-      profilePhoto: this.SELFIE_IMAGE
-    }
+      const data = {
+        leadId: this.leadId,
+        applicantId: this.applicantId,
+        userId: this.userId,
+        otherDetails: this.formValues,
+        customerProfileDetails: this.custProfileDetails,
+        profilePhoto: this.SELFIE_IMAGE
+      }
       this.personalDiscussionService.saveOrUpdatePdData(data).subscribe((res: any) => {
-          const response = res.ProcessVariables;
-          // console.log("RESPONSE_SAVEUPDATE_API::", response)
-          if (res['ProcessVariables'] && res['ProcessVariables'].error['code'] == "0") {
-            this.toasterService.showSuccess("Record Saved Successfully", "Other Details");
-            } else {
-              this.toasterService.showError(response['ProcessVariables'].error['message'], "Other Details");
-            }
-        });
+        const response = res.ProcessVariables;
+        // console.log("RESPONSE_SAVEUPDATE_API::", response)
+        if (res['ProcessVariables'] && res['ProcessVariables'].error['code'] == "0") {
+          this.toasterService.showSuccess("Record Saved Successfully", "Other Details");
+        } else {
+          this.toasterService.showError(response['ProcessVariables'].error['message'], "Other Details");
+        }
+      });
     } else {
       this.isDirty = true;
       this.toasterService.showError("Please fill all mandatory fields.", "Other Details");
@@ -370,7 +371,7 @@ export class OtherDetailsComponent implements OnInit {
     }
 
   }
-  
+
   // SUBMIT FORM
   onFormSubmit() {
     this.saveOrUpdateOtherDetails();
@@ -421,7 +422,7 @@ export class OtherDetailsComponent implements OnInit {
       let n = 0;
       for (var i in this.pdList) {
         this.pdStatusValue = this.pdList[i]['pdStatusValue']
-        if (this.pdList[i]['pdStatusValue'] == "Submitted" ) {
+        if (this.pdList[i]['pdStatusValue'] == "Submitted") {
           n = n + 1;
         }
         console.log('number n ', n);
@@ -471,9 +472,9 @@ export class OtherDetailsComponent implements OnInit {
 
 
   async getLatLong() {
-     /* Get latitude and longitude from mobile */
+    /* Get latitude and longitude from mobile */
 
-     return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
 
       if (this.isMobile) {
 
@@ -496,7 +497,7 @@ export class OtherDetailsComponent implements OnInit {
       } else {
         this.gpsService.getBrowserLatLong().subscribe((position) => {
           console.log("Browser position", position);
-          if(position["code"]){
+          if (position["code"]) {
             this.toasterService.showError(position["message"], "GPS Alert");
           }
           resolve(position);
@@ -518,16 +519,26 @@ export class OtherDetailsComponent implements OnInit {
 
     console.log("branchPos", branchPos);
     console.log("currentPos", currentPos);
-    this.loginService.getPolyLine(function (result) {
+    this.loginService.getPolyLine(function (result, distance) {
       that.base64Image = result;
       that.showRouteMap = true;
+      that.distanceFromBranch = distance;
+
+      console.log('distance from bank', that.distanceFromBranch);
+      if (that.distanceFromBranch) {
+        that.otherDetailsForm.get('distanceFromEquitas').setValue(that.distanceFromBranch);
+        that.otherDetailsForm.get('distanceFromEquitas').updateValueAndValidity;
+      } else {
+        that.otherDetailsForm.get('distanceFromEquitas').setValue(null);
+        that.otherDetailsForm.get('distanceFromEquitas').updateValueAndValidity;
+      }
       // console.log("getPolyLine", that.base64Image);
     }, currentPos, branchPos);
   }
 
   async downloadDocs(documentId: string) {
     console.log(event);
-    
+
     // let el = event.srcElement;
     // const formArray = this.uploadForm.get(formArrayName) as FormArray;
     // const documentId = formArray.at(index).get('file').value;
@@ -596,8 +607,8 @@ export class OtherDetailsComponent implements OnInit {
       isPhoto: true,
       applicantId: this.applicantId,
     };
-   //this.uploadPhotoOrSignature(data);
-    
+    //this.uploadPhotoOrSignature(data);
+
     event.imageUrl = '';
 
     // const formArray = this.uploadForm.get(
@@ -608,18 +619,18 @@ export class OtherDetailsComponent implements OnInit {
     if (this.documentArr.length === 0) {
       this.documentArr.push(event);
       index = 0;
-    } 
+    }
     console.log('documentArr', this.documentArr);
     this.individualImageUpload(event, index);
 
     let position = await this.getLatLong();
-    if(position["latitude"]){
+    if (position["latitude"]) {
       this.latitude = position["latitude"].toString();
       this.longitude = position["longitude"].toString();
       this.getRouteMap();
       this.otherDetails.get("latitude").patchValue(this.latitude);
       this.otherDetails.get("longitude").patchValue(this.longitude);
-    }else {
+    } else {
       this.latitude = "";
       this.longitude = "";
       this.showRouteMap = false;
@@ -652,6 +663,6 @@ export class OtherDetailsComponent implements OnInit {
       });
   }
 
-  
+
 
 }

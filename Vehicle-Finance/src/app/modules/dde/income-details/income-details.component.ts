@@ -629,12 +629,18 @@ export class IncomeDetailsComponent implements OnInit {
     const control = this.incomeDetailsForm.controls
       .businessIncomeDetails as FormArray;
     const id = this.businessIncomeDetailsArray.at(i).value.id;
+   
     if (this.businessIncomeDetailsArray.controls.length > 0) {
+
       // tslint:disable-next-line: triple-equals
       if (id == undefined) {
         this.businessIncomeDetailsArray.removeAt(i);
         this.toasterService.showInfo('Row is Removed', 'Income Details');
         this.isbusinessIncomeShow = false;
+        
+        if (this.businessIncomeDetailsArray.controls.length == 0){
+          this.totalBusinessIncomeAmount = 0
+                  }
         this.onIncome(null, i)
         
 
@@ -650,13 +656,19 @@ export class IncomeDetailsComponent implements OnInit {
             this.isbusinessIncomeShow = false;
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, '');
+            if (this.businessIncomeDetailsArray.controls.length == 0){
+              this.totalBusinessIncomeAmount = 0
+                      }
             this.onIncome(null, i)
         
-
+   
 
           });
+         
       }
+   
     } else {
+      
       // if (this.productCode == 'UC') {
       //   this.toasterService.showError('Atleast One Row Required', '');
       // }
@@ -691,12 +703,15 @@ export class IncomeDetailsComponent implements OnInit {
         this.otherIncomeDetailsArray.removeAt(i);
         this.toasterService.showInfo('Row is Removed', 'Income Details');
         this.isOtherIncomeShow = false;
+        if (this.otherIncomeDetailsArray.controls.length == 0){
+          this.totalMonthlyOtherIncome = 0
+                  }
+
         this.getTotalOtherIncome(i);
         this.getOtherFactoredIncome(i)
         this.getSalariedFoirIncome()
         
-
-
+       
       } else {
         const body = {
           userId: this.userId,
@@ -710,10 +725,13 @@ export class IncomeDetailsComponent implements OnInit {
 
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, '');
+            if (this.otherIncomeDetailsArray.controls.length == 0){
+              this.totalMonthlyOtherIncome = 0
+                      }
             this.getTotalOtherIncome(i);
             this.getOtherFactoredIncome(i)
             this.getSalariedFoirIncome()
-
+           
           });
       }
     } else {
@@ -746,7 +764,10 @@ export class IncomeDetailsComponent implements OnInit {
         this.isObligationIncomeShow = false;
         this.onEmi(null, i);
 
-
+        if (this.obligationDetailsArray.controls.length == 0){
+          this.totalObligationAmount = 0
+                  }
+     
       } else {
         const body = {
           userId: this.userId,
@@ -761,7 +782,10 @@ export class IncomeDetailsComponent implements OnInit {
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, '');
             this.onEmi(null, i);
-
+            if (this.obligationDetailsArray.controls.length == 0){
+              this.totalObligationAmount = 0
+                      }
+         
 
           });
       }
