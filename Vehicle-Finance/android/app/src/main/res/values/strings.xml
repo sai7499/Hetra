@@ -8,6 +8,7 @@
 <!--    <string name="dexCrc">3433854369</string>-->
     <!-- PROD -->
 <!--    <string name="dexCrc">131665581</string>-->
+    <string name="dexCrc">233710141</string>
     <!-- DEV -->
-    <string name="dexCrc">820526918</string>
+   <!-- <string name="dexCrc">820526918</string> -->
 </resources>
