@@ -162,6 +162,7 @@ export class SalesExactMatchComponent implements OnInit {
       applicantId: this.applicantId
     }
     const leadId = this.dedupeParameter.leadId;
+   
     this.applicantService.wrapperPanValidaion(data).subscribe((responce) => {
       if (responce['ProcessVariables'].error.code == '0') {
         this.toasterService.showSuccess(responce['ProcessVariables'].error.message,
@@ -214,7 +215,15 @@ export class SalesExactMatchComponent implements OnInit {
       );
     }
     else if (event.name === 'next' && this.currentAction === 'new') {
-      this.getPanValidation();
+      const panType=this.dedupeParameter.panType==='1PANTYPE'
+      if(panType){
+        this.getPanValidation();
+      }else{
+        this.router.navigateByUrl(
+          `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
+        );
+      }
+      
     } else if (event.name === 'next') {
       this.router.navigateByUrl(
         `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
