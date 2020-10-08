@@ -119,21 +119,21 @@ export class ViabilityDetailsComponent implements OnInit {
 
   async ngOnInit() {
 
-    // if (this.isMobile) {
-    //   this.gpsService.getLatLong().subscribe((position) => {
-    //     console.log("getLatLong", position);
-    //     this.gpsService.initLatLong().subscribe((res) => {
-    //       console.log("gpsService", res);
-    //       if (res) {
-    //         this.gpsService.getLatLong().subscribe((position) => {
-    //           console.log("getLatLong", position);
-    //         });
-    //       } else {
-    //         console.log("error initLatLong", res);
-    //       }
-    //     });
-    //   });
-    // }
+    if (this.isMobile) {
+      this.gpsService.getLatLong().subscribe((position) => {
+        console.log("getLatLong", position);
+        this.gpsService.initLatLong().subscribe((res) => {
+          console.log("gpsService", res);
+          if (res) {
+            this.gpsService.getLatLong().subscribe((position) => {
+              console.log("getLatLong", position);
+            });
+          } else {
+            console.log("error initLatLong", res);
+          }
+        });
+      });
+    }
 
     this.userId = localStorage.getItem('userId');
     this.roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -221,6 +221,12 @@ export class ViabilityDetailsComponent implements OnInit {
         emi: ([]),
         netCashFlowEmi: this.captiveEmi
       }),
+      gpsPosition: this.fb.group({
+        latitude:[this.latitude],
+        longitude:[this.longitude],
+        bLatitude: [this.branchLongitude],
+        bLongitude: [this.branchLongitude]
+      })
     });
     this.leadId = (await this.getLeadId()) as number;
     this.collataralId = (await this.getCollateralId()) as number;
@@ -516,7 +522,7 @@ getViability() {
       }) ;
     }
     });
-
+    this.patchGpsposition();
   }
 onSave() {
     this.isDirty = true;
@@ -598,6 +604,15 @@ onSave() {
      }
   }
 
+  patchGpsposition() {
+    const gpsPos = this.viabilityForm.controls.gpsPosition as FormGroup;
+    gpsPos.patchValue({
+      latitude: this.latitude,
+      longitude: this.longitude,
+      brLongitude: this.branchLongitude,
+      brLatitude: this.branchLatitude
+    });
+  }
 
  // tslint:disable-next-line: no-shadowed-variable
 patchViability(data: any) {
@@ -636,7 +651,11 @@ patchViability(data: any) {
         otherIncomeRemarks: data.otherIncomeRemarks ,
         otherExpenses: Number(data.otherExpenses) ,
         otherExpensesRemarks:  data.otherExpensesRemarks ,
-        operationsExpenses: Number(data.operationsExpenses)
+        operationsExpenses: Number(data.operationsExpenses),
+        latitude: this.latitude,
+        longitude: this.longitude,
+        bLatitude: this.branchLatitude,
+        bLongitude: this.branchLongitude
 
     });
  }
