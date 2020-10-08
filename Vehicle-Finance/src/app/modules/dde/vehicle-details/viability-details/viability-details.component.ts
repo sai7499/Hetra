@@ -1058,10 +1058,17 @@ calculateCaptiveC() {
       this.latitude = position["latitude"].toString();
       this.longitude = position["longitude"].toString();
       this.getRouteMap();
+
+      const gpsPos = this.viabilityForm.controls.gpsPosition as FormGroup;
+      gpsPos.get("latitude").patchValue(this.latitude);
+      gpsPos.get("longitude").patchValue(this.longitude);
+
+
     } else {
       this.latitude = "";
       this.longitude = "";
       this.showRouteMap = false;
+      this.toasterService.showError(position["message"], "GPS Alert");
     }
 
   }
