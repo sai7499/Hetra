@@ -160,7 +160,7 @@ export class OtherDetailsComponent implements OnInit {
 
   }
 
-  checkGpsEnabled(){
+  async checkGpsEnabled(){
     this.gpsService.getLatLong().subscribe((position) => {
       console.log("getLatLong", position);
       this.gpsService.initLatLong().subscribe((res) => {
@@ -589,7 +589,6 @@ export class OtherDetailsComponent implements OnInit {
 
   async onUploadSuccess(event: DocumentDetails) {
     // this.toasterService.showSuccess('Document uploaded successfully', '');
-    this.checkGpsEnabled();
     this.showModal = false;
     this.SELFIE_IMAGE = 'data:image/jpeg;base64,' + event.imageUrl;
     const data = {
