@@ -117,6 +117,8 @@ export class IncomeDetailsComponent implements OnInit {
   KeyFinancialDetailsArray: FormArray;
   salariedFOIRasperPolicyIncome: number;
   totalSalary: number;
+  totalYearlySalaryIncomeForAppAndCoapp: number;
+  totalYearlySalaryIncome: number;
 
   constructor(
     private router: Router,
@@ -134,9 +136,7 @@ export class IncomeDetailsComponent implements OnInit {
     this.yearOneValue = (this.today - 1).toString() + '-' + (this.today)
     this.yearTwoValue = (this.today - 2).toString() + '-' + (this.today - 1)
     this.yearThreeValue = (this.today - 3).toString() + '-' + (this.today - 2)
-    console.log(this.yearOneMinDate);
-    console.log(this.yearTwoMinDate);
-    console.log(this.yearThreeMinDate);
+
     this.businessIncomeDetailsArray = this.formBuilder.array([]);
     this.otherIncomeDetailsArray = this.formBuilder.array([]);
     this.obligationDetailsArray = this.formBuilder.array([]);
@@ -145,8 +145,7 @@ export class IncomeDetailsComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log(this.salariedFOIRasperPolicyIncome);
-    console.log(this.totalMonthlySalaryIncome);
+   
 
     this.labelsData.getLabelsData().subscribe(
       // tslint:disable-next-line: no-shadowed-variable
@@ -168,7 +167,6 @@ export class IncomeDetailsComponent implements OnInit {
       this.applicantDetails = res.ProcessVariables.applicantListForLead;
     });
     this.getSalariedFoirIncome();
-    console.log(this.salariedFOIRasperPolicy);
 
     this.incomeDetailsForm = this.formBuilder.group({
       keyFinanceDetails: this.KeyFinancialDetailsArray,
@@ -1108,9 +1106,30 @@ export class IncomeDetailsComponent implements OnInit {
             );
             this.salArray.push(this.totalMonthlySalaryIncome);
 
-            this.getSalariedFoirIncome()
+            // this.getSalariedFoirIncome()
           }
         }
+      }
+    }
+    
+    if (this.otherIncomeDetailsArray.at(i).value.incomeType === 'SALRINCTYP') {
+      if (this.otherIncomeDetailsArray && this.otherIncomeDetailsArray.length > 0) {
+
+        if(this.otherIncomeDetailsArray.at(i).value.applicantType === 'Applicant' || this.otherIncomeDetailsArray.at(i).value.applicantType === 'Co-Applicant' ){
+          this.totalYearlySalaryIncomeForAppAndCoapp = 0;
+          for (let i = 0; i < this.otherIncomeDetailsArray.length; i++) {
+            if (this.otherIncomeDetailsArray.at(i).value.incomeType === 'SALRINCTYP') {
+              this.totalYearlySalaryIncomeForAppAndCoapp = Math.round(
+                this.totalYearlySalaryIncomeForAppAndCoapp +
+                this.otherIncomeDetailsArray.value[i].factoredIncome
+              );
+              this.salArray.push(this.totalYearlySalaryIncomeForAppAndCoapp);
+  
+              this.getSalariedFoirIncome()
+            }
+          }
+        }
+      
       }
     }
 
@@ -1174,25 +1193,23 @@ export class IncomeDetailsComponent implements OnInit {
   getSalariedFoirIncome() {
     const salFoirPolicy: any = this.incomeDetailsForm as FormGroup
     // console.log(salFoirPolicy);
+this.totalYearlySalaryIncome = this.totalYearlySalaryIncomeForAppAndCoapp*12
 
-    if (this.totalMonthlySalaryIncome <= 600000) {
+    if (this.totalYearlySalaryIncome <= 600000) {
       salFoirPolicy.patchValue({
         salariedFOIRasperPolicy: 70
       });
       // this.salariedFOIRasperPolicy = 70
-      console.log(this.salariedFOIRasperPolicy);
 
-    } else if (this.totalMonthlySalaryIncome >= 600000 && this.totalMonthlySalaryIncome <= 1000000) {
+    } else if (this.totalYearlySalaryIncome >= 600000 && this.totalYearlySalaryIncome <= 1000000) {
       salFoirPolicy.patchValue({
         salariedFOIRasperPolicy: 75
       });
-      console.log(this.salariedFOIRasperPolicy);
 
-    } else if (this.totalMonthlySalaryIncome >= 1000000) {
+    } else if (this.totalYearlySalaryIncome >= 1000000) {
       salFoirPolicy.patchValue({
         salariedFOIRasperPolicy: 80
       });
-      console.log(this.salariedFOIRasperPolicy);
 
     }
   }
