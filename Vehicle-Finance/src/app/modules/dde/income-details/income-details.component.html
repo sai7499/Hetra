@@ -1191,14 +1191,13 @@
                 <td>{{ labels?.salariedFOIRasperPolicy }}</td>
                 <td>
                   <app-custom-input formControlName="salariedFOIRasperPolicy" [className]="'form-control mandatory'"
-                    [isDirty]="isDirty" [isDisabled]="true">
+                    [isDirty]="isDirty" [isDisabled]="true"  >
                   </app-custom-input>
                 </td>
               </tr>
               <tr>
                 <td>
                   {{ labels?.salariedFOIRDeviation }}
-                  <sub class="star_red_col">*</sub>
                 </td>
                 <td>
                   <app-custom-input formControlName="salariedFOIRDeviation"
@@ -1209,7 +1208,7 @@
                 </td>
               </tr>
               <tr>
-                <td>{{ labels?.totalSalariedFOIR }}</td>
+                <td>{{ labels?.totalSalariedFOIR }} </td>
                 <td>{{ totalSalariedFOIR }}</td>
               </tr>
               <tr>
@@ -1219,6 +1218,7 @@
                     (totalMonthlySalaryIncome * totalSalariedFOIR) / 100
                       | number: "1.0-0"
                   }}
+                 
                 </td>
               </tr>
 
@@ -1239,12 +1239,12 @@
                 <td>{{ totalMonthlyAgriIncome }}</td>
               </tr>
               <tr>
-                <td>{{ labels?.totalMonthlyOtherIncomeOfOthers }}</td>
+                <td>{{ labels?.totalMonthlyOthersIncome }}</td>
                 <td>{{ totalMonthlyOtherIncomeOfOthers }}</td>
               </tr>
               <tr>
-                <td>{{ labels?.totalMonthlyOtherIncome }}</td>
-                <td>{{ totalMonthlyOtherIncome }}</td>
+                <td>{{ labels?.totalMonthlyIncome }}</td>
+                <td>{{ totalMonthlyOtherIncome + totalBusinessIncomeAmount | number: "1.0-0"}}</td>
               </tr>
               <tr>
                 <td>{{ labels?.totalMonthlyObligations }}</td>
@@ -1254,7 +1254,7 @@
                 <td>{{ labels?.loanEligibilityasperFOIR }}</td>
                 <td>
                   {{
-                    1.4 * (totalMonthlyOtherIncome - totalObligationAmount)
+                    1.4 * (totalMonthlyOtherIncome + totalBusinessIncomeAmount - totalObligationAmount)
                       | number: "1.0-0"
                   }}
                 </td>
