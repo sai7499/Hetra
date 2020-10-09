@@ -989,23 +989,24 @@ export class NegotiationComponent implements OnInit {
   onSubmit() {
     // this.getLeadId();
     this.isDirty = true;
+    this.onformsubmit = true;
     if ((this.createNegotiationForm.controls.NegotiatedLoanAmount.value.toString().indexOf('-') != -1) ||
       (this.createNegotiationForm.controls.NetDisbursementAmount.value.toString().indexOf('-') != -1)) {
       this.toasterService.showError("Amount Field should not be Negative", ''),
         this.onformsubmit = false;
     }
-    else if ((Number(this.createNegotiationForm.controls.NegotiatedLoanAmount.value) < this.minLoanAmount) ||
-      (Number(this.createNegotiationForm.controls.NegotiatedLoanAmount.value) > this.maxLoanAmount)) {
+    else if ((Number(this.createNegotiationForm.controls.NegotiatedLoanAmount.value) < Number(this.minLoanAmount)) ||
+      (Number(this.createNegotiationForm.controls.NegotiatedLoanAmount.value) >  Number(this.maxLoanAmount))) {
       this.toasterService.showError("Negotiated Loan Amount should be within the specified Limit", ''),
         this.onformsubmit = false;
     }
-    else if ((Number(this.createNegotiationForm.controls.NegotiatedLoanTenor.value) < this.minLoanTenor) ||
-      (Number(this.createNegotiationForm.controls.NegotiatedLoanTenor.value) > this.maxLoanTenor)) {
+    else if ((Number(this.createNegotiationForm.controls.NegotiatedLoanTenor.value) <  Number(this.minLoanTenor)) ||
+      (Number(this.createNegotiationForm.controls.NegotiatedLoanTenor.value) > Number(this.maxLoanTenor))) {
       this.toasterService.showError(" Negotiated Loan Tenor should be within the specified Limit", ''),
         this.onformsubmit = false;
     }
-    else if ((Number(this.createNegotiationForm.controls.NegotiatedEMI.value) < this.minEMIAmount) ||
-      (Number(this.createNegotiationForm.controls.NegotiatedEMI.value) > this.maxEMIAmount)) {
+    else if ((Number(this.createNegotiationForm.controls.NegotiatedEMI.value) < Number(this.minEMIAmount)) ||
+      (Number(this.createNegotiationForm.controls.NegotiatedEMI.value) >  Number(this.maxEMIAmount))) {
       this.toasterService.showError(" Negotiated EMI Amount should be within the specified Limit", ''),
         this.onformsubmit = false;
     }

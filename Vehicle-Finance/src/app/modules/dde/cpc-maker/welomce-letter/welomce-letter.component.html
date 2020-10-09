@@ -1,4 +1,4 @@
-<main>
+<main class="welcmlter_body">
     <div class="container-fluid content">
     <div class="text-center">
         <button class="btn btn-primary view-button" 
@@ -29,7 +29,7 @@
                 <tbody>
                     <tr>
                     <td width="60%" class='style-strong'>{{labels?.AgreementNo}}: {{isWelcomeDetails?.agreementNo}} </td>
-                        <td width="40%" class='style-strong text-right'>{{labels?.Date}} : {{date | date :'dd/MM/yyyy'}}
+                        <td width="40%" class='style-strong text-right'>{{labels?.Date}} : {{isWelcomeDetails?.loanBookedDate}}
                         </td>
 
                     </tr>
@@ -109,6 +109,8 @@
             </tbody>
         </table> -->
             <div class="margin-add" [innerHTML]="div1Data"></div>
+            <p class="text-right font-small">{{labels?.Regdoffice}}<br>
+                {{labels?.phTollfree}}</p> 
 
             <!-- <p>Dear Sir/Madam,
 
@@ -389,9 +391,8 @@ Equitas Finance Private Limited<br />
                 </tbody>
             </table>
 
-            <p class="text-right font-small">Regd. Office: No. 769, 4th Floor, Phase - 2,F39, Spencer Plaza, Anna Salai,
-                Chennai - 600 002.<br>
-            Ph: 044-4299 5000 Customer Care Toll-free: 1800 3000 5060</p> 
+            <p class="text-right font-small">{{labels?.Regdoffice}}<br>
+                {{labels?.phTollfree}}</p> 
             <div class="row">
                 <!-- <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-right" style="text-align: right;" id="vf_sheet_tag8">
                 <img class="img-style" src="assets\images\equitas-logo.png">
@@ -639,10 +640,8 @@ Ph: 044-4299 5000 Customer Care Toll-free: 1800 3000 5060 Fax: 044-42995050 E-ma
 </p> -->
 
             <!-- <div class="margin-add" [innerHTML]="div3Data"></div> -->
-			<p class="text-right font-small">Regd. Office: No. 769, 4th Floor, Phase - 2,F39, Spencer Plaza, Anna Salai,
-					Chennai - 600 002.<br>
-				Ph: 044-4299 5000 Customer Care Toll-free: 1800 3000 5060 Fax: 044-42995050 E-mail: corporate@equitas.in
-			</p> 
+			<p class="text-right font-small">{{labels?.Regdoffice}}<br>
+                {{labels?.phTollfree}}</p> 
             </div>
 			
             <div class="text-right">

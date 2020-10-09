@@ -171,6 +171,8 @@ export class DashboardComponent implements OnInit {
     if (this.dashboardService.routingData) {
       this.activeTab = this.dashboardService.routingData.activeTab;
       this.subActiveTab = this.dashboardService.routingData.subActiveTab;
+      console.log('active', this.activeTab, 'sub-active', this.subActiveTab);
+      
       this.onTabsLoading(this.subActiveTab);
     } else {
       if (this.roleType === 1) {
@@ -487,6 +489,10 @@ export class DashboardComponent implements OnInit {
     this.sortTab = '';
     this.activeTab = data;
     this.subActiveTab = subTab;
+    this.dashboardService.routingData = {
+      activeTab: this.activeTab,
+      subActiveTab: this.subActiveTab,
+    };
     if (this.sortTab === '') {
       this.sortByLead = false;
       this.sortByDate = false;

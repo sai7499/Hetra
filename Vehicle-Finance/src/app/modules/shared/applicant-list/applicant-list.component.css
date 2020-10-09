@@ -129,4 +129,62 @@ th {
 } */
 thead tr td.text-left{
   text-align: left!important;
+/* overlay css */
+}
+
+#mydiv {
+  /* position: absolute; */
+  z-index: 9999;
+  background-color: #ffff;
+  border: 1px solid #d3d3d3;
+  text-align:center;
+  height: 400px;
+  width: 1024px;
+  padding: 10px;
+  border-radius: 5px;
+  overflow: scroll
+}
+
+#mydivheader {
+  padding: 10px;
+  cursor: move;
+  z-index: 10;
+  background-color: #2196f3;
+  color: #fff;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+}
+
+.header {
+  padding: 5px;
+}
+
+.image-content {
+  height: 90%;
+  width: 100%;
+}
+
+.center {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+@media(max-width: 769px) {
+  #mydiv {
+    height: auto;
+    width: 300px;
+    overflow: scroll;
+  }
 }

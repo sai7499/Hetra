@@ -63,8 +63,9 @@
                   (click)="softDeleteApplicant(i, item.applicantId)"
                   title="Delete applicant"><i  class="fa fa-trash" aria-hidden="true"></i
                 ></a> &nbsp;
-                <a (click)="getApplicantImage(item.applicantId)" data-toggle="modal"
-                data-target="#myModalApplicantImage"  
+                <a (click)="getApplicantImage(item.applicantId)" 
+                data-toggle="modal"
+                  data-target="#myModalApplicantImage"
                 title="View Bureau Report"> <strong>CB</strong></a>
                 &nbsp;
                 <a data-toggle="modal"
@@ -163,14 +164,14 @@
         </button>
       </div>
 
-      <div class="modal-body" >
+      <div class="modal-body"   >
         <!-- <img [src]="imageUrl" > -->
-        <div [innerHTML]="cibilImage"  ></div>     
-      <div class="modal-footer text-center">
-        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="destroyImage()">
-          Close
-        </button>
-      </div>
+        <div [innerHTML]="cibilImage" style="overflow: scroll;" ></div>     
+    </div>
+    <div class="modal-footer text-center">
+      <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="destroyImage()">
+        Close
+      </button>
     </div>
   </div>
 </div>
@@ -472,3 +473,9 @@
     </button>
   </div>
 </div>
+<!--  <div id="mydiv" *ngIf="cibilImage" class="card" class="center"> 
+  <button type="button" class="close" (click)="destroyImage()" *ngIf="cibilImage" style="overflow: auto;">×</button> -->
+    <!-- Header -->
+<!-- <div class="image-content"  [innerHTML]="cibilImage" > </div>  
+
+</div> -->
