@@ -100,6 +100,7 @@
     "insurance": "Insurance",
     "ageOfAsset": "Age of Asset",
     "ageOfVehicle": "Age of vehicle at the end of tenor",
+    "isVehAvailInGrid": "Is Vehicle Available Grid",
     "assetCostGrid": "Asset cost basis Grid",
     "vechicleUsage": "Vehicle Usage",
     "vehicleCategory": "Vehicle Category",
