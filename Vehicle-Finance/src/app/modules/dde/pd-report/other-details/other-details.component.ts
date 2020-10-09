@@ -628,8 +628,8 @@ export class OtherDetailsComponent implements OnInit {
       this.latitude = position["latitude"].toString();
       this.longitude = position["longitude"].toString();
       this.getRouteMap();
-      this.otherDetails.get("latitude").patchValue(this.latitude);
-      this.otherDetails.get("longitude").patchValue(this.longitude);
+      this.otherDetailsForm.get("latitude").patchValue(this.latitude);
+      this.otherDetailsForm.get("longitude").patchValue(this.longitude);
     } else {
       this.latitude = "";
       this.longitude = "";

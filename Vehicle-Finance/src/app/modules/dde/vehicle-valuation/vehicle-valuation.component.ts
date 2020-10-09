@@ -232,6 +232,10 @@ export class VehicleValuationComponent implements OnInit {
     });
     console.log("DATA::", data);
     if (status == 'NOT INITIATED') {
+      this.regNo= data.regNo;
+      this.make = data.make;
+      this.model = data.model;
+      this.address = data.address;
       this.isModal = true;
       this.regNo = data.regNo;
       this.make = data.make;

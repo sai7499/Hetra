@@ -612,7 +612,6 @@ export class FleetDetailsComponent implements OnInit {
         this.fleetArrayList.controls = [];
         fleetList.forEach(val =>
           this.fleetArrayList.push(this.initRows(val)));
-
         console.log("fletds", this.fleetArrayList);
         if (index != null && index != 'next') {
           console.log(" in rtr function index", index);
@@ -639,7 +638,7 @@ export class FleetDetailsComponent implements OnInit {
       } else if (res['Error'] == "1") {
         this.toasterService.showError(res['ErrorMessage'], '');
       }
-
+   
     });
   }
 
