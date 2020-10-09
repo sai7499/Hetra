@@ -162,16 +162,17 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     if (formArray.value[0].vehicleId !== 0 && formArray.value[0].manuFacMonthYear) {
 
-      const date = this.utilityService.convertDateTimeTOUTC(formArray.value[0].manufactureYear, 'YYYY')
+      const date = this.utilityService.convertDateTimeTOUTC(formArray.value[0].manuFacMonthYear, 'YYYY')
 
-      const data = { "manufactureYear": date, "vehicleCode": formArray.value[0].vehicleId + '' };
+      let data = { "manufactureYear": date, "vehicleCode": formArray.value[0].vehicleId + '' };
 
       this.vehicleDetailService.getVehicleGridValue(data).subscribe((res: any) => {
         const apiError = res.ProcessVariables.error.message;
 
         formArray.controls[0].patchValue({
           assetCostGrid: res.ProcessVariables.vehicleCost,
-          finalAssetCost: res.ProcessVariables.vehicleCost
+          finalAssetCost: res.ProcessVariables.vehicleCost,
+          isVehAvailInGrid: res.ProcessVariables.isVehAvailInGrid,
         })
       }, err => {
         console.log('err', err)
@@ -244,6 +245,16 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           value: "NO"
         }
       ]
+      this.vehicleLov.isVehAvailInGrid = [
+        {
+          key: 1,
+          value: "Yes"
+        },
+        {
+          key: 0,
+          value: "NO"
+        }
+      ]
     });
   }
 
@@ -293,6 +304,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostIBB: VehicleDetail.assetCostIBB || null,
       assetCostLeast: VehicleDetail.assetCostLeast || null,
       assetCostRef: VehicleDetail.assetCostRef || null,
+      isVehAvailInGrid: VehicleDetail.isVehAvailInGrid || '',
       assetMake: VehicleDetail.vehicleMfrUniqueCode || '',
       assetModel: VehicleDetail.vehicleModelCode || '',
       assetVariant: VehicleDetail.assetVarient || '',
@@ -673,6 +685,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         ageOfAsset: ['', Validators.required],
         ageAfterTenure: ['', Validators.required],
         assetCostGrid: ['', Validators.required],
+        isVehAvailInGrid: [1],
         finalAssetCost: [''],
         rcOwnerName: ['', Validators.required],
         ownerMobileNo: ['', Validators.required],
@@ -830,6 +843,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostGrid: ['', Validators.required],
       finalAssetCost: ['', Validators.required],
       fitnessDate: [''],
+      isVehAvailInGrid: [1],
       typeOfPermit: [''],
       typeOfPermitOthers: [''],
       permitExpiryDate: [''],
