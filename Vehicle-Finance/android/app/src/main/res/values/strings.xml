@@ -4,11 +4,10 @@
     <string name="title_activity_main">HETRA ORIGIN</string>
     <string name="package_name">com.vehicle.finance</string>
     <string name="custom_url_scheme">com.vehicle.finance</string>
-<!--    <string name="dexCrc">72:51:A2:45:5D:A4:48:08:9A:27:8D:29:AD:D1:2F:10</string>-->
-<!--    <string name="dexCrc">3433854369</string>-->
-    <!-- PROD -->
-<!--    <string name="dexCrc">131665581</string>-->
-<!--    <string name="dexCrc">2986285399</string>-->
+    <string name="debugKey">F1:4F:77:53:D0:C5:24:27:09:3B:A7:21:F0:C9:6C:23</string>
+    <string name="releaseKey">72:51:A2:45:5D:A4:48:08:9A:27:8D:29:AD:D1:2F:10</string>
     <!-- DEV -->
-    <string name="dexCrc">1540415115</string>
+    <string name="debugDexCrc">1540415115</string>
+    <!-- Release -->
+    <string name="releaseDexCrc">3209014495</string>
 </resources>

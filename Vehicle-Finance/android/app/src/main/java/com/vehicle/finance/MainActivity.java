@@ -140,16 +140,31 @@ public class MainActivity extends BridgeActivity {
   public  void checkTamperedApk() {
 //    // Keep dexCrc in resources (strings.xml) or in JNI code. Don't hardcode it in java classes, because it's changes checksum.
     TamperingProtection protection = new TamperingProtection(this);
+    String packageName = this.getResources().getString(R.string.package_name);
+    protection.setAcceptedPackageNames(packageName); // your package name
 
-    String dexCrcStr = this.getResources().getString(R.string.dexCrc);
-    long dexCrc = Long.parseLong(dexCrcStr);
+    if (BuildConfig.DEBUG) {
+      String dexCrcStr = this.getResources().getString(R.string.debugDexCrc);
+      long dexCrc = Long.parseLong(dexCrcStr);
+      protection.setAcceptedDexCrcs(dexCrc);
 
-    protection.setAcceptedDexCrcs(dexCrc);
-    protection.setAcceptedPackageNames("com.vehicle.finance"); // your package name
-    protection.setAcceptedSignatures("F1:4F:77:53:D0:C5:24:27:09:3B:A7:21:F0:C9:6C:23"); // MD5 fingerprint - Debug key
-    //protection.setAcceptedSignatures("72:51:A2:45:5D:A4:48:08:9A:27:8D:29:AD:D1:2F:10");
-    protection.setAcceptStartInDebugMode(true);
-    protection.setAcceptStartOnEmulator(false);
+      // do something for a debug build
+      String debugKey = this.getResources().getString(R.string.debugKey);
+      protection.setAcceptedSignatures(debugKey);
+      protection.setAcceptStartInDebugMode(true);
+      protection.setAcceptStartOnEmulator(false);
+
+    }else {
+      String dexCrcStr = this.getResources().getString(R.string.releaseDexCrc);
+      long dexCrc = Long.parseLong(dexCrcStr);
+      protection.setAcceptedDexCrcs(dexCrc);
+
+      String releaseKey = this.getResources().getString(R.string.releaseKey);
+      protection.setAcceptedSignatures(releaseKey);
+      protection.setAcceptStartInDebugMode(false);
+      protection.setAcceptStartOnEmulator(false);
+
+    }
 
     JSONObject obj = protection.validateAll();// <- bool is valid or tampered.
     boolean isValid = false;
