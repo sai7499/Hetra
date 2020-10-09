@@ -107,4 +107,23 @@ getFactoringValue(data){
   
   return this.httpService.post(url, requestEntity);
 }
+getFoirAsPerPolicy(data){
+  const processData = data;
+  const processId = this.apiService.api.getFoirAsPerPolicy.processId;
+  const workflowId = this.apiService.api.getFoirAsPerPolicy.workflowId;
+  const projectId = this.apiService.api.getFoirAsPerPolicy.projectId;
+
+  const userId = localStorage.getItem('userId');
+
+  const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables:  processData,
+      workflowId,
+      projectId
+  };
+  
+  let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+  
+  return this.httpService.post(url, requestEntity);
+}
 }

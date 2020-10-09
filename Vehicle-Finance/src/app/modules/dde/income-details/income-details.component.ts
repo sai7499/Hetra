@@ -58,7 +58,7 @@ export class IncomeDetailsComponent implements OnInit {
   totalMonthlyPensionIncome = 0;
   totalMonthlyAgriIncome = 0;
   totalMonthlyOtherIncome = 0;
-  totalSalariedFOIR = 0;
+  totalSalariedFOIR;
   totalMonthlyOtherIncomeOfOthers = 0;
   otherArray = [];
   salArray = [];
@@ -146,7 +146,7 @@ export class IncomeDetailsComponent implements OnInit {
 
 
   ngOnInit() {
-   
+
 
     this.labelsData.getLabelsData().subscribe(
       // tslint:disable-next-line: no-shadowed-variable
@@ -167,7 +167,7 @@ export class IncomeDetailsComponent implements OnInit {
     this.applicantService.getApplicantList(data).subscribe((res: any) => {
       this.applicantDetails = res.ProcessVariables.applicantListForLead;
     });
-    this.getSalariedFoirIncome();
+    // this.getSalariedFoirIncome();
 
     this.incomeDetailsForm = this.formBuilder.group({
       keyFinanceDetails: this.KeyFinancialDetailsArray,
@@ -618,7 +618,7 @@ export class IncomeDetailsComponent implements OnInit {
       for (let i = 0; i < data.length; i++) {
         this.businessIncomeDetailsArray.push(this.getBusinessIncomeDetails(data[i]));
         this.onIncome(null, i);
-        
+
 
       }
     } else if (data == null) {
@@ -629,7 +629,7 @@ export class IncomeDetailsComponent implements OnInit {
     const control = this.incomeDetailsForm.controls
       .businessIncomeDetails as FormArray;
     const id = this.businessIncomeDetailsArray.at(i).value.id;
-   
+
     if (this.businessIncomeDetailsArray.controls.length > 0) {
 
       // tslint:disable-next-line: triple-equals
@@ -637,12 +637,12 @@ export class IncomeDetailsComponent implements OnInit {
         this.businessIncomeDetailsArray.removeAt(i);
         this.toasterService.showInfo('Row is Removed', 'Income Details');
         this.isbusinessIncomeShow = false;
-        
-        if (this.businessIncomeDetailsArray.controls.length == 0){
+
+        if (this.businessIncomeDetailsArray.controls.length == 0) {
           this.totalBusinessIncomeAmount = 0
-                  }
+        }
         this.onIncome(null, i)
-        
+
 
       } else {
         const body = {
@@ -656,19 +656,19 @@ export class IncomeDetailsComponent implements OnInit {
             this.isbusinessIncomeShow = false;
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, '');
-            if (this.businessIncomeDetailsArray.controls.length == 0){
+            if (this.businessIncomeDetailsArray.controls.length == 0) {
               this.totalBusinessIncomeAmount = 0
-                      }
+            }
             this.onIncome(null, i)
-        
-   
+
+
 
           });
-         
+
       }
-   
+
     } else {
-      
+
       // if (this.productCode == 'UC') {
       //   this.toasterService.showError('Atleast One Row Required', '');
       // }
@@ -685,8 +685,8 @@ export class IncomeDetailsComponent implements OnInit {
         this.otherIncomeDetailsArray.push(this.getOtherIncomeDetails(data[i]));
         this.getTotalOtherIncome(i);
         this.getOtherFactoredIncome(i)
-        this.getSalariedFoirIncome()
-        
+        // this.getSalariedFoirIncome()
+        // this.getSalaryIncome(null,i)
       }
     } else if (data == null) {
       this.otherIncomeDetailsArray.push(this.getOtherIncomeDetails());
@@ -703,15 +703,16 @@ export class IncomeDetailsComponent implements OnInit {
         this.otherIncomeDetailsArray.removeAt(i);
         this.toasterService.showInfo('Row is Removed', 'Income Details');
         this.isOtherIncomeShow = false;
-        if (this.otherIncomeDetailsArray.controls.length == 0){
+        if (this.otherIncomeDetailsArray.controls.length == 0) {
           this.totalMonthlyOtherIncome = 0
-                  }
+        }
 
         this.getTotalOtherIncome(i);
         this.getOtherFactoredIncome(i)
-        this.getSalariedFoirIncome()
-        
-       
+        // this.getSalariedFoirIncome()
+        // this.getSalaryIncome(null,i)
+
+
       } else {
         const body = {
           userId: this.userId,
@@ -725,13 +726,14 @@ export class IncomeDetailsComponent implements OnInit {
 
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, '');
-            if (this.otherIncomeDetailsArray.controls.length == 0){
+            if (this.otherIncomeDetailsArray.controls.length == 0) {
               this.totalMonthlyOtherIncome = 0
-                      }
+            }
             this.getTotalOtherIncome(i);
             this.getOtherFactoredIncome(i)
-            this.getSalariedFoirIncome()
-           
+            // this.getSalariedFoirIncome()
+            // this.getSalaryIncome(null,i)
+
           });
       }
     } else {
@@ -764,10 +766,10 @@ export class IncomeDetailsComponent implements OnInit {
         this.isObligationIncomeShow = false;
         this.onEmi(null, i);
 
-        if (this.obligationDetailsArray.controls.length == 0){
+        if (this.obligationDetailsArray.controls.length == 0) {
           this.totalObligationAmount = 0
-                  }
-     
+        }
+
       } else {
         const body = {
           userId: this.userId,
@@ -782,10 +784,10 @@ export class IncomeDetailsComponent implements OnInit {
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, '');
             this.onEmi(null, i);
-            if (this.obligationDetailsArray.controls.length == 0){
+            if (this.obligationDetailsArray.controls.length == 0) {
               this.totalObligationAmount = 0
-                      }
-         
+            }
+
 
           });
       }
@@ -1146,27 +1148,8 @@ export class IncomeDetailsComponent implements OnInit {
         }
       }
     }
-    
-    if (this.otherIncomeDetailsArray.at(i).value.incomeType === 'SALRINCTYP') {
-      if (this.otherIncomeDetailsArray && this.otherIncomeDetailsArray.length > 0) {
 
-        if(this.otherIncomeDetailsArray.at(i).value.applicantType === 'Applicant' || this.otherIncomeDetailsArray.at(i).value.applicantType === 'Co-Applicant' ){
-          this.totalYearlySalaryIncomeForAppAndCoapp = 0;
-          for (let i = 0; i < this.otherIncomeDetailsArray.length; i++) {
-            if (this.otherIncomeDetailsArray.at(i).value.incomeType === 'SALRINCTYP') {
-              this.totalYearlySalaryIncomeForAppAndCoapp = Math.round(
-                this.totalYearlySalaryIncomeForAppAndCoapp +
-                this.otherIncomeDetailsArray.value[i].factoredIncome
-              );
-              this.salArray.push(this.totalYearlySalaryIncomeForAppAndCoapp);
-  
-              this.getSalariedFoirIncome()
-            }
-          }
-        }
-      
-      }
-    }
+
 
     if (this.otherIncomeDetailsArray.at(i).value.incomeType === 'RENINCTYP') {
       if (this.otherIncomeDetailsArray && this.otherIncomeDetailsArray.length > 0) {
@@ -1223,33 +1206,66 @@ export class IncomeDetailsComponent implements OnInit {
       }
     }
     this.getTotalOtherIncome(i)
+setTimeout(()=>{
+  this.getSalaryIncome(i)
+},3000)
+  }
+  getSalaryIncome(i: number) {
+    if (this.otherIncomeDetailsArray.at(i).value.incomeType === 'SALRINCTYP') {
+      if (this.otherIncomeDetailsArray && this.otherIncomeDetailsArray.length > 0) {
 
+        if (this.otherIncomeDetailsArray.at(i).value.applicantType === 'Applicant' || this.otherIncomeDetailsArray.at(i).value.applicantType === 'Co-Applicant') {
+          this.totalYearlySalaryIncomeForAppAndCoapp = 0;
+          for (let i = 0; i < this.otherIncomeDetailsArray.length; i++) {
+            if (this.otherIncomeDetailsArray.at(i).value.incomeType === 'SALRINCTYP') {
+              this.totalYearlySalaryIncomeForAppAndCoapp = Math.round(
+                this.totalYearlySalaryIncomeForAppAndCoapp +
+                this.otherIncomeDetailsArray.value[i].factoredIncome
+              );
+              this.salArray.push(this.totalYearlySalaryIncomeForAppAndCoapp);
+
+              this.getSalariedFoirIncome()
+            }
+          }
+        }
+
+      }
+    }
   }
   getSalariedFoirIncome() {
     const salFoirPolicy: any = this.incomeDetailsForm as FormGroup
-this.totalYearlySalaryIncome = this.totalYearlySalaryIncomeForAppAndCoapp*12
-
-    if (this.totalYearlySalaryIncome <= 600000) {
-      salFoirPolicy.patchValue({
-        salariedFOIRasperPolicy: 70
-      });
-      this.totalSalariedFOIR =  this.incomeDetailsForm.controls.salariedFOIRasperPolicy.value
-      
-    } else if (this.totalYearlySalaryIncome >= 600001 && this.totalYearlySalaryIncome <= 1000000) {
-      salFoirPolicy.patchValue({
-        salariedFOIRasperPolicy: 75
-      });
-      this.totalSalariedFOIR =  this.incomeDetailsForm.controls.salariedFOIRasperPolicy.value
-
-
-    } else if (this.totalYearlySalaryIncome >= 1000001) {
-      salFoirPolicy.patchValue({
-        salariedFOIRasperPolicy: 80
-      });
-      this.totalSalariedFOIR =  this.incomeDetailsForm.controls.salariedFOIRasperPolicy.value
-
-
+    this.totalYearlySalaryIncome = this.totalYearlySalaryIncomeForAppAndCoapp
+    const body = {
+      leadId: this.leadId,
+      salaryIncome: this.totalYearlySalaryIncome
     }
+    this.incomeDetailsService.getFoirAsPerPolicy(body).subscribe((res: any) => {
+      // console.log('......',res);
+      salFoirPolicy.patchValue({
+        salariedFOIRasperPolicy: res.ProcessVariables.foir
+      });
+    })
+    // if (this.totalYearlySalaryIncome <= 600000) {
+    //   salFoirPolicy.patchValue({
+    //     salariedFOIRasperPolicy: 70
+    //   });
+    //   this.totalSalariedFOIR =  this.incomeDetailsForm.controls.salariedFOIRasperPolicy.value
+
+    // } else if (this.totalYearlySalaryIncome >= 600001 && this.totalYearlySalaryIncome <= 1000000) {
+    //   salFoirPolicy.patchValue({
+    //     salariedFOIRasperPolicy: 75
+    //   });
+    //   this.totalSalariedFOIR =  this.incomeDetailsForm.controls.salariedFOIRasperPolicy.value
+
+
+    // } else if (this.totalYearlySalaryIncome >= 1000001) {
+    //   salFoirPolicy.patchValue({
+    //     salariedFOIRasperPolicy: 80
+    //   });
+    //   this.totalSalariedFOIR =  this.incomeDetailsForm.controls.salariedFOIRasperPolicy.value
+
+
+    // }
   }
   getTotalOtherIncome(i: number) {
     const incomeArray = this.incomeDetailsForm.controls
@@ -1269,11 +1285,11 @@ this.totalYearlySalaryIncome = this.totalYearlySalaryIncomeForAppAndCoapp*12
       }
     }
   }
-//   getTotalMonthlyIncome(){
+  //   getTotalMonthlyIncome(){
 
-// this.totalMonthlyIncome =  this.totalBusinessIncomeAmount + this.totalMonthlyOtherIncome 
-    
-//   }
+  // this.totalMonthlyIncome =  this.totalBusinessIncomeAmount + this.totalMonthlyOtherIncome 
+
+  //   }
   onTenure(event: any, i: number) {
     let tenure = 0;
     let mob = 0;
@@ -1333,18 +1349,17 @@ this.totalYearlySalaryIncome = this.totalYearlySalaryIncomeForAppAndCoapp*12
     }
   }
   onSalFoirDeviation(event: any) {
-    
+
     const salariedFOIRasperPolicy = this.incomeDetailsForm.controls
       .salariedFOIRasperPolicy.value;
-      
+
     if (this.productCode == "UC") {
-      
+
       if (Number(event) + Number(salariedFOIRasperPolicy) <= 150) {
         this.SalariedFOIRDeviation = Math.round(Number(event));
-        
         this.totalSalariedFOIR =
-          this.SalariedFOIRDeviation + salariedFOIRasperPolicy;
-          
+          this.SalariedFOIRDeviation + Number(salariedFOIRasperPolicy);
+
       } else {
         this.toasterService.showWarning('should not exceed 150', '');
         // this.totalSalariedFOIR = 0;
