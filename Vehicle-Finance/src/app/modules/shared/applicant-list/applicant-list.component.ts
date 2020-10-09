@@ -249,4 +249,7 @@ export class ApplicantListComponent implements OnInit {
       this.cibilImage = null;
     }
   }
+  routetoEB(){
+    // this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-kyc-details`);
+  }
 }
