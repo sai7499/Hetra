@@ -464,7 +464,7 @@ export class IncomeDetailsComponent implements OnInit {
           applicantType: [''],
           businessEnterpriseName: [
             null,
-            [Validators.required],
+            [Validators.required,],
           ],
           depreciation: [
             null,
