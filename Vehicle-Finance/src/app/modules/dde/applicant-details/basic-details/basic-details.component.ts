@@ -484,6 +484,8 @@ export class BasicDetailsComponent implements OnInit {
 
 
 
+
+
     details.patchValue({
       name1: applicantDetails.name1,
       name2: applicantDetails.name2,

@@ -31,6 +31,7 @@ export class ApplicantListComponent implements OnInit {
   cibilImage: any;
   showNotApplicant : boolean;
   hideDraggableContainer = false;
+  newImage: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -160,8 +161,11 @@ export class ApplicantListComponent implements OnInit {
           const imageUrl = res.ProcessVariables.response;
           this.imageUrl = imageUrl;
           this.imageUrl = atob(this.imageUrl); // decoding base64 string to get xml file
-          this.imageUrl = this.domSanitizer.bypassSecurityTrustHtml(this.imageUrl); // sanitizing xml doc for rendering with proper css
+          this.imageUrl = this.domSanitizer.bypassSecurityTrustHtml(this.imageUrl);
+          // this.newImage = this.domSanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64,' 
+          //        + imageUrl); // sanitizing xml doc for rendering with proper css
           this.cibilImage = this.imageUrl;
+          console.log(this.newImage);
           setTimeout(() => {
             this.dragElement(document.getElementById('mydiv'));
           });
@@ -244,5 +248,8 @@ export class ApplicantListComponent implements OnInit {
     if (this.cibilImage) {
       this.cibilImage = null;
     }
+  }
+  routetoEB(){
+    // this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-kyc-details`);
   }
 }

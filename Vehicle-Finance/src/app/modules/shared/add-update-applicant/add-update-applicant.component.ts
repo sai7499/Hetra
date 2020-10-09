@@ -691,7 +691,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.toasterService.showError('There should be only one main applicant for this lead', '')
           this.showNotApplicant = true;
         }
-
       }
       // else if (this.applicantData.length==1){
       //      if (value !== "APPAPPRELLEAD") {
@@ -880,7 +879,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
 
   onPassportNumberChange($formCtrl) {
-
     if (
       this.coApplicantForm.get('dedupe').get('passportNumber').status ===
       'VALID' && this.coApplicantForm.get('dedupe').get('passportNumber').value !== '' &&
@@ -910,7 +908,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.coApplicantForm.get('dedupe').get('passportExpiryDate').clearValidators();
       this.coApplicantForm.get('dedupe').get('passportExpiryDate').updateValueAndValidity();
       //this.coApplicantForm.get('dedupe').updateValueAndValidity();
-
       this.passportMandatory['passportIssueDate'] = false;
       this.passportMandatory['passportExpiryDate'] = false;
     }
