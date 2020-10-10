@@ -121,7 +121,7 @@ th {
 /* ekyc styles*/
 
 .tablewithdetails{
-  padding: 22px;
+  padding: 5px 0px;
   /* margin-top: -21px; */
 }
 /* .tablewithheading {
@@ -189,32 +189,49 @@ thead tr td.text-left{
   }
 }
 
-.got{
-  z-index: 9999;
-    background-color: #1d1d1d61;
-    border: 1px solid #d3d3d3;
-    text-align: center;
-    height: 600px;
-    width: 600px;
-    padding: 10px;
-    border-radius: 5px;
-    margin:auto;
-    
+.table-top-bg{
+  background-color: #15114ecc;
+    color: #fff;
+    font-weight: 400;
 }
 
-.cls-btn {
-    background-color: #0a0a0a61;
-    color: #f7f5f5;
-    opacity: 1;
-    font-size: 25px!important;
+.table-head{
+  background-color: #1d1a4b;;
+  color: #fff;
 }
 
-button.close {
-    padding: 0;
-    cursor: pointer;
-    background: transparent;
-    border: 0;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+.content-two {
+  background: #fff;
+  padding: 5px 20px;
+  border-radius: 8px;
+  /* border: 1px solid #ddd; */
+  margin-bottom: 20px;
+  margin-right: 8px;
+  margin-left: 8px;
+}
+
+.mod-header {
+  padding: 10px!important;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.wid-10{
+  width:10%;
+}
+
+.wid-20{
+  width:20%;
+}
+
+.mod-footer {
+  padding: 5px 15px!important;
+  
+}
+
+
+.tab-details{
+  border-radius: 5px;
+  border: 1px solid #e5e5e5;
+  padding: 12px 30px;
+  margin: 5px;
 }

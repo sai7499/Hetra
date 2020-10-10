@@ -1,448 +1,173 @@
 <div class="">
-<!-- <form class="multisteps-form__form" method="post" style="height: 400px;"> -->
-  <div class="multisteps-form__panel js-active content" data-animation="scaleIn">
-    <div class="container controlWidth">
-      <div class="btn-sec clear-both row">
-        <div class="col-sm-5">
-          <h4 class="title">Applicant Details</h4>
+  <!-- <form class="multisteps-form__form" method="post" style="height: 400px;"> -->
+    <div class="multisteps-form__panel js-active content" data-animation="scaleIn">
+      <div class="container controlWidth">
+        <div class="btn-sec clear-both row">
+          <div class="col-sm-5">
+            <h4 class="title">Applicant Details</h4>
+          </div>
+          <div class="col-sm-7 text-right">
+            <button
+              *ngIf="showAddApplicant"
+              class="btn btn-primary mar-right8"
+              type="button"
+              (click)="navigateAddapplicant()"
+            >
+              Add Applicant
+            </button>
+          </div>
         </div>
-        <div class="col-sm-7 text-right">
+      </div>
+      <div class="row">
+        <div class="" id="applicantTable">
+          <table>
+            <thead>
+              <tr class="table-head-bg">
+                <th>{{ labels?.ucicId }} <i class="fa fa-sort"></i></th>
+                <th>{{ labels.entity }} <i class="fa fa-sort"></i></th>
+                <th>{{ labels?.name }} <i class="fa fa-sort"></i></th>
+                <th>{{ labels?.mobileNumber }} <i class="fa fa-sort"></i></th>
+                <th>{{ labels.dobDoi }} <i class="fa fa-sort"></i></th>
+                <th>{{ labels?.applicantType }} <i class="fa fa-sort"></i></th>
+                <th>{{ labels?.action }} <i class="fa fa-sort"></i></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let item of applicantList;                  
+                  let i = index
+                "
+              >
+                <td [attr.data-label]="labels?.ucicId">{{ item.ucic ? item.ucic : '-' }}</td>
+                <td [attr.data-label]="labels?.entity">{{ item.entity ? item.entity : '-' }}</td>
+                <td [attr.data-label]="labels?.name">{{ item.fullName ? item.fullName : '-' }}</td>
+                <ng-container *ngIf="item.entityTypeKey !== 'NONINDIVENTTYP'">
+                  <td [attr.data-label]="labels?.mobileNumber">{{ item.mobileNumber ? item.mobileNumber : '-' }}</td>
+                  <td [attr.data-label]="labels?.dobDoi">{{ item.dob ? item.dob : '-' }}</td>
+                </ng-container>
+                <ng-container *ngIf="item.entityTypeKey == 'NONINDIVENTTYP'">
+                  <td [attr.data-label]="labels?.mobileNumber">
+                    {{ item.companyPhoneNumber ? item.companyPhoneNumber : '-' }}
+                  </td>
+                  <td [attr.data-label]="labels?.dobDoi">{{ item.doi ? item.doi : '-' }}</td>
+                </ng-container>
+                <td [attr.data-label]="labels?.applicantType">{{ item.applicantType ? item.applicantType : '-' }}</td>
+                <td [attr.data-label]="labels?.action">
+                  <a (click)="navigatePage(item.applicantId)" title="Edit applicant"
+                    ><i  class="fa fa-pencil p-0" aria-hidden="true"></i
+                  ></a>
+                  &nbsp;<a
+                    data-toggle="modal"
+                    data-target="#myModal"
+                    (click)="softDeleteApplicant(i, item.applicantId)"
+                    title="Delete applicant"><i  class="fa fa-trash p-0" aria-hidden="true"></i
+                  ></a> &nbsp;
+                  <a (click)="getApplicantImage(item.applicantId)" 
+                  data-toggle="modal"
+                    data-target="#myModalApplicantImage"
+                  title="View Bureau Report"> <strong>CB</strong></a>
+                  &nbsp;
+                  <a data-toggle="modal"
+                  data-target="#myModalApplicanteKYC"  
+                  title="View applicant eKYC"> <strong>EB</strong></a>
+                </td>
+               
+              </tr>
+              <!-- <tr>
+                  <td>-</td>
+                  <td><a href="#">Monica Geller</a></td>
+                  <td>7894561230</td>
+                  <td>09-08-1967</td>
+                  <td>Co-Applicant</td>
+                  <td onclick="add_applicant();">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td>97912</td>
+                  <td><a href="#">Joey Tribbiani</a></td>
+                  <td>7894561230</td>
+                  <td>09-08-1967</td>
+                  <td>Co-Applicant</td>
+                  <td onclick="add_applicant();">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                  </td>
+                </tr> -->
+            </tbody>
+          </table>
+          <div class="btn-sec clear-both">
+            <!-- <div class="records col-sm-6">
+              <select class="form-control input-sm">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+              </select>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 text-right page">
+              <nav class="col-sm-12 col-md-12 col-lg-12 page">
+                <pagination-controls
+                  nextLabel=""
+                  previousLabel=""
+                  maxSize="5"
+                  (pageChange)="p = $event"
+                ></pagination-controls>
+              </nav>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  <!-- </div> -->
+  
+  
+  <!-- </form> -->
+  
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"></h4>
+          <button type="button" class="close" data-dismiss="modal">
+            &times;
+          </button>
+        </div>
+  
+        <div class="modal-body">
+          Are you Sure Want to Delete?
+        </div>
+  
+        <div class="modal-footer text-center">
           <button
-            *ngIf="showAddApplicant"
-            class="btn btn-primary mar-right8"
             type="button"
-            (click)="navigateAddapplicant()"
+            class="btn btn-success"
+            data-dismiss="modal"
+            (click)="callDeleteApplicant()"
           >
-            Add Applicant
+            Yes
+          </button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" >
+            Cancel
           </button>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="" id="applicantTable">
-        <table>
-          <thead>
-            <tr class="table-head-bg">
-              <th>{{ labels?.ucicId }} <i class="fa fa-sort"></i></th>
-              <th>{{ labels.entity }} <i class="fa fa-sort"></i></th>
-              <th>{{ labels?.name }} <i class="fa fa-sort"></i></th>
-              <th>{{ labels?.mobileNumber }} <i class="fa fa-sort"></i></th>
-              <th>{{ labels.dobDoi }} <i class="fa fa-sort"></i></th>
-              <th>{{ labels?.applicantType }} <i class="fa fa-sort"></i></th>
-              <th>{{ labels?.action }} <i class="fa fa-sort"></i></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              *ngFor="
-                let item of applicantList;                  
-                let i = index
-              "
-            >
-              <td [attr.data-label]="labels?.ucicId">{{ item.ucic ? item.ucic : '-' }}</td>
-              <td [attr.data-label]="labels?.entity">{{ item.entity ? item.entity : '-' }}</td>
-              <td [attr.data-label]="labels?.name">{{ item.fullName ? item.fullName : '-' }}</td>
-              <ng-container *ngIf="item.entityTypeKey !== 'NONINDIVENTTYP'">
-                <td [attr.data-label]="labels?.mobileNumber">{{ item.mobileNumber ? item.mobileNumber : '-' }}</td>
-                <td [attr.data-label]="labels?.dobDoi">{{ item.dob ? item.dob : '-' }}</td>
-              </ng-container>
-              <ng-container *ngIf="item.entityTypeKey == 'NONINDIVENTTYP'">
-                <td [attr.data-label]="labels?.mobileNumber">
-                  {{ item.companyPhoneNumber ? item.companyPhoneNumber : '-' }}
-                </td>
-                <td [attr.data-label]="labels?.dobDoi">{{ item.doi ? item.doi : '-' }}</td>
-              </ng-container>
-              <td [attr.data-label]="labels?.applicantType">{{ item.applicantType ? item.applicantType : '-' }}</td>
-              <td [attr.data-label]="labels?.action">
-                <a (click)="navigatePage(item.applicantId)" title="Edit applicant"
-                  ><i  class="fa fa-pencil" aria-hidden="true"></i
-                ></a>
-                &nbsp;<a
-                  data-toggle="modal"
-                  data-target="#myModal"
-                  (click)="softDeleteApplicant(i, item.applicantId)"
-                  title="Delete applicant"><i  class="fa fa-trash" aria-hidden="true"></i
-                ></a> &nbsp;
-                <a (click)="getApplicantImage(item.applicantId)" 
-                data-toggle="modal"
-                  data-target="#myModalApplicantImage"
-                title="View Bureau Report"> <strong>CB</strong></a>
-                &nbsp;
-                <a data-toggle="modal"
-                data-target="#myModalApplicanteKYC"  
-                title="View applicant eKYC"> <strong>EB</strong></a>
-              </td>
-             
-            </tr>
-            <!-- <tr>
-                <td>-</td>
-                <td><a href="#">Monica Geller</a></td>
-                <td>7894561230</td>
-                <td>09-08-1967</td>
-                <td>Co-Applicant</td>
-                <td onclick="add_applicant();">
-                  <i class="fa fa-pencil" aria-hidden="true"></i>
-                </td>
-              </tr>
-              <tr>
-                <td>97912</td>
-                <td><a href="#">Joey Tribbiani</a></td>
-                <td>7894561230</td>
-                <td>09-08-1967</td>
-                <td>Co-Applicant</td>
-                <td onclick="add_applicant();">
-                  <i class="fa fa-pencil" aria-hidden="true"></i>
-                </td>
-              </tr> -->
-          </tbody>
-        </table>
-        <div class="btn-sec clear-both">
-          <!-- <div class="records col-sm-6">
-            <select class="form-control input-sm">
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
-            </select>
-          </div>
-          <div class="col-sm-6 col-md-6 col-lg-6 text-right page">
-            <nav class="col-sm-12 col-md-12 col-lg-12 page">
-              <pagination-controls
-                nextLabel=""
-                previousLabel=""
-                maxSize="5"
-                (pageChange)="p = $event"
-              ></pagination-controls>
-            </nav>
-          </div> -->
+  </div>
+  <div class="modal" id="myModalApplicantImage"   >
+    <div class="modal-dialog  modal-style">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">CIBIL Response For Applicant.</h4>
+          <button type="button" class="close" data-dismiss="modal">
+            &times;
+          </button>
         </div>
+  
+        <div class="modal-body"   >
+          <!-- <img [src]="imageUrl" > -->
+          <div [innerHTML]="cibilImage" style="overflow: scroll;" ></div>     
       </div>
-    </div>
-  </div>
-
-<!-- </div> -->
-
-
-<!-- </form> -->
-
-<div class="modal" id="myModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title"></h4>
-        <button type="button" class="close" data-dismiss="modal">
-          &times;
-        </button>
-      </div>
-
-      <div class="modal-body">
-        Are you Sure Want to Delete?
-      </div>
-
-      <div class="modal-footer text-center">
-        <button
-          type="button"
-          class="btn btn-success"
-          data-dismiss="modal"
-          (click)="callDeleteApplicant()"
-        >
-          Yes
-        </button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal" >
-          Cancel
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal got" id="myModalApplicantImage"   >
-  <div class="modal-dialog  modal-style" style="width:auto">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">CIBIL Response For Applicant.</h4>
-         <button
-          type="button"
-          class="close cls-btn "
-          data-dismiss="modal"
-          
-        >
-          ×
-        </button>
-      </div>
-
-      <div class="modal-body"   >
-        <!-- <img [src]="imageUrl" > -->
-        <div [innerHTML]="cibilImage" style="overflow: scroll;" ></div>     
-    </div>
-    <div class="modal-footer text-center">
-      <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="destroyImage()">
-        Close
-      </button>
-    </div>
-  </div>
-</div>
-</div>
-
-<div class="modal" id="myModalApplicanteKYC">
-  <div class="modal-dialog  modal-style">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Applicant KYC Check Details</h4>
-        <button type="button" class="close" data-dismiss="modal">
-          &times;
-        </button>
-      </div>
-
-      <div class="modal-body" >
-        <div>
-          <!--applicant eKYC details-->
-          <!-- <app-applicant-kyc-details></app-applicant-kyc-details> -->
-          <main>
-            <div class="container content">
-              <div class="row">
-                <div class="main-div-contents">
-                  <div class="tablewithheading">
-                    <table class="table table-responsive">
-                      <thead>
-                        <tr class="table-head-bg">
-                          <td class="text-left">Applicant Details Based on PAN Validation</td>
-                        </tr>
-                      </thead>
-                    </table>
-                  </div>
-          
-                  <div class="tablewithdetails">
-                    <table class="table table-responsive details">
-                      <thead>
-                        <tr class="table-head-bg text-center">
-                          <td>Title</td>
-                          <td>First Name</td>
-                          <td>Middle Name</td>
-                          <td>Last Name</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr class=" text-center">
-                          <td>Shri</td>
-                          <td>Sai</td>
-                          <td>Ram</td>
-                          <td>Reddy</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-          
-                <div class="main-div-contents">
-                  <div>
-                    <table class="table table-responsive">
-                      <thead>
-                        <tr class="table-head-bg">
-                          <td class="text-left">Negative List Scrub Results</td>
-                        </tr>
-                      </thead>
-                    </table>
-                  </div>
-          
-                  <div class="tablewithdetails">
-                    <table class="table table-responsive details">
-                      <thead>
-                        <tr class="table-head-bg text-center">
-                          <td>Found in NL?</td>
-                          <td>Found in TR NL?</td>
-                          <td>Remarks</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr class=" text-center">
-                          <td>False</td>
-                          <td>False</td>
-                          <td>NO</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-          
-                <div class="main-div-contents">
-                  <div>
-                    <table class="table table-responsive">
-                      <thead>
-                        <tr class="table-head-bg">
-                          <td class="text-left">Adhaar eKYC Results</td>
-                        </tr>
-                      </thead>
-                    </table>
-                  </div>
-          
-                  <div class="tablewithdetails">
-                    <table class="table table-responsive details">
-                      <thead>
-                        <tr class="table-head-bg text-center">
-                          <td>Name</td>
-                          <td>Date Of Birth</td>
-                          <td>Gender</td>
-                          <td>C/O</td>
-                          <td>Street</td>
-                          <td>Location</td>
-                          <td>Landmark</td>
-                          <td>City</td>
-                          <td>State</td>
-                          <td>District</td>
-                          <td>Country</td>
-                          <td>Pincode</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr class="text-center">
-                          <td>sai</td>
-                          <td>16/09/1994</td>
-                          <td>male</td>
-                          <td>hai</td>
-                          <td>y.m.r.colony</td>
-                          <td>proddatur</td>
-                          <td>tank</td>
-                          <td>Kadapa</td>
-                          <td>a.p</td>
-                          <td>kadapa</td>
-                          <td>india</td>
-                          <td>516360</td>
-                        </tr>
-          
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-          
-                <div class="main-div-contents">
-                  <div>
-                    <table class="table table-responsive">
-                      <thead>
-                        <tr class="table-head-bg">
-                          <td class="text-left">Dedupe Parameters</td>
-                        </tr>
-                      </thead>
-                    </table>
-                  </div>
-          
-                  <div class="tablewithdetails">
-                    <table class="table table-responsive details">
-                      <thead>
-                        <tr class="table-head-bg text-center">
-                          <td>Name</td>
-                          <td>DOB</td>
-                          <td>Mother Madien Name</td>
-                          <td>Mobile Number</td>
-                          <td>PAN</td>
-                          <td>Adhaar Ref</td>
-                          <td>PassPort</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr class="text-center">
-                          <td>sairamreddy</td>
-                          <td>16-09-1994</td>
-                          <td></td>
-                          <td>8500868876</td>
-                          <td>abxpe1343y</td>
-                          <td>484407915010</td>
-                          <td>opqwb37djro</td>
-                        </tr>
-          
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-          
-                <div class="main-div-contents">
-                  <div>
-                    <table class="table table-responsive">
-                      <thead>
-                        <tr class="table-head-bg">
-                          <td class="text-left">Exact Matches</td>
-                        </tr>
-                      </thead>
-                    </table>
-                  </div>
-          
-                  <div class="tablewithdetails">
-                    <table class="table table-responsive details">
-                      <thead>
-                        <tr class="table-head-bg text-center">
-                          <td>UCIC</td>
-                          <td>Name</td>
-                          <td>Matched Criteria</td>
-                          <td>DOB</td>
-                          <td>Mother Madien Name</td>
-                          <td>Mobile Number</td>
-                          <td>PAN</td>
-                          <td>Adhaar Ref</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr class=" text-center">
-                          <td>435698</td>
-                          <td>sairam</td>
-                          <td>adhaar</td>
-                          <td>16-09-1994</td>
-                          <td></td>
-                          <td>8500868876</td>
-                          <td>abpxep1124k</td>
-                          <td>484407915101</td>
-                        </tr>
-          
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-          
-                <div class="main-div-contents">
-                  <div>
-                    <table class="table table-responsive">
-                      <thead>
-                        <tr class="table-head-bg">
-                          <td class="text-left">Proable Matches</td>
-                        </tr>
-                      </thead>
-                    </table>
-                  </div>
-          
-                  <div class="tablewithdetails">
-                    <table class="table table-responsive details">
-                      <thead>
-                        <tr class="table-head-bg text-center">
-                          <td>UCIC</td>
-                          <td>Name</td>
-                          <td>Matched Criteria</td>
-                          <td>DOB</td>
-                          <td>Mother Madien Name</td>
-                          <td>Mobile Number</td>
-                          <td>PAN</td>
-                          <td>Adhaar Ref</td>
-                          <td>PassPort</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr class=" text-center">
-                          <td>435698</td>
-                          <td>sairam</td>
-                          <td>adhaar</td>
-                          <td>16-09-1994</td>
-                          <td></td>
-                          <td>8500868876</td>
-                          <td>abpxep1124k</td>
-                          <td>484407915101</td>
-                          <td>weie678i</td>
-                        </tr>
-          
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </main>
-          <!--end-->
-        </div>     
       <div class="modal-footer text-center">
         <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="destroyImage()">
           Close
@@ -450,37 +175,400 @@
       </div>
     </div>
   </div>
-</div>
-</div>
-
-
-</div>
-<div class="btn-sec clear-both row cst_btm_btns">
-  <div class="col-sm-5"></div>
-  <div class="col-sm-7 text-right">
-    <button
-      class="btn btn-primary "
-      type="button"
-      [routerLink]="['../lead-details']"
-    >
-      Back
-    </button>
-    <!-- <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button> -->
-    <button
-      class="btn btn-primary js-btn-next "
-      type="button"
-      (click)="onNext()"
-      
-    >
-    
-    <!-- [routerLink]="['../vehicle-list']" -->
-      Next
-    </button>
   </div>
-</div>
-<!--  <div id="mydiv" *ngIf="cibilImage" class="card" class="center"> 
-  <button type="button" class="close" (click)="destroyImage()" *ngIf="cibilImage" style="overflow: auto;">×</button> -->
-    <!-- Header -->
-<!-- <div class="image-content"  [innerHTML]="cibilImage" > </div>  
+  
+  <div class="modal" id="myModalApplicanteKYC">
+    <div class="modal-dialog  modal-style">
+      <div class="modal-content">
+        <div class="modal-header mod-header">
+          <div class="row">
+            <div class="col-xs-11 col-md-11 col-lg-11 col-sm-11">
+              <h4 class="modal-title">Applicant KYC Check Details</h4>
+            </div>
+            <div class="col-xs-1 col-md-1 col-sm-1 col-lg-1">
+              <button type="button" class="close" data-dismiss="modal">
+                &times;
+              </button>
+            </div>
+          </div>  
+        </div>
+        <div class="modal-body" >
+          <div>
+            <!--applicant eKYC details-->
+            <!-- <app-applicant-kyc-details></app-applicant-kyc-details> -->
+            <main>
+              <div class="content-two">
+                <div class="row">
+                  <div class="main-div-contents">
+                    <div class="tablewithheading">
+                      <table class="table table-responsive">
+                        <thead>
+                          <tr class="table-top-bg">
+                            <td class="text-left">Applicant Details Based on PAN Validation</td>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+            
+                    <div class="tablewithdetails">
+                      <table class="table table-responsive details">
+                        <thead>
+                          <tr class="table-head text-center">
+                            <td class="wid-10">Title</td>
+                            <td>First Name</td>
+                            <td>Middle Name</td>
+                            <td>Last Name</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class=" text-center">
+                            <td>Shri</td>
+                            <td>Sai</td>
+                            <td>Ram</td>
+                            <td>Reddy</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+            
+                  <div class="main-div-contents">
+                    <div>
+                      <table class="table table-responsive">
+                        <thead>
+                          <tr class="table-top-bg">
+                            <td class="text-left">Negative List Scrub Results</td>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+            
+                    <div class="tablewithdetails">
+                      <table class="table table-responsive details">
+                        <thead>
+                          <tr class="table-head text-center">
+                            <td class="wid-20">Found in NL?</td>
+                            <td class="wid-20">Found in TR NL?</td>
+                            <td>Remarks</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class=" text-center">
+                            <td>False</td>
+                            <td>False</td>
+                            <td>NO</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+            
+                  <div class="main-div-contents">
+                    <div>
+                      <table class="table table-responsive">
+                        <thead>
+                          <tr class="table-top-bg">
+                            <td class="text-left">Adhaar eKYC Results</td>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+            
+                    <div class="tab-details">
+                      <div class="p-0 row " id="">
+                        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12 p-0">
+                            
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
+                                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 "> <p class="var-lab">Name</p></div>
+                                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2"><p class="var-lab">:</p></div>
+                                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 "><p class="">Sai</p></div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
+                              <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 "> <p class="var-lab">DOB</p></div>
+                              <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2"><p class="var-lab">:</p></div>
+                              <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 "><p class="">09-08-1990</p></div>
+                          </div>
+                            
+                        </div>
+                        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12 p-0">
+                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
+                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 "> <p class="var-lab">Gender</p></div>
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2"><p class="var-lab">:</p></div>
+                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 "><p class="">Male</p></div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
+                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 "> <p class="var-lab">C/O</p></div>
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2"><p class="var-lab">:</p></div>
+                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 "><p class="">Sample</p></div>
+                        </div>
+                       
+                        </div>
+                        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12 p-0">
+                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
+                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 "> <p class="var-lab">Location</p></div>
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2"><p class="var-lab">:</p></div>
+                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 "><p class="">Chennai</p></div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
+                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 "> <p class="var-lab">Landmark</p></div>
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2"><p class="var-lab">:</p></div>
+                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 "><p class="">Opposite to Atm</p></div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12 p-0">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
+                          <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 "> <p class="var-lab">City</p></div>
+                          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2"><p class="var-lab">:</p></div>
+                          <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 "><p class="">Chennai</p></div>
+                      </div>
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
+                          <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 "> <p class="var-lab">State</p></div>
+                          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2"><p class="var-lab">:</p></div>
+                          <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 "><p class="">Tamil Nadu </p></div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12 p-0">
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
+                        <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 "> <p class="var-lab">District</p></div>
+                        <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2"><p class="var-lab">:</p></div>
+                        <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 "><p class="">Chennai</p></div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
+                        <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 "> <p class="var-lab">Country</p></div>
+                        <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2"><p class="var-lab">:</p></div>
+                        <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 "><p class="">India</p></div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12 p-0">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
+                      <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 "> <p class="var-lab">Pincode</p></div>
+                      <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2"><p class="var-lab">:</p></div>
+                      <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 "> <p class="">600001</p></div>
+                  </div>
+                  
+                </div>
+                    </div>
+                      <!-- <table class="table table-responsive details">
+                        <thead>
+                          <tr class="table-head text-center">
+                            <td>Name</td>
+                            <td class="wid-10">Date Of Birth</td>
+                            <td class="wid-10">Gender</td>
+                            <td>C/O</td>
+                            <td>Street</td>
+                            
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="text-center">
+                            <td>sai</td>
+                            <td>16/09/1994</td>
+                            <td>male</td>
+                            <td>hai</td>
+                            <td>y.m.r.colony</td>
+                           
+                          </tr>
+            
+                        </tbody>
+                      </table>
 
-</div> -->
+                      <table class="table table-responsive details">
+                        <thead>
+                          <tr class="table-head text-center">
+                         
+                            <td>Location</td>
+                            <td>Landmark</td>
+                            <td>City</td>
+                            <td>State</td>
+                            <td>District</td>
+                            <td>Country</td>
+                            <td>Pincode</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="text-center">
+                            
+                            <td>proddatur</td>
+                            <td>tank</td>
+                            <td>Kadapa</td>
+                            <td>a.p</td>
+                            <td>kadapa</td>
+                            <td>india</td>
+                            <td>516360</td>
+                          </tr>
+            
+                        </tbody>
+                      </table> -->
+                    </div>
+                  </div>
+            
+                  <div class="main-div-contents">
+                    <div>
+                      <table class="table table-responsive">
+                        <thead>
+                          <tr class="table-top-bg">
+                            <td class="text-left">Dedupe Parameters</td>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+            
+                    <div class="tablewithdetails">
+                      <table class="table table-responsive details">
+                        <thead>
+                          <tr class="table-head text-center">
+                            <td>Name</td>
+                            <td class="wid-10">DOB</td>
+                            <td>Mother Madien Name</td>
+                            <td>Mobile Number</td>
+                            <td>PAN</td>
+                            <td>Adhaar Ref</td>
+                            <td>PassPort</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="text-center">
+                            <td>sairamreddy</td>
+                            <td>16-09-1994</td>
+                            <td></td>
+                            <td>8500868876</td>
+                            <td>abxpe1343y</td>
+                            <td>484407915010</td>
+                            <td>opqwb37djro</td>
+                          </tr>
+            
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+            
+                  <div class="main-div-contents">
+                    <div>
+                      <table class="table table-responsive">
+                        <thead>
+                          <tr class="table-top-bg">
+                            <td class="text-left">Exact Matches</td>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+            
+                    <div class="tablewithdetails">
+                      <table class="table table-responsive details">
+                        <thead>
+                          <tr class="table-head text-center">
+                            <td class="wid-10">UCIC</td>
+                            <td>Name</td>
+                            <td>Matched Criteria</td>
+                            <td class="wid-10">DOB</td>
+                            <td>Mother Madien Name</td>
+                            <td>Mobile Number</td>
+                            <td class="wid-10">PAN</td>
+                            <td class="wid-10">Adhaar Ref</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class=" text-center">
+                            <td>435698</td>
+                            <td>sairam</td>
+                            <td>adhaar</td>
+                            <td>16-09-1994</td>
+                            <td></td>
+                            <td>8500868876</td>
+                            <td>abpxep1124k</td>
+                            <td>484407915101</td>
+                          </tr>
+            
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+            
+                  <div class="main-div-contents">
+                    <div>
+                      <table class="table table-responsive">
+                        <thead>
+                          <tr class="table-top-bg">
+                            <td class="text-left">Proable Matches</td>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+            
+                    <div class="tablewithdetails">
+                      <table class="table table-responsive details">
+                        <thead>
+                          <tr class="table-head text-center">
+                            <td class="wid-10">UCIC</td>
+                            <td>Name</td>
+                            <td>Matched Criteria</td>
+                            <td class="wid-10">DOB</td>
+                            <td>Mother Madien Name</td>
+                            <td>Mobile Number</td>
+                            <td class="wid-10">PAN</td>
+                            <td class="wid-10">Adhaar Ref</td>
+                            <td class="wid-10">PassPort</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class=" text-center">
+                            <td>435698</td>
+                            <td>sairam</td>
+                            <td>adhaar</td>
+                            <td>16-09-1994</td>
+                            <td></td>
+                            <td>8500868876</td>
+                            <td>abpxep1124k</td>
+                            <td>484407915101</td>
+                            <td>weie678i</td>
+                          </tr>
+            
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </main>
+            <!--end-->
+          </div>     
+        <div class="modal-footer mod-footer text-center">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="destroyImage()">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  
+  
+  </div>
+  <div class="btn-sec clear-both row cst_btm_btns">
+    <div class="col-sm-5"></div>
+    <div class="col-sm-7 text-right">
+      <button
+        class="btn btn-primary "
+        type="button"
+        [routerLink]="['../lead-details']"
+      >
+        Back
+      </button>
+      <!-- <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button> -->
+      <button
+        class="btn btn-primary js-btn-next "
+        type="button"
+        (click)="onNext()"
+        
+      >
+      
+      <!-- [routerLink]="['../vehicle-list']" -->
+        Next
+      </button>
+    </div>
+  </div>
+  <!--  <div id="mydiv" *ngIf="cibilImage" class="card" class="center"> 
+    <button type="button" class="close" (click)="destroyImage()" *ngIf="cibilImage" style="overflow: auto;">×</button> -->
+      <!-- Header -->
+  <!-- <div class="image-content"  [innerHTML]="cibilImage" > </div>  
+  </div> -->
