@@ -26,6 +26,7 @@ export class SanctionDetailsComponent implements OnInit {
   leadId;
   labels: any = {};
   sanctionDetailsObject: any = {};
+  applicantType: string;
   applicantList: any = [];
   coApplicantList: any = [];
   guarantorList: any = [];
