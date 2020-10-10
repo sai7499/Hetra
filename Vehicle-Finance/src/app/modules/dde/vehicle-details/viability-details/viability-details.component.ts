@@ -16,6 +16,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { Constant } from '../../../../../assets/constants/constant';
 import { DocRequest, DocumentDetails } from '@model/upload-model';
 import { environment } from 'src/environments/environment';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 
 
@@ -94,6 +95,7 @@ export class ViabilityDetailsComponent implements OnInit {
   selectedDocDetails: DocRequest;
   dmsDocumentId: string;
   applicantName: any;
+  disableSaveBtn: boolean;
 
 
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
@@ -109,6 +111,7 @@ export class ViabilityDetailsComponent implements OnInit {
               private applicantService: ApplicantService,
               private loginService: LoginService,
               private base64StorageService: Base64StorageService,
+              private toggleDdeService: ToggleDdeService
               ) {
                 this.route.queryParams.subscribe((res: any) => {
                   this.taskId = res.taskId;
@@ -281,6 +284,12 @@ export class ViabilityDetailsComponent implements OnInit {
         },
       ],
     };
+
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1' || operationType === '2') {
+      this.viabilityForm.disable();
+      this.disableSaveBtn = true;
+    }
 
   }
 
