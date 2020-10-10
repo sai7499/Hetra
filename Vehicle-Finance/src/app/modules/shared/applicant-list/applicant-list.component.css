@@ -175,3 +175,33 @@ th {
     overflow: scroll;
   }
 }
+
+.got{
+  z-index: 9999;
+    background-color: #1d1d1d61;
+    border: 1px solid #d3d3d3;
+    text-align: center;
+    height: 600px;
+    width: 600px;
+    padding: 10px;
+    border-radius: 5px;
+    margin:auto;
+    
+}
+
+.cls-btn {
+    background-color: #0a0a0a61;
+    color: #f7f5f5;
+    opacity: 1;
+    font-size: 25px!important;
+}
+
+button.close {
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}

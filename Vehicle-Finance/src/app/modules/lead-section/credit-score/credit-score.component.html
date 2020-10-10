@@ -44,7 +44,397 @@
                 </div>
               </div>
             </div>
-            
+            <!-- <h3>Applicant Details Based on PAN Validation</h3> -->
+
+            <!-- <table class="table table-responsive table-borderless">
+                <tr>
+                    <td>Title</td>
+                    <td>First Name</td>
+                    <td>Middle Name</td>
+                    <td>Last Name</td>
+                </tr>
+                <tr>
+                    <td>Shri</td>
+                    <td>Giri</td>
+                    <td>Babu</td>
+                    <td>Yerradla</td>
+                </tr>
+            </table> -->
+
+             <!-- <div class="p-0 row " id="">
+                <div class="wid-25">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
+                        <p class="var-lab">Title : Shri</p>
+                       
+                    </div>
+                </div>
+                <div class="wid-25">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
+                         <p class="var-lab">First Name :Giri</p>
+                       
+                    </div>
+                </div>
+                <div class="wid-25">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
+                    <p class="var-lab">Middle Name : Babu</p>
+                   
+                </div>
+               
+                </div>
+                <div class="wid-25">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
+                   <p class="var-lab">Last Name : Yerradla</p>
+                   
+                </div>
+                
+              </div>
+            </div> 
+            <div > -->
+                <!-- <div class="modal-dialog">
+                  <div class="modal-content"> -->
+                    <!-- Modal Header -->
+                    <!-- <div class="modal-header text-center">
+                      <h4 class="modal-title">Negative List Scrub Results</h4>
+                    </div>
+               -->
+                    <!-- Modal body -->
+                    <!-- <div class="modal-body">
+                      <p id="exact_macth_title1">Negative List Results</p>
+                      <div id="nagative_list_results">
+                        <div class="row">
+                          <div class="row" >
+                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                              <label id="nagative_list_results_tag">Found in NL?</label>
+                            </div>
+                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                              <input
+                              type="text"
+                              [value]="modalInput?.isNLFound"
+                              name="found_in_nl"
+                              id="found_in_nl"
+                              disabled="disabled"
+                              class="input-style"
+                            />
+                            </div>
+                          </div>
+                          <div class="row line-space">
+                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                              <label id="nagative_list_results_tag1">Found in TR NL?</label>
+                            </div>
+                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                              <input
+                                type="text"
+                                [value]="modalInput?.isNLTRFound"
+                                name="found_in_trnl"
+                                id="found_in_trnl"
+                                disabled="disabled"
+                                class="input-style"
+                              />
+              
+                            </div>
+                          </div>-->
+                          <!-- <ng-container *ngIf="modalInput"> -->
+                          <!-- <div class="col-md-12" *ngIf="modalInput?.isNLFound">
+                            <span id="nagative_list_results_tag01">NL Match Criteria? </span
+                            >&nbsp;&nbsp;  -->
+                            <!-- <input
+                              type="text"
+                              class=""
+                              name="nl_match_criteria"
+                              id="nl_match_criteria"
+                              readonly=""
+                              [value]="modalInput?.nlRemarks"
+                              style="width: 100%;"
+                            /> -->
+                            <!-- <p>{{ modalInput?.nlRemarks }}</p>
+                          </div>
+                          <div class="col-md-12" *ngIf="modalInput?.isNLTRFound">
+                            <span id="nagative_list_results_tag01"
+                              >TR NL Match Criteria? </span
+                            >&nbsp;&nbsp; -->
+                            <!-- <input
+                              type="text"
+                              class=""
+                              name="nl_match_criteria"
+                              id="nl_match_criteria"
+                              readonly=""
+                              [value]="modalInput?.nlTrRemarks"
+                              disabled
+                              style="width: 100%;"
+                            /> -->
+                            <!-- <p>{{ modalInput?.nlTrRemarks }}</p>
+                          </div> -->
+                          <!-- </ng-container> -->
+                        <!-- </div>
+                      </div>
+                    </div> -->
+              
+                    <!-- Modal footer -->
+                    <!-- <div class="modal-footer text-center">
+                      <div class="form-group" style="margin-top: 10px;">
+                        <p for="Vechical Type" style="text-align: left;">Remarks</p>
+                        <textarea
+                          [(ngModel)]="remarks"
+                          [disabled]="!modalInput?.isNLTRFound && !modalInput?.isNLFound"
+                          style="width: 100%;"
+                        ></textarea>
+                      </div>
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        id="cnew_lead"
+                        (click)="triggerClick('reject')"
+                        [disabled]="!modalInput?.isNLTRFound && !modalInput?.isNLFound"
+                      >
+                        Reject
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        (click)="triggerClick('proceed')"
+                        [disabled]="!modalInput?.isNLTRFound && !modalInput?.isNLFound"
+                      >
+                        Proceed
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        (click)="triggerClick('next')"
+                        [disabled]="modalInput?.isNLTRFound || modalInput?.isNLFound"
+                      >
+                        Next
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h3>Aadhaar eKYC Results</h3>
+             <div class="row individual_section_leadco">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                  <label for="first_name" >Name
+                    <sub class="star_red_col">*</sub></label>
+                  <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName1 }}
+                    <sub class="star_red_col">*</sub>
+                  </label>
+                  <app-custom-input formControlName="name1" [isRequired]="
+                      applicantType == 'INDIVENTTYP'
+                        ? 'First Name is required'
+                        : 'Name is required'
+                    "[value]="Giri" [maxLength]="validationData?.name?.maxLength" [isDirty]="isDirty" [type]="
+                      applicantType == 'INDIVENTTYP'
+                        ? validationData?.name?.type
+                        : 'text'
+                    "></app-custom-input>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                  <label for="first_name" >Date of Birth</label>
+                  <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName2 }}
+                  </label>
+                  <app-custom-input formControlName="name2" [maxLength]="validationData?.name?.maxLength" [type]="
+                      applicantType == 'INDIVENTTYP'
+                        ? validationData?.name?.type
+                        : 'text'
+                    "></app-custom-input>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                  <label for="first_name" >Gender
+                    <sub class="star_red_col">*</sub>
+                  </label>
+                  <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName3 }}
+                  </label>
+                  <app-custom-input formControlName="name3" [isRequired]="
+                      applicantType == 'INDIVENTTYP'
+                        ? 'Last Name is required'
+                        : ''
+                    " [isDirty]="applicantType == 'INDIVENTTYP' ? isDirty : true"
+                    [maxLength]="validationData?.name?.maxLength" [type]="
+                      applicantType == 'INDIVENTTYP'
+                        ? validationData?.name?.type
+                        : 'text'
+                    ">
+                  </app-custom-input>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                    <label for="first_name" >C/O
+                      <sub class="star_red_col">*</sub>
+                    </label>
+                    <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName3 }}
+                    </label>
+                    <app-custom-input formControlName="name3" [isRequired]="
+                        applicantType == 'INDIVENTTYP'
+                          ? 'Last Name is required'
+                          : ''
+                      " [isDirty]="applicantType == 'INDIVENTTYP' ? isDirty : true"
+                      [maxLength]="validationData?.name?.maxLength" [type]="
+                        applicantType == 'INDIVENTTYP'
+                          ? validationData?.name?.type
+                          : 'text'
+                      ">
+                    </app-custom-input>
+                  </div>
+                  <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                    <label for="first_name" >Street
+                      <sub class="star_red_col">*</sub>
+                    </label>
+                    <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName3 }}
+                    </label>
+                    <app-custom-input formControlName="name3" [isRequired]="
+                        applicantType == 'INDIVENTTYP'
+                          ? 'Last Name is required'
+                          : ''
+                      " [isDirty]="applicantType == 'INDIVENTTYP' ? isDirty : true"
+                      [maxLength]="validationData?.name?.maxLength" [type]="
+                        applicantType == 'INDIVENTTYP'
+                          ? validationData?.name?.type
+                          : 'text'
+                      ">
+                    </app-custom-input>
+                  </div>
+                  <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                    <label for="first_name" >Location
+                      <sub class="star_red_col">*</sub>
+                    </label>
+                    <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName3 }}
+                    </label>
+                    <app-custom-input formControlName="name3" [isRequired]="
+                        applicantType == 'INDIVENTTYP'
+                          ? 'Last Name is required'
+                          : ''
+                      " [isDirty]="applicantType == 'INDIVENTTYP' ? isDirty : true"
+                      [maxLength]="validationData?.name?.maxLength" [type]="
+                        applicantType == 'INDIVENTTYP'
+                          ? validationData?.name?.type
+                          : 'text'
+                      ">
+                    </app-custom-input>
+                  </div>
+                  <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                    <label for="first_name" >Landmark
+                      <sub class="star_red_col">*</sub>
+                    </label>
+                    <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName3 }}
+                    </label>
+                    <app-custom-input formControlName="name3" [isRequired]="
+                        applicantType == 'INDIVENTTYP'
+                          ? 'Last Name is required'
+                          : ''
+                      " [isDirty]="applicantType == 'INDIVENTTYP' ? isDirty : true"
+                      [maxLength]="validationData?.name?.maxLength" [type]="
+                        applicantType == 'INDIVENTTYP'
+                          ? validationData?.name?.type
+                          : 'text'
+                      ">
+                    </app-custom-input>
+                  </div>
+                  <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                    <label for="first_name" >Landmark
+                      <sub class="star_red_col">*</sub>
+                    </label>
+                    <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName3 }}
+                    </label>
+                    <app-custom-input formControlName="name3" [isRequired]="
+                        applicantType == 'INDIVENTTYP'
+                          ? 'Last Name is required'
+                          : ''
+                      " [isDirty]="applicantType == 'INDIVENTTYP' ? isDirty : true"
+                      [maxLength]="validationData?.name?.maxLength" [type]="
+                        applicantType == 'INDIVENTTYP'
+                          ? validationData?.name?.type
+                          : 'text'
+                      ">
+                    </app-custom-input>
+                  </div>
+                  <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                    <label for="first_name" >City
+                      <sub class="star_red_col">*</sub>
+                    </label>
+                    <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName3 }}
+                    </label>
+                    <app-custom-input formControlName="name3" [isRequired]="
+                        applicantType == 'INDIVENTTYP'
+                          ? 'Last Name is required'
+                          : ''
+                      " [isDirty]="applicantType == 'INDIVENTTYP' ? isDirty : true"
+                      [maxLength]="validationData?.name?.maxLength" [type]="
+                        applicantType == 'INDIVENTTYP'
+                          ? validationData?.name?.type
+                          : 'text'
+                      ">
+                    </app-custom-input>
+                  </div>
+                  <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                    <label for="first_name" >State
+                      <sub class="star_red_col">*</sub>
+                    </label>
+                    <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName3 }}
+                    </label>
+                    <app-custom-input formControlName="name3" [isRequired]="
+                        applicantType == 'INDIVENTTYP'
+                          ? 'Last Name is required'
+                          : ''
+                      " [isDirty]="applicantType == 'INDIVENTTYP' ? isDirty : true"
+                      [maxLength]="validationData?.name?.maxLength" [type]="
+                        applicantType == 'INDIVENTTYP'
+                          ? validationData?.name?.type
+                          : 'text'
+                      ">
+                    </app-custom-input>
+                  </div>
+                  <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                    <label for="first_name" >District
+                      <sub class="star_red_col">*</sub>
+                    </label>
+                    <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName3 }}
+                    </label>
+                    <app-custom-input formControlName="name3" [isRequired]="
+                        applicantType == 'INDIVENTTYP'
+                          ? 'Last Name is required'
+                          : ''
+                      " [isDirty]="applicantType == 'INDIVENTTYP' ? isDirty : true"
+                      [maxLength]="validationData?.name?.maxLength" [type]="
+                        applicantType == 'INDIVENTTYP'
+                          ? validationData?.name?.type
+                          : 'text'
+                      ">
+                    </app-custom-input>
+                  </div>
+                  <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                    <label for="first_name" >Country
+                      <sub class="star_red_col">*</sub>
+                    </label>
+                    <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName3 }}
+                    </label>
+                    <app-custom-input formControlName="name3" [isRequired]="
+                        applicantType == 'INDIVENTTYP'
+                          ? 'Last Name is required'
+                          : ''
+                      " [isDirty]="applicantType == 'INDIVENTTYP' ? isDirty : true"
+                      [maxLength]="validationData?.name?.maxLength" [type]="
+                        applicantType == 'INDIVENTTYP'
+                          ? validationData?.name?.type
+                          : 'text'
+                      ">
+                    </app-custom-input>
+                  </div>
+                  <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                    <label for="first_name" >Pincode
+                      <sub class="star_red_col">*</sub>
+                    </label>
+                    <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName3 }}
+                    </label>
+                    <app-custom-input formControlName="name3" [isRequired]="
+                        applicantType == 'INDIVENTTYP'
+                          ? 'Last Name is required'
+                          : ''
+                      " [isDirty]="applicantType == 'INDIVENTTYP' ? isDirty : true"
+                      [maxLength]="validationData?.name?.maxLength" [type]="
+                        applicantType == 'INDIVENTTYP'
+                          ? validationData?.name?.type
+                          : 'text'
+                      ">
+                    </app-custom-input>
+                  </div>
+              </div> -->
             <!-- <div class="p-0 row " id="">
                 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0">
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12"> 

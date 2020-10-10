@@ -201,3 +201,29 @@
     
     #credit_fi_pd:after, #credit_vehicle_viability:after, #credit_existing_relationship:after,#credit_score_card:after, #credit_cam:after, #credit_deviations:after, #credit_insurance:after, #credit_conditions:after{width:100% !important;}
     
+    .col-lg-2-1 .col-sm-2-1 .col-md-2-1 .col-xs-2-1{
+        width:12%;
+    }
+
+    /* .wid-25{
+        width:25%;
+    } */
+
+    .form-group.col-sm-6.col-md-2.col-lg-2 {
+        width: 25% !important;
+    }
+
+    .table tbody tr td {
+    border-top: 1px solid #e6e6e6;
+    padding: 10px;
+    text-align: left!important;
+}
+
+.table thead tr td, .head-color {
+    background-color:#1d1a4b;
+    color:#fff;
+}
+
+.option-space{
+    padding:10px!important;
+}
