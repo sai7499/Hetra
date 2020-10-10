@@ -267,7 +267,7 @@ h3 {
     border: 1px solid #ddd;
     font-weight: 100;
     border-radius: 6px;
-    padding-top: 5px;
+    /* padding-top: 5px; */
     padding-bottom: 0px;
     background: white;
 }
@@ -285,12 +285,12 @@ h3 {
 @media (min-width:300px) and (max-width:767px) {
     .content {
         background: #fff;
-        /* padding: 5px 0px 0px 0px!important; */
+        padding: 18px!important; 
         border-radius: 8px;
         border: 1px solid #ddd;
         margin-bottom: 20px;
-         margin-right: 8px;
-        margin-left: 8px;
+         /* margin-right: 8px;
+        margin-left: 8px; */
     }
 }
 
@@ -851,5 +851,116 @@ html, body { height: 100%; }
         font-size: 9px!important;
         
     }
+
+    .container {
+        padding-right: 3px;
+        padding-left: 3px;
+        margin-right: auto;
+        margin-left: auto;
+    }
 }
 
+.k-picker-wrap{
+    height: -webkit-fill-available;
+}
+
+.k-datepicker{
+    padding: 5px!important;
+    /* border-color: rgb(0 0 0 / 0%); */
+    box-shadow: none;
+}
+
+.k-datepicker .k-picker-wrap.k-state-focused, .k-datepicker .k-picker-wrap.k-state-active, .k-timepicker .k-picker-wrap.k-state-focused, .k-timepicker .k-picker-wrap.k-state-active, .k-datetimepicker .k-picker-wrap.k-state-focused, .k-datetimepicker .k-picker-wrap.k-state-active {
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #656565;
+    background-color: #ffffff;
+    box-shadow: none!important;
+}
+
+
+.k-datepicker .k-picker-wrap, .k-timepicker .k-picker-wrap, .k-datetimepicker .k-picker-wrap {
+    border-color: rgb(0 0 0 / 0%)!important;
+    color: #656565;
+    background-color: #ffffff;
+}
+
+.k-dateinput .k-dateinput-wrap .k-input, .k-datepicker .k-dateinput-wrap .k-input {
+    padding: 0px 3px !important;
+}
+
+/* Welomce Letter styles start*/
+.welcmlter_body{
+    font-family:arial, sans-serif;
+    text-align:justify;
+    font-size:12px;
+    line-height:2em;
+    padding:15px;
+    margin:20px;
+    }
+
+.welcmlter_text-center
+{
+text-align:center;
+}
+
+.welcmlter_font-small{
+font-size:10px;
+}
+
+.welcmlter_style-strong{
+    font-weight:bold;
+ }
+
+ .welcmlter_author_style{
+    font-weight:bold;
+    padding-top:30px;
+    padding-bottom:30px;
+}
+
+.welcmlter_top-border{
+    border-top: 1px solid #ddd;
+    }
+    
+.welcmlter_margin_top{
+        margin-top: 5px
+    }
+.welcmlter_text-right{
+    text-align:right;
+    }
+
+    @media print {
+        .welcmlter_body{
+    font-family:arial, sans-serif;
+    text-align:justify;
+    font-size:12px;
+    line-height:2em;
+    padding:15px;
+    margin:20px;
+    }
+    
+    .welcmlter_margin_top{
+        margin-top: 5px
+    }
+    
+    .welcmlter_text-center
+    {
+    text-align:center;
+    }
+    
+    .welcmlter_font-small{
+    font-size:10px;
+    }
+    
+    .welcmlter_style-strong{
+    font-weight:bold;
+    }
+    
+    .welcmlter_author_style{
+    font-weight:bold;
+    padding-top:30px;
+    padding-bottom:30px;
+    
+    }
+    
+    }
+/*Welomce Letter styles End */

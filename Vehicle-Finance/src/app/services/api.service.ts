@@ -300,8 +300,8 @@ export class ApiService {
       projectId: 'd627fff49e5011eabde0f2fa9bec3d63',
     },
     rejectLead: {
-      processId: '41f8884eb08e11ea8668f2fa9bec3d63',
-      workflowId: '41d97b66b08e11ea8668f2fa9bec3d63',
+      processId: '94b7bcfeff1611eaa2fe00505695f93b',
+      workflowId: '94987e52ff1611eab52100505695f93b',
       projectId: environment.projectIds.salesProjectId,
     },
     getPdData: {
@@ -494,6 +494,11 @@ export class ApiService {
       processId: '94c162c0f38d11eabae500505695f93b',
       workflowId: '3ea13662c66611eaa13a00505695f93b',
       projectId: environment.projectIds.submitToCredit,
+    },
+    getLeadRejectReason : {
+      processId: '94b7bcfeff1611eaa2fe00505695f93b',
+      workflowId: '94987e52ff1611eab52100505695f93b',
+      projectId: environment.projectIds.salesProjectId,
     },
     getCountryList: {
       processId: '6c3f2eb0c1d611ea80d600505695f93b',
@@ -835,6 +840,10 @@ export class ApiService {
       workflowId: '8b6e5f64f2bd11ea8ac000505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
-
+getFoirAsPerPolicy:{
+  processId: 'ccdee5ee09f211ebb00500505695f93b',
+      workflowId: 'b06ab746bf4a11eab26100505695f93b',
+      projectId: environment.projectIds.salesProjectId
+}
   };
 }

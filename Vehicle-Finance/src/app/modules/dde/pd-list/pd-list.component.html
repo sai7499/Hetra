@@ -61,19 +61,16 @@
                                 <td [attr.data-label]="labels?.pdStatus" *ngIf="showStatus">
                                     <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
                                 </td>
-                                <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;"
-                                    *ngIf="show && pdStatusValue != 'Submitted'"
-                                    (click)="navigatePage(item.applicantId, item.cibilScore)">
+                                <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;" *ngIf="show && pdStatusValue != 'Submitted'" (click)="navigatePage(item.applicantId, item.cibilScore)">
                                     <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
 
                                 </td>
-                                <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;"
-                                    *ngIf="show && pdStatusValue === 'Submitted'">
+                                <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;" *ngIf="show && pdStatusValue === 'Submitted'">
                                     <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
                                 </td>
                                 <!-- <ng-container *ngIf='item.pdReportValue'> -->
                                 <ng-container *ngIf="pdStatusValue === 'Submitted'">
-                                    <td [attr.data-label]="labels?.ucicId">
+                                    <td [attr.data-label]="labels?.pdReport">
                                         <ng-container *ngFor="let version of item.pdReportValue.split(',')">
                                             <u><a class="a_tag" style="cursor: pointer;"
                                                     (click)="navigatePage(item.applicantId, item.cibilScore, version)">Version

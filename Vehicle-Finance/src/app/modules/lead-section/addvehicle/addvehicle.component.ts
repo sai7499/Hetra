@@ -26,6 +26,8 @@ export class AddvehicleComponent implements OnInit {
   userId: number;
   leadId: number;
 
+  productCatoryCode: string;
+
   constructor(
     private labelsData: LabelsService,
     private router: Router,
@@ -43,7 +45,9 @@ export class AddvehicleComponent implements OnInit {
     this.userId = roleAndUserDetails.userDetails.userId;
     const leadData = this.createLeadDataService.getLeadSectionData();
 
-    this.leadId = leadData['leadId']
+    this.leadId = leadData['leadId'];
+    let leadDetails = leadData['leadDetails']
+    this.productCatoryCode = leadDetails['productCatCode'];
 
     this.labelsData.getLabelsData()
       .subscribe(data => {
@@ -61,6 +65,7 @@ export class AddvehicleComponent implements OnInit {
       this.formValue = value;
     })
 
+
   }
 
   onFormSubmit() {
@@ -69,7 +74,9 @@ export class AddvehicleComponent implements OnInit {
       let data = this.formValue.value.vehicleFormArray[0];
 
       if (this.formValue.value.isValidPincode && this.formValue.value.isInvalidMobileNumber) {
-        data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
+        if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
+          data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
+        }
         this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
           const apiError = res.ProcessVariables.error.message;
 

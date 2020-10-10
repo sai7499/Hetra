@@ -21,8 +21,8 @@ export class ValuationComponent implements OnInit {
 
   leadId;
   colleteralId;
-  public minDate = new Date(new Date().setFullYear(new Date().getFullYear() - 15))
-  maxDate = new Date()
+  public minDate = new Date(new Date().setFullYear(new Date().getFullYear() - 15));
+  maxDate = new Date();
 
   LOV: any = [];
   labels: any = {};
@@ -45,6 +45,11 @@ export class ValuationComponent implements OnInit {
   leadCreatedDate: any;
 
   valuesToYesNo: any = [{ key: 1, value: 'Yes' }, { key: 0, value: 'No' }];
+  public vehicleRegPattern: {
+    rule?: any;
+    msg?: string;
+  }[];
+
   monthsLOVS: any = [
     { key: "January", value: "January" }, { key: "February", value: "February" },
     { key: "March", value: "March" }, { key: "April", value: "April" }, { key: "May", value: "May" },
@@ -79,9 +84,10 @@ export class ValuationComponent implements OnInit {
     this.getLeadSectiondata();
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
     // this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
+    this.vehicleRegPattern = this.validateCustomPattern();
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
-      if (operationType === '1') {
+      if (operationType === '1' || operationType === '2') {
         this.vehicleValuationForm.disable();
         this.disableSaveBtn = true;
       }
@@ -124,6 +130,26 @@ export class ValuationComponent implements OnInit {
         resolve(null);
       });
     });
+  }
+
+  //Custom Validation Pattern For Vehicle Number
+  validateCustomPattern() {
+    const regPatternData = [
+      {
+        rule: (inputValue) => {
+          let patttern = '^[A-Z]{2}[ -][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$';
+          if (inputValue.length === 10) {
+            return !RegExp(/[A-Z-a-z]{2}[0-9]{2}[A-Z-a-z]{2}[0-9]{4}/).test(inputValue);
+          } else if (inputValue.length === 9) {
+            return !RegExp(/[A-Z-a-z]{2}[0-9]{2}[A-Z-a-z]{1}[0-9]{4}/).test(inputValue)
+          } else {
+            return true
+          }
+        },
+        msg: 'Invalid Vehicle Registration Number, Valid Formats are: TN02AB1234/TN02A1234',
+      }
+    ];
+    return regPatternData;
   }
 
   //GET LEAD SECTION DATA
@@ -316,7 +342,7 @@ export class ValuationComponent implements OnInit {
         console.log("VEHICLE_VALUATION_RESPONSE_SAVE_OR_UPDATE_API", response);
         if (response["Error"] == 0 && response['ProcessVariables'].error['code'] == "0") {
           this.toasterService.showSuccess("Record Saved Successfully", "Valuation");
-        }else {
+        } else {
           this.toasterService.showError(response['ProcessVariables'].error['message'], "Valuation");
         }
       });

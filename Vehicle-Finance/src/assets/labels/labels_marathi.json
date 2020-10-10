@@ -19,7 +19,7 @@
 	"YearofManufacture": "उत्पादन वर्ष",
 	"EngineNo": "इंजिन क्रमांक.",
 	"VehicleModel": "वाहन मॉडेल",
-	"VehicleRegistrationNo.": "वाहन नोंदणी क्रमांक .",
+	"VehicleRegistrationNo": "वाहन नोंदणी क्रमांक .",
 	"ChassisNo": "चेसिस क्रमांक",
 	"LOANAPPROVEDDETAILS": "कर्ज तपशील",
 	"AssetCost": "मालमत्ता खर्च (रु.)",
@@ -61,6 +61,9 @@
 	"Interest": "व्याज (रु.)",
 	"PrincipleOutStanding": "मुद्दल बाकी (रु.)",
 	"EQUITASFINANCEPRIVATELIMITED": "इक्विटास फायनान्स प्रायव्हेट लिमिटेड",
-	"REPAYMENTSCHEDULE" : "परतफेड अनुसूची"
+	"REPAYMENTSCHEDULE" : "परतफेड अनुसूची",
+	"ForEquitasFinancePvtLtd" : "इक्विटास फायनान्सన",
+	"Regdoffice":"नोंदणीकृत कार्यालय: क्रमांक 769, 4 था मजला, फेज - 2, एफ39, स्पेंसर प्लाझा, अन्ना सलाई, चेन्नई - 600 002.",
+    "phTollfree":"दू: 044-4299 5000 ग्राहक सेवा टोल-मुक्त: 1800 3000 5060 फॅक्स: 044-42995050 ई- मेल: corporate@equitas.in"
 
 }]

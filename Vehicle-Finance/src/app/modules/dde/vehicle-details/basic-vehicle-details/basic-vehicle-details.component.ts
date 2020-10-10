@@ -26,6 +26,8 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
   public isDirty: boolean;
   public subscription: any;
 
+  productCatoryCode: string;
+
   constructor(private createLeadDataService: CreateLeadDataService, public vehicleDataStoreService: VehicleDataStoreService, private toasterService: ToasterService,
     private vehicleDetailService: VehicleDetailService, private utilityService: UtilityService, private router: Router,
     private activatedRoute: ActivatedRoute, private sharedService: SharedService, private labelsData: LabelsService,
@@ -35,6 +37,8 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
     this.leadData = this.createLeadDataService.getLeadSectionData();
     this.leadId = this.leadData.leadId;
+    let leadDetails = this.leadData['leadDetails']
+    this.productCatoryCode = leadDetails['productCatCode'];
 
     this.labelsData.getLabelsData()
       .subscribe(data => {
@@ -53,7 +57,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
     })
 
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1') {
+    if (operationType === '1' || operationType === '2') {
       this.disableSaveBtn = true;
     }
   }
@@ -65,9 +69,13 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
       if (this.formValue.value.isValidPincode && this.formValue.value.isInvalidMobileNumber) {
         let data = this.formValue.value.vehicleFormArray[0];
 
-        data.manuFacMonthYear = data.manuFacMonthYear ? this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY') : null;
-        data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : null;
+        console.log('productCatoryCode', this.productCatoryCode)
 
+        if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
+          data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
+        }
+
+        data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : null;
         data.fitnessDate = data.fitnessDate ? this.utilityService.convertDateTimeTOUTC(data.fitnessDate, 'DD/MM/YYYY') : null;
         data.permitExpiryDate = data.permitExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpiryDate, 'DD/MM/YYYY') : null;
         data.vehicleRegDate = data.vehicleRegDate ? this.utilityService.convertDateTimeTOUTC(data.vehicleRegDate, 'DD/MM/YYYY') : null;

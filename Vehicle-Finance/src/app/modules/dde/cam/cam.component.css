@@ -75,6 +75,14 @@ background-color: #272264;
 padding: 1px;
 font-size: 16px;
 }
+/* #page_break .caption{
+	color: #fff;
+text-align: center;
+border: 1px solid #ddd;
+background-color: #272264;
+padding: 1px;
+font-size: 16px;
+} */
 .cam_table{width:100%;}
 .cam_table_proposed{width:100%;margin-top:0px;}
 .cam_table > tbody > tr > td {padding:1px;width:16.6%;}
@@ -113,4 +121,7 @@ display: none;
 }
 .terms{
     margin-top: 10px;
+}
+.fa.fa-inr{
+    color:#333332b3 ;
 }

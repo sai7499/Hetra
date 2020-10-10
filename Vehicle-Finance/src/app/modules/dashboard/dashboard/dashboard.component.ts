@@ -171,6 +171,8 @@ export class DashboardComponent implements OnInit {
     if (this.dashboardService.routingData) {
       this.activeTab = this.dashboardService.routingData.activeTab;
       this.subActiveTab = this.dashboardService.routingData.subActiveTab;
+      console.log('active', this.activeTab, 'sub-active', this.subActiveTab);
+      
       this.onTabsLoading(this.subActiveTab);
     } else {
       if (this.roleType === 1) {
@@ -334,6 +336,56 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+
+  // loanMaxAmtChange() {
+  //     this.filterForm.get('loanMaxAmt').valueChanges.pipe(debounceTime(1000)).subscribe((data) => {
+
+  //       const minAmt = this.filterForm.get('loanMinAmt').value;
+  //       const minLoanAmt = Number(minAmt || 0);
+  //       if ((data && minLoanAmt >= data)) {
+  //         // this.filterForm.get('loanMaxAmt').setValue(null);
+  //         this.toasterService.showWarning('Invalid Amount', '');
+  //         this.isDisable = false;
+  //         console.log('min');
+  //       } else if (data) {
+  //         this.isDisable = true;
+  //       }
+  //     });
+  // }
+
+  // loanMinAmtChange() {
+  //     this.filterForm.get('loanMinAmt').valueChanges.pipe(debounceTime(300)).subscribe((data) => {
+  //       const maxAmt = this.filterForm.get('loanMaxAmt').value;
+  //       const minAmt = this.filterForm.get('loanMinAmt').value;
+  //       console.log(data);
+  //       if(data != "" || data != undefined){
+  //       if (parseFloat(maxAmt) <= parseFloat(data)) {
+  //         // this.filterForm.get('loanMaxAmt').setValue(null);
+  //         this.isDisable = false;
+  //         console.log('max')
+  //       }
+  //     } else if (maxAmt > data) {
+  //         this.isDisable = true;
+  //       }
+  //     });
+  // }
+
+  // loanMinAmtChange() {
+  //   setTimeout(() => {
+  //       const maxAmt = this.filterForm.value.loanMaxAmt;
+  //       const minAmt = this.filterForm.value.loanMinAmt;
+  //       console.log(minAmt);
+  //       if(minAmt != "" && minAmt != undefined){
+  //       if (parseFloat(maxAmt) <= parseFloat(minAmt)) {
+  //         this.isDisable = false;
+  //       }
+  //     }else{
+  //         this.isDisable = true;
+  //       }
+  //   }, 0);
+
+  // }
+
   // Loading dashboard pages
   onTabsLoading(data, event?) {
     switch (this.activeTab) {
@@ -437,7 +489,10 @@ export class DashboardComponent implements OnInit {
     this.sortTab = '';
     this.activeTab = data;
     this.subActiveTab = subTab;
-    // console.log(this.activeTab, this.subActiveTab)
+    this.dashboardService.routingData = {
+      activeTab: this.activeTab,
+      subActiveTab: this.subActiveTab,
+    };
     if (this.sortTab === '') {
       this.sortByLead = false;
       this.sortByDate = false;

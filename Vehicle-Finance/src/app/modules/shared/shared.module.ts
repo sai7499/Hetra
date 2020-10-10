@@ -26,6 +26,7 @@ import { CommonDocsUploadComponent } from './common-docs-upload/common-docs-uplo
 import { DocsUploadPipe } from './pipes/docs-upload.pipe';
 import { DraggableComponent } from './draggable-container/draggable-container.component';
 import { ApplicantDocsUploadComponent } from './applicant-docs-upload/applicant-docs-upload.component';
+import { ApplicantKycDetailsComponent } from './applicant-kyc-details/applicant-kyc-details.component';
 
 import {
   BsDatepickerModule,
@@ -35,6 +36,7 @@ import { setTheme } from 'ngx-bootstrap/utils';
 import { SharedDeviationComponent } from './shared-deviation/shared-deviation.component';
 import { NegativeListModalComponent } from './negative-list-modal/negative-list.modal.component';
 import { MatTreeModule, MatIconModule } from '@angular/material';
+import { RejectReasonModalComponent } from './reject-reason-modal/reject-reason-modal.component';
 import { WindowModule } from '@progress/kendo-angular-dialog';
 setTheme('bs4');
 
@@ -60,6 +62,8 @@ setTheme('bs4');
     DocsUploadPipe,
     DraggableComponent,
     ApplicantDocsUploadComponent,
+    RejectReasonModalComponent,
+    ApplicantKycDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -95,7 +99,8 @@ setTheme('bs4');
     DraggableComponent,
     ApplicantDocsUploadComponent,
     MatTreeModule,
-    MatIconModule
+    MatIconModule,
+    RejectReasonModalComponent
   ],
 })
 export class SharedModule { }

@@ -1,5 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { environment } from 'src/environments/environment';
+import { Location } from '@angular/common';
 
 import { DraggableContainerService } from '@services/draggable.service';
 
@@ -10,6 +12,7 @@ import { DraggableContainerService } from '@services/draggable.service';
 })
 export class DraggableComponent implements OnInit {
   windowState = 'default';
+  isMobile: any;
   imageType: string;
   src;
   fileName: string;
@@ -51,6 +54,9 @@ export class DraggableComponent implements OnInit {
     }
   }
   constructor(private sanitizer: DomSanitizer, private draggableContainerService: DraggableContainerService) {}
+  constructor(private sanitizer: DomSanitizer, private location: Location) {
+    this.isMobile = environment.isMobile;
+  }
 
 
   overSizePdf() {
@@ -68,6 +74,12 @@ export class DraggableComponent implements OnInit {
   }
 
   ngOnInit() {
+    const currentUrl = this.location.path();
+    this.location.onUrlChange((url: string) => {
+      if(this.isMobile && !url.includes('document-viewupload')) {
+        this.src = null;
+      }
+    });
     this.setCss = {
       top: window.innerHeight / 2 + 'px',
       left: '50%',
@@ -121,4 +133,11 @@ export class DraggableComponent implements OnInit {
     this.src = null;
     this.draggableContainerService.removeImage(this.fileName);
   }
+
+  ngOnDestroy() {
+    if (this.isMobile) {
+      this.src = null;
+    }
+  }
+
 }

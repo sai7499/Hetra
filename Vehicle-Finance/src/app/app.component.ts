@@ -8,6 +8,7 @@ declare var cordova:any;
 // declare var channel:any
 
 import { DraggableContainerService } from '@services/draggable.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -198,7 +199,8 @@ export class AppComponent implements OnInit {
     left: '',
   };
 
-  constructor(private draggableContainerService: DraggableContainerService) {}
+  constructor(private draggableContainerService: DraggableContainerService,
+              private router: Router) {}
 
   ngOnInit() {
 
@@ -221,7 +223,16 @@ export class AppComponent implements OnInit {
       },
       false
     );
-    
+    window.addEventListener('storage', (event) => {
+      if (event.storageArea == localStorage) {
+           let token = localStorage.getItem('token');
+           if(token == undefined) { 
+             // Perform logout
+             //Navigate to login/home
+              this.router.navigate(['/login']); 
+           }
+      }
+  });
   }
 
 

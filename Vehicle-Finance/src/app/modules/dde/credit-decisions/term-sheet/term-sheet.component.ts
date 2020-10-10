@@ -39,6 +39,8 @@ export class TermSheetComponent implements OnInit {
   pslDetails: any;
   date: Date = new Date();
   todayDate;
+  errorGenerated: boolean = false;
+  errorMessage : any = [];
   assetLoanDetails: any;
   fleetDetails: any;
   isTermSheet: boolean = false;
@@ -156,11 +158,18 @@ export class TermSheetComponent implements OnInit {
     };
     this.termSheetService.assignTaskToTSAndCPC(ProcessVariables).subscribe((res) => {
       if (res['ProcessVariables'].error['code'] == "0") {
-        this.toasterService.showSuccess("Record Assigned Successfuly", '');
+       // this.toasterService.showSuccess("Record Assigned Successfuly", '');
+       console.log("get response ", res);
+       if(res['ProcessVariables'].rctaAlert ==  true){
+        this.errorGenerated = true;
+        // const message = res['ProcessVariables'].rctaMessage;
+        this.errorMessage = res['ProcessVariables'].rctaMessage;
+      }else{
         this.router.navigateByUrl("/pages/dashboard");
+      }      
 
       } else if (this.roleType == '2' && !this.isApprove) {
-        this.toasterService.showSuccess(res['ProcessVariables'].error['message'], '');
+        this.toasterService.showError(res['ProcessVariables'].error['message'], '');
       } else if(res['ProcessVariables'].error['code'] == "1") {
         this.toasterService.showError(res['ProcessVariables'].error['message'], '');
        
@@ -232,10 +241,12 @@ export class TermSheetComponent implements OnInit {
   }
   downloadpdf() {
     var options = {
-      margin: .25,
+      margin:[0.60,0.75,0.80,0.75],
       filename: `TermSheeet_${this.leadId}.pdf`,
-      image: { type: 'jpeg', quality: 1 },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'p' }
+      image: { type: 'jpeg', quality: 0.99 },
+      html2canvas:{scale:3, logging: true},   
+      pagebreak: { before:["#tearms_sheet_header2","#terms_sheet_headline12"] },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
     }
     html2pdf().from(document.getElementById("ContentToConvert")).set(options).save();
 
@@ -245,10 +256,12 @@ export class TermSheetComponent implements OnInit {
   }
 uploadDoc(){
   var options = {
-    margin: .25,
+    margin:[0.60,0.75,0.80,0.75],
     filename: `TermSheeet_${this.leadId}.pdf`,
-    image: { type: 'jpeg', quality: 1 },
-    jsPDF: { unit: 'in', format: 'a4', orientation: 'p' }
+    image: { type: 'jpeg', quality: 0.99 },
+    html2canvas:{scale:3, logging: true},   
+    pagebreak: { before:["#tearms_sheet_header2","#terms_sheet_headline12"] },
+    jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
   }
   html2pdf().from(document.getElementById("ContentToConvert"))
       .set(options).toPdf().output('datauristring').then(res => {
