@@ -23,7 +23,6 @@ export class UtilityService {
 
     );
     this.removeAllLocalStorage();
-    this.dashboardService.routingData = '';
     this.toggleDdeService.clearToggleData();   
 
   }
@@ -44,6 +43,7 @@ export class UtilityService {
     localStorage.removeItem('is_pred_done');
     localStorage.removeItem('isPreDisbursement');
     this.router.navigateByUrl('/login');
+    this.dashboardService.routingData = '';
     console.clear();  
   }
 
