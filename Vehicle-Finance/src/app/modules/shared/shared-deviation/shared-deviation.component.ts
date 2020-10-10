@@ -42,6 +42,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   public selectDeviationId: number = 0;
   public findIndex;
+  disableSaveBtn: boolean;
   isApprove: boolean;
   isWaiverTrigger: boolean;
 
@@ -53,7 +54,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   constructor(private labelsData: LabelsService, private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService,
     private deviationService: DeviationService, private toasterService: ToasterService, private sharedService: SharedService,
-    private loginStoreService: LoginStoreService, private router: Router, private utilityService: UtilityService, private location: Location) { }
+    private loginStoreService: LoginStoreService, private router: Router, private utilityService: UtilityService, private location: Location,
+    private toggleDdeService: ToggleDdeService) { }
 
   ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -93,6 +95,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.sharedService.taskId$.subscribe((id) => {
       this.taskId = id ? id : '';
     })
+    this.disableSaveBtn = (this.roleType === 5)? true : false;
   }
 
   disableInputs() {
@@ -128,6 +131,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       recommendation: ['', Validators.required]
     })
     this.sharedService.getFormValidation(this.deviationsForm)
+
   }
 
   ngOnChanges() {
