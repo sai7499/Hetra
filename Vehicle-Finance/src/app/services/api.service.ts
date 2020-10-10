@@ -840,6 +840,10 @@ export class ApiService {
       workflowId: '8b6e5f64f2bd11ea8ac000505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
-
+getFoirAsPerPolicy:{
+  processId: 'ccdee5ee09f211ebb00500505695f93b',
+      workflowId: 'b06ab746bf4a11eab26100505695f93b',
+      projectId: environment.projectIds.salesProjectId
+}
   };
 }
