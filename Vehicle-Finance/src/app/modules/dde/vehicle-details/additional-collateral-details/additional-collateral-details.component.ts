@@ -75,11 +75,7 @@ export class AdditionalCollateralComponent implements OnInit {
             this.setFormValue(collateralId);
         }
 
-        const operationType = this.toggleDdeService.getOperationType();
-        if (operationType === '1' || operationType === '2') {
-            this.collateralForm.disable();
-            this.disableSaveBtn = true;
-        }
+       
     }
 
     selectCollateralType(value) {
@@ -231,13 +227,13 @@ export class AdditionalCollateralComponent implements OnInit {
 
     setFormValue(id) {
         this.collateralService.getAdditionalCollateralsDetails(Number(id)).subscribe((res: any) => {
-
-            const operationType = this.toggleDdeService.getOperationType();
-            if (operationType === '1' || operationType === '2') {
-                this.collateralForm.disable();
-                this.disableSaveBtn = true;
-            }
-
+            setTimeout(() => {
+                const operationType = this.toggleDdeService.getOperationType();
+                if (operationType === '1' || operationType === '2') {
+                    this.disableSaveBtn = true;
+                    this.collateralForm.disable()
+                }
+            });
             let apiError = res.ProcessVariables.error.message;
             if (res.Error === '0' && res.Error === '0' && res.ProcessVariables.error.code === '0') {
                 let collateralDetail = res.ProcessVariables.aAdditionalCollaterals ? res.ProcessVariables.aAdditionalCollaterals : {};
