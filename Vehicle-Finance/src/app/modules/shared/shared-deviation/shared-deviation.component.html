@@ -20,13 +20,13 @@
 
         <div class="row">
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
-            <label for="acp">Deviation</label>
+            <label for="acp">{{labels?.deviation}}</label>
           </div>
           <div class="form-group col-sm-6 col-md-2 col-lg-2">
-            <label for="acp">Approval level</label>
+            <label for="acp">{{labels?.approvalLevel}}</label>
           </div>
           <div class="form-group col-sm-6 col-md-5 col-lg-5">
-            <label for="activity">Justification</label>
+            <label for="activity">{{labels?.justification}}</label>
           </div>
 
           <div class="form-group col-sm-6 col-md-2 col-lg-2">
@@ -96,13 +96,13 @@
 
         <div class="row">
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
-            <label for="acp">Deviation</label>
+            <label for="acp">{{labels?.deviation}}</label>
           </div>
           <div class="form-group col-sm-6 col-md-2 col-lg-2">
-            <label for="acp">Approval level</label>
+            <label for="acp">{{labels?.approvalLevel}}</label>
           </div>
           <div class="form-group col-sm-6 col-md-5 col-lg-5">
-            <label for="activity">Justification</label>
+            <label for="activity">{{labels?.justification}}</label>
           </div>
 
           <div class="form-group col-sm-6 col-md-2 col-lg-2">
@@ -200,7 +200,7 @@
             </div>
 
             <div class="form-group col-sm-6 col-md-2 col-lg-2">
-              <label for="approval_level"> {{labels?.approvalLevel}}</label>
+              <label for="approval_level">{{labels?.approvalLevel}}</label>
 
               <app-vf-custom-select [values]="deviationLov?.approvalLevel" [id]="'approval_level'"
                 formControlName="approverRole" [isRequired]="'Approver Level Required'" [isDirty]="isDirty"
@@ -346,7 +346,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">
-          {{selectDeviationId === 0 ? 'Remove ' : 'Delete '}} Deviation
+          {{selectDeviationId === 0 ? 'Remove ' : 'Delete '}} {{labels?.deviation}}
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
