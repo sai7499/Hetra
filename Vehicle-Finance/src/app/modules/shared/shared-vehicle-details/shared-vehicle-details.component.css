@@ -226,7 +226,10 @@ td, th {
     text-align: left; 
     text-align: center
 }
-
+.pointer_non {
+    pointer-events: none;
+    cursor: not-allowed;
+  }
 
 /*Mobile View*/
 @media 

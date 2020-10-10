@@ -57,7 +57,8 @@
                 <a (click)="navigatePage(item.applicantId)" title="Edit applicant"
                   ><i  class="fa fa-pencil" aria-hidden="true"></i
                 ></a>
-                &nbsp;<a
+                &nbsp;<a   
+                  [ngClass]="{'pointer_non': disableSaveBtn }"    
                   data-toggle="modal"
                   data-target="#myModal"
                   (click)="softDeleteApplicant(i, item.applicantId)"
