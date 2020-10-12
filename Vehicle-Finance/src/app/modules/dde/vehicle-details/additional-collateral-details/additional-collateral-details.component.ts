@@ -75,11 +75,7 @@ export class AdditionalCollateralComponent implements OnInit {
             this.setFormValue(collateralId);
         }
 
-        const operationType = this.toggleDdeService.getOperationType();
-        if (operationType === '1' || operationType === '2') {
-            this.disableSaveBtn = true;
-            this.collateralForm.disable()
-        }
+       
     }
 
     selectCollateralType(value) {
@@ -231,7 +227,13 @@ export class AdditionalCollateralComponent implements OnInit {
 
     setFormValue(id) {
         this.collateralService.getAdditionalCollateralsDetails(Number(id)).subscribe((res: any) => {
-
+            setTimeout(() => {
+                const operationType = this.toggleDdeService.getOperationType();
+                if (operationType === '1' || operationType === '2') {
+                    this.disableSaveBtn = true;
+                    this.collateralForm.disable()
+                }
+            });
             let apiError = res.ProcessVariables.error.message;
             if (res.Error === '0' && res.Error === '0' && res.ProcessVariables.error.code === '0') {
                 let collateralDetail = res.ProcessVariables.aAdditionalCollaterals ? res.ProcessVariables.aAdditionalCollaterals : {};
@@ -251,29 +253,28 @@ export class AdditionalCollateralComponent implements OnInit {
                 this.currentValue = collateralDetail.currentValuePerGram
                 this.goldGramsValue = collateralDetail.goldInGrams
 
-                formArray.controls.push(
-                    this._fb.group({
-                        collateralId: collateralDetail.collateralId || null,
-                        currentValuePerGram: collateralDetail.currentValuePerGram || null,
-                        fdAccountNo: collateralDetail.fdAccountNo || '',
-                        fdName: collateralDetail.fdName || '',
-                        goldInGrams: collateralDetail.goldInGrams || null,
-                        guideLineValue: collateralDetail.guideLineValue || null,
-                        landInAcres: collateralDetail.landInAcres || null,
-                        marketValue: collateralDetail.marketValue || null,
-                        propertyAddress: collateralDetail.propertyAddress || '',
-                        propertyOwner: collateralDetail.propertyOwner || '',
-                        propertyType: collateralDetail.propertyType || '',
-                        propertyOwnerType: collateralDetail.propertyOwnerType || '',
-                        purity: collateralDetail.purity || '',
-                        relationWithApplicant: collateralDetail.relationWithApplicant || '',
-                        surveyNumber: collateralDetail.surveyNumber || null,
-                        totalBuiltUpArea: collateralDetail.totalBuiltUpArea || null,
-                        totalGuideLineValue: collateralDetail.totalGuideLineValue || null,
-                        totalLandArea: collateralDetail.totalLandArea || null,
-                        totalMarketValue: collateralDetail.totalMarketValue || null,
-                    })
-                )
+                formArray.controls[0].patchValue({
+
+                    collateralId: collateralDetail.collateralId || null,
+                    currentValuePerGram: collateralDetail.currentValuePerGram || null,
+                    fdAccountNo: collateralDetail.fdAccountNo || '',
+                    fdName: collateralDetail.fdName || '',
+                    goldInGrams: collateralDetail.goldInGrams || null,
+                    guideLineValue: collateralDetail.guideLineValue || null,
+                    landInAcres: collateralDetail.landInAcres || null,
+                    marketValue: collateralDetail.marketValue || null,
+                    propertyAddress: collateralDetail.propertyAddress || '',
+                    propertyOwner: collateralDetail.propertyOwner || '',
+                    propertyType: collateralDetail.propertyType || '',
+                    propertyOwnerType: collateralDetail.propertyOwnerType || '',
+                    purity: collateralDetail.purity || '',
+                    relationWithApplicant: collateralDetail.relationWithApplicant || '',
+                    surveyNumber: collateralDetail.surveyNumber || null,
+                    totalBuiltUpArea: collateralDetail.totalBuiltUpArea || null,
+                    totalGuideLineValue: collateralDetail.totalGuideLineValue || null,
+                    totalLandArea: collateralDetail.totalLandArea || null,
+                    totalMarketValue: collateralDetail.totalMarketValue || null,
+                })
             }
         })
     }
@@ -281,7 +282,6 @@ export class AdditionalCollateralComponent implements OnInit {
     onFormSubmit(form) {
 
         let formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
-
 
         if (form.valid && formArray.controls[0].valid) {
             let additionalCollaterals = {}

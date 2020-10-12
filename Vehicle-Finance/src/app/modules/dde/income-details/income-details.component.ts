@@ -821,11 +821,7 @@ this.getSalariedFoirIncome();
           this.addObligationUnit(res.ProcessVariables.obligationsList);
         }
         this.onSalFoirDeviation(this.applicantResponse.salariedFOIRDeviation);
-        const operationType = this.toggleDdeService.getOperationType();
-        if (operationType === '1' || operationType === '2') {
-          this.incomeDetailsForm.disable();
-          this.disableSaveBtn = true;
-        }
+       
         // this.keyFinancialData = JSON.parse(res.ProcessVariables.keyFinanceDetails.keyFinancials || null)
         // this.addKeyFinancialDetails(this.keyFinancialData)
         let keyFinancialData = JSON.parse(res.ProcessVariables.keyFinanceDetails || null)
@@ -835,6 +831,11 @@ this.getSalariedFoirIncome();
         } else {
           const keyFinancialObj = null
           this.addKeyFinancialDetails(keyFinancialObj)
+        }
+        const operationType = this.toggleDdeService.getOperationType();
+        if (operationType === '1' || operationType === '2') {
+          this.incomeDetailsForm.disable();
+          this.disableSaveBtn = true;
         }
       });
   }

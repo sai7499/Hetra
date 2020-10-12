@@ -48,6 +48,11 @@ th {
   text-align: center;
 }
 
+.pointer_non {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 /*Mobile View*/
 @media only screen and (max-width: 760px) {
   td,

@@ -29,8 +29,8 @@ export const environment = {
   // hostingEnvironment: 'Production',
 
   // host: '/appiyo/',
-  //host: window["env"]["hostUrl"] || "default",
-  host: "https://hetrauat.equitasbank.com/appiyodev/",
+  host: window["env"]["hostUrl"] || "default",
+  // host: "https://hetrauat.equitasbank.com/appiyodev/",
   //host: 'http://128.199.164.250/appiyo/',
   // host: 'http://10.101.10.153/appiyo/',
   //host: "https://hetrauat.equitasbank.com/appiyo/",
@@ -43,7 +43,7 @@ export const environment = {
   appiyoDrive: '/d/drive/upload/',
   
   mobileBaseUrl: "https://hetrauat.equitasbank.com",
-  isMobile: true,
+  isMobile: false,
   isMaas360Enabled: false
 };
 
