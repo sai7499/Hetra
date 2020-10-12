@@ -276,12 +276,14 @@
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3"  *ngIf="applicantType == 'INDIVENTTYP'">
             <label for="entity">{{ labels.fullName }}</label>
-            <input 
-             [disabled]="true"
-              type="text" 
-              class="form-control mandatory select2"
-              placeholder="Full Name"
-              [value]="firstName+' '+middleName+' '+lastName"/>
+              <app-custom-input
+              [isDisabled]="true"
+              [className]="'form-control mandatory'"
+              [placeholder]="'Full Name'"
+              [type]="namePattern"
+              [value]="firstName+' '+middleName+' '+lastName"
+              >
+            </app-custom-input>
           </div> 
         
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
