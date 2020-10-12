@@ -144,7 +144,7 @@
                     <label for="date_of_birth">{{ labels?.dateOfBirth }}
                       <sub class="star_red_col">*</sub></label>
                     <kendo-datepicker class="form-control mandatory" formControlName="dob" [format]="'dd/MM/yyyy'"
-                      [min]="ageMinDate" [max]="setBirthDate" [activeView]="'decade'" placeholder="Date of birth">
+                      [min]="minAge" [max]="maxAge" [activeView]="'decade'" placeholder="Date of birth">
                     </kendo-datepicker>
 
                     <div class="invalid-feedback ShowError" *ngIf="
