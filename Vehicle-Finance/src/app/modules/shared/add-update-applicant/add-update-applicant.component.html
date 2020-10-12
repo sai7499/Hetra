@@ -174,11 +174,14 @@
                           .touched || isDirty
                       ">
                       <div *ngIf="
-                          coApplicantForm
-                            .get('dedupe')
-                            .get('dateOfIncorporation').invalid
+                          coApplicantForm.get('dedupe').get('dateOfIncorporation').invalid && coApplicantForm.get('dedupe').get('dateOfIncorporation').value==''
                         ">
                         select date
+                      </div>
+                      <div *ngIf="
+                          coApplicantForm.get('dedupe').get('dateOfIncorporation').invalid && coApplicantForm.get('dedupe').get('dateOfIncorporation').value
+                        ">
+                        Invalid date
                       </div>
                     </div>
                   </div>
