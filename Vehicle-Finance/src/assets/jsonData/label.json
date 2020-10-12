@@ -336,6 +336,7 @@
     "vehicleConditions": "Application of earlier vehicle",
     "remarksOthers": "Remarks of others",
     "earlierDriving": "Applicant driving earlier",
+    "isVehAvailInGrid ": "Is Vehicle Available Grid",
     "runningAttached": "Where will this vehicle running/attached/plying?",
     "awareDue": "Customer aware of Due date and EMI Loan amount",
     "vehicleMake": "Vehicle Make",
