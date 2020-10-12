@@ -45,6 +45,8 @@
                                     [isRequired]="'Registration number is mandatory'" 
                                     [type]="validationData?.vehicleRegNo['type']"
                                     [isDirty]="isDirty"
+                                    [patternCheck]="validationData?.vehicleRegNo.pattern"
+
                                     [inputClass]="'input-upper'"
                                     [minLength]="validationData?.vehicleRegNo['minLength']">
                                 </app-custom-input>
