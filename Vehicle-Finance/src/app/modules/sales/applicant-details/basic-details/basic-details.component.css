@@ -36,7 +36,7 @@ kendo-datepicker{
 }
 
 .ShowError{
-    font-size: 1.0vw;
+    font-size: 12px;
     font-family: zurich-bold;
     letter-spacing: 0.5px;
     color: red;

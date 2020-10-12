@@ -27,7 +27,7 @@ import { dateFieldName } from '@progress/kendo-angular-intl';
 import { ToasterService } from '@services/toaster.service';
 import { pairwise, distinctUntilChanged } from 'rxjs/operators';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
-
+import { AgeValidationService } from '@services/age-validation.service';
 @Component({
   templateUrl: './basic-details.component.html',
   styleUrls: ['./basic-details.component.css'],
@@ -89,6 +89,8 @@ export class BasicDetailsComponent implements OnInit {
   applicantData = [];
   showNotApplicant : boolean;
   hideMsgForOwner: boolean = false;
+  public maxAge: Date = new Date();
+  public minAge: Date = new Date();
 
 
   constructor(
@@ -102,7 +104,8 @@ export class BasicDetailsComponent implements OnInit {
     private location: Location,
     private utilityService: UtilityService,
     private toasterService: ToasterService,
-    private createLeadDataService: CreateLeadDataService
+    private createLeadDataService: CreateLeadDataService,
+    private ageValidationService: AgeValidationService
   ) { }
 
   async ngOnInit() {
@@ -126,10 +129,10 @@ export class BasicDetailsComponent implements OnInit {
       applicantRelationship: new FormControl('', Validators.required),
       details: new FormArray([]),
     });
-    this.setBirthDate.setFullYear(this.setBirthDate.getFullYear()-10)
-    this.ageMinDate.setFullYear(this.ageMinDate.getFullYear()-100)
+    // this.setBirthDate.setFullYear(this.setBirthDate.getFullYear()-10)
+    // this.ageMinDate.setFullYear(this.ageMinDate.getFullYear()-100)
     //this.addNonIndividualFormControls();
-    
+    this.getAgeValidation()
     this.getLeadSectiondata();
     this.getLovData();
     this.getCountryList();
@@ -147,6 +150,19 @@ export class BasicDetailsComponent implements OnInit {
     this.applicantData = leadData['applicantDetails'];
     
 
+  }
+
+  getAgeValidation() {
+    this.ageValidationService.getAgeValidationData().subscribe(
+      data => {
+        const minAge = data.ages.applicant.minAge;
+        const maxAge = data.ages.applicant.maxAge;
+          this.maxAge = new Date();
+          this.minAge = new Date();
+          this.minAge.setFullYear(this.minAge.getFullYear() - minAge);
+          this.maxAge.setFullYear(this.maxAge.getFullYear() - maxAge);
+      }
+    );
   }
 
   selectApplicantType(event) {
