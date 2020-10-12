@@ -74,8 +74,6 @@ export class AdditionalCollateralComponent implements OnInit {
             this.id = Number(collateralId);
             this.setFormValue(collateralId);
         }
-
-       
     }
 
     selectCollateralType(value) {
@@ -253,8 +251,8 @@ export class AdditionalCollateralComponent implements OnInit {
                 this.currentValue = collateralDetail.currentValuePerGram
                 this.goldGramsValue = collateralDetail.goldInGrams
 
-                formArray.controls[0].patchValue({
-
+                formArray.push(
+                    this._fb.group({
                     collateralId: collateralDetail.collateralId || null,
                     currentValuePerGram: collateralDetail.currentValuePerGram || null,
                     fdAccountNo: collateralDetail.fdAccountNo || '',
@@ -275,6 +273,7 @@ export class AdditionalCollateralComponent implements OnInit {
                     totalLandArea: collateralDetail.totalLandArea || null,
                     totalMarketValue: collateralDetail.totalMarketValue || null,
                 })
+                )
             }
         })
     }
