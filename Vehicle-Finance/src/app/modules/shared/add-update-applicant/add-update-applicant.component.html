@@ -445,14 +445,15 @@
                       validationData?.drivingLicense?.patternCheck
                     " [maxLength]="validationData?.drivingLicense?.maxLength" (keyup)="onDrvingLisenseChange($event)"
                     [inputClass]="'text-uppercase'" [type]="validationData?.drivingLicense?.type" [isRequired]="
-                      (drivingLicenseIssueDate !== '' &&
+                      
+                    ">
+                  </app-custom-input>
+                  <!-- (drivingLicenseIssueDate !== '' &&
                         drivingLicenseIssueDate !== undefined) ||
                       (drivingLicenseExpiryDate !== undefined &&
                         drivingLicenseExpiryDate !== '')
                         ? 'Please Fill'
-                        : ''
-                    ">
-                  </app-custom-input>
+                        : '' -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
@@ -580,7 +581,7 @@
                   <!-- [patternCheck]="validationData?.passportNumber?.patternCheck" -->
                   <app-custom-input formControlName="passportNumber" [patternCheck]="
                       validationData?.passportNumber?.patternCheck
-                    " (keyup)="onPassportNumberChange($event)" [inputClass]="'text-uppercase'"
+                    " (keyup)="onPassportNumberChange($event)"  [inputClass]="'text-uppercase'"
                     [maxLength]="validationData?.passportNumber?.maxLength" [isRequired]="
                       isPassportRequired ? 'Passport number is required' : ''
                     " [isDirty]="isPassportRequired && isDirty" [type]="validationData?.passportNumber?.type">
@@ -647,7 +648,8 @@
                   <label for="mobile">{{ labels?.voterIdNumber }}</label>
                   <!-- [patternCheck]="validationData?.voterId?.patternCheck" -->
                   <app-custom-input formControlName="voterIdNumber" [maxLength]="validationData?.voterId?.maxLength"
-                    [patternCheck]="validationData?.voterId?.patternCheck" [inputClass]="'text-uppercase'"
+                    [patternCheck]="validationData?.voterId?.patternCheck" 
+                    (keyup)="voterIdChange($event)" [inputClass]="'text-uppercase'"
                     [isRequired]="isVoterRequired ? 'Voter id is required' : ''" [isDirty]="isVoterRequired && isDirty"
                     [type]="validationData?.voterId?.type"></app-custom-input>
                 </div>
