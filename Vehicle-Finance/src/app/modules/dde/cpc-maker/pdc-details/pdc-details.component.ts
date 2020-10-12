@@ -38,6 +38,9 @@ export class PdcDetailsComponent implements OnInit {
   leadData: any;
   acceptanceDate: any;
   submitted = false;
+  pdcCount: any;
+  spdcCount: any;
+  showPdcButton: boolean;
 
   constructor(
     private loginStoreService: LoginStoreService,
@@ -303,16 +306,18 @@ export class PdcDetailsComponent implements OnInit {
       ]);
     }
   }
-  getData(data: any) {
+  getData(data: any, pdcCount: any, spdcCount: any) {
     // const data = JSON.parse(localStorage.getItem('pdcData'));
     // this.pdcForm.controls.pdcList.controls = [];
     // this.pdcForm.controls.spdcList.controls = [];
+    pdcCount = pdcCount || 3;
+    spdcCount = spdcCount;
     if (data) {
       const spdcControl = this.pdcForm.controls.spdcList as FormArray;
       const PdcControl = this.pdcForm.controls.pdcList as FormArray;
 
-      if (data.pdcList) {
-        for (let i = 0; i < data.pdcList.length; i++) {
+      if (pdcCount) {
+        for (let i = 0; i < pdcCount; i++) {
           this.addPdcUnit();
           PdcControl.at(i).patchValue({
             pdcId: data.pdcList[i].pdcId ? data.pdcList[i].pdcId : null,
@@ -340,6 +345,10 @@ export class PdcDetailsComponent implements OnInit {
               : null,
           });
         }
+      // tslint:disable-next-line: triple-equals
+      } else if (pdcCount == '') {
+        this.showPdcButton = true;
+        this.addPdcUnit();
       } else {
         this.addPdcUnit();
       }
@@ -394,8 +403,11 @@ export class PdcDetailsComponent implements OnInit {
       if (res.ProcessVariables.error.code == '0') {
         this.pdcForm.controls.pdcList.controls = [];
         this.pdcForm.controls.spdcList.controls = [];
+        this.pdcCount = res.ProcessVariables.pdcCount;
+        this.spdcCount = res.ProcessVariables.spdcCount;
+        console.log(this.pdcCount, this.spdcCount ,'pdc and spdc count');
         if (res.ProcessVariables) {
-          this.getData(res.ProcessVariables);
+          this.getData(res.ProcessVariables, this.pdcCount, this.spdcCount);
         }
         // else if (res.ProcessVariables.pdcList && res.ProcessVariables.spdcList != null) {
         //   this.addPdcUnit();

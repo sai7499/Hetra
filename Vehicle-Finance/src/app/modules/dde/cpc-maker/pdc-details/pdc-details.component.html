@@ -2,7 +2,7 @@
     <div class="container overflow-hidden">       
         
         <div class="content">   
-            <div class="row">
+            <div class="row" *ngIf = "showPdcButton == 'true'">
                 <div class="col-lg-5 col-md-5 col-sm-5"></div>
                 <div class="col-lg-7 col-md-7 col-sm-7 text-right" >
                     <button class="btn btn-primary btn-mar"(click)="addPdcUnit()"  >Add PDC Row</button>
