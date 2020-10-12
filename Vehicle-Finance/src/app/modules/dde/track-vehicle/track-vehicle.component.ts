@@ -543,7 +543,6 @@ export class TrackVehicleComponent implements OnInit {
                 this.focusedDate.push(installments[i]['receivedDate']);
                 this.addNewRow(installments[i]);
               }
-
             } else {
               let Receiveddate = new Date();
               let dueDate = this.addMonth(this.trackVehicleForm.value['emiStartDate'] , i) 

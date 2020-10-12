@@ -45,7 +45,8 @@
 
                         <a (click)="roleType === 1 ? editVehicle(item.collateralId) : onEditVehicleDetails(item.collateralId, item.eligibleLoanAmount)"
                             title="Edit collateral"><i class="fa fa-pencil cursor-pointer" aria-hidden="true"></i></a>
-                        <a data-toggle="modal" data-target="#exampleModal"
+                        <a data-toggle="modal" data-target="#exampleModal" 
+                            [ngClass]="{'pointer_non': disableSaveBtn }"
                             (click)="softDeleteCollateral(i, item.collateralId, 'Collateral')"
                             title="Delete collateral"><i class="fa fa-trash cursor-pointer" aria-hidden="true"></i></a>
                     </td>
@@ -101,6 +102,7 @@
                             <a title="Edit collateral" (click)="editCollateralDetails(obj.collateralId)"><i
                                     class="fa fa-pencil cursor-pointer" aria-hidden="true"></i></a>
                             <a data-toggle="modal" data-target="#exampleModal"
+                                [ngClass]="{'pointer_non': disableSaveBtn }"
                                 (click)="softDeleteCollateral(i, obj.collateralId, 'Additional Collateral')"
                                 title="Delete collateral"><i class="fa fa-trash cursor-pointer"
                                     aria-hidden="true"></i></a>
