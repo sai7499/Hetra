@@ -16,6 +16,10 @@ export class DraggableComponent implements OnInit {
   imageType: string;
   src;
   fileName: string;
+  height = 600;
+  width = 600;
+  public windowTop = 200;
+  public windowLeft = 200;
   @Input() setCss = {
     top: '50%',
     left: '50%',
@@ -53,10 +57,13 @@ export class DraggableComponent implements OnInit {
       // });
     }
   }
-  constructor(private sanitizer: DomSanitizer, private draggableContainerService: DraggableContainerService) {}
-  constructor(private sanitizer: DomSanitizer, private location: Location) {
+  constructor(private sanitizer: DomSanitizer,
+              private draggableContainerService: DraggableContainerService,
+              private location: Location) {
     this.isMobile = environment.isMobile;
   }
+
+  
 
 
   overSizePdf() {
@@ -76,7 +83,7 @@ export class DraggableComponent implements OnInit {
   ngOnInit() {
     const currentUrl = this.location.path();
     this.location.onUrlChange((url: string) => {
-      if(this.isMobile && !url.includes('document-viewupload')) {
+      if (this.isMobile && !url.includes('document-viewupload')) {
         this.src = null;
       }
     });
@@ -84,60 +91,69 @@ export class DraggableComponent implements OnInit {
       top: window.innerHeight / 2 + 'px',
       left: '50%',
     };
-  }
-  private dragElement(elmnt) {
-    let pos1 = 0;
-    let pos2 = 0;
-    let pos3 = 0;
-    let pos4 = 0;
-    if (document.getElementById(elmnt.id + 'mydiv')) {
-      // if present, the header is where you move the DIV from:
-      document.getElementById(elmnt.id + 'mydiv').onmousedown = dragMouseDown;
+
+    if (this.isMobile) {
+      const height = screen.availHeight;
+      this.height = height - ((height / 100 ) * 15);
+      this.width = screen.availWidth;
     } else {
-      // otherwise, move the DIV from anywhere inside the DIV:
-      elmnt.onmousedown = dragMouseDown;
-    }
-
-    function dragMouseDown(e) {
-      e = e || window.event;
-      e.preventDefault();
-      // get the mouse cursor position at startup:
-      pos3 = e.clientX;
-      pos4 = e.clientY;
-      document.onmouseup = closeDragElement;
-      // call a function whenever the cursor moves:
-      document.onmousemove = elementDrag;
-    }
-
-    function elementDrag(e) {
-      e = e || window.event;
-      e.preventDefault();
-      // calculate the new cursor position:
-      pos1 = pos3 - e.clientX;
-      pos2 = pos4 - e.clientY;
-      pos3 = e.clientX;
-      pos4 = e.clientY;
-      // set the element's new position:
-      elmnt.style.top = elmnt.offsetTop - pos2 + 'px';
-      elmnt.style.left = elmnt.offsetLeft - pos1 + 'px';
-    }
-
-    function closeDragElement() {
-      // stop moving when mouse button is released:
-      document.onmouseup = null;
-      document.onmousemove = null;
+      this.windowLeft = ( screen.availWidth / 2) - 600;
+      this.windowTop = screen.availHeight / 2;
     }
   }
+  // private dragElement(elmnt) {
+  //   let pos1 = 0;
+  //   let pos2 = 0;
+  //   let pos3 = 0;
+  //   let pos4 = 0;
+  //   if (document.getElementById(elmnt.id + 'mydiv')) {
+  //     // if present, the header is where you move the DIV from:
+  //     document.getElementById(elmnt.id + 'mydiv').onmousedown = dragMouseDown;
+  //   } else {
+  //     // otherwise, move the DIV from anywhere inside the DIV:
+  //     elmnt.onmousedown = dragMouseDown;
+  //   }
+
+  //   function dragMouseDown(e) {
+  //     e = e || window.event;
+  //     e.preventDefault();
+  //     // get the mouse cursor position at startup:
+  //     pos3 = e.clientX;
+  //     pos4 = e.clientY;
+  //     document.onmouseup = closeDragElement;
+  //     // call a function whenever the cursor moves:
+  //     document.onmousemove = elementDrag;
+  //   }
+
+  //   function elementDrag(e) {
+  //     e = e || window.event;
+  //     e.preventDefault();
+  //     // calculate the new cursor position:
+  //     pos1 = pos3 - e.clientX;
+  //     pos2 = pos4 - e.clientY;
+  //     pos3 = e.clientX;
+  //     pos4 = e.clientY;
+  //     // set the element's new position:
+  //     elmnt.style.top = elmnt.offsetTop - pos2 + 'px';
+  //     elmnt.style.left = elmnt.offsetLeft - pos1 + 'px';
+  //   }
+
+  //   function closeDragElement() {
+  //     // stop moving when mouse button is released:
+  //     document.onmouseup = null;
+  //     document.onmousemove = null;
+  //   }
+  // }
 
   onClose() {
     this.src = null;
     this.draggableContainerService.removeImage(this.fileName);
   }
 
-  ngOnDestroy() {
-    if (this.isMobile) {
-      this.src = null;
-    }
-  }
+  // ngOnDestroy() {
+  //   if (this.isMobile) {
+  //     this.src = null;
+  //   }
+  // }
 
 }

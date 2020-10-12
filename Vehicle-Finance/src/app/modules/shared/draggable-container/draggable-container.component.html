@@ -17,7 +17,7 @@
   </div>
 </div> -->
 
-<kendo-window [title]="fileName" [height]="400" [width]="400" [(state)]="windowState" *ngIf="src" (close)="onClose()">
+<kendo-window  [(top)]="windowTop" [(left)]="windowLeft" [title]="fileName" [height]="height" [width]="width"  *ngIf="src" (close)="onClose()">
   <div class="image-content">
     <img
       height="100%"
@@ -32,3 +32,5 @@
     ></iframe>
   </div>
 </kendo-window>
+
+
