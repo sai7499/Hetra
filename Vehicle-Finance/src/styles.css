@@ -964,3 +964,21 @@ font-size:10px;
     
     }
 /*Welomce Letter styles End */
+
+/* Placeholder */
+
+::placeholder {
+    color: blue;
+    
+  }
+  .mandatory::-webkit-input-placeholder { color: blue!important; }
+
+  :-ms-input-placeholder { 
+    color: blue;
+    
+  }
+  
+  ::-ms-input-placeholder { 
+    color: blue;
+    
+  }

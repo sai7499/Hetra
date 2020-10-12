@@ -577,6 +577,15 @@ td:before {
   margin-bottom: 50px;
 }
 
+.btn-primary {
+  margin: 0px;
+}
+
+.mar-right8{
+  margin: 8px 0px!important;
+}
+
+
 .radio, .checkbox {
   position: relative;
   display: inline-block!important;
