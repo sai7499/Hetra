@@ -2,7 +2,7 @@
     "ages": {
         "applicant": {
             "minAge": 100,
-            "maxAge": 10
+            "maxAge": 18
         },
         "seniorCitizen": {
             "salaried": 60,
