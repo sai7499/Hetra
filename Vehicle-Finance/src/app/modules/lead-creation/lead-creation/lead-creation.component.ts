@@ -485,14 +485,17 @@ export class LeadCreationComponent implements OnInit {
 
   onFirstName(event) {
     this.firstName = event.target.value;
+    this.firstName = this.firstName.replace(/[^a-zA-Z ]/g, '');
   }
 
   onMiddleName(event) {
     this.middleName = event.target.value;
+    this.middleName = this.middleName.replace(/[^a-zA-Z ]/g, '');
   }
 
   onLastName(event) {
     this.lastName = event.target.value;
+    this.lastName = this.lastName.replace(/[^a-zA-Z ]/g, '');
   }
 
   onSubmit() {

@@ -144,15 +144,18 @@
                     <label for="date_of_birth">{{ labels?.dateOfBirth }}
                       <sub class="star_red_col">*</sub></label>
                     <kendo-datepicker class="form-control mandatory" formControlName="dob" [format]="'dd/MM/yyyy'"
-                      [min]="ageMinDate" [max]="setBirthDate" [activeView]="'decade'" placeholder="Date of birth">
+                      [min]="minAge" [max]="maxAge" [activeView]="'decade'" placeholder="Date of birth">
                     </kendo-datepicker>
 
                     <div class="invalid-feedback ShowError" *ngIf="
                         coApplicantForm.get('dedupe').get('dob').touched ||
                         isDirty
                       ">
-                      <div *ngIf="coApplicantForm.get('dedupe').get('dob').invalid">
+                      <div *ngIf="coApplicantForm.get('dedupe').get('dob').invalid && coApplicantForm.get('dedupe').get('dob').value==''">
                         Select date
+                      </div>
+                      <div *ngIf="coApplicantForm.get('dedupe').get('dob').invalid && coApplicantForm.get('dedupe').get('dob').value">
+                        Invalid date
                       </div>
                     </div>
                   </div>
@@ -171,11 +174,14 @@
                           .touched || isDirty
                       ">
                       <div *ngIf="
-                          coApplicantForm
-                            .get('dedupe')
-                            .get('dateOfIncorporation').invalid
+                          coApplicantForm.get('dedupe').get('dateOfIncorporation').invalid && coApplicantForm.get('dedupe').get('dateOfIncorporation').value==''
                         ">
                         select date
+                      </div>
+                      <div *ngIf="
+                          coApplicantForm.get('dedupe').get('dateOfIncorporation').invalid && coApplicantForm.get('dedupe').get('dateOfIncorporation').value
+                        ">
+                        Invalid date
                       </div>
                     </div>
                   </div>
