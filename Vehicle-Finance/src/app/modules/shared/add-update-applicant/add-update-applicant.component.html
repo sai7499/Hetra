@@ -151,8 +151,11 @@
                         coApplicantForm.get('dedupe').get('dob').touched ||
                         isDirty
                       ">
-                      <div *ngIf="coApplicantForm.get('dedupe').get('dob').invalid">
+                      <div *ngIf="coApplicantForm.get('dedupe').get('dob').invalid && coApplicantForm.get('dedupe').get('dob').value==''">
                         Select date
+                      </div>
+                      <div *ngIf="coApplicantForm.get('dedupe').get('dob').invalid && coApplicantForm.get('dedupe').get('dob').value">
+                        Invalid date
                       </div>
                     </div>
                   </div>
