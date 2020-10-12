@@ -1,0 +1,30 @@
+<main class="mar-top90">
+  <div class="container overflow-hidden">
+    <app-lead-section-header></app-lead-section-header>
+      <div class="multisteps-form">
+          <div class="multisteps-form__progress1">
+                     
+              <button class="multisteps-form__progress-btn "  (click)="onNavigate('loan')"
+               [ngClass]="{'js-active': locationIndex >= 0}"
+                  type="button" id="applicant_bank_details">
+                  Loan Booking Status</button>
+                <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 1}"
+                  type="button" id="applicant_identity_details" (click)="onNavigate('welomce-letter')">
+                  Welcome Letter
+              </button>
+
+              <!-- {{productCatCode}}test -->
+              <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 2}"
+                type="button" id="applicant_identity_details" (click)="onNavigate('delivery-order')">
+                Delivery Order
+            </button>
+          </div>
+
+          <div class="content" >
+              <router-outlet></router-outlet>
+          </div>
+
+      </div>
+  </div>
+
+</main>
