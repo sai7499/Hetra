@@ -187,6 +187,36 @@
         </div>
         <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="b_latitude">{{labels.branchLat}}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input formControlName="bLatitude" [className]="'form-control mandatory'" [placeholder]="''">
+                </app-custom-input>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="b_longitude">{{labels.branchLng}}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input formControlName="bLongitude" [className]="'form-control mandatory'" [placeholder]="''">
+                </app-custom-input>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="captured_latitude">{{labels.capturedLat}}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input formControlName="latitude" [className]="'form-control mandatory'" [placeholder]="''">
+                </app-custom-input>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="captured_longitude">{{labels.capturedLng}}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input formControlName="longitude" [className]="'form-control mandatory'" [placeholder]="''">
+                </app-custom-input>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="sourceOf_margin_money">{{labels.selfieImageTitle}}
                     <!-- <sub class="star_red_col">*</sub> -->
                 </label>
@@ -196,7 +226,7 @@
                                 'assets/images/user.jpg'
                             " alt="[Image: Photo]" width="100" />
                 </div>
-                <span> <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie
+                <span *ngIf = "isMobile"> <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie
                     </button></span>
                 <app-upload-modal [showModal]="showModal" (close)="showModal = false"
                     (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails"></app-upload-modal>

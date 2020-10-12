@@ -28,7 +28,7 @@
 
                 <div class="row">
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_make">
                         <label for="vechical_region"> {{ label.vechicalRegion }}
                             <sub class="star_red_col">*</sub>
                         </label>
@@ -40,7 +40,7 @@
 
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_region">
                         <label for="asset_make"> {{ label.assetMake }} <sub class="star_red_col">*</sub> </label>
 
                         <app-vf-custom-select [values]="vehicleLov?.assetMake" [id]="'asset_make'"
@@ -50,7 +50,7 @@
 
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_type">
                         <label for="vechical_type"> {{ label.vechicalType }} <sub class="star_red_col">*</sub> </label>
 
                         <app-vf-custom-select [values]="vehicleLov?.vehicleType" [id]="'vechical_type'"
@@ -75,7 +75,7 @@
 
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_model">
                         <label for="asset_model"> {{ label.assetModel }} <sub class="star_red_col">*</sub>
                         </label>
 
@@ -86,7 +86,7 @@
 
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_variant">
                         <label for="asset_variant"> {{ label.assetVariant }} <sub class="star_red_col">*</sub>
                         </label>
 
@@ -101,14 +101,14 @@
 
                 <div class="row">
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_sub_variant">
                         <label for="asset_sub_variant"> {{ label.assetSubVariant }} </label>
                         <app-vf-custom-select [values]="vehicleLov?.assetSubVariant" [id]="'asset_sub_variant'"
                             formControlName="assetSubVariant">
                         </app-vf-custom-select>
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3"
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="year_month_manufacturing"
                         *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
                         <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} <sub
                                 class="star_red_col">*</sub>
@@ -156,6 +156,17 @@
 
                     </div>
 
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="is_veh_availIn_grid"
+                        *ngIf="productCatoryCode === 'UCV'">
+                        <label for="is_veh_availIn_grid"> {{ label.isVehAvailInGrid }}
+                        </label>
+
+                        <app-vf-custom-select [values]="vehicleLov?.isVehAvailInGrid" [id]="'is_veh_availIn_grid'"
+                            formControlName="isVehAvailInGrid" [isDisabled]="true">
+                        </app-vf-custom-select>
+
+                    </div>
+
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_cost_basis"
                         *ngIf="productCatoryCode === 'UCV'">
                         <label for="asset_cost_basis"> {{ label.assetCostGrid }} <sub class="star_red_col">*</sub>
@@ -163,7 +174,11 @@
 
                         <app-custom-input formControlName="assetCostGrid" [id]="'asset_cost_basis'"
                             [className]="'form-control mandatory'" [placeholder]="'Asset cost basis Grid'"
-                            [isRequired]="'Asset cost basis Grid Required'" [isDirty]="isDirty" [isDisabled]="true">
+                            [type]="label.validationData?.amountValue.type" [custom]="initalZeroCheck"
+                            [isRequired]="'Asset cost basis Grid Required'" [isDirty]="isDirty"
+                            (keyup)="onPatchFinalAssetCost($event.target.value)"
+                            [maxLength]="label.validationData?.amountValue.maxLength"
+                            [isDisabled]="obj.value.isVehAvailInGrid === 1 ? true: false">
                         </app-custom-input>
 
                     </div>
@@ -274,7 +289,7 @@
                             [placeholder]="'Mobile Number of Vehicle Owner/Dealer'"
                             [maxLength]="label.validationData?.mobileNumber.maxLength"
                             [patternCheck]="label.validationData?.mobileNumber.pattern"
-                            (change)="onChangeMobileNumber($event.target.value)"
+                            (change)="onChangeMobileNumber($event.target.value)" 
                             (keyUp)="onChangeMobileNumber($event.target.value)"
                             [isRequired]="'Mobile Number of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                         </app-custom-input>
@@ -1199,18 +1214,36 @@
                             </app-custom-input>
                         </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_cost_basis">
-                            <label for="asset_cost_basis"> {{ label.assetCostGrid }} <sub class="star_red_col">*</sub>
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="is_veh_availIn_grid"
+                            *ngIf="productCatoryCode === 'UCV'">
+                            <label for="is_veh_availIn_grid"> {{ label.isVehAvailInGrid }}
                             </label>
-                            <app-custom-input formControlName="assetCostGrid" [id]="'asset_cost_basis'"
-                                [className]="'form-control mandatory'" [placeholder]="'Asset cost basis Grid'"
-                                [isRequired]="'Asset cost basis Grid Required'" [isDirty]="isDirty" [isDisabled]="true">
-                            </app-custom-input>
+
+                            <app-vf-custom-select [values]="vehicleLov?.isVehAvailInGrid" [id]="'is_veh_availIn_grid'"
+                                formControlName="isVehAvailInGrid" [isDisabled]="true">
+                            </app-vf-custom-select>
+
                         </div>
 
                     </div>
 
                     <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_cost_basis"
+                            *ngIf="productCatoryCode === 'UCV'">
+                            <label for="asset_cost_basis"> {{ label.assetCostGrid }} <sub class="star_red_col">*</sub>
+                            </label>
+
+                            <app-custom-input formControlName="assetCostGrid" [id]="'asset_cost_basis'"
+                                [className]="'form-control mandatory'" [placeholder]="'Asset cost basis Grid'"
+                                [type]="label.validationData?.amountValue.type" [custom]="initalZeroCheck"
+                                [isRequired]="'Asset cost basis Grid Required'" [isDirty]="isDirty"
+                                (keyup)="onPatchFinalAssetCost($event.target.value)"
+                                [maxLength]="label.validationData?.amountValue.maxLength"
+                                [isDisabled]="obj.value.isVehAvailInGrid === 1 ? true: false">
+                            </app-custom-input>
+
+                        </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="final_asset_cost"> {{ label.finalAssetCost }} <sub class="star_red_col">*</sub>
@@ -1234,6 +1267,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="mobile_vehicle_owner">
                             <label for="mobile_vehicle_owner"> {{ label.mobileNumberOfVehicle }} <sub
                                     class="star_red_col">*</sub> </label>
@@ -1255,10 +1292,6 @@
                             </div>
 
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vehicle_address">
                             <label for="vehicle_address"> {{ label.vehicleAddress }} <sub class="star_red_col">*</sub>
@@ -1294,6 +1327,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="fitness_date">{{label.fitnessDate}} </label>
 
@@ -1308,10 +1345,6 @@
                             </div>
 
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="permit_type">{{label.permitType}} </label>
@@ -1330,6 +1363,10 @@
                             </app-custom-input>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="permit_expire_date">{{label.permitExpireDate}}
                             </label>
@@ -1345,10 +1382,6 @@
                             </div>
 
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="chassis_number">{{label.chassisNumber}}</label>
@@ -1374,6 +1407,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_purchased_cost">{{label.vehiclePurchasedCost}} </label>
 
@@ -1384,10 +1421,6 @@
                             </app-custom-input>
 
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_ownership">{{label.vehicleOwnership}} </label>
@@ -1414,6 +1447,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="gross_vehicle_weight">{{label.grossVehicleWeight}}</label>
 
@@ -1424,10 +1461,6 @@
                                 [placeholder]="'Gross Vehicle Weight'">
                             </app-custom-input>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="re_registered_vehicle">{{label.reRegisteredVehicle}} </label>
@@ -1443,16 +1476,16 @@
                             </app-vf-custom-select>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="duplicate_rc">{{label.duplicateRC}} </label>
                             <app-vf-custom-select [id]="'duplicate_rc'" [values]="vehicleLov?.YesORNoValue"
                                 formControlName="duplicateRC">
                             </app-vf-custom-select>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="cubic_capacity">{{label.cubicCapacity}} </label>
@@ -1476,6 +1509,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="insurance_validity">{{label.insuranceValidity}}</label>
 
@@ -1490,10 +1527,6 @@
                             </div>
 
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="idv">{{label.idv}} </label>
@@ -1513,6 +1546,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3"
                             *ngIf="obj.controls['fsrdFundingReq'].value === true">
                             <label for="frsd_amount">{{label.frsdAmount}} </label>
@@ -1525,10 +1562,6 @@
                             </app-custom-input>
 
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="loan_amount">
 

@@ -228,8 +228,8 @@
                   class="form-control"
                   formControlName="dob"
                   [format]="'dd/MM/yyyy'"
-                  [min]="ageMinDate"
-                  [max]="setBirthDate"
+                  [min]="minAge"
+                  [max]="maxAge"
                   placeholder="Date of birth"
                   [activeView]="'decade'"
                   (valueChange)="ageCalculation($event)"
@@ -1494,6 +1494,15 @@
                   placeholder="Date of Incorporation"
                   [activeView]="'decade'"
                 ></kendo-datepicker>
+                <div
+                  class="ShowError"
+                  *ngIf="
+                   ( isDirty || validation.get('dateOfIncorporation').touched) &&
+                    validation.get('dateOfIncorporation').invalid
+                  "
+                >
+                  Invalid Date
+                </div>
               </div>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">

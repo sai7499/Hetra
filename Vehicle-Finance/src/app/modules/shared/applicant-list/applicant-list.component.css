@@ -32,9 +32,9 @@ table {
   margin: 0 auto;
 }
 /* Zebra striping */
-tr:nth-of-type(odd) {
+/* tr:nth-of-type(odd) {
   background: #f2f2f2;
-}
+} */
 th {
   background-color: #1d1a4b;
   color: #fff;
@@ -46,6 +46,11 @@ th {
   border: 1px solid #ccc;
   text-align: left;
   text-align: center;
+}
+
+.pointer_non {
+  pointer-events: none;
+  cursor: not-allowed;
 }
 
 /*Mobile View*/
@@ -118,7 +123,20 @@ th {
   margin:auto;
 }
 
+/* ekyc styles*/
+
+.tablewithdetails{
+  padding: 22px;
+  /* margin-top: -21px; */
+}
+/* .tablewithheading {
+  margin-top: 10px;
+} */
+thead tr td.text-left{
+  text-align: left!important;
 /* overlay css */
+}
+
 #mydiv {
   /* position: absolute; */
   z-index: 9999;
@@ -170,7 +188,8 @@ th {
 }
 @media(max-width: 769px) {
   #mydiv {
-    height: 150px;
+    height: auto;
     width: 300px;
+    overflow: scroll;
   }
 }

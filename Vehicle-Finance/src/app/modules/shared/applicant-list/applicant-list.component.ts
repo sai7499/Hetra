@@ -10,6 +10,7 @@ import { ApplicantImageService } from '@services/applicant-image.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ToasterService } from '@services/toaster.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 
 @Component({
@@ -29,8 +30,10 @@ export class ApplicantListComponent implements OnInit {
   showModal = false;
   backupApplicantId: any;
   cibilImage: any;
-  showNotApplicant : boolean;
+  showNotApplicant: boolean;
   hideDraggableContainer = false;
+  newImage: any;
+  disableSaveBtn: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -41,7 +44,8 @@ export class ApplicantListComponent implements OnInit {
     private applicantImageService: ApplicantImageService,
     private domSanitizer: DomSanitizer,
     private toasterService: ToasterService,
-    private createLeadDataService : CreateLeadDataService,
+    private createLeadDataService: CreateLeadDataService,
+    private toggleDdeService: ToggleDdeService
   ) { }
 
   async ngOnInit() {
@@ -69,6 +73,13 @@ export class ApplicantListComponent implements OnInit {
       this.applicantUrl = `/pages/applicant-details/${this.leadId}/basic-data`;
     }
     this.getApplicantList();
+
+    setTimeout(() => {
+      const operationType = this.toggleDdeService.getOperationType();
+      if (operationType === '1' || operationType === '2') {
+        this.disableSaveBtn = true;
+      }
+    })
   }
 
   getLeadId() {
@@ -160,8 +171,11 @@ export class ApplicantListComponent implements OnInit {
           const imageUrl = res.ProcessVariables.response;
           this.imageUrl = imageUrl;
           this.imageUrl = atob(this.imageUrl); // decoding base64 string to get xml file
-          this.imageUrl = this.domSanitizer.bypassSecurityTrustHtml(this.imageUrl); // sanitizing xml doc for rendering with proper css
+          this.imageUrl = this.domSanitizer.bypassSecurityTrustHtml(this.imageUrl);
+          // this.newImage = this.domSanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64,' 
+          //        + imageUrl); // sanitizing xml doc for rendering with proper css
           this.cibilImage = this.imageUrl;
+          console.log(this.newImage);
           setTimeout(() => {
             this.dragElement(document.getElementById('mydiv'));
           });
@@ -220,29 +234,32 @@ export class ApplicantListComponent implements OnInit {
       document.onmousemove = null;
     }
   }
-  forFindingApplicantType(){
-    const findApplicant= this.applicantList.find((data)=>data.applicantTypeKey=="APPAPPRELLEAD")
-    console.log('findApplicant',findApplicant)
-    this.showNotApplicant=findApplicant==undefined? true: false;
-   }
+  forFindingApplicantType() {
+    const findApplicant = this.applicantList.find((data) => data.applicantTypeKey == "APPAPPRELLEAD")
+    console.log('findApplicant', findApplicant)
+    this.showNotApplicant = findApplicant == undefined ? true : false;
+  }
 
   onNext() {
 
     this.forFindingApplicantType()
-    if(this.showNotApplicant){
-      this.toasterService.showError('There should be one applicant for this lead','')
+    if (this.showNotApplicant) {
+      this.toasterService.showError('There should be one applicant for this lead', '')
       return;
     }
-    if(this.router.url.includes('sales')){
+    if (this.router.url.includes('sales')) {
       this.router.navigateByUrl(`pages/sales/${this.leadId}/vehicle-list`)
-    }else{
+    } else {
       this.router.navigateByUrl(`pages/dde/${this.leadId}/vehicle-list`)
     }
-    
+
   }
   destroyImage() {
     if (this.cibilImage) {
       this.cibilImage = null;
     }
+  }
+  routetoEB() {
+    // this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-kyc-details`);
   }
 }

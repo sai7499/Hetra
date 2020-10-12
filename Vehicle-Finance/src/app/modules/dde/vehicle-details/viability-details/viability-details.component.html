@@ -35,7 +35,7 @@
                 </div>
                 <span *ngIf = "isMobile"> <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie
                     </button></span>
-                <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails" ></app-upload-modal>
+                <!-- <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails" ></app-upload-modal> -->
             </div>
 
             <table
@@ -639,7 +639,7 @@
                 </div>
                 <span *ngIf="isMobile"> <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie
                     </button></span>
-                <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails"></app-upload-modal>
+                <!-- <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails"></app-upload-modal> -->
             </div>
     
             <table
@@ -880,7 +880,7 @@
                 </div>
                 <span *ngIf="isMobile"> <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie
                     </button></span>
-                <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails"></app-upload-modal>
+                <!-- <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails"></app-upload-modal> -->
             </div>
     
             <table
@@ -1121,14 +1121,44 @@
             <!-- </form> -->
 
         </div>
-
-        <div *ngIf="showRouteMap" class="form-group col-sm-6 col-md-4 col-lg-3 hide">
+    <div class="row"  formGroupName="gpsPosition">
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="b_latitude">{{label.branchLat}}
+                <!-- <sub class="star_red_col">*</sub> -->
+            </label>
+            <app-custom-input formControlName="bLatitude" [className]="'form-control'"  [isDisabled] = "true" [placeholder]="''">
+            </app-custom-input>
+        </div>
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="b_longitude">{{label.branchLng}}
+                <!-- <sub class="star_red_col">*</sub> -->
+            </label>
+            <app-custom-input formControlName="bLongitude" [className]="'form-control'"  [isDisabled] = "true" [placeholder]="''">
+            </app-custom-input>
+        </div>
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="captured_latitude">{{label.capturedLat}}
+                <!-- <sub class="star_red_col">*</sub> -->
+            </label>
+            <app-custom-input formControlName="latitude" [className]="'form-control'"  [isDisabled] = "true" [placeholder]="''">
+            </app-custom-input>
+        </div>
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="captured_longitude">{{label.capturedLng}}
+                <!-- <sub class="star_red_col">*</sub> -->
+            </label>
+            <app-custom-input formControlName="longitude" [className]="'form-control'"  [isDisabled] = "true" [placeholder]="''">
+            </app-custom-input>
+        </div>
+        <div *ngIf="showRouteMap" class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="timeOf_verification">{{label.routeMap}}
             </label>
             <div class="photo">
                 <img src="{{base64Image}}" width="235" />
             </div>
         </div>
+    </div>
+
     </form>
 </div>
 
@@ -1167,3 +1197,5 @@
         </div>
     </div>
 </div>
+
+ <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails" ></app-upload-modal>
