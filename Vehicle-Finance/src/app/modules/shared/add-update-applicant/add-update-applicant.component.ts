@@ -754,10 +754,17 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.panRequired = false;
         dedupe.get('pan').disable();
         if (!voterId) {
+
           this.isPassportRequired = true;
+          setTimeout(() => {
+            dedupe.get('passportNumber').setValue(passportValue || null);
+          })
         }
         if (!passportValue) {
           this.isVoterRequired = true;
+          setTimeout(() => {
+            dedupe.get('voterIdNumber').setValue(voterId || null);
+          })
         }
         const dedupeFlag = this.applicantDataService.getDedupeFlag();
 
@@ -767,10 +774,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
             ''
           );
         }
-
-
-        this.voterIdListener = this.listenerVoterId();
-        this.passportListener = this.listenerPassport();
+        //this.voterIdListener = this.listenerVoterId();
+        //this.passportListener = this.listenerPassport();
 
         // dedupe.get('passportNumber').setValue(passportValue || null);
       } else {
@@ -814,7 +819,21 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.passportListener.unsubscribe();
         }
       } else {
+        if(!this.isVoterRequired){
+          return;
+        }
+        const passport= dedupe.get('passportNumber').value;
+        
+        dedupe.get('voterIdNumber').clearValidators();
+        dedupe.get('voterIdNumber').updateValueAndValidity();
         this.isPassportRequired = true;
+        setTimeout(()=>{
+          dedupe.get('passportNumber').setValidators([Validators.required]);
+          dedupe.get('passportNumber').updateValueAndValidity()
+        })
+        
+        this.isVoterRequired= false;
+
         if (!this.passportListener) {
           this.passportListener = this.listenerPassport();
         }
@@ -848,7 +867,17 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.voterIdListener.unsubscribe();
         }
       } else {
+        if(!this.isPassportRequired){
+          return;
+        }
         this.isVoterRequired = true;
+        this.isPassportRequired= false;
+        //dedupe.get('passportNumber').setValue(null)
+        dedupe.get('passportNumber').clearValidators();
+        dedupe.get('passportNumber').updateValueAndValidity();
+        dedupe.get('voterIdNumber').setValidators([Validators.required]);
+        dedupe.get('voterIdNumber').updateValueAndValidity();
+
         if (!this.voterIdListener) {
           this.voterIdListener = this.listenerVoterId();
         }
@@ -868,7 +897,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     // );
     if (
       this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').status ===
-      'VALID' && this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').value !== ''
+      'VALID' && this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').value !== '' &&
+      this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').value !== null
     ) {
       this.disabledDrivingDates = false;
       this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').setValidators([Validators.required]);
@@ -881,6 +911,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.mandatory['drivingLicenseExpiryDate'] = true;
     } else {
       //this.disabledDrivingDates = true;
+      if (this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').value == ''
+      ) {
+        this.disabledDrivingDates = true;
+        this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').setValue(null);
+        this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').setValue(null);
+      }
+
 
       this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').clearValidators();
       this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').updateValueAndValidity();
@@ -891,6 +928,25 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
       this.mandatory['drivingLicenseIssueDate'] = false;
       this.mandatory['drivingLicenseExpiryDate'] = false;
+    }
+  }
+
+  voterIdChange(event) {
+    const dedupe = this.coApplicantForm.get('dedupe');
+    if (dedupe.get('voterIdNumber').valid && dedupe.get('voterIdNumber').value) {
+      this.isPassportRequired = false;
+      setTimeout(() => {
+        const passport = dedupe.get('passportNumber').value;
+        dedupe.get('passportNumber').setValue(passport || null);
+      });
+    } else {
+      if (!this.isPanDisabled) {
+         this.isPassportRequired = true;
+         setTimeout(() => {
+          const passport = dedupe.get('passportNumber').value;
+          dedupe.get('passportNumber').setValue(passport || null);
+        });
+      }
     }
   }
 
@@ -912,6 +968,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
       this.passportMandatory['passportIssueDate'] = true;
       this.passportMandatory['passportExpiryDate'] = true;
+      this.isVoterRequired = false;
+        setTimeout(() => {
+          const voter = this.coApplicantForm.get('dedupe').get('voterIdNumber').value;
+          this.coApplicantForm
+            .get('dedupe')
+            .get('voterIdNumber')
+            .setValue(voter || null);
+        });
     } else {
 
       if (this.coApplicantForm.get('dedupe').get('passportNumber').value == ''
@@ -928,12 +992,18 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       //this.coApplicantForm.get('dedupe').updateValueAndValidity();
       this.passportMandatory['passportIssueDate'] = false;
       this.passportMandatory['passportExpiryDate'] = false;
+      if (!this.isPanDisabled) {
+        this.isVoterRequired = true;
+        setTimeout(() => {
+          this.coApplicantForm.get('dedupe').get('voterIdNumber').updateValueAndValidity();
+        });
+      }
     }
 
   }
 
 
-
+  
 
 
   drvingLisenseValidation(event) {
@@ -1640,9 +1710,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       passportIssueDate: details.passportIssueDate || '',
       passportExpiryDate: details.passportExpiryDate || '',
     });
-    if (applicantValue.indivIdentityInfoDetails.panType === '2PANTYPE') {
+    if(applicantValue.indivIdentityInfoDetails.panType=="2PANTYPE"){
       this.getPanValue(applicantValue.indivIdentityInfoDetails.panType);
     }
+      
 
     const permentAddress = this.coApplicantForm.get('permentAddress');
     const currentAddress = this.coApplicantForm.get('currentAddress');
@@ -3163,7 +3234,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         const upperCaseValue = value ? value.toUpperCase() : value;
         this.enableDedupeBasedOnChanges(upperCaseValue !== this.passportNumber);
         this.isPassportChanged = upperCaseValue !== this.passportNumber;
-      } else {
+        if(!this.isPanDisabled){
+          this.isVoterRequired= false;
+          dedupe.get('voterIdNumber').clearValidators();  
+            dedupe.get('voterIdNumber').updateValueAndValidity()
+        }
+      } else{
         this.isPassportChanged = true;
       }
     });
@@ -3174,6 +3250,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.isDrivingLicenseChanged = upperCaseValue !== this.drivingLicenseNumber;
       } else {
         this.isDrivingLicenseChanged = true;
+        
       }
     });
     dedupe.get('voterIdNumber').valueChanges.subscribe((value) => {
@@ -3184,6 +3261,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.isVoterIdChanged = upperCaseValue !== this.voterIdNumber;
       } else {
         this.isVoterIdChanged = true;
+        
       }
     });
   }
