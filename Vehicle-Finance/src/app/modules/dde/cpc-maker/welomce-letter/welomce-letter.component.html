@@ -51,7 +51,7 @@
                         {{applicantList?.country}}
                     </div>
                 </div>
-                <div class="col-md-4" *ngIf="coApplicantList?.length>0">
+                <div class="col-md-4" *ngIf="coApplicantList.length>0">
                     <div *ngFor="let coAppliacnt of coApplicantList; let i=index">
                         <strong>{{labels?.CoBorrower}} {{i+1}}</strong> <br>
                         <strong>{{coAppliacnt?.name}}</strong><br>

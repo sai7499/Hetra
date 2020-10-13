@@ -43,6 +43,10 @@
     "loanCreatedDate": "Created Date",
     "product": "Product",
     "loanAmount": "Loan Amount",
+    "reqLoanAmtOrNegLoanAmt":"Req Loan Amt/Neg Loan Amt",
+    "reqLtvOrNegLtv":"Req LTV/Neg LTV",
+    "eligibleLoanAmt":"Eligible Loan Amt",
+    "eligibleLTV":"Eligible LTV",
     "branch": "Branch",
     "cbs": "Credit Bureau Score",
     "stage": "Lead Stage",
@@ -100,6 +104,7 @@
     "insurance": "Insurance",
     "ageOfAsset": "Age of Asset",
     "ageOfVehicle": "Age of vehicle at the end of tenor",
+    "isVehAvailInGrid": "Is Vehicle available in Grid",
     "assetCostGrid": "Asset cost basis Grid",
     "vechicleUsage": "Vehicle Usage",
     "vehicleCategory": "Vehicle Category",
@@ -698,6 +703,8 @@
     "addManualDeviation": "Add Manual Deviation",
     "deviation": "Deviation",
     "description": "Description",
+    "otherMitigation": "Other Mitigation",
+    "mitigationMet": "Mitigation Met",
     "coBorrower": "Co-Borrower / Guarantor - Waiver",
     "approvalLevel": "Approval Level",
     "bcm": "BCM",
@@ -1660,6 +1667,12 @@
         "amountValue": {
             "maxLength": {
                 "rule": 12
+            },
+            "type": "number"
+        },
+        "assetCostGrid": {
+            "maxLength": {
+                "rule": 10
             },
             "type": "number"
         },

@@ -247,7 +247,7 @@
                   <th role="columnheader" class="text-center">
                     {{ yearThreeValue }}
                   </th>
-                  <th role="columnheader" class="text-center">{{ labels?.actions }}</th>
+                  <th role="columnheader" *ngIf="!disableSaveBtn" class="text-center">{{ labels?.actions }}</th>
                 </tr>
                 <tr>
                   <td class="bank_name">{{ labels?.applicant }}</td>
@@ -294,7 +294,7 @@
                       [maxLength]="labels?.validationData?.fullName?.maxLength" [isDisabled]="true" [isDirty]="isDirty">
                     </app-custom-input>
                   </td>
-                  <td data-title="Actions">
+                  <td data-title="Actions" *ngIf="!disableSaveBtn">
                     <!-- <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
                       title="Add income" (click)="addKeyFinancialDetails(null)"></i>&nbsp; -->
                     <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
