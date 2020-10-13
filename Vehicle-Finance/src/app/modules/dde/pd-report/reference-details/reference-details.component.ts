@@ -164,6 +164,9 @@ export class ReferenceDetailsComponent implements OnInit {
       opinionOfPdOfficer: referenceDetails.opinionOfPdOfficer || '',
     })
 
+    this.getPincodeResult(Number(referenceDetails.referencePincode), 'referencePincode')
+    this.getPincodeResult(Number(referenceDetails.refererPincode), 'refererPincode')
+
   }
 
   //FORMGROUP
@@ -225,7 +228,7 @@ export class ReferenceDetailsComponent implements OnInit {
       .pipe(
         map((value: any) => {
           const processVariables = value.ProcessVariables;
-          const addressList: any[] = processVariables.GeoMasterView;
+          const addressList: any[] = processVariables.GeoMasterView ? processVariables.GeoMasterView : [];
           if (!addressList) {
             this.toastrService.showError('Invalid pincode', '');
             this.isValidPincode = true;

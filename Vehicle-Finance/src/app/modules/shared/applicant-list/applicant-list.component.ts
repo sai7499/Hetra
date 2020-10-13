@@ -10,6 +10,7 @@ import { ApplicantImageService } from '@services/applicant-image.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ToasterService } from '@services/toaster.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 
 @Component({
@@ -38,6 +39,7 @@ export class ApplicantListComponent implements OnInit {
   exactMatches: any;
   probableMatches: any;
   adhaarDetails: any;
+  disableSaveBtn: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -49,6 +51,7 @@ export class ApplicantListComponent implements OnInit {
     private domSanitizer: DomSanitizer,
     private toasterService: ToasterService,
     private createLeadDataService: CreateLeadDataService,
+    private toggleDdeService: ToggleDdeService
   ) { }
 
   async ngOnInit() {
@@ -76,6 +79,13 @@ export class ApplicantListComponent implements OnInit {
       this.applicantUrl = `/pages/applicant-details/${this.leadId}/basic-data`;
     }
     this.getApplicantList();
+
+    setTimeout(() => {
+      const operationType = this.toggleDdeService.getOperationType();
+      if (operationType === '1' || operationType === '2') {
+        this.disableSaveBtn = true;
+      }
+    })
   }
 
   getLeadId() {
