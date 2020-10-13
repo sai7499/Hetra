@@ -29,9 +29,15 @@ export class ApplicantListComponent implements OnInit {
   showModal = false;
   backupApplicantId: any;
   cibilImage: any;
-  showNotApplicant : boolean;
+  showNotApplicant: boolean;
   hideDraggableContainer = false;
   newImage: any;
+  appicanteKYCDetails: any;
+  panDetails: any;
+  dedupeMatchedCriteria: any;
+  exactMatches: any;
+  probableMatches: any;
+  adhaarDetails: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -42,7 +48,7 @@ export class ApplicantListComponent implements OnInit {
     private applicantImageService: ApplicantImageService,
     private domSanitizer: DomSanitizer,
     private toasterService: ToasterService,
-    private createLeadDataService : CreateLeadDataService,
+    private createLeadDataService: CreateLeadDataService,
   ) { }
 
   async ngOnInit() {
@@ -224,32 +230,46 @@ export class ApplicantListComponent implements OnInit {
       document.onmousemove = null;
     }
   }
-  forFindingApplicantType(){
-    const findApplicant= this.applicantList.find((data)=>data.applicantTypeKey=="APPAPPRELLEAD")
-    console.log('findApplicant',findApplicant)
-    this.showNotApplicant=findApplicant==undefined? true: false;
-   }
+  forFindingApplicantType() {
+    const findApplicant = this.applicantList.find((data) => data.applicantTypeKey == "APPAPPRELLEAD")
+    console.log('findApplicant', findApplicant)
+    this.showNotApplicant = findApplicant == undefined ? true : false;
+  }
 
   onNext() {
 
     this.forFindingApplicantType()
-    if(this.showNotApplicant){
-      this.toasterService.showError('There should be one applicant for this lead','')
+    if (this.showNotApplicant) {
+      this.toasterService.showError('There should be one applicant for this lead', '')
       return;
     }
-    if(this.router.url.includes('sales')){
+    if (this.router.url.includes('sales')) {
       this.router.navigateByUrl(`pages/sales/${this.leadId}/vehicle-list`)
-    }else{
+    } else {
       this.router.navigateByUrl(`pages/dde/${this.leadId}/vehicle-list`)
     }
-    
+
   }
   destroyImage() {
     if (this.cibilImage) {
       this.cibilImage = null;
     }
   }
-  routetoEB(){
+  geteKYCDetails(applicantId) {
     // this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-kyc-details`);
+    this.applicantService.geteKYCDetails(applicantId).subscribe((res: any) => {
+      // const processVariables = res;
+      // console.log(processVariables);
+      if (res['ProcessVariables'] && res.Error === "0") {
+        this.appicanteKYCDetails = res['ProcessVariables'];
+        this.panDetails = this.appicanteKYCDetails['panDetails'];
+        this.adhaarDetails = this.appicanteKYCDetails['aadharDetails'];
+        this.dedupeMatchedCriteria = this.appicanteKYCDetails['dedupeMatchedCriteria'];
+        this.exactMatches = this.appicanteKYCDetails['exactMatches'];
+        this.probableMatches = this.appicanteKYCDetails['probableMatches'];
+      } else {
+        this.toasterService.showError(res['ProcessVariables'].error["message"], '')
+      }
+    });
   }
 }

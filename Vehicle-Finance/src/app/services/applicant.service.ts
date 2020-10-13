@@ -70,6 +70,10 @@ export class ApplicantService {
     processId?: string;
     workflowId?: string;
   }
+  private eKYCDetails: {
+    projectId?: string;
+    processId?: string;
+  }
   constructor(
     private httpService: HttpService,
     private apiService: ApiService,
@@ -88,7 +92,8 @@ export class ApplicantService {
     this.panValidation = this.apiService.api.wrapperPanValidation;
     this.biometriceKYC= this.apiService.api.wrapperBiometriceKYC;
     this.retrieveAadharData= this.apiService.api.retrieveAadharData;
-    this.validateSRNumber = this.apiService.api.validateSRNumber
+    this.validateSRNumber = this.apiService.api.validateSRNumber;
+    this.eKYCDetails = this.apiService.api.eKYCDetails;
   }
 
   getApplicantList(data) {
@@ -412,4 +417,22 @@ export class ApplicantService {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
+
+  geteKYCDetails(applicantId){
+    const projectId = this.eKYCDetails.projectId;
+    const processId = this.eKYCDetails.processId;
+    const workflowId = this.validateSRNumber.workflowId;
+    // const userId = localStorage.getItem('userId');
+
+    const body={
+      processId,
+      ProcessVariables: {
+        applicantId
+      },
+      projectId  
+    };
+    const url = `${environment.host}d/workflows/${processId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
 }

@@ -840,6 +840,10 @@ export class ApiService {
       workflowId: '8b6e5f64f2bd11ea8ac000505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
-
+   eKYCDetails:{
+    //  workflowId:'7fde429c82ea11eabdc2f2fa9bec3d63',
+     processId:'0e9b3564095d11ebbdfe00505695f93b',
+     projectId: environment.projectIds.salesProjectId
+   },
   };
 }
