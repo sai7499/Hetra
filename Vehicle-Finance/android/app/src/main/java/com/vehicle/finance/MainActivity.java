@@ -198,6 +198,8 @@ public class MainActivity extends BridgeActivity {
   public void onResume() {
     super.onResume();
 
+    checkTamperedApk();
+
     if(RootUtil.isDeviceRooted(MainActivity.this)){
       System.out.println("Rooted");
       showAlertDialog("Rooted Device Alert", "This App cannot run either on Rooted device or Emulator");
