@@ -152,34 +152,46 @@ Max width before this PARTICULAR table gets nasty. This query will take effect f
     /*
 Label the data
 You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
+
+ <td>{{labels?.}}</td>
+                            <td>{{labels?.installmentAmt}}</td>
+                            <td>{{labels?.dueDate}} </td>
+                            <td>{{labels?.rcptNo}} </td>
+                            <td>{{labels?.recdDate}} </td>
+                            <td>{{labels?.rcptAmount}} </td>
+                            <td>{{labels?.delayDays}} </td>
+                            <td>{{labels?.paymentsExcess}} </td>
+                            <td>{{labels?.action}} </td>
 */
+
     td:nth-of-type(1):before {
-        content: "SR NO";
+        content: "Installment No";
     }
     td:nth-of-type(2):before {
-        content: "Regd.No";
+        content: "Installment Amt";
     }
     td:nth-of-type(3):before {
-        content: "Regd owner";
+        content: "Due Date ";
     }
     td:nth-of-type(4):before {
-        content: "Relation";
+        content: "Rcpt. No. ";
     }
     td:nth-of-type(5):before {
-        content: "Make";
+        content: "Recd. Date ";
     }
     td:nth-of-type(6):before {
-        content: "YOM";
+        content: "Rcpt Amount ";
     }
     td:nth-of-type(7):before {
-        content: "Financier";
+        content: "Delay Days ";
     }
     td:nth-of-type(8):before {
-        content: "Loan NO";
+        content: "Payments excess/short ";
     }
     td:nth-of-type(9):before {
-        content: "Purchase Date";
+        content: "Action ";
     }
+    /*
     td:nth-of-type(11):before {
         content: "Tenure";
     }
@@ -200,7 +212,7 @@ You could also use a data-* attribute and content for this. That way "bloats" th
     }
     td:nth-of-type(17):before {
         content: "RTR";
-    }
+    } */
 }
 
 .font-weight {
