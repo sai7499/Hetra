@@ -39,6 +39,7 @@ export class LeadDedupeComponent implements OnInit {
   isRejectLead: boolean;
   isRadioDisable: boolean;
   flowStage: string;
+  isReasonSelected: boolean;
 
   @ViewChild('radioSelect', { static: true }) radioButtonSelected: ElementRef;
 
@@ -172,6 +173,7 @@ export class LeadDedupeComponent implements OnInit {
 
   onSelectRejectReason(event) {
     this.rejectReasonCode = event.target.value;
+    this.isReasonSelected = true;
   }
 
   rejectReason() {
@@ -242,5 +244,6 @@ export class LeadDedupeComponent implements OnInit {
     this.isRejectLead = false;
     this.isReason = false;
     this.isRadioDisable = false;
+    this.isReasonSelected = false;
   }
 }
