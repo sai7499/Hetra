@@ -3,7 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoanStatusComponent} from './loan-status.component'
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 import { LoanBookingComponent } from './loan-booking/loan-booking.component';
-import { LoanTestComponent } from './loan-test/loan-test.component';
+import { WelomceLetterComponent } from '../cpc-maker/welomce-letter/welomce-letter.component';
+import { DeliveryOrderComponent } from '../cpc-maker/delivery-order/delivery-order.component';
 const routes: Routes = [
   {
     path: ':leadId',
@@ -11,29 +12,17 @@ const routes: Routes = [
     resolve: { leadData: LeadDataResolverService },
     children: [
         {
-            path: '',
+            path: 'loan-booking-status',
             component: LoanStatusComponent
         },
         {
-            path: 'loan',
-            component: LoanTestComponent
+            path: 'welomce-letter',
+            component: WelomceLetterComponent
         },
-        // {
-        //     path: 'loan-status',
-        //     component: LoanStatusComponent
-        // }
-        //{
-        //     path: 'term-sheet',
-        //     component: TermSheetComponent
-        // },
-		// {
-        //     path: 'welomce-letter',
-        //     component: WelomceLetterComponent
-        // },
-        // {
-        //     path: 'delivery-order',
-        //     component: DeliveryOrderComponent
-        // }
+        {
+            path: 'delivery-order',
+            component: DeliveryOrderComponent
+        }
     ]
 }
 ];

@@ -200,7 +200,7 @@ const routes: Routes = [
           ).then((m) => m.CpcMakerModule),
       },
       {
-        path: 'loan-status',
+        path: 'loanbooking',
         loadChildren: () =>
           import(
             './modules/dde/loan-status/loan-booking.module'

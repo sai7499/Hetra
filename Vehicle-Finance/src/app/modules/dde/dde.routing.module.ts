@@ -130,7 +130,7 @@ const routes: Routes = [
         component: ChequeTrackingComponent,
       },
       {
-        path: 'loan-status',
+        path: 'loanbooking',
         component: LoanBookingComponent,
       },
     ],

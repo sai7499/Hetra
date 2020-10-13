@@ -7,13 +7,16 @@ import { DdeSharedModule } from '../shared/shared.module';
 import { LoanStatusComponent } from './loan-status.component';
 import { LoanBookingComponent } from './loan-booking/loan-booking.component';
 import { LoanStatusRoutingModule } from './loan-status-routing.module';
-import { LoanTestComponent } from './loan-test/loan-test.component';
+import { WelomceLetterComponent } from '../cpc-maker/welomce-letter/welomce-letter.component';
+import { DeliveryOrderComponent } from '../cpc-maker/delivery-order/delivery-order.component';
+
 
 @NgModule({
   declarations: [
     LoanStatusComponent,
     LoanBookingComponent,
-    LoanTestComponent,
+    WelomceLetterComponent,
+    DeliveryOrderComponent
   ],
   imports: [
     CommonModule,

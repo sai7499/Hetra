@@ -24,7 +24,7 @@ export class LoanBookingComponent implements OnInit {
   roleId: any;
   roleType: any;
   productCatCode;
-  
+  productCode:string;
   constructor(
     private router: Router,
     private location: Location,
@@ -54,31 +54,26 @@ export class LoanBookingComponent implements OnInit {
     this.activatedRoute.params.subscribe((value: any) => {
       console.log('params', value);
       this.leadId = Number(value.leadId);
-      alert(value)
     });
-    // this.activatedRoute.firstChild.params.subscribe((value: any) => {
-    //   this.applicantId = value.applicantId;
-    //   this.version = value.version;
-    //   console.log('applicant ID', value.applicantId);
-    //   console.log('version in fi and pd report', this.version);
-    // });
-    // this.getLeadSectiondata();  
-   //pages/dde/1178/loan-status
-    
+    this.sharedService.productCatCode$.subscribe((value)=> {
+
+      this.productCode = value;
+      console.log('pdtcat',this.productCode)
+    })
   }
 
   onNavigate(url: string) {
     // tslint:disable-next-line: triple-equals
-      this.router.navigate([`/pages/dde/${this.leadId}/loan`]);
+     this.router.navigate([`/pages/loanbooking/${this.leadId}/${url}`]);
     // tslint:disable-next-line: triple-equals
   }
   getLocationIndex(url: string) {
     
-    if (url.includes('loan')) {
+    if (url.includes('loan-booking-status')) {
       return 0;
-    }  else if (url.includes('sanction-details')) {
+    }  else if (url.includes('welomce-letter')) {
       return 1;
-    } else if (url.includes('pdc-details')) {
+    } else if (url.includes('delivery-order')) {
       return 2;
     }
 
