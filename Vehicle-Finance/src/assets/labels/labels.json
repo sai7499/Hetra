@@ -2606,6 +2606,16 @@
                 "rule": 5
             },
             "type": "decimal"
+        },
+        "daysFormat": {
+            "maxLength": {
+                "rule": 2
+            },
+            "type": "number",
+            "patternCheck": {
+                "rule": "^[0-3]{1}[0-1]{1}",
+                "msg": "Should be between 0-31 only"
+            }
         }
     }
 }
