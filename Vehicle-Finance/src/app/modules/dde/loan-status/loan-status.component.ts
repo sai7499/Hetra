@@ -36,6 +36,7 @@ export class LoanStatusComponent implements OnInit {
     this.leadId = (await this.getLeadId()) as number;
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
+      console.log('label',res)
       this.validationData = res.validationData;
     });
     this.getLoanProcessLogs();
@@ -72,7 +73,12 @@ export class LoanStatusComponent implements OnInit {
 
     });
   }
-
+  Refresh(){
+    this.getLoanProcessLogs();
+  }
+  onNext(){
+    this.router.navigate([`/pages/loanbooking/${this.leadId}/welomce-letter`]);
+  }
   onBack() {
     this.router.navigate([`/pages/dashboard`]);
   }
