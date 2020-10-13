@@ -2760,7 +2760,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     let mobileNumber = applicantDetails.mobilePhone;
     this.mobileNumber = mobileNumber;
-    this.mobileNumber = '91' + this.mobileNumber;
+    //this.mobileNumber = this.mobileNumber;
 
     if (applicantDetails.dob) {
       const date = new Date(applicantDetails.dob);
