@@ -36,7 +36,7 @@ import { PdListComponent } from './pd-list/pd-list.component';
 import { FiReportModule } from './fi-report/fi-report.module';
 import { PddDetailsComponent } from './pdd-details/pdd-details.component';
 import { ChequeTrackingComponent} from './cheque-tracking/cheque-tracking.component';
-import { LoanStatusComponent } from './loan-status/loan-status.component';
+import { LoanBookingModule } from './loan-status/loan-booking.module';
 // import { PdReportComponent } from './pd-report/pd-report.component';
 
 @NgModule({
@@ -66,8 +66,6 @@ import { LoanStatusComponent } from './loan-status/loan-status.component';
     PdListComponent,
     PddDetailsComponent,
     ChequeTrackingComponent,
-    LoanStatusComponent
-
 
   ],
   imports: [
@@ -84,7 +82,8 @@ import { LoanStatusComponent } from './loan-status/loan-status.component';
     PdReportModule,
     CreditConditionModule,
     ViabilityDashboardModule,
-    FiReportModule
+    FiReportModule,
+    LoanBookingModule
   ],
   exports: [ViabilityDashboardModule, CreditConditionModule, ChequeTrackingComponent]
 })
