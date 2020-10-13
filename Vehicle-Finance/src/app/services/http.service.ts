@@ -100,7 +100,13 @@ export class HttpService {
           : '',
       };
 
-      this.httpIonic.setServerTrustMode('nocheck');
+      //this.httpIonic.setServerTrustMode('nocheck');
+
+      this.httpIonic.setServerTrustMode('pinned').then((result)=>{
+        console.log("Pinned successfully", result);
+       }).catch((error)=>{
+        console.log("Pinned successfully", error);
+       });
 
       this.httpIonic.setDataSerializer('urlencoded');
       this.httpIonic
@@ -132,7 +138,13 @@ export class HttpService {
     const obs = new Observable((observer) => {
       let data;
 
-      this.httpIonic.setServerTrustMode('nocheck');
+     // this.httpIonic.setServerTrustMode('nocheck');
+
+     this.httpIonic.setServerTrustMode('pinned').then((result)=>{
+      console.log("Pinned successfully", result);
+     }).catch((error)=>{
+      console.log("Pinned successfully", error);
+     });
 
 
       let encryption = this.encrytionService.encrypt(
@@ -333,7 +345,13 @@ export class HttpService {
         'Content-Type': 'application/json',
       };
 
-      this.httpIonic.setServerTrustMode('nocheck');
+      // this.httpIonic.setServerTrustMode('nocheck');
+
+      this.httpIonic.setServerTrustMode('pinned').then((result)=>{
+        console.log("Pinned successfully", result);
+       }).catch((error)=>{
+        console.log("Pinned successfully", error);
+       });
 
       this.httpIonic.setDataSerializer('utf8');
 
@@ -408,7 +426,13 @@ export class HttpService {
         'authentication-token': storage.getToken() ? storage.getToken() : '',
       };
 
-      this.httpIonic.setServerTrustMode('nocheck');
+      //this.httpIonic.setServerTrustMode('nocheck');
+
+      this.httpIonic.setServerTrustMode('pinned').then((result)=>{
+        console.log("Pinned successfully", result);
+       }).catch((error)=>{
+        console.log("Pinned successfully", error);
+       });
 
       this.httpIonic
         .get(url, {}, headers)
@@ -437,7 +461,13 @@ export class HttpService {
           ? localStorage.getItem('token')
           : '',
       };
-      this.httpIonic.setServerTrustMode('nocheck');
+      //this.httpIonic.setServerTrustMode('nocheck');
+
+      this.httpIonic.setServerTrustMode('pinned').then((result)=>{
+        console.log("Pinned successfully", result);
+       }).catch((error)=>{
+        console.log("Pinned successfully", error);
+       });
 
       this.httpIonic
         .downloadFile(uri, {}, header, savePath)

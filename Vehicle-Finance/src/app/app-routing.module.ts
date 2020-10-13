@@ -200,6 +200,13 @@ const routes: Routes = [
           ).then((m) => m.CpcMakerModule),
       },
       {
+        path: 'loanbooking',
+        loadChildren: () =>
+          import(
+            './modules/dde/loan-status/loan-booking.module'
+          ).then((m) => m.LoanBookingModule),
+      },
+      {
         path: 'cpc-checker',
         loadChildren: () =>
           import(
