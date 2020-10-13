@@ -801,7 +801,7 @@ if (this.router.url.includes('/dde')) {
       const tonnageCalc =  avgLoadPerTon * rateTonne;
       this.monthlyIncome = tripsPerMonth * tonnageCalc + otherIncome;
       passengerGroup.controls.busMonthlyIncome = this.monthlyIncome;
-      
+
       this.calculatePassengerB();
     }
 
@@ -836,7 +836,7 @@ if (this.router.url.includes('/dde')) {
   //   if (fuelAvgPerKm == '0') {
   //   this.toasterService.showError('Fuel Average cannot be 0', '');
   //   passengerGroup.controls.fuelAvgPerKm.reset();
-    
+
   //   } else if (costPerLtr == '0') {
   //     this.toasterService.showError('Cost Per Litre cannot be 0', '');
   //     passengerGroup.controls.costPerLtr.reset();
@@ -932,7 +932,10 @@ if (this.router.url.includes('/dde')) {
   console.log(passengerStandGroup);
   const businessEarningPerDay = Number(passengerStandGroup.value.businessEarningPerDay);
   const grossIncomePerDay = Number(passengerStandGroup.value.grossIncomePerDay);
-  this.montlyStandOperatorIncome = businessEarningPerDay * grossIncomePerDay;
+  if (businessEarningPerDay <= 31) {
+    this.montlyStandOperatorIncome = businessEarningPerDay * grossIncomePerDay;
+  }
+
   // this.calculateStandOperator();
   this.calculateStandOperatorB();
   // this.calculateStandOperatorC();
@@ -941,7 +944,7 @@ if (this.router.url.includes('/dde')) {
   this.standoperatorExpense = 0;
 
   const passengerStandGroup = this.viabilityForm.controls.passangerStandOperator;
-  const businessEarningPerDay = passengerStandGroup.value.businessEarningPerDay ?
+  const businessEarningPerDay: any = passengerStandGroup.value.businessEarningPerDay ?
   Number(passengerStandGroup.value.businessEarningPerDay) : 0;
   // tslint:disable-next-line: max-line-length
   // const grossIncomePerDay = Number(passengerStandGroup.value.grossIncomePerDay) ?  Number(passengerStandGroup.value.grossIncomePerDay) : 0;
@@ -985,7 +988,10 @@ calculateCaptive() {
   // tslint:disable-next-line: max-line-length
   const businessEarningPerDay = passengerStandGroup.value.businessEarningPerDay ? Number(passengerStandGroup.value.businessEarningPerDay) : 0;
   const grossIncomePerDay = (passengerStandGroup.value.businessIncomePerDay) ? Number(passengerStandGroup.value.businessIncomePerDay) : 0;
-  this.montlyCaptiveIncome = businessEarningPerDay * grossIncomePerDay;
+  if (businessEarningPerDay <= 31) {
+    this.montlyCaptiveIncome = businessEarningPerDay * grossIncomePerDay;
+  }
+ 
   // this.calculateCaptive();
   this.calculateCaptiveB();
   // this.calculateCaptiveC();
