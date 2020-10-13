@@ -1,4 +1,5 @@
-<!-- <div id="mydiv" *ngIf="src" class="card" class="center">
+<ng-container *ngIf="this.isMobile">
+<div id="mydiv" *ngIf="src" class="card" class="center">
   <div class="header">
     <button type="button" class="close" (click)="onClose()">×</button>
   </div>
@@ -15,8 +16,9 @@
       *ngIf="imageType === 'pdf'"
     ></iframe>
   </div>
-</div> -->
-
+</div>
+</ng-container>
+<ng-container *ngIf="!this.isMobile">
 <kendo-window  [(top)]="windowTop" [(left)]="windowLeft" [title]="fileName" [height]="height" [width]="width"  *ngIf="src" (close)="onClose()">
   <div class="image-content">
     <img
@@ -32,5 +34,6 @@
     ></iframe>
   </div>
 </kendo-window>
+</ng-container>
 
 

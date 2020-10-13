@@ -25,37 +25,27 @@ export class DraggableComponent implements OnInit {
     left: '50%',
   };
   @Input() set imageUrl(value) {
-    if (!!value) {
-      this.imageType = value.imageType;
-      this.fileName = value.name;
-      if (this.imageType === 'jpeg' || this.imageType === 'png') {
-        this.src = this.sanitizer.bypassSecurityTrustResourceUrl(
-          'data:image/jpeg;base64,' + value.imageUrl
-        );
-      } else if (this.imageType === 'pdf') {
-        // this.src = this.sanitizer.bypassSecurityTrustResourceUrl(
-        //   'data:application/pdf;base64,' + value.imageUrl
-        // );
-        const blob = this.base64ToBlob( value.imageUrl, 'application/pdf' );
-        const url = URL.createObjectURL( blob );
-        this.src = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-      } else if (this.imageType === 'xls') {
-        this.src = this.sanitizer.bypassSecurityTrustResourceUrl(
-          'data:application/vnd.ms-excel;base64' + value.imageUrl
-        );
-        // console.log('this.src', this.src);
-      } else if (this.imageType.includes('doc')) {
-        // application/vnd.openxmlformats-officedocument.wordprocessingml.document
-        // 'application/msword'
-        const blob = this.base64ToBlob( value.imageUrl,  'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-        const url = URL.createObjectURL( blob );
-        this.src = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      if (!!value) {
+        this.imageType = value.imageType;
+        this.fileName = value.name;
+        if (this.imageType === 'jpeg' || this.imageType === 'png') {
+          this.src = this.sanitizer.bypassSecurityTrustResourceUrl(
+            'data:image/jpeg;base64,' + value.imageUrl
+          );
+        } else if (this.imageType === 'pdf') {
+          const blob = this.base64ToBlob( value.imageUrl, 'application/pdf' );
+          const url = URL.createObjectURL( blob );
+          this.src = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+        } else if (this.imageType === 'xls') {
+          this.src = this.sanitizer.bypassSecurityTrustResourceUrl(
+            'data:application/vnd.ms-excel;base64' + value.imageUrl
+          );
+        } else if (this.imageType.includes('doc')) {
+          const blob = this.base64ToBlob( value.imageUrl,  'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+          const url = URL.createObjectURL( blob );
+          this.src = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+        }
       }
-      // console.log('setCss', this.setCss);
-      // setTimeout(() => {
-      //   this.dragElement(document.getElementById('mydiv'));
-      // });
-    }
   }
   constructor(private sanitizer: DomSanitizer,
               private draggableContainerService: DraggableContainerService,
@@ -97,8 +87,10 @@ export class DraggableComponent implements OnInit {
       this.height = height - ((height / 100 ) * 15);
       this.width = screen.availWidth;
     } else {
-      this.windowLeft = ( screen.availWidth / 2) - 600;
+      this.windowLeft = ( screen.availWidth / 2) - (this.width / 2);
       this.windowTop = screen.availHeight / 2;
+      console.log('this.windowLeft', this.windowLeft);
+      console.log('this.windowTop', this.windowTop);
     }
   }
   // private dragElement(elmnt) {
