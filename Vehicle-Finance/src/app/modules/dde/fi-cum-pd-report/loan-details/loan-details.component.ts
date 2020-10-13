@@ -12,6 +12,7 @@ import { PdDataService } from '../pd-data.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { UtilityService } from '@services/utility.service';
 
 @Component({
   selector: 'app-loan-details',
@@ -41,7 +42,7 @@ export class LoanDetailsComponent implements OnInit {
   currentYear = new Date().getFullYear();
   yearCheck = [];
   productCat: any;
-  toDayDate: Date = new Date();
+  public toDayDate: Date = new Date();
 
   amountPattern = {
     rule: '^[1-9][0-9]*$',
@@ -93,11 +94,16 @@ export class LoanDetailsComponent implements OnInit {
     private toasterService: ToasterService,
     public sharedService: SharedService,
     private createLeadDataService: CreateLeadDataService,
+    private utilityService: UtilityService,
     private toggleDdeService: ToggleDdeService) {
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
   }
 
   async ngOnInit() {
+
+    console.log('today date', this.toDayDate);
+    this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
+    console.log('today date', this.toDayDate);
 
     // accessing lead id from route
 
