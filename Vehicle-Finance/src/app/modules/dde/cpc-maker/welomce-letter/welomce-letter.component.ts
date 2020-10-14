@@ -225,7 +225,32 @@ export class WelomceLetterComponent implements OnInit {
           console.log('kanada labels', this.labels);
         },
       );
-    } else {
+    } 
+    else if (this.labels === 'HINPRFLAN') {
+      this.labelsData.getWelcomeDatahindi().subscribe(
+        (data) => {
+          this.labels = data[0];
+          console.log('hindi labels', this.labels);
+        },
+      );
+    }
+    else if (this.labels === 'TAMPRFLAN') {
+      this.labelsData.getWelcomeDatatamil().subscribe(
+        (data) => {
+          this.labels = data[0];
+          console.log('tamil labels', this.labels);
+        },
+      );
+    }
+    else if (this.labels === 'GUJPRFLAN') {
+      this.labelsData.getWelcomeDatagujarati().subscribe(
+        (data) => {
+          this.labels = data[0];
+          console.log('gujarati labels', this.labels);
+        },
+      );
+    }
+    else {
       this.labelsData.getWelcomeDataenglish().subscribe(
         (data) => {
           this.labels = data[0];
@@ -251,7 +276,23 @@ export class WelomceLetterComponent implements OnInit {
       this.labelsData.getWelcomeDatakanada().subscribe((data) => {
         this.labels = data[0];
       });
-    } else {
+    } 
+    else if(labels == 'HINPRFLAN'){
+      this.labelsData.getWelcomeDatahindi().subscribe((data) => {
+        this.labels = data[0];
+      });
+    } 
+    else if(labels == 'TAMPRFLAN'){
+      this.labelsData.getWelcomeDatatamil().subscribe((data) => {
+        this.labels = data[0];
+      });
+    } 
+    else if(labels == 'GUJPRFLAN'){
+      this.labelsData.getWelcomeDatagujarati().subscribe((data) => {
+        this.labels = data[0];
+      });
+    } 
+    else {
     //if(labels === 'TAMPRELAN'){
       this.labelsData.getWelcomeDataenglish().subscribe((data) => {
         this.labels = data[0];
