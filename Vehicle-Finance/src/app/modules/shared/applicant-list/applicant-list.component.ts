@@ -33,6 +33,12 @@ export class ApplicantListComponent implements OnInit {
   showNotApplicant: boolean;
   hideDraggableContainer = false;
   newImage: any;
+  appicanteKYCDetails: any;
+  panDetails: any;
+  dedupeMatchedCriteria: any;
+  exactMatches: any;
+  probableMatches: any;
+  adhaarDetails: any;
   disableSaveBtn: boolean;
 
   constructor(
@@ -122,6 +128,27 @@ export class ApplicantListComponent implements OnInit {
       const processVariables = value.ProcessVariables;
       this.applicantList = processVariables.applicantListForLead;
       console.log('getapplicants', this.applicantList);
+      // for(var i=0; i<=this.applicantList.length; i++){
+      //   const mobile= this.applicantList[i].mobileNumber;
+      //   if(this.applicantList[i].entityTypeKey=='INDIVENTTYP' && mobile.length==12){
+      //     this.applicantList[i].mobileNumber= mobile.slice(2,12)
+      //   }
+      // }
+      // for(var i=0; i<=this.applicantList.length; i++){
+      //   const companyPhoneNumber= this.applicantList[i].companyPhoneNumber;
+      //   if(this.applicantList[i].entityTypeKey=='NONINDIVENTTYP' && companyPhoneNumber.length==12){
+      //     this.applicantList[i].companyPhoneNumber= companyPhoneNumber.slice(2,12)
+      //   }
+      // } 
+      this.applicantList.map((data)=>{
+        if(data.mobileNumber && data.mobileNumber.length===12){
+          data.mobileNumber= data.mobileNumber.slice(2,12)
+        }
+        if(data.companyPhoneNumber && data.companyPhoneNumber.length===12){
+          data.companyPhoneNumber=data.companyPhoneNumber.slice(2,12)
+        }
+        return data;
+      })
     });
   }
 
@@ -259,7 +286,21 @@ export class ApplicantListComponent implements OnInit {
       this.cibilImage = null;
     }
   }
-  routetoEB() {
+  geteKYCDetails(applicantId) {
     // this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-kyc-details`);
+    this.applicantService.geteKYCDetails(applicantId).subscribe((res: any) => {
+      // const processVariables = res;
+      // console.log(processVariables);
+      if (res['ProcessVariables'] && res.Error === "0") {
+        this.appicanteKYCDetails = res['ProcessVariables'];
+        this.panDetails = this.appicanteKYCDetails['panDetails'];
+        this.adhaarDetails = this.appicanteKYCDetails['aadharDetails'];
+        this.dedupeMatchedCriteria = this.appicanteKYCDetails['dedupeMatchedCriteria'];
+        this.exactMatches = this.appicanteKYCDetails['exactMatches'];
+        this.probableMatches = this.appicanteKYCDetails['probableMatches'];
+      } else {
+        this.toasterService.showError(res['ProcessVariables'].error["message"], '')
+      }
+    });
   }
 }
