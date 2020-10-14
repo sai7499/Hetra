@@ -396,10 +396,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   }
 
   onPatchFormArrayValue(array) {
-
-    console.log(array, 'array')
-
-
     let autoDeviationFormArray = (this.deviationsForm.get('autoDeviationFormArray') as FormArray);
 
     let manualDiviationFormArray = (this.deviationsForm.get('manualDeviationFormArray') as FormArray);
@@ -434,7 +430,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           return dev
         }
       })
-      console.log(data, 'description', description)
 
       let type = typeofRole ? Number(typeofRole.type) : 0;
       let hierarchy = typeofRole ? typeofRole.hierarchy : 0;
@@ -539,9 +534,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     })
 
     this.sharedService.getFormValidation(this.deviationsForm)
-    console.log(this.deviationsForm, 'Eror')
-
-
   }
 
   ReferDeviation() {
