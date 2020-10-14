@@ -1623,6 +1623,7 @@
     "equitasEmployee": "Equitas Employee",
     "equitasEmployeesRelative": "Equitas Employees Relative",
     "employeeNo": "Employee Number",
+    "customerDOI" : "Customer DOI",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1824,8 +1825,8 @@
                 "msg": "Minimum Length 8 digits"
             },
             "pattern": {
-                "rule": "[A-Z-a-z]{2}[0-9]{2}[A-Z-a-z]{2}[0-9]{4}",
-                "msg": "Invalid Registration Number, valid format : TN34FG3333"
+                "rule": "^[A-Z-a-z]{2}[0-9]{2}[A-Z-a-z]{1,2}[0-9]{4}$",
+                "msg": "Invalid Registration Number, valid format : TN34FG3333 or TN09B4444"
             },
             "type": "alpha-numeric"
         },
