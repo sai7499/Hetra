@@ -957,7 +957,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
 
 
-  onPassportNumberChange($formCtrl) {
+  onPassportNumberChange() {
     if (
       this.coApplicantForm.get('dedupe').get('passportNumber').status ===
       'VALID' && this.coApplicantForm.get('dedupe').get('passportNumber').value !== '' &&
@@ -973,6 +973,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
       this.passportMandatory['passportIssueDate'] = true;
       this.passportMandatory['passportExpiryDate'] = true;
+
       this.isVoterRequired = false;
       setTimeout(() => {
         const voter = this.coApplicantForm.get('dedupe').get('voterIdNumber').value;
@@ -1238,6 +1239,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         // const applicant= processVariables.applicantDetails; 
         const indivIdentityInfoDetails = processVariables.indivIdentityInfoDetails;
         const corporateProspectDetails = processVariables.corporateProspectDetails;
+         if(indivIdentityInfoDetails.passportNumber){
+          this.passportMandatoryDates();
+         }
+         if(indivIdentityInfoDetails.drivingLicenseNumber){
+          this.drivingLicenceMandatoryDates();
+         }
 
         if (processVariables.applicantDetails.entityTypeKey == "INDIVENTTYP") {
           this.disableUCICIndividualDetails(indivIdentityInfoDetails)
@@ -1284,6 +1291,31 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.setFormValue(this.applicant);
       });
     });
+  }
+
+
+  passportMandatoryDates(){ // when ucic comes
+    this.disabledPassportDates = false;
+    this.coApplicantForm.get('dedupe').get('passportIssueDate').setValidators([Validators.required]);
+    this.coApplicantForm.get('dedupe').get('passportIssueDate').updateValueAndValidity();
+
+    this.coApplicantForm.get('dedupe').get('passportExpiryDate').setValidators([Validators.required]);
+    this.coApplicantForm.get('dedupe').get('passportExpiryDate').updateValueAndValidity();
+    //this.coApplicantForm.get('dedupe').updateValueAndValidity();
+
+    this.passportMandatory['passportIssueDate'] = true;
+    this.passportMandatory['passportExpiryDate'] = true;
+  }
+  drivingLicenceMandatoryDates(){ // when ucic comes
+    this.disabledDrivingDates = false;
+    this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').setValidators([Validators.required]);
+    this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').updateValueAndValidity();
+
+    this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').setValidators([Validators.required]);
+    this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').updateValueAndValidity();
+    //this.coApplicantForm.get('dedupe').updateValueAndValidity();
+    this.mandatory['drivingLicenseIssueDate'] = true;
+    this.mandatory['drivingLicenseExpiryDate'] = true;
   }
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov: any) => {
@@ -2378,10 +2410,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         formValue.currentAddress.addressLineOne == '' ||
         formValue.currentAddress.pincode == '' ||
         formValue.currentAddress.city == '' ||
-
         this.coApplicantForm.get('srNumber').invalid ||
         this.panValidate ||
-        !this.SRNumberValidate
+        !this.SRNumberValidate ||
+        this.showMessage['drivinglicenseIssue'] ||
+        this.showMessage['passportIssue'] ||
+        this.showMessage['drivingLicenseExpiry'] ||
+        this.showMessage['passportExpiry']
 
 
       ) {
