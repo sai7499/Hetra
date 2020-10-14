@@ -24,8 +24,10 @@ export class DraggableComponent implements OnInit {
     top: '50%',
     left: '50%',
   };
+  value: any;
   @Input() set imageUrl(value) {
       if (!!value) {
+        this.value = value;
         this.imageType = value.imageType;
         this.fileName = value.name;
         if (this.imageType === 'jpeg' || this.imageType === 'png') {
@@ -93,59 +95,17 @@ export class DraggableComponent implements OnInit {
       console.log('this.windowTop', this.windowTop);
     }
   }
-  // private dragElement(elmnt) {
-  //   let pos1 = 0;
-  //   let pos2 = 0;
-  //   let pos3 = 0;
-  //   let pos4 = 0;
-  //   if (document.getElementById(elmnt.id + 'mydiv')) {
-  //     // if present, the header is where you move the DIV from:
-  //     document.getElementById(elmnt.id + 'mydiv').onmousedown = dragMouseDown;
-  //   } else {
-  //     // otherwise, move the DIV from anywhere inside the DIV:
-  //     elmnt.onmousedown = dragMouseDown;
-  //   }
 
-  //   function dragMouseDown(e) {
-  //     e = e || window.event;
-  //     e.preventDefault();
-  //     // get the mouse cursor position at startup:
-  //     pos3 = e.clientX;
-  //     pos4 = e.clientY;
-  //     document.onmouseup = closeDragElement;
-  //     // call a function whenever the cursor moves:
-  //     document.onmousemove = elementDrag;
-  //   }
+  onMinimize() {
+    console.log('on minimize');
+    this.draggableContainerService.addMinimizeList(this.value);
+    this.onClose();
+  }
 
-  //   function elementDrag(e) {
-  //     e = e || window.event;
-  //     e.preventDefault();
-  //     // calculate the new cursor position:
-  //     pos1 = pos3 - e.clientX;
-  //     pos2 = pos4 - e.clientY;
-  //     pos3 = e.clientX;
-  //     pos4 = e.clientY;
-  //     // set the element's new position:
-  //     elmnt.style.top = elmnt.offsetTop - pos2 + 'px';
-  //     elmnt.style.left = elmnt.offsetLeft - pos1 + 'px';
-  //   }
-
-  //   function closeDragElement() {
-  //     // stop moving when mouse button is released:
-  //     document.onmouseup = null;
-  //     document.onmousemove = null;
-  //   }
-  // }
 
   onClose() {
     this.src = null;
     this.draggableContainerService.removeImage(this.fileName);
   }
-
-  // ngOnDestroy() {
-  //   if (this.isMobile) {
-  //     this.src = null;
-  //   }
-  // }
 
 }

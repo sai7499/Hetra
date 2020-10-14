@@ -19,7 +19,13 @@
 </div>
 </ng-container>
 <ng-container *ngIf="!this.isMobile">
-<kendo-window  [(top)]="windowTop" [(left)]="windowLeft" [title]="fileName" [height]="height" [width]="width"  *ngIf="src" (close)="onClose()">
+<kendo-window  [(top)]="windowTop" [(left)]="windowLeft"  [height]="height" [width]="width"  *ngIf="src">
+  <kendo-window-titlebar>
+    <div class='k-window-title'>{{fileName}}</div>
+    <button kendoWindowMinimizeAction (click)="onMinimize()"></button>
+    <button kendoWindowMaximizeAction></button>
+    <button kendoWindowCloseAction (click)="onClose()"></button>
+  </kendo-window-titlebar>
   <div class="image-content">
     <img
       height="100%"

@@ -8,3 +8,10 @@
 ></app-draggable-container>
 </ng-container>
 
+<div class="row min-max-row">
+  <div class="col-sm-4 col-lg-4 col-xs-12 col-md-4 min-max" *ngFor="let list of minimizeList" >
+      {{list.name}}
+      <i class="fa fa-window-maximize fa-icon" (click)="openImage(list)"></i>
+      <i class="fa fa-window-close fa-icon" (click)="removeMinimizeList(list)"></i>
+  </div>
+</div>

@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
 
   imageList = [];
   imageObj = {};
+  minimizeList = [];
 
 
   // Equitas
@@ -212,6 +213,8 @@ export class AppComponent implements OnInit {
     }
     
     this.draggableContainerListener();
+    this.getMinimizeList();
+    this.clearListener();
     document.addEventListener('backbutton', () => {
       navigator['app'].exitApp();
     });
@@ -235,6 +238,39 @@ export class AppComponent implements OnInit {
   });
   }
 
+  clearListener() {
+    this.draggableContainerService
+      .getClearListener()
+      .subscribe((value) => {
+          if (value) {
+            this.minimizeList = [];
+            this.imageList = [];
+            this.imageObj = {};
+          }
+      });
+  }
+
+  getMinimizeList() {
+    this.draggableContainerService
+        .getMinimizeList()
+        .subscribe((value) => {
+            if(!value) {
+              return;
+            }
+            this.minimizeList.push(value);
+        });
+  }
+
+  removeMinimizeList(list) {
+    const index = this.minimizeList.findIndex(value => value.name === list.name);
+    this.minimizeList.splice(index, 1);
+  }
+
+  openImage(list) {
+     this.imageList.push(list);
+     this.removeMinimizeList(list);
+  }
+
 
   draggableContainerListener() {
     this.draggableContainerService
@@ -243,7 +279,6 @@ export class AppComponent implements OnInit {
         if (!value) {
           return;
         }
-        // this.imageList.push(value.image);
         const imageName = value.image.name;
         if (!this.imageList[imageName]) {
           this.imageObj[imageName] = {...value.image};
@@ -261,18 +296,16 @@ export class AppComponent implements OnInit {
         if (value === null) {
           return;
         }
-        delete this.imageObj[value];
-
-        console.log(this.imageObj);
-        this.imageList = [];
-        for ( const [key, image] of Object.entries(this.imageObj)) {
-            this.imageList.push(image);
-        }
-
-        console.log('imageList', this.imageList);
-
-        // this.imageList.findIndex(())
+        this.removeImage(value);
       });
+  }
+
+  removeImage(fileName: string) {
+    delete this.imageObj[fileName];
+    this.imageList = [];
+    for ( const [key, image] of Object.entries(this.imageObj)) {
+        this.imageList.push(image);
+    }
   }
 
   initMaaS360() {
