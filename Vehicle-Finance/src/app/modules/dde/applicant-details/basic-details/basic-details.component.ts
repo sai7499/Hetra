@@ -20,6 +20,7 @@ import {
 } from '@model/applicant.model';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { AgeValidationService } from '@services/age-validation.service';
 
 @Component({
   templateUrl: './basic-details.component.html',
@@ -95,6 +96,8 @@ export class BasicDetailsComponent implements OnInit {
 
   public showSalaried: boolean;
   public showSelfEmp: boolean;
+  public maxAge: Date = new Date();
+  public minAge: Date = new Date();
 
   constructor(
     private labelsData: LabelsService,
@@ -108,7 +111,8 @@ export class BasicDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private toasterService: ToasterService,
     private createLeadDataService: CreateLeadDataService,
-    private toggleDdeService: ToggleDdeService
+    private toggleDdeService: ToggleDdeService,
+    private ageValidationService: AgeValidationService
   ) { }
   async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -132,9 +136,9 @@ export class BasicDetailsComponent implements OnInit {
       details: new FormArray([]),
       directors: new FormArray([this.getDirectorsControls()]),
     });
-
-    this.setBirthDate.setFullYear(this.setBirthDate.getFullYear() - 10)
-    this.ageMinDate.setFullYear(this.ageMinDate.getFullYear() - 100)
+    this.getAgeValidation();
+    // this.setBirthDate.setFullYear(this.setBirthDate.getFullYear() - 10)
+    // this.ageMinDate.setFullYear(this.ageMinDate.getFullYear() - 100)
     this.businessDate.setDate(this.businessDate.getDate() - 1)
 
     this.getLOV();
@@ -184,6 +188,19 @@ export class BasicDetailsComponent implements OnInit {
 
     this.applicantData = leadData['applicantDetails'];
 
+  }
+
+  getAgeValidation() {
+    this.ageValidationService.getAgeValidationData().subscribe(
+      data => {
+        const minAge = data.ages.applicant.minAge;
+        const maxAge = data.ages.applicant.maxAge;
+          this.maxAge = new Date();
+          this.minAge = new Date();
+          this.minAge.setFullYear(this.minAge.getFullYear() - minAge);
+          this.maxAge.setFullYear(this.maxAge.getFullYear() - maxAge);
+      }
+    );
   }
 
   monthValiationCheck() {

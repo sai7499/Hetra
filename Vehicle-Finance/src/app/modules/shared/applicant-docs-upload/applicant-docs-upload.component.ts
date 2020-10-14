@@ -599,14 +599,14 @@ export class ApplicantDocsUploadComponent implements OnInit {
       }
     }
 
-    // if (isDeferred) {
-    //   if (!deferredDate) {
-    //     return this.toasterService.showError(
-    //       'Please enter the deferral date',
-    //       ''
-    //     );
-    //   }
-    // }
+    if (isDeferred) {
+      if (!deferredDate) {
+        return this.toasterService.showError(
+          'Please enter the deferral date',
+          ''
+        );
+      }
+    }
 
     if (index !== undefined) {
       this.selectedIndex = index;
@@ -975,6 +975,13 @@ export class ApplicantDocsUploadComponent implements OnInit {
     if (checkAnyPast) {
       this.toasterService.showError('Deferral date should be future date', '');
       return;
+    }
+    const checkDeferralDate = this.documentArr.some((docs) => {
+      return docs.isDeferred === '1' && !docs.deferredDate;
+    });
+
+    if (checkDeferralDate) {
+      return this.toasterService.showError('Please enter deferral date', '');
     }
 
 

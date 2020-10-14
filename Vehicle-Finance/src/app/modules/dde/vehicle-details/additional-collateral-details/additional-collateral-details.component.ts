@@ -74,17 +74,21 @@ export class AdditionalCollateralComponent implements OnInit {
             this.id = Number(collateralId);
             this.setFormValue(collateralId);
         }
-
-        const operationType = this.toggleDdeService.getOperationType();
-        if (operationType === '1' || operationType === '2') {
-            this.disableSaveBtn = true;
-            this.collateralForm.disable()
-        }
     }
 
     selectCollateralType(value) {
         this.collateralType = value;
         this.initForm();
+    }
+
+    onChangeProofCollected(value) {
+        if (value === 'YPROOF') {
+            this.collateralForm.get('proofName').setValidators([Validators.required]);
+            this.collateralForm.get('proofName').updateValueAndValidity();
+        } else {
+            this.collateralForm.get('proofName').clearValidators();
+            this.collateralForm.get('proofName').updateValueAndValidity();
+        }
     }
 
     getLov() {
@@ -231,7 +235,13 @@ export class AdditionalCollateralComponent implements OnInit {
 
     setFormValue(id) {
         this.collateralService.getAdditionalCollateralsDetails(Number(id)).subscribe((res: any) => {
-
+            setTimeout(() => {
+                const operationType = this.toggleDdeService.getOperationType();
+                if (operationType === '1' || operationType === '2') {
+                    this.disableSaveBtn = true;
+                    this.collateralForm.disable()
+                }
+            });
             let apiError = res.ProcessVariables.error.message;
             if (res.Error === '0' && res.Error === '0' && res.ProcessVariables.error.code === '0') {
                 let collateralDetail = res.ProcessVariables.aAdditionalCollaterals ? res.ProcessVariables.aAdditionalCollaterals : {};
@@ -251,7 +261,7 @@ export class AdditionalCollateralComponent implements OnInit {
                 this.currentValue = collateralDetail.currentValuePerGram
                 this.goldGramsValue = collateralDetail.goldInGrams
 
-                formArray.controls.push(
+                formArray.push(
                     this._fb.group({
                         collateralId: collateralDetail.collateralId || null,
                         currentValuePerGram: collateralDetail.currentValuePerGram || null,

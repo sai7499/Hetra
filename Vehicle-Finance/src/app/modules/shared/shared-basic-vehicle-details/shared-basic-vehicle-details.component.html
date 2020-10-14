@@ -174,10 +174,10 @@
 
                         <app-custom-input formControlName="assetCostGrid" [id]="'asset_cost_basis'"
                             [className]="'form-control mandatory'" [placeholder]="'Asset cost basis Grid'"
-                            [type]="label.validationData?.amountValue.type" [custom]="initalZeroCheck"
+                            [type]="label.validationData?.assetCostGrid.type" [custom]="initalZeroCheck"
                             [isRequired]="'Asset cost basis Grid Required'" [isDirty]="isDirty"
                             (keyup)="onPatchFinalAssetCost($event.target.value)"
-                            [maxLength]="label.validationData?.amountValue.maxLength"
+                            [maxLength]="label.validationData?.assetCostGrid.maxLength"
                             [isDisabled]="obj.value.isVehAvailInGrid === 1 ? true: false">
                         </app-custom-input>
 
@@ -1236,10 +1236,10 @@
 
                             <app-custom-input formControlName="assetCostGrid" [id]="'asset_cost_basis'"
                                 [className]="'form-control mandatory'" [placeholder]="'Asset cost basis Grid'"
-                                [type]="label.validationData?.amountValue.type" [custom]="initalZeroCheck"
+                                [type]="label.validationData?.assetCostGrid.type" [custom]="initalZeroCheck"
                                 [isRequired]="'Asset cost basis Grid Required'" [isDirty]="isDirty"
                                 (keyup)="onPatchFinalAssetCost($event.target.value)"
-                                [maxLength]="label.validationData?.amountValue.maxLength"
+                                [maxLength]="label.validationData?.assetCostGrid.maxLength"
                                 [isDisabled]="obj.value.isVehAvailInGrid === 1 ? true: false">
                             </app-custom-input>
 

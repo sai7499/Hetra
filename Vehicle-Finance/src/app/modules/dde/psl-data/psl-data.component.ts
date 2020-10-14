@@ -302,6 +302,13 @@ export class PslDataComponent implements OnInit {
       this.pslData = response.ProcessVariables.pslData;
       // console.log("PSLDATA::::", this.pslData);
       if (this.pslData === null) {
+        setTimeout(() => {
+          const operationType = this.toggleDdeService.getOperationType();
+          if (operationType === '1' || operationType === '2') {
+            this.pslDataForm.disable();
+            this.disableSaveBtn = true;
+          }
+        })
         return;
       }
       const activity = this.pslData.activity;
@@ -338,6 +345,13 @@ export class PslDataComponent implements OnInit {
             },
           });
         });
+        setTimeout(() => {
+          const operationType = this.toggleDdeService.getOperationType();
+          if (operationType === '1' || operationType === '2') {
+            this.pslDataForm.disable();
+            this.disableSaveBtn = true;
+          }
+        })
       } else if (activity === "2PSLACTVTY") {
         // const loanAmount = this.pslData.loanAmount;
         // this.nameOfCA = this.pslData.nameOfCA;
