@@ -257,6 +257,10 @@ export class AppComponent implements OnInit {
             if(!value) {
               return;
             }
+            const index = this.minimizeList.findIndex(list => list.name === value.name);
+            if (index !== -1) {
+              return;
+            }
             this.minimizeList.push(value);
         });
   }
