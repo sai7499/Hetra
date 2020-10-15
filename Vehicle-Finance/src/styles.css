@@ -888,3 +888,79 @@ html, body { height: 100%; }
     padding: 0px 3px !important;
 }
 
+/* Welomce Letter styles start*/
+.welcmlter_body{
+    font-family:arial, sans-serif;
+    text-align:justify;
+    font-size:12px;
+    line-height:2em;
+    padding:15px;
+    margin:20px;
+    }
+
+.welcmlter_text-center
+{
+text-align:center;
+}
+
+.welcmlter_font-small{
+font-size:10px;
+}
+
+.welcmlter_style-strong{
+    font-weight:bold;
+ }
+
+ .welcmlter_author_style{
+    font-weight:bold;
+    padding-top:30px;
+    padding-bottom:30px;
+}
+
+.welcmlter_top-border{
+    border-top: 1px solid #ddd;
+    }
+    
+.welcmlter_margin_top{
+        margin-top: 5px
+    }
+.welcmlter_text-right{
+    text-align:right;
+    }
+
+    @media print {
+        .welcmlter_body{
+    font-family:arial, sans-serif;
+    text-align:justify;
+    font-size:12px;
+    line-height:2em;
+    padding:15px;
+    margin:20px;
+    }
+    
+    .welcmlter_margin_top{
+        margin-top: 5px
+    }
+    
+    .welcmlter_text-center
+    {
+    text-align:center;
+    }
+    
+    .welcmlter_font-small{
+    font-size:10px;
+    }
+    
+    .welcmlter_style-strong{
+    font-weight:bold;
+    }
+    
+    .welcmlter_author_style{
+    font-weight:bold;
+    padding-top:30px;
+    padding-bottom:30px;
+    
+    }
+    
+    }
+/*Welomce Letter styles End */

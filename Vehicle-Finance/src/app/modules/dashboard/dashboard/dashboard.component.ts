@@ -16,7 +16,6 @@ import { environment } from 'src/environments/environment';
 import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
-// for sales
 export enum DisplayTabs {
   Leads,
   PD,
@@ -120,15 +119,14 @@ export class DashboardComponent implements OnInit {
   isPDD;
   isChequeTracking;
   isLog;
-
-
-  // roleType;
+  isAmountChange: boolean;
   isLoadLead = true;
   onAssignTab: boolean;
   onReleaseTab: boolean;
 
   displayTabs = DisplayTabs;
   sortTables = sortingTables;
+  endDateChange: string;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
@@ -161,6 +159,11 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    localStorage.removeItem('is_pred_done');
+    localStorage.removeItem('isPreDisbursement');
+    localStorage.removeItem('istermSheet');
+    localStorage.removeItem('salesResponse');
+    localStorage.removeItem('isFiCumPd');
     this.loginStoreService.isCreditDashboard.subscribe((userDetails: any) => {
       this.branchId = userDetails.branchId;
       this.roleId = userDetails.roleId;
@@ -171,6 +174,8 @@ export class DashboardComponent implements OnInit {
     if (this.dashboardService.routingData) {
       this.activeTab = this.dashboardService.routingData.activeTab;
       this.subActiveTab = this.dashboardService.routingData.subActiveTab;
+      console.log('active', this.activeTab, 'sub-active', this.subActiveTab);
+      
       this.onTabsLoading(this.subActiveTab);
     } else {
       if (this.roleType === 1) {
@@ -277,7 +282,7 @@ export class DashboardComponent implements OnInit {
       const minAmt = this.filterForm.get('loanMinAmt').value;
       const minLoanAmt = Number(minAmt || 0);
       if (data && minLoanAmt >= data) {
-        this.isFromDate = true;
+        this.isAmountChange = true;
         // this.toasterService.showWarning('Invalid Amount', '');
       }
     });
@@ -286,53 +291,59 @@ export class DashboardComponent implements OnInit {
   loanMinAmtChange() {
     this.filterForm.get('loanMinAmt').valueChanges.pipe(debounceTime(0)).subscribe((data) => {
       if (data) {
-        this.isFromDate = true;
+        this.isAmountChange = true;
         this.filterForm.get('loanMaxAmt').setValue(null);
       } else {
-        this.isFromDate = false;
+        this.isAmountChange = false;
       }
     });
   }
 
   onChangeFromDate(event) {
     this.fromDateChange = this.utilityService.getDateFormat(event);
+    
     if (this.fromDateChange) {
       this.isFromDate = true;
+    } else {
+      this.isFromDate = false;
     }
   }
   onChangeEndDate(event) {
-    const endDateChange = this.utilityService.getDateFormat(event);
-    if (endDateChange) {
+    this.endDateChange = this.utilityService.getDateFormat(event);
+    if (this.endDateChange) {
       this.isFromDate = false;
+    } else if (this.fromDateChange && (this.endDateChange == undefined || this.endDateChange == '')) {
+      this.isFromDate = true;
     }
   }
 
   onMinAmtChange(event) {
     this.minLoanAmtChange = event;
     if (this.minLoanAmtChange) {
-      this.isFromDate = true;
+      this.isAmountChange = true;
     }
   }
 
   onMaxAmtChange(event) {
     this.maxLoanAmtChange = event;
     if (this.maxLoanAmtChange) {
-      this.isFromDate = false;
+      this.isAmountChange = false;
     } else if (this.minLoanAmtChange && !this.maxLoanAmtChange) {
-      this.isFromDate = true;
+      this.isAmountChange = true;
     }
   }
 
   onFromDateChange() {
     this.filterForm.get('fromDate').valueChanges.pipe(debounceTime(0)).subscribe((data) => {
-      if (data) {
-        this.isFromDate = true;
+      if (data || this.filterForm.get('fromDate').dirty) {
+        // this.isFromDate = true;
         this.filterForm.get('toDate').setValue(null);
-      } else {
+      } else if (this.fromDateChange == undefined) {
         this.isFromDate = false;
       }
     });
   }
+
 
   // Loading dashboard pages
   onTabsLoading(data, event?) {
@@ -437,6 +448,10 @@ export class DashboardComponent implements OnInit {
     this.sortTab = '';
     this.activeTab = data;
     this.subActiveTab = subTab;
+    this.dashboardService.routingData = {
+      activeTab: this.activeTab,
+      subActiveTab: this.subActiveTab,
+    };
     if (this.sortTab === '') {
       this.sortByLead = false;
       this.sortByDate = false;

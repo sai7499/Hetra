@@ -43,6 +43,10 @@
     "loanCreatedDate": "Created Date",
     "product": "Product",
     "loanAmount": "Loan Amount",
+    "reqLoanAmtOrNegLoanAmt":"Req Loan Amt/Neg Loan Amt",
+    "reqLtvOrNegLtv":"Req LTV/Neg LTV",
+    "eligibleLoanAmt":"Eligible Loan Amt",
+    "eligibleLTV":"Eligible LTV",
     "branch": "Branch",
     "cbs": "Credit Bureau Score",
     "stage": "Lead Stage",
@@ -100,6 +104,7 @@
     "insurance": "Insurance",
     "ageOfAsset": "Age of Asset",
     "ageOfVehicle": "Age of vehicle at the end of tenor",
+    "isVehAvailInGrid": "Is Vehicle available in Grid",
     "assetCostGrid": "Asset cost basis Grid",
     "vechicleUsage": "Vehicle Usage",
     "vehicleCategory": "Vehicle Category",
@@ -698,8 +703,11 @@
     "addManualDeviation": "Add Manual Deviation",
     "deviation": "Deviation",
     "description": "Description",
+    "deviationRemarks": "Remarks",
+    "otherMitigation": "Other Mitigation",
+    "mitigationMet": "Mitigation Met",
     "coBorrower": "Co-Borrower / Guarantor - Waiver",
-    "approvalLevel": "Approval Level",
+    "approvalLevel": "Approver",
     "bcm": "BCM",
     "acm": "ACM",
     "ncm": "NCM",
@@ -1093,7 +1101,7 @@
     "totalMonthlyRentalIncome": "Total Monthly Rental Income",
     "totalMonthlyPensionIncome": "Total Monthly Pension Income",
     "totalMonthlyAgriIncome": "Total Monthly Agri Income",
-    "totalMonthlyOtherIncomeOfOthers": "Total Monthly Other Income Of Others",
+    "totalMonthlyOthersIncome": "Total Monthly Others Income",
     "totalMonthlyOtherIncome": "Total Monthly Other Income",
     "totalMonthlyIncome": "Total Monthly Income",
     "totalMonthlyObligations": "Total Monthly Obligations",
@@ -1178,6 +1186,10 @@
     "submitToCredit": "Are You Sure Want To Submit To Credit?",
     "longitude": "Longitude",
     "latitude": "Latitude",
+    "capturedLat": "Captured Latitude",
+    "branchLng": "Branch Longitude",
+    "branchLat": "Branch Latitude",
+    "capturedLng": "Captured Longitude",
     "vehicleContract": "Vehicle Contract",
     "negativeProfile": "Negative Profile",
     "routeMap": "RouteMap",
@@ -1521,7 +1533,7 @@
     "referenceInfoAddressLine2": "Reference Info - Address Line2",
     "referenceInfoAddressLine3": "Reference Info - Address Line3",
     "imageSelfie": "Image/Selfie",
-    "selfieImageTitle": "Selfie With Customer House[Click Photo]",
+    "selfieImageTitle": "Selfie With Customer House",
     "uploadIamges": "Upload Image",
     "pdStatusTitle": "PD Status",
     "PdStatus": "PD Status",
@@ -1617,6 +1629,7 @@
     "equitasEmployee": "Equitas Employee",
     "equitasEmployeesRelative": "Equitas Employees Relative",
     "employeeNo": "Employee Number",
+    "customerDOI" : "Customer DOI",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1656,6 +1669,12 @@
         "amountValue": {
             "maxLength": {
                 "rule": 12
+            },
+            "type": "number"
+        },
+        "assetCostGrid": {
+            "maxLength": {
+                "rule": 10
             },
             "type": "number"
         },
@@ -1818,8 +1837,8 @@
                 "msg": "Minimum Length 8 digits"
             },
             "pattern": {
-                "rule": "[A-Z-a-z]{2}[0-9]{2}[A-Z-a-z]{2}[0-9]{4}",
-                "msg": "Invalid Registration Number, valid format : TN34FG3333"
+                "rule": "^[A-Z-a-z]{2}[0-9]{2}[A-Z-a-z]{1,2}[0-9]{4}$",
+                "msg": "Invalid Registration Number, valid format : TN34FG3333 or TN09B4444"
             },
             "type": "alpha-numeric"
         },
@@ -2589,6 +2608,16 @@
                 "rule": 5
             },
             "type": "decimal"
+        },
+        "daysFormat": {
+            "maxLength": {
+                "rule": 2
+            },
+            "type": "number",
+            "patternCheck": {
+                "rule": "^[0-3]{1}[0-1]{1}",
+                "msg": "Should be between 0-31 only"
+            }
         }
     }
 }

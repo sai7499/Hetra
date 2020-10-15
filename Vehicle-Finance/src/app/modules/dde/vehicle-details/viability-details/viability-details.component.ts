@@ -16,6 +16,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { Constant } from '../../../../../assets/constants/constant';
 import { DocRequest, DocumentDetails } from '@model/upload-model';
 import { environment } from 'src/environments/environment';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 
 
@@ -94,6 +95,7 @@ export class ViabilityDetailsComponent implements OnInit {
   selectedDocDetails: DocRequest;
   dmsDocumentId: string;
   applicantName: any;
+  disableSaveBtn: boolean;
 
 
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
@@ -109,6 +111,7 @@ export class ViabilityDetailsComponent implements OnInit {
               private applicantService: ApplicantService,
               private loginService: LoginService,
               private base64StorageService: Base64StorageService,
+              private toggleDdeService: ToggleDdeService
               ) {
                 this.route.queryParams.subscribe((res: any) => {
                   this.taskId = res.taskId;
@@ -119,21 +122,21 @@ export class ViabilityDetailsComponent implements OnInit {
 
   async ngOnInit() {
 
-    // if (this.isMobile) {
-    //   this.gpsService.getLatLong().subscribe((position) => {
-    //     console.log("getLatLong", position);
-    //     this.gpsService.initLatLong().subscribe((res) => {
-    //       console.log("gpsService", res);
-    //       if (res) {
-    //         this.gpsService.getLatLong().subscribe((position) => {
-    //           console.log("getLatLong", position);
-    //         });
-    //       } else {
-    //         console.log("error initLatLong", res);
-    //       }
-    //     });
-    //   });
-    // }
+    if (this.isMobile) {
+      this.gpsService.getLatLong().subscribe((position) => {
+        console.log("getLatLong", position);
+        this.gpsService.initLatLong().subscribe((res) => {
+          console.log("gpsService", res);
+          if (res) {
+            this.gpsService.getLatLong().subscribe((position) => {
+              console.log("getLatLong", position);
+            });
+          } else {
+            console.log("error initLatLong", res);
+          }
+        });
+      });
+    }
 
     this.userId = localStorage.getItem('userId');
     this.roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -221,6 +224,12 @@ export class ViabilityDetailsComponent implements OnInit {
         emi: ([]),
         netCashFlowEmi: this.captiveEmi
       }),
+      gpsPosition: this.fb.group({
+        latitude:[this.latitude],
+        longitude:[this.longitude],
+        bLatitude: [this.branchLongitude],
+        bLongitude: [this.branchLongitude]
+      })
     });
     this.leadId = (await this.getLeadId()) as number;
     this.collataralId = (await this.getCollateralId()) as number;
@@ -275,6 +284,12 @@ export class ViabilityDetailsComponent implements OnInit {
         },
       ],
     };
+
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType === '1' || operationType === '2') {
+      this.viabilityForm.disable();
+      this.disableSaveBtn = true;
+    }
 
   }
 
@@ -468,7 +483,13 @@ getViability() {
       this.branchLatitude = this.viabliityDataToPatch.brLatitude;
       this.branchLongitude = this.viabliityDataToPatch.brLongitude;
       this.dmsDocumentId = this.viabliityDataToPatch.selfiePhoto;
-
+      const gpsPos = this.viabilityForm.controls.gpsPosition as FormGroup;
+      gpsPos.patchValue({
+        latitude: this.latitude,
+        longitude: this.longitude,
+        bLongitude: this.branchLongitude,
+        bLatitude: this.branchLatitude
+      });
       if (this.dmsDocumentId) {
         this.downloadDocs(this.dmsDocumentId);
       }
@@ -516,7 +537,7 @@ getViability() {
       }) ;
     }
     });
-
+    // this.patchGpsposition();
   }
 onSave() {
     this.isDirty = true;
@@ -598,7 +619,6 @@ onSave() {
      }
   }
 
-
  // tslint:disable-next-line: no-shadowed-variable
 patchViability(data: any) {
    const passanger = this.viabilityForm.controls.passanger as FormGroup;
@@ -636,7 +656,11 @@ patchViability(data: any) {
         otherIncomeRemarks: data.otherIncomeRemarks ,
         otherExpenses: Number(data.otherExpenses) ,
         otherExpensesRemarks:  data.otherExpensesRemarks ,
-        operationsExpenses: Number(data.operationsExpenses)
+        operationsExpenses: Number(data.operationsExpenses),
+        latitude: this.latitude,
+        longitude: this.longitude,
+        bLatitude: this.branchLatitude,
+        bLongitude: this.branchLongitude
 
     });
  }
@@ -786,7 +810,7 @@ if (this.router.url.includes('/dde')) {
       const tonnageCalc =  avgLoadPerTon * rateTonne;
       this.monthlyIncome = tripsPerMonth * tonnageCalc + otherIncome;
       passengerGroup.controls.busMonthlyIncome = this.monthlyIncome;
-      
+
       this.calculatePassengerB();
     }
 
@@ -821,7 +845,7 @@ if (this.router.url.includes('/dde')) {
   //   if (fuelAvgPerKm == '0') {
   //   this.toasterService.showError('Fuel Average cannot be 0', '');
   //   passengerGroup.controls.fuelAvgPerKm.reset();
-    
+
   //   } else if (costPerLtr == '0') {
   //     this.toasterService.showError('Cost Per Litre cannot be 0', '');
   //     passengerGroup.controls.costPerLtr.reset();
@@ -917,7 +941,10 @@ if (this.router.url.includes('/dde')) {
   console.log(passengerStandGroup);
   const businessEarningPerDay = Number(passengerStandGroup.value.businessEarningPerDay);
   const grossIncomePerDay = Number(passengerStandGroup.value.grossIncomePerDay);
-  this.montlyStandOperatorIncome = businessEarningPerDay * grossIncomePerDay;
+  if (businessEarningPerDay <= 31) {
+    this.montlyStandOperatorIncome = businessEarningPerDay * grossIncomePerDay;
+  }
+
   // this.calculateStandOperator();
   this.calculateStandOperatorB();
   // this.calculateStandOperatorC();
@@ -926,7 +953,7 @@ if (this.router.url.includes('/dde')) {
   this.standoperatorExpense = 0;
 
   const passengerStandGroup = this.viabilityForm.controls.passangerStandOperator;
-  const businessEarningPerDay = passengerStandGroup.value.businessEarningPerDay ?
+  const businessEarningPerDay: any = passengerStandGroup.value.businessEarningPerDay ?
   Number(passengerStandGroup.value.businessEarningPerDay) : 0;
   // tslint:disable-next-line: max-line-length
   // const grossIncomePerDay = Number(passengerStandGroup.value.grossIncomePerDay) ?  Number(passengerStandGroup.value.grossIncomePerDay) : 0;
@@ -970,7 +997,10 @@ calculateCaptive() {
   // tslint:disable-next-line: max-line-length
   const businessEarningPerDay = passengerStandGroup.value.businessEarningPerDay ? Number(passengerStandGroup.value.businessEarningPerDay) : 0;
   const grossIncomePerDay = (passengerStandGroup.value.businessIncomePerDay) ? Number(passengerStandGroup.value.businessIncomePerDay) : 0;
-  this.montlyCaptiveIncome = businessEarningPerDay * grossIncomePerDay;
+  if (businessEarningPerDay <= 31) {
+    this.montlyCaptiveIncome = businessEarningPerDay * grossIncomePerDay;
+  }
+ 
   // this.calculateCaptive();
   this.calculateCaptiveB();
   // this.calculateCaptiveC();
@@ -1038,16 +1068,23 @@ calculateCaptiveC() {
     console.log('documentArr', this.documentArr);
     this.individualImageUpload(event, index);
 
-    // let position = await this.getLatLong();
-    // if (position["latitude"]) {
-    //   this.latitude = position["latitude"].toString();
-    //   this.longitude = position["longitude"].toString();
-    //   this.getRouteMap();
-    // } else {
-    //   this.latitude = "";
-    //   this.longitude = "";
-    //   this.showRouteMap = false;
-    // }
+    let position = await this.getLatLong();
+    if (position["latitude"]) {
+      this.latitude = position["latitude"].toString();
+      this.longitude = position["longitude"].toString();
+      this.getRouteMap();
+
+      const gpsPos = this.viabilityForm.controls.gpsPosition as FormGroup;
+      gpsPos.get("latitude").patchValue(this.latitude);
+      gpsPos.get("longitude").patchValue(this.longitude);
+
+
+    } else {
+      this.latitude = "";
+      this.longitude = "";
+      this.showRouteMap = false;
+      this.toasterService.showError(position["message"], "GPS Alert");
+    }
 
   }
 

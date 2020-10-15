@@ -22,8 +22,8 @@ import { DeliveryOrderComponent } from './delivery-order/delivery-order.componen
   declarations: [
     CpcMakerDdeComponent,
     PdcDetailsComponent,
-    WelomceLetterComponent,
-    DeliveryOrderComponent
+    // WelomceLetterComponent,
+    // DeliveryOrderComponent
     // CreditConditionsComponent,
     // TermSheetComponent,
     // SanctionDetailsComponent,

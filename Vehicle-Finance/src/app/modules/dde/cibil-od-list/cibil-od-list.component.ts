@@ -195,7 +195,9 @@ export class CibilOdListComponent implements OnInit {
         this.toasterService.showInfo('Row is Removed', 'OD Details');
         this.isODModelShow = false;
         this.onOdAmount(null, i);
-
+        if (this.odAccountDetailsArray.controls.length == 0) {
+          this.totalAmount = 0
+        }
       } else {
         const body = {
           id,
@@ -209,7 +211,9 @@ export class CibilOdListComponent implements OnInit {
             this.toasterService.showSuccess(message, '');
             this.isODModelShow = false;
             this.onOdAmount(null, i);
-
+            if (this.odAccountDetailsArray.controls.length == 0) {
+              this.totalAmount = 0
+            }
           });
       }
     }

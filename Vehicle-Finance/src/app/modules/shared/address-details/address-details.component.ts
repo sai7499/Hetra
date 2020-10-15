@@ -554,6 +554,8 @@ export class AddressDetailsComponent implements OnInit {
     if(this.address.ekycDone=='1'){
       if (this.address.applicantDetails.entityTypeKey === 'INDIVENTTYP'){
         this.disableAddress('permanantAddress');
+        this.disableSameAppAddress= true;
+
       }
     }
     
@@ -731,7 +733,7 @@ export class AddressDetailsComponent implements OnInit {
     const currentAddressObj =
       addressObj[Constant.CURRENT_ADDRESS] || addressObj['COMMADDADDTYP'];
 
-    if (currentAddressObj.isCurrAddSameAsOffAdd == '1') {
+    if ( currentAddressObj && currentAddressObj.isCurrAddSameAsOffAdd == '1') {
       this.onCurrAsOfficeChecked = true;
       const formArray = this.addressForm.get('details') as FormArray;
       const details = formArray.at(0);

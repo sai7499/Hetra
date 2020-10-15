@@ -275,6 +275,16 @@ export class TeleVerificationFormComponent implements OnInit {
     return date ? `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}` : '';
   }
 
+  onName1Change(event) {
+    const nameRefOne = event;
+  }
+
+  onName2Change(event) {
+    const nameRefTwo = event;
+  }
+
+  
+
 
   // Getting TVR Detaails API method
   getTvrDetails() {

@@ -187,7 +187,7 @@
     <!---Applicant details-->
 
     <!---income Details--->
-    <table class="cam_table_proposed mt-3">
+    <table class="cam_table_proposed mt-3" id="page_break">
         <caption class="caption">
             {{
             labels?.incomeDetails
@@ -323,15 +323,15 @@
             <td>{{ loanEligibilityBasedOnInc?.totalMonthlySalaryIncome }}</td>
             <td class="bank_name">{{ labels?.salariedFOIRasperPolicy }}</td>
             <td>{{ loanEligibilityBasedOnInc?.salariedFOIRPercentAsPerPolicy }}<span
-                *ngIf="loanEligibilityBasedOnInc?.salariedFOIRPercentAsPerPolicy != null">%</span></td>
+                    *ngIf="loanEligibilityBasedOnInc?.salariedFOIRPercentAsPerPolicy != null">%</span></td>
         </tr>
         <tr>
             <td class="bank_name">{{ labels?.salariedFOIRDeviation }}</td>
             <td>{{ loanEligibilityBasedOnInc?.salariedFOIRDeviationPercent }}<span
-                *ngIf="loanEligibilityBasedOnInc?.salariedFOIRDeviationPercent != null">%</span></td>
+                    *ngIf="loanEligibilityBasedOnInc?.salariedFOIRDeviationPercent != null">%</span></td>
             <td class="bank_name">{{ labels?.totalSalariedFOIR }}</td>
             <td>{{ loanEligibilityBasedOnInc?.totalSalariedFOIRPercent }}<span
-                *ngIf="loanEligibilityBasedOnInc?.totalSalariedFOIRPercent != null">%</span></td>
+                    *ngIf="loanEligibilityBasedOnInc?.totalSalariedFOIRPercent != null">%</span></td>
         </tr>
         <tr>
             <td class="bank_name">{{ labels?.consideredSalaryIncome }}</td>
@@ -364,7 +364,7 @@
     <!--loan eligibility based on income--->
 
     <!--Banking details -->
-    <table class="cam_table_proposed mt-3">
+    <table class="cam_table_proposed mt-3" id="page_break">
         <caption class="caption">
             {{
             labels?.bankingDetails
@@ -497,8 +497,7 @@
             <td class="bank_name">{{ labels?.finalLoanAmount }}</td>
             <td>{{ finalLoanDetails?.finalLoanAmount }}</td>
             <td class="bank_name">{{ labels?.roi }}</td>
-            <td>{{ finalLoanDetails?.roi }}<span
-                *ngIf="finalLoanDetails?.roi != null">%</span></td>
+            <td>{{ finalLoanDetails?.roi }}<span *ngIf="finalLoanDetails?.roi != null">%</span></td>
         </tr>
         <tr>
             <td class="bank_name">{{ labels?.loanTenureInMonths }}</td>
@@ -509,7 +508,7 @@
         <tr>
             <td class="bank_name">{{ labels?.approvedFoir }}</td>
             <td>{{ finalLoanDetails?.approvedFoirPercent }}<span
-                *ngIf="finalLoanDetails?.approvedFoirPercent != null">%</span></td>
+                    *ngIf="finalLoanDetails?.approvedFoirPercent != null">%</span></td>
             <td class="bank_name">{{ labels?.approvedLtv }}</td>
             <td>{{ finalLoanDetails?.approvedLtvPercent }}<span
                     *ngIf="finalLoanDetails?.approvedLtvPercent != null">%</span></td>
@@ -518,7 +517,7 @@
     <!---other deviation-->
 
     <!--Auto deviations-->
-    <table class="cam_table_proposed mt-3">
+    <table class="cam_table_proposed mt-3" id="page_break">
         <caption class="caption">
             {{
             labels?.autoDeviation
@@ -757,8 +756,10 @@
                     <th class="bank_name">{{ labels?.assetDescription }}</th>
                     <th class="bank_name">{{ labels?.model }}</th>
                     <th class="bank_name">{{ labels?.netAssetCost }}</th>
-                    <th class="bank_name">{{ labels?.loanAmount }}</th>
-                    <th class="bank_name">{{ labels?.ltv }}</th>
+                    <th class="bank_name">{{ labels?.reqLoanAmtOrNegLoanAmt }}</th>
+                    <th class="bank_name">{{ labels?.reqLtvOrNegLtv }}</th>
+                    <th class="bank_name">{{ labels?.eligibleLoanAmt }}</th>
+                    <th class="bank_name">{{ labels?.eligibleLTV }}</th>
                     <th class="bank_name">{{ labels?.irr }}</th>
                     <th class="bank_name">{{ labels?.tenureMonth }}</th>
                     <th class="bank_name">{{ labels?.pf }}</th>
@@ -772,6 +773,9 @@
                     <td>{{ proposedDetails?.netAssetCost }}</td>
                     <td>{{ proposedDetails?.loanAmount }}</td>
                     <td>{{ proposedDetails?.ltv }}<span *ngIf=" proposedDetails?.ltv != null ">%</span></td>
+                    <td>{{ proposedDetails?.eligibleLoanAmt }}</td>
+                    <td>{{ proposedDetails?.eligibleLtv }}<span *ngIf=" proposedDetails?.eligibleLtv != null ">%</span>
+                    </td>
                     <td>{{ proposedDetails?.irr }}<span *ngIf="proposedDetails?.irr != null ">%</span></td>
                     <td>{{ proposedDetails?.tenureMonth }}</td>
                     <td>{{ proposedDetails?.pf }}<span *ngIf="proposedDetails?.pf != null ">%</span></td>
@@ -783,16 +787,17 @@
                     <td class="" colspan="">{{camDetails?.proposedToTotalNetAssetCost}}</td>
                     <td class="" colspan="">{{camDetails?.proposedToTotalLoanAmount}}</td>
                     <td class="" colspan="">{{camDetails?.proposedToTotalLTV}}</td>
-
+                    <td class="" colspan="">{{camDetails?.totalEligibleLoanAmt}}</td>
+                    <td class="" colspan="">{{camDetails?.totalEligibileLtv}}</td>
                     <td colspan="3"></td>
                 </tr>
                 <tr>
                     <td colspan="2" class="bank_name">{{ labels?.sourceOfMarginMoney }}</td>
-                    <td colspan="8">{{ camDetails?.proposedToSourceOfMarginMoney }}</td>
+                    <td colspan="10">{{ camDetails?.proposedToSourceOfMarginMoney }}</td>
                 </tr>
                 <tr>
                     <td colspan="2" class="bank_name">{{ labels?.anyOtherRemarks }}</td>
-                    <td colspan="8"><textarea class="form-control form-control-sm" placeholder="Text Area"
+                    <td colspan="10"><textarea class="form-control form-control-sm" placeholder="Text Area"
                             formControlName="proposedVehicleRemarks"></textarea>
                         <!-- <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').invalid && submitted == true"
                             class="invalid-feedback">
@@ -911,7 +916,7 @@
         <!--cibil synopsis-->
 
         <!--banking synopsis-->
-        <table class="cam_table_proposed mt-3">
+        <table class="cam_table_proposed mt-3" id="page_break">
             <caption class="caption">
                 {{
         labels?.bankingSummaryTitle
@@ -1064,7 +1069,7 @@
                     <td>{{ fleetSummary?.expansionAndFfrAddedInLastOneYr }}</td>
                     <td>{{ fleetSummary?.expansionAndFfrFreeAsset }}</td>
                     <td>{{ fleetSummary?.expansionAndFfrFFR }}<span
-                        *ngIf="fleetSummary?.expansionAndFfrFFR != null">%</span></td>
+                            *ngIf="fleetSummary?.expansionAndFfrFFR != null">%</span></td>
 
                 <tr>
                     <td class="bank_name">{{ labels?.anyOtherRemarks }}</td>
@@ -1326,7 +1331,7 @@
         </table>
         <!---other deviation-->
         <!--concern Risks / strengths mitigates-->
-        <table class="cam_table_proposed mt-3 text-center">
+        <table class="cam_table_proposed mt-3 text-center" id="page_break">
             <!-- <tr>
   <td class="caption"> <caption class="caption">
         {{
@@ -1341,8 +1346,8 @@
 </tr> -->
             <caption class="caption">
                 <div class="row">
-                    <div class="col-md-6" class="bank_name"> {{ labels?.concernsOrRisks }}</div>
-                    <div class="col-md-6" class="bank_name"> {{ labels?.strengthsOrMitigates }}</div>
+                    <div class="col-md-6"> {{ labels?.concernsOrRisks }}</div>
+                    <div class="col-md-6"> {{ labels?.strengthsOrMitigates }}</div>
                 </div>
             </caption>
             <tbody>
@@ -1888,7 +1893,7 @@
                     <td *ngFor="let guarntorArray of guarntorArray">{{guarntorArray?.dlNo}}</td>
 
                 </tr>
-                <tr>
+                <tr id="page_break">
                     <td class="bank_name">{{ labels?.panCardNo }}</td>
                     <td *ngFor="let appArray of appArray">{{appArray?.panNo}}</td>
                     <td *ngFor="let coAppArray of coAppArray">{{coAppArray?.panNo}}</td>
@@ -1952,8 +1957,10 @@
                     <th rowspan="2" class="bank_name">{{ labels?.asset }}</th>
                     <th colspan="6" class="bank_name text-center">{{ labels?.costOrVehicle }}</th>
                     <th rowspan="2" class="bank_name">{{ labels?.totalCostOfAsset }}</th>
-                    <th rowspan="2" class="bank_name">{{ labels?.proposedAmount }}</th>
-                    <th rowspan="2" class="bank_name">{{ labels?.proposedLtv }}</th>
+                    <th rowspan="2" class="bank_name">{{ labels?.reqLoanAmtOrNegLoanAmt }}</th>
+                    <th rowspan="2" class="bank_name">{{ labels?.reqLtvOrNegLtv }}</th>
+                    <th rowspan="2" class="bank_name">{{ labels?.eligibleLoanAmt }}</th>
+                    <th rowspan="2" class="bank_name">{{ labels?.eligibleLTV }}</th>
                     <th rowspan="2" class="bank_name">{{ labels?.noOfUnits }}</th>
                     <th rowspan="2" class="bank_name">{{ labels?.tenure }}</th>
                     <th rowspan="2" class="bank_name">{{ labels?.totalExpo }}</th>
@@ -1981,12 +1988,15 @@
                     <td>{{ proposedVehiclesDetails?.proposedAmt }}</td>
                     <td>{{ proposedVehiclesDetails?.proposedLtv }} <span
                             *ngIf="proposedVehiclesDetails?.proposedLtv != null">%</span></td>
+                    <td>{{ proposedVehiclesDetails?.eligibleLoanAmt }}</td>
+                    <td>{{ proposedVehiclesDetails?.eligibleLtv }} <span
+                            *ngIf="proposedVehiclesDetails?.eligibleLtv != null">%</span></td>
                     <td>{{ proposedVehiclesDetails?.noOfUnits }}</td>
                     <td>{{ proposedVehiclesDetails?.tenureMonth }}</td>
                     <td>{{ proposedVehiclesDetails?.totalExpo }}</td>
                 </tr>
                 <tr>
-                    <td colspan="10" class="bank_name">{{ labels?.totalFunding }}</td>
+                    <td colspan="12" class="bank_name">{{ labels?.totalFunding }}</td>
                     <td>{{ camDetails?.totalNoOfUnits }}</td>
                     <td></td>
                     <td>{{ camDetails?.vehicleTotalExpo }}</td>
@@ -2110,7 +2120,7 @@
                         {{repaymentTrackRecord?.emiPaid}}
                     </td>
                 </tr>
-                <tr>
+                <tr id="page_break">
                     <td class="bank_name">{{ labels?.totalDelay }}</td>
                     <td *ngFor="let repaymentTrackRecord of repaymentTrackRecord">
                         {{repaymentTrackRecord?.totalDelay}}</td>
@@ -2268,7 +2278,7 @@
                 <td>{{ bankingTxnDetails?.balanceAsOn20th }}</td>
                 <td>{{bankingTxnDetails?.averageAccountBalance}}</td>
                 <td colspan="2"></td>
-                
+
             </tr>
             <tr>
                 <td class="bank_name">{{labels?.total}}</td>
@@ -2467,7 +2477,7 @@
         <!--guarantorDetails-->
 
         <!--vehicleDeploymentDetails-->
-        <table class="cam_table_proposed mt-3">
+        <table class="cam_table_proposed mt-3" id="page_break">
             <caption class="caption">
                 {{
         labels?.vehicleDeploymentDetails
@@ -2687,7 +2697,7 @@
         </table>
         <!--detailsOfCibilPdFiDedupe-->
         <!--cibilJustificationIfAny-->
-        <table class="cam_table_proposed mt-3">
+        <table class="cam_table_proposed mt-3" id="page_break">
             <caption class="caption">
                 {{
         labels?.cibilJustificationIfAny

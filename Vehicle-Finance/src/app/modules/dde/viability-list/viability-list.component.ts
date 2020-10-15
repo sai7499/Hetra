@@ -71,11 +71,7 @@ export class ViabilityListComponent {
       this.showNext = false;
     }
     console.log(this.route, 'queryParams Check');
-    // const operationType = this.toggleDdeService.getOperationType();
-    // if (operationType === '1' || operationType === '2') {
-    //   this.modalDataForm.disable();
-    //   this.disableSaveBtn = true;
-    // }
+    
   }
   getViability(data: any, make: any, model: any, applicantName: any) {
     const body = {
