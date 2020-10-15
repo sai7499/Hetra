@@ -981,10 +981,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
       this.toasterService.showWarning('No documents uploaded to save', '');
       return;
     }
-
-    console.log('this.documentArr', this.documentArr);
-    console.log('this.apiRes', this.apiRes);
-
     const apiValue = {};
 
     this.apiRes.forEach((value) => {
@@ -1000,21 +996,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
     const isValueChange = this.documentArr.some((value) => {
       const doc = apiValue[value.documentId];
-      // console.log('value',value.documentId , 
-      //   value.documentName !== doc.documentName ||
-      //   value.documentNumber !== doc.documentNumber ||
-      //   value.issueDate !== value.issueDate ||
-      //   value.expiryDate !== doc.expiryDate ||
-      //   value.isDeferred !== doc.isDeferred ||
-      //   value.deferredDate !== doc.deferredDate
-      // );
-      console.log('documentName', value.documentName, doc.documentName);
-      console.log('documentNumber', value.documentNumber, doc.documentNumber);
-      console.log('issueDate', value.issueDate, doc.issueDate);
-      console.log('expiryDate', value.expiryDate, doc.expiryDate);
-      console.log('isDeferred', value.isDeferred, doc.isDeferred);
-      console.log('deferredDate', value.deferredDate, doc.deferredDate);
-      console.log(value.documentId);
       return (
         value.documentName !== doc.documentName ||
         value.documentNumber !== doc.documentNumber ||
@@ -1025,7 +1006,10 @@ export class ApplicantDocsUploadComponent implements OnInit {
       );
     });
 
-    return console.log('isValueChange', isValueChange);
+
+    if (!isValueChange) {
+      return this.toasterService.showWarning('No changes done to save', '');
+    }
 
     this.uploadService
       .saveOrUpdateDocument(this.documentArr)
