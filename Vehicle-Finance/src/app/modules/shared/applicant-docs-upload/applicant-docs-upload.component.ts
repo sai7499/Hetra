@@ -88,6 +88,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
     imageType: string;
   };
   documentArr: DocumentDetails[] = [];
+  apiRes: any[];
 
   // documentMaxLength = {
   //   rule: 15,
@@ -247,6 +248,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
         console.log('doc details', value);
         const processVariables = value.ProcessVariables;
         const docDetails: DocumentDetails[] = processVariables.documentDetails;
+        this.apiRes = processVariables.documentDetails || [];
         this.documentArr = docDetails || [];
         const photo = processVariables.photo;
         const signature = processVariables.signature;
@@ -973,6 +975,50 @@ export class ApplicantDocsUploadComponent implements OnInit {
       return;
     }
 
+    console.log('this.documentArr', this.documentArr);
+    console.log('this.apiRes', this.apiRes);
+
+    const apiValue = {};
+
+    this.apiRes.forEach((value) => {
+        apiValue[value.documentId] = {
+          documentName:  value.documentName || '',
+          documentNumber: value.documentNumber || '',
+          issueDate: value.issueDate || '',
+          expiryDate: value.expiryDate || '',
+          isDeferred: value.isDeferred || '',
+          deferredDate: value.deferredDate || ''
+        };
+    });
+
+    const isValueChange = this.documentArr.some((value) => {
+      const doc = apiValue[value.documentId];
+      // console.log('value',value.documentId , 
+      //   value.documentName !== doc.documentName ||
+      //   value.documentNumber !== doc.documentNumber ||
+      //   value.issueDate !== value.issueDate ||
+      //   value.expiryDate !== doc.expiryDate ||
+      //   value.isDeferred !== doc.isDeferred ||
+      //   value.deferredDate !== doc.deferredDate
+      // );
+      console.log('documentName', value.documentName, doc.documentName);
+      console.log('documentNumber', value.documentNumber, doc.documentNumber);
+      console.log('issueDate', value.issueDate, doc.issueDate);
+      console.log('expiryDate', value.expiryDate, doc.expiryDate);
+      console.log('isDeferred', value.isDeferred, doc.isDeferred);
+      console.log('deferredDate', value.deferredDate, doc.deferredDate);
+      console.log(value.documentId);
+      return (
+        value.documentName !== doc.documentName ||
+        value.documentNumber !== doc.documentNumber ||
+        value.issueDate !== doc.issueDate ||
+        value.expiryDate !== doc.expiryDate ||
+        value.isDeferred !== doc.isDeferred ||
+        value.deferredDate !== doc.deferredDate
+      );
+    });
+
+    return console.log('isValueChange', isValueChange);
 
     this.uploadService
       .saveOrUpdateDocument(this.documentArr)
