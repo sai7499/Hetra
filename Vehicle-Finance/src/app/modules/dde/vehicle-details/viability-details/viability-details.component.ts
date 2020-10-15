@@ -1186,4 +1186,24 @@ calculateCaptiveC() {
     });
   }
 
+  reInitiateViability() {
+    if (this.viabilityForm.invalid) {
+      this.toasterService.showWarning('Save before submitting', ' ');
+    }
+    const body = {
+      leadId: this.leadId,
+      collateralId: this.collataralId,
+      isReinitiated: true
+    };
+    this.viabilityService.reinitiateViabilityDetails(body).subscribe((res: any) => {
+      // tslint:disable-next-line: triple-equals
+      if (res.ProcessVariables.error.code == '0') {
+      this.toasterService.showSuccess('Submitted succesfully', '');
+      this.router.navigateByUrl(`pages/dashboard`);
+      } else {
+        this.toasterService.showSuccess(res.ProcessVariables.error.message, '');
+      }
+    });
+  }
+
 }

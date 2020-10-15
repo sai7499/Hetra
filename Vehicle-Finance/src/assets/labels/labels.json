@@ -1628,6 +1628,7 @@
     "equitasEmployee": "Equitas Employee",
     "equitasEmployeesRelative": "Equitas Employees Relative",
     "employeeNo": "Employee Number",
+    "initiate": "Initiate",
     "validationData": {
         "name": {
             "maxLength": {
@@ -2613,7 +2614,7 @@
             },
             "type": "number",
             "patternCheck": {
-                "rule": "^[0-3]{1}[0-1]{1}",
+                "rule": "^[0-3]{1}[0-9]{1}",
                 "msg": "Should be between 0-31 only"
             }
         }
