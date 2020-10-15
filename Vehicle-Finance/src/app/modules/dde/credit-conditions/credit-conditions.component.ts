@@ -451,6 +451,9 @@ export class CreditConditionsComponent implements OnInit {
             this.errorGenerated = true;
             // const message = res['ProcessVariables'].rctaMessage;
             this.errorMessage = res['ProcessVariables'].rctaMessage;
+          }else{
+             this.toasterService.showSuccess("Record Approved successfully!", '')
+
           }
         // this.toasterService.showSuccess("Record Approved successfully!", '')
       }else if(res['ProcessVariables'].error['code'] == "1") {
