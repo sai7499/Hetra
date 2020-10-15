@@ -1,5 +1,5 @@
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, HostListener } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { UtilityService } from '@services/utility.service';
@@ -233,10 +233,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   backupRefNo: string;
   gender: any;
   storeSRNumber: string;
-  successSR : boolean =false;
-  failureSR : boolean = false;
-  validateSrBoolean : boolean;
-  successSrValue : string;
+  successSR: boolean = false;
+  failureSR: boolean = false;
+  validateSrBoolean: boolean;
+  successSrValue: string;
+  listening: boolean = false;
+  individualDatas : any;
+  nonIndividualDatas : any;
 
 
   isMobile: any;
@@ -316,6 +319,22 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     })
 
   }
+
+  // @HostListener('change') ngOnChanges($event) {
+  //   this.listening = true;
+
+  // }
+
+  // ngOnChange(event){
+  //   console.log('event', event)
+  // }
+
+  // @HostListener('keydown', ['$event'])
+
+  // onkeyup(event) {
+  //   console.log("On Keyup ", event);
+  //   this.listening = true;
+  // }
 
   getAgeValidation() {
     this.ageValidationService.getAgeValidationData().subscribe(
@@ -1239,12 +1258,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         // const applicant= processVariables.applicantDetails; 
         const indivIdentityInfoDetails = processVariables.indivIdentityInfoDetails;
         const corporateProspectDetails = processVariables.corporateProspectDetails;
-         if(indivIdentityInfoDetails.passportNumber){
+        if (indivIdentityInfoDetails.passportNumber) {
           this.passportMandatoryDates();
-         }
-         if(indivIdentityInfoDetails.drivingLicenseNumber){
+        }
+        if (indivIdentityInfoDetails.drivingLicenseNumber) {
           this.drivingLicenceMandatoryDates();
-         }
+        }
 
         if (processVariables.applicantDetails.entityTypeKey == "INDIVENTTYP") {
           this.disableUCICIndividualDetails(indivIdentityInfoDetails)
@@ -1266,6 +1285,16 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         else if (this.ekycDone == "0") {
           this.showEkycbutton = true;
         }
+      }
+      if(processVariables.applicantDetails.entityTypeKey == "INDIVENTTYP"){
+         this.individualDatas={
+           ...processVariables.applicantDetails,
+           ...processVariables.aboutIndivProspectDetails,
+           ...processVariables.indivIdentityInfoDetails
+         }
+         console.log('this.individualDatas', this.individualDatas)
+      }else{
+
       }
 
 
@@ -1294,7 +1323,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
 
-  passportMandatoryDates(){ // when ucic comes
+  passportMandatoryDates() { // when ucic comes
     this.disabledPassportDates = false;
     this.coApplicantForm.get('dedupe').get('passportIssueDate').setValidators([Validators.required]);
     this.coApplicantForm.get('dedupe').get('passportIssueDate').updateValueAndValidity();
@@ -1306,7 +1335,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.passportMandatory['passportIssueDate'] = true;
     this.passportMandatory['passportExpiryDate'] = true;
   }
-  drivingLicenceMandatoryDates(){ // when ucic comes
+  drivingLicenceMandatoryDates() { // when ucic comes
     this.disabledDrivingDates = false;
     this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').setValidators([Validators.required]);
     this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').updateValueAndValidity();
@@ -1732,7 +1761,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     }
     this.mobileNumber = mobile;
     this.successSrValue = applicantValue.applicantDetails.srNumber;
-    this.validateSrBoolean=this.storeSRNumber? true : false;
+    this.validateSrBoolean = this.storeSRNumber ? true : false;
     this.coApplicantForm.patchValue({ srNumber: applicantValue.applicantDetails.srNumber })
     dedupe.patchValue({
       mobilePhone: mobile || '',
@@ -2221,19 +2250,19 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     // this.SRNumberValidate = true;
     const value = event.target.value;
     if (value.length === 15 && (!this.successSR || !this.failureSR)) {
-      if (value !== this.storeSRNumber  ) {
-        if(this.successSrValue && value !== this.successSrValue ){
+      if (value !== this.storeSRNumber) {
+        if (this.successSrValue && value !== this.successSrValue) {
           this.getSRNumberValidation(value);
         }
-       
+
       } else {
         // if(!this.validateSrBoolean){
         //   this.SRNumberValidate = false;
         // }else{
         //   this.SRNumberValidate = true;
         // }
-        this.SRNumberValidate= this.validateSrBoolean? true : false
-        
+        this.SRNumberValidate = this.validateSrBoolean ? true : false
+
       }
 
     } else {
@@ -2247,18 +2276,18 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     }).subscribe((res) => {
       const responce = res['ProcessVariables']
       this.SRNumberValidate = responce.isSrValid ? true : false
-      
+
       if (responce.error.code == '0') {
         this.successSrValue = value;
-        this.successSR= true;
-        this.failureSR= false;
+        this.successSR = true;
+        this.failureSR = false;
         this.toasterService.showSuccess(responce.error.message, 'SR Number validation successful')
       } else {
-        this.failureSR= true;
-        this.successSR= false;
+        this.failureSR = true;
+        this.successSR = false;
         this.toasterService.showError('', responce.error.message)
       }
-      this.storeSRNumber=value
+      this.storeSRNumber = value
     })
   }
 
@@ -2529,6 +2558,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.applicantService.saveApplicant(data).subscribe((res: any) => {
       const response = res;
       if (response.Error === '0') {
+        //this.listening = false;
         this.savedChecking = true;
         const message = response.ProcessVariables.error.message;
       }
