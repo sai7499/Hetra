@@ -12,7 +12,69 @@
 
         <h3 class="cus-title margin_zero">{{labels?.waiverDeviation}}</h3>
 
-        <div class="row">
+        <table class="table table-responsive table-bordered text-left">
+          <thead class="text-center">
+            <tr>
+              <td>{{labels?.deviation}}</td>
+              <td>{{labels?.referenceRemarks}}</td>
+              <!-- <td *ngIf="productCatoryCode === 'UC'">{{labels?.otherMitigation}}</td>
+              <td *ngIf="productCatoryCode==='UC'">{{labels?.mitigationMet}}</td> -->
+              <td>{{labels?.approvalLevel}}</td>
+              <td>{{labels?.action}}</td>
+            </tr>
+          </thead>
+        </table>
+
+        <tbody *ngFor="let waiver of deviationsForm.get('waiverNormsFormArray')['controls']; let i=index;let l=last"
+          [formGroupName]="i">
+          <tr>
+            <td>
+              <p>{{obj.controls['devDesc'].value}}</p>
+            </td>
+            <td>
+              <p>{{obj.controls['rulesRemarks'].value}}</p>
+            </td>
+            <!-- <td *ngIf="productCatoryCode === 'UC'">
+                <p>{{obj.controls['otherMitigant'].value}}</p>
+              </td>
+              <td *ngIf="productCatoryCode === 'UC'">
+                <p>{{obj.controls['rulesRemarks'].value}}</p>
+              </td> -->
+            <td>
+              <p>{{obj.controls['approverRoleName'].value}}</p>
+            </td>
+            <td rowspan="6">
+              <div class="row m-0 radio-inline"
+              [ngClass]="{'disabled': !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}">
+              <label for="approve_action">
+                <input type="radio" id="approve_action_waiver_{{i}}" formControlName="statusCode" value="1"
+                  (click)="onApproveDeclineAction(1, waiver)">{{labels?.approve}}
+              </label>
+              <label for=" refer_action">
+                <input type="radio" id="refer_action_waiver_{{i}}" formControlName="statusCode" value="2"
+                  (click)="onApproveDeclineAction(2, waiver)">{{labels?.referToNextLevel}}
+              </label>
+              <label for="decline_action">
+                <input type="radio" id="decline_action_waiver_{{i}}" formControlName="statusCode" value="0"
+                  (click)="onApproveDeclineAction(0, waiver)">{{labels?.decline}}
+              </label>
+            </div>
+            </td>
+          </tr>
+          <tr>
+            <td [attr.colspan]="3">
+              <div class="row">
+                <div class="col-sm-2 col-md-2 col-lg-2">{{labels?.justification}}</div>
+                <div class="col-sm-10 col-md-10 col-lg-10">
+                  <textarea class="form-control" formControlName="justification" [readonly]="isSubmitToCredit"
+                    style="resize: none;"></textarea>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+
+        <!-- <div class="row">
           <div class="form-group col-sm-4 col-md-4 col-lg-4">
             <label for="acp">{{labels?.deviation}}</label>
           </div>
@@ -72,7 +134,7 @@
             </div>
 
           </div>
-        </div>
+        </div> -->
 
       </div>
     </ng-container>
@@ -97,9 +159,9 @@
           <thead class="text-center">
             <tr>
               <td>{{labels?.deviation}}</td>
-              <td>{{labels?.description}}</td>
-              <td *ngIf="productCatoryCode === 'UC'">{{labels?.otherMitigation}}</td>
-              <td *ngIf="productCatoryCode==='UC'">{{labels?.mitigationMet}}</td>
+              <td>{{labels?.referenceRemarks}}</td>
+              <!-- <td *ngIf="productCatoryCode === 'UC'">{{labels?.otherMitigation}}</td>
+              <td *ngIf="productCatoryCode==='UC'">{{labels?.mitigationMet}}</td> -->
               <td>{{labels?.approvalLevel}}</td>
               <td>{{labels?.action}}</td>
             </tr>
@@ -108,17 +170,17 @@
             [formGroupName]="i">
             <tr>
               <td>
-                <p>{{obj.controls['shortDeDesc'].value}}</p>
-              </td>
-              <td>
                 <p>{{obj.controls['devDesc'].value}}</p>
               </td>
-              <td *ngIf="productCatoryCode === 'UC'">
+              <td>
+                <p>{{obj.controls['rulesRemarks'].value}}</p>
+              </td>
+              <!-- <td *ngIf="productCatoryCode === 'UC'">
                 <p>{{obj.controls['otherMitigant'].value}}</p>
               </td>
               <td *ngIf="productCatoryCode === 'UC'">
                 <p>{{obj.controls['rulesRemarks'].value}}</p>
-              </td>
+              </td> -->
               <td>
                 <p>{{obj.controls['approverRoleName'].value}}</p>
               </td>
@@ -126,22 +188,23 @@
                 <div class="row m-0 radio-inline"
                   [ngClass]="{'disabled': !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}">
                   <label for="approve_action">
-                    <input type="radio" id="approve_action_{{i}}" formControlName="statusCode" value="1"
+                    <input type="radio" id="approve_action_auto_{{i}}" formControlName="statusCode" value="1"
                       (click)="onApproveDeclineAction(1, obj)">{{labels?.approve}}
                   </label>
                   <label for=" refer_action">
-                    <input type="radio" id="refer_action_{{i}}" formControlName="statusCode" value="2"
+                    <input type="radio" id="refer_action_auto_{{i}}" formControlName="statusCode" value="2"
                       (click)="onApproveDeclineAction(2, obj)">{{labels?.referToNextLevel}}
                   </label>
                   <label for="decline_action">
-                    <input type="radio" id="decline_action_{{i}}" formControlName="statusCode" value="0"
+                    <input type="radio" id="decline_action_auto_{{i}}" formControlName="statusCode" value="0"
                       (click)="onApproveDeclineAction(0, obj)">{{labels?.decline}}
                   </label>
                 </div>
               </td>
             </tr>
             <tr>
-              <td [attr.colspan]="productCatoryCode == 'UC' ? '5' : '3'">
+              <td [attr.colspan]="3">
+                <!-- productCatoryCode == 'UC' ? '5' : '3' -->
 
                 <div class="row">
                   <div class="col-sm-2 col-md-2 col-lg-2">{{labels?.justification}}</div>
@@ -178,9 +241,9 @@
           <thead class="text-center">
             <tr>
               <td>{{labels?.deviation}}</td>
-              <td>{{labels?.description}}</td>
-              <td *ngIf="productCatoryCode === 'UC'">{{labels?.otherMitigation}}</td>
-              <td *ngIf="productCatoryCode==='UC'">{{labels?.mitigationMet}}</td>
+              <td>{{labels?.referenceRemarks}}</td>
+              <!-- <td *ngIf="productCatoryCode === 'UC'">{{labels?.otherMitigation}}</td>
+              <td *ngIf="productCatoryCode==='UC'">{{labels?.mitigationMet}}</td> -->
               <td>{{labels?.approvalLevel}}</td>
               <td>{{labels?.action}}</td>
               <td> {{labels?.more}}</td>
@@ -192,18 +255,18 @@
             [formGroupName]="j">
 
             <tr>
-              <td style="width: 20%;">
+              <td style="width: 30%;">
                 <app-vf-custom-select [values]="deviationLov?.deviation" [id]="'deviation'" formControlName="devCode"
                   [isRequired]="'Deviation Required'" [isDisabled]="isSubmitToCredit" [isDirty]="isDirty"
                   (change)="onGetDeviationCode($event, j)">
                 </app-vf-custom-select>
               </td>
-              <td style="width: 19%;">
+              <td style="width: 30%;">
                 <p>
-                  {{item.controls['devDesc'].value}}
+                  {{item.controls['rulesRemarks'].value}}
                 </p>
               </td>
-              <td *ngIf="productCatoryCode === 'UC'" style="width: 19%;">
+              <!-- <td *ngIf="productCatoryCode === 'UC'" style="width: 19%;">
                 <p>
                   {{item.controls['otherMitigant'].value}}
                 </p>
@@ -212,7 +275,7 @@
                 <p>
                   {{item.controls['rulesRemarks'].value}}
                 </p>
-              </td>
+              </td> -->
               <td>
                 <app-vf-custom-select [values]="deviationLov?.approvalLevel" [id]="'approval_level'"
                   formControlName="approverRole" [isRequired]="'Approver Level Required'" [isDirty]="isDirty"
@@ -250,7 +313,7 @@
               </td>
             </tr>
             <tr>
-              <td [attr.colspan]="productCatoryCode == 'UC' ? '5' : '3'">
+              <td [attr.colspan]="3">
 
                 <div class="row">
                   <div class="col-sm-2 col-md-2 col-lg-2">{{labels?.justification}}</div>

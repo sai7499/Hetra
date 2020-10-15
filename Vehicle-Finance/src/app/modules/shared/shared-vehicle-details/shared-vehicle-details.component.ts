@@ -158,7 +158,6 @@ export class SharedVehicleDetailsComponent implements OnInit {
     this.findInedx = index;
     this.selectCollateralId = Number(id);
     this.isCollateralSrting = isString;
-    console.log('index', 'id')
   }
 
   DeleteVehicleDetails() {
