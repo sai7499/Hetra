@@ -84,13 +84,12 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
         data.fsrdFundingReq = data.fsrdFundingReq === true ? '1' : '0';
 
         this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
-          const apiError = res.ProcessVariables.error.message;
 
-          if (res.Error === '0' && res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
             this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Vehicle Detail');
             this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
           } else {
-            this.toasterService.showError(apiError, 'Vehicle Detail')
+            this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Detail')
           }
 
         }, error => {

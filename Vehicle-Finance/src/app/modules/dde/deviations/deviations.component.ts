@@ -68,7 +68,6 @@ export class DeviationsComponent implements OnInit, OnDestroy {
       this.isSendBacktoCredit = true;
       return 'credit-decisions';
     } else if (url.includes('deviation-dashboard')) {
-      // this.isSubmitToCredit = false;
       this.isSendBacktoCredit = false;
       return 'deviation-dashboard';
     }
@@ -95,6 +94,8 @@ export class DeviationsComponent implements OnInit, OnDestroy {
           let updateDevision = res.ProcessVariables.updatedDev ? res.ProcessVariables.updatedDev : []
           this.sharedService.getUpdatedDeviation(updateDevision)
           this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Deviation Save/Update')
+        } else {
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Deviation Save/Update')
         }
       }, err => {
         console.log('err', err)
