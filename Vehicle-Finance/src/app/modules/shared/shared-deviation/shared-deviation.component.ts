@@ -158,7 +158,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         this.toasterService.showSuccess('Deviation status updated successfully', 'Deviation approval')
         this.getDeviationDetails()
       } else {
-        this.toasterService.showError(res.ErrorMessage, 'Deviation approval')
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Deviation approval')
       }
     })
 
@@ -232,7 +232,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         }
         this.getDeviationDetails()
       } else {
-        this.toasterService.showError(res.ErrorMessage, 'Get Deviation Master')
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Deviation Master')
       }
     }, err => {
       console.log('err', err)
@@ -324,7 +324,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           this.toasterService.showSuccess('Delete Devision Successfully', 'Delete Deviation');
           this.getDeviationDetails();
         } else {
-          this.toasterService.showError(res.ErrorMessage, 'Delete Deviation')
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Delete Deviation')
         }
       })
     } else {
