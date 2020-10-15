@@ -128,6 +128,27 @@ export class ApplicantListComponent implements OnInit {
       const processVariables = value.ProcessVariables;
       this.applicantList = processVariables.applicantListForLead;
       console.log('getapplicants', this.applicantList);
+      // for(var i=0; i<=this.applicantList.length; i++){
+      //   const mobile= this.applicantList[i].mobileNumber;
+      //   if(this.applicantList[i].entityTypeKey=='INDIVENTTYP' && mobile.length==12){
+      //     this.applicantList[i].mobileNumber= mobile.slice(2,12)
+      //   }
+      // }
+      // for(var i=0; i<=this.applicantList.length; i++){
+      //   const companyPhoneNumber= this.applicantList[i].companyPhoneNumber;
+      //   if(this.applicantList[i].entityTypeKey=='NONINDIVENTTYP' && companyPhoneNumber.length==12){
+      //     this.applicantList[i].companyPhoneNumber= companyPhoneNumber.slice(2,12)
+      //   }
+      // } 
+      this.applicantList.map((data)=>{
+        if(data.mobileNumber && data.mobileNumber.length===12){
+          data.mobileNumber= data.mobileNumber.slice(2,12)
+        }
+        if(data.companyPhoneNumber && data.companyPhoneNumber.length===12){
+          data.companyPhoneNumber=data.companyPhoneNumber.slice(2,12)
+        }
+        return data;
+      })
     });
   }
 

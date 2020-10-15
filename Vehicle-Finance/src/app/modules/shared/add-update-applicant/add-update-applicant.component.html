@@ -581,7 +581,7 @@
                   <!-- [patternCheck]="validationData?.passportNumber?.patternCheck" -->
                   <app-custom-input formControlName="passportNumber" [patternCheck]="
                       validationData?.passportNumber?.patternCheck
-                    " (keyup)="onPassportNumberChange($event)"  [inputClass]="'text-uppercase'"
+                    " (keyup)="onPassportNumberChange()"  [inputClass]="'text-uppercase'"
                     [maxLength]="validationData?.passportNumber?.maxLength" [isRequired]="
                       isPassportRequired ? 'Passport number is required' : ''
                     " [isDirty]="isPassportRequired && isDirty" [type]="validationData?.passportNumber?.type">
