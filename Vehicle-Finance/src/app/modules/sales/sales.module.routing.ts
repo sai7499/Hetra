@@ -8,6 +8,7 @@ import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.compo
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
 import { AddvehicleComponent } from './addvehicle/addvehicle.component';
+import { DetectBrowserActivityService } from '@services/detect-browser-activity.service'
 
 const routes: Routes = [
   {
@@ -16,26 +17,32 @@ const routes: Routes = [
     resolve: {
       leadData:LeadDataResolverService,
     },
+    canActivate: [DetectBrowserActivityService],
     children: [
       {
         path: 'lead-details',
         component: LeadDetailsComponent,
+        canActivate: [DetectBrowserActivityService],
       },
       {
         path: 'applicant-list',
         component: ApplicantListComponent,
+        canActivate: [DetectBrowserActivityService],
       },
       {
         path: 'vehicle-list',
         component: VehicleDetailsComponent,
+        canActivate: [DetectBrowserActivityService],
       },
       {
         path: 'document-upload',
         component: DocumentUploadComponent,
+        canActivate: [DetectBrowserActivityService],
       },
       {
         path: 'add-vehicle',
-        component: AddvehicleComponent
+        component: AddvehicleComponent,
+        canActivate: [DetectBrowserActivityService],
       }
     ],
   },

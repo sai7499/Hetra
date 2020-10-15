@@ -1,5 +1,5 @@
 import { environment } from 'src/environments/environment.prod';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,HostListener } from '@angular/core';
 
 
 
@@ -8,7 +8,10 @@ declare var cordova:any;
 // declare var channel:any
 
 import { DraggableContainerService } from '@services/draggable.service';
-import { Router } from '@angular/router';
+import { Router,NavigationStart,NavigationEnd } from '@angular/router';
+import { UtilityService } from '@services/utility.service';
+import {SharedService} from './modules/shared/shared-service/shared-service'
+import { filter } from 'rxjs/operators'
 
 @Component({
   selector: 'app-root',
@@ -20,6 +23,7 @@ export class AppComponent implements OnInit {
   title = 'vehicle-finance';
   isMaas360Enabled:any;
 
+  showConfirmFlag: boolean;
 
   // Equitas
 
@@ -195,7 +199,7 @@ export class AppComponent implements OnInit {
   };
 
   constructor(private draggableContainerService: DraggableContainerService,
-              private router: Router) {}
+              private router: Router,private utilityService: UtilityService,private sharedService: SharedService) {}
 
   ngOnInit() {
 
@@ -236,6 +240,63 @@ export class AppComponent implements OnInit {
            }
       }
   });
+
+  
+
+  // window.addEventListener('load', (event) => {
+  //   console.log(window.location.href)
+  //   if(!window.location.href.includes('/login')) {
+  //     if (confirm('Are you sure you want to logout?')) {
+  //       this.utilityService.logOut();
+  //     } else {
+  //     }
+
+  //   }
+    
+  // })
+  
+  window.addEventListener('popstate', (event) => {
+    if(!window.location.href.includes('/login')) {
+        history.go(1);
+        if(!this.showConfirmFlag) {
+          if (confirm('Are you sure you want to logout?')) {
+            this.showConfirmFlag = true;
+            this.utilityService.logOut();
+          } else {
+            this.showConfirmFlag = true;
+              this.sharedService.browserPopState(false);
+        }
+      }
+
+    }
+        
+  });
+  
+  }
+
+  @HostListener('window:mousemove') refreshUserState() {
+  
+    setTimeout(()=> {
+      this.showConfirmFlag = false;;
+      this.sharedService.browserPopState(true)
+      })
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+    onBeforeUnloadHander(event) {
+      setTimeout(()=> {
+        if(!window.location.href.includes('/login')) {
+           this.showConfirmMsg(event)
+        }
+      })
+    }
+
+    showConfirmMsg(event) {
+      if (confirm('Are you sure you want to logout?')) {
+        this.utilityService.logOut();
+      } else {
+        event.preventDefault();
+     }
   }
 
   initMaaS360() {

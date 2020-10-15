@@ -14,69 +14,24 @@ import { map, tap, first, catchError } from 'rxjs/operators';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { UtilityService } from './utility.service';
 import { ToastrService } from 'ngx-toastr';
-import { Router,NavigationEnd,NavigationStart} from '@angular/router';
-import { filter } from 'rxjs/operators'
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthInterceptor implements HttpInterceptor {
   apiCount: number = 0;
-  refreshDetect: boolean;
 
   constructor(
     private encrytionService: EncryptService,
     private ngxUiLoaderService: NgxUiLoaderService,
     private utilityService: UtilityService,
     private toasterService: ToastrService,
-    private router: Router
   ) { }
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-
-     /** while browser refresh it will trigger */
-    this.router.events
-    .pipe(filter((rs): rs is NavigationEnd => rs instanceof NavigationEnd))
-    .subscribe(event => {
-      if (
-        event.id === 1 &&
-        event.url === event.urlAfterRedirects 
-      ) {
-
-        if(!this.refreshDetect) {
-          this.refreshDetect = true;
-          if (confirm('Are you sure you want to logout?')) {
-            this.ngxUiLoaderService.stop();
-            this.utilityService.removeAllLocalStorage();
-          } else {
-          }
-
-        }
-         
-        
-      }
-    })
-
-    /** while browser back/front button click it will trigger */
-
-    this.router.events
-      .subscribe((event: NavigationStart) => {
-        if (event.navigationTrigger === 'popstate') {
-          if(!this.refreshDetect) {
-            this.refreshDetect = true;
-            if (confirm('Are you sure you want to logout?')) {
-              this.ngxUiLoaderService.stop();
-              this.utilityService.removeAllLocalStorage();
-            } else {
-            }
-          } 
-        }
-      });
-
-
     this.ngxUiLoaderService.start();
     this.apiCount++;
     let httpMethod = req.method;
@@ -130,10 +85,6 @@ export class AuthInterceptor implements HttpInterceptor {
             console.log('httpErr', err);
             this.ngxUiLoaderService.stop();
             if (err.status != 401 && err.status != 500) {
-              console.log('httpErr', err);
-              this.refreshDetect = false;
-              this.ngxUiLoaderService.stop();
-              this.toasterService.error(`${err.status}: ${err.statusText}`, 'Technical error..');
               if (err.status === 0) {
                 this.toasterService.error(`${err.status}: Connection not available! Please try again later.`, 'Technical error..');
               } else {
@@ -193,7 +144,6 @@ export class AuthInterceptor implements HttpInterceptor {
   checkApiCount() {
     if (this.apiCount <= 0) {
       console.log('this.apiCount', this.apiCount)
-      this.refreshDetect = false;
       this.ngxUiLoaderService.stop();
     }
   }
