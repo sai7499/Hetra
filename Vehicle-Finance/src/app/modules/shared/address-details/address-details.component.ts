@@ -733,7 +733,7 @@ export class AddressDetailsComponent implements OnInit {
     const currentAddressObj =
       addressObj[Constant.CURRENT_ADDRESS] || addressObj['COMMADDADDTYP'];
 
-    if (currentAddressObj.isCurrAddSameAsOffAdd == '1') {
+    if ( currentAddressObj && currentAddressObj.isCurrAddSameAsOffAdd == '1') {
       this.onCurrAsOfficeChecked = true;
       const formArray = this.addressForm.get('details') as FormArray;
       const details = formArray.at(0);

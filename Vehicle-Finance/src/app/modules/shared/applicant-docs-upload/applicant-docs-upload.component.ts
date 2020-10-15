@@ -89,6 +89,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
     name: string
   };
   documentArr: DocumentDetails[] = [];
+  apiRes: any[];
 
   // documentMaxLength = {
   //   rule: 15,
@@ -248,6 +249,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
         console.log('doc details', value);
         const processVariables = value.ProcessVariables;
         const docDetails: DocumentDetails[] = processVariables.documentDetails;
+        this.apiRes = processVariables.documentDetails || [];
         this.documentArr = docDetails || [];
         const photo = processVariables.photo;
         const signature = processVariables.signature;
@@ -989,7 +991,35 @@ export class ApplicantDocsUploadComponent implements OnInit {
       this.toasterService.showWarning('No documents uploaded to save', '');
       return;
     }
+    const apiValue = {};
 
+    this.apiRes.forEach((value) => {
+        apiValue[value.documentId] = {
+          documentName:  value.documentName || '',
+          documentNumber: value.documentNumber || '',
+          issueDate: value.issueDate || '',
+          expiryDate: value.expiryDate || '',
+          isDeferred: value.isDeferred || '',
+          deferredDate: value.deferredDate || ''
+        };
+    });
+
+    const isValueChange = this.documentArr.some((value) => {
+      const doc = apiValue[value.documentId];
+      return (
+        value.documentName !== doc.documentName ||
+        value.documentNumber !== doc.documentNumber ||
+        value.issueDate !== doc.issueDate ||
+        value.expiryDate !== doc.expiryDate ||
+        value.isDeferred !== doc.isDeferred ||
+        value.deferredDate !== doc.deferredDate
+      );
+    });
+
+
+    if (!isValueChange) {
+      return this.toasterService.showWarning('No changes done to save', '');
+    }
 
     this.uploadService
       .saveOrUpdateDocument(this.documentArr)
