@@ -1,0 +1,180 @@
+<main>
+    <div class="container">
+      <!-- <app-lead-section-header></app-lead-section-header> -->
+      <!-- <br /> -->
+      <h3 class="margin_zero">Customer Dedupe and Negatile List Scrub Results</h3>  
+      <!-- <p class="title" id="exact_macth_title2">Dedupe Parameters</p> -->
+      <!-- <form action="" method="POST">
+        <div class="table-responsive" id="exact_macth_title2_sec">
+          <table class="table">
+            <thead>
+              <tr class="table-head-bg">
+                <td>Name</td>
+                <td>{{ isIndividual ? 'DOB' : 'DOI' }}</td>
+                <td *ngIf="isIndividual">Mother Maiden Name</td>
+                <td>Mobile Number</td>
+                <td>PAN</td>
+                <td>{{ isIndividual ? 'Adhaar Ref' : 'Udyog Adhaar Ref' }}</td>
+                <ng-container *ngIf="isIndividual">
+                  <td>Passport</td>
+                  <td>Voter ID</td>
+                  <td>Driving License</td>
+                </ng-container>
+                <ng-container *ngIf="!isIndividual">
+                  <td>CIN</td>
+                  <td>CST/VAT</td>
+                  <td>GST</td>
+                  <td>TAN</td>
+                </ng-container>
+                <td *ngIf="isIndividual">CKYC Number</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ dedupeParameter?.firstName }}</td>
+                <td>
+                  {{
+                    isIndividual
+                      ? dedupeParameter?.dob
+                      : dedupeParameter?.dateOfIncorporation
+                  }}
+                </td>
+                <td *ngIf="isIndividual"></td>
+                <td>
+                  {{
+                    isIndividual
+                      ? dedupeParameter?.mobileNumber
+                      : dedupeParameter?.companyPhoneNumber
+                  }}
+                </td>
+                <td>{{ dedupeParameter?.pan }}</td>
+                <td>{{ dedupeParameter?.aadhar }}</td>
+                <ng-container *ngIf="isIndividual">
+                  <td>{{ dedupeParameter?.passportNumber }}</td>
+                  <td>{{ dedupeParameter?.voterIdNumber }}</td>
+                  <td>{{ dedupeParameter?.drivingLicenseNumber }}</td>
+                  <td>{{ dedupeParameter?.ckycNumber }}</td>
+                </ng-container>
+                <ng-container *ngIf="!isIndividual">
+                  <td>{{ dedupeParameter?.corporateIdentificationNumber }}</td>
+                  <td>{{ dedupeParameter?.cstVatNumber }}</td>
+                  <td>{{ dedupeParameter?.gstNumber }}</td>
+                  <td>{{ dedupeParameter?.tanNumber }}</td>
+                </ng-container>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </form> -->
+  
+      <p id="exact_macth_title3">Exact Matches</p>
+      <div class="table-responsive">
+        <table class="table table-responsive" id="exact_macth_title3_sec">
+          <thead>
+            <tr class="table-head-bg">
+              <td>Select</td>
+              <td>UCIC</td>
+              <td>Name</td>
+              <td>Matched Criteria</td>
+              <td>DOB</td>
+              <td >Mother Maiden Name</td>
+              <td>Mobile Number</td>
+              <td>PAN</td>
+              <td>Adhaar Ref</td>
+              <!-- <ng-container *ngIf="isIndividual"> -->
+                <td>Passport</td>
+                <td>Voter ID</td>
+                <td>Driving License</td>
+              <!-- </ng-container> -->
+              <!-- <ng-container *ngIf="!isIndividual">
+                <td>CIN</td>
+                <td>CST/VAT</td>
+                <td>GST</td>
+                <td>TAN</td>
+              </ng-container> -->
+              <td>CKYC Number</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let exactMatch of dedupeMatch;
+                let i = index
+              "
+            >
+              <td>
+                <input
+                  type="radio"
+                  value=""
+                  name="exact_matches"
+                  (change)="selectedApplicant(exactMatch)"
+                  [value]="exactMatch.ucic"
+                />
+              </td>
+              <td>{{ exactMatch.ucic }}</td>
+              <td>{{ exactMatch.fullName }}</td>
+              <td>{{ exactMatch.matchedCriteria }}</td>
+              <td>{{  exactMatch.dob }}</td>
+              <td></td>
+              <td>{{ exactMatch.mobile }}</td>
+              <td>{{ exactMatch.pan }}</td>
+              <td>
+                {{ exactMatch.aadhar }}
+              </td>
+              <!-- <ng-container *ngIf="isIndividual"> -->
+                <td>{{ exactMatch.passport=="undefined"? '' :exactMatch.passport }}</td>
+                <td>{{ exactMatch.voterIdNumber=="undefined"? '' :exactMatch.voterIdNumber }}</td>
+                <td>{{ exactMatch.prospectDrivingLicense=="undefined"? '' :exactMatch.prospectDrivingLicense }}</td>
+              <!-- </ng-container> -->
+  
+              <!-- <ng-container *ngIf="!isIndividual">
+                <td>{{ exactMatch?.cinOrRegNo=="undefined"? '' :exactMatch.cinOrRegNo  }}</td>
+                <td>{{ exactMatch?.cstOrVatNo=="undefined"? '' :exactMatch.cstOrVatNo  }}</td>
+                <td>{{ exactMatch?.gst=="undefined"? '' :exactMatch.gst  }}</td>
+                <td>{{ exactMatch?.tan=="undefined"? '' :exactMatch.tan  }}</td>
+              </ng-container> -->
+              <td >{{ exactMatch.prospectCkycNumber=="undefined"? '' :exactMatch.prospectCkycNumber}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+  
+  <div class="btn-sec clear-both row">
+    <div class="col-sm-5"></div>
+    <div class="col-sm-7 text-right">
+      <span id="edit_vehicle_details_replace"></span>
+      <button
+      class="btn btn-primary save"
+      id="save_vehicle_details"
+      (click)="onBack()"
+    >
+      Back
+    </button>
+      <!-- <button
+        class="btn btn-primary save"
+        id="save_vehicle_details"
+        (click)="continueAsNewApplicant()"
+        [disabled]="isExactAvailable || isNewApplicant"
+      >
+        Continue as new applicant
+      </button> -->
+      <a id="next_vehicle_details"
+        ><button
+          class="btn btn-primary"
+          type="button"
+          (click)="update()"
+          [disabled]="!selectedUcic"
+        >
+          Update
+        </button></a
+      >
+      <br />
+      <br />
+      <br />
+    </div>
+  </div>
+  
+
+  

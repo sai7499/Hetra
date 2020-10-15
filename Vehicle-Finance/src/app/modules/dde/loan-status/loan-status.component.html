@@ -37,7 +37,7 @@
                 <td [attr.data-label]="labels?.errorMsg">{{item.errorMsg ? item.errorMsg : '--'}}</td>
                 <td *ngIf="!item.checkDuplicates" [attr.data-label]="labels?.action">{{ '--'}}</td>
                 <td *ngIf="item.checkDuplicates"[attr.data-label]="labels?.action" class="text-underline" 
-                (click)="ShowDedupe(item.leadId)"><a>{{ 'Show Dedupe'}}</a></td>
+                [routerLink]="['../dedupe-check', item.applicantId]"><a>{{ 'Show Dedupe'}}</a></td>
                 
                 <!-- <td [attr.data-label]="labels?.name">{{item.name ? item.name : '--'}}</td>
                 <td [attr.data-label]="labels?.stage">{{item.stage ? item.stage : '--'}}</td>
