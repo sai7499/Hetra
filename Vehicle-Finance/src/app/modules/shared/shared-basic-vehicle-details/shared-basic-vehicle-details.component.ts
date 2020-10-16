@@ -260,6 +260,24 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     });
   }
 
+  onChangeFinalAssetCost(value, form) {
+    if (value === '1') {
+      console.log(value, 'vs', form)
+
+      let exShowRoomCost = form.controls.exShowRoomCost.value ? Number(form.controls.exShowRoomCost.value) : 0
+      let insurance = form.controls.insurance.value ? Number(form.controls.insurance.value) : 0;
+      let oneTimeTax = form.controls.oneTimeTax.value ?  Number(form.controls.oneTimeTax.value) : 0;
+      let others = form.controls.others ?  Number(form.controls.others.value) : 0;
+      let discount = form.controls.discount.value ?  Number(form.controls.discount.value) : 0;
+
+      let costValue = (exShowRoomCost + insurance+ oneTimeTax + others) - discount
+      this.onPatchFinalAssetCost(costValue)
+
+    } else {
+      this.onPatchFinalAssetCost(form.controls.exShowRoomCost.value)
+    }
+  }
+
   setFormValue() {
 
     this.vehicleDetailService.getAnVehicleDetails(this.id).subscribe((res: any) => {
