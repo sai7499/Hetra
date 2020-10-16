@@ -6,6 +6,7 @@ import { LabelsService } from '@services/labels.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { LoanCreationService } from '@services/loan-creation.service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-loan-status',
@@ -21,22 +22,24 @@ export class LoanStatusComponent implements OnInit {
   isLoadLead: boolean;
 
   constructor(
+
     private fb: FormBuilder,
     private loginService: LoginService,
     private loginStoreService: LoginStoreService,
     private labelService: LabelsService,
     private router: Router,
     private loanCreationService: LoanCreationService,
-    private activateRoute: ActivatedRoute
+    private activateRoute: ActivatedRoute,
+    private toasterService: ToasterService
   ) {
 
-   }
+  }
 
   async ngOnInit() {
     this.leadId = (await this.getLeadId()) as number;
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
-      console.log('label',res)
+      console.log('label', res)
       this.validationData = res.validationData;
     });
     this.getLoanProcessLogs();
@@ -73,15 +76,31 @@ export class LoanStatusComponent implements OnInit {
 
     });
   }
-  Refresh(){
+  Refresh() {
     this.getLoanProcessLogs();
   }
 
-  onNext(){
+  onNext() {
     this.router.navigate([`/pages/loanbooking/${this.leadId}/welomce-letter`]);
   }
   onBack() {
     this.router.navigate([`/pages/dashboard`]);
+  }
+
+  sendLoanCreationWrapper() {
+    const body = {
+      leadId: this.leadId
+    }
+    this.loanCreationService.setLoanCreation(body).subscribe((res: any) => {
+
+      // tslint:disable-next-line: triple-equals
+      if (res.ProcessVariables.error.code == '0') {
+        this.toasterService.showSuccess('Lead submitted For Loan Creation', '');
+      //  this.router.navigate([`pages/dashboard`]);
+      } else {
+        this.toasterService.showError(res.ProcessVariables.error.message, '');
+      }
+    });
   }
 
 }
