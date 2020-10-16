@@ -3,30 +3,30 @@
       <!-- <app-lead-section-header></app-lead-section-header> -->
       <!-- <br /> -->
       <h3 class="margin_zero">Customer Dedupe Results</h3>  
-      <!-- <p class="title" id="exact_macth_title2">Dedupe Parameters</p> -->
-      <!-- <form action="" method="POST">
+      <p class="title" id="exact_macth_title2">Dedupe Parameters</p>
+      <form action="" method="POST">
         <div class="table-responsive" id="exact_macth_title2_sec">
           <table class="table">
             <thead>
               <tr class="table-head-bg">
                 <td>Name</td>
-                <td>{{ isIndividual ? 'DOB' : 'DOI' }}</td>
-                <td *ngIf="isIndividual">Mother Maiden Name</td>
+                <td>DOB</td>
+                <td>Mother Maiden Name</td>
                 <td>Mobile Number</td>
                 <td>PAN</td>
-                <td>{{ isIndividual ? 'Adhaar Ref' : 'Udyog Adhaar Ref' }}</td>
-                <ng-container *ngIf="isIndividual">
+                <td>Adhaar Ref</td>
+                <!-- <ng-container *ngIf="isIndividual"> -->
                   <td>Passport</td>
                   <td>Voter ID</td>
                   <td>Driving License</td>
-                </ng-container>
+                <!-- </ng-container>
                 <ng-container *ngIf="!isIndividual">
                   <td>CIN</td>
                   <td>CST/VAT</td>
                   <td>GST</td>
                   <td>TAN</td>
-                </ng-container>
-                <td *ngIf="isIndividual">CKYC Number</td>
+                </ng-container> -->
+                <td >CKYC Number</td>
               </tr>
             </thead>
             <tbody>
@@ -34,38 +34,37 @@
                 <td>{{ dedupeParameter?.firstName }}</td>
                 <td>
                   {{
-                    isIndividual
-                      ? dedupeParameter?.dob
-                      : dedupeParameter?.dateOfIncorporation
+                    
+                      dedupeParameter?.dob
+                      
                   }}
                 </td>
-                <td *ngIf="isIndividual"></td>
+                <td>{{dedupeParameter?.motherMaidenName}}</td>
                 <td>
                   {{
-                    isIndividual
-                      ? dedupeParameter?.mobileNumber
-                      : dedupeParameter?.companyPhoneNumber
+                     dedupeParameter?.mobilePhone
+                      
                   }}
                 </td>
                 <td>{{ dedupeParameter?.pan }}</td>
                 <td>{{ dedupeParameter?.aadhar }}</td>
-                <ng-container *ngIf="isIndividual">
-                  <td>{{ dedupeParameter?.passportNumber }}</td>
-                  <td>{{ dedupeParameter?.voterIdNumber }}</td>
-                  <td>{{ dedupeParameter?.drivingLicenseNumber }}</td>
+                <!-- <ng-container *ngIf="isIndividual"> -->
+                  <td>{{ dedupeParameter?.passport }}</td>
+                  <td>{{ dedupeParameter?.voterId }}</td>
+                  <td>{{ dedupeParameter?.drivingLicense }}</td>
                   <td>{{ dedupeParameter?.ckycNumber }}</td>
-                </ng-container>
-                <ng-container *ngIf="!isIndividual">
+                <!-- </ng-container> -->
+                <!-- <ng-container *ngIf="!isIndividual">
                   <td>{{ dedupeParameter?.corporateIdentificationNumber }}</td>
                   <td>{{ dedupeParameter?.cstVatNumber }}</td>
                   <td>{{ dedupeParameter?.gstNumber }}</td>
                   <td>{{ dedupeParameter?.tanNumber }}</td>
-                </ng-container>
+                </ng-container> -->
               </tr>
             </tbody>
           </table>
         </div>
-      </form> -->
+      </form>
   
       <p id="exact_macth_title3">Exact Matches</p>
       <div class="table-responsive">

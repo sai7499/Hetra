@@ -5,4 +5,8 @@
 .dis-block {
     display: block;
   }
+
+  .table td {
+    text-align: left;
+  }
   
