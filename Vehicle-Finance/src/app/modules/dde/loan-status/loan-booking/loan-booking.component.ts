@@ -56,13 +56,10 @@ export class LoanBookingComponent implements OnInit {
       this.toggleProgress(url);
     });
     this.activatedRoute.params.subscribe((value: any) => {
-      console.log('params', value);
       this.leadId = Number(value.leadId);
     });
     this.sharedService.productCatCode$.subscribe((value)=> {
-
       this.productCode = value;
-      console.log('pdtcat',this.productCode)
     })
   }
 

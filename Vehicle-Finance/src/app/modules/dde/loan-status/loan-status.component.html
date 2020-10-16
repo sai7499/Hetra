@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="btn-sec clear-both row cst_btm_btns mar-bot">
-        <div class="col-sm-5"><h3>Loan Process Logs</h3>
+        <div class="col-sm-5"><h3>Loan Booking Status</h3>
         </div>
         <div class="col-sm-7 text-right">
             <button class="btn btn-primary dash_href" type="button" (click)="Refresh()">
@@ -37,7 +37,7 @@
                 <td [attr.data-label]="labels?.errorMsg">{{item.errorMsg ? item.errorMsg : '--'}}</td>
                 <td *ngIf="!item.checkDuplicates" [attr.data-label]="labels?.action">{{ '--'}}</td>
                 <td *ngIf="item.checkDuplicates"[attr.data-label]="labels?.action" class="text-underline" 
-                [routerLink]="['../dedupe-check', item.applicantId]"><a>{{ 'Show Dedupe'}}</a></td>
+                [routerLink]="['../dedupe-check', item.applicantId]"><a>{{ 'Show Duplicate'}}</a></td>
                 
                 <!-- <td [attr.data-label]="labels?.name">{{item.name ? item.name : '--'}}</td>
                 <td [attr.data-label]="labels?.stage">{{item.stage ? item.stage : '--'}}</td>

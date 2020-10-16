@@ -76,9 +76,7 @@ export class LoanStatusComponent implements OnInit {
   Refresh(){
     this.getLoanProcessLogs();
   }
-  ShowDedupe(leadId){
 
-  }
   onNext(){
     this.router.navigate([`/pages/loanbooking/${this.leadId}/welomce-letter`]);
   }

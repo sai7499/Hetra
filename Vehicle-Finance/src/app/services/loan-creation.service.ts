@@ -62,6 +62,7 @@ export class LoanCreationService {
       workflowId,
       projectId
     };
+    console.log('executeApi',requestEntity)
     const url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
     return this.httpService.post(url, requestEntity);
   }
@@ -77,6 +78,7 @@ export class LoanCreationService {
       workflowId,
       projectId
     };
+    console.log(data)
     const url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
     return this.httpService.post(url, requestEntity);
   }

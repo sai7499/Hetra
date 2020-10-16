@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { LoanCreationService } from '@services/loan-creation.service';
 import { ToasterService } from '@services/toaster.service';
+import { DataRowOutlet } from '@angular/cdk/table';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class DedupeCheckComponent implements OnInit {
     dedupeMatch: any[];
     selectedUcic: any;
     applicantId;
-
+    leadId;
     constructor( private location: Location,
                  private loanCreationService: LoanCreationService,
                  private activatedRoute: ActivatedRoute,
@@ -23,13 +24,19 @@ export class DedupeCheckComponent implements OnInit {
 
     }
 
-    ngOnInit() {
-
+     async ngOnInit() {
+        this.leadId = (await this.getLeadId()); 
         this.activatedRoute.params.subscribe((value) => {
-            const applicantId = value.applicantId;
-            if (applicantId) {
-                this.applicantId = applicantId;
-                this.loanCreationService.getLoanDedupeResult({applicantId})
+        this.applicantId=value.applicantId;
+      if (this.applicantId) {
+                const data ={
+                    applicantId : this.applicantId,
+                    leadId:this.leadId,
+                    userId:localStorage.getItem('userId')
+            
+                }
+                     
+                this.loanCreationService.getLoanDedupeResult(data)
                     .subscribe((response: any) => {
                         console.log('dedupe result', response);
                         const error = response.Error;
@@ -43,7 +50,17 @@ export class DedupeCheckComponent implements OnInit {
         });
 
     }
-
+    getLeadId() {
+        return new Promise((resolve, reject) => {
+          this.activatedRoute.parent.params.subscribe((value) => {
+            if (value && value.leadId) {
+              resolve(String(value.leadId));
+            }
+            resolve(null);
+          });
+        });
+      }
+    
     onBack() {
         this.location.back();
     }
@@ -55,7 +72,9 @@ export class DedupeCheckComponent implements OnInit {
     update() {
         const data = {
             applicantId: this.applicantId,
-            ucic: this.selectedUcic.ucic
+            ucic: this.selectedUcic.ucic,
+            leadId:this.leadId,
+            userId: localStorage.getItem('userId')
         };
         this.loanCreationService.updateLoanDedupe(data)
             .subscribe((value: any) => {
