@@ -240,3 +240,11 @@ thead tr td.text-left{
   padding: 12px 30px;
   margin: 5px;
 }
+
+.dontdisplayed{
+display: none;
+}
+
+.display{
+  display: block;
+}
