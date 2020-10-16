@@ -941,7 +941,7 @@ if (this.router.url.includes('/dde')) {
   console.log(passengerStandGroup);
   const businessEarningPerDay = Number(passengerStandGroup.value.businessEarningPerDay);
   const grossIncomePerDay = Number(passengerStandGroup.value.grossIncomePerDay);
-  if (businessEarningPerDay <= 31) {
+  if (businessEarningPerDay > 0 && businessEarningPerDay <= 31) {
     this.montlyStandOperatorIncome = businessEarningPerDay * grossIncomePerDay;
   }
 
@@ -997,7 +997,7 @@ calculateCaptive() {
   // tslint:disable-next-line: max-line-length
   const businessEarningPerDay = passengerStandGroup.value.businessEarningPerDay ? Number(passengerStandGroup.value.businessEarningPerDay) : 0;
   const grossIncomePerDay = (passengerStandGroup.value.businessIncomePerDay) ? Number(passengerStandGroup.value.businessIncomePerDay) : 0;
-  if (businessEarningPerDay <= 31) {
+  if (businessEarningPerDay > 0 && businessEarningPerDay <= 31) {
     this.montlyCaptiveIncome = businessEarningPerDay * grossIncomePerDay;
   }
  
@@ -1183,6 +1183,26 @@ calculateCaptiveC() {
           });
           console.log('downloadDocs', value);
         });
+    });
+  }
+
+  reInitiateViability() {
+    if (this.viabilityForm.invalid) {
+      this.toasterService.showWarning('Save before submitting', ' ');
+    }
+    const body = {
+      leadId: this.leadId,
+      collateralId: this.collataralId,
+      isReinitiated: true
+    };
+    this.viabilityService.reinitiateViabilityDetails(body).subscribe((res: any) => {
+      // tslint:disable-next-line: triple-equals
+      if (res.ProcessVariables.error.code == '0') {
+      this.toasterService.showSuccess('Vehicle viability task assigned succesfully', '');
+      this.router.navigateByUrl(`pages/dashboard`);
+      } else {
+        this.toasterService.showSuccess(res.ProcessVariables.error.message, '');
+      }
     });
   }
 
