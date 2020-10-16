@@ -12,7 +12,7 @@ import { DataRowOutlet } from '@angular/cdk/table';
     styleUrls: ['./dedupe-check.component.css']
 })
 export class DedupeCheckComponent implements OnInit {
-
+    showModal: boolean;
     dedupeMatch: any[];
     selectedUcic: any;
     applicantId;
@@ -70,6 +70,10 @@ export class DedupeCheckComponent implements OnInit {
     }
 
     update() {
+        this.showModal = true;
+    }
+
+    callApiForSelectedUcic() {
         const data = {
             applicantId: this.applicantId,
             ucic: this.selectedUcic.ucic,
@@ -78,7 +82,6 @@ export class DedupeCheckComponent implements OnInit {
         };
         this.loanCreationService.updateLoanDedupe(data)
             .subscribe((value: any) => {
-                console.log('update value', value);
                 const error = value.Error;
                 if (error !== '0') {
                     return this.toaster.showError(value.ErrorMessage, '');
@@ -86,5 +89,9 @@ export class DedupeCheckComponent implements OnInit {
                 this.toaster.showSuccess('Updated Successfully', '');
                 this.location.back();
             });
+    }
+
+    onCancel() {
+        this.showModal = false;
     }
 }

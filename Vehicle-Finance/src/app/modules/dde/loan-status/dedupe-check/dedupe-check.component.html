@@ -2,7 +2,7 @@
     <div class="container">
       <!-- <app-lead-section-header></app-lead-section-header> -->
       <!-- <br /> -->
-      <h3 class="margin_zero">Customer Dedupe and Negatile List Scrub Results</h3>  
+      <h3 class="margin_zero">Customer Dedupe Results</h3>  
       <!-- <p class="title" id="exact_macth_title2">Dedupe Parameters</p> -->
       <!-- <form action="" method="POST">
         <div class="table-responsive" id="exact_macth_title2_sec">
@@ -167,7 +167,7 @@
           (click)="update()"
           [disabled]="!selectedUcic"
         >
-          Update
+        Continue with selected UCIC
         </button></a
       >
       <br />
@@ -176,5 +176,51 @@
     </div>
   </div>
   
+
+  <div
+  class="modal"
+  id="ucicModel2"
+  [ngClass]="{ 'dis-block': showModal }"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header text-center">
+        <!-- <h4 class="modal-title">Customer Dedupe Match Found</h4> -->
+        <!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <p id="">
+            Are you sure you want continue with selected UCIC {{selectedUcic?.ucic}} ?
+        </p>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          id="ucic_lead"
+          (click)="callApiForSelectedUcic()"
+        >
+          <!-- (click)="checkNegativeList()" -->
+
+          Yes
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-dismiss="modal"
+          (click)="onCancel()"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
   
