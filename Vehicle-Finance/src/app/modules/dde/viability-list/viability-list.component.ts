@@ -136,7 +136,7 @@ export class ViabilityListComponent {
     this.viabilityService.reinitiateViabilityDetails(body).subscribe((res: any) => {
       // tslint:disable-next-line: triple-equals
       if (res.ProcessVariables.error.code == '0') {
-      this.toasterService.showSuccess('Submitted succesfully', '');
+      this.toasterService.showSuccess('Vehicle viability task assigned succesfully', '');
       this.router.navigateByUrl(`pages/dashboard`);
       } else {
         this.toasterService.showError(res.ProcessVariables.error.message, '');
