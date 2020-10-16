@@ -5,6 +5,7 @@ import { LeadDataResolverService } from '@modules/lead-section/services/leadData
 import { LoanBookingComponent } from './loan-booking/loan-booking.component';
 import { WelomceLetterComponent } from '../cpc-maker/welomce-letter/welomce-letter.component';
 import { DeliveryOrderComponent } from '../cpc-maker/delivery-order/delivery-order.component';
+import { DedupeCheckComponent } from './dedupe-check/dedupe-check.component';
 const routes: Routes = [
   {
     path: ':leadId',
@@ -22,6 +23,9 @@ const routes: Routes = [
         {
             path: 'delivery-order',
             component: DeliveryOrderComponent
+        }, {
+            path: 'dedupe-check/:applicantId',
+            component: DedupeCheckComponent
         }
     ]
 }

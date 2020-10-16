@@ -26,7 +26,7 @@
                     </thead>
                     <tbody>
                         <tr id="applicant_1_row" *ngFor=" let viability of viabilityData; let i = index">
-                            <td [attr.data-label]="labels?.registrationNum" >{{viability?.registerNo | uppercase}}</td>
+                            <td [attr.data-label]="labels?.registrationNum" >{{viability?.registerNo | uppercase }}</td>
                             <td [attr.data-label]="labels?.make" >{{viability?.make}}</td>
                             <td [attr.data-label]="labels?.model">{{viability?.model}}</td>
                             <td [attr.data-label]="labels?.viabilityStatus" *ngIf=" showNext == false || showNext == true && viability?.viabilityStatus !== 'Started'">{{viability?.viabilityStatus}}</td>
@@ -68,6 +68,32 @@
     <button class="btn btn-primary js-btn-next" type="button" routerLink="../cibil-od" *ngIf="showNext">
         {{labels?.next}}
     </button>
+    <button class="btn btn-primary" type="button"  data-toggle="modal" data-target="#myModalCredit" *ngIf="inititate && roleType == '2' ">{{labels?.initiate}} </button>
 
 </div>
+</div>
+<div class="modal" id="myModalCredit">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" style="text-align: center;">
+                <p>Are you sure you want to initiate vehicle viability?</p>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val"
+                    value="Yes" (click)="reInitiateViability()" >{{labels?.yes}}</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">{{labels?.cancel}}</button>
+            </div>
+
+        </div>
+    </div>
 </div>
