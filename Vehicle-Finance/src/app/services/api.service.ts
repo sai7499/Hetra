@@ -413,12 +413,12 @@ export class ApiService {
     autoDeviation: {
       processId: '2ddfa32cd8b311ea8ba800505695f93b',
       workflowId: '6a6dec02d7a711eabfa200505695f93b',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     getTriggerWaiverNorms: {
       processId: '2c38d6b0f20311ea8e0700505695f93b',
       workflowId: '2c1225cef20311eaa59400505695f93b',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     saveorUpdateDeviation: {
       processId: '0e3ffa76b13f11ea86b8f2fa9bec3d63',
@@ -490,12 +490,12 @@ export class ApiService {
       workflowId: '3ea13662c66611eaa13a00505695f93b',
       projectId: environment.projectIds.submitToCredit,
     },
-    rejectCreditCondition : {
+    rejectCreditCondition: {
       processId: '94c162c0f38d11eabae500505695f93b',
       workflowId: '3ea13662c66611eaa13a00505695f93b',
       projectId: environment.projectIds.submitToCredit,
     },
-    getLeadRejectReason : {
+    getLeadRejectReason: {
       processId: '94b7bcfeff1611eaa2fe00505695f93b',
       workflowId: '94987e52ff1611eab52100505695f93b',
       projectId: environment.projectIds.salesProjectId,
@@ -590,7 +590,6 @@ export class ApiService {
       processId: '10d63ed4d6e311ea996900505695f93b',
       workflowId: '10b16f78d6e311eaad8d00505695f93b',
       projectId: environment.projectIds.salesProjectId,
-
     },
     reinitiateFiDetails: {
       processId: '5189333ed98911eabbdf00505695f93b',
@@ -655,17 +654,17 @@ export class ApiService {
     saveCheckList: {
       processId: '2f5e323ad59911ea9d5d00505695f93b',
       workflowId: '2f32c4bad59911eabaa900505695f93b',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     assignCPCRules: {
       processId: '8a5609aad32e11eaacee00505695f93b',
       workflowId: '8a1d1abed32e11eaa96700505695f93b',
-      projectId: environment.projectIds.submitToCredit
+      projectId: environment.projectIds.submitToCredit,
     },
     getCheckList: {
       processId: 'd895c8a4d5a811ea9d5d00505695f93b',
       workflowId: 'd86551d8d5a811ea933000505695f93b',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     customerAcceptance: {
       projectId: environment.projectIds.submitToCredit,
@@ -676,23 +675,23 @@ export class ApiService {
     supervisor: {
       processId: 'c16cfe62c5be11eaa04300505695f93b',
       workflowId: 'c14dda82c5be11eaa09f00505695f93b',
-      projectId: environment.projectIds.supervisorProId
+      projectId: environment.projectIds.supervisorProId,
     },
     // supervisorRelated ends
     getmotorInsuranceLOV: {
       workflowId: '7ab11904cca811eaaa1200505695f93b',
       processId: 'cdeef696cda111ea89bf00505695f93b',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     getInsuranceLOV: {
       workflowId: '7ab11904cca811eaaa1200505695f93b',
       processId: '7aca596ecca811eaa4ed00505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.camProjectId,
     },
     getAssetDetails: {
       workflowId: 'f98fcb80cb0e11ea961200505695f93b',
       processId: 'f9ae9f6acb0e11ea814c00505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.camProjectId,
     },
     // submitNegotiation: {
     //   workflowId: 'f98fcb80cb0e11ea961200505695f93b',
@@ -707,123 +706,123 @@ export class ApiService {
     submitNegotiation: {
       workflowId: '2ebdbf38dd7511eaad1a00505695f93b',
       processId: '5ebaf41add7c11ea908100505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.camProjectId,
     },
     getNegotiationData: {
       workflowId: '2ebdbf38dd7511eaad1a00505695f93b',
       processId: '2ed6d234dd7511eaba4a00505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.camProjectId,
     },
     // disbursementRelated starts
     disbursementLOV: {
       processId: '08a96b3ed7b811eaac0400505695f93b',
       workflowId: '08905702d7b811eab3fc00505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.camProjectId,
     },
     fetchCoAppDetails: {
       processId: 'ece8a13cd7f111eaa86100505695f93b',
       workflowId: '08905702d7b811eab3fc00505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.camProjectId,
     },
     fetchDealerDetails: {
       processId: '7a69a5b8d7cc11eab3fc00505695f93b',
       workflowId: '08905702d7b811eab3fc00505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.camProjectId,
     },
     fetchApplicantDetails: {
       processId: 'b9964ac2d7d911ea827c00505695f93b',
       workflowId: '08905702d7b811eab3fc00505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.camProjectId,
     },
     saveUpdateDisburseDetails: {
       processId: '70075eb0d7d811eaa97a00505695f93b',
       workflowId: '6fe659fed7d811eaa44500505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.camProjectId,
     },
     fetchDisburseDetails: {
       processId: 'a5b63fc6d97811eab99f00505695f93b',
       workflowId: '08905702d7b811eab3fc00505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.camProjectId,
     },
     fetchLoanDetails: {
       processId: 'd250da02da3e11ea9e8400505695f93b',
       workflowId: '08905702d7b811eab3fc00505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.camProjectId,
     },
     getPddDetails: {
       processId: 'a8c2c304dd6c11eaafb500505695f93b',
       workflowId: 'a897ad40dd6c11eab53900505695f93b',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     updatePddDetails: {
       processId: '67441434dd9711ea944100505695f93b',
       workflowId: '671dd0b2dd9711ea909f00505695f93b',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     fetchPreimumAmount: {
       processId: '3c99e428d71811eabcf800505695f93b',
       workflowId: '3c71c4d4d71811eaabba00505695f93b',
-      projectId: environment.projectIds.externalApi
+      projectId: environment.projectIds.externalApi,
     },
     getChequeTracking: {
       processId: '85449f66e0ae11eabfc800505695f93b',
       workflowId: '852bb118e0ae11ea86c900505695f93b',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     saveUpdateChequeTracking: {
       processId: 'ac0026eee0b711eab03500505695f93b',
       workflowId: 'abe6f5a2e0b711eaa73200505695f93b',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     savePdcDetails: {
       workflowId: 'cf14db1cdd4111eaba8c00505695f93b',
       processId: '2ccd2806dd4511ea9d5000505695f93b',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     getPdcDetails: {
       processId: 'cf39d584dd4111eab90000505695f93b',
       workflowId: 'cf14db1cdd4111eaba8c00505695f93b',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     deletePdcDetails: {
       processId: '870e7208dd4411eaa66700505695f93b',
       workflowId: 'cf14db1cdd4111eaba8c00505695f93b',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     loanCreationWrapper: {
       processId: 'bafeada0e13911eabda900505695f93b',
       workflowId: 'd53d6b40d92b11eaaf9700505695f93b',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     getProcessLogs: {
       processId: '12d07096e09411eaaeaa00505695f93b',
       workflowId: '12aa87f0e09411ea900500505695f93b',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     retrieveAadharData: {
       processId: '81383e76c8c311ea851600505695f93b',
       workflowId: '8110ed6cc8c311ea873200505695f93b',
-      projectId: environment.projectIds.retrieveAadharData
+      projectId: environment.projectIds.retrieveAadharData,
     },
     validateSRNumber: {
       processId: '84fdc0f4edac11eaa7e400505695f93b',
       workflowId: '84d0b640edac11ea8d3d00505695f93b',
-      projectId: environment.projectIds.validateSRNumber
+      projectId: environment.projectIds.validateSRNumber,
     },
     submitToCC: {
       processId: '47d4c4a8f19d11eaa89a00505695f93b',
       workflowId: '4794bf2af19d11ea880700505695f93b',
-      projectId: environment.projectIds.submitToCredit
+      projectId: environment.projectIds.submitToCredit,
     },
     welcomeLetter: {
       processId: 'd358b542f28911ea82f100505695f93b',
       workflowId: 'd33a101af28911ea9cda00505695f93b',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId,
     },
     saveTaskLogs: {
       processId: '34408268f75811eab4f500505695f93b',
       workflowId: '340d11b2f75811eab78c00505695f93b',
-      projectId: '403a8a12b79511ea8afff2fa9bec3d63'
+      projectId: '403a8a12b79511ea8afff2fa9bec3d63',
     },
     disbBankName: {
       processId: 'f9fcc4a6f3ef11eaaeda00505695f93b',
@@ -845,10 +844,25 @@ export class ApiService {
      processId:'0e9b3564095d11ebbdfe00505695f93b',
      projectId: environment.projectIds.salesProjectId
    },
+   loanBookingDedupe: {
+    workflowId: '666fe8320e9111ebb3ca00505695f93b',
+    processId : '66a05c880e9111ebb0b300505695f93b',
+    projectId: environment.projectIds.salesProjectId
+   },
+   loanDedupeUpdate: {
+    workflowId: '666fe8320e9111ebb3ca00505695f93b',
+    processId : '051213a00eb211eb825000505695f93b',
+    projectId: environment.projectIds.salesProjectId
+   },
 getFoirAsPerPolicy:{
   processId: 'ccdee5ee09f211ebb00500505695f93b',
       workflowId: 'b06ab746bf4a11eab26100505695f93b',
-      projectId: environment.projectIds.salesProjectId
-}
+      projectId: environment.projectIds.salesProjectId,
+    },
+    reInitiateViability: {
+      processId: '050da46e0ae811eb98c300505695f93b',
+      workflowId: '04ebd41a0ae811eb8b7100505695f93b',
+      projectId : environment.projectIds.reinitiatePdApi,
+    }
   };
 }

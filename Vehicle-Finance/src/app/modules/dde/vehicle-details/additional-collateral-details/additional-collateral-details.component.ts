@@ -242,8 +242,7 @@ export class AdditionalCollateralComponent implements OnInit {
                     this.collateralForm.disable()
                 }
             });
-            let apiError = res.ProcessVariables.error.message;
-            if (res.Error === '0' && res.Error === '0' && res.ProcessVariables.error.code === '0') {
+            if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
                 let collateralDetail = res.ProcessVariables.aAdditionalCollaterals ? res.ProcessVariables.aAdditionalCollaterals : {};
                 this.collateralDataService.setAdditionalCollateralList(collateralDetail);
 
@@ -284,6 +283,8 @@ export class AdditionalCollateralComponent implements OnInit {
                         totalMarketValue: collateralDetail.totalMarketValue || null,
                     })
                 )
+            } else {
+                this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Additional CollateralAdditional Collateral Detail')
             }
         })
     }
@@ -319,12 +320,11 @@ export class AdditionalCollateralComponent implements OnInit {
             }
 
             this.collateralService.saveOrUpdateAdditionalCollaterals(data).subscribe((res: any) => {
-                let apiError = res.ProcessVariables.error.message;
-                if (res.Error === '0' && res.Error === '0' && res.ProcessVariables.error.code === '0') {
+                if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
                     this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Additional Collateral Detail');
                     this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
                 } else {
-                    this.toasterService.showError(apiError, 'Additional CollateralAdditional Collateral Detail')
+                    this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Additional CollateralAdditional Collateral Detail')
                 }
             })
 
