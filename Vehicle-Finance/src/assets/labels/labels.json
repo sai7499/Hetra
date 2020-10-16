@@ -2617,7 +2617,7 @@
             "type": "number",
             "patternCheck": {
                 "rule": "^[0-3]{1}[0-9]{1}",
-                "msg": "Should be between 0-31 only, format 00"
+                "msg": "Should be between 0-31 only, format DD"
             }
         }
     }
