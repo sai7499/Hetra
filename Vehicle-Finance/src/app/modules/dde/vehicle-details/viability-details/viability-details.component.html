@@ -1170,7 +1170,7 @@
         <a data-toggle="modal" data-target="#myModalCredit" id="reject_credit" *ngIf="hideSubmit">
             <p type="button" class="btn btn-primary">{{label?.submit}}</p>
         </a>
-        <button class="btn btn-primary cus-btn-sty" type="button" (click)="reInitiateViability()" *ngIf = "!hideSubmit">{{label?.reinitiate}}</button>
+        <button class="btn btn-primary cus-btn-sty" type="button" data-toggle="modal" data-target="#myModalReinitiate" *ngIf = "!hideSubmit">{{label?.reinitiate}}</button>
     </div>
 </div>
 <div class="modal" id="myModalCredit">
@@ -1197,6 +1197,34 @@
 
         </div>
     </div>
-</div>
 
+
+</div>
+<div class="modal" id="myModalReinitiate">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" style="text-align: center;">
+                <p>Are you sure want to ReInitiate Viability ?</p>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val"
+                    value="Yes" (click)="reInitiateViability()">{{label?.yes}}</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">{{label?.cancel}}</button>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
  <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails" ></app-upload-modal>
