@@ -852,7 +852,7 @@ export class ApiService {
     reInitiateViability: {
       processId: '050da46e0ae811eb98c300505695f93b',
       workflowId: '04ebd41a0ae811eb8b7100505695f93b',
-      projectId : '403a8a12b79511ea8afff2fa9bec3d63',
+      projectId : environment.projectIds.reinitiatePdApi,
     }
   };
 }
