@@ -96,6 +96,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       this.taskId = id ? id : '';
     })
     this.disableSaveBtn = (this.roleType === 5) ? true : false;
+    this.sharedService.getFormValidation(this.deviationsForm)
   }
 
   disableInputs() {
@@ -130,14 +131,12 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       typeOfModal: [''],
       recommendation: ['', Validators.required]
     })
-    this.sharedService.getFormValidation(this.deviationsForm)
-
   }
 
   ngOnChanges() {
     this.sharedService.updateDev$.subscribe((value: any) => {
       if (value && value.length > 0) {
-        this.getDeviationDetails()
+        this.getDeviationMaster()
       }
     })
   }
