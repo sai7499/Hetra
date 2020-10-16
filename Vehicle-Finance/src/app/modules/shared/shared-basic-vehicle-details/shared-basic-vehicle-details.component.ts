@@ -167,13 +167,16 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       let data = { "manufactureYear": date, "vehicleCode": formArray.value[0].vehicleId + '' };
 
       this.vehicleDetailService.getVehicleGridValue(data).subscribe((res: any) => {
-        const apiError = res.ProcessVariables.error.message;
 
-        formArray.controls[0].patchValue({
-          assetCostGrid: res.ProcessVariables.vehicleCost,
-          finalAssetCost: res.ProcessVariables.vehicleCost,
-          isVehAvailInGrid: res.ProcessVariables.isVehAvailInGrid,
-        })
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          formArray.controls[0].patchValue({
+            assetCostGrid: res.ProcessVariables.vehicleCost,
+            finalAssetCost: res.ProcessVariables.vehicleCost,
+            isVehAvailInGrid: res.ProcessVariables.isVehAvailInGrid,
+          })
+        } else {
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Gird value')
+        }
       }, err => {
         console.log('err', err)
       })
@@ -231,7 +234,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.LOV = value.LOVS;
       this.vehicleLov.region = value.LOVS.assetRegion;
       this.vehicleLov.vechicalUsage = value.LOVS.vehicleUsage;
-      this.vehicleLov.vehicleType = value.LOVS.vehicleType;
       this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
       this.vehicleLov.permitType = value.LOVS.vehiclePermitType;
 
@@ -261,35 +263,45 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   setFormValue() {
 
     this.vehicleDetailService.getAnVehicleDetails(this.id).subscribe((res: any) => {
-      let VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        let VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
 
-      this.vehicleLov.assetMake = [{
-        key: VehicleDetail.vehicleMfrUniqueCode,
-        value: VehicleDetail.vehicleMfrCode
-      }]
+        this.vehicleLov.assetMake = [{
+          key: VehicleDetail.vehicleMfrUniqueCode,
+          value: VehicleDetail.vehicleMfrCode
+        }]
 
-      this.vehicleLov.assetBodyType = [{
-        key: VehicleDetail.vehicleSegmentUniqueCode,
-        value: VehicleDetail.vehicleSegmentCode
-      }]
+        this.vehicleLov.assetBodyType = [{
+          key: VehicleDetail.vehicleSegmentUniqueCode,
+          value: VehicleDetail.vehicleSegmentCode
+        }]
 
-      this.vehicleLov.assetModel = [
-        {
-          key: VehicleDetail.vehicleModelCode,
-          value: VehicleDetail.vehicleModel
-        }
-      ]
+        this.vehicleLov.assetModel = [
+          {
+            key: VehicleDetail.vehicleModelCode,
+            value: VehicleDetail.vehicleModel
+          }
+        ]
 
-      this.vehicleLov.assetVariant = [{
-        key: VehicleDetail.assetVarient,
-        value: VehicleDetail.assetVarient
-      }]
+        this.vehicleLov.assetVariant = [{
+          key: VehicleDetail.assetVarient,
+          value: VehicleDetail.assetVarient
+        }]
 
-      const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-      this.onPatchArrayValue(formArray, VehicleDetail)
-      this.sharedService.getFormValidation(this.basicVehicleForm)
-      this.vehicleDataService.setIndividualVehicleDetail(VehicleDetail);
+        this.vehicleLov.vehicleType = [{
+          key: VehicleDetail.vehicleTypeUniqueCode,
+          value: VehicleDetail.vehicleTypeCode
+        }]
+
+        const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+        this.onPatchArrayValue(formArray, VehicleDetail)
+        this.sharedService.getFormValidation(this.basicVehicleForm)
+        this.vehicleDataService.setIndividualVehicleDetail(VehicleDetail);
+      } else {
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get A Vehicle Collateral Details')
+      }
     })
+
 
   }
 
@@ -377,7 +389,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehiclePurchasedCost: VehicleDetail.vehiclePurchasedCost || null,
       vehicleRegDate: VehicleDetail.vehicleRegDate ? this.utilityService.getDateFromString(VehicleDetail.vehicleRegDate) : '',
       vehicleRegNo: VehicleDetail.vehicleRegNo || '',
-      vehicleType: VehicleDetail.vehicleTypeCode || '',
+      vehicleType: VehicleDetail.vehicleTypeUniqueCode || '',
       ownerMobileNo: VehicleDetail.ownerMobileNo || null,
       address: VehicleDetail.address || '',
       pincode: VehicleDetail.pincode || null,
@@ -419,7 +431,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         }
       } else {
         this.vehicleLov.assetMake = []
-        this.toasterService.showWarning(res.ErrorMessage, 'Vehicle Master Region')
+        this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Master Region')
       }
       this.uiLoader.stop();
     }, error => {
@@ -462,7 +474,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           }
         } else {
           this.vehicleLov.vehicleType = []
-          this.toasterService.showWarning(res.ErrorMessage, 'Vehicle Master Asset Make')
+          this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Master Asset Make')
         }
         this.uiLoader.stop();
       }, error => {
@@ -509,7 +521,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           }
         } else {
           this.vehicleLov.assetBodyType = []
-          this.toasterService.showWarning(res.ErrorMessage, 'Vehicle Master Vehicle Type')
+          this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Master Vehicle Type')
         }
         this.uiLoader.stop();
       }, error => {

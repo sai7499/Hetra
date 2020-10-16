@@ -96,6 +96,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       this.taskId = id ? id : '';
     })
     this.disableSaveBtn = (this.roleType === 5) ? true : false;
+    this.sharedService.getFormValidation(this.deviationsForm)
   }
 
   disableInputs() {
@@ -130,14 +131,12 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       typeOfModal: [''],
       recommendation: ['', Validators.required]
     })
-    this.sharedService.getFormValidation(this.deviationsForm)
-
   }
 
   ngOnChanges() {
     this.sharedService.updateDev$.subscribe((value: any) => {
       if (value && value.length > 0) {
-        this.getDeviationDetails()
+        this.getDeviationMaster()
       }
     })
   }
@@ -158,7 +157,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         this.toasterService.showSuccess('Deviation status updated successfully', 'Deviation approval')
         this.getDeviationDetails()
       } else {
-        this.toasterService.showError(res.ErrorMessage, 'Deviation approval')
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Deviation approval')
       }
     })
 
@@ -232,7 +231,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         }
         this.getDeviationDetails()
       } else {
-        this.toasterService.showError(res.ErrorMessage, 'Get Deviation Master')
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Deviation Master')
       }
     }, err => {
       console.log('err', err)
@@ -324,7 +323,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           this.toasterService.showSuccess('Delete Devision Successfully', 'Delete Deviation');
           this.getDeviationDetails();
         } else {
-          this.toasterService.showError(res.ErrorMessage, 'Delete Deviation')
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Delete Deviation')
         }
       })
     } else {
@@ -396,10 +395,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   }
 
   onPatchFormArrayValue(array) {
-
-    console.log(array, 'array')
-
-
     let autoDeviationFormArray = (this.deviationsForm.get('autoDeviationFormArray') as FormArray);
 
     let manualDiviationFormArray = (this.deviationsForm.get('manualDeviationFormArray') as FormArray);
@@ -434,7 +429,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           return dev
         }
       })
-      console.log(data, 'description', description)
 
       let type = typeofRole ? Number(typeofRole.type) : 0;
       let hierarchy = typeofRole ? typeofRole.hierarchy : 0;
@@ -539,9 +533,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     })
 
     this.sharedService.getFormValidation(this.deviationsForm)
-    console.log(this.deviationsForm, 'Eror')
-
-
   }
 
   ReferDeviation() {
