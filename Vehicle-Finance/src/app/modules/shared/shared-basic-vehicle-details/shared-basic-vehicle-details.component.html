@@ -625,7 +625,7 @@
                             <label for="insurance">{{label.insurance}} </label>
 
                             <app-custom-input formControlName="insurance"
-                            (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [type]="label.validationData?.amountValue.type" [id]="'insurance'"
                                 [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Insurance'">
@@ -699,6 +699,12 @@
                                 (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Discount'">
                             </app-custom-input>
+
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['discount'].touched && basicVehicleForm.get('isVaildFinalAssetCost').value === false">
+                                Discount should not greater than Ex show room price
+                            </div>
+
                         </div>
                     </div>
 
@@ -823,7 +829,6 @@
                                 [isDirty]="isDirty" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Ex Showroom Cost'">
                             </app-custom-input>
-                            <!-- (keyup)="onPatchFinalAssetCost($event.target.value)" -->
 
                         </div>
 
@@ -1056,6 +1061,12 @@
                                 (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Discount'">
                             </app-custom-input>
+
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['discount'].touched && basicVehicleForm.get('isVaildFinalAssetCost').value === false">
+                                Discount should not greater than Ex show room price
+                            </div>
+
                         </div>
                     </div>
 
