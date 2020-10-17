@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
-
 import { VehicleDetailService } from '../../../services/vehicle-detail.service';
 import { Router } from '@angular/router';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
@@ -77,7 +76,7 @@ export class SharedVehicleDetailsComponent implements OnInit {
 
     const operationType = this.toggleDdeService.getOperationType();
     if (operationType === '1' || operationType === '2') {
-        this.disableSaveBtn = true;
+      this.disableSaveBtn = true;
     }
 
   }
@@ -89,7 +88,6 @@ export class SharedVehicleDetailsComponent implements OnInit {
       this.getVehicleDetails(this.leadId);
     });
   }
-
 
   getLocationIndex(url) {
     if (url.includes('lead-section')) {
@@ -147,7 +145,7 @@ export class SharedVehicleDetailsComponent implements OnInit {
         this.vehicleDataStoreService.setVehicleDetails(res.ProcessVariables.vehicleDetails);
         this.collateralDataStoreService.setCollateralDetails(res.ProcessVariables.additionalCollaterals)
       } else {
-        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.messageen, 'Delete Vehicle Details')
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Delete Vehicle Details')
       }
     }, error => {
       console.log(error, 'error');
@@ -164,13 +162,13 @@ export class SharedVehicleDetailsComponent implements OnInit {
 
     if (this.isCollateralSrting === 'Collateral') {
       this.vehicleDetailsService.getDeleteVehicleDetails(this.selectCollateralId, this.userId).subscribe((res: any) => {
-        const apiError = res.ProcessVariables.error.message;
+        let apiError = res.ProcessVariables.error.message;
 
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           this.toasterService.showSuccess(apiError, 'Delete Vehicle Details');
           this.getVehicleDetails(this.leadId)
         } else {
-          this.toasterService.showError(apiError, 'Delete Vehicle Details')
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : apiError, 'Delete Vehicle Details')
         }
       }, error => {
         console.log('error', error);
@@ -184,7 +182,7 @@ export class SharedVehicleDetailsComponent implements OnInit {
           this.toasterService.showSuccess(apiError, 'Delete Vehicle Details');
           this.getVehicleDetails(this.leadId)
         } else {
-          this.toasterService.showError(apiError, 'Delete Vehicle Details')
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : apiError, 'Delete Vehicle Details')
         }
       }, error => {
         console.log('error', error);
