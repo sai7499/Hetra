@@ -106,6 +106,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
   aadharCard: string;
   voterId: string;
   panCard: string;
+  isNewUpload = false;
 
 
   constructor(
@@ -121,7 +122,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
     private base64StorageService: Base64StorageService,
     private draggableContainerService: DraggableContainerService,
     private toasterService: ToasterService
-  ) { }
+  ) { 
+
+  }
 
   ngOnInit() {
     this.uploadForm = new FormGroup({});
@@ -129,6 +132,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
       (data) => {
         this.labels = data;
         this.validationData = data.validationData;
+        this.setDocumentValidation();
+        console.log('valid', this.docsValidation);
       },
       (error) => {
         console.log(error);
@@ -137,7 +142,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
     this.lovData.getLovData().subscribe((res: any) => {
       this.values = res[0].applicantDocument[0];
     });
-    
   }
 
   getApplicantDetails() {
@@ -490,73 +494,72 @@ export class ApplicantDocsUploadComponent implements OnInit {
       return;
     }
     const docValue = formArray.at(index).get('documentName').value;
-    if (docValue) {
-      this.setDocumentValidation(Number(docValue));
-    }
+    console.log('docValue', docValue);
+    // if (docValue) {
+    //   this.setDocumentValidation(Number(docValue));
+    // }
     // this.currentlySelectedDocs = categoryCode;
   }
 
-  setDocumentValidation(subCategoryCode) {
-    this.selectedCode = subCategoryCode;
-    if (subCategoryCode === 12) { // passport
+  setDocumentValidation() {
+    // this.selectedCode = subCategoryCode;
+    // if (subCategoryCode === 12) { // passport
       const passportNumber = this.validationData.passportNumber;
       this.docsValidation[12] = {
         pattern: passportNumber.patternCheck.rule,
         maxLength: passportNumber.maxLength.rule,
         patternMsg: passportNumber.patternCheck.msg
       };
-      return;
-    }
-    if (subCategoryCode === 13) {
+    //   return;
+    // }
+    // if (subCategoryCode === 13) {
       const drivingLicense = this.validationData.drivingLicense;
       this.docsValidation[13] = {
         pattern: drivingLicense.patternCheck.rule,
         maxLength: drivingLicense.maxLength.rule,
         patternMsg: drivingLicense.patternCheck.msg
       };
-      return;
-    }
-    if (subCategoryCode === 14) {
+    //   return;
+    // }
+    // if (subCategoryCode === 14) {
       const adhaarNumber = this.validationData.adhaarNumber;
       this.docsValidation[14] = {
         pattern: adhaarNumber.patternCheck.rule,
         maxLength: adhaarNumber.maxLength.rule,
         patternMsg: adhaarNumber.patternCheck.msg
       };
-      return;
-    }
-    if (subCategoryCode === 15) {
+    //   return;
+    // }
+    // if (subCategoryCode === 15) {
       const voterId = this.validationData.voterId;
       this.docsValidation[15] = {
         pattern: voterId.patternCheck.rule,
         maxLength: voterId.maxLength.rule,
         patternMsg: voterId.patternCheck.msg
       };
-      return;
-    }
-    if (subCategoryCode === 16) {
+    //   return;
+    // }
+    // if (subCategoryCode === 16) {
       const panNumber = this.validationData.panNumber;
       this.docsValidation[16] = {
         pattern: panNumber.patternCheck.rule,
         maxLength: panNumber.maxLength.rule,
         patternMsg: panNumber.patternCheck.msg
       };
-      return;
-    }
+    //   return;
+    // }
   }
 
   get docsList() {
     return this.uploadForm.get(`${this.FORM_ARRAY_NAME}_${this.currentlySelectedDocs}`) as FormArray;
   }
 
-  onPanelClick(code, index) {
-    console.log('docList', this.uploadForm.get(`${this.FORM_ARRAY_NAME}_${code}`));
-    const formArray = this.uploadForm.get(`${this.FORM_ARRAY_NAME}_${code}`) as FormArray;
-    // const docValue = formArray.at(index).get('documentName').value;
-    // if (docValue) {
-    //   this.setDocumentValidation(Number(docValue));
-    // }
-    this.currentlySelectedDocs = code;
+  onPanelClick(code) {
+    // console.log('docList', this.uploadForm.get(`${this.FORM_ARRAY_NAME}_${code}`));
+    console.log('code', code);
+    setTimeout(() => {
+      this.currentlySelectedDocs = code;
+    }, 1000);
   }
 
   uploadDocument(
@@ -802,6 +805,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
   onUploadSuccess(event: DocumentDetails) {
     // this.toasterService.showSuccess('Document uploaded successfully', '');
     this.showModal = false;
+    this.isNewUpload = true;
     if (event.docsTypeForString === 'profile') {
       this.DEFAULT_PROFILE_IMAGE = 'data:image/jpeg;base64,' + event.imageUrl;
       const data = {
@@ -914,6 +918,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
     if(this.uploadForm.invalid) {
       return this.toasterService.showError('Please fill mandatory fields', '');
     }
+    return;
     const formValue = this.uploadForm.value;
     const requestArr = [];
     for (const key in formValue) {
@@ -1016,10 +1021,19 @@ export class ApplicantDocsUploadComponent implements OnInit {
     });
 
 
+    if (this.isNewUpload) {
+       return this.callAppiyoUploadApi();
+    }
+
     if (!isValueChange) {
       return this.toasterService.showWarning('No changes done to save', '');
     }
+    this.callAppiyoUploadApi();
+  }
 
+
+
+  callAppiyoUploadApi() {
     this.uploadService
       .saveOrUpdateDocument(this.documentArr)
       .subscribe((value: any) => {
@@ -1027,6 +1041,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
           return;
         }
         this.toasterService.showSuccess('Documents saved successfully', '');
+        this.isNewUpload = false;
         console.log('saveOrUpdateDocument', value);
         const processVariables = value.ProcessVariables;
         const documentIds = processVariables.documentIds;

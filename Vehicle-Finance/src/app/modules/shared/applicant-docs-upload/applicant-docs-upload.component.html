@@ -16,6 +16,7 @@
             data-toggle="collapse"
             data-parent="#accordion"
             [attr.data-target]="'#collapse' + subCat.code"
+            (click)="onPanelClick(subCat.code)"
           >
             <h4 class="panel-title">
               <a class="collapsed" aria-expanded="false">
@@ -39,7 +40,7 @@
                 )['controls'];
                 let i = index
               "
-              (click)="onPanelClick(subCat.code, i)"
+             
             >
               <ng-container *ngIf="subCat.code === 1">
                 <div class="panel-body" [formGroupName]="i">
@@ -126,10 +127,13 @@
                       *ngIf="subCat.code !== 3"
                     >
                       <label for="documentnumber">Document Number</label>
-                      <input formControlName="documentNumber" class="form-control" [pattern]="docsValidation[docsList?.controls[i]?.get('documentName').value]?.pattern || ''"/>
-                      <div class="invalid-feedback" *ngIf="docsList?.controls[i]?.get('documentNumber').invalid && (docsList?.controls[i]?.get('documentNumber').touched  || docsList.controls[i]?.get('documentNumber').dirty)">
+                      check {{i}} {{docsValidation[docsList?.controls[i]?.get('documentName').value]?.pattern}} 
+                      value: {{docsList?.controls[i]?.get('documentName').value}}
+                      <input formControlName="documentNumber" class="form-control" [pattern]="docsValidation[docsList?.controls[i]?.get('documentName').value]?.pattern || null"/>
+                      <!-- invalid: {{docsList?.controls[i]?.get('documentNumber').invalid}} -->
+                      <div class="invalid-feedback" *ngIf="docsList?.controls[i]?.get('documentNumber').invalid && (docsList?.controls[i]?.get('documentNumber').touched  || docsList?.controls[i]?.get('documentNumber').dirty)">
                         <div *ngIf="docsList?.controls[i]?.get('documentNumber').errors?.pattern">
-                          {{docsValidation[selectedCode]?.patternMsg}}
+                          {{docsValidation[docsList?.controls[i]?.get('documentName').value]?.patternMsg}}
                         </div>
                       </div>
                     </div>
