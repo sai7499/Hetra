@@ -56,7 +56,7 @@ export class ApplicantListComponent implements OnInit {
     private domSanitizer: DomSanitizer,
     private toasterService: ToasterService,
     private createLeadDataService: CreateLeadDataService,
-    private toggleDdeService: ToggleDdeService
+    private toggleDdeService: ToggleDdeService,
   ) { }
 
   async ngOnInit() {
@@ -134,27 +134,6 @@ export class ApplicantListComponent implements OnInit {
       const processVariables = value.ProcessVariables;
       this.applicantList = processVariables.applicantListForLead;
       console.log('getapplicants', this.applicantList);
-      // for(var i=0; i<=this.applicantList.length; i++){
-      //   const mobile= this.applicantList[i].mobileNumber;
-      //   if(this.applicantList[i].entityTypeKey=='INDIVENTTYP' && mobile.length==12){
-      //     this.applicantList[i].mobileNumber= mobile.slice(2,12)
-      //   }
-      // }
-      // for(var i=0; i<=this.applicantList.length; i++){
-      //   const companyPhoneNumber= this.applicantList[i].companyPhoneNumber;
-      //   if(this.applicantList[i].entityTypeKey=='NONINDIVENTTYP' && companyPhoneNumber.length==12){
-      //     this.applicantList[i].companyPhoneNumber= companyPhoneNumber.slice(2,12)
-      //   }
-      // } 
-      this.applicantList.map((data)=>{
-        if(data.mobileNumber && data.mobileNumber.length===12){
-          data.mobileNumber= data.mobileNumber.slice(2,12)
-        }
-        if(data.companyPhoneNumber && data.companyPhoneNumber.length===12){
-          data.companyPhoneNumber=data.companyPhoneNumber.slice(2,12)
-        }
-        return data;
-      })
     });
   }
 
@@ -293,84 +272,53 @@ export class ApplicantListComponent implements OnInit {
   }
   
    geteKYCDetails(applicantId) {
-  
-    // this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-kyc-details`);
    this.applicantService.geteKYCDetails(applicantId).subscribe((res: any) => {
-      // const processVariables = res;
-      // console.log(processVariables);
       if (res['ProcessVariables'] && res.Error === "0") {
-        // this.showeKYC = true;
         this.appicanteKYCDetails = res['ProcessVariables'];
         this.panDetails = this.appicanteKYCDetails['panDetails'];
         this.adhaarDetails = this.appicanteKYCDetails['aadharDetails'];
         this.dedupeMatchedCriteria = this.appicanteKYCDetails['dedupeMatchedCriteria'];
         this.exactMatches = this.appicanteKYCDetails['exactMatches'];
         this.probableMatches = this.appicanteKYCDetails['probableMatches'];      
-        // var options = {
-        //   image: { type: 'jpeg', quality: 1 },
-        //   jsPDF: { unit: 'mm', orientation: 'p' },
-        //   html2canvas: {scale:1.5, logging:true}
-        // }
-        //  html2pdf().from(document.getElementById("ekyc-to-print"))
-        // .set(options).outputImg('datauristring').then(res => {
-        //   this.showeKYC = false;
-        //   this.imgeKYC = this.domSanitizer.bypassSecurityTrustResourceUrl(res);
-        //  console.log(this.imgeKYC);
-        // })
+        setTimeout(() => {
+          this.downloadpdf();
+        });
       } else {
-        this.toasterService.showError(res['ProcessVariables'].error["message"], '')
+        // this.toasterService.showError(res['ProcessVariables'].error["message"], '')
+        this.imgeKYC = res.ProcessVariables.error.message;
+        setTimeout(() => {
+          this.showeKYC = true;
+        });
       }
     });
-     setTimeout(() => {
-          this.downloadpdf();
-        }, 2000);
   }
   
  async downloadpdf() {
   document.getElementById("ekyc-to-print").classList.remove('dontdisplayed');
   document.getElementById("ekyc-to-print").classList.add('display');
   const html = document.getElementById('ekyc-to-print').innerHTML;
-  // const base64 = btoa(html);
-  // const decode = atob(base64);
-  // this.replaceclass = decode.replace(/dontdisplayed/g, ' ')
   document.getElementById("ekyc-to-print").classList.remove('display');
   document.getElementById("ekyc-to-print").classList.add('dontdisplayed');
-  // const htmlafterclasschanging = document.getElementById('ekyc-to-print').innerHTML;
     var options = {
-      // margin:[0.5, 0.5, 0.5, 0.5],
-      //margin: 0.5,
-      // filename: `WelcomeLetter_${this.leadId}`,
-      image: { type: 'jpeg', quality: 2 },
+      margin:[0.5, 0.5, 0.5, 0.5],
+      filename: `applicanteKYC${this.leadId}`,
+      image: { type: 'jpeg', quality: 1 },
       jsPDF: { unit: 'mm', orientation: 'p',format: 'A4' },
-      // html2canvas: {scale:1.5, logging:true}
       html2canvas: {scale: 1.5,  logging:true},
-      //pagebreak: { mode: 'css', after:'.break-page'},
     }
-    await html2pdf().from(html)
+     html2pdf().from(html)
     .set(options).outputImg('datauristring').then(res => {
-      // this.replaceclass = null;
-      // console.log(res);
-      // const santize = this.domSanitizer.bypassSecurityTrustResourceUrl(res)
       this.imgeKYC = this.domSanitizer.bypassSecurityTrustResourceUrl(res);
-      this.showeKYC = true;
-     console.log(this.imgeKYC);
-    })
+      setTimeout(() => {
+        this.showeKYC = true;
+      });
+           })
+        }
+
+        destroyeKYCImage() {
+          if (this.imgeKYC) {
+            debugger
+            this.imgeKYC = null;
+          }
         }
 }
-
-
- // const base64html = document.getElementById("ekyc-to-print").innerHTML;
-    // this.img = btoa(base64html);
-    //  var options = {
-    //   margin:[0.5, 0.5, 0.5, 0.5],
-    //   //margin: 0.5,
-    //   filename: `WelcomeLetter_${this.leadId}`,
-    //   image: { type: 'jpeg', quality: 1 },
-    //   jsPDF: { unit: 'in', format: 'b4', orientation: 'p' },
-    //   html2canvas: {scale:1.5, logging:true}
-    //   //pagebreak: { mode: 'css', after:'.break-page'},
-    // }
-    // html2pdf().from(document.getElementById("ekyc-to-print"))
-    // .set(options).outputImg('img').save();
-    // this.imageUrl = this.domSanitizer.bypassSecurityTrustHtml(this.imageUrl);
-    

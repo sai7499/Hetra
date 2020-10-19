@@ -248,3 +248,10 @@ display: none;
 .display{
   display: block;
 }
+
+.modal-show{
+  visibility: visible;
+}
+.modal-hide{
+  visibility: hidden;
+}
