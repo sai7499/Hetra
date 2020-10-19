@@ -126,10 +126,10 @@
                       *ngIf="subCat.code !== 3"
                     >
                       <label for="documentnumber">Document Number</label>
-                      <input formControlName="documentNumber" class="form-control" [pattern]="docsValidation[selectedCode]?.pattern || ''"/>
+                      <input formControlName="documentNumber" class="form-control" [pattern]="docsValidation[docsList?.controls[i]?.get('documentName').value]?.pattern || ''"/>
                       <div class="invalid-feedback" *ngIf="docsList?.controls[i]?.get('documentNumber').invalid && (docsList?.controls[i]?.get('documentNumber').touched  || docsList.controls[i]?.get('documentNumber').dirty)">
                         <div *ngIf="docsList?.controls[i]?.get('documentNumber').errors?.pattern">
-                          {{docsValidation[selectedCode].patternMsg}}
+                          {{docsValidation[selectedCode]?.patternMsg}}
                         </div>
                       </div>
                     </div>

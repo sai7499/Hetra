@@ -457,6 +457,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
     const formArray = this.uploadForm.get(
       `${this.FORM_ARRAY_NAME}_${categoryCode}`
     ) as FormArray;
+    console.log('index', index);
     const documentNumber = formArray.at(index).get('documentNumber');
     documentNumber.setValue(null);
     documentNumber.enable();
@@ -487,6 +488,10 @@ export class ApplicantDocsUploadComponent implements OnInit {
       documentNumber.setValue(this.panCard);
       documentNumber.disable();
       return;
+    }
+    const docValue = formArray.at(index).get('documentName').value;
+    if (docValue) {
+      this.setDocumentValidation(Number(docValue));
     }
     // this.currentlySelectedDocs = categoryCode;
   }
@@ -545,11 +550,12 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   onPanelClick(code, index) {
+    console.log('docList', this.uploadForm.get(`${this.FORM_ARRAY_NAME}_${code}`));
     const formArray = this.uploadForm.get(`${this.FORM_ARRAY_NAME}_${code}`) as FormArray;
-    const docValue = formArray.at(index).get('documentName').value;
-    if (docValue) {
-      this.setDocumentValidation(Number(docValue));
-    }
+    // const docValue = formArray.at(index).get('documentName').value;
+    // if (docValue) {
+    //   this.setDocumentValidation(Number(docValue));
+    // }
     this.currentlySelectedDocs = code;
   }
 
@@ -996,6 +1002,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
     const isValueChange = this.documentArr.some((value) => {
       const doc = apiValue[value.documentId];
+      if (!doc) {
+        return true;
+      }
       return (
         value.documentName !== doc.documentName ||
         value.documentNumber !== doc.documentNumber ||
