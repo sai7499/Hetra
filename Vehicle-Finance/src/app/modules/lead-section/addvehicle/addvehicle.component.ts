@@ -78,13 +78,11 @@ export class AddvehicleComponent implements OnInit {
           data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
         }
         this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
-          const apiError = res.ProcessVariables.error.message;
-
-          if (res.Error === '0' && res.Error === '0') {
+          if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
             this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Vehicle Details');
             this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-details']);
           } else {
-            this.toasterService.showError(apiError, 'Vehicle Details')
+            this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Details')
           }
         }, error => {
           console.log(error, 'error')

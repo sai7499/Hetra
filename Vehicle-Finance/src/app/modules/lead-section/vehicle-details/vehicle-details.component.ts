@@ -28,8 +28,7 @@ export class VehicleDetailComponent implements OnInit {
         this.creditService.setResponseForCibil(bodyRes);
         this.route.navigate([`pages/lead-section/${this.leadId}/credit-score`]);
       } else {
-        // alert(res.ProcessVariables.error.message);
-        this.errorMessage = res.ProcessVariables.error.message;
+        this.errorMessage = res.ProcessVariables.error ? res.ProcessVariables.error.message : res.ErrorMessage;
         this.isModelShow = true;
       }
     });
