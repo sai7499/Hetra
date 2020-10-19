@@ -44,7 +44,6 @@ export class ApplicantListComponent implements OnInit {
   disableSaveBtn: boolean;
   imgeKYC: any;
   showeKYC: boolean = false;
-  replaceclass: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -274,6 +273,7 @@ export class ApplicantListComponent implements OnInit {
    geteKYCDetails(applicantId) {
    this.applicantService.geteKYCDetails(applicantId).subscribe((res: any) => {
       if (res['ProcessVariables'] && res.Error === "0") {
+        // this.showeKYC = true;
         this.appicanteKYCDetails = res['ProcessVariables'];
         this.panDetails = this.appicanteKYCDetails['panDetails'];
         this.adhaarDetails = this.appicanteKYCDetails['aadharDetails'];
@@ -317,7 +317,6 @@ export class ApplicantListComponent implements OnInit {
 
         destroyeKYCImage() {
           if (this.imgeKYC) {
-            debugger
             this.imgeKYC = null;
           }
         }

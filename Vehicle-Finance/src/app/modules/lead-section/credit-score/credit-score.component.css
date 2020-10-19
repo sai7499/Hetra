@@ -18,7 +18,7 @@
 
 #sales_credit_score
 {
-    background: #fff;
+    /* background: #fff; */
      padding: 10px;
     width: 100%;
  }
@@ -189,7 +189,7 @@ label.col-form-label-two {
 }
 
 select#select_main_button_leadco {
-    background-color: #6c757d;
+    /* background-color: #6c757d; */
     padding: 6px;
     color: white;
     margin-bottom: 1%;
@@ -235,10 +235,10 @@ table {
 }
 /* Zebra striping */
 tr:nth-of-type(odd) { 
-    background: #f2f2f2; 
+    /* background: #f2f2f2;  */
 }
 th { 
-    background-color: #1d1a4b;
+    /* background-color: #1d1a4b; */
     color: #fff; 
     font-weight: 600; 
 }
@@ -306,7 +306,7 @@ only screen and
         margin-right: 12px;
         width: 70%;
         white-space: nowrap;
-        background-color: #1d1a4b;
+        /* background-color: #1d1a4b; */
         color:white;
         height: 40px;
         padding: 10px;
@@ -314,6 +314,10 @@ only screen and
     
    
        
+}
+
+.wid-25{
+    width:25%;
 }
 /* @media (min-width:260px) and (max-width:560px){
     td::before {
