@@ -25,6 +25,7 @@ export class LoanBookingComponent implements OnInit {
   roleType: any;
   productCatCode;
   productCode:string;
+  hideProgress = true;
   constructor(
     private router: Router,
     private location: Location,
@@ -46,20 +47,28 @@ export class LoanBookingComponent implements OnInit {
     console.log('this user roleType', this.roleType);
     const currentUrl = this.location.path();
     this.locationIndex = this.getLocationIndex(currentUrl);
+    console.log('currentUrl', currentUrl);
     console.log(this.locationIndex);
+    this.toggleProgress(currentUrl);
     this.location.onUrlChange((url: string) => {
       this.locationIndex = this.getLocationIndex(url);
       console.log(this.locationIndex);
+      this.toggleProgress(url);
     });
     this.activatedRoute.params.subscribe((value: any) => {
-      console.log('params', value);
       this.leadId = Number(value.leadId);
     });
     this.sharedService.productCatCode$.subscribe((value)=> {
-
       this.productCode = value;
-      console.log('pdtcat',this.productCode)
     })
+  }
+
+  toggleProgress(url) {
+    if (url.includes('dedupe')) {
+      this.hideProgress = false;
+    } else {
+      this.hideProgress = true;
+    }
   }
 
   onNavigate(url: string) {
