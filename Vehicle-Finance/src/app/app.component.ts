@@ -1,6 +1,5 @@
-import { environment } from 'src/environments/environment.prod';
+import { environment } from '../environments/environment';
 import { Component, OnInit,HostListener } from '@angular/core';
-
 
 
 declare var cordova:any;
@@ -241,22 +240,8 @@ export class AppComponent implements OnInit {
       }
   });
 
-  
-
-  // window.addEventListener('load', (event) => {
-  //   console.log(window.location.href)
-  //   if(!window.location.href.includes('/login')) {
-  //     if (confirm('Are you sure you want to logout?')) {
-  //       this.utilityService.logOut();
-  //     } else {
-  //     }
-
-  //   }
-    
-  // })
-  
   window.addEventListener('popstate', (event) => {
-    if(!window.location.href.includes('/login')) {
+    if(!window.location.href.includes('/login') && localStorage.getItem('token') && environment.production) {
         history.go(1);
         if(!this.showConfirmFlag) {
           if (confirm('Are you sure you want to logout?')) {
@@ -271,7 +256,24 @@ export class AppComponent implements OnInit {
     }
         
   });
-  
+
+
+      window.addEventListener('unload',(event)=> {
+        if(environment.production) {
+        this.utilityService.logOut();
+        }
+      })
+    
+      window.addEventListener('beforeunload', (event) => {
+        if(environment.production) {
+        if(!window.location.href.includes('/login')) {
+            event.preventDefault()
+            event.returnValue = ""
+            return false;
+        }
+      }
+      });
+
   }
 
   @HostListener('window:mousemove') refreshUserState() {
@@ -280,23 +282,6 @@ export class AppComponent implements OnInit {
       this.showConfirmFlag = false;;
       this.sharedService.browserPopState(true)
       })
-  }
-
-  @HostListener('window:beforeunload', ['$event'])
-    onBeforeUnloadHander(event) {
-      setTimeout(()=> {
-        if(!window.location.href.includes('/login')) {
-           this.showConfirmMsg(event)
-        }
-      })
-    }
-
-    showConfirmMsg(event) {
-      if (confirm('Are you sure you want to logout?')) {
-        this.utilityService.logOut();
-      } else {
-        event.preventDefault();
-     }
   }
 
   initMaaS360() {

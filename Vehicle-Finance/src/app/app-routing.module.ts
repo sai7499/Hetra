@@ -19,7 +19,8 @@ const routes: Routes = [
   },
   {
     path: 'activity-search',
-    canActivate: [Authguard,DetectBrowserActivityService],
+    canActivate: [Authguard],
+    canActivateChild: [DetectBrowserActivityService],
     loadChildren: () =>
       import('./modules/activity-search/activity-search.module').then(
         (m) => m.ActivitySearchModule
@@ -28,7 +29,8 @@ const routes: Routes = [
   {
     path: 'pages',
     component: HeaderComponent,
-    canActivate: [Authguard,DetectBrowserActivityService],
+    canActivate: [Authguard],
+    canActivateChild: [DetectBrowserActivityService],
     resolve: {
       getLOV: LovResolverService,
     },
@@ -39,7 +41,6 @@ const routes: Routes = [
           import('./modules/lead-creation/lead-creation.module').then(
             (m) => m.LeadCreationModule
           ),
-          canActivate: [DetectBrowserActivityService]
       },
       {
         path: 'lead-section',
@@ -47,7 +48,6 @@ const routes: Routes = [
           import('./modules/lead-section/lead-section.module').then(
             (m) => m.LeadSectionModule
           ),
-          canActivate: [DetectBrowserActivityService]
       },
       {
         path: 'document-viewupload',
@@ -55,7 +55,6 @@ const routes: Routes = [
           import(
             './modules/document-viewupload/document-viewupload.module'
           ).then((m) => m.DocumentViewuploadModule),
-          canActivate: [DetectBrowserActivityService]
       },
       {
         path: 'terms-condition',
@@ -63,7 +62,6 @@ const routes: Routes = [
           import('./modules/terms-conditions/terms-conditions.module').then(
             (m) => m.TermsConditionsModule
           ),
-          canActivate: [DetectBrowserActivityService]
       },
       {
         path: 'dashboard',
@@ -71,7 +69,8 @@ const routes: Routes = [
           import('./modules/dashboard/dashboard.module').then(
             (m) => m.DashboardModule
           ),
-          canActivate: [DetectBrowserActivityService]
+        // canDeactivate: [can]
+        
       },
       {
         path: 'terms-condition',
@@ -79,19 +78,16 @@ const routes: Routes = [
           import('./modules/terms-conditions/terms-conditions.module').then(
             (m) => m.TermsConditionsModule
           ),
-          canActivate: [DetectBrowserActivityService]
       },
       {
         path: 'dde',
         loadChildren: () =>
           import('./modules/dde/dde.module').then((m) => m.DdeModule),
-          canActivate: [DetectBrowserActivityService]
       },
       {
         path: 'fi-cum-pd-dashboard', // added another routing for dde module to load from pd-dashboard
         loadChildren: () =>
           import('./modules/dde/dde.module').then((m) => m.DdeModule),
-          canActivate: [DetectBrowserActivityService]
       },
       {
         path: 'vehicle-details',
@@ -99,7 +95,6 @@ const routes: Routes = [
           import('./modules/dde/vehicle-details/vehicle-details.module').then(
             (m) => m.VehicleDetailsModule
           ),
-          canActivate: [DetectBrowserActivityService]
       },
       {
         path: 'deviation-dashboard',
@@ -107,7 +102,6 @@ const routes: Routes = [
           import(
             './modules/dde/deviation-dashboard/deviation-dashoard.module'
           ).then((m) => m.DeviationDashoardModule),
-          canActivate: [DetectBrowserActivityService]
       },
       {
         path: 'fi-cum-pd-dashboard',
@@ -115,7 +109,6 @@ const routes: Routes = [
           import('./modules/dde/fi-cum-pd-report/fi-cum-pd-report.module').then(
             (m) => m.FiCumPdReportModule
           ),
-          canActivate: [DetectBrowserActivityService]
       },
       {
         path: 'pd-dashboard',
@@ -123,13 +116,11 @@ const routes: Routes = [
           import('./modules/dde/pd-report/pd-report.module').then(
             (m) => m.PdReportModule
           ),
-          canActivate: [DetectBrowserActivityService]
       },
       {
         path: 'pd-dashboard', // added another routing for dde module to load from pd-dashboard
         loadChildren: () =>
           import('./modules/dde/dde.module').then((m) => m.DdeModule),
-          canActivate: [DetectBrowserActivityService]
       },
       {
         path: 'credit-decisions',
@@ -137,7 +128,6 @@ const routes: Routes = [
           import('./modules/dde/credit-decisions/credit-decisions.module').then(
             (m) => m.CreditConditionModule
           ),
-          canActivate: [DetectBrowserActivityService]
       },
       {
         path: 'applicant-details',
@@ -145,7 +135,6 @@ const routes: Routes = [
           import(
             './modules/dde/applicant-details/applicant-details.module'
           ).then((m) => m.ApplicantDetailsModule),
-          canActivate: [DetectBrowserActivityService]
       },
       {
         path: 'tvr-details',
@@ -153,7 +142,6 @@ const routes: Routes = [
           import(
             './modules/dde/tele-verificarion-form/tele-verificarion-form.module'
           ).then((m) => m.TeleVerificarionFormModule),
-          canActivate: [DetectBrowserActivityService]
       },
       {
         path: 'fi-dashboard',
@@ -161,13 +149,11 @@ const routes: Routes = [
           import('./modules/dde/fi-report/fi-report.module').then(
             (m) => m.FiReportModule
           ),
-          canActivate: [DetectBrowserActivityService]
       },
       {
         path: 'fi-dashboard', // added another routing for dde module to load from pd-dashboard
         loadChildren: () =>
           import('./modules/dde/dde.module').then((m) => m.DdeModule),
-          canActivate: [DetectBrowserActivityService]
       },
 
       {
@@ -176,13 +162,11 @@ const routes: Routes = [
           import(
             './modules/dde/vehicle-valuation-router/vehicle-valuation-router.module'
           ).then((m) => m.VehicleValuationRouterModule),
-          canActivate: [DetectBrowserActivityService]
       },
       {
         path: 'sales',
         loadChildren: () =>
           import('./modules/sales/sales.module').then((m) => m.SalesModule),
-          canActivate: [DetectBrowserActivityService]
       },
       {
         path: 'sales-applicant-details',
@@ -190,7 +174,6 @@ const routes: Routes = [
           import(
             './modules/sales/applicant-details/applicant-details.module'
           ).then((m) => m.ApplicantDetailsModule),
-          canActivate: [DetectBrowserActivityService]
       },
       {
         path: 'viability-list',
@@ -198,7 +181,6 @@ const routes: Routes = [
           import(
             './modules/dde/viability-dashboard/viability-dashboard.module'
           ).then((m) => m.ViabilityDashboardModule),
-          canActivate: [DetectBrowserActivityService]
       },
  //supervisorRelated starts
       {
@@ -207,7 +189,6 @@ const routes: Routes = [
           import('./modules/supervisor/supervisor.module').then(
             (m) => m.SupervisorModule
           ),
-          canActivate: [DetectBrowserActivityService]
       },
       {
               path: 'negotiation',
@@ -215,7 +196,7 @@ const routes: Routes = [
                 import(
                   './modules/negotiation/negotiation.module'
                 ).then((m) => m.NegotiationModule),
-                canActivate: [DetectBrowserActivityService]
+    
       },
       {
         path: 'cpc-maker',
@@ -223,7 +204,6 @@ const routes: Routes = [
           import(
             './modules/dde/cpc-maker/cpc-maker.module'
           ).then((m) => m.CpcMakerModule),
-          canActivate: [DetectBrowserActivityService]
       },
       {
         path: 'loanbooking',
@@ -231,7 +211,6 @@ const routes: Routes = [
           import(
             './modules/dde/loan-status/loan-booking.module'
           ).then((m) => m.LoanBookingModule),
-          canActivate: [DetectBrowserActivityService]
       },
       {
         path: 'cpc-checker',
@@ -239,7 +218,6 @@ const routes: Routes = [
           import(
             './modules/dde/cpc-maker/cpc-maker.module'
           ).then((m) => m.CpcMakerModule),
-          canActivate: [DetectBrowserActivityService]
       },
       // {
       //   path: ':leadId/new-term-sheet',
@@ -251,7 +229,6 @@ const routes: Routes = [
           import('./modules/disbursement-section/disbursement-section.module').then(
             (m) => m.DisbursementSectionModule
           ),
-          canActivate: [DetectBrowserActivityService]
         },
         {
           path: 'pre-disbursement',
@@ -259,7 +236,7 @@ const routes: Routes = [
             import('./modules/dde/pre-disbursement/pre-disbursement.module').then(
               (m) => m.PreDisbursementModule
             ),
-            canActivate: [DetectBrowserActivityService]
+
         },
     ],
   },
