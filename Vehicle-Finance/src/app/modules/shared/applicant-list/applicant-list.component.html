@@ -155,9 +155,9 @@
   <div class="modal" id="myModalApplicantImage"   >
     <div class="modal-dialog  modal-style">
       <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">CIBIL Response For Applicant.</h4>
-          <button type="button" class="close" data-dismiss="modal">
+        <div class="modal-header row">
+          <h4 class="modal-title col-xs-11 col-md-11 col-lg-11 col-sm-11">CIBIL Response For Applicant.</h4>
+          <button type="button" class="close col-xs-1 col-md-1 col-lg-1 col-sm-1" data-dismiss="modal">
             &times;
           </button>
         </div>
@@ -197,7 +197,7 @@
             
             <!-- <div [innerHTML]="img" style="overflow: scroll;" ></div>  -->
             <div *ngIf = 'showeKYC'  style="overflow: scroll;">
-              <img [src]="imgeKYC" alt="No eKYC Details" />
+              <img [src]="imgeKYC" alt="No eKYC Details" style="width:100%;"/>
             </div>
            
             <!--end-->
@@ -456,11 +456,11 @@
                   <td class="wid-10">UCIC</td>
                   <td>Name</td>
                   <td>Matched Criteria</td>
-                  <td class="wid-10">DOB</td>
+                  <td>DOB</td>
                   <td>Mother Madien Name</td>
                   <td>Mobile Number</td>
-                  <td class="wid-10">PAN</td>
-                  <td class="wid-10">Adhaar Ref</td>
+                  <td>PAN</td>
+                  <td>Adhaar Ref</td>
                 </tr>
               </thead>
               <tbody>
@@ -501,9 +501,9 @@
                   <td class="wid-10">DOB</td>
                   <td>Mother Madien Name</td>
                   <td>Mobile Number</td>
-                  <td class="wid-10">PAN</td>
-                  <td class="wid-10">Adhaar Ref</td>
-                  <td class="wid-10">PassPort</td>
+                  <td>PAN</td>
+                  <td>Adhaar Ref</td>
+                  <td>PassPort</td>
                 </tr>
               </thead>
               <tbody>

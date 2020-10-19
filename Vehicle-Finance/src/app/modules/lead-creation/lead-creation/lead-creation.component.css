@@ -218,7 +218,7 @@ label{
     flex: 1 1 0% !important;
 }
   
-
+/* 
 ::placeholder {
     color: blue;
     
@@ -239,4 +239,4 @@ label{
   .form-control ng-untouched ng-pristine ng-valid ::-webkit-input-placeholder{
     color: blue!important;
 
-  }
+  } */
