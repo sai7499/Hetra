@@ -756,7 +756,7 @@ export class DashboardComponent implements OnInit {
         this.router.navigateByUrl(`/pages/pre-disbursement/${this.leadId}/credit-condition`);
         break;
       case 40: case 41:
-        // this.router.navigateByUrl(`/pages/pre-disbursement/${this.leadId}/credit-condition`);
+        this.router.navigateByUrl(`/pages/loanbooking/${this.leadId}/loan-booking-status`);
         break;
 
       default:
@@ -868,7 +868,6 @@ export class DashboardComponent implements OnInit {
       activeTab: this.activeTab,
     };
     this.sharedService.getLoanNumber(loanNumber);
-    this.onRoutingTabs(this.activeTab);
   }
   getLeadId(item) {
     localStorage.setItem('salesResponse', item.is_sales_response_completed);
