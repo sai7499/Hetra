@@ -701,7 +701,7 @@
                             </app-custom-input>
 
                             <div class="invalid-feedback"
-                                *ngIf="obj.controls['discount'].touched && basicVehicleForm.get('isVaildFinalAssetCost').value === false">
+                                *ngIf="basicVehicleForm.controls['isVaildFinalAssetCost'].value === false">
                                 Discount should not greater than Ex show room price
                             </div>
 
@@ -1063,7 +1063,7 @@
                             </app-custom-input>
 
                             <div class="invalid-feedback"
-                                *ngIf="obj.controls['discount'].touched && basicVehicleForm.get('isVaildFinalAssetCost').value === false">
+                                *ngIf="basicVehicleForm.controls['isVaildFinalAssetCost'].value === false">
                                 Discount should not greater than Ex show room price
                             </div>
 
