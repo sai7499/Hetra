@@ -1,0 +1,206 @@
+<main class="mar-top90">
+  <app-lead-section-header></app-lead-section-header>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6">
+          <h3 class="margin_zero">Pdd Screen</h3>
+        </div>
+        <div class="col-md-6 text-right"></div>
+      </div>
+  
+      <div class="content">
+        <form>
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="middle_name">Loan Number</label>
+              <app-custom-input
+                formControlName="loanNumber"
+                [className]="'form-control mandatory'"
+                >
+              </app-custom-input>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="middle_name">Applicant Name</label>
+              <app-custom-input
+                formControlName="applicantName"
+                [className]="'form-control mandatory'"
+                >
+              </app-custom-input>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="middle_name">Disbursement Date</label>
+              <app-custom-input
+                formControlName="disbursementDate"
+                [className]="'form-control mandatory'"
+                >
+              </app-custom-input>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="middle_name">Expected Date</label>
+              <app-custom-input
+                formControlName="expectedDate"
+                [className]="'form-control mandatory'"
+                >
+              </app-custom-input>
+            </div>
+          </div>
+        </form>
+        <form action="" method="POST">
+          <div class="table-responsive" id="exact_macth_title2_sec">
+            <table class="table">
+              <thead>
+                <tr class="table-head-bg">
+                  <td>Document Name</td>
+                  <td>Document Number</td>
+                  <td>Collected Date</td>
+                  <td>POD Number</td>
+                  <td>Couriered Date</td>
+                  <ng-container *ngIf="isSales"><td>Upload</td></ng-container>
+                  <td>View Document</td>
+                  <td>Status</td>
+                  <td>Received Date</td>
+                  <td>Physical Tracking Number</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>check1</td>
+                  <td>check2</td>
+                  <td>check3</td>
+                  <td>check4</td>
+                  <td>check5</td>
+                  <ng-container *ngIf="isSales"><td>upload</td></ng-container>
+                  <td>check6</td>
+                  <ng-container *ngIf="!isSales">
+                  <td>check7</td>
+                  <td>check8</td>
+                  <td>check9</td>
+                  </ng-container>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </form>
+        <div class="btn-sec clear-both row">
+          <div class="col-sm-6 text-right">
+            <span id="edit_vehicle_details_replace"></span>
+            <a id="back_vehicle_details"
+              ><button class="btn btn-primary" type="button">
+                Update
+              </button></a
+            >
+          </div>
+          <div class="col-sm-6"></div>
+        </div>
+        <ng-container *ngIf="isSales">
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="middle_name">ORC Process</label>
+            <app-custom-input
+              formControlName="orcProcess"
+              [className]="'form-control mandatory'"
+              >
+            </app-custom-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="middle_name">ORC Status</label>
+            <app-custom-input
+              formControlName="orcStatus"
+              [className]="'form-control mandatory'"
+              >
+            </app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="middle_name">Received Date</label>
+            <app-custom-input
+              formControlName="receivedDate"
+              [className]="'form-control mandatory'"
+              >
+            </app-custom-input>
+          </div>
+        </div>
+        <div class="btn-sec clear-both row">
+          <div class="col-sm-6 text-right">
+            <a id="back_vehicle_details"
+              ><button class="btn btn-primary" type="button">
+                Update
+              </button></a
+            >
+          </div>
+          <div class="col-sm-6 text-left"><span id="edit_vehicle_details_replace"></span>
+            <a id="back_vehicle_details"
+              ><button class="btn btn-primary" type="button">
+                Submit to CPC
+              </button></a
+            >
+            </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!isSales">
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="middle_name">Registration No</label>
+            <app-custom-input
+              formControlName="registrationNumber"
+              [className]="'form-control mandatory'"
+              >
+            </app-custom-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="middle_name">Engine Number</label>
+            <app-custom-input
+              formControlName="engineNumber"
+              [className]="'form-control mandatory'"
+              >
+            </app-custom-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="middle_name">Chassis Number</label>
+            <app-custom-input
+              formControlName="chassisNumber"
+              [className]="'form-control mandatory'"
+              >
+            </app-custom-input>
+          </div>
+        </div>
+        <div class="btn-sec clear-both row">
+          <div class="col-sm-6 text-right">
+            <a id="back_vehicle_details"
+              ><button class="btn btn-primary" type="button">
+                Update
+              </button></a
+            >
+          </div>
+          <div class="col-sm-6 text-left"><span id="edit_vehicle_details_replace"></span>
+            <a id="back_vehicle_details"
+              ><button class="btn btn-primary" type="button">
+                Submit
+              </button></a
+            >
+            </div>
+        </div>
+      </ng-container>
+      </div>
+    </div>
+    
+  </main>
+  
+  
+  
+  <!-- Footer -->
+  <footer class="footer pf mob-font">
+    <div class="container-fluid">
+      <p>© Equitas Small Finance Bank Limited. All Rights Reserved.</p>
+    </div>
+  </footer>
+  
+  
+  
