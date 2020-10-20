@@ -959,8 +959,30 @@ font-size:10px;
     font-weight:bold;
     padding-top:30px;
     padding-bottom:30px;
-    
     }
     
     }
 /*Welomce Letter styles End */
+
+/* 
+::placeholder {
+    color: blue;
+    
+  }
+  .mandatory::-webkit-input-placeholder { color: blue!important; }
+
+  :-ms-input-placeholder { 
+    color: blue;
+    
+  }
+  
+  ::-ms-input-placeholder { 
+    color: blue;
+    
+  }
+
+
+  .form-control ng-untouched ng-pristine ng-valid ::-webkit-input-placeholder{
+    color: blue!important;
+
+  } */
