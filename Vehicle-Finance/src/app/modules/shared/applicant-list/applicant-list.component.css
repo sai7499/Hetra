@@ -257,7 +257,12 @@ display: none;
   display: block;
 }
 
-
+.modal-show{
+  visibility: visible;
+}
+.modal-hide{
+  visibility: hidden;
+}
 .tab-details p{
   font-size:10px;
 }
