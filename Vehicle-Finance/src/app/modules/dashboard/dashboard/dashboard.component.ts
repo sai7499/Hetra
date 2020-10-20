@@ -177,7 +177,7 @@ export class DashboardComponent implements OnInit {
     if (this.dashboardService.routingData) {
       this.activeTab = this.dashboardService.routingData.activeTab;
       this.subActiveTab = this.dashboardService.routingData.subActiveTab;
-      console.log('active', this.activeTab, 'sub-active', this.subActiveTab);
+      // console.log('active', this.activeTab, 'sub-active', this.subActiveTab);
 
       this.onTabsLoading(this.subActiveTab);
     } else {
@@ -866,6 +866,7 @@ export class DashboardComponent implements OnInit {
   getLoanNumber(loanNumber) {
     this.dashboardService.routingData = {
       activeTab: this.activeTab,
+      subActiveTab: this.subActiveTab
     };
     this.sharedService.getLoanNumber(loanNumber);
   }

@@ -313,7 +313,7 @@
           data-toggle="tab">Leads Pending with CPC</a></li>
     </ul>
     <ul *ngIf="displayTabs?.PDDforCPC === activeTab" class="nav nav-pills nav-justified" id="background_white">
-      <li class="active" (click)="leads(displayTabs?.PDDWithMe)"
+      <li (click)="leads(displayTabs?.PDDWithMe)"
         [ngClass]="{'active':displayTabs?.PDDWithMe === subActiveTab}" routerLinkActive="active"><a
           data-toggle="tab">Leads Pending with Me</a></li>
       <li (click)="leads(displayTabs?.PDDWithBranch)" [ngClass]="{'active':displayTabs?.PDDWithBranch === subActiveTab}"
