@@ -492,7 +492,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             }))
         }
       }
-      console.log('formArray', this.deviationsForm)
+      //console.log('formArray', this.deviationsForm)
 
       if (this.locationIndex === 'credit-decisions') {
         this.isApprove = false;
