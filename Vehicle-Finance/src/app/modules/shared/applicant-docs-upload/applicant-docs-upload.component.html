@@ -16,7 +16,6 @@
             data-toggle="collapse"
             data-parent="#accordion"
             [attr.data-target]="'#collapse' + subCat.code"
-            (click)="onPanelClick(subCat.code)"
           >
             <h4 class="panel-title">
               <a class="collapsed" aria-expanded="false">
@@ -127,14 +126,14 @@
                       *ngIf="subCat.code !== 3"
                     >
                       <label for="documentnumber">Document Number</label>
-                      check {{i}} {{docsValidation[docsList?.controls[i]?.get('documentName').value]?.pattern}} 
-                      value: {{docsList?.controls[i]?.get('documentName').value}}
-                      <input formControlName="documentNumber" class="form-control" [pattern]="docsValidation[docsList?.controls[i]?.get('documentName').value]?.pattern || null"/>
-                      <!-- invalid: {{docsList?.controls[i]?.get('documentNumber').invalid}} -->
-                      <div class="invalid-feedback" *ngIf="docsList?.controls[i]?.get('documentNumber').invalid && (docsList?.controls[i]?.get('documentNumber').touched  || docsList?.controls[i]?.get('documentNumber').dirty)">
-                        <div *ngIf="docsList?.controls[i]?.get('documentNumber').errors?.pattern">
-                          {{docsValidation[docsList?.controls[i]?.get('documentName').value]?.patternMsg}}
+                      <input formControlName="documentNumber" class="form-control" [pattern]="docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.pattern || null"/>
+                      <div class="invalid-feedback" *ngIf="(docsList(subCat.code)?.controls[i]?.get('documentNumber')?.touched  || docsList(subCat.code)?.controls[i]?.get('documentNumber')?.dirty)">
+                        <div *ngIf="docsList(subCat.code)?.controls[i]?.get('documentNumber').errors?.pattern">
+                          {{docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.patternMsg}}
                         </div>
+                      </div>
+                      <div class="invalid-feedback" *ngIf="docError[FORM_ARRAY_NAME+'_'+subCat.code+'_'+i] && !docsList(subCat.code)?.controls[i]?.get('documentNumber')?.value">
+                        Please enter document number
                       </div>
                     </div>
   

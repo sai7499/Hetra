@@ -107,6 +107,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
   voterId: string;
   panCard: string;
   isNewUpload = false;
+  docError = {};
 
 
   constructor(
@@ -122,7 +123,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
     private base64StorageService: Base64StorageService,
     private draggableContainerService: DraggableContainerService,
     private toasterService: ToasterService
-  ) { 
+  ) {
 
   }
 
@@ -550,16 +551,20 @@ export class ApplicantDocsUploadComponent implements OnInit {
     // }
   }
 
-  get docsList() {
-    return this.uploadForm.get(`${this.FORM_ARRAY_NAME}_${this.currentlySelectedDocs}`) as FormArray;
+  // get docsList() {
+  //   return this.uploadForm.get(`${this.FORM_ARRAY_NAME}_${this.currentlySelectedDocs}`) as FormArray;
+  // }
+
+  docsList(code): any {
+    return this.uploadForm.get(`${this.FORM_ARRAY_NAME}_${code}`) as FormArray || {};
   }
 
   onPanelClick(code) {
     // console.log('docList', this.uploadForm.get(`${this.FORM_ARRAY_NAME}_${code}`));
-    console.log('code', code);
-    setTimeout(() => {
-      this.currentlySelectedDocs = code;
-    }, 1000);
+    // console.log('code', code);
+    // setTimeout(() => {
+    //   this.currentlySelectedDocs = code;
+    // }, 1000);
   }
 
   uploadDocument(
@@ -915,12 +920,13 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   onSubmit() {
-    if(this.uploadForm.invalid) {
+    if (this.uploadForm.invalid) {
       return this.toasterService.showError('Please fill mandatory fields', '');
     }
-    return;
+    this.docError = {};
     const formValue = this.uploadForm.value;
     const requestArr = [];
+    let isDocNumberError = false;
     for (const key in formValue) {
       if (formValue[key]) {
         const subCategoryCode = Number(key.split('_')[1]);
@@ -933,11 +939,22 @@ export class ApplicantDocsUploadComponent implements OnInit {
             }
           });
         });
-        (formValue[key] || []).forEach((value, index) => {
+        const values = formValue[key] || [];
+        // for (let i = 0;  i < values.length; i++) {
+
+        // }
+        (values).forEach((value, index) => {
           const documentName = value.documentName;
           const deferredDate =
             this.utilityService.getDateFormat(value.deferredDate) || '';
           if (documentName || deferredDate) {
+            const documentNumber = value.documentNumber;
+            if (!documentNumber && subCategoryCode !== 1 && subCategoryCode !== 2 && subCategoryCode !== 3) {
+                isDocNumberError = true;
+                this.docError[`${key}_${index}`] = true;
+            } else {
+              this.docError[`${key}_${index}`] = false;
+            }
             requestArr.push({
               deferredDate:
                 this.utilityService.getDateFormat(value.deferredDate) || '',
@@ -966,6 +983,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
     // }
 
     // check defer past date
+    if (isDocNumberError) {
+      return this.toasterService.showError('Please enter valid document number', '');
+    }
 
     const checkAnyPast = this.documentArr.some((docs) => {
       const now = new Date();
@@ -1042,6 +1062,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
         }
         this.toasterService.showSuccess('Documents saved successfully', '');
         this.isNewUpload = false;
+        this.apiRes = [...this.documentArr];
         console.log('saveOrUpdateDocument', value);
         const processVariables = value.ProcessVariables;
         const documentIds = processVariables.documentIds;
