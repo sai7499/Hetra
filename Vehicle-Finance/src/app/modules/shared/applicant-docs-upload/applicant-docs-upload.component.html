@@ -39,7 +39,7 @@
                 )['controls'];
                 let i = index
               "
-              (click)="onPanelClick(subCat.code, i)"
+             
             >
               <ng-container *ngIf="subCat.code === 1">
                 <div class="panel-body" [formGroupName]="i">
@@ -126,11 +126,14 @@
                       *ngIf="subCat.code !== 3"
                     >
                       <label for="documentnumber">Document Number</label>
-                      <input formControlName="documentNumber" class="form-control" [pattern]="docsValidation[selectedCode]?.pattern || ''"/>
-                      <div class="invalid-feedback" *ngIf="docsList?.controls[i]?.get('documentNumber').invalid && (docsList?.controls[i]?.get('documentNumber').touched  || docsList.controls[i]?.get('documentNumber').dirty)">
-                        <div *ngIf="docsList?.controls[i]?.get('documentNumber').errors?.pattern">
-                          {{docsValidation[selectedCode].patternMsg}}
+                      <input formControlName="documentNumber" class="form-control" [pattern]="docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.pattern || null"/>
+                      <div class="invalid-feedback" *ngIf="(docsList(subCat.code)?.controls[i]?.get('documentNumber')?.touched  || docsList(subCat.code)?.controls[i]?.get('documentNumber')?.dirty)">
+                        <div *ngIf="docsList(subCat.code)?.controls[i]?.get('documentNumber').errors?.pattern">
+                          {{docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.patternMsg}}
                         </div>
+                      </div>
+                      <div class="invalid-feedback" *ngIf="docError[FORM_ARRAY_NAME+'_'+subCat.code+'_'+i] && !docsList(subCat.code)?.controls[i]?.get('documentNumber')?.value">
+                        Please enter document number
                       </div>
                     </div>
   
