@@ -289,7 +289,7 @@
                             [placeholder]="'Mobile Number of Vehicle Owner/Dealer'"
                             [maxLength]="label.validationData?.mobileNumber.maxLength"
                             [patternCheck]="label.validationData?.mobileNumber.pattern"
-                            (change)="onChangeMobileNumber($event.target.value)" 
+                            (change)="onChangeMobileNumber($event.target.value)"
                             (keyUp)="onChangeMobileNumber($event.target.value)"
                             [isRequired]="'Mobile Number of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                         </app-custom-input>
@@ -446,11 +446,12 @@
 
                             <app-custom-input formControlName="exShowRoomCost"
                                 [type]="label.validationData?.amountValue.type" [id]="'ex_showroom_price'"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [className]="'form-control mandatory'" [isRequired]="'Ex Showroom Cost Required'"
-                                [isDirty]="isDirty" (keyup)="onPatchFinalAssetCost($event.target.value)"
-                                [maxLength]="label.validationData?.amountValue.maxLength"
+                                [isDirty]="isDirty" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Ex Showroom Cost'">
                             </app-custom-input>
+                            <!-- (keyup)="onPatchFinalAssetCost($event.target.value)" -->
 
                         </div>
 
@@ -615,7 +616,8 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
                             <label for="orp_funding">{{label.orpFunding}} </label>
                             <app-vf-custom-select [id]="'orp_funding'" [values]="vehicleLov?.YesORNoValue"
-                                formControlName="isOrpFunding">
+                                formControlName="isOrpFunding"
+                                (change)="onChangeFinalAssetCost($event.target.value, obj)">
                             </app-vf-custom-select>
                         </div>
 
@@ -623,6 +625,7 @@
                             <label for="insurance">{{label.insurance}} </label>
 
                             <app-custom-input formControlName="insurance"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [type]="label.validationData?.amountValue.type" [id]="'insurance'"
                                 [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Insurance'">
@@ -635,6 +638,7 @@
 
                             <app-custom-input formControlName="oneTimeTax"
                                 [type]="label.validationData?.amountValue.type" [id]="'one_time_tax'"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'One Time Tax'">
                             </app-custom-input>
@@ -682,6 +686,7 @@
 
                             <app-custom-input formControlName="others" [id]="'others'"
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control'"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Others'">
                             </app-custom-input>
                         </div>
@@ -691,8 +696,15 @@
 
                             <app-custom-input formControlName="discount" [type]="label.validationData?.amountValue.type"
                                 [id]="'discount'" [className]="'form-control'"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Discount'">
                             </app-custom-input>
+
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['discount'].touched && basicVehicleForm.get('isVaildFinalAssetCost').value === false">
+                                Discount should not greater than Ex show room price
+                            </div>
+
                         </div>
                     </div>
 
@@ -812,9 +824,9 @@
                             </label>
                             <app-custom-input formControlName="exShowRoomCost"
                                 [type]="label.validationData?.amountValue.type" [id]="'ex_showroom_price'"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [className]="'form-control mandatory'" [isRequired]="'Ex Showroom Cost Required'"
-                                [isDirty]="isDirty" (keyup)="onPatchFinalAssetCost($event.target.value)"
-                                [maxLength]="label.validationData?.amountValue.maxLength"
+                                [isDirty]="isDirty" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Ex Showroom Cost'">
                             </app-custom-input>
 
@@ -971,13 +983,15 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
                             <label for="orp_funding">{{label.orpFunding}} </label>
                             <app-vf-custom-select [id]="'orp_funding'" [values]="vehicleLov?.YesORNoValue"
-                                formControlName="isOrpFunding">
+                                formControlName="isOrpFunding"
+                                (change)="onChangeFinalAssetCost($event.target.value, obj)">
                             </app-vf-custom-select>
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="insurance">{{label.insurance}} </label>
                             <app-custom-input formControlName="insurance" [id]="'insurance'"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control'"
                                 [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Insurance'">
                             </app-custom-input>
@@ -987,6 +1001,7 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="one_time_tax">{{label.oneTimeTax}} </label>
                             <app-custom-input formControlName="oneTimeTax" [id]="'one_time_tax'"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control'"
                                 [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'One Time Tax'">
@@ -1033,6 +1048,7 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
                             <label for="others">{{label.others}} </label>
                             <app-custom-input formControlName="others" [type]="label.validationData?.amountValue.type"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [maxLength]="label.validationData?.amountValue.maxLength" [id]="'others'"
                                 [className]="'form-control'" [placeholder]="'Others'">
                             </app-custom-input>
@@ -1042,8 +1058,15 @@
                             <label for="discount">{{label.discount}} </label>
                             <app-custom-input formControlName="discount" [type]="label.validationData?.amountValue.type"
                                 [id]="'discount'" [className]="'form-control'"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Discount'">
                             </app-custom-input>
+
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['discount'].touched && basicVehicleForm.get('isVaildFinalAssetCost').value === false">
+                                Discount should not greater than Ex show room price
+                            </div>
+
                         </div>
                     </div>
 
