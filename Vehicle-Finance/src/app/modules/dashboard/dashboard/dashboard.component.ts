@@ -55,7 +55,10 @@ export enum DisplayTabs {
   CPCCheckerWithBranch,
   PreDisbursementQueue,
   PreDisbursementWithMe,
-  PreDisbursementWithBranch
+  PreDisbursementWithBranch,
+  PDDforCPC,
+  PDDWithMe,
+  PDDWithBranch
 }
 
 export enum sortingTables {
@@ -370,12 +373,12 @@ export class DashboardComponent implements OnInit {
         break;
     }
     switch (data) {
-      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37:
+      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40:
         this.onAssignTab = false;
         this.onReleaseTab = true;
         this.myLeads = true;
         break;
-      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38:
+      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41:
         this.onAssignTab = true;
         this.onReleaseTab = false;
         this.myLeads = false;
@@ -436,6 +439,10 @@ export class DashboardComponent implements OnInit {
         break;
       case 37: case 38:
         this.taskName = 'Predisbursement';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
+        break;
+        case 40: case 41:
+        this.taskName = 'CPC Checker';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       default:
@@ -733,6 +740,9 @@ export class DashboardComponent implements OnInit {
         break;
       case 37: case 38:
         this.router.navigateByUrl(`/pages/pre-disbursement/${this.leadId}/credit-condition`);
+        break;
+        case 40: case 41:
+        // this.router.navigateByUrl(`/pages/pre-disbursement/${this.leadId}/credit-condition`);
         break;
 
       default:
