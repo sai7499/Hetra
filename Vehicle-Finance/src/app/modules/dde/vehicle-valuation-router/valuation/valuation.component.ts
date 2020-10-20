@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from "@angular/forms";
 import { Router, ActivatedRoute } from '@angular/router';
-
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { LabelsService } from "@services/labels.service";
 import { ToasterService } from '@services/toaster.service';
 import { CommomLovService } from '@services/commom-lov-service';
@@ -9,6 +9,7 @@ import { VehicleValuationService } from '@modules/dde/services/vehicle-valuation
 import { UtilityService } from '@services/utility.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { VehicleDetailService } from '@services/vehicle-detail.service';
 
 @Component({
   selector: 'app-valuation',
@@ -44,6 +45,12 @@ export class ValuationComponent implements OnInit {
   disableSaveBtn: boolean;
   leadCreatedDate: any;
 
+  // lov data
+  public vehicleLov: any = {};
+  public assetBodyType: any = [];
+  public assetModelType: any = [];
+  public assetVariant: any = [];
+
   valuesToYesNo: any = [{ key: 1, value: 'Yes' }, { key: 0, value: 'No' }];
   public vehicleRegPattern: {
     rule?: any;
@@ -57,7 +64,9 @@ export class ValuationComponent implements OnInit {
     { key: "September", value: "September" }, { key: "October", value: "October" },
     { key: "November", value: "November" }, { key: "December", value: "December" },
   ];
-  
+  leadDetails: any;
+  productCatoryCode: any;
+
   constructor(
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,
@@ -67,6 +76,8 @@ export class ValuationComponent implements OnInit {
     private vehicleValuationService: VehicleValuationService,
     private toasterService: ToasterService,
     private utilityService: UtilityService,
+    private vehicleDetailService: VehicleDetailService,
+    private uiLoader: NgxUiLoaderService,
     private createLeadDataService: CreateLeadDataService,
     private toggleDdeService: ToggleDdeService) { }
 
@@ -114,10 +125,12 @@ export class ValuationComponent implements OnInit {
   }
 
   getLOV() {
-    this.commomLovService.getLovData().subscribe((lov) => {
-      this.LOV = lov;
+    this.commomLovService.getLovData().subscribe((value: any) => {
+      this.LOV = value.LOVS;
+      this.vehicleLov.region = value.LOVS.assetRegion;
+      this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
     });
-    console.log(" LOV**** --->", this.LOV);
+    console.log(' LOV**** --->', this.LOV);
   }
 
   getCollateralId() {
@@ -132,7 +145,7 @@ export class ValuationComponent implements OnInit {
     });
   }
 
-  //Custom Validation Pattern For Vehicle Number
+  // Custom Validation Pattern For Vehicle Number
   validateCustomPattern() {
     const regPatternData = [
       {
@@ -152,24 +165,26 @@ export class ValuationComponent implements OnInit {
     return regPatternData;
   }
 
-  //GET LEAD SECTION DATA
+  // GET LEAD SECTION DATA
   getLeadSectiondata() {
     const leadData = this.createLeadDataService.getLeadSectionData();
+    this.leadDetails = leadData['leadDetails']
+    this.productCatoryCode = this.leadDetails['productCatCode'];
     // this.leadCreatedDate = new Date(leadData['leadDetails'].leadCreatedOn);
     this.leadCreatedDate = this.utilityService.getDateFromString(leadData['leadDetails'].leadCreatedOn);
     // console.log("LEAD_CREATED_DATE::", this.vehicleValuationForm.get('valuationDate').value >= this.leadCreatedDate);
-    console.log("LEAD_CREATED_DATE::", this.leadCreatedDate);
-    console.log("MAX_DATE::", this.toDayDate);
+    console.log('LEAD_CREATED_DATE::', this.leadCreatedDate);
+    console.log('MAX_DATE::', this.toDayDate);
 
   }
 
-  //CHANGE EVENT FUNCTION FOR monthLOVS
+  // CHANGE EVENT FUNCTION FOR monthLOVS
   // onChangeMonthValues(event: any) {
   //   const monthChange = event.target.value;
   //   console.log("CHANGE_IN_MONTH::", monthChange);
   // }
 
-  //CHANGE_YEAR
+  // CHANGE_YEAR
   onGetDateValue(event) {
     //  const yearOfManufacturer = event;
     // console.log("YEAR_OF_MANUFACTURER::", yearOfManufacturer);
@@ -196,7 +211,7 @@ export class ValuationComponent implements OnInit {
       const response = res;
       // console.log("RESPONSE_FROM_GET_VEHICLE_VALUATION_API", response);
       this.vehicleValuationDetails = response.ProcessVariables.vehicleValutionDetails;
-      console.log("VEHICLE_VALUATION_DETAILS::", this.vehicleValuationDetails);
+      console.log('VEHICLE_VALUATION_DETAILS::', this.vehicleValuationDetails);
       this.valuatorType = this.vehicleValuationDetails.valuatorType;
       this.valuatorCode = this.vehicleValuationDetails.valuatorCode;
       this.valuatorName = this.vehicleValuationDetails.valuatorName;
@@ -220,14 +235,16 @@ export class ValuationComponent implements OnInit {
       vehicleAddress: [{ value: '', disabled: true }],
       pincode: [{ value: '', disabled: true }],
       gridAmt: [{ value: '', disabled: true }],
-      valuationAmt: ["", Validators.required],
-      valuationDate: ["", Validators.required],
+      valuationAmt: ['', Validators.required],
+      valuationDate: ['', Validators.required],
       idv: ["", Validators.required],
       idvValidityDate: ["", Validators.required],
       vehicleAvailGrid: ["", Validators.required],
-      // gridAmount: [""],
-      make: ["", Validators.required],
-      model: ["", Validators.required],
+      region: ["", Validators.required],
+      vehicleType: ["", Validators.required],
+      assetMake: ["", Validators.required],
+      assetModel: ["", Validators.required],
+      assetBodyType: ['', Validators.required],
       // newUsedAsset: [""],
       vehiclePrefixNo: ["", Validators.required],
       registrationNo: ["", Validators.required],
@@ -281,8 +298,8 @@ export class ValuationComponent implements OnInit {
       idvValidityDate: this.vehicleValuationDetails.idvValidityDate ? this.utilityService.getDateFromString(this.vehicleValuationDetails.idvValidityDate) : '',
       vehicleAvailGrid: this.vehicleValuationDetails.vehicleAvailGrid || '',
       // gridAmount: this.vehicleValuationDetails.gridAmount || '',
-      make: this.vehicleValuationDetails.make || '',
-      model: this.vehicleValuationDetails.model || '',
+      assetMake: this.vehicleValuationDetails.make || '',
+      assetModel: this.vehicleValuationDetails.model || '',
       // newUsedAsset: this.vehicleValuationDetails.newUsedAsset || '',
       vehiclePrefixNo: this.vehicleValuationDetails.vehiclePrefixNo || '',
       registrationNo: this.vehicleValuationDetails.registrationNo || '',
@@ -320,9 +337,169 @@ export class ValuationComponent implements OnInit {
     });
   }
 
+  onVehicleRegion(value: any, obj) {
+    const region = value ? value : '';
+    let assetMakeArray = [];
+    console.log('obj in vehRegion', obj);
+
+    const data = {
+      'region': region,
+      'productCategory': this.productCatoryCode
+    };
+
+    this.vehicleDetailService.getVehicleMasterFromRegion(data).subscribe((res: any) => {
+      this.uiLoader.start();
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+
+        if (res.ProcessVariables.vehicleMasterDetails && res.ProcessVariables.vehicleMasterDetails.length > 0) {
+
+          assetMakeArray = this.utilityService.getValueFromJSON(res.ProcessVariables.vehicleMasterDetails,
+            'uniqueMFRCode', 'mfrCode');
+          this.vehicleLov.assetMake = assetMakeArray;
+          obj.patchValue({
+            assetMake: '',
+            vehicleType: '',
+            assetBodyType: '',
+            assetModel: '',
+            assetVariant: ''
+          });
+        } else {
+          this.vehicleLov.assetMake = []
+          this.toasterService.showWarning('No Data in Vehicle Master Region', 'Vehicle Master Region')
+        }
+      } else {
+        this.vehicleLov.assetMake = []
+        this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Master Region')
+      }
+      this.uiLoader.stop();
+    }, error => {
+      console.log(error, 'error');
+      this.uiLoader.stop();
+    });
+  }
+
+  onAssetMake(value, obj) {
+
+    let VehicleTypeArray = [];
+
+    if (value) {
+
+      const data = {
+        "region": obj.value.region,
+        "productCategory": this.productCatoryCode,
+        "make": value
+      };
+
+      this.vehicleDetailService.getVehicleMasterFromAssetMake(data).subscribe((res: any) => {
+        this.uiLoader.start();
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+
+          if (res.ProcessVariables.vehicleMasterDetails && res.ProcessVariables.vehicleMasterDetails.length > 0) {
+
+            VehicleTypeArray = this.utilityService.getValueFromJSON(res.ProcessVariables.vehicleMasterDetails,
+              "vehicleTypeUniqueCode", "vehicleTypeCode");
+
+            this.vehicleLov.vehicleType = VehicleTypeArray;
+            obj.patchValue({
+              vehicleType: '',
+              assetBodyType: '',
+              assetModel: '',
+              assetVariant: ''
+            })
+
+          } else {
+            this.vehicleLov.vehicleType = []
+            this.toasterService.showWarning('No Data in Vehicle Master Asset Make', 'Vehicle Master Asset Make')
+          }
+        } else {
+          this.vehicleLov.vehicleType = []
+          this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Master Asset Make')
+        }
+        this.uiLoader.stop();
+      }, error => {
+        console.log(error, 'error')
+        this.uiLoader.stop();
+      });
+    }
+  }
+
+  onVehicleType(value, obj) {
+
+    let assetBodyType = []
+
+    if (value) {
+
+      const data =
+      {
+        "region": obj.value.region,
+        "productCategory": this.productCatoryCode,
+        "make": obj.value.assetMake,
+        "vehicleType": value
+      }
+
+      this.vehicleDetailService.getVehicleMasterFromVehicleType(data).subscribe((res: any) => {
+        this.uiLoader.start();
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+
+          if (res.ProcessVariables.vehicleMasterDetails && res.ProcessVariables.vehicleMasterDetails.length > 0) {
+            this.assetBodyType = res.ProcessVariables.vehicleMasterDetails;
+            assetBodyType = this.utilityService.getValueFromJSON(res.ProcessVariables.vehicleMasterDetails,
+              "uniqueSegmentCode", "segmentCode");
+
+            this.vehicleLov.assetBodyType = assetBodyType;
+
+            obj.patchValue({
+              assetBodyType: '',
+              assetModel: '',
+              assetVariant: ''
+            })
+
+          } else {
+            this.vehicleLov.assetBodyType = []
+            this.toasterService.showWarning('No Data in Vehicle Master Vehicle Type', 'Vehicle Master Vehicle Type')
+          }
+        } else {
+          this.vehicleLov.assetBodyType = []
+          this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Master Vehicle Type')
+        }
+        this.uiLoader.stop();
+      }, error => {
+        console.log(error, 'error')
+        this.uiLoader.stop();
+      });
+    }
+  }
+
+  onAssetBodyType(value: any, obj) {
+    this.assetModelType = this.assetBodyType.filter((data) => data.uniqueSegmentCode === value)
+    this.vehicleLov.assetModel = this.utilityService.getValueFromJSON(this.assetModelType,
+      'vehicleModelCode', 'vehicleModel');
+    obj.patchValue({
+      assetModel: '',
+      assetVariant: ''
+    });
+  }
+
+  onAssetModel(value: any, obj) {
+    this.assetVariant = this.assetModelType.filter((data) => data.vehicleModelCode === value);
+    const array = this.utilityService.getCommonUniqueValue(this.assetVariant, 'vehicleVariant');
+    // const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+    // formArray.controls[0].patchValue({
+    //   vehicleId: array.length > 0 ? Number(array[0].vehicleCode) : 0
+    // })
+
+    this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVariant,
+      'vehicleCode', 'vehicleVariant');
+
+    obj.patchValue({
+      assetVariant: ''
+    });
+
+  }
+
   saveUpdateVehicleValuation() {
     const formValues = this.vehicleValuationForm.value;
-    console.log("FORMVALUES::::", formValues);
+    console.log('FORMVALUES::::', formValues);
     const data = {
       userId: localStorage.getItem('userId'),
       leadId: this.leadId,
@@ -339,15 +516,15 @@ export class ValuationComponent implements OnInit {
     if (this.vehicleValuationForm.valid === true) {
       this.vehicleValuationService.saveUpdateVehicleValuation(data).subscribe((res: any) => {
         const response = res;
-        console.log("VEHICLE_VALUATION_RESPONSE_SAVE_OR_UPDATE_API", response);
+        console.log('VEHICLE_VALUATION_RESPONSE_SAVE_OR_UPDATE_API', response);
         if (response["Error"] == 0 && response['ProcessVariables'].error['code'] == "0") {
-          this.toasterService.showSuccess("Record Saved Successfully", "Valuation");
+          this.toasterService.showSuccess('Record Saved Successfully', 'Valuation');
         } else {
-          this.toasterService.showError(response['ProcessVariables'].error['message'], "Valuation");
+          this.toasterService.showError(response['ProcessVariables'].error['message'], 'Valuation');
         }
       });
     } else {
-      this.toasterService.showError("Please fill all mandatory fields.", "Valuation");
+      this.toasterService.showError('Please fill all mandatory fields.', 'Valuation');
     }
   }
 

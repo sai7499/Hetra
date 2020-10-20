@@ -328,7 +328,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         }]
 
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-        this.onPatchArrayValue(formArray, VehicleDetail)
+        this.onPatchArrayValue(formArray, VehicleDetail);
         this.sharedService.getFormValidation(this.basicVehicleForm)
         this.vehicleDataService.setIndividualVehicleDetail(VehicleDetail);
       } else {
@@ -437,7 +437,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   onVehicleRegion(value: any, obj) {
     const region = value ? value : '';
     let assetMakeArray = [];
-
+    console.log('obj in vehRegion', obj);
     const data = {
       "region": region,
       "productCategory": this.productCatoryCode
