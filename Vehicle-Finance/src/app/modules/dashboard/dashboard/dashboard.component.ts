@@ -178,7 +178,7 @@ export class DashboardComponent implements OnInit {
       this.activeTab = this.dashboardService.routingData.activeTab;
       this.subActiveTab = this.dashboardService.routingData.subActiveTab;
       console.log('active', this.activeTab, 'sub-active', this.subActiveTab);
-      
+
       this.onTabsLoading(this.subActiveTab);
     } else {
       if (this.roleType === 1) {
@@ -304,7 +304,7 @@ export class DashboardComponent implements OnInit {
 
   onChangeFromDate(event) {
     this.fromDateChange = this.utilityService.getDateFormat(event);
-    
+
     if (this.fromDateChange) {
       this.isFromDate = true;
     } else {
@@ -441,8 +441,8 @@ export class DashboardComponent implements OnInit {
         this.taskName = 'Predisbursement';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
-        case 40: case 41:
-        this.taskName = 'CPC Checker';
+      case 40: case 41:
+        this.taskName = 'CPC-PDD';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       default:
@@ -695,6 +695,20 @@ export class DashboardComponent implements OnInit {
   }
 
   onRoutingTabs(data) {
+    switch (this.activeTab) {
+      case 15:
+        this.router.navigateByUrl(`/pages/loanbooking/${this.leadId}/loan-booking-status`);
+        break;
+      case 16:
+        this.router.navigateByUrl(`/pages/dde/${this.leadId}/pdd-details`);
+        break;
+      case 17:
+        this.router.navigateByUrl(`/pages/dde/${this.leadId}/cheque-tracking`);
+        break;
+
+      default:
+        break;
+    }
     switch (data) {
       case 4: case 5:
         localStorage.setItem('istermSheet', 'false');
@@ -741,7 +755,7 @@ export class DashboardComponent implements OnInit {
       case 37: case 38:
         this.router.navigateByUrl(`/pages/pre-disbursement/${this.leadId}/credit-condition`);
         break;
-        case 40: case 41:
+      case 40: case 41:
         // this.router.navigateByUrl(`/pages/pre-disbursement/${this.leadId}/credit-condition`);
         break;
 
@@ -854,6 +868,7 @@ export class DashboardComponent implements OnInit {
       activeTab: this.activeTab,
     };
     this.sharedService.getLoanNumber(loanNumber);
+    this.onRoutingTabs(this.activeTab);
   }
   getLeadId(item) {
     localStorage.setItem('salesResponse', item.is_sales_response_completed);
