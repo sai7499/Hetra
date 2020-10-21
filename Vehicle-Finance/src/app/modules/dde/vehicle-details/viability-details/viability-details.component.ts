@@ -96,6 +96,7 @@ export class ViabilityDetailsComponent implements OnInit {
   dmsDocumentId: string;
   applicantName: any;
   disableSaveBtn: boolean;
+  daysCheck = [];
 
 
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
@@ -117,7 +118,9 @@ export class ViabilityDetailsComponent implements OnInit {
                   this.taskId = res.taskId;
                 });
                 this.isMobile = environment.isMobile;
-
+                // tslint:disable-next-line: triple-equals
+                this.daysCheck = [{rule: val => ((val  > 0  && val > 31) || val == 0 ),
+                  msg: 'Should be between 1-31'}];
                }
 
   async ngOnInit() {
