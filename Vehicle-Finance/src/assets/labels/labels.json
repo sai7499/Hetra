@@ -1882,6 +1882,18 @@
             },
             "type": "alpha-numeric"
         },
+        "podNumber": {
+            "maxLength": {
+                "rule": 50
+            },
+            "type": "alpha-numeric"
+        },
+        "physicalTrackingNumber": {
+            "maxLength": {
+                "rule": 50
+            },
+            "type": "alpha-numeric"
+        },
         "noOfTrips": {
             "maxLength": {
                 "rule": 5
@@ -2616,8 +2628,8 @@
             },
             "type": "number",
             "patternCheck": {
-                "rule": "^[0-3]{1}[0-9]{1}",
-                "msg": "Should be between 0-31 only, format DD"
+                "rule": "^[1-31]",
+                "msg": "Should be between 1-31 only"
             }
         }
     }

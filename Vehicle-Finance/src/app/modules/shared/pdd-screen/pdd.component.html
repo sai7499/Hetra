@@ -86,6 +86,8 @@
                     formControlName="podNumber"
                     [className]="'form-control mandatory'"
                     [isDisabled]="!isSales"
+                    [type]="labels?.podNumber?.type"
+                    [maxLength]="labels?.podNumber?.maxLength"
                     >
                   </app-custom-input></td>
                   <td><kendo-datepicker class="form-control mandatory" formControlName="courieredDate"
@@ -107,6 +109,8 @@
                   <td><app-custom-input
                     formControlName="phyTrackingNum"
                     [className]="'form-control mandatory'"
+                    [type]="labels?.physicalTrackingNumber?.type"
+                    [maxLength]="labels?.physicalTrackingNumber?.maxLength"
                     >
                   </app-custom-input></td>
                   </ng-container>
@@ -196,6 +200,9 @@
             <app-custom-input
               formControlName="regNumber"
               [className]="'form-control mandatory'"
+              [custom]="vehicleRegPattern"
+              [minLength]="labels?.validationData?.vehicleRegNo.minLength" [inputClass]="'input-upper'"
+                            [maxLength]="labels?.validationData?.vehicleRegNo.maxLength"
               >
             </app-custom-input>
           </div>
@@ -206,6 +213,8 @@
             <app-custom-input
               formControlName="engNumber"
               [className]="'form-control mandatory'"
+              [type]="labels?.validationData?.chasisEngineNo.type"
+              [maxLength]="labels?.validationData?.chasisEngineNo.maxLength"
               >
             </app-custom-input>
           </div>
@@ -216,6 +225,8 @@
             <app-custom-input
               formControlName="chasNumber"
               [className]="'form-control mandatory'"
+              [type]="labels?.validationData?.chasisEngineNo?.type"
+              [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength"
               >
             </app-custom-input>
           </div>

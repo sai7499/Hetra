@@ -12,6 +12,7 @@ import { ToasterService } from '@services/toaster.service';
 import { Constant } from '@assets/constants/constant';
 import { UploadService } from '@services/upload.service';
 import { DraggableContainerService } from '@services/draggable.service';
+import { LabelsService } from "@services/labels.service";
 
 @Component({
     templateUrl: './pdd.component.html',
@@ -30,7 +31,12 @@ export class PddComponent implements OnInit {
     apiCheck = false;
     leadId: number;
     isDisableCpcSubmit: boolean;
-
+    vehicleRegPattern: {
+        rule?: any;
+        msg?: string;
+      }[];
+    checkInForm: boolean;
+    labels;
 
     constructor(private location: Location,
                 private pddDetailsService: PddDetailsService,
@@ -40,9 +46,12 @@ export class PddComponent implements OnInit {
                 private toasterService: ToasterService,
                 private uploadService: UploadService,
                 private draggableContainerService: DraggableContainerService,
-                private activatedRoute: ActivatedRoute) {
+                private activatedRoute: ActivatedRoute,
+                private labelsData: LabelsService,) {
                 }
     ngOnInit() {
+        this.getLabels();
+        this.vehicleRegPattern = this.validateCustomPattern();
         const currentUrl = this.location.path();
         const roles = this.loginStoreService.getRolesAndUserDetails();
         this.activatedRoute.params.subscribe((params) => {
@@ -58,6 +67,31 @@ export class PddComponent implements OnInit {
             });
         });   
     }
+    getLabels() {
+        this.labelsData.getLabelsData().subscribe(
+          (data: any) => (this.labels = data),
+          // (error) => console.log("Vehicle Valuation Label Error", error)
+        );
+      }
+
+    validateCustomPattern() {
+        const regPatternData = [
+          {
+            rule: (inputValue) => {
+              let patttern = '^[A-Z]{2}[ -][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$';
+              if (inputValue.length === 10) {
+                return !RegExp(/[A-Z-a-z]{2}[0-9]{2}[A-Z-a-z]{2}[0-9]{4}/).test(inputValue);
+              } else if (inputValue.length === 9) {
+                return !RegExp(/[A-Z-a-z]{2}[0-9]{2}[A-Z-a-z]{1}[0-9]{4}/).test(inputValue)
+              } else {
+                return true
+              }
+            },
+            msg: 'Invalid Vehicle Registration Number, Valid Formats are: TN02AB1234/TN02A1234',
+          }
+        ];
+        return regPatternData;
+      }
 
     initForm() {
         this.pddForm = new FormGroup({
@@ -232,6 +266,10 @@ export class PddComponent implements OnInit {
         });
 
         if (!this.isSales) {
+          const isInvalid = this.pddForm.get('numberForm').get('regNumber').invalid;
+          if (isInvalid) {
+              return this.toasterService.showError('Please enter valid registration no', '');
+           }
           data = {
             pddDocumentDetails: formatArrValue,
             pddVehicleDetails: {
@@ -386,6 +424,7 @@ export class PddComponent implements OnInit {
                    const error = response.error;
                    if (error.code === '0') {
                        this.toasterService.showSuccess('Submitted successfully', '');
+                       this.location.back();
                    }
                 }
             });
