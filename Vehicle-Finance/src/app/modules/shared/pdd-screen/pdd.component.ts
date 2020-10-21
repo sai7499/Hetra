@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 
 import { PddDetailsService } from '@services/pdd-details.service';
@@ -27,6 +28,8 @@ export class PddComponent implements OnInit {
     selectedDocDetails;
     toDayDate: Date = new Date();
     apiCheck = false;
+    leadId: number;
+    isDisableCpcSubmit: boolean;
 
 
     constructor(private location: Location,
@@ -36,19 +39,24 @@ export class PddComponent implements OnInit {
                 private loginStoreService: LoginStoreService,
                 private toasterService: ToasterService,
                 private uploadService: UploadService,
-                private draggableContainerService: DraggableContainerService) {
+                private draggableContainerService: DraggableContainerService,
+                private activatedRoute: ActivatedRoute) {
                 }
     ngOnInit() {
         const currentUrl = this.location.path();
         const roles = this.loginStoreService.getRolesAndUserDetails();
-        if (roles) {
-            this.isSales = roles.roles[0].roleType === 1;
-        }
-        this.initForm();
-        this.lovService.getLovData().subscribe((lov: any) => {
-             this.lovs = lov;
-             this.getPddDetailsData();
-        });
+        this.activatedRoute.params.subscribe((params) => {
+            console.log('params', params);
+            this.leadId = Number(params.leadId || 0);
+            if (roles) {
+                this.isSales = roles.roles[0].roleType === 1;
+            }
+            this.initForm();
+            this.lovService.getLovData().subscribe((lov: any) => {
+                 this.lovs = lov;
+                 this.getPddDetailsData();
+            });
+        });   
     }
 
     initForm() {
@@ -60,14 +68,14 @@ export class PddComponent implements OnInit {
                 expectedDate: new FormControl('')
             }),
             numberForm: new FormGroup({
-                registrationNumber: new FormControl(''),
-                engineNumber: new FormControl(''),
-                chasisNumber: new FormControl('')
+                regNumber: new FormControl(''),
+                engNumber: new FormControl(''),
+                chasNumber: new FormControl('')
             }),
             processForm: new FormGroup({
                 orcStatus: new FormControl(''),
                 orcRemarks: new FormControl(''),
-                receivedDate: new FormControl(''),
+                orcReceivedDate: new FormControl(''),
             }),
             pddDocumentDetails: new FormArray([])
         });
@@ -75,7 +83,7 @@ export class PddComponent implements OnInit {
 
     getPddDetailsData() {
         const data = {
-            leadId: 2295,
+            leadId: this.leadId,
             userId: localStorage.getItem('userId')
         };
 
@@ -85,9 +93,19 @@ export class PddComponent implements OnInit {
                 const response = res.ProcessVariables;
                 this.pddDocumentDetails = response.pddDocumentDetails;
                 this.modifiedOrcStatusList = response.modifiedOrcStatusList;
-                this.updateDocumentDetailsTable(this.pddDocumentDetails);
                 if (this.isSales) {
-                    // this.updateDocumentDetailsTable(this.pddDocumentDetails);
+                    let pddDocumentList = response.pddDocumentList;
+                    if (!this.pddDocumentDetails) {
+                        pddDocumentList = pddDocumentList.map((value) => {
+                            return {
+                                docName: value.value,
+                                docId: value.key
+                            };
+                        });
+                        this.updateDocumentDetailsTable(pddDocumentList);
+                    } else {
+                        this.updateDocumentDetailsTable(this.pddDocumentDetails);
+                    }
                     this.pddForm.get('processForm').get('orcStatus').setValue(response.orcStatus);
                     if (response.orcStatus === 'RECDFRMRTOAGNTPDDDOCS') {
                         this.isDisableSubmitToCpc = false;
@@ -96,18 +114,19 @@ export class PddComponent implements OnInit {
                         this.isDisableSubmitToCpc = true;
                         this.apiCheck = false;
                     }
-                } 
+                } else {
+                    this.updateDocumentDetailsTable(this.pddDocumentDetails);
+                    this.isDisableCpcSubmit = !this.pddDocumentDetails.every((value) => {
+                        return value.cpcStatus === 'VRIFIEDPDDDOCSSTS';
+                    });
+                }
                 const loanFormData  = {
                     disbursementDate: this.utilityService.getDateFromString(response.disbursementDate) || '',
                     expectedDate: this.utilityService.getDateFromString(response.expectedDate) || '',
                     loanNumber: response.loanNumber || '',
                     applicantName: response.applicantName || ''
                 };
-                const numberFormData = {
-                    registrationNumber: response.registrationNumber || '',
-                    engineNumber: response.engineNumber || '',
-                    chasisNumber: response.chasisNumber || '',
-                };
+                const numberFormData = response.pddVehicleDetails;
                 this.updateLoanForm(loanFormData);
                 this.updateNumberForm(numberFormData);
                 this.updateProcessForm(response);
@@ -118,7 +137,7 @@ export class PddComponent implements OnInit {
         const loanForm =  this.pddForm.get('loanForm');
         loanForm.patchValue({
             disbursementDate: value.disbursementDate,
-            engineNumber: value.engineNumber,
+            engNumber: value.engNumber,
             loanNumber: value.loanNumber,
             applicantName: value.applicantName,
             expectedDate: value.expectedDate,
@@ -130,20 +149,26 @@ export class PddComponent implements OnInit {
         processForm.patchValue({
             orcRemarks: value.orcRemarks || '',
             orcStatus: value.orcStatus || '',
-            receivedDate: value.receivedDate || ''
+            orcReceivedDate: this.utilityService.getDateFromString(value.orcReceivedDate) || ''
         });
     }
 
     updateNumberForm(value) {
+       if (!value) {
+           return;
+       }
        const numberForm =  this.pddForm.get('numberForm');
        numberForm.patchValue({
-        registrationNumber: value.registrationNumber,
-        engineNumber: value.engineNumber,
-        chasisNumber: value.chasisNumber
+        regNumber: value.regNumber || '',
+        engNumber: value.engNumber || '',
+        chasNumber: value.chasNumber || ''
        });
     }
 
     updateDocumentDetailsTable(data) {
+        if (!data) {
+            return;
+        }
         const formArray = this.pddForm.get('pddDocumentDetails') as FormArray;
         data.forEach((value) => {
             const formGroup = new FormGroup({
@@ -218,7 +243,7 @@ export class PddComponent implements OnInit {
                pddDocumentDetails: formatArrValue,
                pddVehicleDetails: {
                 ...processForm,
-                receivedDate: this.utilityService.getDateFormat(processForm.receivedDate) || '' 
+                orcReceivedDate: this.utilityService.getDateFormat(processForm.orcReceivedDate) || '' 
             }};
         }
         console.log('data', data);
@@ -229,12 +254,12 @@ export class PddComponent implements OnInit {
     checkValidation() {
         if (this.isSales) {
             const processForm = this.pddForm.get('processForm').value;
-            if (!processForm.orcStatus || !processForm.receivedDate || !processForm.orcRemarks) {
+            if (!processForm.orcStatus || !processForm.orcReceivedDate || !processForm.orcRemarks) {
                return true;
             }
         } else {
             const numberForm = this.pddForm.get('numberForm').value;
-            if (!numberForm.registrationNumber || !numberForm.engineNumber || !numberForm.chasisNumber) {
+            if (!numberForm.regNumber || !numberForm.engNumber || !numberForm.chasNumber) {
                return true;
             }
         }
@@ -242,24 +267,38 @@ export class PddComponent implements OnInit {
 
     callUpdateAPI(value, check?: any) {
         const data = {
-            leadId: 2295,
+            leadId: this.leadId,
             userId: localStorage.getItem('userId'),
             ...value
         };
         this.pddDetailsService.updatePddDetails(data)
             .subscribe((value: any) => {
                 console.log('value', value);
-                const response = value.ProcessVariables;
-                if (this.isSales && check) {
-                    const pddVehicleDetails = response.pddVehicleDetails;
-                    if (pddVehicleDetails.orcStatus === 'RECDFRMRTOAGNTPDDDOCS') {
-                        this.isDisableSubmitToCpc = false;
-                        this.apiCheck = true;
-                    } else {
-                        this.isDisableSubmitToCpc = true;
-                        this.apiCheck = false;
+                // const response = value.ProcessVariables;
+                if (value.Error === '0') {
+                    const response = value.ProcessVariables;
+                    const error = response.error;
+                    if (error.code === '0') {
+                        this.toasterService.showSuccess('Updated successfully', '');
                     }
-                }
+                    if (this.isSales && check) {
+                        const pddVehicleDetails = response.pddVehicleDetails;
+                        if (pddVehicleDetails.orcStatus === 'RECDFRMRTOAGNTPDDDOCS') {
+                            this.isDisableSubmitToCpc = false;
+                            this.apiCheck = true;
+                        } else {
+                            this.isDisableSubmitToCpc = true;
+                            this.apiCheck = false;
+                        }
+                    }
+
+                    if (!this.isSales) {
+                        const pddDocumentDetails = response.pddDocumentDetails;
+                        this.isDisableCpcSubmit = !pddDocumentDetails.every((detail) => {
+                            return detail.cpcStatus === 'VRIFIEDPDDDOCSSTS';
+                        });
+                    }
+                 }
             });
     }
 
@@ -278,6 +317,8 @@ export class PddComponent implements OnInit {
         const check = details.some((value) => {
             if (this.isSales) {
                 return !value.collectedDate || !value.courieredDate || !value.docNumber || !value.dmsDocId || !value.podNumber;
+            } else {
+                return !value.cpcStatus || !value.cpcReceivedDate || !value.phyTrackingNum;
             }
         });
         console.log('check', check);
@@ -322,16 +363,31 @@ export class PddComponent implements OnInit {
         };
     }
 
+    onBack() {
+        this.location.back();
+    }
+
     onSubmit() {
         const data = {
-            leadId: 2295,
+            leadId: this.leadId,
             userId: localStorage.getItem('userId'),
-            isSubmit: false
+            isSubmit: true
         };
-
+        if (this.isSales) {
+            data.isSubmit = false;
+        } else {
+            data.isSubmit = true;
+        }
         this.pddDetailsService.submitPDD(data)
-            .subscribe((value) => {
+            .subscribe((value: any) => {
                 console.log('submit', value);
+                if (value.Error === '0') {
+                   const response = value.ProcessVariables;
+                   const error = response.error;
+                   if (error.code === '0') {
+                       this.toasterService.showSuccess('Submitted successfully', '');
+                   }
+                }
             });
 
     }
@@ -375,6 +431,15 @@ export class PddComponent implements OnInit {
           this.uploadService
             .getDocumentBase64String(documentId)
             .subscribe((value) => {
+                //rslt
+
+              const msgHdr = value['dwnldDocumentRep'].msgHdr;
+              if (msgHdr.rslt !== 'OK') {
+                const error = value['dwnldDocumentRep'].msgHdr.error[0];
+                if (error && error.cd === 'BWENGINE-100067') {
+                    return this.toasterService.showError('Invalid document number' , '');
+                }
+              }
               const imageUrl = value['dwnldDocumentRep'].msgBdy.bsPyld;
               const documentName = value['dwnldDocumentRep'].msgBdy.docNm || '';
               const imageType = documentName.split('.')[1].toLowerCase();

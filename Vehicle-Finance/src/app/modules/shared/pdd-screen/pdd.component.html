@@ -102,7 +102,7 @@
                   <td><app-vf-custom-select formControlName="cpcStatus" [values]="lovs?.LOVS?.pddDocumentsCpcStatus">
                     </app-vf-custom-select></td>
                   <td><kendo-datepicker class="form-control mandatory" formControlName="cpcReceivedDate"
-                    [format]="'dd/MM/yyyy'"  [activeView]="'decade'">
+                    [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [max]="toDayDate">
                   </kendo-datepicker></td>
                   <td><app-custom-input
                     formControlName="phyTrackingNum"
@@ -152,7 +152,7 @@
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="middle_name">Received Date</label>
-              <kendo-datepicker class="form-control mandatory" formControlName="receivedDate"
+              <kendo-datepicker class="form-control mandatory" formControlName="orcReceivedDate"
                     [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [max]="toDayDate">
                   </kendo-datepicker>
             </div>
@@ -164,6 +164,13 @@
             </div>
           </div>
           <div class="btn-sec clear-both row">
+            <!-- <div class="col-sm-4 text-right">
+              <a id="back_vehicle_details"
+                ><button class="btn btn-primary" type="button" (click)="onBack()">
+                  Back
+                </button></a
+              >
+            </div> -->
             <div class="col-sm-6 text-right">
               <a id="back_vehicle_details"
                 ><button class="btn btn-primary" type="button" (click)="callAPIForNumberForm()">
@@ -173,7 +180,7 @@
             </div>
             <div class="col-sm-6 text-left"><span id="edit_vehicle_details_replace"></span>
               <a id="back_vehicle_details"
-                ><button class="btn btn-primary" type="button" [disabled]="isDisableSubmitToCpc">
+                ><button class="btn btn-primary" type="button" [disabled]="isDisableSubmitToCpc" (click)="onSubmit()">
                   Submit to CPC
                 </button></a
               >
@@ -187,7 +194,7 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="middle_name">Registration No</label>
             <app-custom-input
-              formControlName="registrationNumber"
+              formControlName="regNumber"
               [className]="'form-control mandatory'"
               >
             </app-custom-input>
@@ -197,7 +204,7 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="middle_name">Engine Number</label>
             <app-custom-input
-              formControlName="engineNumber"
+              formControlName="engNumber"
               [className]="'form-control mandatory'"
               >
             </app-custom-input>
@@ -207,7 +214,7 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="middle_name">Chassis Number</label>
             <app-custom-input
-              formControlName="chasisNumber"
+              formControlName="chasNumber"
               [className]="'form-control mandatory'"
               >
             </app-custom-input>
@@ -223,7 +230,7 @@
           </div>
           <div class="col-sm-6 text-left"><span id="edit_vehicle_details_replace"></span>
             <a id="back_vehicle_details"
-              ><button class="btn btn-primary" type="button" (click)="onSubmit()">
+              ><button class="btn btn-primary" type="button" (click)="onSubmit()" [disabled]="isDisableCpcSubmit">
                 Submit
               </button></a
             >

@@ -242,11 +242,7 @@ const routes: Routes = [
         {
           path: 'pdd/:leadId',
           component: PddComponent
-        },
-        {
-          path: 'pdd',
-          component: PddComponent
-        },
+        }
     ],
   },
 ];

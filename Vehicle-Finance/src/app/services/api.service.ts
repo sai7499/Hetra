@@ -762,7 +762,7 @@ export class ApiService {
     submitPDD: {
       processId: '01ace50a122c11ebbbdd00505695f93b',
       workflowId: '017caffc122c11ebb4b900505695f93b',
-      projectId: environment.projectIds.salesProjectId,
+      projectId: environment.projectIds.taskProjectId,
     },
     fetchPreimumAmount: {
       processId: '3c99e428d71811eabcf800505695f93b',

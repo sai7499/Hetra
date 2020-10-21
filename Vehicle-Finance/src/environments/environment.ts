@@ -17,6 +17,7 @@ export const environment = {
     creditProjectId: '6cc61c5ca7e811ea800cf2fa9bec3d63',
     submitToCredit: '403a8a12b79511ea8afff2fa9bec3d63',
     externalApi: 'db2732f4ab4811ea82f8f2fa9bec3d63',
+    taskProjectId: '403a8a12b79511ea8afff2fa9bec3d63',
     reinitiatePdApi: '403a8a12b79511ea8afff2fa9bec3d63',
     reinititateFiApi: '403a8a12b79511ea8afff2fa9bec3d63',
     camProjectId: '74c36bec6da211eabdc2f2fa9bec3d63',
