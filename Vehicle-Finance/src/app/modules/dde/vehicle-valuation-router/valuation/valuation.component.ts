@@ -220,6 +220,30 @@ export class ValuationComponent implements OnInit {
       this.vehicleAddress = this.vehicleValuationDetails.vehicleAddress;
       this.vehiclePincode = this.vehicleValuationDetails.pincode;
       this.assetCostGrid = this.vehicleValuationDetails.gridAmt;
+
+      // patching lovs for vehicle details
+      this.vehicleLov.assetMake = [{
+        key: this.vehicleValuationDetails.vehicleMfrUniqueCode,
+        value: this.vehicleValuationDetails.vehicleMfrCode
+      }];
+
+      this.vehicleLov.assetBodyType = [{
+        key: this.vehicleValuationDetails.vehicleSegmentUniqueCode,
+        value: this.vehicleValuationDetails.vehicleSegmentCode
+      }];
+
+      this.vehicleLov.assetModel = [
+        {
+          key: this.vehicleValuationDetails.vehicleModelCode,
+          value: this.vehicleValuationDetails.vehicleModel
+        }
+      ];
+
+      this.vehicleLov.vehicleType = [{
+        key: this.vehicleValuationDetails.vehicleTypeUniqueCode,
+        value: this.vehicleValuationDetails.vehicleTypeCode
+      }];
+
       this.setFormValue();
       // console.log("VALUATION DATE****", this.vehicleValuationDetails.valuationDate);
     });
@@ -242,6 +266,7 @@ export class ValuationComponent implements OnInit {
       vehicleAvailGrid: ["", Validators.required],
       region: ["", Validators.required],
       vehicleType: ["", Validators.required],
+      vehicleId: 0,
       assetMake: ["", Validators.required],
       assetModel: ["", Validators.required],
       assetBodyType: ['', Validators.required],
@@ -361,7 +386,7 @@ export class ValuationComponent implements OnInit {
             vehicleType: '',
             assetBodyType: '',
             assetModel: '',
-            assetVariant: ''
+            // assetVariant: ''
           });
         } else {
           this.vehicleLov.assetMake = []
@@ -404,7 +429,7 @@ export class ValuationComponent implements OnInit {
               vehicleType: '',
               assetBodyType: '',
               assetModel: '',
-              assetVariant: ''
+              // assetVariant: ''
             })
 
           } else {
@@ -451,7 +476,7 @@ export class ValuationComponent implements OnInit {
             obj.patchValue({
               assetBodyType: '',
               assetModel: '',
-              assetVariant: ''
+              // assetVariant: ''
             })
 
           } else {
@@ -474,26 +499,25 @@ export class ValuationComponent implements OnInit {
     this.assetModelType = this.assetBodyType.filter((data) => data.uniqueSegmentCode === value)
     this.vehicleLov.assetModel = this.utilityService.getValueFromJSON(this.assetModelType,
       'vehicleModelCode', 'vehicleModel');
+    console.log(this.assetModelType, 'data', this.vehicleLov);
     obj.patchValue({
       assetModel: '',
-      assetVariant: ''
+      // assetVariant: ''
     });
   }
 
   onAssetModel(value: any, obj) {
     this.assetVariant = this.assetModelType.filter((data) => data.vehicleModelCode === value);
     const array = this.utilityService.getCommonUniqueValue(this.assetVariant, 'vehicleVariant');
-    // const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-    // formArray.controls[0].patchValue({
-    //   vehicleId: array.length > 0 ? Number(array[0].vehicleCode) : 0
-    // })
+    this.vehicleValuationForm.get('vehicleId').setValue(
+      array.length > 0 ? Number(array[0].vehicleCode) : 0);
 
-    this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVariant,
-      'vehicleCode', 'vehicleVariant');
+    // this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVariant,
+    //   'vehicleCode', 'vehicleVariant');
 
-    obj.patchValue({
-      assetVariant: ''
-    });
+    // obj.patchValue({
+    //   assetVariant: ''
+    // });
 
   }
 

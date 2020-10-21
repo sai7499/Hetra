@@ -320,7 +320,7 @@
               [id]="'asset_model'"
               formControlName="assetModel"
               [isRequired]="'Asset Model Required'"
-              (change)="onAssetModel($event.target.value)"
+              (change)="onAssetModel($event.target.value,vehicleValuationForm)"
               [isDirty]="isDirty"
             >
             </app-vf-custom-select>
