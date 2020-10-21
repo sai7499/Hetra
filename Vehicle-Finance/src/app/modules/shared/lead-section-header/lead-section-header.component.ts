@@ -47,7 +47,7 @@ export class LeadSectionHeaderComponent implements OnInit {
   ngOnInit() {
     // this.leadId = (await this.getLeadId()) as number;
     const operationType = this.toggleDdeService.getOperationType()
-    this.isEnableDdeButton = !this.toggleDdeService.getDdeClickedValue() && (operationType === '1' || operationType === '2');
+    this.isEnableDdeButton = !this.toggleDdeService.getDdeClickedValue() && (operationType);
     this.getLabels();
     if (this.leadId) {
       // console.log(this.aRoute.snapshot)

@@ -26,69 +26,73 @@
               [routerLink]="['./vehicle-list']" [ngClass]="{ 'js-active': locationIndex >= 2 }">
               Collaterals
             </button>
+            <button class="multisteps-form__progress-btn second-row" type="button" id="credit_reference_details"
+              [routerLink]="['./reference']" [ngClass]="{ 'js-active': locationIndex >= 3 }">
+              Reference
+            </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_fleet_details"
-              [routerLink]="['./fleet-details']" [ngClass]="{ 'js-active': locationIndex >= 3 }">
+              [routerLink]="['./fleet-details']" [ngClass]="{ 'js-active': locationIndex >= 4 }">
               Fleet
             </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_liveloan"
-              [routerLink]="['./exposure']" [ngClass]="{ 'js-active': locationIndex >= 4 }">
+              [routerLink]="['./exposure']" [ngClass]="{ 'js-active': locationIndex >= 5 }">
               Exposure
             </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_income_details"
-              [routerLink]="['./income-details']" [ngClass]="{ 'js-active': locationIndex >= 5 }">
+              [routerLink]="['./income-details']" [ngClass]="{ 'js-active': locationIndex >= 6 }">
               Income Details
             </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_psl_data"
-              [routerLink]="['./psl-data']" [ngClass]="{ 'js-active': locationIndex >= 6 }">
+              [routerLink]="['./psl-data']" [ngClass]="{ 'js-active': locationIndex >= 7 }">
               PSL Data
             </button>
             <button *ngIf="productCatCode != 'NCV'" class="multisteps-form__progress-btn second-row" type="button" id="credit_vehicle_valuation"
-              [routerLink]="['./vehicle-valuation']" [ngClass]="{ 'js-active': locationIndex >= 7 }">
+              [routerLink]="['./vehicle-valuation']" [ngClass]="{ 'js-active': locationIndex >= 8 }">
               Vehicle Valuation
             </button>
           </div>
           <div *ngIf="!show" class="progress-box second-box">
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_tvr_details"
-              [routerLink]="['./tvr-details']" [ngClass]="{ 'js-active': locationIndex >= 8 }">
+              [routerLink]="['./tvr-details']" [ngClass]="{ 'js-active': locationIndex >= 9 }">
               TVR
             </button>
 
             <button class="multisteps-form__progress-btn second-row" type="button" id="fi-report"
-              [routerLink]="['./fi-list']" [ngClass]="{ 'js-active': locationIndex >= 9 }"
+              [routerLink]="['./fi-list']" [ngClass]="{ 'js-active': locationIndex >= 10 }"
               *ngIf="fiCumPdStatus == false">
               FI Report
             </button>
 
             <button class="multisteps-form__progress-btn second-row" type="button" id="pd-report"
-              [routerLink]="['./pd-list']" [ngClass]="{ 'js-active': locationIndex >= 10 }"
+              [routerLink]="['./pd-list']" [ngClass]="{ 'js-active': locationIndex >= 11 }"
               *ngIf="fiCumPdStatus == false">
               PD Report
             </button>
 
             <button class="multisteps-form__progress-btn second-row" type="button" id="pd-report"
-              [routerLink]="['./pd-list']" [ngClass]="{ 'js-active': locationIndex >= 10 }"
+              [routerLink]="['./pd-list']" [ngClass]="{ 'js-active': locationIndex >= 11 }"
               *ngIf="fiCumPdStatus == true">
               FI Cum PD Report
             </button>
 
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_vehicle_viability"
-              [routerLink]="['./viability-list']" [ngClass]="{ 'js-active': locationIndex >= 11 }">
+              [routerLink]="['./viability-list']" [ngClass]="{ 'js-active': locationIndex >= 12 }">
               Viability
             </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_vehicle_viability"
-              [routerLink]="['./cibil-od']" [ngClass]="{ 'js-active': locationIndex >= 12 }">
+              [routerLink]="['./cibil-od']" [ngClass]="{ 'js-active': locationIndex >= 13 }">
               OD Details
             </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_score_card"
-              [routerLink]="['./score-card']" [ngClass]="{ 'js-active': locationIndex >= 13 }">
+              [routerLink]="['./score-card']" [ngClass]="{ 'js-active': locationIndex >= 14 }">
               Score Card
             </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_cam"
-              [routerLink]="['./cam']" [ngClass]="{ 'js-active': locationIndex >= 14 }">
+              [routerLink]="['./cam']" [ngClass]="{ 'js-active': locationIndex >= 15 }">
               CAM
             </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_deviations"
-              [routerLink]="['./deviations']" [ngClass]="{ 'js-active': locationIndex >= 15 }">
+              [routerLink]="['./deviations']" [ngClass]="{ 'js-active': locationIndex >= 16 }">
               Deviations
             </button>
             <!-- <button class="multisteps-form__progress-btn second-row" type="button" id="credit_insurance"
@@ -119,68 +123,72 @@
               [routerLink]="['./vehicle-list']" [ngClass]="{ 'js-active': locationIndex >= 2 }">
               Collaterals
             </button>
+            <button class="multisteps-form__progress-btn second-row" type="button" id="credit_reference_details"
+              [routerLink]="['./reference']" [ngClass]="{ 'js-active': locationIndex >= 3 }">
+              Reference
+            </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_fleet_details"
-              [routerLink]="['./fleet-details']" [ngClass]="{ 'js-active': locationIndex >= 3 }">
+              [routerLink]="['./fleet-details']" [ngClass]="{ 'js-active': locationIndex >= 4 }">
               Fleet
             </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_liveloan"
-              [routerLink]="['./exposure']" [ngClass]="{ 'js-active': locationIndex >= 4 }">
+              [routerLink]="['./exposure']" [ngClass]="{ 'js-active': locationIndex >= 5 }">
               Exposure
             </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_income_details"
-              [routerLink]="['./income-details']" [ngClass]="{ 'js-active': locationIndex >= 5 }">
+              [routerLink]="['./income-details']" [ngClass]="{ 'js-active': locationIndex >= 6 }">
               Income Details
             </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_psl_data"
-              [routerLink]="['./psl-data']" [ngClass]="{ 'js-active': locationIndex >= 6 }">
+              [routerLink]="['./psl-data']" [ngClass]="{ 'js-active': locationIndex >= 7 }">
               PSL Data
             </button>
             <button *ngIf="productCatCode != 'NCV'" class="multisteps-form__progress-btn second-row" type="button" id="credit_vehicle_valuation"
-              [routerLink]="['./vehicle-valuation']" [ngClass]="{ 'js-active': locationIndex >= 7 }">
+              [routerLink]="['./vehicle-valuation']" [ngClass]="{ 'js-active': locationIndex >= 8 }">
               Vehicle Valuation
             </button>
          
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_tvr_details"
-              [routerLink]="['./tvr-details']" [ngClass]="{ 'js-active': locationIndex >= 8 }">
+              [routerLink]="['./tvr-details']" [ngClass]="{ 'js-active': locationIndex >= 9 }">
               TVR
             </button>
 
             <button class="multisteps-form__progress-btn second-row" type="button" id="fi-report"
-              [routerLink]="['./fi-list']" [ngClass]="{ 'js-active': locationIndex >= 9 }"
+              [routerLink]="['./fi-list']" [ngClass]="{ 'js-active': locationIndex >= 10 }"
               *ngIf="fiCumPdStatus == false">
               FI Report
             </button>
 
             <button class="multisteps-form__progress-btn second-row" type="button" id="pd-report"
-              [routerLink]="['./pd-list']" [ngClass]="{ 'js-active': locationIndex >= 10 }"
+              [routerLink]="['./pd-list']" [ngClass]="{ 'js-active': locationIndex >= 11 }"
               *ngIf="fiCumPdStatus == false">
               PD Report
             </button>
 
             <button class="multisteps-form__progress-btn second-row" type="button" id="pd-report"
-              [routerLink]="['./pd-list']" [ngClass]="{ 'js-active': locationIndex >= 10 }"
+              [routerLink]="['./pd-list']" [ngClass]="{ 'js-active': locationIndex >= 11 }"
               *ngIf="fiCumPdStatus == true">
               FI Cum PD Report
             </button>
 
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_vehicle_viability"
-              [routerLink]="['./viability-list']" [ngClass]="{ 'js-active': locationIndex >= 11 }">
+              [routerLink]="['./viability-list']" [ngClass]="{ 'js-active': locationIndex >= 12 }">
               Viability
             </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_vehicle_viability"
-              [routerLink]="['./cibil-od']" [ngClass]="{ 'js-active': locationIndex >= 12 }">
+              [routerLink]="['./cibil-od']" [ngClass]="{ 'js-active': locationIndex >= 13 }">
               OD Details
             </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_score_card"
-              [routerLink]="['./score-card']" [ngClass]="{ 'js-active': locationIndex >= 13 }">
+              [routerLink]="['./score-card']" [ngClass]="{ 'js-active': locationIndex >= 14 }">
               Score Card
             </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_cam"
-              [routerLink]="['./cam']" [ngClass]="{ 'js-active': locationIndex >= 14 }">
+              [routerLink]="['./cam']" [ngClass]="{ 'js-active': locationIndex >= 15 }">
               CAM
             </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_deviations"
-              [routerLink]="['./deviations']" [ngClass]="{ 'js-active': locationIndex >= 15 }">
+              [routerLink]="['./deviations']" [ngClass]="{ 'js-active': locationIndex >= 16 }">
               Deviations
             </button>
             <!-- <button class="multisteps-form__progress-btn second-row" type="button" id="credit_insurance"

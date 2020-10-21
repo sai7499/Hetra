@@ -63,7 +63,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
   roleId: any;
   roleType: any;
   disableSaveBtn: boolean;
-  operationType: string;
+  operationType: boolean;
   addressStatus: any;
   addressDisabled: boolean;
   addressRequired: boolean;
@@ -122,7 +122,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
     });
     this.operationType = this.toggleDdeService.getOperationType();
-    if (this.operationType === '1' || this.operationType === '2') {
+    if (this.operationType) {
       this.customerProfileForm.disable();
       this.disableSaveBtn = true;
     }
@@ -256,7 +256,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
   }
 
   onFormSubmit(action) {
-    if (this.operationType === '1' || this.operationType === '2') {
+    if (this.operationType) {
       this.onNavigateNext();
       return;
     }

@@ -844,25 +844,35 @@ export class ApiService {
       workflowId: '8b6e5f64f2bd11ea8ac000505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
-   eKYCDetails:{
-    //  workflowId:'7fde429c82ea11eabdc2f2fa9bec3d63',
-     processId:'0e9b3564095d11ebbdfe00505695f93b',
+    eKYCDetails: {
+      //  workflowId:'7fde429c82ea11eabdc2f2fa9bec3d63',
+      processId: '0e9b3564095d11ebbdfe00505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    loanBookingDedupe: {
+     workflowId: '666fe8320e9111ebb3ca00505695f93b',
+     processId : '66a05c880e9111ebb0b300505695f93b',
      projectId: environment.projectIds.salesProjectId
-   },
-   loanBookingDedupe: {
-    workflowId: '666fe8320e9111ebb3ca00505695f93b',
-    processId : '66a05c880e9111ebb0b300505695f93b',
-    projectId: environment.projectIds.salesProjectId
-   },
-   loanDedupeUpdate: {
-    workflowId: '666fe8320e9111ebb3ca00505695f93b',
-    processId : '051213a00eb211eb825000505695f93b',
-    projectId: environment.projectIds.salesProjectId
-   },
-getFoirAsPerPolicy:{
-  processId: 'ccdee5ee09f211ebb00500505695f93b',
+    },
+    loanDedupeUpdate: {
+     workflowId: '666fe8320e9111ebb3ca00505695f93b',
+     processId : '051213a00eb211eb825000505695f93b',
+     projectId: environment.projectIds.salesProjectId
+    },
+    getFoirAsPerPolicy: {
+      processId: 'ccdee5ee09f211ebb00500505695f93b',
       workflowId: 'b06ab746bf4a11eab26100505695f93b',
-      projectId: environment.projectIds.salesProjectId,
+      projectId: environment.projectIds.salesProjectId
+    },
+    applicantReference: {
+      processId: '632710f2129b11eb847f00505695f93b',
+      workflowId: '79f7d05c120311ebb36200505695f93b',
+      projectId: environment.projectIds.camProjectId
+    },
+    getApplicantReference: {
+      processId: '968db6ae121311eb9d2a00505695f93b',
+      workflowId: '79f7d05c120311ebb36200505695f93b',
+      projectId: environment.projectIds.camProjectId
     },
     reInitiateViability: {
       processId: '050da46e0ae811eb98c300505695f93b',

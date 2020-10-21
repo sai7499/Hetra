@@ -157,7 +157,7 @@ export class BasicDetailsComponent implements OnInit {
     this.leadId = (await this.getLeadId()) as number;
     //console.log('leadId', this.leadId);
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1' || operationType === '2') {
+    if (operationType) {
       this.basicForm.disable();
       this.disableSaveBtn = true;
     }
