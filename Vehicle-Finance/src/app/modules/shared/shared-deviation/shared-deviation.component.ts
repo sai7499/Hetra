@@ -96,6 +96,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       this.taskId = id ? id : '';
     })
     this.disableSaveBtn = (this.roleType === 5) ? true : false;
+    this.sharedService.getFormValidation(this.deviationsForm)
   }
 
   disableInputs() {
@@ -130,14 +131,12 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       typeOfModal: [''],
       recommendation: ['', Validators.required]
     })
-    this.sharedService.getFormValidation(this.deviationsForm)
-
   }
 
   ngOnChanges() {
     this.sharedService.updateDev$.subscribe((value: any) => {
       if (value && value.length > 0) {
-        this.getDeviationDetails()
+        this.getDeviationMaster()
       }
     })
   }
@@ -158,7 +157,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         this.toasterService.showSuccess('Deviation status updated successfully', 'Deviation approval')
         this.getDeviationDetails()
       } else {
-        this.toasterService.showError(res.ErrorMessage, 'Deviation approval')
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Deviation approval')
       }
     })
 
@@ -232,7 +231,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         }
         this.getDeviationDetails()
       } else {
-        this.toasterService.showError(res.ErrorMessage, 'Get Deviation Master')
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Deviation Master')
       }
     }, err => {
       console.log('err', err)
@@ -324,7 +323,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           this.toasterService.showSuccess('Delete Devision Successfully', 'Delete Deviation');
           this.getDeviationDetails();
         } else {
-          this.toasterService.showError(res.ErrorMessage, 'Delete Deviation')
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Delete Deviation')
         }
       })
     } else {
@@ -425,11 +424,11 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         return typeofRole;
       })
 
-      description = this.manualDeviationMaster.find((dev: any) => {
-        if (Number(data.devCode) === dev.dev_code) {
-          return dev
-        }
-      })
+      // description = this.manualDeviationMaster.find((dev: any) => {
+      //   if (Number(data.devCode) === dev.dev_code) {
+      //     return dev
+      //   }
+      // })
 
       let type = typeofRole ? Number(typeofRole.type) : 0;
       let hierarchy = typeofRole ? typeofRole.hierarchy : 0;
@@ -448,8 +447,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             hierarchy: hierarchy,
             isWaiverNormsDev: data.isWaiverNormsDev,
             justification: data.justification,
-            shortDeDesc: data.short_dev_desc,
-            otherMitigant: description.other_mitigant,
+            //shortDeDesc: data.short_dev_desc,
+            otherMitigant: data.other_mitigant,
             rulesRemarks: data.rulesRemarks,
             statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
           }))
@@ -466,11 +465,11 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
               devRuleId: data.devRuleId,
               isManualDev: data.isManualDev,
               hierarchy: hierarchy,
-              otherMitigant: description.other_mitigant,
+              otherMitigant: data.other_mitigant,
               rulesRemarks: data.rulesRemarks,
               justification: data.justification,
               isWaiverNormsDev: data.isWaiverNormsDev,
-              shortDeDesc: description.short_dev_desc,
+              //shortDeDesc: description.short_dev_desc,
               statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
             }))
         } else if (data.isManualDev === '0') {
@@ -482,10 +481,10 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
               devDesc: data.devDesc,
               devRuleId: data.devRuleId,
               isManualDev: data.isManualDev,
-              shortDeDesc: description.short_dev_desc,
+              //shortDeDesc: description.short_dev_desc,
               type: type,
               isWaiverNormsDev: data.isWaiverNormsDev,
-              otherMitigant: description.other_mitigant,
+              otherMitigant: data.other_mitigant,
               rulesRemarks: data.rulesRemarks,
               hierarchy: hierarchy,
               justification: data.justification,
@@ -493,6 +492,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             }))
         }
       }
+      //console.log('formArray', this.deviationsForm)
 
       if (this.locationIndex === 'credit-decisions') {
         this.isApprove = false;

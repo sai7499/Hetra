@@ -260,3 +260,13 @@
         visibility: visible;
         border: 2px solid white;
     }
+
+    .wid-30 {
+        width: 30%;
+        text-align-last: center;
+    }
+
+    .wid-10 {
+        width: 10%;
+        text-align-last: center;
+    }
