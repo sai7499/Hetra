@@ -41,8 +41,10 @@ export class SalesComponent implements OnInit, OnDestroy {
       return 1;
     } else if (url.includes('vehicle-list') || url.includes('add-vehicle')) {
       return 2;
-    } else if (url.includes('document-upload')) {
+    } else if (url.includes('reference')) {
       return 3;
+    } else if (url.includes('document-upload')) {
+      return 4;
     }
   }
 
