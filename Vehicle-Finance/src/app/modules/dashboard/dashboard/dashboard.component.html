@@ -313,9 +313,8 @@
           data-toggle="tab">Leads Pending with CPC</a></li>
     </ul>
     <ul *ngIf="displayTabs?.PDDforCPC === activeTab" class="nav nav-pills nav-justified" id="background_white">
-      <li (click)="leads(displayTabs?.PDDWithMe)"
-        [ngClass]="{'active':displayTabs?.PDDWithMe === subActiveTab}" routerLinkActive="active"><a
-          data-toggle="tab">Leads Pending with Me</a></li>
+      <li (click)="leads(displayTabs?.PDDWithMe)" [ngClass]="{'active':displayTabs?.PDDWithMe === subActiveTab}"
+        routerLinkActive="active"><a data-toggle="tab">Leads Pending with Me</a></li>
       <li (click)="leads(displayTabs?.PDDWithBranch)" [ngClass]="{'active':displayTabs?.PDDWithBranch === subActiveTab}"
         routerLinkActive="active"><a data-toggle="tab">Leads Pending with Branch</a></li>
     </ul>
@@ -445,10 +444,16 @@
                   class="text-underline" style="cursor: pointer;"
                   (click)="onRoute(item.leadId,item.stageCode,item.taskId); getLoanNumber(item.loanNumber)">{{item.leadId ? item.leadId : '--'}}</a>
               </td>
-              <td *ngIf="displayTabs?.LoanBooking != activeTab && (!onReleaseTab && onAssignTab)" [attr.data-label]="labels?.loanNumber">
+              <td *ngIf="displayTabs?.PDDforCPC === activeTab && (!onReleaseTab && onAssignTab)"
+                [attr.data-label]="labels?.loanNumber">
                 <a>{{item.loanNumber}}</a>
               </td>
-              <td *ngIf="displayTabs?.LoanBooking != activeTab && (onReleaseTab && !onAssignTab)"
+              <td *ngIf="displayTabs?.PDD === activeTab || displayTabs?.ChequeTracking === activeTab"
+                [attr.data-label]="labels?.loanNumber">
+                <a class="text-underline" style="cursor: pointer;"
+                  (click)="onRoute(item.leadId,item.stageCode,item.taskId); getLoanNumber(item.loanNumber)">{{item.loanNumber}}</a>
+              </td>
+              <td *ngIf="displayTabs?.PDDforCPC === activeTab && (onReleaseTab && !onAssignTab)"
                 [attr.data-label]="labels?.loanNumber"><a class="text-underline" style="cursor: pointer;"
                   (click)="onRoute(item.leadId,item.stageCode,item.taskId); getLoanNumber(item.loanNumber)">{{item.loanNumber}}</a>
               </td>
