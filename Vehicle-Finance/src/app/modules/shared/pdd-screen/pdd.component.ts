@@ -19,6 +19,7 @@ import { LabelsService } from "@services/labels.service";
     styleUrls: ['./pdd.component.css']
 })
 export class PddComponent implements OnInit {
+    showDialog: boolean;
     showModal: boolean;
     isSales: boolean;
     pddForm: FormGroup;
@@ -438,6 +439,10 @@ export class PddComponent implements OnInit {
     }
 
     onSubmit() {
+        this.showDialog = true;
+    }
+
+    callSubmitApi() {
         const data = {
             leadId: this.leadId,
             userId: localStorage.getItem('userId'),
@@ -460,7 +465,10 @@ export class PddComponent implements OnInit {
                    }
                 }
             });
+    }
 
+    onCancel() {
+        this.showDialog = false;
     }
 
     onUploadSuccess(event) {

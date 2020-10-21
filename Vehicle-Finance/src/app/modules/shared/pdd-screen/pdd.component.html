@@ -268,6 +268,52 @@
   (uploadSuccess)="onUploadSuccess($event)"
   [docsDetails]="selectedDocDetails"
 ></app-upload-modal>
+
+<div
+  class="modal"
+  id="ucicModel2"
+  [ngClass]="{ 'dis-block': showDialog }"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header text-center">
+        <!-- <h4 class="modal-title">Customer Dedupe Match Found</h4> -->
+        <!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <p id="">
+          Are you sure you want to submit?
+        </p>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          id="ucic_lead"
+          (click)="callSubmitApi()"
+        >
+          <!-- (click)="checkNegativeList()" -->
+
+          Yes
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-dismiss="modal"
+          (click)="onCancel()"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
     
   </main>
 
