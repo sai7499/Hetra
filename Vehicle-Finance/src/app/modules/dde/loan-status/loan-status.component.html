@@ -42,8 +42,7 @@
                 <td [attr.data-label]="labels?.errorMsg">{{item.errorMsg ? item.errorMsg : '--'}}</td>
                 <td *ngIf="!item.checkDuplicates" [attr.data-label]="labels?.action">{{ '--'}}</td>
                 <td *ngIf="item.checkDuplicates"[attr.data-label]="labels?.action" class="text-underline" 
-                [routerLink]="['../dedupe-check', item.applicantId]"><a>{{ 'Show Duplicate'}}</a></td>
-                
+                [routerLink]="['../dedupe-check', item.applicantId]"><a style="cursor: pointer;">{{ 'Show Duplicate'}}</a></td>
                 <!-- <td [attr.data-label]="labels?.name">{{item.name ? item.name : '--'}}</td>
                 <td [attr.data-label]="labels?.stage">{{item.stage ? item.stage : '--'}}</td>
                 <td [attr.data-label]="labels?.loanNumber">{{item.loanAccountNo ? item.loanAccountNo : '--'}}</td>
