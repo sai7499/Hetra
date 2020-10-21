@@ -23,6 +23,9 @@ export class LeadSectionHeaderComponent implements OnInit {
   loanAmount: string;
   stageDescription: string;
 
+  isEnableInitiateQuery: boolean = true;
+  isEnableBackInitiate: boolean = false;
+
   isNeedBackButton: boolean = false;
   ddeBackLabel: string;
   ddeBackRouter: string;
@@ -126,6 +129,16 @@ export class LeadSectionHeaderComponent implements OnInit {
   saveCurrentUrl() {
     const currentUrl = this.location.path();
     localStorage.setItem('currentUrl', currentUrl);
+  }
+
+  initinequery() {
+    this.isEnableInitiateQuery = false;
+    this.isEnableBackInitiate = true;
+    // this.router.navigate(['/pages/query-model' + this.leadId])
+  }
+
+  backFromQuery() {
+
   }
 
   viewOrEditDde() {
