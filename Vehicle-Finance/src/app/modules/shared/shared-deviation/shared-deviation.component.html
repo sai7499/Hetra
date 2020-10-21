@@ -178,6 +178,9 @@
                   [isRequired]="'Deviation Required'" [isDisabled]="isSubmitToCredit" [isDirty]="isDirty"
                   (change)="onGetDeviationCode($event, j)">
                 </app-vf-custom-select>
+                <div class="invalid-feedback" *ngIf="findDuplicate(item.controls['devCode'].value, j) && j > 0">
+                  Duplicate Deviation
+                </div>
               </td>
               <td class="wid-30">
                 <p>
