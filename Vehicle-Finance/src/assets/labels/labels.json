@@ -2616,7 +2616,7 @@
             },
             "type": "number",
             "patternCheck": {
-                "rule": "^[1-31]",
+                "rule": "^[1-31]{1,2}",
                 "msg": "Should be between 1-31 only"
             }
         }
