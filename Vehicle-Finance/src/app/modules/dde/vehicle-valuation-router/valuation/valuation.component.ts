@@ -87,7 +87,7 @@ export class ValuationComponent implements OnInit {
     this.vehicleRegPattern = this.validateCustomPattern();
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
-      if (operationType === '1' || operationType === '2') {
+      if (operationType) {
         this.vehicleValuationForm.disable();
         this.disableSaveBtn = true;
       }

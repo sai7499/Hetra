@@ -41,7 +41,7 @@ export class BankListComponent {
       }
     );
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1' || operationType === '2') {
+    if (operationType) {
       this.disableAddbankDetailsBtn = true;
     }
 
