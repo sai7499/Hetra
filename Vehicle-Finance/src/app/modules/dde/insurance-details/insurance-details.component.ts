@@ -52,7 +52,7 @@ export class InsuranceDetailsComponent implements OnInit {
     ]
     this.createForm();
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1' || operationType === '2') {
+    if (operationType) {
       this.InsuranceDetailForm.disable();
       this.disableSaveBtn  = true;
     }

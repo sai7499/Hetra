@@ -114,7 +114,7 @@ export class IdentityDetailsComponent implements OnInit {
     this.addIndividualFormControls();
     this.getLov();
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1' || operationType === '2') {
+    if (operationType) {
       this.identityForm.disable();
       this.disableSaveBtn = true;
     }

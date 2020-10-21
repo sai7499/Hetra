@@ -46,7 +46,7 @@ export class ApplicantDetailComponent implements OnInit {
   roleId: any;
   roleType: any;
   disableSaveBtn: boolean;
-  operationType: string;
+  operationType: boolean;
   ownerShipType: any;
   ownerNamePropertyAreaRequired: boolean;
   ownerNamePropertyAreaDisabled: boolean;
@@ -97,7 +97,7 @@ export class ApplicantDetailComponent implements OnInit {
       //  this.setFormValue();
     });
     this.operationType = this.toggleDdeService.getOperationType();
-    if (this.operationType === '1' || this.operationType === '2') {
+    if (this.operationType) {
       this.applicantForm.disable();
       this.disableSaveBtn = true;
     }
@@ -344,7 +344,7 @@ export class ApplicantDetailComponent implements OnInit {
   }
 
   onFormSubmit(action) { // fun that submits all the pd data
-    if (this.operationType === '1') {
+    if (this.operationType) {
       this.onNavigateNext();
       return;
     }
