@@ -1400,9 +1400,9 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.averageBankBalance = formValue.averageBankBalance;
     applicantDetails.rtrType = formValue.rtrType;
     applicantDetails.prevLoanAmount = formValue.prevLoanAmount;
-    applicantDetails.loanTenorServiced = formValue.loanTenorServiced;
+    applicantDetails.loanTenorServiced = Number(formValue.loanTenorServiced);
     applicantDetails.currentEMILoan = formValue.currentEMILoan;
-    applicantDetails.agriNoOfAcres = formValue.agriNoOfAcres;
+    applicantDetails.agriNoOfAcres = Number(formValue.agriNoOfAcres);
     applicantDetails.agriOwnerProperty = formValue.agriOwnerProperty;
     applicantDetails.agriAppRelationship = formValue.agriAppRelationship;
     applicantDetails.grossReceipt = formValue.grossReceipt;

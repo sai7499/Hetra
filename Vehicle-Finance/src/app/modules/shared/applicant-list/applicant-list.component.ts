@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -11,13 +11,15 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ToasterService } from '@services/toaster.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
-
+import html2pdf from 'html2pdf.js';
 
 @Component({
   templateUrl: './applicant-list.component.html',
   styleUrls: ['./applicant-list.component.css'],
 })
 export class ApplicantListComponent implements OnInit {
+  @ViewChild('draggable',{static:true}) private draggableElement: ElementRef;
+
   labels: any = {};
   showAddApplicant: boolean;
   applicantUrl: string;
@@ -40,6 +42,8 @@ export class ApplicantListComponent implements OnInit {
   probableMatches: any;
   adhaarDetails: any;
   disableSaveBtn: boolean;
+  imgeKYC: any;
+  showeKYC: boolean = false;
 
   constructor(
     private labelsData: LabelsService,
@@ -51,7 +55,7 @@ export class ApplicantListComponent implements OnInit {
     private domSanitizer: DomSanitizer,
     private toasterService: ToasterService,
     private createLeadDataService: CreateLeadDataService,
-    private toggleDdeService: ToggleDdeService
+    private toggleDdeService: ToggleDdeService,
   ) { }
 
   async ngOnInit() {
@@ -86,6 +90,7 @@ export class ApplicantListComponent implements OnInit {
         this.disableSaveBtn = true;
       }
     })
+    // this.downloadpdf();
   }
 
   getLeadId() {
@@ -161,7 +166,6 @@ export class ApplicantListComponent implements OnInit {
   }
 
   getApplicantImage(applicantID: any) {
-
     // tslint:disable-next-line: triple-equals
     if (this.backupApplicantId == applicantID) {
       this.cibilImage = this.imageUrl;
@@ -265,21 +269,55 @@ export class ApplicantListComponent implements OnInit {
       this.cibilImage = null;
     }
   }
-  geteKYCDetails(applicantId) {
-    // this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-kyc-details`);
-    this.applicantService.geteKYCDetails(applicantId).subscribe((res: any) => {
-      // const processVariables = res;
-      // console.log(processVariables);
+  
+   geteKYCDetails(applicantId) {
+   this.applicantService.geteKYCDetails(applicantId).subscribe((res: any) => {
       if (res['ProcessVariables'] && res.Error === "0") {
+        // this.showeKYC = true;
         this.appicanteKYCDetails = res['ProcessVariables'];
         this.panDetails = this.appicanteKYCDetails['panDetails'];
         this.adhaarDetails = this.appicanteKYCDetails['aadharDetails'];
         this.dedupeMatchedCriteria = this.appicanteKYCDetails['dedupeMatchedCriteria'];
         this.exactMatches = this.appicanteKYCDetails['exactMatches'];
-        this.probableMatches = this.appicanteKYCDetails['probableMatches'];
+        this.probableMatches = this.appicanteKYCDetails['probableMatches'];      
+        setTimeout(() => {
+          this.downloadpdf();
+        });
       } else {
-        this.toasterService.showError(res['ProcessVariables'].error["message"], '')
+        // this.toasterService.showError(res['ProcessVariables'].error["message"], '')
+        this.imgeKYC = res.ProcessVariables.error.message;
+        setTimeout(() => {
+          this.showeKYC = true;
+        });
       }
     });
   }
+  
+ async downloadpdf() {
+  document.getElementById("ekyc-to-print").classList.remove('dontdisplayed');
+  document.getElementById("ekyc-to-print").classList.add('display');
+  const html = document.getElementById('ekyc-to-print').innerHTML;
+  document.getElementById("ekyc-to-print").classList.remove('display');
+  document.getElementById("ekyc-to-print").classList.add('dontdisplayed');
+    var options = {
+      margin:[0.5, 0.5, 0.5, 0.5],
+      filename: `applicanteKYC${this.leadId}`,
+      image: { type: 'jpeg', quality: 1 },
+      jsPDF: { unit: 'mm', orientation: 'p',format: 'A4' },
+      html2canvas: {scale: 1.5,  logging:true},
+    }
+     html2pdf().from(html)
+    .set(options).outputImg('datauristring').then(res => {
+      this.imgeKYC = this.domSanitizer.bypassSecurityTrustResourceUrl(res);
+      setTimeout(() => {
+        this.showeKYC = true;
+      });
+           })
+        }
+
+        destroyeKYCImage() {
+          if (this.imgeKYC) {
+            this.imgeKYC = null;
+          }
+        }
 }
