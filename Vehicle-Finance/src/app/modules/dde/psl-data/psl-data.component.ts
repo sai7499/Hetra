@@ -304,7 +304,7 @@ export class PslDataComponent implements OnInit {
       if (this.pslData === null) {
         setTimeout(() => {
           const operationType = this.toggleDdeService.getOperationType();
-          if (operationType === '1' || operationType === '2') {
+          if (operationType) {
             this.pslDataForm.disable();
             this.disableSaveBtn = true;
           }
@@ -347,7 +347,7 @@ export class PslDataComponent implements OnInit {
         });
         setTimeout(() => {
           const operationType = this.toggleDdeService.getOperationType();
-          if (operationType === '1' || operationType === '2') {
+          if (operationType) {
             this.pslDataForm.disable();
             this.disableSaveBtn = true;
           }
@@ -403,7 +403,7 @@ export class PslDataComponent implements OnInit {
       }
       setTimeout(() => {
         const operationType = this.toggleDdeService.getOperationType();
-        if (operationType === '1' || operationType === '2') {
+        if (operationType) {
           this.pslDataForm.disable();
           this.disableSaveBtn = true;
         }

@@ -579,7 +579,7 @@ export class TrackVehicleComponent implements OnInit {
       }
       this.fleetRtrDetails = this.formArr.getRawValue();
       const operationType = this.toggleDdeService.getOperationType();
-      if (operationType === '1' || operationType === '2') {
+      if (operationType) {
         this.trackVehicleForm.disable();
         this.disableActionBtn = true;
       }
