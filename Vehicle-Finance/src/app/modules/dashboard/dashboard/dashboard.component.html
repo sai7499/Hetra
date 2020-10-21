@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="pull-right dropdown nav">
       <div class="pull-right dropdown nav">
-        <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i>
+        <button *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab" class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i>
           {{!isFilterApplied ? "Filter" : "Filter Applied"}} </button>
       </div>
       <!-- <div *ngIf="isFilterApplied" class="pull-right dropdown nav">
@@ -416,7 +416,7 @@
                 {{labels?.disbursementDate}}<i class="fa fa-sort"></i> </th>
               <th *ngIf="displayTabs?.PDD === activeTab || displayTabs?.PDDforCPC === activeTab">
                 {{labels?.expectedDate}}<i class="fa fa-sort"></i> </th>
-              <th *ngIf="displayTabs?.PDD === activeTab">{{labels?.status}}<i class="fa fa-sort"></i> </th>
+              <!-- <th *ngIf="displayTabs?.PDD === activeTab">{{labels?.status}}<i class="fa fa-sort"></i> </th> -->
               <th *ngIf="displayTabs?.PDDforCPC === activeTab">{{labels?.branch}}<i class="fa fa-sort"></i> </th>
               <th *ngIf="displayTabs?.LoanBooking === activeTab || displayTabs?.ChequeTracking === activeTab">
                 {{labels?.loanAmount}}<i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}"
@@ -472,8 +472,8 @@
               </td>
               <td *ngIf="displayTabs?.PDD === activeTab || displayTabs?.PDDforCPC === activeTab"
                 [attr.data-label]="labels?.expectedDate">{{item.expectedDate ? item.expectedDate : '--'}}</td>
-              <td *ngIf="displayTabs?.PDD === activeTab" [attr.data-label]="labels?.status">
-                {{item.stageValue ? item.stageValue : '--'}}</td>
+              <!-- <td *ngIf="displayTabs?.PDD === activeTab" [attr.data-label]="labels?.status">
+                {{item.stageValue ? item.stageValue : '--'}}</td> -->
               <td *ngIf="displayTabs?.PDDforCPC === activeTab" [attr.data-label]="labels?.branch">
                 {{item.branchName ? item.branchName : '--'}}</td>
               <td *ngIf="displayTabs?.LoanBooking === activeTab || displayTabs?.ChequeTracking === activeTab"
