@@ -1884,7 +1884,7 @@
         },
         "podNumber": {
             "maxLength": {
-                "rule": 50
+                "rule": 30
             },
             "type": "alpha-numeric"
         },
