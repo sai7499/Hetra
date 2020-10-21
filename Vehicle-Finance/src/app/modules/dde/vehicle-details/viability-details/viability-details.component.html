@@ -694,11 +694,12 @@
                                 <app-custom-input
                                 [id]="gross_income_perday"
                                 formControlName="businessEarningPerDay"
-                                [patternCheck]=" label?.validationData?. daysFormat?.patternCheck"
+                                
                                 [maxLength]="label?.validationData?. daysFormat?.maxLength"
                                 [type]="label?.validationData?. daysFormat?.type"
                                 [isRequired]="'Earnings Per Day Is Required'"
                                 [isDirty]="isDirty"
+                                [custom]="daysCheck"
                                 (keyup)="calculateStandOperator()"
                                 [placeholder]="'Enter Business Earning Per Day'"
                                 ></app-custom-input>
@@ -938,7 +939,7 @@
                                 <app-custom-input
                                 [id]="num_earnings_perday"
                                 formControlName="businessEarningPerDay"
-                                [patternCheck]=" label?.validationData?. daysFormat?.patternCheck"
+                                [custom]="daysCheck"
                                 [maxLength]="label?.validationData?. daysFormat?.maxLength"
                                 [type]="label?.validationData?. daysFormat?.type"
                                 [isRequired]="'Business Earning Per Day Is Required'"
