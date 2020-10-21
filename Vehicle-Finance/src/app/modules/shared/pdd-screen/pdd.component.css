@@ -5,3 +5,7 @@
   .h3-margin {
     margin: 0 !important;
   }
+
+  .btn-margin-right {
+    margin-right: 30px;
+  }

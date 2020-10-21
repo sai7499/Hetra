@@ -241,6 +241,9 @@ export class PddComponent implements OnInit {
         });
 
         console.log('formatArrValue', formatArrValue);
+        if (this.checkDocsIsUploaded()) {
+            return;
+        }
         if (this.checkTableValidation()) {
             return this.toasterService.showError('Please enter all fields', '');
         }
@@ -349,6 +352,7 @@ export class PddComponent implements OnInit {
     }
 
     checkTableValidation() {
+        
         const formArray = this.pddForm.get('pddDocumentDetails') as FormArray;
         const details = formArray.value;
         console.log('details', details);
@@ -362,6 +366,18 @@ export class PddComponent implements OnInit {
         console.log('check', check);
         return check;
 
+    }
+
+    checkDocsIsUploaded() {
+        const formArray = this.pddForm.get('pddDocumentDetails') as FormArray;
+        const details = formArray.value;
+        for (let i = 0; i < details.length; i++) {
+            const detail = details[i];
+            if (!detail.docNumber) {
+                 this.toasterService.showError('Please upload document', '');
+                 return true;
+            }
+        }
     }
 
     uploadDocs(index) {
