@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="pull-right dropdown nav">
       <div class="pull-right dropdown nav">
-        <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i>
+        <button *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab" class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i>
           {{!isFilterApplied ? "Filter" : "Filter Applied"}} </button>
       </div>
       <!-- <div *ngIf="isFilterApplied" class="pull-right dropdown nav">
@@ -42,50 +42,53 @@
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="startDate">{{labels.leadCreatedOnStartDate}}</label>
             <kendo-datepicker class="form-control" formControlName="fromDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
-              placeholder="Start Date" (ngModelChange)="onChangeFromDate($event)" [activeView]="'decade'"></kendo-datepicker>
-              
+              placeholder="Start Date" (ngModelChange)="onChangeFromDate($event)" [activeView]="'decade'">
+            </kendo-datepicker>
+
           </div>
           <div [ngClass]="{'disablField': !filterForm.get('fromDate').value}"
             class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="endDate">{{labels.leadCreatedOnEndDate}}</label>
             <kendo-datepicker class="form-control" formControlName="toDate" [format]="'dd/MM/yyyy'"
-              [min]="filterForm.get('fromDate').value" (ngModelChange)="onChangeEndDate($event)" [max]="toDayDate" placeholder="End Date" [activeView]="'decade'">
+              [min]="filterForm.get('fromDate').value" (ngModelChange)="onChangeEndDate($event)" [max]="toDayDate"
+              placeholder="End Date" [activeView]="'decade'">
             </kendo-datepicker>
             <!-- <div *ngIf="isFromDate">
                 End Date is required
             </div> -->
             <div *ngIf="fromDateChange && isFromDate">
               <div style="color:red">
-                  End Date is required
+                End Date is required
               </div>
-          </div>
+            </div>
           </div>
         </div>
         <div class="row">
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="minAmount">{{labels.loanMinAmount}}</label>
             <app-custom-input id="minAmount" formControlName="loanMinAmt" [className]="'form-control'"
-              [placeholder]="'Enter Loan amount'" (ngModelChange)="onMinAmtChange($event)" [maxLength]="validationData?.amountValue.maxLength"
-              [type]="validationData?.amountValue.type">
+              [placeholder]="'Enter Loan amount'" (ngModelChange)="onMinAmtChange($event)"
+              [maxLength]="validationData?.amountValue.maxLength" [type]="validationData?.amountValue.type">
             </app-custom-input>
           </div>
           <div [ngClass]="{'disablField': !filterForm.get('loanMinAmt').value}"
             class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="maxAmount">{{labels.loanMaxAmount}}</label>
             <app-custom-input id="maxAmount" formControlName="loanMaxAmt" [className]="'form-control'"
-              [placeholder]="'Enter Loan amount'" (ngModelChange)="onMaxAmtChange($event)" [maxLength]="validationData?.amountValue.maxLength"
-              [type]="validationData?.amountValue.type">
+              [placeholder]="'Enter Loan amount'" (ngModelChange)="onMaxAmtChange($event)"
+              [maxLength]="validationData?.amountValue.maxLength" [type]="validationData?.amountValue.type">
             </app-custom-input>
             <div *ngIf="minLoanAmtChange && isAmountChange">
               <div style="color:red">
-                  Amount should be grater then min amount is required
+                Amount should be grater then min amount is required
               </div>
-          </div>
+            </div>
           </div>
           <div class="actionbtn col-sm-6 col-md-3 col-lg-3">
             <button class="btn btn-default mar-right8" type="button" id="clearbtn"
               (click)="onClear(); showFilter=!showFilter"> Clear </button>
-            <button class="btn btn-primary" [disabled]="isFromDate || isAmountChange" type="submit" (click)="onApply()"> Apply </button>
+            <button class="btn btn-primary" [disabled]="isFromDate || isAmountChange" type="submit" (click)="onApply()">
+              Apply </button>
           </div>
         </div>
       </form>
@@ -118,9 +121,9 @@
       <li (click)="onLeads(displayTabs?.PreDisbursementQueue, displayTabs?.PreDisbursementWithMe)"
         [ngClass]="{'active':displayTabs?.PreDisbursementQueue === activeTab}" routerLinkActive="active"><a
           data-toggle="tab">Pre-Disbursement</a></li>
-          <li (click)="onLeads(displayTabs?.TermSheet, displayTabs?.TermSheetWithMe)"
-          [ngClass]="{'active':displayTabs?.TermSheet === activeTab}" 
-          routerLinkActive="active"><a data-toggle="tab">Term Sheet</a></li>
+      <li (click)="onLeads(displayTabs?.TermSheet, displayTabs?.TermSheetWithMe)"
+        [ngClass]="{'active':displayTabs?.TermSheet === activeTab}" routerLinkActive="active"><a data-toggle="tab">Term
+          Sheet</a></li>
     </ul>
   </div>
 
@@ -128,6 +131,14 @@
     <ul *ngIf="displayTabs?.Leads === activeTab" class="nav nav-pills nav-justified" id="background_white">
       <li (click)="leads(displayTabs?.NewLeads)" [ngClass]="{'active':displayTabs?.NewLeads === subActiveTab}"
         routerLinkActive="active" id="leads"><a data-toggle="tab">New Leads</a></li>
+      <!--  -->
+      <!-- <li (click)="leads(displayTabs?.SanctionedWithMe)"
+        [ngClass]="{'active':displayTabs?.SanctionedWithMe === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Sanctioned Leads Pending with Me</a></li>
+      <li (click)="leads(displayTabs?.SanctionedWithBranch)"
+        [ngClass]="{'active':displayTabs?.SanctionedWithBranch === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Sanctioned Leads Pending with Branch</a></li> -->
+      <!--  -->
       <li (click)="leads(displayTabs?.SanctionedWithMe)"
         [ngClass]="{'active':displayTabs?.SanctionedWithMe === subActiveTab}" routerLinkActive="active"><a
           data-toggle="tab">Sanctioned Leads Pending with Me</a></li>
@@ -287,6 +298,9 @@
           Checker</a></li>
       <li (click)="onLeads(displayTabs?.LoanBooking)" [ngClass]="{'active':displayTabs?.LoanBooking === activeTab}"
         routerLinkActive="active"><a data-toggle="tab">Loan Booking</a></li>
+      <li (click)="onLeads(displayTabs?.PDDforCPC, displayTabs?.PDDWithMe)"
+        [ngClass]="{'active':displayTabs?.PDDforCPC === activeTab}" routerLinkActive="active"><a
+          data-toggle="tab">PDD</a></li>
     </ul>
   </div>
   <div class="container-fluid mar-bottom" *ngIf="roleType == '5'">
@@ -298,12 +312,18 @@
         [ngClass]="{'active':displayTabs?.CPCCheckerWithBranch === subActiveTab}" routerLinkActive="active"><a
           data-toggle="tab">Leads Pending with CPC</a></li>
     </ul>
+    <ul *ngIf="displayTabs?.PDDforCPC === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="leads(displayTabs?.PDDWithMe)" [ngClass]="{'active':displayTabs?.PDDWithMe === subActiveTab}"
+        routerLinkActive="active"><a data-toggle="tab">Leads Pending with Me</a></li>
+      <li (click)="leads(displayTabs?.PDDWithBranch)" [ngClass]="{'active':displayTabs?.PDDWithBranch === subActiveTab}"
+        routerLinkActive="active"><a data-toggle="tab">Leads Pending with Branch</a></li>
+    </ul>
   </div>
 
   <div>
     <div class="container-fluid">
       <table
-        *ngIf="displayTabs?.PDD != activeTab && displayTabs?.ChequeTracking != activeTab && displayTabs?.LoanBooking != activeTab">
+        *ngIf="displayTabs?.PDD != activeTab && displayTabs?.ChequeTracking != activeTab && displayTabs?.LoanBooking != activeTab && displayTabs?.PDDforCPC != activeTab">
         <thead>
           <tr class="table-head-bg">
             <th *ngIf="onReleaseTab || onAssignTab">{{labels?.action}}</th>
@@ -328,26 +348,38 @@
         <tbody>
           <tr
             *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
-            <td [attr.data-label]="labels?.action" *ngIf="onReleaseTab">
+            <!-- <td [attr.data-label]="labels?.action" *ngIf="onReleaseTab">
               <input type="button" class="btn btn-primary"
                 (click)="onRelase(item.taskId, item.leadId); assignTaskId(item.taskId, item.leadId); onClick()" value="Release"
                 data-toggle="modal" data-target="#releaseModal">
+            </td> -->
+            <!--  -->
+            <td [attr.data-label]="labels?.action" *ngIf="onReleaseTab">
+              <input type="button" class="btn btn-primary"
+                (click)="onRelase(item.taskId, item.leadId); assignTaskId(item.taskId, item.leadId); onClick()"
+                value="Release" data-toggle="modal" data-target="#releaseModal">
+              <!-- <a title="Self-Assign" data-toggle="modal" data-target="#supervisorTaskAssign"><i
+                  class="glyphicon glyphicon-retweet" aria-hidden="true"></i></a> -->
             </td>
+            <!--  -->
             <td [attr.data-label]="labels?.action" *ngIf="onAssignTab">
               <input type="button" class="btn btn-primary"
                 (click)="onAssign(item.taskId, item.leadId);  assignTaskId(item.taskId); onClick(); getLeadId(item)"
                 value="Assign" data-toggle="modal" data-target="#assignModel" />
             </td>
-            <td [attr.data-label]="labels?.leadID" *ngIf="!onReleaseTab && !onAssignTab" class="text-underline"
-              (click)="onRoute(item.leadId,item.stageCode,item.taskId); assignTaskId(item.taskId); getLeadId(item)"
-              style="cursor: pointer;">
-              {{item.leadId}}</td>
-            <td [attr.data-label]="labels?.leadID" *ngIf="onReleaseTab && !onAssignTab" class="text-underline"
-              (click)="getLeadId(item); onRoute(item.leadId,item.stageCode,item.taskId); assignTaskId(item.taskId)"
-              style="cursor: pointer;">
-              {{item.leadId}}</td>
+            <td [attr.data-label]="labels?.leadID" *ngIf="!onReleaseTab && !onAssignTab">
+              <a class="text-underline"
+                (click)="onRoute(item.leadId,item.stageCode,item.taskId); assignTaskId(item.taskId); getLeadId(item)"
+                style="cursor: pointer;">{{item.leadId}}</a>
+            </td>
+            <td [attr.data-label]="labels?.leadID" *ngIf="onReleaseTab && !onAssignTab">
+              <a class="text-underline"
+                (click)="getLeadId(item); onRoute(item.leadId,item.stageCode,item.taskId); assignTaskId(item.taskId)"
+                style="cursor: pointer;">{{item.leadId}}</a>
+            </td>
             <td [attr.data-label]="labels?.leadID" *ngIf="!onReleaseTab && onAssignTab">
-              {{item.leadId}}</td>
+              <a>{{item.leadId}}</a>
+            </td>
             <!-- <td [attr.data-label]="labels?.leadID" class="text-underline" *ngIf="roleType == '2'"><a (click)="assignTaskId(item.taskId); getLeadId(item)">{{item.leadId}}</a></td> -->
             <td [attr.data-label]="labels?.applicantName">{{item.applicantName ? item.applicantName : '--'}}</td>
             <td [attr.data-label]="labels?.product">{{item.product ? item.product : '--'}}</td>
@@ -368,45 +400,88 @@
       </table>
       <div>
         <table
-          *ngIf="displayTabs?.PDD === activeTab || displayTabs?.ChequeTracking === activeTab || displayTabs?.LoanBooking === activeTab">
+          *ngIf="displayTabs?.PDD === activeTab || displayTabs?.ChequeTracking === activeTab || displayTabs?.LoanBooking === activeTab || displayTabs?.PDDforCPC === activeTab">
           <thead>
             <tr class="table-head-bg">
+              <th *ngIf="(onReleaseTab || onAssignTab) && displayTabs?.PDDforCPC === activeTab">{{labels?.action}}</th>
               <th *ngIf="displayTabs?.LoanBooking === activeTab">{{labels?.leadID}}</th>
-              <th *ngIf="displayTabs?.LoanBooking === activeTab">{{labels?.loanAccNumber}}<i class="fa fa-sort"></i> </th>
-              <th *ngIf="displayTabs?.LoanBooking !== activeTab">{{labels?.loanNumber}}<i class="fa fa-sort"></i> </th>
-              <th>{{labels?.productCategory}}<i class="fa fa-sort"></i> </th>
-              <th>{{labels?.loanAmount}}<i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}"
-                  (click)="onSort(sortTables?.ByLoanAmt)"></i> </th>
-              <th *ngIf="displayTabs?.PDD === activeTab || displayTabs?.LoanBooking === activeTab ">
-                {{labels?.applicant+'s'}}<i class="fa fa-sort"></i> </th>
-              <th *ngIf="displayTabs?.ChequeTracking === activeTab">{{labels?.applicantName}}<i class="fa fa-sort"></i>
+              <th *ngIf="displayTabs?.LoanBooking === activeTab">{{labels?.loanAccNumber}}<i class="fa fa-sort"></i>
               </th>
+              <th *ngIf="displayTabs?.LoanBooking !== activeTab">{{labels?.loanNumber}}<i class="fa fa-sort"></i> </th>
+              <th *ngIf="displayTabs?.LoanBooking != activeTab">{{labels?.applicantName+' Name'}}<i
+                  class="fa fa-sort"></i>
+              </th>
+              <th>{{labels?.productCategory}}<i class="fa fa-sort"></i> </th>
+              <th *ngIf="displayTabs?.PDD === activeTab || displayTabs?.PDDforCPC === activeTab">
+                {{labels?.disbursementDate}}<i class="fa fa-sort"></i> </th>
+              <th *ngIf="displayTabs?.PDD === activeTab || displayTabs?.PDDforCPC === activeTab">
+                {{labels?.expectedDate}}<i class="fa fa-sort"></i> </th>
+              <!-- <th *ngIf="displayTabs?.PDD === activeTab">{{labels?.status}}<i class="fa fa-sort"></i> </th> -->
+              <th *ngIf="displayTabs?.PDDforCPC === activeTab">{{labels?.branch}}<i class="fa fa-sort"></i> </th>
+              <th *ngIf="displayTabs?.LoanBooking === activeTab || displayTabs?.ChequeTracking === activeTab">
+                {{labels?.loanAmount}}<i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}"
+                  (click)="onSort(sortTables?.ByLoanAmt)"></i> </th>
+              <th *ngIf="displayTabs?.LoanBooking === activeTab">
+                {{labels?.applicant+'s'}}<i class="fa fa-sort"></i> </th>
+              <!-- <th *ngIf="displayTabs?.LoanBooking != activeTab">{{labels?.applicantName}}<i class="fa fa-sort"></i>
+              </th> -->
             </tr>
           </thead>
           <tbody>
             <tr
               *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
-              <td *ngIf="displayTabs?.LoanBooking === activeTab" [attr.data-label]="labels?.leadID"
-                class="text-underline" (click)="getLoanNumber(item.loanNumber)"><a
-                  [routerLink]="[ '/pages/loanbooking', item.leadId,'loan-booking-status' ]">{{item.leadId ? item.leadId : '--'}}</a>
+              <td [attr.data-label]="labels?.action" *ngIf="onReleaseTab && displayTabs?.PDDforCPC === activeTab">
+                <input type="button" class="btn btn-primary"
+                  (click)="onRelase(item.taskId, item.leadId); assignTaskId(item.taskId, item.leadId); onClick()"
+                  value="Release" data-toggle="modal" data-target="#releaseModal">
               </td>
-              <td *ngIf="displayTabs?.PDD === activeTab" [attr.data-label]="labels?.loanNumber" class="text-underline"
-                (click)="getLoanNumber(item.loanNumber)"><a
-                  [routerLink]="['/pages/dde', item.leadId,'pdd-details']">{{item.loanNumber}}</a>
+              <td [attr.data-label]="labels?.action" *ngIf="onAssignTab && displayTabs?.PDDforCPC === activeTab">
+                <input type="button" class="btn btn-primary"
+                  (click)="onAssign(item.taskId, item.leadId);  assignTaskId(item.taskId); onClick(); getLeadId(item)"
+                  value="Assign" data-toggle="modal" data-target="#assignModel" />
               </td>
-              <td *ngIf="displayTabs?.ChequeTracking === activeTab" [attr.data-label]="labels?.loanNumber"
-                class="text-underline" (click)="getLoanNumber(item.loanNumber)"><a
-                  [routerLink]="[ '/pages/dde', item.leadId,'cheque-tracking' ]">{{item.loanNumber}}</a>
+              <td *ngIf="displayTabs?.LoanBooking === activeTab" [attr.data-label]="labels?.leadID"><a
+                  class="text-underline" style="cursor: pointer;"
+                  (click)="onRoute(item.leadId,item.stageCode,item.taskId); getLoanNumber(item.loanNumber)">{{item.leadId ? item.leadId : '--'}}</a>
               </td>
+              <td *ngIf="displayTabs?.PDDforCPC === activeTab && (!onReleaseTab && onAssignTab)"
+                [attr.data-label]="labels?.loanNumber">
+                <a>{{item.loanNumber}}</a>
+              </td>
+              <td *ngIf="displayTabs?.PDD === activeTab || displayTabs?.ChequeTracking === activeTab"
+                [attr.data-label]="labels?.loanNumber">
+                <a class="text-underline" style="cursor: pointer;"
+                  (click)="onRoute(item.leadId,item.stageCode,item.taskId); getLoanNumber(item.loanNumber)">{{item.loanNumber}}</a>
+              </td>
+              <td *ngIf="displayTabs?.PDDforCPC === activeTab && (onReleaseTab && !onAssignTab)"
+                [attr.data-label]="labels?.loanNumber"><a class="text-underline" style="cursor: pointer;"
+                  (click)="onRoute(item.leadId,item.stageCode,item.taskId); getLoanNumber(item.loanNumber)">{{item.loanNumber}}</a>
+              </td>
+              <!-- <td *ngIf="displayTabs?.PDDforCPC === activeTab" [attr.data-label]="labels?.loanNumber"
+                class="text-underline" (click)="onRoute(item.leadId,item.stageCode,item.taskId); getLoanNumber(item.loanNumber)"><a
+                  >{{item.loanNumber}}</a>
+              </td> -->
               <td *ngIf="displayTabs?.LoanBooking === activeTab" [attr.data-label]="labels?.loanNumber">
                 <a>{{item.loanAccountNo ? item.loanAccountNo : '--'}}</a></td>
+              <td *ngIf="displayTabs?.LoanBooking != activeTab" [attr.data-label]="labels?.applicantName">
+                {{item.applicantName ? item.applicantName : '--'}}</td>
 
               <td [attr.data-label]="labels?.productCategory">{{item.product ? item.product : '--'}}</td>
-              <td [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
-              <td *ngIf="displayTabs?.ChequeTracking != activeTab" [attr.data-label]="labels?.applicants">
+              <td *ngIf="displayTabs?.PDD === activeTab || displayTabs?.PDDforCPC === activeTab"
+                [attr.data-label]="labels?.disbursementDate">{{item.disbursementDate ? item.disbursementDate : '--'}}
+              </td>
+              <td *ngIf="displayTabs?.PDD === activeTab || displayTabs?.PDDforCPC === activeTab"
+                [attr.data-label]="labels?.expectedDate">{{item.expectedDate ? item.expectedDate : '--'}}</td>
+              <!-- <td *ngIf="displayTabs?.PDD === activeTab" [attr.data-label]="labels?.status">
+                {{item.stageValue ? item.stageValue : '--'}}</td> -->
+              <td *ngIf="displayTabs?.PDDforCPC === activeTab" [attr.data-label]="labels?.branch">
+                {{item.branchName ? item.branchName : '--'}}</td>
+              <td *ngIf="displayTabs?.LoanBooking === activeTab || displayTabs?.ChequeTracking === activeTab"
+                [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
+              <td *ngIf="displayTabs?.LoanBooking === activeTab" [attr.data-label]="labels?.applicants">
                 {{item.applicants ? item.applicants : '--'}}</td>
-              <td *ngIf="displayTabs?.ChequeTracking === activeTab" [attr.data-label]="labels?.applicantName">
-                {{item.applicantName ? item.applicantName : '--'}}</td>
+              <!-- <td *ngIf="displayTabs?.LoanBooking != activeTab" [attr.data-label]="labels?.applicantName">
+                {{item.applicantName ? item.applicantName : '--'}}</td> -->
             </tr>
           </tbody>
         </table>
@@ -431,6 +506,27 @@
         <nav class="col-lg-6 col-md-6 col-sm-9 col-xs-9 text-right top-padding">
           <pagination-controls previousLabel="" nextLabel="" (pageChange)="setPage($event)"></pagination-controls>
         </nav>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Supervisor Modal Box -->
+
+  <div class="modal" id="supervisorTaskAssign">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Task Assign</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer text-center">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">
+            Close
+          </button>
+        </div>
       </div>
     </div>
   </div>
