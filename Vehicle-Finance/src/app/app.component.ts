@@ -240,22 +240,22 @@ export class AppComponent implements OnInit {
       }
   });
 
-  window.addEventListener('popstate', (event) => {
-    if(!window.location.href.includes('/login') && localStorage.getItem('token') && environment.production) {
-        history.go(1);
-        if(!this.showConfirmFlag) {
-          if (confirm('Are you sure you want to logout?')) {
-            this.showConfirmFlag = true;
-            this.utilityService.logOut();
-          } else {
-            this.showConfirmFlag = true;
-              this.sharedService.browserPopState(false);
-        }
-      }
+  // window.addEventListener('popstate', (event) => {
+  //   if(!window.location.href.includes('/login') && localStorage.getItem('token') && environment.production) {
+  //       history.go(1);
+  //       if(!this.showConfirmFlag) {
+  //         if (confirm('Are you sure you want to logout?')) {
+  //           this.showConfirmFlag = true;
+  //           this.utilityService.logOut();
+  //         } else {
+  //           this.showConfirmFlag = true;
+  //             this.sharedService.browserPopState(false);
+  //       }
+  //     }
 
-    }
+  //   }
         
-  });
+  // });
 
 
       window.addEventListener('unload',(event)=> {
