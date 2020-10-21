@@ -37,6 +37,7 @@ export class PddComponent implements OnInit {
       }[];
     checkInForm: boolean;
     labels;
+    pddDocumentList;
 
     constructor(private location: Location,
                 private pddDetailsService: PddDetailsService,
@@ -127,13 +128,20 @@ export class PddComponent implements OnInit {
                 const response = res.ProcessVariables;
                 this.pddDocumentDetails = response.pddDocumentDetails;
                 this.modifiedOrcStatusList = response.modifiedOrcStatusList;
+                this.pddDocumentList = response.pddDocumentList;
                 if (this.isSales) {
                     let pddDocumentList = response.pddDocumentList;
                     if (!this.pddDocumentDetails) {
                         pddDocumentList = pddDocumentList.map((value) => {
                             return {
                                 docName: value.value,
-                                docId: value.key
+                                docId: value.key,
+                                name: value.docType,
+                                categoryCode: value.categoryCode,
+                                docType: value.docType,
+                                categoryName: value.categoryName,
+                                docTypCd: value.docId,
+                                subCategoryCode: value.subCategoryCode,
                             };
                         });
                         this.updateDocumentDetailsTable(pddDocumentList);
@@ -209,13 +217,18 @@ export class PddComponent implements OnInit {
                 collectedDate: new FormControl(this.utilityService.getDateFromString(value.collectedDate) || ''),
                 courieredDate: new FormControl(this.utilityService.getDateFromString(value.courieredDate) || ''),
                 cpcReceivedDate: new FormControl(this.utilityService.getDateFromString(value.cpcReceivedDate) || ''),
-                docName: new FormControl(value.docName || ''),
+                docName: new FormControl(value.docType || ''),
                 docNumber: new FormControl(value.docNumber || ''),
                 podNumber: new FormControl(value.podNumber || ''),
                 cpcStatus: new FormControl(value.cpcStatus || ''),
                 phyTrackingNum: new FormControl(value.phyTrackingNum || ''),
                 dmsDocId: new FormControl(value.dmsDocId || ''),
-                docId: new FormControl(value.docId || '')
+                docId: new FormControl(value.docId || ''),
+                docCtgryCd: new FormControl(value.categoryCode),
+                docSbCtgry: new FormControl(value.docType),
+                docCatg: new FormControl(value.categoryName),
+                docTypCd: new FormControl(value.docId),
+                docSbCtgryCd: new FormControl(value.subCategoryCode || value.name)
             });
             formArray.push(formGroup);
         });
@@ -241,11 +254,11 @@ export class PddComponent implements OnInit {
         });
 
         console.log('formatArrValue', formatArrValue);
-        if (this.checkDocsIsUploaded()) {
-            return;
-        }
         if (this.checkTableValidation()) {
             return this.toasterService.showError('Please enter all fields', '');
+        }
+        if (this.checkDocsIsUploaded()) {
+            return;
         }
         this.callUpdateAPI({pddDocumentDetails: formatArrValue});
     }
@@ -358,7 +371,7 @@ export class PddComponent implements OnInit {
         console.log('details', details);
         const check = details.some((value) => {
             if (this.isSales) {
-                return !value.collectedDate || !value.courieredDate || !value.docNumber || !value.dmsDocId || !value.podNumber;
+                return !value.collectedDate || !value.courieredDate || !value.docNumber || !value.podNumber;
             } else {
                 return !value.cpcStatus || !value.cpcReceivedDate || !value.phyTrackingNum;
             }
@@ -373,8 +386,11 @@ export class PddComponent implements OnInit {
         const details = formArray.value;
         for (let i = 0; i < details.length; i++) {
             const detail = details[i];
-            if (!detail.docNumber) {
-                 this.toasterService.showError('Please upload document', '');
+            const docName = this.pddDocumentList.find((value) => {
+                return value.key == detail.docId;
+            })
+            if (!detail.dmsDocId) {
+                 this.toasterService.showError(`Please upload document for ${docName.value}`, '');
                  return true;
             }
         }
@@ -383,14 +399,14 @@ export class PddComponent implements OnInit {
     uploadDocs(index) {
         const formArray = this.pddForm.get('pddDocumentDetails') as FormArray;
         // const docNm = formArray['controls'][index].get('docName').value;
-        const docNm = 'ACCOUNT_OPENING_FORM';
-        const docCtgryCd = 70;
+        const docNm = formArray['controls'][index].get('docName').value;
+        const docCtgryCd = formArray['controls'][index].get('docCtgryCd').value;
         const docTp = 'LEAD';
-        const docSbCtgry = 'ACCOUNT OPENING FORM';
-        const docCatg = 'KYC - I';
+        const docSbCtgry = formArray['controls'][index].get('docSbCtgry').value;
+        const docCatg = formArray['controls'][index].get('docCatg').value;
         const docCmnts = 'Addition of document for Lead Creation';
-        const docTypCd = 276;
-        const docSbCtgryCd = 204;
+        const docTypCd = formArray['controls'][index].get('docTypCd').value;
+        const docSbCtgryCd = formArray['controls'][index].get('docSbCtgryCd').value;
 
         this.showModal = true;
         this.selectedDocDetails = {

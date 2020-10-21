@@ -241,7 +241,8 @@ const routes: Routes = [
         },
         {
           path: 'pdd/:leadId',
-          component: PddComponent
+          component: PddComponent,
+          resolve: { leadData: LeadDataResolverService },
         }
     ],
   },
