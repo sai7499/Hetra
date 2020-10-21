@@ -27,6 +27,7 @@ import { DocsUploadPipe } from './pipes/docs-upload.pipe';
 import { DraggableComponent } from './draggable-container/draggable-container.component';
 import { ApplicantDocsUploadComponent } from './applicant-docs-upload/applicant-docs-upload.component';
 import { ApplicantKycDetailsComponent } from './applicant-kyc-details/applicant-kyc-details.component';
+import { PddComponent } from './pdd-screen/pdd.component';
 
 import {
   BsDatepickerModule,
@@ -62,7 +63,8 @@ setTheme('bs4');
     DraggableComponent,
     ApplicantDocsUploadComponent,
     RejectReasonModalComponent,
-    ApplicantKycDetailsComponent
+    ApplicantKycDetailsComponent,
+    PddComponent
   ],
   imports: [
     CommonModule,
@@ -98,7 +100,8 @@ setTheme('bs4');
     ApplicantDocsUploadComponent,
     MatTreeModule,
     MatIconModule,
-    RejectReasonModalComponent
+    RejectReasonModalComponent,
+    PddComponent
   ],
 })
 export class SharedModule { }

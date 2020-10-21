@@ -700,7 +700,7 @@ export class DashboardComponent implements OnInit {
         this.router.navigateByUrl(`/pages/loanbooking/${this.leadId}/loan-booking-status`);
         break;
       case 16:
-        this.router.navigateByUrl(`/pages/dde/${this.leadId}/pdd-details`);
+        this.router.navigateByUrl(`/pages/pdd/${this.leadId}`);
         break;
       case 17:
         this.router.navigateByUrl(`/pages/dde/${this.leadId}/cheque-tracking`);
@@ -756,7 +756,7 @@ export class DashboardComponent implements OnInit {
         this.router.navigateByUrl(`/pages/pre-disbursement/${this.leadId}/credit-condition`);
         break;
       case 40: case 41:
-        this.router.navigateByUrl(`/pages/loanbooking/${this.leadId}/loan-booking-status`);
+        this.router.navigateByUrl(`/pages/pdd/${this.leadId}`);
         break;
 
       default:
