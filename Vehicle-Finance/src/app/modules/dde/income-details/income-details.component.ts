@@ -833,7 +833,7 @@ this.getSalariedFoirIncome();
           this.addKeyFinancialDetails(keyFinancialObj)
         }
         const operationType = this.toggleDdeService.getOperationType();
-        if (operationType === '1' || operationType === '2') {
+        if (operationType) {
           this.incomeDetailsForm.disable();
           this.disableSaveBtn = true;
         }

@@ -246,7 +246,7 @@ export class AdditionalCollateralComponent implements OnInit {
         this.collateralService.getAdditionalCollateralsDetails(Number(id)).subscribe((res: any) => {
             setTimeout(() => {
                 const operationType = this.toggleDdeService.getOperationType();
-                if (operationType === '1' || operationType === '2') {
+                if (operationType) {
                     this.disableSaveBtn = true;
                     this.collateralForm.disable()
                 }

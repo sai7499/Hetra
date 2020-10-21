@@ -6,6 +6,7 @@ import { Authguard } from '@services/authguard';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 import {TermSheetFromDashboardComponent} from './modules/dde/credit-decisions/term-sheet-from-dashboard/term-sheet-from-dashboard.component'
 import {DetectBrowserActivityService} from '@services/detect-browser-activity.service'
+import { PddComponent } from '@modules/shared/pdd-screen/pdd.component';
 const routes: Routes = [
   {
     path: '',
@@ -245,6 +246,11 @@ const routes: Routes = [
             ),
 
         },
+        {
+          path: 'pdd/:leadId',
+          component: PddComponent,
+          resolve: { leadData: LeadDataResolverService },
+        }
     ],
   },
 ];

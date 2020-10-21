@@ -103,7 +103,7 @@ export class FleetDetailsComponent implements OnInit {
   yearCheck = [];
   paidTenureCheck = [];
   fleetArrayList: FormArray;
-  operationType: string;
+  operationType: boolean;
   constructor(
 
     private labelsData: LabelsService,
@@ -683,7 +683,7 @@ export class FleetDetailsComponent implements OnInit {
         this.formArr.push(this.initRows(null));
       }
       this.operationType = this.toggleDdeService.getOperationType();
-      if (this.operationType === '1' || this.operationType === '2') {
+      if (this.operationType) {
         this.fleetForm.disable();
         this.disableSaveBtn = true;
       }
@@ -751,8 +751,8 @@ export class FleetDetailsComponent implements OnInit {
 
   }
 
-  toCollaterals() {
-    this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
+  toReference() {
+    this.router.navigate(['pages/dde/' + this.leadId + '/reference']);
   }
   toExposure() {
 
@@ -766,7 +766,7 @@ export class FleetDetailsComponent implements OnInit {
     console.log("fleet form value", this.fleetForm)
 
     this.isDirty = true;
-    if (this.operationType === '1' || this.operationType === '2' && index === 'next') {
+    if (this.operationType && index === 'next') {
       this.router.navigate(['pages/dde/' + this.leadId + '/exposure']);
       return;
     } else {

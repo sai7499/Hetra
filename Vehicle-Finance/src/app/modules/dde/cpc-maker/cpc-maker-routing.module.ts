@@ -56,14 +56,14 @@ const routes: Routes = [
             path: 'disbursement',
             component: DisbursementFormComponent
         },
-		{
-            path: 'welomce-letter',
-            component: WelomceLetterComponent
-        },
-        {
-            path: 'delivery-order',
-            component: DeliveryOrderComponent
-        }
+		// {
+        //     path: 'welomce-letter',
+        //     component: WelomceLetterComponent
+        // },
+        // {
+        //     path: 'delivery-order',
+        //     component: DeliveryOrderComponent
+        // }
     ]
 }
 ];
