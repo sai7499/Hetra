@@ -3,19 +3,20 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-6">
-          <h3 class="margin_zero">Pdd Screen</h3>
+          <h3 class="margin_zero">PDD Screen</h3>
         </div>
         <div class="col-md-6 text-right"></div>
       </div>
   
-      <div class="content">
-        <form>
+      <div class="content" [formGroup]="pddForm">
+        <form formGroupName="loanForm">
           <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="middle_name">Loan Number</label>
               <app-custom-input
                 formControlName="loanNumber"
                 [className]="'form-control mandatory'"
+                [isDisabled]="true"
                 >
               </app-custom-input>
             </div>
@@ -24,6 +25,7 @@
               <app-custom-input
                 formControlName="applicantName"
                 [className]="'form-control mandatory'"
+                [isDisabled]="true"
                 >
               </app-custom-input>
             </div>
@@ -31,23 +33,19 @@
           <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="middle_name">Disbursement Date</label>
-              <app-custom-input
-                formControlName="disbursementDate"
-                [className]="'form-control mandatory'"
-                >
-              </app-custom-input>
+              <kendo-datepicker class="form-control mandatory" formControlName="disbursementDate"
+                    [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [disabled]="true">
+                  </kendo-datepicker>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="middle_name">Expected Date</label>
-              <app-custom-input
-                formControlName="expectedDate"
-                [className]="'form-control mandatory'"
-                >
-              </app-custom-input>
+              <kendo-datepicker class="form-control mandatory" formControlName="expectedDate"
+                    [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [disabled]="true">
+                  </kendo-datepicker>
             </div>
           </div>
         </form>
-        <form action="" method="POST">
+        <form action="" method="POST" formArrayName="pddDocumentDetails">
           <div class="table-responsive" id="exact_macth_title2_sec">
             <table class="table">
               <thead>
@@ -59,26 +57,61 @@
                   <td>Couriered Date</td>
                   <ng-container *ngIf="isSales"><td>Upload</td></ng-container>
                   <td>View Document</td>
-                  <td>Status</td>
+                  <ng-container *ngIf="!isSales">
+                    <td>Status</td>
                   <td>Received Date</td>
                   <td>Physical Tracking Number</td>
+                  </ng-container>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>check1</td>
-                  <td>check2</td>
-                  <td>check3</td>
-                  <td>check4</td>
-                  <td>check5</td>
-                  <ng-container *ngIf="isSales"><td>upload</td></ng-container>
-                  <td>check6</td>
+               <ng-container *ngFor="let detail of pddForm.get('pddDocumentDetails')['controls']; let i = index">
+                <tr [formGroupName]="i">
+                  <td><app-custom-input
+                    formControlName="docName"
+                    [className]="'form-control mandatory'"
+                    [isDisabled]="true"
+                    >
+                  </app-custom-input></td>
+                  <td> <app-custom-input
+                    formControlName="docNumber"
+                    [className]="'form-control mandatory'"
+                    [isDisabled]="!isSales"
+                    >
+                  </app-custom-input></td>
+                  <td><kendo-datepicker class="form-control mandatory" formControlName="collectedDate"
+                    [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [disabled]="!isSales" [max]="toDayDate">
+                  </kendo-datepicker></td>
+                  <td><app-custom-input
+                    formControlName="podNumber"
+                    [className]="'form-control mandatory'"
+                    [isDisabled]="!isSales"
+                    >
+                  </app-custom-input></td>
+                  <td><kendo-datepicker class="form-control mandatory" formControlName="courieredDate"
+                    [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [disabled]="!isSales" [max]="toDayDate">
+                  </kendo-datepicker></td>
+                  <ng-container *ngIf="isSales"><td (click)="uploadDocs(i)"><label
+                    ><i
+                      class="fa fa-upload fa-3 custom-file-label"
+                      aria-hidden="true"
+                      id="add_more_documents_upload1a"
+                    ></i></label></td></ng-container>
+                  <td (click)="downloadDocs(i)">{{documentArray(i)}}</td>
                   <ng-container *ngIf="!isSales">
-                  <td>check7</td>
-                  <td>check8</td>
-                  <td>check9</td>
+                  <td><app-vf-custom-select formControlName="cpcStatus" [values]="lovs?.LOVS?.pddDocumentsCpcStatus">
+                    </app-vf-custom-select></td>
+                  <td><kendo-datepicker class="form-control mandatory" formControlName="cpcReceivedDate"
+                    [format]="'dd/MM/yyyy'"  [activeView]="'decade'">
+                  </kendo-datepicker></td>
+                  <td><app-custom-input
+                    formControlName="phyTrackingNum"
+                    [className]="'form-control mandatory'"
+                    >
+                  </app-custom-input></td>
                   </ng-container>
                 </tr>
+               </ng-container>
               </tbody>
             </table>
           </div>
@@ -87,7 +120,7 @@
           <div class="col-sm-6 text-right">
             <span id="edit_vehicle_details_replace"></span>
             <a id="back_vehicle_details"
-              ><button class="btn btn-primary" type="button">
+              ><button class="btn btn-primary" type="button" (click)="updateTable()">
                 Update
               </button></a
             >
@@ -95,52 +128,61 @@
           <div class="col-sm-6"></div>
         </div>
         <ng-container *ngIf="isSales">
-        <div class="row">
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="middle_name">ORC Process</label>
-            <app-custom-input
-              formControlName="orcProcess"
-              [className]="'form-control mandatory'"
-              >
-            </app-custom-input>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="middle_name">ORC Status</label>
-            <app-custom-input
-              formControlName="orcStatus"
-              [className]="'form-control mandatory'"
-              >
-            </app-custom-input>
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="middle_name">Received Date</label>
-            <app-custom-input
-              formControlName="receivedDate"
-              [className]="'form-control mandatory'"
-              >
-            </app-custom-input>
-          </div>
-        </div>
-        <div class="btn-sec clear-both row">
-          <div class="col-sm-6 text-right">
-            <a id="back_vehicle_details"
-              ><button class="btn btn-primary" type="button">
-                Update
-              </button></a
-            >
-          </div>
-          <div class="col-sm-6 text-left"><span id="edit_vehicle_details_replace"></span>
-            <a id="back_vehicle_details"
-              ><button class="btn btn-primary" type="button">
-                Submit to CPC
-              </button></a
-            >
+        <div formGroupName="processForm">
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <!-- <label for="middle_name">ORC Process</label> -->
+              <h3 class="h3-margin">ORC Process</h3>
+              <!-- <app-custom-input
+                formControlName="orcProcess"
+                [className]="'form-control mandatory'"
+                >
+              </app-custom-input> -->
             </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="middle_name">ORC Status</label>
+              <app-vf-custom-select formControlName="orcStatus" [className]="'form-control mandatory'" [values]="modifiedOrcStatusList" (valueChange)="onOrcStatusChange($event)"></app-vf-custom-select>
+              <!-- <app-custom-input
+                formControlName="orcStatus"
+                [className]="'form-control mandatory'"
+                >
+              </app-custom-input> -->
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="middle_name">Received Date</label>
+              <kendo-datepicker class="form-control mandatory" formControlName="receivedDate"
+                    [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [max]="toDayDate">
+                  </kendo-datepicker>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="middle_name">Remarks</label>
+            <textarea class="form-control mandatory" formControlName="orcRemarks"></textarea>
+            </div>
+          </div>
+          <div class="btn-sec clear-both row">
+            <div class="col-sm-6 text-right">
+              <a id="back_vehicle_details"
+                ><button class="btn btn-primary" type="button" (click)="callAPIForNumberForm()">
+                  Update
+                </button></a
+              >
+            </div>
+            <div class="col-sm-6 text-left"><span id="edit_vehicle_details_replace"></span>
+              <a id="back_vehicle_details"
+                ><button class="btn btn-primary" type="button" [disabled]="isDisableSubmitToCpc">
+                  Submit to CPC
+                </button></a
+              >
+              </div>
+          </div>
         </div>
       </ng-container>
       <ng-container *ngIf="!isSales">
+        <div formGroupName="numberForm">
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="middle_name">Registration No</label>
@@ -165,7 +207,7 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="middle_name">Chassis Number</label>
             <app-custom-input
-              formControlName="chassisNumber"
+              formControlName="chasisNumber"
               [className]="'form-control mandatory'"
               >
             </app-custom-input>
@@ -174,24 +216,34 @@
         <div class="btn-sec clear-both row">
           <div class="col-sm-6 text-right">
             <a id="back_vehicle_details"
-              ><button class="btn btn-primary" type="button">
+              ><button class="btn btn-primary" type="button" (click)="callAPIForNumberForm()">
                 Update
               </button></a
             >
           </div>
           <div class="col-sm-6 text-left"><span id="edit_vehicle_details_replace"></span>
             <a id="back_vehicle_details"
-              ><button class="btn btn-primary" type="button">
+              ><button class="btn btn-primary" type="button" (click)="onSubmit()">
                 Submit
               </button></a
             >
             </div>
         </div>
+      </div>
       </ng-container>
       </div>
     </div>
+
+    <app-upload-modal
+  [showModal]="showModal"
+  (close)="showModal = false"
+  (uploadSuccess)="onUploadSuccess($event)"
+  [docsDetails]="selectedDocDetails"
+></app-upload-modal>
     
   </main>
+
+
   
   
   

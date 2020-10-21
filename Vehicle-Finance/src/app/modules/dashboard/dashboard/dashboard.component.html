@@ -372,7 +372,7 @@
           <thead>
             <tr class="table-head-bg">
               <th *ngIf="displayTabs?.LoanBooking === activeTab">{{labels?.leadID}}</th>
-              <th *ngIf="displayTabs?.LoanBooking === activeTab">{{labels?.loanAccNumber}}<i class="fa fa-sort"></i> </th>
+              <th *ngIf="displayTabs?.LoanBooking === activeTab" >{{labels?.loanAccNumber}}<i class="fa fa-sort"></i> </th>
               <th *ngIf="displayTabs?.LoanBooking !== activeTab">{{labels?.loanNumber}}<i class="fa fa-sort"></i> </th>
               <th>{{labels?.productCategory}}<i class="fa fa-sort"></i> </th>
               <th>{{labels?.loanAmount}}<i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}"
@@ -391,12 +391,12 @@
                   [routerLink]="[ '/pages/loanbooking', item.leadId,'loan-booking-status' ]">{{item.leadId ? item.leadId : '--'}}</a>
               </td>
               <td *ngIf="displayTabs?.PDD === activeTab" [attr.data-label]="labels?.loanNumber" class="text-underline"
-                (click)="getLoanNumber(item.loanNumber)"><a
-                  [routerLink]="['/pages/dde', item.leadId,'pdd-details']">{{item.loanNumber}}</a>
+                (click)="getLoanNumber(item.loanNumber, item.leadId)"><a
+                  [routerLink]="['/pages/pdd', item.leadId]">{{item.loanNumber}}</a>
               </td>
               <td *ngIf="displayTabs?.ChequeTracking === activeTab" [attr.data-label]="labels?.loanNumber"
                 class="text-underline" (click)="getLoanNumber(item.loanNumber)"><a
-                  [routerLink]="[ '/pages/dde', item.leadId,'cheque-tracking' ]">{{item.loanNumber}}</a>
+                  [routerLink]="[ '/pages/pdd', item.leadId]">{{item.loanNumber}}</a>
               </td>
               <td *ngIf="displayTabs?.LoanBooking === activeTab" [attr.data-label]="labels?.loanNumber">
                 <a>{{item.loanAccountNo ? item.loanAccountNo : '--'}}</a></td>
