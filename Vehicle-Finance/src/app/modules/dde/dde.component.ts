@@ -140,36 +140,38 @@ export class DdeComponent implements OnInit, OnChanges {
       return 1;
     } else if (url.includes('vehicle-list')) {
       return 2;
-    } else if (url.includes('fleet-details')) {
+    } else if (url.includes('reference')) {
       return 3;
-    } else if (url.includes('exposure')) {
+    } else if (url.includes('fleet-details')) {
       return 4;
-    } else if (url.includes('income-details')) {
+    } else if (url.includes('exposure')) {
       return 5;
-    } else if (url.includes('psl-data')) {
+    } else if (url.includes('income-details')) {
       return 6;
-    } else if (url.includes('vehicle-valuation')) {
+    } else if (url.includes('psl-data')) {
       return 7;
-    } else if (url.includes('tvr-details')) {
+    } else if (url.includes('vehicle-valuation')) {
       return 8;
-    } else if (url.includes('fi-list')) {
+    } else if (url.includes('tvr-details')) {
       return 9;
-    } else if (url.includes('pd-list')) {
+    } else if (url.includes('fi-list')) {
       return 10;
+    } else if (url.includes('pd-list')) {
+      return 11;
     } else if (url.includes('viability')) {
-      return 11;
-    } else if (url.includes('viability-dashboard')) {
-      return 11;
-    } else if (url.includes('cibil-od')) {
       return 12;
-    } else if (url.includes('score-card')) {
+    } else if (url.includes('viability-dashboard')) {
+      return 12;
+    } else if (url.includes('cibil-od')) {
       return 13;
-    } else if (url.includes('cam')) {
+    } else if (url.includes('score-card')) {
       return 14;
-    } else if (url.includes('deviations')) {
+    } else if (url.includes('cam')) {
       return 15;
-    } else if (url.includes('insurance-details')) {
+    } else if (url.includes('deviations')) {
       return 16;
+    } else if (url.includes('insurance-details')) {
+      return 17;
     }
   }
 }

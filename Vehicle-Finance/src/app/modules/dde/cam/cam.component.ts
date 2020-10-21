@@ -254,7 +254,7 @@ export class CamComponent implements OnInit {
     }
 
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1' || operationType === '2') {
+    if (operationType) { 
       this.disableSaveBtn = true;
     }
 

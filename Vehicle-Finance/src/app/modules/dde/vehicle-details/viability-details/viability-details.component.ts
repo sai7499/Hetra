@@ -286,7 +286,7 @@ export class ViabilityDetailsComponent implements OnInit {
     };
 
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1' || operationType === '2') {
+    if (operationType) {
       this.viabilityForm.disable();
       this.disableSaveBtn = true;
     }

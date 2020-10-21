@@ -82,7 +82,7 @@ export class ApplicantListComponent implements OnInit {
 
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
-      if (operationType === '1' || operationType === '2') {
+      if (operationType) {
         this.disableSaveBtn = true;
       }
     })
