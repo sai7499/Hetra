@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { LoanCreationService } from '@services/loan-creation.service';
 import { ToasterService } from '@services/toaster.service';
@@ -21,7 +21,8 @@ export class DedupeCheckComponent implements OnInit {
     private location: Location,
     private loanCreationService: LoanCreationService,
     private activatedRoute: ActivatedRoute,
-    private toaster: ToasterService
+    private toaster: ToasterService,
+    private router:Router
   ) {}
 
   async ngOnInit() {
@@ -62,7 +63,8 @@ export class DedupeCheckComponent implements OnInit {
   }
 
   onBack() {
-    this.location.back();
+    this.router.navigate([`/pages/loanbooking/${this.leadId}/loan-booking-status`])
+  //  this.location.back();
   }
 
   selectedApplicant(applicant) {
@@ -86,7 +88,8 @@ export class DedupeCheckComponent implements OnInit {
         return this.toaster.showError(value.ErrorMessage, '');
       }
       this.toaster.showSuccess('Updated Successfully', '');
-      this.location.back();
+      this.router.navigate([`/pages/loanbooking/${this.leadId}/loan-booking-status`])
+      //this.location.back();
     });
   }
 
