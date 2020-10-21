@@ -1,0 +1,16 @@
+.table td {
+    text-align: left;
+  }
+  
+  .h3-margin {
+    margin: 0 !important;
+  }
+
+  .btn-margin-right {
+    margin-right: 30px;
+  }
+
+  .dis-block {
+    display: block;
+  }
+  

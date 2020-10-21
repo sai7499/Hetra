@@ -585,7 +585,7 @@ export class AddressDetailsComponent implements OnInit {
     }
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
-      if (operationType === '1' || operationType === '2') {
+      if (operationType) {
         this.addressForm.disable();
         this.disableSaveBtn = true;
       }
@@ -733,7 +733,7 @@ export class AddressDetailsComponent implements OnInit {
     const currentAddressObj =
       addressObj[Constant.CURRENT_ADDRESS] || addressObj['COMMADDADDTYP'];
 
-    if (currentAddressObj.isCurrAddSameAsOffAdd == '1') {
+    if ( currentAddressObj && currentAddressObj.isCurrAddSameAsOffAdd == '1') {
       this.onCurrAsOfficeChecked = true;
       const formArray = this.addressForm.get('details') as FormArray;
       const details = formArray.at(0);

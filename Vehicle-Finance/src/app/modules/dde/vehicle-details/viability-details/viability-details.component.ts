@@ -96,6 +96,7 @@ export class ViabilityDetailsComponent implements OnInit {
   dmsDocumentId: string;
   applicantName: any;
   disableSaveBtn: boolean;
+  daysCheck = [];
 
 
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
@@ -117,7 +118,9 @@ export class ViabilityDetailsComponent implements OnInit {
                   this.taskId = res.taskId;
                 });
                 this.isMobile = environment.isMobile;
-
+                // tslint:disable-next-line: triple-equals
+                this.daysCheck = [{rule: val => ((val  > 0  && val > 31) || val == 0 ),
+                  msg: 'Should be between 1-31'}];
                }
 
   async ngOnInit() {
@@ -286,7 +289,7 @@ export class ViabilityDetailsComponent implements OnInit {
     };
 
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1' || operationType === '2') {
+    if (operationType) {
       this.viabilityForm.disable();
       this.disableSaveBtn = true;
     }
@@ -413,7 +416,7 @@ vehicle_viability_navigate(event) {
   //  privateViability.get('netCashFlow').setValidators(Validators.required);
    privateViability.get('emi').setValidators(Validators.required);
    privateViability.get('totalExpenses').setValidators(Validators.required);
-
+  //  privateViability.get('busMonthlyIncome').setValidators(Validators.required);
   }
    private StandOverViability() {
     const privateStandViability = this.viabilityForm.controls.passangerStandOperator as FormGroup;
@@ -438,7 +441,7 @@ vehicle_viability_navigate(event) {
     captive.get('busTyreAvgExpenses').setValidators(Validators.required);
     captive.get('busInsurenceExpenses').setValidators(Validators.required);
     captive.get('busMiscellaneousExpenses').setValidators(Validators.required);
-    captive.get('busMonthlyIncome').setValidators(null);
+    captive.get('busMonthlyIncome').setValidators(Validators.required);
     captive.get('totalExpenses').setValidators(Validators.required);
     captive.get('netCashFlow').setValidators(Validators.required);
     captive.get('emi').setValidators(Validators.required);
@@ -447,8 +450,12 @@ vehicle_viability_navigate(event) {
     const privateViability = this.viabilityForm.controls.passanger as FormGroup;
     // tslint:disable-next-line: forin
     for (const key in privateViability.controls) {
-      privateViability.get(key).clearValidators();
+    if (key != 'busMonthlyIncome') {
+      console.log(key);
+      privateViability.get(key).setValidators(null);
       privateViability.get(key).updateValueAndValidity();
+    }
+
     }
 }
 public removeStandOverValidators() {
@@ -941,7 +948,7 @@ if (this.router.url.includes('/dde')) {
   console.log(passengerStandGroup);
   const businessEarningPerDay = Number(passengerStandGroup.value.businessEarningPerDay);
   const grossIncomePerDay = Number(passengerStandGroup.value.grossIncomePerDay);
-  if (businessEarningPerDay <= 31) {
+  if (businessEarningPerDay > 0 && businessEarningPerDay <= 31) {
     this.montlyStandOperatorIncome = businessEarningPerDay * grossIncomePerDay;
   }
 
@@ -997,10 +1004,10 @@ calculateCaptive() {
   // tslint:disable-next-line: max-line-length
   const businessEarningPerDay = passengerStandGroup.value.businessEarningPerDay ? Number(passengerStandGroup.value.businessEarningPerDay) : 0;
   const grossIncomePerDay = (passengerStandGroup.value.businessIncomePerDay) ? Number(passengerStandGroup.value.businessIncomePerDay) : 0;
-  if (businessEarningPerDay <= 31) {
+  if (businessEarningPerDay > 0 && businessEarningPerDay <= 31) {
     this.montlyCaptiveIncome = businessEarningPerDay * grossIncomePerDay;
   }
- 
+
   // this.calculateCaptive();
   this.calculateCaptiveB();
   // this.calculateCaptiveC();
@@ -1183,6 +1190,26 @@ calculateCaptiveC() {
           });
           console.log('downloadDocs', value);
         });
+    });
+  }
+
+  reInitiateViability() {
+    if (this.viabilityForm.invalid) {
+      this.toasterService.showWarning('Save before submitting', ' ');
+    }
+    const body = {
+      leadId: this.leadId,
+      collateralId: this.collataralId,
+      isReinitiated: true
+    };
+    this.viabilityService.reinitiateViabilityDetails(body).subscribe((res: any) => {
+      // tslint:disable-next-line: triple-equals
+      if (res.ProcessVariables.error.code == '0') {
+      this.toasterService.showSuccess('Vehicle viability task assigned succesfully', '');
+      this.router.navigateByUrl(`pages/dashboard`);
+      } else {
+        this.toasterService.showSuccess(res.ProcessVariables.error.message, '');
+      }
     });
   }
 

@@ -5,6 +5,8 @@ import { LovResolverService } from './services/Lov-resolver.service';
 import { Authguard } from '@services/authguard';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 import {TermSheetFromDashboardComponent} from './modules/dde/credit-decisions/term-sheet-from-dashboard/term-sheet-from-dashboard.component'
+import {DetectBrowserActivityService} from '@services/detect-browser-activity.service'
+import { PddComponent } from '@modules/shared/pdd-screen/pdd.component';
 const routes: Routes = [
   {
     path: '',
@@ -19,6 +21,7 @@ const routes: Routes = [
   {
     path: 'activity-search',
     canActivate: [Authguard],
+    canActivateChild: [DetectBrowserActivityService],
     loadChildren: () =>
       import('./modules/activity-search/activity-search.module').then(
         (m) => m.ActivitySearchModule
@@ -28,6 +31,7 @@ const routes: Routes = [
     path: 'pages',
     component: HeaderComponent,
     canActivate: [Authguard],
+    canActivateChild: [DetectBrowserActivityService],
     resolve: {
       getLOV: LovResolverService,
     },
@@ -66,6 +70,8 @@ const routes: Routes = [
           import('./modules/dashboard/dashboard.module').then(
             (m) => m.DashboardModule
           ),
+        // canDeactivate: [can]
+        
       },
       {
         path: 'terms-condition',
@@ -191,6 +197,7 @@ const routes: Routes = [
                 import(
                   './modules/negotiation/negotiation.module'
                 ).then((m) => m.NegotiationModule),
+    
       },
       {
         path: 'cpc-maker',
@@ -230,7 +237,13 @@ const routes: Routes = [
             import('./modules/dde/pre-disbursement/pre-disbursement.module').then(
               (m) => m.PreDisbursementModule
             ),
+
         },
+        {
+          path: 'pdd/:leadId',
+          component: PddComponent,
+          resolve: { leadData: LeadDataResolverService },
+        }
     ],
   },
 ];

@@ -57,7 +57,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
     })
 
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1' || operationType === '2') {
+    if (operationType) {
       this.disableSaveBtn = true;
     }
   }
@@ -66,10 +66,8 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
     if (this.formValue.valid === true) {
 
-      if (this.formValue.value.isValidPincode && this.formValue.value.isInvalidMobileNumber) {
+      if (this.formValue.value.isValidPincode && this.formValue.value.isInvalidMobileNumber && this.formValue.value.isVaildFinalAssetCost) {
         let data = this.formValue.value.vehicleFormArray[0];
-
-        console.log('productCatoryCode', this.productCatoryCode)
 
         if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
           data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
@@ -84,13 +82,12 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
         data.fsrdFundingReq = data.fsrdFundingReq === true ? '1' : '0';
 
         this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
-          const apiError = res.ProcessVariables.error.message;
 
-          if (res.Error === '0' && res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
             this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Vehicle Detail');
             this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
           } else {
-            this.toasterService.showError(apiError, 'Vehicle Detail')
+            this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Detail')
           }
 
         }, error => {
@@ -105,6 +102,8 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
           this.toasterService.showError('Please enter valid pincode', 'Invalid pincode')
         } else if (!(this.formValue.value.isValidPincode && this.formValue.value.isInvalidMobileNumber)) {
           this.toasterService.showError('Please enter valid pincode and mobile no', 'Invalid pincode & mobile no')
+        } else if (!this.formValue.value.isVaildFinalAssetCost)  {
+          this.toasterService.showError('Discount should not greater than Ex show room price', 'Invalid Final Asset Cost')
         }
       }
 

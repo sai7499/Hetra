@@ -275,6 +275,16 @@ export class TeleVerificationFormComponent implements OnInit {
     return date ? `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}` : '';
   }
 
+  onName1Change(event) {
+    const nameRefOne = event;
+  }
+
+  onName2Change(event) {
+    const nameRefTwo = event;
+  }
+
+  
+
 
   // Getting TVR Detaails API method
   getTvrDetails() {
@@ -381,7 +391,7 @@ export class TeleVerificationFormComponent implements OnInit {
       }
 
       const operationType = this.toggleDdeService.getOperationType();
-      if (operationType === '1' || operationType === '2') {
+      if (operationType) {
         this.teleVerificationForm.disable();
         this.disableSaveBtn = true;
       }
