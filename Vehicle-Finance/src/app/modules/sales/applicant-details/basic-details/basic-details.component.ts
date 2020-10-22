@@ -28,6 +28,7 @@ import { ToasterService } from '@services/toaster.service';
 import { pairwise, distinctUntilChanged } from 'rxjs/operators';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { AgeValidationService } from '@services/age-validation.service';
+import { ObjectComparisonService } from '@services/obj-compare.service';
 @Component({
   templateUrl: './basic-details.component.html',
   styleUrls: ['./basic-details.component.css'],
@@ -54,6 +55,8 @@ export class BasicDetailsComponent implements OnInit {
   countryList = [];
   leadId : number;
   mobileNumberChange: boolean;
+  apiValue: any;
+  finalValue: any;
   
 
   //imMinor : boolean= true
@@ -105,7 +108,8 @@ export class BasicDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private toasterService: ToasterService,
     private createLeadDataService: CreateLeadDataService,
-    private ageValidationService: AgeValidationService
+    private ageValidationService: AgeValidationService,
+    private objectComparisonService: ObjectComparisonService
   ) { }
 
   async ngOnInit() {
@@ -534,9 +538,7 @@ export class BasicDetailsComponent implements OnInit {
       agriAppRelationship: applicantDetails.agriAppRelationship || '',
       grossReceipt: applicantDetails.grossReceipt,
     });
-    
-    
-    
+    this.apiValue = this.basicForm.value;
   }
 
   removeApplicantRelationControl() {
@@ -588,6 +590,8 @@ export class BasicDetailsComponent implements OnInit {
         aboutIndivProspectDetails.minorGuardianRelation || '',
       recommendations: aboutIndivProspectDetails.recommendations || ''
     });
+
+   
     this.clearFatherOrSpouseValidation();
     this.eitherFathOrspouse();
     this.listenerForMobilechange()
@@ -1064,7 +1068,12 @@ export class BasicDetailsComponent implements OnInit {
     this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`)
   }
 
-  onNext(){
+  onNext() {
+      this.finalValue = this.basicForm.value;
+      console.log(JSON.stringify(this.apiValue));
+      console.log(JSON.stringify(this.finalValue));
+      console.log(this.objectComparisonService.compare(this.apiValue, this.finalValue));
+      return;
       if(this.mobileNumberChange){
         this.router.navigateByUrl(
           `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
