@@ -76,7 +76,7 @@ export class LoanDetailsComponent implements OnInit {
   insuranceStatus: any;
   insRequired: boolean;
   disableSaveBtn: boolean;
-  operationType: string;
+  operationType: boolean;
   insDisabled: boolean;
   vehCondStatus: any;
   vehCondRequired: boolean;
@@ -149,7 +149,7 @@ export class LoanDetailsComponent implements OnInit {
 
     });
     this.operationType = this.toggleDdeService.getOperationType();
-    if (this.operationType === '1' || this.operationType === '2') {
+    if (this.operationType) {
       this.loanDetailsForm.disable();
       this.disableSaveBtn = true;
     }

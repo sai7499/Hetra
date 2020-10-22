@@ -115,7 +115,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.vehicleRegPattern = this.validateCustomPattern()
 
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1' || operationType === '2') {
+    if (operationType) {
       this.basicVehicleForm.disable();
       this.disableSaveBtn = true;
     }
@@ -262,7 +262,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   }
 
   onChangeFinalAssetCost(value, form) {
-    console.log('va')
     this.basicVehicleForm.patchValue({
       isVaildFinalAssetCost: true
     })
@@ -273,12 +272,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       let others = form.controls.others ?  Number(form.controls.others.value) : 0;
       let discount = form.controls.discount.value ?  Number(form.controls.discount.value) : 0;
 
-      console.log(exShowRoomCost, 'exShowRoomCost', discount > exShowRoomCost)
-
-
       if (exShowRoomCost >= discount) {
         let costValue = (exShowRoomCost + insurance+ oneTimeTax + others) - discount;
         this.onPatchFinalAssetCost(costValue)
+        this.basicVehicleForm.patchValue({
+          isVaildFinalAssetCost: true
+        })
       } else {
         setTimeout(() => {
           this.basicVehicleForm.patchValue({

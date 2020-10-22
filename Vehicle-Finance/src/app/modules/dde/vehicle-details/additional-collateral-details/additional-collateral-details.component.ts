@@ -106,7 +106,7 @@ export class AdditionalCollateralComponent implements OnInit {
 
             this.LOV.propertOwner = propertOwner;
             this.relationLov = this.LOV.relationship;
-
+            this.LOV.relationLov = this.LOV.relationship;
         })
     }
 
@@ -222,6 +222,15 @@ export class AdditionalCollateralComponent implements OnInit {
     }
 
     onFindRelationship(value) {
+        this.LOV.relationLov = [];
+
+        let formArray = this.collateralForm.get('collateralFormArray') as FormArray;
+        const details = formArray.at(0);
+        console.log(details, 'details')
+
+        details.get('relationWithApplicant').setValue('')
+
+    
         let typeOfApplicant = this.applicantDetails.find((res => res.applicantId === Number(value)))
 
         let lovOfSelf = [{
@@ -229,15 +238,15 @@ export class AdditionalCollateralComponent implements OnInit {
             value: "Self"
         }]
 
-        let lovOfRelationship = this.relationLov.filter((data) => data.key !== "5RELATION")
-        this.LOV.relationship = typeOfApplicant['applicantType'] === "Applicant" ? lovOfSelf : lovOfRelationship;
+        let lovOfRelationship = this.LOV.relationship.filter((data) => data.key !== "5RELATION")
+        this.LOV.relationLov = typeOfApplicant['applicantType'] === "Applicant" ? lovOfSelf : lovOfRelationship;
     }
 
     setFormValue(id) {
         this.collateralService.getAdditionalCollateralsDetails(Number(id)).subscribe((res: any) => {
             setTimeout(() => {
                 const operationType = this.toggleDdeService.getOperationType();
-                if (operationType === '1' || operationType === '2') {
+                if (operationType) {
                     this.disableSaveBtn = true;
                     this.collateralForm.disable()
                 }
@@ -245,6 +254,10 @@ export class AdditionalCollateralComponent implements OnInit {
             if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
                 let collateralDetail = res.ProcessVariables.aAdditionalCollaterals ? res.ProcessVariables.aAdditionalCollaterals : {};
                 this.collateralDataService.setAdditionalCollateralList(collateralDetail);
+
+                console.log(collateralDetail, 'collateralDetail')
+                this.onFindRelationship(collateralDetail.propertyOwner) 
+
 
                 const formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
 
