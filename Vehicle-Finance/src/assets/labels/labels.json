@@ -1631,10 +1631,16 @@
     "employeeNo": "Employee Number",
     "initiate": "Initiate Viability for New Vehicles",
     "customerDOI" : "Customer DOI",
+<<<<<<< HEAD
     "foundnl":"Found in NL",
     "foundnltr":"Found in NLTR",
     "maidenName":"Maiden Name",
     "matchedCriteria":"Matched Criteria",
+=======
+    "disbursementStartDate": "Disbursement - Start Date",
+    "disbursementEndDate": "Disbursement - End Date",
+    "propertyValue":"Property Value",
+>>>>>>> 9901dbca355eda62140519ffc2c829f251199806
     "validationData": {
         "name": {
             "maxLength": {

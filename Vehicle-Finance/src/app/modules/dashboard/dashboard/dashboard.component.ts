@@ -130,6 +130,8 @@ export class DashboardComponent implements OnInit {
   displayTabs = DisplayTabs;
   sortTables = sortingTables;
   endDateChange: string;
+  disbFromDate: any;
+  disbToDate: string;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
@@ -209,10 +211,13 @@ export class DashboardComponent implements OnInit {
 
     this.filterForm = this.fb.group({
       leadId: [''],
+      loanNumber: [''],
       product: [''],
       leadStage: [''],
       fromDate: [''],
       toDate: [''],
+      disbFromDate: [''],
+      disbToDate: [''],
       loanMinAmt: [null],
       loanMaxAmt: [null]
     });
@@ -320,6 +325,24 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  onChangeDisbFromDate(event) {
+    this.disbFromDate = this.utilityService.getDateFormat(event);
+    if (this.disbFromDate) {
+      this.isFromDate = true;
+    } else {
+      this.isFromDate = false;
+    }
+  }
+
+  onChangeDisbToDate(event) {
+    this.disbToDate = this.utilityService.getDateFormat(event);
+    if (this.disbToDate) {
+      this.isFromDate = false;
+    } else if (this.disbFromDate && (this.disbToDate == undefined || this.disbToDate == '')) {
+      this.isFromDate = true;
+    }
+  }
+
   onMinAmtChange(event) {
     this.minLoanAmtChange = event;
     if (this.minLoanAmtChange) {
@@ -337,11 +360,23 @@ export class DashboardComponent implements OnInit {
   }
 
   onFromDateChange() {
+    if(!this.displayTabs.PDD && !this.displayTabs.PDDforCPC) {
+
+    }
     this.filterForm.get('fromDate').valueChanges.pipe(debounceTime(0)).subscribe((data) => {
       if (data || this.filterForm.get('fromDate').dirty) {
         // this.isFromDate = true;
         this.filterForm.get('toDate').setValue(null);
       } else if (this.fromDateChange == undefined) {
+        this.isFromDate = false;
+      }
+    });
+
+    this.filterForm.get('disbFromDate').valueChanges.pipe(debounceTime(0)).subscribe((data) => {
+      if (data || this.filterForm.get('disbFromDate').dirty) {
+        // this.isFromDate = true;
+        this.filterForm.get('disbToDate').setValue(null);
+      } else if (this.disbFromDate == undefined) {
         this.isFromDate = false;
       }
     });

@@ -416,7 +416,8 @@ export class TeleVerificationFormComponent implements OnInit {
   }
 
   onBack() {
-    this.location.back();
+    // this.location.back();
+    this.router.navigateByUrl(`/pages/dde/${this.leadId}/tvr-details`);
   }
 
   // Submitting TVR Form Method
