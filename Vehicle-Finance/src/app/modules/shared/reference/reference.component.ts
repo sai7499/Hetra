@@ -62,6 +62,7 @@ export class ReferenceComponent implements OnInit {
   mobileTwoErrorMsg: string;
   isMobileOneErrorMsg: boolean;
   isMobileTwoErrorMsg: boolean;
+  relationShipLOV: any = [];
 
   applicantReferences: [
     {
@@ -177,6 +178,16 @@ export class ReferenceComponent implements OnInit {
   getLOV() {
     this.commonLovService.getLovData().subscribe((lov: any) => {
       this.LOV = lov;
+      const relationLOV = lov.LOVS.relationship;
+      relationLOV.map((data) => {
+        if (data.key !== '5RELATION') {
+          const relationShip = {
+            key: data.key,
+            value: data.value
+          }
+          this.relationShipLOV.push(relationShip);
+        }
+      });
       this.getReferencesData();
     });
   }
@@ -430,8 +441,8 @@ export class ReferenceComponent implements OnInit {
     console.log('referenceformValue', formValue);
     this.isDirty = true;
     if (this.referenceForm.valid === true
-       && !this.isMobileOneErrorMsg
-       && !this.isMobileOneErrorMsg) {
+      && !this.isMobileOneErrorMsg
+      && !this.isMobileOneErrorMsg) {
       const data: any = { ...formValue };
       this.applicantReferences = [
         {
@@ -507,8 +518,8 @@ export class ReferenceComponent implements OnInit {
   onNext() {
     this.isDirty = true;
     if (this.referenceForm.valid === true
-        && !this.isMobileOneErrorMsg
-        && !this.isMobileOneErrorMsg) {
+      && !this.isMobileOneErrorMsg
+      && !this.isMobileOneErrorMsg) {
       if (this.isSavedNext) {
         this.onSubmit();
       }
