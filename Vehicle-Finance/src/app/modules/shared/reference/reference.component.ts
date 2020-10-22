@@ -429,7 +429,9 @@ export class ReferenceComponent implements OnInit {
     const formValue = this.referenceForm.getRawValue();
     console.log('referenceformValue', formValue);
     this.isDirty = true;
-    if (this.referenceForm.valid === true) {
+    if (this.referenceForm.valid === true
+       && !this.isMobileOneErrorMsg
+       && !this.isMobileOneErrorMsg) {
       const data: any = { ...formValue };
       this.applicantReferences = [
         {
@@ -504,7 +506,9 @@ export class ReferenceComponent implements OnInit {
 
   onNext() {
     this.isDirty = true;
-    if (this.referenceForm.valid === true) {
+    if (this.referenceForm.valid === true
+        && !this.isMobileOneErrorMsg
+        && !this.isMobileOneErrorMsg) {
       if (this.isSavedNext) {
         this.onSubmit();
       }
