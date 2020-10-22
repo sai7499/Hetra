@@ -66,7 +66,8 @@
                                         <option>City 3</option>
                                     </select> -->
                 <app-vf-custom-select formControlName="city" [values]="permanantPincode?.city"
-                  [isRequired]="'Please select one'" [isDirty]="isDirty">
+                  [isRequired]="'Please select one'" 
+                  (change)="cityChange($event)" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -144,6 +145,8 @@
               <app-custom-input formControlName="srNumber"
               (keyup)="validateSrNumber($event)"
                [isRequired]="'SR Number is Required'" [isDirty]="isDirty"
+               [patternCheck]="validationData.srNumber.patternCheck"
+                      [maxLength]="validationData.srNumber.maxLength"
                 [type]="validationData.srNumber.type"></app-custom-input>
 
                 <div class="ShowError" 
@@ -195,7 +198,8 @@
                                         <option>City 3</option>
                                     </select> -->
                 <app-vf-custom-select formControlName="city" [values]="currentPincode?.city"
-                  [isRequired]="'Please select one'" [isDirty]="isDirty">
+                  [isRequired]="'Please select one'" 
+                  (change)="currentCityChange($event)" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -502,7 +506,8 @@
                                     <option>City 3</option>
                                 </select> -->
                 <app-vf-custom-select formControlName="city" [values]="registeredPincode?.city"
-                  [isRequired]="'Please select one'" [isDirty]="isDirty">
+                  [isRequired]="'Please select one'" 
+                  (change)="cityChange($event)" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -562,8 +567,10 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{ labels.alternateContactNumber }}</label>
                 <!-- <input formControlName="mobileNumber" type="text" class="form-control" id="line3" /> -->
-                <app-custom-input formControlName="mobileNumber" [maxLength]="validationData?.landlineNumber?.maxLength"
-                  [type]="validationData?.landlineNumber?.type"></app-custom-input>
+                <app-custom-input formControlName="mobileNumber" 
+                [maxLength]="validationData?.landlineNumber?.maxLength"
+                  [type]="validationData?.landlineNumber?.type">
+                </app-custom-input>
               </div>
 
 
