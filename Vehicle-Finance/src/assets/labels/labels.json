@@ -1631,6 +1631,7 @@
     "employeeNo": "Employee Number",
     "initiate": "Initiate Viability for New Vehicles",
     "customerDOI" : "Customer DOI",
+    "propertyValue":"Property Value",
     "validationData": {
         "name": {
             "maxLength": {
