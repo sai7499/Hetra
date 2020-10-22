@@ -476,7 +476,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   onAssetMake(value, obj) {
     let VehicleTypeArray = []
-    console.log('obj in assetMake', obj);
+
     if (value) {
 
       const data = {
@@ -576,21 +576,19 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   }
 
   onAssetModel(value: any, obj) {
-    console.log(value, 'obj', obj)
+    this.assetVariant = this.assetModelType.filter((data) => data.vehicleModelCode === value)
+    const array = this.utilityService.getCommonUniqueValue(this.assetVariant, 'vehicleVariant')
+    const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+    formArray.controls[0].patchValue({
+      vehicleId: array.length > 0 ? Number(array[0].vehicleCode) : 0
+    })
 
-    // this.assetVariant = this.assetModelType.filter((data) => data.vehicleModelCode === value)
-    // const array = this.utilityService.getCommonUniqueValue(this.assetVariant, 'vehicleVariant')
-    // const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-    // formArray.controls[0].patchValue({
-    //   vehicleId: array.length > 0 ? Number(array[0].vehicleCode) : 0
-    // })
+    this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVariant,
+      'vehicleCode', "vehicleVariant")
 
-    // this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVariant,
-    //   'vehicleCode', "vehicleVariant")
-
-    // obj.patchValue({
-    //   assetVariant: ''
-    // })
+    obj.patchValue({
+      assetVariant: ''
+    })
 
   }
 
