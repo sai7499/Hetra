@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 import { PddDetailsService } from '@services/pdd-details.service';
@@ -19,6 +19,14 @@ import { LabelsService } from "@services/labels.service";
     styleUrls: ['./pdd.component.css']
 })
 export class PddComponent implements OnInit {
+    disbursementDate: any;
+    documentNumMax = {
+        rule: 30,
+        msg: ''
+    };
+    disableDocumentList:any;
+    orcHistory: any[];
+    showEngineNumber: boolean;
     showDialog: boolean;
     showModal: boolean;
     isSales: boolean;
@@ -39,6 +47,9 @@ export class PddComponent implements OnInit {
     checkInForm: boolean;
     labels;
     pddDocumentList;
+    isNumberSubmitted = true;
+
+    isEnableCpccSubmit: boolean;
 
     constructor(private location: Location,
                 private pddDetailsService: PddDetailsService,
@@ -49,7 +60,8 @@ export class PddComponent implements OnInit {
                 private uploadService: UploadService,
                 private draggableContainerService: DraggableContainerService,
                 private activatedRoute: ActivatedRoute,
-                private labelsData: LabelsService,) {
+                private labelsData: LabelsService,
+                private router: Router) {
                 }
     ngOnInit() {
         this.getLabels();
@@ -67,7 +79,7 @@ export class PddComponent implements OnInit {
                  this.lovs = lov;
                  this.getPddDetailsData();
             });
-        });   
+        });
     }
     getLabels() {
         this.labelsData.getLabelsData().subscribe(
@@ -130,6 +142,10 @@ export class PddComponent implements OnInit {
                 this.pddDocumentDetails = response.pddDocumentDetails;
                 this.modifiedOrcStatusList = response.modifiedOrcStatusList;
                 this.pddDocumentList = response.pddDocumentList;
+                this.orcHistory = response.orcHistory;
+                this.disableDocumentList = response.disableDocumentList;
+                this.disbursementDate = this.utilityService.getDateFromString(response.disbursementDate) || '';
+                this.showEngineNumber = response.showEngineNumber;
                 if (this.isSales) {
                     let pddDocumentList = response.pddDocumentList;
                     if (!this.pddDocumentDetails) {
@@ -147,6 +163,11 @@ export class PddComponent implements OnInit {
                         });
                         this.updateDocumentDetailsTable(pddDocumentList);
                     } else {
+                        this.showEngineNumber = response.showEngineNumber;
+                        this.isDisableSubmitToCpc = !this.pddDocumentDetails.every((detail) => {
+                            return detail.cpcStatus === 'VRIFIEDPDDDOCSSTS';
+                        });
+
                         this.updateDocumentDetailsTable(this.pddDocumentDetails);
                     }
                     this.pddForm.get('processForm').get('orcStatus').setValue(response.orcStatus);
@@ -159,7 +180,7 @@ export class PddComponent implements OnInit {
                     }
                 } else {
                     this.updateDocumentDetailsTable(this.pddDocumentDetails);
-                    this.isDisableCpcSubmit = !this.pddDocumentDetails.every((value) => {
+                    this.isDisableCpcSubmit = !(this.pddDocumentDetails || []).every((value) => {
                         return value.cpcStatus === 'VRIFIEDPDDDOCSSTS';
                     });
                 }
@@ -173,6 +194,7 @@ export class PddComponent implements OnInit {
                 this.updateLoanForm(loanFormData);
                 this.updateNumberForm(numberFormData);
                 this.updateProcessForm(response);
+                this.enableCpccSubmit();
             });
     }
 
@@ -201,6 +223,9 @@ export class PddComponent implements OnInit {
            return;
        }
        const numberForm =  this.pddForm.get('numberForm');
+       if (value.regNumber || value.engNumber || value.chasNumber) {
+          this.isNumberSubmitted = false;
+       }
        numberForm.patchValue({
         regNumber: value.regNumber || '',
         engNumber: value.engNumber || '',
@@ -232,6 +257,11 @@ export class PddComponent implements OnInit {
                 docSbCtgryCd: new FormControl(value.subCategoryCode || value.name)
             });
             formArray.push(formGroup);
+            if (this.isSales && this.disableDocumentList) {
+                formArray.disable();
+            } else {
+                formArray.enable();
+            }
         });
 
     }
@@ -242,7 +272,6 @@ export class PddComponent implements OnInit {
     }
 
     updateTable() {
-        console.log('form', this.pddForm);
         const arrValue: any[] = this.pddForm.get('pddDocumentDetails').value;
         const formatArrValue = arrValue.map((value) => {
             return  {
@@ -254,7 +283,6 @@ export class PddComponent implements OnInit {
             };
         });
 
-        console.log('formatArrValue', formatArrValue);
         if (this.checkTableValidation()) {
             return this.toasterService.showError('Please enter all fields', '');
         }
@@ -292,7 +320,9 @@ export class PddComponent implements OnInit {
             pddVehicleDetails: {
                 ...numberForm 
             }
-          }
+          };
+          this.isNumberSubmitted = false;
+          this.enableCpccSubmit();
         } else {
            data =  {
                pddDocumentDetails: formatArrValue,
@@ -300,6 +330,7 @@ export class PddComponent implements OnInit {
                 ...processForm,
                 orcReceivedDate: this.utilityService.getDateFormat(processForm.orcReceivedDate) || '' 
             }};
+            
         }
         console.log('data', data);
         // return;
@@ -309,7 +340,7 @@ export class PddComponent implements OnInit {
     checkValidation() {
         if (this.isSales) {
             const processForm = this.pddForm.get('processForm').value;
-            if (!processForm.orcStatus || !processForm.orcReceivedDate || !processForm.orcRemarks) {
+            if (!processForm.orcStatus || !processForm.orcReceivedDate) {
                return true;
             }
         } else {
@@ -338,6 +369,8 @@ export class PddComponent implements OnInit {
                     }
                     if (this.isSales && check) {
                         const pddVehicleDetails = response.pddVehicleDetails;
+                        this.disableDocumentList = response.disableDocumentList;
+                        this.modifiedOrcStatusList = response.modifiedOrcStatusList;
                         if (pddVehicleDetails.orcStatus === 'RECDFRMRTOAGNTPDDDOCS') {
                             this.isDisableSubmitToCpc = false;
                             this.apiCheck = true;
@@ -345,16 +378,39 @@ export class PddComponent implements OnInit {
                             this.isDisableSubmitToCpc = true;
                             this.apiCheck = false;
                         }
+                        const formArray = this.pddForm.get('pddDocumentDetails') as FormArray;
+                        if (this.isSales && this.disableDocumentList) {
+                            formArray.disable();
+                        } else {
+                            formArray.enable();
+                        }
                     }
 
+                    this.orcHistory = response.orcHistory;
+
                     if (!this.isSales) {
+                        this.isNumberSubmitted = false;
                         const pddDocumentDetails = response.pddDocumentDetails;
                         this.isDisableCpcSubmit = !pddDocumentDetails.every((detail) => {
                             return detail.cpcStatus === 'VRIFIEDPDDDOCSSTS';
                         });
+                        console.log('this.isDisableCpcSubmit', this.isDisableCpcSubmit)
                     }
                  }
             });
+    }
+
+    enableCpccSubmit() {
+        if (!this.isDisableSubmitToCpc) {
+            this.isEnableCpccSubmit = false;
+        } else {
+            this.isEnableCpccSubmit = true;
+        }
+        if (!this.isNumberSubmitted) {
+            this.isEnableCpccSubmit = false;
+        } else {
+            this.isEnableCpccSubmit = true;
+        }
     }
 
     onOrcStatusChange(event) {
@@ -398,6 +454,9 @@ export class PddComponent implements OnInit {
     }
 
     uploadDocs(index) {
+        if (this.disableDocumentList) {
+            return;
+        }
         const formArray = this.pddForm.get('pddDocumentDetails') as FormArray;
         // const docNm = formArray['controls'][index].get('docName').value;
         const docNm = formArray['controls'][index].get('docName').value;
@@ -411,6 +470,7 @@ export class PddComponent implements OnInit {
 
         this.showModal = true;
         this.selectedDocDetails = {
+            docSize: 2097152,
             formArrayIndex: index,
             docsType: Constant.OTHER_DOCUMENTS_ALLOWED_TYPES,
             docNm,
@@ -435,10 +495,26 @@ export class PddComponent implements OnInit {
     }
 
     onBack() {
-        this.location.back();
+        this.router.navigateByUrl(`/pages/dashboard`);
     }
 
     onSubmit() {
+        if (!this.isSales && this.showEngineNumber) {
+            const numberForm = this.pddForm.get('numberForm');
+            const regNumber = numberForm.get('regNumber').value;
+            const engNumber = numberForm.get('engNumber').value;
+            const chasNumber = numberForm.get('chasNumber').value;
+            if (!regNumber) {
+                return this.toasterService.showError('Please enter Registration No', '');
+            }
+            if (!engNumber) {
+                return this.toasterService.showError('Please enter Engine Number', '');
+            }
+            if (!chasNumber) {
+                return this.toasterService.showError('Please enter Chassis Number', '');
+            }
+
+        }
         this.showDialog = true;
     }
 
@@ -461,7 +537,7 @@ export class PddComponent implements OnInit {
                    const error = response.error;
                    if (error.code === '0') {
                        this.toasterService.showSuccess('Submitted successfully', '');
-                       this.location.back();
+                       this.router.navigateByUrl(`/pages/dashboard`);
                    }
                 }
             });
