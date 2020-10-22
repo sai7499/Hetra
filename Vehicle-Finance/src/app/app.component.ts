@@ -243,15 +243,6 @@ export class AppComponent implements OnInit {
 
   window.addEventListener('popstate', (event) => {
     if(!window.location.href.includes('/login') && localStorage.getItem('token') && environment.production) {
-        // if(!this.showConfirmFlag) {
-        //   if (confirm('Oops!! Changes you made will not be saved! Page redirect  to login.')) {
-        //     this.showConfirmFlag = true;
-        //     this.utilityService.logOut();
-        //   } else {
-        //     this.showConfirmFlag = true;
-        //       this.sharedService.browserPopState(false);
-        // }
-        //  }
           history.go(1);
           this.sharedService.browserPopState(false);
           this.showModal = false;
