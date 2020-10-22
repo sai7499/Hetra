@@ -1113,6 +1113,7 @@ export class NegotiationComponent implements OnInit {
       var array1 = [];
       var data = {};
       var data1 = {};
+      this.finalAsset=[];
       const crossSellIns = formData.tickets.forEach((ticket, index) => {
         var obj = {
           collateral_id: this.AssetDetailsList[index].CollateralId ? this.AssetDetailsList[index].CollateralId : "",
