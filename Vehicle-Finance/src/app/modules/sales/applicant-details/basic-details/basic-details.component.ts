@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild,  HostListener } from '@angular/core';
 import {
   FormGroup,
   FormControl,
@@ -94,6 +94,7 @@ export class BasicDetailsComponent implements OnInit {
   hideMsgForOwner: boolean = false;
   public maxAge: Date = new Date();
   public minAge: Date = new Date();
+  isSave : boolean = false;
 
 
   constructor(
@@ -118,7 +119,6 @@ export class BasicDetailsComponent implements OnInit {
       (data) => {
         this.labels = data;
         this.validationData = data.validationData;
-        console.log(this.validationData);
       },
       (error) => {
         console.log(error);
@@ -143,11 +143,11 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray;
     this.validation = formArray.at(0);
     this.leadId = (await this.getLeadId()) as number;
+    this.isSave=this.applicantDataService.getForSaveBasicDetails()
 
   }
   getLeadSectiondata() {
     const leadData = this.createLeadDataService.getLeadSectionData()
-    console.log('data-->', leadData);
     this.productCategory = leadData['leadDetails'].productId;
     this.fundingProgram = leadData['leadDetails'].fundingProgram;
 
@@ -192,7 +192,6 @@ export class BasicDetailsComponent implements OnInit {
 
   getCountryList() {
     this.applicantService.getCountryList().subscribe((res: any) => {
-      //console.log('responce Country list', res)
       const response = res;
       const responseError = response.Error;
       if (responseError == '0') {
@@ -220,7 +219,6 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   onOwnHouseAvailable(event) {
-    console.log('event', event)
     this.isChecked = event.target.checked;
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
@@ -282,7 +280,6 @@ export class BasicDetailsComponent implements OnInit {
       .get('fatherName')
       .valueChanges.pipe(distinctUntilChanged())
       .subscribe((value1) => {
-        //console.log('value', value1)
         if (fatherName == value1) {
           return;
         }
@@ -337,9 +334,6 @@ export class BasicDetailsComponent implements OnInit {
   getApplicantDetails() {
 
     this.applicant = this.applicantDataService.getApplicant();
-    console.log('applicant', this.applicant);
-    
-
     this.setBasicData();
     if(this.applicant.ucic){
       if(this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP'){
@@ -394,7 +388,6 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   ageCalculation(event) {
-    //console.log('event', event);
     const value = event;
 
     const convertDate = new Date(this.utilityService.getNewDateFormat(value));
@@ -405,7 +398,6 @@ export class BasicDetailsComponent implements OnInit {
     const convertAge = new Date(value);
     const timeDiff = Math.abs(Date.now() - convertAge.getTime());
     this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365);
-    //console.log('showAge', this.showAge);
 
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
@@ -439,12 +431,20 @@ export class BasicDetailsComponent implements OnInit {
     } else {
       event.target.checked = true;
     }
-    console.log();
+  }
+
+  @HostListener('change') ngOnChanges($event) {
+    this.isSave = false;
+  }
+
+  @HostListener('keydown', ['$event'])
+
+  onkeyup(event) {
+    this.isSave = false;
   }
 
   onCustCategoryChanged(event) {
     this.custCatValue = event.target.value;
-    //console.log('custCatValue', this.custCatValue)
     if (this.custCatValue == 'SEMCUSTSEG') {
       this.ageOfSeniorCitizen = 65;
 
@@ -606,7 +606,6 @@ export class BasicDetailsComponent implements OnInit {
     const contactNumber = corporateProspectDetails.companyPhoneNumber;
     if (contactNumber && contactNumber.length == 12) {
       const contactSlice = contactNumber.slice(0, 2);
-      //console.log('contactslice', contactSlice)
       if (contactSlice == '91') {
         this.mobilePhone = contactNumber.slice(2, 12);
       } else {
@@ -656,6 +655,8 @@ export class BasicDetailsComponent implements OnInit {
         if(!details.get('mobilePhone').invalid){
           if(value!==this.mobilePhone){
             this.mobileNumberChange= true;
+          }else{
+            this.mobileNumberChange= false;
           }
         }
       })
@@ -668,6 +669,8 @@ export class BasicDetailsComponent implements OnInit {
       if(!details.get('companyPhoneNumber').invalid){
         if(value!==this.mobilePhone){
           this.mobileNumberChange= true;
+        }else{
+          this.mobileNumberChange= false;
         }
       }
     })
@@ -676,7 +679,6 @@ export class BasicDetailsComponent implements OnInit {
   getLovData() {
     this.lovService.getLovData().subscribe((value: LovList) => {
       this.applicantLov = value.LOVS;
-      console.log('applicantlov', this.applicantLov);
       this.ownerPropertyRelation = this.applicantLov.applicantRelationshipWithLead.filter(data => data.value !== 'Guarantor')
 
       this.activatedRoute.params.subscribe((value) => {
@@ -747,7 +749,6 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0) as FormGroup;
     if (details.get('isMinor').value) {
-     // console.log('isminorgaur', details.get('isMinor').value);
       details.addControl('minorGuardianName', new FormControl());
       details.addControl('minorGuardianRelation', new FormControl());
     } else {
@@ -829,7 +830,6 @@ export class BasicDetailsComponent implements OnInit {
       })
     }
     this.isDirty = true;
-    console.log('basicForm', this.basicForm);
     if (this.basicForm.invalid) {
       this.toasterService.showError(
         'Please fill all mandatory fields.',
@@ -866,16 +866,22 @@ export class BasicDetailsComponent implements OnInit {
       ...applicantData,
       leadId,
     };
-    console.log('formDate', data);
     this.applicantService.saveApplicant(data).subscribe((res: any) => {
       if (res.ProcessVariables.error.code === '0') {
         // this.router.navigate([
         //   `/pages/sales-applicant-details/${leadId}/identity-details`,
         //   this.applicantId,
         // ]);
+        this.isSave= true;
+        this.applicantDataService.setForSaveBasicDetails(true);
         this.toasterService.showSuccess(
           'Record Saved Successfully',
           ''
+        );
+      }else{
+        this.toasterService.showError(
+          res.ProcessVariables.error.message,
+          'Applicant Details'
         );
       }
     });
@@ -937,7 +943,6 @@ export class BasicDetailsComponent implements OnInit {
     const prospectDetails: IndividualProspectDetails = {};
     const applicantDetails: ApplicantDetails = {};
     const formValue = value.details[0];
-    console.log('formvalue', formValue)
     applicantDetails.name1 = formValue.name1;
     applicantDetails.name2 = formValue.name2 ? formValue.name2 : '';
     applicantDetails.name3 = formValue.name3 ? formValue.name3 : '';
@@ -1011,7 +1016,6 @@ export class BasicDetailsComponent implements OnInit {
     const applicantDetails: ApplicantDetails = {};
 
     const formValue = value.details[0];
-    console.log('formvalue', formValue)
 
     applicantDetails.name1 = formValue.name1;
     applicantDetails.name2 = formValue.name2 ? formValue.name2 : '';
@@ -1084,6 +1088,8 @@ export class BasicDetailsComponent implements OnInit {
           `/pages/sales-applicant-details/${this.leadId}/identity-details/${this.applicantId}`
         );
       }
+    }
+      
      
   }
 }

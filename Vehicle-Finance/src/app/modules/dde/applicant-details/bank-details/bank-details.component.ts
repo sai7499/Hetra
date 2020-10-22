@@ -225,7 +225,7 @@ export class BankDetailsComponent implements OnInit {
           this.populateData(res);
         }
         const operationType = this.toggleDdeService.getOperationType();
-        if (operationType === '1' || operationType === '2') {
+        if (operationType) {
           this.bankForm.disable();
           this.disableSaveBtn = true;
         }

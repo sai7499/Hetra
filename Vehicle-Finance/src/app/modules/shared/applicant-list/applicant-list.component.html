@@ -60,14 +60,31 @@
                 &nbsp;<a (click)="getApplicantImage(item.applicantId)"    
                   [ngClass]="{'pointer_non': disableSaveBtn }"    
                   data-toggle="modal"
-                    data-target="#myModalApplicantImage"
-                  title="View Bureau Report"> <strong>CB</strong></a>
-                  &nbsp;
-                  <a data-toggle="modal"
+                  data-target="#myModal"
+                  (click)="softDeleteApplicant(i, item.applicantId)"
+                  title="Delete applicant"><i  class="fa fa-trash" aria-hidden="true"></i
+                ></a> &nbsp;
+                <a (click)="getApplicantImage(item.applicantId)" 
+                data-toggle="modal"
+                  data-target="#myModalApplicantImage"
+                title="View Bureau Report"> <strong>CB</strong></a>
+                &nbsp;
+                <a data-toggle="modal"
                   data-target="#myModalApplicanteKYC"  
                   title="View applicant eKYC" (click)="geteKYCDetails(item.applicantId)"> 
                   <strong>ER</strong>
                 </a>
+              </td>
+             
+            </tr>
+            <!-- <tr>
+                <td>-</td>
+                <td><a href="#">Monica Geller</a></td>
+                <td>7894561230</td>
+                <td>09-08-1967</td>
+                <td>Co-Applicant</td>
+                <td onclick="add_applicant();">
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
                 </td>
                
               </tr>
@@ -175,7 +192,7 @@
   </div>
   </div>
   
-  <div class="modal" id="myModalApplicanteKYC">
+  <div class="modal" [ngClass]="{'modal-hide':!showeKYC}" id="myModalApplicanteKYC">
     <div class="modal-dialog  modal-style">
       <div class="modal-content">
         <div class="modal-header mod-header">
@@ -184,7 +201,7 @@
               <h4 class="modal-title">Applicant KYC Check Details</h4>
             </div>
             <div class="col-xs-1 col-md-1 col-sm-1 col-lg-1">
-              <button type="button" class="close" data-dismiss="modal">
+              <button type="button" class="close" data-dismiss="modal" (click)="destroyeKYCImage()">
                 &times;
               </button>
             </div>
@@ -196,14 +213,14 @@
             <!-- <app-applicant-kyc-details></app-applicant-kyc-details> -->
             
             <!-- <div [innerHTML]="img" style="overflow: scroll;" ></div>  -->
-            <div *ngIf = 'showeKYC'  style="overflow: scroll;">
-              <img [src]="imgeKYC" alt="No eKYC Details" style="width:100%;"/>
+            <div style="overflow: scroll;">
+              <img [src]="imgeKYC" alt="applicant eKYC Details" style="width:100%;"/>
             </div>
            
             <!--end-->
           </div>     
         <div class="modal-footer mod-footer text-center">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="destroyeKYCImage()">
             Close
           </button>
         </div>

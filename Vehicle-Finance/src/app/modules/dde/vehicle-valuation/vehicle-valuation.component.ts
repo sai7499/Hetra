@@ -63,7 +63,7 @@ export class VehicleValuationComponent implements OnInit {
     this.getCollateralDetailsForVehicleValuation();
     this.getVendorCode();
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1' || operationType === '2') {
+    if (operationType) {
       this.modalDataForm.disable();
       this.disableSaveBtn = true;
     }
