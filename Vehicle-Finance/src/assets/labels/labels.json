@@ -1633,6 +1633,7 @@
     "customerDOI" : "Customer DOI",
     "disbursementStartDate": "Disbursement - Start Date",
     "disbursementEndDate": "Disbursement - End Date",
+    "propertyValue":"Property Value",
     "validationData": {
         "name": {
             "maxLength": {
