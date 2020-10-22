@@ -191,7 +191,12 @@ export class SalesExactMatchComponent implements OnInit {
 
   onBack() {
     this.applicantDataStoreService.setDedupeFlag(true)
-    this.location.back()
+    const leadId = this.dedupeParameter.leadId;
+    const applicantId= this.dedupeParameter.applicantId
+    // this.location.back()
+    this.router.navigateByUrl(
+      `/pages/lead-section/${leadId}/co-applicant/${applicantId}` 
+    );
   }
 
   async negativeListModalListener(event) {
