@@ -86,7 +86,7 @@ export class AuthInterceptor implements HttpInterceptor {
             this.ngxUiLoaderService.stop();
             if (err.status != 401 && err.status != 500) {
               if (err.status === 0) {
-                this.toasterService.error(`${err.status}: Connection not available! Please try again later.`, 'Technical error..');
+                this.toasterService.error(`Connection not available! Please try again later.`, 'Technical error..');
               } else {
                 this.toasterService.error(`${err.status}: ${err.statusText}`, 'Technical error..');
               }

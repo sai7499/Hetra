@@ -93,7 +93,7 @@ export class ExposureDetailsComponent implements OnInit {
         // this.addProposedUnit(null);
        }
        const operationType = this.toggleDdeService.getOperationType();
-       if (operationType === '1' || operationType === '2') {
+       if (operationType) {
            this.exposureLiveLoan.disable();
            this.disableSaveBtn  = true;
          }
