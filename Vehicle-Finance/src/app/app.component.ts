@@ -251,9 +251,7 @@ export class AppComponent implements OnInit {
           },200)
           
     }
-        
   });
-
 
       window.addEventListener('unload',(event)=> {
         if(environment.production) {

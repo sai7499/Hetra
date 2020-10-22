@@ -1,3 +1,4 @@
+
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Component, OnInit, OnChanges, HostListener } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -1461,7 +1462,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       fullName: new FormControl({ value: '', disabled: true }),
       name1: new FormControl('', Validators.required),
       name2: new FormControl(''),
-      name3: new FormControl('', Validators.required),
+      name3: new FormControl(''),
       mobilePhone: new FormControl('', Validators.required),
       dob: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
