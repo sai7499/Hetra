@@ -79,7 +79,8 @@ export class BankListComponent {
     this.route.navigateByUrl(`pages/applicant-details/${this.leadId}/bank-details/${this.applicantId}`);
   }
   onBack() {
-    this.location.back();
+    // this.location.back();
+    this.route.navigateByUrl(`pages/applicant-details/${this.leadId}/address-details/${this.applicantId}`);
   }
   onNext() {
     this.route.navigateByUrl(`pages/applicant-details/${this.leadId}/employment-details/${this.applicantId}`);

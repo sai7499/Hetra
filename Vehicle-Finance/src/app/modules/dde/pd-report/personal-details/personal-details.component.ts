@@ -44,6 +44,9 @@ export class PersonalDetailsComponent implements OnInit {
     rule?: any;
     msg?: string;
   }[];
+  ownerShipType: any;
+  ownerNamePropertyAreaRequired: boolean;
+  ownerNamePropertyAreaDisabled: boolean;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -55,6 +58,8 @@ export class PersonalDetailsComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private toasterService: ToasterService,
     private utilityService: UtilityService) { }
+
+
   async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
       data => {
@@ -87,6 +92,46 @@ export class PersonalDetailsComponent implements OnInit {
     });
 
     this.monthValidation = this.monthValiationCheck();
+  }
+
+  houseOwnerShip(event: any) {
+    console.log('event', event);
+    this.ownerShipType = event ? event : event;
+    if (this.ownerShipType === '1HOUOWN' || this.ownerShipType === '2HOUOWN' ||
+      this.ownerShipType === '4HOUOWN' || this.ownerShipType === '9HOUOWN' ||
+      this.ownerShipType === '5HOUOWN') {
+      console.log('in owner,property enabled');
+      this.ownerNamePropertyAreaRequired = true;
+      this.ownerNamePropertyAreaDisabled = false;
+      // this.personalDetailsForm.get('owner').enable();
+      // this.personalDetailsForm.get('owner').setValidators(Validators.required);
+      this.personalDetailsForm.get('areaOfProperty').enable();
+      this.personalDetailsForm.get('areaOfProperty').setValidators(Validators.required);
+      this.personalDetailsForm.get('propertyValue').enable();
+      this.personalDetailsForm.get('propertyValue').setValidators(Validators.required);
+
+    } else if (this.ownerShipType !== '1HOUOWN' || this.ownerShipType !== '2HOUOWN' ||
+      this.ownerShipType !== '4HOUOWN' || this.ownerShipType !== '9HOUOWN' ||
+      this.ownerShipType !== '5HOUOWN') {
+      console.log('in owner,property disabled');
+      this.ownerNamePropertyAreaRequired = false;
+      this.ownerNamePropertyAreaDisabled = true;
+      setTimeout(() => {
+        // this.personalDetailsForm.get('owner').setValue(null);
+        this.personalDetailsForm.get('areaOfProperty').setValue(null);
+        this.personalDetailsForm.get('propertyValue').setValue(null);
+      });
+      // this.personalDetailsForm.get('owner').disable();
+      // this.personalDetailsForm.get('owner').clearValidators();
+      // this.personalDetailsForm.get('owner').updateValueAndValidity();
+      this.personalDetailsForm.get('areaOfProperty').disable();
+      this.personalDetailsForm.get('areaOfProperty').clearValidators();
+      this.personalDetailsForm.get('areaOfProperty').updateValueAndValidity();
+      this.personalDetailsForm.get('propertyValue').disable();
+      this.personalDetailsForm.get('propertyValue').clearValidators();
+      this.personalDetailsForm.get('propertyValue').updateValueAndValidity();
+
+    }
   }
 
   monthValiationCheck() {
@@ -163,9 +208,13 @@ export class PersonalDetailsComponent implements OnInit {
       noOfYearsResidingInCurrResidence: [''],
       noOfAdultDependant: ['', Validators.compose([Validators.maxLength(2), Validators.required])],
       noOfChildrenDependant: ['', Validators.compose([Validators.maxLength(2), Validators.required])],
+      residentialLocality: new FormControl('', Validators.required),
+      houseOwnership: new FormControl('', Validators.required),
+      areaOfProperty: new FormControl(''),
+      propertyValue: new FormControl(''),
       bankAccHolderName: ['', Validators.required],
       cibilScore: ['', Validators.required]
-    })
+    });
   }
 
   getLOV() { // fun call to get all lovs
@@ -296,14 +345,18 @@ export class PersonalDetailsComponent implements OnInit {
       businessType: personalPDDetais.businessType || '',
       natureOfBusiness: personalPDDetais.natureOfBusiness || '',
       educationalBackground: personalPDDetais.educationalBackground || '',
-      weddingAnniversaryDate: personalPDDetais.weddingAnniversaryDate ? this.utilityService.getDateFromString(personalPDDetais.weddingAnniversaryDate) : '',
+      weddingAnniversaryDate: personalPDDetais.weddingAnniversaryDate ?
+        this.utilityService.getDateFromString(personalPDDetais.weddingAnniversaryDate) : '',
       noOfYears: noofyears,
-      noOfMonths: noofmonths
-    })
+      noOfMonths: noofmonths,
+      propertyValue: personalPDDetais.propertyValue || '',
+      areaOfProperty: personalPDDetais.areaOfProperty || '',
+      houseOwnership: personalPDDetais.houseOwnership || ''
+    });
   }
 
   onValidateWeddingDate(event) {
-    if (event.target.value === "2MRGSTS") {
+    if (event.target.value === '2MRGSTS') {
       this.personalDetailsForm.removeControl('weddingAnniversaryDate');
       this.personalDetailsForm.addControl('weddingAnniversaryDate', new FormControl('', [Validators.required]));
     } else {

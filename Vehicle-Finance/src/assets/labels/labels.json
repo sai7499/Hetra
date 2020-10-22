@@ -1631,6 +1631,9 @@
     "employeeNo": "Employee Number",
     "initiate": "Initiate Viability for New Vehicles",
     "customerDOI" : "Customer DOI",
+    "disbursementStartDate": "Disbursement - Start Date",
+    "disbursementEndDate": "Disbursement - End Date",
+    "propertyValue":"Property Value",
     "validationData": {
         "name": {
             "maxLength": {
