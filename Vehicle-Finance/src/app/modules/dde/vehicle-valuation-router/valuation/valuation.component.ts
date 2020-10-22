@@ -83,6 +83,9 @@ export class ValuationComponent implements OnInit {
     private toggleDdeService: ToggleDdeService) { }
 
   async ngOnInit() {
+    console.log('today date', this.toDayDate);
+    this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
+    console.log('today date', this.toDayDate);
     this.getLabels();
     this.initForm();
     this.getLOV();
@@ -104,6 +107,7 @@ export class ValuationComponent implements OnInit {
         this.disableSaveBtn = true;
       }
     });
+    console.log('valuation form', this.vehicleValuationForm);
   }
 
   getLabels() {
@@ -335,7 +339,7 @@ export class ValuationComponent implements OnInit {
       assetModel: this.vehicleValuationDetails.vehicleModelCode || '',
       assetBodyType: this.vehicleValuationDetails.vehicleSegCode || '',
       region: this.vehicleValuationDetails.region || '',
-      vehicleType: this.vehicleValuationDetails.vehicleTypeCode  || '',
+      vehicleType: this.vehicleValuationDetails.vehicleTypeCode || '',
       vehicleCode: this.vehicleValuationDetails.vehicleCode || null,
       // newUsedAsset: this.vehicleValuationDetails.newUsedAsset || '',
       vehiclePrefixNo: this.vehicleValuationDetails.vehiclePrefixNo || '',
