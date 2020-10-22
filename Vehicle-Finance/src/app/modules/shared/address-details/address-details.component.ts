@@ -875,7 +875,13 @@ export class AddressDetailsComponent implements OnInit {
     }else{
       this.onPerAsCurChecked = false;
       this.isCurrAddSameAsPermAdd = '0';
-      currentAddressVariable.enable();
+      if(this.address.ucic){
+         this.disableCurrent = true;
+        currentAddressVariable.disable();
+      }else{
+        currentAddressVariable.enable();
+      }
+     
     }
 
 
@@ -1274,6 +1280,15 @@ export class AddressDetailsComponent implements OnInit {
       this.onPerAsCurChecked = false;
       this.isCurrAddSameAsPermAdd='0'
       this.disableCurrent = false;
+      if(this.onCurrAsOfficeChecked){
+        this.onCurrAsOfficeChecked = false;
+      
+        control.get('officeAddress').enable();
+        control.get('officeAddress').reset();
+        
+
+      }
+
 
     } else {
       this.showSrField = false;
@@ -1287,7 +1302,7 @@ export class AddressDetailsComponent implements OnInit {
       this.isCurrAddSameAsPermAdd='1'
       this.disableCurrent = true;
       this.SRNumberValidate = true;
-
+      
     }
   }
 
@@ -1318,16 +1333,21 @@ export class AddressDetailsComponent implements OnInit {
   validateSrNumber(event) {
     const value = event.target.value;
     if (value.length === 15 && (!this.successSR || !this.failureSR)) {
+      if(!this.successSrValue){
+        this.getSRNumberValidation(value);
+        return;
+      }
       if (value !== this.storeSRNumber) {
         if (this.successSrValue && value !== this.successSrValue) {
           this.getSRNumberValidation(value);
         }
 
       } else {
-        this.SRNumberValidate = this.validateSrBoolean ? true : false
+        this.SRNumberValidate = !this.validateSrBoolean ? true : false;
 
       }
-    }else{
+    }
+    else{
       this.SRNumberValidate = true;
     }
   }

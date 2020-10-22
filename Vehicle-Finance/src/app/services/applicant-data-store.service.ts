@@ -23,6 +23,7 @@ export class ApplicantDataStoreService {
   panValidate : boolean= false;
   isSaveBasicDetails : boolean= false;
   isSaveAddressDetails : boolean = false;
+  isNavigateDedupe : boolean = false;
   setApplicant(applicant: Applicant) {
     const aboutIndivProspectDetails = applicant.aboutIndivProspectDetails
       ? applicant.aboutIndivProspectDetails
@@ -166,6 +167,13 @@ export class ApplicantDataStoreService {
 
   getForSaveAddressDetails(){
     return this.isSaveAddressDetails;
+  }
+
+  setNavigateForDedupe(value : boolean){
+    this.isNavigateDedupe= value
+  }
+  getNavigateForDedupe(){
+    return this.isNavigateDedupe
   }
 
 }

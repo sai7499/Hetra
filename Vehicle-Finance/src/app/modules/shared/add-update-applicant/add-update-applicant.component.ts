@@ -249,6 +249,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   currAddValueChangesBoolean: boolean;
   regAddValueChangeBoolean: boolean;
   commAddValueChangeBoolean: boolean;
+  lastName : string;
 
 
   isMobile: any;
@@ -547,6 +548,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
         if (processVariables.applicantDetails.entityTypeKey == "INDIVENTTYP") {
           this.gender = processVariables.aboutIndivProspectDetails.gender;
+          this.lastName= processVariables.applicantDetails.name3
           this.disableUCICIndividualDetails(indivIdentityInfoDetails)
         } else {
           this.disableUCICNonIndividualDetails(corporateProspectDetails)
@@ -1240,6 +1242,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         //}
         this.showModifyCurrCheckBox = true;
         // const applicant= processVariables.applicantDetails; 
+        
         const indivIdentityInfoDetails = processVariables.indivIdentityInfoDetails;
         const corporateProspectDetails = processVariables.corporateProspectDetails;
         if (indivIdentityInfoDetails.passportNumber) {
@@ -1250,6 +1253,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         }
 
         if (processVariables.applicantDetails.entityTypeKey == "INDIVENTTYP") {
+          this.lastName= processVariables.applicantDetails.name3
           this.gender = processVariables.aboutIndivProspectDetails.gender;
           this.disableUCICIndividualDetails(indivIdentityInfoDetails)
         } else {
@@ -1361,7 +1365,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const dedupe = this.coApplicantForm.get('dedupe');
     dedupe.get('name1').disable();
     dedupe.get('name2').disable();
-    dedupe.get('name3').disable();
+    this.lastName ?dedupe.get('name3').disable() : null;
     dedupe.get('dob').disable();
     dedupe.get('mobilePhone').disable();
     this.gender ? dedupe.get('gender').disable() : null;
@@ -1457,7 +1461,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       fullName: new FormControl({ value: '', disabled: true }),
       name1: new FormControl('', Validators.required),
       name2: new FormControl(''),
-      name3: new FormControl(''),
+      name3: new FormControl('', Validators.required),
       mobilePhone: new FormControl('', Validators.required),
       dob: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
@@ -1716,15 +1720,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         Constant.ENTITY_INDIVIDUAL_TYPE
       ) {
         this.setIndividualFormValues();
-        setTimeout(() => {
-          this.listenerForPermenantAddress();
-        })
+        
 
       } else {
         this.setNonIndividualFormValues();
-        setTimeout(() => {
-          this.listenerForRegisterAddress();
-        })
+       
       }
     }
     setTimeout(() => {
@@ -1778,6 +1778,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     if (applicantValue.indivIdentityInfoDetails.panType == "2PANTYPE") {
       this.getPanValue(applicantValue.indivIdentityInfoDetails.panType);
     }
+
+    setTimeout(() => {
+      this.listenerForPermenantAddress();
+    })
 
 
     const permentAddress = this.coApplicantForm.get('permentAddress');
@@ -1868,6 +1872,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       gstNumber: details.gstNumber,
       tanNumber: details.tanNumber,
     });
+
+    setTimeout(() => {
+      this.listenerForRegisterAddress();
+    })
     const address = this.applicant.addressDetails
     const addressObj = this.getAddressObj(address);
     const registeredAddress = this.coApplicantForm.get('registeredAddress');
@@ -2650,17 +2658,22 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     // this.SRNumberValidate = true;
     const value = event.target.value;
     if (value.length === 15 && (!this.successSR || !this.failureSR)) {
+      if(!this.successSrValue){
+        this.getSRNumberValidation(value);
+        return;
+      }
       if (value !== this.storeSRNumber) {
         if (this.successSrValue && value !== this.successSrValue) {
           this.getSRNumberValidation(value);
         }
 
       } else {
-        this.SRNumberValidate = this.validateSrBoolean ? true : false
+        this.SRNumberValidate = !this.validateSrBoolean ? true : false
 
       }
 
-    } else {
+    }
+     else {
       this.SRNumberValidate = true;
     }
   }
@@ -3396,10 +3409,20 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           }
           this.salesDedupeService.setDedupeParameter(data);
           this.salesDedupeService.setDedupeDetails(value.ProcessVariables);
+          const currentUrl = this.location.path();
+          if (currentUrl.includes('sales')){
+            this.applicantDataService.setNavigateForDedupe(true)
+            this.router.navigateByUrl(
+              `/pages/lead-section/${this.leadId}/sales-exact-match`
+            );
+          }else{
+            this.applicantDataService.setNavigateForDedupe(false)
+            this.router.navigateByUrl(
+              `/pages/lead-section/${this.leadId}/sales-exact-match`
+            );
+          }
 
-          this.router.navigateByUrl(
-            `/pages/lead-section/${this.leadId}/sales-exact-match`
-          );
+         
 
         } else {
           this.toasterService.showError(
@@ -3458,10 +3481,21 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
 
     this.showDedupeModal = false;
-
-    this.router.navigateByUrl(
-      `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
-    );
+    const currentUrl = this.location.path();
+    if (currentUrl.includes('sales')) {
+      
+      this.router.navigateByUrl(
+        `/pages/sales-applicant-details/${this.leadId}/add-applicant/${this.applicantId}`
+      );
+    } else {
+      this.applicantDataService.setNavigateForDedupe(false)
+      this.router.navigateByUrl(
+        `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
+      );
+    }
+    // this.router.navigateByUrl(
+    //   `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
+    // );
 
 
 

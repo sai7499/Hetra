@@ -31,6 +31,7 @@ export class SalesExactMatchComponent implements OnInit {
   isIndividual: boolean;
   panValidate: boolean = false;
   applicantId;
+  isNavigateToApplicant: boolean = false;
   constructor(
     private salesDedupeService: SalesDedupeService,
     private applicantService: ApplicantService,
@@ -45,6 +46,7 @@ export class SalesExactMatchComponent implements OnInit {
     this.dedupeParameter = this.salesDedupeService.getDedupeParameter();
     this.isExactAvailable = !!this.dedupeDetails.deduIndExctMatch;
     this.isIndividual = this.dedupeDetails.entityType === 'INDIVENTTYP';
+    this.isNavigateToApplicant=this.applicantDataStoreService.getNavigateForDedupe()
     console.log('dedupeDetails', this.dedupeDetails)
   }
 
@@ -139,7 +141,24 @@ export class SalesExactMatchComponent implements OnInit {
       isMobileNumberChanged: this.dedupeDetails.isMobileNumberChanged,
       custSegment: this.dedupeDetails.custSegment,
       contactPerson: this.dedupeDetails.contactPerson,
-      // entityType : this.dedupeDetails.entityType
+      monthlyIncomeAmount: this.dedupeDetails.monthlyIncomeAmount || '',
+      annualIncomeAmount: this.dedupeDetails.annualIncomeAmount || '',
+     ownHouseProofAvail:this.dedupeDetails.ownHouseProofAvail,
+      houseOwnerProperty: this.dedupeDetails.houseOwnerProperty || '',
+      ownHouseAppRelationship: this.dedupeDetails.ownHouseAppRelationship || '',
+      averageBankBalance: this.dedupeDetails.averageBankBalance || '',
+      rtrType: this.dedupeDetails.rtrType || '',
+      prevLoanAmount: this.dedupeDetails.prevLoanAmount || '',
+      loanTenorServiced: this.dedupeDetails.loanTenorServiced
+        ? Number(this.dedupeDetails.loanTenorServiced)
+        : 0,
+      currentEMILoan: this.dedupeDetails.currentEMILoan || '',
+      agriNoOfAcres: this.dedupeDetails.agriNoOfAcres
+        ? Number(this.dedupeDetails.agriNoOfAcres)
+        : 0,
+      agriOwnerProperty: this.dedupeDetails.agriOwnerProperty || '',
+      agriAppRelationship: this.dedupeDetails.agriAppRelationship || '',
+      grossReceipt: this.dedupeDetails.grossReceipt || '',
     };
 
     this.applicantService
@@ -167,10 +186,16 @@ export class SalesExactMatchComponent implements OnInit {
       if (responce['ProcessVariables'].error.code == '0') {
         this.toasterService.showSuccess(responce['ProcessVariables'].error.message,
           'PAN Validation Successful');
+        if(!this.isNavigateToApplicant){
+          this.router.navigateByUrl(
+            `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
+          );
+        }else{
+          this.router.navigateByUrl(
+            `/pages/sales-applicant-details/${leadId}/add-applicant/${this.applicantId}`
+          );
+        }
         
-        this.router.navigateByUrl(
-          `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
-        );
 
       } else {
         //this.panValidate = true;
@@ -194,9 +219,18 @@ export class SalesExactMatchComponent implements OnInit {
     const leadId = this.dedupeParameter.leadId;
     const applicantId= this.dedupeParameter.applicantId
     // this.location.back()
-    this.router.navigateByUrl(
-      `/pages/lead-section/${leadId}/co-applicant/${applicantId}` 
-    );
+    if(!this.isNavigateToApplicant){
+      this.router.navigateByUrl(
+        `/pages/lead-section/${leadId}/co-applicant/${applicantId}`
+      );
+    }else{
+      this.router.navigateByUrl(
+        `/pages/sales-applicant-details/${leadId}/add-applicant/${applicantId}`
+      );
+    }
+    // this.router.navigateByUrl(
+    //   `/pages/lead-section/${leadId}/co-applicant/${applicantId}` 
+    // );
   }
 
   async negativeListModalListener(event) {
@@ -215,32 +249,65 @@ export class SalesExactMatchComponent implements OnInit {
       // } else {
       //   this.callApiForSelectedUcic();
       // }
-      this.router.navigateByUrl(
-        `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
-      );
+      if(!this.isNavigateToApplicant){
+        this.router.navigateByUrl(
+          `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
+        );
+      }else{
+        this.router.navigateByUrl(
+          `/pages/sales-applicant-details/${leadId}/add-applicant/${this.applicantId}`
+        );
+      }
+      // this.router.navigateByUrl(
+      //   `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
+      // );
     }
     else if (event.name === 'next' && this.currentAction === 'new') {
       const panType=this.dedupeParameter.panType==='1PANTYPE'
       if(panType){
         this.getPanValidation();
       }else{
-        this.router.navigateByUrl(
-          `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
-        );
+        if(!this.isNavigateToApplicant){
+          this.router.navigateByUrl(
+            `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
+          );
+        }else{
+          this.router.navigateByUrl(
+            `/pages/sales-applicant-details/${leadId}/add-applicant/${this.applicantId}`
+          );
+        }
+        // this.router.navigateByUrl(
+        //   `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
+        // );
       }
       
     } else if (event.name === 'next') {
-      this.router.navigateByUrl(
-        `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
-      );
+      if(!this.isNavigateToApplicant){
+        this.router.navigateByUrl(
+          `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
+        );
+      }else{
+        this.router.navigateByUrl(
+          `/pages/sales-applicant-details/${leadId}/add-applicant/${this.applicantId}`
+        );
+      }
     } else if (event.name === 'reject') {
       if (this.dedupeParameter.loanApplicationRelation === 'APPAPPRELLEAD') {
         this.router.navigateByUrl('/pages/dashboard');
         return;
       }
-      this.router.navigateByUrl(
-        `/pages/lead-section/${this.dedupeParameter.leadId}/applicant-details`
-      );
+      if(!this.isNavigateToApplicant){
+        this.router.navigateByUrl(
+          `/pages/lead-section/${this.dedupeParameter.leadId}/co-applicant`
+        );
+      }else{
+        this.router.navigateByUrl(
+          `/pages/sales-applicant-details/${this.dedupeParameter.leadId}/add-applicant`
+        );
+      }
+      // this.router.navigateByUrl(
+      //   `/pages/lead-section/${this.dedupeParameter.leadId}/applicant-details`
+      // );
     }
   }
 
