@@ -1631,6 +1631,8 @@
     "employeeNo": "Employee Number",
     "initiate": "Initiate Viability for New Vehicles",
     "customerDOI" : "Customer DOI",
+    "disbursementStartDate": "Disbursement - Start Date",
+    "disbursementEndDate": "Disbursement - End Date",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1884,7 +1886,7 @@
         },
         "podNumber": {
             "maxLength": {
-                "rule": 50
+                "rule": 30
             },
             "type": "alpha-numeric"
         },

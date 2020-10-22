@@ -13,4 +13,12 @@
   .dis-block {
     display: block;
   }
+
+.upload-icon {
+  text-align: center !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
   

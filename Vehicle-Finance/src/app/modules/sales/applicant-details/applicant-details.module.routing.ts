@@ -17,6 +17,11 @@ const routes: Routes = [
     resolve: {leadData: LeadDataResolverService}
   },
   {
+    path: ':leadId/add-applicant/:applicantId',
+    component: AddOrUpdateApplicantComponent,
+    resolve: {leadData: LeadDataResolverService}
+  },
+  {
     path: ':leadId',
     component: ApplicantDetailsComponent,
     resolve: { applicantDetails: ApplicantResolveService,
