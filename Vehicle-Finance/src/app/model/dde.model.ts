@@ -140,6 +140,7 @@ export interface ApplicantDetails {
     dependents?: string;
     owner?: string;
     areaOfProperty?: string;
+    propertyValue?: string;
     ratingbySO?: string;
     alternateAddr?: string;
 

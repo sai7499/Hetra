@@ -284,7 +284,8 @@ onSubmit() {
 
 
   onBack() {
-  this.location.back();
+  // this.location.back();
+  this.route.navigateByUrl(`/pages/dde/${this.leadId}/fleet-details`);
   }
   onNext() {
     this.route.navigateByUrl(`/pages/dde/${this.leadId}/income-details`);
