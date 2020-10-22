@@ -8,55 +8,76 @@
         <div class="query">
           <div class="col-sm-4 left">
             <form class="form-horizontal">
-              <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 ">
+              <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0">
                 <div class="input-group search-btn">
                   <input type="text" class="form-control input-search" placeholder="Search">
-                  <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                  <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
                 </div>
               </div>
 
-              <div class="row mar-top-10">
-                <p>Leads </p>
-                <p>Lead 1234 - UCV - Giribabu - 500000 - Credit Decision</p>
-                <p>Lead 1235 - UCV - Maruthu - 500000 - DDE</p>
-                <p>Lead 1236 - UCV - KK - 500000 - CPC</p>
-                <p>Lead 1237 - UCV - Gomathi - 500000 - Credit Decision</p>
-                <p>Lead 1234 - UCV - Giribabu - 500000 - Credit Decision</p>
-                <p>Lead 1234 - UCV - Giribabu - 500000 - Credit Decision</p>
-                <p>Lead 1234 - UCV - Giribabu - 500000 - Credit Decision</p>
-                <p>Lead 1234 - UCV - Giribabu - 500000 - Credit Decision</p>
-                <p>Lead 1234 - UCV - Giribabu - 500000 - Credit Decision</p>
-                <p>Lead 1234 - UCV - Giribabu - 500000 - Credit Decision</p>
-                <p>Lead 1234 - UCV - Giribabu - 500000 - Credit Decision</p>
-
-              </div>
-
-              <!-- <div class="form-group">
-                <label class="col-sm-4">From dept. </label>
-                <div class="col-sm-8">
-                  <select class="form-control">
-                    <option>Select</option>
-                    <option>Sales Officer</option>
-                    <option>Credit Officer</option>
-                  </select>
-                </div>
-              </div>
-            
-              <div class="form-group">
-                <label class="col-sm-4">Description</label>
-                <div class="col-sm-8">
-                  <textarea class="form-control" rows="8" placeholder="Type your query"></textarea>
-                </div>
-              </div>
-              
-            
-              <div class="text-right">
-                <button type="submit" class="btn btn-default mar-right8">Reset</button>
-                <button type="submit" class="btn btn-primary">Send</button>
-              </div> -->
+             
             </form>
 
             <br /><br />
+            <div class="panel-group mar-20 row" id="accordion">
+              <div class="flex-container">
+                <div class="small"><p class="mar-em">Lead 1234</p></div>
+                <div class=""><p class="mar-em">Lead 1234 - UCV Giribabu - 500000 - Credit Decision </p></div>
+              </div>
+              <hr>
+              <div class="flex-container">
+                <div class="small"><p class="mar-em">Lead 1234</p></div>
+                <div class=""><p class="mar-em">Lead 1234 - UCV Giribabu - 500000 - Credit Decision </p></div>
+              </div>
+              <hr>
+              <div class="flex-container">
+                <div class="small"><p class="mar-em">Lead 1234</p></div>
+                <div class=""><p class="mar-em">Lead 1234 - UCV Giribabu - 500000 - Credit Decision </p></div>
+              </div>
+              <hr>
+              <div class="flex-container">
+                <div class="small"><p class="mar-em">Lead 1234</p></div>
+                <div class=""><p class="mar-em">Lead 1234 - UCV Giribabu - 500000 - Credit Decision </p></div>
+              </div>
+              <hr>
+              <div class="flex-container">
+                <div class="small"><p class="mar-em">Lead 1234</p></div>
+                <div class=""><p class="mar-em">Lead 1234 - UCV Giribabu - 500000 - Credit Decision </p></div>
+              </div>
+              <hr>
+
+              <div class="panel panel-default">
+                <div class="panel-heading" id="headingTwo">
+                  <h4 class="panel-title">
+                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                      <i class="fa fa-file"></i>&nbsp; Documents Shared <i class="fa fa-angle-down"></i>
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <form>
+                      <div class="form-group col-xs-12">
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Search">
+                          <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                        </div>
+                      </div>
+                    </form>
+                    <div class="document-shared-list">
+                      <p><a href="#">ID: 12345 - Aadhar Card</a></p>
+                      <p><a href="#">ID: 67891 - Pancard</a></p>
+                      <p><a href="#">ID: 23456 - Address Proof</a></p>
+                      <p><a href="#">ID: 12340 - Document_Name</a></p>
+                      <p><a href="#">ID: 67890 - Passport</a></p>
+                      <p><a href="#">ID: 23458 - Account Opening Form</a></p>
+                      <p><a href="#">ID: 67890 - Bank Pass Book</a></p>
+                      <p><a href="#">ID: 23458 - Voter Id</a></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="panel-group mar-20" id="accordion">
               <div class="panel panel-default">
                 <div class="panel-heading" id="headingOne">
@@ -195,10 +216,10 @@
             </div>
 
             <div class="form-group row">
-              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
                 <div class="form-group">
-                  <label class="col-sm-4">Query Type</label>
-                  <div class="col-sm-8">
+                  <label class="col-sm-6">Query Type</label>
+                  <div class="col-sm-6">
                     <select class="form-control">
                       <option>Select</option>
                       <option>Clarification</option>
@@ -209,10 +230,10 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
                 <div class="form-group">
-                  <label class="col-sm-4">Tag query To</label>
-                  <div class="col-sm-8">
+                  <label class="col-sm-6">Tag query To</label>
+                  <div class="col-sm-6">
                     <select class="form-control">
                       <option>Select</option>
                       <option>E1923 - Dhanapal Nataraj</option>
@@ -221,10 +242,8 @@
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div class="form-group row">
-              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+           
+              <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
                 <div class="form-group">
                   <label for="file-upload" class="col-sm-4">Attachment</label>
                   <div class="upload-btn-wrapper col-sm-8">
@@ -235,23 +254,24 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
                 <div class="form-group">
                   <label for="file-upload" class="col-sm-4">Lead Id</label>
-                  <div class="upload-btn-wrapper col-sm-8">
+                  <div class="upload-btn-wrapper col-sm-4">
                     <!-- <button class="btn-upload">Choose file</button> -->
                     <input class="form-control" type="text" id="file-upload">
-                    <span id="file-name">*mandatory</span>
+                   
                   </div>
+                  <label for="file-upload" class="col-sm-4">*mandatory</label>
                 </div>
               </div>
             </div>
 
             <div class="form-group row">
-              <div class="col-sm-2 col-md-2 col-lg-2">
+              <!-- <div class="col-sm-2 col-md-2 col-lg-2">
                 <label for="">Description</label>
-              </div>
-              <div class="col-sm-10 col-md-10 col-lg-10">
+              </div> -->
+              <div class="col-sm-12 col-md-12 col-lg-12">
                 <textarea class="form-control" style="resize: none;"></textarea>
               </div>
             </div>
