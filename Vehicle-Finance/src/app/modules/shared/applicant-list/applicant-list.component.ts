@@ -9,6 +9,7 @@ import { LeadStoreService } from '../../sales/services/lead.store.service';
 import { ApplicantImageService } from '@services/applicant-image.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ToasterService } from '@services/toaster.service';
+import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import html2pdf from 'html2pdf.js';
@@ -56,6 +57,7 @@ export class ApplicantListComponent implements OnInit {
     private toasterService: ToasterService,
     private createLeadDataService: CreateLeadDataService,
     private toggleDdeService: ToggleDdeService,
+    private applicantDataService : ApplicantDataStoreService
   ) { }
 
   async ngOnInit() {
@@ -86,11 +88,13 @@ export class ApplicantListComponent implements OnInit {
 
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
-      if (operationType === '1' || operationType === '2') {
+      if (operationType) {
         this.disableSaveBtn = true;
       }
     })
     // this.downloadpdf();
+    this.applicantDataService.setForSaveBasicDetails(true);
+    this.applicantDataService.setForSaveAddressDetails(true);
   }
 
   getLeadId() {

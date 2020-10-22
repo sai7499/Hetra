@@ -391,7 +391,7 @@ export class TeleVerificationFormComponent implements OnInit {
       }
 
       const operationType = this.toggleDdeService.getOperationType();
-      if (operationType === '1' || operationType === '2') {
+      if (operationType) {
         this.teleVerificationForm.disable();
         this.disableSaveBtn = true;
       }
@@ -416,7 +416,8 @@ export class TeleVerificationFormComponent implements OnInit {
   }
 
   onBack() {
-    this.location.back();
+    // this.location.back();
+    this.router.navigateByUrl(`/pages/dde/${this.leadId}/tvr-details`);
   }
 
   // Submitting TVR Form Method

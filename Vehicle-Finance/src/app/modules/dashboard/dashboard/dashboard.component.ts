@@ -55,7 +55,10 @@ export enum DisplayTabs {
   CPCCheckerWithBranch,
   PreDisbursementQueue,
   PreDisbursementWithMe,
-  PreDisbursementWithBranch
+  PreDisbursementWithBranch,
+  PDDforCPC,
+  PDDWithMe,
+  PDDWithBranch
 }
 
 export enum sortingTables {
@@ -127,6 +130,8 @@ export class DashboardComponent implements OnInit {
   displayTabs = DisplayTabs;
   sortTables = sortingTables;
   endDateChange: string;
+  disbFromDate: any;
+  disbToDate: string;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
@@ -174,8 +179,8 @@ export class DashboardComponent implements OnInit {
     if (this.dashboardService.routingData) {
       this.activeTab = this.dashboardService.routingData.activeTab;
       this.subActiveTab = this.dashboardService.routingData.subActiveTab;
-      console.log('active', this.activeTab, 'sub-active', this.subActiveTab);
-      
+      // console.log('active', this.activeTab, 'sub-active', this.subActiveTab);
+
       this.onTabsLoading(this.subActiveTab);
     } else {
       if (this.roleType === 1) {
@@ -206,10 +211,13 @@ export class DashboardComponent implements OnInit {
 
     this.filterForm = this.fb.group({
       leadId: [''],
+      loanNumber: [''],
       product: [''],
       leadStage: [''],
       fromDate: [''],
       toDate: [''],
+      disbFromDate: [''],
+      disbToDate: [''],
       loanMinAmt: [null],
       loanMaxAmt: [null]
     });
@@ -301,7 +309,7 @@ export class DashboardComponent implements OnInit {
 
   onChangeFromDate(event) {
     this.fromDateChange = this.utilityService.getDateFormat(event);
-    
+
     if (this.fromDateChange) {
       this.isFromDate = true;
     } else {
@@ -313,6 +321,24 @@ export class DashboardComponent implements OnInit {
     if (this.endDateChange) {
       this.isFromDate = false;
     } else if (this.fromDateChange && (this.endDateChange == undefined || this.endDateChange == '')) {
+      this.isFromDate = true;
+    }
+  }
+
+  onChangeDisbFromDate(event) {
+    this.disbFromDate = this.utilityService.getDateFormat(event);
+    if (this.disbFromDate) {
+      this.isFromDate = true;
+    } else {
+      this.isFromDate = false;
+    }
+  }
+
+  onChangeDisbToDate(event) {
+    this.disbToDate = this.utilityService.getDateFormat(event);
+    if (this.disbToDate) {
+      this.isFromDate = false;
+    } else if (this.disbFromDate && (this.disbToDate == undefined || this.disbToDate == '')) {
       this.isFromDate = true;
     }
   }
@@ -334,11 +360,23 @@ export class DashboardComponent implements OnInit {
   }
 
   onFromDateChange() {
+    if(!this.displayTabs.PDD && !this.displayTabs.PDDforCPC) {
+
+    }
     this.filterForm.get('fromDate').valueChanges.pipe(debounceTime(0)).subscribe((data) => {
       if (data || this.filterForm.get('fromDate').dirty) {
         // this.isFromDate = true;
         this.filterForm.get('toDate').setValue(null);
       } else if (this.fromDateChange == undefined) {
+        this.isFromDate = false;
+      }
+    });
+
+    this.filterForm.get('disbFromDate').valueChanges.pipe(debounceTime(0)).subscribe((data) => {
+      if (data || this.filterForm.get('disbFromDate').dirty) {
+        // this.isFromDate = true;
+        this.filterForm.get('disbToDate').setValue(null);
+      } else if (this.disbFromDate == undefined) {
         this.isFromDate = false;
       }
     });
@@ -370,12 +408,12 @@ export class DashboardComponent implements OnInit {
         break;
     }
     switch (data) {
-      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37:
+      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40:
         this.onAssignTab = false;
         this.onReleaseTab = true;
         this.myLeads = true;
         break;
-      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38:
+      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41:
         this.onAssignTab = true;
         this.onReleaseTab = false;
         this.myLeads = false;
@@ -436,6 +474,10 @@ export class DashboardComponent implements OnInit {
         break;
       case 37: case 38:
         this.taskName = 'Predisbursement';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
+        break;
+      case 40: case 41:
+        this.taskName = 'CPC-PDD';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       default:
@@ -688,6 +730,20 @@ export class DashboardComponent implements OnInit {
   }
 
   onRoutingTabs(data) {
+    switch (this.activeTab) {
+      case 15:
+        this.router.navigateByUrl(`/pages/loanbooking/${this.leadId}/loan-booking-status`);
+        break;
+      case 16:
+        this.router.navigateByUrl(`/pages/pdd/${this.leadId}`);
+        break;
+      case 17:
+        this.router.navigateByUrl(`/pages/dde/${this.leadId}/cheque-tracking`);
+        break;
+
+      default:
+        break;
+    }
     switch (data) {
       case 4: case 5:
         localStorage.setItem('istermSheet', 'false');
@@ -733,6 +789,9 @@ export class DashboardComponent implements OnInit {
         break;
       case 37: case 38:
         this.router.navigateByUrl(`/pages/pre-disbursement/${this.leadId}/credit-condition`);
+        break;
+      case 40: case 41:
+        this.router.navigateByUrl(`/pages/pdd/${this.leadId}`);
         break;
 
       default:
@@ -842,6 +901,7 @@ export class DashboardComponent implements OnInit {
   getLoanNumber(loanNumber) {
     this.dashboardService.routingData = {
       activeTab: this.activeTab,
+      subActiveTab: this.subActiveTab
     };
     this.sharedService.getLoanNumber(loanNumber);
   }

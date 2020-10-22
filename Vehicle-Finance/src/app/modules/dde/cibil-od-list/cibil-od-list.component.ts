@@ -56,6 +56,7 @@ export class CibilOdListComponent implements OnInit {
   imageUrl: any;
   cibilImage: any;
   addMatchFound  : boolean = false;
+  cibilOdDetails: any;
   constructor(
     private labelService: LabelsService,
     private formBuilder: FormBuilder,
@@ -382,7 +383,7 @@ export class CibilOdListComponent implements OnInit {
 
       }
       const operationType = this.toggleDdeService.getOperationType();
-      if (operationType === '1' || operationType === '2') {
+      if (operationType) {
         this.odDetailsForm.disable();
         this.disableSaveBtn = true;
       }
@@ -520,6 +521,19 @@ export class CibilOdListComponent implements OnInit {
   }
 
   onBackToODDetails() {
+    this.cibilOdDetails = this.odDetailsForm.value.Rows;
+    this.submitted = true;
+    this.isDirty = true;
+    if (this.odDetailsForm.valid === true) {
+          this.onSubmit();
+        } else {
+          this.isDirty = true;
+          this.toasterService.showError(
+            'Fields Missing Or Invalid Pattern Detected',
+            'OD Details'
+          );
+          return;
+        }
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/cibil-od`);
   }
   showOdModel(i) {

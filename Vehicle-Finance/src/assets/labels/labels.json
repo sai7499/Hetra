@@ -1631,6 +1631,8 @@
     "employeeNo": "Employee Number",
     "initiate": "Initiate Viability for New Vehicles",
     "customerDOI" : "Customer DOI",
+    "disbursementStartDate": "Disbursement - Start Date",
+    "disbursementEndDate": "Disbursement - End Date",
     "propertyValue":"Property Value",
     "validationData": {
         "name": {
@@ -1878,6 +1880,18 @@
             }
         },
         "chasisNo": {
+            "maxLength": {
+                "rule": 50
+            },
+            "type": "alpha-numeric"
+        },
+        "podNumber": {
+            "maxLength": {
+                "rule": 30
+            },
+            "type": "alpha-numeric"
+        },
+        "physicalTrackingNumber": {
             "maxLength": {
                 "rule": 50
             },
@@ -2617,7 +2631,7 @@
             },
             "type": "number",
             "patternCheck": {
-                "rule": "^[1-31]",
+                "rule": "^[1-31]{1,2}",
                 "msg": "Should be between 1-31 only"
             }
         }

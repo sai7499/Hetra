@@ -96,6 +96,7 @@ export class ViabilityDetailsComponent implements OnInit {
   dmsDocumentId: string;
   applicantName: any;
   disableSaveBtn: boolean;
+  daysCheck = [];
 
 
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
@@ -117,7 +118,9 @@ export class ViabilityDetailsComponent implements OnInit {
                   this.taskId = res.taskId;
                 });
                 this.isMobile = environment.isMobile;
-
+                // tslint:disable-next-line: triple-equals
+                this.daysCheck = [{rule: val => ((val  > 0  && val > 31) || val == 0 ),
+                  msg: 'Should be between 1-31'}];
                }
 
   async ngOnInit() {
@@ -286,7 +289,7 @@ export class ViabilityDetailsComponent implements OnInit {
     };
 
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1' || operationType === '2') {
+    if (operationType) {
       this.viabilityForm.disable();
       this.disableSaveBtn = true;
     }
@@ -627,7 +630,7 @@ onSave() {
 patchViability(data: any) {
    const passanger = this.viabilityForm.controls.passanger as FormGroup;
    passanger.patchValue({
-     route: data.route ,
+    //  route: data.route ,
         onwardRoute : data.onwardRoute ,
         returnRoute: data.returnRoute ,
         natureOfGoods: data.natureOfGoods  ,
@@ -699,7 +702,7 @@ patchViability(data: any) {
        busMiscellaneousExpenses:  Number(data.busMiscellaneousExpenses) ,
        busInsurenceExpenses: data.busInsurenceExpenses ? Number(data.busInsurenceExpenses) : null,
        busMonthlyIncome:  Number(this.monthlyIncome) ,
-       netCashFlow:  this.netFlowCash ,
+       netCashFlow:  String(this.netFlowCash) ,
        emi: data.emi ? Number(data.emi) : null,
        totalExpenses: data.totalExpenses ? Number(data.totalExpenses) : null,
        otherExpenses: data.otherExpenses ? data.otherExpenses : null,

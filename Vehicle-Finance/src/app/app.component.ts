@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
   isMaas360Enabled:any;
 
   showConfirmFlag: boolean;
+  showModal: boolean;
 
   // Equitas
 
@@ -242,17 +243,13 @@ export class AppComponent implements OnInit {
 
   window.addEventListener('popstate', (event) => {
     if(!window.location.href.includes('/login') && localStorage.getItem('token') && environment.production) {
-        history.go(1);
-        if(!this.showConfirmFlag) {
-          if (confirm('Are you sure you want to logout?')) {
-            this.showConfirmFlag = true;
-            this.utilityService.logOut();
-          } else {
-            this.showConfirmFlag = true;
-              this.sharedService.browserPopState(false);
-        }
-      }
-
+          history.go(1);
+          this.sharedService.browserPopState(false);
+          this.showModal = false;
+          setTimeout(()=> {
+            this.showModal = true;
+          },200)
+          
     }
         
   });
@@ -315,5 +312,10 @@ export class AppComponent implements OnInit {
       }
       sdkHandler.registerObserver(eventHandler);
       sdkHandler.initWithAnalytics(developerKey, licenseKey, enableAnalytics);
+  }
+
+  onOkay(event) {
+    this.showModal =false;
+    this.utilityService.logOut()
   }
 }
