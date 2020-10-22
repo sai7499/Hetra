@@ -20,7 +20,7 @@
       </div>
         <div class="row">
       <div class="" id="applicantTable">
-        <table>
+        <table class="main-table">
           <thead>
             <tr class="table-head-bg">
               <th>{{ labels?.ucicId }} <i class="fa fa-sort"></i></th>
@@ -54,25 +54,47 @@
               </ng-container>
               <td [attr.data-label]="labels?.applicantType">{{ item.applicantType ? item.applicantType : '-' }}</td>
               <td [attr.data-label]="labels?.action">
-                <a (click)="navigatePage(item.applicantId)" title="Edit applicant"
-                  ><i  class="fa fa-pencil" aria-hidden="true"></i
+                <div class="flex-container">
+                  <div><a (click)="navigatePage(item.applicantId)" title="Edit applicant"
+                    ><i  class="fa fa-pencil icon p-0" aria-hidden="true"></i
+                  ></a></div>
+                  <div><a (click)="getApplicantImage(item.applicantId)"    
+                    [ngClass]="{'pointer_non': disableSaveBtn }"    
+                    data-toggle="modal"
+                    data-target="#myModal"
+                    (click)="softDeleteApplicant(i, item.applicantId)"
+                    title="Delete applicant"><i  class="fa fa-trash icon p-0" aria-hidden="true"></i
+                  ></a></div>
+                  <div> <a (click)="getApplicantImage(item.applicantId)" 
+                    data-toggle="modal"
+                      data-target="#myModalApplicantImage"
+                    title="View Bureau Report"> <strong class="icon">CB</strong></a></div>  
+                  <div><a data-toggle="modal"
+                    data-target="#myModalApplicanteKYC"  
+                    title="View applicant eKYC" (click)="geteKYCDetails(item.applicantId)"> 
+                    <strong class="icon">ER</strong>
+                  </a></div>
+                  
+                </div>
+                <a (click)="navigatePage(item.applicantId)" class="desktop-hide" title="Edit applicant"
+                  ><i  class="fa fa-pencil icon" aria-hidden="true"></i
                 ></a>
-                &nbsp;<a (click)="getApplicantImage(item.applicantId)"    
+                &nbsp;<a (click)="getApplicantImage(item.applicantId)"  class="desktop-hide"    
                   [ngClass]="{'pointer_non': disableSaveBtn }"    
                   data-toggle="modal"
                   data-target="#myModal"
                   (click)="softDeleteApplicant(i, item.applicantId)"
-                  title="Delete applicant"><i  class="fa fa-trash" aria-hidden="true"></i
+                  title="Delete applicant"><i  class="fa fa-trash icon" aria-hidden="true"></i
                 ></a> &nbsp;
-                <a (click)="getApplicantImage(item.applicantId)" 
+                <a (click)="getApplicantImage(item.applicantId)"  class="desktop-hide" 
                 data-toggle="modal"
                   data-target="#myModalApplicantImage"
-                title="View Bureau Report"> <strong>CB</strong></a>
+                title="View Bureau Report"> <strong class="icon" >CB</strong></a>
                 &nbsp;
-                <a data-toggle="modal"
+                <a data-toggle="modal"  class="desktop-hide" 
                   data-target="#myModalApplicanteKYC"  
                   title="View applicant eKYC" (click)="geteKYCDetails(item.applicantId)"> 
-                  <strong>ER</strong>
+                  <strong class="icon">ER</strong>
                 </a>
               </td>
              
