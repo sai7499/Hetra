@@ -27,6 +27,7 @@ import { constants } from 'os';
 import { ToasterService } from '@services/toaster.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { AgmFitBounds } from '@agm/core';
+import { ObjectComparisonService } from '@services/obj-compare.service';
 
 @Component({
   selector: 'app-address-details',
@@ -107,6 +108,8 @@ export class AddressDetailsComponent implements OnInit {
   validateSrBoolean: boolean;
   successSrValue: string;
   storeSRNumber : any;
+  apiValue: any;
+  finalValue: any;
 
 
   constructor(
@@ -121,7 +124,8 @@ export class AddressDetailsComponent implements OnInit {
     private location: Location,
     private utilityService: UtilityService,
     private toasterService: ToasterService,
-    private toggleDdeService: ToggleDdeService
+    private toggleDdeService: ToggleDdeService,
+    private objectComparisonService: ObjectComparisonService
   ) { }
 
   async ngOnInit() {
@@ -608,6 +612,7 @@ export class AddressDetailsComponent implements OnInit {
         this.listenerForRegisterAddress();
       })
     }
+    this.apiValue = this.addressForm.value;
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
       if (operationType) {
@@ -1414,12 +1419,13 @@ export class AddressDetailsComponent implements OnInit {
           //   `/pages/sales-applicant-details/${this.leadId}/document-upload`,
           //   this.applicantId,
           // ]);
-          this.isSave= true;
-          this.applicantDataService.setForSaveAddressDetails(true);
+          // this.isSave= true;
+          // this.applicantDataService.setForSaveAddressDetails(true);
           this.toasterService.showSuccess(
             'Record Saved Successfully',
             ''
           );
+          this.apiValue=this.addressForm.value;
   
       });
     });
@@ -1565,15 +1571,20 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   onNext() {
+    this.finalValue = this.addressForm.value;
+    const isValueCheck=this.objectComparisonService.compare(this.apiValue, this.finalValue)
+    // console.log(JSON.stringify(this.apiValue));
+    // console.log(JSON.stringify(this.finalValue));
+    // console.log(this.objectComparisonService.compare(this.apiValue, this.finalValue));
     if(this.addressForm.invalid){
       this.toasterService.showInfo('Please SAVE details before proceeding', '');
       return;
     }
-    if(!this.isSave){
+    if(!isValueCheck){
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
-    if(this.isSave){
+   
       const url = this.location.path();
     localStorage.setItem('currentUrl', url);
     if (url.includes('sales')) {
@@ -1585,7 +1596,6 @@ export class AddressDetailsComponent implements OnInit {
       this.router.navigateByUrl(
         `/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`
       );
-    }
     }
     
     
