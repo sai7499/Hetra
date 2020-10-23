@@ -1,3 +1,4 @@
+
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Component, OnInit, OnChanges, HostListener } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -249,6 +250,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   currAddValueChangesBoolean: boolean;
   regAddValueChangeBoolean: boolean;
   commAddValueChangeBoolean: boolean;
+  lastName : string;
 
 
   isMobile: any;
@@ -285,7 +287,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.leadId = this.activatedRoute.snapshot.params['leadId'];
     this.isMobile = environment.isMobile;
     this.initForm();
-    //console.log('this.coapplicantFDor,', this.coApplicantForm)
     // if (this.leadId) {
     this.getAgeValidation()
     setTimeout(async () => {
@@ -430,7 +431,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     if (dedupeFlag) {
       dedupeValues = this.applicantDataService.getDedupeValues();
       this.applicantType = dedupeValues.entityType;
-      //console.log('dedupeValues', dedupeValues)
       const details = this.getDedupeDetails()
       this.firstName = dedupeValues.name1 || '';
       this.aadhar = details.aadhar || '';
@@ -549,6 +549,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
         if (processVariables.applicantDetails.entityTypeKey == "INDIVENTTYP") {
           this.gender = processVariables.aboutIndivProspectDetails.gender;
+          this.lastName= processVariables.applicantDetails.name3
           this.disableUCICIndividualDetails(indivIdentityInfoDetails)
         } else {
           this.disableUCICNonIndividualDetails(corporateProspectDetails)
@@ -715,7 +716,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const value = event.target.value;
     this.showNotApplicant = false;
     this.checkedAddressLead = '0';
-    //console.log('value Coapplicant', value)
     if (value !== "APPAPPRELLEAD") {
       this.showApplicantAddCheckBox = true;
     } else {
@@ -910,10 +910,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   onDrvingLisenseChange(formCtrl) {
-
-    // console.log(
-    //   this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').value
-    // );
     if (
       this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').status ===
       'VALID' && this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').value !== '' &&
@@ -1035,10 +1031,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     ) {
       this.isMandatory = true;
     }
-  }
-
-  onBack() {
-    this.location.back();
   }
 
   getPincode(pincode) {
@@ -1251,6 +1243,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         //}
         this.showModifyCurrCheckBox = true;
         // const applicant= processVariables.applicantDetails; 
+        
         const indivIdentityInfoDetails = processVariables.indivIdentityInfoDetails;
         const corporateProspectDetails = processVariables.corporateProspectDetails;
         if (indivIdentityInfoDetails.passportNumber) {
@@ -1261,6 +1254,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         }
 
         if (processVariables.applicantDetails.entityTypeKey == "INDIVENTTYP") {
+          this.lastName= processVariables.applicantDetails.name3
           this.gender = processVariables.aboutIndivProspectDetails.gender;
           this.disableUCICIndividualDetails(indivIdentityInfoDetails)
         } else {
@@ -1290,14 +1284,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         }
         this.individualDatas.push(datas)
 
-        // console.log('this.individualDatas', this.individualDatas)
       } else {
         const datas = {
           ...processVariables.applicantDetails,
           ...processVariables.corporateProspectDetails
         }
         this.nonIndividualDatas.push(datas)
-        // console.log('this.nonIndividualDatas', this.nonIndividualDatas)
       }
 
 
@@ -1352,7 +1344,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov: any) => {
       this.LOV = lov;
-      console.log('this.lov', this.LOV);
 
       // this.ownerPropertyRelation =relation.splice(0,2)
       this.ownerPropertyRelation = this.LOV.LOVS.applicantRelationshipWithLead.filter(
@@ -1375,7 +1366,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const dedupe = this.coApplicantForm.get('dedupe');
     dedupe.get('name1').disable();
     dedupe.get('name2').disable();
-    dedupe.get('name3').disable();
+    this.lastName ?dedupe.get('name3').disable() : null;
     dedupe.get('dob').disable();
     dedupe.get('mobilePhone').disable();
     this.gender ? dedupe.get('gender').disable() : null;
@@ -1433,7 +1424,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   onOwnHouseAvailable(event) {
-    //console.log('event', event);
     this.isChecked = event.target.checked;
     if (this.isChecked === true) {
       this.hideMsgForOwner = true;
@@ -1642,7 +1632,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       return;
 
     } else {
-      //console.log('applicantValue', applicantValue)
       const details = this.getDetails();
       this.firstName = applicantValue.applicantDetails.name1 || '';
       this.aadhar = details.aadhar || '';
@@ -1732,15 +1721,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         Constant.ENTITY_INDIVIDUAL_TYPE
       ) {
         this.setIndividualFormValues();
-        // setTimeout(() => {
-        //   this.listenerForPermenantAddress();
-        // })
+        
 
       } else {
         this.setNonIndividualFormValues();
-        // setTimeout(() => {
-        //   this.listenerForRegisterAddress();
-        // })
+       
       }
     }
     setTimeout(() => {
@@ -1748,7 +1733,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.setDedupeValidators();
 
       const panFlag = this.applicantDataService.getPanValidate()
-      //console.log('panFlag', panFlag)
       if (panFlag) {
         this.panValidate = true;
       }
@@ -1796,6 +1780,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.getPanValue(applicantValue.indivIdentityInfoDetails.panType);
     }
 
+    setTimeout(() => {
+      this.listenerForPermenantAddress();
+    })
+
 
     const permentAddress = this.coApplicantForm.get('permentAddress');
     const currentAddress = this.coApplicantForm.get('currentAddress');
@@ -1812,9 +1800,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     if (!!permenantAddressObj) {
       this.permenantAddDatas.push(permenantAddressObj)
-      //console.log('this.permenantAddDatas', this.permenantAddDatas)
       this.isPermanantAddressSame =
         permenantAddressObj.isCurrAddSameAsPermAdd === '1';
+    }
+    if(!!currentAddressObj){
+      this.currentAddDatas.push(currentAddressObj)
     }
 
     this.permanentPincode = this.formatPincodeData(permenantAddressObj);
@@ -1827,7 +1817,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     if (this.isPermanantAddressSame) {
       this.currentPincode = this.permanentPincode;
-      this.currentAddDatas.push(permenantAddressObj)
+      //this.currentAddDatas.push(permenantAddressObj)
 
       this.isCurrAddSameAsPermAdd = '1';
 
@@ -1837,7 +1827,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       currentAddress.disable();
     } else {
       this.isCurrAddSameAsPermAdd = '0';
-      this.currentAddDatas.push(currentAddressObj)
+      
 
 
       this.currentPincode = this.formatPincodeData(currentAddressObj);
@@ -1883,6 +1873,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       gstNumber: details.gstNumber,
       tanNumber: details.tanNumber,
     });
+
+    setTimeout(() => {
+      this.listenerForRegisterAddress();
+    })
     const address = this.applicant.addressDetails
     const addressObj = this.getAddressObj(address);
     const registeredAddress = this.coApplicantForm.get('registeredAddress');
@@ -1897,7 +1891,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.regiesterAddDatas.push(registeredAddressObj)
       this.isRegAddressSame =
         registeredAddressObj.isCurrAddSameAsPermAdd === '1';
+    }if(!!communicationAddressObj){
+      this.communicationAddDatas.push(communicationAddressObj)
     }
+    
 
     this.registerPincode = this.formatPincodeData(registeredAddressObj);
     if (!!this.createAddressObject(registeredAddressObj)) {
@@ -1906,7 +1903,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       );
     }
     if (this.isRegAddressSame) {
-      this.communicationAddDatas.push(registeredAddressObj)
+      //this.communicationAddDatas.push(registeredAddressObj)
       this.communicationPincode = this.registerPincode;
       this.isCommAddSameAsRegAdd = '1';
       if (registeredAddressObj) {
@@ -1926,7 +1923,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       const communicationAddressObj =
         addressObj[Constant.CURRENT_ADDRESS] ||
         addressObj[Constant.COMMUNICATION_ADDRESS];
-      this.communicationAddDatas.push(communicationAddressObj)
+      
       this.communicationPincode = this.formatPincodeData(
         communicationAddressObj
       );
@@ -1969,7 +1966,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   }
 
-  listenerForRegisterAddress(){
+  listenerForRegisterAddress() {
     const registerAddress = this.coApplicantForm.get('registeredAddress');
     const communicationAddress = this.coApplicantForm.get('communicationAddress');
 
@@ -1997,50 +1994,45 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
 
   addListenerForPerAdd(mainControl, subControl) {
-    let val = mainControl.value
+    //let val = mainControl.value
     mainControl.valueChanges.subscribe((value) => {
 
-      if (value !== undefined && val !== value) {
-        if (this.applicantType == 'INDIVENTTYP') {
-          if (this.isCurrAddSameAsPermAdd == '1' && this.isPermanantAddressSame) {
-            subControl.setValue(value || null)
-          }
-        } else {
+      if (this.applicantType == 'INDIVENTTYP') {
+        if (this.isCurrAddSameAsPermAdd == '1' && this.isPermanantAddressSame) {
           subControl.setValue(value || null)
         }
+
       } else {
         if (this.isCommAddSameAsRegAdd == '1' && this.isRegAddressSame) {
           subControl.setValue(value || null)
-        }else{
-          subControl.setValue(value || null)
         }
       }
-
     })
+
   }
 
   cityChange(event) {
-    // const value = event.target.value;
-    // if (this.applicantType == 'INDIVENTTYP') {
-    //   if (this.isCurrAddSameAsPermAdd == '1' && this.isPermanantAddressSame) {
-    //     const formValue: AddressDetails = this.coApplicantForm.get('permentAddress').value;
-    //     const currentAddress = this.coApplicantForm.get('currentAddress');
-    //     this.currentPincode = this.permanentPincode;
-    //     currentAddress.patchValue({
-    //       ...formValue,
-    //     });
-    //   }
-    // } else {
-    //   if (this.isCommAddSameAsRegAdd == '1' && this.isRegAddressSame) {
-    //     const formValue: AddressDetails = this.coApplicantForm.get('registeredAddress').value;
-    //     const communicationAddress = this.coApplicantForm.get('communicationAddress');
-    //     this.communicationPincode = this.registerPincode;
-    //     communicationAddress.patchValue({
-    //       ...formValue,
-    //     });
-    //   }
+    const value = event.target.value;
+    if (this.applicantType == 'INDIVENTTYP') {
+      if (this.isCurrAddSameAsPermAdd == '1' && this.isPermanantAddressSame) {
+        const formValue: AddressDetails = this.coApplicantForm.get('permentAddress').value;
+        const currentAddress = this.coApplicantForm.get('currentAddress');
+        this.currentPincode = this.permanentPincode;
+        currentAddress.patchValue({
+          ...formValue,
+        });
+      }
+    } else {
+      if (this.isCommAddSameAsRegAdd == '1' && this.isRegAddressSame) {
+        const formValue: AddressDetails = this.coApplicantForm.get('registeredAddress').value;
+        const communicationAddress = this.coApplicantForm.get('communicationAddress');
+        this.communicationPincode = this.registerPincode;
+        communicationAddress.patchValue({
+          ...formValue,
+        });
+      }
 
-    // }
+    }
 
   }
 
@@ -2100,7 +2092,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         }
       });
     }
-    //console.log('addressObj', addressObj)
     return addressObj;
   }
 
@@ -2125,7 +2116,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
   drivingLicenceExpiryShowError() {
     this.mandatory['drivingLicenseExpiryDate'] = false;
-    //console.log('this.drivingLicenseExpiryDate', this.drivingLicenseExpiryDate)
     setTimeout(() => {
       if (this.drivingLicenseExpiryDate <= this.toDayDate) {
         this.showMessage['drivingLicenseExpiry'] = true;
@@ -2154,7 +2144,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         leadId: this.leadId
       }
       this.applicantService.getAddressDetails(data).subscribe((res) => {
-        // console.log('responce Address Details', res)
         if (res['ProcessVariables'].error.code == '0') {
           this.leadAddressDetails = res['ProcessVariables'].addressDetails;
           if (this.leadAddressDetails !== null) {
@@ -2286,7 +2275,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   nextForNonIndividual(formValue) {
     let dedupeValues = formValue.dedupe;
-    //console.log('dedupeValues', dedupeValues)
     let registerAddress = formValue.registeredAddress;
     let communicationAddress = formValue.communicationAddress
     if (!this.savedChecking) {
@@ -2634,8 +2622,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
       }
 
-
-      // console.log('Adhar test', this.coApplicantForm.get('dedupe').get('aadhar').value)
     } else {
       if (this.applicant == undefined) {
         const adhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
@@ -2670,27 +2656,25 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
 
   validateSrNumber(event) {
-    // console.log('event', event.target.value)
-
     // this.SRNumberValidate = true;
     const value = event.target.value;
     if (value.length === 15 && (!this.successSR || !this.failureSR)) {
+      if(!this.successSrValue){
+        this.getSRNumberValidation(value);
+        return;
+      }
       if (value !== this.storeSRNumber) {
         if (this.successSrValue && value !== this.successSrValue) {
           this.getSRNumberValidation(value);
         }
 
       } else {
-        // if(!this.validateSrBoolean){
-        //   this.SRNumberValidate = false;
-        // }else{
-        //   this.SRNumberValidate = true;
-        // }
-        this.SRNumberValidate = this.validateSrBoolean ? true : false
+        this.SRNumberValidate = !this.validateSrBoolean ? true : false
 
       }
 
-    } else {
+    }
+     else {
       this.SRNumberValidate = true;
     }
   }
@@ -2724,7 +2708,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     return date ? formatDate(date, 'dd/MM/yyyy', 'en-us') : '';
   }
   storeIndividualValueInService(coApplicantModel) {
-    //console.log('dedupeVaribles', this.dedupeVaribales)
     const dedupe = coApplicantModel.dedupe;
 
     if (this.dedupeVaribales) {
@@ -2826,7 +2809,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     if (registerAddress) {
       this.addressDetails = [];
       const addressObject = this.createAddressObject(registerAddress);
-      //console.log('addressObject', addressObject);
       this.addressDetails.push({
         ...addressObject,
         addressType: Constant.REGISTER_ADDRESS,
@@ -2843,10 +2825,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         pobox: communicationAddress.pobox
       });
     }
-    //console.log('addressDetails', this.addressDetails);
   }
   onFormSubmit() {
-    console.log('Form', this.coApplicantForm);
+    // console.log('Form', this.coApplicantForm);
     const formValue = this.coApplicantForm.getRawValue();
 
     const coApplicantModel = {
@@ -2985,7 +2966,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       const response = res;
       const message = response.ProcessVariables.error.message;
       if (response.ProcessVariables.error.code === '0') {
-        //console.log('data', data)
         this.savedChecking = true;
         this.dedupeValueChangeBoolean = false;
         this.permAddvalueChangesBoolean = false;
@@ -3073,9 +3053,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const currentAddress = this.coApplicantForm.get('currentAddress');
     if (eventClicked) {
       const formValue: AddressDetails = this.coApplicantForm.get('permentAddress').value;
-      this.isPermanantAddressSame = true
-
-      // console.log('formvalue permanent', formValue)
+      this.isPermanantAddressSame = true;
       this.currentPincode = this.permanentPincode;
       //const permanentAddress = this.coApplicantForm.get('currentAddress');
       currentAddress.patchValue({
@@ -3116,7 +3094,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   enableDedupeButton() {
     const dedupe = this.coApplicantForm.get('dedupe');
     dedupe.get('name1').valueChanges.subscribe((value) => {
-      //console.log('getValidStatus', this.getValidStatus('name1'));
       const status = this.getValidStatus('name1');
       if (status === 'VALID') {
       } else {
@@ -3165,7 +3142,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   setDrivingLicenceValidator() {
     const dedupe = this.coApplicantForm.get('dedupe');
-    //console.log('issue',this.drivingLicenseIssueDate, 'expiry',this.drivingLicenseExpiryDate )
 
     if (
       (this.drivingLicenseIssueDate !== '' &&
@@ -3173,14 +3149,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       (this.drivingLicenseExpiryDate !== undefined &&
         this.drivingLicenseExpiryDate !== '')
     ) {
-      //console.log('issue',this.drivingLicenseIssueDate, 'expiry',this.drivingLicenseExpiryDate )
       dedupe.get('drivingLicenseNumber').setValidators(Validators.required);
       dedupe.get('drivingLicenseNumber').updateValueAndValidity();
     }
   }
 
   checkDedupe() {
-    console.log('dedupe', this.coApplicantForm.get('dedupe'));
+    //console.log('dedupe', this.coApplicantForm.get('dedupe'));
 
     if (this.hideMsgForOwner) {
       const houseOwner = this.coApplicantForm.get('dedupe').get('houseOwnerProperty').value;
@@ -3430,16 +3405,25 @@ export class AddOrUpdateApplicantComponent implements OnInit {
               nlRemarks,
               nlTrRemarks,
             };
-            // console.log('dedeupe', this.coApplicantForm.get('dedupe'));
             // this.showDedupeModal = true;
             return;
           }
           this.salesDedupeService.setDedupeParameter(data);
           this.salesDedupeService.setDedupeDetails(value.ProcessVariables);
+          const currentUrl = this.location.path();
+          if (currentUrl.includes('sales')){
+            this.applicantDataService.setNavigateForDedupe(true)
+            this.router.navigateByUrl(
+              `/pages/lead-section/${this.leadId}/sales-exact-match`
+            );
+          }else{
+            this.applicantDataService.setNavigateForDedupe(false)
+            this.router.navigateByUrl(
+              `/pages/lead-section/${this.leadId}/sales-exact-match`
+            );
+          }
 
-          this.router.navigateByUrl(
-            `/pages/lead-section/${this.leadId}/sales-exact-match`
-          );
+         
 
         } else {
           this.toasterService.showError(
@@ -3461,7 +3445,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         applicantId: this.applicantId
       }
       this.applicantService.wrapperPanValidaion(data).subscribe((responce) => {
-        //console.log('responce Pan Validation', responce)
         if (responce['ProcessVariables'].error.code == '0') {
           this.toasterService.showSuccess(responce['ProcessVariables'].error.message,
             'PAN Validation Successful');
@@ -3480,7 +3463,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.applicantDataService.setPanValidate(true);
 
           this.panValidate = this.applicantDataService.getPanValidate()
-          //console.log('getPanFalg', this.panValidate)
           this.toasterService.showError(
             responce['ProcessVariables'].error.message,
             'PAN Validation Error'
@@ -3500,10 +3482,21 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
 
     this.showDedupeModal = false;
-
-    this.router.navigateByUrl(
-      `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
-    );
+    const currentUrl = this.location.path();
+    if (currentUrl.includes('sales')) {
+      
+      this.router.navigateByUrl(
+        `/pages/sales-applicant-details/${this.leadId}/add-applicant/${this.applicantId}`
+      );
+    } else {
+      this.applicantDataService.setNavigateForDedupe(false)
+      this.router.navigateByUrl(
+        `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
+      );
+    }
+    // this.router.navigateByUrl(
+    //   `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
+    // );
 
 
 
@@ -3611,7 +3604,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         let processVariables = res.ProcessVariables;
         // value = JSON.parse(value).ProcessVariables;
 
-        console.log("KYC result&&&&@@@" + processVariables);
+        //console.log("KYC result&&&&@@@" + processVariables);
 
         if (processVariables.error.code == '0') {
 

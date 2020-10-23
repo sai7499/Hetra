@@ -630,7 +630,7 @@ onSave() {
 patchViability(data: any) {
    const passanger = this.viabilityForm.controls.passanger as FormGroup;
    passanger.patchValue({
-     route: data.route ,
+    //  route: data.route ,
         onwardRoute : data.onwardRoute ,
         returnRoute: data.returnRoute ,
         natureOfGoods: data.natureOfGoods  ,
@@ -702,7 +702,7 @@ patchViability(data: any) {
        busMiscellaneousExpenses:  Number(data.busMiscellaneousExpenses) ,
        busInsurenceExpenses: data.busInsurenceExpenses ? Number(data.busInsurenceExpenses) : null,
        busMonthlyIncome:  Number(this.monthlyIncome) ,
-       netCashFlow:  this.netFlowCash ,
+       netCashFlow:  String(this.netFlowCash) ,
        emi: data.emi ? Number(data.emi) : null,
        totalExpenses: data.totalExpenses ? Number(data.totalExpenses) : null,
        otherExpenses: data.otherExpenses ? data.otherExpenses : null,
