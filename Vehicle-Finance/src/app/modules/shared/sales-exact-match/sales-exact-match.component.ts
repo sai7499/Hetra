@@ -55,11 +55,13 @@ export class SalesExactMatchComponent implements OnInit {
   continueAsNewApplicant() {
     this.currentAction = 'new';
     this.modalName = 'newLeadModal';
+    this.applicantDataStoreService.setDetectvalueChange(true)
   }
 
   continueWithSelectedUCIC() {
     this.currentAction = 'ucic';
     this.modalName = 'ucicModal2';
+    this.applicantDataStoreService.setDetectvalueChange(true)
   }
 
   onProbableChange(event, value) {

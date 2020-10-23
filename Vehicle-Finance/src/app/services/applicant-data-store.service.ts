@@ -24,6 +24,7 @@ export class ApplicantDataStoreService {
   isSaveBasicDetails : boolean= false;
   isSaveAddressDetails : boolean = false;
   isNavigateDedupe : boolean = false;
+  isValueChange : boolean = false;
   setApplicant(applicant: Applicant) {
     const aboutIndivProspectDetails = applicant.aboutIndivProspectDetails
       ? applicant.aboutIndivProspectDetails
@@ -153,22 +154,13 @@ export class ApplicantDataStoreService {
   getPanValidate(){
     return this.panValidate
   }
-
-  setForSaveBasicDetails(value : boolean){
-    this.isSaveBasicDetails= value;
+ 
+  setDetectvalueChange(value : boolean){
+    this.isValueChange= value
   }
-
-  getForSaveBasicDetails(){
-    return this.isSaveBasicDetails;
+  getDetectvalueChange(){
+    return this.isValueChange
   }
-  setForSaveAddressDetails(value : boolean){
-    this.isSaveAddressDetails= value;
-  }
-
-  getForSaveAddressDetails(){
-    return this.isSaveAddressDetails;
-  }
-
   setNavigateForDedupe(value : boolean){
     this.isNavigateDedupe= value
   }

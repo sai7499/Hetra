@@ -83,6 +83,7 @@ export class ApplicantDetailsComponent implements OnInit {
     this.getApplicantList();
     this.applicantDataStoreService.setDedupeFlag(false);
     this.applicantDataStoreService.setPanValidate(false);
+    this.applicantDataStoreService.setDetectvalueChange(false)
   }
 
   // getData() {
