@@ -543,18 +543,14 @@ export class BasicDetailsComponent implements OnInit {
       agriAppRelationship: applicantDetails.agriAppRelationship || '',
       grossReceipt: applicantDetails.grossReceipt,
     });
-    console.log('this.basicForm.value', this.basicForm.value)
-    this.apiValue = this.basicForm.value;
+    //console.log('this.basicForm.value', this.basicForm.value)
+    this.apiValue = this.basicForm.getRawValue();
     if (this.isIndividual){
-      const dob= this.basicForm.value.details[0].dob
+      const dob= this.basicForm.getRawValue().details[0].dob
       this.apiValue.details[0].dob=this.utilityService.getDateFormat(dob)
     }else{
-      const doc=this.basicForm.value.details[0].dateOfIncorporation;
-      // const externalRatingIssueDate=this.basicForm.value.details[0].externalRatingIssueDate;
-      // const externalRatingExpiryDate=this.basicForm.value.details[0].externalRatingExpiryDate;
+      const doc=this.basicForm.getRawValue().details[0].dateOfIncorporation;
        this.apiValue.details[0].dateOfIncorporation=this.utilityService.getDateFormat(doc)
-      // this.apiValue.details[0].externalRatingIssueDate=this.utilityService.getDateFormat(externalRatingIssueDate)
-      // this.apiValue.details[0].externalRatingExpiryDate=this.utilityService.getDateFormat(externalRatingExpiryDate)
     }
     
   }
@@ -896,7 +892,14 @@ export class BasicDetailsComponent implements OnInit {
           'Record Saved Successfully',
           ''
         );
-        this.apiValue=this.basicForm.value;
+        this.apiValue=this.basicForm.getRawValue();
+        if(this.isIndividual){
+          const dob= this.basicForm.getRawValue().details[0].dob
+          this.apiValue.details[0].dob=this.utilityService.getDateFormat(dob)
+        }else{
+          const doc=this.basicForm.getRawValue().details[0].dateOfIncorporation;
+          this.apiValue.details[0].dateOfIncorporation=this.utilityService.getDateFormat(doc)
+        }
       }else{
         this.toasterService.showError(
           res.ProcessVariables.error.message,
@@ -1092,34 +1095,30 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   onNext() {
-      this.finalValue = this.basicForm.value;
+      this.finalValue = this.basicForm.getRawValue();
       //console.log('basicFrm',this.basicForm.value)
       if (this.isIndividual){
-        if(this.applicant.ucic){
-          this.finalValue.details[0].name1=this.apiValue.details[0].name1
-          this.finalValue.details[0].name2=this.apiValue.details[0].name2
-          this.finalValue.details[0].name3=this.apiValue.details[0].name3
-          this.finalValue.details[0].mobilePhone=this.apiValue.details[0].mobilePhone
-          this.finalValue.details[0].dob=this.apiValue.details[0].dob
-          this.finalValue.details[0].gender=this.apiValue.details[0].gender
-        }
-        const dob= this.basicForm.value.details[0].dob
+        // if(this.applicant.ucic){
+        //   this.finalValue.details[0].name1=this.apiValue.details[0].name1
+        //   this.finalValue.details[0].name2=this.apiValue.details[0].name2
+        //   this.finalValue.details[0].name3=this.apiValue.details[0].name3
+        //   this.finalValue.details[0].mobilePhone=this.apiValue.details[0].mobilePhone
+        //   this.finalValue.details[0].dob=this.apiValue.details[0].dob
+        //   this.finalValue.details[0].gender=this.apiValue.details[0].gender
+        // }
+        const dob= this.basicForm.getRawValue().details[0].dob
         this.finalValue.details[0].dob=this.utilityService.getDateFormat(dob)
       }else{
-        if(this.applicant.ucic){
-          this.finalValue.details[0].name1=this.apiValue.details[0].name1
-          this.finalValue.details[0].name2=this.apiValue.details[0].name2
-          this.finalValue.details[0].name3=this.apiValue.details[0].name3
-          this.finalValue.details[0].companyPhoneNumber=this.apiValue.details[0].companyPhoneNumber
-          this.finalValue.details[0].dateOfIncorporation=this.apiValue.details[0].dateOfIncorporation
-        }
+        // if(this.applicant.ucic){
+        //   this.finalValue.details[0].name1=this.apiValue.details[0].name1
+        //   this.finalValue.details[0].name2=this.apiValue.details[0].name2
+        //   this.finalValue.details[0].name3=this.apiValue.details[0].name3
+        //   this.finalValue.details[0].companyPhoneNumber=this.apiValue.details[0].companyPhoneNumber
+        //   this.finalValue.details[0].dateOfIncorporation=this.apiValue.details[0].dateOfIncorporation
+        // }
        
-        const doc=this.basicForm.value.details[0].dateOfIncorporation;
-        // const externalRatingIssueDate=this.basicForm.value.details[0].externalRatingIssueDate;
-        // const externalRatingExpiryDate=this.basicForm.value.details[0].externalRatingExpiryDate;
+        const doc=this.basicForm.getRawValue().details[0].dateOfIncorporation;
         this.finalValue.details[0].dateOfIncorporation=this.utilityService.getDateFormat(doc)
-        // this.finalValue.details[0].externalRatingIssueDate=this.utilityService.getDateFormat(externalRatingIssueDate)
-        // this.finalValue.details[0].externalRatingExpiryDate=this.utilityService.getDateFormat(externalRatingExpiryDate)
       }
       // console.log(JSON.stringify(this.apiValue));
       //  console.log(JSON.stringify(this.finalValue));
@@ -1134,6 +1133,7 @@ export class BasicDetailsComponent implements OnInit {
         this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
         return;
       }
+    
       
       if(this.mobileNumberChange){
         this.router.navigateByUrl(

@@ -93,8 +93,8 @@ export class ApplicantListComponent implements OnInit {
       }
     })
     // this.downloadpdf();
-    this.applicantDataService.setForSaveBasicDetails(true);
-    this.applicantDataService.setForSaveAddressDetails(true);
+    // 
+    this.applicantDataService.setDetectvalueChange(false)
   }
 
   getLeadId() {
