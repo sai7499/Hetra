@@ -13,6 +13,7 @@ import { Constant } from '@assets/constants/constant';
 import { UploadService } from '@services/upload.service';
 import { DraggableContainerService } from '@services/draggable.service';
 import { LabelsService } from "@services/labels.service";
+import { ObjectComparisonService } from '@services/obj-compare.service';
 
 @Component({
     templateUrl: './pdd.component.html',
@@ -61,7 +62,8 @@ export class PddComponent implements OnInit {
                 private draggableContainerService: DraggableContainerService,
                 private activatedRoute: ActivatedRoute,
                 private labelsData: LabelsService,
-                private router: Router) {
+                private router: Router,
+                private objectComparisonService: ObjectComparisonService) {
                 }
     ngOnInit() {
         this.getLabels();
@@ -159,6 +161,7 @@ export class PddComponent implements OnInit {
                                 categoryName: value.categoryName,
                                 docTypCd: value.docId,
                                 subCategoryCode: value.subCategoryCode,
+                                docFullName: value.value
                             };
                         });
                         this.updateDocumentDetailsTable(pddDocumentList);
@@ -254,7 +257,8 @@ export class PddComponent implements OnInit {
                 docSbCtgry: new FormControl(value.docType),
                 docCatg: new FormControl(value.categoryName),
                 docTypCd: new FormControl(value.docId),
-                docSbCtgryCd: new FormControl(value.subCategoryCode || value.name)
+                docSbCtgryCd: new FormControl(value.subCategoryCode || value.name),
+                docFullName: new FormControl(value.docName || ''),
             });
             formArray.push(formGroup);
             if (this.isSales && this.disableDocumentList) {
@@ -271,6 +275,18 @@ export class PddComponent implements OnInit {
         return value;
     }
 
+    documentName(index) {
+        const formArray = this.pddForm.get('pddDocumentDetails') as FormArray;
+        const value = formArray['controls'][index].get('docFullName').value;
+        return value;
+    }
+
+    getCollectedDate(index) {
+        const formArray = this.pddForm.get('pddDocumentDetails') as FormArray;
+        const value = formArray['controls'][index].get('collectedDate').value;
+        return value;
+    }
+
     updateTable() {
         const arrValue: any[] = this.pddForm.get('pddDocumentDetails').value;
         const formatArrValue = arrValue.map((value) => {
@@ -282,13 +298,18 @@ export class PddComponent implements OnInit {
                 cpcReceivedDate: this.utilityService.getDateFormat(value.cpcReceivedDate) || '',
             };
         });
-
-        if (this.checkTableValidation()) {
-            return this.toasterService.showError('Please enter all fields', '');
+        const validation: any = this.checkTableValidation();
+        if (validation) {
+            const docName = formatArrValue[validation.index].docName;
+            const dmsDocId = formatArrValue[validation.index].dmsDocId;
+            if (!dmsDocId) {
+                return this.toasterService.showError(`Please upload document for ${docName}`, '');
+            }
+            return this.toasterService.showError(`Please enter all fields for ${docName}`, '');
         }
-        if (this.checkDocsIsUploaded()) {
-            return;
-        }
+        // if (this.checkDocsIsUploaded()) {
+        //     return;
+        // }
         this.callUpdateAPI({pddDocumentDetails: formatArrValue});
     }
 
@@ -422,17 +443,34 @@ export class PddComponent implements OnInit {
     }
 
     checkTableValidation() {
-        
         const formArray = this.pddForm.get('pddDocumentDetails') as FormArray;
-        const details = formArray.value;
-        console.log('details', details);
-        const check = details.some((value) => {
+        const details = (formArray.value || []).map((value) => {
             if (this.isSales) {
-                return !value.collectedDate || !value.courieredDate || !value.docNumber || !value.podNumber;
+                return {
+                    collectedDate: value.collectedDate,
+                    courieredDate: value.courieredDate,
+                    podNumber: value.podNumber,
+                    docNumber: value.docNumber,
+                    dmsDocId: value.dmsDocId
+                };
             } else {
-                return !value.cpcStatus || !value.cpcReceivedDate || !value.phyTrackingNum;
+                return {
+                    cpcStatus: value.cpcStatus,
+                    cpcReceivedDate: value.cpcReceivedDate,
+                    phyTrackingNum: value.phyTrackingNum,
+                };
             }
         });
+        console.log('details', details);
+
+        // const check = details.some((value) => {
+        //     if (this.isSales) {
+        //         return !value.collectedDate || !value.courieredDate || !value.docNumber || !value.podNumber;
+        //     } else {
+        //         return !value.cpcStatus || !value.cpcReceivedDate || !value.phyTrackingNum;
+        //     }
+        // });
+        const check = this.objectComparisonService.isThereAnyUnfilledObj(details);
         console.log('check', check);
         return check;
 
