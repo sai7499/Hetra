@@ -8,6 +8,7 @@ import { DisbursementService } from '../services/disbursement.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginStoreService } from '@services/login-store.service';
 import { LoanCreationService } from '@services/loan-creation.service';
+import { retry } from 'rxjs/operators';
 declare var jquery: any;
 declare var $: any;
 
@@ -2428,7 +2429,7 @@ export class DisbursementFormComponent implements OnInit {
     }
   }
 
-  saveAndUpdate() {
+  saveAndUpdate(fromButton?:string) {
     // console.log(this.disburseTo)
     // console.log('1', this.dealerDetailsForm.valid);
     // console.log('2', this.appDetailsForm.valid);
@@ -2831,22 +2832,23 @@ export class DisbursementFormComponent implements OnInit {
               const apiError = response.ProcessVariables.error;
               if (apiError.code == '0') {
                 this.toasterService.showSuccess('saved successfully', '');
-                this.fetchDisbursementDetails();
+                this.fetchDisbursementDetails();                
+                this.onNext(true);
               } else {
-                this.toasterService.showError(apiError.message, '');
+                this.toasterService.showError(apiError.message, '');                
               }
               console.log('saveUpdate', response.ProcessVariables)
             }
           });
 
         } else {
-          this.toasterService.showError('Please fill all mandatory fields', '');
+          this.toasterService.showError('Please fill all mandatory fields', '');         
         }
       } else {
-        this.toasterService.showError('Please select "from whom" deductions to be levied', '');
+        this.toasterService.showError('Please select "from whom" deductions to be levied', '');        
       }
     } else {
-      this.toasterService.showError('Please select "to whom" disbursement to be done', '');
+      this.toasterService.showError('Please select "to whom" disbursement to be done', '');     
     }
 
   }
@@ -3224,10 +3226,10 @@ export class DisbursementFormComponent implements OnInit {
       });
     });
   }
- onNext() {
-  if(this.roleType == '1') {
+ onNext(status?:boolean) {   
+  if(this.roleType == '1' && status == true) {    
     this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/sanction-details`]);
-  } else if (this.roleType == '2' ) {
+  } else if (this.roleType == '2' && status == true) {
     // this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/term-sheet`]);
     this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/cam`]);
   } else if( this.roleType == '4' ) {

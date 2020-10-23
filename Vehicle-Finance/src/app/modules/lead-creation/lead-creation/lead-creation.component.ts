@@ -59,7 +59,7 @@ export class LeadCreationComponent implements OnInit {
   showModal: boolean;
   modalMessage: string;
   isNgAutoCompleteSourcing: any;
-  isNgAutoCompleteDealer: any;
+  isNgAutoCompleteDealer: boolean;
   isMobile: any;
   isSourchingCode: boolean;
   isDirty: boolean;
@@ -73,6 +73,8 @@ export class LeadCreationComponent implements OnInit {
   isLastNameRequired: boolean;
   dob: any;
   isSourceCode: boolean;
+  isDealerCode: boolean;
+  sourchingTypeId: string;
 
 
   obj = {};
@@ -176,10 +178,10 @@ export class LeadCreationComponent implements OnInit {
       sourcingChannel: new FormControl('', Validators.required),
       sourcingType: new FormControl('', Validators.required),
       sourcingCode: new FormControl(''),
-      dealerCode: new FormControl('', Validators.required),
-      rcLimit: new FormControl({ value: '', disabled: true }, Validators.required),
-      rcUtilizedLimit: new FormControl({ value: '', disabled: true }, Validators.required),
-      rcUnutilizedLimit: new FormControl({ value: '', disabled: true }, Validators.required),
+      dealerCode: new FormControl(''),
+      rcLimit: new FormControl({ value: '', disabled: true }),
+      rcUtilizedLimit: new FormControl({ value: '', disabled: true }),
+      rcUnutilizedLimit: new FormControl({ value: '', disabled: true }),
       spokeCodeLocation: new FormControl({
         value: '',
         disabled: !this.isSpoke,
@@ -356,9 +358,30 @@ export class LeadCreationComponent implements OnInit {
   }
 
   sourchingTypeChange(event) {
-    const sourchingTypeId = event.target ? event.target.value : event;
+    this.sourchingTypeId = event.target ? event.target.value : event;
+    if (this.sourchingTypeId === '2SOURTYP') {
+      this.createLeadForm.controls['dealerCode'].setValidators(Validators.required);
+      this.createLeadForm.controls['dealerCode'].updateValueAndValidity();
+      this.createLeadForm.controls['rcLimit'].setValidators(Validators.required);
+      this.createLeadForm.controls['rcLimit'].updateValueAndValidity();
+      this.createLeadForm.controls['rcUtilizedLimit'].setValidators(Validators.required);
+      this.createLeadForm.controls['rcUtilizedLimit'].updateValueAndValidity();
+      this.createLeadForm.controls['rcUnutilizedLimit'].setValidators(Validators.required);
+      this.createLeadForm.controls['rcUnutilizedLimit'].updateValueAndValidity();
+      this.isDealerCode = true;
+    } else {
+      this.createLeadForm.controls['dealerCode'].setValidators([]);
+      this.createLeadForm.controls['dealerCode'].updateValueAndValidity();
+      this.createLeadForm.controls['rcLimit'].setValidators([]);
+      this.createLeadForm.controls['rcLimit'].updateValueAndValidity();
+      this.createLeadForm.controls['rcUtilizedLimit'].setValidators([]);
+      this.createLeadForm.controls['rcUtilizedLimit'].updateValueAndValidity();
+      this.createLeadForm.controls['rcUnutilizedLimit'].setValidators([]);
+      this.createLeadForm.controls['rcUnutilizedLimit'].updateValueAndValidity();
+      this.isDealerCode = false;
+    }
     this.socuringTypeData = this.sourcingData.filter(
-      (data) => data.sourcingTypeId === sourchingTypeId
+      (data) => data.sourcingTypeId === this.sourchingTypeId
     );
     this.placeholder = this.utilityService.getValueFromJSON(
       this.socuringTypeData,
@@ -402,6 +425,10 @@ export class LeadCreationComponent implements OnInit {
       });
   }
 
+  onSourcingCodeCleared(event) {
+    this.isSourceCode = false;
+  }
+
   selectSourcingEvent(event) {
     const sourcingEvent = event;
     this.isSourceCode = sourcingEvent.key ? true : false;
@@ -421,8 +448,20 @@ export class LeadCreationComponent implements OnInit {
     });
   }
 
+  onDealerCodeCleared(event) {
+    if(this.sourchingTypeId === '2SOURTYP'){
+      this.isDealerCode = true;
+    } else {
+      this.isDealerCode = false;
+    }
+   
+  }
+
   selectDealerEvent(event) {
-    this.isNgAutoCompleteDealer = event.dealorCode ? true : false;
+    if (this.isDealerCode) {
+      this.isNgAutoCompleteDealer = event.dealorCode ? false : true;
+      this.isDealerCode = this.isNgAutoCompleteDealer ? true : false;
+    }
     const rcData = event;
     this.createLeadForm.patchValue({ rcLimit: rcData.rcLimit });
     this.createLeadForm.patchValue({ rcUtilizedLimit: rcData.rcUtilized });
@@ -485,14 +524,17 @@ export class LeadCreationComponent implements OnInit {
 
   onFirstName(event) {
     this.firstName = event.target.value;
+    this.firstName = this.firstName.replace(/[^a-zA-Z ]/g, '');
   }
 
   onMiddleName(event) {
     this.middleName = event.target.value;
+    this.middleName = this.middleName.replace(/[^a-zA-Z ]/g, '');
   }
 
   onLastName(event) {
     this.lastName = event.target.value;
+    this.lastName = this.lastName.replace(/[^a-zA-Z ]/g, '');
   }
 
   onSubmit() {
@@ -500,16 +542,14 @@ export class LeadCreationComponent implements OnInit {
     console.log('this.createLeadForm.valid', this.createLeadForm.valid);
     console.log('isNgAutoCompleteDealer', this.createLeadForm.controls.dealerCode.value);
     console.log('isNgAutoCompleteSourcing', this.createLeadForm.controls.sourcingCode.value);
-
-    // this.isNgAutoCompleteSourcing = this.createLeadForm.controls.sourcingCode.value;
-    // this.isNgAutoCompleteDealer = this.createLeadForm.controls.dealerCode.value;
     this.isMobile = this.createLeadForm.controls.mobile.value;
     this.isDirty = true;
 
     if (
       this.createLeadForm.valid === true &&
-      this.isNgAutoCompleteDealer &&
+      !this.isNgAutoCompleteDealer &&
       // this.isNgAutoCompleteSourcing !== '' &&
+      !this.isDealerCode &&
       this.isSourceCode &&
       this.isMobile !== ''
     ) {
@@ -596,7 +636,7 @@ export class LeadCreationComponent implements OnInit {
             }
           },
           (err) => {
-            alert(err);
+            console.log(err);
           }
         );
     } else {

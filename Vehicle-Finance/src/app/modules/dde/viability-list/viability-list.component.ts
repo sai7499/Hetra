@@ -24,6 +24,7 @@ export class ViabilityListComponent {
   taskId: any;
   fiCumPdStatusString: string;
   fiCumPdStatus: boolean;
+  inititate = false;
 
   constructor(private labelsData: LabelsService,
               private router: Router,
@@ -71,11 +72,7 @@ export class ViabilityListComponent {
       this.showNext = false;
     }
     console.log(this.route, 'queryParams Check');
-    // const operationType = this.toggleDdeService.getOperationType();
-    // if (operationType === '1' || operationType === '2') {
-    //   this.modalDataForm.disable();
-    //   this.disableSaveBtn = true;
-    // }
+    
   }
   getViability(data: any, make: any, model: any, applicantName: any) {
     const body = {
@@ -124,8 +121,25 @@ export class ViabilityListComponent {
     this.viabilityService.getViabilityList(body).subscribe((res: any) => {
       if (res.ProcessVariables.error.code === '0') {
         this.viabilityData = res.ProcessVariables.vehicleViabilityDashboardList;
+        this.inititate = res.ProcessVariables.initiate;
       } else {
         this.toasterService.showWarning('No Viablity Found', 'Contact Sales');
+      }
+    });
+  }
+  reInitiateViability() {
+    const body = {
+      leadId: this.leadId,
+      // collateralId: this.collataralId,
+      isReinitiated: false
+    };
+    this.viabilityService.reinitiateViabilityDetails(body).subscribe((res: any) => {
+      // tslint:disable-next-line: triple-equals
+      if (res.ProcessVariables.error.code == '0') {
+      this.toasterService.showSuccess('Vehicle viability task assigned succesfully', '');
+      this.router.navigateByUrl(`pages/dashboard`);
+      } else {
+        this.toasterService.showError(res.ProcessVariables.error.message, '');
       }
     });
   }

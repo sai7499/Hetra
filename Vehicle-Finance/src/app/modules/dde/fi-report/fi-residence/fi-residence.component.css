@@ -21,3 +21,14 @@ cus-mandatory-field {
         margin-bottom: 0px;
     }
 }
+.pad-zero{
+    padding-left: 0px!important;
+    padding-right: 0px!important;
+}
+.cus-title {
+    margin: 15px 0;
+}
+
+.btn-mar-5{
+    margin-bottom: 50px;
+}

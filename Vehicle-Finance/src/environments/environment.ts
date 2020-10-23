@@ -1,6 +1,5 @@
 import { environment as environmentProd } from './environment.prod';
 
-
 export const environment = {
 
   production: false,
@@ -18,6 +17,7 @@ export const environment = {
     creditProjectId: '6cc61c5ca7e811ea800cf2fa9bec3d63',
     submitToCredit: '403a8a12b79511ea8afff2fa9bec3d63',
     externalApi: 'db2732f4ab4811ea82f8f2fa9bec3d63',
+    taskProjectId: '403a8a12b79511ea8afff2fa9bec3d63',
     reinitiatePdApi: '403a8a12b79511ea8afff2fa9bec3d63',
     reinititateFiApi: '403a8a12b79511ea8afff2fa9bec3d63',
     camProjectId: '74c36bec6da211eabdc2f2fa9bec3d63',
@@ -29,14 +29,17 @@ export const environment = {
     validateSRNumber : '8bfa8dba945b11eabdcaf2fa9bec3d63'
   },
 
-  hostingEnvironment: 'DEV',
-  // hostingEnvironment: 'UAT',
+   hostingEnvironment: 'DEV',
+  // hostingEnvironment: 'UAT', 
   // hostingEnvironment: 'Production',
   // host: 'http://128.199.164.250/appiyo/',
-  // host: 'https://hetrauat.equitasbank.com/appiyodev/',
-   host: 'http://10.101.10.153/appiyo/',
+  host: 'https://hetrauat.equitasbank.com/appiyodev/',
+  //  host: 'http://10.101.10.153/appiyo/',
+  // host: environmentProd.host,
+  //  host: config.hostUrl1,
+  // host: window["env"]["hostUrl"] || "default",
   // host: 'https://hetrauat.equitasbank.com/appiyo/',
-  // host: 'http://10.101.10.153/appiyo/',
+  //host: 'http://10.101.10.153/appiyo/',
   baseUrl: 'http://10.101.10.153',
   //baseUrl: "https://hetrauat.equitasbank.com",
   // tslint:disable-next-line: max-line-length

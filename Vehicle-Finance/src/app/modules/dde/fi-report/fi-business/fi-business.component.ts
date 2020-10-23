@@ -43,7 +43,9 @@ export class FiBusinessComponent implements OnInit {
   city = [];
   toDayDate: Date = new Date();
   fiDate: Date = new Date();
-  fiTime: any = String(new Date(new Date().getTime()).toLocaleTimeString()).slice(0, 5);
+  stringTime = String(new Date(new Date().getTime()).toLocaleTimeString()).split(':', 2);
+  // fiTime: any = String(new Date(new Date().getTime()).toLocaleTimeString()).slice(0, 5);
+  fiTime: any;
   leadCreatedDateFromLead: any;
   typeOfConcernValue: string;
   version: any;
@@ -75,6 +77,7 @@ export class FiBusinessComponent implements OnInit {
     // this.applicantId = Number(this.activatedRoute.parent)
     this.applicantId = Number(this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
     this.version = String(this.activatedRoute.snapshot.parent.firstChild.params.version);
+    this.fiTime = this.stringTime[0] + ':' + this.stringTime[1];
     console.log('version', this.version);
     console.log('in construc app id', this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
     console.log('leadid', this.leadId);
@@ -132,12 +135,15 @@ export class FiBusinessComponent implements OnInit {
     if (this.custSegment == "SALCUSTSEG" && this.custSegment != null) {
       this.concernLov = this.LOV.LOVS['concernType-Salaried'];
       this.concernType(this.custSegment);
+      console.log('in sal type cust seg');
     } else if (this.custSegment == "SEMCUSTSEG" && this.custSegment != null) {
       this.concernLov = this.LOV.LOVS['concernType-SelfEmployed'];
       this.concernType(this.custSegment);
+      console.log('in self-employ type cust seg');
     } else {
       this.showTypeOfConcern = false;
       this.removeTypeOfConcerValidators();
+      console.log('in hidden type of concern')
     }
 
   }
@@ -480,7 +486,15 @@ export class FiBusinessComponent implements OnInit {
       console.log('get fi report response', processVariables);
       const message = processVariables.error.message;
       if (processVariables.error.code === '0') {
-        this.custSegment = res.ProcessVariables.getFIBusinessDetails.custSegment;
+        if (processVariables.getFIBusinessDetails) {
+          this.custSegment = processVariables.getFIBusinessDetails.custSegment;
+          console.log('in cust segment not null condition');
+          console.log('cust segment', this.custSegment)
+        } else {
+          this.custSegment == null;
+          console.log('in cust segment null condition');
+          console.log('cust segment', this.custSegment)
+        }
         // this.custSegment = "SEMCUSTSEG"
         this.applicantFullName = res.ProcessVariables.applicantName;
         console.log('in get fi applicant name', this.applicantFullName);

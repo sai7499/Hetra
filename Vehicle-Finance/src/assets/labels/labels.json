@@ -43,6 +43,10 @@
     "loanCreatedDate": "Created Date",
     "product": "Product",
     "loanAmount": "Loan Amount",
+    "reqLoanAmtOrNegLoanAmt":"Req Loan Amt/Neg Loan Amt",
+    "reqLtvOrNegLtv":"Req LTV/Neg LTV",
+    "eligibleLoanAmt":"Eligible Loan Amt",
+    "eligibleLTV":"Eligible LTV",
     "branch": "Branch",
     "cbs": "Credit Bureau Score",
     "stage": "Lead Stage",
@@ -77,7 +81,6 @@
     "assetSubVariant": "Asset Sub-Variant",
     "assetOther": "Asset Variant - Other",
     "monthYear": "Month and Year",
-    "ageVehicle": "Age of Vehicle",
     "assetCostIndian": "Asset Cost basis Indian Bluebook",
     "assetCostCarwale": "Asset Cost basis Carwale",
     "assetCostCar": "Asset Cost basis Car Trade",
@@ -99,8 +102,9 @@
     "proformaInvoiceDate": "Proforma Invoice Date",
     "proformaInvoiceAmount": "Proforma Invoice Amount",
     "insurance": "Insurance",
-    "ageOfAsset": "Age of vehicle",
+    "ageOfAsset": "Age of Asset",
     "ageOfVehicle": "Age of vehicle at the end of tenor",
+    "isVehAvailInGrid": "Is Vehicle available in Grid",
     "assetCostGrid": "Asset cost basis Grid",
     "vechicleUsage": "Vehicle Usage",
     "vehicleCategory": "Vehicle Category",
@@ -376,7 +380,7 @@
     "otherRemarks": "Other Remarks",
     "sourceOfMarginMoney": "SOURCE OF MARGIN MONEY",
     "anyOtherRemarks": "ANY OTHER REMARKS",
-    "remark": "REMARKS",
+    "remark": "Remarks",
     "age": "AGE",
     "relationShip": "RELATIONSHIP",
     "coApp1": "COAPP 1",
@@ -699,8 +703,11 @@
     "addManualDeviation": "Add Manual Deviation",
     "deviation": "Deviation",
     "description": "Description",
+    "deviationRemarks": "Remarks",
+    "otherMitigation": "Other Mitigation",
+    "mitigationMet": "Mitigation Met",
     "coBorrower": "Co-Borrower / Guarantor - Waiver",
-    "approvalLevel": "Approval Level",
+    "approvalLevel": "Approver",
     "bcm": "BCM",
     "acm": "ACM",
     "ncm": "NCM",
@@ -802,7 +809,7 @@
     "vehicleModel": "Vehicle Model",
     "application": "Application / Area of Operation",
     "grossIncomePerDay": "Gross income per day",
-    "noOfEarningDays": "No. of earnings per day (No of days)",
+    "noOfEarningDays": "No of earnings per month",
     "expensesPerDay": "Expenses per day",
     "avgTyreExpenses": "Avg tyre expenses per month",
     "insuranceExpensePerMonth": "Insurance expenses per month",
@@ -1094,7 +1101,7 @@
     "totalMonthlyRentalIncome": "Total Monthly Rental Income",
     "totalMonthlyPensionIncome": "Total Monthly Pension Income",
     "totalMonthlyAgriIncome": "Total Monthly Agri Income",
-    "totalMonthlyOtherIncomeOfOthers": "Total Monthly Other Income Of Others",
+    "totalMonthlyOthersIncome": "Total Monthly Others Income",
     "totalMonthlyOtherIncome": "Total Monthly Other Income",
     "totalMonthlyIncome": "Total Monthly Income",
     "totalMonthlyObligations": "Total Monthly Obligations",
@@ -1179,6 +1186,10 @@
     "submitToCredit": "Are You Sure Want To Submit To Credit?",
     "longitude": "Longitude",
     "latitude": "Latitude",
+    "capturedLat": "Captured Latitude",
+    "branchLng": "Branch Longitude",
+    "branchLat": "Branch Latitude",
+    "capturedLng": "Captured Longitude",
     "vehicleContract": "Vehicle Contract",
     "negativeProfile": "Negative Profile",
     "routeMap": "RouteMap",
@@ -1522,7 +1533,7 @@
     "referenceInfoAddressLine2": "Reference Info - Address Line2",
     "referenceInfoAddressLine3": "Reference Info - Address Line3",
     "imageSelfie": "Image/Selfie",
-    "selfieImageTitle": "Selfie With Customer House[Click Photo]",
+    "selfieImageTitle": "Selfie With Customer House",
     "uploadIamges": "Upload Image",
     "pdStatusTitle": "PD Status",
     "PdStatus": "PD Status",
@@ -1613,11 +1624,20 @@
     "micrNo": "MICR No",
     "accountBranchname": "Account Branchname",
     "termsheetGeneratedDate": "Termsheet Generated Date",
-    "natureOfGoods": "Nature Of Goods",
     "loanAccNumber": "Loan Account Number",
+    "natureOfGoods" : "Nature of Goods",
     "equitasEmployee": "Equitas Employee",
     "equitasEmployeesRelative": "Equitas Employees Relative",
     "employeeNo": "Employee Number",
+    "initiate": "Initiate Viability for New Vehicles",
+    "customerDOI" : "Customer DOI",
+    "foundnl":"Found in NL",
+    "foundnltr":"Found in NLTR",
+    "maidenName":"Maiden Name",
+    "matchedCriteria":"Matched Criteria",
+    "disbursementStartDate": "Disbursement - Start Date",
+    "disbursementEndDate": "Disbursement - End Date",
+    "propertyValue":"Property Value",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1660,6 +1680,12 @@
             },
             "type": "number"
         },
+        "assetCostGrid": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
         "mobileNumber": {
             "maxLength": {
                 "rule": 10,
@@ -1691,7 +1717,7 @@
             "maxLength": {
                 "rule": 10
             },
-            "type": "decimal-4"
+            "type": "decimal-2"
         },
         "bankName": {
             "maxLength": {
@@ -1819,8 +1845,8 @@
                 "msg": "Minimum Length 8 digits"
             },
             "pattern": {
-                "rule": "[A-Z-a-z]{2}[0-9]{2}[A-Z-a-z]{2}[0-9]{4}",
-                "msg": "Invalid Registration Number, valid format : TN34FG3333"
+                "rule": "^[A-Z-a-z]{2}[0-9]{2}[A-Z-a-z]{1,2}[0-9]{4}$",
+                "msg": "Invalid Registration Number, valid format : TN34FG3333 or TN09B4444"
             },
             "type": "alpha-numeric"
         },
@@ -1850,7 +1876,7 @@
         },
         "emailPattern": {
             "maxLength": {
-                "rule": 50
+                "rule": 60
             },
             "patternCheck": {
                 "rule": "^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(\\.\\w{2,10})+$",
@@ -1858,6 +1884,18 @@
             }
         },
         "chasisNo": {
+            "maxLength": {
+                "rule": 50
+            },
+            "type": "alpha-numeric"
+        },
+        "podNumber": {
+            "maxLength": {
+                "rule": 30
+            },
+            "type": "alpha-numeric"
+        },
+        "physicalTrackingNumber": {
             "maxLength": {
                 "rule": 50
             },
@@ -1913,7 +1951,7 @@
             },
             "type": "number"
         },
-        "gorssVehicleWeight": {
+        "grossVehicleWeight": {
             "maxLength": {
                 "rule": 5,
                 "msg": ""
@@ -2584,6 +2622,22 @@
                 "rule": 2
             },
             "type": "number"
+        },
+        "viabilityFiveDigit": {
+            "maxLength": {
+                "rule": 5
+            },
+            "type": "decimal"
+        },
+        "daysFormat": {
+            "maxLength": {
+                "rule": 2
+            },
+            "type": "number",
+            "patternCheck": {
+                "rule": "^[1-31]{1,2}",
+                "msg": "Should be between 1-31 only"
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 <div class="">
-<!-- <form class="multisteps-form__form" method="post" style="height: 400px;"> -->
+  <!-- <form class="multisteps-form__form" method="post" style="height: 400px;"> -->
   <div class="multisteps-form__panel js-active content" data-animation="scaleIn">
     <div class="container controlWidth">
       <div class="btn-sec clear-both row">
@@ -7,12 +7,8 @@
           <h4 class="title">Applicant Details</h4>
         </div>
         <div class="col-sm-7 text-right">
-          <button
-            *ngIf="showAddApplicant"
-            class="btn btn-primary mar-right8"
-            type="button"
-            (click)="navigateAddapplicant()"
-          >
+          <button *ngIf="showAddApplicant" class="btn btn-primary mar-right8" type="button"
+            (click)="navigateAddapplicant()">
             Add Applicant
           </button>
         </div>
@@ -20,7 +16,7 @@
     </div>
     <div class="row">
       <div class="" id="applicantTable">
-        <table>
+        <table class="main-table">
           <thead>
             <tr class="table-head-bg">
               <th>{{ labels?.ucicId }} <i class="fa fa-sort"></i></th>
@@ -33,12 +29,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              *ngFor="
+            <tr *ngFor="
                 let item of applicantList;                  
                 let i = index
-              "
-            >
+              ">
               <td [attr.data-label]="labels?.ucicId">{{ item.ucic ? item.ucic : '-' }}</td>
               <td [attr.data-label]="labels?.entity">{{ item.entity ? item.entity : '-' }}</td>
               <td [attr.data-label]="labels?.name">{{ item.fullName ? item.fullName : '-' }}</td>
@@ -54,20 +48,41 @@
               </ng-container>
               <td [attr.data-label]="labels?.applicantType">{{ item.applicantType ? item.applicantType : '-' }}</td>
               <td [attr.data-label]="labels?.action">
-                <a (click)="navigatePage(item.applicantId)" title="Edit applicant"
-                  ><i  class="fa fa-pencil" aria-hidden="true"></i
-                ></a>
-                &nbsp;<a
-                  data-toggle="modal"
-                  data-target="#myModal"
-                  (click)="softDeleteApplicant(i, item.applicantId)"
-                  title="Delete applicant"><i  class="fa fa-trash" aria-hidden="true"></i
-                ></a> &nbsp;
-                <a (click)="getApplicantImage(item.applicantId)" data-toggle="modal"
-                data-target="#myModalApplicantImage"  
-                title="View Bureau Report"> <strong>CB</strong></a>
+                <div class="flex-container">
+                  <div><a (click)="navigatePage(item.applicantId)" title="Edit applicant"><i
+                        class="fa fa-pencil icon p-0" aria-hidden="true"></i></a></div>
+                  <div><a (click)="getApplicantImage(item.applicantId)" [ngClass]="{'pointer_non': disableSaveBtn }"
+                      data-toggle="modal" data-target="#myModal" (click)="softDeleteApplicant(i, item.applicantId)"
+                      title="Delete applicant"><i class="fa fa-trash icon p-0" aria-hidden="true"></i></a></div>
+                  <div> <a (click)="getApplicantImage(item.applicantId)" data-toggle="modal"
+                      data-target="#myModalApplicantImage" title="View Bureau Report"> <strong
+                        class="icon">CB</strong></a></div>
+                  <div><a data-toggle="modal" data-target="#myModalApplicanteKYC" title="View applicant eKYC"
+                      (click)="geteKYCDetails(item.applicantId)">
+                      <strong class="icon">ER</strong>
+                    </a></div>
+
+                </div>
+                <a (click)="navigatePage(item.applicantId)" class="desktop-hide" title="Edit applicant"><i
+                    class="fa fa-pencil icon" aria-hidden="true"></i></a>
+                &nbsp;<a (click)="getApplicantImage(item.applicantId)" class="desktop-hide"
+                  [ngClass]="{'pointer_non': disableSaveBtn }" data-toggle="modal" data-target="#myModal"
+                  (click)="softDeleteApplicant(i, item.applicantId)" title="Delete applicant"><i
+                    class="fa fa-trash icon" aria-hidden="true"></i></a> &nbsp;
+                <a (click)="getApplicantImage(item.applicantId)" class="desktop-hide" data-toggle="modal"
+                  data-target="#myModalApplicantImage" title="View Bureau Report"> <strong class="icon">CB</strong></a>
+                &nbsp;
+                <a data-toggle="modal" class="desktop-hide" data-target="#myModalApplicanteKYC"
+                  title="View applicant eKYC" (click)="geteKYCDetails(item.applicantId)">
+                  <strong class="icon">ER</strong>
+                </a>
+                <!-- <a data-toggle="modal"
+                  data-target="#myModalApplicanteKYC"  
+                  title="View applicant eKYC" (click)="geteKYCDetails(item.applicantId)"> 
+                  <strong>ER</strong>
+                </a> -->
               </td>
-             
+
             </tr>
             <!-- <tr>
                 <td>-</td>
@@ -78,121 +93,650 @@
                 <td onclick="add_applicant();">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </td>
+               
               </tr>
-              <tr>
-                <td>97912</td>
-                <td><a href="#">Joey Tribbiani</a></td>
-                <td>7894561230</td>
-                <td>09-08-1967</td>
-                <td>Co-Applicant</td>
-                <td onclick="add_applicant();">
-                  <i class="fa fa-pencil" aria-hidden="true"></i>
-                </td>
-              </tr> -->
+              <!-- <tr>
+                  <td>-</td>
+                  <td><a href="#">Monica Geller</a></td>
+                  <td>7894561230</td>
+                  <td>09-08-1967</td>
+                  <td>Co-Applicant</td>
+                  <td onclick="add_applicant();">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td>97912</td>
+                  <td><a href="#">Joey Tribbiani</a></td>
+                  <td>7894561230</td>
+                  <td>09-08-1967</td>
+                  <td>Co-Applicant</td>
+                  <td onclick="add_applicant();">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                  </td>
+                </tr> -->
           </tbody>
         </table>
         <div class="btn-sec clear-both">
           <!-- <div class="records col-sm-6">
-            <select class="form-control input-sm">
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
-            </select>
-          </div>
-          <div class="col-sm-6 col-md-6 col-lg-6 text-right page">
-            <nav class="col-sm-12 col-md-12 col-lg-12 page">
-              <pagination-controls
-                nextLabel=""
-                previousLabel=""
-                maxSize="5"
-                (pageChange)="p = $event"
-              ></pagination-controls>
-            </nav>
-          </div> -->
+              <select class="form-control input-sm">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+              </select>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 text-right page">
+              <nav class="col-sm-12 col-md-12 col-lg-12 page">
+                <pagination-controls
+                  nextLabel=""
+                  previousLabel=""
+                  maxSize="5"
+                  (pageChange)="p = $event"
+                ></pagination-controls>
+              </nav>
+            </div> -->
+        </div>
+      </div>
+    </div>
+    <!-- <img [src]="imag" alt="Red dot" /> -->
+  </div>
+
+  <!-- </div> -->
+
+
+  <!-- </form> -->
+
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"></h4>
+          <button type="button" class="close" data-dismiss="modal">
+            &times;
+          </button>
+        </div>
+
+        <div class="modal-body">
+          Are you Sure Want to Delete?
+        </div>
+
+        <div class="modal-footer text-center">
+          <button type="button" class="btn btn-success" data-dismiss="modal" (click)="callDeleteApplicant()">
+            Yes
+          </button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="myModalApplicantImage">
+    <div class="modal-dialog  modal-style">
+      <div class="modal-content">
+        <div class="modal-header row">
+          <h4 class="modal-title col-xs-10 col-md-11 col-lg-11 col-sm-11">CIBIL Response For Applicant.</h4>
+          <button type="button" class="close col-xs-1 col-md-1 col-lg-1 col-sm-1" data-dismiss="modal">
+            &times;
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <!-- <img [src]="imageUrl" > -->
+          <div [innerHTML]="cibilImage" style="overflow: scroll;"></div>
+        </div>
+        <div class="modal-footer text-center">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="destroyImage()">
+            Close
+          </button>
         </div>
       </div>
     </div>
   </div>
 
-<!-- </div> -->
+  <div class="modal" [ngClass]="{'modal-hide':!showeKYC}" id="myModalApplicanteKYC">
+    <div class="modal-dialog  modal-style">
+      <div class="modal-content">
+        <div class="modal-header mod-header">
+          <div class="row">
+            <div class="col-xs-10 col-md-11 col-lg-11 col-sm-11">
+              <h4 class="modal-title">Applicant KYC Check Details</h4>
+            </div>
+            <div class="col-xs-1 col-md-1 col-sm-1 col-lg-1">
+              <button type="button" class="close" data-dismiss="modal" (click)="destroyeKYCImage()">
+                &times;
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="modal-body" >
+          <div>
+            applicant eKYC details-->
+        <!-- <app-applicant-kyc-details></app-applicant-kyc-details> -->
 
+        <!-- <div [innerHTML]="img" style="overflow: scroll;" ></div>  -->
+        <div style="overflow: scroll;">
+          <img [src]="imgeKYC" alt="applicant eKYC Details" style="width:100%;" />
+        </div>
 
-<!-- </form> -->
-
-<div class="modal" id="myModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title"></h4>
-        <button type="button" class="close" data-dismiss="modal">
-          &times;
-        </button>
-      </div>
-
-      <div class="modal-body">
-        Are you Sure Want to Delete?
-      </div>
-
-      <div class="modal-footer text-center">
-        <button
-          type="button"
-          class="btn btn-success"
-          data-dismiss="modal"
-          (click)="callDeleteApplicant()"
-        >
-          Yes
-        </button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal" >
-          Cancel
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal" id="myModalApplicantImage"   >
-  <div class="modal-dialog  modal-style">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">CIBIL Response For Applicant.</h4>
-        <button type="button" class="close" data-dismiss="modal">
-          &times;
-        </button>
-      </div>
-
-      <div class="modal-body" >
-        <!-- <img [src]="imageUrl" > -->
-        <div [innerHTML]="cibilImage"  ></div>     
-      <div class="modal-footer text-center">
-        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="destroyImage()">
-          Close
-        </button>
+        <!--end-->
+        <!-- </div>     
+        <div class="modal-footer mod-footer text-center">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="destroyeKYCImage()">
+            Close
+          </button>
+        </div>
+      </div> -->
       </div>
     </div>
   </div>
-</div>
-</div>
+
 
 </div>
 <div class="btn-sec clear-both row cst_btm_btns">
   <div class="col-sm-5"></div>
   <div class="col-sm-7 text-right">
-    <button
-      class="btn btn-primary "
-      type="button"
-      [routerLink]="['../lead-details']"
-    >
+    <button class="btn btn-primary " type="button" [routerLink]="['../lead-details']">
       Back
     </button>
     <!-- <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button> -->
-    <button
-      class="btn btn-primary js-btn-next "
-      type="button"
-      (click)="onNext()"
-      
-    >
-    
-    <!-- [routerLink]="['../vehicle-list']" -->
+    <button class="btn btn-primary js-btn-next " type="button" (click)="onNext()">
+
+      <!-- [routerLink]="['../vehicle-list']" -->
       Next
     </button>
   </div>
 </div>
+<!--  <div id="mydiv" *ngIf="cibilImage" class="card" class="center"> 
+    <button type="button" class="close" (click)="destroyImage()" *ngIf="cibilImage" style="overflow: auto;">×</button> -->
+<!-- Header -->
+<!-- <div class="image-content"  [innerHTML]="cibilImage" > </div>  
+  </div> -->
+
+
+<main id="ekyc-to-print" class="dontdisplayed">
+  <div class="content-two">
+    <div class="row">
+      <div class="main-div-contents">
+        <div class="tablewithheading">
+          <table class="table table-responsive">
+            <thead>
+              <tr class="table-top-bg">
+                <td class="text-left">Applicant Details Based on PAN Validation</td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+
+        <div class="">
+          <table class="table table-responsive details">
+            <thead>
+              <tr class="table-head text-center">
+                <td class="wid-10">Title</td>
+                <td>First Name</td>
+                <td>Middle Name</td>
+                <td>Last Name</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <!-- <td [attr.data-label]="labels?.title">{{panDetails?.nsdlPanTitle}}</td>
+              <td [attr.data-label]="labels?.firstName">{{panDetails?.nsdlFirstName}}</td>
+              <td [attr.data-label]="labels?.middleName">{{panDetails?.nsdlMiddleName}}</td>
+              <td [attr.data-label]="labels?.lastName">{{panDetails?.nsdlLastName}}</td> -->
+              </tr>
+
+              <tr class=" text-center">
+                <td>{{panDetails?.nsdlPanTitle}}</td>
+                <td>{{panDetails?.nsdlFirstName}}</td>
+                <td>{{panDetails?.nsdlMiddleName}}</td>
+                <td>{{panDetails?.nsdlLastName}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="main-div-contents">
+        <div>
+          <table class="table table-responsive">
+            <thead>
+              <tr class="table-top-bg">
+                <td class="text-left">Negative List Scrub Results</td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+
+        <div class="tablewithdetails">
+          <table class="table table-responsive details">
+            <thead>
+              <tr class="table-head text-center">
+                <td class="wid-20">Found in NL?</td>
+                <td class="wid-20">Found in TR NL?</td>
+                <td>Remarks</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td [attr.data-label]="labels?.foundnl">{{appicanteKYCDetails?.foundNL}}</td>
+                <td [attr.data-label]="labels?.foundnltr">{{appicanteKYCDetails?.foundNLTR}}</td>
+                <td [attr.data-label]="labels?.remark">{{appicanteKYCDetails?.nlRemarks}}</td>
+              </tr>
+              <!-- <tr class=" text-center">
+                  <td>{{appicanteKYCDetails?.foundNL}}</td>
+                  <td>{{appicanteKYCDetails?.foundNLTR}}</td>
+                  <td>{{appicanteKYCDetails?.nlRemarks}}</td>
+                </tr> -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="main-div-contents">
+        <div>
+          <table class="table table-responsive">
+            <thead>
+              <tr class="table-top-bg">
+                <td class="text-left">Adhaar eKYC Results</td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+
+        <div class="tab-details">
+          <div class="p-0 row " id="">
+            <div class="col-lg-7 col-sm-7 col-md-7 col-xs-7 p-0">
+
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                  <p class="var-lab">Name</p>
+                </div>
+                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                  <p class="var-lab">:</p>
+                </div>
+                <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+                  <p class="">{{adhaarDetails?.applicantName}}</p>
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                  <p class="var-lab">DOB</p>
+                </div>
+                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                  <p class="var-lab">:</p>
+                </div>
+                <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+                  <p class="">{{adhaarDetails?.DOB}}</p>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-lg-5 col-sm-5 col-md-5 col-xs-5 p-0">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                  <p class="var-lab">Gender</p>
+                </div>
+                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                  <p class="var-lab">:</p>
+                </div>
+                <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+                  <p class="">{{adhaarDetails?.gender}}</p>
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                  <p class="var-lab">C/O</p>
+                </div>
+                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                  <p class="var-lab">:</p>
+                </div>
+                <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+                  <p class="">{{adhaarDetails?.careOfPerson}}</p>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-lg-7 col-sm-7 col-md-7 col-xs-7 p-0">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                  <p class="var-lab">Location</p>
+                </div>
+                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                  <p class="var-lab">:</p>
+                </div>
+                <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+                  <p class="">{{adhaarDetails?.locality}}</p>
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                  <p class="var-lab">Landmark</p>
+                </div>
+                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                  <p class="var-lab">:</p>
+                </div>
+                <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+                  <p class="">{{adhaarDetails?.landmark}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-5 col-sm-5 col-md-5 col-xs-5 p-0">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                  <p class="var-lab">City</p>
+                </div>
+                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                  <p class="var-lab">:</p>
+                </div>
+                <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+                  <p class="">{{adhaarDetails?.VTC}}</p>
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                  <p class="var-lab">State</p>
+                </div>
+                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                  <p class="var-lab">:</p>
+                </div>
+                <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+                  <p class="">{{adhaarDetails?.state}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-7 col-sm-7 col-md-7 col-xs-7 p-0">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                  <p class="var-lab">District</p>
+                </div>
+                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                  <p class="var-lab">:</p>
+                </div>
+                <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+                  <p class="">{{adhaarDetails?.district}}</p>
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                  <p class="var-lab">Country</p>
+                </div>
+                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                  <p class="var-lab">:</p>
+                </div>
+                <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+                  <p class="">{{adhaarDetails?.country}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-5 col-sm-5 col-md-5 col-xs-5 p-0">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                  <p class="var-lab">Pincode</p>
+                </div>
+                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                  <p class="var-lab">:</p>
+                </div>
+                <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+                  <p class="">{{adhaarDetails?.pincode}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-div-contents">
+        <div>
+          <table class="table table-responsive">
+            <thead>
+              <tr class="table-top-bg">
+                <td class="text-left">Dedupe Parameters</td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+
+        <div class="tablewithdetails">
+          <table class="table table-responsive details">
+            <thead>
+              <tr class="table-head text-center">
+                <td>Name</td>
+                <td class="wid-10">DOB</td>
+                <td>Mother Madien Name</td>
+                <td>Mobile Number</td>
+                <td>PAN</td>
+                <td>Adhaar Ref</td>
+                <td>PassPort</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="
+                  let dedupeMatchedCriteria of dedupeMatchedCriteria;                  
+                  let i = index
+                ">
+                <td [attr.data-label]="labels?.name">{{dedupeMatchedCriteria?.firstName}}</td>
+                <td [attr.data-label]="labels?.dob">{{dedupeMatchedCriteria?.dob}}</td>
+                <td [attr.data-label]="labels?.maidenName">{{dedupeMatchedCriteria?.motherMaidenName}}</td>
+                <td [attr.data-label]="labels?.mobileNumber">{{dedupeMatchedCriteria?.mobilePhone}}</td>
+                <td [attr.data-label]="labels?.pannumber">{{dedupeMatchedCriteria?.pan}}</td>
+                <td [attr.data-label]="labels?.aadharnumber">{{dedupeMatchedCriteria?.aadhar}}</td>
+                <td [attr.data-label]="labels?.passportNumber">{{dedupeMatchedCriteria?.passport}}</td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="main-div-contents">
+        <div>
+          <table class="table table-responsive">
+            <thead>
+              <tr class="table-top-bg">
+                <td class="text-left">Exact Matches</td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+
+        <div class="tablewithdetails">
+          <table class="table table-responsive details">
+            <thead>
+              <tr class="table-head text-center">
+                <td class="wid-10">UCIC</td>
+                <td>Name</td>
+                <td>Matched Criteria</td>
+                <td>DOB</td>
+                <td>Mother Madien Name</td>
+                <td>Mobile Number</td>
+                <td>PAN</td>
+                <td>Adhaar Ref</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="
+                  let exactitem of exactMatches;                  
+                  let i = index
+                ">
+                <td [attr.data-label]="labels?.ucicId">{{exactitem?.ucic}}</td>
+                <td [attr.data-label]="labels?.firstName">{{exactitem?.firstName}}</td>
+                <td [attr.data-label]="labels?.matchedCriteria">{{exactitem?.matchedCriteria}}</td>
+                <td [attr.data-label]="labels?.dob">{{exactitem?.dob}}</td>
+                <td [attr.data-label]="labels?.maidenName">{{exactitem?.motherMaidenName}}</td>
+                <td [attr.data-label]="labels?.mobileNumber">{{exactitem?.mobilePhone}}</td>
+                <td [attr.data-label]="labels?.pannumber">{{exactitem?.pan}}</td>
+                <td [attr.data-label]="labels?.aadharnumber">{{exactitem?.aadhar}}</td>
+              </tr>
+
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="main-div-contents">
+        <div>
+          <table class="table table-responsive">
+            <thead>
+              <tr class="table-top-bg">
+                <td class="text-left">Proable Matches</td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+
+        <div class="tablewithdetails">
+          <table class="table table-responsive details">
+            <thead>
+              <tr class="table-head text-center">
+                <td class="wid-10">UCIC</td>
+                <td>Name</td>
+                <td>Matched Criteria</td>
+                <td class="wid-10">DOB</td>
+                <td>Mother Madien Name</td>
+                <td>Mobile Number</td>
+                <td>PAN</td>
+                <td>Adhaar Ref</td>
+                <td>PassPort</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="
+                  let probableitem of probableMatches;                  
+                  let i = index
+                ">
+                <td [attr.data-label]="labels?.ucicId">{{probableitem?.ucic}}</td>
+                <td [attr.data-label]="labels?.firstName">{{probableitem?.firstName}}</td>
+                <td [attr.data-label]="labels?.matchedCriteria">{{probableitem?.motherMaidenName}}</td>
+                <td [attr.data-label]="labels?.dob">{{probableitem?.dob}}</td>
+                <td [attr.data-label]="labels?.maidenName">{{probableitem?.motherMaidenName}}</td>
+                <td [attr.data-label]="labels?.mobileNumber">{{probableitem?.mobilePhone}}</td>
+                <td [attr.data-label]="labels?.pannumber">{{probableitem?.pan}}</td>
+                <td [attr.data-label]="labels?.aadharnumber">{{probableitem?.aadhar}}</td>
+                <td [attr.data-label]="labels?.passportNumber">{{probableitem?.passport}}</td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+ <!-- <div class="main-div-contents">
+   
+  <div>
+    <table class="table table-responsive">
+      <thead>
+        <tr class="table-top-bg">
+          <td class="text-left">collateral Vehicle Details</td>
+        </tr>
+      </thead>
+    </table>
+  </div>
+
+
+  <div class="tab-details">
+    <div class="p-0 row " id="">
+      <div class="col-lg-7 col-sm-7 col-md-7 col-xs-7 p-0">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+            <p class="var-lab">{{labels?.productOffered}}</p>
+          </div>
+          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+            <p class="var-lab">:</p>
+          </div>
+          <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+            <p class="">{{collateralVehicleDetails?.applicantName}}</p>
+          </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+            <p class="var-lab">{{labels?.productCategory}}</p>
+          </div>
+          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+            <p class="var-lab">:</p>
+          </div>
+          <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+            <p class="">{{collateralVehicleDetails?.product_cat_name}}</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-lg-5 col-sm-5 col-md-5 col-xs-5 p-0">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+          <div class="col-lg-3 col-sm-3 col-md-3 col-xs-3">
+            <p class="var-lab">{{labels?.requestedAmount}}</p>
+          </div>
+          <div class="col-lg-1 col-sm-1 col-md-1 col-xs-1">
+            <p class="var-lab">:</p>
+          </div>
+          <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+            <p class="">{{collateralVehicleDetails?.req_loan_amt}}</p>
+          </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+            <p class="var-lab">{{labels?.loanTenor}}</p>
+          </div>
+          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+            <p class="var-lab">:</p>
+          </div>
+          <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+            <p class="">{{collateralVehicleDetails?.req_tenure}}</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-lg-7 col-sm-7 col-md-7 col-xs-7 p-0">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+            <p class="var-lab">{{labels?.ageOfCarEndOfTenor}}</p>
+          </div>
+          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+            <p class="var-lab">:</p>
+          </div>
+          <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+            <p class="">{{collateralVehicleDetails?.age_after_tenure}}</p>
+          </div>
+        </div>
+        </div>
+
+
+        <div class="col-lg-5 col-sm-5 col-md-5 col-xs-5 p-0">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-3">
+              <p class="var-lab">{{labels?.eligibleLoanAmount}}</p>
+            </div>
+            <div class="col-lg-1 col-sm-1 col-md-1 col-xs-1">
+              <p class="var-lab">:</p>
+            </div>
+            <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+              <p class="">{{collateralVehicleDetails?.eligible_loan_amt}}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-7 col-sm-7 col-md-7 col-xs-7 p-0">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+              <p class="var-lab">{{labels?.eligibleLTV}}%</p>
+            </div>
+            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+              <p class="var-lab">:</p>
+            </div>
+            <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
+              <p class="">{{collateralVehicleDetails?.ltv_as_per_policy}}</p>
+            </div>
+          </div>
+          </div>
+
+    </div>
+  </div>
+  </div> -->
+
+  </div>
+  </div>
+</main>

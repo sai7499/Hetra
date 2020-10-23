@@ -24,13 +24,11 @@ import { ActivatedRoute } from '@angular/router';
 export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   @Input() id: any;
-  addressList: any = [];
   applicantDetails: any = [];
   disableSaveBtn: boolean;
 
   maxDate = new Date();
   initalZeroCheck = [];
-  customFutureDate: boolean;
   eligibleLoanAmount: any = 0;
 
   public basicVehicleForm: FormGroup;
@@ -41,11 +39,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   roles: any = [];
   LOV: any = [];
   public label: any = {};
-  regionDataArray = [];
   public productCatoryCode: string;
   public leadDetails: any = {};
   public loanTenor: number = 0;
-  public productCatoryId: any;
 
   @Input() isDirty: boolean;
   isDisabled: boolean = true;
@@ -54,8 +50,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public isInvalidMobileNumber: boolean;
 
   // LovData
-  public assetMake: any = [];
-  public vehicleType: any = [];
   public assetBodyType: any = [];
   public assetModelType: any = [];
   public assetVariant: any = [];
@@ -83,6 +77,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.basicVehicleForm = this._fb.group({
       isValidPincode: true,
       isInvalidMobileNumber: true,
+      isVaildFinalAssetCost: true,
       vehicleFormArray: this._fb.array([])
     })
 
@@ -106,7 +101,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.leadDetails = leadData['leadDetails']
     this.leadId = leadData['leadId'];
     this.productCatoryCode = this.leadDetails['productCatCode'];
-    this.productCatoryId = this.leadDetails['productId'];
     this.loanTenor = this.leadDetails['reqTenure'];
 
     this.eligibleLoanAmount = this.activedRoute.snapshot.params['eligibleLoanAmount'] ? this.activedRoute.snapshot.params['eligibleLoanAmount'] : 0;
@@ -121,7 +115,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.vehicleRegPattern = this.validateCustomPattern()
 
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1' || operationType === '2') {
+    if (operationType) {
       this.basicVehicleForm.disable();
       this.disableSaveBtn = true;
     }
@@ -148,11 +142,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   }
 
   onGetDateValue(event) {
-    this.customFutureDate = false;
-    if (event > this.maxDate) {
-      this.customFutureDate = true;
-    } else {
-      this.customFutureDate = false;
+
+    if (!(event > this.maxDate || event < this.minDate)) {
       const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
       formArray.controls[0].patchValue({
         ageOfAsset: Number(this.utilityService.ageFromAsset(event))
@@ -172,17 +163,21 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     if (formArray.value[0].vehicleId !== 0 && formArray.value[0].manuFacMonthYear) {
 
-      const date = this.utilityService.convertDateTimeTOUTC(formArray.value[0].manufactureYear, 'YYYY')
+      const date = this.utilityService.convertDateTimeTOUTC(formArray.value[0].manuFacMonthYear, 'YYYY')
 
-      const data = { "manufactureYear": date, "vehicleCode": formArray.value[0].vehicleId + '' };
+      let data = { "manufactureYear": date, "vehicleCode": formArray.value[0].vehicleId + '' };
 
       this.vehicleDetailService.getVehicleGridValue(data).subscribe((res: any) => {
-        const apiError = res.ProcessVariables.error.message;
 
-        formArray.controls[0].patchValue({
-          assetCostGrid: res.ProcessVariables.vehicleCost,
-          finalAssetCost: res.ProcessVariables.vehicleCost
-        })
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          formArray.controls[0].patchValue({
+            assetCostGrid: res.ProcessVariables.vehicleCost,
+            finalAssetCost: res.ProcessVariables.vehicleCost,
+            isVehAvailInGrid: res.ProcessVariables.isVehAvailInGrid,
+          })
+        } else {
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Gird value')
+        }
       }, err => {
         console.log('err', err)
       })
@@ -210,15 +205,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       formArray.controls[0].patchValue({
         finalAssetCost: formArray.value[0].assetCostCarTrade
       })
-    } else if (formArray.value[0].assetCostCarTrade === formArray.value[0].assetCostIBB) {
-      formArray.controls[0].patchValue({
-        finalAssetCost: formArray.value[0].assetCostIBB
-      })
-    } else if (formArray.value[0].assetCostIBB < formArray.value[0].assetCostCarTrade) {
+    } else {
       formArray.controls[0].patchValue({
         finalAssetCost: formArray.value[0].assetCostIBB
       })
     }
+
   }
 
   onChangeFRSD(event) {
@@ -230,7 +222,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     } else {
       controls.removeControl('fsrdPremiumAmount');
     }
-
   }
 
   initForms() {
@@ -244,7 +235,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.LOV = value.LOVS;
       this.vehicleLov.region = value.LOVS.assetRegion;
       this.vehicleLov.vechicalUsage = value.LOVS.vehicleUsage;
-      this.vehicleLov.vehicleType = value.LOVS.vehicleType;
       this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
       this.vehicleLov.permitType = value.LOVS.vehiclePermitType;
 
@@ -258,41 +248,94 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           value: "NO"
         }
       ]
+      this.vehicleLov.isVehAvailInGrid = [
+        {
+          key: 1,
+          value: "Yes"
+        },
+        {
+          key: 0,
+          value: "NO"
+        }
+      ]
     });
+  }
+
+  onChangeFinalAssetCost(value, form) {
+    this.basicVehicleForm.patchValue({
+      isVaildFinalAssetCost: true
+    })
+    if (value === '1') {
+      let exShowRoomCost = form.controls.exShowRoomCost.value ? Number(form.controls.exShowRoomCost.value) : 0
+      let insurance = form.controls.insurance.value ? Number(form.controls.insurance.value) : 0;
+      let oneTimeTax = form.controls.oneTimeTax.value ?  Number(form.controls.oneTimeTax.value) : 0;
+      let others = form.controls.others ?  Number(form.controls.others.value) : 0;
+      let discount = form.controls.discount.value ?  Number(form.controls.discount.value) : 0;
+
+      if (exShowRoomCost >= discount) {
+        let costValue = (exShowRoomCost + insurance+ oneTimeTax + others) - discount;
+        this.onPatchFinalAssetCost(costValue)
+        this.basicVehicleForm.patchValue({
+          isVaildFinalAssetCost: true
+        })
+      } else {
+        setTimeout(() => {
+          this.basicVehicleForm.patchValue({
+            isVaildFinalAssetCost: false
+          })
+        }) 
+        this.toasterService.showError( 'Discount should not greater than Ex show room price', 'Final Asset Cost')
+      }
+    } else {
+      this.onPatchFinalAssetCost(form.controls.exShowRoomCost.value)
+      this.basicVehicleForm.patchValue({
+        isVaildFinalAssetCost: true
+      })
+    }
   }
 
   setFormValue() {
 
     this.vehicleDetailService.getAnVehicleDetails(this.id).subscribe((res: any) => {
-      let VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        let VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
 
-      this.vehicleLov.assetMake = [{
-        key: VehicleDetail.vehicleMfrUniqueCode,
-        value: VehicleDetail.vehicleMfrCode
-      }]
+        this.vehicleLov.assetMake = [{
+          key: VehicleDetail.vehicleMfrUniqueCode,
+          value: VehicleDetail.vehicleMfrCode
+        }]
 
-      this.vehicleLov.assetBodyType = [{
-        key: VehicleDetail.vehicleSegmentUniqueCode,
-        value: VehicleDetail.vehicleSegmentCode
-      }]
+        this.vehicleLov.assetBodyType = [{
+          key: VehicleDetail.vehicleSegmentUniqueCode,
+          value: VehicleDetail.vehicleSegmentCode
+        }]
 
-      this.vehicleLov.assetModel = [
-        {
-          key: VehicleDetail.vehicleModelCode,
-          value: VehicleDetail.vehicleModel
-        }
-      ]
+        this.vehicleLov.assetModel = [
+          {
+            key: VehicleDetail.vehicleModelCode,
+            value: VehicleDetail.vehicleModel
+          }
+        ]
 
-      this.vehicleLov.assetVariant = [{
-        key: VehicleDetail.assetVarient,
-        value: VehicleDetail.assetVarient
-      }]
+        this.vehicleLov.assetVariant = [{
+          key: VehicleDetail.assetVarient,
+          value: VehicleDetail.assetVarient
+        }]
 
-      const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-      this.onPatchArrayValue(formArray, VehicleDetail)
-      this.sharedService.getFormValidation(this.basicVehicleForm)
-      this.vehicleDataService.setIndividualVehicleDetail(VehicleDetail);
+        this.vehicleLov.vehicleType = [{
+          key: VehicleDetail.vehicleTypeUniqueCode,
+          value: VehicleDetail.vehicleTypeCode
+        }]
+
+        const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+        this.onPatchArrayValue(formArray, VehicleDetail);
+        this.sharedService.getFormValidation(this.basicVehicleForm)
+        this.vehicleDataService.setIndividualVehicleDetail(VehicleDetail);
+      } else {
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get A Vehicle Collateral Details')
+      }
     })
+
 
   }
 
@@ -307,6 +350,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostIBB: VehicleDetail.assetCostIBB || null,
       assetCostLeast: VehicleDetail.assetCostLeast || null,
       assetCostRef: VehicleDetail.assetCostRef || null,
+      isVehAvailInGrid: VehicleDetail.isVehAvailInGrid || 0,
       assetMake: VehicleDetail.vehicleMfrUniqueCode || '',
       assetModel: VehicleDetail.vehicleModelCode || '',
       assetVariant: VehicleDetail.assetVarient || '',
@@ -332,7 +376,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       fitnessDate: VehicleDetail.fitnessDate ? this.utilityService.getDateFromString(VehicleDetail.fitnessDate) : '',
       fsrdFundingReq: VehicleDetail.fsrdFundingReq === '1' ? true : false || '',
       fsrdPremiumAmount: VehicleDetail.fsrdPremiumAmount || null,
-      gorssVehicleWeight: VehicleDetail.gorssVehicleWeight || '',
+      grossVehicleWeight: VehicleDetail.grossVehicleWeight || '',
       idv: VehicleDetail.idv || null,
       insurance: VehicleDetail.insurance || null,
       insuranceValidity: VehicleDetail.insuranceValidity ? this.utilityService.getDateFromString(VehicleDetail.insuranceValidity) : '',
@@ -379,7 +423,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehiclePurchasedCost: VehicleDetail.vehiclePurchasedCost || null,
       vehicleRegDate: VehicleDetail.vehicleRegDate ? this.utilityService.getDateFromString(VehicleDetail.vehicleRegDate) : '',
       vehicleRegNo: VehicleDetail.vehicleRegNo || '',
-      vehicleType: VehicleDetail.vehicleTypeCode || '',
+      vehicleType: VehicleDetail.vehicleTypeUniqueCode || '',
       ownerMobileNo: VehicleDetail.ownerMobileNo || null,
       address: VehicleDetail.address || '',
       pincode: VehicleDetail.pincode || null,
@@ -393,7 +437,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   onVehicleRegion(value: any, obj) {
     const region = value ? value : '';
     let assetMakeArray = [];
-
+    console.log('obj in vehRegion', obj);
     const data = {
       "region": region,
       "productCategory": this.productCatoryCode
@@ -421,7 +465,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         }
       } else {
         this.vehicleLov.assetMake = []
-        this.toasterService.showWarning(res.ErrorMessage, 'Vehicle Master Region')
+        this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Master Region')
       }
       this.uiLoader.stop();
     }, error => {
@@ -464,7 +508,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           }
         } else {
           this.vehicleLov.vehicleType = []
-          this.toasterService.showWarning(res.ErrorMessage, 'Vehicle Master Asset Make')
+          this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Master Asset Make')
         }
         this.uiLoader.stop();
       }, error => {
@@ -511,7 +555,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           }
         } else {
           this.vehicleLov.assetBodyType = []
-          this.toasterService.showWarning(res.ErrorMessage, 'Vehicle Master Vehicle Type')
+          this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Master Vehicle Type')
         }
         this.uiLoader.stop();
       }, error => {
@@ -633,135 +677,100 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   addSalesFormControls() {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-    const controls = this._fb.group({
-      vehicleRegNo: [''],
-      region: ['', Validators.required],
-      assetMake: ['', Validators.required],
-      vehicleType: ['', Validators.required],
-      assetBodyType: ['', Validators.required],
-      assetModel: ['', Validators.required],
-      assetVariant: ['', Validators.required],
-      assetSubVariant: [''],
-      manuFacMonthYear: [''],
-      ageOfAsset: [''],
-      ageAfterTenure: [''],
-      assetCostGrid: [''],
-      assetCostIBB: [''],
-      assetCostCarTrade: [''],
-      exShowRoomCost: [''],
-      finalAssetCost: ['', Validators.required],
-      vehicleUsage: [''],
-      category: [''],
-      rcOwnerName: [''],
-      ownerMobileNo: [''],
-      address: ['', Validators.maxLength(120)],
-      pincode: ['', Validators.maxLength(6)],
-      noOfVehicles: [''],
-      vehicleId: 0,
-      collateralId: 0,
-      leadId: this.leadId,
-      userId: this.userId
-    });
-    formArray.push(controls);
-    this.changeSalesForm()
-  }
-
-  changeSalesForm() {
-    const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-    const controls = formArray.at(0) as FormGroup;
+    let controls = this._fb.group({
+    })
 
     if (this.productCatoryCode === 'NCV') {
-      controls.removeControl('vehicleRegNo');
-      controls.removeControl('assetCostGrid');
-      controls.removeControl('assetCostIBB');
-      controls.removeControl('assetCostCarTrade');
-      controls.removeControl('vehicleUsage');
-      controls.removeControl('rcOwnerName');
-      controls.removeControl('ownerMobileNo');
-      controls.removeControl('address');
-      controls.removeControl('pincode');
-      controls.removeControl('exShowRoomCost');
-      controls.removeControl('category');
-      controls.removeControl('manuFacMonthYear');
-      controls.removeControl('ageOfAsset');
-      controls.removeControl('noOfVehicles');
-      controls.removeControl('ageAfterTenure');
-
-      controls.addControl('exShowRoomCost', new FormControl('', [Validators.required, Validators.maxLength(10)]));
-      controls.addControl('noOfVehicles', new FormControl('', [Validators.required]));
+      controls = this._fb.group({
+        region: ['', Validators.required],
+        assetMake: ['', Validators.required],
+        vehicleType: ['', Validators.required],
+        assetBodyType: ['', Validators.required],
+        assetModel: ['', Validators.required],
+        assetVariant: ['', Validators.required],
+        assetSubVariant: [''],
+        exShowRoomCost: ['', Validators.required],
+        finalAssetCost: [''],
+        noOfVehicles: ['', Validators.required],
+        vehicleId: 0,
+        collateralId: 0,
+        leadId: this.leadId,
+        userId: this.userId
+      });
 
     } else if (this.productCatoryCode === 'NC') {
-      controls.removeControl('vehicleRegNo');
-      controls.removeControl('assetCostGrid');
-      controls.removeControl('assetCostIBB');
-      controls.removeControl('assetCostCarTrade');
-      controls.removeControl('vehicleUsage');
-      controls.removeControl('rcOwnerName');
-      controls.removeControl('ownerMobileNo');
-      controls.removeControl('address');
-      controls.removeControl('pincode');
-      controls.removeControl('category');
-      controls.removeControl('exShowRoomCost');
-      controls.removeControl('manuFacMonthYear');
-      controls.removeControl('ageOfAsset');
-      controls.removeControl('ageAfterTenure');
-      controls.removeControl('noOfVehicles');
+      controls = this._fb.group({
+        region: ['', Validators.required],
+        assetMake: ['', Validators.required],
+        vehicleType: ['', Validators.required],
+        assetBodyType: ['', Validators.required],
+        assetModel: ['', Validators.required],
+        assetVariant: ['', Validators.required],
+        assetSubVariant: [''],
+        vehicleUsage: ['', Validators.required],
+        exShowRoomCost: ['', Validators.required],
+        finalAssetCost: [''],
+        noOfVehicles: ['', Validators.required],
+        vehicleId: 0,
+        collateralId: 0,
+        leadId: this.leadId,
+        userId: this.userId
+      });
 
-      controls.addControl('vehicleUsage', new FormControl('', Validators.required));
-      controls.addControl('exShowRoomCost', new FormControl('', Validators.required));
-      controls.addControl('noOfVehicles', new FormControl('', [Validators.required]));
-    } else if (this.productCatoryCode === 'UC') {
-
-      controls.removeControl('vehicleRegNo');
-      controls.removeControl('assetCostGrid');
-      controls.removeControl('assetCostIBB');
-      controls.removeControl('assetCostCarTrade');
-      controls.removeControl('vehicleUsage');
-      controls.removeControl('rcOwnerName');
-      controls.removeControl('ownerMobileNo');
-      controls.removeControl('address');
-      controls.removeControl('pincode');
-      controls.removeControl('exShowRoomCost');
-      controls.removeControl('category');
-      controls.removeControl('manuFacMonthYear');
-      controls.removeControl('ageOfAsset');
-      controls.removeControl('ageAfterTenure');
-      controls.removeControl('noOfVehicles');
-
-      controls.addControl('assetCostIBB', new FormControl('', Validators.required));
-      controls.addControl('assetCostCarTrade', new FormControl('', Validators.required));
-      controls.addControl('vehicleRegNo', new FormControl('', Validators.required));
-      controls.addControl('vehicleUsage', new FormControl('', Validators.required));
-      controls.addControl('category', new FormControl('', Validators.required));
-      controls.addControl('manuFacMonthYear', new FormControl('', Validators.required));
-      controls.addControl('ageOfAsset', new FormControl(''));
-      controls.addControl('ageAfterTenure', new FormControl(''));
     } else if (this.productCatoryCode === 'UCV') {
-
-      controls.removeControl('vehicleRegNo');
-      controls.removeControl('assetCostGrid');
-      controls.removeControl('vehicleUsage');
-      controls.removeControl('rcOwnerName');
-      controls.removeControl('ownerMobileNo');
-      controls.removeControl('address');
-      controls.removeControl('noOfVehicles');
-      controls.removeControl('pincode');
-      controls.removeControl('exShowRoomCost');
-      controls.removeControl('category');
-      controls.removeControl('manuFacMonthYear');
-      controls.removeControl('ageOfAsset');
-      controls.removeControl('ageAfterTenure');
-
-      controls.addControl('vehicleRegNo', new FormControl('', Validators.required));
-      controls.addControl('assetCostGrid', new FormControl('', Validators.required));
-      controls.addControl('rcOwnerName', new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z ]{0,99}$')]));
-      controls.addControl('ownerMobileNo', new FormControl('', [Validators.required, Validators.pattern('[6-9]{1}[0-9]{9}')]));
-      controls.addControl('address', new FormControl('', Validators.compose([Validators.required, Validators.maxLength(120)])));
-      controls.addControl('pincode', new FormControl('', [Validators.required, Validators.pattern('[1-9]{1}[0-9]{5}')]));
-      controls.addControl('manuFacMonthYear', new FormControl('', Validators.required));
-      controls.addControl('ageOfAsset', new FormControl(''));
-      controls.addControl('ageAfterTenure', new FormControl(''));
+      controls = this._fb.group({
+        vehicleRegNo: ['', Validators.required],
+        region: ['', Validators.required],
+        assetMake: ['', Validators.required],
+        vehicleType: ['', Validators.required],
+        assetBodyType: ['', Validators.required],
+        assetModel: ['', Validators.required],
+        assetVariant: ['', Validators.required],
+        assetSubVariant: [''],
+        manuFacMonthYear: ['', Validators.required],
+        ageOfAsset: ['', Validators.required],
+        ageAfterTenure: ['', Validators.required],
+        assetCostGrid: ['', Validators.required],
+        isVehAvailInGrid: [0],
+        finalAssetCost: [''],
+        rcOwnerName: ['', Validators.required],
+        ownerMobileNo: ['', Validators.required],
+        address: ['', Validators.maxLength(120)],
+        pincode: ['', Validators.maxLength(6)],
+        vehicleId: 0,
+        collateralId: 0,
+        leadId: this.leadId,
+        userId: this.userId
+      });
+    } else if (this.productCatoryCode === 'UC') {
+      controls = this._fb.group({
+        vehicleRegNo: ['', Validators.required],
+        region: ['', Validators.required],
+        assetMake: ['', Validators.required],
+        vehicleType: ['', Validators.required],
+        assetBodyType: ['', Validators.required],
+        assetModel: ['', Validators.required],
+        assetVariant: ['', Validators.required],
+        assetSubVariant: [''],
+        manuFacMonthYear: ['', Validators.required],
+        ageOfAsset: ['', Validators.required],
+        ageAfterTenure: ['', Validators.required],
+        assetCostIBB: ['', Validators.required],
+        assetCostCarTrade: ['', Validators.required],
+        finalAssetCost: [''],
+        rcOwnerName: ['', Validators.required],
+        ownerMobileNo: ['', Validators.required],
+        address: ['', Validators.maxLength(120)],
+        pincode: ['', Validators.maxLength(6)],
+        vehicleUsage: ['', Validators.required],
+        category: ['', Validators.required],
+        vehicleId: 0,
+        collateralId: 0,
+        leadId: this.leadId,
+        userId: this.userId
+      });
     }
+    formArray.push(controls)
     this.sharedService.getFormValidation(this.basicVehicleForm)
   }
 
@@ -793,7 +802,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       manufactureSubventionAmount: [null],
       manuFactureSubventionPartIRR: [null],
       manufacturesubventionPartFinCharge: [null],
-      gorssVehicleWeight: [''],
+      grossVehicleWeight: [''],
       invoiceNumber: [null],
       invoiceDate: [''],
       invoiceAmount: [null],
@@ -880,6 +889,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostGrid: ['', Validators.required],
       finalAssetCost: ['', Validators.required],
       fitnessDate: [''],
+      isVehAvailInGrid: [0],
       typeOfPermit: [''],
       typeOfPermitOthers: [''],
       permitExpiryDate: [''],
@@ -893,7 +903,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       address: ['', Validators.compose([Validators.maxLength(120), Validators.required])],
       pincode: ['', Validators.compose([Validators.maxLength(6), Validators.required])],
       vehicleRegDate: [''],
-      gorssVehicleWeight: [''],
+      grossVehicleWeight: [''],
       reRegVehicle: [''],
       interStateVehicle: [''],
       duplicateRC: [''],
@@ -943,8 +953,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehiclePurchasedCost: [''],
       vehicleOwnerShipNumber: null,
       rcOwnerName: ['', Validators.pattern('^[A-Za-z ]{0,99}$')],
+      ownerMobileNo: ['', [Validators.required, Validators.pattern('[6-9]{1}[0-9]{9}')]],
+      address: ['', Validators.compose([Validators.maxLength(120), Validators.required])],
+      pincode: ['', Validators.compose([Validators.maxLength(6), Validators.required])],
       vehicleRegDate: '',
-      gorssVehicleWeight: [''],
+      grossVehicleWeight: [''],
       reRegVehicle: ['1'],
       interStateVehicle: ['1'],
       duplicateRC: ['1'],

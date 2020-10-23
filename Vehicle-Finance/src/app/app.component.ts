@@ -1,6 +1,5 @@
-import { environment } from 'src/environments/environment.prod';
-import { Component, OnInit } from '@angular/core';
-
+import { environment } from '../environments/environment';
+import { Component, OnInit,HostListener } from '@angular/core';
 
 
 declare var cordova:any;
@@ -8,7 +7,10 @@ declare var cordova:any;
 // declare var channel:any
 
 import { DraggableContainerService } from '@services/draggable.service';
-import { Router } from '@angular/router';
+import { Router,NavigationStart,NavigationEnd } from '@angular/router';
+import { UtilityService } from '@services/utility.service';
+import {SharedService} from './modules/shared/shared-service/shared-service'
+import { filter } from 'rxjs/operators'
 
 @Component({
   selector: 'app-root',
@@ -20,6 +22,8 @@ export class AppComponent implements OnInit {
   title = 'vehicle-finance';
   isMaas360Enabled:any;
 
+  showConfirmFlag: boolean;
+  showModal: boolean;
 
   // Equitas
 
@@ -195,7 +199,7 @@ export class AppComponent implements OnInit {
   };
 
   constructor(private draggableContainerService: DraggableContainerService,
-              private router: Router) {}
+              private router: Router,private utilityService: UtilityService,private sharedService: SharedService) {}
 
   ngOnInit() {
 
@@ -236,6 +240,43 @@ export class AppComponent implements OnInit {
            }
       }
   });
+
+  window.addEventListener('popstate', (event) => {
+    if(!window.location.href.includes('/login') && localStorage.getItem('token') && environment.production) {
+          history.go(1);
+          this.sharedService.browserPopState(false);
+          this.showModal = false;
+          setTimeout(()=> {
+            this.showModal = true;
+          },200)
+          
+    }
+  });
+
+      window.addEventListener('unload',(event)=> {
+        if(environment.production) {
+        this.utilityService.logOut();
+        }
+      })
+    
+      window.addEventListener('beforeunload', (event) => {
+        if(environment.production) {
+        if(!window.location.href.includes('/login')) {
+            event.preventDefault()
+            event.returnValue = ""
+            return false;
+        }
+      }
+      });
+
+  }
+
+  @HostListener('window:mousemove') refreshUserState() {
+  
+    setTimeout(()=> {
+      this.showConfirmFlag = false;;
+      this.sharedService.browserPopState(true)
+      })
   }
 
   initMaaS360() {
@@ -269,5 +310,10 @@ export class AppComponent implements OnInit {
       }
       sdkHandler.registerObserver(eventHandler);
       sdkHandler.initWithAnalytics(developerKey, licenseKey, enableAnalytics);
+  }
+
+  onOkay(event) {
+    this.showModal =false;
+    this.utilityService.logOut()
   }
 }

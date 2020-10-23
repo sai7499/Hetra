@@ -4,9 +4,11 @@ import { CommonModule } from "@angular/common";
 
 import { TermsConditionsComponent } from "./terms-conditions.component";
 import { TermsConditionsRouter } from './terms-condtions.router';
+import { SharedModule } from '../shared/shared.module';
+
 
 @NgModule({
   declarations: [TermsConditionsComponent],
-  imports: [FormsModule, CommonModule, TermsConditionsRouter]
+  imports: [FormsModule, CommonModule, TermsConditionsRouter,SharedModule]
 })
 export class TermsConditionsModule {}

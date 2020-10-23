@@ -93,7 +93,7 @@ export class ExposureDetailsComponent implements OnInit {
         // this.addProposedUnit(null);
        }
        const operationType = this.toggleDdeService.getOperationType();
-       if (operationType === '1' || operationType === '2') {
+       if (operationType) {
            this.exposureLiveLoan.disable();
            this.disableSaveBtn  = true;
          }
@@ -284,7 +284,8 @@ onSubmit() {
 
 
   onBack() {
-  this.location.back();
+  // this.location.back();
+  this.route.navigateByUrl(`/pages/dde/${this.leadId}/fleet-details`);
   }
   onNext() {
     this.route.navigateByUrl(`/pages/dde/${this.leadId}/income-details`);

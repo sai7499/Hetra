@@ -356,7 +356,7 @@
           >{{ labels.knowAbtVehicle }} <sub class="star_red_col">*</sub></label
         >
         <!-- <input type="text" class="form-control" id="know_abt_vechicle" formControlName="knowAbtVehicle"> -->
-        <app-custom-input
+        <!-- <app-custom-input
           id="know_abt_vechicle"
           formControlName="proposedVehicle"
           placeholder="how do you know about proposed vehilcle"
@@ -367,7 +367,14 @@
           "
           [isDirty]="isDirty"
         >
-        </app-custom-input>
+        </app-custom-input> -->
+        <app-vf-custom-select
+          [values]="(LOV?.LOVS)['howDoYouKnowAboutProposedVehicle']"
+          formControlName="proposedVehicle"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
       </div>
     </div>
     <div
@@ -982,7 +989,7 @@
         <app-custom-input
           formControlName="vehicleRoute"
           placeholder="vehicle route"
-          [isRequired]="'required'"
+          [isRequired]="'vehicle condition is required'"
           [maxLength]="maxlength30"
           [isDirty]="isDirty"
         >

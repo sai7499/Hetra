@@ -181,7 +181,7 @@
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <label for="emi">{{labels.noOfEmi}}</label>
-                                    <app-custom-input id="noOfEmi" formControlName="otherLoanNoOfEmi" [className]="'form-control mandatory'" [patternCheck]="regexPattern.amount" [maxLength]="validationData?.percentage.maxLength" [isRequired]="'Number of years is required'" [isDirty]="isDirty"
+                                    <app-custom-input id="noOfEmi" formControlName="otherLoanNoOfEmi" [className]="'form-control mandatory'" [patternCheck]="regexPattern.amount" [maxLength]="validationData?.percentage.maxLength" [isRequired]="'Number of EMI is required'" [isDirty]="isDirty"
                                         [type]="validationData?.percentage.type">
                                     </app-custom-input>
                                 </div>
@@ -402,11 +402,11 @@
                                 <tr>
                                     <th class="bank_name">{{labels.name}}</th>
                                     <td formGroupName="reference1">
-                                        <app-custom-input id="refFirstName1" formControlName="firstName" [className]="'form-control mandatory'" [maxLength]="validationData?.name.maxLength" [isRequired]="'Name is required'" [isDirty]="isDirty" [type]="validationData?.name.type">
+                                        <app-custom-input id="refFirstName1" (ngModelChange)="onName1Change($event)" formControlName="firstName" [className]="'form-control mandatory'" [maxLength]="validationData?.name.maxLength" [isRequired]="'Name is required'" [isDirty]="isDirty" [type]="validationData?.name.type">
                                         </app-custom-input>
                                     </td>
                                     <td formGroupName="reference2">
-                                        <app-custom-input id="refFirstName2" formControlName="firstName" [className]="'form-control mandatory'" [maxLength]="validationData?.name.maxLength" [isRequired]="'Name is required'" [isDirty]="isDirty" [type]="validationData?.name.type">
+                                        <app-custom-input id="refFirstName2" (ngModelChange)="onName2Change($event)" formControlName="firstName" [className]="'form-control mandatory'" [maxLength]="validationData?.name.maxLength" [isRequired]="'Name is required'" [isDirty]="isDirty" [type]="validationData?.name.type">
                                         </app-custom-input>
                                     </td>
 

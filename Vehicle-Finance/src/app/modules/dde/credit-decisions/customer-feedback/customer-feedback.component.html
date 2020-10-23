@@ -6,8 +6,10 @@
         >Accepted
     </button> &nbsp;
     <!-- (click)="customerAcceptance('accepted')" -->
-    <button class= "btn btn-danger" data-toggle="modal" data-target="#myModal">Declined</button>
-    </div>
+    <!-- <button class= "btn btn-danger" data-toggle="modal" data-target="#myModal">Declined</button> -->
+    <button class= "btn btn-danger" (click)="reject()">Declined</button>
+       
+</div>
     </div>
 </form>
 
@@ -52,3 +54,5 @@
 
     </div>
 </div>
+
+<app-reject-reason-modal [data]="rejectData" [showModalPopup]="showModal" *ngIf="showModal" (okay)="onOkay($event)" (cancel)="onCancel()"></app-reject-reason-modal>

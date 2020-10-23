@@ -36,13 +36,16 @@ export class ApplicantDocsUploadComponent implements OnInit {
     }
     this.applicantId = Number(value.id);
     this.associatedWith = value.associatedWith;
+    if (this.associatedWith === 2 ) {
+      this.getApplicantDetails();
+    }
     this.getApplicantDocumentCategory(this.applicantId);
     this.DEFAULT_PROFILE_IMAGE = '';
     this.DEFAULT_SIGNATURE_IMAGE = '';
   }
   @Input() set docSize(value) {
       this.OTHER_DOCUMENTS_SIZE = value;
-  };
+  }
   associatedWith;
   PROFILE_SIZE = Constant.PROFILE_IMAGE_SIZE;
   PROFILE_TYPE = Constant.PROFILE_ALLOWED_TYPES;
@@ -85,10 +88,27 @@ export class ApplicantDocsUploadComponent implements OnInit {
     imageType: string;
   };
   documentArr: DocumentDetails[] = [];
+  apiRes: any[];
 
-  documentMaxLength = {
-    rule: 15,
-  };
+  // documentMaxLength = {
+  //   rule: 15,
+  // };
+
+  currentlySelectedDocs: number;
+  documentNumberPattern: string;
+  documentMaxLength: number;
+  validationData;
+  errorMsg: string;
+  docsValidation = {};
+  selectedCode;
+  passport: string;
+  drivingLicence: string;
+  aadharCard: string;
+  voterId: string;
+  panCard: string;
+  isNewUpload = false;
+  docError = {};
+
 
   constructor(
     private lovData: LovDataService,
@@ -103,13 +123,18 @@ export class ApplicantDocsUploadComponent implements OnInit {
     private base64StorageService: Base64StorageService,
     private draggableContainerService: DraggableContainerService,
     private toasterService: ToasterService
-  ) { }
+  ) {
+
+  }
 
   ngOnInit() {
     this.uploadForm = new FormGroup({});
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
+        this.validationData = data.validationData;
+        this.setDocumentValidation();
+        console.log('valid', this.docsValidation);
       },
       (error) => {
         console.log(error);
@@ -117,6 +142,34 @@ export class ApplicantDocsUploadComponent implements OnInit {
     );
     this.lovData.getLovData().subscribe((res: any) => {
       this.values = res[0].applicantDocument[0];
+    });
+  }
+
+  getApplicantDetails() {
+    const data = {
+      applicantId: this.applicantId,
+    };
+    this.applicantService.getApplicantDetail(data).subscribe((res: any) => {
+      const processVariables = res.ProcessVariables;
+      const applicant = {
+        ...processVariables,
+      };
+      console.log('applicant', applicant);
+      const indivIdentityInfoDetails = applicant.indivIdentityInfoDetails;
+      const corporateProspectDetails = applicant.corporateProspectDetails;
+      if (indivIdentityInfoDetails) {
+        this.passport = indivIdentityInfoDetails.passportNumber;
+        this.panCard = indivIdentityInfoDetails.pan;
+        this.voterId = indivIdentityInfoDetails.voterIdNumber;
+        this.drivingLicence = indivIdentityInfoDetails.drivingLicenseNumber;
+        this.aadharCard = indivIdentityInfoDetails.aadhar;
+      } else if(corporateProspectDetails) {
+        this.passport = corporateProspectDetails.passportNumber;
+        this.panCard = corporateProspectDetails.panNumber;
+        this.voterId = corporateProspectDetails.voterIdNumber;
+        this.drivingLicence = corporateProspectDetails.drivingLicenseNumber;
+        this.aadharCard = corporateProspectDetails.aadhar;
+      }
     });
   }
 
@@ -200,6 +253,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
         console.log('doc details', value);
         const processVariables = value.ProcessVariables;
         const docDetails: DocumentDetails[] = processVariables.documentDetails;
+        this.apiRes = processVariables.documentDetails || [];
         this.documentArr = docDetails || [];
         const photo = processVariables.photo;
         const signature = processVariables.signature;
@@ -408,9 +462,109 @@ export class ApplicantDocsUploadComponent implements OnInit {
     const formArray = this.uploadForm.get(
       `${this.FORM_ARRAY_NAME}_${categoryCode}`
     ) as FormArray;
-    formArray.at(index).get('documentNumber').setValue(null);
+    console.log('index', index);
+    const documentNumber = formArray.at(index).get('documentNumber');
+    documentNumber.setValue(null);
+    documentNumber.enable();
     this.docListObj[categoryCode] = event;
     console.log('onDocumentSelect', event, categoryCode);
+    const documentCode = event.code;
+    if (documentCode === 12 && this.passport) {
+      documentNumber.setValue(this.passport);
+      documentNumber.disable();
+      return;
+    }
+    if (documentCode === 13 && this.drivingLicence) {
+      documentNumber.setValue(this.drivingLicence);
+      documentNumber.disable();
+      return;
+    }
+    if (documentCode === 14 && this.aadharCard) {
+      documentNumber.setValue(this.aadharCard);
+      documentNumber.disable();
+      return;
+    }
+    if (documentCode === 15 && this.voterId) {
+      documentNumber.setValue(this.voterId);
+      documentNumber.disable();
+      return;
+    }
+    if (documentCode === 16 && this.panCard) {
+      documentNumber.setValue(this.panCard);
+      documentNumber.disable();
+      return;
+    }
+    const docValue = formArray.at(index).get('documentName').value;
+    console.log('docValue', docValue);
+    // if (docValue) {
+    //   this.setDocumentValidation(Number(docValue));
+    // }
+    // this.currentlySelectedDocs = categoryCode;
+  }
+
+  setDocumentValidation() {
+    // this.selectedCode = subCategoryCode;
+    // if (subCategoryCode === 12) { // passport
+      const passportNumber = this.validationData.passportNumber;
+      this.docsValidation[12] = {
+        pattern: passportNumber.patternCheck.rule,
+        maxLength: passportNumber.maxLength.rule,
+        patternMsg: passportNumber.patternCheck.msg
+      };
+    //   return;
+    // }
+    // if (subCategoryCode === 13) {
+      const drivingLicense = this.validationData.drivingLicense;
+      this.docsValidation[13] = {
+        pattern: drivingLicense.patternCheck.rule,
+        maxLength: drivingLicense.maxLength.rule,
+        patternMsg: drivingLicense.patternCheck.msg
+      };
+    //   return;
+    // }
+    // if (subCategoryCode === 14) {
+      const adhaarNumber = this.validationData.adhaarNumber;
+      this.docsValidation[14] = {
+        pattern: adhaarNumber.patternCheck.rule,
+        maxLength: adhaarNumber.maxLength.rule,
+        patternMsg: adhaarNumber.patternCheck.msg
+      };
+    //   return;
+    // }
+    // if (subCategoryCode === 15) {
+      const voterId = this.validationData.voterId;
+      this.docsValidation[15] = {
+        pattern: voterId.patternCheck.rule,
+        maxLength: voterId.maxLength.rule,
+        patternMsg: voterId.patternCheck.msg
+      };
+    //   return;
+    // }
+    // if (subCategoryCode === 16) {
+      const panNumber = this.validationData.panNumber;
+      this.docsValidation[16] = {
+        pattern: panNumber.patternCheck.rule,
+        maxLength: panNumber.maxLength.rule,
+        patternMsg: panNumber.patternCheck.msg
+      };
+    //   return;
+    // }
+  }
+
+  // get docsList() {
+  //   return this.uploadForm.get(`${this.FORM_ARRAY_NAME}_${this.currentlySelectedDocs}`) as FormArray;
+  // }
+
+  docsList(code): any {
+    return this.uploadForm.get(`${this.FORM_ARRAY_NAME}_${code}`) as FormArray || {};
+  }
+
+  onPanelClick(code) {
+    // console.log('docList', this.uploadForm.get(`${this.FORM_ARRAY_NAME}_${code}`));
+    // console.log('code', code);
+    // setTimeout(() => {
+    //   this.currentlySelectedDocs = code;
+    // }, 1000);
   }
 
   uploadDocument(
@@ -440,6 +594,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
     const isDeferred = formGroup.get('isDeferred').value;
     const deferredDate = formGroup.get('deferredDate').value;
 
+    
+
     if (!imageType) {
       if (!documentName) {
         return this.toasterService.showError(
@@ -453,16 +609,19 @@ export class ApplicantDocsUploadComponent implements OnInit {
           ''
         );
       }
+      if (formGroup.get('documentNumber').invalid) {
+        return this.toasterService.showError('Please enter valid document number', '');
+      }
     }
 
-    // if (isDeferred) {
-    //   if (!deferredDate) {
-    //     return this.toasterService.showError(
-    //       'Please enter the deferral date',
-    //       ''
-    //     );
-    //   }
-    // }
+    if (isDeferred) {
+      if (!deferredDate) {
+        return this.toasterService.showError(
+          'Please enter the deferral date',
+          ''
+        );
+      }
+    }
 
     if (index !== undefined) {
       this.selectedIndex = index;
@@ -651,6 +810,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
   onUploadSuccess(event: DocumentDetails) {
     // this.toasterService.showSuccess('Document uploaded successfully', '');
     this.showModal = false;
+    this.isNewUpload = true;
     if (event.docsTypeForString === 'profile') {
       this.DEFAULT_PROFILE_IMAGE = 'data:image/jpeg;base64,' + event.imageUrl;
       const data = {
@@ -760,71 +920,13 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   onSubmit() {
-    // const requestArr = [];
-    // // if (this.documentArr.length === 0) {
-    // console.log('form value', this.uploadForm.value);
-    // const formValue = this.uploadForm.value;
-    // for (const key in formValue) {
-    //   if (formValue[key]) {
-    //     const subCategoryCode = Number(key.split('_')[1]);
-    //     let category: Categories;
-
-    //     this.categories.forEach((val) => {
-    //       val.subcategories.forEach((subCat) => {
-    //         if (subCat.code === subCategoryCode) {
-    //           category = val;
-    //         }
-    //       });
-    //     });
-    //     (formValue[key] || []).forEach((value) => {
-    //       requestArr.push({
-    //         deferredDate:
-    //           this.utilityService.getDateFormat(value.deferredDate) || '',
-    //         documentId: value.documentId,
-    //         documentName: value.documentName,
-    //         documentNumber: value.documentNumber,
-    //         expiryDate:
-    //           this.utilityService.getDateFormat(value.expiryDate) || '',
-    //         dmsDocumentId: value.file,
-    //         isDeferred: value.isDeferred,
-    //         issueDate: this.utilityService.getDateFormat(value.issueDate) || '',
-    //         subCategoryCode: subCategoryCode,
-    //         issuedAt: 'check',
-    //         categoryCode: category.code,
-    //         // associatedId: this.applicantId,
-    //         // associatedWith: this.associatedWith
-    //       });
-    //     });
-    //   }
-    // }
-
-    // // this.documentArr = requestArr;
-    // console.log('this.documentArr', this.documentArr);
-    // //   return;
-    // // }
-
-    // this.documentArr.forEach((value, index) => {
-    //   const formArray = this.uploadForm.get(
-    //     `${this.FORM_ARRAY_NAME}_${value.subCategoryCode}`
-    //   ) as FormArray;
-    //   const rawValue = formArray.getRawValue();
-    //   rawValue.forEach((formValue) => {
-    //     if (formValue.file === value.dmsDocumentId) {
-    //       this.documentArr[index] = {
-    //         ...this.documentArr[index],
-    //         expiryDate:
-    //           this.utilityService.getDateFormat(formValue.expiryDate) || '',
-    //         issueDate:
-    //           this.utilityService.getDateFormat(formValue.issueDate) || '',
-    //         documentNumber: formValue.documentNumber,
-    //       };
-    //     }
-    //   });
-    // });
-
-    // if (this.documentArr.length === 0) {
+    if (this.uploadForm.invalid) {
+      return this.toasterService.showError('Please fill mandatory fields', '');
+    }
+    this.docError = {};
     const formValue = this.uploadForm.value;
     const requestArr = [];
+    let isDocNumberError = false;
     for (const key in formValue) {
       if (formValue[key]) {
         const subCategoryCode = Number(key.split('_')[1]);
@@ -837,15 +939,22 @@ export class ApplicantDocsUploadComponent implements OnInit {
             }
           });
         });
-        (formValue[key] || []).forEach((value, index) => {
+        const values = formValue[key] || [];
+        // for (let i = 0;  i < values.length; i++) {
+
+        // }
+        (values).forEach((value, index) => {
           const documentName = value.documentName;
-          // const expiryDate =
-          // this.utilityService.getDateFormat(value.expiryDate) || '';
-          // const issueDate =
-          // this.utilityService.getDateFormat(value.issueDate) || '';
           const deferredDate =
             this.utilityService.getDateFormat(value.deferredDate) || '';
           if (documentName || deferredDate) {
+            const documentNumber = value.documentNumber;
+            if (!documentNumber && subCategoryCode !== 1 && subCategoryCode !== 2 && subCategoryCode !== 3) {
+                isDocNumberError = true;
+                this.docError[`${key}_${index}`] = true;
+            } else {
+              this.docError[`${key}_${index}`] = false;
+            }
             requestArr.push({
               deferredDate:
                 this.utilityService.getDateFormat(value.deferredDate) || '',
@@ -873,10 +982,78 @@ export class ApplicantDocsUploadComponent implements OnInit {
     this.documentArr = requestArr;
     // }
 
-    // console.log('documentArr', requestArr);
+    // check defer past date
+    if (isDocNumberError) {
+      return this.toasterService.showError('Please enter valid document number', '');
+    }
 
-    // return;
+    const checkAnyPast = this.documentArr.some((docs) => {
+      const now = new Date();
+      now.setHours(0, 0, 0, 0);
+      const deferDate = new Date(docs.deferredDate);
+      deferDate.setHours(0, 0, 0, 0);
+      return docs.isDeferred === '1' && deferDate < now;
+    });
 
+    if (checkAnyPast) {
+      this.toasterService.showError('Deferral date should be future date', '');
+      return;
+    }
+    const checkDeferralDate = this.documentArr.some((docs) => {
+      return docs.isDeferred === '1' && !docs.deferredDate;
+    });
+
+    if (checkDeferralDate) {
+      return this.toasterService.showError('Please enter deferral date', '');
+    }
+
+
+    if (this.documentArr.length === 0) {
+      this.toasterService.showWarning('No documents uploaded to save', '');
+      return;
+    }
+    const apiValue = {};
+
+    this.apiRes.forEach((value) => {
+        apiValue[value.documentId] = {
+          documentName:  value.documentName || '',
+          documentNumber: value.documentNumber || '',
+          issueDate: value.issueDate || '',
+          expiryDate: value.expiryDate || '',
+          isDeferred: value.isDeferred || '',
+          deferredDate: value.deferredDate || ''
+        };
+    });
+
+    const isValueChange = this.documentArr.some((value) => {
+      const doc = apiValue[value.documentId];
+      if (!doc) {
+        return true;
+      }
+      return (
+        value.documentName !== doc.documentName ||
+        value.documentNumber !== doc.documentNumber ||
+        value.issueDate !== doc.issueDate ||
+        value.expiryDate !== doc.expiryDate ||
+        value.isDeferred !== doc.isDeferred ||
+        value.deferredDate !== doc.deferredDate
+      );
+    });
+
+
+    if (this.isNewUpload) {
+       return this.callAppiyoUploadApi();
+    }
+
+    if (!isValueChange) {
+      return this.toasterService.showWarning('No changes done to save', '');
+    }
+    this.callAppiyoUploadApi();
+  }
+
+
+
+  callAppiyoUploadApi() {
     this.uploadService
       .saveOrUpdateDocument(this.documentArr)
       .subscribe((value: any) => {
@@ -884,6 +1061,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
           return;
         }
         this.toasterService.showSuccess('Documents saved successfully', '');
+        this.isNewUpload = false;
+        this.apiRes = [...this.documentArr];
         console.log('saveOrUpdateDocument', value);
         const processVariables = value.ProcessVariables;
         const documentIds = processVariables.documentIds;

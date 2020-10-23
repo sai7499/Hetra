@@ -1,68 +1,59 @@
 <form class="multisteps-form__form">
-  <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-    <div class="container">
-      <div class="row">
-        <div class="" id="applicantTable">
-          <table class="">
-            <thead>
-              <tr class="table-head-bg">
-                <th>
-                  {{ labels?.ucicId }}
-                </th>
-                <th>
-                  {{ labels?.applicantName }}
-                </th>
-                <th>
-                  {{ labels?.mobileNumber }}
-                </th>
-                <th>
-                  {{ labels?.applicantType }}
-                </th>
-                <th>
-                  {{ labels?.flStatus }}
-                </th>
-                <th *ngIf="fiStatusValue === '3' && showStatus ">
-                  {{ labels?.flReport }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of fiList">
-                <td [attr.data-label]="labels?.ucicId">{{ item.ucic ? item.ucic : "-" }}</td>
-                <td [attr.data-label]="labels?.applicantName">{{ item.applicantName ? item.applicantName : "-" }}</td>
-                <td [attr.data-label]="labels?.mobileNumber">{{ item.mobileNumber ? item.mobileNumber : "-" }}</td>
-                <td [attr.data-label]="labels?.applicantType">{{ item.applicantType ? item.applicantType : "-" }}</td>
-                <td [attr.data-label]="labels?.accountHolderName" *ngIf="showStatus">
-                  <u>{{ item.fiStatusValue ? item.fiStatusValue : "-" }}</u>
-                </td>
-                <td [attr.data-label]="labels?.accountHolderName"
-                  style="cursor: pointer;"
-                  *ngIf="show && fiStatusValue != '3'"
-                  (click)="navigatePage(item.applicantId)">
-                  <u>{{ item.fiStatusValue ? item.fiStatusValue : "-" }}</u>
-                </td>
-                <td
-                  [attr.data-label]="labels?.flStatus"
-                  style="cursor: pointer;"
-                  *ngIf="show && fiStatusValue === '3'">
-                  <u>{{ item.fiStatusValue ? item.fiStatusValue : "-" }}</u>
-                </td>
-              <ng-container *ngIf="fiStatusValue === '3' && showStatus">
-                <td [attr.data-label]="labels?.ucicId">
-                  <ng-container
-                    *ngFor="let version of item.fiReportValue">
-                    <u>
-                      <a
-                        class="a_tag"
-                        style="cursor: pointer;"
-                        (click)="navigatePage(item.applicantId, version)"
-                        >Version - {{ version }}</a>
+    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+        <div class="container">
+            <div class="row">
+                <div class="" id="applicantTable">
+                    <table class="">
+                        <thead>
+                            <tr class="table-head-bg">
+                                <th>
+                                    {{ labels?.ucicId }}
+                                </th>
+                                <th>
+                                    {{ labels?.applicantName }}
+                                </th>
+                                <th>
+                                    {{ labels?.mobileNumber }}
+                                </th>
+                                <th>
+                                    {{ labels?.applicantType }}
+                                </th>
+                                <th>
+                                    {{ labels?.flStatus }}
+                                </th>
+                                <th *ngIf="fiStatusValue === '3' && showStatus ">
+                                    {{ labels?.flReport }}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of fiList">
+                                <td [attr.data-label]="labels?.ucicId">{{ item.ucic ? item.ucic : "-" }}</td>
+                                <td [attr.data-label]="labels?.applicantName">{{ item.applicantName ? item.applicantName : "-" }}</td>
+                                <td [attr.data-label]="labels?.mobileNumber">
+                                    {{ item.mobileNumber ? item.mobileNumber : item.companyPhoneNumber }}</td>
+                                <td [attr.data-label]="labels?.applicantType">{{ item.applicantType ? item.applicantType : "-" }}</td>
+                                <td [attr.data-label]="labels?.flStatus" *ngIf="showStatus">
+                                    <u>{{ item.fiStatusValue ? item.fiStatusValue : "-" }}</u>
+                                </td>
+                                <td [attr.data-label]="labels?.flStatus" style="cursor: pointer;" *ngIf="show && fiStatusValue != '3'" (click)="navigatePage(item.applicantId)">
+                                    <u>{{ item.fiStatusValue ? item.fiStatusValue : "-" }}</u>
+                                </td>
+                                <td [attr.data-label]="labels?.flStatus" style="cursor: pointer;" *ngIf="show && fiStatusValue === '3'">
+                                    <u>{{ item.fiStatusValue ? item.fiStatusValue : "-" }}</u>
+                                </td>
+                                <ng-container *ngIf="fiStatusValue === '3' && showStatus">
+                                    <td [attr.data-label]="labels?.flReport">
+                                        <ng-container *ngFor="let version of item.fiReportValue">
+                                            <u>
+                        <a class="a_tag" style="cursor: pointer;"
+                          (click)="navigatePage(item.applicantId, version)">Version - {{ version }}</a>
                       </u>
-                      <br />
-                </ng-container>
-                </td>
-              </ng-container>
-              <!-- <td>
+                                            <br />
+                                        </ng-container>
+                                    </td>
+                                </ng-container>
+                                <!-- <td>
                 <u
                   ><a
                     class="a_tag"
@@ -77,38 +68,38 @@
 
 
 
-              </tr>
-            </tbody>
-          </table>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </form>
 <div class="btn-sec clear-both" *ngIf="show">
-  <div class="col-sm-5"></div>
-  <div class="col-sm-7 text-right cst_btm_btns">
-    <br />
-    <br />
-    <button class="btn btn-primary" type="button" (click)="onNavigateToFiSummary()">
+    <div class="col-sm-5"></div>
+    <div class="col-sm-7 text-right cst_btm_btns">
+        <br />
+        <br />
+        <button class="btn btn-primary" type="button" (click)="onNavigateToFiSummary()">
       Back to FI Summary
     </button>
-    <!-- <button class="btn btn-primary " type="button " (click)=onNavigateBack()> {{labels.back}} </button> &nbsp; -->
-    <!-- <p class="btn btn-primary save "> Save </p> -->
-    <!-- <button class="btn btn-primary " type="button " (click)="onNavigateNext() "> {{labels.next}} </button> -->
-  </div>
+        <!-- <button class="btn btn-primary " type="button " (click)=onNavigateBack()> {{labels.back}} </button> &nbsp; -->
+        <!-- <p class="btn btn-primary save "> Save </p> -->
+        <!-- <button class="btn btn-primary " type="button " (click)="onNavigateNext() "> {{labels.next}} </button> -->
+    </div>
 </div>
 
 <div class="btn-sec clear-both row cst_btm_btns">
-  <div class="col-sm-5"></div>
-  <div class="col-sm-7 text-right cst_btm_btns" *ngIf="showStatus">
-    
-    <button class="btn btn-primary" type="button" (click)="onNavigate('back')">
+    <div class="col-sm-5"></div>
+    <div class="col-sm-7 text-right cst_btm_btns" *ngIf="showStatus">
+
+        <button class="btn btn-primary" type="button" (click)="onNavigate('back')">
       {{ labels?.back }}
     </button>
-    
-    <button class="btn btn-primary" type="button" (click)="onNavigate('next')">
+
+        <button class="btn btn-primary" type="button" (click)="onNavigate('next')">
       {{ labels?.next }}
     </button>
-  </div>
+    </div>
 </div>

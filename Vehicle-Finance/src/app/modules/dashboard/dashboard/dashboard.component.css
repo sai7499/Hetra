@@ -336,9 +336,7 @@ th {
         top: -9999px;
         left: -9999px;
     }
-    tr {
-        /* border: 1px solid #E74C3C;  */
-    }
+
     tr+tr {
         margin-top: 1.5em;
     }

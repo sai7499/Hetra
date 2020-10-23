@@ -285,12 +285,12 @@ h3 {
 @media (min-width:300px) and (max-width:767px) {
     .content {
         background: #fff;
-        /* padding: 5px 0px 0px 0px!important; */
+        padding: 18px!important; 
         border-radius: 8px;
         border: 1px solid #ddd;
         margin-bottom: 20px;
-         margin-right: 8px;
-        margin-left: 8px;
+         /* margin-right: 8px;
+        margin-left: 8px; */
     }
 }
 
@@ -793,13 +793,13 @@ h4.table-head-bg.m-0.p-02 {
 
 /* fa fa-icon */
 
-.fa-pencil {
+ /* .fa-pencil {
     padding-right: 35px;
 }
 
 .fa-trash {
     padding-right: 35px;
-}
+}  */
 
 
 /* font size in table td*/
@@ -851,6 +851,13 @@ html, body { height: 100%; }
         font-size: 9px!important;
         
     }
+
+    .container {
+        padding-right: 3px;
+        padding-left: 3px;
+        margin-right: auto;
+        margin-left: auto;
+    }
 }
 
 .k-picker-wrap{
@@ -877,5 +884,105 @@ html, body { height: 100%; }
     background-color: #ffffff;
 }
 
+.k-dateinput .k-dateinput-wrap .k-input, .k-datepicker .k-dateinput-wrap .k-input {
+    padding: 0px 3px !important;
+}
+
+/* Welomce Letter styles start*/
+.welcmlter_body{
+    font-family:arial, sans-serif;
+    text-align:justify;
+    font-size:12px;
+    line-height:2em;
+    padding:15px;
+    margin:20px;
+    }
+
+.welcmlter_text-center
+{
+text-align:center;
+}
+
+.welcmlter_font-small{
+font-size:10px;
+}
+
+.welcmlter_style-strong{
+    font-weight:bold;
+ }
+
+ .welcmlter_author_style{
+    font-weight:bold;
+    padding-top:30px;
+    padding-bottom:30px;
+}
+
+.welcmlter_top-border{
+    border-top: 1px solid #ddd;
+    }
+    
+.welcmlter_margin_top{
+        margin-top: 5px
+    }
+.welcmlter_text-right{
+    text-align:right;
+    }
+
+    @media print {
+        .welcmlter_body{
+    font-family:arial, sans-serif;
+    text-align:justify;
+    font-size:12px;
+    line-height:2em;
+    padding:15px;
+    margin:20px;
+    }
+    
+    .welcmlter_margin_top{
+        margin-top: 5px
+    }
+    
+    .welcmlter_text-center
+    {
+    text-align:center;
+    }
+    
+    .welcmlter_font-small{
+    font-size:10px;
+    }
+    
+    .welcmlter_style-strong{
+    font-weight:bold;
+    }
+    
+    .welcmlter_author_style{
+    font-weight:bold;
+    padding-top:30px;
+    padding-bottom:30px;
+    }
+    
+    }
+/*Welomce Letter styles End */
+
+/* 
+::placeholder {
+    color: blue;
+    
+  }
+  .mandatory::-webkit-input-placeholder { color: blue!important; }
+
+  :-ms-input-placeholder { 
+    color: blue;
+    
+  }
+  
+  ::-ms-input-placeholder { 
+    color: blue;
+    
+  }
 
 
+  .form-control ng-untouched ng-pristine ng-valid ::-webkit-input-placeholder{
+    color: blue!important;
+
+  } */

@@ -25,7 +25,7 @@ export class ApplicantDetailsComponent implements OnInit {
   selectedApplicant: number;
   index: number;
   leadId: number;
-  showNotApplicant : boolean;
+  showNotApplicant: boolean;
 
   constructor(
     private route: Router,
@@ -36,8 +36,8 @@ export class ApplicantDetailsComponent implements OnInit {
     private applicantService: ApplicantService,
     private applicantDataStoreService: ApplicantDataStoreService,
     private createLeadDataService: CreateLeadDataService,
-    private toasterService : ToasterService
-  ) {}
+    private toasterService: ToasterService
+  ) { }
 
   getLeadId() {
     //   const currentUrl = this.location.path().split('/');
@@ -82,6 +82,8 @@ export class ApplicantDetailsComponent implements OnInit {
     // this.getData();
     this.getApplicantList();
     this.applicantDataStoreService.setDedupeFlag(false);
+    this.applicantDataStoreService.setPanValidate(false);
+    this.applicantDataStoreService.setDetectvalueChange(false)
   }
 
   // getData() {
@@ -108,28 +110,39 @@ export class ApplicantDetailsComponent implements OnInit {
       //console.log('ProcessVariables', processVariables);
       this.applicantList = processVariables.applicantListForLead;
       console.log('applicantList', this.applicantList);
-      const mobile= this.applicantList[0].mobileNumber;
 
-      if(this.applicantList[0].entityTypeKey=='INDIVENTTYP' && mobile.length==12){
-        this.applicantList[0].mobileNumber= mobile.slice(2,12)
-      }
-
-      // this.applicantList.forEach((data)=>{
-      //   if(data.applicantTypeKey=='APPAPPRELLEAD'){
-      //     const applicantBoolean= true;
-      //     console.log('applicantBoolean',applicantBoolean)
+      // for(var i=0; i<=this.applicantList.length; i++){
+      //   const mobile= this.applicantList[i].mobileNumber;
+      //   if(this.applicantList[i].entityTypeKey=='INDIVENTTYP' && mobile.length==12){
+      //     this.applicantList[i].mobileNumber= mobile.slice(2,12)
       //   }
-      // })
+      // }
+      // for(var i=0; i<=this.applicantList.length; i++){
+      //   const companyPhoneNumber= this.applicantList[i].companyPhoneNumber;
+      //   if(this.applicantList[i].entityTypeKey=='NONINDIVENTTYP' && companyPhoneNumber.length==12){
+      //     this.applicantList[i].companyPhoneNumber= companyPhoneNumber.slice(2,12)
+      //   }
+      // }
+      this.applicantList.map((data) => {
+        if (data.mobileNumber && data.mobileNumber.length === 12) {
+          data.mobileNumber = data.mobileNumber.slice(2, 12)
+        }
+        if (data.companyPhoneNumber && data.companyPhoneNumber.length === 12) {
+          data.companyPhoneNumber = data.companyPhoneNumber.slice(2, 12)
+        }
+        return data;
+      })
+
     });
   }
-  navigateAddApplicant(){
+  navigateAddApplicant() {
     console.log('applicant list', this.applicantList)
     //this.findAddressType();
-    if(this.applicantList.length > 4){
-       this.toasterService.showWarning('Maximum 5 Applicants','')
-       return;
+    if (this.applicantList.length > 4) {
+      this.toasterService.showWarning('Maximum 5 Applicants', '')
+      return;
     }
-    
+
     this.route.navigateByUrl(`/pages/lead-section/${this.leadId}/co-applicant`);
     if (this.applicantList.length > 0) {
       this.applicantList.filter((val: any) => {
@@ -138,7 +151,7 @@ export class ApplicantDetailsComponent implements OnInit {
     }
   }
 
-  
+
 
   onSubmit() {
     this.isAlert = false;
@@ -179,26 +192,26 @@ export class ApplicantDetailsComponent implements OnInit {
     });
   }
 
-  forFindingApplicantType(){
-   const findApplicant= this.applicantList.find((data)=>data.applicantTypeKey=="APPAPPRELLEAD")
-   console.log('findApplicant',findApplicant)
-   this.showNotApplicant=findApplicant==undefined? true: false;
+  forFindingApplicantType() {
+    const findApplicant = this.applicantList.find((data) => data.applicantTypeKey == "APPAPPRELLEAD")
+    console.log('findApplicant', findApplicant)
+    this.showNotApplicant = findApplicant == undefined ? true : false;
   }
 
-  onNext(){
+  onNext() {
     // [routerLink]="['../vehicle-details']"
-   this.forFindingApplicantType()
-    if(this.showNotApplicant){
-      this.toasterService.showError('There should be one applicant for this lead','')
+    this.forFindingApplicantType()
+    if (this.showNotApplicant) {
+      this.toasterService.showError('There should be one applicant for this lead', '')
       return;
     }
-    
 
-    this.route.navigateByUrl(`pages/lead-section/${this.leadId}/vehicle-details`) 
+
+    this.route.navigateByUrl(`pages/lead-section/${this.leadId}/vehicle-details`)
   }
 
   onBack() {
     //this.location.back();
-    this.route.navigateByUrl(`pages/lead-section/${this.leadId}`) 
+    this.route.navigateByUrl(`pages/lead-section/${this.leadId}`)
   }
 }

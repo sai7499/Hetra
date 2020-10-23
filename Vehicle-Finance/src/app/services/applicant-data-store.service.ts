@@ -20,6 +20,11 @@ export class ApplicantDataStoreService {
   applicantId = '';
   dedupeValues={};
   dedupeFlag : boolean= false;
+  panValidate : boolean= false;
+  isSaveBasicDetails : boolean= false;
+  isSaveAddressDetails : boolean = false;
+  isNavigateDedupe : boolean = false;
+  isValueChange : boolean = false;
   setApplicant(applicant: Applicant) {
     const aboutIndivProspectDetails = applicant.aboutIndivProspectDetails
       ? applicant.aboutIndivProspectDetails
@@ -52,7 +57,8 @@ export class ApplicantDataStoreService {
       indivProspectProfileDetails,
       directorDetails,
       otpVerified: applicant.otpVerified,
-      ucic : applicant.ucic
+      ucic : applicant.ucic,
+      ekycDone : applicant.ekycDone
     };
   }
 
@@ -141,6 +147,25 @@ export class ApplicantDataStoreService {
   }
   getDedupeFlag(){
     return this.dedupeFlag;
+  }
+  setPanValidate(value : boolean){
+    this.panValidate = value;
+  }
+  getPanValidate(){
+    return this.panValidate
+  }
+ 
+  setDetectvalueChange(value : boolean){
+    this.isValueChange= value
+  }
+  getDetectvalueChange(){
+    return this.isValueChange
+  }
+  setNavigateForDedupe(value : boolean){
+    this.isNavigateDedupe= value
+  }
+  getNavigateForDedupe(){
+    return this.isNavigateDedupe
   }
 
 }

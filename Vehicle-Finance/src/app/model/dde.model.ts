@@ -118,6 +118,7 @@ export interface ApplicantDetails {
     fatherFullName?: string;
     gender?: string;
     maritalStatus?: string;
+    dob?: string;
     physicallyChallenged?: string;
     dependants?: string;
     residancePhoneNumber?: string;
@@ -139,6 +140,7 @@ export interface ApplicantDetails {
     dependents?: string;
     owner?: string;
     areaOfProperty?: string;
+    propertyValue?: string;
     ratingbySO?: string;
     alternateAddr?: string;
 
@@ -279,7 +281,7 @@ export interface ReferenceCheck {
     place?: string;
     routeMap?: any;
     equitasBranchName?: string;
-    distanceFrombranch?: number;
+    distanceFromEquitas?: number;
     soName?: string;
     employeeCode?: string;
     date?: string;

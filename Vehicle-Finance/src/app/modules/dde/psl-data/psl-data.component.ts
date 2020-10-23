@@ -302,6 +302,13 @@ export class PslDataComponent implements OnInit {
       this.pslData = response.ProcessVariables.pslData;
       // console.log("PSLDATA::::", this.pslData);
       if (this.pslData === null) {
+        setTimeout(() => {
+          const operationType = this.toggleDdeService.getOperationType();
+          if (operationType) {
+            this.pslDataForm.disable();
+            this.disableSaveBtn = true;
+          }
+        })
         return;
       }
       const activity = this.pslData.activity;
@@ -338,6 +345,13 @@ export class PslDataComponent implements OnInit {
             },
           });
         });
+        setTimeout(() => {
+          const operationType = this.toggleDdeService.getOperationType();
+          if (operationType) {
+            this.pslDataForm.disable();
+            this.disableSaveBtn = true;
+          }
+        })
       } else if (activity === "2PSLACTVTY") {
         // const loanAmount = this.pslData.loanAmount;
         // this.nameOfCA = this.pslData.nameOfCA;
@@ -389,7 +403,7 @@ export class PslDataComponent implements OnInit {
       }
       setTimeout(() => {
         const operationType = this.toggleDdeService.getOperationType();
-        if (operationType === '1' || operationType === '2') {
+        if (operationType) {
           this.pslDataForm.disable();
           this.disableSaveBtn = true;
         }
@@ -729,7 +743,7 @@ export class PslDataComponent implements OnInit {
   // Change in PSL_SUBCATEGORY BASED UPON INPUT VALUE IN "LAND AREA IN ACRES"
   setValueForPslCategoryByLandArea() {
     this.weakerSectionValues = [];
-    if (this.landAreaInAcresValue <= 2.5 && this.landAreaInAcresValue != 0) {
+    if ( this.landAreaInAcresValue <= 2.5 && this.landAreaInAcresValue != null ) {
       this.LOV.LOVS.pslSubCategory.filter((element) => {
         if (element.key === "1PSLSUBCAT") {
           this.pslSubCategoryData = [{ key: element.key, value: element.value }];

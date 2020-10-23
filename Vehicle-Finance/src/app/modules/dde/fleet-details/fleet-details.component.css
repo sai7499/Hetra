@@ -85,39 +85,54 @@ You could also use a data-* attribute and content for this. That way "bloats" th
         content: "Relation";
     }
     td:nth-of-type(5):before {
-        content: "Make";
+        content: "Region";
     }
     td:nth-of-type(6):before {
-        content: "YOM";
+        content: "Make";
     }
     td:nth-of-type(7):before {
-        content: "Financier";
+        content: "Vechical Type";
     }
     td:nth-of-type(8):before {
-        content: "Loan NO";
+        content: "Asset Segement";
     }
     td:nth-of-type(9):before {
-        content: "Purchase Date";
+        content: "Asset Model";
+    }
+    
+    
+    
+    td:nth-of-type(10):before {
+        content: "YOM";
     }
     td:nth-of-type(11):before {
-        content: "Tenure";
+        content: "Financier";
     }
     td:nth-of-type(12):before {
-        content: "Paid";
+        content: "Loan NO";
     }
     td:nth-of-type(13):before {
-        content: "Seasoning";
+        content: "Purchase Date";
     }
     td:nth-of-type(14):before {
-        content: "AD";
+        content: "Tenure";
     }
     td:nth-of-type(15):before {
-        content: "PD";
+        content: "Paid";
     }
     td:nth-of-type(16):before {
-        content: "Grid Value";
+        content: "Seasoning";
     }
     td:nth-of-type(17):before {
+        content: "AD";
+    }
+    td:nth-of-type(18):before {
+        content: "PD";
+    }
+    td:nth-of-type(19):before {
+        content: "Grid Value";
+    }
+    td:nth-of-type(20):before {
         content: "RTR";
     }
 }

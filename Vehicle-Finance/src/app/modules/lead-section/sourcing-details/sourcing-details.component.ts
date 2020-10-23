@@ -79,6 +79,7 @@ export class SourcingDetailsComponent implements OnInit {
   dealorCodeKey: string;
   dealorCodeValue: string;
   isSourceCode: boolean;
+  isProductChange: boolean;
 
   isSourchingCode: boolean;
   isDealorCode: boolean;
@@ -148,7 +149,7 @@ export class SourcingDetailsComponent implements OnInit {
     userId: number;
     leadId: number;
   };
-  operationType: string;
+  operationType: boolean;
 
   constructor(
     private leadSectionService: VehicleDetailService,
@@ -385,7 +386,10 @@ export class SourcingDetailsComponent implements OnInit {
           this.productCategoryLoanAmount = productCategorySelected;
         }
       });
-      this.productChange(this.productFromLead);
+      if (!this.isProductChange) {
+        this.productChange(this.productFromLead);
+        this.isProductChange = true;
+      }
       this.tenureAmountValidation = this.loanTenureAmount(this.productCategoryLoanAmount);
     }
   }
@@ -415,8 +419,8 @@ export class SourcingDetailsComponent implements OnInit {
             });
           }
 
-          console.log('dataa', this.fundingProgramData);
-          console.log('dataaa', this.fundingProgramFromLead);
+          console.log('fundingProgramData', this.fundingProgramData);
+          console.log('fundingProgramFromLead', this.fundingProgramFromLead);
           if (!event.target) {
             this.sourcingDetailsForm.patchValue({
               fundingProgram: this.fundingProgramFromLead,
@@ -622,7 +626,7 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   onFormDisable() {
-    if (this.operationType === '1' || this.operationType === '2') {
+    if (this.operationType) {
       this.sourcingDetailsForm.disable();
       this.isSourchingCode = true;
       this.isDisabledDealerCode = true;
@@ -736,7 +740,7 @@ export class SourcingDetailsComponent implements OnInit {
   nextToApplicant() {
     this.isDirty = true;
     console.log('testform', this.sourcingDetailsForm);
-    if (this.operationType === '1' || this.operationType === '2') {
+    if (this.operationType) {
       this.onNavigate();
       return
     }

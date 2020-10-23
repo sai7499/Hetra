@@ -63,7 +63,8 @@ export class CibilOdComponent implements OnInit {
   this.router.navigate([`${this.applicantUrl}/${applicantId}`]);
   }
   onBack() {
-    this.location.back();
+    // this.location.back();/viability-list
+    this.router.navigateByUrl(`/pages/dde/${this.leadId}/viability-list`);
   }
   onNext() {
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/score-card`);

@@ -214,8 +214,8 @@
                   class="form-control"
                   formControlName="dob"
                   [format]="'dd/MM/yyyy'"
-                  [min]="ageMinDate"
-                  [max]="setBirthDate"
+                  [min]="minAge"
+                  [max]="maxAge"
                   placeholder="Date of birth"
                   [activeView]="'decade'"
                   (valueChange)="ageCalculation($event)"
@@ -425,7 +425,7 @@
           <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
               <label for="mobile_number"
-                >{{ labels?.alternateContactNumber }}
+                >{{ labels?.alternateMobileNumber }}
               </label>
               <!-- <input
                 type="text"
@@ -438,8 +438,9 @@
               /> -->
               <app-custom-input
                 formControlName="alternateMobileNumber"
-                [type]="validationData?.landlineNumber?.type"
-                [maxLength]="validationData?.landlineNumber?.maxLength"
+                [type]="validationData?.mobile?.type"
+                [maxLength]="validationData?.mobile?.maxLength"
+                [patternCheck]="validationData?.mobile?.patternCheck"
               ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -454,7 +455,7 @@
               <app-custom-input
                 formControlName="emailId"
                 [patternCheck]="emailPattern"
-                [maxlength]="validationData?.email?.maxLength"
+                [maxLength]="validationData?.emailPattern?.maxLength"
               ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -471,7 +472,7 @@
               <app-custom-input
                 formControlName="alternateEmailId"
                 [patternCheck]="emailPattern"
-                [maxlength]="validationData?.email?.maxLength"
+                [maxLength]="validationData?.emailPattern?.maxLength"
               ></app-custom-input>
             </div>
           </div>
@@ -725,15 +726,18 @@
                 [isDirty]="isDirty"
               ></app-vf-custom-select>
             </div> -->
-            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+           
+          </div>
+          <div class="row">
+          <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xs-12">
 
-              <label for="recommendations">{{ labels?.recommendations }}
-              </label>
-              <textarea class="form-control" id="recommendations"
-                  cols="1" rows="3" placeholder="Recommendations" formControlName="recommendations"
-                  maxlength="4000" style="resize: none;"></textarea>
-  
-              </div>
+            <label for="recommendations">{{ labels?.recommendations }}
+            </label>
+            <textarea class="form-control" id="recommendations"
+                cols="1" rows="3" placeholder="Recommendations" formControlName="recommendations"
+                maxlength="4000" style="resize: none;"></textarea>
+
+            </div>
           </div>
         </div>
         <div
@@ -850,6 +854,16 @@
                   placeholder="Date of Incorporation"
                   [activeView]="'decade'"
                 ></kendo-datepicker>
+
+                <div
+                  class="ShowError"
+                  *ngIf="
+                   ( isDirty || validation.get('dateOfIncorporation').touched) &&
+                    validation.get('dateOfIncorporation').invalid
+                  "
+                >
+                  Invalid Date
+                </div>
               </div>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -1091,7 +1105,7 @@
               <app-custom-input
                 formControlName="companyEmailId"
                 [patternCheck]="emailPattern"
-                [maxlength]="validationData?.email?.maxLength"
+                [maxLength]="validationData?.emailPattern?.maxLength"
               ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -1107,18 +1121,19 @@
               <app-custom-input
                 formControlName="alternateEmailId"
                 [patternCheck]="emailPattern"
-                [maxlength]="validationData?.email?.maxLength"
+                [maxLength]="validationData?.emailPattern?.maxLength"
               ></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
               <label for="mobile_number"
-                >{{ labels?.alternateContactNumber }}
+                >{{ labels?.alternateMobileNumber }}
               </label>
 
               <app-custom-input
                 formControlName="alternateContactNumber"
-                [type]="validationData?.landlineNumber?.type"
-                [maxLength]="validationData?.landlineNumber?.maxLength"
+                [type]="validationData?.mobile?.type"
+                [maxLength]="validationData?.mobile?.maxLength"
+                [patternCheck]="validationData?.mobile?.patternCheck"
               ></app-custom-input>
             </div>
           </div>

@@ -228,8 +228,8 @@
                   class="form-control"
                   formControlName="dob"
                   [format]="'dd/MM/yyyy'"
-                  [min]="ageMinDate"
-                  [max]="setBirthDate"
+                  [min]="minAge"
+                  [max]="maxAge"
                   placeholder="Date of birth"
                   [activeView]="'decade'"
                   (valueChange)="ageCalculation($event)"
@@ -326,7 +326,7 @@
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="guardian_name"
                 >{{ labels?.guardianName }}
-                <sub class="star_blue_col">*</sub></label
+                <sub class="star_red_col">*</sub></label
               >
               <!-- <input
                         type="text"
@@ -346,7 +346,7 @@
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="entity"
                 >{{ labels?.guardianRelationship }}
-                <sub class="star_blue_col">*</sub></label
+                <sub class="star_red_col">*</sub></label
               >
               <!-- <select class="form-control" id="entity">                                                  
                                        
@@ -435,7 +435,7 @@
           <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="mobile_number"
-                >{{ labels?.alternateContactNumber }}
+                >{{ labels?.alternateMobileNumber }}
               </label>
               <!-- <input
                 type="text"
@@ -448,8 +448,9 @@
               /> -->
               <app-custom-input
                 formControlName="alternateMobileNumber"
-                [type]="validationData?.landlineNumber?.type"
-                [maxLength]="validationData?.landlineNumber?.maxLength"
+                [type]="validationData?.mobile?.type"
+                [maxLength]="validationData?.mobile?.maxLength"
+                [patternCheck]="validationData?.mobile?.patternCheck"
               ></app-custom-input>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -464,7 +465,7 @@
               <app-custom-input
                 formControlName="emailId"
                 [patternCheck]="emailPattern"
-                [maxlength]="validationData?.email?.maxLength"
+                [maxLength]="validationData?.emailPattern?.maxLength"
               ></app-custom-input>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -481,7 +482,7 @@
               <app-custom-input
                 formControlName="alternateEmailId"
                 [patternCheck]="emailPattern"
-                [maxlength]="validationData?.email?.maxLength"
+                [maxLength]="validationData?.emailPattern?.maxLength"
               ></app-custom-input>
             </div>
           </div>
@@ -771,15 +772,7 @@
             </div>
 
 
-            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
-
-              <label for="recommendations">{{ labels?.recommendations }}
-              </label>
-              <textarea class="form-control" id="recommendations"
-                  cols="1" rows="3" placeholder="Recommendations" formControlName="recommendations"
-                  maxlength="4000" style="resize: none;"></textarea>
-  
-              </div>
+           
 
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 pad-zero">
 
@@ -904,7 +897,7 @@
 
 
               <label for="wedding_anniv_date"
-              >{{ labels?.weddingAnniversaryDate }}<sub class="star_blue_col">*</sub></label>
+              >{{ labels?.weddingAnniversaryDate }}<sub class="star_red_col">*</sub></label>
 
             <kendo-datepicker class="form-control" 
             formControlName="weddingAnniversaryDate" 
@@ -1011,6 +1004,17 @@
 
               </div>
           </div>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xs-12">
+
+              <label for="recommendations">{{ labels?.recommendations }}
+              </label>
+              <textarea class="form-control" id="recommendations"
+                  cols="1" rows="3" placeholder="Recommendations" formControlName="recommendations"
+                  maxlength="4000" style="resize: none;"></textarea>
+  
+              </div>
+          </div>
 
           <div class="row"
           *ngIf="custCatValue=='SALCUSTSEG'">
@@ -1071,7 +1075,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="designation"
                 >{{ labels?.designation }}
-                <sub class="star_blue_col">*</sub></label
+                <sub class="star_red_col">*</sub></label
               >
               <app-vf-custom-select
                 formControlName="designation"
@@ -1083,7 +1087,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="office_name"
                 >{{ labels?.officeName }}
-                <sub class="star_blue_col">*</sub></label
+                <sub class="star_red_col">*</sub></label
               >
               <app-custom-input
                 formControlName="employerName"
@@ -1118,7 +1122,7 @@
 
               <!-- <label for="yr_curr_employment"
                 >{{ labels?.noOfyearsInCurrEmployment }}
-                <sub class="star_blue_col">*</sub></label
+                <sub class="star_red_col">*</sub></label
               >
              
               <app-custom-input
@@ -1134,7 +1138,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="employee_code"
                 >{{ labels?.employeeCode }}
-                <sub class="star_blue_col">*</sub></label
+                <sub class="star_red_col">*</sub></label
               >
              
               <app-custom-input
@@ -1149,7 +1153,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="employee_type"
                 >{{ labels?.employeeType }}
-                <sub class="star_blue_col">*</sub></label
+                <sub class="star_red_col">*</sub></label
               >
               <!-- <select class="form-control" id="employee_type" name="employee_type">
                             <option value="">Select</option>
@@ -1263,7 +1267,7 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="employee_type"
               >Type Of Business
-              <sub class="star_blue_col">*</sub></label
+              <sub class="star_red_col">*</sub></label
             >
             <!-- <select class="form-control" id="employee_type" name="employee_type">
                           <option value="">Select</option>
@@ -1279,7 +1283,7 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="employee_code"
               >Business Name
-              <sub class="star_blue_col">*</sub></label
+              <sub class="star_red_col">*</sub></label
             >
            
             <app-custom-input
@@ -1294,7 +1298,7 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="extnl_rating_expiry_date"
               >Business Start Date
-              <sub class="star_blue_col">*</sub></label
+              <sub class="star_red_col">*</sub></label
             >
             <div class="input-group input-medium" id="date_of_birth">
               <kendo-datepicker
@@ -1341,7 +1345,7 @@
 
             <!-- <label for="employee_code"
               >Number Of years In Current business
-              <sub class="star_blue_col">*</sub></label
+              <sub class="star_red_col">*</sub></label
             >
            
             <app-custom-input
@@ -1358,7 +1362,7 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="employee_code"
               >Turn Over
-              <sub class="star_blue_col">*</sub></label
+              <sub class="star_red_col">*</sub></label
             >
            
             <app-custom-input
@@ -1490,6 +1494,15 @@
                   placeholder="Date of Incorporation"
                   [activeView]="'decade'"
                 ></kendo-datepicker>
+                <div
+                  class="ShowError"
+                  *ngIf="
+                   ( isDirty || validation.get('dateOfIncorporation').touched) &&
+                    validation.get('dateOfIncorporation').invalid
+                  "
+                >
+                  Invalid Date
+                </div>
               </div>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -1560,7 +1573,7 @@
               <app-custom-input
                 formControlName="companyEmailId"
                 [patternCheck]="emailPattern"
-                [maxlength]="validationData?.email?.maxLength"
+                [maxLength]="validationData?.emailPattern?.maxLength"
               ></app-custom-input>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -1570,18 +1583,19 @@
               <app-custom-input
                 formControlName="alternateEmailId"
                 [patternCheck]="emailPattern"
-                [maxlength]="validationData?.email?.maxLength"
+                [maxLength]="validationData?.emailPattern?.maxLength"
               ></app-custom-input>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="mobile_number"
-                >{{ labels?.alternateContactNumber }}
+                >{{ labels?.alternateMobileNumber }}
               </label>
 
               <app-custom-input
                 formControlName="alternateContactNumber"
-                [type]="validationData?.landlineNumber?.type"
-                [maxLength]="validationData?.landlineNumber?.maxLength"
+                [type]="validationData?.mobile?.type"
+                [maxLength]="validationData?.mobile?.maxLength"
+                [patternCheck]="validationData?.mobile?.patternCheck"
               ></app-custom-input>
             </div>
           </div>

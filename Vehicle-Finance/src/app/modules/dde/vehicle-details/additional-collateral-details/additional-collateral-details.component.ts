@@ -23,6 +23,7 @@ export class AdditionalCollateralComponent implements OnInit {
     public LOV: any = {};
     public relationLov: any = [];
     initalZeroCheck: any = [];
+    id: number = 0;
 
     public userId: number;
     public leadId: number;
@@ -70,19 +71,24 @@ export class AdditionalCollateralComponent implements OnInit {
         this.initForm();
         this.getLov();
         if (collateralId) {
+            this.id = Number(collateralId);
             this.setFormValue(collateralId);
-        }
-
-        const operationType = this.toggleDdeService.getOperationType();
-        if (operationType === '1' || operationType === '2') {
-            this.disableSaveBtn = true;
-            this.collateralForm.disable()
         }
     }
 
     selectCollateralType(value) {
         this.collateralType = value;
         this.initForm();
+    }
+
+    onChangeProofCollected(value) {
+        if (value === 'YPROOF') {
+            this.collateralForm.get('proofName').setValidators([Validators.required]);
+            this.collateralForm.get('proofName').updateValueAndValidity();
+        } else {
+            this.collateralForm.get('proofName').clearValidators();
+            this.collateralForm.get('proofName').updateValueAndValidity();
+        }
     }
 
     getLov() {
@@ -100,7 +106,7 @@ export class AdditionalCollateralComponent implements OnInit {
 
             this.LOV.propertOwner = propertOwner;
             this.relationLov = this.LOV.relationship;
-
+            this.LOV.relationLov = this.LOV.relationship;
         })
     }
 
@@ -122,7 +128,8 @@ export class AdditionalCollateralComponent implements OnInit {
             marketValue: [null, Validators.required],
             totalMarketValue: [null],
             guideLineValue: [null, Validators.required],
-            totalGuideLineValue: [null]
+            totalGuideLineValue: [null],
+            collateralId: this.id
         }))
 
     }
@@ -134,7 +141,8 @@ export class AdditionalCollateralComponent implements OnInit {
             fdAccountNo: ['', Validators.required],
             propertyOwner: ['', Validators.required],
             totalMarketValue: [null, Validators.required],
-            relationWithApplicant: ['', Validators.required]
+            relationWithApplicant: ['', Validators.required],
+            collateralId: this.id
         }))
     }
 
@@ -147,7 +155,8 @@ export class AdditionalCollateralComponent implements OnInit {
             totalMarketValue: [null],
             purity: ['', Validators.required],
             propertyOwner: ['', Validators.required],
-            relationWithApplicant: ['', Validators.required]
+            relationWithApplicant: ['', Validators.required],
+            collateralId: this.id
         }))
     }
 
@@ -165,11 +174,10 @@ export class AdditionalCollateralComponent implements OnInit {
             totalMarketValue: [null],
             guideLineValue: [null, Validators.required],
             totalGuideLineValue: [null],
-            propertyOwnerType: [null]
+            propertyOwnerType: ['', Validators.required],
+            collateralId: this.id
         }))
     }
-
-    // Validators.pattern('/[^a-zA-Z0-9/,]/g')
 
     currentValueGrams(value) {
         const formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
@@ -214,28 +222,42 @@ export class AdditionalCollateralComponent implements OnInit {
     }
 
     onFindRelationship(value) {
-        let typeOfApplicant = this.applicantDetails.find((res => res.applicantId === Number(value)))
+        this.LOV.relationLov = [];
 
-        console.log(typeOfApplicant, this.applicantDetails)
+        let formArray = this.collateralForm.get('collateralFormArray') as FormArray;
+        const details = formArray.at(0);
+        console.log(details, 'details')
+
+        details.get('relationWithApplicant').setValue('')
+
+    
+        let typeOfApplicant = this.applicantDetails.find((res => res.applicantId === Number(value)))
 
         let lovOfSelf = [{
             key: "5RELATION",
             value: "Self"
         }]
 
-        let lovOfRelationship = this.relationLov.filter((data) => data.key !== "5RELATION")
-        console.log(typeOfApplicant, lovOfRelationship)
-
-        this.LOV.relationship = typeOfApplicant['applicantType'] === "Applicant" ? lovOfSelf : lovOfRelationship;
+        let lovOfRelationship = this.LOV.relationship.filter((data) => data.key !== "5RELATION")
+        this.LOV.relationLov = typeOfApplicant['applicantType'] === "Applicant" ? lovOfSelf : lovOfRelationship;
     }
 
     setFormValue(id) {
         this.collateralService.getAdditionalCollateralsDetails(Number(id)).subscribe((res: any) => {
-
-            let apiError = res.ProcessVariables.error.message;
-            if (res.Error === '0' && res.Error === '0' && res.ProcessVariables.error.code === '0') {
+            setTimeout(() => {
+                const operationType = this.toggleDdeService.getOperationType();
+                if (operationType) {
+                    this.disableSaveBtn = true;
+                    this.collateralForm.disable()
+                }
+            });
+            if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
                 let collateralDetail = res.ProcessVariables.aAdditionalCollaterals ? res.ProcessVariables.aAdditionalCollaterals : {};
                 this.collateralDataService.setAdditionalCollateralList(collateralDetail);
+
+                console.log(collateralDetail, 'collateralDetail')
+                this.onFindRelationship(collateralDetail.propertyOwner) 
+
 
                 const formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
 
@@ -251,7 +273,7 @@ export class AdditionalCollateralComponent implements OnInit {
                 this.currentValue = collateralDetail.currentValuePerGram
                 this.goldGramsValue = collateralDetail.goldInGrams
 
-                formArray.controls.push(
+                formArray.push(
                     this._fb.group({
                         collateralId: collateralDetail.collateralId || null,
                         currentValuePerGram: collateralDetail.currentValuePerGram || null,
@@ -272,19 +294,20 @@ export class AdditionalCollateralComponent implements OnInit {
                         totalGuideLineValue: collateralDetail.totalGuideLineValue || null,
                         totalLandArea: collateralDetail.totalLandArea || null,
                         totalMarketValue: collateralDetail.totalMarketValue || null,
-
                     })
                 )
+            } else {
+                this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Additional CollateralAdditional Collateral Detail')
             }
         })
     }
 
     onFormSubmit(form) {
-        if (form.valid) {
 
+        let formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
+
+        if (form.valid && formArray.controls[0].valid) {
             let additionalCollaterals = {}
-
-            let formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
 
             additionalCollaterals = formArray.controls[0].value;
 
@@ -292,11 +315,6 @@ export class AdditionalCollateralComponent implements OnInit {
             additionalCollaterals['proofName'] = form.value.proofName;
             additionalCollaterals['proofCollected'] = form.value.proofCollected;
 
-            // if (this.collateralType === 'GOLDADDCOLTYP') {
-
-            //     additionalCollaterals['totalMarketValue'] = additionalCollaterals['currentValuePerGram'] * additionalCollaterals['goldInGrams']
-
-            // } 
             if (this.collateralType === 'AGRIADDCOLTYP') {
 
                 additionalCollaterals['totalMarketValue'] = additionalCollaterals['marketValue'] * additionalCollaterals['landInAcres'];
@@ -308,8 +326,6 @@ export class AdditionalCollateralComponent implements OnInit {
                 additionalCollaterals['totalGuideLineValue'] = additionalCollaterals['guideLineValue'] * additionalCollaterals['totalLandArea']
             }
 
-            console.log(additionalCollaterals, 'co')
-
             const data = {
                 "userId": this.userId,
                 "leadId": this.leadId,
@@ -317,12 +333,11 @@ export class AdditionalCollateralComponent implements OnInit {
             }
 
             this.collateralService.saveOrUpdateAdditionalCollaterals(data).subscribe((res: any) => {
-                let apiError = res.ProcessVariables.error.message;
-                if (res.Error === '0' && res.Error === '0' && res.ProcessVariables.error.code === '0') {
+                if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
                     this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Additional Collateral Detail');
                     this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
                 } else {
-                    this.toasterService.showError(apiError, 'Additional CollateralAdditional Collateral Detail')
+                    this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Additional CollateralAdditional Collateral Detail')
                 }
             })
 

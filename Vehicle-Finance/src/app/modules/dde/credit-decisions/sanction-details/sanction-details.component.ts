@@ -267,9 +267,11 @@ export class SanctionDetailsComponent implements OnInit {
   }
   downloadpdf() {
     var options = {
-      margin: .25,
+      margin: .5,
       filename: `SanctionDetail${this.leadId}.pdf`,
-      image: { type: 'jpeg', quality: 1 },
+      image: { type: 'jpeg', quality: 0.99 },
+      html2canvas:{scale:3, logging: true},   
+      pagebreak: { before:["#vf_sheet_text_tag","#page_break"] },
       jsPDF: { unit: 'in', format: 'a4', orientation: 'p' }
     }
     html2pdf().from(document.getElementById("vf_sheet_print_starts")).set(options).save();
@@ -279,9 +281,11 @@ export class SanctionDetailsComponent implements OnInit {
   uploadPdf() {
 
     var options = {
-      margin: .25,
+      margin: .5,
       filename: `SanctionDetail${this.leadId}.pdf`,
-      image: { type: 'jpeg', quality: 1 },
+      image: { type: 'jpeg', quality: 0.99 },
+      html2canvas:{scale:3, logging: true},   
+      pagebreak: { before:["#vf_sheet_text_tag","#page_break"] },
       jsPDF: { unit: 'in', format: 'a4', orientation: 'p' }
     }
 

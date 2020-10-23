@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -9,14 +9,18 @@ import { LeadStoreService } from '../../sales/services/lead.store.service';
 import { ApplicantImageService } from '@services/applicant-image.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ToasterService } from '@services/toaster.service';
+import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
-
+import { ToggleDdeService } from '@services/toggle-dde.service';
+import html2pdf from 'html2pdf.js';
 
 @Component({
   templateUrl: './applicant-list.component.html',
   styleUrls: ['./applicant-list.component.css'],
 })
 export class ApplicantListComponent implements OnInit {
+  @ViewChild('draggable',{static:true}) private draggableElement: ElementRef;
+
   labels: any = {};
   showAddApplicant: boolean;
   applicantUrl: string;
@@ -29,7 +33,19 @@ export class ApplicantListComponent implements OnInit {
   showModal = false;
   backupApplicantId: any;
   cibilImage: any;
-  showNotApplicant : boolean;
+  showNotApplicant: boolean;
+  hideDraggableContainer = false;
+  newImage: any;
+  appicanteKYCDetails: any;
+  panDetails: any;
+  dedupeMatchedCriteria: any;
+  exactMatches: any;
+  probableMatches: any;
+  adhaarDetails: any;
+  disableSaveBtn: boolean;
+  imgeKYC: any;
+  showeKYC: boolean = false;
+  collateralVehicleDetails: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -40,7 +56,9 @@ export class ApplicantListComponent implements OnInit {
     private applicantImageService: ApplicantImageService,
     private domSanitizer: DomSanitizer,
     private toasterService: ToasterService,
-    private createLeadDataService : CreateLeadDataService,
+    private createLeadDataService: CreateLeadDataService,
+    private toggleDdeService: ToggleDdeService,
+    private applicantDataService : ApplicantDataStoreService
   ) { }
 
   async ngOnInit() {
@@ -68,6 +86,16 @@ export class ApplicantListComponent implements OnInit {
       this.applicantUrl = `/pages/applicant-details/${this.leadId}/basic-data`;
     }
     this.getApplicantList();
+
+    setTimeout(() => {
+      const operationType = this.toggleDdeService.getOperationType();
+      if (operationType) {
+        this.disableSaveBtn = true;
+      }
+    })
+    // this.downloadpdf();
+    // 
+    this.applicantDataService.setDetectvalueChange(false)
   }
 
   getLeadId() {
@@ -143,7 +171,6 @@ export class ApplicantListComponent implements OnInit {
   }
 
   getApplicantImage(applicantID: any) {
-
     // tslint:disable-next-line: triple-equals
     if (this.backupApplicantId == applicantID) {
       this.cibilImage = this.imageUrl;
@@ -159,9 +186,17 @@ export class ApplicantListComponent implements OnInit {
           const imageUrl = res.ProcessVariables.response;
           this.imageUrl = imageUrl;
           this.imageUrl = atob(this.imageUrl); // decoding base64 string to get xml file
-          this.imageUrl = this.domSanitizer.bypassSecurityTrustHtml(this.imageUrl); // sanitizing xml doc for rendering with proper css
+          this.imageUrl = this.domSanitizer.bypassSecurityTrustHtml(this.imageUrl);
+          // this.newImage = this.domSanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64,' 
+          //        + imageUrl); // sanitizing xml doc for rendering with proper css
           this.cibilImage = this.imageUrl;
+          console.log(this.newImage);
+          setTimeout(() => {
+            this.dragElement(document.getElementById('mydiv'));
+          });
+          this.hideDraggableContainer = true;
         } else {
+          this.hideDraggableContainer = true;
           this.imageUrl = res.ProcessVariables.error.message;
           this.cibilImage = res.ProcessVariables.error.message;
         }
@@ -169,30 +204,126 @@ export class ApplicantListComponent implements OnInit {
     }
 
   }
+  private dragElement(elmnt) {
+    let pos1 = 0;
+    let pos2 = 0;
+    let pos3 = 0;
+    let pos4 = 0;
+    if (document.getElementById(elmnt.id + 'mydiv')) {
+      // if present, the header is where you move the DIV from:
+      document.getElementById(elmnt.id + 'mydiv').onmousedown = dragMouseDown;
+    } else {
+      // otherwise, move the DIV from anywhere inside the DIV:
+      elmnt.onmousedown = dragMouseDown;
+    }
 
-  forFindingApplicantType(){
-    const findApplicant= this.applicantList.find((data)=>data.applicantTypeKey=="APPAPPRELLEAD")
-    console.log('findApplicant',findApplicant)
-    this.showNotApplicant=findApplicant==undefined? true: false;
-   }
+    function dragMouseDown(e) {
+      // tslint:disable-next-line: deprecation
+      e = e || window.event;
+      e.preventDefault();
+      // get the mouse cursor position at startup:
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      document.onmouseup = closeDragElement;
+      // call a function whenever the cursor moves:
+      document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+      // tslint:disable-next-line: deprecation
+      e = e || window.event;
+      e.preventDefault();
+      // calculate the new cursor position:
+      pos1 = pos3 - e.clientX;
+      pos2 = pos4 - e.clientY;
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      // set the element's new position:
+      elmnt.style.top = elmnt.offsetTop - pos2 + 'px';
+      elmnt.style.left = elmnt.offsetLeft - pos1 + 'px';
+    }
+
+    function closeDragElement() {
+      // stop moving when mouse button is released:
+      document.onmouseup = null;
+      document.onmousemove = null;
+    }
+  }
+  forFindingApplicantType() {
+    const findApplicant = this.applicantList.find((data) => data.applicantTypeKey == "APPAPPRELLEAD")
+    console.log('findApplicant', findApplicant)
+    this.showNotApplicant = findApplicant == undefined ? true : false;
+  }
 
   onNext() {
 
     this.forFindingApplicantType()
-    if(this.showNotApplicant){
-      this.toasterService.showError('There should be one applicant for this lead','')
+    if (this.showNotApplicant) {
+      this.toasterService.showError('There should be one applicant for this lead', '')
       return;
     }
-    if(this.router.url.includes('sales')){
+    if (this.router.url.includes('sales')) {
       this.router.navigateByUrl(`pages/sales/${this.leadId}/vehicle-list`)
-    }else{
+    } else {
       this.router.navigateByUrl(`pages/dde/${this.leadId}/vehicle-list`)
     }
-    
+
   }
   destroyImage() {
     if (this.cibilImage) {
       this.cibilImage = null;
     }
   }
+  
+   geteKYCDetails(applicantId) {
+   this.applicantService.geteKYCDetails(applicantId).subscribe((res: any) => {
+      if (res['ProcessVariables'] && res.Error === "0" && res['ProcessVariables'].error.code == 0) {
+        // this.showeKYC = true;
+        this.appicanteKYCDetails = res['ProcessVariables'];
+        this.panDetails = this.appicanteKYCDetails['panDetails'];
+        this.adhaarDetails = this.appicanteKYCDetails['aadharDetails'];
+        this.dedupeMatchedCriteria = this.appicanteKYCDetails['dedupeMatchedCriteria'];
+        this.exactMatches = this.appicanteKYCDetails['exactMatches'];
+        this.probableMatches = this.appicanteKYCDetails['probableMatches']; 
+        this.collateralVehicleDetails = this.appicanteKYCDetails['collateralVehicleDetails']
+        setTimeout(() => {
+          this.downloadpdf();
+        });
+      } else {
+        this.toasterService.showError(res['ProcessVariables'].error["message"], '')
+        this.imgeKYC = res.ProcessVariables.error.message;
+        setTimeout(() => {
+          this.showeKYC = true;
+        });
+      }
+    });
+  }
+  
+ async downloadpdf() {
+  document.getElementById("ekyc-to-print").classList.remove('dontdisplayed');
+  document.getElementById("ekyc-to-print").classList.add('display');
+  const html = document.getElementById('ekyc-to-print').innerHTML;
+  document.getElementById("ekyc-to-print").classList.remove('display');
+  document.getElementById("ekyc-to-print").classList.add('dontdisplayed');
+    var options = {
+      margin:[0.5, 0.5, 0.5, 0.5],
+      filename: `applicanteKYC${this.leadId}`,
+      image: { type: 'jpeg', quality: 1 },
+      jsPDF: { unit: 'mm', orientation: 'p',format: 'A4' },
+      html2canvas: {scale: 4,  logging:true},
+    }
+     html2pdf().from(html)
+    .set(options).outputImg('datauristring').then(res => {
+      this.imgeKYC = this.domSanitizer.bypassSecurityTrustResourceUrl(res);
+      setTimeout(() => {
+        this.showeKYC = true;
+      });
+           })
+        }
+
+        destroyeKYCImage() {
+          if (this.imgeKYC) {
+            this.imgeKYC = null;
+          }
+        }
 }

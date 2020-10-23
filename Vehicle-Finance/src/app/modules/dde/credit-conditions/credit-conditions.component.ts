@@ -7,6 +7,7 @@ import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 
+
 interface dataObject{ 
       creditId: string;
       creditCondition: string;
@@ -54,6 +55,17 @@ export class CreditConditionsComponent implements OnInit {
   roleType: any;
   productCatCode;
   salesResponse = 'false';
+
+  rejectData: {
+    title: string,
+    product: any;
+    flowStage: string;
+    productCode: any;
+   
+  }
+
+  showModal: boolean;
+
   constructor(
     public labelsService: LabelsService,
     private loginStoreService: LoginStoreService,
@@ -319,7 +331,7 @@ export class CreditConditionsComponent implements OnInit {
   // selectedEvent(data){
   //   this.selectAction = data;
   // }
-  rejectCreditiCondition(){
+  rejectCreditiCondition(reasonCode?: string){
     this.submitReject = true;
        // if(this.rejectReasonForm.valid){
           // processData["isRefer"]= true;
@@ -330,6 +342,7 @@ export class CreditConditionsComponent implements OnInit {
       // processData["roleId"] =this.referForm.value['roleId'];
       processData["userId"]= this.userId;
       processData["leadId"]= this.leadId;
+      processData["rejectReason"] = reasonCode;
         this.creditConditionService.rejectCreditCondition(processData).subscribe(res=> {
       //  console.log(res);
 
@@ -438,6 +451,9 @@ export class CreditConditionsComponent implements OnInit {
             this.errorGenerated = true;
             // const message = res['ProcessVariables'].rctaMessage;
             this.errorMessage = res['ProcessVariables'].rctaMessage;
+          }else{
+             this.toasterService.showSuccess("Record Approved successfully!", '')
+
           }
         // this.toasterService.showSuccess("Record Approved successfully!", '')
       }else if(res['ProcessVariables'].error['code'] == "1") {
@@ -513,6 +529,33 @@ export class CreditConditionsComponent implements OnInit {
       this.router.navigate([`pages/dashboard`]);
       // tslint:disable-next-line: triple-equals
       } 
+    }
+
+
+    reject() {
+
+      let productCode = ''
+      this.sharedService.productCatCode$.subscribe((value)=> {
+        productCode = value;
+      })
+      const productId = productCode || '';
+      this.showModal = true;
+      this.rejectData = {
+        title: 'Select Reject Reason',
+        product:'',
+        productCode: productId,
+        flowStage: '105'
+      }
+      
+    }
+  
+    onOkay(reasonData) {
+      
+      this.rejectCreditiCondition(reasonData['reason'].reasonCode)
+    }
+  
+    onCancel() {
+      this.showModal = false;
     }
 
 }

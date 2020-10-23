@@ -105,7 +105,10 @@ export class CamComponent implements OnInit {
   coAppBankingTxnDetails: any;
   coAppBankingDetails: any;
   coAppBankingSummaryObj: any;
-
+  guarantorDetails: number;
+  appArray: any = []
+  coAppArray: any = []
+  guarntorArray: any = []
   constructor(private labelsData: LabelsService,
     private camService: CamService,
     private activatedRoute: ActivatedRoute,
@@ -127,7 +130,6 @@ export class CamComponent implements OnInit {
 
   ngOnInit() {
 
-    // console.log(this.recommend)
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
@@ -219,55 +221,13 @@ export class CamComponent implements OnInit {
     if (this.productCategoryCode == "UCV") {
 
       this.camDetailsForm = this.formBuilder.group({
-        proposedVehicleRemarks: new FormControl(null, [
-          Validators.required,
-          Validators.maxLength(200),
-          Validators.pattern(
-            /^[a-zA-Z0-9 ]*$/
-          ),
-        ]),
-        cibilSynopsisRemarks: new FormControl(null, [
-          Validators.required,
-          Validators.maxLength(200),
-          Validators.pattern(
-            /^[a-zA-Z0-9 ]*$/
-          ),
-        ]),
-        trackValidationRemarks: new FormControl(null, [
-          Validators.required,
-          Validators.maxLength(200),
-          Validators.pattern(
-            /^[a-zA-Z0-9 ]*$/
-          ),
-        ]),
-        fleetRemarks: new FormControl(null, [
-          Validators.required,
-          Validators.maxLength(200),
-          Validators.pattern(
-            /^[a-zA-Z0-9 ]*$/
-          ),
-        ]),
-        concernsAndRisks: new FormControl(null, [
-          Validators.required,
-          Validators.maxLength(200),
-          Validators.pattern(
-            /^[a-zA-Z0-9 ]*$/
-          ),
-        ]),
-        strengthAndMitigates: new FormControl(null, [
-          Validators.required,
-          Validators.maxLength(200),
-          Validators.pattern(
-            /^[a-zA-Z0-9 ]*$/
-          ),
-        ]),
-        keyFinancialRemarks: new FormControl(null, [
-          Validators.required,
-          Validators.maxLength(200),
-          Validators.pattern(
-            /^[a-zA-Z0-9 ]*$/
-          ),
-        ]),
+        proposedVehicleRemarks: [],
+        cibilSynopsisRemarks: [],
+        trackValidationRemarks: [],
+        fleetRemarks: [],
+        concernsAndRisks: [],
+        strengthAndMitigates: [],
+        keyFinancialRemarks: [],
         commentsOnBankingIfAny: new FormControl(),
         commentsOnRtr: new FormControl(),
       })
@@ -280,37 +240,34 @@ export class CamComponent implements OnInit {
         concernsAndRisks: [],
         strengthAndMitigates: [],
         keyFinancialRemarks: [],
-        commentsOnBankingIfAny: new FormControl(null, [
-          Validators.required,
-          Validators.maxLength(200),
-          Validators.pattern(
-            /^[a-zA-Z0-9 ]*$/
-          ),
-        ]),
-        commentsOnRtr: new FormControl(null, [
-          Validators.required,
-          Validators.maxLength(200),
-          Validators.pattern(
-            /^[a-zA-Z0-9 ]*$/
-          ),
-        ]),
+        commentsOnBankingIfAny:[],
+        // commentsOnBankingIfAny: new FormControl(null, [
+        //   Validators.required,
+        //   Validators.maxLength(200),
+        //   Validators.pattern(
+        //     /^[a-zA-Z0-9 ]*$/
+        //   ),
+        // ]),
+        commentsOnRtr: []
 
       })
     }
 
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1' || operationType === '2') {
+    if (operationType) { 
       this.disableSaveBtn = true;
     }
 
     this.currentUrl = this.location.path();
     if (this.currentUrl.includes('credit-decisions')) {
-      this.camDetailsForm.disable();
       this.showSave = false
+      if(this.productCategoryCode == "UCV" || this.productCategoryCode == "NCV"){
+        this.camDetailsForm.disable();
+      }
     } else if (this.currentUrl.includes('dde')) {
       this.showSave = true
-
     }
+
   }
 
   showCamDetails() {
@@ -399,7 +356,7 @@ export class CamComponent implements OnInit {
         })
         setTimeout(() => {
           if (isUpload === 'isUpload') {
-            this.uploadPdf()
+            // this.uploadPdf()
           }
         });
 
@@ -446,7 +403,7 @@ export class CamComponent implements OnInit {
         this.recommendation = res.ProcessVariables['recommendation']
         setTimeout(() => {
           if (isUpload === 'isUpload') {
-            this.uploadPdf()
+            // this.uploadPdf()
           }
         });
 
@@ -498,7 +455,43 @@ export class CamComponent implements OnInit {
         this.recommendation = res.ProcessVariables['recommendation']
         this.appRecommendation = res.ProcessVariables['appRecommendation']
 
+        // this.selectedDateCheapestHotels.forEach(hotels => {
+        //   this.staticHotels.forEach((element, index) => {
+        //     if (hotels.HTLName.toLowerCase() == element.name.toLowerCase()) {
+        //       this.destArray.push(element)
+        //       this.staticHotelName = this.destArray
+        //       this.loading = false;
+        //     $('body').css({
+        //       overflow: 'auto',
+        //       height: 'auto'
+        //     });
 
+
+        //     }
+
+        //   })
+        // });
+        this.applicantDetails.forEach(ele => {
+          if (ele.applicantType == "Applicant") {
+            this.appArray.push(ele)
+          }
+          if (ele.applicantType == "Co-Applicant") {
+            this.coAppArray.push(ele)
+          }
+          if (ele.applicantType == 'Guarantor') {
+            this.guarntorArray.push(ele)
+          }
+        });
+        //   for (let i = 0; i < this.applicantDetails.length; i++) {
+        //     console.log(this.applicantDetails[i].applicantType);
+        //     if(this.applicantDetails[i].applicantType === 'Guarantor' ){
+        //     console.log(this.applicantDetails[i].applicantType);
+        //  let coAppArray=[]
+        // coAppArray.push(this.applicantDetails)
+        // console.log(coAppArray);
+
+        //   }
+        // }
         this.camDetailsForm.patchValue({
           commentsOnBankingIfAny: this.camDetails.commentsOnBankingIfAny ? this.camDetails.commentsOnBankingIfAny : null,
         })
@@ -507,7 +500,7 @@ export class CamComponent implements OnInit {
         })
         setTimeout(() => {
           if (isUpload === 'isUpload') {
-            this.uploadPdf()
+            // this.uploadPdf()
           }
         });
       } else if (res && res.ProcessVariables.error.code == '1') {
@@ -522,28 +515,29 @@ export class CamComponent implements OnInit {
     })
   }
   onSubmit() {
+console.log(this.camDetailsForm);
 
 
-    this.submitted = true;
+    // this.submitted = true;
     // stop here if form is invalid
-    if (this.camDetailsForm.invalid) {
-      if (this.productCategoryCode == "UCV") {
-        this.toasterService.showError(
-          "Fields Missing Or Invalid Pattern Detected",
-          "UCV Details"
-        );
-        return;
-      } else
-        if (this.productCategoryCode == "NCV") {
-          this.toasterService.showError(
-            "Fields Missing Or Invalid Pattern Detected",
-            "NCV Details"
-          );
-          return;
-        }
+    // if (this.camDetailsForm.invalid) {
+    //   if (this.productCategoryCode == "UCV") {
+    //     this.toasterService.showError(
+    //       "Fields Missing Or Invalid Pattern Detected",
+    //       "UCV Details"
+    //     );
+    //     return;
+    //   } else
+    //     if (this.productCategoryCode == "NCV") {
+    //       this.toasterService.showError(
+    //         "Fields Missing Or Invalid Pattern Detected",
+    //         "NCV Details"
+    //       );
+    //       return;
+    //     }
 
-    } else {
-      this.submitted = true;
+    // } else {
+      // this.submitted = true;
 
       const body = {
         leadId: this.leadId,
@@ -582,7 +576,7 @@ export class CamComponent implements OnInit {
             }
         }
       });
-    }
+    // }
   }
   getLeadId() {
     return new Promise((resolve, reject) => {
@@ -615,138 +609,140 @@ export class CamComponent implements OnInit {
   }
   downloadpdf() {
     var options = {
-      margin: .25,
+      margin: [0.5,0.3,0.5,0.3],
       filename: `CamDetails_${this.leadId}.pdf`,
-      image: { type: 'jpeg', quality: 1 },
+      image: { type: 'jpeg', quality: 0.99 },
+      html2canvas:{scale:3, logging: true},   
+      pagebreak: { before:"#page_break" },
       jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
     }
     html2pdf().from(document.getElementById(this.pdfId)).set(options).save();
 
   }
 
-  uploadPdf() {
+  // uploadPdf() {
+  //   var options = {
+  //     margin: [0.5,0.3,0.5,0.3],
+  //     filename: `CamDetails_${this.leadId}.pdf`,
+  //     image: { type: 'jpeg', quality: 0.99 },
+  //     html2canvas:{scale:3, logging: true},   
+  //     pagebreak: { before:"#page_break" },
+  //     jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
+  //   }
+  //   html2pdf().from(document.getElementById(this.pdfId))
+  //     .set(options).toPdf().output('datauristring').then(res => {
+  //       console.log("file res:", res);
+  //       this.docsDetails = {
+  //         associatedId: this.vehicleDetailsArray[0].collateralId.toString(),//"1496",
+  //         associatedWith: '1',
+  //         bsPyld: "/9j/4QCORXhpZgAATU0AKgAAAAgABQEaAAUAAAABAAAASgEbAA",
+  //         deferredDate: "",
+  //         docCatg: "VF LOAN DOCS",
+  //         docCmnts: "Addition of document for Applicant Creation",
+  //         docCtgryCd: 102,
+  //         docNm: `CAM`,
+  //         docRefId: [
+  //           {
+  //             idTp: 'LEDID',
+  //             id: this.leadId,
+  //           },
+  //           {
+  //             idTp: 'BRNCH',
+  //             id: Number(localStorage.getItem('branchId')),
+  //           },
+  //         ],
+  //         docSbCtgry: "VF GENERATED DOCS",
+  //         docSbCtgryCd: 42,
+  //         docSize: 2097152,
+  //         docTp: "Lead",
+  //         docTypCd: 148,
+  //         docsType: "png/jpg/jpeg/pdf/tiff/xlsx/xls/docx/doc/zip",
+  //         docsTypeForString: "",
+  //         documentId: this.isDocumentId ? this.docsDetails.documentId : 0,
+  //         documentNumber: `CAM${this.leadId}`,
+  //         expiryDate: "",
+  //         formArrayIndex: 0,
+  //         isDeferred: "0",
+  //         issueDate: ""
+  //       }
+  //       let base64File: string = res.toString()
+  //         .replace(/^data:application\/[a-z]+;filename=generated.pdf;base64,/, '');
+  //       this.docsDetails.bsPyld = base64File;
+  //       let fileName = this.docsDetails.docSbCtgry.replace(' ', '_');
+  //       fileName =
+  //         this.docsDetails.docNm +
+  //         new Date().getFullYear() +
+  //         +new Date() +
+  //         '.pdf';
+  //       this.docsDetails.docNm = fileName;
+  //       const addDocReq = [
+  //         {
+  //           ...this.docsDetails,
+  //         },
+  //       ];
+  //       this.uploadService
+  //         .constructUploadModel(addDocReq)
+  //         .pipe(
+  //           map((value: any) => {
+  //             if (value.addDocumentRep.msgHdr.rslt === 'OK') {
+  //               const body = value.addDocumentRep.msgBdy;
+  //               const docsRes = body.addDocResp[0];
+  //               const docsDetails = {
+  //                 ...docsRes,
+  //               };
+  //               return docsDetails;
+  //             }
+  //             throw new Error('error');
+  //           })
+  //         )
+  //         .subscribe(
+  //           (value) => {
+  //             console.log("Response upload", value)
+  //             // html2pdf().from(document.getElementById("vf_sheet_print_starts")).set(options).save();
+  //             let documentDetails: DocumentDetails = {
+  //               documentId: this.docsDetails.documentId,
+  //               documentType: String(this.docsDetails.docTypCd),
+  //               documentName: String(this.docsDetails.docTypCd),
+  //               documentNumber: this.docsDetails.documentNumber,
+  //               dmsDocumentId: value.docIndx,
+  //               categoryCode: String(this.docsDetails.docCtgryCd),
+  //               issuedAt: 'check',
+  //               subCategoryCode: String(this.docsDetails.docSbCtgryCd),
+  //               issueDate:
+  //                 this.utilityService.getDateFormat(this.docsDetails.issueDate) ||
+  //                 '',
+  //               expiryDate:
+  //                 this.utilityService.getDateFormat(this.docsDetails.expiryDate) ||
+  //                 '',
+  //               associatedId: this.docsDetails.associatedId,
+  //               associatedWith: this.docsDetails.associatedWith,
+  //               formArrayIndex: this.docsDetails.formArrayIndex,
+  //               deferredDate:
+  //                 this.utilityService.getDateFormat(
+  //                   this.docsDetails.deferredDate
+  //                 ) || '',
+  //               isDeferred: this.docsDetails.isDeferred,
+  //             };
 
-    var options = {
-      margin: .25,
-      filename: `CamDetails_${this.leadId}.pdf`,
-      image: { type: 'jpeg', quality: 1 },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
-    }
+  //             console.log(this.isDocumentId, 'document Details', this.docsDetails.documentId)
 
-    html2pdf().from(document.getElementById(this.pdfId))
-      .set(options).toPdf().output('datauristring').then(res => {
-        console.log("file res:", res);
-        this.docsDetails = {
-          associatedId: this.vehicleDetailsArray[0].collateralId.toString(),//"1496",
-          associatedWith: '1',
-          bsPyld: "/9j/4QCORXhpZgAATU0AKgAAAAgABQEaAAUAAAABAAAASgEbAA",
-          deferredDate: "",
-          docCatg: "VF LOAN DOCS",
-          docCmnts: "Addition of document for Applicant Creation",
-          docCtgryCd: 102,
-          docNm: `CAM`,
-          docRefId: [
-            {
-              idTp: 'LEDID',
-              id: this.leadId,
-            },
-            {
-              idTp: 'BRNCH',
-              id: Number(localStorage.getItem('branchId')),
-            },
-          ],
-          docSbCtgry: "VF GENERATED DOCS",
-          docSbCtgryCd: 42,
-          docSize: 2097152,
-          docTp: "Lead",
-          docTypCd: 148,
-          docsType: "png/jpg/jpeg/pdf/tiff/xlsx/xls/docx/doc/zip",
-          docsTypeForString: "",
-          documentId: this.isDocumentId ? this.docsDetails.documentId : 0,
-          documentNumber: `CAM${this.leadId}`,
-          expiryDate: "",
-          formArrayIndex: 0,
-          isDeferred: "0",
-          issueDate: ""
-        }
-        let base64File: string = res.toString()
-          .replace(/^data:application\/[a-z]+;filename=generated.pdf;base64,/, '');
-        this.docsDetails.bsPyld = base64File;
-        let fileName = this.docsDetails.docSbCtgry.replace(' ', '_');
-        fileName =
-          this.docsDetails.docNm +
-          new Date().getFullYear() +
-          +new Date() +
-          '.pdf';
-        this.docsDetails.docNm = fileName;
-        const addDocReq = [
-          {
-            ...this.docsDetails,
-          },
-        ];
-        this.uploadService
-          .constructUploadModel(addDocReq)
-          .pipe(
-            map((value: any) => {
-              if (value.addDocumentRep.msgHdr.rslt === 'OK') {
-                const body = value.addDocumentRep.msgBdy;
-                const docsRes = body.addDocResp[0];
-                const docsDetails = {
-                  ...docsRes,
-                };
-                return docsDetails;
-              }
-              throw new Error('error');
-            })
-          )
-          .subscribe(
-            (value) => {
-              console.log("Response upload", value)
-              // html2pdf().from(document.getElementById("vf_sheet_print_starts")).set(options).save();
-              let documentDetails: DocumentDetails = {
-                documentId: this.docsDetails.documentId,
-                documentType: String(this.docsDetails.docTypCd),
-                documentName: String(this.docsDetails.docTypCd),
-                documentNumber: this.docsDetails.documentNumber,
-                dmsDocumentId: value.docIndx,
-                categoryCode: String(this.docsDetails.docCtgryCd),
-                issuedAt: 'check',
-                subCategoryCode: String(this.docsDetails.docSbCtgryCd),
-                issueDate:
-                  this.utilityService.getDateFormat(this.docsDetails.issueDate) ||
-                  '',
-                expiryDate:
-                  this.utilityService.getDateFormat(this.docsDetails.expiryDate) ||
-                  '',
-                associatedId: this.docsDetails.associatedId,
-                associatedWith: this.docsDetails.associatedWith,
-                formArrayIndex: this.docsDetails.formArrayIndex,
-                deferredDate:
-                  this.utilityService.getDateFormat(
-                    this.docsDetails.deferredDate
-                  ) || '',
-                isDeferred: this.docsDetails.isDeferred,
-              };
+  //             this.uploadService.saveOrUpdateDocument([documentDetails]).subscribe((file: any) => {
+  //               console.log('file', file)
 
-              console.log(this.isDocumentId, 'document Details', this.docsDetails.documentId)
+  //               if (file.Error === '0' && file.ProcessVariables.error.code === '0') {
 
-              this.uploadService.saveOrUpdateDocument([documentDetails]).subscribe((file: any) => {
-                console.log('file', file)
+  //                 if (file.ProcessVariables.documentIds && file.ProcessVariables.documentIds.length > 0) {
+  //                   this.docsDetails.documentId = file.ProcessVariables.documentIds[0];
+  //                   this.isDocumentId = true;
+  //                 } else {
+  //                   this.isDocumentId = false;
+  //                 }
+  //               }
+  //             })
 
-                if (file.Error === '0' && file.ProcessVariables.error.code === '0') {
+  //           })
 
-                  if (file.ProcessVariables.documentIds && file.ProcessVariables.documentIds.length > 0) {
-                    this.docsDetails.documentId = file.ProcessVariables.documentIds[0];
-                    this.isDocumentId = true;
-                  } else {
-                    this.isDocumentId = false;
-                  }
-                }
-              })
-
-            })
-
-      });
-  }
+  //     });
+  // }
 
 }

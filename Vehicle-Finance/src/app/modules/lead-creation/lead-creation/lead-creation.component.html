@@ -108,6 +108,7 @@
                 [searchKeyword]="'value'"
                 (selected)='selectSourcingEvent($event)'
                 (inputChanged)='onSourcingCodeSearch($event)'
+                (inputCleared)='onSourcingCodeCleared($event)'
                 [itemTemplate]="sourcingCodeTemplate"
                 [notFoundTemplate]="notFoundTemplate"
                 formControlName="sourcingCode"
@@ -135,12 +136,16 @@
                   [searchKeyword]="'dealorName'"
                   (selected)='selectDealerEvent($event)'
                   (inputChanged)='onDealerCodeSearch($event)'
+                  (inputCleared)='onDealerCodeCleared($event)'
                   [itemTemplate]="dealerCodeTemplate"
                   [notFoundTemplate]="notFoundTemplate"
                   formControlName="dealerCode"
                   [placeHolder]="'Dealer Code'"
                   [minQueryLength]="2">                                 
-                </ng-autocomplete>               
+                </ng-autocomplete>    
+                <div class="invalid-feedback" >
+                  <div *ngIf="isDealerCode"> Dealer code required.</div>
+                </div>           
                 <ng-template #dealerCodeTemplate let-item>
                 <a [innerHTML]="item.dealorName"></a>
                 </ng-template>               
@@ -276,12 +281,14 @@
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3"  *ngIf="applicantType == 'INDIVENTTYP'">
             <label for="entity">{{ labels.fullName }}</label>
-            <input 
-             [disabled]="true"
-              type="text" 
-              class="form-control mandatory select2"
-              placeholder="Full Name"
-              [value]="firstName+' '+middleName+' '+lastName"/>
+              <app-custom-input
+              [isDisabled]="true"
+              [className]="'form-control mandatory'"
+              [placeholder]="'Full Name'"
+              [type]="namePattern"
+              [value]="firstName+' '+middleName+' '+lastName"
+              >
+            </app-custom-input>
           </div> 
         
           <div class="form-group col-sm-6 col-md-4 col-lg-3">

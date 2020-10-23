@@ -38,6 +38,10 @@ export class PdcDetailsComponent implements OnInit {
   leadData: any;
   acceptanceDate: any;
   submitted = false;
+  pdcCount: any;
+  spdcCount: any;
+  showPdcButton =  false;
+  showspdcButton: boolean;
 
   constructor(
     private loginStoreService: LoginStoreService,
@@ -172,6 +176,10 @@ export class PdcDetailsComponent implements OnInit {
     });
   }
   submitTocpc() {
+    if (this.pdcForm.invalid) {
+      this.toasterService.showError('Save before Submitting', '');
+      return;
+    }
     // tslint:disable-next-line: triple-equals
     if (this.roleType == '4') {
       const body = {
@@ -213,6 +221,7 @@ export class PdcDetailsComponent implements OnInit {
   sendBackToCredit() {
     if (this.pdcForm.invalid) {
       this.toasterService.showError('Save before Submitting', '');
+      return;
     }
     const body = {
       leadId: this.leadId,
@@ -232,7 +241,7 @@ export class PdcDetailsComponent implements OnInit {
       }
     });
   }
-  onSave() {
+  onSave(dataString: string) {
     this.submitted = true;
     //  localStorage.setItem('pdcData', JSON.stringify(this.pdcForm.value));
     // tslint:disable-next-line: prefer-for-of
@@ -269,7 +278,14 @@ export class PdcDetailsComponent implements OnInit {
       if (res.ProcessVariables.error.code == '0') {
         // this.getData(res.ProcessVariables);
         this.toasterService.showSuccess('Record Saved Successfully', '');
-        this.getPdcDetails();
+        // tslint:disable-next-line: triple-equals
+        if (dataString == 'save') {
+          this.getPdcDetails();
+        // tslint:disable-next-line: triple-equals
+        } else if (dataString == 'cpc') {
+          this.submitTocpc();
+        }
+
       } else {
         this.toasterService.showError(res.ProcessVariables.error.message, '');
       }
@@ -298,16 +314,54 @@ export class PdcDetailsComponent implements OnInit {
       ]);
     }
   }
-  getData(data: any) {
+  getData(data: any, pdcCount: any, spdcCount: any) {
     // const data = JSON.parse(localStorage.getItem('pdcData'));
     // this.pdcForm.controls.pdcList.controls = [];
     // this.pdcForm.controls.spdcList.controls = [];
+    pdcCount = pdcCount ;
+    spdcCount = spdcCount ;
     if (data) {
       const spdcControl = this.pdcForm.controls.spdcList as FormArray;
       const PdcControl = this.pdcForm.controls.pdcList as FormArray;
 
-      if (data.pdcList) {
-        for (let i = 0; i < data.pdcList.length; i++) {
+      // tslint:disable-next-line: triple-equals
+      if (pdcCount != '' && pdcCount != null) {
+        for (let i = 0; i < pdcCount; i++) {
+          this.addPdcUnit();
+        }
+        if (data.pdcList != null) {
+          for (let i = 0 ; i < pdcCount; i ++) {
+            PdcControl.at(i).patchValue({
+              pdcId: data.pdcList[i].pdcId ? data.pdcList[i].pdcId : null,
+              instrType: data.pdcList[i].instrType
+                ? data.pdcList[i].instrType
+                : null,
+              emiAmount: data.pdcList[i].emiAmount
+                ? data.pdcList[i].emiAmount
+                : null,
+              instrNo: data.pdcList[i].instrNo ? data.pdcList[i].instrNo : null,
+              instrDate: data.pdcList[i].instrDate
+                ? this.utilityService.getDateFromString(data.pdcList[i].instrDate)
+                : null,
+              instrBankName: data.pdcList[i].instrBankName
+                ? data.pdcList[i].instrBankName
+                : null,
+              instrBranchName: data.pdcList[i].instrBranchName
+                ? data.pdcList[i].instrBranchName
+                : null,
+              instrBranchAccountNumber: data.pdcList[i].instrBranchAccountNumber
+                ? data.pdcList[i].instrBranchAccountNumber
+                : null,
+              instrAmount: data.pdcList[i].instrAmount
+                ? data.pdcList[i].instrAmount
+                : null,
+            });
+          }
+        }
+      // tslint:disable-next-line: triple-equals
+      } else if (pdcCount == '' && data.pdcList ) {
+        this.showPdcButton = true;
+        for (let i = 0 ; i < data.pdcList.length ; i ++) {
           this.addPdcUnit();
           PdcControl.at(i).patchValue({
             pdcId: data.pdcList[i].pdcId ? data.pdcList[i].pdcId : null,
@@ -337,9 +391,47 @@ export class PdcDetailsComponent implements OnInit {
         }
       } else {
         this.addPdcUnit();
+        this.showPdcButton = true;
       }
-      // tslint:disable-next-line: prefer-for-of
-      if (data.spdcList) {
+      // tslint:disable-next-line: triple-equals
+      if (spdcCount != '' && spdcCount != null) {
+        for (let i = 0; i < spdcCount; i++) {
+          this.addSPdcUnit();
+        }
+        if (data.spdcList != null) {
+          for (let j = 0; j < spdcCount; j++) {
+            spdcControl.at(j).patchValue({
+              pdcId: data.spdcList[j].pdcId ? data.spdcList[j].pdcId : null,
+              instrType: data.spdcList[j].instrType
+                ? data.spdcList[j].instrType
+                : null,
+              emiAmount: data.spdcList[j].emiAmount
+                ? data.spdcList[j].emiAmount
+                : null,
+              instrNo: data.spdcList[j].instrNo ? data.spdcList[j].instrNo : null,
+              instrDate: data.spdcList[j].instrDate
+                ? this.utilityService.getDateFromString(
+                  data.spdcList[j].instrDate
+                )
+                : null,
+              instrBankName: data.spdcList[j].instrBankName
+                ? data.spdcList[j].instrBankName
+                : null,
+              instrBranchName: data.spdcList[j].instrBranchName
+                ? data.spdcList[j].instrBranchName
+                : null,
+              instrBranchAccountNumber: data.spdcList[j].instrBranchAccountNumber
+                ? data.spdcList[j].instrBranchAccountNumber
+                : null,
+              instrAmount: data.spdcList[j].instrAmount
+                ? data.spdcList[j].instrAmount
+                : null,
+            });
+          }
+        }
+
+      // tslint:disable-next-line: triple-equals
+      } else if (data.spdcList && spdcCount == '' ) {
         // tslint:disable-next-line: prefer-for-of
         for (let j = 0; j < data.spdcList.length; j++) {
           this.addSPdcUnit();
@@ -372,6 +464,7 @@ export class PdcDetailsComponent implements OnInit {
           });
         }
       } else {
+        this.showspdcButton = true;
         this.addSPdcUnit();
       }
     }
@@ -389,8 +482,11 @@ export class PdcDetailsComponent implements OnInit {
       if (res.ProcessVariables.error.code == '0') {
         this.pdcForm.controls.pdcList.controls = [];
         this.pdcForm.controls.spdcList.controls = [];
+        this.pdcCount = res.ProcessVariables.pdcCount;
+        this.spdcCount = res.ProcessVariables.spdcCount;
+        console.log(this.pdcCount, this.spdcCount , 'pdc and spdc count');
         if (res.ProcessVariables) {
-          this.getData(res.ProcessVariables);
+          this.getData(res.ProcessVariables, this.pdcCount, this.spdcCount);
         }
         // else if (res.ProcessVariables.pdcList && res.ProcessVariables.spdcList != null) {
         //   this.addPdcUnit();
@@ -509,4 +605,5 @@ export class PdcDetailsComponent implements OnInit {
     this.rowIndex = null;
     this.rowIndex = i;
   }
+
 }

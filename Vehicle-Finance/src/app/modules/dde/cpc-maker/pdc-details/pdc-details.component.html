@@ -2,10 +2,10 @@
     <div class="container overflow-hidden">       
         
         <div class="content">   
-            <div class="row">
+            <div class="row" >
                 <div class="col-lg-5 col-md-5 col-sm-5"></div>
                 <div class="col-lg-7 col-md-7 col-sm-7 text-right" >
-                    <button class="btn btn-primary btn-mar"(click)="addPdcUnit()"  >Add PDC Row</button>
+                    <button class="btn btn-primary btn-mar"(click)="addPdcUnit()" *ngIf = "showPdcButton" >Add PDC Row</button>
                     <!-- <button class="btn btn-primary btn-mar"(click)="addSPdcUnit()"  >Add SPDC Row</button> -->
                 </div>
             </div>        
@@ -176,7 +176,7 @@
                     <div class="col-lg-5 col-md-5 col-sm-5"></div>
                     <div class="col-lg-7 col-md-7 col-sm-7 text-right" >
                         <!-- <button class="btn btn-primary btn-mar"(click)="addPdcUnit()"  >Add PDC Row</button> -->
-                        <button class="btn btn-primary btn-mar"(click)="addSPdcUnit()"  >Add SPDC Row</button>
+                        <button class="btn btn-primary btn-mar"(click)="addSPdcUnit()" *ngIf = "showspdcButton" >Add SPDC Row</button>
                     </div>
                 </div> 
                 <div class="panel-group hidden-xs" id="accordion">
@@ -346,10 +346,11 @@
                 </div>
                 <div class="col-sm-7 text-right">
                      <button class="btn btn-primary dash_href marginAdd" type="button" (click)="onBack()"><a>Back</a></button>
-              <button class="btn btn-primary dash_href marginAdd" (click)="onSave()"> Save </button>
+              <button class="btn btn-primary dash_href marginAdd" (click)="onSave('save')"> Save </button>
               
                     <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '4'"><a data-toggle="modal"
                             data-target="#myModal">Submit to CPC Checker</a></button>
+                   
                     <button class="btn btn-primary dash_href marginAdd" (click)="sendBackToCredit()"
                         *ngIf="roleType == '4'"> Send Back To Credit </button>
                     <!-- <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '5'"><a data-toggle="modal" -->
@@ -379,7 +380,7 @@
             <p>Are you sure you want to move lead to CPC maker?</p>
         </div> -->
             <div class="modal-footer" *ngIf="roleType == '4'">
-                <button type="button" class="btn btn-primary " (click)="submitTocpc()" 
+                <button type="button" class="btn btn-primary " (click)="onSave('cpc')" 
                     data-dismiss="modal">Yes</button> &nbsp;
                 <button type="button" class="btn btn-primary " data-dismiss="modal">Close</button>
             </div>
@@ -427,6 +428,27 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteRows('pdcList')">Yes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="myModalfour" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Submit</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure want to submit record ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" >Yes</button>
+                <!-- (click)="sendBackToMaker()" -->
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>

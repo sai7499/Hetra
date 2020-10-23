@@ -80,6 +80,13 @@ td, th {
       height: 40px;
       padding: 10px;
   }
+
+  .container {
+    padding-right: 3px;
+    padding-left: 3px;
+    margin-right: auto;
+    margin-left: auto;
+}
   }
   /* @media (min-width:260px) and (max-width:560px){
     td::before {

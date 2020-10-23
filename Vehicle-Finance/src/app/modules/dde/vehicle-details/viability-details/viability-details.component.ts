@@ -16,6 +16,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { Constant } from '../../../../../assets/constants/constant';
 import { DocRequest, DocumentDetails } from '@model/upload-model';
 import { environment } from 'src/environments/environment';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 
 
@@ -32,6 +33,7 @@ export class ViabilityDetailsComponent implements OnInit {
   public labelCaptive: any = {};
   public viabilityData: any;
   public vehicleModel = '';
+  public vehicleModelMake : any;
   // tslint:disable-next-line: variable-name
   public vehicle_viability_value = '1VHCLVBTY';
   isDirty = false;
@@ -55,7 +57,7 @@ export class ViabilityDetailsComponent implements OnInit {
   collataralId: any;
   leadId: number;
   userId: string;
-  monthlyIncome = 0;
+  monthlyIncome: any = 0;
   monthlyRunningKm = 0;
   montlyStandOperatorIncome = 0;
   standoperatorExpense: number;
@@ -92,6 +94,9 @@ export class ViabilityDetailsComponent implements OnInit {
 
   selectedDocDetails: DocRequest;
   dmsDocumentId: string;
+  applicantName: any;
+  disableSaveBtn: boolean;
+  daysCheck = [];
 
 
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
@@ -107,31 +112,34 @@ export class ViabilityDetailsComponent implements OnInit {
               private applicantService: ApplicantService,
               private loginService: LoginService,
               private base64StorageService: Base64StorageService,
+              private toggleDdeService: ToggleDdeService
               ) {
                 this.route.queryParams.subscribe((res: any) => {
                   this.taskId = res.taskId;
                 });
                 this.isMobile = environment.isMobile;
-
+                // tslint:disable-next-line: triple-equals
+                this.daysCheck = [{rule: val => ((val  > 0  && val > 31) || val == 0 ),
+                  msg: 'Should be between 1-31'}];
                }
 
   async ngOnInit() {
 
-    // if (this.isMobile) {
-    //   this.gpsService.getLatLong().subscribe((position) => {
-    //     console.log("getLatLong", position);
-    //     this.gpsService.initLatLong().subscribe((res) => {
-    //       console.log("gpsService", res);
-    //       if (res) {
-    //         this.gpsService.getLatLong().subscribe((position) => {
-    //           console.log("getLatLong", position);
-    //         });
-    //       } else {
-    //         console.log("error initLatLong", res);
-    //       }
-    //     });
-    //   });
-    // }
+    if (this.isMobile) {
+      this.gpsService.getLatLong().subscribe((position) => {
+        console.log("getLatLong", position);
+        this.gpsService.initLatLong().subscribe((res) => {
+          console.log("gpsService", res);
+          if (res) {
+            this.gpsService.getLatLong().subscribe((position) => {
+              console.log("getLatLong", position);
+            });
+          } else {
+            console.log("error initLatLong", res);
+          }
+        });
+      });
+    }
 
     this.userId = localStorage.getItem('userId');
     this.roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -219,6 +227,12 @@ export class ViabilityDetailsComponent implements OnInit {
         emi: ([]),
         netCashFlowEmi: this.captiveEmi
       }),
+      gpsPosition: this.fb.group({
+        latitude:[this.latitude],
+        longitude:[this.longitude],
+        bLatitude: [this.branchLongitude],
+        bLongitude: [this.branchLongitude]
+      })
     });
     this.leadId = (await this.getLeadId()) as number;
     this.collataralId = (await this.getCollateralId()) as number;
@@ -274,6 +288,12 @@ export class ViabilityDetailsComponent implements OnInit {
       ],
     };
 
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType) {
+      this.viabilityForm.disable();
+      this.disableSaveBtn = true;
+    }
+
   }
 
   getLeadId() {
@@ -286,15 +306,16 @@ export class ViabilityDetailsComponent implements OnInit {
       });
     });
   }
-  getCollateralId() {
+  async getCollateralId() {
     return new Promise((resolve, reject) => {
-      this.route.parent.firstChild.params.subscribe((value) => {
+      this.route.parent.firstChild.params.subscribe(async (value) => {
         if (value && value.collateralId) {
           resolve(Number(value.collateralId));
-          this.viabilityDataObj = this.viabilityService.getCollateralId();
-          console.log(this.viabilityDataObj);
-          if (this.viabilityDataObj === null || this.viabilityDataObj === undefined) {
-             this.viabilityService.getViabilityList({leadId: this.leadId}).subscribe((res: any) => {
+          // this.viabilityDataObj = await this.viabilityService.getCollateralId();
+          // console.log(this.viabilityDataObj);
+          // if (this.viabilityDataObj === null || this.viabilityDataObj === undefined) {
+          this.viabilityService.getViabilityList({leadId: this.leadId}).subscribe((res: any) => {
+              console.log(res, 'colleteral response');
               res.ProcessVariables.vehicleViabilityDashboardList.filter((dataRes: any) => {
               if ( dataRes.collateralId === value.collateralId) {
                 this.viabilityDataObj = dataRes;
@@ -304,7 +325,7 @@ export class ViabilityDetailsComponent implements OnInit {
              }
              );
 
-          }
+          // }
         }
         resolve(null);
       });
@@ -395,7 +416,7 @@ vehicle_viability_navigate(event) {
   //  privateViability.get('netCashFlow').setValidators(Validators.required);
    privateViability.get('emi').setValidators(Validators.required);
    privateViability.get('totalExpenses').setValidators(Validators.required);
-
+  //  privateViability.get('busMonthlyIncome').setValidators(Validators.required);
   }
    private StandOverViability() {
     const privateStandViability = this.viabilityForm.controls.passangerStandOperator as FormGroup;
@@ -420,7 +441,7 @@ vehicle_viability_navigate(event) {
     captive.get('busTyreAvgExpenses').setValidators(Validators.required);
     captive.get('busInsurenceExpenses').setValidators(Validators.required);
     captive.get('busMiscellaneousExpenses').setValidators(Validators.required);
-    captive.get('busMonthlyIncome').setValidators(null);
+    captive.get('busMonthlyIncome').setValidators(Validators.required);
     captive.get('totalExpenses').setValidators(Validators.required);
     captive.get('netCashFlow').setValidators(Validators.required);
     captive.get('emi').setValidators(Validators.required);
@@ -429,8 +450,12 @@ vehicle_viability_navigate(event) {
     const privateViability = this.viabilityForm.controls.passanger as FormGroup;
     // tslint:disable-next-line: forin
     for (const key in privateViability.controls) {
-      privateViability.get(key).clearValidators();
+    if (key != 'busMonthlyIncome') {
+      console.log(key);
+      privateViability.get(key).setValidators(null);
       privateViability.get(key).updateValueAndValidity();
+    }
+
     }
 }
 public removeStandOverValidators() {
@@ -455,15 +480,23 @@ getViability() {
       collateralId: this.collataralId
     };
     this.viabilityService.getViabilityDetails(body).subscribe((res: any) => {
-      if (res.ProcessVariables.error.code === '0' && res.ProcessVariables.vehicleViability != null) {
+      // tslint:disable-next-line: triple-equals
+      if (res.ProcessVariables.error.code == '0' && res.ProcessVariables.vehicleViability != null) {
       this.viabliityDataToPatch = res.ProcessVariables.vehicleViability;
-
+      this.applicantName = res.ProcessVariables.vehicleViability.applicantName;
+      this.vehicleModelMake = res.ProcessVariables.vehicleViability.vehicleModel;
       this.latitude = this.viabliityDataToPatch.latitude;
       this.longitude = this.viabliityDataToPatch.longitude;
       this.branchLatitude = this.viabliityDataToPatch.brLatitude;
       this.branchLongitude = this.viabliityDataToPatch.brLongitude;
       this.dmsDocumentId = this.viabliityDataToPatch.selfiePhoto;
-
+      const gpsPos = this.viabilityForm.controls.gpsPosition as FormGroup;
+      gpsPos.patchValue({
+        latitude: this.latitude,
+        longitude: this.longitude,
+        bLongitude: this.branchLongitude,
+        bLatitude: this.branchLatitude
+      });
       if (this.dmsDocumentId) {
         this.downloadDocs(this.dmsDocumentId);
       }
@@ -511,7 +544,7 @@ getViability() {
       }) ;
     }
     });
-
+    // this.patchGpsposition();
   }
 onSave() {
     this.isDirty = true;
@@ -593,45 +626,48 @@ onSave() {
      }
   }
 
-
  // tslint:disable-next-line: no-shadowed-variable
 patchViability(data: any) {
    const passanger = this.viabilityForm.controls.passanger as FormGroup;
    passanger.patchValue({
-     route: data.route ? data.route : null,
-        onwardRoute : data.onwardRoute ? data.onwardRoute : null,
-        returnRoute: data.returnRoute ?  data.returnRoute : null,
-        natureOfGoods: data.natureOfGoods ? data.natureOfGoods : null ,
-        distanceInKm: data.distanceInKm ? data.distanceInKm : 45,
-        tripsPerMonth: data.tripsPerMonth ? data.tripsPerMonth : null,
-        monthlyRunningKm: data.monthlyRunningKm ? data.monthlyRunningKm : null,
-        avgLoadPerTon: data.avgLoadPerTon ? data.avgLoadPerTon : null,
-        rateTonne: data.rateTonne ? data.rateTonne : null,
-        fuelAvgPerKm: data.fuelAvgPerKm ? data.fuelAvgPerKm : null,
-        costPerLtr: data.costPerLtr ? data.costPerLtr : null,
-        noOfTyres: data.noOfTyres ? data.noOfTyres : null,
-        perTyreCost: data.perTyreCost ? data.perTyreCost : null,
-        newTyreLifeKm: data.newTyreLifeKm ? data.newTyreLifeKm : null,
-        fuelCost: data.fuelCost ? data.fuelCost : null,
-        tyreCost: data.tyreCost ? data.tyreCost : null,
-        driversSalary: data.driversSalary ? data.driversSalary : null,
-        cleanersSalary: data.cleanersSalary ? data.cleanersSalary : null,
-        permitCost: data.permitCost ? data.permitCost : null,
-        fcCharge: data.fcCharge ? data.fcCharge : null,
+    //  route: data.route ,
+        onwardRoute : data.onwardRoute ,
+        returnRoute: data.returnRoute ,
+        natureOfGoods: data.natureOfGoods  ,
+        distanceInKm: Number(data.distanceInKm) ,
+        tripsPerMonth: Number(data.tripsPerMonth) ,
+        monthlyRunningKm:  Number(data.monthlyRunningKm) ,
+        avgLoadPerTon: Number(data.avgLoadPerTon) ,
+        rateTonne: Number(data.rateTonne) ,
+        fuelAvgPerKm: Number(data.fuelAvgPerKm) ,
+        costPerLtr: Number(data.costPerLtr) ,
+        noOfTyres: Number(data.noOfTyres) ,
+        perTyreCost: Number(data.perTyreCost) ,
+        newTyreLifeKm: Number(data.newTyreLifeKm) ,
+        fuelCost: Number(data.fuelCost) ,
+        tyreCost: Number(data.tyreCost) ,
+        driversSalary: Number(data.driversSalary) ,
+        cleanersSalary: Number(data.cleanersSalary) ,
+        permitCost: Number(data.permitCost) ,
+        fcCharge: Number(data.fcCharge) ,
         paidTollTax:  Number(data.paidTollTax),
-        taxes: data.taxes ? data.taxes : null,
-        maintanence: data.maintanence ? data.maintanence : null,
-        busMiscellaneousExpenses:  data.busMiscellaneousExpenses ,
-        busInsurenceExpenses: data.busInsurenceExpenses ? data.busInsurenceExpenses : null,
-        busMonthlyIncome: data.busMonthlyIncome ? data.busMonthlyIncome : null,
-        netCashFlow: data.netCashFlow ? data.netCashFlow : null,
-        emi: data.emi ? data.emi : null,
-        totalExpenses: data.totalExpenses ? data.totalExpenses : null,
-        otherIncome: data.otherIncome ? data.otherIncome : null,
-        otherIncomeRemarks: data.otherIncomeRemarks ? data.otherIncomeRemarks : null,
-        otherExpenses: data.otherExpenses ? data.otherExpenses : null,
+        taxes: Number(data.taxes) ,
+        maintanence: Number(data.maintanence) ,
+        busMiscellaneousExpenses:  Number(data.busMiscellaneousExpenses) ,
+        busInsurenceExpenses: Number(data.busInsurenceExpenses) ,
+        busMonthlyIncome: Number(data.busMonthlyIncome) ,
+        netCashFlow: data.netCashFlow ,
+        emi: Number(data.emi) ,
+        totalExpenses: Number(data.totalExpenses) ,
+        otherIncome: Number(data.otherIncome) ,
+        otherIncomeRemarks: data.otherIncomeRemarks ,
+        otherExpenses: Number(data.otherExpenses) ,
         otherExpensesRemarks:  data.otherExpensesRemarks ,
-        operationsExpenses: data.operationsExpenses ? data.operationsExpenses : null
+        operationsExpenses: Number(data.operationsExpenses),
+        latitude: this.latitude,
+        longitude: this.longitude,
+        bLatitude: this.branchLatitude,
+        bLongitude: this.branchLongitude
 
     });
  }
@@ -666,7 +702,7 @@ patchViability(data: any) {
        busMiscellaneousExpenses:  Number(data.busMiscellaneousExpenses) ,
        busInsurenceExpenses: data.busInsurenceExpenses ? Number(data.busInsurenceExpenses) : null,
        busMonthlyIncome:  Number(this.monthlyIncome) ,
-       netCashFlow:  this.netFlowCash ,
+       netCashFlow:  String(this.netFlowCash) ,
        emi: data.emi ? Number(data.emi) : null,
        totalExpenses: data.totalExpenses ? Number(data.totalExpenses) : null,
        otherExpenses: data.otherExpenses ? data.otherExpenses : null,
@@ -680,16 +716,16 @@ patchViability(data: any) {
 setPassangetStandOperator(data: any) {
   const passangerStandOperator = this.viabilityForm.controls.passangerStandOperator as FormGroup;
   passangerStandOperator.patchValue({
-    application: data.application ? data.application : null,
-    grossIncomePerDay: data.grossIncomePerDay ? data.grossIncomePerDay : null,
-    businessEarningPerDay : data.businessEarningPerDay ? data.businessEarningPerDay : null,
-    businessIncomePerDay : data.businessIncomePerDay ? data.businessIncomePerDay : null,
-    avgTyreExpenses : data.avgTyreExpenses ? data.avgTyreExpenses : null,
-    insuranceExpenses : data.insuranceExpenses ? data.insuranceExpenses : null,
-    miscellaneousExpenses : data.miscellaneousExpenses ? data.miscellaneousExpenses  : null,
-    totalExpenses : data.totalExpenses ? data.totalExpenses : null,
-    netCashFlow : data.netCashFlow  ? data.netCashFlow : null,
-    emi : data.emi ?  data.emi : null
+    application: data.application ,
+    grossIncomePerDay: Number(data.grossIncomePerDay) ,
+    businessEarningPerDay : Number(data.businessEarningPerDay ),
+    businessIncomePerDay :  Number(data.businessIncomePerDay) ,
+    avgTyreExpenses :  Number(data.avgTyreExpenses) ,
+    insuranceExpenses :  Number(data.insuranceExpenses) ,
+    miscellaneousExpenses :  Number(data.miscellaneousExpenses)  ,
+    totalExpenses : Number(data.totalExpenses)  ,
+    netCashFlow : Number(data.netCashFlow) ,
+    emi : Number(data.emi)
   });
  }
  // tslint:disable-next-line: no-shadowed-variable
@@ -712,18 +748,18 @@ setPassangetStandOperator(data: any) {
  setCapative(dataCaptive: any) {
   const captive = this.viabilityForm.controls.captive as FormGroup;
   captive.patchValue({
-    natureOfBusiness: dataCaptive.natureOfBusiness ? dataCaptive.natureOfBusiness : null ,
-    businessIncomePerDay:  dataCaptive.businessIncomePerDay ? dataCaptive.businessIncomePerDay : null ,
-    businessEarningPerDay:  dataCaptive.businessEarningPerDay ? dataCaptive.businessEarningPerDay : null ,
-    busExpensesPerDay:  dataCaptive.busExpensesPerDay ? dataCaptive.busExpensesPerDay : null ,
-    oblicationsPerMonth:  dataCaptive.oblicationsPerMonth ? dataCaptive.oblicationsPerMonth : null ,
-    busTyreAvgExpenses:  dataCaptive.busTyreAvgExpenses ? dataCaptive.busTyreAvgExpenses : null ,
-    busInsurenceExpenses:  dataCaptive.busInsurenceExpenses ? dataCaptive.busInsurenceExpenses : null ,
-    busMiscellaneousExpenses:  dataCaptive.busMiscellaneousExpenses ? dataCaptive.busMiscellaneousExpenses : null ,
-    busMonthlyIncome:  dataCaptive.busMonthlyIncome ? Number(this.montlyCaptiveIncome) : null ,
-    totalExpenses: dataCaptive.totalExpenses ? dataCaptive.totalExpenses : null,
-    netCashFlow: dataCaptive.netCashFlow ? dataCaptive.netCashFlow : null,
-    emi: dataCaptive.emi ? dataCaptive.emi : null
+    natureOfBusiness:  dataCaptive.natureOfBusiness  ,
+    businessIncomePerDay:  Number(dataCaptive.businessIncomePerDay)  ,
+    businessEarningPerDay:   Number(dataCaptive.businessEarningPerDay)  ,
+    busExpensesPerDay:  Number(dataCaptive.busExpensesPerDay)  ,
+    oblicationsPerMonth:   Number(dataCaptive.oblicationsPerMonth)  ,
+    busTyreAvgExpenses:   Number(dataCaptive.busTyreAvgExpenses) ,
+    busInsurenceExpenses:   Number(dataCaptive.busInsurenceExpenses)  ,
+    busMiscellaneousExpenses:   Number(dataCaptive.busMiscellaneousExpenses) ,
+    busMonthlyIncome:   Number(this.montlyCaptiveIncome)  ,
+    totalExpenses:  Number(dataCaptive.totalExpenses) ,
+    netCashFlow:  Number(dataCaptive.netCashFlow),
+    emi:  Number(dataCaptive.emi)
   });
  }
 
@@ -767,37 +803,92 @@ if (this.router.url.includes('/dde')) {
    const otherIncome = passengerGroup.value.otherIncome ? Number(passengerGroup.value.otherIncome) : 0;
    const monthlyRunningKm = distanceInKm * tripsPerMonth;
    this.monthlyRunningKm = monthlyRunningKm ;
-   const avgLoadPerTon = passengerGroup.value.avgLoadPerTon ? Number(passengerGroup.value.avgLoadPerTon) : 0;
-   const rateTonne = (passengerGroup.value.rateTonne) ? Number(passengerGroup.value.rateTonne) : 0;
-   const tonnageCalc =  avgLoadPerTon * rateTonne;
-   this.monthlyIncome = tripsPerMonth * tonnageCalc + otherIncome;
-   passengerGroup.value.busMonthlyIncome = this.monthlyIncome;
-  //  this.viabilityForm.value.passanger.patchValue({
-  //   busMonthlyIncome : this.monthlyIncome
-  //  });
    passengerGroup.patchValue({
     monthlyRunningKm : this.monthlyRunningKm
   });
-   this.calculatePassengerB();
+   const avgLoadPerTon = passengerGroup.value.avgLoadPerTon ? Number(passengerGroup.value.avgLoadPerTon) : 0;
+   const rateTonne = (passengerGroup.value.rateTonne) ? Number(passengerGroup.value.rateTonne) : 0;
+
+  //  this.viabilityForm.value.passanger.patchValue({
+  //   busMonthlyIncome : this.monthlyIncome
+  //  });
+   setTimeout(() => {
+    if((avgLoadPerTon != null && avgLoadPerTon !== 0) && (rateTonne != null && rateTonne !== 0)) {
+      const tonnageCalc =  avgLoadPerTon * rateTonne;
+      this.monthlyIncome = tripsPerMonth * tonnageCalc + otherIncome;
+      passengerGroup.controls.busMonthlyIncome = this.monthlyIncome;
+
+      this.calculatePassengerB();
+    }
+
+  }, 2000);
+
   //  this.calculatePassengerC();
   //  this.calculatePassengerD();
+   console.log(passengerGroup, 'passenger goods group');
  }
  calculatePassengerB() {
   const passengerGroup = this.viabilityForm.controls.passanger as FormGroup ;
+  console.log(passengerGroup);
+  passengerGroup.controls.fuelCost.reset();
+  passengerGroup.controls.tyreCost.reset();
   const monthlyRunningKm = passengerGroup.value.monthlyRunningKm ? Number(passengerGroup.value.monthlyRunningKm) : 0;
-  const costPerLtr = passengerGroup.value.costPerLtr ? Number(passengerGroup.value.costPerLtr) : 0;
-  const fuelAvgPerKm = passengerGroup.value.fuelAvgPerKm ? Number(passengerGroup.value.fuelAvgPerKm) : 0;
-  const fuelCostPass = Math.round( (monthlyRunningKm * costPerLtr) / fuelAvgPerKm) ;
-  passengerGroup.patchValue({
-    fuelCost : fuelCostPass
-  });
-  const noOfTyres = passengerGroup.value.noOfTyres ? Number(passengerGroup.value.noOfTyres) : 0;
-  const newTyreLifeKm = passengerGroup.value.newTyreLifeKm ? Number(passengerGroup.value.newTyreLifeKm) : 0;
-  const perTyreCost = passengerGroup.value.perTyreCost ? Number(passengerGroup.value.perTyreCost) : 0;
-  const tyreCostPass = Math.round ((noOfTyres * perTyreCost * monthlyRunningKm) / newTyreLifeKm);
-  passengerGroup.patchValue( {
-    tyreCost : tyreCostPass
-  });
+  const costPerLtr: any = passengerGroup.value.costPerLtr ? Number(passengerGroup.value.costPerLtr) : 0;
+  const fuelAvgPerKm: any = passengerGroup.value.fuelAvgPerKm ? Number(passengerGroup.value.fuelAvgPerKm) : '';
+  if (monthlyRunningKm != null && (costPerLtr != null && costPerLtr !== 0) && (fuelAvgPerKm != null && fuelAvgPerKm !== 0 )) {
+    const fuelCostPass: any = ( (monthlyRunningKm * costPerLtr) / fuelAvgPerKm).toFixed(4) ;
+    // tslint:disable-next-line: triple-equals
+    if (fuelCostPass != undefined && fuelCostPass != 0 && fuelCostPass  != Infinity &&
+      // tslint:disable-next-line: triple-equals
+      isNaN(fuelCostPass) == false && fuelAvgPerKm != ''  ) {
+      passengerGroup.patchValue({
+        fuelCost : fuelCostPass
+      });
+    }
+
+  }
+  //  else {
+  //   // tslint:disable-next-line: triple-equals
+  //   if (fuelAvgPerKm == '0') {
+  //   this.toasterService.showError('Fuel Average cannot be 0', '');
+  //   passengerGroup.controls.fuelAvgPerKm.reset();
+
+  //   } else if (costPerLtr == '0') {
+  //     this.toasterService.showError('Cost Per Litre cannot be 0', '');
+  //     passengerGroup.controls.costPerLtr.reset();
+  //   }
+  // }
+  const noOfTyres: any = passengerGroup.value.noOfTyres ? Number(passengerGroup.value.noOfTyres) : 0;
+  const newTyreLifeKm: any = passengerGroup.value.newTyreLifeKm ? Number(passengerGroup.value.newTyreLifeKm) : 0;
+  const perTyreCost: any = passengerGroup.value.perTyreCost ? Number(passengerGroup.value.perTyreCost) : 0;
+  if ( (noOfTyres != null && noOfTyres !== 0) && (newTyreLifeKm != null && newTyreLifeKm !== 0 && newTyreLifeKm != '') &&
+   (perTyreCost != null && perTyreCost !== 0)) {
+    const tyreCostPass: any =  ((noOfTyres * perTyreCost * monthlyRunningKm) / newTyreLifeKm).toFixed(4);
+    // tslint:disable-next-line: triple-equals
+    if (tyreCostPass != undefined && tyreCostPass != 0 && tyreCostPass  != Infinity &&
+      // tslint:disable-next-line: triple-equals
+      isNaN(tyreCostPass) == false && newTyreLifeKm != ''  ) {
+    passengerGroup.patchValue( {
+      tyreCost : tyreCostPass
+    });
+  }
+}
+  // else {
+
+  //   if (noOfTyres == '0') {
+  //     this.toasterService.showError('No of tyres cannot be 0', '');
+  //     passengerGroup.controls.noOfTyres.reset();
+
+  //   } else if (newTyreLifeKm == '0' ) {
+  //     this.toasterService.showError('Life of new tyres in kms cannot be 0', '');
+  //     passengerGroup.controls.newTyreLifeKm.reset();
+
+  //   } else if (perTyreCost == '0') {
+  //     this.toasterService.showError('Cost per tyre cannot be 0', '');
+  //     passengerGroup.controls.perTyreCost.reset();
+  //   }
+  // }
+
   // this.calculatePassenger();
   // this.calculatePassengerB();
   this.calculatePassengerC();
@@ -828,7 +919,7 @@ if (this.router.url.includes('/dde')) {
   // passengerGroup.patchValue({
   //   netCashFlow : this.monthlyIncome - expense
   // });
-  this.netFlowCash = this.monthlyIncome - expense;
+  this.netFlowCash = Number((this.monthlyIncome - expense).toFixed(4));
   // this.calculatePassenger();
   // this.calculatePassengerB();
   // this.calculatePassengerC();
@@ -857,7 +948,10 @@ if (this.router.url.includes('/dde')) {
   console.log(passengerStandGroup);
   const businessEarningPerDay = Number(passengerStandGroup.value.businessEarningPerDay);
   const grossIncomePerDay = Number(passengerStandGroup.value.grossIncomePerDay);
-  this.montlyStandOperatorIncome = businessEarningPerDay * grossIncomePerDay;
+  if (businessEarningPerDay > 0 && businessEarningPerDay <= 31) {
+    this.montlyStandOperatorIncome = businessEarningPerDay * grossIncomePerDay;
+  }
+
   // this.calculateStandOperator();
   this.calculateStandOperatorB();
   // this.calculateStandOperatorC();
@@ -866,7 +960,7 @@ if (this.router.url.includes('/dde')) {
   this.standoperatorExpense = 0;
 
   const passengerStandGroup = this.viabilityForm.controls.passangerStandOperator;
-  const businessEarningPerDay = passengerStandGroup.value.businessEarningPerDay ?
+  const businessEarningPerDay: any = passengerStandGroup.value.businessEarningPerDay ?
   Number(passengerStandGroup.value.businessEarningPerDay) : 0;
   // tslint:disable-next-line: max-line-length
   // const grossIncomePerDay = Number(passengerStandGroup.value.grossIncomePerDay) ?  Number(passengerStandGroup.value.grossIncomePerDay) : 0;
@@ -910,7 +1004,10 @@ calculateCaptive() {
   // tslint:disable-next-line: max-line-length
   const businessEarningPerDay = passengerStandGroup.value.businessEarningPerDay ? Number(passengerStandGroup.value.businessEarningPerDay) : 0;
   const grossIncomePerDay = (passengerStandGroup.value.businessIncomePerDay) ? Number(passengerStandGroup.value.businessIncomePerDay) : 0;
-  this.montlyCaptiveIncome = businessEarningPerDay * grossIncomePerDay;
+  if (businessEarningPerDay > 0 && businessEarningPerDay <= 31) {
+    this.montlyCaptiveIncome = businessEarningPerDay * grossIncomePerDay;
+  }
+
   // this.calculateCaptive();
   this.calculateCaptiveB();
   // this.calculateCaptiveC();
@@ -978,16 +1075,23 @@ calculateCaptiveC() {
     console.log('documentArr', this.documentArr);
     this.individualImageUpload(event, index);
 
-    // let position = await this.getLatLong();
-    // if (position["latitude"]) {
-    //   this.latitude = position["latitude"].toString();
-    //   this.longitude = position["longitude"].toString();
-    //   this.getRouteMap();
-    // } else {
-    //   this.latitude = "";
-    //   this.longitude = "";
-    //   this.showRouteMap = false;
-    // }
+    let position = await this.getLatLong();
+    if (position["latitude"]) {
+      this.latitude = position["latitude"].toString();
+      this.longitude = position["longitude"].toString();
+      this.getRouteMap();
+
+      const gpsPos = this.viabilityForm.controls.gpsPosition as FormGroup;
+      gpsPos.get("latitude").patchValue(this.latitude);
+      gpsPos.get("longitude").patchValue(this.longitude);
+
+
+    } else {
+      this.latitude = "";
+      this.longitude = "";
+      this.showRouteMap = false;
+      this.toasterService.showError(position["message"], "GPS Alert");
+    }
 
   }
 
@@ -1086,6 +1190,26 @@ calculateCaptiveC() {
           });
           console.log('downloadDocs', value);
         });
+    });
+  }
+
+  reInitiateViability() {
+    if (this.viabilityForm.invalid) {
+      this.toasterService.showWarning('Save before submitting', ' ');
+    }
+    const body = {
+      leadId: this.leadId,
+      collateralId: this.collataralId,
+      isReinitiated: true
+    };
+    this.viabilityService.reinitiateViabilityDetails(body).subscribe((res: any) => {
+      // tslint:disable-next-line: triple-equals
+      if (res.ProcessVariables.error.code == '0') {
+      this.toasterService.showSuccess('Vehicle viability task assigned succesfully', '');
+      this.router.navigateByUrl(`pages/dashboard`);
+      } else {
+        this.toasterService.showSuccess(res.ProcessVariables.error.message, '');
+      }
     });
   }
 

@@ -12,6 +12,7 @@ import { PdDataService } from '../pd-data.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { UtilityService } from '@services/utility.service';
 
 @Component({
   selector: 'app-loan-details',
@@ -41,8 +42,9 @@ export class LoanDetailsComponent implements OnInit {
   currentYear = new Date().getFullYear();
   yearCheck = [];
   productCat: any;
-  toDayDate: Date = new Date();
-
+  public toDayDate: Date = new Date();
+  entityTypeKey: string;
+  custCategory: string;
   amountPattern = {
     rule: '^[1-9][0-9]*$',
     msg: 'Numbers Only Required',
@@ -75,7 +77,7 @@ export class LoanDetailsComponent implements OnInit {
   insuranceStatus: any;
   insRequired: boolean;
   disableSaveBtn: boolean;
-  operationType: string;
+  operationType: boolean;
   insDisabled: boolean;
   vehCondStatus: any;
   vehCondRequired: boolean;
@@ -93,11 +95,16 @@ export class LoanDetailsComponent implements OnInit {
     private toasterService: ToasterService,
     public sharedService: SharedService,
     private createLeadDataService: CreateLeadDataService,
+    private utilityService: UtilityService,
     private toggleDdeService: ToggleDdeService) {
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
   }
 
   async ngOnInit() {
+
+    console.log('today date', this.toDayDate);
+    this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
+    console.log('today date', this.toDayDate);
 
     // accessing lead id from route
 
@@ -143,7 +150,7 @@ export class LoanDetailsComponent implements OnInit {
 
     });
     this.operationType = this.toggleDdeService.getOperationType();
-    if (this.operationType === '1' || this.operationType === '2') {
+    if (this.operationType) {
       this.loanDetailsForm.disable();
       this.disableSaveBtn = true;
     }
@@ -182,9 +189,15 @@ export class LoanDetailsComponent implements OnInit {
     this.leadData = { ...leadSectionData };
     const data = this.leadData;
     console.log('in get lead section data', data);
+    for (const value of data['applicantDetails']) {
+      if (value['applicantId'] === this.applicantId) {
 
+        const applicantDetailsFromLead = value;
+        this.entityTypeKey = applicantDetailsFromLead['entityTypeKey'];
+        console.log('entity type key', this.entityTypeKey);
+      }
+    }
     const leadDetailsFromLead = data['leadDetails'];
-
     // this.applicantFullName = applicantDetailsFromLead['fullName']
     // this.mobileNo = applicantDetailsFromLead['mobileNumber']
     // console.log("in lead section data", this.applicantFullName, this.mobileNo)
@@ -209,17 +222,25 @@ export class LoanDetailsComponent implements OnInit {
       this.engChassDisabled = false;
       this.engChassRequired = true;
       this.loanDetailsForm.get('engineNumber').enable();
-      this.loanDetailsForm.get('chasisNumber').setValidators(Validators.required);
+      this.loanDetailsForm.get('engineNumber').setValidators(Validators.required);
+      this.loanDetailsForm.get('engineNumber').updateValueAndValidity();
       this.loanDetailsForm.get('chasisNumber').enable();
       this.loanDetailsForm.get('chasisNumber').setValidators(Validators.required);
+      this.loanDetailsForm.get('chasisNumber').updateValueAndValidity();
 
     } else if (this.regStatus !== '1') {
       this.engChassDisabled = true;
       this.engChassRequired = false;
+      setTimeout(() => {
+        this.loanDetailsForm.get('engineNumber').patchValue(null);
+        this.loanDetailsForm.get('chasisNumber').patchValue(null);
+
+      });
       this.loanDetailsForm.get('engineNumber').disable();
-      this.loanDetailsForm.get('chasisNumber').clearValidators();
-      this.loanDetailsForm.get('chasisNumber').updateValueAndValidity();
+      this.loanDetailsForm.get('engineNumber').clearValidators();
+      this.loanDetailsForm.get('engineNumber').updateValueAndValidity();
       this.loanDetailsForm.get('chasisNumber').disable();
+      this.loanDetailsForm.get('chasisNumber').clearValidators();
       this.loanDetailsForm.get('chasisNumber').updateValueAndValidity();
 
     }
@@ -235,6 +256,10 @@ export class LoanDetailsComponent implements OnInit {
     } else if (this.insuranceStatus !== '1') {
       this.insRequired = false;
       this.insDisabled = true;
+      setTimeout(() => {
+        this.loanDetailsForm.get('insuranceValidity').patchValue(null);
+
+      });
       this.loanDetailsForm.get('insuranceValidity').disable();
       this.loanDetailsForm.get('insuranceValidity').clearValidators();
       this.loanDetailsForm.get('insuranceValidity').updateValueAndValidity();
@@ -476,6 +501,7 @@ export class LoanDetailsComponent implements OnInit {
 
         this.newCvDetails = value.ProcessVariables.loanDetailsForNewCv;
         console.log('new cv details', this.newCvDetails);
+        this.custCategory = value.ProcessVariables.applicantPersonalDiscussionDetails.custCategory;
         this.usedVehicleDetails = value.ProcessVariables.applicableForUsedVehicle;
         // console.log('used vehicle details', this.usedVehicleDetails);
         this.assetDetailsUsedVehicle = value.ProcessVariables.applicableForAssetDetailsUsedVehicle;

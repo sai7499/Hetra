@@ -4,7 +4,7 @@
   id="myModal"
   [ngClass]="{ 'dis-block': showModal }"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog top-space">
     <div class="modal-content">
       <div class="modal-header">
         <button
@@ -26,55 +26,67 @@
 
           <br />
 
-          <div class="col-sm-6 col-md-3 col-lg-3">
+          <div class="row">
+            <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">
+            <div class="col-12 mid-mar">
             <img
               [src]="imageUrl ? 'data:image/jpeg;base64,' + imageUrl : ''"
               height="150px"
               width="150px"
             />
+           </div>
+           <div class="col-12 mid-text">
             <button
-              class="upload-btn"
-              (click)="fileInput.click()"
-              *ngIf="!imageUrl && !isMobile"
-            >
-              Select Document
-            </button>
-            <button
-              class="upload-btn"
-              (click)="openCamera()"
-              *ngIf="!imageUrl && isMobile"
-            >
-              Take photo
-            </button>
-            <button
-              class="upload-btn"
-              (click)="removeFile()"
-              *ngIf="imageUrl && isMobile"
-            >
-              Change</button
-            >
-            <button
-              class="upload-btn"
-              (click)="openCamera()"
-              *ngIf="imageUrl && !isMobile"
-            >
-              Retake photo</button
-            >&nbsp;
-            <button
-              class="upload-btn remove-btn"
-              (click)="removeFile()"
-              *ngIf="imageUrl"
-            >
-              Remove
-            </button>
+            class="btn upload-btn"
+            (click)="fileInput.click()"
+            *ngIf="!imageUrl && !isMobile"
+          >
+            Select Document
+          </button>
+          <button
+            class="btn upload-btn"
+            (click)="openCamera()"
+            *ngIf="!imageUrl && isMobile"
+          >
+            Take photo
+          </button>
+          <button
+            class="btn upload-btn"
+            (click)="removeFile()"
+            *ngIf="imageUrl && !isMobile"
+          >
+            Change Document</button
+          >
+          <button
+            class="btn upload-btn"
+            (click)="openCamera()"
+            *ngIf="imageUrl && isMobile"
+          >
+            Retake photo</button
+          >&nbsp;
+          <button
+            class="btn upload-btn remove-btn"
+            (click)="removeFile()"
+            *ngIf="imageUrl"
+          >
+            Remove
+          </button>
+
+           </div>
+            
+            
           </div>
-          <div class="col-sm-6 col-md-3 col-lg-3">
-            <div>Name</div>
-            <div class="file-info">{{ fileName }}</div>
+        
+        <div class="col-md-8 col-lg-8 col-sm-8 col-xs-12">
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="col-6">Name : {{ fileName }} </div>
+            <!-- <div class="col-6 file-info">{{ fileName }}</div> -->
           </div>
-          <div *ngIf="!isMobile" class="col-sm-6 col-md-3 col-lg-3">
-            <div>Size</div>
-            <div class="file-info">{{ fileSize }}</div>
+          <div *ngIf="!isMobile" class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="col-6">Size : {{ fileSize }}</div>
+            <!-- <div class="col-6 file-info">{{ fileSize }}</div> -->
+          </div>
+          </div>
           </div>
         </div>
         <div *ngIf="showError" class="show-error">

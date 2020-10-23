@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild,  HostListener } from '@angular/core';
 import {
   FormGroup,
   FormControl,
@@ -27,7 +27,8 @@ import { dateFieldName } from '@progress/kendo-angular-intl';
 import { ToasterService } from '@services/toaster.service';
 import { pairwise, distinctUntilChanged } from 'rxjs/operators';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
-
+import { AgeValidationService } from '@services/age-validation.service';
+import { ObjectComparisonService } from '@services/obj-compare.service';
 @Component({
   templateUrl: './basic-details.component.html',
   styleUrls: ['./basic-details.component.css'],
@@ -54,6 +55,8 @@ export class BasicDetailsComponent implements OnInit {
   countryList = [];
   leadId : number;
   mobileNumberChange: boolean;
+  apiValue: any;
+  finalValue: any;
   
 
   //imMinor : boolean= true
@@ -89,6 +92,9 @@ export class BasicDetailsComponent implements OnInit {
   applicantData = [];
   showNotApplicant : boolean;
   hideMsgForOwner: boolean = false;
+  public maxAge: Date = new Date();
+  public minAge: Date = new Date();
+  isSave : boolean = false;
 
 
   constructor(
@@ -102,7 +108,9 @@ export class BasicDetailsComponent implements OnInit {
     private location: Location,
     private utilityService: UtilityService,
     private toasterService: ToasterService,
-    private createLeadDataService: CreateLeadDataService
+    private createLeadDataService: CreateLeadDataService,
+    private ageValidationService: AgeValidationService,
+    private objectComparisonService: ObjectComparisonService
   ) { }
 
   async ngOnInit() {
@@ -111,7 +119,6 @@ export class BasicDetailsComponent implements OnInit {
       (data) => {
         this.labels = data;
         this.validationData = data.validationData;
-        console.log(this.validationData);
       },
       (error) => {
         console.log(error);
@@ -126,27 +133,40 @@ export class BasicDetailsComponent implements OnInit {
       applicantRelationship: new FormControl('', Validators.required),
       details: new FormArray([]),
     });
-    this.setBirthDate.setFullYear(this.setBirthDate.getFullYear()-10)
-    this.ageMinDate.setFullYear(this.ageMinDate.getFullYear()-100)
+    // this.setBirthDate.setFullYear(this.setBirthDate.getFullYear()-10)
+    // this.ageMinDate.setFullYear(this.ageMinDate.getFullYear()-100)
     //this.addNonIndividualFormControls();
-    
+    this.getAgeValidation()
     this.getLeadSectiondata();
     this.getLovData();
     this.getCountryList();
     const formArray = this.basicForm.get('details') as FormArray;
     this.validation = formArray.at(0);
     this.leadId = (await this.getLeadId()) as number;
+    //this.isSave=this.applicantDataService.getForSaveBasicDetails()
 
   }
   getLeadSectiondata() {
     const leadData = this.createLeadDataService.getLeadSectionData()
-    console.log('data-->', leadData);
     this.productCategory = leadData['leadDetails'].productId;
     this.fundingProgram = leadData['leadDetails'].fundingProgram;
 
     this.applicantData = leadData['applicantDetails'];
     
 
+  }
+
+  getAgeValidation() {
+    this.ageValidationService.getAgeValidationData().subscribe(
+      data => {
+        const minAge = data.ages.applicant.minAge;
+        const maxAge = data.ages.applicant.maxAge;
+          this.maxAge = new Date();
+          this.minAge = new Date();
+          this.minAge.setFullYear(this.minAge.getFullYear() - minAge);
+          this.maxAge.setFullYear(this.maxAge.getFullYear() - maxAge);
+      }
+    );
   }
 
   selectApplicantType(event) {
@@ -172,7 +192,6 @@ export class BasicDetailsComponent implements OnInit {
 
   getCountryList() {
     this.applicantService.getCountryList().subscribe((res: any) => {
-      //console.log('responce Country list', res)
       const response = res;
       const responseError = response.Error;
       if (responseError == '0') {
@@ -200,7 +219,6 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   onOwnHouseAvailable(event) {
-    console.log('event', event)
     this.isChecked = event.target.checked;
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
@@ -223,6 +241,10 @@ export class BasicDetailsComponent implements OnInit {
       details.get('ownHouseAppRelationship').clearValidators();
       details.get('houseOwnerProperty').updateValueAndValidity();
       details.get('ownHouseAppRelationship').updateValueAndValidity();
+      details.patchValue({
+        houseOwnerProperty : '',
+        ownHouseAppRelationship : ''
+      })
     }
   }
 
@@ -262,7 +284,6 @@ export class BasicDetailsComponent implements OnInit {
       .get('fatherName')
       .valueChanges.pipe(distinctUntilChanged())
       .subscribe((value1) => {
-        //console.log('value', value1)
         if (fatherName == value1) {
           return;
         }
@@ -317,9 +338,52 @@ export class BasicDetailsComponent implements OnInit {
   getApplicantDetails() {
 
     this.applicant = this.applicantDataService.getApplicant();
-    console.log('applicant', this.applicant);
-
     this.setBasicData();
+    if(this.applicant.ucic){
+      if(this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP'){
+         this.disableUCICIndividualDetails();
+      }else{
+        this.disableUCICNonIndividualDetails();
+      }
+    }
+    if(this.applicant.ekycDone=='1'){
+      if(this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP'){
+        this.disableEKYDetails();
+      }
+    }
+  }
+
+  disableEKYDetails(){
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    const applicantDetails = this.applicant.applicantDetails;
+    const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails;
+    applicantDetails.name1? details.get('name1').disable() : details.get('name1').enable();
+    details.get('name2').disable() ;
+    applicantDetails.name3 ? details.get('name3').disable() : details.get('name3').enable();
+    aboutIndivProspectDetails.dob? details.get('dob').disable() : details.get('dob').enable();
+    aboutIndivProspectDetails.gender ? details.get('gender').disable() :  details.get('gender').enable() ;
+  }
+
+  disableUCICIndividualDetails(){
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    details.get('name1').disable();
+    details.get('name2').disable();
+    details.get('name3').disable();
+    details.get('dob').disable();
+    details.get('mobilePhone').disable();
+    details.get('gender').disable();
+
+  }
+  disableUCICNonIndividualDetails(){
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    details.get('name1').disable();
+    details.get('name2').disable();
+    details.get('name3').disable();
+    details.get('dateOfIncorporation').disable();
+    details.get('companyPhoneNumber').disable();
   }
   initiallayAgecal(dob) {
     const convertDate = new Date(this.utilityService.getDateFromString(dob));
@@ -328,7 +392,6 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   ageCalculation(event) {
-    //console.log('event', event);
     const value = event;
 
     const convertDate = new Date(this.utilityService.getNewDateFormat(value));
@@ -339,7 +402,6 @@ export class BasicDetailsComponent implements OnInit {
     const convertAge = new Date(value);
     const timeDiff = Math.abs(Date.now() - convertAge.getTime());
     this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365);
-    //console.log('showAge', this.showAge);
 
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
@@ -373,12 +435,20 @@ export class BasicDetailsComponent implements OnInit {
     } else {
       event.target.checked = true;
     }
-    console.log();
   }
+
+  // @HostListener('change') ngOnChanges($event) {
+  //   this.isSave = false;
+  // }
+
+  // @HostListener('keydown', ['$event'])
+
+  // onkeyup(event) {
+  //   this.isSave = false;
+  // }
 
   onCustCategoryChanged(event) {
     this.custCatValue = event.target.value;
-    //console.log('custCatValue', this.custCatValue)
     if (this.custCatValue == 'SEMCUSTSEG') {
       this.ageOfSeniorCitizen = 65;
 
@@ -426,6 +496,7 @@ export class BasicDetailsComponent implements OnInit {
       this.addIndividualFormControls();
       this.setValuesForIndividual();
       this.initiallayAgecal(dob);
+      
 
 
     } else {
@@ -472,8 +543,15 @@ export class BasicDetailsComponent implements OnInit {
       agriAppRelationship: applicantDetails.agriAppRelationship || '',
       grossReceipt: applicantDetails.grossReceipt,
     });
-    
-    
+    //console.log('this.basicForm.value', this.basicForm.value)
+    this.apiValue = this.basicForm.getRawValue();
+    if (this.isIndividual){
+      const dob= this.basicForm.getRawValue().details[0].dob
+      this.apiValue.details[0].dob=this.utilityService.getDateFormat(dob)
+    }else{
+      const doc=this.basicForm.getRawValue().details[0].dateOfIncorporation;
+       this.apiValue.details[0].dateOfIncorporation=this.utilityService.getDateFormat(doc)
+    }
     
   }
 
@@ -526,6 +604,8 @@ export class BasicDetailsComponent implements OnInit {
         aboutIndivProspectDetails.minorGuardianRelation || '',
       recommendations: aboutIndivProspectDetails.recommendations || ''
     });
+
+   
     this.clearFatherOrSpouseValidation();
     this.eitherFathOrspouse();
     this.listenerForMobilechange()
@@ -540,7 +620,6 @@ export class BasicDetailsComponent implements OnInit {
     const contactNumber = corporateProspectDetails.companyPhoneNumber;
     if (contactNumber && contactNumber.length == 12) {
       const contactSlice = contactNumber.slice(0, 2);
-      //console.log('contactslice', contactSlice)
       if (contactSlice == '91') {
         this.mobilePhone = contactNumber.slice(2, 12);
       } else {
@@ -590,6 +669,8 @@ export class BasicDetailsComponent implements OnInit {
         if(!details.get('mobilePhone').invalid){
           if(value!==this.mobilePhone){
             this.mobileNumberChange= true;
+          }else{
+            this.mobileNumberChange= false;
           }
         }
       })
@@ -602,6 +683,8 @@ export class BasicDetailsComponent implements OnInit {
       if(!details.get('companyPhoneNumber').invalid){
         if(value!==this.mobilePhone){
           this.mobileNumberChange= true;
+        }else{
+          this.mobileNumberChange= false;
         }
       }
     })
@@ -610,7 +693,6 @@ export class BasicDetailsComponent implements OnInit {
   getLovData() {
     this.lovService.getLovData().subscribe((value: LovList) => {
       this.applicantLov = value.LOVS;
-      console.log('applicantlov', this.applicantLov);
       this.ownerPropertyRelation = this.applicantLov.applicantRelationshipWithLead.filter(data => data.value !== 'Guarantor')
 
       this.activatedRoute.params.subscribe((value) => {
@@ -681,7 +763,6 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0) as FormGroup;
     if (details.get('isMinor').value) {
-     // console.log('isminorgaur', details.get('isMinor').value);
       details.addControl('minorGuardianName', new FormControl());
       details.addControl('minorGuardianRelation', new FormControl());
     } else {
@@ -763,7 +844,6 @@ export class BasicDetailsComponent implements OnInit {
       })
     }
     this.isDirty = true;
-    console.log('basicForm', this.basicForm);
     if (this.basicForm.invalid) {
       this.toasterService.showError(
         'Please fill all mandatory fields.',
@@ -800,16 +880,30 @@ export class BasicDetailsComponent implements OnInit {
       ...applicantData,
       leadId,
     };
-    console.log('formDate', data);
     this.applicantService.saveApplicant(data).subscribe((res: any) => {
       if (res.ProcessVariables.error.code === '0') {
         // this.router.navigate([
         //   `/pages/sales-applicant-details/${leadId}/identity-details`,
         //   this.applicantId,
         // ]);
+        // this.isSave= true;
+        // this.applicantDataService.setForSaveBasicDetails(true);
         this.toasterService.showSuccess(
           'Record Saved Successfully',
           ''
+        );
+        this.apiValue=this.basicForm.getRawValue();
+        if(this.isIndividual){
+          const dob= this.basicForm.getRawValue().details[0].dob
+          this.apiValue.details[0].dob=this.utilityService.getDateFormat(dob)
+        }else{
+          const doc=this.basicForm.getRawValue().details[0].dateOfIncorporation;
+          this.apiValue.details[0].dateOfIncorporation=this.utilityService.getDateFormat(doc)
+        }
+      }else{
+        this.toasterService.showError(
+          res.ProcessVariables.error.message,
+          'Applicant Details'
         );
       }
     });
@@ -871,7 +965,6 @@ export class BasicDetailsComponent implements OnInit {
     const prospectDetails: IndividualProspectDetails = {};
     const applicantDetails: ApplicantDetails = {};
     const formValue = value.details[0];
-    console.log('formvalue', formValue)
     applicantDetails.name1 = formValue.name1;
     applicantDetails.name2 = formValue.name2 ? formValue.name2 : '';
     applicantDetails.name3 = formValue.name3 ? formValue.name3 : '';
@@ -945,7 +1038,6 @@ export class BasicDetailsComponent implements OnInit {
     const applicantDetails: ApplicantDetails = {};
 
     const formValue = value.details[0];
-    console.log('formvalue', formValue)
 
     applicantDetails.name1 = formValue.name1;
     applicantDetails.name2 = formValue.name2 ? formValue.name2 : '';
@@ -1002,7 +1094,47 @@ export class BasicDetailsComponent implements OnInit {
     this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`)
   }
 
-  onNext(){
+  onNext() {
+      this.finalValue = this.basicForm.getRawValue();
+      //console.log('basicFrm',this.basicForm.value)
+      if (this.isIndividual){
+        // if(this.applicant.ucic){
+        //   this.finalValue.details[0].name1=this.apiValue.details[0].name1
+        //   this.finalValue.details[0].name2=this.apiValue.details[0].name2
+        //   this.finalValue.details[0].name3=this.apiValue.details[0].name3
+        //   this.finalValue.details[0].mobilePhone=this.apiValue.details[0].mobilePhone
+        //   this.finalValue.details[0].dob=this.apiValue.details[0].dob
+        //   this.finalValue.details[0].gender=this.apiValue.details[0].gender
+        // }
+        const dob= this.basicForm.getRawValue().details[0].dob
+        this.finalValue.details[0].dob=this.utilityService.getDateFormat(dob)
+      }else{
+        // if(this.applicant.ucic){
+        //   this.finalValue.details[0].name1=this.apiValue.details[0].name1
+        //   this.finalValue.details[0].name2=this.apiValue.details[0].name2
+        //   this.finalValue.details[0].name3=this.apiValue.details[0].name3
+        //   this.finalValue.details[0].companyPhoneNumber=this.apiValue.details[0].companyPhoneNumber
+        //   this.finalValue.details[0].dateOfIncorporation=this.apiValue.details[0].dateOfIncorporation
+        // }
+       
+        const doc=this.basicForm.getRawValue().details[0].dateOfIncorporation;
+        this.finalValue.details[0].dateOfIncorporation=this.utilityService.getDateFormat(doc)
+      }
+      // console.log(JSON.stringify(this.apiValue));
+      //  console.log(JSON.stringify(this.finalValue));
+      // console.log(this.objectComparisonService.compare(this.apiValue, this.finalValue));
+
+      const isValueCheck=this.objectComparisonService.compare(this.apiValue, this.finalValue)
+      if(this.basicForm.invalid){
+        this.toasterService.showInfo('Please SAVE details before proceeding', '');
+        return;
+      }
+      if(!isValueCheck){
+        this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
+        return;
+      }
+    
+      
       if(this.mobileNumberChange){
         this.router.navigateByUrl(
           `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
@@ -1013,6 +1145,8 @@ export class BasicDetailsComponent implements OnInit {
           `/pages/sales-applicant-details/${this.leadId}/identity-details/${this.applicantId}`
         );
       }
+    }
+      
      
-  }
+  
 }

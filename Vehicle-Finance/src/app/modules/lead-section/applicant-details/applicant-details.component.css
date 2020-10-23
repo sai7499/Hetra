@@ -273,7 +273,7 @@ only screen and
         line-height: 1.5;
         margin-left: -100%;
         margin-right: 12px;
-        width: 70%;
+        width: 100%;
         white-space: nowrap;
         background-color: #1d1a4b;
         color:white;
@@ -293,3 +293,74 @@ only screen and
         content: attr(data-item-value);
         }
 } */
+
+.flex-container {
+  display: flex;
+  flex-wrap: nowrap;
+  /* font-size:10px; */
+  margin-top:12px;
+  
+}
+
+.flex-container > div {
+  
+  width: 100%;
+  margin: 2px;
+  text-align: center;
+  /* line-height: 75px;
+  font-size: 30px; */
+}
+
+p-0{
+  padding:0px!important;
+}
+
+.main-table td .flex-container{
+   padding:0px!important; 
+}
+
+.desktop-hide{
+  display:none;
+}
+
+ @media (min-width:260px) and (max-width:768px){
+ .flex-container{
+   display:none;
+ }
+
+ .desktop-hide{
+  display:inline!important;
+}
+ }
+@media (min-width:260px) and (max-width:768px){
+  .flex-container{
+    display:none;
+  }
+ 
+  .desktop-hide{
+   display:inline!important;
+ }
+
+.desktop-hide >.fa {
+  margin:5px!important;
+}
+} 
+
+@media (min-width:769px) and (max-width:828px){
+  .flex-container{
+    font-size: 10px!important;
+  } 
+}
+  @media (min-width:829px) and (max-width:899px){
+  .flex-container{
+    font-size: 12px!important;
+  } 
+}
+
+.fa-pencil {
+    padding-right: 35px;
+}
+
+.fa-trash {
+    padding-right: 35px;
+}

@@ -7,10 +7,9 @@
                 <label for="first_name">{{ labels?.firstName }}
                     <sub class="star_red_col">*</sub></label>
 
-                <app-custom-input formControlName="firstName" [isRequired]="'First Name is Required'"
-                    [type]="labels.validationData?.name.type" [id]="'first_name'" [className]="'form-control'"
-                    [maxLength]="labels.validationData?.name.maxLength" [placeholder]="'Enter First Name'"
-                    [isDirty]="isDirty">
+                <app-custom-input formControlName="firstName" [type]="labels.validationData?.name.type"
+                    [id]="'first_name'" [className]="'form-control'" [maxLength]="labels.validationData?.name.maxLength"
+                    [placeholder]="'Enter First Name'">
                 </app-custom-input>
 
             </div>
@@ -28,9 +27,9 @@
                 <label for="last_name">{{ labels?.lastName }}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="lastName" [isRequired]="'Last Name is Required'" [isDirty]="isDirty"
-                    [id]="'last_name'" [className]="'form-control'" [placeholder]="'Enter Last Name'"
-                    [maxLength]="labels.validationData?.name.maxLength" [type]="labels.validationData?.name.type">
+                <app-custom-input formControlName="lastName" [id]="'last_name'" [className]="'form-control'"
+                    [placeholder]="'Enter Last Name'" [maxLength]="labels.validationData?.name.maxLength"
+                    [type]="labels.validationData?.name.type">
                 </app-custom-input>
             </div>
         </div>
@@ -380,8 +379,78 @@
 
             </div>
         </div>
+        <div class="row">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+                <label for="locality"
+                  >{{ labels.locality }} <sub class="star_red_col">*</sub></label
+                >
+                <app-vf-custom-select
+                  [values]="(LOV?.LOVS)['fi/PdResidentialLocality']"
+                  formControlName="residentialLocality"
+                  [isRequired]="'Please select one'"
+                  [isDirty]="isDirty"
+                >
+                </app-vf-custom-select>
+              </div>
+              <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+                <label for="house_ownership"
+                  >{{ labels.houseOwnership }}
+                  <sub class="star_red_col">*</sub></label
+                >
+      
+                <app-vf-custom-select
+                  [values]="(LOV?.LOVS)['fi/PdHouseOwnership']"
+                  formControlName="houseOwnership"
+                  [isRequired]="'Please select one'"
+                  [isDirty]="isDirty"
+                  (change)="houseOwnerShip($event.target.value)"
+                >
+                </app-vf-custom-select>
+              </div>
+                <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+                    <label for="property_area"
+                      >{{ labels.propertyArea }} <sub class="star_blue_col">*</sub></label
+                    >
+                    <!-- <input type="text" class="form-control" id="bank_name" formControlName="bankName"> -->
+                    <app-custom-input
+                      id="property_area"
+                      [placeholder]="'Enter area of  property'"
+                      formControlName="areaOfProperty"
+                      [type]="labels?.validationData?.propertyArea?.type"
+                      [isRequired]="
+                        ownerNamePropertyAreaRequired
+                          ? 'Area of property is required'
+                          : ''
+                      "
+                      [maxLength]="labels?.validationData?.propertyArea?.maxLength"
+                      [minLength]="labels?.validationData?.propertyArea.minLength"
+                      [isDirty]="isDirty"
+                    >
+                    </app-custom-input>
+                  </div>
+
+        </div>
 
         <div class="row">
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="loan_amt"
+                  >{{ labels.propertyValue }} <sub class="star_blue_col">*</sub></label
+                >
+                <!-- <input type="text" class="form-control" id="loan_amt" formControlName="loanAmt"> -->
+                <app-custom-input
+                  id="loan_amt"
+                  formControlName="propertyValue"
+                  placeholder="property value"
+                  [type]="labels?.validationData?.amountValue?.type"
+                  [isRequired]="
+                  ownerNamePropertyAreaRequired
+                    ? 'Value of property is required'
+                    : ''"
+                  [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                  [isDirty]="isDirty"
+                >
+                </app-custom-input>
+              </div>
 
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="bank_a/c_holder_name">{{ labels.bankHolderName }} <sub class="star_red_col">*</sub></label>

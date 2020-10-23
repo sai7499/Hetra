@@ -7,6 +7,12 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 
 export class SharedService {
 
+    popStateActivity$: BehaviorSubject<boolean> = new BehaviorSubject(true);
+    
+    browserPopState(data) {
+        this.popStateActivity$.next(data)
+    }
+
     leadData$: BehaviorSubject<string> = new BehaviorSubject(null);
 
     leadDataToHeader(data) {
