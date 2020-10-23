@@ -545,36 +545,10 @@ export class AddressDetailsComponent implements OnInit {
     this.applicantService.getApplicantDetail(data).subscribe((res: any) => {
       this.address = res.ProcessVariables;
 
-      if (this.address.ucic) {
-        if (this.address.applicantDetails.entityTypeKey === 'INDIVENTTYP') {
-
-          this.disableCurrent = true;
-          this.onPerAsCurChecked = true;
-          this.isCurrAddSameAsPermAdd = '1'
-
-          this.disableSameAppAddress = true;
-          this.disableAddress('permanantAddress');
-          this.disableAddress('currentAddress');
-
-
-        } else {
-          const formArray = this.addressForm.get('details') as FormArray;
-          const details = formArray.at(0);
-          this.disableRegister = true;
-          this.onRegAsCommChecked = true;
-          this.disableAddress('registeredAddress');
-          this.disableAddress('communicationAddress');
-        }
-
-        this.showModCurrCheckBox = true;
+      if (this.address.ucic) { 
+          this.showModCurrCheckBox = true;
       }
-      if (this.address.ekycDone == '1') {
-        if (this.address.applicantDetails.entityTypeKey === 'INDIVENTTYP') {
-          this.disableAddress('permanantAddress');
-          this.disableSameAppAddress = true;
-
-        }
-      }
+      
 
       setTimeout(() => {
         this.setAddressData();
@@ -601,6 +575,24 @@ export class AddressDetailsComponent implements OnInit {
       entity: this.address.applicantDetails.entityTypeKey,
     });
     if (this.isIndividual) {
+      if (this.address.ucic) {
+
+        this.disableCurrent = true;
+        this.onPerAsCurChecked = true;
+        this.isCurrAddSameAsPermAdd = '1'
+
+        this.disableSameAppAddress = true;
+        this.disableAddress('permanantAddress');
+        this.disableAddress('currentAddress');
+      }
+      if (this.address.ekycDone == '1') {
+        if (this.address.applicantDetails.entityTypeKey === 'INDIVENTTYP') {
+          this.disableAddress('permanantAddress');
+          this.disableSameAppAddress = true;
+
+        }
+      }
+
       this.setValuesForIndividual();
       setTimeout(() => {
         this.listenerForPermenantAddress();
@@ -610,6 +602,10 @@ export class AddressDetailsComponent implements OnInit {
     } else {
       this.clearFormArray();
       this.addNonIndividualFormControls();
+      this.disableRegister = true;
+      this.onRegAsCommChecked = true;
+      this.disableAddress('registeredAddress');
+      this.disableAddress('communicationAddress');
       this.setValuesForNonIndividual();
       setTimeout(() => {
         this.listenerForRegisterAddress();
