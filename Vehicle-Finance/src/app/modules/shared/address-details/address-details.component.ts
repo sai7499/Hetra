@@ -84,8 +84,8 @@ export class AddressDetailsComponent implements OnInit {
   };
 
   isCurrAddSameAsPermAdd: any;
-  isCurrAddSameAsOffAdd : any;
-  isRegSameAsCommAdd : any;
+  isCurrAddSameAsOffAdd: any;
+  isRegSameAsCommAdd: any;
   permenantAddressDetails: AddressDetails[];
   currentAddressDetails: AddressDetails[];
   onPerAsCurChecked: boolean;
@@ -98,18 +98,22 @@ export class AddressDetailsComponent implements OnInit {
   disableCurrent: boolean;
   disableRegister: boolean;
   SRNumberValidate: boolean = true;
-  showAppAddressCheckBox : boolean= false;
-  sameAsAppAddress : boolean= false;
-  disableSameAppAddress  : boolean = false;
+  showAppAddressCheckBox: boolean = false;
+  sameAsAppAddress: boolean = false;
+  disableSameAppAddress: boolean = false;
   leadAppAddressDetails = [];
-  isSave: boolean =false;
+  isSave: boolean = false;
   successSR: boolean = false;
   failureSR: boolean = false;
   validateSrBoolean: boolean;
   successSrValue: string;
-  storeSRNumber : any;
+  storeSRNumber: any;
   apiValue: any;
   finalValue: any;
+  apiCurrentCheckBox = '0';
+  apiOfficeCheckBox = '0';
+  apiAddressLead = '0';
+  apiCommunicationCheckBox = '0';
 
 
   constructor(
@@ -146,7 +150,6 @@ export class AddressDetailsComponent implements OnInit {
         this.getAddressDetails();
       });
     });
-    this.isSave=this.applicantDataService.getForSaveAddressDetails()
   }
 
   listenerForOfficeAddress() {
@@ -193,7 +196,7 @@ export class AddressDetailsComponent implements OnInit {
       } else {
         // this.isDirty = false;
         this.isOfficeAddressMandatory = false;
-        const pincode= officeAddress.get('pincode').value;
+        const pincode = officeAddress.get('pincode').value;
         officeAddress.get('pincode').setValue(pincode || null)
 
         if (!isChanged) {
@@ -539,49 +542,49 @@ export class AddressDetailsComponent implements OnInit {
     const data = {
       applicantId: this.applicantId,
     };
-    this.applicantService.getApplicantDetail(data).subscribe((res : any)=>{
-      this.address= res.ProcessVariables;
-        
-        if (this.address.ucic) {
-          if (this.address.applicantDetails.entityTypeKey === 'INDIVENTTYP') {
-           
-              this.disableCurrent = true;
-              this.onPerAsCurChecked = true;
-              this.isCurrAddSameAsPermAdd='1'
-      
-              this.disableSameAppAddress= true;
-              this.disableAddress('permanantAddress');
-              this.disableAddress('currentAddress');
-            
-           
-          } else {
-            const formArray = this.addressForm.get('details') as FormArray;
-            const details = formArray.at(0);
-            this.disableRegister = true;
-            this.onRegAsCommChecked = true;
-            this.disableAddress('registeredAddress');
-            this.disableAddress('communicationAddress');
-          }
-    
-          this.showModCurrCheckBox = true;
-        }
-        if(this.address.ekycDone=='1'){
-          if (this.address.applicantDetails.entityTypeKey === 'INDIVENTTYP'){
-            this.disableAddress('permanantAddress');
-            this.disableSameAppAddress= true;
-    
-          }
+    this.applicantService.getApplicantDetail(data).subscribe((res: any) => {
+      this.address = res.ProcessVariables;
+
+      if (this.address.ucic) {
+        if (this.address.applicantDetails.entityTypeKey === 'INDIVENTTYP') {
+
+          this.disableCurrent = true;
+          this.onPerAsCurChecked = true;
+          this.isCurrAddSameAsPermAdd = '1'
+
+          this.disableSameAppAddress = true;
+          this.disableAddress('permanantAddress');
+          this.disableAddress('currentAddress');
+
+
+        } else {
+          const formArray = this.addressForm.get('details') as FormArray;
+          const details = formArray.at(0);
+          this.disableRegister = true;
+          this.onRegAsCommChecked = true;
+          this.disableAddress('registeredAddress');
+          this.disableAddress('communicationAddress');
         }
 
-        setTimeout(()=>{
-          this.setAddressData();
-        })
-      
-      
+        this.showModCurrCheckBox = true;
+      }
+      if (this.address.ekycDone == '1') {
+        if (this.address.applicantDetails.entityTypeKey === 'INDIVENTTYP') {
+          this.disableAddress('permanantAddress');
+          this.disableSameAppAddress = true;
+
+        }
+      }
+
+      setTimeout(() => {
+        this.setAddressData();
+      })
+
+
     })
-    
+
     //console.log('COMING ADDRES VALUES', this.address);
-    
+
   }
 
   disableAddress(addressType) {
@@ -593,7 +596,7 @@ export class AddressDetailsComponent implements OnInit {
 
   setAddressData() {
     this.isIndividual = this.address.applicantDetails.entityTypeKey === 'INDIVENTTYP';
-    this.showAppAddressCheckBox= this.address.applicantDetails.applicantTypeKey=== "APPAPPRELLEAD"
+    this.showAppAddressCheckBox = this.address.applicantDetails.applicantTypeKey === "APPAPPRELLEAD"
     this.addressForm.patchValue({
       entity: this.address.applicantDetails.entityTypeKey,
     });
@@ -602,7 +605,7 @@ export class AddressDetailsComponent implements OnInit {
       setTimeout(() => {
         this.listenerForPermenantAddress();
         this.listenerForCurrentAddress();
-        
+
       })
     } else {
       this.clearFormArray();
@@ -612,7 +615,7 @@ export class AddressDetailsComponent implements OnInit {
         this.listenerForRegisterAddress();
       })
     }
-    this.apiValue = this.addressForm.value;
+    this.apiValue = this.addressForm.getRawValue();
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
       if (operationType) {
@@ -650,7 +653,7 @@ export class AddressDetailsComponent implements OnInit {
     this.addListenerForPerAdd(permLandlineNumber, curLandlineNumber);
 
   }
-  listenerForCurrentAddress(){
+  listenerForCurrentAddress() {
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
     const currentAddress = details.get('currentAddress');
@@ -663,7 +666,7 @@ export class AddressDetailsComponent implements OnInit {
     const currLandmark = currentAddress.get('nearestLandmark');
     const currLandlineNumber = currentAddress.get('landlineNumber');
     const currMobileNumber = currentAddress.get('mobileNumber');
-     
+
 
     const ofcAddressLineOne = officeAddress.get('addressLineOne');
     const ofcAddressLineTwo = officeAddress.get('addressLineTwo');
@@ -680,7 +683,7 @@ export class AddressDetailsComponent implements OnInit {
     this.addlistenerForCurrOfc(currLandmark, ofcLandmark);
     this.addlistenerForCurrOfc(currLandlineNumber, ofcLandlineNumber);
     this.addlistenerForCurrOfc(currMobileNumber, ofcMobileNumber);
-    
+
   }
 
   listenerForRegisterAddress() {
@@ -729,11 +732,11 @@ export class AddressDetailsComponent implements OnInit {
 
   }
 
-  addlistenerForCurrOfc(mainControl, subControl){
+  addlistenerForCurrOfc(mainControl, subControl) {
     mainControl.valueChanges.subscribe((value) => {
-        if (this.isCurrAddSameAsOffAdd == '1' && this.onCurrAsOfficeChecked) {
-          subControl.setValue(value || null)
-        }
+      if (this.isCurrAddSameAsOffAdd == '1' && this.onCurrAsOfficeChecked) {
+        subControl.setValue(value || null)
+      }
     })
   }
 
@@ -749,13 +752,13 @@ export class AddressDetailsComponent implements OnInit {
         currentAddress.patchValue({
           ...formValue,
         });
-        if(this.isCurrAddSameAsOffAdd == '1' && this.onCurrAsOfficeChecked){
+        if (this.isCurrAddSameAsOffAdd == '1' && this.onCurrAsOfficeChecked) {
           const ofcFormValue: AddressDetails = details.get('permanantAddress').value;
           const officeAddress = details.get('officeAddress');
           this.officePincode = this.permanantPincode;
           officeAddress.patchValue({
-          ...ofcFormValue,
-        });
+            ...ofcFormValue,
+          });
         }
       }
     } else {
@@ -773,10 +776,10 @@ export class AddressDetailsComponent implements OnInit {
 
 
 
-  currentCityChange(event){
+  currentCityChange(event) {
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
-     if(this.isCurrAddSameAsOffAdd=='1' && this.onCurrAsOfficeChecked){
+    if (this.isCurrAddSameAsOffAdd == '1' && this.onCurrAsOfficeChecked) {
       const formValue: AddressDetails = details.get('currentAddress').value;
       const officeAddress = details.get('officeAddress');
       this.officePincode = this.currentPincode;
@@ -847,24 +850,32 @@ export class AddressDetailsComponent implements OnInit {
     const modifyCurrentAdd = this.address.applicantDetails.modifyCurrentAddress;
     this.checkedModifyCurrent = modifyCurrentAdd == '1' ? true : false;
     this.showSrField = modifyCurrentAdd == '1' ? true : false;
+    this.disableCurrent = modifyCurrentAdd == '1' ? false : true;
 
     const srNumber = this.address.applicantDetails.srNumber;
     details.get('srNumber').setValue(srNumber)
 
-    const sameAppAddress=this.address.applicantDetails.isAddrSameAsApplicant
-    this.sameAsAppAddress= sameAppAddress=='1'? true : false;
-    this.sameAsAppAddress ? this.disableCurrent= true:  this.disableCurrent= false;
+    const sameAppAddress = this.address.applicantDetails.isAddrSameAsApplicant
+    this.apiAddressLead = sameAppAddress;
 
-    if(this.sameAsAppAddress && this.isSalesOrCredit=="credit"){
-      this.disableSameAppAddress= true;
+    this.sameAsAppAddress = sameAppAddress == '1' ? true : false;
+    if (this.sameAsAppAddress) {
+      this.disableCurrent = true
+    }
+    //this.sameAsAppAddress ? this.disableCurrent= true:  this.disableCurrent= false;
+
+    if (this.sameAsAppAddress && this.isSalesOrCredit == "credit") {
+      this.disableSameAppAddress = true;
     }
     this.successSrValue = this.address.applicantDetails.srNumber;
     this.validateSrBoolean = this.storeSRNumber ? true : false;
 
     const addressObj = this.getAddressObj();
     const permanentAddressObj = addressObj[Constant.PERMANENT_ADDRESS];
-      const currentAddressVariable = details.get('currentAddress');
+    const currentAddressVariable = details.get('currentAddress');
+    this.apiCurrentCheckBox = permanentAddressObj.isCurrAddSameAsPermAdd == '1' ? '1' : '0'
     if (permanentAddressObj && permanentAddressObj.isCurrAddSameAsPermAdd == '1') {
+
       this.isCurrAddSameAsPermAdd = '1';
       this.onPerAsCurChecked = true;
       currentAddressVariable.get('addressLineOne').disable();
@@ -877,33 +888,34 @@ export class AddressDetailsComponent implements OnInit {
       currentAddressVariable.get('country').disable();
       currentAddressVariable.get('landlineNumber').disable();
       currentAddressVariable.get('nearestLandmark').disable();
-    }else{
+    } else {
       this.onPerAsCurChecked = false;
       this.isCurrAddSameAsPermAdd = '0';
-      if(this.address.ucic){
-         this.disableCurrent = true;
+      if (this.address.ucic) {
+        this.disableCurrent = true;
         currentAddressVariable.disable();
-      }else{
+      } else {
         currentAddressVariable.enable();
       }
-     
+
     }
 
 
     if (permanentAddressObj) {
       this.permanantPincode = this.formatPincodeData(permanentAddressObj)
-      
+
       const permenantAddress = details.get('permanantAddress');
-      this.sameAsAppAddress? permenantAddress.disable(): null;
+      this.sameAsAppAddress ? permenantAddress.disable() : null;
       permenantAddress.patchValue(this.setAddressValues(permanentAddressObj));
     }
 
-   
+
     const currentAddressObj =
       addressObj[Constant.CURRENT_ADDRESS] || addressObj['COMMADDADDTYP'];
+    this.apiOfficeCheckBox = currentAddressObj.isCurrAddSameAsOffAdd == '1' ? '1' : '0'
 
-    if ( currentAddressObj && currentAddressObj.isCurrAddSameAsOffAdd == '1') {
-      this.isCurrAddSameAsOffAdd="1"
+    if (currentAddressObj && currentAddressObj.isCurrAddSameAsOffAdd == '1') {
+      this.isCurrAddSameAsOffAdd = "1"
       this.onCurrAsOfficeChecked = true;
       const formArray = this.addressForm.get('details') as FormArray;
       const details = formArray.at(0);
@@ -911,8 +923,8 @@ export class AddressDetailsComponent implements OnInit {
       details.get('officeAddress').get('pobox').enable();
 
     }
-    else{
-      this.isCurrAddSameAsOffAdd="0";
+    else {
+      this.isCurrAddSameAsOffAdd = "0";
       this.onCurrAsOfficeChecked = false;
 
     }
@@ -921,7 +933,7 @@ export class AddressDetailsComponent implements OnInit {
     if (currentAddressObj) {
       this.currentPincode = this.formatPincodeData(currentAddressObj)
       const currentAddress = details.get('currentAddress');
-      if(this.sameAsAppAddress){
+      if (this.sameAsAppAddress) {
         currentAddress.disable()
       }
       //this.sameAsAppAddress? currentAddress.disable(): currentAddress.enable()
@@ -937,7 +949,7 @@ export class AddressDetailsComponent implements OnInit {
     const officeAddressObj = addressObj[Constant.OFFICE_ADDRESS];
     if (officeAddressObj) {
       this.officePincode = this.formatPincodeData(officeAddressObj)
-      
+
       const officeAddress = details.get('officeAddress');
       officeAddress.patchValue(this.setAddressValues(officeAddressObj));
       officeAddress.patchValue({
@@ -956,6 +968,7 @@ export class AddressDetailsComponent implements OnInit {
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
     const registeredAddressObj = addressObj[Constant.REGISTER_ADDRESS];
+    this.apiCommunicationCheckBox = registeredAddressObj.isCurrAddSameAsPermAdd == '1' ? '1' : '0'
     if (registeredAddressObj.isCurrAddSameAsPermAdd == '1') {
       this.isRegSameAsCommAdd = '1'
       this.onRegAsCommChecked = true;
@@ -965,7 +978,7 @@ export class AddressDetailsComponent implements OnInit {
       communicationAddressVariable.disable();
       communicationAddressVariable.get('pobox').enable();
 
-    }else{
+    } else {
       this.isRegSameAsCommAdd = '0'
       this.onRegAsCommChecked = false;
     }
@@ -1019,15 +1032,15 @@ export class AddressDetailsComponent implements OnInit {
     return addressObj;
   }
 
-  onAddSameAsApplicant(event){
-    const isChecked= event.target.checked;
-    if(isChecked){
-      this.sameAsAppAddress= true;
+  onAddSameAsApplicant(event) {
+    const isChecked = event.target.checked;
+    if (isChecked) {
+      this.sameAsAppAddress = true;
       const data = {
         leadId: this.leadId
       }
-      this.applicantService.getAddressDetails(data).subscribe((res)=>{
-        if(res['ProcessVariables'].error.code=='0'){
+      this.applicantService.getAddressDetails(data).subscribe((res) => {
+        if (res['ProcessVariables'].error.code == '0') {
           this.leadAppAddressDetails = res['ProcessVariables'].addressDetails;
           if (this.leadAppAddressDetails !== null) {
             this.setLeadAppAddressDetails();
@@ -1035,26 +1048,26 @@ export class AddressDetailsComponent implements OnInit {
             this.toasterService.showInfo(
               'There is no main applicant address datas', ''
             );
-            this.sameAsAppAddress= false;
+            this.sameAsAppAddress = false;
           }
-        }else{
+        } else {
           this.toasterService.showError(
             res['ProcessVariables'].error.message,
             'Address Details'
           );
         }
       })
-    }else if(!isChecked){
-       this.sameAsAppAddress= false;
-       this.disableCurrent=false;
-       const formArray = this.addressForm.get('details') as FormArray;
+    } else if (!isChecked) {
+      this.sameAsAppAddress = false;
+      this.disableCurrent = false;
+      const formArray = this.addressForm.get('details') as FormArray;
       const details = formArray.at(0);
       details.get('permanantAddress').enable();
       details.get('currentAddress').enable();
       details.get('permanantAddress').reset();
       details.get('currentAddress').reset();
-      if(this.onCurrAsOfficeChecked){
-        this.onCurrAsOfficeChecked= false;
+      if (this.onCurrAsOfficeChecked) {
+        this.onCurrAsOfficeChecked = false;
         details.get('officeAddress').enable();
       }
     }
@@ -1085,16 +1098,16 @@ export class AddressDetailsComponent implements OnInit {
   }
 
 
-  setLeadAppAddressDetails(){
+  setLeadAppAddressDetails() {
     const formArray = this.addressForm.get('details') as FormArray;
-      const details = formArray.at(0);
-      const permentAddress = details.get('permanantAddress');
+    const details = formArray.at(0);
+    const permentAddress = details.get('permanantAddress');
     const currentAddress = details.get('currentAddress');
     const addressObj = this.getLeadAddress();
 
     const permenantAddressObj = addressObj[Constant.PERMANENT_ADDRESS];
-    this.permanantPincode= this.formatPincodeData(permenantAddressObj);
-    if(!!this.setAddressValues(permenantAddressObj)){
+    this.permanantPincode = this.formatPincodeData(permenantAddressObj);
+    if (!!this.setAddressValues(permenantAddressObj)) {
       permentAddress.patchValue(
         this.setAddressValues(permenantAddressObj)
       );
@@ -1106,12 +1119,12 @@ export class AddressDetailsComponent implements OnInit {
         this.setAddressValues(currentAddressObj)
       );
     }
-    this.disableCurrent= true;
-    this.onPerAsCurChecked=false;
-    this.isCurrAddSameAsPermAdd='0'
+    this.disableCurrent = true;
+    this.onPerAsCurChecked = false;
+    this.isCurrAddSameAsPermAdd = '0'
     permentAddress.disable();
     currentAddress.disable();
-    
+
   }
 
   clearFormArray() {
@@ -1128,13 +1141,13 @@ export class AddressDetailsComponent implements OnInit {
       this.onPerAsCurChecked = true;
       const formArray = this.addressForm.get('details') as FormArray;
       const details = formArray.at(0);
-      if(this.onCurrAsOfficeChecked){
+      if (this.onCurrAsOfficeChecked) {
         details.get('officeAddress').reset();
         details.get('officeAddress').enable();
         this.onCurrAsOfficeChecked = false;
-        this.isCurrAddSameAsOffAdd='0'
+        this.isCurrAddSameAsOffAdd = '0'
       }
-     
+
     } else if (!isChecked) {
       const formArray = this.addressForm.get('details') as FormArray;
       const details = formArray.at(0);
@@ -1144,16 +1157,16 @@ export class AddressDetailsComponent implements OnInit {
 
       currentAddress.reset();
       // this.onPerAsCurChecked = false;
-      
-      if(this.onCurrAsOfficeChecked){
+
+      if (this.onCurrAsOfficeChecked) {
         this.onCurrAsOfficeChecked = false;
-      
+
         details.get('officeAddress').enable();
         details.get('officeAddress').reset();
-        
+
 
       }
-     
+
     }
 
 
@@ -1161,7 +1174,7 @@ export class AddressDetailsComponent implements OnInit {
 
   officeSameAddress(event) {
     const isChecked = event.target.checked;
-    this.isCurrAddSameAsOffAdd = isChecked? '1' : '0' ;
+    this.isCurrAddSameAsOffAdd = isChecked ? '1' : '0';
     if (isChecked) {
       this.officePincode = this.currentPincode;
       this.getCurrentAddressValue();
@@ -1179,7 +1192,7 @@ export class AddressDetailsComponent implements OnInit {
 
   onSameRegistered(event) {
     const isChecked = event.target.checked;
-    this.isRegSameAsCommAdd= isChecked? '1' : '0';
+    this.isRegSameAsCommAdd = isChecked ? '1' : '0';
     if (isChecked) {
       this.communicationPincode = this.registeredPincode;
       this.getRegisteredAddressValue();
@@ -1283,14 +1296,14 @@ export class AddressDetailsComponent implements OnInit {
       control.get('srNumber').updateValueAndValidity();
       control.get('currentAddress').enable();
       this.onPerAsCurChecked = false;
-      this.isCurrAddSameAsPermAdd='0'
+      this.isCurrAddSameAsPermAdd = '0'
       this.disableCurrent = false;
-      if(this.onCurrAsOfficeChecked){
+      if (this.onCurrAsOfficeChecked) {
         this.onCurrAsOfficeChecked = false;
-      
+
         control.get('officeAddress').enable();
         control.get('officeAddress').reset();
-        
+
 
       }
 
@@ -1304,10 +1317,10 @@ export class AddressDetailsComponent implements OnInit {
       control.get('srNumber').setValue(null)
       control.get('currentAddress').disable();
       this.onPerAsCurChecked = true;
-      this.isCurrAddSameAsPermAdd='1'
+      this.isCurrAddSameAsPermAdd = '1'
       this.disableCurrent = true;
       this.SRNumberValidate = true;
-      
+
     }
   }
 
@@ -1338,7 +1351,7 @@ export class AddressDetailsComponent implements OnInit {
   validateSrNumber(event) {
     const value = event.target.value;
     if (value.length === 15 && (!this.successSR || !this.failureSR)) {
-      if(!this.successSrValue){
+      if (!this.successSrValue) {
         this.getSRNumberValidation(value);
         return;
       }
@@ -1352,7 +1365,7 @@ export class AddressDetailsComponent implements OnInit {
 
       }
     }
-    else{
+    else {
       this.SRNumberValidate = true;
     }
   }
@@ -1412,21 +1425,20 @@ export class AddressDetailsComponent implements OnInit {
           );
           return;
         }
-        const leadId = this.leadStoreService.getLeadId();
-        //this.applicantService.saveApplicant(data).subscribe((res) => {
-        const currentUrl = this.location.path();
-          // this.router.navigate([
-          //   `/pages/sales-applicant-details/${this.leadId}/document-upload`,
-          //   this.applicantId,
-          // ]);
-          // this.isSave= true;
-          // this.applicantDataService.setForSaveAddressDetails(true);
-          this.toasterService.showSuccess(
-            'Record Saved Successfully',
-            ''
-          );
-          this.apiValue=this.addressForm.value;
-  
+
+        this.toasterService.showSuccess(
+          'Record Saved Successfully',
+          ''
+        );
+        this.apiValue = this.addressForm.getRawValue();
+        if (this.isIndividual) {
+          this.apiAddressLead = this.sameAsAppAddress ? '1' : '0'
+          this.apiCurrentCheckBox = this.isCurrAddSameAsPermAdd
+          this.apiOfficeCheckBox = this.isCurrAddSameAsOffAdd
+        } else {
+          this.apiCommunicationCheckBox = this.isRegSameAsCommAdd
+        }
+
       });
     });
   }
@@ -1505,14 +1517,14 @@ export class AddressDetailsComponent implements OnInit {
       mobileNumber: currentData.get('mobileNumber').value,
       addressType: Constant.CURRENT_ADDRESS,
       accommodationType: currentData.get('accommodationType').value || '',
-      isCurrAddSameAsOffAdd: this.isCurrAddSameAsOffAdd ,
+      isCurrAddSameAsOffAdd: this.isCurrAddSameAsOffAdd,
       nearestLandmark: currentData.get('nearestLandmark').value,
 
       periodOfCurrentStay: Number(currentData.get('periodOfCurrentStay').value) || null,
 
     });
-    const data={
-      isAddrSameAsApplicant : this.sameAsAppAddress? '1' : '0'
+    const data = {
+      isAddrSameAsApplicant: this.sameAsAppAddress ? '1' : '0'
     }
     this.applicantDataService.setApplicantDetails(data);
     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);
@@ -1552,7 +1564,7 @@ export class AddressDetailsComponent implements OnInit {
       // periodOfCurrentStay: Number(registeredData.get('periodOfCurrentStay').value),
       mobileNumber: registeredData.get('mobileNumber').value,
       nearestLandmark: registeredData.get('nearestLandmark').value,
-      isCurrAddSameAsPermAdd:this.isRegSameAsCommAdd,
+      isCurrAddSameAsPermAdd: this.isRegSameAsCommAdd,
     });
 
     const communicationData = details.get('communicationAddress')
@@ -1566,39 +1578,63 @@ export class AddressDetailsComponent implements OnInit {
       pobox: communicationData.get('pobox').value
     });
     // }
-    
+
     this.applicantDataService.setAddressDetails(this.addressDetailsDataArray);
   }
 
   onNext() {
-    this.finalValue = this.addressForm.value;
-    const isValueCheck=this.objectComparisonService.compare(this.apiValue, this.finalValue)
-    // console.log(JSON.stringify(this.apiValue));
-    // console.log(JSON.stringify(this.finalValue));
-    // console.log(this.objectComparisonService.compare(this.apiValue, this.finalValue));
-    if(this.addressForm.invalid){
+    this.finalValue = this.addressForm.getRawValue();
+    const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.finalValue)
+    console.log(JSON.stringify(this.apiValue));
+    console.log(JSON.stringify(this.finalValue));
+    console.log(this.objectComparisonService.compare(this.apiValue, this.finalValue));
+    let isCheckBoxValue: boolean;
+    const addressLeadCheckBox = this.sameAsAppAddress ? '1' : '0'
+    if (this.isIndividual) {
+      if (addressLeadCheckBox !== this.apiAddressLead ||
+        this.isCurrAddSameAsPermAdd !== this.apiCurrentCheckBox ||
+        this.isCurrAddSameAsOffAdd !== this.apiOfficeCheckBox) {
+        isCheckBoxValue = false;
+        console.log('checkBox False')
+      } else {
+        isCheckBoxValue = true;
+        console.log('checkBox True')
+      }
+    } else {
+      if (
+        this.isRegSameAsCommAdd !== this.apiCommunicationCheckBox) {
+        isCheckBoxValue = false;
+        console.log('checkBox False')
+      } else {
+        isCheckBoxValue = true;
+        console.log('checkBox True')
+      }
+    }
+
+
+
+    if (this.addressForm.invalid) {
       this.toasterService.showInfo('Please SAVE details before proceeding', '');
       return;
     }
-    if(!isValueCheck){
+    if (!isValueCheck || !isCheckBoxValue) {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
-   
-      const url = this.location.path();
+    const url = this.location.path();
     localStorage.setItem('currentUrl', url);
     if (url.includes('sales')) {
       this.router.navigateByUrl(
         `pages/sales-applicant-details/${this.leadId}/document-upload/${this.applicantId}`
       );
-     
-    }else{
+
+    } else {
       this.router.navigateByUrl(
         `/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`
       );
     }
-    
-    
+
+
   }
 }
 

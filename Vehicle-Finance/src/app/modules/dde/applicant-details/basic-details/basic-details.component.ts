@@ -520,14 +520,14 @@ export class BasicDetailsComponent implements OnInit {
       //customerCategory: applicantDetails.customerCategory || ' ',
       custSegment: applicantDetails.custSegment || '',
     });
-    this.apiValue = this.basicForm.value;
+    this.apiValue = this.basicForm.getRawValue();
     if (this.isIndividual){
-      const dob= this.basicForm.value.details[0].dob
+      const dob= this.basicForm.getRawValue().details[0].dob
       this.apiValue.details[0].dob=this.utilityService.getDateFormat(dob)
     }else{
-      const doc=this.basicForm.value.details[0].dateOfIncorporation;
-      const externalRatingIssueDate=this.basicForm.value.details[0].externalRatingIssueDate;
-      const externalRatingExpiryDate=this.basicForm.value.details[0].externalRatingExpiryDate;
+      const doc=this.basicForm.getRawValue().details[0].dateOfIncorporation;
+      const externalRatingIssueDate=this.basicForm.getRawValue().details[0].externalRatingIssueDate;
+      const externalRatingExpiryDate=this.basicForm.getRawValue().details[0].externalRatingExpiryDate;
       this.apiValue.details[0].dateOfIncorporation=this.utilityService.getDateFormat(doc)
       this.apiValue.details[0].externalRatingIssueDate=this.utilityService.getDateFormat(externalRatingIssueDate)
       this.apiValue.details[0].externalRatingExpiryDate=this.utilityService.getDateFormat(externalRatingExpiryDate)
@@ -1371,7 +1371,19 @@ export class BasicDetailsComponent implements OnInit {
           'Record Saved Successfully',
           ''
         );
-        this.apiValue=this.basicForm.value;
+        this.apiValue=this.basicForm.getRawValue();
+
+        if (this.isIndividual){
+          const dob= this.basicForm.getRawValue().details[0].dob
+          this.apiValue.details[0].dob=this.utilityService.getDateFormat(dob)
+        }else{
+          const doc=this.basicForm.getRawValue().details[0].dateOfIncorporation;
+          const externalRatingIssueDate=this.basicForm.getRawValue().details[0].externalRatingIssueDate;
+          const externalRatingExpiryDate=this.basicForm.getRawValue().details[0].externalRatingExpiryDate;
+          this.apiValue.details[0].dateOfIncorporation=this.utilityService.getDateFormat(doc)
+          this.apiValue.details[0].externalRatingIssueDate=this.utilityService.getDateFormat(externalRatingIssueDate)
+          this.apiValue.details[0].externalRatingExpiryDate=this.utilityService.getDateFormat(externalRatingExpiryDate)
+        }
       }else{
         this.toasterService.showError(
           response.ProcessVariables.error.message,
@@ -1625,36 +1637,37 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   onNext() {
-    this.finalValue = this.basicForm.value;
+    this.finalValue = this.basicForm.getRawValue();
+    console.log('this.finalValue', this.finalValue)
     if (this.isIndividual){
-      if(this.applicant.ucic){
-        this.finalValue.details[0].name1=this.apiValue.details[0].name1
-        this.finalValue.details[0].name2=this.apiValue.details[0].name2
-        this.finalValue.details[0].name3=this.apiValue.details[0].name3
-        this.finalValue.details[0].mobilePhone=this.apiValue.details[0].mobilePhone
-        this.finalValue.details[0].dob=this.apiValue.details[0].dob
-        this.finalValue.details[0].gender=this.apiValue.details[0].gender
-      }
-      const dob= this.basicForm.value.details[0].dob
+      // if(this.applicant.ucic){
+      //   this.finalValue.details[0].name1=this.apiValue.details[0].name1
+      //   this.finalValue.details[0].name2=this.apiValue.details[0].name2
+      //   this.finalValue.details[0].name3=this.apiValue.details[0].name3
+      //   this.finalValue.details[0].mobilePhone=this.apiValue.details[0].mobilePhone
+      //   this.finalValue.details[0].dob=this.apiValue.details[0].dob
+      //   this.finalValue.details[0].gender=this.apiValue.details[0].gender
+      // }
+      const dob= this.basicForm.getRawValue().details[0].dob
       this.finalValue.details[0].dob=this.utilityService.getDateFormat(dob)
     }else{
-      if(this.applicant.ucic){
-        this.finalValue.details[0].name1=this.apiValue.details[0].name1
-        this.finalValue.details[0].name2=this.apiValue.details[0].name2
-        this.finalValue.details[0].name3=this.apiValue.details[0].name3
-        this.finalValue.details[0].companyPhoneNumber=this.apiValue.details[0].companyPhoneNumber
-        this.finalValue.details[0].dateOfIncorporation=this.apiValue.details[0].dateOfIncorporation
-      }
-      const doc=this.basicForm.value.details[0].dateOfIncorporation;
-      const externalRatingIssueDate=this.basicForm.value.details[0].externalRatingIssueDate;
-      const externalRatingExpiryDate=this.basicForm.value.details[0].externalRatingExpiryDate;
+      // if(this.applicant.ucic){
+      //   this.finalValue.details[0].name1=this.apiValue.details[0].name1
+      //   this.finalValue.details[0].name2=this.apiValue.details[0].name2
+      //   this.finalValue.details[0].name3=this.apiValue.details[0].name3
+      //   this.finalValue.details[0].companyPhoneNumber=this.apiValue.details[0].companyPhoneNumber
+      //   this.finalValue.details[0].dateOfIncorporation=this.apiValue.details[0].dateOfIncorporation
+      // }
+      const doc=this.basicForm.getRawValue().details[0].dateOfIncorporation;
+      const externalRatingIssueDate=this.basicForm.getRawValue().details[0].externalRatingIssueDate;
+      const externalRatingExpiryDate=this.basicForm.getRawValue().details[0].externalRatingExpiryDate;
       this.finalValue.details[0].dateOfIncorporation=this.utilityService.getDateFormat(doc)
       this.finalValue.details[0].externalRatingIssueDate=this.utilityService.getDateFormat(externalRatingIssueDate)
       this.finalValue.details[0].externalRatingExpiryDate=this.utilityService.getDateFormat(externalRatingExpiryDate)
     }
-    console.log(JSON.stringify(this.apiValue));
-    console.log(JSON.stringify(this.finalValue));
-    console.log(this.objectComparisonService.compare(this.apiValue, this.finalValue));
+    // console.log(JSON.stringify(this.apiValue));
+    // console.log(JSON.stringify(this.finalValue));
+    // console.log(this.objectComparisonService.compare(this.apiValue, this.finalValue));
     const isValueCheck=this.objectComparisonService.compare(this.apiValue, this.finalValue)
     if(this.basicForm.invalid){
       this.toasterService.showInfo('Please SAVE details before proceeding', '');
@@ -1664,6 +1677,7 @@ export class BasicDetailsComponent implements OnInit {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
+    
     
       this.router.navigate([
         `/pages/applicant-details/${this.leadId}/identity-details`,
