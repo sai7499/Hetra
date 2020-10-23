@@ -20,7 +20,7 @@
       </div>
         <div class="row">
       <div class="" id="applicantTable">
-        <table>
+        <table class="main-table">
           <thead>
             <tr class="table-head-bg">
               <th>{{ labels?.ucicId }} <i class="fa fa-sort"></i></th>
@@ -54,21 +54,48 @@
               </ng-container>
               <td [attr.data-label]="labels?.applicantType">{{ item.applicantType ? item.applicantType : '-' }}</td>
               <td [attr.data-label]="labels?.action">
-                <a (click)="navigatePage(item.applicantId)" title="Edit applicant"
-                  ><i  class="fa fa-pencil" aria-hidden="true"></i
+                <div class="flex-container">
+                  <div><a (click)="navigatePage(item.applicantId)" title="Edit applicant"
+                    ><i  class="fa fa-pencil icon p-0" aria-hidden="true"></i
+                  ></a></div>
+                  <div><a (click)="getApplicantImage(item.applicantId)"    
+                    [ngClass]="{'pointer_non': disableSaveBtn }"    
+                    data-toggle="modal"
+                    data-target="#myModal"
+                    (click)="softDeleteApplicant(i, item.applicantId)"
+                    title="Delete applicant"><i  class="fa fa-trash icon p-0" aria-hidden="true"></i
+                  ></a></div>
+                  <div> <a (click)="getApplicantImage(item.applicantId)" 
+                    data-toggle="modal"
+                      data-target="#myModalApplicantImage"
+                    title="View Bureau Report"> <strong class="icon">CB</strong></a></div>  
+                  <div><a data-toggle="modal"
+                    data-target="#myModalApplicanteKYC"  
+                    title="View applicant eKYC" (click)="geteKYCDetails(item.applicantId)"> 
+                    <strong class="icon">ER</strong>
+                  </a></div>
+                  
+                </div>
+                <a (click)="navigatePage(item.applicantId)" class="desktop-hide" title="Edit applicant"
+                  ><i  class="fa fa-pencil icon" aria-hidden="true"></i
                 ></a>
-                &nbsp;<a (click)="getApplicantImage(item.applicantId)"    
+                &nbsp;<a (click)="getApplicantImage(item.applicantId)"  class="desktop-hide"    
                   [ngClass]="{'pointer_non': disableSaveBtn }"    
                   data-toggle="modal"
                   data-target="#myModal"
                   (click)="softDeleteApplicant(i, item.applicantId)"
-                  title="Delete applicant"><i  class="fa fa-trash" aria-hidden="true"></i
+                  title="Delete applicant"><i  class="fa fa-trash icon" aria-hidden="true"></i
                 ></a> &nbsp;
-                <a (click)="getApplicantImage(item.applicantId)" 
+                <a (click)="getApplicantImage(item.applicantId)"  class="desktop-hide" 
                 data-toggle="modal"
                   data-target="#myModalApplicantImage"
-                title="View Bureau Report"> <strong>CB</strong></a>
+                title="View Bureau Report"> <strong class="icon" >CB</strong></a>
                 &nbsp;
+                <a data-toggle="modal"  class="desktop-hide" 
+                  data-target="#myModalApplicanteKYC"  
+                  title="View applicant eKYC" (click)="geteKYCDetails(item.applicantId)"> 
+                  <strong class="icon">ER</strong>
+                </a>
                 <!-- <a data-toggle="modal"
                   data-target="#myModalApplicanteKYC"  
                   title="View applicant eKYC" (click)="geteKYCDetails(item.applicantId)"> 
@@ -207,24 +234,24 @@
             </div>
           </div>  
         </div>
-        <div class="modal-body" >
+        <!-- <div class="modal-body" >
           <div>
-            <!--applicant eKYC details-->
+            applicant eKYC details-->
             <!-- <app-applicant-kyc-details></app-applicant-kyc-details> -->
             
             <!-- <div [innerHTML]="img" style="overflow: scroll;" ></div>  -->
             <div style="overflow: scroll;">
               <img [src]="imgeKYC" alt="applicant eKYC Details" style="width:100%;"/>
             </div>
-           
+            
             <!--end-->
-          </div>     
+          <!-- </div>     
         <div class="modal-footer mod-footer text-center">
           <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="destroyeKYCImage()">
             Close
           </button>
         </div>
-      </div>
+      </div> --> 
     </div>
   </div>
   </div>
@@ -264,7 +291,7 @@
   <main id="ekyc-to-print" class="dontdisplayed">
     <div class="content-two">
       <div class="row">
-        <div class="main-div-contents" *ngIf="panDetails">
+        <div class="main-div-contents" >
           <div class="tablewithheading">
             <table class="table table-responsive">
               <thead>
@@ -286,12 +313,21 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class=" text-center">
+                <tr
+               
+              >
+              <td [attr.data-label]="labels?.title">{{panDetails?.nsdlPanTitle}}</td>
+              <td [attr.data-label]="labels?.firstName">{{panDetails?.nsdlFirstName}}</td>
+              <td [attr.data-label]="labels?.middleName">{{panDetails?.nsdlMiddleName}}</td>
+              <td [attr.data-label]="labels?.lastName">{{panDetails?.nsdlLastName}}</td>
+            </tr>
+               
+                <!-- <tr class=" text-center">
                   <td>{{panDetails?.nsdlPanTitle}}</td>
                   <td>{{panDetails?.nsdlFirstName}}</td>
                   <td>{{panDetails?.nsdlMiddleName}}</td>
                   <td>{{panDetails?.nsdlLastName}}</td>
-                </tr>
+                </tr> -->
               </tbody>
             </table>
           </div>
@@ -318,17 +354,27 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class=" text-center">
+                <tr
+                *ngFor="
+                  let item of applicantList;                  
+                  let i = index
+                "
+              >
+              <td [attr.data-label]="labels?.foundnl">{{appicanteKYCDetails?.foundNL}}</td>
+              <td [attr.data-label]="labels?.foundnltr">{{appicanteKYCDetails?.foundNLTR}}</td>
+              <td [attr.data-label]="labels?.remark">{{appicanteKYCDetails?.nlRemarks}}</td>
+            </tr>
+                <!-- <tr class=" text-center">
                   <td>{{appicanteKYCDetails?.foundNL}}</td>
                   <td>{{appicanteKYCDetails?.foundNLTR}}</td>
                   <td>{{appicanteKYCDetails?.nlRemarks}}</td>
-                </tr>
+                </tr> -->
               </tbody>
             </table>
           </div>
         </div>
   
-        <div class="main-div-contents" *ngIf="adhaarDetails">
+        <div class="main-div-contents" >
           <div>
             <table class="table table-responsive">
               <thead>
@@ -415,7 +461,7 @@
           </div>
         </div>
   
-        <div class="main-div-contents" *ngIf="dedupeMatchedCriteria">
+        <div class="main-div-contents" >
           <div>
             <table class="table table-responsive">
               <thead>
@@ -440,22 +486,27 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="text-center">
-                  <td>{{dedupeMatchedCriteria?.firstName}}</td>
-                  <td>{{dedupeMatchedCriteria?.dob}}</td>
-                  <td>{{dedupeMatchedCriteria?.motherMaidenName}}</td>
-                  <td>{{dedupeMatchedCriteria?.mobilePhone}}</td>
-                  <td>{{dedupeMatchedCriteria?.pan}}</td>
-                  <td>{{dedupeMatchedCriteria?.aadhar}}</td>
-                  <td>{{dedupeMatchedCriteria?.passport}}</td>
-                </tr>
-  
+                <tr
+                *ngFor="
+                  let item of applicantList;                  
+                  let i = index
+                "
+              >
+              <td [attr.data-label]="labels?.name">{{dedupeMatchedCriteria?.firstName}}</td>
+              <td [attr.data-label]="labels?.dob">{{dedupeMatchedCriteria?.dob}}</td>
+              <td [attr.data-label]="labels?.maidenName">{{dedupeMatchedCriteria?.motherMaidenName}}</td>
+              <td [attr.data-label]="labels?.mobileNumber">{{dedupeMatchedCriteria?.mobilePhone}}</td>
+              <td [attr.data-label]="labels?.pannumber">{{dedupeMatchedCriteria?.pan}}</td>
+              <td [attr.data-label]="labels?.aadharnumber">{{dedupeMatchedCriteria?.aadhar}}</td>
+              <td [attr.data-label]="labels?.passportNumber">{{dedupeMatchedCriteria?.passport}}</td>
+            </tr>
+                
               </tbody>
             </table>
           </div>
         </div>
   
-        <div class="main-div-contents" *ngIf="exactMatches">
+        <div class="main-div-contents" >
           <div>
             <table class="table table-responsive">
               <thead>
@@ -481,23 +532,29 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class=" text-center" *ngFor="let exactitem of exactMatches">
-                  <td>{{exactitem?.ucic}}</td>
-                  <td>{{exactitem?.fullName}}</td>
-                  <td>{{exactitem?.matchedCriteria}}</td>
-                  <td>{{exactitem?.dob}}</td>
-                  <td>{{exactitem?.motherMaidenName}}</td>
-                  <td>{{exactitem?.mobilePhone}}</td>
-                  <td>{{exactitem?.pan}}</td>
-                  <td>{{exactitem?.aadhar}}</td>
-                </tr>
+                <tr
+                *ngFor="
+                  let item of applicantList;                  
+                  let i = index
+                "
+              >
+              <td [attr.data-label]="labels?.ucicId">{{exactitem?.ucic}}</td>
+              <td [attr.data-label]="labels?.firstName">{{exactitem?.firstName}}</td>
+              <td [attr.data-label]="labels?.matchedCriteria">{{exactitem?.matchedCriteria}}</td>
+              <td [attr.data-label]="labels?.dob">{{exactitem?.dob}}</td>
+              <td [attr.data-label]="labels?.maidenName">{{exactitem?.motherMaidenName}}</td>
+              <td [attr.data-label]="labels?.mobileNumber">{{exactitem?.mobilePhone}}</td>
+              <td [attr.data-label]="labels?.pannumber">{{exactitem?.pan}}</td>
+              <td [attr.data-label]="labels?.aadharnumber">{{exactitem?.aadhar}}</td>
+            </tr>
+                
   
               </tbody>
             </table>
           </div>
         </div>
   
-        <div class="main-div-contents" *ngIf="probableMatches">
+        <div class="main-div-contents" >
           <div>
             <table class="table table-responsive">
               <thead>
@@ -524,18 +581,23 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class=" text-center" *ngFor="let probableitem of probableMatches">
-                  <td>{{probableitem?.ucic}}</td>
-                  <td>{{probableitem?.fullName}}</td>
-                  <td>{{probableitem?.matchedCriteria}}</td>
-                  <td>{{probableitem?.dob ? probableitem?.dob : '-'}}</td>
-                  <td>{{probableitem?.motherMaidenName}}</td>
-                  <td>{{probableitem?.mobilePhone}}</td>
-                  <td>{{probableitem?.pan}}</td>
-                  <td>{{probableitem?.aadhar}}</td>
-                  <td>{{probableitem?.passport}}</td>
-                </tr>
-  
+                <tr
+                *ngFor="
+                  let item of applicantList;                  
+                  let i = index
+                "
+              >
+              <td [attr.data-label]="labels?.ucicId">{{probableitem?.ucic}}</td>
+              <td [attr.data-label]="labels?.firstName">{{probableitem?.firstName}}</td>
+              <td [attr.data-label]="labels?.matchedCriteria">{{probableitem?.motherMaidenName}}</td>
+              <td [attr.data-label]="labels?.dob">{{probableitem?.dob}}</td>
+              <td [attr.data-label]="labels?.maidenName">{{probableitem?.motherMaidenName}}</td>
+              <td [attr.data-label]="labels?.mobileNumber">{{probableitem?.mobilePhone}}</td>
+              <td [attr.data-label]="labels?.pannumber">{{probableitem?.pan}}</td>
+              <td [attr.data-label]="labels?.aadharnumber">{{probableitem?.aadhar}}</td>
+              <td [attr.data-label]="labels?.passportNumber">{{probableitem?.passport}}</td>
+            </tr>
+             
               </tbody>
             </table>
           </div>
