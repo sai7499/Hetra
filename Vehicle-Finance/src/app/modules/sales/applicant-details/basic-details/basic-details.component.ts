@@ -143,7 +143,7 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray;
     this.validation = formArray.at(0);
     this.leadId = (await this.getLeadId()) as number;
-    this.isSave=this.applicantDataService.getForSaveBasicDetails()
+    //this.isSave=this.applicantDataService.getForSaveBasicDetails()
 
   }
   getLeadSectiondata() {
@@ -241,6 +241,10 @@ export class BasicDetailsComponent implements OnInit {
       details.get('ownHouseAppRelationship').clearValidators();
       details.get('houseOwnerProperty').updateValueAndValidity();
       details.get('ownHouseAppRelationship').updateValueAndValidity();
+      details.patchValue({
+        houseOwnerProperty : '',
+        ownHouseAppRelationship : ''
+      })
     }
   }
 
@@ -433,15 +437,15 @@ export class BasicDetailsComponent implements OnInit {
     }
   }
 
-  @HostListener('change') ngOnChanges($event) {
-    this.isSave = false;
-  }
+  // @HostListener('change') ngOnChanges($event) {
+  //   this.isSave = false;
+  // }
 
-  @HostListener('keydown', ['$event'])
+  // @HostListener('keydown', ['$event'])
 
-  onkeyup(event) {
-    this.isSave = false;
-  }
+  // onkeyup(event) {
+  //   this.isSave = false;
+  // }
 
   onCustCategoryChanged(event) {
     this.custCatValue = event.target.value;
@@ -492,6 +496,7 @@ export class BasicDetailsComponent implements OnInit {
       this.addIndividualFormControls();
       this.setValuesForIndividual();
       this.initiallayAgecal(dob);
+      
 
 
     } else {
@@ -538,7 +543,20 @@ export class BasicDetailsComponent implements OnInit {
       agriAppRelationship: applicantDetails.agriAppRelationship || '',
       grossReceipt: applicantDetails.grossReceipt,
     });
+    console.log('this.basicForm.value', this.basicForm.value)
     this.apiValue = this.basicForm.value;
+    if (this.isIndividual){
+      const dob= this.basicForm.value.details[0].dob
+      this.apiValue.details[0].dob=this.utilityService.getDateFormat(dob)
+    }else{
+      const doc=this.basicForm.value.details[0].dateOfIncorporation;
+      // const externalRatingIssueDate=this.basicForm.value.details[0].externalRatingIssueDate;
+      // const externalRatingExpiryDate=this.basicForm.value.details[0].externalRatingExpiryDate;
+       this.apiValue.details[0].dateOfIncorporation=this.utilityService.getDateFormat(doc)
+      // this.apiValue.details[0].externalRatingIssueDate=this.utilityService.getDateFormat(externalRatingIssueDate)
+      // this.apiValue.details[0].externalRatingExpiryDate=this.utilityService.getDateFormat(externalRatingExpiryDate)
+    }
+    
   }
 
   removeApplicantRelationControl() {
@@ -872,12 +890,13 @@ export class BasicDetailsComponent implements OnInit {
         //   `/pages/sales-applicant-details/${leadId}/identity-details`,
         //   this.applicantId,
         // ]);
-        this.isSave= true;
-        this.applicantDataService.setForSaveBasicDetails(true);
+        // this.isSave= true;
+        // this.applicantDataService.setForSaveBasicDetails(true);
         this.toasterService.showSuccess(
           'Record Saved Successfully',
           ''
         );
+        this.apiValue=this.basicForm.value;
       }else{
         this.toasterService.showError(
           res.ProcessVariables.error.message,
@@ -1074,10 +1093,48 @@ export class BasicDetailsComponent implements OnInit {
 
   onNext() {
       this.finalValue = this.basicForm.value;
-      console.log(JSON.stringify(this.apiValue));
-      console.log(JSON.stringify(this.finalValue));
-      console.log(this.objectComparisonService.compare(this.apiValue, this.finalValue));
-      return;
+      //console.log('basicFrm',this.basicForm.value)
+      if (this.isIndividual){
+        if(this.applicant.ucic){
+          this.finalValue.details[0].name1=this.apiValue.details[0].name1
+          this.finalValue.details[0].name2=this.apiValue.details[0].name2
+          this.finalValue.details[0].name3=this.apiValue.details[0].name3
+          this.finalValue.details[0].mobilePhone=this.apiValue.details[0].mobilePhone
+          this.finalValue.details[0].dob=this.apiValue.details[0].dob
+          this.finalValue.details[0].gender=this.apiValue.details[0].gender
+        }
+        const dob= this.basicForm.value.details[0].dob
+        this.finalValue.details[0].dob=this.utilityService.getDateFormat(dob)
+      }else{
+        if(this.applicant.ucic){
+          this.finalValue.details[0].name1=this.apiValue.details[0].name1
+          this.finalValue.details[0].name2=this.apiValue.details[0].name2
+          this.finalValue.details[0].name3=this.apiValue.details[0].name3
+          this.finalValue.details[0].companyPhoneNumber=this.apiValue.details[0].companyPhoneNumber
+          this.finalValue.details[0].dateOfIncorporation=this.apiValue.details[0].dateOfIncorporation
+        }
+       
+        const doc=this.basicForm.value.details[0].dateOfIncorporation;
+        // const externalRatingIssueDate=this.basicForm.value.details[0].externalRatingIssueDate;
+        // const externalRatingExpiryDate=this.basicForm.value.details[0].externalRatingExpiryDate;
+        this.finalValue.details[0].dateOfIncorporation=this.utilityService.getDateFormat(doc)
+        // this.finalValue.details[0].externalRatingIssueDate=this.utilityService.getDateFormat(externalRatingIssueDate)
+        // this.finalValue.details[0].externalRatingExpiryDate=this.utilityService.getDateFormat(externalRatingExpiryDate)
+      }
+      // console.log(JSON.stringify(this.apiValue));
+      //  console.log(JSON.stringify(this.finalValue));
+      // console.log(this.objectComparisonService.compare(this.apiValue, this.finalValue));
+
+      const isValueCheck=this.objectComparisonService.compare(this.apiValue, this.finalValue)
+      if(this.basicForm.invalid){
+        this.toasterService.showInfo('Please SAVE details before proceeding', '');
+        return;
+      }
+      if(!isValueCheck){
+        this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
+        return;
+      }
+      
       if(this.mobileNumberChange){
         this.router.navigateByUrl(
           `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
@@ -1091,5 +1148,5 @@ export class BasicDetailsComponent implements OnInit {
     }
       
      
-  }
+  
 }
