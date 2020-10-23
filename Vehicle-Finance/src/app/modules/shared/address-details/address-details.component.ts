@@ -27,6 +27,7 @@ import { constants } from 'os';
 import { ToasterService } from '@services/toaster.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { AgmFitBounds } from '@agm/core';
+import { ObjectComparisonService } from '@services/obj-compare.service';
 
 @Component({
   selector: 'app-address-details',
@@ -107,6 +108,12 @@ export class AddressDetailsComponent implements OnInit {
   validateSrBoolean: boolean;
   successSrValue: string;
   storeSRNumber : any;
+  apiValue: any;
+  finalValue: any;
+  apiCurrentCheckBox= '0';
+  apiOfficeCheckBox = '0';
+  apiAddressLead = '0';
+  apiCommunicationCheckBox= '0';
 
 
   constructor(
@@ -121,7 +128,8 @@ export class AddressDetailsComponent implements OnInit {
     private location: Location,
     private utilityService: UtilityService,
     private toasterService: ToasterService,
-    private toggleDdeService: ToggleDdeService
+    private toggleDdeService: ToggleDdeService,
+    private objectComparisonService: ObjectComparisonService
   ) { }
 
   async ngOnInit() {
@@ -142,7 +150,6 @@ export class AddressDetailsComponent implements OnInit {
         this.getAddressDetails();
       });
     });
-    this.isSave=this.applicantDataService.getForSaveAddressDetails()
   }
 
   listenerForOfficeAddress() {
@@ -608,6 +615,7 @@ export class AddressDetailsComponent implements OnInit {
         this.listenerForRegisterAddress();
       })
     }
+    this.apiValue = this.addressForm.getRawValue();
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
       if (operationType) {
@@ -842,13 +850,19 @@ export class AddressDetailsComponent implements OnInit {
     const modifyCurrentAdd = this.address.applicantDetails.modifyCurrentAddress;
     this.checkedModifyCurrent = modifyCurrentAdd == '1' ? true : false;
     this.showSrField = modifyCurrentAdd == '1' ? true : false;
+    this.disableCurrent= modifyCurrentAdd == '1' ? false : true;
 
     const srNumber = this.address.applicantDetails.srNumber;
     details.get('srNumber').setValue(srNumber)
 
     const sameAppAddress=this.address.applicantDetails.isAddrSameAsApplicant
+    this.apiAddressLead= sameAppAddress;
+    
     this.sameAsAppAddress= sameAppAddress=='1'? true : false;
-    this.sameAsAppAddress ? this.disableCurrent= true:  this.disableCurrent= false;
+    if(this.sameAsAppAddress){
+      this.disableCurrent= true
+    }
+    //this.sameAsAppAddress ? this.disableCurrent= true:  this.disableCurrent= false;
 
     if(this.sameAsAppAddress && this.isSalesOrCredit=="credit"){
       this.disableSameAppAddress= true;
@@ -859,7 +873,9 @@ export class AddressDetailsComponent implements OnInit {
     const addressObj = this.getAddressObj();
     const permanentAddressObj = addressObj[Constant.PERMANENT_ADDRESS];
       const currentAddressVariable = details.get('currentAddress');
+      this.apiCurrentCheckBox=permanentAddressObj.isCurrAddSameAsPermAdd=='1' ? '1' : '0'
     if (permanentAddressObj && permanentAddressObj.isCurrAddSameAsPermAdd == '1') {
+      
       this.isCurrAddSameAsPermAdd = '1';
       this.onPerAsCurChecked = true;
       currentAddressVariable.get('addressLineOne').disable();
@@ -896,6 +912,7 @@ export class AddressDetailsComponent implements OnInit {
    
     const currentAddressObj =
       addressObj[Constant.CURRENT_ADDRESS] || addressObj['COMMADDADDTYP'];
+      this.apiOfficeCheckBox= currentAddressObj.isCurrAddSameAsOffAdd =='1' ? '1' : '0'
 
     if ( currentAddressObj && currentAddressObj.isCurrAddSameAsOffAdd == '1') {
       this.isCurrAddSameAsOffAdd="1"
@@ -951,6 +968,7 @@ export class AddressDetailsComponent implements OnInit {
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
     const registeredAddressObj = addressObj[Constant.REGISTER_ADDRESS];
+    this.apiCommunicationCheckBox= registeredAddressObj.isCurrAddSameAsPermAdd=='1' ? '1' : '0'
     if (registeredAddressObj.isCurrAddSameAsPermAdd == '1') {
       this.isRegSameAsCommAdd = '1'
       this.onRegAsCommChecked = true;
@@ -1407,19 +1425,19 @@ export class AddressDetailsComponent implements OnInit {
           );
           return;
         }
-        const leadId = this.leadStoreService.getLeadId();
-        //this.applicantService.saveApplicant(data).subscribe((res) => {
-        const currentUrl = this.location.path();
-          // this.router.navigate([
-          //   `/pages/sales-applicant-details/${this.leadId}/document-upload`,
-          //   this.applicantId,
-          // ]);
-          this.isSave= true;
-          this.applicantDataService.setForSaveAddressDetails(true);
+       
           this.toasterService.showSuccess(
             'Record Saved Successfully',
             ''
           );
+          this.apiValue=this.addressForm.getRawValue();
+          if(this.isIndividual){
+             this.apiAddressLead = this.sameAsAppAddress? '1' : '0'
+             this.apiCurrentCheckBox = this.isCurrAddSameAsPermAdd
+             this.apiOfficeCheckBox= this.isCurrAddSameAsOffAdd
+          }else{
+              this.apiCommunicationCheckBox=this.isRegSameAsCommAdd
+          }
   
       });
     });
@@ -1565,15 +1583,48 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   onNext() {
+    this.finalValue = this.addressForm.getRawValue();
+    const isValueCheck=this.objectComparisonService.compare(this.apiValue, this.finalValue)
+    console.log(JSON.stringify(this.apiValue));
+    console.log(JSON.stringify(this.finalValue));
+    console.log(this.objectComparisonService.compare(this.apiValue, this.finalValue));
+    let isCheckBoxValue : boolean;
+    const addressLeadCheckBox= this.sameAsAppAddress? '1' : '0'
+    if(this.isIndividual){
+      if(addressLeadCheckBox !== this.apiAddressLead ||
+        this.isCurrAddSameAsPermAdd !== this.apiCurrentCheckBox ||
+        this.isCurrAddSameAsOffAdd !== this.apiOfficeCheckBox)
+        {
+          isCheckBoxValue = false;
+          console.log('checkBox False')
+        }else{
+          isCheckBoxValue = true;
+          console.log('checkBox True')
+        }
+    }else{
+      if(
+        this.isRegSameAsCommAdd !== this.apiCommunicationCheckBox)
+        {
+          isCheckBoxValue = false;
+          console.log('checkBox False')
+        }else{
+          isCheckBoxValue = true;
+          console.log('checkBox True')
+        }
+    }
+    
+
+    
     if(this.addressForm.invalid){
       this.toasterService.showInfo('Please SAVE details before proceeding', '');
       return;
     }
-    if(!this.isSave){
+    if(!isValueCheck || !isCheckBoxValue){
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
-    if(this.isSave){
+    return;
+   
       const url = this.location.path();
     localStorage.setItem('currentUrl', url);
     if (url.includes('sales')) {
@@ -1585,7 +1636,6 @@ export class AddressDetailsComponent implements OnInit {
       this.router.navigateByUrl(
         `/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`
       );
-    }
     }
     
     
