@@ -11,6 +11,7 @@ import { CommomLovService } from '@services/commom-lov-service';
 import { PdDataService } from '../pd-data.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 // import { MessageService } from '@progress/kendo-angular-l10n';
 @Component({
@@ -54,6 +55,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
   //   rule: 40,
   //   msg: '',
   // };
+  leadData: any;
   isDirty: boolean;
   applicantId: number;
   version: string;
@@ -67,6 +69,10 @@ export class CustomerProfileDetailsComponent implements OnInit {
   addressStatus: any;
   addressDisabled: boolean;
   addressRequired: boolean;
+  entityTypeKey: string;
+  custCategory: string;
+  nameBoardSeenDisabled: boolean;
+  nameBoardSeenRequired: boolean;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -79,7 +85,8 @@ export class CustomerProfileDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private pdDataService: PdDataService,
     private personalDiscussion: PersonalDiscussionService,
-    private toggleDdeService: ToggleDdeService
+    private toggleDdeService: ToggleDdeService,
+    private createLeadDataService: CreateLeadDataService,
   ) { }
 
   async ngOnInit() {
@@ -98,8 +105,8 @@ export class CustomerProfileDetailsComponent implements OnInit {
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
     console.log('this user roleType', this.roleType);
-    console.log('user name', this.userName)
-    console.log('user id ==>', this.userId)
+    console.log('user name', this.userName);
+    console.log('user id ==>', this.userId);
 
     this.initForm();
 
@@ -128,6 +135,53 @@ export class CustomerProfileDetailsComponent implements OnInit {
     }
 
   }
+  getLeadSectionData() {
+    const leadSectionData = this.createLeadDataService.getLeadSectionData();
+    // console.log('leadSectionData Lead details', leadSectionData);
+    this.leadData = { ...leadSectionData };
+    const data = this.leadData;
+    console.log('in get lead section data', data);
+    // const leadDetailsFromLead = data['leadDetails'];
+
+    for (const value of data['applicantDetails']) {
+
+      console.log('in for loop');
+      console.log(value['applicantId']);
+      console.log(this.applicantId);
+
+      if (value['applicantId'] === Number(this.applicantId)) {
+
+        console.log('value', value);
+        const applicantDetailsFromLead = value;
+        this.entityTypeKey = applicantDetailsFromLead['entityTypeKey'];
+        console.log('entity type key', this.entityTypeKey);
+      }
+    }
+  }
+
+  getCustSegmentAndEntity() {
+    if ((this.entityTypeKey == "INDIVENTTYP" && this.custCategory == "SEMCUSTSEG") || (this.entityTypeKey == "NONINDIVENTTYP")) {
+
+      this.nameBoardSeenRequired = true;
+      this.nameBoardSeenDisabled = false;
+      this.customerProfileForm.get('nameBoardSeen').enable();
+      this.customerProfileForm.get('nameBoardSeen').setValidators(Validators.required);
+      this.customerProfileForm.get('nameBoardSeen').updateValueAndValidity();
+
+    } else if ((this.entityTypeKey == "INDIVENTTYP" && this.custCategory != "SEMCUSTSEG") || (this.entityTypeKey != "NONINDIVENTTYP")) {
+
+      this.nameBoardSeenRequired = false;
+      this.nameBoardSeenDisabled = true;
+      setTimeout(() => {
+        this.customerProfileForm.get('nameBoardSeen').setValue(null);
+  
+      });
+      this.customerProfileForm.get('nameBoardSeen').disable();
+      this.customerProfileForm.get('nameBoardSeen').clearValidators();
+      this.customerProfileForm.get('nameBoardSeen').updateValueAndValidity();
+
+    }
+  }
   getLeadId() {
     // console.log("in getleadID")
     return new Promise((resolve, reject) => {
@@ -152,6 +206,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
       this.version = String(value.version);
       console.log('Applicant Id In Customer Profile Component', this.applicantId);
       console.log('Applicant Id In Customer Profile Component', this.version);
+      this.getLeadSectionData();
     });
   }
 
@@ -160,7 +215,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
     this.customerProfileForm = new FormGroup({
       offAddSameAsRecord: new FormControl('', Validators.required),
       noOfEmployeesSeen: new FormControl('', Validators.required),
-      nameBoardSeen: new FormControl('', Validators.required),
+      nameBoardSeen: new FormControl(''),
       officePremises: new FormControl('', Validators.required),
       sizeofOffice: new FormControl('', Validators.required),
       customerProfileRatingSo: new FormControl('', Validators.required),
@@ -220,13 +275,21 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
         this.custProfDetails = value.ProcessVariables.customerProfileDetails;
         console.log('calling get api ', this.custProfDetails);
+        if (this.entityTypeKey == "INDIVENTTYP") {
+          this.custCategory = value.ProcessVariables.applicantPersonalDiscussionDetails.custCategory;
+        } else if (this.entityTypeKey == "NONINDIVENTTYP") {
+          this.custCategory = null;
+        }
         if (this.custProfDetails) {
+          this.getCustSegmentAndEntity();
           this.setFormValue();
           // this.pdDataService.setCustomerProfile(this.custProfDetails);
         }
         if (this.customerProfileForm.get('offAddSameAsRecord') != null) {
           this.addressMismatch(this.customerProfileForm.get('offAddSameAsRecord').value);
         }
+        console.log('in get pd details cust cat', this.custCategory);
+        console.log('in get pd details entity key', this.entityTypeKey);
       }
     });
 
