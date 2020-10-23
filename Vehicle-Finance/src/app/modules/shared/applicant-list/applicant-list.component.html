@@ -200,7 +200,7 @@
     <div class="modal-dialog  modal-style">
       <div class="modal-content">
         <div class="modal-header row">
-          <h4 class="modal-title col-xs-11 col-md-11 col-lg-11 col-sm-11">CIBIL Response For Applicant.</h4>
+          <h4 class="modal-title col-xs-10 col-md-11 col-lg-11 col-sm-11">CIBIL Response For Applicant.</h4>
           <button type="button" class="close col-xs-1 col-md-1 col-lg-1 col-sm-1" data-dismiss="modal">
             &times;
           </button>
@@ -224,7 +224,7 @@
       <div class="modal-content">
         <div class="modal-header mod-header">
           <div class="row">
-            <div class="col-xs-11 col-md-11 col-lg-11 col-sm-11">
+            <div class="col-xs-10 col-md-11 col-lg-11 col-sm-11">
               <h4 class="modal-title">Applicant KYC Check Details</h4>
             </div>
             <div class="col-xs-1 col-md-1 col-sm-1 col-lg-1">
@@ -302,7 +302,7 @@
             </table>
           </div>
   
-          <div class="tablewithdetails">
+          <div class="">
             <table class="table table-responsive details">
               <thead>
                 <tr class="table-head text-center">
@@ -316,18 +316,18 @@
                 <tr
                
               >
-              <td [attr.data-label]="labels?.title">{{panDetails?.nsdlPanTitle}}</td>
+              <!-- <td [attr.data-label]="labels?.title">{{panDetails?.nsdlPanTitle}}</td>
               <td [attr.data-label]="labels?.firstName">{{panDetails?.nsdlFirstName}}</td>
               <td [attr.data-label]="labels?.middleName">{{panDetails?.nsdlMiddleName}}</td>
-              <td [attr.data-label]="labels?.lastName">{{panDetails?.nsdlLastName}}</td>
+              <td [attr.data-label]="labels?.lastName">{{panDetails?.nsdlLastName}}</td> -->
             </tr>
                
-                <!-- <tr class=" text-center">
+                <tr class=" text-center">
                   <td>{{panDetails?.nsdlPanTitle}}</td>
                   <td>{{panDetails?.nsdlFirstName}}</td>
                   <td>{{panDetails?.nsdlMiddleName}}</td>
                   <td>{{panDetails?.nsdlLastName}}</td>
-                </tr> -->
+                </tr>
               </tbody>
             </table>
           </div>
@@ -387,7 +387,7 @@
   
           <div class="tab-details">
             <div class="p-0 row " id="">
-              <div class="col-lg-7 col-sm-7 col-md-7 col-xs-12 p-0">
+              <div class="col-lg-7 col-sm-7 col-md-7 col-xs-7 p-0">
                   
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
                       <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2"> <p class="var-lab">Name</p></div>
@@ -401,7 +401,7 @@
                 </div>
                   
               </div>
-              <div class="col-lg-5 col-sm-5 col-md-5 col-xs-12 p-0">
+              <div class="col-lg-5 col-sm-5 col-md-5 col-xs-5 p-0">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
                   <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2"> <p class="var-lab">Gender</p></div>
                   <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2"><p class="var-lab">:</p></div>
@@ -414,7 +414,7 @@
               </div>
              
               </div>
-              <div class="col-lg-7 col-sm-7 col-md-7 col-xs-12 p-0">
+              <div class="col-lg-7 col-sm-7 col-md-7 col-xs-7 p-0">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
                   <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2"> <p class="var-lab">Location</p></div>
                   <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2"><p class="var-lab">:</p></div>
@@ -426,7 +426,7 @@
                   <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8"><p class="">{{adhaarDetails?.landmark}}</p></div>
               </div>
             </div>
-            <div class="col-lg-5 col-sm-5 col-md-5 col-xs-12 p-0">
+            <div class="col-lg-5 col-sm-5 col-md-5 col-xs-5 p-0">
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
                 <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2"> <p class="var-lab">City</p></div>
                 <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2"><p class="var-lab">:</p></div>
@@ -438,7 +438,7 @@
                 <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8"><p class="">{{adhaarDetails?.state}}</p></div>
             </div>
           </div>
-          <div class="col-lg-7 col-sm-7 col-md-7 col-xs-12 p-0">
+          <div class="col-lg-7 col-sm-7 col-md-7 col-xs-7 p-0">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
               <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2"> <p class="var-lab">District</p></div>
               <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2"><p class="var-lab">:</p></div>
@@ -450,7 +450,7 @@
               <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8"><p class="">{{adhaarDetails?.country}}</p></div>
           </div>
         </div>
-        <div class="col-lg-5 col-sm-5 col-md-5 col-xs-12 p-0">
+        <div class="col-lg-5 col-sm-5 col-md-5 col-xs-5 p-0">
           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0"> 
             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2"> <p class="var-lab">Pincode</p></div>
             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2"><p class="var-lab">:</p></div>
