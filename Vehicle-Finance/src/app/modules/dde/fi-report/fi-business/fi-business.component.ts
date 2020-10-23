@@ -43,7 +43,9 @@ export class FiBusinessComponent implements OnInit {
   city = [];
   toDayDate: Date = new Date();
   fiDate: Date = new Date();
-  fiTime: any = String(new Date(new Date().getTime()).toLocaleTimeString()).slice(0, 5);
+  stringTime = String(new Date(new Date().getTime()).toLocaleTimeString()).split(':', 2);
+  // fiTime: any = String(new Date(new Date().getTime()).toLocaleTimeString()).slice(0, 5);
+  fiTime: any;
   leadCreatedDateFromLead: any;
   typeOfConcernValue: string;
   version: any;
@@ -75,6 +77,7 @@ export class FiBusinessComponent implements OnInit {
     // this.applicantId = Number(this.activatedRoute.parent)
     this.applicantId = Number(this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
     this.version = String(this.activatedRoute.snapshot.parent.firstChild.params.version);
+    this.fiTime = this.stringTime[0] + ':' + this.stringTime[1];
     console.log('version', this.version);
     console.log('in construc app id', this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
     console.log('leadid', this.leadId);
