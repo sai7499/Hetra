@@ -33,7 +33,9 @@ export class FiResidenceComponent implements OnInit {
   leadData: {};
   applicantFullName: any;
   fiDate: Date = new Date();
-  fiTime: any = String(new Date(new Date().getTime()).toLocaleTimeString()).slice(0, 5);
+  stringTime = String(new Date(new Date().getTime()).toLocaleTimeString()).split(':', 2);
+  // fiTime: any = String(new Date(new Date().getTime()).toLocaleTimeString()).slice(0, 5);
+  fiTime: any;
   pincodeResult: {
     state?: any[];
     country?: any[];
@@ -45,7 +47,6 @@ export class FiResidenceComponent implements OnInit {
   };
   state = [];
   city = [];
-  toDayDate: Date = new Date();
   leadCreatedDateFromLead: any;
   cpVerificaton: string;
   initiatedDate: any;
@@ -88,9 +89,13 @@ export class FiResidenceComponent implements OnInit {
     this.applicantId = Number(this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
     this.version = String(this.activatedRoute.snapshot.parent.firstChild.params.version);
     console.log('in construc app id', this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
+    this.fiTime = this.stringTime[0] + ':' + this.stringTime[1];
     console.log('leadid', this.leadId);
+    console.log('string time', this.stringTime);
+    console.log('fi time', this.fiTime);
     console.log('now  fi date', this.fiDate);
     console.log('version', this.version);
+
 
   }
 
@@ -254,6 +259,18 @@ export class FiResidenceComponent implements OnInit {
         this.fieldReportForm.get('rentAmt').setValidators(Validators.required);
         this.fieldReportForm.get('rentAmt').updateValueAndValidity();
 
+      } else if (this.resedenceType !== '2HOUOWN') { //  checking the condition if resi is not rented
+        console.log('in remove rent amount validator');
+        this.fieldReportForm.get('rentAmt').disable();
+        this.isRentDisabled = true;
+        this.rentRequired = false;
+        setTimeout(() => {
+          this.fieldReportForm.get('rentAmt').patchValue(null);
+
+        });
+        this.fieldReportForm.get('rentAmt').clearValidators();
+        this.fieldReportForm.get('rentAmt').updateValueAndValidity();
+
       }
       console.log('in owner,property enabled');
       this.ownerNamePropertyAreaRequired = true;
@@ -282,14 +299,24 @@ export class FiResidenceComponent implements OnInit {
         this.fieldReportForm.get('rentAmt').clearValidators();
         this.fieldReportForm.get('rentAmt').updateValueAndValidity();
 
+      } else if (this.ownerShipType === '2HOUOWN') {
+        console.log('in add rent amount validator');
+        this.isRentDisabled = false;
+        this.rentRequired = true;
+        this.fieldReportForm.get('rentAmt').enable();
+        this.fieldReportForm.get('rentAmt').setValidators(Validators.required);
+        this.fieldReportForm.get('rentAmt').updateValueAndValidity();
+
       }
       this.ownerNamePropertyAreaRequired = false;
       this.ownerNamePropertyAreaDisabled = true;
+
       setTimeout(() => {
         // this.personalDetailsForm.get('owner').setValue(null);
         this.fieldReportForm.get('areaOfProperty').setValue(null);
         this.fieldReportForm.get('propertyValue').setValue(null);
       });
+
       // this.personalDetailsForm.get('owner').disable();
       // this.personalDetailsForm.get('owner').clearValidators();
       // this.personalDetailsForm.get('owner').updateValueAndValidity();
