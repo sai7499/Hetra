@@ -44,6 +44,9 @@ export class DedupeCheckComponent implements OnInit {
             if (error !== '0') {
               return this.toaster.showError(response.ErrorMessage, '');
             }
+            if(response.ProcessVariables.error['code'] !=='0'){
+              return this.toaster.showError(response.ProcessVariables.error['message'], '');
+            }
             const processVariables = response.ProcessVariables;
             this.dedupeMatch = processVariables.deduIndExctMatch || [];
             this.dedupeParameter = processVariables.matchedCriteria;
@@ -87,6 +90,11 @@ export class DedupeCheckComponent implements OnInit {
       if (error !== '0') {
         return this.toaster.showError(value.ErrorMessage, '');
       }
+      if(value.ProcessVariables.error['code'] !=='0'){
+        this.showModal=false
+        return this.toaster.showError(value.ProcessVariables.error['message'], ''); 
+      }
+      
       this.toaster.showSuccess('Updated Successfully', '');
       this.router.navigate([`/pages/loanbooking/${this.leadId}/loan-booking-status`])
       //this.location.back();
