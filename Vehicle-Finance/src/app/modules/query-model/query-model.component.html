@@ -5,93 +5,113 @@
     <div class="" style="margin: 10px;">
 
       <div class="clearfix">
-        <div class="query">
-          <div class="col-sm-4 left">
-            <form class="form-horizontal">
-              <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0">
-                <div class="input-group search-btn">
-                  <input type="text" class="form-control input-search" placeholder="Search">
-                  <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
-                </div>
-              </div>
-
-             
-            </form>
-
-            <br /><br />
-            <div class="panel-group mar-20 row" id="accordion">
-              <div class="flex-container">
-                <div class="small"><p class="mar-em">Lead 1234</p></div>
-                <div class=""><p class="mar-em">Lead 1234 - UCV Giribabu - 500000 - Credit Decision </p></div>
-              </div>
-              <hr>
-              <div class="flex-container">
-                <div class="small"><p class="mar-em">Lead 1234</p></div>
-                <div class=""><p class="mar-em">Lead 1234 - UCV Giribabu - 500000 - Credit Decision </p></div>
-              </div>
-              <hr>
-              <div class="flex-container">
-                <div class="small"><p class="mar-em">Lead 1234</p></div>
-                <div class=""><p class="mar-em">Lead 1234 - UCV Giribabu - 500000 - Credit Decision </p></div>
-              </div>
-              <hr>
-              <div class="flex-container">
-                <div class="small"><p class="mar-em">Lead 1234</p></div>
-                <div class=""><p class="mar-em">Lead 1234 - UCV Giribabu - 500000 - Credit Decision </p></div>
-              </div>
-              <hr>
-              <div class="flex-container">
-                <div class="small"><p class="mar-em">Lead 1234</p></div>
-                <div class=""><p class="mar-em">Lead 1234 - UCV Giribabu - 500000 - Credit Decision </p></div>
-              </div>
-              <hr>
-
-              <div class="panel panel-default">
-                <div class="panel-heading" id="headingTwo">
-                  <h4 class="panel-title">
-                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                      <i class="fa fa-file"></i>&nbsp; Documents Shared <i class="fa fa-angle-down"></i>
-                    </a>
-                  </h4>
-                </div>
-                <div id="collapseTwo" class="panel-collapse collapse">
-                  <div class="panel-body">
-                    <form>
-                      <div class="form-group col-xs-12">
-                        <div class="input-group">
-                          <input type="text" class="form-control" placeholder="Search">
-                          <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                        </div>
-                      </div>
-                    </form>
-                    <div class="document-shared-list">
-                      <p><a href="#">ID: 12345 - Aadhar Card</a></p>
-                      <p><a href="#">ID: 67891 - Pancard</a></p>
-                      <p><a href="#">ID: 23456 - Address Proof</a></p>
-                      <p><a href="#">ID: 12340 - Document_Name</a></p>
-                      <p><a href="#">ID: 67890 - Passport</a></p>
-                      <p><a href="#">ID: 23458 - Account Opening Form</a></p>
-                      <p><a href="#">ID: 67890 - Bank Pass Book</a></p>
-                      <p><a href="#">ID: 23458 - Voter Id</a></p>
-                    </div>
+        <form [formGroup]="queryModalForm">
+          <div class="query">
+            <div class="col-sm-4 left">
+              <form class="form-horizontal">
+                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0">
+                  <div class="input-group search-btn">
+                    <input type="text" class="form-control input-search" placeholder="Search">
+                    <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div class="panel-group mar-20" id="accordion">
-              <div class="panel panel-default">
-                <div class="panel-heading" id="headingOne">
-                  <h4 class="panel-title">
-                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                      <i class="fa fa-user"></i>&nbsp; Stakeholders <i class="fa fa-angle-down"></i>
-                    </a>
-                  </h4>
-                </div>
-                <div id="collapseOne" class="panel-collapse collapse">
-                  <div class="panel-body">
 
-                    <form class="clearfix">
-                      <!--<div class="form-group">
+              </form>
+
+              <br /><br />
+              <div class="panel-group mar-20 row" id="accordion" *ngFor="let chat of chatList; let i=index; let last=last">
+                <div class="flex-container">
+                  <div class="small">
+                    <p class="mar-em">Lead 1234</p>
+                  </div>
+                  <div class="">
+                    <p class="mar-em">Lead 1234 - UCV Giribabu - 500000 - Credit Decision </p>
+                  </div>
+                </div>
+                <hr>
+                <div class="flex-container">
+                  <div class="small">
+                    <p class="mar-em">Lead 1234</p>
+                  </div>
+                  <div class="">
+                    <p class="mar-em">Lead 1234 - UCV Giribabu - 500000 - Credit Decision </p>
+                  </div>
+                </div>
+                <hr>
+                <div class="flex-container">
+                  <div class="small">
+                    <p class="mar-em">Lead 1234</p>
+                  </div>
+                  <div class="">
+                    <p class="mar-em">Lead 1234 - UCV Giribabu - 500000 - Credit Decision </p>
+                  </div>
+                </div>
+                <hr>
+                <div class="flex-container">
+                  <div class="small">
+                    <p class="mar-em">Lead 1234</p>
+                  </div>
+                  <div class="">
+                    <p class="mar-em">Lead 1234 - UCV Giribabu - 500000 - Credit Decision </p>
+                  </div>
+                </div>
+                <hr>
+                <div class="flex-container">
+                  <div class="small">
+                    <p class="mar-em">Lead 1234</p>
+                  </div>
+                  <div class="">
+                    <p class="mar-em">Lead 1234 - UCV Giribabu - 500000 - Credit Decision </p>
+                  </div>
+                </div>
+                <hr>
+
+                <!-- <div class="panel panel-default">
+                  <div class="panel-heading" id="headingTwo">
+                    <h4 class="panel-title">
+                      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                        <i class="fa fa-file"></i>&nbsp; Documents Shared <i class="fa fa-angle-down"></i>
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <form>
+                        <div class="form-group col-xs-12">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                          </div>
+                        </div>
+                      </form>
+                      <div class="document-shared-list">
+                        <p><a href="#">ID: 12345 - Aadhar Card</a></p>
+                        <p><a href="#">ID: 67891 - Pancard</a></p>
+                        <p><a href="#">ID: 23456 - Address Proof</a></p>
+                        <p><a href="#">ID: 12340 - Document_Name</a></p>
+                        <p><a href="#">ID: 67890 - Passport</a></p>
+                        <p><a href="#">ID: 23458 - Account Opening Form</a></p>
+                        <p><a href="#">ID: 67890 - Bank Pass Book</a></p>
+                        <p><a href="#">ID: 23458 - Voter Id</a></p>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+              </div>
+              <div class="panel-group mar-20" id="accordion">
+                <div class="panel panel-default">
+                  <div class="panel-heading" id="headingOne">
+                    <h4 class="panel-title">
+                      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                        <i class="fa fa-user"></i>&nbsp; Stakeholders <i class="fa fa-angle-down"></i>
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseOne" class="panel-collapse collapse">
+                    <div class="panel-body">
+
+                      <form class="clearfix">
+                        <!--<div class="form-group">
                       <label class="col-sm-4">Stakeholders</label>
                       <div class="col-sm-8">
                         <select class="form-control">
@@ -101,194 +121,202 @@
                         </select>
                       </div>
                     </div> -->
-                      <div class="form-group col-xs-12">
-                        <div class="input-group">
-                          <input type="text" class="form-control" placeholder="Search">
-                          <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                        <div class="form-group col-xs-12">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                          </div>
                         </div>
-                      </div>
 
-                      <div class="stakeholder-list">
-                        <div class="radio"><label><input type="radio" name="radio">E1923 - Dhanapal Nataraj, [Sales
-                            Officer] <span class="checkmark"></span></label></div>
-                        <div class="radio"><label><input type="radio" name="radio">E1850 - Dinesh Subramaniyam, [Credit
-                            Officer] <span class="checkmark"></span></label></div>
-                        <div class="radio"><label><input type="radio" name="radio">E1746 - Ananda Kumar, [Sales Officer]
-                            <span class="checkmark"></span></label></div>
-                        <div class="radio"><label><input type="radio" name="radio">E9761 - Murali Palanivel, [Credit
-                            Officer] <span class="checkmark"></span></label></div>
-                        <div class="radio"><label><input type="radio" name="radio">E1456 - Selva Ganesh, [Sales Officer]
-                            <span class="checkmark"></span></label></div>
-                        <div class="radio"><label><input type="radio" name="radio">E9761 - Murali Palanivel, [Credit
-                            Officer] <span class="checkmark"></span></label></div>
-                        <div class="radio"><label><input type="radio" name="radio">E1456 - Selva Ganesh, [Sales Officer]
-                            <span class="checkmark"></span></label></div>
-                        <div class="radio"><label><input type="radio" name="radio">E9761 - Murali Palanivel, [Credit
-                            Officer] <span class="checkmark"></span></label></div>
-                        <div class="radio"><label><input type="radio" name="radio">E1456 - Selva Ganesh, [Sales Officer]
-                            <span class="checkmark"></span></label></div>
-                      </div>
-                      <div class="stakeholder-bot text-right">
-                        <button type="submit" class="btn btn-default mar-right8">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Add</button>
-                      </div>
-                    </form>
+                        <div class="stakeholder-list">
+                          <div class="radio"><label><input type="radio" name="radio">E1923 - Dhanapal Nataraj, [Sales
+                              Officer] <span class="checkmark"></span></label></div>
+                          <div class="radio"><label><input type="radio" name="radio">E1850 - Dinesh Subramaniyam,
+                              [Credit
+                              Officer] <span class="checkmark"></span></label></div>
+                          <div class="radio"><label><input type="radio" name="radio">E1746 - Ananda Kumar, [Sales
+                              Officer]
+                              <span class="checkmark"></span></label></div>
+                          <div class="radio"><label><input type="radio" name="radio">E9761 - Murali Palanivel, [Credit
+                              Officer] <span class="checkmark"></span></label></div>
+                          <div class="radio"><label><input type="radio" name="radio">E1456 - Selva Ganesh, [Sales
+                              Officer]
+                              <span class="checkmark"></span></label></div>
+                          <div class="radio"><label><input type="radio" name="radio">E9761 - Murali Palanivel, [Credit
+                              Officer] <span class="checkmark"></span></label></div>
+                          <div class="radio"><label><input type="radio" name="radio">E1456 - Selva Ganesh, [Sales
+                              Officer]
+                              <span class="checkmark"></span></label></div>
+                          <div class="radio"><label><input type="radio" name="radio">E9761 - Murali Palanivel, [Credit
+                              Officer] <span class="checkmark"></span></label></div>
+                          <div class="radio"><label><input type="radio" name="radio">E1456 - Selva Ganesh, [Sales
+                              Officer]
+                              <span class="checkmark"></span></label></div>
+                        </div>
+                        <div class="stakeholder-bot text-right">
+                          <button type="submit" class="btn btn-default mar-right8">Cancel</button>
+                          <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                      </form>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="panel panel-default">
-                <div class="panel-heading" id="headingTwo">
-                  <h4 class="panel-title">
-                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                      <i class="fa fa-file"></i>&nbsp; Documents Shared <i class="fa fa-angle-down"></i>
-                    </a>
-                  </h4>
-                </div>
-                <div id="collapseTwo" class="panel-collapse collapse">
-                  <div class="panel-body">
-                    <form>
-                      <div class="form-group col-xs-12">
-                        <div class="input-group">
-                          <input type="text" class="form-control" placeholder="Search">
-                          <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                <div class="panel panel-default">
+                  <div class="panel-heading" id="headingTwo">
+                    <h4 class="panel-title">
+                      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                        <i class="fa fa-file"></i>&nbsp; Documents Shared <i class="fa fa-angle-down"></i>
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <form>
+                        <div class="form-group col-xs-12">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                          </div>
                         </div>
+                      </form>
+                      <div class="document-shared-list">
+                        <p><a href="#">ID: 12345 - Aadhar Card</a></p>
+                        <p><a href="#">ID: 67891 - Pancard</a></p>
+                        <p><a href="#">ID: 23456 - Address Proof</a></p>
+                        <p><a href="#">ID: 12340 - Document_Name</a></p>
+                        <p><a href="#">ID: 67890 - Passport</a></p>
+                        <p><a href="#">ID: 23458 - Account Opening Form</a></p>
+                        <p><a href="#">ID: 67890 - Bank Pass Book</a></p>
+                        <p><a href="#">ID: 23458 - Voter Id</a></p>
                       </div>
-                    </form>
-                    <div class="document-shared-list">
-                      <p><a href="#">ID: 12345 - Aadhar Card</a></p>
-                      <p><a href="#">ID: 67891 - Pancard</a></p>
-                      <p><a href="#">ID: 23456 - Address Proof</a></p>
-                      <p><a href="#">ID: 12340 - Document_Name</a></p>
-                      <p><a href="#">ID: 67890 - Passport</a></p>
-                      <p><a href="#">ID: 23458 - Account Opening Form</a></p>
-                      <p><a href="#">ID: 67890 - Bank Pass Book</a></p>
-                      <p><a href="#">ID: 23458 - Voter Id</a></p>
                     </div>
                   </div>
                 </div>
               </div>
+
+
             </div>
 
+            <div class="col-sm-8 right">
+              <div class="row chat-box">
+                <div class="wt-80 sender">
+                  <div class="send-message">
+                    <div class="logged-user">E1923 - Dhanapal Nataraj, <small> [ Sales Officer ]</small></div>
+                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin
+                      commodo.
+                    </p>
+                    <div class="tagged-name">
+                      <span><strong>Tagged To : </strong> E1850 - Dinesh Subramaniyam </span>
+                      <span class="date-time"> Today | 09:30 AM </span>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="wt-80 receiver">
+                  <div class="receive-message">
+                    <div class="logged-user">E1850 - Dinesh Subramaniyam, <small> [ Credit Officer ]</small></div>
+                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin
+                      commodo.
+                      Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. </p>
+                    <div class="tagged-name">
+                      <span><strong>Tagged To : </strong> E1923 - Dhanapal Nataraj </span>
+                      <span class="date-time"> 23-APR-2020 | 11:00 AM </span>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="wt-80 sender">
+                  <div class="send-message">
+                    <div class="logged-user">E1923 - Dhanapal Nataraj, <small> [ Sales Officer ]</small></div>
+                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin
+                      commodo.
+                      Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+                    <div><a href="#" class="text-danger"> <i class="fa fa-file-pdf-o"></i> Aadhar Card.pdf</a></div>
+                    <br />
+                    <div class="tagged-name">
+                      <span> <strong>Tagged To : </strong> E1850 - Dinesh Subramaniyam </span>
+                      <span class="date-time"> 23-APR-2020 | 10:00 AM </span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-lg-6 col-sm-6 col-md-4 col-xs-6">
+                  <div class="form-group">
+                    <label class="col-sm-4">Query Type</label>
+                    <div class="col-sm-8">
+                      <select class="form-control">
+                        <option>Select</option>
+                        <option>Clarification</option>
+                        <option>Require more data</option>
+                        <option>Require more document</option>
+                        <option>Require approval</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-md-4 col-xs-6">
+                  <div class="form-group">
+                    <label class="col-sm-4">Tag query To</label>
+                    <div class="col-sm-8">
+                      <select class="form-control">
+                        <option>Select</option>
+                        <option>E1923 - Dhanapal Nataraj</option>
+                        <option>E1850 - Dinesh Subramaniyam</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-group row">
+
+                <div class="col-lg-6 col-sm-6 col-md-4 col-xs-6">
+                  <div class="form-group">
+                    <label for="file-upload" class="col-sm-4">Attachment</label>
+                    <div class="upload-btn-wrapper col-sm-8">
+                      <button class="btn-upload">Choose file</button>
+                      <input type="file" id="file-upload">
+                      <span id="file-name"></span>
+                      <h6>&nbsp;(Maximum size: 2 MB)</h6>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                  <div class="form-group">
+                    <label for="file-upload" class="col-sm-4">Lead Id</label>
+                    <div class="upload-btn-wrapper col-sm-5">
+                      <input class="form-control" type="text" id="file-upload">
+                    </div>
+                    <label for="file-upload" class="col-sm-1">*mandatory</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                  <textarea class="form-control" style="resize: none;"></textarea>
+                </div>
+              </div>
+
+              <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
+                <div class="col-sm-5">
+
+                </div>
+                <div class="col-sm-7 text-right">
+                  <button class="btn btn-primary dash_href" type="button">Send</button>
+
+                </div>
+              </div>
+
+            </div>
 
           </div>
-
-          <div class="col-sm-8 right">
-            <div class="row chat-box">
-              <div class="wt-80 sender">
-                <div class="send-message">
-                  <div class="logged-user">E1923 - Dhanapal Nataraj, <small> [ Sales Officer ]</small></div>
-                  <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo.
-                  </p>
-                  <div class="tagged-name">
-                    <span><strong>Tagged To : </strong> E1850 - Dinesh Subramaniyam </span>
-                    <span class="date-time"> Today | 09:30 AM </span>
-                  </div>
-                </div>
-
-              </div>
-              <div class="wt-80 receiver">
-                <div class="receive-message">
-                  <div class="logged-user">E1850 - Dinesh Subramaniyam, <small> [ Credit Officer ]</small></div>
-                  <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo.
-                    Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. </p>
-                  <div class="tagged-name">
-                    <span><strong>Tagged To : </strong> E1923 - Dhanapal Nataraj </span>
-                    <span class="date-time"> 23-APR-2020 | 11:00 AM </span>
-                  </div>
-                </div>
-
-              </div>
-              <div class="wt-80 sender">
-                <div class="send-message">
-                  <div class="logged-user">E1923 - Dhanapal Nataraj, <small> [ Sales Officer ]</small></div>
-                  <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo.
-                    Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
-                  <div><a href="#" class="text-danger"> <i class="fa fa-file-pdf-o"></i> Aadhar Card.pdf</a></div>
-                  <br />
-                  <div class="tagged-name">
-                    <span> <strong>Tagged To : </strong> E1850 - Dinesh Subramaniyam </span>
-                    <span class="date-time"> 23-APR-2020 | 10:00 AM </span>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
-                <div class="form-group">
-                  <label class="col-sm-6">Query Type</label>
-                  <div class="col-sm-6">
-                    <select class="form-control">
-                      <option>Select</option>
-                      <option>Clarification</option>
-                      <option>Require more data</option>
-                      <option>Require more document</option>
-                      <option>Require approval</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
-                <div class="form-group">
-                  <label class="col-sm-6">Tag query To</label>
-                  <div class="col-sm-6">
-                    <select class="form-control">
-                      <option>Select</option>
-                      <option>E1923 - Dhanapal Nataraj</option>
-                      <option>E1850 - Dinesh Subramaniyam</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-           
-              <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
-                <div class="form-group">
-                  <label for="file-upload" class="col-sm-4">Attachment</label>
-                  <div class="upload-btn-wrapper col-sm-8">
-                    <button class="btn-upload">Choose file</button>
-                    <input type="file" id="file-upload">
-                    <span id="file-name"></span>
-                    <h6>&nbsp;(Maximum size: 2 MB)</h6>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
-                <div class="form-group">
-                  <label for="file-upload" class="col-sm-4">Lead Id</label>
-                  <div class="upload-btn-wrapper col-sm-4">
-                    <!-- <button class="btn-upload">Choose file</button> -->
-                    <input class="form-control" type="text" id="file-upload">
-                   
-                  </div>
-                  <label for="file-upload" class="col-sm-4">*mandatory</label>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <!-- <div class="col-sm-2 col-md-2 col-lg-2">
-                <label for="">Description</label>
-              </div> -->
-              <div class="col-sm-12 col-md-12 col-lg-12">
-                <textarea class="form-control" style="resize: none;"></textarea>
-              </div>
-            </div>
-
-            <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
-              <div class="col-sm-5">
-
-              </div>
-              <div class="col-sm-7 text-right">
-                <button class="btn btn-primary dash_href" type="button">Send</button>
-                
-              </div>
-            </div>
-
-          </div>
-
-        </div>
+        </form>
       </div>
     </div>
 

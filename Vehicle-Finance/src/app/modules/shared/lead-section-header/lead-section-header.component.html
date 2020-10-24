@@ -101,13 +101,12 @@
       </button>
     </div>
     <div class="row view-pad-top" *ngIf="isEnableInitiateQuery">
-      <button class="btn btn-primary view-button" [routerLink]="['/pages/query-model', leadId]" type="button"
-        (click)="initinequery()">
+      <button class="btn btn-primary view-button" type="button" (click)="initinequery()">
         Initiate Query
       </button>
     </div>
     <div class="row view-pad-bottom" *ngIf="isEnableDdeButton">
-      <button class="btn btn-primary view-button" type="button" (click)="initinequery()">
+      <button class="btn btn-primary view-button" type="button" (click)="viewOrEditDde()">
         View/Edit DDE
       </button>
     </div>
