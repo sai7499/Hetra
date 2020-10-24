@@ -43,7 +43,8 @@ export class LoanDetailsComponent implements OnInit {
   yearCheck = [];
   productCat: any;
   public toDayDate: Date = new Date();
-
+  entityTypeKey: string;
+  custCategory: string;
   amountPattern = {
     rule: '^[1-9][0-9]*$',
     msg: 'Numbers Only Required',
@@ -188,9 +189,15 @@ export class LoanDetailsComponent implements OnInit {
     this.leadData = { ...leadSectionData };
     const data = this.leadData;
     console.log('in get lead section data', data);
+    for (const value of data['applicantDetails']) {
+      if (value['applicantId'] === this.applicantId) {
 
+        const applicantDetailsFromLead = value;
+        this.entityTypeKey = applicantDetailsFromLead['entityTypeKey'];
+        console.log('entity type key', this.entityTypeKey);
+      }
+    }
     const leadDetailsFromLead = data['leadDetails'];
-
     // this.applicantFullName = applicantDetailsFromLead['fullName']
     // this.mobileNo = applicantDetailsFromLead['mobileNumber']
     // console.log("in lead section data", this.applicantFullName, this.mobileNo)
@@ -494,6 +501,7 @@ export class LoanDetailsComponent implements OnInit {
 
         this.newCvDetails = value.ProcessVariables.loanDetailsForNewCv;
         console.log('new cv details', this.newCvDetails);
+        this.custCategory = value.ProcessVariables.applicantPersonalDiscussionDetails.custCategory;
         this.usedVehicleDetails = value.ProcessVariables.applicableForUsedVehicle;
         // console.log('used vehicle details', this.usedVehicleDetails);
         this.assetDetailsUsedVehicle = value.ProcessVariables.applicableForAssetDetailsUsedVehicle;
