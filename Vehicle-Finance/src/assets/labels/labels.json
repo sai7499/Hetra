@@ -1876,7 +1876,7 @@
         },
         "emailPattern": {
             "maxLength": {
-                "rule": 50
+                "rule": 60
             },
             "patternCheck": {
                 "rule": "^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(\\.\\w{2,10})+$",
