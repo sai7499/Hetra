@@ -618,7 +618,7 @@
                                 [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Insurance'"
                                 [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'Insurance Required'"
-                                [isDirty]="true">
+                                [isDirty]="isDirty">
                             </app-custom-input>
 
                         </div>
@@ -632,7 +632,7 @@
                                 [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'One Time Tax'"
                                 [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'One Time Tax Required'"
-                                [isDirty]="true">
+                                [isDirty]="isDirty">
                             </app-custom-input>
 
                         </div>
@@ -645,7 +645,7 @@
                                 (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Others'"
                                 [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'Others Required'"
-                                [isDirty]="true">
+                                [isDirty]="isDirty">
                             </app-custom-input>
                         </div>
 
@@ -661,7 +661,7 @@
                                 (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Discount'"
                                 [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'Discount Required'"
-                                [isDirty]="true">
+                                [isDirty]="isDirty">
                             </app-custom-input>
 
                             <div class="invalid-feedback"
@@ -989,7 +989,7 @@
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control'"
                                 [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Insurance'"
                                 [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'Insurance Required'"
-                                [isDirty]="true">
+                                [isDirty]="isDirty">
                             </app-custom-input>
 
                         </div>
@@ -1001,7 +1001,7 @@
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control'"
                                 [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'One Time Tax'"
                                 [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'One Time Tax Required'"
-                                [isDirty]="true">
+                                [isDirty]="isDirty">
                             </app-custom-input>
 
                         </div>
@@ -1013,7 +1013,7 @@
                                 [maxLength]="label.validationData?.amountValue.maxLength" [id]="'others'"
                                 [className]="'form-control'" [placeholder]="'Others'"
                                 [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'Others Required'"
-                                [isDirty]="true">
+                                [isDirty]="isDirty">
                             </app-custom-input>
                         </div>
 
@@ -1028,7 +1028,7 @@
                                 (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Discount'"
                                 [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'Discount Required'"
-                                [isDirty]="true">
+                                [isDirty]="isDirty">
                             </app-custom-input>
 
                             <div class="invalid-feedback"

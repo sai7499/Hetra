@@ -472,7 +472,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   onVehicleRegion(value: any, obj) {
     const region = value ? value : '';
     let assetMakeArray = [];
-
+    console.log('obj in vehRegion', obj);
     const data = {
       "region": region,
       "productCategory": this.productCatoryCode

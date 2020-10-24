@@ -9,6 +9,7 @@ import { LeadStoreService } from '../../sales/services/lead.store.service';
 import { ApplicantImageService } from '@services/applicant-image.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ToasterService } from '@services/toaster.service';
+import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import html2pdf from 'html2pdf.js';
@@ -44,6 +45,7 @@ export class ApplicantListComponent implements OnInit {
   disableSaveBtn: boolean;
   imgeKYC: any;
   showeKYC: boolean = false;
+  collateralVehicleDetails: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -56,6 +58,7 @@ export class ApplicantListComponent implements OnInit {
     private toasterService: ToasterService,
     private createLeadDataService: CreateLeadDataService,
     private toggleDdeService: ToggleDdeService,
+    private applicantDataService : ApplicantDataStoreService
   ) { }
 
   async ngOnInit() {
@@ -91,6 +94,8 @@ export class ApplicantListComponent implements OnInit {
       }
     })
     // this.downloadpdf();
+    // 
+    this.applicantDataService.setDetectvalueChange(false)
   }
 
   getLeadId() {
@@ -272,19 +277,20 @@ export class ApplicantListComponent implements OnInit {
   
    geteKYCDetails(applicantId) {
    this.applicantService.geteKYCDetails(applicantId).subscribe((res: any) => {
-      if (res['ProcessVariables'] && res.Error === "0") {
+      if (res['ProcessVariables'] && res.Error === "0" && res['ProcessVariables'].error.code == 0) {
         // this.showeKYC = true;
         this.appicanteKYCDetails = res['ProcessVariables'];
         this.panDetails = this.appicanteKYCDetails['panDetails'];
         this.adhaarDetails = this.appicanteKYCDetails['aadharDetails'];
         this.dedupeMatchedCriteria = this.appicanteKYCDetails['dedupeMatchedCriteria'];
         this.exactMatches = this.appicanteKYCDetails['exactMatches'];
-        this.probableMatches = this.appicanteKYCDetails['probableMatches'];      
+        this.probableMatches = this.appicanteKYCDetails['probableMatches']; 
+        this.collateralVehicleDetails = this.appicanteKYCDetails['collateralVehicleDetails']
         setTimeout(() => {
           this.downloadpdf();
         });
       } else {
-        // this.toasterService.showError(res['ProcessVariables'].error["message"], '')
+        this.toasterService.showError(res['ProcessVariables'].error["message"], '')
         this.imgeKYC = res.ProcessVariables.error.message;
         setTimeout(() => {
           this.showeKYC = true;
@@ -304,7 +310,7 @@ export class ApplicantListComponent implements OnInit {
       filename: `applicanteKYC${this.leadId}`,
       image: { type: 'jpeg', quality: 1 },
       jsPDF: { unit: 'mm', orientation: 'p',format: 'A4' },
-      html2canvas: {scale: 1.5,  logging:true},
+      html2canvas: {scale: 4,  logging:true},
     }
      html2pdf().from(html)
     .set(options).outputImg('datauristring').then(res => {
