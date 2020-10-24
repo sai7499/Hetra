@@ -846,7 +846,10 @@ export class AddressDetailsComponent implements OnInit {
     const modifyCurrentAdd = this.address.applicantDetails.modifyCurrentAddress;
     this.checkedModifyCurrent = modifyCurrentAdd == '1' ? true : false;
     this.showSrField = modifyCurrentAdd == '1' ? true : false;
-    this.disableCurrent = modifyCurrentAdd == '1' ? false : true;
+    if(modifyCurrentAdd == '1'){
+      this.disableCurrent=false
+    }
+    //this.disableCurrent = modifyCurrentAdd == '1' ? false : true;
 
     const srNumber = this.address.applicantDetails.srNumber;
     details.get('srNumber').setValue(srNumber)
@@ -1064,6 +1067,7 @@ export class AddressDetailsComponent implements OnInit {
       details.get('currentAddress').reset();
       if (this.onCurrAsOfficeChecked) {
         this.onCurrAsOfficeChecked = false;
+        this.isCurrAddSameAsOffAdd='0'
         details.get('officeAddress').enable();
       }
     }
@@ -1156,7 +1160,7 @@ export class AddressDetailsComponent implements OnInit {
 
       if (this.onCurrAsOfficeChecked) {
         this.onCurrAsOfficeChecked = false;
-
+        this.isCurrAddSameAsOffAdd = '0'
         details.get('officeAddress').enable();
         details.get('officeAddress').reset();
 
@@ -1296,7 +1300,7 @@ export class AddressDetailsComponent implements OnInit {
       this.disableCurrent = false;
       if (this.onCurrAsOfficeChecked) {
         this.onCurrAsOfficeChecked = false;
-
+        this.isCurrAddSameAsOffAdd='0'
         control.get('officeAddress').enable();
         control.get('officeAddress').reset();
 
