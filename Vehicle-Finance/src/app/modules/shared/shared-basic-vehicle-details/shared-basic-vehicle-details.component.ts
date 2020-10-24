@@ -277,26 +277,18 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       form.get('insurance').enable();
       form.get('insurance').setValidators(Validators.required);
       form.get('insurance').updateValueAndValidity();
-      // const insuranceValue = form.get('insurance').value;
-      // form.get('insurance').setValue(insuranceValue || null)
 
       form.get('oneTimeTax').enable();
       form.get('oneTimeTax').setValidators([Validators.required]);
       form.get('oneTimeTax').updateValueAndValidity();
-      // const oneTimeTaxValue = form.get('oneTimeTax').value;
-      // form.get('oneTimeTax').setValue(oneTimeTaxValue || null)
 
       form.get('others').enable();
       form.get('others').setValidators([Validators.required]);
       form.get('others').updateValueAndValidity();
-      // const othersValue = form.get('others').value;
-      // form.get('others').setValue(othersValue || null)
 
       form.get('discount').enable();
       form.get('discount').setValidators([Validators.required]);
       form.get('discount').updateValueAndValidity()
-      // const discountValue = form.get('discount').value;
-      // form.get('discount').setValue(discountValue || null)
 
       if (exShowRoomCost >= discount) {
         let costValue = (exShowRoomCost + insurance + oneTimeTax + others) - discount;
