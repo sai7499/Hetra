@@ -271,9 +271,10 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       isDuplicateDeviation: true
     })
     let myArray = this.deviationsForm.controls.manualDeviationFormArray['controls'];
-    let test = myArray.filter(data => data.controls.devCode.value == name && name != null)
+    let test = myArray.filter(data => data.controls.devCode.value == name.controls.devCode.value && name.controls.devCode.value != null)
+    let role = myArray.filter(data => data.controls.approverRole.value == name.controls.approverRole.value && name.controls.approverRole.value != null)
 
-    if (test.length > 1) {
+    if (test.length > 1 && role.length > 1) {
       this.deviationsForm.patchValue({
         isDuplicateDeviation: false
       })

@@ -104,7 +104,7 @@ export class DeviationsComponent implements OnInit, OnDestroy {
         console.log('err', err)
       })
     } else {
-       this.toasterService.showError('Please change the deviation', 'Duplicate Deviation')
+       this.toasterService.showError('Please change the deviation or approval role', 'Duplicate Deviation')
     }
 
     } else {
