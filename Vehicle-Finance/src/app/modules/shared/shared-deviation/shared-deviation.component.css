@@ -228,74 +228,38 @@
         padding: 12px;
     }
 
-    input[type="radio"] {
-        display: none;
-      }
-      
-      /* input[type="radio"] + label {
-        color: #292321;
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-      } */
-      
-      input[type="radio"] + label span {
-        display: inline-block;
-        width: 13px;
-        height: 13px;
-        margin: -1px 4px 0 0;
-        vertical-align: middle;
-        cursor: pointer;
-        -moz-border-radius: 50%;
-        border-radius: 50%;
-      }
-      
-      input[type="radio"] + label span {
-        background-color: white;
-        border: 1px solid #a9a8a8;
-      }
-
-      input[type="radio"].disabled
-       + label span {
-        cursor: not-allowed;
-        background-color: #dde;
-        border: 1px solid #a9a8a8;
-      }
-      
-      input[type="radio"].approve:checked + label span {
-        background-color: green;
-        border: 1px solid #a9a8a8;
-      }
-
-      input[type="radio"].refer:checked + label span {
-        background-color: yellow;
-        border: 1px solid #a9a8a8;
-      }
-
-      input[type="radio"].decline:checked + label span {
-        background-color: red;
-        border: 1px solid #a9a8a8;
-      }
-
-      input[type="radio"].disabled:checked + label span {
-        cursor: not-allowed;
-        background-color: #dde;
-        border: 1px solid #a9a8a8;
-      }
-
-      .disabled {
-          cursor: not-allowed;
-      }
-
-     input[type="radio"] + label span, input[type="radio"]:checked + label span {
-       -webkit-transition:background-color 0.4s linear;
-       -o-transition:background-color 0.4s linear;
-       -moz-transition:background-color 0.4s linear;
-       transition:background-color 0.4s linear;
-      }
-
     #credit_sourcing_details:after,#credit_tvr_details:after, #credit_application_details:after, #credit_vehicle_details:after, #credit_fleet_details:after,#credit_liveloan:after, #credit_income_details:after, #credit_psl_data:after{width:100% !important;left: 70px;}
     
     #credit_fi_pd:after, #credit_vehicle_viability:after, #credit_existing_relationship:after,#credit_score_card:after, #credit_cam:after, #credit_deviations:after, #credit_insurance:after, #credit_conditions:after{width:100% !important;}
+    
+
+   #decline_action input[type='radio']:checked:after {
+        width: 15px;
+        height: 15px;
+        border-radius: 15px;
+        top: -2px;
+        left: -1px;
+        position: relative;
+        background-color: #ffa500;
+        content: '';
+        display: inline-block;
+        visibility: visible;
+        border: 2px solid white;
+    }
+
+    #approve_action input[type='radio']:checked:after {
+        width: 15px;
+        height: 15px;
+        border-radius: 15px;
+        top: -2px;
+        left: -1px;
+        position: relative;
+        background-color: #09ce62;
+        content: '';
+        display: inline-block;
+        visibility: visible;
+        border: 2px solid white;
+    }
 
     .wid-30 {
         width: 30%;
