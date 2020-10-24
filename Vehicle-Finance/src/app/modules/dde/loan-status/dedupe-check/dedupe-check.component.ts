@@ -87,16 +87,15 @@ export class DedupeCheckComponent implements OnInit {
     };
     this.loanCreationService.updateLoanDedupe(data).subscribe((value: any) => {
       const error = value.Error;
-      if (error !== '0') {
-        return this.toaster.showError(value.ErrorMessage, '');
-      }
-      if(value.ProcessVariables.error['code'] !=='0'){
+      if (error == '0' && value.ProcessVariables.error['code'] == '0') {
+        this.toaster.showSuccess('Updated Successfully', '');
+        this.router.navigate([`/pages/loanbooking/${this.leadId}/loan-booking-status`])        
+      }else{
         this.showModal=false
         return this.toaster.showError(value.ProcessVariables.error['message'], ''); 
-      }
+      }  
       
-      this.toaster.showSuccess('Updated Successfully', '');
-      this.router.navigate([`/pages/loanbooking/${this.leadId}/loan-booking-status`])
+     
       //this.location.back();
     });
   }

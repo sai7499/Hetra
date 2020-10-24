@@ -8,6 +8,6 @@
     // window["env"]["userConfig"] = "@esfbuat.in";
     window["env"]["userConfig"] = "@equitasbank.in";
     window["env"]["useADAuth"] = false;
-    window["env"]["version"] = "0.25.3"; 
+    window["env"]["version"] = "0.25.4"; 
     window["env"]["buildDate"] = "24-10-2020";
   })(this);
