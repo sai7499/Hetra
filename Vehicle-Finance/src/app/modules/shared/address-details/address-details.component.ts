@@ -1617,7 +1617,6 @@ export class AddressDetailsComponent implements OnInit {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
-
     const url = this.location.path();
     localStorage.setItem('currentUrl', url);
     if (url.includes('sales')) {
