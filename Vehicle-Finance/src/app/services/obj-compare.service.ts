@@ -36,4 +36,31 @@ export class ObjectComparisonService {
       }
         return true;
     }
+
+    isThereAnyUnfilledObj(obj) {
+      let result = false;
+      let index = -1;
+      for ( const val of obj) {
+        index++;
+        const keys = Object.keys(val);
+        const value = keys.every((key) => {
+          return !!val[key];
+        });
+        if (!value) {
+          const inValue = keys.every((key) => {
+            console.log(val[key], !val[key]);
+            return !val[key];
+          });
+          if (inValue) {
+            continue;
+          }
+          result = {
+            ...val,
+            index
+          };
+          break;
+        }
+      }
+      return result;
+    }
 }
