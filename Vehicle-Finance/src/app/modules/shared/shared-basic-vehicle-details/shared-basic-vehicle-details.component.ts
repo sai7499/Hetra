@@ -265,28 +265,70 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.basicVehicleForm.patchValue({
       isVaildFinalAssetCost: true
     })
+
+    let exShowRoomCost = form.controls.exShowRoomCost.value ? Number(form.controls.exShowRoomCost.value) : 0
+    let insurance = form.controls.insurance.value ? Number(form.controls.insurance.value) : 0;
+    let oneTimeTax = form.controls.oneTimeTax.value ? Number(form.controls.oneTimeTax.value) : 0;
+    let others = form.controls.others ? Number(form.controls.others.value) : 0;
+    let discount = form.controls.discount.value ? Number(form.controls.discount.value) : 0;
+
     if (value === '1') {
-      let exShowRoomCost = form.controls.exShowRoomCost.value ? Number(form.controls.exShowRoomCost.value) : 0
-      let insurance = form.controls.insurance.value ? Number(form.controls.insurance.value) : 0;
-      let oneTimeTax = form.controls.oneTimeTax.value ?  Number(form.controls.oneTimeTax.value) : 0;
-      let others = form.controls.others ?  Number(form.controls.others.value) : 0;
-      let discount = form.controls.discount.value ?  Number(form.controls.discount.value) : 0;
+
+      form.get('insurance').enable();
+      form.get('insurance').setValidators(Validators.required);
+      form.get('insurance').updateValueAndValidity();
+      // const insuranceValue = form.get('insurance').value;
+      // form.get('insurance').setValue(insuranceValue || null)
+
+      form.get('oneTimeTax').enable();
+      form.get('oneTimeTax').setValidators([Validators.required]);
+      form.get('oneTimeTax').updateValueAndValidity();
+      // const oneTimeTaxValue = form.get('oneTimeTax').value;
+      // form.get('oneTimeTax').setValue(oneTimeTaxValue || null)
+
+      form.get('others').enable();
+      form.get('others').setValidators([Validators.required]);
+      form.get('others').updateValueAndValidity();
+      // const othersValue = form.get('others').value;
+      // form.get('others').setValue(othersValue || null)
+
+      form.get('discount').enable();
+      form.get('discount').setValidators([Validators.required]);
+      form.get('discount').updateValueAndValidity()
+      // const discountValue = form.get('discount').value;
+      // form.get('discount').setValue(discountValue || null)
 
       if (exShowRoomCost >= discount) {
-        let costValue = (exShowRoomCost + insurance+ oneTimeTax + others) - discount;
+        let costValue = (exShowRoomCost + insurance + oneTimeTax + others) - discount;
         this.onPatchFinalAssetCost(costValue)
         this.basicVehicleForm.patchValue({
           isVaildFinalAssetCost: true
         })
+
       } else {
         setTimeout(() => {
           this.basicVehicleForm.patchValue({
             isVaildFinalAssetCost: false
           })
-        }) 
-        this.toasterService.showError( 'Discount should not greater than Ex show room price', 'Final Asset Cost')
+        })
+        this.toasterService.showError('Discount should not greater than Ex show room price', 'Final Asset Cost')
       }
     } else {
+      setTimeout(() => {
+
+        form.get('insurance').disable();
+        form.get('insurance').setValue(insurance === 0 ? null : insurance);
+        
+        form.get('oneTimeTax').disable();
+        form.get('oneTimeTax').setValue(oneTimeTax === 0 ? null : oneTimeTax);
+
+        form.get('others').disable();
+        form.get('others').setValue(others === 0 ? null : others);
+
+        form.get('discount').disable();
+        form.get('discount').setValue(discount === 0 ? null : discount);
+
+      })
       this.onPatchFinalAssetCost(form.controls.exShowRoomCost.value)
       this.basicVehicleForm.patchValue({
         isVaildFinalAssetCost: true
@@ -328,7 +370,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         }]
 
         const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-        this.onPatchArrayValue(formArray, VehicleDetail);
+        this.onPatchArrayValue(formArray, VehicleDetail)
+        this.onChangeFinalAssetCost(VehicleDetail.isOrpFunding, formArray.controls[0])
         this.sharedService.getFormValidation(this.basicVehicleForm)
         this.vehicleDataService.setIndividualVehicleDetail(VehicleDetail);
       } else {
