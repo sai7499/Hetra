@@ -19,11 +19,11 @@ export class BankListComponent {
   labels: any;
   disableAddbankDetailsBtn: boolean;
   constructor(private bankService: BankTransactionsService,
-    private route: Router, private activatedRoute: ActivatedRoute,
-    private location: Location,
-    private labelsData: LabelsService,
-    private toggleDdeService: ToggleDdeService,
-    private toasterService: ToasterService) { }
+              private route: Router, private activatedRoute: ActivatedRoute,
+              private location: Location,
+              private labelsData: LabelsService,
+              private toggleDdeService: ToggleDdeService,
+              private toasterService: ToasterService) { }
   // tslint:disable-next-line: use-lifecycle-interface
   async ngOnInit() {
     this.userId = localStorage.getItem('userId');

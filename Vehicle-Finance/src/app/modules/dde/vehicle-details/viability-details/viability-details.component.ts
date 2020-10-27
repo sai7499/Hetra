@@ -97,6 +97,7 @@ export class ViabilityDetailsComponent implements OnInit {
   applicantName: any;
   disableSaveBtn: boolean;
   daysCheck = [];
+  version: any;
 
 
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
@@ -235,8 +236,9 @@ export class ViabilityDetailsComponent implements OnInit {
       })
     });
     this.leadId = (await this.getLeadId()) as number;
+    this.version = (await this.getVersion());
     this.collataralId = (await this.getCollateralId()) as number;
-    console.log(this.collataralId);
+    console.log(this.version, 'version');
     this.getViability();
     // this.getViabilityList(Number(this.leadId));
     console.log(this.viabilityForm.controls);
@@ -301,6 +303,16 @@ export class ViabilityDetailsComponent implements OnInit {
       this.route.parent.params.subscribe((value) => {
         if (value && value.leadId) {
           resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
+    });
+  }
+  getVersion() {
+    return new Promise((resolve, reject) => {
+      this.route.parent.firstChild.params.subscribe((value) => {
+        if (value && value.version) {
+          resolve((value.version));
         }
         resolve(null);
       });
@@ -477,7 +489,8 @@ public removeStandOverValidators() {
 getViability() {
     const body = {
       userId: this.userId,
-      collateralId: this.collataralId
+      collateralId: this.collataralId,
+      version: this.version || ''
     };
     this.viabilityService.getViabilityDetails(body).subscribe((res: any) => {
       // tslint:disable-next-line: triple-equals
@@ -545,7 +558,10 @@ getViability() {
     }
     });
     // this.patchGpsposition();
-  }
+}
+// getVersion() {
+//   this.version = 
+// }
 onSave() {
     this.isDirty = true;
     this.vehicle_viability_navigate(this.viabilityForm.value.type);
@@ -563,6 +579,7 @@ onSave() {
           selfiePhoto: this.dmsDocumentId,
           collateralId: this.collataralId,
           type: this.viabilityForm.value.type,
+          version: this.version || '',
           ...this.convertPassenger(this.viabilityForm.value.passanger)
         },
       };
@@ -590,6 +607,7 @@ onSave() {
           selfiePhoto: this.dmsDocumentId,
           collateralId: this.collataralId,
           type: this.viabilityForm.value.type,
+          version: this.version || '',
           ...this.convertStandOperative(this.viabilityForm.value.passangerStandOperator)
         },
       };
@@ -611,6 +629,7 @@ onSave() {
           selfiePhoto: this.dmsDocumentId,
           collateralId: this.collataralId,
           type: this.viabilityForm.value.type,
+          version: this.version || '',
           ...this.convertCapitve(this.viabilityForm.value.captive)
         },
       };
@@ -1206,7 +1225,7 @@ calculateCaptiveC() {
       // tslint:disable-next-line: triple-equals
       if (res.ProcessVariables.error.code == '0') {
       this.toasterService.showSuccess('Vehicle viability task assigned succesfully', '');
-      this.router.navigateByUrl(`pages/dashboard`);
+      this.router.navigateByUrl(`pages/dde/${this.leadId}/viability-list`);
       } else {
         this.toasterService.showSuccess(res.ProcessVariables.error.message, '');
       }
