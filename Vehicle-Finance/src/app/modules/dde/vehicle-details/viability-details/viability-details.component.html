@@ -1171,7 +1171,7 @@
         <a data-toggle="modal" data-target="#myModalCredit" id="reject_credit" *ngIf="hideSubmit">
             <p type="button" class="btn btn-primary">{{label?.submit}}</p>
         </a>
-        <button class="btn btn-primary cus-btn-sty" type="button" data-toggle="modal" data-target="#myModalReinitiate" *ngIf = "!hideSubmit">{{label?.reinitiate}}</button>
+        <button class="btn btn-primary cus-btn-sty" type="button" data-toggle="modal" data-target="#myModalReinitiate" *ngIf = "showReinitiate">{{label?.reinitiate}}</button>
     </div>
 </div>
 <div class="modal" id="myModalCredit">
