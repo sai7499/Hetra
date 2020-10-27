@@ -98,7 +98,7 @@ export class ViabilityDetailsComponent implements OnInit {
   disableSaveBtn: boolean;
   daysCheck = [];
   version: any;
-
+  showReinitiate = false;
 
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
               private viabilityService: ViabilityServiceService,
@@ -498,6 +498,7 @@ getViability() {
       this.viabliityDataToPatch = res.ProcessVariables.vehicleViability;
       this.applicantName = res.ProcessVariables.vehicleViability.applicantName;
       this.vehicleModelMake = res.ProcessVariables.vehicleViability.vehicleModel;
+      this.showReinitiate = res.ProcessVariables.showReinitiate;
       this.latitude = this.viabliityDataToPatch.latitude;
       this.longitude = this.viabliityDataToPatch.longitude;
       this.branchLatitude = this.viabliityDataToPatch.brLatitude;
