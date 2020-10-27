@@ -254,12 +254,12 @@
         border: 1px solid #a9a8a8;
       }
 
-      input[type="radio"].disabled
+      /* input[type="radio"].disabled
        + label span {
         cursor: not-allowed;
         background-color: #dde;
         border: 1px solid #a9a8a8;
-      }
+      } */
       
       input[type="radio"].approve:checked + label span {
         background-color: green;
