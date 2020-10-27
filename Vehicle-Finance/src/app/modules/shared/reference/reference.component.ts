@@ -395,8 +395,8 @@ export class ReferenceComponent implements OnInit {
 
             this.referenceForm.patchValue({
               refOneFirstName: this.responseData[0].firstName,
-              refOneMiddleName: this.responseData[0].middleName,
-              refOneLastName: this.responseData[0].lastName,
+              refOneMiddleName: (this.responseData[0].middleName == null) ? '' : this.responseData[0].middleName,
+              refOneLastName: (this.responseData[0].lastName == null) ? '' : this.responseData[0].lastName,
               // refOneFullName: this.responseData[0].fullName,
               refOneAddressLineOne: this.responseData[0].addLine1,
               refOneAddressLineTwo: this.responseData[0].addLine2,
@@ -406,8 +406,8 @@ export class ReferenceComponent implements OnInit {
               refOneRelationship: this.responseData[0].relationWithApplicant,
 
               refTwoFirstName: this.responseData[1].firstName,
-              refTwoMiddleName: this.responseData[1].middleName,
-              refTwoLastName: this.responseData[1].lastName,
+              refTwoMiddleName: (this.responseData[1].middleName == null) ? '' : this.responseData[1].middleName,
+              refTwoLastName: (this.responseData[1].lastName == null) ? '' : this.responseData[1].lastName,
               // refTwoFullName: this.responseData[1].fullName,
               refTwoAddressLineOne: this.responseData[1].addLine1,
               refTwoAddressLineTwo: this.responseData[1].addLine2,
@@ -418,12 +418,12 @@ export class ReferenceComponent implements OnInit {
             });
 
             this.refOnefirstName = `${this.responseData[0].firstName}`;
-            this.refOnemiddleName = `${this.responseData[0].middleName}`;
-            this.refOnelastName = `${this.responseData[0].lastName}`;
+            this.refOnemiddleName = `${(this.responseData[0].middleName == null) ? '' : this.responseData[0].middleName}`;
+            this.refOnelastName = `${(this.responseData[0].lastName == null) ? '' : this.responseData[0].lastName}`;
 
             this.refTwofirstName = `${this.responseData[1].firstName}`;
-            this.refTwomiddleName = `${this.responseData[1].middleName}`;
-            this.refTwolastName = `${this.responseData[1].lastName}`;
+            this.refTwomiddleName = `${(this.responseData[1].middleName == null) ? '' : this.responseData[1].middleName}`;
+    
 
           } else {
             const message = response.ProcessVariables.error.message;

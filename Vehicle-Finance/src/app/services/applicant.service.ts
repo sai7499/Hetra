@@ -462,7 +462,7 @@ export class ApplicantService {
       workflowId,
       projectId,
       ProcessVariables: {
-        userId: Number(userId),
+        userId: userId,
         lead_id: leadId,
         applicantReferences: [...data]
       },
