@@ -428,27 +428,27 @@ export class ApiService {
     deleteDeviation: {
       processId: 'a1220d70b45f11ea88a8f2fa9bec3d63',
       workflowId: 'a0f5f5b4b45f11ea88a8f2fa9bec3d63',
-      projectId: environment.projectIds.salesProjectId,
+      projectId: environment.projectIds.salesProjectId
     },
     getReferDeviation: {
       processId: '238d9050ba0e11eab53500505695f93b',
       workflowId: '2360e01eba0e11ea9d6b00505695f93b',
-      projectId: '403a8a12b79511ea8afff2fa9bec3d63',
+      projectId: '403a8a12b79511ea8afff2fa9bec3d63'
     },
     approveDecline: {
       processId: 'a6e7db78ba2111ea964000505695f93b',
       workflowId: 'a6c0829eba2111ea988900505695f93b',
-      projectId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
+      projectId:  environment.projectIds.salesProjectId
     },
     approveDeviation: {
       processId: '624b5f50ba8811ea9bd500505695f93b',
       workflowId: '2360e01eba0e11ea9d6b00505695f93b',
-      projectId: '403a8a12b79511ea8afff2fa9bec3d63',
+      projectId: '403a8a12b79511ea8afff2fa9bec3d63'
     },
     sendBacktoCredit: {
       processId: '0d8c700abf5e11eab87700505695f93b',
       workflowId: '2360e01eba0e11ea9d6b00505695f93b',
-      projectId: '403a8a12b79511ea8afff2fa9bec3d63',
+      projectId: '403a8a12b79511ea8afff2fa9bec3d63'
     },
     reInitiateCreditScore: {
       processId: '7f21b928ba6d11eaaccf00505695f93b',
@@ -812,7 +812,7 @@ export class ApiService {
     validateSRNumber: {
       processId: '84fdc0f4edac11eaa7e400505695f93b',
       workflowId: '84d0b640edac11ea8d3d00505695f93b',
-      projectId: environment.projectIds.validateSRNumber,
+      projectId: environment.projectIds.salesProjectId,
     },
     submitToCC: {
       processId: '47d4c4a8f19d11eaa89a00505695f93b',
@@ -878,6 +878,16 @@ export class ApiService {
       processId: '050da46e0ae811eb98c300505695f93b',
       workflowId: '04ebd41a0ae811eb8b7100505695f93b',
       projectId : environment.projectIds.reinitiatePdApi,
-    }
+    },
+    getQueries: {
+      processId: 'bc794b1c18df11eb917900505695f93b',
+      workflowId: 'a41a11d218df11eb8ba600505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    saveorUpdateQueries: {
+      processId: 'f95f5ade18e511eb8f6e00505695f93b',
+      workflowId: 'a41a11d218df11eb8ba600505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
   };
 }

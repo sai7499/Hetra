@@ -11,17 +11,17 @@
               <form class="form-horizontal">
                 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0">
                   <div class="input-group search-btn">
-                    <input type="text" class="form-control input-search" placeholder="Search">
+                    <input type="text" class="form-control input-search" placeholder="Search" (keyup)="onSearchType($event)">
                     <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
                   </div>
                 </div>
-
               </form>
 
               <br /><br />
-              <div class="panel-group mar-20 row" id="accordion" *ngFor="let chat of chatList; let i=index; let last=last">
+              <div class="panel-group mar-20 row" id="accordion"
+                *ngFor="let chat of chatList; let i=index; let last=last">
                 <div class="flex-container">
-                  <div class="small">
+                  <div class="small" (click)="onClickLeadId(chat)">
                     <p class="mar-em">{{chat.lead}}</p>
                   </div>
                   <div class="">
@@ -49,7 +49,6 @@
                             <span class="input-group-addon"><i class="fa fa-search"></i></span>
                           </div>
                         </div>
-
                         <div class="stakeholder-list">
                           <div class="radio"><label><input type="radio" name="radio">E1923 - Dhanapal Nataraj, [Sales
                               Officer] <span class="checkmark"></span></label></div>
@@ -121,7 +120,7 @@
             </div>
 
             <div class="col-sm-8 right">
-              <div class="row chat-box">
+              <div class="row chat-box" *ngFor="let message of chatMessages; let j=index;let last=last;">
                 <div class="wt-80 sender">
                   <div class="send-message">
                     <div class="logged-user">E1923 - Dhanapal Nataraj, <small> [ Sales Officer ]</small></div>
@@ -146,7 +145,6 @@
                       <span class="date-time"> 23-APR-2020 | 11:00 AM </span>
                     </div>
                   </div>
-
                 </div>
                 <div class="wt-80 sender">
                   <div class="send-message">
@@ -170,13 +168,9 @@
                   <div class="form-group">
                     <label class="col-sm-4">Query Type</label>
                     <div class="col-sm-8">
-                      <select class="form-control">
-                        <option>Select</option>
-                        <option>Clarification</option>
-                        <option>Require more data</option>
-                        <option>Require more document</option>
-                        <option>Require approval</option>
-                      </select>
+                      <app-vf-custom-select [values]="queryModelLov?.queryType" [id]="'query_type'"
+                        formControlName="queryType">
+                      </app-vf-custom-select>
                     </div>
                   </div>
                 </div>
@@ -184,19 +178,14 @@
                   <div class="form-group">
                     <label class="col-sm-4">Tag query To</label>
                     <div class="col-sm-8">
-                      <!-- <select class="form-control">
-                        <option>Select</option>
-                        <option>E1923 - Dhanapal Nataraj</option>
-                        <option>E1850 - Dinesh Subramaniyam</option>
-                      </select> -->
-                      <!-- <cus-select>
-
-                      </cus-select> -->
+                      <app-vf-custom-select [values]="queryModelLov?.tagQuery" [id]="'tag_query_to'"
+                        formControlName="tagQuery">
+                      </app-vf-custom-select>
                     </div>
                   </div>
                 </div>
               </div>
-              
+
               <div class="form-group row">
 
                 <div class="col-lg-6 col-sm-6 col-md-4 col-xs-6">
@@ -215,7 +204,9 @@
                   <div class="form-group">
                     <label for="file-upload" class="col-sm-4">Lead Id</label>
                     <div class="upload-btn-wrapper col-sm-5">
-                      <input class="form-control" type="text" id="file-upload">
+                      <app-custom-input formControlName="leadId" [id]="'lead_id'" [className]="'form-control mandatory'"
+                        [placeholder]="'Lead Id'" [isDisabled]="true">
+                      </app-custom-input>
                     </div>
                     <label for="file-upload" class="col-sm-1">*mandatory</label>
                   </div>
@@ -224,7 +215,7 @@
 
               <div class="form-group row">
                 <div class="col-sm-12 col-md-12 col-lg-12">
-                  <textarea class="form-control" style="resize: none;"></textarea>
+                  <textarea class="form-control" style="resize: none;" formControlName="query"></textarea>
                 </div>
               </div>
 
@@ -233,8 +224,7 @@
 
                 </div>
                 <div class="col-sm-7 text-right">
-                  <button class="btn btn-primary dash_href" type="button">Send</button>
-
+                  <button class="btn btn-primary dash_href" type="button" (click)="onFormSubmit(queryModalForm)">Send</button>
                 </div>
               </div>
 

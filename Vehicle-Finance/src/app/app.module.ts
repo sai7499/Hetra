@@ -55,6 +55,7 @@ import { NumberOnlyDirective } from './services/directives/number-only.directive
 import { LettersOnlyDirective } from './services/directives/letters-only.directive';
 import { CanActivateService } from '@services/can-activate.service';
 import { DisbursementSectionModule } from '@modules/disbursement-section/disbursement-section.module';
+import { SearchPipe } from './services/search.pipe';
 
 setTheme('bs4');
 
@@ -70,7 +71,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 };
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, NumberOnlyDirective, LettersOnlyDirective],
+  declarations: [AppComponent, HeaderComponent, NumberOnlyDirective, LettersOnlyDirective, SearchPipe],
   imports: [
     BrowserModule,
     HttpClientModule,

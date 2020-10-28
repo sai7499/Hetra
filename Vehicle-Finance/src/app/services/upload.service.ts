@@ -87,7 +87,7 @@ export class UploadService {
       projectId,
       ProcessVariables: {
         userId: localStorage.getItem('userId'),
-        associatedId: id,
+        associatedId: id, // collateral id
         associatedWith,
       },
     };
