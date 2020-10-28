@@ -215,7 +215,7 @@
         <!-- <app-applicant-kyc-details></app-applicant-kyc-details> -->
 
         <!-- <div [innerHTML]="img" style="overflow: scroll;" ></div>  -->
-        <div style="overflow: scroll;">
+        <div style="overflow: scroll;" *ngIf="showeKYC">
           <img [src]="imgeKYC" alt="applicant eKYC Details" style="width:100%;" />
         </div>
 
@@ -268,7 +268,7 @@
           </table>
         </div>
 
-        <div class="">
+        <div class="tablewithdetails">
           <table class="table table-responsive details">
             <thead>
               <tr class="table-head text-center">
@@ -507,7 +507,7 @@
                 <td>Mobile Number</td>
                 <td>PAN</td>
                 <td>Adhaar Ref</td>
-                <td>PassPort</td>
+                <td>Passport</td>
               </tr>
             </thead>
             <tbody>
@@ -580,7 +580,7 @@
           <table class="table table-responsive">
             <thead>
               <tr class="table-top-bg">
-                <td class="text-left">Proable Matches</td>
+                <td class="text-left">Probable Matches</td>
               </tr>
             </thead>
           </table>
@@ -598,7 +598,7 @@
                 <td>Mobile Number</td>
                 <td>PAN</td>
                 <td>Adhaar Ref</td>
-                <td>PassPort</td>
+                <td>Passport</td>
               </tr>
             </thead>
             <tbody>
@@ -622,121 +622,85 @@
         </div>
       </div>
 
- <!-- <div class="main-div-contents">
-   
-  <div>
-    <table class="table table-responsive">
-      <thead>
-        <tr class="table-top-bg">
-          <td class="text-left">collateral Vehicle Details</td>
-        </tr>
-      </thead>
-    </table>
-  </div>
+      <div class="main-div-contents">
 
-
-  <div class="tab-details">
-    <div class="p-0 row " id="">
-      <div class="col-lg-7 col-sm-7 col-md-7 col-xs-7 p-0">
-
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
-          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-            <p class="var-lab">{{labels?.productOffered}}</p>
-          </div>
-          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-            <p class="var-lab">:</p>
-          </div>
-          <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-            <p class="">{{collateralVehicleDetails?.applicantName}}</p>
-          </div>
-        </div>
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
-          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-            <p class="var-lab">{{labels?.productCategory}}</p>
-          </div>
-          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-            <p class="var-lab">:</p>
-          </div>
-          <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-            <p class="">{{collateralVehicleDetails?.product_cat_name}}</p>
-          </div>
+        <div>
+          <table class="table table-responsive">
+            <thead>
+              <tr class="table-top-bg">
+                <td class="text-left">Initial Eligibility Details</td>
+              </tr>
+            </thead>
+          </table>
         </div>
 
+
+        <div class="tab-details">
+          <div class="p-0 row " id="">
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 p-0">
+              <div class="row p-0">
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                  <p class="var-lab">{{labels?.productCategory}}</p> 
+                </div>               
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                  <p style="text-align: left;">:&nbsp;{{collateralVehicleDetails?.product_cat_name}}</p>                
+                </div>
+              </div> 
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 p-0">
+              <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                <p class="var-lab">{{labels?.requestedAmount}}</p>
+              </div>
+              <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                <p class="">:&nbsp;{{collateralVehicleDetails?.req_loan_amt}}</p>
+              </div>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 p-0">
+              <div class="row p-0">
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                  <p class="var-lab">{{labels?.loanTenor}}</p> 
+                </div>               
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                  <p style="text-align: left;">:&nbsp;{{collateralVehicleDetails?.req_tenure}}</p>                
+                </div>
+              </div> 
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 p-0">
+              <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                <p class="var-lab">{{labels?.eligibleLoanAmount}}</p>
+              </div>
+              <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                <p class="">:&nbsp;{{collateralVehicleDetails?.eligible_loan_amt}}</p>
+              </div>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 p-0">
+              <div class="row p-0">
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                  <p class="var-lab">{{labels?.eligibleLTV}}%</p> 
+                </div>               
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                  <p style="text-align: left;">:&nbsp;{{collateralVehicleDetails?.ltv_as_per_policy}}</p>                
+                </div>
+              </div> 
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 p-0">
+              <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                <p class="var-lab">{{labels?.ageOfCarEndOfTenor}}</p>
+              </div>
+              <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                <p class="">:&nbsp;{{collateralVehicleDetails?.age_after_tenure}}</p>
+              </div>
+            </div>           
+            
+
+          </div>
+        </div>
+
+        
       </div>
-
-      <div class="col-lg-5 col-sm-5 col-md-5 col-xs-5 p-0">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
-          <div class="col-lg-3 col-sm-3 col-md-3 col-xs-3">
-            <p class="var-lab">{{labels?.requestedAmount}}</p>
-          </div>
-          <div class="col-lg-1 col-sm-1 col-md-1 col-xs-1">
-            <p class="var-lab">:</p>
-          </div>
-          <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-            <p class="">{{collateralVehicleDetails?.req_loan_amt}}</p>
-          </div>
-        </div>
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
-          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-            <p class="var-lab">{{labels?.loanTenor}}</p>
-          </div>
-          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-            <p class="var-lab">:</p>
-          </div>
-          <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-            <p class="">{{collateralVehicleDetails?.req_tenure}}</p>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="col-lg-7 col-sm-7 col-md-7 col-xs-7 p-0">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
-          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-            <p class="var-lab">{{labels?.ageOfCarEndOfTenor}}</p>
-          </div>
-          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-            <p class="var-lab">:</p>
-          </div>
-          <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-            <p class="">{{collateralVehicleDetails?.age_after_tenure}}</p>
-          </div>
-        </div>
-        </div>
-
-
-        <div class="col-lg-5 col-sm-5 col-md-5 col-xs-5 p-0">
-          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
-            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-3">
-              <p class="var-lab">{{labels?.eligibleLoanAmount}}</p>
-            </div>
-            <div class="col-lg-1 col-sm-1 col-md-1 col-xs-1">
-              <p class="var-lab">:</p>
-            </div>
-            <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-              <p class="">{{collateralVehicleDetails?.eligible_loan_amt}}</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-7 col-sm-7 col-md-7 col-xs-7 p-0">
-          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
-            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-              <p class="var-lab">{{labels?.eligibleLTV}}%</p>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-              <p class="var-lab">:</p>
-            </div>
-            <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-              <p class="">{{collateralVehicleDetails?.ltv_as_per_policy}}</p>
-            </div>
-          </div>
-          </div>
 
     </div>
   </div>
-  </div> -->
 
-  </div>
-  </div>
+  
 </main>

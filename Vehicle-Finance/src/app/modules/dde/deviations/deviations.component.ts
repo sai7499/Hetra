@@ -76,7 +76,10 @@ export class DeviationsComponent implements OnInit, OnDestroy {
   saveorUpdateDeviationDetails() {
 
     if (this.formValue.valid) {
+      console.log(this.formValue, 'value')
       let data = [];
+
+      if (this.formValue.controls.isDuplicateDeviation.value) {
 
       if (this.formValue.value.autoDeviationFormArray.length > 0) {
         data = data.concat(this.formValue.value.autoDeviationFormArray);
@@ -100,6 +103,9 @@ export class DeviationsComponent implements OnInit, OnDestroy {
       }, err => {
         console.log('err', err)
       })
+    } else {
+       this.toasterService.showError('Please change the deviation or approval role', 'Duplicate Deviation')
+    }
 
     } else {
       this.isDirty = true;

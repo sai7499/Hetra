@@ -36,11 +36,23 @@
                                         (click)="getViability(viability?.collateralId, viability?.make,viability?.model, viability?.applicantName)"
                                         *ngIf="(viability?.viabilityStatus !== 'Submitted' && viability?.viabilityStatus !== 'Completed' && viability?.viabilityStatus !== 'Started')&& showNext == false">Start</a>
                                     <a class="a_tag" style="cursor:pointer"
-                                        (click)="getViability(viability?.collateralId )"
+                                    (click)="getViability(viability?.collateralId )"
                                         *ngIf="(viability?.viabilityStatus == 'Completed' || viability?.viabilityStatus == 'Submitted' || viability?.viabilityStatus == 'Started') && showNext == false">View</a>
                                     <a class="a_tag" style="cursor:pointer"
-                                        (click)="getViability(viability?.collateralId )"
-                                        *ngIf="(viability?.viabilityStatus == 'Submitted' || viability?.viabilityStatus == 'Completed') && showNext == true">View</a></u>
+                                        
+                                        *ngIf="(viability?.viabilityStatus == 'Submitted' || viability?.viabilityStatus == 'Completed') && showNext == true"> 
+                                         <ng-container *ngFor="let version of viability.version.split(',')">
+                                            <u>
+                        <a class="a_tag" style="cursor: pointer;"
+                        (click)="getViability(viability?.collateralId, version )"> Version - {{ version }}</a>
+                      </u>
+                                            <br />
+                                        </ng-container> </a>
+                                        <!-- <a class="a_tag" style="cursor:pointer"
+                                        (click)="getViability(viability?.collateralId, '1' )"
+                                        *ngIf="(viability?.viabilityStatus == 'Submitted' || viability?.viabilityStatus == 'Completed') && showNext == true"> 
+                                        Version - 1 </a> -->
+                                    </u>
                             </td>
                             <!-- <tr id="applicant_2_row">
                             <td>KL-05-AG-1191</td>
