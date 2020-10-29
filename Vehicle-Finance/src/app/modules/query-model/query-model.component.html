@@ -11,8 +11,8 @@
               <!-- <form class="form-horizontal"> -->
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0">
                 <div class="input-group search-btn">
-                  <input type="text" class="form-control input-search" placeholder="Search"
-                    formControlName="searchName" (keyup)="getLeads($event.target.value)">
+                  <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
+                    (keyup)="queryModalForm.value.searchName.length >= 2 ? getLeads(queryModalForm.value.searchName) : ''">
                   <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
                 </div>
               </div>
@@ -21,9 +21,10 @@
               <br /><br />
               <div class="panel-group mar-20 row" style="height: 500px;overflow-x: hidden; overflow-y: scroll;">
                 <div class="panel-group mar-20" id="accordion"
-                  *ngFor="let chat of chatList | search : queryModalForm.value.searchName.trim().length ? queryModalForm.value.searchName : '' : 'leadId' || 'name': 'product'; let i=index; let last=last">
+                  *ngFor="let chat of chatList; let i=index; let last=last">
                   <div class="flex-container">
                     <div class="small" (click)="getQueries(chat)">
+                      <!--  | search : queryModalForm.value.searchName.trim().length ? queryModalForm.value.searchName : '' : 'leadId' || 'name': 'product' -->
                       <p class="mar-em">{{chat.leadId}}</p>
                     </div>
                     <div class="">
@@ -32,6 +33,11 @@
                   </div>
                   <hr>
                 </div>
+
+                <div *ngIf="chatList.length === 0">
+                  No such field in leadlist
+                </div>
+
               </div>
 
               <div class="panel-group mar-20" id="accordion">
@@ -101,38 +107,35 @@
                 </div>
               </div>
 
-
             </div>
 
             <div class="col-sm-8 right">
-              <div class="row chat-box" *ngFor="let message of chatMessages; let j=index;let last=last;">
+              <div class="row chat-box">
 
-                <div class="wt-80 receiver" *ngIf="message.queryFrom !== userId">
-                  <div class="receive-message">
-                    <div class="logged-user">E1850 - Dinesh Subramaniyam, <small> [ Credit Officer ]</small></div>
-                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin
-                      commodo.
-                      Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. </p>
-                    <div class="tagged-name">
-                      <span><strong>Tagged To : </strong> E1923 - Dhanapal Nataraj </span>
-                      <span class="date-time"> 23-APR-2020 | 11:00 AM </span>
+                <div *ngFor="let message of chatMessages; let j=index;let last=last;">
+                  <div class="wt-80" [ngClass]="message.queryFrom === userId? 'sender' : 'receiver'">
+                    <div class="send-message">
+                      <div class="logged-user">{{message.fromName}} <small> [{{message.nameWithFromRole}}] </small>
+                      </div>
+                      <p>{{message.query}}</p>
+                      <div *ngIf="message.docId"><a href="#" class="text-danger"> <i class="fa fa-file-pdf-o"></i>
+                          Aadhar
+                          Card.pdf</a></div>
+                      <br *ngIf="message.docId">
+                      <div class="tagged-name">
+                        <span> <strong>Tagged To : </strong> {{message.queryTo}} [{{message.nameWithToRole}}] </span>
+                        <span class="date-time"> {{message.createdOn | date: 'dd-MMM-yyyy' }} |
+                          {{message.createdOn | date: 'h:mm a' }} </span>
+                      </div>
                     </div>
+
                   </div>
                 </div>
-                <div class="wt-80 sender" *ngIf="message.queryFrom === userId">
-                  <div class="send-message">
-                    <div class="logged-user">{{message.fromName}} <small> [ Sales Officer ]</small></div>
-                    <p>{{message.query}}</p>
-                    <div *ngIf="message.docId"><a href="#" class="text-danger"> <i class="fa fa-file-pdf-o"></i> Aadhar
-                        Card.pdf</a></div>
-                    <br />
-                    <div class="tagged-name">
-                      <span> <strong>Tagged To : </strong> {{message.queryTo}} </span>
-                      <span class="date-time"> 23-APR-2020 | 10:00 AM </span>
-                    </div>
-                  </div>
 
+                <div class="wt-80 text-center" *ngIf="chatMessages && chatMessages.length === 0">
+                  <p>No chats available</p>
                 </div>
+
               </div>
 
               <div class="form-group row">
@@ -153,9 +156,10 @@
                       <input type="text" class="form-control" autocomplete="off" formControlName="queryTo"
                         (mouseover)="mouseEnter()" (keyup)="getvalue($event.target.value)">
 
-                      <div class="dropdown-content " *ngIf="dropDown">
+                      <div class="dropdown-content" *ngIf="dropDown && searchLead && searchLead.length > 0">
                         <div *ngFor="let item of searchLead">
-                          <a data-toggle="collapse" data-target="#bs-navbar">{{item.value}}</a>
+                          <a data-toggle="collapse" data-target="#bs-navbar"
+                            (click)="getQueryTo(item)">{{item.value}}</a>
                         </div>
                       </div>
 
@@ -171,7 +175,8 @@
                     <label for="file-upload" class="col-sm-4">Attachment</label>
                     <div class="upload-btn-wrapper col-sm-8">
                       <button class="btn-upload">Choose file</button>
-                      <input type="file" id="file-upload">
+                      <input type="file" id="file-upload" #fileInput (input)="onFileSelect($event)">
+                      <!-- style="visibility: hidden;" -->
                       <span id="file-name"></span>
                       <h6>&nbsp;(Maximum size: 2 MB)</h6>
                     </div>
@@ -182,10 +187,22 @@
                   <div class="form-group">
                     <label for="file-upload" class="col-sm-4">Lead Id</label>
                     <div class="upload-btn-wrapper col-sm-5">
-                      <app-custom-input formControlName="leadId" [id]="'lead_id'" [className]="'form-control mandatory'"
-                        [placeholder]="'Lead Id'" [isRequired]="'Lead Id Required'" [isDirty]="isDirty"
-                        [isDisabled]="true">
-                      </app-custom-input>
+                      <!-- <app-custom-input formControlName="leadId" [id]="'lead_id'" [className]="'form-control mandatory'"
+                        [placeholder]="'Lead Id'" [isRequired]="'Lead Id Required'" [isDirty]="isDirty">
+                      </app-custom-input> -->
+                      <div class="col-sm-8">
+                        <input type="text" class="form-control" autocomplete="off" formControlName="leadId"
+                          (mouseover)="mouseleadIdEnter()" (keyup)="getleadIdvalue($event.target.value)">
+
+                        <div class="dropdown-content"
+                          *ngIf="isLeadShow && getSearchableLead && getSearchableLead.length > 0">
+                          <div *ngFor="let item of getSearchableLead">
+                            <a data-toggle="collapse" data-target="#bs-navbar"
+                              (click)="getLead(item)">{{item.leadId}}</a>
+                          </div>
+                        </div>
+
+                      </div>
                     </div>
                     <label for="file-upload" class="col-sm-1">*mandatory</label>
                   </div>

@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { DocRequest } from '@model/upload-model';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { LabelsService } from '@services/labels.service';
@@ -12,7 +14,8 @@ import { UtilityService } from '@services/utility.service';
 @Component({
   selector: 'app-query-model',
   templateUrl: './query-model.component.html',
-  styleUrls: ['./query-model.component.css']
+  styleUrls: ['./query-model.component.css'],
+  providers: [DatePipe]
 })
 export class QueryModelComponent implements OnInit {
 
@@ -28,12 +31,21 @@ export class QueryModelComponent implements OnInit {
   chatList: any = [];
 
   isDirty: boolean;
-
-  terms = '';
   dropDown: boolean;
   searchLead: any = []
-
   chatMessages: any = [];
+
+  isLeadShow: boolean;
+  getSearchableLead: any = []
+
+  @ViewChild('fileInput', { static: false })
+  fileInput: ElementRef;
+  docsDetails: DocRequest;
+
+  fileSize: string;
+  imageUrl: string;
+  fileName: string;
+  fileType: string;
 
   constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService, private commonLovService: CommomLovService,
     private labelsData: LabelsService, private uploadService: UploadService, private queryModelService: QueryModelService, private toasterService: ToasterService,
@@ -51,8 +63,6 @@ export class QueryModelComponent implements OnInit {
     this.leadDetails = leadData['leadDetails'];
     let collateralDetails = leadData['vehicleCollateral'];
     this.leadId = Number(this.activatedRoute.snapshot.params['leadId']);
-
-    console.log('coll', this.leadDetails)
 
     this.queryModalForm = this._fb.group({
       searchName: [''],
@@ -85,13 +95,15 @@ export class QueryModelComponent implements OnInit {
       "searchKey": searchKey ? searchKey : ''
     }
 
-    this.queryModelService.getLeads(this.userId).subscribe((res: any) => {
+    this.queryModelService.getLeads(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.chatList = res.ProcessVariables.leads ? res.ProcessVariables.leads : []
       } else {
+        this.chatList = []
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Leads')
       }
     })
+
   }
 
   getUsers() {
@@ -122,6 +134,9 @@ export class QueryModelComponent implements OnInit {
       "currentPage": 1,
       "fromUser": this.userId
     }
+    this.queryModalForm.patchValue({
+      leadId: lead.leadId
+    })
     this.queryModelService.getQueries(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.chatMessages = res.ProcessVariables.assetQueries ? res.ProcessVariables.assetQueries : []
@@ -143,16 +158,45 @@ export class QueryModelComponent implements OnInit {
       }
       this.dropDown = true;
     });
-    console.log('e', this.searchLead)
+  }
+
+  getleadIdvalue(value: string) {
+    this.isLeadShow = (value === '') ? false : true;
+
+    this.getSearchableLead = this.chatList.filter(e => {
+      value = value.toString().toLowerCase();
+      const eName = e.leadId.toString().toLowerCase();
+      if (eName.includes(value)) {
+        return e;
+      }
+      this.isLeadShow = true;
+    });
+    console.log(this.getSearchableLead, 'this.getSearchableLead')
+  }
+
+  getLead(lead) {
+    this.isLeadShow = false;
+    this.queryModalForm.patchValue({
+      leadId: lead.leadId
+    })
+  }
+
+  getQueryTo(item) {
+    this.dropDown = false;
+    this.queryModalForm.patchValue({
+      queryTo: item.key
+    })
   }
 
   mouseEnter() {
     this.dropDown = true;
   }
 
-  onFormSubmit(form) {
+  mouseleadIdEnter() {
+    this.isLeadShow = true;
+  }
 
-    console.log('fs', form.controls)
+  onFormSubmit(form) {
 
     if (form.valid) {
 
@@ -160,7 +204,7 @@ export class QueryModelComponent implements OnInit {
       assetQueries.push(form.value)
 
       let data = {
-        "leadId": this.leadId,
+        "leadId": Number(form.value.leadId),
         "assetQueries": assetQueries
       }
 
@@ -180,6 +224,99 @@ export class QueryModelComponent implements OnInit {
       this.utilityService.validateAllFormFields(form)
     }
 
+  }
+
+  private bytesToSize(bytes) {
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes === 0) {
+      return 'n/a';
+    }
+    const i = Number(Math.floor(Math.log(bytes) / Math.log(1024)));
+    if (i === 0) {
+      return bytes + ' ' + sizes[i];
+    }
+    return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+  }
+
+  async onFileSelect(event) {
+    const files: File = event.target.files[0];
+    if (!files.type) {
+      const type = files.name.split('.')[1];
+      this.fileType = this.getFileType(type);
+    } else {
+      this.fileType = this.getFileType(files.type);
+    }
+    if (this.checkFileType(this.fileType)) {
+      // this.showError = `Only files with following extensions are allowed: ${this.docsDetails.docsType}`;
+      return;
+    }
+    if (this.checkFileSize(files.size)) {
+      // this.showError = `File is too large. Allowed maximum size is ${this.bytesToSize(
+      //   this.docsDetails.docSize
+      // )}`;
+      return;
+    }
+
+    const base64: any = await this.toBase64(event);
+    this.imageUrl = base64;
+    this.fileSize = this.bytesToSize(files.size);
+    this.fileName = files.name;
+  }
+
+  checkFileSize(fileSize: number) {
+    if (fileSize > this.docsDetails.docSize) {
+      return true;
+    }
+    return false;
+  }
+
+  checkFileType(fileType: string = '') {
+    let isThere = false;
+    fileType.split('/').forEach((type) => {
+      if (this.docsDetails.docsType.includes(type.toLowerCase())) {
+        isThere = true;
+      }
+    });
+
+    return !isThere;
+  }
+
+  getFileType(type: string) {
+    const types = {
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+        'docx',
+      'application/vnd.ms-excel': 'xls',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+        'xlsx',
+      'image/tiff': 'tiff',
+      'application/pdf': 'pdf',
+      'image/png': 'png',
+      'image/jpeg': 'jpeg',
+      'application/msword': 'docx'
+    };
+    return types[type] || type;
+  }
+
+  toBase64(evt) {
+    return new Promise((resolve, reject) => {
+      var f = evt.target.files[0]; // FileList object
+      var reader = new FileReader();
+      // Closure to capture the file information.
+      reader.onload = (function (theFile) {
+        return function (e) {
+          var binaryData = e.target.result;
+          //Converting Binary Data to base 64
+          var base64String = window.btoa(binaryData);
+          console.log('base64String', base64String);
+          resolve(base64String)
+          //showing file converted to base64
+          // document.getElementById('base64').value = base64String;
+          // alert('File converted to base64 successfuly!\nCheck in Textarea');
+        };
+      })(f);
+      // Read in the image file as a data URL.
+      reader.readAsBinaryString(f);
+    });
   }
 
 }
