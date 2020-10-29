@@ -27,29 +27,71 @@ export class QueryModelService {
       projectId: projectId
 
     };
+  
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+  // 2.method for save or update query
+
+  saveOrUpdateVehcicleDetails(data) {
+
+    const processId = this.apiService.api.saveorUpdateQueries.processId;
+    const workflowId = this.apiService.api.saveorUpdateQueries.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
+
+    const body: RequestEntity = {
+
+      processId: processId,
+      ProcessVariables: data,
+      workflowId: workflowId,
+      projectId: projectId
+    };
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
 
-    // 2.method for save or update query
+  // 3.method for get leads
 
-    saveOrUpdateVehcicleDetails(data) {
+  getLeads(data) {
 
-      const processId = this.apiService.api.saveorUpdateQueries.processId;
-      const workflowId = this.apiService.api.saveorUpdateQueries.workflowId;
-      const projectId = environment.projectIds.salesProjectId;
-  
-      const body: RequestEntity = {
-  
-        processId: processId,
-        ProcessVariables: data,
-        workflowId: workflowId,
-        projectId: projectId
-      };
-  
-      const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
-      return this.httpService.post(url, body);
-    }
+    const processId = this.apiService.api.getLeads.processId;
+    const workflowId = this.apiService.api.getLeads.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
+
+    const body: RequestEntity = {
+
+      processId: processId,
+      ProcessVariables: data,
+      workflowId: workflowId,
+      projectId: projectId
+
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+  // 3.method for get users
+
+  getUsers(data) {
+
+    const processId = this.apiService.api.getUsers.processId;
+    const workflowId = this.apiService.api.getUsers.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
+
+    const body: RequestEntity = {
+
+      processId: processId,
+      ProcessVariables: data,
+      workflowId: workflowId,
+      projectId: projectId
+
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
 
 }

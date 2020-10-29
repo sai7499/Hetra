@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
-import { SearchPipe } from '../../services/search.pipe';
+import { CommomLovService } from '@services/commom-lov-service';
+import { LabelsService } from '@services/labels.service';
+import { QueryModelService } from '@services/query-model.service';
+import { ToasterService } from '@services/toaster.service';
+import { UploadService } from '@services/upload.service';
+import { UtilityService } from '@services/utility.service';
 
 @Component({
   selector: 'app-query-model',
@@ -12,96 +18,167 @@ export class QueryModelComponent implements OnInit {
 
   queryModalForm: FormGroup;
   queryModelLov: any = {};
+  labels: any = {};
+  collateralId: number = 1;
+  userId: string;
+
   leadDetails: any;
   leadId: number = 0;
-  chatList: any = [
-    {
-      "lead": "Lead 1234",
-      "description": "Lead 1234 - UCV Giribabu - 500000 - Credit Decision"
-    },
-    {
-      "lead": "Lead 1234",
-      "description": "Lead 1234 - UCV Giribabu - 500000 - Credit Decision"
-    },
-    {
-      "lead": "Lead 1234",
-      "description": "Lead 1234 - UCV Giribabu - 500000 - Credit Decision"
-    },
-    {
-      "lead": "Lead 1234",
-      "description": "Lead 1234 - UCV Giribabu - 500000 - Credit Decision"
-    }
-  ];
+  associatedWith: number = 1;
+  chatList: any = [];
 
-  chatMessages: any = [
-    {
-      "fromName": "E1923 - Dhanapal Nataraj",
-      "role": "[ Sales Officer ]",
-      "query": "Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.",
-      "docId": "Aadhar Card.pdf",
-      "taggedTo": "E1850 - Dinesh Subramaniyam"
-    }
-  ];
+  isDirty: boolean;
 
-  constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService) { }
+  terms = '';
+  dropDown: boolean;
+  searchLead: any = []
+
+  chatMessages: any = [];
+
+  constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService, private commonLovService: CommomLovService,
+    private labelsData: LabelsService, private uploadService: UploadService, private queryModelService: QueryModelService, private toasterService: ToasterService,
+    private utilityService: UtilityService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
 
+    this.labelsData.getLabelsData().subscribe((data) => {
+      this.labels = data;
+    });
+
+    this.userId = localStorage.getItem('userId')
+
     const leadData = this.createLeadDataService.getLeadSectionData();
     this.leadDetails = leadData['leadDetails'];
-    this.leadId = leadData['leadId'];
+    let collateralDetails = leadData['vehicleCollateral'];
+    this.leadId = Number(this.activatedRoute.snapshot.params['leadId']);
+
+    console.log('coll', this.leadDetails)
 
     this.queryModalForm = this._fb.group({
-      queryType: [''],
-      query: [''],
-      tagQuery: [''],
-      queryFrom: [''],
-      queryTo: [''],
+      searchName: [''],
+      queryType: ['', Validators.required],
+      query: ['', Validators.required],
+      queryFrom: [this.userId],
+      queryTo: ['', Validators.required],
       docId: [''],
       leadId: [this.leadId, Validators.required]
     })
 
-    this.queryModelLov.tagQuery = [
-      {
-        key: "0",
-        value: "E1923 - Dhanapal Nataraj"
-      },
-      {
-        key: "1",
-        value: "E1850 - Dinesh Subramaniyam"
-      }
-    ];
-    this.queryModelLov.queryType = [
-      {
-        key: "0",
-        value: "Clarification"
-      },
-      {
-        key: "1",
-        value: "Require more data"
-      },
-      {
-        key: "2",
-        value: "Require more document"
-      },
-      {
-        key: "3",
-        value: "Require approval"
-      }
-    ];
+    this.getLov();
   }
 
-  onClickLeadId(lead) {
-    console.log('lead', lead)
+  getLov() {
+    this.commonLovService.getLovData().subscribe((value: any) => {
+      let LOV = value.LOVS;
+      this.queryModelLov.queryType = value.LOVS.queryType;
+      this.getUsers();
+      this.getLeads();
+    });
   }
 
-  onSearchType(event) {
-    console.log(event.target.value, 'event')
+  getLeads(searchKey?: string) {
+
+    let data = {
+      "userId": this.userId,
+      "currentPage": null,
+      "perPage": 500,
+      "searchKey": searchKey ? searchKey : ''
+    }
+
+    this.queryModelService.getLeads(this.userId).subscribe((res: any) => {
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        this.chatList = res.ProcessVariables.leads ? res.ProcessVariables.leads : []
+      } else {
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Leads')
+      }
+    })
+  }
+
+  getUsers() {
+    let data = {
+      "userId": this.userId,
+      "leadId": this.leadId
+    }
+
+    this.queryModelService.getUsers(data).subscribe((res: any) => {
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        this.queryModelLov.queryTo = res.ProcessVariables.stakeholders ? res.ProcessVariables.stakeholders : []
+      } else {
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Users')
+      }
+    })
+  }
+
+  getDocumentDetails() {
+    this.uploadService
+      .getDocumentDetails(this.collateralId, this.associatedWith)
+      .subscribe((value: any) => { });
+  }
+
+  getQueries(lead) {
+    let data = {
+      "leadId": lead.leadId,
+      "perPage": 3,
+      "currentPage": 1,
+      "fromUser": this.userId
+    }
+    this.queryModelService.getQueries(data).subscribe((res: any) => {
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        this.chatMessages = res.ProcessVariables.assetQueries ? res.ProcessVariables.assetQueries : []
+      } else {
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Queries')
+      }
+
+    })
+  }
+
+  getvalue(enteredValue: string) {
+    this.dropDown = (enteredValue === '') ? false : true;
+
+    this.searchLead = this.queryModelLov.queryTo.filter(e => {
+      enteredValue = enteredValue.toString().toLowerCase();
+      const eName = e.value.toString().toLowerCase();
+      if (eName.includes(enteredValue)) {
+        return e;
+      }
+      this.dropDown = true;
+    });
+    console.log('e', this.searchLead)
+  }
+
+  mouseEnter() {
+    this.dropDown = true;
   }
 
   onFormSubmit(form) {
 
-    console.log('fs', form)
+    console.log('fs', form.controls)
+
+    if (form.valid) {
+
+      let assetQueries = [];
+      assetQueries.push(form.value)
+
+      let data = {
+        "leadId": this.leadId,
+        "assetQueries": assetQueries
+      }
+
+      this.queryModelService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          let updateDevision = res.ProcessVariables.updatedDev ? res.ProcessVariables.updatedDev : [];
+          this.getLeads()
+          this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Query Model Save/Update')
+        } else {
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Query Model Save/Update')
+        }
+      })
+
+    } else {
+      this.isDirty = true;
+      this.toasterService.showError('Please enter all mandatory field', 'Query Model Save/Update')
+      this.utilityService.validateAllFormFields(form)
+    }
 
   }
 
