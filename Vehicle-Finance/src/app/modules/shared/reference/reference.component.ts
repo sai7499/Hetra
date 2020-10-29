@@ -8,6 +8,7 @@ import { CommomLovService } from '@services/commom-lov-service';
 import { ApplicantService } from '@services/applicant.service';
 import { ToastrService } from 'ngx-toastr';
 import { ObjectComparisonService } from '@services/obj-compare.service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-reference',
@@ -112,6 +113,7 @@ export class ReferenceComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private applicantService: ApplicantService,
     private toasterService: ToastrService,
+    private toasterServiceInfo: ToasterService,
     private location: Location,
     private router: Router,
     private objectComparisonService: ObjectComparisonService
@@ -533,6 +535,10 @@ export class ReferenceComponent implements OnInit {
       this.finalValue = this.referenceForm.getRawValue();
       const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.finalValue);
       console.log(this.apiValue, ' vvalue', this.finalValue);
+      if (!isValueCheck) {
+        this.toasterServiceInfo.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
+        return;
+      }
       this.onNavigate();
     } else {
       this.toasterService.error(
