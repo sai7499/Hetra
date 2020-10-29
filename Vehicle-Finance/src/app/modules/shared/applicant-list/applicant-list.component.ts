@@ -97,6 +97,7 @@ export class ApplicantListComponent implements OnInit {
     // this.downloadpdf();
     // 
     this.applicantDataService.setDetectvalueChange(false)
+    this.showeKYC = false;
   }
 
   getLeadId() {
@@ -312,10 +313,10 @@ export class ApplicantListComponent implements OnInit {
         });
       } else {
         this.toasterService.showError(res['ProcessVariables'].error["message"], '')
-        this.imgeKYC = res.ProcessVariables.error.message;
-        setTimeout(() => {
-          this.showeKYC = true;
-        });
+        // this.imgeKYC = res.ProcessVariables.error.message;
+        // setTimeout(() => {
+        //   this.showeKYC = true;
+        // });
       }
     });
   }
@@ -344,6 +345,7 @@ export class ApplicantListComponent implements OnInit {
 
         destroyeKYCImage() {
           if (this.imgeKYC) {
+            this.showeKYC = false;
             this.imgeKYC = null;
           }
         }
