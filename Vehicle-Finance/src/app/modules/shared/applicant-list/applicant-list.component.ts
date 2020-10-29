@@ -208,12 +208,12 @@ export class ApplicantListComponent implements OnInit {
           //        + imageUrl); // sanitizing xml doc for rendering with proper css
           this.cibilImage = this.imageUrl;
           console.log(this.newImage);
-          setTimeout(() => {
-            this.dragElement(document.getElementById('mydiv'));
-          });
-          this.hideDraggableContainer = true;
+          // setTimeout(() => {
+            // this.dragElement(document.getElementById('mydiv'));
+         // });
+          // this.hideDraggableContainer = true;
         } else {
-          this.hideDraggableContainer = true;
+          // this.hideDraggableContainer = true;
           this.imageUrl = res.ProcessVariables.error.message;
           this.cibilImage = res.ProcessVariables.error.message;
         }
