@@ -203,7 +203,19 @@ export class UploadModalComponent {
     this.docsDetails.docNm = fileName;
     const addDocReq = [
       {
-        ...this.docsDetails,
+        // ...this.docsDetails,
+        docTp: this.docsDetails.docTp,
+        docSbCtgry: this.docsDetails.docSbCtgry,
+        docNm: this.docsDetails.docNm,
+        docCtgryCd: this.docsDetails.docCtgryCd,
+        docCatg: this.docsDetails.docCatg,
+        docTypCd: this.docsDetails.docTypCd,
+        flLoc: this.docsDetails.flLoc,
+        docCmnts: this.docsDetails.docCmnts,
+        bsPyld: this.docsDetails.bsPyld,
+        docSbCtgryCd: this.docsDetails.docSbCtgryCd,
+        docRefId: this.docsDetails.docRefId,
+
       },
     ];
     this.uploadService
