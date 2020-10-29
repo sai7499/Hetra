@@ -46,6 +46,7 @@ export class ApplicantListComponent implements OnInit {
   imgeKYC: any;
   showeKYC: boolean = false;
   collateralVehicleDetails: any;
+  isDelete : boolean= false;
 
   constructor(
     private labelsData: LabelsService,
@@ -111,11 +112,13 @@ export class ApplicantListComponent implements OnInit {
 
   navigateAddapplicant() {
 
-
-    if (this.applicantList.length > 4) {
-      this.toasterService.showWarning('Maximum 5 Applicants', '')
-      return;
+    if(this.applicantList){
+      if (this.applicantList.length > 4) {
+        this.toasterService.showWarning('Maximum 5 Applicants', '')
+        return;
+      }
     }
+    
     this.router.navigateByUrl(`/pages/sales-applicant-details/${this.leadId}/add-applicant`);
   }
 
@@ -138,6 +141,18 @@ export class ApplicantListComponent implements OnInit {
       const processVariables = value.ProcessVariables;
       this.applicantList = processVariables.applicantListForLead;
       console.log('getapplicants', this.applicantList);
+      if(this.applicantList){
+        this.isDelete= this.applicantList.length === 1 ? true : false;
+        this.applicantList.map((data) => {
+          if (data.mobileNumber && data.mobileNumber.length === 12) {
+            data.mobileNumber = data.mobileNumber.slice(2, 12)
+          }
+          if (data.companyPhoneNumber && data.companyPhoneNumber.length === 12) {
+            data.companyPhoneNumber = data.companyPhoneNumber.slice(2, 12)
+          }
+          return data;
+        })
+      }
     });
   }
 
@@ -167,6 +182,7 @@ export class ApplicantListComponent implements OnInit {
     this.applicantService.softDeleteApplicant(data).subscribe((res) => {
       console.log('res', this.selectedApplicantId);
       this.applicantList.splice(this.index, 1);
+      this.isDelete= this.applicantList.length === 1 ? true : false;
     });
   }
 
@@ -250,9 +266,14 @@ export class ApplicantListComponent implements OnInit {
     }
   }
   forFindingApplicantType() {
-    const findApplicant = this.applicantList.find((data) => data.applicantTypeKey == "APPAPPRELLEAD")
-    console.log('findApplicant', findApplicant)
-    this.showNotApplicant = findApplicant == undefined ? true : false;
+    if(this.applicantList){
+      const findApplicant = this.applicantList.find((data) => data.applicantTypeKey == "APPAPPRELLEAD")
+      console.log('findApplicant', findApplicant)
+      this.showNotApplicant = findApplicant == undefined ? true : false;
+    }else{
+      this.showNotApplicant= true;
+    }
+    
   }
 
   onNext() {
