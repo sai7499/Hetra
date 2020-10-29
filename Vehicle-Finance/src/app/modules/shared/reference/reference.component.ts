@@ -7,6 +7,8 @@ import { LabelsService } from 'src/app/services/labels.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { ApplicantService } from '@services/applicant.service';
 import { ToastrService } from 'ngx-toastr';
+import { ObjectComparisonService } from '@services/obj-compare.service';
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-reference',
@@ -102,6 +104,8 @@ export class ReferenceComponent implements OnInit {
   ];
 
   testt: string;
+  apiValue: any;
+  finalValue: any;
 
   constructor(
     private commonLovService: CommomLovService,
@@ -109,8 +113,10 @@ export class ReferenceComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private applicantService: ApplicantService,
     private toasterService: ToastrService,
+    private toasterServiceInfo: ToasterService,
     private location: Location,
     private router: Router,
+    private objectComparisonService: ObjectComparisonService
   ) {
     this.refOnefirstName = '';
     this.refOnemiddleName = '';
@@ -423,8 +429,8 @@ export class ReferenceComponent implements OnInit {
 
             this.refTwofirstName = `${this.responseData[1].firstName}`;
             this.refTwomiddleName = `${(this.responseData[1].middleName == null) ? '' : this.responseData[1].middleName}`;
-    
 
+            this.apiValue = this.referenceForm.getRawValue();
           } else {
             const message = response.ProcessVariables.error.message;
             this.toasterService.error(message, 'Reference Details');
@@ -488,8 +494,11 @@ export class ReferenceComponent implements OnInit {
             const apiError = response.ProcessVariables.error.code;
 
             if (appiyoError === '0' && apiError === '0') {
+              this.refOneId = response.ProcessVariables.applicantReferences[0].id;
+              this.refTwoId = response.ProcessVariables.applicantReferences[1].id;
               this.toasterService.success('Record saved successfully', 'Reference Details');
               this.isSavedNext = false;
+              this.apiValue = this.referenceForm.getRawValue();
             } else {
               const message = response.ProcessVariables.error.message;
               this.toasterService.error(message, 'Reference Details');
@@ -520,8 +529,15 @@ export class ReferenceComponent implements OnInit {
     if (this.referenceForm.valid === true
       && !this.isMobileOneErrorMsg
       && !this.isMobileOneErrorMsg) {
-      if (this.isSavedNext) {
-        this.onSubmit();
+      // if (this.isSavedNext) {
+      //   this.onSubmit();
+      // }
+      this.finalValue = this.referenceForm.getRawValue();
+      const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.finalValue);
+      console.log(this.apiValue, ' vvalue', this.finalValue);
+      if (!isValueCheck) {
+        this.toasterServiceInfo.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
+        return;
       }
       this.onNavigate();
     } else {
