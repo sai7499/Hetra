@@ -423,7 +423,14 @@ margin: 0px !important;
 }
 .wt-80 {
 	width: 80%;
-	margin-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.wt-mid {
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .sender{
 	float: right;
@@ -620,7 +627,7 @@ margin: 0px !important;
 }
 
 .mar-20{
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .mar-top-10{
@@ -662,8 +669,7 @@ margin: 0px !important;
   }
 
   hr {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin : 5px 0px;
     border: 0;
     border-top: 2px solid #eee!important;
 }
@@ -695,3 +701,45 @@ margin: 0px !important;
     cursor: pointer;
     }
     .dropdown-content a:hover {background-color: #ddd;}
+
+    .scroll-box{
+        width:100%;
+    max-height:500px;
+    overflow-y:auto;
+    }
+
+    .message-box{
+        width:100%;
+        max-height: 634px;
+    overflow-y:auto;
+    }
+    
+  .panel-group{
+      margin-bottom:10px!important;
+  }
+
+  #myBtn {
+    /* display: none; */
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    border-radius: 50px;
+    outline: none;
+    background-color: #ddd;
+    color: #000;
+    cursor: pointer;
+    padding: 15px;
+    border:black;
+   
+  }
+  
+  #myBtn:hover {
+    background-color: #fff;
+    color:#000;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }

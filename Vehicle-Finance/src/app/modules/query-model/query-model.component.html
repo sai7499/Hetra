@@ -19,7 +19,7 @@
               <!-- </form> -->
 
               <br /><br />
-              <div class="panel-group mar-20 row" style="height: 500px;overflow-x: hidden; overflow-y: scroll;">
+              <div class="panel-group mar-20 scroll-box row">
                 <div class="panel-group mar-20" id="accordion"
                   *ngFor="let chat of chatList; let i=index; let last=last">
                   <div class="flex-container">
@@ -110,14 +110,12 @@
 
             </div>
 
-            <div class="col-sm-8 right">
-              <div class="row chat-box">
+            <div class="col-sm-8 right ">
+              <div class="row chat-box message-box">
 
                 <div *ngFor="let message of chatMessages; let j=index;let last=last;">
                   <div class="wt-80" [ngClass]="message.queryFrom === userId ? 'sender' : 'receiver'">
                     <div [ngClass]="message.queryFrom === userId ? 'send-message' : 'receive-message'">
-                      <!-- <div class="logged-user">{{message.fromName}} <small> {{message.fromRole}} </small>
-                      </div> -->
                       <div class="logged-user">
                         <span> {{message.fromName}} {{message.fromRole}} </span>
                         <span> <strong>Query Type : </strong> {{message.queryTypeDesc}}
@@ -138,11 +136,13 @@
                     </div>
 
                   </div>
+
                 </div>
 
-                <div class="wt-80 text-center" *ngIf="chatMessages && chatMessages.length === 0">
+                <div class="wt-mid text-center" *ngIf="chatMessages && chatMessages.length === 0">
                   <p>No chats available</p>
                 </div>
+                <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 
               </div>
 
@@ -251,3 +251,25 @@
 
   </div>
 </main>
+<script>
+  //Get the button
+  var mybutton = document.getElementById("myBtn");
+
+  // When the user scrolls down 20px from the top of the document, show the button
+  window.onscroll = function () { scrollFunction() };
+
+  function scrollFunction() {
+    if (document.body.scrollTop > 5 || document.documentElement.scrollTop > 5) {
+      mybutton.style.display = "block";
+    } else {
+      mybutton.style.display = "none";
+    }
+  }
+
+  // When the user clicks on the button, scroll to the top of the document
+  function topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+</script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
