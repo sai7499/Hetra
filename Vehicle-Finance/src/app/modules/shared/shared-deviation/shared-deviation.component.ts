@@ -122,6 +122,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       isSaveEdit: false,
       enableApprove: false,
       enableSendBack: false,
+      isDuplicateDeviation: true,
       autoDeviationFormArray: this._fb.array([]),
       waiverNormsFormArray: this._fb.array([]),
       manualDeviationFormArray: this._fb.array([])
@@ -250,7 +251,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     })
 
     formArray.controls[i].patchValue({
-      shortDeDesc: item.value,
       devDesc: obj.dev_desc
     })
   }
@@ -267,12 +267,22 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   }
 
   findDuplicate(name, p): boolean {
+    this.deviationsForm.patchValue({
+      isDuplicateDeviation: true
+    })
     let myArray = this.deviationsForm.controls.manualDeviationFormArray['controls'];
-    let test = myArray.filter(data => data.controls.devCode.value == name && name != null)
+    let test = myArray.filter(data => data.controls.devCode.value == name.controls.devCode.value && name.controls.devCode.value != null)
+    let role = myArray.filter(data => data.controls.approverRole.value == name.controls.approverRole.value && name.controls.approverRole.value != null)
 
-    if (test.length > 1) {
+    if (test.length > 1 && role.length > 1) {
+      this.deviationsForm.patchValue({
+        isDuplicateDeviation: false
+      })
       return true;
     } else {
+      this.deviationsForm.patchValue({
+        isDuplicateDeviation: true
+      })
       return false
     }
   }
@@ -282,7 +292,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       approverRole: ['', Validators.required],
       approverRoleName: [''],
       approverRoles: [''],
-      shortDeDesc: [''],
       devCode: ['', Validators.required],
       devDesc: [""],
       otherMitigant: [''],
@@ -407,10 +416,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
     let typeofRole;
     let splitData = [];
-    let description;
 
     array.map((data: any) => {
-
       let approverRole = data.approverRoles && data.approverRoles !== "undefined" ? data.approverRoles : data.approverRole ? data.approverRole : '';
 
       splitData = approverRole.split('|');
@@ -424,12 +431,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         return typeofRole;
       })
 
-      // description = this.manualDeviationMaster.find((dev: any) => {
-      //   if (Number(data.devCode) === dev.dev_code) {
-      //     return dev
-      //   }
-      // })
-
       let type = typeofRole ? Number(typeofRole.type) : 0;
       let hierarchy = typeofRole ? typeofRole.hierarchy : 0;
 
@@ -438,7 +439,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         waiverNormsFormArray.push(
           this._fb.group({
             approverRole: data.approverRole,
-            approverRoleName: typeofRole.name,
+            approverRoleName: typeofRole.name ? typeofRole.name : '',
             devCode: data.devCode,
             devDesc: data.devDesc,
             type: type,
@@ -447,7 +448,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             hierarchy: hierarchy,
             isWaiverNormsDev: data.isWaiverNormsDev,
             justification: data.justification,
-            //shortDeDesc: data.short_dev_desc,
             otherMitigant: data.other_mitigant,
             rulesRemarks: data.rulesRemarks,
             statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
@@ -458,7 +458,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           manualDiviationFormArray.push(
             this._fb.group({
               approverRole: data.approverRole,
-              approverRoleName: typeofRole.name,
+              approverRoleName: typeofRole.name ? typeofRole.name : '',
               devCode: data.devCode,
               devDesc: data.devDesc,
               type: type,
@@ -469,19 +469,17 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
               rulesRemarks: data.rulesRemarks,
               justification: data.justification,
               isWaiverNormsDev: data.isWaiverNormsDev,
-              //shortDeDesc: description.short_dev_desc,
               statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
             }))
         } else if (data.isManualDev === '0') {
           autoDeviationFormArray.push(
             this._fb.group({
               approverRole: data.approverRole,
-              approverRoleName: typeofRole.name,
+              approverRoleName: typeofRole.name ? typeofRole.name : '',
               devCode: data.devCode,
               devDesc: data.devDesc,
               devRuleId: data.devRuleId,
               isManualDev: data.isManualDev,
-              //shortDeDesc: description.short_dev_desc,
               type: type,
               isWaiverNormsDev: data.isWaiverNormsDev,
               otherMitigant: data.other_mitigant,
@@ -492,7 +490,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             }))
         }
       }
-      //console.log('formArray', this.deviationsForm)
 
       if (this.locationIndex === 'credit-decisions') {
         this.isApprove = false;

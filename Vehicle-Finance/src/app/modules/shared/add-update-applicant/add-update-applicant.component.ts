@@ -333,17 +333,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     })
     this.isExtCustValueChange = this.applicantDataService.getDetectvalueChange();
+    console.log('this.isExtCustValueChange',this.isExtCustValueChange)
 
-  }
-
-  @HostListener('change') ngOnChanges($event) {
-    this.savedChecking = false;
-  }
-
-  @HostListener('keydown', ['$event'])
-
-  onkeyup(event) {
-    this.savedChecking = false;
   }
 
   getAgeValidation() {
@@ -725,7 +716,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     } else {
       this.showApplicantAddCheckBox = false;
     }
-
+  if(this.applicantData){
     this.applicantData.forEach((data) => {
       if (data.applicantId !== this.applicantId) {
         if (data.applicantTypeKey == "APPAPPRELLEAD" && data.applicantTypeKey === value) {
@@ -740,6 +731,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       // }
     });
 
+  }
+    
   }
 
   getPanValue(event?: any) {
@@ -1246,16 +1239,19 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.disableCommunicationAddress();
         //}
         this.showModifyCurrCheckBox = true;
-        // const applicant= processVariables.applicantDetails; 
-        
         const indivIdentityInfoDetails = processVariables.indivIdentityInfoDetails;
         const corporateProspectDetails = processVariables.corporateProspectDetails;
-        if (indivIdentityInfoDetails.passportNumber) {
-          this.passportMandatoryDates();
+        // const applicant= processVariables.applicantDetails; 
+        if (processVariables.applicantDetails.entityTypeKey == "INDIVENTTYP"){
+         
+          if (indivIdentityInfoDetails.passportNumber) {
+            this.passportMandatoryDates();
+          }
+          if (indivIdentityInfoDetails.drivingLicenseNumber) {
+            this.drivingLicenceMandatoryDates();
+          }
         }
-        if (indivIdentityInfoDetails.drivingLicenseNumber) {
-          this.drivingLicenceMandatoryDates();
-        }
+       
 
         if (processVariables.applicantDetails.entityTypeKey == "INDIVENTTYP") {
           this.lastName= processVariables.applicantDetails.name3

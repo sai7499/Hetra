@@ -434,7 +434,7 @@ export class ApplicantService {
     return this.httpService.post(url, body);
   }
 
-  geteKYCDetails(applicantId) {
+  geteKYCDetails(applicantID) {
     const projectId = this.eKYCDetails.projectId;
     const processId = this.eKYCDetails.processId;
     const workflowId = this.validateSRNumber.workflowId;
@@ -443,7 +443,7 @@ export class ApplicantService {
     const body = {
       processId,
       ProcessVariables: {
-        applicantId
+        applicantID
       },
       projectId
     };
@@ -462,7 +462,7 @@ export class ApplicantService {
       workflowId,
       projectId,
       ProcessVariables: {
-        userId: Number(userId),
+        userId: userId,
         lead_id: leadId,
         applicantReferences: [...data]
       },

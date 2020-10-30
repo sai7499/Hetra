@@ -157,12 +157,15 @@
                       aria-hidden="true"
                     ></i
                     ><a data-toggle="modal" data-target="#myModal" title="Delete applicant"
-                      ><i 
+                    [ngClass]="{ 'deleteApp' : isDelete }"><i 
                         class="fa fa-trash"
+                        
+                        
                         aria-hidden="true"
                         (click)="softDeleteApplicant(i, item.applicantId)"
                       ></i
                     ></a>
+                    <!-- [ngStyle]="{'pointer-events' : 'none'}" -->
                   </td>
                   <div class="modal" id="myModal">
                     <div class="modal-dialog">
