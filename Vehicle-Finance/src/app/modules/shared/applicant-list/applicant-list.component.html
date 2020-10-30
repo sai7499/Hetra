@@ -51,7 +51,7 @@
                 <div class="flex-container">
                   <div><a (click)="navigatePage(item.applicantId)" title="Edit applicant"><i
                         class="fa fa-pencil icon p-0" aria-hidden="true"></i></a></div>
-                  <div><a (click)="getApplicantImage(item.applicantId)" [ngClass]="{'pointer_non': disableSaveBtn }"
+                  <div><a [ngClass]="{'pointer_non':isDelete || disableSaveBtn }"
                       data-toggle="modal" data-target="#myModal" (click)="softDeleteApplicant(i, item.applicantId)"
                       title="Delete applicant"><i class="fa fa-trash icon p-0" aria-hidden="true"></i></a></div>
                   <div> <a (click)="getApplicantImage(item.applicantId)" data-toggle="modal"
@@ -65,8 +65,8 @@
                 </div>
                 <a (click)="navigatePage(item.applicantId)" class="desktop-hide" title="Edit applicant"><i
                     class="fa fa-pencil icon" aria-hidden="true"></i></a>
-                &nbsp;<a (click)="getApplicantImage(item.applicantId)" class="desktop-hide"
-                  [ngClass]="{'pointer_non': disableSaveBtn }" data-toggle="modal" data-target="#myModal"
+                &nbsp;<a class="desktop-hide"
+                  [ngClass]="{'pointer_non':isDelete || disableSaveBtn }" data-toggle="modal" data-target="#myModal"
                   (click)="softDeleteApplicant(i, item.applicantId)" title="Delete applicant"><i
                     class="fa fa-trash icon" aria-hidden="true"></i></a> &nbsp;
                 <a (click)="getApplicantImage(item.applicantId)" class="desktop-hide" data-toggle="modal"
