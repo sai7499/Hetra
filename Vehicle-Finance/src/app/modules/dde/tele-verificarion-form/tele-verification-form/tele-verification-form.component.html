@@ -402,12 +402,14 @@
                                 <tr>
                                     <th class="bank_name">{{labels.name}}</th>
                                     <td formGroupName="reference1">
-                                        <app-custom-input id="refFirstName1" (ngModelChange)="onName1Change($event)" formControlName="firstName" [className]="'form-control mandatory'" [maxLength]="validationData?.name.maxLength" [isRequired]="'Name is required'" [isDirty]="isDirty" [type]="validationData?.name.type">
-                                        </app-custom-input>
+                                        <!-- <app-custom-input id="refFirstName1" (ngModelChange)="onName1Change($event)" formControlName="firstName" [className]="'form-control mandatory'" [maxLength]="validationData?.name.maxLength" [isRequired]="'Name is required'" [isDirty]="isDirty" [type]="validationData?.name.type">
+                                        </app-custom-input> -->
+                                        <input type="text" readonly class="form-control" id="refFirstName1" name="refFirstName1" formControlName="firstName">
                                     </td>
                                     <td formGroupName="reference2">
-                                        <app-custom-input id="refFirstName2" (ngModelChange)="onName2Change($event)" formControlName="firstName" [className]="'form-control mandatory'" [maxLength]="validationData?.name.maxLength" [isRequired]="'Name is required'" [isDirty]="isDirty" [type]="validationData?.name.type">
-                                        </app-custom-input>
+                                        <!-- <app-custom-input id="refFirstName2" (ngModelChange)="onName2Change($event)" formControlName="firstName" [className]="'form-control mandatory'" [maxLength]="validationData?.name.maxLength" [isRequired]="'Name is required'" [isDirty]="isDirty" [type]="validationData?.name.type">
+                                        </app-custom-input> -->
+                                        <input type="text" readonly class="form-control" id="refFirstName2" name="refFirstName2" formControlName="firstName">
                                     </td>
 
                                 </tr>
@@ -415,26 +417,30 @@
 
                                     <th class="bank_name">{{labels.address}}</th>
                                     <td formGroupName="reference1">
-                                        <app-custom-input id="refAddress1" formControlName="address" [className]="'form-control mandatory'" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Address details is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
-                                        </app-custom-input>
+                                        <!-- <app-custom-input id="refAddress1" formControlName="address" [className]="'form-control mandatory'" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Address details is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
+                                        </app-custom-input> -->
+                                        <input type="text" readonly class="form-control" id="refAddress1" name="refAddress1" formControlName="address">
                                     </td>
                                     <td formGroupName="reference2">
-                                        <app-custom-input id="refAddress2" formControlName="address" [className]="'form-control mandatory'" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Address details is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
-                                        </app-custom-input>
+                                        <!-- <app-custom-input id="refAddress2" formControlName="address" [className]="'form-control mandatory'" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Address details is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
+                                        </app-custom-input> -->
+                                        <input type="text" readonly class="form-control" id="refAddress2" name="refAddress2" formControlName="address">
                                     </td>
 
                                 </tr>
                                 <tr>
                                     <th class="bank_name">{{labels.mobileNo}}</th>
                                     <td formGroupName="reference1">
-                                        <app-custom-input id="refmobileNo1" formControlName="mobileNo" [className]="'form-control'" [placeholder]="'Mobile'" [maxLength]="validationData?.mobileNumber.maxLength" [patternCheck]="validationData?.mobileNumber.pattern" [isRequired]="'Mobile Number is required'"
+                                        <!-- <app-custom-input id="refmobileNo1" formControlName="mobileNo" [className]="'form-control'" [placeholder]="'Mobile'" [maxLength]="validationData?.mobileNumber.maxLength" [patternCheck]="validationData?.mobileNumber.pattern" [isRequired]="'Mobile Number is required'"
                                             [isDirty]="isDirty" [type]="validationData?.mobileNumber.type">
-                                        </app-custom-input>
+                                        </app-custom-input> -->
+                                        <input type="text" readonly class="form-control" id="refmobileNo1" name="refmobileNo1" formControlName="mobileNo">
                                     </td>
                                     <td formGroupName="reference2">
-                                        <app-custom-input id="refmobileNo2" formControlName="mobileNo" [className]="'form-control'" [placeholder]="'Mobile'" [maxLength]="validationData?.mobileNumber.maxLength" [patternCheck]="validationData?.mobileNumber.pattern" [isRequired]="'Mobile Number is required'"
+                                        <!-- <app-custom-input id="refmobileNo2" formControlName="mobileNo" [className]="'form-control'" [placeholder]="'Mobile'" [maxLength]="validationData?.mobileNumber.maxLength" [patternCheck]="validationData?.mobileNumber.pattern" [isRequired]="'Mobile Number is required'"
                                             [isDirty]="isDirty" [type]="validationData?.mobileNumber.type">
-                                        </app-custom-input>
+                                        </app-custom-input> -->
+                                        <input type="text" readonly class="form-control" id="refmobileNo2" name="refmobileNo2" formControlName="mobileNo">
                                     </td>
 
                                 </tr>
@@ -442,11 +448,22 @@
 
                                     <th class="bank_name">{{labels.status}}</th>
                                     <td formGroupName="reference1">
-                                        <app-vf-custom-select [values]="LOV.LOVS.applicationReferenceStatus" formControlName="referenceStatus" [isRequired]="'Select any status'" [isDirty]="isDirty"> </app-vf-custom-select>
+                                        <app-vf-custom-select [values]="LOV.LOVS.applicationReferenceStatus" formControlName="referenceStatus" > </app-vf-custom-select>
+                                        <div *ngIf="isDirty || teleVerificationForm.controls.applicationReferences['controls'].reference1.get('referenceStatus').touched">
 
+                                            <div style="color:red" *ngIf="teleVerificationForm.controls.applicationReferences['controls'].reference1.get('referenceStatus').errors?.required">
+                                                Status is required
+                                            </div>
+                                        </div>
+                                    </td>
                                         <td formGroupName="reference2">
-                                            <app-vf-custom-select [values]="LOV.LOVS.applicationReferenceStatus" formControlName="referenceStatus" [isRequired]="'Select any status'" [isDirty]="isDirty"> </app-vf-custom-select>
+                                            <app-vf-custom-select [values]="LOV.LOVS.applicationReferenceStatus" formControlName="referenceStatus" > </app-vf-custom-select>
+                                            <div *ngIf="isDirty || teleVerificationForm.controls.applicationReferences['controls'].reference2.get('referenceStatus').touched">
 
+                                                <div style="color:red" *ngIf="teleVerificationForm.controls.applicationReferences['controls'].reference2.get('referenceStatus').errors?.required">
+                                                    Status is required
+                                                </div>
+                                            </div>
                                         </td>
 
                                 </tr>

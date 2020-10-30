@@ -30,6 +30,7 @@ import { Constant } from '@assets/constants/constant';
   styleUrls: ['./applicant-docs-upload.component.css'],
 })
 export class ApplicantDocsUploadComponent implements OnInit {
+  apiId;
   @Input() set appId(value) {
     if (!value) {
       return;
@@ -37,6 +38,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
     this.applicantId = Number(value.id);
     this.associatedWith = value.associatedWith;
     if (this.associatedWith === 2 ) {
+      this.apiId = value.apiId;
       this.getApplicantDetails();
     }
     this.getApplicantDocumentCategory(this.applicantId);
@@ -650,6 +652,12 @@ export class ApplicantDocsUploadComponent implements OnInit {
     });
 
     docObj = docObj || {};
+    let id;
+    if (this.associatedWith === 2) {
+      id = this.apiId;
+    } else {
+      id = this.leadId;
+    }
 
     this.selectedDocDetails = {
       formArrayIndex: index,
@@ -672,7 +680,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
       docRefId: [
         {
           idTp: 'LEDID',
-          id: this.leadId,
+          id,
         },
         {
           idTp: 'BRNCH',

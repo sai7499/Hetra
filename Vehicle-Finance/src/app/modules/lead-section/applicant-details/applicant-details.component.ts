@@ -26,6 +26,7 @@ export class ApplicantDetailsComponent implements OnInit {
   index: number;
   leadId: number;
   showNotApplicant: boolean;
+  isDelete : boolean= false;
 
   constructor(
     private route: Router,
@@ -123,32 +124,39 @@ export class ApplicantDetailsComponent implements OnInit {
       //     this.applicantList[i].companyPhoneNumber= companyPhoneNumber.slice(2,12)
       //   }
       // }
-      this.applicantList.map((data) => {
-        if (data.mobileNumber && data.mobileNumber.length === 12) {
-          data.mobileNumber = data.mobileNumber.slice(2, 12)
-        }
-        if (data.companyPhoneNumber && data.companyPhoneNumber.length === 12) {
-          data.companyPhoneNumber = data.companyPhoneNumber.slice(2, 12)
-        }
-        return data;
-      })
+      if(this.applicantList){
+        this.isDelete= this.applicantList.length === 1 ? true : false;
+        this.applicantList.map((data) => {
+          if (data.mobileNumber && data.mobileNumber.length === 12) {
+            data.mobileNumber = data.mobileNumber.slice(2, 12)
+          }
+          if (data.companyPhoneNumber && data.companyPhoneNumber.length === 12) {
+            data.companyPhoneNumber = data.companyPhoneNumber.slice(2, 12)
+          }
+          return data;
+        })
+      }
+     
 
     });
   }
   navigateAddApplicant() {
     console.log('applicant list', this.applicantList)
     //this.findAddressType();
-    if (this.applicantList.length > 4) {
-      this.toasterService.showWarning('Maximum 5 Applicants', '')
-      return;
+    if(this.applicantList){
+      if (this.applicantList.length > 4) {
+        this.toasterService.showWarning('Maximum 5 Applicants', '')
+        return;
+      }
     }
+   
 
     this.route.navigateByUrl(`/pages/lead-section/${this.leadId}/co-applicant`);
-    if (this.applicantList.length > 0) {
-      this.applicantList.filter((val: any) => {
-        this.applicantDataStoreService.setApplicantRelation(val['applicantType'])
-      })
-    }
+    // if (this.applicantList.length > 0) {
+    //   this.applicantList.filter((val: any) => {
+    //     this.applicantDataStoreService.setApplicantRelation(val['applicantType'])
+    //   })
+    // }
   }
 
 
@@ -180,6 +188,8 @@ export class ApplicantDetailsComponent implements OnInit {
     const findIndex = this.p === 1 ? index : (this.p - 1) * 5 + index;
     this.index = findIndex;
     this.selectedApplicant = applicantId;
+   
+   
   }
 
   callDeleteApplicant() {
@@ -189,13 +199,22 @@ export class ApplicantDetailsComponent implements OnInit {
     this.applicantService.softDeleteApplicant(data).subscribe((res) => {
       console.log('res', this.selectedApplicant);
       this.applicantList.splice(this.index, 1);
-    });
+      console.log('this.apploicantlist', this.applicantList.length)
+    
+      this.isDelete= this.applicantList.length === 1 ? true : false;
+
+    });       
   }
 
   forFindingApplicantType() {
-    const findApplicant = this.applicantList.find((data) => data.applicantTypeKey == "APPAPPRELLEAD")
-    console.log('findApplicant', findApplicant)
-    this.showNotApplicant = findApplicant == undefined ? true : false;
+    if(this.applicantList){
+      const findApplicant = this.applicantList.find((data) => data.applicantTypeKey == "APPAPPRELLEAD")
+      console.log('findApplicant', findApplicant)
+      this.showNotApplicant = findApplicant == undefined ? true : false;
+    }else{
+      this.showNotApplicant= true;
+    }
+    
   }
 
   onNext() {

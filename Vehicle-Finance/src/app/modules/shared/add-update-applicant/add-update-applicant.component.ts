@@ -716,7 +716,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     } else {
       this.showApplicantAddCheckBox = false;
     }
-
+  if(this.applicantData){
     this.applicantData.forEach((data) => {
       if (data.applicantId !== this.applicantId) {
         if (data.applicantTypeKey == "APPAPPRELLEAD" && data.applicantTypeKey === value) {
@@ -731,6 +731,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       // }
     });
 
+  }
+    
   }
 
   getPanValue(event?: any) {

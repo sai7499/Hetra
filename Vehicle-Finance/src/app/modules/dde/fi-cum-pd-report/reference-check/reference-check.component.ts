@@ -82,8 +82,9 @@ export class ReferenceCheckComponent implements OnInit {
   // serviceEmployeeCode: any;
   sysDate: Date = new Date();
   date: any;
-  sysTimeOfVerification: any = String(new Date(new Date().getTime()).toLocaleTimeString()).slice(0, 5);
+  stringTime: any = String(new Date(new Date().getTime()).toLocaleTimeString()).split(':', 2);
   time: any;
+  sysTimeOfVerification: any;
   totalApplicantCount: number;
   submittedApplicantCount: number;
   pdList: [];
@@ -127,7 +128,7 @@ export class ReferenceCheckComponent implements OnInit {
       console.log(' pd-dashboard ');
       this.show = false;
     }
-
+    this.sysTimeOfVerification = this.stringTime[0] + ':' + this.stringTime[1];
 
     // accessing lead id from route
 

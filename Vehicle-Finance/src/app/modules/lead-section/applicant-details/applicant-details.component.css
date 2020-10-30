@@ -364,3 +364,7 @@ p-0{
 .fa-trash {
     padding-right: 35px;
 }
+
+.deleteApp {
+    pointer-events: none;
+}

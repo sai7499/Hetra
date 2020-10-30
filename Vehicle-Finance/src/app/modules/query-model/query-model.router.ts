@@ -5,9 +5,8 @@ import { QueryModelComponent } from './query-model.component';
 
 const routes: Routes = [
   {
-    path: ':leadId',
+    path: '',
     component: QueryModelComponent,
-    resolve: { leadData: LeadDataResolverService }
   }
 ];
 
@@ -15,4 +14,6 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class QueryModelRouterModule {}
+export class QueryModelRouterModule {
+  
+}
