@@ -205,24 +205,6 @@ export class TeleVerificationFormComponent implements OnInit {
           // tslint:disable-next-line: max-line-length
           referenceStatus: [this.referenceData.length > 1 && this.referenceData[1].referenceStatus ? this.referenceData[1].referenceStatus : '', Validators.required]
         })
-        // reference1: this.fb.group({
-        //   applicantId: this.applicantId,
-        //   referenceId: this.referenceData.length > 0 && this.referenceData[0].referenceId ? this.referenceData[0].referenceId : 0,
-        //   firstName: [{ value: '', disabled: true }],
-        //   mobileNo:  [{ value: '', disabled: true }],
-        //   address:   [{ value: '', disabled: true }],
-        //         // tslint:disable-next-line: max-line-length
-        //   referenceStatus: [this.referenceData.length > 0 && this.referenceData[0].referenceStatus ? this.referenceData[0].referenceStatus : '']
-        // }),
-        // reference2: this.fb.group({
-        //   applicantId: this.applicantId,
-        //   referenceId: this.referenceData.length > 1 && this.referenceData[1].referenceId ? this.referenceData[1].referenceId : 0,
-        //   firstName: [{ value: '', disabled: true }],
-        //   mobileNo:   [{ value: '', disabled: true }],
-        //   address: [{ value: '', disabled: true }],    
-        //   // tslint:disable-next-line: max-line-length
-        //   referenceStatus: [this.referenceData.length > 1 && this.referenceData[1].referenceStatus ? this.referenceData[1].referenceStatus : '']
-        // })
       })
     });
 
