@@ -47,6 +47,11 @@ export class QueryModelComponent implements OnInit {
   fileName: string;
   fileType: string;
 
+  searchText: any = '';
+  searchLeadId: any = '';
+
+  queryLeads: any = [];
+
   constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService, private commonLovService: CommomLovService,
     private labelsData: LabelsService, private uploadService: UploadService, private queryModelService: QueryModelService, private toasterService: ToasterService,
     private utilityService: UtilityService, private activatedRoute: ActivatedRoute) { }
@@ -92,12 +97,17 @@ export class QueryModelComponent implements OnInit {
       "userId": this.userId,
       "currentPage": null,
       "perPage": 500,
+      "chatPerPage": 100,
+      "chatCurrentPage": null,
+      "chatSearchKey": searchKey ? searchKey : '',
       "searchKey": searchKey ? searchKey : ''
     }
 
     this.queryModelService.getLeads(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        this.chatList = res.ProcessVariables.leads ? res.ProcessVariables.leads : []
+        this.chatList = res.ProcessVariables.chatLeads ? res.ProcessVariables.chatLeads : [];
+        this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
+        console.log('Lwasds', this.chatList)
       } else {
         this.chatList = []
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Leads')
@@ -109,11 +119,12 @@ export class QueryModelComponent implements OnInit {
   getUsers() {
     let data = {
       "userId": this.userId,
-      "leadId": this.leadId
+      "leadId": this.queryModalForm.value.leadId
     }
 
     this.queryModelService.getUsers(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        console.log(res, 'res')
         this.queryModelLov.queryTo = res.ProcessVariables.stakeholders ? res.ProcessVariables.stakeholders : []
       } else {
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Users')
@@ -128,23 +139,40 @@ export class QueryModelComponent implements OnInit {
   }
 
   getQueries(lead) {
+    console.log('this.leadId', lead)
     let data = {
-      "leadId": lead.leadId,
-      "perPage": 3,
+      "leadId": Number(lead.key),
+      "perPage": 100,
       "currentPage": 1,
       "fromUser": this.userId
     }
     this.queryModalForm.patchValue({
-      leadId: lead.leadId
+      leadId: Number(lead.key),
     })
+    this.getUsers()
+    console.log(this.queryModalForm, 'model')
     this.queryModelService.getQueries(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        this.chatMessages = res.ProcessVariables.assetQueries ? res.ProcessVariables.assetQueries : []
+        this.chatMessages = res.ProcessVariables.assetQueries ? res.ProcessVariables.assetQueries : [];
+
+        this.chatMessages.filter((val) => {
+          val.time = this.myDateParser(val.createdOn)
+        })
       } else {
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Queries')
       }
-
     })
+
+  }
+
+  myDateParser(dateStr: string): string {
+
+    let date = dateStr.substring(0, 10);
+    let time = dateStr.substring(11, 16);
+    let millisecond = dateStr.substring(17, 19)
+
+    let validDate = date + 'T' + time + ':' + millisecond;
+    return validDate
   }
 
   getvalue(enteredValue: string) {
@@ -163,22 +191,23 @@ export class QueryModelComponent implements OnInit {
   getleadIdvalue(value: string) {
     this.isLeadShow = (value === '') ? false : true;
 
-    this.getSearchableLead = this.chatList.filter(e => {
+    this.getSearchableLead = this.queryLeads.filter(e => {
       value = value.toString().toLowerCase();
-      const eName = e.leadId.toString().toLowerCase();
+      const eName = e.key.toString().toLowerCase();
       if (eName.includes(value)) {
         return e;
       }
       this.isLeadShow = true;
     });
-    console.log(this.getSearchableLead, 'this.getSearchableLead')
   }
 
   getLead(lead) {
     this.isLeadShow = false;
     this.queryModalForm.patchValue({
-      leadId: lead.leadId
+      leadId: Number(lead.key)
     })
+    this.searchLeadId = lead.value;
+    this.getUsers()
   }
 
   getQueryTo(item) {
@@ -186,14 +215,29 @@ export class QueryModelComponent implements OnInit {
     this.queryModalForm.patchValue({
       queryTo: item.key
     })
+    this.searchText = item.value;
   }
 
   mouseEnter() {
     this.dropDown = true;
+    this.isLeadShow = false;
+    this.searchLead = this.queryModelLov.queryTo;
+  }
+
+  mouseLeave() {
+    this.dropDown = false;
+    this.isLeadShow = false;
+  }
+
+  mouseLeaveLeadId() {
+    this.dropDown = false;
+    this.isLeadShow = false;
   }
 
   mouseleadIdEnter() {
+    this.getSearchableLead = this.queryLeads;
     this.isLeadShow = true;
+    this.dropDown = false;
   }
 
   onFormSubmit(form) {
