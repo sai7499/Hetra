@@ -442,11 +442,22 @@
 
                                     <th class="bank_name">{{labels.status}}</th>
                                     <td formGroupName="reference1">
-                                        <app-vf-custom-select [values]="LOV.LOVS.applicationReferenceStatus" formControlName="referenceStatus" [isRequired]="'Select any status'" [isDirty]="isDirty"> </app-vf-custom-select>
+                                        <app-vf-custom-select [values]="LOV.LOVS.applicationReferenceStatus" formControlName="referenceStatus" > </app-vf-custom-select>
+                                        <div *ngIf="isDirty || teleVerificationForm.controls.applicationReferences['controls'].reference1.get('referenceStatus').touched">
 
+                                            <div style="color:red" *ngIf="teleVerificationForm.controls.applicationReferences['controls'].reference1.get('referenceStatus').errors?.required">
+                                                Status is required
+                                            </div>
+                                        </div>
+                                    </td>
                                         <td formGroupName="reference2">
-                                            <app-vf-custom-select [values]="LOV.LOVS.applicationReferenceStatus" formControlName="referenceStatus" [isRequired]="'Select any status'" [isDirty]="isDirty"> </app-vf-custom-select>
+                                            <app-vf-custom-select [values]="LOV.LOVS.applicationReferenceStatus" formControlName="referenceStatus" > </app-vf-custom-select>
+                                            <div *ngIf="isDirty || teleVerificationForm.controls.applicationReferences['controls'].reference2.get('referenceStatus').touched">
 
+                                                <div style="color:red" *ngIf="teleVerificationForm.controls.applicationReferences['controls'].reference2.get('referenceStatus').errors?.required">
+                                                    Status is required
+                                                </div>
+                                            </div>
                                         </td>
 
                                 </tr>
