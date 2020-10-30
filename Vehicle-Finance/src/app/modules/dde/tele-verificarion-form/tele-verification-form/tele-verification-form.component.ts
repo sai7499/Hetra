@@ -187,42 +187,42 @@ export class TeleVerificationFormComponent implements OnInit {
       cibilClarification: ['', Validators.required],
       remarks: ['', Validators.required],
       applicationReferences: this.fb.group({
+        reference1: this.fb.group({
+          applicantId: this.applicantId,
+          referenceId: this.referenceData.length > 0 && this.referenceData[0].referenceId ? this.referenceData[0].referenceId : 0,
+          firstName: [this.referenceData.length > 0 && this.referenceData[0].firstName ? this.referenceData[0].firstName : ''],
+          mobileNo: [this.referenceData.length > 0 && this.referenceData[0].mobileNo ? this.referenceData[0].mobileNo : ''],
+          address: [this.referenceData.length > 0 && this.referenceData[0].address ? this.referenceData[0].address : ''],
+          // tslint:disable-next-line: max-line-length
+          referenceStatus: [this.referenceData.length > 0 && this.referenceData[0].referenceStatus ? this.referenceData[0].referenceStatus : '', Validators.required]
+        }),
+        reference2: this.fb.group({
+          applicantId: this.applicantId,
+          referenceId: this.referenceData.length > 1 && this.referenceData[1].referenceId ? this.referenceData[1].referenceId : 0,
+          firstName: [this.referenceData.length > 1 && this.referenceData[1].firstName ? this.referenceData[1].firstName : ''],
+          mobileNo: [this.referenceData.length > 1 && this.referenceData[1].mobileNo ? this.referenceData[1].mobileNo : ''],
+          address: [this.referenceData.length > 1 && this.referenceData[1].address ? this.referenceData[1].address : ''],
+          // tslint:disable-next-line: max-line-length
+          referenceStatus: [this.referenceData.length > 1 && this.referenceData[1].referenceStatus ? this.referenceData[1].referenceStatus : '', Validators.required]
+        })
         // reference1: this.fb.group({
         //   applicantId: this.applicantId,
         //   referenceId: this.referenceData.length > 0 && this.referenceData[0].referenceId ? this.referenceData[0].referenceId : 0,
-        //   firstName: [this.referenceData.length > 0 && this.referenceData[0].firstName ? this.referenceData[0].firstName : ''],
-        //   mobileNo: [this.referenceData.length > 0 && this.referenceData[0].mobileNo ? this.referenceData[0].mobileNo : ''],
-        //   address: [this.referenceData.length > 0 && this.referenceData[0].address ? this.referenceData[0].address : ''],
-        //   // tslint:disable-next-line: max-line-length
+        //   firstName: [{ value: '', disabled: true }],
+        //   mobileNo:  [{ value: '', disabled: true }],
+        //   address:   [{ value: '', disabled: true }],
+        //         // tslint:disable-next-line: max-line-length
         //   referenceStatus: [this.referenceData.length > 0 && this.referenceData[0].referenceStatus ? this.referenceData[0].referenceStatus : '']
         // }),
         // reference2: this.fb.group({
         //   applicantId: this.applicantId,
         //   referenceId: this.referenceData.length > 1 && this.referenceData[1].referenceId ? this.referenceData[1].referenceId : 0,
-        //   firstName: [this.referenceData.length > 1 && this.referenceData[1].firstName ? this.referenceData[1].firstName : ''],
-        //   mobileNo: [this.referenceData.length > 1 && this.referenceData[1].mobileNo ? this.referenceData[1].mobileNo : ''],
-        //   address: [this.referenceData.length > 1 && this.referenceData[1].address ? this.referenceData[1].address : ''],
+        //   firstName: [{ value: '', disabled: true }],
+        //   mobileNo:   [{ value: '', disabled: true }],
+        //   address: [{ value: '', disabled: true }],    
         //   // tslint:disable-next-line: max-line-length
         //   referenceStatus: [this.referenceData.length > 1 && this.referenceData[1].referenceStatus ? this.referenceData[1].referenceStatus : '']
         // })
-        reference1: this.fb.group({
-          applicantId: this.applicantId,
-          referenceId: this.referenceData.length > 0 && this.referenceData[0].referenceId ? this.referenceData[0].referenceId : 0,
-          firstName: [{ value: '', disabled: true }],
-          mobileNo:  [{ value: '', disabled: true }],
-          address:   [{ value: '', disabled: true }],
-                // tslint:disable-next-line: max-line-length
-          referenceStatus: ['', Validators.required]
-        }),
-        reference2: this.fb.group({
-          applicantId: this.applicantId,
-          referenceId: this.referenceData.length > 1 && this.referenceData[1].referenceId ? this.referenceData[1].referenceId : 0,
-          firstName: [{ value: '', disabled: true }],
-          mobileNo:   [{ value: '', disabled: true }],
-          address: [{ value: '', disabled: true }],    
-          // tslint:disable-next-line: max-line-length
-          referenceStatus: ['', Validators.required]
-        })
       })
     });
 
