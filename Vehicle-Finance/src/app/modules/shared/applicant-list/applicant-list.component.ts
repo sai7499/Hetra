@@ -45,6 +45,8 @@ export class ApplicantListComponent implements OnInit {
   disableSaveBtn: boolean;
   imgeKYC: any;
   showeKYC: boolean = false;
+  collateralVehicleDetails: any;
+  isDelete : boolean= false;
 
   constructor(
     private labelsData: LabelsService,
@@ -93,8 +95,9 @@ export class ApplicantListComponent implements OnInit {
       }
     })
     // this.downloadpdf();
-    this.applicantDataService.setForSaveBasicDetails(true);
-    this.applicantDataService.setForSaveAddressDetails(true);
+    // 
+    this.applicantDataService.setDetectvalueChange(false)
+    this.showeKYC = false;
   }
 
   getLeadId() {
@@ -110,11 +113,13 @@ export class ApplicantListComponent implements OnInit {
 
   navigateAddapplicant() {
 
-
-    if (this.applicantList.length > 4) {
-      this.toasterService.showWarning('Maximum 5 Applicants', '')
-      return;
+    if(this.applicantList){
+      if (this.applicantList.length > 4) {
+        this.toasterService.showWarning('Maximum 5 Applicants', '')
+        return;
+      }
     }
+    
     this.router.navigateByUrl(`/pages/sales-applicant-details/${this.leadId}/add-applicant`);
   }
 
@@ -137,6 +142,18 @@ export class ApplicantListComponent implements OnInit {
       const processVariables = value.ProcessVariables;
       this.applicantList = processVariables.applicantListForLead;
       console.log('getapplicants', this.applicantList);
+      if(this.applicantList){
+        this.isDelete= this.applicantList.length === 1 ? true : false;
+        this.applicantList.map((data) => {
+          if (data.mobileNumber && data.mobileNumber.length === 12) {
+            data.mobileNumber = data.mobileNumber.slice(2, 12)
+          }
+          if (data.companyPhoneNumber && data.companyPhoneNumber.length === 12) {
+            data.companyPhoneNumber = data.companyPhoneNumber.slice(2, 12)
+          }
+          return data;
+        })
+      }
     });
   }
 
@@ -166,6 +183,7 @@ export class ApplicantListComponent implements OnInit {
     this.applicantService.softDeleteApplicant(data).subscribe((res) => {
       console.log('res', this.selectedApplicantId);
       this.applicantList.splice(this.index, 1);
+      this.isDelete= this.applicantList.length === 1 ? true : false;
     });
   }
 
@@ -190,12 +208,12 @@ export class ApplicantListComponent implements OnInit {
           //        + imageUrl); // sanitizing xml doc for rendering with proper css
           this.cibilImage = this.imageUrl;
           console.log(this.newImage);
-          setTimeout(() => {
-            this.dragElement(document.getElementById('mydiv'));
-          });
-          this.hideDraggableContainer = true;
+          // setTimeout(() => {
+            // this.dragElement(document.getElementById('mydiv'));
+         // });
+          // this.hideDraggableContainer = true;
         } else {
-          this.hideDraggableContainer = true;
+          // this.hideDraggableContainer = true;
           this.imageUrl = res.ProcessVariables.error.message;
           this.cibilImage = res.ProcessVariables.error.message;
         }
@@ -249,9 +267,14 @@ export class ApplicantListComponent implements OnInit {
     }
   }
   forFindingApplicantType() {
-    const findApplicant = this.applicantList.find((data) => data.applicantTypeKey == "APPAPPRELLEAD")
-    console.log('findApplicant', findApplicant)
-    this.showNotApplicant = findApplicant == undefined ? true : false;
+    if(this.applicantList){
+      const findApplicant = this.applicantList.find((data) => data.applicantTypeKey == "APPAPPRELLEAD")
+      console.log('findApplicant', findApplicant)
+      this.showNotApplicant = findApplicant == undefined ? true : false;
+    }else{
+      this.showNotApplicant= true;
+    }
+    
   }
 
   onNext() {
@@ -276,23 +299,24 @@ export class ApplicantListComponent implements OnInit {
   
    geteKYCDetails(applicantId) {
    this.applicantService.geteKYCDetails(applicantId).subscribe((res: any) => {
-      if (res['ProcessVariables'] && res.Error === "0") {
+      if (res['ProcessVariables'] && res.Error === "0" && res['ProcessVariables'].error.code == 0) {
         // this.showeKYC = true;
         this.appicanteKYCDetails = res['ProcessVariables'];
         this.panDetails = this.appicanteKYCDetails['panDetails'];
         this.adhaarDetails = this.appicanteKYCDetails['aadharDetails'];
         this.dedupeMatchedCriteria = this.appicanteKYCDetails['dedupeMatchedCriteria'];
         this.exactMatches = this.appicanteKYCDetails['exactMatches'];
-        this.probableMatches = this.appicanteKYCDetails['probableMatches'];      
+        this.probableMatches = this.appicanteKYCDetails['probableMatches']; 
+        this.collateralVehicleDetails = this.appicanteKYCDetails['collateralVehicleDetails']
         setTimeout(() => {
           this.downloadpdf();
         });
       } else {
-        // this.toasterService.showError(res['ProcessVariables'].error["message"], '')
-        this.imgeKYC = res.ProcessVariables.error.message;
-        setTimeout(() => {
-          this.showeKYC = true;
-        });
+        this.toasterService.showError(res['ProcessVariables'].error["message"], '')
+        // this.imgeKYC = res.ProcessVariables.error.message;
+        // setTimeout(() => {
+        //   this.showeKYC = true;
+        // });
       }
     });
   }
@@ -308,7 +332,7 @@ export class ApplicantListComponent implements OnInit {
       filename: `applicanteKYC${this.leadId}`,
       image: { type: 'jpeg', quality: 1 },
       jsPDF: { unit: 'mm', orientation: 'p',format: 'A4' },
-      html2canvas: {scale: 1.5,  logging:true},
+      html2canvas: {scale: 4,  logging:true},
     }
      html2pdf().from(html)
     .set(options).outputImg('datauristring').then(res => {
@@ -321,6 +345,7 @@ export class ApplicantListComponent implements OnInit {
 
         destroyeKYCImage() {
           if (this.imgeKYC) {
+            this.showeKYC = false;
             this.imgeKYC = null;
           }
         }

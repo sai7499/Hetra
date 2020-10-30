@@ -67,12 +67,7 @@
               <tbody>
                <ng-container *ngFor="let detail of pddForm.get('pddDocumentDetails')['controls']; let i = index">
                 <tr [formGroupName]="i">
-                  <td><app-custom-input
-                    formControlName="docName"
-                    [className]="'form-control mandatory'"
-                    [isDisabled]="true"
-                    >
-                  </app-custom-input></td>
+                  <td>{{documentName(i)}}</td>
                   <td> <app-custom-input
                     formControlName="docNumber"
                     [className]="'form-control mandatory'"
@@ -82,7 +77,7 @@
                     >
                   </app-custom-input></td>
                   <td><kendo-datepicker class="form-control mandatory" formControlName="collectedDate"
-                    [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [disabled]="!isSales" [max]="toDayDate">
+                    [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [disabled]="!isSales" [max]="toDayDate" [min]="disbursementDate">
                   </kendo-datepicker></td>
                   <td><app-custom-input
                     formControlName="podNumber"
@@ -93,7 +88,7 @@
                     >
                   </app-custom-input></td>
                   <td><kendo-datepicker class="form-control mandatory" formControlName="courieredDate"
-                    [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [disabled]="!isSales" [max]="toDayDate">
+                    [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [disabled]="!isSales" [max]="toDayDate" [min]="getCollectedDate(i)">
                   </kendo-datepicker></td>
                   <ng-container *ngIf="isSales"><td (click)="uploadDocs(i)" class="upload-icon"><label
                     ><i

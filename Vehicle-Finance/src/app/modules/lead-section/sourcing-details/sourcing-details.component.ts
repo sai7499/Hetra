@@ -17,6 +17,7 @@ import { ToasterService } from '@services/toaster.service';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 import { debounce } from 'rxjs/operators';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { ObjectComparisonService } from '@services/obj-compare.service';
 
 @Component({
   selector: 'app-sourcing-details',
@@ -150,6 +151,8 @@ export class SourcingDetailsComponent implements OnInit {
     leadId: number;
   };
   operationType: boolean;
+  apiValue: any;
+  finalValue: any;
 
   constructor(
     private leadSectionService: VehicleDetailService,
@@ -166,7 +169,8 @@ export class SourcingDetailsComponent implements OnInit {
     private location: Location,
     private utilityService: UtilityService,
     private toasterService: ToasterService,
-    private toggleDdeService: ToggleDdeService
+    private toggleDdeService: ToggleDdeService,
+    private objectComparisonService: ObjectComparisonService
   ) {
     this.sourcingCodeObject = {
       key: '',
@@ -234,12 +238,7 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   async getLeadSectionData() {
-    // const leadDeatilsData = this.createLeadDataService.getLeadDetailsData();
-    // if (leadDeatilsData == {}) {
-    //   this.leadSectionData = { ...leadDeatilsData };
-    // } else {
-    //   this.leadSectionData = this.createLeadDataService.getLeadSectionData();
-    // }
+
     this.leadSectionData = this.createLeadDataService.getLeadSectionData();
     console.log('leadSectionData Lead details', this.leadSectionData);
     this.leadData = { ...this.leadSectionData };
@@ -301,6 +300,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.sourcingDetailsForm.patchValue({
       leadCreatedDate: this.leadCreatedDateFromLead,
     });
+    this.apiValue = this.sourcingDetailsForm.getRawValue();
   }
 
   patchSourcingDetails(data) {
@@ -318,6 +318,7 @@ export class SourcingDetailsComponent implements OnInit {
     const sourceCodeKey = (this.sourcingCodeKey == null) ? 'Not Applicable' : this.sourcingCodeValue;
     this.sourcingDetailsForm.patchValue({ sourcingCode: sourceCodeKey });
     this.isSourceCode = true;
+    this.apiValue = this.sourcingDetailsForm.getRawValue();
   }
 
   getBusinessDivision(bizDivision) {
@@ -425,6 +426,7 @@ export class SourcingDetailsComponent implements OnInit {
             this.sourcingDetailsForm.patchValue({
               fundingProgram: this.fundingProgramFromLead,
             });
+            this.apiValue = this.sourcingDetailsForm.getRawValue();
           }
         }
       });
@@ -569,9 +571,9 @@ export class SourcingDetailsComponent implements OnInit {
 
   initForm() {
     this.sourcingDetailsForm = new FormGroup({
-      leadNumber: new FormControl({ value: '', disabled: true }),
-      leadCreatedDate: new FormControl({ value: '', disabled: true }),
-      leadCreatedBy: new FormControl({ value: '', disabled: true }),
+      leadNumber: new FormControl('', Validators.required),
+      leadCreatedDate: new FormControl('', Validators.required),
+      leadCreatedBy: new FormControl('', Validators.required),
       leadHandeledBy: new FormControl('', Validators.required),
       productCategory: new FormControl('', Validators.required),
       priority: new FormControl(''),
@@ -718,6 +720,7 @@ export class SourcingDetailsComponent implements OnInit {
             };
             this.createLeadDataService.setLeadDetailsData(data);
             this.isSaved = true;
+            this.apiValue = this.sourcingDetailsForm.getRawValue();
           } else {
             this.toasterService.showError(
               response.ProcessVariables.error.message,
@@ -740,13 +743,21 @@ export class SourcingDetailsComponent implements OnInit {
   nextToApplicant() {
     this.isDirty = true;
     console.log('testform', this.sourcingDetailsForm);
+    this.finalValue = this.sourcingDetailsForm.getRawValue();
+    const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.finalValue);
+    console.log(this.apiValue, ' vvalue', this.finalValue);
+
     if (this.operationType) {
       this.onNavigate();
-      return
+      return;
     }
     if (this.sourcingDetailsForm.valid === true) {
-      if (!this.isSaved) {
-        this.saveAndUpdate();
+      // if (!this.isSaved) {
+      //   this.saveAndUpdate();
+      // }
+      if (!isValueCheck) {
+        this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
+        return;
       }
       this.onNavigate();
     } else {

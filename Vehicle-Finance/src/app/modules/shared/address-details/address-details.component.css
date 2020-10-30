@@ -29,3 +29,29 @@
     margin: 18px 0px;
 }
 
+.custom-col-30{
+    float:left;
+    width:30%;
+}
+
+.custom-col-22{
+    float:left;
+    width:22%;
+}
+
+.custom-col-17{
+    float:left;  
+    width:17%;
+}
+
+@media (min-width:200px) and (max-width:767px) {
+   .custom-col-30 , 
+   .custom-col-22, 
+   .custom-col-17{
+    float:left;  
+    width:100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-bottom: 15px;
+    } 
+}

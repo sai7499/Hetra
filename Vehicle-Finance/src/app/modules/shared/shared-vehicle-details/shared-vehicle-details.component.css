@@ -301,3 +301,11 @@ only screen and
         content: attr(data-item-value);
         }
 } */
+
+.fa-pencil {
+    padding-right: 35px;
+}
+
+.fa-trash {
+    padding-right: 35px;
+}

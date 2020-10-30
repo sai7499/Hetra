@@ -21,6 +21,7 @@ import {
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { AgeValidationService } from '@services/age-validation.service';
+import { ObjectComparisonService } from '@services/obj-compare.service';
 
 @Component({
   templateUrl: './basic-details.component.html',
@@ -99,6 +100,8 @@ export class BasicDetailsComponent implements OnInit {
   public maxAge: Date = new Date();
   public minAge: Date = new Date();
   isSave : boolean = false;
+  apiValue: any;
+  finalValue: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -113,7 +116,8 @@ export class BasicDetailsComponent implements OnInit {
     private toasterService: ToasterService,
     private createLeadDataService: CreateLeadDataService,
     private toggleDdeService: ToggleDdeService,
-    private ageValidationService: AgeValidationService
+    private ageValidationService: AgeValidationService,
+    private objectComparisonService: ObjectComparisonService
   ) { }
   async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -163,7 +167,7 @@ export class BasicDetailsComponent implements OnInit {
     }
 
     this.monthValidation = this.monthValiationCheck();
-    this.isSave=this.applicantDataService.getForSaveBasicDetails()
+    //this.isSave=this.applicantDataService.getForSaveBasicDetails()
   }
 
   setMinorityData() {
@@ -271,10 +275,10 @@ export class BasicDetailsComponent implements OnInit {
       details.get('ownHouseAppRelationship').clearValidators();
       details.get('houseOwnerProperty').updateValueAndValidity();
       details.get('ownHouseAppRelationship').updateValueAndValidity();
-      // details.patchValue({
-      //   houseOwnerProperty : '',
-      //   ownHouseAppRelationship : ''
-      // })
+      details.patchValue({
+        houseOwnerProperty : '',
+        ownHouseAppRelationship : ''
+      })
     }
   }
 
@@ -514,8 +518,20 @@ export class BasicDetailsComponent implements OnInit {
       agriAppRelationship: applicantDetails.agriAppRelationship || '',
       grossReceipt: applicantDetails.grossReceipt,
       //customerCategory: applicantDetails.customerCategory || ' ',
-      custSegment: applicantDetails.custSegment || ' ',
+      custSegment: applicantDetails.custSegment || '',
     });
+    this.apiValue = this.basicForm.getRawValue();
+    if (this.isIndividual){
+      const dob= this.basicForm.getRawValue().details[0].dob
+      this.apiValue.details[0].dob=this.utilityService.getDateFormat(dob)
+    }else{
+      const doc=this.basicForm.getRawValue().details[0].dateOfIncorporation;
+      const externalRatingIssueDate=this.basicForm.getRawValue().details[0].externalRatingIssueDate;
+      const externalRatingExpiryDate=this.basicForm.getRawValue().details[0].externalRatingExpiryDate;
+      this.apiValue.details[0].dateOfIncorporation=this.utilityService.getDateFormat(doc)
+      this.apiValue.details[0].externalRatingIssueDate=this.utilityService.getDateFormat(externalRatingIssueDate)
+      this.apiValue.details[0].externalRatingExpiryDate=this.utilityService.getDateFormat(externalRatingExpiryDate)
+    }
   }
 
   removeApplicantRelationControl() {
@@ -709,26 +725,20 @@ export class BasicDetailsComponent implements OnInit {
 
     const directorArray = this.applicant.directorDetails;
     const director = this.basicForm.get('directors') as FormArray;
+    console.log(this.basicForm,'director', director, )
     const directorValue = this.applicant.corporateProspectDetails.numberOfDirectors;
 
     this.addDirectorControls(directorValue);
 
     directorArray.forEach((value, index) => {         //patching directorDetails
+      console.log(value,'value', index)
       director.at(index).patchValue({
         directorName: value.directorName,
         din: value.din
       })
+
+      
     })
-  }
-
-  @HostListener('change') ngOnChanges($event) {
-    this.isSave = false;
-  }
-
-  @HostListener('keydown', ['$event'])
-
-  onkeyup(event) {
-    this.isSave = false;
   }
 
 
@@ -1355,12 +1365,25 @@ export class BasicDetailsComponent implements OnInit {
 
     this.applicantService.saveApplicant(data).subscribe((response: any) => {
       if (response.ProcessVariables.error.code === '0') {
-        this.isSave= true;
-        this.applicantDataService.setForSaveBasicDetails(true);
+        // this.isSave= true;
+        // this.applicantDataService.setForSaveBasicDetails(true);
         this.toasterService.showSuccess(
           'Record Saved Successfully',
           ''
         );
+        this.apiValue=this.basicForm.getRawValue();
+
+        if (this.isIndividual){
+          const dob= this.basicForm.getRawValue().details[0].dob
+          this.apiValue.details[0].dob=this.utilityService.getDateFormat(dob)
+        }else{
+          const doc=this.basicForm.getRawValue().details[0].dateOfIncorporation;
+          const externalRatingIssueDate=this.basicForm.getRawValue().details[0].externalRatingIssueDate;
+          const externalRatingExpiryDate=this.basicForm.getRawValue().details[0].externalRatingExpiryDate;
+          this.apiValue.details[0].dateOfIncorporation=this.utilityService.getDateFormat(doc)
+          this.apiValue.details[0].externalRatingIssueDate=this.utilityService.getDateFormat(externalRatingIssueDate)
+          this.apiValue.details[0].externalRatingExpiryDate=this.utilityService.getDateFormat(externalRatingExpiryDate)
+        }
       }else{
         this.toasterService.showError(
           response.ProcessVariables.error.message,
@@ -1555,9 +1578,9 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.averageBankBalance = formValue.averageBankBalance;
     applicantDetails.rtrType = formValue.rtrType;
     applicantDetails.prevLoanAmount = formValue.prevLoanAmount;
-    applicantDetails.loanTenorServiced = formValue.loanTenorServiced;
+    applicantDetails.loanTenorServiced = Number(formValue.loanTenorServiced);
     applicantDetails.currentEMILoan = formValue.currentEMILoan;
-    applicantDetails.agriNoOfAcres = formValue.agriNoOfAcres;
+    applicantDetails.agriNoOfAcres = Number(formValue.agriNoOfAcres);
     applicantDetails.agriOwnerProperty = formValue.agriOwnerProperty;
     applicantDetails.agriAppRelationship = formValue.customerCategory;
     applicantDetails.grossReceipt = formValue.grossReceipt;
@@ -1614,20 +1637,53 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   onNext() {
+    this.finalValue = this.basicForm.getRawValue();
+    console.log('this.finalValue', this.finalValue)
+    if (this.isIndividual){
+      // if(this.applicant.ucic){
+      //   this.finalValue.details[0].name1=this.apiValue.details[0].name1
+      //   this.finalValue.details[0].name2=this.apiValue.details[0].name2
+      //   this.finalValue.details[0].name3=this.apiValue.details[0].name3
+      //   this.finalValue.details[0].mobilePhone=this.apiValue.details[0].mobilePhone
+      //   this.finalValue.details[0].dob=this.apiValue.details[0].dob
+      //   this.finalValue.details[0].gender=this.apiValue.details[0].gender
+      // }
+      const dob= this.basicForm.getRawValue().details[0].dob
+      this.finalValue.details[0].dob=this.utilityService.getDateFormat(dob)
+    }else{
+      // if(this.applicant.ucic){
+      //   this.finalValue.details[0].name1=this.apiValue.details[0].name1
+      //   this.finalValue.details[0].name2=this.apiValue.details[0].name2
+      //   this.finalValue.details[0].name3=this.apiValue.details[0].name3
+      //   this.finalValue.details[0].companyPhoneNumber=this.apiValue.details[0].companyPhoneNumber
+      //   this.finalValue.details[0].dateOfIncorporation=this.apiValue.details[0].dateOfIncorporation
+      // }
+      const doc=this.basicForm.getRawValue().details[0].dateOfIncorporation;
+      const externalRatingIssueDate=this.basicForm.getRawValue().details[0].externalRatingIssueDate;
+      const externalRatingExpiryDate=this.basicForm.getRawValue().details[0].externalRatingExpiryDate;
+      this.finalValue.details[0].dateOfIncorporation=this.utilityService.getDateFormat(doc)
+      this.finalValue.details[0].externalRatingIssueDate=this.utilityService.getDateFormat(externalRatingIssueDate)
+      this.finalValue.details[0].externalRatingExpiryDate=this.utilityService.getDateFormat(externalRatingExpiryDate)
+    }
+    // console.log(JSON.stringify(this.apiValue));
+    // console.log(JSON.stringify(this.finalValue));
+    // console.log(this.objectComparisonService.compare(this.apiValue, this.finalValue));
+    const isValueCheck=this.objectComparisonService.compare(this.apiValue, this.finalValue)
     if(this.basicForm.invalid){
       this.toasterService.showInfo('Please SAVE details before proceeding', '');
       return;
     }
-    if(!this.isSave){
+    if(!isValueCheck){
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
-    if(this.isSave){
+    
+    
       this.router.navigate([
         `/pages/applicant-details/${this.leadId}/identity-details`,
         this.applicantId,
       ]);
-    }
+    
     
   }
 
