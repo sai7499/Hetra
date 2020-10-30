@@ -130,7 +130,7 @@ export class QueryModelComponent implements OnInit {
   getQueries(lead) {
     let data = {
       "leadId": lead.leadId,
-      "perPage": 3,
+      "perPage": 100 ,
       "currentPage": 1,
       "fromUser": this.userId
     }
