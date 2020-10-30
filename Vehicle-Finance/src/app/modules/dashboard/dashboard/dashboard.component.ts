@@ -58,7 +58,9 @@ export enum DisplayTabs {
   PreDisbursementWithBranch,
   PDDforCPC,
   PDDWithMe,
-  PDDWithBranch
+  PDDWithBranch,
+  ReversedLeadsWithMe,
+  ReversedLeadsWithBranch
 }
 
 export enum sortingTables {
@@ -414,12 +416,12 @@ export class DashboardComponent implements OnInit {
         break;
     }
     switch (data) {
-      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40:
+      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42:
         this.onAssignTab = false;
         this.onReleaseTab = true;
         this.myLeads = true;
         break;
-      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41:
+      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43:
         this.onAssignTab = true;
         this.onReleaseTab = false;
         this.myLeads = false;
@@ -484,6 +486,10 @@ export class DashboardComponent implements OnInit {
         break;
       case 40: case 41:
         this.taskName = 'CPC-PDD';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
+        break;
+        case 42: case 43:
+        this.taskName = 'Send Back To Sales';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       default:
@@ -798,6 +804,9 @@ export class DashboardComponent implements OnInit {
         break;
       case 40: case 41:
         this.router.navigateByUrl(`/pages/pdd/${this.leadId}`);
+        break;
+        case 42: case 43:
+          this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
         break;
 
       default:

@@ -431,7 +431,7 @@ export class ApiService {
     approveDecline: {
       processId: 'a6e7db78ba2111ea964000505695f93b',
       workflowId: 'a6c0829eba2111ea988900505695f93b',
-      projectId:  environment.projectIds.salesProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     approveDeviation: {
       processId: '624b5f50ba8811ea9bd500505695f93b',
@@ -842,14 +842,14 @@ export class ApiService {
       projectId: environment.projectIds.salesProjectId
     },
     loanBookingDedupe: {
-     workflowId: '666fe8320e9111ebb3ca00505695f93b',
-     processId : '66a05c880e9111ebb0b300505695f93b',
-     projectId: environment.projectIds.salesProjectId
+      workflowId: '666fe8320e9111ebb3ca00505695f93b',
+      processId: '66a05c880e9111ebb0b300505695f93b',
+      projectId: environment.projectIds.salesProjectId
     },
     loanDedupeUpdate: {
-     workflowId: '666fe8320e9111ebb3ca00505695f93b',
-     processId : '051213a00eb211eb825000505695f93b',
-     projectId: environment.projectIds.salesProjectId
+      workflowId: '666fe8320e9111ebb3ca00505695f93b',
+      processId: '051213a00eb211eb825000505695f93b',
+      projectId: environment.projectIds.salesProjectId
     },
     getFoirAsPerPolicy: {
       processId: 'ccdee5ee09f211ebb00500505695f93b',
@@ -869,7 +869,12 @@ export class ApiService {
     reInitiateViability: {
       processId: '050da46e0ae811eb98c300505695f93b',
       workflowId: '04ebd41a0ae811eb8b7100505695f93b',
-      projectId : environment.projectIds.reinitiatePdApi
+      projectId: environment.projectIds.reinitiatePdApi
+    },
+    sendBackToSales: {
+      processId: '7a0640be1a7911eb9ca100505695f93b',
+      workflowId: '79d8aae61a7911eb9fe400505695f93b',
+      projectId: environment.projectIds.submitToCredit
     },
     getQueries: {
       processId: 'bc794b1c18df11eb917900505695f93b',
