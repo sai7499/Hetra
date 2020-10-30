@@ -179,7 +179,7 @@ export class AddressDetailsComponent implements OnInit {
     let isChanged = false;
     let val = control.value;
     control.valueChanges.subscribe((value) => {
-      if (!value === undefined || val === value) {
+      if (value === undefined || val === value) {
         return;
       }
       val = value;
@@ -197,7 +197,15 @@ export class AddressDetailsComponent implements OnInit {
         // this.isDirty = false;
         this.isOfficeAddressMandatory = false;
         const pincode = officeAddress.get('pincode').value;
-        officeAddress.get('pincode').setValue(pincode || null)
+        const addressLineOne = officeAddress.get('addressLineOne').value;
+        officeAddress.patchValue({
+          pincode : pincode || null,
+          addressLineOne : addressLineOne || null
+        })
+        // const pincode = officeAddress.get('pincode').value;
+        // officeAddress.get('pincode').setValue(pincode || null)
+        // const addressLineOne = officeAddress.get('addressLineOne').value;
+        // officeAddress.get('addressLineOne').setValue(addressLineOne || null)
 
         if (!isChanged) {
           return;
@@ -872,7 +880,7 @@ export class AddressDetailsComponent implements OnInit {
     const addressObj = this.getAddressObj();
     const permanentAddressObj = addressObj[Constant.PERMANENT_ADDRESS];
     const currentAddressVariable = details.get('currentAddress');
-    this.apiCurrentCheckBox = permanentAddressObj.isCurrAddSameAsPermAdd == '1' ? '1' : '0'
+    this.apiCurrentCheckBox = (permanentAddressObj && permanentAddressObj.isCurrAddSameAsPermAdd == '1') ? '1' : '0'
     if (permanentAddressObj && permanentAddressObj.isCurrAddSameAsPermAdd == '1') {
 
       this.isCurrAddSameAsPermAdd = '1';
@@ -911,7 +919,7 @@ export class AddressDetailsComponent implements OnInit {
 
     const currentAddressObj =
       addressObj[Constant.CURRENT_ADDRESS] || addressObj['COMMADDADDTYP'];
-    this.apiOfficeCheckBox = currentAddressObj.isCurrAddSameAsOffAdd == '1' ? '1' : '0'
+    this.apiOfficeCheckBox = (currentAddressObj && currentAddressObj.isCurrAddSameAsOffAdd == '1') ? '1' : '0'
 
     if (currentAddressObj && currentAddressObj.isCurrAddSameAsOffAdd == '1') {
       this.isCurrAddSameAsOffAdd = "1"
@@ -967,8 +975,8 @@ export class AddressDetailsComponent implements OnInit {
     const formArray = this.addressForm.get('details') as FormArray;
     const details = formArray.at(0);
     const registeredAddressObj = addressObj[Constant.REGISTER_ADDRESS];
-    this.apiCommunicationCheckBox = registeredAddressObj.isCurrAddSameAsPermAdd == '1' ? '1' : '0'
-    if (registeredAddressObj.isCurrAddSameAsPermAdd == '1') {
+    this.apiCommunicationCheckBox = (registeredAddressObj && registeredAddressObj.isCurrAddSameAsPermAdd == '1') ? '1' : '0'
+    if (registeredAddressObj&& registeredAddressObj.isCurrAddSameAsPermAdd == '1') {
       this.isRegSameAsCommAdd = '1'
       this.onRegAsCommChecked = true;
       const formArray = this.addressForm.get('details') as FormArray;
