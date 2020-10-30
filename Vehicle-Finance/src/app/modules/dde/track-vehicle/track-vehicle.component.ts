@@ -479,6 +479,7 @@ export class TrackVehicleComponent implements OnInit {
     this.formArr['controls'].splice(Number(this.trackVehicleForm.value['emisPaid']) ,removedIndex)
     this.fleetRtrDetails.splice(Number(this.trackVehicleForm.value['emisPaid']) ,removedIndex);
     console.log(this.fleetRtrDetails);
+    this.delayDaysCalc();
    }
    else{
     let addIndex = Number(this.trackVehicleForm.value['emisPaid']) - this.formArr['controls'].length;
@@ -554,7 +555,7 @@ export class TrackVehicleComponent implements OnInit {
               // else if(dueDate < Receiveddate){
               //   Receiveddate = null;
               // }
-              let delayDays = this.dateDiff(dueDate,Receiveddate).toFixed(0);
+              let delayDays = this.dateDiff(dueDate,Receiveddate);
               let rowData = {
                 installmentAmt: this.trackVehicleForm.value['emiAmount'],
                 dueDate: dueDate,
@@ -625,7 +626,8 @@ export class TrackVehicleComponent implements OnInit {
   dateDiff(d1, d2) {
     const dueDate = new Date(d1);
     const recDate = new Date(d2);
-    return (recDate.getTime() - dueDate.getTime()) / (1000 * 3600 * 24);
+    let delDate = (recDate.getTime() - dueDate.getTime()) / (1000 * 3600 * 24);
+    return delDate.toFixed(0); 
   }
   delayDaysCalc() {
     this.totalDelayDays = 0;
