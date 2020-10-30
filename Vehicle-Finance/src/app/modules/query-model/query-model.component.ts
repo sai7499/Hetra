@@ -41,11 +41,6 @@ export class QueryModelComponent implements OnInit {
 
   isLeadShow: boolean;
   getSearchableLead: any = []
-  constructor(private _fb: FormBuilder,
-              private createLeadDataService: CreateLeadDataService,
-              private toasterService: ToasterService,
-              private activatedRoute: ActivatedRoute ) { }
-
   @ViewChild('fileInput', { static: false })
   fileInput: ElementRef;
   docsDetails: DocRequest;
@@ -62,7 +57,7 @@ export class QueryModelComponent implements OnInit {
 
   constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService, private commonLovService: CommomLovService, private router: Router,
     private labelsData: LabelsService, private uploadService: UploadService, private queryModelService: QueryModelService, private toasterService: ToasterService,
-    private utilityService: UtilityService) { }
+    private utilityService: UtilityService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
 
