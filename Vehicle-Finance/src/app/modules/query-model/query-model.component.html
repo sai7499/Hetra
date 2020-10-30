@@ -25,10 +25,10 @@
                   <div class="flex-container">
                     <div class="small" (click)="getQueries(chat)">
                       <!--  | search : queryModalForm.value.searchName.trim().length ? queryModalForm.value.searchName : '' : 'leadId' || 'name': 'product' -->
-                      <p class="mar-em">{{chat.leadId}}</p>
+                      <p class="mar-em">{{chat.key}}</p>
                     </div>
                     <div class="">
-                      <p class="mar-em">{{chat.leadId}} - {{chat.product}} - {{chat.name}}</p>
+                      <p class="mar-em">{{chat.value}}</p>
                     </div>
                   </div>
                   <hr>
@@ -61,6 +61,7 @@
                         </div>
                         <div class="stakeholder-list">
                           <div *ngFor="let stack of queryModelLov.queryTo">
+                            <!--  | search : queryModalForm.value.searchName.trim().length ? queryModalForm.value.searchName : '' : 'leadId' || 'name': 'product' -->
                             <div class="radio"><label><input type="radio" name="radio"> {{stack.value}} <span
                                   class="checkmark"></span></label></div>
                           </div>
@@ -112,10 +113,14 @@
             <div class="col-sm-8 right ">
               <div class="row chat-box message-box">
 
-                <div class="" *ngFor="let message of chatMessages; let j=index;let last=last;">
-                  <div class="wt-80 " [ngClass]="message.queryFrom === userId? 'sender' : 'receiver'">
-                    <div class="send-message">
-                      <div class="logged-user">{{message.fromName}} <small> [{{message.nameWithFromRole}}] </small>
+                <div *ngFor="let message of chatMessages; let j=index;let last=last;">
+                  <div class="wt-80" [ngClass]="message.queryFrom === userId ? 'sender' : 'receiver'">
+                    <div [ngClass]="message.queryFrom === userId ? 'send-message' : 'receive-message'">
+                      <div class="logged-user">
+                        <span> {{message.fromName}} {{message.fromRole}} </span>
+                        <span> <strong>Query Type : </strong> {{message.queryTypeDesc}}
+                        </span>
+
                       </div>
                       <p>{{message.query}}</p>
                       <div *ngIf="message.docId"><a href="#" class="text-danger"> <i class="fa fa-file-pdf-o"></i>
@@ -123,14 +128,15 @@
                           Card.pdf</a></div>
                       <br *ngIf="message.docId">
                       <div class="tagged-name">
-                        <span> <strong>Tagged To : </strong> {{message.queryTo}} [{{message.nameWithToRole}}] </span>
-                        <span class="date-time"> {{message.createdOn | date: 'dd-MMM-yyyy' }} |
-                          {{message.createdOn | date: 'h:mm a' }} </span>
+                        <span> <strong>Tagged To : </strong> {{message.queryTo}} [{{message.toRole}}] </span>
+                        <span class="date-time"> {{message.time |  date: 'dd-MMM-yyyy | h:mm a': 'US' }}
+                        </span>
+
                       </div>
                     </div>
 
                   </div>
-                  
+
                 </div>
                 <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 
@@ -155,9 +161,10 @@
                 <div class="col-lg-6 col-sm-6 col-md-4 col-xs-6">
                   <div class="form-group">
                     <label class="col-sm-4">Tag query To</label>
-                    <div class="col-sm-8">
-                      <input type="text" class="form-control" autocomplete="off" formControlName="queryTo"
-                        (mouseover)="mouseEnter()" (keyup)="getvalue($event.target.value)">
+                    <div class="col-sm-8" (mouseleave)="mouseLeave()">
+                      <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchText"
+                        [ngModelOptions]="{standalone: true}" (mouseenter)="mouseEnter()"
+                        (keyup)="getvalue($event.target.value)">
 
                       <div class="dropdown-content" *ngIf="dropDown && searchLead && searchLead.length > 0">
                         <div *ngFor="let item of searchLead">
@@ -189,25 +196,25 @@
                 <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
                   <div class="form-group">
                     <label for="file-upload" class="col-sm-4">Lead Id</label>
-                    <div class="upload-btn-wrapper col-sm-5">
+                    <div class="upload-btn-wrapper col-sm-8">
                       <!-- <app-custom-input formControlName="leadId" [id]="'lead_id'" [className]="'form-control mandatory'"
                         [placeholder]="'Lead Id'" [isRequired]="'Lead Id Required'" [isDirty]="isDirty">
                       </app-custom-input> -->
-                      <div class="col-sm-8">
-                        <input type="text" class="form-control" autocomplete="off" formControlName="leadId"
-                          (mouseover)="mouseleadIdEnter()" (keyup)="getleadIdvalue($event.target.value)">
+                      <div class="col-sm-12" (mouseleave)="mouseLeaveLeadId()">
+                        <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchLeadId"
+                          [ngModelOptions]="{standalone: true}" (mouseover)="mouseleadIdEnter()"
+                          (keyup)="getleadIdvalue($event.target.value)">
 
-                        <div class="dropdown-content"
-                          *ngIf="isLeadShow && getSearchableLead && getSearchableLead.length > 0">
+                        <div class="dropdown-content" *ngIf="isLeadShow">
                           <div *ngFor="let item of getSearchableLead">
                             <a data-toggle="collapse" data-target="#bs-navbar"
-                              (click)="getLead(item)">{{item.leadId}}</a>
+                              (click)="getLead(item)">{{item.value}}</a>
                           </div>
                         </div>
 
                       </div>
                     </div>
-                    <label for="file-upload" class="col-sm-1">*mandatory</label>
+                    <!-- <label for="file-upload" class="col-sm-1">*mandatory</label> -->
                   </div>
                 </div>
               </div>
@@ -248,10 +255,10 @@
 <script>
   //Get the button
   var mybutton = document.getElementById("myBtn");
-  
+
   // When the user scrolls down 20px from the top of the document, show the button
-  window.onscroll = function() {scrollFunction()};
-  
+  window.onscroll = function () { scrollFunction() };
+
   function scrollFunction() {
     if (document.body.scrollTop > 5 || document.documentElement.scrollTop > 5) {
       mybutton.style.display = "block";
@@ -259,7 +266,7 @@
       mybutton.style.display = "none";
     }
   }
-  
+
   // When the user clicks on the button, scroll to the top of the document
   function topFunction() {
     document.body.scrollTop = 0;

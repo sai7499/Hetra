@@ -605,9 +605,10 @@ margin: 0px !important;
 
 .chat-box {
     border: 2px solid #ddd;
-    height: 634px;
+    /* height: 634px; */
     padding: 12px;
-    background-color: #eaeaf1;
+    /* background-color: #eaeaf1; */
+    background-color: #fff;
     border-radius: 8px;
     margin-bottom: 20px;
 }
