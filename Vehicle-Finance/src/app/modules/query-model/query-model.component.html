@@ -24,17 +24,22 @@
               <div class="panel-group mar-20 scroll-box row" id="scrollBox">
                 <div class="panel-group mar-20" id="accordion"
                   *ngFor="let chat of chatList; let i=index; let last=last">
-                  <div class="flex-container">
+                  <div class="flex-container" [ngClass]="selectedOne === chat ? 'selected-back' : ''">
                     <div class="small" (click)="getQueries(chat)">
                       <p class="mar-em">{{chat.key}}</p>
                     </div>
                     <div class="">
                       <p class="mar-em">{{chat.value}}</p>
                     </div>
+
+                    <div class="small count-list" *ngIf="chat.count">
+                      <p class="mar-em">{{chat.count}}</p>
+                    </div>
+
                   </div>
                   <hr>
                 </div>
-                <div id="loadMore">Load more</div>
+                <div id="loadMore" (click)="changeEvent()">Load more</div>
                 <div *ngIf="chatList.length === 0">
                   No such field in leadlist
                 </div>
@@ -117,26 +122,20 @@
                 <div *ngFor="let message of chatMessages; let j=index;let last=last;">
                   <div class="wt-80" [ngClass]="message.queryFrom === userId ? 'sender' : 'receiver'">
                     <div [ngClass]="message.queryFrom === userId ? 'send-message' : 'receive-message'">
-                      <!-- <div class="logged-user">
-                        <span> {{message.fromName}} {{message.fromRole}} </span>
-                        <span class="date-time"> <strong>Query Type : </strong> {{message.queryTypeDesc}}
-                        </span>
-
-                      </div> -->
                       <div class="logged-user">
-                        <span style="font-weight: 600;"> {{message.fromName}}, {{message.fromRole}}
+                        <span style="font-weight: 600;"> {{message.nameWithFromRole}}
                         </span>
                         <span class="date-time"> <strong>Query Type : </strong> {{message.queryTypeDesc}} </span>
 
 
                       </div>
                       <p>{{message.query}}</p>
-                      <div *ngIf="message.docId"><a href="#" class="text-danger"> <i class="fa fa-file-pdf-o"></i>
-                          Aadhar
-                          Card.pdf</a></div>
+                      <div *ngIf="message.docId"><a class="text-danger"
+                          (click)="downloadDocs(message.docId, j, $event)"> <i class="fa fa-file-pdf-o"></i>
+                          {{message.docId}}</a></div>
                       <br *ngIf="message.docId">
                       <div class="tagged-name">
-                        <span> <strong>Tagged To : </strong> {{message.queryTo}}, {{message.toRole}} </span>
+                        <span> <strong>Tagged To : </strong> {{message.nameWithToRole}} </span>
                         <span class="date-time"> {{message.time |  date: 'dd-MMM-yyyy | h:mm a': 'US' }}
                         </span>
 
@@ -146,7 +145,7 @@
                   </div>
 
                 </div>
-                <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+                <button (click)="topFunction()" id="myBtn" title="Go to top">Top</button>
 
                 <div class="wt-mid text-center" *ngIf="chatMessages && chatMessages.length === 0">
                   <p>No chats available</p>
@@ -160,9 +159,9 @@
                 <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
                   <div class="form-group">
                     <label for="file-upload" class="col-sm-4">Lead Id</label>
-                    <div class="col-sm-8" (mouseLeave)="mouseLeaveLeadId()">
+                    <div class="col-sm-8" (mouseleave)="mouseLeaveLeadId()">
                       <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchLeadId"
-                        [ngModelOptions]="{standalone: true}" (mouseover)="mouseleadIdEnter()"
+                        [ngModelOptions]="{standalone: true}" (mouseenter)="mouseleadIdEnter()"
                         (keyup)="getleadIdvalue($event.target.value)">
 
                       <div class="dropdown-content" *ngIf="isLeadShow">
@@ -212,9 +211,7 @@
                   <div class="form-group">
                     <label for="file-upload" class="col-sm-4">Attachment</label>
                     <div class="upload-btn-wrapper col-sm-8">
-                      <button class="btn-upload">Choose file</button>
-                      <input type="file" id="file-upload" #fileInput (input)="onFileSelect($event)">
-                      <span id="file-name"></span>
+                      <button class="btn-upload" (click)="chooseFile()">Choose file</button>
                       <h6>&nbsp;(Maximum size: 2 MB)</h6>
                     </div>
                   </div>
@@ -255,8 +252,10 @@
     </div>
 
   </div>
+  <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)"
+    [docsDetails]="selectedDocDetails"></app-upload-modal>
 </main>
-<script>
+<!-- <script>
   //Get the button
   var mybutton = document.getElementById("myBtn");
 
@@ -293,4 +292,4 @@
   });
 
 </script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->

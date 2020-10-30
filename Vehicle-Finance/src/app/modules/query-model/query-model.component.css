@@ -683,7 +683,23 @@ margin: 0px !important;
     display: block;
     width: 90%;
     border-radius: 20px;
-}
+  }
+
+  .count-list {
+    text-align: center !important;
+    font-size: 10px !important;
+    border-radius: 50% !important;;
+    background: #06d755 !important;
+    color: white !important;
+    /* position: absolute; */
+    width: 9% !important;
+    right: 55px;
+    top: 165px;
+  }
+
+  .selected-back {
+      background-color: #cec3c3;
+  }
     
     .dropdown-content {
     /* margin-left: 10px; */
@@ -702,8 +718,8 @@ margin: 0px !important;
     }
     .dropdown-content a:hover {background-color: #ddd;}
 
-    .scroll-box{
-        width:100%;
+    .scroll-box {
+    width:100%;
     max-height:500px;
     overflow-y:auto;
     }
