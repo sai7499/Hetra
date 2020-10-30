@@ -19,7 +19,7 @@
               <!-- </form> -->
 
               <br /><br />
-              <div class="panel-group mar-20 scroll-box row" >
+              <div class="panel-group mar-20 scroll-box row" id="scrollBox" >
                 <div class="panel-group mar-20" id="accordion"
                   *ngFor="let chat of chatList; let i=index; let last=last">
                   <div class="flex-container">
@@ -33,7 +33,7 @@
                   </div>
                   <hr>
                 </div>
-
+                <div id="loadMore" (click)="getQueries(chat)">Load more</div>
                 <div *ngIf="chatList.length === 0">
                   No such field in leadlist
                 </div>
@@ -132,11 +132,12 @@
                   </div>
                   
                 </div>
+                <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 
                 <div class="wt-mid text-center" *ngIf="chatMessages && chatMessages.length === 0">
                   <p>No chats available</p>
                 </div>
-                <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+               
 
               </div>
 
@@ -264,5 +265,21 @@
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   }
+
+
+  $(document).ready(function () {
+    size_li = $("#scrollBox li").size();
+    x=3;
+    $('#scrollBox li:lt('+x+')').show();
+    $('#loadMore').click(function () {
+        x= (x+5 <= size_li) ? x+5 : size_li;
+        $('#scrollBox li:lt('+x+')').show();
+    });
+    $('#showLess').click(function () {
+        x=(x-5<0) ? 3 : x-5;
+        $('#scrollBox li').not(':lt('+x+')').hide();
+    });
+});
+
   </script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

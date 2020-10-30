@@ -718,7 +718,7 @@ margin: 0px !important;
   }
 
   #myBtn {
-    /* display: none; */
+      display: none; 
     position: fixed;
     bottom: 20px;
     right: 30px;
@@ -741,4 +741,11 @@ margin: 0px !important;
 
   html {
     scroll-behavior: smooth;
+  }
+
+  #myList li{ display:none;
+  }
+  #loadMore {
+      color:green;
+      cursor:pointer;
   }
