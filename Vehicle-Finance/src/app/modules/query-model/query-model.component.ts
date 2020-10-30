@@ -52,6 +52,12 @@ export class QueryModelComponent implements OnInit {
 
   queryLeads: any = [];
 
+  getLeadSendObj = {
+    currentPage: null,
+    perPage: 10,
+    searchKey: '',
+  }
+
   constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService, private commonLovService: CommomLovService, private router: Router,
     private labelsData: LabelsService, private uploadService: UploadService, private queryModelService: QueryModelService, private toasterService: ToasterService,
     private utilityService: UtilityService) { }
@@ -66,8 +72,6 @@ export class QueryModelComponent implements OnInit {
 
     const leadData = this.createLeadDataService.getLeadSectionData();
     this.leadDetails = leadData['leadDetails'];
-    let collateralDetails = leadData['vehicleCollateral'];
-    console.log(this.leadDetails, 'this.leadDetails')
 
     this.queryModalForm = this._fb.group({
       searchName: [''],
@@ -86,28 +90,26 @@ export class QueryModelComponent implements OnInit {
     this.commonLovService.getLovData().subscribe((value: any) => {
       let LOV = value.LOVS;
       this.queryModelLov.queryType = value.LOVS.queryType;
-      this.getUsers();
-      this.getLeads();
+      this.getLeads(this.getLeadSendObj);
     });
   }
 
-  getLeads(searchKey?: string) {
+  getLeads(sendObj, searchKey?: string) {
 
     let data = {
       "userId": this.userId,
       "currentPage": null,
-      "perPage": 500,
-      "chatPerPage": 100,
+      "perPage": 10,
+      "searchKey": searchKey ? searchKey : '',
+      "chatPerPage": 10,
       "chatCurrentPage": null,
-      "chatSearchKey": searchKey ? searchKey : '',
-      "searchKey": searchKey ? searchKey : ''
+      "chatSearchKey": searchKey ? searchKey : ''
     }
 
     this.queryModelService.getLeads(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.chatList = res.ProcessVariables.chatLeads ? res.ProcessVariables.chatLeads : [];
         this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
-        console.log('Lwasds', this.chatList)
       } else {
         this.chatList = []
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Leads')
@@ -124,7 +126,6 @@ export class QueryModelComponent implements OnInit {
 
     this.queryModelService.getUsers(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        console.log(res, 'res')
         this.queryModelLov.queryTo = res.ProcessVariables.stakeholders ? res.ProcessVariables.stakeholders : []
       } else {
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Users')
@@ -145,7 +146,6 @@ export class QueryModelComponent implements OnInit {
 
 
   getQueries(lead) {
-    console.log('this.leadId', lead)
     let data = {
       "leadId": Number(lead.key),
       "perPage": 100,
@@ -155,8 +155,8 @@ export class QueryModelComponent implements OnInit {
     this.queryModalForm.patchValue({
       leadId: Number(lead.key),
     })
+    this.searchLeadId = lead.value;
     this.getUsers()
-    console.log(this.queryModalForm, 'model')
     this.queryModelService.getQueries(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.chatMessages = res.ProcessVariables.assetQueries ? res.ProcessVariables.assetQueries : [];
@@ -232,11 +232,11 @@ export class QueryModelComponent implements OnInit {
 
   mouseLeave() {
     this.dropDown = false;
-    this.isLeadShow = false;
+    // this.isLeadShow = false;
   }
 
   mouseLeaveLeadId() {
-    this.dropDown = false;
+    // this.dropDown = false;
     this.isLeadShow = false;
   }
 
@@ -260,8 +260,7 @@ export class QueryModelComponent implements OnInit {
 
       this.queryModelService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-          let updateDevision = res.ProcessVariables.updatedDev ? res.ProcessVariables.updatedDev : [];
-          this.getLeads()
+          this.getLeads(this.getLeadSendObj);
           this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Query Model Save/Update')
         } else {
           this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Query Model Save/Update')
@@ -357,7 +356,6 @@ export class QueryModelComponent implements OnInit {
           var binaryData = e.target.result;
           //Converting Binary Data to base 64
           var base64String = window.btoa(binaryData);
-          console.log('base64String', base64String);
           resolve(base64String)
           //showing file converted to base64
           // document.getElementById('base64').value = base64String;
