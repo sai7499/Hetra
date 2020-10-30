@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { SearchPipe } from '../../services/search.pipe';
+import { Constant } from '@assets/constants/constant';
+
+import { ToasterService } from '@services/toaster.service';
 
 @Component({
   selector: 'app-query-model',
@@ -9,7 +14,8 @@ import { SearchPipe } from '../../services/search.pipe';
   styleUrls: ['./query-model.component.css']
 })
 export class QueryModelComponent implements OnInit {
-
+  showModal: boolean;
+  selectedDocDetails;
   queryModalForm: FormGroup;
   queryModelLov: any = {};
   leadDetails: any;
@@ -43,13 +49,21 @@ export class QueryModelComponent implements OnInit {
     }
   ];
 
-  constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService) { }
+  constructor(private _fb: FormBuilder,
+              private createLeadDataService: CreateLeadDataService,
+              private toasterService: ToasterService,
+              private activatedRoute: ActivatedRoute ) { }
 
   ngOnInit() {
 
     const leadData = this.createLeadDataService.getLeadSectionData();
     this.leadDetails = leadData['leadDetails'];
     this.leadId = leadData['leadId'];
+
+    this.activatedRoute.params.subscribe((value) => {
+      this.leadId = value.leadId;
+      console.log('leadId', this.leadId);
+    });
 
     this.queryModalForm = this._fb.group({
       queryType: [''],
@@ -103,6 +117,51 @@ export class QueryModelComponent implements OnInit {
 
     console.log('fs', form)
 
+  }
+
+  uploadDocs(index) {
+    
+ }
+
+  onUploadSuccess(event) {
+    this.showModal = false;
+    this.toasterService.showSuccess('Document uploaded successfully', '');
+    console.log('onUploadSuccess', event);
+  }
+
+  chooseFile() {
+    this.showModal = true;
+    const docNm = 'ACCOUNT_OPENING_FORM';
+    const docCtgryCd = 70;
+    const docTp = 'LEAD';
+    const docSbCtgry = 'ACCOUNT OPENING FORM';
+    const docCatg = 'KYC - I';
+    const docCmnts = 'Addition of document for Lead Creation';
+    const docTypCd = 276;
+    const docSbCtgryCd = 204;
+
+    this.selectedDocDetails = {
+        docSize: 2097152,
+        docsType: Constant.OTHER_DOCUMENTS_ALLOWED_TYPES,
+        docNm,
+        docCtgryCd,
+        docTp,
+        docSbCtgry,
+        docCatg,
+        docCmnts,
+        docTypCd,
+        docSbCtgryCd,
+        docRefId: [
+            {
+              idTp: 'LEDID',
+              id: this.leadId,
+            },
+            {
+              idTp: 'BRNCH',
+              id: Number(localStorage.getItem('branchId')),
+            },
+          ],
+    };
   }
 
 }

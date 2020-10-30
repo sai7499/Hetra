@@ -192,9 +192,9 @@
                   <div class="form-group">
                     <label for="file-upload" class="col-sm-4">Attachment</label>
                     <div class="upload-btn-wrapper col-sm-8">
-                      <button class="btn-upload">Choose file</button>
-                      <input type="file" id="file-upload">
-                      <span id="file-name"></span>
+                      <button class="btn-upload" (click)="chooseFile()">Choose file</button>
+                      <!-- <input type="file" id="file-upload">
+                      <span id="file-name"></span> -->
                       <h6>&nbsp;(Maximum size: 2 MB)</h6>
                     </div>
                   </div>
@@ -236,4 +236,10 @@
     </div>
 
   </div>
+  <app-upload-modal
+  [showModal]="showModal"
+  (close)="showModal = false"
+  (uploadSuccess)="onUploadSuccess($event)"
+  [docsDetails]="selectedDocDetails"
+></app-upload-modal>
 </main>
