@@ -5,9 +5,8 @@ import { QueryModelComponent } from './query-model.component';
 
 const routes: Routes = [
   {
-    path: ':leadId',
+    path: '',
     component: QueryModelComponent,
-    resolve: { leadData: LeadDataResolverService }
   }
 ];
 

@@ -235,6 +235,12 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  initinequery() {
+    const currentUrl = this.location.path();
+    localStorage.setItem('currentUrl', currentUrl);
+    this.router.navigateByUrl(`/pages/query-model`)
+  }
+
   onSort(data) {
     this.sortTab = data;
     switch (data) {

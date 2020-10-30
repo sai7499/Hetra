@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { DocRequest } from '@model/upload-model';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { CommomLovService } from '@services/commom-lov-service';
@@ -52,9 +52,9 @@ export class QueryModelComponent implements OnInit {
 
   queryLeads: any = [];
 
-  constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService, private commonLovService: CommomLovService,
+  constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService, private commonLovService: CommomLovService, private router: Router,
     private labelsData: LabelsService, private uploadService: UploadService, private queryModelService: QueryModelService, private toasterService: ToasterService,
-    private utilityService: UtilityService, private activatedRoute: ActivatedRoute) { }
+    private utilityService: UtilityService) { }
 
   ngOnInit() {
 
@@ -67,7 +67,7 @@ export class QueryModelComponent implements OnInit {
     const leadData = this.createLeadDataService.getLeadSectionData();
     this.leadDetails = leadData['leadDetails'];
     let collateralDetails = leadData['vehicleCollateral'];
-    this.leadId = Number(this.activatedRoute.snapshot.params['leadId']);
+    console.log(this.leadDetails, 'this.leadDetails')
 
     this.queryModalForm = this._fb.group({
       searchName: [''],
@@ -137,6 +137,12 @@ export class QueryModelComponent implements OnInit {
       .getDocumentDetails(this.collateralId, this.associatedWith)
       .subscribe((value: any) => { });
   }
+
+  backFromQuery() {
+    const currentUrl = localStorage.getItem('currentUrl');
+    this.router.navigateByUrl(currentUrl);
+  }
+
 
   getQueries(lead) {
     console.log('this.leadId', lead)

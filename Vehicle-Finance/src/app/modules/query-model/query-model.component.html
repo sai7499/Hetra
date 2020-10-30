@@ -1,6 +1,10 @@
 <main class="mar-top90">
   <div class="container-fluid">
-    <app-lead-section-header></app-lead-section-header>
+
+    <div class="row view-pad-bottom" *ngIf="isEnableBackInitiate">
+      <button class="btn btn-warning view-button" type="button" (click)="backFromQuery()"><i
+          class="fa fa-arrow-left"></i> Back to Lead</button>
+    </div>
 
     <div class="" style="margin: 10px;">
 
@@ -8,7 +12,6 @@
         <form [formGroup]="queryModalForm">
           <div class="query">
             <div class="col-sm-4 left">
-              <!-- <form class="form-horizontal"> -->
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0">
                 <div class="input-group search-btn">
                   <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
@@ -16,15 +19,13 @@
                   <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
                 </div>
               </div>
-              <!-- </form> -->
 
               <br /><br />
-              <div class="panel-group mar-20 scroll-box row" id="scrollBox" >
+              <div class="panel-group mar-20 scroll-box row" id="scrollBox">
                 <div class="panel-group mar-20" id="accordion"
                   *ngFor="let chat of chatList; let i=index; let last=last">
                   <div class="flex-container">
                     <div class="small" (click)="getQueries(chat)">
-                      <!--  | search : queryModalForm.value.searchName.trim().length ? queryModalForm.value.searchName : '' : 'leadId' || 'name': 'product' -->
                       <p class="mar-em">{{chat.key}}</p>
                     </div>
                     <div class="">
@@ -33,7 +34,7 @@
                   </div>
                   <hr>
                 </div>
-                <div id="loadMore" (click)="getQueries(chat)">Load more</div>
+                <div id="loadMore">Load more</div>
                 <div *ngIf="chatList.length === 0">
                   No such field in leadlist
                 </div>
@@ -143,7 +144,7 @@
                 <div class="wt-mid text-center" *ngIf="chatMessages && chatMessages.length === 0">
                   <p>No chats available</p>
                 </div>
-               
+
 
               </div>
 
@@ -276,17 +277,17 @@
 
   $(document).ready(function () {
     size_li = $("#scrollBox li").size();
-    x=3;
-    $('#scrollBox li:lt('+x+')').show();
+    x = 3;
+    $('#scrollBox li:lt(' + x + ')').show();
     $('#loadMore').click(function () {
-        x= (x+5 <= size_li) ? x+5 : size_li;
-        $('#scrollBox li:lt('+x+')').show();
+      x = (x + 5 <= size_li) ? x + 5 : size_li;
+      $('#scrollBox li:lt(' + x + ')').show();
     });
     $('#showLess').click(function () {
-        x=(x-5<0) ? 3 : x-5;
-        $('#scrollBox li').not(':lt('+x+')').hide();
+      x = (x - 5 < 0) ? 3 : x - 5;
+      $('#scrollBox li').not(':lt(' + x + ')').hide();
     });
-});
+  });
 
-  </script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

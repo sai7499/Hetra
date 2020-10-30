@@ -69,25 +69,6 @@ export class LeadSectionHeaderComponent implements OnInit {
     }
     this.sharedService.productCatName$.subscribe(val =>
       this.productId = val)
-
-    const currentUrl = this.location.path();
-    this.locationIndex = this.getLocationIndex(currentUrl);
-    this.location.onUrlChange((url: string) => {
-      this.locationIndex = this.getLocationIndex(url);
-    });
-
-  }
-
-  getLocationIndex(url: string) {
-    if (url.includes('query-model')) {
-      this.isEnableBackInitiate = true;
-      this.isEnableInitiateQuery = false
-      return 0;
-    } else {
-      this.isEnableBackInitiate = false;
-      this.isEnableInitiateQuery = true;
-      return 1;
-    }
   }
 
     getLabels() {
@@ -146,21 +127,6 @@ export class LeadSectionHeaderComponent implements OnInit {
     saveCurrentUrl() {
       const currentUrl = this.location.path();
       localStorage.setItem('currentUrl', currentUrl);
-    }
-
-    initinequery() {
-      this.isEnableInitiateQuery = false;
-      this.isEnableBackInitiate = true;
-      const currentUrl = this.location.path();
-      localStorage.setItem('currentUrl', currentUrl);
-      this.router.navigateByUrl(`/pages/query-model/${this.leadId}`)
-    }
-
-    backFromQuery() {
-      const currentUrl = localStorage.getItem('currentUrl');
-      this.router.navigateByUrl(currentUrl);
-      this.isEnableBackInitiate = false;
-      this.isEnableInitiateQuery = true;
     }
 
     viewOrEditDde() {
