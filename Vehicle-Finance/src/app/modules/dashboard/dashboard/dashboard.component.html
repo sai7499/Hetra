@@ -165,12 +165,12 @@
       <li (click)="leads(displayTabs?.NewLeads)" [ngClass]="{'active':displayTabs?.NewLeads === subActiveTab}"
         routerLinkActive="active" id="leads"><a data-toggle="tab">New Leads</a></li>
       <!--  -->
-      <!-- <li (click)="leads(displayTabs?.SanctionedWithMe)"
-        [ngClass]="{'active':displayTabs?.SanctionedWithMe === subActiveTab}" routerLinkActive="active"><a
-          data-toggle="tab">Sanctioned Leads Pending with Me</a></li>
-      <li (click)="leads(displayTabs?.SanctionedWithBranch)"
-        [ngClass]="{'active':displayTabs?.SanctionedWithBranch === subActiveTab}" routerLinkActive="active"><a
-          data-toggle="tab">Sanctioned Leads Pending with Branch</a></li> -->
+      <li (click)="leads(displayTabs?.ReversedLeadsWithMe)"
+        [ngClass]="{'active':displayTabs?.ReversedLeadsWithMe === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Reversed Leads Pending with Me</a></li>
+      <li (click)="leads(displayTabs?.ReversedLeadsWithBranch)"
+        [ngClass]="{'active':displayTabs?.ReversedLeadsWithBranch === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Reversed Leads Pending with Branch</a></li>
       <!--  -->
       <li (click)="leads(displayTabs?.SanctionedWithMe)"
         [ngClass]="{'active':displayTabs?.SanctionedWithMe === subActiveTab}" routerLinkActive="active"><a
