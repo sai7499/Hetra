@@ -17,11 +17,12 @@ export class ApplicantDocumentComponent implements OnInit {
   values: any = [];
   labels: any = {};
   leadId: number;
-  applicantList: { key: number; value: string }[];
+  applicantList: any[];
   applicantId;
   selectedApplicant: {
     id: number;
     associatedWith;
+    apiId;
   };
 
   constructor(
@@ -57,11 +58,13 @@ export class ApplicantDocumentComponent implements OnInit {
 
   }
 
-  getApplicantList(applicantList: ApplicantList[]) {
-    this.applicantList = applicantList.map((val) => {
+  getApplicantList(applicantList: any[]) {
+    this.applicantList = applicantList.map((val: any) => {
       return {
         key: val.applicantId,
         value: val.fullName,
+        wizard: val.wizardLeadId,
+        ucic: val.ucic
       };
     });
     if (this.applicantList.length === 0) {
@@ -69,9 +72,11 @@ export class ApplicantDocumentComponent implements OnInit {
     }
     console.log('applicantList', this.applicantList);
     this.applicantId = Number(this.applicantList[0].key);
+    const apiId = this.applicantList[0].ucic || this.applicantList[0].wizard;
     this.selectedApplicant = {
       id: this.applicantId,
       associatedWith: 2,
+      apiId
     };
     // const data = {
     //   leadId: this.leadId,
@@ -110,6 +115,11 @@ export class ApplicantDocumentComponent implements OnInit {
   }
 
   onApplicantChange(value) {
-    this.selectedApplicant = {id:value.key, associatedWith: 2}
+    console.log('value', value);
+    this.selectedApplicant = {
+                  id: value.key,
+                  associatedWith: 2,
+                  apiId: value.ucic || value.wizard
+                };
   }
 }

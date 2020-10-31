@@ -188,6 +188,8 @@ export class ApplicantDetailComponent implements OnInit {
       this.applicantForm.get('owner').setValidators(Validators.required);
       this.applicantForm.get('areaOfProperty').enable();
       this.applicantForm.get('areaOfProperty').setValidators(Validators.required);
+      this.applicantForm.get('propertyValue').enable();
+      this.applicantForm.get('propertyValue').setValidators(Validators.required);
 
     } else if (this.ownerShipType !== '1HOUOWN' || this.ownerShipType !== '2HOUOWN' ||
       this.ownerShipType !== '4HOUOWN' || this.ownerShipType !== '9HOUOWN' ||
@@ -198,6 +200,7 @@ export class ApplicantDetailComponent implements OnInit {
       setTimeout(() => {
         this.applicantForm.get('owner').setValue(null);
         this.applicantForm.get('areaOfProperty').setValue(null);
+        this.applicantForm.get('propertyValue').setValue(null);
       });
       this.applicantForm.get('owner').disable();
       this.applicantForm.get('owner').clearValidators();
@@ -205,7 +208,9 @@ export class ApplicantDetailComponent implements OnInit {
       this.applicantForm.get('areaOfProperty').disable();
       this.applicantForm.get('areaOfProperty').clearValidators();
       this.applicantForm.get('areaOfProperty').updateValueAndValidity();
-
+      this.applicantForm.get('propertyValue').disable();
+      this.applicantForm.get('propertyValue').clearValidators();
+      this.applicantForm.get('propertyValue').updateValueAndValidity();
     }
   }
   resAddress(event: any) {
@@ -260,6 +265,7 @@ export class ApplicantDetailComponent implements OnInit {
       houseOwnership: new FormControl('', Validators.required),
       ownerProofAvail: new FormControl('', Validators.required),
       areaOfProperty: new FormControl(''),
+      propertyValue: new FormControl(''),
       owner: new FormControl(''),
       ratingbySO: new FormControl('', Validators.required)
     });
@@ -310,6 +316,7 @@ export class ApplicantDetailComponent implements OnInit {
       houseOwnership: applicantModal.houseOwnership || '',
       ownerProofAvail: applicantModal.ownerProofAvail || '',
       owner: applicantModal.owner || '',
+      propertyValue: applicantModal.propertyValue || '',
       areaOfProperty: applicantModal.areaOfProperty || '',
       ratingbySO: applicantModal.ratingbySO || '',
       alternateAddr: applicantModal.alternateAddr || ''
@@ -381,6 +388,7 @@ export class ApplicantDetailComponent implements OnInit {
       standardOfLiving: applicantFormModal.standardOfLiving,
       houseOwnership: applicantFormModal.houseOwnership,
       owner: applicantFormModal.owner,
+      propertyValue: applicantFormModal.propertyValue,
       areaOfProperty: applicantFormModal.areaOfProperty,
       ownerProofAvail: applicantFormModal.ownerProofAvail,
       ratingbySO: applicantFormModal.ratingbySO,

@@ -1,8 +1,8 @@
 <main class="mar-top90">
   <div class="container-fluid">
     <div class="pull-right dropdown nav">
-      <div class="pull-right dropdown nav">
-        <button *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab" class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i>
+      <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab" class="pull-right dropdown nav">
+        <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i>
           {{!isFilterApplied ? "Filter" : "Filter Applied"}} </button>
       </div>
       <!-- <div *ngIf="isFilterApplied" class="pull-right dropdown nav">
@@ -12,25 +12,31 @@
   </div>
 
   <div class="filter-block container-fluid mar-bottom" *ngIf="showFilter">
-    <div>
+    <div  *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab">
       <form [formGroup]="filterForm">
         <div class="row">
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
-            <label for="leadId">{{labels.leadID}}</label>
+            <label for="leadId">{{labels?.leadID}}</label>
             <app-custom-input id="leadId" formControlName="leadId" [className]="'form-control'"
               [placeholder]="'Lead Id'" [maxLength]="validationData?.extn.maxLength" [type]="validationData?.extn.type">
             </app-custom-input>
           </div>
+          <div *ngIf="displayTabs?.PDD === activeTab || displayTabs?.PDDforCPC === activeTab" class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="leadId">{{labels?.loanNumber}}</label>
+            <app-custom-input id="leadId" formControlName="loanNumber" [className]="'form-control'"
+              [placeholder]="'Loan Number'" [type]="validationData?.extn.type">
+            </app-custom-input>
+          </div>
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
-            <label for="productCategory">{{labels.productCategory}}</label>
+            <label for="productCategory">{{labels?.productCategory}}</label>
             <!-- <app-vf-custom-select [values]="productCategoryData" formControlName="product"> </app-vf-custom-select> -->
             <select class="form-control" formControlName="product">
               <option value=''>-- select one --</option>
               <option *ngFor="let item of productCategoryData" [value]="item.key">{{item.value}}</option>
             </select>
           </div>
-          <div class="form-group col-sm-6 col-md-3 col-lg-3 ">
-            <label for="status">{{labels.status}}</label>
+          <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab" class="form-group col-sm-6 col-md-3 col-lg-3 ">
+            <label for="status">{{labels?.status}}</label>
             <!-- <app-vf-custom-select [values]="stageData" formControlName="leadStage"> </app-vf-custom-select> -->
             <select class="form-control" formControlName="leadStage">
               <option value=''>-- select one --</option>
@@ -38,9 +44,9 @@
             </select>
           </div>
         </div>
-        <div class="row">
+        <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab" class="row">
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
-            <label for="startDate">{{labels.leadCreatedOnStartDate}}</label>
+            <label for="startDate">{{labels?.leadCreatedOnStartDate}}</label>
             <kendo-datepicker class="form-control" formControlName="fromDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
               placeholder="Start Date" (ngModelChange)="onChangeFromDate($event)" [activeView]="'decade'">
             </kendo-datepicker>
@@ -48,7 +54,7 @@
           </div>
           <div [ngClass]="{'disablField': !filterForm.get('fromDate').value}"
             class="form-group col-sm-6 col-md-3 col-lg-3">
-            <label for="endDate">{{labels.leadCreatedOnEndDate}}</label>
+            <label for="endDate">{{labels?.leadCreatedOnEndDate}}</label>
             <kendo-datepicker class="form-control" formControlName="toDate" [format]="'dd/MM/yyyy'"
               [min]="filterForm.get('fromDate').value" (ngModelChange)="onChangeEndDate($event)" [max]="toDayDate"
               placeholder="End Date" [activeView]="'decade'">
@@ -63,15 +69,42 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <!--  -->
+        <div *ngIf="displayTabs?.PDD === activeTab || displayTabs?.PDDforCPC === activeTab" class="row">
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="startDate">{{labels?.disbursementStartDate}}</label>
+            <kendo-datepicker class="form-control" formControlName="disbFromDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
+              placeholder="Start Date" (ngModelChange)="onChangeDisbFromDate($event)" [activeView]="'decade'">
+            </kendo-datepicker>
+
+          </div>
+          <div [ngClass]="{'disablField': !filterForm.get('disbFromDate').value}"
+            class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="endDate">{{labels?.disbursementEndDate}}</label>
+            <kendo-datepicker class="form-control" formControlName="disbToDate" [format]="'dd/MM/yyyy'"
+              [min]="filterForm.get('disbFromDate').value" (ngModelChange)="onChangeDisbToDate($event)" [max]="toDayDate"
+              placeholder="End Date" [activeView]="'decade'">
+            </kendo-datepicker>
+            <!-- <div *ngIf="isFromDate">
+                End Date is required
+            </div> -->
+            <div *ngIf="disbFromDate && isFromDate">
+              <div style="color:red">
+                End Date is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--  -->
+        <div class="row">
+          <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab" class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="minAmount">{{labels.loanMinAmount}}</label>
             <app-custom-input id="minAmount" formControlName="loanMinAmt" [className]="'form-control'"
               [placeholder]="'Enter Loan amount'" (ngModelChange)="onMinAmtChange($event)"
               [maxLength]="validationData?.amountValue.maxLength" [type]="validationData?.amountValue.type">
             </app-custom-input>
           </div>
-          <div [ngClass]="{'disablField': !filterForm.get('loanMinAmt').value}"
+          <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab" [ngClass]="{'disablField': !filterForm.get('loanMinAmt').value}"
             class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="maxAmount">{{labels.loanMaxAmount}}</label>
             <app-custom-input id="maxAmount" formControlName="loanMaxAmt" [className]="'form-control'"
@@ -132,12 +165,12 @@
       <li (click)="leads(displayTabs?.NewLeads)" [ngClass]="{'active':displayTabs?.NewLeads === subActiveTab}"
         routerLinkActive="active" id="leads"><a data-toggle="tab">New Leads</a></li>
       <!--  -->
-      <!-- <li (click)="leads(displayTabs?.SanctionedWithMe)"
-        [ngClass]="{'active':displayTabs?.SanctionedWithMe === subActiveTab}" routerLinkActive="active"><a
-          data-toggle="tab">Sanctioned Leads Pending with Me</a></li>
-      <li (click)="leads(displayTabs?.SanctionedWithBranch)"
-        [ngClass]="{'active':displayTabs?.SanctionedWithBranch === subActiveTab}" routerLinkActive="active"><a
-          data-toggle="tab">Sanctioned Leads Pending with Branch</a></li> -->
+      <li (click)="leads(displayTabs?.ReversedLeadsWithMe)"
+        [ngClass]="{'active':displayTabs?.ReversedLeadsWithMe === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Reversed Leads Pending with Me</a></li>
+      <li (click)="leads(displayTabs?.ReversedLeadsWithBranch)"
+        [ngClass]="{'active':displayTabs?.ReversedLeadsWithBranch === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Reversed Leads Pending with Branch</a></li>
       <!--  -->
       <li (click)="leads(displayTabs?.SanctionedWithMe)"
         [ngClass]="{'active':displayTabs?.SanctionedWithMe === subActiveTab}" routerLinkActive="active"><a

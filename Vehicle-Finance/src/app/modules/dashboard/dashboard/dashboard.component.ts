@@ -58,7 +58,9 @@ export enum DisplayTabs {
   PreDisbursementWithBranch,
   PDDforCPC,
   PDDWithMe,
-  PDDWithBranch
+  PDDWithBranch,
+  ReversedLeadsWithMe,
+  ReversedLeadsWithBranch
 }
 
 export enum sortingTables {
@@ -130,6 +132,8 @@ export class DashboardComponent implements OnInit {
   displayTabs = DisplayTabs;
   sortTables = sortingTables;
   endDateChange: string;
+  disbFromDate: any;
+  disbToDate: string;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
@@ -209,10 +213,13 @@ export class DashboardComponent implements OnInit {
 
     this.filterForm = this.fb.group({
       leadId: [''],
+      loanNumber: [''],
       product: [''],
       leadStage: [''],
       fromDate: [''],
       toDate: [''],
+      disbFromDate: [''],
+      disbToDate: [''],
       loanMinAmt: [null],
       loanMaxAmt: [null]
     });
@@ -320,6 +327,24 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  onChangeDisbFromDate(event) {
+    this.disbFromDate = this.utilityService.getDateFormat(event);
+    if (this.disbFromDate) {
+      this.isFromDate = true;
+    } else {
+      this.isFromDate = false;
+    }
+  }
+
+  onChangeDisbToDate(event) {
+    this.disbToDate = this.utilityService.getDateFormat(event);
+    if (this.disbToDate) {
+      this.isFromDate = false;
+    } else if (this.disbFromDate && (this.disbToDate == undefined || this.disbToDate == '')) {
+      this.isFromDate = true;
+    }
+  }
+
   onMinAmtChange(event) {
     this.minLoanAmtChange = event;
     if (this.minLoanAmtChange) {
@@ -337,11 +362,23 @@ export class DashboardComponent implements OnInit {
   }
 
   onFromDateChange() {
+    if(!this.displayTabs.PDD && !this.displayTabs.PDDforCPC) {
+
+    }
     this.filterForm.get('fromDate').valueChanges.pipe(debounceTime(0)).subscribe((data) => {
       if (data || this.filterForm.get('fromDate').dirty) {
         // this.isFromDate = true;
         this.filterForm.get('toDate').setValue(null);
       } else if (this.fromDateChange == undefined) {
+        this.isFromDate = false;
+      }
+    });
+
+    this.filterForm.get('disbFromDate').valueChanges.pipe(debounceTime(0)).subscribe((data) => {
+      if (data || this.filterForm.get('disbFromDate').dirty) {
+        // this.isFromDate = true;
+        this.filterForm.get('disbToDate').setValue(null);
+      } else if (this.disbFromDate == undefined) {
         this.isFromDate = false;
       }
     });
@@ -373,12 +410,12 @@ export class DashboardComponent implements OnInit {
         break;
     }
     switch (data) {
-      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40:
+      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42:
         this.onAssignTab = false;
         this.onReleaseTab = true;
         this.myLeads = true;
         break;
-      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41:
+      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43:
         this.onAssignTab = true;
         this.onReleaseTab = false;
         this.myLeads = false;
@@ -443,6 +480,10 @@ export class DashboardComponent implements OnInit {
         break;
       case 40: case 41:
         this.taskName = 'CPC-PDD';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
+        break;
+        case 42: case 43:
+        this.taskName = 'Send Back To Sales';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       default:
@@ -757,6 +798,9 @@ export class DashboardComponent implements OnInit {
         break;
       case 40: case 41:
         this.router.navigateByUrl(`/pages/pdd/${this.leadId}`);
+        break;
+        case 42: case 43:
+          this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
         break;
 
       default:

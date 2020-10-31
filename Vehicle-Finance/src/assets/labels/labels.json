@@ -380,7 +380,7 @@
     "otherRemarks": "Other Remarks",
     "sourceOfMarginMoney": "SOURCE OF MARGIN MONEY",
     "anyOtherRemarks": "ANY OTHER REMARKS",
-    "remark": "REMARKS",
+    "remark": "Remarks",
     "age": "AGE",
     "relationShip": "RELATIONSHIP",
     "coApp1": "COAPP 1",
@@ -721,6 +721,7 @@
     "approve": "Approve",
     "approveDeviations": "Approve Deviation",
     "sendBackToCredit": "Send Back To Credit",
+    "sendBackToSales":"Send Back To Sales",
     "referText3": "Insurance expiry below 60days (deviation is not applicable if the insurance is done through inhouse at the time of funding)",
     "recommendation": "Recommendation",
     "roleName": "Role Name",
@@ -1631,6 +1632,13 @@
     "employeeNo": "Employee Number",
     "initiate": "Initiate Viability for New Vehicles",
     "customerDOI" : "Customer DOI",
+    "foundnl":"Found in NL",
+    "foundnltr":"Found in NLTR",
+    "maidenName":"Maiden Name",
+    "matchedCriteria":"Matched Criteria",
+    "disbursementStartDate": "Disbursement - Start Date",
+    "disbursementEndDate": "Disbursement - End Date",
+    "propertyValue":"Property Value",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1869,7 +1877,7 @@
         },
         "emailPattern": {
             "maxLength": {
-                "rule": 50
+                "rule": 60
             },
             "patternCheck": {
                 "rule": "^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(\\.\\w{2,10})+$",
@@ -1884,7 +1892,7 @@
         },
         "podNumber": {
             "maxLength": {
-                "rule": 50
+                "rule": 30
             },
             "type": "alpha-numeric"
         },

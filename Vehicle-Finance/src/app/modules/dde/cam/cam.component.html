@@ -650,6 +650,8 @@
                 <td>{{ basicDetails?.mobileNumber }}</td>
             </tr>
             <tr>
+                <td class="bank_name">{{ labels?.leadNo }}</td>
+                 <td>{{ camDetails?.leadId }}</td>
                 <td class="bank_name">{{ labels?.proposalType }}</td>
                 <td>{{ basicDetails?.proposalType }}</td>
                 <td class="bank_name">{{ labels?.customerType }}</td>
@@ -1586,6 +1588,8 @@
   }}
             </caption>
             <tr>
+                <td class="bank_name">{{ labels?.leadNo }}</td>
+                <td>{{ camDetails?.leadId }}</td>
                 <td class="bank_name">{{ labels?.customerType }}</td>
                 <td>{{ sourcingDetails?.customerType }}</td>
                 <td class="bank_name">{{ labels?.pslValue }}</td>
@@ -1600,13 +1604,13 @@
                 <td>{{ sourcingDetails?.appNo }}</td>
             </tr>
             <tr>
-                <td class="bank_name">{{ labels?.category }}</td>
-                <td>{{ sourcingDetails?.customerCategory }}</td>
+                <td class="bank_name" colspan="2">{{ labels?.category }}</td>
+                <td colspan="2">{{ sourcingDetails?.customerCategory }}</td>
                 <td class="bank_name">{{ labels?.amtInRupees }}</td>
                 <td>{{ sourcingDetails?.existingPslValue }}</td>
                 <td>{{ sourcingDetails?.proposedPslValue }}</td>
                 <td>{{ sourcingDetails?.totalPslValue }}</td>
-                <td class="bank_name">{{ labels?.sourcingChannel }}</td>
+                <td class="bank_name" >{{ labels?.sourcingChannel }}</td>
                 <td>{{ sourcingDetails?.sourcingChannel }}</td>
                 <td class="bank_name">{{ labels?.branchEd }}</td>
                 <td>{{ sourcingDetails?.branchEd }}</td>
@@ -1614,8 +1618,8 @@
                 <td>{{ sourcingDetails?.proposalDate }}</td>
             </tr>
             <tr>
-                <td class="bank_name">{{ labels?.branch }}</td>
-                <td>{{ sourcingDetails?.branchName }}</td>
+                <td class="bank_name"  colspan="2">{{ labels?.branch }}</td>
+                <td  colspan="2">{{ sourcingDetails?.branchName }}</td>
                 <td class="bank_name">{{ labels?.pslCategory }}</td>
                 <td colspan="3">{{ sourcingDetails?.pslCategory }}</td>
                 <td class="bank_name">{{ labels?.sourcingName }}</td>
@@ -1623,14 +1627,14 @@
                 <td class="bank_name">{{ labels?.soEd }}</td>
                 <td>{{ sourcingDetails?.soEd }} <span *ngIf="sourcingDetails?.soEd != null ">%</span></td>
                 <td class="bank_name">{{ labels?.propsoedAsset }}</td>
-                <td>{{ sourcingDetails?.proposedAsset }}</td>
+                <td colspan="2">{{ sourcingDetails?.proposedAsset }}</td>
 
             </tr>
             <tr>
-                <td class="bank_name">{{ labels?.area }}</td>
-                <td>{{ sourcingDetails?.areaName }}</td>
+                <td class="bank_name" colspan="2">{{ labels?.area }}</td>
+                <td colspan="2">{{ sourcingDetails?.areaName }}</td>
                 <td class="bank_name">{{ labels?.agriClassification }}</td>
-                <td>{{ sourcingDetails?.agriClassification }}</td>
+                <td >{{ sourcingDetails?.agriClassification }}</td>
                 <td class="bank_name">{{ labels?.classifiedBasis }}</td>
                 <td>{{ sourcingDetails?.classifiedBasis }}</td>
                 <td class="bank_name">{{ labels?.payout }}</td>
@@ -1641,11 +1645,11 @@
                 <td>{{ sourcingDetails?.loanAmount }}</td>
             </tr>
             <tr>
-                <td class="bank_name">{{ labels?.region }}</td>
-                <td>{{ sourcingDetails?.region }}</td>
+                <td class="bank_name" colspan="2">{{ labels?.region }}</td>
+                <td colspan="2">{{ sourcingDetails?.region }}</td>
                 <td class="bank_name">{{ labels?.weakerSection }}</td>
                 <td>{{ sourcingDetails?.weakerSection }}</td>
-                <td class="bank_name">{{ labels?.weakerSectionCategory }}</td>
+                <td class="bank_name" >{{ labels?.weakerSectionCategory }}</td>
                 <td>{{ sourcingDetails?.weakerSectionCategory }}</td>
                 <td class="bank_name">{{ labels?.pf }}</td>
                 <td>{{ sourcingDetails?.pf }}<span *ngIf="sourcingDetails?.pf != null ">%</span></td>
@@ -1655,8 +1659,8 @@
                 <td>{{ sourcingDetails?.ltv }}<span *ngIf="sourcingDetails?.ltv != null ">%</span></td>
             </tr>
             <tr>
-                <td class="bank_name">{{ labels?.zone }}</td>
-                <td>{{ sourcingDetails?.zone }}</td>
+                <td class="bank_name" colspan="2">{{ labels?.zone }}</td>
+                <td colspan="2">{{ sourcingDetails?.zone }}</td>
                 <td class="bank_name">{{ labels?.religion }}</td>
                 <td>{{ sourcingDetails?.religion }}</td>
                 <td class="bank_name">{{ labels?.caste }}</td>
@@ -1665,12 +1669,12 @@
                 <td>{{ sourcingDetails?.irr }}<span *ngIf="sourcingDetails?.irr != null ">%</span></td>
                 <td class="bank_name">{{ labels?.scheme }}</td>
                 <td>{{ sourcingDetails?.scheme }}</td>
-                <td class="bank_name">{{ labels?.noOfUnits }}</td>
+                <td class="bank_name" >{{ labels?.noOfUnits }}</td>
                 <td>{{ sourcingDetails?.noOfUnits }}</td>
             </tr>
             <tr>
-                <td class="bank_name">{{ labels?.nameOfSoSsoWithECode }}</td>
-                <td>{{ sourcingDetails?.namOfSoWithCode }}</td>
+                <td class="bank_name" colspan="2">{{ labels?.nameOfSoSsoWithECode }}</td>
+                <td colspan="2">{{ sourcingDetails?.namOfSoWithCode }}</td>
                 <td class="bank_name">{{ labels?.finalApprovingAuthority }}</td>
                 <td>{{ sourcingDetails?.finalApprovingAuthority }}</td>
                 <td class="bank_name">{{ labels?.fundingUnder }}</td>
@@ -2842,6 +2846,9 @@
             </button>
             <button (click)="onNext()" class="btn btn-primary dash_href" type="button">
                 {{ labels?.next }}
+            </button>
+            <button (click)="sendBackToSales()" *ngIf="showSendBackToSales == true" class="btn btn-primary dash_href" type="button">
+                {{ labels?.sendBackToSales }}
             </button>
             <button *ngIf="!isCamDetails" (click)="downloadpdf()" class="btn btn-primary dash_href" type="button">
                 {{ 'Download' }}

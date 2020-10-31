@@ -19,11 +19,11 @@ export class BankListComponent {
   labels: any;
   disableAddbankDetailsBtn: boolean;
   constructor(private bankService: BankTransactionsService,
-    private route: Router, private activatedRoute: ActivatedRoute,
-    private location: Location,
-    private labelsData: LabelsService,
-    private toggleDdeService: ToggleDdeService,
-    private toasterService: ToasterService) { }
+              private route: Router, private activatedRoute: ActivatedRoute,
+              private location: Location,
+              private labelsData: LabelsService,
+              private toggleDdeService: ToggleDdeService,
+              private toasterService: ToasterService) { }
   // tslint:disable-next-line: use-lifecycle-interface
   async ngOnInit() {
     this.userId = localStorage.getItem('userId');
@@ -79,7 +79,8 @@ export class BankListComponent {
     this.route.navigateByUrl(`pages/applicant-details/${this.leadId}/bank-details/${this.applicantId}`);
   }
   onBack() {
-    this.location.back();
+    // this.location.back();
+    this.route.navigateByUrl(`pages/applicant-details/${this.leadId}/address-details/${this.applicantId}`);
   }
   onNext() {
     this.route.navigateByUrl(`pages/applicant-details/${this.leadId}/employment-details/${this.applicantId}`);
