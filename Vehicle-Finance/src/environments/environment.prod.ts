@@ -12,25 +12,26 @@ export const environment = {
     otpProjectId: 'db2732f4ab4811ea82f8f2fa9bec3d63',
     salesCreditScore: 'db2732f4ab4811ea82f8f2fa9bec3d63',
     creditProjectId: '6cc61c5ca7e811ea800cf2fa9bec3d63',
-    externalApi: 'db2732f4ab4811ea82f8f2fa9bec3d63',
-    reinitiatePdApi: '403a8a12b79511ea8afff2fa9bec3d63',
-    camProjectId: '74c36bec6da211eabdc2f2fa9bec3d63',
     submitToCredit: '403a8a12b79511ea8afff2fa9bec3d63',
-    viabilityApi: '0d888054a7e811ea800bf2fa9bec3d63',
-    wrapperPanValidation : 'db2732f4ab4811ea82f8f2fa9bec3d63',
-    wrapperBiometriceKYC : 'db2732f4ab4811ea82f8f2fa9bec3d63',
-    supervisorProId:'ed58f72ea9a811ea824bf2fa9bec3d63',//supervisorRelated
+    externalApi: 'db2732f4ab4811ea82f8f2fa9bec3d63',
+    taskProjectId: '403a8a12b79511ea8afff2fa9bec3d63',
+    reinitiatePdApi: '403a8a12b79511ea8afff2fa9bec3d63',
     reinititateFiApi: '403a8a12b79511ea8afff2fa9bec3d63',
-    retrieveAadharData : 'db2732f4ab4811ea82f8f2fa9bec3d63',
+    camProjectId: '74c36bec6da211eabdc2f2fa9bec3d63',
+    viabilityApi: '0d888054a7e811ea800bf2fa9bec3d63',
+    wrapperPanValidation: 'db2732f4ab4811ea82f8f2fa9bec3d63',
+    wrapperBiometriceKYC: 'db2732f4ab4811ea82f8f2fa9bec3d63',
+    supervisorProId: 'ed58f72ea9a811ea824bf2fa9bec3d63',// supervisorRelated
+    retrieveAadharData: 'db2732f4ab4811ea82f8f2fa9bec3d63',
     validateSRNumber : '8bfa8dba945b11eabdcaf2fa9bec3d63'
   },
-  // hostingEnvironment: 'DEV',
-  hostingEnvironment: 'UAT',
+  hostingEnvironment: 'DEV',
+  //hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
 
   // host: '/appiyo/',
-  host: window["env"]["hostUrl"] || "default",
-  // host: "https://hetrauat.equitasbank.com/appiyodev/",
+  //host: window["env"]["hostUrl"] || "default",
+  host: "https://hetrauat.equitasbank.com/appiyodev/",
   //host: 'http://128.199.164.250/appiyo/',
   // host: 'http://10.101.10.153/appiyo/',
   //host: "https://hetrauat.equitasbank.com/appiyo/",
@@ -43,7 +44,7 @@ export const environment = {
   appiyoDrive: '/d/drive/upload/',
   
   mobileBaseUrl: "https://hetrauat.equitasbank.com",
-  isMobile: false,
+  isMobile: true,
   isMaas360Enabled: false
 };
 
