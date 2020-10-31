@@ -15,6 +15,7 @@ import { ApplicantDataStoreService } from '@services/applicant-data-store.servic
 import { environment } from 'src/environments/environment';
 import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { QueryModelService } from '@services/query-model.service';
 
 export enum DisplayTabs {
   Leads,
@@ -129,6 +130,10 @@ export class DashboardComponent implements OnInit {
   onAssignTab: boolean;
   onReleaseTab: boolean;
 
+  // Query Model
+  leadCount: number = 0;
+  userId: string;
+
   displayTabs = DisplayTabs;
   sortTables = sortingTables;
   endDateChange: string;
@@ -149,9 +154,9 @@ export class DashboardComponent implements OnInit {
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService,
     private sharedService: SharedService,
-    private applicantStoreService: ApplicantDataStoreService,
     private toggleDdeService: ToggleDdeService,
-    private location: Location
+    private location: Location,
+    private queryModelService: QueryModelService
   ) {
     if (environment.isMobile === true) {
       this.itemsPerPage = '5';
@@ -166,6 +171,9 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.userId = localStorage.getItem('userId')
+
     localStorage.removeItem('is_pred_done');
     localStorage.removeItem('isPreDisbursement');
     localStorage.removeItem('istermSheet');
@@ -235,6 +243,24 @@ export class DashboardComponent implements OnInit {
       this.toggleDdeService.setIsDDEClicked('0');
       this.toggleDdeService.setOperationType('1', 'Deviation', currentUrl);
     }
+
+    this.getCountAcrossLeads(this.userId)
+ 
+
+  }
+
+  getCountAcrossLeads(userId) {
+
+    this.queryModelService.getCountAcrossLeads(userId).subscribe((res: any) => {
+      console.log(res, 'res')
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        this.leadCount = res.ProcessVariables.leadCount ? res.ProcessVariables.leadCount : 0;
+      } else {
+        this.leadCount = 0
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Count Across Leads')
+      }
+    })
+
   }
 
   initinequery() {

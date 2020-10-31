@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { DocRequest } from '@model/upload-model';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { Constant } from '@assets/constants/constant';
@@ -45,11 +45,6 @@ export class QueryModelComponent implements OnInit {
   getSearchableLead: any = []
   docsDetails: DocRequest;
 
-  fileSize: string;
-  imageUrl: string;
-  fileName: string;
-  fileType: string;
-
   searchText: any = '';
   searchLeadId: any = '';
 
@@ -58,13 +53,15 @@ export class QueryModelComponent implements OnInit {
     left: '',
   };
 
+  @ViewChild('myBtn', { static: false }) selectclass: ElementRef;
+
   showDraggableContainer: {
     imageUrl: string;
     imageType: string;
   };
 
   queryLeads: any = [];
-  selectedOne: any = {};
+  documents: any = []
 
   getLeadSendObj = {
     currentPage: null,
@@ -74,7 +71,8 @@ export class QueryModelComponent implements OnInit {
 
   constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService, private commonLovService: CommomLovService, private router: Router,
     private labelsData: LabelsService, private uploadService: UploadService, private queryModelService: QueryModelService, private toasterService: ToasterService,
-    private utilityService: UtilityService, private draggableContainerService: DraggableContainerService, private base64StorageService: Base64StorageService, private createLeadService: CreateLeadService) { }
+    private utilityService: UtilityService, private draggableContainerService: DraggableContainerService, private base64StorageService: Base64StorageService,
+    private createLeadService: CreateLeadService, private renderer: Renderer2) { }
 
   ngOnInit() {
 
@@ -91,6 +89,7 @@ export class QueryModelComponent implements OnInit {
       queryFrom: [this.userId],
       queryTo: ['', Validators.required],
       docId: [''],
+      docName: [''],
       leadId: [this.leadId, Validators.required]
     })
 
@@ -141,7 +140,8 @@ export class QueryModelComponent implements OnInit {
 
     this.queryModelService.getUsers(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        this.queryModelLov.queryTo = res.ProcessVariables.stakeholders ? res.ProcessVariables.stakeholders : []
+        this.queryModelLov.queryTo = res.ProcessVariables.stakeholders ? res.ProcessVariables.stakeholders : [];
+        this.documents = res.ProcessVariables.documents ? res.ProcessVariables.documents : [];
       } else {
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Users')
       }
@@ -160,9 +160,6 @@ export class QueryModelComponent implements OnInit {
   }
 
   getQueries(lead) {
-    lead.count = 0;
-    this.selectedOne = lead;
-    this.getLeads(this.getLeadSendObj);
     let data = {
       "leadId": Number(lead.key),
       "perPage": 100,
@@ -173,6 +170,14 @@ export class QueryModelComponent implements OnInit {
       leadId: Number(lead.key),
     })
 
+    // this.renderer.addClass('flex-container',"selected-back");
+    //     addClass(el, name) { el.classList.add(name); }
+    this.renderer.setStyle(this.selectclass.nativeElement, 'backgroundColor', 'red');
+
+
+    // const el = this.selectclass.nativeElement.querySelector()
+    // this.renderer.addClass(this.selectclass.nativeElement.querySelector('.flex-container'), 'selected-back');
+
     if (this.queryModalForm.value.leadId) {
       this.getLeadSectionData(this.queryModalForm.value.leadId)
     }
@@ -181,8 +186,8 @@ export class QueryModelComponent implements OnInit {
     this.getUsers();
     this.queryModelService.getQueries(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        lead.count = 0;
         this.chatMessages = res.ProcessVariables.assetQueries ? res.ProcessVariables.assetQueries : [];
-
         this.chatMessages.filter((val) => {
           val.time = this.myDateParser(val.createdOn)
         })
@@ -195,23 +200,23 @@ export class QueryModelComponent implements OnInit {
 
   getLeadSectionData(leadId) {
     this.createLeadService
-    .getLeadById(leadId)
-    .subscribe((res: any) => {
-      const response = res;
-      const appiyoError = response.Error;
-      const apiError = response.ProcessVariables.error.code;
-      this.leadSectionData = response.ProcessVariables;
+      .getLeadById(leadId)
+      .subscribe((res: any) => {
+        const response = res;
+        const appiyoError = response.Error;
+        const apiError = response.ProcessVariables.error.code;
+        this.leadSectionData = response.ProcessVariables;
 
-      if (appiyoError === '0' && apiError === '0') {
-        this.leadId = this.leadSectionData.leadId;
-        this.createLeadDataService.setLeadSectionData(
-          this.leadSectionData
-        );
-      } else {
-        const message = response.ProcessVariables.error.message;
-        this.toasterService.showError(message, 'Lead Creation');
-      }
-    });
+        if (appiyoError === '0' && apiError === '0') {
+          this.leadId = this.leadSectionData.leadId;
+          this.createLeadDataService.setLeadSectionData(
+            this.leadSectionData
+          );
+        } else {
+          const message = response.ProcessVariables.error.message;
+          this.toasterService.showError(message, 'Lead Creation');
+        }
+      });
   }
 
   myDateParser(dateStr: string): string {
@@ -329,14 +334,17 @@ export class QueryModelComponent implements OnInit {
     this.showModal = false;
     this.toasterService.showSuccess('Document uploaded successfully', '');
     this.docsDetails = event;
+    console.log(event, 'evemt')
     this.queryModalForm.patchValue({
-      docId: event.dmsDocumentId ? event.dmsDocumentId : ''
+      docId: event.dmsDocumentId ? event.dmsDocumentId : '',
+      docName: event.fileName ? event.fileName : ''
     })
   }
 
   chooseFile() {
 
     if (this.queryModalForm.value.leadId) {
+
       this.showModal = true;
       const docNm = 'ACCOUNT_OPENING_FORM';
       const docCtgryCd = 70;
@@ -346,28 +354,28 @@ export class QueryModelComponent implements OnInit {
       const docCmnts = 'Addition of document for Lead Creation';
       const docTypCd = 276;
       const docSbCtgryCd = 204;
-  
+
       this.selectedDocDetails = {
-          docSize: 2097152,
-          docsType: Constant.OTHER_DOCUMENTS_ALLOWED_TYPES,
-          docNm,
-          docCtgryCd,
-          docTp,
-          docSbCtgry,
-          docCatg,
-          docCmnts,
-          docTypCd,
-          docSbCtgryCd,
-          docRefId: [
-              {
-                idTp: 'LEDID',
-                id: this.queryModalForm.value.leadId,
-              },
-              {
-                idTp: 'BRNCH',
-                id: Number(localStorage.getItem('branchId')),
-              },
-            ],
+        docSize: 2097152,
+        docsType: Constant.OTHER_DOCUMENTS_ALLOWED_TYPES,
+        docNm,
+        docCtgryCd,
+        docTp,
+        docSbCtgry,
+        docCatg,
+        docCmnts,
+        docTypCd,
+        docSbCtgryCd,
+        docRefId: [
+          {
+            idTp: 'LEDID',
+            id: this.queryModalForm.value.leadId,
+          },
+          {
+            idTp: 'BRNCH',
+            id: Number(localStorage.getItem('branchId')),
+          },
+        ],
       };
     } else {
       this.showModal = false;
@@ -376,14 +384,14 @@ export class QueryModelComponent implements OnInit {
 
   }
 
-  async downloadDocs(documentId: string, index: number, event) {    
+  async downloadDocs(documentId: string, index: number, event) {
     let el = event.srcElement;
 
     if (!documentId) {
       return;
     }
 
-    let collateralId =  this.leadSectionData['vehicleCollateral'][0]
+    let collateralId = this.leadSectionData['vehicleCollateral'][0]
 
     const bas64String = this.base64StorageService.getString(
       collateralId.collateralId + documentId
@@ -418,7 +426,7 @@ export class QueryModelComponent implements OnInit {
       image: this.showDraggableContainer,
       css: this.setCss,
     });
-    this.base64StorageService.storeString( collateralId.collateralId + documentId, {
+    this.base64StorageService.storeString(collateralId.collateralId + documentId, {
       imageUrl: imageValue.imageUrl,
       imageType: imageValue.imageType,
     });
@@ -460,7 +468,7 @@ export class QueryModelComponent implements OnInit {
     const contentType = type;
     const blob1 = this.base64ToBlob(base64, contentType);
     const blobUrl1 = URL.createObjectURL(blob1);
-    
+
     setTimeout(() => {
 
       const a: any = document.createElement('a');
@@ -488,7 +496,7 @@ export class QueryModelComponent implements OnInit {
       const byteArray = new Uint8Array(byteNumbers);
       byteArrays.push(byteArray);
     }
-    const blob = new Blob(byteArrays, {type: contentType});
+    const blob = new Blob(byteArrays, { type: contentType });
     return blob;
   }
 

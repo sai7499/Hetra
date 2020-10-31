@@ -24,7 +24,7 @@
               <div class="panel-group mar-20 scroll-box row" id="scrollBox">
                 <div class="panel-group mar-20" id="accordion"
                   *ngFor="let chat of chatList; let i=index; let last=last">
-                  <div class="flex-container" [ngClass]="selectedOne === chat ? 'selected-back' : ''">
+                  <div class="flex-container" #myBtn>
                     <div class="small" (click)="getQueries(chat)">
                       <p class="mar-em">{{chat.key}}</p>
                     </div>
@@ -32,10 +32,8 @@
                       <p class="mar-em">{{chat.value}}</p>
                     </div>
 
-                    <div class="small count-list" *ngIf="chat.count">
-                      <p class="mar-em">{{chat.count}}</p>
-                    </div>
-
+                    <span class="badge badge-success" style="background-color: #24c627"
+                      *ngIf="chat.count">{{chat.count}}</span>
                   </div>
                   <hr>
                 </div>
@@ -100,14 +98,9 @@
                         </div>
                       </form>
                       <div class="document-shared-list">
-                        <p><a href="#">ID: 12345 - Aadhar Card</a></p>
-                        <p><a href="#">ID: 67891 - Pancard</a></p>
-                        <p><a href="#">ID: 23456 - Address Proof</a></p>
-                        <p><a href="#">ID: 12340 - Document_Name</a></p>
-                        <p><a href="#">ID: 67890 - Passport</a></p>
-                        <p><a href="#">ID: 23458 - Account Opening Form</a></p>
-                        <p><a href="#">ID: 67890 - Bank Pass Book</a></p>
-                        <p><a href="#">ID: 23458 - Voter Id</a></p>
+                        <div *ngFor="let document of documents">
+                          <p *ngIf="document.docId"><a>ID: {{document.docId}} - {{document.docName}}</a></p>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -132,7 +125,7 @@
                       <p>{{message.query}}</p>
                       <div *ngIf="message.docId"><a class="text-danger"
                           (click)="downloadDocs(message.docId, j, $event)"> <i class="fa fa-file-pdf-o"></i>
-                          {{message.docId}}</a></div>
+                          {{message.docName}}</a></div>
                       <br *ngIf="message.docId">
                       <div class="tagged-name">
                         <span> <strong>Tagged To : </strong> {{message.nameWithToRole}} </span>
@@ -210,10 +203,14 @@
                 <div class="col-lg-6 col-sm-6 col-md-4 col-xs-6">
                   <div class="form-group">
                     <label for="file-upload" class="col-sm-4">Attachment</label>
-                    <div class="upload-btn-wrapper col-sm-8">
-                      <button class="btn-upload" (click)="chooseFile()">Choose file</button>
-                      <h6>&nbsp;(Maximum size: 2 MB)</h6>
+                    <div class="upload-btn-wrapper col-sm-4">
+                      <button class="btn-upload" (click)="chooseFile()">
+                        {{queryModalForm.controls['docName'].value ? 'Change' : 'Choose'}} file</button>
+                      <!-- <h6>&nbsp;(Maximum size: 2 MB)</h6> -->
                     </div>
+                    <!-- DocName: -->
+                    <label for="file-name" class="col-sm-4" *ngIf="queryModalForm.controls['docName'].value">
+                      {{queryModalForm.controls['docName'].value}} </label>
                   </div>
                 </div>
 
@@ -222,7 +219,8 @@
 
               <div class="form-group row">
                 <div class="col-sm-12 col-md-12 col-lg-12">
-                  <textarea class="form-control" style="resize: none;" formControlName="query"></textarea>
+                  <textarea class="form-control" style="resize: none;" formControlName="query"
+                    (keyup.enter)="onFormSubmit(queryModalForm)"></textarea>
 
                   <div class="invalid-feedback"
                     *ngIf="queryModalForm.controls['query'].touched && !queryModalForm.controls['query'].valid">

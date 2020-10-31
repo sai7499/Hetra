@@ -895,6 +895,11 @@ export class ApiService {
       processId: '292d36be18fa11eb9e0800505695f93b',
       workflowId: '28ff0e6a18fa11eb8f6e00505695f93b',
       projectId: environment.projectIds.salesProjectId
+    },
+    getCount: {
+      processId: 'daefda501b3411eba4e100505695f93b',
+      workflowId: '83d58122193411eb853500505695f93b',
+      projectId: environment.projectIds.salesProjectId
     }
   };
 }
