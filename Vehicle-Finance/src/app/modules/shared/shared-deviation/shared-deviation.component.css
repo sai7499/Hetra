@@ -254,20 +254,20 @@
         border: 1px solid #a9a8a8;
       }
 
-      input[type="radio"].disabled
+      /* input[type="radio"].disabled
        + label span {
         cursor: not-allowed;
         background-color: #dde;
         border: 1px solid #a9a8a8;
-      }
+      } */
       
       input[type="radio"].approve:checked + label span {
-        background-color: green;
+        background-color: #06d755;
         border: 1px solid #a9a8a8;
       }
 
       input[type="radio"].refer:checked + label span {
-        background-color: yellow;
+        background-color: #f48b35;
         border: 1px solid #a9a8a8;
       }
 
@@ -276,11 +276,11 @@
         border: 1px solid #a9a8a8;
       }
 
-      input[type="radio"].disabled:checked + label span {
+      /* input[type="radio"].disabled:checked + label span {
         cursor: not-allowed;
         background-color: #dde;
         border: 1px solid #a9a8a8;
-      }
+      } */
 
       .disabled {
           cursor: not-allowed;
