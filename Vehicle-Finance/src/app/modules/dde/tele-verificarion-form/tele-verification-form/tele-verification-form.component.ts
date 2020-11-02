@@ -334,12 +334,14 @@ export class TeleVerificationFormComponent implements OnInit {
       // tslint:disable-next-line: max-line-length
       this.teleVerificationForm.get('srcOfProposal').setValue(`${this.sourcingChannelDesc} ${this.sourcingType} ${this.sourcingCode}`);
       this.teleVerificationForm.get('eCode').setValue(this.eCode);
-      if (res.ProcessVariables.applicationReferences) {
-        this.teleVerificationForm.controls.applicationReferences['controls'].reference1.patchValue(this.referenceData[0]);
-        this.teleVerificationForm.controls.applicationReferences['controls'].reference2.patchValue(this.referenceData[1]);
+      // if (res.ProcessVariables.applicationReferences) {
+      //   this.teleVerificationForm.controls.applicationReferences['controls'].reference1.patchValue(this.referenceData[0]);
+      //   this.teleVerificationForm.controls.applicationReferences['controls'].reference2.patchValue(this.referenceData[1]);
+      // }
+      if (this.referenceData.length >0){
+      this.teleVerificationForm.controls.applicationReferences['controls'].reference1.patchValue(this.referenceData[0]);
+      this.teleVerificationForm.controls.applicationReferences['controls'].reference2.patchValue(this.referenceData[1]);
       }
-      // this.teleVerificationForm.controls.applicationReferences['controls'].reference1.patchValue(this.referenceData[0]);
-      // this.teleVerificationForm.controls.applicationReferences['controls'].reference2.patchValue(this.referenceData[1]);
       if (tvr.dob) {
         this.teleVerificationForm.patchValue(tvr);
         if (this.valueChanges) {
@@ -509,6 +511,17 @@ export class TeleVerificationFormComponent implements OnInit {
     this.sendOtp();
     this.isModal = true;
   }
+  onSelectReferenceStatus(event,fromRef){
+    if (fromRef == 'reference1' && this.referenceData.length <= 0){
+      this.toasterService.showError("Please complete data entry in Reference screen",'')
+      this.teleVerificationForm.controls.applicationReferences['controls'].reference1['controls'].referenceStatus.setValue('');
 
+    } else if (fromRef == 'reference2' && this.referenceData.length <= 0){
+      this.toasterService.showError("Please complete data entry in Reference screen",'')
+      this.teleVerificationForm.controls.applicationReferences['controls'].reference2['controls'].referenceStatus.setValue('');
+    }
+
+    console.log("select Staus",event.target.value,fromRef)
+  }
 
 }

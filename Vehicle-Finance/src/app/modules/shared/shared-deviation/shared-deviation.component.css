@@ -266,15 +266,48 @@
       border: 1px solid #a9a8a8;
     }
 
-    input[type="radio"].refer:checked + label span {
-      background-color: #ffa500;
-      border: 1px solid #a9a8a8;
-    }
+    input[type="radio"] {
+        display: none;
+      }
+      
+      /* input[type="radio"] + label {
+        color: #292321;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+      } */
+      
+      input[type="radio"] + label span {
+        display: inline-block;
+        width: 13px;
+        height: 13px;
+        margin: -1px 4px 0 0;
+        vertical-align: middle;
+        cursor: pointer;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+      }
+      
+      input[type="radio"] + label span {
+        background-color: white;
+        border: 1px solid #a9a8a8;
+      }
 
-    input[type="radio"].decline:checked + label span {
-      background-color: red;
-      border: 1px solid #a9a8a8;
-    }
+      /* input[type="radio"].disabled
+       + label span {
+        cursor: not-allowed;
+        background-color: #dde;
+        border: 1px solid #a9a8a8;
+      } */
+      
+      input[type="radio"].approve:checked + label span {
+        background-color: #06d755;
+        border: 1px solid #a9a8a8;
+      }
+
+      input[type="radio"].refer:checked + label span {
+        background-color: #f48b35;
+        border: 1px solid #a9a8a8;
+      }
 
     /* input[type="radio"].disabled:checked + label span {
       cursor: not-allowed;
@@ -282,9 +315,15 @@
       border: 1px solid #a9a8a8;
     } */
 
-    .disabled {
+      /* input[type="radio"].disabled:checked + label span {
         cursor: not-allowed;
-    }
+        background-color: #dde;
+        border: 1px solid #a9a8a8;
+      } */
+
+      .disabled {
+          cursor: not-allowed;
+      }
 
    input[type="radio"] + label span, input[type="radio"]:checked + label span {
      -webkit-transition:background-color 0.4s linear;
