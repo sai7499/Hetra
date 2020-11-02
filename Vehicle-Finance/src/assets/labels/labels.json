@@ -721,6 +721,7 @@
     "approve": "Approve",
     "approveDeviations": "Approve Deviation",
     "sendBackToCredit": "Send Back To Credit",
+    "sendBackToSales":"Send Back To Sales",
     "referText3": "Insurance expiry below 60days (deviation is not applicable if the insurance is done through inhouse at the time of funding)",
     "recommendation": "Recommendation",
     "roleName": "Role Name",

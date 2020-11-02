@@ -109,6 +109,7 @@ export class CamComponent implements OnInit {
   appArray: any = []
   coAppArray: any = []
   guarntorArray: any = []
+  showSendBackToSales:boolean = false
   constructor(private labelsData: LabelsService,
     private camService: CamService,
     private activatedRoute: ActivatedRoute,
@@ -186,6 +187,8 @@ export class CamComponent implements OnInit {
           this.showCamHtml = true
           if (this.currentUrl.includes('dde')) {
             this.showSave = true
+            this.showSendBackToSales = true
+
           }
         }
       })
@@ -212,6 +215,8 @@ export class CamComponent implements OnInit {
           this.showCamHtml = true
           if (this.currentUrl.includes('dde')) {
             this.showSave = true
+            this.showSendBackToSales = true
+
           }
 
         }
@@ -266,6 +271,8 @@ export class CamComponent implements OnInit {
       }
     } else if (this.currentUrl.includes('dde')) {
       this.showSave = true
+      this.showSendBackToSales = true
+
     }
 
   }
@@ -279,6 +286,8 @@ export class CamComponent implements OnInit {
       this.showCamHtml = true
       if (this.currentUrl.includes('dde')) {
         this.showSave = true
+        this.showSendBackToSales = true
+
       }
       this.pdfId = "UCpdfgeneration" // pdf generation 
     } else
@@ -290,6 +299,8 @@ export class CamComponent implements OnInit {
         this.showCamHtml = true
         if (this.currentUrl.includes('dde')) {
           this.showSave = true
+          this.showSendBackToSales = true
+
         }
         this.pdfId = "UCVpdfgeneration" // pdf generation
       } else
@@ -301,6 +312,7 @@ export class CamComponent implements OnInit {
           this.showCamHtml = true
           if (this.currentUrl.includes('dde')) {
             this.showSave = true
+            this.showSendBackToSales = true
           }
           this.pdfId = "NCVpdfgeneration" // pdf generation
         }
@@ -606,6 +618,20 @@ console.log(this.camDetailsForm);
     } else if (this.roleType == '2' && this.salesResponse == 'false') {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/deviations`]);
     }
+  }
+  sendBackToSales(){
+    const data = {
+      leadId: this.leadId,
+        userId: this.userId,
+    };
+    this.camService.getBackToSales(data).subscribe((res: any) => {
+      if (res && res.ProcessVariables.error.code == "0") {
+        this.toasterService.showSuccess("CAM Lead Is Successfully Submitted Back To Sales", "CAM Details");
+        this.router.navigateByUrl('/pages/dashboard');
+      } else {
+        this.toasterService.showError(res['ProcessVariables'].error['message'], 'CAM Details');
+      }
+    })
   }
   downloadpdf() {
     var options = {
