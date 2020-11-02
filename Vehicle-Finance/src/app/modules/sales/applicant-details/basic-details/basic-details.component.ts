@@ -606,8 +606,8 @@ export class BasicDetailsComponent implements OnInit {
     });
 
    
-    this.clearFatherOrSpouseValidation();
-    this.eitherFathOrspouse();
+    // this.clearFatherOrSpouseValidation();
+    // this.eitherFathOrspouse();
     this.listenerForMobilechange()
   }
 
@@ -725,10 +725,10 @@ export class BasicDetailsComponent implements OnInit {
       alternateMobileNumber: new FormControl(''),
       applicantType: new FormControl(''),
 
-      fatherName: new FormControl('', Validators.required),
-      spouseName: new FormControl('', Validators.required),
+      fatherName: new FormControl(''),
+      spouseName: new FormControl(''),
 
-      motherMaidenName: new FormControl(''),
+      motherMaidenName: new FormControl('', Validators.required),
       occupation: new FormControl({ value: '' }, Validators.required),
       nationality: new FormControl('', Validators.required),
 
@@ -844,6 +844,7 @@ export class BasicDetailsComponent implements OnInit {
       })
     }
     this.isDirty = true;
+   
     if (this.basicForm.invalid) {
       this.toasterService.showError(
         'Please fill all mandatory fields.',
@@ -861,6 +862,15 @@ export class BasicDetailsComponent implements OnInit {
 
     const rawValue = this.basicForm.getRawValue();
     if (this.isIndividual) {
+      const fatherName= details.get('fatherName').value
+      const spouseName= details.get('spouseName').value
+      if(!fatherName && !spouseName){
+        this.toasterService.showInfo(
+          'Please enter either father name or spouse name',
+          ''
+        );
+        return;
+      }
       this.storeIndividualValueInService(rawValue);
       this.applicantDataService.setCorporateProspectDetails(null);
     } else {
