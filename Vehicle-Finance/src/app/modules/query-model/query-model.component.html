@@ -22,12 +22,12 @@
               <div class="panel-group mar-20 scroll-box row" id="scrollBox" >
                 <div class="panel-group mar-20" id="accordion"
                   *ngFor="let chat of chatList; let i=index; let last=last">
-                  <div class="flex-container">
-                    <div class="small" (click)="getQueries(chat)">
+                  <div class="flex-container divs">
+                    <div class="small divs" (click)="getQueries(chat)">
                       <!--  | search : queryModalForm.value.searchName.trim().length ? queryModalForm.value.searchName : '' : 'leadId' || 'name': 'product' -->
                       <p class="mar-em">{{chat.key}}</p>
                     </div>
-                    <div class="">
+                    <div class="divs">
                       <p class="mar-em">{{chat.value}}</p>
                     </div>
                   </div>
@@ -286,6 +286,12 @@
         x=(x-5<0) ? 3 : x-5;
         $('#scrollBox li').not(':lt('+x+')').hide();
     });
+});
+
+var addclass = 'click-color';
+var $cols = $('.divs').click(function(e) {
+    $cols.removeClass(addclass);
+    $(this).addClass(addclass);
 });
 
   </script>

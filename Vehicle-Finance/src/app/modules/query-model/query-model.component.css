@@ -750,3 +750,7 @@ margin: 0px !important;
       color:green;
       cursor:pointer;
   }
+
+  .click-color {
+    background-color: #ddd;
+}
