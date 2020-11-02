@@ -388,6 +388,7 @@ export class ReferenceComponent implements OnInit {
           if (appiyoError === '0' && apiError === '0') {
             console.log('FetchApplicantReference', response.ProcessVariables);
             this.responseData = response.ProcessVariables.ApplicantReference;
+            if (!this.responseData) { return; }
             this.refOneId = response.ProcessVariables.ApplicantReference[0].id;
             this.refTwoId = response.ProcessVariables.ApplicantReference[1].id;
             console.log('refID', this.refOneId, this.refTwoId);
