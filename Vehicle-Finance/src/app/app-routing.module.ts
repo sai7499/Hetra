@@ -77,8 +77,6 @@ const routes: Routes = [
           import('./modules/dashboard/dashboard.module').then(
             (m) => m.DashboardModule
           ),
-        // canDeactivate: [can]
-
       },
       {
         path: 'terms-condition',

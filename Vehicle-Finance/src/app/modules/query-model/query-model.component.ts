@@ -1,15 +1,20 @@
 import { DatePipe } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { DocRequest } from '@model/upload-model';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { Constant } from '@assets/constants/constant';
 import { CommomLovService } from '@services/commom-lov-service';
 import { LabelsService } from '@services/labels.service';
 import { QueryModelService } from '@services/query-model.service';
-import { ToasterService } from '@services/toaster.service';
 import { UploadService } from '@services/upload.service';
 import { UtilityService } from '@services/utility.service';
+
+import { ToasterService } from '@services/toaster.service';
+import { Base64StorageService } from '@services/base64-storage.service';
+import { CreateLeadService } from '@modules/lead-creation/service/creatLead.service';
+import { DraggableContainerService } from '@services/draggable.service';
 
 @Component({
   selector: 'app-query-model',
@@ -18,14 +23,15 @@ import { UtilityService } from '@services/utility.service';
   providers: [DatePipe]
 })
 export class QueryModelComponent implements OnInit {
-
+  showModal: boolean;
+  selectedDocDetails;
   queryModalForm: FormGroup;
   queryModelLov: any = {};
   labels: any = {};
   collateralId: number = 1;
   userId: string;
 
-  leadDetails: any;
+  leadSectionData: any;
   leadId: number = 0;
   associatedWith: number = 1;
   chatList: any = [];
@@ -37,24 +43,36 @@ export class QueryModelComponent implements OnInit {
 
   isLeadShow: boolean;
   getSearchableLead: any = []
-
-  @ViewChild('fileInput', { static: false })
-  fileInput: ElementRef;
   docsDetails: DocRequest;
-
-  fileSize: string;
-  imageUrl: string;
-  fileName: string;
-  fileType: string;
 
   searchText: any = '';
   searchLeadId: any = '';
 
-  queryLeads: any = [];
+  setCss = {
+    top: '',
+    left: '',
+  };
 
-  constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService, private commonLovService: CommomLovService,
+  @ViewChild('myBtn', { static: false }) selectclass: ElementRef;
+
+  showDraggableContainer: {
+    imageUrl: string;
+    imageType: string;
+  };
+
+  queryLeads: any = [];
+  documents: any = []
+
+  getLeadSendObj = {
+    currentPage: null,
+    perPage: 10,
+    searchKey: '',
+  }
+
+  constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService, private commonLovService: CommomLovService, private router: Router,
     private labelsData: LabelsService, private uploadService: UploadService, private queryModelService: QueryModelService, private toasterService: ToasterService,
-    private utilityService: UtilityService, private activatedRoute: ActivatedRoute) { }
+    private utilityService: UtilityService, private draggableContainerService: DraggableContainerService, private base64StorageService: Base64StorageService,
+    private createLeadService: CreateLeadService, private renderer: Renderer2) { }
 
   ngOnInit() {
 
@@ -64,11 +82,6 @@ export class QueryModelComponent implements OnInit {
 
     this.userId = localStorage.getItem('userId')
 
-    const leadData = this.createLeadDataService.getLeadSectionData();
-    this.leadDetails = leadData['leadDetails'];
-    let collateralDetails = leadData['vehicleCollateral'];
-    this.leadId = Number(this.activatedRoute.snapshot.params['leadId']);
-
     this.queryModalForm = this._fb.group({
       searchName: [''],
       queryType: ['', Validators.required],
@@ -76,6 +89,7 @@ export class QueryModelComponent implements OnInit {
       queryFrom: [this.userId],
       queryTo: ['', Validators.required],
       docId: [''],
+      docName: [''],
       leadId: [this.leadId, Validators.required]
     })
 
@@ -86,28 +100,30 @@ export class QueryModelComponent implements OnInit {
     this.commonLovService.getLovData().subscribe((value: any) => {
       let LOV = value.LOVS;
       this.queryModelLov.queryType = value.LOVS.queryType;
-      this.getUsers();
-      this.getLeads();
+      this.getLeads(this.getLeadSendObj);
     });
   }
 
-  getLeads(searchKey?: string) {
+  changeEvent() {
+
+  }
+
+  getLeads(sendObj, searchKey?: string) {
 
     let data = {
       "userId": this.userId,
       "currentPage": null,
       "perPage": 500,
-      "chatPerPage": 100,
+      "searchKey": searchKey ? searchKey : '',
+      "chatPerPage": 10,
       "chatCurrentPage": null,
-      "chatSearchKey": searchKey ? searchKey : '',
-      "searchKey": searchKey ? searchKey : ''
+      "chatSearchKey": searchKey ? searchKey : ''
     }
 
     this.queryModelService.getLeads(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.chatList = res.ProcessVariables.chatLeads ? res.ProcessVariables.chatLeads : [];
         this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
-        console.log('Lwasds', this.chatList)
       } else {
         this.chatList = []
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Leads')
@@ -124,8 +140,8 @@ export class QueryModelComponent implements OnInit {
 
     this.queryModelService.getUsers(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        console.log(res, 'res')
-        this.queryModelLov.queryTo = res.ProcessVariables.stakeholders ? res.ProcessVariables.stakeholders : []
+        this.queryModelLov.queryTo = res.ProcessVariables.stakeholders ? res.ProcessVariables.stakeholders : [];
+        this.documents = res.ProcessVariables.documents ? res.ProcessVariables.documents : [];
       } else {
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Users')
       }
@@ -138,8 +154,12 @@ export class QueryModelComponent implements OnInit {
       .subscribe((value: any) => { });
   }
 
+  backFromQuery() {
+    const currentUrl = localStorage.getItem('currentUrl');
+    this.router.navigateByUrl(currentUrl);
+  }
+
   getQueries(lead) {
-    console.log('this.leadId', lead)
     let data = {
       "leadId": Number(lead.key),
       "perPage": 100,
@@ -149,12 +169,25 @@ export class QueryModelComponent implements OnInit {
     this.queryModalForm.patchValue({
       leadId: Number(lead.key),
     })
-    this.getUsers()
-    console.log(this.queryModalForm, 'model')
+
+    // this.renderer.addClass('flex-container',"selected-back");
+    //     addClass(el, name) { el.classList.add(name); }
+    this.renderer.setStyle(this.selectclass.nativeElement, 'backgroundColor', 'red');
+
+
+    // const el = this.selectclass.nativeElement.querySelector()
+    // this.renderer.addClass(this.selectclass.nativeElement.querySelector('.flex-container'), 'selected-back');
+
+    if (this.queryModalForm.value.leadId) {
+      this.getLeadSectionData(this.queryModalForm.value.leadId)
+    }
+
+    this.searchLeadId = lead.value;
+    this.getUsers();
     this.queryModelService.getQueries(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        lead.count = 0;
         this.chatMessages = res.ProcessVariables.assetQueries ? res.ProcessVariables.assetQueries : [];
-
         this.chatMessages.filter((val) => {
           val.time = this.myDateParser(val.createdOn)
         })
@@ -165,6 +198,27 @@ export class QueryModelComponent implements OnInit {
 
   }
 
+  getLeadSectionData(leadId) {
+    this.createLeadService
+      .getLeadById(leadId)
+      .subscribe((res: any) => {
+        const response = res;
+        const appiyoError = response.Error;
+        const apiError = response.ProcessVariables.error.code;
+        this.leadSectionData = response.ProcessVariables;
+
+        if (appiyoError === '0' && apiError === '0') {
+          this.leadId = this.leadSectionData.leadId;
+          this.createLeadDataService.setLeadSectionData(
+            this.leadSectionData
+          );
+        } else {
+          const message = response.ProcessVariables.error.message;
+          this.toasterService.showError(message, 'Lead Creation');
+        }
+      });
+  }
+
   myDateParser(dateStr: string): string {
 
     let date = dateStr.substring(0, 10);
@@ -173,6 +227,10 @@ export class QueryModelComponent implements OnInit {
 
     let validDate = date + 'T' + time + ':' + millisecond;
     return validDate
+  }
+
+  topFunction() {
+
   }
 
   getvalue(enteredValue: string) {
@@ -206,6 +264,9 @@ export class QueryModelComponent implements OnInit {
     this.queryModalForm.patchValue({
       leadId: Number(lead.key)
     })
+    if (this.queryModalForm.value.leadId) {
+      this.getLeadSectionData(this.queryModalForm.value.leadId)
+    }
     this.searchLeadId = lead.value;
     this.getUsers()
   }
@@ -220,24 +281,24 @@ export class QueryModelComponent implements OnInit {
 
   mouseEnter() {
     this.dropDown = true;
-    this.isLeadShow = false;
+    // this.isLeadShow = false;
     this.searchLead = this.queryModelLov.queryTo;
   }
 
   mouseLeave() {
     this.dropDown = false;
-    this.isLeadShow = false;
+    // this.isLeadShow = false;
   }
 
   mouseLeaveLeadId() {
-    this.dropDown = false;
+    // this.dropDown = false;
     this.isLeadShow = false;
   }
 
   mouseleadIdEnter() {
     this.getSearchableLead = this.queryLeads;
     this.isLeadShow = true;
-    this.dropDown = false;
+    // this.dropDown = false;
   }
 
   onFormSubmit(form) {
@@ -254,8 +315,7 @@ export class QueryModelComponent implements OnInit {
 
       this.queryModelService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-          let updateDevision = res.ProcessVariables.updatedDev ? res.ProcessVariables.updatedDev : [];
-          this.getLeads()
+          this.getLeads(this.getLeadSendObj);
           this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Query Model Save/Update')
         } else {
           this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Query Model Save/Update')
@@ -270,97 +330,174 @@ export class QueryModelComponent implements OnInit {
 
   }
 
-  private bytesToSize(bytes) {
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-    if (bytes === 0) {
-      return 'n/a';
-    }
-    const i = Number(Math.floor(Math.log(bytes) / Math.log(1024)));
-    if (i === 0) {
-      return bytes + ' ' + sizes[i];
-    }
-    return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+  onUploadSuccess(event) {
+    this.showModal = false;
+    this.toasterService.showSuccess('Document uploaded successfully', '');
+    this.docsDetails = event;
+    console.log(event, 'evemt')
+    this.queryModalForm.patchValue({
+      docId: event.dmsDocumentId ? event.dmsDocumentId : '',
+      docName: event.fileName ? event.fileName : ''
+    })
   }
 
-  async onFileSelect(event) {
-    const files: File = event.target.files[0];
-    if (!files.type) {
-      const type = files.name.split('.')[1];
-      this.fileType = this.getFileType(type);
+  chooseFile() {
+
+    if (this.queryModalForm.value.leadId) {
+
+      this.showModal = true;
+      const docNm = 'ACCOUNT_OPENING_FORM';
+      const docCtgryCd = 70;
+      const docTp = 'LEAD';
+      const docSbCtgry = 'ACCOUNT OPENING FORM';
+      const docCatg = 'KYC - I';
+      const docCmnts = 'Addition of document for Lead Creation';
+      const docTypCd = 276;
+      const docSbCtgryCd = 204;
+
+      this.selectedDocDetails = {
+        docSize: 2097152,
+        docsType: Constant.OTHER_DOCUMENTS_ALLOWED_TYPES,
+        docNm,
+        docCtgryCd,
+        docTp,
+        docSbCtgry,
+        docCatg,
+        docCmnts,
+        docTypCd,
+        docSbCtgryCd,
+        docRefId: [
+          {
+            idTp: 'LEDID',
+            id: this.queryModalForm.value.leadId,
+          },
+          {
+            idTp: 'BRNCH',
+            id: Number(localStorage.getItem('branchId')),
+          },
+        ],
+      };
     } else {
-      this.fileType = this.getFileType(files.type);
+      this.showModal = false;
+      this.toasterService.showWarning('Please Select Lead Id', 'Lead Id')
     }
-    if (this.checkFileType(this.fileType)) {
-      // this.showError = `Only files with following extensions are allowed: ${this.docsDetails.docsType}`;
+
+  }
+
+  async downloadDocs(documentId: string, index: number, event) {
+    let el = event.srcElement;
+
+    if (!documentId) {
       return;
     }
-    if (this.checkFileSize(files.size)) {
-      // this.showError = `File is too large. Allowed maximum size is ${this.bytesToSize(
-      //   this.docsDetails.docSize
-      // )}`;
+
+    let collateralId = this.leadSectionData['vehicleCollateral'][0]
+
+    const bas64String = this.base64StorageService.getString(
+      collateralId.collateralId + documentId
+    );
+    if (bas64String) {
+      this.setContainerPosition(el);
+      this.showDraggableContainer = {
+        imageUrl: bas64String.imageUrl,
+        imageType: bas64String.imageType,
+      };
+      this.draggableContainerService.setContainerValue({
+        image: this.showDraggableContainer,
+        css: this.setCss,
+      });
       return;
     }
-
-    const base64: any = await this.toBase64(event);
-    this.imageUrl = base64;
-    this.fileSize = this.bytesToSize(files.size);
-    this.fileName = files.name;
-  }
-
-  checkFileSize(fileSize: number) {
-    if (fileSize > this.docsDetails.docSize) {
-      return true;
+    const imageValue: any = await this.getBase64String(documentId);
+    if (imageValue.imageType.includes('xls')) {
+      this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/vnd.ms-excel');
+      return;
     }
-    return false;
-  }
-
-  checkFileType(fileType: string = '') {
-    let isThere = false;
-    fileType.split('/').forEach((type) => {
-      if (this.docsDetails.docsType.includes(type.toLowerCase())) {
-        isThere = true;
-      }
-    });
-
-    return !isThere;
-  }
-
-  getFileType(type: string) {
-    const types = {
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-        'docx',
-      'application/vnd.ms-excel': 'xls',
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-        'xlsx',
-      'image/tiff': 'tiff',
-      'application/pdf': 'pdf',
-      'image/png': 'png',
-      'image/jpeg': 'jpeg',
-      'application/msword': 'docx'
+    if (imageValue.imageType.includes('doc')) {
+      this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/msword');
+      return;
+    }
+    this.setContainerPosition(el);
+    this.showDraggableContainer = {
+      imageUrl: imageValue.imageUrl,
+      imageType: imageValue.imageType,
     };
-    return types[type] || type;
+    this.draggableContainerService.setContainerValue({
+      image: this.showDraggableContainer,
+      css: this.setCss,
+    });
+    this.base64StorageService.storeString(collateralId.collateralId + documentId, {
+      imageUrl: imageValue.imageUrl,
+      imageType: imageValue.imageType,
+    });
   }
 
-  toBase64(evt) {
+  getBase64String(documentId) {
     return new Promise((resolve, reject) => {
-      var f = evt.target.files[0]; // FileList object
-      var reader = new FileReader();
-      // Closure to capture the file information.
-      reader.onload = (function (theFile) {
-        return function (e) {
-          var binaryData = e.target.result;
-          //Converting Binary Data to base 64
-          var base64String = window.btoa(binaryData);
-          console.log('base64String', base64String);
-          resolve(base64String)
-          //showing file converted to base64
-          // document.getElementById('base64').value = base64String;
-          // alert('File converted to base64 successfuly!\nCheck in Textarea');
-        };
-      })(f);
-      // Read in the image file as a data URL.
-      reader.readAsBinaryString(f);
+      this.uploadService
+        .getDocumentBase64String(documentId)
+        .subscribe((value) => {
+          const imageUrl = value['dwnldDocumentRep'].msgBdy.bsPyld;
+          const documentName = value['dwnldDocumentRep'].msgBdy.docNm || '';
+          const imageType = documentName.split('.')[1].toLowerCase();
+
+          resolve({
+            imageUrl,
+            imageType,
+            documentName
+          });
+        });
     });
+  }
+
+  setContainerPosition(el) {
+    let offsetLeft = 0;
+    let offsetTop = 0;
+    while (el) {
+      offsetLeft += el.offsetLeft;
+      offsetTop += el.offsetTop;
+      el = el.offsetParent;
+    }
+    this.setCss = {
+      top: offsetTop + 'px',
+      left: offsetLeft + 'px',
+    };
+  }
+
+  getDownloadXlsFile(base64: string, fileName: string, type) {
+    const contentType = type;
+    const blob1 = this.base64ToBlob(base64, contentType);
+    const blobUrl1 = URL.createObjectURL(blob1);
+
+    setTimeout(() => {
+
+      const a: any = document.createElement('a');
+      document.body.appendChild(a);
+      a.style = "display: none";
+      a.href = blobUrl1;
+      a.download = fileName;
+      a.click();
+      window.URL.revokeObjectURL(blobUrl1);
+      // window.open(blobUrl1);
+    });
+  }
+
+  base64ToBlob(b64Data, contentType, sliceSize?: any) {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+    const blob = new Blob(byteArrays, { type: contentType });
+    return blob;
   }
 
 }

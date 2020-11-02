@@ -696,7 +696,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
   getProfileImage() { }
 
   async downloadDocs(formArrayName: string, index: number, event) {
-    console.log(event);
+    console.log(event, 'evemy', formArrayName, 'formArrayName', index);
     
     let el = event.srcElement;
     const formArray = this.uploadForm.get(formArrayName) as FormArray;

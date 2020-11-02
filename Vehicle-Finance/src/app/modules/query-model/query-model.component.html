@@ -1,6 +1,10 @@
 <main class="mar-top90">
   <div class="container-fluid">
-    <app-lead-section-header></app-lead-section-header>
+
+    <div class="row view-pad-bottom" style="text-align: right;margin-right: 20px;">
+      <button class="btn btn-warning view-button" type="button" (click)="backFromQuery()"><i
+          class="fa fa-arrow-left"></i> Back to Lead</button>
+    </div>
 
     <div class="" style="margin: 10px;">
 
@@ -8,32 +12,32 @@
         <form [formGroup]="queryModalForm">
           <div class="query">
             <div class="col-sm-4 left">
-              <!-- <form class="form-horizontal"> -->
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0">
                 <div class="input-group search-btn">
                   <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
-                    (keyup)="queryModalForm.value.searchName.length >= 2 ? getLeads(queryModalForm.value.searchName) : ''">
+                    (keyup)="queryModalForm.value.searchName.length >= 2 ? getLeads(getLeadSendObj, queryModalForm.value.searchName) : ''">
                   <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
                 </div>
               </div>
-              <!-- </form> -->
 
               <br /><br />
-              <div class="panel-group mar-20 scroll-box row" id="scrollBox" >
+              <div class="panel-group mar-20 scroll-box row" id="scrollBox">
                 <div class="panel-group mar-20" id="accordion"
                   *ngFor="let chat of chatList; let i=index; let last=last">
-                  <div class="flex-container divs">
-                    <div class="small divs" (click)="getQueries(chat)">
-                      <!--  | search : queryModalForm.value.searchName.trim().length ? queryModalForm.value.searchName : '' : 'leadId' || 'name': 'product' -->
+                  <div class="flex-container" #myBtn>
+                    <div class="small" (click)="getQueries(chat)">
                       <p class="mar-em">{{chat.key}}</p>
                     </div>
                     <div class="divs">
                       <p class="mar-em">{{chat.value}}</p>
                     </div>
+
+                    <span class="badge badge-success" style="background-color: #24c627"
+                      *ngIf="chat.count">{{chat.count}}</span>
                   </div>
                   <hr>
                 </div>
-                <div id="loadMore" (click)="getQueries(chat)">Load more</div>
+                <div id="loadMore" (click)="changeEvent()">Load more</div>
                 <div *ngIf="chatList.length === 0">
                   No such field in leadlist
                 </div>
@@ -94,14 +98,9 @@
                         </div>
                       </form>
                       <div class="document-shared-list">
-                        <p><a href="#">ID: 12345 - Aadhar Card</a></p>
-                        <p><a href="#">ID: 67891 - Pancard</a></p>
-                        <p><a href="#">ID: 23456 - Address Proof</a></p>
-                        <p><a href="#">ID: 12340 - Document_Name</a></p>
-                        <p><a href="#">ID: 67890 - Passport</a></p>
-                        <p><a href="#">ID: 23458 - Account Opening Form</a></p>
-                        <p><a href="#">ID: 67890 - Bank Pass Book</a></p>
-                        <p><a href="#">ID: 23458 - Voter Id</a></p>
+                        <div *ngFor="let document of documents">
+                          <p *ngIf="document.docId"><a>ID: {{document.docId}} - {{document.docName}}</a></p>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -117,18 +116,19 @@
                   <div class="wt-80" [ngClass]="message.queryFrom === userId ? 'sender' : 'receiver'">
                     <div [ngClass]="message.queryFrom === userId ? 'send-message' : 'receive-message'">
                       <div class="logged-user">
-                        <span> {{message.fromName}} {{message.fromRole}} </span>
-                        <span> <strong>Query Type : </strong> {{message.queryTypeDesc}}
+                        <span style="font-weight: 600;"> {{message.nameWithFromRole}}
                         </span>
+                        <span class="date-time"> <strong>Query Type : </strong> {{message.queryTypeDesc}} </span>
+
 
                       </div>
                       <p>{{message.query}}</p>
-                      <div *ngIf="message.docId"><a href="#" class="text-danger"> <i class="fa fa-file-pdf-o"></i>
-                          Aadhar
-                          Card.pdf</a></div>
+                      <div *ngIf="message.docId"><a class="text-danger"
+                          (click)="downloadDocs(message.docId, j, $event)"> <i class="fa fa-file-pdf-o"></i>
+                          {{message.docName}}</a></div>
                       <br *ngIf="message.docId">
                       <div class="tagged-name">
-                        <span> <strong>Tagged To : </strong> {{message.queryTo}} [{{message.toRole}}] </span>
+                        <span> <strong>Tagged To : </strong> {{message.nameWithToRole}} </span>
                         <span class="date-time"> {{message.time |  date: 'dd-MMM-yyyy | h:mm a': 'US' }}
                         </span>
 
@@ -138,16 +138,34 @@
                   </div>
 
                 </div>
-                <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+                <button (click)="topFunction()" id="myBtn" title="Go to top">Top</button>
 
                 <div class="wt-mid text-center" *ngIf="chatMessages && chatMessages.length === 0">
                   <p>No chats available</p>
                 </div>
-               
+
 
               </div>
 
               <div class="form-group row">
+
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                  <div class="form-group">
+                    <label for="file-upload" class="col-sm-4">Lead Id</label>
+                    <div class="col-sm-8" (mouseleave)="mouseLeaveLeadId()">
+                      <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchLeadId"
+                        [ngModelOptions]="{standalone: true}" (mouseenter)="mouseleadIdEnter()"
+                        (keyup)="getleadIdvalue($event.target.value)">
+
+                      <div class="dropdown-content" *ngIf="isLeadShow">
+                        <div *ngFor="let item of getSearchableLead">
+                          <a data-toggle="collapse" data-target="#bs-navbar" (click)="getLead(item)">{{item.value}}</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="col-lg-6 col-sm-6 col-md-4 col-xs-6">
                   <div class="form-group">
                     <label class="col-sm-4">Query Type</label>
@@ -158,6 +176,11 @@
                     </div>
                   </div>
                 </div>
+
+              </div>
+
+              <div class="form-group row">
+
                 <div class="col-lg-6 col-sm-6 col-md-4 col-xs-6">
                   <div class="form-group">
                     <label class="col-sm-4">Tag query To</label>
@@ -176,52 +199,28 @@
                     </div>
                   </div>
                 </div>
-              </div>
-
-              <div class="form-group row">
 
                 <div class="col-lg-6 col-sm-6 col-md-4 col-xs-6">
                   <div class="form-group">
                     <label for="file-upload" class="col-sm-4">Attachment</label>
-                    <div class="upload-btn-wrapper col-sm-8">
-                      <button class="btn-upload">Choose file</button>
-                      <input type="file" id="file-upload" #fileInput (input)="onFileSelect($event)">
-                      <!-- style="visibility: hidden;" -->
-                      <span id="file-name"></span>
-                      <h6>&nbsp;(Maximum size: 2 MB)</h6>
+                    <div class="upload-btn-wrapper col-sm-4">
+                      <button class="btn-upload" (click)="chooseFile()">
+                        {{queryModalForm.controls['docName'].value ? 'Change' : 'Choose'}} file</button>
+                      <!-- <h6>&nbsp;(Maximum size: 2 MB)</h6> -->
                     </div>
+                    <!-- DocName: -->
+                    <label for="file-name" class="col-sm-4" *ngIf="queryModalForm.controls['docName'].value">
+                      {{queryModalForm.controls['docName'].value}} </label>
                   </div>
                 </div>
 
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
-                  <div class="form-group">
-                    <label for="file-upload" class="col-sm-4">Lead Id</label>
-                    <div class="upload-btn-wrapper col-sm-8">
-                      <!-- <app-custom-input formControlName="leadId" [id]="'lead_id'" [className]="'form-control mandatory'"
-                        [placeholder]="'Lead Id'" [isRequired]="'Lead Id Required'" [isDirty]="isDirty">
-                      </app-custom-input> -->
-                      <div class="col-sm-12" (mouseleave)="mouseLeaveLeadId()">
-                        <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchLeadId"
-                          [ngModelOptions]="{standalone: true}" (mouseover)="mouseleadIdEnter()"
-                          (keyup)="getleadIdvalue($event.target.value)">
 
-                        <div class="dropdown-content" *ngIf="isLeadShow">
-                          <div *ngFor="let item of getSearchableLead">
-                            <a data-toggle="collapse" data-target="#bs-navbar"
-                              (click)="getLead(item)">{{item.value}}</a>
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
-                    <!-- <label for="file-upload" class="col-sm-1">*mandatory</label> -->
-                  </div>
-                </div>
               </div>
 
               <div class="form-group row">
                 <div class="col-sm-12 col-md-12 col-lg-12">
-                  <textarea class="form-control" style="resize: none;" formControlName="query"></textarea>
+                  <textarea class="form-control" style="resize: none;" formControlName="query"
+                    (keyup.enter)="onFormSubmit(queryModalForm)"></textarea>
 
                   <div class="invalid-feedback"
                     *ngIf="queryModalForm.controls['query'].touched && !queryModalForm.controls['query'].valid">
@@ -251,8 +250,10 @@
     </div>
 
   </div>
+  <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)"
+    [docsDetails]="selectedDocDetails"></app-upload-modal>
 </main>
-<script>
+<!-- <script>
   //Get the button
   var mybutton = document.getElementById("myBtn");
 
@@ -276,23 +277,17 @@
 
   $(document).ready(function () {
     size_li = $("#scrollBox li").size();
-    x=3;
-    $('#scrollBox li:lt('+x+')').show();
+    x = 3;
+    $('#scrollBox li:lt(' + x + ')').show();
     $('#loadMore').click(function () {
-        x= (x+5 <= size_li) ? x+5 : size_li;
-        $('#scrollBox li:lt('+x+')').show();
+      x = (x + 5 <= size_li) ? x + 5 : size_li;
+      $('#scrollBox li:lt(' + x + ')').show();
     });
     $('#showLess').click(function () {
-        x=(x-5<0) ? 3 : x-5;
-        $('#scrollBox li').not(':lt('+x+')').hide();
+      x = (x - 5 < 0) ? 3 : x - 5;
+      $('#scrollBox li').not(':lt(' + x + ')').hide();
     });
-});
+  });
 
-var addclass = 'click-color';
-var $cols = $('.divs').click(function(e) {
-    $cols.removeClass(addclass);
-    $(this).addClass(addclass);
-});
-
-  </script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->

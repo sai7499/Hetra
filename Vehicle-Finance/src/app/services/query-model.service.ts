@@ -27,7 +27,7 @@ export class QueryModelService {
       projectId: projectId
 
     };
-  
+
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
@@ -73,7 +73,7 @@ export class QueryModelService {
     return this.httpService.post(url, body);
   }
 
-  // 3.method for get users
+  // 4.method for get users
 
   getUsers(data) {
 
@@ -85,6 +85,28 @@ export class QueryModelService {
 
       processId: processId,
       ProcessVariables: data,
+      workflowId: workflowId,
+      projectId: projectId
+
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+  // 4.method for get count
+
+  getCountAcrossLeads(userId) {
+    const processId = this.apiService.api.getCount.processId;
+    const workflowId = this.apiService.api.getCount.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
+
+    const body: RequestEntity = {
+
+      processId: processId,
+      ProcessVariables: {
+        "userId": userId
+      },
       workflowId: workflowId,
       projectId: projectId
 
