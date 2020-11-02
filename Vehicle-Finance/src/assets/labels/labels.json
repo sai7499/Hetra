@@ -53,6 +53,7 @@
     "status": "Status",
     "reasonForRejection": "Rejection Reason",
     "applicantName": "Applicant",
+    "applicantNameCam":"Applicant Name",
     "modelTitle": "LOS - Lead Creation",
     "message": "Are you sure you want to create a new lead?",
     "proceed": "Proceed",
