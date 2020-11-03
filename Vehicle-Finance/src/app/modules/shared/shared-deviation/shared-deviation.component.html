@@ -37,7 +37,7 @@
               <td rowspan="6" style="width: 10%;">
                 <div class="row m-0 radio-inline"
                   [ngClass]="{'disabled': !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}">
-                  <label for="approve_action">
+                  <!-- <label for="approve_action">
                     <input type="radio" id="approve_action_waiver_{{k}}" formControlName="statusCode" value="1"
                       (click)="onApproveDeclineAction(1, waiver)">{{labels?.approve}}
                   </label>
@@ -48,8 +48,8 @@
                   <label for="decline_action">
                     <input type="radio" id="decline_action_waiver__{{k}}" formControlName="statusCode" value="0"
                       (click)="onApproveDeclineAction(0, waiver)">{{labels?.decline}}
-                  </label>
-                  <!-- <div>
+                  </label> -->
+                  <div>
                     <input type="radio" class="approve" id="approve_action_waiver_{{k}}" formControlName="statusCode"
                       value="1"
                       [ngClass]="{'disabled': !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}">
@@ -74,7 +74,7 @@
                     <label for="decline"
                       [ngClass]="{'disabled': !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}"
                       (click)="!(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(0, waiver)"><span></span>{{labels?.decline}}</label>
-                  </div> -->
+                  </div>
 
                 </div>
               </td>
