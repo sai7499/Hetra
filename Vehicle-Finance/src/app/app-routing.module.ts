@@ -18,6 +18,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/login/login.module').then((m) => m.LoginModule),
   },
+  // {
+  //   path: 'child-loan',
+  //   loadChildren: () =>
+  //     import('./modules/child-loan/child-loan.module').then((m) => m.ChildLoanModule),
+  // },
   {
     path: 'activity-search',
     canActivate: [Authguard],
@@ -41,6 +46,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/lead-creation/lead-creation.module').then(
             (m) => m.LeadCreationModule
+          ),
+      },
+      {
+        path: 'child-loan',
+        loadChildren: () =>
+          import('./modules/child-loan/child-loan.module').then(
+            (m) => m.ChildLoanModule
           ),
       },
       {
@@ -77,6 +89,8 @@ const routes: Routes = [
           import('./modules/dashboard/dashboard.module').then(
             (m) => m.DashboardModule
           ),
+        // canDeactivate: [can]
+
       },
       {
         path: 'terms-condition',
