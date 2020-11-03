@@ -141,6 +141,7 @@ thead tr td.text-left{
 .table-top-bg{
   background-color:  #1d1a4b;
     color: #fff;
+    font-size:13px
     
 }
 
@@ -200,7 +201,7 @@ display: none;
   visibility: hidden;
 }
 .tab-details p{
-  font-size:10px;
+  font-size:12px;
 }
 
 
@@ -213,7 +214,7 @@ display: none;
   background-color:  #1d1a4b;
     color: #fff;
     font-weight: 200;
-    font-size:10px!important;
+    font-size:13px!important;
 }
 
 .flex-container {
@@ -243,6 +244,16 @@ p-0{
 
 .desktop-hide{
   display:none;
+}
+
+.ekyc-to-print{
+  padding: 10px 35px;
+}
+
+.tab-content td{
+
+  font-size:12px!important;
+
 }
 
  @media (min-width:260px) and (max-width:768px){
@@ -345,7 +356,10 @@ p-0{
     padding: 10px;
   }
 
-  /* .tablewithdetails td:before {
+  .ekyc-to-print{
+    padding: 10px 35px;
+  }
+  .tablewithdetails td:before {
     content: attr(data-label);
     display: inline-block;
     line-height: 1.5;
@@ -359,8 +373,21 @@ p-0{
      text-align: left; 
     font-size:12px;
    
-   }  */
+   } 
 
+   .tab-content td{
+
+    font-size:12px!important;
+  
+  }
+
+  .p-0{
+    padding:0px!important;
+  }
+
+  .tab_details p {
+    font-size:13px!important;
+  }
   /* .dontdisplayed .content-two {
     background: #fff;
     padding: 5px 16px!important;
