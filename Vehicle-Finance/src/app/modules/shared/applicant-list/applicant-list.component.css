@@ -245,6 +245,10 @@ p-0{
   display:none;
 }
 
+.ekyc-to-print{
+  padding: 10px 35px;
+}
+
  @media (min-width:260px) and (max-width:768px){
  .flex-container{
    display:none;
@@ -345,7 +349,10 @@ p-0{
     padding: 10px;
   }
 
-  /* .tablewithdetails td:before {
+  .ekyc-to-print{
+    padding: 10px 35px;
+  }
+  .tablewithdetails td:before {
     content: attr(data-label);
     display: inline-block;
     line-height: 1.5;
@@ -359,7 +366,7 @@ p-0{
      text-align: left; 
     font-size:12px;
    
-   }  */
+   } 
 
   /* .dontdisplayed .content-two {
     background: #fff;
