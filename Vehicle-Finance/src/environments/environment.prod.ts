@@ -12,11 +12,7 @@ export const environment = {
     otpProjectId: 'db2732f4ab4811ea82f8f2fa9bec3d63',
     salesCreditScore: 'db2732f4ab4811ea82f8f2fa9bec3d63',
     creditProjectId: '6cc61c5ca7e811ea800cf2fa9bec3d63',
-<<<<<<< HEAD
     submitToCredit: '403a8a12b79511ea8afff2fa9bec3d63',
-=======
-    taskProjectId: '403a8a12b79511ea8afff2fa9bec3d63',
->>>>>>> b9b19f5ca8e133d3e54cd1e14509c673d717c5de
     externalApi: 'db2732f4ab4811ea82f8f2fa9bec3d63',
     taskProjectId: '403a8a12b79511ea8afff2fa9bec3d63',
     reinitiatePdApi: '403a8a12b79511ea8afff2fa9bec3d63',
