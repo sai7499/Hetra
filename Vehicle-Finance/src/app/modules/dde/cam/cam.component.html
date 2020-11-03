@@ -633,7 +633,7 @@
       }}
             </caption>
 
-            <tr *ngIf="!usedCvCam">
+            <!-- <tr *ngIf="!usedCvCam">
                 <td class="bank_name">{{ labels?.leadCreatedBy }}</td>
                 <td>{{ basicDetails?.leadCreatedBy }}</td>
                 <td class="bank_name">{{ labels?.leadCreatedDate }}</td>
@@ -648,7 +648,7 @@
                 <td>{{ basicDetails?.applicant }}</td>
                 <td class="bank_name">{{ labels?.mobileNumber }}</td>
                 <td>{{ basicDetails?.mobileNumber }}</td>
-            </tr>
+            </tr> -->
             <tr>
                 <td class="bank_name">{{ labels?.leadNo }}</td>
                  <td>{{ camDetails?.leadId }}</td>
@@ -656,8 +656,8 @@
                 <td>{{ basicDetails?.proposalType }}</td>
                 <td class="bank_name">{{ labels?.customerType }}</td>
                 <td>{{ basicDetails?.customerType }}</td>
-                <td class="bank_name">{{ labels?.applicantType }}</td>
-                <td>{{ basicDetails?.applicantType }}</td>
+                <td class="bank_name">{{ labels?.applicantNameCam }}</td>
+                <td>{{ basicDetails?.applicant }}</td>
                 <td class="bank_name">{{ labels?.entityType }}</td>
                 <td>{{ basicDetails?.entityType }}</td>
             </tr>
@@ -1143,7 +1143,7 @@
                 </th> -->
                 </tr>
                 <tr>
-                    <td colspan="6"></td>
+                    <td colspan="5"></td>
                     <td class="bank_name">
                         {{ labels?.ad }}
                     </td>
@@ -1173,7 +1173,7 @@
 
                     <td>{{trackValidation?.financier}}</td>
                     <td>{{trackValidation?.asset}}</td>
-                    <td>{{trackValidation?.vehRegNo}}</td>
+                    <td>{{trackValidation?.vehRegNo | uppercase}}</td>
                     <td>{{trackValidation?.seasoning}}</td>
                     <td>{{trackValidation?.overallAD}}</td>
                     <td>{{trackValidation?.overallPD}}</td>
@@ -2198,7 +2198,7 @@
             <tbody>
                 <tr *ngFor="let fleetDetails of fleetDetails; let i = index">
                     <td>{{i+1}}</td>
-                    <td>{{ fleetDetails?.regdNo }}</td>
+                    <td>{{ fleetDetails?.regdNo | uppercase }}</td>
                     <td>{{ fleetDetails?.regdOwner}}</td>
                     <td>{{ fleetDetails?.relationWithHirer }}</td>
                     <td>{{ fleetDetails?.make }}</td>
