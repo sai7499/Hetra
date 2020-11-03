@@ -284,15 +284,20 @@ export class QueryModelComponent implements OnInit {
   }
 
   getDocuments(searchValue: string) {
+
     this.queryModelLov.documents = this.documents.filter(e => {
       searchValue = searchValue.toString().toLowerCase();
-      // const eName = e.docId.toLowerCase();
-      console.log(searchValue, 'sdgrd')
-      console.log('e', e)
-
-      // if (eName.includes(searchValue)) {
-      //   return e;
-      // }
+      if (e.docId) {
+        const eName = e.docId.toString().toLowerCase();
+        if (eName.includes(searchValue)) {
+          return e;
+        } else if (e.docName) {
+          const eValName = e.docName.toString().toLowerCase();
+          if (eValName.includes(searchValue)) {
+            return e;
+          }
+        }
+      }
     });
   }
 
