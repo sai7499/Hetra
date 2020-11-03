@@ -70,6 +70,13 @@ const routes: Routes = [
           ).then((m) => m.DocumentViewuploadModule),
       },
       {
+        path: 'query-model',
+        loadChildren: () =>
+          import(
+            './modules/query-model/query-model.module'
+          ).then((m) => m.QueryModelModule),
+      },
+      {
         path: 'terms-condition',
         loadChildren: () =>
           import('./modules/terms-conditions/terms-conditions.module').then(
