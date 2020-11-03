@@ -15,7 +15,7 @@
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0">
                 <div class="input-group search-btn">
                   <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
-                    (keyup)="queryModalForm.value.searchName.length >= 2 ? getLeads(getLeadSendObj, queryModalForm.value.searchName) : ''">
+                    (keyup)="queryModalForm.value.searchName.length >= 2 ? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : ''">
                   <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
                 </div>
               </div>
@@ -32,12 +32,13 @@
                       <p class="mar-em">{{chat.value}}</p>
                     </div>
 
-                    <span class="badge badge-success" style="background-color: #24c627"
-                      *ngIf="chat.count">{{chat.count}}</span>
+                    <span class="badge badge-success count-list" *ngIf="chat.count">{{chat.count}}</span>
                   </div>
                   <hr>
                 </div>
-                <div id="loadMore" (click)="changeEvent()" *ngIf="chatList.length >= 5">Load more</div>
+                <div id="loadMore" (click)="loadMorePage($event, chatList.length, queryModalForm.value.searchName)"
+                  *ngIf="chatList.length >= 5 && getLeadsObj.chatTotalPages > chatTotalPages">Load
+                  more</div>
                 <div class="empty-list" *ngIf="chatList.length === 0">
                   No such field in leadlist
                 </div>
@@ -98,8 +99,11 @@
                         </div>
                       </form>
                       <div class="document-shared-list document-box">
-                        <div class="document-box" *ngFor="let document of documents">
-                          <p *ngIf="document.docId"><a>ID: {{document.docId}} - {{document.docName}}</a></p>
+                        <div class="document-box" *ngFor="let document of documents; let k=index; let last=last">
+                          <p *ngIf="document.docId"><a (click)="downloadDocs(document.docId, k, $event)">ID:
+                              {{document.docId}} <span *ngIf="document.docName"> -
+                                {{document.docName}}</span>
+                            </a></p>
                         </div>
                       </div>
                     </div>
@@ -138,7 +142,8 @@
                   </div>
 
                 </div>
-                <button (click)="topFunction()" id="myBtn" title="Go to top">Top</button>
+                <button (click)="getChatMessagesCount()" id="myBtn" title="Go to top"
+                  *ngIf="chatMessages && chatMessages.length > 0">Top</button>
 
                 <div class="wt-mid text-center" *ngIf="chatMessages && chatMessages.length === 0">
                   <p>No chats available</p>
@@ -153,9 +158,12 @@
                   <div class="form-group">
                     <label for="file-upload" class="col-sm-4">Lead Id</label>
                     <div class="col-sm-8" (mouseleave)="mouseLeaveLeadId()">
+
                       <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchLeadId"
                         [ngModelOptions]="{standalone: true}" (mouseenter)="mouseleadIdEnter()"
-                        (keyup)="getleadIdvalue($event.target.value)">
+                        (keyup)="getleadIdvalue($event.target.value)" (valueChange)="
+                        queryModalForm.value.searchName.length>= 2 ? getLeads(getLeadSendObj,
+                      '', searchLeadId) : ''">
 
                       <div class="dropdown-content" *ngIf="isLeadShow">
                         <div *ngFor="let item of getSearchableLead">
@@ -291,3 +299,17 @@
 
 </script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+
+<!-- Lead Modal Open -->
+
+<div class="customizer border-left-blue-grey border-left-lighten-4 d-none d-sm-none d-md-block"
+  [ngClass]="isShowLeadModal ? 'modal-lead' : ''">
+  <a class="customizer-close" (click)="onCustomizerClose()">
+    <i class="ft-x font-medium-3"></i>
+  </a>
+  <div class="customizer-content p-3 ps-container ps-theme-dark" data-ps-id="df6a5ce4-a175-9172-4402-dabd98fc9c0a">
+    <h4 class="text-uppercase mb-0 text-bold-400">Header</h4>
+  </div>
+</div>
+
+<!-- Lead Modal Close -->

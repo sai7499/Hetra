@@ -644,9 +644,8 @@ margin: 0px !important;
 .flex-container {
     display: flex;
     align-items: baseline;
-    /* background-color: #fff; */
     border-radius:20px;
-  }
+}
   
   .flex-container > div {
     width: 100%;
@@ -685,18 +684,6 @@ margin: 0px !important;
     border-radius: 20px;
   }
 
-  .count-list {
-    text-align: center !important;
-    font-size: 10px !important;
-    border-radius: 50% !important;;
-    background: #06d755 !important;
-    color: white !important;
-    /* position: absolute; */
-    width: 9% !important;
-    right: 55px;
-    top: 165px;
-  }
-
   .empty-list  {
     text-align: center;
     margin: 10px;
@@ -709,12 +696,9 @@ margin: 0px !important;
   }
     
     .dropdown-content {
-    /* margin-left: 10px; */
     border-radius: 20px;
-    /* display: none; */
     position: absolute;
     background-color: #f1f1f1;
-    /* min-width: 160px; */
     width: 90%;
     height: 200px;
     overflow-x: hidden;
@@ -747,8 +731,17 @@ margin: 0px !important;
     display: none;
   }
 
+  .count-list {
+    background-color: #24c627;
+  }
+
+  .cus-search {
+    top: 4px;
+    right: 28px;
+  }
+
   #myBtn {
-      display: none; 
+    /* display: none;  */
     position: fixed;
     bottom: 20px;
     right: 30px;
@@ -783,3 +776,62 @@ margin: 0px !important;
   .click-color {
     background-color: #ddd;
 }
+
+/* Lead Modal */
+
+.customizer {
+    width: 400px;
+    right: -400px;
+    padding: 0;
+    background-color: #fff;
+    z-index: 1051;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    height: 100vh;
+    transition: right 0.4s cubic-bezier(0.05, 0.74, 0.2, 0.99);
+    backface-visibility: hidden;
+    border-left: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-lead {
+        right: 0;
+    }
+  
+    .customizer-content {
+      position: relative;
+      height: 100%;
+    }
+  
+    a.customizer-toggle {
+      background: #fff;
+      color: theme-color("primary");
+      display: block;
+      box-shadow: -3px 0px 8px rgba(0, 0, 0, 0.1);
+    }
+  
+    a.customizer-close {
+      color: #000;
+    }
+  
+    .customizer-close {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      padding: 7px;
+      width: auto;
+      z-index: 10;
+    }
+  
+    .customizer-toggle {
+      position: absolute;
+      top: 35%;
+      width: 54px;
+      height: 50px;
+      left: -54px;
+      text-align: center;
+      line-height: 50px;
+      cursor: pointer;
+    }
+  

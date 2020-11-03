@@ -28,12 +28,12 @@ export class QueryModelComponent implements OnInit {
   queryModalForm: FormGroup;
   queryModelLov: any = {};
   labels: any = {};
-  collateralId: number = 1;
   userId: string;
+
+  isShowLeadModal: boolean;
 
   leadSectionData: any;
   leadId: number = 0;
-  associatedWith: number = 1;
   chatList: any = [];
 
   isDirty: boolean;
@@ -61,15 +61,21 @@ export class QueryModelComponent implements OnInit {
   };
 
   queryLeads: any = [];
-  documents: any = []
+  getLeadsObj: any = {};
+  documents: any = [];
 
   getLeadSendObj = {
     currentPage: null,
-    perPage: 10,
+    perPage: 100,
     searchKey: '',
+    chatPerPage: 100,
+    chatCurrentPage: null,
+    chatSearchKey: ''
   }
 
   selectedList: any;
+  totalPages: any = 1;
+  chatTotalPages: number = 1;
 
   constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService, private commonLovService: CommomLovService, private router: Router,
     private labelsData: LabelsService, private uploadService: UploadService, private queryModelService: QueryModelService, private toasterService: ToasterService,
@@ -106,29 +112,43 @@ export class QueryModelComponent implements OnInit {
     });
   }
 
-  changeEvent() {
+  loadMorePage(event, length, chatSearchKey) {
+
+    console.log(this.getLeadsObj.chatTotalPages, 'chatTotalPages', this.chatTotalPages)
+
+    if (this.getLeadsObj.chatTotalPages > this.chatTotalPages) {
+
+      this.getLeadSendObj = {
+        currentPage: null,
+        perPage: 10,
+        searchKey: '',
+        chatPerPage: length + 10,
+        chatCurrentPage: this.chatTotalPages + 1,
+        chatSearchKey: chatSearchKey
+      }
+      this.chatTotalPages = this.getLeadSendObj.chatCurrentPage;
+      console.log('Before Lead', this.getLeadSendObj)
+      this.getLeads(this.getLeadSendObj)
+    }
+    console.log(this.getLeadSendObj, 'Afer')
 
   }
 
-  onSelectingList(selectedList) {
-    // if (!this.selectedList) {
-    // }
-  }
-
-  getLeads(sendObj, searchKey?: string) {
+  getLeads(sendObj, chatSearchKey?: string, searchKey?: string) {
 
     let data = {
       "userId": this.userId,
-      "currentPage": null,
-      "perPage": 500,
-      "searchKey": searchKey ? searchKey : '',
-      "chatPerPage": 10,
-      "chatCurrentPage": null,
-      "chatSearchKey": searchKey ? searchKey : ''
+      "currentPage": sendObj.currentPage,
+      "perPage": sendObj.perPage,
+      "searchKey": searchKey,
+      "chatPerPage": sendObj.chatPerPage,
+      "chatCurrentPage": sendObj.chatCurrentPage,
+      "chatSearchKey": chatSearchKey
     }
 
     this.queryModelService.getLeads(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        this.getLeadsObj = res.ProcessVariables;
         this.chatList = res.ProcessVariables.chatLeads ? res.ProcessVariables.chatLeads : [];
         this.getQueries(this.chatList[0])
         this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
@@ -154,12 +174,6 @@ export class QueryModelComponent implements OnInit {
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Users')
       }
     })
-  }
-
-  getDocumentDetails() {
-    this.uploadService
-      .getDocumentDetails(this.collateralId, this.associatedWith)
-      .subscribe((value: any) => { });
   }
 
   backFromQuery() {
@@ -222,17 +236,12 @@ export class QueryModelComponent implements OnInit {
   }
 
   myDateParser(dateStr: string): string {
-
     let date = dateStr.substring(0, 10);
     let time = dateStr.substring(11, 16);
     let millisecond = dateStr.substring(17, 19)
 
     let validDate = date + 'T' + time + ':' + millisecond;
     return validDate
-  }
-
-  topFunction() {
-
   }
 
   getvalue(enteredValue: string) {
@@ -283,24 +292,20 @@ export class QueryModelComponent implements OnInit {
 
   mouseEnter() {
     this.dropDown = true;
-    // this.isLeadShow = false;
     this.searchLead = this.queryModelLov.queryTo;
   }
 
   mouseLeave() {
     this.dropDown = false;
-    // this.isLeadShow = false;
   }
 
   mouseLeaveLeadId() {
-    // this.dropDown = false;
     this.isLeadShow = false;
   }
 
   mouseleadIdEnter() {
     this.getSearchableLead = this.queryLeads;
     this.isLeadShow = true;
-    // this.dropDown = false;
   }
 
   onFormSubmit(form) {
@@ -466,6 +471,14 @@ export class QueryModelComponent implements OnInit {
     };
   }
 
+  onCustomizerClose() {
+    this.isShowLeadModal = false;
+  }
+
+  onCustomizerOpen() {
+    this.isShowLeadModal = true;
+  }
+
   getDownloadXlsFile(base64: string, fileName: string, type) {
     const contentType = type;
     const blob1 = this.base64ToBlob(base64, contentType);
@@ -480,7 +493,6 @@ export class QueryModelComponent implements OnInit {
       a.download = fileName;
       a.click();
       window.URL.revokeObjectURL(blobUrl1);
-      // window.open(blobUrl1);
     });
   }
 
