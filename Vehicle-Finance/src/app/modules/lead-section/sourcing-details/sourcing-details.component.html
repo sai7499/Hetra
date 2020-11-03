@@ -112,6 +112,9 @@
               [notFoundTemplate]="notFoundTemplate" formControlName="sourcingCode"
               [placeHolder]="sourcingCodePlaceholder" [debounceTime]="400" [disabled]="isSourchingCode">
             </ng-autocomplete>
+            <div class="invalid-feedback" *ngIf="!isSourceCode" >
+              <div> Sourcing code required.</div>
+            </div>
             <ng-template #sourcingCodeTemplate let-item>
               <a [innerHTML]="item.value"></a>
             </ng-template>
@@ -135,6 +138,9 @@
               [notFoundTemplate]="notFoundTemplate" formControlName="dealerCode" [placeHolder]="'Dealer Code'"
               [debounceTime]="400" [disabled]="isDisabledDealerCode">
             </ng-autocomplete>
+            <div class="invalid-feedback" >
+              <div *ngIf="isDealerCode"> Dealer code required.</div>
+            </div>
             <ng-template #dealerCodeTemplate let-item>
               <a [innerHTML]="item.dealorName"></a>
             </ng-template>
