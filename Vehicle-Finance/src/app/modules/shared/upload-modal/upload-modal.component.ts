@@ -51,6 +51,7 @@ export class UploadModalComponent {
   async onFileSelect(event) {
     this.showError = '';
     const files: File = event.target.files[0];
+    console.log(files, 'Files')
     if (!files.type) {
       const type = files.name.split('.')[1];
       this.fileType = this.getFileType(type);
@@ -244,7 +245,7 @@ export class UploadModalComponent {
           const documentDetails: DocumentDetails = {
             documentId: this.docsDetails.documentId,
             documentType: String(this.docsDetails.docTypCd),
-            documentName: String(this.docsDetails.docTypCd),
+            documentName: String(this.docsDetails.docNm),
             documentNumber: this.docsDetails.documentNumber,
             dmsDocumentId: value.docIndx,
             categoryCode: String(this.docsDetails.docCtgryCd),
@@ -273,6 +274,7 @@ export class UploadModalComponent {
             documentDetails.imageUrl = this.imageUrl;
             documentDetails.docsTypeForString = this.docsDetails.docsTypeForString;
           }
+          documentDetails['fileName'] = this.fileName;
           this.uploadSuccess.emit(documentDetails);
           this.imageUrl = '';
           this.fileName = '';
