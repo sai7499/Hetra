@@ -55,6 +55,7 @@ import { NumberOnlyDirective } from './services/directives/number-only.directive
 import { LettersOnlyDirective } from './services/directives/letters-only.directive';
 import { CanActivateService } from '@services/can-activate.service';
 import { DisbursementSectionModule } from '@modules/disbursement-section/disbursement-section.module';
+import { ChildLoanModule } from '@modules/child-loan/child-loan.module';
 
 setTheme('bs4');
 
@@ -97,7 +98,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     AutocompleteLibModule,
     CreditConditionModule,
     // DateInputsModule,
-    DatePickerModule
+    DatePickerModule,
+    ChildLoanModule
   ],
   providers: [
     HTTP,
