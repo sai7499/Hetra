@@ -141,6 +141,7 @@ thead tr td.text-left{
 .table-top-bg{
   background-color:  #1d1a4b;
     color: #fff;
+    font-size:13px
     
 }
 
@@ -200,7 +201,7 @@ display: none;
   visibility: hidden;
 }
 .tab-details p{
-  font-size:10px;
+  font-size:12px;
 }
 
 
@@ -213,7 +214,7 @@ display: none;
   background-color:  #1d1a4b;
     color: #fff;
     font-weight: 200;
-    font-size:10px!important;
+    font-size:13px!important;
 }
 
 .flex-container {
@@ -247,6 +248,12 @@ p-0{
 
 .ekyc-to-print{
   padding: 10px 35px;
+}
+
+.tab-content td{
+
+  font-size:12px!important;
+
 }
 
  @media (min-width:260px) and (max-width:768px){
@@ -368,6 +375,19 @@ p-0{
    
    } 
 
+   .tab-content td{
+
+    font-size:12px!important;
+  
+  }
+
+  .p-0{
+    padding:0px!important;
+  }
+
+  .tab_details p {
+    font-size:13px!important;
+  }
   /* .dontdisplayed .content-two {
     background: #fff;
     padding: 5px 16px!important;
