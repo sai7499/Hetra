@@ -28,6 +28,7 @@ import { DraggableComponent } from './draggable-container/draggable-container.co
 import { ApplicantDocsUploadComponent } from './applicant-docs-upload/applicant-docs-upload.component';
 import { ApplicantKycDetailsComponent } from './applicant-kyc-details/applicant-kyc-details.component';
 import { PddComponent } from './pdd-screen/pdd.component';
+import { UploadDiscussionComponent } from './upload-discussion/upload-discussion.component';
 
 import {
   BsDatepickerModule,
@@ -68,7 +69,8 @@ setTheme('bs4');
     ApplicantKycDetailsComponent,
     PageRedirectModalComponent,
     ReferenceComponent,
-    PddComponent
+    PddComponent,
+    UploadDiscussionComponent
   ],
   imports: [
     CommonModule,
@@ -107,7 +109,8 @@ setTheme('bs4');
     RejectReasonModalComponent,
     PageRedirectModalComponent,
     ReferenceComponent,
-    PddComponent
+    PddComponent,
+    UploadDiscussionComponent
   ],
 })
 export class SharedModule { }
