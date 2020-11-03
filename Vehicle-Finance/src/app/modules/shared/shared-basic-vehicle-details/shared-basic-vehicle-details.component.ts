@@ -28,6 +28,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   disableSaveBtn: boolean;
 
   maxDate = new Date();
+  maxPreviousDate = this.maxDate.setDate(this.maxDate.getDate() - 1)
   initalZeroCheck = [];
   eligibleLoanAmount: any = 0;
 
@@ -467,6 +468,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       ownerMobileNo: VehicleDetail.ownerMobileNo || null,
       address: VehicleDetail.address || '',
       pincode: VehicleDetail.pincode || null,
+      expectedNOCDate:  VehicleDetail.expectedNOCDate ? this.utilityService.getDateFromString(VehicleDetail.expectedNOCDate) : '',
       vehicleUsage: VehicleDetail.vehicleUsage,
       ageAfterTenure: VehicleDetail.ageAfterTenure || null,
       assetCostGrid: VehicleDetail.assetCostGrid || null,
@@ -477,7 +479,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   onVehicleRegion(value: any, obj) {
     const region = value ? value : '';
     let assetMakeArray = [];
-    console.log('obj in vehRegion', obj);
     const data = {
       "region": region,
       "productCategory": this.productCatoryCode
@@ -970,9 +971,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     let date = this.utilityService.convertDateTimeTOUTC(new Date(event), 'DD/MM/YYYY')
 
     let maxConvertDate = this.utilityService.convertDateTimeTOUTC(this.maxDate, 'DD/MM/YYYY')
-
-    console.log(event, 'event')
-    console.log(this.maxDate, 'maxDate')
 
     if (date < maxConvertDate) {
       this.isMaxDate = true
