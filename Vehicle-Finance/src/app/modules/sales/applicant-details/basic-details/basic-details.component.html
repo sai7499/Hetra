@@ -376,10 +376,12 @@
               <app-custom-input
                 formControlName="fatherName"
                 [maxLength]="validationData?.fullName?.maxLength"
-                [isDirty]="isDirty"
-                [isRequired]="isRequiredFather"
+                
+                
                 [type]="validationData?.fullName?.type"
               ></app-custom-input>
+              <!-- [isDirty]="isDirty"
+              [isRequired]="isRequiredFather" -->
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
               <label for="spouse_name"
@@ -396,10 +398,12 @@
               <app-custom-input
                 formControlName="spouseName"
                 [maxLength]="validationData?.fullName?.maxLength"
-                [isRequired]="isRequiredSpouse"
-                [isDirty]="isDirty"
+               
+               
                 [type]="validationData?.fullName?.type"
               ></app-custom-input>
+              <!-- [isDirty]="isDirty"
+              [isRequired]="isRequiredSpouse" -->
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
               <label for="maiden_name"

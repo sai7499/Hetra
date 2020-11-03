@@ -59,7 +59,7 @@ export class ReferenceComponent implements OnInit {
   isDirty: boolean;
   refOneId: any;
   refTwoId: any;
-  responseData: any;
+  responseData: any = [];
   mobileOneErrorMsg: string;
   mobileTwoErrorMsg: string;
   isMobileOneErrorMsg: boolean;
@@ -388,7 +388,7 @@ export class ReferenceComponent implements OnInit {
           if (appiyoError === '0' && apiError === '0') {
             console.log('FetchApplicantReference', response.ProcessVariables);
             this.responseData = response.ProcessVariables.ApplicantReference;
-            if (!this.responseData) { return; }
+            if (this.responseData != null && this.responseData.length >0){
             this.refOneId = response.ProcessVariables.ApplicantReference[0].id;
             this.refTwoId = response.ProcessVariables.ApplicantReference[1].id;
             console.log('refID', this.refOneId, this.refTwoId);
@@ -430,7 +430,7 @@ export class ReferenceComponent implements OnInit {
 
             this.refTwofirstName = `${this.responseData[1].firstName}`;
             this.refTwomiddleName = `${(this.responseData[1].middleName == null) ? '' : this.responseData[1].middleName}`;
-
+          }
             this.apiValue = this.referenceForm.getRawValue();
           } else {
             const message = response.ProcessVariables.error.message;
