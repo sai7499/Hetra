@@ -736,9 +736,15 @@ margin: 0px !important;
         max-height: 634px;
     overflow-y:auto;
     }
-    
+
+        
   .panel-group{
       margin-bottom:10px!important;
+  }
+
+
+  .document-box::-webkit-scrollbar {
+    display: none;
   }
 
   #myBtn {
@@ -773,3 +779,7 @@ margin: 0px !important;
       color:green;
       cursor:pointer;
   }
+
+  .click-color {
+    background-color: #ddd;
+}

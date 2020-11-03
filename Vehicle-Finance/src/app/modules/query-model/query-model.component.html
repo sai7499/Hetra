@@ -28,7 +28,7 @@
                     <div class="small" (click)="getQueries(chat)">
                       <p class="mar-em">{{chat.key}}</p>
                     </div>
-                    <div class="">
+                    <div class="divs">
                       <p class="mar-em">{{chat.value}}</p>
                     </div>
 
@@ -79,7 +79,7 @@
                   </div>
                 </div>
 
-                <div class="panel panel-default">
+                <div class="panel panel-default ">
                   <div class="panel-heading" id="headingTwo">
                     <h4 class="panel-title">
                       <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
@@ -90,15 +90,15 @@
                   <div id="collapseTwo" class="panel-collapse collapse">
                     <div class="panel-body">
                       <form>
-                        <div class="form-group col-xs-12">
-                          <div class="input-group">
+                        <div class="form-group col-xs-12 bloc">
+                          <div class="input-group bloc-search">
                             <input type="text" class="form-control" placeholder="Search">
-                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                            <span class="input-group-addon "><i class="fa fa-search"></i></span>
                           </div>
                         </div>
                       </form>
-                      <div class="document-shared-list">
-                        <div *ngFor="let document of documents">
+                      <div class="document-shared-list document-box">
+                        <div class="document-box" *ngFor="let document of documents">
                           <p *ngIf="document.docId"><a>ID: {{document.docId}} - {{document.docName}}</a></p>
                         </div>
                       </div>
