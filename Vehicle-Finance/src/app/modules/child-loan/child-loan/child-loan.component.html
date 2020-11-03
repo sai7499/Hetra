@@ -1,0 +1,146 @@
+<main class="mar-top90">
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-md-6">
+        <h3 class="margin_zero">Create Child Loan</h3>
+      </div>
+      <div class="col-md-6 text-right"></div>
+    </div>
+
+    <div class="content">
+      <form >
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="business_division">UCIC<sub class="star_red_col">*</sub>
+            </label>
+            <app-custom-input
+              [className]="'form-control mandatory'"
+              [placeholder]="'UCIC'"              
+              [isRequired]="'Contact Number mandatory'"              
+              [type]="'number'">
+            </app-custom-input>
+          </div>
+
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="product_type">Loan account no.
+              <sub class="star_red_col">*</sub></label>
+              <app-custom-input
+              [className]="'form-control mandatory'"
+              [placeholder]="'Loan account no.'"              
+              [isRequired]="'Contact Number mandatory'"              
+              [type]="'number'">
+            </app-custom-input>
+          </div>
+
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="product_type">Vehicle registration no.
+              <sub class="star_red_col">*</sub></label>
+              <app-custom-input
+              [className]="'form-control mandatory'"
+              [placeholder]="'Vehicle registration no.'"              
+              [isRequired]="'Contact Number mandatory'"              
+              [type]="'number'">
+            </app-custom-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="business_division">Name<sub class="star_red_col">*</sub>
+            </label>
+            <app-custom-input
+              [className]="'form-control mandatory'"
+              [placeholder]="'Name'"              
+              [isRequired]="'Contact Number mandatory'"              
+              [type]="'number'">
+            </app-custom-input>
+          </div>
+
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="product_type">Mobile
+              <sub class="star_red_col">*</sub></label>
+              <app-custom-input
+              [className]="'form-control mandatory'"
+              [placeholder]="'Mobile'"              
+              [isRequired]="'Contact Number mandatory'"              
+              [type]="'number'">
+            </app-custom-input>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="business_division">Aadhaar<sub class="star_red_col">*</sub>
+            </label>
+            <app-custom-input
+              [className]="'form-control mandatory'"
+              [placeholder]="'Aadhaar'"              
+              [isRequired]="'Contact Number mandatory'"              
+              [type]="'number'">
+            </app-custom-input>
+          </div>
+
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="product_type">Pan
+              <sub class="star_red_col">*</sub></label>
+              <app-custom-input
+              [className]="'form-control mandatory'"
+              [placeholder]="'Pan'"              
+              [isRequired]="'Contact Number mandatory'"              
+              [type]="'number'">
+            </app-custom-input>
+          </div>
+          <div class="btn-sec clear-both">
+            <div class="col-sm-12 text-right">
+              <button type="button" class="btn btn-primary" value="submit" (click)="isSearched = true" >
+                Search
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="content" *ngIf="isSearched">
+    <div class="container-fluid">
+      <div class="row">
+        <div id="wrapper">
+          <table>
+            <thead>
+              <tr class="table-head-bg">
+                <th>Select <i class="fa fa-sort"></i></th>
+                <th>Applicant Name <i class="fa fa-sort"></i></th>
+                <th>Loan Tenure <i class="fa fa-sort"></i></th>
+                <th>Balance Tenure <i class="fa fa-sort"></i></th>
+                <th>Loan Amount <i class="fa fa-sort"></i></th>
+                <th>Balance Amount <i class="fa fa-sort"></i></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td align="center" [attr.data-label]="'Select'">
+                  <input class="checkbox" type="radio" name="selectLead"/>
+                </td>
+                <!-- <td align="center"><input type="radio" name="radio-207" value="howtomeasure" style="botton:0px"> </td> -->
+                <td [attr.data-label]="'Applicant Name'">Applicant Name</td>
+                <td [attr.data-label]="'Loan Tenure'">24</td>
+                <td [attr.data-label]="'Balance Tenure'">8</td>
+                <td [attr.data-label]="'Loan Amount'">2000000</td>
+                <td [attr.data-label]="'Balance Amount'">650000</td>                
+              </tr>
+            </tbody>
+          </table>
+          <div class="btn-sec clear-both btn-mar-reject">
+            <div class="text-center">
+              <button  class="btn btn-primary js-btn-next mar-right8" id="reject_button"
+                type="button" data-toggle="modal" data-target="#proceedModal_without">
+                Create Child Loan
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</main>
