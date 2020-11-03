@@ -22,9 +22,9 @@
 
               <br /><br />
               <div class="panel-group mar-20 scroll-box row" id="scrollBox">
-                <div class="panel-group mar-20" id="accordion"
-                  *ngFor="let chat of chatList; let i=index; let last=last">
-                  <div class="flex-container" #myBtn>
+                <div class="panel-group mar-20" id="accordion" *ngFor="let chat of chatList; let i=index; let last=last"
+                  [ngClass]="selectedList === chat ? 'selected-back' : ''">
+                  <div class="flex-container">
                     <div class="small" (click)="getQueries(chat)">
                       <p class="mar-em">{{chat.key}}</p>
                     </div>
@@ -37,8 +37,8 @@
                   </div>
                   <hr>
                 </div>
-                <div id="loadMore" (click)="changeEvent()">Load more</div>
-                <div *ngIf="chatList.length === 0">
+                <div id="loadMore" (click)="changeEvent()" *ngIf="chatList.length >= 5">Load more</div>
+                <div class="empty-list" *ngIf="chatList.length === 0">
                   No such field in leadlist
                 </div>
 

@@ -69,6 +69,8 @@ export class QueryModelComponent implements OnInit {
     searchKey: '',
   }
 
+  selectedList: any;
+
   constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService, private commonLovService: CommomLovService, private router: Router,
     private labelsData: LabelsService, private uploadService: UploadService, private queryModelService: QueryModelService, private toasterService: ToasterService,
     private utilityService: UtilityService, private draggableContainerService: DraggableContainerService, private base64StorageService: Base64StorageService,
@@ -108,6 +110,11 @@ export class QueryModelComponent implements OnInit {
 
   }
 
+  onSelectingList(selectedList) {
+    // if (!this.selectedList) {
+    // }
+  }
+
   getLeads(sendObj, searchKey?: string) {
 
     let data = {
@@ -123,6 +130,7 @@ export class QueryModelComponent implements OnInit {
     this.queryModelService.getLeads(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.chatList = res.ProcessVariables.chatLeads ? res.ProcessVariables.chatLeads : [];
+        this.getQueries(this.chatList[0])
         this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
       } else {
         this.chatList = []
@@ -170,13 +178,7 @@ export class QueryModelComponent implements OnInit {
       leadId: Number(lead.key),
     })
 
-    // this.renderer.addClass('flex-container',"selected-back");
-    //     addClass(el, name) { el.classList.add(name); }
-    this.renderer.setStyle(this.selectclass.nativeElement, 'backgroundColor', 'red');
-
-
-    // const el = this.selectclass.nativeElement.querySelector()
-    // this.renderer.addClass(this.selectclass.nativeElement.querySelector('.flex-container'), 'selected-back');
+    this.selectedList = lead;
 
     if (this.queryModalForm.value.leadId) {
       this.getLeadSectionData(this.queryModalForm.value.leadId)
