@@ -253,6 +253,7 @@ export class LoanDetailsComponent implements OnInit {
       this.insDisabled = false;
       this.loanDetailsForm.get('insuranceValidity').enable();
       this.loanDetailsForm.get('insuranceValidity').setValidators(Validators.required);
+      this.loanDetailsForm.get('insuranceValidity').updateValueAndValidity();
     } else if (this.insuranceStatus !== '1') {
       this.insRequired = false;
       this.insDisabled = true;
