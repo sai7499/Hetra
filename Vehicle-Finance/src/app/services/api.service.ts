@@ -878,6 +878,11 @@ export class ApiService {
       processId: '050da46e0ae811eb98c300505695f93b',
       workflowId: '04ebd41a0ae811eb8b7100505695f93b',
       projectId : environment.projectIds.reinitiatePdApi,
+    },
+    sendBackToSales:{
+      processId: '7a0640be1a7911eb9ca100505695f93b',
+      workflowId: '79d8aae61a7911eb9fe400505695f93b',
+      projectId : environment.projectIds.submitToCredit,
     }
   };
 }

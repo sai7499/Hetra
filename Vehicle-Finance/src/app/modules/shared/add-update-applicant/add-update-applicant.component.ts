@@ -716,7 +716,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     } else {
       this.showApplicantAddCheckBox = false;
     }
-
+  if(this.applicantData){
     this.applicantData.forEach((data) => {
       if (data.applicantId !== this.applicantId) {
         if (data.applicantTypeKey == "APPAPPRELLEAD" && data.applicantTypeKey === value) {
@@ -731,6 +731,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       // }
     });
 
+  }
+    
   }
 
   getPanValue(event?: any) {
@@ -1556,6 +1558,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   getDetails() {
     const details: any = {};
+  
     if (this.applicantType === Constant.ENTITY_INDIVIDUAL_TYPE) {
       const indivIdentityInfoDetails = this.applicant.indivIdentityInfoDetails
         ? this.applicant.indivIdentityInfoDetails
@@ -1570,6 +1573,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       details.pan = indivIdentityInfoDetails.pan;
       details.aadhar = indivIdentityInfoDetails.aadhar;
       details.mobile = aboutIndivProspectDetails.mobilePhone;
+
+     
       details.panType = indivIdentityInfoDetails.panType;
       details.voterIdNumber = indivIdentityInfoDetails.voterIdNumber;
       if (aboutIndivProspectDetails.dob) {
@@ -1784,6 +1789,17 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       mobile = mobile.slice(2, 12);
     }
     this.mobileNumber = mobile;
+    // const dedupeValues= this.applicantDataService.getDedupeValues();
+    // console.log('dedupeValues', dedupeValues)
+    // if(dedupeValues){
+    //      if(dedupeValues['entityType']=== "INDIVENTTYP" && dedupeValues['mobileNumber'] !== mobile){
+    //       this.dedupeMobile=true;
+    //      }else{
+    //       this.dedupeMobile=false;
+    //      }
+    // }else{
+    //   this.dedupeMobile=false;
+    // }
     this.successSrValue = applicantValue.applicantDetails.srNumber;
     this.validateSrBoolean = this.storeSRNumber ? true : false;
     this.coApplicantForm.patchValue({ srNumber: applicantValue.applicantDetails.srNumber })

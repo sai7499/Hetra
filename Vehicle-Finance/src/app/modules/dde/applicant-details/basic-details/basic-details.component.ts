@@ -661,8 +661,8 @@ export class BasicDetailsComponent implements OnInit {
       emiAffordability: aboutIndivProspectDetails.emiAffordability || '',
       equitasEmployeeNumber: aboutIndivProspectDetails.equitasEmployeeNumber || ''
     });
-    this.clearFatherOrSpouseValidation();
-    this.eitherFathOrspouse();
+    //this.clearFatherOrSpouseValidation();
+    //this.eitherFathOrspouse();
   }
 
   setValuesForNonIndividual() {
@@ -807,8 +807,8 @@ export class BasicDetailsComponent implements OnInit {
       minorGuardianName: new FormControl('', Validators.required),
       minorGuardianRelation: new FormControl('', Validators.required),
 
-      fatherName: new FormControl('', Validators.required),
-      spouseName: new FormControl('', Validators.required),
+      fatherName: new FormControl(''),
+      spouseName: new FormControl(''),
       motherMaidenName: new FormControl(null, Validators.required),
       occupation: new FormControl('', Validators.required),
       nationality: new FormControl('', Validators.required),
@@ -1287,14 +1287,14 @@ export class BasicDetailsComponent implements OnInit {
       })
     }
 
-    if (this.showSalaried) {
-      const designation = details.get('designation').value;
-      const employerType = details.get('employerType').value
-      details.patchValue({
-        designation: designation,
-        employerType: employerType
-      })
-    }
+    // if (this.showSalaried) {
+    //   const designation = details.get('designation').value;
+    //   const employerType = details.get('employerType').value
+    //   details.patchValue({
+    //     designation: designation,
+    //     employerType: employerType
+    //   })
+    // }
 
     if (this.showSelfEmp) {
       const businessType = details.get('businessType').value;
@@ -1303,8 +1303,10 @@ export class BasicDetailsComponent implements OnInit {
       })
     }
 
+    
+    this.isDirty = true;
     if (this.basicForm.invalid) {
-      this.isDirty = true;
+      
       this.toasterService.showError(
         'Please fill all mandatory fields.',
         'Applicant Details'
@@ -1313,6 +1315,9 @@ export class BasicDetailsComponent implements OnInit {
       return;
 
     }
+    
+
+  
 
     if (this.showNotApplicant) {
 
@@ -1322,6 +1327,17 @@ export class BasicDetailsComponent implements OnInit {
     }
 
     if (this.isIndividual) {
+
+      const fatherName= details.get('fatherName').value
+    const spouseName= details.get('spouseName').value
+    if(!fatherName && !spouseName){
+      this.toasterService.showInfo(
+        'Please enter either father name or spouse name',
+        ''
+      );
+      return;
+    }
+
 
       const formValueData = value.details[0];
 

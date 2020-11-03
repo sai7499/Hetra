@@ -231,12 +231,10 @@
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="final_asset_cost"> {{ label.finalAssetCost }} <sub class="star_red_col">*</sub>
-                        </label>
+                        <label for="final_asset_cost"> {{ label.finalAssetCost }}</label>
 
                         <app-custom-input formControlName="finalAssetCost" [className]="'form-control mandatory'"
-                            [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'"
-                            [isRequired]="'Final Asset Cost Required'" [isDirty]="isDirty" [isDisabled]="true">
+                            [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'" [isDisabled]="true">
                         </app-custom-input>
 
                     </div>
@@ -441,34 +439,6 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
-                            </label>
-
-                            <app-custom-input formControlName="exShowRoomCost"
-                                [type]="label.validationData?.amountValue.type" [id]="'ex_showroom_price'"
-                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
-                                [className]="'form-control mandatory'" [isRequired]="'Ex Showroom Cost Required'"
-                                [isDirty]="isDirty" [maxLength]="label.validationData?.amountValue.maxLength"
-                                [placeholder]="'Ex Showroom Cost'">
-                            </app-custom-input>
-                            <!-- (keyup)="onPatchFinalAssetCost($event.target.value)" -->
-
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="final_asset_cost">{{label.finalAssetCost}} <sub class="star_red_col">*</sub>
-                            </label>
-                            <app-custom-input formControlName="finalAssetCost" [className]="'form-control mandatory'"
-                                [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'"
-                                [isRequired]="'Final Asset Cost Required'" [isDirty]="isDirty" [isDisabled]="true">
-                            </app-custom-input>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="dealer_subvention_applicable">{{label.dealerSubventionApplicable}}</label>
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue"
                                 [id]="'dealer_subvention_applicable'" formControlName="dealerSuventionApproval">
@@ -486,6 +456,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_irr">{{label.dealerSubventionIRR}}</label>
 
@@ -496,10 +470,6 @@
                             </app-custom-input>
 
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_finance">{{label.dealerSubventionFinance}}</label>
@@ -520,6 +490,10 @@
                             </app-vf-custom-select>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_amount">{{label.manufacturerSubventionAmount}}</label>
 
@@ -530,10 +504,6 @@
                             </app-custom-input>
 
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_irr">{{label.manufacturerSubventionIRR}}</label>
@@ -558,6 +528,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
 
@@ -568,10 +542,6 @@
                                 [inputClass]="'input-upper'">
                             </app-custom-input>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_date">{{label.proformaInvoiceDate}} </label>
@@ -598,6 +568,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="gross_vehicle_weight">{{label.grossVehicleWeight}}</label>
 
@@ -609,10 +583,6 @@
                             </app-custom-input>
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
                             <label for="orp_funding">{{label.orpFunding}} </label>
                             <app-vf-custom-select [id]="'orp_funding'" [values]="vehicleLov?.YesORNoValue"
@@ -621,14 +591,34 @@
                             </app-vf-custom-select>
                         </div>
 
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
+                            </label>
+
+                            <app-custom-input formControlName="exShowRoomCost"
+                                [type]="label.validationData?.amountValue.type" [id]="'ex_showroom_price'"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
+                                [className]="'form-control mandatory'" [isRequired]="'Ex Showroom Cost Required'"
+                                [isDirty]="isDirty" [maxLength]="label.validationData?.amountValue.maxLength"
+                                [placeholder]="'Ex Showroom Cost'">
+                            </app-custom-input>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="insurance">{{label.insurance}} </label>
+                            <label for="insurance">{{label.insurance}} <sub class="star_blue_col">*</sub> </label>
 
                             <app-custom-input formControlName="insurance"
                                 (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [type]="label.validationData?.amountValue.type" [id]="'insurance'"
                                 [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
-                                [placeholder]="'Insurance'">
+                                [placeholder]="'Insurance'"
+                                [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'Insurance Required'"
+                                [isDirty]="isDirty">
                             </app-custom-input>
 
                         </div>
@@ -640,9 +630,59 @@
                                 [type]="label.validationData?.amountValue.type" [id]="'one_time_tax'"
                                 (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
-                                [placeholder]="'One Time Tax'">
+                                [placeholder]="'One Time Tax'"
+                                [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'One Time Tax Required'"
+                                [isDirty]="isDirty">
                             </app-custom-input>
 
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
+                            <label for="others">{{label.others}} </label>
+
+                            <app-custom-input formControlName="others" [id]="'others'"
+                                [type]="label.validationData?.amountValue.type" [className]="'form-control'"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
+                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Others'"
+                                [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'Others Required'"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
+                            <label for="discount">{{label.discount}} </label>
+
+                            <app-custom-input formControlName="discount" [type]="label.validationData?.amountValue.type"
+                                [id]="'discount'" [className]="'form-control'"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
+                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Discount'"
+                                [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'Discount Required'"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+
+                            <div class="invalid-feedback"
+                                *ngIf="basicVehicleForm.controls['isVaildFinalAssetCost'].value === false">
+                                Discount should not greater than Ex show room price
+                            </div>
+
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="final_asset_cost">{{label.finalAssetCost}}</label>
+                            <app-custom-input formControlName="finalAssetCost" [className]="'form-control mandatory'"
+                                [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'" [isDisabled]="true">
+                            </app-custom-input>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
+                            <label for="fast_tag">{{label.fastTag}} </label>
+                            <app-vf-custom-select [id]="'fast_tag'" [values]="vehicleLov?.YesORNoValue"
+                                formControlName="fastTag">
+                            </app-vf-custom-select>
                         </div>
 
                     </div>
@@ -670,42 +710,6 @@
                             </app-vf-custom-select>
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
-                            <label for="fast_tag">{{label.fastTag}} </label>
-                            <app-vf-custom-select [id]="'fast_tag'" [values]="vehicleLov?.YesORNoValue"
-                                formControlName="fastTag">
-                            </app-vf-custom-select>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
-                            <label for="others">{{label.others}} </label>
-
-                            <app-custom-input formControlName="others" [id]="'others'"
-                                [type]="label.validationData?.amountValue.type" [className]="'form-control'"
-                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
-                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Others'">
-                            </app-custom-input>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
-                            <label for="discount">{{label.discount}} </label>
-
-                            <app-custom-input formControlName="discount" [type]="label.validationData?.amountValue.type"
-                                [id]="'discount'" [className]="'form-control'"
-                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
-                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Discount'">
-                            </app-custom-input>
-
-                            <div class="invalid-feedback"
-                                *ngIf="basicVehicleForm.controls['isVaildFinalAssetCost'].value === false">
-                                Discount should not greater than Ex show room price
-                            </div>
-
-                        </div>
                     </div>
 
                     <div class="row">
@@ -819,32 +823,6 @@
                             </app-vf-custom-select>
                         </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
-                            </label>
-                            <app-custom-input formControlName="exShowRoomCost"
-                                [type]="label.validationData?.amountValue.type" [id]="'ex_showroom_price'"
-                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
-                                [className]="'form-control mandatory'" [isRequired]="'Ex Showroom Cost Required'"
-                                [isDirty]="isDirty" [maxLength]="label.validationData?.amountValue.maxLength"
-                                [placeholder]="'Ex Showroom Cost'">
-                            </app-custom-input>
-
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="final_asset_cost">{{label.finalAssetCost}} <sub class="star_red_col">*</sub>
-                            </label>
-                            <app-custom-input formControlName="finalAssetCost" [className]="'form-control mandatory'"
-                                [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'"
-                                [isRequired]="'Final Asset Cost Required'" [isDirty]="isDirty" [isDisabled]="true">
-                            </app-custom-input>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_use">
                             <label for="vechical_usage"> {{ label.vechicleUsage }} <sub class="star_red_col">*</sub>
                             </label>
@@ -863,6 +841,10 @@
                             </app-vf-custom-select>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_amount">{{label.dealerSubventionAmount}}</label>
 
@@ -873,10 +855,6 @@
                             </app-custom-input>
 
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_irr">{{label.dealerSubventionIRR}}</label>
@@ -900,6 +878,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label
                                 for="manufacturer_subvention_applicable">{{label.manufacturerSubventionApplicable}}</label>
@@ -907,10 +889,6 @@
                                 [values]="vehicleLov?.YesORNoValue" formControlName="manufacSubventionApplicable">
                             </app-vf-custom-select>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_amount">{{label.manufacturerSubventionAmount}}</label>
@@ -932,6 +910,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_finance">{{label.manufacturerSubventionFinance}}</label>
                             <app-custom-input formControlName="manufacturesubventionPartFinCharge"
@@ -940,10 +922,6 @@
                                 [placeholder]="'Manufacturer Subvention Part of Finance Charges'">
                             </app-custom-input>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
@@ -967,6 +945,10 @@
                             </div>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}}</label>
                             <app-custom-input formControlName="invoiceAmount" [id]="'proforma_invoice_amount'"
@@ -976,10 +958,6 @@
                             </app-custom-input>
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
                             <label for="orp_funding">{{label.orpFunding}} </label>
                             <app-vf-custom-select [id]="'orp_funding'" [values]="vehicleLov?.YesORNoValue"
@@ -988,12 +966,30 @@
                             </app-vf-custom-select>
                         </div>
 
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
+                            </label>
+                            <app-custom-input formControlName="exShowRoomCost"
+                                [type]="label.validationData?.amountValue.type" [id]="'ex_showroom_price'"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
+                                [className]="'form-control mandatory'" [isRequired]="'Ex Showroom Cost Required'"
+                                [isDirty]="isDirty" [maxLength]="label.validationData?.amountValue.maxLength"
+                                [placeholder]="'Ex Showroom Cost'">
+                            </app-custom-input>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="insurance">{{label.insurance}} </label>
                             <app-custom-input formControlName="insurance" [id]="'insurance'"
                                 (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control'"
-                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Insurance'">
+                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Insurance'"
+                                [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'Insurance Required'"
+                                [isDirty]="isDirty">
                             </app-custom-input>
 
                         </div>
@@ -1003,12 +999,58 @@
                             <app-custom-input formControlName="oneTimeTax" [id]="'one_time_tax'"
                                 (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control'"
-                                [maxLength]="label.validationData?.amountValue.maxLength"
-                                [placeholder]="'One Time Tax'">
+                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'One Time Tax'"
+                                [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'One Time Tax Required'"
+                                [isDirty]="isDirty">
                             </app-custom-input>
 
                         </div>
 
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
+                            <label for="others">{{label.others}} </label>
+                            <app-custom-input formControlName="others" [type]="label.validationData?.amountValue.type"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
+                                [maxLength]="label.validationData?.amountValue.maxLength" [id]="'others'"
+                                [className]="'form-control'" [placeholder]="'Others'"
+                                [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'Others Required'"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
+                            <label for="discount">{{label.discount}} </label>
+                            <app-custom-input formControlName="discount" [type]="label.validationData?.amountValue.type"
+                                [id]="'discount'" [className]="'form-control'"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
+                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Discount'"
+                                [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'Discount Required'"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+
+                            <div class="invalid-feedback"
+                                *ngIf="basicVehicleForm.controls['isVaildFinalAssetCost'].value === false">
+                                Discount should not greater than Ex show room price
+                            </div>
+
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="final_asset_cost">{{label.finalAssetCost}} </label>
+                            <app-custom-input formControlName="finalAssetCost" [className]="'form-control mandatory'"
+                                [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'" [isDisabled]="true">
+                            </app-custom-input>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
+                            <label for="fast_tag">{{label.fastTag}} </label>
+                            <app-vf-custom-select [id]="'fast_tag'" [values]="vehicleLov?.YesORNoValue"
+                                formControlName="fastTag">
+                            </app-vf-custom-select>
+                        </div>
                     </div>
 
                     <div class="row">
@@ -1034,40 +1076,6 @@
                             </app-vf-custom-select>
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
-                            <label for="fast_tag">{{label.fastTag}} </label>
-                            <app-vf-custom-select [id]="'fast_tag'" [values]="vehicleLov?.YesORNoValue"
-                                formControlName="fastTag">
-                            </app-vf-custom-select>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
-                            <label for="others">{{label.others}} </label>
-                            <app-custom-input formControlName="others" [type]="label.validationData?.amountValue.type"
-                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
-                                [maxLength]="label.validationData?.amountValue.maxLength" [id]="'others'"
-                                [className]="'form-control'" [placeholder]="'Others'">
-                            </app-custom-input>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
-                            <label for="discount">{{label.discount}} </label>
-                            <app-custom-input formControlName="discount" [type]="label.validationData?.amountValue.type"
-                                [id]="'discount'" [className]="'form-control'"
-                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
-                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Discount'">
-                            </app-custom-input>
-
-                            <div class="invalid-feedback"
-                                *ngIf="basicVehicleForm.controls['isVaildFinalAssetCost'].value === false">
-                                Discount should not greater than Ex show room price
-                            </div>
-
-                        </div>
                     </div>
 
                     <div class="row">
@@ -1269,11 +1277,9 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="final_asset_cost"> {{ label.finalAssetCost }} <sub class="star_red_col">*</sub>
-                            </label>
+                            <label for="final_asset_cost"> {{ label.finalAssetCost }} </label>
                             <app-custom-input formControlName="finalAssetCost" [className]="'form-control mandatory'"
-                                [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'"
-                                [isRequired]="'Final Asset Cost Required'" [isDirty]="isDirty" [isDisabled]="true">
+                                [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'" [isDisabled]="true">
                             </app-custom-input>
                         </div>
 
@@ -1506,7 +1512,7 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="duplicate_rc">{{label.duplicateRC}} </label>
                             <app-vf-custom-select [id]="'duplicate_rc'" [values]="vehicleLov?.YesORNoValue"
-                                formControlName="duplicateRC">
+                                formControlName="duplicateRc">
                             </app-vf-custom-select>
                         </div>
 
@@ -1816,11 +1822,9 @@
                     <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="final_asset_cost"> {{ label.finalAssetCost }} <sub class="star_red_col">*</sub>
-                            </label>
+                            <label for="final_asset_cost"> {{ label.finalAssetCost }}</label>
                             <app-custom-input formControlName="finalAssetCost" [className]="'form-control mandatory'"
-                                [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'"
-                                [isRequired]="'Final Asset Cost Required'" [isDirty]="isDirty" [isDisabled]="true">
+                                [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'" [isDisabled]="true">
                             </app-custom-input>
                         </div>
 
@@ -2003,7 +2007,7 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="duplicate_rc">{{label.duplicateRC}}</label>
                             <app-vf-custom-select [id]="'duplicate_rc'" [values]="vehicleLov?.YesORNoValue"
-                                formControlName="duplicateRC">
+                                formControlName="duplicateRc">
                             </app-vf-custom-select>
                         </div>
 

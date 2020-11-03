@@ -73,6 +73,7 @@ export class TeleVerificationFormComponent implements OnInit {
     }
   };
   sourcingType: string;
+  reqLoanAmount: any;
 
   constructor(
     private fb: FormBuilder,
@@ -102,6 +103,7 @@ export class TeleVerificationFormComponent implements OnInit {
     this.leadDetails = this.route.snapshot.data.leadData;
     this.product = this.leadDetails.ProcessVariables.leadDetails.assetProdutName;
     this.tenure = this.leadDetails.ProcessVariables.leadDetails.reqTenure;
+    this.reqLoanAmount = this.leadDetails.ProcessVariables.leadDetails.reqLoanAmt
 
     // calculating asset cost
     const vehicleCost = this.leadDetails.ProcessVariables.vehicleCollateral;
@@ -194,7 +196,7 @@ export class TeleVerificationFormComponent implements OnInit {
           mobileNo: [this.referenceData.length > 0 && this.referenceData[0].mobileNo ? this.referenceData[0].mobileNo : ''],
           address: [this.referenceData.length > 0 && this.referenceData[0].address ? this.referenceData[0].address : ''],
           // tslint:disable-next-line: max-line-length
-          referenceStatus: [this.referenceData.length > 0 && this.referenceData[0].referenceStatus ? this.referenceData[0].referenceStatus : '']
+          referenceStatus: [this.referenceData.length > 0 && this.referenceData[0].referenceStatus ? this.referenceData[0].referenceStatus : '', Validators.required]
         }),
         reference2: this.fb.group({
           applicantId: this.applicantId,
@@ -203,7 +205,7 @@ export class TeleVerificationFormComponent implements OnInit {
           mobileNo: [this.referenceData.length > 1 && this.referenceData[1].mobileNo ? this.referenceData[1].mobileNo : ''],
           address: [this.referenceData.length > 1 && this.referenceData[1].address ? this.referenceData[1].address : ''],
           // tslint:disable-next-line: max-line-length
-          referenceStatus: [this.referenceData.length > 1 && this.referenceData[1].referenceStatus ? this.referenceData[1].referenceStatus : '']
+          referenceStatus: [this.referenceData.length > 1 && this.referenceData[1].referenceStatus ? this.referenceData[1].referenceStatus : '', Validators.required]
         })
       })
     });
@@ -283,7 +285,7 @@ export class TeleVerificationFormComponent implements OnInit {
     const nameRefTwo = event;
   }
 
-  
+
 
 
   // Getting TVR Detaails API method
@@ -298,6 +300,8 @@ export class TeleVerificationFormComponent implements OnInit {
       // this.leadId = res.ProcessVariables.leadId;
       this.tvrData = res.ProcessVariables.tvr;
       this.referenceData = res.ProcessVariables.applicationReferences ? res.ProcessVariables.applicationReferences : [];
+      console.log('referenceDAta', this.referenceData);
+
       // this.dateFormate = res.ProcessVariables.tvr.dob;
       // const financeAmt = this.tvrData.financeAmt ? this.tvrData.financeAmt.toString() : '';
       const tvr = { ...this.tvrData };
@@ -324,10 +328,20 @@ export class TeleVerificationFormComponent implements OnInit {
         }
       };
       tvr.applicationReferences = applicationReferences ? applicationReferences : '';
+      console.log('application reference', tvr.applicationReferences);
+
 
       // tslint:disable-next-line: max-line-length
       this.teleVerificationForm.get('srcOfProposal').setValue(`${this.sourcingChannelDesc} ${this.sourcingType} ${this.sourcingCode}`);
       this.teleVerificationForm.get('eCode').setValue(this.eCode);
+      // if (res.ProcessVariables.applicationReferences) {
+      //   this.teleVerificationForm.controls.applicationReferences['controls'].reference1.patchValue(this.referenceData[0]);
+      //   this.teleVerificationForm.controls.applicationReferences['controls'].reference2.patchValue(this.referenceData[1]);
+      // }
+      if (this.referenceData.length >0){
+      this.teleVerificationForm.controls.applicationReferences['controls'].reference1.patchValue(this.referenceData[0]);
+      this.teleVerificationForm.controls.applicationReferences['controls'].reference2.patchValue(this.referenceData[1]);
+      }
       if (tvr.dob) {
         this.teleVerificationForm.patchValue(tvr);
         if (this.valueChanges) {
@@ -388,6 +402,7 @@ export class TeleVerificationFormComponent implements OnInit {
         this.teleVerificationForm.get('officePhnNo').setValue(this.mobileNumber);
         this.teleVerificationForm.get('tenureInMonth').setValue(this.tenure);
         this.teleVerificationForm.get('assetCost').setValue(this.assetCost);
+        this.teleVerificationForm.get('financeAmt').setValue(this.reqLoanAmount);
       }
 
       const operationType = this.toggleDdeService.getOperationType();
@@ -496,6 +511,17 @@ export class TeleVerificationFormComponent implements OnInit {
     this.sendOtp();
     this.isModal = true;
   }
+  onSelectReferenceStatus(event,fromRef){
+    if (fromRef == 'reference1' && this.referenceData.length <= 0){
+      this.toasterService.showError("Please complete data entry in Reference screen",'')
+      this.teleVerificationForm.controls.applicationReferences['controls'].reference1['controls'].referenceStatus.setValue('');
 
+    } else if (fromRef == 'reference2' && this.referenceData.length <= 0){
+      this.toasterService.showError("Please complete data entry in Reference screen",'')
+      this.teleVerificationForm.controls.applicationReferences['controls'].reference2['controls'].referenceStatus.setValue('');
+    }
+
+    console.log("select Staus",event.target.value,fromRef)
+  }
 
 }
