@@ -28,11 +28,15 @@
                     <div class="small" (click)="getQueries(chat)">
                       <p class="mar-em">{{chat.key}}</p>
                     </div>
-                    <div class="divs">
+                   <div class="row">
+                    <div class="divs col-lg-11 col-sm-11 col-md-11 col-xs-11">
                       <p class="mar-em">{{chat.value}}</p>
                     </div>
-
-                    <span class="badge badge-success count-list" *ngIf="chat.count">{{chat.count}}</span>
+                    <div class="divs col-lg-1 col-sm-1 col-md-1 col-xs-1">
+                      <span class="badge badge-success count-list" *ngIf="chat.count">{{chat.count}}</span>
+                    </div>
+                    </div>
+                   <div> 
                   </div>
                   <hr>
                 </div>
@@ -114,8 +118,8 @@
             </div>
 
             <div class="col-sm-8 right ">
-              <div class="row chat-box message-box">
-
+              <div class="row chat-box message-box" id="content_container">
+                <div  id="content">
                 <div *ngFor="let message of chatMessages; let j=index;let last=last;">
                   <div class="wt-80" [ngClass]="message.queryFrom === userId ? 'sender' : 'receiver'">
                     <div [ngClass]="message.queryFrom === userId ? 'send-message' : 'receive-message'">
@@ -123,9 +127,7 @@
                         <span style="font-weight: 600;"> {{message.nameWithFromRole}}
                         </span>
                         <span class="date-time"> <strong>Query Type : </strong> {{message.queryTypeDesc}} </span>
-
-
-                      </div>
+                     </div>
                       <p>{{message.query}}</p>
                       <div *ngIf="message.docId"><a class="text-danger"
                           (click)="downloadDocs(message.docId, j, $event)"> <i class="fa fa-file-pdf-o"></i>
@@ -142,9 +144,14 @@
                   </div>
 
                 </div>
-                <button (click)="getChatMessagesCount()" id="myBtn" title="Go to top"
-                  *ngIf="chatMessages && chatMessages.length > 0">Top</button>
+              </div>
+                <!-- <button (click)="getChatMessagesCount()" id="myBtn" title="Go to top"
+                  *ngIf="chatMessages && chatMessages.length > 0">Top</button> -->
 
+                  
+                    <div id="scroll"><div id="backtotop"><button (click)="getChatMessagesCount()" id="myBtn" title="Go to top"
+                      *ngIf="chatMessages && chatMessages.length > 0">Top</button></div></div>
+                
                 <div class="wt-mid text-center" *ngIf="chatMessages && chatMessages.length === 0">
                   <p>No chats available</p>
                 </div>
@@ -313,3 +320,22 @@
 </div>
 
 <!-- Lead Modal Close -->
+
+<!-- <script>
+  $(function() {
+    $('#backtotop').css('opacity', 0);
+    
+    $('#content').scroll(function() {
+        var total = $(this)[0].scrollHeight - $(this).height();
+        var opacity = $(this).scrollTop() / total;
+        $('#backtotop').css('opacity', opacity);
+    });
+
+    $('#backtotop').click(function() {
+        $('#content').animate({
+            scrollTop: 0
+        }, 800);
+    });
+});
+</script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>  -->

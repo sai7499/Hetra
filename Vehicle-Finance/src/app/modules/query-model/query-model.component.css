@@ -742,10 +742,7 @@ margin: 0px !important;
 
   #myBtn {
     /* display: none;  */
-    position: fixed;
-    bottom: 20px;
-    right: 30px;
-    z-index: 99;
+   
     font-size: 18px;
     border-radius: 50px;
     outline: none;
@@ -835,3 +832,32 @@ margin: 0px !important;
       cursor: pointer;
     }
   
+
+    #content_container {
+        position:relative;
+        }
+    
+    #content {
+        /* width:100%;
+        height:200px;
+        padding:0 50px 0 0;
+        background-color:#ccc; */
+        overflow:auto;
+        overflow-x:hidden;
+        }
+    
+    #scroll {
+        position:absolute;
+        bottom:0;
+        height:44px;
+        width:100%;
+        }
+    
+    #backtotop {
+        position: absolute;
+        bottom:5px;
+        right:35px;
+        height:auto;
+        width:40px;
+        /* background-color:#c00; */
+        }
