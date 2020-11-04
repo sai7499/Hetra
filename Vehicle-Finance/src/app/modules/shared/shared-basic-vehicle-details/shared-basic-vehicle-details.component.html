@@ -1512,7 +1512,7 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="duplicate_rc">{{label.duplicateRC}} </label>
                             <app-vf-custom-select [id]="'duplicate_rc'" [values]="vehicleLov?.YesORNoValue"
-                                formControlName="duplicateRc">
+                                formControlName="duplicateRC">
                             </app-vf-custom-select>
                         </div>
 
@@ -1547,7 +1547,7 @@
 
                             <kendo-datepicker class="form-control mandatory" formControlName="insuranceValidity"
                                 [min]="maxDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
-                                placeholder="insurance_validity">
+                                placeholder="Insurance Validity">
                             </kendo-datepicker>
 
                             <div class="invalid-feedback"
@@ -1611,6 +1611,24 @@
                                 [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Body Cost'"
                                 [id]="'body_cost'" [isDirty]="isDirty">
                             </app-custom-input>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="noc_date">{{label.expectedNOCDate}}</label>
+                            <kendo-datepicker class="form-control" [id]="'noc_date'" formControlName="expectedNOCDate"
+                                [min]="maxDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
+                                placeholder="Expected NOC Date">
+                            </kendo-datepicker>
+
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['expectedNOCDate'].touched && obj.controls['expectedNOCDate'].value < maxDate">
+                                Invalid Date
+                            </div>
+
                         </div>
 
                     </div>
@@ -2007,7 +2025,7 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="duplicate_rc">{{label.duplicateRC}}</label>
                             <app-vf-custom-select [id]="'duplicate_rc'" [values]="vehicleLov?.YesORNoValue"
-                                formControlName="duplicateRc">
+                                formControlName="duplicateRC">
                             </app-vf-custom-select>
                         </div>
 
@@ -2040,7 +2058,7 @@
 
                             <kendo-datepicker class="form-control mandatory" formControlName="insuranceValidity"
                                 [min]="maxDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
-                                placeholder="insurance_validity">
+                                placeholder="Insurance Validity">
                             </kendo-datepicker>
 
                             <div class="invalid-feedback"
@@ -2103,6 +2121,20 @@
                                 [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Body Cost'"
                                 [id]="'body_cost'" [isDirty]="isDirty">
                             </app-custom-input>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="noc_date">{{label.expectedNOCDate}}</label>
+                            <kendo-datepicker class="form-control" [id]="'noc_date'" formControlName="expectedNOCDate"
+                                [min]="maxDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
+                                placeholder="Expected NOC Date">
+                            </kendo-datepicker>
+
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['expectedNOCDate'].touched && obj.controls['expectedNOCDate'].value < maxDate">
+                                Invalid Date
+                            </div>
+
                         </div>
 
                     </div>

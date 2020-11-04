@@ -28,6 +28,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   disableSaveBtn: boolean;
 
   maxDate = new Date();
+  maxPreviousDate = this.maxDate.setDate(this.maxDate.getDate() - 1)
   initalZeroCheck = [];
   eligibleLoanAmount: any = 0;
 
@@ -55,6 +56,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public assetVariant: any = [];
   public userId: number;
   public leadId: number;
+
+  isMaxDate: boolean;
 
   public vehicleRegPattern: {
     rule?: any;
@@ -272,32 +275,32 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       let oneTimeTax = form.controls.oneTimeTax.value ? Number(form.controls.oneTimeTax.value) : 0;
       let others = form.controls.others ? Number(form.controls.others.value) : 0;
       let discount = form.controls.discount.value ? Number(form.controls.discount.value) : 0;
-
+  
       if (value === '1') {
-
+  
         form.get('insurance').enable();
         form.get('insurance').setValidators(Validators.required);
         form.get('insurance').updateValueAndValidity();
-
+  
         form.get('oneTimeTax').enable();
         form.get('oneTimeTax').setValidators([Validators.required]);
         form.get('oneTimeTax').updateValueAndValidity();
-
+  
         form.get('others').enable();
         form.get('others').setValidators([Validators.required]);
         form.get('others').updateValueAndValidity();
-
+  
         form.get('discount').enable();
         form.get('discount').setValidators([Validators.required]);
         form.get('discount').updateValueAndValidity()
-
+  
         if (exShowRoomCost >= discount) {
           let costValue = (exShowRoomCost + insurance + oneTimeTax + others) - discount;
           this.onPatchFinalAssetCost(costValue)
           this.basicVehicleForm.patchValue({
             isVaildFinalAssetCost: true
           })
-
+  
         } else {
           setTimeout(() => {
             this.basicVehicleForm.patchValue({
@@ -308,19 +311,19 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         }
       } else {
         setTimeout(() => {
-
+  
           form.get('insurance').disable();
           form.get('insurance').setValue(insurance === 0 ? null : insurance);
-
+          
           form.get('oneTimeTax').disable();
           form.get('oneTimeTax').setValue(oneTimeTax === 0 ? null : oneTimeTax);
-
+  
           form.get('others').disable();
           form.get('others').setValue(others === 0 ? null : others);
-
+  
           form.get('discount').disable();
           form.get('discount').setValue(discount === 0 ? null : discount);
-
+  
         })
         this.onPatchFinalAssetCost(form.controls.exShowRoomCost.value)
         this.basicVehicleForm.patchValue({
@@ -403,7 +406,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       dealerSuventionApproval: VehicleDetail.dealerSuventionApproval || '',
       depositAccountNumber: VehicleDetail.depositAccountNumber || null,
       discount: VehicleDetail.discount || '',
-      duplicateRc: VehicleDetail.duplicateRc || '',
+      duplicateRC: VehicleDetail.duplicateRC || '',
       emiProtect: VehicleDetail.emiProtect || '',
       emiProtectAmount: VehicleDetail.emiProtectAmount || null,
       engineNumber: VehicleDetail.engineNumber || null,
@@ -465,6 +468,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       ownerMobileNo: VehicleDetail.ownerMobileNo || null,
       address: VehicleDetail.address || '',
       pincode: VehicleDetail.pincode || null,
+      expectedNOCDate:  VehicleDetail.expectedNOCDate ? this.utilityService.getDateFromString(VehicleDetail.expectedNOCDate) : '',
       vehicleUsage: VehicleDetail.vehicleUsage,
       ageAfterTenure: VehicleDetail.ageAfterTenure || null,
       assetCostGrid: VehicleDetail.assetCostGrid || null,
@@ -475,7 +479,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   onVehicleRegion(value: any, obj) {
     const region = value ? value : '';
     let assetMakeArray = [];
-    console.log('obj in vehRegion', obj);
     const data = {
       "region": region,
       "productCategory": this.productCatoryCode
@@ -922,6 +925,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleType: ['', Validators.required],
       region: ['', Validators.required],
       manuFacMonthYear: ['', Validators.required],
+      expectedNOCDate: [''],
       ageOfAsset: ['', Validators.required],
       ageAfterTenure: [''],
       assetCostGrid: ['', Validators.required],
@@ -944,7 +948,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       grossVehicleWeight: [''],
       reRegVehicle: [''],
       interStateVehicle: [''],
-      duplicateRc: ['1'],
+      duplicateRC: ['1'],
       cubicCapacity: [''],
       seatingCapacity: [''],
       loanAmount: [0],
@@ -960,6 +964,20 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       userId: this.userId
     })
     formArray.push(controls);
+  }
+
+  onValueForCurrentDate(event) {
+    
+    let date = this.utilityService.convertDateTimeTOUTC(new Date(event), 'DD/MM/YYYY')
+
+    let maxConvertDate = this.utilityService.convertDateTimeTOUTC(this.maxDate, 'DD/MM/YYYY')
+
+    if (date < maxConvertDate) {
+      this.isMaxDate = true
+    } else if (date >= maxConvertDate) {
+      this.isMaxDate = false;
+    }
+
   }
 
   addUserCarFormControls() {
@@ -978,6 +996,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleUsage: ['', Validators.required],
       category: ['', Validators.required],
       manuFacMonthYear: ['', Validators.required],
+      expectedNOCDate: [''],
       ageOfAsset: [''],
       ageAfterTenure: [''],
       assetCostIBB: ['', Validators.required],
@@ -998,7 +1017,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       grossVehicleWeight: [''],
       reRegVehicle: ['1'],
       interStateVehicle: ['1'],
-      duplicateRc: ['1'],
+      duplicateRC: ['1'],
       cubicCapacity: [''],
       seatingCapacity: [''],
       insuranceValidity: '',

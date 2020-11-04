@@ -70,7 +70,8 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
         let data = this.formValue.value.vehicleFormArray[0];
 
         if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
-          data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
+          data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
+          data.expectedNOCDate = this.utilityService.convertDateTimeTOUTC(data.expectedNOCDate, 'DD/MM/YYYY');
         }
 
         data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : null;
