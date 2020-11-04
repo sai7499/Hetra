@@ -24,12 +24,12 @@
               <div class="panel-group mar-20 scroll-box row" id="scrollBox">
                 <div class="panel-group mar-20" id="accordion" *ngFor="let chat of chatList; let i=index; let last=last"
                   [ngClass]="selectedList === chat ? 'selected-back' : ''">
-                  <div class="flex-container">
+                  <div class="flex-container-two">
                     <div class="small" (click)="getQueries(chat)">
-                      <p class="mar-em">{{chat.key}}</p>
+                      <p class="mar-em flex-no" >{{chat.key}}</p>
                     </div>
-                    <div class="divs">
-                      <p class="mar-em">{{chat.value}}</p>
+                    <div class="divs flex-text">
+                      <p class="mar-em " >{{chat.value}}</p>
                       <!-- <span _ngcontent-wix-c7="" style="
                       right: 70px;
                       top: 178px;
@@ -37,10 +37,14 @@
                       background: #17d317;
                       color: white;
                       border-radius: 52%;
-                      position: absolute;" *ngIf="chat.count">{{chat.count}}</span> -->
+                      position: absolute;
+                      flex-grow: 2;" *ngIf="chat.count">{{chat.count}}</span> -->
+                    </div>
+                    <div>
+                      <p _ngcontent-wix-c7="" class="flex-count">{{chat.count}}</p>
                     </div>
 
-                    <span class="badge badge-success count-list" *ngIf="chat.count">{{chat.count}}</span>
+                    <!-- <span class="badge badge-success count-list" *ngIf="chat.count">{{chat.count}}</span> -->
                   </div>
                   <hr>
                 </div>
@@ -313,7 +317,7 @@
 
 <!-- Lead Modal Open -->
 
-<div class="customizer border-left-blue-grey border-left-lighten-4 d-none d-sm-none d-md-block"
+<!-- <div class="customizer border-left-blue-grey border-left-lighten-4 d-none d-sm-none d-md-block"
   [ngClass]="isShowLeadModal ? 'modal-lead' : ''">
   <a class="customizer-close" (click)="onCustomizerClose()">
     <i class="ft-x font-medium-3"></i>
@@ -321,6 +325,6 @@
   <div class="customizer-content p-3 ps-container ps-theme-dark" data-ps-id="df6a5ce4-a175-9172-4402-dabd98fc9c0a">
     <h4 class="text-uppercase mb-0 text-bold-400">Header</h4>
   </div>
-</div>
+</div> -->
 
 <!-- Lead Modal Close -->
