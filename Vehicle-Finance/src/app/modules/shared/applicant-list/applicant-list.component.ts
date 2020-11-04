@@ -308,9 +308,9 @@ export class ApplicantListComponent implements OnInit {
         this.exactMatches = this.appicanteKYCDetails['exactMatches'];
         this.probableMatches = this.appicanteKYCDetails['probableMatches']; 
         this.collateralVehicleDetails = this.appicanteKYCDetails['collateralVehicleDetails']
-        setTimeout(() => {
-          this.downloadpdf();
-        });
+        // setTimeout(() => {
+        //   this.downloadpdf();
+        // });
       } else {
         this.toasterService.showError(res['ProcessVariables'].error["message"], '')
         // this.imgeKYC = res.ProcessVariables.error.message;

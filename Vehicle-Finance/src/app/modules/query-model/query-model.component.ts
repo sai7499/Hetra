@@ -47,6 +47,8 @@ export class QueryModelComponent implements OnInit {
 
   searchText: any = '';
   searchLeadId: any = '';
+  searchStakeHolders: any = '';
+  searchDocuments: any = '';
 
   setCss = {
     top: '',
@@ -112,9 +114,7 @@ export class QueryModelComponent implements OnInit {
     });
   }
 
-  loadMorePage(event, length, chatSearchKey) {
-
-    console.log(this.getLeadsObj.chatTotalPages, 'chatTotalPages', this.chatTotalPages)
+  loadMorePage(length, chatSearchKey) {
 
     if (this.getLeadsObj.chatTotalPages > this.chatTotalPages) {
 
@@ -127,10 +127,8 @@ export class QueryModelComponent implements OnInit {
         chatSearchKey: chatSearchKey
       }
       this.chatTotalPages = this.getLeadSendObj.chatCurrentPage;
-      console.log('Before Lead', this.getLeadSendObj)
       this.getLeads(this.getLeadSendObj)
     }
-    console.log(this.getLeadSendObj, 'Afer')
 
   }
 
@@ -149,8 +147,10 @@ export class QueryModelComponent implements OnInit {
     this.queryModelService.getLeads(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.getLeadsObj = res.ProcessVariables;
-        this.chatList = res.ProcessVariables.chatLeads ? res.ProcessVariables.chatLeads : [];
-        this.getQueries(this.chatList[0])
+        if (res.ProcessVariables.chatLeads && res.ProcessVariables.chatLeads.length > 0) {
+          this.chatList = res.ProcessVariables.chatLeads;
+          this.getQueries(this.chatList[0])
+        }
         this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
       } else {
         this.chatList = []
@@ -169,7 +169,9 @@ export class QueryModelComponent implements OnInit {
     this.queryModelService.getUsers(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.queryModelLov.queryTo = res.ProcessVariables.stakeholders ? res.ProcessVariables.stakeholders : [];
+        this.queryModelLov.filterStackHolders = this.queryModelLov.queryTo;
         this.documents = res.ProcessVariables.documents ? res.ProcessVariables.documents : [];
+        this.queryModelLov.documents = this.documents;
       } else {
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Users')
       }
@@ -255,6 +257,17 @@ export class QueryModelComponent implements OnInit {
       }
       this.dropDown = true;
     });
+
+  }
+
+  getvalueCheck(val: string) {
+    this.queryModelLov.filterStackHolders = this.queryModelLov.queryTo.filter(e => {
+      val = val.toString().toLowerCase();
+      const eName = e.value.toString().toLowerCase();
+      if (eName.includes(val)) {
+        return e;
+      }
+    });
   }
 
   getleadIdvalue(value: string) {
@@ -262,11 +275,29 @@ export class QueryModelComponent implements OnInit {
 
     this.getSearchableLead = this.queryLeads.filter(e => {
       value = value.toString().toLowerCase();
-      const eName = e.key.toString().toLowerCase();
+      const eName = e.value.toString().toLowerCase();
       if (eName.includes(value)) {
         return e;
       }
       this.isLeadShow = true;
+    });
+  }
+
+  getDocuments(searchValue: string) {
+
+    this.queryModelLov.documents = this.documents.filter(e => {
+      searchValue = searchValue.toString().toLowerCase();
+      if (e.docId) {
+        const eName = e.docId.toString().toLowerCase();
+        if (eName.includes(searchValue)) {
+          return e;
+        } else if (e.docName) {
+          const eValName = e.docName.toString().toLowerCase();
+          if (eValName.includes(searchValue)) {
+            return e;
+          }
+        }
+      }
     });
   }
 
@@ -341,7 +372,6 @@ export class QueryModelComponent implements OnInit {
     this.showModal = false;
     this.toasterService.showSuccess('Document uploaded successfully', '');
     this.docsDetails = event;
-    console.log(event, 'evemt')
     this.queryModalForm.patchValue({
       docId: event.dmsDocumentId ? event.dmsDocumentId : '',
       docName: event.fileName ? event.fileName : ''

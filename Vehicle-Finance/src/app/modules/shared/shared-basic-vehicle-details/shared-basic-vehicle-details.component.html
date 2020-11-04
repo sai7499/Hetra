@@ -1547,11 +1547,11 @@
 
                             <kendo-datepicker class="form-control mandatory" formControlName="insuranceValidity"
                                 [min]="maxDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
-                                placeholder="Insurance Validity" (valueChange)="onValueForCurrentDate($event)">
+                                placeholder="Insurance Validity">
                             </kendo-datepicker>
 
                             <div class="invalid-feedback"
-                                *ngIf="obj.controls['insuranceValidity'].touched && isMaxDate">
+                                *ngIf="obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < maxDate">
                                 Invalid Date
                             </div>
 
@@ -1621,10 +1621,11 @@
                             <label for="noc_date">{{label.expectedNOCDate}}</label>
                             <kendo-datepicker class="form-control" [id]="'noc_date'" formControlName="expectedNOCDate"
                                 [min]="maxDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
-                                placeholder="Expected NOC Date" (valueChange)="onValueForCurrentDate($event)">
+                                placeholder="Expected NOC Date">
                             </kendo-datepicker>
 
-                            <div class="invalid-feedback" *ngIf="obj.controls['expectedNOCDate'].touched && isMaxDate">
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['expectedNOCDate'].touched && obj.controls['expectedNOCDate'].value < maxDate">
                                 Invalid Date
                             </div>
 
@@ -2057,7 +2058,7 @@
 
                             <kendo-datepicker class="form-control mandatory" formControlName="insuranceValidity"
                                 [min]="maxDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
-                                placeholder="insurance_validity">
+                                placeholder="Insurance Validity">
                             </kendo-datepicker>
 
                             <div class="invalid-feedback"
@@ -2126,10 +2127,11 @@
                             <label for="noc_date">{{label.expectedNOCDate}}</label>
                             <kendo-datepicker class="form-control" [id]="'noc_date'" formControlName="expectedNOCDate"
                                 [min]="maxDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
-                                placeholder="Expected NOC Date" (valueChange)="onValueForCurrentDate($event)">
+                                placeholder="Expected NOC Date">
                             </kendo-datepicker>
 
-                            <div class="invalid-feedback" *ngIf="obj.controls['expectedNOCDate'].touched && isMaxDate">
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['expectedNOCDate'].touched && obj.controls['expectedNOCDate'].value < maxDate">
                                 Invalid Date
                             </div>
 

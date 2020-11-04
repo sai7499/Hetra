@@ -22,10 +22,6 @@ export class LeadSectionHeaderComponent implements OnInit {
   loanAmount: string;
   stageDescription: string;
 
-  isEnableInitiateQuery: boolean = true;
-  isEnableBackInitiate: boolean = false;
-  locationIndex: number;
-
   isNeedBackButton: boolean = false;
   ddeBackLabel: string;
   ddeBackRouter: string;

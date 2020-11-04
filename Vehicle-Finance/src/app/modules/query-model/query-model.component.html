@@ -15,7 +15,7 @@
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0">
                 <div class="input-group search-btn">
                   <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
-                    (keyup)="queryModalForm.value.searchName.length >= 2 ? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : ''">
+                    (keyup)="queryModalForm.value.searchName.length >= 2 ? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : getLeads(getLeadSendObj)">
                   <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
                 </div>
               </div>
@@ -31,6 +31,14 @@
                    <div class="row">
                     <div class="divs col-lg-11 col-sm-11 col-md-11 col-xs-11">
                       <p class="mar-em">{{chat.value}}</p>
+                      <!-- <span _ngcontent-wix-c7="" style="
+                      right: 70px;
+                      top: 178px;
+                      width: 4%;
+                      background: #17d317;
+                      color: white;
+                      border-radius: 52%;
+                      position: absolute;" *ngIf="chat.count">{{chat.count}}</span> -->
                     </div>
                     <div class="divs col-lg-1 col-sm-1 col-md-1 col-xs-1">
                       <span class="badge badge-success count-list" *ngIf="chat.count">{{chat.count}}</span>
@@ -40,7 +48,7 @@
                   </div>
                   <hr>
                 </div>
-                <div id="loadMore" (click)="loadMorePage($event, chatList.length, queryModalForm.value.searchName)"
+                <div id="loadMore" (click)="loadMorePage(chatList.length, queryModalForm.value.searchName)"
                   *ngIf="chatList.length >= 5 && getLeadsObj.chatTotalPages > chatTotalPages">Load
                   more</div>
                 <div class="empty-list" *ngIf="chatList.length === 0">
@@ -64,13 +72,14 @@
                       <form class="clearfix">
                         <div class="form-group col-xs-12">
                           <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search">
+                            <input type="text" class="form-control" placeholder="Search"
+                              [(ngModel)]="searchStakeHolders" [ngModelOptions]="{standalone: true}"
+                              (keyup)="getvalueCheck($event.target.value)">
                             <span class="input-group-addon"><i class="fa fa-search"></i></span>
                           </div>
                         </div>
                         <div class="stakeholder-list">
-                          <div *ngFor="let stack of queryModelLov.queryTo">
-                            <!--  | search : queryModalForm.value.searchName.trim().length ? queryModalForm.value.searchName : '' : 'leadId' || 'name': 'product' -->
+                          <div *ngFor="let stack of queryModelLov.filterStackHolders | search ">
                             <div class="radio"><label><input type="radio" name="radio"> {{stack.value}} <span
                                   class="checkmark"></span></label></div>
                           </div>
@@ -97,13 +106,15 @@
                       <form>
                         <div class="form-group col-xs-12 bloc">
                           <div class="input-group bloc-search">
-                            <input type="text" class="form-control" placeholder="Search">
+                            <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchDocuments"
+                              [ngModelOptions]="{standalone: true}" (keyup)="getDocuments($event.target.value)">
                             <span class="input-group-addon "><i class="fa fa-search"></i></span>
                           </div>
                         </div>
                       </form>
                       <div class="document-shared-list document-box">
-                        <div class="document-box" *ngFor="let document of documents; let k=index; let last=last">
+                        <div class="document-box"
+                          *ngFor="let document of queryModelLov.documents; let k=index; let last=last">
                           <p *ngIf="document.docId"><a (click)="downloadDocs(document.docId, k, $event)">ID:
                               {{document.docId}} <span *ngIf="document.docName"> -
                                 {{document.docName}}</span>
@@ -127,7 +138,8 @@
                         <span style="font-weight: 600;"> {{message.nameWithFromRole}}
                         </span>
                         <span class="date-time"> <strong>Query Type : </strong> {{message.queryTypeDesc}} </span>
-                     </div>
+
+                      </div>
                       <p>{{message.query}}</p>
                       <div *ngIf="message.docId"><a class="text-danger"
                           (click)="downloadDocs(message.docId, j, $event)"> <i class="fa fa-file-pdf-o"></i>
@@ -144,7 +156,6 @@
                   </div>
 
                 </div>
-              </div>
                 <!-- <button (click)="getChatMessagesCount()" id="myBtn" title="Go to top"
                   *ngIf="chatMessages && chatMessages.length > 0">Top</button> -->
 
@@ -168,9 +179,10 @@
 
                       <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchLeadId"
                         [ngModelOptions]="{standalone: true}" (mouseenter)="mouseleadIdEnter()"
-                        (keyup)="getleadIdvalue($event.target.value)" (valueChange)="
+                        (keyup)="getleadIdvalue($event.target.value)">
+                      <!-- (valueChange)="
                         queryModalForm.value.searchName.length>= 2 ? getLeads(getLeadSendObj,
-                      '', searchLeadId) : ''">
+                      '', searchLeadId) : ''" -->
 
                       <div class="dropdown-content" *ngIf="isLeadShow">
                         <div *ngFor="let item of getSearchableLead">

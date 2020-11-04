@@ -733,6 +733,7 @@ margin: 0px !important;
 
   .count-list {
     background-color: #24c627;
+    padding-right: 8px;
   }
 
   .cus-search {
@@ -743,6 +744,11 @@ margin: 0px !important;
   #myBtn {
     /* display: none;  */
    
+    display: none; 
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
     font-size: 18px;
     border-radius: 50px;
     outline: none;
