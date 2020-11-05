@@ -1641,6 +1641,10 @@
     "disbursementStartDate": "Disbursement - Start Date",
     "disbursementEndDate": "Disbursement - End Date",
     "propertyValue":"Property Value",
+    "parameter":"Parameter",
+    "weightage":"Weightage",
+    "inputValue":"Input Value",
+    "scoreValue":"Score",
     "marketAndFinancierReference":"Market & Financier Reference",
     "validationData": {
         "name": {
