@@ -298,7 +298,7 @@ export class ReferenceCheckComponent implements OnInit {
       longitude: new FormControl({ value: '', disabled: true }),
       bLatitude: new FormControl({ value: '', disabled: true }),
       bLongitude: new FormControl({ value: '', disabled: true }),
-      marketAndFinReferDetails: this.listArray
+      // marketAndFinReferDetails: this.listArray
     });
   }
 
