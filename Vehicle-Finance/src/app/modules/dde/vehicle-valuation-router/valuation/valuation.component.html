@@ -100,7 +100,7 @@
               [className]="'form-control mandatory'"
               [placeholder]="'Valuation Amount'"
               [maxLength]="labels?.validationData?.amountValue.maxLength"
-              [isRequired]="'Required Input is mandatory'"
+              [isRequired]="'Valuation Amount is Required'"
               [type]="labels?.validationData?.amountValue.type"
               [isDirty]="isDirty"
             >
@@ -131,7 +131,7 @@
                   isDirty && !vehicleValuationForm.controls.valuationDate.value
                 "
               >
-                Date is mandatory
+                Valuation Date is Required
               </div>
               <div
                 *ngIf="
@@ -155,7 +155,7 @@
               [className]="'form-control mandatory'"
               [placeholder]="'IDV'"
               [maxLength]="labels?.validationData?.idv.maxLength"
-              [isRequired]="'Required Input is mandatory'"
+              [isRequired]="'IDV is Required'"
               [type]="labels?.validationData?.idv.type"
               [isDirty]="isDirty"
             >
@@ -183,7 +183,7 @@
                   !vehicleValuationForm.controls.idvValidityDate.value
                 "
               >
-                IDV Valididty Date is mandatory
+                IDV Validity Date is Required
               </div>
               <div
                 *ngIf="
@@ -237,7 +237,7 @@
               [values]="vehicleLov?.region"
               [id]="'vechical_region'"
               formControlName="region"
-              [isRequired]="'Vehicle Region Required'"
+              [isRequired]="'Vehicle Region is Required'"
               (change)="
                 onVehicleRegion($event.target.value, vehicleValuationForm)
               "
@@ -284,7 +284,7 @@
               [values]="vehicleLov?.vehicleType"
               [id]="'vechical_type'"
               formControlName="vehicleType"
-              [isRequired]="'Vehicle Type Required'"
+              [isRequired]="'Vehicle Type is Required'"
               (change)="
                 onVehicleType($event.target.value, vehicleValuationForm)
               "
@@ -301,7 +301,7 @@
               [values]="vehicleLov?.assetBodyType"
               [id]="'asset_body_type'"
               formControlName="assetBodyType"
-              [isRequired]="'Asset Body Type Required'"
+              [isRequired]="'Asset Segment is Required'"
               (change)="
                 onAssetBodyType($event.target.value, vehicleValuationForm)
               "
@@ -319,7 +319,7 @@
               [values]="vehicleLov?.assetModel"
               [id]="'asset_model'"
               formControlName="assetModel"
-              [isRequired]="'Asset Model Required'"
+              [isRequired]="'Asset Model is Required'"
               (change)="onAssetModel($event.target.value,vehicleValuationForm)"
               [isDirty]="isDirty"
             >
@@ -359,7 +359,7 @@
               [inputClass]="'text-uppercase'"
               [placeholder]="'Vehicle No. Prefix'"
               [maxLength]="labels?.validationData?.vehiclePrefixNo.maxLength"
-              [isRequired]="'Required Input is mandatory'"
+              [isRequired]="'Vehicle Prefix No is Required'"
               [type]="labels?.validationData?.vehiclePrefixNo.type"
               [isDirty]="isDirty"
             >
@@ -380,7 +380,7 @@
               [maxLength]="labels?.validationData?.vehicleRegNo.maxLength"
               [type]="labels?.validationData?.vehicleRegNo.type"
               [custom]="vehicleRegPattern"
-              [isRequired]="'Required Input is mandatory'"
+              [isRequired]="'Vehicle No is Required'"
               [isDirty]="isDirty"
             >
             </app-custom-input>
@@ -396,7 +396,7 @@
               [inputClass]="'text-uppercase'"
               [placeholder]="'Engine Number'"
               [maxLength]="labels?.validationData?.chasisEngineNo.maxLength"
-              [isRequired]="'Required Input is mandatory'"
+              [isRequired]="'Engine No is Required'"
               [type]="labels?.validationData?.chasisEngineNo.type"
               [isDirty]="isDirty"
             >
@@ -416,7 +416,7 @@
               [inputClass]="'text-uppercase'"
               [placeholder]="'Chassis Number'"
               [maxLength]="labels?.validationData?.chasisEngineNo.maxLength"
-              [isRequired]="'Required Input is mandatory'"
+              [isRequired]="'Chassis No is Required'"
               [type]="labels?.validationData?.chasisEngineNo.type"
               [isDirty]="isDirty"
             >
@@ -450,7 +450,7 @@
                   !vehicleValuationForm.controls.yearOfManufacturer.value
                 "
               >
-                Year And Month Manufacturing is mandatory
+                Year And Month of Manufacturing is Required
               </div>
               <div
                 *ngIf="
@@ -472,7 +472,7 @@
               [className]="'form-control mandatory'"
               [placeholder]="'Age of Vehicle'"
               [maxLength]="labels?.validationData?.ageOfAsset.maxLength"
-              [isRequired]="'Required Input is mandatory'"
+              [isRequired]="'Age of Asset is Required'"
               [type]="labels?.validationData?.ageOfAsset.type"
               [isDirty]="isDirty"
               [isDisabled]="true"
@@ -516,7 +516,7 @@
                   isDirty && !vehicleValuationForm.controls.fcExpiryDate.value
                 "
               >
-                FC Expiry Date is mandatory
+                FC Expiry Date is Required
               </div>
               <div
                 *ngIf="
@@ -550,7 +550,7 @@
                   isDirty && !vehicleValuationForm.controls.dateofReg.value
                 "
               >
-                Vehicle Reg. Date is mandatory
+                Vehicle Reg. Date is Required
               </div>
               <div
                 *ngIf="
@@ -575,7 +575,7 @@
               [className]="'form-control mandatory'"
               [placeholder]="'GVW'"
               [maxLength]="labels?.validationData?.gvw.maxLength"
-              [isRequired]="'Required Input is mandatory'"
+              [isRequired]="'GVW is Required'"
               [type]="labels?.validationData?.gvw.type"
               [isDirty]="isDirty"
             >
@@ -645,7 +645,7 @@
               [className]="'form-control mandatory'"
               [placeholder]="'Cubic Capacity'"
               [maxLength]="labels?.validationData?.cubicCapacity.maxLength"
-              [isRequired]="'Required Input is mandatory'"
+              [isRequired]="'Cubic Capacity is Required'"
               [type]="labels?.validationData?.cubicCapacity.type"
               [isDirty]="isDirty"
             >
@@ -661,7 +661,7 @@
               [className]="'form-control mandatory'"
               [placeholder]="'Seating Capacity'"
               [maxLength]="labels?.validationData?.seatingCapacity.maxLength"
-              [isRequired]="'Required Input is mandatory'"
+              [isRequired]="'Seating Capacity is Required'"
               [type]="labels?.validationData?.seatingCapacity.type"
               [isDirty]="isDirty"
             >

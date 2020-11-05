@@ -32,7 +32,10 @@
                       <p class="mar-em">{{chat.value}}</p>
                     </div>
 
-                    <span class="badge badge-success count-list" *ngIf="chat.count">{{chat.count}}</span>
+                    <i class="fa fa-comment count-list font-medium-3" *ngIf="chat.count && chat.count !== 0"></i><span
+                      class="notification badge badge-pill badge-danger" *ngIf="chat.count && chat.count !== 0">{{chat.count}}</span>
+
+                    <!-- <span class="badge badge-success count-list" *ngIf="chat.count">{{chat.count}}</span> -->
                   </div>
                   <hr>
                 </div>
@@ -126,7 +129,6 @@
                         <span style="font-weight: 600;"> {{message.nameWithFromRole}}
                         </span>
                         <span class="date-time"> <strong>Query Type : </strong> {{message.queryTypeDesc}} </span>
-
 
                       </div>
                       <p>{{message.query}}</p>
@@ -306,7 +308,7 @@
 
 <!-- Lead Modal Open -->
 
-<div class="customizer border-left-blue-grey border-left-lighten-4 d-none d-sm-none d-md-block"
+<!-- <div class="customizer border-left-blue-grey border-left-lighten-4 d-none d-sm-none d-md-block"
   [ngClass]="isShowLeadModal ? 'modal-lead' : ''">
   <a class="customizer-close" (click)="onCustomizerClose()">
     <i class="ft-x font-medium-3"></i>
@@ -314,6 +316,6 @@
   <div class="customizer-content p-3 ps-container ps-theme-dark" data-ps-id="df6a5ce4-a175-9172-4402-dabd98fc9c0a">
     <h4 class="text-uppercase mb-0 text-bold-400">Header</h4>
   </div>
-</div>
+</div> -->
 
 <!-- Lead Modal Close -->
