@@ -9,38 +9,45 @@
     </div>
 
     <div class="content">
-      <form >
+      <form [formGroup]="childLoanForm">
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="business_division">UCIC<sub class="star_red_col">*</sub>
+            <label for="business_division">{{labels.ucicId}}<sub class="star_red_col">*</sub>
             </label>
             <app-custom-input
+              formControlName="ucic" 
               [className]="'form-control mandatory'"
               [placeholder]="'UCIC'"              
-              [isRequired]="'Contact Number mandatory'"              
+              [isRequired]="'UCIC mandatory'"              
               [type]="'number'">
             </app-custom-input>
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="product_type">Loan account no.
+            <label for="product_type">{{labels.loanAccNumber}}
               <sub class="star_red_col">*</sub></label>
               <app-custom-input
+              formControlName="loanAccountNumber" 
               [className]="'form-control mandatory'"
-              [placeholder]="'Loan account no.'"              
-              [isRequired]="'Contact Number mandatory'"              
+              [placeholder]="'Loan account number'"              
+              [isRequired]="'Loan account number mandatory'"              
               [type]="'number'">
             </app-custom-input>
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="product_type">Vehicle registration no.
+            <label for="product_type">{{labels.registartionNumber}}
               <sub class="star_red_col">*</sub></label>
               <app-custom-input
+              formControlName="vehicleRegistrationNumber" 
               [className]="'form-control mandatory'"
-              [placeholder]="'Vehicle registration no.'"              
-              [isRequired]="'Contact Number mandatory'"              
-              [type]="'number'">
+              [placeholder]="'Vehicle registration number'"              
+              [isRequired]="'Vehicle registration Number mandatory'"              
+              [type]="'text'"
+              [inputClass]="'input-upper'"
+              [minLength]="labels?.validationData?.vehicleRegNo?.minLength"
+              [maxLength]="labels?.validationData?.vehicleRegNo?.maxLength"
+              [custom]="vehicleRegPattern">
             </app-custom-input>
           </div>
         </div>
@@ -49,50 +56,57 @@
             <label for="business_division">Name<sub class="star_red_col">*</sub>
             </label>
             <app-custom-input
+              formControlName="name" 
               [className]="'form-control mandatory'"
               [placeholder]="'Name'"              
-              [isRequired]="'Contact Number mandatory'"              
-              [type]="'number'">
+              [isRequired]="'Name mandatory'"   
+              [maxLength]="nameLength"            
+              [type]="'alpha'">
             </app-custom-input>
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="product_type">Mobile
+            <label for="product_type">{{labels.mobile}}
               <sub class="star_red_col">*</sub></label>
               <app-custom-input
+              formControlName="mobile" 
               [className]="'form-control mandatory'"
               [placeholder]="'Mobile'"              
-              [isRequired]="'Contact Number mandatory'"              
-              [type]="'number'">
+              [isRequired]="'Mobile Number mandatory'"  
+              [maxLength]="mobileLength"     
+              [type]="'number'"
+              [patternCheck]="labels.validationData?.mobileNumber.pattern">
             </app-custom-input>
           </div>
 
         </div>
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="business_division">Aadhaar<sub class="star_red_col">*</sub>
+            <label for="business_division">{{labels.aadharnumber}}<sub class="star_red_col">*</sub>
             </label>
             <app-custom-input
+              formControlName="aadhaar"
               [className]="'form-control mandatory'"
               [placeholder]="'Aadhaar'"              
-              [isRequired]="'Contact Number mandatory'"              
+              [isRequired]="'Aadhaar Number mandatory'"              
               [type]="'number'">
             </app-custom-input>
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="product_type">Pan
+            <label for="product_type">{{labels.pannumber}}
               <sub class="star_red_col">*</sub></label>
               <app-custom-input
+              formControlName="pan"
               [className]="'form-control mandatory'"
               [placeholder]="'Pan'"              
-              [isRequired]="'Contact Number mandatory'"              
-              [type]="'number'">
+              [isRequired]="'Pan Number mandatory'"              
+              [type]="'alpha-numeric'">
             </app-custom-input>
           </div>
           <div class="btn-sec clear-both">
             <div class="col-sm-12 text-right">
-              <button type="button" class="btn btn-primary" value="submit" (click)="isSearched = true" >
+              <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()" >
                 Search
               </button>
             </div>

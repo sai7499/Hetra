@@ -486,7 +486,7 @@ export class SourcingDetailsComponent implements OnInit {
       this.sourcingDetailsForm.controls['dealerCode'].setValidators(Validators.required);
       this.sourcingDetailsForm.controls['dealerCode'].updateValueAndValidity();
       // this.isDealerCode = true;
-      this.isDealerCode = this.isDealorCode ? false : true;
+      this.isDealerCode = this.dealorCodeKey ? false : true;
     } else {
       this.sourcingDetailsForm.controls['dealerCode'].setValidators([]);
       this.sourcingDetailsForm.controls['dealerCode'].updateValueAndValidity();
@@ -657,13 +657,16 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   saveAndUpdate() {
+    let dealer : boolean;
     const formValue = this.sourcingDetailsForm.getRawValue();
-    console.log(
-      'this.sourcingDetailsForm.value',
-      this.sourcingDetailsForm.valid
-    );
+    console.log('this.sourcingDetailsForm.value', this.sourcingDetailsForm.valid);
+    if (this.sourchingTypeId === '2SOURTYP') {
+      dealer = (this.dealorCodeKey) ? true : false;
+    } else {
+      dealer = true;
+    }
     this.isDirty = true;
-    if (this.sourcingDetailsForm.valid === true && this.isSourceCode && this.isDealorCode) {
+    if (this.sourcingDetailsForm.valid === true && this.isSourceCode && dealer) {
       const saveAndUpdate: any = { ...formValue };
       console.log(formValue, 'FormValue');
       this.saveUpdate = {
