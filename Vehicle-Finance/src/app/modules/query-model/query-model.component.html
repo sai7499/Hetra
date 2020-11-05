@@ -26,25 +26,16 @@
                   [ngClass]="selectedList === chat ? 'selected-back' : ''">
                   <div class="flex-container">
                     <div class="small" (click)="getQueries(chat)">
-                      <p class="mar-em" >{{chat.key}}</p>
+                      <p class="mar-em">{{chat.key}}</p>
                     </div>
                     <div class="divs">
                       <p class="mar-em">{{chat.value}}</p>
-                      <!-- <span _ngcontent-wix-c7="" style="
-                      right: 70px;
-                      top: 178px;
-                      width: 4%;
-                      background: #17d317;
-                      color: white;
-                      border-radius: 52%;
-                      position: absolute;
-                      flex-grow: 2;" *ngIf="chat.count">{{chat.count}}</span> -->
                     </div>
-                    <!-- <div>
-                      <p _ngcontent-wix-c7="" class="flex-count">{{chat.count}}</p>
-                    </div> -->
 
-                    <span class="badge badge-success count-list" *ngIf="chat.count">{{chat.count}}</span>
+                    <i class="fa fa-comment count-list font-medium-3" *ngIf="chat.count && chat.count !== 0"></i><span
+                      class="notification badge badge-pill badge-danger" *ngIf="chat.count && chat.count !== 0">{{chat.count}}</span>
+
+                    <!-- <span class="badge badge-success count-list" *ngIf="chat.count">{{chat.count}}</span> -->
                   </div>
                   <hr>
                 </div>

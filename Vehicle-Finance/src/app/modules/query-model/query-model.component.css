@@ -732,9 +732,20 @@ margin: 0px !important;
   }
 
   .count-list {
-    background-color: #24c627;
+    color: #24c627;
+    font-size: 19px;
     padding-right: 8px;
   }
+
+  
+.notification {
+    color: #a19393;
+    position: relative;
+    top: -9px;
+    background: white;
+    right: 13px;
+    padding: 0.25rem 0.65rem;
+}
 
   .cus-search {
     top: 4px;
