@@ -2641,6 +2641,24 @@
                 "rule": "^[1-31]{1,2}",
                 "msg": "Should be between 1-31 only"
             }
+        },
+        "companyName":{
+            "maxLength":{
+                "rule":30
+            },
+            "type":"alpha-numeric"
+        },
+        "officerName":{
+            "maxLength":{
+                "rule":30
+            },
+            "type":"alpha"
+        },
+        "comments":{
+            "maxLength":{
+                "rule":300
+            },
+            "type":"special-alpha-numeric"
         }
     }
 }

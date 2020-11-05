@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl,
+  FormArray,
+} from '@angular/forms';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { LabelsService } from '@services/labels.service';
 import { LoginStoreService } from '@services/login-store.service';
@@ -92,12 +98,15 @@ export class ReferenceCheckComponent implements OnInit {
   serviceAppNo: any;
   applicationNo: any;
   distanceFromBranch: any;
+  productCatCode: any;
+  listArray: FormArray;
   constructor(
     private labelsData: LabelsService, // service to access labels
     private personalDiscussion: PersonalDiscussionService,
     private loginStoreService: LoginStoreService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private fb: FormBuilder,
     private sharedSercive: SharedService,
     private createLeadDataService: CreateLeadDataService,
     private uploadService: UploadService,
@@ -110,6 +119,7 @@ export class ReferenceCheckComponent implements OnInit {
     private toggleDdeService: ToggleDdeService
 
   ) {
+    this.listArray = this.fb.array([]);
     this.sharedSercive.taskId$.subscribe((value) => {
       this.taskId = value;
       console.log('in ref check task id', this.taskId);
@@ -244,6 +254,10 @@ export class ReferenceCheckComponent implements OnInit {
     this.serviceEquitasBranchName = leadData['leadDetails'].branchName;
     this.serviceProductCat = leadData['leadDetails'].productCatName;
     this.serviceAppNo = leadData['leadDetails'].applicationNo;
+    const leadDetailsFromLead = leadData['leadDetails'];
+    this.productCatCode = leadDetailsFromLead.productCatCode;
+    console.log('prod cat code', this.productCatCode);
+
     this.getPdDetails();    // for getting the data for pd details on initializing the page
   }
   getApplicantId() { // function to access respective applicant id from the routing
@@ -259,7 +273,7 @@ export class ReferenceCheckComponent implements OnInit {
 
   initForm() {  // function that intializes the form group
 
-    this.referenceCheckForm = new FormGroup({
+    this.referenceCheckForm = this.fb.group({
       nameOfReference: new FormControl('', Validators.required),
       addressOfReference: new FormControl('', Validators.required),
       referenceMobile: new FormControl('', Validators.required),
@@ -283,7 +297,8 @@ export class ReferenceCheckComponent implements OnInit {
       latitude: new FormControl({ value: '', disabled: true }),
       longitude: new FormControl({ value: '', disabled: true }),
       bLatitude: new FormControl({ value: '', disabled: true }),
-      bLongitude: new FormControl({ value: '', disabled: true })
+      bLongitude: new FormControl({ value: '', disabled: true }),
+      marketAndFinReferDetails: this.listArray
     });
   }
 

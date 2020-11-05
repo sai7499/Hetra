@@ -927,20 +927,11 @@
         <label for="insurance_date"
           >{{ labels.insuranceDate }} <sub class="star_blue_col">*</sub></label
         >
-        <!-- <div class="input-group input-medium">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default">
-                            <i class="fa fa-calendar"></i>
-                        </button>
-                    </span>
-                    <input type="date" class="form-control" id="insurance_date" formControlName="insuranceValidity">
-                </div> -->
         <kendo-datepicker
           width="100%"
           class="form-control mandatory"
           formControlName="insuranceValidity"
           [format]="'dd/MM/yyyy'"
-          
           placeholder="dd/mm/yyyy"
           [activeView]="'decade'"
           [min]="toDayDate"
