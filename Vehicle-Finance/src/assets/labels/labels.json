@@ -1645,7 +1645,7 @@
     "weightage":"Weightage",
     "inputValue":"Input Value",
     "scoreValue":"Score",
-
+    "marketAndFinancierReference":"Market & Financier Reference",
     "validationData": {
         "name": {
             "maxLength": {
