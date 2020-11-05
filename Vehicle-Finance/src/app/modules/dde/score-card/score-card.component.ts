@@ -3,6 +3,7 @@ import { ScoreCardService } from '../services/score-card.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { LabelsService } from 'src/app/services/labels.service';
 
 @Component({
     templateUrl: './score-card.component.html',
@@ -10,6 +11,7 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 })
 export class ScoreCardComponent implements OnInit {
 
+    labels: any = {};
     borrowerAttributes: any;
     borrowerAttributesLength: number;
     borrowerAssessments: any;
@@ -26,12 +28,14 @@ export class ScoreCardComponent implements OnInit {
     risk: string;
 
     constructor(
+        private labelsData: LabelsService,
         private scoreCardService: ScoreCardService,
         private loginStoreService: LoginStoreService,
         private createLeadDataService: CreateLeadDataService,
         private toggleDdeService: ToggleDdeService
     ) { }
 
+  
     ngOnInit() {
         const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
         this.userId = roleAndUserDetails.userDetails.userId;
@@ -44,6 +48,16 @@ export class ScoreCardComponent implements OnInit {
         if (operationType) {
             this.disableSaveBtn = true;
         }
+
+        this.labelsData.getLabelsData().subscribe(
+            (data) => {
+              this.labels = data;
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+      
     }
 
     reInitiateCreditScore() {
