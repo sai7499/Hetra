@@ -866,7 +866,39 @@ margin: 0px !important;
         /* background-color:#c00; */
         }
 
-    .flex-container-two {
+        .flex-container {
+            display: flex;
+            align-items: baseline;
+            border-radius:20px;
+        }
+          
+          .flex-container > div {
+            width: 100%;
+            margin: 10px;
+            text-align: center;    
+            font-size: 14px;
+            border-radius:25px;
+            background-color: #ddd;
+          }
+
+          .flex-container .small {  
+            width: 25%;
+            cursor: pointer;
+            border-radius:25px;
+            background-color: #fff;
+          }
+        
+          .mar-em{
+              margin:0.5em;
+          }
+        
+          hr {
+            margin : 5px 0px;
+            border: 0;
+            border-top: 2px solid #eee!important;
+        }        
+
+    /* .flex-container-two {
         display: flex;
         align-items: stretch;            
     }
@@ -874,7 +906,7 @@ margin: 0px !important;
     .flex-container-two > div {          
         margin: 5px 5px;
         text-align: center;            
-    }
+    } */
 
     .flex-text{
         flex-grow: 10;

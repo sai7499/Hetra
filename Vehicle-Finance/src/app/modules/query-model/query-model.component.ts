@@ -68,9 +68,9 @@ export class QueryModelComponent implements OnInit {
 
   getLeadSendObj = {
     currentPage: null,
-    perPage: 100,
+    perPage: 500,
     searchKey: '',
-    chatPerPage: 100,
+    chatPerPage: 500,
     chatCurrentPage: null,
     chatSearchKey: ''
   }
