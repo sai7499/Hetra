@@ -27,17 +27,6 @@
     margin-bottom: 20px;
 }
 
-.count-list {
-    text-align: center !important;
-    font-size: 10px !important;
-    border-radius: 50% !important;;
-    background: #06d755 !important;
-    color: white !important;
-    width: 9% !important;
-    right: 55px;
-    top: 165px;
-  }
-
 .nav>li>a:hover {
     text-decoration: none;
     /* background-color: #eee; */
@@ -51,6 +40,18 @@
     border: 1px solid #ddd;
     margin-bottom: 10px;
     margin-top: 10px;
+}
+
+.notification {
+    position: relative;
+    top: -11px;
+    right: 7px;
+    padding: 0.05rem .4rem;
+}
+
+.cus-bell {
+    font-size: 15px;
+    color: #d7d6e1;
 }
 
 .disabled {
