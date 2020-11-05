@@ -398,9 +398,16 @@ export class IdentityDetailsComponent implements OnInit {
 
   onSubmit() {
     this.isDirty = true;
-    if (this.identityForm.invalid) {
-      return
+    if(!this.applicant.ucic){
+      if (this.identityForm.invalid) {
+        this.toasterService.showError(
+          'Please fill all mandatory fields.',
+          'Address Details'
+        );
+        return
+      }
     }
+    
     if (this.isIndividual) {
       this.storeIndividualValueInService();
       this.applicantDataService.setCorporateProspectDetails(null);
