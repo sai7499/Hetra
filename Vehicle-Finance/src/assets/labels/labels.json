@@ -1641,6 +1641,7 @@
     "disbursementStartDate": "Disbursement - Start Date",
     "disbursementEndDate": "Disbursement - End Date",
     "propertyValue":"Property Value",
+    "marketAndFinancierReference":"Market & Financier Reference",
     "validationData": {
         "name": {
             "maxLength": {
@@ -2221,7 +2222,7 @@
             "maxLength": {
                 "rule": 5
             },
-            "type": "alpha-numeric"
+            "type": "number"
         },
         "contractDetails": {
             "maxLength": {
@@ -2641,6 +2642,24 @@
                 "rule": "^[1-31]{1,2}",
                 "msg": "Should be between 1-31 only"
             }
+        },
+        "companyName":{
+            "maxLength":{
+                "rule":30
+            },
+            "type":"alpha-numeric"
+        },
+        "officerName":{
+            "maxLength":{
+                "rule":30
+            },
+            "type":"alpha"
+        },
+        "comments":{
+            "maxLength":{
+                "rule":300
+            },
+            "type":"special-alpha-numeric"
         }
     }
 }
