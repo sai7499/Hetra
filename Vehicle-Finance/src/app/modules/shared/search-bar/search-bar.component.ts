@@ -28,8 +28,6 @@ export class SearchBarComponent implements OnInit {
 
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
-    // this.activityList = roleAndUserDetails.activityList;
-    // this.searchLead = this.activityList;
     const currentUrl = this.location.path();
     if (currentUrl.includes('activity-search')) {
       this.isMobile = true;
@@ -37,8 +35,7 @@ export class SearchBarComponent implements OnInit {
     this.sharedService.getSearchBarActivity().subscribe((val: any) => {
       this.activityList = val;
       this.searchLead = this.activityList;
-    })
-
+    });
   }
 
   getvalue(enteredValue: string) {
