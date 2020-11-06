@@ -24,6 +24,7 @@ import { ApplicantService } from '@services/applicant.service';
 import { GpsService } from './../../../../services/gps.service';
 import { environment } from 'src/environments/environment';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-reference-check',
@@ -100,6 +101,13 @@ export class ReferenceCheckComponent implements OnInit {
   distanceFromBranch: any;
   productCatCode: any;
   listArray: FormArray;
+  typeOfReference: [
+    { key: '0', value: 'Finacier Reference1' },
+    { key: '1', value: 'Finacier Reference2' },
+    { key: '2', value: 'Market Reference1' },
+    { key: '3', value: 'Market Reference2' }
+  ];
+  referenceDetails: any;
   constructor(
     private labelsData: LabelsService, // service to access labels
     private personalDiscussion: PersonalDiscussionService,
@@ -126,7 +134,6 @@ export class ReferenceCheckComponent implements OnInit {
     });
     this.isMobile = environment.isMobile;
     // console.log('systime default', this.sysDate);
-
   }
 
   async ngOnInit() {
@@ -173,6 +180,7 @@ export class ReferenceCheckComponent implements OnInit {
             this.showSubmit = false;
           }
           this.getLeadSectiondata();
+          this.getPdDetails();    // for getting the data for pd details on initializing the page
           console.log('Applicant Id In reference Details Component', this.applicantId);
 
         });
@@ -247,6 +255,11 @@ export class ReferenceCheckComponent implements OnInit {
       });
     });
   }
+  // get formArr() {
+  //   return this.referenceCheckForm.get('marketAndFinReferDetails') as
+  //     FormArray;
+  // }
+
   // GET LEAD SECTION DATA
   getLeadSectiondata() {
     const leadData = this.createLeadDataService.getLeadSectionData();
@@ -257,8 +270,6 @@ export class ReferenceCheckComponent implements OnInit {
     const leadDetailsFromLead = leadData['leadDetails'];
     this.productCatCode = leadDetailsFromLead.productCatCode;
     console.log('prod cat code', this.productCatCode);
-
-    this.getPdDetails();    // for getting the data for pd details on initializing the page
   }
   getApplicantId() { // function to access respective applicant id from the routing
 
@@ -298,9 +309,37 @@ export class ReferenceCheckComponent implements OnInit {
       longitude: new FormControl({ value: '', disabled: true }),
       bLatitude: new FormControl({ value: '', disabled: true }),
       bLongitude: new FormControl({ value: '', disabled: true }),
-      // marketAndFinReferDetails: this.listArray
+      marketAndFinReferDetails: this.listArray
     });
   }
+
+  public populateRowData(rowData) {
+
+    console.log('in initRows RowData');
+    return this.fb.group({
+      referenceName: rowData.referenceName ? rowData.referenceName : null,
+      companyName: rowData.companyName ? rowData.companyName : null,
+      officerName: rowData.officerName ? rowData.officerName : null,
+      designation: rowData.designation ? rowData.designation : null,
+      telNo: rowData.telNo ? rowData.telNo : null,
+      comments: rowData.comments ? rowData.comments : null
+
+    });
+  }
+  public initRows(index: number) {
+    console.log('in initRows no RowData');
+    return this.fb.group({
+
+      referenceName: new FormControl('', [Validators.required]),
+      companyName: new FormControl('', [Validators.required]),
+      officerName: new FormControl('', [Validators.required]),
+      designation: new FormControl('', [Validators.required]),
+      telNo: new FormControl('', [Validators.required]),
+      comments: new FormControl('', [Validators.required])
+
+    });
+  }
+
 
   getPdDetails() { // function calling get pd report api to get respective pd details
 
@@ -327,10 +366,17 @@ export class ReferenceCheckComponent implements OnInit {
         this.latitude = value.ProcessVariables.customerProfileDetails.latitude;
         this.longitude = value.ProcessVariables.customerProfileDetails.longitude;
         this.SELFIE_IMAGE = value.ProcessVariables.profilePhoto;
+        const referenceDetails = processVariables.marketAndFinReferDetails;
+        if (referenceDetails) {
+          for (let i = 0; i < referenceDetails.length; i++) {
+            this.populateData(value);
+          }
 
-        // if (this.refCheckDetails && this.otherDetails) {
-        //   this.setFormValue();
-        // }
+        } else if (referenceDetails == null) {
+          const control = this.referenceCheckForm.controls.marketAndFinReferDetails as FormArray;
+          control.push(this.initRows(null));
+
+        }
         this.setFormValue();
         if (this.latitude) {
           this.getRouteMap();
@@ -341,6 +387,48 @@ export class ReferenceCheckComponent implements OnInit {
       }
     });
 
+  }
+  public populateData(data?: any) {
+    const referenceDetailsList = data.ProcessVariables.marketAndFinReferDetails;
+    for (let i = 0; i < referenceDetailsList.length; i++) {
+      this.addProposedUnit(referenceDetailsList[i]);
+    }
+  }
+  addProposedUnit(data?: any) {
+    const control = this.referenceCheckForm.controls.marketAndFinReferDetails as FormArray;
+    control.push(this.populateRowData(data));
+  }
+
+  addNewRow(rowData) {
+    const control = this.referenceCheckForm.controls.marketAndFinReferDetails as FormArray;
+    control.push(this.initRows(rowData));
+  }
+
+  deleteRow(index: number, rows: any) {
+    console.log('in delete row fn ', rows, index);
+    const control = this.referenceCheckForm.controls.marketAndFinReferDetails as FormArray;
+    // tslint:disable-next-line: no-shadowed-variable
+    control.value.forEach(element => {
+      // if(element.)
+      console.log('in for each', element);
+
+    });
+    console.log('control', control, 'index', index);
+
+    if (control.value.length > 1) {
+      control.removeAt(index);
+      // const data = {
+      //   id: control.value[index].id,
+      //   leadId: this.leadId
+      // };
+
+      control.value.splice(index, 1);
+      this.toasterService.showSuccess('Record deleted successfully', '');
+
+    } else {
+      this.toasterService.showError('atleast one record required', '');
+
+    }
   }
   setFormValue() {
 

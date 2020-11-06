@@ -394,115 +394,134 @@
       </div>
     </div>
 
-    <!-- <h4 *ngIf="productCatCode === 'NCV'">
+    <h4 *ngIf="productCatCode === 'NCV'">
       {{ labels.marketAndFinancierReference }}
     </h4>
-      <div class="row">
-        <div class="table-responsive application">
-          <table class="table">
-            <thead>
-              <tr class="table-head-bg text-center">
-                <td role="columnheader">
-                  {{ labels?.typeOfReference }}
-                </td>
-                <td role="columnheader">
-                  {{ labels?.companyName }}
-                </td>
-                <td role="columnheader">
-                  {{ labels?.officerName }}
-                </td>
-                <td role="columnheader">
-                  {{ labels?.designation }}
-                </td>
-                <td role="columnheader">
-                  {{ labels?.telNo }}
-                </td>
-                <td role="columnheader">
-                  {{ labels?.comments }}
-                </td>
-                <td role="columnheader">{{labels.action}} </td>
-              </tr>
-            </thead>
-            <tbody formArrayName="marketAndFinReferDetails">
-              <tr
-                *ngFor="
-                  let item of referenceCheckForm.get(
-                    'marketAndFinReferDetails'
-                  )['controls'];
-                  let i = index
-                "
-                [formGroupName]="i"
-              ></tr>
-              <td style="min-width: 59px">
-                <app-vf-custom-select
-                
-                  [values]="[
-                    { key: '0', value: 'Finacier Reference1' },
-                    { key: '1', value: 'Finacier Reference2' },
-                    { key: '2', value: 'Market Reference1' },
-                    { key: '3', value: 'Market Reference2' }
-                  ]"
-                  formControlName="referenceName"
-                >
-                </app-vf-custom-select>
+    <div class="row" *ngIf="productCatCode === 'NCV'">
+      <div class="table-responsive application">
+        <table class="table">
+          <thead>
+            <tr class="table-head-bg text-center">
+              <td role="columnheader">{{labels.sNo}} </td>
+              <td role="columnheader">
+                {{ labels?.typeOfReference }}
               </td>
-              <td>
-                <app-custom-input
+              <td role="columnheader">
+                {{ labels?.companyName }}
+              </td>
+              <td role="columnheader">
+                {{ labels?.officerName }}
+              </td>
+              <td role="columnheader">
+                {{ labels?.designation }}
+              </td>
+              <td role="columnheader">
+                {{ labels?.telNo }}
+              </td>
+              <td role="columnheader">
+                {{ labels?.comments }}
+              </td>
+              <td role="columnheader">{{ labels.action }}</td>
+            </tr>
+          </thead>
+          <tbody formArrayName="marketAndFinReferDetails">
+            <tr
+              *ngFor="
+                let item of referenceCheckForm.get('marketAndFinReferDetails')[
+                  'controls'
+                ];
+                let i = index
+              "
+              [formGroupName]="i">
+              <td>{{i+1}}</td>
+            <td style="min-width: 59px">
+              <app-vf-custom-select
+                [values]="[
+                { key: '0', value: 'Finacier Reference1' },
+                { key: '1', value: 'Finacier Reference2' },
+                { key: '2', value: 'Market Reference1' },
+                { key: '3', value: 'Market Reference2' }
+              ]"
+                formControlName="referenceName"
+                [isRequired]="'Please select alteast one '"
+              >
+              </app-vf-custom-select>
+            </td>
+            <td>
+              <app-custom-input
                 [className]="'form-control mandatory'"
-                  formControlName="companyName"
-                  [maxLength]="labels?.validationData?.companyName?.maxLength"
-                  [type]="labels?.validationData?.companyName?.type"
-                  [isRequired]="'*required'"
-                  [isDirty]="isDirty"
-                ></app-custom-input>
-              </td>
-              <td>
-                <app-custom-input
+                formControlName="companyName"
+                [maxLength]="labels?.validationData?.companyName?.maxLength"
+                [type]="labels?.validationData?.companyName?.type"
+                [isRequired]="'*required'"
+                [isDirty]="isDirty"
+              ></app-custom-input>
+            </td>
+            <td>
+              <app-custom-input
                 [className]="'form-control mandatory'"
-                  formControlName="officerName"
-                  [maxLength]="labels?.validationData?.officerName?.maxLength"
-                  [type]="labels?.validationData?.officerName?.type"
-                  [isRequired]="'*required'"
-                  [isDirty]="isDirty"
-                ></app-custom-input>
-              </td>
-              <td>
-                <app-custom-input
+                formControlName="officerName"
+                [maxLength]="labels?.validationData?.officerName?.maxLength"
+                [type]="labels?.validationData?.officerName?.type"
+                [isRequired]="'*required'"
+                [isDirty]="isDirty"
+              ></app-custom-input>
+            </td>
+            <td>
+              <app-custom-input
                 [className]="'form-control mandatory'"
-                  formControlName="designation"
-                  [maxLength]="labels?.validationData?.companyName?.maxLength"
-                  [type]="labels?.validationData?.companyName?.type"
-                  [isRequired]="'*required'"
-                  [isDirty]="isDirty"
-                ></app-custom-input>
-              </td>
-              <td>
-                <app-custom-input
+                formControlName="designation"
+                [maxLength]="labels?.validationData?.companyName?.maxLength"
+                [type]="labels?.validationData?.companyName?.type"
+                [isRequired]="'*required'"
+                [isDirty]="isDirty"
+              ></app-custom-input>
+            </td>
+            <td>
+              <app-custom-input
                 [className]="'form-control mandatory'"
-                  formControlName="telNo"
-                  [patternCheck]="inputValidation"
-                  [maxLength]="
-                    labels?.validationData?.landlineNumber?.maxLength
-                  "
-                  [type]="labels?.validationData?.landlineNumber?.type"
-                  [isRequired]="'*required'"
-                  [isDirty]="isDirty"
-                ></app-custom-input>
-              </td>
-              <td>
-                <app-custom-input
+                formControlName="telNo"
+                [patternCheck]="inputValidation"
+                [maxLength]="labels?.validationData?.landlineNumber?.maxLength"
+                [type]="labels?.validationData?.landlineNumber?.type"
+                [isRequired]="'*required'"
+                [isDirty]="isDirty"
+              ></app-custom-input>
+            </td>
+            <td>
+              <app-custom-input
                 [className]="'form-control mandatory'"
-                  formControlName="comments"
-                  [maxLength]="labels?.validationData?.comments?.maxLength"
-                  [type]="labels?.validationData?.comments?.type"
-                  [isRequired]="'*required'"
-                  [isDirty]="isDirty"
-                ></app-custom-input>
-              </td>
-            </tbody>
-          </table>
-        </div>
-      </div> -->
+                formControlName="comments"
+                [maxLength]="labels?.validationData?.comments?.maxLength"
+                [type]="labels?.validationData?.comments?.type"
+                [isRequired]="'*required'"
+                [isDirty]="isDirty"
+              ></app-custom-input>
+            </td>
+            <td>
+              <button
+                class="fa fa-plus"
+                aria-hidden="true"
+                id="addmorePOIbutton"
+                value="Add"
+                [disabled]="disableSaveBtn"
+                (click)="addNewRow()"
+              ></button>
+              <button
+                type="button"
+                class="fa fa-minus"
+                aria-hidden="true"
+                id="delPOIbutton"
+                [disabled]="disableSaveBtn"
+                value="Delete"
+                (click)="deleteRow(i, referenceCheckForm.value.marketAndFinReferDetails)"
+              ></button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
     <!-- <p>{{ labels.routeMap }}</p> -->
     <!-- <div class="row"> -->

@@ -12,6 +12,7 @@ import { LovDataService } from '@services/lov-data.service';
 import { ApplicantService } from '@services/applicant.service';
 import { map } from 'rxjs/operators';
 import { LoginStoreService } from '@services/login-store.service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 @Component({
   selector: 'app-reference-details',
@@ -45,12 +46,14 @@ export class ReferenceDetailsComponent implements OnInit {
   isDirty = false;
   userId: any;
   isValidPincode: boolean;
+  productCatCode: any;
 
   constructor(private labelsData: LabelsService, private lovDataService: LovDataService,
-    private formBuilder: FormBuilder, private pdDataService: PdDataService, private applicantService: ApplicantService,
-    private router: Router, private personalDiscussionService: PersonalDiscussionService,
-    private aRoute: ActivatedRoute, private toastrService: ToasterService, private loginStoreService: LoginStoreService,
-    private commomLovService: CommomLovService, private utilityService: UtilityService) { }
+              private formBuilder: FormBuilder, private pdDataService: PdDataService, private applicantService: ApplicantService,
+              private router: Router, private personalDiscussionService: PersonalDiscussionService,
+              private aRoute: ActivatedRoute, private toastrService: ToasterService, private loginStoreService: LoginStoreService,
+              private commomLovService: CommomLovService, private createLeadDataService: CreateLeadDataService,
+              private utilityService: UtilityService) { }
 
   ngOnInit() {
     this.getLabels();
@@ -63,6 +66,12 @@ export class ReferenceDetailsComponent implements OnInit {
     this.initForm();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
     this.userId = roleAndUserDetails.userDetails.userId;
+  }
+  getLeadSectiondata() {
+    const leadData = this.createLeadDataService.getLeadSectionData();
+    const leadDetailsFromLead = leadData['leadDetails'];
+    this.productCatCode = leadDetailsFromLead.productCatCode;
+    console.log('prod cat code', this.productCatCode);
   }
 
   getLabels() {
