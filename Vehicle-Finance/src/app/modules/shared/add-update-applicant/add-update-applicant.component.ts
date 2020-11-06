@@ -2220,7 +2220,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     setTimeout(() => {
       if (this.passportIssueDate < this.minPassportIssueDate) {
         this.showMessage['passportIssue'] = true;
-        this.passportIssueInvalidMsg="Passpost Issuance Dates prior to 10 year before will not be accepted"
+        this.passportIssueInvalidMsg="Passport Issuance Dates prior to 10 year will not be accepted"
       } else if (this.passportIssueDate >= this.toDayDate) {
         this.showMessage['passportIssue'] = true;
         this.passportIssueInvalidMsg="Invalid Date"
