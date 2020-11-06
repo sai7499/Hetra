@@ -846,7 +846,7 @@ export class DashboardComponent implements OnInit {
         this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
         break;
       case 45: case 46:
-        this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
+        this.router.navigateByUrl(`/pages/dde/${this.leadId}/rcu`);
         break;
 
       default:
