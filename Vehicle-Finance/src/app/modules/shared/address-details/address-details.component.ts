@@ -898,12 +898,13 @@ export class AddressDetailsComponent implements OnInit {
     } else {
       this.onPerAsCurChecked = false;
       this.isCurrAddSameAsPermAdd = '0';
-      if (this.address.ucic) {
-        this.disableCurrent = true;
-        currentAddressVariable.disable();
-      } else {
-        currentAddressVariable.enable();
-      }
+      currentAddressVariable.enable();
+      // if (this.address.ucic) {
+      //   this.disableCurrent = true;
+      //   currentAddressVariable.disable();
+      // } else {
+      //   currentAddressVariable.enable();
+      // }
 
     }
 
@@ -1323,6 +1324,19 @@ export class AddressDetailsComponent implements OnInit {
       control.get('srNumber').clearValidators();
       control.get('srNumber').updateValueAndValidity();
       control.get('srNumber').setValue(null)
+      const addressObj = this.getAddressObj();
+      const currentAddressObj =
+      addressObj[Constant.CURRENT_ADDRESS] || addressObj['COMMADDADDTYP'];
+      if (currentAddressObj) {
+        this.currentPincode = this.formatPincodeData(currentAddressObj)
+        const currentAddress = control.get('currentAddress');
+        currentAddress.patchValue(this.setAddressValues(currentAddressObj));
+        currentAddress.patchValue({
+          accommodationType: currentAddressObj.accommodationType || '',
+          periodOfCurrentStay: currentAddressObj.periodOfCurrentStay,
+          mobileNumber: currentAddressObj.mobileNumber,
+        });
+      }
       control.get('currentAddress').disable();
       this.onPerAsCurChecked = true;
       this.isCurrAddSameAsPermAdd = '1'

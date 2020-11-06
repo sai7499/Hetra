@@ -102,6 +102,7 @@ export class BasicDetailsComponent implements OnInit {
   isSave : boolean = false;
   apiValue: any;
   finalValue: any;
+  isExpiryDate: boolean= false;
 
   constructor(
     private labelsData: LabelsService,
@@ -1264,8 +1265,18 @@ export class BasicDetailsComponent implements OnInit {
 
   }
 
-  updateExternalExpiryDate(event) {
-    this.externalExpiryDate = event;
+  updateExternalExpiryDate() {
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    const date= details.get('externalRatingExpiryDate').value
+    this.isExpiryDate=false;
+    setTimeout(() => {
+      if (date <= this.toDayDate) {
+        this.isExpiryDate = true;
+      } else {
+        this.isExpiryDate = false;
+      }
+    })
   }
 
   updateExternalIssueDate(event) {
