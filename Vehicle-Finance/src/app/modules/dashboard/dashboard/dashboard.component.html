@@ -353,6 +353,25 @@
     </ul>
   </div>
 
+  <!-- RCU Dashboard Starts -->
+  <div class="container-fluid mar-bottom" *ngIf="roleType == '6'">
+    <ul class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="onLeads(displayTabs?.RCU, displayTabs?.RCUWithMe)"
+        [ngClass]="{'active':displayTabs?.RCU === activeTab}" routerLinkActive="active"><a data-toggle="tab">RCU</a></li>
+    </ul>
+  </div>
+  <div class="container-fluid mar-bottom" *ngIf="roleType == '6'">
+    <ul *ngIf="displayTabs?.RCU === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li class="active" (click)="leads(displayTabs?.RCUWithMe)"
+        [ngClass]="{'active':displayTabs?.RCUWithMe === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Leads Pending with Me</a></li>
+      <li (click)="leads(displayTabs?.RCUWithBranch)"
+        [ngClass]="{'active':displayTabs?.RCUWithBranch === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">Leads Pending with CPC</a></li>
+    </ul>
+  </div>
+  <!-- RCU Dashboard Ends -->
+
   <div>
     <div class="container-fluid">
       <table
