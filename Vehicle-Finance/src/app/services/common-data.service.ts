@@ -16,4 +16,10 @@ export class CommonDataService {
     changeleadDataStatus(value: boolean) {
         this.leadDataStatus$.next(value);
     }
+
+    applicantDeleted$: BehaviorSubject<any> = new BehaviorSubject<any>({});
+    public applicantDeleted = this.applicantDeleted$.asObservable();
+    applicantListEdited(value: any) {
+        this.applicantDeleted$.next(value);
+    }
 }

@@ -51,6 +51,7 @@ export class PddComponent implements OnInit {
     isNumberSubmitted = true;
 
     isEnableCpccSubmit: boolean;
+    apiTableValue = [];
 
     constructor(private location: Location,
                 private pddDetailsService: PddDetailsService,
@@ -261,12 +262,29 @@ export class PddComponent implements OnInit {
                 docFullName: new FormControl(value.docName || ''),
             });
             formArray.push(formGroup);
+            if (this.isSales) {
+                this.apiTableValue.push({
+                    collectedDate: this.utilityService.getDateFromString(value.collectedDate),
+                    courieredDate: this.utilityService.getDateFromString(value.courieredDate),
+                    podNumber: value.podNumber,
+                    docNumber: value.docNumber,
+                    dmsDocId: value.dmsDocId
+                });
+            } else {
+                this.apiTableValue.push({
+                    cpcStatus: value.cpcStatus,
+                    cpcReceivedDate: value.cpcReceivedDate,
+                    phyTrackingNum: value.phyTrackingNum,
+                });
+            }
             if (this.isSales && this.disableDocumentList) {
                 formArray.disable();
             } else {
                 formArray.enable();
             }
         });
+
+        // this.apiTableValue = formArray.value;
 
     }
     documentArray(index) {
@@ -306,6 +324,9 @@ export class PddComponent implements OnInit {
                 return this.toasterService.showError(`Please upload document for ${docName}`, '');
             }
             return this.toasterService.showError(`Please enter all fields for ${docName}`, '');
+        }
+        if (this.checkTableValueChanges()) {
+            return this.toasterService.showError('No changes done to update', '');
         }
         // if (this.checkDocsIsUploaded()) {
         //     return;
@@ -385,8 +406,11 @@ export class PddComponent implements OnInit {
                 if (value.Error === '0') {
                     const response = value.ProcessVariables;
                     const error = response.error;
+                    this.orcHistory = response.orcHistory;
                     if (error.code === '0') {
                         this.toasterService.showSuccess('Updated successfully', '');
+                    } else {
+                        return this.toasterService.showError(error.message, '');
                     }
                     if (this.isSales && check) {
                         const pddVehicleDetails = response.pddVehicleDetails;
@@ -407,7 +431,7 @@ export class PddComponent implements OnInit {
                         }
                     }
 
-                    this.orcHistory = response.orcHistory;
+                    
 
                     if (!this.isSales) {
                         this.isNumberSubmitted = false;
@@ -476,6 +500,35 @@ export class PddComponent implements OnInit {
 
     }
 
+    checkTableValueChanges() {
+        const formArray = this.pddForm.get('pddDocumentDetails') as FormArray;
+        const details = (formArray.value || []).map((value) => {
+            if (this.isSales) {
+                return {
+                    collectedDate: value.collectedDate,
+                    courieredDate: value.courieredDate,
+                    podNumber: value.podNumber,
+                    docNumber: value.docNumber,
+                    dmsDocId: value.dmsDocId
+                };
+            } else {
+                return {
+                    cpcStatus: value.cpcStatus,
+                    cpcReceivedDate: value.cpcReceivedDate,
+                    phyTrackingNum: value.phyTrackingNum,
+                };
+            }
+        });
+        // console.table(details);
+        // console.table(this.apiTableValue);
+        console.log('compare', this.objectComparisonService.compare(details, this.apiTableValue));
+        const check = this.objectComparisonService.compare(details, this.apiTableValue);
+        if (!check) {
+            this.apiTableValue = details;
+        }
+        return check;
+    }
+
     checkDocsIsUploaded() {
         const formArray = this.pddForm.get('pddDocumentDetails') as FormArray;
         const details = formArray.value;
@@ -522,7 +575,7 @@ export class PddComponent implements OnInit {
             docRefId: [
                 {
                   idTp: 'LEDID',
-                  id: 2295,
+                  id: this.leadId,
                 },
                 {
                   idTp: 'BRNCH',
@@ -576,7 +629,11 @@ export class PddComponent implements OnInit {
                    if (error.code === '0') {
                        this.toasterService.showSuccess('Submitted successfully', '');
                        this.router.navigateByUrl(`/pages/dashboard`);
+                   } else {
+                    this.toasterService.showError(error.message, '');
                    }
+                } else {
+                    this.toasterService.showError(value.ErrorMessage, '');
                 }
             });
     }

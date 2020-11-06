@@ -82,6 +82,7 @@
     "assetSubVariant": "Asset Sub-Variant",
     "assetOther": "Asset Variant - Other",
     "monthYear": "Month and Year",
+    "expectedNOCDate": "Expected NOC Date",
     "assetCostIndian": "Asset Cost basis Indian Bluebook",
     "assetCostCarwale": "Asset Cost basis Carwale",
     "assetCostCar": "Asset Cost basis Car Trade",
@@ -439,7 +440,7 @@
     "seventeenToEightteen": "2017-18",
     "sixteenToSeventeen": "2016-17",
     "freightPaid": "FREIGHT PAID",
-    "depriciation": "DEPRICIATION",
+    "depriciation": "DEPRECIATION",
     "netProfitPbt": "NET PROFIT(PBT)",
     "cashGenerationPbtDep": "CASH GENERATION(PBT+DEP)",
     "creditOfficersRemarks": "CREDIT OFFICER'S REMARKS",
@@ -1640,6 +1641,11 @@
     "disbursementStartDate": "Disbursement - Start Date",
     "disbursementEndDate": "Disbursement - End Date",
     "propertyValue":"Property Value",
+    "parameter":"Parameter",
+    "weightage":"Weightage",
+    "inputValue":"Input Value",
+    "scoreValue":"Score",
+    "marketAndFinancierReference":"Market & Financier Reference",
     "validationData": {
         "name": {
             "maxLength": {
@@ -2220,7 +2226,7 @@
             "maxLength": {
                 "rule": 5
             },
-            "type": "alpha-numeric"
+            "type": "number"
         },
         "contractDetails": {
             "maxLength": {
@@ -2640,6 +2646,24 @@
                 "rule": "^[1-31]{1,2}",
                 "msg": "Should be between 1-31 only"
             }
+        },
+        "companyName":{
+            "maxLength":{
+                "rule":30
+            },
+            "type":"alpha-numeric"
+        },
+        "officerName":{
+            "maxLength":{
+                "rule":30
+            },
+            "type":"alpha"
+        },
+        "comments":{
+            "maxLength":{
+                "rule":300
+            },
+            "type":"special-alpha-numeric"
         }
     }
 }
