@@ -80,7 +80,7 @@ export class AddvehicleComponent implements OnInit {
         this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
           if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
             this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Vehicle Details');
-            this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-details']);
+            this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-list']);
           } else {
             this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Details')
           }

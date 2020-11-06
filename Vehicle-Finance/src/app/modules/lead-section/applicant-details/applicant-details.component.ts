@@ -241,7 +241,7 @@ export class ApplicantDetailsComponent implements OnInit {
       this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
     }
 
-    this.route.navigateByUrl(`pages/lead-section/${this.leadId}/vehicle-details`)
+    this.route.navigateByUrl(`pages/lead-section/${this.leadId}/vehicle-list`)
   }
 
   onBack() {
