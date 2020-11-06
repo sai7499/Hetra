@@ -1,0 +1,321 @@
+<main class="mar-top90">
+  <div class="container-fluid">
+
+    <div class="row view-pad-bottom" style="text-align: right;margin-right: 20px;">
+      <button class="btn btn-warning view-button" type="button" (click)="backFromQuery()"><i
+          class="fa fa-arrow-left"></i> Back to Lead</button>
+    </div>
+
+    <div class="" style="margin: 10px;">
+
+      <div class="clearfix">
+        <form [formGroup]="queryModalForm">
+          <div class="query">
+            <div class="col-sm-4 left">
+              <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0">
+                <div class="input-group search-btn">
+                  <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
+                    (keyup)="queryModalForm.value.searchName.length >= 2 ? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : getLeads(getLeadSendObj)">
+                  <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
+                </div>
+              </div>
+
+              <br /><br />
+              <div class="panel-group mar-20 scroll-box row" id="scrollBox">
+                <div class="panel-group mar-20" id="accordion" *ngFor="let chat of chatList; let i=index; let last=last"
+                  [ngClass]="selectedList === chat ? 'selected-back' : ''">
+                  <div class="flex-container">
+                    <div class="small" (click)="getQueries(chat)">
+                      <p class="mar-em">{{chat.key}}</p>
+                    </div>
+                    <div class="divs">
+                      <p class="mar-em">{{chat.value}}</p>
+                    </div>
+
+                    <i class="fa fa-comment count-list font-medium-3" *ngIf="chat.count && chat.count !== 0"></i><span
+                      class="notification badge badge-pill badge-danger" *ngIf="chat.count && chat.count !== 0">{{chat.count}}</span>
+
+                    <!-- <span class="badge badge-success count-list" *ngIf="chat.count">{{chat.count}}</span> -->
+                  </div>
+                  <hr>
+                </div>
+                <div id="loadMore" (click)="loadMorePage(chatList.length, queryModalForm.value.searchName)"
+                  *ngIf="chatList.length >= 5 && getLeadsObj.chatTotalPages > chatTotalPages">Load
+                  more</div>
+                <div class="empty-list" *ngIf="chatList.length === 0">
+                  No such field in leadlist
+                </div>
+
+              </div>
+
+              <div class="panel-group mar-20" id="accordion">
+                <div class="panel panel-default">
+                  <div class="panel-heading" id="headingOne">
+                    <h4 class="panel-title">
+                      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                        <i class="fa fa-user"></i>&nbsp; Stakeholders <i class="fa fa-angle-down"></i>
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseOne" class="panel-collapse collapse">
+                    <div class="panel-body">
+
+                      <form class="clearfix">
+                        <div class="form-group col-xs-12">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search"
+                              [(ngModel)]="searchStakeHolders" [ngModelOptions]="{standalone: true}"
+                              (keyup)="getvalueCheck($event.target.value)">
+                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                          </div>
+                        </div>
+                        <div class="stakeholder-list">
+                          <div *ngFor="let stack of queryModelLov.filterStackHolders | search ">
+                            <div class="radio"><label><input type="radio" name="radio"> {{stack.value}} <span
+                                  class="checkmark"></span></label></div>
+                          </div>
+                        </div>
+                        <div class="stakeholder-bot text-right">
+                          <button type="submit" class="btn btn-default mar-right8">Cancel</button>
+                          <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel panel-default ">
+                  <div class="panel-heading" id="headingTwo">
+                    <h4 class="panel-title">
+                      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                        <i class="fa fa-file"></i>&nbsp; Documents Shared <i class="fa fa-angle-down"></i>
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <form>
+                        <div class="form-group col-xs-12 bloc">
+                          <div class="input-group bloc-search">
+                            <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchDocuments"
+                              [ngModelOptions]="{standalone: true}" (keyup)="getDocuments($event.target.value)">
+                            <span class="input-group-addon "><i class="fa fa-search"></i></span>
+                          </div>
+                        </div>
+                      </form>
+                      <div class="document-shared-list document-box">
+                        <div class="document-box"
+                          *ngFor="let document of queryModelLov.documents; let k=index; let last=last">
+                          <p *ngIf="document.docId"><a (click)="downloadDocs(document.docId, k, $event)">ID:
+                              {{document.docId}} <span *ngIf="document.docName"> -
+                                {{document.docName}}</span>
+                            </a></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-sm-8 right ">
+              <div class="row chat-box message-box">
+
+                <div *ngFor="let message of chatMessages; let j=index;let last=last;">
+                  <div class="wt-80" [ngClass]="message.queryFrom === userId ? 'sender' : 'receiver'">
+                    <div [ngClass]="message.queryFrom === userId ? 'send-message' : 'receive-message'">
+                      <div class="logged-user">
+                        <span style="font-weight: 600;"> {{message.nameWithFromRole}}
+                        </span>
+                        <span class="date-time"> <strong>Query Type : </strong> {{message.queryTypeDesc}} </span>
+
+                      </div>
+                      <p>{{message.query}}</p>
+                      <div *ngIf="message.docId"><a class="text-danger"
+                          (click)="downloadDocs(message.docId, j, $event)"> <i class="fa fa-file-pdf-o"></i>
+                          {{message.docName}}</a></div>
+                      <br *ngIf="message.docId">
+                      <div class="tagged-name">
+                        <span> <strong>Tagged To : </strong> {{message.nameWithToRole}} </span>
+                        <span class="date-time"> {{message.time |  date: 'dd-MMM-yyyy | h:mm a': 'US' }}
+                        </span>
+
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+                <!-- <button (click)="getChatMessagesCount()" id="myBtn" title="Go to top"
+                  *ngIf="chatMessages && chatMessages.length > 0">Top</button> -->
+
+                <div class="wt-mid text-center" *ngIf="chatMessages && chatMessages.length === 0">
+                  <p>No chats available</p>
+                </div>
+
+
+              </div>
+
+              <div class="form-group row">
+
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                  <div class="form-group">
+                    <label for="file-upload" class="col-sm-4">Lead Id</label>
+                    <div class="col-sm-8" (mouseleave)="mouseLeaveLeadId()">
+
+                      <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchLeadId"
+                        [ngModelOptions]="{standalone: true}" (mouseenter)="mouseleadIdEnter()"
+                        (keyup)="getleadIdvalue($event.target.value)">
+                      <!-- (valueChange)="
+                        queryModalForm.value.searchName.length>= 2 ? getLeads(getLeadSendObj,
+                      '', searchLeadId) : ''" -->
+
+                      <div class="dropdown-content" *ngIf="isLeadShow">
+                        <div *ngFor="let item of getSearchableLead">
+                          <a data-toggle="collapse" data-target="#bs-navbar" (click)="getLead(item)">{{item.value}}</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-sm-6 col-md-4 col-xs-6">
+                  <div class="form-group">
+                    <label class="col-sm-4">Query Type</label>
+                    <div class="col-sm-8">
+                      <app-vf-custom-select [values]="queryModelLov?.queryType" [id]="'query_type'"
+                        formControlName="queryType" [isRequired]="'Query Type Required'" [isDirty]="isDirty">
+                      </app-vf-custom-select>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="form-group row">
+
+                <div class="col-lg-6 col-sm-6 col-md-4 col-xs-6">
+                  <div class="form-group">
+                    <label class="col-sm-4">Tag query To</label>
+                    <div class="col-sm-8" (mouseleave)="mouseLeave()">
+                      <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchText"
+                        [ngModelOptions]="{standalone: true}" (mouseenter)="mouseEnter()"
+                        (keyup)="getvalue($event.target.value)">
+
+                      <div class="dropdown-content" *ngIf="dropDown && searchLead && searchLead.length > 0">
+                        <div *ngFor="let item of searchLead">
+                          <a data-toggle="collapse" data-target="#bs-navbar"
+                            (click)="getQueryTo(item)">{{item.value}}</a>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-sm-6 col-md-4 col-xs-6">
+                  <div class="form-group">
+                    <label for="file-upload" class="col-sm-4">Attachment</label>
+                    <div class="upload-btn-wrapper col-sm-4">
+                      <button class="btn-upload" (click)="chooseFile()">
+                        {{queryModalForm.controls['docName'].value ? 'Change' : 'Choose'}} file</button>
+                      <!-- <h6>&nbsp;(Maximum size: 2 MB)</h6> -->
+                    </div>
+                    <!-- DocName: -->
+                    <label for="file-name" class="col-sm-4" *ngIf="queryModalForm.controls['docName'].value">
+                      {{queryModalForm.controls['docName'].value}} </label>
+                  </div>
+                </div>
+
+
+              </div>
+
+              <div class="form-group row">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                  <textarea class="form-control" style="resize: none;" formControlName="query"
+                    (keyup.enter)="onFormSubmit(queryModalForm)"></textarea>
+
+                  <div class="invalid-feedback"
+                    *ngIf="queryModalForm.controls['query'].touched && !queryModalForm.controls['query'].valid">
+                    <div *ngIf="queryModalForm.controls['query'].hasError('required')">
+                      Query Required
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
+                <div class="col-sm-5">
+
+                </div>
+                <div class="col-sm-7 text-right">
+                  <button class="btn btn-primary dash_href" type="button"
+                    (click)="onFormSubmit(queryModalForm)">Send</button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+  <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)"
+    [docsDetails]="selectedDocDetails"></app-upload-modal>
+</main>
+<!-- <script>
+  //Get the button
+  var mybutton = document.getElementById("myBtn");
+
+  // When the user scrolls down 20px from the top of the document, show the button
+  window.onscroll = function () { scrollFunction() };
+
+  function scrollFunction() {
+    if (document.body.scrollTop > 5 || document.documentElement.scrollTop > 5) {
+      mybutton.style.display = "block";
+    } else {
+      mybutton.style.display = "none";
+    }
+  }
+
+  // When the user clicks on the button, scroll to the top of the document
+  function topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+
+
+  $(document).ready(function () {
+    size_li = $("#scrollBox li").size();
+    x = 3;
+    $('#scrollBox li:lt(' + x + ')').show();
+    $('#loadMore').click(function () {
+      x = (x + 5 <= size_li) ? x + 5 : size_li;
+      $('#scrollBox li:lt(' + x + ')').show();
+    });
+    $('#showLess').click(function () {
+      x = (x - 5 < 0) ? 3 : x - 5;
+      $('#scrollBox li').not(':lt(' + x + ')').hide();
+    });
+  });
+
+</script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+
+<!-- Lead Modal Open -->
+
+<!-- <div class="customizer border-left-blue-grey border-left-lighten-4 d-none d-sm-none d-md-block"
+  [ngClass]="isShowLeadModal ? 'modal-lead' : ''">
+  <a class="customizer-close" (click)="onCustomizerClose()">
+    <i class="ft-x font-medium-3"></i>
+  </a>
+  <div class="customizer-content p-3 ps-container ps-theme-dark" data-ps-id="df6a5ce4-a175-9172-4402-dabd98fc9c0a">
+    <h4 class="text-uppercase mb-0 text-bold-400">Header</h4>
+  </div>
+</div> -->
+
+<!-- Lead Modal Close -->

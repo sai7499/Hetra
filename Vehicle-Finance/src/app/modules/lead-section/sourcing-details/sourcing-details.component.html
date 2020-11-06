@@ -106,12 +106,23 @@
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="sourcing_code">{{ labels.sourcingCode }}</label>
           <div class="ng-autocomplete" style="width:100%" [ngClass]="{'codeDisable disableCode': isSourchingCode}">
-            <ng-autocomplete #autocomplete [data]="sourcingCodeData" [searchKeyword]="keyword"
-              (selected)='selectSourcingEvent($event)' (inputChanged)='onSourcingCodeSearch($event)'
-              (inputCleared)='onSourcingCodeClear($event)' [itemTemplate]="sourcingCodeTemplate"
-              [notFoundTemplate]="notFoundTemplate" formControlName="sourcingCode"
-              [placeHolder]="sourcingCodePlaceholder" [debounceTime]="400" [disabled]="isSourchingCode">
+            <ng-autocomplete 
+              #autocomplete 
+              [data]="sourcingCodeData" 
+              [searchKeyword]="keyword"
+              (selected)='selectSourcingEvent($event)' 
+              (inputChanged)='onSourcingCodeSearch($event)'
+              (inputCleared)='onSourcingCodeClear($event)' 
+              [itemTemplate]="sourcingCodeTemplate"
+              [notFoundTemplate]="notFoundTemplate" 
+              formControlName="sourcingCode"
+              [placeHolder]="sourcingCodePlaceholder" 
+              [debounceTime]="400" 
+              [disabled]="isSourchingCode">
             </ng-autocomplete>
+            <div class="invalid-feedback" *ngIf="!isSourceCode" >
+              <div> Sourcing code required.</div>
+            </div>
             <ng-template #sourcingCodeTemplate let-item>
               <a [innerHTML]="item.value"></a>
             </ng-template>
@@ -129,12 +140,22 @@
           </label>
           <div class="ng-autocomplete" style="width: 100%;"
             [ngClass]="{ 'codeDisable disableCode': isDisabledDealerCode }">
-            <ng-autocomplete [data]="dealerCodeData" [searchKeyword]="keyword"
-              (inputChanged)="onDealerCodeSearch($event)" (inputCleared)="onDealerCodeClear($event)"
-              (selected)="selectDealorEvent($event)" [itemTemplate]="dealerCodeTemplate"
-              [notFoundTemplate]="notFoundTemplate" formControlName="dealerCode" [placeHolder]="'Dealer Code'"
-              [debounceTime]="400" [disabled]="isDisabledDealerCode">
+            <ng-autocomplete 
+              [data]="dealerCodeData" 
+              [searchKeyword]="keyword"
+              (inputChanged)="onDealerCodeSearch($event)" 
+              (inputCleared)="onDealerCodeClear($event)"
+              (selected)="selectDealorEvent($event)" 
+              [itemTemplate]="dealerCodeTemplate"
+              [notFoundTemplate]="notFoundTemplate" 
+              formControlName="dealerCode" 
+              [placeHolder]="'Dealer Code'"
+              [debounceTime]="400" 
+              [disabled]="isDisabledDealerCode">
             </ng-autocomplete>
+            <div class="invalid-feedback" >
+              <div *ngIf="isDealerCode"> Dealer code required.</div>
+            </div>
             <ng-template #dealerCodeTemplate let-item>
               <a [innerHTML]="item.dealorName"></a>
             </ng-template>

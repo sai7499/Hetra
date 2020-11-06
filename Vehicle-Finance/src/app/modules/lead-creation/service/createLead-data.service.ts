@@ -35,18 +35,15 @@ export class CreateLeadDataService {
         //     this.leadSectionData['leadDetails']['reqLoanAmt'] : 0;
         // this.sharedService.changeLoanAmount(Number(requestAmount));
         this.cds.changeleadDataStatus(data ? true : false);
-        console.log("set lead sectionData",this.leadSectionData)
         this.sharedService.setProductCatCode(this.leadSectionData['leadDetails']['productCatCode']);
         this.sharedService.setProductCatName(this.leadSectionData['leadDetails']['productCatName']);
     }
 
     getLeadSectionData() {
-        console.log('in create lead service', this.leadSectionData);
         return this.leadSectionData;
     }
 
     setLeadDetailsData(data) {
-        console.log('test data', data);
         this.leadDetailsDataModified(data);
     }
 
@@ -92,7 +89,6 @@ export class CreateLeadDataService {
             this.leadSectionData['leadDetails']['reqLoanAmt'] : 0;
         this.sharedService.changeLoanAmount(Number(requestAmount));
 
-        console.log('final', this.leadSectionData);
         this.sharedService.setProductCatCode( this.leadSectionData['leadDetails']['productCatCode']);
         this.sharedService.setProductCatName(this.leadSectionData['leadDetails']['productCatName']);
     }

@@ -125,6 +125,8 @@ export class SourcingDetailsComponent implements OnInit {
   tenureMonthLength: number;
   productCategoryLoanAmount: any;
   applicationNo: any;
+  isDealerCode: boolean;
+  sourchingTypeId: string;
 
   saveUpdate: {
     bizDivision: string;
@@ -479,9 +481,19 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   sourchingTypeChange(event) {
-    const sourchingTypeId = event.target ? event.target.value : event;
+    this.sourchingTypeId = event.target ? event.target.value : event;
+    if (this.sourchingTypeId === '2SOURTYP') {
+      this.sourcingDetailsForm.controls['dealerCode'].setValidators(Validators.required);
+      this.sourcingDetailsForm.controls['dealerCode'].updateValueAndValidity();
+      // this.isDealerCode = true;
+      this.isDealerCode = this.dealorCodeKey ? false : true;
+    } else {
+      this.sourcingDetailsForm.controls['dealerCode'].setValidators([]);
+      this.sourcingDetailsForm.controls['dealerCode'].updateValueAndValidity();
+      this.isDealerCode = false;
+    }
     this.socuringTypeData = this.sourcingData.filter(
-      (data) => data.sourcingTypeId === sourchingTypeId
+      (data) => data.sourcingTypeId === this.sourchingTypeId
     );
     this.placeholder = this.utilityService.getValueFromJSON(
       this.socuringTypeData,
@@ -535,6 +547,7 @@ export class SourcingDetailsComponent implements OnInit {
 
   onSourcingCodeClear(event) {
     this.sourcingCodeKey = '';
+    this.isSourceCode = false;
   }
 
   onDealerCodeSearch(event) {
@@ -559,10 +572,18 @@ export class SourcingDetailsComponent implements OnInit {
     this.isDealorCode = dealorEvent.dealorCode ? true : false;
     this.dealorCodeKey = dealorEvent.dealorCode;
     this.dealorCodeValue = dealorEvent.dealorName;
+    if (this.isDealerCode) {
+      this.isDealerCode = this.isDealorCode ? false : true;
+    }
   }
 
   onDealerCodeClear(event) {
     this.dealorCodeKey = '';
+    if (this.sourchingTypeId === '2SOURTYP') {
+      this.isDealerCode = true;
+    } else {
+      this.isDealerCode = false;
+    }
   }
 
   onLoanTypeTypeChange(event) {
@@ -636,13 +657,16 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   saveAndUpdate() {
+    let dealer : boolean;
     const formValue = this.sourcingDetailsForm.getRawValue();
-    console.log(
-      'this.sourcingDetailsForm.value',
-      this.sourcingDetailsForm.valid
-    );
+    console.log('this.sourcingDetailsForm.value', this.sourcingDetailsForm.valid);
+    if (this.sourchingTypeId === '2SOURTYP') {
+      dealer = (this.dealorCodeKey) ? true : false;
+    } else {
+      dealer = true;
+    }
     this.isDirty = true;
-    if (this.sourcingDetailsForm.valid === true && this.isSourceCode && this.isDealorCode) {
+    if (this.sourcingDetailsForm.valid === true && this.isSourceCode && dealer) {
       const saveAndUpdate: any = { ...formValue };
       console.log(formValue, 'FormValue');
       this.saveUpdate = {
