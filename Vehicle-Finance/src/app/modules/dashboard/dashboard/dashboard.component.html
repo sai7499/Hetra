@@ -1,12 +1,15 @@
 <main class="mar-top90">
   <div class="container-fluid">
     <div class="pull-right dropdown nav">
-      <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab" class="pull-right dropdown nav">
-        <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i>
+      <div  class="pull-right dropdown nav">
+        <button *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab" class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i>
           {{!isFilterApplied ? "Filter" : "Filter Applied"}} </button>
       </div>
+      <!-- <div *ngIf="isFilterApplied" class="pull-right dropdown nav">
+              <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter Applied</button>
+          </div> -->
 
-      <div class="pull-right dropdown nav" style="margin-right: 10px">
+      <div class="pull-right dropdown nav" style="margin: 0 10px 10px 0">
         <button class="btn btn-primary view-button" type="button" (click)="initinequery()">
           Initiate Query &nbsp;
           <i class="fa fa-bell cus-bell font-medium-3"></i><span
@@ -18,7 +21,7 @@
     </div>
   </div>
 
-  <div class="filter-block container-fluid mar-bottom" *ngIf="showFilter">
+  <div class="filter-block container-fluid mar-bottom" *ngIf="showFilter && (displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab)">
     <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab">
       <form [formGroup]="filterForm">
         <div class="row">
