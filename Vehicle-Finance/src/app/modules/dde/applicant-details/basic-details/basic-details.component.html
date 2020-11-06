@@ -1891,7 +1891,7 @@
                   [min]="toDayDate"
                   placeholder="Expiry Date"
                   [activeView]="'decade'"
-                  (ngModelChange)="updateExternalExpiryDate($event)"
+                  (valueChange)="updateExternalExpiryDate()"
                 ></kendo-datepicker>
                 <div
                   class="ShowError"
@@ -1905,7 +1905,7 @@
                 <div
                   class="ShowError"
                   *ngIf="
-                    externalExpiryDate < toDayDate
+                  isExpiryDate
                   "
                 >
                   Invalid date

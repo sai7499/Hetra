@@ -6,11 +6,14 @@
           {{!isFilterApplied ? "Filter" : "Filter Applied"}} </button>
       </div>
 
-      <!-- <div class="pull-right dropdown nav" style="margin-right: 10px">
+      <div class="pull-right dropdown nav" style="margin-right: 10px">
         <button class="btn btn-primary view-button" type="button" (click)="initinequery()">
-          Initiate Query &nbsp; <span class="badge badge-light">{{leadCount}}</span>
+          Initiate Query &nbsp;
+          <i class="fa fa-bell cus-bell font-medium-3"></i><span
+            class="notification badge badge-pill badge-danger" *ngIf="leadCount && leadCount !== 0">{{leadCount}}</span>
+          <!-- <span class="badge badge-light">{{leadCount}}</span> -->
         </button>
-      </div> -->
+      </div>
 
     </div>
   </div>
