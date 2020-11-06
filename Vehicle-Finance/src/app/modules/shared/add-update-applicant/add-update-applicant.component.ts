@@ -2220,10 +2220,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     setTimeout(() => {
       if (this.passportIssueDate < this.minPassportIssueDate) {
         this.showMessage['passportIssue'] = true;
-        this.passportIssueInvalidMsg="Passport Issuance Dates prior to 10 year will not be accepted"
+        this.passportIssueInvalidMsg="Passport Issuance dates prior to 10 year will not be accepted"
       } else if (this.passportIssueDate >= this.toDayDate) {
         this.showMessage['passportIssue'] = true;
-        this.passportIssueInvalidMsg="Invalid Date"
+        this.passportIssueInvalidMsg="Invalid date"
       } else {
         this.showMessage['passportIssue'] = false;
         this.passportIssueInvalidMsg="";
@@ -2257,10 +2257,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     setTimeout(() => {
       if (this.passportExpiryDate <= this.toDayDate) {
         this.showMessage['passportExpiry'] = true;
-        this.passportExpiryInvalidMsg="Invalid Date- Should be Future date and Valid"
+        this.passportExpiryInvalidMsg="Invalid date- Should be Future date and Valid"
       } else if (this.passportExpiryDate >= this.maxPassportExpiryDate) {
         this.showMessage['passportExpiry'] = true;
-        this.passportExpiryInvalidMsg="Passport expiry date should be 10 years from Issuance Date"
+        this.passportExpiryInvalidMsg="Passport expiry date should be 10 years from Issuance date"
       } else {
         this.showMessage['passportExpiry'] = false;
         this.passportExpiryInvalidMsg="";
