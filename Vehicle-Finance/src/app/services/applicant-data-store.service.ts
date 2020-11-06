@@ -171,7 +171,7 @@ export class ApplicantDataStoreService {
     return this.isNavigateDedupe
   }
 
-  checkLeadSectionDataForNCV(data, isBool?) {
+  checkLeadSectionDataForNCV(product, applicantDetails, isBool?) {
     let result: boolean;
 
     if (isBool === true) {
@@ -181,14 +181,16 @@ export class ApplicantDataStoreService {
       result = false;
       return result;
     }
-    this.leadSetionData = data;
+   
     let appDetails = [];
-    appDetails = data.applicantDetails;
-    const checkProduct: string = data.leadDetails.productCatCode;
+    const checkProduct: string = product;
     if (checkProduct === 'NCV') {
+      appDetails = applicantDetails;
       appDetails.map((data) => {
-        if (data.gender !== '2GENDER') {
-          result = true;
+        if (data.entityTypeKey === "INDIVENTTYP") {
+          if (data.gender !== '2GENDER') {
+            result = true;
+          }
         }
       });
     }
