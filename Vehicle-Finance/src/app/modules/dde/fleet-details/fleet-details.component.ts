@@ -23,6 +23,13 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
   styleUrls: ['./fleet-details.component.css']
 })
 export class FleetDetailsComponent implements OnInit {
+  docsFleetDetails;
+  csvData: any;
+  showError: string;
+  fileUrl;
+  fileName: string;
+  fileSize: string;
+  showUploadModal: boolean;
   disableSaveBtn: boolean;
   public fleetForm: FormGroup;
   labels: any = {};
@@ -782,6 +789,141 @@ export class FleetDetailsComponent implements OnInit {
       }
     }
   }
+
+  onClose() {
+    this.showUploadModal = false;
+  }
+
+  openUploadModal() {
+    this.showUploadModal = true;
+  }
+
+  removeFile() {
+    this.fileUrl = null;
+    this.fileName = null;
+    this.fileSize = null;
+    this.showError = null;
+  }
+
+  uploadFile() {
+    if (this.showError) {
+      this.toasterService.showError('Please select valid document', '');
+    }
+    // console.log('csvData', this.csvData);
+    // return;
+    this.fleetDetailsService.validateFleetDetails({
+      allText: this.csvData
+    }).subscribe(((value: any) => {
+        console.log('validate', value);
+        if (value.Error !== '0') {
+          return this.toasterService.showError(value.ErrorMessage, '');
+        }
+        const processVariables = value.ProcessVariables;
+        const error = processVariables.error;
+        if (error && error.code !== '0') {
+           return this.toasterService.showError(error.message, '');
+        }
+        this.docsFleetDetails = processVariables.fleetDetails;
+    }));
+  }
+
+  onFileSelect(event) {
+    const files: File = event.target.files[0];
+    let fileType = '';
+    this.fileUrl = files;
+    if (!files.type) {
+      const type = files.name.split('.')[1];
+      fileType = this.getFileType(type);
+    } else {
+      fileType = this.getFileType(files.type);
+    }
+    this.fileName = files.name;
+    this.fileSize = this.bytesToSize(files.size);
+    console.log('fileType', fileType, 'event', event);
+    if (!fileType.includes('xls') && !fileType.includes('csv')) {
+      this.showError = `Only files with following extensions are allowed: xlsx,csv`;
+      return;
+    }
+    if (files.size > 2097152 ) {
+      this.showError = `File is too large. Allowed maximum size is 2 MB`;
+      return;
+    }
+    this.showError = null;
+
+    const fileToRead = files;
+    const fileReader = new FileReader();
+    if (fileType.includes('xls')) {
+        fileReader.onload =  (e) => {
+          console.log('xls', e.target.result);
+      };
+      fileReader.readAsBinaryString(files);
+    } else {
+      fileReader.onload = (fileLoadedEvent: any) => {
+        const textFromFileLoaded = fileLoadedEvent.target.result;
+        this.csvData = textFromFileLoaded;
+      };
+      fileReader.readAsText(fileToRead);
+    }
+
+  }
+
+  onFileLoad(fileLoadedEvent: any) {
+    const textFromFileLoaded = fileLoadedEvent.target.result;
+    this.csvData = textFromFileLoaded;
+  }
+
+  saveValidRecords() {
+    this.fleetDetailsService.saveValidRecords({
+      allText: this.csvData
+    }).subscribe(((value: any) => {
+        console.log('save', value);
+        if (value.Error !== '0') {
+          return this.toasterService.showError(value.ErrorMessage, '');
+        }
+        const processVariables = value.ProcessVariables;
+        const error = processVariables.error;
+        if (error && error.code !== '0') {
+           return this.toasterService.showError(error.message, '');
+        }
+        this.docsFleetDetails = null;
+        this.showUploadModal = false;
+    }));
+  }
+
+  onModalClose() {
+    this.docsFleetDetails = null;
+  }
+
+  getFileType(type: string) {
+    const types = {
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+        'docx',
+      'application/vnd.ms-excel': 'xls',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+        'xlsx',
+      'image/tiff': 'tiff',
+      'application/pdf': 'pdf',
+      'image/png': 'png',
+      'image/jpeg': 'jpeg',
+      'application/msword': 'docx',
+      'text/csv': 'csv',
+      csv: 'csv'
+    };
+    return types[type] || type;
+  }
+
+  private bytesToSize(bytes) {
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes === 0) {
+      return 'n/a';
+    }
+    const i = Number(Math.floor(Math.log(bytes) / Math.log(1024)));
+    if (i === 0) {
+      return bytes + ' ' + sizes[i];
+    }
+    return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+  }
+
 }
 
 

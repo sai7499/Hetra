@@ -127,6 +127,16 @@ export class ApiService {
       processId: '8a5ad9369b3811eabdd3f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId,
     },
+    validateFleetDetails: {
+      workflowId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
+      processId: 'ae136e081a7511eb951300505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    saveValidRecords: {
+      workflowId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
+      processId: 'abba4d121db711eb86ca00505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
     saveUpdateFleetRtr: {
       processId: 'be7ff35699c911eabdcff2fa9bec3d63',
       workflowId: 'be4f9c6099c911eabdcff2fa9bec3d63',

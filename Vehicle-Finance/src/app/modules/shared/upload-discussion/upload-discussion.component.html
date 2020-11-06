@@ -39,22 +39,23 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Reg No</td>
-                    <td>Reg Owner Name</td>
-                    <td>Relation</td>
-                    <td>Region</td>
-                    <td>Make</td>
-                    <td>Vehicle Type</td>
-                    <td>Segment</td>
-                    <td>Model</td>
-                    <td>YOM</td>
-                      <td>Financial</td>
-                      <td>Loan Number</td>
-                      <td>Purchase Date</td>
-                      <td>Tenor</td>
-                      <td>Accrued</td>
-                      <td>Status</td>
+                  <tr *ngFor="let data of details">
+                    <td>{{data.regdNo}}</td>
+                    <td>{{data.regdOwner}}</td>
+                    <td>{{data.relation}}</td>
+                    <td>{{data.region}}</td>
+                    <td>{{data.make}}</td>
+                    <td>{{data.vehicleType}}</td>
+                    <td>{{data.segmentCode}}</td>
+                    <td>{{data.assetModel}}</td>
+                    <td>{{data.yom}}</td>
+                    <td>{{data.financier}}</td>
+                    <td>{{data.loanNo}}</td>
+                    <td>{{data.purchaseDate}}</td>
+                    <td>{{data.tenure}}</td>
+                    <td>{{data.regdNo}}</td>
+                    <td *ngIf="data.status" style="color: green;">Success</td>
+                    <td *ngIf="!data.status" style="color: red;">Fail</td>
                   </tr>
                 </tbody>
               </table>
@@ -76,6 +77,7 @@
           type="button"
           class="btn btn-success"
           data-dismiss="modal"
+          (click)="onSave()"
         >
         Save Valid Records 
         </button>
