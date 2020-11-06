@@ -15,16 +15,19 @@ import {
   providedIn: 'root',
 })
 export class ApplicantDataStoreService {
-  applicantRelation : any;
+  applicantRelation: any;
   applicant: Applicant = {};
   applicantId = '';
-  dedupeValues={};
-  dedupeFlag : boolean= false;
-  panValidate : boolean= false;
-  isSaveBasicDetails : boolean= false;
-  isSaveAddressDetails : boolean = false;
-  isNavigateDedupe : boolean = false;
-  isValueChange : boolean = false;
+  dedupeValues = {};
+  dedupeFlag: boolean = false;
+  panValidate: boolean = false;
+  isSaveBasicDetails: boolean = false;
+  isSaveAddressDetails: boolean = false;
+  isNavigateDedupe: boolean = false;
+  isValueChange: boolean = false;
+  leadSetionData: any;
+  isFemaleGender: boolean;
+
   setApplicant(applicant: Applicant) {
     const aboutIndivProspectDetails = applicant.aboutIndivProspectDetails
       ? applicant.aboutIndivProspectDetails
@@ -57,8 +60,8 @@ export class ApplicantDataStoreService {
       indivProspectProfileDetails,
       directorDetails,
       otpVerified: applicant.otpVerified,
-      ucic : applicant.ucic,
-      ekycDone : applicant.ekycDone
+      ucic: applicant.ucic,
+      ekycDone: applicant.ekycDone
     };
   }
 
@@ -106,7 +109,7 @@ export class ApplicantDataStoreService {
     this.applicant.addressDetails = value;
   }
 
-  setDirectorDetails(value : DirectorDetails[]){
+  setDirectorDetails(value: DirectorDetails[]) {
     this.applicant.directorDetails = value;
   }
 
@@ -127,45 +130,69 @@ export class ApplicantDataStoreService {
     this.applicant.indivIdentityInfoDetails = newDetails;
   }
 
-  setApplicantRelation(value){
-    this.applicantRelation= value;
+  setApplicantRelation(value) {
+    this.applicantRelation = value;
   }
-  getApplicantRelation(){
+  getApplicantRelation() {
     return this.applicantRelation;
   }
 
-  setDedupeValues(data){
-    this.dedupeValues={
+  setDedupeValues(data) {
+    this.dedupeValues = {
       ...data
     }
   }
-  getDedupeValues(){
+  getDedupeValues() {
     return this.dedupeValues
   }
-  setDedupeFlag(value : boolean){
-     this.dedupeFlag = value;
+  setDedupeFlag(value: boolean) {
+    this.dedupeFlag = value;
   }
-  getDedupeFlag(){
+  getDedupeFlag() {
     return this.dedupeFlag;
   }
-  setPanValidate(value : boolean){
+  setPanValidate(value: boolean) {
     this.panValidate = value;
   }
-  getPanValidate(){
+  getPanValidate() {
     return this.panValidate
   }
- 
-  setDetectvalueChange(value : boolean){
-    this.isValueChange= value
+
+  setDetectvalueChange(value: boolean) {
+    this.isValueChange = value
   }
-  getDetectvalueChange(){
+  getDetectvalueChange() {
     return this.isValueChange
   }
-  setNavigateForDedupe(value : boolean){
-    this.isNavigateDedupe= value
+  setNavigateForDedupe(value: boolean) {
+    this.isNavigateDedupe = value
   }
-  getNavigateForDedupe(){
+  getNavigateForDedupe() {
     return this.isNavigateDedupe
+  }
+
+  checkLeadSectionDataForNCV(data, isBool?) {
+    let result: boolean;
+
+    if (isBool === true) {
+      result = isBool;
+      return result;
+    } else if (isBool === false) {
+      result = false;
+      return result;
+    }
+    this.leadSetionData = data;
+    let appDetails = [];
+    appDetails = data.applicantDetails;
+    const checkProduct: string = data.leadDetails.productCatCode;
+    if (checkProduct === 'NCV') {
+      appDetails.map((data) => {
+        if (data.gender !== '2GENDER') {
+          result = true;
+        }
+      });
+    }
+    return result;
   }
 
 }
