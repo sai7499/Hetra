@@ -129,7 +129,6 @@ export class UtilityService {
     const arrayUniqueByKey = [
       ...new Map(dataJosn.map((data) => [data[key], data])).values(),
     ];
-    // return arrayUniqueByKey;
     return arrayUniqueByKey.filter((keyValue) => keyValue.value !== null);
   }
 

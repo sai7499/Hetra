@@ -588,8 +588,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
             assetBodyType = this.utilityService.getValueFromJSON(res.ProcessVariables.vehicleMasterDetails,
               "uniqueSegmentCode", "segmentCode");
 
-            console.log('res', res)
-
             this.vehicleLov.assetBodyType = assetBodyType;
 
             obj.patchValue({
@@ -618,8 +616,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.assetModelType = this.assetBodyType.filter((data) => data.uniqueSegmentCode === value)
     this.vehicleLov.assetModel = this.utilityService.getValueFromJSON(this.assetModelType,
       "vehicleModelCode", "vehicleModel")
-    console.log('assetBodyType', this.assetBodyType)
-    console.log('assetModelType', this.assetModelType)
 
     obj.patchValue({
       assetModel: '',
