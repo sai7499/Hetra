@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 import { ToasterService } from '@services/toaster.service';
+import { CommonDataService } from '@services/common-data.service';
 
 @Component({
   selector: 'app-vehicle-details',
@@ -24,11 +25,23 @@ export class VehicleDetailComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private applicantDataStoreService: ApplicantDataStoreService,
     private toasterService: ToasterService,
+    private commonDataService: CommonDataService,
     private route: Router) { }
   async ngOnInit() {
     this.leadId = (await this.getLeadId()) as string;
     const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
-    this.isFemaleForNCV = this.applicantDataStoreService.checkLeadSectionDataForNCV(leadSectioData);
+    const product = leadSectioData.leadDetails.productCatCode;
+    const applicantDetailsFromPool = leadSectioData.applicantDetails;
+    this.commonDataService.applicantDeleted$.subscribe(data => {
+      const result = data.bool;
+      if (result) {
+        this.isFemaleForNCV = this.applicantDataStoreService.checkLeadSectionDataForNCV(product,data.app);
+
+      } else {
+        this.isFemaleForNCV = this.applicantDataStoreService.checkLeadSectionDataForNCV(product, applicantDetailsFromPool);
+
+      }
+    })
 
   }
   onCredit() {
@@ -39,9 +52,11 @@ export class VehicleDetailComponent implements OnInit {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         const bodyRes = res;
         this.creditService.setResponseForCibil(bodyRes);
+
         if (this.isFemaleForNCV) {
           this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
         }
+
         this.route.navigate([`pages/lead-section/${this.leadId}/credit-score`]);
       } else {
         this.errorMessage = res.ProcessVariables.error ? res.ProcessVariables.error.message : res.ErrorMessage;
