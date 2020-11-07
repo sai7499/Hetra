@@ -245,7 +245,7 @@ export class UploadModalComponent {
           const documentDetails: DocumentDetails = {
             documentId: this.docsDetails.documentId,
             documentType: String(this.docsDetails.docTypCd),
-            documentName: String(this.docsDetails.docNm),
+            documentName: String(this.docsDetails.docTypCd),
             documentNumber: this.docsDetails.documentNumber,
             dmsDocumentId: value.docIndx,
             categoryCode: String(this.docsDetails.docCtgryCd),
