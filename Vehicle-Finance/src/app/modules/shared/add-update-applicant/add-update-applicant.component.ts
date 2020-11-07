@@ -2216,7 +2216,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   drivingIssueDateShowError(event) {
-    this.drivingLicenseIssueDate= new Date(event);
+    
     this.drivingExpiryInvalidMsg=""
     this.mandatory['drivingLicenseIssueDate'] = false;
     const valueChecked = this.drivingLicenseIssueDate > this.minPassportExpiryDate;
@@ -2236,7 +2236,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   passportIssueDateShowError(event) {
-    this.passportIssueDate= new Date(event)
+    
     this.passportMandatory['passportIssueDate'] = false;
     this.passportExpiryInvalidMsg="";
   
@@ -2267,7 +2267,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   }
   drivingLicenceExpiryShowError(event) {
-    this.drivingLicenseExpiryDate= new Date(event)
+    
     this.mandatory['drivingLicenseExpiryDate'] = false;
     setTimeout(() => {
       if (this.drivingLicenseExpiryDate <= this.minPassportExpiryDate) {
@@ -2280,7 +2280,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     })
   }
   passportExpiryShowError(event) {
-    this.passportExpiryDate=new Date (event)
+   
     this.passportMandatory['passportExpiryDate'] = false;
     setTimeout(() => {
       if (this.passportExpiryDate <= this.minPassportExpiryDate) {
@@ -2457,10 +2457,20 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
 
     if (this.dedupeMobile || !this.applicant.otpVerified) {
+      const currentUrl = this.location.path();
+      if (currentUrl.includes('sales')) {
+        this.applicantDataService.setNavigateForDedupe(true)
+        this.router.navigateByUrl(
+          `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
+        );
+      } else {
+        this.applicantDataService.setNavigateForDedupe(false)
+        this.router.navigateByUrl(
+          `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
+        );
+      }
       // console.log("GO NEXT")
-      this.router.navigateByUrl(
-        `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
-      );
+      
     } else {
       // console.log("GO NEXT")
       this.navigateToApplicantList();
@@ -2518,9 +2528,18 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       return;
     }
     if (this.dedupeMobile || !this.applicant.otpVerified) {
-      this.router.navigateByUrl(
-        `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
-      );
+      const currentUrl = this.location.path();
+      if (currentUrl.includes('sales')) {
+        this.applicantDataService.setNavigateForDedupe(true)
+        this.router.navigateByUrl(
+          `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
+        );
+      } else {
+        this.applicantDataService.setNavigateForDedupe(false)
+        this.router.navigateByUrl(
+          `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
+        );
+      }
       //console.log("GO NEXT")
     } else {
       this.navigateToApplicantList();
@@ -2695,12 +2714,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       //const date = new Date(dedupe.dob);
       dedupe.dob = this.utilityService.getDateFormat(dedupe.dob);
     }
-    // if (dedupe.passportIssueDate) {
-    //   const date = dedupe.passportIssueDate
-    //   date.setFullYear(date.getFullYear() - 10)
-    //   dedupe.passportIssueDate = date
+    if (dedupe.passportIssueDate) {
+      const date = dedupe.passportIssueDate
+      date.setFullYear(date.getFullYear() - 10)
+      dedupe.passportIssueDate = date
 
-    // }
+    }
     let mobileNumber = dedupe.mobilePhone;
     if (mobileNumber.length === 12) {
       mobileNumber = mobileNumber.slice(2, 12);
@@ -3382,11 +3401,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         applicantDetails.dob
       );
     }
-    // if (applicantDetails.passportIssueDate) {
-    //   const date = applicantDetails.passportIssueDate;
-    //   date.setFullYear(date.getFullYear() - 10)
-    //   applicantDetails.passportIssueDate = date;
-    // }
+    if (applicantDetails.passportIssueDate) {
+      const date = applicantDetails.passportIssueDate;
+      date.setFullYear(date.getFullYear() - 10)
+      applicantDetails.passportIssueDate = date;
+    }
 
     const data = {
       leadId: this.leadId,

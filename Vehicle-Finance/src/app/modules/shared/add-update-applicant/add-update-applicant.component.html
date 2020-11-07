@@ -502,7 +502,7 @@
                   </div> -->
                   <kendo-datepicker class="form-control mandatory" formControlName="drivingLicenseIssueDate"
                     [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"
-                     (valueChange)="drivingIssueDateShowError($event)"
+                     (valueChange)="drivingIssueDateShowError($event)" [(ngModel)]="drivingLicenseIssueDate"
                     [disabled]='disabledDrivingDates' placeholder="Driving License Issue Date">
                   </kendo-datepicker>
                   <div class="ShowError" *ngIf="
@@ -554,7 +554,7 @@
                   </div> -->
                   <kendo-datepicker class="form-control mandatory" formControlName="drivingLicenseExpiryDate"
                     [format]="'dd/MM/yyyy'" [min]="minDrivingExpiryDate" [activeView]="'decade'"
-                     (valueChange)="drivingLicenceExpiryShowError($event)"
+                     (valueChange)="drivingLicenceExpiryShowError($event)"  [(ngModel)]="drivingLicenseExpiryDate"
                     [disabled]='disabledDrivingDates' placeholder="Driving License Expiry Date">
                   </kendo-datepicker>
                   <div class="ShowError" *ngIf="
@@ -611,13 +611,12 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.passportIssueDate }}</label>
                   <kendo-datepicker class="form-control mandatory" formControlName="passportIssueDate"
-                    [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'" 
+                    [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"  [(ngModel)]="passportIssueDate"
                     (valueChange)="passportIssueDateShowError($event)" [disabled]="disabledPassportDates"
                     placeholder="Passport Issue Date">
                   </kendo-datepicker>
                   <div class="ShowError" *ngIf="
-                      !passportIssueDate && coApplicantForm.get('dedupe').get('passportIssueDate')
-                      .touched ||
+                      !passportIssueDate &&
                       passportMandatory['passportIssueDate'] &&
                       (isDirty ||
                         coApplicantForm.get('dedupe').get('passportIssueDate')
@@ -635,7 +634,7 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.passportExpiryDate }}</label>
                   <kendo-datepicker class="form-control mandatory" formControlName="passportExpiryDate"
-                    [format]="'dd/MM/yyyy'" [max]="maxPassportExpiryDate" [activeView]="'decade'" 
+                    [format]="'dd/MM/yyyy'" [max]="maxPassportExpiryDate" [activeView]="'decade'"  [(ngModel)]="passportExpiryDate"
                     (valueChange)="passportExpiryShowError($event)" [disabled]="disabledPassportDates"
                     placeholder="Passport Expiry Date"> 
                   </kendo-datepicker>
