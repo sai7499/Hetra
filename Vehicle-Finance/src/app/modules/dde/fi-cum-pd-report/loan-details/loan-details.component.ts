@@ -85,7 +85,8 @@ export class LoanDetailsComponent implements OnInit {
     rule?: any;
     msg?: string;
   }[];
-
+  splittedMarginMoney: string;
+  calculatedMarginMoney: string;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -322,7 +323,7 @@ export class LoanDetailsComponent implements OnInit {
       usedVehicleCost: new FormControl(''),
       usedVehModel: new FormControl(''),
       usedVehicleType: new FormControl(''),
-      usedVehicleMarginMoney: new FormControl(''),
+      usedVehicleMarginMoney: new FormControl({ value: '', disabled: true }),
       usedVehicleLoanAmountReq: new FormControl(''),
       // sourceOfVehiclePurchase: new FormControl(''),
       sourceOfVehiclePurchase: new FormControl('', Validators.compose([Validators.maxLength(40),
@@ -530,7 +531,21 @@ export class LoanDetailsComponent implements OnInit {
         this.assetDetailsUsedVehicle = value.ProcessVariables.applicableForAssetDetailsUsedVehicle;
         // console.log('asset details used vehilce', this.assetDetailsUsedVehicle);
         // console.log('calling get api ', this.newCvDetails, this.assetDetailsUsedVehicle, this.usedVehicleDetails);
+        if (this.usedVehicleDetails.marginMoney) {
+          console.log('calc marg money from api', this.usedVehicleDetails.marginMoney);
+          if (Number(this.usedVehicleDetails.marginMoney) == Math.floor(Number(this.usedVehicleDetails.marginMoney))) {
+            console.log('integer');
+          } else {
+            // console.log('calc margmoney', this.usedVehicleDetails.marginMoney.split('.', 2));
+            this.splittedMarginMoney = this.usedVehicleDetails.marginMoney.split('.', 2);
+            this.calculatedMarginMoney = this.splittedMarginMoney[0] + '.' +
+              this.splittedMarginMoney[1][0] + this.splittedMarginMoney[1][1];
+            console.log('calculated margin money', this.calculatedMarginMoney);
+            console.log('decimal');
+          }
 
+
+        }
         this.setFormValue();
         if (this.loanDetailsForm.get('regCopVfd') != null) {
           this.regCopyVerified(this.loanDetailsForm.get('regCopVfd').value);
@@ -575,7 +590,7 @@ export class LoanDetailsComponent implements OnInit {
         usedVehicleCost: usedVehicleModel.vehicleCost || '',
         usedVehModel: usedVehicleModel.model || '',
         usedVehicleType: usedVehicleModel.type || '',
-        usedVehicleMarginMoney: usedVehicleModel.marginMoney || '',
+        usedVehicleMarginMoney: this.calculatedMarginMoney || '',
         usedVehicleLoanAmountReq: usedVehicleModel.usedVehicleLoanAmountReq || '',
         sourceOfVehiclePurchase: usedVehicleModel.sourceOfVehiclePurchase || '',
         marginMoneySource: usedVehicleModel.marginMoneySource || '',
