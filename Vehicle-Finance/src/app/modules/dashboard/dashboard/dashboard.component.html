@@ -1,5 +1,8 @@
 <main class="mar-top90">
   <div class="container-fluid">
+    <div *ngIf="userName" style="float: left; margin-left: 5px;">
+      <h4>{{userName}} dashboard</h4>
+    </div>
     <div class="pull-right dropdown nav">
       <div  class="pull-right dropdown nav">
         <button *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab" class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i>
