@@ -404,12 +404,12 @@ margin: 0px !important;
 }
 .query .left{
 	background-color: #ece4e4;
-	padding: 30px;
+	padding: 20px 5px;
 }
 .query .right{
 	background-color: #fff;
 	border: 1px solid #f5f5f5;
-	padding: 30px;
+	padding: 10px 8px 10px;
 }
 .send-message, .receive-message{
     padding: 20px;
@@ -604,13 +604,14 @@ margin: 0px !important;
 }
 
 .chat-box {
-    border: 2px solid #ddd;
+    /* border: 2px solid #ddd; */
     /* height: 634px; */
-    padding: 12px;
+    /* padding: 12px; */
     /* background-color: #eaeaf1; */
-    background-color: #fff;
+    /* background-color: #fff; */
     border-radius: 8px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
+    margin-right:0px!important;
 }
 
 .input-search{
@@ -668,9 +669,10 @@ margin: 0px !important;
   }
 
   hr {
-    margin: 2px 0px;
     border: 0;
-    border-top: 2px solid #d4d1d1!important;
+    border-top: 2px solid #eeeeee9e!important;
+    width: 90%;
+    margin: 0 auto;
 }
 
 .dropdown-content div a {
@@ -711,14 +713,21 @@ margin: 0px !important;
 
     .scroll-box {
     width:100%;
-    max-height:500px;
+    max-height:300px;
     overflow-y:auto;
     }
 
     .message-box{
         width:100%;
-        max-height: 634px;
-    overflow-y:auto;
+        max-height: 275px;
+        overflow-y:auto;
+        margin-right:0px!important;
+        -moz-box-shadow:inset 0 0 10px #ddd;
+        -webkit-box-shadow: inset 0 0 10px #ddd;
+        box-shadow:inset 0 0 10px #ddd;
+        padding: 10px 2px 10px 6px;
+        margin-bottom: 8px;
+
     }
 
         
@@ -904,9 +913,10 @@ margin: 0px !important;
           }
         
           hr {
-            margin : 5px 0px;
             border: 0;
-            border-top: 2px solid #eee!important;
+            border-top: 2px solid #eeeeee9e!important;
+            width: 90%;
+            margin: 0 auto;
         }        
 
     /* .flex-container-two {
@@ -945,3 +955,62 @@ margin: 0px !important;
         padding: 10px;
         margin: 0px 5px;
     }
+
+    .view-pad-bottom{
+        text-align: right;
+        margin-right: 0px!important;
+        margin-bottom: 5px;
+    } 
+
+    .mar-top70{
+        margin-top:70px;
+    }
+
+    .mar-bot10{
+        margin-bottom:10px;
+    }
+
+    .mar-top0{
+        margin-top:0px!important;
+    }
+    @media (min-width:260px) and (max-width: 760px) {
+        .view-pad-bottom{
+            width:100%;
+        }  
+
+        .view-button{
+            width:90%;
+            margin: 10px auto;
+        }
+    }
+
+    * {
+  scrollbar-width: thin;
+  scrollbar-color: #f57d2f #fff0;
+}
+
+/* Works on Chrome/Edge/Safari */
+*::-webkit-scrollbar {
+  width: 6px;
+}
+*::-webkit-scrollbar-track {
+  background: #fff0;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #f57d2f;
+  border-radius: 20px;
+  border: 1px solid #fff0;
+}
+
+body::-webkit-scrollbar {
+  width: 6px;               /* width of the entire scrollbar */
+}
+body::-webkit-scrollbar-track {
+  background: #fff0;        /* color of the tracking area */
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #f57d2f;    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 1px solid #fff0;  /* creates padding around scroll thumb */
+}
+

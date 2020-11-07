@@ -1,17 +1,12 @@
-<main class="mar-top90">
-  <div class="container-fluid">
+<main class="mar-top70">
+  <div class="">
 
-    <div class="row view-pad-bottom" style="text-align: right;margin-right: 20px;">
-      <button class="btn btn-warning view-button" type="button" (click)="backFromQuery()"><i
-          class="fa fa-arrow-left"></i> Back to Lead</button>
-    </div>
-
-    <div class="" style="margin: 10px;">
+    <div class="">
 
       <div class="clearfix">
         <form [formGroup]="queryModalForm">
           <div class="query">
-            <div class="col-sm-4 left">
+            <div class="col-sm-4 left p-">
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0">
                 <div class="input-group search-btn">
                   <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
@@ -21,7 +16,7 @@
               </div>
 
               <br /><br />
-              <div class="panel-group mar-20 scroll-box row" id="scrollBox">
+              <div class="panel-group mar-20 scroll-box " id="scrollBox">
                 <div class="panel-group mar-20" id="accordion" *ngFor="let chat of chatList; let i=index; let last=last"
                   [ngClass]="selectedList === chat ? 'selected-back' : ''">
                   <div class="flex-container">
@@ -120,7 +115,11 @@
             </div>
 
             <div class="col-sm-8 right ">
-              <div class="row chat-box message-box">
+              <div class="row view-pad-bottom" >
+                <button class="btn btn-warning view-button" type="button" (click)="backFromQuery()"><i
+                    class="fa fa-arrow-left"></i> Back to Lead</button>
+              </div>
+              <div class="chat-box message-box ">
 
                 <div *ngFor="let message of chatMessages; let j=index;let last=last;">
                   <div class="wt-80" [ngClass]="message.queryFrom === userId ? 'sender' : 'receiver'">
@@ -250,8 +249,8 @@
                 <div class="col-sm-5">
 
                 </div>
-                <div class="col-sm-7 text-right">
-                  <button class="btn btn-primary dash_href" type="button"
+                <div class="col-sm-7 text-right mar-bot10 ">
+                  <button class="btn btn-primary dash_href mar-top0" type="button"
                     (click)="onFormSubmit(queryModalForm)">Send</button>
                 </div>
               </div>
