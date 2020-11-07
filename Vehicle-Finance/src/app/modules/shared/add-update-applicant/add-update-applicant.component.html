@@ -616,7 +616,8 @@
                     placeholder="Passport Issue Date">
                   </kendo-datepicker>
                   <div class="ShowError" *ngIf="
-                      !passportIssueDate &&
+                      !passportIssueDate && coApplicantForm.get('dedupe').get('passportIssueDate')
+                      .touched ||
                       passportMandatory['passportIssueDate'] &&
                       (isDirty ||
                         coApplicantForm.get('dedupe').get('passportIssueDate')

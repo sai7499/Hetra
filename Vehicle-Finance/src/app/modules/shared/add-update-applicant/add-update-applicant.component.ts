@@ -2805,7 +2805,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     }
   }
   onFormSubmit() {
-    // console.log('Form', this.coApplicantForm);
+    console.log('Form', this.coApplicantForm);
     const formValue = this.coApplicantForm.getRawValue();
 
     const coApplicantModel = {
