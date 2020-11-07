@@ -3288,21 +3288,21 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         return;
       }
 
-      if (
-        this.passportMandatory['passportIssueDate'] &&
-        !this.passportIssueDate &&
-        !this.passportExpiryDate
-      ) {
-        return;
-      }
+      // if (
+      //   this.passportMandatory['passportIssueDate'] &&
+      //   !this.passportIssueDate &&
+      //   !this.passportExpiryDate
+      // ) {
+      //   return;
+      // }
 
-      if (
-        this.mandatory['drivingLicenseIssueDate'] &&
-        !this.drivingLicenseIssueDate &&
-        !this.drivingLicenseExpiryDate
-      ) {
-        return;
-      }
+      // if (
+      //   this.mandatory['drivingLicenseIssueDate'] &&
+      //   !this.drivingLicenseIssueDate &&
+      //   !this.drivingLicenseExpiryDate
+      // ) {
+      //   return;
+      // }
       if (this.showNotApplicant) {
         this.toasterService.showError('There should be only one main applicant for this lead', '');
         return;
