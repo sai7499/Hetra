@@ -238,8 +238,7 @@ export class ApplicantDetailsComponent implements OnInit {
       }
     }
 
-
-    this.route.navigateByUrl(`pages/lead-section/${this.leadId}/vehicle-details`)
+    this.route.navigateByUrl(`pages/lead-section/${this.leadId}/vehicle-list`)
   }
 
   onBack() {

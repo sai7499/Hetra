@@ -348,12 +348,19 @@ export class TrackVehicleComponent implements OnInit {
           this.fleetRtrDetails[i].dueDate = addDueDate;
           if (this.fleetRtrDetails[i]['receivedDate'] != "") {
             this.fleetRtrDetails[i].delayDays = this.dateDiff(this.fleetRtrDetails[i].dueDate, this.fleetRtrDetails[i]['receivedDate']);
+          } else {
+            this.fleetRtrDetails[i]['receivedDate'] = this.addingReceviedDate();
           }
           this.formArr.push(this.initRows(this.fleetRtrDetails[i]));
         }
         else {
           let addDueDate2 = this.addMonth(addDueDate, i)
           this.fleetRtrDetails[i].dueDate = addDueDate2;
+          if (this.fleetRtrDetails[i]['receivedDate'] != "") {
+            this.fleetRtrDetails[i].delayDays = this.dateDiff(this.fleetRtrDetails[i].dueDate, this.fleetRtrDetails[i]['receivedDate']);
+          } else {
+            this.fleetRtrDetails[i]['receivedDate'] = this.addingReceviedDate();
+          }
           this.fleetRtrDetails[i].delayDays = this.dateDiff(this.fleetRtrDetails[i].dueDate, this.fleetRtrDetails[i]['receivedDate']);
           this.focusedDate.push(addDueDate2)
           this.addNewRow(this.fleetRtrDetails[i]);
@@ -695,7 +702,12 @@ export class TrackVehicleComponent implements OnInit {
   }
 
   addingReceviedDate() {
-    let matureDate = this.trackVehicleForm.value['loanMaturityDate'];
+    let matureDate;
+    if(this.trackVehicleForm.value['loanMaturityDate']) {
+     matureDate = this.trackVehicleForm.value['loanMaturityDate'];
+    } else {
+      matureDate = new Date();
+    }
     let currentDate = new Date();
     if (matureDate > currentDate) {
       return currentDate
