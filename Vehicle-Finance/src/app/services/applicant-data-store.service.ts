@@ -27,6 +27,7 @@ export class ApplicantDataStoreService {
   isValueChange: boolean = false;
   leadSetionData: any;
   isFemaleGender: boolean;
+  applicantList : any=[]
 
   setApplicant(applicant: Applicant) {
     const aboutIndivProspectDetails = applicant.aboutIndivProspectDetails
@@ -170,6 +171,14 @@ export class ApplicantDataStoreService {
   getNavigateForDedupe() {
     return this.isNavigateDedupe
   }
+  setApplicantList(data : any[]){
+     this.applicantList=[];
+     this.applicantList=data;
+  }
+
+  getApplicantList(){
+     return this.applicantList
+  }
 
   checkLeadSectionDataForNCV(product, applicantDetails, isBool?) {
     let result: boolean;
@@ -195,6 +204,16 @@ export class ApplicantDataStoreService {
       });
     }
     return result;
+  }
+
+  checkFemaleAppForNCV(data : any[]): boolean{
+
+     const applicantList = data;
+     
+     const result= applicantList.some((value : any)=>{
+      return value.gender==='2GENDER'
+     })
+     return result;
   }
 
 }

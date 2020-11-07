@@ -502,7 +502,7 @@
                   </div> -->
                   <kendo-datepicker class="form-control mandatory" formControlName="drivingLicenseIssueDate"
                     [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"
-                    [(ngModel)]="drivingLicenseIssueDate" (valueChange)="drivingIssueDateShowError()"
+                     (valueChange)="drivingIssueDateShowError($event)" [(ngModel)]="drivingLicenseIssueDate"
                     [disabled]='disabledDrivingDates' placeholder="Driving License Issue Date">
                   </kendo-datepicker>
                   <div class="ShowError" *ngIf="
@@ -520,7 +520,7 @@
                     Select Date
                   </div>
                   <div class="ShowError" *ngIf="showMessage['drivinglicenseIssue']">
-                    Invalid Date
+                   {{drivingIssueInvalidMsg}}
                   </div>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
@@ -553,8 +553,8 @@
                     />
                   </div> -->
                   <kendo-datepicker class="form-control mandatory" formControlName="drivingLicenseExpiryDate"
-                    [format]="'dd/MM/yyyy'" [min]="toDayDate" [activeView]="'decade'"
-                    [(ngModel)]="drivingLicenseExpiryDate" (valueChange)="drivingLicenceExpiryShowError()"
+                    [format]="'dd/MM/yyyy'" [min]="minDrivingExpiryDate" [activeView]="'decade'"
+                     (valueChange)="drivingLicenceExpiryShowError($event)"  [(ngModel)]="drivingLicenseExpiryDate"
                     [disabled]='disabledDrivingDates' placeholder="Driving License Expiry Date">
                   </kendo-datepicker>
                   <div class="ShowError" *ngIf="
@@ -572,7 +572,7 @@
                   </div>
                   <div class="ShowError" *ngIf="(coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate')
                   .dirty) && showMessage['drivingLicenseExpiry'] ">
-                    Invalid Date
+                   {{drivingExpiryInvalidMsg}}
                   </div>
                   <!-- <div class="ShowError" *ngIf="coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').invalid" >
                     Invalid Date
@@ -611,8 +611,8 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.passportIssueDate }}</label>
                   <kendo-datepicker class="form-control mandatory" formControlName="passportIssueDate"
-                    [format]="'dd/MM/yyyy'"  [max]="toDayDate" [activeView]="'decade'" [(ngModel)]="passportIssueDate"
-                    (valueChange)="passportIssueDateShowError()" [disabled]="disabledPassportDates"
+                    [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"  [(ngModel)]="passportIssueDate"
+                    (valueChange)="passportIssueDateShowError($event)" [disabled]="disabledPassportDates"
                     placeholder="Passport Issue Date">
                   </kendo-datepicker>
                   <div class="ShowError" *ngIf="
@@ -634,8 +634,8 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.passportExpiryDate }}</label>
                   <kendo-datepicker class="form-control mandatory" formControlName="passportExpiryDate"
-                    [format]="'dd/MM/yyyy'" [max]="maxPassportExpiryDate" [activeView]="'decade'" [(ngModel)]="passportExpiryDate"
-                    (valueChange)="passportExpiryShowError()" [disabled]="disabledPassportDates"
+                    [format]="'dd/MM/yyyy'" [max]="maxPassportExpiryDate" [activeView]="'decade'"  [(ngModel)]="passportExpiryDate"
+                    (valueChange)="passportExpiryShowError($event)" [disabled]="disabledPassportDates"
                     placeholder="Passport Expiry Date"> 
                   </kendo-datepicker>
                   
