@@ -30,8 +30,6 @@ ageAfterTenure:number;
 
 
 export class CreditScoreComponent implements OnInit {
-  showEligibilityScreen: boolean;
-  eligibleModal: boolean;
   leadId;
   labels: any;
   creditScore: any;
@@ -88,7 +86,6 @@ export class CreditScoreComponent implements OnInit {
         this.variable = this.creditScore.ProcessVariables;
         this.loanAmount = Number(this.variable.loanAmount ).toLocaleString('en-IN');
         this.eligibleAmount = Number(this.variable.eligibleAmount ).toLocaleString('en-IN');
-        this.showEligibilityScreen = res.ProcessVariables.showEligibilityScreen;
         console.log(this.creditScore);
       } else {
         this.router.navigate([
@@ -110,28 +107,7 @@ export class CreditScoreComponent implements OnInit {
     });
   }
   navigateUrl() {
-    if (!this.showEligibilityScreen) {
-       this.eligibleModal = true;
-    } else {
-      this.router.navigateByUrl(`/pages/terms-condition/${this.leadId}`);
-    }
-  }
-
-  navigateToSales() {
-    const body = {
-      leadId : this.leadId,
-      userId:  this.userId,
-      statusType : 'accept'
-    };
-    this.termsService.acceptTerms(body).subscribe((res: any) => {
-      if ( res && res.ProcessVariables.error.code === '0') {
-        this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
-      }
-    });
-  }
-
-  onEligibleModalClose() {
-    this.eligibleModal = false;
+    this.router.navigateByUrl(`/pages/terms-condition/${this.leadId}`);
   }
   backToLeads() {
     this.router.navigateByUrl(`/pages/dashboard`);
