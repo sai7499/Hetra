@@ -158,10 +158,10 @@
 
               <div class="form-group row">
 
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
                   <div class="form-group">
-                    <label for="file-upload" class="col-sm-4">Lead Id</label>
-                    <div class="col-sm-8" (mouseleave)="mouseLeaveLeadId()">
+                    <label for="file-upload" class="col-sm-4 col-lg-4 col-md-4 col-xs-12">Lead Id</label>
+                    <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12" (mouseleave)="mouseLeaveLeadId()">
 
                       <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchLeadId"
                         [ngModelOptions]="{standalone: true}" (mouseenter)="mouseleadIdEnter()"
@@ -179,10 +179,10 @@
                   </div>
                 </div>
 
-                <div class="col-lg-6 col-sm-6 col-md-4 col-xs-6">
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
                   <div class="form-group">
-                    <label class="col-sm-4">Query Type</label>
-                    <div class="col-sm-8">
+                    <label class="col-sm-4 col-lg-4 col-md-4 col-xs-12">Query Type</label>
+                    <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12">
                       <app-vf-custom-select [values]="queryModelLov?.queryType" [id]="'query_type'"
                         formControlName="queryType" [isRequired]="'Query Type Required'" [isDirty]="isDirty">
                       </app-vf-custom-select>
@@ -194,10 +194,10 @@
 
               <div class="form-group row">
 
-                <div class="col-lg-6 col-sm-6 col-md-4 col-xs-6">
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
                   <div class="form-group">
-                    <label class="col-sm-4">Tag query To</label>
-                    <div class="col-sm-8" (mouseleave)="mouseLeave()">
+                    <label class="col-sm-4 col-lg-4 col-md-4 col-xs-12">Tag query To</label>
+                    <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12" (mouseleave)="mouseLeave()">
                       <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchText"
                         [ngModelOptions]="{standalone: true}" (mouseenter)="mouseEnter()"
                         (keyup)="getvalue($event.target.value)">
@@ -213,16 +213,16 @@
                   </div>
                 </div>
 
-                <div class="col-lg-6 col-sm-6 col-md-4 col-xs-6">
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
                   <div class="form-group">
-                    <label for="file-upload" class="col-sm-4">Attachment</label>
-                    <div class="upload-btn-wrapper col-sm-4">
+                    <label for="file-upload" class="col-sm-4 col-lg-4 col-md-4 col-xs-12">Attachment</label>
+                    <div class="upload-btn-wrapper col-sm-8 col-lg-8 col-md-8 col-xs-12">
                       <button class="btn-upload" (click)="chooseFile()">
                         {{queryModalForm.controls['docName'].value ? 'Change' : 'Choose'}} file</button>
                       <!-- <h6>&nbsp;(Maximum size: 2 MB)</h6> -->
                     </div>
                     <!-- DocName: -->
-                    <label for="file-name" class="col-sm-4" *ngIf="queryModalForm.controls['docName'].value">
+                    <label for="file-name" class="col-sm-8 col-lg-8 col-md-8 col-xs-12" *ngIf="queryModalForm.controls['docName'].value">
                       {{queryModalForm.controls['docName'].value}} </label>
                   </div>
                 </div>
