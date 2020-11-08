@@ -183,6 +183,10 @@ export class QueryModelComponent implements OnInit {
     this.router.navigateByUrl(currentUrl);
   }
 
+  // backFromText() {
+  //   const currentUrl = localStorage.getItem('currentUrl');
+  //   this.router.navigateByUrl(currentUrl);
+  // }
   getQueries(lead) {
     let data = {
       "leadId": Number(lead.key),
