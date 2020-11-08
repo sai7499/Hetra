@@ -404,7 +404,7 @@ margin: 0px !important;
 }
 .query .left{
 	background-color: #dcdaec;
-	padding: 20px 5px;
+	padding: 10px 0px;
 }
 .query .right{
 	background-color: #fff;
@@ -898,7 +898,7 @@ margin: 0px !important;
             text-align: center;    
             font-size: 14px;
             border-radius:25px;
-            background-color: #ddd;
+            background-color: #fff;
           }
 
           .flex-container .small {  
@@ -985,7 +985,17 @@ margin: 0px !important;
         text-align: right;
         margin:0px 0px 5px 0px!important;
         width:100%;
-    } 
+        } 
+
+        /* #message-hide{
+            display:none;
+        } */
+
+        .back-div{
+            display: block!important;
+            display: initial!important;
+        }
+
     }
 
     * {
@@ -1016,5 +1026,17 @@ body::-webkit-scrollbar-thumb {
   background-color: #f57d2f;    /* color of the scroll thumb */
   border-radius: 20px;       /* roundness of the scroll thumb */
   border: 1px solid #fff0;  /* creates padding around scroll thumb */
+}
+
+.tab-con{
+    margin: 5px 10px;
+}
+
+.back-arrow{
+    border-radius:50%;
+}
+
+.back-div{
+    display:none;
 }
 

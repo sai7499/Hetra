@@ -6,7 +6,7 @@
       <div class="clearfix">
         <form [formGroup]="queryModalForm">
           <div class="query">
-            <div class="col-sm-4 left p-">
+            <div class="col-sm-4 col-lg-4 col-md-4 col-xs-12 left ">
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0">
                 <div class="input-group search-btn">
                   <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
@@ -44,7 +44,7 @@
               </div>
 
               <div class="panel-group mar-20" id="accordion">
-                <div class="panel panel-default">
+                <div class="panel panel-default tab-con">
                   <div class="panel-heading" id="headingOne">
                     <h4 class="panel-title">
                       <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
@@ -79,7 +79,7 @@
                   </div>
                 </div>
 
-                <div class="panel panel-default ">
+                <div class="panel panel-default tab-con">
                   <div class="panel-heading" id="headingTwo">
                     <h4 class="panel-title">
                       <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
@@ -114,10 +114,13 @@
 
             </div>
 
-            <div class="col-sm-8 right ">
+            <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12 right "id="message-hide">
               <div class="row view-pad-bottom" >
-                <button class="btn btn-warning view-button" type="button" (click)="backFromQuery()"><i
-                    class="fa fa-arrow-left"></i> Back to Lead</button>
+              <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 back-div "><button class="btn btn-warning back-arrow view-button" type="button" (click)="backFromQuery()"><i
+                    class="fa fa-arrow-left"></i></button></div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-11"> <button class="btn btn-warning view-button" type="button" (click)="backFromQuery()"><i
+                    class="fa fa-arrow-left"></i> Back to Lead</button></div>             
+               
               </div>
               <div class="chat-box message-box ">
 
@@ -203,7 +206,7 @@
                         (keyup)="getvalue($event.target.value)">
 
                       <div class="dropdown-content" *ngIf="dropDown && searchLead && searchLead.length > 0">
-                        <div *ngFor="let item of searchLead">
+                        <div *ngFor="let item of searchLead" >
                           <a data-toggle="collapse" data-target="#bs-navbar"
                             (click)="getQueryTo(item)">{{item.value}}</a>
                         </div>
