@@ -694,7 +694,7 @@ margin: 0px !important;
 
 
   .selected-back {
-      background-color: #cec3c3;
+      background-color: #ebebeb;
   }
     
     .dropdown-content {
@@ -976,16 +976,16 @@ margin: 0px !important;
     @media (min-width:260px) and (max-width: 760px) {
          
 
-        .view-button{
+        /* .view-button{
             width:100%;
             margin: 10px auto;
         }
 
-         .view-pad-bottom{
+        .view-pad-bottom{
         text-align: right;
         margin:0px 0px 5px 0px!important;
         width:100%;
-        } 
+        }  */
 
         #message-hide{
             display:none;

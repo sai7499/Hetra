@@ -26,6 +26,9 @@ export class LeadSectionHeaderComponent implements OnInit {
   ddeBackLabel: string;
   ddeBackRouter: string;
 
+  isEnableInitiateQuery: boolean = true;
+  locationIndex: number;
+
   isEnableDdeButton: boolean = false;
   isDdeModule: boolean;
   constructor(
@@ -65,7 +68,24 @@ export class LeadSectionHeaderComponent implements OnInit {
     }
     this.sharedService.productCatName$.subscribe(val =>
       this.productId = val)
-  }
+  
+      const currentUrl = this.location.path();
+      this.locationIndex = this.getLocationIndex(currentUrl);
+      this.location.onUrlChange((url: string) => {
+        this.locationIndex = this.getLocationIndex(url);
+      });
+  
+    }
+  
+    getLocationIndex(url: string) {
+      if (url.includes('query-model')) {
+        this.isEnableInitiateQuery = false
+        return 0;
+      } else {
+        this.isEnableInitiateQuery = true;
+        return 1;
+      }
+    }
 
     getLabels() {
       this.labelsData.getLabelsData().subscribe(
@@ -155,6 +175,14 @@ export class LeadSectionHeaderComponent implements OnInit {
       this.router.navigateByUrl(ddeButton.currentUrl);
       localStorage.removeItem('isDdeClicked');
       this.isNeedBackButton = false
+    }
+
+    initinequery() {
+      this.isEnableInitiateQuery = false;
+      const currentUrl = this.location.path();
+      localStorage.setItem('currentUrl', currentUrl);
+      this.router.navigate(['//pages/query-model/', { leadId: this.leadId }]);
+      // this.router.navigateByUrl(`/pages/query-model/${this.leadId}`)
     }
 
   }

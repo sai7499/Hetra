@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DocRequest } from '@model/upload-model';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { Constant } from '@assets/constants/constant';
@@ -75,6 +75,9 @@ export class QueryModelComponent implements OnInit {
     chatSearchKey: ''
   }
 
+  routerId: any;
+  isMobileView: boolean;
+
   selectedList: any;
   totalPages: any = 1;
   chatTotalPages: number = 1;
@@ -82,7 +85,7 @@ export class QueryModelComponent implements OnInit {
   constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService, private commonLovService: CommomLovService, private router: Router,
     private labelsData: LabelsService, private uploadService: UploadService, private queryModelService: QueryModelService, private toasterService: ToasterService,
     private utilityService: UtilityService, private draggableContainerService: DraggableContainerService, private base64StorageService: Base64StorageService,
-    private createLeadService: CreateLeadService, private renderer: Renderer2) { }
+    private createLeadService: CreateLeadService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
 
@@ -90,7 +93,12 @@ export class QueryModelComponent implements OnInit {
       this.labels = data;
     });
 
-    this.userId = localStorage.getItem('userId')
+    this.userId = localStorage.getItem('userId');
+
+    this.activatedRoute.params.subscribe((value) => {
+      console.log()
+      this.routerId = value ? value.leadId : null;
+    })
 
     this.queryModalForm = this._fb.group({
       searchName: [''],
@@ -104,6 +112,9 @@ export class QueryModelComponent implements OnInit {
     })
 
     this.getLov();
+    if (window.screen.width >= 760) { // 768px portrait
+      this.isMobileView = true;
+    }
   }
 
   getLov() {
@@ -183,10 +194,10 @@ export class QueryModelComponent implements OnInit {
     this.router.navigateByUrl(currentUrl);
   }
 
-  // backFromText() {
-  //   const currentUrl = localStorage.getItem('currentUrl');
-  //   this.router.navigateByUrl(currentUrl);
-  // }
+  backFromText() {
+    // const currentUrl = localStorage.getItem('currentUrl');
+    // this.router.navigateByUrl(currentUrl);
+  }
   getQueries(lead) {
     let data = {
       "leadId": Number(lead.key),
