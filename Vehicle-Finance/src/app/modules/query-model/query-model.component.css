@@ -976,10 +976,10 @@ margin: 0px !important;
     @media (min-width:260px) and (max-width: 760px) {
          
 
-        .view-button{
+        /* .view-button{
             width:100%;
             margin: 10px auto;
-        }
+        } */
 
          .view-pad-bottom{
         text-align: right;
@@ -1065,3 +1065,35 @@ body::-webkit-scrollbar-thumb {
   -webkit-transform: rotate(45deg) translate(-8px, -8px);
   transform: rotate(45deg) translate(-8px, -8px);
 }
+
+@media only screen and (max-width: 1400px) {
+
+.top-btn{
+   position: absolute;
+    bottom: -871px;
+    left: 770px;
+}
+ .view-button {
+    margin: 10px auto;
+    }
+}
+
+@media only screen and (max-width: 1300px)  {
+
+
+.top-btn {
+    position: absolute;
+    bottom: -871px;
+    left: 770px;
+}
+ .view-button {
+   
+    margin: 10px auto;
+    }
+}
+
+
+
+
+
+

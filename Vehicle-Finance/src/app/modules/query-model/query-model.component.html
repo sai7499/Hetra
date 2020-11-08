@@ -116,7 +116,7 @@
             </div>
 
             <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12 right" >
-              <div class="row view-pad-bottom" >
+            <div class="row view-pad-bottom" >
               <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0 back-div "><button class="btn btn-warning back-arrow view-button" type="button" (click)="backFromText()"><i
                     class="fa fa-arrow-left" ></i></button></div>
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-11"> <button class="btn btn-warning view-button" type="button" (click)="backFromQuery()"><i
@@ -150,8 +150,9 @@
                   </div>
 
                 </div>
-                <!-- <button (click)="getChatMessagesCount()" id="myBtn" title="Go to top"
-                  *ngIf="chatMessages && chatMessages.length > 0">Top</button> -->
+                <div style="position:relative;">
+                <button class="btn btn-warning view-button top-btn" type="button" >Top</button>
+                </div>
 
                 <div class="wt-mid text-center" *ngIf="chatMessages && chatMessages.length === 0">
                   <p>No chats available</p>
@@ -260,6 +261,7 @@
               </div>
 
             </div>
+            
 
           </div>
         </form>
