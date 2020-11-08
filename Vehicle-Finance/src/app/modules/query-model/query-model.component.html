@@ -20,10 +20,10 @@
                 <div class="panel-group mar-20" id="accordion" *ngFor="let chat of chatList; let i=index; let last=last"
                   [ngClass]="selectedList === chat ? 'selected-back' : ''">
                   <div class="flex-container">
-                    <div class="small" (click)="getQueries(chat)">
+                    <!-- <div class="small" (click)="getQueries(chat)">
                       <p class="mar-em">{{chat.key}}</p>
-                    </div>
-                    <div class="divs">
+                    </div> -->
+                    <div class="divs" (click)="getQueries(chat)">
                       <p class="mar-em">{{chat.value}}</p>
                     </div>
 
