@@ -1855,7 +1855,7 @@
                   [max]="toDayDate"
                   placeholder="Issue Date"
                   [activeView]="'decade'"
-                  (ngModelChange)="updateExternalIssueDate($event)"
+                  (valueChange)="updateExternalIssueDate($event)"
                 ></kendo-datepicker>
                 <!-- <div *ngIf="validation.get('externalRatingIssueDate').touched"> -->
                 <div
@@ -1870,7 +1870,7 @@
                 <div
                   class="ShowError"
                   *ngIf="
-                   externalIssueDate > toDayDate
+                  this.showMsg['issueDate']
                   "
                 >
                   Invalid date
@@ -1891,7 +1891,7 @@
                   [min]="toDayDate"
                   placeholder="Expiry Date"
                   [activeView]="'decade'"
-                  (ngModelChange)="updateExternalExpiryDate($event)"
+                  (valueChange)="updateExternalExpiryDate($event)"
                 ></kendo-datepicker>
                 <div
                   class="ShowError"
@@ -1905,7 +1905,7 @@
                 <div
                   class="ShowError"
                   *ngIf="
-                    externalExpiryDate < toDayDate
+                  showMsg['expiryDate']
                   "
                 >
                   Invalid date

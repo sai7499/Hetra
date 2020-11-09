@@ -42,7 +42,7 @@ const routes: Routes = [
       },
 
       {
-        path: 'vehicle-details',
+        path: 'vehicle-list',
         component: VehicleDetailComponent,
       },
 

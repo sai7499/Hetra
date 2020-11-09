@@ -143,24 +143,24 @@ export class SalesExactMatchComponent implements OnInit {
       isMobileNumberChanged: this.dedupeDetails.isMobileNumberChanged,
       custSegment: this.dedupeDetails.custSegment,
       contactPerson: this.dedupeDetails.contactPerson,
-      monthlyIncomeAmount: this.dedupeDetails.monthlyIncomeAmount || '',
-      annualIncomeAmount: this.dedupeDetails.annualIncomeAmount || '',
-     ownHouseProofAvail:this.dedupeDetails.ownHouseProofAvail,
-      houseOwnerProperty: this.dedupeDetails.houseOwnerProperty || '',
-      ownHouseAppRelationship: this.dedupeDetails.ownHouseAppRelationship || '',
-      averageBankBalance: this.dedupeDetails.averageBankBalance || '',
-      rtrType: this.dedupeDetails.rtrType || '',
-      prevLoanAmount: this.dedupeDetails.prevLoanAmount || '',
-      loanTenorServiced: this.dedupeDetails.loanTenorServiced
-        ? Number(this.dedupeDetails.loanTenorServiced)
-        : 0,
-      currentEMILoan: this.dedupeDetails.currentEMILoan || '',
-      agriNoOfAcres: this.dedupeDetails.agriNoOfAcres
-        ? Number(this.dedupeDetails.agriNoOfAcres)
-        : 0,
-      agriOwnerProperty: this.dedupeDetails.agriOwnerProperty || '',
-      agriAppRelationship: this.dedupeDetails.agriAppRelationship || '',
-      grossReceipt: this.dedupeDetails.grossReceipt || '',
+    //   monthlyIncomeAmount: this.dedupeDetails.monthlyIncomeAmount || '',
+    //   annualIncomeAmount: this.dedupeDetails.annualIncomeAmount || '',
+    //  ownHouseProofAvail:this.dedupeDetails.ownHouseProofAvail,
+    //   houseOwnerProperty: this.dedupeDetails.houseOwnerProperty || '',
+    //   ownHouseAppRelationship: this.dedupeDetails.ownHouseAppRelationship || '',
+    //   averageBankBalance: this.dedupeDetails.averageBankBalance || '',
+    //   rtrType: this.dedupeDetails.rtrType || '',
+    //   prevLoanAmount: this.dedupeDetails.prevLoanAmount || '',
+    //   loanTenorServiced: this.dedupeDetails.loanTenorServiced
+    //     ? Number(this.dedupeDetails.loanTenorServiced)
+    //     : 0,
+    //   currentEMILoan: this.dedupeDetails.currentEMILoan || '',
+    //   agriNoOfAcres: this.dedupeDetails.agriNoOfAcres
+    //     ? Number(this.dedupeDetails.agriNoOfAcres)
+    //     : 0,
+    //   agriOwnerProperty: this.dedupeDetails.agriOwnerProperty || '',
+    //   agriAppRelationship: this.dedupeDetails.agriAppRelationship || '',
+    //   grossReceipt: this.dedupeDetails.grossReceipt || '',
     };
 
     this.applicantService
