@@ -407,7 +407,7 @@
           </button>
           <button
             class="btn upload-btn"
-            (click)="removeFile()"
+            (click)="removeFile(); fileInput.click()"
             *ngIf="fileUrl"
           >
             Change Document</button

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { LabelsService } from 'src/app/services/labels.service';
 import { FormGroup, FormArray, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
@@ -17,12 +17,17 @@ import { VehicleDetailService } from '../../../services/vehicle-detail.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
+import readXlsxFile from 'read-excel-file';
+
 @Component({
   selector: 'app-fleet-details',
   templateUrl: './fleet-details.component.html',
   styleUrls: ['./fleet-details.component.css']
 })
 export class FleetDetailsComponent implements OnInit {
+  validFleetData: any;
+  @ViewChild('fileInput', { static: false })
+  fileInput: ElementRef;
   docsFleetDetails;
   csvData: any;
   showError: string;
@@ -803,6 +808,7 @@ export class FleetDetailsComponent implements OnInit {
     this.fileName = null;
     this.fileSize = null;
     this.showError = null;
+    this.fileInput.nativeElement.value = '';
   }
 
   uploadFile() {
@@ -812,7 +818,8 @@ export class FleetDetailsComponent implements OnInit {
     // console.log('csvData', this.csvData);
     // return;
     this.fleetDetailsService.validateFleetDetails({
-      allText: this.csvData
+      allText: this.csvData,
+      userId: this.userId
     }).subscribe(((value: any) => {
         console.log('validate', value);
         if (value.Error !== '0') {
@@ -823,11 +830,13 @@ export class FleetDetailsComponent implements OnInit {
         if (error && error.code !== '0') {
            return this.toasterService.showError(error.message, '');
         }
+        this.removeFile();
         this.docsFleetDetails = processVariables.fleetDetails;
     }));
   }
 
   onFileSelect(event) {
+    this.csvData = null;
     const files: File = event.target.files[0];
     let fileType = '';
     this.fileUrl = files;
@@ -853,10 +862,11 @@ export class FleetDetailsComponent implements OnInit {
     const fileToRead = files;
     const fileReader = new FileReader();
     if (fileType.includes('xls')) {
-        fileReader.onload =  (e) => {
-          console.log('xls', e.target.result);
-      };
-      fileReader.readAsBinaryString(files);
+       this.getDataFromXlsFile(files);
+      //   fileReader.onload =  (e: any) => {
+      //     console.log('xls', e.target.result);
+      // };
+      // fileReader.readAsBinaryString(files);
     } else {
       fileReader.onload = (fileLoadedEvent: any) => {
         const textFromFileLoaded = fileLoadedEvent.target.result;
@@ -867,14 +877,38 @@ export class FleetDetailsComponent implements OnInit {
 
   }
 
+  getDataFromXlsFile(file) {
+    readXlsxFile(file).then(rows => {
+      const size = rows.length;
+      const data = rows.map((value, index) => {
+        let val = value.join(',');
+        if (size - 1 !== index) {
+          val = val + '\r\n';
+        }
+        return val;
+      });
+      let finalData = '';
+      data.forEach((value) => {
+        finalData += value;
+      });
+      this.csvData = finalData;
+    });
+  }
+
   onFileLoad(fileLoadedEvent: any) {
     const textFromFileLoaded = fileLoadedEvent.target.result;
     this.csvData = textFromFileLoaded;
   }
 
   saveValidRecords() {
+    const filteredData = this.docsFleetDetails.filter((value) => {
+      return value.status;
+    });
+    console.log('filteredData', filteredData);
+    return;
     this.fleetDetailsService.saveValidRecords({
-      allText: this.csvData
+      fleetDetails: this.docsFleetDetails,
+      userId: this.userId
     }).subscribe(((value: any) => {
         console.log('save', value);
         if (value.Error !== '0') {
