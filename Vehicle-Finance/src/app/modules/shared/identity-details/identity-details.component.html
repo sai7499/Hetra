@@ -218,6 +218,7 @@
                   /> -->
                   <kendo-datepicker class="form-control" 
                 formControlName="passportExpiryDate" [format]="'dd/MM/yyyy'"
+                [min]="toDayDate"
                 [max]="maxPassportExpiryDate"
                  placeholder="Expriy Date"
                  [disabled]="passportDates"
@@ -300,6 +301,7 @@
                 [activeView]="'decade'"
                 [disabled]="drivingLicenceDates"
                 (valueChange)="drivingIssueDateChange($event)"
+                
                 
                 ></kendo-datepicker>
                 <div class="ShowError" *ngIf="showInvalidMsg['drivingIssue']" >
