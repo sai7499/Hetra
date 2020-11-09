@@ -1,0 +1,249 @@
+<div style="text-align: center;">
+  <button class="btn btn-primary btn_div" *ngIf="isRcuDetails" (click)="assignRcuTask()"
+    type="button">{{labels?.initiateRcu}}</button>
+</div>
+<form class="multisteps-form__form" *ngIf="!isRcuDetails" [formGroup]="rcuDetailsForm">
+  <h3 class="dashboard m-0">{{ labels?.rcu }}</h3>
+  <!--progress bar-->
+  <div class="content">
+    <div class="form-group">
+      <div class="col-md-3"></div>
+      <div class="col-md-2 rcuStatus"><label>{{ labels?.fileRcuStatus }} :</label></div>
+      <!-- <div class="col-md-5">
+    <label class="sampled" *ngFor="let radiobutton of radioItems" >
+      <input type="radio" name="options" (click)="model.option = radiobutton.value" (change)="onItemChange(radiobutton)" formControlName="fileRCUStatus"
+      [checked]="radiobutton.value === model.option">{{radiobutton.value}}
+    </label>
+    </div> -->
+      <div class="col-md-2 sampled">
+        <label><input type="radio" name="fileRCUStatus" value="1" formControlName="fileRCUStatus"
+            (click)="testRadio($event.target.value)"> Screened</label>
+      </div>
+      <div class="col-md-4 ">
+        <label><input type="radio" name="fileRCUStatus" value="2" formControlName="fileRCUStatus"
+            (click)="testRadio($event.target.value)"> Sampled</label>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="form-group od-row">
+      <div class="col-md-2 text-right"><label>{{labels?.applicantNameCam}}</label></div>
+      <div class="col-md-2">
+        <select class="form-control mandatory select2" id="" formControlName="applicantId" name="applicantId"
+          class="form-control text-center" (change)="
+      onRcuApplicantChange($event.target.value, i)
+    ">
+          <option *ngFor="let applicants of applicantDetails" [value]="applicants.applicantId">
+            {{ applicants.fullName }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-2 text-right"><label>{{labels?.applicantType}}</label></div>
+      <div class="col-md-2">
+        <app-custom-input [placeholder]="''" formControlName="applicantType" [type]="labels?.validationData?.extn?.type"
+          [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.extn?.maxLength"
+          [isDirty]="isDirty">
+        </app-custom-input>
+      </div>
+      <div class="col-md-2 text-right"><label>{{labels?.loanAmount}}</label></div>
+      <div class="col-md-2">
+        <app-custom-input [placeholder]="''" formControlName="loanAmount" [type]="labels?.validationData?.extn?.type"
+          [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.extn?.maxLength"
+          [isDirty]="isDirty">
+        </app-custom-input>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="form-group od-row">
+      <div class="col-md-2 text-right"><label>{{labels?.vehicleMake}}</label></div>
+      <div class="col-md-2">
+        <app-custom-input [placeholder]="''" formControlName="vehicleMake" [type]="labels?.validationData?.extn?.type"
+          [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.extn?.maxLength"
+          [isDirty]="isDirty">
+        </app-custom-input>
+      </div>
+      <div class="col-md-2 text-right"><label>{{labels?.vehicleModel}}</label></div>
+      <div class="col-md-2">
+        <app-custom-input [placeholder]="''" formControlName="vehicleModel" [type]="labels?.validationData?.extn?.type"
+          [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.extn?.maxLength"
+          [isDirty]="isDirty">
+        </app-custom-input>
+      </div>
+      <div class="col-md-2 text-right"><label>{{labels?.vehicleNumber}}</label></div>
+      <div class="col-md-2">
+        <app-custom-input [placeholder]="''" formControlName="vehicleNo" [type]="labels?.validationData?.extn?.type"
+          [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.extn?.maxLength"
+          [isDirty]="isDirty">
+        </app-custom-input>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+
+    <div class="row app-doc">
+      <span class="input-group-btn">
+        <div class="col-md-6 text-right">
+          <!-- <li 
+      [ngClass]="{'active':displayTabs?.CreditDecisionWithMe === subActiveTab}" routerLinkActive="active"><a
+        data-toggle="tab">{{labels?.showApplicantDocuments}}</a></li>
+    <li > -->
+          <button class="btn btn-primary btn_div" type="button" (click)="onClick(1)"
+            [ngClass]="{'active': tab==='tab1'}" routerLinkActive="active">{{labels?.showApplicantDocuments}}</button>
+        </div>
+        <div class="col-md-6">
+          <!-- <li 
+      [ngClass]="{'active':displayTabs?.CreditDecisionWithBranch === subActiveTab}" routerLinkActive="active"><a
+        data-toggle="tab">{{labels?.showCollateralDocuments}}</a></li> -->
+          <button class="btn btn-primary btn_div" type="button" (click)="onClick(2)"
+            [ngClass]="{'active': tab==='tab2'}" routerLinkActive="active">{{labels?.showCollateralDocuments}}</button>
+        </div>
+      </span>
+    </div>
+    <div class="clearfix"></div>
+
+    <!-- <div class="for_space"></div> -->
+
+
+    <div class="table-responsive application mt-3" formArrayName="documents">
+      <table id="POITable_other" border="0" class="table">
+        <thead>
+          <tr class="caption">
+            <th role="columnheader">{{ labels?.sNo }}</th>
+            <th role="columnheader">
+              {{ labels?.documentName }}
+            </th>
+            <th role="columnheader">{{ labels?.documentCategory }}
+            </th>
+            <th role="columnheader">{{ labels?.documentNumber }}
+            </th>
+            <th role="columnheader">
+              {{ labels?.issueDate }}
+            </th>
+            <th role="columnheader">{{labels?.documentExpiryDate}}</th>
+            <th role="columnheader">{{labels?.view}}</th>
+            <th role="columnheader">{{labels?.screened}}</th>
+            <th role="columnheader">{{labels?.sampled}}</th>
+            <th role="columnheader">{{labels?.status}}</th>
+
+          </tr>
+        </thead>
+
+        <tbody *ngFor="
+      let item of rcuDetailsForm.controls.documents.controls;
+      let i = index
+    " [formGroupName]="i">
+          <!-- <tbody> -->
+          <tr>
+            <td data-title="Member">
+              {{i+1}}
+            </td>
+            <td data-title="Member">
+              <app-custom-input [placeholder]="'Document Name'" formControlName="documentName"
+                [type]="labels?.validationData?.extn?.type" [className]="'form-control mandatory'"
+                [maxLength]="labels?.validationData?.extn?.maxLength" [isDirty]="isDirty">
+              </app-custom-input>
+            </td>
+            <td data-title="Member">
+              <app-custom-input [placeholder]="'Document Category'" formControlName="categoryName"
+                [type]="labels?.validationData?.extn?.type" [className]="'form-control mandatory'"
+                [maxLength]="labels?.validationData?.extn?.maxLength" [isDirty]="isDirty">
+              </app-custom-input>
+            </td>
+            <td data-title="Member">
+              <app-custom-input [placeholder]="'Document Number'" formControlName="documentNo"
+                [type]="labels?.validationData?.extn?.type" [className]="'form-control mandatory'"
+                [maxLength]="labels?.validationData?.extn?.maxLength" [isDirty]="isDirty">
+              </app-custom-input>
+            </td>
+            <td data-title="Member">
+              <app-custom-input [placeholder]="'Issue Date'" formControlName="issueDate"
+                [type]="labels?.validationData?.extn?.type" [className]="'form-control mandatory'"
+                [maxLength]="labels?.validationData?.extn?.maxLength" [isDirty]="isDirty">
+              </app-custom-input>
+            </td>
+            <td data-title="Member">
+              <app-custom-input [placeholder]="'Document Expiry Date'" formControlName="expiryDate"
+                [type]="labels?.validationData?.extn?.type" [className]="'form-control mandatory'"
+                [maxLength]="labels?.validationData?.extn?.maxLength" [isDirty]="isDirty">
+              </app-custom-input>
+            </td>
+            <td data-title="Member">
+              <input name="input" type="text" class="form-control file-input" formControlName="dmsDocumentID" readonly
+                (click)="downloadDocs($event.target.value)" />
+            </td>
+            <td data-title="Member">
+              <select name="sampled" id="deferral_status" class="form-control" formControlName="sampled">
+                <option value="0">Yes</option>
+                <option value="1">No</option>
+              </select>
+            </td>
+            <td data-title="Member">
+              <!-- <app-custom-input [placeholder]="'sampled'" [type]="labels?.validationData?.extn?.type" formControlName="sampled"
+              [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.extn?.maxLength"
+              [isDirty]="isDirty">
+            </app-custom-input> -->
+              <select name="screened" id="deferral_status" class="form-control" formControlName="screened">
+                <option value="0">Yes</option>
+                <option value="1">No</option>
+              </select>
+
+            </td>
+            <td data-title="Member">
+              <app-custom-input [placeholder]="'sampled'" [type]="labels?.validationData?.extn?.type"
+                formControlName="status" [className]="'form-control mandatory'"
+                [maxLength]="labels?.validationData?.extn?.maxLength" [isDirty]="isDirty">
+              </app-custom-input>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <div class="form-group od-row">
+      <div class="col-md-2 fitWidth"><label>{{labels?.rcuReportStatus}}</label></div>
+      <div class="col-md-2">
+        <app-vf-custom-select [values]="rcuLov?.rcuStatus" formControlName="rcuReportStatus">
+        </app-vf-custom-select>
+
+
+      </div>
+      <div class="col-md-2 fitWidth"><label class="">{{labels?.rcuUpload}}</label></div>
+      <div class="col-md-2">
+        <app-custom-input [placeholder]="'RCU Report Status'" [type]="labels?.validationData?.extn?.type"
+          formControlName="rcuUpload" [className]="'form-control mandatory'"
+          [maxLength]="labels?.validationData?.extn?.maxLength" [isDirty]="isDirty">
+        </app-custom-input>
+      </div>
+      <div class="col-md-2 fitWidth"><label>{{labels?.rcuReportReceivedDateandTime}}</label></div>
+      <div class="col-md-2">
+        <app-custom-input [placeholder]="''" [type]="labels?.validationData?.extn?.type"
+          formControlName="rcuReportReceivedDate" [className]="'form-control mandatory'"
+          [maxLength]="labels?.validationData?.extn?.maxLength" [isDirty]="isDirty">
+        </app-custom-input>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="form-group od-row">
+      <div class="col-md-1 text-right"><label>{{labels?.remark}}</label></div>
+      <div class="col-md-11">
+        <textarea class="form-control form-control-sm" placeholder="Text Area" formControlName="remarks"></textarea>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</form>
+
+<div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
+  <div class="col-sm-5"></div>
+  <div class="col-sm-7 text-right">
+    <button class="btn btn-primary dash_href" type="button" routerLink="../tvr-details">
+      Back
+    </button>
+    <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()" *ngIf="!disableSaveBtn">
+      Save
+    </button>
+    <button class="btn btn-primary dash_href" type="button" routerLink="../fi-list">
+      Next
+    </button>
+  </div>
+</div>

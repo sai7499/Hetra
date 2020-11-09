@@ -1640,6 +1640,19 @@
     "disbursementStartDate": "Disbursement - Start Date",
     "disbursementEndDate": "Disbursement - End Date",
     "propertyValue":"Property Value",
+    "initiateRcu": "Initiate RCU",
+    "rcu":"RCU",
+    "fileRcuStatus":"File RCU Status",
+    "screened":"Screened",
+    "sampled":"Sampled",
+    "showApplicantDocuments":"Show Applicant Documents",
+    "showCollateralDocuments":"Show Collateral Documents",
+    "documentCategory":"Document Category",
+    "rcuReportStatus":"RCU Report Status",
+    "rcuUpload":"RCU Upload",
+    "rcuReportReceivedDateandTime":"RCU Report Received Date and Time",
+
+
     "validationData": {
         "name": {
             "maxLength": {

@@ -154,22 +154,24 @@ export class DdeComponent implements OnInit, OnChanges {
       return 8;
     } else if (url.includes('tvr-details')) {
       return 9;
-    } else if (url.includes('fi-list')) {
+    }else if (url.includes('rcu')) {
       return 10;
-    } else if (url.includes('pd-list')) {
+    }else if (url.includes('fi-list')) {
       return 11;
+    } else if (url.includes('pd-list')) {
+      return 12;
     } else if (url.includes('viability')) {
-      return 12;
-    } else if (url.includes('viability-dashboard')) {
-      return 12;
-    } else if (url.includes('cibil-od')) {
       return 13;
-    } else if (url.includes('score-card')) {
+    } else if (url.includes('viability-dashboard')) {
+      return 13;
+    } else if (url.includes('cibil-od')) {
       return 14;
-    } else if (url.includes('cam')) {
+    } else if (url.includes('score-card')) {
       return 15;
-    } else if (url.includes('deviations')) {
+    } else if (url.includes('cam')) {
       return 16;
+    } else if (url.includes('deviations')) {
+      return 17;
     } else if (url.includes('insurance-details')) {
       return 17;
     }
