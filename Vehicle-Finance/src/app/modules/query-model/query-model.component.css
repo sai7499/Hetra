@@ -987,17 +987,20 @@ margin: 0px !important;
         width:100%;
         }  */
 
-        #message-hide{
-            display:none;
-        }
+       
 
         .back-div{
             display: block!important;
             display: initial;
         }
 
+        .sidenav{
+            display: block!important;
+        }
+
     }
 
+    
     * {
   scrollbar-width: thin;
   scrollbar-color: #f57d2f #fff0;
@@ -1137,7 +1140,7 @@ body::-webkit-scrollbar-thumb {
     width: 100%;
     position: fixed;
     z-index: 1;
-    top: 0;
+    top: 70px;
     left: 0;
     background-color: #111111ba;
     overflow-x: hidden;
@@ -1170,3 +1173,7 @@ body::-webkit-scrollbar-thumb {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
   }
+
+  .sidenav{
+    display: none;
+}
