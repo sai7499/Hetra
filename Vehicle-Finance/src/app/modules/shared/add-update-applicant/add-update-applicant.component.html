@@ -151,10 +151,10 @@
                         coApplicantForm.get('dedupe').get('dob').touched ||
                         isDirty
                       ">
-                      <div *ngIf="coApplicantForm.get('dedupe').get('dob').invalid && coApplicantForm.get('dedupe').get('dob').value==''">
+                      <div *ngIf="coApplicantForm.get('dedupe').get('dob').invalid && !coApplicantForm.get('dedupe').get('dob').value">
                         Select date
                       </div>
-                      <div *ngIf="coApplicantForm.get('dedupe').get('dob').invalid && coApplicantForm.get('dedupe').get('dob').value">
+                      <div *ngIf="coApplicantForm.get('dedupe').get('dob').errors && coApplicantForm.get('dedupe').get('dob').value">
                         Invalid date
                       </div>
                     </div>
@@ -456,16 +456,9 @@
                   <app-custom-input formControlName="drivingLicenseNumber" [patternCheck]="
                       validationData?.drivingLicense?.patternCheck
                     " [maxLength]="validationData?.drivingLicense?.maxLength" (keyup)="onDrvingLisenseChange($event)"
-                    [inputClass]="'text-uppercase'" [type]="validationData?.drivingLicense?.type" [isRequired]="
-                      
-                    ">
+                    [inputClass]="'text-uppercase'" [type]="validationData?.drivingLicense?.type" >
                   </app-custom-input>
-                  <!-- (drivingLicenseIssueDate !== '' &&
-                        drivingLicenseIssueDate !== undefined) ||
-                      (drivingLicenseExpiryDate !== undefined &&
-                        drivingLicenseExpiryDate !== '')
-                        ? 'Please Fill'
-                        : '' -->
+                  
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
@@ -502,7 +495,8 @@
                   </div> -->
                   <kendo-datepicker class="form-control mandatory" formControlName="drivingLicenseIssueDate"
                     [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"
-                     (valueChange)="drivingIssueDateShowError($event)" [(ngModel)]="drivingLicenseIssueDate"
+                     (valueChange)="drivingIssueDateShowError($event)" 
+                     
                     [disabled]='disabledDrivingDates' placeholder="Driving License Issue Date">
                   </kendo-datepicker>
                   <div class="ShowError" *ngIf="
@@ -536,25 +530,10 @@
                   <label for="mobile">{{
                     labels?.drivingLicenceExpiryDate
                   }}</label>
-                  <!-- <div class="input-group input-medium">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default">
-                        <i class="fa fa-calendar"></i>
-                      </button>
-                    </span>
-                    <input
-                      type="date"
-                      class="form-control"
-                      name="drivingLicenseExpiryDate"
-                      formControlName="drivingLicenseExpiryDate"
-                      [required]="mandatory['drivingLicenseExpiryDate']"
-                      [(ngModel)]="drivingLicenseExpiryDate"
-                      (ngModelChange)="expiryDateSelected()"
-                    />
-                  </div> -->
+                 
                   <kendo-datepicker class="form-control mandatory" formControlName="drivingLicenseExpiryDate"
                     [format]="'dd/MM/yyyy'" [min]="minDrivingExpiryDate" [activeView]="'decade'"
-                     (valueChange)="drivingLicenceExpiryShowError($event)"  [(ngModel)]="drivingLicenseExpiryDate"
+                     (valueChange)="drivingLicenceExpiryShowError($event)" 
                     [disabled]='disabledDrivingDates' placeholder="Driving License Expiry Date">
                   </kendo-datepicker>
                   <div class="ShowError" *ngIf="
@@ -570,8 +549,7 @@
                     ">
                     Select date
                   </div>
-                  <div class="ShowError" *ngIf="(coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate')
-                  .dirty) && showMessage['drivingLicenseExpiry'] ">
+                  <div class="ShowError" *ngIf=" showMessage['drivingLicenseExpiry'] ">
                    {{drivingExpiryInvalidMsg}}
                   </div>
                   <!-- <div class="ShowError" *ngIf="coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').invalid" >
@@ -611,8 +589,10 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.passportIssueDate }}</label>
                   <kendo-datepicker class="form-control mandatory" formControlName="passportIssueDate"
-                    [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"  [(ngModel)]="passportIssueDate"
-                    (valueChange)="passportIssueDateShowError($event)" [disabled]="disabledPassportDates"
+                    [format]="'dd/MM/yyyy'" [min]="minPassportIssueDate"  [max]="minPassportExpiryDate" [activeView]="'decade'" 
+                    (valueChange)="passportIssueDateShowError($event)" 
+                   
+                    [disabled]="disabledPassportDates"
                     placeholder="Passport Issue Date">
                   </kendo-datepicker>
                   <div class="ShowError" *ngIf="
@@ -629,17 +609,25 @@
                   <div class="ShowError" *ngIf="showMessage['passportIssue']">
                     {{passportIssueInvalidMsg}}
                   </div>
+                  <!-- <div class="ShowError" *ngIf=" coApplicantForm.get('dedupe').get('passportIssueDate').value && 
+                  coApplicantForm.get('dedupe').get('passportIssueDate').errors?.minError">
+                  Passport Issuance date prior to 10 years will not be accepted
+                  </div>
+                   <div class="ShowError" *ngIf=" coApplicantForm.get('dedupe').get('passportIssueDate').value && 
+                   coApplicantForm.get('dedupe').get('passportIssueDate').errors?.maxError">
+                   Invalid date- Should be Past date
+                  </div> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.passportExpiryDate }}</label>
                   <kendo-datepicker class="form-control mandatory" formControlName="passportExpiryDate"
-                    [format]="'dd/MM/yyyy'" [max]="maxPassportExpiryDate" [activeView]="'decade'"  [(ngModel)]="passportExpiryDate"
-                    (valueChange)="passportExpiryShowError($event)" [disabled]="disabledPassportDates"
+                    [format]="'dd/MM/yyyy'" [min]="minPassportExpiryDate"  [max]="maxPassportExpiryDate" [activeView]="'decade'" 
+                    (valueChange)="passportExpiryShowError($event)" 
+                    [disabled]="disabledPassportDates"
                     placeholder="Passport Expiry Date"> 
-                  </kendo-datepicker>
-                  
-                  
+                  </kendo-datepicker >
+
                   <div class="ShowError" *ngIf="
                       !passportExpiryDate &&
                       passportMandatory['passportExpiryDate'] &&
@@ -651,10 +639,22 @@
                     ">
                     Select Date
                   </div>
-                  <div class="ShowError" *ngIf="(coApplicantForm.get('dedupe').get('passportExpiryDate')
-                  .dirty) && showMessage['passportExpiry']">
+
+                 
+                  <div class="ShowError" *ngIf="showMessage['passportExpiry']">
                    {{passportExpiryInvalidMsg}}
                   </div>
+                  <!-- <div class="ShowError" *ngIf=" coApplicantForm.controls.dedupe['controls'].passportExpiryDate.errors">
+                       Invalid
+                  </div>
+                   <div class="ShowError" *ngIf=" coApplicantForm.get('dedupe').get('passportExpiryDate').value && 
+                  coApplicantForm.get('dedupe').get('passportExpiryDate').errors?.minError">
+                  Invalid date- Should be Future date
+                  </div>
+                   <div class="ShowError" *ngIf=" coApplicantForm.get('dedupe').get('passportExpiryDate').value && 
+                   coApplicantForm.get('dedupe').get('passportExpiryDate').errors?.maxError">
+                   Passport expiry date should be 10 years from Issuance date
+                  </div> -->
                 </div>
               </div>
               <div class="row">
