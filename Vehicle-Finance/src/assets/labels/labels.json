@@ -1646,6 +1646,7 @@
     "uRegisteredMobileNo" : "UDHYAM Registered mobile number",
     "uRegisteredEmailId" : "UDHYAM Registered email id",
     "uCertificateId" : "UDHYAM Certificate upload ",
+    "landUnitType" : "Land Unit Type",
 
     "validationData": {
         "name": {
@@ -2646,6 +2647,15 @@
             "patternCheck": {
                 "rule": "^[1-31]{1,2}",
                 "msg": "Should be between 1-31 only"
+            }
+        },
+        "emailPatternPsl": {
+            "maxLength": {
+                "rule": 30
+            },
+            "patternCheck": {
+                "rule": "^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(\\.\\w{2,10})+$",
+                "msg": "Invalid email"
             }
         }
     }

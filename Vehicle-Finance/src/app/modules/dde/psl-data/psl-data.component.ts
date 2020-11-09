@@ -174,7 +174,7 @@ export class PslDataComponent implements OnInit {
         typeOfService: ['', Validators.required],
         purposeOfLoan: ['', Validators.required],
         businessActivity: [{ value: '', disabled: true }],
-        loanAmount: [""],
+        loanAmount: [''],
         // proofOfInvestment: ['', Validators.required],
         // proofOfInvestmentUpload: [{ value: "", disabled: true }],
         // nameOfCA: [""],
@@ -332,7 +332,7 @@ export class PslDataComponent implements OnInit {
           this.landAreaInAcresValue = this.pslData.landUnitValue;
           this.setValueForPslCategoryByLandArea();
           this.pslDataForm.patchValue({
-            activity: this.pslData.activity,
+            activity: this.pslData.activityChange,
             agriculture: {
               activity: this.pslData.activity,
               detailActivity: this.pslData.detailActivity,
@@ -359,7 +359,7 @@ export class PslDataComponent implements OnInit {
             this.disableSaveBtn = true;
           }
         })
-      } else if (activity === '2PSLACTVTY') {
+      } else if (activity !== '1PSLACTVTY') {
         // const loanAmount = this.pslData.loanAmount;
         // this.nameOfCA = this.pslData.nameOfCA;
         // this.nameOfCAFirm = this.pslData.nameOfCAFirm;
@@ -430,8 +430,10 @@ export class PslDataComponent implements OnInit {
       };
       this.activityLOVS.push(data);
       // To filter unique value in Array
+      // tslint:disable-next-line: prefer-const
       let activityObject = {};
       const activityData = [];
+      console.log(this.activityLOVS);
       this.activityLOVS.forEach((element) => {
         if (!activityObject[element.key]) {
           activityObject[element.key] = true;
@@ -530,7 +532,7 @@ export class PslDataComponent implements OnInit {
   }
  otherOptionPurposeLoan() {
   this.pslDependentLOVSData.map((element) => {
-    if (element.dltActivityId === this.detailActivityChange) {
+    if (element.dltActivityId === null) {
       const data = {
         key: element.endUseId,
         value: element.endUseName,
@@ -893,108 +895,108 @@ export class PslDataComponent implements OnInit {
   // }
 
   // Change in PSL_SUBCATEGORY BASED UPON INPUT VALUE IN "INVESTMENT IN EQUIPMENT"
-  setValueForPslSubCategoryByInvestmentInEquipment() {
-    console.log('Investment_In_Equipment_Value::', this.investmentInEquipmentValue);
-    if (this.investmentInEquipmentValue <= 1000000 && this.investmentInEquipmentValue != 0) {
-      this.LOV.LOVS.pslSubCategory.filter((element) => {
-        if (element.key === '4PSLSUBCAT') {
-          this.pslSubCategoryData = [{ key: element.key, value: element.value }];
-          this.pslSubCategoryValues = this.pslSubCategoryData;
-          this.formValues.pslSubCategory = this.pslSubCategoryData[0].key;
-        }
-      });
-      this.LOV.LOVS.pslCertificate.filter((element) => {
-        if (element.key === '4PSLCRTFCTE') {
-          this.data = [{ key: element.key, value: element.value }];
-          this.pslCertificateValues = this.data;
-          this.formValues.pslCCertificate = this.data[0].key;
-        }
-      });
-    } else if (
-      this.investmentInEquipmentValue > 1000000 &&
-      this.investmentInEquipmentValue <= 20000000
-    ) {
-      this.LOV.LOVS.pslSubCategory.filter((element) => {
-        if (element.key === '5PSLSUBCAT') {
-          this.pslSubCategoryData = [{ key: element.key, value: element.value }];
-          this.pslSubCategoryValues = this.pslSubCategoryData;
-          this.formValues.pslSubCategory = this.pslSubCategoryData[0].key;
-        }
-      });
-      this.LOV.LOVS.pslCertificate.filter((element) => {
-        if (element.key === '5PSLCRTFCTE') {
-          this.data = [{ key: element.key, value: element.value }];
-          this.pslCertificateValues = this.data;
-          this.formValues.pslCCertificate = this.data[0].key;
-        }
-      });
-    } else if (
-      this.investmentInEquipmentValue > 20000000 &&
-      this.investmentInEquipmentValue <= 50000000
-    ) {
-      this.LOV.LOVS.pslSubCategory.filter((element) => {
-        if (element.key === '6PSLSUBCAT') {
-          this.pslSubCategoryData = [{ key: element.key, value: element.value }];
-          this.pslSubCategoryValues = this.pslSubCategoryData;
-          this.formValues.pslSubCategory = this.pslSubCategoryData[0].key;
-        }
-      });
-      this.LOV.LOVS.pslCertificate.filter((element) => {
-        if (element.key === '5PSLCRTFCTE') {
-          this.data = [{ key: element.key, value: element.value }];
-          this.pslCertificateValues = this.data;
-          this.formValues.pslCCertificate = this.data[0].key;
-        }
-      });
-    }
-    // If "Investment in Equipment" is greater than 5 crores then default as Non-PSL
-    if (this.investmentInEquipmentValue > 50000000) {
-      this.LOV.LOVS.pslCategory.filter((element) => {
-        if (element.key === '4PSLCAT') {
-          this.pslCategoryData = [{ key: element.key, value: element.value }];
-          this.pslCategoryValues = this.pslCategoryData;
-          this.formValues.pslCategory = this.pslCategoryData[0].key;
-        }
-      });
-      this.LOV.LOVS.pslSubCategory.filter((element) => {
-        this.pslSubCategoryData = [{ key: 'Not Applicable', value: 'Not Applicable' }];
-        this.pslSubCategoryValues = this.pslSubCategoryData;   // If PSL_CATEGORY_AS_Non-PSL---> Not Applicable
-        this.formValues.pslSubCategory = this.pslSubCategoryData[0].key;
-      });
-      this.LOV.LOVS.pslCertificate.filter((element) => {
-        this.data = [{ key: 'Not Applicable', value: 'Not Applicable' }];
-        this.pslCertificateValues = this.data;  // If PSL_CATEGORY_AS_Non-PSL---> Not Applicable
-        this.formValues.pslCCertificate = this.data[0].key;
-      });
-    } else {
-      this.LOV.LOVS.pslCategory.filter((element) => {
-        if (element.key === '2PSLCAT') {
-          this.pslCategoryData = [{ key: element.key, value: element.value }];
-          this.pslCategoryValues = this.pslCategoryData;
-          this.formValues.pslCategory = this.pslCategoryData[0].key;
-        }
-      });
-    }
-    // TO AUTO-POPULATE PSL-SUBCATEGORY AND PSL-CERTIFICATE DATA
-    if (this.pslSubCategoryValues.length == 1) {
-      this.pslDataForm.get('microSmallAndMediumEnterprises').patchValue({
-        pslSubCategory: this.pslSubCategoryValues[0].key
-      });
-    } else {
-      this.pslDataForm.get('microSmallAndMediumEnterprises').patchValue({
-        pslSubCategory: ''
-      });
-    }
-    if (this.pslCertificateValues.length == 1) {
-      this.pslDataForm.get('microSmallAndMediumEnterprises').patchValue({
-        pslCCertificate: this.pslCertificateValues[0].key
-      });
-    } else {
-      this.pslDataForm.get('microSmallAndMediumEnterprises').patchValue({
-        pslCCertificate: ''
-      });
-    }
-  }
+  // setValueForPslSubCategoryByInvestmentInEquipment() {
+  //   console.log('Investment_In_Equipment_Value::', this.investmentInEquipmentValue);
+  //   if (this.investmentInEquipmentValue <= 1000000 && this.investmentInEquipmentValue != 0) {
+  //     this.LOV.LOVS.pslSubCategory.filter((element) => {
+  //       if (element.key === '4PSLSUBCAT') {
+  //         this.pslSubCategoryData = [{ key: element.key, value: element.value }];
+  //         this.pslSubCategoryValues = this.pslSubCategoryData;
+  //         this.formValues.pslSubCategory = this.pslSubCategoryData[0].key;
+  //       }
+  //     });
+  //     this.LOV.LOVS.pslCertificate.filter((element) => {
+  //       if (element.key === '4PSLCRTFCTE') {
+  //         this.data = [{ key: element.key, value: element.value }];
+  //         this.pslCertificateValues = this.data;
+  //         this.formValues.pslCCertificate = this.data[0].key;
+  //       }
+  //     });
+  //   } else if (
+  //     this.investmentInEquipmentValue > 1000000 &&
+  //     this.investmentInEquipmentValue <= 20000000
+  //   ) {
+  //     this.LOV.LOVS.pslSubCategory.filter((element) => {
+  //       if (element.key === '5PSLSUBCAT') {
+  //         this.pslSubCategoryData = [{ key: element.key, value: element.value }];
+  //         this.pslSubCategoryValues = this.pslSubCategoryData;
+  //         this.formValues.pslSubCategory = this.pslSubCategoryData[0].key;
+  //       }
+  //     });
+  //     this.LOV.LOVS.pslCertificate.filter((element) => {
+  //       if (element.key === '5PSLCRTFCTE') {
+  //         this.data = [{ key: element.key, value: element.value }];
+  //         this.pslCertificateValues = this.data;
+  //         this.formValues.pslCCertificate = this.data[0].key;
+  //       }
+  //     });
+  //   } else if (
+  //     this.investmentInEquipmentValue > 20000000 &&
+  //     this.investmentInEquipmentValue <= 50000000
+  //   ) {
+  //     this.LOV.LOVS.pslSubCategory.filter((element) => {
+  //       if (element.key === '6PSLSUBCAT') {
+  //         this.pslSubCategoryData = [{ key: element.key, value: element.value }];
+  //         this.pslSubCategoryValues = this.pslSubCategoryData;
+  //         this.formValues.pslSubCategory = this.pslSubCategoryData[0].key;
+  //       }
+  //     });
+  //     this.LOV.LOVS.pslCertificate.filter((element) => {
+  //       if (element.key === '5PSLCRTFCTE') {
+  //         this.data = [{ key: element.key, value: element.value }];
+  //         this.pslCertificateValues = this.data;
+  //         this.formValues.pslCCertificate = this.data[0].key;
+  //       }
+  //     });
+  //   }
+  //   // If "Investment in Equipment" is greater than 5 crores then default as Non-PSL
+  //   if (this.investmentInEquipmentValue > 50000000) {
+  //     this.LOV.LOVS.pslCategory.filter((element) => {
+  //       if (element.key === '4PSLCAT') {
+  //         this.pslCategoryData = [{ key: element.key, value: element.value }];
+  //         this.pslCategoryValues = this.pslCategoryData;
+  //         this.formValues.pslCategory = this.pslCategoryData[0].key;
+  //       }
+  //     });
+  //     this.LOV.LOVS.pslSubCategory.filter((element) => {
+  //       this.pslSubCategoryData = [{ key: 'Not Applicable', value: 'Not Applicable' }];
+  //       this.pslSubCategoryValues = this.pslSubCategoryData;   // If PSL_CATEGORY_AS_Non-PSL---> Not Applicable
+  //       this.formValues.pslSubCategory = this.pslSubCategoryData[0].key;
+  //     });
+  //     this.LOV.LOVS.pslCertificate.filter((element) => {
+  //       this.data = [{ key: 'Not Applicable', value: 'Not Applicable' }];
+  //       this.pslCertificateValues = this.data;  // If PSL_CATEGORY_AS_Non-PSL---> Not Applicable
+  //       this.formValues.pslCCertificate = this.data[0].key;
+  //     });
+  //   } else {
+  //     this.LOV.LOVS.pslCategory.filter((element) => {
+  //       if (element.key === '2PSLCAT') {
+  //         this.pslCategoryData = [{ key: element.key, value: element.value }];
+  //         this.pslCategoryValues = this.pslCategoryData;
+  //         this.formValues.pslCategory = this.pslCategoryData[0].key;
+  //       }
+  //     });
+  //   }
+  //   // TO AUTO-POPULATE PSL-SUBCATEGORY AND PSL-CERTIFICATE DATA
+  //   if (this.pslSubCategoryValues.length == 1) {
+  //     this.pslDataForm.get('microSmallAndMediumEnterprises').patchValue({
+  //       pslSubCategory: this.pslSubCategoryValues[0].key
+  //     });
+  //   } else {
+  //     this.pslDataForm.get('microSmallAndMediumEnterprises').patchValue({
+  //       pslSubCategory: ''
+  //     });
+  //   }
+  //   if (this.pslCertificateValues.length == 1) {
+  //     this.pslDataForm.get('microSmallAndMediumEnterprises').patchValue({
+  //       pslCCertificate: this.pslCertificateValues[0].key
+  //     });
+  //   } else {
+  //     this.pslDataForm.get('microSmallAndMediumEnterprises').patchValue({
+  //       pslCCertificate: ''
+  //     });
+  //   }
+  // }
 
   // CHANGE IN VALUE OF INVESTMENT IN PLANT AND MACHINERY
   // onChangeInvestmentInPlantAndMachinery(event: any) {
@@ -1408,7 +1410,7 @@ export class PslDataComponent implements OnInit {
       console.log('TOTAL_INVESTMENT_COST::', this.totalInvestmentCost);
       if (this.detailActivityChange === '6PSLDTLACTVTY') {
         this.investmentInEquipmentValue = this.totalInvestmentCost;
-        this.setValueForPslSubCategoryByInvestmentInEquipment();
+        // this.setValueForPslSubCategoryByInvestmentInEquipment();
         // console.log("INVESTMENT_IN_EQUIPMENT_VALUE::", this.investmentInEquipmentValue);
       }
       if (this.detailActivityChange === '5PSLDTLACTVTY') {
@@ -1540,7 +1542,7 @@ export class PslDataComponent implements OnInit {
       } else {
         this.toasterService.showError('Please fill all mandatory fields.', 'PSL DATA');
       }
-    } else if (this.activityChange === '2PSLACTVTY') {
+    } else if (this.activityChange !== '1PSLACTVTY' ) {
       this.isDirty = true;
       this.formValues = this.pslDataForm.get('microSmallAndMediumEnterprises').value;
       console.log('FormValues::', this.formValues);
