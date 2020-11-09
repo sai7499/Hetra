@@ -56,3 +56,10 @@
   .status-fail {
     color: red;
   }
+
+  .table tbody tr td {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    padding-bottom: 10px !important;
+    padding-top: 10px !important; 
+  }

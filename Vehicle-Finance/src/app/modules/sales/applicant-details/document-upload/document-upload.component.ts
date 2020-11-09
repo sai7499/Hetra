@@ -43,7 +43,7 @@ export class DocumentUploadComponent implements OnInit {
       const applicant = applicantList.find((val) => {
           return val.applicantId === this.applicantId;
       });
-      const apiId = value.wizardLeadId || value.ucic;
+      const apiId = applicant.wizardLeadId || applicant.ucic;
       this.details = {
         id: this.applicantId,
         associatedWith: 2,

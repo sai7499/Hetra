@@ -919,6 +919,7 @@ export class FleetDetailsComponent implements OnInit {
         }
         this.docsFleetDetails = null;
         this.showUploadModal = false;
+        this.toasterService.showSuccess('Saved successfully', '');
     }));
   }
 
