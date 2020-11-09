@@ -120,8 +120,10 @@ export class QueryModelComponent implements OnInit {
     })
 
     this.getLov();
-    if (window.screen.width <= 760) { // 768px portrait
+    if (window.screen.width <= 760) {
+       // 768px portrait
       this.isMobileView = true;
+      // document.getElementById("mySidenav").style.width = "500px";
     }
   }
 
@@ -134,7 +136,7 @@ export class QueryModelComponent implements OnInit {
   }
 
   openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("mySidenav").style.width = "500px";
   }
 
   closeNav() {
@@ -278,6 +280,7 @@ export class QueryModelComponent implements OnInit {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         lead.count = 0;
         console.log(lead, 'Chat', res)
+        document.getElementById("mySidenav").style.width = "0";
 
         this.getChatsObj = res.ProcessVariables;
         this.chatMessages = res.ProcessVariables.assetQueries ? res.ProcessVariables.assetQueries : [];

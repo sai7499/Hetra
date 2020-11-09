@@ -7,26 +7,20 @@
         <form [formGroup]="queryModalForm">
           <div class="query">
             <div id="mySidenav" class="sidenav">
-              <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-              <a href="#">About</a>
-              <a href="#">Services</a>
-              <a href="#">Clients</a>
-              <a href="#">Contact</a>
-            </div>
-            <div class="col-sm-4 col-lg-4 col-md-4 col-xs-12 left " id="message-hide">
+              <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0">
                 <div class="input-group search-btn">
                   <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
                     (keyup)="queryModalForm.value.searchName.length >= 4 ? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
-                    queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''
-                    ">
+                      queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''
+                      ">
                   <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
                 </div>
               </div>
 
-
               <br /><br />
-              <div class="panel-group mar-20 scroll-box " id="scrollBox">
+              <div class="panel-group mar-20 scroll-box" id="scrollBox"
+                style="background-color: #cec3c3; height: 350px;">
                 <div class="panel-group mar-20" id="accordion"
                   *ngFor="let chat of chatList; let i=index; let last=last">
                   <div class="flex-container" [ngClass]="selectedList === chat ? 'selected-back' : ''">
@@ -53,7 +47,8 @@
                 <div class="panel panel-default tab-con">
                   <div class="panel-heading" id="headingOne">
                     <h4 class="panel-title">
-                      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                        style="color: #fff ">
                         <i class="fa fa-user"></i>&nbsp; Stakeholders <i class="fa fa-angle-down"></i>
                       </a>
                     </h4>
@@ -88,12 +83,119 @@
                 <div class="panel panel-default tab-con">
                   <div class="panel-heading" id="headingTwo">
                     <h4 class="panel-title">
-                      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"
+                        style="color: #fff ">
                         <i class="fa fa-file"></i>&nbsp; Documents Shared <i class="fa fa-angle-down"></i>
                       </a>
                     </h4>
                   </div>
                   <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <form>
+                        <div class="form-group col-xs-12 bloc">
+                          <div class="input-group bloc-search">
+                            <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchDocuments"
+                              [ngModelOptions]="{standalone: true}" (keyup)="getDocuments($event.target.value)">
+                            <span class="input-group-addon "><i class="fa fa-search"></i></span>
+                          </div>
+                        </div>
+                      </form>
+                      <div class="document-shared-list document-box">
+                        <div class="document-box"
+                          *ngFor="let document of queryModelLov.documents; let k=index; let last=last">
+                          <p *ngIf="document.docId"><a (click)="downloadDocs(document.docId, k, $event)">ID:
+                              {{document.docId}} <span *ngIf="document.docName"> -
+                                {{document.docName}}</span>
+                            </a></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- </div> -->
+            </div>
+            <div class="col-sm-4 col-lg-4 col-md-4 col-xs-12 left " id="message-hide">
+              <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0">
+                <div class="input-group search-btn">
+                  <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
+                    (keyup)="queryModalForm.value.searchName.length >= 4 ? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
+                    queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''
+                    ">
+                  <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
+                </div>
+              </div>
+
+              <br /><br />
+              <div class="panel-group mar-20 scroll-box " id="scrollBox">
+                <div class="panel-group mar-20" id="accordion"
+                  *ngFor="let chat of chatList; let i=index; let last=last">
+                  <div class="flex-container" [ngClass]="selectedList === chat ? 'selected-back' : ''">
+                    <div class="divs" (click)="getQueries(chat)">
+                      <p class="mar-em">{{chat.value}}</p>
+                    </div>
+
+                    <i class="fa fa-comment count-list font-medium-3" *ngIf="chat.count && chat.count !== 0"></i><span
+                      class="notification badge badge-pill badge-danger"
+                      *ngIf="chat.count && chat.count !== 0">{{chat.count}}</span>
+                  </div>
+                  <hr>
+                </div>
+                <div id="loadMore" (click)="loadMorePage(chatList.length, queryModalForm.value.searchName)"
+                  *ngIf="chatList.length >= 5 && getLeadsObj.chatTotalPages > chatTotalPages">Load
+                  more</div>
+                <div class="empty-list" *ngIf="chatList.length === 0">
+                  No such field in leadlist
+                </div>
+
+              </div>
+
+              <div class="panel-group mar-20" id="accordion">
+                <div class="panel panel-default tab-con">
+                  <div class="panel-heading" id="headingOne">
+                    <h4 class="panel-title">
+                      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseBriefOne">
+                        <i class="fa fa-user"></i>&nbsp; Stakeholders <i class="fa fa-angle-down"></i>
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseBriefOne" class="panel-collapse collapse">
+                    <div class="panel-body">
+
+                      <form class="clearfix">
+                        <div class="form-group col-xs-12">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search"
+                              [(ngModel)]="searchStakeHolders" [ngModelOptions]="{standalone: true}"
+                              (keyup)="getvalueCheck($event.target.value)">
+                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                          </div>
+                        </div>
+                        <div class="stakeholder-list">
+                          <div *ngFor="let stack of queryModelLov.filterStackHolders | search ">
+                            <div class="radio"><label><input type="radio" name="radio"> {{stack.value}} <span
+                                  class="checkmark"></span></label></div>
+                          </div>
+                        </div>
+                        <div class="stakeholder-bot text-right">
+                          <button type="submit" class="btn btn-default mar-right8">Cancel</button>
+                          <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel panel-default tab-con">
+                  <div class="panel-heading" id="headingTwo">
+                    <h4 class="panel-title">
+                      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseBriefTwo">
+                        <i class="fa fa-file"></i>&nbsp; Documents Shared <i class="fa fa-angle-down"></i>
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseBriefTwo" class="panel-collapse collapse">
                     <div class="panel-body">
                       <form>
                         <div class="form-group col-xs-12 bloc">

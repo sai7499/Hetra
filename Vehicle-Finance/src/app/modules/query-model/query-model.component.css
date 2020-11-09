@@ -471,6 +471,7 @@ margin: 0px !important;
     background-color: #fff;
 	padding: 15px 20px;
 }
+
 .query .panel-group .panel-default {
     border: none;
     margin-bottom: 17px;
@@ -694,7 +695,7 @@ margin: 0px !important;
 
 
   .selected-back {
-      background-color: #ebebeb;
+      background-color: #645eae6e;
   }
     
     .dropdown-content {
@@ -914,21 +915,9 @@ margin: 0px !important;
         margin-top:0px!important;
     }
     @media (min-width:260px) and (max-width: 760px) {
-         
 
-        /* .view-button{
-            width:100%;
-            margin: 10px auto;
-        } */
-/* 
-        .view-pad-bottom{
-        text-align: right;
-        margin:0px 0px 5px 0px!important;
-        width:100%;
-        }  */
-
-        #message-hide{
-            display:none;
+        #message-hide {
+            display: none !important;
         }
 
         .back-div{
@@ -936,8 +925,16 @@ margin: 0px !important;
             display: initial;
         }
 
-    }
+        .panel-default>.panel-heading, .panel-heading {
+            color: #fff !important;
+            background-color: #2b2667 !important;
+        }
 
+        .sidenav{
+            display: block!important;
+        }
+    }
+    
     * {
   scrollbar-width: thin;
   scrollbar-color: #f57d2f #fff0;
@@ -1079,13 +1076,45 @@ body::-webkit-scrollbar-thumb {
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #111;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0, 0.9);
     overflow-x: hidden;
     transition: 0.5s;
-    padding-top: 60px;
+  }
+  
+  /* .sidenav-content {
+    position: relative;
+    top: 25%;
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
   }
   
   .sidenav a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  } */
+  
+  .sidenav a:hover, .sidenav a:focus {
+    color: #f1f1f1;
+  }
+  
+  .sidenav .closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+  }
+
+  .cus-select {
+      width: 500px !important;
+  }
+  
+  /* .sidenav a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 25px;
@@ -1096,7 +1125,7 @@ body::-webkit-scrollbar-thumb {
   
   .sidenav a:hover {
     color: #f1f1f1;
-  }
+  } */
   
   .sidenav .closebtn {
     position: absolute;
@@ -1110,3 +1139,7 @@ body::-webkit-scrollbar-thumb {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
   }
+
+  .sidenav{
+    display: none;
+}
