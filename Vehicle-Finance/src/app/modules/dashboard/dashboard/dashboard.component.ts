@@ -15,6 +15,7 @@ import { ApplicantDataStoreService } from '@services/applicant-data-store.servic
 import { environment } from 'src/environments/environment';
 import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { QueryModelService } from '@services/query-model.service';
 
 export enum DisplayTabs {
   Leads,
@@ -60,7 +61,10 @@ export enum DisplayTabs {
   PDDWithMe,
   PDDWithBranch,
   ReversedLeadsWithMe,
-  ReversedLeadsWithBranch
+  ReversedLeadsWithBranch,
+  RCU,
+  RCUWithMe,
+  RCUWithBranch
 }
 
 export enum sortingTables {
@@ -129,6 +133,10 @@ export class DashboardComponent implements OnInit {
   onAssignTab: boolean;
   onReleaseTab: boolean;
 
+  // Query Model
+  leadCount: number = 0;
+  userId: string;
+
   displayTabs = DisplayTabs;
   sortTables = sortingTables;
   endDateChange: string;
@@ -149,9 +157,9 @@ export class DashboardComponent implements OnInit {
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService,
     private sharedService: SharedService,
-    private applicantStoreService: ApplicantDataStoreService,
     private toggleDdeService: ToggleDdeService,
-    private location: Location
+    private location: Location,
+    private queryModelService: QueryModelService
   ) {
     if (environment.isMobile === true) {
       this.itemsPerPage = '5';
@@ -166,6 +174,9 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.userId = localStorage.getItem('userId')
+
     localStorage.removeItem('is_pred_done');
     localStorage.removeItem('isPreDisbursement');
     localStorage.removeItem('istermSheet');
@@ -203,6 +214,10 @@ export class DashboardComponent implements OnInit {
         this.subActiveTab = 34;
         this.onTabsLoading(this.subActiveTab);
         this.onLeads(this.displayTabs.CPCChecker, this.displayTabs.CPCCheckerWithMe, 'CPC');
+      } else if (this.roleType === 6) {
+        this.activeTab = 44;
+        this.subActiveTab = 45;
+        this.onTabsLoading(this.subActiveTab);
       }
     }
 
@@ -235,6 +250,30 @@ export class DashboardComponent implements OnInit {
       this.toggleDdeService.setIsDDEClicked('0');
       this.toggleDdeService.setOperationType('1', 'Deviation', currentUrl);
     }
+
+    this.getCountAcrossLeads(this.userId)
+ 
+
+  }
+
+  getCountAcrossLeads(userId) {
+
+    this.queryModelService.getCountAcrossLeads(userId).subscribe((res: any) => {
+      console.log(res, 'res')
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        this.leadCount = res.ProcessVariables.leadCount ? res.ProcessVariables.leadCount : 0;
+      } else {
+        this.leadCount = 0
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Count Across Leads')
+      }
+    })
+
+  }
+
+  initinequery() {
+    const currentUrl = this.location.path();
+    localStorage.setItem('currentUrl', currentUrl);
+    this.router.navigateByUrl(`/pages/query-model`)
   }
 
   onSort(data) {
@@ -362,7 +401,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onFromDateChange() {
-    if(!this.displayTabs.PDD && !this.displayTabs.PDDforCPC) {
+    if (!this.displayTabs.PDD && !this.displayTabs.PDDforCPC) {
 
     }
     this.filterForm.get('fromDate').valueChanges.pipe(debounceTime(0)).subscribe((data) => {
@@ -410,12 +449,12 @@ export class DashboardComponent implements OnInit {
         break;
     }
     switch (data) {
-      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42:
+      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45:
         this.onAssignTab = false;
         this.onReleaseTab = true;
         this.myLeads = true;
         break;
-      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43:
+      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46:
         this.onAssignTab = true;
         this.onReleaseTab = false;
         this.myLeads = false;
@@ -482,8 +521,12 @@ export class DashboardComponent implements OnInit {
         this.taskName = 'CPC-PDD';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
-        case 42: case 43:
+      case 42: case 43:
         this.taskName = 'Send Back To Sales';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
+        break;
+      case 45: case 46:
+        this.taskName = 'RCU';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       default:
@@ -799,8 +842,11 @@ export class DashboardComponent implements OnInit {
       case 40: case 41:
         this.router.navigateByUrl(`/pages/pdd/${this.leadId}`);
         break;
-        case 42: case 43:
-          this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
+      case 42: case 43:
+        this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
+        break;
+      case 45: case 46:
+        this.router.navigateByUrl(`/pages/dde/${this.leadId}/rcu`);
         break;
 
       default:

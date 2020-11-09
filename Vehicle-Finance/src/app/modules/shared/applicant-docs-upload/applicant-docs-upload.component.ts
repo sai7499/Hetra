@@ -227,7 +227,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
         const category = categories.find((category) => {
           return category.code === Number(code);
         });
-        this.categories.push(category);
+        if (category) {
+            this.categories.push(category);
+          }
       }
     });
     console.log('this.categories', this.categories);
@@ -696,7 +698,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
   getProfileImage() { }
 
   async downloadDocs(formArrayName: string, index: number, event) {
-    console.log(event);
     
     let el = event.srcElement;
     const formArray = this.uploadForm.get(formArrayName) as FormArray;

@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { CommonDataService } from '@services/common-data.service';
+import { ToasterService } from '@services/toaster.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 
 @Component({
     templateUrl: './vehicle-list.component.html',
@@ -9,6 +13,7 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 export class VehicleListComponent {
     public label: any = {};
     leadId: number;
+    applicantList: any = []
 
     public colleteralArray = [
         {
@@ -23,7 +28,13 @@ export class VehicleListComponent {
         }
     ]
 
-    constructor(private labelsData: LabelsService, private createLeadDataService: CreateLeadDataService) { }
+    constructor(private labelsData: LabelsService,
+        private createLeadDataService: CreateLeadDataService,
+        private commonDataService: CommonDataService,
+        private toasterService: ToasterService,
+        private route: Router,
+        private activatedRoute: ActivatedRoute,
+        private applicantDataStoreService: ApplicantDataStoreService) { }
 
     ngOnInit() {
         this.labelsData.getLabelsOfDDEData()
@@ -35,5 +46,19 @@ export class VehicleListComponent {
 
         let leadData = this.createLeadDataService.getLeadSectionData();
         this.leadId = leadData['leadId'];
+        this.applicantList = this.applicantDataStoreService.getApplicantList();
     }
+
+    onNext() {
+        const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
+        const product = leadSectioData.leadDetails.productCatCode;
+    
+        if (product === "NCV") {
+          const result = this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
+          if (!result) {
+            this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
+          }
+        }
+        this.route.navigate([`pages/dde/${this.leadId}/reference`]);
+      }
 }

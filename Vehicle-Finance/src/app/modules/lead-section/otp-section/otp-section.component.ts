@@ -5,6 +5,7 @@ import { OtpServiceService } from '../services/otp-details.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApplicantService } from '@services/applicant.service';
 import { ToasterService } from '@services/toaster.service';
+import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 
 @Component({
   selector: 'app-otp-section',
@@ -28,7 +29,8 @@ export class OtpSectionComponent implements OnInit {
     private otpService: OtpServiceService,
     private applicantService: ApplicantService,
     private router: Router,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private applicantDataService : ApplicantDataStoreService
   ) { }
 
   getLeadIdAndApplicantId() {
@@ -176,5 +178,19 @@ export class OtpSectionComponent implements OnInit {
         this.toasterService.showError('Invalid OTP !', '');
       }
     });
+  }
+
+  onBack(){
+    const sales=this.applicantDataService.getNavigateForDedupe()
+    if(!sales){
+      this.router.navigateByUrl(
+        `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
+      );
+    }else{
+      this.router.navigateByUrl(
+        `/pages/sales-applicant-details/${this.leadId}/add-applicant/${this.applicantId}`
+      );
+    }
+   
   }
 }

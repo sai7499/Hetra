@@ -1,32 +1,23 @@
 <div class="search">
-    <input 
-        type="text" 
-        class="form-control" 
-        autocomplete="off" 
-        [(ngModel)]="searchText" 
-        (mouseover)="mouseEnter()" 
+    <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchText" (mouseover)="mouseEnter()"
         (keyup)="getvalue($event.target.value)">
-    <div class="dropdown-content " *ngIf="dropDown" [ngClass]="{'profile-style': activityClass }" [ngClass]="{'profile-compartment': activityClass }">
-        <div *ngFor="let item of searchLead">
+    <div class="dropdown-content " *ngIf="dropDown" [ngClass]="{'profile-style': activityClass }" 
+        [ngClass]="{'profile-compartment': activityClass }">
+        <div *ngFor="let item of searchLead">            
             <a   
-            data-toggle="collapse"
-            data-target="#bs-navbar"
-            (click)="getRoute($event, item.id, item.name)">{{item.name}}</a>
+             data-toggle="collapse"
+             data-target="#bs-navbar"
+             (click)="getRoute($event, item.id, item.name)">{{item.name}}
+            </a>            
         </div>
 
-          <!-- supervisorRelated starts -->
+        <!-- supervisorRelated starts -->
         <!-- <a [routerLink]="[ '/pages/supervisor' ]">SuperVisor</a> -->
-           <!-- supervisorRelated ends -->
-           <!-- <a [routerLink]="[ '/pages/negotiation']">Negotiation</a> -->
-           <!-- <a [routerLink]="[ '/pages/disbursement-section/102']">Disbursement</a> -->
+        <!-- supervisorRelated ends -->
+        <!-- <a [routerLink]="[ '/pages/negotiation']">Negotiation</a> -->
+        <!-- <a [routerLink]="[ '/pages/disbursement-section/102']">Disbursement</a> -->
     </div>
     <span class="search-icon-left" [ngClass]="{'test': isMobile}"></span>
-    <button 
-        (click)="navigateToModule()" 
-        class="microphone-icon" 
-        title="Search by voice" 
-        [ngClass]="{'test': isMobile}"
-        data-toggle="collapse"
-        data-target="#bs-navbar"
-         >GO</button>
+    <button (click)="navigateToModule()" class="microphone-icon" title="Search by voice" [ngClass]="{'test': isMobile}"
+        data-toggle="collapse" data-target="#bs-navbar">GO</button>
 </div>
