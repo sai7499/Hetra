@@ -10,7 +10,9 @@
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0">
                 <div class="input-group search-btn">
                   <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
-                    (keyup)="queryModalForm.value.searchName.length >= 2 ? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : getLeads(getLeadSendObj)">
+                    (keyup)="queryModalForm.value.searchName.length >= 4 ? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
+                    queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''
+                    ">
                   <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
                 </div>
               </div>
@@ -21,9 +23,6 @@
                 <div class="panel-group mar-20" id="accordion"
                   *ngFor="let chat of chatList; let i=index; let last=last">
                   <div class="flex-container" [ngClass]="selectedList === chat ? 'selected-back' : ''">
-                    <!-- <div class="small" (click)="getQueries(chat)">
-                      <p class="mar-em">{{chat.key}}</p>
-                    </div> -->
                     <div class="divs" (click)="getQueries(chat)">
                       <p class="mar-em">{{chat.value}}</p>
                     </div>
@@ -31,8 +30,6 @@
                     <i class="fa fa-comment count-list font-medium-3" *ngIf="chat.count && chat.count !== 0"></i><span
                       class="notification badge badge-pill badge-danger"
                       *ngIf="chat.count && chat.count !== 0">{{chat.count}}</span>
-
-                    <!-- <span class="badge badge-success count-list" *ngIf="chat.count">{{chat.count}}</span> -->
                   </div>
                   <hr>
                 </div>
@@ -151,16 +148,22 @@
 
                   </div>
 
+                  <div class="cus-top-arrow" *ngIf="getChatsObj && getChatsObj.count > 50">
+                    <button type="button" class="btn btn-white btn-circle cus-circle"
+                      (click)="getMoreChat(chatMessages.length, getChatsObj)"><i
+                        class="fa fa-angle-down cus-arrow"></i></button>
+                  </div>
+
                 </div>
-                <div style="position:relative;">
-                  <!-- <button class="btn btn-warning view-button top-btn" type="button" >Top</button> -->
-                  <button type="button" class="btn btn-white btn-circle cus-circle"><i class="fa fa-angle-down"></i></button>
-                </div>
+
+                <!-- <div class="cus-top-arrow">
+                 <button type="button" class="btn btn-white btn-circle cus-circle"
+                    (click)="getMoreChat(chatMessages.length)"><i class="fa fa-angle-down cus-arrow"></i></button>
+                </div> -->
 
                 <div class="wt-mid text-center" *ngIf="chatMessages && chatMessages.length === 0">
                   <p>No chats available</p>
                 </div>
-
 
               </div>
 
@@ -240,9 +243,10 @@
               </div>
 
               <div class="form-group row">
-                <div class="col-sm-12 col-md-12 col-lg-12">
-                  <textarea class="form-control" style="resize: none;" formControlName="query"
-                    (keyup.enter)="onFormSubmit(queryModalForm)"></textarea>
+                <div class="col-sm-10 col-md-10 col-lg-10 cus-size">
+                  <div class="form-group">
+                  <textarea class="form-control cus-chat" formControlName="query"
+                    (keyup.enter)="onFormSubmit(queryModalForm)" placeholder="Type your message here"></textarea>
 
                   <div class="invalid-feedback"
                     *ngIf="queryModalForm.controls['query'].touched && !queryModalForm.controls['query'].valid">
@@ -250,22 +254,18 @@
                       Query Required
                     </div>
                   </div>
+                </div>
 
                 </div>
-              </div>
-
-              <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
-                <div class="col-sm-5">
-
-                </div>
-                <div class="col-sm-7 text-right mar-bot10 ">
-                  <button class="btn btn-primary dash_href mar-top0" type="button"
-                    (click)="onFormSubmit(queryModalForm)">Send</button>
+                <div class="col-sm-1 col-md-1 col-lg-1 text-right mar-bot10">
+                  <button type="button" class="btn btn-primary d-lg-flex align-items-center"
+                    (click)="onFormSubmit(queryModalForm)"><i class="fa fa-send"></i><span
+                      class="d-none d-lg-block ml-1" (click)="onFormSubmit(queryModalForm)">
+                      {{ isMobileView ? '' : 'Send' }}</span></button>
                 </div>
               </div>
 
             </div>
-
 
           </div>
         </form>

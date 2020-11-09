@@ -103,7 +103,9 @@
 
     <div class="row view-pad-bottom" *ngIf="isEnableInitiateQuery">
       <button class="btn btn-primary view-button" type="button" (click)="initinequery()">
-        Initiate Query
+        Initiate Query &nbsp;
+        <i class="fa fa-bell cus-bell font-medium-3"></i><span class="notification badge badge-pill badge-danger"
+          *ngIf="leadCount && leadCount !== 0">{{leadCount}}</span>
       </button>
     </div>
 
