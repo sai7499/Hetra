@@ -125,10 +125,12 @@
 
             <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12 right">
               <div class="row view-pad-bottom">
-                <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
-                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0 back-div "><button
+               
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0 back-div ">
+                  <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+                  <!-- <button
                     class="btn btn-warning back-arrow view-button" type="button" (click)="backFromText()"><i
-                      class="fa fa-bars"></i></button></div>
+                      class="fa fa-bars"></i></button>--></div> 
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-11"> <button class="btn btn-warning view-button"
                     type="button" (click)="backFromQuery()"><i class="fa fa-arrow-left"></i> Back to Lead</button></div>
 
@@ -285,13 +287,13 @@
     [docsDetails]="selectedDocDetails"></app-upload-modal>
 </main>
 <script>
-  function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-  }
-  
-  function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-  }
+ function openNav() {
+  document.getElementById("mySidenav").style.width = "100%";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
   </script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
