@@ -49,12 +49,7 @@ export class ReferenceDetailsComponent implements OnInit {
   productCatCode: any;
   listArray: FormArray;
   referenceDetails: any;
-  typeOfReference: [
-    { key: '0', value: 'Finacier Reference1' },
-    { key: '1', value: 'Finacier Reference2' },
-    { key: '2', value: 'Market Reference1' },
-    { key: '3', value: 'Market Reference2' }
-  ];
+  marketAndFinReferenceDetails: any;
 
   constructor(private labelsData: LabelsService, private lovDataService: LovDataService,
     private formBuilder: FormBuilder, private pdDataService: PdDataService, private applicantService: ApplicantService,
@@ -134,14 +129,13 @@ export class ReferenceDetailsComponent implements OnInit {
       if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
 
         this.refCheckDetails = value.ProcessVariables.referenceCheck ? value.ProcessVariables.referenceCheck : {};
-        const referenceDetails = value.ProcessVariables.marketAndFinReferDetails;
-        if (referenceDetails) {
-          for (let i = 0; i < referenceDetails.length; i++) {
-            this.populateData(value);
-          }
+        const referenceDetails = value.ProcessVariables.marketFinRefData;
+        if (referenceDetails != null) {
+          this.populateData(value);
+
 
         } else if (referenceDetails == null) {
-          const control = this.referenceDetailsForm.controls.marketAndFinReferDetails as FormArray;
+          const control = this.referenceDetailsForm.controls.marketFinRefData as FormArray;
           control.push(this.initRows(null));
 
         }
@@ -156,24 +150,24 @@ export class ReferenceDetailsComponent implements OnInit {
 
   }
   public populateData(data?: any) {
-    const referenceDetailsList = data.ProcessVariables.marketAndFinReferDetails;
+    const referenceDetailsList = data.ProcessVariables.marketFinRefData;
     for (let i = 0; i < referenceDetailsList.length; i++) {
       this.addProposedUnit(referenceDetailsList[i]);
     }
   }
   addProposedUnit(data?: any) {
-    const control = this.referenceDetailsForm.controls.marketAndFinReferDetails as FormArray;
+    const control = this.referenceDetailsForm.controls.marketFinRefData as FormArray;
     control.push(this.populateRowData(data));
   }
 
   addNewRow(rowData) {
-    const control = this.referenceDetailsForm.controls.marketAndFinReferDetails as FormArray;
+    const control = this.referenceDetailsForm.controls.marketFinRefData as FormArray;
     control.push(this.initRows(rowData));
   }
 
   deleteRow(index: number, rows: any) {
     console.log('in delete row fn ', rows, index);
-    const control = this.referenceDetailsForm.controls.marketAndFinReferDetails as FormArray;
+    const control = this.referenceDetailsForm.controls.marketFinRefData as FormArray;
     // tslint:disable-next-line: no-shadowed-variable
     control.value.forEach(element => {
       // if(element.)
@@ -282,19 +276,21 @@ export class ReferenceDetailsComponent implements OnInit {
       uploadImages: [""],
       pdStatus: ["", Validators.required],
       opinionOfPdOfficer: ["", Validators.required],
-      marketAndFinReferDetails: this.listArray
+      marketFinRefData: this.listArray
     });
   }
   public populateRowData(rowData) {
 
     console.log('in initRows RowData');
     return this.fb.group({
-      referenceName: rowData.referenceName ? rowData.referenceName : null,
+      typeReference: rowData.typeReference ? rowData.typeReference : null,
       companyName: rowData.companyName ? rowData.companyName : null,
       officerName: rowData.officerName ? rowData.officerName : null,
       designation: rowData.designation ? rowData.designation : null,
-      telNo: rowData.telNo ? rowData.telNo : null,
-      comments: rowData.comments ? rowData.comments : null
+      teleNo: rowData.teleNo ? rowData.teleNo : null,
+      comments: rowData.comments ? rowData.comments : null,
+      id: rowData.id ? rowData.id : null,
+      applicantId: rowData.applicantId ? rowData.applicantId : this.applicantId
 
     });
   }
@@ -302,12 +298,14 @@ export class ReferenceDetailsComponent implements OnInit {
     console.log('in initRows no RowData');
     return this.fb.group({
 
-      referenceName: new FormControl('', [Validators.required]),
+      typeReference: new FormControl('', [Validators.required]),
       companyName: new FormControl('', [Validators.required]),
       officerName: new FormControl('', [Validators.required]),
       designation: new FormControl('', [Validators.required]),
-      telNo: new FormControl('', [Validators.required]),
-      comments: new FormControl('', [Validators.required])
+      teleNo: new FormControl('', [Validators.required]),
+      comments: new FormControl('', [Validators.required]),
+      id: 0,
+      applicantId: this.applicantId,
 
     });
   }
@@ -424,24 +422,36 @@ export class ReferenceDetailsComponent implements OnInit {
     formValue.refererFullName = formValue.refererFirstName || '' + ' ' + formValue.refererSecondName || '' + ' ' + (formValue.refererThirdName || '');
     formValue.referenceFullName = formValue.referenceFirstName || '' + ' ' + formValue.referenceSecondName || '' + ' ' + formValue.referenceThirdName || '';
 
+    const referenceArray = (this.referenceDetailsForm.value.marketFinRefData as FormArray);
+    for (let i = 0; i < referenceArray.length; i++) {
+      referenceArray[i]['typeReference'] = referenceArray[i]['typeReference'];
+      referenceArray[i]['companyName'] = referenceArray[i]['companyName'];
+      referenceArray[i]['officerName'] = referenceArray[i]['officerName'];
+      referenceArray[i]['designation'] = referenceArray[i]['designation'];
+      referenceArray[i]['teleNo'] = referenceArray[i]['teleNo'];
+      referenceArray[i]['comments'] = referenceArray[i]['comments'];
+    }
+    this.referenceDetailsForm.value.marketFinRefData = referenceArray;
     if (this.referenceDetailsForm.valid) {
       const data = {
         leadId: this.leadId,
         applicantId: this.applicantId,
         userId: this.userId,
-        referenceCheck: formValue
+        referenceCheck: formValue,
+        marketFinRefData: referenceArray
       };
 
       this.personalDiscussionService.saveOrUpdatePdData(data).subscribe((value: any) => {
         if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
           this.refCheckDetails = value.ProcessVariables.referenceCheck ? value.ProcessVariables.referenceCheck : {};
           this.getLOV();
-          this.toasterService.showSuccess('Successfully Save Reference Details', 'Save/Update Reference Details');
+          this.toasterService.showSuccess('Record Saved Successfully', '');
+          this.listArray.controls = [];
           this.getReferenceDetails();
         } else {
           this.toasterService.showSuccess(value.ErrorMessage, 'Error Reference Details');
         }
-      })
+      });
 
     } else {
       this.isDirty = true;

@@ -549,54 +549,50 @@
       </div>
     </div>
     <h4 class="title" *ngIf="productCatCode === 'NCV'">
-        {{ labels.marketAndFinancierReference }}
-      </h4>
-      <div class="row" *ngIf="productCatCode === 'NCV'">
-        <div class="table-responsive application">
-          <table class="table">
-            <thead>
-              <tr class="table-head-bg text-center">
-                <td role="columnheader">{{labels.sNo}} </td>
-                <td role="columnheader">
-                  {{ labels?.typeOfReference }}
-                </td>
-                <td role="columnheader">
-                  {{ labels?.companyName }}
-                </td>
-                <td role="columnheader">
-                  {{ labels?.officerName }}
-                </td>
-                <td role="columnheader">
-                  {{ labels?.designation }}
-                </td>
-                <td role="columnheader">
-                  {{ labels?.telNo }}
-                </td>
-                <td role="columnheader">
-                  {{ labels?.comments }}
-                </td>
-                <td role="columnheader">{{ labels.action }}</td>
-              </tr>
-            </thead>
-            <tbody formArrayName="marketAndFinReferDetails">
-              <tr
-                *ngFor="
-                  let item of referenceDetailsForm.get('marketAndFinReferDetails')[
-                    'controls'
-                  ];
-                  let i = index
-                "
-                [formGroupName]="i">
-                <td>{{i+1}}</td>
+      {{ labels.marketAndFinancierReference }}
+    </h4>
+    <div class="row" *ngIf="productCatCode === 'NCV'">
+      <div class="table-responsive application">
+        <table class="table">
+          <thead>
+            <tr class="table-head-bg text-center">
+              <td role="columnheader">{{ labels.sNo }}</td>
+              <td role="columnheader">
+                {{ labels?.typeOfReference }}
+              </td>
+              <td role="columnheader">
+                {{ labels?.companyName }}
+              </td>
+              <td role="columnheader">
+                {{ labels?.officerName }}
+              </td>
+              <td role="columnheader">
+                {{ labels?.designation }}
+              </td>
+              <td role="columnheader">
+                {{ labels?.telNo }}
+              </td>
+              <td role="columnheader">
+                {{ labels?.comments }}
+              </td>
+              <td role="columnheader">{{ labels.action }}</td>
+            </tr>
+          </thead>
+          <tbody formArrayName="marketFinRefData">
+            <tr
+              *ngFor="
+                let item of referenceDetailsForm.get('marketFinRefData')[
+                  'controls'
+                ];
+                let i = index
+              "
+              [formGroupName]="i"
+            >
+              <td>{{ i + 1 }}</td>
               <td style="min-width: 59px">
                 <app-vf-custom-select
-                  [values]="[
-                  { key: '0', value: 'Finacier Reference1' },
-                  { key: '1', value: 'Finacier Reference2' },
-                  { key: '2', value: 'Market Reference1' },
-                  { key: '3', value: 'Market Reference2' }
-                ]"
-                  formControlName="referenceName"
+                  [values]="(LOV?.LOVS)['typeOfReference']"
+                  formControlName="typeReference"
                   [isRequired]="'Please select alteast one '"
                 >
                 </app-vf-custom-select>
@@ -607,7 +603,7 @@
                   formControlName="companyName"
                   [maxLength]="labels?.validationData?.companyName?.maxLength"
                   [type]="labels?.validationData?.companyName?.type"
-                  [isRequired]="'*required'"
+                  [isRequired]="'company name is required'"
                   [isDirty]="isDirty"
                 ></app-custom-input>
               </td>
@@ -617,7 +613,7 @@
                   formControlName="officerName"
                   [maxLength]="labels?.validationData?.officerName?.maxLength"
                   [type]="labels?.validationData?.officerName?.type"
-                  [isRequired]="'*required'"
+                  [isRequired]="'officer name is required'"
                   [isDirty]="isDirty"
                 ></app-custom-input>
               </td>
@@ -627,19 +623,27 @@
                   formControlName="designation"
                   [maxLength]="labels?.validationData?.companyName?.maxLength"
                   [type]="labels?.validationData?.companyName?.type"
-                  [isRequired]="'*required'"
+                  [isRequired]="'designation is required'"
                   [isDirty]="isDirty"
                 ></app-custom-input>
               </td>
               <td>
                 <app-custom-input
                   [className]="'form-control mandatory'"
-                  formControlName="telNo"
-                  [patternCheck]="inputValidation"
-                  [maxLength]="labels?.validationData?.landlineNumber?.maxLength"
-                  [type]="labels?.validationData?.landlineNumber?.type"
-                  [isRequired]="'*required'"
+                  formControlName="teleNo"
+                  [patternCheck]="
+                    labels?.validationData?.fiCumPDLandlineNumber?.pattern
+                  "
+                  [maxLength]="
+                    labels?.validationData?.fiCumPDLandlineNumber?.maxLength
+                  "
+                  [minLength]="
+                    labels?.validationData?.fiCumPDLandlineNumber?.minLength
+                  "
+                  [type]="labels?.validationData?.fiCumPDLandlineNumber?.type"
+                  [isRequired]="'telephone number is required'"
                   [isDirty]="isDirty"
+                  [placeholder]="'landline number'"
                 ></app-custom-input>
               </td>
               <td>
@@ -648,7 +652,7 @@
                   formControlName="comments"
                   [maxLength]="labels?.validationData?.comments?.maxLength"
                   [type]="labels?.validationData?.comments?.type"
-                  [isRequired]="'*required'"
+                  [isRequired]="'comments are required'"
                   [isDirty]="isDirty"
                 ></app-custom-input>
               </td>
@@ -661,6 +665,7 @@
                   [disabled]="disableSaveBtn"
                   (click)="addNewRow()"
                 ></button>
+                &nbsp;
                 <button
                   type="button"
                   class="fa fa-minus"
@@ -668,14 +673,14 @@
                   id="delPOIbutton"
                   [disabled]="disableSaveBtn"
                   value="Delete"
-                  (click)="deleteRow(i, referenceDetailsForm.value.marketAndFinReferDetails)"
                 ></button>
+                <!-- (click)="deleteRow(i, referenceDetailsForm.value.marketAndFinReferDetails)" -->
               </td>
             </tr>
-            </tbody>
-          </table>
-        </div>
+          </tbody>
+        </table>
       </div>
+    </div>
 
     &nbsp;
     <div class="btn-sec clear-both row cst_btm_btns">
