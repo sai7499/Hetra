@@ -133,6 +133,14 @@ export class QueryModelComponent implements OnInit {
     });
   }
 
+  openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+  }
+
+  closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+  }
+
   loadMorePage(length, chatSearchKey) {
 
     if (this.getLeadsObj.chatTotalPages > this.chatTotalPages) {
