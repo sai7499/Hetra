@@ -222,9 +222,10 @@ export class IdentityDetailsComponent implements OnInit {
   }
 
   passportIssueDateChange(event) {
-    this.passportExpiryInvalidMsg="";
+    
     this.passportIssueDate = new Date(event)
     //this.passportIssueDate.setDate(this.passportIssueDate.getDate() + 1)
+    this.showInvalidMsg['passportExpiry'] = false;
     if(this.passportIssueDate <= this.minPassportIssueDate){
       this.showInvalidMsg['passportIssue'] = true;
       this.passportIssueInvalidMsg="Passport Issuance date prior to 10 years will not be accepted"
@@ -237,6 +238,12 @@ export class IdentityDetailsComponent implements OnInit {
       this.maxPassportExpiryDate = this.passportIssueDate;
         this.maxPassportExpiryDate.setFullYear(this.maxPassportExpiryDate.getFullYear() + 10)
     }
+
+    this.clearPassportExpiry()
+    
+  }
+
+  clearPassportExpiry(){
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.get('passportExpiryDate').setValue(null)
@@ -255,8 +262,9 @@ export class IdentityDetailsComponent implements OnInit {
     }
   }
   drivingIssueDateChange(event) {
-    this.drivingExpiryInvalidMsg=""
+    
     this.drivingIssueDate = new Date(event)
+    this.showInvalidMsg['drivingExpiry'] = false;
     //this.drivingIssueDate.setDate(this.drivingIssueDate.getDate() + 1)
     if (this.drivingIssueDate > this.toDayDate) {
       this.showInvalidMsg['drivingIssue'] = true;
@@ -266,6 +274,11 @@ export class IdentityDetailsComponent implements OnInit {
       this.drivingIssueInvalidMsg=""
     }
     console.log('Date', this.drivingIssueDate)
+    this.clearDrivingLicenceExpiry();
+   
+  }
+
+  clearDrivingLicenceExpiry(){
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.get('drivingLicenseExpiryDate').setValue(null)
@@ -370,13 +383,19 @@ export class IdentityDetailsComponent implements OnInit {
 
     this.passportIssueDate = this.utilityService.getDateFromString(value.passportIssueDate);
     this.drivingIssueDate = this.utilityService.getDateFromString(value.drivingLicenseIssueDate);
-    this.drivingLicenceDates = value.drivingLicenseNumber ? false : true;
-    this.passportDates = value.passportNumber ? false : true;
-
-
+   
     //console.log('individual', value)
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
+
+    if (value.passportIssueDate) {
+      const convertDate=  this.utilityService.getDateFromString(value.passportIssueDate)
+      this.passportIssueDateChange(convertDate)
+    }
+    if (value.drivingLicenseIssueDate) {
+      const convertDate=  this.utilityService.getDateFromString(value.drivingLicenseIssueDate)
+      this.drivingIssueDateChange(convertDate)
+    }
 
     details.patchValue({
       passportIssueDate: this.utilityService.getDateFromString(value.passportIssueDate),
@@ -391,11 +410,25 @@ export class IdentityDetailsComponent implements OnInit {
       voterIdNumber: value.voterIdNumber,
     });
 
-    if (value.passportIssueDate) {
-      const convertDate=  this.utilityService.getDateFromString(value.passportIssueDate)
-      this.maxPassportExpiryDate =convertDate;
-      this.maxPassportExpiryDate.setFullYear(this.maxPassportExpiryDate.getFullYear() + 10)
+    
+    if (value.passportExpiryDate) {
+      const convertDate=  this.utilityService.getDateFromString(value.passportExpiryDate)
+      this.PassportExpiryDateChange(convertDate)
     }
+    if (value.drivingLicenseExpiryDate) {
+      const convertDate=  this.utilityService.getDateFromString(value.drivingLicenseExpiryDate)
+      this.drivingExpiryDateChange(convertDate)
+      
+    }
+    if(this.applicant.ucic){
+      this.passportDates =  true;
+      this.drivingLicenceDates =  true;
+    }else{
+      this.passportDates = value.passportNumber ? false : true;
+      this.drivingLicenceDates = value.drivingLicenseNumber ? false : true;
+    }
+   
+
     console.log('details', details)
   }
   getFormateDate(date: string) {
