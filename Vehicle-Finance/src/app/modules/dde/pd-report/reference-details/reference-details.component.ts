@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormArray, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { LabelsService } from '@services/labels.service';
@@ -12,6 +12,7 @@ import { LovDataService } from '@services/lov-data.service';
 import { ApplicantService } from '@services/applicant.service';
 import { map } from 'rxjs/operators';
 import { LoginStoreService } from '@services/login-store.service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 @Component({
   selector: 'app-reference-details',
@@ -21,7 +22,7 @@ import { LoginStoreService } from '@services/login-store.service';
 export class ReferenceDetailsComponent implements OnInit {
   referenceDetailsForm: FormGroup;
   refCheckDetails: any = {};
-  //isDirty: boolean;
+  // isDirty: boolean;
   applicantLov: any;
   refererPincode: {
     state?: any[];
@@ -45,12 +46,19 @@ export class ReferenceDetailsComponent implements OnInit {
   isDirty = false;
   userId: any;
   isValidPincode: boolean;
+  productCatCode: any;
+  listArray: FormArray;
+  referenceDetails: any;
+  marketAndFinReferenceDetails: any;
 
   constructor(private labelsData: LabelsService, private lovDataService: LovDataService,
     private formBuilder: FormBuilder, private pdDataService: PdDataService, private applicantService: ApplicantService,
     private router: Router, private personalDiscussionService: PersonalDiscussionService,
-    private aRoute: ActivatedRoute, private toastrService: ToasterService, private loginStoreService: LoginStoreService,
-    private commomLovService: CommomLovService, private utilityService: UtilityService) { }
+    private aRoute: ActivatedRoute, private toasterService: ToasterService, private loginStoreService: LoginStoreService,
+    private commomLovService: CommomLovService, private createLeadDataService: CreateLeadDataService,
+    private utilityService: UtilityService, private fb: FormBuilder,) {
+    this.listArray = this.fb.array([]);
+  }
 
   ngOnInit() {
     this.getLabels();
@@ -64,6 +72,12 @@ export class ReferenceDetailsComponent implements OnInit {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
     this.userId = roleAndUserDetails.userDetails.userId;
   }
+  getLeadSectiondata() {
+    const leadData = this.createLeadDataService.getLeadSectionData();
+    const leadDetailsFromLead = leadData['leadDetails'];
+    this.productCatCode = leadDetailsFromLead.productCatCode;
+    console.log('prod cat code', this.productCatCode);
+  }
 
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
@@ -75,11 +89,12 @@ export class ReferenceDetailsComponent implements OnInit {
           }
           this.applicantId = Number(value.applicantId);
           this.version = String(value.version);
-          this.getReferenceDetails()
+          this.getLeadSectiondata();
+          this.getReferenceDetails();
         });
       },
       error => {
-        console.log('error', error)
+        console.log('error', error);
       });
   }
 
@@ -90,7 +105,7 @@ export class ReferenceDetailsComponent implements OnInit {
     });
   }
 
-  //GET APPLICANTID
+  // GET APPLICANTID
   getApplicantId() {
     this.aRoute.params.subscribe((value: any) => {
       this.applicantId = Number(value.applicantId);
@@ -98,7 +113,7 @@ export class ReferenceDetailsComponent implements OnInit {
     });
   }
 
-  //GET ALL LOVS
+  // GET ALL LOVS
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
   }
@@ -114,15 +129,67 @@ export class ReferenceDetailsComponent implements OnInit {
       if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
 
         this.refCheckDetails = value.ProcessVariables.referenceCheck ? value.ProcessVariables.referenceCheck : {};
+        const referenceDetails = value.ProcessVariables.marketFinRefData;
+        if (referenceDetails != null) {
+          this.populateData(value);
+
+
+        } else if (referenceDetails == null) {
+          const control = this.referenceDetailsForm.controls.marketFinRefData as FormArray;
+          control.push(this.initRows(null));
+
+        }
         if (this.refCheckDetails) {
           this.setFormValue(this.refCheckDetails);
           this.pdDataService.setCustomerProfile(this.refCheckDetails);
         }
       } else {
-        this.toastrService.showError(value.ErrorMessage, 'Personal Details')
+        this.toasterService.showError(value.ErrorMessage, 'Personal Details')
       }
-    })
+    });
 
+  }
+  public populateData(data?: any) {
+    const referenceDetailsList = data.ProcessVariables.marketFinRefData;
+    for (let i = 0; i < referenceDetailsList.length; i++) {
+      this.addProposedUnit(referenceDetailsList[i]);
+    }
+  }
+  addProposedUnit(data?: any) {
+    const control = this.referenceDetailsForm.controls.marketFinRefData as FormArray;
+    control.push(this.populateRowData(data));
+  }
+
+  addNewRow(rowData) {
+    const control = this.referenceDetailsForm.controls.marketFinRefData as FormArray;
+    control.push(this.initRows(rowData));
+  }
+
+  deleteRow(index: number, rows: any) {
+    console.log('in delete row fn ', rows, index);
+    const control = this.referenceDetailsForm.controls.marketFinRefData as FormArray;
+    // tslint:disable-next-line: no-shadowed-variable
+    control.value.forEach(element => {
+      // if(element.)
+      console.log('in for each', element);
+
+    });
+    console.log('control', control, 'index', index);
+
+    if (control.value.length > 1) {
+      control.removeAt(index);
+      // const data = {
+      //   id: control.value[index].id,
+      //   leadId: this.leadId
+      // };
+
+      control.value.splice(index, 1);
+      this.toasterService.showSuccess('Record deleted successfully', '');
+
+    } else {
+      this.toasterService.showError('atleast one record required', '');
+
+    }
   }
 
   setFormValue(referenceDetails) {
@@ -162,14 +229,17 @@ export class ReferenceDetailsComponent implements OnInit {
       uploadImages: referenceDetails.uploadImages || '',
       pdStatus: referenceDetails.pdStatus || '',
       opinionOfPdOfficer: referenceDetails.opinionOfPdOfficer || '',
-    })
-
-    this.getPincodeResult(Number(referenceDetails.referencePincode), 'referencePincode')
-    this.getPincodeResult(Number(referenceDetails.refererPincode), 'refererPincode')
+    });
+    if (referenceDetails.referencePincode != null) {
+      this.getPincodeResult(Number(referenceDetails.referencePincode), 'referencePincode');
+    }
+    if (referenceDetails.referencePincode != null) {
+      this.getPincodeResult(Number(referenceDetails.refererPincode), 'refererPincode');
+    }
 
   }
 
-  //FORMGROUP
+  // FORMGROUP
   initForm() {
     this.referenceDetailsForm = this.formBuilder.group({
       refererFirstName: ["", Validators.required],
@@ -206,8 +276,40 @@ export class ReferenceDetailsComponent implements OnInit {
       uploadImages: [""],
       pdStatus: ["", Validators.required],
       opinionOfPdOfficer: ["", Validators.required],
+      marketFinRefData: this.listArray
     });
   }
+  public populateRowData(rowData) {
+
+    console.log('in initRows RowData');
+    return this.fb.group({
+      typeReference: rowData.typeReference ? rowData.typeReference : null,
+      companyName: rowData.companyName ? rowData.companyName : null,
+      officerName: rowData.officerName ? rowData.officerName : null,
+      designation: rowData.designation ? rowData.designation : null,
+      teleNo: rowData.teleNo ? rowData.teleNo : null,
+      comments: rowData.comments ? rowData.comments : null,
+      id: rowData.id ? rowData.id : null,
+      applicantId: rowData.applicantId ? rowData.applicantId : this.applicantId
+
+    });
+  }
+  public initRows(index: number) {
+    console.log('in initRows no RowData');
+    return this.fb.group({
+
+      typeReference: new FormControl('', [Validators.required]),
+      companyName: new FormControl('', [Validators.required]),
+      officerName: new FormControl('', [Validators.required]),
+      designation: new FormControl('', [Validators.required]),
+      teleNo: new FormControl('', [Validators.required]),
+      comments: new FormControl('', [Validators.required]),
+      id: 0,
+      applicantId: this.applicantId,
+
+    });
+  }
+
 
   getPincode(val) {
     const id = val.id;
@@ -230,7 +332,7 @@ export class ReferenceDetailsComponent implements OnInit {
           const processVariables = value.ProcessVariables;
           const addressList: any[] = processVariables.GeoMasterView ? processVariables.GeoMasterView : [];
           if (!addressList) {
-            this.toastrService.showError('Invalid pincode', '');
+            this.toasterService.showError('Invalid pincode', '');
             this.isValidPincode = true;
             if (id === 'refererPincode') {
               this.referenceDetailsForm.patchValue({
@@ -295,7 +397,7 @@ export class ReferenceDetailsComponent implements OnInit {
             refererDistrict: value.district[0].key,
             refererState: value.state[0].key,
             refererCountry: value.country[0].key
-          })
+          });
         } else if (id === 'referencePincode') {
 
           this.referencePincode = value;
@@ -304,7 +406,7 @@ export class ReferenceDetailsComponent implements OnInit {
             referenceDistrict: value.district[0].key,
             referenceState: value.state[0].key,
             referenceCountry: value.country[0].key
-          })
+          });
         }
 
         setTimeout(() => {
@@ -320,28 +422,40 @@ export class ReferenceDetailsComponent implements OnInit {
     formValue.refererFullName = formValue.refererFirstName || '' + ' ' + formValue.refererSecondName || '' + ' ' + (formValue.refererThirdName || '');
     formValue.referenceFullName = formValue.referenceFirstName || '' + ' ' + formValue.referenceSecondName || '' + ' ' + formValue.referenceThirdName || '';
 
+    const referenceArray = (this.referenceDetailsForm.value.marketFinRefData as FormArray);
+    for (let i = 0; i < referenceArray.length; i++) {
+      referenceArray[i]['typeReference'] = referenceArray[i]['typeReference'];
+      referenceArray[i]['companyName'] = referenceArray[i]['companyName'];
+      referenceArray[i]['officerName'] = referenceArray[i]['officerName'];
+      referenceArray[i]['designation'] = referenceArray[i]['designation'];
+      referenceArray[i]['teleNo'] = referenceArray[i]['teleNo'];
+      referenceArray[i]['comments'] = referenceArray[i]['comments'];
+    }
+    this.referenceDetailsForm.value.marketFinRefData = referenceArray;
     if (this.referenceDetailsForm.valid) {
       const data = {
         leadId: this.leadId,
         applicantId: this.applicantId,
         userId: this.userId,
-        referenceCheck: formValue
+        referenceCheck: formValue,
+        marketFinRefData: referenceArray
       };
 
       this.personalDiscussionService.saveOrUpdatePdData(data).subscribe((value: any) => {
         if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
           this.refCheckDetails = value.ProcessVariables.referenceCheck ? value.ProcessVariables.referenceCheck : {};
           this.getLOV();
-          this.toastrService.showSuccess('Successfully Save Reference Details', 'Save/Update Reference Details');
-          this.getReferenceDetails()
+          this.toasterService.showSuccess('Record Saved Successfully', '');
+          this.listArray.controls = [];
+          this.getReferenceDetails();
         } else {
-          this.toastrService.showSuccess(value.ErrorMessage, 'Error Reference Details');
+          this.toasterService.showSuccess(value.ErrorMessage, 'Error Reference Details');
         }
-      })
+      });
 
     } else {
       this.isDirty = true;
-      this.toastrService.showError('Please enter valid details', 'Reference Details');
+      this.toasterService.showError('Please enter valid details', 'Reference Details');
       this.utilityService.validateAllFormFields(this.referenceDetailsForm);
     }
 
