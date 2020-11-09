@@ -143,8 +143,8 @@
                   [placeHolder]="'Dealer Code'"
                   [minQueryLength]="2">                                 
                 </ng-autocomplete>    
-                <div class="invalid-feedback" >
-                  <div *ngIf="isDealerCode"> Dealer code required.</div>
+                <div class="invalid-feedback" *ngIf="isDealerCode">
+                  <div > Dealer code required.</div>
                 </div>           
                 <ng-template #dealerCodeTemplate let-item>
                 <a [innerHTML]="item.dealorName"></a>

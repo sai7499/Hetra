@@ -42,6 +42,18 @@
     margin-top: 10px;
 }
 
+.notification {
+    position: relative;
+    top: -11px;
+    right: 7px;
+    padding: 0.05rem .4rem;
+}
+
+.cus-bell {
+    font-size: 15px;
+    color: #d7d6e1;
+}
+
 .disabled {
     pointer-events: none;
     opacity: 0.6;

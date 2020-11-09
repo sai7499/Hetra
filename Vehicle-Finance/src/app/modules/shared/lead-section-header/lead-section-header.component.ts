@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from 'src/app/services/labels.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { LoginStoreService } from '@services/login-store.service';
 import { SharedService } from '@shared/shared-service/shared-service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 import { LeadStoreService } from '@services/lead-store.service';
@@ -32,7 +31,6 @@ export class LeadSectionHeaderComponent implements OnInit {
   constructor(
     private labelsData: LabelsService,
     public router: Router,
-    private loginStoreService: LoginStoreService,
     private sharedService: SharedService,
     private createLeadDataService: CreateLeadDataService,
     private aRoute: ActivatedRoute,
@@ -69,99 +67,94 @@ export class LeadSectionHeaderComponent implements OnInit {
       this.productId = val)
   }
 
-  getLabels() {
-    this.labelsData.getLabelsData().subscribe(
-      (data) => (this.labels = data),
-      (error) => console.log(error)
-    );
-  }
-
-  getUserDetails() {
-    const data = this.createLeadDataService.getLeadSectionData();
-    const leadSectionData = data as any;
-    // console.log('leadSectionData', leadSectionData);
-    this.leadId = leadSectionData.leadId;
-    // this.loanAmount = leadSectionData.leadDetails?.reqLoanAmt;
-    // leadSectionData.leadDetails.reqLoanAmt : 0;
-    const applicantDetails = leadSectionData.applicantDetails;
-    // ? leadSectionData.applicantDetails[0]
-    // : '';
-    setTimeout(() => {
-      applicantDetails.map((data: any) => {
-        if (data.applicantTypeKey === 'APPAPPRELLEAD') {
-          this.applicantName = data.fullName ? data.fullName : '';
-          console.log('applicant', this.applicantName);
-        }
-      });
-    });
-
-    this.stageDescription = leadSectionData.leadDetails.stageDesc;
-
-    this.sharedService.leadData$.subscribe((value) => {
-      this.productId = value;
-    });
-    if (!this.productId) {
-      this.productId = leadSectionData['leadDetails']['productCatName'];
+    getLabels() {
+      this.labelsData.getLabelsData().subscribe(
+        (data) => (this.labels = data),
+        (error) => console.log(error)
+      );
     }
-    this.sharedService.loanAmount$.subscribe(
-      (value) => (this.loanAmount = Number(value).toLocaleString('en-IN'))
-    );
-    // Number(value).toLocaleString('en-IN')
-    // 'en-IN'
-    this.loanAmount = leadSectionData['leadDetails']['reqLoanAmt']
-      ? Number(leadSectionData['leadDetails']['reqLoanAmt']).toLocaleString('en-IN')
-      : '0';
-  }
-  getLeadId() {
-    return new Promise((resolve, reject) => {
-      this.aRoute.parent.params.subscribe((value) => {
-        if (value && value.leadId) {
-          resolve(Number(value.leadId));
-        }
-        resolve(null);
+
+    getUserDetails() {
+      const data = this.createLeadDataService.getLeadSectionData();
+      const leadSectionData = data as any;
+      // console.log('leadSectionData', leadSectionData);
+      this.leadId = leadSectionData.leadId;
+      // this.loanAmount = leadSectionData.leadDetails?.reqLoanAmt;
+      // leadSectionData.leadDetails.reqLoanAmt : 0;
+      const applicantDetails = leadSectionData.applicantDetails;
+      // ? leadSectionData.applicantDetails[0]
+      // : '';
+      setTimeout(() => {
+        applicantDetails.map((data: any) => {
+          if (data.applicantTypeKey === 'APPAPPRELLEAD') {
+            this.applicantName = data.fullName ? data.fullName : '';
+            console.log('applicant', this.applicantName);
+          }
+        });
       });
-    });
-  }
 
-  saveCurrentUrl() {
-    const currentUrl = this.location.path();
-    localStorage.setItem('currentUrl', currentUrl);
-  }
+      this.stageDescription = leadSectionData.leadDetails.stageDesc;
 
-  viewOrEditDde() {
-    this.toggleDdeService.setIsDDEClicked();
-    this.isEnableDdeButton = false;
-    this.isNeedBackButton = true;
-    this.router.navigate(['/pages/dde/' + this.leadId])
-    this.toggleDdeService.setCurrentPath(this.location.path())
-    this.setDdeBackButton()
-  }
-
-  setDdeBackButton() {
-    const value = localStorage.getItem('ddePath');
-    if (!value) {
-      this.isNeedBackButton = false;
-      return;
+      this.sharedService.leadData$.subscribe((value) => {
+        this.productId = value;
+      });
+      if (!this.productId) {
+        this.productId = leadSectionData['leadDetails']['productCatName'];
+      }
+      this.sharedService.loanAmount$.subscribe(
+        (value) => (this.loanAmount = Number(value).toLocaleString('en-IN'))
+      );
+ 
+      this.loanAmount = leadSectionData['leadDetails']['reqLoanAmt']
+        ? Number(leadSectionData['leadDetails']['reqLoanAmt']).toLocaleString('en-IN')
+        : '0';
     }
-    const ddeButton = JSON.parse(value);
-    if (this.toggleDdeService.getDdeClickedValue()) {
+    getLeadId() {
+      return new Promise((resolve, reject) => {
+        this.aRoute.parent.params.subscribe((value) => {
+          if (value && value.leadId) {
+            resolve(Number(value.leadId));
+          }
+          resolve(null);
+        });
+      });
+    }
+
+    saveCurrentUrl() {
+      const currentUrl = this.location.path();
+      localStorage.setItem('currentUrl', currentUrl);
+    }
+
+    viewOrEditDde() {
+      this.toggleDdeService.setIsDDEClicked();
+      this.isEnableDdeButton = false;
       this.isNeedBackButton = true;
+      this.router.navigate(['/pages/dde/' + this.leadId])
+      this.toggleDdeService.setCurrentPath(this.location.path())
+      this.setDdeBackButton()
     }
 
-    this.ddeBackLabel = ddeButton.labelName;
-    this.ddeBackRouter = ddeButton.currentUrl;
+    setDdeBackButton() {
+      const value = localStorage.getItem('ddePath');
+      if (!value) {
+        this.isNeedBackButton = false;
+        return;
+      }
+      const ddeButton = JSON.parse(value);
+      if (this.toggleDdeService.getDdeClickedValue()) {
+        this.isNeedBackButton = true;
+      }
+
+      this.ddeBackLabel = ddeButton.labelName;
+      this.ddeBackRouter = ddeButton.currentUrl;
+    }
+
+    backFromDde() {
+      const value = localStorage.getItem('ddePath');
+      const ddeButton = JSON.parse(value);
+      this.router.navigateByUrl(ddeButton.currentUrl);
+      localStorage.removeItem('isDdeClicked');
+      this.isNeedBackButton = false
+    }
+
   }
-
-  backFromDde() {
-    const value = localStorage.getItem('ddePath');
-    const ddeButton = JSON.parse(value);
-    this.router.navigateByUrl(ddeButton.currentUrl);
-    localStorage.removeItem('isDdeClicked');
-    // this.toggleDdeService.clearToggleData();
-    // this.toggleDdeService.setIsDDEClicked(0);
-    // this.isEnableDdeButton = false;
-    this.isNeedBackButton = false
-
-  }
-
-}

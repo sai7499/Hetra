@@ -28,6 +28,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   disableSaveBtn: boolean;
 
   maxDate = new Date();
+  maxPreviousDate = this.maxDate.setDate(this.maxDate.getDate() - 1)
   initalZeroCheck = [];
   eligibleLoanAmount: any = 0;
 
@@ -55,6 +56,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public assetVariant: any = [];
   public userId: number;
   public leadId: number;
+
+  isMaxDate: boolean;
 
   public vehicleRegPattern: {
     rule?: any;
@@ -266,7 +269,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       isVaildFinalAssetCost: true
     })
 
-    if (this.productCatoryCode === 'NCV' || this.productCatoryCode === 'NC') {
+    if (this.roleType !== 1 && this.productCatoryCode === 'NCV' || this.productCatoryCode === 'NC') {
       let exShowRoomCost = form.controls.exShowRoomCost.value ? Number(form.controls.exShowRoomCost.value) : 0
       let insurance = form.controls.insurance.value ? Number(form.controls.insurance.value) : 0;
       let oneTimeTax = form.controls.oneTimeTax.value ? Number(form.controls.oneTimeTax.value) : 0;
@@ -328,6 +331,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         })
       }
     }
+    //  else {
+    //   this.onPatchFinalAssetCost(form.controls.exShowRoomCost.value)
+    //   this.basicVehicleForm.patchValue({
+    //     isVaildFinalAssetCost: true
+    //   })
+    // }
 
   }
 
@@ -403,7 +412,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       dealerSuventionApproval: VehicleDetail.dealerSuventionApproval || '',
       depositAccountNumber: VehicleDetail.depositAccountNumber || null,
       discount: VehicleDetail.discount || '',
-      duplicateRc: VehicleDetail.duplicateRc || '',
+      duplicateRC: VehicleDetail.duplicateRC || '',
       emiProtect: VehicleDetail.emiProtect || '',
       emiProtectAmount: VehicleDetail.emiProtectAmount || null,
       engineNumber: VehicleDetail.engineNumber || null,
@@ -465,6 +474,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       ownerMobileNo: VehicleDetail.ownerMobileNo || null,
       address: VehicleDetail.address || '',
       pincode: VehicleDetail.pincode || null,
+      expectedNOCDate: VehicleDetail.expectedNOCDate ? this.utilityService.getDateFromString(VehicleDetail.expectedNOCDate) : '',
       vehicleUsage: VehicleDetail.vehicleUsage,
       ageAfterTenure: VehicleDetail.ageAfterTenure || null,
       assetCostGrid: VehicleDetail.assetCostGrid || null,
@@ -475,7 +485,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   onVehicleRegion(value: any, obj) {
     const region = value ? value : '';
     let assetMakeArray = [];
-    console.log('obj in vehRegion', obj);
     const data = {
       "region": region,
       "productCategory": this.productCatoryCode
@@ -607,6 +616,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.assetModelType = this.assetBodyType.filter((data) => data.uniqueSegmentCode === value)
     this.vehicleLov.assetModel = this.utilityService.getValueFromJSON(this.assetModelType,
       "vehicleModelCode", "vehicleModel")
+
     obj.patchValue({
       assetModel: '',
       assetVariant: ''
@@ -922,6 +932,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleType: ['', Validators.required],
       region: ['', Validators.required],
       manuFacMonthYear: ['', Validators.required],
+      expectedNOCDate: [''],
       ageOfAsset: ['', Validators.required],
       ageAfterTenure: [''],
       assetCostGrid: ['', Validators.required],
@@ -944,7 +955,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       grossVehicleWeight: [''],
       reRegVehicle: [''],
       interStateVehicle: [''],
-      duplicateRc: ['1'],
+      duplicateRC: ['1'],
       cubicCapacity: [''],
       seatingCapacity: [''],
       loanAmount: [0],
@@ -960,6 +971,20 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       userId: this.userId
     })
     formArray.push(controls);
+  }
+
+  onValueForCurrentDate(event) {
+
+    let date = this.utilityService.convertDateTimeTOUTC(new Date(event), 'DD/MM/YYYY')
+
+    let maxConvertDate = this.utilityService.convertDateTimeTOUTC(this.maxDate, 'DD/MM/YYYY')
+
+    if (date < maxConvertDate) {
+      this.isMaxDate = true
+    } else if (date >= maxConvertDate) {
+      this.isMaxDate = false;
+    }
+
   }
 
   addUserCarFormControls() {
@@ -978,6 +1003,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleUsage: ['', Validators.required],
       category: ['', Validators.required],
       manuFacMonthYear: ['', Validators.required],
+      expectedNOCDate: [''],
       ageOfAsset: [''],
       ageAfterTenure: [''],
       assetCostIBB: ['', Validators.required],
@@ -998,7 +1024,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       grossVehicleWeight: [''],
       reRegVehicle: ['1'],
       interStateVehicle: ['1'],
-      duplicateRc: ['1'],
+      duplicateRC: ['1'],
       cubicCapacity: [''],
       seatingCapacity: [''],
       insuranceValidity: '',

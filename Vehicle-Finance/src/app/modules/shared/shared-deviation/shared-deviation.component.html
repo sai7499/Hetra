@@ -75,6 +75,7 @@
                       [ngClass]="{'disabled': !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}"
                       (click)="!(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(0, waiver)"><span></span>{{labels?.decline}}</label>
                   </div>
+
                 </div>
               </td>
             </tr>

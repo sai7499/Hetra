@@ -4,8 +4,8 @@ import { HeaderComponent } from './modules/header/header.component';
 import { LovResolverService } from './services/Lov-resolver.service';
 import { Authguard } from '@services/authguard';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
-import {TermSheetFromDashboardComponent} from './modules/dde/credit-decisions/term-sheet-from-dashboard/term-sheet-from-dashboard.component'
-import {DetectBrowserActivityService} from '@services/detect-browser-activity.service'
+import { TermSheetFromDashboardComponent } from './modules/dde/credit-decisions/term-sheet-from-dashboard/term-sheet-from-dashboard.component'
+import { DetectBrowserActivityService } from '@services/detect-browser-activity.service'
 import { PddComponent } from '@modules/shared/pdd-screen/pdd.component';
 const routes: Routes = [
   {
@@ -18,6 +18,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/login/login.module').then((m) => m.LoginModule),
   },
+  // {
+  //   path: 'child-loan',
+  //   loadChildren: () =>
+  //     import('./modules/child-loan/child-loan.module').then((m) => m.ChildLoanModule),
+  // },
   {
     path: 'activity-search',
     canActivate: [Authguard],
@@ -44,6 +49,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'child-loan',
+        loadChildren: () =>
+          import('./modules/child-loan/child-loan.module').then(
+            (m) => m.ChildLoanModule
+          ),
+      },
+      {
         path: 'lead-section',
         loadChildren: () =>
           import('./modules/lead-section/lead-section.module').then(
@@ -56,6 +68,13 @@ const routes: Routes = [
           import(
             './modules/document-viewupload/document-viewupload.module'
           ).then((m) => m.DocumentViewuploadModule),
+      },
+      {
+        path: 'query-model',
+        loadChildren: () =>
+          import(
+            './modules/query-model/query-model.module'
+          ).then((m) => m.QueryModelModule),
       },
       {
         path: 'terms-condition',
@@ -71,7 +90,7 @@ const routes: Routes = [
             (m) => m.DashboardModule
           ),
         // canDeactivate: [can]
-        
+
       },
       {
         path: 'terms-condition',
@@ -183,7 +202,7 @@ const routes: Routes = [
             './modules/dde/viability-dashboard/viability-dashboard.module'
           ).then((m) => m.ViabilityDashboardModule),
       },
- //supervisorRelated starts
+      //supervisorRelated starts
       {
         path: 'supervisor',
         loadChildren: () =>
@@ -192,12 +211,12 @@ const routes: Routes = [
           ),
       },
       {
-              path: 'negotiation',
-              loadChildren: () =>
-                import(
-                  './modules/negotiation/negotiation.module'
-                ).then((m) => m.NegotiationModule),
-    
+        path: 'negotiation',
+        loadChildren: () =>
+          import(
+            './modules/negotiation/negotiation.module'
+          ).then((m) => m.NegotiationModule),
+
       },
       {
         path: 'cpc-maker',
@@ -230,20 +249,20 @@ const routes: Routes = [
           import('./modules/disbursement-section/disbursement-section.module').then(
             (m) => m.DisbursementSectionModule
           ),
-        },
-        {
-          path: 'pre-disbursement',
-          loadChildren: () =>
-            import('./modules/dde/pre-disbursement/pre-disbursement.module').then(
-              (m) => m.PreDisbursementModule
-            ),
+      },
+      {
+        path: 'pre-disbursement',
+        loadChildren: () =>
+          import('./modules/dde/pre-disbursement/pre-disbursement.module').then(
+            (m) => m.PreDisbursementModule
+          ),
 
-        },
-        {
-          path: 'pdd/:leadId',
-          component: PddComponent,
-          resolve: { leadData: LeadDataResolverService },
-        }
+      },
+      {
+        path: 'pdd/:leadId',
+        component: PddComponent,
+        resolve: { leadData: LeadDataResolverService },
+      }
     ],
   },
 ];

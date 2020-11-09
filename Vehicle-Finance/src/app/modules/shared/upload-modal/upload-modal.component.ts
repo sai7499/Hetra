@@ -51,6 +51,7 @@ export class UploadModalComponent {
   async onFileSelect(event) {
     this.showError = '';
     const files: File = event.target.files[0];
+    console.log(files, 'Files')
     if (!files.type) {
       const type = files.name.split('.')[1];
       this.fileType = this.getFileType(type);
@@ -192,9 +193,11 @@ export class UploadModalComponent {
 
   uploadFile() {
     this.docsDetails.bsPyld = this.imageUrl;
-    let fileName = this.docsDetails.docSbCtgry.replace(' ', '_');
-    const name = this.docsDetails.docNm.replace('/', '_OR_');
-    fileName =
+    console.log(this.docsDetails.docNm.includes(' '));
+    console.log(this.docsDetails.docNm.includes(''));
+    let name = this.docsDetails.docNm.replace(' ', '_');
+    name = name.replace('/', '_OR_');
+    const fileName =
       name +
       new Date().getFullYear() +
       +new Date() +
@@ -273,6 +276,7 @@ export class UploadModalComponent {
             documentDetails.imageUrl = this.imageUrl;
             documentDetails.docsTypeForString = this.docsDetails.docsTypeForString;
           }
+          documentDetails['fileName'] = this.fileName;
           this.uploadSuccess.emit(documentDetails);
           this.imageUrl = '';
           this.fileName = '';

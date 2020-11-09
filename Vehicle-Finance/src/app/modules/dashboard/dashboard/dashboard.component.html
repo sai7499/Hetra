@@ -1,18 +1,28 @@
 <main class="mar-top90">
   <div class="container-fluid">
     <div class="pull-right dropdown nav">
-      <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab" class="pull-right dropdown nav">
-        <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i>
+      <div  class="pull-right dropdown nav">
+        <button *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab" class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i>
           {{!isFilterApplied ? "Filter" : "Filter Applied"}} </button>
       </div>
       <!-- <div *ngIf="isFilterApplied" class="pull-right dropdown nav">
               <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter Applied</button>
           </div> -->
+
+      <div class="pull-right dropdown nav" style="margin: 0 10px 10px 0">
+        <button class="btn btn-primary view-button" type="button" (click)="initinequery()">
+          Initiate Query &nbsp;
+          <i class="fa fa-bell cus-bell font-medium-3"></i><span
+            class="notification badge badge-pill badge-danger" *ngIf="leadCount && leadCount !== 0">{{leadCount}}</span>
+          <!-- <span class="badge badge-light">{{leadCount}}</span> -->
+        </button>
+      </div>
+
     </div>
   </div>
 
-  <div class="filter-block container-fluid mar-bottom" *ngIf="showFilter">
-    <div  *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab">
+  <div class="filter-block container-fluid mar-bottom" *ngIf="showFilter && (displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab)">
+    <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab">
       <form [formGroup]="filterForm">
         <div class="row">
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -21,7 +31,8 @@
               [placeholder]="'Lead Id'" [maxLength]="validationData?.extn.maxLength" [type]="validationData?.extn.type">
             </app-custom-input>
           </div>
-          <div *ngIf="displayTabs?.PDD === activeTab || displayTabs?.PDDforCPC === activeTab" class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div *ngIf="displayTabs?.PDD === activeTab || displayTabs?.PDDforCPC === activeTab"
+            class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="leadId">{{labels?.loanNumber}}</label>
             <app-custom-input id="leadId" formControlName="loanNumber" [className]="'form-control'"
               [placeholder]="'Loan Number'" [type]="validationData?.extn.type">
@@ -35,7 +46,8 @@
               <option *ngFor="let item of productCategoryData" [value]="item.key">{{item.value}}</option>
             </select>
           </div>
-          <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab" class="form-group col-sm-6 col-md-3 col-lg-3 ">
+          <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab"
+            class="form-group col-sm-6 col-md-3 col-lg-3 ">
             <label for="status">{{labels?.status}}</label>
             <!-- <app-vf-custom-select [values]="stageData" formControlName="leadStage"> </app-vf-custom-select> -->
             <select class="form-control" formControlName="leadStage">
@@ -73,8 +85,9 @@
         <div *ngIf="displayTabs?.PDD === activeTab || displayTabs?.PDDforCPC === activeTab" class="row">
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="startDate">{{labels?.disbursementStartDate}}</label>
-            <kendo-datepicker class="form-control" formControlName="disbFromDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
-              placeholder="Start Date" (ngModelChange)="onChangeDisbFromDate($event)" [activeView]="'decade'">
+            <kendo-datepicker class="form-control" formControlName="disbFromDate" [format]="'dd/MM/yyyy'"
+              [max]="toDayDate" placeholder="Start Date" (ngModelChange)="onChangeDisbFromDate($event)"
+              [activeView]="'decade'">
             </kendo-datepicker>
 
           </div>
@@ -82,8 +95,8 @@
             class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="endDate">{{labels?.disbursementEndDate}}</label>
             <kendo-datepicker class="form-control" formControlName="disbToDate" [format]="'dd/MM/yyyy'"
-              [min]="filterForm.get('disbFromDate').value" (ngModelChange)="onChangeDisbToDate($event)" [max]="toDayDate"
-              placeholder="End Date" [activeView]="'decade'">
+              [min]="filterForm.get('disbFromDate').value" (ngModelChange)="onChangeDisbToDate($event)"
+              [max]="toDayDate" placeholder="End Date" [activeView]="'decade'">
             </kendo-datepicker>
             <!-- <div *ngIf="isFromDate">
                 End Date is required
@@ -97,14 +110,16 @@
         </div>
         <!--  -->
         <div class="row">
-          <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab" class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab"
+            class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="minAmount">{{labels.loanMinAmount}}</label>
             <app-custom-input id="minAmount" formControlName="loanMinAmt" [className]="'form-control'"
               [placeholder]="'Enter Loan amount'" (ngModelChange)="onMinAmtChange($event)"
               [maxLength]="validationData?.amountValue.maxLength" [type]="validationData?.amountValue.type">
             </app-custom-input>
           </div>
-          <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab" [ngClass]="{'disablField': !filterForm.get('loanMinAmt').value}"
+          <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab"
+            [ngClass]="{'disablField': !filterForm.get('loanMinAmt').value}"
             class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="maxAmount">{{labels.loanMaxAmount}}</label>
             <app-custom-input id="maxAmount" formControlName="loanMaxAmt" [className]="'form-control'"
@@ -305,7 +320,7 @@
 
   </div>
 
-  <!-- for CPC Maker and CPC Checker -->
+  <!-- for CPC Maker and CPC Checker Starts-->
   <div class="container-fluid mar-bottom" *ngIf="roleType == '4'">
     <ul class="nav nav-pills nav-justified" id="background_white">
       <li (click)="onLeads(displayTabs?.CPCMaker, displayTabs?.CPCMakerWithMe,'CPC')"
@@ -352,6 +367,26 @@
         routerLinkActive="active"><a data-toggle="tab">Leads Pending with Branch</a></li>
     </ul>
   </div>
+  <!-- CPC Maker and CPC Checker Ends -->
+
+  <!-- RCU Dashboard Starts -->
+  <div class="container-fluid mar-bottom" *ngIf="roleType == '6'">
+    <ul class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="onLeads(displayTabs?.RCU, displayTabs?.RCUWithMe)"
+        [ngClass]="{'active':displayTabs?.RCU === activeTab}" routerLinkActive="active"><a data-toggle="tab">RCU</a></li>
+    </ul>
+  </div>
+  <div class="container-fluid mar-bottom" *ngIf="roleType == '6'">
+    <ul *ngIf="displayTabs?.RCU === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li class="active" (click)="leads(displayTabs?.RCUWithMe)"
+        [ngClass]="{'active':displayTabs?.RCUWithMe === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">RCU Pending with Me</a></li>
+      <li (click)="leads(displayTabs?.RCUWithBranch)"
+        [ngClass]="{'active':displayTabs?.RCUWithBranch === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">RCU Pending with Branch</a></li>
+    </ul>
+  </div>
+  <!-- RCU Dashboard Ends -->
 
   <div>
     <div class="container-fluid">
