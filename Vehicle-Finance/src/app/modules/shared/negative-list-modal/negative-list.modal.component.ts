@@ -29,18 +29,20 @@ export class NegativeListModalComponent {
     productCode: any;
    
   }
+  @Input() applicantId;
   submitReject: boolean;
   userId: any;
   leadId: any;
-  applicantId: number;
   constructor(private sharedService: SharedService,
      private applicantService: ApplicantService, 
      private activatedRoute: ActivatedRoute,
      private toasterService: ToasterService,
      private router: Router) {
+       console.log(this.applicantId);
+       
     // this.applicantId = this.activatedRoute.snapshot.params.applicantId;
-    this.applicantId = Number(this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
-    console.log(this.activatedRoute.snapshot);
+    // this.applicantId = Number(this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
+    // console.log(this.activatedRoute.snapshot);
     
   }
 
@@ -100,7 +102,7 @@ export class NegativeListModalComponent {
       processData["reasonCode"] = reasonCode;
         this.applicantService.applicantNLUpdatingRemarks(processData).subscribe(res=> {
       //  console.log(res);
-
+          
         if(res['ProcessVariables'].error['code'] == 0){
           this.toasterService.showSuccess("Record Rejected successfully!", '');
           this.router.navigate([`pages/dashboard`]);

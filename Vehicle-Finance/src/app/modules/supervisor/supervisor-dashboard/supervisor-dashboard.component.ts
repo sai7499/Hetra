@@ -167,7 +167,7 @@ export class SupervisorDashboardComponent implements OnInit {
   onClick(rolelist) {
     this.sharedService.getUserName(rolelist[0].name);
     console.log('roleList', rolelist[0].name);
-    this.router.navigate(['/pages/supervisor/dashboard']);
+    this.router.navigate(['/pages/dashboard']);
     
   }
 
