@@ -28,7 +28,7 @@ export class QueryModelComponent implements OnInit {
   queryModalForm: FormGroup;
   queryModelLov: any = {};
   labels: any = {};
-  userId: string;
+  userId: string = '0';
 
   isShowLeadModal: boolean;
 
@@ -66,6 +66,8 @@ export class QueryModelComponent implements OnInit {
   getLeadsObj: any = {};
   documents: any = [];
 
+  getChatsObj: any = {};
+
   getLeadSendObj = {
     currentPage: null,
     perPage: 500,
@@ -75,8 +77,15 @@ export class QueryModelComponent implements OnInit {
     chatSearchKey: ''
   }
 
+  getChatSendObj = {
+    leadId: this.leadId,
+    perPage: 50,
+    currentPage: 1,
+    fromUser: this.userId
+  }
+
   routerId: any;
-  isMobileView: boolean;
+  isMobileView: boolean = false;
 
   selectedList: any;
   totalPages: any = 1;
@@ -96,7 +105,6 @@ export class QueryModelComponent implements OnInit {
     this.userId = localStorage.getItem('userId');
 
     this.activatedRoute.params.subscribe((value) => {
-      console.log()
       this.routerId = value ? value.leadId : null;
     })
 
@@ -108,11 +116,11 @@ export class QueryModelComponent implements OnInit {
       queryTo: ['', Validators.required],
       docId: [''],
       docName: [''],
-      leadId: [this.leadId, Validators.required]
+      leadId: ['', Validators.required]
     })
 
     this.getLov();
-    if (window.screen.width >= 760) { // 768px portrait
+    if (window.screen.width <= 760) { // 768px portrait
       this.isMobileView = true;
     }
   }
@@ -143,6 +151,22 @@ export class QueryModelComponent implements OnInit {
 
   }
 
+  getMoreChat(length, getObj) {
+    if (getObj.count > this.getChatSendObj.perPage) {
+      this.getChatSendObj = {
+        leadId: getObj.leadId,
+        perPage: length + 50,
+        currentPage: 1 + 1,
+        fromUser: getObj.userId
+      }
+
+      const getChatLead = this.chatList.filter((val) => {
+        return getObj.leadId === Number(val.key)
+      })
+      this.getQueries(getChatLead[0])
+    }
+  }
+
   getLeads(sendObj, chatSearchKey?: string, searchKey?: string) {
 
     let data = {
@@ -156,15 +180,42 @@ export class QueryModelComponent implements OnInit {
     }
 
     this.queryModelService.getLeads(data).subscribe((res: any) => {
+
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.getLeadsObj = res.ProcessVariables;
-        if (res.ProcessVariables.chatLeads && res.ProcessVariables.chatLeads.length > 0) {
-          this.chatList = res.ProcessVariables.chatLeads;
-          this.getQueries(this.chatList[0])
-        }
+        this.chatList = res.ProcessVariables.chatLeads ? res.ProcessVariables.chatLeads : [];
         this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
+
+        if (res.ProcessVariables.chatLeads && res.ProcessVariables.chatLeads.length > 0) {
+
+          if (this.routerId && this.queryLeads.length > 0) {
+            const test = this.queryLeads.find((val) => {
+              return (val.key === this.routerId)
+            })
+
+            this.searchLeadId = test ? test.value : '';
+            this.queryModalForm.patchValue({
+              leadId: Number(this.routerId)
+            })
+
+            let index;
+            let findChat: any = this.chatList;
+
+            const chatListChange = findChat.find((chat, i) => {
+              if (chat.key === this.routerId) {
+                index = i;
+                return chat;
+              }
+            })
+            let spliceChat = findChat.splice(index, 1)
+            this.chatList.unshift(spliceChat[0])
+          }
+        }
+        this.getQueries(this.chatList[0])
+        this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
+
       } else {
-        this.chatList = []
+        this.chatList = [];
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Leads')
       }
     })
@@ -199,12 +250,10 @@ export class QueryModelComponent implements OnInit {
     // this.router.navigateByUrl(currentUrl);
   }
   getQueries(lead) {
-    let data = {
-      "leadId": Number(lead.key),
-      "perPage": 100,
-      "currentPage": 1,
-      "fromUser": this.userId
-    }
+    this.getChatSendObj.leadId = Number(lead.key);
+    this.getChatSendObj.fromUser = this.userId;
+    let data = this.getChatSendObj;
+    console.log('data', data)
     this.queryModalForm.patchValue({
       leadId: Number(lead.key),
     })
@@ -220,6 +269,9 @@ export class QueryModelComponent implements OnInit {
     this.queryModelService.getQueries(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         lead.count = 0;
+        console.log(lead, 'Chat', res)
+
+        this.getChatsObj = res.ProcessVariables;
         this.chatMessages = res.ProcessVariables.assetQueries ? res.ProcessVariables.assetQueries : [];
         this.chatMessages.filter((val) => {
           val.time = this.myDateParser(val.createdOn)
@@ -377,6 +429,7 @@ export class QueryModelComponent implements OnInit {
 
     } else {
       this.isDirty = true;
+      console.log(form, 'formvalue')
       this.toasterService.showError('Please enter all mandatory field', 'Query Model Save/Update')
       this.utilityService.validateAllFormFields(form)
     }

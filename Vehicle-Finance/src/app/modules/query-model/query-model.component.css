@@ -1102,15 +1102,34 @@ body::-webkit-scrollbar-thumb {
     line-height: 1.42857;
 }
 
+.cus-top-arrow {
+    position: absolute;
+    right: 18px;
+    top: 270px;
+    background-blend-mode: overlay;
+}
+
+.ml-1, .mx-1 {
+    margin-left: .375rem !important;
+}
+
+.cus-chat {
+    margin: 0px -20.575px 0px 0px;
+    /* width: 883px; */
+    height: 37px;
+    resize: none;
+}
+
 .btn-white {
     color: #989898;
     background-color: #fff;
     border-color: #989898;
 }
 
-.fa-angle-down {
-    font-size: 20px;
-    line-height: 0px;
+.cus-arrow {
+    font-size: 20px !important;
+    float: initial !important;
+    line-height: 18px !important;
 }
 
 .sidenav {
