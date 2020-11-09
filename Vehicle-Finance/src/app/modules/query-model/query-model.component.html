@@ -152,8 +152,9 @@
                   </div>
 
                 </div>
-                <!-- <button (click)="getChatMessagesCount()" id="myBtn" title="Go to top"
-                  *ngIf="chatMessages && chatMessages.length > 0">Top</button> -->
+                <div style="position:relative;">
+                <button class="btn btn-warning view-button top-btn" type="button" >Top</button>
+                </div>
 
                 <div class="wt-mid text-center" *ngIf="chatMessages && chatMessages.length === 0">
                   <p>No chats available</p>
@@ -263,6 +264,7 @@
               </div>
 
             </div>
+            
 
           </div>
         </form>
