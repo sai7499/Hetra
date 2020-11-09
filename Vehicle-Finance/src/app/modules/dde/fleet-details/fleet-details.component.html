@@ -3,9 +3,21 @@
     <!-- <div class="multisteps-form__panel basic_scroll js-active" data-animation="scaleIn"> -->
     <div class="container">
         <div class="row">
+            <div class="col-sm-6">
+              </div>
+              <div class="col-sm-6 text-right">
+                <span id="edit_vehicle_details_replace"></span>
+                <a id="back_vehicle_details"
+                  ><button class="btn btn-primary mrg-10" type="button" (click)="openUploadModal()">
+                    Upload
+                  </button></a
+                >
+              </div>
+        </div>
+        <div class="row">
 
-            <div class="table-responsive application">
-                <table class="table">
+            <div class="table-responsive application" style="height:200px!important;">
+                <table class="table" style="height:200px;" >
 
                     <thead>
                         <tr class="table-head-bg text-center">
@@ -348,8 +360,121 @@
             <button class="btn btn-primary js-btn-next" type="button" (click)="onFormSubmit('next')"> Next </button>
         </div>
     </div>
+    <div
+  class="modal"
+  data-dismiss="modal"
+  id="myModal"
+  [ngClass]="{ 'dis-block': showUploadModal }"
+>
+  <div class="modal-dialog top-space">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          (click)="onClose()"
+        >
+          ×
+        </button>
+        <h4 class="modal-title">Upload Document</h4>
+      </div>
+
+      <div class="modal-body ">
+        <div class="row">
+          <!-- <div class="preview-panel">
+            <i class="fa fa-picture-o" aria-hidden="true"></i> Preview Panel:
+          </div> -->
+
+          <br />
+
+          <div class="row ">
+            <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">
+            <!-- <div class="col-12 mid-mar">
+            <img
+              [src]="imageUrl ? 'data:image/jpeg;base64,' + imageUrl : ''"
+              height="150px"
+              width="150px"
+            />
+           </div> -->
+           <div class="col-12 mid-text">
+            <button
+            class="btn upload-btn"
+            (click)="fileInput.click()"
+            *ngIf="!fileUrl"
+          >
+            Select Document
+          </button>
+          <button
+            class="btn upload-btn"
+            (click)="removeFile(); fileInput.click()"
+            *ngIf="fileUrl"
+          >
+            Change Document</button
+          >
+          <button
+            class="btn upload-btn remove-btn"
+            (click)="removeFile()"
+            *ngIf="fileUrl"
+          >
+            Remove
+          </button>
+
+           </div>
+            
+            
+          </div>
+        
+        <div class="col-md-8 col-lg-8 col-sm-8 col-xs-12">
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="col-6">Name : {{ fileName }} </div>
+            <!-- <div class="col-6 file-info">{{ fileName }}</div> -->
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="col-6">Size : {{ fileSize }}</div>
+            <!-- <div class="col-6 file-info">{{ fileSize }}</div> -->
+          </div>
+          </div>
+          </div>
+        </div>
+        <div *ngIf="showError" class="show-error">
+          {{ showError }}
+        </div>
+      </div>
+
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-info"
+          data-dismiss="modal"
+          id="reject_dlead"
+          (click)="uploadFile()"
+          [disabled]="!fileUrl"
+        >
+          Upload
+        </button>
+        <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">
+          Cancel
+        </button> -->
+      </div>
+    </div>
+  </div>
+  <input
+    #fileInput
+    type="file"
+    style="visibility: hidden;"
+    (input)="onFileSelect($event)"
+  />
+</div>
 
 </form>
+
+<app-upload-discussion *ngIf="docsFleetDetails" [showUpload]="!!docsFleetDetails" [details]="docsFleetDetails" (cancel)="onModalClose()" (save)="saveValidRecords()"></app-upload-discussion>
+
+
+
+
+
  
 <!-- 
         <div class="btn-sec clear-both row text-right">
