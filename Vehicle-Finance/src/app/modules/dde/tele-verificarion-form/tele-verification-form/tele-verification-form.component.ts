@@ -241,10 +241,10 @@ export class TeleVerificationFormComponent implements OnInit {
 
     this.getTvrDetails();
     this.initForm();
-    if(this.applicantType !== 'Applicant') {
-      this.teleVerificationForm.controls.applicationReferences['controls'].reference1['controls'].referenceStatus.setValue('N/A');
-    this.teleVerificationForm.controls.applicationReferences['controls'].reference2['controls'].referenceStatus.setValue('N/A');
-    }
+    // if(this.applicantType !== 'Applicant') {
+    //   this.teleVerificationForm.controls.applicationReferences['controls'].reference1['controls'].referenceStatus.setValue('N/A');
+    // this.teleVerificationForm.controls.applicationReferences['controls'].reference2['controls'].referenceStatus.setValue('N/A');
+    // }
     // OTP Reactive form controls
     this.otpForm = this.fb.group({
       otp: [
@@ -444,7 +444,6 @@ export class TeleVerificationFormComponent implements OnInit {
     if(this.applicantType !== 'Applicant') {
       this.teleVerificationForm.controls.applicationReferences['controls'].reference1['controls'].referenceStatus.setValue('N/A');
     this.teleVerificationForm.controls.applicationReferences['controls'].reference2['controls'].referenceStatus.setValue('N/A');
-
     }
     const tvrDetails = this.teleVerificationForm.getRawValue();
     this.isDirty = true;
@@ -480,8 +479,9 @@ export class TeleVerificationFormComponent implements OnInit {
         res.ProcessVariables.referenceNo != ''
       ) {
         this.toasterService.showSuccess('OTP sent successfully !', '');
+        this.isModal = true;
       } else {
-        alert(res.ProcessVariables.error.message);
+        this.toasterService.showError(res.ProcessVariables.error.message, 'OTP');
       }
 
       console.log('send otp', response);
@@ -516,7 +516,7 @@ export class TeleVerificationFormComponent implements OnInit {
   // Submitting method for OTP Form
   onSubmit() {
     this.sendOtp();
-    this.isModal = true;
+    
   }
   onSelectReferenceStatus(event,fromRef){
     if (fromRef == 'reference1' && this.referenceData.length <= 0){
