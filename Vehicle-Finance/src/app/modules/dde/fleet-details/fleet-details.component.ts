@@ -904,10 +904,8 @@ export class FleetDetailsComponent implements OnInit {
     const filteredData = this.docsFleetDetails.filter((value) => {
       return value.status;
     });
-    console.log('filteredData', filteredData);
-    return;
     this.fleetDetailsService.saveValidRecords({
-      fleetDetails: this.docsFleetDetails,
+      fleetDetails: filteredData,
       userId: this.userId
     }).subscribe(((value: any) => {
         console.log('save', value);
