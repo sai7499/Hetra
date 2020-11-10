@@ -3,6 +3,7 @@ import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { SupervisorService } from '../service/supervisor.service';
 import { Router } from '@angular/router';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 declare var $: any;
 
 interface TeamNode {
@@ -25,7 +26,7 @@ export class SupervisorDashboardComponent implements OnInit {
   changebutton: boolean = false;
   repBttnId: any = true;
   activeNode: any;
-  constructor(private supervisorService: SupervisorService, private router: Router) {}
+  constructor(private supervisorService: SupervisorService, private router: Router, private sharedService: SharedService) {}
 
   ngOnInit() {
     this.getTeamList(); //supervisorRelated
@@ -164,8 +165,10 @@ export class SupervisorDashboardComponent implements OnInit {
       });
   }
   onClick(rolelist) {
+    this.sharedService.getUserName(rolelist[0].name);
+    console.log('roleList', rolelist[0].name);
     this.router.navigate(['/pages/dashboard']);
-    console.log('roleList', rolelist);
+    
   }
 
 }
