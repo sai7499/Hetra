@@ -30,3 +30,45 @@
       </div>
     </div>
   </div>
+   <!-- The Modal -->
+   <div class="modal" id="prospectiveModal" [ngClass]="{ 'dis-block': eligibleModal}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title text-center">
+            Congrats! You have got a prospective lead
+          </h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="onEligibleModalClose()">
+            &times;
+          </button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <span class="img-container"
+            ><img src="assets/images/tick-mark.png" width="90px;"
+          /></span>
+
+          <p id="model_p_size">
+            Please proceed to collect additional details
+          </p>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer text-center">
+          <button
+            type="button"
+            class="btn btn-success"
+            id="ok_co_applicant"
+            data-dismiss="modal"
+            (click)="navigateToSales()"
+          >
+            OK
+          </button>
+          <!---- <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button> --->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!------ End of the Success Model --------->

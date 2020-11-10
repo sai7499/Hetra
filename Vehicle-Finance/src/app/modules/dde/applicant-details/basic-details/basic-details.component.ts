@@ -73,6 +73,10 @@ export class BasicDetailsComponent implements OnInit {
   showEmployeeNo: boolean = false;
   checkedEquitasEmployee: string = '0';
   checkedRelativeEquitas: string = '0';
+  showMsg={
+    issueDate: false,
+    expiryDate : false
+  }
 
   emailPattern = {
     rule: '^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(\\.\\w{2,10})+$',
@@ -102,6 +106,7 @@ export class BasicDetailsComponent implements OnInit {
   isSave : boolean = false;
   apiValue: any;
   finalValue: any;
+  isExpiryDate: boolean= false;
 
   constructor(
     private labelsData: LabelsService,
@@ -604,6 +609,8 @@ export class BasicDetailsComponent implements OnInit {
       noofyearsInCurrEmp = String(Math.floor(Number(aboutIndivProspectDetails.currentEmpYears) / 12)) || '';
     }
 
+    
+
     details.patchValue({
       emailId: aboutIndivProspectDetails.emailId || '',
       alternateEmailId: aboutIndivProspectDetails.alternateEmailId || '',
@@ -681,6 +688,12 @@ export class BasicDetailsComponent implements OnInit {
     }
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
+
+
+    if(corporateProspectDetails.externalRatingIssueDate){
+      const convertDate= this.utilityService.getDateFromString(corporateProspectDetails.externalRatingIssueDate)
+      this.updateExternalIssueDate(convertDate)
+    }
     details.patchValue({
       companyPhoneNumber: this.mobilePhone || '',
       companyEmailId: corporateProspectDetails.companyEmailId || '',
@@ -722,6 +735,11 @@ export class BasicDetailsComponent implements OnInit {
         corporateProspectDetails.exposureBankingSystem || '',
       creditRiskScore: corporateProspectDetails.creditRiskScore || '',
     });
+
+    if(corporateProspectDetails.externalRatingExpiryDate){
+      const convertDate= this.utilityService.getDateFromString(corporateProspectDetails.externalRatingExpiryDate)
+      this.updateExternalExpiryDate(convertDate)
+    }
 
     const directorArray = this.applicant.directorDetails;
     const director = this.basicForm.get('directors') as FormArray;
@@ -1265,11 +1283,33 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   updateExternalExpiryDate(event) {
-    this.externalExpiryDate = event;
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+   this.externalExpiryDate= new Date(event)
+    this.isExpiryDate=false;
+   
+      if (this.externalExpiryDate <= this.toDayDate) {
+        this.showMsg['expiryDate'] = true;
+      } else {
+        this.showMsg['expiryDate'] = false;
+      }
+   
   }
 
   updateExternalIssueDate(event) {
-    this.externalIssueDate = event;
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    this.showMsg['expiryDate'] = false;
+    this.externalIssueDate =new Date(event) ;
+    if( this.externalIssueDate > this.toDayDate){
+      this.showMsg['issueDate']= true
+    }else{
+      this.showMsg['issueDate']= false
+    }
+
+    details.get('externalRatingExpiryDate').setValue(null)
+
+
   }
 
   async onSubmit() {
@@ -1315,8 +1355,6 @@ export class BasicDetailsComponent implements OnInit {
       return;
 
     }
-    
-
   
 
     if (this.showNotApplicant) {

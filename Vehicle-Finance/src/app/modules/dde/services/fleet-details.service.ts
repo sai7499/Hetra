@@ -78,4 +78,41 @@ export class FleetDetailsService {
   }
 
 
+  validateFleetDetails(data) {
+    const processData = data;
+    const processId = this.apiService.api.validateFleetDetails.processId;
+    const workflowId = this.apiService.api.validateFleetDetails.workflowId;
+    const projectId = this.apiService.api.validateFleetDetails.projectId;
+
+
+    const body: RequestEntity = {
+      processId,
+      workflowId,
+      projectId,
+      ProcessVariables: processData,
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+  saveValidRecords(data) {
+    const processData = data;
+    const processId = this.apiService.api.saveValidRecords.processId;
+    const workflowId = this.apiService.api.saveValidRecords.workflowId;
+    const projectId = this.apiService.api.saveValidRecords.projectId;
+
+
+    const body: RequestEntity = {
+      processId,
+      workflowId,
+      projectId,
+      ProcessVariables: processData,
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+
 }

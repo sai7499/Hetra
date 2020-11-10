@@ -1647,7 +1647,11 @@
     "uRegisteredEmailId" : "UDHYAM Registered email id",
     "uCertificateId" : "UDHYAM Certificate upload ",
     "landUnitType" : "Land Unit Type",
-
+    "parameter":"Parameter",
+    "weightage":"Weightage",
+    "inputValue":"Input Value",
+    "scoreValue":"Score",
+    "marketAndFinancierReference":"Market & Financier Reference",
     "validationData": {
         "name": {
             "maxLength": {
@@ -2228,7 +2232,7 @@
             "maxLength": {
                 "rule": 5
             },
-            "type": "alpha-numeric"
+            "type": "number"
         },
         "contractDetails": {
             "maxLength": {
@@ -2657,6 +2661,24 @@
                 "rule": "^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(\\.\\w{2,10})+$",
                 "msg": "Invalid email"
             }
+        },
+        "companyName":{
+            "maxLength":{
+                "rule":30
+            },
+            "type":"alpha-numeric"
+        },
+        "officerName":{
+            "maxLength":{
+                "rule":30
+            },
+            "type":"alpha"
+        },
+        "comments":{
+            "maxLength":{
+                "rule":300
+            },
+            "type":"special-alpha-numeric"
         }
     }
 }

@@ -379,3 +379,7 @@ table th, table td{
         margin-bottom: 30px!important;
     }
 }
+
+.dis-block {
+    display: block;
+  }

@@ -5,9 +5,23 @@
 .btn-mar-bottom{
     margin-bottom: 30px;
 }
+.fixed-btn {
+    position: fixed;
+    position: fixed;
+    top: 300px;
+    right: -12px;
+    height: 100px;
+    z-index: 999;
+  }
+  
+  /* .table {
+    margin-bottom: 0px;
+  } */
+  
 
 @media (min-width:300px) and (max-width:767px) {
     .btn-mar-bottom{
         margin-bottom: 0px;
     }
 }
+

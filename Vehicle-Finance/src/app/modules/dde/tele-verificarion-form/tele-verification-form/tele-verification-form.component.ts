@@ -195,7 +195,7 @@ export class TeleVerificationFormComponent implements OnInit {
           firstName: [this.referenceData.length > 0 && this.referenceData[0].firstName ? this.referenceData[0].firstName : ''],
           mobileNo: [this.referenceData.length > 0 && this.referenceData[0].mobileNo ? this.referenceData[0].mobileNo : ''],
           address: [this.referenceData.length > 0 && this.referenceData[0].address ? this.referenceData[0].address : ''],
-          // tslint:disable-next-line: max-line-length
+          
           referenceStatus: [this.referenceData.length > 0 && this.referenceData[0].referenceStatus ? this.referenceData[0].referenceStatus : '', Validators.required]
         }),
         reference2: this.fb.group({
@@ -241,7 +241,10 @@ export class TeleVerificationFormComponent implements OnInit {
 
     this.getTvrDetails();
     this.initForm();
-
+    // if(this.applicantType !== 'Applicant') {
+    //   this.teleVerificationForm.controls.applicationReferences['controls'].reference1['controls'].referenceStatus.setValue('N/A');
+    // this.teleVerificationForm.controls.applicationReferences['controls'].reference2['controls'].referenceStatus.setValue('N/A');
+    // }
     // OTP Reactive form controls
     this.otpForm = this.fb.group({
       otp: [
@@ -438,7 +441,10 @@ export class TeleVerificationFormComponent implements OnInit {
   // Submitting TVR Form Method
   async onSave() {
     console.log(this.teleVerificationForm);
-
+    if(this.applicantType !== 'Applicant') {
+      this.teleVerificationForm.controls.applicationReferences['controls'].reference1['controls'].referenceStatus.setValue('N/A');
+    this.teleVerificationForm.controls.applicationReferences['controls'].reference2['controls'].referenceStatus.setValue('N/A');
+    }
     const tvrDetails = this.teleVerificationForm.getRawValue();
     this.isDirty = true;
     if (this.teleVerificationForm.valid === true) {
@@ -473,8 +479,9 @@ export class TeleVerificationFormComponent implements OnInit {
         res.ProcessVariables.referenceNo != ''
       ) {
         this.toasterService.showSuccess('OTP sent successfully !', '');
+        this.isModal = true;
       } else {
-        alert(res.ProcessVariables.error.message);
+        this.toasterService.showError(res.ProcessVariables.error.message, 'OTP');
       }
 
       console.log('send otp', response);
@@ -509,7 +516,7 @@ export class TeleVerificationFormComponent implements OnInit {
   // Submitting method for OTP Form
   onSubmit() {
     this.sendOtp();
-    this.isModal = true;
+    
   }
   onSelectReferenceStatus(event,fromRef){
     if (fromRef == 'reference1' && this.referenceData.length <= 0){

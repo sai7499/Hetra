@@ -227,7 +227,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
         const category = categories.find((category) => {
           return category.code === Number(code);
         });
-        this.categories.push(category);
+        if (category) {
+            this.categories.push(category);
+          }
       }
     });
     console.log('this.categories', this.categories);
