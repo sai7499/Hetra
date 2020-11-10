@@ -62,7 +62,7 @@
                                                 </thead>
                                                 <tbody>
                                                   <tr *ngFor="let role of rolelist;let i = index">
-                                                    <td> <a>{{rolelist[i].name}}</a></td>
+                                                    <td> <a (click)="onClick(rolelist)">{{rolelist[i].name}}</a></td>
                                                   </tr>
                                                 </tbody>
                                               </table>

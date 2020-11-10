@@ -18,6 +18,7 @@ import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 import { debounce } from 'rxjs/operators';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
+import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 
 @Component({
   selector: 'app-sourcing-details',
@@ -172,7 +173,8 @@ export class SourcingDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private toasterService: ToasterService,
     private toggleDdeService: ToggleDdeService,
-    private objectComparisonService: ObjectComparisonService
+    private objectComparisonService: ObjectComparisonService, 
+    private applicantDataStoreService : ApplicantDataStoreService
   ) {
     this.sourcingCodeObject = {
       key: '',
@@ -243,6 +245,8 @@ export class SourcingDetailsComponent implements OnInit {
 
     this.leadSectionData = this.createLeadDataService.getLeadSectionData();
     console.log('leadSectionData Lead details', this.leadSectionData);
+    const applicantList= this.leadSectionData.applicantDetails
+    this.applicantDataStoreService.setApplicantList(applicantList)
     this.leadData = { ...this.leadSectionData };
     const data = this.leadData;
 

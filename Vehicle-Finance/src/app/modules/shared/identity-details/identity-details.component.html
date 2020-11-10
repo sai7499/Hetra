@@ -188,7 +188,7 @@
                   /> -->
                   <kendo-datepicker class="form-control" 
                 formControlName="passportIssueDate" [format]="'dd/MM/yyyy'"
-                
+                [min]="minPassportIssueDate"
                 [max]="toDayDate"
                  placeholder="Issue Date"
                 [activeView]="'decade'"
@@ -198,7 +198,7 @@
                 </div>
 
                 <div class="ShowError" *ngIf="showInvalidMsg['passportIssue']" >
-                    Invalid Date
+                    {{passportIssueInvalidMsg}}
                 </div>
               </div>
             </div>
@@ -219,6 +219,7 @@
                   <kendo-datepicker class="form-control" 
                 formControlName="passportExpiryDate" [format]="'dd/MM/yyyy'"
                 [min]="toDayDate"
+                [max]="maxPassportExpiryDate"
                  placeholder="Expriy Date"
                  [disabled]="passportDates"
                 [activeView]="'decade'"
@@ -226,7 +227,7 @@
                 
                 ></kendo-datepicker>
                 <div class="ShowError" *ngIf="showInvalidMsg['passportExpiry']" >
-                  Invalid Date
+                  {{passportExpiryInvalidMsg}}
               </div>
                 </div>
               </div>
@@ -301,9 +302,10 @@
                 [disabled]="drivingLicenceDates"
                 (valueChange)="drivingIssueDateChange($event)"
                 
+                
                 ></kendo-datepicker>
                 <div class="ShowError" *ngIf="showInvalidMsg['drivingIssue']" >
-                  Invalid Date
+                  {{drivingIssueInvalidMsg}}
               </div>
                   
                 </div>
@@ -335,7 +337,7 @@
                 
                 ></kendo-datepicker>
                 <div class="ShowError" *ngIf="showInvalidMsg['drivingExpiry']" >
-                  Invalid Date
+                {{drivingExpiryInvalidMsg}}
               </div>
                 </div>
               </div>
