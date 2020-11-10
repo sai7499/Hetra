@@ -120,10 +120,9 @@ export class QueryModelComponent implements OnInit {
     })
 
     this.getLov();
-    if (window.screen.width <= 760) {
-       // 768px portrait
+    if (window.screen.width <= 768) { // 768px portrait
       this.isMobileView = true;
-      // document.getElementById("mySidenav").style.width = "500px";
+      document.getElementById("mySidenav").style.visibility = "visible";
     }
   }
 
@@ -136,11 +135,11 @@ export class QueryModelComponent implements OnInit {
   }
 
   openNav() {
-    document.getElementById("mySidenav").style.width = "500px";
+    document.getElementById("mySidenav").style.visibility = "visible";
   }
 
   closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("mySidenav").style.visibility = "hidden";
   }
 
   loadMorePage(length, chatSearchKey) {
@@ -255,10 +254,6 @@ export class QueryModelComponent implements OnInit {
     this.router.navigateByUrl(currentUrl);
   }
 
-  backFromText() {
-    // const currentUrl = localStorage.getItem('currentUrl');
-    // this.router.navigateByUrl(currentUrl);
-  }
   getQueries(lead) {
     this.getChatSendObj.leadId = Number(lead.key);
     this.getChatSendObj.fromUser = this.userId;
@@ -279,8 +274,10 @@ export class QueryModelComponent implements OnInit {
     this.queryModelService.getQueries(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         lead.count = 0;
-        console.log(lead, 'Chat', res)
-        document.getElementById("mySidenav").style.width = "0";
+
+        if (this.isMobileView) {
+          this.closeNav();
+        }
 
         this.getChatsObj = res.ProcessVariables;
         this.chatMessages = res.ProcessVariables.assetQueries ? res.ProcessVariables.assetQueries : [];

@@ -5,7 +5,6 @@
 	/*background: red !important; */
 }
 
-
 a:hover, a:focus {
     text-decoration: none;
 }
@@ -932,6 +931,7 @@ margin: 0px !important;
 
         .sidenav{
             display: block!important;
+            width: 100%;
         }
     }
     
@@ -1016,15 +1016,12 @@ body::-webkit-scrollbar-thumb {
 }
 
 @media only screen and (max-width: 1300px)  {
-
-
-.top-btn {
+    .top-btn {
     position: absolute;
     bottom: -871px;
     left: 770px;
-}
- .view-button {
-   
+   }
+   .view-button {
     margin: 10px auto;
     }
 }
@@ -1052,7 +1049,6 @@ body::-webkit-scrollbar-thumb {
 
 .cus-chat {
     margin: 0px -20.575px 0px 0px;
-    /* width: 883px; */
     height: 37px;
     resize: none;
 }
@@ -1075,7 +1071,6 @@ body::-webkit-scrollbar-thumb {
     z-index: 1;
     top: 70px;
     left: 0;
-    /* background-color: #111111ba; */
     background-color: #dcdaec;
     overflow-x: hidden;
     transition: 0.5s;
@@ -1085,20 +1080,7 @@ body::-webkit-scrollbar-thumb {
   .cus-select {
       width: 500px !important;
   }
-  
-  /* .sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
-  }
-  
-  .sidenav a:hover {
-    color: #f1f1f1;
-  } */
-  
+
   .sidenav .closebtn {
     position: absolute;
     top: 0;
@@ -1114,4 +1096,4 @@ body::-webkit-scrollbar-thumb {
 
   .sidenav{
     display: none;
-}
+   }
