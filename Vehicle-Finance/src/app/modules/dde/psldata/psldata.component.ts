@@ -342,7 +342,7 @@ export class PSLdataComponent implements OnInit {
         });
       console.log('this.LOV.LOVS.pslSubCategory', this.LOV.LOVS.pslSubCategory);
       this.LOV.LOVS.pslSubCategory.filter((element) => {
-          if (element.key === '3PSLSUBCAT') {
+          if (element.key === '10PSLSUBCAT') {
             this.pslSubCategoryData = [{ key: element.key, value: element.value }];
             this.pslSubCategoryValues = this.pslSubCategoryData;
             this.formValues.pslSubCategory = this.pslSubCategoryData[0].key;
