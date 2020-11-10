@@ -56,6 +56,9 @@ export class PSLdataComponent implements OnInit {
   isDirty: boolean;
   pslData: any;
   disableSaveBtn: boolean;
+  loanAmount: any;
+  landUnitType = [];
+  landAreaInhectare: number;
 
 
   constructor( private formBuilder: FormBuilder,
@@ -270,8 +273,15 @@ export class PSLdataComponent implements OnInit {
     // console.log("DETAILACTIVITY_DATA", detailActivityData);
     this.detailActivityChangeValues = detailActivityData;
     this.pslDataForm.controls.nonAgriculture.enable();
+    this.pslDataForm.controls.nonAgriculture.patchValue({
+      loanAmount: this.loanAmount
+    });
+    this.pslDataForm.controls.nonAgriculture.controls.loanAmount.disable();
+
   } else if (activity === '7PSLACTVTY') {
     this.onChangeDetailActivity(null);
+    const resetControl =  this.pslDataForm.get('nonAgriculture') as FormGroup;
+    resetControl.controls.loanAmount.reset();
     const control = this.pslDataForm.get('nonAgriculture').controls as FormGroup;
     console.log('controls in non-agriculture', control);
     // control['detailActivity'].disable();
@@ -279,7 +289,7 @@ export class PSLdataComponent implements OnInit {
     for (const key in control) {
       console.log('key in controls', key);
       if (key !== 'activity' && key !== 'purposeOfLoan' && key !== 'pslCategory' && key !== 'pslSubCategory') {
-
+        control[key].reset();
         control[key].clearValidators();
         control[key].updateValueAndValidity();
         control[key].disable();
@@ -483,7 +493,7 @@ export class PSLdataComponent implements OnInit {
   }
   setValueForPslCategoryByLandArea() {
     this.weakerSectionValues = [];
-    if ( this.landAreaInAcresValue <= 2.5 && this.landAreaInAcresValue != null ) {
+    if ( this.landAreaInAcresValue <= 1 && this.landAreaInAcresValue != null ) {
       this.LOV.LOVS.pslSubCategory.filter((element) => {
         if (element.key === '1PSLSUBCAT') {
           this.pslSubCategoryData = [{ key: element.key, value: element.value }];
@@ -505,8 +515,8 @@ export class PSLdataComponent implements OnInit {
         }
       });
     } else if (
-      this.landAreaInAcresValue > 2.5 &&
-      this.landAreaInAcresValue <= 5
+      this.landAreaInAcresValue > 1 &&
+      this.landAreaInAcresValue <= 2
     ) {
       this.LOV.LOVS.pslSubCategory.filter((element) => {
         if (element.key === '2PSLSUBCAT') {
@@ -528,7 +538,7 @@ export class PSLdataComponent implements OnInit {
           this.weakerSectionValues.push(data);
         }
       });
-    } else if (this.landAreaInAcresValue > 5) {
+    } else if (this.landAreaInAcresValue > 2) {
       this.LOV.LOVS.pslSubCategory.filter((element) => {
         if (element.key === '3PSLSUBCAT') {
           this.pslSubCategoryData = [{ key: element.key, value: element.value }];
@@ -958,7 +968,7 @@ export class PSLdataComponent implements OnInit {
       }
       this.formValues.activity = this.activityChange;
         // this.formValues.pslCCertificate = this.data[0].key;
-      this.formValues.pslCategory = this.pslCategoryData[0].key;
+      this.formValues.pslCategory = this.formValues.pslCategory;
       this.formValues.pslSubCategory = this.pslSubCategoryData[0].key;
         // this.formValues.typeOfService = this.typeOfService[0].key;
       this.formValues.purposeOfLoan = this.purposeOfLoanChange;
@@ -1037,7 +1047,16 @@ onChangeWeakerSection(event: any) {
       // console.log("RESPONSE FROM APPIYO_SERVER_GET_PSL_DATA_API", res);
       const response = res;
       this.pslData = response.ProcessVariables.pslData;
-      console.log("PSLDATA::::", this.pslData);
+      this.loanAmount = response.ProcessVariables.loanAmount;
+      console.log('PSLDATA::::', this.pslData);
+      response.ProcessVariables.hectaresConversionDetails.map((element) => {
+      const body = {
+        key: element.landUnit,
+        value: element.landUnitDesc,
+        factor: element.multiplicationFactor
+      };
+      this.landUnitType.push(body);
+      });
       if (this.pslData === null) {
         setTimeout(() => {
           const operationType = this.toggleDdeService.getOperationType();
@@ -1055,7 +1074,7 @@ onChangeWeakerSection(event: any) {
       this.detailActivityChange = dltActivity;
       // this.getLovForDetailActivity();
       this.getDetailActivity(this.activityChange);
-      this.onChangeDetailActivity(dltActivity);
+      // this.onChangeDetailActivity(dltActivity);
       if (activity === '1PSLACTVTY') {
         this.pslLandHoldingChange = this.pslData.landHolding;
         this.onSelectPslLandHolding();
@@ -1088,6 +1107,7 @@ onChangeWeakerSection(event: any) {
               weakerSection: this.pslData.weakerSection,
             },
           });
+          this.onChangelandUnitType();
         });
         setTimeout(() => {
           const operationType = this.toggleDdeService.getOperationType();
@@ -1097,58 +1117,52 @@ onChangeWeakerSection(event: any) {
           }
         })
       } else if (activity !== '1PSLACTVTY') {
-        // const loanAmount = this.pslData.loanAmount;
-        // this.nameOfCA = this.pslData.nameOfCA;
-        // this.nameOfCAFirm = this.pslData.nameOfCAFirm;
-        // this.udinNo = this.pslData.udinNo;
         setTimeout(() => {
-          // this.proofOfInvestmentChange = this.pslData.proofOfInvestment;
-          // this.setValueForProofOfInvetment();
-          // this.caRegistrationNumber = this.pslData.caRegistrationNumber;
-          // this.caCertifiedAmount = this.pslData.caCertifiedAmount;
-          // this.setValueForCaCertifiedAmount();
-          // this.otherInvestmentCost = this.pslData.otherInvestmentCost;
-          // this.setValueForOtherInvestmentCost();
-          // this.totalInvestmentCost = this.pslData.totalInvestmentCost;
-          // this.investmentInEquipmentValue = this.pslData.investmentInEquipment;
-          // this.setValueForPslSubCategoryByInvestmentInEquipment();
-          // if (this.investmentInEquipmentValue == 0) {
-          //   this.investmentInPlantMachineryValue = this.pslData.investmentInPlantAndMachinery;
-          //   this.setValueForPslSubCategoryByInvestmentInPlantAndMacinery();
-          // }
-          this.pslDataForm.patchValue({
-            activity: this.activityChange
-          });
-          this.pslDataForm.patchValue({
-            // activity: this.pslData.activity,
-            nonAgriculture: {
-              activity: this.pslData.activity,
-              detailActivity: this.pslData.detailActivity,
-              goodsManufactured: this.pslData.goodsManufactured,
-              typeOfService: this.pslData.typeOfService,
-              purposeOfLoan: this.pslData.purposeOfLoan,
-              // businessActivity: this.pslData.businessActivity,
-              loanAmount: this.pslData.loanAmount,
-              // proofOfInvestment: this.pslData.proofOfInvestment,
-              // proofOfInvestmentUpload: this.pslData.proofOfInvestmentUpload,
-              // nameOfCA: this.pslData.nameOfCA,
-              // nameOfCAFirm: this.pslData.nameOfCAFirm,
-              // caRegistrationNumber: this.pslData.caRegistrationNumber,
-              // udinNo: this.pslData.udinNo,
-              // caCertifiedAmount: this.pslData.caCertifiedAmount,
-              // otherInvestmentCost: this.pslData.otherInvestmentCost,
-              // totalInvestmentCost: this.pslData.totalInvestmentCost,
-              // investmentInEquipment: this.pslData.investmentInEquipment,
-              // investmentInPlantAndMachinery: this.pslData.investmentInPlantAndMachinery,
-              pslCategory: this.pslData.pslCategory,
-              pslSubCategory: this.pslData.pslSubCategory,
-              pslCCertificate: this.pslData.pslCCertificate,
-              // weakerSection: this.pslData.weakerSection,
-              uRecessionNo : this.pslData.uRecessionNo,
-              uRegisteredMobileNo :  this.pslData.uRegisteredMobileNo,
-              uRegisteredEmailId :  this.pslData.uRegisteredEmailId,
-            },
-          });
+          if (activity !== '7PSLACTVTY') {
+            this.pslDataForm.patchValue({
+              activity: this.activityChange
+            });
+            this.pslDataForm.patchValue({
+              // activity: this.pslData.activity,
+              nonAgriculture: {
+                activity: this.pslData.activity,
+                detailActivity: this.pslData.detailActivity,
+                goodsManufactured: this.pslData.goodsManufactured,
+                typeOfService: this.pslData.typeOfService,
+                purposeOfLoan: this.pslData.purposeOfLoan,
+                loanAmount: this.loanAmount,
+                pslCategory: this.pslData.pslCategory,
+                pslSubCategory: this.pslData.pslSubCategory,
+                pslCCertificate: this.pslData.pslCCertificate,
+                uRecessionNo : this.pslData.uRecessionNo,
+                uRegisteredMobileNo :  this.pslData.uRegisteredMobileNo,
+                uRegisteredEmailId :  this.pslData.uRegisteredEmailId,
+              },
+            });
+          } else {
+            this.pslDataForm.patchValue({
+              activity: this.activityChange
+            });
+            this.pslDataForm.patchValue({
+              nonAgriculture: {
+                activity: this.pslData.activity,
+                detailActivity: this.pslData.detailActivity,
+                purposeOfLoan: this.pslData.purposeOfLoan,
+                pslCategory: this.pslData.pslCategory,
+                pslSubCategory: this.pslData.pslSubCategory,
+              },
+            });
+          }
+            // if (activity === '7PSLACTVTY') {
+            //  const control = this.pslDataForm.controls.nonAgriculture as FormGroup;
+            // //  control.controls.loanAmount.reset();
+            //  control.patchValue({
+            //   loanAmount: ''
+            // });
+            //  control.controls.loanAmount.clearValidators();
+            //  control.controls.loanAmount.updateValueAndValidity();
+            //  }
+
         });
       }
       setTimeout(() => {
@@ -1159,5 +1173,24 @@ onChangeWeakerSection(event: any) {
         }
       })
     });
+  }
+  onChangelandUnitType(event?: any) {
+    let landType = event;
+    console.log('landType', landType);
+    const landArea = this.pslDataForm.controls.agriculture.controls.landUnitValue.value;
+    const landUnit = this.pslDataForm.controls.agriculture.controls.landUnitType.value;
+    this.landUnitType.filter((element) => {
+      if (element.key === landUnit) {
+          const control = this.pslDataForm.controls.agriculture.controls as FormGroup;
+          const value = Number(element.factor) * Number(landArea);
+          this.landAreaInhectare = value;
+          this.landAreaInAcresValue = value;
+          this.pslDataForm.controls.agriculture.patchValue({
+            landInHectare: value
+          });
+          this.setValueForPslCategoryByLandArea();
+      }
+    });
+
   }
 }
