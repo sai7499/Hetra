@@ -16,12 +16,14 @@
     </label>
     </div> -->
       <div class="col-md-2 sampled">
-        <label><input type="radio" name="fileRCUStatus" value="1" formControlName="fileRCUStatus"
-            (click)="testRadio($event.target.value)"> Screened</label>
+        <input type="radio" name="fileRCUStatus" value="screened" id="screened" formControlName="fileRCUStatus"
+          (click)="testRadio($event.target.value)">
+        <label for="screened"> Screened</label>
       </div>
       <div class="col-md-4 ">
-        <label><input type="radio" name="fileRCUStatus" value="2" formControlName="fileRCUStatus"
-            (click)="testRadio($event.target.value)"> Sampled</label>
+        <input type="radio" name="fileRCUStatus" value="sampled" id="sampled" formControlName="fileRCUStatus"
+          (click)="testRadio($event.target.value)">
+        <label for="sampled"> Sampled</label>
       </div>
       <div class="clearfix"></div>
     </div>
@@ -103,7 +105,7 @@
     <!-- <div class="for_space"></div> -->
 
 
-    <div class="table-responsive application mt-3" formArrayName="documents">
+    <div class="table-responsive application mt-3" formArrayName="applicantDocuments">
       <table id="POITable_other" border="0" class="table">
         <thead>
           <tr class="caption">
@@ -128,7 +130,7 @@
         </thead>
 
         <tbody *ngFor="
-      let item of rcuDetailsForm.controls.documents.controls;
+      let item of rcuDetailsForm.controls.applicantDocuments.controls;
       let i = index
     " [formGroupName]="i">
           <!-- <tbody> -->
@@ -171,25 +173,35 @@
                 (click)="downloadDocs($event.target.value)" />
             </td>
             <td data-title="Member">
-              <select name="sampled" id="deferral_status" class="form-control" formControlName="sampled">
+              <app-vf-custom-select [values]="[
+            { key: '0', value: 'Yes' },
+            { key: '1', value: 'No' }
+          ]" formControlName="sampled">
+              </app-vf-custom-select>
+              <!-- <select name="sampled" id="deferral_status" class="form-control" formControlName="sampled">
                 <option value="0">Yes</option>
                 <option value="1">No</option>
-              </select>
+              </select> -->
             </td>
             <td data-title="Member">
               <!-- <app-custom-input [placeholder]="'sampled'" [type]="labels?.validationData?.extn?.type" formControlName="sampled"
               [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.extn?.maxLength"
               [isDirty]="isDirty">
             </app-custom-input> -->
-              <select name="screened" id="deferral_status" class="form-control" formControlName="screened">
+              <app-vf-custom-select [values]="[
+            { key: '0', value: 'Yes' },
+            { key: '1', value: 'No' }
+          ]" formControlName="screened">
+        </app-vf-custom-select>
+                <!-- <select name="screened" id="deferral_status" class="form-control" formControlName="screened">
                 <option value="0">Yes</option>
                 <option value="1">No</option>
-              </select>
+              </select> -->
 
             </td>
             <td data-title="Member">
               <app-custom-input [placeholder]="'sampled'" [type]="labels?.validationData?.extn?.type"
-                formControlName="status" [className]="'form-control mandatory'"
+                formControlName="rcuStatus" [className]="'form-control mandatory'"
                 [maxLength]="labels?.validationData?.extn?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
 

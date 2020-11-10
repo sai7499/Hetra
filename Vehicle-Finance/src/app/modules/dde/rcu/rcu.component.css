@@ -26,6 +26,7 @@
 }
   .sampled{
     margin: 0px 16px 0px 0px;
+    width: fit-content;
   }
   .fitWidth{
     width: fit-content;
