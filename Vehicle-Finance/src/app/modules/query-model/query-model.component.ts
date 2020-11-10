@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DocRequest } from '@model/upload-model';
@@ -55,8 +55,6 @@ export class QueryModelComponent implements OnInit {
     left: '',
   };
 
-  @ViewChild('myBtn', { static: false }) selectclass: ElementRef;
-
   showDraggableContainer: {
     imageUrl: string;
     imageType: string;
@@ -70,7 +68,7 @@ export class QueryModelComponent implements OnInit {
 
   getLeadSendObj = {
     currentPage: null,
-    perPage: 500,
+    perPage: 1000,
     searchKey: '',
     chatPerPage: 500,
     chatCurrentPage: null,
@@ -429,6 +427,8 @@ export class QueryModelComponent implements OnInit {
       this.queryModelService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           this.getLeads(this.getLeadSendObj);
+          form.reset();
+          this.searchText = '';
           this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Query Model Save/Update')
         } else {
           this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Query Model Save/Update')

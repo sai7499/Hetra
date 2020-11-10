@@ -21,8 +21,7 @@
                 </div>
 
                 <br /><br />
-                <div class="panel-group mar-20 scroll-box" id="scrollBox"
-                  style="background-color: #cec3c3; height: 350px;">
+                <div class="panel-group mar-20 scroll-box cus-mob-bac" id="scrollBox">
                   <div class="panel-group mar-20" id="accordion"
                     *ngFor="let chat of chatList; let i=index; let last=last">
                     <div class="flex-container" [ngClass]="selectedList === chat ? 'selected-back' : ''">
@@ -49,8 +48,8 @@
                   <div class="panel panel-default tab-con">
                     <div class="panel-heading" id="headingOne">
                       <h4 class="panel-title">
-                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-                          style="color: #fff ">
+                        <a class="collapsed cus-mob-col" data-toggle="collapse" data-parent="#accordion"
+                          href="#collapseOne">
                           <i class="fa fa-user"></i>&nbsp; Stakeholders <i class="fa fa-angle-down"></i>
                         </a>
                       </h4>
@@ -73,10 +72,6 @@
                                     class="checkmark"></span></label></div>
                             </div>
                           </div>
-                          <div class="stakeholder-bot text-right">
-                            <button type="submit" class="btn btn-default mar-right8">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Add</button>
-                          </div>
                         </form>
                       </div>
                     </div>
@@ -85,8 +80,8 @@
                   <div class="panel panel-default tab-con">
                     <div class="panel-heading" id="headingTwo">
                       <h4 class="panel-title">
-                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"
-                          style="color: #fff ">
+                        <a class="collapsed cus-mob-col" data-toggle="collapse" data-parent="#accordion"
+                          href="#collapseTwo">
                           <i class="fa fa-file"></i>&nbsp; Documents Shared <i class="fa fa-angle-down"></i>
                         </a>
                       </h4>
@@ -181,10 +176,6 @@
                                   class="checkmark"></span></label></div>
                           </div>
                         </div>
-                        <div class="stakeholder-bot text-right">
-                          <button type="submit" class="btn btn-default mar-right8">Cancel</button>
-                          <button type="submit" class="btn btn-primary">Add</button>
-                        </div>
                       </form>
                     </div>
                   </div>
@@ -229,7 +220,8 @@
               <div class="row view-pad-bottom">
                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0 back-div"><button
                     class="btn btn-warning back-arrow view-button" type="button" (click)="openNav()"><i
-                      class="fa fa-bars"></i></button></div>
+                      class="fa fa-angle-double-left"></i>
+                  </button></div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-11"> <button class="btn btn-warning view-button"
                     type="button" (click)="backFromQuery()"><i class="fa fa-arrow-left"></i> Back to Lead</button></div>
 
@@ -240,7 +232,7 @@
                   <div class="wt-80" [ngClass]="message.queryFrom === userId ? 'sender' : 'receiver'">
                     <div [ngClass]="message.queryFrom === userId ? 'send-message' : 'receive-message'">
                       <div class="logged-user">
-                        <span style="font-weight: 600;"> {{message.nameWithFromRole}}
+                        <span class="cus-name-role"> {{message.nameWithFromRole}}
                         </span>
                         <span class="date-time"> <strong>Query Type : </strong> {{message.queryTypeDesc}} </span>
 
@@ -338,39 +330,35 @@
                     <div class="upload-btn-wrapper col-sm-8 col-lg-8 col-md-8 col-xs-12">
                       <button class="btn-upload" (click)="chooseFile()">
                         {{queryModalForm.controls['docName'].value ? 'Change' : 'Choose'}} file</button>
-                      <!-- <h6>&nbsp;(Maximum size: 2 MB)</h6> -->
                     </div>
-                    <!-- DocName: -->
+
                     <label for="file-name" class="col-sm-8 col-lg-8 col-md-8 col-xs-12"
                       *ngIf="queryModalForm.controls['docName'].value">
                       {{queryModalForm.controls['docName'].value}} </label>
                   </div>
                 </div>
-
-
               </div>
 
               <div class="form-group row">
                 <div class="col-sm-10 col-md-10 col-lg-10">
-                  <div class="form-group">
-                    <textarea class="form-control cus-chat" formControlName="query"
-                      (keyup.enter)="onFormSubmit(queryModalForm)" placeholder="Type your message here"></textarea>
 
-                    <div class="invalid-feedback"
-                      *ngIf="queryModalForm.controls['query'].touched && !queryModalForm.controls['query'].valid">
-                      <div *ngIf="queryModalForm.controls['query'].hasError('required')">
-                        Query Required
-                      </div>
+                  <textarea class="form-control cus-chat" formControlName="query"
+                    (keyup.enter)="onFormSubmit(queryModalForm)" placeholder="Type your message here"></textarea>
+
+                  <div class="invalid-feedback"
+                    *ngIf="queryModalForm.controls['query'].touched && !queryModalForm.controls['query'].valid">
+                    <div *ngIf="queryModalForm.controls['query'].hasError('required')">
+                      Query Required
                     </div>
                   </div>
 
                 </div>
                 <div class="col-sm-2 col-md-2 col-lg-2 text-right mar-bot10">
 
-                  <button type="button" class="btn btn-primary d-lg-flex align-items-center" style="padding: 5px;"
+                  <button type="button" class="btn btn-primary d-lg-flex align-items-center"
                     (click)="onFormSubmit(queryModalForm)"><i class="fa fa-send"></i><span
-                      class="d-none d-lg-block ml-1" (click)="onFormSubmit(queryModalForm)">
-                      {{ isMobileView ? '' : 'Send' }}</span></button>
+                      class="d-none d-lg-block ml-1 cus-hide-mob">
+                      Send</span></button>
                 </div>
               </div>
 
