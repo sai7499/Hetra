@@ -420,8 +420,8 @@
                   (change)="onLandAreaChange($event)"  
                   /> -->
                   <app-custom-input
-                  [(ngModel)]="landAreaInAcresValue"
-                  (change)="onLandAreaChange($event)"
+                  
+                  (keyup) = "onChangelandUnitType()"
                   formControlName="landUnitValue"
                   [className]="'form-control mandatory'"
                   [placeholder]="'Land Area in Acres'"
@@ -438,11 +438,12 @@
               <sub class="star_red_col">*</sub>
           </label>
           <app-vf-custom-select 
-              [values]="LOV.LOVS.landUnit"
+              [values]="landUnitType"
               formControlName="landUnitType"
               name="landProof"
               [isRequired]="'Please Select One Option'"
               [isDirty] = "isDirty"
+              (change) = "onChangelandUnitType($event.target.value)"
               >
           </app-vf-custom-select>
       </div>
@@ -455,8 +456,8 @@
                   (change)="onLandAreaChange($event)"  
                   /> -->
                   <app-custom-input
-                  [(ngModel)]="landAreaInAcresValue"
                   
+                  (change)="onLandAreaChange($event)"
                   formControlName="landInHectare"
                   [className]="'form-control mandatory'"
                   [placeholder]="'Land Area in Hectares'"
@@ -634,16 +635,18 @@
           <sub class="star_red_col">*</sub>
       </label>
       <!-- <input type="text" formControlName="loanAmount" class="form-control" name="loan_amount" id="loan_amount"
-          required="required" /> -->
+          required="required" />  [value]="loanAmount"  [isRequired]="'Required Input is mandatory'"-->
       <app-custom-input
           formControlName="loanAmount"
           [className]="'form-control mandatory'"
           [placeholder]="'Loan Amount'"
           [maxLength]=""
-          [isRequired]="'Required Input is mandatory'"
+         
           [patternCheck]=""
           [isDirty]="isDirty"
           name="loan_amount"
+          
+          [isDisabled] = "true"
       >
       </app-custom-input>
   </div>
@@ -658,7 +661,7 @@
           [className]="'form-control mandatory'"
           [placeholder]="'Enter UDHYAM Registration number'"
           [maxLength]="labels?.validationData?.amountValue.maxLength"
-          [isRequired]="'Required Input is mandatory'"
+         
           [type]="labels?.validationData?.amountValue.type"
           [isDirty]="isDirty"
           
@@ -676,7 +679,7 @@
           [className]="'form-control mandatory'"
           [placeholder]="'Enter UDHYAM Registered mobile number'"
           [maxLength]="labels?.validationData?.mobileNumber?.maxLength"
-          [isRequired]="'Required Input is mandatory'"
+          
           [type]="labels?.validationData?.mobileNumber?.type"
           [isDirty]="isDirty"
           
@@ -694,7 +697,7 @@
           [className]="'form-control mandatory'"
           [placeholder]="'Enter UDHYAM Registered email id'"
           [maxLength]="labels?.validationData?.emailPatternPsl?.maxLength"
-          [isRequired]="'Required Input is mandatory'"
+          
           [patternCheck]="labels?.validationData?.emailPatternPsl?.patternCheck"
           [isDirty]="isDirty"
           
@@ -702,7 +705,6 @@
       </app-custom-input> 
       
   </div>
-
   <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
       <label for="psl_category_msme">{{labels.pslCategory}}
           <sub class="star_red_col">*</sub>
