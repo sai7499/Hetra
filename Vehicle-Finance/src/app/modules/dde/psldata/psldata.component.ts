@@ -1074,7 +1074,7 @@ onChangeWeakerSection(event: any) {
       this.detailActivityChange = dltActivity;
       // this.getLovForDetailActivity();
       this.getDetailActivity(this.activityChange);
-      this.onChangeDetailActivity(dltActivity);
+      // this.onChangeDetailActivity(dltActivity);
       if (activity === '1PSLACTVTY') {
         this.pslLandHoldingChange = this.pslData.landHolding;
         this.onSelectPslLandHolding();
