@@ -8,7 +8,7 @@
           <div class="query">
 
             <div id="mySidenav" class="sidenav">
-              <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
+              <a href="javascript:void(0)" class="closebtn close-btn" (click)="closeNav()">&times;</a>
               <div class="left">
                 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0">
                   <div class="input-group search-btn">
@@ -115,7 +115,7 @@
             </div>
 
             <div class="col-sm-4 col-lg-4 col-md-4 col-xs-12 left" id="message-hide">
-              <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0">
+              <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0 search-bar">
                 <div class="input-group search-btn">
                   <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
                     (keyup)="queryModalForm.value.searchName.length >= 4 ? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
@@ -340,8 +340,9 @@
               </div>
 
               <div class="form-group row">
-                <div class="col-sm-10 col-md-10 col-lg-10">
-
+                
+                <div class="col-sm-10 col-md-10 col-lg-10 text-box" >
+                  <div class="form-group col-lg-12 col-xs-12 col-md-12 col-sm-12">
                   <textarea class="form-control cus-chat" formControlName="query"
                     (keyup.enter)="onFormSubmit(queryModalForm)" placeholder="Type your message here"></textarea>
 
@@ -351,14 +352,16 @@
                       Query Required
                     </div>
                   </div>
-
+                  </div>
                 </div>
-                <div class="col-sm-2 col-md-2 col-lg-2 text-right mar-bot10">
-
-                  <button type="button" class="btn btn-primary d-lg-flex align-items-center"
+                
+                <div class="col-sm-2 col-md-2 col-lg-2 text-left mob-send">
+                 
+                  <button type="button" class="btn btn-primary d-lg-flex btn-pad"
                     (click)="onFormSubmit(queryModalForm)"><i class="fa fa-send"></i><span
                       class="d-none d-lg-block ml-1 cus-hide-mob">
                       Send</span></button>
+                
                 </div>
               </div>
 
