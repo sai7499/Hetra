@@ -8,7 +8,7 @@ import { UtilityService } from '@services/utility.service';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { NumberFormatStyle, Location } from '@angular/common';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
@@ -142,6 +142,8 @@ export class DashboardComponent implements OnInit {
   endDateChange: string;
   disbFromDate: any;
   disbToDate: string;
+  supervisor: boolean;
+  userName: any;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
@@ -159,7 +161,8 @@ export class DashboardComponent implements OnInit {
     private sharedService: SharedService,
     private toggleDdeService: ToggleDdeService,
     private location: Location,
-    private queryModelService: QueryModelService
+    private queryModelService: QueryModelService,
+    private activatedRoute: ActivatedRoute
   ) {
     if (environment.isMobile === true) {
       this.itemsPerPage = '5';
@@ -175,6 +178,16 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
 
+    if(this.router.url === "/pages/supervisor/dashboard") {
+      this.supervisor = true;
+    } else {
+      this.supervisor = false;
+    }
+
+    this.sharedService.userName$.subscribe((value) => {
+      this.userName = value;
+    })
+    
     this.userId = localStorage.getItem('userId')
 
     localStorage.removeItem('is_pred_done');
