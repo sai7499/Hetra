@@ -1,40 +1,66 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { interval, Observable, Subject } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
-import { QueryModelService } from './query-model.service';
+import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { ApiService } from './api.service';
+import { HttpService } from './http.service';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 
-export class PollingService implements OnDestroy {
+export class PollingService {
 
-    private allCountAcrossLeads$: Observable<any[]>;
+  conditionalPollingTok: string = 'JJsZjki6ofISkf/SIfKoHbt9O77X7kF/hy4O7ZshWR0fXZJCEMLuKFgxM9RtZPcl';
 
-    private stopPolling;
+  isPollingHeads = {
+    'content-type': 'application/json',
+    'authentication-token': this.conditionalPollingTok
+  }
 
-    constructor(private quermodalService: QueryModelService) { }
+  constructor(private httpService: HttpService, private apiService: ApiService) { }
+  
 
-    getPollingCount() {
-        let stopPolling = interval(10000).pipe(
-            startWith(0),
-            switchMap(
-                () => this.quermodalService.getCountAcrossLeads(localStorage.getItem('userId')))
-        ).
-            subscribe((res: any) => {
-                console.log(res, 'count')
-                return res
-            })
-        return stopPolling
-    }
+  // 1.Leads Count
 
-    stopPollingLead() {
-        clearInterval(this.stopPolling)
-    }
+  getPollingLeadCount(userId) {
+    const processId = this.apiService.api.getCount.processId;
+    const workflowId = this.apiService.api.getCount.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
 
-    ngOnDestroy() {
-        clearInterval(this.stopPolling)
-        // this.stopPolling.next()
-    }
+    const body = {
+
+      processId: processId,
+      ProcessVariables: {
+        "userId": userId
+      },
+      workflowId: workflowId,
+      projectId: projectId,
+      showLoader: false,
+      headers: 'JJsZjki6ofISkf/SIfKoHbt9O77X7kF/hy4O7ZshWR0fXZJCEMLuKFgxM9RtZPcl'
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+  // 2. Chat Count
+  getPollingLeadsCount(data) {
+
+    const processId = this.apiService.api.getLeads.processId;
+    const workflowId = this.apiService.api.getLeads.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
+
+    const body = {
+
+      processId: processId,
+      ProcessVariables: data,
+      workflowId: workflowId,
+      projectId: projectId,
+      showLoader: false,
+      headers: 'JJsZjki6ofISkf/SIfKoHbt9O77X7kF/hy4O7ZshWR0fXZJCEMLuKFgxM9RtZPcl'
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
 
 }

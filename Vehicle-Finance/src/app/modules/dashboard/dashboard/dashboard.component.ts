@@ -10,11 +10,13 @@ import { ToasterService } from '@services/toaster.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { Location } from '@angular/common';
 import { environment } from 'src/environments/environment';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, retry, share, switchMap } from 'rxjs/operators';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { QueryModelService } from '@services/query-model.service';
-import { PollingService } from '@services/polling.service';
 import { Router } from '@angular/router';
+
+import { PollingService } from '@services/polling.service';
+import { timer } from 'rxjs';
 
 export enum DisplayTabs {
   Leads,
@@ -135,6 +137,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // Query Model
   leadCount: number = 0;
   userId: string;
+  intervalId: any;
+  isIntervalId: boolean = false;
+  subscription: any;
 
   displayTabs = DisplayTabs;
   sortTables = sortingTables;
@@ -158,24 +163,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private sharedService: SharedService,
     private toggleDdeService: ToggleDdeService,
     private location: Location,
+    private pollingService: PollingService,
     private queryModelService: QueryModelService,
-    private pollingService: PollingService
   ) {
     if (environment.isMobile === true) {
       this.itemsPerPage = '5';
     } else {
       this.itemsPerPage = '25';
     }
-    // if (window.screen.width > 768) {
-    //   this.itemsPerPage = '25';
-    // } else if (window.screen.width <= 768) {
-    //   this.itemsPerPage = '5';
-    // }
+
   }
 
   ngOnInit() {
 
-    if(this.router.url === "/pages/supervisor/dashboard") {
+    if (this.router.url === "/pages/supervisor/dashboard") {
       this.supervisor = true;
     } else {
       this.supervisor = false;
@@ -184,7 +185,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.sharedService.userName$.subscribe((value) => {
       this.userName = value;
     })
-    
+
     this.userId = localStorage.getItem('userId')
 
     localStorage.removeItem('is_pred_done');
@@ -262,12 +263,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.getCountAcrossLeads(this.userId)
 
-    if (currentUrl.includes('dashboard')) {
-      this.checkPolling()
-    } else {
-      this.pollingService.stopPollingLead()
-    }
+    setTimeout(() => {
+      if (currentUrl.includes('dashboard') && this.isIntervalId) {
+        this.intervalId = this.getPollCount()
+      }
+    }, 5000)
 
+  }
+
+  getPollCount() {
+    return setInterval(() => {
+      this.pollingService.getPollingLeadCount(this.userId).subscribe((res: any) => {
+        console.log(res, 'polling Request')
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          this.leadCount = res.ProcessVariables.leadCount ? res.ProcessVariables.leadCount : 0;
+        }
+      })
+    }, 5000)
   }
 
   getCountAcrossLeads(userId) {
@@ -275,6 +287,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.queryModelService.getCountAcrossLeads(userId).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.leadCount = res.ProcessVariables.leadCount ? res.ProcessVariables.leadCount : 0;
+        this.isIntervalId = true;
       } else {
         this.leadCount = 0;
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Count Across Leads')
@@ -283,12 +296,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   }
 
-  checkPolling() {
-    // console.log('APi Count Data', this.pollingService.getPollingCount())
-  }
-
   ngOnDestroy() {
-    this.pollingService.stopPollingLead()  }
+    clearInterval(this.intervalId)
+  }
 
   initinequery() {
     const currentUrl = this.location.path();

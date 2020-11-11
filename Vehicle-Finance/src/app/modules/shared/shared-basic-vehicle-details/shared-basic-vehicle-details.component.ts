@@ -718,9 +718,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
             })
           }
         })
-
-    setTimeout(() => {
-    });
   }
 
   addSalesFormControls() {
@@ -783,8 +780,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         finalAssetCost: [''],
         rcOwnerName: ['', Validators.required],
         ownerMobileNo: ['', Validators.required],
-        address: ['', Validators.maxLength(120)],
-        pincode: ['', Validators.maxLength(6)],
+        address: ['', Validators.compose([Validators.maxLength(120), Validators.required])],
+        pincode: ['', Validators.compose([Validators.maxLength(6), Validators.required])],
         vehicleId: 0,
         collateralId: 0,
         leadId: this.leadId,
@@ -808,8 +805,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         finalAssetCost: [''],
         rcOwnerName: ['', Validators.required],
         ownerMobileNo: ['', Validators.required],
-        address: ['', Validators.maxLength(120)],
-        pincode: ['', Validators.maxLength(6)],
+        address: ['', Validators.compose([Validators.maxLength(120), Validators.required])],
+        pincode: ['', Validators.compose([Validators.maxLength(6), Validators.required])],
         vehicleUsage: ['', Validators.required],
         category: ['', Validators.required],
         vehicleId: 0,

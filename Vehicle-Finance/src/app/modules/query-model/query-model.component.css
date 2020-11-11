@@ -435,8 +435,9 @@ margin: 0px !important;
 	padding-left: 0;
 }
 .query .panel-group .panel-default .panel-heading {
-    background-color: #fff;
-	padding: 15px 20px;
+    background-color: #120f52;
+    padding: 15px 20px;
+    color: #fff;
 }
 .query .panel-group .panel-default {
     border: none;
@@ -555,7 +556,7 @@ margin: 0px !important;
 
 
   .selected-back {
-      background-color: #645eae6e;
+      background-color:#120f52;
   }
     
     .dropdown-content {
@@ -704,10 +705,37 @@ margin: 0px !important;
         margin-bottom:10px;
     }
 
+    .mar-top0{
+        margin-top:0px!important;
+    }
+
+    #message-hide {
+        background-color: #d8d8d8;
+        padding: 0px 0px 10px;
+    }
+
+    .search-bar{
+        padding: 8px 0px;
+        /* margin: 10px 0px; */
+        background-color: #00000036;
+    }
     @media (min-width:260px) and (max-width: 760px) {
 
         #message-hide {
             display: none !important;
+            background-color: #d8d8d8;
+            padding: 0px 0px 10px;
+        }
+
+
+        .close-btn{
+            font-size: 13px;
+            background-color: #f57d2f;
+            padding: 0px 5px;
+            margin: 5px;
+            /* width: 33px; */
+            color: antiquewhite;
+            border-radius: 3px;
         }
 
         .back-div{
@@ -725,9 +753,41 @@ margin: 0px !important;
             width: 100%;
         }
 
-        .cus-hide-mob { display: none; }
+        .cus-hide-mob { visibility: hidden; }
+
+        .mob-send{
+            margin-left:30px!important;
+            }
+
+            .text-box{
+                padding: 0px 15px 0px 15px;
+            }
+
+            .view-button {
+                width: 80%;
+                margin: 10px;
+            }
+
+            .fa-angle-left{
+
+                font-size: 20px;
+                font-weight:bold;
+            }
+    }
+
+    .text-box{
+        padding: 0px 15px 0px 15px;
+    }
+
+    .btn-pad{
+        padding:7px!important;
+    }
+
+    .mob-send{
+        padding: 0px;
     }
     
+    .cus-hide-mob { visibility: visible; }
     * {
   scrollbar-width: thin;
   scrollbar-color: #f57d2f #fff0;
@@ -881,15 +941,15 @@ body::-webkit-scrollbar-thumb {
   .sidenav .closebtn {
     position: absolute;
     top: 0;
-    right: 25px;
-    font-size: 36px;
+    right: 5px;
+    font-size: 10px;
     margin-left: 50px;
   }
   
   @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
-    .cus-hide-mob { display: none; }
+    /* .cus-hide-mob { visibility: hidden; } */
   }
 
   .sidenav{
