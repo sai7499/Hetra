@@ -94,7 +94,7 @@ export class QueryModelService {
     return this.httpService.post(url, body);
   }
 
-  // 4.method for get count
+  // 5.method for get count
 
   getCountAcrossLeads(userId) {
     const processId = this.apiService.api.getCount.processId;

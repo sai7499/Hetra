@@ -15,6 +15,7 @@ import { ToasterService } from '@services/toaster.service';
 import { Base64StorageService } from '@services/base64-storage.service';
 import { CreateLeadService } from '@modules/lead-creation/service/creatLead.service';
 import { DraggableContainerService } from '@services/draggable.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-query-model',
@@ -118,7 +119,7 @@ export class QueryModelComponent implements OnInit {
     })
 
     this.getLov();
-    if (window.screen.width <= 768) { // 768px portrait
+    if (environment.isMobile === true) { // 768px portrait
       this.isMobileView = true;
       document.getElementById("mySidenav").style.visibility = "visible";
     }

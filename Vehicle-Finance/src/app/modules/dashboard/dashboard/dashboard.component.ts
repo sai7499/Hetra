@@ -1,21 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DashboardService } from '@services/dashboard/dashboard.service';
-import { LoginService } from '../../login/login/login.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { UtilityService } from '@services/utility.service';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
-import { NumberFormatStyle, Location } from '@angular/common';
-import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
+import { Location } from '@angular/common';
 import { environment } from 'src/environments/environment';
-import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { QueryModelService } from '@services/query-model.service';
+import { PollingService } from '@services/polling.service';
+import { Router } from '@angular/router';
 
 export enum DisplayTabs {
   Leads,
@@ -80,7 +79,7 @@ export enum sortingTables {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   filterForm: FormGroup;
   showFilter;
   roleType;
@@ -149,11 +148,9 @@ export class DashboardComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dashboardService: DashboardService,
-    private loginService: LoginService,
     private loginStoreService: LoginStoreService,
     private labelService: LabelsService,
     private utilityService: UtilityService,
-    private labelsData: LabelsService,
     private vehicleDataStoreService: VehicleDataStoreService,
     private router: Router,
     private taskDashboard: TaskDashboard,
@@ -162,7 +159,7 @@ export class DashboardComponent implements OnInit {
     private toggleDdeService: ToggleDdeService,
     private location: Location,
     private queryModelService: QueryModelService,
-    private activatedRoute: ActivatedRoute
+    private pollingService: PollingService
   ) {
     if (environment.isMobile === true) {
       this.itemsPerPage = '5';
@@ -205,7 +202,6 @@ export class DashboardComponent implements OnInit {
     if (this.dashboardService.routingData) {
       this.activeTab = this.dashboardService.routingData.activeTab;
       this.subActiveTab = this.dashboardService.routingData.subActiveTab;
-      // console.log('active', this.activeTab, 'sub-active', this.subActiveTab);
 
       this.onTabsLoading(this.subActiveTab);
     } else {
@@ -265,23 +261,34 @@ export class DashboardComponent implements OnInit {
     }
 
     this.getCountAcrossLeads(this.userId)
- 
+
+    if (currentUrl.includes('dashboard')) {
+      this.checkPolling()
+    } else {
+      this.pollingService.stopPollingLead()
+    }
 
   }
 
   getCountAcrossLeads(userId) {
 
     this.queryModelService.getCountAcrossLeads(userId).subscribe((res: any) => {
-      console.log(res, 'res')
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.leadCount = res.ProcessVariables.leadCount ? res.ProcessVariables.leadCount : 0;
       } else {
-        this.leadCount = 0
+        this.leadCount = 0;
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Count Across Leads')
       }
     })
 
   }
+
+  checkPolling() {
+    // console.log('APi Count Data', this.pollingService.getPollingCount())
+  }
+
+  ngOnDestroy() {
+    this.pollingService.stopPollingLead()  }
 
   initinequery() {
     const currentUrl = this.location.path();
