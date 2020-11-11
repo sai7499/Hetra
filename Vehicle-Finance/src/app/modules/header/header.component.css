@@ -39,15 +39,15 @@ outline: none;
     font-style: 12px;
 }
 
-.leadHistoryBtn{
+/* .leadHistoryBtn{
     cursor: pointer;
     background-color: #f3682d;
     padding: 5px;
     margin: 5px;
     border-radius: 5px;
     color: #fff;
-}
-
+} */
+/* 
 .ok_button{
     width: 100%;
     margin: 0 auto;
@@ -89,93 +89,8 @@ outline: none;
 
 .mb-0{
     margin-bottom: 0;
-}
+} */
 
 
-@media (min-width:200px) and (max-width:767px) {
-    .mob-font{
-        font-style: 9px;
-    }   
 
-    .top_bar{
-   
-    text-align: left;
-    } 
-
-    .main-table td,
-    .main-table tr {
-       display: block;
-     }
-   
-    .main-table td,
-    .main-table th {
-       border: 1px solid #ccc;
-       text-align: left;
-       text-align: center;
-       /* margin: 12px; */
-       line-height: 1.5;
-       /* color: white; */
-       padding: 2px;
-       font-size: 14px;
-     }
-   
-     /* Hide table headers (but not display: none;, for accessibility) */
-    .main-table thead tr {
-       position: absolute;
-       top: -9999px;
-       left: -9999px;
-     }
-    .main-table tr {
-       /* border: 1px solid #E74C3C;  */
-     }
-    .main-table tr + tr {
-       margin-top: 1.5em;
-     }
-    .main-table td {
-       /* make like a "row" */
-       border: none;
-       border-bottom: 1px solid #eee;
-       /* position: relative; */
-       padding-left: 50%;
-       /* background-color: #F8D9D5; */
-       text-align: left;
-       /* padding: 1px;*/
-       border: 1px solid #929294;
-       word-break: break-all!important;
-     }
-   
-    .main-table td:before {
-       content: attr(data-label);
-       display: inline-block;
-       line-height: 1.5;
-       margin-left: -100%;
-       margin-right: 12px;
-       width: 70%;
-       white-space: nowrap;
-       background-color: #1d1a4b;
-       color: white;
-       height: 40px;
-       padding: 10px;
-     }
-   
-     .tablewithdetails td:before {
-       content: attr(data-label);
-       display: inline-block;
-       line-height: 1.5;
-       margin-left: -2%;
-       margin-right: 5%;
-       width: 50%;
-       white-space: nowrap;
-       background-color: #1d1a4b;
-       color: white;
-       padding: 10px;
-        text-align: left; 
-       font-size:12px;
-      
-      } 
-   
-   
-    
-
-}
 
