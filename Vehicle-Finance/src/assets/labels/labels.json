@@ -1652,6 +1652,10 @@
     "inputValue":"Input Value",
     "scoreValue":"Score",
     "marketAndFinancierReference":"Market & Financier Reference",
+    "performed_by":"Performed By",
+    "performed_on":"Performed On",
+    
+
     "validationData": {
         "name": {
             "maxLength": {
