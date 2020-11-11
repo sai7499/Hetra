@@ -384,7 +384,7 @@
                                 </label>
 
                                 <app-custom-input formControlName="totalLandArea"
-                                    [type]="label.validationData?.amountValue.type" [id]="'total_land_area'"
+                                    [type]="label.validationData?.landArea.type" [id]="'total_land_area'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Land Area'"
                                     [maxLength]="label.validationData?.landArea.maxLength"
                                     [isRequired]="'Total Land Area Required'" [isDirty]="isDirty">
@@ -398,7 +398,7 @@
                                 </label>
 
                                 <app-custom-input formControlName="totalBuiltUpArea"
-                                    [type]="label.validationData?.amountValue.type" [id]="'total_build_up_area'"
+                                    [type]="label.validationData?.landArea.type" [id]="'total_build_up_area'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Built up Area'"
                                     [maxLength]="label.validationData?.landArea.maxLength"
                                     [isRequired]="'Total Built up Area Required'" [isDirty]="isDirty">
@@ -418,9 +418,9 @@
                                 </label>
 
                                 <app-custom-input formControlName="marketValue"
-                                    [type]="label.validationData?.amountValue.type" [id]="'market_value_sf'"
+                                    [type]="label.validationData?.landArea.type" [id]="'market_value_sf'"
                                     [className]="'form-control mandatory'" [placeholder]="'Market Value / SF'"
-                                    [maxLength]="label.validationData?.amountValue.maxLength"
+                                    [maxLength]="label.validationData?.landArea.maxLength"
                                     [isRequired]="'Market Value / SF Required'" [isDirty]="isDirty">
                                 </app-custom-input>
 
@@ -445,10 +445,10 @@
                                 </label>
 
                                 <app-custom-input formControlName="guideLineValue"
-                                    [type]="label.validationData?.amountValue.type" [id]="'guide_line_value'"
+                                    [type]="label.validationData?.landArea.type" [id]="'guide_line_value'"
                                     [className]="'form-control mandatory'" [placeholder]="'Guide line  value / SF'"
-                                    [maxLength]="label.validationData?.amountValue.maxLength"
-                                    [isRequired]="'Guide line  value / SF Required'" [isDirty]="isDirty">
+                                    [maxLength]="label.validationData?.landArea.maxLength"
+x                                    [isRequired]="'Guide line  value / SF Required'" [isDirty]="isDirty">
                                 </app-custom-input>
 
                             </div>

@@ -929,7 +929,7 @@
     "landOwner": "Land Owner",
     "relWithLandowner": "Relationship with Landowner",
     "farmerType": "Farmer Type",
-    "landAreaInAcres": "Land Area in Acres",
+    "landAreaInAcres": "Land Area",
     "landProof": "Land Proof",
     "landProofUpload": "Land Proof Upload",
     "proofOfInvestment": "Proof of Investment (MSME)",
@@ -1079,7 +1079,7 @@
     "businessEntityName": "Business Entity Name",
     "netProfit": "Net Profit",
     "depreciation": "Depreciation",
-    "directorsSalary": "Directors salary/Interest to partners + Interest",
+    "directorsSalary": "Director's Salary / Interest to partners + Interest on Capital",
     "grossDerivedIncome": "Gross derived Income",
     "grossMonthlyIncome": "Gross monthly income",
     "actions": "Actions",
@@ -1641,6 +1641,12 @@
     "disbursementStartDate": "Disbursement - Start Date",
     "disbursementEndDate": "Disbursement - End Date",
     "propertyValue":"Property Value",
+    "landAreaInHectares": "Land Area In Hectares",
+    "uRecessionNo" : "UDHYAM Registration number",
+    "uRegisteredMobileNo" : "UDHYAM Registered mobile number",
+    "uRegisteredEmailId" : "UDHYAM Registered email id",
+    "uCertificateId" : "UDHYAM Certificate upload ",
+    "landUnitType" : "Land Unit Type",
     "parameter":"Parameter",
     "weightage":"Weightage",
     "inputValue":"Input Value",
@@ -1884,7 +1890,7 @@
         },
         "emailPattern": {
             "maxLength": {
-                "rule": 60
+                "rule": 40
             },
             "patternCheck": {
                 "rule": "^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(\\.\\w{2,10})+$",
@@ -2645,6 +2651,15 @@
             "patternCheck": {
                 "rule": "^[1-31]{1,2}",
                 "msg": "Should be between 1-31 only"
+            }
+        },
+        "emailPatternPsl": {
+            "maxLength": {
+                "rule": 30
+            },
+            "patternCheck": {
+                "rule": "^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(\\.\\w{2,10})+$",
+                "msg": "Invalid email"
             }
         },
         "companyName":{
