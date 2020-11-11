@@ -31,6 +31,10 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {}
 
+  onTest(){
+    
+  }
+
   goToActivitySearch() {
     this.route.navigateByUrl('/activity-search');
   }

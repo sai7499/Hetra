@@ -2,12 +2,13 @@
     <div class="container-fluid">
         <div class="navbar-header">
             <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#bs-navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            <a  class="navbar-brand hetra"><img (click)='goToActivitySearch()' src="assets/images/hetra_logo.png" alt="[Image: Hetra Logo]" title="Hetra" class=""></a>
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand hetra"><img (click)='goToActivitySearch()' src="assets/images/hetra_logo.png"
+                    alt="[Image: Hetra Logo]" title="Hetra" class=""></a>
         </div>
         <app-profile>
             <!-- <div class="search">
@@ -15,6 +16,10 @@
                 <span class="search-icon-left"></span>
             </div> -->
             <app-search-bar></app-search-bar>
+            <!-- <div class="inputHistory"> -->
+            <label (click)="onTest()" class="leadHistoryBtn" data-toggle="modal" data-target="#showModal">Lead
+                History</label>
+            <!-- </div> -->
         </app-profile>
     </div>
 </header>
@@ -29,3 +34,105 @@
         </p>
     </div>
 </footer>
+
+<!--Popup Model  -->
+
+<div class="modal fade" id="showModal">
+    <div class="modal-dialog modal-dialog-centered HeaderModalWidth">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-center ">Lead History</h4>
+            </div>
+            <div class="modal-body " style="background-color: #ddd;">
+                <div class="container-fluid top_bar">
+                    <div class="row col-lg-4 col-md-4 col-sm-12">
+                        <div class="form-group mb-0">
+                            <label class="col-form-label" for="lead_created_by">Stage 
+                            </label>
+                            <label for="lead_created_by_name" class="col-form-label-two">: DDE Completed</label>
+                        </div>
+                    </div>
+                    <div class="row col-lg-4 col-md-4 col-sm-12">
+                        <div class="form-group mb-0">
+                            <label class="col-form-label" for="lead_created_by">Queue</label>
+                            <label for="lead_created_by_name" class="col-form-label-two">: Deviation</label>
+                        </div>
+                    </div>
+                    <div class="row col-lg-4 col-md-4 col-sm-12">
+                        <div class="form-group mb-0">
+                            <label class="col-form-label" for="customer_name_label">User / Role</label>
+                            <label for="customer_name" class="col-form-label-two">: ACM</label>
+                        </div>
+                    </div>
+                    <div class="row col-lg-4 col-md-4 col-sm-12">
+                        <div class="form-group mb-0">
+                            <label class="col-form-label" for="lead_created_by">Stage
+                            </label>
+                            <label for="lead_created_by_name" class="col-form-label-two">: DDE Completed</label>
+                        </div>
+                    </div>
+                    <div class="row col-lg-4 col-md-4 col-sm-12">
+                        <div class="form-group mb-0">
+                            <label class="col-form-label" for="lead_created_by">Queue</label>
+                            <label for="lead_created_by_name" class="col-form-label-two">: Deviation</label>
+                        </div>
+                    </div>
+                    <div class="row col-lg-4 col-md-4 col-sm-12">
+                        <div class="form-group mb-0">
+                            <label class="col-form-label" for="customer_name_label">User / Role</label>
+                            <label for="customer_name" class="col-form-label-two">: ACM</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid">                   
+                    <div class="row">
+                        <div id="wrapper">
+                            <table class="table table-bordered mb-0">
+                                <thead>
+                                    <tr class="table-head-bg">
+                                        <th>S.No <i class="fa fa-sort"></i></th>
+                                        <th>Stage / Action <i class="fa fa-sort"></i></th>
+                                        <th>Performed by <i class="fa fa-sort"></i></th>
+                                        <th>Performed on <i class="fa fa-sort"></i></th>
+                                        <th>Status <i class="fa fa-sort"></i></th>
+                                        <th>Remarks <i class="fa fa-sort"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>5</td>
+                                        <td>6</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>5</td>
+                                        <td>6</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>5</td>
+                                        <td>6</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="HeaderFooter">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
