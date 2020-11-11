@@ -910,6 +910,11 @@ export class ApiService {
       processId: 'daefda501b3411eba4e100505695f93b',
       workflowId: '83d58122193411eb853500505695f93b',
       projectId: environment.projectIds.salesProjectId
+    },
+    submitTvrDetails: {
+      processId: '4628de009c2f11eabddcf2fa9bec3d63',
+      workflowId: '04ae6c069a8611eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
     }
   };
 }

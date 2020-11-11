@@ -433,6 +433,23 @@ export class TeleVerificationFormComponent implements OnInit {
     });
   }
 
+  submitTVRDetails() {
+    const data = {
+      applicantId: this.applicantId
+    }
+    this.tvrService.submitTvrDetails(data).subscribe((res: any) => {
+      const response = res;
+      const appiyoError = response.Error;
+      const apiError = response.ProcessVariables.error.code;
+      if(appiyoError == '0' && apiError == '0' ) {
+        this.toasterService.showSuccess('Record Submittd Successfully !', '');
+        this.router.navigate([`pages/dde/${this.leadId}/tvr-details`]);
+      } else {
+        this.toasterService.showError(response.ProcessVariables.error.message, '');
+      }
+    })
+  }
+
   onBack() {
     // this.location.back();
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/tvr-details`);
@@ -515,8 +532,9 @@ export class TeleVerificationFormComponent implements OnInit {
 
   // Submitting method for OTP Form
   onSubmit() {
-    this.sendOtp();
-    
+    // this.sendOtp();
+    // this.validateOtp();
+    this.submitTVRDetails();
   }
   onSelectReferenceStatus(event,fromRef){
     if (fromRef == 'reference1' && this.referenceData.length <= 0){
