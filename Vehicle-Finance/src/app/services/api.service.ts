@@ -333,6 +333,11 @@ export class ApiService {
       workflowId: 'e1174c3ab61511ea8a0af2fa9bec3d63',
       projectId: environment.projectIds.creditProjectId
     },
+    deleteMarFinReference: {
+      processId: 'b22a16c8235711ebbb7a00505695f93b',
+      workflowId: '606e8154200811ebbd8a00505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
     submitPdReport: {
       processId: 'e1479e8ab61511ea8a0af2fa9bec3d63',
       workflowId: 'e1174c3ab61511ea8a0af2fa9bec3d63',
