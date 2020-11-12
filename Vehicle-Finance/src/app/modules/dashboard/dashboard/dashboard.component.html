@@ -1,8 +1,8 @@
 <main class="mar-top90">
   <div class="container-fluid">
-    <div *ngIf="userName" style="float: left; margin-left: 5px;">
+    <!-- <div *ngIf="userName" style="float: left; margin-left: 5px;">
       <h4>{{userName}} dashboard</h4>
-    </div>
+    </div> -->
     <div class="pull-right dropdown nav">
       <div class="pull-right dropdown nav">
         <button *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab"
@@ -433,9 +433,9 @@
                 value="Release" data-toggle="modal" data-target="#releaseModal">
               <!-- <a title="Self-Assign" data-toggle="modal" data-target="#supervisorTaskAssign"><i
                   class="glyphicon glyphicon-retweet" aria-hidden="true"></i></a> -->
-              <input type="button" style="margin-top: 5px;" (click)="onSupervisorAssign(item.taskId, item.leadId)" class="btn btn-primary" value="Self Assign">
+              <!-- <input type="button" style="margin-top: 5px;" (click)="onSupervisorAssign(item.taskId, item.leadId)" class="btn btn-primary" value="Self Assign">
               <input type="button" style="margin-top: 5px;" (click)="getReAssignData(item)" class="btn btn-primary" value="Re-Assign"
-                data-toggle="modal" data-target="#supervisorTaskAssign">
+                data-toggle="modal" data-target="#supervisorTaskAssign"> -->
             </td>
             <!--  -->
             <td [attr.data-label]="labels?.action" *ngIf="onAssignTab">
