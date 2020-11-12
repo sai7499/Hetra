@@ -464,8 +464,8 @@
             <td [attr.data-label]="labels?.promoCode">{{item.promoCode ? item.promoCode : '--'}}</td>
             <td [attr.data-label]="labels?.status">{{item.stage ? item.stage : '--'}}</td>
             <td [attr.data-label]="labels?.history">
-              <a data-toggle="tooltip" data-placement="bottom" title="Click to View Timeline Chart"> <i
-                  class="fa fa-history"></i></a>
+              <a data-placement="bottom" title="Click to View Timeline Chart"> <i
+                  class="fa fa-history" data-toggle="modal" data-target="showModal"></i></a>
             </td>
           </tr>
         </tbody>
