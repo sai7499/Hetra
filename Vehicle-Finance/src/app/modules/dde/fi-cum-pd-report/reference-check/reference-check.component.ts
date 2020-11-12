@@ -181,7 +181,8 @@ export class ReferenceCheckComponent implements OnInit {
           }
           this.getLOV();
           this.getLeadSectiondata();
-          this.getPdDetails();    // for getting the data for pd details on initializing the page
+          this.getPdDetails();   // for getting the data for pd details on initializing the page
+          // this.removeReferenceControls();
           console.log('Applicant Id In reference Details Component', this.applicantId);
 
         });
@@ -190,8 +191,8 @@ export class ReferenceCheckComponent implements OnInit {
       error => {
         this.errorMsg = error;
       });
-    this.initForm();              // for initializing the form
-
+    this.initForm();             // for initializing the form
+    this.removeReferenceControls();
     this.selectedDocDetails = {
       docsType: this.PROFILE_TYPE,
       docSize: this.OTHER_DOCUMENTS_SIZE,
@@ -330,7 +331,14 @@ export class ReferenceCheckComponent implements OnInit {
       marketFinRefData: this.listArray
     });
   }
-
+  removeReferenceControls() {
+    const controls = this.referenceCheckForm as FormGroup;
+    console.log('in remove controls', controls);
+    console.log('in remove controls', this.productCatCode);
+    if ((this.productCatCode !== 'NCV') || (this.productCatCode === 'NCV' && this.applicantType !== 'APPAPPRELLEAD')) {
+      controls.removeControl('marketFinRefData');
+    }
+  }
   public populateRowData(rowData) {
 
     console.log('in initRows RowData');
@@ -389,10 +397,10 @@ export class ReferenceCheckComponent implements OnInit {
         this.longitude = value.ProcessVariables.customerProfileDetails.longitude;
         this.SELFIE_IMAGE = value.ProcessVariables.profilePhoto;
         const referenceDetails = processVariables.marketFinRefData;
-        if (referenceDetails != null) {
+        if (referenceDetails != null && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
           this.populateData(value);
 
-        } else if (referenceDetails == null) {
+        } else if (referenceDetails == null && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
           const control = this.referenceCheckForm.controls.marketFinRefData as FormArray;
           control.push(this.initRows(null));
 
@@ -539,34 +547,36 @@ export class ReferenceCheckComponent implements OnInit {
   onFormSubmit(references: any) { // function that calls sumbit pd report api to save the respective pd report
     console.log('latitude::', this.latitude);
     console.log('longitude::', this.longitude);
-
-    const referenceArray = (this.referenceCheckForm.value.marketFinRefData as FormArray);
-    console.log('reference data', referenceArray);
-    // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i < referenceArray.length; i++) {
-      referenceArray[i]['typeReference'] = referenceArray[i]['typeReference'];
-      referenceArray[i]['companyName'] = referenceArray[i]['companyName'];
-      referenceArray[i]['officerName'] = referenceArray[i]['officerName'];
-      referenceArray[i]['designation'] = referenceArray[i]['designation'];
-      referenceArray[i]['teleNo'] = referenceArray[i]['teleNo'];
-      referenceArray[i]['comments'] = referenceArray[i]['comments'];
-    }
-    this.referenceCheckForm.value.marketFinRefData = referenceArray;
-    console.log(this.referenceCheckForm.value.marketFinRefData);
-
-    let i = 0;
-    let j = 0;
-    references.forEach(element => {
-      console.log('element', element);
-      if (element.typeReference === '1REFTYPE' || element.typeReference === '2REFTYPE') {
-        i = i + 1;
-      } else if (element.typeReference === '3REFTYPE' || element.typeReference === '4REFTYPE') {
-        j = j + 1;
+    if (this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
+      const referenceArray = (this.referenceCheckForm.value.marketFinRefData as FormArray);
+      console.log('reference data', referenceArray);
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0; i < referenceArray.length; i++) {
+        referenceArray[i]['typeReference'] = referenceArray[i]['typeReference'];
+        referenceArray[i]['companyName'] = referenceArray[i]['companyName'];
+        referenceArray[i]['officerName'] = referenceArray[i]['officerName'];
+        referenceArray[i]['designation'] = referenceArray[i]['designation'];
+        referenceArray[i]['teleNo'] = referenceArray[i]['teleNo'];
+        referenceArray[i]['comments'] = referenceArray[i]['comments'];
       }
-    });
-    console.log('i j values', i, j);
-    if (i >= 1 && j >= 1) {
-      this.allowSave = true;
+      this.referenceCheckForm.value.marketFinRefData = referenceArray;
+      console.log(this.referenceCheckForm.value.marketFinRefData);
+
+      let i = 0;
+      let j = 0;
+      references.forEach(element => {
+        console.log('element', element);
+        if (element.typeReference === '1REFTYPE' || element.typeReference === '2REFTYPE') {
+          i = i + 1;
+        } else if (element.typeReference === '3REFTYPE' || element.typeReference === '4REFTYPE') {
+          j = j + 1;
+        }
+      });
+      console.log('i j values', i, j);
+      if (i >= 1 && j >= 1) {
+        this.allowSave = true;
+      }
+      this.marketAndFinReferenceDetails = referenceArray;
     }
 
     this.custProfileDetails = {
@@ -581,12 +591,12 @@ export class ReferenceCheckComponent implements OnInit {
       this.toasterService.showWarning('please enter required details', '');
       return;
 
-    } else if (this.allowSave !== true) {
+    } else if (this.allowSave !== true && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
       this.toasterService.showWarning('atleast one market and finance reference required', '');
       return;
     }
-    // console.log('this product', this.productCat);
-    // console.log("this soucing", this.sourcingChannel);
+    console.log('this product', this.productCat);
+    console.log("this soucing", this.sourcingChannel);
     const referenceCheckModel = { ...formModel };
     this.refCheckDetails = {
       nameOfReference: referenceCheckModel.nameOfReference ? referenceCheckModel.nameOfReference : null,
@@ -598,7 +608,7 @@ export class ReferenceCheckComponent implements OnInit {
       soName: this.userName ? this.userName : null,
       employeeCode: this.userId ? this.userId : null,
     };
-    // console.log('systime', this.sysTimeOfVerification);
+    console.log('systime', this.sysTimeOfVerification);
 
     this.otherDetails = {
 
@@ -617,7 +627,7 @@ export class ReferenceCheckComponent implements OnInit {
 
 
     };
-    this.marketAndFinReferenceDetails = referenceArray;
+
     const data = {
       leadId: this.leadId,
       applicantId: this.applicantId,
