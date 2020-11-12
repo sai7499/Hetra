@@ -287,9 +287,12 @@
                         queryModalForm.value.searchName.length>= 2 ? getLeads(getLeadSendObj,
                       '', searchLeadId) : ''" -->
 
-                      <div class="dropdown-content" *ngIf="isLeadShow">
+                      <div class="dropdown-content" *ngIf="isLeadShow && searchLeadId.length >= 4">
                         <div *ngFor="let item of getSearchableLead">
                           <a data-toggle="collapse" data-target="#bs-navbar" (click)="getLead(item)">{{item.value}}</a>
+                        </div>
+                        <div class="empty-list" *ngIf="getSearchableLead && getSearchableLead.length === 0">
+                          <p>No such lead available</p>
                         </div>
                       </div>
                     </div>
@@ -319,10 +322,13 @@
                         [ngModelOptions]="{standalone: true}" (mouseenter)="mouseEnter()"
                         (keyup)="getvalue($event.target.value)">
 
-                      <div class="dropdown-content" *ngIf="dropDown && searchLead && searchLead.length > 0">
+                      <div class="dropdown-content" *ngIf="dropDown && searchText.length >= 3">
                         <div *ngFor="let item of searchLead">
                           <a data-toggle="collapse" data-target="#bs-navbar"
                             (click)="getQueryTo(item)">{{item.value}}</a>
+                        </div>
+                        <div class="empty-list" *ngIf="searchLead && searchLead.length === 0">
+                          <p>No such query to available</p>
                         </div>
                       </div>
 

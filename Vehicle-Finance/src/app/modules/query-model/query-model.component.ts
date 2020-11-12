@@ -114,7 +114,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       searchName: [''],
       queryType: ['', Validators.required],
       query: ['', Validators.required],
-      queryFrom: [this.userId],
+      queryFrom: [this.userId, Validators.required],
       queryTo: ['', Validators.required],
       docId: [''],
       docName: [''],
@@ -204,37 +204,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     this.queryModelService.getLeads(data).subscribe((res: any) => {
 
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        this.getLeadsObj = res.ProcessVariables;
-        this.chatList = res.ProcessVariables.chatLeads ? res.ProcessVariables.chatLeads : [];
-        this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
-
-        if (res.ProcessVariables.chatLeads && res.ProcessVariables.chatLeads.length > 0) {
-
-          if (this.routerId && this.queryLeads.length > 0) {
-            const test = this.queryLeads.find((val) => {
-              return (val.key === this.routerId)
-            })
-
-            this.searchLeadId = test ? test.value : '';
-            this.queryModalForm.patchValue({
-              leadId: Number(this.routerId)
-            })
-
-            let index;
-            let findChat: any = this.chatList;
-
-            const chatListChange = findChat.find((chat, i) => {
-              if (chat.key === this.routerId) {
-                index = i;
-                return chat;
-              }
-            })
-            let spliceChat = findChat.splice(index, 1)
-            this.chatList.unshift(spliceChat[0])
-          }
-        }
-        this.getQueries(this.chatList[0])
-        this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
+        this.getCommonLeadData(res)
         this.isIntervalStart = true;
       } else {
         this.chatList = [];
@@ -257,12 +227,50 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     return setInterval(() => {
       this.pollingService.getPollingLeadsCount(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          // this.getCommonLeadData(res)
           this.getLeadsObj = res.ProcessVariables;
           this.chatList = res.ProcessVariables.chatLeads ? res.ProcessVariables.chatLeads : [];
           this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
+        } else {
+          this.chatList = [];
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Leads')
         }
       })
     }, 5000)
+  }
+
+  getCommonLeadData(res) {
+    this.getLeadsObj = res.ProcessVariables;
+    this.chatList = res.ProcessVariables.chatLeads ? res.ProcessVariables.chatLeads : [];
+    this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
+
+    if (res.ProcessVariables.chatLeads && res.ProcessVariables.chatLeads.length > 0) {
+
+      if (this.routerId && this.queryLeads.length > 0) {
+        const test = this.queryLeads.find((val) => {
+          return (val.key === this.routerId)
+        })
+
+        this.searchLeadId = test ? test.value : '';
+        this.queryModalForm.patchValue({
+          leadId: Number(this.routerId)
+        })
+
+        let index;
+        let findChat: any = this.chatList;
+
+        findChat.find((chat, i) => {
+          if (chat.key === this.routerId) {
+            index = i;
+            return chat;
+          }
+        })
+        let spliceChat = findChat.splice(index, 1)
+        this.chatList.unshift(spliceChat[0])
+      }
+    }
+    this.getQueries(this.chatList[0])
+    this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
   }
 
   ngOnDestroy() {
@@ -296,7 +304,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     this.getChatSendObj.leadId = Number(lead.key);
     this.getChatSendObj.fromUser = this.userId;
     let data = this.getChatSendObj;
-    console.log('data', data)
+
     this.queryModalForm.patchValue({
       leadId: Number(lead.key),
     })
@@ -435,7 +443,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   }
 
   mouseEnter() {
-    this.dropDown = true;
+    // this.dropDown = true;
     this.searchLead = this.queryModelLov.queryTo;
   }
 
@@ -449,7 +457,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
   mouseleadIdEnter() {
     this.getSearchableLead = this.queryLeads;
-    this.isLeadShow = true;
+    // this.isLeadShow = true;
   }
 
   onFormSubmit(form) {
@@ -468,8 +476,11 @@ export class QueryModelComponent implements OnInit, OnDestroy {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           this.getLeads(this.getLeadSendObj);
           form.reset();
+          this.queryModalForm.patchValue({
+            queryFrom: localStorage.getItem('userId')
+          })
           this.searchText = '';
-          this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Query Model Save/Update')
+          // this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Query Model Save/Update')
         } else {
           this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Query Model Save/Update')
         }
@@ -477,8 +488,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
     } else {
       this.isDirty = true;
-      console.log(form, 'formvalue')
-      this.toasterService.showError('Please enter all mandatory field', 'Query Model Save/Update')
+      // this.toasterService.showError('Please enter all mandatory field', 'Query Model Save/Update')
       this.utilityService.validateAllFormFields(form)
     }
 

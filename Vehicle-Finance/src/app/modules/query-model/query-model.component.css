@@ -902,7 +902,7 @@ body::-webkit-scrollbar-thumb {
 
 .cus-chat {
     margin: 0px -20.575px 0px 0px;
-    height: 37px;
+    /* height: 37px; */
     resize: none;
 }
 
