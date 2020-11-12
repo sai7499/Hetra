@@ -133,7 +133,7 @@
                 <div class="panel-group mar-20" id="accordion"
                   *ngFor="let chat of chatList; let i=index; let last=last">
                   <div class="flex-container" [ngClass]="selectedList === chat ? 'selected-back' : ''">
-                    <div class="divs" (click)="getQueries(chat)">
+                    <div class="divs" (click)="getQueries(chat, true)">
                       <p class="mar-em">{{chat.value}}</p>
                     </div>
 
@@ -258,7 +258,7 @@
 
                   </div>
 
-                  <div class="cus-top-arrow" *ngIf="getChatsObj && getChatsObj.count > 50">
+                  <div class="cus-top-arrow" *ngIf="getChatsObj && getChatsObj.count >= 15">
                     <button type="button" class="btn btn-white btn-circle cus-circle"
                       (click)="getMoreChat(chatMessages.length, getChatsObj)"><i
                         class="fa fa-angle-down cus-arrow"></i></button>

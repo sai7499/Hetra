@@ -36,7 +36,6 @@ export class AuthInterceptor implements HttpInterceptor {
     this.apiCount++;
     let httpMethod = req.method;
     const reqBody = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-    let reqHeaders: any = {};
 
     if (reqBody && reqBody.showLoader !== false) {
       this.ngxUiLoaderService.start();
@@ -53,8 +52,6 @@ export class AuthInterceptor implements HttpInterceptor {
         ? localStorage.getItem('token')
         : ''
     }
-
-    console.log(reqBody, 'req Headers', reqHeaders)
 
     if (httpMethod == 'POST') {
       if (req.url.includes('appiyo')) {
