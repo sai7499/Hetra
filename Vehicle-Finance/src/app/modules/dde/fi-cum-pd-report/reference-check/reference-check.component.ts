@@ -335,7 +335,7 @@ export class ReferenceCheckComponent implements OnInit {
     const controls = this.referenceCheckForm as FormGroup;
     console.log('in remove controls', controls);
     console.log('in remove controls', this.productCatCode);
-    if (this.productCatCode !== 'NCV') {
+    if ((this.productCatCode !== 'NCV') || (this.productCatCode === 'NCV' && this.applicantType !== 'APPAPPRELLEAD')) {
       controls.removeControl('marketFinRefData');
     }
   }
@@ -397,10 +397,10 @@ export class ReferenceCheckComponent implements OnInit {
         this.longitude = value.ProcessVariables.customerProfileDetails.longitude;
         this.SELFIE_IMAGE = value.ProcessVariables.profilePhoto;
         const referenceDetails = processVariables.marketFinRefData;
-        if (referenceDetails != null && this.productCatCode === 'NCV') {
+        if (referenceDetails != null && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
           this.populateData(value);
 
-        } else if (referenceDetails == null && this.productCatCode === 'NCV') {
+        } else if (referenceDetails == null && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
           const control = this.referenceCheckForm.controls.marketFinRefData as FormArray;
           control.push(this.initRows(null));
 
@@ -547,7 +547,7 @@ export class ReferenceCheckComponent implements OnInit {
   onFormSubmit(references: any) { // function that calls sumbit pd report api to save the respective pd report
     console.log('latitude::', this.latitude);
     console.log('longitude::', this.longitude);
-    if (this.productCatCode === 'NCV') {
+    if (this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
       const referenceArray = (this.referenceCheckForm.value.marketFinRefData as FormArray);
       console.log('reference data', referenceArray);
       // tslint:disable-next-line: prefer-for-of
@@ -591,7 +591,7 @@ export class ReferenceCheckComponent implements OnInit {
       this.toasterService.showWarning('please enter required details', '');
       return;
 
-    } else if (this.allowSave !== true && this.productCatCode === 'NCV') {
+    } else if (this.allowSave !== true && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
       this.toasterService.showWarning('atleast one market and finance reference required', '');
       return;
     }
