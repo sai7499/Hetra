@@ -27,11 +27,8 @@ import { ChequeTrackingComponent } from './cheque-tracking/cheque-tracking.compo
 import { LoanStatusComponent } from './loan-status/loan-status.component';
 import { LoanBookingComponent } from './loan-status/loan-booking/loan-booking.component';
 import { ReferenceComponent } from '@modules/shared/reference/reference.component';
-<<<<<<< HEAD
 import { RcuComponent } from './rcu/rcu.component';
-=======
 import { PSLdataComponent } from './psldata/psldata.component';
->>>>>>> d7e9603810e89e876af30574fe736058df264ec4
 
 const routes: Routes = [
   {
