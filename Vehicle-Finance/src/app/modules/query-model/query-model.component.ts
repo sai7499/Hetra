@@ -129,13 +129,11 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
     const currentUrl = this.location.path();
 
-    console.log(currentUrl.includes('query-model'), 'currentUrl')
-
-    setTimeout(() => {
-      if (currentUrl.includes('query-model') && this.isIntervalStart) {
-        this.intervalId = this.getPollLeads(this.getLeadSendObj)
-      }
-    }, 5000)
+    // setTimeout(() => {
+    //   if (currentUrl.includes('query-model') && this.isIntervalStart) {
+    //     this.intervalId = this.getPollLeads(this.getLeadSendObj)
+    //   }
+    // }, 5000)
 
   }
 
