@@ -4,8 +4,9 @@
       <h4>{{userName}} dashboard</h4>
     </div>
     <div class="pull-right dropdown nav">
-      <div  class="pull-right dropdown nav">
-        <button *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab" class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i>
+      <div class="pull-right dropdown nav">
+        <button *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab"
+          class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i>
           {{!isFilterApplied ? "Filter" : "Filter Applied"}} </button>
       </div>
       <!-- <div *ngIf="isFilterApplied" class="pull-right dropdown nav">
@@ -15,8 +16,8 @@
       <div class="pull-right dropdown nav" style="margin: 0 10px 10px 0">
         <button class="btn btn-primary view-button" type="button" (click)="initinequery()">
           Initiate Query &nbsp;
-          <i class="fa fa-bell cus-bell font-medium-3"></i><span
-            class="notification badge badge-pill badge-danger" *ngIf="leadCount && leadCount !== 0">{{leadCount}}</span>
+          <i class="fa fa-bell cus-bell font-medium-3"></i><span class="notification badge badge-pill badge-danger"
+            *ngIf="leadCount && leadCount !== 0">{{leadCount}}</span>
           <!-- <span class="badge badge-light">{{leadCount}}</span> -->
         </button>
       </div>
@@ -24,7 +25,8 @@
     </div>
   </div>
 
-  <div class="filter-block container-fluid mar-bottom" *ngIf="showFilter && (displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab)">
+  <div class="filter-block container-fluid mar-bottom"
+    *ngIf="showFilter && (displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab)">
     <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab">
       <form [formGroup]="filterForm">
         <div class="row">
@@ -376,7 +378,8 @@
   <div class="container-fluid mar-bottom" *ngIf="roleType == '6'">
     <ul class="nav nav-pills nav-justified" id="background_white">
       <li (click)="onLeads(displayTabs?.RCU, displayTabs?.RCUWithMe)"
-        [ngClass]="{'active':displayTabs?.RCU === activeTab}" routerLinkActive="active"><a data-toggle="tab">RCU</a></li>
+        [ngClass]="{'active':displayTabs?.RCU === activeTab}" routerLinkActive="active"><a data-toggle="tab">RCU</a>
+      </li>
     </ul>
   </div>
   <div class="container-fluid mar-bottom" *ngIf="roleType == '6'">
@@ -384,9 +387,8 @@
       <li class="active" (click)="leads(displayTabs?.RCUWithMe)"
         [ngClass]="{'active':displayTabs?.RCUWithMe === subActiveTab}" routerLinkActive="active"><a
           data-toggle="tab">RCU Pending with Me</a></li>
-      <li (click)="leads(displayTabs?.RCUWithBranch)"
-        [ngClass]="{'active':displayTabs?.RCUWithBranch === subActiveTab}" routerLinkActive="active"><a
-          data-toggle="tab">RCU Pending with Branch</a></li>
+      <li (click)="leads(displayTabs?.RCUWithBranch)" [ngClass]="{'active':displayTabs?.RCUWithBranch === subActiveTab}"
+        routerLinkActive="active"><a data-toggle="tab">RCU Pending with Branch</a></li>
     </ul>
   </div>
   <!-- RCU Dashboard Ends -->
@@ -431,7 +433,9 @@
                 value="Release" data-toggle="modal" data-target="#releaseModal">
               <!-- <a title="Self-Assign" data-toggle="modal" data-target="#supervisorTaskAssign"><i
                   class="glyphicon glyphicon-retweet" aria-hidden="true"></i></a> -->
-                  <!-- <input type="button" style="margin-top: 5px;" class="btn btn-primary" value="Self Assign" data-toggle="modal" data-target="#supervisorTaskAssign"> -->
+              <input type="button" style="margin-top: 5px;" (click)="onSupervisorAssign(item.taskId, item.leadId)" class="btn btn-primary" value="Self Assign">
+              <input type="button" style="margin-top: 5px;" (click)="getReAssignData(item)" class="btn btn-primary" value="Re-Assign"
+                data-toggle="modal" data-target="#supervisorTaskAssign">
             </td>
             <!--  -->
             <td [attr.data-label]="labels?.action" *ngIf="onAssignTab">
@@ -592,15 +596,68 @@
           <h4 class="modal-title">Task Assign</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
-        <!-- <div class="modal-body">
-          <select class="form-control" formControlName="product">
+        <div class="modal-body">
+          <!-- <select class="form-control" formControlName="product">
             <option value=''>-- select one --</option>
             <option *ngFor="let item of productCategoryData" [value]="item.key">{{item.value}}</option>
-          </select>
-        </div> -->
+          </select> -->
+          <form [formGroup]="supervisorForm">
+            <select formControlName="roles" class="form-control">
+              <option value=''>-- select one --</option>
+              <option *ngFor="let role of roleList" [value]="role">
+                {{role}}
+              </option>
+            </select>
+          </form>
+          <!-- <form>
+            <select data-placeholder="Begin typing a name to filter..." multiple class="chosen-select" name="test">
+              <option value=""></option>
+              <option>American Black Bear</option>
+              <option>Asiatic Black Bear</option>
+              <option>Brown Bear</option>
+              <option>Giant Panda</option>
+              <option>Sloth Bear</option>
+              <option>Sun Bear</option>
+              <option>Polar Bear</option>
+              <option>Spectacled Bear</option>
+            </select>
+            <input type="submit">
+          </form> -->
+
+
+        </div>
         <div class="modal-footer text-center">
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#confirmTaskAssign">
+            Submit
+          </button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">
             Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="confirmTaskAssign">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Task Assign</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <!-- <select class="form-control" formControlName="product">
+            <option value=''>-- select one --</option>
+            <option *ngFor="let item of productCategoryData" [value]="item.key">{{item.value}}</option>
+          </select> -->
+          <p>Are you sure want to assign task</p>
+        </div>
+        <div class="modal-footer text-center">
+          <button type="button" (click)="onReAssign()" class="btn btn-success">
+            Yes
+          </button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">
+            No
           </button>
         </div>
       </div>
