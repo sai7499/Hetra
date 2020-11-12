@@ -41,22 +41,42 @@
 .nav-pills>li>a {
     border: 1px solid #5f3232 !important;
 }
-btn_div:active {
+.btn_div {
     color: #fff;
     background-color: #272264;
     background-image: none;
     border-color: #272264; 
 }
-.btn_div{
-    color: #272264;
-    background-color: #dddddd;
-}
+
 /* .btn-primary:active, .btn-primary.active:hover{
     color: #fff;
     background-color: #272264;
     background-image: none;
     border-color: #272264;
+    outline: none;
+} */
+.hetra-tabs>.btn-primary{
+    border: 1px solid #272264;
+    background-color: #fff;
+    color: #0f0d25;
+    outline: none;
 }
+.hetra-tabs>.active {
+    border: 1px solid #272264;
+    background-color: #272264;
+    color: #fff;
+    outline: none;
+}
+.textTrans{
+    text-transform: uppercase;
+}
+.file-upload{
+    border: none;
+    border-radius: 0px;
+position: relative;
+
+}
+/* 
 
 .btn_div {
     color: #272264;

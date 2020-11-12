@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ApplicantService } from '@services/applicant.service';
 import { CommomLovService } from '@services/commom-lov-service';
+import { DraggableContainerService } from '@services/draggable.service';
 import { LabelsService } from '@services/labels.service';
 import { PddDetailsService } from '@services/pdd-details.service';
 import { RcuService } from '@services/rcu.service';
 import { ToasterService } from '@services/toaster.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { UploadService } from '@services/upload.service';
+import { UtilityService } from '@services/utility.service';
 
 
 @Component({
@@ -41,6 +44,17 @@ export class RcuComponent implements OnInit {
   tab2: any;
   documents: any;
   applicantDocuments: any;
+  fileRCUStatus: any;
+  screened: string;
+  sampled: string;
+  response: any;
+  showColletralDocuments: boolean = false;
+  collateralDocuments: any;
+  selectDocument: any;
+ rcuInitiated = false
+ today: any = new Date();
+//  public value: Date = new Date(2019, 5, 1, 22);
+//     public format = 'MM/dd/yyyy HH:mm';
   constructor(
     private labelsData: LabelsService,
     private activatedRoute: ActivatedRoute,
@@ -50,13 +64,17 @@ export class RcuComponent implements OnInit {
     private commonLovService: CommomLovService,
     private formBuilder: FormBuilder,
     private toasterService: ToasterService,
-
+    private utilityService: UtilityService,
+    private uploadService: UploadService,
+    private draggableContainerService: DraggableContainerService,
 
 
 
 
 
   ) {
+    console.log(this.today);
+    
     // this.radioItems = [{ value: 'Screened' }, { value: 'Sampled' }]
     // this.getSelecteditem()
     // this.documentArray = this.formBuilder.array([this.childgroups])
@@ -76,7 +94,7 @@ export class RcuComponent implements OnInit {
 
     this.rcuDetailsForm = this.formBuilder.group({
 
-      fileRCUStatus: ['screened'],
+      fileRCUStatus: [''],
       applicantId: [''],
       applicantType: [''],
       loanAmount: [''],
@@ -84,26 +102,30 @@ export class RcuComponent implements OnInit {
       vehicleModel: [''],
       vehicleNo: [''],
       rcuReportStatus: [''],
-      rcuUpload: [''],
-      rcuReportReceivedDate: [''],
+      // rcuUpload: [''],
+      rcuReportReceivedDateTime: [''],
       remarks: [''],
-      applicantDocuments: this.formBuilder.array([this.getRcuDocumentDetails()])
+      applicantDocuments: this.formBuilder.array([]),
+      collateralDocuments:this.formBuilder.array([])
     })
     console.log("formgroup....>", this.rcuDetailsForm);
-
-    this.getAllRcuDetails()
+    // this.testRadio('screened')
     this.getApplicantList()
-    this.assignRcuTask()
+
+    this.getAllRcuDetails(this.rcuInitiated)
+    // this.assignRcuTask()
   }
-  onClick(check) {
+  showDocuments(check) {
     //    console.log(check);
-    if (check == 1) {
+    this.selectDocument = check
+    if (check == 'applicant') {
       this.tab = 'tab1';
-    } else if (check == 2) {
+      this.showColletralDocuments = false
+    } else if (check == 'colletral') {
       this.tab = 'tab2';
-    } else {
-      this.tab = 'tab3';
+      this.showColletralDocuments = true
     }
+    // this.getAllRcuDetails()
 
   }
 
@@ -114,8 +136,6 @@ export class RcuComponent implements OnInit {
         return 'tab1';
       case 2:
         return 'tab2';
-      case 3:
-        return 'tab3';
     }
   }
   private getRcuDocumentDetails(data?: any) {
@@ -125,17 +145,12 @@ export class RcuComponent implements OnInit {
       // tslint:disable-next-line: prefer-for-of
 
       return this.formBuilder.group({
-        // categoryCode: [''],
         categoryName: [''],
         dmsDocumentID: [''],
         documentName: [''],
         documentNo: [''],
-        // documentType: [''],
         expiryDate: [''],
         issueDate: [''],
-        // issuedAt: [''],
-        // subCategoryName: [''],
-        // subcategoryCode: [''],
         screened: [''],
         sampled: [''],
         rcuStatus: [''],
@@ -143,24 +158,56 @@ export class RcuComponent implements OnInit {
       });
     } else {
       return this.formBuilder.group({
-        // categoryCode: data.categoryCode ,
-        categoryName: data.categoryName ? data.categoryName : null,
-        dmsDocumentID: data.dmsDocumentID ? data.dmsDocumentID : null,
-        documentName: data.documentName ? data.documentName : null,
-        documentNo: data.documentNo ? data.documentNo : null,
-        // documentType: data.documentType ? data.documentType : null,
-        expiryDate: data.expiryDate ? data.expiryDate : null,
-        issueDate: data.issueDate ? data.issueDate : null,
-        // issuedAt: data.issuedAt ? data.issuedAt : null,
-        // subCategoryName: data.subCategoryName ? data.subCategoryName : null,
-        // subcategoryCode: data.subcategoryCode ? data.subcategoryCode : null,
-        screened: data.screened ? data.screened : null,
-        sampled: data.sampled ? data.sampled : null,
-        rcuStatus: data.rcuStatus ? data.rcuStatus : null,
+        categoryName: data.categoryName,
+        dmsDocumentID: data.dmsDocumentID,
+        documentName: data.documentName,
+        documentNo: data.documentNo,
+        expiryDate: this.utilityService.getDateFromString(data.expiryDate),
+        issueDate: this.utilityService.getDateFromString(data.issueDate),
+        screened: data.screened,
+        sampled: data.sampled,
+        rcuStatus: data.rcuStatus,
 
       })
     }
   }
+
+  populateApplicantDocuments(event) {
+    event = event ? event : "screened"
+    this.rcuDetailsForm.patchValue({
+      fileRCUStatus: event,
+      loanAmount: this.response.loanAmount,
+      applicantId: this.response.applicantDetails[0].applicantId,
+      applicantType: this.response.applicantDetails[0].applicantType,
+      vehicleMake: this.response.vehicleMake,
+      vehicleModel: this.response.vehicleModel,
+      vehicleNo: this.response.vehicleNo,
+      rcuReportStatus: this.response.rcuReportStatus,
+      // rcuUpload: this.response.rcuUpload,
+      rcuReportReceivedDateTime: this.response.rcuReportReceivedDateTime,
+      remarks: this.response.remarks,
+    })
+
+    if (this.applicantDocuments != null) {
+      for (let i = 0; i < this.applicantDocuments.length; i++) {
+        this.rcuDetailsForm.controls.applicantDocuments.push(this.getRcuDocumentDetails(this.applicantDocuments[i]))
+      }
+      this.testRadio(event)
+    }
+    if (this.collateralDocuments != null) {
+      for (let i = 0; i < this.collateralDocuments.length; i++) {
+        this.rcuDetailsForm.controls.collateralDocuments.push(this.getRcuDocumentDetails(this.collateralDocuments[i]))
+      }
+      this.testRadio(event)
+    }
+    // if(event !== null && event !== ""){
+    //   this.testRadio(event)
+    // }else {
+    //   this.testRadio('screened')
+    // }
+
+  }
+ 
   // getting labels from labels.json
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
@@ -206,85 +253,174 @@ export class RcuComponent implements OnInit {
     console.log(item);
 
   }
-  // getAllRcuDetails() {
-  //   const data = {
-  //     applicantId: this.applicantId
-  //   }
 
-  //   this.rcuService.getRcuDetails(data).subscribe((res: any) => {
-  //     this.applicantResponse = res.ProcessVariables;
-  //     this.rcuDetailsForm.patchValue({
-  //       fileRCUStatus: this.applicantResponse.fileRCUStatus,
-  //       // applicantId: this.applicantResponse.applicantId,
-  //       // applicantType: this.applicantResponse.applicantType,
-  //       loanAmount: this.applicantResponse.loanAmount,
-  //       // vehicleMake: this.applicantResponse.vehicleMake,
-  //       vehicleModel: this.applicantResponse.vehicleModel,
-  //       vehicleNo: this.applicantResponse.vehicleNo,
-  //       rcuReportStatus: this.applicantResponse.rcuReportStatus,
-  //       // rcuUpload: this.applicantResponse.rcuUpload,
-  //       rcuReportReceivedDate: this.applicantResponse.rcuReportReceivedDate,
-  //       remarks: this.applicantResponse.remarks,  
-  //       // documents: this.formBuilder.array(this.childgroups)  
-  //     })
-  //     this.documentDetails = this.applicantResponse.documents
-  //     // this.childgroups = []
-
-  //     if (this.documentDetails && this.documentDetails.length > 0) {
-  //       for (let i = 0; i < this.documentDetails.length; i++) {
-
-  //         this.childgroups.push(this.getRcuDocumentDetails(this.documentDetails[i]));
-  //         // this.rcuDetailsForm.controls.documents.controls.push(this.getRcuDocumentDetails(this.documentDetails[i]));
-  //         console.log(this.childgroups);
-
-  //       }
-  //      console.log(this.rcuDetailsForm)
-
-  //       // this.rcuDetailsForm.controls.documents.push(childgroups)
-  //     }
-
-
-  //     console.log(this.applicantResponse);
-  //     console.log(this.documentDetails && this.documentDetails.length > 0);
-
-
-  //   })
-
-  // }
-  getAllRcuDetails() {
+  getAllRcuDetails(rcuInitiate) {
+    console.log(rcuInitiate);
+    
     const data = {
       applicantId: this.applicantId
     }
     this.rcuService.getRcuDetails(data).subscribe((res: any) => {
-      const response = res.ProcessVariables
-      this.applicantDocuments = response.applicantDocuments
-      let applicantDocuments = response.applicantDocuments
-      applicantDocuments = applicantDocuments.map((value) => {
-        console.log(value);
+      this.response = res.ProcessVariables
+      if(this.response.rcuInitiated == rcuInitiate){
+        this.isRcuDetails = true
+      }else{
+        this.isRcuDetails = false
 
-        return {
+      }
+       
+      this.applicantDocuments = this.response.applicantDocuments
+      this.collateralDocuments = this.response.collateralDocuments
+      // this.applicantDetails = this.response.applicantDetails
+      console.log(this.applicantDocuments);
+// if(this.applicantDetails && this.applicantDetails.length > 0 ){
+//   for (let i = 0; i < this.applicantDetails.length; i++) {
+//     this.rcuDetailsForm.controls.applicantDetails.push(
+//       this.populateApplicantDocuments(data[i])
+//     );
+//   }
+// }
+console.log(this.tab);
+this.populateApplicantDocuments(this.response.fileRCUStatus)
 
-          documentName: value.documentName,
-          dmsDocumentID: value.dmsDocumentID,
-          categoryName: value.categoryName,
-          issueDate: value.issueDate,
-          expiryDate: value.expiryDate,
-          documentNo: value.documentNo,
-          sampled: value.sampled,
-          screened: value.screened,
-          rcuStatus: value.rcuStatus
-        };
-      });
-      console.log(applicantDocuments);
+// if(this.tab == this.tab1)  {
+//   this.showColletralDocuments = false
+//   this.populateApplicantDocuments(this.response.fileRCUStatus)
 
-      this.getRcuDocumentDetails(applicantDocuments)
-
+// }  else if( this.tab == this.tab2)  {
+//   this.showColletralDocuments = true
+//   this.populateColletralDocuments(this.response.fileRCUStatus)
+// }
+     
+      // this.testRadio(this.response.fileRCUStatus)
     })
+  }
+  onSubmit() {
+    console.log(this.rcuDetailsForm);
+
+    this.submitted = true;
+    // stop here if form is invalid
+    if (this.rcuDetailsForm.invalid) {
+      this.toasterService.showError(
+        'Fields Missing Or Invalid Pattern Detected',
+        'RCU Details'
+      );
+      return;
+    } else {
+      this.submitted = true;
+      this.rcuDetailsForm.value.applicantDocuments.forEach((ele) => {
+        ele.issueDate = this.utilityService.convertDateTimeTOUTC(
+          ele.issueDate,
+          'DD/MM/YYYY'
+        );
+        ele.expiryDate = this.utilityService.convertDateTimeTOUTC(
+          ele.expiryDate,
+          'DD/MM/YYYY'
+        );
+        
+      });
+      // this.rcuDetailsForm.value.collateralDocuments.forEach((ele) => {
+      //   ele.issueDate = this.utilityService.convertDateTimeTOUTC(
+      //     ele.issueDate,
+      //     'DD/MM/YYYY'
+      //   );
+      //   ele.expiryDate = this.utilityService.convertDateTimeTOUTC(
+      //     ele.expiryDate,
+      //     'DD/MM/YYYY'
+      //   );
+        
+      // });
+      const data = {
+        userId: this.userId,
+        applicantDocuments: this.rcuDetailsForm.controls.applicantDocuments.value,
+        collateralDocuments: this.rcuDetailsForm.controls.collateralDocuments.value,
+        fileRCUStatus: this.rcuDetailsForm.controls.fileRCUStatus.value,
+        applicantId: Number(this.rcuDetailsForm.controls.applicantId.value),
+        applicantType: this.rcuDetailsForm.controls.applicantType.value,
+        loanAmount: this.rcuDetailsForm.controls.loanAmount.value,
+        vehicleMake: this.rcuDetailsForm.controls.vehicleMake.value,
+        vehicleModel: this.rcuDetailsForm.controls.vehicleModel.value,
+        vehicleNo: this.rcuDetailsForm.controls.vehicleNo.value,
+        rcuReportStatus: this.rcuDetailsForm.controls.rcuReportStatus.value,
+        // rcuUpload: this.rcuDetailsForm.controls.rcuUpload.value,
+        rcuReportReceivedDateTime:
+          this.rcuDetailsForm.controls.rcuReportReceivedDateTime.value,
+          
+        
+        remarks: this.rcuDetailsForm.controls.remarks.value,
+
+      }
+      this.rcuService.saveUpdateRcuDetails(data).subscribe((res: any) => {
+        // tslint:disable-next-line: triple-equals
+        if (res && res.ProcessVariables.error.code == '0') {
+          // tslint:disable-next-line: prefer-const
+          let rcuFormApplicantControls = this.rcuDetailsForm.controls.applicantDocuments as FormArray;
+          rcuFormApplicantControls.controls = [];
+          let rcuFormColletralControls = this.rcuDetailsForm.controls.collateralDocuments as FormArray;
+          rcuFormColletralControls.controls = [];
+          this.toasterService.showSuccess(
+            'Updated Successfully',
+            'RCU Details'
+          );
+          this.rcuInitiated = true
+          this.getAllRcuDetails( this.rcuInitiated);
+
+        }
+      });
+    }
   }
   testRadio(event) {
     // alert("event" + event)
+    // this.fileRCUStatus = this.rcuDetailsForm.controls.fileRCUStatus.value
+    console.log(this.fileRCUStatus);
     console.log(event);
 
+    if (event == "screened" && this.applicantDocuments != null) {
+      this.screened = '0'
+      this.sampled = '1'
+      for (let i = 0; i < this.rcuDetailsForm.controls.applicantDocuments.length; i++) {
+        const control = this.rcuDetailsForm.controls.applicantDocuments.controls as FormArray
+        control[i].patchValue({
+          screened: '1',
+          sampled: '0'
+        })
+      }
+    } else
+    if (event == "screened" && this.collateralDocuments != null) {
+      this.screened = '0'
+      this.sampled = '1'
+      for (let i = 0; i < this.rcuDetailsForm.controls.collateralDocuments.length; i++) {
+        const control = this.rcuDetailsForm.controls.collateralDocuments.controls as FormArray
+        control[i].patchValue({
+          screened: '1',
+          sampled: '0'
+        })
+      }
+    } else
+  
+    if (event == "sampled"  && this.applicantDocuments != null) {
+      this.screened = '1'
+      this.sampled = '0'
+      for (let i = 0; i < this.rcuDetailsForm.controls.applicantDocuments.length; i++) {
+        const control = this.rcuDetailsForm.controls.applicantDocuments.controls as FormArray
+        control[i].patchValue({
+          screened: '0',
+          sampled: '1'
+        })
+      }
+     
+    } else
+    if (event == "sampled"  && this.collateralDocuments != null) {
+      this.screened = '1'
+      this.sampled = '0'
+      for (let i = 0; i < this.rcuDetailsForm.controls.collateralDocuments.length; i++) {
+        const control = this.rcuDetailsForm.controls.collateralDocuments.controls as FormArray
+        control[i].patchValue({
+          screened: '0',
+          sampled: '1'
+        })
+      }
+    }
 
   }
   getApplicantList() {
@@ -315,7 +451,10 @@ export class RcuComponent implements OnInit {
     this.rcuDetailsForm.get('applicantType').setValue(applicantType);
   }
   assignRcuTask() {
-    this.isRcuDetails = true
+
+ this.rcuInitiated = true
+ this.getAllRcuDetails( this.rcuInitiated)
+    // this.isRcuDetails = true
     const data = {
       leadId: this.leadId,
       userId: this.userId
@@ -325,59 +464,43 @@ export class RcuComponent implements OnInit {
       console.log(res);
       console.log(res && res.ProcessVariables.error.code == '0')
       if (res && res.ProcessVariables.error.code == '0') {
-        this.isRcuDetails = false
+        // this.isRcuDetails = false
       } else {
-        this.isRcuDetails = true
+        // this.isRcuDetails = true
       }
       // const processVariables = value.ProcessVariables;
       // this.applicantDetails = processVariables.applicantListForLead;
     });
   }
-  onSubmit() {
-    console.log(this.rcuDetailsForm);
+  //to View uploaded Document
+  getBase64String(dmsDocumentId) {
+    return new Promise((resolve, reject) => {
+      this.uploadService
+        .getDocumentBase64String(dmsDocumentId)
+        .subscribe((value) => {
 
-    this.submitted = true;
-    // stop here if form is invalid
-    if (this.rcuDetailsForm.invalid) {
-      this.toasterService.showError(
-        'Fields Missing Or Invalid Pattern Detected',
-        'RCU Details'
-      );
-      return;
-    } else {
-      this.submitted = true;
-      const data = {
-        userId: this.userId,
-        applicantDocuments: this.rcuDetailsForm.controls.applicantDocuments.value,
-        fileRCUStatus: this.rcuDetailsForm.controls.fileRCUStatus.value,
-        applicantId: Number(this.rcuDetailsForm.controls.applicantId.value),
-        applicantType: this.rcuDetailsForm.controls.applicantType.value,
-        loanAmount: this.rcuDetailsForm.controls.loanAmount.value,
-        vehicleMake: this.rcuDetailsForm.controls.vehicleMake.value,
-        vehicleModel: this.rcuDetailsForm.controls.vehicleModel.value,
-        vehicleNo: this.rcuDetailsForm.controls.vehicleNo.value,
-        rcuReportStatus: this.rcuDetailsForm.controls.rcuReportStatus.value,
-        rcuUpload: this.rcuDetailsForm.controls.rcuUpload.value,
-        rcuReportReceivedDate: this.rcuDetailsForm.controls.rcuReportReceivedDate.value,
-        remarks: this.rcuDetailsForm.controls.remarks.value,
+          const imageUrl = value['dwnldDocumentRep'].msgBdy.bsPyld;
+          const documentName = value['dwnldDocumentRep'].msgBdy.docNm || '';
+          const imageType = documentName.split('.')[1].toLowerCase();
 
-      }
-      this.rcuService.saveUpdateRcuDetails(data).subscribe((res: any) => {
-        // tslint:disable-next-line: triple-equals
-        if (res && res.ProcessVariables.error.code == '0') {
-          // tslint:disable-next-line: prefer-const
-          // const pddDetailsContols = this.pddDetailsForm.controls
-          //   .pddDocumentDetails as FormArray;
-          //   pddDetailsContols.controls = [];
-
-          this.toasterService.showSuccess(
-            'Updated Successfully',
-            'RCU Details'
-          );
-          this.getAllRcuDetails();
-
-        }
+          resolve({
+            imageUrl,
+            imageType,
+          });
+          console.log('downloadDocs', value);
+        });
+    });
+  }
+  //for document 
+  async downloadDocs(event) {
+    // let el = event.srcElement;
+    const dmsDocumentID : any = await this.getBase64String(event)
+      const showDraggableContainer = {
+        imageUrl: dmsDocumentID.imageUrl,
+        imageType: dmsDocumentID.imageType,
+      };
+      this.draggableContainerService.setContainerValue({
+        image: showDraggableContainer,
       });
-    }
   }
 }
