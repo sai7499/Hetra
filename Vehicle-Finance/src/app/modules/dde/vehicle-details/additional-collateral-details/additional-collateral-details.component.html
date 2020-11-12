@@ -22,7 +22,6 @@
                     <app-vf-custom-select [values]="LOV?.proofCollected" [id]="'proof_collected'"
                         formControlName="proofCollected">
                     </app-vf-custom-select>
-                    <!-- (change)="onChangeProofCollected($event.target.value)" -->
 
                 </div>
 
@@ -70,6 +69,7 @@
                                 <app-custom-input formControlName="landInAcres"
                                     [type]="label.validationData?.landArea.type" [id]="'land_in_acres'"
                                     [className]="'form-control mandatory'" [placeholder]="'Land in Acres'"
+                                    (ngModelChange)="getLandArea($event, obj)"
                                     [maxLength]="label.validationData?.landArea.maxLength"
                                     [isRequired]="'Land in Acres Required'" [isDirty]="isDirty">
                                 </app-custom-input>
@@ -112,6 +112,7 @@
                                 <app-custom-input formControlName="marketValue"
                                     [type]="label.validationData?.amountValue.type" [id]="'market_value_acre'"
                                     [className]="'form-control mandatory'" [placeholder]="'Market Value / Acre'"
+                                    (ngModelChange)="getMarketValue('landInAcres', obj)"
                                     [maxLength]="label.validationData?.amountValue.maxLength"
                                     [isRequired]="'Market Value / Acre Required'" [isDirty]="isDirty">
                                 </app-custom-input>
@@ -143,6 +144,7 @@
                                 <app-custom-input formControlName="guideLineValue"
                                     [type]="label.validationData?.amountValue.type" [id]="'guide_line'"
                                     [className]="'form-control mandatory'" [placeholder]="'Guide line  value / Acre'"
+                                    (ngModelChange)="getGuideLine('landInAcres', obj)"
                                     [maxLength]="label.validationData?.amountValue.maxLength"
                                     [isRequired]="'Guide line  value / Acre'" [isDirty]="isDirty">
                                 </app-custom-input>
@@ -387,6 +389,7 @@
                                     [type]="label.validationData?.landArea.type" [id]="'total_land_area'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Land Area'"
                                     [maxLength]="label.validationData?.landArea.maxLength"
+                                    (ngModelChange)="getLandArea($event, obj)"
                                     [isRequired]="'Total Land Area Required'" [isDirty]="isDirty">
                                 </app-custom-input>
 
@@ -420,6 +423,7 @@
                                 <app-custom-input formControlName="marketValue"
                                     [type]="label.validationData?.landArea.type" [id]="'market_value_sf'"
                                     [className]="'form-control mandatory'" [placeholder]="'Market Value / SF'"
+                                    (ngModelChange)="getMarketValue('totalLandArea', obj)"
                                     [maxLength]="label.validationData?.landArea.maxLength"
                                     [isRequired]="'Market Value / SF Required'" [isDirty]="isDirty">
                                 </app-custom-input>
@@ -448,7 +452,8 @@
                                     [type]="label.validationData?.landArea.type" [id]="'guide_line_value'"
                                     [className]="'form-control mandatory'" [placeholder]="'Guide line  value / SF'"
                                     [maxLength]="label.validationData?.landArea.maxLength"
-x                                    [isRequired]="'Guide line  value / SF Required'" [isDirty]="isDirty">
+                                    (ngModelChange)="getGuideLine('totalLandArea', obj)"
+                                    [isRequired]="'Guide line  value / SF Required'" [isDirty]="isDirty">
                                 </app-custom-input>
 
                             </div>
