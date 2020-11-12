@@ -126,6 +126,16 @@ export class ApiService {
       processId: '8a5ad9369b3811eabdd3f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
     },
+    validateFleetDetails: {
+      workflowId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
+      processId: 'ae136e081a7511eb951300505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
+    saveValidRecords: {
+      workflowId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
+      processId: 'abba4d121db711eb86ca00505695f93b',
+      projectId: environment.projectIds.salesProjectId,
+    },
     saveUpdateFleetRtr: {
       processId: 'be7ff35699c911eabdcff2fa9bec3d63',
       workflowId: 'be4f9c6099c911eabdcff2fa9bec3d63',
@@ -322,6 +332,11 @@ export class ApiService {
       processId: 'e1405c1ab61511ea8a0af2fa9bec3d63',
       workflowId: 'e1174c3ab61511ea8a0af2fa9bec3d63',
       projectId: environment.projectIds.creditProjectId
+    },
+    deleteMarFinReference: {
+      processId: 'b22a16c8235711ebbb7a00505695f93b',
+      workflowId: '606e8154200811ebbd8a00505695f93b',
+      projectId: environment.projectIds.salesProjectId
     },
     submitPdReport: {
       processId: 'e1479e8ab61511ea8a0af2fa9bec3d63',
@@ -899,6 +914,11 @@ export class ApiService {
     getCount: {
       processId: 'daefda501b3411eba4e100505695f93b',
       workflowId: '83d58122193411eb853500505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    submitTvrDetails: {
+      processId: '4628de009c2f11eabddcf2fa9bec3d63',
+      workflowId: '04ae6c069a8611eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
     }
   };

@@ -72,6 +72,7 @@
     "pdfmake": "^0.1.68",
     "print-js": "^1.1.0",
     "print-this": "^1.15.1",
+    "read-excel-file": "^4.0.8",
     "rxjs": "~6.4.0",
     "sjcl": "^1.0.8",
     "tslib": "^1.9.0",

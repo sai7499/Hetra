@@ -88,11 +88,20 @@
             style="width: 100%;"
           ></textarea>
         </div>
-        <button
+        <!-- <button
           type="button"
           class="btn btn-primary"
           id="cnew_lead"
           (click)="triggerClick('reject')"
+          [disabled]="!modalInput?.isNLTRFound && !modalInput?.isNLFound"
+        >
+          Reject
+        </button> -->
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="cnew_lead"
+          (click)="reject()"
           [disabled]="!modalInput?.isNLTRFound && !modalInput?.isNLFound"
         >
           Reject
@@ -117,5 +126,6 @@
     </div>
   </div>
 </div>
+<app-reject-reason-modal [data]="rejectData" [showModalPopup]="showModalNL" *ngIf="showModalNL" (okay)="onOkay($event)" (cancel)="onNLCancel()"></app-reject-reason-modal>
 
 

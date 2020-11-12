@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { SalesDedupeService } from '@services/sales-dedupe.service';
@@ -12,6 +12,7 @@ import { ApplicantDataStoreService } from '@services/applicant-data-store.servic
   styleUrls: ['./sales-exact-match.component.css'],
 })
 export class SalesExactMatchComponent implements OnInit {
+  
   currentAction: string;
   showNegativeListModal: boolean;
   negativeModalInput: {
@@ -32,6 +33,7 @@ export class SalesExactMatchComponent implements OnInit {
   panValidate: boolean = false;
   applicantId;
   isNavigateToApplicant: boolean = false;
+  getApplicantId: any;
   constructor(
     private salesDedupeService: SalesDedupeService,
     private applicantService: ApplicantService,
@@ -44,6 +46,8 @@ export class SalesExactMatchComponent implements OnInit {
   ngOnInit() {
     this.dedupeDetails = this.salesDedupeService.getDedupeDetails();
     this.dedupeParameter = this.salesDedupeService.getDedupeParameter();
+    console.log(this.dedupeParameter.applicantId)
+    this.getApplicantId = this.dedupeParameter.applicantId;
     this.isExactAvailable = !!this.dedupeDetails.deduIndExctMatch;
     this.isIndividual = this.dedupeDetails.entityType === 'INDIVENTTYP';
     this.isNavigateToApplicant=this.applicantDataStoreService.getNavigateForDedupe()
@@ -55,7 +59,7 @@ export class SalesExactMatchComponent implements OnInit {
   continueAsNewApplicant() {
     this.currentAction = 'new';
     this.modalName = 'newLeadModal';
-    this.applicantDataStoreService.setDetectvalueChange(true)
+    this.applicantDataStoreService.setDetectvalueChange(true);
   }
 
   continueWithSelectedUCIC() {

@@ -84,4 +84,8 @@ export class SharedService {
     setProductCatName(data){
         this.productCatName$.next(data);
     }
+    userName$: BehaviorSubject<any> = new BehaviorSubject(null);
+    getUserName(data) {
+        this.userName$.next(data);
+    }
 }
