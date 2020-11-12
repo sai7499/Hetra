@@ -604,17 +604,19 @@ margin: 0px !important;
 
   .count-list {
     color: #24c627;
-    font-size: 19px;
+    font-size: 30px;
     padding-right: 8px;
+    position: relative;
+    top: 5px;
   }
 
   
 .notification {
-    color: #a19393;
+    color: white;
     position: relative;
-    top: -9px;
-    background: white;
-    right: 13px;
+    top: -11px;
+    background: #f3682d;
+    right: 21px;
     padding: 0.25rem 0.65rem;
 }
 
