@@ -548,10 +548,10 @@
         </app-custom-input>
       </div>
     </div>
-    <h4 class="title" *ngIf="productCatCode === 'NCV'">
+    <h4 class="title" *ngIf="productCatCode === 'NCV' && applicantType == 'APPAPPRELLEAD'">
       {{ labels.marketAndFinancierReference }}
     </h4>
-    <div class="row" *ngIf="productCatCode === 'NCV'">
+    <div class="row" *ngIf="productCatCode === 'NCV' && applicantType == 'APPAPPRELLEAD'">
       <div class="table-responsive application">
         <table class="table">
           <thead>
@@ -673,8 +673,9 @@
                   id="delPOIbutton"
                   [disabled]="disableSaveBtn"
                   value="Delete"
+                  (click)="deleteRow(i, referenceDetailsForm.value.marketFinRefData)"
                 ></button>
-                <!-- (click)="deleteRow(i, referenceDetailsForm.value.marketAndFinReferDetails)" -->
+                
               </td>
             </tr>
           </tbody>
@@ -694,7 +695,7 @@
           {{ labels.back }}
         </button>
 
-        <button class="btn btn-primary" (click)="onFormSubmit()">
+        <button class="btn btn-primary" (click)="onFormSubmit(referenceDetailsForm.value.marketFinRefData)">
           {{ labels.save }}
         </button>
         <button class="btn btn-primary" type="button" (click)="onNext()">

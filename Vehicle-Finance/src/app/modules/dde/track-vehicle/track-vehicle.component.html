@@ -223,7 +223,7 @@
                     formControlName="loanMaturityDate"
                     [format]="'dd/MM/yyyy'" 
                      placeholder="dd/mm/yyyy"
-                     [min]="maturedDate"
+                     
                     [activeView]="'decade'"
               ></kendo-datepicker>
               <span *ngIf="submitted && f.loanMaturityDate.errors"style= "color:red;" class="invalid-feedback">
@@ -402,7 +402,7 @@
                             <td>{{labels?.rcptAmount}} </td>
                             <td>{{labels?.delayDays}} </td>
                             <td>{{labels?.paymentsExcess}} </td>
-                            <td>{{labels?.action}} </td>
+                            <!-- <td>{{labels?.action}} </td> -->
                         </tr>
                     </thead>
                     <tbody formArrayName="installment" >
@@ -526,12 +526,12 @@
                                 >
                               </app-custom-input>
                             </td>
-                            <td ><button type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"  
+                            <!-- <td ><button type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"  
                                     [disabled]="disableActionBtn"                                  
                                     (click)="addNewRow()"></button>
                                 <button type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete" 
                                     [disabled]="disableActionBtn"                                   
-                                    (click)="deleteRow(i,itemrow)"></button></td>
+                                    (click)="deleteRow(i,itemrow)"></button></td> -->
                         </tr>
 
                     </tbody>

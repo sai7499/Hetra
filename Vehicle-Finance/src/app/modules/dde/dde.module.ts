@@ -39,6 +39,7 @@ import { ChequeTrackingComponent} from './cheque-tracking/cheque-tracking.compon
 import { LoanBookingModule } from './loan-status/loan-booking.module';
 import { RcuComponent } from './rcu/rcu.component';
 // import { PdReportComponent } from './pd-report/pd-report.component';
+import { PSLdataComponent } from './psldata/psldata.component';
 
 @NgModule({
   declarations: [
@@ -67,8 +68,12 @@ import { RcuComponent } from './rcu/rcu.component';
     PdListComponent,
     PddDetailsComponent,
     ChequeTrackingComponent,
+<<<<<<< HEAD
     RcuComponent
 
+=======
+    PSLdataComponent
+>>>>>>> d7e9603810e89e876af30574fe736058df264ec4
   ],
   imports: [
     DdeRoutingModule,
