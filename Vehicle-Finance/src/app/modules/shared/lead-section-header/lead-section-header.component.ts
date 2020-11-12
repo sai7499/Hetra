@@ -22,9 +22,15 @@ export class LeadSectionHeaderComponent implements OnInit {
   loanAmount: string;
   stageDescription: string;
 
+  leadCount: number = 0;
+  userId: string = '0';
+
   isNeedBackButton: boolean = false;
   ddeBackLabel: string;
   ddeBackRouter: string;
+
+  isEnableInitiateQuery: boolean = true;
+  locationIndex: number;
 
   isEnableDdeButton: boolean = false;
   isDdeModule: boolean;
@@ -47,6 +53,8 @@ export class LeadSectionHeaderComponent implements OnInit {
     const operationType = this.toggleDdeService.getOperationType()
     this.isEnableDdeButton = !this.toggleDdeService.getDdeClickedValue() && (operationType);
     this.getLabels();
+    this.userId = localStorage.getItem('userId');
+
     if (this.leadId) {
       // console.log(this.aRoute.snapshot)
       const gotLeadData = this.aRoute.snapshot.data.leadData;
@@ -54,6 +62,7 @@ export class LeadSectionHeaderComponent implements OnInit {
         const leadData = gotLeadData.ProcessVariables;
         this.createLeadDataService.setLeadSectionData(leadData);
         this.leadStoreService.setLeadCreation(leadData);
+        this.leadCount = leadData.queryCount;
       }
     }
     this.getUserDetails();
@@ -65,7 +74,26 @@ export class LeadSectionHeaderComponent implements OnInit {
     }
     this.sharedService.productCatName$.subscribe(val =>
       this.productId = val)
-  }
+  
+      const currentUrl = this.location.path();
+      this.locationIndex = this.getLocationIndex(currentUrl);
+      this.location.onUrlChange((url: string) => {
+        this.locationIndex = this.getLocationIndex(url);
+      });
+
+      this.getInitiateQueryCount(this.leadId);
+  
+    }
+  
+    getLocationIndex(url: string) {
+      if (url.includes('query-model')) {
+        this.isEnableInitiateQuery = false
+        return 0;
+      } else {
+        this.isEnableInitiateQuery = true;
+        return 1;
+      }
+    }
 
     getLabels() {
       this.labelsData.getLabelsData().subscribe(
@@ -155,6 +183,18 @@ export class LeadSectionHeaderComponent implements OnInit {
       this.router.navigateByUrl(ddeButton.currentUrl);
       localStorage.removeItem('isDdeClicked');
       this.isNeedBackButton = false
+    }
+
+    getInitiateQueryCount(lead) {
+      console.log(lead, 'lead')
+    }
+
+    initinequery() {
+      this.isEnableInitiateQuery = false;
+      const currentUrl = this.location.path();
+      localStorage.setItem('currentUrl', currentUrl);
+      this.router.navigate(['//pages/query-model/', { leadId: this.leadId }]);
+      // this.router.navigateByUrl(`/pages/query-model/${this.leadId}`)
     }
 
   }

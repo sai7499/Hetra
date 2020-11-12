@@ -12,6 +12,18 @@
   .form-group.mb-0 {
     margin-bottom: 3px;
   }
+
+  .cus-bell {
+    font-size: 15px;
+    color: #d7d6e1;
+  }
+
+  .notification {
+    position: relative;
+    top: -11px;
+    right: 7px;
+    padding: 0.05rem .4rem;
+}
   
   label.col-form-label {
     width:50%;
