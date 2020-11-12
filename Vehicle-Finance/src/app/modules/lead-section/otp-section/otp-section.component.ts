@@ -164,13 +164,14 @@ export class OtpSectionComponent implements OnInit {
         this.toasterService.showSuccess('OTP Verified Successfully !', '');
         // alert("otp verified successfully")
 
-        if (res.ProcessVariables.leadStage == '20') {
+        if (res.ProcessVariables.leadStage == '10') {
+         
           this.router.navigate([
-            'pages/sales/' + this.leadId + '/applicant-list',
+            'pages/lead-section/' + this.leadId + '/applicant-details',
           ]);
         } else {
           this.router.navigate([
-            'pages/lead-section/' + this.leadId + '/applicant-details',
+            'pages/sales/' + this.leadId + '/applicant-list',
           ]);
         }
       } else {

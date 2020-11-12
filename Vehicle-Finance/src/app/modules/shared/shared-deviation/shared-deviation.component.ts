@@ -439,7 +439,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         waiverNormsFormArray.push(
           this._fb.group({
             approverRole: data.approverRole,
-            approverRoleName: typeofRole.name ? typeofRole.name : '',
+            approverRoleName: typeofRole ? typeofRole.name ? typeofRole.name : '' : '',
             devCode: data.devCode,
             devDesc: data.devDesc,
             type: type,
@@ -458,7 +458,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           manualDiviationFormArray.push(
             this._fb.group({
               approverRole: data.approverRole,
-              approverRoleName: typeofRole.name ? typeofRole.name : '',
+              approverRoleName: typeofRole ? typeofRole.name ? typeofRole.name : '' : '',
               devCode: data.devCode,
               devDesc: data.devDesc,
               type: type,
@@ -475,7 +475,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           autoDeviationFormArray.push(
             this._fb.group({
               approverRole: data.approverRole,
-              approverRoleName: typeofRole.name ? typeofRole.name : '',
+              approverRoleName: typeofRole ? typeofRole.name ? typeofRole.name : '' : '',
               devCode: data.devCode,
               devDesc: data.devDesc,
               devRuleId: data.devRuleId,
