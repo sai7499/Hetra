@@ -134,6 +134,154 @@
         </div>
       </div>
     </div>
+    <h4
+      class="title"
+      *ngIf="productCatCode === 'NCV' && applicantType == 'APPAPPRELLEAD'"
+    >
+      {{ labels.marketAndFinancierReference }}
+    </h4>
+    <div
+      class="row"
+      *ngIf="productCatCode === 'NCV' && applicantType == 'APPAPPRELLEAD'"
+    >
+      <div class="table-responsive application">
+        <table class="table">
+          <thead>
+            <tr class="table-head-bg text-center">
+              <td role="columnheader">{{ labels.sNo }}</td>
+              <td role="columnheader">
+                {{ labels?.typeOfReference }}
+              </td>
+              <td role="columnheader">
+                {{ labels?.companyName }}
+              </td>
+              <td role="columnheader">
+                {{ labels?.officerName }}
+              </td>
+              <td role="columnheader">
+                {{ labels?.designation }}
+              </td>
+              <td role="columnheader">
+                {{ labels?.telNo }}
+              </td>
+              <td role="columnheader">
+                {{ labels?.comments }}
+              </td>
+              <td role="columnheader">
+                {{ labels.action }}
+              </td>
+            </tr>
+          </thead>
+          <tbody formArrayName="marketFinRefData">
+            <tr
+              *ngFor="
+                let item of referenceCheckForm.get('marketFinRefData')[
+                  'controls'
+                ];
+                let i = index
+              "
+              [formGroupName]="i"
+            >
+              <td>{{ i + 1 }}</td>
+              <td style="min-width: 59px">
+                <app-vf-custom-select
+                  [values]="(LOV?.LOVS)['typeOfReference']"
+                  formControlName="typeReference"
+                  [isRequired]="'Please select alteast one '"
+                >
+                </app-vf-custom-select>
+              </td>
+              <td>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="companyName"
+                  [maxLength]="labels?.validationData?.companyName?.maxLength"
+                  [type]="labels?.validationData?.companyName?.type"
+                  [isRequired]="'company name is required'"
+                  [isDirty]="isDirty"
+                  [placeholder]="'company name'"
+                ></app-custom-input>
+              </td>
+              <td>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="officerName"
+                  [maxLength]="labels?.validationData?.officerName?.maxLength"
+                  [type]="labels?.validationData?.officerName?.type"
+                  [isRequired]="'officer name is required'"
+                  [isDirty]="isDirty"
+                  [placeholder]="'officer name'"
+                ></app-custom-input>
+              </td>
+              <td>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="designation"
+                  [maxLength]="labels?.validationData?.companyName?.maxLength"
+                  [type]="labels?.validationData?.companyName?.type"
+                  [isRequired]="'designation is required'"
+                  [isDirty]="isDirty"
+                  [placeholder]="'designation'"
+                ></app-custom-input>
+              </td>
+              <td>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="teleNo"
+                  [patternCheck]="
+                    labels?.validationData?.fiCumPDLandlineNumber?.pattern
+                  "
+                  [maxLength]="
+                    labels?.validationData?.fiCumPDLandlineNumber?.maxLength
+                  "
+                  [minLength]="
+                    labels?.validationData?.fiCumPDLandlineNumber?.minLength
+                  "
+                  [type]="labels?.validationData?.fiCumPDLandlineNumber?.type"
+                  [isRequired]="'telephone number is required'"
+                  [isDirty]="isDirty"
+                  [placeholder]="'telephone number'"
+                ></app-custom-input>
+              </td>
+              <td>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="comments"
+                  [maxLength]="labels?.validationData?.comments?.maxLength"
+                  [type]="labels?.validationData?.comments?.type"
+                  [isRequired]="'comments are required'"
+                  [isDirty]="isDirty"
+                  [placeholder]="'comments'"
+                ></app-custom-input>
+              </td>
+              <td>
+                <button
+                  class="fa fa-plus"
+                  aria-hidden="true"
+                  id="addmorePOIbutton"
+                  value="Add"
+                  [disabled]="disableSaveBtn"
+                  (click)="addNewRow()"
+                ></button>
+                &nbsp;
+                <button
+                  type="button"
+                  class="fa fa-minus"
+                  aria-hidden="true"
+                  id="delPOIbutton"
+                  [disabled]="disableSaveBtn"
+                  value="Delete"
+                  (click)="
+                    deleteRow(i, referenceCheckForm.value.marketFinRefData)
+                  "
+                ></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    &nbsp; &nbsp;
     <h4 class="title">{{ labels.genericDetails }}</h4>
     <div class="row">
       <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -394,141 +542,6 @@
       </div>
     </div>
 
-    <h4 class="title" *ngIf="productCatCode === 'NCV'">
-      {{ labels.marketAndFinancierReference }}
-    </h4>
-    <div class="row" *ngIf="productCatCode === 'NCV'">
-      <div class="table-responsive application">
-        <table class="table">
-          <thead>
-            <tr class="table-head-bg text-center">
-              <td role="columnheader">{{ labels.sNo }}</td>
-              <td role="columnheader">
-                {{ labels?.typeOfReference }}
-              </td>
-              <td role="columnheader">
-                {{ labels?.companyName }}
-              </td>
-              <td role="columnheader">
-                {{ labels?.officerName }}
-              </td>
-              <td role="columnheader">
-                {{ labels?.designation }}
-              </td>
-              <td role="columnheader">
-                {{ labels?.telNo }}
-              </td>
-              <td role="columnheader">
-                {{ labels?.comments }}
-              </td>
-              <td role="columnheader">
-                {{ labels.action }}
-              </td>
-            </tr>
-          </thead>
-          <tbody formArrayName="marketFinRefData">
-            <tr
-              *ngFor="
-                let item of referenceCheckForm.get('marketFinRefData')[
-                  'controls'
-                ];
-                let i = index
-              "
-              [formGroupName]="i"
-            >
-              <td>{{ i + 1 }}</td>
-              <td style="min-width: 59px">
-                <app-vf-custom-select
-                  [values]="(LOV?.LOVS)['typeOfReference']"
-                  formControlName="typeReference"
-                  [isRequired]="'Please select alteast one '"
-                >
-                </app-vf-custom-select>
-              </td>
-              <td>
-                <app-custom-input
-                  [className]="'form-control mandatory'"
-                  formControlName="companyName"
-                  [maxLength]="labels?.validationData?.companyName?.maxLength"
-                  [type]="labels?.validationData?.companyName?.type"
-                  [isRequired]="'company name is required'"
-                  [isDirty]="isDirty"
-                  [placeholder]='"company name"'
-                ></app-custom-input>
-              </td>
-              <td>
-                <app-custom-input
-                  [className]="'form-control mandatory'"
-                  formControlName="officerName"
-                  [maxLength]="labels?.validationData?.officerName?.maxLength"
-                  [type]="labels?.validationData?.officerName?.type"
-                  [isRequired]="'officer name is required'"
-                  [isDirty]="isDirty"
-                  [placeholder]='"officer name"'
-                ></app-custom-input>
-              </td>
-              <td>
-                <app-custom-input
-                  [className]="'form-control mandatory'"
-                  formControlName="designation"
-                  [maxLength]="labels?.validationData?.companyName?.maxLength"
-                  [type]="labels?.validationData?.companyName?.type"
-                  [isRequired]="'designation is required'"
-                  [isDirty]="isDirty"
-                  [placeholder]='"designation"'
-                ></app-custom-input>
-              </td>
-              <td>
-                <app-custom-input
-                  [className]="'form-control mandatory'"
-                  formControlName="teleNo"
-                  [patternCheck]="labels?.validationData?.fiCumPDLandlineNumber?.pattern"
-                  [maxLength]="
-                    labels?.validationData?.fiCumPDLandlineNumber?.maxLength"
-                  [minLength]="labels?.validationData?.fiCumPDLandlineNumber?.minLength"
-                  [type]="labels?.validationData?.fiCumPDLandlineNumber?.type"
-                  [isRequired]="'telephone number is required'"
-                  [isDirty]="isDirty"
-                  [placeholder]='"landline number"'
-                ></app-custom-input>
-              </td>
-              <td>
-                <app-custom-input
-                  [className]="'form-control mandatory'"
-                  formControlName="comments"
-                  [maxLength]="labels?.validationData?.comments?.maxLength"
-                  [type]="labels?.validationData?.comments?.type"
-                  [isRequired]="'comments are required'"
-                  [isDirty]="isDirty"
-                  [placeholder]='"comments"'
-                ></app-custom-input>
-              </td>
-              <td>
-                <button
-                  class="fa fa-plus"
-                  aria-hidden="true"
-                  id="addmorePOIbutton"
-                  value="Add"
-                  [disabled]="disableSaveBtn"
-                  (click)="addNewRow()"
-                ></button>
-                &nbsp;
-                <button
-                  type="button"
-                  class="fa fa-minus"
-                  aria-hidden="true"
-                  id="delPOIbutton"
-                  [disabled]="disableSaveBtn"
-                  value="Delete"
-                ></button>
-                <!-- (click)="deleteRow(i, referenceCheckForm.value.marketFinRefData)"   -->
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
     <!-- <p>{{ labels.routeMap }}</p> -->
     <!-- <div class="row"> -->
     <!-- <label for="remarks">{{ labels.routeMap }}</label> -->
@@ -574,7 +587,7 @@
           </button>
           <p
             class="btn btn-primary"
-            (click)="onFormSubmit(i)"
+            (click)="onFormSubmit(referenceCheckForm.value.marketFinRefData)"
             *ngIf="!disableSaveBtn"
           >
             {{ labels.save }}
