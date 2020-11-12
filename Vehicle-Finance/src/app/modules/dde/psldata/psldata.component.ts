@@ -217,10 +217,11 @@ export class PSLdataComponent implements OnInit {
     });
   }
   onActivityChange(event) {
-    const changeEvent = event.target.value;
+    const changeEvent = event;
     console.log('activity event', changeEvent);
     this.activityChange = changeEvent;
     this.getDetailActivity(changeEvent);
+    this.applyMandatoryToActivity(changeEvent);
   }
   // GET LOV of ACTIVITY DROPDOWN
   getActivityLOVS() {
@@ -242,7 +243,7 @@ export class PSLdataComponent implements OnInit {
         }
       });
       this.activityLOVS = activityData;
-      console.log('ACTIVITYLOVS******', this.activityLOVS);
+      // console.log('ACTIVITYLOVS******', this.activityLOVS);
     });
   }
   getDetailActivity(activity) {
@@ -277,7 +278,7 @@ export class PSLdataComponent implements OnInit {
       loanAmount: this.loanAmount
     });
     this.pslDataForm.controls.nonAgriculture.controls.loanAmount.disable();
-
+    // this.applyMandatoryToActivity(activity);
   } else if (activity === '7PSLACTVTY') {
     this.onChangeDetailActivity(null);
     const resetControl =  this.pslDataForm.get('nonAgriculture') as FormGroup;
@@ -295,6 +296,7 @@ export class PSLdataComponent implements OnInit {
         control[key].disable();
       }
     }
+    // this.applyMandatoryToActivity(activity);
   }
   }
   onChangeDetailActivity(event2) {
@@ -357,6 +359,7 @@ export class PSLdataComponent implements OnInit {
       //     }
       //   });
       // }
+      
     }
   }
    // CHANGE OPTION IN LAND HOLDING
@@ -909,6 +912,7 @@ export class PSLdataComponent implements OnInit {
     // );
     // FOR AGRICULTURE FORM
     if (this.activityChange === '1PSLACTVTY') {
+      
       this.isDirty = true;
       this.formValues = this.pslDataForm.get('agriculture').value;
       console.log('FormValues::', this.formValues);
@@ -932,6 +936,7 @@ export class PSLdataComponent implements OnInit {
         },
       };
       if (this.pslDataForm.controls.agriculture.valid === true) {
+       
         this.pslDataService.saveOrUpadtePslData(data).subscribe((res: any) => {
           const response = res;
           // this.pslId = response.ProcessVariables.pslId;
@@ -946,6 +951,7 @@ export class PSLdataComponent implements OnInit {
         this.toasterService.showError('Please fill all mandatory fields.', 'PSL DATA');
       }
     } else if (this.activityChange !== '1PSLACTVTY' ) {
+      this.applyMandatoryToActivity(this.activityChange);
       this.formValues = this.pslDataForm.get('nonAgriculture').value;
       console.log('FormValues::', this.formValues);
       console.log('psl form', this.pslDataForm);
@@ -1069,6 +1075,7 @@ onChangeWeakerSection(event: any) {
       }
       const activity = this.pslData.activity;
       this.activityChange = activity;
+      this.onChangeDetailActivity(activity);
       const dltActivity = this.pslData.detailActivity;
       // this.selectFormGroup();
       this.detailActivityChange = dltActivity;
@@ -1171,7 +1178,7 @@ onChangeWeakerSection(event: any) {
           this.pslDataForm.disable();
           this.disableSaveBtn = true;
         }
-      })
+      });
     });
   }
   onChangelandUnitType(event?: any) {
@@ -1192,5 +1199,29 @@ onChangeWeakerSection(event: any) {
       }
     });
 
+  }
+
+  applyMandatoryToActivity(event: any) {
+   if (event === '1PSLACTVTY') {
+     alert(event);
+
+    } else if ( event === '5PSLACTVTY' || event === '6PSLACTVTY' ) {
+     alert(event);
+     const control = this.pslDataForm.get('nonAgriculture') as FormGroup;
+    //  control.clearValidators();
+    //  control.updateValueAndValidity();
+     control.get('uRecessionNo').setValidators(Validators.required);
+     control.get('uRecessionNo').updateValueAndValidity();
+     control.get('uRegisteredMobileNo').setValidators(Validators.required);
+     control.get('uRegisteredMobileNo').updateValueAndValidity();
+     control.get('uRegisteredEmailId').setValidators(Validators.required);
+     control.get('uRegisteredEmailId').updateValueAndValidity();
+    } else if ( event === '7PSLACTVTY') {
+      alert(event);
+      const control = this.pslDataForm.get('nonAgriculture').controls as FormGroup;
+    //  control.clearValidators();
+    //  control.updateValueAndValidity();
+    
+    }
   }
 }
