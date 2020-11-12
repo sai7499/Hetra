@@ -624,7 +624,7 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                            <label for="one_time_tax">{{label.oneTimeTax}} </label>
+                            <label for="one_time_tax">{{label.oneTimeTax}} <sub class="star_blue_col">*</sub> </label>
 
                             <app-custom-input formControlName="oneTimeTax"
                                 [type]="label.validationData?.amountValue.type" [id]="'one_time_tax'"
@@ -638,7 +638,7 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
-                            <label for="others">{{label.others}} </label>
+                            <label for="others">{{label.others}} <sub class="star_blue_col">*</sub> </label>
 
                             <app-custom-input formControlName="others" [id]="'others'"
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control'"
@@ -653,8 +653,20 @@
 
                     <div class="row">
 
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
+                            <label for="amc_amount">{{label.amcAmount}} <sub class="star_blue_col">*</sub> </label>
+                            <app-custom-input formControlName="amcAmount"
+                                [type]="label.validationData?.amountValue.type"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
+                                [maxLength]="label.validationData?.amountValue.maxLength" [id]="'amc_amount'"
+                                [className]="'form-control'" [placeholder]="'AMC Amount'"
+                                [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'AMC Amount Required'"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
-                            <label for="discount">{{label.discount}} </label>
+                            <label for="discount">{{label.discount}} <sub class="star_blue_col">*</sub> </label>
 
                             <app-custom-input formControlName="discount" [type]="label.validationData?.amountValue.type"
                                 [id]="'discount'" [className]="'form-control'"
@@ -678,16 +690,16 @@
                             </app-custom-input>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
                             <label for="fast_tag">{{label.fastTag}} </label>
                             <app-vf-custom-select [id]="'fast_tag'" [values]="vehicleLov?.YesORNoValue"
                                 formControlName="fastTag">
                             </app-vf-custom-select>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="pac">{{label.pac}} </label>
@@ -703,16 +715,16 @@
                             </app-vf-custom-select>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="emi_protect">{{label.emiProtect}} </label>
                             <app-vf-custom-select [id]="'emi_protect'" [values]="vehicleLov?.YesORNoValue"
                                 formControlName="emiProtect">
                             </app-vf-custom-select>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="loan_amount">
 
@@ -983,7 +995,7 @@
                     <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="insurance">{{label.insurance}} </label>
+                            <label for="insurance">{{label.insurance}} <sub class="star_blue_col">*</sub> </label>
                             <app-custom-input formControlName="insurance" [id]="'insurance'"
                                 (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control'"
@@ -995,7 +1007,7 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                            <label for="one_time_tax">{{label.oneTimeTax}} </label>
+                            <label for="one_time_tax">{{label.oneTimeTax}} <sub class="star_blue_col">*</sub> </label>
                             <app-custom-input formControlName="oneTimeTax" [id]="'one_time_tax'"
                                 (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control'"
@@ -1007,7 +1019,7 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
-                            <label for="others">{{label.others}} </label>
+                            <label for="others">{{label.others}} <sub class="star_blue_col">*</sub> </label>
                             <app-custom-input formControlName="others" [type]="label.validationData?.amountValue.type"
                                 (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [maxLength]="label.validationData?.amountValue.maxLength" [id]="'others'"
@@ -1021,8 +1033,20 @@
 
                     <div class="row">
 
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
+                            <label for="amc_amount">{{label.amcAmount}} <sub class="star_blue_col">*</sub> </label>
+                            <app-custom-input formControlName="amcAmount"
+                                [type]="label.validationData?.amountValue.type"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
+                                [maxLength]="label.validationData?.amountValue.maxLength" [id]="'amc_amount'"
+                                [className]="'form-control'" [placeholder]="'AMC Amount'"
+                                [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'AMC Amount Required'"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
-                            <label for="discount">{{label.discount}} </label>
+                            <label for="discount">{{label.discount}} <sub class="star_blue_col">*</sub> </label>
                             <app-custom-input formControlName="discount" [type]="label.validationData?.amountValue.type"
                                 [id]="'discount'" [className]="'form-control'"
                                 (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
@@ -1045,15 +1069,16 @@
                             </app-custom-input>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
                             <label for="fast_tag">{{label.fastTag}} </label>
                             <app-vf-custom-select [id]="'fast_tag'" [values]="vehicleLov?.YesORNoValue"
                                 formControlName="fastTag">
                             </app-vf-custom-select>
                         </div>
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="pac">{{label.pac}} </label>
@@ -1069,16 +1094,16 @@
                             </app-vf-custom-select>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="emi_protect">{{label.emiProtect}} </label>
                             <app-vf-custom-select [id]="'emi_protect'" [values]="vehicleLov?.YesORNoValue"
                                 formControlName="emiProtect">
                             </app-vf-custom-select>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="loan_amount">
 

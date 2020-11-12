@@ -38,6 +38,7 @@ import { PddDetailsComponent } from './pdd-details/pdd-details.component';
 import { ChequeTrackingComponent} from './cheque-tracking/cheque-tracking.component';
 import { LoanBookingModule } from './loan-status/loan-booking.module';
 // import { PdReportComponent } from './pd-report/pd-report.component';
+import { PSLdataComponent } from './psldata/psldata.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,7 @@ import { LoanBookingModule } from './loan-status/loan-booking.module';
     PdListComponent,
     PddDetailsComponent,
     ChequeTrackingComponent,
-
+    PSLdataComponent
   ],
   imports: [
     DdeRoutingModule,

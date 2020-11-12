@@ -1,5 +1,5 @@
-import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { DatePipe, Location } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DocRequest } from '@model/upload-model';
@@ -15,6 +15,8 @@ import { ToasterService } from '@services/toaster.service';
 import { Base64StorageService } from '@services/base64-storage.service';
 import { CreateLeadService } from '@modules/lead-creation/service/creatLead.service';
 import { DraggableContainerService } from '@services/draggable.service';
+import { environment } from 'src/environments/environment';
+import { PollingService } from '@services/polling.service';
 
 @Component({
   selector: 'app-query-model',
@@ -22,7 +24,7 @@ import { DraggableContainerService } from '@services/draggable.service';
   styleUrls: ['./query-model.component.css'],
   providers: [DatePipe]
 })
-export class QueryModelComponent implements OnInit {
+export class QueryModelComponent implements OnInit, OnDestroy {
   showModal: boolean;
   selectedDocDetails;
   queryModalForm: FormGroup;
@@ -84,6 +86,8 @@ export class QueryModelComponent implements OnInit {
 
   routerId: any;
   isMobileView: boolean = false;
+  intervalId: any;
+  isIntervalStart: boolean = false;
 
   selectedList: any;
   totalPages: any = 1;
@@ -92,7 +96,7 @@ export class QueryModelComponent implements OnInit {
   constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService, private commonLovService: CommomLovService, private router: Router,
     private labelsData: LabelsService, private uploadService: UploadService, private queryModelService: QueryModelService, private toasterService: ToasterService,
     private utilityService: UtilityService, private draggableContainerService: DraggableContainerService, private base64StorageService: Base64StorageService,
-    private createLeadService: CreateLeadService, private activatedRoute: ActivatedRoute) { }
+    private createLeadService: CreateLeadService, private activatedRoute: ActivatedRoute, private location: Location, private pollingService: PollingService) { }
 
   ngOnInit() {
 
@@ -110,7 +114,7 @@ export class QueryModelComponent implements OnInit {
       searchName: [''],
       queryType: ['', Validators.required],
       query: ['', Validators.required],
-      queryFrom: [this.userId],
+      queryFrom: [this.userId, Validators.required],
       queryTo: ['', Validators.required],
       docId: [''],
       docName: [''],
@@ -118,10 +122,21 @@ export class QueryModelComponent implements OnInit {
     })
 
     this.getLov();
-    if (window.screen.width <= 768) { // 768px portrait
+    if (environment.isMobile === true) { // 768px portrait
       this.isMobileView = true;
       document.getElementById("mySidenav").style.visibility = "visible";
     }
+
+    const currentUrl = this.location.path();
+
+    console.log(currentUrl.includes('query-model'), 'currentUrl')
+
+    setTimeout(() => {
+      if (currentUrl.includes('query-model') && this.isIntervalStart) {
+        this.intervalId = this.getPollLeads(this.getLeadSendObj)
+      }
+    }, 5000)
+
   }
 
   getLov() {
@@ -189,44 +204,77 @@ export class QueryModelComponent implements OnInit {
     this.queryModelService.getLeads(data).subscribe((res: any) => {
 
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        this.getLeadsObj = res.ProcessVariables;
-        this.chatList = res.ProcessVariables.chatLeads ? res.ProcessVariables.chatLeads : [];
-        this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
-
-        if (res.ProcessVariables.chatLeads && res.ProcessVariables.chatLeads.length > 0) {
-
-          if (this.routerId && this.queryLeads.length > 0) {
-            const test = this.queryLeads.find((val) => {
-              return (val.key === this.routerId)
-            })
-
-            this.searchLeadId = test ? test.value : '';
-            this.queryModalForm.patchValue({
-              leadId: Number(this.routerId)
-            })
-
-            let index;
-            let findChat: any = this.chatList;
-
-            const chatListChange = findChat.find((chat, i) => {
-              if (chat.key === this.routerId) {
-                index = i;
-                return chat;
-              }
-            })
-            let spliceChat = findChat.splice(index, 1)
-            this.chatList.unshift(spliceChat[0])
-          }
-        }
-        this.getQueries(this.chatList[0])
-        this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
-
+        this.getCommonLeadData(res)
+        this.isIntervalStart = true;
       } else {
         this.chatList = [];
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Leads')
       }
     })
 
+  }
+
+  getPollLeads(sendObj) {
+    let data = {
+      "userId": this.userId,
+      "currentPage": sendObj.currentPage,
+      "perPage": sendObj.perPage,
+      "searchKey": sendObj.searchKey,
+      "chatPerPage": sendObj.chatPerPage,
+      "chatCurrentPage": sendObj.chatCurrentPage,
+      "chatSearchKey": sendObj.chatSearchKey
+    }
+    return setInterval(() => {
+      this.pollingService.getPollingLeadsCount(data).subscribe((res: any) => {
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          // this.getCommonLeadData(res)
+          this.getLeadsObj = res.ProcessVariables;
+          this.chatList = res.ProcessVariables.chatLeads ? res.ProcessVariables.chatLeads : [];
+          this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
+        } else {
+          this.chatList = [];
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Leads')
+        }
+      })
+    }, 5000)
+  }
+
+  getCommonLeadData(res) {
+    this.getLeadsObj = res.ProcessVariables;
+    this.chatList = res.ProcessVariables.chatLeads ? res.ProcessVariables.chatLeads : [];
+    this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
+
+    if (res.ProcessVariables.chatLeads && res.ProcessVariables.chatLeads.length > 0) {
+
+      if (this.routerId && this.queryLeads.length > 0) {
+        const test = this.queryLeads.find((val) => {
+          return (val.key === this.routerId)
+        })
+
+        this.searchLeadId = test ? test.value : '';
+        this.queryModalForm.patchValue({
+          leadId: Number(this.routerId)
+        })
+
+        let index;
+        let findChat: any = this.chatList;
+
+        findChat.find((chat, i) => {
+          if (chat.key === this.routerId) {
+            index = i;
+            return chat;
+          }
+        })
+        let spliceChat = findChat.splice(index, 1)
+        this.chatList.unshift(spliceChat[0])
+      }
+    }
+    this.getQueries(this.chatList[0])
+    this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.intervalId)
   }
 
   getUsers() {
@@ -256,7 +304,7 @@ export class QueryModelComponent implements OnInit {
     this.getChatSendObj.leadId = Number(lead.key);
     this.getChatSendObj.fromUser = this.userId;
     let data = this.getChatSendObj;
-    console.log('data', data)
+
     this.queryModalForm.patchValue({
       leadId: Number(lead.key),
     })
@@ -395,7 +443,7 @@ export class QueryModelComponent implements OnInit {
   }
 
   mouseEnter() {
-    this.dropDown = true;
+    // this.dropDown = true;
     this.searchLead = this.queryModelLov.queryTo;
   }
 
@@ -409,7 +457,7 @@ export class QueryModelComponent implements OnInit {
 
   mouseleadIdEnter() {
     this.getSearchableLead = this.queryLeads;
-    this.isLeadShow = true;
+    // this.isLeadShow = true;
   }
 
   onFormSubmit(form) {
@@ -428,8 +476,11 @@ export class QueryModelComponent implements OnInit {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           this.getLeads(this.getLeadSendObj);
           form.reset();
+          this.queryModalForm.patchValue({
+            queryFrom: localStorage.getItem('userId')
+          })
           this.searchText = '';
-          this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Query Model Save/Update')
+          // this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Query Model Save/Update')
         } else {
           this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Query Model Save/Update')
         }
@@ -437,8 +488,7 @@ export class QueryModelComponent implements OnInit {
 
     } else {
       this.isDirty = true;
-      console.log(form, 'formvalue')
-      this.toasterService.showError('Please enter all mandatory field', 'Query Model Save/Update')
+      // this.toasterService.showError('Please enter all mandatory field', 'Query Model Save/Update')
       this.utilityService.validateAllFormFields(form)
     }
 
@@ -504,7 +554,11 @@ export class QueryModelComponent implements OnInit {
       return;
     }
 
-    let collateralId = this.leadSectionData['vehicleCollateral'][0]
+    let collateralId = this.leadSectionData['vehicleCollateral'] ? this.leadSectionData['vehicleCollateral'][0] : this.leadSectionData['applicantDetails'][0];
+
+    if (!collateralId) {
+      return;
+    }
 
     const bas64String = this.base64StorageService.getString(
       collateralId.collateralId + documentId
