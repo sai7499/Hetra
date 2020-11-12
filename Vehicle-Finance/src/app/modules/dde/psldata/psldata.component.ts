@@ -59,6 +59,7 @@ export class PSLdataComponent implements OnInit {
   loanAmount: any;
   landUnitType = [];
   landAreaInhectare: number;
+  submitted = false;
 
 
   constructor( private formBuilder: FormBuilder,
@@ -349,6 +350,9 @@ export class PSLdataComponent implements OnInit {
             this.pslSubCategoryValues = this.pslSubCategoryData;
             this.formValues.pslSubCategory = this.pslSubCategoryData[0].key;
           }
+        });
+      this.pslDataForm.get('nonAgriculture').patchValue ({
+        pslSubCategory: this.pslSubCategoryData[0].key
         });
       // console.log('this.LOV.LOVS.pslCertificate', this.LOV.LOVS.pslCertificate);
       // this.LOV.LOVS.pslCertificate.filter((element) => {
@@ -845,6 +849,8 @@ export class PSLdataComponent implements OnInit {
           this.formValues.pslCategory = this.pslCategoryData[0].key;
         }
       });
+      this.pslSubCategoryData = [];
+      this.pslSubCategoryValues = [];
       this.LOV.LOVS.pslSubCategory.filter((element) => {
         if (element.key === '6PSLSUBCAT' || element.key === '4PSLSUBCAT' || element.key === '5PSLSUBCAT') {
           // tslint:disable-next-line: no-shadowed-variable
@@ -952,6 +958,7 @@ export class PSLdataComponent implements OnInit {
       }
     } else if (this.activityChange !== '1PSLACTVTY' ) {
       this.applyMandatoryToActivity(this.activityChange);
+      this.submitted = true;
       this.formValues = this.pslDataForm.get('nonAgriculture').value;
       console.log('FormValues::', this.formValues);
       console.log('psl form', this.pslDataForm);
@@ -1203,10 +1210,8 @@ onChangeWeakerSection(event: any) {
 
   applyMandatoryToActivity(event: any) {
    if (event === '1PSLACTVTY') {
-     alert(event);
 
     } else if ( event === '5PSLACTVTY' || event === '6PSLACTVTY' ) {
-     alert(event);
      const control = this.pslDataForm.get('nonAgriculture') as FormGroup;
     //  control.clearValidators();
     //  control.updateValueAndValidity();
@@ -1217,11 +1222,9 @@ onChangeWeakerSection(event: any) {
      control.get('uRegisteredEmailId').setValidators(Validators.required);
      control.get('uRegisteredEmailId').updateValueAndValidity();
     } else if ( event === '7PSLACTVTY') {
-      alert(event);
-      const control = this.pslDataForm.get('nonAgriculture').controls as FormGroup;
-    //  control.clearValidators();
-    //  control.updateValueAndValidity();
-    
     }
+  }
+  get f() {
+    return this.pslDataForm.controls.nonAgriculture as FormGroup;
   }
 }

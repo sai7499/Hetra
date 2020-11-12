@@ -561,168 +561,191 @@
 <!-----------------------------------End Of Africulture Option------------------------------->
 
 <div class="" id="micro_small__medium_enterprises" formGroupName="nonAgriculture" *ngIf="activityChange !== '1PSLACTVTY' ">
-  
-  <div class="form-group col-sm-6 col-md-4 col-lg-3">
-      <label for="detail_activity">{{labels.detailActivity}}
-          <sub class="star_red_col">*</sub>
-      </label>
-      <app-vf-custom-select 
-          [values]="detailActivityChangeValues" 
-          formControlName="detailActivity" 
-          (change)="onChangeDetailActivity($event.target.value)"
-          name="detailActivity"
-          [isRequired]="'Please Select One Option'"
-          [isDirty] = "isDirty"
-          > 
-     </app-vf-custom-select>
+    <!-- [isRequired]="'Please Select One Option'" -->
+    <div class="col-lg-12 col-sm-12 col-md-12">
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="detail_activity">{{labels.detailActivity}}
+                <sub class="star_red_col">*</sub>
+            </label>
+            <app-vf-custom-select 
+                [values]="detailActivityChangeValues" 
+                formControlName="detailActivity" 
+                (change)="onChangeDetailActivity($event.target.value)"
+                name="detailActivity"
+                
+                [isDirty] = "isDirty"
+                > 
+           </app-vf-custom-select>
+           <div class="invalid-feedback" *ngIf = "submitted && f.controls.detailActivity.invalid">
+               <p>Please select detail activity</p>
+           </div>
+        </div>
+        <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
+            <label for="purpose_of_loan_msme">{{labels.purposeOfLoan}}
+                <sub class="star_red_col">*</sub>
+            </label>
+            <app-vf-custom-select 
+                [values]="endUseValues" 
+                formControlName="purposeOfLoan" 
+                (change) = "onChangePurposeOfLoan($event)"
+                name="purposeOfLoan"
+                
+                [isDirty] = "isDirty"
+                > 
+           </app-vf-custom-select>
+           <div class="invalid-feedback" *ngIf = "submitted && f.controls.purposeOfLoan.invalid">
+               <p>Please select purposeOfLoan</p>
+           </div>
+        </div>
+        <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="isGoosManufactured">
+            <label for="goods_manufactured">{{labels.goodsManufactured}}
+                <sub class="star_red_col">*</sub>
+            </label>
+            <!-- <input type="text" formControlName="goodsManufactured" class="form-control" name="goods_manufactured"
+                id="goods_manufactured" required="required"  /> -->
+            <app-custom-input
+                formControlName="goodsManufactured"
+                [className]="'form-control mandatory'"
+                [placeholder]="'Goods Manufactured'"
+                [maxLength]="labels?.validationData?.goodsManufactured.maxLength"
+               
+                [type]="labels?.validationData.goodsManufactured.type"
+                [isDirty]="isDirty"
+                name="goods_manufactured"
+                [isDirty] = "isDirty"
+            >
+            </app-custom-input>
+            <div class="invalid-feedback" *ngIf = "submitted && f.controls.goodsManufactured.invalid">
+              <p>Please select goodsManufactured</p>
+          </div>
+        </div>
+    </div>
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
+        <label for="type_of_service">{{labels.typeOfService}}
+            <sub class="star_red_col">*</sub>
+        </label>
+        <app-vf-custom-select
+            [values]="typeOfService"
+            formControlName="typeOfService"
+            name="typeOfService"
+            
+            [isDirty] = "isDirty"
+            >
+        </app-vf-custom-select>
+        <div class="invalid-feedback" *ngIf = "submitted && f.controls.typeOfService.invalid">
+          <p>Please select typeOfService</p>
+      </div>
+    </div>
+   
+    <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
+        <label for="loan_amount">{{labels.loanAmount}}
+            <sub class="star_red_col">*</sub>
+        </label>
+        <!-- <input type="text" formControlName="loanAmount" class="form-control" name="loan_amount" id="loan_amount"
+            required="required" />  [value]="loanAmount"  [isRequired]="'Required Input is mandatory'"-->
+        <app-custom-input
+            formControlName="loanAmount"
+            [className]="'form-control mandatory'"
+            [placeholder]="'Loan Amount'"
+            [maxLength]=""
+           
+            [patternCheck]=""
+            [isDirty]="isDirty"
+            name="loan_amount"
+            
+            [isDisabled] = "true"
+        >
+        </app-custom-input>
+        <!-- <div class="invalid-feedback" *ngIf = "submitted && f.controls.detailActivity.invalid">
+          <p>Please select detail activity</p>
+      </div> -->
+    </div>
+    
+     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
+        <label for="investment_plant_machinery">{{labels.uRecessionNo}}
+            <sub class="star_red_col">*</sub>
+        </label>
+        <app-custom-input
+            formControlName="uRecessionNo"
+            
+            [className]="'form-control mandatory'"
+            [placeholder]="'Enter UDHYAM Registration number'"
+            [maxLength]="labels?.validationData?.amountValue.maxLength"
+           
+            [type]="labels?.validationData?.amountValue.type"
+            [isDirty]="isDirty"
+            
+        >
+        </app-custom-input> 
+        <div class="invalid-feedback" *ngIf = "submitted && f.controls.uRecessionNo.invalid">
+          <p>Please Enter Udhyam registration number</p>
+      </div>
+        
+    </div>
   </div>
-  <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
-      <label for="purpose_of_loan_msme">{{labels.purposeOfLoan}}
-          <sub class="star_red_col">*</sub>
-      </label>
-      <app-vf-custom-select 
-          [values]="endUseValues" 
-          formControlName="purposeOfLoan" 
-          (change) = "onChangePurposeOfLoan($event)"
-          name="purposeOfLoan"
-          [isRequired]="'Please Select One Option'"
-          [isDirty] = "isDirty"
-          > 
-     </app-vf-custom-select>
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
+        <label for="investment_plant_machinery">{{labels.uRegisteredMobileNo}}
+            <sub class="star_red_col">*</sub>
+        </label>
+        <app-custom-input
+            formControlName="uRegisteredMobileNo"
+            
+            [className]="'form-control mandatory'"
+            [placeholder]="'Enter UDHYAM Registered mobile number'"
+            [maxLength]="labels?.validationData?.mobileNumber?.maxLength"
+            
+            [type]="labels?.validationData?.mobileNumber?.type"
+            [isDirty]="isDirty"
+            
+        >
+        </app-custom-input> 
+        <div class="invalid-feedback" *ngIf = "submitted && f.controls.uRegisteredMobileNo.invalid">
+          <p>Please enter Udhyam registered mobile number</p>
+      </div>
+        
+    </div>
+    <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
+        <label for="investment_plant_machinery">{{labels.uRegisteredEmailId}} 
+            <sub class="star_red_col">*</sub>
+        </label>
+        <app-custom-input
+            formControlName="uRegisteredEmailId"
+            
+            [className]="'form-control mandatory'"
+            [placeholder]="'Enter UDHYAM Registered email id'"
+            [maxLength]="labels?.validationData?.emailPatternPsl?.maxLength"
+            
+            [patternCheck]="labels?.validationData?.emailPatternPsl?.patternCheck"
+            [isDirty]="isDirty"
+            
+        >
+        </app-custom-input> 
+        <div class="invalid-feedback" *ngIf = "submitted && f.controls.uRegisteredEmailId.invalid">
+          <p>Please enter Udhyam registered email id</p>
+      </div>
+        
+    </div>
+    <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
+        <label for="psl_category_msme">{{labels.pslCategory}}
+            <sub class="star_red_col">*</sub>
+        </label>
+        <app-vf-custom-select 
+            [values]="pslCategoryValues" 
+            formControlName="pslCategory"
+            name="pslCategory"
+           
+            [isDirty] = "isDirty"
+            >
+        </app-vf-custom-select>
+        <div class="invalid-feedback" *ngIf = "submitted && f.controls.pslCategory.invalid">
+          <p>Please select psl category</p>
+      </div>
+    </div>
   </div>
-  <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="isGoosManufactured">
-      <label for="goods_manufactured">{{labels.goodsManufactured}}
-          <sub class="star_red_col">*</sub>
-      </label>
-      <!-- <input type="text" formControlName="goodsManufactured" class="form-control" name="goods_manufactured"
-          id="goods_manufactured" required="required"  /> -->
-      <app-custom-input
-          formControlName="goodsManufactured"
-          [className]="'form-control mandatory'"
-          [placeholder]="'Goods Manufactured'"
-          [maxLength]="labels?.validationData?.goodsManufactured.maxLength"
-          [isRequired]="'Required Input is mandatory'"
-          [type]="labels?.validationData.goodsManufactured.type"
-          [isDirty]="isDirty"
-          name="goods_manufactured"
-          [isDirty] = "isDirty"
-      >
-      </app-custom-input>
-  </div>
-  <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
-      <label for="type_of_service">{{labels.typeOfService}}
-          <sub class="star_red_col">*</sub>
-      </label>
-      <app-vf-custom-select
-          [values]="typeOfService"
-          formControlName="typeOfService"
-          name="typeOfService"
-          [isRequired]="'Please Select One Option'"
-          [isDirty] = "isDirty"
-          >
-      </app-vf-custom-select>
-  </div>
-  <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
-      <label for="business_activity">{{labels.businessActivity}}
-          <sub class="star_red_col">*</sub> 
-      </label>
-      <app-vf-custom-select 
-      [values]="businessActivity" 
-      formControlName="businessActivity" 
-      name="businessActivity" 
-      [isDirty] = "isDirty"
-      > 
- </app-vf-custom-select>
-  </div> -->
-  <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
-      <label for="loan_amount">{{labels.loanAmount}}
-          <sub class="star_red_col">*</sub>
-      </label>
-      <!-- <input type="text" formControlName="loanAmount" class="form-control" name="loan_amount" id="loan_amount"
-          required="required" />  [value]="loanAmount"  [isRequired]="'Required Input is mandatory'"-->
-      <app-custom-input
-          formControlName="loanAmount"
-          [className]="'form-control mandatory'"
-          [placeholder]="'Loan Amount'"
-          [maxLength]=""
-         
-          [patternCheck]=""
-          [isDirty]="isDirty"
-          name="loan_amount"
-          
-          [isDisabled] = "true"
-      >
-      </app-custom-input>
-  </div>
-  
-   <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
-      <label for="investment_plant_machinery">{{labels.uRecessionNo}}
-          <sub class="star_red_col">*</sub>
-      </label>
-      <app-custom-input
-          formControlName="uRecessionNo"
-          
-          [className]="'form-control mandatory'"
-          [placeholder]="'Enter UDHYAM Registration number'"
-          [maxLength]="labels?.validationData?.amountValue.maxLength"
-         
-          [type]="labels?.validationData?.amountValue.type"
-          [isDirty]="isDirty"
-          
-      >
-      </app-custom-input> 
-      
-  </div>
-  <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
-      <label for="investment_plant_machinery">{{labels.uRegisteredMobileNo}}
-          <sub class="star_red_col">*</sub>
-      </label>
-      <app-custom-input
-          formControlName="uRegisteredMobileNo"
-          
-          [className]="'form-control mandatory'"
-          [placeholder]="'Enter UDHYAM Registered mobile number'"
-          [maxLength]="labels?.validationData?.mobileNumber?.maxLength"
-          
-          [type]="labels?.validationData?.mobileNumber?.type"
-          [isDirty]="isDirty"
-          
-      >
-      </app-custom-input> 
-      
-  </div>
-  <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
-      <label for="investment_plant_machinery">{{labels.uRegisteredEmailId}} 
-          <sub class="star_red_col">*</sub>
-      </label>
-      <app-custom-input
-          formControlName="uRegisteredEmailId"
-          
-          [className]="'form-control mandatory'"
-          [placeholder]="'Enter UDHYAM Registered email id'"
-          [maxLength]="labels?.validationData?.emailPatternPsl?.maxLength"
-          
-          [patternCheck]="labels?.validationData?.emailPatternPsl?.patternCheck"
-          [isDirty]="isDirty"
-          
-      >
-      </app-custom-input> 
-      
-  </div>
-  <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
-      <label for="psl_category_msme">{{labels.pslCategory}}
-          <sub class="star_red_col">*</sub>
-      </label>
-      <app-vf-custom-select 
-          [values]="pslCategoryValues" 
-          formControlName="pslCategory"
-          name="pslCategory"
-          [isRequired]="'Please Select One Option'"
-          [isDirty] = "isDirty"
-          >
-      </app-vf-custom-select>
-  </div>
-  <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
+  <div class="col-lg-12 col-sm-12 col-md-12">
+<div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
       <label for="psl_sub_category_msme">{{labels.pslSubCategory}}
           <sub class="star_red_col">*</sub>
       </label>
@@ -730,10 +753,13 @@
           [values]="pslSubCategoryValues" 
           formControlName="pslSubCategory"
           name="pslSubCategory"
-          [isRequired]="'Please Select One Option'"
+          
           [isDirty] = "isDirty"
       >
       </app-vf-custom-select>
+      <div class="invalid-feedback" *ngIf = "submitted && f.controls.pslSubCategory.invalid">
+        <p>Please select psl subcategory</p>
+    </div>
   </div>
   <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
       <label for="psl_certificate_msme">{{labels.pslCertificateMsme}}
@@ -743,11 +769,16 @@
           [values]="pslCertificateValues" 
           formControlName="pslCCertificate"
           name="pslCCertificate"
-          [isRequired]="'Please Select One Option'"
+          
           [isDirty] = "isDirty"
       >
       </app-vf-custom-select>
+      <div class="invalid-feedback" *ngIf = "submitted && f.controls.pslCCertificate.invalid">
+        <p>Please select psl certificate</p>
+    </div>
   </div>
+  </div>
+  
   <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3  msme" >
       <label for="weaker_section_msme">{{labels.weakerSection}}</label>
       <app-vf-custom-select 
