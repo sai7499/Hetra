@@ -134,10 +134,16 @@
         </div>
       </div>
     </div>
-    <h4 class="title" *ngIf="productCatCode === 'NCV'">
+    <h4
+      class="title"
+      *ngIf="productCatCode === 'NCV' && applicantType == 'APPAPPRELLEAD'"
+    >
       {{ labels.marketAndFinancierReference }}
     </h4>
-    <div class="row" *ngIf="productCatCode === 'NCV'">
+    <div
+      class="row"
+      *ngIf="productCatCode === 'NCV' && applicantType == 'APPAPPRELLEAD'"
+    >
       <div class="table-responsive application">
         <table class="table">
           <thead>
@@ -193,7 +199,7 @@
                   [type]="labels?.validationData?.companyName?.type"
                   [isRequired]="'company name is required'"
                   [isDirty]="isDirty"
-                  [placeholder]='"company name"'
+                  [placeholder]="'company name'"
                 ></app-custom-input>
               </td>
               <td>
@@ -204,7 +210,7 @@
                   [type]="labels?.validationData?.officerName?.type"
                   [isRequired]="'officer name is required'"
                   [isDirty]="isDirty"
-                  [placeholder]='"officer name"'
+                  [placeholder]="'officer name'"
                 ></app-custom-input>
               </td>
               <td>
@@ -215,21 +221,26 @@
                   [type]="labels?.validationData?.companyName?.type"
                   [isRequired]="'designation is required'"
                   [isDirty]="isDirty"
-                  [placeholder]='"designation"'
+                  [placeholder]="'designation'"
                 ></app-custom-input>
               </td>
               <td>
                 <app-custom-input
                   [className]="'form-control mandatory'"
                   formControlName="teleNo"
-                  [patternCheck]="labels?.validationData?.fiCumPDLandlineNumber?.pattern"
+                  [patternCheck]="
+                    labels?.validationData?.fiCumPDLandlineNumber?.pattern
+                  "
                   [maxLength]="
-                    labels?.validationData?.fiCumPDLandlineNumber?.maxLength"
-                  [minLength]="labels?.validationData?.fiCumPDLandlineNumber?.minLength"
+                    labels?.validationData?.fiCumPDLandlineNumber?.maxLength
+                  "
+                  [minLength]="
+                    labels?.validationData?.fiCumPDLandlineNumber?.minLength
+                  "
                   [type]="labels?.validationData?.fiCumPDLandlineNumber?.type"
                   [isRequired]="'telephone number is required'"
                   [isDirty]="isDirty"
-                  [placeholder]='"telephone number"'
+                  [placeholder]="'telephone number'"
                 ></app-custom-input>
               </td>
               <td>
@@ -240,7 +251,7 @@
                   [type]="labels?.validationData?.comments?.type"
                   [isRequired]="'comments are required'"
                   [isDirty]="isDirty"
-                  [placeholder]='"comments"'
+                  [placeholder]="'comments'"
                 ></app-custom-input>
               </td>
               <td>
@@ -260,16 +271,17 @@
                   id="delPOIbutton"
                   [disabled]="disableSaveBtn"
                   value="Delete"
+                  (click)="
+                    deleteRow(i, referenceCheckForm.value.marketFinRefData)
+                  "
                 ></button>
-                <!-- (click)="deleteRow(i, referenceCheckForm.value.marketFinRefData)"   -->
               </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-    &nbsp;
-    &nbsp;
+    &nbsp; &nbsp;
     <h4 class="title">{{ labels.genericDetails }}</h4>
     <div class="row">
       <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -530,7 +542,6 @@
       </div>
     </div>
 
-    
     <!-- <p>{{ labels.routeMap }}</p> -->
     <!-- <div class="row"> -->
     <!-- <label for="remarks">{{ labels.routeMap }}</label> -->
@@ -576,7 +587,7 @@
           </button>
           <p
             class="btn btn-primary"
-            (click)="onFormSubmit(i)"
+            (click)="onFormSubmit(referenceCheckForm.value.marketFinRefData)"
             *ngIf="!disableSaveBtn"
           >
             {{ labels.save }}
