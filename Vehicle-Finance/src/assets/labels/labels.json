@@ -43,17 +43,17 @@
     "loanCreatedDate": "Created Date",
     "product": "Product",
     "loanAmount": "Loan Amount",
-    "reqLoanAmtOrNegLoanAmt":"Req Loan Amt/Neg Loan Amt",
-    "reqLtvOrNegLtv":"Req LTV/Neg LTV",
-    "eligibleLoanAmt":"Eligible Loan Amt",
-    "eligibleLTV":"Eligible LTV",
+    "reqLoanAmtOrNegLoanAmt": "Req Loan Amt/Neg Loan Amt",
+    "reqLtvOrNegLtv": "Req LTV/Neg LTV",
+    "eligibleLoanAmt": "Eligible Loan Amt",
+    "eligibleLTV": "Eligible LTV",
     "branch": "Branch",
     "cbs": "Credit Bureau Score",
     "stage": "Lead Stage",
     "status": "Status",
     "reasonForRejection": "Rejection Reason",
     "applicantName": "Applicant",
-    "applicantNameCam":"Applicant Name",
+    "applicantNameCam": "Applicant Name",
     "modelTitle": "LOS - Lead Creation",
     "message": "Are you sure you want to create a new lead?",
     "proceed": "Proceed",
@@ -494,8 +494,8 @@
     "overAllFiStatus": "Over All FI status",
     "internalDedupeStatus": "Internal De-dupe Status",
     "relationshipToApplicant": "Relationship to Applicant",
-    "relationshipWithApplicant":"Relationship with Applicant",
-    "loanEligibilityAsPerFOIR":"Loan Eligibility As Per FOIR",
+    "relationshipWithApplicant": "Relationship with Applicant",
+    "loanEligibilityAsPerFOIR": "Loan Eligibility As Per FOIR",
     "incomeDetails": "Income Details",
     "businessIncomeOne": "Business Income-1",
     "businessIncomeTwo": "Business Income-2",
@@ -724,7 +724,7 @@
     "approve": "Approve",
     "approveDeviations": "Approve Deviation",
     "sendBackToCredit": "Send Back To Credit",
-    "sendBackToSales":"Send Back To Sales",
+    "sendBackToSales": "Send Back To Sales",
     "referText3": "Insurance expiry below 60days (deviation is not applicable if the insurance is done through inhouse at the time of funding)",
     "recommendation": "Recommendation",
     "roleName": "Role Name",
@@ -1629,30 +1629,31 @@
     "accountBranchname": "Account Branchname",
     "termsheetGeneratedDate": "Termsheet Generated Date",
     "loanAccNumber": "Loan Account Number",
-    "natureOfGoods" : "Nature of Goods",
+    "natureOfGoods": "Nature of Goods",
     "equitasEmployee": "Equitas Employee",
     "equitasEmployeesRelative": "Equitas Employees Relative",
     "employeeNo": "Employee Number",
     "initiate": "Initiate Viability for New Vehicles",
-    "customerDOI" : "Customer DOI",
-    "foundnl":"Found in NL",
-    "foundnltr":"Found in NLTR",
-    "maidenName":"Maiden Name",
-    "matchedCriteria":"Matched Criteria",
+    "customerDOI": "Customer DOI",
+    "foundnl": "Found in NL",
+    "foundnltr": "Found in NLTR",
+    "maidenName": "Maiden Name",
+    "matchedCriteria": "Matched Criteria",
     "disbursementStartDate": "Disbursement - Start Date",
     "disbursementEndDate": "Disbursement - End Date",
-    "propertyValue":"Property Value",
+    "propertyValue": "Property Value",
     "landAreaInHectares": "Land Area In Hectares",
-    "uRecessionNo" : "UDHYAM Registration number",
-    "uRegisteredMobileNo" : "UDHYAM Registered mobile number",
-    "uRegisteredEmailId" : "UDHYAM Registered email id",
-    "uCertificateId" : "UDHYAM Certificate upload ",
-    "landUnitType" : "Land Unit Type",
-    "parameter":"Parameter",
-    "weightage":"Weightage",
-    "inputValue":"Input Value",
-    "scoreValue":"Score",
-    "marketAndFinancierReference":"Market & Financier Reference",
+    "uRecessionNo": "UDHYAM Registration number",
+    "uRegisteredMobileNo": "UDHYAM Registered mobile number",
+    "uRegisteredEmailId": "UDHYAM Registered email id",
+    "uCertificateId": "UDHYAM Certificate upload ",
+    "landUnitType": "Land Unit Type",
+    "parameter": "Parameter",
+    "weightage": "Weightage",
+    "inputValue": "Input Value",
+    "scoreValue": "Score",
+    "marketAndFinancierReference": "Market & Financier Reference",
+    "speedometerReading": "Speedometer Reading",
     "validationData": {
         "name": {
             "maxLength": {
@@ -2663,23 +2664,29 @@
                 "msg": "Invalid email"
             }
         },
-        "companyName":{
-            "maxLength":{
-                "rule":30
+        "companyName": {
+            "maxLength": {
+                "rule": 30
             },
-            "type":"alpha-numeric"
+            "type": "alpha-numeric"
         },
-        "officerName":{
-            "maxLength":{
-                "rule":30
+        "officerName": {
+            "maxLength": {
+                "rule": 30
             },
-            "type":"alpha"
+            "type": "alpha"
         },
-        "comments":{
-            "maxLength":{
-                "rule":300
+        "comments": {
+            "maxLength": {
+                "rule": 300
             },
-            "type":"special-alpha-numeric"
+            "type": "special-alpha-numeric"
+        },
+        "speedometerReading": {
+            "maxLength": {
+                "rule": 7
+            },
+            "type": "number"
         }
     }
 }
