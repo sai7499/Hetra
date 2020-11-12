@@ -68,12 +68,9 @@ import { PSLdataComponent } from './psldata/psldata.component';
     PdListComponent,
     PddDetailsComponent,
     ChequeTrackingComponent,
-<<<<<<< HEAD
-    RcuComponent
+    RcuComponent,
 
-=======
     PSLdataComponent
->>>>>>> d7e9603810e89e876af30574fe736058df264ec4
   ],
   imports: [
     DdeRoutingModule,
