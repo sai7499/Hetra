@@ -102,11 +102,11 @@ export class HttpService {
 
       //this.httpIonic.setServerTrustMode('nocheck');
 
-      this.httpIonic.setServerTrustMode('pinned').then((result)=>{
+      this.httpIonic.setServerTrustMode('pinned').then((result) => {
         console.log("Pinned successfully", result);
-       }).catch((error)=>{
+      }).catch((error) => {
         console.log("Pinned successfully", error);
-       });
+      });
 
       this.httpIonic.setDataSerializer('urlencoded');
       this.httpIonic
@@ -128,23 +128,29 @@ export class HttpService {
     let that = this;
     let reqEntity;
 
+    const reqBody = typeof params === 'string' ? JSON.parse(params) : params;
+    let token = '';
+
     reqEntity = params;
 
-    if (this.activeRequests === 0) {
-      this.ngxService.start(); // start foreground spinner of the master loader with 'default' taskId
+    // if (this.activeRequests === 0) {
+    //   this.ngxService.start(); // start foreground spinner of the master loader with 'default' taskId
+    // }
+    if (this.activeRequests === 0 && reqBody && reqBody.showLoader !== false) {
+      this.ngxService.start();
     }
     this.activeRequests++;
 
     const obs = new Observable((observer) => {
       let data;
 
-     // this.httpIonic.setServerTrustMode('nocheck');
+      // this.httpIonic.setServerTrustMode('nocheck');
 
-     this.httpIonic.setServerTrustMode('pinned').then((result)=>{
-      console.log("Pinned successfully", result);
-     }).catch((error)=>{
-      console.log("Pinned successfully", error);
-     });
+      this.httpIonic.setServerTrustMode('pinned').then((result) => {
+        console.log("Pinned successfully", result);
+      }).catch((error) => {
+        console.log("Pinned successfully", error);
+      });
 
 
       let encryption = this.encrytionService.encrypt(
@@ -152,9 +158,17 @@ export class HttpService {
         environment.aesPublicKey
       );
 
-      encryption.headers['authentication-token'] = storage.getToken()
-        ? storage.getToken()
-        : '';
+      if (reqBody && reqBody.headers !== undefined) {
+        token = reqBody.headers;
+      } else if (reqBody) {
+        token = storage.getToken()
+          ? storage.getToken()
+          : ''
+      }
+      encryption.headers['authentication-token'] = token;
+      // encryption.headers['authentication-token'] = storage.getToken()
+      //   ? storage.getToken()
+      //   : '';
 
       this.ionicOption = {
         method: 'post',
@@ -347,11 +361,11 @@ export class HttpService {
 
       // this.httpIonic.setServerTrustMode('nocheck');
 
-      this.httpIonic.setServerTrustMode('pinned').then((result)=>{
+      this.httpIonic.setServerTrustMode('pinned').then((result) => {
         console.log("Pinned successfully", result);
-       }).catch((error)=>{
+      }).catch((error) => {
         console.log("Pinned successfully", error);
-       });
+      });
 
       this.httpIonic.setDataSerializer('utf8');
 
@@ -428,11 +442,11 @@ export class HttpService {
 
       //this.httpIonic.setServerTrustMode('nocheck');
 
-      this.httpIonic.setServerTrustMode('pinned').then((result)=>{
+      this.httpIonic.setServerTrustMode('pinned').then((result) => {
         console.log("Pinned successfully", result);
-       }).catch((error)=>{
+      }).catch((error) => {
         console.log("Pinned successfully", error);
-       });
+      });
 
       this.httpIonic
         .get(url, {}, headers)
@@ -463,11 +477,11 @@ export class HttpService {
       };
       //this.httpIonic.setServerTrustMode('nocheck');
 
-      this.httpIonic.setServerTrustMode('pinned').then((result)=>{
+      this.httpIonic.setServerTrustMode('pinned').then((result) => {
         console.log("Pinned successfully", result);
-       }).catch((error)=>{
+      }).catch((error) => {
         console.log("Pinned successfully", error);
-       });
+      });
 
       this.httpIonic
         .downloadFile(uri, {}, header, savePath)

@@ -266,6 +266,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       if (currentUrl.includes('dashboard') && this.isIntervalId) {
         this.intervalId = this.getPollCount()
+      } else {
+        clearInterval(this.intervalId)
       }
     }, 5000)
 
@@ -274,9 +276,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getPollCount() {
     return setInterval(() => {
       this.pollingService.getPollingLeadCount(this.userId).subscribe((res: any) => {
-        console.log(res, 'polling Request')
+        console.log('Polling request')
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           this.leadCount = res.ProcessVariables.leadCount ? res.ProcessVariables.leadCount : 0;
+        } else {
+          clearInterval(this.intervalId)
         }
       })
     }, 5000)
