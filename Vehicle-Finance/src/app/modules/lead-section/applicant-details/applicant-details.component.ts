@@ -9,6 +9,7 @@ import { ApplicantList } from '@model/applicant.model';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 import { ToasterService } from '@services/toaster.service';
+import { CommonDataService } from '@services/common-data.service';
 
 @Component({
   selector: 'app-applicant-details',
@@ -30,6 +31,7 @@ export class ApplicantDetailsComponent implements OnInit {
   appDetails = [];
   isFemaleForNCV: boolean;
   leadSectioData: any;
+  
   constructor(
     private route: Router,
     private location: Location,
@@ -39,12 +41,15 @@ export class ApplicantDetailsComponent implements OnInit {
     private applicantService: ApplicantService,
     private applicantDataStoreService: ApplicantDataStoreService,
     private createLeadDataService: CreateLeadDataService,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private commonDataService: CommonDataService
   ) { }
 
   getLeadId() {
     this.leadSectioData = this.createLeadDataService.getLeadSectionData();
-    this.isFemaleForNCV = this.applicantDataStoreService.checkLeadSectionDataForNCV(this.leadSectioData);
+    const product = this.leadSectioData.leadDetails.productCatCode;
+    const applicantDetails = this.leadSectioData.applicantDetails;
+    this.isFemaleForNCV = this.applicantDataStoreService.checkLeadSectionDataForNCV(product, applicantDetails);
 
     return this.leadSectioData.leadId;
     console.log('Id inside getLead ID', this.leadSectioData.leadId);
@@ -93,32 +98,28 @@ export class ApplicantDetailsComponent implements OnInit {
       //console.log('ProcessVariables', processVariables);
       this.applicantList = processVariables.applicantListForLead;
       console.log('applicantList', this.applicantList);
-      const checkProduct: string = this.leadSectioData.leadDetails.productCatCode;
-      if (checkProduct === 'NCV') {
-        this.applicantList.map((data: any) => {
-          if (data.gender !== '2GENDER') {
-            this.isFemaleForNCV = true;
-            this.applicantDataStoreService.checkLeadSectionDataForNCV(this.leadSectioData, this.isFemaleForNCV);
-          } else {
-            this.isFemaleForNCV = false;
-            this.applicantDataStoreService.checkLeadSectionDataForNCV(this.leadSectioData, this.isFemaleForNCV);
-            return;
-          }
-        });
-      }
+      // const checkProduct: string = this.leadSectioData.leadDetails.productCatCode;
+      // if (checkProduct === 'NCV') {
+      //   this.leadSectioData = this.createLeadDataService.getLeadSectionData();
+      //   const product = this.leadSectioData.leadDetails.productCatCode;
+      //   const applicantDetails = this.leadSectioData.applicantDetails;
+      //   this.applicantList.map((data: any) => {
+      //     if (data.entityTypeKey === "INDIVENTTYP") {
+      //       if (data.gender !== '2GENDER') {
+      //         this.isFemaleForNCV = true;
+      //         this.applicantDataStoreService.checkLeadSectionDataForNCV(product, this.applicantList, this.isFemaleForNCV);
+      //       } else {
+      //         this.isFemaleForNCV = false;
+      //         this.applicantDataStoreService.checkLeadSectionDataForNCV(product, this.applicantList, this.isFemaleForNCV);
+      //         return;
+      //       }
+      //     }
+      //   });
+      // }
 
-      // for(var i=0; i<=this.applicantList.length; i++){
-      //   const mobile= this.applicantList[i].mobileNumber;
-      //   if(this.applicantList[i].entityTypeKey=='INDIVENTTYP' && mobile.length==12){
-      //     this.applicantList[i].mobileNumber= mobile.slice(2,12)
-      //   }
-      // }
-      // for(var i=0; i<=this.applicantList.length; i++){
-      //   const companyPhoneNumber= this.applicantList[i].companyPhoneNumber;
-      //   if(this.applicantList[i].entityTypeKey=='NONINDIVENTTYP' && companyPhoneNumber.length==12){
-      //     this.applicantList[i].companyPhoneNumber= companyPhoneNumber.slice(2,12)
-      //   }
-      // }
+      this.applicantDataStoreService.setApplicantList(this.applicantList)
+
+
       if (this.applicantList) {
         this.isDelete = this.applicantList.length === 1 ? true : false;
         this.applicantList.map((data) => {
@@ -197,7 +198,12 @@ export class ApplicantDetailsComponent implements OnInit {
       console.log('this.apploicantlist', this.applicantList.length)
 
       this.isDelete = this.applicantList.length === 1 ? true : false;
-
+      this.getApplicantList();
+      // const data = {
+      //   app: this.applicantList,
+      //   bool: true
+      // }
+      // this.commonDataService.applicantListEdited(data);
     });
   }
 
@@ -212,6 +218,8 @@ export class ApplicantDetailsComponent implements OnInit {
 
   }
 
+ 
+
   onNext() {
     // [routerLink]="['../vehicle-details']"
     this.forFindingApplicantType()
@@ -219,13 +227,18 @@ export class ApplicantDetailsComponent implements OnInit {
       this.toasterService.showError('There should be one applicant for this lead', '')
       return;
     }
-   
-    const result = this.applicantDataStoreService.checkLeadSectionDataForNCV(this.leadSectioData);
-    if (result) {
-        this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
+
+    this.leadSectioData = this.createLeadDataService.getLeadSectionData();
+    const product = this.leadSectioData.leadDetails.productCatCode;
+
+    if (product === 'NCV') {
+      const result = this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
+      if (!result) {
+        this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', ''); 
+      }
     }
 
-    this.route.navigateByUrl(`pages/lead-section/${this.leadId}/vehicle-details`)
+    this.route.navigateByUrl(`pages/lead-section/${this.leadId}/vehicle-list`)
   }
 
   onBack() {

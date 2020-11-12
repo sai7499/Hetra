@@ -193,9 +193,11 @@ export class UploadModalComponent {
 
   uploadFile() {
     this.docsDetails.bsPyld = this.imageUrl;
-    let fileName = this.docsDetails.docSbCtgry.replace(' ', '_');
-    const name = this.docsDetails.docNm.replace('/', '_OR_');
-    fileName =
+    console.log(this.docsDetails.docNm.includes(' '));
+    console.log(this.docsDetails.docNm.includes(''));
+    let name = this.docsDetails.docNm.replace(' ', '_');
+    name = name.replace('/', '_OR_');
+    const fileName =
       name +
       new Date().getFullYear() +
       +new Date() +

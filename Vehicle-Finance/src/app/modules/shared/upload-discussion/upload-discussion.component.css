@@ -8,7 +8,58 @@
 
 @media (min-width: 768px) {
     .modal-dialog {
-        width: 80% !important;
+        width: 95% !important;
         margin: 30px auto;
     }
+
+    .tab-content{
+        height:430px; 
+        width:100%;
+    }
 }
+
+@media (min-width:200px) and (max-width:767px) {
+    .modal-dialog {
+        width: 95% !important;
+        margin: 5px auto;
+    }
+
+    .tab-content{
+        height:230px; 
+        width:100%;
+    }
+
+}
+
+* {
+    scrollbar-width: #eb652c;
+    scrollbar-color:#eb652c #fff;
+  }
+  
+  /* Works on Chrome/Edge/Safari */
+  *::-webkit-scrollbar {
+    width: 8px;
+  }
+  *::-webkit-scrollbar-track {
+    background: #fff;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: #eb652c;
+    border-radius: 20px;
+    border: 2px solid #fff;
+  }
+
+  .status-success {
+    color: green;
+  }
+
+  .status-fail {
+    color: red;
+  }
+
+  .table tbody tr td {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    padding-bottom: 10px !important;
+    padding-top: 10px !important; 
+  }

@@ -27,6 +27,7 @@ export class ApplicantDataStoreService {
   isValueChange: boolean = false;
   leadSetionData: any;
   isFemaleGender: boolean;
+  applicantList : any=[]
 
   setApplicant(applicant: Applicant) {
     const aboutIndivProspectDetails = applicant.aboutIndivProspectDetails
@@ -170,8 +171,16 @@ export class ApplicantDataStoreService {
   getNavigateForDedupe() {
     return this.isNavigateDedupe
   }
+  setApplicantList(data : any[]){
+     this.applicantList=[];
+     this.applicantList=data;
+  }
 
-  checkLeadSectionDataForNCV(data, isBool?) {
+  getApplicantList(){
+     return this.applicantList
+  }
+
+  checkLeadSectionDataForNCV(product, applicantDetails, isBool?) {
     let result: boolean;
 
     if (isBool === true) {
@@ -181,18 +190,30 @@ export class ApplicantDataStoreService {
       result = false;
       return result;
     }
-    this.leadSetionData = data;
+   
     let appDetails = [];
-    appDetails = data.applicantDetails;
-    const checkProduct: string = data.leadDetails.productCatCode;
+    const checkProduct: string = product;
     if (checkProduct === 'NCV') {
+      appDetails = applicantDetails;
       appDetails.map((data) => {
-        if (data.gender !== '2GENDER') {
-          result = true;
+        if (data.entityTypeKey === "INDIVENTTYP") {
+          if (data.gender !== '2GENDER') {
+            result = true;
+          }
         }
       });
     }
     return result;
+  }
+
+  checkFemaleAppForNCV(data : any[]): boolean{
+
+     const applicantList = data;
+     
+     const result= applicantList.some((value : any)=>{
+      return value.gender==='2GENDER'
+     })
+     return result;
   }
 
 }
