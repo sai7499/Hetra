@@ -548,10 +548,16 @@
         </app-custom-input>
       </div>
     </div>
-    <h4 class="title" *ngIf="productCatCode === 'NCV' && applicantType == 'APPAPPRELLEAD'">
+    <h4
+      class="title"
+      *ngIf="productCatCode === 'NCV' && applicantType == 'APPAPPRELLEAD'"
+    >
       {{ labels.marketAndFinancierReference }}
     </h4>
-    <div class="row" *ngIf="productCatCode === 'NCV' && applicantType == 'APPAPPRELLEAD'">
+    <div
+      class="row"
+      *ngIf="productCatCode === 'NCV' && applicantType == 'APPAPPRELLEAD'"
+    >
       <div class="table-responsive application">
         <table class="table">
           <thead>
@@ -591,7 +597,7 @@
               <td>{{ i + 1 }}</td>
               <td style="min-width: 59px">
                 <app-vf-custom-select
-                  [values]="(LOV?.LOVS)['typeOfReference']"
+                  [values]="(LOV?.LOVS)['references']"
                   formControlName="typeReference"
                   [isRequired]="'Please select alteast one '"
                 >
@@ -666,7 +672,7 @@
                   (click)="addNewRow()"
                 ></button>
                 &nbsp;
-                <button
+                <!-- <button
                   type="button"
                   class="fa fa-minus"
                   aria-hidden="true"
@@ -674,8 +680,20 @@
                   [disabled]="disableSaveBtn"
                   value="Delete"
                   (click)="deleteRow(i, referenceDetailsForm.value.marketFinRefData)"
-                ></button>
-                
+                ></button> -->
+                <a
+                  data-toggle="modal"
+                  data-target="#myDeleteModel"
+                  id="reject_credit"
+                >
+                  <button
+                    type="button"
+                    class="fa fa-minus"
+                    aria-hidden="true"
+                    value="Delete"
+                    (click)="delete(i)"
+                  ></button>
+                </a>
               </td>
             </tr>
           </tbody>
@@ -695,7 +713,10 @@
           {{ labels.back }}
         </button>
 
-        <button class="btn btn-primary" (click)="onFormSubmit(referenceDetailsForm.value.marketFinRefData)">
+        <button
+          class="btn btn-primary"
+          (click)="onFormSubmit(referenceDetailsForm.value.marketFinRefData)"
+        >
           {{ labels.save }}
         </button>
         <button class="btn btn-primary" type="button" (click)="onNext()">
@@ -705,3 +726,37 @@
     </div>
   </div>
 </form>
+<div class="modal" id="myDeleteModel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title"></h4>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body" style="text-align: center">
+        <p>{{ labels.deleteReference }}</p>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          id="reject_yes_val"
+          value="Yes"
+          (click)="deleteRow(indexFromHtml, referenceDetailsForm.value.marketFinRefData)"
+        >
+          {{ labels.yes }}
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+          {{ labels.cancel }}
+        </button>
+      </div>
+    </div>
+  </div>
