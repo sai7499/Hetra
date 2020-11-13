@@ -12,7 +12,7 @@ import { ToasterService } from '@services/toaster.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { UploadService } from '@services/upload.service';
 import { UtilityService } from '@services/utility.service';
-
+import { Constant } from '@assets/constants/constant';
 
 @Component({
   selector: 'app-rcu',
@@ -53,6 +53,9 @@ export class RcuComponent implements OnInit {
   selectDocument: any;
  rcuInitiated = false
  today: any = new Date();
+  showModal: boolean;
+  selectedDocDetails: any;
+  dmsDocumentId: any;
 //  public value: Date = new Date(2019, 5, 1, 22);
 //     public format = 'MM/dd/yyyy HH:mm';
   constructor(
@@ -193,12 +196,14 @@ export class RcuComponent implements OnInit {
         this.rcuDetailsForm.controls.applicantDocuments.push(this.getRcuDocumentDetails(this.applicantDocuments[i]))
       }
       this.testRadio(event)
+      this.onUploadSuccess(event)
     }
     if (this.collateralDocuments != null) {
       for (let i = 0; i < this.collateralDocuments.length; i++) {
         this.rcuDetailsForm.controls.collateralDocuments.push(this.getRcuDocumentDetails(this.collateralDocuments[i]))
       }
       this.testRadio(event)
+      this.onUploadSuccess(event)
     }
     // if(event !== null && event !== ""){
     //   this.testRadio(event)
@@ -502,5 +507,50 @@ this.populateApplicantDocuments(this.response.fileRCUStatus)
       this.draggableContainerService.setContainerValue({
         image: showDraggableContainer,
       });
+  }
+  uploadDoc(){
+    this.showModal = true;
+      const docNm = 'ACCOUNT_OPENING_FORM';
+      const docCtgryCd = 70;
+      const docTp = 'LEAD';
+      const docSbCtgry = 'ACCOUNT OPENING FORM';
+      const docCatg = 'KYC - I';
+      const docCmnts = 'Addition of document for Lead Creation';
+      const docTypCd = 276;
+      const docSbCtgryCd = 204;
+
+      this.selectedDocDetails = {
+        docSize: 2097152,
+        docsType: Constant.OTHER_DOCUMENTS_ALLOWED_TYPES,
+        docNm,
+        docCtgryCd,
+        docTp,
+        docSbCtgry,
+        docCatg,
+        docCmnts,
+        docTypCd,
+        docSbCtgryCd,
+        docRefId: [
+          {
+            idTp: 'LEDID',
+            id: this.leadId,
+          },
+          {
+            idTp: 'BRNCH',
+            id: Number(localStorage.getItem('branchId')),
+          },
+        ],
+      };
+  }
+  onUploadSuccess(event){
+    console.log(event);
+    this.dmsDocumentId = event.dmsDocumentId
+    for (let i = 0; i < this.rcuDetailsForm.controls.collateralDocuments.length; i++) {
+      const control = this.rcuDetailsForm.controls.collateralDocuments.controls as FormArray
+      control[i].patchValue({
+        dmsDocumentId:  this.dmsDocumentId,
+      })
+    }
+    // this.rcuDetailsForm.controls.collateralDocuments.controls.at[0].controls.dmsDocumentId.setValue(this.dmsDocumentId)
   }
 }
