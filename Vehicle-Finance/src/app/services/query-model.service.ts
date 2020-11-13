@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { environment } from '../../environments/environment';
-import RequestEntity from '@model/request.entity';
 import { HttpService } from './http.service';
 
 @Injectable({
@@ -19,13 +18,13 @@ export class QueryModelService {
     const workflowId = this.apiService.api.getQueries.workflowId;
     const projectId = environment.projectIds.salesProjectId;
 
-    const body: RequestEntity = {
+    const body = {
 
       processId: processId,
       ProcessVariables: data,
       workflowId: workflowId,
-      projectId: projectId
-
+      projectId: projectId,
+      showLoader: false
     };
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
@@ -40,12 +39,13 @@ export class QueryModelService {
     const workflowId = this.apiService.api.saveorUpdateQueries.workflowId;
     const projectId = environment.projectIds.salesProjectId;
 
-    const body: RequestEntity = {
+    const body = {
 
       processId: processId,
       ProcessVariables: data,
       workflowId: workflowId,
-      projectId: projectId
+      projectId: projectId,
+      showLoader: false
     };
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
@@ -60,13 +60,13 @@ export class QueryModelService {
     const workflowId = this.apiService.api.getLeads.workflowId;
     const projectId = environment.projectIds.salesProjectId;
 
-    const body: RequestEntity = {
+    const body = {
 
       processId: processId,
       ProcessVariables: data,
       workflowId: workflowId,
-      projectId: projectId
-
+      projectId: projectId,
+      showLoader: false
     };
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
@@ -81,35 +81,35 @@ export class QueryModelService {
     const workflowId = this.apiService.api.getUsers.workflowId;
     const projectId = environment.projectIds.salesProjectId;
 
-    const body: RequestEntity = {
+    const body = {
 
       processId: processId,
       ProcessVariables: data,
       workflowId: workflowId,
-      projectId: projectId
-
+      projectId: projectId,
+      showLoader: false
     };
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
 
-  // 4.method for get count
+  // 5.method for get count
 
   getCountAcrossLeads(userId) {
     const processId = this.apiService.api.getCount.processId;
     const workflowId = this.apiService.api.getCount.workflowId;
     const projectId = environment.projectIds.salesProjectId;
 
-    const body: RequestEntity = {
+    const body = {
 
       processId: processId,
       ProcessVariables: {
         "userId": userId
       },
       workflowId: workflowId,
-      projectId: projectId
-
+      projectId: projectId,
+      showLoader: false
     };
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;

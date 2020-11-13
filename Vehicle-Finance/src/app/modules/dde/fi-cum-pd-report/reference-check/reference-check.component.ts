@@ -24,6 +24,8 @@ import { ApplicantService } from '@services/applicant.service';
 import { GpsService } from './../../../../services/gps.service';
 import { environment } from 'src/environments/environment';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { element } from 'protractor';
+import { CommomLovService } from '@services/commom-lov-service';
 
 @Component({
   selector: 'app-reference-check',
@@ -100,6 +102,11 @@ export class ReferenceCheckComponent implements OnInit {
   distanceFromBranch: any;
   productCatCode: any;
   listArray: FormArray;
+  referenceDetails: any;
+  marketAndFinReferenceDetails: any;
+  LOV: any;
+  applicantType: any;
+  allowSave: boolean;
   constructor(
     private labelsData: LabelsService, // service to access labels
     private personalDiscussion: PersonalDiscussionService,
@@ -116,7 +123,8 @@ export class ReferenceCheckComponent implements OnInit {
     private gpsService: GpsService,
     private utilityService: UtilityService,
     private toasterService: ToasterService, // service for accessing the toaster
-    private toggleDdeService: ToggleDdeService
+    private toggleDdeService: ToggleDdeService,
+    private commonLovService: CommomLovService,
 
   ) {
     this.listArray = this.fb.array([]);
@@ -126,7 +134,6 @@ export class ReferenceCheckComponent implements OnInit {
     });
     this.isMobile = environment.isMobile;
     // console.log('systime default', this.sysDate);
-
   }
 
   async ngOnInit() {
@@ -172,7 +179,10 @@ export class ReferenceCheckComponent implements OnInit {
           if (this.version !== 'undefined') {
             this.showSubmit = false;
           }
+          this.getLOV();
           this.getLeadSectiondata();
+          this.getPdDetails();   // for getting the data for pd details on initializing the page
+          // this.removeReferenceControls();
           console.log('Applicant Id In reference Details Component', this.applicantId);
 
         });
@@ -181,8 +191,8 @@ export class ReferenceCheckComponent implements OnInit {
       error => {
         this.errorMsg = error;
       });
-    this.initForm();              // for initializing the form
-
+    this.initForm();             // for initializing the form
+    this.removeReferenceControls();
     this.selectedDocDetails = {
       docsType: this.PROFILE_TYPE,
       docSize: this.OTHER_DOCUMENTS_SIZE,
@@ -247,9 +257,11 @@ export class ReferenceCheckComponent implements OnInit {
       });
     });
   }
+
   // GET LEAD SECTION DATA
   getLeadSectiondata() {
     const leadData = this.createLeadDataService.getLeadSectionData();
+    console.log('lead data', leadData);
     this.serviceSourcingChannel = leadData['leadDetails'].sourcingChannelDesc;
     this.serviceEquitasBranchName = leadData['leadDetails'].branchName;
     this.serviceProductCat = leadData['leadDetails'].productCatName;
@@ -258,7 +270,25 @@ export class ReferenceCheckComponent implements OnInit {
     this.productCatCode = leadDetailsFromLead.productCatCode;
     console.log('prod cat code', this.productCatCode);
 
-    this.getPdDetails();    // for getting the data for pd details on initializing the page
+    for (const value of leadData['applicantDetails']) {
+      if (value['applicantId'] === this.applicantId) {
+        const applicantDetailsFromLead = value;
+        this.applicantType = applicantDetailsFromLead['applicantTypeKey']
+      }
+    }
+    console.log('applicant type', this.applicantType);
+  }
+  getLOV() {
+    this.commonLovService.getLovData().subscribe((lov) => (this.LOV = lov));
+    console.log('LOVs', this.LOV);
+    // this.getLeadSectionData();
+    //   if (!value && !value.applicantId) {
+    //     return;
+    //   }
+    //   this.applicantId = Number(value.applicantId);
+    //   this.version = String(value.version);
+    //   console.log('Applicant Id In Loan Details Component', this.applicantId);
+    // });
   }
   getApplicantId() { // function to access respective applicant id from the routing
 
@@ -298,9 +328,48 @@ export class ReferenceCheckComponent implements OnInit {
       longitude: new FormControl({ value: '', disabled: true }),
       bLatitude: new FormControl({ value: '', disabled: true }),
       bLongitude: new FormControl({ value: '', disabled: true }),
-      // marketAndFinReferDetails: this.listArray
+      marketFinRefData: this.listArray
     });
   }
+  removeReferenceControls() {
+    const controls = this.referenceCheckForm as FormGroup;
+    console.log('in remove controls', controls);
+    console.log('in remove controls', this.productCatCode);
+    if ((this.productCatCode !== 'NCV') || (this.productCatCode === 'NCV' && this.applicantType !== 'APPAPPRELLEAD')) {
+      controls.removeControl('marketFinRefData');
+    }
+  }
+  public populateRowData(rowData) {
+
+    console.log('in initRows RowData');
+    return this.fb.group({
+      typeReference: rowData.typeReference ? rowData.typeReference : null,
+      companyName: rowData.companyName ? rowData.companyName : null,
+      officerName: rowData.officerName ? rowData.officerName : null,
+      designation: rowData.designation ? rowData.designation : null,
+      teleNo: rowData.teleNo ? rowData.teleNo : null,
+      comments: rowData.comments ? rowData.comments : null,
+      id: rowData.id ? rowData.id : null,
+      applicantId: rowData.applicantId ? rowData.applicantId : this.applicantId
+
+    });
+  }
+  public initRows(index: number) {
+    console.log('in initRows no RowData');
+    return this.fb.group({
+
+      typeReference: new FormControl('', [Validators.required]),
+      companyName: new FormControl('', [Validators.required]),
+      officerName: new FormControl('', [Validators.required]),
+      designation: new FormControl('', [Validators.required]),
+      teleNo: new FormControl('', [Validators.required]),
+      comments: new FormControl('', [Validators.required]),
+      id: 0,
+      applicantId: this.applicantId,
+
+    });
+  }
+
 
   getPdDetails() { // function calling get pd report api to get respective pd details
 
@@ -327,10 +396,15 @@ export class ReferenceCheckComponent implements OnInit {
         this.latitude = value.ProcessVariables.customerProfileDetails.latitude;
         this.longitude = value.ProcessVariables.customerProfileDetails.longitude;
         this.SELFIE_IMAGE = value.ProcessVariables.profilePhoto;
+        const referenceDetails = processVariables.marketFinRefData;
+        if (referenceDetails != null && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
+          this.populateData(value);
 
-        // if (this.refCheckDetails && this.otherDetails) {
-        //   this.setFormValue();
-        // }
+        } else if (referenceDetails == null && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
+          const control = this.referenceCheckForm.controls.marketFinRefData as FormArray;
+          control.push(this.initRows(null));
+
+        }
         this.setFormValue();
         if (this.latitude) {
           this.getRouteMap();
@@ -341,6 +415,72 @@ export class ReferenceCheckComponent implements OnInit {
       }
     });
 
+  }
+  public populateData(data?: any) {
+    const referenceDetailsList = data.ProcessVariables.marketFinRefData;
+    for (let i = 0; i < referenceDetailsList.length; i++) {
+      this.addProposedUnit(referenceDetailsList[i]);
+    }
+  }
+  addProposedUnit(data?: any) {
+    const control = this.referenceCheckForm.controls.marketFinRefData as FormArray;
+    control.push(this.populateRowData(data));
+  }
+
+  addNewRow(rowData) {
+    const control = this.referenceCheckForm.controls.marketFinRefData as FormArray;
+    control.push(this.initRows(rowData));
+  }
+
+  deleteRow(index: number, references: any) {
+    console.log('in delete row fn ', references, index);
+    const control = this.referenceCheckForm.controls.marketFinRefData as FormArray;
+    // tslint:disable-next-line: prefer-const
+    let referenceId = references[index].id;
+    let i = 0;
+    let j = 0;
+    references.forEach(element => {
+      console.log('element', element);
+      if (element.typeReference === '1REFTYPE' || element.typeReference === '2REFTYPE') {
+        i = i + 1;
+      } else if (element.typeReference === '3REFTYPE' || element.typeReference === '4REFTYPE') {
+        j = j + 1;
+      }
+    });
+    console.log('i j values', i, j);
+    if (references.length > 2) {
+      const data = {
+        id: referenceId
+      };
+      if ((referenceId !== 0 && i > 1 && j === 1) && (references[index].typeReference === '3REFTYPE' ||
+        references[index].typeReference === '4REFTYPE')) {
+        this.toasterService.showError(' atleast one market reference is required', '');
+
+      } else if ((referenceId !== 0 && i === 1 && j > 1) && (references[index].typeReference === '1REFTYPE' ||
+        references[index].typeReference === '2REFTYPE')) {
+        this.toasterService.showError(' atleast one finance reference is required', '');
+      } else if ((referenceId !== 0) && (i > 1 || j > 1)) {
+        this.personalDiscussion.deleteMarFinReference(data).subscribe((res: any) => {
+          const processVariables = res.ProcessVariables;
+          const message = processVariables.error.message;
+          if (processVariables.error.code === '0') {
+            // references.splice(index, 1);
+            this.toasterService.showSuccess(message, '');
+            this.listArray.controls = [];
+            this.getPdDetails();
+          } else {
+            this.toasterService.showSuccess(message, '');
+          }
+        });
+      } else if (referenceId === 0) {
+        control.removeAt(index);
+        this.toasterService.showSuccess('Reference details deleted successfully', '');
+      }
+      // console.log('reference array', control.value);
+
+    } else if (referenceId !== 0 && (i === 1 && j === 1)) {
+      this.toasterService.showError('atleast one market and finance reference required', '');
+    }
   }
   setFormValue() {
 
@@ -404,9 +544,40 @@ export class ReferenceCheckComponent implements OnInit {
   }
 
 
-  onFormSubmit() { // function that calls sumbit pd report api to save the respective pd report
+  onFormSubmit(references: any) { // function that calls sumbit pd report api to save the respective pd report
     console.log('latitude::', this.latitude);
     console.log('longitude::', this.longitude);
+    if (this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
+      const referenceArray = (this.referenceCheckForm.value.marketFinRefData as FormArray);
+      console.log('reference data', referenceArray);
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0; i < referenceArray.length; i++) {
+        referenceArray[i]['typeReference'] = referenceArray[i]['typeReference'];
+        referenceArray[i]['companyName'] = referenceArray[i]['companyName'];
+        referenceArray[i]['officerName'] = referenceArray[i]['officerName'];
+        referenceArray[i]['designation'] = referenceArray[i]['designation'];
+        referenceArray[i]['teleNo'] = referenceArray[i]['teleNo'];
+        referenceArray[i]['comments'] = referenceArray[i]['comments'];
+      }
+      this.referenceCheckForm.value.marketFinRefData = referenceArray;
+      console.log(this.referenceCheckForm.value.marketFinRefData);
+
+      let i = 0;
+      let j = 0;
+      references.forEach(element => {
+        console.log('element', element);
+        if (element.typeReference === '1REFTYPE' || element.typeReference === '2REFTYPE') {
+          i = i + 1;
+        } else if (element.typeReference === '3REFTYPE' || element.typeReference === '4REFTYPE') {
+          j = j + 1;
+        }
+      });
+      console.log('i j values', i, j);
+      if (i >= 1 && j >= 1) {
+        this.allowSave = true;
+      }
+      this.marketAndFinReferenceDetails = referenceArray;
+    }
 
     this.custProfileDetails = {
       latitude: this.latitude || '',
@@ -419,9 +590,13 @@ export class ReferenceCheckComponent implements OnInit {
       console.log('in invalid ref checkform', this.referenceCheckForm);
       this.toasterService.showWarning('please enter required details', '');
       return;
+
+    } else if (this.allowSave !== true && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
+      this.toasterService.showWarning('atleast one market and finance reference required', '');
+      return;
     }
-    // console.log('this product', this.productCat);
-    // console.log("this soucing", this.sourcingChannel);
+    console.log('this product', this.productCat);
+    console.log("this soucing", this.sourcingChannel);
     const referenceCheckModel = { ...formModel };
     this.refCheckDetails = {
       nameOfReference: referenceCheckModel.nameOfReference ? referenceCheckModel.nameOfReference : null,
@@ -433,7 +608,7 @@ export class ReferenceCheckComponent implements OnInit {
       soName: this.userName ? this.userName : null,
       employeeCode: this.userId ? this.userId : null,
     };
-    // console.log('systime', this.sysTimeOfVerification);
+    console.log('systime', this.sysTimeOfVerification);
 
     this.otherDetails = {
 
@@ -452,6 +627,7 @@ export class ReferenceCheckComponent implements OnInit {
 
 
     };
+
     const data = {
       leadId: this.leadId,
       applicantId: this.applicantId,
@@ -459,13 +635,16 @@ export class ReferenceCheckComponent implements OnInit {
       referenceCheck: this.refCheckDetails,
       otherDetails: this.otherDetails,
       customerProfileDetails: this.custProfileDetails,
-      profilePhoto: this.SELFIE_IMAGE
+      profilePhoto: this.SELFIE_IMAGE,
+      marketFinRefData: this.marketAndFinReferenceDetails
+
     };
 
     this.personalDiscussion.saveOrUpdatePdData(data).subscribe((res: any) => {
       // console.log('save or update PD Response', res);
       if (res.ProcessVariables.error.code === '0') {
         this.toasterService.showSuccess('Record Saved Successfully', '');
+        this.listArray.controls = [];
         this.getPdDetails();
 
       } else {
@@ -663,7 +842,7 @@ export class ReferenceCheckComponent implements OnInit {
     console.log('documentArr', this.documentArr);
     this.individualImageUpload(event, index);
 
-    let position = await this.getLatLong();
+    const position = await this.getLatLong();
     if (position["latitude"]) {
       this.latitude = position["latitude"].toString();
       this.longitude = position["longitude"].toString();
@@ -706,11 +885,11 @@ export class ReferenceCheckComponent implements OnInit {
 
   getRouteMap() {
     var that = this;
-    let branchPos = {
+    const branchPos = {
       latitude: this.branchLatitude,
       longitude: this.branchLongitude
     };
-    let currentPos = {
+    const currentPos = {
       latitude: this.latitude,
       longitude: this.longitude
     }

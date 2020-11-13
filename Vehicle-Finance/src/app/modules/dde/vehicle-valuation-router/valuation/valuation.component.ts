@@ -273,7 +273,7 @@ export class ValuationComponent implements OnInit {
       gridAmt: [{ value: '', disabled: true }],
       valuationAmt: ['', Validators.required],
       valuationDate: ['', Validators.required],
-      idv: ["", Validators.required],
+      idv: ['', Validators.required],
       idvValidityDate: ["", Validators.required],
       vehicleAvailGrid: ["", Validators.required],
       region: ["", Validators.required],
@@ -304,6 +304,7 @@ export class ValuationComponent implements OnInit {
       duplicateRc: ["", Validators.required],
       cubicCapacity: ["", Validators.required],
       seatingCapacity: ["", Validators.required],
+      speedometerReading: ['', Validators.required]
       // existingVechicleOwned: [""],
       // noOfVehicles: [""],
       // existingSelfCostAsset: [""],
@@ -330,9 +331,11 @@ export class ValuationComponent implements OnInit {
       // pincode: this.vehicleValuationDetails.pincode || '',
       // gridAmt: this.vehicleValuationDetails.gridAmt || '',
       valuationAmt: this.vehicleValuationDetails.valuationAmt || '',
-      valuationDate: this.vehicleValuationDetails.valuationDate ? this.utilityService.getDateFromString(this.vehicleValuationDetails.valuationDate) : '',
+      valuationDate: this.vehicleValuationDetails.valuationDate ?
+        this.utilityService.getDateFromString(this.vehicleValuationDetails.valuationDate) : '',
       idv: this.vehicleValuationDetails.idv || '',
-      idvValidityDate: this.vehicleValuationDetails.idvValidityDate ? this.utilityService.getDateFromString(this.vehicleValuationDetails.idvValidityDate) : '',
+      idvValidityDate: this.vehicleValuationDetails.idvValidityDate ?
+        this.utilityService.getDateFromString(this.vehicleValuationDetails.idvValidityDate) : '',
       vehicleAvailGrid: this.vehicleValuationDetails.vehicleAvailGrid || '',
       // gridAmount: this.vehicleValuationDetails.gridAmount || '',
       assetMake: this.vehicleValuationDetails.vehicleMfrCode || '',
@@ -346,7 +349,8 @@ export class ValuationComponent implements OnInit {
       registrationNo: this.vehicleValuationDetails.registrationNo || '',
       chasisNumber: this.vehicleValuationDetails.chasisNumber || '',
       engineNumber: this.vehicleValuationDetails.engineNumber || '',
-      yearOfManufacturer: this.vehicleValuationDetails.yearOfManufacturer ? this.utilityService.getDateFromString(this.vehicleValuationDetails.yearOfManufacturer) : '',
+      yearOfManufacturer: this.vehicleValuationDetails.yearOfManufacturer ?
+        this.utilityService.getDateFromString(this.vehicleValuationDetails.yearOfManufacturer) : '',
       // monthOfManufacturer: this.vehicleValuationDetails.monthOfManufacturer || '',
       ageOfAsset: this.vehicleValuationDetails.ageOfAsset || '',
       sellerShortDesc: this.vehicleValuationDetails.sellerShortDesc || '',
@@ -355,15 +359,17 @@ export class ValuationComponent implements OnInit {
       reRegNumber: this.vehicleValuationDetails.reRegNumber || '',
       regChasisNo: this.vehicleValuationDetails.regChasisNo || '',
       // agricultureProof: this.vehicleValuationDetails.agricultureProof || '',
-      fcExpiryDate: this.vehicleValuationDetails.fcExpiryDate ? this.utilityService.getDateFromString(this.vehicleValuationDetails.fcExpiryDate) : '',
-      dateofReg: this.vehicleValuationDetails.dateofReg ? this.utilityService.getDateFromString(this.vehicleValuationDetails.dateofReg) : '',
+      fcExpiryDate: this.vehicleValuationDetails.fcExpiryDate ?
+        this.utilityService.getDateFromString(this.vehicleValuationDetails.fcExpiryDate) : '',
+      dateofReg: this.vehicleValuationDetails.dateofReg ?
+        this.utilityService.getDateFromString(this.vehicleValuationDetails.dateofReg) : '',
       gvw: this.vehicleValuationDetails.gvw || '',
       preReRegNumber: this.vehicleValuationDetails.preReRegNumber || '',
       interStateVehicle: this.vehicleValuationDetails.interStateVehicle || '',
       duplicateRc: this.vehicleValuationDetails.duplicateRc || '',
       cubicCapacity: this.vehicleValuationDetails.cubicCapacity || '',
       seatingCapacity: this.vehicleValuationDetails.seatingCapacity || '',
-
+      speedometerReading: this.vehicleValuationDetails.speedometerReading || ''
       // existingVechicleOwned: this.vehicleValuationDetails.existingVechicleOwned || '',
       // noOfVehicles: this.vehicleValuationDetails.noOfVehicles || '',
       // existingSelfCostAsset: this.vehicleValuationDetails.existingSelfCostAsset || '',
@@ -406,12 +412,12 @@ export class ValuationComponent implements OnInit {
             // assetVariant: ''
           });
         } else {
-          this.vehicleLov.assetMake = []
-          this.toasterService.showWarning('No Data in Vehicle Master Region', 'Vehicle Master Region')
+          this.vehicleLov.assetMake = [];
+          this.toasterService.showWarning('No Data in Vehicle Master Region', 'Vehicle Master Region');
         }
       } else {
-        this.vehicleLov.assetMake = []
-        this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Master Region')
+        this.vehicleLov.assetMake = [];
+        this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Master Region');
       }
       this.uiLoader.stop();
     }, error => {
@@ -450,11 +456,11 @@ export class ValuationComponent implements OnInit {
             })
 
           } else {
-            this.vehicleLov.vehicleType = []
+            this.vehicleLov.vehicleType = [];
             this.toasterService.showWarning('No Data in Vehicle Master Asset Make', 'Vehicle Master Asset Make')
           }
         } else {
-          this.vehicleLov.vehicleType = []
+          this.vehicleLov.vehicleType = [];
           this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Master Asset Make')
         }
         this.uiLoader.stop();
@@ -467,7 +473,7 @@ export class ValuationComponent implements OnInit {
 
   onVehicleType(value, obj) {
 
-    let assetBodyType = []
+    let assetBodyType = [];
 
     if (value) {
 
@@ -498,15 +504,15 @@ export class ValuationComponent implements OnInit {
 
           } else {
             this.vehicleLov.assetBodyType = []
-            this.toasterService.showWarning('No Data in Vehicle Master Vehicle Type', 'Vehicle Master Vehicle Type')
+            this.toasterService.showWarning('No Data in Vehicle Master Vehicle Type', 'Vehicle Master Vehicle Type');
           }
         } else {
-          this.vehicleLov.assetBodyType = []
+          this.vehicleLov.assetBodyType = [];
           this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Master Vehicle Type')
         }
         this.uiLoader.stop();
       }, error => {
-        console.log(error, 'error')
+        console.log(error, 'error');
         this.uiLoader.stop();
       });
     }
@@ -573,7 +579,7 @@ export class ValuationComponent implements OnInit {
   }
 
   onFormSubmit() {
-    this.isDirty = true
+    this.isDirty = true;
     this.saveUpdateVehicleValuation();
   }
 

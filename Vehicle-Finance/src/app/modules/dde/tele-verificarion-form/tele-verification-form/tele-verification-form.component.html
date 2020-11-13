@@ -481,7 +481,7 @@
                         <div *ngIf="isDirty || teleVerificationForm.get('remarks').touched">
 
                             <div style="color:red" *ngIf="teleVerificationForm.get('remarks').errors?.required">
-                                Remakrs is required
+                                Remarks is required
                             </div>
                         </div>
                     </div>
@@ -547,7 +547,9 @@
         <div class="modal-content">
             <form [formGroup]="otpForm">
                 <div class="content">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h3 class="title">TVR OTP Verification</h3>
+                    
                     <hr />
                     <div id="tvrOtp">
                         <p>Please enter OTP shared by customer</p>

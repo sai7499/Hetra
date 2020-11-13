@@ -93,6 +93,15 @@ const routes: Routes = [
 
       },
       {
+        path: 'supervisor/dashboard',
+        loadChildren: () =>
+          import('./modules/dashboard/dashboard.module').then(
+            (m) => m.DashboardModule
+          ),
+        // canDeactivate: [can]
+
+      },
+      {
         path: 'terms-condition',
         loadChildren: () =>
           import('./modules/terms-conditions/terms-conditions.module').then(
