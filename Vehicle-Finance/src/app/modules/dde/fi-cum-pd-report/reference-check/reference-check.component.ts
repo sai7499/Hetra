@@ -601,7 +601,7 @@ export class ReferenceCheckComponent implements OnInit {
       return;
     }
     console.log('this product', this.productCat);
-    console.log("this soucing", this.sourcingChannel);
+    console.log('this sourcing', this.sourcingChannel);
     const referenceCheckModel = { ...formModel };
     this.refCheckDetails = {
       nameOfReference: referenceCheckModel.nameOfReference ? referenceCheckModel.nameOfReference : null,

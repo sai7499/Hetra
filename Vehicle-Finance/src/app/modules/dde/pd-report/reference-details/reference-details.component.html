@@ -726,7 +726,7 @@
     </div>
   </div>
 </form>
-<div class="modal" id="mySubmitModel">
+<div class="modal" id="myDeleteModel">
   <div class="modal-dialog">
     <div class="modal-content">
       <!-- Modal Header -->
@@ -750,7 +750,7 @@
           data-dismiss="modal"
           id="reject_yes_val"
           value="Yes"
-          (click)="submitToCredit()"
+          (click)="deleteRow(indexFromHtml, referenceDetailsForm.value.marketFinRefData)"
         >
           {{ labels.yes }}
         </button>

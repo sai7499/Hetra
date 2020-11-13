@@ -1654,7 +1654,7 @@
     "scoreValue": "Score",
     "marketAndFinancierReference": "Market & Financier Reference",
     "speedometerReading": "Speedometer Reading",
-    "deleteReference": "Are You Sure Want To Delete Reference?",
+    "deleteReference": "Are You Sure Want To Delete Reference Details?",
     "validationData": {
         "name": {
             "maxLength": {
