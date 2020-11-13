@@ -12,6 +12,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ToasterService } from '@services/toaster.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { debounceTime } from 'rxjs/operators';
 
 
 @Component({
@@ -236,6 +237,7 @@ export class TrackVehicleComponent implements OnInit {
     // this.loanEmiDate = this.trackVehicleForm.controls['loanStartDate'].value;
     this.noOfEmi = this.trackVehicleForm.controls['emisPaid'].value;
 
+    this.onChangeLoanStartDate();
 
   }
   checkFinanceCharge() {
@@ -292,7 +294,9 @@ export class TrackVehicleComponent implements OnInit {
         break;
       case 'emiStartDateModal': {
         this.showEmiStartDateModal = false;
-        this.trackVehicleForm.controls['emiStartDate'].patchValue(this.fleetDetails['emiStartDate'])
+        // this.trackVehicleForm.controls['emiStartDate'].patchValue(this.fleetDetails['emiStartDate'])
+        this.trackVehicleForm.controls['emiStartDate'].patchValue(null)
+
       }
       default: { }
 
@@ -517,6 +521,15 @@ export class TrackVehicleComponent implements OnInit {
   get f() { return this.trackVehicleForm.controls; }
   setMinEmiStartDate(event) {
     this.minEmiStartDate = event;
+  }
+  onChangeLoanStartDate() {
+    this.trackVehicleForm.controls['loanStartDate'].valueChanges.pipe(debounceTime(0)).subscribe((data) => {
+      if( data && this.trackVehicleForm.controls['loanStartDate'].dirty) {
+        // if(!this.fleetDetails && this.trackVehicleForm.controls['loanStartDate'].valueChanges) {
+        this.trackVehicleForm.controls['emiStartDate'].setValue(null);
+
+      }
+    })
   }
   getFleetRtr(fleetId) {
     this.trackVechileService.getFleetRtr(fleetId).subscribe((res) => {

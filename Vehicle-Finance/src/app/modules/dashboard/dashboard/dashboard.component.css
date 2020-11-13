@@ -45,13 +45,15 @@
 .notification {
     position: relative;
     top: -11px;
+    background: #f3682d;
+    color: white;
     right: 7px;
     padding: 0.05rem .4rem;
 }
 
 .cus-bell {
     font-size: 15px;
-    color: #d7d6e1;
+    color: #c1c1d7;
 }
 
 .disabled {
