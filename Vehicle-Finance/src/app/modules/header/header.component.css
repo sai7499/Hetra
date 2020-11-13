@@ -196,11 +196,12 @@ outline: none;
   .modal_top_bar .mb-0{
     margin-bottom: 0;
   }
-  .col-form-label_modal {
+  .modal_top_bar .col-form-label_modal {
     width:50%;
     padding-left: 20px;
     font-weight: 550;
     font-size: 12px;
+    text-align: left !important;
     word-break: break-word;
   }
   
