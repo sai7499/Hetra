@@ -404,8 +404,8 @@ export class PdcDetailsComponent implements OnInit {
         for (let i = 0; i < spdcCount; i++) {
           this.addSPdcUnit();
         }
-        if (data.spdcList != null) {
-          for (let j = 0; j < spdcCount; j++) {
+        if (data.spdcList) {
+          for (let j = 0; j < data.spdcList.length; j++) {
             spdcControl.at(j).patchValue({
               pdcId: data.spdcList[j].pdcId ? data.spdcList[j].pdcId : null,
               instrType: data.spdcList[j].instrType
