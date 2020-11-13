@@ -151,8 +151,8 @@ export class ReferenceComponent implements OnInit {
     this.referenceForm = new FormGroup({
       refOneFirstName: new FormControl('', Validators.required),
       refOneMiddleName: new FormControl(''),
-      refOneLastName: new FormControl(''),
-      refOneFullName: new FormControl(''),
+      refOneLastName: new FormControl('', Validators.required),
+      refOneFullName: new FormControl({value: '', disabled: true}),
       refOneAddressLineOne: new FormControl('', Validators.required),
       refOneAddressLineTwo: new FormControl(''),
       refOneAddressLineThree: new FormControl(''),
@@ -166,8 +166,8 @@ export class ReferenceComponent implements OnInit {
 
       refTwoFirstName: new FormControl('', Validators.required),
       refTwoMiddleName: new FormControl(''),
-      refTwoLastName: new FormControl(''),
-      refTwoFullName: new FormControl(''),
+      refTwoLastName: new FormControl('', Validators.required),
+      refTwoFullName: new FormControl({value: '', disabled: true}),
       refTwoAddressLineOne: new FormControl('', Validators.required),
       refTwoAddressLineTwo: new FormControl(''),
       refTwoAddressLineThree: new FormControl(''),
@@ -281,6 +281,9 @@ export class ReferenceComponent implements OnInit {
           const processVariables = value.ProcessVariables;
           const referenceList: any[] = processVariables.GeoMasterView;
           console.log('referenceList', referenceList);
+          // if(!this.responseData){
+          //   return;
+          // }
           if (value.Error !== '0') {
             return null;
           }
@@ -340,12 +343,15 @@ export class ReferenceComponent implements OnInit {
           if (district && district.length === 1) {
             this.referenceForm.patchValue({ refOneDistrict: district[0].key });
           }
-          if (this.responseData[0] && this.refOneBool) {
-            this.referenceForm.patchValue({
-              refOneCity: this.responseData[0].city,
-            });
-            this.refOneBool = false;
+          if(this.responseData){
+            if (this.responseData[0] && this.refOneBool) {
+              this.referenceForm.patchValue({
+                refOneCity: this.responseData[0].city,
+              });
+              this.refOneBool = false;
+            }
           }
+         
         } else {
           this.refTwoPincodeDummy = String(pincode);
           this.referenceForm.patchValue({ refTwoCountry: '' });
@@ -366,12 +372,15 @@ export class ReferenceComponent implements OnInit {
           if (district && district.length === 1) {
             this.referenceForm.patchValue({ refTwoDistrict: district[0].key });
           }
-          if (this.responseData[1] && this.refTwoBool) {
-            this.referenceForm.patchValue({
-              refTwoCity: this.responseData[1].city,
-            });
-            this.refTwoBool = false;
+          if(this.responseData){
+            if (this.responseData[1] && this.refTwoBool) {
+              this.referenceForm.patchValue({
+                refTwoCity: this.responseData[1].city,
+              });
+              this.refTwoBool = false;
+            }
           }
+         
         }
       });
   }

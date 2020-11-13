@@ -671,6 +671,22 @@
 
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="speedometer_reading"
+              >{{ labels.speedometerReading }}
+              <sub class="star_red_col">*</sub>
+            </label>
+            <app-custom-input
+              formControlName="speedometerReading"
+              [className]="'form-control mandatory'"
+              [placeholder]="'Speedometer Reading'"
+              [maxLength]="labels?.validationData?.speedometerReading.maxLength"
+              [isRequired]="'speedometer reading is Required'"
+              [type]="labels?.validationData?.speedometerReading.type"
+              [isDirty]="isDirty"
+            >
+            </app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="second_asset"
               >{{ labels.secondAsset }}
               <!-- <sub class="star_red_col">*</sub> -->
@@ -699,27 +715,6 @@
               [placeholder]="'Second Vehicle No Prefix'"
               [maxLength]="labels?.validationData?.vehiclePrefixNo.maxLength"
               [type]="labels?.validationData?.vehiclePrefixNo.type"
-            >
-            </app-custom-input>
-            <!--
-              [isRequired]="'Required Input is mandatory'"
-              [isDirty]="isDirty"-->
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="second_vechicle_no"
-              >{{ labels.secondVechicleNo }}
-              <!-- <sub class="star_red_col">*</sub> -->
-            </label>
-            <app-custom-input
-              formControlName="reRegNumber"
-              [className]="'form-control mandatory'"
-              [inputClass]="'text-uppercase'"
-              [placeholder]="'Second Vehicle No'"
-              [maxLength]="labels?.validationData?.registrationNo.maxLength"
-              [patternCheck]="
-                labels?.validationData?.registrationNo.registrationPattern
-              "
-              [type]="labels?.validationData?.registrationNo.type"
             >
             </app-custom-input>
             <!--
@@ -810,6 +805,27 @@
                     </div> -->
         </div>
         <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="second_vechicle_no"
+              >{{ labels.secondVechicleNo }}
+              <!-- <sub class="star_red_col">*</sub> -->
+            </label>
+            <app-custom-input
+              formControlName="reRegNumber"
+              [className]="'form-control mandatory'"
+              [inputClass]="'text-uppercase'"
+              [placeholder]="'Second Vehicle No'"
+              [maxLength]="labels?.validationData?.registrationNo.maxLength"
+              [patternCheck]="
+                labels?.validationData?.registrationNo.registrationPattern
+              "
+              [type]="labels?.validationData?.registrationNo.type"
+            >
+            </app-custom-input>
+            <!--
+              [isRequired]="'Required Input is mandatory'"
+              [isDirty]="isDirty"-->
+          </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="second_chassis_number"
               >{{ labels.secondChassisNumber }}

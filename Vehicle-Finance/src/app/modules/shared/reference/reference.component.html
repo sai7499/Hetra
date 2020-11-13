@@ -37,11 +37,14 @@
           </app-custom-input>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="account_branch">{{ labels.lastName }}</label>
+          <label for="account_branch">{{ labels.lastName }}
+            <sub class="star_red_col">*</sub>
+          </label>
           <app-custom-input 
             formControlName="refOneLastName" 
             [className]="'form-control mandatory'" 
             [placeholder]="'Last Name'"
+            [isRequired]="'Last Name Required'"
             [maxLength]='nameLength'
             [isDirty]="isDirty" 
             [type]="namePattern"
@@ -56,7 +59,7 @@
           <app-custom-input 
             formControlName="refOneFullName"
             [className]="'form-control mandatory'" 
-            [isDisabled]="'true'"
+            
             [placeholder]="'Full Name'"
             [maxLength]='150'
             [isDirty]="isDirty" 
@@ -189,6 +192,7 @@
             [isDirty]="isDirty"  
             [type]="'number'" 
             [maxLength]='mobileLength'
+            [patternCheck]="validationData?.mobileNumber.pattern"
             (input)='onRefOneMobile($event)'>
           </app-custom-input>
           <div class="invalid-feedback" *ngIf="isMobileTwoErrorMsg">
@@ -245,11 +249,14 @@
           </app-custom-input>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="account_branch">{{ labels.lastName }}</label>
+          <label for="account_branch">{{ labels.lastName }}
+            <sub class="star_red_col">*</sub>
+          </label>
           <app-custom-input 
             formControlName="refTwoLastName" 
             [className]="'form-control mandatory'" 
             [placeholder]="'Last Name'"
+            [isRequired]="'Last Name Required'"
             [maxLength]='nameLength'
             [isDirty]="isDirty" 
             [type]="namePattern"
@@ -264,7 +271,7 @@
           <app-custom-input 
             formControlName="refTwoFullName" 
             [className]="'form-control mandatory'" 
-            [isDisabled]="'true'"
+            
             [placeholder]="'Full Name'"
             [maxLength]='150'
             [isDirty]="isDirty" 
@@ -396,6 +403,7 @@
             [isDirty]="isDirty"  
             [type]="'number'" 
             [maxLength]='mobileLength'
+            [patternCheck]="validationData?.mobileNumber.pattern"
             (input)='onRefTwoMobile($event)'>
           </app-custom-input>
           <div class="invalid-feedback" *ngIf="isMobileOneErrorMsg">
