@@ -694,6 +694,11 @@ h4.table-head-bg.m-0.p-02 {
     margin: 15px 0;
 }
 
+.HeaderModalWidth{
+    width: 90% !important;
+    margin: 30px auto !important;
+}
+
 @media print {
     app-root app-lead-section-header {
         display: none;
