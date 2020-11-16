@@ -836,7 +836,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl(`/pages/pdd/${this.leadId}`);
         break;
       case 17:
-        this.router.navigateByUrl(`/pages/dde/${this.leadId}/cheque-tracking`);
+        this.router.navigateByUrl(`/pages/cheque-tracking/${this.leadId}`);
         break;
 
       default:
