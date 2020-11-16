@@ -64,6 +64,7 @@ export class RcuComponent implements OnInit {
   todayDate: any;
   isInitiateScreen: boolean;
   errorMessage: string;
+  isGetapiCalled: boolean = false;
 
   //  public value: Date = new Date(2019, 5, 1, 22);
   //     public format = 'MM/dd/yyyy HH:mm';
@@ -318,6 +319,7 @@ export class RcuComponent implements OnInit {
     };
     this.rcuService.getRcuDetails(data).subscribe((res: any) => {
       if (res && res.ProcessVariables.error.code == '0') {
+        this.isGetapiCalled = true;
         this.response = res.ProcessVariables;
         if (this.response.rcuInitiated == 'true') {
           this.isRcuDetails = true;
@@ -329,6 +331,7 @@ export class RcuComponent implements OnInit {
         console.log(this.applicantDocuments);
         console.log(this.tab);
         this.populateApplicantDocuments(this.response.fileRCUStatus);
+        this.isGetapiCalled = false;
       } else if (res && res.ProcessVariables.error.code == '1') {
         // this.showCamHtml == false
         // this.errorGenerated = true;
@@ -440,7 +443,7 @@ export class RcuComponent implements OnInit {
           sampled: this.applicantDocuments[i].sampled ? this.applicantDocuments[i].sampled : '0',
         });
       }
-    } else if (event == 'screened' && this.collateralDocuments != null) {
+    } else if (event == 'screened' && this.collateralDocuments != null && this.isGetapiCalled == true) {
       this.screened = '0';
       this.sampled = '1';
       // tslint:disable-next-line: prefer-for-of
@@ -488,6 +491,20 @@ export class RcuComponent implements OnInit {
           // sampled: '1',
           screened: this.collateralDocuments[i].screened ? this.collateralDocuments[i].screened : '0',
           sampled: this.collateralDocuments[i].sampled ? this.collateralDocuments[i].sampled : '1',
+        });
+      }
+    } else if (event == 'screened' && this.collateralDocuments != null && this.isGetapiCalled == false){
+      
+      for (
+        let i = 0;
+        i < this.rcuDetailsForm.controls.collateralDocuments.length;
+        i++
+      ) {
+        const control = this.rcuDetailsForm.controls.collateralDocuments
+          .controls as FormArray;
+        control[i].patchValue({
+          screened: '1',
+          sampled: '0',
         });
       }
     }
