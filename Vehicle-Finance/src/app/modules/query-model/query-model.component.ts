@@ -137,7 +137,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       } else {
         clearInterval(this.intervalId)
       }
-    }, 5000)
+    }, 300000)
 
   }
 
@@ -230,7 +230,6 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     return setInterval(() => {
       this.pollingService.getPollingLeadsCount(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-          console.log('count response')
           this.getCommonLeadData(res)
           this.selectedList = this.conditionalClassArray[this.conditionalClassArray.length - 1];
           if (this.selectedList) {
@@ -241,7 +240,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
           }
         }
       })
-    }, 5000)
+    }, 300000)
   }
 
   getCommonLeadData(res) {
@@ -249,9 +248,13 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     this.chatList = res.ProcessVariables.chatLeads ? res.ProcessVariables.chatLeads : [];
     this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
 
-    if (res.ProcessVariables.chatLeads && res.ProcessVariables.chatLeads.length > 0) {
+    if (res.ProcessVariables) {
+
+      console.log(this.queryLeads, 'rout', this.routerId)
+
 
       if (this.routerId && this.queryLeads.length > 0) {
+        console.log(this.routerId, 'routerId', this.queryLeads)
         const test = this.queryLeads.find((val) => {
           return (val.key === this.routerId)
         })
@@ -305,46 +308,44 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   }
 
   getQueries(lead, isSelected?: boolean) {
-    this.getChatSendObj.leadId = Number(lead.key);
-    this.getChatSendObj.fromUser = this.userId;
-    let data = this.getChatSendObj;
 
-    this.queryModalForm.patchValue({
-      leadId: Number(lead.key),
-    })
+    if (lead) {
+      this.getChatSendObj.leadId = Number(lead.key);
+      this.getChatSendObj.fromUser = this.userId;
+      let data = this.getChatSendObj;
 
-    if (isSelected) {
-      this.conditionalClassArray.push(lead)
-    }
+      this.queryModalForm.patchValue({
+        leadId: Number(lead.key),
+      })
 
-    console.log(this.conditionalClassArray, 'Kwad Id', isSelected)
-
-    this.selectedList = lead;
-
-    if (this.queryModalForm.value.leadId) {
-      this.getLeadSectionData(this.queryModalForm.value.leadId)
-    }
-
-    this.searchLeadId = lead.value;
-    this.getUsers();
-    this.queryModelService.getQueries(data).subscribe((res: any) => {
-      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        lead.count = 0;
-
-        if (this.isMobileView) {
-          this.closeNav();
-        }
-
-        this.getChatsObj = res.ProcessVariables;
-        this.chatMessages = res.ProcessVariables.assetQueries ? res.ProcessVariables.assetQueries : [];
-        this.chatMessages.filter((val) => {
-          val.time = this.myDateParser(val.createdOn)
-        })
-      } else {
-        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Queries')
+      if (isSelected) {
+        this.conditionalClassArray.push(lead)
       }
-    })
 
+      this.selectedList = lead;
+
+      if (this.queryModalForm.value.leadId) {
+        this.getLeadSectionData(this.queryModalForm.value.leadId)
+      }
+
+      this.searchLeadId = lead.value;
+      this.getUsers();
+      this.queryModelService.getQueries(data).subscribe((res: any) => {
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          lead.count = 0;
+          if (this.isMobileView) {
+            this.closeNav();
+          }
+          this.getChatsObj = res.ProcessVariables;
+          this.chatMessages = res.ProcessVariables.assetQueries ? res.ProcessVariables.assetQueries : [];
+          this.chatMessages.filter((val) => {
+            val.time = this.myDateParser(val.createdOn)
+          })
+        } else {
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Queries')
+        }
+      })
+    }
   }
 
   getLeadSectionData(leadId) {
@@ -470,12 +471,31 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     // this.isLeadShow = true;
   }
 
+  autoPopulateQuery(stakeholder) {
+    console.log('fkdjkg', stakeholder)
+    this.queryModalForm.patchValue({
+      queryTo: stakeholder.key
+    })
+    this.searchText = stakeholder.value;
+  }
+
   onFormSubmit(form) {
 
-    if (form.valid) {
+    if (form.valid && form.controls['query'].value.trim().length !== 0) {
 
       let assetQueries = [];
-      assetQueries.push(form.value)
+      // assetQueries.push(form.value)
+
+      assetQueries = [
+        {
+          query: form.value.query.trim(),
+          queryType: form.value.queryType,
+          queryFrom: this.userId,
+          queryTo: form.value.queryTo,
+          docId: form.value.docId,
+          docName: form.value.docName
+        }
+      ]
 
       let data = {
         "leadId": Number(form.value.leadId),
@@ -485,12 +505,11 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       this.queryModelService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           this.getLeads(this.getLeadSendObj);
-          form.reset();
           this.queryModalForm.patchValue({
-            queryFrom: localStorage.getItem('userId')
+            queryFrom: localStorage.getItem('userId'),
+            query: ''
           })
           this.searchText = '';
-          // this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Query Model Save/Update')
         } else {
           this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Query Model Save/Update')
         }
@@ -498,7 +517,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
     } else {
       this.isDirty = true;
-      // this.toasterService.showError('Please enter all mandatory field', 'Query Model Save/Update')
+      this.toasterService.showError('Please enter all mandatory field', 'Query Model Save/Update')
       this.utilityService.validateAllFormFields(form)
     }
 
