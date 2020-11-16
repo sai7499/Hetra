@@ -11,12 +11,12 @@
       <div class="col-md-2 rcuStatus"><label>{{ labels?.fileRcuStatus }} :</label></div>
       <div class="col-md-2 sampled">
         <input type="radio" name="fileRCUStatus" value="screened" id="screened" formControlName="fileRCUStatus"
-          (click)="testRadio($event.target.value)">
+          (click)="testRadio('screened')">
         <label for="screened"> Screened</label>
       </div>
       <div class="col-md-4 ">
         <input type="radio" name="fileRCUStatus" value="sampled" id="sampled" formControlName="fileRCUStatus"
-          (click)="testRadio($event.target.value)">
+          (click)="testRadio('sampled')">
         <label for="sampled"> Sampled</label>
       </div>
       <div class="clearfix"></div>
@@ -70,7 +70,7 @@
       <div class="col-md-2 pl"><label>{{labels?.vehicleNumber}}</label></div>
       <div class="col-md-2">
         <app-custom-input [placeholder]="''" formControlName="vehicleNo" [type]="labels?.validationData?.receiptNo?.type" 
-          [className]="'form-control mandatory textTrans'" [maxLength]="labels?.validationData?.receiptNo?.maxLength"
+          [className]="'form-control mandatory textTrans'" [maxLength]="labels?.validationData?.receiptNo?.maxLength" [inputClass]="'input-upper'"
           [isDirty]="isDirty">
         </app-custom-input>
       </div>
@@ -178,16 +178,16 @@
               <!-- <ng-container *ngIf="fileRCUStatus == 'sampled'"></ng-container> -->
               
               <app-vf-custom-select [values]="[
-            { key: '0', value: 'Yes' },
-            { key: '1', value: 'No' }
+            { key: '1', value: 'Yes' },
+            { key: '0', value: 'No' }
           ]" formControlName="sampled">
               </app-vf-custom-select>
             </td>
             <td data-title="Member">
              
               <app-vf-custom-select [values]="[
-            { key: '0', value: 'Yes' },
-            { key: '1', value: 'No' }
+            { key: '1', value: 'Yes' },
+            { key: '0', value: 'No' }
           ]" formControlName="screened">
         </app-vf-custom-select>
             </td>
@@ -244,7 +244,7 @@
             </kendo-datepicker>
             </td>
             <td data-title="Member">
-              <input name="input" type="text" class="form-control file-input" formControlName="rcuDocumentID" readonly
+              <input name="input" type="text" class="form-control file-input" formControlName="dmsDocumentID" readonly
                 (click)="downloadDocs($event.target.value)" />
             </td>
             <td data-title="Member">
@@ -401,7 +401,7 @@
       </div>
       <div class="col-md-1 fitWidth pl-top"><label>{{labels?.rcuDocumentId}}</label></div>
       <div class="col-md-1">
-        <input name="input" type="text" class="form-control file-input" formControlName="rcuDocumentID" readonly
+        <input name="input" type="text" class="form-control file-input" formControlName="rcuDocumentId" readonly
         (click)="downloadDocs($event.target.value)" />
       </div>
       <div class="col-md-2"><label>{{labels?.rcuReportReceivedDateandTime}}</label></div>
@@ -423,7 +423,7 @@
       <div class="clearfix"></div>
     </div>
     <div class="form-group od-row">
-      <div class="col-md-1 "><label>{{labels?.remark}}</label></div>
+      <div class="col-md-1  pl-top"><label>{{labels?.remark}}</label></div>
       <div class="col-md-11">
         <textarea class="form-control form-control-sm" placeholder="Text Area" formControlName="remarks"></textarea>
       </div>
