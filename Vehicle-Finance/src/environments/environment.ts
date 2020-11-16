@@ -1,4 +1,4 @@
-aimport { environment as environmentProd } from './environment.prod';
+import { environment as environmentProd } from './environment.prod';
 
 export const environment = {
 
