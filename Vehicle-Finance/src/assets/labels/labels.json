@@ -1667,6 +1667,8 @@
     "inputValue": "Input Value",
     "scoreValue": "Score",
     "marketAndFinancierReference": "Market & Financier Reference",
+    "performed_by":"Performed By",
+    "performed_on":"Performed On",
     "speedometerReading": "Speedometer Reading",
     "deleteReference": "Are You Sure Want To Delete Reference Details?",
     "validationData": {

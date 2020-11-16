@@ -468,7 +468,7 @@
             <td [attr.data-label]="labels?.promoCode">{{item.promoCode ? item.promoCode : '--'}}</td>
             <td [attr.data-label]="labels?.status">{{item.stage ? item.stage : '--'}}</td>
             <td [attr.data-label]="labels?.history">
-              <a data-toggle="tooltip" data-placement="bottom" title="Click to View Timeline Chart"> <i
+              <a data-toggle="modal" data-target="#leadHistoryModal" data-tooltip="Lead History" data-placement="bottom" (click)="onLeadHistory(item.leadId)"> <i
                   class="fa fa-history"></i></a>
             </td>
           </tr>

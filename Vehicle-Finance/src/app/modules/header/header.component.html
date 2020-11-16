@@ -2,19 +2,20 @@
     <div class="container-fluid">
         <div class="navbar-header">
             <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#bs-navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            <a  class="navbar-brand hetra"><img (click)='goToActivitySearch()' src="assets/images/hetra_logo.png" alt="[Image: Hetra Logo]" title="Hetra" class=""></a>
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand hetra"><img (click)='goToActivitySearch()' src="assets/images/hetra_logo.png"
+                    alt="[Image: Hetra Logo]" title="Hetra" class=""></a>
         </div>
         <app-profile>
             <!-- <div class="search">
                 <input type="text" class="form-control" placeholder="Search">
                 <span class="search-icon-left"></span>
             </div> -->
-            <app-search-bar></app-search-bar>
+            <app-search-bar></app-search-bar>          
         </app-profile>
     </div>
 </header>
@@ -29,3 +30,81 @@
         </p>
     </div>
 </footer>
+
+<!--Popup Model  -->
+
+<div class="modal fade" id="leadHistoryModal">
+  <div class="modal-dialog modal-dialog-centered HeaderModalWidth">
+    <div class="modal-content">
+      <div class="modal-header ">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title text-center ">Lead History</h4>
+      </div>
+      <div class="modal-body ">
+        <div class="container-fluid modal_top_bar">
+          <div class="row ">
+            <div class=" col-lg-4 col-md-4 col-sm-4 form-group mb-0">
+              <label class="col-form-label_modal" for="lead_created_by">Lead Id
+              </label>
+              <label for="lead_created_by_name" class="col-form-label-two_modal">: {{topBandData?.leadId}}</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 form-group mb-0">
+              <label class="col-form-label_modal" for="lead_created_by">Applicant Name</label>
+              <label for="lead_created_by_name" class="col-form-label-two_modal">: {{topBandData?.applicantName}}</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 form-group mb-0">
+              <label class="col-form-label_modal" for="customer_name_label">Product category</label>
+              <label for="customer_name" class="col-form-label-two_modal">: {{topBandData?.productCategory}}</label>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col-lg-4 col-md-4 col-sm-4 form-group mb-0">
+              <label class="col-form-label_modal" for="lead_created_by">Stage
+              </label>
+              <label for="lead_created_by_name" class="col-form-label-two_modal">: {{topBandData?.leadStage}}</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 form-group mb-0">
+              <label class="col-form-label_modal" for="lead_created_by">Queue</label>
+              <label for="lead_created_by_name" class="col-form-label-two_modal">: {{topBandData?.queue}}</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 form-group mb-0">
+              <label class="col-form-label_modal" for="customer_name_label">User / Role</label>
+              <label for="customer_name" class="col-form-label-two_modal">: {{topBandData?.roleName}}</label>
+            </div>
+          </div>
+        </div>
+        <div class="container-fluid">
+          <div class="row">
+            <div id="wrapper">
+              <table class="table table-bordered mb-0 main-table">
+                <thead>
+                  <tr class="table-head-bg">
+                    <th>S.No <i class="fa fa-sort"></i></th>
+                    <th>Stage / Action <i class="fa fa-sort"></i></th>
+                    <th>Performed by <i class="fa fa-sort"></i></th>
+                    <th>Performed on <i class="fa fa-sort"></i></th>
+                    <th>Status <i class="fa fa-sort"></i></th>
+                    <!-- <th>Remarks <i class="fa fa-sort"></i></th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let leadHistory of leadHistories; let i = index">
+                    <td [attr.data-label]="labels?.sNo">{{i+1}}</td>
+                    <td [attr.data-label]="labels?.status">{{leadHistory?.stage}}</td>
+                    <td [attr.data-label]="labels?.action">{{leadHistory?.createdBy}}</td>
+                    <td [attr.data-label]="labels?.performed_by">{{leadHistory?.createdDate}}</td>
+                    <td [attr.data-label]="labels?.performed_on">{{leadHistory?.response}}</td>
+                    <!-- <td [attr.data-label]="labels?.remark">Remarks</td> -->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="HeaderFooter">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -935,6 +935,11 @@ export class ApiService {
       processId: '4628de009c2f11eabddcf2fa9bec3d63',
       workflowId: '04ae6c069a8611eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
+    },
+    leadHistory: {
+      processId: 'f0f395d824eb11eb91b100505695f93b',
+      workflowId: 'b50e63f4235b11eb937600505695f93b',
+      projectId: environment.projectIds.camProjectId
     }
 
   };
