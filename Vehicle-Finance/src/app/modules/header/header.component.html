@@ -50,26 +50,26 @@
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 form-group mb-0">
               <label class="col-form-label_modal" for="lead_created_by">Applicant Name</label>
-              <label for="lead_created_by_name" class="col-form-label-two_modal">: Xyzabcd</label>
+              <label for="lead_created_by_name" class="col-form-label-two_modal">: {{topBandData?.applicantName}}</label>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 form-group mb-0">
               <label class="col-form-label_modal" for="customer_name_label">Product category</label>
-              <label for="customer_name" class="col-form-label-two_modal">: New Commercial Vehicle</label>
+              <label for="customer_name" class="col-form-label-two_modal">: {{topBandData?.productCategory}}</label>
             </div>
           </div>
           <div class="row ">
             <div class="col-lg-4 col-md-4 col-sm-4 form-group mb-0">
               <label class="col-form-label_modal" for="lead_created_by">Stage
               </label>
-              <label for="lead_created_by_name" class="col-form-label-two_modal">: DDE Completed</label>
+              <label for="lead_created_by_name" class="col-form-label-two_modal">: {{topBandData?.leadStage}}</label>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 form-group mb-0">
               <label class="col-form-label_modal" for="lead_created_by">Queue</label>
-              <label for="lead_created_by_name" class="col-form-label-two_modal">: Deviation</label>
+              <label for="lead_created_by_name" class="col-form-label-two_modal">: {{topBandData?.queue}}</label>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 form-group mb-0">
               <label class="col-form-label_modal" for="customer_name_label">User / Role</label>
-              <label for="customer_name" class="col-form-label-two_modal">: ACM</label>
+              <label for="customer_name" class="col-form-label-two_modal">: {{topBandData?.roleName}}</label>
             </div>
           </div>
         </div>

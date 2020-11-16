@@ -52,7 +52,7 @@ export class HeaderComponent implements OnInit {
         if (!data) {
           return;
         }
-        this.leadHistories = data.ProcessVariables.leadDetails;
+        this.leadHistories = data.ProcessVariables.leads;
         this.topBandData = data.ProcessVariables;
         console.log('leadHistoryData', this.leadHistories);
       })

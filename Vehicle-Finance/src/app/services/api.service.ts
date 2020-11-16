@@ -922,7 +922,7 @@ export class ApiService {
       projectId: environment.projectIds.salesProjectId
     },
     leadHistory: {
-      processId: 'b5366dc2235b11ebbb7a00505695f93b',
+      processId: 'f0f395d824eb11eb91b100505695f93b',
       workflowId: 'b50e63f4235b11eb937600505695f93b',
       projectId: environment.projectIds.camProjectId
     }
