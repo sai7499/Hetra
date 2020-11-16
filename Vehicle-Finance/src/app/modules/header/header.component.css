@@ -329,6 +329,26 @@ outline: none;
     .btn-width, .btn-width-org{
       width:100%;
     }
+
+    .col-form-label-two_modal {
+
+    width:50%;
+    padding-left: 0px!important;
+    font-weight: 400;
+    font-size: 12px;
+    float: right;
+    text-align: left !important;
+    word-break: break-word;
+  }
+    
+  .modal_top_bar .col-form-label_modal {
+    width:50%;
+    padding-left: 0px!important;
+    font-weight: 550;
+    font-size: 12px;
+    text-align: left !important;
+    word-break: break-word;
+  }
   
     
   }
