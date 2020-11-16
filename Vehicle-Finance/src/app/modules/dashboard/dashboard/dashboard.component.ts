@@ -1064,7 +1064,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
             console.log('leadHistoryData', leadHistoryData);
             this.commonDataService.shareLeadHistoryData(leadHistoryData);
           } else {
-            alert('Error');
+            const message = response.ProcessVariables.error.message;
+            this.toasterService.showError(message, 'Lead Creation');
           }
         }
       );

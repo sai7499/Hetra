@@ -8,6 +8,7 @@ import { Location } from '@angular/common';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { LeadHistoryService } from '@services/lead-history.service';
 import { CommonDataService } from '@services/common-data.service';
+import { ToasterService } from '@services/toaster.service';
 // import { LeadHistoriesDataService } from '@services/lead-histories-data.service';
 
 @Component({
@@ -48,7 +49,7 @@ export class LeadSectionHeaderComponent implements OnInit {
     private toggleDdeService: ToggleDdeService,
     private leadHistoryService: LeadHistoryService,
     private commonDataService: CommonDataService,
-    // private leadHistoriesDataService: LeadHistoriesDataService
+    private toasterService: ToasterService,
   ) {
     // this.aRoute.parent.params.subscribe(value => this.leadId = Number(value.leadId))
     this.leadId = this.aRoute.snapshot.params['leadId'];
@@ -216,7 +217,8 @@ export class LeadSectionHeaderComponent implements OnInit {
             console.log('leadHistoryData', leadHistoryData);
             this.commonDataService.shareLeadHistoryData(leadHistoryData);
           } else {
-            alert('Error');
+            const message = response.ProcessVariables.error.message;
+            this.toasterService.showError(message, 'Lead Creation');
           }
         }
       );
