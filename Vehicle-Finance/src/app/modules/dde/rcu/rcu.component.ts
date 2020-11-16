@@ -66,6 +66,7 @@ export class RcuComponent implements OnInit {
   isInitiateScreen: boolean;
   errorMessage: string;
   isGetapiCalled: boolean = false;
+  showBack: boolean = false;
 
   //  public value: Date = new Date(2019, 5, 1, 22);
   //     public format = 'MM/dd/yyyy HH:mm';
@@ -136,12 +137,14 @@ export class RcuComponent implements OnInit {
     if (this.router.url.includes('/rcu') && this.roleType == '6') {
       this.isRcuDetails = false;
       this.showSave = true
+      this.showBack = false
       //  this.rcuInitiated = true
       this.getAllRcuDetails();
     } else if (this.router.url.includes('/rcu') && this.roleType == '2') {
       this.rcuDetailsForm.disable();
       this.getAllRcuDetails();
       this.showSave = false
+      this.showBack = true
 
       // this.rcuInitiated = false
       // this.getAllRcuDetails( this.rcuInitiated)

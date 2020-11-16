@@ -302,13 +302,13 @@
 <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
   <div class="col-sm-5"></div>
   <div class="col-sm-7 text-right">
-    <button class="btn btn-primary dash_href" type="button" routerLink="../tvr-details">
+    <button class="btn btn-primary dash_href" type="button" routerLink="../tvr-details"  *ngIf="showBack == true">
       Back
     </button>
     <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()"  *ngIf="showSave == true">
       Save
     </button>
-    <button class="btn btn-primary dash_href" type="button" routerLink="../fi-list">
+    <button class="btn btn-primary dash_href" type="button" routerLink="../fi-list"  *ngIf="showBack == true">
       Next
     </button>
   </div>
