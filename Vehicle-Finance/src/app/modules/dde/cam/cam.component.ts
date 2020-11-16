@@ -280,20 +280,8 @@ export class CamComponent implements OnInit {
             /^[a-zA-Z0-9 ]*$/
           ),
         ]),
-        commentsOnBankingIfAny:new FormControl(null, [
-          // Validators.required,
-          Validators.maxLength(5000),
-          Validators.pattern(
-            /^[a-zA-Z0-9 ]*$/
-          ),
-        ]),
-        commentsOnRtr:new FormControl(null, [
-          // Validators.required,
-          Validators.maxLength(5000),
-          Validators.pattern(
-            /^[a-zA-Z0-9 ]*$/
-          ),
-        ])
+        commentsOnBankingIfAny: new FormControl(),
+        commentsOnRtr: new FormControl(),
       })
     } else if (this.productCategoryCode == "NCV") {
       this.camDetailsForm = this.formBuilder.group({
