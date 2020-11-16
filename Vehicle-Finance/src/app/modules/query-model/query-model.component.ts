@@ -187,7 +187,6 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       const getChatLead = this.chatList.filter((val) => {
         return getObj.leadId === Number(val.key)
       })
-      console.log(getChatLead, 'getChatLead')
       this.getQueries(getChatLead[0], true)
     }
   }
@@ -208,7 +207,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.getCommonLeadData(res)
-        this.getQueries(this.chatList[0])
+        this.getQueries(this.chatList[0], true)
         this.isIntervalStart = true;
       } else {
         this.chatList = [];
@@ -249,9 +248,13 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     this.chatList = res.ProcessVariables.chatLeads ? res.ProcessVariables.chatLeads : [];
     this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
 
-    if (res.ProcessVariables.chatLeads && res.ProcessVariables.chatLeads.length > 0) {
+    if (res.ProcessVariables) {
+
+      console.log(this.queryLeads, 'rout', this.routerId)
+
 
       if (this.routerId && this.queryLeads.length > 0) {
+        console.log(this.routerId, 'routerId', this.queryLeads)
         const test = this.queryLeads.find((val) => {
           return (val.key === this.routerId)
         })
@@ -468,6 +471,14 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     // this.isLeadShow = true;
   }
 
+  autoPopulateQuery(stakeholder) {
+    console.log('fkdjkg', stakeholder)
+    this.queryModalForm.patchValue({
+      queryTo: stakeholder.key
+    })
+    this.searchText = stakeholder.value;
+  }
+
   onFormSubmit(form) {
 
     if (form.valid && form.controls['query'].value.trim().length !== 0) {
@@ -482,7 +493,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
           queryFrom: this.userId,
           queryTo: form.value.queryTo,
           docId: form.value.docId,
-          docName:  form.value.docName
+          docName: form.value.docName
         }
       ]
 
@@ -494,12 +505,11 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       this.queryModelService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           this.getLeads(this.getLeadSendObj);
-          form.reset();
           this.queryModalForm.patchValue({
-            queryFrom: localStorage.getItem('userId')
+            queryFrom: localStorage.getItem('userId'),
+            query: ''
           })
           this.searchText = '';
-          // this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Query Model Save/Update')
         } else {
           this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Query Model Save/Update')
         }

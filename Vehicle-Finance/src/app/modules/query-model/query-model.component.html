@@ -38,8 +38,9 @@
                   <div id="loadMore" (click)="loadMorePage(chatList.length, queryModalForm.value.searchName)"
                     *ngIf="chatList.length >= 5 && getLeadsObj.chatTotalPages > chatTotalPages">Load
                     more</div>
-                  <div class="empty-list" *ngIf="chatList.length === 0">
-                    No such field in leadlist
+
+                  <div class="empty-list" *ngIf="chatList.length === 0 && queryModalForm.value.searchName">
+                    No such lead is available in lead list
                   </div>
 
                 </div>
@@ -68,7 +69,8 @@
                           </div>
                           <div class="stakeholder-list">
                             <div *ngFor="let stack of queryModelLov.filterStackHolders | search ">
-                              <div class="radio"><label><input type="radio" name="radio"> {{stack.value}} <span
+                              <div class="radio"><label><input class="select-user" type="radio" name="radio"
+                                    (click)="autoPopulateQuery(stack)"> {{stack.value}} <span
                                     class="checkmark"></span></label></div>
                             </div>
                           </div>
@@ -146,7 +148,7 @@
                 <div id="loadMore" (click)="loadMorePage(chatList.length, queryModalForm.value.searchName)"
                   *ngIf="chatList.length >= 5 && getLeadsObj.chatTotalPages > chatTotalPages">Load
                   more</div>
-                <div class="empty-list" *ngIf="chatList.length === 0">
+                <div class="empty-list" *ngIf="chatList.length === 0 && queryModalForm.value.searchName">
                   No such field in leadlist
                 </div>
 
@@ -175,7 +177,8 @@
                         </div>
                         <div class="stakeholder-list">
                           <div *ngFor="let stack of queryModelLov.filterStackHolders | search ">
-                            <div class="radio"><label><input type="radio" name="radio"> {{stack.value}} <span
+                            <div class="radio"><label><input type="radio" name="radio"
+                                  (click)="autoPopulateQuery(stack)"> {{stack.value}} <span
                                   class="checkmark"></span></label></div>
                           </div>
                         </div>
@@ -363,7 +366,6 @@
                       <div *ngIf="queryModalForm.controls['query'].hasError('required')">
                         Query Required
                       </div>
-
                     </div>
                   </div>
                 </div>
