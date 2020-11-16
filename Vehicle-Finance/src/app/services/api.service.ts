@@ -889,7 +889,22 @@ export class ApiService {
     sendBackToSales: {
       processId: '7a0640be1a7911eb9ca100505695f93b',
       workflowId: '79d8aae61a7911eb9fe400505695f93b',
-      projectId: environment.projectIds.submitToCredit
+      projectId : environment.projectIds.submitToCredit,
+    },
+    getRcuDetails:{
+      processId: '55754d6e1e7311eb857100505695f93b',
+      workflowId: 'cb68bc321e5e11ebb8f300505695f93b',
+      projectId : environment.projectIds.camProjectId,
+    },
+    assignRcuTask:{
+      processId: 'a55088661f5011eb842c00505695f93b',
+      workflowId: '403a8a12b79511ea8afff2fa9bec3d63',
+      projectId : environment.projectIds.taskProjectId,
+    },
+    saveUpdateRcuDetails:{
+      processId: 'cba377141e5e11eb8fb700505695f93b',
+      workflowId: 'cb68bc321e5e11ebb8f300505695f93b',
+      projectId : environment.projectIds.camProjectId,
     },
     getQueries: {
       processId: 'bc794b1c18df11eb917900505695f93b',
@@ -926,5 +941,6 @@ export class ApiService {
       workflowId: 'b50e63f4235b11eb937600505695f93b',
       projectId: environment.projectIds.camProjectId
     }
+
   };
 }
