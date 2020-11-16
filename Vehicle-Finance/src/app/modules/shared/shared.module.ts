@@ -41,6 +41,7 @@ import { MatTreeModule, MatIconModule } from '@angular/material';
 import { RejectReasonModalComponent } from './reject-reason-modal/reject-reason-modal.component';
 import { PageRedirectModalComponent } from './page-redirect-modal/page-redirect-modal.component';
 import { ReferenceComponent } from './reference/reference.component';
+import { WelomceLetterComponent } from '@modules/dde/cpc-maker/welomce-letter/welomce-letter.component';
 setTheme('bs4');
 
 @NgModule({
@@ -70,7 +71,8 @@ setTheme('bs4');
     PageRedirectModalComponent,
     ReferenceComponent,
     PddComponent,
-    UploadDiscussionComponent
+    UploadDiscussionComponent,
+    WelomceLetterComponent
   ],
   imports: [
     CommonModule,
@@ -110,7 +112,8 @@ setTheme('bs4');
     PageRedirectModalComponent,
     ReferenceComponent,
     PddComponent,
-    UploadDiscussionComponent
+    UploadDiscussionComponent,
+    WelomceLetterComponent
   ],
 })
 export class SharedModule { }

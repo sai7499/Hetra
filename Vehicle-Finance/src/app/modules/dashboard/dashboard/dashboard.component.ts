@@ -16,9 +16,12 @@ import { QueryModelService } from '@services/query-model.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { PollingService } from '@services/polling.service';
+<<<<<<< HEAD
 import { timer } from 'rxjs';
 import { LeadHistoryService } from '@services/lead-history.service';
 import { CommonDataService } from '@services/common-data.service';
+=======
+>>>>>>> 1e52fe0e70e9434603a0980deecf3576392bb43c
 
 export enum DisplayTabs {
   Leads,
@@ -196,10 +199,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.supervisorForm = this.fb.group({
-      roles : ['']
+      roles: ['']
     })
 
-    if(this.router.url === "/pages/supervisor/dashboard") {
+    if (this.router.url === "/pages/supervisor/dashboard") {
       this.supervisor = true;
     } else {
       this.supervisor = false;
@@ -292,7 +295,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       } else {
         clearInterval(this.intervalId)
       }
-    }, 30000)
+    }, 300000)
 
   }
 
@@ -306,7 +309,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           clearInterval(this.intervalId)
         }
       })
-    }, 30000)
+    }, 300000)
   }
 
   getCountAcrossLeads(userId) {
@@ -844,7 +847,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl(`/pages/pdd/${this.leadId}`);
         break;
       case 17:
-        this.router.navigateByUrl(`/pages/dde/${this.leadId}/cheque-tracking`);
+        this.router.navigateByUrl(`/pages/cheque-tracking/${this.leadId}`);
         break;
 
       default:
@@ -998,7 +1001,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getReAssignData(item) {
     this.reAssignData = item;
     console.log(this.reAssignData);
-    
+
   }
   onReAssign() {
     const data = {
@@ -1010,9 +1013,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.taskDashboard.releaseTask(data).subscribe((res: any) => {
       console.log(res);
     })
-    
+
     console.log(this.supervisorForm.value);
-    
+
   }
 
   saveTaskLogs() {
@@ -1060,54 +1063,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           const apiError = response.ProcessVariables.error.code;
 
           if (appiyoError === '0' && apiError === '0') {
-            // let data = {
-            //   "ApplicationId": "74c36bec6da211eabdc2f2fa9bec3d63",
-            //   "Error": "0",
-            //   "ErrorCode": "",
-            //   "ErrorMessage": "",
-            //   "ProcessId": "b5366dc2235b11ebbb7a00505695f93b",
-            //   "ProcessInstanceId": "7177952024aa11eb968d00505695f93b",
-            //   "ProcessName": "Get Lead History",
-            //   "ProcessVariables": {
-            //     "error": {
-            //       "code": "0",
-            //       "message": "Success"
-            //     },
-            //     "leadDetail": [
-            //       {
-            //         "createdBy": "cpcc_user",
-            //         "createdDate": "2020-09-01T12:06:46Z",
-            //         "response": "SUCCESS",
-            //         "stage": "UPDATE_DIGICUST_LEAD_API"
-            //       },
-            //       {
-            //         "createdBy": "cpcc_user",
-            //         "createdDate": "2020-09-01T12:06:51Z",
-            //         "response": "SUCCESS",
-            //         "stage": "CREATE_DIGICUST_BYLEAD_API"
-            //       },
-            //       {
-            //         "createdBy": "cpcc_user",
-            //         "createdDate": "2020-09-01T12:06:51Z",
-            //         "response": "SUCCESS",
-            //         "stage": "UPDATE_DIGICUST_LEAD_API"
-            //       },
-            //       {
-            //         "createdBy": "cpcc_user",
-            //         "createdDate": "2020-09-01T12:06:55Z",
-            //         "response": "SUCCESS",
-            //         "stage": "CREATE_DIGICUST_BYLEAD_API"
-            //       }
-            //     ],
-            //     "leadId": "1906",
-            //     "status": true
-            //   },
-            //   "Status": "Execution Completed",
-            //   "WorkflowId": "b50e63f4235b11eb937600505695f93b"
-            // }
-
-
-            // const leadHistoryData = response.ProcessVariables.leadDetails;data
             const leadHistoryData = response;
             console.log('leadHistoryData', leadHistoryData);
             this.commonDataService.shareLeadHistoryData(leadHistoryData);
