@@ -127,35 +127,13 @@
         </div>
       </div>
     </div>
-    <!-- <table class="table table-responsive table-borderless tab-border tab-view">
-      <tr style="line-height:2">
-        <td class="lab-bold-1">{{ labels?.leadID }}</td>        
-        <td class="lab-small">:{{ leadId }}</td>
-        <td class="lab-bold-1">{{ labels?.product }}</td>        
-        <td class="lab-small">:{{ productId }}</td>
-        <td class="lab-bold">{{ labels?.loanAmount }}</td>        
-        <td class="lab-small">:{{ loanAmount }}</td>
-      </tr>
-      <tr style="line-height:2">
-        <td class="lab-bold-1">{{ labels?.applicant  }}</td>        
-        <td class="lab-small">:{{ applicantName }}</td>
-        <td class="lab-bold-1">{{ labels?.status }}</td>        
-        <td class="lab-small">:{{ stageDescription }}</td>
-        <td class="lab-bold">{{ labels?.queue }}</td>        
-        <td class="lab-small">:New Lead</td>
-      </tr>
-    </table> -->
   </div>
   <div class="col-lg-2 col-md-2 col-sm-2 btn-width-org">
     <div class="row view-pad-top" data-tooltip="Lead History">
-      <!-- <button class="btn view-button-org leadHistoryBtn" data-toggle="modal" data-target="#showModal">Lead
-          Historys
-      </button> -->
-     <i class="fa fa-history" data-toggle="modal" data-target="#leadHistoryModal" ></i>
+      <i class="fa fa-history" data-toggle="modal" data-target="#leadHistoryModal" (click)="onLeadHistory()"></i>
     </div>
-    
   </div>
-  
+
   <div class="col-lg-2 col-md-2 col-sm-2 btn-width">
     <div class="row view-pad-top">
       <button class="btn btn-primary view-button" [routerLink]="['/pages/document-viewupload', leadId]" type="button"
@@ -184,95 +162,3 @@
     </div>
   </div>
 </div>
-
-<!-- <div class="modal" id="showModal">
-  <div class="modal-dialog modal-dialog-centered HeaderModalWidth">
-    <div class="modal-content">
-      <div class="modal-header ">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title text-center ">Lead History</h4>
-      </div>
-      <div class="modal-body ">
-        <div class="container-fluid modal_top_bar">
-          <div class="row ">
-            <div class=" col-lg-4 col-md-4 col-sm-4 form-group mb-0">
-              <label class="col-form-label_modal" for="lead_created_by">Stage
-              </label>
-              <label for="lead_created_by_name" class="col-form-label-two_modal">: DDE Completed</label>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 form-group mb-0">
-              <label class="col-form-label_modal" for="lead_created_by">Queue</label>
-              <label for="lead_created_by_name" class="col-form-label-two_modal">: Deviation</label>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 form-group mb-0">
-              <label class="col-form-label_modal" for="customer_name_label">User / Role</label>
-              <label for="customer_name" class="col-form-label-two_modal">: ACM</label>
-            </div>
-          </div>
-          <div class="row ">
-            <div class="col-lg-4 col-md-4 col-sm-4 form-group mb-0">
-              <label class="col-form-label_modal" for="lead_created_by">Stage
-              </label>
-              <label for="lead_created_by_name" class="col-form-label-two_modal">: DDE Completed</label>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 form-group mb-0">
-              <label class="col-form-label_modal" for="lead_created_by">Queue</label>
-              <label for="lead_created_by_name" class="col-form-label-two_modal">: Deviation</label>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 form-group mb-0">
-              <label class="col-form-label_modal" for="customer_name_label">User / Role</label>
-              <label for="customer_name" class="col-form-label-two_modal">: ACM</label>
-            </div>
-          </div>
-        </div>
-        <div class="container-fluid">
-          <div class="row">
-            <div id="wrapper">
-              <table class="table table-bordered mb-0 main-table">
-                <thead>
-                  <tr class="table-head-bg">
-                    <th>S.No <i class="fa fa-sort"></i></th>
-                    <th>Stage / Action <i class="fa fa-sort"></i></th>
-                    <th>Performed by <i class="fa fa-sort"></i></th>
-                    <th>Performed on <i class="fa fa-sort"></i></th>
-                    <th>Status <i class="fa fa-sort"></i></th>
-                    <th>Remarks <i class="fa fa-sort"></i></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td [attr.data-label]="labels?.sNo">1</td>
-                    <td [attr.data-label]="labels?.action">Sample text</td>
-                    <td [attr.data-label]="labels?.performed_by">Sample text</td>
-                    <td [attr.data-label]="labels?.performed_on">Sample text</td>
-                    <td [attr.data-label]="labels?.status">Sample text</td>
-                    <td [attr.data-label]="labels?.remark">Sample text</td>
-                  </tr>
-                  <tr>
-                    <td [attr.data-label]="labels?.sNo">1</td>
-                    <td [attr.data-label]="labels?.stage">Sample text</td>
-                    <td [attr.data-label]="labels?.performed_by">Sample text</td>
-                    <td [attr.data-label]="labels?.performed_on">Sample text</td>
-                    <td [attr.data-label]="labels?.status">Sample text</td>
-                    <td [attr.data-label]="labels?.remark">Sample text</td>
-                  </tr>
-                  <tr>
-                    <td [attr.data-label]="labels?.sNo">1</td>
-                    <td [attr.data-label]="labels?.stage">Sample text</td>
-                    <td [attr.data-label]="labels?.performed_by">Sample text</td>
-                    <td [attr.data-label]="labels?.performed_on">Sample text</td>
-                    <td [attr.data-label]="labels?.status">Sample text</td>
-                    <td [attr.data-label]="labels?.remark">Sample text</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="HeaderFooter">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-      </div>
-    </div>
-  </div>
-</div> -->

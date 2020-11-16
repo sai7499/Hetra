@@ -133,6 +133,9 @@
 
          /*Mobile View*/
 @media (min-width:260px) and (max-width: 760px) {
+    .tab-hide {
+      display: none !important;
+    }
     .main-table td,
     .main-table tr {
        display: block;

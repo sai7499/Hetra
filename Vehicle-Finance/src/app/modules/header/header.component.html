@@ -46,7 +46,7 @@
             <div class=" col-lg-4 col-md-4 col-sm-4 form-group mb-0">
               <label class="col-form-label_modal" for="lead_created_by">Lead Id
               </label>
-              <label for="lead_created_by_name" class="col-form-label-two_modal">: 1234</label>
+              <label for="lead_created_by_name" class="col-form-label-two_modal">: {{topBandData?.leadId}}</label>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 form-group mb-0">
               <label class="col-form-label_modal" for="lead_created_by">Applicant Name</label>
@@ -84,49 +84,17 @@
                     <th>Performed by <i class="fa fa-sort"></i></th>
                     <th>Performed on <i class="fa fa-sort"></i></th>
                     <th>Status <i class="fa fa-sort"></i></th>
-                    <th>Remarks <i class="fa fa-sort"></i></th>
+                    <!-- <th>Remarks <i class="fa fa-sort"></i></th> -->
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td [attr.data-label]="labels?.sNo">1</td>
-                    <td [attr.data-label]="labels?.action">Sample text</td>
-                    <td [attr.data-label]="labels?.performed_by">Sample text</td>
-                    <td [attr.data-label]="labels?.performed_on">Sample text</td>
-                    <td [attr.data-label]="labels?.status">Sample text</td>
-                    <td [attr.data-label]="labels?.remark">Sample text</td>
-                  </tr>
-                  <tr>
-                    <td [attr.data-label]="labels?.sNo">1</td>
-                    <td [attr.data-label]="labels?.stage">Sample text</td>
-                    <td [attr.data-label]="labels?.performed_by">Sample text</td>
-                    <td [attr.data-label]="labels?.performed_on">Sample text</td>
-                    <td [attr.data-label]="labels?.status">Sample text</td>
-                    <td [attr.data-label]="labels?.remark">Sample text</td>
-                  </tr>
-                  <tr>
-                    <td [attr.data-label]="labels?.sNo">1</td>
-                    <td [attr.data-label]="labels?.stage">Sample text</td>
-                    <td [attr.data-label]="labels?.performed_by">Sample text</td>
-                    <td [attr.data-label]="labels?.performed_on">Sample text</td>
-                    <td [attr.data-label]="labels?.status">Sample text</td>
-                    <td [attr.data-label]="labels?.remark">Sample text</td>
-                  </tr>
-                  <tr>
-                    <td [attr.data-label]="labels?.sNo">1</td>
-                    <td [attr.data-label]="labels?.stage">Sample text</td>
-                    <td [attr.data-label]="labels?.performed_by">Sample text</td>
-                    <td [attr.data-label]="labels?.performed_on">Sample text</td>
-                    <td [attr.data-label]="labels?.status">Sample text</td>
-                    <td [attr.data-label]="labels?.remark">Sample text</td>
-                  </tr>
-                  <tr>
-                    <td [attr.data-label]="labels?.sNo">1</td>
-                    <td [attr.data-label]="labels?.stage">Sample text</td>
-                    <td [attr.data-label]="labels?.performed_by">Sample text</td>
-                    <td [attr.data-label]="labels?.performed_on">Sample text</td>
-                    <td [attr.data-label]="labels?.status">Sample text</td>
-                    <td [attr.data-label]="labels?.remark">Sample text</td>
+                  <tr *ngFor="let leadHistory of leadHistories; let i = index">
+                    <td [attr.data-label]="labels?.sNo">{{i+1}}</td>
+                    <td [attr.data-label]="labels?.status">{{leadHistory?.stage}}</td>
+                    <td [attr.data-label]="labels?.action">{{leadHistory?.createdBy}}</td>
+                    <td [attr.data-label]="labels?.performed_by">{{leadHistory?.createdDate}}</td>
+                    <td [attr.data-label]="labels?.performed_on">{{leadHistory?.response}}</td>
+                    <!-- <td [attr.data-label]="labels?.remark">Remarks</td> -->
                   </tr>
                 </tbody>
               </table>

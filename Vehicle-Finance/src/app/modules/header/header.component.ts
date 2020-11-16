@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CommomLovService } from '@services/commom-lov-service';
 import { environment } from 'src/environments/environment';
 import { LabelsService } from 'src/app/services/labels.service';
+import { CommonDataService } from '@services/common-data.service';
 
 @Component({
   selector: 'app-header',
@@ -13,11 +14,15 @@ export class HeaderComponent implements OnInit {
   labels: any = {};
   appVersion;
   buildDate;
+  leadHistories: any;
+  topBandData: any;
   constructor(
     private labelsData: LabelsService,
     private activatedRoute: ActivatedRoute,
     private route: Router,
-    private commomLovService: CommomLovService
+    private commomLovService: CommomLovService,
+    private commonDataService: CommonDataService
+
   ) {
     this.appVersion = environment.version;
     this.buildDate = environment.buildDate;
@@ -32,17 +37,29 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  ngOnInit() { this.labelsData.getLabelsData().subscribe(
-    (data) => {
-      this.labels = data;
-    },
-    (error) => {
-      console.log(error);
-    }
-  );}
+  ngOnInit() {
+    this.labelsData.getLabelsData().subscribe(
+      (data) => {
+        this.labels = data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    this.commonDataService.leadHistoryData$.subscribe(
+      (data: any) => {
+        console.log('leadHistory', data);
+        if (!data) {
+          return;
+        }
+        this.leadHistories = data.ProcessVariables.leadDetails;
+        this.topBandData = data.ProcessVariables;
+        console.log('leadHistoryData', this.leadHistories);
+      })
+  }
 
-  onTest(){
-    
+  onTest() {
+
   }
 
   goToActivitySearch() {
