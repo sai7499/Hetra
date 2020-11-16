@@ -9,6 +9,7 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ElementSchemaRegistry } from '@angular/compiler';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-welomce-letter',
@@ -84,6 +85,9 @@ export class WelomceLetterComponent implements OnInit {
   productCatCode;
   doc: any;
   dummy: string;
+  isLoanBooking: boolean;
+  showModal: boolean;
+  chequeModeMsg: string;
 
   constructor(private activatedRoute: ActivatedRoute,
               private labelsData: LabelsService, 
@@ -92,9 +96,20 @@ export class WelomceLetterComponent implements OnInit {
               private toasterService: ToasterService,
               private createLeadDataService: CreateLeadDataService,
               private sharedService: SharedService,
-              private domSanitizer: DomSanitizer,) { }
+              private domSanitizer: DomSanitizer,
+              private location: Location,
+              private router: Router) { }
 
   ngOnInit() {
+
+    const path = this.location.path();
+    console.log('path', path);
+
+    if (path.includes('loanbooking')) {
+        this.isLoanBooking = true;
+    } else {
+        this.isLoanBooking = false;
+    }
 
     //this.getLabels();
     this.getLeadId();
@@ -107,12 +122,22 @@ export class WelomceLetterComponent implements OnInit {
     });
   }
 
+  onModalClick() {
+    this.showModal = false;
+  }
+
 
   getWelcomeLetterDetails() {
     const data = this.leadId;
-    this.WelcomeService.getwelcomeLetterDetails(data).subscribe((res: any) => {
+    this.WelcomeService.getwelcomeLetterDetails(data, this.isLoanBooking).subscribe((res: any) => {
       // console.log(res)
       if (res['ProcessVariables'] && res['ProcessVariables'].error['code'] == "0") {
+        const processVariables = res.ProcessVariables;
+        if (processVariables.isChequeMode) {
+          this.showModal = true;
+          this.chequeModeMsg = processVariables.chequeModeMsg;
+          return;
+        }
         this.isWelcomeDetails = res['ProcessVariables'];
         // console.log("welcome leter details", this.isWelcomeDetails);
         this.onChangeLanguage(res["ProcessVariables"].preferredLan);
@@ -307,5 +332,15 @@ export class WelomceLetterComponent implements OnInit {
     const leadData = this.createLeadDataService.getLeadSectionData();
     this.productCatCode = leadData['leadDetails'].productCatCode;
     console.log("PRODUCT_CODE:", this.productCatCode);
+  }
+
+  onBack() {
+    const path = this.location.path();
+    if (path.includes('cheque-tracking')) {
+      return this.router.navigateByUrl(`/pages/cheque-tracking/${this.leadId}`);
+    } else if (path.includes('loanbooking')) {
+      return this.router.navigateByUrl(`/pages/loanbooking/${this.leadId}/loan-booking-status`)
+
+    }
   }
 }
