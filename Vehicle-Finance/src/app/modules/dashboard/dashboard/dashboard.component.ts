@@ -16,12 +16,9 @@ import { QueryModelService } from '@services/query-model.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { PollingService } from '@services/polling.service';
-<<<<<<< HEAD
 import { timer } from 'rxjs';
 import { LeadHistoryService } from '@services/lead-history.service';
 import { CommonDataService } from '@services/common-data.service';
-=======
->>>>>>> 1e52fe0e70e9434603a0980deecf3576392bb43c
 
 export enum DisplayTabs {
   Leads,
