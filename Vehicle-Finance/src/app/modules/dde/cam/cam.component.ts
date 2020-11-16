@@ -231,41 +231,161 @@ export class CamComponent implements OnInit {
     if (this.productCategoryCode == "UCV") {
 
       this.camDetailsForm = this.formBuilder.group({
-        proposedVehicleRemarks: [],
-        cibilSynopsisRemarks: [],
-        trackValidationRemarks: [],
-        fleetRemarks: [],
-        concernsAndRisks: [],
-        strengthAndMitigates: [],
-        keyFinancialRemarks: [],
-        commentsOnBankingIfAny: new FormControl(),
-        commentsOnRtr: new FormControl(),
+        proposedVehicleRemarks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(2),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        cibilSynopsisRemarks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(2),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        trackValidationRemarks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(2),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        fleetRemarks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(2),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        concernsAndRisks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(2),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        strengthAndMitigates: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(2),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        keyFinancialRemarks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(2),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        commentsOnBankingIfAny:new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(2),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        commentsOnRtr: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(2),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
       })
     } else if (this.productCategoryCode == "NCV") {
       this.camDetailsForm = this.formBuilder.group({
-        proposedVehicleRemarks: [],
-        cibilSynopsisRemarks: [],
-        trackValidationRemarks: [],
-        fleetRemarks: [],
-        concernsAndRisks: [],
-        strengthAndMitigates: [],
-        keyFinancialRemarks: [],
-        commentsOnBankingIfAny:[],
-        // commentsOnBankingIfAny: new FormControl(null, [
+        proposedVehicleRemarks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(2),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        cibilSynopsisRemarks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(2),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        trackValidationRemarks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(2),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        fleetRemarks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(2),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        concernsAndRisks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(2),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        strengthAndMitigates: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(2),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        keyFinancialRemarks: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(2),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        // commentsOnBankingIfAny:new FormControl(null, [
         //   Validators.required,
-        //   Validators.maxLength(200),
+        //   Validators.maxLength(2),
         //   Validators.pattern(
         //     /^[a-zA-Z0-9 ]*$/
         //   ),
         // ]),
-        commentsOnRtr: []
+        commentsOnBankingIfAny: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(2),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        commentsOnRtr: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(2),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
 
       })
     }else if (this.productCategoryCode == "UC") {
       this.camDetailsForm = this.formBuilder.group({
        
-        concernsAndRisks: [],
-        strengthAndMitigates: [],
+        concernsAndRisks: new FormControl(null, [
+         
+          Validators.maxLength(2),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        strengthAndMitigates: new FormControl(null, [
+        
+          Validators.maxLength(2),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
       })
     }
 

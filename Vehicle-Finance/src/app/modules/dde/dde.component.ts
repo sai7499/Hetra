@@ -6,6 +6,7 @@ import { LeadStoreService } from '@services/lead-store.service';
 import { CommonDataService } from '@services/common-data.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { LoginStoreService } from '@services/login-store.service';
 
 @Component({
   templateUrl: './dde.component.html',
@@ -19,6 +20,9 @@ export class DdeComponent implements OnInit, OnChanges {
   fiCumPdStatusString: any;
   fiCumPdStatus: boolean;
   productCatCode: string;
+  roleId: any;
+  roleType: any;
+  role: boolean;
 
   constructor(
     public router: Router,
@@ -30,9 +34,15 @@ export class DdeComponent implements OnInit, OnChanges {
     private renderer: Renderer2,
     private elementRef: ElementRef,
     private sharedService: SharedService,
-    private toggleDdeService: ToggleDdeService
+    private toggleDdeService: ToggleDdeService,
+    private loginStoreService: LoginStoreService,
+
   ) {
     this.leadId = this.route.snapshot.params['leadId'];
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+      this.roleId = value.roleId;
+      this.roleType = value.roleType;
+    });
   }
 
   hasRoute(route: string) {
@@ -109,6 +119,12 @@ export class DdeComponent implements OnInit, OnChanges {
     } else {
       this.showNav = true;
     }
+    if(  this.router.url.includes('/rcu') && this.roleType == '6') {
+      this.showNav = false;
+    }else if(  this.router.url.includes('/rcu') && this.roleType == '2') {
+      this.showNav = true;
+    }
+    
   }
 
   ngOnChanges() {

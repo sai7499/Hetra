@@ -648,12 +648,12 @@ labels?.strengthsOrMitigates
                     <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.required">
                         Concern and risks Remarks is required
                     </div>
-                </div>
+                </div> -->
                 <div *ngIf="camDetailsForm.get('concernsAndRisks').invalid && (camDetailsForm.get('concernsAndRisks').dirty || camDetailsForm.get('concernsAndRisks').touched)"
                     class="invalid-feedback">
-                    <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.required">
+                    <!-- <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.required">
                         Concerns or Risks is required.
-                    </div>
+                    </div> -->
                     <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.maxlength">
                         Concerns or Risks cannot be more than 200 characters long.
                     </div>
@@ -661,11 +661,11 @@ labels?.strengthsOrMitigates
                         Invalid Message / Special Characters not allowed
 
                     </div>
-                </div> -->
+                </div>
             </td>
             <td rowspan="6"><textarea class="form-control form-control-sm textKey" placeholder="Text Area"
                     formControlName="strengthAndMitigates"></textarea>
-                <!-- <div *ngIf="camDetailsForm.get('strengthAndMitigates').invalid && submitted == true"
+                <div *ngIf="camDetailsForm.get('strengthAndMitigates').invalid && submitted == true"
                     class="invalid-feedback">
                     <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.required">
                         Strength And Mitigates Remarks is required
@@ -683,7 +683,7 @@ labels?.strengthsOrMitigates
                         Invalid Message / Special Characters not allowed
 
                     </div>
-                </div> -->
+                </div>
             </td>
         </tr>
 
@@ -893,7 +893,7 @@ labels?.strengthsOrMitigates
                     <td colspan="2" class="bank_name">{{ labels?.anyOtherRemarks }}</td>
                     <td colspan="10"><textarea class="form-control form-control-sm" placeholder="Text Area"
                             formControlName="proposedVehicleRemarks"></textarea>
-                        <!-- <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').invalid && submitted == true"
+                        <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').invalid && submitted == true"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').errors.required">
                                 proposed vehicle Remarks is required
@@ -908,7 +908,7 @@ labels?.strengthsOrMitigates
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                     </td>
                 </tr>
             </tbody>
@@ -984,7 +984,7 @@ labels?.strengthsOrMitigates
                     <td colspan="1" class="bank_name">{{ labels?.anyOtherRemarks }}</td>
                     <td colspan="7" class=""><textarea class="form-control form-control-sm" placeholder="Text Area"
                             formControlName="cibilSynopsisRemarks"></textarea>
-                        <!-- <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').invalid && submitted == true"
+                        <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').invalid && submitted == true"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.required">
                                 cibile synopsis Remarks is required
@@ -1002,7 +1002,7 @@ labels?.strengthsOrMitigates
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                     </td>
                 </tr>
             </tbody>
@@ -1169,7 +1169,7 @@ labels?.strengthsOrMitigates
                     <td class="bank_name">{{ labels?.anyOtherRemarks }}</td>
                     <td colspan="9"><textarea class="form-control form-control-sm" placeholder="Text Area"
                             formControlName="fleetRemarks"></textarea>
-                        <!-- <div *ngIf="camDetailsForm.get('fleetRemarks').invalid && submitted == true"
+                        <div *ngIf="camDetailsForm.get('fleetRemarks').invalid && submitted == true"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('fleetRemarks').errors.required">
                                 Fleet Remarks is required
@@ -1187,7 +1187,7 @@ labels?.strengthsOrMitigates
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                     </td>
 
 
@@ -1283,7 +1283,7 @@ labels?.strengthsOrMitigates
                     </td>
                     <td colspan="11"><textarea class="form-control form-control-sm" placeholder="Text Area"
                             formControlName="trackValidationRemarks"></textarea>
-                        <!-- <div *ngIf="camDetailsForm.get('trackValidationRemarks').invalid && submitted == true"
+                        <div *ngIf="camDetailsForm.get('trackValidationRemarks').invalid && submitted == true"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.required">
                                 Track validation Remarks is required
@@ -1301,7 +1301,7 @@ labels?.strengthsOrMitigates
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                     </td>
                     <!--<td colspan="8">
                     {{ labels?.appIsInTransportFieldFromLastManyYears }}
@@ -1449,7 +1449,7 @@ labels?.strengthsOrMitigates
                 <tr>
                     <td rowspan="6"><textarea class="form-control form-control-sm textKey" placeholder="Text Area"
                             formControlName="concernsAndRisks"></textarea>
-                        <!-- <div *ngIf="camDetailsForm.get('concernsAndRisks').invalid && submitted == true"
+                        <div *ngIf="camDetailsForm.get('concernsAndRisks').invalid && submitted == true"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.required">
                                 Concern and risks Remarks is required
@@ -1467,11 +1467,11 @@ labels?.strengthsOrMitigates
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                     </td>
                     <td rowspan="6"><textarea class="form-control form-control-sm textKey" placeholder="Text Area"
                             formControlName="strengthAndMitigates"></textarea>
-                        <!-- <div *ngIf="camDetailsForm.get('strengthAndMitigates').invalid && submitted == true"
+                        <div *ngIf="camDetailsForm.get('strengthAndMitigates').invalid && submitted == true"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.required">
                                 Strength And Mitigates Remarks is required
@@ -1489,7 +1489,7 @@ labels?.strengthsOrMitigates
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                     </td>
                 </tr>
 
@@ -1518,7 +1518,7 @@ labels?.strengthsOrMitigates
                     <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.turnOver}}</td>
                     <td rowspan="6"><textarea class="form-control form-control-sm textKey" placeholder="Text Area"
                             formControlName="keyFinancialRemarks"></textarea>
-                        <!-- <div *ngIf="camDetailsForm.get('keyFinancialRemarks').invalid && submitted == true"
+                        <div *ngIf="camDetailsForm.get('keyFinancialRemarks').invalid && submitted == true"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('keyFinancialRemarks').errors.required">
                                 Key Financial Remarks is required
@@ -1536,7 +1536,7 @@ labels?.strengthsOrMitigates
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                     </td>
                 </tr>
 
@@ -2242,7 +2242,7 @@ labels?.strengthsOrMitigates
                     <td class="bank_name">{{ labels?.commentsOnRtrIfAny }}</td>
                     <td colspan="9"><textarea class="form-control form-control-sm" placeholder="Text Area"
                             formControlName="commentsOnRtr"></textarea>
-                        <!-- <div *ngIf="camDetailsForm.get('commentsOnRtr').invalid && submitted == true"
+                        <div *ngIf="camDetailsForm.get('commentsOnRtr').invalid && submitted == true"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('commentsOnRtr').errors.required">
                                 Comments On Rtr is required
@@ -2257,7 +2257,7 @@ labels?.strengthsOrMitigates
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                 </tr>
             </tbody>
         </table>
@@ -2405,7 +2405,7 @@ labels?.strengthsOrMitigates
                 <td colspan="2" class="bank_name">{{ labels?.commentsOnBankingIfAny }}</td>
                 <td colspan="10"><textarea class="form-control form-control-sm" placeholder="Text Area"
                         formControlName="commentsOnBankingIfAny"></textarea>
-                    <!-- <div *ngIf="camDetailsForm.get('commentsOnBankingIfAny').invalid && submitted == true"
+                    <div *ngIf="camDetailsForm.get('commentsOnBankingIfAny').invalid && submitted == true"
                         class="invalid-feedback">
                         <div *ngIf="camDetailsForm.get('commentsOnBankingIfAny').errors.required">
                             Comments On Banking is required
@@ -2423,7 +2423,7 @@ labels?.strengthsOrMitigates
                             Invalid Message / Special Characters not allowed
 
                         </div>
-                    </div> -->
+                    </div>
                 </td>
             </tr>
         </table>

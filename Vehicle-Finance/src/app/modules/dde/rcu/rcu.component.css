@@ -3,6 +3,12 @@
     margin-right: -15px;
     
   }
+  .pl{
+      padding: 7px 0px 0px 75px;
+  }
+  .pl-top{
+      padding-top: 7px;
+  }
   .app-doc{
       margin-top: 30px;
       margin-bottom: 30px;

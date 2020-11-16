@@ -105,6 +105,10 @@ const routes: Routes = [
         component: TvrDetailsComponent,
       },
       {
+        path: 'rcu-initiate',
+        component: RcuComponent,
+      },
+      {
         path: 'rcu',
         component: RcuComponent,
       },

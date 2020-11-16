@@ -1,5 +1,5 @@
 <div style="text-align: center;">
-  <button class="btn btn-primary btn_div" *ngIf="isRcuDetails" (click)="assignRcuTask()"
+  <button class="btn btn-primary btn_div" *ngIf="isRcuDetails" (click)="showInitiateTask()"
     type="button">{{labels?.initiateRcu}}</button>
 </div>
 <form class="multisteps-form__form" *ngIf="!isRcuDetails" [formGroup]="rcuDetailsForm">
@@ -22,6 +22,61 @@
       <div class="clearfix"></div>
     </div>
     
+    
+    <div class="clearfix"></div>
+    <div class="form-group od-row" >
+      <div class="col-md-2 pl"><label>{{labels?.applicantNameCam}}</label></div>
+      <div class="col-md-2">
+        <select class="form-control mandatory select2" id="" formControlName="applicantId" name="applicantId"
+          class="form-control text-center" (change)="
+      onRcuApplicantChange($event.target.value, i)
+    ">
+          <option *ngFor="let applicants of applicantDetails" [value]="applicants.applicantId">
+            {{ applicants.fullName }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-2 pl"><label>{{labels?.applicantType}}</label></div>
+      <div class="col-md-2">
+        <app-custom-input [placeholder]="''" formControlName="applicantType" 
+          [className]="'form-control mandatory'" 
+          [isDirty]="isDirty">
+        </app-custom-input>
+      </div>
+      <div class="col-md-2 pl"><label>{{labels?.loanAmount}}</label></div>
+      <div class="col-md-2">
+        <app-custom-input [placeholder]="''" formControlName="loanAmount" [type]="labels?.validationData?.amountValue?.type"
+          [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.amountValue?.maxLength"
+          [isDirty]="isDirty">
+        </app-custom-input>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="form-group od-row" >
+      <div class="col-md-2 pl"><label>{{labels?.vehicleMake}}</label></div>
+      <div class="col-md-2">
+        <app-custom-input [placeholder]="''" formControlName="vehicleMake" [type]="labels?.validationData?.name?.type"
+          [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.name?.maxLength"
+          [isDirty]="isDirty">
+        </app-custom-input>
+      </div>
+      <div class="col-md-2 pl"><label>{{labels?.vehicleModel}}</label></div>
+      <div class="col-md-2">
+        <app-custom-input [placeholder]="''" formControlName="vehicleModel" [type]="labels?.validationData?.name?.type"
+          [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.name?.maxLength"
+          [isDirty]="isDirty">
+        </app-custom-input>
+      </div>
+      <div class="col-md-2 pl"><label>{{labels?.vehicleNumber}}</label></div>
+      <div class="col-md-2">
+        <app-custom-input [placeholder]="''" formControlName="vehicleNo" [type]="labels?.validationData?.receiptNo?.type" 
+          [className]="'form-control mandatory textTrans'" [maxLength]="labels?.validationData?.receiptNo?.maxLength"
+          [isDirty]="isDirty">
+        </app-custom-input>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
     <div class="row app-doc">
       <span class="input-group-btn">
         <div class="col-md-6 text-right hetra-tabs">
@@ -41,60 +96,6 @@
         </div>
       </span>
     </div>
-    <div class="clearfix"></div>
-    <div class="form-group od-row" >
-      <div class="col-md-2 text-right"><label>{{labels?.applicantNameCam}}</label></div>
-      <div class="col-md-2">
-        <select class="form-control mandatory select2" id="" formControlName="applicantId" name="applicantId"
-          class="form-control text-center" (change)="
-      onRcuApplicantChange($event.target.value, i)
-    ">
-          <option *ngFor="let applicants of applicantDetails" [value]="applicants.applicantId">
-            {{ applicants.fullName }}
-          </option>
-        </select>
-      </div>
-      <div class="col-md-2 text-right"><label>{{labels?.applicantType}}</label></div>
-      <div class="col-md-2">
-        <app-custom-input [placeholder]="''" formControlName="applicantType" 
-          [className]="'form-control mandatory'" 
-          [isDirty]="isDirty">
-        </app-custom-input>
-      </div>
-      <div class="col-md-2 text-right"><label>{{labels?.loanAmount}}</label></div>
-      <div class="col-md-2">
-        <app-custom-input [placeholder]="''" formControlName="loanAmount" [type]="labels?.validationData?.amountValue?.type"
-          [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.amountValue?.maxLength"
-          [isDirty]="isDirty">
-        </app-custom-input>
-      </div>
-      <div class="clearfix"></div>
-    </div>
-    <div class="form-group od-row" *ngIf="showColletralDocuments">
-      <div class="col-md-2 text-right"><label>{{labels?.vehicleMake}}</label></div>
-      <div class="col-md-2">
-        <app-custom-input [placeholder]="''" formControlName="vehicleMake" [type]="labels?.validationData?.name?.type"
-          [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.name?.maxLength"
-          [isDirty]="isDirty">
-        </app-custom-input>
-      </div>
-      <div class="col-md-2 text-right"><label>{{labels?.vehicleModel}}</label></div>
-      <div class="col-md-2">
-        <app-custom-input [placeholder]="''" formControlName="vehicleModel" [type]="labels?.validationData?.name?.type"
-          [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.name?.maxLength"
-          [isDirty]="isDirty">
-        </app-custom-input>
-      </div>
-      <div class="col-md-2 text-right "><label>{{labels?.vehicleNumber}}</label></div>
-      <div class="col-md-2 textTrans">
-        <app-custom-input [placeholder]="''" formControlName="vehicleNo" [type]="labels?.validationData?.receiptNo?.type"
-          [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.receiptNo?.maxLength"
-          [isDirty]="isDirty">
-        </app-custom-input>
-      </div>
-      <div class="clearfix"></div>
-    </div>
-
 
 
     <!-- <div class="for_space"></div> -->
@@ -191,11 +192,9 @@
         </app-vf-custom-select>
             </td>
             <td data-title="Member">
-              <app-custom-input [placeholder]="'status'" [type]="labels?.validationData?.name?.type"
-                formControlName="rcuStatus" [className]="'form-control mandatory'"
-                [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
-              </app-custom-input>
-
+            
+              <app-vf-custom-select [values]="rcuLov?.status" formControlName="rcuStatus">
+              </app-vf-custom-select>
             </td>
           </tr>
         </tbody>
@@ -245,7 +244,7 @@
             </kendo-datepicker>
             </td>
             <td data-title="Member">
-              <input name="input" type="text" class="form-control file-input" formControlName="dmsDocumentID" readonly
+              <input name="input" type="text" class="form-control file-input" formControlName="rcuDocumentID" readonly
                 (click)="downloadDocs($event.target.value)" />
             </td>
             <td data-title="Member">
@@ -266,10 +265,8 @@
         </app-vf-custom-select>
             </td>
             <td data-title="Member">
-              <app-custom-input [placeholder]="'status'" [type]="labels?.validationData?.name?.type"
-                formControlName="rcuStatus" [className]="'form-control mandatory'"
-                [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
-              </app-custom-input>
+                 <app-vf-custom-select [values]="rcuLov?.cibilStatus" formControlName="rcuStatus">
+        </app-vf-custom-select>
 
             </td>
           </tr>
@@ -375,15 +372,13 @@
 
     </div> -->
     <div class="form-group od-row">
-      <div class="col-md-2 fitWidth"><label>{{labels?.rcuReportStatus}}</label></div>
+      <div class="col-md-2 fitWidth pl-top"><label>{{labels?.rcuReportStatus}}</label></div>
       <div class="col-md-2">
         <app-vf-custom-select [values]="rcuLov?.rcuStatus" formControlName="rcuReportStatus">
         </app-vf-custom-select>
-
-
       </div>
-      <div class="col-md-2 fitWidth"><label class="">{{labels?.rcuUpload}}</label></div>
-      <div class="col-md-2"  >
+      <div class="col-md-1 fitWidth pl-top"><label class="">{{labels?.rcuUpload}}</label></div>
+      <div class="col-md-1 pl-top"  >
         <!-- <app-custom-input [placeholder]="'RCU Report Status'" [type]="labels?.validationData?.type"
           formControlName="rcuUpload" [className]="'form-control mandatory'"
           [maxLength]="labels?.validationData?.maxLength" [isDirty]="isDirty">
@@ -404,15 +399,19 @@
                 </button> -->
         
       </div>
-      <div class="col-md-2 fitWidth"><label>{{labels?.rcuReportReceivedDateandTime}}</label></div>
+      <div class="col-md-1 fitWidth pl-top"><label>{{labels?.rcuDocumentId}}</label></div>
+      <div class="col-md-1">
+        <input name="input" type="text" class="form-control file-input" formControlName="rcuDocumentID" readonly
+        (click)="downloadDocs($event.target.value)" />
+      </div>
+      <div class="col-md-2"><label>{{labels?.rcuReportReceivedDateandTime}}</label></div>
       <div class="col-md-2">
-        <app-custom-input [placeholder]="''" value = "{{today | date:'medium'}}"
-          formControlName="rcuReportReceivedDateTime" [className]="'form-control mandatory'" aria-readonly="readonly"
-          [isDirty]="isDirty">
-        </app-custom-input>
+        <input name="input" type="text" class="form-control" formControlName="rcuReportReceivedDateTime" readonly
+        value="{{today}}" />
+        
 
         <!-- <kendo-datepicker class="form-control" formControlName="rcuReportReceivedDateTime" [activeView]="'decade'"
-        [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date">
+        [format]="'dd/MM/yyyy'" [max]="toDayDate{{today | date:'medium'}}" placeholder="Enquiry date">
       </kendo-datepicker> -->
       <!-- <p formControlName="rcuReportReceivedDateTime">{{today | date:'medium'}}</p> -->
       <!-- <kendo-datetimepicker formControlName="rcuReportReceivedDateTime"
@@ -449,3 +448,24 @@
 </div>
 <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)"
     [docsDetails]="selectedDocDetails"></app-upload-modal>
+
+    <div id="overlay" *ngIf="isInitiateScreen">
+      <div id="text">
+        <div class="panel">
+          <div class="panel-body">        
+            <button type="button" class="close" aria-label="Close" (click)="isInitiateScreen = false" >
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="modal-dialog" >
+              <div class="modal-body" style="text-align:center;">
+                <p>{{errorMessage}}</p>
+                <div class="btn-wrap">
+                  <button class="btn btn-success" (click)="assignRcuTask()">Yes</button>&nbsp;
+                  <button class="btn btn-danger" (click)="isInitiateScreen = false">No</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
