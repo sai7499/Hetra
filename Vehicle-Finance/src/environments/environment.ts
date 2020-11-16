@@ -1,4 +1,4 @@
-import { environment as environmentProd } from './environment.prod';
+aimport { environment as environmentProd } from './environment.prod';
 
 export const environment = {
 
@@ -38,9 +38,9 @@ export const environment = {
   //  host: config.hostUrl1,
   // host: window["env"]["hostUrl"] || "default",
   // host: 'https://hetrauat.equitasbank.com/appiyo/',
-  //host: 'http://10.101.10.153/appiyo/',
+  // host: 'http://10.101.10.153/appiyo/',
   baseUrl: 'http://10.101.10.153',
-  //baseUrl: "https://hetrauat.equitasbank.com",
+  // baseUrl: "https://hetrauat.equitasbank.com",
   // tslint:disable-next-line: max-line-length
   aesPublicKey: 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ+GJdSSEeaNFBLqyfM3DIOgQgWCwJ0INfeZZV7ITsLeuA7Yd02rrkYGIix1IWvoebWVmzhncUepYxHwK1ARCdUCAwEAAQ==',
   encryptionType: true, // Ecryption
