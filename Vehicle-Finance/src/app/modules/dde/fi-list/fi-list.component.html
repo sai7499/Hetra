@@ -36,10 +36,10 @@
                                 <td [attr.data-label]="labels?.flStatus" *ngIf="showStatus">
                                     <u>{{ item.fiStatusValue ? item.fiStatusValue : "-" }}</u>
                                 </td>
-                                <td [attr.data-label]="labels?.flStatus" style="cursor: pointer;" *ngIf="show && fiStatusValue != '3'" (click)="navigatePage(item.applicantId)">
+                                <td [attr.data-label]="labels?.flStatus" style="cursor: pointer;" *ngIf="show && item.fiStatusValue != 'Submitted'" (click)="navigatePage(item.applicantId)">
                                     <u>{{ item.fiStatusValue ? item.fiStatusValue : "-" }}</u>
                                 </td>
-                                <td [attr.data-label]="labels?.flStatus" style="cursor: pointer;" *ngIf="show && fiStatusValue === '3'">
+                                <td [attr.data-label]="labels?.flStatus" style="cursor: pointer;" *ngIf="show && item.fiStatusValue === 'Submitted'">
                                     <u>{{ item.fiStatusValue ? item.fiStatusValue : "-" }}</u>
                                 </td>
                                 <ng-container *ngIf="fiStatusValue === '3' && showStatus">

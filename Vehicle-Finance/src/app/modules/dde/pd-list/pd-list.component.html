@@ -61,11 +61,10 @@
                                 <td [attr.data-label]="labels?.pdStatus" *ngIf="showStatus">
                                     <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
                                 </td>
-                                <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;" *ngIf="show && pdStatusValue != 'Submitted'" (click)="navigatePage(item.applicantId, item.cibilScore)">
+                                <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;" *ngIf="show && item.pdStatusValue != 'Submitted'" (click)="navigatePage(item.applicantId, item.cibilScore)">
                                     <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
-
                                 </td>
-                                <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;" *ngIf="show && pdStatusValue === 'Submitted'">
+                                <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;" *ngIf="show && item.pdStatusValue === 'Submitted'">
                                     <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
                                 </td>
                                 <!-- <ng-container *ngIf='item.pdReportValue'> -->
