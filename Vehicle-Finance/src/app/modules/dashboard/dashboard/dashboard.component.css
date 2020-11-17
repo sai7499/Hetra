@@ -322,6 +322,38 @@ th {
     text-align: center
 }
 
+/* Tooltip */
+
+[data-tooltip]:before {
+    /* needed - do not touch */
+    content: attr(data-tooltip);
+    position: absolute;
+    opacity: 0;
+    
+    /* customizable */
+    transition: all 0.40s ease;
+    padding: 5px;
+    color: #333;
+    border-radius: 3px;
+    box-shadow: 2px 2px 1px silver;  
+    width:100px;  
+  }
+  
+  [data-tooltip]:hover:before {
+    /* needed - do not touch */
+    opacity: 1;
+    
+    /* customizable */
+    background: #f68b34b8;
+    margin-top: 10px;  
+    margin-left: -110px;
+    color: #fff;
+    font-size:12px;
+  }
+  
+  [data-tooltip]:not([data-tooltip-persistent]):before {
+    pointer-events: none;
+  }
 
 /*Mobile View*/
 
