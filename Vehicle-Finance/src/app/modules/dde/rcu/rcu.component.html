@@ -1,8 +1,8 @@
 <div style="text-align: center;">
-  <button class="btn btn-primary btn_div" *ngIf="isRcuDetails" (click)="showInitiateTask()"
+  <button class="btn btn-primary btn_div" *ngIf="isRcuDetails && isErr" (click)="showInitiateTask()"
     type="button">{{labels?.initiateRcu}}</button>
 </div>
-<form class="multisteps-form__form" *ngIf="!isRcuDetails" [formGroup]="rcuDetailsForm">
+<form class="multisteps-form__form" *ngIf="!isRcuDetails && isErr" [formGroup]="rcuDetailsForm">
   <h3 class="dashboard m-0">{{ labels?.rcu }}</h3>
   <!--progress bar-->
   <div class="content">
@@ -305,10 +305,13 @@
     <button class="btn btn-primary dash_href" type="button" routerLink="../tvr-details"  *ngIf="showBack == true">
       Back
     </button>
-    <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()"  *ngIf="showSave == true">
+    <button class="btn btn-primary mar-right8" type="button" (click)="onSave()"  *ngIf="showSave == true">
       Save
     </button>
-    <button class="btn btn-primary dash_href" type="button" routerLink="../fi-list"  *ngIf="showBack == true">
+    <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()"  *ngIf="showSave == true">
+      Submit
+    </button>
+    <button class="btn btn-primary dash_href" type="button" (click)="onNext()"  *ngIf="showBack == true">
       Next
     </button>
   </div>
@@ -319,7 +322,7 @@
     <div id="overlay" *ngIf="isInitiateScreen">
       <div id="text">
         <div class="panel">
-          <div class="panel-body">        
+          <div class="panel-body p-0">        
             <button type="button" class="close" aria-label="Close" (click)="isInitiateScreen = false" >
               <span aria-hidden="true">&times;</span>
             </button>
@@ -336,3 +339,28 @@
         </div>
       </div>
     </div>
+    <div id="overlay" *ngIf="errorGenerated">
+      <div id="text">
+          <div class="panel">
+              <div class="panel-body">
+                
+                  <div class="modal-dialog">
+                      <div class="modal-body" style="text-align:center;">
+                          <div class="errHead">
+                              <h3 class="m-0">{{labels?.rcu}}</h3>
+                          </div>
+                          <div class="row" >
+                              <div class="col-md-12">
+  
+                                  <div class="errText">{{errMsg}}</div>
+                              </div>
+                          </div>
+                          <div class="btn-wrap">
+                              <button class="btn btn-primary" (click)="errGenerated()">OK</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
