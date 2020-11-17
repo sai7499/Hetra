@@ -19,15 +19,23 @@
         </tr>
     </thead>
     <tbody style="text-align: left;">
+        <!-- <tr *ngFor="let res of result">
+            <td >{{res.sNo}}</td>
+            <td *ngIf="res.name">{{res.name}}</td>
+            <td *ngIf="res.subHeading" [ngClass]="{'bolder':'true'}">{{res.subHeading}}</td>
+            <td>{{res.weight}}</td>
+            <td>{{res.input}}</td>
+            <td>{{res.score}}</td>
+          </tr> -->
         <tr *ngIf="borrowerAttributes">
             <td [attr.data-label]="labels?.sNo"></td>
             <td [attr.data-label]="labels?.parameter"><strong>{{borrowerAttributes[0].scoreParameterCatDesc}}</strong></td>
             <td [attr.data-label]="labels?.weightage"><strong>{{scoreCard.borrowerAttributeWeightage}}</strong></td>
             <td [attr.data-label]="labels?.inputValue"></td>
             <td [attr.data-label]="labels?.scoreValue"><strong>{{scoreCard.borrowerAttributeScore}}</strong></td>
-        </tr>
+        </tr> 
 
-        <tr *ngFor="let borrowerAttribute of borrowerAttributes; let i = index">
+         <tr *ngFor="let borrowerAttribute of borrowerAttributes; let i = index">
             <td [attr.data-label]="labels?.sNo">{{i+1}}</td>
             <td [attr.data-label]="labels?.parameter">{{borrowerAttribute.scoreDescription}}</td>
             <td [attr.data-label]="labels?.weightage">{{borrowerAttribute.weightage}}</td>
@@ -78,11 +86,11 @@
         </tr>
         
         <tr *ngIf="scoreCard">
-            <td></td>
-            <td><strong>Total</strong></td>
-            <td><strong>{{scoreCard.totalWeight}}</strong></td>
-            <td></td>
-            <td><strong>{{scoreCard.totalScore}}%</strong></td>
+            <td class="tab-hide"></td>
+            <td class="tab-hide"><strong>Total</strong></td>
+            <td [attr.data-label]="'Total weightage'"><strong>{{scoreCard.totalWeight}}</strong></td>
+            <td class="tab-hide"></td>
+            <td [attr.data-label]="'Total score'"><strong>{{scoreCard.totalScore}}%</strong></td>
         </tr>
     </tbody>
 </table>

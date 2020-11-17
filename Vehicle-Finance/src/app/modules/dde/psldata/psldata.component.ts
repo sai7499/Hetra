@@ -59,6 +59,7 @@ export class PSLdataComponent implements OnInit {
   loanAmount: any;
   landUnitType = [];
   landAreaInhectare: number;
+  submitted = false;
 
 
   constructor( private formBuilder: FormBuilder,
@@ -217,10 +218,11 @@ export class PSLdataComponent implements OnInit {
     });
   }
   onActivityChange(event) {
-    const changeEvent = event.target.value;
+    const changeEvent = event;
     console.log('activity event', changeEvent);
     this.activityChange = changeEvent;
     this.getDetailActivity(changeEvent);
+    this.applyMandatoryToActivity(changeEvent);
   }
   // GET LOV of ACTIVITY DROPDOWN
   getActivityLOVS() {
@@ -242,7 +244,7 @@ export class PSLdataComponent implements OnInit {
         }
       });
       this.activityLOVS = activityData;
-      console.log('ACTIVITYLOVS******', this.activityLOVS);
+      // console.log('ACTIVITYLOVS******', this.activityLOVS);
     });
   }
   getDetailActivity(activity) {
@@ -277,7 +279,7 @@ export class PSLdataComponent implements OnInit {
       loanAmount: this.loanAmount
     });
     this.pslDataForm.controls.nonAgriculture.controls.loanAmount.disable();
-
+    // this.applyMandatoryToActivity(activity);
   } else if (activity === '7PSLACTVTY') {
     this.onChangeDetailActivity(null);
     const resetControl =  this.pslDataForm.get('nonAgriculture') as FormGroup;
@@ -295,6 +297,7 @@ export class PSLdataComponent implements OnInit {
         control[key].disable();
       }
     }
+    // this.applyMandatoryToActivity(activity);
   }
   }
   onChangeDetailActivity(event2) {
@@ -348,6 +351,9 @@ export class PSLdataComponent implements OnInit {
             this.formValues.pslSubCategory = this.pslSubCategoryData[0].key;
           }
         });
+      this.pslDataForm.get('nonAgriculture').patchValue ({
+        pslSubCategory: this.pslSubCategoryData[0].key
+        });
       // console.log('this.LOV.LOVS.pslCertificate', this.LOV.LOVS.pslCertificate);
       // this.LOV.LOVS.pslCertificate.filter((element) => {
       //     if (element.key === '3PSLCRTFCTE') {
@@ -357,6 +363,7 @@ export class PSLdataComponent implements OnInit {
       //     }
       //   });
       // }
+
     }
   }
    // CHANGE OPTION IN LAND HOLDING
@@ -799,7 +806,10 @@ export class PSLdataComponent implements OnInit {
           this.formValues.pslCCertificate = this.data[0].key;
         }
       });
-      this.typeOfService = [{ key: 'Not Applicable', value: 'Not Applicable' }]
+      this.typeOfService = [{ key: 'Not Applicable', value: 'Not Applicable' }];
+      this.pslDataForm.controls.nonAgriculture.patchValue({
+        typeOfService : this.typeOfService[0].key
+      });
       this.pslDataForm
         .get('nonAgriculture.goodsManufactured')
         .setValidators([Validators.required]);
@@ -842,6 +852,8 @@ export class PSLdataComponent implements OnInit {
           this.formValues.pslCategory = this.pslCategoryData[0].key;
         }
       });
+      this.pslSubCategoryData = [];
+      this.pslSubCategoryValues = [];
       this.LOV.LOVS.pslSubCategory.filter((element) => {
         if (element.key === '6PSLSUBCAT' || element.key === '4PSLSUBCAT' || element.key === '5PSLSUBCAT') {
           // tslint:disable-next-line: no-shadowed-variable
@@ -914,6 +926,7 @@ export class PSLdataComponent implements OnInit {
       console.log('FormValues::', this.formValues);
       // IF_PSL-CERTIFICATE_NOT_FOUND
       if (!this.formValues.pslCCertificate) {
+        this.toasterService.showError('Please fill all mandatory fields.', 'PSL DATA');
         return;
       }
       this.formValues.activity = this.activityChange;
@@ -932,6 +945,7 @@ export class PSLdataComponent implements OnInit {
         },
       };
       if (this.pslDataForm.controls.agriculture.valid === true) {
+
         this.pslDataService.saveOrUpadtePslData(data).subscribe((res: any) => {
           const response = res;
           // this.pslId = response.ProcessVariables.pslId;
@@ -946,6 +960,8 @@ export class PSLdataComponent implements OnInit {
         this.toasterService.showError('Please fill all mandatory fields.', 'PSL DATA');
       }
     } else if (this.activityChange !== '1PSLACTVTY' ) {
+      this.applyMandatoryToActivity(this.activityChange);
+      this.submitted = true;
       this.formValues = this.pslDataForm.get('nonAgriculture').value;
       console.log('FormValues::', this.formValues);
       console.log('psl form', this.pslDataForm);
@@ -953,6 +969,7 @@ export class PSLdataComponent implements OnInit {
       if (this.activityChange !== '7PSLACTVTY') {
       this.isDirty = true;
       if (!this.formValues.pslCCertificate) {
+        this.toasterService.showError('Please fill all mandatory fields.', 'PSL DATA');
         return;
       }
       this.formValues.activity = this.activityChange;
@@ -964,12 +981,13 @@ export class PSLdataComponent implements OnInit {
       } else {
       if (this.pslDataForm.controls.nonAgriculture.invalid) {
         this.isDirty = true;
+        this.toasterService.showError('Please fill all mandatory fields.', 'PSL DATA');
         return;
       }
       this.formValues.activity = this.activityChange;
         // this.formValues.pslCCertificate = this.data[0].key;
       this.formValues.pslCategory = this.formValues.pslCategory;
-      this.formValues.pslSubCategory = this.pslSubCategoryData[0].key;
+      this.formValues.pslSubCategory = this.formValues.pslSubCategory;
         // this.formValues.typeOfService = this.typeOfService[0].key;
       this.formValues.purposeOfLoan = this.purposeOfLoanChange;
       }
@@ -1064,11 +1082,12 @@ onChangeWeakerSection(event: any) {
             this.pslDataForm.disable();
             this.disableSaveBtn = true;
           }
-        })
+        });
         return;
       }
       const activity = this.pslData.activity;
       this.activityChange = activity;
+      // this.onChangeDetailActivity(activity);
       const dltActivity = this.pslData.detailActivity;
       // this.selectFormGroup();
       this.detailActivityChange = dltActivity;
@@ -1116,9 +1135,8 @@ onChangeWeakerSection(event: any) {
             this.disableSaveBtn = true;
           }
         })
-      } else if (activity !== '1PSLACTVTY') {
+      } else if (activity === '5PSLACTVTY' || activity === '6PSLACTVTY' ) {
         setTimeout(() => {
-          // if (activity !== '7PSLACTVTY') {
             this.pslDataForm.patchValue({
               activity: this.activityChange
             });
@@ -1139,31 +1157,32 @@ onChangeWeakerSection(event: any) {
                 uRegisteredEmailId :  this.pslData.uRegisteredEmailId,
               },
             });
-          // } else {
-          //   this.pslDataForm.patchValue({
-          //     activity: this.activityChange
-          //   });
-          //   this.pslDataForm.patchValue({
-          //     nonAgriculture: {
-          //       activity: this.pslData.activity,
-          //       detailActivity: this.pslData.detailActivity,
-          //       purposeOfLoan: this.pslData.purposeOfLoan,
-          //       pslCategory: this.pslData.pslCategory,
-          //       pslSubCategory: this.pslData.pslSubCategory,
-          //     },
-          //   });
-          // }
-            // if (activity === '7PSLACTVTY') {
-            //  const control = this.pslDataForm.controls.nonAgriculture as FormGroup;
-            // //  control.controls.loanAmount.reset();
-            //  control.patchValue({
-            //   loanAmount: ''
-            // });
-            //  control.controls.loanAmount.clearValidators();
-            //  control.controls.loanAmount.updateValueAndValidity();
-            //  }
 
         });
+      } else if (activity === '7PSLACTVTY') {
+        setTimeout(() => {
+          this.pslDataForm.patchValue({
+            activity: this.activityChange
+          });
+          this.pslDataForm.patchValue({
+            // activity: this.pslData.activity,
+            nonAgriculture: {
+              // activity: this.pslData.activity,
+              // detailActivity: this.pslData.detailActivity,
+              // goodsManufactured: this.pslData.goodsManufactured,
+              // typeOfService: this.pslData.typeOfService,
+              purposeOfLoan: this.pslData.purposeOfLoan,
+              loanAmount: this.loanAmount,
+              pslCategory: this.pslData.pslCategory,
+              pslSubCategory: this.pslData.pslSubCategory,
+              // pslCCertificate: this.pslData.pslCCertificate,
+              // uRecessionNo : this.pslData.uRecessionNo,
+              // uRegisteredMobileNo :  this.pslData.uRegisteredMobileNo,
+              // uRegisteredEmailId :  this.pslData.uRegisteredEmailId,
+            },
+          });
+
+      });
       }
       setTimeout(() => {
         const operationType = this.toggleDdeService.getOperationType();
@@ -1171,7 +1190,7 @@ onChangeWeakerSection(event: any) {
           this.pslDataForm.disable();
           this.disableSaveBtn = true;
         }
-      })
+      });
     });
   }
   onChangelandUnitType(event?: any) {
@@ -1192,5 +1211,25 @@ onChangeWeakerSection(event: any) {
       }
     });
 
+  }
+
+  applyMandatoryToActivity(event: any) {
+   if (event === '1PSLACTVTY') {
+
+    } else if ( event === '5PSLACTVTY' || event === '6PSLACTVTY' ) {
+     const control = this.pslDataForm.get('nonAgriculture') as FormGroup;
+    //  control.clearValidators();
+    //  control.updateValueAndValidity();
+     control.get('uRecessionNo').setValidators(Validators.required);
+     control.get('uRecessionNo').updateValueAndValidity();
+     control.get('uRegisteredMobileNo').setValidators(Validators.required);
+     control.get('uRegisteredMobileNo').updateValueAndValidity();
+     control.get('uRegisteredEmailId').setValidators(Validators.required);
+     control.get('uRegisteredEmailId').updateValueAndValidity();
+    } else if ( event === '7PSLACTVTY') {
+    }
+  }
+  get f() {
+    return this.pslDataForm.controls.nonAgriculture as FormGroup;
   }
 }

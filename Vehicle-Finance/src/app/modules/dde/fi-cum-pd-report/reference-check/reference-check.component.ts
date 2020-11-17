@@ -107,6 +107,7 @@ export class ReferenceCheckComponent implements OnInit {
   LOV: any;
   applicantType: any;
   allowSave: boolean;
+  indexFromHtml: number;
   constructor(
     private labelsData: LabelsService, // service to access labels
     private personalDiscussion: PersonalDiscussionService,
@@ -441,9 +442,9 @@ export class ReferenceCheckComponent implements OnInit {
     let j = 0;
     references.forEach(element => {
       console.log('element', element);
-      if (element.typeReference === '1REFTYPE' || element.typeReference === '2REFTYPE') {
+      if (element.typeReference === 'FINREFREFERNS') {
         i = i + 1;
-      } else if (element.typeReference === '3REFTYPE' || element.typeReference === '4REFTYPE') {
+      } else if (element.typeReference === 'MKTREFREFERNS') {
         j = j + 1;
       }
     });
@@ -452,12 +453,10 @@ export class ReferenceCheckComponent implements OnInit {
       const data = {
         id: referenceId
       };
-      if ((referenceId !== 0 && i > 1 && j === 1) && (references[index].typeReference === '3REFTYPE' ||
-        references[index].typeReference === '4REFTYPE')) {
+      if ((referenceId !== 0 && i > 1 && j === 1) && (references[index].typeReference === 'MKTREFREFERNS')) {
         this.toasterService.showError(' atleast one market reference is required', '');
 
-      } else if ((referenceId !== 0 && i === 1 && j > 1) && (references[index].typeReference === '1REFTYPE' ||
-        references[index].typeReference === '2REFTYPE')) {
+      } else if ((referenceId !== 0 && i === 1 && j > 1) && (references[index].typeReference === 'FINREFREFERNS')) {
         this.toasterService.showError(' atleast one finance reference is required', '');
       } else if ((referenceId !== 0) && (i > 1 || j > 1)) {
         this.personalDiscussion.deleteMarFinReference(data).subscribe((res: any) => {
@@ -481,6 +480,12 @@ export class ReferenceCheckComponent implements OnInit {
     } else if (referenceId !== 0 && (i === 1 && j === 1)) {
       this.toasterService.showError('atleast one market and finance reference required', '');
     }
+  }
+
+  delete(index: number) {
+    this.indexFromHtml = index;
+    console.log('index', this.indexFromHtml);
+
   }
   setFormValue() {
 
@@ -566,9 +571,9 @@ export class ReferenceCheckComponent implements OnInit {
       let j = 0;
       references.forEach(element => {
         console.log('element', element);
-        if (element.typeReference === '1REFTYPE' || element.typeReference === '2REFTYPE') {
+        if (element.typeReference === 'FINREFREFERNS') {
           i = i + 1;
-        } else if (element.typeReference === '3REFTYPE' || element.typeReference === '4REFTYPE') {
+        } else if (element.typeReference === 'MKTREFREFERNS') {
           j = j + 1;
         }
       });
@@ -596,7 +601,7 @@ export class ReferenceCheckComponent implements OnInit {
       return;
     }
     console.log('this product', this.productCat);
-    console.log("this soucing", this.sourcingChannel);
+    console.log('this sourcing', this.sourcingChannel);
     const referenceCheckModel = { ...formModel };
     this.refCheckDetails = {
       nameOfReference: referenceCheckModel.nameOfReference ? referenceCheckModel.nameOfReference : null,

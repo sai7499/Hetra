@@ -133,7 +133,7 @@
                 <div class="panel-group mar-20" id="accordion"
                   *ngFor="let chat of chatList; let i=index; let last=last">
                   <div class="flex-container" [ngClass]="selectedList === chat ? 'selected-back' : ''">
-                    <div class="divs" (click)="getQueries(chat)">
+                    <div class="divs" (click)="getQueries(chat, true)">
                       <p class="mar-em">{{chat.value}}</p>
                     </div>
 
@@ -363,6 +363,7 @@
                       <div *ngIf="queryModalForm.controls['query'].hasError('required')">
                         Query Required
                       </div>
+
                     </div>
                   </div>
                 </div>

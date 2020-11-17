@@ -42,6 +42,10 @@ const routes: Routes = [
     },
     children: [
       {
+        path: 'cheque-tracking',
+        loadChildren: () => import('./modules/cheque-tracking/cheque-tracking.module').then((m) => m.ChequeTrackingModule)
+      },
+      {
         path: 'lead-creation',
         loadChildren: () =>
           import('./modules/lead-creation/lead-creation.module').then(

@@ -464,7 +464,7 @@
     "otherDeviationsTitle": "Other Deviations",
     "authority": "Authority",
     "concernsOrRisks": "CONCERNS/RISKS",
-    "strengthsOrMitigates": "STRENGTHS/MITIGATES",
+    "strengthsOrMitigates": "STRENGTHS/MITIGANTS",
     "leadNo": "Lead No",
     "rcLimitCategory": "RC Limit Category",
     "rcLimit": "RC Limit (Only for DSA and Dealer)",
@@ -1641,7 +1641,21 @@
     "matchedCriteria": "Matched Criteria",
     "disbursementStartDate": "Disbursement - Start Date",
     "disbursementEndDate": "Disbursement - End Date",
-    "propertyValue": "Property Value",
+    "propertyValue":"Property Value",
+    "initiateRcu": "Initiate RCU",
+    "rcu":"RCU",
+    "fileRcuStatus":"File RCU Status",
+    "screened":"Screened",
+    "sampled":"Sampled",
+    "showApplicantDocuments":"Show Applicant Documents",
+    "showCollateralDocuments":"Show Collateral Documents",
+    "documentCategory":"Document Category",
+    "rcuReportStatus":"RCU Report Status",
+    "rcuUpload":"RCU Upload",
+    "rcuReportReceivedDateandTime":"RCU Report Received Date and Time",
+"rcuDocumentId":"RCU Document Id",
+
+    
     "landAreaInHectares": "Land Area In Hectares",
     "uRecessionNo": "UDHYAM Registration number",
     "uRegisteredMobileNo": "UDHYAM Registered mobile number",
@@ -1653,7 +1667,10 @@
     "inputValue": "Input Value",
     "scoreValue": "Score",
     "marketAndFinancierReference": "Market & Financier Reference",
+    "performed_by":"Performed By",
+    "performed_on":"Performed On",
     "speedometerReading": "Speedometer Reading",
+    "deleteReference": "Are You Sure Want To Delete Reference Details?",
     "validationData": {
         "name": {
             "maxLength": {
@@ -2657,7 +2674,7 @@
         },
         "emailPatternPsl": {
             "maxLength": {
-                "rule": 30
+                "rule": 40
             },
             "patternCheck": {
                 "rule": "^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(\\.\\w{2,10})+$",
@@ -2680,7 +2697,13 @@
             "maxLength": {
                 "rule": 300
             },
-            "type": "special-alpha-numeric"
+            "type":"special-alpha-numeric"
+        },
+        "pslUdhyamregno": {
+            "maxLength":{
+                "rule":20
+            },
+            "type":"alpha-numeric-nospace"
         },
         "speedometerReading": {
             "maxLength": {
