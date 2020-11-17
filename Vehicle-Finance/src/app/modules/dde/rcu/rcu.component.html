@@ -6,9 +6,9 @@
   <!-- <h3 class="dashboard m-0">{{ labels?.rcu }}</h3> -->
   <!--progress bar-->
   <div class="content">
-    <div class="form-group text-center">
-      <div class="col-lg-3 col-sm-1 col-md-2 col-xs-12"></div>
-      <div class="col-lg-5 col-sm-10 col-md-8 col-xs-12">
+    <div class="flex-container form-group text-center">
+      <div class="flex-con"></div>
+      <div class="row">
         <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12"><label>{{ labels?.fileRcuStatus }} :</label></div>
         <div class="col-lg-3 col-sm-4 col-md-3 col-xs-12">
           <input type="radio" name="fileRCUStatus" value="screened" id="screened" formControlName="fileRCUStatus"
@@ -21,8 +21,8 @@
           <label for="sampled"> Sampled</label>
         </div>
       </div>     
-      <div class="col-lg-3 col-sm-1 col-md-2 col-xs-12"></div>
-      <div class="clearfix"></div>
+      <div class="flex-con"></div>
+      
     </div>    
     
     <div class="clearfix"></div>
@@ -104,7 +104,7 @@
     <!-- <div class="for_space"></div> -->
 
 
-    <div class="table-responsive application mt-3" >
+    <div class="table-responsive application mb-10 main-table" >
       <table id="POITable_other" border="0" class="table">
         <thead>
           <tr class="caption">
@@ -134,8 +134,8 @@
           let item of rcuDetailsForm.controls.applicantDocuments.controls;
           let i = index
         " [formGroupName]="i">
-            <td data-title="Member">
-              {{i+1}}
+            <td [attr.data-label]="labels?.sNo" data-title="Member">
+              1
             </td>
             <td data-title="Member">
               <app-custom-input [placeholder]="'Document Name'" formControlName="documentName" [isDisabled] = 'true'
@@ -265,36 +265,46 @@
 
     </div>
     
-    <div class="form-group od-row">
-      <div class="col-md-2 col-sm-2 col-lg-2 col-xs-12 "><label>{{labels?.rcuReportStatus}}</label></div>
-      <div class="col-md-2 col-sm-2 col-lg-2 col-xs-12 ">
-        <app-vf-custom-select [values]="rcuLov?.rcuStatus" formControlName="rcuReportStatus">
-        </app-vf-custom-select>
+    <div _ngcontent-uth-c9="" class="form-group row">
+      <div _ngcontent-uth-c9="" class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12">
+        <label _ngcontent-uth-c9="">RCU Report Status</label>
       </div>
-      <div class="col-md-1 col-sm-1 col-lg-1 col-xs-12  "><label class="">{{labels?.rcuUpload}}</label></div>
-      <div class="col-md-1 col-sm-1 col-lg-1 col-xs-12 ">        
-        <label><i class="fa fa-upload fa-3 custom-file-label cursor-pointer"
-            aria-hidden="true"
-            id="add_more_documents_upload1a" (click)="uploadDoc()"></i></label>  
-      </div>
-      <div class="col-md-1 col-sm-1 col-lg-1 col-xs-12 "><label>{{labels?.rcuDocumentId}}</label></div>
-      <div class="col-md-1 col-sm-1 col-lg-1 col-xs-12">
-        <input name="input" type="text" class="form-control file-input" formControlName="rcuDocumentId" readonly
-        (click)="downloadDocs($event.target.value)" />
-      </div>
-      <div class="col-md-2 col-sm-2 col-lg-2 col-xs-12 "><label>{{labels?.rcuReportReceivedDateandTime}}</label></div>
-      <div class="col-md-2 col-sm-2 col-lg-2 col-xs-12 ">
-        <input name="input" type="text" class="form-control" formControlName="rcuReportReceivedDateTime" readonly
-        value="{{today}}" /> 
-      </div>
-      <div class="clearfix"></div>
+      <div _ngcontent-uth-c9="" class="form-group  col-lg-2 col-md-3 col-sm-6 col-xs-12">
+        <app-vf-custom-select _ngcontent-uth-c9="" formcontrolname="rcuReportStatus" _nghost-uth-c11="" ng-reflect-values="[object Object],[object Object" ng-reflect-name="rcuReportStatus" class="ng-untouched ng-pristine">
+          <select _ngcontent-uth-c11="" ng-reflect-is-disabled="true" ng-reflect-model="FRDRCMSTS" class="form-control mandatory ng-untouched ng-pristine" disabled="">
+            <option _ngcontent-uth-c11="" value="" ng-reflect-value="" disabled="">-- select one --</option><!--bindings={
+      "ng-reflect-ng-for-of": "[object Object],[object Object"
+    }--><option _ngcontent-uth-c11="" value="UTVRCMSTS" ng-reflect-value="UTVRCMSTS">Failed / Unable to verify</option><option _ngcontent-uth-c11="" value="FRDRCMSTS" ng-reflect-value="FRDRCMSTS">Fraud</option><option _ngcontent-uth-c11="" value="NEGRCMSTS" ng-reflect-value="NEGRCMSTS">Negative</option><option _ngcontent-uth-c11="" value="POSRCMSTS" ng-reflect-value="POSRCMSTS">Positive</option></select><!--bindings={
+      "ng-reflect-ng-if": "false"
+    }--></app-vf-custom-select></div>
+    <div _ngcontent-uth-c9="" class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12">
+      <label _ngcontent-uth-c9="" class="">RCU Upload</label>
     </div>
-    <div class="form-group od-row">
-      <div class="col-md-1 col-xs-12 col-lg-1 col-sm-1"><label>{{labels?.remark}}</label></div>
-      <div class="col-md-11 col-lg-11 col-sm-11 col-xs-12">
+    <div _ngcontent-uth-c9="" class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12">
+      <label _ngcontent-uth-c9=""><i _ngcontent-uth-c9="" aria-hidden="true" class="fa fa-upload fa-3 custom-file-label cursor-pointer" id="add_more_documents_upload1a"></i></label>
+    </div>
+    <div class="clearfix clearfix-hide"></div>
+    <div _ngcontent-uth-c9="" class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12">
+      <label _ngcontent-uth-c9="">RCU Document Id</label>
+    </div>
+    <div _ngcontent-uth-c9="" class="form-group col-lg-2 col-md-3 col-sm-6 col-xs-12">
+      <input _ngcontent-uth-c9="" class="form-control file-input ng-untouched ng-pristine" formcontrolname="rcuDocumentId" name="input" readonly="" type="text" disabled="" ng-reflect-name="rcuDocumentId">
+    </div>
+    <div _ngcontent-uth-c9="" class="form-group col-lg-2 col-md-3 col-sm-6 col-xs-12">
+      <label _ngcontent-uth-c9="">RCU Report Received Date/Time</label>
+    </div>
+    <div _ngcontent-uth-c9="" class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
+      <input _ngcontent-uth-c9="" class="form-control ng-untouched ng-pristine" formcontrolname="rcuReportReceivedDateTime" name="input" readonly="" type="text" disabled="" ng-reflect-name="rcuReportReceivedDateTime">
+    </div>
+  </div>
+
+
+    <div class="form-group row">
+      <div class="form-group col-lg-1 col-md-1 col-sm-1 col-xs-12"><label>{{labels?.remark}}</label></div>
+      <div class="form-group col-lg-11 col-md-11 col-sm-11 col-xs-12">
         <textarea class="form-control form-control-sm" placeholder="Text Area" formControlName="remarks"></textarea>
       </div>
-      <div class="clearfix"></div>
+     
     </div>
   </div>
 </form>
@@ -327,8 +337,8 @@
               <div class="modal-body" style="text-align:center;">
                 <p>{{errorMessage}}</p>
                 <div class="btn-wrap">
-                  <button class="btn btn-success" (click)="assignRcuTask()">Yes</button>&nbsp;
-                  <button class="btn btn-danger" (click)="isInitiateScreen = false">No</button>
+                  <button class="btn btn-success btn-ok" (click)="assignRcuTask()">Yes</button>&nbsp;
+                  <button class="btn btn-danger btn-ok" (click)="isInitiateScreen = false">No</button>
                 </div>
               </div>
             </div>
