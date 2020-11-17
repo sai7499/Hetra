@@ -180,7 +180,7 @@ export class PdListComponent implements OnInit {
       this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
       // this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
     } else if (this.fiCumPdStatus == true) {
-      this.router.navigate(['pages/dde/' + this.leadId + '/tvr-details']);
+      this.router.navigate(['pages/dde/' + this.leadId + '/rcu']);
 
     }
 
