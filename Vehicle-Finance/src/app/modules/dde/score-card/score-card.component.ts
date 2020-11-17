@@ -27,6 +27,8 @@ export class ScoreCardComponent implements OnInit {
     riskLevel: number;
     risk: string;
 
+    result = [];
+
     constructor(
         private labelsData: LabelsService,
         private scoreCardService: ScoreCardService,
@@ -35,7 +37,7 @@ export class ScoreCardComponent implements OnInit {
         private toggleDdeService: ToggleDdeService
     ) { }
 
-  
+
     ngOnInit() {
         const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
         this.userId = roleAndUserDetails.userDetails.userId;
@@ -51,16 +53,17 @@ export class ScoreCardComponent implements OnInit {
 
         this.labelsData.getLabelsData().subscribe(
             (data) => {
-              this.labels = data;
+                this.labels = data;
             },
             (error) => {
-              console.log(error);
+                console.log(error);
             }
-          );
-      
+        );
+
     }
 
     reInitiateCreditScore() {
+        this.result = [];
         this.scoreCardService.reInitiateCreditScore(this.leadId, this.userId).subscribe((res: any) => {
             const response = res;
             const appiyoError = response.Error;
@@ -81,11 +84,30 @@ export class ScoreCardComponent implements OnInit {
                 this.fieldVerificationsLength = this.borrowerAttributes.length +
                     this.borrowerAssessments.length +
                     this.fieldVerifications.length + 1;
+
+
+                // this.scoreCard = JSON.parse(response.ProcessVariables.scoreCard);
+                this.riskLevel = this.scoreCard.totalScore;
             }
+            // this.insertRow(this.scoreCard);
             this.levelOfRisk(this.riskLevel);
         });
 
     }
+
+    insertRow(obj) {
+        for (const key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                if (typeof obj[key] === 'object') {
+                    if (!Array.isArray(obj[key])) {
+                        this.result.push(obj[key]);
+                    }
+                    this.insertRow(obj[key]);
+                }
+            }
+        }
+    }
+
     levelOfRisk(riskLevel: number) {
         if (riskLevel <= 50) {
             this.risk = 'Higest Risk';

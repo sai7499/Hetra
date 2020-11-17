@@ -52,6 +52,7 @@ export class ReferenceDetailsComponent implements OnInit {
   marketAndFinReferenceDetails: any;
   applicantType: any;
   allowSave: boolean;
+  indexFromHtml: number;
 
   constructor(private labelsData: LabelsService, private lovDataService: LovDataService,
     private formBuilder: FormBuilder, private pdDataService: PdDataService, private applicantService: ApplicantService,
@@ -71,6 +72,7 @@ export class ReferenceDetailsComponent implements OnInit {
       this.applicantLov = value ? value[0].applicantDetails[0] : {};
     });
     this.initForm();
+    this.removeReferenceControls();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
     this.userId = roleAndUserDetails.userDetails.userId;
   }
@@ -139,11 +141,11 @@ export class ReferenceDetailsComponent implements OnInit {
 
         this.refCheckDetails = value.ProcessVariables.referenceCheck ? value.ProcessVariables.referenceCheck : {};
         const referenceDetails = value.ProcessVariables.marketFinRefData;
-        if (referenceDetails != null) {
+        if (referenceDetails != null && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
           this.populateData(value);
 
 
-        } else if (referenceDetails == null) {
+        } else if (referenceDetails == null && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
           const control = this.referenceDetailsForm.controls.marketFinRefData as FormArray;
           control.push(this.initRows(null));
 
@@ -153,7 +155,7 @@ export class ReferenceDetailsComponent implements OnInit {
           this.pdDataService.setCustomerProfile(this.refCheckDetails);
         }
       } else {
-        this.toasterService.showError(value.ErrorMessage, 'Personal Details')
+        this.toasterService.showError(value.ErrorMessage, '');
       }
     });
 
@@ -183,9 +185,9 @@ export class ReferenceDetailsComponent implements OnInit {
     let j = 0;
     references.forEach(element => {
       console.log('element', element);
-      if (element.typeReference === '1REFTYPE' || element.typeReference === '2REFTYPE') {
+      if (element.typeReference === 'FINREFREFERNS') {
         i = i + 1;
-      } else if (element.typeReference === '3REFTYPE' || element.typeReference === '4REFTYPE') {
+      } else if (element.typeReference === 'MKTREFREFERNS') {
         j = j + 1;
       }
     });
@@ -194,12 +196,10 @@ export class ReferenceDetailsComponent implements OnInit {
       const data = {
         id: referenceId
       };
-      if ((referenceId !== 0 && i > 1 && j === 1) && (references[index].typeReference === '3REFTYPE' ||
-        references[index].typeReference === '4REFTYPE')) {
+      if ((referenceId !== 0 && i > 1 && j === 1) && (references[index].typeReference === 'MKTREFREFERNS')) {
         this.toasterService.showError(' atleast one market reference is required', '');
 
-      } else if ((referenceId !== 0 && i === 1 && j > 1) && (references[index].typeReference === '1REFTYPE' ||
-        references[index].typeReference === '2REFTYPE')) {
+      } else if ((referenceId !== 0 && i === 1 && j > 1) && (references[index].typeReference === 'FINREFREFERNS')) {
         this.toasterService.showError(' atleast one finance reference is required', '');
       } else if ((referenceId !== 0) && (i > 1 || j > 1)) {
         this.personalDiscussionService.deleteMarFinReference(data).subscribe((res: any) => {
@@ -223,6 +223,11 @@ export class ReferenceDetailsComponent implements OnInit {
     } else if (referenceId !== 0 && (i === 1 && j === 1)) {
       this.toasterService.showError('atleast one market and finance reference required', '');
     }
+  }
+  delete(index: number) {
+    this.indexFromHtml = index;
+    console.log('index', this.indexFromHtml);
+
   }
 
   setFormValue(referenceDetails) {
@@ -311,6 +316,14 @@ export class ReferenceDetailsComponent implements OnInit {
       opinionOfPdOfficer: ["", Validators.required],
       marketFinRefData: this.listArray
     });
+  }
+  removeReferenceControls() {
+    const controls = this.referenceDetailsForm as FormGroup;
+    console.log('in remove controls', controls);
+    console.log('in remove controls', this.productCatCode);
+    if ((this.productCatCode !== 'NCV') || (this.productCatCode === 'NCV' && this.applicantType !== 'APPAPPRELLEAD')) {
+      controls.removeControl('marketFinRefData');
+    }
   }
   public populateRowData(rowData) {
 
@@ -454,62 +467,65 @@ export class ReferenceDetailsComponent implements OnInit {
 
     formValue.refererFullName = formValue.refererFirstName || '' + ' ' + formValue.refererSecondName || '' + ' ' + (formValue.refererThirdName || '');
     formValue.referenceFullName = formValue.referenceFirstName || '' + ' ' + formValue.referenceSecondName || '' + ' ' + formValue.referenceThirdName || '';
-
-    const referenceArray = (this.referenceDetailsForm.value.marketFinRefData as FormArray);
-    for (let i = 0; i < referenceArray.length; i++) {
-      referenceArray[i]['typeReference'] = referenceArray[i]['typeReference'];
-      referenceArray[i]['companyName'] = referenceArray[i]['companyName'];
-      referenceArray[i]['officerName'] = referenceArray[i]['officerName'];
-      referenceArray[i]['designation'] = referenceArray[i]['designation'];
-      referenceArray[i]['teleNo'] = referenceArray[i]['teleNo'];
-      referenceArray[i]['comments'] = referenceArray[i]['comments'];
-    }
-    this.referenceDetailsForm.value.marketFinRefData = referenceArray;
-
-    let i = 0;
-    let j = 0;
-    references.forEach(element => {
-      console.log('element', element);
-      if (element.typeReference === '1REFTYPE' || element.typeReference === '2REFTYPE') {
-        i = i + 1;
-      } else if (element.typeReference === '3REFTYPE' || element.typeReference === '4REFTYPE') {
-        j = j + 1;
+    if (this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
+      const referenceArray = (this.referenceDetailsForm.value.marketFinRefData as FormArray);
+      for (let i = 0; i < referenceArray.length; i++) {
+        referenceArray[i]['typeReference'] = referenceArray[i]['typeReference'];
+        referenceArray[i]['companyName'] = referenceArray[i]['companyName'];
+        referenceArray[i]['officerName'] = referenceArray[i]['officerName'];
+        referenceArray[i]['designation'] = referenceArray[i]['designation'];
+        referenceArray[i]['teleNo'] = referenceArray[i]['teleNo'];
+        referenceArray[i]['comments'] = referenceArray[i]['comments'];
       }
-    });
-    console.log('i j values', i, j);
-    if (i >= 1 && j >= 1) {
-      this.allowSave = true;
-    }
-    if (this.referenceDetailsForm.valid && this.allowSave) {
-      const data = {
-        leadId: this.leadId,
-        applicantId: this.applicantId,
-        userId: this.userId,
-        referenceCheck: formValue,
-        marketFinRefData: referenceArray
-      };
+      this.referenceDetailsForm.value.marketFinRefData = referenceArray;
 
-      this.personalDiscussionService.saveOrUpdatePdData(data).subscribe((value: any) => {
-        if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
-          this.refCheckDetails = value.ProcessVariables.referenceCheck ? value.ProcessVariables.referenceCheck : {};
-          this.getLOV();
-          this.toasterService.showSuccess('Record Saved Successfully', '');
-          this.listArray.controls = [];
-          this.getReferenceDetails();
-        } else {
-          this.toasterService.showSuccess(value.ErrorMessage, 'Error Reference Details');
+      let i = 0;
+      let j = 0;
+      references.forEach(element => {
+        console.log('element', element);
+        if (element.typeReference === 'FINREFREFERNS') {
+          i = i + 1;
+        } else if (element.typeReference === 'MKTREFREFERNS') {
+          j = j + 1;
         }
       });
-
-    } else if (this.referenceDetailsForm.invalid) {
-      this.isDirty = true;
+      console.log('i j values', i, j);
+      if (i >= 1 && j >= 1) {
+        this.allowSave = true;
+      }
+      this.marketAndFinReferenceDetails = referenceArray;
+    }
+    this.isDirty = true;
+    if (this.referenceDetailsForm.invalid) {
       this.toasterService.showError('Please enter valid details', 'Reference Details');
       this.utilityService.validateAllFormFields(this.referenceDetailsForm);
-    } else if (this.allowSave !== true) {
+      return;
+    } else if (this.allowSave !== true && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
       this.toasterService.showWarning('atleast one market and finance reference required', '');
-
+      return;
     }
+    const data = {
+      leadId: this.leadId,
+      applicantId: this.applicantId,
+      userId: this.userId,
+      referenceCheck: formValue,
+      marketFinRefData: this.marketAndFinReferenceDetails
+    };
+
+    this.personalDiscussionService.saveOrUpdatePdData(data).subscribe((value: any) => {
+      if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
+        this.refCheckDetails = value.ProcessVariables.referenceCheck ? value.ProcessVariables.referenceCheck : {};
+        this.getLOV();
+        this.toasterService.showSuccess('Record Saved Successfully', '');
+        this.listArray.controls = [];
+        this.getReferenceDetails();
+      } else {
+        this.toasterService.showSuccess(value.ErrorMessage, 'Error Reference Details');
+      }
+    });
+
   }
+
 
   onBack() {
     if (this.version !== 'undefined') {

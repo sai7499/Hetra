@@ -1,5 +1,5 @@
 <div class="row top_bar">
-  <div class="col-lg-9 col-md-9 col-sm-9 pad-allside ">
+  <div class="col-lg-7 col-md-7 col-sm-7 pad-allside ">
     <div class="row mob-view">
       <div class="row col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
@@ -65,39 +65,88 @@
         </div>
       </div>
     </div>
-    <table class="table table-responsive table-borderless tab-border tab-view">
-      <tr style="line-height:2">
-        <td class="lab-bold-1">{{ labels?.leadID }}</td>
-        <td class="lab-colan">:</td>
-        <td class="lab-small">{{ leadId }}</td>
-        <td class="lab-bold-1">{{ labels?.product }}</td>
-        <td class="lab-colan">:</td>
-        <td class="lab-small">{{ productId }}</td>
-        <td class="lab-bold">{{ labels?.loanAmount }}</td>
-        <td class="lab-colan">:</td>
-        <td class="lab-small">{{ loanAmount }}</td>
-
-      </tr>
-
-      <tr style="line-height:2">
-        <td class="lab-bold-1">{{ labels?.applicant  }}</td>
-        <td class="lab-colan">:</td>
-        <td class="lab-small">{{ applicantName }}</td>
-        <td class="lab-bold-1">{{ labels?.status }}</td>
-        <td class="lab-colan">:</td>
-        <td class="lab-small">{{ stageDescription }}</td>
-        <td class="lab-bold">{{ labels?.queue }}</td>
-        <td class="lab-colan">:</td>
-        <td class="lab-small">New Lead</td>
-      </tr>
-
-    </table>
+    <div class="row desktop-view">
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="form-group mb-0">
+          <label class="col-form-label" for="lead_created_by">{{ labels?.leadID }}
+          </label>
+          <label for="lead_created_by_name" class="col-form-label-two">:{{
+            leadId
+          }}</label>
+        </div>
+      </div>
+      <div class=" col-lg-4 col-md-4 col-sm-12">
+        <div class="form-group mb-0">
+          <label class="col-form-label" for="lead_created_by">{{
+            labels?.product
+          }}</label>
+          <label for="lead_created_by_name" class="col-form-label-two">:{{
+            productId
+          }}</label>
+        </div>
+      </div>
+      <div class=" col-lg-4 col-md-4 col-sm-12">
+        <div class="form-group mb-0">
+          <label class="col-form-label" for="customer_name_label">{{
+            labels?.loanAmount 
+          }}</label>
+          <label for="customer_name" class="col-form-label-two">:{{
+            loanAmount    
+            
+          }}</label>
+          <!-- : 'symbol':'1.0':'en-IN' -->
+        </div>
+      </div>
+    </div>
+    <div class="row desktop-view">
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="form-group mb-0">
+          <label class="col-form-label" for="roi">{{
+            labels?.applicant
+          }}</label>
+          <label for="roi_value" class="col-form-label-two">:{{
+            applicantName
+          }}</label>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="form-group mb-0">
+          <label class="col-form-label" for="lead_handled_by">{{ labels?.status }}
+          </label>
+          <label for="lead_handled_by_name" class="col-form-label-two">:{{
+            stageDescription
+          }}</label>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="form-group mb-0">
+          <label class="col-form-label" for="lead_handled_by">{{
+            labels?.queue
+          }}</label>
+          <label for="lead_handled_by_name" class="col-form-label-two">:New Lead </label>
+        </div>
+      </div>
+    </div>
   </div>
+  <div class="col-lg-2 col-md-2 col-sm-2 btn-width-org">
+    <div class="row view-pad-top" data-tooltip="Lead History">
+      <i class="fa fa-history" data-toggle="modal" data-target="#leadHistoryModal" (click)="onLeadHistory()"></i>
+    </div>
+  </div>
+
   <div class="col-lg-2 col-md-2 col-sm-2 btn-width">
     <div class="row view-pad-top">
       <button class="btn btn-primary view-button" [routerLink]="['/pages/document-viewupload', leadId]" type="button"
         (click)="saveCurrentUrl()">
         View/Upload Document
+      </button>
+    </div>
+
+    <div class="row view-pad-bottom" *ngIf="isEnableInitiateQuery">
+      <button class="btn btn-primary view-button" type="button" (click)="initinequery()">
+        Initiate Query &nbsp;
+        <i class="fa fa-bell cus-bell font-medium-3"></i><span class="notification badge badge-pill badge-danger"
+          *ngIf="leadCount && leadCount !== 0">{{leadCount}}</span>
       </button>
     </div>
 
