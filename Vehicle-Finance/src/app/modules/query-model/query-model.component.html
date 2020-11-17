@@ -258,7 +258,7 @@
 
                   </div>
 
-                  <div class="cus-top-arrow" *ngIf="getChatsObj && getChatsObj.count >= 15">
+                  <div class="cus-top-arrow" *ngIf="getChatsObj && getChatsObj.count > 50">
                     <button type="button" class="btn btn-white btn-circle cus-circle"
                       (click)="getMoreChat(chatMessages.length, getChatsObj)"><i
                         class="fa fa-angle-down cus-arrow"></i></button>
@@ -363,6 +363,7 @@
                       <div *ngIf="queryModalForm.controls['query'].hasError('required')">
                         Query Required
                       </div>
+
                     </div>
                   </div>
                 </div>

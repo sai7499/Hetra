@@ -13,7 +13,7 @@ export class WelcomeService {
 
   constructor(private http: HttpClient, private httpService: HttpService, private apiService: ApiService) { }
 
-  getwelcomeLetterDetails(leadId) {
+  getwelcomeLetterDetails(leadId, isLoanBooking) {
 
     const processId = this.apiService.api.welcomeLetter.processId;
     const workflowId = this.apiService.api.welcomeLetter.workflowId;
@@ -22,7 +22,8 @@ export class WelcomeService {
     const body: RequestEntity = {
       processId: processId,
       ProcessVariables: {
-        "leadId": leadId
+        "leadId": leadId,
+        isLoanBooking
     },
 
       workflowId: workflowId,

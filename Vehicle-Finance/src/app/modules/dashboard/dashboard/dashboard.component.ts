@@ -13,10 +13,12 @@ import { environment } from 'src/environments/environment';
 import { debounceTime, retry, share, switchMap } from 'rxjs/operators';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { QueryModelService } from '@services/query-model.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { PollingService } from '@services/polling.service';
 import { timer } from 'rxjs';
+import { LeadHistoryService } from '@services/lead-history.service';
+import { CommonDataService } from '@services/common-data.service';
 
 export enum DisplayTabs {
   Leads,
@@ -173,6 +175,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private utilityService: UtilityService,
     private vehicleDataStoreService: VehicleDataStoreService,
     private router: Router,
+    private aRoute: ActivatedRoute,
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService,
     private sharedService: SharedService,
@@ -180,12 +183,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private location: Location,
     private pollingService: PollingService,
     private queryModelService: QueryModelService,
+    private leadHistoryService: LeadHistoryService,
+    private commonDataService: CommonDataService
   ) {
     if (environment.isMobile === true) {
       this.itemsPerPage = '5';
     } else {
       this.itemsPerPage = '25';
     }
+
+    this.leadId = this.aRoute.snapshot.params['leadId'];
 
   }
 
@@ -292,7 +299,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       } else {
         clearInterval(this.intervalId)
       }
-    }, 30000)
+    }, 300000)
 
   }
 
@@ -306,7 +313,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           clearInterval(this.intervalId)
         }
       })
-    }, 30000)
+    }, 300000)
   }
 
   getCountAcrossLeads(userId) {
@@ -848,7 +855,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl(`/pages/pdd/${this.leadId}`);
         break;
       case 17:
-        this.router.navigateByUrl(`/pages/dde/${this.leadId}/cheque-tracking`);
+        this.router.navigateByUrl(`/pages/cheque-tracking/${this.leadId}`);
         break;
 
       default:
@@ -1056,5 +1063,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.sharedService.getTaskID(item.taskId);
     this.sharedService.setProductCatCode(item.productCatCode);
     this.sharedService.setProductCatName(item.productCatName);
+  }
+
+  onLeadHistory(leadId) {
+    this.leadHistoryService.leadHistoryApi(leadId)
+      .subscribe(
+        (res: any) => {
+          const response = res;
+          const appiyoError = response.Error;
+          const apiError = response.ProcessVariables.error.code;
+
+          if (appiyoError === '0' && apiError === '0') {
+            const leadHistoryData = response;
+            console.log('leadHistoryData', leadHistoryData);
+            this.commonDataService.shareLeadHistoryData(leadHistoryData);
+          } else {
+            const message = response.ProcessVariables.error.message;
+            this.toasterService.showError(message, 'Lead Creation');
+          }
+        }
+      );
   }
 }

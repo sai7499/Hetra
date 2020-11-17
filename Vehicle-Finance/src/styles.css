@@ -11,6 +11,7 @@ body {
     /* Internet Explorer/Edge */
     user-select: none;
     /* Non-prefixed version, currently*/
+    overflow-x: hidden;
 }
 
 a:hover,
@@ -692,6 +693,11 @@ h4.table-head-bg.m-0.p-02 {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
     margin: 15px 0;
+}
+
+.HeaderModalWidth{
+    width: 90% !important;
+    margin: 30px auto !important;
 }
 
 @media print {
