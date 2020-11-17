@@ -940,7 +940,11 @@ export class ApiService {
       processId: 'f0f395d824eb11eb91b100505695f93b',
       workflowId: 'b50e63f4235b11eb937600505695f93b',
       projectId: environment.projectIds.camProjectId
-    }
-
+    },
+stopRcuTask:{
+  processId: '9383864228a111ebbf3f00505695f93b',
+      workflowId: 'a513d5ce1f5011eba48800505695f93b',
+      projectId: environment.projectIds.submitToCredit
+}
   };
 }
