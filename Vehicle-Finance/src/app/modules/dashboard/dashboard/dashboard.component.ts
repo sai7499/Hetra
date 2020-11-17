@@ -65,7 +65,10 @@ export enum DisplayTabs {
   ReversedLeadsWithBranch,
   RCU,
   RCUWithMe,
-  RCUWithBranch
+  RCUWithBranch,
+  CPCCAD,
+  CPCCADWithMe,
+  CPCCADWithBranch
 }
 
 export enum sortingTables {
@@ -189,10 +192,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.supervisorForm = this.fb.group({
-      roles : ['']
+      roles: ['']
     })
 
-    if(this.router.url === "/pages/supervisor/dashboard") {
+    if (this.router.url === "/pages/supervisor/dashboard") {
       this.supervisor = true;
     } else {
       this.supervisor = false;
@@ -244,6 +247,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.activeTab = 44;
         this.subActiveTab = 45;
         this.onTabsLoading(this.subActiveTab);
+      } else if(this.roleType === 7) {
+        this.activeTab = 47;
+        this.subActiveTab = 48;
+        this.onTabsLoading(this.subActiveTab);
       }
     }
 
@@ -285,7 +292,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       } else {
         clearInterval(this.intervalId)
       }
-    }, 5000)
+    }, 30000)
 
   }
 
@@ -299,7 +306,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           clearInterval(this.intervalId)
         }
       })
-    }, 5000)
+    }, 30000)
   }
 
   getCountAcrossLeads(userId) {
@@ -499,12 +506,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
         break;
     }
     switch (data) {
-      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45:
+      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45: case 48: 
         this.onAssignTab = false;
         this.onReleaseTab = true;
         this.myLeads = true;
         break;
-      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46:
+      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49:
         this.onAssignTab = true;
         this.onReleaseTab = false;
         this.myLeads = false;
@@ -577,6 +584,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         break;
       case 45: case 46:
         this.taskName = 'RCU';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
+        break;
+      case 48: case 49:
+        this.taskName = 'CPC-CAD';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       default:
@@ -898,6 +909,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       case 45: case 46:
         this.router.navigateByUrl(`/pages/dde/${this.leadId}/rcu`);
         break;
+        case 48: case 49:
+        this.router.navigateByUrl(`/pages/cpc-maker/${this.leadId}/term-sheet`);
+        break;
 
       default:
         break;
@@ -991,7 +1005,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getReAssignData(item) {
     this.reAssignData = item;
     console.log(this.reAssignData);
-    
+
   }
   onReAssign() {
     const data = {
@@ -1003,9 +1017,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.taskDashboard.releaseTask(data).subscribe((res: any) => {
       console.log(res);
     })
-    
+
     console.log(this.supervisorForm.value);
-    
+
   }
 
   saveTaskLogs() {

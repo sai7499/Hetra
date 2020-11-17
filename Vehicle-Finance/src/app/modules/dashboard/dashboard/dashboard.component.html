@@ -393,6 +393,26 @@
   </div>
   <!-- RCU Dashboard Ends -->
 
+  <!-- CPCCAD Dashboard Starts -->
+  <div class="container-fluid mar-bottom" *ngIf="roleType == '7'">
+    <ul class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="onLeads(displayTabs?.CPCCAD, displayTabs?.CPCCADWithMe)"
+        [ngClass]="{'active':displayTabs?.CPCCAD === activeTab}" routerLinkActive="active"><a data-toggle="tab">CAD</a>
+      </li>
+    </ul>
+  </div>
+  <div class="container-fluid mar-bottom" *ngIf="roleType == '7'">
+    <ul *ngIf="displayTabs?.CPCCAD === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li class="active" (click)="leads(displayTabs?.CPCCADWithMe)"
+        [ngClass]="{'active':displayTabs?.CPCCADWithMe === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab"> Pending with Me</a></li>
+      <li (click)="leads(displayTabs?.CPCCADWithBranch)" [ngClass]="{'active':displayTabs?.CPCCADWithBranch === subActiveTab}"
+        routerLinkActive="active"><a data-toggle="tab"> Pending with Branch</a></li>
+    </ul>
+  </div>
+  <!-- CPCCAD
+     Dashboard Ends -->
+
   <div>
     <div class="container-fluid">
       <table
@@ -433,8 +453,8 @@
                 value="Release" data-toggle="modal" data-target="#releaseModal">
               <!-- <a title="Self-Assign" data-toggle="modal" data-target="#supervisorTaskAssign"><i
                   class="glyphicon glyphicon-retweet" aria-hidden="true"></i></a> -->
-              <!-- <input type="button" style="margin-top: 5px;" (click)="onSupervisorAssign(item.taskId, item.leadId)" class="btn btn-primary" value="Self Assign">
-              <input type="button" style="margin-top: 5px;" (click)="getReAssignData(item)" class="btn btn-primary" value="Re-Assign"
+              <!-- <input type="button" style="margin-top: 5px;" (click)="onSupervisorAssign(item.taskId, item.leadId)" class="btn btn-primary" value="Self Assign"> -->
+              <!-- <input type="button" style="margin-top: 5px;" (click)="getReAssignData(item)" class="btn btn-primary" value="Re-Assign"
                 data-toggle="modal" data-target="#supervisorTaskAssign"> -->
             </td>
             <!--  -->
