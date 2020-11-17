@@ -282,7 +282,7 @@
 
                       <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchLeadId"
                         [ngModelOptions]="{standalone: true}" (mouseenter)="mouseleadIdEnter()"
-                        (keyup)="getleadIdvalue($event.target.value)">
+                        (keyup)=" getleadIdvalue($event.target.value)">
 
                       <!-- (valueChange)="
                         queryModalForm.value.searchName.length>= 2 ? getLeads(getLeadSendObj,
@@ -317,7 +317,8 @@
 
                 <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
                   <div class="form-group">
-                    <label class="col-sm-4 col-lg-4 col-md-4 col-xs-12">Tag query To</label>
+
+                    <label for="query_to" class="col-sm-4 col-lg-4 col-md-4 col-xs-12">Tag query To</label>
                     <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12" (mouseleave)="mouseLeave()">
                       <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchText"
                         [ngModelOptions]="{standalone: true}" (mouseenter)="mouseEnter()"
@@ -333,6 +334,10 @@
                         </div>
                       </div>
 
+                      <div class="empty-list" *ngIf="searchText && searchText.length > 0 && !queryModalForm.controls['queryTo'].value">
+                        Please Select Value
+                      </div>
+
                     </div>
                   </div>
                 </div>
@@ -341,8 +346,11 @@
                   <div class="form-group">
                     <label for="file-upload" class="col-sm-4 col-lg-4 col-md-4 col-xs-12">Attachment</label>
                     <div class="upload-btn-wrapper col-sm-8 col-lg-8 col-md-8 col-xs-12">
-                      <button id="file-upload" class="btn-upload" aria-hidden="true" (click)="chooseFile()">
-                        {{queryModalForm.controls['docName'].value ? 'Change' : 'Choose'}} file</button>
+                      <a id="query_upload"><button class="btn btn-upload" type="button" (click)="chooseFile()">
+                          {{queryModalForm.controls['docName'].value ? 'Change' : 'Choose'}} file
+                        </button></a>
+                      <!-- <button id="query-file-upload" class="btn-upload" aria-hidden="true" (click)="chooseFile()">
+                        {{queryModalForm.controls['docName'].value ? 'Change' : 'Choose'}} file</button> -->
                     </div>
 
                     <label for="file-name" class="col-sm-8 col-lg-8 col-md-8 col-xs-12"
@@ -382,6 +390,7 @@
 
           </div>
         </form>
+
       </div>
     </div>
 

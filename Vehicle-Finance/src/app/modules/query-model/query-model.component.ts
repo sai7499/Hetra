@@ -378,7 +378,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
   getvalue(enteredValue: string) {
     this.dropDown = (enteredValue === '') ? false : true;
-    this.showModal = false;
+    // this.showModal = false;
 
     this.searchLead = this.queryModelLov.queryTo.filter(e => {
       enteredValue = enteredValue.toString().toLowerCase();
@@ -392,27 +392,13 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   }
 
   getvalueCheck(val: string) {
-    this.showModal = false;
+    // this.showModal = false;
     this.queryModelLov.filterStackHolders = this.queryModelLov.queryTo.filter(e => {
       val = val.toString().toLowerCase();
       const eName = e.value.toString().toLowerCase();
       if (eName.includes(val)) {
         return e;
       }
-    });
-  }
-
-  getleadIdvalue(value: string) {
-    this.isLeadShow = (value === '') ? false : true;
-    this.showModal = false;
-
-    this.getSearchableLead = this.queryLeads.filter(e => {
-      value = value.toString().toLowerCase();
-      const eName = e.value.toString().toLowerCase();
-      if (eName.includes(value)) {
-        return e;
-      }
-      this.isLeadShow = true;
     });
   }
 
@@ -456,7 +442,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
   mouseEnter() {
     // this.dropDown = true;
-    this.showModal = false;
+    // this.showModal = false;
     this.searchLead = this.queryModelLov.queryTo;
   }
 
@@ -470,6 +456,23 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
   mouseleadIdEnter() {
     this.getSearchableLead = this.queryLeads;
+    if (this.searchLeadId && this.searchLeadId.length >=3) {
+      this.getleadIdvalue(this.searchLeadId)
+    }
+   }
+
+   getleadIdvalue(value: string) {
+    this.isLeadShow = (value === '') ? false : true;
+    // this.showModal = false;
+
+    this.getSearchableLead = this.queryLeads.filter(e => {
+      value = value.toString().toLowerCase();
+      const eName = e.value.toString().toLowerCase();
+      if (eName.includes(value)) {
+        return e;
+      }
+      this.isLeadShow = true;
+    });
   }
 
   onFormSubmit(form) {

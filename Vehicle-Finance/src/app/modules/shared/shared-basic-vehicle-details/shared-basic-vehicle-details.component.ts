@@ -40,6 +40,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   roles: any = [];
   LOV: any = [];
   public label: any = {};
+  public childLoanCondition: any = {};
   public productCatoryCode: string;
   public leadDetails: any = {};
   public loanTenor: number = 0;
@@ -105,6 +106,17 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.leadId = leadData['leadId'];
     this.productCatoryCode = this.leadDetails['productCatCode'];
     this.loanTenor = this.leadDetails['reqTenure'];
+
+    let ProductId = this.leadDetails['productId']
+
+    console.log(this.leadDetails, 'lead')
+
+    // this.Product = this.leadDetails['product']
+
+    this.labelsData.getChildLoanConditionData().subscribe((child: any) => {
+      console.log(child, 'child')
+      this.childLoanCondition = child.isRequired;
+    })
 
     this.eligibleLoanAmount = this.activedRoute.snapshot.params['eligibleLoanAmount'] ? this.activedRoute.snapshot.params['eligibleLoanAmount'] : 0;
 
