@@ -17,6 +17,7 @@ import { Constant } from '../../../../../assets/constants/constant';
 import { DocRequest, DocumentDetails } from '@model/upload-model';
 import { environment } from 'src/environments/environment';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { LoanViewService } from '@services/loan-view.service';
 
 
 
@@ -113,7 +114,8 @@ export class ViabilityDetailsComponent implements OnInit {
               private applicantService: ApplicantService,
               private loginService: LoginService,
               private base64StorageService: Base64StorageService,
-              private toggleDdeService: ToggleDdeService
+              private toggleDdeService: ToggleDdeService,
+              private loanViewService: LoanViewService
               ) {
                 this.route.queryParams.subscribe((res: any) => {
                   this.taskId = res.taskId;
@@ -292,6 +294,11 @@ export class ViabilityDetailsComponent implements OnInit {
 
     const operationType = this.toggleDdeService.getOperationType();
     if (operationType) {
+      this.viabilityForm.disable();
+      this.disableSaveBtn = true;
+    }
+
+    if (this.loanViewService.checkIsLoan360()) {
       this.viabilityForm.disable();
       this.disableSaveBtn = true;
     }

@@ -26,6 +26,8 @@ import { ToasterService } from '@services/toaster.service'
 import { ControlPosition } from '@agm/core';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-identity-details',
   templateUrl: './identity-details.component.html',
@@ -77,7 +79,8 @@ export class IdentityDetailsComponent implements OnInit {
     private location: Location,
     private utilityService: UtilityService,
     private toasterService: ToasterService,
-    private toggleDdeService: ToggleDdeService
+    private toggleDdeService: ToggleDdeService,
+    private loanViewService: LoanViewService
   ) { }
 
   navigateToApplicantList() {
@@ -153,6 +156,10 @@ export class IdentityDetailsComponent implements OnInit {
       this.addNonIndividualFormControls();
       this.setNonIndividualValue();
     }
+
+    if (this.loanViewService.checkIsLoan360()) {
+      this.identityForm.disable();
+    }
   }
 
   getApplicantDetails() {
@@ -186,6 +193,7 @@ export class IdentityDetailsComponent implements OnInit {
         this.applicantId = Number(value.applicantId);
         this.getApplicantDetails();
         this.setApplicantDetails();
+        
       });
     });
   }

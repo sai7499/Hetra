@@ -10,6 +10,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ObjectComparisonService } from '@services/obj-compare.service';
 import { ToasterService } from '@services/toaster.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-reference',
   templateUrl: './reference.component.html',
@@ -116,7 +118,8 @@ export class ReferenceComponent implements OnInit {
     private toasterServiceInfo: ToasterService,
     private location: Location,
     private router: Router,
-    private objectComparisonService: ObjectComparisonService
+    private objectComparisonService: ObjectComparisonService,
+    private loanViewService: LoanViewService
   ) {
     this.refOnefirstName = '';
     this.refOnemiddleName = '';
@@ -444,6 +447,9 @@ export class ReferenceComponent implements OnInit {
           } else {
             const message = response.ProcessVariables.error.message;
             this.toasterService.error(message, 'Reference Details');
+          }
+          if (this.loanViewService.checkIsLoan360()) {
+            this.referenceForm.disable();
           }
         },
         (err) => {

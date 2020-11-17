@@ -14,6 +14,7 @@ import { ApplicantService } from '@services/applicant.service';
 import { map } from 'rxjs/operators';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { ActivatedRoute } from '@angular/router';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -71,7 +72,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private vehicleDetailService: VehicleDetailService, private activedRoute: ActivatedRoute,
     private vehicleDataService: VehicleDataStoreService, private uiLoader: NgxUiLoaderService,
     private createLeadDataService: CreateLeadDataService, private toasterService: ToasterService,
-    public sharedService: SharedService, private applicantService: ApplicantService) {
+    public sharedService: SharedService, private applicantService: ApplicantService,
+    private loanViewService: LoanViewService) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
   }
 
@@ -119,6 +121,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     const operationType = this.toggleDdeService.getOperationType();
     if (operationType) {
+      this.basicVehicleForm.disable();
+      this.disableSaveBtn = true;
+    }
+
+    if (this.loanViewService.checkIsLoan360()) {
       this.basicVehicleForm.disable();
       this.disableSaveBtn = true;
     }

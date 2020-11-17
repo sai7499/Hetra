@@ -19,6 +19,9 @@ import { UploadService } from '@services/upload.service';
 import { UtilityService } from '@services/utility.service';
 import { map } from 'rxjs/operators';
 import { DocumentDetails } from '@model/upload-model';
+
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-cam',
   templateUrl: './cam.component.html',
@@ -121,6 +124,7 @@ export class CamComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private router: Router, private uploadService: UploadService,
     private location: Location, private utilityService: UtilityService,
+    private loanViewService: LoanViewService
   ) {
     this.salesResponse = localStorage.getItem('salesResponse');
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
@@ -379,6 +383,11 @@ export class CamComponent implements OnInit {
 
     const operationType = this.toggleDdeService.getOperationType();
     if (operationType) { 
+      this.disableSaveBtn = true;
+    }
+
+    if (this.loanViewService.checkIsLoan360()) {
+      this.camDetailsForm.disable();
       this.disableSaveBtn = true;
     }
 

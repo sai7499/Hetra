@@ -8,6 +8,7 @@ import { CommomLovService } from '@services/commom-lov-service';
 import { ToasterService } from '@services/toaster.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { LoanViewService } from '@services/loan-view.service';
 
 
 @Component({
@@ -52,7 +53,8 @@ export class VehicleValuationComponent implements OnInit {
     private aRoute: ActivatedRoute,
     private toasterService: ToasterService,
     private sharedService: SharedService,
-    private toggleDdeService: ToggleDdeService
+    private toggleDdeService: ToggleDdeService,
+    private loanViewService: LoanViewService
   ) { }
 
   ngOnInit() {
@@ -64,6 +66,11 @@ export class VehicleValuationComponent implements OnInit {
     this.getVendorCode();
     const operationType = this.toggleDdeService.getOperationType();
     if (operationType) {
+      this.modalDataForm.disable();
+      this.disableSaveBtn = true;
+    }
+
+    if (this.loanViewService.checkIsLoan360()) {
       this.modalDataForm.disable();
       this.disableSaveBtn = true;
     }

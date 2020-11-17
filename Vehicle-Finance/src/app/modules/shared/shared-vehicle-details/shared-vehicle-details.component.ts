@@ -12,6 +12,8 @@ import { CollateralDataStoreService } from '@services/collateral-data-store.serv
 import { CommomLovService } from '@services/commom-lov-service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-shared-vehicle-details',
   templateUrl: './shared-vehicle-details.component.html',
@@ -47,7 +49,8 @@ export class SharedVehicleDetailsComponent implements OnInit {
     public vehicleDataStoreService: VehicleDataStoreService,
     public createLeadDataService: CreateLeadDataService,
     private toasterService: ToasterService,
-    private location: Location) { }
+    private location: Location,
+    private loanViewService: LoanViewService) { }
 
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -77,6 +80,10 @@ export class SharedVehicleDetailsComponent implements OnInit {
     const operationType = this.toggleDdeService.getOperationType();
     if (operationType) {
         this.disableSaveBtn = true;
+    }
+
+    if (this.loanViewService.checkIsLoan360()) {
+      this.disableSaveBtn = true;
     }
   }
 

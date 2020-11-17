@@ -19,6 +19,8 @@ import { debounce } from 'rxjs/operators';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
+import { LoanViewService } from '@services/loan-view.service';
+
 
 @Component({
   selector: 'app-sourcing-details',
@@ -26,6 +28,7 @@ import { ApplicantDataStoreService } from '@services/applicant-data-store.servic
   styleUrls: ['./sourcing-details.component.css'],
 })
 export class SourcingDetailsComponent implements OnInit {
+  isLoan360: boolean;
   isDisabledDealerCode: boolean;
   labels: any = {};
   sourcingDetailsForm: FormGroup;
@@ -174,7 +177,8 @@ export class SourcingDetailsComponent implements OnInit {
     private toasterService: ToasterService,
     private toggleDdeService: ToggleDdeService,
     private objectComparisonService: ObjectComparisonService, 
-    private applicantDataStoreService : ApplicantDataStoreService
+    private applicantDataStoreService : ApplicantDataStoreService,
+    private loanViewService: LoanViewService
   ) {
     this.sourcingCodeObject = {
       key: '',
@@ -188,6 +192,7 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.initForm();
     this.getLabels();
     this.getLOV();
@@ -307,6 +312,9 @@ export class SourcingDetailsComponent implements OnInit {
       leadCreatedDate: this.leadCreatedDateFromLead,
     });
     this.apiValue = this.sourcingDetailsForm.getRawValue();
+    if (this.isLoan360) {
+      this.sourcingDetailsForm.disable();
+    }
   }
 
   patchSourcingDetails(data) {

@@ -26,6 +26,7 @@ import { environment } from 'src/environments/environment';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { element } from 'protractor';
 import { CommomLovService } from '@services/commom-lov-service';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-reference-check',
@@ -126,6 +127,7 @@ export class ReferenceCheckComponent implements OnInit {
     private toasterService: ToasterService, // service for accessing the toaster
     private toggleDdeService: ToggleDdeService,
     private commonLovService: CommomLovService,
+    private loanViewService: LoanViewService
 
   ) {
     this.listArray = this.fb.array([]);
@@ -223,6 +225,11 @@ export class ReferenceCheckComponent implements OnInit {
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
       if (operationType) {
+        this.referenceCheckForm.disable();
+        this.disableSaveBtn = true;
+      }
+
+      if (this.loanViewService.checkIsLoan360()) {
         this.referenceCheckForm.disable();
         this.disableSaveBtn = true;
       }

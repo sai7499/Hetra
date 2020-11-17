@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-insurance-details',
   templateUrl: './insurance-details.component.html',
@@ -20,7 +22,8 @@ export class InsuranceDetailsComponent implements OnInit {
 
   insuranceType: string = '0';
 
-  constructor(private _fb: FormBuilder, private labelsData: LabelsService, private toggleDdeService: ToggleDdeService) { }
+  constructor(private _fb: FormBuilder, private labelsData: LabelsService, private toggleDdeService: ToggleDdeService,
+              private loanViewService: LoanViewService) { }
 
   ngOnInit() {
 
@@ -53,6 +56,11 @@ export class InsuranceDetailsComponent implements OnInit {
     this.createForm();
     const operationType = this.toggleDdeService.getOperationType();
     if (operationType) {
+      this.InsuranceDetailForm.disable();
+      this.disableSaveBtn  = true;
+    }
+
+    if (this.loanViewService.checkIsLoan360()) {
       this.InsuranceDetailForm.disable();
       this.disableSaveBtn  = true;
     }

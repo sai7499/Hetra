@@ -29,6 +29,8 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 import { AgmFitBounds } from '@agm/core';
 import { ObjectComparisonService } from '@services/obj-compare.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-address-details',
   templateUrl: './address-details.component.html',
@@ -129,7 +131,8 @@ export class AddressDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private toasterService: ToasterService,
     private toggleDdeService: ToggleDdeService,
-    private objectComparisonService: ObjectComparisonService
+    private objectComparisonService: ObjectComparisonService,
+    private loanViewService: LoanViewService
   ) { }
 
   async ngOnInit() {
@@ -620,6 +623,9 @@ export class AddressDetailsComponent implements OnInit {
       })
     }
     this.apiValue = this.addressForm.getRawValue();
+    if (this.loanViewService.checkIsLoan360()) {
+      this.addressForm.disable();
+    }
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
       if (operationType) {

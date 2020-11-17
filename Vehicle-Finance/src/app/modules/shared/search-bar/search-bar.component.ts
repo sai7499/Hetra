@@ -5,6 +5,8 @@ import { LoginStoreService } from '@services/login-store.service';
 import { Location } from '@angular/common';
 import { SharedService } from '../shared-service/shared-service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-search-bar',
   templateUrl: './search-bar.component.html',
@@ -24,7 +26,8 @@ export class SearchBarComponent implements OnInit {
     private sharedService: SharedService,
     private route: Router,
     private loginStoreService: LoginStoreService,
-    private location: Location) { }
+    private location: Location,
+    private loanViewService: LoanViewService) { }
 
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -64,6 +67,7 @@ export class SearchBarComponent implements OnInit {
   }
 
   navigateToModule() {
+    this.loanViewService.isLoan360(false);
     commonRoutingUrl.map(element => {
       if (element.routeId === this.routingId) {
         this.route.navigateByUrl(element.routeUrl);

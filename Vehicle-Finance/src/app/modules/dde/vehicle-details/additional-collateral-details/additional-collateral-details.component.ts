@@ -10,6 +10,7 @@ import { ToasterService } from '@services/toaster.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CollateralDataStoreService } from '@services/collateral-data-store.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
     selector: 'app-additional-collateral-details',
@@ -37,7 +38,8 @@ export class AdditionalCollateralComponent implements OnInit {
 
     constructor(private _fb: FormBuilder, private labelsData: LabelsService, private createLeadDataService: CreateLeadDataService, private collateralDataService: CollateralDataStoreService,
         private commonLovService: CommomLovService, private utilityService: UtilityService, private collateralService: CollateralService, private toggleDdeService: ToggleDdeService,
-        private loginStoreService: LoginStoreService, private toasterService: ToasterService, private router: Router, private activatedRoute: ActivatedRoute) {
+        private loginStoreService: LoginStoreService, private toasterService: ToasterService, private router: Router, private activatedRoute: ActivatedRoute,
+        private loanViewService: LoanViewService) {
 
         this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
 
@@ -300,6 +302,11 @@ export class AdditionalCollateralComponent implements OnInit {
                 if (operationType) {
                     this.disableSaveBtn = true;
                     this.collateralForm.disable()
+                }
+
+                if (this.loanViewService.checkIsLoan360()) {
+                    this.disableSaveBtn = true;
+                    this.collateralForm.disable();
                 }
             });
             if (res.Error === '0' && res.ProcessVariables.error.code === '0') {

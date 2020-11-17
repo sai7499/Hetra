@@ -8,6 +8,7 @@ import { ToasterService } from '@services/toaster.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { LabelsService } from '@services/labels.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-basic-vehicle-details',
@@ -31,7 +32,8 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
   constructor(private createLeadDataService: CreateLeadDataService, public vehicleDataStoreService: VehicleDataStoreService, private toasterService: ToasterService,
     private vehicleDetailService: VehicleDetailService, private utilityService: UtilityService, private router: Router,
     private activatedRoute: ActivatedRoute, private sharedService: SharedService, private labelsData: LabelsService,
-    private toggleDdeService: ToggleDdeService) { }
+    private toggleDdeService: ToggleDdeService,
+    private loanViewService: LoanViewService) { }
 
   ngOnInit() {
 
@@ -58,6 +60,10 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
     const operationType = this.toggleDdeService.getOperationType();
     if (operationType) {
+      this.disableSaveBtn = true;
+    }
+
+    if (this.loanViewService.checkIsLoan360()) {
       this.disableSaveBtn = true;
     }
   }

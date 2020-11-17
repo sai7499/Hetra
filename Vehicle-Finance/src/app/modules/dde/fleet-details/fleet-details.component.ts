@@ -18,6 +18,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
 import readXlsxFile from 'read-excel-file';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-fleet-details',
@@ -132,7 +133,8 @@ export class FleetDetailsComponent implements OnInit {
     private uiLoader: NgxUiLoaderService,
     private vehicleDetailService: VehicleDetailService,
     private sharedService: SharedService,
-    private toggleDdeService: ToggleDdeService) {
+    private toggleDdeService: ToggleDdeService,
+    private loanViewService: LoanViewService) {
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
     this.fleetArrayList = this.fb.array([]);
   }
@@ -696,6 +698,11 @@ export class FleetDetailsComponent implements OnInit {
       }
       this.operationType = this.toggleDdeService.getOperationType();
       if (this.operationType) {
+        this.fleetForm.disable();
+        this.disableSaveBtn = true;
+      }
+
+      if (this.loanViewService.checkIsLoan360()) {
         this.fleetForm.disable();
         this.disableSaveBtn = true;
       }
