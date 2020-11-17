@@ -13,7 +13,7 @@
                 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0">
                   <div class="input-group search-btn">
                     <input type="text" class="form-control input-search" placeholder="Search"
-                      formControlName="searchName" (keyup)="queryModalForm.value.searchName.length >= 4 ? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
+                      formControlName="searchName" (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
                       queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''
                       ">
                     <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
@@ -69,9 +69,8 @@
                           </div>
                           <div class="stakeholder-list">
                             <div *ngFor="let stack of queryModelLov.filterStackHolders | search ">
-                              <div class="radio"><label><input class="select-user" type="radio" name="radio"
-                                    (click)="autoPopulateQuery(stack)"> {{stack.value}} <span
-                                    class="checkmark"></span></label></div>
+                              <div class="radio"><label><input class="select-user" type="radio" name="radio">
+                                  {{stack.value}} <span class="checkmark"></span></label></div>
                             </div>
                           </div>
                         </form>
@@ -123,7 +122,7 @@
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0 search-bar">
                 <div class="input-group search-btn">
                   <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
-                    (keyup)="queryModalForm.value.searchName.length >= 4 ? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
+                    (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
                     queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''
                     ">
                   <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
@@ -177,8 +176,7 @@
                         </div>
                         <div class="stakeholder-list">
                           <div *ngFor="let stack of queryModelLov.filterStackHolders | search ">
-                            <div class="radio"><label><input type="radio" name="radio"
-                                  (click)="autoPopulateQuery(stack)"> {{stack.value}} <span
+                            <div class="radio"><label><input type="radio" name="radio"> {{stack.value}} <span
                                   class="checkmark"></span></label></div>
                           </div>
                         </div>
@@ -279,7 +277,7 @@
 
                 <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
                   <div class="form-group">
-                    <label for="file-upload" class="col-sm-4 col-lg-4 col-md-4 col-xs-12">Lead Id</label>
+                    <label class="col-sm-4 col-lg-4 col-md-4 col-xs-12">Lead Id</label>
                     <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12" (mouseleave)="mouseLeaveLeadId()">
 
                       <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchLeadId"
@@ -290,7 +288,7 @@
                         queryModalForm.value.searchName.length>= 2 ? getLeads(getLeadSendObj,
                       '', searchLeadId) : ''" -->
 
-                      <div class="dropdown-content" *ngIf="isLeadShow && searchLeadId.length >= 4">
+                      <div class="dropdown-content" *ngIf="isLeadShow && searchLeadId.length >= 3">
                         <div *ngFor="let item of getSearchableLead">
                           <a data-toggle="collapse" data-target="#bs-navbar" (click)="getLead(item)">{{item.value}}</a>
                         </div>
@@ -343,7 +341,7 @@
                   <div class="form-group">
                     <label for="file-upload" class="col-sm-4 col-lg-4 col-md-4 col-xs-12">Attachment</label>
                     <div class="upload-btn-wrapper col-sm-8 col-lg-8 col-md-8 col-xs-12">
-                      <button class="btn-upload" (click)="chooseFile()">
+                      <button id="file-upload" class="btn-upload" aria-hidden="true" (click)="chooseFile()">
                         {{queryModalForm.controls['docName'].value ? 'Change' : 'Choose'}} file</button>
                     </div>
 

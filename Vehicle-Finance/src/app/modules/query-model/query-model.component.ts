@@ -25,7 +25,7 @@ import { PollingService } from '@services/polling.service';
   providers: [DatePipe]
 })
 export class QueryModelComponent implements OnInit, OnDestroy {
-  showModal: boolean;
+  showModal: boolean = false;
   selectedDocDetails;
   queryModalForm: FormGroup;
   queryModelLov: any = {};
@@ -248,22 +248,17 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     this.chatList = res.ProcessVariables.chatLeads ? res.ProcessVariables.chatLeads : [];
     this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
 
-    if (res.ProcessVariables) {
+    if (this.routerId && this.queryLeads.length > 0) {
+      const test = this.queryLeads.find((val) => {
+        return (val.key === this.routerId)
+      })
 
-      console.log(this.queryLeads, 'rout', this.routerId)
+      this.searchLeadId = test ? test.value : '';
+      this.queryModalForm.patchValue({
+        leadId: Number(this.routerId)
+      })
 
-
-      if (this.routerId && this.queryLeads.length > 0) {
-        console.log(this.routerId, 'routerId', this.queryLeads)
-        const test = this.queryLeads.find((val) => {
-          return (val.key === this.routerId)
-        })
-
-        this.searchLeadId = test ? test.value : '';
-        this.queryModalForm.patchValue({
-          leadId: Number(this.routerId)
-        })
-
+      if (res.ProcessVariables.chatLeads && res.ProcessVariables.chatLeads.length > 0) {
         let index;
         let findChat: any = this.chatList;
 
@@ -275,9 +270,10 @@ export class QueryModelComponent implements OnInit, OnDestroy {
         })
         let spliceChat = findChat.splice(index, 1)
         this.chatList.unshift(spliceChat[0])
+      } else {
+        this.getUsers();
       }
     }
-    this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
   }
 
   ngOnDestroy() {
@@ -289,6 +285,8 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       "userId": this.userId,
       "leadId": this.queryModalForm.value.leadId
     }
+
+    console.log('Lead Data', data)
 
     this.queryModelService.getUsers(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
@@ -380,6 +378,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
   getvalue(enteredValue: string) {
     this.dropDown = (enteredValue === '') ? false : true;
+    this.showModal = false;
 
     this.searchLead = this.queryModelLov.queryTo.filter(e => {
       enteredValue = enteredValue.toString().toLowerCase();
@@ -393,6 +392,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   }
 
   getvalueCheck(val: string) {
+    this.showModal = false;
     this.queryModelLov.filterStackHolders = this.queryModelLov.queryTo.filter(e => {
       val = val.toString().toLowerCase();
       const eName = e.value.toString().toLowerCase();
@@ -404,6 +404,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
   getleadIdvalue(value: string) {
     this.isLeadShow = (value === '') ? false : true;
+    this.showModal = false;
 
     this.getSearchableLead = this.queryLeads.filter(e => {
       value = value.toString().toLowerCase();
@@ -455,6 +456,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
   mouseEnter() {
     // this.dropDown = true;
+    this.showModal = false;
     this.searchLead = this.queryModelLov.queryTo;
   }
 
@@ -468,15 +470,6 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
   mouseleadIdEnter() {
     this.getSearchableLead = this.queryLeads;
-    // this.isLeadShow = true;
-  }
-
-  autoPopulateQuery(stakeholder) {
-    console.log('fkdjkg', stakeholder)
-    this.queryModalForm.patchValue({
-      queryTo: stakeholder.key
-    })
-    this.searchText = stakeholder.value;
   }
 
   onFormSubmit(form) {
