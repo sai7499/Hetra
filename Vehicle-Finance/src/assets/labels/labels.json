@@ -2679,6 +2679,12 @@
                 "rule":300
             },
             "type":"special-alpha-numeric"
+        },
+        "pslUdhyamregno": {
+            "maxLength":{
+                "rule":20
+            },
+            "type":"alpha-numeric-nospace"
         }
     }
 }

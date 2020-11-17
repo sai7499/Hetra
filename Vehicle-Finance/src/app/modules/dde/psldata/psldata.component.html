@@ -677,9 +677,9 @@
                         
                         [className]="'form-control mandatory'"
                         [placeholder]="'Enter UDHYAM Registration number'"
-                        [maxLength]="labels?.validationData?.amountValue.maxLength"
+                        [maxLength]="labels?.validationData?.pslUdhyamregno?.maxLength"
                     
-                        [type]="labels?.validationData?.amountValue.type"
+                        [type]="labels?.validationData?.pslUdhyamregno?.type"
                         [isDirty]="isDirty"
                         
                     >
@@ -701,7 +701,7 @@
                         [className]="'form-control mandatory'"
                         [placeholder]="'Enter UDHYAM Registered mobile number'"
                         [maxLength]="labels?.validationData?.mobileNumber?.maxLength"
-                        
+                        [patternCheck]="labels?.validationData?.mobileNumber?.pattern"
                         [type]="labels?.validationData?.mobileNumber?.type"
                         [isDirty]="isDirty"
                         
