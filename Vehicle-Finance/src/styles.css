@@ -11,6 +11,7 @@ body {
     /* Internet Explorer/Edge */
     user-select: none;
     /* Non-prefixed version, currently*/
+    overflow-x: hidden;
 }
 
 a:hover,
