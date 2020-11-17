@@ -137,7 +137,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       } else {
         clearInterval(this.intervalId)
       }
-    }, 900000)
+    }, 300000)
 
   }
 
@@ -187,6 +187,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       const getChatLead = this.chatList.filter((val) => {
         return getObj.leadId === Number(val.key)
       })
+      console.log(getChatLead, 'getChatLead')
       this.getQueries(getChatLead[0], true)
     }
   }
@@ -207,7 +208,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.getCommonLeadData(res)
-        this.getQueries(this.chatList[0], true)
+        this.getQueries(this.chatList[0])
         this.isIntervalStart = true;
       } else {
         this.chatList = [];
@@ -230,7 +231,6 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     return setInterval(() => {
       this.pollingService.getPollingLeadsCount(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-          console.log('count response')
           this.getCommonLeadData(res)
           this.selectedList = this.conditionalClassArray[this.conditionalClassArray.length - 1];
           if (this.selectedList) {
@@ -241,7 +241,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
           }
         }
       })
-    }, 900000)
+    }, 300000)
   }
 
   getCommonLeadData(res) {
@@ -305,47 +305,44 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   }
 
   getQueries(lead, isSelected?: boolean) {
-    this.getChatSendObj.leadId = Number(lead.key);
-    this.getChatSendObj.fromUser = this.userId;
-    let data = this.getChatSendObj;
 
-    this.queryModalForm.patchValue({
-      leadId: Number(lead.key),
-    })
+    if (lead) {
+      this.getChatSendObj.leadId = Number(lead.key);
+      this.getChatSendObj.fromUser = this.userId;
+      let data = this.getChatSendObj;
 
-    if (isSelected) {
-      this.conditionalClassArray.push(lead)
-    }
+      this.queryModalForm.patchValue({
+        leadId: Number(lead.key),
+      })
 
-    console.log(this.conditionalClassArray, 'Kwad Id', isSelected)
+      if (isSelected) {
+        this.conditionalClassArray.push(lead)
+      }
 
-    this.selectedList = lead;
+      this.selectedList = lead;
 
-    if (this.queryModalForm.value.leadId) {
-      this.getLeadSectionData(this.queryModalForm.value.leadId)
-    }
+      if (this.queryModalForm.value.leadId) {
+        this.getLeadSectionData(this.queryModalForm.value.leadId)
+      }
 
-    this.searchLeadId = lead.value;
-    this.getUsers();
-    this.queryModelService.getQueries(data).subscribe((res: any) => {
-      if (res.Error === '0' ){
-      if(res.Error === '0'&& res.ProcessVariables.error.code === '0') {
-        lead.count = 0;
-
-        if (this.isMobileView) {
-          this.closeNav();
+      this.searchLeadId = lead.value;
+      this.getUsers();
+      this.queryModelService.getQueries(data).subscribe((res: any) => {
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          lead.count = 0;
+          if (this.isMobileView) {
+            this.closeNav();
+          }
+          this.getChatsObj = res.ProcessVariables;
+          this.chatMessages = res.ProcessVariables.assetQueries ? res.ProcessVariables.assetQueries : [];
+          this.chatMessages.filter((val) => {
+            val.time = this.myDateParser(val.createdOn)
+          })
+        } else {
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Queries')
         }
-
-        this.getChatsObj = res.ProcessVariables;
-        this.chatMessages = res.ProcessVariables.assetQueries ? res.ProcessVariables.assetQueries : [];
-        this.chatMessages.filter((val) => {
-          val.time = this.myDateParser(val.createdOn)
-        })
-      } else {
-        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Queries')
-      }}
-    })
-
+      })
+    }
   }
 
   getLeadSectionData(leadId) {
@@ -474,10 +471,21 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
   onFormSubmit(form) {
 
-    if (form.valid) {
+    if (form.valid && form.controls['query'].value.trim().length !== 0) {
 
       let assetQueries = [];
-      assetQueries.push(form.value)
+      // assetQueries.push(form.value)
+
+      assetQueries = [
+        {
+          query: form.value.query.trim(),
+          queryType: form.value.queryType,
+          queryFrom: this.userId,
+          queryTo: form.value.queryTo,
+          docId: form.value.docId,
+          docName:  form.value.docName
+        }
+      ]
 
       let data = {
         "leadId": Number(form.value.leadId),
@@ -500,7 +508,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
     } else {
       this.isDirty = true;
-      // this.toasterService.showError('Please enter all mandatory field', 'Query Model Save/Update')
+      this.toasterService.showError('Please enter all mandatory field', 'Query Model Save/Update')
       this.utilityService.validateAllFormFields(form)
     }
 

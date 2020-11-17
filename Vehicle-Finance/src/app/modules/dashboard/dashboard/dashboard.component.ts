@@ -16,7 +16,6 @@ import { QueryModelService } from '@services/query-model.service';
 import { Router } from '@angular/router';
 
 import { PollingService } from '@services/polling.service';
-import { timer } from 'rxjs';
 
 export enum DisplayTabs {
   Leads,
@@ -285,7 +284,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       } else {
         clearInterval(this.intervalId)
       }
-    }, 900000)
+    }, 300000)
 
   }
 
@@ -299,7 +298,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           clearInterval(this.intervalId)
         }
       })
-    }, 900000)
+    }, 300000)
   }
 
   getCountAcrossLeads(userId) {
