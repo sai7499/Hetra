@@ -95,6 +95,12 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   totalPages: any = 1;
   chatTotalPages: number = 1;
 
+  isleadIdshowError : boolean = false;
+  leadIdDeductValue : boolean= false;
+
+  isQueryToShowError : boolean = false;
+  queryToDeductValue : boolean = false;
+
   constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService, private commonLovService: CommomLovService, private router: Router,
     private labelsData: LabelsService, private uploadService: UploadService, private queryModelService: QueryModelService, private toasterService: ToasterService,
     private utilityService: UtilityService, private draggableContainerService: DraggableContainerService, private base64StorageService: Base64StorageService,
@@ -375,20 +381,62 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     let validDate = date + 'T' + time + ':' + millisecond;
     return validDate
   }
+  getleadIdvalue(value: string) {
+    //this.showError= false;
+    this.isLeadShow = (value === '') ? false : true;
+    this.showModal = false;
+    if(value.length >=3){
+      this.getSearchableLead = this.queryLeads.filter(e => {
+        value = value.toString().toLowerCase();
+        const eName = e.value.toString().toLowerCase();
+        if (eName.includes(value)) {
+          return e;
+        }
+        this.leadIdDeductValue= true;
+        this.isLeadShow = true;
+      });
+    }else{
+      this.isLeadShow = false;
+      this.leadIdDeductValue= false;
+    }
+
+    
+  }
+
+  onBlurleadId(){
+    if(this.leadIdDeductValue){
+      this.isleadIdshowError= true;
+    }else{
+      this.isleadIdshowError= false;
+    }
+  }
+
 
   getvalue(enteredValue: string) {
     this.dropDown = (enteredValue === '') ? false : true;
     this.showModal = false;
+    if(enteredValue.length >=3){
+      this.searchLead = this.queryModelLov.queryTo.filter(e => {
+        enteredValue = enteredValue.toString().toLowerCase();
+        const eName = e.value.toString().toLowerCase();
+        if (eName.includes(enteredValue)) {
+          return e;
+        }
+        this.dropDown = true;
+        this.queryToDeductValue= true;
+      });
+    }else{
+      this.dropDown = false;
+      this.queryToDeductValue= false;
+    }
+  }
 
-    this.searchLead = this.queryModelLov.queryTo.filter(e => {
-      enteredValue = enteredValue.toString().toLowerCase();
-      const eName = e.value.toString().toLowerCase();
-      if (eName.includes(enteredValue)) {
-        return e;
-      }
-      this.dropDown = true;
-    });
-
+  onBlurQueryTo(){
+    if(this.queryToDeductValue){
+      this.isQueryToShowError= true;
+    }else{
+      this.isQueryToShowError= false;
+    }
   }
 
   getvalueCheck(val: string) {
@@ -402,20 +450,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     });
   }
 
-  getleadIdvalue(value: string) {
-    this.isLeadShow = (value === '') ? false : true;
-    this.showModal = false;
-
-    this.getSearchableLead = this.queryLeads.filter(e => {
-      value = value.toString().toLowerCase();
-      const eName = e.value.toString().toLowerCase();
-      if (eName.includes(value)) {
-        return e;
-      }
-      this.isLeadShow = true;
-    });
-  }
-
+  
   getDocuments(searchValue: string) {
 
     this.queryModelLov.documents = this.documents.filter(e => {
@@ -444,6 +479,9 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     }
     this.searchLeadId = lead.value;
     this.getUsers()
+    this.isleadIdshowError=false;
+    this.leadIdDeductValue=true;
+    
   }
 
   getQueryTo(item) {
@@ -452,6 +490,8 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       queryTo: item.key
     })
     this.searchText = item.value;
+    this.isQueryToShowError=false;
+    this.queryToDeductValue=true;
   }
 
   mouseEnter() {
@@ -473,6 +513,11 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   }
 
   onFormSubmit(form) {
+
+    if(this.isleadIdshowError || this.isQueryToShowError){
+      this.toasterService.showError('Please enter all mandatory field', 'Query Model Save/Update')
+      return;
+    }
 
     if (form.valid && form.controls['query'].value.trim().length !== 0) {
 
