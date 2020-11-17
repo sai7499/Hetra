@@ -53,7 +53,7 @@ export class CustomInputComponent
       msg: value.msg
     };
   };
-  @Input() className = 'form-control';
+   @Input() className = 'form-control';
   @Input() minLength: {
     rule?: number;
     msg?: string;

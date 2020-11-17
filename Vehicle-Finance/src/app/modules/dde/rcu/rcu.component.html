@@ -137,59 +137,59 @@
             <td [attr.data-label]="labels?.sNo" data-title="Member">
               1
             </td>
-            <td data-title="Member">
-              <app-custom-input [placeholder]="'Document Name'" formControlName="documentName" [isDisabled] = 'true'
-                [type]="labels?.validationData?.name?.type" [className]="'form-control mandatory'"
+            <td [attr.data-label]="labels?.documentName" data-title="Member">
+              <app-custom-input [placeholder]="'Document Name'"  [isDisabled] = 'true'
+                [type]="labels?.validationData?.name?.type" [className]="'input-box mandatory'"
                 [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.documentCategory" data-title="Member">
               <app-custom-input [placeholder]="'Document Category'" formControlName="categoryName" [isDisabled] = 'true'
-                [type]="labels?.validationData?.name?.type" [className]="'form-control mandatory'"
+                [type]="labels?.validationData?.name?.type" [className]="'input-box mandatory'"
                 [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.documentNumber" data-title="Member">
               <app-custom-input [placeholder]="'Document Number'" formControlName="documentNo"
-                [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'" [isDisabled] = 'true'
+                [type]="labels?.validationData?.amountValue?.type" [className]="'input-box mandatory'" [isDisabled] = 'true'
                 [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.issueDate" data-title="Member">
              
-              <kendo-datepicker class="form-control" formControlName="issueDate" [activeView]="'decade'" readonly
+              <kendo-datepicker class="input-box" formControlName="issueDate" [activeView]="'decade'" readonly
               [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date">
             </kendo-datepicker>
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.expiryDate" data-title="Member">
               
-              <kendo-datepicker class="form-control" formControlName="expiryDate" [activeView]="'decade'" readonly
+              <kendo-datepicker class="input-box" formControlName="expiryDate" [activeView]="'decade'" readonly
               [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date">
             </kendo-datepicker>
             </td>
-            <td data-title="Member">
-              <input name="input" type="text" class="form-control file-input" formControlName="dmsDocumentID" readonly
+            <td [attr.data-label]="labels?.documentId" data-title="Member">
+              <input name="input" type="text" class="input-box file-input" formControlName="dmsDocumentID" readonly
                 (click)="downloadDocs($event.target.value)" />
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.sampled" data-title="Member">
               
               <app-vf-custom-select [values]="[
             { key: '0', value: 'Yes' },
             { key: '1', value: 'No' }
-          ]" formControlName="sampled">
+          ]" formControlName="sampled" class="input-box">
               </app-vf-custom-select>
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.screened" data-title="Member">
              
               <app-vf-custom-select [values]="[
             { key: '0', value: 'Yes' },
             { key: '1', value: 'No' }
-          ]" formControlName="screened">
+          ]" formControlName="screened" class="input-box">
         </app-vf-custom-select>
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.status" data-title="Member">
             
-              <app-vf-custom-select [values]="rcuLov?.status" formControlName="rcuStatus">
+              <app-vf-custom-select [values]="rcuLov?.status" class="input-box" formControlName="rcuStatus">
               </app-vf-custom-select>
             </td>
           </tr>
@@ -203,58 +203,58 @@
             <td data-title="Member">
               {{i+1}}
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.documentName" data-title="Member">
               <app-custom-input [placeholder]="'Document Name'" formControlName="documentName" [isDisabled] = 'true'
-                [type]="labels?.validationData?.name?.type" [className]="'form-control mandatory'"
+                [type]="labels?.validationData?.name?.type" [className]="'input-box mandatory'"
                 [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.documentCategory" data-title="Member">
               <app-custom-input [placeholder]="'Document Category'" formControlName="categoryName" [isDisabled] = 'true'
-                [type]="labels?.validationData?.name?.type" [className]="'form-control mandatory'"
+                [type]="labels?.validationData?.name?.type" [className]="'input-box mandatory'"
                 [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.documentNumber" data-title="Member">
               <app-custom-input [placeholder]="'Document Number'" formControlName="documentNo"
-                [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'" [isDisabled] = 'true'
+                [type]="labels?.validationData?.amountValue?.type" [className]="'input-box mandatory'" [isDisabled] = 'true'
                 [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.issueDate" data-title="Member">
             
-              <kendo-datepicker class="form-control" formControlName="issueDate" [activeView]="'decade'" readonly
+              <kendo-datepicker class="input-box" formControlName="issueDate" [activeView]="'decade'" readonly
               [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date">
             </kendo-datepicker>
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.expiryDate" data-title="Member">
              
-              <kendo-datepicker class="form-control" formControlName="expiryDate" [activeView]="'decade'" readonly
+              <kendo-datepicker class="input-box" formControlName="expiryDate" [activeView]="'decade'" readonly
               [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date">
             </kendo-datepicker>
             </td>
-            <td data-title="Member">
-              <input name="input" type="text" class="form-control file-input" formControlName="dmsDocumentID" readonly
+            <td [attr.data-label]="labels?.documentId" data-title="Member">
+              <input name="input" type="text" class=" input-box file-input" formControlName="dmsDocumentID" readonly
                 (click)="downloadDocs($event.target.value)" />
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.sampled" data-title="Member">
               
               <app-vf-custom-select [values]="[
             { key: '0', value: 'Yes' },
             { key: '1', value: 'No' }
-          ]" formControlName="sampled">
+          ]" formControlName="sampled" class="input-box">
               </app-vf-custom-select>
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.screened" data-title="Member">
              
               <app-vf-custom-select [values]="[
             { key: '0', value: 'Yes' },
             { key: '1', value: 'No' }
-          ]" formControlName="screened">
+          ]" formControlName="screened" class="input-box">
         </app-vf-custom-select>
             </td>
-            <td data-title="Member">
-                 <app-vf-custom-select [values]="rcuLov?.status" formControlName="rcuStatus">
+            <td [attr.data-label]="labels?.status" data-title="Member">
+                 <app-vf-custom-select [values]="rcuLov?.status" formControlName="rcuStatus" class="input-box">
         </app-vf-custom-select>
 
             </td>

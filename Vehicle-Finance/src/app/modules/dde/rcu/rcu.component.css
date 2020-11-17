@@ -248,6 +248,14 @@ display: none;
           display:none;
       }
 
+      .input-box{
+        line-height: 1em;
+        padding: 5px 3px;
+      }
+
+   
+      
+
      
 }
 
@@ -275,6 +283,8 @@ display: none;
     font-size:14px;
     font-weight:bold;
 }
+
+   
 
 .flex-container {
     display: flex;
@@ -445,3 +455,21 @@ table {
 
 
 }
+
+.input-box{
+        display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+
+    
