@@ -9,6 +9,9 @@
   .pl-top{
       padding-top: 7px;
   } */
+    .panel-body>.p-0{
+      padding: 0% !important;
+  }
   .app-doc{
       margin-top: 30px;
       margin-bottom: 30px;
@@ -219,8 +222,9 @@ font-size: 16px;
 display: none;
 }
 .errText{
-    text-align: justify;
+    text-align: center;
     font-size: 16px;
+    margin-bottom: 20px;
 }
 .errHead h3{
     text-align: center;

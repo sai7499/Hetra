@@ -1,9 +1,12 @@
 <div style="text-align: center;">
-  <button class="btn btn-primary btn_div" *ngIf="isRcuDetails" (click)="showInitiateTask()"
+  <button class="btn btn-primary btn_div" *ngIf="isRcuDetails && isErr" (click)="showInitiateTask()"
     type="button">{{labels?.initiateRcu}}</button>
 </div>
 <form class="multisteps-form__form" *ngIf="!isRcuDetails" [formGroup]="rcuDetailsForm">
   <!-- <h3 class="dashboard m-0">{{ labels?.rcu }}</h3> -->
+=======
+<form class="multisteps-form__form" *ngIf="!isRcuDetails && isErr" [formGroup]="rcuDetailsForm">
+  <h3 class="dashboard m-0">{{ labels?.rcu }}</h3>
   <!--progress bar-->
   <div class="content">
     <div class="flex-container form-group text-center">
@@ -265,9 +268,34 @@
 
     </div>
     
+<<<<<<< HEAD
     <div _ngcontent-uth-c9="" class="form-group row">
       <div _ngcontent-uth-c9="" class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12">
         <label _ngcontent-uth-c9="">RCU Report Status</label>
+=======
+    <div class="form-group od-row">
+      <div class="col-md-2 fitWidth pl-top"><label>{{labels?.rcuReportStatus}}</label></div>
+      <div class="col-md-2">
+        <app-vf-custom-select [values]="rcuLov?.rcuStatus" formControlName="rcuReportStatus">
+        </app-vf-custom-select>
+      </div>
+      <div class="col-md-1 fitWidth pl-top" *ngIf="roleType == '6'" ><label class="">{{labels?.rcuUpload}}</label></div>
+      <div class="col-md-1 pl-top" *ngIf="roleType == '6'"  >
+        
+        <label 
+          ><i 
+            class="fa fa-upload fa-3 custom-file-label cursor-pointer"
+            aria-hidden="true"
+            id="add_more_documents_upload1a" (click)="uploadDoc()" 
+          ></i></label>
+         
+        
+      </div>
+      <div class="col-md-1 fitWidth pl-top"><label>{{labels?.rcuDocumentId}}</label></div>
+      <div class="col-md-1">
+        <input name="input" type="text" class="form-control file-input" formControlName="rcuDocumentId" readonly
+        (click)="downloadDocs($event.target.value)" />
+>>>>>>> d9bd06871a2f7cb41bc90b550ee9970d8c0dc23c
       </div>
       <div _ngcontent-uth-c9="" class="form-group  col-lg-2 col-md-3 col-sm-6 col-xs-12">
         <app-vf-custom-select _ngcontent-uth-c9="" formcontrolname="rcuReportStatus" _nghost-uth-c11="" ng-reflect-values="[object Object],[object Object" ng-reflect-name="rcuReportStatus" class="ng-untouched ng-pristine">
@@ -315,10 +343,13 @@
     <button class="btn btn-primary dash_href" type="button" routerLink="../tvr-details"  *ngIf="showBack == true">
       Back
     </button>
-    <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()"  *ngIf="showSave == true">
+    <button class="btn btn-primary mar-right8" type="button" (click)="onSave()"  *ngIf="showSave == true">
       Save
     </button>
-    <button class="btn btn-primary dash_href" type="button" routerLink="../fi-list"  *ngIf="showBack == true">
+    <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()"  *ngIf="showSave == true">
+      Submit
+    </button>
+    <button class="btn btn-primary dash_href" type="button" (click)="onNext()"  *ngIf="showBack == true">
       Next
     </button>
   </div>
@@ -329,7 +360,7 @@
     <div id="overlay" *ngIf="isInitiateScreen">
       <div id="text">
         <div class="panel">
-          <div class="panel-body">        
+          <div class="panel-body p-0">        
             <button type="button" class="close" aria-label="Close" (click)="isInitiateScreen = false" >
               <span aria-hidden="true">&times;</span>
             </button>
@@ -346,3 +377,28 @@
         </div>
       </div>
     </div>
+    <div id="overlay" *ngIf="errorGenerated">
+      <div id="text">
+          <div class="panel">
+              <div class="panel-body">
+                
+                  <div class="modal-dialog">
+                      <div class="modal-body" style="text-align:center;">
+                          <div class="errHead">
+                              <h3 class="m-0">{{labels?.rcu}}</h3>
+                          </div>
+                          <div class="row" >
+                              <div class="col-md-12">
+  
+                                  <div class="errText">{{errMsg}}</div>
+                              </div>
+                          </div>
+                          <div class="btn-wrap">
+                              <button class="btn btn-primary" (click)="errGenerated()">OK</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
