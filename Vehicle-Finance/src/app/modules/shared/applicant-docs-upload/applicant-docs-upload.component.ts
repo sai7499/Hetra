@@ -933,7 +933,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
       return this.toasterService.showError('Please fill mandatory fields', '');
     }
     this.docError = {};
-    const formValue = this.uploadForm.value;
+    const formValue = this.uploadForm.getRawValue();
     const requestArr = [];
     let isDocNumberError = false;
     for (const key in formValue) {

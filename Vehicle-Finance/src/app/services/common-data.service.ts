@@ -22,4 +22,10 @@ export class CommonDataService {
     applicantListEdited(value: any) {
         this.applicantDeleted$.next(value);
     }
+
+    leadHistoryData$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    public leadHistoryData = this.leadHistoryData$.asObservable();
+    shareLeadHistoryData(value: any) {
+        this.leadHistoryData$.next(value);
+    }
 }

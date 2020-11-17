@@ -819,7 +819,8 @@ export class FleetDetailsComponent implements OnInit {
     // return;
     this.fleetDetailsService.validateFleetDetails({
       allText: this.csvData,
-      userId: this.userId
+      userId: this.userId,
+      leadId: this.leadId
     }).subscribe(((value: any) => {
         console.log('validate', value);
         if (value.Error !== '0') {
@@ -904,9 +905,13 @@ export class FleetDetailsComponent implements OnInit {
     const filteredData = this.docsFleetDetails.filter((value) => {
       return value.status;
     });
+    if (filteredData.length === 0) {
+      return this.toasterService.showError('All are invalid records', '');
+    }
     this.fleetDetailsService.saveValidRecords({
       fleetDetails: filteredData,
-      userId: this.userId
+      userId: this.userId,
+      leadId: this.leadId
     }).subscribe(((value: any) => {
         console.log('save', value);
         if (value.Error !== '0') {
