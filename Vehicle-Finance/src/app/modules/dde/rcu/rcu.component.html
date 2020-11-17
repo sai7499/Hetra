@@ -263,14 +263,14 @@
         <app-vf-custom-select [values]="rcuLov?.rcuStatus" formControlName="rcuReportStatus">
         </app-vf-custom-select>
       </div>
-      <div class="col-md-1 fitWidth pl-top"><label class="">{{labels?.rcuUpload}}</label></div>
-      <div class="col-md-1 pl-top"  >
+      <div class="col-md-1 fitWidth pl-top" *ngIf="roleType == '6'" ><label class="">{{labels?.rcuUpload}}</label></div>
+      <div class="col-md-1 pl-top" *ngIf="roleType == '6'"  >
         
         <label 
           ><i 
             class="fa fa-upload fa-3 custom-file-label cursor-pointer"
             aria-hidden="true"
-            id="add_more_documents_upload1a" (click)="uploadDoc()"
+            id="add_more_documents_upload1a" (click)="uploadDoc()" 
           ></i></label>
          
         

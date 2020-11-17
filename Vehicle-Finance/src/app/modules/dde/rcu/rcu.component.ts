@@ -156,7 +156,10 @@ export class RcuComponent implements OnInit {
 
       this.getAllRcuDetails();
       // this.rcuDetailsForm.disable()
-      setTimeout((  ) => {this.rcuDetailsForm.disable()
+      setTimeout((  ) => {
+this.rcuDetailsForm.disable()
+
+this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
         
       
       },1000)
@@ -187,12 +190,18 @@ export class RcuComponent implements OnInit {
   showDocuments(check) {
     //    console.log(check);
     this.selectDocument = check;
-    if (check == 'applicant') {
+    if (check == 'applicant' ) {
       this.tab = 'tab1';
       this.showColletralDocuments = false;
+    //  if(this.roleType == '2'){
+    //   this.rcuDetailsForm.disable()
+    //  }
     } else if (check == 'colletral') {
       this.tab = 'tab2';
       this.showColletralDocuments = true;
+      // if(this.roleType == '2'){
+      //   this.rcuDetailsForm.disable()
+      //  }
     }
     // this.getAllRcuDetails()
     let event = this.rcuDetailsForm.controls.fileRCUStatus.value
@@ -383,7 +392,8 @@ export class RcuComponent implements OnInit {
     });
   }
   onSave() {
-
+   console.log(this.rcuDetailsForm);
+    
     this.submitted = true;
     // stop here if form is invalid
     if (this.rcuDetailsForm.invalid) {
@@ -492,8 +502,11 @@ export class RcuComponent implements OnInit {
           screened: this.applicantDocuments[i].screened ? this.applicantDocuments[i].screened : '1',
           sampled: this.applicantDocuments[i].sampled ? this.applicantDocuments[i].sampled : '0',
         });
-        control[i].controls.sampled.disable()
-        control[i].controls.screened.enable()
+        if(this.roleType == '6'){
+          control[i].controls.sampled.disable()
+          control[i].controls.screened.enable()
+        }
+       
 
       }
     } 
@@ -512,8 +525,10 @@ export class RcuComponent implements OnInit {
           screened: this.collateralDocuments[i].screened ? this.collateralDocuments[i].screened : '1',
           sampled: this.collateralDocuments[i].sampled ? this.collateralDocuments[i].sampled : '0',
         });
+        if(this.roleType == '6'){
         control[i].controls.sampled.disable()
         control[i].controls.screened.enable()
+        }
       }
     }
      if (event == 'sampled' && this.applicantDocuments != null && this.isGetapiCalled == true && this.showColletralDocuments == false) {
@@ -531,8 +546,10 @@ export class RcuComponent implements OnInit {
           screened: this.applicantDocuments[i].screened ? this.applicantDocuments[i].screened : '0',
           sampled: this.applicantDocuments[i].sampled ? this.applicantDocuments[i].sampled : '1',
         })
+        if(this.roleType == '6'){
         control[i].controls.screened.disable()
         control[i].controls.sampled.enable()
+        }
       }
     } 
      if (event == 'sampled' && this.collateralDocuments != null && this.isGetapiCalled == true && this.showColletralDocuments == true) {
@@ -552,8 +569,10 @@ export class RcuComponent implements OnInit {
           screened: this.collateralDocuments[i].screened ? this.collateralDocuments[i].screened : '0',
           sampled: this.collateralDocuments[i].sampled ? this.collateralDocuments[i].sampled : '1',
         });
+        if(this.roleType == '6'){
         control[i].controls.screened.disable()
         control[i].controls.sampled.enable()
+        }
       }
     } 
      if (event == 'screened' && this.collateralDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == true) {
@@ -570,8 +589,10 @@ export class RcuComponent implements OnInit {
           screened: '1',
           sampled: '0',
         });
+        if(this.roleType == '6'){
         control[i].controls.sampled.disable()
         control[i].controls.screened.enable()
+        }
       }
     } 
      if (event == 'screened' && this.applicantDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == false) {
@@ -588,9 +609,10 @@ export class RcuComponent implements OnInit {
           screened: '1',
           sampled: '0',
         });
+        if(this.roleType == '6'){
         control[i].controls.sampled.disable()
         control[i].controls.screened.enable()
-
+        }
       }
     } 
      if (event == 'sampled' && this.collateralDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == true) {
@@ -607,8 +629,10 @@ export class RcuComponent implements OnInit {
           screened: '0',
           sampled: '1',
         });
+        if(this.roleType == '6'){
         control[i].controls.screened.disable()
         control[i].controls.sampled.enable()
+        }
       }
     } 
      if (event == 'sampled' && this.applicantDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == false) {
@@ -625,8 +649,10 @@ export class RcuComponent implements OnInit {
           screened: '0',
           sampled: '1',
         });
+        if(this.roleType == '6'){
         control[i].controls.screened.disable()
         control[i].controls.sampled.enable()
+        }
       }
     }
   }
