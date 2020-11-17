@@ -6,7 +6,7 @@
             (click)="viweWelcomeLetter()">View Welcome Letter</button>&nbsp;
             <button class="btn btn-primary view-button" 
             type="button" id="" tabindex="7" *ngIf="!showWelcomeLetter"
-            routerLink="../disbursement">Back</button>&nbsp;
+            (click)="onBack()">Back</button>&nbsp;
             <button class="btn btn-primary view-button" 
                 type="button" id="" tabindex="8" *ngIf="!showWelcomeLetter && productCatCode =='NCV'"
                 routerLink="../delivery-order">Next</button><br> 
@@ -649,7 +649,7 @@ Ph: 044-4299 5000 Customer Care Toll-free: 1800 3000 5060 Fax: 044-42995050 E-ma
                 (click)="downloadpdf()">DownLoad</button>&nbsp;
             <button class="btn btn-primary view-button" 
                 type="button" id="" tabindex="7" *ngIf="showWelcomeLetter"
-                routerLink="../disbursement">Back</button>&nbsp;
+                 (click)="onBack()">Back</button>&nbsp;
                 <button class="btn btn-primary view-button" 
                 type="button" id="" tabindex="8" *ngIf="showWelcomeLetter && productCatCode=='NCV'"
                 routerLink="../delivery-order">Next</button><br> 
@@ -658,4 +658,40 @@ Ph: 044-4299 5000 Customer Care Toll-free: 1800 3000 5060 Fax: 044-42995050 E-ma
 
         </div>
     </div>
+
+    <div
+  class="modal"
+  id="ucicModel2"
+  [ngClass]="{ 'dis-block': showModal }"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header text-center">
+        <h4 class="modal-title">Welcome Letter</h4>
+        <!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <p id="" style="font-size:16px">
+         {{chequeModeMsg}}
+        </p>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          id="ucic_lead"
+          (click)="onModalClick()"
+        >
+          Okay
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 </main>

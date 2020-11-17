@@ -137,3 +137,7 @@ border-top: 1px solid #ddd;
 .margin_top{
   margin-top: 5px
 }
+
+.dis-block {
+  display: block;
+}
