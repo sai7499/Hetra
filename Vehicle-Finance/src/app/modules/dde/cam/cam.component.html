@@ -2,8 +2,8 @@
     <button class="btn btn-primary btn_div " *ngIf="isCamDetails" (click)="showCamDetails()"
         type="button">{{labels?.generateCam}}</button>
 </div>
-
-<div [id]="pdfId" class="container overflow-hidden" *ngIf="usedCarCam && !isCamDetails  && showCamHtml == true">
+<form class="multisteps-form__form" [formGroup]="camDetailsForm">
+<div [id]="pdfId" class="container overflow-hidden" *ngIf="usedCarCam && !isCamDetails  && showCamHtml == true" >
 
     <!---sourcing table starts here-->
     <table class="cam_table mt-3">
@@ -618,10 +618,103 @@
         </tbody>
     </table>
     <!--decisionSheet-->
-</div>
-<form class="multisteps-form__form">
+     <!--concern Risks / strengths mitigates-->
+ <table class="cam_table_proposed mt-3 text-center" id="page_break">
+    <!-- <tr>
+<td class="caption"> <caption class="caption">
+{{
+labels?.concernsOrRisks
+}}
+</caption></td> 
+<td class="caption">   <caption class="caption">
+{{
+labels?.strengthsOrMitigates
+}}
+</caption></td>
+</tr> -->
+    <caption class="caption">
+        <div class="row">
+            <div class="col-md-6"> {{ labels?.concernsOrRisks }}</div>
+            <div class="col-md-6"> {{ labels?.strengthsOrMitigates }}</div>
+        </div>
+    </caption>
+    <tbody>
 
-    <div [id]="pdfId" class="container overflow-hidden" [formGroup]="camDetailsForm"
+        <tr>
+            <td rowspan="6"><textarea class="form-control form-control-sm textKey" placeholder="Text Area" 
+                    formControlName="concernsAndRisks"></textarea>
+                <!-- <div *ngIf="camDetailsForm.get('concernsAndRisks').invalid && submitted == true"
+                    class="invalid-feedback">
+                    <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.required">
+                        Concern and risks Remarks is required
+                    </div>
+                </div> -->
+                <div *ngIf="camDetailsForm.get('concernsAndRisks').invalid && (camDetailsForm.get('concernsAndRisks').dirty || camDetailsForm.get('concernsAndRisks').touched)"
+                    class="invalid-feedback">
+                    <!-- <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.required">
+                        Concerns or Risks is required.
+                    </div> -->
+                    <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.maxlength">
+                        Concerns or Risks cannot be more than 5000 characters long.
+                    </div>
+                    <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.pattern">
+                        Invalid Message / Special Characters not allowed
+
+                    </div>
+                </div>
+            </td>
+            <td rowspan="6"><textarea class="form-control form-control-sm textKey" placeholder="Text Area"
+                    formControlName="strengthAndMitigates"></textarea>
+                <!-- <div *ngIf="camDetailsForm.get('strengthAndMitigates').invalid && submitted == true"
+                    class="invalid-feedback">
+                    <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.required">
+                        Strength And Mitigates Remarks is required
+                    </div>
+                </div> -->
+                <div *ngIf="camDetailsForm.get('strengthAndMitigates').invalid && (camDetailsForm.get('strengthAndMitigates').dirty || camDetailsForm.get('strengthAndMitigates').touched)"
+                    class="invalid-feedback">
+                    <!-- <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.required">
+                        Strengths or Mitigates is required.
+                    </div> -->
+                    <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.maxlength">
+                        Strengths or Mitigates cannot be more than 5000 characters long.
+                    </div>
+                    <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.pattern">
+                        Invalid Message / Special Characters not allowed
+
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+
+    </tbody>
+</table>
+    <table class="cam_table_proposed mt-3" *ngFor="let recommendation of recommendation">
+        <caption class="caption">
+            {{ recommendation?.roleName }} {{labels?.recommendation}}
+        </caption>
+        <!-- <caption class="caption">
+        {{ recommendation?.recommendation }}
+    </caption> -->
+        <tbody>
+            <tr>
+                <td colspan="6" height="80">{{ recommendation?.recommendation }}</td>
+            </tr>
+            <tr>
+                <td width="100" class="bank_name">{{ labels?.name }}</td>
+                <td width="500">{{ recommendation?.name }}</td>
+                <td width="100" class="bank_name">{{ labels?.eCode }}</td>
+                <td width="200">{{ recommendation?.eCode }}</td>
+                <td width="100" class="bank_name">{{ labels?.date }}</td>
+                <td width="200">{{ recommendation?.date }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+    <div [id]="pdfId" class="container overflow-hidden" 
         *ngIf="usedCvCam && !isCamDetails  && showCamHtml == true">
         <!--basic table starts here-->
 
@@ -799,23 +892,23 @@
                 <tr>
                     <td colspan="2" class="bank_name">{{ labels?.anyOtherRemarks }}</td>
                     <td colspan="10"><textarea class="form-control form-control-sm" placeholder="Text Area"
-                            formControlName="proposedVehicleRemarks"></textarea>
+                            formControlName="proposedVehicleRemarks" maxlength="50"></textarea>
                         <!-- <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').invalid && submitted == true"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').errors.required">
                                 proposed vehicle Remarks is required
                             </div>
-                        </div>
+                        </div> -->
                         <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').invalid && (camDetailsForm.get('proposedVehicleRemarks').dirty || camDetailsForm.get('proposedVehicleRemarks').touched)"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').errors.maxlength">
-                                proposedVehicleRemarks cannot be more than 200 characters long.
+                               Proposed Vehicle Remarks cannot be more than 5000 characters long.
                             </div>
                             <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').errors.pattern">
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                     </td>
                 </tr>
             </tbody>
@@ -890,26 +983,26 @@
                 <tr>
                     <td colspan="1" class="bank_name">{{ labels?.anyOtherRemarks }}</td>
                     <td colspan="7" class=""><textarea class="form-control form-control-sm" placeholder="Text Area"
-                            formControlName="cibilSynopsisRemarks"></textarea>
+                           formControlName="cibilSynopsisRemarks"></textarea>
                         <!-- <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').invalid && submitted == true"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.required">
                                 cibile synopsis Remarks is required
                             </div>
-                        </div>
+                        </div>  -->
                         <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').invalid && (camDetailsForm.get('cibilSynopsisRemarks').dirty || camDetailsForm.get('cibilSynopsisRemarks').touched)"
                             class="invalid-feedback">
-                            <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.required">
+                            <!-- <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.required">
                                 cibilSynopsisRemarks is required.
-                            </div>
+                            </div> -->
                             <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.maxlength">
-                                cibilSynopsisRemarks cannot be more than 200 characters long.
+                                Cibil Synopsis Remarks cannot be more than 5000 characters long.
                             </div>
                             <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.pattern">
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                     </td>
                 </tr>
             </tbody>
@@ -1081,20 +1174,20 @@
                             <div *ngIf="camDetailsForm.get('fleetRemarks').errors.required">
                                 Fleet Remarks is required
                             </div>
-                        </div>
+                        </div> -->
                         <div *ngIf="camDetailsForm.get('fleetRemarks').invalid && (camDetailsForm.get('fleetRemarks').dirty || camDetailsForm.get('fleetRemarks').touched)"
                             class="invalid-feedback">
-                            <div *ngIf="camDetailsForm.get('fleetRemarks').errors.required">
+                            <!-- <div *ngIf="camDetailsForm.get('fleetRemarks').errors.required">
                                 fleetRemarks is required.
-                            </div>
+                            </div> -->
                             <div *ngIf="camDetailsForm.get('fleetRemarks').errors.maxlength">
-                                fleetRemarks cannot be more than 200 characters long.
+                                Fleet Remarks cannot be more than 5000 characters long.
                             </div>
                             <div *ngIf="camDetailsForm.get('fleetRemarks').errors.pattern">
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                     </td>
 
 
@@ -1195,20 +1288,20 @@
                             <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.required">
                                 Track validation Remarks is required
                             </div>
-                        </div>
+                        </div> -->
                         <div *ngIf="camDetailsForm.get('trackValidationRemarks').invalid && (camDetailsForm.get('trackValidationRemarks').dirty || camDetailsForm.get('trackValidationRemarks').touched)"
                             class="invalid-feedback">
-                            <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.required">
+                            <!-- <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.required">
                                 trackValidationRemarks is required.
-                            </div>
+                            </div> -->
                             <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.maxlength">
-                                trackValidationRemarks cannot be more than 200 characters long.
+                                Track Validation Remarks cannot be more than 5000 characters long.
                             </div>
                             <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.pattern">
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                     </td>
                     <!--<td colspan="8">
                     {{ labels?.appIsInTransportFieldFromLastManyYears }}
@@ -1361,20 +1454,20 @@
                             <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.required">
                                 Concern and risks Remarks is required
                             </div>
-                        </div>
+                        </div> -->
                         <div *ngIf="camDetailsForm.get('concernsAndRisks').invalid && (camDetailsForm.get('concernsAndRisks').dirty || camDetailsForm.get('concernsAndRisks').touched)"
                             class="invalid-feedback">
-                            <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.required">
+                            <!-- <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.required">
                                 Concerns or Risks is required.
-                            </div>
+                            </div> -->
                             <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.maxlength">
-                                Concerns or Risks cannot be more than 200 characters long.
+                                Concerns or Risks cannot be more than 5000 characters long.
                             </div>
                             <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.pattern">
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                     </td>
                     <td rowspan="6"><textarea class="form-control form-control-sm textKey" placeholder="Text Area"
                             formControlName="strengthAndMitigates"></textarea>
@@ -1383,20 +1476,20 @@
                             <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.required">
                                 Strength And Mitigates Remarks is required
                             </div>
-                        </div>
+                        </div> -->
                         <div *ngIf="camDetailsForm.get('strengthAndMitigates').invalid && (camDetailsForm.get('strengthAndMitigates').dirty || camDetailsForm.get('strengthAndMitigates').touched)"
                             class="invalid-feedback">
-                            <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.required">
+                            <!-- <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.required">
                                 Strengths or Mitigates is required.
-                            </div>
+                            </div> -->
                             <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.maxlength">
-                                Strengths or Mitigates cannot be more than 200 characters long.
+                                Strengths or Mitigates cannot be more than 5000 characters long.
                             </div>
                             <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.pattern">
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                     </td>
                 </tr>
 
@@ -1430,20 +1523,20 @@
                             <div *ngIf="camDetailsForm.get('keyFinancialRemarks').errors.required">
                                 Key Financial Remarks is required
                             </div>
-                        </div>
+                        </div> -->
                         <div *ngIf="camDetailsForm.get('keyFinancialRemarks').invalid && (camDetailsForm.get('keyFinancialRemarks').dirty || camDetailsForm.get('keyFinancialRemarks').touched)"
                             class="invalid-feedback">
-                            <div *ngIf="camDetailsForm.get('keyFinancialRemarks').errors.required">
+                            <!-- <div *ngIf="camDetailsForm.get('keyFinancialRemarks').errors.required">
                                 keyFinancialRemarks is required.
-                            </div>
+                            </div> -->
                             <div *ngIf="camDetailsForm.get('keyFinancialRemarks').errors.maxlength">
-                                keyFinancialRemarks cannot be more than 200 characters long.
+                                KeyFinancial Remarks cannot be more than 5000 characters long.
                             </div>
                             <div *ngIf="camDetailsForm.get('keyFinancialRemarks').errors.pattern">
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                     </td>
                 </tr>
 
@@ -2154,17 +2247,17 @@
                             <div *ngIf="camDetailsForm.get('commentsOnRtr').errors.required">
                                 Comments On Rtr is required
                             </div>
-                        </div>
+                        </div> -->
                         <div *ngIf="camDetailsForm.get('commentsOnRtr').invalid && (camDetailsForm.get('commentsOnRtr').dirty || camDetailsForm.get('commentsOnRtr').touched)"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('commentsOnRtr').errors.maxlength">
-                                commentsOnRtr cannot be more than 200 characters long.
+                                Comments On Rtr cannot be more than 5000 characters long.
                             </div>
                             <div *ngIf="camDetailsForm.get('commentsOnRtr').errors.pattern">
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                 </tr>
             </tbody>
         </table>
@@ -2317,20 +2410,20 @@
                         <div *ngIf="camDetailsForm.get('commentsOnBankingIfAny').errors.required">
                             Comments On Banking is required
                         </div>
-                    </div>
+                    </div> -->
                     <div *ngIf="camDetailsForm.get('commentsOnBankingIfAny').invalid && (camDetailsForm.get('commentsOnBankingIfAny').dirty || camDetailsForm.get('commentsOnBankingIfAny').touched)"
                         class="invalid-feedback">
-                        <div *ngIf="camDetailsForm.get('commentsOnBankingIfAny').errors.required">
+                        <!-- <div *ngIf="camDetailsForm.get('commentsOnBankingIfAny').errors.required">
                             commentsOnBankingIfAny is required.
-                        </div>
+                        </div> -->
                         <div *ngIf="camDetailsForm.get('commentsOnBankingIfAny').errors.maxlength">
-                            commentsOnBankingIfAny cannot be more than 200 characters long.
+                            Comments On Banking If Any cannot be more than 5000 characters long.
                         </div>
                         <div *ngIf="camDetailsForm.get('commentsOnBankingIfAny').errors.pattern">
                             Invalid Message / Special Characters not allowed
 
                         </div>
-                    </div> -->
+                    </div>
                 </td>
             </tr>
         </table>
@@ -2839,7 +2932,7 @@
             <button (click)="onBack()" class="btn btn-primary dash_href" type="button">
                 {{ labels?.back }}
             </button>
-            <button *ngIf="(usedCvCam || newCvCam) && showSave == true" class="btn btn-primary mar-right8" type="button"
+            <button *ngIf="showSave == true" class="btn btn-primary mar-right8" type="button"
                 (click)=onSubmit(); [disabled]="disableSaveBtn">
                 Save
             </button>

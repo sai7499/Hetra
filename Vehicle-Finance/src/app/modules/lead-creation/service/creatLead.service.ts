@@ -161,13 +161,14 @@ export class CreateLeadService {
         const workflowId = this.apiService.api.getLeadById.workflowId;
         const projectId = this.apiService.api.getLeadById.projectId;
 
-        const body: RequestEntity = {
+        const body = {
             processId: processId,
             ProcessVariables: {
                 'leadId': leadId
             },
             workflowId: workflowId,
-            projectId: projectId
+            projectId: projectId,
+            showLoader: false
         };
         const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
         return this.httpService.post(url, body);

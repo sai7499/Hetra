@@ -186,11 +186,9 @@ export class AdditionalCollateralComponent implements OnInit {
         if (this.goldGramsValue) {
             const totalValue = this.currentValue * this.goldGramsValue;
             this.convertTotalValue(totalValue)
-
         } else {
             details.get('totalMarketValue').setValue(null)
         }
-
     }
 
     goldGrams(value) {
@@ -208,16 +206,70 @@ export class AdditionalCollateralComponent implements OnInit {
 
     convertTotalValue(totalValue) {
         const formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
-        const details = formArray.at(0)
+        const details = formArray.at(0);
         const totalValueString = totalValue.toString();
         if (totalValueString.includes('.')) {
             const secondIndexValue = totalValueString.split('.')[1]
             const firstIndexValue = totalValueString.split('.')[0]
             const sliceValue = secondIndexValue.slice(0, 4)
             const finalValue = firstIndexValue + '.' + sliceValue;
-            details.get('totalMarketValue').setValue(finalValue)
+            const toalVal = Math.round(Number(totalValue))
+            details.get('totalMarketValue').setValue(toalVal)
         } else {
             details.get('totalMarketValue').setValue(totalValue)
+        }
+    }
+
+    getLandArea(val, obj) {
+        let marketValue = obj.controls['marketValue'].value;
+        let guideLineValue = obj.controls['guideLineValue'].value;
+        if (marketValue) {
+            const totalValue = val * marketValue;
+            this.convertTotalValue(totalValue)
+        } else {
+            obj.get('totalMarketValue').setValue(null)
+        }
+
+        if (guideLineValue) {
+            const totalValue = val * guideLineValue;
+            this.convertToGuideValue(totalValue)
+        } else {
+            obj.get('totalGuideLineValue').setValue(null)
+        }
+
+    }
+
+    getMarketValue(val, obj) {
+        let landInAcres = obj.controls[val].value;
+        let marketValue = obj.controls['marketValue'].value;
+        if (landInAcres) {
+            const totalValue = marketValue * landInAcres;
+            this.convertTotalValue(totalValue)
+        } else {
+            obj.get('totalMarketValue').setValue(null)
+        }
+    }
+
+    getGuideLine(val, obj) {
+        let landInAcres = obj.controls[val].value;
+        let guideLineValue = obj.controls['guideLineValue'].value;
+        if (landInAcres) {
+            const totalValue = guideLineValue * landInAcres;
+            this.convertToGuideValue(totalValue)
+        } else {
+            obj.get('totalGuideLineValue').setValue(null)
+        }
+    }
+
+    convertToGuideValue(totalValue) {
+        const formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
+        const details = formArray.at(0);
+        const totalValueString = totalValue.toString();
+        if (totalValueString.includes('.')) {
+            const toalVal = Math.round(Number(totalValue))
+            details.get('totalGuideLineValue').setValue(toalVal)
+        } else {
+            details.get('totalGuideLineValue').setValue(totalValue)
         }
     }
 
@@ -230,7 +282,6 @@ export class AdditionalCollateralComponent implements OnInit {
 
         details.get('relationWithApplicant').setValue('')
 
-    
         let typeOfApplicant = this.applicantDetails.find((res => res.applicantId === Number(value)))
 
         let lovOfSelf = [{
@@ -256,7 +307,7 @@ export class AdditionalCollateralComponent implements OnInit {
                 this.collateralDataService.setAdditionalCollateralList(collateralDetail);
 
                 console.log(collateralDetail, 'collateralDetail')
-                this.onFindRelationship(collateralDetail.propertyOwner) 
+                this.onFindRelationship(collateralDetail.propertyOwner)
 
 
                 const formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
@@ -314,17 +365,6 @@ export class AdditionalCollateralComponent implements OnInit {
             additionalCollaterals['collateralType'] = form.value.collateralType;
             additionalCollaterals['proofName'] = form.value.proofName;
             additionalCollaterals['proofCollected'] = form.value.proofCollected;
-
-            if (this.collateralType === 'AGRIADDCOLTYP') {
-
-                additionalCollaterals['totalMarketValue'] = additionalCollaterals['marketValue'] * additionalCollaterals['landInAcres'];
-                additionalCollaterals['totalGuideLineValue'] = additionalCollaterals['guideLineValue'] * additionalCollaterals['landInAcres']
-
-            } else if (this.collateralType === 'PROPADDCOLTYP') {
-
-                additionalCollaterals['totalMarketValue'] = additionalCollaterals['marketValue'] * additionalCollaterals['totalLandArea'];
-                additionalCollaterals['totalGuideLineValue'] = additionalCollaterals['guideLineValue'] * additionalCollaterals['totalLandArea']
-            }
 
             const data = {
                 "userId": this.userId,

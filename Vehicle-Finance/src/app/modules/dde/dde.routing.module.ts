@@ -27,6 +27,7 @@ import { ChequeTrackingComponent } from './cheque-tracking/cheque-tracking.compo
 import { LoanStatusComponent } from './loan-status/loan-status.component';
 import { LoanBookingComponent } from './loan-status/loan-booking/loan-booking.component';
 import { ReferenceComponent } from '@modules/shared/reference/reference.component';
+import { RcuComponent } from './rcu/rcu.component';
 import { PSLdataComponent } from './psldata/psldata.component';
 
 const routes: Routes = [
@@ -102,6 +103,14 @@ const routes: Routes = [
       {
         path: 'tvr-details',
         component: TvrDetailsComponent,
+      },
+      {
+        path: 'rcu-initiate',
+        component: RcuComponent,
+      },
+      {
+        path: 'rcu',
+        component: RcuComponent,
       },
       {
         path: 'cam',

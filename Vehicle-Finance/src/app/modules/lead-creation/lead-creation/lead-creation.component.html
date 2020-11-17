@@ -115,7 +115,10 @@
                 [placeHolder]="sourcingCodePlaceholder"
                 [minQueryLength]="2"
                 [disabled]="isSourchingCode">                                 
-              </ng-autocomplete>               
+              </ng-autocomplete>  
+              <div class="invalid-feedback" *ngIf="!isSourceCode">
+                <div > Sourcing code required.</div>
+              </div>             
               <ng-template #sourcingCodeTemplate let-item>
               <a [innerHTML]="item.value"></a>
               </ng-template>               

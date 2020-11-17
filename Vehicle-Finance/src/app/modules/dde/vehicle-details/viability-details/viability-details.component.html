@@ -697,11 +697,11 @@
                                 
                                 [maxLength]="label?.validationData?. daysFormat?.maxLength"
                                 [type]="label?.validationData?. daysFormat?.type"
-                                [isRequired]="'Earnings Per Day Is Required'"
+                                [isRequired]="'Earnings Per Month Is Required'"
                                 [isDirty]="isDirty"
                                 [custom]="daysCheck"
                                 (keyup)="calculateStandOperator()"
-                                [placeholder]="'Enter Business Earning Per Day'"
+                                [placeholder]="'Enter Business Earning Per Month'"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -942,10 +942,10 @@
                                 [custom]="daysCheck"
                                 [maxLength]="label?.validationData?. daysFormat?.maxLength"
                                 [type]="label?.validationData?. daysFormat?.type"
-                                [isRequired]="'Business Earning Per Day Is Required'"
+                                [isRequired]="'Business Earning Per Month Is Required'"
                                 [isDirty]="isDirty"
                                 
-                                [placeholder]="'Enter No of Earnings Per Day'"
+                                [placeholder]="'Enter No of Earnings Per Month'"
                                 (keyup)="calculateCaptive()"
                                 ></app-custom-input> 
                             </td>
