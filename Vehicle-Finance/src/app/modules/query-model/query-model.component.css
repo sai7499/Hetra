@@ -962,3 +962,11 @@ body::-webkit-scrollbar-thumb {
     background-color: #14bae4;
     border: 1px solid #a9a8a8;
   }
+
+  .ShowError{
+    font-size: 12px;
+    font-family: zurich-bold;
+    letter-spacing: 0.5px;
+    color: red;
+    padding-top: 0.5vw;
+  } 

@@ -898,6 +898,7 @@
     "secondChassisNumber": "Second Chassis Number",
     "agricultureProof": "Agriculture Proof",
     "fcExpiryDate": "FC Expiry Date",
+    "fcAmount": "FC Amount",
     "vehicleRegDate": "Vehicle Reg.Date",
     "gvw": "GVW",
     "reRegisteredVechicle": "Re-Registered Vehicle",
