@@ -671,6 +671,6 @@ export class RcuComponent implements OnInit {
   showInitiateTask() {
     // this.rowIndex = i;
     this.isInitiateScreen = true;
-    this.errorMessage = 'Are you sure Want to initiate RCU ?';
+    this.errorMessage = 'Are you sure you want to initiate RCU?';
   }
 }
