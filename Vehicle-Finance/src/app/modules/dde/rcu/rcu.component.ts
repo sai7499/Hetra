@@ -36,7 +36,7 @@ export class RcuComponent implements OnInit {
   applicantType: any;
   showSave: boolean = false;
   errorGenerated: boolean = false;
-  isErr: boolean = true
+  isErr: boolean = false
   model = { option: 'Screened' };
   radioSel: any;
   radioSelectedString: string;
@@ -152,7 +152,8 @@ export class RcuComponent implements OnInit {
       this.getAllRcuDetails();
     } else if (this.router.url.includes('/rcu') && this.roleType == '2') {
    
-      this.isErr = false
+      // this.isErr = false
+      // this.isRcuDetails = true;
 
       this.getAllRcuDetails();
       // this.rcuDetailsForm.disable()
@@ -329,11 +330,11 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
     });
   }
 
-  showRcuDetails() {
-    this.isRcuDetails = false;
-    this.isErr = false
+  // showRcuDetails() {
+  //   this.isRcuDetails = false;
+  //   this.isErr = false
 
-  }
+  // }
   getSelecteditem() {
     this.radioSel = this.radioItems.find(
       (value) => value === this.model.option
@@ -373,7 +374,7 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
 
         } else if (this.router.url.includes('/rcu') && this.roleType == '2' && this.response.rcuInitiated == false) {
           this.isRcuDetails = true;
-          this.isErr = false
+          this.isErr = true;
 
         }
 
@@ -460,7 +461,6 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
             'Updated Successfully',
             'RCU Details'
           );
-          this.rcuInitiated = true;
 
           this.getAllRcuDetails();
         }
@@ -503,8 +503,10 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           sampled: this.applicantDocuments[i].sampled ? this.applicantDocuments[i].sampled : '0',
         });
         if(this.roleType == '6'){
-          control[i].controls.sampled.disable()
-          control[i].controls.screened.enable()
+          // control[i].controls.sampled.disable()
+          // control[i].controls.screened.enable()
+          control[i].controls.screened.disable()
+          control[i].controls.sampled.enable()
         }
        
 
@@ -526,8 +528,10 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           sampled: this.collateralDocuments[i].sampled ? this.collateralDocuments[i].sampled : '0',
         });
         if(this.roleType == '6'){
-        control[i].controls.sampled.disable()
-        control[i].controls.screened.enable()
+        // control[i].controls.sampled.disable()
+        // control[i].controls.screened.enable()
+        control[i].controls.screened.disable()
+        control[i].controls.sampled.enable()
         }
       }
     }
@@ -547,8 +551,10 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           sampled: this.applicantDocuments[i].sampled ? this.applicantDocuments[i].sampled : '1',
         })
         if(this.roleType == '6'){
-        control[i].controls.screened.disable()
-        control[i].controls.sampled.enable()
+        // control[i].controls.screened.disable()
+        // control[i].controls.sampled.enable()
+        control[i].controls.sampled.disable()
+        control[i].controls.screened.enable()
         }
       }
     } 
@@ -570,8 +576,10 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           sampled: this.collateralDocuments[i].sampled ? this.collateralDocuments[i].sampled : '1',
         });
         if(this.roleType == '6'){
-        control[i].controls.screened.disable()
-        control[i].controls.sampled.enable()
+        // control[i].controls.screened.disable()
+        // control[i].controls.sampled.enable()
+        control[i].controls.sampled.disable()
+        control[i].controls.screened.enable()
         }
       }
     } 
@@ -590,8 +598,10 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           sampled: '0',
         });
         if(this.roleType == '6'){
-        control[i].controls.sampled.disable()
-        control[i].controls.screened.enable()
+        // control[i].controls.sampled.disable()
+        // control[i].controls.screened.enable()
+        control[i].controls.screened.disable()
+        control[i].controls.sampled.enable()
         }
       }
     } 
@@ -610,8 +620,10 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           sampled: '0',
         });
         if(this.roleType == '6'){
-        control[i].controls.sampled.disable()
-        control[i].controls.screened.enable()
+        // control[i].controls.sampled.disable()
+        // control[i].controls.screened.enable()
+        control[i].controls.screened.disable()
+        control[i].controls.sampled.enable()
         }
       }
     } 
@@ -630,8 +642,10 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           sampled: '1',
         });
         if(this.roleType == '6'){
-        control[i].controls.screened.disable()
-        control[i].controls.sampled.enable()
+        // control[i].controls.screened.disable()
+        // control[i].controls.sampled.enable()
+        control[i].controls.sampled.disable()
+        control[i].controls.screened.enable()
         }
       }
     } 
@@ -650,8 +664,10 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           sampled: '1',
         });
         if(this.roleType == '6'){
-        control[i].controls.screened.disable()
-        control[i].controls.sampled.enable()
+        // control[i].controls.screened.disable()
+        // control[i].controls.sampled.enable()
+        control[i].controls.sampled.disable()
+        control[i].controls.screened.enable()
         }
       }
     }
