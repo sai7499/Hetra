@@ -1414,7 +1414,7 @@ textarea {
     line-height: inherit;
 }
 
-input{
+.main-table input{
     width:100%!important;
     padding: 6px 10px!important;
 }
