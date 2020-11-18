@@ -902,7 +902,21 @@
     "taxDetails": "Tax Details",
     "taxBill": "Tax Bill",
     "totalTaxBill": "Total Tax Bill",
+    "tyreDealer": "Tyre Dealer",
+    "tyreManufacturer": "Tyre Manufacturer",
+    "VehcostPerTyre": "Cost per tyre",
+    "marginAmount": "Margin Amount",
+    "tyreSpecification": "Tyre specification/Model description",
+    "onlineVerification": "onlineVerification",
     "vehicleRegDate": "Vehicle Reg.Date",
+    "accidentDate": "Accident Date",
+    "accidentType": "Type of Accident",
+    "firFiled": "FIR Filed",
+    "repairCost": "Cost of Repair",
+    "spareCost": "Cost of Spares",
+    "totalCost": "Total Cost",
+    "isAuthSvcCentre": "Is Authorised Service Centre? ",
+    "svcCentreName": "Service Centre Name",
     "gvw": "GVW",
     "reRegisteredVechicle": "Re-Registered Vehicle",
     "interStateVehicle": "Inter State Vehicle",
@@ -1645,21 +1659,19 @@
     "matchedCriteria": "Matched Criteria",
     "disbursementStartDate": "Disbursement - Start Date",
     "disbursementEndDate": "Disbursement - End Date",
-    "propertyValue":"Property Value",
+    "propertyValue": "Property Value",
     "initiateRcu": "Initiate RCU",
-    "rcu":"RCU",
-    "fileRcuStatus":"File RCU Status",
-    "screened":"Screened",
-    "sampled":"Sampled",
-    "showApplicantDocuments":"Show Applicant Documents",
-    "showCollateralDocuments":"Show Collateral Documents",
-    "documentCategory":"Document Category",
-    "rcuReportStatus":"RCU Report Status",
-    "rcuUpload":"RCU Upload",
-    "rcuReportReceivedDateandTime":"RCU Report Received Date and Time",
-"rcuDocumentId":"RCU Document Id",
-
-    
+    "rcu": "RCU",
+    "fileRcuStatus": "File RCU Status",
+    "screened": "Screened",
+    "sampled": "Sampled",
+    "showApplicantDocuments": "Show Applicant Documents",
+    "showCollateralDocuments": "Show Collateral Documents",
+    "documentCategory": "Document Category",
+    "rcuReportStatus": "RCU Report Status",
+    "rcuUpload": "RCU Upload",
+    "rcuReportReceivedDateandTime": "RCU Report Received Date and Time",
+    "rcuDocumentId": "RCU Document Id",
     "landAreaInHectares": "Land Area In Hectares",
     "uRecessionNo": "UDHYAM Registration number",
     "uRegisteredMobileNo": "UDHYAM Registered mobile number",
@@ -1671,8 +1683,8 @@
     "inputValue": "Input Value",
     "scoreValue": "Score",
     "marketAndFinancierReference": "Market & Financier Reference",
-    "performed_by":"Performed By",
-    "performed_on":"Performed On",
+    "performed_by": "Performed By",
+    "performed_on": "Performed On",
     "speedometerReading": "Speedometer Reading",
     "deleteReference": "Are You Sure Want To Delete Reference Details?",
     "validationData": {
@@ -2221,6 +2233,12 @@
             },
             "type": "alpha-numeric"
         },
+        "invoiceNumber": {
+            "maxLength": {
+                "rule": 3
+            },
+            "type": "number"
+        },
         "monthOfManuf": {
             "maxLength": {
                 "rule": 2
@@ -2701,13 +2719,13 @@
             "maxLength": {
                 "rule": 300
             },
-            "type":"special-alpha-numeric"
+            "type": "special-alpha-numeric"
         },
         "pslUdhyamregno": {
-            "maxLength":{
-                "rule":20
+            "maxLength": {
+                "rule": 20
             },
-            "type":"alpha-numeric-nospace"
+            "type": "alpha-numeric-nospace"
         },
         "speedometerReading": {
             "maxLength": {

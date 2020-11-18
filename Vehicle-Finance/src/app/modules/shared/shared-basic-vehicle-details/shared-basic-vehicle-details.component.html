@@ -536,9 +536,9 @@
                             <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
 
                             <app-custom-input formControlName="invoiceNumber" [id]="'proforma_invoice_no'"
-                                [type]="label.validationData?.chasisEngineNo.type" [inputClass]="'input-upper'"
+                                [type]="label.validationData?.invoiceNumber.type" [inputClass]="'input-upper'"
                                 [className]="'form-control mandatory'" [placeholder]="'Invoice No'"
-                                [maxLength]="label.validationData?.chasisEngineNo.maxLength"
+                                [maxLength]="label.validationData?.invoiceNumber.maxLength"
                                 [inputClass]="'input-upper'">
                             </app-custom-input>
                         </div>
@@ -938,9 +938,9 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
                             <app-custom-input formControlName="invoiceNumber" [id]="'proforma_invoice_no'"
-                                [type]="label.validationData?.chasisEngineNo.type"
-                                [className]="'form-control mandatory'" [placeholder]="'Proforma Invoice No'"
-                                [maxLength]="label.validationData?.chasisEngineNo.maxLength">
+                                [type]="label.validationData?.invoiceNumber.type" [className]="'form-control mandatory'"
+                                [placeholder]="'Proforma Invoice No'"
+                                [maxLength]="label.validationData?.invoiceNumber.maxLength">
                             </app-custom-input>
                         </div>
 
@@ -2188,6 +2188,7 @@
                 <h3 class="title cus-title"> {{ label.childLoan }} </h3>
 
                 <div class="row">
+
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.fcExpiryDate">
                         <label for="fc_expiry_date">{{label.fcExpiryDate}}</label>
 
@@ -2208,11 +2209,9 @@
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.taxDetails">
                         <label for="tax_details">{{label.taxDetails}}</label>
-
                         <app-vf-custom-select [values]="vehicleLov?.taxDetails" [id]="'tax_details'"
                             formControlName="taxDetails" [isRequired]="'Tax Details Required'" [isDirty]="isDirty">
                         </app-vf-custom-select>
-
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.taxBill">
@@ -2225,10 +2224,140 @@
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.totalTaxBill">
-                        <label for="tax_bill">{{label.totalTaxBill}}</label>
+                        <label for="total_tax_bill">{{label.totalTaxBill}}</label>
                         <app-custom-input formControlName="totalTaxBill" [type]="label.validationData?.amountValue.type"
-                            [id]="'tax_bill'" [className]="'form-control mandatory'" [placeholder]="'Total Tax Bill'"
+                            [id]="'total_tax_bill'" [className]="'form-control mandatory'"
+                            [placeholder]="'Total Tax Bill'" [isDisabled]="true">
+                        </app-custom-input>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.tyreDealer">
+                        <label for="tyre_dealer">{{label.tyreDealer}}</label>
+                        <app-vf-custom-select [values]="vehicleLov?.tyreDealer" [id]="'tyre_dealer'"
+                            formControlName="tyreDealer" [isRequired]="'Tyre Dealer Required'" [isDirty]="isDirty">
+                        </app-vf-custom-select>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.tyreManufacturer">
+                        <label for="tyre_manufacturer">{{label.tyreManufacturer}}</label>
+                        <app-vf-custom-select [values]="vehicleLov?.tyreManufacturer" [id]="'tyre_manufacturer'"
+                            formControlName="tyreManufacturer" [isRequired]="'Tyre Dealer Required'"
+                            [isDirty]="isDirty">
+                        </app-vf-custom-select>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.noOfTyres">
+                        <label for="no_tyre">{{label.noOfTyres}}</label>
+                        <app-custom-input formControlName="noOfTyres" [type]="label.validationData?.noOfTyres.type"
+                            [id]="'no_tyre'" [className]="'form-control mandatory'" [placeholder]="'No of Tyres'"
+                            [maxLength]="label.validationData?.noOfTyres.maxLength"
+                            [isRequired]="'No of Tyres Required'" [isDirty]="isDirty">
+                        </app-custom-input>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.costPerTyre">
+                        <label for="cost_tyre">{{label.VehcostPerTyre}}</label>
+                        <app-custom-input formControlName="costPerTyre" [type]="label.validationData?.amountValue.type"
+                            [id]="'cost_tyre'" [className]="'form-control mandatory'" [placeholder]="'Cost Per Tyre'"
+                            [maxLength]="label.validationData?.amountValue.maxLength"
+                            [isRequired]="'Cost Per Tyre Required'" [isDirty]="isDirty">
+                        </app-custom-input>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.marginAmount">
+                        <label for="margin_amount">{{label.marginAmount}}</label>
+                        <app-custom-input formControlName="marginAmount" [type]="label.validationData?.amountValue.type"
+                            [id]="'margin_amount'" [className]="'form-control mandatory'"
+                            [placeholder]="'Margin Amount'" [maxLength]="label.validationData?.amountValue.maxLength"
+                            [isRequired]="'Margin Amount Required'" [isDirty]="isDirty">
+                            <!--  Invoice Amount - Requested Loan -->
+                        </app-custom-input>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.tyreSpecification">
+                        <label for="tyre_specification">{{label.tyreSpecification}}</label>
+                        <app-custom-input formControlName="tyreSpecification"
+                            [type]="label.validationData?.address.type" [id]="'tyre_specification'"
+                            [className]="'form-control mandatory'"
+                            [placeholder]="'Tyre specification/Model description'"
+                            [maxLength]="label.validationData?.address.maxLength"
+                            [isRequired]="'Tyre specification/Model description Required'" [isDirty]="isDirty">
+                        </app-custom-input>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.onlineVerification">
+                        <label for="online_verification">{{label.onlineVerification}}</label>
+                        <input class="ml" type="checkbox" formControlName="onlineVerification" />
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.accidentDate">
+                        <label for="accident_date">{{label.accidentDate}}</label>
+
+                        <kendo-datepicker class="form-control mandatory" formControlName="accidentDate"
+                            [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
+                            placeholder="Vehicle Registration Date">
+                        </kendo-datepicker>
+
+                        <div class="invalid-feedback"
+                            *ngIf="obj.controls['accidentDate'].touched && obj.controls['accidentDate'].value > maxDate">
+                            Invalid Date
+                        </div>
+
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.accidentType">
+                        <label for="accident_type">{{label.accidentType}}</label>
+                        <app-vf-custom-select [values]="vehicleLov?.accidentType" [id]="'accident_type'"
+                            formControlName="accidentType" [isRequired]="'Type of Accident Required'"
+                            [isDirty]="isDirty">
+                        </app-vf-custom-select>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.firFiled">
+                        <label for="fir_filled">{{label.firFiled}}</label>
+                        <input class="ml" type="checkbox" formControlName="firFiled" />
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.repairCost">
+                        <label for="cost_repair">{{label.repairCost}}</label>
+                        <app-custom-input formControlName="repairCost" [type]="label.validationData?.amountValue.type"
+                            [id]="'cost_repair'" [className]="'form-control mandatory'" [placeholder]="'Cost of Repair'"
+                            [maxLength]="label.validationData?.amountValue.maxLength"
+                            [isRequired]="'Cost of Repair Required'" [isDirty]="isDirty">
+                        </app-custom-input>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.spareCost">
+                        <label for="cost_spares">{{label.spareCost}}</label>
+                        <app-custom-input formControlName="spareCost" [type]="label.validationData?.amountValue.type"
+                            [id]="'cost_spares'" [className]="'form-control mandatory'" [placeholder]="'Cost of Spares'"
+                            [maxLength]="label.validationData?.amountValue.maxLength"
+                            [isRequired]="'Cost of Spares Required'" [isDirty]="isDirty">
+                        </app-custom-input>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.totalCost">
+                        <label for="total_cost">{{label.totalCost}}</label>
+                        <app-custom-input formControlName="totalCost" [type]="label.validationData?.amountValue.type"
+                            [id]="'total_cost'" [className]="'form-control mandatory'" [placeholder]="'Total Cost'"
                             [isDisabled]="true">
+                        </app-custom-input>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.isAuthSvcCentre">
+                        <label for="is_auth">{{label.isAuthSvcCentre}}</label>
+                        <app-vf-custom-select [values]="vehicleLov?.isAuthSvcCentre" [id]="'is_auth'"
+                            formControlName="isAuthSvcCentre" [isRequired]="'Is Authorised Service Centre Required'"
+                            [isDirty]="isDirty">
+                        </app-vf-custom-select>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.svcCentreName">
+                        <label for="svc_centreName">{{label.svcCentreName}}</label>
+                        <app-custom-input formControlName="svcCentreName" [type]="label.validationData?.addressLine.type"
+                            [id]="'svc_centreName'" [className]="'form-control mandatory'"
+                            [placeholder]="'Service Centre Name'" [maxLength]="label.validationData?.addressLine.maxLength"
+                            [isRequired]="'Service Centre Name Required'" [isDirty]="isDirty">
                         </app-custom-input>
                     </div>
 

@@ -40,11 +40,15 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   roles: any = [];
   LOV: any = [];
   public label: any = {};
- 
+
   public childLoanCondition: any = {};
   public productCatoryCode: string;
   public Product: string;
-  public ProductId: string;
+  public assetProdutName: string;
+  public assetProductCode: string;
+
+  public productId: string;
+  public loanTypeArray: any = [];
 
   public leadDetails: any = {};
   public loanTenor: number = 0;
@@ -111,21 +115,30 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.leadId = leadData['leadId'];
     this.productCatoryCode = this.leadDetails['productCatCode'];
     this.loanTenor = this.leadDetails['reqTenure'];
-    this.ProductId = this.leadDetails['productId'];
+    this.assetProdutName = this.leadDetails['assetProdutName'];
+    this.assetProductCode = this.leadDetails['assetProductCode'];
+    this.isChildLoan = this.leadDetails['isChildLoan'];
 
-    console.log('Loan', leadData)
-
-    this.Product = 'FCLoan';
+    let ProductType = {}
 
     this.labelsData.getChildLoanConditionData().subscribe((child: any) => {
-      if (this.Product) {
-        this.childLoanCondition = child.childLoan.isRequired[this.Product];
-      }
-      console.log(this.childLoanCondition, 'child')
 
+      this.loanTypeArray = child.childLoan.isLoanType;
+
+      if (this.isChildLoan) {
+        ProductType = this.loanTypeArray.find((res: any) => res.key === this.assetProductCode)
+        if (ProductType) {
+          this.Product = ProductType['value'];
+          this.childLoanCondition = child.childLoan.isRequired[this.Product];
+        }
+      }
     })
 
-    this.eligibleLoanAmount = this.activedRoute.snapshot.params['eligibleLoanAmount'] ? this.activedRoute.snapshot.params['eligibleLoanAmount'] : 0;
+    if (this.activedRoute.snapshot.params['eligibleLoanAmount']) {
+      this.eligibleLoanAmount = this.activedRoute.snapshot.params['eligibleLoanAmount'] === null ? 0 : this.activedRoute.snapshot.params['eligibleLoanAmount'];
+    } else {
+      this.eligibleLoanAmount = 0;
+    }
 
     this.initForms();
     this.getLov();
@@ -250,6 +263,49 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     formArray.clear();
     this.roleType === 1 ? this.addSalesFormControls() : this.addCreditFormControls();
+    const details = formArray.at(0) as FormGroup;
+
+    if (this.isChildLoan) {
+      this.Product === 'FCLoan' ? this.addFCLoanControls(details) : this.Product === 'TopUp' ?
+        this.addTopUpControls(details) : this.Product === 'TyreLoan' ? this.addTyreLoanControls(details) :
+          this.Product === 'AccidentLoan' ? this.addAccidentLoanControls(details) : ''
+    }
+  }
+
+  addFCLoanControls(form) {
+    form.addControl('fcExpiryDate', new FormControl('', [Validators.required]));
+    form.addControl('fcAmount', new FormControl('', [Validators.required]));
+    form.addControl('taxDetails', new FormControl('', [Validators.required]));
+    form.addControl('taxBill', new FormControl('', [Validators.required]));
+    form.addControl('totalTaxBill', new FormControl('', [Validators.required]));
+  }
+
+  addTopUpControls(form) {
+    form.addControl('fcExpiryDate', new FormControl('', [Validators.required]));
+    form.addControl('onlineVerification', new FormControl('', [Validators.required]));
+    form.addControl('taxDetails', new FormControl('', [Validators.required]));
+    form.addControl('taxBill', new FormControl('', [Validators.required]));
+    form.addControl('totalTaxBill', new FormControl('', [Validators.required]));
+  }
+
+  addTyreLoanControls(form) {
+    form.addControl('tyreDealer', new FormControl('', [Validators.required]));
+    form.addControl('tyreManufacturer', new FormControl('', [Validators.required]));
+    form.addControl('noOfTyres', new FormControl('', [Validators.required]));
+    form.addControl('costPerTyre', new FormControl('', [Validators.required]));
+    form.addControl('marginAmount', new FormControl('', [Validators.required]));
+    form.addControl('tyreSpecification', new FormControl('', [Validators.required]));
+  }
+
+  addAccidentLoanControls(form) {
+    form.addControl('accidentDate', new FormControl('', [Validators.required]));
+    form.addControl('accidentType', new FormControl('', [Validators.required]));
+    form.addControl('firFiled', new FormControl('', [Validators.required]));
+    form.addControl('repairCost', new FormControl('', [Validators.required]));
+    form.addControl('spareCost', new FormControl('', [Validators.required]));
+    form.addControl('totalCost', new FormControl('', [Validators.required]));
+    form.addControl('isAuthSvcCentre', new FormControl('', [Validators.required]));
+    form.addControl('svcCentreName', new FormControl('', [Validators.required]));
   }
 
   getLov() {
