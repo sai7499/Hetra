@@ -503,8 +503,10 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           sampled: this.applicantDocuments[i].sampled ? this.applicantDocuments[i].sampled : '0',
         });
         if(this.roleType == '6'){
-          control[i].controls.sampled.disable()
-          control[i].controls.screened.enable()
+          // control[i].controls.sampled.disable()
+          // control[i].controls.screened.enable()
+          control[i].controls.screened.disable()
+          control[i].controls.sampled.enable()
         }
        
 
@@ -526,8 +528,10 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           sampled: this.collateralDocuments[i].sampled ? this.collateralDocuments[i].sampled : '0',
         });
         if(this.roleType == '6'){
-        control[i].controls.sampled.disable()
-        control[i].controls.screened.enable()
+        // control[i].controls.sampled.disable()
+        // control[i].controls.screened.enable()
+        control[i].controls.screened.disable()
+        control[i].controls.sampled.enable()
         }
       }
     }
@@ -547,8 +551,10 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           sampled: this.applicantDocuments[i].sampled ? this.applicantDocuments[i].sampled : '1',
         })
         if(this.roleType == '6'){
-        control[i].controls.screened.disable()
-        control[i].controls.sampled.enable()
+        // control[i].controls.screened.disable()
+        // control[i].controls.sampled.enable()
+        control[i].controls.sampled.disable()
+        control[i].controls.screened.enable()
         }
       }
     } 
@@ -570,8 +576,10 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           sampled: this.collateralDocuments[i].sampled ? this.collateralDocuments[i].sampled : '1',
         });
         if(this.roleType == '6'){
-        control[i].controls.screened.disable()
-        control[i].controls.sampled.enable()
+        // control[i].controls.screened.disable()
+        // control[i].controls.sampled.enable()
+        control[i].controls.sampled.disable()
+        control[i].controls.screened.enable()
         }
       }
     } 
@@ -590,8 +598,10 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           sampled: '0',
         });
         if(this.roleType == '6'){
-        control[i].controls.sampled.disable()
-        control[i].controls.screened.enable()
+        // control[i].controls.sampled.disable()
+        // control[i].controls.screened.enable()
+        control[i].controls.screened.disable()
+        control[i].controls.sampled.enable()
         }
       }
     } 
@@ -610,8 +620,10 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           sampled: '0',
         });
         if(this.roleType == '6'){
-        control[i].controls.sampled.disable()
-        control[i].controls.screened.enable()
+        // control[i].controls.sampled.disable()
+        // control[i].controls.screened.enable()
+        control[i].controls.screened.disable()
+        control[i].controls.sampled.enable()
         }
       }
     } 
@@ -630,8 +642,10 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           sampled: '1',
         });
         if(this.roleType == '6'){
-        control[i].controls.screened.disable()
-        control[i].controls.sampled.enable()
+        // control[i].controls.screened.disable()
+        // control[i].controls.sampled.enable()
+        control[i].controls.sampled.disable()
+        control[i].controls.screened.enable()
         }
       }
     } 
@@ -650,8 +664,10 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           sampled: '1',
         });
         if(this.roleType == '6'){
-        control[i].controls.screened.disable()
-        control[i].controls.sampled.enable()
+        // control[i].controls.screened.disable()
+        // control[i].controls.sampled.enable()
+        control[i].controls.sampled.disable()
+        control[i].controls.screened.enable()
         }
       }
     }
