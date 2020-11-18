@@ -2206,12 +2206,29 @@
                         </app-custom-input>
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.taxDetai">
-                        <label for="fc_amount">{{label.fcAmount}}</label>
-                        <app-custom-input formControlName="fcAmount" [type]="label.validationData?.amountValue.type"
-                            [id]="'fc_amount'" [className]="'form-control mandatory'" [placeholder]="'FC Amount'"
-                            [maxLength]="label.validationData?.amountValue.maxLength"
-                            [isRequired]="'FC Amount Required'" [isDirty]="isDirty">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.taxDetails">
+                        <label for="tax_details">{{label.taxDetails}}</label>
+
+                        <app-vf-custom-select [values]="vehicleLov?.taxDetails" [id]="'tax_details'"
+                            formControlName="taxDetails" [isRequired]="'Tax Details Required'" [isDirty]="isDirty">
+                        </app-vf-custom-select>
+
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.taxBill">
+                        <label for="tax_bill">{{label.taxBill}}</label>
+                        <app-custom-input formControlName="taxBill" [type]="label.validationData?.amountValue.type"
+                            [id]="'tax_bill'" [className]="'form-control mandatory'" [placeholder]="'Tax Bill'"
+                            [maxLength]="label.validationData?.amountValue.maxLength" [isRequired]="'Tax Bill Required'"
+                            [isDirty]="isDirty">
+                        </app-custom-input>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.totalTaxBill">
+                        <label for="tax_bill">{{label.totalTaxBill}}</label>
+                        <app-custom-input formControlName="totalTaxBill" [type]="label.validationData?.amountValue.type"
+                            [id]="'tax_bill'" [className]="'form-control mandatory'" [placeholder]="'Total Tax Bill'"
+                            [isDisabled]="true">
                         </app-custom-input>
                     </div>
 

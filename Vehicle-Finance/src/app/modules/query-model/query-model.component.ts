@@ -394,6 +394,11 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     return validDate
   }
   getleadIdvalue(value: string) {
+
+    if (value && value.length > 0) {
+      this.leadIdDeductValue = true;
+    }
+
     this.isLeadShow = (value === '') ? false : true;
     if (value.length >= 3) {
       this.getSearchableLead = this.queryLeads.filter(e => {
@@ -407,7 +412,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       });
     } else {
       this.isLeadShow = false;
-      this.leadIdDeductValue = false;
+      // this.leadIdDeductValue = false;
     }
   }
 
@@ -439,7 +444,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       });
     } else {
       this.dropDown = false;
-      this.queryToDeductValue = false;
+      // this.queryToDeductValue = false;
     }
   }
 
@@ -483,15 +488,12 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   getLead(lead) {
     this.isLeadShow = false;
     this.queryModalForm.patchValue({
-      leadId: Number(lead.key)
+      leadId: Number(lead.key),
+      searchLeadId: lead.value
     })
     if (this.queryModalForm.value.leadId) {
       this.getLeadSectionData(this.queryModalForm.value.leadId)
     }
-    // this.searchLeadId = lead.value;
-    this.queryModalForm.patchValue({
-      searchLeadId: lead.value
-      })
     this.getUsers()
     this.isleadIdshowError = false;
     this.leadIdDeductValue = true;

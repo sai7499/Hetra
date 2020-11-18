@@ -51,7 +51,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   @Input() isDirty: boolean;
   isDisabled: boolean = true;
-  isChildLoan: boolean = true;
+  isChildLoan: boolean = false;
 
   public minDate = new Date(new Date().setFullYear(new Date().getFullYear() - 15))
   public isInvalidMobileNumber: boolean;
@@ -111,7 +111,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.leadId = leadData['leadId'];
     this.productCatoryCode = this.leadDetails['productCatCode'];
     this.loanTenor = this.leadDetails['reqTenure'];
-    this.ProductId = this.leadDetails['productId']
+    this.ProductId = this.leadDetails['productId'];
+
+    console.log('Loan', leadData)
 
     this.Product = 'FCLoan';
 
