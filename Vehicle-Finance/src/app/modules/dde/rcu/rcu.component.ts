@@ -183,9 +183,9 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
     } else {
       let todayDate = this.today;
       // return todayDate
-
-      return todayDate;
       console.log(todayDate);
+      return todayDate;
+      
     }
   }
   showDocuments(check) {
