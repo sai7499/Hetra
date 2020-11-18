@@ -3,7 +3,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { CpcRolesService } from '@services/cpc-roles.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToasterService } from '@services/toaster.service';
-import { FormBuilder, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormArray, Validators, FormGroup } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
 import { HttpService } from '@services/http.service';
 import { PdcServiceService } from '@services/pdc-service.service';
@@ -107,7 +107,7 @@ export class PdcDetailsComponent implements OnInit {
     return this.fb.group({
       pdcId: [null],
       // instrType: [null, Validators.required],
-      emiAmount: [this.negotiatedEmi, Validators.required],
+      emiAmount: [{value: this.negotiatedEmi, disabled: true}, Validators.required ],
       instrNo: [null, Validators.required],
       instrDate: [null, Validators.required],
       instrBankName: [null, Validators.required],
@@ -120,7 +120,7 @@ export class PdcDetailsComponent implements OnInit {
     return this.fb.group({
       pdcId: [null],
       // instrType: [null, Validators.required],
-      emiAmount: [this.negotiatedEmi],
+      emiAmount: [{value: this.negotiatedEmi, disabled: true}],
       instrNo: [null],
       instrDate: [null],
       instrBankName: [null, Validators.required],
