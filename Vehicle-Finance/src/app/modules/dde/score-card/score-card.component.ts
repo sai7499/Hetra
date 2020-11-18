@@ -3,6 +3,7 @@ import { ScoreCardService } from '../services/score-card.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { LabelsService } from 'src/app/services/labels.service';
 
 @Component({
     templateUrl: './score-card.component.html',
@@ -10,6 +11,7 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 })
 export class ScoreCardComponent implements OnInit {
 
+    labels: any = {};
     borrowerAttributes: any;
     borrowerAttributesLength: number;
     borrowerAssessments: any;
@@ -25,12 +27,16 @@ export class ScoreCardComponent implements OnInit {
     riskLevel: number;
     risk: string;
 
+    result = [];
+
     constructor(
+        private labelsData: LabelsService,
         private scoreCardService: ScoreCardService,
         private loginStoreService: LoginStoreService,
         private createLeadDataService: CreateLeadDataService,
         private toggleDdeService: ToggleDdeService
     ) { }
+
 
     ngOnInit() {
         const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -44,9 +50,20 @@ export class ScoreCardComponent implements OnInit {
         if (operationType) {
             this.disableSaveBtn = true;
         }
+
+        this.labelsData.getLabelsData().subscribe(
+            (data) => {
+                this.labels = data;
+            },
+            (error) => {
+                console.log(error);
+            }
+        );
+
     }
 
     reInitiateCreditScore() {
+        this.result = [];
         this.scoreCardService.reInitiateCreditScore(this.leadId, this.userId).subscribe((res: any) => {
             const response = res;
             const appiyoError = response.Error;
@@ -67,11 +84,30 @@ export class ScoreCardComponent implements OnInit {
                 this.fieldVerificationsLength = this.borrowerAttributes.length +
                     this.borrowerAssessments.length +
                     this.fieldVerifications.length + 1;
+
+
+                // this.scoreCard = JSON.parse(response.ProcessVariables.scoreCard);
+                this.riskLevel = this.scoreCard.totalScore;
             }
+            // this.insertRow(this.scoreCard);
             this.levelOfRisk(this.riskLevel);
         });
 
     }
+
+    insertRow(obj) {
+        for (const key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                if (typeof obj[key] === 'object') {
+                    if (!Array.isArray(obj[key])) {
+                        this.result.push(obj[key]);
+                    }
+                    this.insertRow(obj[key]);
+                }
+            }
+        }
+    }
+
     levelOfRisk(riskLevel: number) {
         if (riskLevel <= 50) {
             this.risk = 'Higest Risk';

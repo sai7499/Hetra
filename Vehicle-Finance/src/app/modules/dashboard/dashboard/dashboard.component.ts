@@ -1,21 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DashboardService } from '@services/dashboard/dashboard.service';
-import { LoginService } from '../../login/login/login.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UtilityService } from '@services/utility.service';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
-import { Router } from '@angular/router';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
-import { NumberFormatStyle, Location } from '@angular/common';
-import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
+import { Location } from '@angular/common';
 import { environment } from 'src/environments/environment';
-import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
+import { debounceTime, retry, share, switchMap } from 'rxjs/operators';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { QueryModelService } from '@services/query-model.service';
+import { Router, ActivatedRoute } from '@angular/router';
+
+import { PollingService } from '@services/polling.service';
+import { timer } from 'rxjs';
+import { LeadHistoryService } from '@services/lead-history.service';
+import { CommonDataService } from '@services/common-data.service';
 
 export enum DisplayTabs {
   Leads,
@@ -61,7 +64,13 @@ export enum DisplayTabs {
   PDDWithMe,
   PDDWithBranch,
   ReversedLeadsWithMe,
-  ReversedLeadsWithBranch
+  ReversedLeadsWithBranch,
+  RCU,
+  RCUWithMe,
+  RCUWithBranch,
+  CPCCAD,
+  CPCCADWithMe,
+  CPCCADWithBranch
 }
 
 export enum sortingTables {
@@ -77,7 +86,18 @@ export enum sortingTables {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
+  roleList = [
+    'USER 1',
+    'USER 2',
+    'USER 3',
+    'USER 4',
+    'USER 5',
+    'USER 6',
+  ];
+
+  roleFilter = new FormControl(this.roleList);
+  supervisorForm: FormGroup
   filterForm: FormGroup;
   showFilter;
   roleType;
@@ -133,44 +153,64 @@ export class DashboardComponent implements OnInit {
   // Query Model
   leadCount: number = 0;
   userId: string;
+  intervalId: any;
+  isIntervalId: boolean = false;
+  subscription: any;
 
   displayTabs = DisplayTabs;
   sortTables = sortingTables;
   endDateChange: string;
   disbFromDate: any;
   disbToDate: string;
+  supervisor: boolean;
+  userName: any;
+  reAssignData: any;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
     private fb: FormBuilder,
     private dashboardService: DashboardService,
-    private loginService: LoginService,
     private loginStoreService: LoginStoreService,
     private labelService: LabelsService,
     private utilityService: UtilityService,
-    private labelsData: LabelsService,
     private vehicleDataStoreService: VehicleDataStoreService,
     private router: Router,
+    private aRoute: ActivatedRoute,
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService,
     private sharedService: SharedService,
     private toggleDdeService: ToggleDdeService,
     private location: Location,
-    private queryModelService: QueryModelService
+    private pollingService: PollingService,
+    private queryModelService: QueryModelService,
+    private leadHistoryService: LeadHistoryService,
+    private commonDataService: CommonDataService
   ) {
     if (environment.isMobile === true) {
       this.itemsPerPage = '5';
     } else {
       this.itemsPerPage = '25';
     }
-    // if (window.screen.width > 768) {
-    //   this.itemsPerPage = '25';
-    // } else if (window.screen.width <= 768) {
-    //   this.itemsPerPage = '5';
-    // }
+
+    this.leadId = this.aRoute.snapshot.params['leadId'];
+
   }
 
   ngOnInit() {
+
+    this.supervisorForm = this.fb.group({
+      roles: ['']
+    })
+
+    if (this.router.url === "/pages/supervisor/dashboard") {
+      this.supervisor = true;
+    } else {
+      this.supervisor = false;
+    }
+
+    this.sharedService.userName$.subscribe((value) => {
+      this.userName = value;
+    })
 
     this.userId = localStorage.getItem('userId')
 
@@ -189,7 +229,6 @@ export class DashboardComponent implements OnInit {
     if (this.dashboardService.routingData) {
       this.activeTab = this.dashboardService.routingData.activeTab;
       this.subActiveTab = this.dashboardService.routingData.subActiveTab;
-      // console.log('active', this.activeTab, 'sub-active', this.subActiveTab);
 
       this.onTabsLoading(this.subActiveTab);
     } else {
@@ -211,6 +250,14 @@ export class DashboardComponent implements OnInit {
         this.subActiveTab = 34;
         this.onTabsLoading(this.subActiveTab);
         this.onLeads(this.displayTabs.CPCChecker, this.displayTabs.CPCCheckerWithMe, 'CPC');
+      } else if (this.roleType === 6) {
+        this.activeTab = 44;
+        this.subActiveTab = 45;
+        this.onTabsLoading(this.subActiveTab);
+      } else if(this.roleType === 7) {
+        this.activeTab = 47;
+        this.subActiveTab = 48;
+        this.onTabsLoading(this.subActiveTab);
       }
     }
 
@@ -245,22 +292,46 @@ export class DashboardComponent implements OnInit {
     }
 
     this.getCountAcrossLeads(this.userId)
- 
 
+    setTimeout(() => {
+      if (currentUrl.includes('dashboard') && this.isIntervalId) {
+        this.intervalId = this.getPollCount()
+      } else {
+        clearInterval(this.intervalId)
+      }
+    }, 300000)
+
+  }
+
+  getPollCount() {
+    return setInterval(() => {
+      this.pollingService.getPollingLeadCount(this.userId).subscribe((res: any) => {
+        console.log('Polling request')
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          this.leadCount = res.ProcessVariables.leadCount ? res.ProcessVariables.leadCount : 0;
+        } else {
+          clearInterval(this.intervalId)
+        }
+      })
+    }, 300000)
   }
 
   getCountAcrossLeads(userId) {
 
     this.queryModelService.getCountAcrossLeads(userId).subscribe((res: any) => {
-      console.log(res, 'res')
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.leadCount = res.ProcessVariables.leadCount ? res.ProcessVariables.leadCount : 0;
+        this.isIntervalId = true;
       } else {
-        this.leadCount = 0
+        this.leadCount = 0;
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Count Across Leads')
       }
     })
 
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.intervalId)
   }
 
   initinequery() {
@@ -394,7 +465,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onFromDateChange() {
-    if(!this.displayTabs.PDD && !this.displayTabs.PDDforCPC) {
+    if (!this.displayTabs.PDD && !this.displayTabs.PDDforCPC) {
 
     }
     this.filterForm.get('fromDate').valueChanges.pipe(debounceTime(0)).subscribe((data) => {
@@ -442,12 +513,12 @@ export class DashboardComponent implements OnInit {
         break;
     }
     switch (data) {
-      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42:
+      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45: case 48: 
         this.onAssignTab = false;
         this.onReleaseTab = true;
         this.myLeads = true;
         break;
-      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43:
+      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49:
         this.onAssignTab = true;
         this.onReleaseTab = false;
         this.myLeads = false;
@@ -514,8 +585,16 @@ export class DashboardComponent implements OnInit {
         this.taskName = 'CPC-PDD';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
-        case 42: case 43:
+      case 42: case 43:
         this.taskName = 'Send Back To Sales';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
+        break;
+      case 45: case 46:
+        this.taskName = 'RCU';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
+        break;
+      case 48: case 49:
+        this.taskName = 'CPC-CAD';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       default:
@@ -776,7 +855,7 @@ export class DashboardComponent implements OnInit {
         this.router.navigateByUrl(`/pages/pdd/${this.leadId}`);
         break;
       case 17:
-        this.router.navigateByUrl(`/pages/dde/${this.leadId}/cheque-tracking`);
+        this.router.navigateByUrl(`/pages/cheque-tracking/${this.leadId}`);
         break;
 
       default:
@@ -831,8 +910,14 @@ export class DashboardComponent implements OnInit {
       case 40: case 41:
         this.router.navigateByUrl(`/pages/pdd/${this.leadId}`);
         break;
-        case 42: case 43:
-          this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
+      case 42: case 43:
+        this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
+        break;
+      case 45: case 46:
+        this.router.navigateByUrl(`/pages/dde/${this.leadId}/rcu`);
+        break;
+        case 48: case 49:
+        this.router.navigateByUrl(`/pages/cpc-maker/${this.leadId}/term-sheet`);
         break;
 
       default:
@@ -881,7 +966,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  onRelase(taskId, leadId) {
+  onRelase(taskId?, leadId?) {
     this.isRelease = true;
     this.isClaim = false;
     this.leadId = leadId;
@@ -900,7 +985,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  onAssign(taskId, leadId) {
+  onAssign(taskId?, leadId?) {
     this.isClaim = true;
     this.isRelease = false;
     this.leadId = leadId;
@@ -919,6 +1004,29 @@ export class DashboardComponent implements OnInit {
         this.toasterService.showError(response.Error, '');
       }
     });
+  }
+
+  onSupervisorAssign() {
+    this.onAssign();
+  }
+  getReAssignData(item) {
+    this.reAssignData = item;
+    console.log(this.reAssignData);
+
+  }
+  onReAssign() {
+    const data = {
+      // userId: ,
+      taskId: this.reAssignData.taskId,
+      userId: this.supervisorForm.value
+    };
+    console.log(data);
+    this.taskDashboard.releaseTask(data).subscribe((res: any) => {
+      console.log(res);
+    })
+
+    console.log(this.supervisorForm.value);
+
   }
 
   saveTaskLogs() {
@@ -955,5 +1063,25 @@ export class DashboardComponent implements OnInit {
     this.sharedService.getTaskID(item.taskId);
     this.sharedService.setProductCatCode(item.productCatCode);
     this.sharedService.setProductCatName(item.productCatName);
+  }
+
+  onLeadHistory(leadId) {
+    this.leadHistoryService.leadHistoryApi(leadId)
+      .subscribe(
+        (res: any) => {
+          const response = res;
+          const appiyoError = response.Error;
+          const apiError = response.ProcessVariables.error.code;
+
+          if (appiyoError === '0' && apiError === '0') {
+            const leadHistoryData = response;
+            console.log('leadHistoryData', leadHistoryData);
+            this.commonDataService.shareLeadHistoryData(leadHistoryData);
+          } else {
+            const message = response.ProcessVariables.error.message;
+            this.toasterService.showError(message, 'Lead Creation');
+          }
+        }
+      );
   }
 }

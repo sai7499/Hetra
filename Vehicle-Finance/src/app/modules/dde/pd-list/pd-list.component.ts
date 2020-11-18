@@ -86,6 +86,8 @@ export class PdListComponent implements OnInit {
       this.pdList = processvariables.finalPDList;
 
       for (var i in this.pdList) {
+
+        console.log('pd status value',this.pdList[i]['pdStatusValue']);
         this.pdStatusValue = this.pdList[i]['pdStatusValue']
         if (this.pdList[i]['pdStatusValue'] == "Submitted") {
           this.pdStatus[this.pdList[i]['applicantId']] = this.pdList[i]['pdStatusValue']
@@ -178,7 +180,7 @@ export class PdListComponent implements OnInit {
       this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
       // this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
     } else if (this.fiCumPdStatus == true) {
-      this.router.navigate(['pages/dde/' + this.leadId + '/tvr-details']);
+      this.router.navigate(['pages/dde/' + this.leadId + '/rcu']);
 
     }
 

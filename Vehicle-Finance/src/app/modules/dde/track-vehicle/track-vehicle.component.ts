@@ -12,6 +12,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ToasterService } from '@services/toaster.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { debounceTime } from 'rxjs/operators';
 
 
 @Component({
@@ -236,6 +237,7 @@ export class TrackVehicleComponent implements OnInit {
     // this.loanEmiDate = this.trackVehicleForm.controls['loanStartDate'].value;
     this.noOfEmi = this.trackVehicleForm.controls['emisPaid'].value;
 
+    this.onChangeLoanStartDate();
 
   }
   checkFinanceCharge() {
@@ -292,7 +294,9 @@ export class TrackVehicleComponent implements OnInit {
         break;
       case 'emiStartDateModal': {
         this.showEmiStartDateModal = false;
-        this.trackVehicleForm.controls['emiStartDate'].patchValue(this.fleetDetails['emiStartDate'])
+        // this.trackVehicleForm.controls['emiStartDate'].patchValue(this.fleetDetails['emiStartDate'])
+        this.trackVehicleForm.controls['emiStartDate'].patchValue(null)
+
       }
       default: { }
 
@@ -348,12 +352,19 @@ export class TrackVehicleComponent implements OnInit {
           this.fleetRtrDetails[i].dueDate = addDueDate;
           if (this.fleetRtrDetails[i]['receivedDate'] != "") {
             this.fleetRtrDetails[i].delayDays = this.dateDiff(this.fleetRtrDetails[i].dueDate, this.fleetRtrDetails[i]['receivedDate']);
+          } else {
+            this.fleetRtrDetails[i]['receivedDate'] = this.addingReceviedDate();
           }
           this.formArr.push(this.initRows(this.fleetRtrDetails[i]));
         }
         else {
           let addDueDate2 = this.addMonth(addDueDate, i)
           this.fleetRtrDetails[i].dueDate = addDueDate2;
+          if (this.fleetRtrDetails[i]['receivedDate'] != "") {
+            this.fleetRtrDetails[i].delayDays = this.dateDiff(this.fleetRtrDetails[i].dueDate, this.fleetRtrDetails[i]['receivedDate']);
+          } else {
+            this.fleetRtrDetails[i]['receivedDate'] = this.addingReceviedDate();
+          }
           this.fleetRtrDetails[i].delayDays = this.dateDiff(this.fleetRtrDetails[i].dueDate, this.fleetRtrDetails[i]['receivedDate']);
           this.focusedDate.push(addDueDate2)
           this.addNewRow(this.fleetRtrDetails[i]);
@@ -510,6 +521,15 @@ export class TrackVehicleComponent implements OnInit {
   get f() { return this.trackVehicleForm.controls; }
   setMinEmiStartDate(event) {
     this.minEmiStartDate = event;
+  }
+  onChangeLoanStartDate() {
+    this.trackVehicleForm.controls['loanStartDate'].valueChanges.pipe(debounceTime(0)).subscribe((data) => {
+      if( data && this.trackVehicleForm.controls['loanStartDate'].dirty) {
+        // if(!this.fleetDetails && this.trackVehicleForm.controls['loanStartDate'].valueChanges) {
+        this.trackVehicleForm.controls['emiStartDate'].setValue(null);
+
+      }
+    })
   }
   getFleetRtr(fleetId) {
     this.trackVechileService.getFleetRtr(fleetId).subscribe((res) => {
@@ -695,7 +715,12 @@ export class TrackVehicleComponent implements OnInit {
   }
 
   addingReceviedDate() {
-    let matureDate = this.trackVehicleForm.value['loanMaturityDate'];
+    let matureDate;
+    if(this.trackVehicleForm.value['loanMaturityDate']) {
+     matureDate = this.trackVehicleForm.value['loanMaturityDate'];
+    } else {
+      matureDate = new Date();
+    }
     let currentDate = new Date();
     if (matureDate > currentDate) {
       return currentDate

@@ -99,7 +99,9 @@ export class FiListComponent implements OnInit {
       console.log('fi List', this.fiList);
 
       for (var i in this.fiList) {
-        this.fiStatusValue = this.fiList[i]['fiStatus']
+        if (this.fiList[i]['fiStatus']!= null) {
+          this.fiStatusValue = this.fiList[i]['fiStatus']
+        }
 
         if (this.fiList[i]['fiStatusValue'] == "Submitted") {
           this.fiStatus[this.fiList[i]['applicantId']] = this.fiList[i]['fiStatusValue']
@@ -162,7 +164,7 @@ export class FiListComponent implements OnInit {
     // console.log('in on navigate', action);
 
     if (action === 'back') {
-      this.router.navigate(['pages/dde/' + this.leadId + '/tvr-details']);
+      this.router.navigate(['pages/dde/' + this.leadId + '/rcu']);
     } else if (action === 'next') {
       this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
 

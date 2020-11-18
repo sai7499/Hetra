@@ -1,0 +1,239 @@
+.od-row{
+    margin-left: -15px;
+    margin-right: -15px;
+    
+  }
+  .pl{
+      padding: 7px 0px 0px 75px;
+  }
+  .pl-top{
+      padding-top: 7px;
+  }
+  .panel-body>.p-0{
+      padding: 0% !important;
+  }
+  .app-doc{
+      margin-top: 30px;
+      margin-bottom: 30px;
+  }
+  .rcuStatus{
+      text-align: right;
+  }
+  .file-input {
+    border: none;
+    border-bottom: 2px solid #0e25c7;
+    border-radius: 0px;
+}
+
+.file-input:read-only {
+    background-color: #fff;
+}
+
+.file-input:hover {
+    cursor: pointer;
+    font-size: 16px;
+}
+  .sampled{
+    margin: 0px 16px 0px 0px;
+    width: fit-content;
+  }
+  .fitWidth{
+    width: fit-content;
+
+  }
+  .nav>li>a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+}
+
+.nav-pills>li>a {
+    border: 1px solid #5f3232 !important;
+}
+.btn_div {
+    color: #fff;
+    background-color: #272264;
+    background-image: none;
+    border-color: #272264; 
+}
+
+/* .btn-primary:active, .btn-primary.active:hover{
+    color: #fff;
+    background-color: #272264;
+    background-image: none;
+    border-color: #272264;
+    outline: none;
+} */
+.hetra-tabs>.btn-primary{
+    border: 1px solid #272264;
+    background-color: #fff;
+    color: #0f0d25;
+    outline: none;
+}
+.hetra-tabs>.active {
+    border: 1px solid #272264;
+    background-color: #272264;
+    color: #fff;
+    outline: none;
+}
+.textTrans{
+    text-transform: uppercase;
+}
+.file-upload{
+    border: none;
+    border-radius: 0px;
+position: relative;
+
+}
+/* 
+
+.btn_div {
+    color: #272264;
+    background-color: #dddddd;
+} */
+/* .btn-primary{
+    color: #272264;
+    background-color: #dddddd;
+    background-image: none;
+    border-color: #272264;
+} */
+.showApplicant>a{
+    color: #fff!important;
+    background-color: #1d1a4b;
+}
+.mar-bottom {
+    margin-bottom: 20px;
+}
+
+.nav>li>a:hover {
+    text-decoration: none;
+    /* background-color: #eee; */
+    cursor: pointer;
+}
+.col-sm-7.text-right.mb-low{margin-top:15px !important;}
+.cam-title{margin-top:0px !important;}
+.row.top_bar {
+    /* padding: 0px; */
+}
+.form-group.mb-0 {
+    margin-bottom: 0px;
+}
+.table.mb-0 {
+    margin-bottom: 0px;
+}
+td{border:1px solid #b9b6b675;}
+th{border:1px solid #d6d0d0f5;}
+.readonly {
+    background: #ddd;
+    text-align: center;
+}
+.bank_name {
+    background-color: #d3d3d64d;
+}
+.termHead {
+    padding:5px 0px 5px 0; 
+}
+
+.col-sm-7.text-right.mb-low_other{margin-top:80px !important;}
+#cam_recommendation {
+    word-wrap: break-word;
+}
+.recommondation{font-size:14px;color:#272264;font-weight:bold;}
+.col-sm-7.text-right.Recommendation {
+    margin-bottom: 30PX;
+}
+.fixed-btn {
+            position: fixed;
+            position: fixed;
+            top: 300px;
+            right: -12px;
+            height: 100px;
+            z-index: 999;
+        }
+
+/***PDF DESIGN***/
+.navbar-brand img {
+    /* max-width: 70px !important; */
+}
+.caption{
+	color: #fff;
+text-align: center;
+border: 1px solid #ddd;
+background-color: #272264;
+padding: 1px;
+font-size: 16px;
+}
+.cam_table{width:100%;}
+.cam_table_proposed{width:100%;margin-top:0px;}
+.cam_table > tbody > tr > td {padding:1px;width:16.6%;}
+.cam_table_proposed > tbody > tr > td {padding:1px;}
+.cam_table.mt-3{margin-top:0px;}
+.cam_table > tbody > tr > td:nth-child(odd) { background-color : #f7f7f7; }
+.for_space{height:100px;}
+.credit_officer{width:100%;}
+.for_100{width:100% !important;}
+
+@media print {
+ .navbar-brand img {
+    max-width: 70px !important;
+}
+.navbar.navbar-default.navbar-fixed-top{display:none !important;}
+.caption{
+	color: #fff;
+text-align: center;
+border: 1px solid #ddd;
+background-color: #272264;
+padding: 1px;
+font-size: 16px;
+}
+/* #page_break .caption{
+	color: #fff;
+text-align: center;
+border: 1px solid #ddd;
+background-color: #272264;
+padding: 1px;
+font-size: 16px;
+} */
+.cam_table{width:100%;}
+.cam_table_proposed{width:100%;margin-top:0px;}
+.cam_table > tbody > tr > td {padding:1px;width:16.6%;}
+.cam_table_proposed > tbody > tr > td {padding:1px;}
+.cam_table.mt-3{margin-top:0px;}
+.cam_table > tbody > tr > td:nth-child(odd) { background-color : #f7f7f7; }
+.for_space{height:100px;}
+.credit_officer{width:100%;}
+.for_100{width:100% !important;}
+.footer{display:none;}
+}
+.btn-sec{
+    padding: 0px 0 30px 0;
+}
+.btn-sec .btn {
+    margin: 10px 4px;
+}
+.textKey{
+    padding: 35px 0px;
+}
+
+.mar-bot-btn{
+    margin-bottom: 25px;
+}
+.dispNone{
+display: none;
+}
+.errText{
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+.errHead h3{
+    text-align: center;
+    font-size: 18px;
+    color: #0e0d25;
+}
+.terms{
+    margin-top: 10px;
+}
+.fa.fa-inr{
+    color:#333332b3 ;
+}

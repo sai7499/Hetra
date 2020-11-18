@@ -18,6 +18,7 @@ import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 import { debounce } from 'rxjs/operators';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
+import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 
 @Component({
   selector: 'app-sourcing-details',
@@ -172,7 +173,8 @@ export class SourcingDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private toasterService: ToasterService,
     private toggleDdeService: ToggleDdeService,
-    private objectComparisonService: ObjectComparisonService
+    private objectComparisonService: ObjectComparisonService, 
+    private applicantDataStoreService : ApplicantDataStoreService
   ) {
     this.sourcingCodeObject = {
       key: '',
@@ -243,6 +245,8 @@ export class SourcingDetailsComponent implements OnInit {
 
     this.leadSectionData = this.createLeadDataService.getLeadSectionData();
     console.log('leadSectionData Lead details', this.leadSectionData);
+    const applicantList= this.leadSectionData.applicantDetails
+    this.applicantDataStoreService.setApplicantList(applicantList)
     this.leadData = { ...this.leadSectionData };
     const data = this.leadData;
 
@@ -486,7 +490,7 @@ export class SourcingDetailsComponent implements OnInit {
       this.sourcingDetailsForm.controls['dealerCode'].setValidators(Validators.required);
       this.sourcingDetailsForm.controls['dealerCode'].updateValueAndValidity();
       // this.isDealerCode = true;
-      this.isDealerCode = this.isDealorCode ? false : true;
+      this.isDealerCode = this.dealorCodeKey ? false : true;
     } else {
       this.sourcingDetailsForm.controls['dealerCode'].setValidators([]);
       this.sourcingDetailsForm.controls['dealerCode'].updateValueAndValidity();
@@ -657,13 +661,16 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   saveAndUpdate() {
+    let dealer : boolean;
     const formValue = this.sourcingDetailsForm.getRawValue();
-    console.log(
-      'this.sourcingDetailsForm.value',
-      this.sourcingDetailsForm.valid
-    );
+    console.log('this.sourcingDetailsForm.value', this.sourcingDetailsForm.valid);
+    if (this.sourchingTypeId === '2SOURTYP') {
+      dealer = (this.dealorCodeKey) ? true : false;
+    } else {
+      dealer = true;
+    }
     this.isDirty = true;
-    if (this.sourcingDetailsForm.valid === true && this.isSourceCode && this.isDealorCode) {
+    if (this.sourcingDetailsForm.valid === true && this.isSourceCode && dealer) {
       const saveAndUpdate: any = { ...formValue };
       console.log(formValue, 'FormValue');
       this.saveUpdate = {

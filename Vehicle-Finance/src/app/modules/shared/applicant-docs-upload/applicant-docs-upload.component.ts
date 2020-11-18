@@ -227,7 +227,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
         const category = categories.find((category) => {
           return category.code === Number(code);
         });
-        this.categories.push(category);
+        if (category) {
+            this.categories.push(category);
+          }
       }
     });
     console.log('this.categories', this.categories);
@@ -931,7 +933,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
       return this.toasterService.showError('Please fill mandatory fields', '');
     }
     this.docError = {};
-    const formValue = this.uploadForm.value;
+    const formValue = this.uploadForm.getRawValue();
     const requestArr = [];
     let isDocNumberError = false;
     for (const key in formValue) {

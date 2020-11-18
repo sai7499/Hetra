@@ -42,6 +42,10 @@ const routes: Routes = [
     },
     children: [
       {
+        path: 'cheque-tracking',
+        loadChildren: () => import('./modules/cheque-tracking/cheque-tracking.module').then((m) => m.ChequeTrackingModule)
+      },
+      {
         path: 'lead-creation',
         loadChildren: () =>
           import('./modules/lead-creation/lead-creation.module').then(
@@ -85,6 +89,15 @@ const routes: Routes = [
       },
       {
         path: 'dashboard',
+        loadChildren: () =>
+          import('./modules/dashboard/dashboard.module').then(
+            (m) => m.DashboardModule
+          ),
+        // canDeactivate: [can]
+
+      },
+      {
+        path: 'supervisor/dashboard',
         loadChildren: () =>
           import('./modules/dashboard/dashboard.module').then(
             (m) => m.DashboardModule

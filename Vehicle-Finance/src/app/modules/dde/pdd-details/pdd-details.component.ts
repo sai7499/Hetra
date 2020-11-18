@@ -124,11 +124,15 @@ export class PddDetailsComponent implements OnInit {
     }
     this.pddDetailsService.getPddDetails(data).subscribe((res: any) => {
       this.applicantResponse = res.ProcessVariables.pddDocumentDetails;
+      console.log(this.applicantResponse);
+      
       let childgroups = []
       if(this.applicantResponse && this.applicantResponse.length > 0 ){
         for (let i = 0; i < this.applicantResponse.length; i++) {
           childgroups.push(this.getpddDocumentDetails(this.applicantResponse[i]));
         }
+        console.log(childgroups);
+        
         this.pddDetailsForm = this.formBuilder.group({
           pddDocumentDetails: this.formBuilder.array(childgroups),
         })

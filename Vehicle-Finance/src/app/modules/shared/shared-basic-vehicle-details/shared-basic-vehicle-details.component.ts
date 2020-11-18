@@ -269,38 +269,49 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       isVaildFinalAssetCost: true
     })
 
-    if (this.productCatoryCode === 'NCV' || this.productCatoryCode === 'NC') {
-      let exShowRoomCost = form.controls.exShowRoomCost.value ? Number(form.controls.exShowRoomCost.value) : 0
+    if (this.roleType !== 1 && this.productCatoryCode === 'NCV' || this.productCatoryCode === 'NC') {
+      let exShowRoomCost = form.controls.exShowRoomCost.value ? Number(form.controls.exShowRoomCost.value) : 0;
       let insurance = form.controls.insurance.value ? Number(form.controls.insurance.value) : 0;
       let oneTimeTax = form.controls.oneTimeTax.value ? Number(form.controls.oneTimeTax.value) : 0;
       let others = form.controls.others ? Number(form.controls.others.value) : 0;
       let discount = form.controls.discount.value ? Number(form.controls.discount.value) : 0;
-  
+      let amcAmount = form.controls.amcAmount.value ? Number(form.controls.amcAmount.value) : 0;
+
       if (value === '1') {
-  
+
         form.get('insurance').enable();
         form.get('insurance').setValidators(Validators.required);
         form.get('insurance').updateValueAndValidity();
-  
+
         form.get('oneTimeTax').enable();
         form.get('oneTimeTax').setValidators([Validators.required]);
         form.get('oneTimeTax').updateValueAndValidity();
-  
+
         form.get('others').enable();
         form.get('others').setValidators([Validators.required]);
         form.get('others').updateValueAndValidity();
-  
+
+        form.get('amcAmount').enable();
+        form.get('amcAmount').setValidators([Validators.required]);
+        form.get('amcAmount').updateValueAndValidity();
+
         form.get('discount').enable();
         form.get('discount').setValidators([Validators.required]);
-        form.get('discount').updateValueAndValidity()
-  
+        form.get('discount').updateValueAndValidity();
+
+        form.get('insurance').setValue(insurance === 0 ? null : insurance);
+        form.get('oneTimeTax').setValue(oneTimeTax === 0 ? null : oneTimeTax);
+        form.get('others').setValue(others === 0 ? null : others);
+        form.get('amcAmount').setValue(amcAmount === 0 ? null : amcAmount);
+        form.get('discount').setValue(discount === 0 ? null : discount);
+
         if (exShowRoomCost >= discount) {
-          let costValue = (exShowRoomCost + insurance + oneTimeTax + others) - discount;
+          let costValue = (exShowRoomCost + insurance + oneTimeTax + others + amcAmount) - discount;
           this.onPatchFinalAssetCost(costValue)
           this.basicVehicleForm.patchValue({
             isVaildFinalAssetCost: true
           })
-  
+
         } else {
           setTimeout(() => {
             this.basicVehicleForm.patchValue({
@@ -311,19 +322,22 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         }
       } else {
         setTimeout(() => {
-  
+
           form.get('insurance').disable();
           form.get('insurance').setValue(insurance === 0 ? null : insurance);
-          
+
           form.get('oneTimeTax').disable();
           form.get('oneTimeTax').setValue(oneTimeTax === 0 ? null : oneTimeTax);
-  
+
           form.get('others').disable();
           form.get('others').setValue(others === 0 ? null : others);
-  
+
+          form.get('amcAmount').disable();
+          form.get('amcAmount').setValue(amcAmount === 0 ? null : amcAmount);
+
           form.get('discount').disable();
           form.get('discount').setValue(discount === 0 ? null : discount);
-  
+
         })
         this.onPatchFinalAssetCost(form.controls.exShowRoomCost.value)
         this.basicVehicleForm.patchValue({
@@ -376,7 +390,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get A Vehicle Collateral Details')
       }
     })
-
 
   }
 
@@ -439,6 +452,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       oneTimeTax: VehicleDetail.oneTimeTax || '',
       orpValue: VehicleDetail.orpValue || '',
       others: VehicleDetail.others || '',
+      amcAmount: VehicleDetail.amcAmount || '',
       loanAmount: VehicleDetail.loanAmount ? VehicleDetail.loanAmount : this.eligibleLoanAmount || 0,
       bodyCost: VehicleDetail.bodyCost || null,
       pac: VehicleDetail.pac || '',
@@ -468,7 +482,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       ownerMobileNo: VehicleDetail.ownerMobileNo || null,
       address: VehicleDetail.address || '',
       pincode: VehicleDetail.pincode || null,
-      expectedNOCDate:  VehicleDetail.expectedNOCDate ? this.utilityService.getDateFromString(VehicleDetail.expectedNOCDate) : '',
+      expectedNOCDate: VehicleDetail.expectedNOCDate ? this.utilityService.getDateFromString(VehicleDetail.expectedNOCDate) : '',
       vehicleUsage: VehicleDetail.vehicleUsage,
       ageAfterTenure: VehicleDetail.ageAfterTenure || null,
       assetCostGrid: VehicleDetail.assetCostGrid || null,
@@ -610,6 +624,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.assetModelType = this.assetBodyType.filter((data) => data.uniqueSegmentCode === value)
     this.vehicleLov.assetModel = this.utilityService.getValueFromJSON(this.assetModelType,
       "vehicleModelCode", "vehicleModel")
+
     obj.patchValue({
       assetModel: '',
       assetVariant: ''
@@ -711,9 +726,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
             })
           }
         })
-
-    setTimeout(() => {
-    });
   }
 
   addSalesFormControls() {
@@ -776,8 +788,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         finalAssetCost: [''],
         rcOwnerName: ['', Validators.required],
         ownerMobileNo: ['', Validators.required],
-        address: ['', Validators.maxLength(120)],
-        pincode: ['', Validators.maxLength(6)],
+        address: ['', Validators.compose([Validators.maxLength(120), Validators.required])],
+        pincode: ['', Validators.compose([Validators.maxLength(6), Validators.required])],
         vehicleId: 0,
         collateralId: 0,
         leadId: this.leadId,
@@ -801,8 +813,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         finalAssetCost: [''],
         rcOwnerName: ['', Validators.required],
         ownerMobileNo: ['', Validators.required],
-        address: ['', Validators.maxLength(120)],
-        pincode: ['', Validators.maxLength(6)],
+        address: ['', Validators.compose([Validators.maxLength(120), Validators.required])],
+        pincode: ['', Validators.compose([Validators.maxLength(6), Validators.required])],
         vehicleUsage: ['', Validators.required],
         category: ['', Validators.required],
         vehicleId: 0,
@@ -850,6 +862,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       isOrpFunding: [''],
       insurance: [''],
       oneTimeTax: [''],
+      amcAmount: [''],
       loanAmount: [0],
       bodyCost: [''],
       pac: [''],
@@ -893,6 +906,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       invoiceAmount: [null],
       isOrpFunding: [''],
       insurance: [''],
+      amcAmount: [''],
       oneTimeTax: [''],
       pac: [''],
       vas: [''],
@@ -967,7 +981,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   }
 
   onValueForCurrentDate(event) {
-    
+
     let date = this.utilityService.convertDateTimeTOUTC(new Date(event), 'DD/MM/YYYY')
 
     let maxConvertDate = this.utilityService.convertDateTimeTOUTC(this.maxDate, 'DD/MM/YYYY')

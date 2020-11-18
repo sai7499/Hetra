@@ -37,7 +37,9 @@ import { FiReportModule } from './fi-report/fi-report.module';
 import { PddDetailsComponent } from './pdd-details/pdd-details.component';
 import { ChequeTrackingComponent} from './cheque-tracking/cheque-tracking.component';
 import { LoanBookingModule } from './loan-status/loan-booking.module';
+import { RcuComponent } from './rcu/rcu.component';
 // import { PdReportComponent } from './pd-report/pd-report.component';
+import { PSLdataComponent } from './psldata/psldata.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +68,9 @@ import { LoanBookingModule } from './loan-status/loan-booking.module';
     PdListComponent,
     PddDetailsComponent,
     ChequeTrackingComponent,
+    RcuComponent,
 
+    PSLdataComponent
   ],
   imports: [
     DdeRoutingModule,

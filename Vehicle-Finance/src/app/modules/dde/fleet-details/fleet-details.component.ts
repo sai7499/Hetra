@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { LabelsService } from 'src/app/services/labels.service';
 import { FormGroup, FormArray, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
@@ -17,12 +17,24 @@ import { VehicleDetailService } from '../../../services/vehicle-detail.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
+import readXlsxFile from 'read-excel-file';
+
 @Component({
   selector: 'app-fleet-details',
   templateUrl: './fleet-details.component.html',
   styleUrls: ['./fleet-details.component.css']
 })
 export class FleetDetailsComponent implements OnInit {
+  validFleetData: any;
+  @ViewChild('fileInput', { static: false })
+  fileInput: ElementRef;
+  docsFleetDetails;
+  csvData: any;
+  showError: string;
+  fileUrl;
+  fileName: string;
+  fileSize: string;
+  showUploadModal: boolean;
   disableSaveBtn: boolean;
   public fleetForm: FormGroup;
   labels: any = {};
@@ -782,6 +794,174 @@ export class FleetDetailsComponent implements OnInit {
       }
     }
   }
+
+  onClose() {
+    this.showUploadModal = false;
+  }
+
+  openUploadModal() {
+    this.showUploadModal = true;
+  }
+
+  removeFile() {
+    this.fileUrl = null;
+    this.fileName = null;
+    this.fileSize = null;
+    this.showError = null;
+    this.fileInput.nativeElement.value = '';
+  }
+
+  uploadFile() {
+    if (this.showError) {
+      this.toasterService.showError('Please select valid document', '');
+    }
+    // console.log('csvData', this.csvData);
+    // return;
+    this.fleetDetailsService.validateFleetDetails({
+      allText: this.csvData,
+      userId: this.userId,
+      leadId: this.leadId
+    }).subscribe(((value: any) => {
+        console.log('validate', value);
+        if (value.Error !== '0') {
+          return this.toasterService.showError(value.ErrorMessage, '');
+        }
+        const processVariables = value.ProcessVariables;
+        const error = processVariables.error;
+        if (error && error.code !== '0') {
+           return this.toasterService.showError(error.message, '');
+        }
+        this.removeFile();
+        this.docsFleetDetails = processVariables.fleetDetails;
+    }));
+  }
+
+  onFileSelect(event) {
+    this.csvData = null;
+    const files: File = event.target.files[0];
+    let fileType = '';
+    this.fileUrl = files;
+    if (!files.type) {
+      const type = files.name.split('.')[1];
+      fileType = this.getFileType(type);
+    } else {
+      fileType = this.getFileType(files.type);
+    }
+    this.fileName = files.name;
+    this.fileSize = this.bytesToSize(files.size);
+    console.log('fileType', fileType, 'event', event);
+    if (!fileType.includes('xls') && !fileType.includes('csv')) {
+      this.showError = `Only files with following extensions are allowed: xlsx,csv`;
+      return;
+    }
+    if (files.size > 2097152 ) {
+      this.showError = `File is too large. Allowed maximum size is 2 MB`;
+      return;
+    }
+    this.showError = null;
+
+    const fileToRead = files;
+    const fileReader = new FileReader();
+    if (fileType.includes('xls')) {
+       this.getDataFromXlsFile(files);
+      //   fileReader.onload =  (e: any) => {
+      //     console.log('xls', e.target.result);
+      // };
+      // fileReader.readAsBinaryString(files);
+    } else {
+      fileReader.onload = (fileLoadedEvent: any) => {
+        const textFromFileLoaded = fileLoadedEvent.target.result;
+        this.csvData = textFromFileLoaded;
+      };
+      fileReader.readAsText(fileToRead);
+    }
+
+  }
+
+  getDataFromXlsFile(file) {
+    readXlsxFile(file).then(rows => {
+      const size = rows.length;
+      const data = rows.map((value, index) => {
+        let val = value.join(',');
+        if (size - 1 !== index) {
+          val = val + '\r\n';
+        }
+        return val;
+      });
+      let finalData = '';
+      data.forEach((value) => {
+        finalData += value;
+      });
+      this.csvData = finalData;
+    });
+  }
+
+  onFileLoad(fileLoadedEvent: any) {
+    const textFromFileLoaded = fileLoadedEvent.target.result;
+    this.csvData = textFromFileLoaded;
+  }
+
+  saveValidRecords() {
+    const filteredData = this.docsFleetDetails.filter((value) => {
+      return value.status;
+    });
+    if (filteredData.length === 0) {
+      return this.toasterService.showError('All are invalid records', '');
+    }
+    this.fleetDetailsService.saveValidRecords({
+      fleetDetails: filteredData,
+      userId: this.userId,
+      leadId: this.leadId
+    }).subscribe(((value: any) => {
+        console.log('save', value);
+        if (value.Error !== '0') {
+          return this.toasterService.showError(value.ErrorMessage, '');
+        }
+        const processVariables = value.ProcessVariables;
+        const error = processVariables.error;
+        if (error && error.code !== '0') {
+           return this.toasterService.showError(error.message, '');
+        }
+        this.docsFleetDetails = null;
+        this.showUploadModal = false;
+        this.toasterService.showSuccess('Saved successfully', '');
+    }));
+  }
+
+  onModalClose() {
+    this.docsFleetDetails = null;
+  }
+
+  getFileType(type: string) {
+    const types = {
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+        'docx',
+      'application/vnd.ms-excel': 'xls',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+        'xlsx',
+      'image/tiff': 'tiff',
+      'application/pdf': 'pdf',
+      'image/png': 'png',
+      'image/jpeg': 'jpeg',
+      'application/msword': 'docx',
+      'text/csv': 'csv',
+      csv: 'csv'
+    };
+    return types[type] || type;
+  }
+
+  private bytesToSize(bytes) {
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes === 0) {
+      return 'n/a';
+    }
+    const i = Number(Math.floor(Math.log(bytes) / Math.log(1024)));
+    if (i === 0) {
+      return bytes + ' ' + sizes[i];
+    }
+    return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+  }
+
 }
 
 

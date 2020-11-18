@@ -47,6 +47,7 @@ export class ApplicantListComponent implements OnInit {
   showeKYC: boolean = false;
   collateralVehicleDetails: any;
   isDelete : boolean= false;
+  leadSectioData: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -59,7 +60,7 @@ export class ApplicantListComponent implements OnInit {
     private toasterService: ToasterService,
     private createLeadDataService: CreateLeadDataService,
     private toggleDdeService: ToggleDdeService,
-    private applicantDataService : ApplicantDataStoreService
+    private applicantDataStoreService : ApplicantDataStoreService
   ) { }
 
   async ngOnInit() {
@@ -96,7 +97,7 @@ export class ApplicantListComponent implements OnInit {
     })
     // this.downloadpdf();
     // 
-    this.applicantDataService.setDetectvalueChange(false)
+    this.applicantDataStoreService.setDetectvalueChange(false)
     this.showeKYC = false;
   }
 
@@ -142,6 +143,7 @@ export class ApplicantListComponent implements OnInit {
       const processVariables = value.ProcessVariables;
       this.applicantList = processVariables.applicantListForLead;
       console.log('getapplicants', this.applicantList);
+      this.applicantDataStoreService.setApplicantList(this.applicantList)
       if(this.applicantList){
         this.isDelete= this.applicantList.length === 1 ? true : false;
         this.applicantList.map((data) => {
@@ -184,6 +186,7 @@ export class ApplicantListComponent implements OnInit {
       console.log('res', this.selectedApplicantId);
       this.applicantList.splice(this.index, 1);
       this.isDelete= this.applicantList.length === 1 ? true : false;
+      this.getApplicantList();
     });
   }
 
@@ -283,6 +286,15 @@ export class ApplicantListComponent implements OnInit {
     if (this.showNotApplicant) {
       this.toasterService.showError('There should be one applicant for this lead', '')
       return;
+    }
+    this.leadSectioData = this.createLeadDataService.getLeadSectionData();
+    const product = this.leadSectioData.leadDetails.productCatCode;
+
+    if (product === 'NCV') {
+      const result = this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
+      if (!result) {
+        this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', ''); 
+      }
     }
     if (this.router.url.includes('sales')) {
       this.router.navigateByUrl(`pages/sales/${this.leadId}/vehicle-list`)
