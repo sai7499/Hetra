@@ -10,6 +10,8 @@ import { IfStmt } from '@angular/compiler';
 import { LoginStoreService } from '@services/login-store.service';
 import { element } from 'protractor';
 import { variable } from '@angular/compiler/src/output/output_ast';
+import { LoanViewService } from '@services/loan-view.service';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-negotiation',
   templateUrl: './negotiation.component.html',
@@ -147,7 +149,9 @@ export class NegotiationComponent implements OnInit {
     private toasterService: ToasterService,
     private sharedData: SharedService,
     private router: Router,
-    private loginStoreService: LoginStoreService
+    private loginStoreService: LoginStoreService,
+    private loanViewService: LoanViewService,
+    private location: Location
   ) {
     this.sharedData.leadData$.subscribe((value) => {
       this.leadData = value;
@@ -161,7 +165,16 @@ export class NegotiationComponent implements OnInit {
     // this.leadId = leadData['leadId']
     this.userId = localStorage.getItem('userId');
     this.onChangeLanguage('English');
-    this.getLeadId();
+    if (this.loanViewService.checkIsLoan360()) {
+        const path = this.location.path().split('/').filter((val) => val !== ' ');
+        const leadId = path.find((value: any) => {
+          value = Number(value);
+          return !isNaN(Number(value)) && value !== 0;
+        })
+        this.leadId = Number(leadId)
+    } else {
+      this.getLeadId();
+    }
     // this.initForm();
     this.getLabels();
     this.getLOV();
@@ -927,6 +940,9 @@ export class NegotiationComponent implements OnInit {
   get a1() { return this.f.CrossSellInsurance as FormArray; }
   getLeadId() {
     return new Promise((resolve, reject) => {
+      this.activatedRoute.params.subscribe((value) => {
+        console.log('params', value)
+      })
       this.activatedRoute.parent.params.subscribe((value) => {
         if (value && value.leadId) {
           resolve(Number(value.leadId));

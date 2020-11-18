@@ -30,6 +30,8 @@ import { ReferenceComponent } from '@modules/shared/reference/reference.componen
 import { RcuComponent } from './rcu/rcu.component';
 import { PSLdataComponent } from './psldata/psldata.component';
 
+import { CreditConditionsComponent } from '@modules/dde/credit-conditions/credit-conditions.component';
+
 const routes: Routes = [
   {
     path: ':leadId',
@@ -148,6 +150,17 @@ const routes: Routes = [
         path: 'loanbooking',
         component: LoanBookingComponent,
       },
+      {
+        path: 'negotiation',
+        loadChildren: () =>
+          import(
+            '@modules/negotiation/negotiation.module'
+          ).then((m) => m.NegotiationModule),
+      },
+      {
+        path: 'credit-conditions',
+        component: CreditConditionsComponent
+      }
     ],
   },
 ];

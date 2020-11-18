@@ -8,6 +8,8 @@ import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { LoginStoreService } from '@services/login-store.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   templateUrl: './dde.component.html',
   styleUrls: ['./dde.component.css'],
@@ -24,6 +26,10 @@ export class DdeComponent implements OnInit, OnChanges {
   roleType: any;
   role: boolean;
 
+  isLoan360: boolean;
+
+  showLoan360Components: boolean;
+
   constructor(
     public router: Router,
     private location: Location,
@@ -36,6 +42,7 @@ export class DdeComponent implements OnInit, OnChanges {
     private sharedService: SharedService,
     private toggleDdeService: ToggleDdeService,
     private loginStoreService: LoginStoreService,
+    private loanViewService: LoanViewService
 
   ) {
     this.leadId = this.route.snapshot.params['leadId'];
@@ -50,6 +57,7 @@ export class DdeComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.fiCumPdStatusString = localStorage.getItem('isFiCumPd');
     if (this.fiCumPdStatusString == 'false') {
       this.fiCumPdStatus = false;
@@ -138,13 +146,20 @@ export class DdeComponent implements OnInit, OnChanges {
 
   onPrevious() {
     this.show = true;
-    if(this.productCatCode != 'NCV') {
+    // if (this.locationIndex > 16) {
+    //   return this.router.navigateByUrl(`/pages/dde/${this.leadId}/deviations`);
+    // }
+    if (this.productCatCode != 'NCV') {
       this.router.navigateByUrl(`/pages/dde/${this.leadId}/vehicle-valuation`);
     } else if(this.productCatCode == 'NCV') {
       this.router.navigateByUrl(`/pages/dde/${this.leadId}/psl-data`);
     }
   }
   onNext() {
+    // if (this.locationIndex >= 9) {
+    //    this.showLoan360Components = true;
+    //   return this.router.navigateByUrl(`/pages/dde/${this.leadId}/negotiation`);
+    // }
     this.show = false;
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/tvr-details`);
   }
@@ -190,6 +205,10 @@ export class DdeComponent implements OnInit, OnChanges {
       return 17;
     } else if (url.includes('insurance-details')) {
       return 17;
+    } else if (url.includes('negotiation')) { 
+      return 19;
+    } else if (url.includes('credit-conditions')) {
+      return 20;
     }
   }
 }

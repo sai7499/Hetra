@@ -15,7 +15,7 @@ export class LoanViewComponent {
     constructor(private loanViewService: LoanViewService, private router: Router) {}
 
     viewLoan360() {
-        this.leadId = 2649;
+        this.leadId = 2730;
         this.loanViewService.isLoan360(true);
         this.loanViewService.getLoanDetails(this.leadId)
             .subscribe((value) => {
