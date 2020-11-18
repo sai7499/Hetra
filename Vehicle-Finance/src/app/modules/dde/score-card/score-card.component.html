@@ -19,15 +19,23 @@
         </tr>
     </thead>
     <tbody style="text-align: left;">
+        <!-- <tr *ngFor="let res of result">
+            <td >{{res.sNo}}</td>
+            <td *ngIf="res.name">{{res.name}}</td>
+            <td *ngIf="res.subHeading" [ngClass]="{'bolder':'true'}">{{res.subHeading}}</td>
+            <td>{{res.weight}}</td>
+            <td>{{res.input}}</td>
+            <td>{{res.score}}</td>
+          </tr> -->
         <tr *ngIf="borrowerAttributes">
-            <td [attr.data-label]="labels?.sNo"></td>
-            <td [attr.data-label]="labels?.parameter"><strong>{{borrowerAttributes[0].scoreParameterCatDesc}}</strong></td>
+            <td class="tab-hide-space" [attr.data-label]="labels?.sNo"></td>
+            <td class="tab-hide" [attr.data-label]="labels?.parameter"><strong>{{borrowerAttributes[0].scoreParameterCatDesc}}</strong></td>
             <td [attr.data-label]="labels?.weightage"><strong>{{scoreCard.borrowerAttributeWeightage}}</strong></td>
             <td [attr.data-label]="labels?.inputValue"></td>
             <td [attr.data-label]="labels?.scoreValue"><strong>{{scoreCard.borrowerAttributeScore}}</strong></td>
-        </tr>
+        </tr> 
 
-        <tr *ngFor="let borrowerAttribute of borrowerAttributes; let i = index">
+         <tr *ngFor="let borrowerAttribute of borrowerAttributes; let i = index">
             <td [attr.data-label]="labels?.sNo">{{i+1}}</td>
             <td [attr.data-label]="labels?.parameter">{{borrowerAttribute.scoreDescription}}</td>
             <td [attr.data-label]="labels?.weightage">{{borrowerAttribute.weightage}}</td>
@@ -35,8 +43,8 @@
             <td [attr.data-label]="labels?.scoreValue">{{borrowerAttribute.score}}</td>
         </tr>
         <tr *ngIf="borrowerAssessments">
-            <td [attr.data-label]="labels?.sNo"></td>
-            <td [attr.data-label]="labels?.parameter"><strong>{{borrowerAssessments[0].scoreParameterCatDesc}}</strong></td>
+            <td class="tab-hide-space" [attr.data-label]="labels?.sNo"></td>
+            <td class="tab-hide" [attr.data-label]="labels?.parameter"><strong>{{borrowerAssessments[0].scoreParameterCatDesc}}</strong></td>
             <td [attr.data-label]="labels?.weightage"><strong>{{scoreCard.borrowerAssessmentWeightage}}</strong></td>
             <td [attr.data-label]="labels?.inputValue"></td>
             <td [attr.data-label]="labels?.scoreValue"><strong>{{scoreCard.borrowerAssessmentScore}}</strong></td>
@@ -49,8 +57,8 @@
             <td [attr.data-label]="labels?.scoreValue">{{borrowerAssessment.score}}</td>
         </tr>
         <tr *ngIf="fieldVerifications">
-            <td [attr.data-label]="labels?.sNo"></td>
-            <td [attr.data-label]="labels?.parameter"><strong>{{fieldVerifications[0].scoreParameterCatDesc}}</strong></td>
+            <td class="tab-hide-space" [attr.data-label]="labels?.sNo"></td>
+            <td class="tab-hide" [attr.data-label]="labels?.parameter"><strong>{{fieldVerifications[0].scoreParameterCatDesc}}</strong></td>
             <td [attr.data-label]="labels?.weightage"><strong>{{scoreCard.fieldVerificationWeightage}}</strong></td>
             <td [attr.data-label]="labels?.inputValue"></td>
             <td [attr.data-label]="labels?.scoreValue"><strong>{{scoreCard.fieldVerificationScore}}</strong></td>
@@ -63,8 +71,8 @@
             <td [attr.data-label]="labels?.scoreValue">{{fieldVerification.score}}</td>
         </tr>
         <tr *ngIf="repaymentAssessments">
-            <td [attr.data-label]="labels?.sNo"></td>
-            <td [attr.data-label]="labels?.parameter"><strong>{{repaymentAssessments[0].scoreParameterCatDesc}}</strong></td>
+            <td class="tab-hide-space" [attr.data-label]="labels?.sNo"></td>
+            <td class="tab-hide" [attr.data-label]="labels?.parameter"><strong>{{repaymentAssessments[0].scoreParameterCatDesc}}</strong></td>
             <td [attr.data-label]="labels?.weightage"><strong>{{scoreCard.repaymentAssessmentWeightage}}</strong></td>
             <td [attr.data-label]="labels?.inputValue"></td>
             <td [attr.data-label]="labels?.scoreValue"><strong>{{scoreCard.repaymentAssessmentScore}}</strong></td>
@@ -78,18 +86,18 @@
         </tr>
         
         <tr *ngIf="scoreCard">
-            <td></td>
-            <td><strong>Total</strong></td>
-            <td><strong>{{scoreCard.totalWeight}}</strong></td>
-            <td></td>
-            <td><strong>{{scoreCard.totalScore}}%</strong></td>
+            <td class="tab-hide"></td>
+            <td class="tab-hide"><strong>Total</strong></td>
+            <td [attr.data-label]="'Total weightage'"><strong>{{scoreCard.totalWeight}}</strong></td>
+            <td class="tab-hide"></td>
+            <td [attr.data-label]="'Total score'"><strong>{{scoreCard.totalScore}}%</strong></td>
         </tr>
     </tbody>
 </table>
 <table class="table cam_table_proposed mt-3 mar-bot-40">
     <tbody>
-        <tr>
-            <td class="actionTable"><strong>Action</strong></td>
+        <!-- <tr>
+            <td style="width:100%" class="actionTable"><strong>Action</strong></td>
             <td 
                 class="actionTable" 
                 [ngClass]="{'highestRisk': riskLevel <= 50,
@@ -97,7 +105,22 @@
                             'highRisk': riskLevel > 50 && riskLevel <= 60,
                             'mediumRisk': riskLevel > 70 && riskLevel <= 75,
                             'lowRisk': riskLevel > 75 && riskLevel <= 85,
-                            'veryLowRisk': riskLevel > 85 }">
+                            'veryLowRisk': riskLevel > 85 }"  style="width:100%"  >
+                <strong>{{risk}}</strong>
+            </td>
+        </tr> -->
+        <tr>
+            <td class="actionTable"><strong>Action</strong></td>
+            
+       
+            <td 
+                class="actionTable" 
+                [ngClass]="{'highestRisk': riskLevel <= 50,
+                            'veryhighRisk': riskLevel > 50 && riskLevel <= 60,
+                            'highRisk': riskLevel > 50 && riskLevel <= 60,
+                            'mediumRisk': riskLevel > 70 && riskLevel <= 75,
+                            'lowRisk': riskLevel > 75 && riskLevel <= 85,
+                            'veryLowRisk': riskLevel > 85 }"  >
                 <strong>{{risk}}</strong>
             </td>
         </tr>

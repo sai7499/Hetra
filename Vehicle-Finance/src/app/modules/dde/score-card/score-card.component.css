@@ -131,8 +131,18 @@
           font-size:14px!important;
          }
 
+
+         .tab-hide{
+           display:block;
+            background-color: #272264;
+            color: #fff;
+         }
+
          /*Mobile View*/
 @media (min-width:260px) and (max-width: 760px) {
+    .tab-hide {
+      display: none !important;
+    }
     .main-table td,
     .main-table tr {
        display: block;
@@ -236,6 +246,14 @@
      margin: 5px;
    } */
    
+   .tab-hide{
+     display:none!important;
+     
+   }
+
+   .tab-hide-space{
+     display:none!important;
+   }
    
    }
    
