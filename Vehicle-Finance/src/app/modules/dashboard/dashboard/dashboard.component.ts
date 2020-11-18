@@ -174,8 +174,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   selfAssign: boolean;
   selfAssignLoginId: any;
   showModal: boolean;
-  @ViewChild('closeModal', {static: false}) public closeModal: ElementRef;
-  @ViewChild('closeModal1', {static: false}) public closeModal1: ElementRef;
+  @ViewChild('closeModal', { static: false }) public closeModal: ElementRef;
+  @ViewChild('closeModal1', { static: false }) public closeModal1: ElementRef;
   userDetailsRoleId: any;
   supervisorUserId: any;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
@@ -211,6 +211,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    const thisUrl = this.router.url;
+    console.log(thisUrl);
+
     this.sharedService.isSUpervisorUserName.subscribe((value: any) => {
       console.log(value);
       if (value) {
@@ -221,11 +224,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
     this.sharedService.isSupervisorRoleId.subscribe((value: any) => {
       console.log(value);
-      if(value) {
+      if (value) {
         this.supervisorUserId = value;
       }
-      
+
     })
+
 
     this.loginStoreService.isCreditDashboard.subscribe((userDetails: any) => {
       this.branchId = userDetails.branchId;
@@ -244,6 +248,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (this.userName) {
       this.roleType = this.supervisorRoleType
       this.roleId = this.supervisorRoleId
+      // this.location.replaceState('/pages/supervisor/dashboard');
+      // const url = this.router.createUrlTree([], { relativeTo: this.aRoute, queryParams: { param: 1 } }).toString()
+
+      // this.location.go('/pages/supervisor/dashboard');
+
     } else {
       this.roleType = this.userDetailsRoleType
       this.roleId = this.userDetailsRoleId
