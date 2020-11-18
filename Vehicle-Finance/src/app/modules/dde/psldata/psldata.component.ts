@@ -1104,7 +1104,12 @@ onChangeWeakerSection(event: any) {
       this.detailActivityChange = dltActivity;
       // this.getLovForDetailActivity();
       this.getDetailActivity(this.activityChange);
-      this.onChangeDetailActivity(dltActivity);
+      if(this.activityChange !== '7PSLACTVTY') {
+        this.onChangeDetailActivity(dltActivity);
+      } else {
+        this.onChangeDetailActivity(null);
+      }
+      
       if (activity === '1PSLACTVTY') {
         this.pslLandHoldingChange = this.pslData.landHolding;
         this.onSelectPslLandHolding();
