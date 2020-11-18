@@ -940,6 +940,21 @@ export class ApiService {
       processId: 'f0f395d824eb11eb91b100505695f93b',
       workflowId: 'b50e63f4235b11eb937600505695f93b',
       projectId: environment.projectIds.camProjectId
+    },
+    supervisorReporters: {
+      processId: 'b1e4ab40234a11eba48800505695f93b',
+      workflowId: '7fde429c82ea11eabdc2f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    supervisorGetUsers: {
+      processId: '6b03a16628e211ebbefa00505695f93b',
+      workflowId: '7fde429c82ea11eabdc2f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    supervisorReAssign: {
+      processId: '416121c228eb11eb9fb000505695f93b',
+      workflowId: '7fde429c82ea11eabdc2f2fa9bec3d63',
+      projectId: environment.projectIds.taskProjectId
     }
 
   };

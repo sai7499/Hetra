@@ -19,10 +19,17 @@ export class InsuranceDetailsComponent implements OnInit {
   disableSaveBtn: boolean;
 
   insuranceType: string = '0';
+  labels: any;
+  validationData: any;
 
   constructor(private _fb: FormBuilder, private labelsData: LabelsService, private toggleDdeService: ToggleDdeService) { }
 
   ngOnInit() {
+
+    this.labelsData.getLabelsData().subscribe(res => {
+      this.labels = res;
+      this.validationData = res.validationData;
+    });
 
     this.InsuranceDetailForm = this._fb.group({
       insuranceType: ['0'],
