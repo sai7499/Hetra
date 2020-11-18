@@ -1,0 +1,45 @@
+{
+    "childLoan": {
+        "isRequired": {
+            "FCLoan": {
+                "fcExpiryDate": true,
+                "fcAmount": true,
+                "typeOfPermit": true,
+                "taxDetails": true,
+                "taxBill": true,
+                "totalTaxBill": true
+            },
+            "insuranceLoan": {
+                "invoiceNo": true,
+                "invoiceDate": true
+            },
+            "Topup-2": {
+                "fcExpiryDate": true,
+                "taxDetails": true,
+                "taxBill": true,
+                "totalTaxBill": true,
+                "insuranceExpiry": true,
+                "onlineVerification": true
+            },
+            "accidentLoan": {
+                "accidentDate": true,
+                "typeOfAccident": true,
+                "FIRFiled": true,
+                "costofRepair": true,
+                "costofSpares": true,
+                "totalCost": true,
+                "isAuthorisedServiceCentre": true,
+                "serviceCentreName": true
+            },
+            "TyreLoan": {
+                "tyreDealer": true,
+                "tyreManufacturer": true,
+                "noOfTyres": true,
+                "costPerTyre": true,
+                "proformaInvoiceAmount": true,
+                "marginAmount": true,
+                "tyreSpecification": true
+            }
+        }
+    }
+}
