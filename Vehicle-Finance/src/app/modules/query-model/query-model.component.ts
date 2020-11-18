@@ -368,6 +368,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     this.createLeadService
       .getLeadById(leadId)
       .subscribe((res: any) => {
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         const response = res;
         const appiyoError = response.Error;
         const apiError = response.ProcessVariables.error.code;
@@ -382,7 +383,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
           const message = response.ProcessVariables.error.message;
           this.toasterService.showError(message, 'Lead Creation');
         }
-      });
+      }});
   }
 
   myDateParser(dateStr: string): string {
