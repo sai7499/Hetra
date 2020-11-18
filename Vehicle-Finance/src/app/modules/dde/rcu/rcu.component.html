@@ -1,9 +1,8 @@
 <div style="text-align: center;">
-  <button class="btn btn-primary btn_div" *ngIf="isRcuDetails && isErr" (click)="showInitiateTask()"
+  <button class="btn btn-primary btn_div" *ngIf="isRcuDetails && isErr == true" (click)="showInitiateTask()"
     type="button">{{labels?.initiateRcu}}</button>
 </div>
-
-<form class="multisteps-form__form" *ngIf="!isRcuDetails && isErr" [formGroup]="rcuDetailsForm">
+<form class="multisteps-form__form" *ngIf="!isRcuDetails && isErr == true" [formGroup]="rcuDetailsForm">
   <h3 class="dashboard m-0">{{ labels?.rcu }}</h3>
   <!--progress bar-->
   <div class="content">
@@ -25,7 +24,6 @@
       <div class="flex-con"></div>
       
     </div>    
-    
     <div class="clearfix"></div>
     <div class="form-group od-row" >
       <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12"><label>{{labels?.applicantNameCam}}</label></div>
@@ -77,20 +75,6 @@
       <div class="clearfix"></div>
     </div>
 
-    <!-- <div class="row app-doc">
-      <span class="input-group-btn">
-        <div class="col-md-6 text-right hetra-tabs">
-          
-          <button class="btn btn-primary" type="button" (click)="showDocuments('applicant')"
-            [ngClass]="{'active': tab==='tab1'}" routerLinkActive="active">{{labels?.showApplicantDocuments}}</button>
-        </div>
-        <div class="col-md-6 hetra-tabs">
-        
-          <button class="btn btn-primary" type="button" (click)="showDocuments('colletral')"
-            [ngClass]="{'active': tab==='tab2'}" routerLinkActive="active">{{labels?.showCollateralDocuments}}</button>
-        </div>
-      </span>
-    </div> -->
 
     <div _ngcontent-kdl-c9="" class="row">
       <div _ngcontent-kdl-c9="" class="input-group-btn row ">
@@ -140,36 +124,36 @@
             </td>
             <td [attr.data-label]="labels?.documentName" data-title="Member">
               <app-custom-input [placeholder]="'Document Name'"  [isDisabled] = 'true'
-                [type]="labels?.validationData?.name?.type" [className]="'input-box mandatory'"
+                [type]="labels?.validationData?.name?.type" [className]="'form-control-ins mandatory'"
                 [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
             <td [attr.data-label]="labels?.documentCategory" data-title="Member">
               <app-custom-input [placeholder]="'Document Category'" formControlName="categoryName" [isDisabled] = 'true'
-                [type]="labels?.validationData?.name?.type" [className]="'input-box mandatory'"
+                [type]="labels?.validationData?.name?.type" [className]="'form-control-ins mandatory'"
                 [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
             <td [attr.data-label]="labels?.documentNumber" data-title="Member">
               <app-custom-input [placeholder]="'Document Number'" formControlName="documentNo"
-                [type]="labels?.validationData?.amountValue?.type" [className]="'input-box mandatory'" [isDisabled] = 'true'
+                [type]="labels?.validationData?.amountValue?.type" [className]="'form-control-ins mandatory'" [isDisabled] = 'true'
                 [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
             <td [attr.data-label]="labels?.issueDate" data-title="Member">
              
-              <kendo-datepicker class="input-box" formControlName="issueDate" [activeView]="'decade'" readonly
-              [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date">
+              <kendo-datepicker class="" formControlName="issueDate" [activeView]="'decade'" readonly
+              [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date" class="form-control form-control-cus">
             </kendo-datepicker>
             </td>
             <td [attr.data-label]="labels?.expiryDate" data-title="Member">
               
-              <kendo-datepicker class="input-box" formControlName="expiryDate" [activeView]="'decade'" readonly
-              [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date">
+              <kendo-datepicker class="" formControlName="expiryDate" [activeView]="'decade'" readonly
+              [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date" class="form-control form-control-cus">
             </kendo-datepicker>
             </td>
             <td [attr.data-label]="labels?.documentId" data-title="Member">
-              <input name="input" type="text" class="input-box file-input" formControlName="dmsDocumentID" readonly
+              <input name="input" type="text" class="form-control form-control-cus file-input box-height" formControlName="dmsDocumentID" readonly
                 (click)="downloadDocs($event.target.value)" />
             </td>
             <td [attr.data-label]="labels?.sampled" data-title="Member">
@@ -177,7 +161,7 @@
               <app-vf-custom-select [values]="[
             { key: '0', value: 'Yes' },
             { key: '1', value: 'No' }
-          ]" formControlName="sampled" class="input-box">
+          ]" formControlName="sampled" class="form-control form-control-cus">
               </app-vf-custom-select>
             </td>
             <td [attr.data-label]="labels?.screened" data-title="Member">
@@ -185,12 +169,12 @@
               <app-vf-custom-select [values]="[
             { key: '0', value: 'Yes' },
             { key: '1', value: 'No' }
-          ]" formControlName="screened" class="input-box">
+          ]" formControlName="screened" class="form-control form-control-cus">
         </app-vf-custom-select>
             </td>
             <td [attr.data-label]="labels?.status" data-title="Member">
             
-              <app-vf-custom-select [values]="rcuLov?.status" class="input-box" formControlName="rcuStatus">
+              <app-vf-custom-select [values]="rcuLov?.status" class="form-control form-control-cus" formControlName="rcuStatus">
               </app-vf-custom-select>
             </td>
           </tr>
@@ -206,36 +190,36 @@
             </td>
             <td [attr.data-label]="labels?.documentName" data-title="Member">
               <app-custom-input [placeholder]="'Document Name'" formControlName="documentName" [isDisabled] = 'true'
-                [type]="labels?.validationData?.name?.type" [className]="'input-box mandatory'"
+                [type]="labels?.validationData?.name?.type" [className]="'form-control form-control-cus mandatory'"
                 [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
             <td [attr.data-label]="labels?.documentCategory" data-title="Member">
               <app-custom-input [placeholder]="'Document Category'" formControlName="categoryName" [isDisabled] = 'true'
-                [type]="labels?.validationData?.name?.type" [className]="'input-box mandatory'"
+                [type]="labels?.validationData?.name?.type" [className]="'form-control form-control-cus mandatory'"
                 [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
             <td [attr.data-label]="labels?.documentNumber" data-title="Member">
               <app-custom-input [placeholder]="'Document Number'" formControlName="documentNo"
-                [type]="labels?.validationData?.amountValue?.type" [className]="'input-box mandatory'" [isDisabled] = 'true'
+                [type]="labels?.validationData?.amountValue?.type" [className]="'form-control form-control-cus mandatory'" [isDisabled] = 'true'
                 [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
             <td [attr.data-label]="labels?.issueDate" data-title="Member">
             
-              <kendo-datepicker class="input-box" formControlName="issueDate" [activeView]="'decade'" readonly
-              [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date">
+              <kendo-datepicker class="" formControlName="issueDate" [activeView]="'decade'" readonly
+              [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date" class="form-control form-control-cus">
             </kendo-datepicker>
             </td>
             <td [attr.data-label]="labels?.expiryDate" data-title="Member">
              
-              <kendo-datepicker class="input-box" formControlName="expiryDate" [activeView]="'decade'" readonly
-              [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date">
+              <kendo-datepicker class="" formControlName="expiryDate" [activeView]="'decade'" readonly
+              [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date" class="form-control form-control-cus">
             </kendo-datepicker>
             </td>
             <td [attr.data-label]="labels?.documentId" data-title="Member">
-              <input name="input" type="text" class=" input-box file-input" formControlName="dmsDocumentID" readonly
+              <input name="input" type="text" class=" form-control form-control-cus file-input" formControlName="dmsDocumentID" readonly
                 (click)="downloadDocs($event.target.value)" />
             </td>
             <td [attr.data-label]="labels?.sampled" data-title="Member">
@@ -243,7 +227,7 @@
               <app-vf-custom-select [values]="[
             { key: '0', value: 'Yes' },
             { key: '1', value: 'No' }
-          ]" formControlName="sampled" class="input-box">
+          ]" formControlName="sampled" class="form-control-cus">
               </app-vf-custom-select>
             </td>
             <td [attr.data-label]="labels?.screened" data-title="Member">
@@ -251,11 +235,11 @@
               <app-vf-custom-select [values]="[
             { key: '0', value: 'Yes' },
             { key: '1', value: 'No' }
-          ]" formControlName="screened" class="input-box">
+          ]" formControlName="screened" class="form-control-cus">
         </app-vf-custom-select>
             </td>
             <td [attr.data-label]="labels?.status" data-title="Member">
-                 <app-vf-custom-select [values]="rcuLov?.status" formControlName="rcuStatus" class="input-box">
+                 <app-vf-custom-select [values]="rcuLov?.status" formControlName="rcuStatus" class="form-control-cus">
         </app-vf-custom-select>
 
             </td>
@@ -266,15 +250,14 @@
 
     </div>
     
-  
 
     <div class="form-group od-row">
-      <div class="col-md-2 fitWidth pl-top"><label>{{labels?.rcuReportStatus}}</label></div>
-      <div class="col-md-2">
+      <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12"><label>{{labels?.rcuReportStatus}}</label></div>
+      <!-- <div class="col-md-2">
         <app-vf-custom-select [values]="rcuLov?.rcuStatus" formControlName="rcuReportStatus">
         </app-vf-custom-select>
-      </div>
-      <div class="col-md-1 fitWidth pl-top" *ngIf="roleType == '6'" ><label class="">{{labels?.rcuUpload}}</label></div>
+      </div> -->
+      <!-- <div class="col-md-1 fitWidth pl-top" *ngIf="roleType == '6'" ><label class="">{{labels?.rcuUpload}}</label></div>
       <div class="col-md-1 pl-top" *ngIf="roleType == '6'"  >
         
         <label 
@@ -285,32 +268,34 @@
           ></i></label>
          
         
-      </div>
-      <div class="col-md-1 fitWidth pl-top"><label>{{labels?.rcuDocumentId}}</label></div>
+      </div> -->
+      <!-- <div class="col-md-1 fitWidth pl-top"><label>{{labels?.rcuDocumentId}}</label></div>
       <div class="col-md-1">
         <input name="input" type="text" class="form-control file-input" formControlName="rcuDocumentId" readonly
         (click)="downloadDocs($event.target.value)" />
-      </div>
+      </div> -->
       <div _ngcontent-uth-c9="" class="form-group  col-lg-2 col-md-3 col-sm-6 col-xs-12">
         <app-vf-custom-select _ngcontent-uth-c9="" formcontrolname="rcuReportStatus" _nghost-uth-c11="" ng-reflect-values="[object Object],[object Object" ng-reflect-name="rcuReportStatus" class="ng-untouched ng-pristine">
           <select _ngcontent-uth-c11="" ng-reflect-is-disabled="true" ng-reflect-model="FRDRCMSTS" class="form-control mandatory ng-untouched ng-pristine" disabled="">
             <option _ngcontent-uth-c11="" value="" ng-reflect-value="" disabled="">-- select one --</option><!--bindings={
-      "ng-reflect-ng-for-of": "[object Object],[object Object"
-    }--><option _ngcontent-uth-c11="" value="UTVRCMSTS" ng-reflect-value="UTVRCMSTS">Failed / Unable to verify</option><option _ngcontent-uth-c11="" value="FRDRCMSTS" ng-reflect-value="FRDRCMSTS">Fraud</option><option _ngcontent-uth-c11="" value="NEGRCMSTS" ng-reflect-value="NEGRCMSTS">Negative</option><option _ngcontent-uth-c11="" value="POSRCMSTS" ng-reflect-value="POSRCMSTS">Positive</option></select><!--bindings={
-      "ng-reflect-ng-if": "false"
-    }--></app-vf-custom-select></div>
-    <div _ngcontent-uth-c9="" class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12">
+          "ng-reflect-ng-for-of": "[object Object],[object Object"
+        }--><option _ngcontent-uth-c11="" value="UTVRCMSTS" ng-reflect-value="UTVRCMSTS">Failed / Unable to verify</option><option _ngcontent-uth-c11="" value="FRDRCMSTS" ng-reflect-value="FRDRCMSTS">Fraud</option><option _ngcontent-uth-c11="" value="NEGRCMSTS" ng-reflect-value="NEGRCMSTS">Negative</option><option _ngcontent-uth-c11="" value="POSRCMSTS" ng-reflect-value="POSRCMSTS">Positive</option></select><!--bindings={
+          "ng-reflect-ng-if": "false"
+        }--></app-vf-custom-select>
+    </div>
+    <div _ngcontent-uth-c9=""*ngIf="roleType == '6'"  class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12">
       <label _ngcontent-uth-c9="" class="">RCU Upload</label>
     </div>
     <div _ngcontent-uth-c9="" class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12">
       <label _ngcontent-uth-c9=""><i _ngcontent-uth-c9="" aria-hidden="true" class="fa fa-upload fa-3 custom-file-label cursor-pointer" id="add_more_documents_upload1a"></i></label>
     </div>
     <div class="clearfix clearfix-hide"></div>
-    <div _ngcontent-uth-c9="" class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12">
+    <div _ngcontent-uth-c9="" class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12"  >
       <label _ngcontent-uth-c9="">RCU Document Id</label>
     </div>
-    <div _ngcontent-uth-c9="" class="form-group col-lg-2 col-md-3 col-sm-6 col-xs-12">
-      <input _ngcontent-uth-c9="" class="form-control file-input ng-untouched ng-pristine" formcontrolname="rcuDocumentId" name="input" readonly="" type="text" disabled="" ng-reflect-name="rcuDocumentId">
+    <div _ngcontent-uth-c9="" class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12">
+      <input _ngcontent-uth-c9="" class="form-control file-input ng-untouched ng-pristine" formControlName="rcuDocumentId" readonly
+      (click)="downloadDocs($event.target.value)">
     </div>
     <div _ngcontent-uth-c9="" class="form-group col-lg-2 col-md-3 col-sm-6 col-xs-12">
       <label _ngcontent-uth-c9="">RCU Report Received Date/Time</label>
@@ -319,6 +304,7 @@
       <input _ngcontent-uth-c9="" class="form-control ng-untouched ng-pristine" formcontrolname="rcuReportReceivedDateTime" name="input" readonly="" type="text" disabled="" ng-reflect-name="rcuReportReceivedDateTime">
     </div>
   </div>
+  <div class="clearfix"></div>
 
 
     <div class="form-group row">
