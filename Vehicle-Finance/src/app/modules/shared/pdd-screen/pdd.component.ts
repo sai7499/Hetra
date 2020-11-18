@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormGroup, FormControl, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 
@@ -21,11 +21,12 @@ import { ObjectComparisonService } from '@services/obj-compare.service';
 })
 export class PddComponent implements OnInit {
     disbursementDate: any;
+    minEndorsementDate: Date;
     documentNumMax = {
         rule: 30,
         msg: ''
     };
-    disableDocumentList:any;
+    disableDocumentList: any;
     orcHistory: any[];
     showEngineNumber: boolean;
     showDialog: boolean;
@@ -44,7 +45,7 @@ export class PddComponent implements OnInit {
     vehicleRegPattern: {
         rule?: any;
         msg?: string;
-      }[];
+    }[];
     checkInForm: boolean;
     labels;
     pddDocumentList;
@@ -52,20 +53,26 @@ export class PddComponent implements OnInit {
 
     isEnableCpccSubmit: boolean;
     apiTableValue = [];
+    rtoAgent = [];
+    isDirty: boolean = false;
+    isRtoAgentMsg: boolean = false;
+    isEndorsDateMsg: boolean = false;
+    isShowError: boolean = false;
+    rtoAgentsList =[]
 
     constructor(private location: Location,
-                private pddDetailsService: PddDetailsService,
-                private utilityService: UtilityService,
-                private lovService: CommomLovService,
-                private loginStoreService: LoginStoreService,
-                private toasterService: ToasterService,
-                private uploadService: UploadService,
-                private draggableContainerService: DraggableContainerService,
-                private activatedRoute: ActivatedRoute,
-                private labelsData: LabelsService,
-                private router: Router,
-                private objectComparisonService: ObjectComparisonService) {
-                }
+        private pddDetailsService: PddDetailsService,
+        private utilityService: UtilityService,
+        private lovService: CommomLovService,
+        private loginStoreService: LoginStoreService,
+        private toasterService: ToasterService,
+        private uploadService: UploadService,
+        private draggableContainerService: DraggableContainerService,
+        private activatedRoute: ActivatedRoute,
+        private labelsData: LabelsService,
+        private router: Router,
+        private objectComparisonService: ObjectComparisonService) {
+    }
     ngOnInit() {
         this.getLabels();
         this.vehicleRegPattern = this.validateCustomPattern();
@@ -79,36 +86,39 @@ export class PddComponent implements OnInit {
             }
             this.initForm();
             this.lovService.getLovData().subscribe((lov: any) => {
-                 this.lovs = lov;
-                 this.getPddDetailsData();
+                this.lovs = lov;
+                this.rtoAgent = [{ key: '1RTOAGENT', value: "RTO Agent 1" },
+                { key: '2RTOAGENT', value: "RTO Agent 2" },
+                { key: '3RTOAGENT', value: "RTO Agent 3" }]
+                this.getPddDetailsData();
             });
         });
     }
     getLabels() {
         this.labelsData.getLabelsData().subscribe(
-          (data: any) => (this.labels = data),
-          // (error) => console.log("Vehicle Valuation Label Error", error)
+            (data: any) => (this.labels = data),
+            // (error) => console.log("Vehicle Valuation Label Error", error)
         );
-      }
+    }
 
     validateCustomPattern() {
         const regPatternData = [
-          {
-            rule: (inputValue) => {
-              let patttern = '^[A-Z]{2}[ -][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$';
-              if (inputValue.length === 10) {
-                return !RegExp(/[A-Z-a-z]{2}[0-9]{2}[A-Z-a-z]{2}[0-9]{4}/).test(inputValue);
-              } else if (inputValue.length === 9) {
-                return !RegExp(/[A-Z-a-z]{2}[0-9]{2}[A-Z-a-z]{1}[0-9]{4}/).test(inputValue)
-              } else {
-                return true
-              }
-            },
-            msg: 'Invalid Vehicle Registration Number, Valid Formats are: TN02AB1234/TN02A1234',
-          }
+            {
+                rule: (inputValue) => {
+                    let patttern = '^[A-Z]{2}[ -][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$';
+                    if (inputValue.length === 10) {
+                        return !RegExp(/[A-Z-a-z]{2}[0-9]{2}[A-Z-a-z]{2}[0-9]{4}/).test(inputValue);
+                    } else if (inputValue.length === 9) {
+                        return !RegExp(/[A-Z-a-z]{2}[0-9]{2}[A-Z-a-z]{1}[0-9]{4}/).test(inputValue)
+                    } else {
+                        return true
+                    }
+                },
+                msg: 'Invalid Vehicle Registration Number, Valid Formats are: TN02AB1234/TN02A1234',
+            }
         ];
         return regPatternData;
-      }
+    }
 
     initForm() {
         this.pddForm = new FormGroup({
@@ -127,6 +137,9 @@ export class PddComponent implements OnInit {
                 orcStatus: new FormControl(''),
                 orcRemarks: new FormControl(''),
                 orcReceivedDate: new FormControl(''),
+                rtoAgent: new FormControl({ value: '', disabled: true }),
+                endorsementDate: new FormControl({ value: '', disabled: true })
+
             }),
             pddDocumentDetails: new FormArray([])
         });
@@ -146,8 +159,14 @@ export class PddComponent implements OnInit {
                 this.modifiedOrcStatusList = response.modifiedOrcStatusList;
                 this.pddDocumentList = response.pddDocumentList;
                 this.orcHistory = response.orcHistory;
+                this.rtoAgentsList= response.rtoAgentsList;
                 this.disableDocumentList = response.disableDocumentList;
                 this.disbursementDate = this.utilityService.getDateFromString(response.disbursementDate) || '';
+                if (this.orcHistory) {
+                    this.minEndorsementDate = this.utilityService.getDateFromString(this.orcHistory[0].orcReceivedDate);
+                    //this.minEndorsementDate.setDate(this.minEndorsementDate.getDate()-1)
+                }
+
                 this.showEngineNumber = response.showEngineNumber;
                 if (this.isSales) {
                     let pddDocumentList = response.pddDocumentList;
@@ -182,13 +201,33 @@ export class PddComponent implements OnInit {
                         this.isDisableSubmitToCpc = true;
                         this.apiCheck = false;
                     }
+
+                    const control = this.pddForm.get('processForm')
+                    if (response.orcStatus === 'RECDFRMRTOAGNTPDDDOCS') {
+                        this.isEndorsDateMsg = true;
+
+                        control.get('endorsementDate').enable();
+                        control.get('endorsementDate').setValidators([Validators.required]);
+                        control.get('endorsementDate').updateValueAndValidity();
+
+                        control.get('rtoAgent').disable();
+                    } else if (response.orcStatus === 'HNDOVRRTOAGNTPDDDOCS') {
+
+                        this.isRtoAgentMsg = true;
+                        control.get('rtoAgent').enable();
+                        control.get('rtoAgent').setValidators([Validators.required]);
+                        control.get('rtoAgent').updateValueAndValidity();
+
+                        control.get('endorsementDate').disable();
+                    }
                 } else {
                     this.updateDocumentDetailsTable(this.pddDocumentDetails);
                     this.isDisableCpcSubmit = !(this.pddDocumentDetails || []).every((value) => {
                         return value.cpcStatus === 'VRIFIEDPDDDOCSSTS';
                     });
                 }
-                const loanFormData  = {
+
+                const loanFormData = {
                     disbursementDate: this.utilityService.getDateFromString(response.disbursementDate) || '',
                     expectedDate: this.utilityService.getDateFromString(response.expectedDate) || '',
                     loanNumber: response.loanNumber || '',
@@ -203,7 +242,7 @@ export class PddComponent implements OnInit {
     }
 
     updateLoanForm(value) {
-        const loanForm =  this.pddForm.get('loanForm');
+        const loanForm = this.pddForm.get('loanForm');
         loanForm.patchValue({
             disbursementDate: value.disbursementDate,
             engNumber: value.engNumber,
@@ -218,23 +257,29 @@ export class PddComponent implements OnInit {
         processForm.patchValue({
             orcRemarks: value.orcRemarks || '',
             orcStatus: value.orcStatus || '',
-            orcReceivedDate: this.utilityService.getDateFromString(value.orcReceivedDate) || ''
+            orcReceivedDate: this.utilityService.getDateFromString(value.orcReceivedDate) || '',
+            rtoAgent: value.rtoAgent || '',
+            endorsementDate: this.utilityService.getDateFromString(value.endorsementDate) || ''
         });
+
+        if (value.endorsementDate) {
+           this.changeEndorseDate(this.utilityService.getDateFromString(value.endorsementDate))
+        }
     }
 
     updateNumberForm(value) {
-       if (!value) {
-           return;
-       }
-       const numberForm =  this.pddForm.get('numberForm');
-       if (value.regNumber || value.engNumber || value.chasNumber) {
-          this.isNumberSubmitted = false;
-       }
-       numberForm.patchValue({
-        regNumber: value.regNumber || '',
-        engNumber: value.engNumber || '',
-        chasNumber: value.chasNumber || ''
-       });
+        if (!value) {
+            return;
+        }
+        const numberForm = this.pddForm.get('numberForm');
+        if (value.regNumber || value.engNumber || value.chasNumber) {
+            this.isNumberSubmitted = false;
+        }
+        numberForm.patchValue({
+            regNumber: value.regNumber || '',
+            engNumber: value.engNumber || '',
+            chasNumber: value.chasNumber || ''
+        });
     }
 
     updateDocumentDetailsTable(data) {
@@ -308,7 +353,7 @@ export class PddComponent implements OnInit {
     updateTable() {
         const arrValue: any[] = this.pddForm.get('pddDocumentDetails').value;
         const formatArrValue = arrValue.map((value) => {
-            return  {
+            return {
                 ...value,
                 docId: Number(value.docId),
                 collectedDate: this.utilityService.getDateFormat(value.collectedDate) || '',
@@ -331,7 +376,7 @@ export class PddComponent implements OnInit {
         // if (this.checkDocsIsUploaded()) {
         //     return;
         // }
-        this.callUpdateAPI({pddDocumentDetails: formatArrValue});
+        this.callUpdateAPI({ pddDocumentDetails: formatArrValue });
     }
 
     callAPIForNumberForm() {
@@ -339,11 +384,13 @@ export class PddComponent implements OnInit {
             return this.toasterService.showError('Please enter all fields', '');
         }
         const numberForm = this.pddForm.get('numberForm').value;
-        const processForm = this.pddForm.get('processForm').value;
+        const formvalue = this.pddForm.getRawValue();
+        //console.log('formvalue', formvalue)
+        const processForm = formvalue.processForm;
         let data = {};
         const arrValue: any[] = this.pddForm.get('pddDocumentDetails').value;
         const formatArrValue = arrValue.map((value) => {
-            return  {
+            return {
                 ...value,
                 docId: Number(value.docId),
                 collectedDate: this.utilityService.getDateFormat(value.collectedDate) || '',
@@ -353,26 +400,28 @@ export class PddComponent implements OnInit {
         });
 
         if (!this.isSales) {
-          const isInvalid = this.pddForm.get('numberForm').get('regNumber').invalid;
-          if (isInvalid) {
-              return this.toasterService.showError('Please enter valid registration no', '');
-           }
-          data = {
-            pddDocumentDetails: formatArrValue,
-            pddVehicleDetails: {
-                ...numberForm 
+            const isInvalid = this.pddForm.get('numberForm').get('regNumber').invalid;
+            if (isInvalid) {
+                return this.toasterService.showError('Please enter valid registration no', '');
             }
-          };
-          this.isNumberSubmitted = false;
-          this.enableCpccSubmit();
+            data = {
+                pddDocumentDetails: formatArrValue,
+                pddVehicleDetails: {
+                    ...numberForm
+                }
+            };
+            this.isNumberSubmitted = false;
+            this.enableCpccSubmit();
         } else {
-           data =  {
-               pddDocumentDetails: formatArrValue,
-               pddVehicleDetails: {
-                ...processForm,
-                orcReceivedDate: this.utilityService.getDateFormat(processForm.orcReceivedDate) || '' 
-            }};
-            
+            data = {
+                pddDocumentDetails: formatArrValue,
+                pddVehicleDetails: {
+                    ...processForm,
+                    orcReceivedDate: this.utilityService.getDateFormat(processForm.orcReceivedDate) || '',
+                    endorsementDate: this.utilityService.getDateFormat(processForm.endorsementDate) || ''
+                }
+            };
+
         }
         console.log('data', data);
         // return;
@@ -381,14 +430,23 @@ export class PddComponent implements OnInit {
 
     checkValidation() {
         if (this.isSales) {
-            const processForm = this.pddForm.get('processForm').value;
+            const formValues = this.pddForm.getRawValue();
+            const processForm = formValues.processForm;
+            const controls = this.pddForm.get('processForm')
+
             if (!processForm.orcStatus || !processForm.orcReceivedDate) {
-               return true;
+                return true;
+            } else if (controls.get('rtoAgent').invalid ||
+                controls.get('endorsementDate').invalid ||
+                this.isShowError) {
+                this.isDirty = true;
+
+                return true;
             }
         } else {
             const numberForm = this.pddForm.get('numberForm').value;
             if (!numberForm.regNumber || !numberForm.engNumber || !numberForm.chasNumber) {
-               return true;
+                return true;
             }
         }
     }
@@ -407,9 +465,16 @@ export class PddComponent implements OnInit {
                     const response = value.ProcessVariables;
                     const error = response.error;
                     this.orcHistory = response.orcHistory;
+                    //this.rtoAgentsList= response.rtoAgentsList;
+                    if (this.orcHistory) {
+                        this.minEndorsementDate = this.utilityService.getDateFromString(this.orcHistory[0].orcReceivedDate);
+                        //this.minEndorsementDate.setDate(this.minEndorsementDate.getDate()-1)
+                    }
+
                     if (error.code === '0') {
                         this.toasterService.showSuccess('Updated successfully', '');
-                    } else {
+                    }
+                    else {
                         return this.toasterService.showError(error.message, '');
                     }
                     if (this.isSales && check) {
@@ -431,7 +496,7 @@ export class PddComponent implements OnInit {
                         }
                     }
 
-                    
+
 
                     if (!this.isSales) {
                         this.isNumberSubmitted = false;
@@ -441,7 +506,7 @@ export class PddComponent implements OnInit {
                         });
                         console.log('this.isDisableCpcSubmit', this.isDisableCpcSubmit)
                     }
-                 }
+                }
             });
     }
 
@@ -458,12 +523,62 @@ export class PddComponent implements OnInit {
         }
     }
 
+
+    changeEndorseDate(event) {
+        const date = new Date(event);
+        //console.log(date,'form', this.pddForm.get('processForm').get('endorsementDate'))
+        if (date > this.toDayDate) {
+            this.isShowError = true;
+        } else if (date < this.minEndorsementDate) {
+            this.isShowError = true;
+        } else {
+            this.isShowError = false;
+        }
+
+    }
+
     onOrcStatusChange(event) {
+        //console.log('event', event, this.pddForm)
+        const control = this.pddForm.get('processForm')
         if (event.key !== 'RECDFRMRTOAGNTPDDDOCS') {
             this.isDisableSubmitToCpc = true;
         } else if (this.apiCheck) {
             this.isDisableSubmitToCpc = false;
         }
+
+        if (event.key === 'RECDFRMRTOAGNTPDDDOCS') {
+
+            this.isRtoAgentMsg = false;
+            this.isEndorsDateMsg = true;
+
+            control.get('endorsementDate').setValidators([Validators.required]);
+            control.get('endorsementDate').updateValueAndValidity();
+
+            control.get('endorsementDate').enable();
+            control.get('rtoAgent').disable();
+        } else if (event.key === 'HNDOVRRTOAGNTPDDDOCS') {
+            this.isEndorsDateMsg = false;
+            this.isRtoAgentMsg = true;
+
+            control.get('rtoAgent').setValidators([Validators.required]);
+            control.get('rtoAgent').updateValueAndValidity();
+
+            control.get('rtoAgent').enable();
+            control.get('endorsementDate').disable();
+        } else {
+            this.isRtoAgentMsg = false;
+            this.isEndorsDateMsg = false;
+            control.get('endorsementDate').clearValidators();
+            control.get('endorsementDate').updateValueAndValidity();
+            control.get('rtoAgent').clearValidators();
+            control.get('rtoAgent').updateValueAndValidity();
+            control.get('endorsementDate').disable();
+            control.get('rtoAgent').disable();
+        }
+
+
+
+
     }
 
     checkTableValidation() {
@@ -538,8 +653,8 @@ export class PddComponent implements OnInit {
                 return value.key == detail.docId;
             })
             if (!detail.dmsDocId) {
-                 this.toasterService.showError(`Please upload document for ${docName.value}`, '');
-                 return true;
+                this.toasterService.showError(`Please upload document for ${docName.value}`, '');
+                return true;
             }
         }
     }
@@ -574,14 +689,14 @@ export class PddComponent implements OnInit {
             docSbCtgryCd,
             docRefId: [
                 {
-                  idTp: 'LEDID',
-                  id: this.leadId,
+                    idTp: 'LEDID',
+                    id: this.leadId,
                 },
                 {
-                  idTp: 'BRNCH',
-                  id: Number(localStorage.getItem('branchId')),
+                    idTp: 'BRNCH',
+                    id: Number(localStorage.getItem('branchId')),
                 },
-              ],
+            ],
         };
     }
 
@@ -624,14 +739,14 @@ export class PddComponent implements OnInit {
             .subscribe((value: any) => {
                 console.log('submit', value);
                 if (value.Error === '0') {
-                   const response = value.ProcessVariables;
-                   const error = response.error;
-                   if (error.code === '0') {
-                       this.toasterService.showSuccess('Submitted successfully', '');
-                       this.router.navigateByUrl(`/pages/dashboard`);
-                   } else {
-                    this.toasterService.showError(error.message, '');
-                   }
+                    const response = value.ProcessVariables;
+                    const error = response.error;
+                    if (error.code === '0') {
+                        this.toasterService.showSuccess('Submitted successfully', '');
+                        this.router.navigateByUrl(`/pages/dashboard`);
+                    } else {
+                        this.toasterService.showError(error.message, '');
+                    }
                 } else {
                     this.toasterService.showError(value.ErrorMessage, '');
                 }
@@ -661,79 +776,79 @@ export class PddComponent implements OnInit {
             console.log('xls', imageValue.imageUrl);
             this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/vnd.ms-excel');
             return;
-          }
+        }
         if (imageValue.imageType.includes('doc')) {
             console.log('xls', imageValue.imageUrl);
             this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/msword');
             return;
-          }
+        }
         const showDraggableContainer = {
             imageUrl: imageValue.imageUrl,
             imageType: imageValue.imageType,
-          };
+        };
         this.draggableContainerService.setContainerValue({
             image: showDraggableContainer
-          });
+        });
     }
 
     getBase64String(documentId) {
         return new Promise((resolve, reject) => {
-          this.uploadService
-            .getDocumentBase64String(documentId)
-            .subscribe((value) => {
-                //rslt
+            this.uploadService
+                .getDocumentBase64String(documentId)
+                .subscribe((value) => {
+                    //rslt
 
-              const msgHdr = value['dwnldDocumentRep'].msgHdr;
-              if (msgHdr.rslt !== 'OK') {
-                const error = value['dwnldDocumentRep'].msgHdr.error[0];
-                if (error && error.cd === 'BWENGINE-100067') {
-                    return this.toasterService.showError('Invalid document number' , '');
-                }
-              }
-              const imageUrl = value['dwnldDocumentRep'].msgBdy.bsPyld;
-              const documentName = value['dwnldDocumentRep'].msgBdy.docNm || '';
-              const imageType = documentName.split('.')[1].toLowerCase();
-              resolve({
-                imageUrl,
-                imageType,
-                documentName
-              });
-              console.log('downloadDocs', value);
-            });
+                    const msgHdr = value['dwnldDocumentRep'].msgHdr;
+                    if (msgHdr.rslt !== 'OK') {
+                        const error = value['dwnldDocumentRep'].msgHdr.error[0];
+                        if (error && error.cd === 'BWENGINE-100067') {
+                            return this.toasterService.showError('Invalid document number', '');
+                        }
+                    }
+                    const imageUrl = value['dwnldDocumentRep'].msgBdy.bsPyld;
+                    const documentName = value['dwnldDocumentRep'].msgBdy.docNm || '';
+                    const imageType = documentName.split('.')[1].toLowerCase();
+                    resolve({
+                        imageUrl,
+                        imageType,
+                        documentName
+                    });
+                    console.log('downloadDocs', value);
+                });
         });
-      }
+    }
 
-      getDownloadXlsFile(base64: string, fileName: string, type) {
+    getDownloadXlsFile(base64: string, fileName: string, type) {
         const contentType = type;
         const blob1 = this.base64ToBlob(base64, contentType);
         const blobUrl1 = URL.createObjectURL(blob1);
         console.log('blobUrl1', blobUrl1);
         setTimeout(() => {
-          const a: any = document.createElement('a');
-          document.body.appendChild(a);
-          a.style = "display: none";
-          a.href = blobUrl1;
-          a.download = fileName;
-          a.click();
-          window.URL.revokeObjectURL(blobUrl1);
+            const a: any = document.createElement('a');
+            document.body.appendChild(a);
+            a.style = "display: none";
+            a.href = blobUrl1;
+            a.download = fileName;
+            a.click();
+            window.URL.revokeObjectURL(blobUrl1);
         });
-      }
+    }
 
-      base64ToBlob(b64Data, contentType, sliceSize?: any) {
-          contentType = contentType || '';
-          sliceSize = sliceSize || 512;
-          const byteCharacters = atob(b64Data);
-          const byteArrays = [];
-          for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    base64ToBlob(b64Data, contentType, sliceSize?: any) {
+        contentType = contentType || '';
+        sliceSize = sliceSize || 512;
+        const byteCharacters = atob(b64Data);
+        const byteArrays = [];
+        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
             const slice = byteCharacters.slice(offset, offset + sliceSize);
             const byteNumbers = new Array(slice.length);
             for (let i = 0; i < slice.length; i++) {
-              byteNumbers[i] = slice.charCodeAt(i);
+                byteNumbers[i] = slice.charCodeAt(i);
             }
             const byteArray = new Uint8Array(byteNumbers);
             byteArrays.push(byteArray);
-          }
-          const blob = new Blob(byteArrays, {type: contentType});
-          return blob;
         }
+        const blob = new Blob(byteArrays, { type: contentType });
+        return blob;
+    }
 }
