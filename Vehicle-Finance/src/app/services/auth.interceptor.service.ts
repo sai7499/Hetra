@@ -127,8 +127,9 @@ export class AuthInterceptor implements HttpInterceptor {
               res = event.body;
             } else {
               if (
-                event.headers.get('content-type') != 'text/plain' &&
-                typeof event.body != 'object'
+                event.headers.get('content-type') != 'text/plain' && 
+                event.headers.get('content-type')!="text/html" &&
+                typeof event.body != 'object' 
               ) {
                 res = JSON.parse(event.body);
               }
