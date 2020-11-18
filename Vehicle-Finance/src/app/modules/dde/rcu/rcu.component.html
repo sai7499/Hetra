@@ -1,8 +1,8 @@
 <div style="text-align: center;">
-  <button class="btn btn-primary btn_div" *ngIf="isRcuDetails && isErr" (click)="showInitiateTask()"
+  <button class="btn btn-primary btn_div" *ngIf="isRcuDetails && isErr == true" (click)="showInitiateTask()"
     type="button">{{labels?.initiateRcu}}</button>
 </div>
-<form class="multisteps-form__form" *ngIf="!isRcuDetails && isErr" [formGroup]="rcuDetailsForm">
+<form class="multisteps-form__form" *ngIf="!isRcuDetails && isErr == true" [formGroup]="rcuDetailsForm">
   <h3 class="dashboard m-0">{{ labels?.rcu }}</h3>
   <!--progress bar-->
   <div class="content">
