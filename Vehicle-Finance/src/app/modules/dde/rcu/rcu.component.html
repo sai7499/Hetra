@@ -252,11 +252,11 @@
     
 
     <div class="form-group od-row">
-      <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12"><label>{{labels?.rcuReportStatus}}</label></div>
-      <!-- <div class="col-md-2">
+      <div class="col-md-3 col-lg-2 col-sm-6 col-xs-12"><label>{{labels?.rcuReportStatus}}</label></div>
+      <div class="col-md-3 col-lg-2 col-sm-6 col-xs-12">
         <app-vf-custom-select [values]="rcuLov?.rcuStatus" formControlName="rcuReportStatus">
         </app-vf-custom-select>
-      </div> -->
+      </div> 
       <!-- <div class="col-md-1 fitWidth pl-top" *ngIf="roleType == '6'" ><label class="">{{labels?.rcuUpload}}</label></div>
       <div class="col-md-1 pl-top" *ngIf="roleType == '6'"  >
         
@@ -274,15 +274,15 @@
         <input name="input" type="text" class="form-control file-input" formControlName="rcuDocumentId" readonly
         (click)="downloadDocs($event.target.value)" />
       </div> -->
-      <div _ngcontent-uth-c9="" class="form-group  col-lg-2 col-md-3 col-sm-6 col-xs-12">
+      <!--<div _ngcontent-uth-c9="" class="form-group  col-lg-2 col-md-3 col-sm-6 col-xs-12">
         <app-vf-custom-select _ngcontent-uth-c9="" formcontrolname="rcuReportStatus" _nghost-uth-c11="" ng-reflect-values="[object Object],[object Object" ng-reflect-name="rcuReportStatus" class="ng-untouched ng-pristine">
           <select _ngcontent-uth-c11="" ng-reflect-is-disabled="true" ng-reflect-model="FRDRCMSTS" class="form-control mandatory ng-untouched ng-pristine" disabled="">
             <option _ngcontent-uth-c11="" value="" ng-reflect-value="" disabled="">-- select one --</option><!--bindings={
           "ng-reflect-ng-for-of": "[object Object],[object Object"
-        }--><option _ngcontent-uth-c11="" value="UTVRCMSTS" ng-reflect-value="UTVRCMSTS">Failed / Unable to verify</option><option _ngcontent-uth-c11="" value="FRDRCMSTS" ng-reflect-value="FRDRCMSTS">Fraud</option><option _ngcontent-uth-c11="" value="NEGRCMSTS" ng-reflect-value="NEGRCMSTS">Negative</option><option _ngcontent-uth-c11="" value="POSRCMSTS" ng-reflect-value="POSRCMSTS">Positive</option></select><!--bindings={
+        }--><!--<option _ngcontent-uth-c11="" value="UTVRCMSTS" ng-reflect-value="UTVRCMSTS">Failed / Unable to verify</option><option _ngcontent-uth-c11="" value="FRDRCMSTS" ng-reflect-value="FRDRCMSTS">Fraud</option><option _ngcontent-uth-c11="" value="NEGRCMSTS" ng-reflect-value="NEGRCMSTS">Negative</option><option _ngcontent-uth-c11="" value="POSRCMSTS" ng-reflect-value="POSRCMSTS">Positive</option></select><!--bindings={
           "ng-reflect-ng-if": "false"
-        }--></app-vf-custom-select>
-    </div>
+        }</app-vf-custom-select>
+    </div>-->
     <div _ngcontent-uth-c9=""*ngIf="roleType == '6'"  class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12">
       <label _ngcontent-uth-c9="" class="">RCU Upload</label>
     </div>
