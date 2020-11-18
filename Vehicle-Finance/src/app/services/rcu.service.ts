@@ -97,4 +97,23 @@ assignRcuTask(data){
   
   return this.httpService.post(url, requestEntity);
 }
+stopRcuTask(data){
+  const processData = data;
+  const processId = this.apiService.api.stopRcuTask.processId;
+  const workflowId = this.apiService.api.stopRcuTask.workflowId;
+  const projectId = this.apiService.api.stopRcuTask.projectId;
+
+  const userId = localStorage.getItem('userId');
+
+  const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables:  processData,
+      workflowId,
+      projectId
+  };
+  
+  let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+  
+  return this.httpService.post(url, requestEntity);
+}
 }

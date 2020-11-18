@@ -314,7 +314,8 @@ export class PSLdataComponent implements OnInit {
             key: element.endUseId,
             value: element.endUseName,
           };
-          console.log('RELATED_ENDUSE_NAME --', data);
+
+          // console.log('RELATED_ENDUSE_NAME --', data);
           this.endUseValues.push(data);
         }
       });
@@ -327,10 +328,11 @@ export class PSLdataComponent implements OnInit {
             key: element.endUseId,
             value: element.endUseName,
           };
-          console.log('RELATED_ENDUSE_NAME --', data);
+
           this.endUseValues.push(data);
         }
       });
+
       // if (this.detailActivityChange === null) {
       console.log('this.LOV.LOVS.pslCategory', this.LOV.LOVS.pslCategory);
       this.LOV.LOVS.pslCategory.filter((element) => {
@@ -365,6 +367,12 @@ export class PSLdataComponent implements OnInit {
       // }
 
     }
+    // this.endUseValues.forEach((element) => {
+    //   console.log('end use duplicates', element);
+
+    //    });
+    // filtering duplicates from end user values(purpose of loan lov)
+    this.endUseValues = Object.values(this.endUseValues.reduce((acc, cur) => Object.assign(acc, {[cur.key]: cur}), {})); 
   }
    // CHANGE OPTION IN LAND HOLDING
    onChangePslLandHolding(event: any) {
@@ -696,6 +704,9 @@ export class PSLdataComponent implements OnInit {
     // If DETAIL_ACTIVITY AS ALLIED ACTIVITY
     if (this.detailActivityChange === '2PSLDTLACTVTY') {
       this.pslLandHolding = [{ key: 0, value: 'No' }];
+      // this.pslDataForm.controls.agriculture.patchValue({
+      //   landHolding: this.pslLandHolding[0].key
+      // });
       // this.landAreaInAcresValue = 0;
       this.pslDataForm.get('agriculture.landUnitValue').reset();
       this.pslDataForm.get('agriculture.landInHectare').reset();
@@ -848,7 +859,7 @@ export class PSLdataComponent implements OnInit {
       this.LOV.LOVS.pslCategory.filter((element) => {
         if (element.key === '2PSLCAT') {
           this.pslCategoryData = [{ key: element.key, value: element.value }];
-          this.pslCategoryValues= this.pslCategoryData;
+          this.pslCategoryValues = this.pslCategoryData;
           this.formValues.pslCategory = this.pslCategoryData[0].key;
         }
       });

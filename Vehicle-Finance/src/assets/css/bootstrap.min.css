@@ -1411,7 +1411,12 @@ select,
 textarea {
     font-family: inherit;
     font-size: inherit;
-    line-height: inherit
+    line-height: inherit;
+}
+
+.main-table input{
+    width:100%!important;
+    padding: 6px 10px!important;
 }
 
 a {

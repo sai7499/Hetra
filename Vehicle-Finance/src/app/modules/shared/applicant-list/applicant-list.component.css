@@ -69,7 +69,7 @@ th {
 /* style for modal */
 
 .modal-style{
-  width:85%;
+  width:95%;
   margin:auto;
 }
 
@@ -247,7 +247,7 @@ p-0{
 }
 
 .ekyc-to-print{
-  padding: 10px 35px;
+  padding: 10px 5px;
 }
 
 .tab-content td{
@@ -357,7 +357,15 @@ p-0{
   }
 
   .ekyc-to-print{
-    padding: 10px 35px;
+    padding: 10px 5px;
+  }
+
+  .ekyc-to-print td{
+    font-size:12px!important;
+  }
+
+  .ekyc-to-print .col-lg-9{
+    margin-left:10px;
   }
   .tablewithdetails td:before {
     content: attr(data-label);

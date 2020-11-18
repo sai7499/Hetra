@@ -101,12 +101,13 @@ export class TvrDetailsComponent implements OnInit {
   }
 
   onNext() {
-    if (this.fiCumPdStatus == false) {
-      this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
-    } else if (this.fiCumPdStatus == true) {
-      this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+    this.router.navigate(['pages/dde/' + this.leadId + '/rcu']);
+  //   if (this.fiCumPdStatus == false) {
+  //     this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
+  //   } else if (this.fiCumPdStatus == true) {
+  //     this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
 
-    }
+  //   }
   }
 
 }
