@@ -148,7 +148,7 @@
                   *ngIf="chatList.length >= 5 && getLeadsObj.chatTotalPages > chatTotalPages">Load
                   more</div>
                 <div class="empty-list" *ngIf="chatList.length === 0 && queryModalForm.value.searchName">
-                  No such field in leadlist
+                  No such lead is available in lead list
                 </div>
 
               </div>
@@ -277,18 +277,18 @@
 
                 <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
                   <div class="form-group">
-                    <label class="col-sm-4 col-lg-4 col-md-4 col-xs-12">Lead Id</label>
+                    <label class="col-sm-4 col-lg-4 col-md-4 col-xs-12">{{labels.leadID}}</label>
                     <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12" (mouseleave)="mouseLeaveLeadId()">
 
-                      <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchLeadId"
-                        [ngModelOptions]="{standalone: true}" (mouseenter)="mouseleadIdEnter()"
-                        (keyup)="getleadIdvalue($event.target.value)">
+                      <input type="text" class="form-control" autocomplete="off" formControlName="searchLeadId"
+                        (keyup)="getleadIdvalue($event.target.value)" (blur)="onBlurleadId()">
 
-                      <!-- (valueChange)="
-                        queryModalForm.value.searchName.length>= 2 ? getLeads(getLeadSendObj,
-                      '', searchLeadId) : ''" -->
+                      <div class="ShowError" *ngIf="isleadIdshowError || (queryModalForm.get('searchLeadId').touched &&
+                        queryModalForm.get('searchLeadId').invalid)">
+                        Please select the valid lead id
+                      </div>
 
-                      <div class="dropdown-content" *ngIf="isLeadShow && searchLeadId.length >= 3">
+                      <div class="dropdown-content" *ngIf="isLeadShow">
                         <div *ngFor="let item of getSearchableLead">
                           <a data-toggle="collapse" data-target="#bs-navbar" (click)="getLead(item)">{{item.value}}</a>
                         </div>
@@ -317,13 +317,19 @@
 
                 <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
                   <div class="form-group">
-                    <label class="col-sm-4 col-lg-4 col-md-4 col-xs-12">Tag query To</label>
-                    <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12" (mouseleave)="mouseLeave()">
-                      <input type="text" class="form-control" autocomplete="off" [(ngModel)]="searchText"
-                        [ngModelOptions]="{standalone: true}" (mouseenter)="mouseEnter()"
-                        (keyup)="getvalue($event.target.value)">
 
-                      <div class="dropdown-content" *ngIf="dropDown && searchText.length >= 3">
+                    <label for="query_to" class="col-sm-4 col-lg-4 col-md-4 col-xs-12">Tag query To</label>
+                    <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12" (mouseleave)="mouseLeave()">
+                      <input type="text" class="form-control" autocomplete="off" formControlName="searchText"
+                        (mouseup)="getvalue($event.target.value)"
+                        (blur)="onBlurQueryTo()" (keyup)="getvalue($event.target.value)">
+
+                      <div class="ShowError" *ngIf="isQueryToShowError || (queryModalForm.get('searchText').touched &&
+                        queryModalForm.get('searchText').invalid)">
+                        Please select the valid query to
+                      </div>
+
+                      <div class="dropdown-content" *ngIf="dropDown">
                         <div *ngFor="let item of searchLead">
                           <a data-toggle="collapse" data-target="#bs-navbar"
                             (click)="getQueryTo(item)">{{item.value}}</a>
@@ -341,9 +347,17 @@
                   <div class="form-group">
                     <label for="file-upload" class="col-sm-4 col-lg-4 col-md-4 col-xs-12">Attachment</label>
                     <div class="upload-btn-wrapper col-sm-8 col-lg-8 col-md-8 col-xs-12">
-                      <button id="file-upload" class="btn-upload" aria-hidden="true" (click)="chooseFile()">
-                        {{queryModalForm.controls['docName'].value ? 'Change' : 'Choose'}} file</button>
+
+                      <!-- <button id="file-upload" class="btn-upload" aria-hidden="true" (click)="chooseFile()">
+                        {{queryModalForm.controls['docName'].value ? 'Change' : 'Choose'}} file</button> -->
+
+                      <a id="file-upload"><button class="btn-upload" aria-hidden="true" type="button"
+                          (click)="chooseFile()">
+                          {{queryModalForm.controls['docName'].value ? 'Change' : 'Choose'}} file
+                        </button></a>
                     </div>
+
+
 
                     <label for="file-name" class="col-sm-8 col-lg-8 col-md-8 col-xs-12"
                       *ngIf="queryModalForm.controls['docName'].value">
@@ -382,6 +396,7 @@
 
           </div>
         </form>
+
       </div>
     </div>
 

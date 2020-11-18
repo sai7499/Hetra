@@ -40,12 +40,18 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   roles: any = [];
   LOV: any = [];
   public label: any = {};
+ 
+  public childLoanCondition: any = {};
   public productCatoryCode: string;
+  public Product: string;
+  public ProductId: string;
+
   public leadDetails: any = {};
   public loanTenor: number = 0;
 
   @Input() isDirty: boolean;
   isDisabled: boolean = true;
+  isChildLoan: boolean = true;
 
   public minDate = new Date(new Date().setFullYear(new Date().getFullYear() - 15))
   public isInvalidMobileNumber: boolean;
@@ -105,6 +111,17 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.leadId = leadData['leadId'];
     this.productCatoryCode = this.leadDetails['productCatCode'];
     this.loanTenor = this.leadDetails['reqTenure'];
+    this.ProductId = this.leadDetails['productId']
+
+    this.Product = 'FCLoan';
+
+    this.labelsData.getChildLoanConditionData().subscribe((child: any) => {
+      if (this.Product) {
+        this.childLoanCondition = child.childLoan.isRequired[this.Product];
+      }
+      console.log(this.childLoanCondition, 'child')
+
+    })
 
     this.eligibleLoanAmount = this.activedRoute.snapshot.params['eligibleLoanAmount'] ? this.activedRoute.snapshot.params['eligibleLoanAmount'] : 0;
 
