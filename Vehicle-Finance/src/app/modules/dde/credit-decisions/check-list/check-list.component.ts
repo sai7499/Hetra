@@ -360,6 +360,9 @@ onNext()  {
     } else if ( this.roleType == '5') {
     this.router.navigate([`pages/cpc-checker/${this.leadId}/disbursement`]);
     }
+    else if ( this.roleType == '7') {
+      this.router.navigate([`pages/cpc-maker/${this.leadId}/remarks`]);
+      }
   } else {
     this.toasterService.showError('Select Mandatory Fields', ' ');
   }
@@ -375,7 +378,9 @@ onBack() {
     // tslint:disable-next-line: triple-equals
     } else if ( this.roleType == '5') {
     this.router.navigate([`pages/cpc-checker/${this.leadId}/negotiation`]);
-    }
+    } else if ( this.roleType == '7') {
+      this.router.navigate([`pages/cpc-maker/${this.leadId}/disbursement`]);
+      }
 
 }
 
