@@ -10,9 +10,9 @@
     
   
 
-<div class="btn-sec clear-both row btn-mar-15" id="clickButton">
-  <div class="col-sm-5"></div>
-  <div class="col-sm-7 text-right p-0" style="padding-bottom: 2vw;">
+<div class="btn-sec clear-both row btn-mar-15" id="clickButton" >
+  <div class="col-sm-4"></div>
+  <div class="col-sm-7 tab-mar text-right p-0" >
     <button  class="btn btn-primary" type="button"
      (click)="onBack()" >
       Back
@@ -21,13 +21,81 @@
      (click)="onsave()" >
       Save
     </button>
-    <button  class="btn btn-primary -btn-next" type="button"
+    <button  class="btn btn-primary -btn-next" type="button" 
     (click)="onApproval()">
       Approve
     </button>
-    <!-- <button  class="btn btn-primary -btn-next" type="button"
+    <button  class="btn btn-primary -btn-next" type="button"
     (click)="onSendToCredit()">
      Send Back To Credit
-    </button> -->
+    </button>
   </div>
 </div>
+
+
+<div class="modal" id="approveModal" [ngClass]="{ 'dis-block': showModalApprove }">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+              <h4 class="modal-title"></h4>
+              <button type="button" class="close" data-dismiss="modal"
+              (click)="onCancel()">
+                  &times;
+              </button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body" style="text-align: center;">
+              <label>Are you sure you want to Approve the Remarks</label>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer text-center">
+              <button type="button" class="btn btn-success" id="reject_yes_val" value="Yes"
+                   data-dismiss="modal" (click)="callApproval()">
+                  Yes
+              </button>
+
+              <button type="button" class="btn btn-danger" data-dismiss="modal"
+              (click)="onCancel()">
+                  Cancel
+              </button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="modal" id="approveModal" [ngClass]="{ 'dis-block': showSendCredit }">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+              <h4 class="modal-title"></h4>
+              <button type="button" class="close" data-dismiss="modal"
+              (click)="onCancelCredit()">
+                  &times;
+              </button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body" style="text-align: center;">
+              <label>Are you sure you want to Send Back To Credit</label>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer text-center">
+              <button type="button" class="btn btn-success" id="reject_yes_val" value="Yes"
+                   data-dismiss="modal" (click)="callSendBackToCredit()">
+                  Yes
+              </button>
+
+              <button type="button" class="btn btn-danger" data-dismiss="modal"
+              (click)="onCancelCredit()">
+                  Cancel
+              </button>
+          </div>
+      </div>
+  </div>
+</div>
+

@@ -24,8 +24,8 @@ export const environment = {
     reinititateFiApi: '403a8a12b79511ea8afff2fa9bec3d63',
     retrieveAadharData : 'db2732f4ab4811ea82f8f2fa9bec3d63',
     validateSRNumber : '8bfa8dba945b11eabdcaf2fa9bec3d63',
-    assignCPCMaker : '403a8a12b79511ea8afff2fa9bec3d63',
     remarksProjectId : '8bfa8dba945b11eabdcaf2fa9bec3d63',
+    assignCPCMaker : '403a8a12b79511ea8afff2fa9bec3d63'
   },
   // hostingEnvironment: 'DEV',
   hostingEnvironment: 'UAT',
