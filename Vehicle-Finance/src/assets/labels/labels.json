@@ -1645,21 +1645,20 @@
     "matchedCriteria": "Matched Criteria",
     "disbursementStartDate": "Disbursement - Start Date",
     "disbursementEndDate": "Disbursement - End Date",
-    "propertyValue":"Property Value",
+    "propertyValue": "Property Value",
     "initiateRcu": "Initiate RCU",
-    "rcu":"RCU",
-    "fileRcuStatus":"File RCU Status",
-    "screened":"Screened",
-    "sampled":"Sampled",
-    "showApplicantDocuments":"Show Applicant Documents",
-    "showCollateralDocuments":"Show Collateral Documents",
-    "documentCategory":"Document Category",
-    "rcuReportStatus":"RCU Report Status",
-    "rcuUpload":"RCU Upload",
-    "rcuReportReceivedDateandTime":"RCU Report Received Date and Time",
-"rcuDocumentId":"RCU Document Id",
-    "documentId":"Document Id",
-    
+    "rcu": "RCU",
+    "fileRcuStatus": "File RCU Status",
+    "screened": "Screened",
+    "sampled": "Sampled",
+    "showApplicantDocuments": "Show Applicant Documents",
+    "showCollateralDocuments": "Show Collateral Documents",
+    "documentCategory": "Document Category",
+    "rcuReportStatus": "RCU Report Status",
+    "rcuUpload": "RCU Upload",
+    "rcuReportReceivedDateandTime": "RCU Report Received Date and Time",
+    "rcuDocumentId": "RCU Document Id",
+    "documentId": "Document Id",
     "landAreaInHectares": "Land Area In Hectares",
     "uRecessionNo": "UDHYAM Registration number",
     "uRegisteredMobileNo": "UDHYAM Registered mobile number",
@@ -1671,10 +1670,17 @@
     "inputValue": "Input Value",
     "scoreValue": "Score",
     "marketAndFinancierReference": "Market & Financier Reference",
-    "performed_by":"Performed By",
-    "performed_on":"Performed On",
+    "performed_by": "Performed By",
+    "performed_on": "Performed On",
     "speedometerReading": "Speedometer Reading",
     "deleteReference": "Are You Sure Want To Delete Reference Details?",
+    "creditShieldHolderName": "Name of the credit shield policy holder",
+    "typeOfApplicant": "Type of applicant",
+    "usedCoverageAmount": "Used coverage amount",
+    "nomineeDetails": "Nominee Details",
+    "nomineeAddress": "Nominee Address",
+    "guardianDetails": "Guardian Details",
+    "guardianAddress": "Guardian Address",
     "validationData": {
         "name": {
             "maxLength": {
@@ -2701,13 +2707,13 @@
             "maxLength": {
                 "rule": 300
             },
-            "type":"special-alpha-numeric"
+            "type": "special-alpha-numeric"
         },
         "pslUdhyamregno": {
-            "maxLength":{
-                "rule":20
+            "maxLength": {
+                "rule": 20
             },
-            "type":"alpha-numeric-nospace"
+            "type": "alpha-numeric-nospace"
         },
         "speedometerReading": {
             "maxLength": {
