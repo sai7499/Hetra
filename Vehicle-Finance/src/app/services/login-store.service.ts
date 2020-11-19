@@ -43,7 +43,8 @@ export class LoginStoreService {
             roleId: roles[0].roleId,
             roleType: roles[0].roleType,
             userName: userDetails.firstName,
-            businessDivision: businessDivisionList
+            businessDivision: businessDivisionList,
+            loginId: userDetails['loginId']
         });
         this.userRoleActivityList = userRoleActivityList;
         this.userDetails = userDetails;

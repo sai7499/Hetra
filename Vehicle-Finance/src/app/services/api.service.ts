@@ -941,6 +941,21 @@ export class ApiService {
       workflowId: 'b50e63f4235b11eb937600505695f93b',
       projectId: environment.projectIds.camProjectId
     },
+    supervisorReporters: {
+      processId: 'b1e4ab40234a11eba48800505695f93b',
+      workflowId: '7fde429c82ea11eabdc2f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    supervisorGetUsers: {
+      processId: '6b03a16628e211ebbefa00505695f93b',
+      workflowId: '7fde429c82ea11eabdc2f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    supervisorReAssign: {
+      processId: '416121c228eb11eb9fb000505695f93b',
+      workflowId: '7fde429c82ea11eabdc2f2fa9bec3d63',
+      projectId: environment.projectIds.taskProjectId
+    },
     stopRcuTask: {
       processId: '9383864228a111ebbf3f00505695f93b',
       workflowId: 'a513d5ce1f5011eba48800505695f93b',
