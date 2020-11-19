@@ -31,4 +31,56 @@ getTeamDetails() { //supervisorRelated
   return this.httpService.post(url, body);
 }
 
+getReportersList(data) {
+    const processData = data;
+    const processId = this.apiService.api.supervisorReporters.processId;
+    const workflowId = this.apiService.api.supervisorReporters.workflowId;
+    const projectId = this.apiService.api.supervisorReporters.projectId;
+
+    const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId,
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, requestEntity);
+}
+
+getSupervisorUserDetails(data) {
+  const processData = data;
+  const processId = this.apiService.api.supervisorGetUsers.processId;
+  const workflowId = this.apiService.api.supervisorGetUsers.workflowId;
+  const projectId = this.apiService.api.supervisorGetUsers.projectId;
+
+  const requestEntity: RequestEntity = {
+    processId,
+    ProcessVariables: processData,
+    workflowId,
+    projectId,
+  };
+
+  const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+  return this.httpService.post(url, requestEntity);
+}
+
+supervisorReAssign(data) {
+  const processData = data;
+  const processId = this.apiService.api.supervisorReAssign.processId;
+  const workflowId = this.apiService.api.supervisorReAssign.workflowId;
+  const projectId = this.apiService.api.supervisorReAssign.projectId;
+
+  const requestEntity = {
+    processId,
+    ProcessVariables: processData,
+    workflowId,
+    projectId,
+    headers: 'JJsZjki6ofISkf/SIfKoHbt9O77X7kF/hy4O7ZshWR0fXZJCEMLuKFgxM9RtZPcl'
+  };
+
+  const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+  return this.httpService.post(url, requestEntity);
+}
+
 }

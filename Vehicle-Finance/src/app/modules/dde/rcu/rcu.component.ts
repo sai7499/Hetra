@@ -183,9 +183,9 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
     } else {
       let todayDate = this.today;
       // return todayDate
-
-      return todayDate;
       console.log(todayDate);
+      return todayDate;
+      
     }
   }
   showDocuments(check) {
@@ -803,7 +803,7 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
   showInitiateTask() {
     // this.rowIndex = i;
     this.isInitiateScreen = true;
-    this.errorMessage = 'Are you sure Want to initiate RCU ?';
+    this.errorMessage = 'Are you sure you want to initiate RCU?';
   }
   errGenerated() {
     this.errorGenerated = false
