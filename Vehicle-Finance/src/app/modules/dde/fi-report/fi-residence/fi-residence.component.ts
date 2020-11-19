@@ -70,6 +70,7 @@ export class FiResidenceComponent implements OnInit {
   ownerShipType: any;
   ownerNamePropertyAreaRequired: boolean;
   ownerNamePropertyAreaDisabled: boolean;
+  initDate: boolean;
 
   constructor(
     private labelService: LabelsService,
@@ -389,7 +390,8 @@ export class FiResidenceComponent implements OnInit {
       });
 
   }
-  getMonths() {
+  validateSubmitDate() {
+    console.log('Form Data', this.fieldReportForm);
     const initiatedDate = new Date(this.fieldReportForm.value.cpvInitiatedDate)
       ? new Date(this.fieldReportForm.value.cpvInitiatedDate) : null;
     console.log('init date', initiatedDate);
@@ -398,12 +400,13 @@ export class FiResidenceComponent implements OnInit {
     console.log('init date', submitDate);
     if (initiatedDate !== null && submitDate !== null) {
       if (submitDate < initiatedDate) {
+        this.initDate = true;
         this.toasterService.showWarning('Submit Date should be greater than Initiated Date', '');
-
+        // return;
       }
 
     }
-
+    console.log('Form Data', this.fieldReportForm);
   }
 
   initForm() {
@@ -616,17 +619,19 @@ export class FiResidenceComponent implements OnInit {
 
 
   onFormSubmit() { // fun that submits all the pd data
+    this.validateSubmitDate();
     const formValue = this.fieldReportForm.getRawValue();
-
     this.yearsOfStayInCity = String((Number(formValue.noOfYearsCity) * 12) + Number(formValue.noOfMonthsCity)) || '';
     this.yearsOfStayInResi = String((Number(formValue.noOfYearsResi) * 12) + Number(formValue.noOfMonthsResi)) || '';
-
     const formModal = this.fieldReportForm.value;
     const fieldReportModal = { ...formModal };
     console.log('Form Data', this.fieldReportForm);
     this.isDirty = true;
     if (this.fieldReportForm.invalid) {
       this.toasterService.showWarning('please enter required details', '');
+      return;
+    } else if (this.initDate) {
+      this.toasterService.showWarning('Submit Date should be greater than Initiated Date', '');
       return;
     }
     this.fiResidenceDetails = {

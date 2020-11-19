@@ -141,6 +141,12 @@
           fieldReportForm.controls['reportSubmitDate'].hasError('required')">
           Report submit date is required
         </div>
+        <div *ngIf="
+              fieldReportForm.controls['reportSubmitDate'].value &&
+                fieldReportForm.controls['reportSubmitDate'].errors" >
+
+                Report submit date should be greater than CPV initiated date
+              </div>
         </div>
       </div>
     </div>

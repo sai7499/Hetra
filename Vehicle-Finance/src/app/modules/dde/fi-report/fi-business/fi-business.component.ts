@@ -263,6 +263,7 @@ export class FiBusinessComponent implements OnInit {
 
   }
   getMonths() {
+    console.log('Form Data', this.fieldReportForm);
     const initiatedDate = new Date(this.fieldReportForm.value.cpvInitiatedDate)
       ? new Date(this.fieldReportForm.value.cpvInitiatedDate) : null;
     const submitDate = new Date(this.fieldReportForm.value.reportSubmitDate)
@@ -274,6 +275,7 @@ export class FiBusinessComponent implements OnInit {
       }
 
     }
+    console.log('Form Data', this.fieldReportForm);
 
   }
 
