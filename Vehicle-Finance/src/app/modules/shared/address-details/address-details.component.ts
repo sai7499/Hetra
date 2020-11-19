@@ -117,6 +117,8 @@ export class AddressDetailsComponent implements OnInit {
   apiAddressLead = '0';
   apiCommunicationCheckBox = '0';
 
+  isLoan360: boolean;
+
 
   constructor(
     private lovData: LovDataService,
@@ -136,6 +138,7 @@ export class AddressDetailsComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.initForm();
     this.getLabels();
     this.getLOV();

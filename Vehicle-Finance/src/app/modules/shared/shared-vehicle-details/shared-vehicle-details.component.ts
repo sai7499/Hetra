@@ -41,6 +41,8 @@ export class SharedVehicleDetailsComponent implements OnInit {
   collateralLOV: any = [];
   isCollateralSrting: string = 'Collateral';
 
+  isLoan360: boolean;
+
   constructor(
     private loginStoreService: LoginStoreService, private toggleDdeService: ToggleDdeService,
     private labelsData: LabelsService, private collateralService: CollateralService,
@@ -53,6 +55,7 @@ export class SharedVehicleDetailsComponent implements OnInit {
     private loanViewService: LoanViewService) { }
 
   ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.roles = roleAndUserDetails.roles;
     this.userId = roleAndUserDetails.userDetails.userId;

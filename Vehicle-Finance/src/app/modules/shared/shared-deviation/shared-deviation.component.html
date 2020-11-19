@@ -103,10 +103,12 @@
 
     <ng-container formArrayName="autoDeviationFormArray">
 
+      <ng-container *ngIf="!isLoan360">
       <div class="text-right" id="get_role_details_btn" *ngIf="!isSubmitToCredit">
         <button class="btn mar-right8 btn-primary" type="button"
           (click)="getTrigurePolicy()">{{labels.getTriggerPolicy}}</button>
       </div>
+    </ng-container>
 
       <div *ngIf="deviationsForm.get('autoDeviationFormArray')['controls'].length > 0">
 
@@ -190,10 +192,13 @@
 
     <ng-container formArrayName="manualDeviationFormArray">
 
-      <div class="text-right" id="add_manual_deviation_btn" *ngIf="!isSubmitToCredit">
-        <button class="btn mar-right8 btn-primary" type="button"
-          (click)="addDeviationUnit()">{{labels?.addManualDeviation}}</button>
-      </div>
+      <ng-container *ngIf="!isLoan360">
+        <div class="text-right" id="add_manual_deviation_btn" *ngIf="!isSubmitToCredit">
+          <button class="btn mar-right8 btn-primary" type="button"
+            (click)="addDeviationUnit()">{{labels?.addManualDeviation}}</button>
+        </div>
+      </ng-container>
+      
 
       <div *ngIf="deviationsForm.get('manualDeviationFormArray')['controls'].length > 0">
 

@@ -113,7 +113,8 @@ export class CamComponent implements OnInit {
   coAppArray: any = []
   guarntorArray: any = []
   showSendBackToSales:boolean = false
-  body: any
+  body: any;
+  isLoan360: boolean;
   constructor(private labelsData: LabelsService,
     private camService: CamService,
     private activatedRoute: ActivatedRoute,
@@ -135,6 +136,8 @@ export class CamComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
 
     this.labelsData.getLabelsData().subscribe(
       data => {

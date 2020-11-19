@@ -109,6 +109,7 @@ export class ReferenceCheckComponent implements OnInit {
   applicantType: any;
   allowSave: boolean;
   indexFromHtml: number;
+  isLoan360: boolean;
   constructor(
     private labelsData: LabelsService, // service to access labels
     private personalDiscussion: PersonalDiscussionService,
@@ -140,6 +141,8 @@ export class ReferenceCheckComponent implements OnInit {
   }
 
   async ngOnInit() {
+
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
 
     this.checkGpsEnabled();
 

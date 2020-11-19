@@ -108,6 +108,7 @@ export class ReferenceComponent implements OnInit {
   testt: string;
   apiValue: any;
   finalValue: any;
+  isLoan360: boolean;
 
   constructor(
     private commonLovService: CommomLovService,
@@ -140,6 +141,7 @@ export class ReferenceComponent implements OnInit {
 
 
   async ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.initForm();
     this.currentUrl = this.location.path();
     if (this.currentUrl) {

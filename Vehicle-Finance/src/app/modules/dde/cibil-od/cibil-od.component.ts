@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LabelsService } from '@services/labels.service';
 import { OdDetailsService } from '@services/od-details.service';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-cibil-od',
@@ -15,15 +16,18 @@ export class CibilOdComponent implements OnInit {
   userId: string;
   odApplicantList: any;
   applicantUrl: string;
+  isLoan360: boolean;
 
   constructor(private location: Location,
     private router: Router,
     private labelService: LabelsService,
     private activatedRoute: ActivatedRoute,
     private odDetailsService:OdDetailsService,
+    private loanViewService: LoanViewService
   ) { }
 
   ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
     });

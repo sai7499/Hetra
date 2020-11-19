@@ -205,10 +205,21 @@ export class DdeComponent implements OnInit, OnChanges {
       return 17;
     } else if (url.includes('insurance-details')) {
       return 17;
-    } else if (url.includes('negotiation')) { 
+    } else if (url.includes('disbursement')) {
+      return 18;
+    } else if (url.includes('negotiation')) {
       return 19;
     } else if (url.includes('credit-conditions')) {
       return 20;
+    } else if (url.includes('sanction-letter')) {
+      return 21;
+    } else if (url.includes('term-sheet')) { 
+      return 22;
+    } else if (url.includes('welcome-letter')) {
+      return 23;
+    } else if (url.includes('delivery-order')) {
+      return 24;
     }
+
   }
 }

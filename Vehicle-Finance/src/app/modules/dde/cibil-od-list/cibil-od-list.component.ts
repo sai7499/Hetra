@@ -59,6 +59,7 @@ export class CibilOdListComponent implements OnInit {
   cibilImage: any;
   addMatchFound  : boolean = false;
   cibilOdDetails: any;
+  isLoan360: boolean;
   constructor(
     private labelService: LabelsService,
     private formBuilder: FormBuilder,
@@ -80,6 +81,7 @@ export class CibilOdListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.labelService.getLabelsData().subscribe((res) => {
       this.labels = res;
     });

@@ -74,6 +74,7 @@ export class FleetDetailsComponent implements OnInit {
   public allLovs: any;
   fleetLov: any = [];
 
+
   regexPattern = {
     // tensure: {
     //   rule: "^[1-9][0-9]*$",
@@ -117,6 +118,9 @@ export class FleetDetailsComponent implements OnInit {
   paidTenureCheck = [];
   fleetArrayList: FormArray;
   operationType: boolean;
+
+  isLoan360: boolean;
+
   constructor(
 
     private labelsData: LabelsService,
@@ -143,6 +147,8 @@ export class FleetDetailsComponent implements OnInit {
   async ngOnInit() {
 
     // accessing lead if from route
+
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
 
     this.leadId = (await this.getLeadId()) as number;
     console.log("leadID =>", this.leadId)
@@ -780,6 +786,10 @@ export class FleetDetailsComponent implements OnInit {
 
 
   onFormSubmit(index: any) {
+
+    if (this.isLoan360) {
+      return;
+    }
 
     this.fleetDetails = this.fleetForm.value.Rows;
     console.log("fleet form value", this.fleetForm)

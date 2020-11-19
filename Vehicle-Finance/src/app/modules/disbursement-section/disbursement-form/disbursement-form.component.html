@@ -2635,10 +2635,14 @@
     </div>
     <div class="col-sm-7 text-right">
       <button (click)="onBack()" class="btn btn-primary " type="button" *ngIf="showSaveButton == true">Back </button>
+      <ng-container *ngIf="!isLoan360">
+
+      
       <button (click)="saveAndUpdate()" class="btn btn-primary " type="button" *ngIf="roleType != 4 && roleType != 5" >Save </button>
       
       <button data-toggle="modal" data-target="#myModal" class="btn btn-primary " type="button" *ngIf="roleType == '5'">Book Loan </button>
       <button (click)="saveAndUpdate('next')" class="btn btn-primary js-btn-next" type="button" *ngIf="roleType != 4 && roleType != 5" > Next </button>
+    </ng-container>
       <button (click)="onNext()" class="btn btn-primary js-btn-next" type="button" *ngIf="roleType == 4" > Next </button>
     </div>
   </div>

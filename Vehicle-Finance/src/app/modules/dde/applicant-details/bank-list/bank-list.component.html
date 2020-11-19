@@ -74,7 +74,16 @@
                   <td [attr.data-label]="labels?.toDate">{{ item?.toDate }}</td>
                   <td [attr.data-label]="labels?.period">{{ item?.period }}</td>
                   <td class="cursor-pointer" [attr.data-label]="labels?.action">
-                    <i
+                    <ng-container *ngIf="isLoan360">
+                      <i
+                      class="fa fa-eye"
+                      (click)="routeDetails(item.applicantId)"
+                      aria-hidden="true"
+                    ></i
+                    >
+                    </ng-container>
+                    <ng-container *ngIf="!isLoan360">
+                      <i
                       class="fa fa-pencil"
                       (click)="routeDetails(item.applicantId)"
                       aria-hidden="true"
@@ -86,6 +95,7 @@
                       data-toggle="modal"
                       data-target="#myModal"
                     ></i>
+                    </ng-container>
                   </td>
                 </tr>
               </tbody>

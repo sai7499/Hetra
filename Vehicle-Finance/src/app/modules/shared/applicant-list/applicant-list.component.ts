@@ -13,6 +13,7 @@ import { ApplicantDataStoreService } from '@services/applicant-data-store.servic
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import html2pdf from 'html2pdf.js';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   templateUrl: './applicant-list.component.html',
@@ -49,6 +50,8 @@ export class ApplicantListComponent implements OnInit {
   isDelete : boolean= false;
   leadSectioData: any;
 
+  isLoan360: boolean;
+
   constructor(
     private labelsData: LabelsService,
     private location: Location,
@@ -60,10 +63,12 @@ export class ApplicantListComponent implements OnInit {
     private toasterService: ToasterService,
     private createLeadDataService: CreateLeadDataService,
     private toggleDdeService: ToggleDdeService,
-    private applicantDataStoreService : ApplicantDataStoreService
+    private applicantDataStoreService : ApplicantDataStoreService,
+    private loanViewService: LoanViewService
   ) { }
 
   async ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     const currentUrl = this.location.path();
 
     this.isShowAddaApplicant(currentUrl);

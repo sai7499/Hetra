@@ -7,6 +7,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { DeviationService } from '@services/deviation.service';
 import { ToasterService } from '@services/toaster.service';
 import { Location } from '@angular/common';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-deviations',
@@ -25,11 +26,15 @@ export class DeviationsComponent implements OnInit, OnDestroy {
   isSubmitToCredit: boolean;
   locationIndex: string = '';
 
+  isLoan360: boolean;
+
   constructor(private labelsData: LabelsService, private sharedService: SharedService, private utilityService: UtilityService,
     private createLeadDataService: CreateLeadDataService, private loginStoreService: LoginStoreService, private deviationService: DeviationService,
-    private toasterService: ToasterService, private location: Location) { }
+    private toasterService: ToasterService, private location: Location,
+    private loanViewService: LoanViewService) { }
 
   ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;

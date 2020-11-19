@@ -14,6 +14,7 @@ import html2pdf from 'html2pdf.js';
 import { DocRequest, DocumentDetails } from '@model/upload-model';
 import { UploadService } from '@services/upload.service';
 import { map } from 'rxjs/operators';
+import { LoanViewService } from '@services/loan-view.service';
 declare var $;
 
 @Component({
@@ -45,6 +46,7 @@ export class SanctionDetailsComponent implements OnInit {
   isApplicant: boolean = false;
   isCoApplicant: boolean = false;
   isDocumentId: boolean;
+  isLoan360: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -54,10 +56,12 @@ export class SanctionDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private loginStoreService: LoginStoreService,
     private toasterService: ToasterService,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private loanViewService: LoanViewService
   ) { }
 
   ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.getLabels();
     this.getLeadId();
     // this.getSanctionDetails();
@@ -235,6 +239,9 @@ export class SanctionDetailsComponent implements OnInit {
   }
 
   onNext() {
+    if (this.isLoan360) {
+      return this.router.navigateByUrl(`pages/dde/${this.leadId}/term-sheet`);
+    }
     if (this.roleType == '1') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/customer-feedback`]);
     } else if (this.roleType == '2' && this.isPreDone == "true" && this.salesResponse == "true") {
@@ -251,6 +258,9 @@ export class SanctionDetailsComponent implements OnInit {
   }
 
   onBack() {
+    if (this.isLoan360) {
+      return this.router.navigateByUrl(`pages/dde/${this.leadId}/credit-conditions`);
+    }
     if (this.roleType == '1' && this.isPreDisbursement == "true") {
       this.router.navigate([`pages/pre-disbursement/${this.leadId}/term-sheet`]);
     } else if (this.roleType == '1') {

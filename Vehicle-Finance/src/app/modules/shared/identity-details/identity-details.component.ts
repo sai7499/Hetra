@@ -67,6 +67,7 @@ export class IdentityDetailsComponent implements OnInit {
   drivingIssueInvalidMsg = "Invalid date"
   drivingExpiryInvalidMsg = "Invalid date"
 
+  isLoan360: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -105,6 +106,7 @@ export class IdentityDetailsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.toDayDate.setDate(this.toDayDate.getDate()-1)
     this.minPassportIssueDate.setFullYear(this.minPassportIssueDate.getFullYear() - 10)
     this.labelsData.getLabelsData().subscribe(

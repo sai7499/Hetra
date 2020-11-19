@@ -100,6 +100,7 @@ export class ViabilityDetailsComponent implements OnInit {
   daysCheck = [];
   version: any;
   showReinitiate = false;
+  isLoan360: boolean;
 
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
               private viabilityService: ViabilityServiceService,
@@ -127,6 +128,8 @@ export class ViabilityDetailsComponent implements OnInit {
                }
 
   async ngOnInit() {
+
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
 
     if (this.isMobile) {
       this.gpsService.getLatLong().subscribe((position) => {

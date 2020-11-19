@@ -140,6 +140,8 @@ export class NegotiationComponent implements OnInit {
   minLoanTenor: number;
   minEMIAmount: number;
   maxEMIAmount: number;
+  isLoan360: boolean;
+
   constructor(
     private labelsData: LabelsService,
     private NegotiationService: NegotiationService,
@@ -151,7 +153,7 @@ export class NegotiationComponent implements OnInit {
     private router: Router,
     private loginStoreService: LoginStoreService,
     private loanViewService: LoanViewService,
-    private location: Location
+    private location: Location,
   ) {
     this.sharedData.leadData$.subscribe((value) => {
       this.leadData = value;
@@ -165,7 +167,8 @@ export class NegotiationComponent implements OnInit {
     // this.leadId = leadData['leadId']
     this.userId = localStorage.getItem('userId');
     this.onChangeLanguage('English');
-    if (this.loanViewService.checkIsLoan360()) {
+    this.isLoan360 = this.loanViewService.checkIsLoan360()
+    if (this.isLoan360) {
         const path = this.location.path().split('/').filter((val) => val !== ' ');
         const leadId = path.find((value: any) => {
           value = Number(value);
@@ -180,6 +183,9 @@ export class NegotiationComponent implements OnInit {
     this.getLOV();
     this.getInsuranceLOV();
     this.loadForm();
+
+    
+
     // setTimeout(() => {
     // }, 1500);
     // else if (!this.view)
@@ -925,9 +931,13 @@ export class NegotiationComponent implements OnInit {
                 }));
             }
           }
+          
         }
         else if (res.ProcessVariables.error || res.ProcessVariables.error.code == 1) {
           this.toasterService.showError(res.ProcessVariables.error.message, '');
+        }
+        if (this.isLoan360) {
+          this.createNegotiationForm.disable();
         }
       });
     //  this.getNetDisbursementAmount();
@@ -1499,6 +1509,9 @@ export class NegotiationComponent implements OnInit {
     }
   }
   onNext() {
+    if (this.isLoan360) {
+      return this.router.navigateByUrl(`pages/dde/${this.leadId}/credit-conditions`);
+    }
     if (this.roleType == '1') {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/disbursement`]);
     } else if (this.roleType == '2') {
@@ -1511,6 +1524,9 @@ export class NegotiationComponent implements OnInit {
     // this.router.navigateByUrl(`pages/credit-decisions/${this.leadId}/disbursement`)
   }
   onBack() {
+    if (this.isLoan360) {
+      return this.router.navigateByUrl(`pages/dde/${this.leadId}/disbursement/${this.leadId}`);
+    }
     if (this.roleType == '1') {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/term-sheet`]);
     }

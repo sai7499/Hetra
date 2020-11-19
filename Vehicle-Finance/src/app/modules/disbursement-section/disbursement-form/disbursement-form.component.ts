@@ -9,6 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { LoginStoreService } from '@services/login-store.service';
 import { LoanCreationService } from '@services/loan-creation.service';
 import { retry } from 'rxjs/operators';
+import { LoanViewService } from '@services/loan-view.service';
 declare var jquery: any;
 declare var $: any;
 
@@ -262,6 +263,7 @@ export class DisbursementFormComponent implements OnInit {
   fetchedCoApp2Data: boolean=false;
   fetchedCoApp3Data: boolean=false;
   cumulativeAmount: any;
+  isLoan360: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -273,7 +275,8 @@ export class DisbursementFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
-    private loanCreationService: LoanCreationService
+    private loanCreationService: LoanCreationService,
+    private loanViewService: LoanViewService
   ) {
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
@@ -283,6 +286,7 @@ export class DisbursementFormComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.flag = true;
     this.initForm();
     this.getLabels();
@@ -2413,8 +2417,10 @@ export class DisbursementFormComponent implements OnInit {
       // disburseTo:new FormControl(''),
       toDeductCharges: [''],
     })
+
     
-    if (this.roleType != '1' && this.roleType != '2'){
+    
+    if ((this.roleType != '1' && this.roleType != '2') || this.isLoan360){
       this.disbursementDetailsForm.disable();
       this.dealerDetailsForm.disable();
       this.appDetailsForm.disable();
@@ -3214,6 +3220,7 @@ export class DisbursementFormComponent implements OnInit {
           }
         }
       }
+      
     });
   }
   getLeadId() {
@@ -3227,6 +3234,9 @@ export class DisbursementFormComponent implements OnInit {
     });
   }
  onNext(status?:boolean) {   
+  if (this.isLoan360) {
+    return this.router.navigateByUrl(`pages/dde/${this.disbLeadId}/negotiation`);
+  }
   if(this.roleType == '1' && status == true) {    
     this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/sanction-details`]);
   } else if (this.roleType == '2' && status == true) {
@@ -3244,6 +3254,9 @@ export class DisbursementFormComponent implements OnInit {
     }
   }
   onBack() {
+    if (this.isLoan360) {
+      return this.router.navigateByUrl(`pages/dde/${this.disbLeadId}/deviations`);
+    }
     // this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/negotiation`]);
     if (this.roleType == '1' || this.roleType == '2') {
       this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/negotiation`]);

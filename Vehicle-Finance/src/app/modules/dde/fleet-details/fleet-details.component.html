@@ -2,7 +2,7 @@
 <form class="multisteps-form__form" style="height: 400px;" [formGroup]="fleetForm" *ngIf="this.fleetForm">
     <!-- <div class="multisteps-form__panel basic_scroll js-active" data-animation="scaleIn"> -->
     <div class="container">
-        <div class="row">
+        <div class="row" *ngIf="!isLoan360">
             <div class="col-sm-6">
               </div>
               <div class="col-sm-6 text-right">
@@ -41,7 +41,7 @@
                             <td role="columnheader">{{labels.pd}} </td>
                             <td role="columnheader">{{labels.gridValue}}</td>
                             <td role="columnheader">{{labels.track}} </td>
-                            <td role="columnheader">{{labels.action}} </td>
+                            <td role="columnheader" *ngIf="!isLoan360">{{labels.action}} </td>
                         </tr>
                     </thead>
                     <tbody formArrayName="Rows">
@@ -335,7 +335,7 @@
                                                 (click)="addNewRow()"></i> &nbsp;
                                             <i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant"
                                                 (click)="deleteRow(i)"></i></td> -->
-                            <td>
+                            <td *ngIf="!isLoan360">
                                 <button class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add" [disabled]="disableSaveBtn" (click)="addNewRow()"></button>
                                 <button type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" [disabled]="disableSaveBtn" value="Delete" (click)="deleteRow(i,fleetForm.value.Rows)"></button>
                             </td>
