@@ -20,11 +20,15 @@
                                      <mat-icon>add</mat-icon>
                                      </button>
                                      <!-- child Datas -->
-                                     <span (click)="roleCheck(node); (activeNode = node)" [ngClass]="{ 'child-active': activeNode === node }" class="user-role-list_{{node.userID}} user-role-list">{{node.firstName}}</span> 
+                                     <!-- <span (click)="roleCheck(node); (activeNode = node)" [ngClass]="{ 'child-active': activeNode === node }" class="user-role-list_{{node.userID}} user-role-list">{{node.firstName}}</span> 
                                      <div *ngIf="node.userID==reporterUserID" class="reporter-status"> 
                                         No Reporters found
-                                    </div>
-                                      <div *ngIf="node.userID==roleUserID" class="child-list"> 
+                                    </div> -->
+                                    <span (click)="roleCheck(node); (activeNode = node)" [ngClass]="{ 'child-active': activeNode === node }" class="user-role-list_{{node.userId}} user-role-list">{{node.firstName}}</span> 
+                                    <div *ngIf="node.userId==reporterUserID" class="reporter-status"> 
+                                       No Reporters found
+                                   </div>
+                                      <div *ngIf="node.userId==roleUserID" class="child-list"> 
                                         <div class="child-container">
                                             <table class="supervisor-data-table">
                                                 <thead>
@@ -33,7 +37,7 @@
                                                 </thead>
                                                 <tbody>
                                                   <tr *ngFor="let role of rolelist;let i = index">
-                                                    <td> <a>{{rolelist[i].name}}</a></td>
+                                                    <td *ngIf="!rolelist"> <a (click)="onClick(rolelist[i])">{{rolelist[i].roleName}}</a></td>
                                                   </tr>
                                                 </tbody>
                                               </table>
@@ -52,8 +56,8 @@
                                            </mat-icon>
                                          </button>
                                          <!-- Parent datas -->
-                                       <span (click)="roleCheck(node); (activeNode = node)" [ngClass]="{ 'parent-active': (activeNode === node) && (node.userID==roleUserID)  }" class="user-role-list_{{node.userID}} user-role-list">{{node.firstName}}</span>  
-                                       <div *ngIf="node.userID==roleUserID" class="parent-list"> 
+                                       <span (click)="roleCheck(node); (activeNode = node)" [ngClass]="{ 'parent-active': (activeNode === node) && (node.userId==roleUserID)  }" class="user-role-list_{{node.userId}} user-role-list">{{node.firstName}}</span>  
+                                       <div *ngIf="node.userId==roleUserID" class="parent-list"> 
                                          <div class="parent-container">
                                             <table class="supervisor-data-table">
                                                 <thead>
@@ -62,7 +66,7 @@
                                                 </thead>
                                                 <tbody>
                                                   <tr *ngFor="let role of rolelist;let i = index">
-                                                    <td> <a (click)="onClick(rolelist)">{{rolelist[i].name}}</a></td>
+                                                    <td> <a (click)="onClick(rolelist[i])">{{rolelist[i].roleName}}</a></td>
                                                   </tr>
                                                 </tbody>
                                               </table>

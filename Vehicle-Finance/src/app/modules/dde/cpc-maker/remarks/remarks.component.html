@@ -1,6 +1,33 @@
-<p>
-  remarks works!
-</p>
-<main>
+<div class="content" [formGroup]="remarksForm">
+ 
+    <h4>REMARKS</h4> 
+     
+        <textarea class="form-control" id="recommendations"
+            cols="1" rows="9" [placeholder]="'Remarks'" formControlName="remarks"
+            maxlength="10000" style="resize: none;"></textarea>
+
+        </div>
+    
   
-</main>
+
+<div class="btn-sec clear-both row btn-mar-15" id="clickButton">
+  <div class="col-sm-5"></div>
+  <div class="col-sm-7 text-right p-0" style="padding-bottom: 2vw;">
+    <button  class="btn btn-primary" type="button"
+     (click)="onBack()" >
+      Back
+    </button>
+    <button  class="btn btn-primary" type="button"
+     (click)="onsave()" >
+      Save
+    </button>
+    <button  class="btn btn-primary -btn-next" type="button"
+    (click)="onApproval()">
+      Approve
+    </button>
+    <!-- <button  class="btn btn-primary -btn-next" type="button"
+    (click)="onSendToCredit()">
+     Send Back To Credit
+    </button> -->
+  </div>
+</div>
