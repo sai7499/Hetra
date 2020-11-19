@@ -76,7 +76,7 @@ export class CheckListComponent implements OnInit {
     this.commonLovService.getLovData().subscribe((res: any) => {
       console.log(res, 'cmn lov service');
       this.checklistObject = res.LOVS.checklistans;
-      this.checkListMaster = res.LOVS.checklistMstView.sort((a, b) => Number(a.key) - Number(b.key));
+      // this.checkListMaster = res.LOVS.checklistMstView.sort((a, b) => Number(a.key) - Number(b.key));
     });
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
@@ -85,7 +85,31 @@ export class CheckListComponent implements OnInit {
     });
 
     // tslint:disable-next-line: prefer-const
+    // let childgroups = [];
+    // // tslint:disable-next-line: prefer-for-of
+    // for (let i = 0; i < this.checkListMaster.length; i++) {
+    //   childgroups.push(this.creategroup(this.checkListMaster[i]));
+    // }
+    // // childgroups.sort()
+    this.checklistForm = this.formBuilder.group({
+      checklistArray: this.formBuilder.array([])
+    });
+    // console.log(this.checklistForm, typeof(this.checklistForm.controls));
+    this.applicantId = (await this.getApplicantId()) as number;
+    this.leadId = (await this.getLeadId()) as number;
+    this.checklistForm = this.formBuilder.group({
+      checklistArray: this.formBuilder.array([])
+    });
+    this.getCheckList();
+    // this.getCheckList();
+    
+    
+
+    // tslint:disable-next-line: triple-equals
+  }
+  initForm(event) {
     let childgroups = [];
+    this.checkListMaster = event;
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.checkListMaster.length; i++) {
       childgroups.push(this.creategroup(this.checkListMaster[i]));
@@ -94,14 +118,9 @@ export class CheckListComponent implements OnInit {
     this.checklistForm = this.formBuilder.group({
       checklistArray: this.formBuilder.array(childgroups)
     });
-    console.log(this.checklistForm, typeof(this.checklistForm.controls));
-    this.applicantId = (await this.getApplicantId()) as number;
-    this.leadId = (await this.getLeadId()) as number;
-    this.getCheckList();
-    this.addValidatorsCO();
     for (let i = 0; i < this.checklistForm.controls.checklistArray.length; i++) {
       // tslint:disable-next-line: triple-equals
-      if (this.roleType == '4' || this.roleType =='7' ) {
+      if (this.roleType == '4' || this.roleType == '7' ) {
        this.checklistForm.controls.checklistArray.controls[i].controls.coAnswer.disable();
       // tslint:disable-next-line: triple-equals
       } else if ( this.roleType == '5') {
@@ -109,8 +128,7 @@ export class CheckListComponent implements OnInit {
        this.checklistForm.controls.checklistArray.controls[i].controls.cpcMaker.disable();
       }
     }
-
-    // tslint:disable-next-line: triple-equals
+    this.addValidatorsCO();
   }
   getCheckList() {
     const body = {
@@ -120,6 +138,7 @@ export class CheckListComponent implements OnInit {
       console.log(res, ' checklist get response');
       // tslint:disable-next-line: triple-equals
       if (res.ProcessVariables.error.code == '0' && res.ProcessVariables.checkList ) {
+        this.initForm(res.ProcessVariables.checkList);
         // tslint:disable-next-line: prefer-for-of
         for (let i = 0; i < res.ProcessVariables.checkList.length; i++) {
           this.patchChecklist(res.ProcessVariables.checkList[i]);
@@ -135,9 +154,11 @@ export class CheckListComponent implements OnInit {
         const applicantId = value.applicantId;
         if (applicantId) {
           resolve(Number(applicantId));
+          
         }
         resolve(null);
       });
+      
     });
   }
   getLeadId() {
@@ -145,6 +166,7 @@ export class CheckListComponent implements OnInit {
       this.route.parent.params.subscribe((value) => {
         if (value && value.leadId) {
           resolve(Number(value.leadId));
+          this.getCheckList();
         }
         resolve(null);
       });
@@ -152,8 +174,8 @@ export class CheckListComponent implements OnInit {
   }
   creategroup(list: any) {
     return this.formBuilder.group({
-      checkListId: [Number(list.key)],
-      checklistName: [list.value],
+      checkListId: [Number(list.checkListId)],
+      checklistName: [list.checkListName],
       coAnswer: [null ],
       cpcChecker: [null ],
       cpcMaker: [null ]
@@ -248,7 +270,7 @@ export class CheckListComponent implements OnInit {
   addValidatorsCO() {
     const group: any = this.checklistForm.controls.checklistArray as FormGroup;
     // const groupLength: any = group.controls.length;
-    for (let i = 0; i < 29 ; i ++) {
+    for (let i = 0; i < this.checklistForm.controls.checklistArray.length ; i ++) {
       // tslint:disable-next-line: triple-equals
       if (this.roleType == '2') {
         group.at(i).controls.coAnswer.setValidators(Validators.required);
