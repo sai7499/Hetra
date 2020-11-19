@@ -1681,6 +1681,8 @@
     "nomineeAddress": "Nominee Address",
     "guardianDetails": "Guardian Details",
     "guardianAddress": "Guardian Address",
+    "motorInsuranceRequired?": "Motor insurance required?",
+    "creditShieldRequired": "Credit sheld required?",
     "validationData": {
         "name": {
             "maxLength": {
