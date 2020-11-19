@@ -23,7 +23,8 @@ export const environment = {
     supervisorProId:'ed58f72ea9a811ea824bf2fa9bec3d63',//supervisorRelated
     reinititateFiApi: '403a8a12b79511ea8afff2fa9bec3d63',
     retrieveAadharData : 'db2732f4ab4811ea82f8f2fa9bec3d63',
-    validateSRNumber : '8bfa8dba945b11eabdcaf2fa9bec3d63'
+    validateSRNumber : '8bfa8dba945b11eabdcaf2fa9bec3d63',
+    assignCPCMaker : '403a8a12b79511ea8afff2fa9bec3d63'
   },
   // hostingEnvironment: 'DEV',
   hostingEnvironment: 'UAT',
