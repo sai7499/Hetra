@@ -137,28 +137,34 @@ export class RemarksComponent implements OnInit {
     });
   }
 
-  // onSendToCredit(){
-  //   if(this.remarksForm.invalid){
-  //     this.toasterService.showError('Save before Submitting', '')
-  //     return
-  //   }
+  onSendToCredit(){
+    this.formvalue = this.remarksForm.getRawValue();
+    const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.formvalue)
+    if(this.remarksForm.invalid){
+      this.toasterService.showError('Save before Submitting', '')
+      return;
+    }
+    if (!isValueCheck) {
+      this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
+      return;
+    }
 
-  //   const body={
-  //     leadId : this.leadId,
-  //     userId : localStorage.getItem('userId'),
-  //     isCPCMaker: false,
-  //     isCPCChecker: false,
-  //     sendBackToCredit: true,
-  //   }
-  //   this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
-  //     // tslint:disable-next-line: triple-equals
-  //     if (res.ProcessVariables.error.code == '0') {
-  //       this.toasterService.showSuccess('Submitted Successfully', '');
-  //       this.router.navigate([`pages/dashboard`]);
-  //     } else {
-  //       this.toasterService.showError(res.Processvariables.error.message, '');
-  //     }
-  //   });
-  // }
+    const body={
+      leadId : this.leadId,
+      userId : localStorage.getItem('userId'),
+      isCPCMaker: false,
+      isCPCChecker: false,
+      sendBackToCredit: true,
+    }
+    this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
+      // tslint:disable-next-line: triple-equals
+      if (res.ProcessVariables.error.code == '0') {
+        this.toasterService.showSuccess('Submitted Successfully', '');
+        this.router.navigate([`pages/dashboard`]);
+      } else {
+        this.toasterService.showError(res.Processvariables.error.message, '');
+      }
+    });
+  }
 
 }
