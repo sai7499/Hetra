@@ -89,11 +89,11 @@ export class TvrDetailsComponent implements OnInit {
   }
 
   onBack() {
-    if(this.productCatCode != 'NCV') {
+    if (this.productCatCode != 'NCV') {
       this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-valuation']);
       // this.sharedService.getTvrDetailsPrevious(true);
       this.sharedService.getPslDataNext(false);
-    } else if(this.productCatCode == 'NCV') {
+    } else if (this.productCatCode == 'NCV') {
       this.router.navigate(['pages/dde/' + this.leadId + '/psl-data']);
       // this.sharedService.getTvrDetailsPrevious(true);
       this.sharedService.getPslDataNext(false);
@@ -101,13 +101,17 @@ export class TvrDetailsComponent implements OnInit {
   }
 
   onNext() {
-    this.router.navigate(['pages/dde/' + this.leadId + '/rcu']);
-  //   if (this.fiCumPdStatus == false) {
-  //     this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
-  //   } else if (this.fiCumPdStatus == true) {
-  //     this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+    if (this.productCatCode == 'UC') {
+      this.router.navigate(['pages/dde/' + this.leadId + '/rcu']);
+    } else {
+      if (this.fiCumPdStatus == false) {
+        this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
+      } else if (this.fiCumPdStatus == true) {
+        this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
 
-  //   }
+      }
+    }
+
   }
 
 }

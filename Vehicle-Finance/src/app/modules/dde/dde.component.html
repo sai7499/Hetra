@@ -56,7 +56,7 @@
               [routerLink]="['./tvr-details']" [ngClass]="{ 'js-active': locationIndex >= 9 }">
               TVR
             </button>
-            <button class="multisteps-form__progress-btn second-row" type="button" id="credit_rcu_details"
+            <button *ngIf="productCatCode == 'UC'" class="multisteps-form__progress-btn second-row" type="button" id="credit_rcu_details"
             [routerLink]="['./rcu']" [ngClass]="{ 'js-active': locationIndex >= 10 }">
            RCU
           </button>
