@@ -101,7 +101,7 @@ export class CheckListComponent implements OnInit {
     this.addValidatorsCO();
     for (let i = 0; i < this.checklistForm.controls.checklistArray.length; i++) {
       // tslint:disable-next-line: triple-equals
-      if (this.roleType == '4' ) {
+      if (this.roleType == '4' || this.roleType =='7' ) {
        this.checklistForm.controls.checklistArray.controls[i].controls.coAnswer.disable();
       // tslint:disable-next-line: triple-equals
       } else if ( this.roleType == '5') {

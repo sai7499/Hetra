@@ -269,7 +269,7 @@ export class SanctionDetailsComponent implements OnInit {
     var options = {
       margin: .5,
       filename: `SanctionDetail${this.leadId}.pdf`,
-      image: { type: 'jpeg', quality: 0.99 },
+      image: { type: 'jpeg', quality: 0.50 },
       html2canvas:{scale:3, logging: true},   
       pagebreak: { before:["#vf_sheet_text_tag","#page_break"] },
       jsPDF: { unit: 'in', format: 'a4', orientation: 'p' }
