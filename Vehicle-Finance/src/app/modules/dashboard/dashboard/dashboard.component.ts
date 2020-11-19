@@ -248,14 +248,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (this.userName) {
       this.roleType = this.supervisorRoleType
       this.roleId = this.supervisorRoleId
-      // this.location.replaceState('/pages/supervisor/dashboard');
-      // const url = this.router.createUrlTree([], { relativeTo: this.aRoute, queryParams: { param: 1 } }).toString()
-
-      // this.location.go('/pages/supervisor/dashboard');
+      this.router.navigate(['/pages/supervisor/dashboard']);
 
     } else {
       this.roleType = this.userDetailsRoleType
       this.roleId = this.userDetailsRoleId
+      this.router.navigate(['/pages/dashboard']);
     }
     console.log(this.roleType);
 
