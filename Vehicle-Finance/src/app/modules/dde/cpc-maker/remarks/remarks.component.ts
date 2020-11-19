@@ -18,6 +18,8 @@ export class RemarksComponent implements OnInit {
   leadId: any;
   apiValue: any;
   formvalue: any;
+  showModalApprove : boolean = false;
+  showSendCredit : boolean = false;
 
   constructor(
     private router: Router,
@@ -117,7 +119,12 @@ export class RemarksComponent implements OnInit {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
+    this.showModalApprove= true;
 
+   
+  }
+
+  callApproval(){
     const body = {
       leadId: this.leadId,
       userId: localStorage.getItem('userId'),
@@ -128,8 +135,55 @@ export class RemarksComponent implements OnInit {
     }
     this.cpcService.assignCPCMaker(body).subscribe((res: any) => {
       // tslint:disable-next-line: triple-equals
+      this.showModalApprove= false;
       if (res.ProcessVariables.error.code == '0') {
+        
         this.toasterService.showSuccess('Approved Successfully', '');
+        this.router.navigate([`pages/dashboard`]);
+        
+      } else {
+        this.toasterService.showError(res.Processvariables.error.message, '');
+      }
+    });
+  }
+
+  onCancel(){
+    this.showModalApprove= false;
+  }
+
+  onSendToCredit(){
+    this.formvalue = this.remarksForm.getRawValue();
+    const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.formvalue)
+    if(this.remarksForm.invalid){
+      this.toasterService.showError('Save before Submitting', '')
+      return;
+    }
+    if (!isValueCheck) {
+      this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
+      return;
+    }
+
+    this.showSendCredit= true;
+
+    
+  }
+
+
+  callSendBackToCredit(){
+    const body={
+      leadId : this.leadId,
+      userId : localStorage.getItem('userId'),
+      isCPCMaker: false,
+      isCPCChecker: false,
+      sendBackToCredit: true,
+    }
+    this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
+      // tslint:disable-next-line: triple-equals
+      this.showSendCredit= false;
+      if (res.ProcessVariables.error.code == '0') {
+        
+        this.toasterService.showSuccess('Record Send Back To Credit Successfully', '');
+
         this.router.navigate([`pages/dashboard`]);
       } else {
         this.toasterService.showError(res.Processvariables.error.message, '');
@@ -137,28 +191,8 @@ export class RemarksComponent implements OnInit {
     });
   }
 
-  // onSendToCredit(){
-  //   if(this.remarksForm.invalid){
-  //     this.toasterService.showError('Save before Submitting', '')
-  //     return
-  //   }
-
-  //   const body={
-  //     leadId : this.leadId,
-  //     userId : localStorage.getItem('userId'),
-  //     isCPCMaker: false,
-  //     isCPCChecker: false,
-  //     sendBackToCredit: true,
-  //   }
-  //   this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
-  //     // tslint:disable-next-line: triple-equals
-  //     if (res.ProcessVariables.error.code == '0') {
-  //       this.toasterService.showSuccess('Submitted Successfully', '');
-  //       this.router.navigate([`pages/dashboard`]);
-  //     } else {
-  //       this.toasterService.showError(res.Processvariables.error.message, '');
-  //     }
-  //   });
-  // }
+  onCancelCredit(){
+    this.showSendCredit= false;
+  }
 
 }
