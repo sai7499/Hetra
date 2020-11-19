@@ -4,6 +4,7 @@
             "FCLoan": {
                 "fcExpiryDate": true,
                 "fcAmount": true,
+                "permitType": true,
                 "typeOfPermit": true,
                 "taxDetails": true,
                 "taxBill": true,

@@ -1886,7 +1886,8 @@
         "addressLine": {
             "maxLength": {
                 "rule": 35
-            }
+            },
+            "type": "alpha-numeric"
         },
         "businessName": {
             "maxLength": {

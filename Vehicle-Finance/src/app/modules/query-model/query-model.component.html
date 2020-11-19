@@ -10,7 +10,7 @@
             <div id="mySidenav" class="sidenav">
               <a href="javascript:void(0)" class="closebtn close-btn" (click)="closeNav()">&times;</a>
               <div class="left">
-                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0">
+                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0 search-bar">
                   <div class="input-group search-btn">
                     <input type="text" class="form-control input-search" placeholder="Search"
                       formControlName="searchName" (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
@@ -288,7 +288,7 @@
                         Please select the valid lead id
                       </div>
 
-                      <div class="dropdown-content" *ngIf="isLeadShow">
+                      <div class="dropdown-content" *ngIf="isLeadShow" [ngClass]="getSearchableLead.length > 0 ? '': 'cus-height'">
                         <div *ngFor="let item of getSearchableLead">
                           <a data-toggle="collapse" data-target="#bs-navbar" (click)="getLead(item)">{{item.value}}</a>
                         </div>
@@ -329,7 +329,7 @@
                         Please select the valid query to
                       </div>
 
-                      <div class="dropdown-content" *ngIf="dropDown">
+                      <div class="dropdown-content" *ngIf="dropDown" [ngClass]="searchLead.length > 0 ? '': 'cus-height'">
                         <div *ngFor="let item of searchLead">
                           <a data-toggle="collapse" data-target="#bs-navbar"
                             (click)="getQueryTo(item)">{{item.value}}</a>
