@@ -133,9 +133,9 @@
 
 
          .tab-hide{
-           display:block;
-            background-color: #272264;
-            color: #fff;
+           /* display:block; */
+            /* background-color: #272264; */
+            color: #000;
          }
 
          /*Mobile View*/
