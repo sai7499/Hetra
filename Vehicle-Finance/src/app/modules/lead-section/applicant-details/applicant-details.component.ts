@@ -31,7 +31,8 @@ export class ApplicantDetailsComponent implements OnInit {
   appDetails = [];
   isFemaleForNCV: boolean;
   leadSectioData: any;
-  
+  showNotCoApplicant: boolean;
+
   constructor(
     private route: Router,
     private location: Location,
@@ -218,7 +219,16 @@ export class ApplicantDetailsComponent implements OnInit {
 
   }
 
- 
+  forFindingCoApplicantType() {
+    if (this.applicantList) {
+      const findCoApplicant = this.applicantList.find((data) => data.applicantTypeKey == "COAPPAPPRELLEAD")
+      console.log('findApplicant', findCoApplicant)
+      this.showNotCoApplicant = findCoApplicant == undefined ? true : false;
+    } else {
+      this.showNotCoApplicant = true;
+    }
+
+  }
 
   onNext() {
     // [routerLink]="['../vehicle-details']"
@@ -227,14 +237,23 @@ export class ApplicantDetailsComponent implements OnInit {
       this.toasterService.showError('There should be one applicant for this lead', '')
       return;
     }
-
     this.leadSectioData = this.createLeadDataService.getLeadSectionData();
     const product = this.leadSectioData.leadDetails.productCatCode;
+    if (product === 'NCV' || product === 'UCV' || product === 'UC') {
+      this.forFindingCoApplicantType()
+      if (this.showNotCoApplicant) {
+         this.toasterService.showInfo('There should be one Co-Applicant for this lead', '')
+      }
+    }
+
+
 
     if (product === 'NCV') {
       const result = this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
+      console.log("result", result);
+
       if (!result) {
-        this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', ''); 
+        this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
       }
     }
 
