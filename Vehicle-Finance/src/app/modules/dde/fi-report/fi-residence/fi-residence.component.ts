@@ -10,6 +10,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FieldInvestigation } from '@model/dde.model';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ApplicantService } from '@services/applicant.service';
+import { UtilityService } from '@services/utility.service';
 
 
 
@@ -70,7 +71,8 @@ export class FiResidenceComponent implements OnInit {
   ownerShipType: any;
   ownerNamePropertyAreaRequired: boolean;
   ownerNamePropertyAreaDisabled: boolean;
-
+  initDate: boolean;
+  toDayDate: Date = new Date();
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -82,6 +84,7 @@ export class FiResidenceComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private toasterService: ToasterService, // service for accessing the toaster
     private applicantService: ApplicantService,
+    private utilityService: UtilityService,
 
   ) {
     this.leadId = Number(this.activatedRoute.snapshot.parent.params.leadId);
@@ -101,6 +104,7 @@ export class FiResidenceComponent implements OnInit {
 
   async ngOnInit() {
 
+    this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
     // calling login store service to retrieve the user data
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -389,7 +393,8 @@ export class FiResidenceComponent implements OnInit {
       });
 
   }
-  getMonths() {
+  validateSubmitDate() {
+    console.log('Form Data', this.fieldReportForm);
     const initiatedDate = new Date(this.fieldReportForm.value.cpvInitiatedDate)
       ? new Date(this.fieldReportForm.value.cpvInitiatedDate) : null;
     console.log('init date', initiatedDate);
@@ -398,12 +403,14 @@ export class FiResidenceComponent implements OnInit {
     console.log('init date', submitDate);
     if (initiatedDate !== null && submitDate !== null) {
       if (submitDate < initiatedDate) {
+        this.initDate = true;
         this.toasterService.showWarning('Submit Date should be greater than Initiated Date', '');
-
+      } else {
+        this.initDate = false;
       }
 
     }
-
+    console.log('Form Data', this.fieldReportForm);
   }
 
   initForm() {
@@ -616,17 +623,19 @@ export class FiResidenceComponent implements OnInit {
 
 
   onFormSubmit() { // fun that submits all the pd data
+    this.validateSubmitDate();
     const formValue = this.fieldReportForm.getRawValue();
-
     this.yearsOfStayInCity = String((Number(formValue.noOfYearsCity) * 12) + Number(formValue.noOfMonthsCity)) || '';
     this.yearsOfStayInResi = String((Number(formValue.noOfYearsResi) * 12) + Number(formValue.noOfMonthsResi)) || '';
-
     const formModal = this.fieldReportForm.value;
     const fieldReportModal = { ...formModal };
     console.log('Form Data', this.fieldReportForm);
     this.isDirty = true;
     if (this.fieldReportForm.invalid) {
       this.toasterService.showWarning('please enter required details', '');
+      return;
+    } else if (this.initDate) {
+      this.toasterService.showWarning('Submit Date should be greater than Initiated Date', '');
       return;
     }
     this.fiResidenceDetails = {
