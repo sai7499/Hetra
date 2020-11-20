@@ -10,6 +10,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FieldInvestigation } from '@model/dde.model';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ApplicantService } from '@services/applicant.service';
+import { UtilityService } from '@services/utility.service';
 
 
 @Component({
@@ -59,6 +60,7 @@ export class FiBusinessComponent implements OnInit {
   showSubmit = true;
   fiList: Array<any>;
   fiStatusValue: any;
+  initDate: boolean;
 
   constructor(
     private labelService: LabelsService,
@@ -71,6 +73,7 @@ export class FiBusinessComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private toasterService: ToasterService, // service for accessing the toaster
     private applicantService: ApplicantService,
+    private utilityService: UtilityService,
 
   ) {
     this.leadId = Number(this.activatedRoute.snapshot.parent.params.leadId);
@@ -85,6 +88,11 @@ export class FiBusinessComponent implements OnInit {
   }
 
   async ngOnInit() {
+
+    console.log('today date', this.toDayDate);
+    this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
+    console.log('today date', this.toDayDate);
+
     console.log('in router url', this.router.url);
     if (this.router.url.includes('/fi-dashboard')) {
 
@@ -270,8 +278,11 @@ export class FiBusinessComponent implements OnInit {
       ? new Date(this.fieldReportForm.value.reportSubmitDate) : null;
     if (initiatedDate && submitDate) {
       if (submitDate < initiatedDate) {
+        this.initDate = true;
         this.toasterService.showWarning('Submit Date should be greater than Initiated Date', '');
 
+      } else {
+        this.initDate = false;
       }
 
     }
@@ -491,11 +502,12 @@ export class FiBusinessComponent implements OnInit {
         if (processVariables.getFIBusinessDetails) {
           this.custSegment = processVariables.getFIBusinessDetails.custSegment;
           console.log('in cust segment not null condition');
-          console.log('cust segment', this.custSegment)
+          console.log('cust segment', this.custSegment);
         } else {
+          // tslint:disable-next-line: no-unused-expression
           this.custSegment == null;
           console.log('in cust segment null condition');
-          console.log('cust segment', this.custSegment)
+          console.log('cust segment', this.custSegment);
         }
         // this.custSegment = "SEMCUSTSEG"
         this.applicantFullName = res.ProcessVariables.applicantName;
@@ -582,7 +594,11 @@ export class FiBusinessComponent implements OnInit {
     if (this.fieldReportForm.invalid) {
       this.toasterService.showWarning('please enter required details', '');
       return;
+    } else if (this.initDate) {
+      this.toasterService.showWarning('Submit Date should be greater than Initiated Date', '');
+      return;
     }
+
     this.fIBusinessDetails = {
 
       // applicantId: 1177, // hardcoded as per backend

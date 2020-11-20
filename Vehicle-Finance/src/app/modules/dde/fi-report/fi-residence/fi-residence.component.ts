@@ -10,6 +10,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FieldInvestigation } from '@model/dde.model';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ApplicantService } from '@services/applicant.service';
+import { UtilityService } from '@services/utility.service';
 
 
 
@@ -71,7 +72,7 @@ export class FiResidenceComponent implements OnInit {
   ownerNamePropertyAreaRequired: boolean;
   ownerNamePropertyAreaDisabled: boolean;
   initDate: boolean;
-
+  toDayDate: Date = new Date();
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -83,6 +84,7 @@ export class FiResidenceComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private toasterService: ToasterService, // service for accessing the toaster
     private applicantService: ApplicantService,
+    private utilityService: UtilityService,
 
   ) {
     this.leadId = Number(this.activatedRoute.snapshot.parent.params.leadId);
@@ -102,6 +104,7 @@ export class FiResidenceComponent implements OnInit {
 
   async ngOnInit() {
 
+    this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
     // calling login store service to retrieve the user data
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -402,7 +405,8 @@ export class FiResidenceComponent implements OnInit {
       if (submitDate < initiatedDate) {
         this.initDate = true;
         this.toasterService.showWarning('Submit Date should be greater than Initiated Date', '');
-        // return;
+      } else {
+        this.initDate = false;
       }
 
     }

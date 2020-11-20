@@ -63,6 +63,7 @@
               [placeholder]="'Enter initiated date'"
               [activeView]="'decade'"
               [min]="leadCreatedDateFromLead"
+              [max]="toDayDate"
             ></kendo-datepicker>
             <div
               class="invalid-feedback"
@@ -80,8 +81,13 @@
               <div *ngIf="
               fieldReportForm.controls['cpvInitiatedDate'].value &&
                 fieldReportForm.controls['cpvInitiatedDate'].errors" >
-
-                CPV initiated date should be greater than lead created date
+                <div *ngIf="fieldReportForm.controls['cpvInitiatedDate'].errors.minError">
+                  CPV initiated date should be greater than lead created date
+                </div>
+                <div *ngIf="fieldReportForm.controls['cpvInitiatedDate'].errors.maxError">
+                  CPV initiated date should not be future date
+                </div>
+                
               </div>
             </div>
           </div>
