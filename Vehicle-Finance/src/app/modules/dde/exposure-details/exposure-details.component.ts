@@ -31,6 +31,7 @@ export class ExposureDetailsComponent implements OnInit {
   rowIndex;
   isModelShow: boolean;
   errorMessage;
+  isLoan360: boolean;
   constructor(private formBuilder: FormBuilder, private labelService: LabelsService,
               private exposureservice: ExposureService,
               private commonservice: CommomLovService,
@@ -74,6 +75,7 @@ export class ExposureDetailsComponent implements OnInit {
    }
   ];
    ngOnInit() {
+     this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.exposureLiveLoan = this.formBuilder.group({
       loanTable: this.formBuilder.array([]),      
     });

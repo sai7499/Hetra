@@ -1614,6 +1614,21 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   onNext() {
+    if (this.isLoan360) {
+      const url = this.location.path();
+      localStorage.setItem('currentUrl', url);
+      if (url.includes('sales')) {
+        this.router.navigateByUrl(
+          `pages/sales-applicant-details/${this.leadId}/document-upload/${this.applicantId}`
+        );
+  
+      } else {
+        this.router.navigateByUrl(
+          `/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`
+        );
+      }
+      return;
+    }
     this.finalValue = this.addressForm.getRawValue();
     const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.finalValue)
     console.log(JSON.stringify(this.apiValue));

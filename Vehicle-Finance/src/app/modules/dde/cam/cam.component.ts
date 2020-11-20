@@ -774,6 +774,9 @@ console.log("res",res);
     });
   }
   onBack() {
+    if (this.isLoan360) {
+      return this.router.navigate([`pages/dde/${this.leadId}/score-card`]);;
+    }
     if (this.roleType == '2' && this.currentUrl.includes('dde')) {
       this.router.navigate([`pages/dde/${this.leadId}/score-card`]);
     } else if (this.roleType == '2' && this.salesResponse == 'true') {
@@ -783,6 +786,9 @@ console.log("res",res);
     }
   }
   onNext() {
+    if (this.isLoan360) {
+      return this.router.navigate([`pages/dde/${this.leadId}/deviations`]);
+    }
     if (this.roleType == '2' && this.currentUrl.includes('dde')) {
       this.router.navigate([`pages/dde/${this.leadId}/deviations`]);
     } else if (this.roleType == '2' && this.salesResponse == 'true') {

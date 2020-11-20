@@ -160,6 +160,7 @@ export class SourcingDetailsComponent implements OnInit {
   apiValue: any;
   finalValue: any;
 
+
   constructor(
     private leadSectionService: VehicleDetailService,
     private vehicleDataStore: VehicleDataStoreService,
@@ -777,6 +778,9 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   nextToApplicant() {
+    if (this.isLoan360) {
+      return this.onNavigate();
+    }
     this.isDirty = true;
     console.log('testform', this.sourcingDetailsForm);
     this.finalValue = this.sourcingDetailsForm.getRawValue();

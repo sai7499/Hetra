@@ -547,6 +547,9 @@ export class ReferenceComponent implements OnInit {
   }
 
   onNext() {
+    if (this.isLoan360) {
+      return this.onNavigate();
+    }
     this.isDirty = true;
     if (this.referenceForm.valid === true
       && !this.isMobileOneErrorMsg

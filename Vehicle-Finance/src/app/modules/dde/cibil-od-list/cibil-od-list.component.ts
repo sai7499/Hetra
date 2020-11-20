@@ -531,6 +531,9 @@ export class CibilOdListComponent implements OnInit {
   }
 
   onBackToODDetails() {
+    if (this.isLoan360) {
+      return this.router.navigateByUrl(`/pages/dde/${this.leadId}/cibil-od`);
+    }
     this.cibilOdDetails = this.odDetailsForm.value.Rows;
     this.submitted = true;
     this.isDirty = true;

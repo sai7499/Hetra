@@ -110,6 +110,8 @@ export class BasicDetailsComponent implements OnInit {
   finalValue: any;
   isExpiryDate: boolean= false;
 
+  isLoan360: boolean;
+
   constructor(
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,
@@ -128,6 +130,7 @@ export class BasicDetailsComponent implements OnInit {
     private loanViewService: LoanViewService
   ) { }
   async ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
@@ -1699,6 +1702,12 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   onNext() {
+    if (this.isLoan360) {
+      this.router.navigate([
+        `/pages/applicant-details/${this.leadId}/identity-details`,
+        this.applicantId,
+      ]);
+    }
     this.finalValue = this.basicForm.getRawValue();
     console.log('this.finalValue', this.finalValue)
     if (this.isIndividual){

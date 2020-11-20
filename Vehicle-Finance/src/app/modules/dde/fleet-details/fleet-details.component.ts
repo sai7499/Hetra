@@ -790,6 +790,7 @@ export class FleetDetailsComponent implements OnInit {
   onFormSubmit(index: any) {
 
     if (this.isLoan360) {
+      this.router.navigateByUrl(`pages/dde/${this.leadId}/exposure`);
       return;
     }
 
