@@ -66,6 +66,8 @@ export class SearchBarComponent implements OnInit {
 
   navigateToModule() {
     this.sharedService.getUserName('');
+    this.sharedService.getSupervisorName('');
+    this.sharedService.getUserRoleId('');
     this.dashboardService.routingData = '';
     commonRoutingUrl.map(element => {
       if (element.routeId === this.routingId) {

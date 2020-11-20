@@ -6,5 +6,5 @@ export const commonRoutingUrl = [
     { routeId: '1', routeUrl: '/pages/child-loan', routingPage: 'Create Child Loan'},
     { routeId: '4', routeUrl: '/pages/', routingPage: 'Sample Page'},
     { routeId: '5', routeUrl: '/pages/', routingPage: 'Sample Page'},
-    { routeId: '42', routeUrl: '/pages/supervisor', routingPage: 'Supervisor Dashboard'},
+    { routeId: '42', routeUrl: '/pages/supervisor', routingPage: 'My Team'},
 ];
